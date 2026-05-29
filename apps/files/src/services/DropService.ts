@@ -13,7 +13,7 @@ import { join } from '@nextcloud/paths'
 import { getUploader, hasConflict } from '@nextcloud/upload'
 import { handleCopyMoveNodesTo, HintException } from '../actions/moveOrCopyAction.ts'
 import { MoveCopyAction } from '../actions/moveOrCopyActionUtils.ts'
-import logger from '../logger.ts'
+import { logger } from '../utils/logger.ts'
 import { createDirectoryIfNotExists, Directory, resolveConflict, traverseTree } from './DropServiceUtils.ts'
 
 /**
@@ -123,8 +123,8 @@ export async function onDropExternalFiles(root: RootDirectory, destination: IFol
 			// then browse its tree and upload its contents.
 			if (file instanceof Directory) {
 				try {
-					logger.debug('Processing directory', { relativePath })
-					await createDirectoryIfNotExists(relativePath)
+					logger.debug('Processing directory', { relativePath, destination })
+					await createDirectoryIfNotExists(relativePath, destination)
 					await uploadDirectoryContents(file, relativePath)
 				} catch (error) {
 					showError(t('files', 'Unable to create the directory {directory}', { directory: file.name }))

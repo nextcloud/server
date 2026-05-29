@@ -25,6 +25,7 @@ use OCP\IUserManager;
 use OCP\Server;
 
 class LongId extends Temporary {
+	#[\Override]
 	public function getId(): string {
 		return 'long:' . str_repeat('foo', 50) . parent::getId();
 	}
@@ -56,6 +57,7 @@ class CacheTest extends \Test\TestCase {
 	 */
 	protected $cache2;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -67,6 +69,7 @@ class CacheTest extends \Test\TestCase {
 		$this->cache2->insert('', ['size' => 0, 'mtime' => 0, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE]);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		if ($this->cache) {
 			$this->cache->clear();

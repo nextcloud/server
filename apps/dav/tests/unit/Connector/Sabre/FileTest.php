@@ -44,6 +44,14 @@ use Test\Traits\MountProviderTrait;
 use Test\Traits\UserTrait;
 
 /**
+ * Internal helper to mock legacy hook receiver.
+ */
+interface EventHandlerMock {
+	public function writeCallback(): void;
+	public function postWriteCallback(): void;
+}
+
+/**
  * Class File
  *
  *
@@ -822,9 +830,7 @@ class FileTest extends TestCase {
 
 		$wasLockedPre = false;
 		$wasLockedPost = false;
-		$eventHandler = $this->getMockBuilder(\stdclass::class)
-			->addMethods(['writeCallback', 'postWriteCallback'])
-			->getMock();
+		$eventHandler = $this->createMock(EventHandlerMock::class);
 
 		// both pre and post hooks might need access to the file,
 		// so only shared lock is acceptable

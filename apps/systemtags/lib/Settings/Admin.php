@@ -26,6 +26,7 @@ class Admin implements ISettings {
 	/**
 	 * @return TemplateResponse
 	 */
+	#[\Override]
 	public function getForm() {
 		$restrictSystemTagsCreationToAdmin = $this->appConfig->getValueBool(Application::APP_ID, 'restrict_creation_to_admin', false);
 		$this->initialStateService->provideInitialState('restrictSystemTagsCreationToAdmin', $restrictSystemTagsCreationToAdmin);
@@ -38,6 +39,7 @@ class Admin implements ISettings {
 	/**
 	 * @return string the section ID, e.g. 'sharing'
 	 */
+	#[\Override]
 	public function getSection() {
 		return 'server';
 	}
@@ -49,6 +51,7 @@ class Admin implements ISettings {
 	 *
 	 * E.g.: 70
 	 */
+	#[\Override]
 	public function getPriority() {
 		return 70;
 	}

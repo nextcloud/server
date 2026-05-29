@@ -20,10 +20,12 @@ class MoveAvatars implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Add move avatar background job';
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		// only run once
 		if ($this->config->getAppValue('core', 'moveavatarsdone') === 'yes') {

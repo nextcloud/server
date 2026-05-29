@@ -87,6 +87,7 @@ abstract class OCSController extends ApiController {
 	 * @return Response
 	 * @since 9.1.0
 	 */
+	#[\Override]
 	public function buildResponse($response, $format = 'xml') {
 		return parent::buildResponse($response, $format);
 	}

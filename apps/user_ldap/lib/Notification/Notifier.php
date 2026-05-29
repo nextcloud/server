@@ -27,6 +27,7 @@ class Notifier implements INotifier {
 	 * @return string
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function getID(): string {
 		return 'user_ldap';
 	}
@@ -37,6 +38,7 @@ class Notifier implements INotifier {
 	 * @return string
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->l10nFactory->get('user_ldap')->t('LDAP User backend');
 	}
@@ -47,6 +49,7 @@ class Notifier implements INotifier {
 	 * @return INotification
 	 * @throws UnknownNotificationException When the notification was not prepared by a notifier
 	 */
+	#[\Override]
 	public function prepare(INotification $notification, string $languageCode): INotification {
 		if ($notification->getApp() !== 'user_ldap') {
 			// Not my app => throw

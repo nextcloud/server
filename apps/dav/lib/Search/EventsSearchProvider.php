@@ -32,7 +32,7 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 	/**
 	 * @var string[]
 	 */
-	private static $searchProperties = [
+	private const SEARCH_PROPERTIES = [
 		'SUMMARY',
 		'LOCATION',
 		'DESCRIPTION',
@@ -42,9 +42,9 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 	];
 
 	/**
-	 * @var string[]
+	 * @var array<string, string[]>
 	 */
-	private static $searchParameters = [
+	private const SEARCH_PARAMETERS = [
 		'ATTENDEE' => ['CN'],
 		'ORGANIZER' => ['CN'],
 	];
@@ -52,11 +52,12 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 	/**
 	 * @var string
 	 */
-	private static $componentType = 'VEVENT';
+	private const COMPONENT_TYPE = 'VEVENT';
 
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getId(): string {
 		return 'calendar';
 	}
@@ -64,6 +65,7 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Events');
 	}
@@ -71,6 +73,7 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getOrder(string $route, array $routeParameters): ?int {
 		if ($this->appManager->isEnabledForUser('calendar')) {
 			return $route === 'calendar.View.index' ? -1 : 30;
@@ -82,6 +85,7 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function search(
 		IUser $user,
 		ISearchQuery $query,
@@ -102,9 +106,9 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 			$searchResults = $this->backend->searchPrincipalUri(
 				$principalUri,
 				$term,
-				[self::$componentType],
-				self::$searchProperties,
-				self::$searchParameters,
+				[self::COMPONENT_TYPE],
+				self::SEARCH_PROPERTIES,
+				self::SEARCH_PARAMETERS,
 				[
 					'limit' => $query->getLimit(),
 					'offset' => $query->getCursor(),
@@ -122,9 +126,9 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 			$attendeeSearchResults = $this->backend->searchPrincipalUri(
 				$principalUri,
 				$personDisplayName,
-				[self::$componentType],
+				[self::COMPONENT_TYPE],
 				['ATTENDEE'],
-				self::$searchParameters,
+				self::SEARCH_PARAMETERS,
 				[
 					'limit' => $query->getLimit(),
 					'offset' => $query->getCursor(),
@@ -148,7 +152,7 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 			}
 		}
 		$formattedResults = \array_map(function (array $eventRow) use ($calendarsById, $subscriptionsById): SearchResultEntry {
-			$component = $this->getPrimaryComponent($eventRow['calendardata'], self::$componentType);
+			$component = $this->getPrimaryComponent($eventRow['calendardata'], self::COMPONENT_TYPE);
 			$title = (string)($component->SUMMARY ?? $this->l10n->t('Untitled event'));
 
 			if ($eventRow['calendartype'] === CalDavBackend::CALENDAR_TYPE_CALENDAR) {
@@ -270,6 +274,7 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 		return $dtStart->format('Y-m-d') === $dtEnd->format('Y-m-d');
 	}
 
+	#[\Override]
 	public function getSupportedFilters(): array {
 		return [
 			'term',
@@ -279,10 +284,12 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 		];
 	}
 
+	#[\Override]
 	public function getAlternateIds(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getCustomFilters(): array {
 		return [];
 	}

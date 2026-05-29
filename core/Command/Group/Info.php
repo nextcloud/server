@@ -24,6 +24,7 @@ class Info extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('group:info')
@@ -41,6 +42,7 @@ class Info extends Base {
 			);
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$gid = $input->getArgument('groupid');
 		$group = $this->groupManager->get($gid);
@@ -64,6 +66,7 @@ class Info extends Base {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
+	#[\Override]
 	public function completeArgumentValues($argumentName, CompletionContext $context) {
 		if ($argumentName === 'groupid') {
 			return array_map(static fn (IGroup $group) => $group->getGID(), $this->groupManager->search($context->getCurrentWord()));

@@ -23,6 +23,7 @@ class PropFindPreloadNotifyPlugin extends ServerPlugin {
 
 	private Server $server;
 
+	#[\Override]
 	public function initialize(Server $server): void {
 		$this->server = $server;
 		$this->server->on('propFind', [$this, 'collectionPreloadNotifier' ], 1);

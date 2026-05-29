@@ -44,6 +44,7 @@ class DiscoveryService implements IDiscoveryService {
 	 * @param bool $skipCache We won't check if the data is in the cache. This is useful if a background job is updating the status
 	 * @return array
 	 */
+	#[\Override]
 	public function discover(string $remote, string $service, bool $skipCache = false): array {
 		// Check the cache first
 		if ($skipCache === false) {

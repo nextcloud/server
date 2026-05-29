@@ -39,6 +39,7 @@ class Admin implements ISettings {
 	) {
 	}
 
+	#[\Override]
 	public function getForm(): TemplateResponse {
 		$lastUpdateCheckTimestamp = $this->appConfig->getValueInt('core', 'lastupdatedat');
 		$lastUpdateCheck = $this->dateTimeFormatter->formatDateTime($lastUpdateCheckTimestamp);
@@ -132,6 +133,7 @@ class Admin implements ISettings {
 		return $result;
 	}
 
+	#[\Override]
 	public function getSection(): ?string {
 		if (!$this->config->getSystemValueBool('updatechecker', true)) {
 			// update checker is disabled so we do not show the section at all
@@ -141,6 +143,7 @@ class Admin implements ISettings {
 		return 'overview';
 	}
 
+	#[\Override]
 	public function getPriority(): int {
 		return 11;
 	}

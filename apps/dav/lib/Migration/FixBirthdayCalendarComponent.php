@@ -21,6 +21,7 @@ class FixBirthdayCalendarComponent implements IRepairStep {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getName() {
 		return 'Fix component of birthday calendars';
 	}
@@ -28,6 +29,7 @@ class FixBirthdayCalendarComponent implements IRepairStep {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function run(IOutput $output) {
 		$query = $this->connection->getQueryBuilder();
 		$updated = $query->update('calendars')

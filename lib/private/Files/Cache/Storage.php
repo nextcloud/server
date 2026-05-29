@@ -26,20 +26,15 @@ use Psr\Log\LoggerInterface;
  * A mapping between the two storage ids is stored in the database and accessible through this class
  *
  * @package OC\Files\Cache
+ * @psalm-api
  */
 class Storage {
-	private static ?StorageGlobal $globalCache = null;
-
 	private string $storageId;
 
 	private int $numericId;
 
 	public static function getGlobalCache(): StorageGlobal {
-		if (is_null(self::$globalCache)) {
-			self::$globalCache = new StorageGlobal(Server::get(IDBConnection::class));
-		}
-
-		return self::$globalCache;
+		return Server::get(StorageGlobal::class);
 	}
 
 	/**

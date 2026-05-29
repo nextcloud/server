@@ -27,14 +27,17 @@ class CronInfo implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'system';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Cron last run');
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		$lastCronRun = $this->appConfig->getValueInt('core', 'lastcron', 0);
 		$relativeTime = $this->dateTimeFormatter->formatTimeSpan($lastCronRun);

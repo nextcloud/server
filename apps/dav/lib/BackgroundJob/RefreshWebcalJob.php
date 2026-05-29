@@ -33,6 +33,7 @@ class RefreshWebcalJob extends Job {
 	 *
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function start(IJobList $jobList): void {
 		$subscription = $this->refreshWebcalService->getSubscription($this->argument['principaluri'], $this->argument['uri']);
 		if (!$subscription) {
@@ -69,6 +70,7 @@ class RefreshWebcalJob extends Job {
 	/**
 	 * @param array $argument
 	 */
+	#[\Override]
 	protected function run($argument) {
 		$this->refreshWebcalService->refreshSubscription($argument['principaluri'], $argument['uri']);
 	}

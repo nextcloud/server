@@ -14,6 +14,7 @@ class Capabilities implements ICapability {
 	/**
 	 * @return array{systemtags: array{enabled: true}}
 	 */
+	#[\Override]
 	public function getCapabilities() {
 		$capabilities = [
 			'systemtags' => [

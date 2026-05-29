@@ -15,6 +15,7 @@ use OCP\OpenMetrics\IMetricFamily;
 use OCP\Server;
 
 class LogLevelTest extends ExporterTestCase {
+	#[\Override]
 	protected function getExporter():IMetricFamily {
 		return new LogLevel(Server::get(IConfig::class));
 	}

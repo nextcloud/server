@@ -1568,7 +1568,12 @@ class Access extends LDAPUtility {
 		if ($term === '') {
 			$result = '*';
 		} elseif ($allowEnum) {
-			$result = $term . '*';
+			$usePrefixWildcard = $this->appConfig->getValueBool('user_ldap', 'partial_search_with_prefix_wildcard', false);
+			if ($usePrefixWildcard) {
+				$result = '*' . $term . '*';
+			} else {
+				$result = $term . '*';
+			}
 		}
 		return $result;
 	}

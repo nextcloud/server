@@ -21,10 +21,12 @@ class ApiCollection implements IApiCollection {
 	) {
 	}
 
+	#[\Override]
 	public function getCapabilitiesApi() {
 		return new OCS($this->instance, $this->credentials, $this->clientService);
 	}
 
+	#[\Override]
 	public function getUserApi() {
 		return new OCS($this->instance, $this->credentials, $this->clientService);
 	}

@@ -13,7 +13,7 @@ OC.L10N.register(
     "Edit Profile" : "Уреди профил",
     "The headline and about sections will show up here" : "Овде ће се појавити насловна линија и одељак „о”",
     "Profile not found" : "Није пронађен профил",
-    "The profile does not exist." : "Профил не постоји.",
-    "Back to %s" : "Назад на %s"
+    "Back to %s" : "Назад на %s",
+    "The profile does not exist." : "Профил не постоји."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

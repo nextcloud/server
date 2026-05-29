@@ -32,6 +32,7 @@ class HelperStorageTest extends \Test\TestCase {
 	private $storage;
 	private bool $savedQuotaIncludeExternalStorage;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -50,6 +51,7 @@ class HelperStorageTest extends \Test\TestCase {
 		$this->storageMock = null;
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$this->setIncludeExternalStorage($this->savedQuotaIncludeExternalStorage);
 		$this->user = null;

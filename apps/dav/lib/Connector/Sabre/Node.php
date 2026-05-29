@@ -9,7 +9,6 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\Connector\Sabre;
 
-use OC\Files\Mount\MoveableMount;
 use OC\Files\Node\File;
 use OC\Files\Node\Folder;
 use OC\Files\View;
@@ -19,6 +18,7 @@ use OCP\Files\DavUtil;
 use OCP\Files\FileInfo;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
+use OCP\Files\Mount\IMovableMount;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\ISharedStorage;
 use OCP\Files\StorageNotAvailableException;
@@ -28,6 +28,7 @@ use OCP\Lock\LockedException;
 use OCP\PreConditionNotMetException;
 use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
+use OCP\Share\IAttributes;
 use OCP\Share\IManager;
 use RuntimeException;
 use Sabre\DAV\Exception;
@@ -101,6 +102,7 @@ abstract class Node implements INode {
 	/**
 	 *  Returns the name of the node
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->info->getName();
 	}
@@ -113,6 +115,13 @@ abstract class Node implements INode {
 	}
 
 	/**
+	 * Check if this node can be renamed
+	 */
+	public function canRename(): bool {
+		return DavUtil::canRename($this->node, $this->node->getParent());
+	}
+
+	/**
 	 * Renames the node
 	 *
 	 * @param string $name The new name
@@ -122,11 +131,10 @@ abstract class Node implements INode {
 	 * @throws PreConditionNotMetException
 	 * @throws LockedException
 	 */
+	#[\Override]
 	public function setName($name): void {
-		// rename is only allowed if the delete privilege is granted
-		// (basically rename is a copy with delete of the original node)
-		if (!$this->info->isDeletable() && !($this->info->getMountPoint() instanceof MoveableMount && $this->info->getInternalPath() === '')) {
-			throw new Forbidden();
+		if (!$this->canRename()) {
+			throw new Forbidden('');
 		}
 
 		/** @var string $parentPath */
@@ -152,6 +160,7 @@ abstract class Node implements INode {
 	 *
 	 * @return int timestamp as integer
 	 */
+	#[\Override]
 	public function getLastModified(): int {
 		return $this->info->getMtime();
 	}
@@ -254,7 +263,7 @@ abstract class Node implements INode {
 		 * Eventually we need to do this properly
 		 */
 		$mountpoint = $this->info->getMountPoint();
-		if (!($mountpoint instanceof MoveableMount)) {
+		if (!($mountpoint instanceof IMovableMount)) {
 			/**
 			 * @psalm-suppress UnnecessaryVarAnnotation Rector doesn't trust the return type annotation
 			 * @var string $mountpointpath
@@ -289,7 +298,7 @@ abstract class Node implements INode {
 		$attributes = [];
 		if ($storage->instanceOfStorage(ISharedStorage::class)) {
 			$attributes = $storage->getShare()->getAttributes();
-			if ($attributes === null) {
+			if (!$attributes instanceof IAttributes) {
 				return [];
 			}
 
@@ -320,7 +329,7 @@ abstract class Node implements INode {
 	}
 
 	public function getDavPermissions(): string {
-		return DavUtil::getDavPermissions($this->info);
+		return DavUtil::getDavPermissions($this->info, $this->node->getParent());
 	}
 
 	/**

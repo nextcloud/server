@@ -20,6 +20,7 @@ class CompFilter implements XmlDeserializable {
 	 * @throws BadRequest
 	 * @return string
 	 */
+	#[\Override]
 	public static function xmlDeserialize(Reader $reader) {
 		$att = $reader->parseAttributes();
 		$componentName = $att['name'];

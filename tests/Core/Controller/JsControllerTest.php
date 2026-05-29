@@ -31,6 +31,7 @@ class JsControllerTest extends TestCase {
 	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

@@ -11,6 +11,7 @@ namespace OCA\WorkflowEngine\Settings;
 use OCP\WorkflowEngine\IManager;
 
 class Admin extends ASettings {
+	#[\Override]
 	public function getScope(): int {
 		return IManager::SCOPE_ADMIN;
 	}

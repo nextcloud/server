@@ -18,6 +18,7 @@ class MailProvider implements IDeclarativeSettingsForm {
 	) {
 	}
 
+	#[\Override]
 	public function getSchema(): array {
 		return [
 			'id' => 'mail-provider-support',

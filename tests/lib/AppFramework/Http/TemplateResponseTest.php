@@ -17,6 +17,7 @@ class TemplateResponseTest extends \Test\TestCase {
 	 */
 	private $tpl;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

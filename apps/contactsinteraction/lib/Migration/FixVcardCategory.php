@@ -28,10 +28,12 @@ class FixVcardCategory implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Fix category of recent contacts vcards';
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		$query = $this->connection->getQueryBuilder();
 

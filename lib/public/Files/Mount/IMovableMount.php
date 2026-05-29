@@ -20,7 +20,7 @@ interface IMovableMount {
 	 * @return bool
 	 * @since 28.0.0
 	 */
-	public function moveMount($target);
+	public function moveMount(string $target);
 
 	/**
 	 * Remove the mount points

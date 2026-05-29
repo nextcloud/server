@@ -44,6 +44,7 @@ class SessionCredentials extends AuthMechanism {
 	/**
 	 * @return void
 	 */
+	#[\Override]
 	public function manipulateStorageConfig(StorageConfig &$storage, ?IUser $user = null) {
 		try {
 			$credentials = $this->credentialsStore->getLoginCredentials();
@@ -63,6 +64,7 @@ class SessionCredentials extends AuthMechanism {
 		$storage->setBackendOption('password', $credentials->getPassword());
 	}
 
+	#[\Override]
 	public function wrapStorage(IStorage $storage): IStorage {
 		return new SessionStorageWrapper(['storage' => $storage]);
 	}

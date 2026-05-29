@@ -25,6 +25,7 @@ class JSResourceLocator extends ResourceLocator {
 		parent::__construct($logger, $config);
 	}
 
+	#[\Override]
 	public function doFind(string $resource): void {
 		$theme_dir = 'themes/' . $this->theme . '/';
 
@@ -89,6 +90,7 @@ class JSResourceLocator extends ResourceLocator {
 		]);
 	}
 
+	#[\Override]
 	public function doFindTheme(string $resource): void {
 	}
 

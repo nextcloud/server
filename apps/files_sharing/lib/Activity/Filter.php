@@ -26,6 +26,7 @@ class Filter implements IFilter {
 	 * @return string Lowercase a-z only identifier
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function getIdentifier() {
 		return 'files_sharing';
 	}
@@ -34,6 +35,7 @@ class Filter implements IFilter {
 	 * @return string A translated string
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function getName() {
 		return $this->l->t('File shares');
 	}
@@ -42,6 +44,7 @@ class Filter implements IFilter {
 	 * @return int
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function getPriority() {
 		return 31;
 	}
@@ -50,6 +53,7 @@ class Filter implements IFilter {
 	 * @return string Full URL to an icon, empty string when none is given
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function getIcon() {
 		return $this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/share.svg'));
 	}
@@ -59,6 +63,7 @@ class Filter implements IFilter {
 	 * @return string[] An array of allowed apps from which activities should be displayed
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function filterTypes(array $types) {
 		return array_intersect([
 			self::TYPE_SHARED,
@@ -71,6 +76,7 @@ class Filter implements IFilter {
 	 * @return string[] An array of allowed apps from which activities should be displayed
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function allowedApps() {
 		return [
 			'files_sharing',

@@ -23,6 +23,7 @@ abstract class LockingProvider extends TestCase {
 	 */
 	abstract protected function getInstance();
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->instance = $this->getInstance();

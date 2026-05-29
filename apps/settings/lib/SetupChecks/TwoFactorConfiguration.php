@@ -24,14 +24,17 @@ class TwoFactorConfiguration implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Second factor configuration');
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'security';
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		$providers = $this->providerLoader->getProviders();
 		$providerSet = new ProviderSet($providers, false);

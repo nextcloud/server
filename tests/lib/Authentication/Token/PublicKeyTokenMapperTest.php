@@ -29,6 +29,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 	/** @var int */
 	private $time;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

@@ -11,6 +11,7 @@ namespace OC\DB;
 use Doctrine\DBAL\Logging\DebugStack;
 
 class BacktraceDebugStack extends DebugStack {
+	#[\Override]
 	public function startQuery($sql, ?array $params = null, ?array $types = null) {
 		parent::startQuery($sql, $params, $types);
 		$backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);

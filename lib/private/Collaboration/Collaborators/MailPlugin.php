@@ -59,6 +59,7 @@ class MailPlugin implements ISearchPlugin {
 	/**
 	 * {@inheritdoc}
 	 */
+	#[\Override]
 	public function search($search, $limit, $offset, ISearchResult $searchResult): bool {
 		if ($this->shareeEnumerationFullMatch && !$this->shareeEnumerationFullMatchEmail) {
 			return false;

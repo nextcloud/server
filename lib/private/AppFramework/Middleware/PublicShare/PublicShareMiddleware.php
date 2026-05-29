@@ -29,6 +29,7 @@ class PublicShareMiddleware extends Middleware {
 	) {
 	}
 
+	#[\Override]
 	public function beforeController($controller, $methodName) {
 		if (!($controller instanceof PublicShareController)) {
 			return;
@@ -79,6 +80,7 @@ class PublicShareMiddleware extends Middleware {
 		throw new NotFoundException();
 	}
 
+	#[\Override]
 	public function afterException($controller, $methodName, \Exception $exception) {
 		if (!($controller instanceof PublicShareController)) {
 			throw $exception;

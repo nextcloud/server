@@ -17,6 +17,8 @@ use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
+use Symfony\Component\HttpFoundation\HeaderUtils;
+use Symfony\Component\String\UnicodeString;
 
 class AppleProvisioningPlugin extends ServerPlugin {
 	/**
@@ -40,6 +42,7 @@ class AppleProvisioningPlugin extends ServerPlugin {
 	/**
 	 * @param Server $server
 	 */
+	#[\Override]
 	public function initialize(Server $server) {
 		$this->server = $server;
 		$this->server->on('method:GET', [$this, 'httpGet'], 90);
@@ -123,7 +126,9 @@ class AppleProvisioningPlugin extends ServerPlugin {
 		));
 
 		$response->setStatus(Http::STATUS_OK);
-		$response->setHeader('Content-Disposition', 'attachment; filename="' . $filename . '"');
+		$sanitized = str_replace(['/', '\\'], '-', $filename);
+		$fallback = str_replace('%', '', (new UnicodeString($sanitized))->ascii()->toString());
+		$response->setHeader('Content-Disposition', HeaderUtils::makeDisposition(HeaderUtils::DISPOSITION_ATTACHMENT, $sanitized, $fallback));
 		$response->setHeader('Content-Type', 'application/xml; charset=utf-8');
 		$response->setBody($body);
 

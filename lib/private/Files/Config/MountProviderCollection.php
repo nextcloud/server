@@ -79,6 +79,7 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	/**
 	 * @return list<IMountPoint>
 	 */
+	#[\Override]
 	public function getMountsForUser(IUser $user): array {
 		return $this->getUserMountsForProviders($user, array_values($this->providers));
 	}
@@ -138,6 +139,7 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	 *
 	 * @return list<IMountPoint>
 	 */
+	#[\Override]
 	public function getUserMountsForProviderClasses(IUser $user, array $mountProviderClasses): array {
 		$providers = array_filter(
 			$this->providers,
@@ -196,6 +198,7 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	 *
 	 * @since 9.1.0
 	 */
+	#[\Override]
 	public function getHomeMountForUser(IUser $user): IMountPoint {
 		$providers = array_reverse($this->homeProviders); // call the latest registered provider first to give apps an opportunity to overwrite builtin
 		foreach ($providers as $homeProvider) {
@@ -210,12 +213,14 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	/**
 	 * Add a provider for mount points
 	 */
+	#[\Override]
 	public function registerProvider(IMountProvider $provider): void {
 		$this->providers[get_class($provider)] = $provider;
 
 		$this->emit('\OC\Files\Config', 'registerMountProvider', [$provider]);
 	}
 
+	#[\Override]
 	public function registerMountFilter(callable $filter): void {
 		$this->mountFilters[] = $filter;
 	}
@@ -241,6 +246,7 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	 * @param IHomeMountProvider $provider
 	 * @since 9.1.0
 	 */
+	#[\Override]
 	public function registerHomeProvider(IHomeMountProvider $provider) {
 		$this->homeProviders[] = $provider;
 		$this->emit('\OC\Files\Config', 'registerHomeMountProvider', [$provider]);
@@ -249,6 +255,7 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	/**
 	 * Get the mount cache which can be used to search for mounts without setting up the filesystem
 	 */
+	#[\Override]
 	public function getMountCache(): IUserMountCache {
 		return $this->mountCache;
 	}
@@ -263,6 +270,7 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	 * @return list<IMountPoint>
 	 * @since 20.0.0
 	 */
+	#[\Override]
 	public function getRootMounts(): array {
 		$loader = $this->loader;
 		$mounts = array_map(function (IRootMountProvider $provider) use ($loader) {

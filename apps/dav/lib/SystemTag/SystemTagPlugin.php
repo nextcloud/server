@@ -87,6 +87,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	 * @param \Sabre\DAV\Server $server
 	 * @return void
 	 */
+	#[\Override]
 	public function initialize(\Sabre\DAV\Server $server) {
 		$server->xml->namespaceMap[self::NS_OWNCLOUD] = 'oc';
 		$server->xml->namespaceMap[self::NS_NEXTCLOUD] = 'nc';

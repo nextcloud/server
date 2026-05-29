@@ -23,10 +23,12 @@ class MigratePropertiesTable implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Migrate oc_properties table to nextcloud schema';
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		$schema = new SchemaWrapper($this->db);
 		if (!$schema->hasTable('oc_properties')) {

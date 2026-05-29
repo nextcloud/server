@@ -127,7 +127,7 @@ class PlatformRepository {
 		return null;
 	}
 
-	private static string $modifierRegex = '[._-]?(?:(stable|beta|b|RC|alpha|a|patch|pl|p)(?:[.-]?(\d+))?)?([.-]?dev)?';
+	private const MODIFIER_REGEX = '[._-]?(?:(stable|beta|b|RC|alpha|a|patch|pl|p)(?:[.-]?(\d+))?)?([.-]?dev)?';
 
 	/**
 	 * Normalizes a version string to be able to perform comparisons on it
@@ -154,16 +154,16 @@ class PlatformRepository {
 			return 'dev-' . substr($version, 4);
 		}
 		// match classical versioning
-		if (preg_match('{^v?(\d{1,3})(\.\d+)?(\.\d+)?(\.\d+)?' . self::$modifierRegex . '$}i', $version, $matches)) {
+		if (preg_match('{^v?(\d{1,3})(\.\d+)?(\.\d+)?(\.\d+)?' . self::MODIFIER_REGEX . '$}i', $version, $matches)) {
 			$version = $matches[1]
 				. (!empty($matches[2]) ? $matches[2] : '.0')
 				. (!empty($matches[3]) ? $matches[3] : '.0')
 				. (!empty($matches[4]) ? $matches[4] : '.0');
 			$index = 5;
-		} elseif (preg_match('{^v?(\d{4}(?:[.:-]?\d{2}){1,6}(?:[.:-]?\d{1,3})?)' . self::$modifierRegex . '$}i', $version, $matches)) { // match date-based versioning
+		} elseif (preg_match('{^v?(\d{4}(?:[.:-]?\d{2}){1,6}(?:[.:-]?\d{1,3})?)' . self::MODIFIER_REGEX . '$}i', $version, $matches)) { // match date-based versioning
 			$version = preg_replace('{\D}', '-', $matches[1]);
 			$index = 2;
-		} elseif (preg_match('{^v?(\d{4,})(\.\d+)?(\.\d+)?(\.\d+)?' . self::$modifierRegex . '$}i', $version, $matches)) {
+		} elseif (preg_match('{^v?(\d{4,})(\.\d+)?(\.\d+)?(\.\d+)?' . self::MODIFIER_REGEX . '$}i', $version, $matches)) {
 			$version = $matches[1]
 				. (!empty($matches[2]) ? $matches[2] : '.0')
 				. (!empty($matches[3]) ? $matches[3] : '.0')

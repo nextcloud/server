@@ -6,6 +6,7 @@
  */
 namespace OCA\Files_Sharing\Activity\Providers;
 
+use OCP\Activity\Exceptions\UnknownActivityException;
 use OCP\Activity\IEvent;
 use OCP\Activity\IEventMerger;
 use OCP\Activity\IManager;
@@ -45,9 +46,10 @@ class Groups extends Base {
 	/**
 	 * @param IEvent $event
 	 * @return IEvent
-	 * @throws \InvalidArgumentException
+	 * @throws UnknownActivityException
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function parseShortVersion(IEvent $event) {
 		$parsedParameters = $this->getParsedParameters($event);
 
@@ -62,7 +64,7 @@ class Groups extends Base {
 		} elseif ($event->getSubject() === self::SUBJECT_EXPIRED_GROUP) {
 			$subject = $this->l->t('Share for group {group} expired');
 		} else {
-			throw new \InvalidArgumentException();
+			throw new UnknownActivityException();
 		}
 
 		if ($this->activityManager->getRequirePNG()) {
@@ -79,9 +81,10 @@ class Groups extends Base {
 	 * @param IEvent $event
 	 * @param IEvent|null $previousEvent
 	 * @return IEvent
-	 * @throws \InvalidArgumentException
+	 * @throws UnknownActivityException
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function parseLongVersion(IEvent $event, ?IEvent $previousEvent = null) {
 		$parsedParameters = $this->getParsedParameters($event);
 
@@ -96,7 +99,7 @@ class Groups extends Base {
 		} elseif ($event->getSubject() === self::SUBJECT_EXPIRED_GROUP) {
 			$subject = $this->l->t('Share for file {file} with group {group} expired');
 		} else {
-			throw new \InvalidArgumentException();
+			throw new UnknownActivityException();
 		}
 
 		if ($this->activityManager->getRequirePNG()) {
@@ -129,7 +132,8 @@ class Groups extends Base {
 					'group' => $this->generateGroupParameter($parameters[1]),
 				];
 		}
-		return [];
+
+		throw new UnknownActivityException();
 	}
 
 	/**

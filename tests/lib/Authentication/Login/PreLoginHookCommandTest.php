@@ -18,6 +18,7 @@ class PreLoginHookCommandTest extends ALoginTestCommand {
 	/** @var IUserManager|MockObject */
 	private $userManager;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

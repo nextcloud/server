@@ -34,6 +34,7 @@ class UpdateSingleMetadata extends QueuedJob {
 		parent::__construct($time);
 	}
 
+	#[\Override]
 	protected function run($argument) {
 		[$userId, $fileId] = $argument;
 

@@ -17,6 +17,7 @@ abstract class Image extends ProviderV2 {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
 		$maxSizeForImages = Server::get(IConfig::class)->getSystemValueInt('preview_max_filesize_image', 50);
 		$size = $file->getSize();

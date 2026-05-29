@@ -90,6 +90,7 @@ class CalendarObjectMovedEvent extends Event implements IWebhookCompatibleEvent 
 	 * @return array
 	 * @since 32.0.0
 	 */
+	#[\Override]
 	public function getWebhookSerializable(): array {
 		return [
 			'sourceCalendarId' => $this->getSourceCalendarId(),

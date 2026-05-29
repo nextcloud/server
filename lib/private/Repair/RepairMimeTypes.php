@@ -28,6 +28,7 @@ class RepairMimeTypes implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Repair mime types';
 	}
@@ -403,6 +404,7 @@ class RepairMimeTypes implements IRepairStep {
 	 *
 	 * @throws Exception
 	 */
+	#[\Override]
 	public function run(IOutput $output): void {
 		$serverVersion = $this->config->getSystemValueString('version', '0.0.0');
 		$mimeTypeVersion = $this->getMimeTypeVersion();

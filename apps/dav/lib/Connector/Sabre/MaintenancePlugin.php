@@ -48,6 +48,7 @@ class MaintenancePlugin extends ServerPlugin {
 	 * @param \Sabre\DAV\Server $server
 	 * @return void
 	 */
+	#[\Override]
 	public function initialize(\Sabre\DAV\Server $server) {
 		$this->server = $server;
 		$this->server->on('beforeMethod:*', [$this, 'checkMaintenanceMode'], 1);

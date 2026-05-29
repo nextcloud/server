@@ -13,6 +13,7 @@ use OC\Files\Storage\PolyFill\CopyDirectory;
 use OC\Files\Storage\Temporary;
 
 class StorageNoRecursiveCopy extends Temporary {
+	#[\Override]
 	public function copy(string $source, string $target): bool {
 		if ($this->is_dir($source)) {
 			return false;
@@ -33,6 +34,7 @@ class CopyDirectoryStorage extends StorageNoRecursiveCopy {
  */
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class CopyDirectoryTest extends Storage {
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->instance = new CopyDirectoryStorage([]);

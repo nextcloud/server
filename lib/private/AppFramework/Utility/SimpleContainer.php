@@ -39,10 +39,12 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	 * @param class-string<T>|string $id
 	 * @return ($id is class-string<T> ? T : mixed)
 	 */
+	#[\Override]
 	public function get(string $id): mixed {
 		return $this->query($id);
 	}
 
+	#[\Override]
 	public function has(string $id): bool {
 		// If a service is no registered but is an existing class, we can probably load it
 		return isset($this->container[$id]) || class_exists($id);
@@ -120,6 +122,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	 * @inheritDoc
 	 * @param list<class-string> $chain
 	 */
+	#[\Override]
 	public function resolve(string $name, array $chain = []): mixed {
 		$baseMsg = 'Could not resolve ' . $name . '!';
 		try {
@@ -140,6 +143,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	 * @inheritDoc
 	 * @param list<class-string> $chain
 	 */
+	#[\Override]
 	public function query(string $name, bool $autoload = true, array $chain = []): mixed {
 		$name = $this->sanitizeName($name);
 		if (isset($this->container[$name])) {
@@ -161,10 +165,12 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 		throw new QueryNotFoundException('Could not resolve ' . $name . '!');
 	}
 
+	#[\Override]
 	public function registerParameter(string $name, mixed $value): void {
 		$this[$name] = $value;
 	}
 
+	#[\Override]
 	public function registerService(string $name, Closure $closure, bool $shared = true): void {
 		$wrapped = function () use ($closure) {
 			return $closure($this);
@@ -187,6 +193,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	 * @param string $alias the alias that should be registered
 	 * @param string $target the target that should be resolved instead
 	 */
+	#[\Override]
 	public function registerAlias(string $alias, string $target): void {
 		$this->registerService($alias, function (ContainerInterface $container) use ($target): mixed {
 			return $container->get($target);
@@ -222,6 +229,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	/**
 	 * @deprecated 20.0.0 use \Psr\Container\ContainerInterface::has
 	 */
+	#[\Override]
 	public function offsetExists($id): bool {
 		return $this->container->offsetExists($id);
 	}
@@ -230,6 +238,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	 * @deprecated 20.0.0 use \Psr\Container\ContainerInterface::get
 	 * @return mixed
 	 */
+	#[\Override]
 	#[\ReturnTypeWillChange]
 	public function offsetGet($id) {
 		return $this->container->offsetGet($id);
@@ -238,6 +247,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	/**
 	 * @deprecated 20.0.0 use \OCP\IContainer::registerService
 	 */
+	#[\Override]
 	public function offsetSet($offset, $value): void {
 		$this->container->offsetSet($offset, $value);
 	}
@@ -245,6 +255,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	/**
 	 * @deprecated 20.0.0
 	 */
+	#[\Override]
 	public function offsetUnset($offset): void {
 		$this->container->offsetUnset($offset);
 	}

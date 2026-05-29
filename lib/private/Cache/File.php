@@ -56,6 +56,7 @@ class File implements ICache {
 	 * @return mixed|null
 	 * @throws ForbiddenException
 	 */
+	#[\Override]
 	public function get($key) {
 		$result = null;
 		if ($this->hasKey($key)) {
@@ -87,6 +88,7 @@ class File implements ICache {
 	 * @return bool|mixed
 	 * @throws ForbiddenException
 	 */
+	#[\Override]
 	public function set($key, $value, $ttl = 0) {
 		$storage = $this->getStorage();
 		$result = false;
@@ -114,6 +116,7 @@ class File implements ICache {
 	 * @return bool
 	 * @throws ForbiddenException
 	 */
+	#[\Override]
 	public function hasKey($key) {
 		$storage = $this->getStorage();
 		if ($storage && $storage->is_file($key) && $storage->isReadable($key)) {
@@ -127,6 +130,7 @@ class File implements ICache {
 	 * @return bool|mixed
 	 * @throws ForbiddenException
 	 */
+	#[\Override]
 	public function remove($key) {
 		$storage = $this->getStorage();
 		if (!$storage) {
@@ -140,6 +144,7 @@ class File implements ICache {
 	 * @return bool
 	 * @throws ForbiddenException
 	 */
+	#[\Override]
 	public function clear($prefix = '') {
 		$storage = $this->getStorage();
 		if ($storage && $storage->is_dir('/')) {
@@ -189,6 +194,7 @@ class File implements ICache {
 		}
 	}
 
+	#[\Override]
 	public static function isAvailable(): bool {
 		return true;
 	}

@@ -32,14 +32,17 @@ class JavaScriptModules implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'network';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('JavaScript modules support');
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		$testFile = $this->urlGenerator->linkTo('settings', 'js/esm-test.mjs');
 

@@ -20,6 +20,7 @@ class Version23000Date20210906132259 extends SimpleMigrationStep {
 	 * @param array $options
 	 * @return null|ISchemaWrapper
 	 */
+	#[\Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/**
 		 * Table was missing a primary key

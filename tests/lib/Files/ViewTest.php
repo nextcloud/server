@@ -51,22 +51,26 @@ use Test\TestMoveableMountPoint;
 use Test\Traits\UserTrait;
 
 class TemporaryNoTouch extends Temporary {
+	#[\Override]
 	public function touch(string $path, ?int $mtime = null): bool {
 		return false;
 	}
 }
 
 class TemporaryNoCross extends Temporary {
+	#[\Override]
 	public function copyFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath, bool $preserveMtime = false): bool {
 		return Common::copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime);
 	}
 
+	#[\Override]
 	public function moveFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): bool {
 		return Common::moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 	}
 }
 
 class TemporaryNoLocal extends Temporary {
+	#[\Override]
 	public function instanceOfStorage(string $class): bool {
 		if ($class === '\OC\Files\Storage\Local') {
 			return false;
@@ -121,6 +125,7 @@ class ViewTest extends \Test\TestCase {
 	/** @var Storage */
 	private $tempStorage;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		\OC_Hook::clear();
@@ -146,6 +151,7 @@ class ViewTest extends \Test\TestCase {
 		$this->tempStorage = null;
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		\OC_User::setUserId($this->user);
 		foreach ($this->storages as $storage) {
@@ -209,6 +215,7 @@ class ViewTest extends \Test\TestCase {
 		$this->assertEquals('httpd/unix-directory', $cachedData['mimetype']);
 
 		$folderData = $rootView->getDirectoryContent('/');
+		usort($folderData, fn (FileInfo $a, FileInfo $b) => $a->getName() <=> $b->getName());
 		/**
 		 * expected entries:
 		 * folder
@@ -228,6 +235,7 @@ class ViewTest extends \Test\TestCase {
 		$this->assertEquals($storageSize, $folderData[3]['size']);
 
 		$folderData = $rootView->getDirectoryContent('/substorage');
+		usort($folderData, fn (FileInfo $a, FileInfo $b) => $a->getName() <=> $b->getName());
 		/**
 		 * expected entries:
 		 * folder
@@ -2567,7 +2575,7 @@ class ViewTest extends \Test\TestCase {
 			->willReturn($mountPoint);
 		$mount->expects($this->once())
 			->method('removeMount')
-			->willReturn('foo');
+			->willReturn(true);
 		$mount->expects($this->any())
 			->method('getInternalPath')
 			->willReturn('');
@@ -2811,11 +2819,13 @@ class ViewTest extends \Test\TestCase {
 		$rootView = new View('');
 
 		$folderData = $rootView->getDirectoryContent('/');
+		usort($folderData, fn (FileInfo $a, FileInfo $b) => $a->getName() <=> $b->getName());
 		$this->assertCount(4, $folderData);
-		$this->assertEquals('folder', $folderData[0]['name']);
-		$this->assertEquals('foo.png', $folderData[1]['name']);
-		$this->assertEquals('foo.txt', $folderData[2]['name']);
-		$this->assertEquals('A', $folderData[3]['name']);
+
+		$this->assertEquals('A', $folderData[0]['name']);
+		$this->assertEquals('folder', $folderData[1]['name']);
+		$this->assertEquals('foo.png', $folderData[2]['name']);
+		$this->assertEquals('foo.txt', $folderData[3]['name']);
 
 		$folderData = $rootView->getDirectoryContent('/A');
 		$this->assertCount(1, $folderData);
@@ -2826,6 +2836,7 @@ class ViewTest extends \Test\TestCase {
 		$this->assertEquals('C', $folderData[0]['name']);
 
 		$folderData = $rootView->getDirectoryContent('/A/B/C');
+		usort($folderData, fn (FileInfo $a, FileInfo $b) => $a->getName() <=> $b->getName());
 		$this->assertCount(3, $folderData);
 		$this->assertEquals('folder', $folderData[0]['name']);
 		$this->assertEquals('foo.png', $folderData[1]['name']);

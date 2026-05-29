@@ -30,6 +30,7 @@ class CleanupDeletedUsers extends TimedJob {
 		$this->setInterval(24 * 60 * 60);
 	}
 
+	#[\Override]
 	protected function run($argument): void {
 		$backend = new PartiallyDeletedUsersBackend($this->config);
 		$users = $backend->getUsers();

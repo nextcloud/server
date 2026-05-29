@@ -25,6 +25,7 @@ class Capabilities implements ICapability {
 	/**
 	 * @return array{user_status: array{enabled: bool, restore: bool, supports_emoji: bool, supports_busy: bool}}
 	 */
+	#[\Override]
 	public function getCapabilities() {
 		return [
 			'user_status' => [

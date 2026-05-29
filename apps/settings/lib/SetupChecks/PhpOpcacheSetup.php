@@ -22,10 +22,12 @@ class PhpOpcacheSetup implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('PHP opcache');
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'php';
 	}
@@ -111,6 +113,7 @@ class PhpOpcacheSetup implements ISetupCheck {
 		return [$level, $recommendations];
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		// Skip OPcache checks if running from CLI
 		if (\OC::$CLI && !$this->iniGetWrapper->getBool('opcache.enable_cli')) {

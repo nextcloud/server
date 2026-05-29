@@ -30,6 +30,7 @@ class UserDeletedTokenCleanupListenerTest extends TestCase {
 	/** @var UserDeletedTokenCleanupListener */
 	private $listener;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

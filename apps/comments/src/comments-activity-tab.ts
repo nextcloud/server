@@ -4,46 +4,40 @@
  */
 
 import type { INode } from '@nextcloud/files'
+import type { App } from 'vue'
 
-import moment from '@nextcloud/moment'
-import { createPinia, PiniaVuePlugin } from 'pinia'
-import Vue, { type ComponentPublicInstance } from 'vue'
-import logger from './logger.js'
-import { getComments } from './services/GetComments.js'
-
-Vue.use(PiniaVuePlugin)
-
-let ActivityTabPluginView
-let ActivityTabPluginInstance
+import { createPinia } from 'pinia'
+import { createApp } from 'vue'
+import logger from './logger.ts'
+import { getComments } from './services/GetComments.ts'
 
 /**
  * Register the comments plugins for the Activity sidebar
  */
 export function registerCommentsPlugins() {
+	let app: App
+
 	window.OCA.Activity.registerSidebarAction({
 		mount: async (el: HTMLElement, { node, reload }: { node: INode, reload: () => void }) => {
 			const pinia = createPinia()
 
-			if (!ActivityTabPluginView) {
+			if (!app) {
 				const { default: ActivityCommentAction } = await import('./views/ActivityCommentAction.vue')
-				// @ts-expect-error Types are broken for Vue2
-				ActivityTabPluginView = Vue.extend(ActivityCommentAction)
+				app = createApp(
+					ActivityCommentAction,
+					{
+						reloadCallback: reload,
+						resourceId: node.fileid,
+					},
+				)
 			}
-			ActivityTabPluginInstance = new ActivityTabPluginView({
-				el,
-				pinia,
-				propsData: {
-					reloadCallback: reload,
-					resourceId: node.fileid,
-				},
-			})
+			app.use(pinia)
+			app.mount(el)
 			logger.info('Comments plugin mounted in Activity sidebar action', { node })
 		},
 		unmount: () => {
 			// destroy previous instance if available
-			if (ActivityTabPluginInstance) {
-				ActivityTabPluginInstance.$destroy()
-			}
+			app?.unmount()
 		},
 	})
 
@@ -57,26 +51,26 @@ export function registerCommentsPlugins() {
 		)
 		logger.debug('Loaded comments', { node, comments })
 		const { default: CommentView } = await import('./views/ActivityCommentEntry.vue')
-		// @ts-expect-error Types are broken for Vue2
-		const CommentsViewObject = Vue.extend(CommentView)
 
 		return comments.map((comment) => ({
-			_CommentsViewInstance: undefined as ComponentPublicInstance | undefined,
+			_CommentsViewInstance: undefined as App | undefined,
 
-			timestamp: moment(comment.props?.creationDateTime).toDate().getTime(),
+			timestamp: Date.parse(comment.props?.creationDateTime as string | undefined ?? ''),
 
 			mount(element: HTMLElement, { reload }) {
-				this._CommentsViewInstance = new CommentsViewObject({
-					el: element,
-					propsData: {
+				const app = createApp(
+					CommentView,
+					{
 						comment,
 						resourceId: node.fileid,
 						reloadCallback: reload,
 					},
-				})
+				)
+				app.mount(element)
+				this._CommentsViewInstance = app
 			},
 			unmount() {
-				this._CommentsViewInstance?.$destroy()
+				this._CommentsViewInstance?.unmount()
 			},
 		}))
 	})

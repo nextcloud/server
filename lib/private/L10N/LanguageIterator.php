@@ -24,6 +24,7 @@ class LanguageIterator implements ILanguageIterator {
 	/**
 	 * Rewind the Iterator to the first element
 	 */
+	#[\Override]
 	public function rewind(): void {
 		$this->i = 0;
 	}
@@ -33,6 +34,7 @@ class LanguageIterator implements ILanguageIterator {
 	 *
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function current(): string {
 		switch ($this->i) {
 			/** @noinspection PhpMissingBreakStatementInspection */
@@ -91,6 +93,7 @@ class LanguageIterator implements ILanguageIterator {
 	 *
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function next(): void {
 		++$this->i;
 	}
@@ -100,6 +103,7 @@ class LanguageIterator implements ILanguageIterator {
 	 *
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function key(): int {
 		return $this->i;
 	}
@@ -109,6 +113,7 @@ class LanguageIterator implements ILanguageIterator {
 	 *
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function valid(): bool {
 		return $this->i <= 6;
 	}

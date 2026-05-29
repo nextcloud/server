@@ -18,10 +18,12 @@ class DropAccountTermsTable implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Drop account terms table when migrating from ownCloud';
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		if (!$this->db->tableExists('account_terms')) {
 			return;

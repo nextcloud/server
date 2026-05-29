@@ -31,6 +31,7 @@ class OwncloudGuestShareType implements IRepairStep {
 	 * @return string
 	 * @since 9.1.0
 	 */
+	#[\Override]
 	public function getName() {
 		return 'Fix the share type of guest shares when migrating from ownCloud';
 	}
@@ -38,6 +39,7 @@ class OwncloudGuestShareType implements IRepairStep {
 	/**
 	 * @param IOutput $output
 	 */
+	#[\Override]
 	public function run(IOutput $output) {
 		if (!$this->shouldRun()) {
 			return;

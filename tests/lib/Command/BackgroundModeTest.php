@@ -22,6 +22,7 @@ class BackgroundModeTest extends TestCase {
 
 	private Mode $command;
 
+	#[\Override]
 	public function setUp(): void {
 		$this->appConfig = $this->createMock(IAppConfig::class);
 

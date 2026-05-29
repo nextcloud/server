@@ -24,6 +24,7 @@ class CleanupDirectLinksJob extends TimedJob {
 		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
+	#[\Override]
 	protected function run($argument) {
 		// Delete all shares expired 24 hours ago
 		$this->mapper->deleteExpired($this->time->getTime() - 60 * 60 * 24);

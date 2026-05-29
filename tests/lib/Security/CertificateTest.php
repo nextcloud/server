@@ -20,6 +20,7 @@ class CertificateTest extends \Test\TestCase {
 	/** @var Certificate That contains an expired certificate */
 	protected $expiredCertificate;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

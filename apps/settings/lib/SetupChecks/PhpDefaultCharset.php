@@ -18,14 +18,17 @@ class PhpDefaultCharset implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('PHP default charset');
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'php';
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		if (strtoupper(trim(ini_get('default_charset'))) === 'UTF-8') {
 			return SetupResult::success('UTF-8');

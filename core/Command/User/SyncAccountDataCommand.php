@@ -24,6 +24,7 @@ class SyncAccountDataCommand extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('user:sync-account-data')
@@ -43,6 +44,7 @@ class SyncAccountDataCommand extends Base {
 			);
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$users = $this->userManager->searchDisplayName('', (int)$input->getOption('limit'), (int)$input->getOption('offset'));
 

@@ -18,6 +18,7 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 	) {
 	}
 
+	#[\Override]
 	public function preSchemaChange(IOutput $output, \Closure $schemaClosure, array $options) {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
@@ -43,6 +44,7 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 	 * @return null|ISchemaWrapper
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	public function changeSchema(IOutput $output, \Closure $schemaClosure, array $options) {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
@@ -121,7 +123,6 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 			$table->addIndex(['storage_id'], 'mounts_storage_index');
 			$table->addIndex(['root_id'], 'mounts_root_index');
 			$table->addIndex(['mount_id'], 'mounts_mount_id_index');
-			$table->addIndex(['user_id', 'root_id', 'mount_point'], 'mounts_user_root_path_index', [], ['lengths' => [null, null, 128]]);
 		} else {
 			$table = $schema->getTable('mounts');
 			if (!$table->hasColumn('mount_id')) {
@@ -1001,6 +1002,7 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 		return $schema;
 	}
 
+	#[\Override]
 	public function postSchemaChange(IOutput $output, \Closure $schemaClosure, array $options) {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();

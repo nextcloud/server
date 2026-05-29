@@ -8,8 +8,11 @@
 namespace OCA\Files_External\Controller;
 
 use OCA\Files_External\NotFoundException;
+use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\GlobalStoragesService;
+use OCA\Files_External\Settings\Admin;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IConfig;
@@ -35,6 +38,7 @@ class GlobalStoragesController extends StoragesController {
 		IUserSession $userSession,
 		IGroupManager $groupManager,
 		IConfig $config,
+		BackendService $backendService,
 	) {
 		parent::__construct(
 			$appName,
@@ -44,7 +48,8 @@ class GlobalStoragesController extends StoragesController {
 			$logger,
 			$userSession,
 			$groupManager,
-			$config
+			$config,
+			$backendService,
 		);
 	}
 
@@ -60,6 +65,7 @@ class GlobalStoragesController extends StoragesController {
 	 * @param ?array $applicableGroups groups for which to mount the storage
 	 * @param ?int $priority priority
 	 */
+	#[AuthorizedAdminSetting(settings: Admin::class)]
 	#[PasswordConfirmationRequired(strict: true)]
 	public function create(
 		string $mountPoint,
@@ -71,16 +77,6 @@ class GlobalStoragesController extends StoragesController {
 		?array $applicableGroups,
 		?int $priority,
 	): DataResponse {
-		$canCreateNewLocalStorage = $this->config->getSystemValue('files_external_allow_create_new_local', true);
-		if (!$canCreateNewLocalStorage && $backend === 'local') {
-			return new DataResponse(
-				[
-					'message' => $this->l10n->t('Forbidden to manage local mounts')
-				],
-				Http::STATUS_FORBIDDEN
-			);
-		}
-
 		$newStorage = $this->createStorage(
 			$mountPoint,
 			$backend,
@@ -123,6 +119,7 @@ class GlobalStoragesController extends StoragesController {
 	 * @param ?array $applicableGroups groups for which to mount the storage
 	 * @param ?int $priority priority
 	 */
+	#[AuthorizedAdminSetting(settings: Admin::class)]
 	#[PasswordConfirmationRequired(strict: true)]
 	public function update(
 		int $id,
@@ -172,5 +169,26 @@ class GlobalStoragesController extends StoragesController {
 			$storage->jsonSerialize(true),
 			Http::STATUS_OK
 		);
+	}
+
+	// PHP attributes are not inherited, so these methods override the parent
+	// solely to attach #[AuthorizedAdminSetting] and expose them to delegated admins.
+	#[\Override]
+	#[AuthorizedAdminSetting(settings: Admin::class)]
+	public function index() {
+		return parent::index();
+	}
+
+	#[\Override]
+	#[AuthorizedAdminSetting(settings: Admin::class)]
+	public function show(int $id, $testOnly = true) {
+		return parent::show($id, $testOnly);
+	}
+
+	#[\Override]
+	#[AuthorizedAdminSetting(settings: Admin::class)]
+	#[PasswordConfirmationRequired(strict: true)]
+	public function destroy(int $id) {
+		return parent::destroy($id);
 	}
 }

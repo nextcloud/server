@@ -13,6 +13,7 @@ use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaDiff;
 
 class SQLiteMigrator extends Migrator {
+	#[\Override]
 	protected function getDiff(Schema $targetSchema, \Doctrine\DBAL\Connection $connection): SchemaDiff {
 		foreach ($targetSchema->getTables() as $table) {
 			foreach ($table->getColumns() as $column) {

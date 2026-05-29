@@ -19,6 +19,7 @@ use OCA\DAV\CalDAV\Reminder\NotificationProvider\EmailProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\PushProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProviderManager;
 use OCA\DAV\CalDAV\Reminder\Notifier as NotifierCalDAV;
+use OCA\DAV\CalDAV\TipBroker;
 use OCA\DAV\Capabilities;
 use OCA\DAV\CardDAV\ContactsManager;
 use OCA\DAV\CardDAV\Notification\Notifier as NotifierCardDAV;
@@ -108,6 +109,7 @@ use OCP\User\Events\UserIdAssignedEvent;
 use OCP\User\Events\UserIdUnassignedEvent;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use Sabre\VObject;
 use Throwable;
 use function is_null;
 
@@ -118,6 +120,7 @@ class Application extends App implements IBootstrap {
 		parent::__construct(self::APP_ID);
 	}
 
+	#[\Override]
 	public function register(IRegistrationContext $context): void {
 		$context->registerServiceAlias('CardDAVSyncService', SyncService::class);
 		$context->registerService(AppCalendarPlugin::class, function (ContainerInterface $c) {
@@ -235,7 +238,10 @@ class Application extends App implements IBootstrap {
 		$context->registerConfigLexicon(ConfigLexicon::class);
 	}
 
+	#[\Override]
 	public function boot(IBootContext $context): void {
+		VObject\Component\VCalendar::$propertyMap[TipBroker::INVITATION_FORWARDING_PROPERTY] = VObject\Property\Boolean::class;
+
 		// Load all dav apps
 		$context->getServerContainer()->get(IAppManager::class)->loadApps(['dav']);
 

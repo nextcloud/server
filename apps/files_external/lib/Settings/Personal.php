@@ -34,12 +34,14 @@ class Personal implements ISettings {
 	/**
 	 * @return TemplateResponse
 	 */
+	#[\Override]
 	public function getForm() {
 		$this->setInitialState();
 		$this->loadScriptsAndStyles();
 		return new TemplateResponse('files_external', 'settings', renderAs: '');
 	}
 
+	#[\Override]
 	public function getSection() {
 		if (!$this->backendService->isUserMountingAllowed()) {
 			return null;
@@ -55,6 +57,7 @@ class Personal implements ISettings {
 	 *
 	 * E.g.: 70
 	 */
+	#[\Override]
 	public function getPriority() {
 		return 40;
 	}

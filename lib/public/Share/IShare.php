@@ -546,6 +546,13 @@ interface IShare {
 	public function setTarget($target);
 
 	/**
+	 * Return the original target, if this share was moved
+	 *
+	 * @since 33.0.0
+	 */
+	public function getOriginalTarget(): ?string;
+
+	/**
 	 * Get the target path of this share relative to the recipients user folder.
 	 *
 	 * @return string

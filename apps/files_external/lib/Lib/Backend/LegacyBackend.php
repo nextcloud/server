@@ -74,6 +74,7 @@ class LegacyBackend extends Backend {
 	/**
 	 * @return MissingDependency[]
 	 */
+	#[\Override]
 	public function checkDependencies() {
 		if ($this->hasDependencies) {
 			return $this->doCheckDependencies();

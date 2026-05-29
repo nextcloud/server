@@ -18,6 +18,7 @@ use OC\AppFramework\Middleware\Security\Exceptions\NotConfirmedException;
 use OC\AppFramework\Middleware\Security\Exceptions\NotLoggedInException;
 use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 use OC\AppFramework\Middleware\Security\Exceptions\StrictCookieMissingException;
+use OC\Security\CSRF\CsrfTokenManager;
 use OC\Settings\AuthorizedGroupMapper;
 use OC\User\Session;
 use OCA\Talk\Controller\PageController as TalkPageController;
@@ -46,7 +47,7 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Security\Ip\IRemoteAddress;
-use OCP\Util;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 use ReflectionMethod;
 
@@ -105,6 +106,7 @@ class SecurityMiddleware extends Middleware {
 	 *
 	 * @suppress PhanUndeclaredClassConstant
 	 */
+	#[\Override]
 	public function beforeController($controller, $methodName) {
 		// this will set the current navigation entry of the app, use this only
 		// for normal HTML requests and not for AJAX requests
@@ -194,7 +196,7 @@ class SecurityMiddleware extends Middleware {
 			}
 		}
 		// CSRF check - also registers the CSRF token since the session may be closed later
-		Util::callRegister();
+		Server::get(CsrfTokenManager::class)->generateSessionToken();
 		if ($this->isInvalidCSRFRequired($reflectionMethod)) {
 			/*
 			 * Only allow the CSRF check to fail on OCS Requests. This kind of
@@ -250,6 +252,7 @@ class SecurityMiddleware extends Middleware {
 	 * @return Response a Response object or null in case that the exception could not be handled
 	 * @throws \Exception the passed in exception if it can't handle it
 	 */
+	#[\Override]
 	public function afterException($controller, $methodName, \Exception $exception): Response {
 		if ($exception instanceof SecurityException) {
 			if ($exception instanceof StrictCookieMissingException) {

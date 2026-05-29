@@ -34,6 +34,7 @@ class BeforeTemplateRenderedListener implements IEventListener {
 	) {
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		$this->initialState->provideLazyInitialState(
 			'data',

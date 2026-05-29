@@ -40,6 +40,7 @@ class MailPluginTest extends TestCase {
 	protected KnownUserService&MockObject $knownUserService;
 	protected IUserSession&MockObject $userSession;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

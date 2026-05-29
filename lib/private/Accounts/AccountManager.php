@@ -216,6 +216,7 @@ class AccountManager implements IAccountManager {
 		return $this->addMissingDefaultValues($userDataArray, $this->buildDefaultUserRecord($user));
 	}
 
+	#[\Override]
 	public function searchUsers(string $property, array $values): array {
 		// the value col is limited to 255 bytes. It is used for searches only.
 		$values = array_map(function (string $value) {
@@ -368,7 +369,7 @@ class AccountManager implements IAccountManager {
 	}
 
 	protected function updateVerificationStatus(IAccount $updatedAccount, array $oldData): void {
-		static $propertiesVerifiableByLookupServer = [
+		$propertiesVerifiableByLookupServer = [
 			self::PROPERTY_TWITTER,
 			self::PROPERTY_FEDIVERSE,
 			self::PROPERTY_WEBSITE,
@@ -655,6 +656,7 @@ class AccountManager implements IAccountManager {
 		return $account;
 	}
 
+	#[\Override]
 	public function getAccount(IUser $user): IAccount {
 		$cached = $this->internalCache->get($user->getUID());
 		if ($cached !== null) {
@@ -826,6 +828,7 @@ class AccountManager implements IAccountManager {
 		}
 	}
 
+	#[\Override]
 	public function updateAccount(IAccount $account): void {
 		$this->testValueLengths(iterator_to_array($account->getAllProperties()), true);
 		try {

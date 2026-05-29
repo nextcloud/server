@@ -75,6 +75,7 @@ class TestEntity extends Entity {
 class EntityTest extends \Test\TestCase {
 	private TestEntity $entity;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->entity = new TestEntity();

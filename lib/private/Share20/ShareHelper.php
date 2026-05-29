@@ -16,6 +16,9 @@ use OCP\Share\IManager;
 use OCP\Share\IShareHelper;
 use Override;
 
+/**
+ * @psalm-api - we cannot use final as this will break unit tests
+ */
 class ShareHelper implements IShareHelper {
 	public function __construct(
 		private readonly IManager $shareManager,

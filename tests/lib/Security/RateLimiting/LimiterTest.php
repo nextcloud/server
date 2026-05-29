@@ -24,6 +24,7 @@ class LimiterTest extends TestCase {
 	private ILimiter $limiter;
 	private LoggerInterface $logger;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

@@ -25,6 +25,7 @@ class CleanupJob extends TimedJob {
 		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
+	#[\Override]
 	protected function run($argument): void {
 		// Delete all entries more than 48 hours old
 		$time = $this->time->getTime() - (48 * 3600);

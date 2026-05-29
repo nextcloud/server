@@ -44,6 +44,7 @@ class FileSystemTags implements ICheck, IFileCheck {
 	 * @param string $value
 	 * @return bool
 	 */
+	#[\Override]
 	public function executeCheck($operator, $value) {
 		$systemTags = $this->getSystemTags();
 		return ($operator === 'is') === in_array($value, $systemTags);
@@ -54,6 +55,7 @@ class FileSystemTags implements ICheck, IFileCheck {
 	 * @param string $value
 	 * @throws \UnexpectedValueException
 	 */
+	#[\Override]
 	public function validateCheck($operator, $value) {
 		if (!in_array($operator, ['is', '!is'])) {
 			throw new \UnexpectedValueException($this->l->t('The given operator is invalid'), 1);
@@ -149,10 +151,12 @@ class FileSystemTags implements ICheck, IFileCheck {
 		return $dir === '.' ? '' : $dir;
 	}
 
+	#[\Override]
 	public function supportedEntities(): array {
 		return [ File::class ];
 	}
 
+	#[\Override]
 	public function isAvailableForScope(int $scope): bool {
 		return true;
 	}

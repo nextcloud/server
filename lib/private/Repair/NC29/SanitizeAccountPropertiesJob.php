@@ -35,6 +35,7 @@ class SanitizeAccountPropertiesJob extends QueuedJob {
 		$this->setAllowParallelRuns(false);
 	}
 
+	#[\Override]
 	protected function run(mixed $argument): void {
 		$numRemoved = 0;
 

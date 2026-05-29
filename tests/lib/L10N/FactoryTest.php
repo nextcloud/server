@@ -43,6 +43,7 @@ class FactoryTest extends TestCase {
 	/** @var IAppManager|MockObject */
 	protected IAppManager $appManager;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

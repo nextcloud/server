@@ -22,6 +22,7 @@ class ListCommand extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('taskprocessing:task:list')
@@ -71,6 +72,7 @@ class ListCommand extends Base {
 		parent::configure();
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$userIdFilter = $input->getOption('userIdFilter');
 		if ($userIdFilter === null) {

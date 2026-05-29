@@ -20,7 +20,7 @@
     "Note:" : "Notera:",
     "This share is valid until %s at midnight" : "Denna delning gäller t.o.m %s vid midnatt",
     "Expiration:" : "Upphör:",
-    "Open %s" : "Öppna %s",
+    "Open shared item" : "Öppna delat objekt",
     "%1$s via %2$s" : "%1$s via %2$s",
     "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "%1$s delade %2$s med dig. Du bör redan ha fått ett separat e-postmeddelande med en länk för åtkomst.",
     "Password to access %1$s shared to you by %2$s" : "Lösenord för åtkomst till %1$s delad med dig av %2$s",

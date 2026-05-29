@@ -24,6 +24,7 @@ class SecurityProvider implements IProvider {
 	) {
 	}
 
+	#[\Override]
 	public function parse($language, IEvent $event, ?IEvent $previousEvent = null) {
 		if ($event->getType() !== 'security') {
 			throw new UnknownActivityException();

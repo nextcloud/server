@@ -52,6 +52,7 @@ class Provider implements IProvider {
 	 * @throws UnknownActivityException
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function parse($language, IEvent $event, ?IEvent $previousEvent = null) {
 		if ($event->getApp() !== 'files') {
 			throw new UnknownActivityException();

@@ -76,7 +76,6 @@ import NcBreadcrumbs from '@nextcloud/vue/components/NcBreadcrumbs'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useViews } from '../composables/useViews.ts'
-import logger from '../logger.ts'
 import { dataTransferToFileTree, onDropExternalFiles, onDropInternalFiles } from '../services/DropService.ts'
 import { useActiveStore } from '../store/active.ts'
 import { useDragAndDropStore } from '../store/dragging.ts'
@@ -84,6 +83,7 @@ import { useFilesStore } from '../store/files.ts'
 import { usePathsStore } from '../store/paths.ts'
 import { useSelectionStore } from '../store/selection.ts'
 import { useUploaderStore } from '../store/uploader.ts'
+import { logger } from '../utils/logger.ts'
 
 export default defineComponent({
 	name: 'BreadCrumbs',

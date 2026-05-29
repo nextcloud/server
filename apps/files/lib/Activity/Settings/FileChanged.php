@@ -13,6 +13,7 @@ class FileChanged extends FileActivitySettings {
 	 * @return string Lowercase a-z and underscore only identifier
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function getIdentifier() {
 		return 'file_changed';
 	}
@@ -21,6 +22,7 @@ class FileChanged extends FileActivitySettings {
 	 * @return string A translated string
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function getName() {
 		return $this->l->t('A file or folder has been <strong>changed</strong>');
 	}
@@ -31,22 +33,27 @@ class FileChanged extends FileActivitySettings {
 	 *             priority values. It is required to return a value between 0 and 100.
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function getPriority() {
 		return 2;
 	}
 
+	#[\Override]
 	public function canChangeMail() {
 		return true;
 	}
 
+	#[\Override]
 	public function isDefaultEnabledMail() {
 		return false;
 	}
 
+	#[\Override]
 	public function canChangeNotification() {
 		return true;
 	}
 
+	#[\Override]
 	public function isDefaultEnabledNotification() {
 		return false;
 	}

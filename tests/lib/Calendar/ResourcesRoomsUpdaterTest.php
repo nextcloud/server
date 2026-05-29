@@ -39,6 +39,7 @@ class ResourcesRoomsUpdaterTest extends TestCase {
 	/** @var CalDavBackend|MockObject */
 	private $calDavBackend;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -60,12 +61,14 @@ class ResourcesRoomsUpdaterTest extends TestCase {
 		);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$query = self::$realDatabase->getQueryBuilder();
 		$query->delete('calendar_resources')->executeStatement();
 		$query->delete('calendar_resources_md')->executeStatement();
 		$query->delete('calendar_rooms')->executeStatement();
 		$query->delete('calendar_rooms_md')->executeStatement();
+		parent::tearDown();
 	}
 
 	/**

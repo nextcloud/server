@@ -66,6 +66,21 @@ interface IOCMDiscoveryService {
 	public function getIncomingSignedRequest(): ?IIncomingSignedRequest;
 
 	/**
+	 * Confirm that the host portion of $ocmAddress matches $signedOrigin
+	 * under the current local signing policy.
+	 *
+	 * @param string|null $signedOrigin verified origin of the signed request,
+	 *                                  typically taken from {@see IIncomingSignedRequest::getOrigin()} or
+	 *                                  from {@see \OCP\OCM\Events\OCMEndpointRequestEvent::getRemote()}.
+	 *                                  NULL if the request was not signed.
+	 * @param string $ocmAddress in `user@host` or `user@https://host` form
+	 *
+	 * @throws IncomingRequestException on mismatch or malformed address
+	 * @since 34.0.0
+	 */
+	public function confirmRequestOrigin(?string $signedOrigin, string $ocmAddress): void;
+
+	/**
 	 * Request a remote OCM endpoint.
 	 *
 	 * Capability can be filtered out

@@ -31,6 +31,7 @@ class RefreshWebcalJobRegistrar implements IRepairStep {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getName() {
 		return 'Registering background jobs to update cache for webcal calendars';
 	}
@@ -38,6 +39,7 @@ class RefreshWebcalJobRegistrar implements IRepairStep {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function run(IOutput $output): void {
 		$query = $this->connection->getQueryBuilder();
 		$query->select(['principaluri', 'uri'])

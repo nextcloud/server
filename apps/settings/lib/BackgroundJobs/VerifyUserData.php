@@ -44,6 +44,7 @@ class VerifyUserData extends Job {
 		$this->lookupServerUrl = rtrim($lookupServerUrl, '/');
 	}
 
+	#[\Override]
 	public function start(IJobList $jobList): void {
 		if ($this->shouldRun($this->argument)) {
 			parent::start($jobList);
@@ -56,6 +57,7 @@ class VerifyUserData extends Job {
 		}
 	}
 
+	#[\Override]
 	protected function run($argument) {
 		$try = (int)$argument['try'] + 1;
 

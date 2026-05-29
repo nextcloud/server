@@ -34,6 +34,7 @@ class TooManyRequestsResponse extends Response {
 	 * @return string
 	 * @since 19.0.0
 	 */
+	#[\Override]
 	public function render() {
 		$template = Server::get(ITemplateManager::class)->getTemplate('core', '429', TemplateResponse::RENDER_AS_BLANK);
 		return $template->fetchPage();

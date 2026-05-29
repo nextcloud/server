@@ -41,6 +41,7 @@ class Manager implements IManager {
 	 *
 	 * @return bool true if enabled, false if not
 	 */
+	#[\Override]
 	public function isEnabled() {
 		$installed = $this->config->getSystemValueBool('installed', false);
 		if (!$installed) {
@@ -92,6 +93,7 @@ class Manager implements IManager {
 	 * @param callable $callback
 	 * @throws Exceptions\ModuleAlreadyExistsException
 	 */
+	#[\Override]
 	public function registerEncryptionModule($id, $displayName, callable $callback) {
 		if (isset($this->encryptionModules[$id])) {
 			throw new ModuleAlreadyExistsException($id, $displayName);
@@ -115,6 +117,7 @@ class Manager implements IManager {
 	 *
 	 * @param string $moduleId
 	 */
+	#[\Override]
 	public function unregisterEncryptionModule($moduleId) {
 		unset($this->encryptionModules[$moduleId]);
 	}
@@ -124,6 +127,7 @@ class Manager implements IManager {
 	 *
 	 * @return array [id => ['id' => $id, 'displayName' => $displayName, 'callback' => callback]]
 	 */
+	#[\Override]
 	public function getEncryptionModules() {
 		return $this->encryptionModules;
 	}
@@ -135,6 +139,7 @@ class Manager implements IManager {
 	 * @return IEncryptionModule
 	 * @throws Exceptions\ModuleDoesNotExistsException
 	 */
+	#[\Override]
 	public function getEncryptionModule($moduleId = '') {
 		if (empty($moduleId)) {
 			return $this->getDefaultEncryptionModule();
@@ -172,6 +177,7 @@ class Manager implements IManager {
 	 * @param string $moduleId
 	 * @return bool
 	 */
+	#[\Override]
 	public function setDefaultEncryptionModule($moduleId) {
 		try {
 			$this->getEncryptionModule($moduleId);
@@ -188,6 +194,7 @@ class Manager implements IManager {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function getDefaultEncryptionModuleId() {
 		return $this->config->getAppValue('core', 'default_encryption_module');
 	}

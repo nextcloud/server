@@ -14,6 +14,7 @@ class MSOfficeDoc extends Office {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getMimeType(): string {
 		return '/application\/msword/';
 	}

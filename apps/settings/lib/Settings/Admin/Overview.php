@@ -30,6 +30,7 @@ class Overview implements IDelegatedSettings {
 	/**
 	 * @return TemplateResponse
 	 */
+	#[\Override]
 	public function getForm() {
 		Util::addScript('settings', 'vue-settings-admin-overview');
 		$this->initialState->provideInitialState('setup-checks-section', [
@@ -49,6 +50,7 @@ class Overview implements IDelegatedSettings {
 	/**
 	 * @return string the section ID, e.g. 'sharing'
 	 */
+	#[\Override]
 	public function getSection() {
 		return 'overview';
 	}
@@ -60,14 +62,17 @@ class Overview implements IDelegatedSettings {
 	 *
 	 * E.g.: 70
 	 */
+	#[\Override]
 	public function getPriority() {
 		return 10;
 	}
 
+	#[\Override]
 	public function getName(): ?string {
 		return $this->l->t('Security & setup checks');
 	}
 
+	#[\Override]
 	public function getAuthorizedAppConfig(): array {
 		return [];
 	}

@@ -23,6 +23,7 @@ class NotModifiedMiddlewareTest extends \Test\TestCase {
 	/** @var NotModifiedMiddleware */
 	private $middleWare;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

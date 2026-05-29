@@ -12,6 +12,7 @@ class GroupwareBundle extends Bundle {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getName() {
 		return $this->l10n->t('Groupware bundle');
 	}
@@ -19,6 +20,7 @@ class GroupwareBundle extends Bundle {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getAppIdentifiers() {
 		return [
 			'calendar',

@@ -27,10 +27,12 @@ class VersionFile implements IFile {
 	) {
 	}
 
+	#[\Override]
 	public function put($data) {
 		throw new Forbidden();
 	}
 
+	#[\Override]
 	public function get() {
 		try {
 			return $this->versionManager->read($this->version);
@@ -39,10 +41,12 @@ class VersionFile implements IFile {
 		}
 	}
 
+	#[\Override]
 	public function getContentType(): string {
 		return $this->version->getMimeType();
 	}
 
+	#[\Override]
 	public function getETag(): string {
 		return (string)$this->version->getRevisionId();
 	}
@@ -51,10 +55,12 @@ class VersionFile implements IFile {
 	 * @psalm-suppress ImplementedReturnTypeMismatch \Sabre\DAV\IFile::getSize signature does not support 32bit
 	 * @return int|float
 	 */
+	#[\Override]
 	public function getSize(): int|float {
 		return $this->version->getSize();
 	}
 
+	#[\Override]
 	public function delete() {
 		if ($this->versionManager instanceof IDeletableVersionBackend) {
 			$this->versionManager->deleteVersion($this->version);
@@ -63,10 +69,12 @@ class VersionFile implements IFile {
 		}
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return (string)$this->version->getRevisionId();
 	}
 
+	#[\Override]
 	public function setName($name) {
 		throw new Forbidden();
 	}
@@ -94,6 +102,7 @@ class VersionFile implements IFile {
 		return null;
 	}
 
+	#[\Override]
 	public function getLastModified(): int {
 		return $this->version->getTimestamp();
 	}

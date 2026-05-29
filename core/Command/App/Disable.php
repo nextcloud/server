@@ -23,6 +23,7 @@ class Disable extends Command implements CompletionAwareInterface {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('app:disable')
@@ -34,6 +35,7 @@ class Disable extends Command implements CompletionAwareInterface {
 			);
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$appIds = $input->getArgument('app-id');
 
@@ -65,6 +67,7 @@ class Disable extends Command implements CompletionAwareInterface {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
+	#[\Override]
 	public function completeOptionValues($optionName, CompletionContext $context): array {
 		return [];
 	}
@@ -74,9 +77,12 @@ class Disable extends Command implements CompletionAwareInterface {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
+	#[\Override]
 	public function completeArgumentValues($argumentName, CompletionContext $context): array {
 		if ($argumentName === 'app-id') {
-			return array_diff(\OC_App::getEnabledApps(true, true), $this->appManager->getAlwaysEnabledApps());
+			$enabledApps = $this->appManager->getEnabledApps();
+			$coreApps = $this->appManager->getAlwaysEnabledApps();
+			return array_diff($enabledApps, $coreApps);
 		}
 		return [];
 	}

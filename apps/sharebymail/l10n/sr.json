@@ -20,7 +20,6 @@
     "Note:" : "Белешка:",
     "This share is valid until %s at midnight" : "Ово дељење важи до %s у поноћ",
     "Expiration:" : "Истек:",
-    "Open %s" : "Отвори %s",
     "%1$s via %2$s" : "%1$s преко %2$s",
     "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "%1$s је поделио „%2$s” са вама. Требало би да сте већ добили посебан мејл са везом за приступ.",
     "Password to access %1$s shared to you by %2$s" : "%2$s је са вама поделио приступ лозинком за %1$s",

@@ -40,7 +40,7 @@ OC.L10N.register(
     "<strong>System tags</strong> for a file have been modified" : "<strong>System-Schlagwort</strong> für eine Datei wurde geändert",
     "Files" : "Dateien",
     "Tags" : "Schlagworte",
-    "All tagged %s …" : "Alle Schlagwort %s hinzugefügt …",
+    "All tagged %s …" : "Alle Schlagworte %s hinzugefügt …",
     "tagged %s" : "Schlagwort %s hinzugefügt",
     "Collaborative tags" : "Kollaborative Schlagworte",
     "Collaborative tagging functionality which shares tags among people." : "Gemeinschaftliche Schlagwort-Funktionalität, welche Schlagworte unter den Benutzern teilt.",

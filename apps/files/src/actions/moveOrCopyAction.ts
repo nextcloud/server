@@ -10,17 +10,16 @@ import type { MoveCopyResult } from './moveOrCopyActionUtils.ts'
 
 import FolderMoveSvg from '@mdi/svg/svg/folder-move-outline.svg?raw'
 import CopyIconSvg from '@mdi/svg/svg/folder-multiple-outline.svg?raw'
-import { isAxiosError } from '@nextcloud/axios'
 import { FilePickerClosed, getFilePickerBuilder, openConflictPicker, showError, showLoading } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { FileType, getUniqueName, NodeStatus, Permission } from '@nextcloud/files'
 import { defaultRootPath, getClient, getDefaultPropfind, resultToNode } from '@nextcloud/files/dav'
-import { t } from '@nextcloud/l10n'
+import { n, t } from '@nextcloud/l10n'
+import { basename, join } from '@nextcloud/paths'
 import { getConflicts } from '@nextcloud/upload'
-import { basename, join } from 'path'
 import Vue from 'vue'
-import logger from '../logger.ts'
 import { getContents } from '../services/Files.ts'
+import { logger } from '../utils/logger.ts'
 import { canCopy, canMove, getQueue, MoveCopyAction } from './moveOrCopyActionUtils.ts'
 
 /**
@@ -157,7 +156,11 @@ export async function* handleCopyMoveNodesTo(nodes: INode[], destination: IFolde
 		}
 	}
 
-	const actionFinished = createLoadingNotification(method, nodes.map((node) => node.basename), destination.path)
+	const actionFinished = createLoadingNotification(
+		method,
+		nodes.map((node) => node.displayname),
+		join(destination.dirname, destination.displayname),
+	)
 	const queue = getQueue()
 	try {
 		for (const node of nodes) {
@@ -191,21 +194,19 @@ export async function* handleCopyMoveNodesTo(nodes: INode[], destination: IFolde
 					}
 				} catch (error) {
 					logger.debug(`Error while trying to ${method === MoveCopyAction.COPY ? 'copy' : 'move'} node`, { node, error })
-					if (isAxiosError(error)) {
-						if (error.response?.status === 412) {
-							throw new HintException(t('files', 'A file or folder with that name already exists in this folder'))
-						} else if (error.response?.status === 423) {
-							throw new HintException(t('files', 'The files are locked'))
-						} else if (error.response?.status === 404) {
-							throw new HintException(t('files', 'The file does not exist anymore'))
-						} else if ('response' in error && error.response) {
-							const parser = new DOMParser()
-							const text = await (error as WebDAVClientError).response!.text()
-							const message = parser.parseFromString(text ?? '', 'text/xml')
-								.querySelector('message')?.textContent
-							if (message) {
-								throw new HintException(message)
-							}
+					if (error.response?.status === 412) {
+						throw new HintException(t('files', 'A file or folder with that name already exists in this folder'))
+					} else if (error.response?.status === 423) {
+						throw new HintException(t('files', 'The files are locked'))
+					} else if (error.response?.status === 404) {
+						throw new HintException(t('files', 'The file does not exist anymore'))
+					} else if ('response' in error && error.response) {
+						const parser = new DOMParser()
+						const text = await (error as WebDAVClientError).response!.text()
+						const message = parser.parseFromString(text ?? '', 'text/xml')
+							.querySelector('message')?.textContent
+						if (message) {
+							throw new HintException(message)
 						}
 					}
 					throw error
@@ -249,11 +250,11 @@ function createLoadingNotification(mode: MoveCopyAction, sources: string[], dest
 	const text = mode === MoveCopyAction.MOVE
 		? (sources.length === 1
 				? t('files', 'Moving "{source}" to "{destination}" …', { source: sources[0]!, destination })
-				: t('files', 'Moving {count} files to "{destination}" …', { count: sources.length, destination })
+				: n('files', 'Moving %n file to "{destination}" …', 'Moving %n files to "{destination}" …', sources.length, { destination })
 			)
 		: (sources.length === 1
 				? t('files', 'Copying "{source}" to "{destination}" …', { source: sources[0]!, destination })
-				: t('files', 'Copying {count} files to "{destination}" …', { count: sources.length, destination })
+				: n('files', 'Copying %n file to "{destination}" …', 'Copying %n files to "{destination}" …', sources.length, { destination })
 			)
 
 	const toast = showLoading(text)
@@ -327,7 +328,7 @@ async function openFilePickerForAction(
 
 			if (action === MoveCopyAction.MOVE || action === MoveCopyAction.MOVE_OR_COPY) {
 				buttons.push({
-					label: target ? t('files', 'Move to {target}', { target }, undefined, { escape: false, sanitize: false }) : t('files', 'Move'),
+					label: target ? t('files', 'Move to {target}', { target }, { escape: false, sanitize: false }) : t('files', 'Move'),
 					variant: action === MoveCopyAction.MOVE ? 'primary' : 'secondary',
 					icon: FolderMoveSvg,
 					async callback(destination) {

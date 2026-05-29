@@ -88,62 +88,77 @@ class Availability extends Wrapper {
 		}
 	}
 
+	#[\Override]
 	public function mkdir(string $path): bool {
 		return $this->handleAvailability('mkdir', $path);
 	}
 
+	#[\Override]
 	public function rmdir(string $path): bool {
 		return $this->handleAvailability('rmdir', $path);
 	}
 
+	#[\Override]
 	public function opendir(string $path) {
 		return $this->handleAvailability('opendir', $path);
 	}
 
+	#[\Override]
 	public function is_dir(string $path): bool {
 		return $this->handleAvailability('is_dir', $path);
 	}
 
+	#[\Override]
 	public function is_file(string $path): bool {
 		return $this->handleAvailability('is_file', $path);
 	}
 
+	#[\Override]
 	public function stat(string $path): array|false {
 		return $this->handleAvailability('stat', $path);
 	}
 
+	#[\Override]
 	public function filetype(string $path): string|false {
 		return $this->handleAvailability('filetype', $path);
 	}
 
+	#[\Override]
 	public function filesize(string $path): int|float|false {
 		return $this->handleAvailability('filesize', $path);
 	}
 
+	#[\Override]
 	public function isCreatable(string $path): bool {
 		return $this->handleAvailability('isCreatable', $path);
 	}
 
+	#[\Override]
 	public function isReadable(string $path): bool {
 		return $this->handleAvailability('isReadable', $path);
 	}
 
+	#[\Override]
 	public function isUpdatable(string $path): bool {
 		return $this->handleAvailability('isUpdatable', $path);
 	}
 
+	#[\Override]
 	public function isDeletable(string $path): bool {
 		return $this->handleAvailability('isDeletable', $path);
 	}
 
+	#[\Override]
 	public function isSharable(string $path): bool {
 		return $this->handleAvailability('isSharable', $path);
 	}
 
+	#[\Override]
 	public function getPermissions(string $path): int {
 		return $this->handleAvailability('getPermissions', $path);
 	}
 
+	#[\Override]
 	public function file_exists(string $path): bool {
 		if ($path === '') {
 			return true;
@@ -151,54 +166,67 @@ class Availability extends Wrapper {
 		return $this->handleAvailability('file_exists', $path);
 	}
 
+	#[\Override]
 	public function filemtime(string $path): int|false {
 		return $this->handleAvailability('filemtime', $path);
 	}
 
+	#[\Override]
 	public function file_get_contents(string $path): string|false {
 		return $this->handleAvailability('file_get_contents', $path);
 	}
 
+	#[\Override]
 	public function file_put_contents(string $path, mixed $data): int|float|false {
 		return $this->handleAvailability('file_put_contents', $path, $data);
 	}
 
+	#[\Override]
 	public function unlink(string $path): bool {
 		return $this->handleAvailability('unlink', $path);
 	}
 
+	#[\Override]
 	public function rename(string $source, string $target): bool {
 		return $this->handleAvailability('rename', $source, $target);
 	}
 
+	#[\Override]
 	public function copy(string $source, string $target): bool {
 		return $this->handleAvailability('copy', $source, $target);
 	}
 
+	#[\Override]
 	public function fopen(string $path, string $mode) {
 		return $this->handleAvailability('fopen', $path, $mode);
 	}
 
+	#[\Override]
 	public function getMimeType(string $path): string|false {
 		return $this->handleAvailability('getMimeType', $path);
 	}
 
+	#[\Override]
 	public function hash(string $type, string $path, bool $raw = false): string|false {
 		return $this->handleAvailability('hash', $type, $path, $raw);
 	}
 
+	#[\Override]
 	public function free_space(string $path): int|float|false {
 		return $this->handleAvailability('free_space', $path);
 	}
 
+	#[\Override]
 	public function touch(string $path, ?int $mtime = null): bool {
 		return $this->handleAvailability('touch', $path, $mtime);
 	}
 
+	#[\Override]
 	public function getLocalFile(string $path): string|false {
 		return $this->handleAvailability('getLocalFile', $path);
 	}
 
+	#[\Override]
 	public function hasUpdated(string $path, int $time): bool {
 		if (!$this->isAvailable()) {
 			return false;
@@ -212,6 +240,7 @@ class Availability extends Wrapper {
 		}
 	}
 
+	#[\Override]
 	public function getOwner(string $path): string|false {
 		try {
 			return parent::getOwner($path);
@@ -221,26 +250,32 @@ class Availability extends Wrapper {
 		}
 	}
 
+	#[\Override]
 	public function getETag(string $path): string|false {
 		return $this->handleAvailability('getETag', $path);
 	}
 
+	#[\Override]
 	public function getDirectDownload(string $path): array|false {
 		return $this->handleAvailability('getDirectDownload', $path);
 	}
 
+	#[\Override]
 	public function getDirectDownloadById(string $fileId): array|false {
 		return $this->handleAvailability('getDirectDownloadById', $fileId);
 	}
 
+	#[\Override]
 	public function copyFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): bool {
 		return $this->handleAvailability('copyFromStorage', $sourceStorage, $sourceInternalPath, $targetInternalPath);
 	}
 
+	#[\Override]
 	public function moveFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): bool {
 		return $this->handleAvailability('moveFromStorage', $sourceStorage, $sourceInternalPath, $targetInternalPath);
 	}
 
+	#[\Override]
 	public function getMetaData(string $path): ?array {
 		$this->checkAvailability();
 		try {
@@ -275,6 +310,7 @@ class Availability extends Wrapper {
 
 
 
+	#[\Override]
 	public function getDirectoryContent(string $directory): \Traversable {
 		$this->checkAvailability();
 		try {

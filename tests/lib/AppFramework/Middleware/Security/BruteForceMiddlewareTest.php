@@ -28,6 +28,7 @@ class BruteForceMiddlewareTest extends TestCase {
 	private $logger;
 	private BruteForceMiddleware $bruteForceMiddleware;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

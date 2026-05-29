@@ -14,6 +14,7 @@ class Capabilities implements ICapability {
 	/**
 	 * @return array{files: array{comments: bool}}
 	 */
+	#[\Override]
 	public function getCapabilities(): array {
 		return [
 			'files' => [

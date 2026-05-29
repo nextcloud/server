@@ -23,6 +23,7 @@ class EnabledCommand extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('taskprocessing:task-type:set-enabled')
@@ -40,6 +41,7 @@ class EnabledCommand extends Base {
 		parent::configure();
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$enabled = (bool)$input->getArgument('enabled');
 		$taskType = $input->getArgument('task-type-id');

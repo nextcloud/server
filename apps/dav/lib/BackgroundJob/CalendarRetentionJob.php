@@ -24,6 +24,7 @@ class CalendarRetentionJob extends TimedJob {
 		$this->setTimeSensitivity(self::TIME_SENSITIVE);
 	}
 
+	#[\Override]
 	protected function run($argument): void {
 		$this->service->cleanUp();
 	}

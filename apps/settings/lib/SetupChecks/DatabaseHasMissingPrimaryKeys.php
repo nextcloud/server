@@ -25,10 +25,12 @@ class DatabaseHasMissingPrimaryKeys implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'database';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Database missing primary keys');
 	}
@@ -55,6 +57,7 @@ class DatabaseHasMissingPrimaryKeys implements ISetupCheck {
 		return $primaryKeyInfo->getListOfMissingPrimaryKeys();
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		$missingPrimaryKeys = $this->getMissingPrimaryKeys();
 		if (empty($missingPrimaryKeys)) {

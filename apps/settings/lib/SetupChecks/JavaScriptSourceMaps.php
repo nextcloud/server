@@ -32,14 +32,17 @@ class JavaScriptSourceMaps implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'network';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('JavaScript source map support');
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		$testFile = $this->urlGenerator->linkTo('settings', 'js/map-test.js.map');
 

@@ -242,6 +242,7 @@ OC.L10N.register(
     "Failed to unlink: %1$s" : "リンクの解除に失敗: %1$s",
     "Failed to write file contents: %1$s" : "ファイルの内容の書き込みに失敗: %1$s",
     "File not found: %1$s" : "ファイルが見つかりません: %1$s",
+    "Insufficient space" : "空きが不足しています。",
     "Invalid target path" : "無効なターゲットパス",
     "System is in maintenance mode." : "システムはメンテナンスモードです。",
     "Upgrade needed" : "アップグレードが必要です",

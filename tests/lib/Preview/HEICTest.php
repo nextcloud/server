@@ -17,6 +17,7 @@ use OC\Preview\HEIC;
  */
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class HEICTest extends Provider {
+	#[\Override]
 	protected function setUp(): void {
 		if (!in_array('HEIC', \Imagick::queryFormats('HEI*'))) {
 			$this->markTestSkipped('ImageMagick is not HEIC aware. Skipping tests');

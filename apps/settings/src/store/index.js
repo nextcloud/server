@@ -6,7 +6,6 @@
 import { showError } from '@nextcloud/dialogs'
 import { Store } from 'vuex'
 import logger from '../logger.js'
-import apps from './apps.js'
 import oc from './oc.js'
 import settings from './users-settings.js'
 import users from './users.js'
@@ -33,7 +32,6 @@ export function useStore() {
 		store = new Store({
 			modules: {
 				users,
-				apps,
 				settings,
 				oc,
 			},

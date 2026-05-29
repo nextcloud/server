@@ -26,14 +26,17 @@ class AdminSettings implements ISettings {
 	) {
 	}
 
+	#[\Override]
 	public function getSection(): string {
 		return 'server';
 	}
 
+	#[\Override]
 	public function getPriority(): int {
 		return 10;
 	}
 
+	#[\Override]
 	public function getForm(): TemplateResponse {
 		$windowSupport = $this->service->hasFilesWindowsSupport();
 		$this->initialState->provideInitialState('filesCompatibilitySettings', [

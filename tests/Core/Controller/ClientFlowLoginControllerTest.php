@@ -58,6 +58,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 
 	private ClientFlowLoginController $clientFlowLoginController;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

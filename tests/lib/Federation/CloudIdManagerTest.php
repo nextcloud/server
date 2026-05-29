@@ -33,6 +33,7 @@ class CloudIdManagerTest extends TestCase {
 	private $cacheFactory;
 
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

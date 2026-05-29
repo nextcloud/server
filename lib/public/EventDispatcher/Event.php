@@ -62,6 +62,7 @@ class Event implements StoppableEventInterface {
 	 * @since 22.0.0
 	 * @see \Psr\EventDispatcher\StoppableEventInterface
 	 */
+	#[\Override]
 	public function isPropagationStopped(): bool {
 		return $this->propagationStopped;
 	}

@@ -42,6 +42,7 @@ class ShapeEnumValue implements \JsonSerializable {
 	 * @return array{name: string, value: string}
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'name' => $this->getName(),

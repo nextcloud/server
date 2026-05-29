@@ -9,6 +9,7 @@
 namespace Test\Files;
 
 use OC\Files\Filesystem;
+use OC\Files\SetupManager;
 use OC\Files\Utils\Scanner;
 use OCA\Files_Sharing\AppInfo\Application;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -36,6 +37,7 @@ class EtagTest extends \Test\TestCase {
 	 */
 	private $userBackend;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -52,6 +54,7 @@ class EtagTest extends \Test\TestCase {
 		Server::get(IUserManager::class)->registerBackend($this->userBackend);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		Server::get(IConfig::class)->setSystemValue('datadirectory', $this->datadir);
 
@@ -73,7 +76,13 @@ class EtagTest extends \Test\TestCase {
 		$files = ['/foo.txt', '/folder/bar.txt', '/folder/subfolder', '/folder/subfolder/qwerty.txt'];
 		$originalEtags = $this->getEtags($files);
 
-		$scanner = new Scanner($user1, Server::get(IDBConnection::class), Server::get(IEventDispatcher::class), Server::get(LoggerInterface::class));
+		$scanner = new Scanner(
+			Server::get(IUserManager::class)->get($user1),
+			Server::get(IDBConnection::class),
+			Server::get(IEventDispatcher::class),
+			Server::get(LoggerInterface::class),
+			Server::get(SetupManager::class),
+		);
 		$scanner->backgroundScan('/');
 
 		$newEtags = $this->getEtags($files);

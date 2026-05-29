@@ -26,6 +26,7 @@ class Search extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('ldap:search')
@@ -78,6 +79,7 @@ class Search extends Command {
 		}
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$offset = (int)$input->getOption('offset');
 		$limit = (int)$input->getOption('limit');

@@ -11,13 +11,14 @@ namespace OCA\Files_External\Lib;
 
 use OC\Files\Storage\Wrapper\PermissionsMask;
 use OCP\Constants;
+use OCP\Files\Storage\IStorage;
 
 /**
  * Wrap Storage in PermissionsMask for session ephemeral use
  */
 class SessionStorageWrapper extends PermissionsMask {
 	/**
-	 * @param array $parameters ['storage' => $storage]
+	 * @param array{storage: IStorage, ...} $parameters
 	 */
 	public function __construct(array $parameters) {
 		// disable sharing permission

@@ -23,6 +23,7 @@ class WipeControllerTest extends TestCase {
 	/** @var WipeController */
 	private $controller;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

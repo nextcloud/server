@@ -24,6 +24,7 @@ class Version1130Date20220110154717 extends GroupMappingMigration {
 	 * @param array $options
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	public function preSchemaChange(IOutput $output, \Closure $schemaClosure, array $options) {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
@@ -44,6 +45,7 @@ class Version1130Date20220110154717 extends GroupMappingMigration {
 	 * @param array $options
 	 * @return null|ISchemaWrapper
 	 */
+	#[\Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();

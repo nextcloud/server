@@ -32,6 +32,7 @@ class PropFindMonitorPlugin extends ServerPlugin {
 
 	private SabreServer $server;
 
+	#[\Override]
 	public function initialize(SabreServer $server): void {
 		$this->server = $server;
 		$this->server->on('afterResponse', [$this, 'afterResponse']);

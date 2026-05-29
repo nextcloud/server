@@ -23,6 +23,7 @@ class V1Response extends BaseResponse {
 	 *
 	 * @return Http::STATUS_*
 	 */
+	#[\Override]
 	public function getStatus() {
 		$status = parent::getStatus();
 		if ($status === OCSController::RESPOND_UNAUTHORISED) {
@@ -37,6 +38,7 @@ class V1Response extends BaseResponse {
 	 *
 	 * @return int
 	 */
+	#[\Override]
 	public function getOCSStatus() {
 		$status = parent::getOCSStatus();
 
@@ -53,6 +55,7 @@ class V1Response extends BaseResponse {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function render() {
 		$meta = [
 			'status' => $this->getOCSStatus() === 100 ? 'ok' : 'failure',

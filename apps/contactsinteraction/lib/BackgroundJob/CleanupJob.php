@@ -25,6 +25,7 @@ class CleanupJob extends TimedJob {
 
 	}
 
+	#[\Override]
 	protected function run(mixed $argument): void {
 		$time = $this->time->getDateTime();
 		$time->modify('-7days');

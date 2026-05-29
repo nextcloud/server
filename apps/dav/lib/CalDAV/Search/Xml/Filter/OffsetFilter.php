@@ -20,6 +20,7 @@ class OffsetFilter implements XmlDeserializable {
 	 * @throws BadRequest
 	 * @return int
 	 */
+	#[\Override]
 	public static function xmlDeserialize(Reader $reader) {
 		$value = $reader->parseInnerTree();
 		if (!is_int($value) && !is_string($value)) {

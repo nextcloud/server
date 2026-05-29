@@ -21,6 +21,7 @@ class ClearPhotoCacheListener implements IEventListener {
 	) {
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof CardUpdatedEvent || $event instanceof CardDeletedEvent) {
 			$cardData = $event->getCardData();

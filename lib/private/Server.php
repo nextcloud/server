@@ -12,7 +12,6 @@ use OC\Accounts\AccountManager;
 use OC\Activity\EventMerger;
 use OC\App\AppManager;
 use OC\App\AppStore\Bundles\BundleFetcher;
-use OC\AppFramework\Bootstrap\Coordinator;
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Http\RequestId;
 use OC\AppFramework\Services\AppConfig;
@@ -26,6 +25,7 @@ use OC\Authentication\Token\IProvider;
 use OC\Authentication\TwoFactorAuth\Registry;
 use OC\Avatar\AvatarManager;
 use OC\BackgroundJob\JobList;
+use OC\BackgroundJob\JobRuns;
 use OC\Blurhash\Listener\GenerateBlurhashMetadata;
 use OC\Collaboration\Collaborators\GroupPlugin;
 use OC\Collaboration\Collaborators\MailByMailPlugin;
@@ -60,7 +60,6 @@ use OC\Files\Config\UserMountCache;
 use OC\Files\Config\UserMountCacheListener;
 use OC\Files\Conversion\ConversionManager;
 use OC\Files\FilenameValidator;
-use OC\Files\Filesystem;
 use OC\Files\Lock\LockManager;
 use OC\Files\Mount\CacheMountProvider;
 use OC\Files\Mount\LocalHomeMountProvider;
@@ -103,8 +102,6 @@ use OC\OCM\OCMDiscoveryService;
 use OC\OCS\CoreCapabilities;
 use OC\OCS\DiscoveryService;
 use OC\Preview\Db\PreviewMapper;
-use OC\Preview\GeneratorHelper;
-use OC\Preview\IMagickSupport;
 use OC\Preview\MimeIconProvider;
 use OC\Preview\Watcher;
 use OC\Preview\WatcherConnector;
@@ -174,6 +171,7 @@ use OCP\Authentication\Token\IProvider as OCPIProvider;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
 use OCP\AutoloadNotAllowedException;
 use OCP\BackgroundJob\IJobList;
+use OCP\BackgroundJob\IJobRuns;
 use OCP\Collaboration\Collaborators\ISearch;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Reference\IReferenceManager;
@@ -317,6 +315,9 @@ class Server extends ServerContainer implements IServerContainer {
 		// To find out if we are running from CLI or not
 		$this->registerParameter('isCLI', \OC::$CLI);
 		$this->registerParameter('serverRoot', \OC::$SERVERROOT);
+		$this->registerService('userId', function (ContainerInterface $c): ?string {
+			return $c->get(ISession::class)->get('user_id');
+		});
 
 		$this->registerService(ContainerInterface::class, function (ContainerInterface $c) {
 			return $c;
@@ -344,19 +345,7 @@ class Server extends ServerContainer implements IServerContainer {
 			return new View();
 		}, false);
 
-		$this->registerService(IPreview::class, function (ContainerInterface $c) {
-			return new PreviewManager(
-				$c->get(IConfig::class),
-				$c->get(IRootFolder::class),
-				$c->get(IEventDispatcher::class),
-				$c->get(GeneratorHelper::class),
-				$c->get(ISession::class)->get('user_id'),
-				$c->get(Coordinator::class),
-				$c->get(IServerContainer::class),
-				$c->get(IBinaryFinder::class),
-				$c->get(IMagickSupport::class)
-			);
-		});
+		$this->registerAlias(IPreview::class, PreviewManager::class);
 		$this->registerAlias(IMimeIconProvider::class, MimeIconProvider::class);
 
 		$this->registerService(Watcher::class, function (ContainerInterface $c): Watcher {
@@ -440,12 +429,11 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerAlias(IFileAccess::class, FileAccess::class);
 		$this->registerService('RootFolder', function (ContainerInterface $c) {
-			$manager = Filesystem::getMountManager();
 			$view = new View();
 			/** @var IUserSession $userSession */
 			$userSession = $c->get(IUserSession::class);
 			$root = new Root(
-				$manager,
+				$c->get(\OC\Files\Mount\Manager::class),
 				$view,
 				$userSession->getUser(),
 				$c->get(IUserMountCache::class),
@@ -1080,6 +1068,11 @@ class Server extends ServerContainer implements IServerContainer {
 					$c->get(LoggerInterface::class),
 					$c->get(ITempManager::class),
 					$backgroundService,
+					new AppConfig(
+						$c->get(IConfig::class),
+						$c->get(IAppConfig::class),
+						'theming',
+					),
 				);
 				return new ThemingDefaults(
 					new AppConfig(
@@ -1328,6 +1321,7 @@ class Server extends ServerContainer implements IServerContainer {
 			return $c->get(FileSequence::class);
 		}, false);
 		$this->registerAlias(ISnowflakeDecoder::class, SnowflakeDecoder::class);
+		$this->registerAlias(IJobRuns::class, JobRuns::class);
 
 		$this->connectDispatcher();
 	}
@@ -1357,6 +1351,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * @return Folder|null
 	 * @deprecated 20.0.0
 	 */
+	#[\Override]
 	public function getUserFolder($userId = null): ?Folder {
 		if ($userId === null) {
 			$user = $this->get(IUserSession::class)->getUser();
@@ -1381,6 +1376,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * @return string
 	 * @deprecated 20.0.0
 	 */
+	#[\Override]
 	public function getWebRoot(): string {
 		return $this->webRoot;
 	}
@@ -1393,6 +1389,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * @return IL10N
 	 * @deprecated 20.0.0 use DI of {@see IL10N} or {@see IFactory} instead, or {@see \OCP\Util::getL10N()} as a last resort
 	 */
+	#[\Override]
 	public function getL10N($app, $lang = null) {
 		return $this->get(IFactory::class)->get($app, $lang);
 	}

@@ -14,6 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: none
+      pull-requests: read
 
     # On pull requests and if the comment starts with `/update-3rdparty`
     if: github.event.issue.pull_request != '' && startsWith(github.event.comment.body, '/update-3rdparty')
@@ -27,8 +28,25 @@ jobs:
           comment-id: ${{ github.event.comment.id }}
           reactions: '+1'
 
+      # issue_comment events carry no pull_request context in their payload, so we
+      # must fetch the PR via the API. This also gives us base.ref for free, avoiding
+      # a second API call. The GITHUB_TOKEN needs pull-requests:read (granted above).
+      - name: Get pull request metadata
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        id: get-pr
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const pull = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+            });
+            core.setOutput('head_repo', pull.data.head.repo?.full_name ?? '');
+            core.setOutput('base_ref',  pull.data.base.ref);
+
       - name: Disabled on forks
-        if: ${{ github.event.pull_request.head.repo.full_name != github.repository }}
+        if: steps.get-pr.outputs.head_repo != github.repository
         run: |
           echo 'Can not execute /update-3rdparty on forks'
           exit 1
@@ -46,24 +64,17 @@ jobs:
           ref: ${{ steps.comment-branch.outputs.head_ref }}
 
       - name: Register server reference to fallback to master branch
-        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
-        with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          script: |
-            const baseRef = context.payload.pull_request.base.ref
-            if (baseRef === 'main' || baseRef === 'master') {
-              core.exportVariable('server_ref', 'master');
-              console.log('Setting server_ref to master');
-            } else {
-              const regex = /^stable(\d+)$/
-              const match = baseRef.match(regex)
-              if (match) {
-                core.exportVariable('server_ref', match[0]);
-                console.log('Setting server_ref to ' + match[0]);
-              } else {
-                console.log('Not based on master/main/stable*, so skipping pull 3rdparty command');
-              }
-            }
+        run: |
+          base_ref="${{ steps.get-pr.outputs.base_ref }}"
+          if [[ "$base_ref" == "main" || "$base_ref" == "master" ]]; then
+            echo "server_ref=master" >> "$GITHUB_ENV"
+            echo "Setting server_ref to master"
+          elif [[ "$base_ref" =~ ^stable[0-9]+$ ]]; then
+            echo "server_ref=$base_ref" >> "$GITHUB_ENV"
+            echo "Setting server_ref to $base_ref"
+          else
+            echo "Not based on master/main/stable*, so skipping pull 3rdparty command"
+          fi
 
       - name: Setup git
         run: |

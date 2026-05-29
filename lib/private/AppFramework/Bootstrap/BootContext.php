@@ -18,14 +18,17 @@ class BootContext implements IBootContext {
 	) {
 	}
 
+	#[\Override]
 	public function getAppContainer(): IAppContainer {
 		return $this->appContainer;
 	}
 
+	#[\Override]
 	public function getServerContainer(): IServerContainer {
 		return $this->appContainer->get(IServerContainer::class);
 	}
 
+	#[\Override]
 	public function injectFn(callable $fn) {
 		return (new FunctionInjector($this->appContainer))->injectFn($fn);
 	}

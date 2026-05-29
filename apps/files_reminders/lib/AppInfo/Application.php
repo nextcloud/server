@@ -31,9 +31,11 @@ class Application extends App implements IBootstrap {
 		parent::__construct(static::APP_ID);
 	}
 
+	#[\Override]
 	public function boot(IBootContext $context): void {
 	}
 
+	#[\Override]
 	public function register(IRegistrationContext $context): void {
 		$context->registerNotifierService(Notifier::class);
 

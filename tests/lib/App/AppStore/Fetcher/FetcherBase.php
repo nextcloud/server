@@ -13,6 +13,7 @@ use OC\App\AppStore\Fetcher\Fetcher;
 use OC\Files\AppData\AppData;
 use OC\Files\AppData\Factory;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Files\GenericFileException;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
@@ -38,6 +39,7 @@ abstract class FetcherBase extends TestCase {
 	protected string $fileName;
 	protected string $endpoint;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->appDataFactory = $this->createMock(Factory::class);
@@ -671,6 +673,91 @@ abstract class FetcherBase extends TestCase {
 			->expects($this->once())
 			->method('getTime')
 			->willReturn(1501);
+
+		$expected = [
+			[
+				'id' => 'MyNewApp',
+				'foo' => 'foo',
+			],
+			[
+				'id' => 'bar',
+			],
+		];
+		$this->assertSame($expected, $this->fetcher->get());
+	}
+
+	public function testGetWithUnreadableCacheFileRecreatesAndFetches(): void {
+		$this->config
+			->method('getSystemValueString')
+			->willReturnCallback(function ($var, $default) {
+				if ($var === 'appstoreurl') {
+					return 'https://apps.nextcloud.com/api/v1';
+				} elseif ($var === 'version') {
+					return '11.0.0.2';
+				}
+				return $default;
+			});
+		$this->config->method('getSystemValueBool')
+			->willReturn(true);
+
+		$folder = $this->createMock(ISimpleFolder::class);
+		$corruptedFile = $this->createMock(ISimpleFile::class);
+		$freshFile = $this->createMock(ISimpleFile::class);
+		$this->appData
+			->expects($this->once())
+			->method('getFolder')
+			->with('/')
+			->willReturn($folder);
+		$folder
+			->expects($this->once())
+			->method('getFile')
+			->with($this->fileName)
+			->willReturn($corruptedFile);
+		$corruptedFile
+			->expects($this->once())
+			->method('getContent')
+			->willThrowException(new GenericFileException());
+		$corruptedFile
+			->expects($this->once())
+			->method('delete');
+		$folder
+			->expects($this->once())
+			->method('newFile')
+			->with($this->fileName)
+			->willReturn($freshFile);
+
+		$client = $this->createMock(IClient::class);
+		$this->clientService
+			->expects($this->once())
+			->method('newClient')
+			->willReturn($client);
+		$response = $this->createMock(IResponse::class);
+		$client
+			->expects($this->once())
+			->method('get')
+			->with($this->endpoint)
+			->willReturn($response);
+		$response
+			->expects($this->once())
+			->method('getBody')
+			->willReturn('[{"id":"MyNewApp", "foo": "foo"}, {"id":"bar"}]');
+		$response->method('getHeader')
+			->with($this->equalTo('ETag'))
+			->willReturn('"myETag"');
+
+		$fileData = '{"data":[{"id":"MyNewApp","foo":"foo"},{"id":"bar"}],"timestamp":1502,"ncversion":"11.0.0.2","ETag":"\"myETag\""}';
+		$freshFile
+			->expects($this->once())
+			->method('putContent')
+			->with($fileData);
+		$freshFile
+			->expects($this->once())
+			->method('getContent')
+			->willReturn($fileData);
+		$this->timeFactory
+			->expects($this->once())
+			->method('getTime')
+			->willReturn(1502);
 
 		$expected = [
 			[

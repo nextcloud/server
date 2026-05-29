@@ -32,6 +32,8 @@ class SFTPWriteStream implements File {
 
 	private $buffer = '';
 
+	private string $path;
+
 	public static function register($protocol = 'sftpwrite') {
 		if (in_array($protocol, stream_get_wrappers(), true)) {
 			return false;
@@ -59,6 +61,7 @@ class SFTPWriteStream implements File {
 		return $context;
 	}
 
+	#[\Override]
 	public function stream_open($path, $mode, $options, &$opened_path) {
 		[, $path] = explode('://', $path);
 		$path = '/' . ltrim($path);
@@ -71,6 +74,8 @@ class SFTPWriteStream implements File {
 		}
 
 		$remote_file = $this->sftp->_realpath($path);
+
+		$this->path = $remote_file;
 		if ($remote_file === false) {
 			return false;
 		}
@@ -96,18 +101,22 @@ class SFTPWriteStream implements File {
 		return true;
 	}
 
+	#[\Override]
 	public function stream_seek($offset, $whence = SEEK_SET) {
 		return false;
 	}
 
+	#[\Override]
 	public function stream_tell() {
 		return $this->writePosition;
 	}
 
+	#[\Override]
 	public function stream_read($count) {
 		return false;
 	}
 
+	#[\Override]
 	public function stream_write($data) {
 		$written = strlen($data);
 		$this->writePosition += $written;
@@ -123,22 +132,27 @@ class SFTPWriteStream implements File {
 		return $written;
 	}
 
+	#[\Override]
 	public function stream_set_option($option, $arg1, $arg2) {
 		return false;
 	}
 
+	#[\Override]
 	public function stream_truncate($size) {
 		return false;
 	}
 
+	#[\Override]
 	public function stream_stat() {
 		return false;
 	}
 
+	#[\Override]
 	public function stream_lock($operation) {
 		return false;
 	}
 
+	#[\Override]
 	public function stream_flush() {
 		$size = strlen($this->buffer);
 		$packet = pack('Na*N3a*', strlen($this->handle), $this->handle, $this->internalPosition / 4294967296, $this->internalPosition, $size, $this->buffer);
@@ -151,15 +165,19 @@ class SFTPWriteStream implements File {
 		return $this->sftp->_read_put_responses(1);
 	}
 
+	#[\Override]
 	public function stream_eof() {
 		return $this->eof;
 	}
 
+	#[\Override]
 	public function stream_close() {
 		$this->stream_flush();
 		if (!$this->sftp->_close_handle($this->handle)) {
 			return false;
 		}
+		$this->sftp->touch($this->path, time(), time());
+
 		return true;
 	}
 }

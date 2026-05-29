@@ -21,6 +21,7 @@ use OCP\EventDispatcher\IEventListener;
  * @template-implements IEventListener<VersionRestoredEvent>
  */
 class LegacyRollbackListener implements IEventListener {
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!($event instanceof VersionRestoredEvent)) {
 			return;

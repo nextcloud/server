@@ -56,6 +56,7 @@ class TableMigrationAttribute extends MigrationAttribute {
 	 * @return $this
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function import(array $data): self {
 		parent::import($data);
 		$this->setColumns($data['columns'] ?? []);
@@ -66,6 +67,7 @@ class TableMigrationAttribute extends MigrationAttribute {
 	 * @return array
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		return array_merge(
 			parent::jsonSerialize(),

@@ -105,6 +105,7 @@ class Server extends \Sabre\DAV\Server {
 		$parentFn($eventName, $wrappedCallback, $priority);
 	}
 
+	#[\Override]
 	public function removeListener(
 		string $eventName,
 		callable $listener,
@@ -130,6 +131,7 @@ class Server extends \Sabre\DAV\Server {
 		return $removed;
 	}
 
+	#[\Override]
 	public function removeAllListeners(?string $eventName = null): void {
 		parent::removeAllListeners($eventName);
 
@@ -197,6 +199,7 @@ class Server extends \Sabre\DAV\Server {
 	 *
 	 * @return void
 	 */
+	#[\Override]
 	public function start() {
 		try {
 			// If nginx (pre-1.2) is used as a proxy server, and SabreDAV as an

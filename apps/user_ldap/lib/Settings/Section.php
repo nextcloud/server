@@ -29,6 +29,7 @@ class Section implements IIconSection {
 	 *
 	 * @returns string
 	 */
+	#[\Override]
 	public function getID() {
 		return 'ldap';
 	}
@@ -39,6 +40,7 @@ class Section implements IIconSection {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function getName() {
 		return $this->l->t('LDAP/AD integration');
 	}
@@ -50,6 +52,7 @@ class Section implements IIconSection {
 	 *
 	 * E.g.: 70
 	 */
+	#[\Override]
 	public function getPriority() {
 		return 25;
 	}
@@ -57,6 +60,7 @@ class Section implements IIconSection {
 	/**
 	 * {@inheritdoc}
 	 */
+	#[\Override]
 	public function getIcon() {
 		return $this->url->imagePath('user_ldap', 'app-dark.svg');
 	}

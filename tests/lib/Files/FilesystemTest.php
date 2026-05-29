@@ -41,6 +41,7 @@ class DummyMountProvider implements IMountProvider {
 	 * @param IStorageFactory $loader
 	 * @return IMountPoint[]
 	 */
+	#[\Override]
 	public function getMountsForUser(IUser $user, IStorageFactory $loader) {
 		return isset($this->mounts[$user->getUID()]) ? $this->mounts[$user->getUID()] : [];
 	}
@@ -71,6 +72,7 @@ class FilesystemTest extends \Test\TestCase {
 		return ['datadir' => $dir];
 	}
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$userBackend = new \Test\Util\User\Dummy();
@@ -80,6 +82,7 @@ class FilesystemTest extends \Test\TestCase {
 		$this->loginAsUser();
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		foreach ($this->tmpDirs as $dir) {
 			Files::rmdirr($dir);

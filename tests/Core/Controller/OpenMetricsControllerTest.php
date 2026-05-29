@@ -31,6 +31,7 @@ class OpenMetricsControllerTest extends TestCase {
 	private LoggerInterface&MockObject $logger;
 	private OpenMetricsController $controller;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->request = $this->createMock(IRequest::class);
@@ -85,6 +86,17 @@ class OpenMetricsControllerTest extends TestCase {
 			EXPECTED;
 		$response->callback($output);
 		$this->assertStringMatchesFormat($expected, $fullOutput);
+	}
+
+	public function testMetricRejectsInvalidLabelNames(): void {
+		$this->expectException(\InvalidArgumentException::class);
+		new Metric(1, ['hide-photos' => '1.0.0']);
+	}
+
+	public function testMetricAcceptsValidLabelNames(): void {
+		$metric = new Metric(1, ['hide_photos' => '1.0.0', 'normal_app' => '2.0.0']);
+		$this->assertEquals('1.0.0', $metric->label('hide_photos'));
+		$this->assertEquals('2.0.0', $metric->label('normal_app'));
 	}
 
 	public function testGetMetricsFromForbiddenIp(): void {

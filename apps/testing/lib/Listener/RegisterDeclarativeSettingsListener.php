@@ -20,6 +20,7 @@ class RegisterDeclarativeSettingsListener implements IEventListener {
 	public function __construct() {
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!($event instanceof DeclarativeSettingsRegisterFormEvent)) {
 			// Unrelated

@@ -30,6 +30,7 @@ class UpdateConfig extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('theming:config')
@@ -54,6 +55,7 @@ class UpdateConfig extends Command {
 	}
 
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$key = $input->getArgument('key');
 		$value = $input->getArgument('value');

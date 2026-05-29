@@ -45,6 +45,7 @@ class TagSearchProvider implements IProvider {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getId(): string {
 		return 'systemtags';
 	}
@@ -52,6 +53,7 @@ class TagSearchProvider implements IProvider {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Tags');
 	}
@@ -59,6 +61,7 @@ class TagSearchProvider implements IProvider {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getOrder(string $route, array $routeParameters): int {
 		if ($route === 'files.View.index') {
 			return -4;
@@ -69,6 +72,7 @@ class TagSearchProvider implements IProvider {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function search(IUser $user, ISearchQuery $query): SearchResult {
 		$matchingTags = $this->tagManager->getAllTags(true, $query->getTerm());
 		if (count($matchingTags) === 0) {
@@ -98,7 +102,7 @@ class TagSearchProvider implements IProvider {
 			$thumbnailUrl = '';
 			$link = $this->urlGenerator->linkToRoute('files.view.indexView', [
 				'view' => 'tags',
-			]) . '?dir=' . $tag->getId();
+			]) . '?dir=/' . $tag->getId();
 			$searchResultEntry = new SearchResultEntry(
 				$thumbnailUrl,
 				$this->l10n->t('All tagged %s …', [$tag->getName()]),

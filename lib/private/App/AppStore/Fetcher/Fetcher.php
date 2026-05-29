@@ -12,6 +12,7 @@ use GuzzleHttp\Exception\ServerException;
 use OC\Files\AppData\Factory;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Files\GenericFileException;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Http\Client\IClientService;
@@ -21,6 +22,11 @@ use OCP\ServerVersion;
 use OCP\Support\Subscription\IRegistry;
 use Psr\Log\LoggerInterface;
 
+/**
+ * Base class for fetching app store data
+ *
+ * @template T of array
+ */
 abstract class Fetcher {
 	public const INVALIDATE_AFTER_SECONDS = 3600;
 	public const INVALIDATE_AFTER_SECONDS_UNSTABLE = 900;
@@ -53,18 +59,19 @@ abstract class Fetcher {
 	/**
 	 * Fetches the response from the server
 	 *
-	 * @param string $ETag
-	 * @param string $content
+	 * @param string $ETag - The ETag of the cached response
+	 * @param string $content - The content of the response
+	 * @param bool $allowUnstable - Allow unstable releases
 	 *
-	 * @return array
+	 * @return array{data: list<T>, ETag?: string, timestamp: int, ncversion: string}|array<never, never>
 	 */
-	protected function fetch($ETag, $content, $allowUnstable = false) {
-		$appstoreenabled = $this->config->getSystemValueBool('appstoreenabled', true);
+	protected function fetch($ETag, $content, $allowUnstable = false): array {
+		$appstoreEnabled = $this->config->getSystemValueBool('appstoreenabled', true);
 		if ((int)$this->config->getAppValue('settings', 'appstore-fetcher-lastFailure', '0') > time() - self::RETRY_AFTER_FAILURE_SECONDS) {
 			return [];
 		}
 
-		if (!$appstoreenabled) {
+		if (!$appstoreEnabled) {
 			return [];
 		}
 
@@ -117,15 +124,15 @@ abstract class Fetcher {
 	/**
 	 * Returns the array with the entries on the appstore server
 	 *
-	 * @param bool [$allowUnstable] Allow unstable releases
-	 * @return array
+	 * @param bool $allowUnstable - Allow unstable releases
+	 * @return list<T>
 	 */
-	public function get($allowUnstable = false) {
-		$appstoreenabled = $this->config->getSystemValueBool('appstoreenabled', true);
-		$internetavailable = $this->config->getSystemValueBool('has_internet_connection', true);
+	public function get($allowUnstable = false): array {
+		$appstoreEnabled = $this->config->getSystemValueBool('appstoreenabled', true);
+		$internetAvailable = $this->config->getSystemValueBool('has_internet_connection', true);
 		$isDefaultAppStore = $this->config->getSystemValueString('appstoreurl', self::APP_STORE_URL) === self::APP_STORE_URL;
 
-		if (!$appstoreenabled || (!$internetavailable && $isDefaultAppStore)) {
+		if (!$appstoreEnabled || (!$internetAvailable && $isDefaultAppStore)) {
 			$this->logger->info('AppStore is disabled or this instance has no Internet connection to access the default app store', ['app' => 'appstoreFetcher']);
 			return [];
 		}
@@ -161,7 +168,16 @@ abstract class Fetcher {
 				}
 			}
 		} catch (NotFoundException $e) {
-			// File does not already exists
+			// File does not already exist
+			$file = $rootFolder->newFile($this->fileName);
+		} catch (GenericFileException $e) {
+			try {
+				$file->delete();
+			} catch (\Exception) {
+				$this->logger->error('Could not read appstore cache file', ['app' => 'appstoreFetcher', 'exception' => $e]);
+				return [];
+			}
+			$this->logger->warning('Could not read appstore cache file, it will be refreshed', ['app' => 'appstoreFetcher', 'exception' => $e]);
 			$file = $rootFolder->newFile($this->fileName);
 		}
 

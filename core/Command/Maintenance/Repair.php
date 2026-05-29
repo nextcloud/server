@@ -39,6 +39,7 @@ class Repair extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('maintenance:repair')
@@ -50,15 +51,13 @@ class Repair extends Command {
 				'Use this option when you want to include resource and load expensive tasks');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$repairSteps = $this->repair::getRepairSteps();
-
-		if ($input->getOption('include-expensive')) {
-			$repairSteps = array_merge($repairSteps, $this->repair::getExpensiveRepairSteps());
-		}
+		$includeExpensive = (bool)$input->getOption('include-expensive');
+		$repairSteps = $this->repair::getRepairSteps($includeExpensive);
 
 		foreach ($repairSteps as $step) {
-			$this->repair->addStep($step);
+			$this->repair->addStep($step, $includeExpensive);
 		}
 
 		$apps = $this->appManager->getEnabledApps();
@@ -74,7 +73,7 @@ class Repair extends Command {
 			$steps = $info['repair-steps']['post-migration'];
 			foreach ($steps as $step) {
 				try {
-					$this->repair->addStep($step);
+					$this->repair->addStep($step, $includeExpensive);
 				} catch (Exception $ex) {
 					$output->writeln("<error>Failed to load repair step for $app: {$ex->getMessage()}</error>");
 				}

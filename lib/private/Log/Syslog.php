@@ -42,6 +42,7 @@ class Syslog extends LogDetails implements IWriter {
 	 * write a message in the log
 	 * @param string|array $message
 	 */
+	#[\Override]
 	public function write(string $app, $message, int $level): void {
 		$syslog_level = $this->levels[$level];
 		openlog($this->tag, LOG_PID | LOG_CONS, LOG_USER);

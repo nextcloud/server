@@ -25,6 +25,7 @@ class Base extends \OC\Core\Command\Base {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
+	#[\Override]
 	public function completeOptionValues($optionName, CompletionContext $context) {
 		return [];
 	}
@@ -36,6 +37,7 @@ class Base extends \OC\Core\Command\Base {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
+	#[\Override]
 	public function completeArgumentValues($argumentName, CompletionContext $context) {
 		if ($argumentName === 'uid') {
 			return array_map(function (IUser $user) {

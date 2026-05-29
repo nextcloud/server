@@ -30,6 +30,7 @@ interface ILanguageIterator extends \Iterator {
 	 *
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function current(): string;
 
 	/**
@@ -37,6 +38,7 @@ interface ILanguageIterator extends \Iterator {
 	 *
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function next(): void;
 
 	/**
@@ -44,6 +46,7 @@ interface ILanguageIterator extends \Iterator {
 	 *
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function key(): int;
 
 	/**
@@ -51,5 +54,6 @@ interface ILanguageIterator extends \Iterator {
 	 *
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function valid(): bool;
 }

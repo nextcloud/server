@@ -20,10 +20,12 @@ abstract class ShareActivitySettings extends ActivitySettings {
 	) {
 	}
 
+	#[\Override]
 	public function getGroupIdentifier() {
 		return 'sharing';
 	}
 
+	#[\Override]
 	public function getGroupName() {
 		return $this->l->t('Sharing');
 	}

@@ -382,6 +382,7 @@ class StorageConfig implements \JsonSerializable {
 	 * Serialize config to JSON
 	 * @return Files_ExternalStorageConfig
 	 */
+	#[\Override]
 	public function jsonSerialize(bool $obfuscate = false): array {
 		$result = [];
 		if (!is_null($this->id)) {

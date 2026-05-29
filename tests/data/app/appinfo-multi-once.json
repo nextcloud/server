@@ -1,0 +1,192 @@
+{
+    "id": "multi_once",
+    "name": "Multi Once",
+    "summary": "Every repeatable element is used exactly once.",
+    "description": "Fixture that exercises the single-item normalization path.",
+    "version": "1.0.0",
+    "licence": "agpl",
+    "author": [
+        "Jane Doe"
+    ],
+    "types": [
+        "filesystem",
+        "logging"
+    ],
+    "documentation": {
+        "user": "https://example.test/multi-once/user",
+        "admin": "https://example.test/multi-once/admin",
+        "developer": "https://example.test/multi-once/developer"
+    },
+    "category": [
+        "monitoring"
+    ],
+    "website": "https://example.test/multi-once",
+    "discussion": "https://example.test/multi-once/discussion",
+    "bugs": "https://example.test/multi-once/issues",
+    "repository": "https://example.test/multi-once.git",
+    "screenshot": [
+        "https://example.test/multi-once.png"
+    ],
+    "donation": "https://example.test/donate",
+    "dependencies": {
+        "database": "sqlite",
+        "command": "awk",
+        "lib": {
+            "@attributes": {
+                "min-version": "1.0"
+            },
+            "@value": "curl"
+        },
+        "nextcloud": {
+            "@attributes": {
+                "min-version": "30.0",
+                "max-version": "31.0"
+            }
+        },
+        "architecture": "x86_64",
+        "backend": [
+            "caldav"
+        ]
+    },
+    "background-jobs": {
+        "job": "OCA\\MultiOnce\\BackgroundJob\\Cleanup"
+    },
+    "repair-steps": {
+        "pre-migration": {
+            "step": "OCA\\MultiOnce\\RepairStep\\PreMigration"
+        },
+        "post-migration": {
+            "step": "OCA\\MultiOnce\\RepairStep\\PostMigration"
+        },
+        "live-migration": {
+            "step": "OCA\\MultiOnce\\RepairStep\\LiveMigration"
+        },
+        "install": {
+            "step": "OCA\\MultiOnce\\RepairStep\\Install"
+        },
+        "uninstall": {
+            "step": "OCA\\MultiOnce\\RepairStep\\Uninstall"
+        }
+    },
+    "two-factor-providers": {
+        "provider": "OCA\\MultiOnce\\TwoFactor\\Provider"
+    },
+    "commands": {
+        "command": "OCA\\MultiOnce\\Command\\Migrate"
+    },
+    "settings": {
+        "admin": [
+            "OCA\\MultiOnce\\Settings\\Admin"
+        ],
+        "admin-section": [
+            "OCA\\MultiOnce\\Settings\\AdminSection"
+        ],
+        "personal": [
+            "OCA\\MultiOnce\\Settings\\Personal"
+        ],
+        "personal-section": [
+            "OCA\\MultiOnce\\Settings\\PersonalSection"
+        ],
+        "admin-delegation": [
+            "OCA\\MultiOnce\\Settings\\AdminDelegation"
+        ],
+        "admin-delegation-section": [
+            "OCA\\MultiOnce\\Settings\\AdminDelegationSection"
+        ]
+    },
+    "activity": {
+        "settings": {
+            "setting": "OCA\\MultiOnce\\Activity\\Setting"
+        },
+        "filters": {
+            "filter": "OCA\\MultiOnce\\Activity\\Filter"
+        },
+        "providers": {
+            "provider": "OCA\\MultiOnce\\Activity\\Provider"
+        }
+    },
+    "dashboard": {
+        "widget": "OCA\\MultiOnce\\Dashboard\\Widget"
+    },
+    "fulltextsearch": {
+        "platform": "OCA\\MultiOnce\\Search\\Platform",
+        "provider": "OCA\\MultiOnce\\Search\\Provider"
+    },
+    "navigations": {
+        "navigation": [
+            {
+                "name": "Multi Once",
+                "route": "multi.once.route",
+                "icon": "multi-once.svg",
+                "order": "1"
+            }
+        ]
+    },
+    "contactsmenu": {
+        "provider": "OCA\\MultiOnce\\ContactsMenu\\Provider"
+    },
+    "collaboration": {
+        "plugins": {
+            "@attributes": {
+                "type": "collaborator-search"
+            },
+            "@value": "OCA\\MultiOnce\\Collaboration\\Plugin"
+        }
+    },
+    "openmetrics": {
+        "exporter": [
+            "OCA\\MultiOnce\\OpenMetrics\\Exporter"
+        ]
+    },
+    "sabre": {
+        "collections": {
+            "collection": "OCA\\MultiOnce\\Sabre\\Collection"
+        },
+        "plugins": {
+            "plugin": "OCA\\MultiOnce\\Sabre\\Plugin"
+        },
+        "address-book-plugins": {
+            "plugin": "OCA\\MultiOnce\\Sabre\\AddressBookPlugin"
+        },
+        "calendar-plugins": {
+            "plugin": "OCA\\MultiOnce\\Sabre\\CalendarPlugin"
+        }
+    },
+    "trash": {
+        "backend": {
+            "@attributes": {
+                "for": "files"
+            },
+            "@value": "OCA\\MultiOnce\\Trash\\Backend"
+        }
+    },
+    "versions": {
+        "backend": {
+            "@attributes": {
+                "for": "files"
+            },
+            "@value": "OCA\\MultiOnce\\Versions\\Backend"
+        }
+    },
+    "external-app": {
+        "docker-install": {
+            "registry": "registry.example.test",
+            "image": "multi-once",
+            "image-tag": "1.0.0"
+        },
+        "scopes": {
+            "value": "scope-one"
+        },
+        "system": "true",
+        "environment-variables": {
+            "variable": {
+                "name": "MULTI_ONCE_ONE",
+                "display-name": "Multi Once One",
+                "description": "First variable",
+                "default": "one"
+            }
+        }
+    },
+    "remote": [],
+    "public": []
+}

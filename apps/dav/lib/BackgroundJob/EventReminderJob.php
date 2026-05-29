@@ -35,6 +35,7 @@ class EventReminderJob extends TimedJob {
 	 * @throws NotificationTypeDoesNotExistException
 	 * @throws NoUserException
 	 */
+	#[\Override]
 	public function run($argument):void {
 		if ($this->config->getAppValue('dav', 'sendEventReminders', 'yes') !== 'yes') {
 			return;

@@ -31,6 +31,7 @@ class ExpireTrash extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		parent::configure();
 		$this
@@ -43,6 +44,7 @@ class ExpireTrash extends Base {
 			);
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$minAge = $this->expiration->getMinAgeAsTimestamp();
 		$maxAge = $this->expiration->getMaxAgeAsTimestamp();

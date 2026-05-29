@@ -57,6 +57,7 @@ class UserGlobalAuth extends AuthMechanism {
 	/**
 	 * @return void
 	 */
+	#[\Override]
 	public function manipulateStorageConfig(StorageConfig &$storage, ?IUser $user = null) {
 		if ($user === null) {
 			throw new InsufficientDataForMeaningfulAnswerException('No credentials saved');

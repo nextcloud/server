@@ -23,14 +23,14 @@ use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Reader;
 
 class ContactsSearchProvider implements IFilteringProvider {
-	private static array $searchPropertiesRestricted = [
+	private const SEARCH_PROPERTIES_RESTRICTED = [
 		'N',
 		'FN',
 		'NICKNAME',
 		'EMAIL',
 	];
 
-	private static array $searchProperties = [
+	private const SEARCH_PROPERTIES = [
 		'N',
 		'FN',
 		'NICKNAME',
@@ -53,6 +53,7 @@ class ContactsSearchProvider implements IFilteringProvider {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getId(): string {
 		return 'contacts';
 	}
@@ -60,10 +61,12 @@ class ContactsSearchProvider implements IFilteringProvider {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Contacts');
 	}
 
+	#[\Override]
 	public function getOrder(string $route, array $routeParameters): ?int {
 		if ($this->appManager->isEnabledForUser('contacts')) {
 			return $route === 'contacts.Page.index' ? -1 : 25;
@@ -72,6 +75,7 @@ class ContactsSearchProvider implements IFilteringProvider {
 		return null;
 	}
 
+	#[\Override]
 	public function search(IUser $user, ISearchQuery $query): SearchResult {
 		if (!$this->appManager->isEnabledForUser('contacts', $user)) {
 			return SearchResult::complete($this->getName(), []);
@@ -87,7 +91,7 @@ class ContactsSearchProvider implements IFilteringProvider {
 		$searchResults = $this->backend->searchPrincipalUri(
 			$principalUri,
 			$query->getFilter('term')?->get() ?? '',
-			$query->getFilter('title-only')?->get() ? self::$searchPropertiesRestricted : self::$searchProperties,
+			$query->getFilter('title-only')?->get() ? self::SEARCH_PROPERTIES_RESTRICTED : self::SEARCH_PROPERTIES,
 			[
 				'limit' => $query->getLimit(),
 				'offset' => $query->getCursor(),
@@ -169,6 +173,7 @@ class ContactsSearchProvider implements IFilteringProvider {
 		return (string)$emailAddresses[0];
 	}
 
+	#[\Override]
 	public function getSupportedFilters(): array {
 		return [
 			'term',
@@ -179,10 +184,12 @@ class ContactsSearchProvider implements IFilteringProvider {
 		];
 	}
 
+	#[\Override]
 	public function getAlternateIds(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getCustomFilters(): array {
 		return [
 			new FilterDefinition('company'),

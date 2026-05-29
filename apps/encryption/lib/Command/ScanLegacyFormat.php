@@ -34,12 +34,14 @@ class ScanLegacyFormat extends Command {
 		$this->rootView = new View();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('encryption:scan:legacy-format')
 			->setDescription('Scan the files for the legacy format');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$result = true;
 

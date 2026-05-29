@@ -41,6 +41,7 @@ abstract class ExternalAddressBook implements IAddressBook, DAV\IProperties {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	final public function getName() {
 		return implode(self::DELIMITER, [
 			self::PREFIX,
@@ -52,6 +53,7 @@ abstract class ExternalAddressBook implements IAddressBook, DAV\IProperties {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	final public function setName($name) {
 		throw new DAV\Exception\MethodNotAllowed('Renaming address books is not yet supported');
 	}
@@ -59,6 +61,7 @@ abstract class ExternalAddressBook implements IAddressBook, DAV\IProperties {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	final public function createDirectory($name) {
 		throw new DAV\Exception\MethodNotAllowed('Creating collections in address book objects is not allowed');
 	}

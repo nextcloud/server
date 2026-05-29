@@ -28,6 +28,7 @@ class Report extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('user:report')
@@ -41,6 +42,7 @@ class Report extends Command {
 		;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$table = new Table($output);
 		$table->setHeaders(['Account Report', '']);

@@ -199,7 +199,7 @@ Scenario: Files drop allow MKCOL without a nickname
     And Downloading public folder "Mallory/folder"
     Then the HTTP status code should be "405"
     And Downloading public file "Mallory/folder/a.txt"
-    Then the HTTP status code should be "405"
+    Then the HTTP status code should be "404"
 
   Scenario: Files drop requires nickname if file request is enabled
     Given user "user0" exists

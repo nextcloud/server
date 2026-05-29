@@ -47,6 +47,7 @@ class Publisher implements XmlSerializable {
 	 * @param Writer $writer
 	 * @return void
 	 */
+	#[\Override]
 	public function xmlSerialize(Writer $writer) {
 		if (!$this->isPublished) {
 			// for pre-publish-url

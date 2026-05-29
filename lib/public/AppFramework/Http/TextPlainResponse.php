@@ -41,6 +41,7 @@ class TextPlainResponse extends Response {
 	 * @since 22.0.0
 	 * @throws \Exception If data could not get encoded
 	 */
+	#[\Override]
 	public function render() : string {
 		return $this->text;
 	}

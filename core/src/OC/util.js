@@ -64,8 +64,6 @@ export default {
 		}
 
 		const s = string.toLowerCase().trim()
-		let bytes = null
-
 		const bytesArray = {
 			b: 1,
 			k: 1024,
@@ -80,6 +78,7 @@ export default {
 			p: 1024 * 1024 * 1024 * 1024 * 1024,
 		}
 
+		let bytes
 		const matches = s.match(/^[\s+]?([0-9]*)(\.([0-9]+))?( +)?([kmgtp]?b?)$/i)
 		if (matches !== null) {
 			bytes = parseFloat(s)

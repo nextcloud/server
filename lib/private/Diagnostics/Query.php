@@ -24,26 +24,32 @@ class Query implements IQuery {
 		$this->end = $time;
 	}
 
+	#[\Override]
 	public function getParams(): array {
 		return $this->params;
 	}
 
+	#[\Override]
 	public function getSql(): string {
 		return $this->sql;
 	}
 
+	#[\Override]
 	public function getStart(): float {
 		return $this->start;
 	}
 
+	#[\Override]
 	public function getDuration(): float {
 		return $this->end - $this->start;
 	}
 
+	#[\Override]
 	public function getStartTime(): float {
 		return $this->start;
 	}
 
+	#[\Override]
 	public function getStacktrace(): array {
 		return $this->stack;
 	}

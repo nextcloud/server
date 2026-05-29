@@ -45,10 +45,11 @@ class File extends LogDetails implements IWriter, IFileBased {
 	 * write a message in the log
 	 * @param string|array $message
 	 */
+	#[\Override]
 	public function write(string $app, $message, int $level): void {
 		$entry = $this->logDetailsAsJSON($app, $message, $level);
 		$handle = @fopen($this->logFile, 'a');
-		if ($this->logFileMode > 0 && is_file($this->logFile) && (fileperms($this->logFile) & 0777) != $this->logFileMode) {
+		if ($this->logFileMode > 0 && is_file($this->logFile) && (fileperms($this->logFile) & 0777) !== $this->logFileMode) {
 			@chmod($this->logFile, $this->logFileMode);
 		}
 		if ($handle) {
@@ -69,6 +70,7 @@ class File extends LogDetails implements IWriter, IFileBased {
 	/**
 	 * get entries from the log in reverse chronological order
 	 */
+	#[\Override]
 	public function getEntries(int $limit = 50, int $offset = 0): array {
 		$minLevel = $this->config->getValue('loglevel', ILogger::WARN);
 		$entries = [];
@@ -84,7 +86,7 @@ class File extends LogDetails implements IWriter, IFileBased {
 				fseek($handle, $pos);
 				$ch = fgetc($handle);
 				if ($ch == "\n" || $pos == 0) {
-					if ($line != '') {
+					if ($line !== '') {
 						// Add the first character if at the start of the file,
 						// because it doesn't hit the else in the loop
 						if ($pos == 0) {
@@ -111,6 +113,7 @@ class File extends LogDetails implements IWriter, IFileBased {
 		return $entries;
 	}
 
+	#[\Override]
 	public function getLogFilePath():string {
 		return $this->logFile;
 	}

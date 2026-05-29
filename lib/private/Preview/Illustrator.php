@@ -14,6 +14,7 @@ class Illustrator extends Bitmap {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getMimeType(): string {
 		return '/application\/illustrator/';
 	}
@@ -21,6 +22,7 @@ class Illustrator extends Bitmap {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	protected function getAllowedMimeTypes(): string {
 		return '/application\/(illustrator|pdf)/';
 	}

@@ -175,9 +175,15 @@ describe('Remove the default background with a bright color', function() {
 	})
 
 	it('See the header being inverted', function() {
+		// Probe the Nextcloud logo: it carries the same
+		// `var(--background-image-invert-if-bright)` filter and is always
+		// present in the header. The waffle launcher's current-app icon only
+		// renders when an app is active, which isn't the case on settings,
+		// and the in-popover tiles use a fixed brightness/invert filter
+		// regardless of theme so they're not a valid inversion probe.
 		cy.waitUntil(() => navigationHeader
-			.getNavigationEntries()
-			.find('img')
+			.logo()
+			.find('.logo')
 			.then((el) => {
 				let ret = true
 				el.each(function() {

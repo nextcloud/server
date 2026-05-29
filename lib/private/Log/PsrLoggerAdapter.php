@@ -53,6 +53,7 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 *
 	 * @param mixed[] $context
 	 */
+	#[\Override]
 	public function emergency(string|Stringable $message, array $context = []): void {
 		$this->log(LogLevel::EMERGENCY, (string)$message, $context);
 	}
@@ -65,6 +66,7 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 *
 	 * @param mixed[] $context
 	 */
+	#[\Override]
 	public function alert(string|Stringable $message, array $context = []): void {
 		$this->log(LogLevel::ALERT, (string)$message, $context);
 	}
@@ -76,6 +78,7 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 *
 	 * @param mixed[] $context
 	 */
+	#[\Override]
 	public function critical(string|Stringable $message, array $context = []): void {
 		$this->log(LogLevel::CRITICAL, (string)$message, $context);
 	}
@@ -86,6 +89,7 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 *
 	 * @param mixed[] $context
 	 */
+	#[\Override]
 	public function error(string|Stringable $message, array $context = []): void {
 		$this->log(LogLevel::ERROR, (string)$message, $context);
 	}
@@ -98,6 +102,7 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 *
 	 * @param mixed[] $context
 	 */
+	#[\Override]
 	public function warning(string|Stringable $message, array $context = []): void {
 		$this->log(LogLevel::WARNING, (string)$message, $context);
 	}
@@ -107,6 +112,7 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 *
 	 * @param mixed[] $context
 	 */
+	#[\Override]
 	public function notice(string|Stringable $message, array $context = []): void {
 		$this->log(LogLevel::NOTICE, (string)$message, $context);
 	}
@@ -118,6 +124,7 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 *
 	 * @param mixed[] $context
 	 */
+	#[\Override]
 	public function info(string|Stringable $message, array $context = []): void {
 		$this->log(LogLevel::INFO, (string)$message, $context);
 	}
@@ -127,6 +134,7 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 *
 	 * @param mixed[] $context
 	 */
+	#[\Override]
 	public function debug(string|Stringable $message, array $context = []): void {
 		$this->log(LogLevel::DEBUG, (string)$message, $context);
 	}
@@ -139,6 +147,7 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 *
 	 * @throws InvalidArgumentException
 	 */
+	#[\Override]
 	public function log($level, $message, array $context = []): void {
 		if (is_string($level)) {
 			$level = self::logLevelToInt($level);
@@ -162,6 +171,7 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 		}
 	}
 
+	#[\Override]
 	public function logData(string $message, array $data, array $context = []): void {
 		$this->logger->logData($message, $data, $context);
 	}

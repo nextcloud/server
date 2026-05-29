@@ -11,6 +11,7 @@ use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchOperator;
 
 class FlattenNestedBool extends QueryOptimizerStep {
+	#[\Override]
 	public function processOperator(ISearchOperator &$operator) {
 		if (
 			$operator instanceof SearchBinaryOperator && (

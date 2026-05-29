@@ -20,6 +20,7 @@ class ClearCollectionsAccessCache implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Clear access cache of projects';
 	}
@@ -29,6 +30,7 @@ class ClearCollectionsAccessCache implements IRepairStep {
 		return version_compare($versionFromBeforeUpdate, '17.0.0.3', '<=');
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		if ($this->shouldRun()) {
 			$this->manager->invalidateAccessCacheForAllCollections();

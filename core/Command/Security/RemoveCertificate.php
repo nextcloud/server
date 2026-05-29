@@ -20,6 +20,7 @@ class RemoveCertificate extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('security:certificates:remove')
@@ -31,6 +32,7 @@ class RemoveCertificate extends Base {
 			);
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$name = $input->getArgument('name');
 

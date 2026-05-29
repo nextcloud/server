@@ -20,6 +20,7 @@ class Dependencies extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('files_external:dependencies')
@@ -27,6 +28,7 @@ class Dependencies extends Base {
 		parent::configure();
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$storageBackends = $this->backendService->getBackends();
 

@@ -25,6 +25,7 @@ class CalendarShareUpdateListener implements IEventListener {
 	/**
 	 * In case the user has set their default calendar to the deleted one
 	 */
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!($event instanceof CalendarShareUpdatedEvent)) {
 			// Not what we subscribed to

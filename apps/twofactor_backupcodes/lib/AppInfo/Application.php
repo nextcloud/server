@@ -32,6 +32,7 @@ class Application extends App implements IBootstrap {
 		parent::__construct(self::APP_ID);
 	}
 
+	#[\Override]
 	public function register(IRegistrationContext $context): void {
 		$context->registerNotifierService(Notifier::class);
 
@@ -46,6 +47,7 @@ class Application extends App implements IBootstrap {
 		$context->registerTwoFactorProvider(BackupCodesProvider::class);
 	}
 
+	#[\Override]
 	public function boot(IBootContext $context): void {
 	}
 }

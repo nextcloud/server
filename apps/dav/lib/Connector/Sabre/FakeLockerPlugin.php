@@ -35,6 +35,7 @@ class FakeLockerPlugin extends ServerPlugin {
 	private $server;
 
 	/** {@inheritDoc} */
+	#[\Override]
 	public function initialize(Server $server) {
 		$this->server = $server;
 		$this->server->on('method:LOCK', [$this, 'fakeLockProvider'], 1);
@@ -49,6 +50,7 @@ class FakeLockerPlugin extends ServerPlugin {
 	 * @param string $path
 	 * @return string[]
 	 */
+	#[\Override]
 	public function getHTTPMethods($path) {
 		return [
 			'LOCK',
@@ -61,6 +63,7 @@ class FakeLockerPlugin extends ServerPlugin {
 	 *
 	 * @return integer[]
 	 */
+	#[\Override]
 	public function getFeatures() {
 		return [2];
 	}

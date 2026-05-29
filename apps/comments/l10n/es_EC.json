@@ -9,6 +9,7 @@
     "<strong>Comments</strong> for files" : "<strong>Comentarios</strong> de los archivos",
     "Files" : "Archivo",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} te mencionó en un comentario en \"{file}\"",
+    "Go to file" : "Ir al archivo",
     "Files app plugin to add comments to files" : "Plugin de la aplicación de archivos para agregar comentarios a los archivos",
     "Edit comment" : "Editar comentario",
     "Delete comment" : "Borrar comentario",

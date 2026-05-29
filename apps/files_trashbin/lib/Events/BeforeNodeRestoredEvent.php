@@ -8,7 +8,7 @@ declare(strict_types=1);
  */
 namespace OCA\Files_Trashbin\Events;
 
-use Exception;
+use OCP\Exceptions\AbortedEventException;
 use OCP\Files\Events\Node\AbstractNodesEvent;
 use OCP\Files\Node;
 
@@ -25,15 +25,10 @@ class BeforeNodeRestoredEvent extends AbstractNodesEvent {
 	}
 
 	/**
-	 * @return never
+	 * @since 28.0.0
+	 * @deprecated 29.0.0 - use OCP\Exceptions\AbortedEventException instead
 	 */
 	public function abortOperation(?\Throwable $ex = null) {
-		$this->stopPropagation();
-		$this->run = false;
-		if ($ex !== null) {
-			throw $ex;
-		} else {
-			throw new Exception('Operation aborted');
-		}
+		throw new AbortedEventException($ex?->getMessage() ?? 'Operation aborted');
 	}
 }

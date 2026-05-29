@@ -67,6 +67,7 @@ class CalendarMigrator implements IMigrator, ISizeEstimationMigrator {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getId(): string {
 		return 'calendar';
 	}
@@ -74,6 +75,7 @@ class CalendarMigrator implements IMigrator, ISizeEstimationMigrator {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getDisplayName(): string {
 		return $this->l10n->t('Calendar');
 	}
@@ -81,6 +83,7 @@ class CalendarMigrator implements IMigrator, ISizeEstimationMigrator {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getDescription(): string {
 		return $this->l10n->t('Calendars including events, details and attendees');
 	}
@@ -88,6 +91,7 @@ class CalendarMigrator implements IMigrator, ISizeEstimationMigrator {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getEstimatedExportSize(IUser $user): int|float {
 		$principalUri = self::USERS_URI_ROOT . $user->getUID();
 		$calendars = $this->calendarManager->getCalendarsForPrincipal($principalUri);
@@ -237,6 +241,7 @@ class CalendarMigrator implements IMigrator, ISizeEstimationMigrator {
 	 *
 	 * @throws CalendarMigratorException
 	 */
+	#[\Override]
 	public function import(IUser $user, IImportSource $importSource, OutputInterface $output): void {
 		$output->writeln('Importing calendaring data…');
 		if ($importSource->getMigratorVersion($this->getId()) === null) {

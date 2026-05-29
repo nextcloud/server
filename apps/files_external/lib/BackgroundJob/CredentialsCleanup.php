@@ -31,6 +31,7 @@ class CredentialsCleanup extends TimedJob {
 		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
+	#[\Override]
 	protected function run($argument) {
 		$this->userManager->callForSeenUsers(function (IUser $user): void {
 			$storages = $this->userGlobalStoragesService->getAllStoragesForUser($user);

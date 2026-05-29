@@ -21,6 +21,7 @@ use OCP\Group\Events\UserRemovedEvent;
  * @template-implements IEventListener<UserAddedEvent|UserRemovedEvent|GroupCreatedEvent|GroupDeletedEvent>
  */
 class GroupManagementEventListener extends Action implements IEventListener {
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof UserAddedEvent) {
 			$this->userAdded($event);

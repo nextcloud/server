@@ -34,6 +34,7 @@ class Manager implements IManager {
 	 *
 	 * @return bool
 	 */
+	#[\Override]
 	public function has(): bool {
 
 		// return true if collection has any providers
@@ -48,6 +49,7 @@ class Manager implements IManager {
 	 *
 	 * @return int
 	 */
+	#[\Override]
 	public function count(): int {
 
 		// return count of providers in collection
@@ -62,6 +64,7 @@ class Manager implements IManager {
 	 *
 	 * @return array<string,string> collection of provider id and label ['jmap' => 'JMap Connector']
 	 */
+	#[\Override]
 	public function types(): array {
 
 		// construct types collection
@@ -82,6 +85,7 @@ class Manager implements IManager {
 	 *
 	 * @return array<string,IProvider> collection of provider id and object ['jmap' => IProviderObject]
 	 */
+	#[\Override]
 	public function providers(): array {
 
 		// evaluate if we already have a cached collection of providers and return the collection if we do
@@ -125,6 +129,7 @@ class Manager implements IManager {
 	 *
 	 * @return IProvider|null
 	 */
+	#[\Override]
 	public function findProviderById(string $providerId): ?IProvider {
 
 		// evaluate if we already have a cached collection of providers
@@ -149,6 +154,7 @@ class Manager implements IManager {
 	 *
 	 * @return array<string,array<string,IService>> collection of provider id, service id and object ['jmap' => ['Service1' => IServiceObject]]
 	 */
+	#[\Override]
 	public function services(string $userId): array {
 
 		// initilize collection
@@ -178,6 +184,7 @@ class Manager implements IManager {
 	 *
 	 * @return IService|null returns service object or null if none found
 	 */
+	#[\Override]
 	public function findServiceById(string $userId, string $serviceId, ?string $providerId = null): ?IService {
 
 		// evaluate if provider id was specified
@@ -222,6 +229,7 @@ class Manager implements IManager {
 	 *
 	 * @return IService|null returns service object or null if none found
 	 */
+	#[\Override]
 	public function findServiceByAddress(string $userId, string $address, ?string $providerId = null): ?IService {
 
 		// evaluate if provider id was specified

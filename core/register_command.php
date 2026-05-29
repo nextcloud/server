@@ -17,9 +17,11 @@ use OC\Core\Command\App\Remove;
 use OC\Core\Command\App\Update;
 use OC\Core\Command\Background\Delete;
 use OC\Core\Command\Background\Job;
+use OC\Core\Command\Background\JobsHistory;
 use OC\Core\Command\Background\JobWorker;
 use OC\Core\Command\Background\ListCommand;
 use OC\Core\Command\Background\Mode;
+use OC\Core\Command\Background\RunningJobs;
 use OC\Core\Command\Broadcast\Test;
 use OC\Core\Command\Check;
 use OC\Core\Command\Config\App\DeleteConfig;
@@ -78,6 +80,10 @@ use OC\Core\Command\Memcache\DistributedDelete;
 use OC\Core\Command\Memcache\DistributedGet;
 use OC\Core\Command\Memcache\DistributedSet;
 use OC\Core\Command\Memcache\RedisCommand;
+use OC\Core\Command\OCM\ActivateKey as OCMActivateKey;
+use OC\Core\Command\OCM\ListKeys as OCMListKeys;
+use OC\Core\Command\OCM\RetireKey as OCMRetireKey;
+use OC\Core\Command\OCM\StageKey as OCMStageKey;
 use OC\Core\Command\Preview\Generate;
 use OC\Core\Command\Preview\ResetRenderedTexts;
 use OC\Core\Command\Router\ListRoutes;
@@ -148,6 +154,8 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(ListCommand::class));
 	$application->add(Server::get(Delete::class));
 	$application->add(Server::get(JobWorker::class));
+	$application->add(Server::get(RunningJobs::class));
+	$application->add(Server::get(JobsHistory::class));
 
 	$application->add(Server::get(Test::class));
 
@@ -258,6 +266,11 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(SetupChecks::class));
 	$application->add(Server::get(SnowflakeDecodeId::class));
 	$application->add(Server::get(Get::class));
+
+	$application->add(Server::get(OCMListKeys::class));
+	$application->add(Server::get(OCMStageKey::class));
+	$application->add(Server::get(OCMActivateKey::class));
+	$application->add(Server::get(OCMRetireKey::class));
 
 	$application->add(Server::get(GetCommand::class));
 	$application->add(Server::get(EnabledCommand::class));

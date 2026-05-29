@@ -13,6 +13,7 @@ class PublicLinks extends ShareActivitySettings {
 	 * @return string Lowercase a-z and underscore only identifier
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function getIdentifier() {
 		return 'public_links';
 	}
@@ -21,6 +22,7 @@ class PublicLinks extends ShareActivitySettings {
 	 * @return string A translated string
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function getName() {
 		return $this->l->t('A file or folder shared by mail or by public link was <strong>downloaded</strong>');
 	}
@@ -31,6 +33,7 @@ class PublicLinks extends ShareActivitySettings {
 	 *             priority values. It is required to return a value between 0 and 100.
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function getPriority() {
 		return 20;
 	}
@@ -39,6 +42,7 @@ class PublicLinks extends ShareActivitySettings {
 	 * @return bool True when the option can be changed for the stream
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function canChangeStream() {
 		return true;
 	}
@@ -47,6 +51,7 @@ class PublicLinks extends ShareActivitySettings {
 	 * @return bool True when the option can be changed for the stream
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function isDefaultEnabledStream() {
 		return true;
 	}
@@ -55,6 +60,7 @@ class PublicLinks extends ShareActivitySettings {
 	 * @return bool True when the option can be changed for the mail
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function canChangeMail() {
 		return true;
 	}
@@ -63,6 +69,7 @@ class PublicLinks extends ShareActivitySettings {
 	 * @return bool True when the option can be changed for the stream
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function isDefaultEnabledMail() {
 		return false;
 	}

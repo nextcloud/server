@@ -153,7 +153,11 @@ class QuerySearchHelper {
 
 		$requestedFields = $this->searchBuilder->extractRequestedFields($searchQuery->getSearchOperation());
 
-		$joinExtendedCache = in_array('creation_time', $requestedFields) || in_array('upload_time', $requestedFields);
+		$orderFields = array_map(fn ($order) => $order->getField(), $searchQuery->getOrder());
+
+		$joinExtendedCache = in_array('creation_time', $requestedFields)
+			|| in_array('upload_time', $requestedFields)
+			|| in_array('last_activity', $orderFields);
 
 		$query = $builder->selectFileCache('file', $joinExtendedCache);
 

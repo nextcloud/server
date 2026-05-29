@@ -58,6 +58,7 @@ class ZipResponse extends Response implements ICallbackResponse {
 	/**
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function callback(IOutput $output) {
 		$size = 0;
 		$files = count($this->resources);

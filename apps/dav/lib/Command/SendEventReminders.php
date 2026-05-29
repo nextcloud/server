@@ -30,12 +30,14 @@ class SendEventReminders extends Command {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	protected function configure():void {
 		$this
 			->setName('dav:send-event-reminders')
 			->setDescription('Sends event reminders');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		if ($this->config->getAppValue('dav', 'sendEventReminders', 'yes') !== 'yes') {
 			$output->writeln('<error>Sending event reminders disabled!</error>');

@@ -107,6 +107,7 @@ class PreviewManager implements IPreview {
 	 * @param string $mimeTypeRegex Regex with the mime types that are supported by this provider
 	 * @param ProviderClosure $callable
 	 */
+	#[\Override]
 	public function registerProvider(string $mimeTypeRegex, Closure $callable): void {
 		if (!$this->enablePreviews) {
 			return;
@@ -122,6 +123,7 @@ class PreviewManager implements IPreview {
 	/**
 	 * Get all providers
 	 */
+	#[\Override]
 	public function getProviders(): array {
 		if (!$this->enablePreviews) {
 			return [];
@@ -141,6 +143,7 @@ class PreviewManager implements IPreview {
 	/**
 	 * Does the manager have any providers
 	 */
+	#[\Override]
 	public function hasProviders(): bool {
 		$this->registerCoreProviders();
 		return !empty($this->providers);
@@ -163,6 +166,7 @@ class PreviewManager implements IPreview {
 		return $this->generator;
 	}
 
+	#[\Override]
 	public function getPreview(
 		File $file,
 		int $width = -1,
@@ -193,11 +197,13 @@ class PreviewManager implements IPreview {
 	 * @throws \InvalidArgumentException if the preview would be invalid (in case the original image is invalid)
 	 * @since 19.0.0
 	 */
+	#[\Override]
 	public function generatePreviews(File $file, array $specifications, ?string $mimeType = null): ISimpleFile {
 		$this->throwIfPreviewsDisabled($file, $mimeType);
 		return $this->getGenerator()->generatePreviews($file, $specifications, $mimeType);
 	}
 
+	#[\Override]
 	public function isMimeSupported(string $mimeType = '*'): bool {
 		if (!$this->enablePreviews) {
 			return false;
@@ -220,6 +226,7 @@ class PreviewManager implements IPreview {
 		return false;
 	}
 
+	#[\Override]
 	public function isAvailable(FileInfo $file, ?string $mimeType = null): bool {
 		if (!$this->enablePreviews) {
 			return false;

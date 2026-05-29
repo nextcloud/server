@@ -41,10 +41,12 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 	) {
 	}
 
+	#[\Override]
 	public function useBackendForStorage(IStorage $storage): bool {
 		return true;
 	}
 
+	#[\Override]
 	public function getVersionsForFile(IUser $user, FileInfo $file): array {
 		$storage = $file->getStorage();
 
@@ -147,6 +149,7 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 		return $davVersions;
 	}
 
+	#[\Override]
 	public function createVersion(IUser $user, FileInfo $file) {
 		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
 		$relativePath = $userFolder->getRelativePath($file->getPath());
@@ -162,6 +165,7 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 		$userView->getFileInfo('files_versions/' . $relativePath . '.v' . $file->getMtime());
 	}
 
+	#[\Override]
 	public function rollback(IVersion $version) {
 		if (!$this->currentUserHasPermissions($version->getSourceFile(), Constants::PERMISSION_UPDATE)) {
 			throw new Forbidden('You cannot restore this version because you do not have update permissions on the source file.');
@@ -182,6 +186,7 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 		}
 	}
 
+	#[\Override]
 	public function read(IVersion $version) {
 		$versions = $this->getVersionFolder($version->getUser());
 		/** @var File $file */
@@ -189,6 +194,7 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 		return $file->fopen('r');
 	}
 
+	#[\Override]
 	public function getVersionFile(IUser $user, FileInfo $sourceFile, $revision): File {
 		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
 		$owner = $sourceFile->getOwner();
@@ -212,10 +218,12 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 		return $file;
 	}
 
+	#[\Override]
 	public function getRevision(Node $node): int {
 		return $node->getMTime();
 	}
 
+	#[\Override]
 	public function deleteVersion(IVersion $version): void {
 		if (!$this->currentUserHasPermissions($version->getSourceFile(), Constants::PERMISSION_DELETE)) {
 			throw new Forbidden('You cannot delete this version because you do not have delete permissions on the source file.');
@@ -229,6 +237,7 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 		$this->versionsMapper->delete($versionEntity);
 	}
 
+	#[\Override]
 	public function createVersionEntity(File $file): ?VersionEntity {
 		$versionEntity = new VersionEntity();
 		$versionEntity->setFileId($file->getId());
@@ -260,6 +269,7 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 		return null;
 	}
 
+	#[\Override]
 	public function updateVersionEntity(File $sourceFile, int $revision, array $properties): void {
 		$versionEntity = $this->versionsMapper->findVersionForFileId($sourceFile->getId(), $revision);
 
@@ -278,6 +288,7 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 		$this->versionsMapper->update($versionEntity);
 	}
 
+	#[\Override]
 	public function deleteVersionsEntity(File $file): void {
 		$this->versionsMapper->deleteAllVersionsForFileId($file->getId());
 	}
@@ -308,6 +319,7 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 		return false;
 	}
 
+	#[\Override]
 	public function setMetadataValue(Node $node, int $revision, string $key, string $value): void {
 		if (!$this->currentUserHasPermissions($node, Constants::PERMISSION_UPDATE)) {
 			throw new Forbidden('You cannot update the version\'s metadata because you do not have update permissions on the source file.');
@@ -323,6 +335,7 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function importVersionsForFile(IUser $user, Node $source, Node $target, array $versions): void {
 		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
 		$relativePath = $userFolder->getRelativePath($target->getPath());
@@ -371,6 +384,7 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function clearVersionsForFile(IUser $user, Node $source, Node $target): void {
 		$userId = $user->getUID();
 		$userFolder = $this->rootFolder->getUserFolder($userId);
