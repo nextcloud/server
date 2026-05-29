@@ -8,13 +8,17 @@ declare(strict_types=1);
  */
 namespace OC\BackgroundJob;
 
+use Exception;
 use OCP\BackgroundJob\IJobRuns;
 use OCP\BackgroundJob\JobRun;
 use OCP\BackgroundJob\JobStatus;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\Snowflake\ISnowflakeDecoder;
 use OCP\Snowflake\ISnowflakeGenerator;
 use Override;
+use Psr\Log\LoggerInterface;
+use RuntimeException;
 
 final readonly class JobRuns implements IJobRuns {
 	private const TABLE = 'job_runs';
@@ -23,7 +27,8 @@ final readonly class JobRuns implements IJobRuns {
 		private IDBConnection $connection,
 		private ISnowflakeGenerator $snowflakeGenerator,
 		private ISnowflakeDecoder $snowflakeDecoder,
-		private JobClassesRegistry $classesRegistry,
+		private JobClassesRegistry $jobClassesRegistry,
+		private LoggerInterface $logger,
 	) {
 	}
 
@@ -67,15 +72,57 @@ final readonly class JobRuns implements IJobRuns {
 			->executeQuery();
 
 		foreach ($result->iterateAssociative() as $row) {
-			$snowflakeInfo = $this->snowflakeDecoder->decode((string)$row['run_id']);
-			yield new JobRun(
-				$row['run_id'],
-				$this->classesRegistry->getName($row['class_id']),
-				$snowflakeInfo->getServerId(),
-				(int)$row['pid'],
-				$snowflakeInfo->getCreatedAt(),
-				JobStatus::from((int)$row['status']),
-			);
+			yield $this->rowToJobRun($row);
 		}
+	}
+
+	#[Override]
+	public function completedJobs(array $statuses = [], array $classes = [], int $limit = 200): \Generator {
+		if ($statuses === []) {
+			// By default, list only completed jobs
+			$statuses = [JobStatus::SUCCEEDED, JobStatus::FAILED, JobStatus::CRASHED];
+		}
+		$dbStatuses = array_map(static fn (JobStatus $status) => $status->value, $statuses);
+
+		$qb = $this->connection->getQueryBuilder();
+		$qb
+			->select('run_id', 'class_id', 'pid', 'status', 'duration', 'ram_peak_usage')
+			->from(self::TABLE)
+			->where($qb->expr()->in('status', $qb->createNamedParameter($dbStatuses, IQueryBuilder::PARAM_INT_ARRAY)))
+			->setMaxResults($limit)
+			->orderBy('run_id', 'DESC');
+
+		if ($classes !== []) {
+			$classIds = [];
+			foreach ($classes as $class) {
+				try {
+					$classIds[] = $this->jobClassesRegistry->getId($class);
+				} catch (Exception $e) {
+					$this->logger->warning('Fail to resolve background job class {class}', ['class' => $class, 'exception' => $e]);
+				}
+			}
+			if ($classIds === []) {
+				throw new RuntimeException('No class ID found for filtering');
+			}
+			$qb->andWhere($qb->expr()->in('class_id', $qb->createNamedParameter($classIds, IQueryBuilder::PARAM_INT_ARRAY)));
+		}
+
+		foreach ($qb->executeQuery()->iterateAssociative() as $row) {
+			yield $this->rowToJobRun($row);
+		}
+	}
+
+	private function rowToJobRun(array $dbRow): JobRun {
+		$snowflakeInfo = $this->snowflakeDecoder->decode((string)$dbRow['run_id']);
+		return new JobRun(
+			$dbRow['run_id'],
+			$this->jobClassesRegistry->getName($dbRow['class_id']),
+			$snowflakeInfo->getServerId(),
+			(int)$dbRow['pid'],
+			$snowflakeInfo->getCreatedAt(),
+			JobStatus::from((int)$dbRow['status']),
+			isset($dbRow['duration']) ? (int)$dbRow['duration'] : null,
+			isset($dbRow['ram_peak_usage']) ? (int)$dbRow['ram_peak_usage'] : null,
+		);
 	}
 }

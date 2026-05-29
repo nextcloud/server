@@ -17,6 +17,7 @@ use OC\Core\Command\App\Remove;
 use OC\Core\Command\App\Update;
 use OC\Core\Command\Background\Delete;
 use OC\Core\Command\Background\Job;
+use OC\Core\Command\Background\JobsHistory;
 use OC\Core\Command\Background\JobWorker;
 use OC\Core\Command\Background\ListCommand;
 use OC\Core\Command\Background\Mode;
@@ -150,6 +151,7 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(Delete::class));
 	$application->add(Server::get(JobWorker::class));
 	$application->add(Server::get(RunningJobs::class));
+	$application->add(Server::get(JobsHistory::class));
 
 	$application->add(Server::get(Test::class));
 
