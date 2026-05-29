@@ -7,6 +7,7 @@
 
 namespace OCA\CloudFederationAPI\Controller;
 
+use OCP\Constants;
 use OC\OCM\OCMSignatoryManager;
 use OCA\CloudFederationAPI\Config;
 use OCA\CloudFederationAPI\Db\FederatedInviteMapper;
@@ -145,6 +146,10 @@ class RequestHandlerController extends Controller {
 				],
 				Http::STATUS_BAD_REQUEST
 			);
+		}
+
+		if ($permissions === null) {
+			$permissions = $this->appConfig->getValueInt('core', 'shareapi_default_permissions', (string)Constants::PERMISSION_ALL);
 		}
 
 		$supportedShareTypes = $this->config->getSupportedShareTypes($resourceType);

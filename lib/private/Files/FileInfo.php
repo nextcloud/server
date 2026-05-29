@@ -8,6 +8,7 @@
 
 namespace OC\Files;
 
+use OCP\Files\Storage\IExternalShareStorage;
 use OC\Files\Cache\CacheEntry;
 use OC\Files\Mount\HomeMountPoint;
 use OCA\Files_Sharing\ISharedMountPoint;
@@ -63,6 +64,13 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 			$this->rawSize = $this->data['unencrypted_size'];
 		} else {
 			$this->rawSize = $this->data['size'] ?? 0;
+		}
+
+		if ($storage?->instanceOfStorage(IExternalShareStorage::class)) {
+			$externalSharePermissions = $storage->getShare()->getPermissions();
+			if ($this->data['permissions'] !== $externalSharePermissions) {
+				$this->data->offsetSet('permissions', $externalSharePermissions);
+			}
 		}
 	}
 
