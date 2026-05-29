@@ -101,8 +101,12 @@ class Crypto implements ICrypto {
 			return $this->decryptWithoutSecret($authenticatedCiphertext, $password);
 		} catch (Exception $e) {
 			if ($password === '') {
-				// Retry with empty secret as a fallback for instances where the secret might not have been set by accident
-				return $this->decryptWithoutSecret($authenticatedCiphertext, '');
+				try {
+					// Retry with empty secret as a fallback for instances where the secret might not have been set by accident
+					return $this->decryptWithoutSecret($authenticatedCiphertext, '');
+				} catch (\Throwable) {
+					// ignore, so we throw the original error
+				}
 			}
 			throw $e;
 		}
