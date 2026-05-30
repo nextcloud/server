@@ -149,6 +149,7 @@
     "Could not load app categories. Please try again later." : "App-Kategorien konnten nicht geladen werden. Bitte später erneut versuchen.",
     "Could not load apps list. Please try again later." : "App-Listen konnten nicht geladen werden. Bitte später erneut versuchen.",
     "Could not update the app. Please try again later." : "App konnte nicht aktualisiert werden. Bitte später erneut versuchen.",
-    "An error occurred during the request. Unable to proceed." : "Es ist ein Fehler bei der Anfrage aufgetreten. Es kann nicht fortgefahren werden."
+    "An error occurred during the request. Unable to proceed." : "Es ist ein Fehler bei der Anfrage aufgetreten. Es kann nicht fortgefahren werden.",
+    "Powered by Euro-Office" : "Unterstützt von Euro-Office"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
