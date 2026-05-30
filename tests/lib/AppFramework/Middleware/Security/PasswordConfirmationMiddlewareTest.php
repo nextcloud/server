@@ -95,7 +95,7 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataProviderNonExemptBackend')]
-	public function testAnnotation(string $backend, int $lastConfirm, int $currentTime, bool $exception): void
+	public function testAnnotation(string $backend, int $lastConfirm, int $currentTime, bool $exception): void {
 		$this->reflector->reflect($this->controller, __FUNCTION__);
 
 		$this->user->method('getBackendClassName')
