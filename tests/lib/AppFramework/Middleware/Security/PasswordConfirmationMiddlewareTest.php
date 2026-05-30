@@ -93,7 +93,7 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 		$this->middleware->beforeController($this->controller, __FUNCTION__);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataProviderNonExemptBackend')]
 	public function testAnnotation($backend, $lastConfirm, $currentTime, $exception): void {
 		$this->reflector->reflect($this->controller, __FUNCTION__);
 
@@ -126,7 +126,7 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 		$this->assertSame($exception, $thrown);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataProviderNonExemptBackend')]
 	public function testAttribute($backend, $lastConfirm, $currentTime, $exception): void {
 		$this->reflector->reflect($this->controller, __FUNCTION__);
 
@@ -159,16 +159,38 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 		$this->assertSame($exception, $thrown);
 	}
 
-
-
-	public static function dataProvider(): array {
+	public static function dataProviderNonExemptBackend(): array {
 		return [
 			['foo', 2000, 4000, true],
 			['foo', 2000, 3000, false],
-			['user_saml', 2000, 4000, false],
-			['user_saml', 2000, 3000, false],
 			['foo', 2000, 3815, false],
 			['foo', 2000, 3816, true],
+		];
+	}
+
+	/**
+	 * @dataProvider dataProviderLegacyExemptBackends
+	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataProviderLegacyExemptBackends')]
+	public function testLegacyBackendExempt(string $backend): void {
+		$this->reflector->reflect($this->controller, __FUNCTION__);
+
+		$this->user->method('getBackendClassName')
+			->willReturn($backend);
+		$this->userSession->method('getUser')
+			->willReturn($this->user);
+
+		// Backend is exempt — getToken() must never be called
+		$this->tokenProvider->expects($this->never())
+			->method('getToken');
+
+		$this->middleware->beforeController($this->controller, __FUNCTION__);
+	}
+
+	public static function dataProviderLegacyExemptBackends(): array {
+		return [
+			['user_saml'],
+			['user_globalsiteselector'],
 		];
 	}
 
