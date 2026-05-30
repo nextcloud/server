@@ -151,6 +151,7 @@ OC.L10N.register(
     "Could not load app categories. Please try again later." : "Não foi possível carregar as categorias de aplicativos. Tente novamente mais tarde.",
     "Could not load apps list. Please try again later." : "Não foi possível carregar a lista de aplicativos. Tente novamente mais tarde.",
     "Could not update the app. Please try again later." : "Não foi possível atualizar o aplicativo. Tente novamente mais tarde.",
-    "An error occurred during the request. Unable to proceed." : "Ocorreu um erro durante a solicitação. Não é possível prosseguir."
+    "An error occurred during the request. Unable to proceed." : "Ocorreu um erro durante a solicitação. Não é possível prosseguir.",
+    "Powered by Euro-Office" : "Impulsionado por Euro-Office"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

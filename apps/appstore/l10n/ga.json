@@ -149,6 +149,7 @@
     "Could not load app categories. Please try again later." : "Níorbh fhéidir catagóirí aipeanna a lódáil. Déan iarracht arís ar ball.",
     "Could not load apps list. Please try again later." : "Níorbh fhéidir liosta na n-aipeanna a lódáil. Déan iarracht arís ar ball.",
     "Could not update the app. Please try again later." : "Níorbh fhéidir an aip a nuashonrú. Déan iarracht arís ar ball.",
-    "An error occurred during the request. Unable to proceed." : "Tharla earráid le linn an iarratais. Ní féidir dul ar aghaidh."
+    "An error occurred during the request. Unable to proceed." : "Tharla earráid le linn an iarratais. Ní féidir dul ar aghaidh.",
+    "Powered by Euro-Office" : "Cumhachtaithe ag Euro-Office"
 },"pluralForm" :"nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);"
 }

@@ -227,6 +227,7 @@ OC.L10N.register(
     "Pick start date" : "Roghnaigh dáta tosaithe",
     "Pick end date" : "Roghnaigh dáta deiridh",
     "Search in date range" : "Cuardaigh i raon dáta",
+    "Search apps, files, tags, messages …" : "Cuardaigh aipeanna, comhaid, clibeanna, teachtaireachtaí …",
     "Search in current app" : "Cuardaigh san aip reatha",
     "Clear search" : "Glan cuardach",
     "Search everywhere" : "Cuardaigh i ngach áit",

@@ -151,6 +151,7 @@ OC.L10N.register(
     "Could not load app categories. Please try again later." : "無法載入應用程式分類。請稍後再試。",
     "Could not load apps list. Please try again later." : "無法載入應用程式清單。請稍後再試。",
     "Could not update the app. Please try again later." : "無法更新應用程式。請稍後再試。",
-    "An error occurred during the request. Unable to proceed." : "請求時發生錯誤。無法繼續。"
+    "An error occurred during the request. Unable to proceed." : "請求時發生錯誤。無法繼續。",
+    "Powered by Euro-Office" : "威力本源 Euro-Office"
 },
 "nplurals=1; plural=0;");

@@ -227,6 +227,7 @@ OC.L10N.register(
     "Pick start date" : "Pasirinkti pradžios datą",
     "Pick end date" : "Pasirinkti pabaigos datą",
     "Search in date range" : "Paieška datų diapazone",
+    "Search apps, files, tags, messages …" : "Ieškokite programų, failų, žymų, pranešimų …",
     "Search in current app" : "Ieškoti esamoje programėlėje",
     "Clear search" : "Išvalyti paiešką",
     "Search everywhere" : "Ieškoti visur",
