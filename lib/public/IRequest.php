@@ -12,7 +12,7 @@ namespace OCP;
 /**
  * Immutable request wrapper with accessors for request variables and other
  * request-related data.
- * 
+ *
  * Request data should be retrieved through this interface whenever possible.
  *
  * Parameters can be accessed through dedicated methods or via magic property
