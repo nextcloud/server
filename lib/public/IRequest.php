@@ -208,8 +208,10 @@ interface IRequest {
 	public function passesLaxCookieCheck(): bool;
 
 	/**
-	 * Returns an ID for the request, value is not guaranteed to be unique and is mostly meant for logging
-	 * If `mod_unique_id` is installed this value will be taken.
+	 * Returns a request identifier intended primarily for logging and tracing.
+	 *
+	 * The value is not guaranteed to be globally unique. If `mod_unique_id` is
+	 * installed, that value may be used by the implementation.
 	 *
 	 * @return string
 	 * @since 8.1.0
@@ -217,10 +219,14 @@ interface IRequest {
 	public function getId(): string;
 
 	/**
-	 * Returns the remote address, if the connection came from a trusted proxy
-	 * and `forwarded_for_headers` has been configured then the IP address
-	 * specified in this header will be returned instead.
-	 * Do always use this instead of $_SERVER['REMOTE_ADDR']
+	 * Returns the effective remote IP address.
+	 *
+	 * If the connection comes from a trusted proxy and `forwarded_for_headers`
+	 * is configured, the client IP from those forwarded headers is used
+	 * instead.
+	 *
+	 * Do not use `$_SERVER['REMOTE_ADDR']` directly when this method is
+	 * available.
 	 *
 	 * @return string IP address
 	 * @since 8.1.0
@@ -228,29 +234,31 @@ interface IRequest {
 	public function getRemoteAddress(): string;
 
 	/**
-	 * Returns the server protocol. It respects one or more reverse proxies servers
-	 * and load balancers. Precedence:
+	 * Returns the effective server protocol.
+	 *
+	 * Respects reverse proxies and load balancers. Precedence:
 	 *   1. `overwriteprotocol` config value
 	 *   2. `X-Forwarded-Proto` header value
-	 *   3. $_SERVER['HTTPS'] value
-	 * If an invalid protocol is provided, defaults to http, continues, but logs as an error.
+	 *   3. `$_SERVER['HTTPS']` value
 	 *
-	 * @return string Server protocol (http or https)
+	 *  Invalid values fall back to `http`.
+	 *
+	 * @return string Server protocol: `http` or `https`
 	 * @since 8.1.0
 	 */
 	public function getServerProtocol(): string;
 
 	/**
-	 * Returns the used HTTP protocol.
+	 * Returns the HTTP protocol version used for the request.
 	 *
-	 * @return string HTTP protocol. HTTP/2, HTTP/1.1 or HTTP/1.0.
+	 * @return string HTTP protocol, for example HTTP/2, HTTP/1.1, or HTTP/1.0
 	 * @since 8.2.0
 	 */
 	public function getHttpProtocol(): string;
 
 	/**
-	 * Returns the request uri, even if the website uses one or more
-	 * reverse proxies
+	 * Returns the request URI, taking reverse-proxy and overwrite settings into
+	 * account.
 	 *
 	 * @psalm-taint-source input
 	 *
@@ -260,30 +268,30 @@ interface IRequest {
 	public function getRequestUri(): string;
 
 	/**
-	 * Get raw PathInfo from request (not urldecoded)
+	 * Returns raw path info from the request without URL decoding.
 	 *
 	 * @psalm-taint-source input
 	 *
 	 * @throws \Exception
-	 * @return string Path info
+	 * @return string path info
 	 * @since 8.1.0
 	 */
 	public function getRawPathInfo(): string;
 
 	/**
-	 * Get PathInfo from request (rawurldecoded)
+	 * Returns decoded path info from the request.
 	 *
 	 * @psalm-taint-source input
 	 *
 	 * @throws \Exception
-	 * @return string|false Path info or false when not found
+	 * @return string|false path info, or false when it cannot be determined
 	 * @since 8.1.0
 	 */
 	public function getPathInfo();
 
 	/**
-	 * Returns the script name, even if the website uses one or more
-	 * reverse proxies
+	 * Returns the effective script name, taking reverse-proxy and overwrite
+	 * settings into account.
 	 *
 	 * @return string the script name
 	 * @since 8.1.0
@@ -291,38 +299,46 @@ interface IRequest {
 	public function getScriptName(): string;
 
 	/**
-	 * Checks whether the user agent matches a given regex
+	 * Checks whether the current user agent matches at least one of the given
+	 * regular expressions.
 	 *
-	 * @param array $agent array of agent names
-	 * @return bool true if at least one of the given agent matches, false otherwise
+	 * @param array $agent array of user-agent regex patterns
+	 * @return bool true if at least one pattern matches, false otherwise
 	 * @since 8.1.0
 	 */
 	public function isUserAgent(array $agent): bool;
 
 	/**
-	 * Returns the unverified server host from the headers without checking
-	 * whether it is a trusted domain
+	 * Returns the effective host value without validating it against the trusted
+	 * domains configuration.
+	 *
+	 * This may be derived from request headers, proxy headers, or server
+	 * variables, depending on the deployment setup.
 	 *
 	 * @psalm-taint-source input
 	 *
-	 * @return string Server host
+	 * @return string server host
 	 * @since 8.1.0
 	 */
 	public function getInsecureServerHost(): string;
 
 	/**
-	 * Returns the server host from the headers, or the first configured
-	 * trusted domain if the host isn't in the trusted list
+	 * Returns the validated effective server host.
 	 *
-	 * @return string Server host
+	 * The implementation may use overwrite host configuration first. Otherwise
+	 * it derives the host from the request and returns it only if it is trusted;
+	 * if not, it falls back to the first configured trusted domain.
+	 *
+	 * @return string server host
 	 * @since 8.1.0
 	 */
 	public function getServerHost(): string;
 
 	/**
-	 * If decoding the request content failed, throw an exception.
-	 * Currently only \JsonException for json decoding errors,
-	 * but in the future may throw other exceptions for other decoding issues.
+	 * Throws any stored request-content decoding exception.
+	 *
+	 * Currently this is used for JSON decoding errors, but implementations may
+	 * throw other decoding-related exceptions in the future.
 	 *
 	 * @throws \Exception
 	 * @since 32.0.0
@@ -330,9 +346,10 @@ interface IRequest {
 	public function throwDecodingExceptionIfAny(): void;
 
 	/**
-	 * Returns the format of the response to this request.
+	 * Returns the requested response format, if it can be determined.
 	 *
-	 * The `Accept` header and the `format` query parameter control the format.
+	 * The `format` request parameter takes precedence. Otherwise the format may
+	 * be inferred from the `Accept` header.
 	 *
 	 * @return string|null
 	 * @since 33.0.0
