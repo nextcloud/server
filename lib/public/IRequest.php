@@ -177,27 +177,32 @@ interface IRequest {
 	public function getCookie(string $key);
 
 	/**
-	 * Checks if the CSRF check was correct
+	 * Checks whether the request passes CSRF validation.
 	 *
-	 * @return bool true if CSRF check passed
+	 * Depending on the request, this may include same-site cookie checks and
+	 * token validation from request parameters or headers. OCS API requests are
+	 * handled specially by the implementation (if the OCS-APIRequest header is
+	 * included in the request).
+	 *
+	 * @return bool true if the request passes CSRF validation
 	 * @since 6.0.0
 	 */
 	public function passesCSRFCheck(): bool;
 
 	/**
-	 * Checks if the strict cookie has been sent with the request if the request
-	 * is including any cookies.
+	 * Checks whether the strict same-site cookie requirement is satisfied when
+	 * session or authentication cookies are part of the request.
 	 *
-	 * @return bool
+	 * @return bool true if the strict cookie check passes
 	 * @since 9.0.0
 	 */
 	public function passesStrictCookieCheck(): bool;
 
 	/**
-	 * Checks if the lax cookie has been sent with the request if the request
-	 * is including any cookies.
+	 * Checks whether the lax same-site cookie requirement is satisfied when
+	 * session or authentication cookies are part of the request.
 	 *
-	 * @return bool
+	 * @return bool true if the lax cookie check passes
 	 * @since 9.0.0
 	 */
 	public function passesLaxCookieCheck(): bool;
