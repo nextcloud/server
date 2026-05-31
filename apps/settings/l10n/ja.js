@@ -22,6 +22,7 @@ OC.L10N.register(
     "You created an app password for a session named \"{token}\"" : "あなたは \"{token}\" という名前のセッションのアプリパスワードを作成しました",
     "An administrator created an app password for a session named \"{token}\"" : "管理者が \"{token}\" という名前のセッションのアプリパスワードを作成しました",
     "You deleted app password \"{token}\"" : "アプリパスワード\"{token}\"を削除しました",
+    "You deleted app password \"{token}\" and cancelled its pending remote wipe" : "アプリのパスワード \"{token}\" を削除し、保留中のリモートワイプをキャンセルしました",
     "You renamed app password \"{token}\" to \"{newToken}\"" : "アプリのパスワードを{token} から {newToken} に変更しました。",
     "You granted filesystem access to app password \"{token}\"" : "アプリのパスワード\"{token}\"へファイルシステムアクセス件を付与しました",
     "You revoked filesystem access from app password \"{token}\"" : "アプリのパスワード\"{token}\"へファイルシステムアクセス件を取り下げました",
