@@ -3337,9 +3337,6 @@
     </FalsableReturnStatement>
     <NullableReturnStatement>
       <code><![CDATA[$this->getOverwriteHost()]]></code>
-      <code><![CDATA[isset($this->cookies[$key]) ? $this->cookies[$key] : null]]></code>
-      <code><![CDATA[isset($this->env[$key]) ? $this->env[$key] : null]]></code>
-      <code><![CDATA[isset($this->files[$key]) ? $this->files[$key] : null]]></code>
     </NullableReturnStatement>
     <RedundantCondition>
       <code><![CDATA[\is_array($params)]]></code>
