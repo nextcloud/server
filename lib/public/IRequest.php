@@ -10,26 +10,27 @@ declare(strict_types=1);
 namespace OCP;
 
 /**
- * This interface provides an immutable object with with accessors to
- * request variables and headers.
+ * Immutable request wrapper with accessors for request variables and other
+ * request-related data.
+ * 
+ * Request data should be retrieved through this interface whenever possible.
  *
- * Access request variables by method and name.
+ * Parameters can be accessed through dedicated methods or via magic property
+ * access, for example:
  *
- * Examples:
+ * $request->post['myvar']; // POST body parameters on POST requests
+ * $request->myvar;         // merged request parameters
  *
- * $request->post['myvar']; // Only look for POST variables
- * $request->myvar; or $request->{'myvar'}; or $request->{$myvar}
- * Looks in the combined GET, POST and urlParams array.
+ * Magic access to a named parameter reads from the merged request parameter
+ * set. Method-specific properties such as `get`, `post`, `put`, and `patch`
+ * are only available for the matching HTTP method and may throw a
+ * \LogicException otherwise.
  *
- * If you access e.g. ->post but the current HTTP request method
- * is GET a \LogicException will be thrown.
- *
- * NOTE:
- * - When accessing ->put a stream resource is returned and the accessor
- *   will return false on subsequent access to ->put or ->patch.
- * - When accessing ->patch and the Content-Type is either application/json
- *   or application/x-www-form-urlencoded (most cases) it will act like ->get
- *   and ->post and return an array. Otherwise the raw data will be returned.
+ * In PUT requests, if the body is JSON or form-encoded, `->put` behaves like
+ * the other method-specific accessors and returns parsed request parameters.
+ * Otherwise, for non-empty request bodies, it returns a readable stream
+ * resource for the raw request body. Such streamed PUT bodies can only be
+ * accessed once; repeated access throws a \LogicException.
  *
  * @property-read string[] $server
  * @property-read string[] $urlParams
