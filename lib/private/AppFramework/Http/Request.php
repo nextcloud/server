@@ -20,16 +20,20 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\IpUtils;
 
 /**
- * Class for accessing variables in the request.
- * This class provides an immutable object with request variables.
+ * Default immutable IRequest implementation.
  *
- * @property mixed[] $cookies
- * @property mixed[] $env
- * @property mixed[] $files
- * @property string $method
- * @property mixed[] $parameters
- * @property mixed[] $server
- * @template-implements \ArrayAccess<string,mixed>
+ * @property-read array<string, mixed> $get
+ * @property-read array<string, mixed> $post
+ * @property-read array<string, mixed>|resource $put
+ * @property-read array<string, mixed> $patch
+ * @property-read string $method
+ * @property-read array<string, mixed> $server
+ * @property-read array<string, mixed> $urlParams
+ * @property-read array<string, mixed> $cookies
+ * @property-read array<string, mixed> $env
+ * @property-read array<string, mixed> $files
+ * @property-read array<string, mixed> $parameters
+ * @template-implements \ArrayAccess<string, mixed>
  */
 class Request implements \ArrayAccess, \Countable, IRequest {
 	public const USER_AGENT_IE = '/(MSIE)|(Trident)/';
@@ -266,7 +270,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		$specialKeys = [
 			'CONTENT_TYPE' => true,
 			'CONTENT_LENGTH' => true,
-			'REMOTE_ADDR' = true,
+			'REMOTE_ADDR' => true,
 		];
 
 		if (isset($specialKeys[$elementName]) && isset($this->server[$elementName])) {
