@@ -111,30 +111,30 @@ interface IRequest {
 	public function getHeader(string $name): string;
 
 	/**
-	 * Lets you access post and get parameters by the index
-	 * In case of json requests the encoded json body is accessed
+	 * Returns a parameter value from the merged parameter set.
+	 *
+	 * The merged parameter set is primarily composed from route URL parameters,
+	 * POST parameters and GET parameters. Depending on request content type and
+	 * prior access, lazily decoded request-body parameters may also be present.
 	 *
 	 * @psalm-taint-source input
 	 *
-	 * @param string $key the key which you want to access in the URL Parameter
-	 *                    placeholder, $_POST or $_GET array.
-	 *                    The priority how they're returned is the following:
-	 *                    1. URL parameters
-	 *                    2. POST parameters
-	 *                    3. GET parameters
-	 * @param mixed $default If the key is not found, this value will be returned
-	 * @return mixed the content of the array
+	 * @param string $key the key to look up
+	 * @param mixed $default the value to return if the key is not found
+	 * @return mixed the parameter value, or $default if the key is not present
 	 * @since 6.0.0
 	 */
 	public function getParam(string $key, $default = null);
 
 	/**
-	 * Returns all params that were received, be it from the request
-	 * (as GET or POST) or through the URL by the route
+	 * Returns the merged parameter set currently available on the request.
+	 *
+	 * This includes request parameters from GET, POST and route URL parameters,
+	 * and may also include decoded request-body parameters.
 	 *
 	 * @psalm-taint-source input
 	 *
-	 * @return array the array with all parameters
+	 * @return array the merged parameters
 	 * @since 6.0.0
 	 */
 	public function getParams(): array;
