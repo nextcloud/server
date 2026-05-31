@@ -32,8 +32,14 @@ namespace OCP;
  * resource for the raw request body. Such streamed PUT bodies can only be
  * accessed once; repeated access throws a \LogicException.
  *
- * @property-read string[] $server
+ * @property-read array<string, mixed> $get
+ * @property-read array<string, mixed> $post
+ * @property-read array<string, mixed>|resource $put
+ * @property-read array<string, mixed> $patch
+ * @property-read string $method
+ * @property-read array<string, mixed> $server
  * @property-read string[] $urlParams
+ *
  * @since 6.0.0
  */
 interface IRequest {
@@ -93,8 +99,10 @@ interface IRequest {
 	/**
 	 * Returns the value of a request header, or an empty string if missing.
 	 *
-	 * Also supports a few related server variables that are commonly available
-	 * through the request environment.
+	 * Header names are matched case-insensitively.
+	 *
+	 * Besides normal HTTP headers, also supports selected request-related
+	 * server values such as `REMOTE_ADDR`.
 	 *
 	 * @psalm-taint-source input
 	 *
