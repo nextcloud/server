@@ -140,38 +140,38 @@ interface IRequest {
 	public function getParams(): array;
 
 	/**
-	 * Returns the method of the request
+	 * Returns the request method.
 	 *
-	 * @return string the method of the request (POST, GET, etc)
+	 * @return string the HTTP method, for example GET, POST, PUT, or PATCH
 	 * @since 6.0.0
 	 */
 	public function getMethod(): string;
 
 	/**
-	 * Shortcut for accessing an uploaded file through the $_FILES array
+	 * Returns an uploaded file entry from the `$_FILES` data, if present.
 	 *
-	 * @param string $key the key that will be taken from the $_FILES array
-	 * @return array the file in the $_FILES element
+	 * @param string $key the file field name
+	 * @return array|null the matching uploaded file entry, or null if missing
 	 * @since 6.0.0
 	 */
 	public function getUploadedFile(string $key);
 
 	/**
-	 * Shortcut for getting env variables
+	 * Returns an environment value from the request environment, if present.
 	 *
-	 * @param string $key the key that will be taken from the $_ENV array
-	 * @return array the value in the $_ENV element
+	 * @param string $key the environment variable name
+	 * @return mixed|null the environment value, or null if missing
 	 * @since 6.0.0
 	 */
 	public function getEnv(string $key);
 
 	/**
-	 * Shortcut for getting cookie variables
+	 * Returns a cookie value, if present.
 	 *
 	 * @psalm-taint-source input
 	 *
-	 * @param string $key the key that will be taken from the $_COOKIE array
-	 * @return string|null the value in the $_COOKIE element
+	 * @param string $key the cookie name
+	 * @return string|null the cookie value, or null if missing
 	 * @since 6.0.0
 	 */
 	public function getCookie(string $key);
