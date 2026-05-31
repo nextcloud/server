@@ -6,8 +6,6 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-// use OCP namespace for all classes that are considered public.
-// This means that they should be used by apps instead of the internal Nextcloud classes
 
 namespace OCP;
 
@@ -92,11 +90,13 @@ interface IRequest {
 	public const JSON_CONTENT_TYPE_REGEX = '/^application\/(?:[a-z0-9.-]+\+)?json\b/';
 
 	/**
-	 * @param string $name
+	 * Returns the value of a request header, or an empty string if missing.
+	 *
+	 * Also supports a few related server variables that are commonly available
+	 * through the request environment.
 	 *
 	 * @psalm-taint-source input
 	 *
-	 * @return string
 	 * @since 6.0.0
 	 */
 	public function getHeader(string $name): string;
@@ -121,7 +121,6 @@ interface IRequest {
 
 	/**
 	 * Returns all params that were received, be it from the request
-	 *
 	 * (as GET or POST) or through the URL by the route
 	 *
 	 * @psalm-taint-source input
@@ -215,8 +214,12 @@ interface IRequest {
 	public function getRemoteAddress(): string;
 
 	/**
-	 * Returns the server protocol. It respects reverse proxy servers and load
-	 * balancers.
+	 * Returns the server protocol. It respects one or more reverse proxies servers
+	 * and load balancers. Precedence:
+	 *   1. `overwriteprotocol` config value
+	 *   2. `X-Forwarded-Proto` header value
+	 *   3. $_SERVER['HTTPS'] value
+	 * If an invalid protocol is provided, defaults to http, continues, but logs as an error.
 	 *
 	 * @return string Server protocol (http or https)
 	 * @since 8.1.0
@@ -254,7 +257,7 @@ interface IRequest {
 	public function getRawPathInfo(): string;
 
 	/**
-	 * Get PathInfo from request
+	 * Get PathInfo from request (rawurldecoded)
 	 *
 	 * @psalm-taint-source input
 	 *
