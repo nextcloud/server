@@ -57,7 +57,7 @@
 				<img
 					class="app-menu__current-app-icon"
 					:class="{ 'app-menu__current-app-icon--settings': currentApp.type === 'settings' }"
-					:src="currentApp.icon"
+					:src="displayIcon"
 					alt=""
 					aria-hidden="true">
 			</template>
@@ -170,6 +170,17 @@ export default defineComponent({
 			return this.currentApp.type === 'settings'
 				? t('core', 'Settings')
 				: this.currentApp.name
+		},
+
+		// Match the collapsed label: a generic cog for any settings
+		// sub-section instead of the per-section icon.
+		displayIcon(): string {
+			if (!this.currentApp) {
+				return ''
+			}
+			return this.currentApp.type === 'settings'
+				? imagePath('core', 'actions/settings.svg')
+				: this.currentApp.icon
 		},
 
 		// aria-label overrides the inner span text, so the displayed name
