@@ -45,6 +45,7 @@ use OCA\Files_External\Lib\Config\IAuthMechanismProvider;
 use OCA\Files_External\Lib\Config\IBackendProvider;
 use OCA\Files_External\Listener\GroupDeletedListener;
 use OCA\Files_External\Listener\LoadAdditionalListener;
+use OCA\Files_External\Listener\StorePasswordListener;
 use OCA\Files_External\Listener\UserDeletedListener;
 use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\MountCacheService;
@@ -57,9 +58,11 @@ use OCP\Group\Events\BeforeGroupDeletedEvent;
 use OCP\Group\Events\GroupDeletedEvent;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
+use OCP\User\Events\PasswordUpdatedEvent;
 use OCP\User\Events\PostLoginEvent;
 use OCP\User\Events\UserCreatedEvent;
 use OCP\User\Events\UserDeletedEvent;
+use OCP\User\Events\UserLoggedInEvent;
 use Psr\Container\ContainerExceptionInterface;
 
 /**
@@ -90,6 +93,9 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 		$context->registerEventListener(UserAddedEvent::class, MountCacheService::class);
 		$context->registerEventListener(UserRemovedEvent::class, MountCacheService::class);
 		$context->registerEventListener(PostLoginEvent::class, MountCacheService::class);
+
+		$context->registerEventListener(UserLoggedInEvent::class, StorePasswordListener::class);
+		$context->registerEventListener(PasswordUpdatedEvent::class, StorePasswordListener::class);
 
 		$context->registerConfigLexicon(ConfigLexicon::class);
 	}
