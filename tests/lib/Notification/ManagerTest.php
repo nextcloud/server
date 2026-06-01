@@ -46,6 +46,7 @@ class ManagerTest extends TestCase {
 	/** @var RegistrationContext|MockObject */
 	protected $registrationContext;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

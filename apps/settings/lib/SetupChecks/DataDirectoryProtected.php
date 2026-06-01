@@ -32,14 +32,17 @@ class DataDirectoryProtected implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'network';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Data directory protected');
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		$dataDir = str_replace(\OC::$SERVERROOT . '/', '', $this->config->getSystemValueString('datadirectory', ''));
 		$dataUrl = $this->urlGenerator->linkTo('', $dataDir . '/.ncdata');

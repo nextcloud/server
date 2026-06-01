@@ -46,6 +46,7 @@ require_once 'public/Constants.php';
 class OC {
 	/**
 	 * The installation path for Nextcloud  on the server (e.g. /srv/http/nextcloud)
+	 * @internal Use auto-loaded $serverRoot with DI instead.
 	 */
 	public static string $SERVERROOT = '';
 	/**
@@ -119,8 +120,8 @@ class OC {
 		if (substr($scriptName, -1) == '/') {
 			$scriptName .= 'index.php';
 			//make sure suburi follows the same rules as scriptName
-			if (substr(OC::$SUBURI, -9) != 'index.php') {
-				if (substr(OC::$SUBURI, -1) != '/') {
+			if (substr(OC::$SUBURI, -9) !== 'index.php') {
+				if (substr(OC::$SUBURI, -1) !== '/') {
 					OC::$SUBURI = OC::$SUBURI . '/';
 				}
 				OC::$SUBURI = OC::$SUBURI . 'index.php';
@@ -133,7 +134,7 @@ class OC {
 			if (substr($scriptName, 0 - strlen(OC::$SUBURI)) === OC::$SUBURI) {
 				OC::$WEBROOT = substr($scriptName, 0, 0 - strlen(OC::$SUBURI));
 
-				if (OC::$WEBROOT != '' && OC::$WEBROOT[0] !== '/') {
+				if (OC::$WEBROOT !== '' && OC::$WEBROOT[0] !== '/') {
 					OC::$WEBROOT = '/' . OC::$WEBROOT;
 				}
 			} else {
@@ -238,7 +239,7 @@ class OC {
 
 	public static function checkMaintenanceMode(\OC\SystemConfig $systemConfig): void {
 		// Allow ajax update script to execute without being stopped
-		if (((bool)$systemConfig->getValue('maintenance', false)) && OC::$SUBURI != '/core/ajax/update.php') {
+		if (((bool)$systemConfig->getValue('maintenance', false)) && OC::$SUBURI !== '/core/ajax/update.php') {
 			// send http status 503
 			http_response_code(503);
 			header('X-Nextcloud-Maintenance-Mode: 1');

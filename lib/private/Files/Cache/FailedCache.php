@@ -26,10 +26,12 @@ class FailedCache implements ICache {
 	) {
 	}
 
+	#[\Override]
 	public function getNumericStorageId(): int {
 		return -1;
 	}
 
+	#[\Override]
 	public function get($file): false|ICacheEntry {
 		if ($file === '') {
 			return new CacheEntry([
@@ -45,59 +47,74 @@ class FailedCache implements ICache {
 		}
 	}
 
+	#[\Override]
 	public function getFolderContents(string $folder, ?string $mimeTypeFilter = null): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getFolderContentsById(int $fileId, ?string $mimeTypeFilter = null): array {
 		return [];
 	}
 
+	#[\Override]
 	public function put($file, array $data) {
 	}
 
+	#[\Override]
 	public function insert($file, array $data) {
 	}
 
+	#[\Override]
 	public function update($id, array $data) {
 	}
 
+	#[\Override]
 	public function getId($file): int {
 		return -1;
 	}
 
+	#[\Override]
 	public function getParentId($file): int {
 		return -1;
 	}
 
+	#[\Override]
 	public function inCache($file): bool {
 		return false;
 	}
 
+	#[\Override]
 	public function remove($file) {
 	}
 
+	#[\Override]
 	public function move($source, $target) {
 	}
 
+	#[\Override]
 	public function moveFromCache(ICache $sourceCache, $sourcePath, $targetPath) {
 	}
 
 	public function clear() {
 	}
 
+	#[\Override]
 	public function getStatus($file) {
 		return ICache::NOT_FOUND;
 	}
 
+	#[\Override]
 	public function search($pattern) {
 		return [];
 	}
 
+	#[\Override]
 	public function searchByMime($mimetype) {
 		return [];
 	}
 
+	#[\Override]
 	public function searchQuery(ISearchQuery $query) {
 		return [];
 	}
@@ -106,26 +123,32 @@ class FailedCache implements ICache {
 		return [];
 	}
 
+	#[\Override]
 	public function getIncomplete() {
 		return [];
 	}
 
+	#[\Override]
 	public function getPathById($id) {
 		return null;
 	}
 
+	#[\Override]
 	public function normalize($path) {
 		return $path;
 	}
 
+	#[\Override]
 	public function copyFromCache(ICache $sourceCache, ICacheEntry $sourceEntry, string $targetPath): int {
 		throw new \Exception('Invalid cache');
 	}
 
+	#[\Override]
 	public function getQueryFilterForStorage(): ISearchOperator {
 		return new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', -1);
 	}
 
+	#[\Override]
 	public function getCacheEntryFromSearchResult(ICacheEntry $rawEntry): ?ICacheEntry {
 		return null;
 	}

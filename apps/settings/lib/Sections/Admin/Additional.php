@@ -20,18 +20,22 @@ class Additional implements IIconSection {
 	) {
 	}
 
+	#[\Override]
 	public function getIcon(): string {
 		return $this->urlGenerator->imagePath('core', 'actions/settings-dark.svg');
 	}
 
+	#[\Override]
 	public function getID(): string {
 		return 'additional';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l->t('Additional settings');
 	}
 
+	#[\Override]
 	public function getPriority(): int {
 		return 98;
 	}

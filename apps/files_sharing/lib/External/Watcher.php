@@ -15,6 +15,7 @@ class Watcher extends \OC\Files\Cache\Watcher {
 	 *
 	 * @param string $path
 	 */
+	#[\Override]
 	public function cleanFolder($path) {
 		// not needed, the scanner takes care of this
 	}

@@ -18,6 +18,7 @@ class HttpTest extends \Test\TestCase {
 	 */
 	private $http;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

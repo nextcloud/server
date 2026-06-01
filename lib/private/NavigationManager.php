@@ -245,8 +245,8 @@ class NavigationManager implements INavigationManager {
 					'type' => 'settings',
 					'id' => 'core_apps',
 					'order' => 5,
-					'href' => $this->urlGenerator->linkToRoute('settings.AppSettings.viewApps'),
-					'icon' => $this->urlGenerator->imagePath('settings', 'apps.svg'),
+					'href' => $this->urlGenerator->linkToRoute('appstore.Page.viewApps'),
+					'icon' => $this->urlGenerator->imagePath('appstore', 'app.svg'),
 					'name' => $l->t('Apps'),
 				]);
 
@@ -355,7 +355,7 @@ class NavigationManager implements INavigationManager {
 					$icon = $this->appManager->getAppIcon($app);
 				}
 				if ($icon === null) {
-					$icon = $this->urlGenerator->imagePath('core', 'default-app-icon');
+					$icon = $this->urlGenerator->imagePath('core', 'places/default-app-icon.svg');
 				}
 
 				$this->add(array_merge([

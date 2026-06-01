@@ -11,7 +11,7 @@ OC.L10N.register(
     "Edit Profile" : "Profil szerkesztése",
     "The headline and about sections will show up here" : "A címsor és a névjegy szakaszok itt fognak megjelenni",
     "Profile not found" : "Nem található profil",
-    "The profile does not exist." : "A profil nem létezik.",
-    "Back to %s" : "Vissza ide: %s"
+    "Back to %s" : "Vissza ide: %s",
+    "The profile does not exist." : "A profil nem létezik."
 },
 "nplurals=2; plural=(n != 1);");

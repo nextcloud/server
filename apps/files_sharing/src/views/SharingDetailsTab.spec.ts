@@ -4,298 +4,164 @@
  */
 
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import SharingDetailsTab from './SharingDetailsTab.vue'
 
-const mockGeneratePassword = vi.fn().mockResolvedValue('generated-password-123')
+type Ctx = ReturnType<typeof buildContext>
 
-vi.mock('../services/ConfigService.ts', () => ({
-	default: vi.fn().mockImplementation(() => ({
-		enableLinkPasswordByDefault: false,
-		enforcePasswordForPublicLink: false,
-		isPublicUploadEnabled: true,
-		isDefaultExpireDateEnabled: false,
-		isDefaultInternalExpireDateEnabled: false,
-		isDefaultRemoteExpireDateEnabled: false,
-		defaultExpirationDate: null,
-		defaultInternalExpirationDate: null,
-		defaultRemoteExpirationDateString: null,
-		isResharingAllowed: true,
-		excludeReshareFromEdit: false,
-		showFederatedSharesAsInternal: false,
-		defaultPermissions: 31,
-	})),
-}))
+function buildContext(overrides: Partial<Ctx> = {}) {
+	const ctx = {
+		passwordError: false,
+		creating: false,
+		writeNoteToRecipientIsChecked: true,
+		sharingPermission: '31',
+		setCustomPermissions: false,
 
-vi.mock('../utils/GeneratePassword.ts', () => ({
-	default: (...args: unknown[]) => mockGeneratePassword(...args),
-}))
+		fileInfo: { path: '/foo', name: 'foo' },
+		share: {
+			_share: { id: null },
+			id: null,
+			permissions: 31,
+			type: 3,
+			shareWith: '',
+			attributes: null,
+			note: '',
+			newPassword: undefined as string | undefined,
+		},
 
-/**
- * Simulates the isPasswordProtected getter from SharesMixin.js
- */
-function getIsPasswordProtected(state: {
-	enforcePasswordForPublicLink: boolean
-	passwordProtectedState: boolean | undefined
-	newPassword: string | undefined
-	password: string | undefined
-}): boolean {
-	if (state.enforcePasswordForPublicLink) {
-		return true
+		config: { allowCustomTokens: false },
+		bundledPermissions: { ALL: 31, ALL_FILE: 15 },
+		hasUnsavedPassword: false,
+		hasExpirationDate: false,
+		isFolder: false,
+		isNewShare: true,
+		isPasswordProtected: false,
+		isPublicShare: true,
+
+		isValidShareAttribute: (v: unknown) => typeof v === 'string' && v.length > 0,
+		updateAtomicPermissions: vi.fn(),
+		addShare: vi.fn().mockResolvedValue({ id: 42, _share: { id: 42 } }),
+		queueUpdate: vi.fn().mockResolvedValue(undefined),
+		getNode: vi.fn().mockResolvedValue(undefined),
+
+		$emit: vi.fn(),
+		$refs: { externalShareActions: [] as unknown[], externalLinkActions: [] as unknown[] },
+
+		...overrides,
 	}
-	if (state.passwordProtectedState !== undefined) {
-		return state.passwordProtectedState
-	}
-	return typeof state.newPassword === 'string'
-		|| typeof state.password === 'string'
+	return ctx
 }
 
-/**
- * Simulates the isPasswordProtected setter from SharesMixin.js
- * Returns the resulting share state after the async operation completes.
- */
-async function setIsPasswordProtected(
-	enabled: boolean,
-	share: { newPassword?: string },
-): Promise<{ passwordProtectedState: boolean, share: { newPassword?: string } }> {
-	if (enabled) {
-		const generatedPassword = await mockGeneratePassword(true)
-		if (!share.newPassword) {
-			share.newPassword = generatedPassword
-		}
-		return { passwordProtectedState: true, share }
-	} else {
-		share.newPassword = ''
-		return { passwordProtectedState: false, share }
-	}
+async function callSaveShare(ctx: Ctx) {
+	return SharingDetailsTab.methods.saveShare.call(ctx)
 }
 
-describe('SharingDetailsTab - Password State Management Logic', () => {
+describe('SharingDetailsTab.saveShare — password guard', () => {
 	beforeEach(() => {
-		mockGeneratePassword.mockClear()
-		mockGeneratePassword.mockResolvedValue('generated-password-123')
+		vi.clearAllMocks()
 	})
 
-	describe('isPasswordProtected getter', () => {
-		it('returns true when enforcePasswordForPublicLink is true regardless of other state', () => {
-			expect(getIsPasswordProtected({
-				enforcePasswordForPublicLink: true,
-				passwordProtectedState: false,
-				newPassword: undefined,
-				password: undefined,
-			})).toBe(true)
+	describe('new public share with invalid password', () => {
+		it('blocks when newPassword is empty string', async () => {
+			const ctx = buildContext({
+				isPublicShare: true,
+				isNewShare: true,
+				isPasswordProtected: true,
+				hasUnsavedPassword: true,
+				share: { ...buildContext().share, newPassword: '' },
+			})
+
+			await callSaveShare(ctx)
+
+			expect(ctx.passwordError).toBe(true)
+			expect(ctx.addShare).not.toHaveBeenCalled()
+			expect(ctx.queueUpdate).not.toHaveBeenCalled()
 		})
 
-		it('returns true when passwordProtectedState is explicitly true', () => {
-			expect(getIsPasswordProtected({
-				enforcePasswordForPublicLink: false,
-				passwordProtectedState: true,
-				newPassword: undefined,
-				password: undefined,
-			})).toBe(true)
-		})
+		it('blocks when newPassword is undefined', async () => {
+			const ctx = buildContext({
+				isPublicShare: true,
+				isNewShare: true,
+				isPasswordProtected: true,
+				hasUnsavedPassword: false,
+				share: { ...buildContext().share, newPassword: undefined },
+			})
 
-		it('returns false when passwordProtectedState is explicitly false', () => {
-			expect(getIsPasswordProtected({
-				enforcePasswordForPublicLink: false,
-				passwordProtectedState: false,
-				newPassword: 'some-password',
-				password: undefined,
-			})).toBe(false)
-		})
+			await callSaveShare(ctx)
 
-		it('falls back to inferring from newPassword when passwordProtectedState is undefined', () => {
-			expect(getIsPasswordProtected({
-				enforcePasswordForPublicLink: false,
-				passwordProtectedState: undefined,
-				newPassword: 'some-password',
-				password: undefined,
-			})).toBe(true)
-		})
-
-		it('falls back to inferring from password when passwordProtectedState is undefined', () => {
-			expect(getIsPasswordProtected({
-				enforcePasswordForPublicLink: false,
-				passwordProtectedState: undefined,
-				newPassword: undefined,
-				password: 'existing-password',
-			})).toBe(true)
-		})
-
-		it('returns false when passwordProtectedState is undefined and no passwords exist', () => {
-			expect(getIsPasswordProtected({
-				enforcePasswordForPublicLink: false,
-				passwordProtectedState: undefined,
-				newPassword: undefined,
-				password: undefined,
-			})).toBe(false)
-		})
-
-		it('checkbox remains checked when passwordProtectedState is true even if password is cleared', () => {
-			expect(getIsPasswordProtected({
-				enforcePasswordForPublicLink: false,
-				passwordProtectedState: true,
-				newPassword: '',
-				password: undefined,
-			})).toBe(true)
+			expect(ctx.passwordError).toBe(true)
+			expect(ctx.addShare).not.toHaveBeenCalled()
+			expect(ctx.queueUpdate).not.toHaveBeenCalled()
 		})
 	})
 
-	describe('isPasswordProtected setter (race condition fix)', () => {
-		it('generated password does NOT overwrite user-typed password', async () => {
-			const share = { newPassword: 'user-typed-password' }
-			const result = await setIsPasswordProtected(true, share)
+	describe('new public share with valid password', () => {
+		it('creates the share with the password in the payload', async () => {
+			const ctx = buildContext({
+				isPublicShare: true,
+				isNewShare: true,
+				isPasswordProtected: true,
+				hasUnsavedPassword: true,
+				share: { ...buildContext().share, newPassword: 'myPass123' },
+			})
 
-			expect(mockGeneratePassword).toHaveBeenCalledWith(true)
-			expect(result.passwordProtectedState).toBe(true)
-			expect(result.share.newPassword).toBe('user-typed-password')
-		})
+			await callSaveShare(ctx)
 
-		it('generated password IS applied when user has not typed anything', async () => {
-			const share: { newPassword?: string } = {}
-			const result = await setIsPasswordProtected(true, share)
-
-			expect(mockGeneratePassword).toHaveBeenCalledWith(true)
-			expect(result.passwordProtectedState).toBe(true)
-			expect(result.share.newPassword).toBe('generated-password-123')
-		})
-
-		it('generated password IS applied when newPassword is empty string (user cleared input)', async () => {
-			const share = { newPassword: '' }
-			const result = await setIsPasswordProtected(true, share)
-
-			expect(result.share.newPassword).toBe('generated-password-123')
-		})
-
-		it('disabling password clears newPassword and sets state to false', async () => {
-			const share = { newPassword: 'some-password' }
-			const result = await setIsPasswordProtected(false, share)
-
-			expect(result.passwordProtectedState).toBe(false)
-			expect(result.share.newPassword).toBe('')
+			expect(ctx.passwordError).toBe(false)
+			expect(ctx.addShare).toHaveBeenCalledTimes(1)
+			expect(ctx.addShare).toHaveBeenCalledWith(expect.objectContaining({ password: 'myPass123' }))
 		})
 	})
 
-	describe('initializeAttributes sets passwordProtectedState', () => {
-		it('should set passwordProtectedState when enableLinkPasswordByDefault is true for new public share', () => {
-			const config = { enableLinkPasswordByDefault: true, enforcePasswordForPublicLink: false }
-			const isNewShare = true
-			const isPublicShare = true
-			let passwordProtectedState: boolean | undefined
+	describe('new non-public share (regression guard for #59254)', () => {
+		it('never blocks on the password guard, even when isPasswordProtected leaks true', async () => {
+			const ctx = buildContext({
+				isPublicShare: false,
+				isNewShare: true,
+				isPasswordProtected: true,
+				hasUnsavedPassword: false,
+				share: { ...buildContext().share, type: 0, newPassword: undefined },
+			})
 
-			if (isNewShare && (config.enableLinkPasswordByDefault || config.enforcePasswordForPublicLink) && isPublicShare) {
-				passwordProtectedState = true
-			}
+			await callSaveShare(ctx)
 
-			expect(passwordProtectedState).toBe(true)
-		})
-
-		it('should set passwordProtectedState when isPasswordEnforced is true for new public share', () => {
-			const config = { enableLinkPasswordByDefault: false, enforcePasswordForPublicLink: true }
-			const isNewShare = true
-			const isPublicShare = true
-			let passwordProtectedState: boolean | undefined
-
-			if (isNewShare && (config.enableLinkPasswordByDefault || config.enforcePasswordForPublicLink) && isPublicShare) {
-				passwordProtectedState = true
-			}
-
-			expect(passwordProtectedState).toBe(true)
-		})
-
-		it('should not set passwordProtectedState for non-public shares', () => {
-			const config = { enableLinkPasswordByDefault: true, enforcePasswordForPublicLink: false }
-			const isNewShare = true
-			const isPublicShare = false
-			let passwordProtectedState: boolean | undefined
-
-			if (isNewShare && (config.enableLinkPasswordByDefault || config.enforcePasswordForPublicLink) && isPublicShare) {
-				passwordProtectedState = true
-			}
-
-			expect(passwordProtectedState).toBe(undefined)
-		})
-
-		it('should not set passwordProtectedState for existing shares', () => {
-			const config = { enableLinkPasswordByDefault: true, enforcePasswordForPublicLink: false }
-			const isNewShare = false
-			const isPublicShare = true
-			let passwordProtectedState: boolean | undefined
-
-			if (isNewShare && (config.enableLinkPasswordByDefault || config.enforcePasswordForPublicLink) && isPublicShare) {
-				passwordProtectedState = true
-			}
-
-			expect(passwordProtectedState).toBe(undefined)
+			expect(ctx.passwordError).toBe(false)
+			expect(ctx.addShare).toHaveBeenCalledTimes(1)
 		})
 	})
 
-	describe('saveShare validation blocks empty password', () => {
-		const isValidShareAttribute = (attr: unknown) => {
-			return typeof attr === 'string' && attr.length > 0
-		}
+	describe('existing public share (update path)', () => {
+		it('does not run the new-share password guard', async () => {
+			const ctx = buildContext({
+				isPublicShare: true,
+				isNewShare: false,
+				isPasswordProtected: true,
+				hasUnsavedPassword: false,
+				share: { ...buildContext().share, id: 42, _share: { id: 42 }, newPassword: undefined },
+			})
 
-		it('should set passwordError when isPasswordProtected but newPassword is empty for new share', () => {
-			const isPasswordProtected = true
-			const isNewShare = true
-			const newPassword = ''
-			let passwordError = false
+			await callSaveShare(ctx)
 
-			if (isPasswordProtected && isNewShare && !isValidShareAttribute(newPassword)) {
-				passwordError = true
-			}
-
-			expect(passwordError).toBe(true)
+			expect(ctx.passwordError).toBe(false)
+			expect(ctx.addShare).not.toHaveBeenCalled()
+			expect(ctx.queueUpdate).toHaveBeenCalledTimes(1)
 		})
+	})
 
-		it('should set passwordError when isPasswordProtected but newPassword is undefined for new share', () => {
-			const isPasswordProtected = true
-			const isNewShare = true
-			const newPassword = undefined
-			let passwordError = false
+	describe('password checkbox unchecked', () => {
+		it('omits password from the create payload', async () => {
+			const ctx = buildContext({
+				isPublicShare: true,
+				isNewShare: true,
+				isPasswordProtected: false,
+				hasUnsavedPassword: false,
+			})
 
-			if (isPasswordProtected && isNewShare && !isValidShareAttribute(newPassword)) {
-				passwordError = true
-			}
+			await callSaveShare(ctx)
 
-			expect(passwordError).toBe(true)
-		})
-
-		it('should not set passwordError when password is valid for new share', () => {
-			const isPasswordProtected = true
-			const isNewShare = true
-			const newPassword = 'valid-password-123'
-			let passwordError = false
-
-			if (isPasswordProtected && isNewShare && !isValidShareAttribute(newPassword)) {
-				passwordError = true
-			}
-
-			expect(passwordError).toBe(false)
-		})
-
-		it('should not set passwordError when isPasswordProtected is false', () => {
-			const isPasswordProtected = false
-			const isNewShare = true
-			const newPassword = ''
-			let passwordError = false
-
-			if (isPasswordProtected && isNewShare && !isValidShareAttribute(newPassword)) {
-				passwordError = true
-			}
-
-			expect(passwordError).toBe(false)
-		})
-
-		it('should not validate password for existing shares', () => {
-			const isPasswordProtected = true
-			const isNewShare = false
-			const newPassword = ''
-			let passwordError = false
-
-			if (isPasswordProtected && isNewShare && !isValidShareAttribute(newPassword)) {
-				passwordError = true
-			}
-
-			expect(passwordError).toBe(false)
+			expect(ctx.passwordError).toBe(false)
+			expect(ctx.addShare).toHaveBeenCalledTimes(1)
+			const payload = ctx.addShare.mock.calls[0][0] as Record<string, unknown>
+			expect(payload).not.toHaveProperty('password')
 		})
 	})
 })

@@ -22,10 +22,12 @@ class FunctionBuilder implements IFunctionBuilder {
 	) {
 	}
 
+	#[\Override]
 	public function md5($input): IQueryFunction {
 		return new QueryFunction('MD5(' . $this->helper->quoteColumnName($input) . ')');
 	}
 
+	#[\Override]
 	public function concat($x, ...$expr): IQueryFunction {
 		$args = func_get_args();
 		$list = [];
@@ -35,11 +37,13 @@ class FunctionBuilder implements IFunctionBuilder {
 		return new QueryFunction(sprintf('CONCAT(%s)', implode(', ', $list)));
 	}
 
+	#[\Override]
 	public function groupConcat($expr, ?string $separator = ','): IQueryFunction {
 		$separator = $this->connection->quote($separator);
 		return new QueryFunction('GROUP_CONCAT(' . $this->helper->quoteColumnName($expr) . ' SEPARATOR ' . $separator . ')');
 	}
 
+	#[\Override]
 	public function substring($input, $start, $length = null): IQueryFunction {
 		if ($length) {
 			return new QueryFunction('SUBSTR(' . $this->helper->quoteColumnName($input) . ', ' . $this->helper->quoteColumnName($start) . ', ' . $this->helper->quoteColumnName($length) . ')');
@@ -48,52 +52,63 @@ class FunctionBuilder implements IFunctionBuilder {
 		}
 	}
 
+	#[\Override]
 	public function sum($field): IQueryFunction {
 		return new QueryFunction('SUM(' . $this->helper->quoteColumnName($field) . ')');
 	}
 
+	#[\Override]
 	public function lower($field): IQueryFunction {
 		return new QueryFunction('LOWER(' . $this->helper->quoteColumnName($field) . ')');
 	}
 
+	#[\Override]
 	public function add($x, $y): IQueryFunction {
 		return new QueryFunction($this->helper->quoteColumnName($x) . ' + ' . $this->helper->quoteColumnName($y));
 	}
 
+	#[\Override]
 	public function subtract($x, $y): IQueryFunction {
 		return new QueryFunction($this->helper->quoteColumnName($x) . ' - ' . $this->helper->quoteColumnName($y));
 	}
 
+	#[\Override]
 	public function count($count = '', $alias = ''): IQueryFunction {
 		$alias = $alias ? (' AS ' . $this->helper->quoteColumnName($alias)) : '';
 		$quotedName = $count === '' ? '*' : $this->helper->quoteColumnName($count);
 		return new QueryFunction('COUNT(' . $quotedName . ')' . $alias);
 	}
 
+	#[\Override]
 	public function octetLength($field, $alias = ''): IQueryFunction {
 		$alias = $alias ? (' AS ' . $this->helper->quoteColumnName($alias)) : '';
 		$quotedName = $this->helper->quoteColumnName($field);
 		return new QueryFunction('OCTET_LENGTH(' . $quotedName . ')' . $alias);
 	}
 
+	#[\Override]
 	public function charLength($field, $alias = ''): IQueryFunction {
 		$alias = $alias ? (' AS ' . $this->helper->quoteColumnName($alias)) : '';
 		$quotedName = $this->helper->quoteColumnName($field);
 		return new QueryFunction('CHAR_LENGTH(' . $quotedName . ')' . $alias);
 	}
 
+	#[\Override]
 	public function max($field): IQueryFunction {
 		return new QueryFunction('MAX(' . $this->helper->quoteColumnName($field) . ')');
 	}
 
+	#[\Override]
 	public function min($field): IQueryFunction {
 		return new QueryFunction('MIN(' . $this->helper->quoteColumnName($field) . ')');
 	}
 
+	#[\Override]
 	public function greatest($x, $y): IQueryFunction {
 		return new QueryFunction('GREATEST(' . $this->helper->quoteColumnName($x) . ', ' . $this->helper->quoteColumnName($y) . ')');
 	}
 
+	#[\Override]
 	public function least($x, $y): IQueryFunction {
 		return new QueryFunction('LEAST(' . $this->helper->quoteColumnName($x) . ', ' . $this->helper->quoteColumnName($y) . ')');
 	}

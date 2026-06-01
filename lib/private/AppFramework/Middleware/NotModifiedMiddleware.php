@@ -20,6 +20,7 @@ class NotModifiedMiddleware extends Middleware {
 	) {
 	}
 
+	#[\Override]
 	public function afterController($controller, $methodName, Response $response) {
 		$etagHeader = $this->request->getHeader('IF_NONE_MATCH');
 		if ($etagHeader !== '' && $response->getETag() !== null && trim($etagHeader) === '"' . $response->getETag() . '"') {

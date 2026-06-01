@@ -45,6 +45,7 @@ class Plugin extends ServerPlugin {
 	) {
 	}
 
+	#[\Override]
 	public function initialize(Server $server): void {
 		$this->server = $server;
 

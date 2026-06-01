@@ -73,8 +73,8 @@
 		left: 50%;
 		bottom: var(--body-container-margin);
 		transform: translateX(-50%);
-		width: fit-content;
-		max-width: 90vw;
+		width: 90vw;
+		box-sizing: border-box;
 
 		&.guest-box {
 			// Ensure the maxcontrast color is set for the background
@@ -86,6 +86,7 @@
 			box-shadow: 0 0 10px var(--color-box-shadow);
 			-webkit-backdrop-filter: var(--filter-background-blur);
 			backdrop-filter: var(--filter-background-blur);
+			text-align: center;
 
 			.info {
 				text-shadow: none;

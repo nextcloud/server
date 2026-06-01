@@ -110,6 +110,7 @@ class TeamResource implements \JsonSerializable {
 	 *
 	 * @since 29.0.0
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'id' => $this->resourceId,

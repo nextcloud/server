@@ -40,6 +40,7 @@ class ProfilerWrapperCache extends AbstractDataCollector implements IMemcacheTTL
 	}
 
 	/** @inheritDoc */
+	#[\Override]
 	public function get($key) {
 		$start = microtime(true);
 		$ret = $this->wrappedCache->get($key);
@@ -58,6 +59,7 @@ class ProfilerWrapperCache extends AbstractDataCollector implements IMemcacheTTL
 	}
 
 	/** @inheritDoc */
+	#[\Override]
 	public function set($key, $value, $ttl = 0) {
 		$start = microtime(true);
 		$ret = $this->wrappedCache->set($key, $value, $ttl);
@@ -70,6 +72,7 @@ class ProfilerWrapperCache extends AbstractDataCollector implements IMemcacheTTL
 	}
 
 	/** @inheritDoc */
+	#[\Override]
 	public function hasKey($key) {
 		$start = microtime(true);
 		$ret = $this->wrappedCache->hasKey($key);
@@ -82,6 +85,7 @@ class ProfilerWrapperCache extends AbstractDataCollector implements IMemcacheTTL
 	}
 
 	/** @inheritDoc */
+	#[\Override]
 	public function remove($key) {
 		$start = microtime(true);
 		$ret = $this->wrappedCache->remove($key);
@@ -94,6 +98,7 @@ class ProfilerWrapperCache extends AbstractDataCollector implements IMemcacheTTL
 	}
 
 	/** @inheritDoc */
+	#[\Override]
 	public function clear($prefix = '') {
 		$start = microtime(true);
 		$ret = $this->wrappedCache->clear($prefix);
@@ -106,6 +111,7 @@ class ProfilerWrapperCache extends AbstractDataCollector implements IMemcacheTTL
 	}
 
 	/** @inheritDoc */
+	#[\Override]
 	public function add($key, $value, $ttl = 0) {
 		$start = microtime(true);
 		$ret = $this->wrappedCache->add($key, $value, $ttl);
@@ -118,6 +124,7 @@ class ProfilerWrapperCache extends AbstractDataCollector implements IMemcacheTTL
 	}
 
 	/** @inheritDoc */
+	#[\Override]
 	public function inc($key, $step = 1) {
 		$start = microtime(true);
 		$ret = $this->wrappedCache->inc($key, $step);
@@ -130,6 +137,7 @@ class ProfilerWrapperCache extends AbstractDataCollector implements IMemcacheTTL
 	}
 
 	/** @inheritDoc */
+	#[\Override]
 	public function dec($key, $step = 1) {
 		$start = microtime(true);
 		$ret = $this->wrappedCache->dec($key, $step);
@@ -142,6 +150,7 @@ class ProfilerWrapperCache extends AbstractDataCollector implements IMemcacheTTL
 	}
 
 	/** @inheritDoc */
+	#[\Override]
 	public function cas($key, $old, $new) {
 		$start = microtime(true);
 		$ret = $this->wrappedCache->cas($key, $old, $new);
@@ -154,6 +163,7 @@ class ProfilerWrapperCache extends AbstractDataCollector implements IMemcacheTTL
 	}
 
 	/** @inheritDoc */
+	#[\Override]
 	public function cad($key, $old) {
 		$start = microtime(true);
 		$ret = $this->wrappedCache->cad($key, $old);
@@ -166,6 +176,7 @@ class ProfilerWrapperCache extends AbstractDataCollector implements IMemcacheTTL
 	}
 
 	/** @inheritDoc */
+	#[\Override]
 	public function ncad(string $key, mixed $old): bool {
 		$start = microtime(true);
 		$ret = $this->wrappedCache->ncad($key, $old);
@@ -178,22 +189,27 @@ class ProfilerWrapperCache extends AbstractDataCollector implements IMemcacheTTL
 	}
 
 	/** @inheritDoc */
+	#[\Override]
 	public function setTTL(string $key, int $ttl) {
 		$this->wrappedCache->setTTL($key, $ttl);
 	}
 
+	#[\Override]
 	public function getTTL(string $key): int|false {
 		return $this->wrappedCache->getTTL($key);
 	}
 
+	#[\Override]
 	public function compareSetTTL(string $key, mixed $value, int $ttl): bool {
 		return $this->wrappedCache->compareSetTTL($key, $value, $ttl);
 	}
 
+	#[\Override]
 	public function offsetExists($offset): bool {
 		return $this->hasKey($offset);
 	}
 
+	#[\Override]
 	public function offsetSet($offset, $value): void {
 		$this->set($offset, $value);
 	}
@@ -201,23 +217,28 @@ class ProfilerWrapperCache extends AbstractDataCollector implements IMemcacheTTL
 	/**
 	 * @return mixed
 	 */
+	#[\Override]
 	#[\ReturnTypeWillChange]
 	public function offsetGet($offset) {
 		return $this->get($offset);
 	}
 
+	#[\Override]
 	public function offsetUnset($offset): void {
 		$this->remove($offset);
 	}
 
+	#[\Override]
 	public function collect(Request $request, Response $response, ?\Throwable $exception = null): void {
 		// Nothing to do here $data is already ready
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'cache/' . $this->type . '/' . $this->prefix;
 	}
 
+	#[\Override]
 	public static function isAvailable(): bool {
 		return true;
 	}

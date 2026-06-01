@@ -29,6 +29,7 @@ class DbalExceptionTest extends \Test\TestCase {
 	/** @var TheDriverException */
 	protected $driverException;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->driverException = $this->createMock(TheDriverException::class);

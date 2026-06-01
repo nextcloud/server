@@ -28,6 +28,7 @@ class BackgroundCleanupUpdaterBackupsJob extends QueuedJob {
 	 *
 	 * @param array $argument
 	 */
+	#[\Override]
 	public function run($argument): void {
 		$this->log->info('Running background job to clean-up outdated updater backups');
 

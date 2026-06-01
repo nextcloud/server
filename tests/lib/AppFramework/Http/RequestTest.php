@@ -28,6 +28,7 @@ class RequestTest extends \Test\TestCase {
 	/** @var CsrfTokenManager */
 	protected $csrfTokenManager;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -43,6 +44,7 @@ class RequestTest extends \Test\TestCase {
 			->getMock();
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		stream_wrapper_unregister('fakeinput');
 		parent::tearDown();

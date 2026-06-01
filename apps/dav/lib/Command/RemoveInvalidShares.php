@@ -30,12 +30,14 @@ class RemoveInvalidShares extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('dav:remove-invalid-shares')
 			->setDescription('Remove invalid dav shares');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$query = $this->connection->getQueryBuilder();
 		$result = $query->selectDistinct('principaluri')

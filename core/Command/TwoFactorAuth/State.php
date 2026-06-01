@@ -25,6 +25,7 @@ class State extends Base {
 		);
 	}
 
+	#[\Override]
 	protected function configure() {
 		parent::configure();
 
@@ -33,6 +34,7 @@ class State extends Base {
 		$this->addArgument('uid', InputArgument::REQUIRED);
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$uid = $input->getArgument('uid');
 		$user = $this->userManager->get($uid);

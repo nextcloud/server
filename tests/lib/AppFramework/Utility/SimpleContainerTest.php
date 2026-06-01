@@ -62,6 +62,7 @@ class ClassInterfaceConstructor {
 class SimpleContainerTest extends \Test\TestCase {
 	private $container;
 
+	#[\Override]
 	protected function setUp(): void {
 		$this->container = new SimpleContainer();
 	}

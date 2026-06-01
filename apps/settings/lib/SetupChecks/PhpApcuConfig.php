@@ -25,14 +25,17 @@ class PhpApcuConfig implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'php';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('PHP APCu configuration');
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		$localIsApcu = ltrim($this->config->getSystemValueString('memcache.local'), '\\') === APCu::class;
 		$distributedIsApcu = ltrim($this->config->getSystemValueString('memcache.distributed'), '\\') === APCu::class;

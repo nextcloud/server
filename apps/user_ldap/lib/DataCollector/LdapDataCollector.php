@@ -27,10 +27,12 @@ class LdapDataCollector extends AbstractDataCollector {
 		$this->data[count($this->data) - 1]['end'] = microtime(true);
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'ldap';
 	}
 
+	#[\Override]
 	public function collect(Request $request, Response $response, ?\Throwable $exception = null): void {
 	}
 }

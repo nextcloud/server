@@ -16,21 +16,23 @@ use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\User\User;
 use OCP\Accounts\IAccountManager;
 use OCP\IUserBackend;
+use OCP\LDAP\Exceptions\MultipleUsersReturnedException;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\User\Backend\ICountMappedUsersBackend;
 use OCP\User\Backend\ILimitAwareCountUsersBackend;
 use OCP\User\Backend\IPropertyPermissionBackend;
 use OCP\User\Backend\IProvideEnabledStateBackend;
 use OCP\UserInterface;
+use Override;
 use Psr\Log\LoggerInterface;
 
 class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, IUserLDAP, ILimitAwareCountUsersBackend, ICountMappedUsersBackend, IProvideEnabledStateBackend, IPropertyPermissionBackend {
 	public function __construct(
 		Access $access,
-		protected INotificationManager $notificationManager,
-		protected UserPluginManager $userPluginManager,
-		protected LoggerInterface $logger,
-		protected DeletedUsersIndex $deletedUsersIndex,
+		protected readonly INotificationManager $notificationManager,
+		protected readonly UserPluginManager $userPluginManager,
+		protected readonly LoggerInterface $logger,
+		protected readonly DeletedUsersIndex $deletedUsersIndex,
 	) {
 		parent::__construct($access);
 	}
@@ -106,6 +108,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	 * @param string $dn
 	 * @return string|false with the username
 	 */
+	#[\Override]
 	public function dn2UserName($dn) {
 		return $this->access->dn2username($dn);
 	}
@@ -219,6 +222,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	 * @param integer $offset
 	 * @return string[] an array of all uids
 	 */
+	#[\Override]
 	public function getUsers($search = '', $limit = 10, $offset = 0) {
 		$search = $this->access->escapeFilterPart($search, true);
 		$cachekey = 'getUsers-' . $search . '-' . $limit . '-' . $offset;
@@ -321,6 +325,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	 * @return boolean
 	 * @throws \Exception when connection could not be established
 	 */
+	#[\Override]
 	public function userExists($uid) {
 		$userExists = $this->access->connection->getFromCache('userExists' . $uid);
 		if (!is_null($userExists)) {
@@ -347,6 +352,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	 * @param string $uid The username of the user to delete
 	 * @return bool
 	 */
+	#[\Override]
 	public function deleteUser($uid) {
 		if ($this->userPluginManager->canDeleteUser()) {
 			$status = $this->userPluginManager->deleteUser($uid);
@@ -468,6 +474,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 		return '';
 	}
 
+	#[\Override]
 	public function getDisplayName($uid): string {
 		if ($this->userPluginManager->implementsActions(Backend::GET_DISPLAYNAME)) {
 			return $this->userPluginManager->getDisplayName($uid);
@@ -518,6 +525,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	 * @return array an array of all displayNames (value) and the corresponding
 	 *               uids (key)
 	 */
+	#[\Override]
 	public function getDisplayNames($search = '', $limit = null, $offset = null) {
 		$cacheKey = 'getDisplayNames-' . $search . '-' . $limit . '-' . $offset;
 		if (!is_null($displayNames = $this->access->connection->getFromCache($cacheKey))) {
@@ -541,6 +549,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	 * Returns the supported actions as int to be
 	 * compared with \OC\User\Backend::CREATE_USER etc.
 	 */
+	#[\Override]
 	public function implementsActions($actions) {
 		return (bool)((Backend::CHECK_PASSWORD
 			| Backend::GET_HOME
@@ -555,6 +564,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	/**
 	 * @return bool
 	 */
+	#[\Override]
 	public function hasUserListings() {
 		return true;
 	}
@@ -562,6 +572,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	/**
 	 * counts the users in LDAP
 	 */
+	#[\Override]
 	public function countUsers(int $limit = 0): int|false {
 		if ($this->userPluginManager->implementsActions(Backend::COUNT_USERS)) {
 			return $this->userPluginManager->countUsers();
@@ -577,6 +588,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 		return $entries;
 	}
 
+	#[\Override]
 	public function countMappedUsers(): int {
 		return $this->access->getUserMapper()->count();
 	}
@@ -585,6 +597,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	 * Backend name to be shown in user management
 	 * @return string the name of the backend to be shown
 	 */
+	#[\Override]
 	public function getBackendName() {
 		return 'LDAP';
 	}
@@ -594,6 +607,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	 * @param string $uid
 	 * @return Access instance of Access for LDAP interaction
 	 */
+	#[\Override]
 	public function getLDAPAccess($uid) {
 		return $this->access;
 	}
@@ -605,6 +619,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	 * @param string $uid
 	 * @return \LDAP\Connection The LDAP connection
 	 */
+	#[\Override]
 	public function getNewLDAPConnection($uid) {
 		$connection = clone $this->access->getConnection();
 		return $connection->getConnectionResource();
@@ -649,6 +664,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 		return false;
 	}
 
+	#[\Override]
 	public function isUserEnabled(string $uid, callable $queryDatabaseValue): bool {
 		if ($this->deletedUsersIndex->isUserMarked($uid) && ((int)$this->access->connection->markRemnantsAsDisabled === 1)) {
 			return false;
@@ -657,15 +673,18 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 		}
 	}
 
+	#[\Override]
 	public function setUserEnabled(string $uid, bool $enabled, callable $queryDatabaseValue, callable $setDatabaseValue): bool {
 		$setDatabaseValue($enabled);
 		return $enabled;
 	}
 
+	#[\Override]
 	public function getDisabledUserList(?int $limit = null, int $offset = 0, string $search = ''): array {
 		throw new \Exception('This is implemented directly in User_Proxy');
 	}
 
+	#[\Override]
 	public function canEditProperty(string $uid, string $property): bool {
 		return match($property) {
 			// Display name is always set by LDAP
@@ -683,5 +702,26 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 			IAccountManager::PROPERTY_PRONOUNS => ((string)$this->access->connection->ldapAttributePronouns !== ''),
 			default => true,
 		};
+	}
+
+	#[Override]
+	public function getUserFromCustomAttribute(string $attribute, string $searchTerm): ?string {
+		$searchTerm = $this->access->escapeFilterPart($searchTerm);
+		$attribute = $this->access->escapeFilterPart($attribute);
+
+		$filter = "($attribute=$searchTerm)";
+
+		$records = $this->access->searchUsers($filter, ['dn']);
+		$this->logger->error($filter);
+		if (count($records) === 1) {
+			return $this->access->dn2username($records[0]['dn'][0]) ?: null;
+		} elseif (count($records) > 1) {
+			$this->logger->error(
+				'Multiple users found for filter: ' . $filter,
+				['app' => 'user_ldap']
+			);
+			throw new MultipleUsersReturnedException();
+		}
+		return null;
 	}
 }

@@ -49,6 +49,7 @@ class SyncLivePhotosListener implements IEventListener {
 	) {
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($this->userFolder === null) {
 			return;

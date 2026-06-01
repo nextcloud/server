@@ -41,6 +41,7 @@ class CacheWrapper extends Cache {
 		return $this->cache;
 	}
 
+	#[\Override]
 	protected function hasEncryptionWrapper(): bool {
 		$cache = $this->getCache();
 		if ($cache instanceof Cache) {
@@ -50,6 +51,7 @@ class CacheWrapper extends Cache {
 		}
 	}
 
+	#[\Override]
 	protected function shouldEncrypt(string $targetPath): bool {
 		$cache = $this->getCache();
 		if ($cache instanceof Cache) {
@@ -75,6 +77,7 @@ class CacheWrapper extends Cache {
 	 * @param string|int $file
 	 * @return ICacheEntry|false
 	 */
+	#[\Override]
 	public function get($file) {
 		$result = $this->getCache()->get($file);
 		if ($result instanceof ICacheEntry) {
@@ -89,6 +92,7 @@ class CacheWrapper extends Cache {
 	 * @param string $folder
 	 * @return ICacheEntry[]
 	 */
+	#[\Override]
 	public function getFolderContents(string $folder, ?string $mimeTypeFilter = null): array {
 		// can't do a simple $this->getCache()->.... call here since getFolderContentsById needs to be called on this
 		// and not the wrapped cache
@@ -102,6 +106,7 @@ class CacheWrapper extends Cache {
 	 * @param int $fileId the file id of the folder
 	 * @return ICacheEntry[]
 	 */
+	#[\Override]
 	public function getFolderContentsById(int $fileId, ?string $mimeTypeFilter = null) {
 		$results = $this->getCache()->getFolderContentsById($fileId, $mimeTypeFilter);
 		return array_filter(array_map($this->formatCacheEntry(...), $results));
@@ -116,6 +121,7 @@ class CacheWrapper extends Cache {
 	 * @return int file id
 	 * @throws \RuntimeException
 	 */
+	#[\Override]
 	public function put($file, array $data) {
 		if (($id = $this->getId($file)) > -1) {
 			$this->update($id, $data);
@@ -134,6 +140,7 @@ class CacheWrapper extends Cache {
 	 * @return int file id
 	 * @throws \RuntimeException
 	 */
+	#[\Override]
 	public function insert($file, array $data) {
 		return $this->getCache()->insert($file, $data);
 	}
@@ -144,6 +151,7 @@ class CacheWrapper extends Cache {
 	 * @param int $id
 	 * @param array $data
 	 */
+	#[\Override]
 	public function update($id, array $data) {
 		$this->getCache()->update($id, $data);
 	}
@@ -154,6 +162,7 @@ class CacheWrapper extends Cache {
 	 * @param string $file
 	 * @return int
 	 */
+	#[\Override]
 	public function getId($file) {
 		return $this->getCache()->getId($file);
 	}
@@ -164,6 +173,7 @@ class CacheWrapper extends Cache {
 	 * @param string $file
 	 * @return int
 	 */
+	#[\Override]
 	public function getParentId($file) {
 		return $this->getCache()->getParentId($file);
 	}
@@ -174,6 +184,7 @@ class CacheWrapper extends Cache {
 	 * @param string $file
 	 * @return bool
 	 */
+	#[\Override]
 	public function inCache($file) {
 		return $this->getCache()->inCache($file);
 	}
@@ -183,6 +194,7 @@ class CacheWrapper extends Cache {
 	 *
 	 * @param string $file
 	 */
+	#[\Override]
 	public function remove($file) {
 		$this->getCache()->remove($file);
 	}
@@ -193,16 +205,19 @@ class CacheWrapper extends Cache {
 	 * @param string $source
 	 * @param string $target
 	 */
+	#[\Override]
 	public function move($source, $target) {
 		$this->getCache()->move($source, $target);
 	}
 
+	#[\Override]
 	protected function getMoveInfo($path) {
 		/** @var Cache|CacheJail $cache */
 		$cache = $this->getCache();
 		return $cache->getMoveInfo($path);
 	}
 
+	#[\Override]
 	public function moveFromCache(ICache $sourceCache, $sourcePath, $targetPath) {
 		$this->getCache()->moveFromCache($sourceCache, $sourcePath, $targetPath);
 	}
@@ -210,6 +225,7 @@ class CacheWrapper extends Cache {
 	/**
 	 * remove all entries for files that are stored on the storage from the cache
 	 */
+	#[\Override]
 	public function clear() {
 		$cache = $this->getCache();
 		if ($cache instanceof Cache) {
@@ -224,10 +240,12 @@ class CacheWrapper extends Cache {
 	 *
 	 * @return int Cache::NOT_FOUND, Cache::PARTIAL, Cache::SHALLOW or Cache::COMPLETE
 	 */
+	#[\Override]
 	public function getStatus($file) {
 		return $this->getCache()->getStatus($file);
 	}
 
+	#[\Override]
 	public function searchQuery(ISearchQuery $query) {
 		return current($this->querySearchHelper->searchInCaches($query, [$this]));
 	}
@@ -237,6 +255,7 @@ class CacheWrapper extends Cache {
 	 *
 	 * @param array|ICacheEntry|null $data (optional) meta data of the folder
 	 */
+	#[\Override]
 	public function correctFolderSize(string $path, $data = null, bool $isBackgroundScan = false): void {
 		$cache = $this->getCache();
 		if ($cache instanceof Cache) {
@@ -251,6 +270,7 @@ class CacheWrapper extends Cache {
 	 * @param array|null|ICacheEntry $entry (optional) meta data of the folder
 	 * @return int|float
 	 */
+	#[\Override]
 	public function calculateFolderSize($path, $entry = null) {
 		$cache = $this->getCache();
 		if ($cache instanceof Cache) {
@@ -265,6 +285,7 @@ class CacheWrapper extends Cache {
 	 *
 	 * @return int[]
 	 */
+	#[\Override]
 	public function getAll() {
 		/** @var Cache $cache */
 		$cache = $this->getCache();
@@ -280,6 +301,7 @@ class CacheWrapper extends Cache {
 	 *
 	 * @return string|false the path of the folder or false when no folder matched
 	 */
+	#[\Override]
 	public function getIncomplete() {
 		return $this->getCache()->getIncomplete();
 	}
@@ -290,6 +312,7 @@ class CacheWrapper extends Cache {
 	 * @param int $id
 	 * @return string|null
 	 */
+	#[\Override]
 	public function getPathById($id) {
 		return $this->getCache()->getPathById($id);
 	}
@@ -299,6 +322,7 @@ class CacheWrapper extends Cache {
 	 *
 	 * @return int
 	 */
+	#[\Override]
 	public function getNumericStorageId() {
 		return $this->getCache()->getNumericStorageId();
 	}
@@ -311,14 +335,17 @@ class CacheWrapper extends Cache {
 	 * @param int $id
 	 * @return array first element holding the storage id, second the path
 	 */
+	#[\Override]
 	public static function getById($id) {
 		return parent::getById($id);
 	}
 
+	#[\Override]
 	public function getQueryFilterForStorage(): ISearchOperator {
 		return $this->getCache()->getQueryFilterForStorage();
 	}
 
+	#[\Override]
 	public function getCacheEntryFromSearchResult(ICacheEntry $rawEntry): ?ICacheEntry {
 		$rawEntry = $this->getCache()->getCacheEntryFromSearchResult($rawEntry);
 		if ($rawEntry) {

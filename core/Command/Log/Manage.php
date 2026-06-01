@@ -26,6 +26,7 @@ class Manage extends Command implements CompletionAwareInterface {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('log:manage')
@@ -51,6 +52,7 @@ class Manage extends Command implements CompletionAwareInterface {
 		;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		// collate config setting to the end, to avoid partial configuration
 		$toBeSet = [];
@@ -163,6 +165,7 @@ class Manage extends Command implements CompletionAwareInterface {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
+	#[\Override]
 	public function completeOptionValues($optionName, CompletionContext $context) {
 		if ($optionName === 'backend') {
 			return ['file', 'syslog', 'errorlog', 'systemd'];
@@ -179,6 +182,7 @@ class Manage extends Command implements CompletionAwareInterface {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
+	#[\Override]
 	public function completeArgumentValues($argumentName, CompletionContext $context) {
 		return [];
 	}

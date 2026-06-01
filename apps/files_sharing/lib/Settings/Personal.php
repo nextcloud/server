@@ -24,6 +24,7 @@ class Personal implements ISettings {
 	) {
 	}
 
+	#[\Override]
 	public function getForm(): TemplateResponse {
 		$defaultAcceptSystemConfig = $this->config->getSystemValueBool('sharing.enable_share_accept', false) ? 'no' : 'yes';
 		$defaultShareFolder = $this->config->getSystemValue('share_folder', '/');
@@ -41,10 +42,12 @@ class Personal implements ISettings {
 		return new TemplateResponse('files_sharing', 'Settings/personal');
 	}
 
+	#[\Override]
 	public function getSection(): string {
 		return 'sharing';
 	}
 
+	#[\Override]
 	public function getPriority(): int {
 		return 90;
 	}

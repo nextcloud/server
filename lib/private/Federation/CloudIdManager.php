@@ -71,6 +71,7 @@ class CloudIdManager implements ICloudIdManager {
 	 * @return ICloudId
 	 * @throws \InvalidArgumentException
 	 */
+	#[\Override]
 	public function resolveCloudId(string $cloudId): ICloudId {
 		// TODO magic here to get the url and user instead of just splitting on @
 
@@ -189,6 +190,7 @@ class CloudIdManager implements ICloudIdManager {
 	 * @param string|null $remote
 	 * @return CloudId
 	 */
+	#[\Override]
 	public function getCloudId(string $user, ?string $remote): ICloudId {
 		$isLocal = $remote === null;
 		if ($isLocal) {
@@ -234,6 +236,7 @@ class CloudIdManager implements ICloudIdManager {
 	 * @param string $url
 	 * @return string
 	 */
+	#[\Override]
 	public function removeProtocolFromUrl(string $url, bool $httpsOnly = false): string {
 		if (str_starts_with($url, 'https://')) {
 			return substr($url, 8);
@@ -279,6 +282,7 @@ class CloudIdManager implements ICloudIdManager {
 	 * @param string $cloudId
 	 * @return bool
 	 */
+	#[\Override]
 	public function isValidCloudId(string $cloudId): bool {
 		foreach ($this->cloudIdResolvers as $resolver) {
 			if ($resolver->isValidCloudId($cloudId)) {
@@ -289,14 +293,17 @@ class CloudIdManager implements ICloudIdManager {
 		return strpos($cloudId, '@') !== false;
 	}
 
+	#[\Override]
 	public function createCloudId(string $id, string $user, string $remote, ?string $displayName = null): ICloudId {
 		return new CloudId($id, $user, $remote, $displayName);
 	}
 
+	#[\Override]
 	public function registerCloudIdResolver(ICloudIdResolver $resolver): void {
 		array_unshift($this->cloudIdResolvers, $resolver);
 	}
 
+	#[\Override]
 	public function unregisterCloudIdResolver(ICloudIdResolver $resolver): void {
 		if (($key = array_search($resolver, $this->cloudIdResolvers)) !== false) {
 			array_splice($this->cloudIdResolvers, $key, 1);

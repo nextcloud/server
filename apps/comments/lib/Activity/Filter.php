@@ -19,18 +19,22 @@ class Filter implements IFilter {
 	) {
 	}
 
+	#[\Override]
 	public function getIdentifier(): string {
 		return 'comments';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l->t('Comments');
 	}
 
+	#[\Override]
 	public function getPriority(): int {
 		return 40;
 	}
 
+	#[\Override]
 	public function getIcon(): string {
 		return $this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/comment.svg'));
 	}
@@ -39,6 +43,7 @@ class Filter implements IFilter {
 	 * @param string[] $types
 	 * @return string[] An array of allowed apps from which activities should be displayed
 	 */
+	#[\Override]
 	public function filterTypes(array $types): array {
 		return $types;
 	}
@@ -46,6 +51,7 @@ class Filter implements IFilter {
 	/**
 	 * @return string[] An array of allowed apps from which activities should be displayed
 	 */
+	#[\Override]
 	public function allowedApps(): array {
 		return ['comments'];
 	}

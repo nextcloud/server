@@ -14,6 +14,7 @@ class PublicCalendarObject extends CalendarObject {
 	 * public calendars are always shared
 	 * @return bool
 	 */
+	#[\Override]
 	protected function isShared() {
 		return true;
 	}

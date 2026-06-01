@@ -43,6 +43,7 @@ class TasksSearchProvider extends ACalendarSearchProvider {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getId(): string {
 		return 'tasks';
 	}
@@ -50,6 +51,7 @@ class TasksSearchProvider extends ACalendarSearchProvider {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Tasks');
 	}
@@ -57,6 +59,7 @@ class TasksSearchProvider extends ACalendarSearchProvider {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getOrder(string $route, array $routeParameters): ?int {
 		if ($this->appManager->isEnabledForUser('tasks')) {
 			return $route === 'tasks.Page.index' ? -1 : 35;
@@ -68,6 +71,7 @@ class TasksSearchProvider extends ACalendarSearchProvider {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function search(
 		IUser $user,
 		ISearchQuery $query,

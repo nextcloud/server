@@ -42,6 +42,7 @@ class VersionEntity extends Entity implements JsonSerializable {
 		$this->addType('metadata', Types::JSON);
 	}
 
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'id' => $this->getId(),

@@ -27,6 +27,7 @@ class Movie extends ProviderV2 {
 		$this->config = Server::get(IConfig::class);
 	}
 
+	#[\Override]
 	public function getMimeType(): string {
 		return '/video\/.*/';
 	}
@@ -34,6 +35,7 @@ class Movie extends ProviderV2 {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function isAvailable(FileInfo $file): bool {
 		if (is_null($this->binary)) {
 			if (isset($this->options['movieBinary'])) {
@@ -63,6 +65,7 @@ class Movie extends ProviderV2 {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
 		// TODO: use proc_open() and stream the source file ?
 

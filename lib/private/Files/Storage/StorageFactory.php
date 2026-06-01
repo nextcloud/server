@@ -20,6 +20,7 @@ class StorageFactory implements IStorageFactory {
 	 */
 	private $storageWrappers = [];
 
+	#[\Override]
 	public function addStorageWrapper(string $wrapperName, callable $callback, int $priority = 50, array $existingMounts = []): bool {
 		if (isset($this->storageWrappers[$wrapperName])) {
 			return false;
@@ -47,6 +48,7 @@ class StorageFactory implements IStorageFactory {
 	/**
 	 * Create an instance of a storage and apply the registered storage wrappers
 	 */
+	#[\Override]
 	public function getInstance(IMountPoint $mountPoint, string $class, array $arguments): IStorage {
 		if (!is_a($class, IConstructableStorage::class, true)) {
 			Server::get(LoggerInterface::class)->warning('Building a storage not implementing IConstructableStorage is deprecated since 31.0.0', ['class' => $class]);

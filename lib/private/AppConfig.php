@@ -67,6 +67,16 @@ class AppConfig implements IAppConfig {
 	private array $valueTypes = [];  // type for all config values
 	private bool $fastLoaded = false;
 	private bool $lazyLoaded = false;
+	/**
+	 * Tracks whether the NC-only columns (`type`, `lazy`) exist in the `appconfig` table.
+	 * Set to false on first load when a DBException::REASON_INVALID_FIELD_NAME is caught,
+	 * which happens during an ownCloud → Nextcloud migration before the schema steps have run.
+	 *
+	 * Every SELECT that reads those columns and every INSERT/UPDATE that writes them must
+	 * guard with `if ($this->migrationCompleted)` so they degrade gracefully.
+	 * If you add a new query that touches NC-only columns, add the same guard.
+	 */
+	private bool $migrationCompleted = true;
 	/** @var array<string, array{entries: array<string, Entry>, aliases: array<string, string>, strictness: Strictness}> ['app_id' => ['strictness' => ConfigLexiconStrictness, 'entries' => ['config_key' => ConfigLexiconEntry[]]] */
 	private array $configLexiconDetails = [];
 	private bool $ignoreLexiconAliases = false;
@@ -98,6 +108,7 @@ class AppConfig implements IAppConfig {
 	 * @return list<string> list of app ids
 	 * @since 7.0.0
 	 */
+	#[\Override]
 	public function getApps(): array {
 		$this->loadConfig(lazy: true);
 		$apps = array_merge(array_keys($this->fastCache), array_keys($this->lazyCache));
@@ -115,6 +126,7 @@ class AppConfig implements IAppConfig {
 	 *
 	 * @since 29.0.0
 	 */
+	#[\Override]
 	public function getKeys(string $app): array {
 		$this->assertParams($app);
 		$this->loadConfig($app, true);
@@ -133,6 +145,7 @@ class AppConfig implements IAppConfig {
 	 * @return list<string> list of stored config keys
 	 * @since 32.0.0
 	 */
+	#[\Override]
 	public function searchKeys(string $app, string $prefix = '', bool $lazy = false): array {
 		$this->assertParams($app);
 		$this->loadConfig($app, $lazy);
@@ -161,6 +174,7 @@ class AppConfig implements IAppConfig {
 	 * @since 7.0.0
 	 * @since 29.0.0 Added the $lazy argument
 	 */
+	#[\Override]
 	public function hasKey(string $app, string $key, ?bool $lazy = false): bool {
 		$this->assertParams($app, $key);
 		$this->loadConfig($app, $lazy ?? true);
@@ -184,6 +198,7 @@ class AppConfig implements IAppConfig {
 	 * @throws AppConfigUnknownKeyException if config key is not known
 	 * @since 29.0.0
 	 */
+	#[\Override]
 	public function isSensitive(string $app, string $key, ?bool $lazy = false): bool {
 		$this->assertParams($app, $key);
 		$this->loadConfig(null, $lazy ?? true);
@@ -207,6 +222,7 @@ class AppConfig implements IAppConfig {
 	 * @see IAppConfig for details about lazy loading
 	 * @since 29.0.0
 	 */
+	#[\Override]
 	public function isLazy(string $app, string $key): bool {
 		$this->assertParams($app, $key);
 		$this->matchAndApplyLexiconDefinition($app, $key);
@@ -235,6 +251,7 @@ class AppConfig implements IAppConfig {
 	 * @return array<string, string|int|float|bool|array> [configKey => configValue]
 	 * @since 29.0.0
 	 */
+	#[\Override]
 	public function getAllValues(string $app, string $prefix = '', bool $filtered = false): array {
 		$this->assertParams($app, $prefix);
 		// if we want to filter values, we need to get sensitivity
@@ -280,6 +297,7 @@ class AppConfig implements IAppConfig {
 	 * @return array<string, string|int|float|bool|array> [appId => configValue]
 	 * @since 29.0.0
 	 */
+	#[\Override]
 	public function searchValues(string $key, bool $lazy = false, ?int $typedAs = null): array {
 		$this->assertParams('', $key, true);
 		$this->loadConfig(null, $lazy);
@@ -360,6 +378,7 @@ class AppConfig implements IAppConfig {
 	 * @since 29.0.0
 	 * @see IAppConfig for explanation about lazy loading
 	 */
+	#[\Override]
 	public function getValueString(
 		string $app,
 		string $key,
@@ -383,6 +402,7 @@ class AppConfig implements IAppConfig {
 	 * @since 29.0.0
 	 * @see IAppConfig for explanation about lazy loading
 	 */
+	#[\Override]
 	public function getValueInt(
 		string $app,
 		string $key,
@@ -406,6 +426,7 @@ class AppConfig implements IAppConfig {
 	 * @since 29.0.0
 	 * @see IAppConfig for explanation about lazy loading
 	 */
+	#[\Override]
 	public function getValueFloat(string $app, string $key, float $default = 0, bool $lazy = false): float {
 		return (float)$this->getTypedValue($app, $key, (string)$default, $lazy, self::VALUE_FLOAT);
 	}
@@ -424,8 +445,17 @@ class AppConfig implements IAppConfig {
 	 * @since 29.0.0
 	 * @see IAppConfig for explanation about lazy loading
 	 */
+	#[\Override]
 	public function getValueBool(string $app, string $key, bool $default = false, bool $lazy = false): bool {
-		$b = strtolower($this->getTypedValue($app, $key, $default ? 'true' : 'false', $lazy, self::VALUE_BOOL));
+		// The explicit (string) cast and ?? null guard defend against a PHP OPcache bug where
+		// values passed by reference across function boundaries can have their type corrupted
+		// (e.g. bool returned as int, or null). Affects PHP 8.x with OPcache enabled; fixed
+		// upstream in https://github.com/php/php-src/pull/21973. Keep until minimum PHP version
+		// is bumped. Psalm sees the declared return type (string) and flags these as redundant.
+		/** @psalm-suppress RedundantCondition, TypeDoesNotContainNull */
+		$value = $this->getTypedValue($app, $key, $default ? 'true' : 'false', $lazy, self::VALUE_BOOL) ?? ($default ? 'true' : 'false');
+		/** @psalm-suppress RedundantCast */
+		$b = strtolower((string)$value);
 		return in_array($b, ['1', 'true', 'yes', 'on']);
 	}
 
@@ -443,6 +473,7 @@ class AppConfig implements IAppConfig {
 	 * @since 29.0.0
 	 * @see IAppConfig for explanation about lazy loading
 	 */
+	#[\Override]
 	public function getValueArray(
 		string $app,
 		string $key,
@@ -552,6 +583,7 @@ class AppConfig implements IAppConfig {
 	 * @see VALUE_BOOL
 	 * @see VALUE_ARRAY
 	 */
+	#[\Override]
 	public function getValueType(string $app, string $key, ?bool $lazy = null): int {
 		$type = self::VALUE_MIXED;
 		$ignorable = $lazy ?? false;
@@ -627,6 +659,7 @@ class AppConfig implements IAppConfig {
 	 * @since 29.0.0
 	 * @see IAppConfig for explanation about lazy loading
 	 */
+	#[\Override]
 	public function setValueString(
 		string $app,
 		string $key,
@@ -657,6 +690,7 @@ class AppConfig implements IAppConfig {
 	 * @since 29.0.0
 	 * @see IAppConfig for explanation about lazy loading
 	 */
+	#[\Override]
 	public function setValueInt(
 		string $app,
 		string $key,
@@ -691,6 +725,7 @@ class AppConfig implements IAppConfig {
 	 * @since 29.0.0
 	 * @see IAppConfig for explanation about lazy loading
 	 */
+	#[\Override]
 	public function setValueFloat(
 		string $app,
 		string $key,
@@ -720,6 +755,7 @@ class AppConfig implements IAppConfig {
 	 * @since 29.0.0
 	 * @see IAppConfig for explanation about lazy loading
 	 */
+	#[\Override]
 	public function setValueBool(
 		string $app,
 		string $key,
@@ -750,6 +786,7 @@ class AppConfig implements IAppConfig {
 	 * @since 29.0.0
 	 * @see IAppConfig for explanation about lazy loading
 	 */
+	#[\Override]
 	public function setValueArray(
 		string $app,
 		string $key,
@@ -827,10 +864,12 @@ class AppConfig implements IAppConfig {
 				$insert = $this->connection->getQueryBuilder();
 				$insert->insert('appconfig')
 					->setValue('appid', $insert->createNamedParameter($app))
-					->setValue('lazy', $insert->createNamedParameter(($lazy) ? 1 : 0, IQueryBuilder::PARAM_INT))
-					->setValue('type', $insert->createNamedParameter($type, IQueryBuilder::PARAM_INT))
 					->setValue('configkey', $insert->createNamedParameter($key))
 					->setValue('configvalue', $insert->createNamedParameter($value));
+				if ($this->migrationCompleted) {
+					$insert->setValue('lazy', $insert->createNamedParameter(($lazy) ? 1 : 0, IQueryBuilder::PARAM_INT))
+						->setValue('type', $insert->createNamedParameter($type, IQueryBuilder::PARAM_INT));
+				}
 				$insert->executeStatement();
 				$inserted = true;
 			} catch (DBException $e) {
@@ -890,10 +929,12 @@ class AppConfig implements IAppConfig {
 			$update = $this->connection->getQueryBuilder();
 			$update->update('appconfig')
 				->set('configvalue', $update->createNamedParameter($value))
-				->set('lazy', $update->createNamedParameter(($lazy) ? 1 : 0, IQueryBuilder::PARAM_INT))
-				->set('type', $update->createNamedParameter($type, IQueryBuilder::PARAM_INT))
 				->where($update->expr()->eq('appid', $update->createNamedParameter($app)))
 				->andWhere($update->expr()->eq('configkey', $update->createNamedParameter($key)));
+			if ($this->migrationCompleted) {
+				$update->set('lazy', $update->createNamedParameter(($lazy) ? 1 : 0, IQueryBuilder::PARAM_INT))
+					->set('type', $update->createNamedParameter($type, IQueryBuilder::PARAM_INT));
+			}
 
 			$update->executeStatement();
 		}
@@ -973,6 +1014,7 @@ class AppConfig implements IAppConfig {
 	 * @return bool TRUE if entry was found in database and an update was necessary
 	 * @since 29.0.0
 	 */
+	#[\Override]
 	public function updateSensitive(string $app, string $key, bool $sensitive): bool {
 		$this->assertParams($app, $key);
 		$this->loadConfig(lazy: true);
@@ -1033,6 +1075,7 @@ class AppConfig implements IAppConfig {
 	 * @return bool TRUE if entry was found in database and an update was necessary
 	 * @since 29.0.0
 	 */
+	#[\Override]
 	public function updateLazy(string $app, string $key, bool $lazy): bool {
 		$this->assertParams($app, $key);
 		$this->loadConfig(lazy: true);
@@ -1069,6 +1112,7 @@ class AppConfig implements IAppConfig {
 	 * @throws AppConfigUnknownKeyException if config key is not known in database
 	 * @since 29.0.0
 	 */
+	#[\Override]
 	public function getDetails(string $app, string $key): array {
 		$this->assertParams($app, $key);
 		$this->loadConfig(lazy: true);
@@ -1119,6 +1163,7 @@ class AppConfig implements IAppConfig {
 	 * @return array{app: string, key: string, lazy?: bool, valueType?: ValueType, valueTypeName?: string, sensitive?: bool, internal?: bool, default?: string, definition?: string, note?: string}
 	 * @since 32.0.0
 	 */
+	#[\Override]
 	public function getKeyDetails(string $app, string $key): array {
 		$this->assertParams($app, $key);
 		try {
@@ -1161,6 +1206,7 @@ class AppConfig implements IAppConfig {
 	 * @throws AppConfigIncorrectTypeException
 	 * @since 29.0.0
 	 */
+	#[\Override]
 	public function convertTypeToInt(string $type): int {
 		return match (strtolower($type)) {
 			'mixed' => IAppConfig::VALUE_MIXED,
@@ -1180,6 +1226,7 @@ class AppConfig implements IAppConfig {
 	 * @throws AppConfigIncorrectTypeException
 	 * @since 29.0.0
 	 */
+	#[\Override]
 	public function convertTypeToString(int $type): string {
 		$type &= ~self::VALUE_SENSITIVE;
 
@@ -1202,6 +1249,7 @@ class AppConfig implements IAppConfig {
 	 *
 	 * @since 29.0.0
 	 */
+	#[\Override]
 	public function deleteKey(string $app, string $key): void {
 		$this->assertParams($app, $key);
 		$this->matchAndApplyLexiconDefinition($app, $key);
@@ -1225,6 +1273,7 @@ class AppConfig implements IAppConfig {
 	 *
 	 * @since 29.0.0
 	 */
+	#[\Override]
 	public function deleteApp(string $app): void {
 		$this->assertParams($app);
 		$qb = $this->connection->getQueryBuilder();
@@ -1243,6 +1292,7 @@ class AppConfig implements IAppConfig {
 	 * @internal
 	 * @since 29.0.0
 	 */
+	#[\Override]
 	public function clearCache(bool $reload = false): void {
 		$this->lazyLoaded = $this->fastLoaded = false;
 		$this->lazyCache = $this->fastCache = $this->valueTypes = $this->configLexiconDetails = [];
@@ -1347,23 +1397,39 @@ class AppConfig implements IAppConfig {
 
 		// Otherwise no cache available and we need to fetch from database
 		$qb = $this->connection->getQueryBuilder();
-		$qb->from('appconfig')
-			->select('appid', 'configkey', 'configvalue', 'type');
+		$qb->from('appconfig');
 
-		if ($lazy === false) {
-			$qb->where($qb->expr()->eq('lazy', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT)));
+		if (!$this->migrationCompleted) {
+			$qb->select('appid', 'configkey', 'configvalue');
 		} else {
-			if ($loadLazyOnly) {
-				$qb->where($qb->expr()->eq('lazy', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT)));
+			$qb->select('appid', 'configkey', 'configvalue', 'type');
+
+			if ($lazy === false) {
+				$qb->where($qb->expr()->eq('lazy', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT)));
+			} else {
+				if ($loadLazyOnly) {
+					$qb->where($qb->expr()->eq('lazy', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT)));
+				}
+				$qb->addSelect('lazy');
 			}
-			$qb->addSelect('lazy');
 		}
 
-		$result = $qb->executeQuery();
+		try {
+			$result = $qb->executeQuery();
+		} catch (DBException $e) {
+			if ($e->getReason() !== DBException::REASON_INVALID_FIELD_NAME || !$this->migrationCompleted) {
+				throw $e;
+			}
+			// columns 'type' and 'lazy' don't exist yet (ownCloud migration)
+			$this->migrationCompleted = false;
+			$this->loadConfig($app, $lazy);
+			return;
+		}
+
 		$rows = $result->fetchAll();
 		foreach ($rows as $row) {
 			// most of the time, 'lazy' is not in the select because its value is already known
-			if ($lazy && ((int)$row['lazy']) === 1) {
+			if ($this->migrationCompleted && $lazy && ((int)$row['lazy']) === 1) {
 				$this->lazyCache[$row['appid']][$row['configkey']] = $row['configvalue'] ?? '';
 			} else {
 				$this->fastCache[$row['appid']][$row['configkey']] = $row['configvalue'] ?? '';
@@ -1448,6 +1514,7 @@ class AppConfig implements IAppConfig {
 	 * @return array|false
 	 * @deprecated 29.0.0 use {@see getAllValues()}
 	 */
+	#[\Override]
 	public function getValues($app, $key) {
 		if (($app !== false) === ($key !== false)) {
 			return false;
@@ -1469,6 +1536,7 @@ class AppConfig implements IAppConfig {
 	 * @return array
 	 * @deprecated 29.0.0 use {@see getAllValues()}
 	 */
+	#[\Override]
 	public function getFilteredValues($app) {
 		return $this->getAllValues($app, filtered: true);
 	}
@@ -1828,6 +1896,7 @@ class AppConfig implements IAppConfig {
 	 *
 	 * @return array<string, string>
 	 */
+	#[\Override]
 	public function getAppInstalledVersions(bool $onlyEnabled = false): array {
 		if ($this->appVersionsCache === null) {
 			/** @var array<string, string> */

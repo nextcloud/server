@@ -32,6 +32,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 	private CORSMiddlewareController $controller;
 	private LoggerInterface $logger;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->reflector = new ControllerMethodReflector(Server::get(LoggerInterface::class));

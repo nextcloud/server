@@ -20,14 +20,17 @@ class DefaultPhoneRegionSet implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Default phone region');
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'config';
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		if ($this->config->getSystemValueString('default_phone_region', '') !== '') {
 			return SetupResult::success($this->config->getSystemValueString('default_phone_region', ''));

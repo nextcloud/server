@@ -56,10 +56,12 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 	) {
 	}
 
+	#[\Override]
 	public function shouldRespond(IShare $share): bool {
 		return true;
 	}
 
+	#[\Override]
 	public function renderPage(IShare $share, string $token, string $path): TemplateResponse {
 		$shareNode = $share->getNode();
 		$ownerName = '';

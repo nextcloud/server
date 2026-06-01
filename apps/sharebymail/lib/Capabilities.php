@@ -43,6 +43,7 @@ class Capabilities implements ICapability {
 	 *     }
 	 * }
 	 */
+	#[\Override]
 	public function getCapabilities(): array {
 		if (!$this->appManager->isEnabledForUser('files_sharing')) {
 			return [];

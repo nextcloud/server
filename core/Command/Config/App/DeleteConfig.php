@@ -14,6 +14,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class DeleteConfig extends Base {
+	#[\Override]
 	protected function configure() {
 		parent::configure();
 
@@ -39,6 +40,7 @@ class DeleteConfig extends Base {
 		;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$appName = $input->getArgument('app');
 		$configName = $input->getArgument('name');

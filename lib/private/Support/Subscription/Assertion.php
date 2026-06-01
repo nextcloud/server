@@ -24,6 +24,7 @@ class Assertion implements IAssertion {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function createUserIsLegit(): void {
 		if ($this->registry->delegateIsHardUserLimitReached($this->notificationManager)) {
 			$l = $this->l10nFactory->get('lib');

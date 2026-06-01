@@ -17,6 +17,7 @@ class SVG extends ProviderV2 {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getMimeType(): string {
 		return '/image\/svg\+xml/';
 	}
@@ -24,6 +25,7 @@ class SVG extends ProviderV2 {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
 		try {
 			$content = stream_get_contents($file->fopen('r'));

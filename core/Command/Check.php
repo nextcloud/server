@@ -18,6 +18,7 @@ class Check extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		parent::configure();
 
@@ -27,6 +28,7 @@ class Check extends Base {
 		;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$errors = \OC_Util::checkServer($this->config);
 		if (!empty($errors)) {

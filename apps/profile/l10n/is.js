@@ -10,7 +10,7 @@ OC.L10N.register(
     "Edit Profile" : "Breyta sniði",
     "The headline and about sections will show up here" : "Fyrirsögnin og hlutar um hugbúnaðinn munu birtast hér",
     "Profile not found" : "Sniðið finnst ekki",
-    "The profile does not exist." : "Sniðið er ekki til.",
-    "Back to %s" : "Til baka í %s"
+    "Back to %s" : "Til baka í %s",
+    "The profile does not exist." : "Sniðið er ekki til."
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

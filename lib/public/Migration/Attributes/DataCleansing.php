@@ -21,6 +21,7 @@ class DataCleansing extends DataMigrationAttribute {
 	 * @return string
 	 * @since 32.0.0
 	 */
+	#[\Override]
 	public function definition(): string {
 		return 'Cleansing data from table \'' . $this->getTable() . '\'';
 	}

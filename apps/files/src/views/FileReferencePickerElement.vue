@@ -15,7 +15,7 @@ import { FilePickerBuilder } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
 import { onMounted } from 'vue'
 import { generateFileUrl } from '../../../files_sharing/src/utils/generateUrl.ts'
-import logger from '../logger.ts'
+import { logger } from '../utils/logger.ts'
 
 defineProps<{
 	providerId: string

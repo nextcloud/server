@@ -19,6 +19,7 @@ class SimpleFileTest extends \Test\TestCase {
 	/** @var SimpleFile */
 	private $simpleFile;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

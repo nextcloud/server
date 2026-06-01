@@ -25,14 +25,17 @@ class MemcacheConfigured implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Memcache');
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'system';
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		$memcacheDistributedClass = $this->config->getSystemValue('memcache.distributed', null);
 		$memcacheLockingClass = $this->config->getSystemValue('memcache.locking', null);

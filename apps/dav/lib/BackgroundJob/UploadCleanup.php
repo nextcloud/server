@@ -34,6 +34,7 @@ class UploadCleanup extends TimedJob {
 		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
+	#[\Override]
 	protected function run($argument) {
 		$uid = $argument['uid'];
 		$folder = $argument['folder'];

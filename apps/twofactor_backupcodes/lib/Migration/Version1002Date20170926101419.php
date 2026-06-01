@@ -20,6 +20,7 @@ class Version1002Date20170926101419 extends BigIntMigration {
 	 *               ['table1' => ['column1', 'column2'], ...]
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	protected function getColumnsByTable() {
 		return [
 			'twofactor_backupcodes' => ['id'],

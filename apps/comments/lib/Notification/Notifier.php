@@ -15,6 +15,7 @@ use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Notification\AlreadyProcessedException;
+use OCP\Notification\IAction;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
 use OCP\Notification\UnknownNotificationException;
@@ -35,6 +36,7 @@ class Notifier implements INotifier {
 	 * @return string
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function getID(): string {
 		return 'comments';
 	}
@@ -45,6 +47,7 @@ class Notifier implements INotifier {
 	 * @return string
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->l10nFactory->get('comments')->t('Comments');
 	}
@@ -57,6 +60,7 @@ class Notifier implements INotifier {
 	 * @throws AlreadyProcessedException When the notification is not needed anymore and should be deleted
 	 * @since 9.0.0
 	 */
+	#[\Override]
 	public function prepare(INotification $notification, string $languageCode): INotification {
 		if ($notification->getApp() !== 'comments') {
 			throw new UnknownNotificationException();
@@ -115,14 +119,23 @@ class Notifier implements INotifier {
 						'name' => $displayName,
 					];
 				}
+
+				$commentLink = $this->url->linkToRouteAbsolute(
+					'comments.Notifications.view',
+					['id' => $comment->getId()],
+				);
+
 				[$message, $messageParameters] = $this->commentToRichMessage($comment);
 				$notification->setRichSubject($subject, $subjectParameters)
 					->setRichMessage($message, $messageParameters)
 					->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/comment.svg')))
-					->setLink($this->url->linkToRouteAbsolute(
-						'comments.Notifications.view',
-						['id' => $comment->getId()])
-					);
+					->setLink($commentLink);
+
+				$action = $notification->createAction();
+				$action->setLink($commentLink, IAction::TYPE_WEB);
+				$action->setPrimary(true);
+				$action->setParsedLabel($l->t('Go to file'));
+				$notification->addParsedAction($action);
 
 				return $notification;
 				break;

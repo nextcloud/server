@@ -50,7 +50,7 @@ $CONFIG = [
 	 * It is useful when your Nextcloud instance is using different PHP servers.
 	 * Once it's set it shouldn't be changed.
 	 *
-	 * Value must be an integer, comprised between 0 and 1023.
+	 * Value must be an integer, comprised between 0 and 511.
 	 *
 	 * When config.php is shared between different servers, this value should be overriden with "NC_serverid=<int>" on each server.
 	 * Note that it must be overriden for CLI and for your webserver.
@@ -739,12 +739,19 @@ $CONFIG = [
 	'overwritecondaddr' => '',
 
 	/**
-	 * Use this configuration parameter to specify the base URL for any URLs which
-	 * are generated within Nextcloud using any kind of command line tools (cron or
-	 * occ). The value should contain the full base URL:
+	 * Set the canonical base URL Nextcloud should use when generating URLs outside
+	 * a normal web request, such as in background jobs or at the command-line.
+	 * The value should be the full base URL including the web root, for example:
 	 * ``https://www.example.com/nextcloud``
-	 * Please make sure to set the value to the URL that your users mainly use to access this Nextcloud.
-	 * Otherwise, there might be problems with the URL generation via cron.
+	 *
+	 * In most setups, this should match the URL your users normally use to access
+	 * Nextcloud. If it is incorrect, URL generation may be wrong in cron jobs,
+	 * ``occ``, notifications, and similar contexts.
+	 *
+	 * NOTE: During installation, Nextcloud seeds this value from the installer’s
+	 * current access context. If it was not preseeded (for example, via
+	 * ``autoconfig.php``), the inferred value may not match the public URL that
+	 * users normally use to access Nextcloud and may need adjustment.
 	 *
 	 * Defaults to ``''`` (empty string)
 	 */
@@ -2404,9 +2411,9 @@ $CONFIG = [
 	 * Changing this may cause older, unsupported clients to malfunction, potentially
 	 * leading to data loss or unexpected behavior.
 	 *
-	 * Defaults to ``3.1.81``
+	 * Defaults to ``3.2.50``
 	 */
-	'minimum.supported.desktop.version' => '3.1.81',
+	'minimum.supported.desktop.version' => '3.2.50',
 
 	/**
 	 * Specify the maximum Nextcloud desktop client version allowed to sync with this
@@ -2445,9 +2452,28 @@ $CONFIG = [
 	'localstorage.unlink_on_truncate' => false,
 
 	/**
-	 * EXPERIMENTAL: Include external storage in quota calculations.
+	 * Include external storage mounts in quota calculations.
 	 *
-	 * Defaults to ``false``
+	 * When enabled, user storage quotas will also include files stored on
+	 * external storage mounts (such as SMB, SFTP, S3, etc.) that are
+	 * configured for the user (either as personal or global/system mounts).
+	 *
+	 * Only files visible to the user at these mount points are counted towards
+	 * their quota. Files only visible to other users (on their own mounts) are
+	 * not counted.
+	 *
+	 * By default, system/global external storage mounts are shared: every user
+	 * given access sees the same files and folders from the external storage. To
+	 * have per-user isolation, configure the mount with user-specific path or
+	 * credentials, or utilize a personal mount.
+	 *
+	 * Enabling this option may impact performance if external storages are slow
+	 * or unreliable.
+	 *
+	 * Warning: This setting is considered EXPERIMENTAL and may not work with all
+	 * external storage backends.
+	 *
+	 * Defaults to ``false``.
 	 */
 	'quota_include_external_storage' => false,
 
@@ -2830,9 +2856,23 @@ $CONFIG = [
 	'diagnostics.logging.threshold' => 0,
 
 	/**
-	 * Enable profiling globally.
+	 * Toggle availability of user profiles.
 	 *
-	 * Defaults to ``true``
+	 * User profile pages contain information that can be shared with other users,
+	 * such as full name, phone number, organization, role, and similar fields.
+	 *
+	 * Profiles are enabled by default, and profile data may be used by other
+	 * features (for example, the system address book).
+	 *
+	 * Profile visibility is layered: what is shared depends on a combination of
+	 * system-wide and account-level privacy controls, and each field's visibility
+	 * can be configured.
+	 *
+	 * When set to false, profile functionality is disabled instance-wide.
+	 *
+	 * Note: This affects user account profiles, not the developer performance profiler.
+	 *
+	 * Defaults to `true`
 	 */
 	'profile.enabled' => true,
 

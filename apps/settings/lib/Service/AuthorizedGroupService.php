@@ -17,6 +17,9 @@ use OCP\DB\Exception;
 use OCP\IGroup;
 use Throwable;
 
+/**
+ * @psalm-api - we cannot use final as this will break unit tests
+ */
 readonly class AuthorizedGroupService {
 	public function __construct(
 		private AuthorizedGroupMapper $mapper,

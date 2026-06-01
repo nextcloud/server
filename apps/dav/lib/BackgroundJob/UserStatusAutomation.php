@@ -49,6 +49,7 @@ class UserStatusAutomation extends TimedJob {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	protected function run($argument) {
 		if (!isset($argument['userId'])) {
 			$this->jobList->remove(self::class, $argument);

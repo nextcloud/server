@@ -20,6 +20,7 @@ class LanguageIteratorTest extends TestCase {
 	/** @var LanguageIterator */
 	protected $iterator;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

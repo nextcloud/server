@@ -32,14 +32,17 @@ class OcxProviders implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'network';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('OCS provider resolving');
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		// List of providers that work
 		$workingProviders = [];

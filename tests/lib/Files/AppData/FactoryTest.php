@@ -21,6 +21,7 @@ class FactoryTest extends \Test\TestCase {
 	/** @var Factory */
 	private $factory;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

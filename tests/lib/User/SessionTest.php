@@ -69,6 +69,7 @@ class SessionTest extends \Test\TestCase {
 	/** @var IEventDispatcher|MockObject */
 	private $dispatcher;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

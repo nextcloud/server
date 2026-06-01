@@ -49,6 +49,7 @@ class UpdateAvailableNotifications extends TimedJob {
 		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
+	#[\Override]
 	protected function run($argument) {
 		// Do not check for updates if not connected to the internet
 		if (!$this->config->getSystemValueBool('has_internet_connection', true)) {

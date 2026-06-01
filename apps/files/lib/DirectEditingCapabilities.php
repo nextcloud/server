@@ -22,6 +22,7 @@ class DirectEditingCapabilities implements ICapability, IInitialStateExcludedCap
 	/**
 	 * @return array{files: array{directEditing: array{url: string, etag: string, supportsFileId: bool}}}
 	 */
+	#[\Override]
 	public function getCapabilities() {
 		return [
 			'files' => [

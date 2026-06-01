@@ -42,6 +42,7 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 	/** @var ClientFlowLoginV2Controller */
 	private $controller;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

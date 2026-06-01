@@ -12,7 +12,7 @@ OC.L10N.register(
     "Edit Profile" : "Hariri wasifu",
     "The headline and about sections will show up here" : "The headline and about sections will show up here",
     "Profile not found" : "Wasifu haupatikani",
-    "The profile does not exist." : "Wasifu haupo",
-    "Back to %s" : "Rudi kwenye %s"
+    "Back to %s" : "Rudi kwenye %s",
+    "The profile does not exist." : "Wasifu haupo"
 },
 "nplurals=2; plural=(n != 1);");

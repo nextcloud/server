@@ -76,7 +76,7 @@ interface IOperation {
 	 * Is being called by the workflow engine when an event was triggered that
 	 * is configured for this operation. An evaluation whether the event
 	 * qualifies for this operation to run has still to be done by the
-	 * implementor by calling the RuleMatchers getMatchingOperations method
+	 * implementor by calling the @see IRuleMatcher::getFlows() method
 	 * and evaluating the results.
 	 *
 	 * If the implementor is an IComplexOperation, this method will not be

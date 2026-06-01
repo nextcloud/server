@@ -20,6 +20,8 @@ use OCP\Comments\IComment;
 final class CommentAddedEvent extends CommentsEvent {
 	/**
 	 * CommentAddedEvent constructor.
+	 *
+	 * @since 33.0.0
 	 */
 	public function __construct(IComment $comment) {
 		/** @psalm-suppress DeprecatedConstant */

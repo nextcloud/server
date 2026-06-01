@@ -34,6 +34,7 @@ class JobListTest extends TestCase {
 	protected IConfig&MockObject $config;
 	protected ITimeFactory&MockObject $timeFactory;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

@@ -28,6 +28,7 @@ class MemoryCacheBackendTest extends TestCase {
 	/** @var MemoryCacheBackend */
 	private $memoryCache;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

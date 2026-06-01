@@ -16,6 +16,7 @@ class AddressTest extends TestCase {
 	/** @var Address&MockObject */
 	private Address $address;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

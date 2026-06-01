@@ -128,6 +128,7 @@ final class JrdResponse implements IResponse {
 	/**
 	 * @since 21.0.0
 	 */
+	#[\Override]
 	public function toHttpResponse(): Response {
 		return new JSONResponse(array_filter([
 			'subject' => $this->subject,

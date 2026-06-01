@@ -28,6 +28,7 @@ class FileChanges implements IFilter {
 	 * @return string Lowercase a-z only identifier
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function getIdentifier() {
 		return 'files';
 	}
@@ -36,6 +37,7 @@ class FileChanges implements IFilter {
 	 * @return string A translated string
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function getName() {
 		return $this->l->t('File changes');
 	}
@@ -44,6 +46,7 @@ class FileChanges implements IFilter {
 	 * @return int
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function getPriority() {
 		return 30;
 	}
@@ -52,6 +55,7 @@ class FileChanges implements IFilter {
 	 * @return string Full URL to an icon, empty string when none is given
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function getIcon() {
 		return $this->url->getAbsoluteURL($this->url->imagePath('core', 'places/files.svg'));
 	}
@@ -61,6 +65,7 @@ class FileChanges implements IFilter {
 	 * @return string[] An array of allowed apps from which activities should be displayed
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function filterTypes(array $types) {
 		return array_intersect([
 			'file_created',
@@ -74,6 +79,7 @@ class FileChanges implements IFilter {
 	 * @return string[] An array of allowed apps from which activities should be displayed
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function allowedApps() {
 		return ['files'];
 	}

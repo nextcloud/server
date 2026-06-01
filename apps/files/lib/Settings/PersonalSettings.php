@@ -14,15 +14,18 @@ use OCP\Settings\ISettings;
 use OCP\Util;
 
 class PersonalSettings implements ISettings {
+	#[\Override]
 	public function getForm(): TemplateResponse {
 		Util::addScript(Application::APP_ID, 'settings-personal');
 		return new TemplateResponse(Application::APP_ID, 'settings-personal');
 	}
 
+	#[\Override]
 	public function getSection(): string {
 		return 'sharing';
 	}
 
+	#[\Override]
 	public function getPriority(): int {
 		return 90;
 	}

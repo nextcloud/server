@@ -7,6 +7,9 @@ import { createAppConfig } from '@nextcloud/vite-config'
 import { resolve } from 'node:path'
 
 const modules = {
+	appstore: {
+		main: resolve(import.meta.dirname, 'apps/appstore/src', 'main.ts'),
+	},
 	comments: {
 		'comments-app': resolve(import.meta.dirname, 'apps/comments/src', 'comments-app.ts'),
 		'comments-tab': resolve(import.meta.dirname, 'apps/comments/src', 'files-sidebar.ts'),
@@ -86,6 +89,7 @@ const viteModuleEntries = Object.entries(modules)
 	.flat(1)
 
 export default createAppConfig(Object.fromEntries(viteModuleEntries), {
+	createEmptyCSSEntryPoints: true,
 	emptyOutputDirectory: {
 		additionalDirectories: [resolve(import.meta.dirname, '../..', 'dist')],
 	},
@@ -103,16 +107,11 @@ export default createAppConfig(Object.fromEntries(viteModuleEntries), {
 				output: {
 					entryFileNames: '[name].mjs',
 					chunkFileNames: '[name]-[hash].chunk.mjs',
-					assetFileNames(ctx) {
-						const { originalFileNames } = ctx
-						const [name] = originalFileNames
-						if (name) {
-							const [, appId] = name.match(/apps\/([^/]+)\//) ?? []
-							if (appId) {
-								return `${appId}-[name]-[hash][extname]`
-							}
-						}
-						return '[name]-[hash][extname]'
+					assetFileNames({ originalFileNames }) {
+						const apps = originalFileNames.map((name) => name.match(/apps\/([^/]+)\//)?.[1])
+							.filter(Boolean)
+						const appId = apps.length === 1 ? apps[0] : 'common'
+						return `${appId}-[name]-[hash][extname]`
 					},
 					experimentalMinChunkSize: 100 * 1024,
 					/* // with rolldown-vite:

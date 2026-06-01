@@ -26,6 +26,7 @@ class CreateSubscription extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('dav:create-subscription')
@@ -44,6 +45,7 @@ class CreateSubscription extends Command {
 				'Hex color code for the calendar color');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$user = $input->getArgument('user');
 		if (!$this->userManager->userExists($user)) {

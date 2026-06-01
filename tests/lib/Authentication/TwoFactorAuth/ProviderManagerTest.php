@@ -30,6 +30,7 @@ class ProviderManagerTest extends TestCase {
 	/** @var ProviderManager */
 	private $providerManager;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

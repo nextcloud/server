@@ -22,14 +22,17 @@ class CodeIntegrity implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Code integrity');
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'security';
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		if (!$this->checker->isCodeCheckEnforced()) {
 			return SetupResult::info($this->l10n->t('Integrity checker has been disabled. Integrity cannot be verified.'));

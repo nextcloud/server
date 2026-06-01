@@ -34,14 +34,17 @@ class CommentsSearchProvider implements IProvider {
 	) {
 	}
 
+	#[\Override]
 	public function getId(): string {
 		return 'comments';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Comments');
 	}
 
+	#[\Override]
 	public function getOrder(string $route, array $routeParameters): int {
 		if ($route === 'files.View.index') {
 			// Files first
@@ -50,6 +53,7 @@ class CommentsSearchProvider implements IProvider {
 		return 10;
 	}
 
+	#[\Override]
 	public function search(IUser $user, ISearchQuery $query): SearchResult {
 		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
 

@@ -35,6 +35,7 @@ class Quota extends Wrapper {
 		return Wrapper::wrapSource($stream, $context, 'quota', self::class);
 	}
 
+	#[\Override]
 	public function stream_open($path, $mode, $options, &$opened_path) {
 		$context = $this->loadContext('quota');
 		$this->source = $context['source'];
@@ -43,10 +44,12 @@ class Quota extends Wrapper {
 		return true;
 	}
 
+	#[\Override]
 	public function dir_opendir($path, $options) {
 		return false;
 	}
 
+	#[\Override]
 	public function stream_seek($offset, $whence = SEEK_SET) {
 		if ($whence === SEEK_END) {
 			// go to the end to find out last position's offset
@@ -67,11 +70,13 @@ class Quota extends Wrapper {
 		return fseek($this->source, $offset, $whence) === 0;
 	}
 
+	#[\Override]
 	public function stream_read($count) {
 		$this->limit -= $count;
 		return fread($this->source, $count);
 	}
 
+	#[\Override]
 	public function stream_write($data) {
 		$size = strlen($data);
 		if ($size > $this->limit) {

@@ -59,6 +59,7 @@ class PublicAuth extends AbstractBasic {
 	 * @throws MaxDelayReached
 	 * @throws ServiceUnavailable
 	 */
+	#[\Override]
 	public function check(RequestInterface $request, ResponseInterface $response): array {
 		try {
 			$this->throttler->sleepDelayOrThrowOnMax($this->request->getRemoteAddress(), self::BRUTEFORCE_ACTION);
@@ -162,6 +163,7 @@ class PublicAuth extends AbstractBasic {
 	 * @return bool
 	 * @throws NotAuthenticated
 	 */
+	#[\Override]
 	protected function validateUserPass($username, $password) {
 		$this->throttler->sleepDelayOrThrowOnMax($this->request->getRemoteAddress(), self::BRUTEFORCE_ACTION);
 

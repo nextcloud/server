@@ -104,6 +104,10 @@ class ViewControllerTest extends TestCase {
 		$this->appManager->expects($this->any())
 			->method('isAppLoaded')
 			->willReturn(true);
+		$this->appManager->expects($this->any())
+			->method('getAppNamespace')
+			->with('files')
+			->willReturn('OCA\\Files');
 
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
@@ -302,11 +306,11 @@ class ViewControllerTest extends TestCase {
 				'backup_codes' => true,
 			]);
 
-		$invokedCountProvideInitialState = $this->exactly(10);
+		$invokedCountProvideInitialState = $this->exactly(13);
 		$this->initialState->expects($invokedCountProvideInitialState)
 			->method('provideInitialState')
 			->willReturnCallback(function ($key, $data) use ($invokedCountProvideInitialState): void {
-				if ($invokedCountProvideInitialState->numberOfInvocations() === 10) {
+				if ($invokedCountProvideInitialState->numberOfInvocations() === 13) {
 					$this->assertEquals('isTwoFactorEnabled', $key);
 					$this->assertTrue($data);
 				}

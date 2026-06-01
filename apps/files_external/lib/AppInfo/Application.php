@@ -76,6 +76,7 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 		parent::__construct(self::APP_ID, $urlParams);
 	}
 
+	#[\Override]
 	public function register(IRegistrationContext $context): void {
 		$context->registerEventListener(UserDeletedEvent::class, UserDeletedListener::class);
 		$context->registerEventListener(GroupDeletedEvent::class, GroupDeletedListener::class);
@@ -92,6 +93,7 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 		$context->registerConfigLexicon(ConfigLexicon::class);
 	}
 
+	#[\Override]
 	public function boot(IBootContext $context): void {
 		$context->injectFn(function (IMountProviderCollection $mountProviderCollection, ConfigAdapter $configAdapter): void {
 			$mountProviderCollection->registerProvider($configAdapter);
@@ -108,6 +110,7 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 	/**
 	 * @{inheritdoc}
 	 */
+	#[\Override]
 	public function getBackends() {
 		$container = $this->getContainer();
 
@@ -130,6 +133,7 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 	/**
 	 * @{inheritdoc}
 	 */
+	#[\Override]
 	public function getAuthMechanisms() {
 		$container = $this->getContainer();
 

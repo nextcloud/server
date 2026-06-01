@@ -46,6 +46,7 @@ class MailerTest extends TestCase {
 	private $dispatcher;
 
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

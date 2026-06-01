@@ -17,7 +17,7 @@ OC.L10N.register(
     "Edit Profile" : "Wijzig Profiel",
     "The headline and about sections will show up here" : "De koplijn- en oversectie zal hier verschijnen",
     "Profile not found" : "Profiel niet gevonden",
-    "The profile does not exist." : "Het profiel bestaat niet.",
-    "Back to %s" : "Terug naar %s"
+    "Back to %s" : "Terug naar %s",
+    "The profile does not exist." : "Het profiel bestaat niet."
 },
 "nplurals=2; plural=(n != 1);");

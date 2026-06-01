@@ -22,6 +22,7 @@ class WithLocalCache implements ICache {
 		$this->cached = new CappedMemoryCache($localCapacity);
 	}
 
+	#[\Override]
 	public function get($key) {
 		if (isset($this->cached[$key])) {
 			return $this->cached[$key];
@@ -34,25 +35,30 @@ class WithLocalCache implements ICache {
 		}
 	}
 
+	#[\Override]
 	public function set($key, $value, $ttl = 0) {
 		$this->cached[$key] = $value;
 		return $this->inner->set($key, $value, $ttl);
 	}
 
+	#[\Override]
 	public function hasKey($key) {
 		return isset($this->cached[$key]) || $this->inner->hasKey($key);
 	}
 
+	#[\Override]
 	public function remove($key) {
 		unset($this->cached[$key]);
 		return $this->inner->remove($key);
 	}
 
+	#[\Override]
 	public function clear($prefix = '') {
 		$this->cached->clear();
 		return $this->inner->clear($prefix);
 	}
 
+	#[\Override]
 	public static function isAvailable(): bool {
 		return false;
 	}

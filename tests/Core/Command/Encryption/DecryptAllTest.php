@@ -27,6 +27,7 @@ class DecryptAllTest extends TestCase {
 	private MockObject&QuestionHelper $questionHelper;
 	private MockObject&\OC\Encryption\DecryptAll $decryptAll;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

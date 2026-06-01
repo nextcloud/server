@@ -20,6 +20,7 @@ class BootContextTest extends TestCase {
 
 	private BootContext $context;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

@@ -26,6 +26,7 @@ class CalendarPublicationListener implements IEventListener {
 	/**
 	 * In case the user has set their default calendar to the deleted one
 	 */
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof CalendarPublishedEvent) {
 			$this->logger->debug('Creating activity for Calendar being published');

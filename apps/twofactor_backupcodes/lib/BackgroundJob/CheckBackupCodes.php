@@ -28,6 +28,7 @@ class CheckBackupCodes extends QueuedJob {
 		parent::__construct($timeFactory);
 	}
 
+	#[\Override]
 	protected function run($argument) {
 		$this->userManager->callForSeenUsers(function (IUser $user): void {
 			if (!$user->isEnabled()) {

@@ -25,6 +25,7 @@ class SessionMiddlewareTest extends TestCase {
 	private Controller $controller;
 	private SessionMiddleware $middleware;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

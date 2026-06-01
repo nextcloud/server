@@ -40,6 +40,7 @@ class DIIntergrationTests extends TestCase {
 	private DIContainer $container;
 	private ServerContainer $server;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

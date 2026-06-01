@@ -36,12 +36,8 @@ abstract class ASettings implements ISettings {
 
 	abstract public function getScope(): int;
 
+	#[\Override]
 	public function getForm(): TemplateResponse {
-		// @deprecated in 20.0.0: retire this one in favor of the typed event
-		$this->eventDispatcher->dispatch(
-			'OCP\WorkflowEngine::loadAdditionalSettingScripts',
-			new LoadSettingsScriptsEvent()
-		);
 		$this->eventDispatcher->dispatchTyped(new LoadSettingsScriptsEvent());
 
 		$entities = $this->manager->getEntitiesList();
@@ -83,6 +79,7 @@ abstract class ASettings implements ISettings {
 	/**
 	 * @return string|null the section ID, e.g. 'sharing'
 	 */
+	#[\Override]
 	public function getSection(): ?string {
 		return 'workflow';
 	}
@@ -94,6 +91,7 @@ abstract class ASettings implements ISettings {
 	 *
 	 * E.g.: 70
 	 */
+	#[\Override]
 	public function getPriority(): int {
 		return 0;
 	}

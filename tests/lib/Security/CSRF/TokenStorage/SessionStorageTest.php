@@ -19,6 +19,7 @@ class SessionStorageTest extends \Test\TestCase {
 	/** @var SessionStorage */
 	private $sessionStorage;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->session = $this->getMockBuilder(ISession::class)

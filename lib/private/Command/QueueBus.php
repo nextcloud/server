@@ -25,6 +25,7 @@ class QueueBus implements IBus {
 	/**
 	 * Schedule a command to be fired
 	 */
+	#[\Override]
 	public function push(ICommand $command): void {
 		$this->queue[] = $command;
 	}
@@ -32,6 +33,7 @@ class QueueBus implements IBus {
 	/**
 	 * Require all commands using a trait to be run synchronous
 	 */
+	#[\Override]
 	public function requireSync(string $trait): void {
 	}
 

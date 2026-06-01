@@ -36,6 +36,7 @@ class MoveAvatarsBackgroundJob extends QueuedJob {
 		}
 	}
 
+	#[\Override]
 	public function run($argument) {
 		$this->logger->info('Started migrating avatars to AppData folder');
 		$this->moveAvatars();

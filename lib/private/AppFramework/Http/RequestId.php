@@ -22,6 +22,7 @@ class RequestId implements IRequestId {
 	 * If `mod_unique_id` is installed this value will be taken.
 	 * @return string
 	 */
+	#[\Override]
 	public function getId(): string {
 		if (empty($this->requestId)) {
 			$validChars = ISecureRandom::CHAR_ALPHANUMERIC;

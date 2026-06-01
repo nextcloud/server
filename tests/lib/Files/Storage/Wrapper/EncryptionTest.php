@@ -58,6 +58,7 @@ class EncryptionTest extends Storage {
 	/** dummy unencrypted size */
 	private int $dummySize = -1;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

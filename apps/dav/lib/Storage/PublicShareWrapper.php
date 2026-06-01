@@ -27,6 +27,7 @@ class PublicShareWrapper extends Wrapper implements ISharedStorage {
 		$this->share = $parameters['share'];
 	}
 
+	#[\Override]
 	public function getShare(): IShare {
 		$storage = parent::getWrapperStorage();
 		if (method_exists($storage, 'getShare')) {

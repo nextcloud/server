@@ -44,6 +44,7 @@ abstract class Base implements IProvider {
 	 * @throws UnknownActivityException
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function parse($language, IEvent $event, ?IEvent $previousEvent = null) {
 		if ($event->getApp() !== 'files_sharing') {
 			throw new UnknownActivityException();
@@ -54,7 +55,7 @@ abstract class Base implements IProvider {
 		if ($this->activityManager->isFormattingFilteredObject()) {
 			try {
 				return $this->parseShortVersion($event);
-			} catch (\InvalidArgumentException $e) {
+			} catch (UnknownActivityException $e) {
 				// Ignore and simply use the long version...
 			}
 		}
@@ -65,7 +66,7 @@ abstract class Base implements IProvider {
 	/**
 	 * @param IEvent $event
 	 * @return IEvent
-	 * @throws \InvalidArgumentException
+	 * @throws UnknownActivityException
 	 * @since 11.0.0
 	 */
 	abstract protected function parseShortVersion(IEvent $event);
@@ -74,14 +75,11 @@ abstract class Base implements IProvider {
 	 * @param IEvent $event
 	 * @param IEvent|null $previousEvent
 	 * @return IEvent
-	 * @throws \InvalidArgumentException
+	 * @throws UnknownActivityException
 	 * @since 11.0.0
 	 */
 	abstract protected function parseLongVersion(IEvent $event, ?IEvent $previousEvent = null);
 
-	/**
-	 * @throws \InvalidArgumentException
-	 */
 	protected function setSubjects(IEvent $event, string $subject, array $parameters): void {
 		$event->setRichSubject($subject, $parameters);
 	}
@@ -90,7 +88,7 @@ abstract class Base implements IProvider {
 	 * @param array|string $parameter
 	 * @param IEvent|null $event
 	 * @return array
-	 * @throws \InvalidArgumentException
+	 * @throws UnknownActivityException
 	 */
 	protected function getFile($parameter, ?IEvent $event = null) {
 		if (is_array($parameter)) {
@@ -100,7 +98,7 @@ abstract class Base implements IProvider {
 			$path = $parameter;
 			$id = (string)$event->getObjectId();
 		} else {
-			throw new \InvalidArgumentException('Could not generate file parameter');
+			throw new UnknownActivityException('Could not generate file parameter');
 		}
 
 		return [

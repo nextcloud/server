@@ -24,17 +24,6 @@ class ContentSecurityPolicy extends \OCP\AppFramework\Http\ContentSecurityPolicy
 		$this->inlineScriptAllowed = $inlineScriptAllowed;
 	}
 
-	public function isEvalScriptAllowed(): bool {
-		return $this->evalScriptAllowed;
-	}
-
-	/**
-	 * @deprecated 17.0.0 Unsafe eval should not be used anymore.
-	 */
-	public function setEvalScriptAllowed(bool $evalScriptAllowed): void {
-		$this->evalScriptAllowed = $evalScriptAllowed;
-	}
-
 	public function isEvalWasmAllowed(): ?bool {
 		return $this->evalWasmAllowed;
 	}
@@ -113,21 +102,6 @@ class ContentSecurityPolicy extends \OCP\AppFramework\Http\ContentSecurityPolicy
 
 	public function setAllowedFontDomains($allowedFontDomains): void {
 		$this->allowedFontDomains = $allowedFontDomains;
-	}
-
-	/**
-	 * @deprecated 15.0.0 use FrameDomains and WorkerSrcDomains
-	 */
-	public function getAllowedChildSrcDomains(): array {
-		return $this->allowedChildSrcDomains;
-	}
-
-	/**
-	 * @param array $allowedChildSrcDomains
-	 * @deprecated 15.0.0 use FrameDomains and WorkerSrcDomains
-	 */
-	public function setAllowedChildSrcDomains($allowedChildSrcDomains): void {
-		$this->allowedChildSrcDomains = $allowedChildSrcDomains;
 	}
 
 	public function getAllowedFrameAncestors(): array {

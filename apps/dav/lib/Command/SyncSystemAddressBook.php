@@ -24,12 +24,14 @@ class SyncSystemAddressBook extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('dav:sync-system-addressbook')
 			->setDescription('Synchronizes users to the system addressbook');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$output->writeln('Syncing users ...');
 		$progress = new ProgressBar($output);

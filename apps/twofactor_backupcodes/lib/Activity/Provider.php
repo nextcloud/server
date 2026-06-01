@@ -29,6 +29,7 @@ class Provider implements IProvider {
 	) {
 	}
 
+	#[\Override]
 	public function parse($language, IEvent $event, ?IEvent $previousEvent = null): IEvent {
 		if ($event->getApp() !== 'twofactor_backupcodes') {
 			throw new UnknownActivityException();

@@ -2,6 +2,7 @@ OC.L10N.register(
     "profile",
     {
     "Profile" : "Profile",
+    "Searching …" : "ძებნა …",
     "Not found" : "Not found",
     "You have not added any info yet" : "You have not added any info yet",
     "{user} has not added any info yet" : "{user} has not added any info yet",
@@ -9,7 +10,7 @@ OC.L10N.register(
     "Edit Profile" : "Edit Profile",
     "The headline and about sections will show up here" : "The headline and about sections will show up here",
     "Profile not found" : "Profile not found",
-    "The profile does not exist." : "The profile does not exist.",
-    "Back to %s" : "Back to %s"
+    "Back to %s" : "Back to %s",
+    "The profile does not exist." : "The profile does not exist."
 },
 "nplurals=2; plural=(n!=1);");

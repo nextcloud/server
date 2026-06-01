@@ -54,6 +54,7 @@ class EmailProvider extends AbstractProvider {
 	 * @param array $users
 	 * @throws \Exception
 	 */
+	#[\Override]
 	public function send(VEvent $vevent,
 		?string $calendarDisplayName,
 		array $principalEmailAddresses,

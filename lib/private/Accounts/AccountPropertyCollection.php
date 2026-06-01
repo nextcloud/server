@@ -21,6 +21,7 @@ class AccountPropertyCollection implements IAccountPropertyCollection {
 	) {
 	}
 
+	#[\Override]
 	public function setProperties(array $properties): IAccountPropertyCollection {
 		/** @var IAccountProperty $property */
 		$this->properties = [];
@@ -30,10 +31,12 @@ class AccountPropertyCollection implements IAccountPropertyCollection {
 		return $this;
 	}
 
+	#[\Override]
 	public function getProperties(): array {
 		return $this->properties;
 	}
 
+	#[\Override]
 	public function addProperty(IAccountProperty $property): IAccountPropertyCollection {
 		if ($property->getName() !== $this->collectionName) {
 			throw new InvalidArgumentException('Provided property does not match collection name');
@@ -42,6 +45,7 @@ class AccountPropertyCollection implements IAccountPropertyCollection {
 		return $this;
 	}
 
+	#[\Override]
 	public function addPropertyWithDefaults(string $value): IAccountPropertyCollection {
 		$property = new AccountProperty(
 			$this->collectionName,
@@ -54,6 +58,7 @@ class AccountPropertyCollection implements IAccountPropertyCollection {
 		return $this;
 	}
 
+	#[\Override]
 	public function removeProperty(IAccountProperty $property): IAccountPropertyCollection {
 		$ref = array_search($property, $this->properties, true);
 		if ($ref !== false) {
@@ -62,6 +67,7 @@ class AccountPropertyCollection implements IAccountPropertyCollection {
 		return $this;
 	}
 
+	#[\Override]
 	public function getPropertyByValue(string $value): ?IAccountProperty {
 		foreach ($this->properties as $i => $property) {
 			if ($property->getValue() === $value) {
@@ -71,6 +77,7 @@ class AccountPropertyCollection implements IAccountPropertyCollection {
 		return null;
 	}
 
+	#[\Override]
 	public function removePropertyByValue(string $value): IAccountPropertyCollection {
 		foreach ($this->properties as $i => $property) {
 			if ($property->getValue() === $value) {
@@ -80,10 +87,12 @@ class AccountPropertyCollection implements IAccountPropertyCollection {
 		return $this;
 	}
 
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [$this->collectionName => $this->properties];
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->collectionName;
 	}

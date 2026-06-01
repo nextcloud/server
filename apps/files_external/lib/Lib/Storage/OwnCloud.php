@@ -57,6 +57,7 @@ class OwnCloud extends DAV implements IDisableEncryptionStorage {
 		parent::__construct($parameters);
 	}
 
+	#[\Override]
 	public function needsPartFile(): bool {
 		return false;
 	}

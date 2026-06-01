@@ -22,6 +22,7 @@ class PgSqlExpressionBuilder extends ExpressionBuilder {
 	 * @psalm-param IQueryBuilder::PARAM_* $type
 	 * @return IQueryFunction
 	 */
+	#[\Override]
 	public function castColumn($column, $type): IQueryFunction {
 		switch ($type) {
 			case IQueryBuilder::PARAM_INT:
@@ -37,6 +38,7 @@ class PgSqlExpressionBuilder extends ExpressionBuilder {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	protected function prepareColumn($column, $type) {
 		if ($type === IQueryBuilder::PARAM_JSON && !is_array($column) && !($column instanceof IParameter) && !($column instanceof ILiteral)) {
 			$column = $this->castColumn($column, $type);
@@ -48,6 +50,7 @@ class PgSqlExpressionBuilder extends ExpressionBuilder {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function iLike($x, $y, $type = null): string {
 		$x = $this->helper->quoteColumnName($x);
 		$y = $this->helper->quoteColumnName($y);

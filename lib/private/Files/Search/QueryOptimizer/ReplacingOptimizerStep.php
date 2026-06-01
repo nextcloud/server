@@ -19,6 +19,7 @@ class ReplacingOptimizerStep extends QueryOptimizerStep {
 	 *
 	 * Returns true if the reference $operator points to a new value
 	 */
+	#[\Override]
 	public function processOperator(ISearchOperator &$operator): bool {
 		if ($operator instanceof SearchBinaryOperator) {
 			$modified = false;

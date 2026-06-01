@@ -35,6 +35,7 @@ class RemoteWipeTest extends TestCase {
 	/** @var RemoteWipe */
 	private $remoteWipe;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

@@ -29,6 +29,7 @@ class AccountProperty implements IAccountProperty {
 		$this->setScope($scope);
 	}
 
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'name' => $this->getName(),
@@ -44,6 +45,7 @@ class AccountProperty implements IAccountProperty {
 	 *
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function setValue(string $value): IAccountProperty {
 		$this->value = $value;
 		return $this;
@@ -54,6 +56,7 @@ class AccountProperty implements IAccountProperty {
 	 *
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function setScope(string $scope): IAccountProperty {
 		$newScope = $this->mapScopeToV2($scope);
 		if (!in_array($newScope, [
@@ -73,6 +76,7 @@ class AccountProperty implements IAccountProperty {
 	 *
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function setVerified(string $verified): IAccountProperty {
 		$this->verified = $verified;
 		return $this;
@@ -83,6 +87,7 @@ class AccountProperty implements IAccountProperty {
 	 *
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->name;
 	}
@@ -92,6 +97,7 @@ class AccountProperty implements IAccountProperty {
 	 *
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function getValue(): string {
 		return $this->value;
 	}
@@ -101,6 +107,7 @@ class AccountProperty implements IAccountProperty {
 	 *
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function getScope(): string {
 		return $this->scope;
 	}
@@ -123,19 +130,23 @@ class AccountProperty implements IAccountProperty {
 	 *
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function getVerified(): string {
 		return $this->verified;
 	}
 
+	#[\Override]
 	public function setVerificationData(string $verificationData): IAccountProperty {
 		$this->verificationData = $verificationData;
 		return $this;
 	}
 
+	#[\Override]
 	public function getVerificationData(): string {
 		return $this->verificationData;
 	}
 
+	#[\Override]
 	public function setLocallyVerified(string $verified): IAccountProperty {
 		if (!in_array($verified, [
 			IAccountManager::NOT_VERIFIED,
@@ -148,6 +159,7 @@ class AccountProperty implements IAccountProperty {
 		return $this;
 	}
 
+	#[\Override]
 	public function getLocallyVerified(): string {
 		return $this->locallyVerified;
 	}

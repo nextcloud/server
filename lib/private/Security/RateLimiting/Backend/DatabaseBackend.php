@@ -63,6 +63,7 @@ class DatabaseBackend implements IBackend {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getAttempts(
 		string $methodIdentifier,
 		string $userIdentifier,
@@ -74,6 +75,7 @@ class DatabaseBackend implements IBackend {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function registerAttempt(
 		string $methodIdentifier,
 		string $userIdentifier,

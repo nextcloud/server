@@ -45,6 +45,7 @@ class Tag extends Entity {
 	 * @todo migrate existing database columns to the correct names
 	 * to be able to drop this direct mapping
 	 */
+	#[\Override]
 	public function columnToProperty(string $columnName): string {
 		if ($columnName === 'category') {
 			return 'name';
@@ -63,6 +64,7 @@ class Tag extends Entity {
 	 * @param string $property the name of the property
 	 * @return string the column name
 	 */
+	#[\Override]
 	public function propertyToColumn(string $property): string {
 		if ($property === 'name') {
 			return 'category';

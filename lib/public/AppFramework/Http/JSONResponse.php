@@ -62,7 +62,9 @@ class JSONResponse extends Response {
 	 * @psalm-taint-escape has_quotes
 	 * @psalm-taint-escape html
 	 */
+	#[\Override]
 	public function render() {
+		/** @psalm-suppress FalsableReturnStatement */
 		return json_encode($this->data, JSON_HEX_TAG | JSON_THROW_ON_ERROR | $this->encodeFlags, 2048);
 	}
 

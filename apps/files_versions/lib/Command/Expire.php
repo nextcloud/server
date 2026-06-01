@@ -24,6 +24,7 @@ class Expire implements ICommand {
 	) {
 	}
 
+	#[\Override]
 	public function handle(): void {
 		/** @var IUserManager $userManager */
 		$userManager = Server::get(IUserManager::class);

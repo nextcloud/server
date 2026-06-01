@@ -18,6 +18,7 @@ class ArrayCache extends Cache implements IMemcache {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function get($key) {
 		if ($this->hasKey($key)) {
 			return $this->cachedData[$key];
@@ -28,6 +29,7 @@ class ArrayCache extends Cache implements IMemcache {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function set($key, $value, $ttl = 0) {
 		$this->cachedData[$key] = $value;
 		return true;
@@ -36,6 +38,7 @@ class ArrayCache extends Cache implements IMemcache {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function hasKey($key) {
 		return isset($this->cachedData[$key]);
 	}
@@ -43,6 +46,7 @@ class ArrayCache extends Cache implements IMemcache {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function remove($key) {
 		unset($this->cachedData[$key]);
 		return true;
@@ -51,6 +55,7 @@ class ArrayCache extends Cache implements IMemcache {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function clear($prefix = '') {
 		if ($prefix === '') {
 			$this->cachedData = [];
@@ -73,6 +78,7 @@ class ArrayCache extends Cache implements IMemcache {
 	 * @param int $ttl Time To Live in seconds. Defaults to 60*60*24
 	 * @return bool
 	 */
+	#[\Override]
 	public function add($key, $value, $ttl = 0) {
 		// since this cache is not shared race conditions aren't an issue
 		if ($this->hasKey($key)) {
@@ -89,6 +95,7 @@ class ArrayCache extends Cache implements IMemcache {
 	 * @param int $step
 	 * @return int | bool
 	 */
+	#[\Override]
 	public function inc($key, $step = 1) {
 		$oldValue = $this->get($key);
 		if (is_int($oldValue)) {
@@ -107,6 +114,7 @@ class ArrayCache extends Cache implements IMemcache {
 	 * @param int $step
 	 * @return int | bool
 	 */
+	#[\Override]
 	public function dec($key, $step = 1) {
 		$oldValue = $this->get($key);
 		if (is_int($oldValue)) {
@@ -125,6 +133,7 @@ class ArrayCache extends Cache implements IMemcache {
 	 * @param mixed $new
 	 * @return bool
 	 */
+	#[\Override]
 	public function cas($key, $old, $new) {
 		if ($this->get($key) === $old) {
 			return $this->set($key, $new);
@@ -136,6 +145,7 @@ class ArrayCache extends Cache implements IMemcache {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public static function isAvailable(): bool {
 		return true;
 	}

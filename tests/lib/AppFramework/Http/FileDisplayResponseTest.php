@@ -20,6 +20,7 @@ class FileDisplayResponseTest extends \Test\TestCase {
 	private File&MockObject $file;
 	private FileDisplayResponse $response;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

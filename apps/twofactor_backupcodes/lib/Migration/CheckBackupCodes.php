@@ -19,10 +19,12 @@ class CheckBackupCodes implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Add background job to check for backup codes';
 	}
 
+	#[\Override]
 	public function run(IOutput $output) {
 		$this->jobList->add(\OCA\TwoFactorBackupCodes\BackgroundJob\CheckBackupCodes::class);
 	}

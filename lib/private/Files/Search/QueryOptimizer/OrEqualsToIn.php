@@ -16,6 +16,7 @@ use OCP\Files\Search\ISearchOperator;
  * transform (field == A OR field == B ...) into field IN (A, B, ...)
  */
 class OrEqualsToIn extends ReplacingOptimizerStep {
+	#[\Override]
 	public function processOperator(ISearchOperator &$operator): bool {
 		if (
 			$operator instanceof ISearchBinaryOperator

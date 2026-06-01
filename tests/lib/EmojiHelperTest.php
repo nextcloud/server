@@ -17,6 +17,7 @@ class EmojiHelperTest extends TestCase {
 
 	private IEmojiHelper $helper;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

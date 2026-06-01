@@ -97,7 +97,7 @@ class FileSearchBackendTest extends TestCase {
 					'name',
 					'foo'
 				),
-				0,
+				100,
 				0,
 				[],
 				$this->user
@@ -126,7 +126,7 @@ class FileSearchBackendTest extends TestCase {
 					'mimetype',
 					'foo'
 				),
-				0,
+				100,
 				0,
 				[],
 				$this->user
@@ -155,7 +155,7 @@ class FileSearchBackendTest extends TestCase {
 					'size',
 					10
 				),
-				0,
+				100,
 				0,
 				[],
 				$this->user
@@ -184,7 +184,7 @@ class FileSearchBackendTest extends TestCase {
 					'mtime',
 					10
 				),
-				0,
+				100,
 				0,
 				[],
 				$this->user
@@ -213,7 +213,7 @@ class FileSearchBackendTest extends TestCase {
 					'mimetype',
 					FileInfo::MIMETYPE_FOLDER
 				),
-				0,
+				100,
 				0,
 				[],
 				$this->user

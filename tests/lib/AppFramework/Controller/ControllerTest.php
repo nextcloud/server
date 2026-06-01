@@ -43,6 +43,7 @@ class ControllerTest extends \Test\TestCase {
 	private Controller $controller;
 	private Request $request;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

@@ -10,9 +10,9 @@ import { NcIconSvgWrapper, NcLoadingIcon } from '@nextcloud/vue'
 import { ref, toRef, watch } from 'vue'
 import NcAppSidebarTab from '@nextcloud/vue/components/NcAppSidebarTab'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
-import logger from '../../logger.ts'
 import { useActiveStore } from '../../store/active.ts'
 import { useSidebarStore } from '../../store/sidebar.ts'
+import { logger } from '../../utils/logger.ts'
 
 const props = defineProps<{
 	/**

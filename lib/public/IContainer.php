@@ -36,6 +36,7 @@ interface IContainer extends ContainerInterface {
 	 * @return ($id is class-string<T> ? T : mixed) Entry.
 	 * @since 34.0.0
 	 */
+	#[\Override]
 	public function get(string $id);
 
 	/**

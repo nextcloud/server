@@ -20,10 +20,12 @@ class UnsetDefaultProvider implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Unset default LDAP provider';
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		$current = $this->config->getSystemValue('ldapProviderFactory', null);
 		if ($current === LDAPProviderFactory::class) {

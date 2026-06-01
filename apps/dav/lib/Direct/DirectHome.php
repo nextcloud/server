@@ -32,14 +32,17 @@ class DirectHome implements ICollection {
 	) {
 	}
 
+	#[\Override]
 	public function createFile($name, $data = null) {
 		throw new Forbidden();
 	}
 
+	#[\Override]
 	public function createDirectory($name) {
 		throw new Forbidden();
 	}
 
+	#[\Override]
 	public function getChild($name): DirectFile {
 		try {
 			$direct = $this->mapper->getByToken($name);
@@ -59,26 +62,32 @@ class DirectHome implements ICollection {
 		}
 	}
 
+	#[\Override]
 	public function getChildren() {
 		throw new MethodNotAllowed('Listing members of this collection is disabled');
 	}
 
+	#[\Override]
 	public function childExists($name): bool {
 		return false;
 	}
 
+	#[\Override]
 	public function delete() {
 		throw new Forbidden();
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'direct';
 	}
 
+	#[\Override]
 	public function setName($name) {
 		throw new Forbidden();
 	}
 
+	#[\Override]
 	public function getLastModified(): int {
 		return 0;
 	}

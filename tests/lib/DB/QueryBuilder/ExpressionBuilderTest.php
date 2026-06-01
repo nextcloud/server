@@ -37,6 +37,7 @@ class ExpressionBuilderTest extends TestCase {
 	protected \Doctrine\DBAL\Connection $internalConnection;
 	protected LoggerInterface&MockObject $logger;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

@@ -23,6 +23,7 @@ class AppdataPreviewObjectStoreStorage extends ObjectStoreStorage {
 		parent::__construct($parameters);
 	}
 
+	#[\Override]
 	public function getId(): string {
 		return 'object::appdata::preview:' . $this->internalId;
 	}

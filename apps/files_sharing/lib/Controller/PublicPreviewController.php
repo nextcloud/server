@@ -42,10 +42,12 @@ class PublicPreviewController extends PublicShareController {
 		parent::__construct($appName, $request, $session);
 	}
 
+	#[\Override]
 	protected function getPasswordHash(): ?string {
 		return $this->share->getPassword();
 	}
 
+	#[\Override]
 	public function isValidToken(): bool {
 		try {
 			$this->share = $this->shareManager->getShareByToken($this->getToken());
@@ -55,6 +57,7 @@ class PublicPreviewController extends PublicShareController {
 		}
 	}
 
+	#[\Override]
 	protected function isPasswordProtected(): bool {
 		return $this->share->getPassword() !== null;
 	}

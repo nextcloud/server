@@ -26,6 +26,7 @@ class ServerTest extends \Test\TestCase {
 	protected $server;
 
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$config = new Config(\OC::$configDir);

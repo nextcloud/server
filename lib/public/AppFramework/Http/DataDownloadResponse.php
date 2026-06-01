@@ -50,6 +50,7 @@ class DataDownloadResponse extends DownloadResponse {
 	 * @return string
 	 * @since 8.0.0
 	 */
+	#[\Override]
 	public function render() {
 		return $this->data;
 	}

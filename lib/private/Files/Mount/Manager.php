@@ -36,6 +36,7 @@ class Manager implements IMountManager {
 		$this->setupManager = $setupManagerFactory->create($this);
 	}
 
+	#[\Override]
 	public function addMount(IMountPoint $mount): void {
 		$mountPoint = $mount->getMountPoint();
 		$mountProvider = $mount->getMountProvider();
@@ -47,6 +48,7 @@ class Manager implements IMountManager {
 		$this->areMountsSorted = false;
 	}
 
+	#[\Override]
 	public function removeMount(string $mountPoint): void {
 		$mountPoint = Filesystem::normalizePath($mountPoint);
 		if (\strlen($mountPoint) > 1) {
@@ -58,17 +60,22 @@ class Manager implements IMountManager {
 		$this->areMountsSorted = false;
 	}
 
+	#[\Override]
 	public function moveMount(string $mountPoint, string $target): void {
-		$this->mounts[$target] = $this->mounts[$mountPoint];
-		unset($this->mounts[$mountPoint]);
-		$this->pathCache->clear();
-		$this->inPathCache->clear();
-		$this->areMountsSorted = false;
+		if ($mountPoint !== $target) {
+			$this->mounts[$target] = $this->mounts[$mountPoint];
+			$this->mounts[$target]->setMountPoint($target);
+			unset($this->mounts[$mountPoint]);
+			$this->pathCache->clear();
+			$this->inPathCache->clear();
+			$this->areMountsSorted = false;
+		}
 	}
 
 	/**
 	 * Find the mount for $path
 	 */
+	#[\Override]
 	public function find(string $path): IMountPoint {
 		$this->setupManager->setupForPath($path);
 		$path = Filesystem::normalizePath($path);
@@ -108,6 +115,7 @@ class Manager implements IMountManager {
 	 *
 	 * @return IMountPoint[]
 	 */
+	#[\Override]
 	public function findIn(string $path): array {
 		$this->setupManager->setupForPath($path, true);
 		$path = $this->formatPath($path);
@@ -170,6 +178,7 @@ class Manager implements IMountManager {
 		return $result;
 	}
 
+	#[\Override]
 	public function clear(): void {
 		$this->mounts = [];
 		$this->mountsByProvider = [];
@@ -183,6 +192,7 @@ class Manager implements IMountManager {
 	 * @param string $id
 	 * @return IMountPoint[]
 	 */
+	#[\Override]
 	public function findByStorageId(string $id): array {
 		if (\strlen($id) > 64) {
 			$id = md5($id);
@@ -199,6 +209,7 @@ class Manager implements IMountManager {
 	/**
 	 * @return IMountPoint[]
 	 */
+	#[\Override]
 	public function getAll(): array {
 		return $this->mounts;
 	}
@@ -209,6 +220,7 @@ class Manager implements IMountManager {
 	 * @param int $id
 	 * @return IMountPoint[]
 	 */
+	#[\Override]
 	public function findByNumericId(int $id): array {
 		$result = [];
 		foreach ($this->mounts as $mount) {
@@ -263,6 +275,7 @@ class Manager implements IMountManager {
 	 *
 	 * @return IMountPoint|null
 	 */
+	#[\Override]
 	public function getMountFromMountInfo(ICachedMountInfo $info): ?IMountPoint {
 		$this->setupManager->setupForPath($info->getMountPoint());
 		foreach ($this->mounts as $mount) {

@@ -35,6 +35,7 @@ class Import extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('files_external:import')
@@ -59,6 +60,7 @@ class Import extends Base {
 		parent::configure();
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$user = (string)$input->getOption('user');
 		$path = $input->getArgument('path');

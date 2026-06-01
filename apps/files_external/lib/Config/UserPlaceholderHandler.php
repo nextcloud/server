@@ -16,6 +16,7 @@ class UserPlaceholderHandler extends UserContext implements IConfigHandler {
 	 * @return mixed the same type as $optionValue
 	 * @since 16.0.0
 	 */
+	#[\Override]
 	public function handle($optionValue) {
 		$this->placeholder = 'user';
 		$uid = $this->getUserId();

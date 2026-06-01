@@ -29,6 +29,7 @@ use OCP\Files\IMimeTypeDetector;
 use OCP\Files\InvalidContentException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\LockNotAcquiredException;
+use OCP\Files\NotEnoughSpaceException;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\Storage\IWriteStreamStorage;
@@ -109,6 +110,7 @@ class File extends Node implements IFile {
 	 * @throws FileLocked
 	 * @return string|null
 	 */
+	#[\Override]
 	public function put($data) {
 		try {
 			$exists = $this->fileView->file_exists($this->path);
@@ -458,6 +460,7 @@ class File extends Node implements IFile {
 	 * @throws Forbidden
 	 * @throws ServiceUnavailable
 	 */
+	#[\Override]
 	public function get() {
 		//throw exception if encryption is disabled but files are still encrypted
 		try {
@@ -514,6 +517,7 @@ class File extends Node implements IFile {
 	 * @throws Forbidden
 	 * @throws ServiceUnavailable
 	 */
+	#[\Override]
 	public function delete() {
 		if (!$this->info->isDeletable()) {
 			throw new Forbidden();
@@ -540,6 +544,7 @@ class File extends Node implements IFile {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function getContentType() {
 		$mimeType = $this->info->getMimetype();
 
@@ -617,6 +622,9 @@ class File extends Node implements IFile {
 		if ($e instanceof NotFoundException) {
 			throw new NotFound($this->l10n->t('File not found: %1$s', [$e->getMessage()]), 0, $e);
 		}
+		if ($e instanceof NotEnoughSpaceException) {
+			throw new EntityTooLarge($this->l10n->t('Insufficient space'), 0, $e);
+		}
 
 		throw new \Sabre\DAV\Exception($e->getMessage(), 0, $e);
 	}
@@ -645,6 +653,7 @@ class File extends Node implements IFile {
 		return $this->fileView->hash($type, $this->path);
 	}
 
+	#[\Override]
 	public function getNode(): \OCP\Files\File {
 		return $this->node;
 	}

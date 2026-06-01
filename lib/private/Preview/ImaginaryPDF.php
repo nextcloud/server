@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OC\Preview;
 
 class ImaginaryPDF extends Imaginary {
+	#[\Override]
 	public static function supportedMimeTypes(): string {
 		return '/application\/pdf/';
 	}

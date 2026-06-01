@@ -12,6 +12,8 @@ use Sabre\Xml\Reader;
 use Sabre\Xml\XmlDeserializable;
 
 class ShareRequest implements XmlDeserializable {
+	public const ELEMENT_SHARE = '{' . Plugin::NS_OWNCLOUD . '}share';
+
 	/**
 	 * Constructor
 	 *
@@ -24,6 +26,7 @@ class ShareRequest implements XmlDeserializable {
 	) {
 	}
 
+	#[\Override]
 	public static function xmlDeserialize(Reader $reader) {
 		$elements = $reader->parseInnerTree([
 			'{' . Plugin::NS_OWNCLOUD . '}set' => 'Sabre\\Xml\\Element\\KeyValue',
@@ -32,6 +35,10 @@ class ShareRequest implements XmlDeserializable {
 
 		$set = [];
 		$remove = [];
+
+		if ($elements === null) {
+			return new self($set, $remove);
+		}
 
 		foreach ($elements as $elem) {
 			switch ($elem['name']) {

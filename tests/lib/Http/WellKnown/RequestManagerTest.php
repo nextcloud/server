@@ -19,31 +19,25 @@ use OCP\Http\WellKnown\IRequestContext;
 use OCP\Http\WellKnown\IResponse;
 use OCP\Http\WellKnown\JrdResponse;
 use OCP\IRequest;
-use OCP\IServerContainer;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Test\TestCase;
 use function get_class;
 
 class RequestManagerTest extends TestCase {
-	/** @var Coordinator|MockObject */
-	private $coordinator;
+	private Coordinator&MockObject $coordinator;
+	private ContainerInterface&MockObject $container;
+	private LoggerInterface&MockObject $logger;
+	private RequestManager $manager;
 
-	/** @var IServerContainer|MockObject */
-	private $container;
-
-	/** @var MockObject|LoggerInterface */
-	private $logger;
-
-	/** @var RequestManager */
-	private $manager;
-
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->coordinator = $this->createMock(Coordinator::class);
-		$this->container = $this->createMock(IServerContainer::class);
+		$this->container = $this->createMock(ContainerInterface::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->manager = new RequestManager(
@@ -132,6 +126,7 @@ class RequestManagerTest extends TestCase {
 			->method('getRegistrationContext')
 			->willReturn($registrationContext);
 		$handler = new class implements IHandler {
+			#[\Override]
 			public function handle(string $service, IRequestContext $context, ?IResponse $previousResponse): ?IResponse {
 				return (new JrdResponse($service))->addAlias('alias');
 			}

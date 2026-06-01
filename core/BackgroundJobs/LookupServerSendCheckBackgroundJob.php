@@ -26,6 +26,7 @@ class LookupServerSendCheckBackgroundJob extends QueuedJob {
 	/**
 	 * @param array $argument
 	 */
+	#[\Override]
 	public function run($argument): void {
 		$this->userManager->callForSeenUsers(function (IUser $user): void {
 			// If the user data was not updated yet (check if LUS is enabled and if then update on LUS or delete on LUS)

@@ -52,6 +52,7 @@ class ShapeDescriptor implements \JsonSerializable {
 	 * @return array{name: string, description: string, type: "Number"|"Text"|"Audio"|"Image"|"Video"|"File"|"Enum"|"ListOfNumbers"|"ListOfTexts"|"ListOfImages"|"ListOfAudios"|"ListOfVideos"|"ListOfFiles"}
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		/** @var "Number"|"Text"|"Audio"|"Image"|"Video"|"File"|"Enum"|"ListOfNumbers"|"ListOfTexts"|"ListOfImages"|"ListOfAudios"|"ListOfVideos"|"ListOfFiles" $type */
 		$type = $this->getShapeType()->name;

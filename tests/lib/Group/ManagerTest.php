@@ -42,6 +42,7 @@ class ManagerTest extends TestCase {
 	/** @var IRemoteAddress|MockObject */
 	private $remoteIpAddress;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

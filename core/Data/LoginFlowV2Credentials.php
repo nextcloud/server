@@ -37,6 +37,7 @@ class LoginFlowV2Credentials implements \JsonSerializable {
 		return $this->appPassword;
 	}
 
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'server' => $this->server,

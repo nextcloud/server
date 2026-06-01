@@ -26,6 +26,7 @@ class SessionMiddleware extends Middleware {
 	 * @param Controller $controller
 	 * @param string $methodName
 	 */
+	#[\Override]
 	public function beforeController($controller, $methodName) {
 		if ($this->reflector->hasAnnotationOrAttribute('UseSession', UseSession::class)) {
 			$this->session->reopen();
@@ -38,6 +39,7 @@ class SessionMiddleware extends Middleware {
 	 * @param Response $response
 	 * @return Response
 	 */
+	#[\Override]
 	public function afterController($controller, $methodName, Response $response) {
 		if ($this->reflector->hasAnnotationOrAttribute('UseSession', UseSession::class)) {
 			$this->session->close();

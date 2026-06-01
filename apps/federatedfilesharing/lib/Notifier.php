@@ -41,6 +41,7 @@ class Notifier implements INotifier {
 	 * @return string
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function getID(): string {
 		return 'federatedfilesharing';
 	}
@@ -51,6 +52,7 @@ class Notifier implements INotifier {
 	 * @return string
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->factory->get('federatedfilesharing')->t('Federated sharing');
 	}
@@ -61,6 +63,7 @@ class Notifier implements INotifier {
 	 * @return INotification
 	 * @throws UnknownNotificationException
 	 */
+	#[\Override]
 	public function prepare(INotification $notification, string $languageCode): INotification {
 		if ($notification->getApp() !== 'files_sharing' || $notification->getObjectType() !== 'remote_share') {
 			// Not my app => throw

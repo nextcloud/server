@@ -9,7 +9,7 @@ import { emit, subscribe } from '@nextcloud/event-bus'
 import { getFileListFilters, getFilesRegistry } from '@nextcloud/files'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
-import logger from '../logger.ts'
+import { logger } from '../utils/logger.ts'
 
 /**
  * Check if the given value is an instance file list filter with mount function

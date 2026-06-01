@@ -20,18 +20,22 @@ class Overview implements IIconSection {
 	) {
 	}
 
+	#[\Override]
 	public function getIcon(): string {
 		return $this->urlGenerator->imagePath('settings', 'admin.svg');
 	}
 
+	#[\Override]
 	public function getID(): string {
 		return 'overview';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l->t('Overview');
 	}
 
+	#[\Override]
 	public function getPriority(): int {
 		return 0;
 	}

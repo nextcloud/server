@@ -39,6 +39,7 @@ class BuildReminderIndexBackgroundJob extends QueuedJob {
 		$this->timeFactory = $timeFactory;
 	}
 
+	#[\Override]
 	public function run($argument) {
 		$offset = (int)$argument['offset'];
 		$stopAt = (int)$argument['stopAt'];

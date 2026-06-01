@@ -22,6 +22,7 @@ class CleanPreviewsTest extends TestCase {
 	private IAppConfig&MockObject $appConfig;
 	private CleanPreviews $repair;
 
+	#[\Override]
 	public function setUp(): void {
 		parent::setUp();
 

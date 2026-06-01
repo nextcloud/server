@@ -20,10 +20,12 @@ abstract class CalDAVSetting extends ActivitySettings {
 	) {
 	}
 
+	#[\Override]
 	public function getGroupIdentifier() {
 		return 'calendar';
 	}
 
+	#[\Override]
 	public function getGroupName() {
 		return $this->l->t('Calendar, contacts and tasks');
 	}

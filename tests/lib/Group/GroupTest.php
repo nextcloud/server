@@ -20,6 +20,7 @@ class GroupTest extends \Test\TestCase {
 	/** @var IEventDispatcher|MockObject */
 	protected $dispatcher;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->dispatcher = $this->createMock(IEventDispatcher::class);

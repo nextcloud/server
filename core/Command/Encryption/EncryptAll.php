@@ -49,6 +49,7 @@ class EncryptAll extends Command {
 		}
 	}
 
+	#[\Override]
 	protected function configure() {
 		parent::configure();
 
@@ -63,6 +64,7 @@ class EncryptAll extends Command {
 	/**
 	 * @throws \Exception
 	 */
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		if (!$input->isInteractive() && !$input->getOption('no-interaction')) {
 			$output->writeln('Invalid TTY.');

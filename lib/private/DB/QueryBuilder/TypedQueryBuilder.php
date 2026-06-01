@@ -22,6 +22,7 @@ abstract class TypedQueryBuilder implements ITypedQueryBuilder {
 		}
 	}
 
+	#[\Override]
 	public function selectColumns(string ...$columns): static {
 		foreach ($columns as $column) {
 			$this->validateColumn($column);
@@ -30,6 +31,7 @@ abstract class TypedQueryBuilder implements ITypedQueryBuilder {
 		return $this->select(...$columns);
 	}
 
+	#[\Override]
 	public function selectColumnsDistinct(string ...$columns): static {
 		foreach ($columns as $column) {
 			$this->validateColumn($column);

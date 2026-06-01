@@ -13,6 +13,7 @@ use OC\Memcache\ArrayCache;
 
 #[\PHPUnit\Framework\Attributes\Group('Memcache')]
 class ArrayCacheTest extends Cache {
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->instance = new ArrayCache('');

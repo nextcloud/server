@@ -22,6 +22,7 @@ class SimpleFile implements ISimpleFile {
 	/**
 	 * Get the name
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->file->getName();
 	}
@@ -29,6 +30,7 @@ class SimpleFile implements ISimpleFile {
 	/**
 	 * Get the size in bytes
 	 */
+	#[\Override]
 	public function getSize(): int|float {
 		return $this->file->getSize();
 	}
@@ -36,6 +38,7 @@ class SimpleFile implements ISimpleFile {
 	/**
 	 * Get the ETag
 	 */
+	#[\Override]
 	public function getETag(): string {
 		return $this->file->getEtag();
 	}
@@ -43,6 +46,7 @@ class SimpleFile implements ISimpleFile {
 	/**
 	 * Get the last modification time
 	 */
+	#[\Override]
 	public function getMTime(): int {
 		return $this->file->getMTime();
 	}
@@ -55,6 +59,7 @@ class SimpleFile implements ISimpleFile {
 	 * @throws NotFoundException
 	 * @throws NotPermittedException
 	 */
+	#[\Override]
 	public function getContent(): string {
 		$result = $this->file->getContent();
 
@@ -74,6 +79,7 @@ class SimpleFile implements ISimpleFile {
 	 * @throws NotFoundException
 	 * @throws NotPermittedException
 	 */
+	#[\Override]
 	public function putContent($data): void {
 		try {
 			$this->file->putContent($data);
@@ -116,6 +122,7 @@ class SimpleFile implements ISimpleFile {
 	 *
 	 * @throws NotPermittedException
 	 */
+	#[\Override]
 	public function delete(): void {
 		$this->file->delete();
 	}
@@ -123,6 +130,7 @@ class SimpleFile implements ISimpleFile {
 	/**
 	 * Get the MimeType
 	 */
+	#[\Override]
 	public function getMimeType(): string {
 		return $this->file->getMimeType();
 	}
@@ -130,6 +138,7 @@ class SimpleFile implements ISimpleFile {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getExtension(): string {
 		return $this->file->getExtension();
 	}
@@ -141,6 +150,7 @@ class SimpleFile implements ISimpleFile {
 	 * @throws NotPermittedException
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function read() {
 		return $this->file->fopen('r');
 	}
@@ -152,6 +162,7 @@ class SimpleFile implements ISimpleFile {
 	 * @throws NotPermittedException
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function write() {
 		return $this->file->fopen('w');
 	}

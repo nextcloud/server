@@ -20,6 +20,7 @@ class SetUserTimezoneCommand extends ALoginCommand {
 	) {
 	}
 
+	#[\Override]
 	public function process(LoginData $loginData): LoginResult {
 		if ($loginData->getTimeZoneOffset() !== '' && $this->isValidTimezone($loginData->getTimeZone())) {
 			$userId = $loginData->getUser()->getUID();

@@ -33,6 +33,7 @@ class CleanupExpiredAuthorizationCode extends TimedJob {
 	 * @param mixed $argument
 	 * @inheritDoc
 	 */
+	#[\Override]
 	protected function run($argument): void {
 		try {
 			$this->accessTokenMapper->cleanupExpiredAuthorizationCode();

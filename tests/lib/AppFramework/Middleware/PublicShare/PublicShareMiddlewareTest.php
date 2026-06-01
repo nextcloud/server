@@ -36,6 +36,7 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 	private $middleware;
 
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -52,11 +53,11 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 		);
 	}
 
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testBeforeControllerNoPublicShareController(): void {
 		$controller = $this->createMock(Controller::class);
 
 		$this->middleware->beforeController($controller, 'method');
-		$this->assertTrue(true);
 	}
 
 	public static function dataShareApi(): array {
@@ -156,14 +157,11 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 			->with('token', null)
 			->willReturn('myToken');
 
-		$controller->method('isValidToken')
-			->willReturn(true);
-
-		$controller->method('isPasswordProtected')
+		$controller->expects($this->once())
+			->method('isValidToken')
 			->willReturn(true);
 
 		$this->middleware->beforeController($controller, 'authenticate');
-		$this->assertTrue(true);
 	}
 
 	public function testBeforeControllerValidTokenShowAuthenticateMethod(): void {
@@ -181,14 +179,11 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 			->with('token', null)
 			->willReturn('myToken');
 
-		$controller->method('isValidToken')
-			->willReturn(true);
-
-		$controller->method('isPasswordProtected')
+		$controller->expects($this->once())
+			->method('isValidToken')
 			->willReturn(true);
 
 		$this->middleware->beforeController($controller, 'showAuthenticate');
-		$this->assertTrue(true);
 	}
 
 	public function testBeforeControllerAuthPublicShareController(): void {

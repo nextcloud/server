@@ -29,6 +29,7 @@ class RepairShareOwnership extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('maintenance:repair-share-owner')
@@ -37,6 +38,7 @@ class RepairShareOwnership extends Command {
 			->addArgument('user', InputArgument::OPTIONAL, 'User to fix incoming shares for, if omitted all users will be fixed');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$noConfirm = $input->getOption('no-confirm');
 		$userId = $input->getArgument('user');

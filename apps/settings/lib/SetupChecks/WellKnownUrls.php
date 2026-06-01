@@ -31,14 +31,17 @@ class WellKnownUrls implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'network';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('.well-known URLs');
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		if (!$this->config->getSystemValueBool('check_for_working_wellknown_setup', true)) {
 			return SetupResult::info($this->l10n->t('`check_for_working_wellknown_setup` is set to false in your configuration, so this check was skipped.'));

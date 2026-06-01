@@ -20,12 +20,14 @@ class ClearGeneratedAvatarCacheCommand extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setDescription('clear avatar cache')
 			->setName('user:clear-avatar-cache');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$output->writeln('Clearing avatar cache has started');
 		$this->avatarManager->clearCachedAvatars();

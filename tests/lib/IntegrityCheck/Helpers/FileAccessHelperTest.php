@@ -17,6 +17,7 @@ class FileAccessHelperTest extends TestCase {
 	/** @var FileAccessHelper */
 	private $fileAccessHelper;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->fileAccessHelper = new FileAccessHelper();

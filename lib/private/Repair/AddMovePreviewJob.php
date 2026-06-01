@@ -20,6 +20,7 @@ class AddMovePreviewJob implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Queue a job to move the preview';
 	}

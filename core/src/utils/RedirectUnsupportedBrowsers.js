@@ -33,7 +33,7 @@ export function testSupportedBrowser() {
 	// redirect to the unsupported warning page
 	if (window.location.pathname.indexOf(redirectPath) === -1) {
 		const redirectUrl = window.location.href.replace(window.location.origin, '')
-		const base64Param = window.Buffer.from(redirectUrl).toString('base64')
+		const base64Param = btoa(redirectUrl)
 		history.pushState(null, null, `${redirectPath}?redirect_url=${base64Param}`)
 		window.location.reload()
 	}

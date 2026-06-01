@@ -23,6 +23,7 @@ use OCP\Migration\SimpleMigrationStep;
 #[AddColumn(table: 'systemtag', name: 'color', type: ColumnType::STRING, description: 'Adding color for systemtag table')]
 class Version31000Date20241114171300 extends SimpleMigrationStep {
 
+	#[\Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();

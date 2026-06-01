@@ -37,6 +37,7 @@ class SummaryTaskType implements ITaskType {
 	 * @inheritDoc
 	 * @since 27.1.0
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->l->t('Summarize');
 	}
@@ -45,6 +46,7 @@ class SummaryTaskType implements ITaskType {
 	 * @inheritDoc
 	 * @since 27.1.0
 	 */
+	#[\Override]
 	public function getDescription(): string {
 		return $this->l->t('Summarizes text by reducing its length without losing key information.');
 	}

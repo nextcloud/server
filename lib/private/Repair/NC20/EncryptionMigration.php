@@ -20,6 +20,7 @@ class EncryptionMigration implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Check encryption key format';
 	}
@@ -29,6 +30,7 @@ class EncryptionMigration implements IRepairStep {
 		return version_compare($versionFromBeforeUpdate, '20.0.0.1', '<=');
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		if (!$this->shouldRun()) {
 			return;

@@ -17,7 +17,6 @@ use OCP\Files\File;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
-use OCP\IServerContainer;
 use OCP\IUserSession;
 use OCP\PreConditionNotMetException;
 use OCP\SpeechToText\ISpeechToTextManager;
@@ -28,6 +27,7 @@ use OCP\TaskProcessing\IManager as ITaskProcessingManager;
 use OCP\TaskProcessing\Task;
 use OCP\TaskProcessing\TaskTypes\AudioToText;
 use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
@@ -38,7 +38,7 @@ class SpeechToTextManager implements ISpeechToTextManager {
 	private ?array $providers = null;
 
 	public function __construct(
-		private IServerContainer $serverContainer,
+		private ContainerInterface $serverContainer,
 		private Coordinator $coordinator,
 		private LoggerInterface $logger,
 		private IJobList $jobList,
@@ -48,6 +48,7 @@ class SpeechToTextManager implements ISpeechToTextManager {
 	) {
 	}
 
+	#[\Override]
 	public function getProviders(): array {
 		$context = $this->coordinator->getRegistrationContext();
 		if ($context === null) {
@@ -74,6 +75,7 @@ class SpeechToTextManager implements ISpeechToTextManager {
 		return $this->providers;
 	}
 
+	#[\Override]
 	public function hasProviders(): bool {
 		$context = $this->coordinator->getRegistrationContext();
 		if ($context === null) {
@@ -82,6 +84,7 @@ class SpeechToTextManager implements ISpeechToTextManager {
 		return !empty($context->getSpeechToTextProviders());
 	}
 
+	#[\Override]
 	public function scheduleFileTranscription(File $file, ?string $userId, string $appId): void {
 		if (!$this->hasProviders()) {
 			throw new PreConditionNotMetException('No SpeechToText providers have been registered');
@@ -98,6 +101,7 @@ class SpeechToTextManager implements ISpeechToTextManager {
 		}
 	}
 
+	#[\Override]
 	public function cancelScheduledFileTranscription(File $file, ?string $userId, string $appId): void {
 		try {
 			$jobArguments = [
@@ -116,6 +120,7 @@ class SpeechToTextManager implements ISpeechToTextManager {
 		}
 	}
 
+	#[\Override]
 	public function transcribeFile(File $file, ?string $userId = null, string $appId = 'core'): string {
 		// try to run a TaskProcessing core:audio2text task
 		// this covers scheduling as well because OC\SpeechToText\TranscriptionJob calls this method

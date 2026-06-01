@@ -39,10 +39,12 @@ class Home extends Local implements IHomeStorage {
 		parent::__construct(['datadir' => $datadir]);
 	}
 
+	#[\Override]
 	public function getId(): string {
 		return $this->id;
 	}
 
+	#[\Override]
 	public function getCache(string $path = '', ?IStorage $storage = null): ICache {
 		if (!$storage) {
 			$storage = $this;
@@ -53,6 +55,7 @@ class Home extends Local implements IHomeStorage {
 		return $this->cache;
 	}
 
+	#[\Override]
 	public function getPropagator(?IStorage $storage = null): IPropagator {
 		if (!$storage) {
 			$storage = $this;
@@ -64,10 +67,12 @@ class Home extends Local implements IHomeStorage {
 	}
 
 
+	#[\Override]
 	public function getUser(): IUser {
 		return $this->user;
 	}
 
+	#[\Override]
 	public function getOwner(string $path): string|false {
 		return $this->user->getUID();
 	}

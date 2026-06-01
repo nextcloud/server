@@ -20,6 +20,7 @@ class ImportCertificate extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('security:certificates:import')
@@ -31,6 +32,7 @@ class ImportCertificate extends Base {
 			);
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$path = $input->getArgument('path');
 

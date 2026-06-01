@@ -26,6 +26,7 @@ class KnownMtime extends Wrapper {
 		$this->clock = $parameters['clock'];
 	}
 
+	#[\Override]
 	public function file_put_contents(string $path, mixed $data): int|float|false {
 		$result = parent::file_put_contents($path, $data);
 		if ($result) {
@@ -35,6 +36,7 @@ class KnownMtime extends Wrapper {
 		return $result;
 	}
 
+	#[\Override]
 	public function stat(string $path): array|false {
 		$stat = parent::stat($path);
 		if ($stat) {
@@ -43,6 +45,7 @@ class KnownMtime extends Wrapper {
 		return $stat;
 	}
 
+	#[\Override]
 	public function getMetaData(string $path): ?array {
 		$stat = parent::getMetaData($path);
 		if ($stat) {
@@ -58,11 +61,13 @@ class KnownMtime extends Wrapper {
 		}
 	}
 
+	#[\Override]
 	public function filemtime(string $path): int|false {
 		$knownMtime = $this->knowMtimes->get($path) ?? 0;
 		return max(parent::filemtime($path), $knownMtime);
 	}
 
+	#[\Override]
 	public function mkdir(string $path): bool {
 		$result = parent::mkdir($path);
 		if ($result) {
@@ -71,6 +76,7 @@ class KnownMtime extends Wrapper {
 		return $result;
 	}
 
+	#[\Override]
 	public function rmdir(string $path): bool {
 		$result = parent::rmdir($path);
 		if ($result) {
@@ -79,6 +85,7 @@ class KnownMtime extends Wrapper {
 		return $result;
 	}
 
+	#[\Override]
 	public function unlink(string $path): bool {
 		$result = parent::unlink($path);
 		if ($result) {
@@ -87,6 +94,7 @@ class KnownMtime extends Wrapper {
 		return $result;
 	}
 
+	#[\Override]
 	public function rename(string $source, string $target): bool {
 		$result = parent::rename($source, $target);
 		if ($result) {
@@ -96,6 +104,7 @@ class KnownMtime extends Wrapper {
 		return $result;
 	}
 
+	#[\Override]
 	public function copy(string $source, string $target): bool {
 		$result = parent::copy($source, $target);
 		if ($result) {
@@ -104,6 +113,7 @@ class KnownMtime extends Wrapper {
 		return $result;
 	}
 
+	#[\Override]
 	public function fopen(string $path, string $mode) {
 		$result = parent::fopen($path, $mode);
 		if ($result && $mode === 'w') {
@@ -112,6 +122,7 @@ class KnownMtime extends Wrapper {
 		return $result;
 	}
 
+	#[\Override]
 	public function touch(string $path, ?int $mtime = null): bool {
 		$result = parent::touch($path, $mtime);
 		if ($result) {
@@ -120,6 +131,7 @@ class KnownMtime extends Wrapper {
 		return $result;
 	}
 
+	#[\Override]
 	public function copyFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): bool {
 		$result = parent::copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 		if ($result) {
@@ -128,6 +140,7 @@ class KnownMtime extends Wrapper {
 		return $result;
 	}
 
+	#[\Override]
 	public function moveFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): bool {
 		$result = parent::moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 		if ($result) {
@@ -136,6 +149,7 @@ class KnownMtime extends Wrapper {
 		return $result;
 	}
 
+	#[\Override]
 	public function writeStream(string $path, $stream, ?int $size = null): int {
 		$result = parent::writeStream($path, $stream, $size);
 		if ($result) {

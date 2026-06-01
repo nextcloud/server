@@ -19,6 +19,7 @@ class UnsupportedLimitOnInitialSyncException extends InsufficientStorage {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function serialize(Server $server, \DOMElement $errorNode) {
 		$errorNode->appendChild($errorNode->ownerDocument->createElementNS('DAV:', 'd:number-of-matches-within-limits'));
 	}

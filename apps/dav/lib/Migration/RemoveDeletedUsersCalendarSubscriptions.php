@@ -32,6 +32,7 @@ class RemoveDeletedUsersCalendarSubscriptions implements IRepairStep {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getName(): string {
 		return 'Clean up old calendar subscriptions from deleted users that were not cleaned-up';
 	}
@@ -39,6 +40,7 @@ class RemoveDeletedUsersCalendarSubscriptions implements IRepairStep {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function run(IOutput $output) {
 		$nbSubscriptions = $this->countSubscriptions();
 

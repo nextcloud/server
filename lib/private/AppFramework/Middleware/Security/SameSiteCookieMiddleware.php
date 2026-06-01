@@ -24,6 +24,7 @@ class SameSiteCookieMiddleware extends Middleware {
 	) {
 	}
 
+	#[\Override]
 	public function beforeController($controller, $methodName) {
 		$requestUri = $this->request->getScriptName();
 		$processingScript = explode('/', $requestUri);
@@ -44,6 +45,7 @@ class SameSiteCookieMiddleware extends Middleware {
 		}
 	}
 
+	#[\Override]
 	public function afterException($controller, $methodName, \Exception $exception) {
 		if ($exception instanceof LaxSameSiteCookieFailedException) {
 			$response = new Response();

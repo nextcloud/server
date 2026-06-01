@@ -28,6 +28,7 @@ class CleanupRemoteStorages extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('sharing:cleanup-remote-storages')
@@ -40,6 +41,7 @@ class CleanupRemoteStorages extends Command {
 			);
 	}
 
+	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$remoteStorages = $this->getRemoteStorages();
 

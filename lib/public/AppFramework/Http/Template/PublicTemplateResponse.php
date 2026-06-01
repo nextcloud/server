@@ -166,6 +166,7 @@ class PublicTemplateResponse extends TemplateResponse {
 	 * @return string
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function render(): string {
 		$params = array_merge($this->getParams(), [
 			'template' => $this,

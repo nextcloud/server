@@ -53,6 +53,7 @@ class ContactsSearchProvider implements IFilteringProvider {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getId(): string {
 		return 'contacts';
 	}
@@ -60,10 +61,12 @@ class ContactsSearchProvider implements IFilteringProvider {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Contacts');
 	}
 
+	#[\Override]
 	public function getOrder(string $route, array $routeParameters): ?int {
 		if ($this->appManager->isEnabledForUser('contacts')) {
 			return $route === 'contacts.Page.index' ? -1 : 25;
@@ -72,6 +75,7 @@ class ContactsSearchProvider implements IFilteringProvider {
 		return null;
 	}
 
+	#[\Override]
 	public function search(IUser $user, ISearchQuery $query): SearchResult {
 		if (!$this->appManager->isEnabledForUser('contacts', $user)) {
 			return SearchResult::complete($this->getName(), []);
@@ -169,6 +173,7 @@ class ContactsSearchProvider implements IFilteringProvider {
 		return (string)$emailAddresses[0];
 	}
 
+	#[\Override]
 	public function getSupportedFilters(): array {
 		return [
 			'term',
@@ -179,10 +184,12 @@ class ContactsSearchProvider implements IFilteringProvider {
 		];
 	}
 
+	#[\Override]
 	public function getAlternateIds(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getCustomFilters(): array {
 		return [
 			new FilterDefinition('company'),

@@ -15,11 +15,13 @@ class AdapterTest extends TestCase {
 	private string $appId;
 	private $connection;
 
+	#[\Override]
 	public function setUp(): void {
 		$this->connection = Server::get(IDBConnection::class);
 		$this->appId = substr(uniqid('test_db_adapter', true), 0, 32);
 	}
 
+	#[\Override]
 	public function tearDown(): void {
 		$qb = $this->connection->getQueryBuilder();
 
@@ -27,6 +29,7 @@ class AdapterTest extends TestCase {
 			->from('appconfig')
 			->where($qb->expr()->eq('appid', $qb->createNamedParameter($this->appId)))
 			->executeStatement();
+		parent::tearDown();
 	}
 
 	public function testInsertIgnoreOnConflictDuplicate(): void {

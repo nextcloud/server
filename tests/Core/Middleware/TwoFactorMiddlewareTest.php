@@ -78,6 +78,7 @@ class TwoFactorMiddlewareTest extends TestCase {
 	private TwoFactorMiddleware $middleware;
 	private LoggerInterface&MockObject $logger;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

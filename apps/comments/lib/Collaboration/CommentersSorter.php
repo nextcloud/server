@@ -15,6 +15,7 @@ class CommentersSorter implements ISorter {
 	) {
 	}
 
+	#[\Override]
 	public function getId(): string {
 		return 'commenters';
 	}
@@ -26,6 +27,7 @@ class CommentersSorter implements ISorter {
 	 * @param array &$sortArray
 	 * @param array $context
 	 */
+	#[\Override]
 	public function sort(array &$sortArray, array $context): void {
 		if (!isset($context['itemType'], $context['itemId'])) {
 			return;

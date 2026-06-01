@@ -15,6 +15,7 @@ class ConfigTest extends TestCase {
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

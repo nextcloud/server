@@ -17,6 +17,7 @@ class InstanceFactory implements IInstanceFactory {
 	) {
 	}
 
+	#[\Override]
 	public function getInstance($url) {
 		return new Instance($url, $this->cache, $this->clientService);
 	}

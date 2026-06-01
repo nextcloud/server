@@ -13,11 +13,13 @@ use OCP\ITempManager;
 use OCP\Server;
 
 class ZIPTest extends TestBase {
+	#[\Override]
 	protected function getExisting() {
 		$dir = \OC::$SERVERROOT . '/tests/data';
 		return new ZIP($dir . '/data.zip');
 	}
 
+	#[\Override]
 	protected function getNew() {
 		$newZip = Server::get(ITempManager::class)->getTempBaseDir() . '/newArchive.zip';
 		if (file_exists($newZip)) {

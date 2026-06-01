@@ -13,10 +13,11 @@ use OCA\Files_External\Service\GlobalStoragesService;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Encryption\IManager;
+use OCP\IL10N;
 use OCP\IURLGenerator;
-use OCP\Settings\ISettings;
+use OCP\Settings\IDelegatedSettings;
 
-class Admin implements ISettings {
+class Admin implements IDelegatedSettings {
 	use CommonSettingsTrait;
 
 	public function __construct(
@@ -26,6 +27,7 @@ class Admin implements ISettings {
 		private GlobalAuth $globalAuth,
 		private IInitialState $initialState,
 		private IURLGenerator $urlGenerator,
+		private IL10N $l10n,
 	) {
 		$this->visibility = BackendService::VISIBILITY_ADMIN;
 	}
@@ -33,6 +35,7 @@ class Admin implements ISettings {
 	/**
 	 * @return TemplateResponse
 	 */
+	#[\Override]
 	public function getForm() {
 		$this->setInitialState();
 
@@ -51,6 +54,7 @@ class Admin implements ISettings {
 	/**
 	 * @return string the section ID, e.g. 'sharing'
 	 */
+	#[\Override]
 	public function getSection() {
 		return 'externalstorages';
 	}
@@ -62,7 +66,19 @@ class Admin implements ISettings {
 	 *
 	 * E.g.: 70
 	 */
+	#[\Override]
 	public function getPriority() {
 		return 40;
+	}
+
+	#[\Override]
+	public function getName(): string {
+		return $this->l10n->t('External storage');
+	}
+
+	#[\Override]
+	public function getAuthorizedAppConfig(): array {
+		// No app config keys require delegation for external storage.
+		return [];
 	}
 }

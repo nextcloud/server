@@ -24,6 +24,7 @@ class RemoveUser extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('group:removeuser')
@@ -34,24 +35,45 @@ class RemoveUser extends Base {
 				'group to remove the user from'
 			)->addArgument(
 				'user',
-				InputArgument::REQUIRED,
-				'user to remove from the group'
+				InputArgument::REQUIRED + InputArgument::IS_ARRAY,
+				'users to remove from the group'
 			);
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$group = $this->groupManager->get($input->getArgument('group'));
 		if (is_null($group)) {
 			$output->writeln('<error>group not found</error>');
-			return 1;
+			return Base::FAILURE;
 		}
-		$user = $this->userManager->get($input->getArgument('user'));
-		if (is_null($user)) {
-			$output->writeln('<error>user not found</error>');
-			return 1;
+
+		$allUsersFound = true;
+		$noUserFound = true;
+		$users = (array)$input->getArgument('user');
+		foreach ($users as $userId) {
+			$user = $this->userManager->get($userId);
+			if (is_null($user)) {
+				$output->writeln('<error>user ' . $userId . ' not found</error>');
+				$allUsersFound = false;
+				continue;
+			}
+			$noUserFound = false;
+			$group->removeUser($user);
+			unset($user);
+			$output->writeln('<info>user ' . $userId . ' removed</info>');
 		}
-		$group->removeUser($user);
-		return 0;
+
+		if (!$allUsersFound && !$noUserFound) {
+			$output->writeln('<error>Some users were not found, all others where removed from the group.</error>');
+			return Base::FAILURE;
+		}
+
+		if ($noUserFound) {
+			return Base::FAILURE;
+		}
+
+		return Base::SUCCESS;
 	}
 
 	/**
@@ -59,6 +81,7 @@ class RemoveUser extends Base {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
+	#[\Override]
 	public function completeArgumentValues($argumentName, CompletionContext $context) {
 		if ($argumentName === 'group') {
 			return array_map(static fn (IGroup $group) => $group->getGID(), $this->groupManager->search($context->getCurrentWord()));

@@ -23,6 +23,7 @@ class DateTimeZone implements IDateTimeZone {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getTimeZone(int|false $timestamp = false, ?string $userId = null): \DateTimeZone {
 		$uid = $userId ?? $this->session->get('user_id');
 		$timezoneName = $this->config->getUserValue($uid, 'core', 'timezone', '');
@@ -41,6 +42,7 @@ class DateTimeZone implements IDateTimeZone {
 		}
 	}
 
+	#[\Override]
 	public function getDefaultTimeZone(): \DateTimeZone {
 		/** @var non-empty-string */
 		$timezone = $this->config->getSystemValueString('default_timezone', 'UTC');

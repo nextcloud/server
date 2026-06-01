@@ -22,7 +22,6 @@ OC.L10N.register(
     "Note:" : "Bemærkning:",
     "This share is valid until %s at midnight" : "Denne deling gælder indtil %s ved midnat",
     "Expiration:" : "Udløbsdato:",
-    "Open %s" : "Åbn% s",
     "%1$s via %2$s" : "%1$s via %2$s",
     "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "%1$s delte %2$s med dig. Du skulle allerede have modtaget en separat mail med et link til at få adgang til den.",
     "Password to access %1$s shared to you by %2$s" : "Adgangskode for adgang til %1$s delt med dig af %2$s",

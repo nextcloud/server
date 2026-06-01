@@ -35,6 +35,7 @@ class SystemTagsObjectMappingCollection implements ICollection {
 	/**
 	 * @return void
 	 */
+	#[\Override]
 	public function createFile($name, $data = null) {
 		$tagId = $name;
 		try {
@@ -59,6 +60,7 @@ class SystemTagsObjectMappingCollection implements ICollection {
 	/**
 	 * @return never
 	 */
+	#[\Override]
 	public function createDirectory($name) {
 		throw new Forbidden('Permission denied to create collections');
 	}
@@ -66,6 +68,7 @@ class SystemTagsObjectMappingCollection implements ICollection {
 	/**
 	 * @return SystemTagMappingNode
 	 */
+	#[\Override]
 	public function getChild($tagName) {
 		try {
 			if ($this->tagMapper->haveTag([$this->objectId], $this->objectType, $tagName, true)) {
@@ -88,6 +91,7 @@ class SystemTagsObjectMappingCollection implements ICollection {
 	 *
 	 * @psalm-return list<SystemTagMappingNode>
 	 */
+	#[\Override]
 	public function getChildren() {
 		$tagIds = current($this->tagMapper->getTagIdsForObjects([$this->objectId], $this->objectType));
 		if (empty($tagIds)) {
@@ -105,6 +109,7 @@ class SystemTagsObjectMappingCollection implements ICollection {
 		}, $tags));
 	}
 
+	#[\Override]
 	public function childExists($tagId) {
 		try {
 			$result = $this->tagMapper->haveTag([$this->objectId], $this->objectType, $tagId, true);
@@ -128,10 +133,12 @@ class SystemTagsObjectMappingCollection implements ICollection {
 	/**
 	 * @return never
 	 */
+	#[\Override]
 	public function delete() {
 		throw new Forbidden('Permission denied to delete this collection');
 	}
 
+	#[\Override]
 	public function getName() {
 		return $this->objectId;
 	}
@@ -139,6 +146,7 @@ class SystemTagsObjectMappingCollection implements ICollection {
 	/**
 	 * @return never
 	 */
+	#[\Override]
 	public function setName($name) {
 		throw new Forbidden('Permission denied to rename this collection');
 	}
@@ -148,6 +156,7 @@ class SystemTagsObjectMappingCollection implements ICollection {
 	 *
 	 * @return null
 	 */
+	#[\Override]
 	public function getLastModified() {
 		return null;
 	}

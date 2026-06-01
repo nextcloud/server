@@ -38,12 +38,14 @@ class Application extends App implements IBootstrap {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function register(IRegistrationContext $context): void {
 		// Register OCS Capabilities
 		$context->registerCapability(Capabilities::class);
 		$context->registerEventListener(BeforeTemplateRenderedEvent::class, BeforeTemplateRenderedListener::class);
 	}
 
+	#[\Override]
 	public function boot(IBootContext $context): void {
 	}
 }

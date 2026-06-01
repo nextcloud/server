@@ -7,7 +7,7 @@ import type { IView } from '@nextcloud/files'
 
 import { File, Folder, Permission } from '@nextcloud/files'
 import { beforeEach, describe, expect, test, vi } from 'vitest'
-import logger from '../logger.ts'
+import { logger } from '../utils/logger.ts'
 import { action } from './sidebarAction.ts'
 
 const sidebar = vi.hoisted(() => ({

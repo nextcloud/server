@@ -59,10 +59,12 @@ class FileSearchBackend implements ISearchBackend {
 	/**
 	 * Search endpoint will be remote.php/dav
 	 */
+	#[\Override]
 	public function getArbiterPath(): string {
 		return '';
 	}
 
+	#[\Override]
 	public function isValidScope(string $href, $depth, ?string $path): bool {
 		// only allow scopes inside the dav server
 		if (is_null($path)) {
@@ -77,6 +79,7 @@ class FileSearchBackend implements ISearchBackend {
 		}
 	}
 
+	#[\Override]
 	public function getPropertyDefinitionsForScope(string $href, ?string $path): array {
 		// all valid scopes support the same schema
 
@@ -138,6 +141,7 @@ class FileSearchBackend implements ISearchBackend {
 	 * @param INode[] $nodes
 	 * @param string[] $requestProperties
 	 */
+	#[\Override]
 	public function preloadPropertyFor(array $nodes, array $requestProperties): void {
 		$this->server->emit('preloadProperties', [$nodes, $requestProperties]);
 	}
@@ -163,6 +167,7 @@ class FileSearchBackend implements ISearchBackend {
 	 * @param Query $search
 	 * @return SearchResult[]
 	 */
+	#[\Override]
 	public function search(Query $search): array {
 		switch (count($search->from)) {
 			case 0:
@@ -343,6 +348,7 @@ class FileSearchBackend implements ISearchBackend {
 		}, $query->orderBy);
 
 		$limit = $query->limit;
+		$maxResults = $limit->maxResults !== 0 ? (int)$limit->maxResults : 100;
 		$offset = $limit->firstResult;
 
 		$limitHome = false;
@@ -370,7 +376,7 @@ class FileSearchBackend implements ISearchBackend {
 
 		return new SearchQuery(
 			$operators,
-			(int)$limit->maxResults,
+			$maxResults,
 			$offset,
 			$orders,
 			$this->user,

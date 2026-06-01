@@ -36,9 +36,11 @@ class MiddleController extends BaseController {
 	/**
 	 * @NoAnnotation
 	 */
+	#[\Override]
 	public function test2() {
 	}
 
+	#[\Override]
 	public function test3() {
 	}
 

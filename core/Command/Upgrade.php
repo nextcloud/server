@@ -43,6 +43,7 @@ class Upgrade extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('upgrade')
@@ -55,6 +56,7 @@ class Upgrade extends Command {
 	 * @param InputInterface $input input interface
 	 * @param OutputInterface $output output interface
 	 */
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		if (Util::needUpgrade()) {
 			if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
@@ -140,7 +142,7 @@ class Upgrade extends Command {
 				$output->writeln('<info>Turned off maintenance mode</info>');
 			});
 			$updater->listen('\OC\Updater', 'maintenanceActive', function () use ($output): void {
-				$output->writeln('<info>Maintenance mode is kept active</info>');
+				$output->writeln('<comment>Maintenance mode is kept active</comment>');
 			});
 			$updater->listen('\OC\Updater', 'updateEnd',
 				function ($success) use ($output, $self): void {

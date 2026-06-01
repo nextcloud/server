@@ -34,6 +34,7 @@ class Notify extends StorageAuthBase {
 		parent::__construct($globalService, $userManager);
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('files_external:notify')
@@ -72,6 +73,7 @@ class Notify extends StorageAuthBase {
 		parent::configure();
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		[$mount, $storage] = $this->createStorage($input, $output);
 		if ($storage === null) {

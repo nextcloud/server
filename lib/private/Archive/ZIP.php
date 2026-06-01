@@ -33,6 +33,7 @@ class ZIP extends Archive {
 	 * @param string $path
 	 * @return bool
 	 */
+	#[\Override]
 	public function addFolder(string $path): bool {
 		return $this->zip->addEmptyDir($path);
 	}
@@ -41,6 +42,7 @@ class ZIP extends Archive {
 	 * add a file to the archive
 	 * @param string $source either a local file or string data
 	 */
+	#[\Override]
 	public function addFile(string $path, string $source = ''): bool {
 		if ($source && $source[0] === '/' && file_exists($source)) {
 			$result = $this->zip->addFile($source, $path);
@@ -57,6 +59,7 @@ class ZIP extends Archive {
 	/**
 	 * rename a file or folder in the archive
 	 */
+	#[\Override]
 	public function rename(string $source, string $dest): bool {
 		$source = $this->stripPath($source);
 		$dest = $this->stripPath($dest);
@@ -66,6 +69,7 @@ class ZIP extends Archive {
 	/**
 	 * get the uncompressed size of a file in the archive
 	 */
+	#[\Override]
 	public function filesize(string $path): false|int|float {
 		$stat = $this->zip->statName($path);
 		return $stat['size'] ?? false;
@@ -75,6 +79,7 @@ class ZIP extends Archive {
 	 * get the last modified time of a file in the archive
 	 * @return int|false
 	 */
+	#[\Override]
 	public function mtime(string $path) {
 		return filemtime($this->path);
 	}
@@ -82,6 +87,7 @@ class ZIP extends Archive {
 	/**
 	 * get the files in a folder
 	 */
+	#[\Override]
 	public function getFolder(string $path): array {
 		// FIXME: multiple calls on getFolder would traverse
 		// the whole file list over and over again
@@ -128,6 +134,7 @@ class ZIP extends Archive {
 	/**
 	 * get all files in the archive
 	 */
+	#[\Override]
 	public function getFiles(): array {
 		$fileCount = $this->zip->numFiles;
 		$files = [];
@@ -141,6 +148,7 @@ class ZIP extends Archive {
 	 * get the content of a file
 	 * @return string|false
 	 */
+	#[\Override]
 	public function getFile(string $path) {
 		return $this->zip->getFromName($path);
 	}
@@ -148,6 +156,7 @@ class ZIP extends Archive {
 	/**
 	 * extract a single file from the archive
 	 */
+	#[\Override]
 	public function extractFile(string $path, string $dest): bool {
 		$fp = $this->zip->getStream($path);
 		if ($fp === false) {
@@ -159,6 +168,7 @@ class ZIP extends Archive {
 	/**
 	 * extract the archive
 	 */
+	#[\Override]
 	public function extract(string $dest): bool {
 		return $this->zip->extractTo($dest);
 	}
@@ -166,6 +176,7 @@ class ZIP extends Archive {
 	/**
 	 * check if a file or folder exists in the archive
 	 */
+	#[\Override]
 	public function fileExists(string $path): bool {
 		return ($this->zip->locateName($path) !== false) || ($this->zip->locateName($path . '/') !== false);
 	}
@@ -173,6 +184,7 @@ class ZIP extends Archive {
 	/**
 	 * remove a file or folder from the archive
 	 */
+	#[\Override]
 	public function remove(string $path): bool {
 		if ($this->fileExists($path . '/')) {
 			return $this->zip->deleteName($path . '/');
@@ -185,6 +197,7 @@ class ZIP extends Archive {
 	 * get a file handler
 	 * @return bool|resource
 	 */
+	#[\Override]
 	public function getStream(string $path, string $mode) {
 		if ($mode === 'r' || $mode === 'rb') {
 			return $this->zip->getStream($path);

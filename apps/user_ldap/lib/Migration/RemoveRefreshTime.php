@@ -28,10 +28,12 @@ class RemoveRefreshTime implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName() {
 		return 'Remove deprecated refresh time markers for LDAP user records';
 	}
 
+	#[\Override]
 	public function run(IOutput $output) {
 		$this->config->deleteAppValue('user_ldap', 'updateAttributesInterval');
 
