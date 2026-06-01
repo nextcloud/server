@@ -434,7 +434,6 @@ class Cache implements ICache {
 		// path can still be null if the file doesn't exist
 		if ($path !== null) {
 			$event = new CacheEntryUpdatedEvent($this->storage, $path, $id, $this->getNumericStorageId());
-			$this->eventDispatcher->dispatch(CacheEntryUpdatedEvent::class, $event);
 			$this->eventDispatcher->dispatchTyped($event);
 		}
 	}
@@ -848,11 +847,9 @@ class Cache implements ICache {
 				$this->eventDispatcher->dispatchTyped(new CacheEntriesRemovedEvent([$event]));
 
 				$event = new CacheEntryInsertedEvent($this->storage, $targetPath, $sourceId, $this->getNumericStorageId());
-				$this->eventDispatcher->dispatch(CacheEntryInsertedEvent::class, $event);
 				$this->eventDispatcher->dispatchTyped($event);
 			} else {
 				$event = new CacheEntryUpdatedEvent($this->storage, $targetPath, $sourceId, $this->getNumericStorageId());
-				$this->eventDispatcher->dispatch(CacheEntryUpdatedEvent::class, $event);
 				$this->eventDispatcher->dispatchTyped($event);
 			}
 		} else {

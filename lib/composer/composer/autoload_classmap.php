@@ -417,8 +417,6 @@ return array(
     'OCP\\Files\\Cache\\CacheEntryInsertedEvent' => $baseDir . '/lib/public/Files/Cache/CacheEntryInsertedEvent.php',
     'OCP\\Files\\Cache\\CacheEntryRemovedEvent' => $baseDir . '/lib/public/Files/Cache/CacheEntryRemovedEvent.php',
     'OCP\\Files\\Cache\\CacheEntryUpdatedEvent' => $baseDir . '/lib/public/Files/Cache/CacheEntryUpdatedEvent.php',
-    'OCP\\Files\\Cache\\CacheInsertEvent' => $baseDir . '/lib/public/Files/Cache/CacheInsertEvent.php',
-    'OCP\\Files\\Cache\\CacheUpdateEvent' => $baseDir . '/lib/public/Files/Cache/CacheUpdateEvent.php',
     'OCP\\Files\\Cache\\ICache' => $baseDir . '/lib/public/Files/Cache/ICache.php',
     'OCP\\Files\\Cache\\ICacheEntry' => $baseDir . '/lib/public/Files/Cache/ICacheEntry.php',
     'OCP\\Files\\Cache\\ICacheEvent' => $baseDir . '/lib/public/Files/Cache/ICacheEvent.php',

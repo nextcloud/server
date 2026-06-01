@@ -458,8 +458,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Files\\Cache\\CacheEntryInsertedEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Cache/CacheEntryInsertedEvent.php',
         'OCP\\Files\\Cache\\CacheEntryRemovedEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Cache/CacheEntryRemovedEvent.php',
         'OCP\\Files\\Cache\\CacheEntryUpdatedEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Cache/CacheEntryUpdatedEvent.php',
-        'OCP\\Files\\Cache\\CacheInsertEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Cache/CacheInsertEvent.php',
-        'OCP\\Files\\Cache\\CacheUpdateEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Cache/CacheUpdateEvent.php',
         'OCP\\Files\\Cache\\ICache' => __DIR__ . '/../../..' . '/lib/public/Files/Cache/ICache.php',
         'OCP\\Files\\Cache\\ICacheEntry' => __DIR__ . '/../../..' . '/lib/public/Files/Cache/ICacheEntry.php',
         'OCP\\Files\\Cache\\ICacheEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Cache/ICacheEvent.php',
