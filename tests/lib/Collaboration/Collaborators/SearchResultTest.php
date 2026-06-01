@@ -63,7 +63,6 @@ class SearchResultTest extends TestCase {
 			[['users' => ['exact' => [$result], 'loose' => []]],        'users',  'l1', true],
 			[['users' => ['exact' => [$result], 'loose' => []]],        'users',  'l2', false],
 			[['users' => ['exact' => [$result], 'loose' => []]],        'groups', 'l1', false],
-
 		];
 	}
 

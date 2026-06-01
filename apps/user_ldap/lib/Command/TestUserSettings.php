@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP\Command;
 
 use OCA\User_LDAP\Group_Proxy;
@@ -241,7 +242,6 @@ class TestUserSettings extends Command {
 			$output->writeln('Members: <info>' . json_encode($members) . '</info>');
 
 			return self::SUCCESS;
-
 		} catch (\Exception $e) {
 			$output->writeln('<error>' . $e->getMessage() . '</error>');
 			return self::FAILURE;

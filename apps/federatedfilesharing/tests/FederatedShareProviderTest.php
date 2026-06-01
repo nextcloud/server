@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\FederatedFileSharing\Tests;
 
 use LogicException;
@@ -352,7 +353,6 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$node = $this->createMock(File::class);
 		$node->method('getId')->willReturn(42);
 		$node->method('getName')->willReturn('myFile');
-
 
 		$this->addressHandler->expects($this->any())->method('splitUserRemote')
 			->willReturn(['user', 'server.com']);
@@ -780,7 +780,6 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			$this->provider->isLookupServerQueriesEnabled()
 		);
 	}
-
 
 	public static function dataTestIsLookupServerQueriesEnabled(): array {
 		return [

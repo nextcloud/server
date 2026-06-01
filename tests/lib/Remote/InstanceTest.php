@@ -59,7 +59,6 @@ class InstanceTest extends TestCase {
 		$this->assertEquals(false, $instance2->isActive());
 	}
 
-
 	public function testPreventDowngradeAttach(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('refusing to connect to remote instance(example.com) over http that was previously accessible over https');

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP\Tests;
 
 use OC\ServerNotAvailableException;
@@ -433,7 +434,6 @@ class AccessTest extends TestCase {
 		$this->assertSame($values[0], strtolower($dnFromServer));
 	}
 
-
 	public function testSetPasswordWithDisabledChanges(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('LDAP password changes are disabled');
@@ -463,7 +463,6 @@ class AccessTest extends TestCase {
 		$this->expectExceptionMessage('Connection to LDAP server could not be established');
 		$this->access->setPassword('CN=foo', 'MyPassword');
 	}
-
 
 	public function testSetPasswordWithRejectedChange(): void {
 		$this->expectException(HintException::class);

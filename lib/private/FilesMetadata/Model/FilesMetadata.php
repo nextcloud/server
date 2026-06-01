@@ -165,7 +165,6 @@ class FilesMetadata implements IFilesMetadata {
 		$this->metadata[$key]->setEditPermission($permission);
 	}
 
-
 	#[\Override]
 	public function getEtag(string $key): string {
 		if (!array_key_exists($key, $this->metadata)) {
@@ -417,7 +416,6 @@ class FilesMetadata implements IFilesMetadata {
 		return $this;
 	}
 
-
 	/**
 	 * @param string $key metadata key
 	 * @param bool $value metadata value
@@ -445,7 +443,6 @@ class FilesMetadata implements IFilesMetadata {
 
 		return $this;
 	}
-
 
 	/**
 	 * @param string $key metadata key

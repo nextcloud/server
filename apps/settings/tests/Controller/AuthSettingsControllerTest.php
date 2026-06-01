@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace Test\Settings\Controller;
 
 use OC\AppFramework\Http;
@@ -143,7 +144,6 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('getToken');
 		$this->tokenProvider->expects($this->never())
 			->method('getPassword');
-
 
 		$this->tokenProvider->expects($this->never())
 			->method('generateToken');

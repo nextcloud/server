@@ -139,7 +139,6 @@ class OCMSignatoryManager implements IJwkResolvingSignatoryManager {
 		$signatory->setPublicKey($keyPair->getPublic());
 		$signatory->setPrivateKey($keyPair->getPrivate());
 		return $signatory;
-
 	}
 
 	/** Active JWKS-published signing key (ECDSA P-256), lazily provisioned. */

@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2026
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Tests\Repair;
 
 use OC\Migration\NullOutput;

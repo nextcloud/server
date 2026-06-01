@@ -125,7 +125,6 @@ class SyncServiceTest extends TestCase {
 		$this->backend->method('getCard')
 			->willReturn(false);
 
-
 		$body = '<?xml version="1.0"?>
 <d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:card="urn:ietf:params:xml:ns:carddav" xmlns:oc="http://owncloud.org/ns">
     <d:response>
@@ -195,7 +194,6 @@ END:VCARD';
 
 		$this->backend->method('getCard')
 			->willReturn(true);
-
 
 		$body = '<?xml version="1.0"?>
 <d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:card="urn:ietf:params:xml:ns:carddav" xmlns:oc="http://owncloud.org/ns">

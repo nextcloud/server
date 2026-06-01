@@ -206,7 +206,6 @@ class RecoveryTest extends TestCase {
 			->with($this->anything(), $this->anything(), $this->equalTo('admin'))
 			->willReturn(['admin' => 'publicKey']);
 
-
 		$this->cryptMock->expects($this->once())
 			->method('multiKeyEncrypt')
 			->willReturn(['admin' => 'shareKey']);
@@ -258,7 +257,6 @@ class RecoveryTest extends TestCase {
 			$this->fileMock,
 			$this->viewMock);
 	}
-
 
 	/**
 	 * @param $app

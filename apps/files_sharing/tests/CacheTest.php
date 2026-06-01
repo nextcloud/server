@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\Cache\Cache;
@@ -40,7 +41,6 @@ class CacheTest extends TestCase {
 		parent::setUp();
 
 		$this->shareManager = Server::get(\OCP\Share\IManager::class);
-
 
 		$userManager = Server::get(IUserManager::class);
 		$userManager->get(self::TEST_FILES_SHARING_API_USER1)->setDisplayName('User One');

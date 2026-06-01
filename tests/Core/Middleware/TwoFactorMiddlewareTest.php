@@ -153,7 +153,6 @@ class TwoFactorMiddlewareTest extends TestCase {
 		$this->middleware->beforeController($controller, 'index');
 	}
 
-
 	public function testBeforeControllerTwoFactorAuthRequired(): void {
 		$this->expectException(TwoFactorAuthRequiredException::class);
 
@@ -179,7 +178,6 @@ class TwoFactorMiddlewareTest extends TestCase {
 			->getMock();
 		$this->middleware->beforeController($controller, 'index');
 	}
-
 
 	public function testBeforeControllerUserAlreadyLoggedIn(): void {
 		$this->expectException(UserAlreadyLoggedInException::class);
@@ -278,7 +276,6 @@ class TwoFactorMiddlewareTest extends TestCase {
 		} else {
 			$providers = [];
 		}
-
 
 		$user = $this->createMock(IUser::class);
 

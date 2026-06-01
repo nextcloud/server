@@ -202,7 +202,6 @@ class ChunkingV2Plugin extends ServerPlugin {
 		$destinationParent = $this->server->tree->getNodeForPath($destinationDir);
 		$destinationExists = $destinationParent->childExists($destinationName);
 
-
 		// allow sync clients to send the modification and creation time along in a header
 		$updateFileInfo = [];
 		if ($this->server->httpRequest->getHeader('X-OC-MTime') !== null) {

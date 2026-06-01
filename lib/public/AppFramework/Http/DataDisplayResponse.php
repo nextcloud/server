@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\AppFramework\Http;
 
 use OCP\AppFramework\Http;
@@ -23,7 +24,6 @@ class DataDisplayResponse extends Response {
 	 * @var string
 	 */
 	protected $data;
-
 
 	/**
 	 * @param string $data the data to display
@@ -48,7 +48,6 @@ class DataDisplayResponse extends Response {
 		return $this->data;
 	}
 
-
 	/**
 	 * Sets values in the data
 	 * @param string $data the data to display
@@ -60,7 +59,6 @@ class DataDisplayResponse extends Response {
 
 		return $this;
 	}
-
 
 	/**
 	 * Used to get the set parameters

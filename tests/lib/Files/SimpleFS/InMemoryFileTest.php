@@ -98,7 +98,6 @@ class InMemoryFileTest extends TestCase {
 		self::assertEquals('application/pdf', $this->testPdf->getMimeType());
 	}
 
-
 	/**
 	 * Ensure that read() returns a stream with the same contents than the original file.
 	 */

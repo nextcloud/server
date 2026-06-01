@@ -14,7 +14,6 @@ use Sabre\DAV\Xml\Property\ResourceType;
 
 require __DIR__ . '/autoload.php';
 
-
 trait WebDav {
 	use Sharing;
 
@@ -859,7 +858,6 @@ trait WebDav {
 		}
 	}
 
-
 	/**
 	 * @Given user :user creates a new chunking v2 upload with id :id and destination :targetDestination
 	 */
@@ -1087,7 +1085,6 @@ trait WebDav {
 			$this->userDeletesFile($user, 'element', $element);
 		}
 	}
-
 
 	/**
 	 * @param string $user

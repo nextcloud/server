@@ -196,7 +196,6 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$this->middleware->beforeController($this->controller, $method);
 	}
 
-
 	/**
 	 * @param string $method
 	 * @param string $test
@@ -308,7 +307,6 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$this->reader->reflect($this->controller, $method);
 		$sec->beforeController($this->controller, $method);
 	}
-
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataPublicPage')]
 	public function testCsrfCheck(string $method): void {
@@ -537,7 +535,6 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$middleware->beforeController($this->controller, $method);
 	}
 
-
 	public function testAfterExceptionNotCaughtThrowsItAgain(): void {
 		$ex = new \Exception();
 		$this->expectException(\Exception::class);
@@ -601,7 +598,6 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$expected = new RedirectResponse(\OC::$WEBROOT . '/');
 		$this->assertEquals($expected, $response);
 	}
-
 
 	/**
 	 * @return array

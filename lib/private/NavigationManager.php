@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud GmbH
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use InvalidArgumentException;
@@ -160,7 +161,6 @@ class NavigationManager implements INavigationManager {
 
 		return $list;
 	}
-
 
 	/**
 	 * removes all the entries

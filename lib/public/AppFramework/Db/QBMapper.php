@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\AppFramework\Db;
 
 use Generator;
@@ -51,7 +52,6 @@ abstract class QBMapper {
 		}
 	}
 
-
 	/**
 	 * @return string the table name
 	 * @since 14.0.0
@@ -59,7 +59,6 @@ abstract class QBMapper {
 	public function getTableName(): string {
 		return $this->tableName;
 	}
-
 
 	/**
 	 * Deletes an entity from the table
@@ -307,7 +306,6 @@ abstract class QBMapper {
 			. ': query "' . $sql->getSQL() . '"; ';
 	}
 
-
 	/**
 	 * Creates an entity from a row. Automatically determines the entity class
 	 * from the current mapper name (MyEntityMapper -> MyEntity)
@@ -321,7 +319,6 @@ abstract class QBMapper {
 		unset($row['DOCTRINE_ROWNUM']); // remove doctrine/dbal helper column
 		return \call_user_func($this->entityClass . '::fromRow', $row);
 	}
-
 
 	/**
 	 * Runs a sql query and returns an array of entities
@@ -364,7 +361,6 @@ abstract class QBMapper {
 			$result->closeCursor();
 		}
 	}
-
 
 	/**
 	 * Returns an db result and throws exceptions when there are more or less

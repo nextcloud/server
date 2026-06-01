@@ -150,7 +150,6 @@ class DecryptAllTest extends TestCase {
 		];
 	}
 
-
 	public function testExecuteFailure(): void {
 		$this->expectException(\Exception::class);
 

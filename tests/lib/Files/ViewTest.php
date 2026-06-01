@@ -282,7 +282,6 @@ class ViewTest extends \Test\TestCase {
 
 		$rootView = new View('/test/files');
 
-
 		$cachedData = $rootView->getFileInfo('/foo.txt');
 		$id1 = $cachedData->getId();
 		$this->assertEquals('/foo.txt', $rootView->getPath($id1));
@@ -294,7 +293,6 @@ class ViewTest extends \Test\TestCase {
 		$folderView = new View('/test/files/substorage');
 		$this->assertEquals('/foo.txt', $folderView->getPath($id2));
 	}
-
 
 	public function testGetPathNotExisting(): void {
 		$this->expectException(NotFoundException::class);
@@ -1029,7 +1027,6 @@ class ViewTest extends \Test\TestCase {
 	public function testTooLongPath($operation, $param0 = null): void {
 		$this->expectException(InvalidPathException::class);
 
-
 		$longPath = '';
 		// 4000 is the maximum path length in file_cache.path
 		$folderName = 'abcdefghijklmnopqrstuvwxyz012345678901234567890123456789';
@@ -1262,7 +1259,6 @@ class ViewTest extends \Test\TestCase {
 		$view = new View();
 		$this->assertNull($view->getRelativePath(null));
 	}
-
 
 	public function testNullAsRoot(): void {
 		$this->expectException(\TypeError::class);
@@ -2562,7 +2558,6 @@ class ViewTest extends \Test\TestCase {
 		}
 		return null;
 	}
-
 
 	public function testRemoveMoveableMountPoint(): void {
 		$mountPoint = '/' . $this->user . '/files/mount/';

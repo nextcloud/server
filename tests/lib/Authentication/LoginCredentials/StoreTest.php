@@ -270,7 +270,6 @@ class StoreTest extends TestCase {
 			->method('set')
 			->with($this->equalTo('login_credentials'), $this->equalTo(json_encode($params)));
 
-
 		$this->session->expects($this->once())
 			->method('getId')
 			->willReturn('sess2233');

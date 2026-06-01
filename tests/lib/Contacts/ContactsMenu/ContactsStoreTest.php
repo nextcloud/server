@@ -267,7 +267,6 @@ class ContactsStoreTest extends TestCase {
 				],
 			]);
 
-
 		$entries = $this->contactsStore->getContacts($currentUser, '');
 
 		$this->assertCount(count($expectedUids), $entries);
@@ -300,7 +299,6 @@ class ContactsStoreTest extends TestCase {
 			->with($this->equalTo($currentUser))
 			->willReturn(['group1', 'group2', 'group3']);
 
-
 		$this->contactsManager->expects($this->once())
 			->method('search')
 			->with($this->equalTo(''), $this->equalTo(['FN', 'EMAIL']))
@@ -314,7 +312,6 @@ class ContactsStoreTest extends TestCase {
 					'isLocalSystemBook' => true
 				],
 			]);
-
 
 		$entries = $this->contactsStore->getContacts($currentUser, '');
 

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Share20;
 
 use ArrayIterator;
@@ -980,7 +981,6 @@ class Manager implements IManager {
 		$share->setPasswordExpirationTime($expirationTime);
 	}
 
-
 	/**
 	 * Delete all the children of this share
 	 *
@@ -1434,7 +1434,6 @@ class Manager implements IManager {
 		} catch (ProviderException|ShareNotFound) {
 		}
 
-
 		// If it is not a link share try to fetch a federated share by token
 		if ($share === null) {
 			try {
@@ -1633,7 +1632,6 @@ class Manager implements IManager {
 
 		/** @var Node[] $nodes */
 		$nodes = [];
-
 
 		if ($currentAccess) {
 			$ownerPath = $path->getPath();

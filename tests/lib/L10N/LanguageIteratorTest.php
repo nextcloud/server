@@ -55,7 +55,6 @@ class LanguageIteratorTest extends TestCase {
 			[ 'de', null, 'en', ['de', 'en', 'en']],
 			// nothing is set
 			[ false, null, 'en', ['en', 'en']],
-
 		];
 	}
 

@@ -588,7 +588,6 @@ class ManagerTest extends TestCase {
 		$this->config->method('setUserValue')
 			->with('ferdinand', 'login_token_2fa', '42', '1337');
 
-
 		$this->manager->prepareTwoFactorLogin($this->user, true);
 	}
 

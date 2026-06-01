@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Files;
 
 use OC\Files\Search\SearchBinaryOperator;
@@ -111,7 +112,6 @@ class FileSearchBackend implements ISearchBackend {
 
 		return array_merge($props, $this->getPropertyDefinitionsForMetadata());
 	}
-
 
 	private function getPropertyDefinitionsForMetadata(): array {
 		$metadataProps = [];
@@ -248,7 +248,6 @@ class FileSearchBackend implements ISearchBackend {
 		foreach ($orders as $order) {
 			$v1 = $this->getSearchResultProperty($a, $order->property);
 			$v2 = $this->getSearchResultProperty($b, $order->property);
-
 
 			if ($v1 === null && $v2 === null) {
 				continue;

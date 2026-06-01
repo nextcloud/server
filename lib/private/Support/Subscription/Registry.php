@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Support\Subscription;
 
 use OCP\IConfig;
@@ -70,7 +71,6 @@ class Registry implements IRegistry {
 		$this->subscriptionService = $subscriptionService;
 	}
 
-
 	/**
 	 * Fetches the list of app IDs that are supported by the subscription
 	 *
@@ -114,7 +114,6 @@ class Registry implements IRegistry {
 		}
 		return false;
 	}
-
 
 	/**
 	 * Indicates if a hard user limit is reached and no new users should be created

@@ -161,7 +161,6 @@ class Manager implements IManager {
 		$this->distributedCache = $cacheFactory->createDistributed('task_processing::');
 	}
 
-
 	/**
 	 * This is almost a copy of textProcessingManager->getProviders
 	 * to avoid a dependency cycle between TextProcessingManager and TaskProcessingManager
@@ -987,7 +986,6 @@ class Manager implements IManager {
 			$this->distributedCache->set($cacheKey, serialize($this->availableTaskTypes), 60);
 		}
 
-
 		return $this->availableTaskTypes;
 	}
 	#[\Override]
@@ -1028,7 +1026,6 @@ class Manager implements IManager {
 			$this->availableTaskTypeIds = $availableTaskTypeIds;
 			$this->distributedCache->set(self::TASK_TYPE_IDS_CACHE_KEY, $this->availableTaskTypeIds, 60);
 		}
-
 
 		return $this->availableTaskTypeIds;
 	}

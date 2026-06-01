@@ -481,7 +481,6 @@ class UserMountCacheTest extends TestCase {
 		$folderId = $this->createCacheEntry('/foo', 2);
 		$fileId = $this->createCacheEntry('/foo/bar', 2);
 
-
 		$mount1 = $this->getMockBuilder(MountPoint::class)
 			->setConstructorArgs([$storage1, '/'])
 			->onlyMethods(['getStorageRootId'])
@@ -535,7 +534,6 @@ class UserMountCacheTest extends TestCase {
 		$this->assertCount(0, $cachedMounts);
 	}
 
-
 	public function testGetMountsForFileIdDeletedUser(): void {
 		$user1 = $this->userManager->get('u1');
 
@@ -580,7 +578,6 @@ class UserMountCacheTest extends TestCase {
 		$result = $this->cache->getUsedSpaceForUsers([$user1, $user2]);
 		$this->assertEquals(['u1' => 100], $result);
 	}
-
 
 	public function testMigrateMountProvider(): void {
 		$user1 = $this->userManager->get('u1');

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Group;
 
 use OC\User\LazyUser;
@@ -411,7 +412,6 @@ class Database extends ABackend implements
 			)
 				->orderBy('g.uid', 'ASC');
 		}
-
 
 		if ($limit !== -1) {
 			$query->setMaxResults($limit);

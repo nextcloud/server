@@ -159,8 +159,6 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 		$this->assertSame($exception, $thrown);
 	}
 
-
-
 	public static function dataProvider(): array {
 		return [
 			['foo', 2000, 4000, true],

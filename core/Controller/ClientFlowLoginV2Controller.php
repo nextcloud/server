@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Controller;
 
 use OC\Core\Db\LoginFlowV2;
@@ -134,7 +135,6 @@ class ClientFlowLoginV2Controller extends Controller {
 			'appTokenUrl' => $this->urlGenerator->linkToRouteAbsolute('core.ClientFlowLoginV2.apptokenRedirect'),
 		]);
 
-
 		Util::addScript('core', 'login_flow');
 		return new StandaloneTemplateResponse(
 			$this->appName,
@@ -178,7 +178,6 @@ class ClientFlowLoginV2Controller extends Controller {
 			'stateToken' => $stateToken,
 			'direct' => $direct === 1,
 		]);
-
 
 		Util::addScript('core', 'login_flow');
 		return new StandaloneTemplateResponse(

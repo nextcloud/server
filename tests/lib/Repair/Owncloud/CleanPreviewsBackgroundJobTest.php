@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace Test\Repair\Owncloud;
 
 use OC\Repair\Owncloud\CleanPreviewsBackgroundJob;
@@ -140,7 +141,6 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 			['Preview cleanup done for myuid', []],
 		], $loggerCalls);
 	}
-
 
 	public function testNoUserFolder(): void {
 		$this->rootFolder->method('getUserFolder')

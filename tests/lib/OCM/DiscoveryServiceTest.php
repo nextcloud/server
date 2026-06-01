@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace Test\OCM;
 
 use OC\AppFramework\Bootstrap\RegistrationContext;
@@ -121,7 +122,6 @@ class DiscoveryServiceTest extends TestCase {
 			$this->assertSame($expectedResult, $response->getData());
 		}
 	}
-
 
 	public function testLocalBaseCapability(): void {
 		$local = $this->discoveryService->getLocalOCMProvider();

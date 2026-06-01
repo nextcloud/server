@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Config;
 
 use OC\Files\Cache\Storage;
@@ -113,7 +114,6 @@ class ConfigAdapter implements IMountProvider, IAuthoritativeMountProvider, IPar
 				return new FailedStorage(['exception' => $e]);
 			}
 		}, $storageConfigs);
-
 
 		Storage::getGlobalCache()->loadForStorageIds(array_map(function (IStorage $storage) {
 			return $storage->getId();

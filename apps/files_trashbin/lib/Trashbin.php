@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Trashbin;
 
 use OC\Files\Cache\Cache;
@@ -175,7 +176,6 @@ class Trashbin implements IEventListener {
 		}
 	}
 
-
 	/**
 	 * copy file to owners trash
 	 *
@@ -204,7 +204,6 @@ class Trashbin implements IEventListener {
 			self::copy_recursive($source, $target, $view);
 		}
 
-
 		if ($view->file_exists($target)) {
 			$query = Server::get(IDBConnection::class)->getQueryBuilder();
 			$query->insert('files_trash')
@@ -219,7 +218,6 @@ class Trashbin implements IEventListener {
 			}
 		}
 	}
-
 
 	/**
 	 * move file to the trash bin

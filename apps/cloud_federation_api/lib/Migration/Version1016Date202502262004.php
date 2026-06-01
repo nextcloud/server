@@ -41,7 +41,6 @@ class Version1016Date202502262004 extends SimpleMigrationStep {
 			$table->addColumn('user_id', Types::STRING, [
 				'notnull' => true,
 				'length' => 64,
-
 			]);
 			// https://saturncloud.io/blog/what-is-the-maximum-length-of-a-url-in-different-browsers/#maximum-url-length-in-different-browsers
 			// We use the least common denominator, the minimum length supported by browsers

@@ -6,10 +6,10 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2015 Christian Kampka <christian@kampka.net>
  * SPDX-License-Identifier: MIT
  */
+
 namespace OC\Core\Command\Background;
 
 use OCP\IAppConfig;
-
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

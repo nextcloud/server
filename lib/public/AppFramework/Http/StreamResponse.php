@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\AppFramework\Http;
 
 use OCP\AppFramework\Http;
@@ -32,7 +33,6 @@ class StreamResponse extends Response implements ICallbackResponse {
 
 		$this->filePath = $filePath;
 	}
-
 
 	/**
 	 * Streams the file using readfile

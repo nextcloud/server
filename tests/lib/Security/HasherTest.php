@@ -94,11 +94,8 @@ class HasherTest extends \Test\TestCase {
 			['password', '2|$argon2id$v=19$m=65536,t=4,p=1$V3ovTHlvc0Eyb24xenVRNQ$iY/A0Yf24c2DToedj2rj9+KeoJBGsJYQOlJMoa0SFXk', false],
 			['password', '2|$argon2id$v=19$m=65536,t=4,p=1$NlYuMlQ0ODIudTRkZDhYUw$/Z71ckOIuydujedUGK73iXC9vbLzlH/iXkG9+gGgn+c', false],
 			['password', '2|$argon2id$v=19$m=65536,t=4,p=1$b09kNFZTZWFjS05aTkl6ZA$llE4TnIYYrC0H7wkTL1JsIwAAgoMJERlqtFcHHQcXTs', false],
-
 		];
 	}
-
-
 
 	/** @var Hasher */
 	protected $hasher;
@@ -130,7 +127,6 @@ class HasherTest extends \Test\TestCase {
 		$relativePath = self::invokePrivate($this->hasher, 'splitHash', [$hash]);
 		$this->assertSame($expected, $relativePath);
 	}
-
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('hashProviders70_71')]
 	public function testVerify($password, $hash, $expected): void {
@@ -183,7 +179,6 @@ class HasherTest extends \Test\TestCase {
 			$newAlg = PASSWORD_ARGON2ID;
 			$argon2 = 2 . '|' . password_hash($message, PASSWORD_ARGON2ID, []);
 		}
-
 
 		$this->assertTrue($this->hasher->verify($message, $blowfish, $newHash));
 		$this->assertTrue($this->hasher->verify($message, $argon2));

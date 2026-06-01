@@ -426,7 +426,6 @@ class RequestHandlerController extends Controller {
 		return $uid;
 	}
 
-
 	/**
 	 * confirm that the value related to $key entry from the payload is in format userid@hostname
 	 * and compare hostname with the origin of the signed request.

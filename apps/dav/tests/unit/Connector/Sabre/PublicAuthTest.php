@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Connector;
 
 use OCA\DAV\Connector\Sabre\PublicAuth;
@@ -227,7 +228,6 @@ class PublicAuthTest extends \Test\TestCase {
 		$this->assertFalse($result);
 	}
 
-
 	public function testSharePasswordRemote(): void {
 		$this->request->method('getPathInfo')
 			->willReturn('/dav/files/GX9HSGQrGE');
@@ -351,7 +351,6 @@ class PublicAuthTest extends \Test\TestCase {
 
 		$this->assertFalse($result);
 	}
-
 
 	public function testSharePasswordMailInvalidSession(): void {
 		$this->request->method('getPathInfo')

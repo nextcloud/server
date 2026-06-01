@@ -85,7 +85,6 @@ class RegistryTest extends TestCase {
 		$this->dao->expects($this->once())->method('persist')->with('p1', 'user123',
 			false);
 
-
 		$this->dispatcher->expects($this->once())
 			->method('dispatch')
 			->with(

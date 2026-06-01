@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Preview;
 
 use OC\Core\AppInfo\ConfigLexicon;
@@ -89,7 +90,6 @@ class Generator {
 			'mode' => $mode,
 			'mimeType' => $mimeType,
 		]);
-
 
 		// since we only ask for one preview, and the generate method return the last one it created, it returns the one we want
 		return $this->generatePreviews($file, [$specification], $mimeType, $cacheResult);

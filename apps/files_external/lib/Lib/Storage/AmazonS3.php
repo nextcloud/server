@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Lib\Storage;
 
 use Aws\S3\Exception\S3Exception;
@@ -179,7 +180,6 @@ class AmazonS3 extends Common {
 			throw $e;
 		}
 
-
 		$this->directoryCache[$path] = false;
 		return false;
 	}
@@ -230,7 +230,6 @@ class AmazonS3 extends Common {
 	public function file_exists(string $path): bool {
 		return $this->filetype($path) !== false;
 	}
-
 
 	#[\Override]
 	public function rmdir(string $path): bool {

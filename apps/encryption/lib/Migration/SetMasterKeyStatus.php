@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Encryption\Migration;
 
 use OCP\IConfig;
@@ -16,7 +17,6 @@ use OCP\Migration\IRepairStep;
  * @package OCA\Files_Sharing\Migration
  */
 class SetMasterKeyStatus implements IRepairStep {
-
 
 	public function __construct(
 		private IConfig $config,

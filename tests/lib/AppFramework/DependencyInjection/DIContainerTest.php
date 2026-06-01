@@ -35,7 +35,6 @@ class DIContainerTest extends \Test\TestCase {
 			->getMock();
 	}
 
-
 	public function testProvidesRequest(): void {
 		$this->assertTrue(isset($this->container['Request']));
 	}
@@ -48,7 +47,6 @@ class DIContainerTest extends \Test\TestCase {
 		$this->assertTrue(isset($this->container['AppName']));
 		$this->assertTrue(isset($this->container['appName']));
 	}
-
 
 	public function testAppNameIsSetCorrectly(): void {
 		$this->assertEquals('name', $this->container['AppName']);

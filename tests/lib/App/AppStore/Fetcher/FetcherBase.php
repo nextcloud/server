@@ -601,7 +601,6 @@ abstract class FetcherBase extends TestCase {
 		$this->assertSame($expected, $this->fetcher->get());
 	}
 
-
 	public function testFetchAfterUpgradeNoETag(): void {
 		$this->config->method('getSystemValueString')
 			->willReturnCallback(function ($key, $default) {

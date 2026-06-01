@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace Test\Repair\Owncloud;
 
 use OC\Repair\Owncloud\CleanPreviews;
@@ -83,7 +84,6 @@ class CleanPreviewsTest extends TestCase {
 			[CleanPreviewsBackgroundJob::class, ['uid' => 'user2']],
 		], $jobListCalls);
 	}
-
 
 	public function testRunAlreadyDone(): void {
 		$this->userManager->expects($this->never())

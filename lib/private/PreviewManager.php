@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use Closure;
@@ -59,7 +60,6 @@ use OCP\Preview\IProviderV2;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
-
 use function array_key_exists;
 
 /**
@@ -364,7 +364,6 @@ class PreviewManager implements IPreview {
 			if (!is_string($movieBinary)) {
 				$movieBinary = $this->binaryFinder->findBinaryPath('ffmpeg');
 			}
-
 
 			if (is_string($movieBinary)) {
 				$this->registerCoreProvider(Movie::class, '/video\/.*/', ['movieBinary' => $movieBinary]);

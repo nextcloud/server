@@ -216,7 +216,6 @@ class Storage {
 		$versionManager->createVersion($user, $file);
 	}
 
-
 	/**
 	 * mark file as deleted so that we can remove the versions if the file is gone
 	 * @param string $path

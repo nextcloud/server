@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\DAV\Sharing\Xml;
 
 use OCA\DAV\DAV\Sharing\Plugin;
@@ -42,7 +43,6 @@ class ShareRequest implements XmlDeserializable {
 
 		foreach ($elements as $elem) {
 			switch ($elem['name']) {
-
 				case '{' . Plugin::NS_OWNCLOUD . '}set':
 					$sharee = $elem['value'];
 

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP\Tests;
 
 use OC\User\Backend;
@@ -698,7 +699,6 @@ class User_LDAPTest extends TestCase {
 		$this->assertEquals($dataDir . '/susannah/', $result);
 	}
 
-
 	public function testGetHomeNoPath(): void {
 		$this->expectException(\Exception::class);
 
@@ -1228,7 +1228,6 @@ class User_LDAPTest extends TestCase {
 			});
 	}
 
-
 	public function testSetPasswordInvalid(): void {
 		$this->expectException(HintException::class);
 		$this->expectExceptionMessage('Password fails quality checking policy');
@@ -1271,7 +1270,6 @@ class User_LDAPTest extends TestCase {
 
 		$this->assertFalse(\OC_User::setPassword('roland', 'dt12234$'));
 	}
-
 
 	public function testSetPasswordWithInvalidUser(): void {
 		$this->expectException(\Exception::class);
@@ -1372,7 +1370,6 @@ class User_LDAPTest extends TestCase {
 
 		$this->assertEquals($newDisplayName, $this->backend->setDisplayName('uid', $newDisplayName));
 	}
-
 
 	public function testSetDisplayNameErrorWithPlugin(): void {
 		$this->expectException(HintException::class);

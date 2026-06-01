@@ -28,7 +28,6 @@ class TestLexicon_W implements ILexicon {
 		return [
 			new Entry('key1', ValueType::STRING, 'abcde', 'test key', true, IAppConfig::FLAG_SENSITIVE),
 			new Entry('key2', ValueType::INT, 12345, 'test key', false)
-
 		];
 	}
 

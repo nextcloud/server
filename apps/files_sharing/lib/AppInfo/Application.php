@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\AppInfo;
 
 use OC\Group\DisplayNameCache as GroupDisplayNameCache;
@@ -140,7 +141,6 @@ class Application extends App implements IBootstrap {
 
 		Helper::registerHooks();
 	}
-
 
 	public function registerMountProviders(IMountProviderCollection $mountProviderCollection, MountProvider $mountProvider, ExternalMountProvider $externalMountProvider): void {
 		$mountProviderCollection->registerProvider($mountProvider);

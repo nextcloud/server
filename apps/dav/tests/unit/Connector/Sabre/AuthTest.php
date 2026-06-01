@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
@@ -186,7 +187,6 @@ class AuthTest extends TestCase {
 		$this->assertFalse(self::invokePrivate($this->auth, 'validateUserPass', ['MyTestUser', 'MyTestPassword']));
 	}
 
-
 	public function testValidateUserPassWithPasswordLoginForbidden(): void {
 		$this->expectException(PasswordLoginForbidden::class);
 
@@ -278,7 +278,6 @@ class AuthTest extends TestCase {
 		$this->auth->check($request, $response);
 	}
 
-
 	public function testAuthenticateAlreadyLoggedInWithoutTwoFactorChallengePassed(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotAuthenticated::class);
 		$this->expectExceptionMessage('2FA challenge not passed.');
@@ -320,7 +319,6 @@ class AuthTest extends TestCase {
 			->willReturn(true);
 		$this->auth->check($request, $response);
 	}
-
 
 	public function testAuthenticateAlreadyLoggedInWithoutCsrfTokenAndIncorrectlyDavAuthenticated(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotAuthenticated::class);
@@ -461,7 +459,6 @@ class AuthTest extends TestCase {
 		$response = $this->auth->check($server->httpRequest, $server->httpResponse);
 		$this->assertEquals([false, 'No \'Authorization: Basic\' header found. Either the client didn\'t send one, or the server is misconfigured'], $response);
 	}
-
 
 	public function testAuthenticateNoBasicAuthenticateHeadersProvidedWithAjax(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotAuthenticated::class);

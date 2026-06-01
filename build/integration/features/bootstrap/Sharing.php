@@ -13,7 +13,6 @@ use Psr\Http\Message\ResponseInterface;
 
 require __DIR__ . '/autoload.php';
 
-
 trait Sharing {
 	use Provisioning;
 

@@ -105,7 +105,6 @@ class LoginControllerTest extends TestCase {
 				return vsprintf($text, $parameters);
 			});
 
-
 		$this->request->method('getRemoteAddress')
 			->willReturn('1.2.3.4');
 		$this->request->method('getHeader')

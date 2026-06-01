@@ -35,7 +35,6 @@ use Sabre\DAV\Xml\Property\Href;
 use Sabre\DAV\Xml\Property\LocalHref;
 use Sabre\Xml\ParseException;
 use Sabre\Xml\Service as XmlService;
-
 use function array_intersect;
 
 class CustomPropertiesBackend implements BackendInterface {

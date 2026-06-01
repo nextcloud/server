@@ -170,7 +170,6 @@ interface IAccountManager {
 		self::PROPERTY_WEBSITE,
 	];
 
-
 	/**
 	 * @since 22.0.0
 	 */

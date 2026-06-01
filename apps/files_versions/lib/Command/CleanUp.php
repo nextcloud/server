@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Versions\Command;
 
 use OCA\Files_Versions\Db\VersionsMapper;
@@ -43,7 +44,6 @@ class CleanUp extends Command {
 				'only delete versions of this path, e.g. --path="/alice/files/Music"'
 			);
 	}
-
 
 	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
@@ -97,7 +97,6 @@ class CleanUp extends Command {
 
 		return self::SUCCESS;
 	}
-
 
 	/**
 	 * delete versions for the given user

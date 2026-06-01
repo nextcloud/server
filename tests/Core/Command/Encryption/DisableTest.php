@@ -39,7 +39,6 @@ class DisableTest extends TestCase {
 		$this->command = new Disable($config);
 	}
 
-
 	public static function dataDisable(): array {
 		return [
 			['yes', true, 'Encryption disabled'],

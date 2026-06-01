@@ -376,7 +376,6 @@ class Manager {
 						'sharedSecret' => $externalShare->getShareToken(),
 						'message' => 'Recipient accept the share'
 					]
-
 				);
 				return $this->cloudFederationProviderManager->sendNotification($externalShare->getRemote(), $notification);
 			case 'decline':

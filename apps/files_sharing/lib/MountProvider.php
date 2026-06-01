@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing;
 
 use Exception;
@@ -26,7 +27,6 @@ use OCP\Share\IManager;
 use OCP\Share\IShare;
 use Override;
 use Psr\Log\LoggerInterface;
-
 use function count;
 
 class MountProvider implements IMountProvider, IAuthoritativeMountProvider, IPartialMountProvider {

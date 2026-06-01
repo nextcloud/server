@@ -187,9 +187,6 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		return $qb->getLastInsertId();
 	}
 
-
-
-
 	public function testGetShareByIdNotExist(): void {
 		$this->expectException(ShareNotFound::class);
 
@@ -1639,7 +1636,6 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertEquals('user2', $share2['share_with']);
 	}
 
-
 	public function testDeleteFromSelfGroupUserNotInGroup(): void {
 		$qb = $this->dbConn->getQueryBuilder();
 		$stmt = $qb->insert('share')
@@ -1681,7 +1677,6 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$this->provider->deleteFromSelf($share, 'user2');
 	}
-
 
 	public function testDeleteFromSelfGroupDoesNotExist(): void {
 		$this->expectException(ProviderException::class);
@@ -1773,7 +1768,6 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertCount(0, $shares);
 	}
 
-
 	public function testDeleteFromSelfUserNotRecipient(): void {
 		$this->expectException(ProviderException::class);
 		$this->expectExceptionMessage('Recipient does not match');
@@ -1815,7 +1809,6 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$this->provider->deleteFromSelf($share, $user3);
 	}
-
 
 	public function testDeleteFromSelfLink(): void {
 		$this->expectException(ProviderException::class);
@@ -2203,7 +2196,6 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertSame('user4', $shares[1]['uid_initiator']);
 		$this->assertSame('user5', $shares[1]['uid_owner']);
 		$this->assertSame(0, (int)$shares[1]['permissions']);
-
 
 		$stmt->closeCursor();
 	}
@@ -3032,7 +3024,6 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertEquals('token5', $share->getToken());
 		$this->assertEquals('myTarget5', $share->getTarget());
 	}
-
 
 	public function testGetSharesByPath(): void {
 		$qb = $this->dbConn->getQueryBuilder();

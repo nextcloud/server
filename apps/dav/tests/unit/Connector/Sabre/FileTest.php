@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\AppFramework\Http\Request;
@@ -100,7 +101,6 @@ class FileTest extends TestCase {
 		fseek($stream, 0);
 		return $stream;
 	}
-
 
 	public static function fopenFailuresProvider(): array {
 		return [
@@ -625,7 +625,6 @@ class FileTest extends TestCase {
 		$file->setName("/i\nvalid");
 	}
 
-
 	public function testUploadAbort(): void {
 		// setup
 		/** @var View&MockObject */
@@ -675,7 +674,6 @@ class FileTest extends TestCase {
 		$this->assertEmpty($this->listPartFiles($view, ''), 'No stray part files');
 	}
 
-
 	public function testDeleteWhenAllowed(): void {
 		// setup
 		/** @var View&MockObject */
@@ -701,7 +699,6 @@ class FileTest extends TestCase {
 		$file->delete();
 	}
 
-
 	public function testDeleteThrowsWhenDeletionNotAllowed(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -724,7 +721,6 @@ class FileTest extends TestCase {
 		// action
 		$file->delete();
 	}
-
 
 	public function testDeleteThrowsWhenDeletionFailed(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
@@ -753,7 +749,6 @@ class FileTest extends TestCase {
 		// action
 		$file->delete();
 	}
-
 
 	public function testDeleteThrowsWhenDeletionThrows(): void {
 		$this->expectException(Forbidden::class);
@@ -931,7 +926,6 @@ class FileTest extends TestCase {
 		];
 	}
 
-
 	public function testGetFopenFails(): void {
 		$this->expectException(\Sabre\DAV\Exception\ServiceUnavailable::class);
 
@@ -953,7 +947,6 @@ class FileTest extends TestCase {
 		$file->get();
 	}
 
-
 	public function testGetFopenThrows(): void {
 		$this->expectException(Forbidden::class);
 
@@ -974,7 +967,6 @@ class FileTest extends TestCase {
 
 		$file->get();
 	}
-
 
 	public function testGetThrowsIfNoPermission(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);

@@ -280,7 +280,6 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 		$this->assertSame(Http::STATUS_OK, $result->getStatus());
 	}
 
-
 	public function testGenerateAppPasswordInvalidStateToken(): void {
 		$this->session->method('get')
 			->willReturnCallback(function ($name) {

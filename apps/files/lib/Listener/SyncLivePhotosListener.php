@@ -163,7 +163,6 @@ class SyncLivePhotosListener implements IEventListener {
 		$this->pendingRenames = array_diff($this->pendingRenames, [$sourceFile->getId()]);
 	}
 
-
 	/**
 	 * handle copy, we already know if it is doable from BeforeNodeCopiedEvent, so we just copy the linked file
 	 */

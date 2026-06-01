@@ -151,7 +151,6 @@ interface Node extends FileInfo {
 	#[\Override]
 	public function getEtag();
 
-
 	/**
 	 * Get the permissions of the file or folder as a combination of one or more of the following constants:
 	 *  - \OCP\Constants::PERMISSION_READ

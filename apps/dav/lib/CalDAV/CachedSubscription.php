@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CalDAV;
 
 use OCA\DAV\Exception\UnsupportedLimitOnInitialSyncException;
@@ -98,7 +99,6 @@ class CachedSubscription extends \Sabre\CalDAV\Calendar {
 		}
 		return parent::getOwner();
 	}
-
 
 	#[\Override]
 	public function delete() {

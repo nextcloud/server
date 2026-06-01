@@ -495,7 +495,6 @@ class CacheTest extends \Test\TestCase {
 
 		$this->cache->move($sourceFolder, $targetFolder);
 
-
 		$this->assertFalse($this->cache->inCache($sourceFolder));
 		$this->assertTrue($this->cache2->inCache($sourceFolder));
 		$this->assertTrue($this->cache->inCache($targetFolder));
@@ -514,7 +513,6 @@ class CacheTest extends \Test\TestCase {
 
 		$this->cache2->put('folder', $folderData);
 		$this->cache2->put('folder/sub', $data);
-
 
 		$this->cache->moveFromCache($this->cache2, 'folder', 'targetfolder');
 

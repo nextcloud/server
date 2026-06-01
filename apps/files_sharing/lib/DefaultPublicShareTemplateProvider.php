@@ -257,7 +257,6 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 			Util::addHeader('meta', ['property' => 'og:video:type', 'content' => $shareNode->getMimeType()]);
 		}
 
-
 		// Twitter Support: https://developer.x.com/en/docs/x-for-websites/cards/overview/markup
 		Util::addHeader('meta', ['property' => 'twitter:title', 'content' => $title]);
 		Util::addHeader('meta', ['property' => 'twitter:description', 'content' => $description]);

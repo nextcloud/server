@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files\Tests\Command;
 
 use OC\Files\View;
@@ -102,7 +103,6 @@ class DeleteOrphanedFilesTest extends TestCase {
 
 		$this->assertCount(1, $this->getFile($fileInfo->getId()), 'Asserts that file is still available');
 		$this->assertEquals(1, $this->getMountsCount($numericStorageId), 'Asserts that mount is still available');
-
 
 		$deletedRows = $this->connection->executeUpdate('DELETE FROM `*PREFIX*storages` WHERE `id` = ?', [$storageId]);
 		$this->assertNotNull($deletedRows, 'Asserts that storage got deleted');

@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV;
 
 use OCA\DAV\CalDAV\TipBroker;
@@ -226,7 +227,6 @@ class TipBrokerTest extends TestCase {
 		$this->assertEquals($mutatedCalendar->VEVENT->ORGANIZER->getValue(), $messages[1]->sender);
 		$this->assertEquals('mailto:attendee2@example.org', $messages[1]->recipient);
 	}
-
 
 	/**
 	 * Tests user converts existing singleton or recurring (base) event from attended to attendeless

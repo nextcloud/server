@@ -73,7 +73,6 @@ class DatabaseTest extends Backend {
 		$this->assertSame($user, $this->backend->checkPassword($user, 'newpass'));
 	}
 
-
 	public function testVerifyPasswordEventFail(): void {
 		$this->expectException(HintException::class);
 		$this->expectExceptionMessage('password change failed');

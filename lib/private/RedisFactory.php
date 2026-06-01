@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use OCP\Diagnostics\IEventLogger;
@@ -97,7 +98,6 @@ class RedisFactory {
 					$this->instance->connect($host, $port, $timeout, null, 0, $readTimeout);
 				}
 			}
-
 
 			// Auth if configured
 			if ($auth !== null) {

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\DAV\Sharing;
 
 use OCA\DAV\CalDAV\CalDavBackend;
@@ -130,7 +131,6 @@ class Plugin extends ServerPlugin {
 		$message = $this->server->xml->parse($requestBody, $request->getUrl(), $documentType);
 
 		switch ($documentType) {
-
 			// Dealing with the 'share' document, which modified invitees on a
 			// calendar.
 			case '{' . self::NS_OWNCLOUD . '}share':

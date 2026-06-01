@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Controller;
 
 use Generator;
@@ -360,7 +361,6 @@ class ShareesAPIController extends OCSController {
 	protected function isRemoteGroupSharingAllowed(): bool {
 		return $this->federatedShareProvider->isOutgoingServer2serverGroupShareEnabled();
 	}
-
 
 	/**
 	 * Generates a bunch of pagination links for the current page

@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Files\ObjectStore;
 
 use Aws\Command;
@@ -125,7 +126,6 @@ trait S3ObjectTrait {
 		$this->getConnection()->putObject($args);
 	}
 
-
 	/**
 	 * Multipart upload helper that tries to avoid orphaned fragments in S3
 	 *
@@ -216,7 +216,6 @@ trait S3ObjectTrait {
 		$psrStream = Utils::streamFor($stream, [
 			'size' => $metaData['size'] ?? null,
 		]);
-
 
 		$size = $psrStream->getSize();
 		if ($size === null || !$canSeek) {

@@ -107,7 +107,6 @@ class CalDavBackendTest extends AbstractCalDavBackend {
 			], [
 				self::UNIT_TEST_USER1,
 			]],
-
 		];
 	}
 
@@ -263,7 +262,6 @@ EOD;
 		$calendarObjects = $this->backend->getCalendarObjects($calendarId);
 		$this->assertCount(0, $calendarObjects);
 	}
-
 
 	public function testMultipleCalendarObjectsWithSameUID(): void {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
@@ -445,7 +443,6 @@ CLASS:PUBLIC
 END:VEVENT
 END:VCALENDAR
 EOD;
-
 
 		$this->backend->createCalendarObject($calendarId, $uri, $calData);
 
@@ -776,7 +773,6 @@ EOD;
 			'search-term' => 'Test',
 		]);
 		$this->assertEquals(count($search1), 1);
-
 
 		// update the card
 		$calData = <<<'EOD'

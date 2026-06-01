@@ -22,7 +22,6 @@ class UpdateThemeTest extends TestCase {
 	/** @var ICacheFactory */
 	protected $cacheFactory;
 
-
 	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $consoleInput;
 	/** @var \PHPUnit\Framework\MockObject\MockObject */

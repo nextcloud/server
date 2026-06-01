@@ -7,7 +7,6 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-
 namespace OC\Core\Controller;
 
 use OC\Core\ResponseDefinitions;
@@ -370,7 +369,6 @@ class TaskProcessingApiController extends OCSController {
 	public function deleteTaskExAppEndpoint(int $id): DataResponse {
 		return $this->handleDeleteTaskInternal($id);
 	}
-
 
 	/**
 	 * Returns tasks for the current user filtered by the appId and optional customId
