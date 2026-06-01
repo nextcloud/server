@@ -1377,6 +1377,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Core\\Command\\Background\\Job' => __DIR__ . '/../../..' . '/core/Command/Background/Job.php',
         'OC\\Core\\Command\\Background\\JobBase' => __DIR__ . '/../../..' . '/core/Command/Background/JobBase.php',
         'OC\\Core\\Command\\Background\\JobWorker' => __DIR__ . '/../../..' . '/core/Command/Background/JobWorker.php',
+        'OC\\Core\\Command\\Background\\JobsHistory' => __DIR__ . '/../../..' . '/core/Command/Background/JobsHistory.php',
         'OC\\Core\\Command\\Background\\ListCommand' => __DIR__ . '/../../..' . '/core/Command/Background/ListCommand.php',
         'OC\\Core\\Command\\Background\\Mode' => __DIR__ . '/../../..' . '/core/Command/Background/Mode.php',
         'OC\\Core\\Command\\Background\\RunningJobs' => __DIR__ . '/../../..' . '/core/Command/Background/RunningJobs.php',

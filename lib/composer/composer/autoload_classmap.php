@@ -1336,6 +1336,7 @@ return array(
     'OC\\Core\\Command\\Background\\Job' => $baseDir . '/core/Command/Background/Job.php',
     'OC\\Core\\Command\\Background\\JobBase' => $baseDir . '/core/Command/Background/JobBase.php',
     'OC\\Core\\Command\\Background\\JobWorker' => $baseDir . '/core/Command/Background/JobWorker.php',
+    'OC\\Core\\Command\\Background\\JobsHistory' => $baseDir . '/core/Command/Background/JobsHistory.php',
     'OC\\Core\\Command\\Background\\ListCommand' => $baseDir . '/core/Command/Background/ListCommand.php',
     'OC\\Core\\Command\\Background\\Mode' => $baseDir . '/core/Command/Background/Mode.php',
     'OC\\Core\\Command\\Background\\RunningJobs' => $baseDir . '/core/Command/Background/RunningJobs.php',

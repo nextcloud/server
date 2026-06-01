@@ -18,6 +18,7 @@ use OCP\Server;
 use OCP\Snowflake\ISnowflakeDecoder;
 use OCP\Snowflake\ISnowflakeGenerator;
 use Override;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 /**
@@ -40,6 +41,7 @@ class JobRunsTest extends TestCase {
 			Server::get(ISnowflakeGenerator::class),
 			Server::get(ISnowflakeDecoder::class),
 			$this->registry,
+			$this->createMock(LoggerInterface::class),
 		);
 	}
 
@@ -86,5 +88,24 @@ class JobRunsTest extends TestCase {
 			++$runningJobs;
 		}
 		$this->assertGreaterThan(0, $runningJobs);
+	}
+
+	public function testCompletedJobs(): void {
+		$myPid = 1337;
+		$myClass = DummyJob::class;
+
+		$runId = $this->runs->started($this->registry->getId(DummyJob::class), $myPid);
+		$this->runs->finished($runId, 12345, 67890 * 1024, JobStatus::FAILED);
+		$runId = $this->runs->started($this->registry->getId(DummyJob::class), $myPid);
+		$this->runs->finished($runId, 12345, 67890 * 1024, JobStatus::SUCCEEDED);
+		$runId = $this->runs->started($this->registry->getId(DummyJob::class), $myPid);
+		$this->runs->finished($runId, 12345, 67890 * 1024, JobStatus::CRASHED);
+
+		$completedJobs = 0;
+		foreach ($this->runs->runningJobs() as $job) {
+			$this->assertInstanceOf(JobRun::class, $job);
+			++$completedJobs;
+		}
+		$this->assertGreaterThan(0, $completedJobs);
 	}
 }

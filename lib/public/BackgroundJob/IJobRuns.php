@@ -22,4 +22,13 @@ interface IJobRuns {
 	 * @since 34.0.0
 	 */
 	public function runningJobs(int $limit = 200): \Generator;
+
+	/**
+	 * List of completed jobs
+	 *
+	 * @param list<JobStatus> $statuses
+	 * @param list<class-string<IJob>> $classes
+	 * @since 34.0.0
+	 */
+	public function completedJobs(array $statuses = [], array $classes = [], int $limit = 200): \Generator;
 }
