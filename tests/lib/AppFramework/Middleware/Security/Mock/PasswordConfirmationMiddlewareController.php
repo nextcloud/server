@@ -32,6 +32,35 @@ class PasswordConfirmationMiddlewareController extends Controller {
 	public function testAttribute() {
 	}
 
+	// Non-strict — for backend capability and null-user tests
+	#[PasswordConfirmationRequired]
+	public function testLegacyBackendExempt() {}
+
+	#[PasswordConfirmationRequired]
+	public function testIPasswordConfirmationBackendExempt() {}
+
+	#[PasswordConfirmationRequired]
+	public function testIPasswordConfirmationBackendNotExempt() {}
+
+	#[PasswordConfirmationRequired]
+	public function testNullUser() {}
+
+	// Strict — one controller method per strict-mode test
+	#[PasswordConfirmationRequired(strict: true)]
+	public function testStrictModeValidCredentials() {}
+
+	#[PasswordConfirmationRequired(strict: true)]
+	public function testStrictModeMissingAuthHeader() {}
+
+	#[PasswordConfirmationRequired(strict: true)]
+	public function testStrictModeMalformedBase64() {}
+
+	#[PasswordConfirmationRequired(strict: true)]
+	public function testStrictModeWrongPassword() {}
+
+	#[PasswordConfirmationRequired(strict: true)]
+	public function testStrictModeLegacyBackendExempt() {}
+
 	#[PasswordConfirmationRequired]
 	public function testSSO() {
 	}

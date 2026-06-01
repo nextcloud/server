@@ -40,8 +40,17 @@ use OCP\Util;
 
 class JSConfigHelper {
 
-	/** @var array user back-ends excluded from password verification */
-	private $excludedUserBackEnds = ['user_saml' => true, 'user_globalsiteselector' => true];
+	/**
+	 * Backends that cannot participate in password confirmation are exempt from both
+	 * strict and non-strict password confirmation checks. New backends should prefer
+	 * implementing IPasswordConfirmationBackend instead of being added here.
+	 *
+	 * @var array<string, true>
+	 */
+	private array $excludedUserBackEnds = [
+		'user_saml' => true,
+		'user_globalsiteselector' => true,
+	];
 
 	public function __construct(
 		protected ServerVersion $serverVersion,
@@ -63,18 +72,15 @@ class JSConfigHelper {
 	}
 
 	public function getConfig(): string {
-		$userBackendAllowsPasswordConfirmation = true;
+		$userCanUsePasswordConfirmation = false;
+		$canUserValidatePassword = $this->canUserValidatePassword();
+
 		if ($this->currentUser !== null) {
 			$uid = $this->currentUser->getUID();
 
-			$backend = $this->currentUser->getBackend();
-			if ($backend instanceof IPasswordConfirmationBackend) {
-				$userBackendAllowsPasswordConfirmation = $backend->canConfirmPassword($uid) && $this->canUserValidatePassword();
-			} elseif (isset($this->excludedUserBackEnds[$this->currentUser->getBackendClassName()])) {
-				$userBackendAllowsPasswordConfirmation = false;
-			} else {
-				$userBackendAllowsPasswordConfirmation = $this->canUserValidatePassword();
-			}
+			$userCanUsePasswordConfirmation =
+				$this->canBackendConfirmPassword($this->currentUser)
+				&& $canUserValidatePassword;
 		} else {
 			$uid = null;
 		}
@@ -126,7 +132,7 @@ class JSConfigHelper {
 		}
 
 		if ($this->currentUser instanceof IUser) {
-			if ($this->canUserValidatePassword()) {
+			if ($canUserValidatePassword) {
 				$lastConfirmTimestamp = $this->session->get('last-password-confirm');
 				if (!is_int($lastConfirmTimestamp)) {
 					$lastConfirmTimestamp = 0;
@@ -174,7 +180,7 @@ class JSConfigHelper {
 		$array = [
 			'_oc_debug' => $this->config->getSystemValue('debug', false) ? 'true' : 'false',
 			'_oc_isadmin' => $uid !== null && $this->groupManager->isAdmin($uid) ? 'true' : 'false',
-			'backendAllowsPasswordConfirmation' => $userBackendAllowsPasswordConfirmation ? 'true' : 'false',
+			'backendAllowsPasswordConfirmation' => $userCanUsePasswordConfirmation ? 'true' : 'false',
 			'oc_dataURL' => is_string($dataLocation) ? '"' . $dataLocation . '"' : 'false',
 			'_oc_webroot' => '"' . \OC::$WEBROOT . '"',
 			'_oc_appswebroots' => str_replace('\\/', '/', json_encode($apps_paths)), // Ugly unescape slashes waiting for better solution
@@ -304,10 +310,31 @@ class JSConfigHelper {
 		try {
 			$token = $this->tokenProvider->getToken($this->session->getId());
 		} catch (ExpiredTokenException|WipeTokenException|InvalidTokenException|SessionNotAvailableException) {
-			// actually we do not know, so we fall back to this statement
+			// If token lookup fails, fall back to allowing password validation in the UI.
 			return true;
 		}
 		$scope = $token->getScopeAsArray();
 		return !isset($scope[IToken::SCOPE_SKIP_PASSWORD_VALIDATION]) || $scope[IToken::SCOPE_SKIP_PASSWORD_VALIDATION] === false;
+	}
+
+	private function canBackendConfirmPassword(?IUser $user): bool {
+		if ($user === null) {
+			return false;
+		}
+
+		$backend = $user->getBackend();
+		if (
+			$backend instanceof IPasswordConfirmationBackend
+			&& !$backend->canConfirmPassword($user->getUID())
+		) {
+			return false;
+		}
+
+		return !$this->isLegacyBackendExcludedFromPasswordConfirmation($user);
+	}
+
+	private function isLegacyBackendExcludedFromPasswordConfirmation(?IUser $user): bool {
+		$backendClassName = $user?->getBackendClassName() ?? '';
+		return isset($this->excludedUserBackEnds[$backendClassName]);
 	}
 }

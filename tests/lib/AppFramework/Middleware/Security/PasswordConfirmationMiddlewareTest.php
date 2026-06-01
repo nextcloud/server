@@ -19,6 +19,7 @@ use OCP\ISession;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Server;
+use OCP\User\Backend\IPasswordConfirmationBackend;
 use Psr\Log\LoggerInterface;
 use Test\AppFramework\Middleware\Security\Mock\PasswordConfirmationMiddlewareController;
 use Test\TestCase;
@@ -93,8 +94,8 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 		$this->middleware->beforeController($this->controller, __FUNCTION__);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataProvider')]
-	public function testAnnotation($backend, $lastConfirm, $currentTime, $exception): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataProviderNonExemptBackend')]
+	public function testAnnotation(string $backend, int $lastConfirm, int $currentTime, bool $exception): void {
 		$this->reflector->reflect($this->controller, __FUNCTION__);
 
 		$this->user->method('getBackendClassName')
@@ -126,8 +127,8 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 		$this->assertSame($exception, $thrown);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataProvider')]
-	public function testAttribute($backend, $lastConfirm, $currentTime, $exception): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataProviderNonExemptBackend')]
+	public function testAttribute(string $backend, int $lastConfirm, int $currentTime, bool $exception): void {
 		$this->reflector->reflect($this->controller, __FUNCTION__);
 
 		$this->user->method('getBackendClassName')
@@ -159,17 +160,241 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 		$this->assertSame($exception, $thrown);
 	}
 
-
-
-	public static function dataProvider(): array {
+	public static function dataProviderNonExemptBackend(): array {
 		return [
 			['foo', 2000, 4000, true],
 			['foo', 2000, 3000, false],
-			['user_saml', 2000, 4000, false],
-			['user_saml', 2000, 3000, false],
 			['foo', 2000, 3815, false],
 			['foo', 2000, 3816, true],
 		];
+	}
+
+	/**
+	 * @dataProvider dataProviderLegacyExemptBackends
+	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataProviderLegacyExemptBackends')]
+	public function testLegacyBackendExempt(string $backend): void {
+		$this->reflector->reflect($this->controller, __FUNCTION__);
+
+		$this->user->method('getBackendClassName')
+			->willReturn($backend);
+		$this->userSession->method('getUser')
+			->willReturn($this->user);
+
+		// Backend is exempt — getToken() must never be called
+		$this->tokenProvider->expects($this->never())
+			->method('getToken');
+
+		$this->middleware->beforeController($this->controller, __FUNCTION__);
+	}
+
+	public static function dataProviderLegacyExemptBackends(): array {
+		return [
+			['user_saml'],
+			['user_globalsiteselector'],
+		];
+	}
+
+	public function testIPasswordConfirmationBackendExempt(): void {
+		$this->reflector->reflect($this->controller, __FUNCTION__);
+
+		$backend = $this->createMock(IPasswordConfirmationBackend::class);
+		$backend->method('canConfirmPassword')->with('uid')->willReturn(false);
+
+		$this->user->method('getBackend')->willReturn($backend);
+		$this->user->method('getUID')->willReturn('uid');
+		$this->userSession->method('getUser')->willReturn($this->user);
+
+		// Exempt before token check
+		$this->tokenProvider->expects($this->never())->method('getToken');
+
+		$this->middleware->beforeController($this->controller, __FUNCTION__);
+	}
+
+	public function testIPasswordConfirmationBackendNotExempt(): void {
+		static $sessionId = 'mySession1d';
+		$this->reflector->reflect($this->controller, __FUNCTION__);
+
+		$backend = $this->createMock(IPasswordConfirmationBackend::class);
+		$backend->method('canConfirmPassword')->with('uid')->willReturn(true);
+
+		$this->user->method('getBackend')->willReturn($backend);
+		$this->user->method('getUID')->willReturn('uid');
+		$this->user->method('getBackendClassName')->willReturn('capable_backend');
+		$this->userSession->method('getUser')->willReturn($this->user);
+
+		$this->session->method('getId')->willReturn($sessionId);
+		$this->session->method('get')->with('last-password-confirm')->willReturn(2000);
+		$this->timeFactory->method('getTime')->willReturn(3000); // within window — no exception
+
+		$token = $this->createMock(IToken::class);
+		$token->method('getScopeAsArray')->willReturn([]);
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->with($sessionId)
+			->willReturn($token);
+
+		$this->middleware->beforeController($this->controller, __FUNCTION__);
+	}
+
+	public function testNullUser(): void {
+		static $sessionId = 'mySession1d';
+		$this->reflector->reflect($this->controller, __FUNCTION__);
+
+		$this->userSession->method('getUser')->willReturn(null);
+
+		$this->session->method('getId')->willReturn($sessionId);
+		$this->session->method('get')->with('last-password-confirm')->willReturn(2000);
+		$this->timeFactory->method('getTime')->willReturn(3000); // within window — no exception
+
+		$token = $this->createMock(IToken::class);
+		$token->method('getScopeAsArray')->willReturn([]);
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->with($sessionId)
+			->willReturn($token);
+
+		$this->middleware->beforeController($this->controller, __FUNCTION__);
+	}
+
+	public function testStrictModeValidCredentials(): void {
+		static $sessionId = 'mySession1d';
+		$this->reflector->reflect($this->controller, __FUNCTION__);
+
+		$this->user->method('getBackendClassName')->willReturn('foo');
+		$this->userSession->method('getUser')->willReturn($this->user);
+		$this->session->method('getId')->willReturn($sessionId);
+		$this->timeFactory->method('getTime')->willReturn(9999);
+
+		$token = $this->createMock(IToken::class);
+		$token->method('getScopeAsArray')->willReturn([]);
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->with($sessionId)
+			->willReturn($token);
+
+		$this->request->method('getHeader')
+			->with('Authorization')
+			->willReturn('Basic ' . base64_encode('user:correctpassword'));
+
+		$this->session->method('get')
+			->with('loginname')
+			->willReturn('user');
+
+		$loginUser = $this->createMock(IUser::class);
+		$this->userManager->expects($this->once())
+			->method('checkPassword')
+			->with('user', 'correctpassword')
+			->willReturn($loginUser);
+
+		// Timestamp must be written after successful strict confirmation
+		$this->session->expects($this->once())
+			->method('set')
+			->with('last-password-confirm', 9999);
+
+		$this->middleware->beforeController($this->controller, __FUNCTION__);
+	}
+
+	public function testStrictModeMissingAuthHeader(): void {
+		static $sessionId = 'mySession1d';
+		$this->reflector->reflect($this->controller, __FUNCTION__);
+
+		$this->user->method('getBackendClassName')->willReturn('foo');
+		$this->userSession->method('getUser')->willReturn($this->user);
+		$this->session->method('getId')->willReturn($sessionId);
+		$this->timeFactory->method('getTime')->willReturn(9999);
+
+		$token = $this->createMock(IToken::class);
+		$token->method('getScopeAsArray')->willReturn([]);
+		$this->tokenProvider->method('getToken')->willReturn($token);
+
+		$this->request->method('getHeader')
+			->with('Authorization')
+			->willReturn('');  // no header
+
+		$this->session->expects($this->never())->method('set');
+		$this->userManager->expects($this->never())->method('checkPassword');
+		$this->expectException(NotConfirmedException::class);
+		$this->middleware->beforeController($this->controller, __FUNCTION__);
+	}
+
+	/**
+	 * @dataProvider dataProviderMalformedAuthHeaders
+	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataProviderMalformedAuthHeaders')]
+	public function testStrictModeMalformedBase64(string $headerValue): void {
+		static $sessionId = 'mySession1d';
+		$this->reflector->reflect($this->controller, __FUNCTION__);
+
+		$this->user->method('getBackendClassName')->willReturn('foo');
+		$this->userSession->method('getUser')->willReturn($this->user);
+		$this->session->method('getId')->willReturn($sessionId);
+		$this->timeFactory->method('getTime')->willReturn(9999);
+
+		$token = $this->createMock(IToken::class);
+		$token->method('getScopeAsArray')->willReturn([]);
+		$this->tokenProvider->method('getToken')->willReturn($token);
+
+		$this->request->method('getHeader')
+			->with('Authorization')
+			->willReturn($headerValue);
+
+		$this->session->expects($this->never())->method('set');
+		$this->userManager->expects($this->never())->method('checkPassword');
+		$this->expectException(NotConfirmedException::class);
+		$this->middleware->beforeController($this->controller, __FUNCTION__);
+	}
+
+	public static function dataProviderMalformedAuthHeaders(): array {
+		return [
+			'invalid base64'       => ['Basic !!!notbase64!!!'],
+			'no colon in decoded'  => ['Basic ' . base64_encode('nodivider')],
+		];
+	}
+
+	public function testStrictModeWrongPassword(): void {
+		static $sessionId = 'mySession1d';
+		$this->reflector->reflect($this->controller, __FUNCTION__);
+
+		$this->user->method('getBackendClassName')->willReturn('foo');
+		$this->userSession->method('getUser')->willReturn($this->user);
+		$this->session->method('getId')->willReturn($sessionId);
+		$this->timeFactory->method('getTime')->willReturn(9999);
+
+		$token = $this->createMock(IToken::class);
+		$token->method('getScopeAsArray')->willReturn([]);
+		$this->tokenProvider->method('getToken')->willReturn($token);
+
+		$this->request->method('getHeader')
+			->with('Authorization')
+			->willReturn('Basic ' . base64_encode('user:wrongpassword'));
+
+		$this->session->method('get')
+			->with('loginname')
+			->willReturn('user');
+
+		$this->userManager->method('checkPassword')
+			->with('user', 'wrongpassword')
+			->willReturn(false);
+
+		$this->session->expects($this->never())->method('set');
+
+		$this->expectException(NotConfirmedException::class);
+		$this->middleware->beforeController($this->controller, __FUNCTION__);
+	}
+
+	public function testStrictModeLegacyBackendExempt(): void {
+		$this->reflector->reflect($this->controller, __FUNCTION__);
+
+		$this->user->method('getBackendClassName')->willReturn('user_saml');
+		$this->userSession->method('getUser')->willReturn($this->user);
+
+		// Must exit before reaching the auth header or token checks
+		$this->tokenProvider->expects($this->never())->method('getToken');
+		$this->request->expects($this->never())->method('getHeader');
+		$this->userManager->expects($this->never())->method('checkPassword');
+
+		$this->middleware->beforeController($this->controller, __FUNCTION__);
 	}
 
 	public function testSSO(): void {
