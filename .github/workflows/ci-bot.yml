@@ -1,0 +1,516 @@
+# SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+
+name: CI bot
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  pull-requests: write
+  actions: read
+
+concurrency:
+  group: ci-bot-${{ github.event.issue.number }}
+  cancel-in-progress: true
+
+jobs:
+  explain:
+    runs-on: ubuntu-latest-low
+
+    # Only on PR comments starting with /explain-ci
+    if: github.event.issue.pull_request != '' && startsWith(github.event.comment.body, '/explain-ci')
+
+    steps:
+      - name: Acknowledge command
+        uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5.0.0
+        with:
+          token: ${{ secrets.COMMAND_BOT_PAT }}
+          repository: ${{ github.event.repository.full_name }}
+          comment-id: ${{ github.event.comment.id }}
+          reactions: '+1'
+
+      - name: Post CI failure summary
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          github-token: ${{ secrets.COMMAND_BOT_PAT }}
+          script: |
+            const WORKFLOW_EXPLANATIONS = {
+              'Lint eslint': {
+                purpose: 'Checks JavaScript/TypeScript/Vue source files for ESLint rule violations.',
+                fix: [
+                  'Run `npm run lint` to see all violations.',
+                  'Run `npm run lint:fix` to auto-fix many of them, then review remaining errors manually.',
+                ],
+              },
+              'Lint stylelint': {
+                purpose: 'Checks CSS/SCSS/Vue style blocks for Stylelint rule violations.',
+                fix: [
+                  'Run `npm run stylelint` to see all violations.',
+                  'Run `npm run stylelint:fix` to auto-fix many of them.',
+                ],
+              },
+              'Lint php': {
+                purpose: 'Runs `php -l` across all PHP files to detect syntax errors.',
+                fix: [
+                  'Check the job log for the file and line number reported.',
+                  'Fix the PHP syntax error shown (missing bracket, comma, or invalid token).',
+                ],
+              },
+              'Lint php-cs': {
+                purpose: 'Enforces PHP coding-style rules defined in `.php-cs-fixer.dist.php`.',
+                fix: [
+                  'To preview what would change without modifying files: `composer run cs:check`',
+                  'To auto-fix all violations: `composer run cs:fix`',
+                  'Then review the diff with `git diff` and commit the formatted files.',
+                  'Prerequisites: run `composer install` from the server repository root at least once.',
+                ],
+              },
+              'PHPUnit SQLite': {
+                purpose: 'Runs the PHPUnit test suite against a SQLite database.',
+                fix: [
+                  'Run from the **server repository root** (no container needed — the script sets up its own environment):',
+                  '`NOCOVERAGE=1 ./autotest.sh sqlite lib/Path/To/SpecificTest.php`',
+                  'The path is relative to `tests/` — find it in the CI log, e.g. `Tests\\Files\\Cache\\CacheTest` → `lib/Files/Cache/CacheTest.php`.',
+                  'SQLite needs no external database — it is the easiest variant to run locally.',
+                  'To run a single test method: append `-- --filter testMethodName`.',
+                  'Prerequisites: PHP in your PATH, and `composer install` run at least once.',
+                ],
+              },
+              'PHPUnit MariaDB': {
+                purpose: 'Runs the PHPUnit test suite against a MariaDB database to catch DB-specific issues.',
+                flaky: true,
+                flakiness_note: 'Sporadic file-copy race condition in Files/Cache/Cache.php — same root cause as the MySQL variant.',
+                fix: [
+                  'Run from the **server repository root**. Two options:',
+                  '**With Docker** (auto-spins a MariaDB container): `USEDOCKER=1 NOCOVERAGE=1 ./autotest.sh mariadb lib/Path/To/SpecificTest.php`',
+                  '**With a local MariaDB**: ensure a `oc_autotest` user and database exist, then: `NOCOVERAGE=1 ./autotest.sh mariadb lib/Path/To/SpecificTest.php`',
+                  'Can\'t reproduce locally? Try SQLite first (`./autotest.sh sqlite ...`) to confirm whether the failure is DB-specific.',
+                ],
+              },
+              'PHPUnit mysql': {
+                purpose: 'Runs the PHPUnit test suite against a MySQL database.',
+                flaky: true,
+                flakiness_note: 'Sporadic `RuntimeException: Failed to copy to files_versions/test.txt.v…` in Files/Cache/Cache.php — a known race condition across PHP versions.',
+                fix: [
+                  'Run from the **server repository root**. Two options:',
+                  '**With Docker** (auto-spins a MySQL container): `USEDOCKER=1 NOCOVERAGE=1 ./autotest.sh mysql lib/Path/To/SpecificTest.php`',
+                  '**With a local MySQL**: ensure a `oc_autotest` user and database exist, then: `NOCOVERAGE=1 ./autotest.sh mysql lib/Path/To/SpecificTest.php`',
+                  'The path is relative to `tests/` — find it in the CI log.',
+                ],
+              },
+              'PHPUnit PostgreSQL': {
+                purpose: 'Runs the PHPUnit test suite against a PostgreSQL database.',
+                fix: [
+                  'Run from the **server repository root**. Two options:',
+                  '**With Docker** (auto-spins a PostgreSQL container): `USEDOCKER=1 NOCOVERAGE=1 ./autotest.sh pgsql lib/Path/To/SpecificTest.php`',
+                  '**With a local PostgreSQL**: ensure a `oc_autotest` user and database exist, then: `NOCOVERAGE=1 ./autotest.sh pgsql lib/Path/To/SpecificTest.php`',
+                  'The path is relative to `tests/` — find it in the CI log.',
+                ],
+              },
+              'PHPUnit OCI': {
+                purpose: 'Runs the PHPUnit test suite against Oracle Database (OCI).',
+                flaky: true,
+                flakiness_note: 'The Oracle environment in CI is sometimes unavailable, causing infrastructure-level failures unrelated to code changes.',
+                fix: [
+                  'Oracle DB is not easily available locally. First check whether the failure is OCI-specific:',
+                  'Run the same test with SQLite: `NOCOVERAGE=1 ./autotest.sh sqlite lib/Path/To/SpecificTest.php`',
+                  'If SQLite passes but OCI fails, the issue is in OCI-specific SQL (e.g. sequences, string functions, CLOB handling) — check the CI log for the exact query.',
+                  'If SQLite also fails, fix that first and the OCI failure will likely resolve too.',
+                ],
+              },
+              'PHPUnit nodb': {
+                purpose: 'Runs PHPUnit tests that do not require a database (unit tests and mocked integration tests).',
+                fix: [
+                  'Run from the **server repository root** — no database or Docker needed:',
+                  '`NOCOVERAGE=1 ./autotest.sh sqlite lib/Path/To/SpecificTest.php`',
+                  'The path is relative to `tests/` — find it in the CI log, e.g. `Tests\\AppFramework\\Http\\RequestTest` → `lib/AppFramework/Http/RequestTest.php`.',
+                  'To run a single test method: append `-- --filter testMethodName`.',
+                  'Prerequisites: PHP in your PATH, and `composer install` run at least once.',
+                ],
+              },
+              'PHPUnit 32bits': {
+                purpose: 'Runs the PHPUnit suite in a 32-bit PHP environment to catch integer overflow and platform-specific issues.',
+                fix: [
+                  'Check the job log for the specific failing assertion.',
+                  'Common causes: integer arithmetic that overflows 32-bit, or bitwise operations with unexpected sign extension.',
+                  'Fix by using float or string where needed for large numbers.',
+                ],
+              },
+              'PHPUnit memcached': {
+                purpose: 'Runs PHPUnit tests with a Memcached cache backend to validate cache-layer behaviour.',
+                fix: [
+                  'Check the CI log for the specific failing test class and method.',
+                  'The Memcached backend lives in `lib/private/Memcache/Memcached.php` — check there for relevant code paths.',
+                  'Run with Memcached via Docker (spins up a Memcached container automatically): `ENABLE_MEMCACHE=memcached USEDOCKER=1 NOCOVERAGE=1 ./autotest.sh sqlite lib/Path/To/SpecificTest.php -- --filter testMethodName`',
+                  'If the test passes without Memcached (plain SQLite: `NOCOVERAGE=1 ./autotest.sh sqlite ...`), the failure is cache-specific — look for assumptions about cache availability or cache key formatting in the changed code.',
+                  'Prerequisites: Docker installed and running, PHP `memcached` extension loaded (`php -m | grep memcached`; install with `sudo apt install php-memcached`), PHP in your PATH, and `composer install` run from the server repository root at least once.',
+                ],
+              },
+              'PHPUnit sharding': {
+                purpose: 'Runs PHPUnit tests with database sharding enabled, where data is distributed across multiple MySQL instances.',
+                fix: [
+                  'Check the CI log for the specific failing test class and method.',
+                  'Sharding requires multiple MySQL databases and is not directly reproducible via `autotest.sh`. The relevant code lives in `lib/private/DB/QueryBuilder/Sharded/`.',
+                  'Start by running the failing test with SQLite: `NOCOVERAGE=1 ./autotest.sh sqlite lib/Path/To/SpecificTest.php -- --filter testMethodName`',
+                  'If SQLite passes, the failure is sharding-specific — look for raw SQL that uses MySQL-only syntax, cross-shard joins, or assumptions about a single database connection in the changed code.',
+                ],
+              },
+              'PHPUnit primary object store': {
+                purpose: 'Runs PHPUnit tests with an S3-compatible object store (MinIO) as the primary storage backend instead of the local filesystem.',
+                fix: [
+                  'Check the CI log for the specific failing test class and method.',
+                  'The relevant code lives in `lib/private/Files/ObjectStore/`.',
+                  'Run locally with MinIO via Docker (spins up MinIO and installs Nextcloud automatically): `PRIMARY_STORAGE_CONFIG=s3 USEDOCKER=1 NOCOVERAGE=1 ./autotest.sh sqlite lib/Path/To/SpecificTest.php -- --filter testMethodName`',
+                  'Or with Azurite (Azure Blob emulator): `PRIMARY_STORAGE_CONFIG=azure USEDOCKER=1 NOCOVERAGE=1 ./autotest.sh sqlite lib/Path/To/SpecificTest.php`',
+                  'If the test passes with plain SQLite (`NOCOVERAGE=1 ./autotest.sh sqlite ...`), the failure is object-store-specific — look for code that uses direct filesystem paths (`fopen`, `file_get_contents`) instead of the storage abstraction APIs (`ISimpleStorage`, `ObjectStoreStorage`).',
+                  'Prerequisites: Docker installed and running, PHP in your PATH, and `composer install` run from the server repository root at least once.',
+                ],
+              },
+              'PHPUnit files_external generic': {
+                purpose: 'Runs files_external integration tests using a local filesystem as the external storage backend.',
+                fix: [
+                  'Run from the **server repository root**:',
+                  '`NOCOVERAGE=1 ./autotest.sh sqlite apps/files_external/tests/`',
+                  'To run a single failing test: `NOCOVERAGE=1 ./autotest.sh sqlite lib/files_external/tests/Path/To/Test.php -- --filter testMethodName`',
+                  'The path is relative to `tests/` — find the failing test class in the CI log.',
+                  'Prerequisites: run `composer install` from the server repository root at least once.',
+                ],
+              },
+              'PHPUnit files_external FTP': {
+                purpose: 'Runs files_external integration tests against an FTP server (tested with proftpd, vsftpd, and pure-ftpd).',
+                flaky: true,
+                flakiness_note: 'Depends on an external FTP service that can be temporarily unreachable.',
+                fix: [
+                  'Check the CI log for the specific failing test and which FTP daemon was in use.',
+                  'The relevant storage code is in `apps/files_external/lib/Storage/FTP.php`.',
+                  'Run locally with Docker (sets up FTP and Nextcloud automatically): `EXTERNAL_STORAGE=ftp NOCOVERAGE=1 ./autotest.sh`',
+                  'Prerequisites: Docker installed and running, PHP in your PATH, and `composer install` run from the server repository root at least once.',
+                ],
+              },
+              'PHPUnit files_external S3': {
+                purpose: 'Runs files_external integration tests against an S3-compatible object store (using LocalStack).',
+                flaky: true,
+                flakiness_note: 'Depends on an external S3 service that can be temporarily unreachable.',
+                fix: [
+                  'Check the CI log for the specific failing test.',
+                  'The relevant storage code is in `apps/files_external/lib/Storage/AmazonS3.php`.',
+                  'Run locally with Docker (sets up LocalStack and Nextcloud automatically): `EXTERNAL_STORAGE=amazons3 NOCOVERAGE=1 ./autotest.sh`',
+                  'Prerequisites: Docker installed and running, PHP in your PATH, and `composer install` run from the server repository root at least once.',
+                ],
+              },
+              'PHPUnit files_external sFTP': {
+                purpose: 'Runs files_external integration tests against an sFTP server (using OpenSSH).',
+                flaky: true,
+                flakiness_note: 'Depends on an external sFTP service that can be temporarily unreachable.',
+                fix: [
+                  'Check the CI log for the specific failing test.',
+                  'The relevant storage code is in `apps/files_external/lib/Storage/SFTP.php`.',
+                  'Run locally with Docker (sets up an sFTP server and Nextcloud automatically): `EXTERNAL_STORAGE=sftp NOCOVERAGE=1 ./autotest.sh`',
+                  'Prerequisites: Docker installed and running, PHP in your PATH, and `composer install` run from the server repository root at least once.',
+                ],
+              },
+              'PHPUnit files_external SMB': {
+                purpose: 'Runs files_external integration tests against an SMB/CIFS share.',
+                flaky: true,
+                flakiness_note: 'Depends on an external SMB service that can be temporarily unreachable.',
+                fix: [
+                  'Check the CI log for the specific failing test.',
+                  'The relevant storage code is in `apps/files_external/lib/Storage/SMB.php` and surrounding files.',
+                  'Run locally with Docker (sets up Samba and Nextcloud automatically): `EXTERNAL_STORAGE=smb NOCOVERAGE=1 ./autotest.sh`',
+                  'Prerequisites: Docker installed and running, PHP `smbclient` extension loaded (`php -m | grep smbclient`; install with `sudo apt install php-smbclient`), `smbclient` binary installed (`sudo apt install smbclient`), PHP in your PATH, and `composer install` run from the server repository root at least once.',
+                ],
+              },
+              'PHPUnit files_external WebDAV': {
+                purpose: 'Runs files_external integration tests against a WebDAV server.',
+                flaky: true,
+                flakiness_note: 'Depends on an external WebDAV service that can be temporarily unreachable.',
+                fix: [
+                  'Check the CI log for the specific failing test.',
+                  'The relevant storage code is in `apps/files_external/lib/Storage/DAV.php`.',
+                  'Run locally with Docker (sets up an Apache WebDAV server and Nextcloud automatically): `EXTERNAL_STORAGE=webdav NOCOVERAGE=1 ./autotest.sh`',
+                  'Prerequisites: Docker installed and running, PHP in your PATH, and `composer install` run from the server repository root at least once.',
+                ],
+              },
+              'Samba Kerberos SSO': {
+                purpose: 'Runs Kerberos SSO integration tests against a Samba server to validate Active Directory authentication.',
+                flaky: true,
+                flakiness_note: 'Highly environment-dependent; outages of the Samba/AD service in CI cause failures unrelated to code changes.',
+                fix: [
+                  'Check the CI log for the specific failing test.',
+                  'This environment (Kerberos KDC + Samba AD) is very complex to reproduce locally.',
+                  'Focus on reviewing the changed code instead: auth middleware lives in `lib/private/Authentication/`, LDAP backend in `apps/user_ldap/lib/`, and Kerberos handling in `apps/files_external/lib/Auth/Password/Kerberos.php`.',
+                  'If the failure looks infrastructure-related (connection refused, timeout, KDC not reachable) rather than a test assertion, re-run the check first.',
+                ],
+              },
+              'Object storage S3': {
+                purpose: 'Runs integration tests with S3 as the primary object store backend (using MinIO).',
+                flaky: true,
+                flakiness_note: 'Depends on an external S3 service that can be temporarily unreachable.',
+                fix: [
+                  'Check the CI log for the failing test.',
+                  'The relevant code lives in `lib/private/Files/ObjectStore/S3.php` and `lib/private/Files/ObjectStore/S3ConnectionTrait.php`.',
+                  'Run the affected test locally with MinIO via Docker: `PRIMARY_STORAGE_CONFIG=s3 USEDOCKER=1 NOCOVERAGE=1 ./autotest.sh sqlite lib/Path/To/SpecificTest.php`',
+                  'Prerequisites: Docker installed and running, PHP in your PATH, and `composer install` run from the server repository root at least once.',
+                ],
+              },
+              'Object storage azure': {
+                purpose: 'Runs integration tests with Azure Blob Storage as the primary object store backend.',
+                flaky: true,
+                flakiness_note: 'Depends on an external Azure Blob service that can be temporarily unreachable.',
+                fix: [
+                  'Check the CI log for the failing test.',
+                  'The relevant code lives in `lib/private/Files/ObjectStore/Azure.php`.',
+                  'Run the affected test locally with Azurite via Docker: `PRIMARY_STORAGE_CONFIG=azure USEDOCKER=1 NOCOVERAGE=1 ./autotest.sh sqlite lib/Path/To/SpecificTest.php`',
+                  'Prerequisites: Docker installed and running, PHP in your PATH, and `composer install` run from the server repository root at least once.',
+                ],
+              },
+              'Object storage Swift': {
+                purpose: 'Runs integration tests with OpenStack Swift as the primary object store backend.',
+                flaky: true,
+                flakiness_note: 'Depends on an external Swift service that can be temporarily unreachable.',
+                fix: [
+                  'Check the CI log for the failing test.',
+                  'The relevant code lives in `lib/private/Files/ObjectStore/Swift.php`.',
+                  'To reproduce locally, spin up a Keystone+Swift container:',
+                  '`docker run -d -p 5000:5000 -p 8080:8080 ghcr.io/cscfi/docker-keystone-swift`',
+                  'Alternatively, run `PRIMARY_STORAGE_CONFIG=swift NOCOVERAGE=1 ./autotest.sh sqlite lib/Path/To/SpecificTest.php` if you have Swift credentials configured.',
+                  'Prerequisites: Docker installed and running, PHP in your PATH, and `composer install` run from the server repository root at least once.',
+                ],
+              },
+              'S3 primary storage integration tests': {
+                purpose: 'Runs higher-level Behat integration tests with MinIO as the primary storage engine (single-bucket and multi-bucket configurations).',
+                flaky: true,
+                flakiness_note: 'Depends on an external S3 service that can be temporarily unreachable.',
+                fix: [
+                  'Check the CI log for the failing scenario and feature file.',
+                  'The relevant code lives in `lib/private/Files/ObjectStore/`.',
+                  'Spin up MinIO and run the PHPUnit object store tests via autotest.sh: `PRIMARY_STORAGE_CONFIG=s3 USEDOCKER=1 NOCOVERAGE=1 ./autotest.sh sqlite lib/Files/ObjectStore/S3Test.php`',
+                  'For the full Behat scenario, you need a running Nextcloud instance configured with MinIO as primary storage. autotest.sh sets this up automatically for PHPUnit tests but not Behat — run the failing scenario with: `./vendor/bin/behat --config tests/Integration/config/behat.yml path/to/failing.feature`',
+                  'Prerequisites: Docker installed and running, PHP in your PATH, and `composer install` run from the server repository root at least once.',
+                ],
+              },
+              'Integration sqlite': {
+                purpose: 'Runs Behat integration test scenarios (OCS API, sharing, provisioning, etc.) against a SQLite-backed Nextcloud instance.',
+                fix: [
+                  'Check the CI log for the failing scenario — it shows the `.feature` file path and scenario title.',
+                  'These tests require a fully running Nextcloud instance, not just the codebase. Set one up using your preferred method (local server, Docker, etc.).',
+                  'Run the failing scenario locally: `./vendor/bin/behat --config tests/Integration/config/behat.yml path/to/failing.feature`',
+                  'To run a single scenario by name: `./vendor/bin/behat --config tests/Integration/config/behat.yml --name "Scenario title from the log"`',
+                  'Prerequisites: a fully running Nextcloud instance, and `composer install` run from the server repository root at least once (provides `vendor/bin/behat`).',
+                ],
+              },
+              'DAV integration tests': {
+                purpose: 'Runs Behat integration tests for CalDAV and CardDAV protocol handling (calendar and contact sync).',
+                fix: [
+                  'Check the CI log for the failing scenario — it shows whether it\'s CalDAV or CardDAV, and the `.feature` file and scenario title.',
+                  'These tests require a fully running Nextcloud instance.',
+                  'Run the failing scenario locally: `./vendor/bin/behat --config apps/dav/tests/integration/config/behat.yml`',
+                  'To run a single scenario: `./vendor/bin/behat --config apps/dav/tests/integration/config/behat.yml --name "Scenario title from the log"`',
+                  'The relevant code lives in `apps/dav/lib/`.',
+                  'Prerequisites: a fully running Nextcloud instance, and `composer install` run from the server repository root at least once (provides `vendor/bin/behat`).',
+                ],
+              },
+              'Litmus integration tests': {
+                purpose: 'Runs the litmus WebDAV test suite to validate RFC compliance of the WebDAV endpoint.',
+                flaky: true,
+                flakiness_note: 'Timing-sensitive protocol tests; transient failures are common and often resolve on retry.',
+                fix: [
+                  'Check the litmus output in the CI log — it lists each failing test case by name (e.g. `PROPFIND`, `MKCOL`, `LOCK`).',
+                  'Litmus failures indicate a regression in low-level WebDAV handling. Review changes in `apps/dav/lib/` — particularly `Connector/Sabre/` for PROPFIND/PROPPATCH and `DAV/` for locking.',
+                  'To reproduce locally, install litmus (`apt install litmus` or build from source) and run it against your local Nextcloud WebDAV endpoint: `litmus http://localhost/remote.php/dav/files/admin/ admin password`',
+                  'Prerequisites: a fully running Nextcloud instance, and litmus installed.',
+                ],
+              },
+              'Psalm static code analysis': {
+                purpose: 'Runs Psalm to find type errors, undefined variables, and other static analysis issues across the PHP codebase.',
+                fix: [
+                  'Run locally: `composer run psalm`',
+                  'Psalm will list each error with the file and line number. Fix the reported type errors or add missing type annotations (`@param`, `@return`).',
+                  'Some errors can be auto-fixed: `composer run psalm:fix` (handles common return type issues).',
+                  'If the error was pre-existing and unrelated to your change, update the baseline instead: `composer run psalm:update-baseline`, then commit the updated `psalm-baseline.xml`.',
+                  'Prerequisites: run `composer install` from the server repository root at least once.',
+                ],
+              },
+              'Cypress': {
+                purpose: 'Runs end-to-end browser tests against a live Nextcloud instance using Cypress.',
+                flaky: true,
+                flakiness_note: 'Stale DOM and runner contention cause intermittent failures. The `cypress-summary` check is what gates merging — if only individual spec jobs failed, a re-run often clears it.',
+                fix: [
+                  'Check the job log and artifacts for screenshots/videos of the failing spec.',
+                  'Run locally: `npm run cypress:run -- --spec "cypress/e2e/path/to/failing.cy.ts"`',
+                  'Or open interactively: `npm run cypress:open`',
+                  'Ensure your local Nextcloud instance is running before executing Cypress.',
+                ],
+              },
+              'Node': {
+                purpose: 'Builds JavaScript/TypeScript/Vue assets and verifies no uncommitted compiled files remain.',
+                fix: [
+                  'Run: `npm ci && npm run build`',
+                  'Then commit the regenerated compiled assets: `git add js/ && git commit -m "build: recompile assets"`',
+                ],
+              },
+              'Node tests': {
+                purpose: 'Runs JavaScript unit tests (Jest/Vitest) and collects coverage.',
+                fix: [
+                  'Run locally: `npm run test`',
+                  'Check the test output for the specific failing spec file and assertion.',
+                ],
+              },
+              'REUSE Compliance Check': {
+                purpose: 'Validates that every file carries a valid SPDX-FileCopyrightText and SPDX-License-Identifier header (REUSE spec).',
+                fix: [
+                  'The CI log lists every file missing a header. Add the following two lines near the top of each file:',
+                  'PHP/JS/TS: `// SPDX-FileCopyrightText: 2026 Your Name <you@example.com>` and `// SPDX-License-Identifier: AGPL-3.0-or-later`',
+                  'YAML/shell: same but with `#` instead of `//`',
+                  'Vue `<template>`: `<!-- SPDX-FileCopyrightText: 2026 Your Name <you@example.com> -->` and `<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->`',
+                  '<details><summary>Automate with the reuse tool (requires Python)</summary>Install: `pip install reuse` (or `pipx install reuse` to avoid polluting global pip). Then run: `reuse addheader --copyright "2026 Your Name <you@example.com>" --license AGPL-3.0-or-later path/to/file.php` for each file.</details>',
+                ],
+              },
+              'OpenAPI': {
+                purpose: 'Checks that the OpenAPI specification files are up-to-date with the current route and response type annotations.',
+                fix: [
+                  'Regenerate the spec: `composer run openapi`',
+                  'Then commit the updated `openapi.json` / `openapi-*.json` files.',
+                  'This check fails when you add or change a route/response type without regenerating the spec.',
+                  'Prerequisites: run `composer install` from the server repository root at least once.',
+                ],
+              },
+              'Rector': {
+                purpose: 'Runs Rector in strict mode to detect code patterns that should be modernised according to project rules.',
+                fix: [
+                  'Run locally: `composer run rector:strict`',
+                  'This automatically applies the changes and runs `cs:fix` on the result.',
+                  'Review the diff with `git diff`, then commit the changes.',
+                  'Prerequisites: run `composer install` from the server repository root at least once.',
+                ],
+              },
+              'Block fixup and squash commits': {
+                purpose: 'Rejects PRs that contain `fixup!` or `squash!` commits, which must be squashed into their target commits before merging.',
+                fix: [
+                  'If you created fixup commits with `git commit --fixup`, the easiest approach is:',
+                  '`git rebase -i --autosquash`',
+                  'Git will automatically move and mark the fixup commits for squashing. Save the editor, then: `git push --force-with-lease`',
+                  'Alternatively, use a plain interactive rebase: `git rebase -i HEAD~N` (replace N with the number of commits in your PR), change `pick` to `fixup` for each fixup commit, save, then force-push.',
+                ],
+              },
+              'Block unconventional commits': {
+                purpose: 'Enforces the Conventional Commits format for all commit messages on the PR.',
+                fix: [
+                  'Full spec: https://www.conventionalcommits.org/',
+                  'Format: `<type>(<optional scope>): <short description>`',
+                  'Allowed types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`',
+                  'Examples of good messages: `fix(sharing): resolve permission check for public links` · `feat(files): add bulk move operation` · `chore: update dependencies`',
+                  'To fix bad messages: `git rebase -i HEAD~N`, change `pick` to `reword` for each commit to rename, save, then update the messages when prompted. Force-push when done.',
+                ],
+              },
+              'Block merging with outdated 3rdparty/': {
+                purpose: 'Ensures the `3rdparty/` submodule points to the latest commit on the target branch.',
+                fix: [
+                  'Update the submodule: `git submodule update --remote 3rdparty`',
+                  'Commit the result: `git add 3rdparty && git commit -m "chore: Update 3rdparty"`',
+                ],
+              },
+              'Code checkers': {
+                purpose: 'Runs PHP-based consistency checkers: autoloader integrity, translation file validity, .htaccess rules, expected file list, and Psalm app coverage.',
+                fix: [
+                  'Check the job log to identify which specific checker failed, then run it locally:',
+                  '- Autoloader: `bash ./build/autoloaderchecker.sh`',
+                  '- Translations: `php ./build/translation-checker.php`',
+                  '- Htaccess: `php ./build/htaccess-checker.php`',
+                  '- Files list: `php ./build/files-checker.php`',
+                  '- Psalm app coverage: `sh ./build/psalm-checker.sh`',
+                ],
+              },
+              'CodeQL Advanced': {
+                purpose: 'Runs GitHub CodeQL security analysis on JavaScript/TypeScript and GitHub Actions workflow files.',
+                fix: [
+                  'Go to the "Security" tab of this repository and review the CodeQL alert linked in the job log.',
+                  'Fix the identified security issue — click "Show more" on the alert for remediation guidance.',
+                ],
+              },
+            }
+
+            // Resolve PR head SHA
+            const pull = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+            })
+            const headSha = pull.data.head.sha
+
+            // Find completed workflow runs for this commit
+            const { data: runs } = await github.rest.actions.listWorkflowRunsForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              head_sha: headSha,
+              status: 'completed',
+              per_page: 100,
+            })
+
+            // Deduplicate by workflow name, keeping only the most recent run per workflow
+            const latestByName = new Map()
+            for (const run of runs.workflow_runs) {
+              const existing = latestByName.get(run.name)
+              if (!existing || new Date(run.updated_at) > new Date(existing.updated_at)) {
+                latestByName.set(run.name, run)
+              }
+            }
+
+            const failed = [...latestByName.values()].filter(r => r.conclusion === 'failure')
+
+            if (failed.length === 0) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: `No failing CI checks found for commit \`${headSha.substring(0, 7)}\`. All completed checks are passing (some may still be running).`,
+              })
+              return
+            }
+
+            // Build summary comment
+            const shortSha = headSha.substring(0, 7)
+            const flaky = failed.filter(r => WORKFLOW_EXPLANATIONS[r.name]?.flaky)
+            const genuine = failed.filter(r => !WORKFLOW_EXPLANATIONS[r.name]?.flaky)
+
+            const renderFlaky = run => {
+              const info = WORKFLOW_EXPLANATIONS[run.name]
+              return `### ${run.name}\n> **Known flaky:** ${info.flakiness_note}\n\nTry re-running this check first — if it passes on retry, no code change is needed.\n\n[Re-run failed jobs](${run.html_url})`
+            }
+
+            const renderGenuine = run => {
+              const info = WORKFLOW_EXPLANATIONS[run.name]
+              if (!info) {
+                return `### ${run.name}\n\nPlease [check the run logs](${run.html_url}) for details.`
+              }
+              const fixLines = info.fix.map(line => `- ${line}`).join('\n')
+              return `### ${run.name}\n\n**What this checks:** ${info.purpose}\n\n**How to fix locally:**\n${fixLines}\n\n[View failed run](${run.html_url})`
+            }
+
+            const parts = []
+
+            let headline = `Found **${failed.length} failing check(s)** on commit \`${shortSha}\``
+            if (flaky.length > 0 && genuine.length > 0) {
+              headline += ` — ${flaky.length} likely flaky, ${genuine.length} need investigation`
+            }
+            parts.push(`## CI failure summary\n\n${headline}:\n`)
+
+            if (flaky.length > 0) {
+              parts.push(`---\n\n### Likely flaky — try re-running first\n\n${flaky.map(renderFlaky).join('\n\n---\n\n')}`)
+            }
+
+            if (genuine.length > 0) {
+              parts.push(`---\n\n### Needs investigation\n\n${genuine.map(renderGenuine).join('\n\n---\n\n')}`)
+            }
+
+            const body = parts.join('\n\n')
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body,
+            })
