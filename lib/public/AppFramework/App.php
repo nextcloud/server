@@ -18,10 +18,16 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
 
 /**
- * Class App
+ * Public base class for AppFramework applications.
  *
- * Any application must inherit this call - all controller instances to be used are
- * to be registered using IContainer::registerService
+ * Provides access to the app container and a convenience dispatch() method
+ * for routing requests to controllers.
+ *
+ * Apps using the AppFramework typically extend this class to register
+ * services and dispatch controller actions.
+ *
+ * @see https://docs.nextcloud.com/server/latest/developer_manual/app_development/bootstrap.html
+ *
  * @since 6.0.0
  */
 class App {
@@ -29,13 +35,11 @@ class App {
 	private $container;
 
 	/**
-	 * Turns an app id into a namespace by convention. The id is split at the
-	 * underscores, all parts are CamelCased and reassembled. e.g.:
-	 * some_app_id -> OCA\SomeAppId
-	 * @param string $appId the app id
-	 * @param string $topNamespace the namespace which should be prepended to
-	 *                             the transformed app id, defaults to OCA\
-	 * @return string the starting namespace for the app
+	 * Returns the app namespace for the given app ID.
+	 *
+	 * @param string $appId the app ID
+	 * @param string $topNamespace the namespace prefix to substitute for OCA\
+	 * @return string the app namespace
 	 * @since 8.0.0
 	 * @deprecated 34.0.0 use IAppManager::getAppNamespace
 	 */
@@ -44,8 +48,10 @@ class App {
 	}
 
 	/**
-	 * @param string $appName
-	 * @param array $urlParams an array with variables extracted from the routes
+	 * Creates or retrieves the app container for the given app.
+	 *
+	 * @param string $appName the app ID
+	 * @param array $urlParams route parameters to make available in the request container
 	 * @since 6.0.0
 	 */
 	public function __construct(string $appName, array $urlParams = []) {
@@ -97,6 +103,8 @@ class App {
 	}
 
 	/**
+	 * Returns the app container.
+	 *
 	 * @return IAppContainer
 	 * @since 6.0.0
 	 */
@@ -105,34 +113,13 @@ class App {
 	}
 
 	/**
-	 * This function is called by the routing component to fire up the frameworks dispatch mechanism.
+	 * Dispatches a controller action through the AppFramework runtime.
 	 *
-	 * Example code in routes.php of the task app:
-	 * $this->create('tasks_index', '/')->get()->action(
-	 *		function($params){
-	 *			$app = new TaskApp($params);
-	 *			$app->dispatch('PageController', 'index');
-	 *		}
-	 *	);
+	 * This is a convenience wrapper around the internal AppFramework request
+	 * execution for the current app container.
 	 *
-	 *
-	 * Example for for TaskApp implementation:
-	 * class TaskApp extends \OCP\AppFramework\App {
-	 *
-	 *		public function __construct($params){
-	 *			parent::__construct('tasks', $params);
-	 *
-	 *			$this->getContainer()->registerService('PageController', function(IAppContainer $c){
-	 *				$a = $c->query('API');
-	 *				$r = $c->query('Request');
-	 *				return new PageController($a, $r);
-	 *			});
-	 *		}
-	 *	}
-	 *
-	 * @param string $controllerName the name of the controller under which it is
-	 *                               stored in the DI container
-	 * @param string $methodName the method that you want to call
+	 * @param string $controllerName controller service name or controller class basename
+	 * @param string $methodName controller method to invoke
 	 * @since 6.0.0
 	 */
 	public function dispatch(string $controllerName, string $methodName) {
