@@ -306,6 +306,9 @@ class Generator {
 			default:
 				return -1;
 		}
+		if ($this->cachedNumConcurrentPreviews[$type] < 1) {
+			$this->cachedNumConcurrentPreviews[$type] = 1;
+		}
 		return $this->cachedNumConcurrentPreviews[$type];
 	}
 
