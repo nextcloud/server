@@ -9,6 +9,8 @@
 
 namespace OCP\Authentication;
 
+use OCP\HintException;
+
 /**
  * Interface IProvideUserSecretBackend
  *
@@ -18,8 +20,14 @@ interface IProvideUserSecretBackend {
 	/**
 	 * Optionally returns a stable per-user secret. This secret is for
 	 * instance used to secure file encryption keys.
-	 * @return string
+	 *
+	 * @return non-empty-string|null Returns the per-user secret if the backend
+	 *                               is configured or null otherwise.
+	 * @throws HintException when the backend is configured to return a per-user
+	 *                       secret but is unable to do so.
+	 *
 	 * @since 23.0.0
+	 * @since 35.0.0 The returns value is now optional.
 	 */
-	public function getCurrentUserSecret(): string;
+	public function getCurrentUserSecret(): ?string;
 }
