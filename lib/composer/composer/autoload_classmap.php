@@ -923,7 +923,7 @@ return array(
     'OCP\\TaskProcessing\\IInternalTaskType' => $baseDir . '/lib/public/TaskProcessing/IInternalTaskType.php',
     'OCP\\TaskProcessing\\IManager' => $baseDir . '/lib/public/TaskProcessing/IManager.php',
     'OCP\\TaskProcessing\\IProvider' => $baseDir . '/lib/public/TaskProcessing/IProvider.php',
-    'OCP\\TaskProcessing\\ISynchronousOptionsProvider' => $baseDir . '/lib/public/TaskProcessing/ISynchronousOptionsProvider.php',
+    'OCP\\TaskProcessing\\ISynchronousOptionsAwareProvider' => $baseDir . '/lib/public/TaskProcessing/ISynchronousOptionsAwareProvider.php',
     'OCP\\TaskProcessing\\ISynchronousProvider' => $baseDir . '/lib/public/TaskProcessing/ISynchronousProvider.php',
     'OCP\\TaskProcessing\\ISynchronousWatermarkingProvider' => $baseDir . '/lib/public/TaskProcessing/ISynchronousWatermarkingProvider.php',
     'OCP\\TaskProcessing\\ITaskType' => $baseDir . '/lib/public/TaskProcessing/ITaskType.php',

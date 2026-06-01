@@ -17,7 +17,7 @@ use OCP\TaskProcessing\Exception\ProcessingException;
  * implement a task processing provider
  * @since 35.0.0
  */
-interface ISynchronousOptionsProvider extends ISynchronousProvider {
+interface ISynchronousOptionsAwareProvider extends ISynchronousProvider {
 
 	/**
 	 * Returns the shape of optional output parameters
