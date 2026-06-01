@@ -25,19 +25,23 @@ use OCP\Profiler\IProfiler;
 use OCP\Server;
 
 /**
- * Entry point for every request in your app. You can consider this as your
- * public static void main() method
+ * Internal entry point for AppFramework request execution.
  *
- * Handles all the dependency injection, controllers and output flow
+ * Resolves controllers from the app container, runs the dispatcher and
+ * middleware stack, and writes headers, cookies, and the response body to
+ * the output layer.
+ *
+ * This class is internal to the server and not part of the public app API.
+ * App code should use OCP\AppFramework\App instead.
  */
 class App {
 	/**
-	 * Turns an app id into a namespace by either reading the appinfo.xml's
-	 * namespace tag or uppercasing the appid's first letter
-	 * @param string $appId the app id
-	 * @param string $topNamespace the namespace which should be prepended to
-	 *                             the transformed app id, defaults to OCA\
-	 * @return string the starting namespace for the app
+	 * Returns the app namespace for the given app ID, optionally rewritten to a
+	 * different top-level namespace.
+	 *
+	 * @param string $appId the app ID
+	 * @param string $topNamespace the namespace prefix to substitute for OCA\
+	 * @return string the app namespace
 	 * @deprecated 34.0.0 use IAppManager::getAppNamespace
 	 */
 	public static function buildAppNamespace(string $appId, string $topNamespace = 'OCA\\'): string {
@@ -50,6 +54,11 @@ class App {
 	}
 
 	/**
+	 * Returns the app ID for the given class namespace.
+	 *
+	 * @param string $className the fully qualified class name
+	 * @param string $topNamespace unused legacy namespace prefix parameter
+	 * @return string|null the app ID, or null if the class does not belong to an app namespace
 	 * @deprecated 34.0.0 use IAppManager::getAppFromNamespace
 	 */
 	public static function getAppIdForClass(string $className, string $topNamespace = 'OCA\\'): ?string {
@@ -57,14 +66,20 @@ class App {
 	}
 
 	/**
-	 * Shortcut for calling a controller method and printing the result
+	 * Executes an AppFramework controller action and emits the HTTP response.
 	 *
-	 * @param string $controllerName the name of the controller under which it is
-	 *                               stored in the DI container
-	 * @param string $methodName the method that you want to call
-	 * @param DIContainer $container an instance of a pimple container.
-	 * @param array $urlParams list of URL parameters (optional)
-	 * @throws HintException
+	 * Resolves the controller from the app container, dispatches the requested
+	 * method, and forwards headers, cookies, and body output to the output layer.
+	 *
+	 * The controller is first resolved as provided and then, if necessary, as
+	 * <AppNamespace>\Controller\<ControllerName>.
+	 *
+	 * @param string $controllerName Controller service name or controller class name
+	 * @param string $methodName Controller method to invoke
+	 * @param DIContainer $container App dependency injection container
+	 * @param array|null $urlParams Route parameters to inject into the request
+	 * @throws HintException If a controller from a globally registered route
+	 *                       belongs to an app that is not enabled
 	 */
 	public static function main(
 		string $controllerName,
