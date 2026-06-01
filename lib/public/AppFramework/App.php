@@ -31,8 +31,7 @@ use Psr\Log\LoggerInterface;
  * @since 6.0.0
  */
 class App {
-	/** @var IAppContainer */
-	private $container;
+	private IAppContainer $container;
 
 	/**
 	 * Returns the app namespace for the given app ID.
@@ -122,7 +121,7 @@ class App {
 	 * @param string $methodName controller method to invoke
 	 * @since 6.0.0
 	 */
-	public function dispatch(string $controllerName, string $methodName) {
+	public function dispatch(string $controllerName, string $methodName): void {
 		\OC\AppFramework\App::main($controllerName, $methodName, $this->container);
 	}
 }
