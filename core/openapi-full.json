@@ -12038,15 +12038,17 @@
                     }
                 ],
                 "requestBody": {
-                    "required": false,
+                    "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
                                 "type": "object",
+                                "required": [
+                                    "output"
+                                ],
                                 "properties": {
                                     "output": {
                                         "type": "object",
-                                        "nullable": true,
                                         "description": "The intermediate task output, files are represented by their IDs",
                                         "additionalProperties": {
                                             "type": "object"

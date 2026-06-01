@@ -1233,6 +1233,7 @@ class Manager implements IManager {
 		return true;
 	}
 
+	#[\Override]
 	public function setTaskIntermediateOutput(int $id, array $output): bool {
 		// TODO: Not sure if we should rather catch the exceptions of getTask here and fail silently
 		$task = $this->getTask($id);
@@ -1240,9 +1241,15 @@ class Manager implements IManager {
 			return false;
 		}
 		$userId = $task->getUserId();
-		if ($userId !== null && $userId !== '' && $this->appManager->isEnabledForAnyone('notify_push')) {
+		if ($userId !== null
+			&& $userId !== ''
+			&& $this->appManager->isEnabledForAnyone('notify_push')
+			&& class_exists('\OCA\NotifyPush\Queue\IQueue')
+		) {
 			try {
+				/** @psalm-suppress UndefinedClass */
 				$queue = Server::get(\OCA\NotifyPush\Queue\IQueue::class);
+				/** @psalm-suppress UndefinedClass */
 				$queue->push('notify_custom', [
 					'user' => $userId,
 					'message' => 'task_' . $task->getId(),
