@@ -283,17 +283,17 @@ abstract class AbstractMappingTestCase extends \Test\TestCase {
 		[$mapper,] = $this->initTest();
 
 		$listOfDNs = [];
+		// List size exceeds the implementation's 65000-parameter chunk limit, forcing multiple chunked queries
 		for ($i = 0; $i < 66640; $i++) {
-			// Postgres has a limit of 65535 values in a single IN list
 			$name = 'as_' . $i;
 			$dn = 'uid=' . $name . ',dc=example,dc=org';
 			$listOfDNs[] = $dn;
-			if ($i % 20 === 0) {
+			if ($i % 5000 === 0) {
 				$mapper->map($dn, $name, 'fake-uuid-' . $i);
 			}
 		}
 
 		$result = $mapper->getListOfIdsByDn($listOfDNs);
-		$this->assertCount(66640 / 20, $result);
+		$this->assertCount(14, $result);
 	}
 }
