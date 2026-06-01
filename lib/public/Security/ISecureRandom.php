@@ -81,6 +81,7 @@ interface ISecureRandom {
 	 * @throws \LengthException If $length <= 0.
 	 * @throws \InvalidArgumentException if $characters contains non-ASCII characters, duplicates,
 	 *         or fewer than 4 unique characters.
+	 * @since 35.0.0 $characters has to be >4 chars long, non-ASCII characters are rejected, not contain duplicates.
 	 * @since 8.0.0
 	 */
 	public function generate(
