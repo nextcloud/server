@@ -419,6 +419,18 @@ class Notifications {
 					]
 				);
 				return $this->federationProviderManager->sendNotification($remoteDomain, $notification);
+			case 'permissions':
+				$notification = $this->cloudFederationFactory->getCloudFederationNotification();
+				$notification->setMessage('SHAREE_CHANGE_PERMISSION',
+					'file',
+					$fields['remoteId'],
+					[
+						'sharedSecret' => $fields['token'],
+						'permissions' => $fields['permissions'],
+						'message' => 'permissions updated'
+					]
+				);
+				return $this->federationProviderManager->sendNotification($remoteDomain, $notification);
 		}
 
 		return false;

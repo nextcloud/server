@@ -227,6 +227,7 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 			'REQUEST_RESHARE' => $this->reshareRequested($providerId, $notification),
 			'RESHARE_UNDO' => $this->undoReshare($providerId, $notification),
 			'RESHARE_CHANGE_PERMISSION' => $this->updateResharePermissions($providerId, $notification),
+			'SHAREE_CHANGE_PERMISSION' => $this->updateShareePermissions($providerId, $notification),
 			default => throw new BadRequestException([$notificationType]),
 		};
 	}
@@ -686,5 +687,21 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 		} else {
 			return $share->getShareOwner();
 		}
+	}
+
+	private function updateShareePermissions(string $id, array $notification): array {
+		if (!$this->isS2SEnabled()) {
+			throw new ActionNotSupportedException('Server does not support federated cloud sharing');
+		}
+
+		if (!isset($notification['sharedSecret'])) {
+			throw new BadRequestException(['sharedSecret']);
+		}
+
+		$share = $this->externalShareManager->getShareByToken($notification['sharedSecret']);
+		$share->setPermissions($notification['permissions']);
+		$share = $this->externalShareMapper->update($share);
+
+		return [];
 	}
 }
