@@ -91,9 +91,7 @@ class SecureRandomTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider invalidCharProviders
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('invalidCharProviders')]
 	public function testInvalidCharacterSets(string $invalidCharset): void {
 		$this->expectException(\InvalidArgumentException::class);
 		$this->rng->generate(10, $invalidCharset);
@@ -101,7 +99,7 @@ class SecureRandomTest extends \Test\TestCase {
 
 	public function testDefaultCharsetBase64Characters(): void {
 		$randomString = $this->rng->generate(100);
-		$this->assertMatchesRegularExpression('/^[A-Za-z0-9\+\/]+$/', $randomString);
+		$this->assertMatchesRegularExpression('/^[A-Za-z0-9\+\/]{100}$/', $randomString);
 	}
 
 	public function testAllOutputsAreUnique(): void {
@@ -114,8 +112,7 @@ class SecureRandomTest extends \Test\TestCase {
 	public function testMinimumValidCharset(): void {
 		$charset = 'abcd';
 		$randomString = $this->rng->generate(500, $charset);
-		$this->assertMatchesRegularExpression('/^[abcd]+$/', $randomString);
-		$this->assertEquals(500, strlen($randomString));
+		$this->assertMatchesRegularExpression('/^[abcd]{500}$/', $randomString);
 	}
 
 	public function testLargeCustomCharset(): void {
@@ -132,6 +129,6 @@ class SecureRandomTest extends \Test\TestCase {
 	public function testUserProvidedValidCharset(): void {
 		$charset = '@#$!';
 		$randomString = $this->rng->generate(64, $charset);
-		$this->assertMatchesRegularExpression('/^[@#$!]+$/', $randomString);
+		$this->assertMatchesRegularExpression('/^[@#$!]{64}$/', $randomString);
 	}
 }
