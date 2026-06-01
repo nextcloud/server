@@ -7,7 +7,6 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-
 namespace OCP\TaskProcessing;
 
 use OCP\Files\File;
@@ -31,6 +30,7 @@ interface ISynchronousOptionsProvider extends ISynchronousProvider {
 	 * @throws ProcessingException
 	 * @since 35.0.0
 	 */
+	#[\Override]
 	public function process(
 		?string $userId,
 		array $input,

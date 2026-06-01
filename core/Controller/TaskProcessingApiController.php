@@ -647,7 +647,7 @@ class TaskProcessingApiController extends OCSController {
 	 * Sets the task intermediate result while it is running
 	 *
 	 * @param int $taskId The id of the task
-	 * @param array<string,mixed>|null $output The intermediate task output, files are represented by their IDs
+	 * @param array<string,mixed> $output The intermediate task output, files are represented by their IDs
 	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTaskProcessingTask}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
 	 *
 	 * 200: Result updated successfully
