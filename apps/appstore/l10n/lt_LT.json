@@ -149,6 +149,7 @@
     "Could not load app categories. Please try again later." : "Nepavyko įkelti programėlių kategorijų. Bandykite dar kartą vėliau.",
     "Could not load apps list. Please try again later." : "Nepavyko įkelti programėlių sąrašo. Bandykite dar kartą vėliau.",
     "Could not update the app. Please try again later." : "Nepavyko atnaujinti programėlės. Bandykite dar kartą vėliau.",
-    "An error occurred during the request. Unable to proceed." : "Užklausos metu įvyko klaida. Nepavyksta tęsti."
+    "An error occurred during the request. Unable to proceed." : "Užklausos metu įvyko klaida. Nepavyksta tęsti.",
+    "Powered by Euro-Office" : "Įgalinta „Euro-Office“"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }
