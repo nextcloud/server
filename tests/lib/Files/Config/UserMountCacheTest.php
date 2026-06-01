@@ -90,6 +90,7 @@ class UserMountCacheTest extends TestCase {
 				->where($builder->expr()->eq('fileid', new Literal($fileId)))
 				->executeStatement();
 		}
+		parent::tearDown();
 	}
 
 	private function getStorage($storageId, $rootInternalPath = '') {
