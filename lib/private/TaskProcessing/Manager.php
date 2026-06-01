@@ -19,6 +19,7 @@ use OCA\Guests\UserBackend;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\DB\Exception;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -59,7 +60,7 @@ use OCP\TaskProcessing\Exception\ValidationException;
 use OCP\TaskProcessing\IInternalTaskType;
 use OCP\TaskProcessing\IManager;
 use OCP\TaskProcessing\IProvider;
-use OCP\TaskProcessing\ISynchronousOptionsProvider;
+use OCP\TaskProcessing\ISynchronousOptionsAwareProvider;
 use OCP\TaskProcessing\ISynchronousProvider;
 use OCP\TaskProcessing\ISynchronousWatermarkingProvider;
 use OCP\TaskProcessing\ITaskType;
@@ -158,6 +159,7 @@ class Manager implements IManager {
 		private IUserSession $userSession,
 		ICacheFactory $cacheFactory,
 		private IFactory $l10nFactory,
+		private ITimeFactory $timeFactory,
 	) {
 		$this->appData = $appDataFactory->get('core');
 		$this->distributedCache = $cacheFactory->createDistributed('task_processing::');
@@ -1140,7 +1142,7 @@ class Manager implements IManager {
 				$this->setTaskStatus($task, Task::STATUS_RUNNING);
 				if ($provider instanceof ISynchronousWatermarkingProvider) {
 					$output = $provider->process($task->getUserId(), $input, fn (float $progress) => $this->setTaskProgress($task->getId(), $progress), $task->getIncludeWatermark());
-				} elseif ($provider instanceof ISynchronousOptionsProvider) {
+				} elseif ($provider instanceof ISynchronousOptionsAwareProvider) {
 					$options = new SynchronousProviderOptions(
 						$task->getIncludeWatermark(),
 						$task->getPreferStreaming(),
@@ -1244,7 +1246,7 @@ class Manager implements IManager {
 		if ($userId !== null
 			&& $userId !== ''
 			&& $this->appManager->isEnabledForAnyone('notify_push')
-			&& class_exists('\OCA\NotifyPush\Queue\IQueue')
+			&& interface_exists('\OCA\NotifyPush\Queue\IQueue')
 		) {
 			try {
 				/** @psalm-suppress UndefinedClass */
@@ -1255,14 +1257,17 @@ class Manager implements IManager {
 					'message' => 'task_' . $task->getId(),
 					'body' => $output,
 				]);
-				// we don't update the DB if something was sent via notify_push
-				// so if the push messages are not received for some reason, the polling will still not see any intermediate output
-				// but will receive the final output
-				return true;
 			} catch (ContainerExceptionInterface|NotFoundExceptionInterface $e) {
 				$this->logger->debug('OCA\NotifyPush\IQueue not found, not sending to queue');
 			}
 		}
+
+		// throttle DB update
+		$now = $this->timeFactory->now()->getTimestamp();
+		if ($now - $task->getLastUpdated() < 2) {
+			return true;
+		}
+
 		// no output shape validation for now
 		$task->setOutput($output);
 		$taskEntity = \OC\TaskProcessing\Db\Task::fromPublicTask($task);

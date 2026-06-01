@@ -964,7 +964,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\TaskProcessing\\IInternalTaskType' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/IInternalTaskType.php',
         'OCP\\TaskProcessing\\IManager' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/IManager.php',
         'OCP\\TaskProcessing\\IProvider' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/IProvider.php',
-        'OCP\\TaskProcessing\\ISynchronousOptionsProvider' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/ISynchronousOptionsProvider.php',
+        'OCP\\TaskProcessing\\ISynchronousOptionsAwareProvider' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/ISynchronousOptionsAwareProvider.php',
         'OCP\\TaskProcessing\\ISynchronousProvider' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/ISynchronousProvider.php',
         'OCP\\TaskProcessing\\ISynchronousWatermarkingProvider' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/ISynchronousWatermarkingProvider.php',
         'OCP\\TaskProcessing\\ITaskType' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/ITaskType.php',
