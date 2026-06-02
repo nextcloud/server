@@ -158,7 +158,8 @@ interface IAppManager {
 	 *
 	 * @param string $appId App ID
 	 * @param bool $forceEnable Whether to bypass Nextcloud version requirement checks
-	 * @throws AppPathNotFoundException If the app cannot be found
+	 * @throws \InvalidArgumentException If the app is not installed
+	 * @throws AppPathNotFoundException If the app path cannot be found
 	 * @since 8.0.0
 	 */
 	public function enableApp(string $appId, bool $forceEnable = false): void;
@@ -180,7 +181,7 @@ interface IAppManager {
 	 * @param string $appId App ID
 	 * @param IGroup[]|string[] $groups Group objects or group IDs
 	 * @param bool $forceEnable Whether to bypass Nextcloud version requirement checks
-	 * @throws \InvalidArgumentException If the app cannot be enabled for groups
+	 * @throws \InvalidArgumentException If the app is not installed or cannot be enabled for groups
 	 * @throws AppPathNotFoundException If the app cannot be found
 	 * @since 8.0.0
 	 */
@@ -264,6 +265,7 @@ interface IAppManager {
 	 *
 	 * @param string $appId App ID
 	 * @return bool
+	 * @throws \Exception if shipped apps inventory file cannot be loaded.
 	 * @since 9.0.0
 	 */
 	public function isShipped($appId);
