@@ -78,7 +78,7 @@ function eightApps(activeIndex: number = -1): INavigationEntry[] {
 // Import AFTER mocks are registered. Static `import` would hoist above
 // vi.mock() and break the wiring; dynamic import in beforeAll/await is the
 // idiomatic Vitest workaround when you need to control mock state per test.
-import type AppMenuModule from '../../components/AppMenu.vue'
+import type AppMenuModule from '../../appmenu/AppMenu.vue'
 let AppMenu: typeof AppMenuModule
 
 beforeEach(async () => {
@@ -88,7 +88,7 @@ beforeEach(async () => {
 	}
 	initialState.loadState.mockImplementation((_app: string, key: string, fallback: unknown) => key === 'apps' ? fakeApps() : fallback)
 	auth.getCurrentUser.mockReturnValue({ isAdmin: false })
-	AppMenu = (await import('../../components/AppMenu.vue')).default
+	AppMenu = (await import('../../appmenu/AppMenu.vue')).default
 })
 
 afterEach(() => {

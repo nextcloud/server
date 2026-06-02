@@ -17,7 +17,7 @@ vi.mock('@nextcloud/l10n', () => ({
 	},
 }))
 
-import AppItem from '../../components/AppItem.vue'
+import AppItem from '../../appmenu/AppItem.vue'
 
 function makeApp(overrides: Partial<INavigationEntry> = {}): INavigationEntry {
 	return {
