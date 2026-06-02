@@ -89,28 +89,49 @@ class ChunkingV2Plugin extends ServerPlugin {
 	}
 
 	/**
-	 * @param string $path
-	 * @param bool $createIfNotExists
-	 * @return FutureFile|UploadFile|ICollection|INode
+	 * Resolve the file and storage/path tuple used for chunk writes.
+	 *
+	 * Direct writes are only used when the destination file already exists on the
+	 * same storage as the upload folder. Otherwise the staging file in the upload
+	 * folder is used and finalized with copy/move afterwards.
+	 *
+	 * FIXME: Verify 'file' return type; old code had probably overly broad `@return FutureFile|UploadFile|ICollection|INode`
+	 *
+	 * @return array{
+	 *   file: File,
+	 *   storage: \OCP\Files\Storage\IStorage,
+	 *   storagePath: string,
+	 *   isDirect: bool
+	 * }
 	 */
-	private function resolveChunkWriteTargetFile(string $path, bool $createIfNotExists = false) {
+	private function resolveChunkWriteTarget(string $path, bool $createIfNotExists = false): array {
 		if (!$this->uploadFolder instanceof UploadFolder) {
 			throw new \LogicException('Upload folder not initialized');
 		}
 
-		$directTarget = $this->tryGetDirectTargetFile($path);
+		$directTarget = $this->tryResolveDirectChunkWriteTarget($path);
 		if ($directTarget !== null) {
 			return $directTarget;
 		}
 
-		return $this->getOrCreateStagingFile($createIfNotExists);
+		return $this->resolveStagingChunkWriteTarget($createIfNotExists);
 	}
 
-	private function tryGetDirectTargetFile(string $path): ?File {
+	/**
+	 * @return array{
+	 *   file: File,
+	 *   storage: \OCP\Files\Storage\IStorage,
+	 *   storagePath: string,
+	 *   isDirect: bool
+	 * }|null
+	 */
+	private function tryResolveDirectChunkWriteTarget(string $path): ?array {
+		$uploadStorage = $this->uploadFolder->getStorage();
+
 		try {
 			$actualFile = $this->server->tree->getNodeForPath($path);
 		} catch (NotFound $e) {
-			// No target file exists yet; fall back to staging via the upload folder.
+			// No target file exists yet; fall back to staging.
 			return null;
 		}
 
@@ -118,24 +139,35 @@ class ChunkingV2Plugin extends ServerPlugin {
 			return null;
 		}
 
-		$uploadStorage = $this->uploadFolder->getStorage();
 		$actualNode = $actualFile->getNode();
-
-		// Direct chunked writes are only safe when both nodes share the same
-		// storage backend; otherwise use the staging file in the upload folder.
-		//
-		// This is a conservative optimization: we only bypass the staging file when
-		// the destination already lives on the same storage as the upload folder.
-		// Broader direct-write support may be possible, but only if getUploadStorage()
-		// is changed to return the correct storage/path for that target backend.
+		// This is a conservative optimization: only bypass staging when the
+		// destination already lives on the same storage as the upload folder.
+		// Broader direct-write support may be possible, but only if this
+		// resolver is extended to return the correct storage/path pair for
+		// that backend.
 		if ($uploadStorage->getId() !== $actualNode->getStorage()->getId()) {
 			return null;
 		}
 
-		return $actualFile;
+		return [
+			'file' => $actualFile,
+			'storage' => $uploadStorage,
+			'storagePath' => $actualFile->getInternalPath(),
+			'isDirect' => true,
+		];
 	}
 
-	private function getOrCreateStagingFile(bool $createIfNotExists) {
+	/**
+	 * @return array{
+	 *   file: File,
+	 *   storage: \OCP\Files\Storage\IStorage,
+	 *   storagePath: string,
+	 *   isDirect: bool
+	 * }
+	 */
+	private function resolveStagingChunkWriteTarget(bool $createIfNotExists): array {
+		$uploadStorage = $this->uploadFolder->getStorage();
+
 		if ($createIfNotExists && !$this->uploadFolder->childExists(self::TEMP_TARGET)) {
 			$this->uploadFolder->createFile(self::TEMP_TARGET);
 		}
@@ -143,7 +175,14 @@ class ChunkingV2Plugin extends ServerPlugin {
 		// Use file in the upload directory that will be copied or moved afterwards
 		/** @var UploadFile $uploadFile */
 		$uploadFile = $this->uploadFolder->getChild(self::TEMP_TARGET);
-		return $uploadFile->getFile();
+		$file = $uploadFile->getFile();
+
+		return [
+			'file' => $file,
+			'storage' => $uploadStorage,
+			'storagePath' => $file->getInternalPath(),
+			'isDirect' => false,
+		];
 	}
 
 	public function afterMkcol(RequestInterface $request, ResponseInterface $response): bool {
@@ -155,15 +194,14 @@ class ChunkingV2Plugin extends ServerPlugin {
 		}
 
 		$this->uploadPath = $this->server->calculateUri($this->server->httpRequest->getHeader(self::DESTINATION_HEADER));
-		$targetFile = $this->resolveChunkWriteTargetFile($this->uploadPath, true);
-		[$storage, $storagePath] = $this->getUploadStorage($this->uploadPath);
+		$resolvedTarget = $this->resolveChunkWriteTarget($this->uploadPath, true);
 
-		$this->uploadId = $storage->startChunkedWrite($storagePath);
+		$this->uploadId = $resolvedTarget['storage']->startChunkedWrite($resolvedTarget['storagePath']);
 
 		$this->cache->set($this->uploadFolder->getName(), [
 			self::UPLOAD_ID => $this->uploadId,
 			self::UPLOAD_TARGET_PATH => $this->uploadPath,
-			self::UPLOAD_TARGET_ID => $targetFile->getId(),
+			self::UPLOAD_TARGET_ID => $resolvedTarget['file']->getId(),
 		], 86400);
 
 		$response->setStatus(Http::STATUS_CREATED);
@@ -178,7 +216,11 @@ class ChunkingV2Plugin extends ServerPlugin {
 			return true;
 		}
 
-		[$storage, $storagePath] = $this->getUploadStorage($this->uploadPath);
+		$resolvedTarget = $this->resolveChunkWriteTarget($this->uploadPath);
+		$storage = $resolvedTarget['storage'];
+		$storagePath = $resolvedTarget['storagePath'];
+		$uploadFile = $resolvedTarget['file'];
+		$isDirect = $resolvedTarget['isDirect'];
 
 		$chunkName = basename($request->getPath());
 		$partId = is_numeric($chunkName) ? (int)$chunkName : -1;
@@ -186,11 +228,10 @@ class ChunkingV2Plugin extends ServerPlugin {
 			throw new BadRequest('Invalid chunk name, must be numeric between 1 and 10000');
 		}
 
-		$uploadFile = $this->resolveChunkWriteTargetFile($this->uploadPath);
 		$tempTargetFile = null;
 
 		$additionalSize = (int)$request->getHeader('Content-Length');
-		if ($this->uploadFolder->childExists(self::TEMP_TARGET) && $this->uploadPath) {
+		if (!$isDirect && $this->uploadPath) {
 			/** @var UploadFile $tempTargetFile */
 			$tempTargetFile = $this->uploadFolder->getChild(self::TEMP_TARGET);
 			[$destinationDir, $destinationName] = Uri\split($this->uploadPath);
@@ -222,28 +263,39 @@ class ChunkingV2Plugin extends ServerPlugin {
 		} catch (StorageInvalidException|BadRequest|NotFound|PreconditionFailed $e) {
 			return true;
 		}
-		[$storage, $storagePath] = $this->getUploadStorage($this->uploadPath);
 
-		$targetFile = $this->resolveChunkWriteTargetFile($this->uploadPath);
+		$resolvedTarget = $this->resolveChunkWriteTarget($this->uploadPath);
+		$storage = $resolvedTarget['storage'];
+		$storagePath = $resolvedTarget['storagePath'];
+		$targetFile = $resolvedTarget['file'];
 
 		[$destinationDir, $destinationName] = Uri\split($destination);
 		/** @var Directory $destinationParent */
 		$destinationParent = $this->server->tree->getNodeForPath($destinationDir);
 		$destinationExists = $destinationParent->childExists($destinationName);
 
-		// allow sync clients to send the modification and creation time along in a header
 		$updateFileInfo = [];
-		if ($this->server->httpRequest->getHeader('X-OC-MTime') !== null) {
-			$updateFileInfo['mtime'] = $this->sanitizeMtime($this->server->httpRequest->getHeader('X-OC-MTime'));
+
+		// allow sync clients to send the modification time along in a header
+		$headerMTime = $this->server->httpRequest->getHeader('X-OC-MTime');
+		if ($headerMTime !== null) {
+			$updateFileInfo['mtime'] = $this->sanitizeMtime($headerMTime);
 			$this->server->httpResponse->setHeader('X-OC-MTime', 'accepted');
 		}
-		if ($this->server->httpRequest->getHeader('X-OC-CTime') !== null) {
-			$updateFileInfo['creation_time'] = $this->sanitizeMtime($this->server->httpRequest->getHeader('X-OC-CTime'));
+
+		// allow sync clients to send the creation time along in a header
+		$headerCTime = $this->server->httpRequest->getHeader('X-OC-CTime');
+		if ($headerCTime !== null) {
+			$updateFileInfo['creation_time'] = $this->sanitizeMtime($headerCTime);
 			$this->server->httpResponse->setHeader('X-OC-CTime', 'accepted');
 		}
+
 		$updateFileInfo['mimetype'] = \OCP\Server::get(IMimeTypeDetector::class)->detectPath($destinationName);
 
-		if ($storage->instanceOfStorage(ObjectStoreStorage::class) && $storage->getObjectStore() instanceof IObjectStoreMultiPartUpload) {
+		if (
+			$storage->instanceOfStorage(ObjectStoreStorage::class)
+			&& $storage->getObjectStore() instanceof IObjectStoreMultiPartUpload
+		) {
 			/** @var ObjectStoreStorage $storage */
 			/** @var IObjectStoreMultiPartUpload $objectStore */
 			$objectStore = $storage->getObjectStore();
@@ -288,8 +340,9 @@ class ChunkingV2Plugin extends ServerPlugin {
 			return true;
 		}
 
-		[$storage, $storagePath] = $this->getUploadStorage($this->uploadPath);
-		$storage->cancelChunkedWrite($storagePath, $this->uploadId);
+		$resolvedTarget = $this->resolveChunkWriteTarget($this->uploadPath);
+		$resolvedTarget['storage']->cancelChunkedWrite($resolvedTarget['storagePath'], $this->uploadId);
+		
 		return true;
 	}
 
@@ -321,15 +374,6 @@ class ChunkingV2Plugin extends ServerPlugin {
 		}
 	}
 
-	/**
-	 * @return array [IStorage, string]
-	 */
-	private function getUploadStorage(string $targetPath): array {
-		$storage = $this->uploadFolder->getStorage();
-		$targetFile = $this->resolveChunkWriteTargetFile($targetPath);
-		return [$storage, $targetFile->getInternalPath()];
-	}
-
 	protected function sanitizeMtime(string $mtimeFromRequest): int {
 		if (!is_numeric($mtimeFromRequest)) {
 			throw new InvalidArgumentException('X-OC-MTime header must be an integer (unix timestamp).');
@@ -349,8 +393,11 @@ class ChunkingV2Plugin extends ServerPlugin {
 	}
 
 	private function completeChunkedWrite(string $targetAbsolutePath): void {
-		$uploadFile = $this->resolveChunkWriteTargetFile($this->uploadPath)->getNode();
-		[$storage, $storagePath] = $this->getUploadStorage($this->uploadPath);
+		$resolvedTarget = $this->resolveChunkWriteTarget($this->uploadPath);
+		$uploadFile = $resolvedTarget['file']->getNode();
+		$storage = $resolvedTarget['storage'];
+		$storagePath = $resolvedTarget['storagePath'];
+		$isDirect = $resolvedTarget['isDirect'];
 
 		$rootFolder = \OCP\Server::get(IRootFolder::class);
 		$exists = $rootFolder->nodeExists($targetAbsolutePath);
@@ -368,8 +415,7 @@ class ChunkingV2Plugin extends ServerPlugin {
 
 		// If the file was not uploaded to the user storage directly we need to copy/move it
 		try {
-			$uploadFileAbsolutePath = $uploadFile->getFileInfo()->getPath();
-			if ($uploadFileAbsolutePath !== $targetAbsolutePath) {
+			if (!$isDirect) {
 				$uploadFile = $rootFolder->get($uploadFile->getFileInfo()->getPath());
 				if ($exists) {
 					$uploadFile->copy($targetAbsolutePath);
