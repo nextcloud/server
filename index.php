@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/lib/versioncheck.php';
 
+use OC\Files\Filesystem;
 use OC\ServiceUnavailableException;
 use OC\User\LoginException;
 use OCP\HintException;
@@ -23,7 +24,7 @@ require_once __DIR__ . '/lib/OC.php';
 
 \OC::boot();
 
-function cleanupStaticCrap() {
+function cleanupStaticCrap(): void {
 	// FIXME needed because these use a static var
 	\OC_Hook::clear();
 	\OC_Util::$styles = [];
@@ -32,6 +33,7 @@ function cleanupStaticCrap() {
 	\OC_User::$_setupedBackends = [];
 	\OC_App::reset();
 	\OC_Helper::reset();
+	Filesystem::reset();
 }
 
 $handler = static function () {
