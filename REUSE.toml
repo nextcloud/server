@@ -130,6 +130,12 @@ SPDX-FileCopyrightText = "2016 ownCloud, Inc."
 SPDX-License-Identifier = "AGPL-3.0-only"
 
 [[annotations]]
+path = ["CLAUDE.md"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
 path = ["core/img/loading-dark.gif", "core/img/loading-small-dark.gif", "core/img/loading-small.gif", "core/img/loading.gif"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2016 ownCloud, Inc., 2016 Nextcloud GmbH and Nextcloud contributors"
