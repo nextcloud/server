@@ -116,7 +116,10 @@ class URLGenerator implements IURLGenerator {
 	 */
 	#[\Override]
 	public function linkTo(string $appName, string $file, array $args = []): string {
-		$frontControllerActive = ($this->config->getSystemValueBool('htaccess.IgnoreFrontController', false) || getenv('front_controller_active') === 'true');
+		$frontControllerActive = (
+			$this->config->getSystemValueBool('htaccess.IgnoreFrontController', false)
+			|| getenv('front_controller_active') === 'true'
+		);
 
 		if ($appName !== '') {
 			$app_path = $this->getAppManager()->getAppPath($appName);
@@ -254,8 +257,13 @@ class URLGenerator implements IURLGenerator {
 			return null;
 		}
 
-		$themingDefaults = Server::get('ThemingDefaults');
+		$themingEnabled = $this->getAppManager()->isEnabledForUser('theming');
+		// TODO: Confirm this is really (still?) needed; matches current policy.
+		if (!$themingEnabled) {
+			return null;
+		}
 
+		$themingDefaults = Server::get('ThemingDefaults');
 		if (!$themingDefaults instanceof ThemingDefaults) {
 			return null;
 		}
