@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -7,6 +9,8 @@
 
 namespace OCA\User_LDAP;
 
+use OCA\User_LDAP\Mapping\GroupMapping;
+use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\Manager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
@@ -15,6 +19,8 @@ use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class AccessFactory {
+	/** @var array<string,Access> */
+	private array $accesses = [];
 
 	public function __construct(
 		private ILDAPWrapper $ldap,
@@ -23,6 +29,8 @@ class AccessFactory {
 		private IUserManager $ncUserManager,
 		private LoggerInterface $logger,
 		private IEventDispatcher $dispatcher,
+		private UserMapping $userMapping,
+		private GroupMapping $groupMapping,
 	) {
 	}
 
@@ -38,5 +46,20 @@ class AccessFactory {
 			$this->appConfig,
 			$this->dispatcher,
 		);
+	}
+
+	public function getAccessForPrefix(string $configPrefix): Access {
+		if (!isset(self::$accesses[$configPrefix])) {
+			$this->addAccess($configPrefix);
+		}
+		return $this->accesses[$configPrefix];
+	}
+
+	private function addAccess(string $configPrefix): void {
+		$connector = new Connection($this->ldap, $configPrefix);
+		$access = $this->get($connector);
+		$access->setUserMapper($this->userMapping);
+		$access->setGroupMapper($this->groupMapping);
+		$this->accesses[$configPrefix] = $access;
 	}
 }

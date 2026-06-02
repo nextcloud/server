@@ -56,7 +56,10 @@ class Encryption implements IEncryptionModule {
 	/** @var int Current version of the file */
 	private int $version = 0;
 
-	/** @var array remember encryption signature version */
+	/**
+	 * @var array remember encryption signature version
+	 * @psalm-suppress ImpureStaticProperty
+	 */
 	private static $rememberVersion = [];
 
 	public function __construct(

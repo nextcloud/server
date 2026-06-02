@@ -131,15 +131,14 @@ class RedisFactory {
 	}
 
 	public function getInstance(): \Redis|\RedisCluster {
-		if (!$this->isAvailable()) {
-			throw new \Exception('Redis support is not available');
-		}
 		if ($this->instance === null) {
+			if (!$this->isAvailable()) {
+				throw new \Exception('Redis support is not available');
+			}
 			$this->create();
-		}
-
-		if ($this->instance === null) {
-			throw new \Exception('Redis support is not available');
+			if ($this->instance === null) {
+				throw new \Exception('Redis support is not available');
+			}
 		}
 
 		return $this->instance;

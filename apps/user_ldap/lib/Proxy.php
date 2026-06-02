@@ -8,8 +8,6 @@
 
 namespace OCA\User_LDAP;
 
-use OCA\User_LDAP\Mapping\GroupMapping;
-use OCA\User_LDAP\Mapping\UserMapping;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\Server;
@@ -18,8 +16,6 @@ use OCP\Server;
  * @template T
  */
 abstract class Proxy {
-	/** @var array<string,Access> */
-	private static array $accesses = [];
 	private ?bool $isSingleBackend = null;
 	private ?ICache $cache = null;
 
@@ -71,22 +67,8 @@ abstract class Proxy {
 		return $this->backends[$configPrefix];
 	}
 
-	private function addAccess(string $configPrefix): void {
-		$userMap = Server::get(UserMapping::class);
-		$groupMap = Server::get(GroupMapping::class);
-
-		$connector = new Connection($this->ldap, $configPrefix);
-		$access = $this->accessFactory->get($connector);
-		$access->setUserMapper($userMap);
-		$access->setGroupMapper($groupMap);
-		self::$accesses[$configPrefix] = $access;
-	}
-
 	protected function getAccess(string $configPrefix): Access {
-		if (!isset(self::$accesses[$configPrefix])) {
-			$this->addAccess($configPrefix);
-		}
-		return self::$accesses[$configPrefix];
+		return $this->accessFactory->getAccessForPrefix($configPrefix);
 	}
 
 	/**
