@@ -197,10 +197,10 @@ class ChunkingV2Plugin extends ServerPlugin {
 	}
 
 	/**
-	 * Initialize chunked-upload metadata after the upload collection is created.
+	 * Start a chunked upload after the upload collection is created.
 	 *
-	 * This resolves the write target, starts the backend chunked-write session,
-	 * and stores the upload metadata in distributed cache for subsequent requests.
+	 * Resolves the upload target, starts the backend chunked-write session,
+	 * and stores upload metadata in distributed cache for subsequent chunk requests.
 	 */
 	public function afterMkcol(RequestInterface $request, ResponseInterface $response): bool {
 		try {
