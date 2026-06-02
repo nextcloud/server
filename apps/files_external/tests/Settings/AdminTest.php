@@ -14,6 +14,7 @@ use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Settings\Admin;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Encryption\IManager;
+use OCP\IL10N;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -22,6 +23,7 @@ class AdminTest extends TestCase {
 	private GlobalStoragesService&MockObject $globalStoragesService;
 	private BackendService&MockObject $backendService;
 	private GlobalAuth&MockObject $globalAuth;
+	private IL10N&MockObject $l10n;
 	private Admin $admin;
 
 	protected function setUp(): void {
@@ -30,12 +32,17 @@ class AdminTest extends TestCase {
 		$this->globalStoragesService = $this->createMock(GlobalStoragesService::class);
 		$this->backendService = $this->createMock(BackendService::class);
 		$this->globalAuth = $this->createMock(GlobalAuth::class);
+		$this->l10n = $this->createMock(IL10N::class);
+		$this->l10n->method('t')->willReturnCallback(function ($text) {
+			return $text;
+		});
 
 		$this->admin = new Admin(
 			$this->encryptionManager,
 			$this->globalStoragesService,
 			$this->backendService,
-			$this->globalAuth
+			$this->globalAuth,
+			$this->l10n
 		);
 	}
 
@@ -90,5 +97,23 @@ class AdminTest extends TestCase {
 
 	public function testGetPriority(): void {
 		$this->assertSame(40, $this->admin->getPriority());
+	}
+
+	public function testGetName(): void {
+		$this->l10n->expects($this->once())
+			->method('t')
+			->with('External storage')
+			->willReturn('External storage');
+
+		$this->assertSame('External storage', $this->admin->getName());
+	}
+
+	public function testGetAuthorizedAppConfig(): void {
+		$this->assertSame([], $this->admin->getAuthorizedAppConfig());
+	}
+
+	public function testImplementsIDelegatedSettings(): void {
+		$this->assertInstanceOf(\OCP\Settings\IDelegatedSettings::class, $this->admin);
+		$this->assertInstanceOf(\OCP\Settings\ISettings::class, $this->admin);
 	}
 }
