@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\App;
 
 use OC\AppConfig;
@@ -40,7 +41,7 @@ use Psr\Log\LoggerInterface;
 
 class AppManager implements IAppManager {
 	/**
-	 * Apps with these types can not be enabled for certain groups only
+	 * Protected apps cannot be enabled for specific groups only.
 	 * @var string[]
 	 */
 	protected $protectedAppTypes = [
@@ -125,7 +126,7 @@ class AppManager implements IAppManager {
 			return $this->appConfig;
 		}
 		if (!$this->config->getSystemValueBool('installed', false)) {
-			throw new \Exception('Nextcloud is not installed yet, AppConfig is not available');
+			throw new \Exception('Nextcloud is not installed, AppConfig is not available yet');
 		}
 		$this->appConfig = Server::get(AppConfig::class);
 		return $this->appConfig;
@@ -136,7 +137,7 @@ class AppManager implements IAppManager {
 			return $this->urlGenerator;
 		}
 		if (!$this->config->getSystemValueBool('installed', false)) {
-			throw new \Exception('Nextcloud is not installed yet, AppConfig is not available');
+			throw new \Exception('Nextcloud is not installed, URLGenerator is not available yet');
 		}
 		$this->urlGenerator = Server::get(IURLGenerator::class);
 		return $this->urlGenerator;
@@ -278,10 +279,10 @@ class AppManager implements IAppManager {
 	}
 
 	/**
-	 * get the types of an app
+	 * Returns the type(s) of a given app.
 	 *
-	 * @param string $app
-	 * @return string[]
+	 * @param string $app App ID
+	 * @return string[] Type(s) applicable to app
 	 */
 	private function getAppTypes(string $app): array {
 		//load the cache
@@ -399,6 +400,8 @@ class AppManager implements IAppManager {
 	 * Adds the app to the 'app_install_overwrite' list, allowing it to be 
 	 * enabled even if the current Nextcloud version exceeds the app's 
 	 * defined 'max-version'.
+	 *
+	 * @internal
 	 */
 	public function overwriteNextcloudRequirement(string $appId): void {
 		$ignoreMaxApps = $this->config->getSystemValue('app_install_overwrite', []);
@@ -414,6 +417,8 @@ class AppManager implements IAppManager {
 	 * This removes the app from the 'app_install_overwrite' list, meaning it can
 	 * no longer be enabled if its maximum supported version is lower than the
 	 * current Nextcloud version.
+	 *
+	 * @internal
 	 */
 	public function removeOverwriteNextcloudRequirement(string $appId): void {
 		$ignoreMaxApps = $this->config->getSystemValue('app_install_overwrite', []);
@@ -537,9 +542,6 @@ class AppManager implements IAppManager {
 		return isset($this->loadedApps[$app]);
 	}
 
-	/**
-	 * @throws \InvalidArgumentException if the application is not installed yet
-	 */
 	#[\Override]
 	public function enableApp(string $appId, bool $forceEnable = false): void {
 		// Check if app exists
@@ -574,11 +576,6 @@ class AppManager implements IAppManager {
 		return !empty($protectedTypes);
 	}
 
-	/**
-	 * @param IGroup[]|string[] $groups
-	 * @throws \InvalidArgumentException if app can't be enabled for groups
-	 * @throws AppPathNotFoundException
-	 */
 	#[\Override]
 	public function enableAppForGroups(string $appId, array $groups, bool $forceEnable = false): void {
 		// Check if app exists
@@ -616,13 +613,10 @@ class AppManager implements IAppManager {
 		$this->configManager->migrateConfigLexiconKeys($appId);
 	}
 
-	/**
-	 * @throws \Exception if app can't be disabled
-	 */
 	#[\Override]
 	public function disableApp($appId, $automaticDisabled = false): void {
 		if ($this->isAlwaysEnabled($appId)) {
-			throw new \Exception("$appId can't be disabled.");
+			throw new \Exception("$appId cannot be disabled; it must always remain enabled");
 		}
 
 		if ($automaticDisabled) {
@@ -856,9 +850,6 @@ class AppManager implements IAppManager {
 		return $incompatibleApps;
 	}
 
-	/**
-	 * @throws \Exception if shipped apps inventory file cannot be loaded.
-	 */
 	#[\Override]
 	public function isShipped(string $appId): bool {
 		$this->loadShippedJson();
@@ -876,6 +867,8 @@ class AppManager implements IAppManager {
 
 	/**
 	 * @throws \Exception if shipped apps inventory file cannot be loaded.
+	 *
+	 * @internal
 	 */
 	private function loadShippedJson(): void {
 		if ($this->shippedApps === null) {
