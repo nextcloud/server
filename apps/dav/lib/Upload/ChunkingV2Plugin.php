@@ -93,25 +93,54 @@ class ChunkingV2Plugin extends ServerPlugin {
 	 * @param bool $createIfNotExists
 	 * @return FutureFile|UploadFile|ICollection|INode
 	 */
-	private function getUploadFile(string $path, bool $createIfNotExists = false) {
-		try {
-			$actualFile = $this->server->tree->getNodeForPath($path);
-			// Only directly upload to the target file if it is on the same storage
-			// There may be further potential to optimize here by also uploading
-			// to other storages directly. This would require to also carefully pick
-			// the storage/path used in getStorage()
-			if ($actualFile instanceof File && $this->uploadFolder->getStorage()->getId() === $actualFile->getNode()->getStorage()->getId()) {
-				return $actualFile;
-			}
-		} catch (NotFound $e) {
-			// If there is no target file we upload to the upload folder first
+	private function resolveChunkWriteTargetFile(string $path, bool $createIfNotExists = false) {
+		if (!$this->uploadFolder instanceof UploadFolder) {
+			throw new \LogicException('Upload folder not initialized');
 		}
 
-		// Use file in the upload directory that will be copied or moved afterwards
-		if ($createIfNotExists) {
+		$directTarget = $this->tryGetDirectTargetFile($path);
+		if ($directTarget !== null) {
+			return $directTarget;
+		}
+
+		return $this->getOrCreateStagingFile($createIfNotExists);
+	}
+
+	private function tryGetDirectTargetFile(string $path): ?File {
+		try {
+			$actualFile = $this->server->tree->getNodeForPath($path);
+		} catch (NotFound $e) {
+			// No target file exists yet; fall back to staging via the upload folder.
+			return null;
+		}
+
+		if (!$actualFile instanceof File) {
+			return null;
+		}
+
+		$uploadStorage = $this->uploadFolder->getStorage();
+		$actualNode = $actualFile->getNode();
+
+		// Direct chunked writes are only safe when both nodes share the same
+		// storage backend; otherwise use the staging file in the upload folder.
+		//
+		// This is a conservative optimization: we only bypass the staging file when
+		// the destination already lives on the same storage as the upload folder.
+		// Broader direct-write support may be possible, but only if getUploadStorage()
+		// is changed to return the correct storage/path for that target backend.
+		if ($uploadStorage->getId() !== $actualNode->getStorage()->getId()) {
+			return null;
+		}
+
+		return $actualFile;
+	}
+
+	private function getOrCreateStagingFile(bool $createIfNotExists) {
+		if ($createIfNotExists && !$this->uploadFolder->childExists(self::TEMP_TARGET)) {
 			$this->uploadFolder->createFile(self::TEMP_TARGET);
 		}
 
+		// Use file in the upload directory that will be copied or moved afterwards
 		/** @var UploadFile $uploadFile */
 		$uploadFile = $this->uploadFolder->getChild(self::TEMP_TARGET);
 		return $uploadFile->getFile();
@@ -126,7 +155,7 @@ class ChunkingV2Plugin extends ServerPlugin {
 		}
 
 		$this->uploadPath = $this->server->calculateUri($this->server->httpRequest->getHeader(self::DESTINATION_HEADER));
-		$targetFile = $this->getUploadFile($this->uploadPath, true);
+		$targetFile = $this->resolveChunkWriteTargetFile($this->uploadPath, true);
 		[$storage, $storagePath] = $this->getUploadStorage($this->uploadPath);
 
 		$this->uploadId = $storage->startChunkedWrite($storagePath);
@@ -157,7 +186,7 @@ class ChunkingV2Plugin extends ServerPlugin {
 			throw new BadRequest('Invalid chunk name, must be numeric between 1 and 10000');
 		}
 
-		$uploadFile = $this->getUploadFile($this->uploadPath);
+		$uploadFile = $this->resolveChunkWriteTargetFile($this->uploadPath);
 		$tempTargetFile = null;
 
 		$additionalSize = (int)$request->getHeader('Content-Length');
@@ -195,7 +224,7 @@ class ChunkingV2Plugin extends ServerPlugin {
 		}
 		[$storage, $storagePath] = $this->getUploadStorage($this->uploadPath);
 
-		$targetFile = $this->getUploadFile($this->uploadPath);
+		$targetFile = $this->resolveChunkWriteTargetFile($this->uploadPath);
 
 		[$destinationDir, $destinationName] = Uri\split($destination);
 		/** @var Directory $destinationParent */
@@ -297,7 +326,7 @@ class ChunkingV2Plugin extends ServerPlugin {
 	 */
 	private function getUploadStorage(string $targetPath): array {
 		$storage = $this->uploadFolder->getStorage();
-		$targetFile = $this->getUploadFile($targetPath);
+		$targetFile = $this->resolveChunkWriteTargetFile($targetPath);
 		return [$storage, $targetFile->getInternalPath()];
 	}
 
@@ -320,7 +349,7 @@ class ChunkingV2Plugin extends ServerPlugin {
 	}
 
 	private function completeChunkedWrite(string $targetAbsolutePath): void {
-		$uploadFile = $this->getUploadFile($this->uploadPath)->getNode();
+		$uploadFile = $this->resolveChunkWriteTargetFile($this->uploadPath)->getNode();
 		[$storage, $storagePath] = $this->getUploadStorage($this->uploadPath);
 
 		$rootFolder = \OCP\Server::get(IRootFolder::class);
