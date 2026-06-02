@@ -20,6 +20,9 @@ use OCP\TaskProcessing\ShapeDescriptor;
  * @since 31.0.0
  */
 class TextToTextChatWithTools implements ITaskType {
+	/**
+	 * @since 31.0.0
+	 */
 	public const ID = 'core:text2text:chatwithtools';
 
 	private IL10N $l;

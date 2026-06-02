@@ -1113,7 +1113,7 @@ interface IQueryBuilder {
 	 * Locks the queried rows for a subsequent update.
 	 *
 	 * @return $this
-	 * @since 34.0.0
+	 * @since 32.0.7
 	 */
 	public function forUpdate(ConflictResolutionMode $conflictResolutionMode = ConflictResolutionMode::Ordinary): self;
 }
