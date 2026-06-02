@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Sharing;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -54,13 +55,13 @@ class SharesReminderJob extends TimedJob {
 		$this->folderMimeTypeId = $mimeTypeLoader->getId(ICacheEntry::DIRECTORY_MIMETYPE);
 	}
 
-
 	/**
 	 * Makes the background job do its work
 	 *
 	 * @param array $argument unused argument
 	 * @throws Exception if a database error occurs
 	 */
+	#[\Override]
 	public function run(mixed $argument): void {
 		foreach ($this->getShares() as $share) {
 			$reminderInfo = $this->prepareReminder($share);

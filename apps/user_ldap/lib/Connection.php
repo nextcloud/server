@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP;
 
 use OC\ServerNotAvailableException;
@@ -347,7 +348,6 @@ class Connection extends LDAPUtility {
 			$this->configured = $this->validateConfiguration($throw);
 		}
 
-
 		return $this->configured;
 	}
 
@@ -580,7 +580,6 @@ class Connection extends LDAPUtility {
 		}
 	}
 
-
 	/**
 	 * Connects and Binds to LDAP
 	 *
@@ -663,7 +662,7 @@ class Connection extends LDAPUtility {
 	/**
 	 * @param string $host
 	 * @param string $port
-	 * @throws \OC\ServerNotAvailableException
+	 * @throws ServerNotAvailableException
 	 */
 	private function doConnect($host, $port): bool {
 		if ($host === '') {

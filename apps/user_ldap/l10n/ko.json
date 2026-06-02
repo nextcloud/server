@@ -147,7 +147,6 @@
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "모드를 전환하면 자동 LDAP 질의를 활성화합니다. LDAP 크기에 따라서 시간이 걸릴 수도 있습니다. 모드를 전환하시겠습니까?",
     "Confirm" : "확인",
     "Failed to delete the server configuration" : "서버 설정을 삭제할 수 없습니다.",
-    "Invalid configuration. Please have a look at the logs for further details." : "설정이 잘못되었습니다. 더 자세한 정보를 보려면 로그를 참조하십시오.",
     "No action specified" : "동작이 지정되지 않음",
     "No configuration specified" : "설정이 지정되지 않음",
     "No data specified" : "데이터가 지정되지 않음",

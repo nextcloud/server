@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\AppInfo;
 
 use OC\Authentication\Events\RemoteWipeFinished;
@@ -23,6 +24,7 @@ use OC\Core\Listener\BeforeTemplateRenderedListener;
 use OC\Core\Listener\PasswordUpdatedListener;
 use OC\Core\Notification\CoreNotifier;
 use OC\OCM\OCMDiscoveryHandler;
+use OC\OCM\OCMJwksHandler;
 use OC\TagManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
@@ -53,6 +55,7 @@ class Application extends App implements IBootstrap {
 		parent::__construct(self::APP_ID, $urlParams);
 	}
 
+	#[\Override]
 	public function register(IRegistrationContext $context): void {
 		$context->registerService('defaultMailAddress', function () {
 			return Util::getDefaultEmailAddress('lostpassword-noreply');
@@ -87,9 +90,11 @@ class Application extends App implements IBootstrap {
 		$context->registerConfigLexicon(ConfigLexicon::class);
 
 		$context->registerWellKnownHandler(OCMDiscoveryHandler::class);
+		$context->registerWellKnownHandler(OCMJwksHandler::class);
 		$context->registerCapability(Capabilities::class);
 	}
 
+	#[\Override]
 	public function boot(IBootContext $context): void {
 		// ...
 	}

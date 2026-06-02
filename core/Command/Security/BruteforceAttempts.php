@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Command\Security;
 
 use OC\Core\Command\Base;
@@ -20,6 +21,7 @@ class BruteforceAttempts extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		parent::configure();
 		$this
@@ -38,6 +40,7 @@ class BruteforceAttempts extends Base {
 		;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$ip = $input->getArgument('ipaddress');
 

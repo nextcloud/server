@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use bantu\IniGetWrapper\IniGetWrapper;
@@ -12,32 +13,28 @@ use OCP\Files;
 use OCP\IConfig;
 use OCP\ITempManager;
 use OCP\Security\ISecureRandom;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class TempManager implements ITempManager {
 	/** @var string[] Current temporary files and folders, used for cleanup */
-	protected $current = [];
-	/** @var string i.e. /tmp on linux systems */
-	protected $tmpBaseDir;
-	/** @var LoggerInterface */
-	protected $log;
-	/** @var IConfig */
-	protected $config;
-	/** @var IniGetWrapper */
-	protected $iniGetWrapper;
+	protected array $current = [];
+	/** @var ?string i.e. /tmp on linux systems */
+	protected ?string $tmpBaseDir = null;
 
 	/** Prefix */
 	public const TMP_PREFIX = 'oc_tmp_';
 
-	public function __construct(LoggerInterface $logger, IConfig $config, IniGetWrapper $iniGetWrapper) {
-		$this->log = $logger;
-		$this->config = $config;
-		$this->iniGetWrapper = $iniGetWrapper;
+	public function __construct(
+		protected LoggerInterface $log,
+		protected IConfig $config,
+		protected IniGetWrapper $iniGetWrapper,
+	) {
 		$this->tmpBaseDir = $this->getTempBaseDir();
 	}
 
 	private function generateTemporaryPath(string $postFix): string {
-		$secureRandom = \OCP\Server::get(ISecureRandom::class);
+		$secureRandom = Server::get(ISecureRandom::class);
 		$absolutePath = $this->tmpBaseDir . '/' . self::TMP_PREFIX . $secureRandom->generate(32, ISecureRandom::CHAR_ALPHANUMERIC);
 
 		if ($postFix !== '') {
@@ -48,6 +45,7 @@ class TempManager implements ITempManager {
 		return $absolutePath . $postFix;
 	}
 
+	#[\Override]
 	public function getTemporaryFile($postFix = ''): string|false {
 		$path = $this->generateTemporaryPath($postFix);
 
@@ -69,6 +67,7 @@ class TempManager implements ITempManager {
 		return $path;
 	}
 
+	#[\Override]
 	public function getTemporaryFolder($postFix = ''): string|false {
 		$path = $this->generateTemporaryPath($postFix) . '/';
 
@@ -89,6 +88,7 @@ class TempManager implements ITempManager {
 	/**
 	 * Remove the temporary files and folders generated during this request
 	 */
+	#[\Override]
 	public function clean() {
 		$this->cleanFiles($this->current);
 	}
@@ -117,6 +117,7 @@ class TempManager implements ITempManager {
 	/**
 	 * Remove old temporary files and folders that were failed to be cleaned
 	 */
+	#[\Override]
 	public function cleanOld() {
 		$this->cleanFiles($this->getOldFiles());
 	}
@@ -150,7 +151,8 @@ class TempManager implements ITempManager {
 	 * @return string Path to the temporary directory or null
 	 * @throws \UnexpectedValueException
 	 */
-	public function getTempBaseDir() {
+	#[\Override]
+	public function getTempBaseDir(): string {
 		if ($this->tmpBaseDir) {
 			return $this->tmpBaseDir;
 		}

@@ -17,11 +17,13 @@ class LoaderTest extends TestCase {
 	protected IDBConnection $db;
 	protected Loader $loader;
 
+	#[\Override]
 	protected function setUp(): void {
 		$this->db = Server::get(IDBConnection::class);
 		$this->loader = new Loader($this->db);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$deleteMimetypes = $this->db->getQueryBuilder();
 		$deleteMimetypes->delete('mimetypes')
@@ -29,8 +31,8 @@ class LoaderTest extends TestCase {
 				'mimetype', $deleteMimetypes->createPositionalParameter('testing/%')
 			));
 		$deleteMimetypes->executeStatement();
+		parent::tearDown();
 	}
-
 
 	public function testGetMimetype(): void {
 		$qb = $this->db->getQueryBuilder();

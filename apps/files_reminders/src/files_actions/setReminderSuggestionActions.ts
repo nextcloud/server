@@ -1,10 +1,12 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+import type { IFileAction } from '@nextcloud/files'
+
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
-import { FileAction } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { setReminder } from '../services/reminderService.ts'
 import { logger } from '../shared/logger.ts'
@@ -55,13 +57,44 @@ const nextWeek: ReminderOption = {
 }
 
 /**
+ * Get all set reminder suggestion actions from presets
+ */
+export function getSetReminderSuggestionActions() {
+	[laterToday, tomorrow, thisWeekend, nextWeek].forEach((option) => {
+		// Generate the initial date string
+		const dateTime = getDateTime(option.dateTimePreset)
+		if (!dateTime) {
+			return
+		}
+		option.dateString = getDateString(dateTime)
+		option.verboseDateString = getVerboseDateString(dateTime)
+
+		// Update the date string every 30 minutes
+		setInterval(() => {
+			const dateTime = getDateTime(option.dateTimePreset)
+			if (!dateTime) {
+				return
+			}
+
+			// update the submenu remind options strings
+			option.dateString = getDateString(dateTime)
+			option.verboseDateString = getVerboseDateString(dateTime)
+		}, 1000 * 30 * 60)
+	})
+
+	// Generate the default preset actions
+	return [laterToday, tomorrow, thisWeekend, nextWeek]
+		.map(generateFileAction)
+}
+
+/**
  * Generate a file action for the given option
  *
  * @param option The option to generate the action for
  * @return The file action or null if the option should not be shown
  */
-function generateFileAction(option: ReminderOption): FileAction | null {
-	return new FileAction({
+function generateFileAction(option: ReminderOption): IFileAction {
+	return {
 		id: `set-reminder-${option.dateTimePreset}`,
 		displayName: () => `${option.label} – ${option.dateString}`,
 		title: () => `${option.ariaLabel} – ${option.verboseDateString}`,
@@ -109,31 +142,5 @@ function generateFileAction(option: ReminderOption): FileAction | null {
 		},
 
 		order: 21,
-	})
-}
-
-[laterToday, tomorrow, thisWeekend, nextWeek].forEach((option) => {
-	// Generate the initial date string
-	const dateTime = getDateTime(option.dateTimePreset)
-	if (!dateTime) {
-		return
 	}
-	option.dateString = getDateString(dateTime)
-	option.verboseDateString = getVerboseDateString(dateTime)
-
-	// Update the date string every 30 minutes
-	setInterval(() => {
-		const dateTime = getDateTime(option.dateTimePreset)
-		if (!dateTime) {
-			return
-		}
-
-		// update the submenu remind options strings
-		option.dateString = getDateString(dateTime)
-		option.verboseDateString = getVerboseDateString(dateTime)
-	}, 1000 * 30 * 60)
-})
-
-// Generate the default preset actions
-export const actions = [laterToday, tomorrow, thisWeekend, nextWeek]
-	.map(generateFileAction) as FileAction[]
+}

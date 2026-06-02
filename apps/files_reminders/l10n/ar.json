@@ -24,10 +24,6 @@
     "Set reminder for this weekend" : "إضبِط التذكير لنهاية هذا الأسبوع",
     "Next week" : "الأسبوع القادم",
     "Set reminder for next week" : "إضبِط التذكير للأسبوع القادم",
-    "This files_reminder can work properly." : "وظيفة التذكير بالملفات هذه تعمل بالشكل الصحيح.",
-    "The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "تطبيق التذكير بالملفات يحتاج إلى تطبيق الإشعارات ليعمل بالشكل الصحيح. عليك إمّا أن تقوم بتمكين الإشعارات او تعطيل التذكير بالملفات.",
-    "Set reminder for \"{fileName}\"" : "ضبط تذكير بالملف \"{fileName}\"",
-    "Set reminder at custom date & time" : "حدّد التذكير في وقت و تاريخ مخصص",
-    "Set custom reminder" : "ضبط تذكير مخصص"
+    "Set reminder for \"{fileName}\"" : "ضبط تذكير بالملف \"{fileName}\""
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

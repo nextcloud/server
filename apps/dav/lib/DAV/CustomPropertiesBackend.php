@@ -35,7 +35,6 @@ use Sabre\DAV\Xml\Property\Href;
 use Sabre\DAV\Xml\Property\LocalHref;
 use Sabre\Xml\ParseException;
 use Sabre\Xml\Service as XmlService;
-
 use function array_intersect;
 
 class CustomPropertiesBackend implements BackendInterface {
@@ -111,6 +110,34 @@ class CustomPropertiesBackend implements BackendInterface {
 	 */
 	private const PROPERTY_DEFAULT_VALUES = [
 		'{http://owncloud.org/ns}calendar-enabled' => '1',
+	];
+
+	/**
+	 * Allowed classes for deserialization
+	 *
+	 * @var class-string[]
+	 */
+	private const ALLOWED_SERIALIZED_CLASSES = [
+		\Sabre\CalDAV\Xml\Property\AllowedSharingModes::class,
+		\Sabre\CalDAV\Xml\Property\EmailAddressSet::class,
+		\Sabre\CalDAV\Xml\Property\Invite::class,
+		\Sabre\CalDAV\Xml\Property\ScheduleCalendarTransp::class,
+		\Sabre\CalDAV\Xml\Property\SupportedCalendarComponentSet::class,
+		\Sabre\CalDAV\Xml\Property\SupportedCalendarData::class,
+		\Sabre\CalDAV\Xml\Property\SupportedCollationSet::class,
+		\Sabre\CardDAV\Xml\Property\SupportedAddressData::class,
+		\Sabre\CardDAV\Xml\Property\SupportedCollationSet::class,
+		\Sabre\DAV\Xml\Property\Complex::class,
+		\Sabre\DAV\Xml\Property\GetLastModified::class,
+		\Sabre\DAV\Xml\Property\Href::class,
+		\Sabre\DAV\Xml\Property\Invite::class,
+		\Sabre\DAV\Xml\Property\LocalHref::class,
+		\Sabre\DAV\Xml\Property\LockDiscovery::class,
+		\Sabre\DAV\Xml\Property\ResourceType::class,
+		\Sabre\DAV\Xml\Property\ShareAccess::class,
+		\Sabre\DAV\Xml\Property\SupportedLock::class,
+		\Sabre\DAV\Xml\Property\SupportedMethodSet::class,
+		\Sabre\DAV\Xml\Property\SupportedReportSet::class,
 	];
 
 	/**
@@ -620,10 +647,7 @@ class CustomPropertiesBackend implements BackendInterface {
 					"Property \"$name\" has an invalid value of type " . gettype($value),
 				);
 			} else {
-				if (!str_starts_with($value::class, 'Sabre\\DAV\\Xml\\Property\\')
-					&& !str_starts_with($value::class, 'Sabre\\CalDAV\\Xml\\Property\\')
-					&& !str_starts_with($value::class, 'Sabre\\CardDAV\\Xml\\Property\\')
-					&& !str_starts_with($value::class, 'OCA\\DAV\\')) {
+				if (!in_array($value::class, self::ALLOWED_SERIALIZED_CLASSES)) {
 					throw new DavException(
 						"Property \"$name\" has an invalid value of class " . $value::class,
 					);
@@ -647,16 +671,10 @@ class CustomPropertiesBackend implements BackendInterface {
 			case self::PROPERTY_TYPE_HREF:
 				return new Href($value);
 			case self::PROPERTY_TYPE_OBJECT:
-				if (preg_match('/^a:/', $value)) {
-					// Array, unserialize only scalar values
-					return unserialize(str_replace('\x00', chr(0), $value), ['allowed_classes' => false]);
-				}
-				if (!preg_match('/^O\:\d+\:\"(OCA\\\\DAV\\\\|Sabre\\\\(Cal|Card)?DAV\\\\Xml\\\\Property\\\\)/', $value)) {
-					throw new \LogicException('Found an object class serialized in DB that is not allowed');
-				}
-				// some databases can not handel null characters, these are custom encoded during serialization
-				// this custom encoding needs to be first reversed before unserializing
-				return unserialize(str_replace('\x00', chr(0), $value));
+				return unserialize(
+					str_replace('\x00', chr(0), $value),
+					['allowed_classes' => self::ALLOWED_SERIALIZED_CLASSES]
+				);
 			default:
 				return $value;
 		};

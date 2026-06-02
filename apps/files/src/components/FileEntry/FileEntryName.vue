@@ -15,9 +15,9 @@
 			ref="renameInput"
 			v-model="newName"
 			:label="renameLabel"
-			:autofocus="true"
+			autofocus
+			required
 			:minlength="1"
-			:required="true"
 			enterkeyhint="done"
 			@keyup.esc="stopRenaming" />
 	</form>
@@ -39,20 +39,21 @@
 </template>
 
 <script lang="ts">
-import type { FileAction, Node, TFileType } from '@nextcloud/files'
+import type { IFileAction, Node, TFileType } from '@nextcloud/files'
 import type { PropType } from 'vue'
 
 import { showError } from '@nextcloud/dialogs'
 import { FileType, NodeStatus } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
+import { basename } from '@nextcloud/paths'
 import { defineComponent, inject } from 'vue'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 import { useFileListWidth } from '../../composables/useFileListWidth.ts'
-import logger from '../../logger.ts'
 import { useActiveStore } from '../../store/active.ts'
 import { useRenamingStore } from '../../store/renaming.ts'
 import { useUserConfigStore } from '../../store/userconfig.ts'
 import { getFilenameValidity } from '../../utils/filenameValidity.ts'
+import { logger } from '../../utils/logger.ts'
 
 export default defineComponent({
 	name: 'FileEntryName',
@@ -78,19 +79,9 @@ export default defineComponent({
 			required: true,
 		},
 
-		nodes: {
-			type: Array as PropType<Node[]>,
-			required: true,
-		},
-
 		source: {
 			type: Object as PropType<Node>,
 			required: true,
-		},
-
-		gridMode: {
-			type: Boolean,
-			default: false,
 		},
 	},
 
@@ -101,7 +92,7 @@ export default defineComponent({
 		const userConfigStore = useUserConfigStore()
 		const { activeFolder, activeView } = useActiveStore()
 
-		const defaultFileAction = inject<FileAction | undefined>('defaultFileAction')
+		const defaultFileAction = inject<IFileAction | undefined>('defaultFileAction')
 
 		return {
 			activeFolder,
@@ -153,8 +144,8 @@ export default defineComponent({
 			if (this.defaultFileAction) {
 				const displayName = this.defaultFileAction.displayName({
 					nodes: [this.source],
-					view: this.activeView,
-					folder: this.activeFolder,
+					view: this.activeView!,
+					folder: this.activeFolder!,
 					contents: [],
 				})
 				return {
@@ -215,7 +206,8 @@ export default defineComponent({
 
 	methods: {
 		checkIfNodeExists(name: string) {
-			return this.nodes.find((node) => node.basename === name && node !== this.source)
+			const sources: string[] = (this.activeFolder as { _children?: string[] })?._children || []
+			return sources.some((sourceName) => basename(sourceName) === name)
 		},
 
 		startRenaming() {

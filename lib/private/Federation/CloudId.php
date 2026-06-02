@@ -6,10 +6,12 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Federation;
 
 use OCP\Federation\ICloudId;
 use OCP\Federation\ICloudIdManager;
+use OCP\Server;
 
 class CloudId implements ICloudId {
 	public function __construct(
@@ -25,14 +27,16 @@ class CloudId implements ICloudId {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function getId(): string {
 		return $this->id;
 	}
 
+	#[\Override]
 	public function getDisplayId(): string {
 		if ($this->displayName === null) {
 			/** @var CloudIdManager $cloudIdManager */
-			$cloudIdManager = \OCP\Server::get(ICloudIdManager::class);
+			$cloudIdManager = Server::get(ICloudIdManager::class);
 			$this->displayName = $cloudIdManager->getDisplayNameFromContact($this->getId());
 		}
 
@@ -49,6 +53,7 @@ class CloudId implements ICloudId {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function getUser(): string {
 		return $this->user;
 	}
@@ -58,6 +63,7 @@ class CloudId implements ICloudId {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function getRemote(): string {
 		return $this->remote;
 	}

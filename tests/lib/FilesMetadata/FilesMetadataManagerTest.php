@@ -42,6 +42,7 @@ class FilesMetadataManagerTest extends TestCase {
 	private Folder $userFolder;
 	private array $metadata = [];
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Http\Request;
@@ -24,6 +25,7 @@ class SameSiteCookieMiddleware extends Middleware {
 	) {
 	}
 
+	#[\Override]
 	public function beforeController($controller, $methodName) {
 		$requestUri = $this->request->getScriptName();
 		$processingScript = explode('/', $requestUri);
@@ -44,6 +46,7 @@ class SameSiteCookieMiddleware extends Middleware {
 		}
 	}
 
+	#[\Override]
 	public function afterException($controller, $methodName, \Exception $exception) {
 		if ($exception instanceof LaxSameSiteCookieFailedException) {
 			$response = new Response();

@@ -170,7 +170,7 @@ export default {
 				this.$emit('added', device)
 			} catch (err) {
 				logger.error('Error persisting webauthn registration', { error: err })
-				throw new Error(t('settings', 'Server error while trying to complete WebAuthn device registration'))
+				throw new Error(t('settings', 'Server error while trying to complete WebAuthn device registration'), { cause: err })
 			}
 		},
 

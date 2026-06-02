@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\BackgroundJob;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -12,10 +13,12 @@ use OCP\AutoloadNotAllowedException;
 use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\IParallelAwareJob;
+use OCP\BackgroundJob\TimedJob;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\Server;
 use OCP\Snowflake\ISnowflakeGenerator;
 use Override;
 use Psr\Container\ContainerExceptionInterface;
@@ -26,6 +29,8 @@ use function min;
 use function strlen;
 
 class JobList implements IJobList {
+	public const MAX_ARGUMENT_JSON_LENGTH = 32000;
+
 	/** @var array<string, string> */
 	protected array $alreadyVisitedParallelBlocked = [];
 
@@ -47,8 +52,8 @@ class JobList implements IJobList {
 		$class = ($job instanceof IJob) ? get_class($job) : $job;
 
 		$argumentJson = json_encode($argument);
-		if (strlen($argumentJson) > 4000) {
-			throw new \InvalidArgumentException('Background job arguments can\'t exceed 4000 characters (json encoded)');
+		if (strlen($argumentJson) > self::MAX_ARGUMENT_JSON_LENGTH) {
+			throw new \InvalidArgumentException('Background job arguments can\'t exceed ' . self::MAX_ARGUMENT_JSON_LENGTH . ' characters (json encoded)');
 		}
 
 		$query = $this->connection->getQueryBuilder();
@@ -73,6 +78,7 @@ class JobList implements IJobList {
 		$query->executeStatement();
 	}
 
+	#[\Override]
 	public function scheduleAfter(string $job, int $runAfter, mixed $argument = null): void {
 		$this->add($job, $argument, $runAfter);
 	}
@@ -217,7 +223,7 @@ class JobList implements IJobList {
 				unset($this->alreadyVisitedParallelBlocked[get_class($job)]);
 			}
 
-			if ($job instanceof \OCP\BackgroundJob\TimedJob) {
+			if ($job instanceof TimedJob) {
 				$now = $this->timeFactory->getTime();
 				$nextPossibleRun = $job->getLastRun() + $job->getInterval();
 				if ($now < $nextPossibleRun) {
@@ -312,7 +318,7 @@ class JobList implements IJobList {
 			try {
 				// Try to load the job as a service
 				/** @var IJob $job */
-				$job = \OCP\Server::get($row['class']);
+				$job = Server::get($row['class']);
 			} catch (ContainerExceptionInterface $e) {
 				if (class_exists($row['class'])) {
 					$class = $row['class'];
@@ -342,6 +348,7 @@ class JobList implements IJobList {
 	/**
 	 * set the job that was last ran
 	 */
+	#[\Override]
 	public function setLastJob(IJob $job): void {
 		$this->unlockJob($job);
 		$this->config->setAppValue('backgroundjob', 'lastjob', $job->getId());
@@ -363,7 +370,7 @@ class JobList implements IJobList {
 			->set('last_run', $query->createNamedParameter(time(), IQueryBuilder::PARAM_INT))
 			->where($query->expr()->eq('id', $query->createNamedParameter($job->getId())));
 
-		if ($job instanceof \OCP\BackgroundJob\TimedJob
+		if ($job instanceof TimedJob
 			&& !$job->isTimeSensitive()) {
 			$query->set('time_sensitive', $query->createNamedParameter(IJob::TIME_INSENSITIVE));
 		}

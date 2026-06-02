@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace OC\Preview\Db;
 
+use DateInterval;
+use DateTimeImmutable;
 use OCP\AppFramework\Db\Entity;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\Exception;
@@ -26,6 +28,7 @@ class PreviewMapper extends QBMapper {
 	private const TABLE_NAME = 'previews';
 	private const LOCATION_TABLE_NAME = 'preview_locations';
 	private const VERSION_TABLE_NAME = 'preview_versions';
+	public const MAX_CHUNK_SIZE = 1000;
 
 	public function __construct(
 		IDBConnection $db,
@@ -35,6 +38,7 @@ class PreviewMapper extends QBMapper {
 		parent::__construct($db, self::TABLE_NAME, Preview::class);
 	}
 
+	#[\Override]
 	protected function mapRowToEntity(array $row): Entity {
 		$row['mimetype'] = $this->mimeTypeLoader->getMimetypeById((int)$row['mimetype_id']);
 		$row['source_mimetype'] = $this->mimeTypeLoader->getMimetypeById((int)$row['source_mimetype_id']);
@@ -204,13 +208,17 @@ class PreviewMapper extends QBMapper {
 	/**
 	 * @return \Generator<Preview>
 	 */
-	public function getPreviews(int $lastId, int $limit = 1000): \Generator {
+	public function getPreviews(string $lastId, int $limit = self::MAX_CHUNK_SIZE, ?int $maxAgeDays = null): \Generator {
 		$qb = $this->db->getQueryBuilder();
 		$this->joinLocation($qb)
-			->where($qb->expr()->gt('p.id', $qb->createNamedParameter($lastId, IQueryBuilder::PARAM_INT)))
+			->where($qb->expr()->gt('p.id', $qb->createNamedParameter($lastId)))
 			->setMaxResults($limit);
-		return $this->yieldEntities($qb);
 
+		if ($maxAgeDays !== null) {
+			$qb->andWhere($qb->expr()->lt('mtime', $qb->createNamedParameter((new DateTimeImmutable())->sub(new DateInterval('P' . $maxAgeDays . 'D'))->getTimestamp(), IQueryBuilder::PARAM_INT)));
+		}
+
+		return $this->yieldEntities($qb);
 	}
 
 	/**

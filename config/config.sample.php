@@ -27,15 +27,12 @@
  */
 
 $CONFIG = [
-
-
 	/**
 	 * Default Parameters
 	 *
 	 * These parameters are configured by the Nextcloud installer, and are required
 	 * for your Nextcloud server to operate.
 	 */
-
 
 	/**
 	 * This is a unique identifier for your Nextcloud installation, created
@@ -50,7 +47,7 @@ $CONFIG = [
 	 * It is useful when your Nextcloud instance is using different PHP servers.
 	 * Once it's set it shouldn't be changed.
 	 *
-	 * Value must be an integer, comprised between 0 and 1023.
+	 * Value must be an integer, comprised between 0 and 511.
 	 *
 	 * When config.php is shared between different servers, this value should be overriden with "NC_serverid=<int>" on each server.
 	 * Note that it must be overriden for CLI and for your webserver.
@@ -196,7 +193,6 @@ $CONFIG = [
 	 * Defaults to ``false``
 	 */
 	'installed' => false,
-
 
 	/**
 	 * User Experience
@@ -739,12 +735,19 @@ $CONFIG = [
 	'overwritecondaddr' => '',
 
 	/**
-	 * Use this configuration parameter to specify the base URL for any URLs which
-	 * are generated within Nextcloud using any kind of command line tools (cron or
-	 * occ). The value should contain the full base URL:
+	 * Set the canonical base URL Nextcloud should use when generating URLs outside
+	 * a normal web request, such as in background jobs or at the command-line.
+	 * The value should be the full base URL including the web root, for example:
 	 * ``https://www.example.com/nextcloud``
-	 * Please make sure to set the value to the URL that your users mainly use to access this Nextcloud.
-	 * Otherwise, there might be problems with the URL generation via cron.
+	 *
+	 * In most setups, this should match the URL your users normally use to access
+	 * Nextcloud. If it is incorrect, URL generation may be wrong in cron jobs,
+	 * ``occ``, notifications, and similar contexts.
+	 *
+	 * NOTE: During installation, Nextcloud seeds this value from the installer’s
+	 * current access context. If it was not preseeded (for example, via
+	 * ``autoconfig.php``), the inferred value may not match the public URL that
+	 * users normally use to access Nextcloud and may need adjustment.
 	 *
 	 * Defaults to ``''`` (empty string)
 	 */
@@ -828,6 +831,17 @@ $CONFIG = [
 	'allow_local_remote_servers' => true,
 
 	/**
+	 * Add the URL of the Nextcloud server in User-Agent headers HTTP calls.
+	 *
+	 * This helps service providers identifying calls from your server,
+	 * which can be helpful for them, but can be a privacy issue on small
+	 * Nextcloud servers.
+	 *
+	 * Defaults to ``false``
+	 */
+	'http_client_add_user_agent_url' => false,
+
+	/**
 	 * Deleted Items (trash bin)
 	 *
 	 * These parameters control the Deleted files app.
@@ -885,7 +899,6 @@ $CONFIG = [
 	 * Defaults to ``auto``
 	 */
 	'trashbin_retention_obligation' => 'auto',
-
 
 	/**
 	 * File versions
@@ -1286,7 +1299,6 @@ $CONFIG = [
 	 */
 	'profiling.path' => '/tmp',
 
-
 	/**
 	 * Alternate Code Locations
 	 *
@@ -1338,7 +1350,8 @@ $CONFIG = [
 	 * By default, activities in team folders or external storages are only generated
 	 * for the current user. This is due to a limitations in current implementations.
 	 * This config flag makes activities in group folders and external storages work
-	 * like in normal shares (when set to ``true``).
+	 * like in normal shares (when set to ``true``). Setting this flag does not allow
+	 * past activities to be displayed (no retroactivity).
 	 *
 	 * WARNING: Enabling this comes with some CRITICAL trade-offs:
 	 *
@@ -1748,6 +1761,16 @@ $CONFIG = [
 	'memcache.distributed' => '\\OC\\Memcache\\Memcached',
 
 	/**
+	 * Cache Key Prefix for Redis or Memcached
+	 *
+	 * * Used for avoiding collisions in the cache system
+	 * * May be used for ACL restrictions in Redis
+	 *
+	 * Defaults to ``''`` (empty string)
+	 */
+	'memcache_customprefix' => 'mycustomprefix',
+
+	/**
 	 * Connection details for Redis to use for memory caching in a single server configuration.
 	 *
 	 * For enhanced security, it is recommended to configure Redis
@@ -1815,7 +1838,6 @@ $CONFIG = [
 		]
 	],
 
-
 	/**
 	 * Server details for one or more Memcached servers to use for memory caching.
 	 */
@@ -1851,7 +1873,6 @@ $CONFIG = [
 		// Binary serializer will be enabled if the igbinary PECL module is available
 		//\Memcached::OPT_SERIALIZER => \Memcached::SERIALIZER_IGBINARY,
 	],
-
 
 	/**
 	 * Location of the cache folder, defaults to ``data/$user/cache`` where
@@ -2005,7 +2026,6 @@ $CONFIG = [
 	 * ``appdata_INSTANCEID/previews/FILEID`` folder structure.
 	 */
 	'objectstore.multibucket.preview-distribution' => false,
-
 
 	/**
 	 * Sharing
@@ -2382,9 +2402,9 @@ $CONFIG = [
 	 * Changing this may cause older, unsupported clients to malfunction, potentially
 	 * leading to data loss or unexpected behavior.
 	 *
-	 * Defaults to ``3.1.50``
+	 * Defaults to ``3.2.50``
 	 */
-	'minimum.supported.desktop.version' => '3.1.50',
+	'minimum.supported.desktop.version' => '3.2.50',
 
 	/**
 	 * Specify the maximum Nextcloud desktop client version allowed to sync with this
@@ -2423,9 +2443,28 @@ $CONFIG = [
 	'localstorage.unlink_on_truncate' => false,
 
 	/**
-	 * EXPERIMENTAL: Include external storage in quota calculations.
+	 * Include external storage mounts in quota calculations.
 	 *
-	 * Defaults to ``false``
+	 * When enabled, user storage quotas will also include files stored on
+	 * external storage mounts (such as SMB, SFTP, S3, etc.) that are
+	 * configured for the user (either as personal or global/system mounts).
+	 *
+	 * Only files visible to the user at these mount points are counted towards
+	 * their quota. Files only visible to other users (on their own mounts) are
+	 * not counted.
+	 *
+	 * By default, system/global external storage mounts are shared: every user
+	 * given access sees the same files and folders from the external storage. To
+	 * have per-user isolation, configure the mount with user-specific path or
+	 * credentials, or utilize a personal mount.
+	 *
+	 * Enabling this option may impact performance if external storages are slow
+	 * or unreliable.
+	 *
+	 * Warning: This setting is considered EXPERIMENTAL and may not work with all
+	 * external storage backends.
+	 *
+	 * Defaults to ``false``.
 	 */
 	'quota_include_external_storage' => false,
 
@@ -2462,27 +2501,53 @@ $CONFIG = [
 	'filesystem_check_changes' => 0,
 
 	/**
-	 * Store part files created during upload in the same storage as the upload
-	 * target. Setting this to false stores part files in the root of the user's
-	 * folder, which may be necessary for external storage with limited rename
-	 * capabilities.
+	 * Control where temporary ".part" files are written during direct (non-chunked)
+	 * uploads.
 	 *
-	 * Defaults to ``true``
+	 * While an upload is in progress, Nextcloud writes data to a temporary ".part"
+	 * file and renames it to the final filename when the upload completes.
+	 *
+	 * - true: create the temporary ".part" file in the destination storage/path.
+	 *   This typically avoids cross-storage moves and can improve reliability and
+	 *   performance on backends where rename within the same storage is cheap/atomic.
+	 * - false: create the temporary ".part" file in the user's root folder first.
+	 *   This may help with some external storages that have limited rename/move
+	 *   behavior, but can add extra copy/move overhead.
+	 *
+	 * Note: This setting applies to direct (non-chunked) uploads only. Chunked/
+	 * resumable uploads use a separate uploads staging mechanism and are not
+	 * controlled by this option.
+	 *
+	 * Defaults to ``true``.
 	 */
 	'part_file_in_storage' => true,
 
 	/**
-	 * Specify the location of the ``mount.json`` file.
+	 * Read-only mode for scan/detection reconciliation writes to filecache.
 	 *
-	 * Defaults to ``data/mount.json`` in the Nextcloud directory.
-	 */
-	'mount_file' => '/var/www/nextcloud/data/mount.json',
-
-	/**
-	 * Prevent Nextcloud from updating the cache due to filesystem changes for all
-	 * storage.
+	 * When true, Nextcloud does not store filecache metadata changes that are
+	 * identified through scanner/change-detection reconciliation paths (global:
+	 * all storages).
 	 *
-	 * Defaults to ``false``
+	 * Scope note:
+	 *
+	 * - Nextcloud-originated operations (UI/WebDAV/clients) are generally
+	 *   handled through normal application write paths and thus will still
+	 *   update filecache even when this is set to true.
+	 * - Reconciliation/refresh paths are prevented from writing back discovered
+	 *   metadata deltas while this is enabled.
+	 *
+	 * Practical effect:
+	 *
+	 * - Changes made directly on storage outside Nextcloud are generally not
+	 *   reflected while enabled.
+	 * - Some metadata-dependent behavior can appear stale until this parameter
+	 *   is disabled (permitting reconciliation writes again).
+	 *
+	 * Warning: This is an expert/global setting for specialized environments and
+	 * is intentionally not default-safe for general deployments.
+	 *
+	 * Defaults to ``false``.
 	 */
 	'filesystem_cache_readonly' => false,
 
@@ -2612,6 +2677,13 @@ $CONFIG = [
 	 * Defaults to ``''`` (empty string)
 	 */
 	'data-fingerprint' => '',
+
+	/**
+	 * config.php file mode in octal notation.
+	 *
+	 * Defaults to ``0640`` (writable by user, readable by group).
+	 */
+	'configfilemode' => 0640,
 
 	/**
 	 * This entry serves as a warning if the sample configuration was copied.
@@ -2775,9 +2847,23 @@ $CONFIG = [
 	'diagnostics.logging.threshold' => 0,
 
 	/**
-	 * Enable profiling globally.
+	 * Toggle availability of user profiles.
 	 *
-	 * Defaults to ``true``
+	 * User profile pages contain information that can be shared with other users,
+	 * such as full name, phone number, organization, role, and similar fields.
+	 *
+	 * Profiles are enabled by default, and profile data may be used by other
+	 * features (for example, the system address book).
+	 *
+	 * Profile visibility is layered: what is shared depends on a combination of
+	 * system-wide and account-level privacy controls, and each field's visibility
+	 * can be configured.
+	 *
+	 * When set to false, profile functionality is disabled instance-wide.
+	 *
+	 * Note: This affects user account profiles, not the developer performance profiler.
+	 *
+	 * Defaults to `true`
 	 */
 	'profile.enabled' => true,
 
@@ -2862,7 +2948,7 @@ $CONFIG = [
 	/**
 	 * Maximum number of chunks uploaded in parallel during chunked uploads. Higher
 	 * counts increase throughput but consume more server resources, with diminishing
-	 * returns.
+	 * returns. Value must be a positive integer.
 	 *
 	 * Defaults to ``5``
 	 */
@@ -2917,4 +3003,12 @@ $CONFIG = [
 		'fe80::/10',
 		'10.0.0.1',
 	],
+
+	/**
+	 * Delete previews older than a certain number of days to reduce storage usage.
+	 * Less than one day is not allowed, so set it to 0 to disable the deletion.
+	 *
+	 * Defaults to ``0``.
+	 */
+	'preview_expiration_days' => 0,
 ];

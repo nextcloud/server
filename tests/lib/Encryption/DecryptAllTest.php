@@ -42,6 +42,7 @@ class DecryptAllTest extends TestCase {
 
 	private DecryptAll $instance;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -235,7 +236,6 @@ class DecryptAllTest extends TestCase {
 		$storage = $this->getMockBuilder(IStorage::class)
 			->disableOriginalConstructor()->getMock();
 
-
 		$sharedStorage = $this->getMockBuilder(IStorage::class)
 			->disableOriginalConstructor()->getMock();
 
@@ -248,7 +248,7 @@ class DecryptAllTest extends TestCase {
 			->method('getDirectoryContent')
 			->willReturnMap([
 				[
-					'/user1/files', '', null,
+					'/user1/files', null, null,
 					[
 						new FileInfo('path', $storage, 'intPath', ['name' => 'foo', 'type' => 'dir'], null),
 						new FileInfo('path', $storage, 'intPath', ['name' => 'bar', 'type' => 'file', 'encrypted' => true], null),
@@ -256,7 +256,7 @@ class DecryptAllTest extends TestCase {
 					],
 				],
 				[
-					'/user1/files/foo', '', null,
+					'/user1/files/foo', null, null,
 					[
 						new FileInfo('path', $storage, 'intPath', ['name' => 'subfile', 'type' => 'file', 'encrypted' => true], null)
 					],
@@ -284,7 +284,6 @@ class DecryptAllTest extends TestCase {
 				$this->assertEquals($expected, $path);
 				return true;
 			});
-
 
 		/* We need format method to return a string */
 		$outputFormatter = $this->createMock(OutputFormatterInterface::class);
@@ -355,7 +354,6 @@ class DecryptAllTest extends TestCase {
 			)
 			->onlyMethods(['getTimestamp'])
 			->getMock();
-
 
 		$fileInfo = $this->createMock(FileInfo::class);
 		$fileInfo->expects($this->any())->method('isEncrypted')

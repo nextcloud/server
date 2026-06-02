@@ -110,10 +110,6 @@ OC.L10N.register(
     "Failed to delete tag for file" : "Fallo al borrar la etiqueta del archivo",
     "Collaborative tags …" : "Etiquetas colaborativas ...",
     "Loading …" : "Cargando …",
-    "File tags modification canceled" : "Modificación de las etiquetas del archivo cancelada",
-    "Select or create tags to apply to all selected files" : "Selecciona o crea etiquetas para aplicar a los archivos seleccionados",
-    "Select tags to apply to all selected files" : "Seleccione las etiquetas que se aplicarán a todos los archivos",
-    "Apply changes" : "Aplicar cambios",
     "Loading collaborative tags …" : "Cargando etiquetas colaborativas …"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

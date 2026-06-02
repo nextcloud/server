@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Repair\Owncloud;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -36,6 +37,7 @@ class MoveAvatarsBackgroundJob extends QueuedJob {
 		}
 	}
 
+	#[\Override]
 	public function run($argument) {
 		$this->logger->info('Started migrating avatars to AppData folder');
 		$this->moveAvatars();
@@ -49,7 +51,7 @@ class MoveAvatarsBackgroundJob extends QueuedJob {
 		}
 
 		$counter = 0;
-		$this->userManager->callForSeenUsers(function (IUser $user) use (&$counter) {
+		$this->userManager->callForSeenUsers(function (IUser $user) use (&$counter): void {
 			$uid = $user->getUID();
 
 			$path = 'avatars/' . $this->buildOwnCloudAvatarPath($uid);

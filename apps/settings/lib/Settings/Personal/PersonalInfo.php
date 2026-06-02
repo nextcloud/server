@@ -35,25 +35,22 @@ use OCP\Util;
 
 class PersonalInfo implements ISettings {
 
-	/** @var ProfileManager */
-	private $profileManager;
-
 	public function __construct(
 		private IConfig $config,
 		private IUserManager $userManager,
 		private IGroupManager $groupManager,
 		private ITeamManager $teamManager,
 		private IAccountManager $accountManager,
-		ProfileManager $profileManager,
+		private ProfileManager $profileManager,
 		private IAppManager $appManager,
 		private IFactory $l10nFactory,
 		private IL10N $l,
 		private IInitialState $initialStateService,
 		private IManager $manager,
 	) {
-		$this->profileManager = $profileManager;
 	}
 
+	#[\Override]
 	public function getForm(): TemplateResponse {
 		$federationEnabled = $this->appManager->isEnabledForUser('federation');
 		$federatedFileSharingEnabled = $this->appManager->isEnabledForUser('federatedfilesharing');
@@ -165,6 +162,7 @@ class PersonalInfo implements ISettings {
 	 * returns the section ID string, e.g. 'sharing'
 	 * @since 9.1
 	 */
+	#[\Override]
 	public function getSection(): string {
 		return 'personal-info';
 	}
@@ -177,6 +175,7 @@ class PersonalInfo implements ISettings {
 	 * E.g.: 70
 	 * @since 9.1
 	 */
+	#[\Override]
 	public function getPriority(): int {
 		return 10;
 	}

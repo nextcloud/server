@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\Share20\Exception\BackendError;
@@ -65,6 +66,7 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 	 *
 	 * @return void
 	 */
+	#[\Override]
 	public function initialize(Server $server) {
 		$server->xml->namespaceMap[self::NS_OWNCLOUD] = 'oc';
 		$server->xml->elementMap[self::SHARETYPES_PROPERTYNAME] = ShareTypeList::class;

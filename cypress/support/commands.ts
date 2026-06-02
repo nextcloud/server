@@ -88,9 +88,9 @@ Cypress.Commands.add('setFileAsFavorite', (user: User, target: string, favorite 
 					</d:propertyupdate>`,
 				})
 				cy.log(`Created directory ${target}`, response)
-			} catch (error) {
-				cy.log('error', error)
-				throw new Error('Unable to process fixture')
+			} catch (cause) {
+				cy.log('error', cause)
+				throw new Error('Unable to process fixture', { cause })
 			}
 		})
 })
@@ -111,9 +111,9 @@ Cypress.Commands.add('mkdir', (user: User, target: string) => {
 				})
 				cy.log(`Created directory ${target}`, response)
 				return response
-			} catch (error) {
-				cy.log('error', error)
-				throw new Error('Unable to create directory')
+			} catch (cause) {
+				cy.log('error', cause)
+				throw new Error('Unable to create directory', { cause })
 			}
 		})
 })
@@ -133,9 +133,9 @@ Cypress.Commands.add('rm', (user: User, target: string) => {
 					},
 				})
 				cy.log(`delete file or directory ${target}`, response)
-			} catch (error) {
-				cy.log('error', error)
-				throw new Error('Unable to delete file or directory')
+			} catch (cause) {
+				cy.log('error', cause)
+				throw new Error('Unable to delete file or directory', { cause })
 			}
 		})
 })
@@ -174,11 +174,41 @@ Cypress.Commands.add('uploadContent', (user: User, blob: Blob, mimeType: string,
 			})
 			cy.log(`Uploaded content as ${fileName}`, response)
 			return response
-		} catch (error) {
-			cy.log('error', error)
-			throw new Error('Unable to process fixture')
+		} catch (cause) {
+			cy.log('error', cause)
+			throw new Error('Unable to process fixture', { cause })
 		}
 	})
+})
+
+Cypress.Commands.add('createShare', (sharer: User, path: string, shareType: number, shareWith: string) => {
+	return cy.clearCookies()
+		.then(async () => {
+			try {
+				const url = `${Cypress.env('baseUrl')}/ocs/v2.php/apps/files_sharing/api/v1/shares`
+				const response = await axios({
+					url,
+					method: 'POST',
+					auth: {
+						username: sharer.userId,
+						password: sharer.password,
+					},
+					headers: {
+						'OCS-ApiRequest': 'true',
+					},
+					data: {
+						path,
+						shareType,
+						shareWith,
+					},
+				})
+				cy.log(`Created share for ${path} of type ${shareType} with ${shareWith}`, response)
+				return response
+			} catch (cause) {
+				cy.log('error', cause)
+				throw new Error(`Unable to create share for ${path} of type ${shareType} with ${shareWith}`, { cause })
+			}
+		})
 })
 
 /**

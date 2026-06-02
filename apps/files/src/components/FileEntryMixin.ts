@@ -3,12 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { FileAction } from '@nextcloud/files'
+import type { IFileAction } from '@nextcloud/files'
 import type { PropType } from 'vue'
 import type { FileSource } from '../types.ts'
 
-import { showError } from '@nextcloud/dialogs'
-import { FileType, Folder, getFileActions, File as NcFile, Node, NodeStatus, Permission } from '@nextcloud/files'
+import { FileType, Folder, File as NcFile, Node, NodeStatus, Permission } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import { isPublicShare } from '@nextcloud/sharing/public'
@@ -16,15 +15,13 @@ import { vOnClickOutside } from '@vueuse/components'
 import { extname } from 'path'
 import Vue, { computed, defineComponent } from 'vue'
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
-import logger from '../logger.ts'
 import { dataTransferToFileTree, onDropExternalFiles, onDropInternalFiles } from '../services/DropService.ts'
 import { getDragAndDropPreview } from '../utils/dragUtils.ts'
 import { hashCode } from '../utils/hashUtils.ts'
+import { logger } from '../utils/logger.ts'
 import { isDownloadable } from '../utils/permissions.ts'
 
 Vue.directive('onClickOutside', vOnClickOutside)
-
-const actions = getFileActions()
 
 export default defineComponent({
 	props: {
@@ -233,8 +230,8 @@ export default defineComponent({
 				return []
 			}
 
-			return actions
-				.filter((action: FileAction) => {
+			return this.actions
+				.filter((action: IFileAction) => {
 					if (!action.enabled) {
 						return true
 					}
@@ -257,7 +254,7 @@ export default defineComponent({
 		},
 
 		defaultFileAction() {
-			return this.enabledFileActions.find((action: FileAction) => action.default !== undefined)
+			return this.enabledFileActions.find((action: IFileAction) => action.default !== undefined)
 		},
 	},
 
@@ -478,42 +475,62 @@ export default defineComponent({
 			event.preventDefault()
 			event.stopPropagation()
 
-			// Caching the selection
-			const selection = this.draggingFiles
-			const items = [...event.dataTransfer?.items || []] as DataTransferItem[]
-
-			// We need to process the dataTransfer ASAP before the
-			// browser clears it. This is why we cache the items too.
-			const fileTree = await dataTransferToFileTree(items)
-
-			// We might not have the target directory fetched yet
-			const contents = await this.activeView?.getContents(this.source.path)
-			const folder = contents?.folder
-			if (!folder) {
-				showError(this.t('files', 'Target folder does not exist any more'))
-				return
-			}
-
 			// If another button is pressed, cancel it. This
 			// allows cancelling the drag with the right click.
 			if (!this.canDrop || event.button) {
 				return
 			}
 
-			const isCopy = event.ctrlKey
-			this.dragover = false
+			// Caching the selection
+			const selection = this.draggingFiles
+			const items = Array.from(event.dataTransfer?.items || [])
 
-			logger.debug('Dropped', { event, folder, selection, fileTree })
+			if (selection.length === 0 && items.some((item) => item.kind === 'file')) {
+				// Snapshot DataTransfer items immediately so Blink clears data.items
+				// after the first async yield. Then convert FileSystemEntry to File
+				// inside dataTransferToFileTree (duck-typed via entry.isFile) rather
+				// than deferring to @nextcloud/upload's batchUpload, whose
+				// instanceof-based conversion silently no-ops on some Chromium builds.
+				// See https://github.com/nextcloud/server/issues/60139
+				const fileTree = await dataTransferToFileTree(items)
 
-			// Check whether we're uploading files
-			if (selection.length === 0 && fileTree.contents.length > 0) {
-				await onDropExternalFiles(fileTree, folder, contents.contents)
+				// canDrop already gates this branch on FileType.Folder, but the
+				// type system can't see that — narrow defensively so a future
+				// loosening of canDrop can't silently lie via the cast below.
+				// Use the `type` field rather than `instanceof Folder`: apps
+				// bundle their own copy of @nextcloud/files, so a Folder from
+				// an app would not be `instanceof` the server's Folder class.
+				if (this.source.type !== FileType.Folder) {
+					logger.error('onDrop: external drop target is not a Folder', { source: this.source })
+					this.dragover = false
+					return
+				}
+
+				// Fetch destination contents for conflict resolution
+				const cachedContents = this.filesStore.getNodesByPath(this.activeView.id, this.source.path)
+				const contents = cachedContents.length === 0
+					? (await this.activeView!.getContents(this.source.path)).contents
+					: cachedContents
+
+				logger.debug('Start uploading dropped files', { target: this.source.path, fileTree })
+				await onDropExternalFiles(fileTree, this.source as Folder, contents)
+				this.dragover = false
 				return
 			}
 
-			// Else we're moving/copying files
+			// We might not have the target directory fetched yet
+			const cachedContents = this.filesStore.getNodesByPath(this.activeView.id, this.source.path)
+			const contents = cachedContents.length === 0
+				? (await this.activeView!.getContents(this.source.path)).contents
+				: cachedContents
+
+			const isCopy = event.ctrlKey
+			this.dragover = false
+
+			logger.debug('Dropped', { event, folder: this.source, selection })
+
 			const nodes = selection.map((source) => this.filesStore.getNode(source)) as Node[]
-			await onDropInternalFiles(nodes, folder, contents.contents, isCopy)
+			await onDropInternalFiles(nodes, this.source, contents, isCopy)
 
 			// Reset selection after we dropped the files
 			// if the dropped files are within the selection

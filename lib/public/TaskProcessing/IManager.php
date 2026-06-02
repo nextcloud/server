@@ -7,7 +7,6 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-
 namespace OCP\TaskProcessing;
 
 use OCP\AppFramework\Attribute\Consumable;
@@ -257,6 +256,17 @@ interface IManager {
 	 * @since 30.0.0
 	 */
 	public function setTaskStatus(Task $task, int $status): void;
+
+	/**
+	 * Get the count of tasks filtered by status and optionally by task type(s)
+	 *
+	 * @param int $status The task status to filter by
+	 * @param list<string> $taskTypeIds Optional list of task type IDs to filter by
+	 * @return int The count of matching tasks
+	 * @throws Exception If the query failed
+	 * @since 34.0.0
+	 */
+	public function countTasks(int $status, array $taskTypeIds = []): int;
 
 	/**
 	 * Extract all input and output file IDs from a task

@@ -44,7 +44,6 @@ interface IMetadataValueWrapper extends JsonSerializable {
 	/** @since 28.0.0 */
 	public const EDIT_REQ_READ_PERMISSION = 3;
 
-
 	/**
 	 * Unless a call of import() to deserialize an object is expected, a valid value type is needed here.
 	 *
@@ -187,7 +186,6 @@ interface IMetadataValueWrapper extends JsonSerializable {
 	 * @since 28.0.0
 	 */
 	public function setValueIntList(array $value): self;
-
 
 	/**
 	 * get stored value

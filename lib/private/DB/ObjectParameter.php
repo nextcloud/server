@@ -8,28 +8,22 @@ declare(strict_types = 1);
  * SPDX-FileCopyrightText: 2022 Fabien Potencier <fabien@symfony.com>
  * SPDX-License-Identifier: AGPL-3.0-or-later AND MIT
  */
+
 namespace OC\DB;
 
 final class ObjectParameter {
-	private $object;
-	private $error;
 	private $stringable;
 	private $class;
 
-	/**
-	 * @param object $object
-	 */
-	public function __construct($object, ?\Throwable $error) {
-		$this->object = $object;
-		$this->error = $error;
-		$this->stringable = \is_callable([$object, '__toString']);
-		$this->class = \get_class($object);
+	public function __construct(
+		private object $object,
+		private ?\Throwable $error,
+	) {
+		$this->stringable = \is_callable([$this->object, '__toString']);
+		$this->class = \get_class($this->object);
 	}
 
-	/**
-	 * @return object
-	 */
-	public function getObject() {
+	public function getObject(): object {
 		return $this->object;
 	}
 

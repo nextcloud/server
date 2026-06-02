@@ -43,6 +43,7 @@ class FactoryTest extends TestCase {
 	/** @var IAppManager|MockObject */
 	protected IAppManager $appManager;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -95,6 +96,7 @@ class FactoryTest extends TestCase {
 		return [
 			'null shortcut' => [null, null],
 			'default language' => ['de', 'de'],
+			'regional language' => ['de_DE', 'de_DE'],
 			'malicious language' => ['de/../fr', 'defr'],
 			'request language' => ['kab;q=0.8,ka;q=0.7,de;q=0.6', 'kab;q=0.8,ka;q=0.7,de;q=0.6'],
 		];
@@ -272,7 +274,6 @@ class FactoryTest extends TestCase {
 			->expects(self::never())
 			->method('setUserValue')
 			->with('MyUserUid', 'core', 'lang', 'en');
-
 
 		self::assertSame('en', $factory->findLanguage('MyApp'));
 	}

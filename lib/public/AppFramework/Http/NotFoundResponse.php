@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\AppFramework\Http;
 
 use OCP\AppFramework\Http;
@@ -12,8 +13,8 @@ use OCP\AppFramework\Http;
 /**
  * A generic 404 response showing an 404 error page as well to the end-user
  * @since 8.1.0
- * @template S of Http::STATUS_*
- * @template H of array<string, mixed>
+ * @template-covariant S of Http::STATUS_*
+ * @template-covariant H of array<string, mixed>
  * @template-extends TemplateResponse<Http::STATUS_*, array<string, mixed>>
  */
 class NotFoundResponse extends TemplateResponse {

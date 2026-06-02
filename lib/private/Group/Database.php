@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Group;
 
 use OC\User\LazyUser;
@@ -25,6 +26,7 @@ use OCP\Group\Backend\ISearchableGroupBackend;
 use OCP\Group\Backend\ISetDisplayNameBackend;
 use OCP\IDBConnection;
 use OCP\IUserManager;
+use OCP\Server;
 
 /**
  * Class for group management in a SQL Database (e.g. MySQL, SQLite)
@@ -60,10 +62,11 @@ class Database extends ABackend implements
 	 */
 	private function fixDI() {
 		if ($this->dbConn === null) {
-			$this->dbConn = \OC::$server->getDatabaseConnection();
+			$this->dbConn = Server::get(IDBConnection::class);
 		}
 	}
 
+	#[\Override]
 	public function createGroup(string $name): ?string {
 		$this->fixDI();
 
@@ -99,6 +102,7 @@ class Database extends ABackend implements
 	 *
 	 * Deletes a group and removes it from the group_user-table
 	 */
+	#[\Override]
 	public function deleteGroup(string $gid): bool {
 		$this->fixDI();
 
@@ -134,6 +138,7 @@ class Database extends ABackend implements
 	 *
 	 * Checks whether the user is member of a group or not.
 	 */
+	#[\Override]
 	public function inGroup($uid, $gid) {
 		$this->fixDI();
 
@@ -159,6 +164,7 @@ class Database extends ABackend implements
 	 *
 	 * Adds a user to a group.
 	 */
+	#[\Override]
 	public function addToGroup(string $uid, string $gid): bool {
 		$this->fixDI();
 
@@ -183,6 +189,7 @@ class Database extends ABackend implements
 	 *
 	 * removes the user from a group.
 	 */
+	#[\Override]
 	public function removeFromGroup(string $uid, string $gid): bool {
 		$this->fixDI();
 
@@ -203,6 +210,7 @@ class Database extends ABackend implements
 	 * This function fetches all groups a user belongs to. It does not check
 	 * if the user exists at all.
 	 */
+	#[\Override]
 	public function getUserGroups($uid) {
 		//guests has empty or null $uid
 		if ($uid === null || $uid === '') {
@@ -241,6 +249,7 @@ class Database extends ABackend implements
 	 *
 	 * Returns a list with all groups
 	 */
+	#[\Override]
 	public function getGroups(string $search = '', int $limit = -1, int $offset = 0) {
 		$this->fixDI();
 
@@ -284,6 +293,7 @@ class Database extends ABackend implements
 	 * @param string $gid
 	 * @return bool
 	 */
+	#[\Override]
 	public function groupExists($gid) {
 		$this->fixDI();
 
@@ -313,6 +323,7 @@ class Database extends ABackend implements
 	/**
 	 * {@inheritdoc}
 	 */
+	#[\Override]
 	public function groupsExists(array $gids): array {
 		$notFoundGids = [];
 		$existingGroups = [];
@@ -355,10 +366,12 @@ class Database extends ABackend implements
 	 * @param int $offset
 	 * @return array<int,string> an array of user ids
 	 */
+	#[\Override]
 	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0): array {
 		return array_values(array_map(fn ($user) => $user->getUid(), $this->searchInGroup($gid, $search, $limit, $offset)));
 	}
 
+	#[\Override]
 	public function searchInGroup(string $gid, string $search = '', int $limit = -1, int $offset = 0): array {
 		$this->fixDI();
 
@@ -400,7 +413,6 @@ class Database extends ABackend implements
 				->orderBy('g.uid', 'ASC');
 		}
 
-
 		if ($limit !== -1) {
 			$query->setMaxResults($limit);
 		}
@@ -411,7 +423,7 @@ class Database extends ABackend implements
 		$result = $query->executeQuery();
 
 		$users = [];
-		$userManager = \OCP\Server::get(IUserManager::class);
+		$userManager = Server::get(IUserManager::class);
 		while ($row = $result->fetch()) {
 			$users[$row['uid']] = new LazyUser($row['uid'], $userManager, $row['displayname'] ?? null);
 		}
@@ -426,6 +438,7 @@ class Database extends ABackend implements
 	 * @param string $search
 	 * @return int
 	 */
+	#[\Override]
 	public function countUsersInGroup(string $gid, string $search = ''): int {
 		$this->fixDI();
 
@@ -460,6 +473,7 @@ class Database extends ABackend implements
 	 *
 	 * @return int
 	 */
+	#[\Override]
 	public function countDisabledInGroup(string $gid): int {
 		$this->fixDI();
 
@@ -485,6 +499,7 @@ class Database extends ABackend implements
 		return $count;
 	}
 
+	#[\Override]
 	public function getDisplayName(string $gid): string {
 		if (isset($this->groupCache[$gid])) {
 			$displayName = $this->groupCache[$gid]['displayname'];
@@ -508,6 +523,7 @@ class Database extends ABackend implements
 		return (string)$displayName;
 	}
 
+	#[\Override]
 	public function getGroupDetails(string $gid): array {
 		$displayName = $this->getDisplayName($gid);
 		if ($displayName !== '') {
@@ -520,6 +536,7 @@ class Database extends ABackend implements
 	/**
 	 * {@inheritdoc}
 	 */
+	#[\Override]
 	public function getGroupsDetails(array $gids): array {
 		$notFoundGids = [];
 		$details = [];
@@ -556,6 +573,7 @@ class Database extends ABackend implements
 		return $details;
 	}
 
+	#[\Override]
 	public function setDisplayName(string $gid, string $displayName): bool {
 		if (!$this->groupExists($gid)) {
 			return false;
@@ -582,6 +600,7 @@ class Database extends ABackend implements
 	 * @return string the name of the backend to be shown
 	 * @since 21.0.0
 	 */
+	#[\Override]
 	public function getBackendName(): string {
 		return 'Database';
 	}

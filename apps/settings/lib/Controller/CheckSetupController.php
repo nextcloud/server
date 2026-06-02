@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Settings\Controller;
 
 use OC\AppFramework\Http;
@@ -27,21 +28,17 @@ use Psr\Log\LoggerInterface;
 
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class CheckSetupController extends Controller {
-	/** @var Checker */
-	private $checker;
-
 	public function __construct(
 		$appName,
 		IRequest $request,
 		private IConfig $config,
 		private IURLGenerator $urlGenerator,
 		private IL10N $l10n,
-		Checker $checker,
+		private Checker $checker,
 		private LoggerInterface $logger,
 		private ISetupCheckManager $setupCheckManager,
 	) {
 		parent::__construct($appName, $request);
-		$this->checker = $checker;
 	}
 
 	/**
@@ -113,7 +110,6 @@ Raw output
 		} else {
 			$formattedTextResponse = 'No errors have been found.';
 		}
-
 
 		return new DataDisplayResponse(
 			$formattedTextResponse,

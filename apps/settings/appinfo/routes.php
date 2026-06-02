@@ -8,33 +8,17 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 return [
-	'resources' => [
-		'AuthSettings' => ['url' => '/settings/personal/authtokens' , 'root' => ''],
-	],
 	'routes' => [
 		['name' => 'AuthorizedGroup#saveSettings', 'url' => '/settings/authorizedgroups/saveSettings', 'verb' => 'POST'],
 
+		['name' => 'AuthSettings#create', 'url' => '/settings/personal/authtokens', 'verb' => 'POST' , 'root' => ''],
+		['name' => 'AuthSettings#update', 'url' => '/settings/personal/authtokens/{id}', 'verb' => 'PUT' , 'root' => ''],
+		['name' => 'AuthSettings#destroy', 'url' => '/settings/personal/authtokens/{id}', 'verb' => 'DELETE' , 'root' => ''],
 		['name' => 'AuthSettings#wipe', 'url' => '/settings/personal/authtokens/wipe/{id}', 'verb' => 'POST' , 'root' => ''],
 
 		['name' => 'MailSettings#setMailSettings', 'url' => '/settings/admin/mailsettings', 'verb' => 'POST' , 'root' => ''],
 		['name' => 'MailSettings#storeCredentials', 'url' => '/settings/admin/mailsettings/credentials', 'verb' => 'POST' , 'root' => ''],
 		['name' => 'MailSettings#sendTestMail', 'url' => '/settings/admin/mailtest', 'verb' => 'POST' , 'root' => ''],
-
-		['name' => 'AppSettings#getAppDiscoverJSON', 'url' => '/settings/api/apps/discover', 'verb' => 'GET', 'root' => ''],
-		['name' => 'AppSettings#getAppDiscoverMedia', 'url' => '/settings/api/apps/media', 'verb' => 'GET', 'root' => ''],
-		['name' => 'AppSettings#listCategories', 'url' => '/settings/apps/categories', 'verb' => 'GET' , 'root' => ''],
-		['name' => 'AppSettings#viewApps', 'url' => '/settings/apps', 'verb' => 'GET' , 'root' => ''],
-		['name' => 'AppSettings#listApps', 'url' => '/settings/apps/list', 'verb' => 'GET' , 'root' => ''],
-		['name' => 'AppSettings#enableApp', 'url' => '/settings/apps/enable/{appId}', 'verb' => 'GET' , 'root' => ''],
-		['name' => 'AppSettings#enableApp', 'url' => '/settings/apps/enable/{appId}', 'verb' => 'POST' , 'root' => ''],
-		['name' => 'AppSettings#enableApps', 'url' => '/settings/apps/enable', 'verb' => 'POST' , 'root' => ''],
-		['name' => 'AppSettings#disableApp', 'url' => '/settings/apps/disable/{appId}', 'verb' => 'GET' , 'root' => ''],
-		['name' => 'AppSettings#disableApps', 'url' => '/settings/apps/disable', 'verb' => 'POST' , 'root' => ''],
-		['name' => 'AppSettings#updateApp', 'url' => '/settings/apps/update/{appId}', 'verb' => 'GET' , 'root' => ''],
-		['name' => 'AppSettings#uninstallApp', 'url' => '/settings/apps/uninstall/{appId}', 'verb' => 'GET' , 'root' => ''],
-		['name' => 'AppSettings#viewApps', 'url' => '/settings/apps/{category}', 'verb' => 'GET', 'defaults' => ['category' => ''] , 'root' => ''],
-		['name' => 'AppSettings#viewApps', 'url' => '/settings/apps/{category}/{id}', 'verb' => 'GET', 'defaults' => ['category' => '', 'id' => ''] , 'root' => ''],
-		['name' => 'AppSettings#force', 'url' => '/settings/apps/force', 'verb' => 'POST' , 'root' => ''],
 
 		['name' => 'Users#setDisplayName', 'url' => '/settings/users/{username}/displayName', 'verb' => 'POST' , 'root' => ''],
 		['name' => 'Users#setEMailAddress', 'url' => '/settings/users/{id}/mailAddress', 'verb' => 'PUT' , 'root' => ''],

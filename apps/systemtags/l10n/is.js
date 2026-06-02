@@ -61,6 +61,7 @@ OC.L10N.register(
     "Update" : "Uppfæra",
     "Delete" : "Eyða",
     "Reset" : "Endurstilla",
+    "Loading …" : "Hleð inn…",
     "{displayName} (hidden)" : "{displayName} (falið)",
     "{displayName} (restricted)" : "{displayName} (takmarkað)",
     "Failed to apply tags changes" : "Mistókst að virkja breytingar á merkjum",
@@ -91,8 +92,6 @@ OC.L10N.register(
     "Failed to delete tag for file" : "Mistókst að eyða merki á skrá",
     "Collaborative tags …" : "Samstarfsmerki …",
     "Loading …" : "Hleð inn …",
-    "File tags modification canceled" : "Hætt við breytingar á merkjum skráa",
-    "Apply changes" : "Virkja breytingar",
     "Loading collaborative tags …" : "Hleð inn samstarfsmerkjum …"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

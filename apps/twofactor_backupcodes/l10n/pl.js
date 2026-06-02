@@ -12,11 +12,13 @@ OC.L10N.register(
     "An error occurred while generating your backup codes" : "Wystąpił błąd podczas generowania kodów zapasowych.",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Wygenerowano kody zapasowe. Użyto {used} z {total} kodów.",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "To są kody zapasowe. Zapisz je i/lub wydrukuj, ponieważ nie będziesz mógł ich później odczytać.",
+    "List of backup codes" : "Lista kodów zapasowych",
     "Regenerate backup codes" : "Ponownie generuj kody zapasowe",
     "Print backup codes" : "Drukuj kody zapasowe",
     "Save backup codes" : "Zapisz kody zapasowe",
     "If you regenerate backup codes, you automatically invalidate old codes." : "Jeśli generujesz kody zapasowe ponownie, automatycznie unieważniasz stare kody.",
     "{name} backup codes" : "Kody kopii zapasowej {name}",
+    "Unable to open a new tab for printing" : "Nie można otworzyć nowej zakładki dla wydruku",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Użyj jednego z kodów zapasowych zapisanych podczas konfigurowania uwierzytelniania dwuskładnikowego.",
     "Submit" : "Wyślij"
 },

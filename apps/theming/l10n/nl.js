@@ -10,7 +10,10 @@ OC.L10N.register(
     "The given privacy policy address is not a valid URL" : "Het opgegeven adres met privacybeleid is geen geldige URL",
     "The given slogan is too long" : "De opgegeven slagzin is te lang",
     "The given color is invalid" : "De opgegeven kleur is ongeldig",
+    "Invalid setting key" : "Ongeldige instelling sleutel",
     "Saved" : "Opgeslagen",
+    "Invalid app given" : "Ongeldige app opgegeven",
+    "Invalid type for setting \"defaultApp\" given" : "Ongeldig type voor instelling \"defaultApp\" gegeven",
     "The file was uploaded" : "Het bestand werd geüpload",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Het geüploade bestand overschrijdt de upload_max_filesize richtlijn in php.ini:",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Het bestand overschrijdt de MAX_FILE_SIZE richtlijn die is opgegeven in het HTML formulier",
@@ -77,7 +80,6 @@ OC.L10N.register(
     "Upload new logo" : "Upload nieuw logo",
     "Background and login image" : "Achtergrond en aanmeld afbeelding",
     "Advanced options" : "Geavanceerde opties",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Universele toegang is heel belangrijk voor ons. We volgen webstandaarden en controleren dat alles ook zonder muis en met ondersteunende software zoals schermlezers bruikbaar is. We streven om de {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 op AA-niveau te volgen, en met het hoge contrast thema zelfs op AAA-niveau.",
     "Select a custom color" : "Selecteer een aangepaste kleur",
     "Upload" : "Uploaden"
 },

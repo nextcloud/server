@@ -13,6 +13,7 @@ OC.L10N.register(
     "OAuth 2.0 allows external services to request access to {instanceName}." : "Το OAuth 2.0 επιτρέπει στις εξωτερικές υπηρεσίες να ζητούν πρόσβαση στο {instanceName}.",
     "Name" : "Όνομα",
     "Redirection URI" : "URI ανακατεύθυνσης",
+    "Client identifier" : "Αναγνωριστικό πελάτη",
     "Delete client" : "Διαγραφή πελάτη",
     "Make sure you store the secret key, it cannot be recovered." : "Βεβαιωθείτε ότι αποθηκεύετε το μυστικό κλειδί, δεν μπορεί να ανακτηθεί.",
     "Add client" : "Προσθήκη πελάτη",

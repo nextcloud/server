@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\AppFramework\Http;
 
 use OCP\AppFramework\Http;
@@ -13,8 +14,8 @@ use OCP\AppFramework\Http;
  * Class StreamResponse
  *
  * @since 8.1.0
- * @template S of Http::STATUS_*
- * @template H of array<string, mixed>
+ * @template-covariant S of Http::STATUS_*
+ * @template-covariant H of array<string, mixed>
  * @template-extends Response<Http::STATUS_*, array<string, mixed>>
  */
 class StreamResponse extends Response implements ICallbackResponse {
@@ -33,13 +34,13 @@ class StreamResponse extends Response implements ICallbackResponse {
 		$this->filePath = $filePath;
 	}
 
-
 	/**
 	 * Streams the file using readfile
 	 *
 	 * @param IOutput $output a small wrapper that handles output
 	 * @since 8.1.0
 	 */
+	#[\Override]
 	public function callback(IOutput $output) {
 		// handle caching
 		if ($output->getHttpResponseCode() !== Http::STATUS_NOT_MODIFIED) {

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\AppFramework;
 
 use OCP\IContainer;
@@ -31,7 +32,7 @@ interface IAppContainer extends ContainerInterface, IContainer {
 	public function getAppName();
 
 	/**
-	 * @return \OCP\IServerContainer
+	 * @return ContainerInterface
 	 * @since 6.0.0
 	 * @deprecated 20.0.0
 	 */

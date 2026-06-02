@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP\Tests;
 
 use OC\ServerNotAvailableException;
@@ -29,6 +30,7 @@ use OCP\IConfig;
 use OCP\Image;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
+use OCP\Profiler\IProfiler;
 use OCP\Server;
 use OCP\Share\IManager;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -242,7 +244,11 @@ class AccessTest extends TestCase {
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dnInputDataProvider')]
 	public function testStringResemblesDNLDAPmod(string $input, array|bool $interResult, bool $expectedResult): void {
 		[, $con, $um, $helper] = $this->getConnectorAndLdapMock();
-		$lw = new LDAP();
+		$lw = new LDAP(
+			$this->createMock(IProfiler::class),
+			$this->createMock(IConfig::class),
+			$this->createMock(LoggerInterface::class),
+		);
 		$access = new Access($lw, $con, $um, $helper, $this->ncUserManager, $this->logger, $this->appConfig, $this->dispatcher);
 
 		if (!function_exists('ldap_explode_dn')) {
@@ -428,7 +434,6 @@ class AccessTest extends TestCase {
 		$this->assertSame($values[0], strtolower($dnFromServer));
 	}
 
-
 	public function testSetPasswordWithDisabledChanges(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('LDAP password changes are disabled');
@@ -458,7 +463,6 @@ class AccessTest extends TestCase {
 		$this->expectExceptionMessage('Connection to LDAP server could not be established');
 		$this->access->setPassword('CN=foo', 'MyPassword');
 	}
-
 
 	public function testSetPasswordWithRejectedChange(): void {
 		$this->expectException(HintException::class);

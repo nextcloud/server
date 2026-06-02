@@ -287,7 +287,6 @@ abstract class PHPMongoQuery {
 					return count(array_intersect($v, $operatorValue)) === 0;
 				}
 				return !in_array($v, $operatorValue);
-
 			case '$exists':	return ($operatorValue && $exists) || (!$operatorValue && !$exists);
 			case '$mod':
 				if (!$exists) {
@@ -300,7 +299,6 @@ abstract class PHPMongoQuery {
 					throw new Exception('$mod requires two parameters in array: divisor and remainder');
 				}
 				return $v % $operatorValue[0] === $operatorValue[1];
-
 			default:
 				if (empty($options['unknownOperatorCallback']) || !is_callable($options['unknownOperatorCallback'])) {
 					throw new Exception('Operator ' . $operator . ' is unknown');

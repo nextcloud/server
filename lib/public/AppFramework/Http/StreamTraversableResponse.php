@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\AppFramework\Http;
 
 use OCP\AppFramework\Http;
@@ -16,8 +17,8 @@ use Traversable;
  * Class StreamResponse
  *
  * @since 33.0.0
- * @template S of Http::STATUS_*
- * @template H of array<string, mixed>
+ * @template-covariant S of Http::STATUS_*
+ * @template-covariant H of array<string, mixed>
  * @template-extends Response<Http::STATUS_*, array<string, mixed>>
  */
 class StreamTraversableResponse extends Response implements ICallbackResponse {
@@ -33,7 +34,6 @@ class StreamTraversableResponse extends Response implements ICallbackResponse {
 	) {
 		parent::__construct($status, $headers);
 	}
-
 
 	/**
 	 * Streams the generator output

@@ -170,13 +170,13 @@ describe('files_trashbin: file actions - restore action', () => {
 		})
 
 		it('does not delete node from view if request failed', async () => {
-			const node = new Folder({ owner: 'test', source: 'https://example.com/remote.php/dav/trashbin/test/folder', root: '/trashbin/test/', permissions: PERMISSION_ALL })
-
+			vi.spyOn(window.console, 'error').mockImplementation(() => {})
+			const emitSpy = vi.spyOn(ncEventBus, 'emit')
 			axiosMock.request.mockImplementationOnce(() => {
 				throw new Error()
 			})
-			const emitSpy = vi.spyOn(ncEventBus, 'emit')
 
+			const node = new Folder({ owner: 'test', source: 'https://example.com/remote.php/dav/trashbin/test/folder', root: '/trashbin/test/', permissions: PERMISSION_ALL })
 			expect(await restoreAction.exec({
 				nodes: [node],
 				view: trashbinView,
@@ -189,6 +189,7 @@ describe('files_trashbin: file actions - restore action', () => {
 		})
 
 		it('batch: only returns success if all requests worked', async () => {
+			vi.spyOn(window.console, 'error').mockImplementation(() => {})
 			const node = new Folder({ owner: 'test', source: 'https://example.com/remote.php/dav/trashbin/test/folder', root: '/trashbin/test/', permissions: PERMISSION_ALL })
 
 			expect(await restoreAction.execBatch!({
@@ -201,6 +202,7 @@ describe('files_trashbin: file actions - restore action', () => {
 		})
 
 		it('batch: only returns success if all requests worked - one failed', async () => {
+			vi.spyOn(window.console, 'error').mockImplementation(() => {})
 			const node = new Folder({ owner: 'test', source: 'https://example.com/remote.php/dav/trashbin/test/folder', root: '/trashbin/test/', permissions: PERMISSION_ALL })
 
 			axiosMock.request.mockImplementationOnce(() => {

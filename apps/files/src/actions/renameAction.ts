@@ -1,10 +1,13 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+import type { IFileAction } from '@nextcloud/files'
+
 import PencilSvg from '@mdi/svg/svg/pencil-outline.svg?raw'
 import { emit } from '@nextcloud/event-bus'
-import { FileAction, Permission } from '@nextcloud/files'
+import { Permission } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import { dirname } from 'path'
 import { useFilesStore } from '../store/files.ts'
@@ -12,7 +15,7 @@ import { getPinia } from '../store/index.ts'
 
 export const ACTION_RENAME = 'rename'
 
-export const action = new FileAction({
+export const action: IFileAction = {
 	id: ACTION_RENAME,
 	displayName: () => t('files', 'Rename'),
 	iconSvgInline: () => PencilSvg,
@@ -34,10 +37,15 @@ export const action = new FileAction({
 			: filesStore.getNode(dirname(node.source))
 		const parentPermissions = parentNode?.permissions || Permission.NONE
 
-		// Only enable if the node have the delete permission
-		// and if the parent folder allows creating files
-		return Boolean(node.permissions & Permission.DELETE)
-			&& Boolean(parentPermissions & Permission.CREATE)
+		// Enable if the node has update permissions or the node
+		// has delete permission and the parent folder allows creating files
+		return (
+			(
+				Boolean(node.permissions & Permission.DELETE)
+				&& Boolean(parentPermissions & Permission.CREATE)
+			)
+			|| Boolean(node.permissions & Permission.UPDATE)
+		)
 	},
 
 	async exec({ nodes }) {
@@ -52,4 +60,4 @@ export const action = new FileAction({
 		description: t('files', 'Rename'),
 		key: 'F2',
 	},
-})
+}

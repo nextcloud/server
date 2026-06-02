@@ -119,7 +119,6 @@ interface IRequest {
 	 */
 	public function getParam(string $key, $default = null);
 
-
 	/**
 	 * Returns all params that were received, be it from the request
 	 *
@@ -149,7 +148,6 @@ interface IRequest {
 	 */
 	public function getUploadedFile(string $key);
 
-
 	/**
 	 * Shortcut for getting env variables
 	 *
@@ -158,7 +156,6 @@ interface IRequest {
 	 * @since 6.0.0
 	 */
 	public function getEnv(string $key);
-
 
 	/**
 	 * Shortcut for getting cookie variables
@@ -170,7 +167,6 @@ interface IRequest {
 	 * @since 6.0.0
 	 */
 	public function getCookie(string $key);
-
 
 	/**
 	 * Checks if the CSRF check was correct

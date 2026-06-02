@@ -165,7 +165,6 @@ OC.L10N.register(
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Si canvieu el mode, habilitareu les consultes LDAP automàtiques. Depenent de la vostra mida LDAP, poden trigar una estona. Voleu canviar el mode?",
     "Confirm" : "Confirma",
     "Failed to delete the server configuration" : "No s'han pogut suprimir la configuració del servidor",
-    "Invalid configuration. Please have a look at the logs for further details." : "Configuració no vàlida. Feu un cop d'ull als registres per obtenir més informació.",
     "No action specified" : "No heu especificat cap acció",
     "No configuration specified" : "No heu especificat cap configuració",
     "No data specified" : "No heu especificat cap dada",

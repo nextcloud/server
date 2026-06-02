@@ -19,6 +19,7 @@ use Test\TestCase;
 class CloudIdTest extends TestCase {
 	protected CloudIdManager&MockObject $cloudIdManager;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

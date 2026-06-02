@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\User;
 
 use OCP\EventDispatcher\Event;
@@ -29,11 +30,12 @@ class DisplayNameCache implements IEventListener {
 
 	private array $cache = [];
 	private ICache $memCache;
-	private IUserManager $userManager;
 
-	public function __construct(ICacheFactory $cacheFactory, IUserManager $userManager) {
+	public function __construct(
+		ICacheFactory $cacheFactory,
+		private IUserManager $userManager,
+	) {
 		$this->memCache = $cacheFactory->createDistributed('displayNameMappingCache');
-		$this->userManager = $userManager;
 	}
 
 	public function getDisplayName(string $userId): ?string {
@@ -68,6 +70,7 @@ class DisplayNameCache implements IEventListener {
 		$this->memCache->clear();
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof UserChangedEvent && $event->getFeature() === 'displayName') {
 			$userId = $event->getUser()->getUID();

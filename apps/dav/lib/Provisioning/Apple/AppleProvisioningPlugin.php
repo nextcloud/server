@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Provisioning\Apple;
 
 use OCP\AppFramework\Http;
@@ -15,6 +18,8 @@ use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
+use Symfony\Component\HttpFoundation\HeaderUtils;
+use Symfony\Component\String\UnicodeString;
 
 class AppleProvisioningPlugin extends ServerPlugin {
 	/**
@@ -23,27 +28,22 @@ class AppleProvisioningPlugin extends ServerPlugin {
 	protected $server;
 
 	/**
-	 * @var \OC_Defaults
-	 */
-	protected $themingDefaults;
-
-	/**
 	 * AppleProvisioningPlugin constructor.
 	 */
 	public function __construct(
 		protected IUserSession $userSession,
 		protected IURLGenerator $urlGenerator,
-		\OC_Defaults $themingDefaults,
+		protected \OC_Defaults $themingDefaults,
 		protected IRequest $request,
 		protected IL10N $l10n,
 		protected \Closure $uuidClosure,
 	) {
-		$this->themingDefaults = $themingDefaults;
 	}
 
 	/**
 	 * @param Server $server
 	 */
+	#[\Override]
 	public function initialize(Server $server) {
 		$this->server = $server;
 		$this->server->on('method:GET', [$this, 'httpGet'], 90);
@@ -127,7 +127,9 @@ class AppleProvisioningPlugin extends ServerPlugin {
 		));
 
 		$response->setStatus(Http::STATUS_OK);
-		$response->setHeader('Content-Disposition', 'attachment; filename="' . $filename . '"');
+		$sanitized = str_replace(['/', '\\'], '-', $filename);
+		$fallback = str_replace('%', '', (new UnicodeString($sanitized))->ascii()->toString());
+		$response->setHeader('Content-Disposition', HeaderUtils::makeDisposition(HeaderUtils::DISPOSITION_ATTACHMENT, $sanitized, $fallback));
 		$response->setHeader('Content-Type', 'application/xml; charset=utf-8');
 		$response->setBody($body);
 

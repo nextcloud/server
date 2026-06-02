@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Authentication\Listeners;
 
 use OC\Files\Cache\Cache;
@@ -29,6 +30,7 @@ class UserDeletedFilesCleanupListener implements IEventListener {
 	) {
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		$user = $event->getUser();
 

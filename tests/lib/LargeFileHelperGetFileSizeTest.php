@@ -22,9 +22,10 @@ class LargeFileHelperGetFileSizeTest extends TestCase {
 	protected $filename;
 	/** @var int */
 	protected $fileSize;
-	/** @var \OC\LargeFileHelper */
+	/** @var LargeFileHelper */
 	protected $helper;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->helper = new LargeFileHelper();

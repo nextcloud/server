@@ -23,8 +23,6 @@ OC.L10N.register(
     "Set reminder for this weekend" : "Aseta muistutus tälle viikonlopulle",
     "Next week" : "Seuraava viikko",
     "Set reminder for next week" : "Aseta muistutus seuraavalle viikolle",
-    "Set reminder for \"{fileName}\"" : "Muistutus asetettu tiedostolle \"{fileName}\"",
-    "Set reminder at custom date & time" : "Aseta muistutus mukautetulle päivälle ja ajankohdalle",
-    "Set custom reminder" : "Aseta mukautettu muistutus"
+    "Set reminder for \"{fileName}\"" : "Muistutus asetettu tiedostolle \"{fileName}\""
 },
 "nplurals=2; plural=(n != 1);");

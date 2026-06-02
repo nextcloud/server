@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Theming\Controller;
 
 use OC\IntegrityCheck\Helpers\FileAccessHelper;
@@ -25,9 +26,6 @@ use OCP\IConfig;
 use OCP\IRequest;
 
 class IconController extends Controller {
-	/** @var FileAccessHelper */
-	private $fileAccessHelper;
-
 	public function __construct(
 		$appName,
 		IRequest $request,
@@ -35,11 +33,10 @@ class IconController extends Controller {
 		private ThemingDefaults $themingDefaults,
 		private IconBuilder $iconBuilder,
 		private ImageManager $imageManager,
-		FileAccessHelper $fileAccessHelper,
+		private FileAccessHelper $fileAccessHelper,
 		private IAppManager $appManager,
 	) {
 		parent::__construct($appName, $request);
-		$this->fileAccessHelper = $fileAccessHelper;
 	}
 
 	/**

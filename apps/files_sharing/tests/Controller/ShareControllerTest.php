@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Tests\Controllers;
 
 use OC\Files\Filesystem;
@@ -18,6 +19,7 @@ use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
 use OCP\Activity\IManager;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\Template\ExternalShareMenuAction;
@@ -142,7 +144,6 @@ class ShareControllerTest extends \Test\TestCase {
 			$this->publicShareTemplateFactory,
 		);
 
-
 		// Store current user
 		$this->oldUser = \OC_User::getUser();
 
@@ -204,7 +205,6 @@ class ShareControllerTest extends \Test\TestCase {
 		// Test without a not existing token
 		$this->shareController->showShare();
 	}
-
 
 	public function testShowShare(): void {
 		$note = 'personal note';
@@ -645,7 +645,6 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->assertEquals($expectedResponse, $response);
 	}
 
-
 	public function testShowShareInvalid(): void {
 		$this->expectException(NotFoundException::class);
 
@@ -691,7 +690,9 @@ class ShareControllerTest extends \Test\TestCase {
 			->with('token')
 			->willReturn($share);
 
-		$this->userManager->method('get')->with('ownerUID')->willReturn($owner);
+		$this->userManager->method('get')
+			->with('ownerUID')
+			->willReturn($owner);
 
 		$this->shareController->showShare();
 	}
@@ -712,7 +713,7 @@ class ShareControllerTest extends \Test\TestCase {
 
 		// Test with a password protected share and no authentication
 		$response = $this->shareController->downloadShare('validtoken');
-		$expectedResponse = new DataResponse('Share has no read permission');
+		$expectedResponse = new DataResponse('Share has no read permission', Http::STATUS_FORBIDDEN);
 		$this->assertEquals($expectedResponse, $response);
 	}
 
@@ -740,7 +741,7 @@ class ShareControllerTest extends \Test\TestCase {
 
 		// Test with a password protected share and no authentication
 		$response = $this->shareController->downloadShare('validtoken');
-		$expectedResponse = new DataResponse('Share has no download permission');
+		$expectedResponse = new DataResponse('Share has no download permission', Http::STATUS_FORBIDDEN);
 		$this->assertEquals($expectedResponse, $response);
 	}
 

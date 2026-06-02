@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Files\SimpleFS;
 
 use OCP\Files\File;
@@ -14,22 +15,17 @@ use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 
 class SimpleFolder implements ISimpleFolder {
-	/** @var Folder */
-	private $folder;
-
-	/**
-	 * Folder constructor.
-	 *
-	 * @param Folder $folder
-	 */
-	public function __construct(Folder $folder) {
-		$this->folder = $folder;
+	public function __construct(
+		private Folder $folder,
+	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->folder->getName();
 	}
 
+	#[\Override]
 	public function getDirectoryListing(): array {
 		$listing = $this->folder->getDirectoryListing();
 
@@ -45,14 +41,17 @@ class SimpleFolder implements ISimpleFolder {
 		return array_values($fileListing);
 	}
 
+	#[\Override]
 	public function delete(): void {
 		$this->folder->delete();
 	}
 
+	#[\Override]
 	public function fileExists(string $name): bool {
 		return $this->folder->nodeExists($name);
 	}
 
+	#[\Override]
 	public function getFile(string $name): ISimpleFile {
 		$file = $this->folder->get($name);
 
@@ -63,6 +62,7 @@ class SimpleFolder implements ISimpleFolder {
 		return new SimpleFile($file);
 	}
 
+	#[\Override]
 	public function newFile(string $name, $content = null): ISimpleFile {
 		if ($content === null) {
 			// delay creating the file until it's written to
@@ -73,6 +73,7 @@ class SimpleFolder implements ISimpleFolder {
 		}
 	}
 
+	#[\Override]
 	public function getFolder(string $name): ISimpleFolder {
 		$folder = $this->folder->get($name);
 
@@ -83,6 +84,7 @@ class SimpleFolder implements ISimpleFolder {
 		return new SimpleFolder($folder);
 	}
 
+	#[\Override]
 	public function newFolder(string $path): ISimpleFolder {
 		$folder = $this->folder->newFolder($path);
 		return new SimpleFolder($folder);

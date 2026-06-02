@@ -67,9 +67,6 @@ OC.L10N.register(
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Ar mhaith leat an sciar cianda {name} ó {owner}@{remote} a chur leis?",
     "Remote share password" : "Pasfhocal comhroinnte cianda",
     "Incoming share could not be processed" : "Níorbh fhéidir an sciar isteach a phróiseáil",
-    "Cloud ID copied to the clipboard" : "Cóipeáladh Cloud ID chuig an ngearrthaisce",
-    "Copy to clipboard" : "Cóipeáil chuig an ngearrthaisce",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Is féidir leat a roinnt le duine ar bith a úsáideann freastalaí Nextcloud nó freastalaithe agus seirbhísí comhoiriúnacha Open Cloud Mesh (OCM) eile! Níl le déanamh ach a n-ID Cloud Cónaidhme a chur sa dialóg scaireanna. Breathnaíonn sé cosúil le person@cloud.example.com",
     "X (formerly Twitter)" : "X (Twitter roimhe seo)",
     "formerly Twitter" : "Twitter roimhe seo"
 },

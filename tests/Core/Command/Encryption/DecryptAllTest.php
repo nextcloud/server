@@ -27,6 +27,7 @@ class DecryptAllTest extends TestCase {
 	private MockObject&QuestionHelper $questionHelper;
 	private MockObject&\OC\Encryption\DecryptAll $decryptAll;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -148,7 +149,6 @@ class DecryptAllTest extends TestCase {
 			[false, false]
 		];
 	}
-
 
 	public function testExecuteFailure(): void {
 		$this->expectException(\Exception::class);

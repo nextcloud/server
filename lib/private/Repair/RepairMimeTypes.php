@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Repair;
 
 use OC\Migration\NullOutput;
@@ -19,17 +20,16 @@ use OCP\Migration\IRepairStep;
 class RepairMimeTypes implements IRepairStep {
 	private bool $dryRun = false;
 	private int $changeCount = 0;
-
-	/** @var int */
 	protected int $folderMimeTypeId;
 
 	public function __construct(
-		protected IConfig $config,
-		protected IAppConfig $appConfig,
-		protected IDBConnection $connection,
+		protected readonly IConfig $config,
+		protected readonly IAppConfig $appConfig,
+		protected readonly IDBConnection $connection,
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Repair mime types';
 	}
@@ -323,7 +323,6 @@ class RepairMimeTypes implements IRepairStep {
 		return $this->updateMimetypes($updatedMimetypes);
 	}
 
-
 	/**
 	 * @throws Exception
 	 * @since 31.0.0
@@ -405,6 +404,7 @@ class RepairMimeTypes implements IRepairStep {
 	 *
 	 * @throws Exception
 	 */
+	#[\Override]
 	public function run(IOutput $output): void {
 		$serverVersion = $this->config->getSystemValueString('version', '0.0.0');
 		$mimeTypeVersion = $this->getMimeTypeVersion();

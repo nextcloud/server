@@ -64,8 +64,8 @@
     "Oct." : "Okt.",
     "Nov." : "Nov.",
     "Dec." : "Dez.",
-    "Authentication error" : "Authentifikatioun's Fehler",
     "Storage is temporarily not available" : "Späicherplaatz temporär net erreeschbar",
-    "Translate" : "Iwwersetzen"
+    "Translate" : "Iwwersetzen",
+    "Authentication error" : "Authentifikatioun's Fehler"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

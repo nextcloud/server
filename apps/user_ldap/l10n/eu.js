@@ -176,7 +176,6 @@ OC.L10N.register(
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Modua aldatzeak LDAP eskaera automatikoak gaituko ditu. Zure LDAParen tamainaren arabera eskaera hauek denbora luzea eraman dezakete. Modua aldatu nahi duzu?",
     "Confirm" : "Berretsi",
     "Failed to delete the server configuration" : "Zerbitzariaren konfigurazioa ezabatzeak huts egin du",
-    "Invalid configuration. Please have a look at the logs for further details." : "Baliogabeko konfigurazioa. Eman begirada bat egunkari-fitxategiei zehaztasun gehiagorako.",
     "No action specified" : "Ez da ekintzarik zehaztu",
     "No configuration specified" : "Ez da konfiguraziorik zehaztu",
     "No data specified" : "Ez da daturik zehaztu",

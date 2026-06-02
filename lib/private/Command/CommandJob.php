@@ -5,21 +5,27 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Command;
 
+use OCA\Files_Trashbin\Command\Expire;
 use OCP\BackgroundJob\QueuedJob;
 use OCP\Command\ICommand;
+use Test\Command\FilesystemCommand;
+use Test\Command\SimpleCommand;
+use Test\Command\StateFullCommand;
 
 /**
  * Wrap a command in the background job interface
  */
 class CommandJob extends QueuedJob {
+	#[\Override]
 	protected function run($argument) {
 		$command = unserialize($argument, ['allowed_classes' => [
-			\Test\Command\SimpleCommand::class,
-			\Test\Command\StateFullCommand::class,
-			\Test\Command\FilesystemCommand::class,
-			\OCA\Files_Trashbin\Command\Expire::class,
+			SimpleCommand::class,
+			StateFullCommand::class,
+			FilesystemCommand::class,
+			Expire::class,
 			\OCA\Files_Versions\Command\Expire::class,
 		]]);
 		if ($command instanceof ICommand) {

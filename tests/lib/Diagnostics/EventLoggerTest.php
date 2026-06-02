@@ -15,9 +15,9 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class EventLoggerTest extends TestCase {
-	/** @var \OC\Diagnostics\EventLogger */
-	private $logger;
+	private EventLogger $logger;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

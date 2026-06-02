@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV\Reminder;
 
 use OCA\DAV\AppInfo\Application;
@@ -78,7 +79,6 @@ class NotifierTest extends TestCase {
 		$this->assertEquals($this->notifier->getName(), 'Calendar');
 	}
 
-
 	public function testPrepareWrongApp(): void {
 		$this->expectException(UnknownNotificationException::class);
 		$this->expectExceptionMessage('Notification not from this app');
@@ -94,7 +94,6 @@ class NotifierTest extends TestCase {
 
 		$this->notifier->prepare($notification, 'en');
 	}
-
 
 	public function testPrepareWrongSubject(): void {
 		$this->expectException(UnknownNotificationException::class);

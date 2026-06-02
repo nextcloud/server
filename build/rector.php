@@ -7,6 +7,8 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
+use Rector\TypeDeclaration\Rector\StmtsAwareInterface\SafeDeclareStrictTypesRector;
+
 $nextcloudDir = dirname(__DIR__);
 
 return (require 'rector-shared.php')
@@ -23,11 +25,13 @@ return (require 'rector-shared.php')
 		$nextcloudDir . '/remote.php',
 		$nextcloudDir . '/status.php',
 		$nextcloudDir . '/version.php',
-		$nextcloudDir . '/lib/private/Share20/ProviderFactory.php',
-		$nextcloudDir . '/lib/private/Template',
+		$nextcloudDir . '/lib/private',
 		$nextcloudDir . '/tests',
+		$nextcloudDir . '/build/integration/features/bootstrap',
 		// $nextcloudDir . '/config',
-		// $nextcloudDir . '/lib',
 		// $nextcloudDir . '/themes',
 	])
-	->withTypeCoverageLevel(0);
+	->withTypeCoverageLevel(0)
+	->withRules([
+		SafeDeclareStrictTypesRector::class
+	]);

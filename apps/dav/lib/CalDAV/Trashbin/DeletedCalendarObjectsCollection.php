@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CalDAV\Trashbin;
 
 use OCA\DAV\CalDAV\CalDavBackend;
@@ -35,10 +36,12 @@ class DeletedCalendarObjectsCollection implements ICalendarObjectContainer, IACL
 	/**
 	 * @see \OCA\DAV\CalDAV\Trashbin\DeletedCalendarObjectsCollection::calendarQuery
 	 */
+	#[\Override]
 	public function getChildren() {
 		throw new NotImplemented();
 	}
 
+	#[\Override]
 	public function getChild($name) {
 		if (!preg_match("/(\d+)\\.ics/", $name, $matches)) {
 			throw new NotFound();
@@ -65,14 +68,17 @@ class DeletedCalendarObjectsCollection implements ICalendarObjectContainer, IACL
 		);
 	}
 
+	#[\Override]
 	public function createFile($name, $data = null) {
 		throw new Forbidden();
 	}
 
+	#[\Override]
 	public function createDirectory($name) {
 		throw new Forbidden();
 	}
 
+	#[\Override]
 	public function childExists($name) {
 		try {
 			$this->getChild($name);
@@ -83,22 +89,27 @@ class DeletedCalendarObjectsCollection implements ICalendarObjectContainer, IACL
 		return true;
 	}
 
+	#[\Override]
 	public function delete() {
 		throw new Forbidden();
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return self::NAME;
 	}
 
+	#[\Override]
 	public function setName($name) {
 		throw new Forbidden();
 	}
 
+	#[\Override]
 	public function getLastModified(): int {
 		return 0;
 	}
 
+	#[\Override]
 	public function calendarQuery(array $filters) {
 		return array_map(function (array $calendarObjectInfo) {
 			return $this->getRelativeObjectPath($calendarObjectInfo);
@@ -112,10 +123,12 @@ class DeletedCalendarObjectsCollection implements ICalendarObjectContainer, IACL
 		);
 	}
 
+	#[\Override]
 	public function getOwner() {
 		return $this->principalInfo['uri'];
 	}
 
+	#[\Override]
 	public function getACL(): array {
 		return [
 			[
@@ -125,9 +138,24 @@ class DeletedCalendarObjectsCollection implements ICalendarObjectContainer, IACL
 			],
 			[
 				'privilege' => '{DAV:}unbind',
-				'principal' => '{DAV:}owner',
+				'principal' => $this->getOwner(),
 				'protected' => true,
-			]
+			],
+			[
+				'privilege' => '{DAV:}read',
+				'principal' => $this->getOwner() . '/calendar-proxy-write',
+				'protected' => true,
+			],
+			[
+				'privilege' => '{DAV:}unbind',
+				'principal' => $this->getOwner() . '/calendar-proxy-write',
+				'protected' => true,
+			],
+			[
+				'privilege' => '{DAV:}read',
+				'principal' => $this->getOwner() . '/calendar-proxy-read',
+				'protected' => true,
+			],
 		];
 	}
 }

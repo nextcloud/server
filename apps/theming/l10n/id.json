@@ -127,8 +127,6 @@
     "Background and login image" : "Latar belakang dan gambar login",
     "Advanced options" : "Opsi lanjutan",
     "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Pasang ekstensi PHP ImageMagick dengan dukungan untuk gambar SVG untuk menghasilkan favicon secara otomatis berdasarkan logo dan warna yang diunggah.",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Akses universal sangat penting bagi kami. Kami mengikuti standar web dan memeriksa agar semuanya dapat digunakan juga tanpa mouse, serta perangkat lunak bantu seperti pembaca layar. Kami bertujuan untuk mematuhi {guidelines}Pedoman Aksesibilitas Konten Web{linkend} 2.1 pada tingkat AA, dan dengan tema kontras tinggi bahkan pada tingkat AAA.",
-    ". Unable to apply the setting." : ". Tidak dapat menerapkan pengaturan.",
     "No background has been selected" : "Tidak ada latar belakang yang dipilih",
     "Select a custom color" : "Pilih warna kustom",
     "Upload" : "Unggah"

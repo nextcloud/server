@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\PropfindCompressionPlugin;
@@ -66,7 +67,6 @@ class PropfindCompressionPluginTest extends TestCase {
 		$result = $this->plugin->compressResponse($request, $response);
 		$this->assertSame($response, $result);
 	}
-
 
 	public function testProperGzip(): void {
 		$request = $this->createMock(Request::class);

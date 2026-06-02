@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Sharing\Activity\Settings;
 
 class PublicLinksUpload extends ShareActivitySettings {
@@ -11,6 +14,7 @@ class PublicLinksUpload extends ShareActivitySettings {
 	 * @return string Lowercase a-z and underscore only identifier
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function getIdentifier() {
 		return 'public_links_upload';
 	}
@@ -19,6 +23,7 @@ class PublicLinksUpload extends ShareActivitySettings {
 	 * @return string A translated string
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function getName() {
 		return $this->l->t('Files have been <strong>uploaded</strong> to a folder shared by mail or by public link');
 	}
@@ -29,6 +34,7 @@ class PublicLinksUpload extends ShareActivitySettings {
 	 *             priority values. It is required to return a value between 0 and 100.
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function getPriority() {
 		return 20;
 	}
@@ -37,6 +43,7 @@ class PublicLinksUpload extends ShareActivitySettings {
 	 * @return bool True when the option can be changed for the stream
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function canChangeStream() {
 		return true;
 	}
@@ -45,6 +52,7 @@ class PublicLinksUpload extends ShareActivitySettings {
 	 * @return bool True when the option can be changed for the stream
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function isDefaultEnabledStream() {
 		return true;
 	}
@@ -53,6 +61,7 @@ class PublicLinksUpload extends ShareActivitySettings {
 	 * @return bool True when the option can be changed for the mail
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function canChangeMail() {
 		return true;
 	}
@@ -61,6 +70,7 @@ class PublicLinksUpload extends ShareActivitySettings {
 	 * @return bool True when the option can be changed for the stream
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function isDefaultEnabledMail() {
 		return false;
 	}

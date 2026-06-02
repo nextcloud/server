@@ -53,6 +53,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 	/** @var IEventDispatcher */
 	private $eventDispatcher;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -236,7 +237,6 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->assertSame($password, $this->tokenProvider->getPassword($actual, $token));
 	}
 
-
 	public function testGetPasswordPasswordLessToken(): void {
 		$this->expectException(PasswordlessTokenException::class);
 
@@ -246,7 +246,6 @@ class PublicKeyTokenProviderTest extends TestCase {
 
 		$this->tokenProvider->getPassword($tk, $token);
 	}
-
 
 	public function testGetPasswordInvalidToken(): void {
 		$this->expectException(InvalidTokenException::class);
@@ -292,12 +291,10 @@ class PublicKeyTokenProviderTest extends TestCase {
 				return $newpass === $this->tokenProvider->getPassword($token, 'tokentokentokentokentoken');
 			}));
 
-
 		$this->tokenProvider->setPassword($actual, $token, $newpass);
 
 		$this->assertSame($newpass, $this->tokenProvider->getPassword($actual, 'tokentokentokentokentoken'));
 	}
-
 
 	public function testSetPasswordInvalidToken(): void {
 		$this->expectException(InvalidTokenException::class);

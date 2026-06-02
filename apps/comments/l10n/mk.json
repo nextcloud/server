@@ -10,6 +10,7 @@
     "Files" : "Датотеки",
     "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "Бевте спомнати на “{file}”, во коментар од корисник кој сега е избришан",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} те спомна во коментар на датотеката “{file}”",
+    "Go to file" : "Оди до датотеката",
     "Files app plugin to add comments to files" : "Додади додаток за коментирање на датотеки",
     "Edit comment" : "Измени го коментарот",
     "Delete comment" : "Избриши коментар",

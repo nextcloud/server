@@ -24,7 +24,6 @@ OC.L10N.register(
     "No deleted files" : "Nessun file eliminato",
     "Files and folders you have deleted will show up here" : "I file e le cartelle che hai eliminato saranno mostrati qui",
     "All files have been permanently deleted" : "Tutti i file sono stati eliminati permanentemente",
-    "Failed to empty deleted files" : "Impossibile svuotare i file eliminati",
-    "Deletion cancelled" : "Eliminazione annullata"
+    "Failed to empty deleted files" : "Impossibile svuotare i file eliminati"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

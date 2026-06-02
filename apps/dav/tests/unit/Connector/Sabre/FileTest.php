@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\AppFramework\Http\Request;
@@ -42,6 +43,14 @@ use Test\HookHelper;
 use Test\TestCase;
 use Test\Traits\MountProviderTrait;
 use Test\Traits\UserTrait;
+
+/**
+ * Internal helper to mock legacy hook receiver.
+ */
+interface EventHandlerMock {
+	public function writeCallback(): void;
+	public function postWriteCallback(): void;
+}
 
 /**
  * Class File
@@ -92,7 +101,6 @@ class FileTest extends TestCase {
 		fseek($stream, 0);
 		return $stream;
 	}
-
 
 	public static function fopenFailuresProvider(): array {
 		return [
@@ -617,7 +625,6 @@ class FileTest extends TestCase {
 		$file->setName("/i\nvalid");
 	}
 
-
 	public function testUploadAbort(): void {
 		// setup
 		/** @var View&MockObject */
@@ -667,12 +674,15 @@ class FileTest extends TestCase {
 		$this->assertEmpty($this->listPartFiles($view, ''), 'No stray part files');
 	}
 
-
 	public function testDeleteWhenAllowed(): void {
 		// setup
 		/** @var View&MockObject */
 		$view = $this->getMockBuilder(View::class)
 			->getMock();
+		$view
+			->method('getRelativePath')
+			->with('/test.txt')
+			->willReturn('');
 
 		$view->expects($this->once())
 			->method('unlink')
@@ -689,7 +699,6 @@ class FileTest extends TestCase {
 		$file->delete();
 	}
 
-
 	public function testDeleteThrowsWhenDeletionNotAllowed(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -697,6 +706,10 @@ class FileTest extends TestCase {
 		/** @var View&MockObject */
 		$view = $this->getMockBuilder(View::class)
 			->getMock();
+		$view
+			->method('getRelativePath')
+			->with('/test.txt')
+			->willReturn('');
 
 		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), null, [
 			'permissions' => 0,
@@ -709,7 +722,6 @@ class FileTest extends TestCase {
 		$file->delete();
 	}
 
-
 	public function testDeleteThrowsWhenDeletionFailed(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -717,6 +729,10 @@ class FileTest extends TestCase {
 		/** @var View&MockObject */
 		$view = $this->getMockBuilder(View::class)
 			->getMock();
+		$view
+			->method('getRelativePath')
+			->with('/test.txt')
+			->willReturn('');
 
 		// but fails
 		$view->expects($this->once())
@@ -734,7 +750,6 @@ class FileTest extends TestCase {
 		$file->delete();
 	}
 
-
 	public function testDeleteThrowsWhenDeletionThrows(): void {
 		$this->expectException(Forbidden::class);
 
@@ -742,6 +757,10 @@ class FileTest extends TestCase {
 		/** @var View&MockObject */
 		$view = $this->getMockBuilder(View::class)
 			->getMock();
+		$view
+			->method('getRelativePath')
+			->with('/test.txt')
+			->willReturn('');
 
 		// but fails
 		$view->expects($this->once())
@@ -806,9 +825,7 @@ class FileTest extends TestCase {
 
 		$wasLockedPre = false;
 		$wasLockedPost = false;
-		$eventHandler = $this->getMockBuilder(\stdclass::class)
-			->addMethods(['writeCallback', 'postWriteCallback'])
-			->getMock();
+		$eventHandler = $this->createMock(EventHandlerMock::class);
 
 		// both pre and post hooks might need access to the file,
 		// so only shared lock is acceptable
@@ -909,7 +926,6 @@ class FileTest extends TestCase {
 		];
 	}
 
-
 	public function testGetFopenFails(): void {
 		$this->expectException(\Sabre\DAV\Exception\ServiceUnavailable::class);
 
@@ -931,7 +947,6 @@ class FileTest extends TestCase {
 		$file->get();
 	}
 
-
 	public function testGetFopenThrows(): void {
 		$this->expectException(Forbidden::class);
 
@@ -952,7 +967,6 @@ class FileTest extends TestCase {
 
 		$file->get();
 	}
-
 
 	public function testGetThrowsIfNoPermission(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);

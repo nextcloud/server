@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Mount;
 
 use OC\Files\Filesystem;
@@ -20,6 +21,7 @@ use OCP\Files\NotFoundException;
 class Manager implements IMountManager {
 	/** @var array<string, IMountPoint> */
 	private array $mounts = [];
+	private array $mountsByProvider = [];
 	private bool $areMountsSorted = false;
 	/** @var list<string>|null $mountKeys */
 	private ?array $mountKeys = null;
@@ -35,13 +37,19 @@ class Manager implements IMountManager {
 		$this->setupManager = $setupManagerFactory->create($this);
 	}
 
+	#[\Override]
 	public function addMount(IMountPoint $mount): void {
-		$this->mounts[$mount->getMountPoint()] = $mount;
+		$mountPoint = $mount->getMountPoint();
+		$mountProvider = $mount->getMountProvider();
+		$this->mounts[$mountPoint] = $mount;
+		$this->mountsByProvider[$mountProvider] ??= [];
+		$this->mountsByProvider[$mountProvider][$mountPoint] = $mount;
 		$this->pathCache->clear();
 		$this->inPathCache->clear();
 		$this->areMountsSorted = false;
 	}
 
+	#[\Override]
 	public function removeMount(string $mountPoint): void {
 		$mountPoint = Filesystem::normalizePath($mountPoint);
 		if (\strlen($mountPoint) > 1) {
@@ -53,17 +61,22 @@ class Manager implements IMountManager {
 		$this->areMountsSorted = false;
 	}
 
+	#[\Override]
 	public function moveMount(string $mountPoint, string $target): void {
-		$this->mounts[$target] = $this->mounts[$mountPoint];
-		unset($this->mounts[$mountPoint]);
-		$this->pathCache->clear();
-		$this->inPathCache->clear();
-		$this->areMountsSorted = false;
+		if ($mountPoint !== $target) {
+			$this->mounts[$target] = $this->mounts[$mountPoint];
+			$this->mounts[$target]->setMountPoint($target);
+			unset($this->mounts[$mountPoint]);
+			$this->pathCache->clear();
+			$this->inPathCache->clear();
+			$this->areMountsSorted = false;
+		}
 	}
 
 	/**
 	 * Find the mount for $path
 	 */
+	#[\Override]
 	public function find(string $path): IMountPoint {
 		$this->setupManager->setupForPath($path);
 		$path = Filesystem::normalizePath($path);
@@ -103,6 +116,7 @@ class Manager implements IMountManager {
 	 *
 	 * @return IMountPoint[]
 	 */
+	#[\Override]
 	public function findIn(string $path): array {
 		$this->setupManager->setupForPath($path, true);
 		$path = $this->formatPath($path);
@@ -165,8 +179,10 @@ class Manager implements IMountManager {
 		return $result;
 	}
 
+	#[\Override]
 	public function clear(): void {
 		$this->mounts = [];
+		$this->mountsByProvider = [];
 		$this->pathCache->clear();
 		$this->inPathCache->clear();
 	}
@@ -177,6 +193,7 @@ class Manager implements IMountManager {
 	 * @param string $id
 	 * @return IMountPoint[]
 	 */
+	#[\Override]
 	public function findByStorageId(string $id): array {
 		if (\strlen($id) > 64) {
 			$id = md5($id);
@@ -193,6 +210,7 @@ class Manager implements IMountManager {
 	/**
 	 * @return IMountPoint[]
 	 */
+	#[\Override]
 	public function getAll(): array {
 		return $this->mounts;
 	}
@@ -203,6 +221,7 @@ class Manager implements IMountManager {
 	 * @param int $id
 	 * @return IMountPoint[]
 	 */
+	#[\Override]
 	public function findByNumericId(int $id): array {
 		$result = [];
 		foreach ($this->mounts as $mount) {
@@ -230,21 +249,24 @@ class Manager implements IMountManager {
 	}
 
 	/**
-	 * Return all mounts in a path from a specific mount provider
+	 * Return all mounts in a path from a specific mount provider, indexed by mount point
 	 *
 	 * @param string $path
 	 * @param string[] $mountProviders
-	 * @return IMountPoint[]
+	 * @return array<string, IMountPoint>
 	 */
-	public function getMountsByMountProvider(string $path, array $mountProviders) {
+	public function getMountsByMountProvider(string $path, array $mountProviders): array {
 		$this->getSetupManager()->setupForProvider($path, $mountProviders);
-		if (in_array('', $mountProviders)) {
+		if (\in_array('', $mountProviders)) {
 			return $this->mounts;
-		} else {
-			return array_filter($this->mounts, function ($mount) use ($mountProviders) {
-				return in_array($mount->getMountProvider(), $mountProviders);
-			});
 		}
+
+		$mounts = [];
+		foreach ($mountProviders as $mountProvider) {
+			$mounts[] = $this->mountsByProvider[$mountProvider] ?? [];
+		}
+
+		return array_merge(...$mounts);
 	}
 
 	/**
@@ -254,6 +276,7 @@ class Manager implements IMountManager {
 	 *
 	 * @return IMountPoint|null
 	 */
+	#[\Override]
 	public function getMountFromMountInfo(ICachedMountInfo $info): ?IMountPoint {
 		$this->setupManager->setupForPath($info->getMountPoint());
 		foreach ($this->mounts as $mount) {

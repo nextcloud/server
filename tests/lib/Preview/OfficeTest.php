@@ -20,6 +20,7 @@ use OCP\Server;
  */
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class OfficeTest extends Provider {
+	#[\Override]
 	protected function setUp(): void {
 		$binaryFinder = Server::get(IBinaryFinder::class);
 		$libreofficeBinary = $binaryFinder->findBinaryPath('libreoffice');

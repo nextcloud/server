@@ -22,28 +22,27 @@ use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\SimpleCollection;
 
 class SystemTagsInUseCollection extends SimpleCollection {
-	protected SystemTagsInFilesDetector $systemTagsInFilesDetector;
-
 	/** @noinspection PhpMissingParentConstructorInspection */
 	public function __construct(
 		protected IUserSession $userSession,
 		protected IRootFolder $rootFolder,
 		protected ISystemTagManager $systemTagManager,
 		protected ISystemTagObjectMapper $tagMapper,
-		SystemTagsInFilesDetector $systemTagsInFilesDetector,
+		protected SystemTagsInFilesDetector $systemTagsInFilesDetector,
 		protected string $mediaType = '',
 	) {
-		$this->systemTagsInFilesDetector = $systemTagsInFilesDetector;
 		$this->name = 'systemtags-assigned';
 		if ($this->mediaType != '') {
 			$this->name .= '/' . $this->mediaType;
 		}
 	}
 
+	#[\Override]
 	public function setName($name): void {
 		throw new Forbidden('Permission denied to rename this collection');
 	}
 
+	#[\Override]
 	public function getChild($name): self {
 		if ($this->mediaType !== '') {
 			throw new NotFound('Invalid media type');
@@ -56,6 +55,7 @@ class SystemTagsInUseCollection extends SimpleCollection {
 	 * @throws NotPermittedException
 	 * @throws Forbidden
 	 */
+	#[\Override]
 	public function getChildren(): array {
 		$user = $this->userSession->getUser();
 		$userFolder = null;

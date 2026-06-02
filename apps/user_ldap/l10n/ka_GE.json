@@ -109,7 +109,6 @@
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "რეჟიმის შეცვლა აამოქმედებს ავტომატურ LDAP პასუხის მოთხოვნას. თქვენი LDAP-ის ზომასთან დამოკიდებულებით ამან შეიძლება გასტანოს გარკვეულ პერიოდს. მაინც გსურთ რეჟიმის შეცვლა?",
     "Confirm" : "დადასტურება",
     "Failed to delete the server configuration" : "შეცდომა სერვერის კონფიგურაციის წაშლისას",
-    "Invalid configuration. Please have a look at the logs for further details." : "არასწორი კონფიგურაცია. დეტალებისთვის გთხოვთ გადახედოთ ლოგებს.",
     "No action specified" : "ქმედება არ იყო სპეციფირებული",
     "No configuration specified" : "კონფიგურაცია არ იყო სპეციფირებული",
     "No data specified" : "მონაცემები არ იყო სპეციფირებული",

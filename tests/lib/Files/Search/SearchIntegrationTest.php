@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace Test\Files\Search;
 
 use OC\Files\Search\SearchBinaryOperator;
@@ -19,6 +20,7 @@ class SearchIntegrationTest extends TestCase {
 	private $cache;
 	private $storage;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -26,7 +28,6 @@ class SearchIntegrationTest extends TestCase {
 		$this->cache = $this->storage->getCache();
 		$this->storage->getScanner()->scan('');
 	}
-
 
 	public function testThousandAndOneFilters(): void {
 		$id = $this->cache->put('file10', ['size' => 1, 'mtime' => 50, 'mimetype' => 'foo/folder']);

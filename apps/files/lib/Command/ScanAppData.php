@@ -4,12 +4,14 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files\Command;
 
 use OC\Core\Command\Base;
 use OC\Core\Command\InterruptedException;
 use OC\DB\Connection;
 use OC\DB\ConnectionAdapter;
+use OC\Files\SetupManager;
 use OC\Files\Utils\Scanner;
 use OC\ForbiddenException;
 use OC\Preview\Storage\StorageFactory;
@@ -43,6 +45,7 @@ class ScanAppData extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		parent::configure();
 
@@ -51,6 +54,17 @@ class ScanAppData extends Base {
 			->setDescription('rescan the AppData folder');
 
 		$this->addArgument('folder', InputArgument::OPTIONAL, 'The appdata subfolder to scan', '');
+	}
+
+	protected function getScanner(OutputInterface $output): Scanner {
+		$connection = $this->reconnectToDatabase($output);
+		return new Scanner(
+			null,
+			new ConnectionAdapter($connection),
+			Server::get(IEventDispatcher::class),
+			Server::get(LoggerInterface::class),
+			Server::get(SetupManager::class),
+		);
 	}
 
 	protected function scanFiles(OutputInterface $output, string $folder): int {
@@ -79,13 +93,7 @@ class ScanAppData extends Base {
 			}
 		}
 
-		$connection = $this->reconnectToDatabase($output);
-		$scanner = new Scanner(
-			null,
-			new ConnectionAdapter($connection),
-			Server::get(IEventDispatcher::class),
-			Server::get(LoggerInterface::class)
-		);
+		$scanner = $this->getScanner($output);
 
 		# check on each file/folder if there was a user interrupt (ctrl-c) and throw an exception
 		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function ($path) use ($output): void {
@@ -130,7 +138,7 @@ class ScanAppData extends Base {
 		return self::SUCCESS;
 	}
 
-
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		# restrict the verbosity level to VERBOSITY_VERBOSE
 		if ($output->getVerbosity() > OutputInterface::VERBOSITY_VERBOSE) {
@@ -141,6 +149,9 @@ class ScanAppData extends Base {
 		$output->writeln('');
 
 		$folder = $input->getArgument('folder');
+
+		// Start the timer
+		$this->execTime = -microtime(true);
 
 		$this->initTools();
 
@@ -155,8 +166,6 @@ class ScanAppData extends Base {
 	 * Initialises some useful tools for the Command
 	 */
 	protected function initTools(): void {
-		// Start the timer
-		$this->execTime = -microtime(true);
 		// Convert PHP errors to exceptions
 		set_error_handler([$this, 'exceptionErrorHandler'], E_ALL);
 	}
@@ -210,13 +219,17 @@ class ScanAppData extends Base {
 			$rows[] = $this->filesCounter;
 			$rows[] = $niceDate;
 		}
+
+		$this->displayTable($output, $headers, $rows);
+	}
+
+	protected function displayTable($output, $headers, $rows): void {
 		$table = new Table($output);
 		$table
 			->setHeaders($headers)
 			->setRows([$rows]);
 		$table->render();
 	}
-
 
 	/**
 	 * Formats microtime into a human-readable format
@@ -250,9 +263,9 @@ class ScanAppData extends Base {
 	 * @throws NotFoundException
 	 */
 	private function getAppDataFolder(): Node {
-		$instanceId = $this->config->getSystemValue('instanceid', null);
+		$instanceId = $this->config->getSystemValueString('instanceid', '');
 
-		if ($instanceId === null) {
+		if ($instanceId === '') {
 			throw new NotFoundException();
 		}
 

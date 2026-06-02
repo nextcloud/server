@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Remote\Api;
 
 use GuzzleHttp\Exception\ClientException;
@@ -25,6 +26,7 @@ class OCS extends ApiBase implements ICapabilitiesApi, IUserApi {
 	 * @throws NotFoundException
 	 * @throws \Exception
 	 */
+	#[\Override]
 	protected function request($method, $url, array $body = [], array $query = [], array $headers = []) {
 		try {
 			$response = json_decode(parent::request($method, 'ocs/v2.php/' . $url, $body, $query, $headers), true);
@@ -67,6 +69,7 @@ class OCS extends ApiBase implements ICapabilitiesApi, IUserApi {
 		}
 	}
 
+	#[\Override]
 	public function getUser($userId) {
 		$result = $this->request('get', 'cloud/users/' . $userId);
 		$this->checkResponseArray($result, 'user', User::EXPECTED_KEYS);
@@ -76,6 +79,7 @@ class OCS extends ApiBase implements ICapabilitiesApi, IUserApi {
 	/**
 	 * @return array The capabilities in the form of [$appId => [$capability => $value]]
 	 */
+	#[\Override]
 	public function getCapabilities() {
 		$result = $this->request('get', 'cloud/capabilities');
 		return $result['capabilities'];

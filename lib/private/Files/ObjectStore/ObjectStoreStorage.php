@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\ObjectStore;
 
 use Aws\S3\Exception\S3Exception;
@@ -14,13 +15,16 @@ use Icewind\Streams\CountWrapper;
 use Icewind\Streams\IteratorDirectory;
 use OC\Files\Cache\Cache;
 use OC\Files\Cache\CacheEntry;
+use OC\Files\Storage\Common;
 use OC\Files\Storage\PolyFill\CopyDirectory;
+use OCP\Constants;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Cache\IScanner;
 use OCP\Files\FileInfo;
 use OCP\Files\GenericFileException;
+use OCP\Files\IMimeTypeDetector;
 use OCP\Files\NotFoundException;
 use OCP\Files\ObjectStore\IObjectStore;
 use OCP\Files\ObjectStore\IObjectStoreMetaData;
@@ -28,11 +32,12 @@ use OCP\Files\ObjectStore\IObjectStoreMultiPartUpload;
 use OCP\Files\Storage\IChunkedFileWrite;
 use OCP\Files\Storage\IStorage;
 use OCP\IDBConnection;
+use OCP\ITempManager;
 use OCP\Server;
 use Override;
 use Psr\Log\LoggerInterface;
 
-class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFileWrite {
+class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 	use CopyDirectory;
 
 	protected IObjectStore $objectStore;
@@ -40,8 +45,6 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 	private string $objectPrefix = 'urn:oid:';
 
 	private LoggerInterface $logger;
-
-	private bool $handleCopiesAsOwned;
 	protected bool $validateWrites = true;
 	private bool $preserveCacheItemsOnDelete = false;
 	private ?int $totalSizeLimit = null;
@@ -67,14 +70,14 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		if (isset($parameters['validateWrites'])) {
 			$this->validateWrites = (bool)$parameters['validateWrites'];
 		}
-		$this->handleCopiesAsOwned = (bool)($parameters['handleCopiesAsOwned'] ?? false);
 		if (isset($parameters['totalSizeLimit'])) {
 			$this->totalSizeLimit = $parameters['totalSizeLimit'];
 		}
 
-		$this->logger = \OCP\Server::get(LoggerInterface::class);
+		$this->logger = Server::get(LoggerInterface::class);
 	}
 
+	#[\Override]
 	public function mkdir(string $path, bool $force = false, array $metadata = []): bool {
 		$path = $this->normalizePath($path);
 		if (!$force && $this->file_exists($path)) {
@@ -88,7 +91,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			'size' => $metadata['size'] ?? 0,
 			'mtime' => $mTime,
 			'storage_mtime' => $mTime,
-			'permissions' => \OCP\Constants::PERMISSION_ALL,
+			'permissions' => Constants::PERMISSION_ALL,
 		];
 		if ($path === '') {
 			//create root on the fly
@@ -126,7 +129,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		$path = str_replace('//', '/', $path);
 
 		// dirname('/folder') returns '.' but internally (in the cache) we store the root as ''
-		if (!$path || $path === '.') {
+		if ($path === '.') {
 			$path = '';
 		}
 
@@ -137,6 +140,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 	 * Object Stores use a NoopScanner because metadata is directly stored in
 	 * the file cache and cannot really scan the filesystem. The storage passed in is not used anywhere.
 	 */
+	#[\Override]
 	public function getScanner(string $path = '', ?IStorage $storage = null): IScanner {
 		if (!$storage) {
 			$storage = $this;
@@ -144,14 +148,16 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		if (!isset($this->scanner)) {
 			$this->scanner = new ObjectStoreScanner($storage);
 		}
-		/** @var \OC\Files\ObjectStore\ObjectStoreScanner */
+		/** @var ObjectStoreScanner */
 		return $this->scanner;
 	}
 
+	#[\Override]
 	public function getId(): string {
 		return $this->id;
 	}
 
+	#[\Override]
 	public function rmdir(string $path): bool {
 		$path = $this->normalizePath($path);
 		$entry = $this->getCache()->get($path);
@@ -184,6 +190,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		return true;
 	}
 
+	#[\Override]
 	public function unlink(string $path): bool {
 		$path = $this->normalizePath($path);
 		$entry = $this->getCache()->get($path);
@@ -220,6 +227,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		return true;
 	}
 
+	#[\Override]
 	public function stat(string $path): array|false {
 		$path = $this->normalizePath($path);
 		$cacheEntry = $this->getCache()->get($path);
@@ -237,6 +245,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		}
 	}
 
+	#[\Override]
 	public function getPermissions(string $path): int {
 		$stat = $this->stat($path);
 
@@ -258,6 +267,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		return $this->objectPrefix . $fileId;
 	}
 
+	#[\Override]
 	public function opendir(string $path) {
 		$path = $this->normalizePath($path);
 
@@ -275,6 +285,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		}
 	}
 
+	#[\Override]
 	public function filetype(string $path): string|false {
 		$path = $this->normalizePath($path);
 		$stat = $this->stat($path);
@@ -288,6 +299,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		}
 	}
 
+	#[\Override]
 	public function fopen(string $path, string $mode) {
 		$path = $this->normalizePath($path);
 
@@ -352,9 +364,9 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 					return false;
 				}
 
-				$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($ext);
+				$tmpFile = Server::get(ITempManager::class)->getTemporaryFile($ext);
 				$handle = fopen($tmpFile, $mode);
-				return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile) {
+				return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile): void {
 					$this->writeBack($tmpFile, $path);
 					unlink($tmpFile);
 				});
@@ -366,13 +378,13 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			case 'x+':
 			case 'c':
 			case 'c+':
-				$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($ext);
+				$tmpFile = Server::get(ITempManager::class)->getTemporaryFile($ext);
 				if ($this->file_exists($path)) {
 					$source = $this->fopen($path, 'r');
 					file_put_contents($tmpFile, $source);
 				}
 				$handle = fopen($tmpFile, $mode);
-				return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile) {
+				return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile): void {
 					$this->writeBack($tmpFile, $path);
 					unlink($tmpFile);
 				});
@@ -380,11 +392,13 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		return false;
 	}
 
+	#[\Override]
 	public function file_exists(string $path): bool {
 		$path = $this->normalizePath($path);
 		return (bool)$this->stat($path);
 	}
 
+	#[\Override]
 	public function rename(string $source, string $target): bool {
 		$source = $this->normalizePath($source);
 		$target = $this->normalizePath($target);
@@ -394,11 +408,13 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		return true;
 	}
 
+	#[\Override]
 	public function getMimeType(string $path): string|false {
 		$path = $this->normalizePath($path);
 		return parent::getMimeType($path);
 	}
 
+	#[\Override]
 	public function touch(string $path, ?int $mtime = null): bool {
 		if (is_null($mtime)) {
 			$mtime = time();
@@ -440,14 +456,17 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		$this->writeStream($path, fopen($tmpFile, 'r'), $size);
 	}
 
+	#[\Override]
 	public function hasUpdated(string $path, int $time): bool {
 		return false;
 	}
 
+	#[\Override]
 	public function needsPartFile(): bool {
 		return false;
 	}
 
+	#[\Override]
 	public function file_put_contents(string $path, mixed $data): int {
 		$fh = fopen('php://temp', 'w+');
 		fwrite($fh, $data);
@@ -455,6 +474,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		return $this->writeStream($path, $fh, strlen($data));
 	}
 
+	#[\Override]
 	public function writeStream(string $path, $stream, ?int $size = null): int {
 		if ($size === null) {
 			$stats = fstat($stream);
@@ -467,7 +487,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		if (empty($stat)) {
 			// create new file
 			$stat = [
-				'permissions' => \OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_CREATE,
+				'permissions' => Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE,
 			];
 		}
 		// update stat with new data
@@ -476,7 +496,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		$stat['mtime'] = $mTime;
 		$stat['storage_mtime'] = $mTime;
 
-		$mimetypeDetector = \OC::$server->getMimeTypeDetector();
+		$mimetypeDetector = Server::get(IMimeTypeDetector::class);
 		$mimetype = $mimetypeDetector->detectPath($path);
 		$metadata = [
 			'mimetype' => $mimetype,
@@ -509,7 +529,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			//upload to object storage
 
 			$totalWritten = 0;
-			$countStream = CountWrapper::wrap($stream, function ($writtenSize) use ($fileId, $size, $exists, &$totalWritten) {
+			$countStream = CountWrapper::wrap($stream, function ($writtenSize) use ($fileId, $size, $exists, &$totalWritten): void {
 				if (is_null($size) && !$exists) {
 					$this->getCache()->update($fileId, [
 						'size' => $writtenSize,
@@ -574,6 +594,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		return $this->objectStore;
 	}
 
+	#[\Override]
 	public function copyFromStorage(
 		IStorage $sourceStorage,
 		string $sourceInternalPath,
@@ -600,6 +621,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		return parent::copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 	}
 
+	#[\Override]
 	public function moveFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath, ?ICacheEntry $sourceCacheEntry = null): bool {
 		$sourceCache = $sourceStorage->getCache();
 		if (
@@ -683,6 +705,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		}
 	}
 
+	#[\Override]
 	public function copy(string $source, string $target): bool {
 		$source = $this->normalizePath($source);
 		$target = $this->normalizePath($target);
@@ -730,10 +753,6 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 
 		try {
 			$this->objectStore->copyObject($sourceUrn, $targetUrn);
-			if ($this->handleCopiesAsOwned) {
-				// Copied the file thus we gain all permissions as we are the owner now ! warning while this aligns with local storage it should not be used and instead fix local storage !
-				$cache->update($targetId, ['permissions' => \OCP\Constants::PERMISSION_ALL]);
-			}
 		} catch (\Exception $e) {
 			$cache->remove($to);
 
@@ -741,6 +760,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		}
 	}
 
+	#[\Override]
 	public function startChunkedWrite(string $targetPath): string {
 		if (!$this->objectStore instanceof IObjectStoreMultiPartUpload) {
 			throw new GenericFileException('Object store does not support multipart upload');
@@ -753,6 +773,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 	/**
 	 * @throws GenericFileException
 	 */
+	#[\Override]
 	public function putChunkedWritePart(
 		string $targetPath,
 		string $writeToken,
@@ -776,6 +797,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		return $parts[$chunkId];
 	}
 
+	#[\Override]
 	public function completeChunkedWrite(string $targetPath, string $writeToken): int {
 		if (!$this->objectStore instanceof IObjectStoreMultiPartUpload) {
 			throw new GenericFileException('Object store does not support multipart upload');
@@ -809,6 +831,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		return $size;
 	}
 
+	#[\Override]
 	public function cancelChunkedWrite(string $targetPath, string $writeToken): void {
 		if (!$this->objectStore instanceof IObjectStoreMultiPartUpload) {
 			throw new GenericFileException('Object store does not support multipart upload');
@@ -822,6 +845,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		$this->preserveCacheItemsOnDelete = $preserve;
 	}
 
+	#[\Override]
 	public function free_space(string $path): int|float|false {
 		if ($this->totalSizeLimit === null) {
 			return FileInfo::SPACE_UNLIMITED;

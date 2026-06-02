@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\SetupChecks;
 
 use OC\Security\Ip\Range;
@@ -22,14 +23,17 @@ class AllowedAdminRanges implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'system';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Allowed admin IP ranges');
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		$allowedAdminRanges = $this->config->getSystemValue(RemoteAddress::SETTING_NAME, false);
 		if (

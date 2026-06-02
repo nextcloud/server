@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Search;
 
 use OCP\IGroupManager;
@@ -32,6 +33,7 @@ class SectionSearch implements IProvider {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getId(): string {
 		return 'settings';
 	}
@@ -39,6 +41,7 @@ class SectionSearch implements IProvider {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->l->t('Settings');
 	}
@@ -46,6 +49,7 @@ class SectionSearch implements IProvider {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getOrder(string $route, array $routeParameters): int {
 		if ($route === 'settings.PersonalSettings.index' || $route === 'settings.AdminSettings.index') {
 			return -1;
@@ -57,6 +61,7 @@ class SectionSearch implements IProvider {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function search(IUser $user, ISearchQuery $query): SearchResult {
 		$isAdmin = $this->groupManager->isAdmin($user->getUID());
 

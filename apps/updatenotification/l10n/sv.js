@@ -59,9 +59,6 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "Den valda uppdateringskanalen stödjer inte uppdateringar för servern.",
     "Changelog for app {app}" : "Ändringslogg för app {app}",
     "What's new in {app} version {version}" : "Vad är nytt i {app} version {version}",
-    "{version} is available. Get more information on how to update." : "{version} är tillgänglig. Få mer information om hur du uppdaterar.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Alla</strong> appar har en kompatibel version för denna version av Nextcloud.",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> app har ingen tillgänglig kompatibel version för denna version av Nextcloud.","<strong>%n</strong> appar har ingen tillgänglig kompatibel version för denna version av Nextcloud."],
-    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Innehåller alltid den senaste patchnivån, men uppdateras inte omedelbart till nästa större version. Den uppdateringen sker när Nextcloud GmbH har utfört ytterligare verifiering och testning för storskaliga och kritiska installationer. Den här kanalen är endast tillgänglig för kunder och tillhandahåller Nextcloud Enterprise-paketet."
+    "{version} is available. Get more information on how to update." : "{version} är tillgänglig. Få mer information om hur du uppdaterar."
 },
 "nplurals=2; plural=(n != 1);");

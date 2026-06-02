@@ -199,7 +199,6 @@ OC.L10N.register(
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Byte av läge kommer aktivera automatiska LDAP förfrågningar. Beroende på din LDAP storlek kan de ta ett tag. Vill du fortfarande ändra läge?",
     "Confirm" : "Bekräfta",
     "Failed to delete the server configuration" : "Det gick inte att ta bort serverkonfigurationen",
-    "Invalid configuration. Please have a look at the logs for further details." : "Ogiltig konfiguration. Vänligen undersök loggar för mer detaljer.",
     "No action specified" : "Ingen funktion har angetts",
     "No configuration specified" : "Ingen konfiguration har angetts",
     "No data specified" : "Inga data har angetts",

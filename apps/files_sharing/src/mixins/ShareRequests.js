@@ -3,15 +3,12 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import axios from '@nextcloud/axios'
+import axios, { isAxiosError } from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { generateOcsUrl } from '@nextcloud/router'
 import Share from '../models/Share.ts'
 import logger from '../services/logger.ts'
-
-// TODO: remove when ie not supported
-import 'url-search-params-polyfill'
 
 const shareUrl = generateOcsUrl('apps/files_sharing/api/v1/shares')
 
@@ -45,13 +42,9 @@ export default {
 				emit('files_sharing:share:created', { share })
 				return share
 			} catch (error) {
-				logger.error('Error while creating share', { error })
-				const errorMessage = error?.response?.data?.ocs?.meta?.message
-				showError(
-					errorMessage ? t('files_sharing', 'Error creating the share: {errorMessage}', { errorMessage }) : t('files_sharing', 'Error creating the share'),
-					{ type: 'error' },
-				)
-				throw error
+				const errorMessage = getErrorMessage(error) ?? t('files_sharing', 'Error creating the share')
+				showError(errorMessage)
+				throw new Error(errorMessage, { cause: error })
 			}
 		},
 
@@ -70,13 +63,9 @@ export default {
 				emit('files_sharing:share:deleted', { id })
 				return true
 			} catch (error) {
-				logger.error('Error while deleting share', { error })
-				const errorMessage = error?.response?.data?.ocs?.meta?.message
-				OC.Notification.showTemporary(
-					errorMessage ? t('files_sharing', 'Error deleting the share: {errorMessage}', { errorMessage }) : t('files_sharing', 'Error deleting the share'),
-					{ type: 'error' },
-				)
-				throw error
+				const errorMessage = getErrorMessage(error) ?? t('files_sharing', 'Error deleting the share')
+				showError(errorMessage)
+				throw new Error(errorMessage, { cause: error })
 			}
 		},
 
@@ -97,16 +86,26 @@ export default {
 				}
 			} catch (error) {
 				logger.error('Error while updating share', { error })
-				if (error.response.status !== 400) {
-					const errorMessage = error?.response?.data?.ocs?.meta?.message
-					OC.Notification.showTemporary(
-						errorMessage ? t('files_sharing', 'Error updating the share: {errorMessage}', { errorMessage }) : t('files_sharing', 'Error updating the share'),
-						{ type: 'error' },
-					)
-				}
-				const message = error.response.data.ocs.meta.message
-				throw new Error(message)
+				const errorMessage = getErrorMessage(error) ?? t('files_sharing', 'Error updating the share')
+				// the error will be shown in apps/files_sharing/src/mixins/SharesMixin.js
+				throw new Error(errorMessage, { cause: error })
 			}
 		},
 	},
+}
+
+/**
+ * Handle an error response from the server and show a notification with the error message if possible
+ *
+ * @param {unknown} error - The received error
+ * @return {string|undefined} the error message if it could be extracted from the response, otherwise undefined
+ */
+function getErrorMessage(error) {
+	if (isAxiosError(error) && error.response.data?.ocs) {
+		/** @type {import('@nextcloud/typings/ocs').OCSResponse} */
+		const response = error.response.data
+		if (response.ocs.meta?.message) {
+			return response.ocs.meta.message
+		}
+	}
 }

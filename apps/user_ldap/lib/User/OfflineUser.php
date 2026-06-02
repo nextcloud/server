@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP\User;
 
 use OCA\User_LDAP\Mapping\AbstractMapping;
@@ -164,7 +165,7 @@ class OfflineUser {
 		$this->foundDeleted = $this->userConfig->getValueInt($this->ocName, 'user_ldap', 'foundDeleted');
 		$this->extStorageHome = $this->userConfig->getValueString($this->ocName, 'user_ldap', 'extStorageHome');
 		$this->email = $this->userConfig->getValueString($this->ocName, 'user_ldap', 'email');
-		$this->lastLogin = $this->userConfig->getValueInt($this->ocName, 'user_ldap', 'email');
+		$this->lastLogin = $this->userConfig->getValueInt($this->ocName, 'login', 'lastLogin');
 	}
 
 	/**

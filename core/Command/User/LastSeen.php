@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Command\User;
 
 use OC\Core\Command\Base;
@@ -23,6 +24,7 @@ class LastSeen extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('user:lastseen')
@@ -41,6 +43,7 @@ class LastSeen extends Base {
 		;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$singleUserId = $input->getArgument('uid');
 
@@ -86,6 +89,7 @@ class LastSeen extends Base {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
+	#[\Override]
 	public function completeArgumentValues($argumentName, CompletionContext $context) {
 		if ($argumentName === 'uid') {
 			return array_map(static fn (IUser $user) => $user->getUID(), $this->userManager->searchDisplayName($context->getCurrentWord()));

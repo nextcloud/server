@@ -1,31 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Repair;
 
 use OCP\Files;
+use OCP\IConfig;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class MoveUpdaterStepFile implements IRepairStep {
-	/** @var \OCP\IConfig */
-	protected $config;
-
-	/**
-	 * @param \OCP\IConfig $config
-	 */
-	public function __construct($config) {
-		$this->config = $config;
+	public function __construct(
+		protected IConfig $config,
+	) {
 	}
 
-	public function getName() {
+	#[\Override]
+	public function getName(): string {
 		return 'Move .step file of updater to backup location';
 	}
 
-	public function run(IOutput $output) {
+	#[\Override]
+	public function run(IOutput $output): void {
 		$updateDir = $this->config->getSystemValue('updatedirectory', null) ?? $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data');
 		$instanceId = $this->config->getSystemValueString('instanceid');
 

@@ -24,6 +24,7 @@ class BundleFetcherTest extends TestCase {
 	private IL10N&MockObject $l10n;
 	private BundleFetcher $bundleFetcher;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -50,7 +51,6 @@ class BundleFetcherTest extends TestCase {
 		$this->assertEquals(new EnterpriseBundle($this->l10n), $this->bundleFetcher->getBundleByIdentifier('EnterpriseBundle'));
 		$this->assertEquals(new GroupwareBundle($this->l10n), $this->bundleFetcher->getBundleByIdentifier('GroupwareBundle'));
 	}
-
 
 	public function testGetBundleByIdentifierWithException(): void {
 		$this->expectException(\BadMethodCallException::class);

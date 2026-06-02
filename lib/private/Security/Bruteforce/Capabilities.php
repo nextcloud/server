@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Security\Bruteforce;
 
 use OCP\Capabilities\IInitialStateExcludedCapability;
@@ -23,6 +24,7 @@ class Capabilities implements IPublicCapability, IInitialStateExcludedCapability
 	/**
 	 * @return array{bruteforce: array{delay: int, allow-listed: bool}}
 	 */
+	#[\Override]
 	public function getCapabilities(): array {
 		return [
 			'bruteforce' => [

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\User;
 
 use InvalidArgumentException;
@@ -14,6 +15,7 @@ use OC\Hooks\Emitter;
 use OCP\Accounts\IAccountManager;
 use OCP\Comments\ICommentsManager;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\FileInfo;
 use OCP\Group\Events\BeforeUserRemovedEvent;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\IAvatarManager;
@@ -25,8 +27,11 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserBackend;
 use OCP\Notification\IManager as INotificationManager;
+use OCP\Server;
+use OCP\Support\Subscription\IAssertion;
 use OCP\User\Backend\IGetHomeBackend;
 use OCP\User\Backend\IPasswordHashBackend;
+use OCP\User\Backend\IPropertyPermissionBackend;
 use OCP\User\Backend\IProvideAvatarBackend;
 use OCP\User\Backend\IProvideEnabledStateBackend;
 use OCP\User\Backend\ISetDisplayNameBackend;
@@ -38,8 +43,8 @@ use OCP\User\Events\UserChangedEvent;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\User\GetQuotaEvent;
 use OCP\UserInterface;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
-
 use function json_decode;
 use function json_encode;
 
@@ -48,56 +53,41 @@ class User implements IUser {
 
 	private IConfig $config;
 	private IURLGenerator $urlGenerator;
+	private IAssertion $assertion;
+	protected ?IAccountManager $accountManager = null;
 
-	/** @var IAccountManager */
-	protected $accountManager;
-
-	/** @var string|null */
-	private $displayName;
-
-	/** @var bool|null */
-	private $enabled;
-
-	/** @var Emitter|Manager|null */
-	private $emitter;
-
-	/** @var string */
-	private $home;
+	private ?string $displayName = null;
+	private ?bool $enabled = null;
+	private ?string $home = null;
 
 	private ?int $lastLogin = null;
 	private ?int $firstLogin = null;
-
-	/** @var IAvatarManager */
-	private $avatarManager;
+	private ?IAvatarManager $avatarManager = null;
 
 	public function __construct(
 		private string $uid,
 		private ?UserInterface $backend,
 		private IEventDispatcher $dispatcher,
-		$emitter = null,
+		private Emitter|Manager|null $emitter = null,
 		?IConfig $config = null,
-		$urlGenerator = null,
+		?IURLGenerator $urlGenerator = null,
+		?IAssertion $assertion = null,
 	) {
-		$this->emitter = $emitter;
-		$this->config = $config ?? \OCP\Server::get(IConfig::class);
-		$this->urlGenerator = $urlGenerator ?? \OCP\Server::get(IURLGenerator::class);
+		$this->config = $config ?? Server::get(IConfig::class);
+		$this->urlGenerator = $urlGenerator ?? Server::get(IURLGenerator::class);
+		$this->assertion = $assertion ?? Server::get(IAssertion::class);
 	}
 
-	/**
-	 * get the user id
-	 *
-	 * @return string
-	 */
-	public function getUID() {
+	#[\Override]
+	public function getUID(): string {
 		return $this->uid;
 	}
 
 	/**
-	 * get the display name for the user, if no specific display name is set it will fallback to the user id
-	 *
-	 * @return string
+	 * Get the display name for the user, if no specific display name is set it will fallback to the user id
 	 */
-	public function getDisplayName() {
+	#[\Override]
+	public function getDisplayName(): string {
 		if ($this->displayName === null) {
 			$displayName = '';
 			if ($this->backend && $this->backend->implementsActions(Backend::GET_DISPLAYNAME)) {
@@ -118,15 +108,15 @@ class User implements IUser {
 	}
 
 	/**
-	 * set the displayname for the user
+	 * Set the displayname for the user
 	 *
 	 * @param string $displayName
-	 * @return bool
 	 *
 	 * @since 25.0.0 Throw InvalidArgumentException
 	 * @throws \InvalidArgumentException
 	 */
-	public function setDisplayName($displayName) {
+	#[\Override]
+	public function setDisplayName($displayName): bool {
 		$displayName = trim($displayName);
 		$oldDisplayName = $this->getDisplayName();
 		if ($this->backend->implementsActions(Backend::SET_DISPLAYNAME) && !empty($displayName) && $displayName !== $oldDisplayName) {
@@ -145,13 +135,15 @@ class User implements IUser {
 	/**
 	 * @inheritDoc
 	 */
-	public function setEMailAddress($mailAddress) {
+	#[\Override]
+	public function setEMailAddress($mailAddress): void {
 		$this->setSystemEMailAddress($mailAddress);
 	}
 
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function setSystemEMailAddress(string $mailAddress): void {
 		$oldMailAddress = $this->getSystemEMailAddress();
 		$mailAddress = mb_strtolower(trim($mailAddress));
@@ -176,6 +168,7 @@ class User implements IUser {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function setPrimaryEMailAddress(string $mailAddress): void {
 		$mailAddress = mb_strtolower(trim($mailAddress));
 		if ($mailAddress === '') {
@@ -196,7 +189,7 @@ class User implements IUser {
 
 	private function ensureAccountManager() {
 		if (!$this->accountManager instanceof IAccountManager) {
-			$this->accountManager = \OC::$server->get(IAccountManager::class);
+			$this->accountManager = Server::get(IAccountManager::class);
 		}
 	}
 
@@ -204,6 +197,7 @@ class User implements IUser {
 	 * returns the timestamp of the user's last login or 0 if the user did never
 	 * login
 	 */
+	#[\Override]
 	public function getLastLogin(): int {
 		if ($this->lastLogin === null) {
 			$this->lastLogin = (int)$this->config->getUserValue($this->uid, 'login', 'lastLogin', 0);
@@ -215,6 +209,7 @@ class User implements IUser {
 	 * returns the timestamp of the user's last login or 0 if the user did never
 	 * login
 	 */
+	#[\Override]
 	public function getFirstLogin(): int {
 		if ($this->firstLogin === null) {
 			$this->firstLogin = (int)$this->config->getUserValue($this->uid, 'login', 'firstLogin', 0);
@@ -225,6 +220,7 @@ class User implements IUser {
 	/**
 	 * updates the timestamp of the most recent login of this user
 	 */
+	#[\Override]
 	public function updateLastLoginTimestamp(): bool {
 		$previousLogin = $this->getLastLogin();
 		$firstLogin = $this->getFirstLogin();
@@ -251,12 +247,11 @@ class User implements IUser {
 
 	/**
 	 * Delete the user
-	 *
-	 * @return bool
 	 */
-	public function delete() {
+	#[\Override]
+	public function delete(): bool {
 		if ($this->backend === null) {
-			\OCP\Server::get(LoggerInterface::class)->error('Cannot delete user: No backend set');
+			Server::get(LoggerInterface::class)->error('Cannot delete user: No backend set');
 			return false;
 		}
 
@@ -281,7 +276,7 @@ class User implements IUser {
 		}
 
 		// We have to delete the user from all groups
-		$groupManager = \OCP\Server::get(IGroupManager::class);
+		$groupManager = Server::get(IGroupManager::class);
 		foreach ($groupManager->getUserGroupIds($this) as $groupId) {
 			$group = $groupManager->get($groupId);
 			if ($group) {
@@ -291,22 +286,22 @@ class User implements IUser {
 			}
 		}
 
-		$commentsManager = \OCP\Server::get(ICommentsManager::class);
+		$commentsManager = Server::get(ICommentsManager::class);
 		$commentsManager->deleteReferencesOfActor('users', $this->uid);
 		$commentsManager->deleteReadMarksFromUser($this);
 
-		$avatarManager = \OCP\Server::get(AvatarManager::class);
+		$avatarManager = Server::get(AvatarManager::class);
 		$avatarManager->deleteUserAvatar($this->uid);
 
-		$notificationManager = \OCP\Server::get(INotificationManager::class);
+		$notificationManager = Server::get(INotificationManager::class);
 		$notification = $notificationManager->createNotification();
 		$notification->setUser($this->uid);
 		$notificationManager->markProcessed($notification);
 
-		$accountManager = \OCP\Server::get(AccountManager::class);
+		$accountManager = Server::get(AccountManager::class);
 		$accountManager->deleteUser($this);
 
-		$database = \OCP\Server::get(IDBConnection::class);
+		$database = Server::get(IDBConnection::class);
 		try {
 			// We need to create a transaction to make sure we are in a defined state
 			// because if all user values are removed also the flag is gone, but if an exception happens (e.g. database lost connection on the set operation)
@@ -341,9 +336,9 @@ class User implements IUser {
 	 *
 	 * @param string $password
 	 * @param string $recoveryPassword for the encryption app to reset encryption keys
-	 * @return bool
 	 */
-	public function setPassword($password, $recoveryPassword = null) {
+	#[\Override]
+	public function setPassword($password, $recoveryPassword = null): bool {
 		$this->dispatcher->dispatchTyped(new BeforePasswordUpdatedEvent($this, $password, $recoveryPassword));
 		if ($this->emitter) {
 			$this->emitter->emit('\OC\User', 'preSetPassword', [$this, $password, $recoveryPassword]);
@@ -366,6 +361,7 @@ class User implements IUser {
 		}
 	}
 
+	#[\Override]
 	public function getPasswordHash(): ?string {
 		if (!($this->backend instanceof IPasswordHashBackend)) {
 			return null;
@@ -373,6 +369,7 @@ class User implements IUser {
 		return $this->backend->getPasswordHash($this->uid);
 	}
 
+	#[\Override]
 	public function setPasswordHash(string $passwordHash): bool {
 		if (!($this->backend instanceof IPasswordHashBackend)) {
 			return false;
@@ -381,11 +378,10 @@ class User implements IUser {
 	}
 
 	/**
-	 * get the users home folder to mount
-	 *
-	 * @return string
+	 * Get the users home folder to mount
 	 */
-	public function getHome() {
+	#[\Override]
+	public function getHome(): string {
 		if (!$this->home) {
 			/** @psalm-suppress UndefinedInterfaceMethod Once we get rid of the legacy implementsActions, psalm won't complain anymore */
 			if (($this->backend instanceof IGetHomeBackend || $this->backend->implementsActions(Backend::GET_HOME)) && $home = $this->backend->getHome($this->uid)) {
@@ -399,66 +395,76 @@ class User implements IUser {
 
 	/**
 	 * Get the name of the backend class the user is connected with
-	 *
-	 * @return string
 	 */
-	public function getBackendClassName() {
+	#[\Override]
+	public function getBackendClassName(): string {
 		if ($this->backend instanceof IUserBackend) {
 			return $this->backend->getBackendName();
 		}
 		return get_class($this->backend);
 	}
 
+	#[\Override]
 	public function getBackend(): ?UserInterface {
 		return $this->backend;
 	}
 
-	/**
-	 * Check if the backend allows the user to change their avatar on Personal page
-	 *
-	 * @return bool
-	 */
-	public function canChangeAvatar() {
-		if ($this->backend instanceof IProvideAvatarBackend || $this->backend->implementsActions(Backend::PROVIDE_AVATAR)) {
-			/** @var IProvideAvatarBackend $backend */
-			$backend = $this->backend;
-			return $backend->canChangeAvatar($this->uid);
-		}
-		return true;
+	#[\Override]
+	public function canChangeAvatar(): bool {
+		return $this->canEditProperty(IAccountManager::PROPERTY_AVATAR);
 	}
 
-	/**
-	 * check if the backend supports changing passwords
-	 *
-	 * @return bool
-	 */
-	public function canChangePassword() {
+	#[\Override]
+	public function canChangePassword(): bool {
 		return $this->backend->implementsActions(Backend::SET_PASSWORD);
 	}
 
-	/**
-	 * check if the backend supports changing display names
-	 *
-	 * @return bool
-	 */
-	public function canChangeDisplayName() {
-		if (!$this->config->getSystemValueBool('allow_user_to_change_display_name', true)) {
-			return false;
-		}
-		return $this->backend->implementsActions(Backend::SET_DISPLAYNAME);
+	#[\Override]
+	public function canChangeDisplayName(): bool {
+		return $this->canEditProperty(IAccountManager::PROPERTY_DISPLAYNAME);
 	}
 
+	#[\Override]
 	public function canChangeEmail(): bool {
-		// Fallback to display name value to avoid changing behavior with the new option.
-		return $this->config->getSystemValueBool('allow_user_to_change_email', $this->config->getSystemValueBool('allow_user_to_change_display_name', true));
+		return $this->canEditProperty(IAccountManager::PROPERTY_EMAIL);
 	}
 
 	/**
-	 * check if the user is enabled
-	 *
-	 * @return bool
+	 * @param IAccountManager::PROPERTY_*|IAccountManager::COLLECTION_* $property
 	 */
-	public function isEnabled() {
+	#[\Override]
+	public function canEditProperty(string $property): bool {
+		if ($this->backend instanceof IPropertyPermissionBackend) {
+			$permission = $this->backend->canEditProperty($this->uid, $property);
+			if (!$permission) {
+				return false;
+			}
+		}
+		switch ($property) {
+			case IAccountManager::PROPERTY_DISPLAYNAME:
+				if (!$this->config->getSystemValueBool('allow_user_to_change_display_name', true)) {
+					return false;
+				}
+				return $this->backend->implementsActions(Backend::SET_DISPLAYNAME);
+			case IAccountManager::PROPERTY_AVATAR:
+				if ($this->backend instanceof IProvideAvatarBackend || $this->backend->implementsActions(Backend::PROVIDE_AVATAR)) {
+					/** @var IProvideAvatarBackend $backend */
+					$backend = $this->backend;
+					return $backend->canChangeAvatar($this->uid);
+				}
+				return true;
+			case IAccountManager::PROPERTY_EMAIL:
+				return $this->config->getSystemValueBool('allow_user_to_change_email', $this->config->getSystemValueBool('allow_user_to_change_display_name', true));
+			default:
+				return true;
+		}
+	}
+
+	/**
+	 * Check if the user is enabled
+	 */
+	#[\Override]
+	public function isEnabled(): bool {
 		$queryDatabaseValue = function (): bool {
 			if ($this->enabled === null) {
 				$enabled = $this->config->getUserValue($this->uid, 'core', 'enabled', 'true');
@@ -478,12 +484,18 @@ class User implements IUser {
 	 *
 	 * @return void
 	 */
+	#[\Override]
 	public function setEnabled(bool $enabled = true) {
 		$oldStatus = $this->isEnabled();
 		$setDatabaseValue = function (bool $enabled): void {
 			$this->config->setUserValue($this->uid, 'core', 'enabled', $enabled ? 'true' : 'false');
 			$this->enabled = $enabled;
 		};
+
+		if ($oldStatus === false && $enabled === true) {
+			$this->assertion->createUserIsLegit();
+		}
+
 		if ($this->backend instanceof IProvideEnabledStateBackend) {
 			$queryDatabaseValue = function (): bool {
 				if ($this->enabled === null) {
@@ -503,18 +515,19 @@ class User implements IUser {
 	}
 
 	/**
-	 * get the users email address
+	 * Get the users email address
 	 *
-	 * @return string|null
 	 * @since 9.0.0
 	 */
-	public function getEMailAddress() {
+	#[\Override]
+	public function getEMailAddress(): ?string {
 		return $this->getPrimaryEMailAddress() ?? $this->getSystemEMailAddress();
 	}
 
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getSystemEMailAddress(): ?string {
 		$email = $this->config->getUserValue($this->uid, 'settings', 'email', null);
 		return $email ? mb_strtolower(trim($email)) : null;
@@ -523,6 +536,7 @@ class User implements IUser {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getPrimaryEMailAddress(): ?string {
 		$email = $this->config->getUserValue($this->uid, 'settings', 'primary_email', null);
 		return $email ? mb_strtolower(trim($email)) : null;
@@ -531,10 +545,10 @@ class User implements IUser {
 	/**
 	 * get the users' quota
 	 *
-	 * @return string
 	 * @since 9.0.0
 	 */
-	public function getQuota() {
+	#[\Override]
+	public function getQuota(): string {
 		// allow apps to modify the user quota by hooking into the event
 		$event = new GetQuotaEvent($this);
 		$this->dispatcher->dispatchTyped($event);
@@ -562,35 +576,36 @@ class User implements IUser {
 		return $quota;
 	}
 
+	#[\Override]
 	public function getQuotaBytes(): int|float {
 		$quota = $this->getQuota();
 		if ($quota === 'none') {
-			return \OCP\Files\FileInfo::SPACE_UNLIMITED;
+			return FileInfo::SPACE_UNLIMITED;
 		}
 
-		$bytes = \OCP\Util::computerFileSize($quota);
+		$bytes = Util::computerFileSize($quota);
 		if ($bytes === false) {
-			return \OCP\Files\FileInfo::SPACE_UNKNOWN;
+			return FileInfo::SPACE_UNKNOWN;
 		}
 		return $bytes;
 	}
 
 	/**
-	 * set the users' quota
+	 * Set the users' quota
 	 *
 	 * @param string $quota
-	 * @return void
 	 * @throws InvalidArgumentException
 	 * @since 9.0.0
 	 */
-	public function setQuota($quota) {
+	#[\Override]
+	public function setQuota($quota): void {
 		$oldQuota = $this->config->getUserValue($this->uid, 'files', 'quota', '');
 		if ($quota !== 'none' && $quota !== 'default') {
-			$bytesQuota = \OCP\Util::computerFileSize($quota);
+			$bytesQuota = Util::computerFileSize($quota);
 			if ($bytesQuota === false) {
 				throw new InvalidArgumentException('Failed to set quota to invalid value ' . $quota);
 			}
-			$quota = \OCP\Util::humanFileSize($bytesQuota);
+			$quota = Util::humanFileSize($bytesQuota);
 		}
 		if ($quota !== $oldQuota) {
 			$this->config->setUserValue($this->uid, 'files', 'quota', $quota);
@@ -599,6 +614,7 @@ class User implements IUser {
 		\OC_Helper::clearStorageInfo('/' . $this->uid . '/files');
 	}
 
+	#[\Override]
 	public function getManagerUids(): array {
 		$encodedUids = $this->config->getUserValue(
 			$this->uid,
@@ -609,6 +625,7 @@ class User implements IUser {
 		return json_decode($encodedUids, false, 512, JSON_THROW_ON_ERROR);
 	}
 
+	#[\Override]
 	public function setManagerUids(array $uids): void {
 		$oldUids = $this->getManagerUids();
 		$this->config->setUserValue(
@@ -624,13 +641,13 @@ class User implements IUser {
 	 * get the avatar image if it exists
 	 *
 	 * @param int $size
-	 * @return IImage|null
 	 * @since 9.0.0
 	 */
-	public function getAvatarImage($size) {
+	#[\Override]
+	public function getAvatarImage($size): ?IImage {
 		// delay the initialization
 		if (is_null($this->avatarManager)) {
-			$this->avatarManager = \OC::$server->get(IAvatarManager::class);
+			$this->avatarManager = Server::get(IAvatarManager::class);
 		}
 
 		$avatar = $this->avatarManager->getAvatar($this->uid);
@@ -645,10 +662,10 @@ class User implements IUser {
 	/**
 	 * get the federation cloud id
 	 *
-	 * @return string
 	 * @since 9.0.0
 	 */
-	public function getCloudId() {
+	#[\Override]
+	public function getCloudId(): string {
 		$uid = $this->getUID();
 		$server = rtrim($this->urlGenerator->getAbsoluteURL('/'), '/');
 		if (str_ends_with($server, '/index.php')) {
@@ -666,7 +683,7 @@ class User implements IUser {
 		return $url;
 	}
 
-	public function triggerChange($feature, $value = null, $oldValue = null) {
+	public function triggerChange($feature, $value = null, $oldValue = null): void {
 		$this->dispatcher->dispatchTyped(new UserChangedEvent($this, $feature, $value, $oldValue));
 		if ($this->emitter) {
 			$this->emitter->emit('\OC\User', 'changeUser', [$this, $feature, $value, $oldValue]);

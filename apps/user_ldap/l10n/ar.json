@@ -163,7 +163,6 @@
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "تفعيل الوضع سوف ينتج عنه تمكين استعلامات بروتوكولLDAP التلقائية. وقد يستغرق الأمر بعض الوقت بناء على حجم LDAP خاصتك. هل ما زلت تريد تفعيل الوضع؟",
     "Confirm" : "تأكيد",
     "Failed to delete the server configuration" : "تعذّر حذف ملف إعدادات الخادم",
-    "Invalid configuration. Please have a look at the logs for further details." : "تكوين غير صحيح. يرجى الرجوع إلى سجلات الأنشطة لمزيد من التفاصيل.",
     "No action specified" : "لم يتم تحديد أيّ إجراءٍ",
     "No configuration specified" : "لم يتم تحديد أيّ إعداداتٍ",
     "No data specified" : "لم يتم تحديد أيّ بياناتٍ",

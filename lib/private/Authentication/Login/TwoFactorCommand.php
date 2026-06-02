@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Authentication\Login;
 
 use OC\Authentication\TwoFactorAuth\Manager;
@@ -16,23 +17,14 @@ use function array_pop;
 use function count;
 
 class TwoFactorCommand extends ALoginCommand {
-	/** @var Manager */
-	private $twoFactorManager;
-
-	/** @var MandatoryTwoFactor */
-	private $mandatoryTwoFactor;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	public function __construct(Manager $twoFactorManager,
-		MandatoryTwoFactor $mandatoryTwoFactor,
-		IURLGenerator $urlGenerator) {
-		$this->twoFactorManager = $twoFactorManager;
-		$this->mandatoryTwoFactor = $mandatoryTwoFactor;
-		$this->urlGenerator = $urlGenerator;
+	public function __construct(
+		private Manager $twoFactorManager,
+		private MandatoryTwoFactor $mandatoryTwoFactor,
+		private IURLGenerator $urlGenerator,
+	) {
 	}
 
+	#[\Override]
 	public function process(LoginData $loginData): LoginResult {
 		if (!$this->twoFactorManager->isTwoFactorAuthenticated($loginData->getUser())) {
 			return $this->processNextOrFinishSuccessfully($loginData);
@@ -68,7 +60,6 @@ class TwoFactorCommand extends ALoginCommand {
 		}
 
 		return LoginResult::success(
-			$loginData,
 			$this->urlGenerator->linkToRoute($url, $urlParams)
 		);
 	}

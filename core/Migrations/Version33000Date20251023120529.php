@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Migrations;
 
 use Closure;
@@ -26,9 +27,7 @@ class Version33000Date20251023120529 extends SimpleMigrationStep {
 	) {
 	}
 
-	/**
-	 * @param Closure(): ISchemaWrapper $schemaClosure The `\Closure` returns a `ISchemaWrapper`
-	 */
+	#[\Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
@@ -41,6 +40,7 @@ class Version33000Date20251023120529 extends SimpleMigrationStep {
 		return $schema;
 	}
 
+	#[\Override]
 	public function preSchemaChange(IOutput $output, \Closure $schemaClosure, array $options) {
 		// This shouldn't run on a production instance, only daily
 		$qb = $this->connection->getQueryBuilder();

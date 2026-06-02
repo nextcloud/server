@@ -12,6 +12,7 @@ use OCP\IBinaryFinder;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
+use OCP\Util;
 use Symfony\Component\Process\ExecutableFinder;
 
 /**
@@ -41,13 +42,14 @@ class BinaryFinder implements IBinaryFinder {
 	 *
 	 * @return false|string
 	 */
+	#[\Override]
 	public function findBinaryPath(string $program) {
 		$result = $this->cache->get($program);
 		if ($result !== null) {
 			return $result;
 		}
 		$result = false;
-		if (\OCP\Util::isFunctionEnabled('exec')) {
+		if (Util::isFunctionEnabled('exec')) {
 			$exeSniffer = new ExecutableFinder();
 			// Returns null if nothing is found
 			$result = $exeSniffer->find(

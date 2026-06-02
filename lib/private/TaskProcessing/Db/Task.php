@@ -83,7 +83,6 @@ class Task extends Entity {
 	 */
 	public static array $fields = ['id', 'lastUpdated', 'type', 'input', 'output', 'status', 'userId', 'appId', 'customId', 'completionExpectedAt', 'errorMessage', 'progress', 'webhookUri', 'webhookMethod', 'scheduledAt', 'startedAt', 'endedAt', 'allowCleanup', 'userFacingErrorMessage', 'includeWatermark'];
 
-
 	public function __construct() {
 		// add types in constructor
 		$this->addType('id', 'integer');

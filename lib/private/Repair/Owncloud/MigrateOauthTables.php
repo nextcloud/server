@@ -34,14 +34,13 @@ class MigrateOauthTables implements IRepairStep {
 	) {
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getName() {
+	#[\Override]
+	public function getName(): string {
 		return 'Migrate oauth2_clients table to nextcloud schema';
 	}
 
-	public function run(IOutput $output) {
+	#[\Override]
+	public function run(IOutput $output): void {
 		$schema = new SchemaWrapper($this->db);
 		if (!$schema->hasTable('oauth2_clients')) {
 			$output->info('oauth2_clients table does not exist.');

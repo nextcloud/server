@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace Test\Files\Mount;
 
 use OC\Files\Mount\ObjectHomeMountProvider;
@@ -28,6 +29,7 @@ class ObjectHomeMountProviderTest extends \Test\TestCase {
 	/** @var IStorageFactory|\PHPUnit\Framework\MockObject\MockObject */
 	protected $loader;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -251,24 +253,31 @@ class FakeObjectStore implements IObjectStore {
 		return $this->arguments;
 	}
 
+	#[\Override]
 	public function getStorageId() {
 	}
 
+	#[\Override]
 	public function readObject($urn) {
 	}
 
+	#[\Override]
 	public function writeObject($urn, $stream, ?string $mimetype = null) {
 	}
 
+	#[\Override]
 	public function deleteObject($urn) {
 	}
 
+	#[\Override]
 	public function objectExists($urn) {
 	}
 
+	#[\Override]
 	public function copyObject($from, $to) {
 	}
 
+	#[\Override]
 	public function preSignedUrl(string $urn, \DateTimeInterface $expiration): ?string {
 		return null;
 	}

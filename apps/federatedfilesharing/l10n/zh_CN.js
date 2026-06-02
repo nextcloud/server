@@ -67,9 +67,6 @@ OC.L10N.register(
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "您想要添加来自 {owner}@{remote}的远程共享 {name} 吗？",
     "Remote share password" : "远程共享密码",
     "Incoming share could not be processed" : "无法处理传入共享",
-    "Cloud ID copied to the clipboard" : "云端 ID 已复制至剪切板",
-    "Copy to clipboard" : "复制到剪贴板",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "您可以和使用了 Nextcloud 服务器或其他兼容 Open Cloud Mesh（OCM）的服务器和服务的任何人共享！只需将他们的联合云 ID 放在共享对话框中。联合云 ID 看起来像 person@cloud.example.com",
     "X (formerly Twitter)" : "X（原 Twitter）",
     "formerly Twitter" : "原 Twitter"
 },

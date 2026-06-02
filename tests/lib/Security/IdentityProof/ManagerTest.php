@@ -35,6 +35,7 @@ class ManagerTest extends TestCase {
 	private ICacheFactory&MockObject $cacheFactory;
 	private ICache&MockObject $cache;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -226,7 +227,6 @@ class ManagerTest extends TestCase {
 				$folder
 			);
 
-
 		$expected = new Key('MyNewPublicKey', 'MyNewPrivateKey');
 		$this->assertEquals($expected, $this->manager->getKey($user));
 	}
@@ -257,8 +257,6 @@ class ManagerTest extends TestCase {
 
 		$this->assertSame($key, $manager->getSystemKey());
 	}
-
-
 
 	public function testGetSystemKeyFailure(): void {
 		$this->expectException(\RuntimeException::class);

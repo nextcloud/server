@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Repair\NC20;
 
 use OCP\IConfig;
@@ -13,18 +14,18 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class ShippedDashboardEnable implements IRepairStep {
-	/** @var IConfig */
-	private $config;
-
-	public function __construct(IConfig $config) {
-		$this->config = $config;
+	public function __construct(
+		private readonly IConfig $config,
+	) {
 	}
 
-	public function getName() {
+	#[\Override]
+	public function getName(): string {
 		return 'Remove old dashboard app config data';
 	}
 
-	public function run(IOutput $output) {
+	#[\Override]
+	public function run(IOutput $output): void {
 		$version = $this->config->getAppValue('dashboard', 'version', '7.0.0');
 		if (version_compare($version, '7.0.0', '<')) {
 			$this->config->deleteAppValues('dashboard');

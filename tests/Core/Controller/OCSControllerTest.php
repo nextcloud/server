@@ -36,6 +36,7 @@ class OCSControllerTest extends TestCase {
 	/** @var OCSController */
 	private $controller;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Encryption\Settings;
 
 use OC\Files\View;
@@ -38,6 +41,7 @@ class Admin implements ISettings {
 	/**
 	 * @return TemplateResponse
 	 */
+	#[\Override]
 	public function getForm() {
 		$crypt = new Crypt(
 			$this->logger,
@@ -73,6 +77,7 @@ class Admin implements ISettings {
 	/**
 	 * @return string the section ID, e.g. 'sharing'
 	 */
+	#[\Override]
 	public function getSection() {
 		return 'security';
 	}
@@ -84,6 +89,7 @@ class Admin implements ISettings {
 	 *
 	 * E.g.: 70
 	 */
+	#[\Override]
 	public function getPriority() {
 		return 11;
 	}

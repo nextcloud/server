@@ -17,6 +17,7 @@ const userMounting = loadState<{
 }>('files_external', 'user-mounting')
 
 const availableBackends = loadState<IBackend[]>('files_external', 'backends')
+	.filter((backend: IBackend) => backend.identifier !== 'local')
 const allowUserMounting = ref(userMounting.allowUserMounting)
 const allowedBackends = ref<string[]>(userMounting.allowedBackends)
 

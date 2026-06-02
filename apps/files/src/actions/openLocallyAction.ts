@@ -1,21 +1,23 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+import type { IFileAction } from '@nextcloud/files'
+
 import LaptopSvg from '@mdi/svg/svg/laptop.svg?raw'
 import IconWeb from '@mdi/svg/svg/web.svg?raw'
 import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
 import { DialogBuilder, showError } from '@nextcloud/dialogs'
-import { FileAction } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import { encodePath } from '@nextcloud/paths'
 import { generateOcsUrl } from '@nextcloud/router'
 import { isPublicShare } from '@nextcloud/sharing/public'
-import logger from '../logger.ts'
+import { logger } from '../utils/logger.ts'
 import { isSyncable } from '../utils/permissions.ts'
 
-export const action = new FileAction({
+export const action: IFileAction = {
 	id: 'edit-locally',
 	displayName: () => t('files', 'Open locally'),
 	iconSvgInline: () => LaptopSvg,
@@ -32,7 +34,7 @@ export const action = new FileAction({
 			return false
 		}
 
-		return isSyncable(nodes[0])
+		return isSyncable(nodes[0]!)
 	},
 
 	async exec({ nodes }) {
@@ -41,7 +43,7 @@ export const action = new FileAction({
 	},
 
 	order: 25,
-})
+}
 
 /**
  * Try to open the path in the Nextcloud client.
@@ -112,6 +114,11 @@ async function confirmLocalEditDialog(): Promise<'online' | 'local' | false> {
 		])
 		.build()
 
-	await dialog.show()
+	try {
+		await dialog.show()
+	} catch (error) {
+		logger.debug('Open locally dialog closed', { error })
+	}
+
 	return result
 }

@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Comments\Controller;
 
 use OCP\AppFramework\Controller;
@@ -70,17 +71,20 @@ class NotificationsController extends Controller {
 				return new NotFoundResponse();
 			}
 			$userFolder = $this->rootFolder->getUserFolder($currentUser->getUID());
-			$files = $userFolder->getById((int)$comment->getObjectId());
+			$file = $userFolder->getFirstNodeById((int)$comment->getObjectId());
 
 			$this->markProcessed($comment, $currentUser);
 
-			if (empty($files)) {
+			if ($file === null) {
 				return new NotFoundResponse();
 			}
 
 			$url = $this->urlGenerator->linkToRouteAbsolute(
 				'files.viewcontroller.showFile',
-				[ 'fileid' => $comment->getObjectId() ]
+				[
+					'fileid' => $comment->getObjectId(),
+					'opendetails' => 'true',
+				]
 			);
 
 			return new RedirectResponse($url);

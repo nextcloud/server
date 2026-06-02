@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace Test\lib\Config;
 
 use OC\Config\ConfigManager;
@@ -171,9 +172,9 @@ class UserConfigTest extends TestCase {
 						'key1' => ['key1', 'value1', ValueType::STRING, true, 0, true]
 					]
 				],
-
 		];
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -251,6 +252,7 @@ class UserConfigTest extends TestCase {
 		}
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$sql = $this->connection->getQueryBuilder();
 		$sql->delete('preferences');
@@ -1425,7 +1427,6 @@ class UserConfigTest extends TestCase {
 		}
 	}
 
-
 	public static function providerSetValueArray(): array {
 		return [
 			[null, 'user1', 'app1', 'key1', [], false, false, true],
@@ -1691,7 +1692,6 @@ class UserConfigTest extends TestCase {
 		$userConfig = $this->generateUserConfig($preload ?? []);
 		$this->assertEqualsCanonicalizing($result, $userConfig->getDetails($userId, $app, $key));
 	}
-
 
 	public static function providerDeletePreference(): array {
 		return [

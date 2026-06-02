@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -15,6 +17,7 @@ class LocalTest extends ObjectStoreTestCase {
 	/**
 	 * @return IObjectStore
 	 */
+	#[\Override]
 	protected function getInstance() {
 		$storage = new Temporary();
 		return new StorageObjectStore($storage);

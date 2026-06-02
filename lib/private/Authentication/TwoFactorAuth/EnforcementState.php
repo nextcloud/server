@@ -6,20 +6,12 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Authentication\TwoFactorAuth;
 
 use JsonSerializable;
 
 class EnforcementState implements JsonSerializable {
-	/** @var bool */
-	private $enforced;
-
-	/** @var array */
-	private $enforcedGroups;
-
-	/** @var array */
-	private $excludedGroups;
-
 	/**
 	 * EnforcementState constructor.
 	 *
@@ -27,12 +19,11 @@ class EnforcementState implements JsonSerializable {
 	 * @param string[] $enforcedGroups
 	 * @param string[] $excludedGroups
 	 */
-	public function __construct(bool $enforced,
-		array $enforcedGroups = [],
-		array $excludedGroups = []) {
-		$this->enforced = $enforced;
-		$this->enforcedGroups = $enforcedGroups;
-		$this->excludedGroups = $excludedGroups;
+	public function __construct(
+		private bool $enforced,
+		private array $enforcedGroups = [],
+		private array $excludedGroups = [],
+	) {
 	}
 
 	/**
@@ -56,6 +47,7 @@ class EnforcementState implements JsonSerializable {
 		return $this->excludedGroups;
 	}
 
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'enforced' => $this->enforced,

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CalDAV;
 
 use OCA\DAV\CalDAV\Federation\FederatedCalendarImpl;
@@ -27,6 +28,7 @@ class CalendarProvider implements ICalendarProvider {
 	) {
 	}
 
+	#[\Override]
 	public function getCalendars(string $principalUri, array $calendarUris = []): array {
 		/** @var array{uri: string, principaluri: string}[] $calendarInfos */
 		$calendarInfos = $this->calDavBackend->getCalendarsForUser($principalUri) ?? [];
@@ -43,9 +45,9 @@ class CalendarProvider implements ICalendarProvider {
 			});
 		}
 
-		$additionalProperties = $this->getAdditionalPropertiesForCalendars($calendarInfos);
 		$iCalendars = [];
 
+		$additionalProperties = $this->getAdditionalPropertiesForCalendars($calendarInfos);
 		foreach ($calendarInfos as $calendarInfo) {
 			$user = str_replace('principals/users/', '', $calendarInfo['principaluri']);
 			$path = 'calendars/' . $user . '/' . $calendarInfo['uri'];
@@ -60,14 +62,12 @@ class CalendarProvider implements ICalendarProvider {
 			);
 		}
 
-		$additionalFederatedProps = $this->getAdditionalPropertiesForCalendars(
-			$federatedCalendarInfos,
-		);
+		$additionalFederatedProps = $this->getAdditionalPropertiesForCalendars($federatedCalendarInfos);
 		foreach ($federatedCalendarInfos as $calendarInfo) {
 			$user = str_replace('principals/users/', '', $calendarInfo['principaluri']);
 			$path = 'calendars/' . $user . '/' . $calendarInfo['uri'];
 			if (isset($additionalFederatedProps[$path])) {
-				$calendarInfo = array_merge($calendarInfo, $additionalProperties[$path]);
+				$calendarInfo = array_merge($calendarInfo, $additionalFederatedProps[$path]);
 			}
 
 			$iCalendars[] = new FederatedCalendarImpl($calendarInfo, $this->calDavBackend);

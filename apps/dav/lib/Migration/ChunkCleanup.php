@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Migration;
 
 use OCA\DAV\BackgroundJob\UploadCleanup;
@@ -29,10 +30,12 @@ class ChunkCleanup implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Chunk cleanup scheduler';
 	}
 
+	#[\Override]
 	public function run(IOutput $output) {
 		// If we already ran this onec there is no need to run it again
 		if ($this->config->getAppValue('dav', 'chunks_migrated', '0') === '1') {
@@ -61,7 +64,6 @@ class ChunkCleanup implements IRepairStep {
 			$output->advance();
 		});
 		$output->finishProgress();
-
 
 		$this->config->setAppValue('dav', 'chunks_migrated', '1');
 	}

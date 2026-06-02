@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Authentication\LoginCredentials;
 
 use Exception;
@@ -22,25 +23,12 @@ use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 class Store implements IStore {
-	/** @var ISession */
-	private $session;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var IProvider|null */
-	private $tokenProvider;
-
 	public function __construct(
-		ISession $session,
-		LoggerInterface $logger,
+		private ISession $session,
+		private LoggerInterface $logger,
 		private readonly ICrypto $crypto,
-		?IProvider $tokenProvider = null,
+		private ?IProvider $tokenProvider = null,
 	) {
-		$this->session = $session;
-		$this->logger = $logger;
-		$this->tokenProvider = $tokenProvider;
-
 		Util::connectHook('OC_User', 'post_login', $this, 'authenticate');
 	}
 
@@ -71,6 +59,7 @@ class Store implements IStore {
 	 * @return ICredentials the login credentials of the current user
 	 * @throws CredentialsUnavailableException
 	 */
+	#[\Override]
 	public function getLoginCredentials(): ICredentials {
 		if ($this->tokenProvider === null) {
 			throw new CredentialsUnavailableException();

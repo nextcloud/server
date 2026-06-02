@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Settings\Personal\Security;
 
 use OC\Authentication\WebAuthn\Db\PublicKeyCredentialMapper;
@@ -17,22 +18,15 @@ use OCP\Settings\ISettings;
 
 class WebAuthn implements ISettings {
 
-	/** @var PublicKeyCredentialMapper */
-	private $mapper;
-
-	/** @var Manager */
-	private $manager;
-
 	public function __construct(
-		PublicKeyCredentialMapper $mapper,
+		private PublicKeyCredentialMapper $mapper,
 		private string $userId,
 		private IInitialStateService $initialStateService,
-		Manager $manager,
+		private Manager $manager,
 	) {
-		$this->mapper = $mapper;
-		$this->manager = $manager;
 	}
 
+	#[\Override]
 	public function getForm() {
 		$this->initialStateService->provideInitialState(
 			Application::APP_ID,
@@ -43,6 +37,7 @@ class WebAuthn implements ISettings {
 		return new TemplateResponse('settings', 'settings/personal/security/webauthn');
 	}
 
+	#[\Override]
 	public function getSection(): ?string {
 		if (!$this->manager->isWebAuthnAvailable()) {
 			return null;
@@ -51,6 +46,7 @@ class WebAuthn implements ISettings {
 		return 'security';
 	}
 
+	#[\Override]
 	public function getPriority(): int {
 		return 20;
 	}

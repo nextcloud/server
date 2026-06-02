@@ -28,10 +28,6 @@
     "Set reminder for this weekend" : "Ορισμός υπενθύμισης για αυτό το Σαββατοκύριακο",
     "Next week" : "Επόμενη εβδομάδα",
     "Set reminder for next week" : "Ορισμός υπενθύμισης για την επόμενη εβδομάδα",
-    "This files_reminder can work properly." : "Αυτή η files_reminder μπορεί να λειτουργήσει σωστά.",
-    "The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "Η εφαρμογή files_reminder χρειάζεται την εφαρμογή ειδοποιήσεων για να λειτουργήσει σωστά. Πρέπει είτε να ενεργοποιήσετε τις ειδοποιήσεις είτε να απενεργοποιήσετε την files_reminder.",
-    "Set reminder for \"{fileName}\"" : "Ορισμός υπενθύμισης για \"{fileName}\"",
-    "Set reminder at custom date & time" : "Ορίστε την υπενθύμιση σε προσαρμοσμένη ημερομηνία και ώρα",
-    "Set custom reminder" : "Ορισμός προσαρμοσμένης υπενθύμισης"
+    "Set reminder for \"{fileName}\"" : "Ορισμός υπενθύμισης για \"{fileName}\""
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

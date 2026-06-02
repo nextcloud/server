@@ -77,7 +77,7 @@ import type { PropType } from 'vue'
 import debounce from 'debounce'
 import { defineComponent } from 'vue'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
-import logger from '../logger.ts'
+import { logger } from '../utils/logger.ts'
 
 interface RecycledPoolItem {
 	key: string
@@ -333,6 +333,13 @@ export default defineComponent({
 	methods: {
 		scrollTo(index: number) {
 			if (!this.$el || this.index === index) {
+				return
+			}
+
+			// Skip scrolling if the target index is already visible
+			const lastVisibleIndex = this.index + (this.visibleRows * this.columnCount) - 1
+			if (index >= this.index && index <= lastVisibleIndex) {
+				logger.debug('VirtualList: Skip scrolling, index already visible', { index })
 				return
 			}
 

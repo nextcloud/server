@@ -29,10 +29,6 @@
     "Set reminder for this weekend" : "Tetapkan pengingat untuk akhir pekan ini",
     "Next week" : "Minggu depan",
     "Set reminder for next week" : "Tetapkan pengingat untuk minggu depan",
-    "This files_reminder can work properly." : "files_reminder ini dapat berfungsi dengan baik.",
-    "The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "Aplikasi files_reminder memerlukan aplikasi notifikasi agar dapat berfungsi dengan baik. Anda harus mengaktifkan notifikasi atau menonaktifkan files_reminder.",
-    "Set reminder for \"{fileName}\"" : "Tetapkan pengingat untuk \"{fileName}\"",
-    "Set reminder at custom date & time" : "Tetapkan pengingat pada tanggal & waktu kustom",
-    "Set custom reminder" : "Tetapkan pengingat kustom"
+    "Set reminder for \"{fileName}\"" : "Tetapkan pengingat untuk \"{fileName}\""
 },"pluralForm" :"nplurals=1; plural=0;"
 }

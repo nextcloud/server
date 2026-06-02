@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Federation\Tests\Controller;
 
 use OC\BackgroundJob\JobList;
@@ -87,12 +88,11 @@ class OCSAuthAPIControllerTest extends TestCase {
 			}
 		}
 
-
 		try {
 			$this->ocsAuthApi->requestSharedSecret($url, $token);
-			$this->assertTrue($ok);
+			$this->assertTrue($isTrustedServer);
 		} catch (OCSForbiddenException $e) {
-			$this->assertFalse($ok);
+			$this->assertFalse($isTrustedServer);
 		}
 	}
 
@@ -110,28 +110,24 @@ class OCSAuthAPIControllerTest extends TestCase {
 		$token = 'token';
 
 		/** @var OCSAuthAPIController&MockObject $ocsAuthApi */
-		$ocsAuthApi = $this->getMockBuilder(OCSAuthAPIController::class)
-			->setConstructorArgs(
-				[
-					'federation',
-					$this->request,
-					$this->secureRandom,
-					$this->jobList,
-					$this->trustedServers,
-					$this->dbHandler,
-					$this->logger,
-					$this->timeFactory,
-					$this->throttler
-				]
-			)
-			->onlyMethods(['isValidToken'])
-			->getMock();
+		$ocsAuthApi = new OCSAuthAPIController(
+			'federation',
+			$this->request,
+			$this->secureRandom,
+			$this->jobList,
+			$this->trustedServers,
+			$this->dbHandler,
+			$this->logger,
+			$this->timeFactory,
+			$this->throttler,
+		);
 
 		$this->trustedServers
 			->expects($this->any())
 			->method('isTrustedServer')->with($url)->willReturn($isTrustedServer);
-		$ocsAuthApi->expects($this->any())
-			->method('isValidToken')->with($url, $token)->willReturn($isValidToken);
+		$this->dbHandler->method('getToken')
+			->with($url)
+			->willReturn($isValidToken ? $token : 'not $token');
 
 		if ($ok) {
 			$this->secureRandom->expects($this->once())->method('generate')->with(32)
@@ -148,7 +144,6 @@ class OCSAuthAPIControllerTest extends TestCase {
 
 		try {
 			$result = $ocsAuthApi->getSharedSecret($url, $token);
-			$this->assertTrue($ok);
 			$data = $result->getData();
 			$this->assertSame('secret', $data['sharedSecret']);
 		} catch (OCSForbiddenException $e) {

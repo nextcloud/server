@@ -43,7 +43,7 @@ OC.L10N.register(
     "Search global and public address book for people" : "Durchsuche globales und öffentliches Adressbuch nach Personen",
     "Allow people to publish their data to a global and public address book" : "Erlaube es Personen, ihre Daten in einem globalen und öffentlichen Adressbuch zu veröffentlichen",
     "Trusted federation" : "Vertrauenswürdige Federation",
-    "Automatically accept shares from trusted federated accounts and groups by default" : "Freigaben von vertrauenswürdigen Federated-Konten und -Gruppen standardmäßig automatisch akzeptieren",
+    "Automatically accept shares from trusted federated accounts and groups by default" : "Freigaben von vertrauenswürdigen Federated-Konten und -Gruppen standardmäßig automatisch annehmen",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Teile mit mir über meine #Nextcloud Federated-Cloud-ID, siehe {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Teile mit mir über meine #Nextcloud Federated-Cloud-ID",
     "Share with me via Nextcloud" : "Teile mit mir über Nextcloud",
@@ -67,9 +67,6 @@ OC.L10N.register(
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Soll die externe Freigabe {name} von {owner}@{remote} hinzugefügt werden?",
     "Remote share password" : "Passwort für die externe Freigabe",
     "Incoming share could not be processed" : "Eingehende Freigabe konnte nicht verarbeitet werden",
-    "Cloud ID copied to the clipboard" : "Cloud-ID in die Zwischenablage kopiert",
-    "Copy to clipboard" : "In die Zwischenablage kopieren",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Du kannst mit jedem teilen, der einen Nextcloud-Server oder andere Open Cloud Mesh (OCM) kompatible Server und Dienste verwendet! Gib einfach deren Federated-Cloud-ID in den Teilen-Dialog ein. Diese sieht wie folgt aus: person@cloud.example.com",
     "X (formerly Twitter)" : "X (früher Twitter)",
     "formerly Twitter" : "früher Twitter"
 },

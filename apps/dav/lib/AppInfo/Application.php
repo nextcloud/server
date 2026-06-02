@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\AppInfo;
 
 use OCA\DAV\CalDAV\AppCalendar\AppCalendarPlugin;
@@ -19,6 +20,7 @@ use OCA\DAV\CalDAV\Reminder\NotificationProvider\EmailProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\PushProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProviderManager;
 use OCA\DAV\CalDAV\Reminder\Notifier as NotifierCalDAV;
+use OCA\DAV\CalDAV\TipBroker;
 use OCA\DAV\Capabilities;
 use OCA\DAV\CardDAV\ContactsManager;
 use OCA\DAV\CardDAV\Notification\Notifier as NotifierCardDAV;
@@ -89,6 +91,7 @@ use OCP\Contacts\IManager as IContactsManager;
 use OCP\DB\Events\AddMissingIndicesEvent;
 use OCP\Federation\Events\TrustedServerRemovedEvent;
 use OCP\Federation\ICloudFederationProviderManager;
+use OCP\Group\Events\GroupDeletedEvent;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Server;
@@ -107,6 +110,7 @@ use OCP\User\Events\UserIdAssignedEvent;
 use OCP\User\Events\UserIdUnassignedEvent;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use Sabre\VObject;
 use Throwable;
 use function is_null;
 
@@ -117,6 +121,7 @@ class Application extends App implements IBootstrap {
 		parent::__construct(self::APP_ID);
 	}
 
+	#[\Override]
 	public function register(IRegistrationContext $context): void {
 		$context->registerServiceAlias('CardDAVSyncService', SyncService::class);
 		$context->registerService(AppCalendarPlugin::class, function (ContainerInterface $c) {
@@ -174,7 +179,6 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(SubscriptionCreatedEvent::class, SubscriptionListener::class);
 		$context->registerEventListener(SubscriptionDeletedEvent::class, SubscriptionListener::class);
 
-
 		$context->registerEventListener(AddressBookCreatedEvent::class, AddressbookListener::class);
 		$context->registerEventListener(AddressBookDeletedEvent::class, AddressbookListener::class);
 		$context->registerEventListener(AddressBookUpdatedEvent::class, AddressbookListener::class);
@@ -205,6 +209,7 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(UserCreatedEvent::class, UserEventsListener::class);
 		$context->registerEventListener(UserChangedEvent::class, UserEventsListener::class);
 		$context->registerEventListener(UserUpdatedEvent::class, UserEventsListener::class);
+		$context->registerEventListener(GroupDeletedEvent::class, UserEventsListener::class);
 
 		$context->registerEventListener(SabrePluginAuthInitEvent::class, SabrePluginAuthInitListener::class);
 
@@ -233,7 +238,10 @@ class Application extends App implements IBootstrap {
 		$context->registerConfigLexicon(ConfigLexicon::class);
 	}
 
+	#[\Override]
 	public function boot(IBootContext $context): void {
+		VObject\Component\VCalendar::$propertyMap[TipBroker::INVITATION_FORWARDING_PROPERTY] = VObject\Property\Boolean::class;
+
 		// Load all dav apps
 		$context->getServerContainer()->get(IAppManager::class)->loadApps(['dav']);
 

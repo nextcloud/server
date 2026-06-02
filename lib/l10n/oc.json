@@ -65,7 +65,6 @@
     "December" : "Decembre",
     "May." : "Mai.",
     "a safe home for all your data" : "un ostal segur per vòstras donadas",
-    "Authentication error" : "Error d’autentificacion",
     "Storage is temporarily not available" : "Emmagazinatge temporàriament indisponible",
     "Images" : "Imatges",
     "Question" : "Question",
@@ -73,6 +72,6 @@
     "Chat" : "Messatjariá",
     "Text" : "Tèxt",
     "Translate" : "Tradurre",
-    "Organisation" : "Organizacion"
+    "Authentication error" : "Error d’autentificacion"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

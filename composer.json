@@ -47,6 +47,9 @@
 		"ext-zip": "*",
 		"ext-zlib": "*"
 	},
+	"suggest": {
+		"ext-sodium": "Argon2 password hashing and Ed25519 signature verification for RFC 9421 HTTP message signatures."
+	},
 	"require-dev": {
 		"bamarni/composer-bin-plugin": "^1.4"
 	},

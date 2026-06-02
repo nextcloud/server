@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\Files\View;
@@ -57,6 +58,10 @@ class FilesReportPluginTest extends \Test\TestCase {
 
 		$this->tree = $this->createMock(Tree::class);
 		$this->view = $this->createMock(View::class);
+		$this->view
+			->method('getRelativePath')
+			->with(null)
+			->willReturn('');
 
 		$this->server = $this->getMockBuilder(Server::class)
 			->setConstructorArgs([$this->tree])
@@ -279,7 +284,6 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->method('getPath')
 			->willReturn('/sub1/sub2');
 
-
 		$subNode = $this->createMock(Folder::class);
 
 		$this->userFolder->expects($this->once())
@@ -315,14 +319,14 @@ class FilesReportPluginTest extends \Test\TestCase {
 
 		$node1->expects($this->once())
 			->method('getInternalFileId')
-			->willReturn('111');
+			->willReturn(111);
 		$node1->expects($this->any())
 			->method('getPath')
 			->willReturn('/node1');
 		$node1->method('getFileInfo')->willReturn($fileInfo);
 		$node2->expects($this->once())
 			->method('getInternalFileId')
-			->willReturn('222');
+			->willReturn(222);
 		$node2->expects($this->once())
 			->method('getSize')
 			->willReturn(1024);
@@ -709,7 +713,6 @@ class FilesReportPluginTest extends \Test\TestCase {
 
 		$this->assertEquals([$filesNode2], array_values(self::invokePrivate($this->plugin, 'processFilterRulesForFileNodes', [$rules, null, null])));
 	}
-
 
 	public function testProcessFilterRulesInvisibleTagAsUser(): void {
 		$this->expectException(TagNotFoundException::class);

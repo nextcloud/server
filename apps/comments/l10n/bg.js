@@ -11,6 +11,7 @@ OC.L10N.register(
     "<strong>Comments</strong> for files" : "<strong>Коментари</strong> за файлове",
     "Files" : "Файлове",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} ви спомена в коментар за “{file}”",
+    "Go to file" : "Отидете до файла",
     "Files app plugin to add comments to files" : "Добавка на приложението Файлове за добавяне на коментари към файловете",
     "Edit comment" : "Редактирай коментра",
     "Delete comment" : "Изтрий коментар",

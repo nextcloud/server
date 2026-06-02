@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Encryption\Migration;
 
 use OCP\IConfig;
@@ -17,7 +18,6 @@ use OCP\Migration\IRepairStep;
  */
 class SetMasterKeyStatus implements IRepairStep {
 
-
 	public function __construct(
 		private IConfig $config,
 	) {
@@ -29,6 +29,7 @@ class SetMasterKeyStatus implements IRepairStep {
 	 * @return string
 	 * @since 9.1.0
 	 */
+	#[\Override]
 	public function getName() {
 		return 'Write default encryption module configuration to the database';
 	}
@@ -36,6 +37,7 @@ class SetMasterKeyStatus implements IRepairStep {
 	/**
 	 * @param IOutput $output
 	 */
+	#[\Override]
 	public function run(IOutput $output) {
 		if (!$this->shouldRun()) {
 			return;

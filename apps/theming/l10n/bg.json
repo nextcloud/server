@@ -78,7 +78,6 @@
     "Background and login image" : "Изображение за фон и вход",
     "Advanced options" : "Допълнителни опции",
     "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Инсталирайте разширението Imagemagick PHP с поддръжка за SVG изображения, за да генерирате автоматично фавикони въз основа на каченото лого и цвят.",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Универсалният достъп е много важен за нас. Следваме уеб стандартите и проверяваме, за да направим всичко използваемо и без мишка, и помощен софтуер, като екранни четци. Ние се стремим да бъдем съобразени с {guidelines}Насоки за достъпност на уеб съдържанието {linkend} 2.1 на ниво АА, с темата за висок контраст дори на ниво AAA.",
     "Select a custom color" : "Избор на персонализиран цвят",
     "Upload" : "Качване"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

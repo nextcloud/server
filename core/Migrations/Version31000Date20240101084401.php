@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Migrations;
 
 use Closure;
@@ -40,10 +41,12 @@ use OCP\Migration\SimpleMigrationStep;
 	description: 'to search on key and provider'
 )]
 class Version31000Date20240101084401 extends SimpleMigrationStep {
+	#[\Override]
 	public function description(): string {
 		return "creating new table 'sec_signatory' to store remote signatories";
 	}
 
+	#[\Override]
 	public function name(): string {
 		return 'create sec_signatory';
 	}
@@ -54,6 +57,7 @@ class Version31000Date20240101084401 extends SimpleMigrationStep {
 	 * @param array $options
 	 * @return null|ISchemaWrapper
 	 */
+	#[\Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();

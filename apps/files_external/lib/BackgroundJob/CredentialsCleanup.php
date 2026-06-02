@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_External\BackgroundJob;
 
 use OCA\Files_External\Lib\Auth\Password\LoginCredentials;
@@ -31,6 +32,7 @@ class CredentialsCleanup extends TimedJob {
 		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
+	#[\Override]
 	protected function run($argument) {
 		$this->userManager->callForSeenUsers(function (IUser $user): void {
 			$storages = $this->userGlobalStoragesService->getAllStoragesForUser($user);

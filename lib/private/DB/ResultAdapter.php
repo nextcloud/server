@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\DB;
 
 use Doctrine\DBAL\Result;
@@ -15,6 +16,8 @@ use PDO;
 
 /**
  * Adapts DBAL 2.6 API for DBAL 3.x for backwards compatibility of a leaked type
+ *
+ * @template-implements IResult<string>
  */
 class ResultAdapter implements IResult {
 	public function __construct(

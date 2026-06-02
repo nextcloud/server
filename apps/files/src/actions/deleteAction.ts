@@ -1,15 +1,18 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+import type { IFileAction } from '@nextcloud/files'
+
 import CloseSvg from '@mdi/svg/svg/close.svg?raw'
 import NetworkOffSvg from '@mdi/svg/svg/network-off.svg?raw'
 import TrashCanSvg from '@mdi/svg/svg/trash-can-outline.svg?raw'
-import { FileAction, Permission } from '@nextcloud/files'
+import { Permission } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import PQueue from 'p-queue'
-import logger from '../logger.ts'
+import { logger } from '../utils/logger.ts'
 import { askConfirmation, canDisconnectOnly, canUnshareOnly, deleteNode, displayName, shouldAskForConfirmation } from './deleteUtils.ts'
 
 // TODO: once the files app is migrated to the new frontend use the import instead:
@@ -20,7 +23,7 @@ const queue = new PQueue({ concurrency: 5 })
 
 export const ACTION_DELETE = 'delete'
 
-export const action = new FileAction({
+export const action: IFileAction = {
 	id: ACTION_DELETE,
 	displayName,
 	iconSvgInline: ({ nodes }) => {
@@ -117,4 +120,4 @@ export const action = new FileAction({
 		description: t('files', 'Delete'),
 		key: 'Delete',
 	},
-})
+}

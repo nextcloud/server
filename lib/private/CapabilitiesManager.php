@@ -6,12 +6,14 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use OCP\AppFramework\QueryException;
 use OCP\Capabilities\ICapability;
 use OCP\Capabilities\IInitialStateExcludedCapability;
 use OCP\Capabilities\IPublicCapability;
+use OCP\ILogger;
 use Psr\Log\LoggerInterface;
 
 class CapabilitiesManager {
@@ -22,13 +24,11 @@ class CapabilitiesManager {
 	public const ACCEPTABLE_LOADING_TIME = 0.1;
 
 	/** @var \Closure[] */
-	private $capabilities = [];
+	private array $capabilities = [];
 
-	/** @var LoggerInterface */
-	private $logger;
-
-	public function __construct(LoggerInterface $logger) {
-		$this->logger = $logger;
+	public function __construct(
+		private LoggerInterface $logger,
+	) {
 	}
 
 	/**
@@ -63,11 +63,11 @@ class CapabilitiesManager {
 					$timeSpent = $endTime - $startTime;
 					if ($timeSpent > self::ACCEPTABLE_LOADING_TIME) {
 						$logLevel = match (true) {
-							$timeSpent > self::ACCEPTABLE_LOADING_TIME * 16 => \OCP\ILogger::FATAL,
-							$timeSpent > self::ACCEPTABLE_LOADING_TIME * 8 => \OCP\ILogger::ERROR,
-							$timeSpent > self::ACCEPTABLE_LOADING_TIME * 4 => \OCP\ILogger::WARN,
-							$timeSpent > self::ACCEPTABLE_LOADING_TIME * 2 => \OCP\ILogger::INFO,
-							default => \OCP\ILogger::DEBUG,
+							$timeSpent > self::ACCEPTABLE_LOADING_TIME * 16 => ILogger::FATAL,
+							$timeSpent > self::ACCEPTABLE_LOADING_TIME * 8 => ILogger::ERROR,
+							$timeSpent > self::ACCEPTABLE_LOADING_TIME * 4 => ILogger::WARN,
+							$timeSpent > self::ACCEPTABLE_LOADING_TIME * 2 => ILogger::INFO,
+							default => ILogger::DEBUG,
 						};
 						$this->logger->log(
 							$logLevel,

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Upload;
 
 use Sabre\DAV\Exception\NotFound;
@@ -27,6 +28,7 @@ class UploadAutoMkcolPlugin extends ServerPlugin {
 
 	private Server $server;
 
+	#[\Override]
 	public function initialize(Server $server): void {
 		$server->on('beforeMethod:PUT', [$this, 'beforeMethod']);
 		$this->server = $server;

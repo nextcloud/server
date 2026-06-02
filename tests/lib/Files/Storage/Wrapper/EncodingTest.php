@@ -20,6 +20,7 @@ class EncodingTest extends \Test\Files\Storage\Storage {
 	 */
 	private $sourceStorage;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->sourceStorage = new Temporary([]);
@@ -28,23 +29,27 @@ class EncodingTest extends \Test\Files\Storage\Storage {
 		]);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$this->sourceStorage->cleanUp();
 		parent::tearDown();
 	}
 
+	#[\Override]
 	public static function directoryProvider(): array {
 		$a = parent::directoryProvider();
 		$a[] = [self::NFC_NAME];
 		return $a;
 	}
 
+	#[\Override]
 	public static function fileNameProvider(): array {
 		$a = parent::fileNameProvider();
 		$a[] = [self::NFD_NAME . '.txt'];
 		return $a;
 	}
 
+	#[\Override]
 	public static function copyAndMoveProvider(): array {
 		$a = parent::copyAndMoveProvider();
 		$a[] = [self::NFD_NAME . '.txt', self::NFC_NAME . '-renamed.txt'];

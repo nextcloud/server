@@ -5,9 +5,11 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing;
 
 use OC\Core\AppInfo\ConfigLexicon;
+use OCA\Files_Sharing\Config\ConfigLexicon as SharingConfigLexicon;
 use OCP\App\IAppManager;
 use OCP\Capabilities\ICapability;
 use OCP\Constants;
@@ -77,6 +79,7 @@ class Capabilities implements ICapability {
 	 *             },
 	 *         },
 	 *         default_permissions?: int,
+	 *         exclude_reshare_from_edit?: bool,
 	 *         federation: array{
 	 *             outgoing: bool,
 	 *             incoming: bool,
@@ -88,12 +91,14 @@ class Capabilities implements ICapability {
 	 *             },
 	 *         },
 	 *         sharee: array{
+	 *             minSearchStringLength: int,
 	 *             query_lookup_default: bool,
 	 *             always_show_unique: bool,
 	 *         },
 	 *	   },
 	 * }
 	 */
+	#[\Override]
 	public function getCapabilities() {
 		$res = [];
 
@@ -159,6 +164,7 @@ class Capabilities implements ICapability {
 			$res['group']['enabled'] = $this->shareManager->allowGroupSharing();
 			$res['group']['expire_date']['enabled'] = true;
 			$res['default_permissions'] = (int)$this->config->getAppValue('core', 'shareapi_default_permissions', (string)Constants::PERMISSION_ALL);
+			$res['exclude_reshare_from_edit'] = $this->appConfig->getValueBool('files_sharing', SharingConfigLexicon::EXCLUDE_RESHARE_FROM_EDIT);
 		}
 
 		//Federated sharing
@@ -182,6 +188,7 @@ class Capabilities implements ICapability {
 
 		// Sharee searches
 		$res['sharee'] = [
+			'minSearchStringLength' => $this->config->getSystemValueInt('sharing.minSearchStringLength', 0),
 			'query_lookup_default' => $this->config->getSystemValueBool('gs.enabled', false),
 			'always_show_unique' => $this->config->getAppValue('files_sharing', 'always_show_unique', 'yes') === 'yes',
 		];

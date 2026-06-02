@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\AppFramework\Http;
 
 use OCP\AppFramework\Http;
@@ -16,8 +17,8 @@ use OCP\IURLGenerator;
  *
  * @since 16.0.0
  * @deprecated 23.0.0 Use RedirectResponse() with IURLGenerator::linkToDefaultPageUrl() instead
- * @template S of Http::STATUS_*
- * @template H of array<string, mixed>
+ * @template-covariant S of Http::STATUS_*
+ * @template-covariant H of array<string, mixed>
  * @template-extends RedirectResponse<Http::STATUS_*, array<string, mixed>>
  */
 class RedirectToDefaultAppResponse extends RedirectResponse {

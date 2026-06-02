@@ -112,10 +112,6 @@ OC.L10N.register(
     "Failed to delete tag for file" : "Gagal menghapus tag untuk berkas",
     "Collaborative tags …" : "Tag kolaboratif …",
     "Loading …" : "Memuat …",
-    "File tags modification canceled" : "Modifikasi tag berkas dibatalkan",
-    "Select or create tags to apply to all selected files" : "Pilih atau buat tag untuk diterapkan ke semua berkas yang dipilih",
-    "Select tags to apply to all selected files" : "Pilih tag untuk diterapkan ke semua berkas yang dipilih",
-    "Apply changes" : "Terapkan perubahan",
     "Loading collaborative tags …" : "Memuat tag kolaboratif …"
 },
 "nplurals=1; plural=0;");

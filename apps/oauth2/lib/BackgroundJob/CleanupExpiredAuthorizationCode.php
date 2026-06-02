@@ -7,7 +7,6 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-
 namespace OCA\OAuth2\BackgroundJob;
 
 use OCA\OAuth2\Db\AccessTokenMapper;
@@ -33,6 +32,7 @@ class CleanupExpiredAuthorizationCode extends TimedJob {
 	 * @param mixed $argument
 	 * @inheritDoc
 	 */
+	#[\Override]
 	protected function run($argument): void {
 		try {
 			$this->accessTokenMapper->cleanupExpiredAuthorizationCode();

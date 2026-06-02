@@ -5,12 +5,12 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Node;
 
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
-use OCP\Files\Node;
 use OCP\Files\Node as INode;
 
 /**
@@ -26,6 +26,7 @@ class LazyRoot extends LazyFolder implements IRootFolder {
 		parent::__construct($this, $folderClosure, $data);
 	}
 
+	#[\Override]
 	protected function getRootFolder(): IRootFolder {
 		$folder = $this->getRealFolder();
 		if (!$folder instanceof IRootFolder) {
@@ -34,22 +35,27 @@ class LazyRoot extends LazyFolder implements IRootFolder {
 		return $folder;
 	}
 
+	#[\Override]
 	public function getUserFolder($userId) {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
+	#[\Override]
 	public function getByIdInPath(int $id, string $path) {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
-	public function getFirstNodeByIdInPath(int $id, string $path): ?Node {
+	#[\Override]
+	public function getFirstNodeByIdInPath(int $id, string $path): ?INode {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
+	#[\Override]
 	public function getNodeFromCacheEntryAndMount(ICacheEntry $cacheEntry, IMountPoint $mountPoint): INode {
 		return $this->getRootFolder()->getNodeFromCacheEntryAndMount($cacheEntry, $mountPoint);
 	}
 
+	#[\Override]
 	public function getAppDataDirectoryName(): string {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}

@@ -12,6 +12,8 @@ declare module '@nextcloud/event-bus' {
 		'files:config:updated': { key: string, value: UserConfig[string] }
 		'files:view-config:updated': { key: string, value: string | number | boolean, IView: string }
 
+		'files:list:initialized': undefined
+
 		'files:favorites:added': INode
 		'files:favorites:removed': INode
 
@@ -27,7 +29,7 @@ declare module '@nextcloud/event-bus' {
 		'files:node:updated': INode
 		'files:node:rename': INode
 		'files:node:renamed': INode
-		'files:node:moved': { INode: INode, oldSource: string }
+		'files:node:moved': { node: INode, oldSource: string }
 
 		'files:search:updated': { query: string, scope: SearchScope }
 

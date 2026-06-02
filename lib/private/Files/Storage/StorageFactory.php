@@ -5,12 +5,14 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Storage;
 
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IConstructableStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IStorageFactory;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class StorageFactory implements IStorageFactory {
@@ -19,6 +21,7 @@ class StorageFactory implements IStorageFactory {
 	 */
 	private $storageWrappers = [];
 
+	#[\Override]
 	public function addStorageWrapper(string $wrapperName, callable $callback, int $priority = 50, array $existingMounts = []): bool {
 		if (isset($this->storageWrappers[$wrapperName])) {
 			return false;
@@ -46,9 +49,10 @@ class StorageFactory implements IStorageFactory {
 	/**
 	 * Create an instance of a storage and apply the registered storage wrappers
 	 */
+	#[\Override]
 	public function getInstance(IMountPoint $mountPoint, string $class, array $arguments): IStorage {
 		if (!is_a($class, IConstructableStorage::class, true)) {
-			\OCP\Server::get(LoggerInterface::class)->warning('Building a storage not implementing IConstructableStorage is deprecated since 31.0.0', ['class' => $class]);
+			Server::get(LoggerInterface::class)->warning('Building a storage not implementing IConstructableStorage is deprecated since 31.0.0', ['class' => $class]);
 		}
 		return $this->wrap($mountPoint, new $class($arguments));
 	}

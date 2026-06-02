@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use OC\Tagging\Tag;
@@ -17,8 +18,9 @@ use OCP\Files\Events\NodeRemovedFromFavorite;
 use OCP\Files\Folder;
 use OCP\IDBConnection;
 use OCP\ITags;
-use OCP\IUserSession;
-use OCP\Share_Backend;
+use OCP\IUserManager;
+use OCP\Server;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 class Tags implements ITags {
@@ -29,21 +31,10 @@ class Tags implements ITags {
 	private array $tags = [];
 
 	/**
-	 * Are we including tags for shared items?
-	 */
-	private bool $includeShared = false;
-
-	/**
 	 * The current user, plus any owners of the items shared with the current
 	 * user, if $this->includeShared === true.
 	 */
 	private array $owners = [];
-
-	/**
-	 * The sharing backend for objects of $this->type. Required if
-	 * $this->includeShared === true to determine ownership of items.
-	 */
-	private ?Share_Backend $backend = null;
 
 	public const TAG_TABLE = 'vcategory';
 	public const RELATION_TABLE = 'vcategory_to_object';
@@ -65,7 +56,7 @@ class Tags implements ITags {
 		private LoggerInterface $logger,
 		private IDBConnection $db,
 		private IEventDispatcher $dispatcher,
-		private IUserSession $userSession,
+		private IUserManager $userManager,
 		private Folder $userFolder,
 		array $defaultTags = [],
 	) {
@@ -82,6 +73,7 @@ class Tags implements ITags {
 	 *
 	 * @return boolean
 	 */
+	#[\Override]
 	public function isEmpty(): bool {
 		return count($this->tags) === 0;
 	}
@@ -93,6 +85,7 @@ class Tags implements ITags {
 	 * @param string $id The ID of the tag that is going to be mapped
 	 * @return array|false
 	 */
+	#[\Override]
 	public function getTag(string $id) {
 		$key = $this->getTagById($id);
 		if ($key !== false) {
@@ -112,6 +105,7 @@ class Tags implements ITags {
 	 *
 	 * @return array<array-key, array{id: int, name: string}>
 	 */
+	#[\Override]
 	public function getTags(): array {
 		if (!count($this->tags)) {
 			return [];
@@ -152,6 +146,7 @@ class Tags implements ITags {
 	 * @return array<int, list<string>>|false of tags id as key to array of tag names
 	 *                                        or false if an error occurred
 	 */
+	#[\Override]
 	public function getTagsForObjects(array $objIds) {
 		$entries = [];
 
@@ -198,6 +193,7 @@ class Tags implements ITags {
 	 * @return int[]|false An array of object ids or false on error.
 	 * @throws \Exception
 	 */
+	#[\Override]
 	public function getIdsForTag($tag) {
 		$tagId = false;
 		if (is_numeric($tag)) {
@@ -212,7 +208,7 @@ class Tags implements ITags {
 		}
 
 		if ($tagId === false) {
-			$l10n = \OCP\Util::getL10N('core');
+			$l10n = Util::getL10N('core');
 			throw new \Exception(
 				$l10n->t('Could not find category "%s"', [$tag])
 			);
@@ -248,6 +244,7 @@ class Tags implements ITags {
 	 * @param string $name The tag name to check for.
 	 * @param string $user The user whose tags are to be checked.
 	 */
+	#[\Override]
 	public function userHasTag(string $name, string $user): bool {
 		return $this->array_searchi($name, $this->getTagsForUser($user)) !== false;
 	}
@@ -257,6 +254,7 @@ class Tags implements ITags {
 	 *
 	 * @param string $name The tag name to check for.
 	 */
+	#[\Override]
 	public function hasTag(string $name): bool {
 		return $this->getTagId($name) !== false;
 	}
@@ -267,6 +265,7 @@ class Tags implements ITags {
 	 * @param string $name A string with a name of the tag
 	 * @return false|int the id of the added tag or false on error.
 	 */
+	#[\Override]
 	public function add(string $name) {
 		$name = trim($name);
 
@@ -300,6 +299,7 @@ class Tags implements ITags {
 	 * @param string $to The new name of the tag.
 	 * @return bool
 	 */
+	#[\Override]
 	public function rename($from, string $to): bool {
 		$from = trim($from);
 		$to = trim($to);
@@ -347,6 +347,7 @@ class Tags implements ITags {
 	 * @param int|null $id int Optional object id to add to this|these tag(s)
 	 * @return bool Returns false on error.
 	 */
+	#[\Override]
 	public function addMultiple($names, bool $sync = false, ?int $id = null): bool {
 		if (!is_array($names)) {
 			$names = [$names];
@@ -427,6 +428,7 @@ class Tags implements ITags {
 	 * @param array $ids The ids of the objects
 	 * @return boolean Returns false on error.
 	 */
+	#[\Override]
 	public function purgeObjects(array $ids): bool {
 		if (count($ids) === 0) {
 			// job done ;)
@@ -453,6 +455,7 @@ class Tags implements ITags {
 	 *
 	 * @return array|false An array of object ids.
 	 */
+	#[\Override]
 	public function getFavorites() {
 		if (!$this->userHasTag(ITags::TAG_FAVORITE, $this->user)) {
 			return [];
@@ -461,7 +464,7 @@ class Tags implements ITags {
 		try {
 			return $this->getIdsForTag(ITags::TAG_FAVORITE);
 		} catch (\Exception $e) {
-			\OCP\Server::get(LoggerInterface::class)->error(
+			Server::get(LoggerInterface::class)->error(
 				$e->getMessage(),
 				[
 					'app' => 'core',
@@ -478,6 +481,7 @@ class Tags implements ITags {
 	 * @param int $objid The id of the object
 	 * @return boolean
 	 */
+	#[\Override]
 	public function addToFavorites($objid) {
 		if (!$this->userHasTag(ITags::TAG_FAVORITE, $this->user)) {
 			$this->add(ITags::TAG_FAVORITE);
@@ -491,6 +495,7 @@ class Tags implements ITags {
 	 * @param int $objid The id of the object
 	 * @return boolean
 	 */
+	#[\Override]
 	public function removeFromFavorites($objid) {
 		return $this->unTag($objid, ITags::TAG_FAVORITE);
 	}
@@ -498,6 +503,7 @@ class Tags implements ITags {
 	/**
 	 * Creates a tag/object relation.
 	 */
+	#[\Override]
 	public function tagAs($objid, $tag, ?string $path = null) {
 		if (is_string($tag) && !is_numeric($tag)) {
 			$tag = trim($tag);
@@ -522,7 +528,7 @@ class Tags implements ITags {
 		try {
 			$qb->executeStatement();
 		} catch (\Exception $e) {
-			\OCP\Server::get(LoggerInterface::class)->error($e->getMessage(), [
+			Server::get(LoggerInterface::class)->error($e->getMessage(), [
 				'app' => 'core',
 				'exception' => $e,
 			]);
@@ -538,7 +544,7 @@ class Tags implements ITags {
 				}
 			}
 
-			$this->dispatcher->dispatchTyped(new NodeAddedToFavorite($this->userSession->getUser(), $objid, $path));
+			$this->dispatcher->dispatchTyped(new NodeAddedToFavorite($this->userManager->getExistingUser($this->user), $objid, $path));
 		}
 		return true;
 	}
@@ -546,6 +552,7 @@ class Tags implements ITags {
 	/**
 	 * Delete single tag/object relation from the db
 	 */
+	#[\Override]
 	public function unTag($objid, $tag, ?string $path = null) {
 		if (is_string($tag) && !is_numeric($tag)) {
 			$tag = trim($tag);
@@ -583,7 +590,7 @@ class Tags implements ITags {
 				}
 			}
 
-			$this->dispatcher->dispatchTyped(new NodeRemovedFromFavorite($this->userSession->getUser(), $objid, $path));
+			$this->dispatcher->dispatchTyped(new NodeRemovedFromFavorite($this->userManager->getExistingUser($this->user), $objid, $path));
 		}
 		return true;
 	}
@@ -594,6 +601,7 @@ class Tags implements ITags {
 	 * @param string[]|integer[] $names An array of tags (names or IDs) to delete
 	 * @return bool Returns false on error
 	 */
+	#[\Override]
 	public function delete($names) {
 		if (!is_array($names)) {
 			$names = [$names];

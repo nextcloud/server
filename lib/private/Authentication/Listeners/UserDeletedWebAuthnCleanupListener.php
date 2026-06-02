@@ -16,13 +16,12 @@ use OCP\User\Events\UserDeletedEvent;
 
 /** @template-implements IEventListener<UserDeletedEvent> */
 class UserDeletedWebAuthnCleanupListener implements IEventListener {
-	/** @var PublicKeyCredentialMapper */
-	private $credentialMapper;
-
-	public function __construct(PublicKeyCredentialMapper $credentialMapper) {
-		$this->credentialMapper = $credentialMapper;
+	public function __construct(
+		private PublicKeyCredentialMapper $credentialMapper,
+	) {
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!($event instanceof UserDeletedEvent)) {
 			return;

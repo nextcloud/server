@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Files\Cache;
 
 use OC\Files\Cache\Wrapper\CacheJail;
@@ -79,9 +80,8 @@ class QuerySearchHelper {
 		}
 	}
 
-
 	/**
-	 * @return array<array-key, array{id: int, name: string, visibility: int, editable: int, ref_file_id: int, number_files: int}>
+	 * @return list<array{id: int, name: string, visibility: int, editable: int, ref_file_id: int, number_files: int}>
 	 */
 	public function findUsedTagsInCaches(ISearchQuery $searchQuery, array $caches): array {
 		$query = $this->getQueryBuilder();
@@ -90,6 +90,7 @@ class QuerySearchHelper {
 		$this->applySearchConstraints($query, $searchQuery, $caches);
 
 		$result = $query->executeQuery();
+		/** @var list<array{id: int, name: string, visibility: int, editable: int, ref_file_id: int, number_files: int}> $tags */
 		$tags = $result->fetchAll();
 		$result->closeCursor();
 		return $tags;
@@ -116,7 +117,6 @@ class QuerySearchHelper {
 				$query->expr()->eq('tag.uid', $query->createNamedParameter($user->getUID()))
 			));
 	}
-
 
 	protected function equipQueryForShares(CacheQueryBuilder $query): void {
 		$query->join('file', 'share', 's', $query->expr()->eq('file.fileid', 's.file_source'));
@@ -150,9 +150,15 @@ class QuerySearchHelper {
 
 		$builder = $this->getQueryBuilder();
 
-		$query = $builder->selectFileCache('file', false);
-
 		$requestedFields = $this->searchBuilder->extractRequestedFields($searchQuery->getSearchOperation());
+
+		$orderFields = array_map(fn ($order) => $order->getField(), $searchQuery->getOrder());
+
+		$joinExtendedCache = in_array('creation_time', $requestedFields)
+			|| in_array('upload_time', $requestedFields)
+			|| in_array('last_activity', $orderFields);
+
+		$query = $builder->selectFileCache('file', $joinExtendedCache);
 
 		if (in_array('systemtag', $requestedFields)) {
 			$this->equipQueryForSystemTags($query, $this->requireUser($searchQuery));

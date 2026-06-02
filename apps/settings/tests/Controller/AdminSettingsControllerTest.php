@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Tests\Controller;
 
 use OCA\Settings\Controller\AdminSettingsController;
@@ -125,7 +126,7 @@ class AdminSettingsControllerTest extends TestCase {
 		$initialState = [];
 		$this->initialState->expects(self::atLeastOnce())
 			->method('provideInitialState')
-			->willReturnCallback(function () use (&$initialState) {
+			->willReturnCallback(function () use (&$initialState): void {
 				$initialState[] = func_get_args();
 			});
 

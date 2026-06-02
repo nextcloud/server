@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { View } from '@nextcloud/files'
+import type { IView } from '@nextcloud/files'
 import type { IStorage } from '../types.ts'
 
-import { DefaultType, File, FileAction, Folder, Permission } from '@nextcloud/files'
+import { DefaultType, File, Folder, Permission } from '@nextcloud/files'
 import { describe, expect, test } from 'vitest'
 import { StorageStatus } from '../types.ts'
 import { action } from './enterCredentialsAction.ts'
@@ -14,12 +14,12 @@ import { action } from './enterCredentialsAction.ts'
 const view = {
 	id: 'files',
 	name: 'Files',
-} as View
+} as IView
 
 const externalStorageView = {
 	id: 'extstoragemounts',
 	name: 'External storage',
-} as View
+} as IView
 
 describe('Enter credentials action conditions tests', () => {
 	test('Default values', () => {
@@ -36,7 +36,6 @@ describe('Enter credentials action conditions tests', () => {
 			},
 		})
 
-		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('credentials-external-storage')
 		expect(action.displayName({
 			view: externalStorageView,

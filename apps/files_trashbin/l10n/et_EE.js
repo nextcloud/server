@@ -24,7 +24,6 @@ OC.L10N.register(
     "No deleted files" : "Kustutatud faile pole",
     "Files and folders you have deleted will show up here" : "Sinu kustutatud failid ja kaustad on nähtavad siin",
     "All files have been permanently deleted" : "Kõik failid on kustutatud jäädavalt",
-    "Failed to empty deleted files" : "Kustutatud failide eemaldamine ei õnnestunud",
-    "Deletion cancelled" : "Kustutamine on tühistatud"
+    "Failed to empty deleted files" : "Kustutatud failide eemaldamine ei õnnestunud"
 },
 "nplurals=2; plural=(n != 1);");

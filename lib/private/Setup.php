@@ -7,23 +7,34 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use bantu\IniGetWrapper\IniGetWrapper;
 use Exception;
 use InvalidArgumentException;
+use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Authentication\Token\PublicKeyTokenProvider;
 use OC\Authentication\Token\TokenCleanupJob;
+use OC\Core\BackgroundJobs\ExpirePreviewsJob;
 use OC\Core\BackgroundJobs\GenerateMetadataJob;
 use OC\Core\BackgroundJobs\PreviewMigrationJob;
 use OC\Log\Rotate;
 use OC\Preview\BackgroundCleanupJob;
+use OC\Setup\AbstractDatabase;
+use OC\Setup\MySQL;
+use OC\Setup\OCI;
+use OC\Setup\PostgreSQL;
+use OC\Setup\Sqlite;
 use OC\TextProcessing\RemoveOldTasksBackgroundJob;
 use OC\User\BackgroundJobs\CleanupDeletedUsers;
+use OC\User\Session;
+use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\HintException;
 use OCP\Http\Client\IClientService;
 use OCP\IAppConfig;
 use OCP\IConfig;
@@ -40,9 +51,13 @@ use OCP\Migration\IOutput;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
 use OCP\ServerVersion;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 class Setup {
+	public const MIN_PASSWORD_SALT_LENGTH = 30;
+	public const MIN_SECRET_LENGTH = 48;
+
 	protected IL10N $l10n;
 
 	public function __construct(
@@ -58,12 +73,12 @@ class Setup {
 		$this->l10n = $l10nFactory->get('lib');
 	}
 
-	protected static array $dbSetupClasses = [
-		'mysql' => \OC\Setup\MySQL::class,
-		'pgsql' => \OC\Setup\PostgreSQL::class,
-		'oci' => \OC\Setup\OCI::class,
-		'sqlite' => \OC\Setup\Sqlite::class,
-		'sqlite3' => \OC\Setup\Sqlite::class,
+	private const DB_SETUP_CLASSES = [
+		'mysql' => MySQL::class,
+		'pgsql' => PostgreSQL::class,
+		'oci' => OCI::class,
+		'sqlite' => Sqlite::class,
+		'sqlite3' => Sqlite::class,
 	];
 
 	/**
@@ -178,7 +193,7 @@ class Setup {
 
 			try {
 				$htAccessWorking = $this->isHtaccessWorking($dataDir);
-			} catch (\OCP\HintException $e) {
+			} catch (HintException $e) {
 				$errors[] = [
 					'error' => $e->getMessage(),
 					'exception' => $e,
@@ -237,7 +252,7 @@ class Setup {
 
 		$fp = @fopen($testFile, 'w');
 		if (!$fp) {
-			throw new \OCP\HintException('Can\'t create test file to check for working .htaccess file.',
+			throw new HintException('Can\'t create test file to check for working .htaccess file.',
 				'Make sure it is possible for the web server to write to ' . $testFile);
 		}
 		fwrite($fp, $testContent);
@@ -249,12 +264,10 @@ class Setup {
 	/**
 	 * Check if the .htaccess file is working
 	 *
-	 * @param \OCP\IConfig $config
-	 * @return bool
 	 * @throws Exception
-	 * @throws \OCP\HintException If the test file can't get written.
+	 * @throws HintException If the test file can't get written.
 	 */
-	public function isHtaccessWorking(string $dataDir) {
+	public function isHtaccessWorking(string $dataDir): bool {
 		$config = Server::get(IConfig::class);
 
 		if (\OC::$CLI || !$config->getSystemValueBool('check_for_working_htaccess', true)) {
@@ -322,14 +335,14 @@ class Setup {
 			$options['directory'] = \OC::$SERVERROOT . '/data';
 		}
 
-		if (!isset(self::$dbSetupClasses[$dbType])) {
+		if (!isset(self::DB_SETUP_CLASSES[$dbType])) {
 			$dbType = 'sqlite';
 		}
 
 		$dataDir = htmlspecialchars_decode($options['directory']);
 
-		$class = self::$dbSetupClasses[$dbType];
-		/** @var \OC\Setup\AbstractDatabase $dbSetup */
+		$class = self::DB_SETUP_CLASSES[$dbType];
+		/** @var AbstractDatabase $dbSetup */
 		$dbSetup = new $class($l, $this->config, $this->logger, $this->random);
 		$error = array_merge($error, $dbSetup->validate($options));
 
@@ -357,10 +370,8 @@ class Setup {
 			$dbType = 'sqlite3';
 		}
 
-		//generate a random salt that is used to salt the local  passwords
-		$salt = $this->random->generate(30);
-		// generate a secret
-		$secret = $this->random->generate(48);
+		$salt = $options['passwordsalt'] ?: $this->random->generate(self::MIN_PASSWORD_SALT_LENGTH);
+		$secret = $options['secret'] ?: $this->random->generate(self::MIN_SECRET_LENGTH);
 
 		//write the config file
 		$newConfigValues = [
@@ -369,7 +380,7 @@ class Setup {
 			'trusted_domains' => $trustedDomains,
 			'datadirectory' => $dataDir,
 			'dbtype' => $dbType,
-			'version' => implode('.', \OCP\Util::getVersion()),
+			'version' => implode('.', Util::getVersion()),
 		];
 
 		if ($this->config->getValue('overwrite.cli.url', null) === null) {
@@ -378,11 +389,14 @@ class Setup {
 
 		$this->config->setValues($newConfigValues);
 
+		// Ensure instanceid is generated during the installation.
+		\OC_Util::getInstanceId();
+
 		$this->outputDebug($output, 'Configuring database');
 		$dbSetup->initialize($options);
 		try {
 			$dbSetup->setupDatabase();
-		} catch (\OC\DatabaseSetupException $e) {
+		} catch (DatabaseSetupException $e) {
 			$error[] = [
 				'error' => $e->getMessage(),
 				'exception' => $e,
@@ -471,13 +485,13 @@ class Setup {
 			unlink(\OC::$configDir . '/CAN_INSTALL');
 		}
 
-		$bootstrapCoordinator = Server::get(\OC\AppFramework\Bootstrap\Coordinator::class);
+		$bootstrapCoordinator = Server::get(Coordinator::class);
 		$bootstrapCoordinator->runInitialRegistration();
 
 		if (!$disableAdminUser) {
 			// Create a session token for the newly created user
 			// The token provider requires a working db, so it's not injected on setup
-			/** @var \OC\User\Session $userSession */
+			/** @var Session $userSession */
 			$userSession = Server::get(IUserSession::class);
 			$provider = Server::get(PublicKeyTokenProvider::class);
 			$userSession->setTokenProvider($provider);
@@ -517,6 +531,7 @@ class Setup {
 		$jobList->add(CleanupDeletedUsers::class);
 		$jobList->add(GenerateMetadataJob::class);
 		$jobList->add(PreviewMigrationJob::class);
+		$jobList->add(ExpirePreviewsJob::class);
 	}
 
 	/**
@@ -552,8 +567,7 @@ class Setup {
 	/**
 	 * Append the correct ErrorDocument path for Apache hosts
 	 *
-	 * @return bool True when success, False otherwise
-	 * @throws \OCP\AppFramework\QueryException
+	 * @throws QueryException
 	 */
 	public static function updateHtaccess(): bool {
 		$config = Server::get(SystemConfig::class);
@@ -564,7 +578,7 @@ class Setup {
 			return false;
 		}
 
-		$setupHelper = Server::get(\OC\Setup::class);
+		$setupHelper = Server::get(Setup::class);
 
 		if (!is_writable($setupHelper->pathToHtaccess())) {
 			return false;

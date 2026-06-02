@@ -112,10 +112,6 @@ OC.L10N.register(
     "Failed to delete tag for file" : "ھۆججەتنىڭ بەلگىسىنى ئۆچۈرەلمىدى",
     "Collaborative tags …" : "ھەمكارلىق خەتكۈچلىرى…",
     "Loading …" : "يۈكلەۋاتىدۇ…",
-    "File tags modification canceled" : "ھۆججەت خەتكۈچلىرىنى ئۆزگەرتىش ئەمەلدىن قالدۇرۇلدى",
-    "Select or create tags to apply to all selected files" : "بارلىق تاللانغان ھۆججەتلەرگە ماس كېلىدىغان بەلگىلەرنى تاللاڭ ياكى قۇرالايسىز",
-    "Select tags to apply to all selected files" : "تاللانغان بارلىق ھۆججەتلەرگە قوللىنىش ئۈچۈن بەتكۈچ تاللا",
-    "Apply changes" : "ئۆزگەرتىشلەرنى ئىشلىتىڭ",
     "Loading collaborative tags …" : "ھەمكارلىق خەتكۈچلىرىنى يۈكلەۋاتىدۇ…"
 },
 "nplurals=2; plural=(n != 1);");

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Config;
 
 use OC\Files\Filesystem;
@@ -30,9 +31,7 @@ class CachedMountInfo implements ICachedMountInfo {
 		$this->key = $this->rootId . '::' . $this->mountPoint;
 	}
 
-	/**
-	 * @return IUser
-	 */
+	#[\Override]
 	public function getUser(): IUser {
 		return $this->user;
 	}
@@ -40,6 +39,7 @@ class CachedMountInfo implements ICachedMountInfo {
 	/**
 	 * @return int the numeric storage id of the mount
 	 */
+	#[\Override]
 	public function getStorageId(): int {
 		return $this->storageId;
 	}
@@ -47,6 +47,7 @@ class CachedMountInfo implements ICachedMountInfo {
 	/**
 	 * @return int the fileid of the root of the mount
 	 */
+	#[\Override]
 	public function getRootId(): int {
 		return $this->rootId;
 	}
@@ -54,6 +55,7 @@ class CachedMountInfo implements ICachedMountInfo {
 	/**
 	 * @return Node|null the root node of the mount
 	 */
+	#[\Override]
 	public function getMountPointNode(): ?Node {
 		// TODO injection etc
 		Filesystem::initMountPoints($this->getUser()->getUID());
@@ -64,6 +66,7 @@ class CachedMountInfo implements ICachedMountInfo {
 	/**
 	 * @return string the mount point of the mount for the user
 	 */
+	#[\Override]
 	public function getMountPoint(): string {
 		return $this->mountPoint;
 	}
@@ -74,6 +77,7 @@ class CachedMountInfo implements ICachedMountInfo {
 	 * @return int|null mount id or null if not applicable
 	 * @since 9.1.0
 	 */
+	#[\Override]
 	public function getMountId(): ?int {
 		return $this->mountId;
 	}
@@ -83,14 +87,17 @@ class CachedMountInfo implements ICachedMountInfo {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function getRootInternalPath(): string {
 		return $this->rootInternalPath;
 	}
 
+	#[\Override]
 	public function getMountProvider(): string {
 		return $this->mountProvider;
 	}
 
+	#[\Override]
 	public function getKey(): string {
 		return $this->key;
 	}

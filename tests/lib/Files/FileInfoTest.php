@@ -22,6 +22,7 @@ class FileInfoTest extends TestCase {
 
 	private $config;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->createUser('foo', 'foo');

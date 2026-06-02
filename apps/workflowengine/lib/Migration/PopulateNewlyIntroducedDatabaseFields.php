@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\WorkflowEngine\Migration;
 
 use OCP\DB\IResult;
@@ -21,10 +22,12 @@ class PopulateNewlyIntroducedDatabaseFields implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName() {
 		return 'Populating added database structures for workflows';
 	}
 
+	#[\Override]
 	public function run(IOutput $output) {
 		$result = $this->getIdsWithoutScope();
 

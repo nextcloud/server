@@ -5,7 +5,7 @@
 <template>
 	<main id="app-dashboard">
 		<h2>{{ greeting.text }}</h2>
-		<ul class="statuses">
+		<ul v-if="sortedRegisteredStatus.length > 0" class="statuses">
 			<li
 				v-for="status in sortedRegisteredStatus"
 				:id="'status-' + status"

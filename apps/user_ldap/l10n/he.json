@@ -100,7 +100,6 @@
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "שינוי המצב יאפשר שאילתות LDAP אוטמטיות. בהתאם לגודל ה- LDAP שלך ייתכן והפעולה תיקח זמן רב. האם ברצונך לשנות את המצב?",
     "Confirm" : "אישור",
     "Failed to delete the server configuration" : "כשל במחיקת הגדרות השרת",
-    "Invalid configuration. Please have a look at the logs for further details." : "תצורה שגויה. נא לעיין ברישום לקבלת פרטים נוספים.",
     "No action specified" : "לא צויינה פעולה",
     "No configuration specified" : "לא הוגדרה תצורה",
     "No data specified" : "לא הוגדר מידע",

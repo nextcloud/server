@@ -26,6 +26,7 @@ class Capabilities implements ICapability, IInitialStateExcludedCapability {
 	 * @return array<string, array<string, mixed>>
 	 * @throws OCMArgumentException
 	 */
+	#[\Override]
 	public function getCapabilities() {
 		$provider = $this->ocmDiscoveryService->getLocalOCMProvider(false);
 		return ['ocm' => $provider->jsonSerialize()];

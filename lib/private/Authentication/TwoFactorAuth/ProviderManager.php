@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Authentication\TwoFactorAuth;
 
 use OC\Authentication\Exceptions\InvalidProviderException;
@@ -16,15 +17,10 @@ use OCP\Authentication\TwoFactorAuth\IRegistry;
 use OCP\IUser;
 
 class ProviderManager {
-	/** @var ProviderLoader */
-	private $providerLoader;
-
-	/** @var IRegistry */
-	private $providerRegistry;
-
-	public function __construct(ProviderLoader $providerLoader, IRegistry $providerRegistry) {
-		$this->providerLoader = $providerLoader;
-		$this->providerRegistry = $providerRegistry;
+	public function __construct(
+		private ProviderLoader $providerLoader,
+		private IRegistry $providerRegistry,
+	) {
 	}
 
 	private function getProvider(string $providerId, IUser $user): IProvider {

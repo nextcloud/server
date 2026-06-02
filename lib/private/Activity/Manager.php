@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Activity;
 
 use OCP\Activity\ActivitySettings;
@@ -26,6 +27,7 @@ use OCP\IUser;
 use OCP\IUserSession;
 use OCP\RichObjectStrings\IRichTextFormatter;
 use OCP\RichObjectStrings\IValidator;
+use OCP\Server;
 
 class Manager implements IManager {
 
@@ -59,7 +61,7 @@ class Manager implements IManager {
 	private $consumers = [];
 
 	/**
-	 * @return \OCP\Activity\IConsumer[]
+	 * @return IConsumer[]
 	 */
 	protected function getConsumers(): array {
 		if (!empty($this->consumers)) {
@@ -91,6 +93,7 @@ class Manager implements IManager {
 	 *
 	 * @return IEvent
 	 */
+	#[\Override]
 	public function generateEvent(): IEvent {
 		return new Event($this->validator, $this->richTextFormatter);
 	}
@@ -98,6 +101,7 @@ class Manager implements IManager {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function publish(IEvent $event): void {
 		if ($event->getAuthor() === '' && $this->session->getUser() instanceof IUser) {
 			$event->setAuthor($this->session->getUser()->getUID());
@@ -119,6 +123,7 @@ class Manager implements IManager {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function bulkPublish(IEvent $event, array $affectedUserIds, ISetting $setting): void {
 		if (empty($affectedUserIds)) {
 			throw new IncompleteActivityException('The given event is invalid');
@@ -148,7 +153,6 @@ class Manager implements IManager {
 		}
 	}
 
-
 	/**
 	 * In order to improve lazy loading a closure can be registered which will be called in case
 	 * activity consumers are actually requested
@@ -157,6 +161,7 @@ class Manager implements IManager {
 	 *
 	 * @param \Closure $callable
 	 */
+	#[\Override]
 	public function registerConsumer(\Closure $callable): void {
 		$this->consumersClosures[] = $callable;
 		$this->consumers = [];
@@ -172,6 +177,7 @@ class Manager implements IManager {
 	 * @param string $filter Class must implement OCA\Activity\IFilter
 	 * @return void
 	 */
+	#[\Override]
 	public function registerFilter(string $filter): void {
 		$this->filterClasses[$filter] = false;
 	}
@@ -180,10 +186,11 @@ class Manager implements IManager {
 	 * @return IFilter[]
 	 * @throws \InvalidArgumentException
 	 */
+	#[\Override]
 	public function getFilters(): array {
 		foreach ($this->filterClasses as $class => $false) {
 			/** @var IFilter $filter */
-			$filter = \OCP\Server::get($class);
+			$filter = Server::get($class);
 
 			if (!$filter instanceof IFilter) {
 				throw new \InvalidArgumentException('Invalid activity filter registered');
@@ -199,6 +206,7 @@ class Manager implements IManager {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getFilterById(string $id): IFilter {
 		$filters = $this->getFilters();
 
@@ -219,6 +227,7 @@ class Manager implements IManager {
 	 * @param string $provider Class must implement OCA\Activity\IProvider
 	 * @return void
 	 */
+	#[\Override]
 	public function registerProvider(string $provider): void {
 		$this->providerClasses[$provider] = false;
 	}
@@ -227,10 +236,11 @@ class Manager implements IManager {
 	 * @return IProvider[]
 	 * @throws \InvalidArgumentException
 	 */
+	#[\Override]
 	public function getProviders(): array {
 		foreach ($this->providerClasses as $class => $false) {
 			/** @var IProvider $provider */
-			$provider = \OCP\Server::get($class);
+			$provider = Server::get($class);
 
 			if (!$provider instanceof IProvider) {
 				throw new \InvalidArgumentException('Invalid activity provider registered');
@@ -253,6 +263,7 @@ class Manager implements IManager {
 	 * @param string $setting Class must implement OCA\Activity\ISetting
 	 * @return void
 	 */
+	#[\Override]
 	public function registerSetting(string $setting): void {
 		$this->settingsClasses[$setting] = false;
 	}
@@ -261,10 +272,11 @@ class Manager implements IManager {
 	 * @return ActivitySettings[]
 	 * @throws \InvalidArgumentException
 	 */
+	#[\Override]
 	public function getSettings(): array {
 		foreach ($this->settingsClasses as $class => $false) {
 			/** @var ISetting $setting */
-			$setting = \OCP\Server::get($class);
+			$setting = Server::get($class);
 
 			if ($setting instanceof ISetting) {
 				if (!$setting instanceof ActivitySettings) {
@@ -284,6 +296,7 @@ class Manager implements IManager {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getSettingById(string $id): ActivitySettings {
 		$settings = $this->getSettings();
 
@@ -294,11 +307,11 @@ class Manager implements IManager {
 		throw new SettingNotFoundException($id);
 	}
 
-
 	/**
 	 * @param string $type
 	 * @param int|numeric-string $id
 	 */
+	#[\Override]
 	public function setFormattingObject(string $type, int|string $id): void {
 		$this->formattingObjectType = $type;
 		$this->formattingObjectId = $id;
@@ -307,6 +320,7 @@ class Manager implements IManager {
 	/**
 	 * @return bool
 	 */
+	#[\Override]
 	public function isFormattingFilteredObject(): bool {
 		return $this->formattingObjectType !== null && $this->formattingObjectId !== null
 			&& $this->formattingObjectType === $this->request->getParam('object_type')
@@ -316,6 +330,7 @@ class Manager implements IManager {
 	/**
 	 * @param bool $status Set to true, when parsing events should not use SVG icons
 	 */
+	#[\Override]
 	public function setRequirePNG(bool $status): void {
 		$this->requirePNG = $status;
 	}
@@ -323,6 +338,7 @@ class Manager implements IManager {
 	/**
 	 * @return bool
 	 */
+	#[\Override]
 	public function getRequirePNG(): bool {
 		return $this->requirePNG;
 	}
@@ -332,6 +348,7 @@ class Manager implements IManager {
 	 *
 	 * @param string|null $currentUserId
 	 */
+	#[\Override]
 	public function setCurrentUserId(?string $currentUserId = null): void {
 		$this->currentUserId = $currentUserId;
 	}
@@ -344,6 +361,7 @@ class Manager implements IManager {
 	 * @return string
 	 * @throws \UnexpectedValueException If the token is invalid, does not exist or is not unique
 	 */
+	#[\Override]
 	public function getCurrentUserId(): string {
 		if ($this->currentUserId !== null) {
 			return $this->currentUserId;

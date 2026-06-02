@@ -43,7 +43,7 @@ export async function fetchTags(): Promise<TagWithId[]> {
 		return parseTags(tags)
 	} catch (error) {
 		logger.error(t('systemtags', 'Failed to load tags'), { error })
-		throw new Error(t('systemtags', 'Failed to load tags'))
+		throw new Error(t('systemtags', 'Failed to load tags'), { cause: error })
 	}
 }
 
@@ -62,7 +62,7 @@ export async function fetchTag(tagId: number): Promise<TagWithId> {
 		return parseTags([tag])[0]!
 	} catch (error) {
 		logger.error(t('systemtags', 'Failed to load tag'), { error })
-		throw new Error(t('systemtags', 'Failed to load tag'))
+		throw new Error(t('systemtags', 'Failed to load tag'), { cause: error })
 	}
 }
 
@@ -76,7 +76,7 @@ export async function fetchLastUsedTagIds(): Promise<number[]> {
 		return lastUsedTagIds.map(Number)
 	} catch (error) {
 		logger.error(t('systemtags', 'Failed to load last used tags'), { error })
-		throw new Error(t('systemtags', 'Failed to load last used tags'))
+		throw new Error(t('systemtags', 'Failed to load last used tags'), { cause: error })
 	}
 }
 
@@ -103,10 +103,10 @@ export async function createTag(tag: Tag | ServerTag): Promise<number> {
 	} catch (error) {
 		if ((error as WebDAVClientError)?.response?.status === 409) {
 			logger.error(t('systemtags', 'A tag with the same name already exists'), { error })
-			throw new Error(t('systemtags', 'A tag with the same name already exists'))
+			throw new Error(t('systemtags', 'A tag with the same name already exists'), { cause: error })
 		}
 		logger.error(t('systemtags', 'Failed to create tag'), { error })
-		throw new Error(t('systemtags', 'Failed to create tag'))
+		throw new Error(t('systemtags', 'Failed to create tag'), { cause: error })
 	}
 }
 
@@ -137,7 +137,7 @@ export async function updateTag(tag: TagWithId): Promise<void> {
 		emit('systemtags:tag:updated', tag)
 	} catch (error) {
 		logger.error(t('systemtags', 'Failed to update tag'), { error })
-		throw new Error(t('systemtags', 'Failed to update tag'))
+		throw new Error(t('systemtags', 'Failed to update tag'), { cause: error })
 	}
 }
 
@@ -153,7 +153,7 @@ export async function deleteTag(tag: TagWithId): Promise<void> {
 		emit('systemtags:tag:deleted', tag)
 	} catch (error) {
 		logger.error(t('systemtags', 'Failed to delete tag'), { error })
-		throw new Error(t('systemtags', 'Failed to delete tag'))
+		throw new Error(t('systemtags', 'Failed to delete tag'), { cause: error })
 	}
 }
 

@@ -89,7 +89,7 @@ $server->httpRequest->setUrl(Server::get(IRequest::class)->getRequestUri());
 /** @var string $baseuri defined in remote.php */
 $server->setBaseUri($baseuri);
 // Add plugins
-$server->addPlugin(new MaintenancePlugin(Server::get(IConfig::class), \OCP\Server::get(IL10nFactory::class)->get('dav')));
+$server->addPlugin(new MaintenancePlugin(Server::get(IConfig::class), Server::get(IL10nFactory::class)->get('dav')));
 $server->addPlugin(new \Sabre\DAV\Auth\Plugin($authBackend));
 $server->addPlugin(new Plugin());
 

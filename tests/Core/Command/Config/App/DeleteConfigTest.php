@@ -25,6 +25,7 @@ class DeleteConfigTest extends TestCase {
 	protected OutputInterface&MockObject $consoleOutput;
 	protected Command $command;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -35,7 +36,6 @@ class DeleteConfigTest extends TestCase {
 
 		$this->command = new DeleteConfig($this->appConfig, $this->configManager);
 	}
-
 
 	public static function dataDelete(): array {
 		return [

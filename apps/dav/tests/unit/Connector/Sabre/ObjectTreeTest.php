@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\Files\FileInfo;
@@ -63,6 +64,10 @@ class ObjectTreeTest extends \Test\TestCase {
 			->method('getFileInfo')
 			->with($targetParent === '' ? '.' : $targetParent)
 			->willReturn($info);
+		$view
+			->method('getRelativePath')
+			->with(null)
+			->willReturn('');
 
 		$rootDir = new Directory($view, $info);
 		$objectTree = $this->getMockBuilder(ObjectTree::class)
@@ -104,6 +109,10 @@ class ObjectTreeTest extends \Test\TestCase {
 			->method('getFileInfo')
 			->with($targetParent === '' ? '.' : $targetParent)
 			->willReturn($info);
+		$view
+			->method('getRelativePath')
+			->with(null)
+			->willReturn('');
 
 		$rootDir = new Directory($view, $info);
 		$objectTree = $this->getMockBuilder(ObjectTree::class)
@@ -141,6 +150,10 @@ class ObjectTreeTest extends \Test\TestCase {
 		$view->method('getFileInfo')
 			->with($fileInfoQueryPath)
 			->willReturn($fileInfo);
+		$view
+			->method('getRelativePath')
+			->with(null)
+			->willReturn('');
 
 		$tree = new ObjectTree();
 		$tree->init($rootNode, $view, $mountManager);
@@ -190,12 +203,10 @@ class ObjectTreeTest extends \Test\TestCase {
 		];
 	}
 
-
 	public function testGetNodeForPathInvalidPath(): void {
 		$this->expectException(InvalidPath::class);
 
 		$path = '/foo\bar';
-
 
 		$storage = new Temporary([]);
 
@@ -219,7 +230,6 @@ class ObjectTreeTest extends \Test\TestCase {
 
 	public function testGetNodeForPathRoot(): void {
 		$path = '/';
-
 
 		$storage = new Temporary([]);
 

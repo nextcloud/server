@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\TwoFactorBackupCodes\Service;
 
 use OCA\TwoFactorBackupCodes\Db\BackupCode;
@@ -17,7 +18,7 @@ use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 
 class BackupCodeStorage {
-	private static $CODE_LENGTH = 16;
+	private const CODE_LENGTH = 16;
 
 	public function __construct(
 		private BackupCodeMapper $mapper,
@@ -40,7 +41,7 @@ class BackupCodeStorage {
 
 		$uid = $user->getUID();
 		foreach (range(1, min([$number, 20])) as $i) {
-			$code = $this->random->generate(self::$CODE_LENGTH, ISecureRandom::CHAR_HUMAN_READABLE);
+			$code = $this->random->generate(self::CODE_LENGTH, ISecureRandom::CHAR_HUMAN_READABLE);
 
 			$dbCode = new BackupCode();
 			$dbCode->setUserId($uid);

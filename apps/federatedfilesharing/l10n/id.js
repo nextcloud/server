@@ -67,9 +67,6 @@ OC.L10N.register(
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Apakah Anda ingin menambahkan pembagian remote {name} dari {owner}@{remote}?",
     "Remote share password" : "Kata sandi berbagi jarak jauh",
     "Incoming share could not be processed" : "Berbagi masuk tidak dapat diproses",
-    "Cloud ID copied to the clipboard" : "ID Cloud disalin ke papan klip",
-    "Copy to clipboard" : "Salin ke papan klip",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Anda dapat berbagi dengan siapa pun yang menggunakan server Nextcloud atau server dan layanan lain yang kompatibel dengan Open Cloud Mesh (OCM)! Cukup masukkan ID Cloud Terfederasi mereka di dialog berbagi. Formatnya seperti [person@cloud.example.com](mailto:person@cloud.example.com)",
     "X (formerly Twitter)" : "X (sebelumnya Twitter)",
     "formerly Twitter" : "sebelumnya Twitter"
 },

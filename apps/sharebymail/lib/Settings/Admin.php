@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\ShareByMail\Settings;
 
 use OCP\AppFramework\Http\TemplateResponse;
@@ -23,6 +26,7 @@ class Admin implements IDelegatedSettings {
 	/**
 	 * @return TemplateResponse
 	 */
+	#[\Override]
 	public function getForm() {
 		$this->initialState->provideInitialState('sendPasswordMail', $this->settingsManager->sendPasswordByMail());
 		$this->initialState->provideInitialState('replyToInitiator', $this->settingsManager->replyToInitiator());
@@ -35,6 +39,7 @@ class Admin implements IDelegatedSettings {
 	/**
 	 * @return string the section ID, e.g. 'sharing'
 	 */
+	#[\Override]
 	public function getSection() {
 		return 'sharing';
 	}
@@ -46,14 +51,17 @@ class Admin implements IDelegatedSettings {
 	 *
 	 * E.g.: 70
 	 */
+	#[\Override]
 	public function getPriority() {
 		return 40;
 	}
 
+	#[\Override]
 	public function getName(): ?string {
 		return $this->l->t('Share by mail');
 	}
 
+	#[\Override]
 	public function getAuthorizedAppConfig(): array {
 		return [
 			'sharebymail' => ['s/(sendpasswordmail|replyToInitiator)/'],

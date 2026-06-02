@@ -1,13 +1,13 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { Folder, View } from '@nextcloud/files'
+import type { IFolder, IView } from '@nextcloud/files'
 
 import axios from '@nextcloud/axios'
 import * as nextcloudDialogs from '@nextcloud/dialogs'
-import { File, FileAction, Permission } from '@nextcloud/files'
+import { File, Permission } from '@nextcloud/files'
 import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
 import { action } from './openLocallyAction.ts'
 
@@ -17,7 +17,7 @@ vi.mock('@nextcloud/axios')
 const view = {
 	id: 'files',
 	name: 'Files',
-} as View
+} as IView
 
 // Mock web root variable
 beforeAll(() => {
@@ -28,18 +28,17 @@ beforeAll(() => {
 
 describe('Open locally action conditions tests', () => {
 	test('Default values', () => {
-		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('edit-locally')
 		expect(action.displayName({
 			nodes: [],
 			view,
-			folder: {} as any,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe('Open locally')
 		expect(action.iconSvgInline({
 			nodes: [],
 			view,
-			folder: {} as any,
+			folder: {} as IFolder,
 			contents: [],
 		})).toMatch(/<svg.+<\/svg>/)
 		expect(action.default).toBeUndefined()
@@ -62,7 +61,7 @@ describe('Open locally action enabled tests', () => {
 		expect(action.enabled!({
 			nodes: [file],
 			view,
-			folder: {} as any,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe(true)
 	})
@@ -80,7 +79,7 @@ describe('Open locally action enabled tests', () => {
 		expect(action.enabled!({
 			nodes: [file],
 			view,
-			folder: {} as any,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe(false)
 	})
@@ -107,7 +106,7 @@ describe('Open locally action enabled tests', () => {
 		expect(action.enabled!({
 			nodes: [file1, file2],
 			view,
-			folder: {} as any,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe(false)
 	})
@@ -125,7 +124,7 @@ describe('Open locally action enabled tests', () => {
 		expect(action.enabled!({
 			nodes: [file],
 			view,
-			folder: {} as any,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe(false)
 	})
@@ -144,7 +143,7 @@ describe('Open locally action enabled tests', () => {
 		expect(action.enabled!({
 			nodes: [file],
 			view,
-			folder: {} as any,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe(false)
 	})
@@ -177,7 +176,7 @@ describe('Open locally action execute tests', () => {
 		const exec = await action.exec({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})
 
@@ -207,7 +206,7 @@ describe('Open locally action execute tests', () => {
 		const exec = await action.exec({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})
 

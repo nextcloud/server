@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\Files\FileInfo;
@@ -57,7 +58,6 @@ class TestViewDirectory extends View {
 	}
 }
 
-
 #[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class DirectoryTest extends \Test\TestCase {
 	use UserTrait;
@@ -98,7 +98,6 @@ class DirectoryTest extends \Test\TestCase {
 		return new Directory($this->view, $this->info);
 	}
 
-
 	public function testDeleteRootFolderFails(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -110,7 +109,6 @@ class DirectoryTest extends \Test\TestCase {
 		$dir = $this->getDir();
 		$dir->delete();
 	}
-
 
 	public function testDeleteForbidden(): void {
 		$this->expectException(Forbidden::class);
@@ -130,7 +128,6 @@ class DirectoryTest extends \Test\TestCase {
 		$dir->delete();
 	}
 
-
 	public function testDeleteFolderWhenAllowed(): void {
 		// deletion allowed
 		$this->info->expects($this->once())
@@ -147,7 +144,6 @@ class DirectoryTest extends \Test\TestCase {
 		$dir->delete();
 	}
 
-
 	public function testDeleteFolderFailsWhenNotAllowed(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -158,7 +154,6 @@ class DirectoryTest extends \Test\TestCase {
 		$dir = $this->getDir('sub');
 		$dir->delete();
 	}
-
 
 	public function testDeleteFolderThrowsWhenDeletionFailed(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
@@ -222,7 +217,6 @@ class DirectoryTest extends \Test\TestCase {
 		$dir->getChildren();
 	}
 
-
 	public function testGetChildrenNoPermission(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -230,11 +224,14 @@ class DirectoryTest extends \Test\TestCase {
 		$info->expects($this->any())
 			->method('isReadable')
 			->willReturn(false);
+		$this->view
+			->method('getRelativePath')
+			->with(null)
+			->willReturn('');
 
 		$dir = new Directory($this->view, $info);
 		$dir->getChildren();
 	}
-
 
 	public function testGetChildNoPermission(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
@@ -242,11 +239,14 @@ class DirectoryTest extends \Test\TestCase {
 		$this->info->expects($this->any())
 			->method('isReadable')
 			->willReturn(false);
+		$this->view
+			->method('getRelativePath')
+			->with('/admin/files/folder')
+			->willReturn('');
 
 		$dir = new Directory($this->view, $this->info);
 		$dir->getChild('test');
 	}
-
 
 	public function testGetChildThrowStorageNotAvailableException(): void {
 		$this->expectException(\Sabre\DAV\Exception\ServiceUnavailable::class);
@@ -254,11 +254,14 @@ class DirectoryTest extends \Test\TestCase {
 		$this->view->expects($this->once())
 			->method('getFileInfo')
 			->willThrowException(new StorageNotAvailableException());
+		$this->view
+			->method('getRelativePath')
+			->with('/admin/files/folder')
+			->willReturn('');
 
 		$dir = new Directory($this->view, $this->info);
 		$dir->getChild('.');
 	}
-
 
 	public function testGetChildThrowInvalidPath(): void {
 		$this->expectException(InvalidPath::class);
@@ -268,6 +271,10 @@ class DirectoryTest extends \Test\TestCase {
 			->willThrowException(new InvalidPathException());
 		$this->view->expects($this->never())
 			->method('getFileInfo');
+		$this->view
+			->method('getRelativePath')
+			->with('/admin/files/folder')
+			->willReturn('');
 
 		$dir = new Directory($this->view, $this->info);
 		$dir->getChild('.');
@@ -376,6 +383,11 @@ class DirectoryTest extends \Test\TestCase {
 	}
 
 	public function testGetNodeForPathFailsWithNoReadPermissionsForPath(): void {
+		$this->view
+			->method('getRelativePath')
+			->with('/admin/files/')
+			->willReturn('');
+
 		$directoryNode = $this->createMock(Folder::class);
 		$pathNode = $this->createMock(Folder::class);
 		$storage = $this->createMock(IStorage::class);
@@ -396,7 +408,7 @@ class DirectoryTest extends \Test\TestCase {
 					2 => false,
 				};
 			});
-		$directoryNode->expects($this->once())
+		$directoryNode
 			->method('getPath')
 			->willReturn('/admin/files/');
 		$directoryNode->expects($this->once())
@@ -579,7 +591,6 @@ class DirectoryTest extends \Test\TestCase {
 			->willReturn(false);
 		$this->assertTrue($targetNode->moveInto(basename($destination), $source, $sourceNode));
 	}
-
 
 	public function testFailingMove(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);

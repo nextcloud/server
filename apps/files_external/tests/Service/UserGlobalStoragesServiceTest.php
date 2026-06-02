@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Tests\Service;
 
 use OC\User\User;
@@ -128,7 +129,6 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 		}
 	}
 
-
 	public function testAddStorage($storageParams = null): void {
 		$this->expectException(\DomainException::class);
 
@@ -143,7 +143,6 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 
 		$this->service->addStorage($storage);
 	}
-
 
 	public function testUpdateStorage($storageParams = null): void {
 		$this->expectException(\DomainException::class);
@@ -163,7 +162,6 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 		$retrievedStorage->setMountPoint('abc');
 		$this->service->updateStorage($retrievedStorage);
 	}
-
 
 	public function testNonExistingStorage(): void {
 		$this->expectException(\DomainException::class);
@@ -189,7 +187,6 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 
 		$this->service->removeStorage($id);
 	}
-
 
 	public function testDeleteUnexistingStorage(): void {
 		$this->expectException(\DomainException::class);

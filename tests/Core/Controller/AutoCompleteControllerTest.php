@@ -25,6 +25,7 @@ class AutoCompleteControllerTest extends TestCase {
 	/** @var AutoCompleteController */
 	protected $controller;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

@@ -120,7 +120,6 @@ class JoinCondition {
 			throw new InvalidPartitionedQueryException("Can only join on $join with a single condition");
 		}
 
-
 		if (self::mentionsAlias($parts[0], $fromAlias)) {
 			return new JoinCondition($parts[0], self::getAliasForPart($parts[0]), $parts[1], self::getAliasForPart($parts[1]), [], []);
 		} elseif (self::mentionsAlias($parts[1], $fromAlias)) {

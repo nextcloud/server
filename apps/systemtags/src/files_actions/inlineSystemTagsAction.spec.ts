@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { Folder, View } from '@nextcloud/files'
+import type { IFolder, IView } from '@nextcloud/files'
 
 import { emit, subscribe } from '@nextcloud/event-bus'
-import { File, FileAction, Permission } from '@nextcloud/files'
+import { File, Permission } from '@nextcloud/files'
 import { beforeEach, describe, expect, test, vi } from 'vitest'
 import * as serviceTagApi from '../services/api.ts'
 import { setNodeSystemTags } from '../utils.ts'
@@ -15,7 +15,7 @@ import { action } from './inlineSystemTagsAction.ts'
 const view = {
 	id: 'files',
 	name: 'Files',
-} as View
+} as IView
 
 describe('Inline system tags action conditions tests', () => {
 	test('Default values', () => {
@@ -28,18 +28,17 @@ describe('Inline system tags action conditions tests', () => {
 			root: '/files/admin',
 		})
 
-		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('system-tags')
 		expect(action.displayName({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe('')
 		expect(action.iconSvgInline({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe('')
 		expect(action.default).toBeUndefined()
@@ -49,7 +48,7 @@ describe('Inline system tags action conditions tests', () => {
 		expect(action.enabled!({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe(true)
 	})
@@ -72,7 +71,7 @@ describe('Inline system tags action conditions tests', () => {
 		expect(action.enabled!({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe(true)
 	})
@@ -98,11 +97,11 @@ describe('Inline system tags action render tests', () => {
 		const result = await action.renderInline!({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})
 		expect(result).toBeInstanceOf(HTMLElement)
-		expect(result!.outerHTML).toMatchInlineSnapshot('"<ul class="files-list__system-tags" aria-label="Assigned collaborative tags" data-systemtags-fileid="1"></ul>"')
+		expect(result!.outerHTML).toMatchInlineSnapshot('"<div data-systemtags-fileid="1"></div>"')
 	})
 
 	test('Render a single system tag', async () => {
@@ -123,11 +122,11 @@ describe('Inline system tags action render tests', () => {
 		const result = await action.renderInline!({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})
 		expect(result).toBeInstanceOf(HTMLElement)
-		expect(result!.outerHTML).toMatchInlineSnapshot('"<ul class="files-list__system-tags" aria-label="Assigned collaborative tags" data-systemtags-fileid="1"><li class="files-list__system-tag" data-systemtag-name="Confidential">Confidential</li></ul>"')
+		expect(result!.outerHTML).toMatchInlineSnapshot('"<div data-systemtags-fileid="1"><ul class="files-list__system-tags" aria-label="Assigned collaborative tags"><li class="files-list__system-tag" data-systemtag-name="Confidential">Confidential</li></ul></div>"')
 	})
 
 	test('Render two system tags', async () => {
@@ -148,11 +147,11 @@ describe('Inline system tags action render tests', () => {
 		const result = await action.renderInline!({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})
 		expect(result).toBeInstanceOf(HTMLElement)
-		expect(result!.outerHTML).toMatchInlineSnapshot('"<ul class="files-list__system-tags" aria-label="Assigned collaborative tags" data-systemtags-fileid="1"><li class="files-list__system-tag" data-systemtag-name="Important">Important</li><li class="files-list__system-tag" data-systemtag-name="Confidential">Confidential</li></ul>"')
+		expect(result!.outerHTML).toMatchInlineSnapshot('"<div data-systemtags-fileid="1"><ul class="files-list__system-tags" aria-label="Assigned collaborative tags"><li class="files-list__system-tag" data-systemtag-name="Important">Important</li><li class="files-list__system-tag" data-systemtag-name="Confidential">Confidential</li></ul></div>"')
 	})
 
 	test('Render multiple system tags', async () => {
@@ -178,11 +177,11 @@ describe('Inline system tags action render tests', () => {
 		const result = await action.renderInline!({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})
 		expect(result).toBeInstanceOf(HTMLElement)
-		expect(result!.outerHTML).toMatchInlineSnapshot('"<ul class="files-list__system-tags" aria-label="Assigned collaborative tags" data-systemtags-fileid="1"><li class="files-list__system-tag" data-systemtag-name="Important">Important</li><li class="files-list__system-tag files-list__system-tag--more" data-systemtag-name="+3" title="Confidential, Secret, Classified" aria-hidden="true" role="presentation">+3</li><li class="files-list__system-tag hidden-visually" data-systemtag-name="Confidential">Confidential</li><li class="files-list__system-tag hidden-visually" data-systemtag-name="Secret">Secret</li><li class="files-list__system-tag hidden-visually" data-systemtag-name="Classified">Classified</li></ul>"')
+		expect(result!.outerHTML).toMatchInlineSnapshot('"<div data-systemtags-fileid="1"><ul class="files-list__system-tags" aria-label="Assigned collaborative tags"><li class="files-list__system-tag" data-systemtag-name="Important">Important</li><li class="files-list__system-tag files-list__system-tag--more" data-systemtag-name="+3" title="Confidential, Secret, Classified" aria-hidden="true" role="presentation">+3</li><li class="files-list__system-tag hidden-visually" data-systemtag-name="Confidential">Confidential</li><li class="files-list__system-tag hidden-visually" data-systemtag-name="Secret">Secret</li><li class="files-list__system-tag hidden-visually" data-systemtag-name="Classified">Classified</li></ul></div>"')
 	})
 
 	test('Render gets updated on system tag change', async () => {
@@ -208,12 +207,12 @@ describe('Inline system tags action render tests', () => {
 		const result = await action.renderInline!({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		}) as HTMLElement
 		document.body.appendChild(result)
 		expect(result).toBeInstanceOf(HTMLElement)
-		expect(document.body.innerHTML).toMatchInlineSnapshot('"<ul class="files-list__system-tags" aria-label="Assigned collaborative tags" data-systemtags-fileid="1"><li class="files-list__system-tag" data-systemtag-name="Important">Important</li><li class="files-list__system-tag files-list__system-tag--more" data-systemtag-name="+3" title="Confidential, Secret, Classified" aria-hidden="true" role="presentation">+3</li><li class="files-list__system-tag hidden-visually" data-systemtag-name="Confidential">Confidential</li><li class="files-list__system-tag hidden-visually" data-systemtag-name="Secret">Secret</li><li class="files-list__system-tag hidden-visually" data-systemtag-name="Classified">Classified</li></ul>"')
+		expect(document.body.innerHTML).toMatchInlineSnapshot('"<div data-systemtags-fileid="1"><ul class="files-list__system-tags" aria-label="Assigned collaborative tags"><li class="files-list__system-tag" data-systemtag-name="Important">Important</li><li class="files-list__system-tag files-list__system-tag--more" data-systemtag-name="+3" title="Confidential, Secret, Classified" aria-hidden="true" role="presentation">+3</li><li class="files-list__system-tag hidden-visually" data-systemtag-name="Confidential">Confidential</li><li class="files-list__system-tag hidden-visually" data-systemtag-name="Secret">Secret</li><li class="files-list__system-tag hidden-visually" data-systemtag-name="Classified">Classified</li></ul></div>"')
 
 		// Subscribe to the event
 		const eventPromise = new Promise((resolve) => {
@@ -230,7 +229,7 @@ describe('Inline system tags action render tests', () => {
 		// Wait for the event to be processed
 		await eventPromise
 
-		expect(document.body.innerHTML).toMatchInlineSnapshot('"<ul class="files-list__system-tags" aria-label="Assigned collaborative tags" data-systemtags-fileid="1"><li class="files-list__system-tag" data-systemtag-name="Public">Public</li></ul>"')
+		expect(document.body.innerHTML).toMatchInlineSnapshot('"<div data-systemtags-fileid="1"><ul class="files-list__system-tags" aria-label="Assigned collaborative tags"><li class="files-list__system-tag" data-systemtag-name="Public">Public</li></ul></div>"')
 	})
 })
 
@@ -270,11 +269,11 @@ describe('Inline system tags action colors', () => {
 		const result = await action.renderInline!({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})
 		expect(result).toBeInstanceOf(HTMLElement)
-		expect(result!.outerHTML).toMatchInlineSnapshot('"<ul class="files-list__system-tags" aria-label="Assigned collaborative tags" data-systemtags-fileid="1"><li class="files-list__system-tag" data-systemtag-name="Confidential" style="--systemtag-color: #000000;" data-systemtag-color="true">Confidential</li></ul>"')
+		expect(result!.outerHTML).toMatchInlineSnapshot('"<div data-systemtags-fileid="1"><ul class="files-list__system-tags" aria-label="Assigned collaborative tags"><li class="files-list__system-tag" data-systemtag-name="Confidential" style="--systemtag-color: #000000;" data-systemtag-color="true">Confidential</li></ul></div>"')
 	})
 
 	test('Render a single system tag with invalid WCAG color', async () => {
@@ -297,11 +296,11 @@ describe('Inline system tags action colors', () => {
 		const result = await action.renderInline!({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})
 		expect(result).toBeInstanceOf(HTMLElement)
-		expect(result!.outerHTML).toMatchInlineSnapshot('"<ul class="files-list__system-tags" aria-label="Assigned collaborative tags" data-systemtags-fileid="1"><li class="files-list__system-tag" data-systemtag-name="Confidential" style="--systemtag-color: #646464;" data-systemtag-color="true">Confidential</li></ul>"')
+		expect(result!.outerHTML).toMatchInlineSnapshot('"<div data-systemtags-fileid="1"><ul class="files-list__system-tags" aria-label="Assigned collaborative tags"><li class="files-list__system-tag" data-systemtag-name="Confidential" style="--systemtag-color: #646464;" data-systemtag-color="true">Confidential</li></ul></div>"')
 
 		document.body.removeAttribute('data-themes')
 	})
@@ -324,12 +323,12 @@ describe('Inline system tags action colors', () => {
 		const result = await action.renderInline!({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		}) as HTMLElement
 		document.body.appendChild(result)
 		expect(result).toBeInstanceOf(HTMLElement)
-		expect(document.body.innerHTML).toMatchInlineSnapshot('"<ul class="files-list__system-tags" aria-label="Assigned collaborative tags" data-systemtags-fileid="1"><li class="files-list__system-tag" data-systemtag-name="Confidential" style="--systemtag-color: #000000;" data-systemtag-color="true">Confidential</li></ul>"')
+		expect(document.body.innerHTML).toMatchInlineSnapshot('"<div data-systemtags-fileid="1"><ul class="files-list__system-tags" aria-label="Assigned collaborative tags"><li class="files-list__system-tag" data-systemtag-name="Confidential" style="--systemtag-color: #000000;" data-systemtag-color="true">Confidential</li></ul></div>"')
 
 		// Subscribe to the event
 		const eventPromise = new Promise((resolve) => {
@@ -345,6 +344,6 @@ describe('Inline system tags action colors', () => {
 		// Wait for the event to be processed
 		await eventPromise
 
-		expect(document.body.innerHTML).toMatchInlineSnapshot('"<ul class="files-list__system-tags" aria-label="Assigned collaborative tags" data-systemtags-fileid="1"><li class="files-list__system-tag" data-systemtag-name="Confidential" style="--systemtag-color: #456789;" data-systemtag-color="true">Confidential</li></ul>"')
+		expect(document.body.innerHTML).toMatchInlineSnapshot('"<div data-systemtags-fileid="1"><ul class="files-list__system-tags" aria-label="Assigned collaborative tags"><li class="files-list__system-tag" data-systemtag-name="Confidential" style="--systemtag-color: #456789;" data-systemtag-color="true">Confidential</li></ul></div>"')
 	})
 })

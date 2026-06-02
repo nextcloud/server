@@ -5,30 +5,27 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Federation;
 
-use OC\OCS\DiscoveryService;
 use OCA\DAV\CardDAV\SyncService;
 use OCP\AppFramework\Http;
 use OCP\OCS\IDiscoveryService;
 use Psr\Log\LoggerInterface;
 
 class SyncFederationAddressBooks {
-	private DiscoveryService $ocsDiscoveryService;
-
 	public function __construct(
 		protected DbHandler $dbHandler,
 		private SyncService $syncService,
-		IDiscoveryService $ocsDiscoveryService,
+		private IDiscoveryService $ocsDiscoveryService,
 		private LoggerInterface $logger,
 	) {
-		$this->ocsDiscoveryService = $ocsDiscoveryService;
 	}
 
 	/**
 	 * @param \Closure $callback
 	 */
-	public function syncThemAll(\Closure $callback) {
+	public function syncThemAll(\Closure $callback, bool $full = false) {
 		$trustedServers = $this->dbHandler->getAllServer();
 		foreach ($trustedServers as $trustedServer) {
 			$url = $trustedServer['url'];
@@ -51,7 +48,12 @@ class SyncFederationAddressBooks {
 			];
 
 			try {
-				$syncToken = $oldSyncToken;
+				$syncToken = $full ? null : $oldSyncToken;
+
+				$book = $this->syncService->ensureSystemAddressBookExists($targetPrincipal, $targetBookId, $targetBookProperties);
+				if ($full) {
+					$this->syncService->markCardsAsPending($book['id']);
+				}
 
 				do {
 					[$syncToken, $truncated] = $this->syncService->syncRemoteAddressBook(
@@ -65,6 +67,10 @@ class SyncFederationAddressBooks {
 						$targetBookProperties
 					);
 				} while ($truncated);
+
+				if ($full) {
+					$this->syncService->deletePendingCards($book['id']);
+				}
 
 				if ($syncToken !== $oldSyncToken) {
 					$this->dbHandler->setServerStatus($url, TrustedServers::STATUS_OK, $syncToken);

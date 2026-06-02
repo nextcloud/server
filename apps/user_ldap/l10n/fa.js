@@ -140,7 +140,6 @@ OC.L10N.register(
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?",
     "Confirm" : "تأیید",
     "Failed to delete the server configuration" : "عملیات حذف پیکربندی سرور ناموفق ماند",
-    "Invalid configuration. Please have a look at the logs for further details." : "Invalid configuration. Please have a look at the logs for further details.",
     "No action specified" : "فعالیتی مشخص نشده است",
     "No configuration specified" : "هیچ پیکربندی مشخص نشده است",
     "No data specified" : "داده ای مشخص نشده است",

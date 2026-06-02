@@ -32,6 +32,7 @@ class TemplateManager implements ITemplateManager {
 	 * @param TemplateResponse::RENDER_AS_* $renderAs
 	 * @throws TemplateNotFoundException if the template cannot be found
 	 */
+	#[\Override]
 	public function getTemplate(string $app, string $name, string $renderAs = TemplateResponse::RENDER_AS_BLANK, bool $registerCall = true): ITemplate {
 		return new Template($app, $name, $renderAs, $registerCall);
 	}
@@ -42,6 +43,7 @@ class TemplateManager implements ITemplateManager {
 	 * @param string $name Name of the template
 	 * @param array $parameters Parameters for the template
 	 */
+	#[\Override]
 	public function printGuestPage(string $application, string $name, array $parameters = []): void {
 		$content = $this->getTemplate($application, $name, $name === 'error' ? $name : 'guest');
 		foreach ($parameters as $key => $value) {
@@ -55,6 +57,7 @@ class TemplateManager implements ITemplateManager {
 	 * @param string $error_msg The error message to show
 	 * @param string $hint An optional hint message - needs to be properly escape
 	 */
+	#[\Override]
 	public function printErrorPage(string $error_msg, string $hint = '', int $statusCode = 500): never {
 		if ($this->appManager->isEnabledForUser('theming') && !$this->appManager->isAppLoaded('theming')) {
 			$this->appManager->loadApp('theming');
@@ -109,6 +112,7 @@ class TemplateManager implements ITemplateManager {
 	/**
 	 * print error page using Exception details
 	 */
+	#[\Override]
 	public function printExceptionErrorPage(\Throwable $exception, int $statusCode = 503): never {
 		$debug = false;
 		http_response_code($statusCode);

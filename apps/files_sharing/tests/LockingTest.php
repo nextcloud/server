@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\Filesystem;
@@ -64,7 +65,6 @@ class LockingTest extends TestCase {
 		Server::get(IUserManager::class)->removeBackend($this->userBackend);
 		parent::tearDown();
 	}
-
 
 	public function testLockAsRecipient(): void {
 		$this->expectException(LockedException::class);

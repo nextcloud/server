@@ -12,6 +12,7 @@ namespace Test\DB\QueryBuilder;
 
 use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use Doctrine\DBAL\Query\QueryException;
+use OC\DB\ConnectionAdapter;
 use OC\DB\QueryBuilder\Literal;
 use OC\DB\QueryBuilder\Parameter;
 use OC\DB\QueryBuilder\QueryBuilder;
@@ -38,6 +39,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	private QueryBuilder $queryBuilder;
 	private IDBConnection $connection;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -543,7 +545,6 @@ class QueryBuilderTest extends \Test\TestCase {
 				['`d1`' => [['joinType' => 'inner', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => '`d2`', 'joinCondition' => '`d1`.`field1` = `d2`.`field2`']]],
 				'`*PREFIX*data1` `d1` INNER JOIN `*PREFIX*data2` `d2` ON `d1`.`field1` = `d2`.`field2`'
 			],
-
 		];
 	}
 
@@ -1221,21 +1222,16 @@ class QueryBuilderTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @param string $column
-	 * @param string $prefix
-	 * @param string $expected
-	 */
 	#[DataProvider('dataGetColumnName')]
-	public function testGetColumnName($column, $prefix, $expected): void {
+	public function testGetColumnName(string $column, string $prefix, string $expected): void {
 		$this->assertSame(
 			$expected,
 			$this->queryBuilder->getColumnName($column, $prefix)
 		);
 	}
 
-	private function getConnection(): IDBConnection {
-		$connection = $this->createMock(IDBConnection::class);
+	private function getConnection(): MockObject&ConnectionAdapter {
+		$connection = $this->createMock(ConnectionAdapter::class);
 		$connection->method('executeStatement')
 			->willReturn(3);
 		$connection->method('executeQuery')

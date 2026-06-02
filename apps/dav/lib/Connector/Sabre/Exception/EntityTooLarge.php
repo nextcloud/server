@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Connector\Sabre\Exception;
 
 /**
@@ -20,6 +23,7 @@ class EntityTooLarge extends \Sabre\DAV\Exception {
 	 *
 	 * @return int
 	 */
+	#[\Override]
 	public function getHTTPCode() {
 		return 413;
 	}

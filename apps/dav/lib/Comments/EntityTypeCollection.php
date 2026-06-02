@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Comments;
 
 use OCP\Comments\ICommentsManager;
@@ -53,6 +54,7 @@ class EntityTypeCollection extends RootCollection {
 	 * @return \Sabre\DAV\INode
 	 * @throws NotFound
 	 */
+	#[\Override]
 	public function getChild($name) {
 		if (!$this->childExists($name)) {
 			throw new NotFound('Entity does not exist or is not available');
@@ -73,6 +75,7 @@ class EntityTypeCollection extends RootCollection {
 	 * @return \Sabre\DAV\INode[]
 	 * @throws MethodNotAllowed
 	 */
+	#[\Override]
 	public function getChildren() {
 		throw new MethodNotAllowed('No permission to list folder contents');
 	}
@@ -83,6 +86,7 @@ class EntityTypeCollection extends RootCollection {
 	 * @param string $name
 	 * @return bool
 	 */
+	#[\Override]
 	public function childExists($name) {
 		return call_user_func($this->childExistsFunction, $name);
 	}

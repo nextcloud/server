@@ -100,19 +100,29 @@ class Preview extends SnowflakeAwareEntity {
 		$preview->setFileId((int)basename(dirname($path)));
 
 		$fileName = pathinfo($path, PATHINFO_FILENAME) . '.' . pathinfo($path, PATHINFO_EXTENSION);
-		$ok = preg_match('/(([A-Za-z0-9\+\/]+)-)?([0-9]+)-([0-9]+)(-(max))?(-(crop))?\.([a-z]{3,4})/', $fileName, $matches);
+		$ok = preg_match('/(([A-Za-z0-9\+\/]+)-)?([0-9]+)-([0-9]+)(-(crop))?(-(max))?\.([a-z]{3,4})$/', $fileName, $matches);
 
 		if ($ok !== 1) {
-			return false;
+			$ok = preg_match('/(([A-Za-z0-9\+\/]+)-)?([0-9]+)-([0-9]+)(-(max))?(-(crop))?\.([a-z]{3,4})$/', $fileName, $matches);
+			if ($ok !== 1) {
+				return false;
+			}
+			[
+				2 => $version,
+				3 => $width,
+				4 => $height,
+				6 => $max,
+				8 => $crop,
+			] = $matches;
+		} else {
+			[
+				2 => $version,
+				3 => $width,
+				4 => $height,
+				6 => $crop,
+				8 => $max,
+			] = $matches;
 		}
-
-		[
-			2 => $version,
-			3 => $width,
-			4 => $height,
-			6 => $max,
-			8 => $crop,
-		] = $matches;
 
 		$preview->setMimeType($mimeTypeDetector->detectPath($fileName));
 

@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Repair;
 
 use OC\Template\JSCombiner;
@@ -12,23 +15,19 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class ClearFrontendCaches implements IRepairStep {
-	/** @var ICacheFactory */
-	protected $cacheFactory;
-
-	/** @var JSCombiner */
-	protected $jsCombiner;
-
-	public function __construct(ICacheFactory $cacheFactory,
-		JSCombiner $JSCombiner) {
-		$this->cacheFactory = $cacheFactory;
-		$this->jsCombiner = $JSCombiner;
+	public function __construct(
+		protected ICacheFactory $cacheFactory,
+		protected JSCombiner $jsCombiner,
+	) {
 	}
 
-	public function getName() {
+	#[\Override]
+	public function getName(): string {
 		return 'Clear frontend caches';
 	}
 
-	public function run(IOutput $output) {
+	#[\Override]
+	public function run(IOutput $output): void {
 		try {
 			$c = $this->cacheFactory->createDistributed('imagePath');
 			$c->clear();

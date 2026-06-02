@@ -30,10 +30,6 @@ OC.L10N.register(
     "Set reminder for this weekend" : "Imposta promemoria per questo fine settimana",
     "Next week" : "Settimana successiva",
     "Set reminder for next week" : "Imposta promemoria per la prossima settimana",
-    "This files_reminder can work properly." : "Questo file_promemoria può funzionare correttamente.",
-    "The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "L'app files_reminder necessita dell'app notifiche per funzionare correttamente. È necessario abilitare le notifiche o disabilitare files_reminder.",
-    "Set reminder for \"{fileName}\"" : "Imposta promemoria per \"{fileName}\"",
-    "Set reminder at custom date & time" : "Imposta promemoria per data personalizzata & ora",
-    "Set custom reminder" : "Imposta promemoria personalizzato"
+    "Set reminder for \"{fileName}\"" : "Imposta promemoria per \"{fileName}\""
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

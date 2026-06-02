@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Settings\Controller;
 
 use OC\Log;
@@ -17,12 +18,12 @@ use OCP\IRequest;
 
 class LogSettingsController extends Controller {
 
-	/** @var Log */
-	private $log;
-
-	public function __construct(string $appName, IRequest $request, Log $logger) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private Log $log,
+	) {
 		parent::__construct($appName, $request);
-		$this->log = $logger;
 	}
 
 	/**

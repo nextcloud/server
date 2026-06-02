@@ -17,6 +17,7 @@ use Psr\Log\LoggerInterface;
 class TempManagerTest extends \Test\TestCase {
 	protected $baseDir = null;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -26,6 +27,7 @@ class TempManagerTest extends \Test\TestCase {
 		}
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		if ($this->baseDir !== null) {
 			Files::rmdirr($this->baseDir);
@@ -37,7 +39,7 @@ class TempManagerTest extends \Test\TestCase {
 	/**
 	 * @param ?LoggerInterface $logger
 	 * @param ?IConfig $config
-	 * @return \OC\TempManager
+	 * @return TempManager
 	 */
 	protected function getManager($logger = null, $config = null) {
 		if (!$logger) {

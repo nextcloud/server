@@ -13,14 +13,6 @@ input, textarea, select, button, div[contenteditable=true], div[contenteditable=
 	font-family: var(--font-face);
 }
 
-.select2-container-multi .select2-choices .select2-search-field input, .select2-search input, .ui-widget {
-	font-family: var(--font-face) !important;
-}
-
-.select2-container.select2-drop-above .select2-choice {
-	background-image: unset !important;
-}
-
 $opacity-disabled: .7;
 
 /* Simple selector to allow easy overriding */
@@ -61,7 +53,6 @@ input:not([type="range"]) {
 }
 
 /* Default global values */
-div.select2-drop .select2-search input, // TODO: REMOVE WHEN DROPPING SELECT2
 input[type='submit'],
 input[type='button'],
 input[type='reset'],
@@ -241,7 +232,6 @@ input:not(
 	[type='button'],
 	[type='reset'],
 	.multiselect__input,
-	.select2-input,
 	.action-input__input,
 	[class^="vs__"]
 ),
@@ -267,11 +257,6 @@ textarea {
 	&:not(:disabled):focus {
 		cursor: text;
 	}
-}
-
-.multiselect__input, .select2-input {
-	background-color: var(--color-main-background);
-	color: var(--color-main-text);
 }
 
 textarea, div[contenteditable=true] {
@@ -544,185 +529,6 @@ input[type='radio'] {
 		}
 		&:disabled + label:before {
 			opacity: 0.7; /* No other choice for white background image */
-		}
-	}
-}
-
-/* Select2 overriding. Merged to core with vendor stylesheet */
-div.select2-drop {
-	margin-top: -2px;
-	background-color: var(--color-main-background);
-	&.select2-drop-active {
-		border-color: var(--color-border-dark);
-	}
-	.avatar {
-		display: inline-block;
-		margin-inline-end: 8px;
-		vertical-align: middle;
-		img {
-			cursor: pointer;
-		}
-	}
-	.select2-search input {
-		min-height: auto;
-		background: var(--icon-search-dark) no-repeat !important;
-		background-origin: content-box !important;
-	}
-	.select2-results {
-		max-height: 250px;
-		margin: 0;
-		padding: 0;
-		.select2-result-label {
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-			span {
-				cursor: pointer;
-				em {
-					cursor: inherit;
-					background: unset;
-				}
-			}
-		}
-		.select2-result,
-		.select2-no-results,
-		.select2-searching {
-			position: relative;
-			display: list-item;
-			padding: 12px;
-			background-color: transparent;
-			cursor: pointer;
-			color: var(--color-text-maxcontrast);
-		}
-		.select2-result {
-			&.select2-selected {
-				background-color: var(--color-background-dark);
-			}
-		}
-		.select2-highlighted {
-				background-color: var(--color-background-dark);
-				color: var(--color-main-text);
-		}
-	}
-}
-
-body[dir='ltr'] div.select2-drop .select2-search input {
-	background-position: right center !important;
-}
-
-body[dir='rtl'] div.select2-drop .select2-search input {
-	background-position: left center !important;
-}
-
-.select2-chosen,
-#select2-drop {
-	.avatar,
-	.avatar img {
-		cursor: pointer;
-	}
-}
-
-div.select2-container-multi {
-	.select2-choices,
-	&.select2-container-active .select2-choices {
-		box-shadow: none;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-		background: var(--color-main-background);
-		color: var(--color-text-maxcontrast) !important;
-		box-sizing: content-box;
-		border-radius: var(--border-radius-large);
-		border: 2px solid var(--color-border-dark);
-		margin: 0;
-		padding: 6px;
-		min-height: 44px;
-		&:focus-within {
-			border-color: var(--color-primary-element)
-		}
-		.select2-search-choice {
-			line-height: 20px;
-			padding-inline-start: 5px;
-			&.select2-search-choice-focus,
-			&:hover,
-			&:active,
-			& {
-				background-image: none;
-				background-color: var(--color-main-background);
-				color: var(--color-text-maxcontrast);
-				border: 1px solid var(--color-border-dark);
-			}
-			.select2-search-choice-close {
-				display: none;
-			}
-		}
-		.select2-search-field input {
-			line-height: 20px;
-			min-height: 28px;
-			max-height: 28px;
-			color: var(--color-main-text);
-			&.select2-active {
-				background: none !important;
-			}
-		}
-	}
-}
-
-div.select2-container {
-	margin: 3px;
-	margin-inline-start: 0;
-	&.select2-container-multi .select2-choices {
-		display: flex;
-		flex-wrap: wrap;
-		li {
-			float: none;
-		}
-	}
-	a.select2-choice {
-		box-shadow: none;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-		background: var(--color-main-background);
-		color: var(--color-text-maxcontrast) !important;
-		box-sizing: content-box;
-		border-radius: var(--border-radius-large);
-		border: 2px solid var(--color-border-dark);
-		margin: 0;
-		padding: 6px 12px;
-		min-height: 44px;
-		&:focus-within {
-			border-color: var(--color-primary-element)
-		}
-		.select2-search-choice {
-			line-height: 20px;
-			padding-inline-start: 5px;
-			background-image: none;
-			background-color: var(--color-background-dark);
-			border-color: var(--color-background-dark);
-			.select2-search-choice-close {
-				display: none;
-			}
-			&.select2-search-choice-focus,
-			&:hover {
-				background-color: var(--color-border);
-				border-color: var(--color-border);
-			}
-		}
-		.select2-arrow {
-			background: none;
-			border-radius: 0;
-			border: none;
-			b {
-				background: var(--icon-triangle-s-dark) no-repeat center !important;
-				opacity: .5;
-			}
-		}
-		&:hover .select2-arrow b,
-		&:focus .select2-arrow b,
-		&:active .select2-arrow b {
-			opacity: .7;
-		}
-		.select2-search-field input {
-			line-height: 20px;
 		}
 	}
 }

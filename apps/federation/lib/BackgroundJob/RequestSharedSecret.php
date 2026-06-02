@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Federation\BackgroundJob;
 
 use GuzzleHttp\Exception\ClientException;
@@ -54,10 +55,10 @@ class RequestSharedSecret extends Job {
 		$this->httpClient = $httpClientService->newClient();
 	}
 
-
 	/**
 	 * run the job, then remove it from the joblist
 	 */
+	#[\Override]
 	public function start(IJobList $jobList): void {
 		$target = $this->argument['url'];
 		// only execute if target is still in the list of trusted domains
@@ -84,6 +85,7 @@ class RequestSharedSecret extends Job {
 	 * @param array $argument
 	 * @return void
 	 */
+	#[\Override]
 	protected function run($argument) {
 		$target = $argument['url'];
 		$created = isset($argument['created']) ? (int)$argument['created'] : $this->time->getTime();

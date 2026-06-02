@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Controller;
 
 use OCA\Files_Sharing\External\ExternalShare;
@@ -124,6 +125,7 @@ class RemoteController extends OCSController {
 		$shareData['permissions'] = $mountPointNode->getPermissions();
 		$shareData['type'] = $mountPointNode->getType();
 		$shareData['file_id'] = $mountPointNode->getId();
+		$shareData['item_size'] = $mountPointNode->getSize();
 
 		return $shareData;
 	}

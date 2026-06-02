@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud GmbH.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Command;
 
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -28,6 +29,7 @@ class CleanupRemoteStorages extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('sharing:cleanup-remote-storages')
@@ -40,6 +42,7 @@ class CleanupRemoteStorages extends Command {
 			);
 	}
 
+	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$remoteStorages = $this->getRemoteStorages();
 

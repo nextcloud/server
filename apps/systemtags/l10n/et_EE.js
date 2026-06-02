@@ -100,8 +100,8 @@ OC.L10N.register(
     "Add tags" : "Lisa silte",
     "Assigned collaborative tags" : "Eelkirjeldatud ühistegevuslikud sildid",
     "Open in Files" : "Ava failirakenduses",
-    "List of tags and their associated files and folders." : "Siltude ja nendega seotud failide ja kaustade loend.",
-    "No tags found" : "Silte ei leidinud",
+    "List of tags and their associated files and folders." : "Siltide ja nendega seotud failide ja kaustade loend.",
+    "No tags found" : "Silte ei leidunud",
     "Tags you have created will show up here." : "Sinu loodud sildid saavad olema nähtavad siin.",
     "Failed to load tag" : "Sildi laadimine ei õnnestunud",
     "Failed to load last used tags" : "Viimatikasutatud siltide laadimine ei õnnestunud",
@@ -111,11 +111,7 @@ OC.L10N.register(
     "Failed to set tag for file" : "Failile ei õnnestunud silte lisada",
     "Failed to delete tag for file" : "Faililt ei õnnestunud silte eemaldada",
     "Collaborative tags …" : "Ühistegevuslikud sildid…",
-    "Loading …" : "Laadimine ...",
-    "File tags modification canceled" : "Failide siltide muutmine on katkestatud",
-    "Select or create tags to apply to all selected files" : "Vali või loo sildid kõikide valitud failide jaoks",
-    "Select tags to apply to all selected files" : "Vali sildid kõikide valitud failide jaoks",
-    "Apply changes" : "Rakenda muudatused",
+    "Loading …" : "Laadin...",
     "Loading collaborative tags …" : "Laadin ühistegevuslikke silte…"
 },
 "nplurals=2; plural=(n != 1);");

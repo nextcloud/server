@@ -28,10 +28,6 @@
     "Set reminder for this weekend" : "ຕັ້ງການແຈ້ງເຕືອນສຸດສັບປະດານີ້",
     "Next week" : "ອາທິດໜ້າ",
     "Set reminder for next week" : "ຕັ້ງການແຈ້ງເຕືອນອາທິດໜ້າ",
-    "This files_reminder can work properly." : "files_reminder ນີ້ສາມາດເຮັດວຽກໄດ້ຢ່າງຖືກຕ້ອງ.",
-    "The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "ແອັບ files_reminder ຕ້ອງການແອັບແຈ້ງເຕືອນເພື່ອໃຫ້ເຮັດວຽກໄດ້ຢ່າງຖືກຕ້ອງ. ທ່ານຄວນເປີດໃຊ້ການແຈ້ງເຕືອນ ຫຼື ປິດໃຊ້ງານ files_reminder.",
-    "Set reminder for \"{fileName}\"" : "ຕັ້ງການແຈ້ງເຕືອນສຳລັບ \"{fileName}\"",
-    "Set reminder at custom date & time" : "ຕັ້ງການແຈ້ງເຕືອນໃນວັນທີ ແລະ ເວລາທີ່ກຳນົດເອງ",
-    "Set custom reminder" : "ຕັ້ງການແຈ້ງເຕືອນທີ່ກຳນົດເອງ"
+    "Set reminder for \"{fileName}\"" : "ຕັ້ງການແຈ້ງເຕືອນສຳລັບ \"{fileName}\""
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Sharing\Listener;
 
 use OCA\Files_Sharing\AppInfo\Application;
@@ -25,6 +26,7 @@ class UserAddedToGroupListener implements IEventListener {
 	) {
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!($event instanceof UserAddedEvent)) {
 			return;
@@ -51,7 +53,6 @@ class UserAddedToGroupListener implements IEventListener {
 			$this->shareManager->acceptShare($share, $user->getUID());
 		}
 	}
-
 
 	private function hasAutoAccept(string $userId): bool {
 		$defaultAcceptSystemConfig = $this->config->getSystemValueBool('sharing.enable_share_accept', false) ? 'no' : 'yes';

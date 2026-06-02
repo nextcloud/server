@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP;
 
 /**
@@ -101,7 +102,7 @@ interface IGroupManager {
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
-	 * @return array an array of display names (value) and user ids (key)
+	 * @return array<string, string> ['user id' => 'display name']
 	 * @since 8.0.0
 	 */
 	public function displayNamesInGroup($gid, $search = '', $limit = -1, $offset = 0);

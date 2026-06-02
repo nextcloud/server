@@ -22,6 +22,7 @@ class OCSTest extends TestCase {
 	/** @var IInstanceFactory */
 	private $instanceFactory;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -54,7 +55,6 @@ class OCSTest extends TestCase {
 		$this->assertEquals('user', $user->getUserId());
 	}
 
-
 	public function testGetUserInvalidResponse(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Invalid user response, expected field email not found');
@@ -67,7 +67,6 @@ class OCSTest extends TestCase {
 
 		$client->getUser('user');
 	}
-
 
 	public function testInvalidPassword(): void {
 		$this->expectException(ForbiddenException::class);

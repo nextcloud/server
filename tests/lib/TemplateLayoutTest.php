@@ -16,6 +16,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\INavigationManager;
+use OCP\IRequest;
 use OCP\ServerVersion;
 use OCP\Template\ITemplateManager;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -28,9 +29,11 @@ class TemplateLayoutTest extends \Test\TestCase {
 	private INavigationManager&MockObject $navigationManager;
 	private ITemplateManager&MockObject $templateManager;
 	private ServerVersion&MockObject $serverVersion;
+	private IRequest&MockObject $request;
 
 	private TemplateLayout $templateLayout;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -41,6 +44,7 @@ class TemplateLayoutTest extends \Test\TestCase {
 		$this->navigationManager = $this->createMock(INavigationManager::class);
 		$this->templateManager = $this->createMock(ITemplateManager::class);
 		$this->serverVersion = $this->createMock(ServerVersion::class);
+		$this->request = $this->createMock(IRequest::class);
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataVersionHash')]
@@ -73,6 +77,9 @@ class TemplateLayoutTest extends \Test\TestCase {
 			->with('theming', 'cachebuster', '0')
 			->willReturn('42');
 
+		$this->request->method('getPathInfo')
+			->willReturn('/' . $path);
+
 		$this->templateLayout = $this->getMockBuilder(TemplateLayout::class)
 			->onlyMethods(['getAppNamefromPath'])
 			->setConstructorArgs([
@@ -83,6 +90,7 @@ class TemplateLayoutTest extends \Test\TestCase {
 				$this->navigationManager,
 				$this->templateManager,
 				$this->serverVersion,
+				$this->request,
 			])
 			->getMock();
 

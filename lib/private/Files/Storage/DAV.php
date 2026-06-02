@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Storage;
 
 use Exception;
@@ -15,6 +16,8 @@ use OC\MemCache\ArrayCache;
 use OCP\AppFramework\Http;
 use OCP\Constants;
 use OCP\Diagnostics\IEventLogger;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Events\BeforeRemotePropfindEvent;
 use OCP\Files\FileInfo;
 use OCP\Files\ForbiddenException;
 use OCP\Files\IMimeTypeDetector;
@@ -24,6 +27,8 @@ use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\ICertificateManager;
 use OCP\IConfig;
+use OCP\ITempManager;
+use OCP\Lock\LockedException;
 use OCP\Server;
 use OCP\Util;
 use Psr\Http\Message\ResponseInterface;
@@ -50,6 +55,7 @@ class DAV extends Common {
 	protected $host;
 	/** @var bool */
 	protected $secure;
+	protected bool $verify;
 	/** @var string */
 	protected $root;
 	/** @var string */
@@ -104,17 +110,19 @@ class DAV extends Common {
 				$this->authType = $parameters['authType'];
 			}
 			if (isset($parameters['secure'])) {
+				$this->verify = $parameters['verify'] ?? true;
 				if (is_string($parameters['secure'])) {
 					$this->secure = ($parameters['secure'] === 'true');
 				} else {
 					$this->secure = (bool)$parameters['secure'];
 				}
 			} else {
+				$this->verify = false;
 				$this->secure = false;
 			}
 			if ($this->secure === true) {
 				// inject mock for testing
-				$this->certManager = \OC::$server->getCertificateManager();
+				$this->certManager = Server::get(ICertificateManager::class);
 			}
 			$this->root = rawurldecode($parameters['root'] ?? '/');
 			$this->root = '/' . ltrim($this->root, '/');
@@ -126,7 +134,7 @@ class DAV extends Common {
 		$this->eventLogger = Server::get(IEventLogger::class);
 		// This timeout value will be used for the download and upload of files
 		$this->timeout = Server::get(IConfig::class)->getSystemValueInt('davstorage.request_timeout', IClient::DEFAULT_REQUEST_TIMEOUT);
-		$this->mimeTypeDetector = \OC::$server->getMimeTypeDetector();
+		$this->mimeTypeDetector = Server::get(IMimeTypeDetector::class);
 	}
 
 	protected function init(): void {
@@ -153,6 +161,9 @@ class DAV extends Common {
 		$this->client->setThrowExceptions(true);
 
 		if ($this->secure === true) {
+			if ($this->verify === false) {
+				$this->client->addCurlSetting(CURLOPT_SSL_VERIFYPEER, false);
+			}
 			$certPath = $this->certManager->getAbsoluteBundlePath();
 			if (file_exists($certPath)) {
 				$this->certPath = $certPath;
@@ -163,12 +174,12 @@ class DAV extends Common {
 		}
 
 		$lastRequestStart = 0;
-		$this->client->on('beforeRequest', function (RequestInterface $request) use (&$lastRequestStart) {
+		$this->client->on('beforeRequest', function (RequestInterface $request) use (&$lastRequestStart): void {
 			$this->logger->debug('sending dav ' . $request->getMethod() . ' request to external storage: ' . $request->getAbsoluteUrl(), ['app' => 'dav']);
 			$lastRequestStart = microtime(true);
 			$this->eventLogger->start('fs:storage:dav:request', 'Sending dav request to external storage');
 		});
-		$this->client->on('afterRequest', function (RequestInterface $request) use (&$lastRequestStart) {
+		$this->client->on('afterRequest', function (RequestInterface $request) use (&$lastRequestStart): void {
 			$elapsed = microtime(true) - $lastRequestStart;
 			$this->logger->debug('dav ' . $request->getMethod() . ' request to external storage: ' . $request->getAbsoluteUrl() . ' took ' . round($elapsed * 1000, 1) . 'ms', ['app' => 'dav']);
 			$this->eventLogger->end('fs:storage:dav:request');
@@ -182,6 +193,7 @@ class DAV extends Common {
 		$this->statCache->clear();
 	}
 
+	#[\Override]
 	public function getId(): string {
 		return 'webdav::' . $this->user . '@' . $this->host . '/' . $this->root;
 	}
@@ -195,6 +207,7 @@ class DAV extends Common {
 		return $baseUri;
 	}
 
+	#[\Override]
 	public function mkdir(string $path): bool {
 		$this->init();
 		$path = $this->cleanPath($path);
@@ -205,6 +218,7 @@ class DAV extends Common {
 		return $result;
 	}
 
+	#[\Override]
 	public function rmdir(string $path): bool {
 		$this->init();
 		$path = $this->cleanPath($path);
@@ -216,6 +230,7 @@ class DAV extends Common {
 		return $result;
 	}
 
+	#[\Override]
 	public function opendir(string $path) {
 		$this->init();
 		$path = $this->cleanPath($path);
@@ -230,6 +245,34 @@ class DAV extends Common {
 			$this->convertException($e, $path);
 		}
 		return false;
+	}
+
+	/**
+	 * @return array<string>
+	 */
+	protected function getPropfindProperties(): array {
+		$event = new BeforeRemotePropfindEvent(self::PROPFIND_PROPS);
+		Server::get(IEventDispatcher::class)->dispatchTyped($event);
+		return $event->getProperties();
+	}
+
+	/**
+	 *  Get property value from cached PROPFIND response.
+	 *  For accessing app-specific properties not included in getMetaData().
+	 *
+	 * @param string $path
+	 * @param string $propertyName
+	 * @return mixed
+	 */
+	public function getPropfindPropertyValue(string $path, string $propertyName): mixed {
+		$path = $this->cleanPath($path);
+		$propfindResponse = $this->statCache->get($path);
+
+		if (!is_array($propfindResponse)) {
+			return null;
+		}
+
+		return $propfindResponse[$propertyName] ?? null;
 	}
 
 	/**
@@ -254,7 +297,7 @@ class DAV extends Common {
 			try {
 				$response = $this->client->propFind(
 					$this->encodePath($path),
-					self::PROPFIND_PROPS
+					$this->getPropfindProperties()
 				);
 				$this->statCache->set($path, $response);
 			} catch (ClientHttpException $e) {
@@ -273,6 +316,7 @@ class DAV extends Common {
 		return $response;
 	}
 
+	#[\Override]
 	public function filetype(string $path): string|false {
 		try {
 			$response = $this->propfind($path);
@@ -291,6 +335,7 @@ class DAV extends Common {
 		return false;
 	}
 
+	#[\Override]
 	public function file_exists(string $path): bool {
 		try {
 			$path = $this->cleanPath($path);
@@ -309,6 +354,7 @@ class DAV extends Common {
 		return false;
 	}
 
+	#[\Override]
 	public function unlink(string $path): bool {
 		$this->init();
 		$path = $this->cleanPath($path);
@@ -318,6 +364,7 @@ class DAV extends Common {
 		return $result;
 	}
 
+	#[\Override]
 	public function fopen(string $path, string $mode) {
 		$this->init();
 		$path = $this->cleanPath($path);
@@ -331,7 +378,8 @@ class DAV extends Common {
 							'auth' => [$this->user, $this->password],
 							'stream' => true,
 							// set download timeout for users with slow connections or large files
-							'timeout' => $this->timeout
+							'timeout' => $this->timeout,
+							'verify' => $this->verify,
 						]);
 				} catch (\GuzzleHttp\Exception\ClientException $e) {
 					if ($e->getResponse() instanceof ResponseInterface
@@ -344,7 +392,7 @@ class DAV extends Common {
 
 				if ($response->getStatusCode() !== Http::STATUS_OK) {
 					if ($response->getStatusCode() === Http::STATUS_LOCKED) {
-						throw new \OCP\Lock\LockedException($path);
+						throw new LockedException($path);
 					} else {
 						$this->logger->error('Guzzle get returned status code ' . $response->getStatusCode(), ['app' => 'webdav client']);
 					}
@@ -370,7 +418,7 @@ class DAV extends Common {
 			case 'c':
 			case 'c+':
 				//emulate these
-				$tempManager = \OC::$server->getTempManager();
+				$tempManager = Server::get(ITempManager::class);
 				if (strrpos($path, '.') !== false) {
 					$ext = substr($path, strrpos($path, '.'));
 				} else {
@@ -392,7 +440,7 @@ class DAV extends Common {
 					$tmpFile = $tempManager->getTemporaryFile($ext);
 				}
 				$handle = fopen($tmpFile, $mode);
-				return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile) {
+				return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile): void {
 					$this->writeBack($tmpFile, $path);
 				});
 		}
@@ -405,6 +453,7 @@ class DAV extends Common {
 		unlink($tmpFile);
 	}
 
+	#[\Override]
 	public function free_space(string $path): int|float|false {
 		$this->init();
 		$path = $this->cleanPath($path);
@@ -423,6 +472,7 @@ class DAV extends Common {
 		}
 	}
 
+	#[\Override]
 	public function touch(string $path, ?int $mtime = null): bool {
 		$this->init();
 		if (is_null($mtime)) {
@@ -460,6 +510,7 @@ class DAV extends Common {
 		return true;
 	}
 
+	#[\Override]
 	public function file_put_contents(string $path, mixed $data): int|float|false {
 		$path = $this->cleanPath($path);
 		$result = parent::file_put_contents($path, $data);
@@ -481,12 +532,14 @@ class DAV extends Common {
 				'body' => $source,
 				'auth' => [$this->user, $this->password],
 				// set upload timeout for users with slow connections or large files
-				'timeout' => $this->timeout
+				'timeout' => $this->timeout,
+				'verify' => $this->verify,
 			]);
 
 		$this->removeCachedFile($target);
 	}
 
+	#[\Override]
 	public function rename(string $source, string $target): bool {
 		$this->init();
 		$source = $this->cleanPath($source);
@@ -518,6 +571,7 @@ class DAV extends Common {
 		return false;
 	}
 
+	#[\Override]
 	public function copy(string $source, string $target): bool {
 		$this->init();
 		$source = $this->cleanPath($source);
@@ -546,6 +600,7 @@ class DAV extends Common {
 		return false;
 	}
 
+	#[\Override]
 	public function getMetaData(string $path): ?array {
 		if (Filesystem::isFileBlacklisted($path)) {
 			throw new ForbiddenException('Invalid path: ' . $path, false);
@@ -608,17 +663,19 @@ class DAV extends Common {
 		];
 	}
 
+	#[\Override]
 	public function stat(string $path): array|false {
 		$meta = $this->getMetaData($path);
 		return $meta ?: false;
-
 	}
 
+	#[\Override]
 	public function getMimeType(string $path): string|false {
 		$meta = $this->getMetaData($path);
 		return $meta ? $meta['mimetype'] : false;
 	}
 
+	#[\Override]
 	public function cleanPath(string $path): string {
 		if ($path === '') {
 			return $path;
@@ -670,27 +727,33 @@ class DAV extends Common {
 		return true;
 	}
 
+	#[\Override]
 	public function isUpdatable(string $path): bool {
 		return (bool)($this->getPermissions($path) & Constants::PERMISSION_UPDATE);
 	}
 
+	#[\Override]
 	public function isCreatable(string $path): bool {
 		return (bool)($this->getPermissions($path) & Constants::PERMISSION_CREATE);
 	}
 
+	#[\Override]
 	public function isSharable(string $path): bool {
 		return (bool)($this->getPermissions($path) & Constants::PERMISSION_SHARE);
 	}
 
+	#[\Override]
 	public function isDeletable(string $path): bool {
 		return (bool)($this->getPermissions($path) & Constants::PERMISSION_DELETE);
 	}
 
+	#[\Override]
 	public function getPermissions(string $path): int {
 		$stat = $this->getMetaData($path);
 		return $stat ? $stat['permissions'] : 0;
 	}
 
+	#[\Override]
 	public function getETag(string $path): string|false {
 		$meta = $this->getMetaData($path);
 		return $meta ? $meta['etag'] : false;
@@ -714,6 +777,7 @@ class DAV extends Common {
 		return $permissions;
 	}
 
+	#[\Override]
 	public function hasUpdated(string $path, int $time): bool {
 		$this->init();
 		$path = $this->cleanPath($path);
@@ -784,7 +848,7 @@ class DAV extends Common {
 		$this->logger->debug($e->getMessage(), ['app' => 'files_external', 'exception' => $e]);
 		if ($e instanceof ClientHttpException) {
 			if ($e->getHttpStatus() === Http::STATUS_LOCKED) {
-				throw new \OCP\Lock\LockedException($path);
+				throw new LockedException($path);
 			}
 			if ($e->getHttpStatus() === Http::STATUS_UNAUTHORIZED) {
 				// either password was changed or was invalid all along
@@ -812,13 +876,14 @@ class DAV extends Common {
 		// TODO: only log for now, but in the future need to wrap/rethrow exception
 	}
 
+	#[\Override]
 	public function getDirectoryContent(string $directory): \Traversable {
 		$this->init();
 		$directory = $this->cleanPath($directory);
 		try {
 			$responses = $this->client->propFind(
 				$this->encodePath($directory),
-				self::PROPFIND_PROPS,
+				$this->getPropfindProperties(),
 				1
 			);
 

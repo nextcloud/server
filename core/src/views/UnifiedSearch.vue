@@ -4,15 +4,9 @@
 -->
 <template>
 	<div class="unified-search-menu">
-		<NcHeaderButton
-			v-show="!showLocalSearch"
-			id="unified-search"
-			:aria-label="t('core', 'Unified search')"
-			@click="toggleUnifiedSearch">
-			<template #icon>
-				<NcIconSvgWrapper :path="mdiMagnify" />
-			</template>
-		</NcHeaderButton>
+		<UnifiedSearchInput
+			:expanded="showUnifiedSearch || showLocalSearch"
+			@click="toggleUnifiedSearch" />
 		<UnifiedSearchLocalSearchBar
 			v-if="supportsLocalSearch"
 			:open.sync="showLocalSearch"
@@ -26,14 +20,12 @@
 </template>
 
 <script lang="ts">
-import { mdiMagnify } from '@mdi/js'
 import { emit, subscribe } from '@nextcloud/event-bus'
 import { t } from '@nextcloud/l10n'
 import { useBrowserLocation } from '@vueuse/core'
 import debounce from 'debounce'
 import { defineComponent } from 'vue'
-import NcHeaderButton from '@nextcloud/vue/components/NcHeaderButton'
-import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import UnifiedSearchInput from '../components/UnifiedSearch/UnifiedSearchInput.vue'
 import UnifiedSearchLocalSearchBar from '../components/UnifiedSearch/UnifiedSearchLocalSearchBar.vue'
 import UnifiedSearchModal from '../components/UnifiedSearch/UnifiedSearchModal.vue'
 import logger from '../logger.js'
@@ -42,10 +34,9 @@ export default defineComponent({
 	name: 'UnifiedSearch',
 
 	components: {
-		NcHeaderButton,
-		NcIconSvgWrapper,
 		UnifiedSearchModal,
 		UnifiedSearchLocalSearchBar,
+		UnifiedSearchInput,
 	},
 
 	setup() {
@@ -54,7 +45,6 @@ export default defineComponent({
 		return {
 			currentLocation,
 
-			mdiMagnify,
 			t,
 		}
 	},
@@ -83,7 +73,17 @@ export default defineComponent({
 		 */
 		supportsLocalSearch() {
 			// TODO: Make this an API
-			const providerPaths = ['/settings/users', '/apps/deck', '/settings/apps']
+			const providerPaths = ['/apps/deck']
+			return providerPaths.some((path) => this.currentLocation.pathname?.includes?.(path))
+		},
+
+		/**
+		 * Current page handles the Ctrl+F shortcut itself (e.g. has a dedicated
+		 * search input). UnifiedSearch should stay out of the way on these pages.
+		 */
+		appHandlesSearchShortcut() {
+			// TODO: Make this an API
+			const providerPaths = ['/settings/users', '/settings/apps']
 			return providerPaths.some((path) => this.currentLocation.pathname?.includes?.(path))
 		},
 	},
@@ -135,6 +135,10 @@ export default defineComponent({
 		 */
 		onKeyDown(event: KeyboardEvent) {
 			if (event.ctrlKey && event.key === 'f') {
+				// Skip on pages that handle Ctrl+F themselves (e.g. a dedicated search input).
+				if (this.appHandlesSearchShortcut) {
+					return
+				}
 				// only handle search if not already open - in this case the browser native search should be used
 				if (!this.showLocalSearch && !this.showUnifiedSearch) {
 					event.preventDefault()

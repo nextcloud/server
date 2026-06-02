@@ -9,6 +9,7 @@
 namespace OCA\Files_Sharing\Tests\Controller;
 
 use OC\Files\Storage\Wrapper\Wrapper;
+use OC\Session\Internal;
 use OCA\Federation\TrustedServers;
 use OCA\Files_Sharing\Controller\ShareAPIController;
 use OCA\Files_Sharing\External\Storage;
@@ -26,6 +27,7 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Mount\IShareOwnerlessMount;
+use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
 use OCP\IAppConfig;
@@ -58,6 +60,16 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 use Test\Traits\EmailValidatorTrait;
+
+/**
+ * Internal mock to allow mocking the Talk controller used for room shares,
+ * needed when Talk is not installed during tests (PHPUnit does not allow mocking of non-existing classes).
+ */
+interface InternalTalkShareAPIController {
+	public function formatShare(IShare $share): array;
+	public function canAccessShare(IShare $share, string $user): bool;
+	public function createShare(IShare $share, string $shareWith, int $permissions, string $expireDate): void;
+}
 
 /**
  * Class ShareAPIControllerTest
@@ -125,6 +137,8 @@ class ShareAPIControllerTest extends TestCase {
 				return $fileInfo->getMimeType() === 'mimeWithPreview';
 			});
 		$this->dateTimeZone = $this->createMock(IDateTimeZone::class);
+		$this->dateTimeZone->method('getTimeZone')
+			->willReturn(new \DateTimeZone('UTC'));
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->factory = $this->createMock(IProviderFactory::class);
 		$this->mailer = $this->createMock(IMailer::class);
@@ -158,10 +172,7 @@ class ShareAPIControllerTest extends TestCase {
 
 	}
 
-	/**
-	 * @return ShareAPIController&MockObject
-	 */
-	private function mockFormatShare() {
+	private function mockFormatShare(): ShareAPIController&MockObject {
 		return $this->getMockBuilder(ShareAPIController::class)
 			->setConstructorArgs([
 				$this->appName,
@@ -193,7 +204,6 @@ class ShareAPIControllerTest extends TestCase {
 	private function newShare() {
 		return Server::get(IManager::class)->newShare();
 	}
-
 
 	private function mockShareAttributes() {
 		$formattedShareAttributes = [
@@ -258,7 +268,6 @@ class ShareAPIControllerTest extends TestCase {
 		$this->assertInstanceOf(get_class($expected), $result);
 		$this->assertEquals($expected->getData(), $result->getData());
 	}
-
 
 	public function testDeleteShareLocked(): void {
 		$this->expectException(OCSNotFoundException::class);
@@ -774,7 +783,7 @@ class ShareAPIControllerTest extends TestCase {
 		$data['Folder shared with group'] = [$share, $expected, true];
 
 		// File shared by link with Expire
-		$expire = \DateTime::createFromFormat('Y-m-d h:i:s', '2000-01-02 01:02:03');
+		$expire = \DateTime::createFromFormat('Y-m-d H:i:s', '2000-01-02 23:59:59');
 		$share = [
 			'101',
 			IShare::TYPE_LINK,
@@ -796,8 +805,8 @@ class ShareAPIControllerTest extends TestCase {
 		$expected = [
 			'id' => '101',
 			'share_type' => IShare::TYPE_LINK,
-			'password' => 'password',
-			'share_with' => 'password',
+			'password' => 'redacted',
+			'share_with' => 'redacted',
 			'share_with_displayname' => '(Shared link)',
 			'send_password_by_talk' => false,
 			'uid_owner' => 'initiatorId',
@@ -808,7 +817,7 @@ class ShareAPIControllerTest extends TestCase {
 			'file_target' => 'target',
 			'file_parent' => 3,
 			'token' => 'token',
-			'expiration' => '2000-01-02 00:00:00',
+			'expiration' => '2000-01-02 23:59:59',
 			'permissions' => 4,
 			'attributes' => null,
 			'stime' => 5,
@@ -962,7 +971,6 @@ class ShareAPIControllerTest extends TestCase {
 		$data = $ocs->getShare((string)$share->getId())->getData()[0];
 		$this->assertEquals($result, $data);
 	}
-
 
 	public function testGetShareInvalidNode(): void {
 		$this->expectException(OCSNotFoundException::class);
@@ -1832,24 +1840,14 @@ class ShareAPIControllerTest extends TestCase {
 				->with('spreed')
 				->willReturn(true);
 
-			// This is not possible anymore with PHPUnit 10+
-			// as `setMethods` was removed and now real reflection is used, thus the class needs to exist.
-			// $helper = $this->getMockBuilder('\OCA\Talk\Share\Helper\ShareAPIController')
-			$helper = $this->getMockBuilder(\stdClass::class)
-				->addMethods(['canAccessShare'])
-				->getMock();
-			$helper->method('canAccessShare')
+			$this->mockTalkController()
+				->method('canAccessShare')
 				->with($share, $this->currentUser)
 				->willReturn($canAccessShareByHelper);
-
-			$this->serverContainer->method('get')
-				->with('\OCA\Talk\Share\Helper\ShareAPIController')
-				->willReturn($helper);
 		}
 
 		$this->assertEquals($expected, $this->invokePrivate($this->ocs, 'canAccessShare', [$share]));
 	}
-
 
 	public function testCreateShareNoPath(): void {
 		$this->expectException(OCSNotFoundException::class);
@@ -1857,7 +1855,6 @@ class ShareAPIControllerTest extends TestCase {
 
 		$this->ocs->createShare();
 	}
-
 
 	public function testCreateShareInvalidPath(): void {
 		$this->expectException(OCSNotFoundException::class);
@@ -1929,7 +1926,6 @@ class ShareAPIControllerTest extends TestCase {
 
 		$this->ocs->createShare('valid-path', Constants::PERMISSION_ALL, IShare::TYPE_USER);
 	}
-
 
 	public function testCreateShareUserNoValidShareWith(): void {
 		$this->expectException(OCSNotFoundException::class);
@@ -2030,7 +2026,6 @@ class ShareAPIControllerTest extends TestCase {
 		$this->assertInstanceOf(get_class($expected), $result);
 		$this->assertEquals($expected->getData(), $result->getData());
 	}
-
 
 	public function testCreateShareGroupNoValidShareWith(): void {
 		$this->expectException(OCSNotFoundException::class);
@@ -2141,7 +2136,6 @@ class ShareAPIControllerTest extends TestCase {
 		$this->assertEquals($expected->getData(), $result->getData());
 	}
 
-
 	public function testCreateShareGroupNotAllowed(): void {
 		$this->expectException(OCSNotFoundException::class);
 		$this->expectExceptionMessage('Group sharing is disabled by the administrator');
@@ -2169,7 +2163,6 @@ class ShareAPIControllerTest extends TestCase {
 
 		$this->ocs->createShare('valid-path', Constants::PERMISSION_ALL, IShare::TYPE_GROUP, 'invalidGroup');
 	}
-
 
 	public function testCreateShareLinkNoLinksAllowed(): void {
 		$this->expectException(OCSNotFoundException::class);
@@ -2203,7 +2196,6 @@ class ShareAPIControllerTest extends TestCase {
 		$this->ocs->createShare('valid-path', Constants::PERMISSION_ALL, IShare::TYPE_LINK);
 	}
 
-
 	public function testCreateShareLinkNoPublicUpload(): void {
 		$this->expectException(OCSForbiddenException::class);
 		$this->expectExceptionMessage('Public upload disabled by the administrator');
@@ -2227,7 +2219,6 @@ class ShareAPIControllerTest extends TestCase {
 
 		$this->ocs->createShare('valid-path', Constants::PERMISSION_ALL, IShare::TYPE_LINK, null, 'true');
 	}
-
 
 	public function testCreateShareLinkPublicUploadFile(): void {
 		$this->expectException(OCSBadRequestException::class);
@@ -2376,7 +2367,6 @@ class ShareAPIControllerTest extends TestCase {
 		$this->assertEquals($expected->getData(), $result->getData());
 	}
 
-
 	public function testCreateShareLinkSendPasswordByTalkWithTalkDisabled(): void {
 		$this->expectException(OCSForbiddenException::class);
 		$this->expectExceptionMessage('Sharing valid-path sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled');
@@ -2460,7 +2450,6 @@ class ShareAPIControllerTest extends TestCase {
 		$this->assertInstanceOf(get_class($expected), $result);
 		$this->assertEquals($expected->getData(), $result->getData());
 	}
-
 
 	public function testCreateShareInvalidExpireDate(): void {
 		$this->expectException(OCSNotFoundException::class);
@@ -2664,13 +2653,8 @@ class ShareAPIControllerTest extends TestCase {
 			->with('spreed')
 			->willReturn(true);
 
-		// This is not possible anymore with PHPUnit 10+
-		// as `setMethods` was removed and now real reflection is used, thus the class needs to exist.
-		// $helper = $this->getMockBuilder('\OCA\Talk\Share\Helper\ShareAPIController')
-		$helper = $this->getMockBuilder(\stdClass::class)
-			->addMethods(['createShare'])
-			->getMock();
-		$helper->method('createShare')
+		$this->mockTalkController()
+			->method('createShare')
 			->with(
 				$share,
 				'recipientRoom',
@@ -2684,10 +2668,6 @@ class ShareAPIControllerTest extends TestCase {
 					$share->setPermissions(Constants::PERMISSION_ALL);
 				}
 			);
-
-		$this->serverContainer->method('get')
-			->with('\OCA\Talk\Share\Helper\ShareAPIController')
-			->willReturn($helper);
 
 		$this->shareManager->method('createShare')
 			->with($this->callback(function (IShare $share) use ($path) {
@@ -2705,7 +2685,6 @@ class ShareAPIControllerTest extends TestCase {
 		$this->assertInstanceOf(get_class($expected), $result);
 		$this->assertEquals($expected->getData(), $result->getData());
 	}
-
 
 	public function testCreateShareRoomHelperNotAvailable(): void {
 		$this->expectException(OCSForbiddenException::class);
@@ -2742,7 +2721,6 @@ class ShareAPIControllerTest extends TestCase {
 		$ocs->createShare('valid-path', Constants::PERMISSION_ALL, IShare::TYPE_ROOM, 'recipientRoom');
 	}
 
-
 	public function testCreateShareRoomHelperThrowException(): void {
 		$this->expectException(OCSNotFoundException::class);
 		$this->expectExceptionMessage('Exception thrown by the helper');
@@ -2773,13 +2751,8 @@ class ShareAPIControllerTest extends TestCase {
 			->with('spreed')
 			->willReturn(true);
 
-		// This is not possible anymore with PHPUnit 10+
-		// as `setMethods` was removed and now real reflection is used, thus the class needs to exist.
-		// $helper = $this->getMockBuilder('\OCA\Talk\Share\Helper\ShareAPIController')
-		$helper = $this->getMockBuilder(\stdClass::class)
-			->addMethods(['createShare'])
-			->getMock();
-		$helper->method('createShare')
+		$this->mockTalkController()
+			->method('createShare')
 			->with(
 				$share,
 				'recipientRoom',
@@ -2790,10 +2763,6 @@ class ShareAPIControllerTest extends TestCase {
 					throw new OCSNotFoundException('Exception thrown by the helper');
 				}
 			);
-
-		$this->serverContainer->method('get')
-			->with('\OCA\Talk\Share\Helper\ShareAPIController')
-			->willReturn($helper);
 
 		$this->shareManager->expects($this->never())->method('createShare');
 
@@ -2875,7 +2844,6 @@ class ShareAPIControllerTest extends TestCase {
 		$ocs->createShare('valid-path', Constants::PERMISSION_ALL, IShare::TYPE_USER, 'validUser');
 	}
 
-
 	public function testUpdateShareCantAccess(): void {
 		$this->expectException(OCSNotFoundException::class);
 		$this->expectExceptionMessage('Wrong share ID, share does not exist');
@@ -2901,7 +2869,6 @@ class ShareAPIControllerTest extends TestCase {
 		$this->ocs->updateShare(42);
 	}
 
-
 	public function testUpdateNoParametersLink(): void {
 		$this->expectException(OCSBadRequestException::class);
 		$this->expectExceptionMessage('Wrong or no update parameter given');
@@ -2921,7 +2888,6 @@ class ShareAPIControllerTest extends TestCase {
 
 		$this->ocs->updateShare(42);
 	}
-
 
 	public function testUpdateNoParametersOther(): void {
 		$this->expectException(OCSBadRequestException::class);
@@ -3109,7 +3075,6 @@ class ShareAPIControllerTest extends TestCase {
 		$this->assertEquals($expected->getData(), $result->getData());
 	}
 
-
 	public static function publicLinkValidPermissionsProvider() {
 		return [
 			[Constants::PERMISSION_CREATE],
@@ -3268,7 +3233,6 @@ class ShareAPIControllerTest extends TestCase {
 		$ocs->updateShare(42, $permissions, $password, null, $publicUpload, $expireDate);
 	}
 
-
 	public function testUpdateLinkSharePublicUploadOnFile(): void {
 		$this->expectException(OCSBadRequestException::class);
 		$this->expectExceptionMessage('Public upload is only possible for publicly shared folders');
@@ -3412,7 +3376,6 @@ class ShareAPIControllerTest extends TestCase {
 		$this->assertInstanceOf(get_class($expected), $result);
 		$this->assertEquals($expected->getData(), $result->getData());
 	}
-
 
 	public function testUpdateLinkShareSendPasswordByTalkWithTalkDisabledDoesNotChangeOther(): void {
 		$this->expectException(OCSForbiddenException::class);
@@ -4422,8 +4385,8 @@ class ShareAPIControllerTest extends TestCase {
 				'file_source' => 3,
 				'file_parent' => 1,
 				'file_target' => 'myTarget',
-				'password' => 'mypassword',
-				'share_with' => 'mypassword',
+				'password' => 'redacted',
+				'share_with' => 'redacted',
 				'share_with_displayname' => '(Shared link)',
 				'send_password_by_talk' => false,
 				'mail_send' => 0,
@@ -4467,8 +4430,8 @@ class ShareAPIControllerTest extends TestCase {
 				'file_source' => 3,
 				'file_parent' => 1,
 				'file_target' => 'myTarget',
-				'password' => 'mypassword',
-				'share_with' => 'mypassword',
+				'password' => 'redacted',
+				'share_with' => 'redacted',
 				'share_with_displayname' => '(Shared link)',
 				'send_password_by_talk' => true,
 				'mail_send' => 0,
@@ -4505,7 +4468,7 @@ class ShareAPIControllerTest extends TestCase {
 				'permissions' => 1,
 				'stime' => 946684862,
 				'parent' => null,
-				'expiration' => '2001-02-03 00:00:00',
+				'expiration' => '2001-02-03 04:05:06',
 				'token' => null,
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',
@@ -4555,7 +4518,7 @@ class ShareAPIControllerTest extends TestCase {
 				'permissions' => 1,
 				'stime' => 946684862,
 				'parent' => null,
-				'expiration' => '2001-02-03 00:00:00',
+				'expiration' => '2001-02-03 04:05:06',
 				'token' => null,
 				'uid_file_owner' => 'owner',
 				'displayname_file_owner' => 'owner',
@@ -4785,7 +4748,7 @@ class ShareAPIControllerTest extends TestCase {
 				'mail_send' => 0,
 				'mimetype' => 'myFolderMimeType',
 				'has_preview' => false,
-				'password' => 'password',
+				'password' => 'redacted',
 				'send_password_by_talk' => false,
 				'hide_download' => 0,
 				'can_edit' => false,
@@ -4830,7 +4793,7 @@ class ShareAPIControllerTest extends TestCase {
 				'mail_send' => 0,
 				'mimetype' => 'myFolderMimeType',
 				'has_preview' => false,
-				'password' => 'password',
+				'password' => 'redacted',
 				'send_password_by_talk' => true,
 				'hide_download' => 0,
 				'can_edit' => false,
@@ -4942,6 +4905,7 @@ class ShareAPIControllerTest extends TestCase {
 			$expects['attributes'] = \json_encode($shareParams['attributes']);
 		}
 		if (isset($shareParams['node'])) {
+			/** @var Node&MockObject */
 			$node = $this->createMock($shareParams['node']['class']);
 
 			$node->method('getMimeType')->willReturn($shareParams['node']['mimeType']);
@@ -5215,22 +5179,13 @@ class ShareAPIControllerTest extends TestCase {
 				->with('spreed')
 				->willReturn(true);
 
-			// This is not possible anymore with PHPUnit 10+
-			// as `setMethods` was removed and now real reflection is used, thus the class needs to exist.
-			// $helper = $this->getMockBuilder('\OCA\Talk\Share\Helper\ShareAPIController')
-			$helper = $this->getMockBuilder(\stdClass::class)
-				->addMethods(['formatShare', 'canAccessShare'])
-				->getMock();
-			$helper->method('formatShare')
+			$helper = $this->mockTalkController();
+			$helper ->method('formatShare')
 				->with($share)
 				->willReturn($formatShareByHelper);
 			$helper->method('canAccessShare')
 				->with($share)
 				->willReturn(true);
-
-			$this->serverContainer->method('get')
-				->with('\OCA\Talk\Share\Helper\ShareAPIController')
-				->willReturn($helper);
 		}
 
 		$result = $this->invokePrivate($this->ocs, 'formatShare', [$share]);
@@ -5647,5 +5602,22 @@ class ShareAPIControllerTest extends TestCase {
 		$share->expects($this->once())->method('setHideDownload')->with(false);
 
 		$this->invokePrivate($ocs, 'checkInheritedAttributes', [$share]);
+	}
+
+	/**
+	 * Helper to allow testing Talk integration even if Talk
+	 * is not available during tests.
+	 */
+	private function mockTalkController(): MockObject {
+		if (class_exists(\OCA\Talk\Share\Helper\ShareAPIController::class)) {
+			$helper = $this->createMock(\OCA\Talk\Share\Helper\ShareAPIController::class);
+		} else {
+			$helper = $this->createMock(InternalTalkShareAPIController::class);
+		}
+
+		$this->serverContainer->method('get')
+			->with(\OCA\Talk\Share\Helper\ShareAPIController::class)
+			->willReturn($helper);
+		return $helper;
 	}
 }

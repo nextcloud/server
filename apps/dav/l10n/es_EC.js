@@ -167,8 +167,8 @@ OC.L10N.register(
     "Due on %s" : "Vence el %s",
     "WebDAV endpoint" : "Extremo WebDAV",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Tu servidor web aún no esta correctamente configurado para permitir la sincronización de archivos porque la interfaz WebDAV parece estar rota. ",
-    "Migrated calendar (%1$s)" : "Calendario migrado (%1$s)",
     "Calendars including events, details and attendees" : "Calendarios que incluyen eventos, detalles y asistentes",
+    "Migrated calendar (%1$s)" : "Calendario migrado (%1$s)",
     "Contacts and groups" : "Contactos y grupos",
     "WebDAV" : "WebDAV",
     "First day" : "Primer día",
@@ -202,7 +202,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Por favor, contacta directamente al organizador.",
     "Are you accepting the invitation?" : "¿Aceptas la invitación?",
     "Tentative" : "Tentativo",
-    "Your attendance was updated successfully." : "Tu asistencia se actualizó correctamente.",
-    "Time zone:" : "Zona horaria:"
+    "Your attendance was updated successfully." : "Tu asistencia se actualizó correctamente."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

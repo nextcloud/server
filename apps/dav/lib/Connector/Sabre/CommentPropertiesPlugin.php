@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Connector\Sabre;
 
 use OCP\Comments\ICommentsManager;
@@ -42,6 +43,7 @@ class CommentPropertiesPlugin extends ServerPlugin {
 	 * @param \Sabre\DAV\Server $server
 	 * @return void
 	 */
+	#[\Override]
 	public function initialize(\Sabre\DAV\Server $server) {
 		$this->server = $server;
 

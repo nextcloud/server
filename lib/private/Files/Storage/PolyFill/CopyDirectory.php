@@ -5,7 +5,10 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Storage\PolyFill;
+
+use OC\Files\Filesystem;
 
 trait CopyDirectory {
 	/**
@@ -54,7 +57,7 @@ trait CopyDirectory {
 		$dh = $this->opendir($source);
 		$result = true;
 		while (($file = readdir($dh)) !== false) {
-			if (!\OC\Files\Filesystem::isIgnoredDir($file)) {
+			if (!Filesystem::isIgnoredDir($file)) {
 				if ($this->is_dir($source . '/' . $file)) {
 					$this->mkdir($target . '/' . $file);
 					$result = $this->copyRecursive($source . '/' . $file, $target . '/' . $file);

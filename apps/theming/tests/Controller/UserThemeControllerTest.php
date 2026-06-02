@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Theming\Tests\Controller;
 
 use OCA\Theming\AppInfo\Application;
@@ -36,7 +37,6 @@ class UserThemeControllerTest extends TestCase {
 	private ThemingDefaults&MockObject $themingDefaults;
 	private BackgroundService&MockObject $backgroundService;
 	private UserThemeController $userThemeController;
-
 
 	/** @var ITheme[] */
 	private array $themes;

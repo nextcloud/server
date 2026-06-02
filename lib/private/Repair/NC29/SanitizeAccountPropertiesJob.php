@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Repair\NC29;
 
 use InvalidArgumentException;
@@ -35,10 +36,11 @@ class SanitizeAccountPropertiesJob extends QueuedJob {
 		$this->setAllowParallelRuns(false);
 	}
 
+	#[\Override]
 	protected function run(mixed $argument): void {
 		$numRemoved = 0;
 
-		$this->userManager->callForSeenUsers(function (IUser $user) use (&$numRemoved) {
+		$this->userManager->callForSeenUsers(function (IUser $user) use (&$numRemoved): void {
 			$account = $this->accountManager->getAccount($user);
 			$properties = array_keys($account->jsonSerialize());
 

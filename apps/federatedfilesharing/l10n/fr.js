@@ -67,9 +67,6 @@ OC.L10N.register(
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Voulez-vous ajouter le partage distant {name} depuis {owner}@{remote} ?",
     "Remote share password" : "Mot de passe du partage distant",
     "Incoming share could not be processed" : "Le partage entrant n'a pas pu être traité",
-    "Cloud ID copied to the clipboard" : "ID de Cloud Fédéré copié dans le presse-papiers",
-    "Copy to clipboard" : "Copier dans le presse-papiers",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Vous pouvez partager avec quiconque utilise un serveur Nextcloud ou un serveur ou service compatible Open Cloud Mesh (OCM). Renseignez simplement son ID de Cloud Fédéré sur une instance fédérée dans la boîte de dialogue de partage. Cela ressemble à utilisateur@cloud.exemple.com.",
     "X (formerly Twitter)" : "X (anciennement Twitter)",
     "formerly Twitter" : "anciennement Twitter"
 },

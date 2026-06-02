@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\OAuth2\Migration;
 
 use OC\Authentication\Token\IProvider as TokenProvider;
@@ -25,10 +26,12 @@ class SetTokenExpiration implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Update OAuth token expiration times';
 	}
 
+	#[\Override]
 	public function run(IOutput $output) {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->select('*')

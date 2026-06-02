@@ -16,6 +16,7 @@ use OCP\Migration\SimpleMigrationStep;
 
 // Create new tables for the Metadata API (files_metadata and files_metadata_index).
 class Version28000Date20231004103301 extends SimpleMigrationStep {
+	#[\Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();

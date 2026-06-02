@@ -52,6 +52,7 @@ class FileCacheTest extends TestCache {
 		//$this->skipUnless(OC_User::isLoggedIn());
 	}
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -81,6 +82,7 @@ class FileCacheTest extends TestCache {
 		$this->instance->set('hack', 'hack');
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		if ($this->instance) {
 			$this->instance->remove('hack', 'hack');

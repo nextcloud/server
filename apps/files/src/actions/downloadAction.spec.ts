@@ -1,14 +1,14 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { View } from '@nextcloud/files'
+import type { IView } from '@nextcloud/files'
 
 import axios from '@nextcloud/axios'
 import * as dialogs from '@nextcloud/dialogs'
 import * as eventBus from '@nextcloud/event-bus'
-import { DefaultType, File, FileAction, Folder, Permission } from '@nextcloud/files'
+import { DefaultType, File, Folder, Permission } from '@nextcloud/files'
 import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
 import { action } from './downloadAction.ts'
 
@@ -19,7 +19,7 @@ vi.mock('@nextcloud/event-bus')
 const view = {
 	id: 'files',
 	name: 'Files',
-} as View
+} as IView
 
 // Mock webroot variable
 beforeAll(() => {
@@ -28,7 +28,6 @@ beforeAll(() => {
 
 describe('Download action conditions tests', () => {
 	test('Default values', () => {
-		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('download')
 		expect(action.displayName({
 			nodes: [],

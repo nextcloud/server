@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Command;
 
 use OC\Console\TimestampFormatter;
@@ -43,6 +44,7 @@ class Upgrade extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('upgrade')
@@ -55,6 +57,7 @@ class Upgrade extends Command {
 	 * @param InputInterface $input input interface
 	 * @param OutputInterface $output output interface
 	 */
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		if (Util::needUpgrade()) {
 			if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
@@ -132,7 +135,6 @@ class Upgrade extends Command {
 			$dispatcher->addListener(RepairWarningEvent::class, $repairListener);
 			$dispatcher->addListener(RepairErrorEvent::class, $repairListener);
 
-
 			$updater->listen('\OC\Updater', 'maintenanceEnabled', function () use ($output): void {
 				$output->writeln('<info>Turned on maintenance mode</info>');
 			});
@@ -140,7 +142,7 @@ class Upgrade extends Command {
 				$output->writeln('<info>Turned off maintenance mode</info>');
 			});
 			$updater->listen('\OC\Updater', 'maintenanceActive', function () use ($output): void {
-				$output->writeln('<info>Maintenance mode is kept active</info>');
+				$output->writeln('<comment>Maintenance mode is kept active</comment>');
 			});
 			$updater->listen('\OC\Updater', 'updateEnd',
 				function ($success) use ($output, $self): void {

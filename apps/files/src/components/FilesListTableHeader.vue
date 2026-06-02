@@ -9,6 +9,7 @@
 			@keyup.esc.exact="resetSelection">
 			<NcCheckboxRadioSwitch
 				v-bind="selectAllBind"
+				:id="FILES_LIST_HEADER_SELECT_ALL_CHECKBOX_ID"
 				data-cy-files-list-selection-checkbox
 				@update:model-value="onToggleAll" />
 		</th>
@@ -27,7 +28,11 @@
 		</th>
 
 		<!-- Actions -->
-		<th class="files-list__row-actions" />
+		<th class="files-list__row-actions">
+			<span class="hidden-visually">
+				{{ t('files', 'Actions') }}
+			</span>
+		</th>
 
 		<!-- Mime -->
 		<th
@@ -79,14 +84,17 @@ import { t } from '@nextcloud/l10n'
 import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
 import { defineComponent } from 'vue'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import { FILE_LIST_HEAD_FIRST_BATCH_ACTION_ID } from './FilesListTableHeaderActions.vue'
 import FilesListTableHeaderButton from './FilesListTableHeaderButton.vue'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
-import logger from '../logger.ts'
 import filesSortingMixin from '../mixins/filesSorting.ts'
 import { useActiveStore } from '../store/active.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useSelectionStore } from '../store/selection.ts'
+import { logger } from '../utils/logger.ts'
+
+export const FILES_LIST_HEADER_SELECT_ALL_CHECKBOX_ID = 'files-list-header-select-all-checkbox'
 
 export default defineComponent({
 	name: 'FilesListTableHeader',
@@ -137,6 +145,8 @@ export default defineComponent({
 
 			directory,
 			isNarrow,
+
+			FILES_LIST_HEADER_SELECT_ALL_CHECKBOX_ID,
 		}
 	},
 
@@ -196,6 +206,11 @@ export default defineComponent({
 		})
 	},
 
+	mounted() {
+		const selectAllCheckbox = document.getElementById(FILES_LIST_HEADER_SELECT_ALL_CHECKBOX_ID)
+		selectAllCheckbox?.addEventListener('keydown', this.onSelectAllCheckboxFocusOut)
+	},
+
 	methods: {
 		ariaSortForMode(mode: string): 'ascending' | 'descending' | undefined {
 			if (this.sortingMode === mode) {
@@ -229,6 +244,18 @@ export default defineComponent({
 				return
 			}
 			this.selectionStore.reset()
+		},
+
+		onSelectAllCheckboxFocusOut(event: KeyboardEvent) {
+			// If the user tabbed further and we have a batch action to tab to
+			const firstBatchActionButton = document.getElementById(FILE_LIST_HEAD_FIRST_BATCH_ACTION_ID)
+			if (event.code === 'Tab' && !event.shiftKey && !event.metaKey && firstBatchActionButton) {
+				event.preventDefault()
+				event.stopPropagation()
+
+				firstBatchActionButton.focus()
+				logger.debug('Focusing first batch action button')
+			}
 		},
 
 		t,

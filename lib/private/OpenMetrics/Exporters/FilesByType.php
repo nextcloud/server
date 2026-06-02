@@ -61,6 +61,7 @@ class FilesByType extends Cached {
 		$qb = $this->connection->getQueryBuilder()->runAcrossAllShards();
 		$metrics = $qb->select('mimetype', $qb->func()->count('*', 'count'))
 			->from('filecache')
+			->where($qb->expr()->like('path', $qb->createNamedParameter('files/%')))
 			->groupBy('mimetype')
 			->executeQuery();
 

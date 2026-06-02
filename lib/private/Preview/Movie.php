@@ -12,6 +12,7 @@ use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\IConfig;
 use OCP\IImage;
+use OCP\Image;
 use OCP\ITempManager;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
@@ -26,6 +27,7 @@ class Movie extends ProviderV2 {
 		$this->config = Server::get(IConfig::class);
 	}
 
+	#[\Override]
 	public function getMimeType(): string {
 		return '/video\/.*/';
 	}
@@ -33,6 +35,7 @@ class Movie extends ProviderV2 {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function isAvailable(FileInfo $file): bool {
 		if (is_null($this->binary)) {
 			if (isset($this->options['movieBinary'])) {
@@ -62,6 +65,7 @@ class Movie extends ProviderV2 {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
 		// TODO: use proc_open() and stream the source file ?
 
@@ -351,7 +355,7 @@ class Movie extends ProviderV2 {
 		);
 
 		if ($returnCode === 0) {
-			$image = new \OCP\Image();
+			$image = new Image();
 			$image->loadFromFile($tmpPath);
 			if ($image->valid()) {
 				unlink($tmpPath);

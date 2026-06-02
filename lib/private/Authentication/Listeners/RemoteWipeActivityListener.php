@@ -6,9 +6,11 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Authentication\Listeners;
 
 use BadMethodCallException;
+use OC\Authentication\Events\ARemoteWipeEvent;
 use OC\Authentication\Events\RemoteWipeFinished;
 use OC\Authentication\Events\RemoteWipeStarted;
 use OC\Authentication\Token\IToken;
@@ -18,21 +20,16 @@ use OCP\EventDispatcher\IEventListener;
 use Psr\Log\LoggerInterface;
 
 /**
- * @template-implements IEventListener<\OC\Authentication\Events\ARemoteWipeEvent>
+ * @template-implements IEventListener<ARemoteWipeEvent>
  */
 class RemoteWipeActivityListener implements IEventListener {
-	/** @var IActvityManager */
-	private $activityManager;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	public function __construct(IActvityManager $activityManager,
-		LoggerInterface $logger) {
-		$this->activityManager = $activityManager;
-		$this->logger = $logger;
+	public function __construct(
+		private IActvityManager $activityManager,
+		private LoggerInterface $logger,
+	) {
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof RemoteWipeStarted) {
 			$this->publishActivity('remote_wipe_start', $event->getToken());

@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\SystemTag;
 
 use OCP\DB\Exception;
@@ -70,6 +71,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	/**
 	 * {@inheritdoc}
 	 */
+	#[\Override]
 	public function getObjectIdsForTags($tagIds, string $objectType, int $limit = 0, string $offset = ''): array {
 		if (!\is_array($tagIds)) {
 			$tagIds = [$tagIds];
@@ -177,6 +179,12 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	}
 
 	#[Override]
+	public function assignGeneratedByAITag(string $objId, string $objectType) {
+		$tag = $this->tagManager->getGeneratedByAITag();
+		$this->assignTags($objId, $objectType, [$tag->getId()]);
+	}
+
+	#[Override]
 	public function unassignTags(string $objId, string $objectType, $tagIds): void {
 		if (!\is_array($tagIds)) {
 			$tagIds = [$tagIds];
@@ -226,6 +234,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	/**
 	 * {@inheritdoc}
 	 */
+	#[\Override]
 	public function haveTag($objIds, string $objectType, string $tagId, bool $all = true): bool {
 		$this->assertTagsExist([$tagId]);
 
@@ -268,7 +277,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	 *
 	 * @param string[] $tagIds tag ids to check
 	 *
-	 * @throws \OCP\SystemTag\TagNotFoundException if at least one tag did not exist
+	 * @throws TagNotFoundException if at least one tag did not exist
 	 */
 	private function assertTagsExist(array $tagIds): void {
 		$tags = $this->tagManager->getTagsByIds($tagIds);
@@ -290,6 +299,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	/**
 	 * {@inheritdoc}
 	 */
+	#[\Override]
 	public function setObjectIdsForTag(string $tagId, string $objectType, array $objectIds): void {
 		$currentObjectIds = $this->getObjectIdsForTags($tagId, $objectType);
 		$removedObjectIds = array_diff($currentObjectIds, $objectIds);
@@ -363,6 +373,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	/**
 	 * {@inheritdoc}
 	 */
+	#[\Override]
 	public function getAvailableObjectTypes(): array {
 		$query = $this->connection->getQueryBuilder();
 		$query->selectDistinct('objecttype')

@@ -9,6 +9,7 @@
     "<strong>Comments</strong> for files" : "<strong>bình luận</strong> đối với các tệp tin",
     "Files" : "Tệp tin",
     "{user} mentioned you in a comment on \"{file}\"" : "{user}  đã nhắc tới bạn trong một bình luận trên \"{file}\"",
+    "Go to file" : "Tới tập tin",
     "Files app plugin to add comments to files" : "Plugin ứng dụng Tệp để thêm bình luận vào tệp",
     "Edit comment" : "Sửa bình luận",
     "Delete comment" : "Xóa bình luận",

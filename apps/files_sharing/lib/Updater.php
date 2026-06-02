@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing;
 
 use OC\Files\Cache\FileAccess;
@@ -52,6 +53,12 @@ class Updater {
 		try {
 			$src = $userFolder->get($path);
 		} catch (NotFoundException) {
+			return;
+		}
+
+		// if the share itself is being moved, we don't need to do anything,
+		// since incoming shares can't be moved into other shares (and thus also not out of shares)
+		if ($src->getMountPoint() instanceof SharedMount && $src->getInternalPath() === '') {
 			return;
 		}
 

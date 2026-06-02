@@ -4,14 +4,14 @@
  */
 
 import type { AxiosResponse } from '@nextcloud/axios'
-import type { INode } from '@nextcloud/files'
+import type { IFileAction, INode } from '@nextcloud/files'
 import type { IStorage } from '../types.ts'
 
 import LoginSvg from '@mdi/svg/svg/login.svg?raw'
 import axios from '@nextcloud/axios'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
-import { DefaultType, FileAction } from '@nextcloud/files'
+import { DefaultType } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { addPasswordConfirmationInterceptors, PwdConfirmationMode } from '@nextcloud/password-confirmation'
 import { generateUrl } from '@nextcloud/router'
@@ -35,7 +35,7 @@ addPasswordConfirmationInterceptors(axios)
 async function setCredentials(node: INode, login: string, password: string): Promise<null | true> {
 	const configResponse = await axios.request({
 		method: 'PUT',
-		url: generateUrl('apps/files_external/userglobalstorages/{id}', { id: node.attributes.id }),
+		url: generateUrl('apps/files_external/userglobalstorages/{id}', { id: node.id }),
 		confirmPassword: PwdConfirmationMode.Strict,
 		data: {
 			backendOptions: { user: login, password },
@@ -60,7 +60,7 @@ async function setCredentials(node: INode, login: string, password: string): Pro
 
 export const ACTION_CREDENTIALS_EXTERNAL_STORAGE = 'credentials-external-storage'
 
-export const action = new FileAction({
+export const action: IFileAction = {
 	id: ACTION_CREDENTIALS_EXTERNAL_STORAGE,
 	displayName: () => t('files', 'Enter missing credentials'),
 	iconSvgInline: () => LoginSvg,
@@ -104,4 +104,4 @@ export const action = new FileAction({
 	order: -1000,
 	default: DefaultType.DEFAULT,
 	inline: () => true,
-})
+}

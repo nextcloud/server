@@ -19,10 +19,12 @@ use OCP\IAppConfig;
 class TestLexicon_E implements ILexicon {
 	public const APPID = 'lexicon_test_e';
 
+	#[\Override]
 	public function getStrictness(): Strictness {
 		return Strictness::EXCEPTION;
 	}
 
+	#[\Override]
 	public function getAppConfigs(): array {
 		return [
 			new Entry('key1', ValueType::STRING, 'abcde', 'test key', true, IAppConfig::FLAG_SENSITIVE),
@@ -35,6 +37,7 @@ class TestLexicon_E implements ILexicon {
 		];
 	}
 
+	#[\Override]
 	public function getUserConfigs(): array {
 		return [
 			new Entry('key1', ValueType::STRING, 'abcde', 'test key', true, IUserConfig::FLAG_SENSITIVE),

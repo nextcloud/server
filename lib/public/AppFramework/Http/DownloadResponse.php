@@ -5,16 +5,19 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\AppFramework\Http;
 
 use OCP\AppFramework\Http;
+use Symfony\Component\HttpFoundation\HeaderUtils;
+use Symfony\Component\String\UnicodeString;
 
 /**
  * Prompts the user to download the a file
  * @since 7.0.0
- * @template S of Http::STATUS_*
- * @template C of string
- * @template H of array<string, mixed>
+ * @template-covariant S of Http::STATUS_*
+ * @template-covariant C of string
+ * @template-covariant H of array<string, mixed>
  * @template-extends Response<Http::STATUS_*, array<string, mixed>>
  */
 class DownloadResponse extends Response {
@@ -29,9 +32,9 @@ class DownloadResponse extends Response {
 	public function __construct(string $filename, string $contentType, int $status = Http::STATUS_OK, array $headers = []) {
 		parent::__construct($status, $headers);
 
-		$filename = strtr($filename, ['"' => '\\"', '\\' => '\\\\']);
-
-		$this->addHeader('Content-Disposition', 'attachment; filename="' . $filename . '"');
+		$sanitized = str_replace(['/', '\\'], '-', $filename);
+		$fallback = str_replace('%', '', (new UnicodeString($sanitized))->ascii()->toString());
+		$this->addHeader('Content-Disposition', HeaderUtils::makeDisposition(HeaderUtils::DISPOSITION_ATTACHMENT, $sanitized, $fallback));
 		$this->addHeader('Content-Type', $contentType);
 	}
 }

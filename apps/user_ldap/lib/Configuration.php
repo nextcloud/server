@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP;
 
 use OCP\IConfig;
@@ -444,13 +445,9 @@ class Configuration {
 	}
 
 	protected function getValue(string $varName): string {
-		static $defaults;
-		if (is_null($defaults)) {
-			$defaults = $this->getDefaults();
-		}
 		return Server::get(IConfig::class)->getAppValue('user_ldap',
 			$this->configPrefix . $varName,
-			$defaults[$varName]);
+			$this->getDefaults()[$varName]);
 	}
 
 	/**
@@ -571,7 +568,7 @@ class Configuration {
 	 */
 	public function getConfigTranslationArray(): array {
 		//TODO: merge them into one representation
-		static $array = [
+		return [
 			'ldap_host' => 'ldapHost',
 			'ldap_port' => 'ldapPort',
 			'ldap_backup_host' => 'ldapBackupHost',
@@ -644,7 +641,6 @@ class Configuration {
 			'ldap_attr_anniversarydate' => 'ldapAttributeAnniversaryDate',
 			'ldap_attr_pronouns' => 'ldapAttributePronouns',
 		];
-		return $array;
 	}
 
 	/**

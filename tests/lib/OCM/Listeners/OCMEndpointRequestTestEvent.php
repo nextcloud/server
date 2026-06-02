@@ -6,12 +6,15 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace Test\OCM\Listeners;
 
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
+use OCP\OCM\Enum\ParamType;
+use OCP\OCM\Events\OCMEndpointRequestEvent;
 
 /** @template-implements IEventListener<\OCP\OCM\Events\OCMEndpointRequestEvent> */
 class OCMEndpointRequestTestEvent implements IEventListener {
@@ -19,8 +22,9 @@ class OCMEndpointRequestTestEvent implements IEventListener {
 	) {
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
-		if (!($event instanceof \OCP\OCM\Events\OCMEndpointRequestEvent)) {
+		if (!($event instanceof OCMEndpointRequestEvent)) {
 			return;
 		}
 
@@ -36,11 +40,11 @@ class OCMEndpointRequestTestEvent implements IEventListener {
 				'args' => $event->getArgs(),
 				'totalArgs' => $event->getArgsCount(),
 				'typedArgs' => $event->getArgs(
-					\OCP\OCM\Enum\ParamType::STRING,
-					\OCP\OCM\Enum\ParamType::STRING,
-					\OCP\OCM\Enum\ParamType::INT,
-					\OCP\OCM\Enum\ParamType::BOOL,
-					\OCP\OCM\Enum\ParamType::INT
+					ParamType::STRING,
+					ParamType::STRING,
+					ParamType::INT,
+					ParamType::BOOL,
+					ParamType::INT
 				)
 			]
 		));

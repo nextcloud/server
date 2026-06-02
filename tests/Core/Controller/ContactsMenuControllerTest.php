@@ -9,28 +9,29 @@ namespace Tests\Controller;
 
 use OC\Contacts\ContactsMenu\Manager;
 use OC\Core\Controller\ContactsMenuController;
-use OC\Teams\TeamManager;
 use OCP\Contacts\ContactsMenu\IEntry;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\Teams\ITeamManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ContactsMenuControllerTest extends TestCase {
 	private IUserSession&MockObject $userSession;
 	private Manager&MockObject $contactsManager;
-	private TeamManager&MockObject $teamManager;
+	private ITeamManager&MockObject $teamManager;
 
 	private ContactsMenuController $controller;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
 		$request = $this->createMock(IRequest::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->contactsManager = $this->createMock(Manager::class);
-		$this->teamManager = $this->createMock(TeamManager::class);
+		$this->teamManager = $this->createMock(ITeamManager::class);
 
 		$this->controller = new ContactsMenuController(
 			$request,
@@ -86,7 +87,7 @@ class ContactsMenuControllerTest extends TestCase {
 		$this->teamManager->expects($this->once())
 			->method('getMembersOfTeam')
 			->with('team-id', 'current-user')
-			->willReturn(['member1', 'member3']);
+			->willReturn(['member1' => 'Member 1', 'member3' => 'Member 3']);
 
 		$response = $this->controller->index(teamId: 'team-id');
 

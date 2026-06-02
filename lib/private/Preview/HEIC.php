@@ -7,11 +7,13 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 ownCloud GmbH
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Preview;
 
 use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\IImage;
+use OCP\Image;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
 
@@ -24,6 +26,7 @@ class HEIC extends ProviderV2 {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getMimeType(): string {
 		return '/image\/(x-)?hei(f|c)/';
 	}
@@ -31,6 +34,7 @@ class HEIC extends ProviderV2 {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function isAvailable(FileInfo $file): bool {
 		return in_array('HEIC', \Imagick::queryFormats('HEI*'));
 	}
@@ -38,6 +42,7 @@ class HEIC extends ProviderV2 {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
 		if (!$this->isAvailable($file)) {
 			return null;
@@ -57,7 +62,7 @@ class HEIC extends ProviderV2 {
 			$bp = $this->getResizedPreview($tmpPath, $maxX, $maxY);
 			$bp->setFormat('jpg');
 		} catch (\Exception $e) {
-			\OC::$server->get(LoggerInterface::class)->error(
+			Server::get(LoggerInterface::class)->error(
 				'File: ' . $file->getPath() . ' Imagick says:',
 				[
 					'exception' => $e,
@@ -70,7 +75,7 @@ class HEIC extends ProviderV2 {
 		$this->cleanTmpFiles();
 
 		//new bitmap image object
-		$image = new \OCP\Image();
+		$image = new Image();
 		$image->loadFromData((string)$bp);
 		//check if image object is valid
 		return $image->valid() ? $image : null;

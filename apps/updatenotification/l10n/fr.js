@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Channel updated" : "Canal de mise à jour modifié",
     "Web updater is disabled" : "La mise à jour par l'interface Web est désactivée ",
+    "Configuration is read-only" : "La configuration est en lecture seule",
     "App updated" : "Application mise à jour",
     "See what's new" : "Quoi de neuf",
     "{app} updated to version {version}" : "{app} a été mise à jour vers la version {version}",
@@ -24,7 +25,11 @@ OC.L10N.register(
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Veuillez vous assurer que le paramètre <samp>appstoreenabled</samp> n'est pas défini à false dans votre config.php.",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Impossible de se connecter au magasin d'applications ou aucune mise à jour n'est disponible. Recherchez manuellement les mises à jour ou assurez-vous que votre serveur a accès à Internet et peut se connecter au magasin d'applications.",
     "<strong>All</strong> apps have a compatible version for this {productName} version available." : "<strong>Toutes</strong> les applications ont une version compatible avec cette version de {productName}.",
+    "_<strong>%n</strong> app has no compatible version for this {productName} version available._::_<strong>%n</strong> apps have no compatible version for this {productName} version available._" : ["L’application <strong>%n</strong> n’a pas de version compatible pour cette version de {productName}.","Les applications <strong>%n</strong> n’ont pas de version compatible pour cette version de {productName}.","Les applications <strong>%n</strong> n’ont pas de version compatible pour cette version de {productName}."],
     "Enterprise" : "Entreprise",
+    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately." : "Pour une utilisation en entreprise. Fournit toujours le dernier niveau de correctif, mais ne se mettra pas à jour immédiatement vers la prochaine version majeure.",
+    "That update happens once {vendor} has done additional hardening and testing for large-scale and mission-critical deployments." : "Cette mise à jour intervient une fois que {vendor} a réalisé des tests supplémentaires renforcés pour les déploiements à grande échelle et critiques.",
+    "This channel is only available to customers and provides the {enterprise} package." : "Ce canal est uniquement accessible aux clients et propose le forfait {enterprise}.",
     "Stable" : "Stable",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "La version stable la plus récente. Elle est adaptée pour une utilisation régulière et sera toujours mise à jour vers la dernière version majeure.",
     "Beta" : "Beta",
@@ -54,9 +59,6 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "Le canal de mises à jour sélectionné ne supporte pas les mises à jour du serveur.",
     "Changelog for app {app}" : "Journal des modifications pour l'application {app}",
     "What's new in {app} version {version}" : "Quoi de neuf dans {app} version {version}",
-    "{version} is available. Get more information on how to update." : "La version {version} est disponible. Cliquez ici pour plus d’informations sur comment mettre à jour.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Toutes</strong> les applications ont une version compatible avec cette version de Nextcloud.",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> application n'a pas de version compatible pour cette version de Nextcloud disponible.","<strong>%n</strong> applications n'ont pas de version compatible pour cette version de Nextcloud disponible.","<strong>%n</strong> applications n'ont pas de version compatible avec cette version de Nextcloud disponible."],
-    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Pour les entreprises. Fournit toujours le correctif le plus récent, mais ne mettra pas à jour dans la version majeure suivante immédiatement. Cette mise à jour sera effectuée une fois que Nextcloud GmbH aura effectué les renforcements et tests pour permettre un déploiement en production et à grande échelle. Ce canal de mise à jour est seulement disponible pour les clients et fournit le paquet Nextcloud Entreprise."
+    "{version} is available. Get more information on how to update." : "La version {version} est disponible. Cliquez ici pour plus d’informations sur comment mettre à jour."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

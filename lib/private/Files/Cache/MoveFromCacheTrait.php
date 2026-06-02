@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Cache;
 
 use OCP\Files\Cache\ICache;
@@ -30,7 +31,7 @@ trait MoveFromCacheTrait {
 	/**
 	 * Move a file or folder in the cache
 	 *
-	 * @param \OCP\Files\Cache\ICache $sourceCache
+	 * @param ICache $sourceCache
 	 * @param string $sourcePath
 	 * @param string $targetPath
 	 */

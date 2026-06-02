@@ -18,7 +18,6 @@ OC.L10N.register(
     "Failed to send share by email" : "Jaon lähettäminen sähköpostitse epäonnistui",
     "%1$s shared %2$s with you" : "%1$s jakoi kohteen %2$s kanssasi",
     "Note:" : "Huomioi:",
-    "Open %s" : "Avaa %s",
     "%1$s via %2$s" : "%1$s palvelun %2$s kautta",
     "It is protected with the following password:" : "Se on suojattu seuraavalla salasanalla:",
     "This password will expire at %s" : "Tämä salasana vanhenee %s",

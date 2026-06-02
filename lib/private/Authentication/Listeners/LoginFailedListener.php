@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Authentication\Listeners;
 
 use OC\Authentication\Events\LoginFailed;
@@ -18,20 +19,16 @@ use OCP\IUserManager;
 use OCP\Util;
 
 /**
- * @template-implements IEventListener<\OC\Authentication\Events\LoginFailed>
+ * @template-implements IEventListener<LoginFailed>
  */
 class LoginFailedListener implements IEventListener {
-	/** @var IEventDispatcher */
-	private $dispatcher;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	public function __construct(IEventDispatcher $dispatcher, IUserManager $userManager) {
-		$this->dispatcher = $dispatcher;
-		$this->userManager = $userManager;
+	public function __construct(
+		private IEventDispatcher $dispatcher,
+		private IUserManager $userManager,
+	) {
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!($event instanceof LoginFailed)) {
 			return;

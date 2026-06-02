@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Setup;
 
 use OC\DB\Connection;
@@ -14,40 +15,27 @@ use OC\SystemConfig;
 use OCP\IL10N;
 use OCP\Migration\IOutput;
 use OCP\Security\ISecureRandom;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 abstract class AbstractDatabase {
-	/** @var IL10N */
-	protected $trans;
-	/** @var string */
-	protected $dbUser;
-	/** @var string */
-	protected $dbPassword;
-	/** @var string */
-	protected $dbName;
-	/** @var string */
-	protected $dbHost;
-	/** @var string */
-	protected $dbPort;
-	/** @var string */
-	protected $tablePrefix;
-	/** @var SystemConfig */
-	protected $config;
-	/** @var LoggerInterface */
-	protected $logger;
-	/** @var ISecureRandom */
-	protected $random;
-	/** @var bool */
-	protected $tryCreateDbUser;
+	protected string $dbUser;
+	protected string $dbPassword;
+	protected string $dbName;
+	protected string $dbHost;
+	protected string $dbPort;
+	protected string $tablePrefix;
+	protected bool $tryCreateDbUser;
 
-	public function __construct(IL10N $trans, SystemConfig $config, LoggerInterface $logger, ISecureRandom $random) {
-		$this->trans = $trans;
-		$this->config = $config;
-		$this->logger = $logger;
-		$this->random = $random;
+	public function __construct(
+		protected IL10N $trans,
+		protected SystemConfig $config,
+		protected LoggerInterface $logger,
+		protected ISecureRandom $random,
+	) {
 	}
 
-	public function validate($config) {
+	public function validate(array $config): array {
 		$errors = [];
 		if (empty($config['dbuser']) && empty($config['dbname'])) {
 			$errors[] = $this->trans->t('Enter the database Login and name for %s', [$this->dbprettyname]);
@@ -62,7 +50,7 @@ abstract class AbstractDatabase {
 		return $errors;
 	}
 
-	public function initialize($config) {
+	public function initialize(array $config): void {
 		$dbUser = $config['dbuser'];
 		$dbPass = $config['dbpass'];
 		$dbName = $config['dbname'];
@@ -86,6 +74,27 @@ abstract class AbstractDatabase {
 		$this->dbHost = $dbHost;
 		$this->dbPort = $dbPort;
 		$this->tablePrefix = $dbTablePrefix;
+	}
+
+	/**
+	 * Generate a strong random password suitable for database user accounts.
+	 *
+	 * Guarantees at least 2 uppercase, 2 lowercase, 2 digit, and 2 symbol
+	 * characters are present, with symbols filtered to exclude characters
+	 * that are problematic in SQL string contexts (", \, ', `).
+	 *
+	 * @return string A 30-character random password
+	 */
+	protected function generateDbPassword(): string {
+		$safeSymbols = str_replace(['\"', '\\', '\'', '`'], '', ISecureRandom::CHAR_SYMBOLS);
+
+		$password = $this->random->generate(22, ISecureRandom::CHAR_ALPHANUMERIC . $safeSymbols)
+			. $this->random->generate(2, ISecureRandom::CHAR_UPPER)
+			. $this->random->generate(2, ISecureRandom::CHAR_LOWER)
+			. $this->random->generate(2, ISecureRandom::CHAR_DIGITS)
+			. $this->random->generate(2, $safeSymbols);
+
+		return str_shuffle($password);
 	}
 
 	/**
@@ -132,7 +141,7 @@ abstract class AbstractDatabase {
 		if (!is_dir(\OC::$SERVERROOT . '/core/Migrations')) {
 			return;
 		}
-		$ms = new MigrationService('core', \OC::$server->get(Connection::class), $output);
+		$ms = new MigrationService('core', Server::get(Connection::class), $output);
 		$ms->migrate('latest', true);
 	}
 }

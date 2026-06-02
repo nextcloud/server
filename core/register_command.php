@@ -17,9 +17,11 @@ use OC\Core\Command\App\Remove;
 use OC\Core\Command\App\Update;
 use OC\Core\Command\Background\Delete;
 use OC\Core\Command\Background\Job;
+use OC\Core\Command\Background\JobsHistory;
 use OC\Core\Command\Background\JobWorker;
 use OC\Core\Command\Background\ListCommand;
 use OC\Core\Command\Background\Mode;
+use OC\Core\Command\Background\RunningJobs;
 use OC\Core\Command\Broadcast\Test;
 use OC\Core\Command\Check;
 use OC\Core\Command\Config\App\DeleteConfig;
@@ -74,6 +76,10 @@ use OC\Core\Command\Memcache\DistributedDelete;
 use OC\Core\Command\Memcache\DistributedGet;
 use OC\Core\Command\Memcache\DistributedSet;
 use OC\Core\Command\Memcache\RedisCommand;
+use OC\Core\Command\OCM\ActivateKey as OCMActivateKey;
+use OC\Core\Command\OCM\ListKeys as OCMListKeys;
+use OC\Core\Command\OCM\RetireKey as OCMRetireKey;
+use OC\Core\Command\OCM\StageKey as OCMStageKey;
 use OC\Core\Command\Preview\Generate;
 use OC\Core\Command\Preview\ResetRenderedTexts;
 use OC\Core\Command\Router\ListRoutes;
@@ -91,6 +97,7 @@ use OC\Core\Command\SystemTag\Edit;
 use OC\Core\Command\TaskProcessing\EnabledCommand;
 use OC\Core\Command\TaskProcessing\GetCommand;
 use OC\Core\Command\TaskProcessing\Statistics;
+use OC\Core\Command\TaskProcessing\WorkerCommand;
 use OC\Core\Command\TwoFactorAuth\Cleanup;
 use OC\Core\Command\TwoFactorAuth\Enforce;
 use OC\Core\Command\TwoFactorAuth\State;
@@ -143,6 +150,8 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(ListCommand::class));
 	$application->add(Server::get(Delete::class));
 	$application->add(Server::get(JobWorker::class));
+	$application->add(Server::get(RunningJobs::class));
+	$application->add(Server::get(JobsHistory::class));
 
 	$application->add(Server::get(Test::class));
 
@@ -250,11 +259,17 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(SnowflakeDecodeId::class));
 	$application->add(Server::get(Get::class));
 
+	$application->add(Server::get(OCMListKeys::class));
+	$application->add(Server::get(OCMStageKey::class));
+	$application->add(Server::get(OCMActivateKey::class));
+	$application->add(Server::get(OCMRetireKey::class));
+
 	$application->add(Server::get(GetCommand::class));
 	$application->add(Server::get(EnabledCommand::class));
 	$application->add(Server::get(Command\TaskProcessing\ListCommand::class));
 	$application->add(Server::get(Statistics::class));
 	$application->add(Server::get(Command\TaskProcessing\Cleanup::class));
+	$application->add(Server::get(WorkerCommand::class));
 
 	$application->add(Server::get(RedisCommand::class));
 	$application->add(Server::get(DistributedClear::class));

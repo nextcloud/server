@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Trashbin\Command;
 
 use OC\Core\Command\Base;
@@ -58,6 +59,7 @@ class RestoreAllFiles extends Base {
 		$this->l10n = $l10nFactory->get('files_trashbin');
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		parent::configure();
 		$this
@@ -101,6 +103,7 @@ class RestoreAllFiles extends Base {
 			);
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		/** @var string[] $users */
 		$users = $input->getArgument('user_id');

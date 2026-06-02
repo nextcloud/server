@@ -19,7 +19,7 @@ use OC\Files\Storage\Wrapper\Encoding;
 use OC\Files\Storage\Wrapper\PermissionsMask;
 use OC\Files\Storage\Wrapper\Quota;
 use OC\Lockdown\Filesystem\NullStorage;
-use OC\Share\Share;
+use OC\ServerNotAvailableException;
 use OC\Share20\ShareDisableChecker;
 use OC_Hook;
 use OCA\Files_External\Config\ExternalMountPoint;
@@ -42,6 +42,7 @@ use OCP\Files\Events\BeforeFileSystemSetupEvent;
 use OCP\Files\Events\InvalidateMountCacheEvent;
 use OCP\Files\Events\Node\BeforeNodeRenamedEvent;
 use OCP\Files\Events\Node\FilesystemTornDownEvent;
+use OCP\Files\Events\UserHomeSetupEvent;
 use OCP\Files\ISetupManager;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
@@ -49,6 +50,8 @@ use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
+use OCP\HintException;
+use OCP\IAppConfig;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
@@ -70,6 +73,8 @@ class SetupManager implements ISetupManager {
 	private array $setupUsers = [];
 	// List of users for which all mounts are setup
 	private array $setupUsersComplete = [];
+	// List of users for which we've already refreshed the non-authoritative mounts
+	private array $usersMountsUpdated = [];
 	/**
 	 * An array of provider classes that have been set up, indexed by UserUID.
 	 *
@@ -91,6 +96,8 @@ class SetupManager implements ISetupManager {
 	private const SETUP_WITH_CHILDREN = 1;
 	private const SETUP_WITHOUT_CHILDREN = 0;
 
+	private bool $updatingProviders = false;
+
 	public function __construct(
 		private IEventLogger $eventLogger,
 		private MountProviderCollection $mountProviderCollection,
@@ -106,6 +113,7 @@ class SetupManager implements ISetupManager {
 		private ShareDisableChecker $shareDisableChecker,
 		private IAppManager $appManager,
 		private FileAccess $fileAccess,
+		private IAppConfig $appConfig,
 	) {
 		$this->cache = $cacheFactory->createDistributed('setupmanager::');
 		$this->listeningForProviders = false;
@@ -163,7 +171,7 @@ class SetupManager implements ISetupManager {
 			return $storage;
 		});
 
-		$reSharingEnabled = Share::isResharingAllowed();
+		$reSharingEnabled = $this->appConfig->getValueBool('core', 'shareapi_allow_resharing', true);
 		$user = $this->userSession->getUser();
 		$sharingEnabledForUser = $user ? !$this->shareDisableChecker->sharingDisabledForUser($user->getUID()) : true;
 		Filesystem::addStorageWrapper(
@@ -235,12 +243,15 @@ class SetupManager implements ISetupManager {
 	 * Update the cached mounts for all non-authoritative mount providers for a user.
 	 */
 	private function updateNonAuthoritativeProviders(IUser $user): void {
-		// prevent recursion loop from when getting mounts from providers ends up setting up the filesystem
-		static $updatingProviders = false;
-		if ($updatingProviders) {
+		if (isset($this->usersMountsUpdated[$user->getUID()])) {
 			return;
 		}
-		$updatingProviders = true;
+
+		// prevent recursion loop from when getting mounts from providers ends up setting up the filesystem
+		if ($this->updatingProviders) {
+			return;
+		}
+		$this->updatingProviders = true;
 
 		$providers = $this->mountProviderCollection->getProviders();
 		$nonAuthoritativeProviders = array_filter(
@@ -255,7 +266,8 @@ class SetupManager implements ISetupManager {
 		$mount = $this->mountProviderCollection->getUserMountsForProviderClasses($user, $providerNames);
 		$this->userMountCache->registerMounts($user, $mount, $providerNames);
 
-		$updatingProviders = false;
+		$this->usersMountsUpdated[$user->getUID()] = true;
+		$this->updatingProviders = false;
 	}
 
 	#[Override]
@@ -272,7 +284,7 @@ class SetupManager implements ISetupManager {
 		$this->setupUserMountProviders[$user->getUID()] ??= [];
 		$previouslySetupProviders = $this->setupUserMountProviders[$user->getUID()];
 
-		$this->setupForUserWith($user, function () use ($user) {
+		$this->setupForUserWith($user, function () use ($user): void {
 			$this->mountProviderCollection->addMountForUser($user, $this->mountManager, function (
 				string $providerClass,
 			) use ($user) {
@@ -325,6 +337,9 @@ class SetupManager implements ISetupManager {
 				$this->eventLogger->end('fs:setup:user:home:scan');
 			}
 			$this->eventLogger->end('fs:setup:user:home');
+
+			$event = new UserHomeSetupEvent($user, $homeMount);
+			$this->eventDispatcher->dispatchTyped($event);
 		} else {
 			$this->mountManager->addMount(new MountPoint(
 				new NullStorage([]),
@@ -381,13 +396,9 @@ class SetupManager implements ISetupManager {
 	 * Executes the one-time user setup and, if the user can access the
 	 * filesystem, executes $mountCallback.
 	 *
-	 * @param IUser $user
-	 * @param IMountPoint $mounts
-	 * @return void
-	 * @throws \OCP\HintException
-	 * @throws \OC\ServerNotAvailableException
+	 * @throws HintException
+	 * @throws ServerNotAvailableException
 	 * @see self::oneTimeUserSetup()
-	 *
 	 */
 	private function setupForUserWith(IUser $user, callable $mountCallback): void {
 		$this->oneTimeUserSetup($user);
@@ -434,8 +445,8 @@ class SetupManager implements ISetupManager {
 	 * @param string $path
 	 * @return IUser|null
 	 */
-	private function getUserForPath(string $path): ?IUser {
-		if ($path === '' || $path === '/') {
+	private function getUserForPath(string $path, bool $includeChildren = false): ?IUser {
+		if (($path === '' || $path === '/') && !$includeChildren) {
 			return null;
 		} elseif (str_starts_with($path, '/__groupfolders')) {
 			return null;
@@ -456,7 +467,7 @@ class SetupManager implements ISetupManager {
 
 	#[Override]
 	public function setupForPath(string $path, bool $includeChildren = false): void {
-		$user = $this->getUserForPath($path);
+		$user = $this->getUserForPath($path, $includeChildren);
 		if (!$user) {
 			$this->setupRoot();
 			return;
@@ -631,7 +642,7 @@ class SetupManager implements ISetupManager {
 				$this->registerMounts($user, $fullProviderMounts, $currentProviders);
 			}
 
-			$this->setupForUserWith($user, function () use ($fullProviderMounts, $authoritativeMounts) {
+			$this->setupForUserWith($user, function () use ($fullProviderMounts, $authoritativeMounts): void {
 				$allMounts = [...$fullProviderMounts, ...$authoritativeMounts];
 				array_walk($allMounts, $this->mountManager->addMount(...));
 			});
@@ -682,8 +693,13 @@ class SetupManager implements ISetupManager {
 		}
 
 		if (!$providersAreAuthoritative && $this->fullSetupRequired($user)) {
-			$this->setupForUser($user);
-			return;
+			if ($this->optimizeAuthoritativeProviders) {
+				$this->updateNonAuthoritativeProviders($user);
+				$this->markUserMountsCached($user);
+			} else {
+				$this->setupForUser($user);
+				return;
+			}
 		}
 
 		$this->eventLogger->start('fs:setup:user:providers', 'Setup filesystem for ' . implode(', ', $providers));
@@ -715,7 +731,7 @@ class SetupManager implements ISetupManager {
 		}
 
 		$this->registerMounts($user, $mounts, $providers);
-		$this->setupForUserWith($user, function () use ($mounts) {
+		$this->setupForUserWith($user, function () use ($mounts): void {
 			array_walk($mounts, [$this->mountManager, 'addMount']);
 		});
 		$this->eventLogger->end('fs:setup:user:providers');
@@ -728,6 +744,7 @@ class SetupManager implements ISetupManager {
 		$this->setupUserMountProviders = [];
 		$this->setupMountProviderPaths = [];
 		$this->fullSetupRequired = [];
+		$this->usersMountsUpdated = [];
 		$this->rootSetup = false;
 		$this->mountManager->clear();
 		$this->userMountCache->clear();
@@ -742,7 +759,7 @@ class SetupManager implements ISetupManager {
 			$this->listeningForProviders = true;
 			$this->mountProviderCollection->listen('\OC\Files\Config', 'registerMountProvider', function (
 				IMountProvider $provider,
-			) {
+			): void {
 				foreach ($this->setupUsers as $userId) {
 					$user = $this->userManager->get($userId);
 					if ($user) {
@@ -758,16 +775,16 @@ class SetupManager implements ISetupManager {
 		// note that this event handling is intentionally pessimistic
 		// clearing the cache to often is better than not enough
 
-		$this->eventDispatcher->addListener(UserAddedEvent::class, function (UserAddedEvent $event) {
+		$this->eventDispatcher->addListener(UserAddedEvent::class, function (UserAddedEvent $event): void {
 			$this->cache->remove($event->getUser()->getUID());
 		});
-		$this->eventDispatcher->addListener(UserRemovedEvent::class, function (UserRemovedEvent $event) {
+		$this->eventDispatcher->addListener(UserRemovedEvent::class, function (UserRemovedEvent $event): void {
 			$this->cache->remove($event->getUser()->getUID());
 		});
-		$this->eventDispatcher->addListener(ShareCreatedEvent::class, function (ShareCreatedEvent $event) {
+		$this->eventDispatcher->addListener(ShareCreatedEvent::class, function (ShareCreatedEvent $event): void {
 			$this->cache->remove($event->getShare()->getSharedWith());
 		});
-		$this->eventDispatcher->addListener(BeforeNodeRenamedEvent::class, function (BeforeNodeRenamedEvent $event) {
+		$this->eventDispatcher->addListener(BeforeNodeRenamedEvent::class, function (BeforeNodeRenamedEvent $event): void {
 			// update cache information that is cached by mount point
 			$from = rtrim($event->getSource()->getPath(), '/') . '/';
 			$to = rtrim($event->getTarget()->getPath(), '/') . '/';
@@ -778,7 +795,7 @@ class SetupManager implements ISetupManager {
 			}
 		});
 		$this->eventDispatcher->addListener(InvalidateMountCacheEvent::class, function (InvalidateMountCacheEvent $event,
-		) {
+		): void {
 			if ($user = $event->getUser()) {
 				$this->cache->remove($user->getUID());
 			} else {
@@ -794,7 +811,7 @@ class SetupManager implements ISetupManager {
 		];
 
 		foreach ($genericEvents as $genericEvent) {
-			$this->eventDispatcher->addListener($genericEvent, function ($event) {
+			$this->eventDispatcher->addListener($genericEvent, function ($event): void {
 				$this->cache->clear();
 			});
 		}

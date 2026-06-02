@@ -7,7 +7,7 @@
 import type { AdminThemingParameters } from '../../types.d.ts'
 
 import { mdiImageOutline, mdiUndo } from '@mdi/js'
-import axios from '@nextcloud/axios'
+import axios, { isAxiosError } from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
@@ -29,12 +29,13 @@ const emit = defineEmits<{
 
 const isSaving = ref(false)
 const mime = ref(loadState<AdminThemingParameters>('theming', 'adminThemingParameters')[props.name + 'Mime'] as string)
+const cacheKey = ref(Date.now())
 
 const inputElement = useTemplateRef('input')
 
 const background = computed(() => {
 	const baseUrl = generateUrl('/apps/theming/image/{key}', { key: props.name })
-	return `url(${baseUrl}?v=${Date.now()}&m=${encodeURIComponent(mime.value)})`
+	return `url(${baseUrl}?v=${cacheKey.value}&m=${encodeURIComponent(mime.value)})`
 })
 
 /**
@@ -75,9 +76,19 @@ async function onChange() {
 			},
 		})
 		mime.value = file.type
+		cacheKey.value = Date.now()
 		emit('updated')
+	} catch (error) {
+		if (isAxiosError(error) && error.response?.status === 422) {
+			const serverMessage = error.response.data?.data?.message
+			showError(serverMessage || t('theming', 'Failed to upload image'))
+		} else {
+			showError(t('theming', 'Failed to upload image'))
+		}
 	} finally {
 		isSaving.value = false
+		// Reset input to allow re-selecting the same file and show validation errors on every attempt
+		inputElement.value!.value = ''
 	}
 }
 

@@ -59,9 +59,6 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "Odabrani kanal za ažuriranje ne podržava ažuriranja poslužitelja.",
     "Changelog for app {app}" : "Zapis promjena za aplikaciju {app}",
     "What's new in {app} version {version}" : "Što je novo u aplikaciji {app} verzije {version}",
-    "{version} is available. Get more information on how to update." : "{version} je dostupna. Saznajte više informacija o ažuriranju.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Sve</strong> aplikacije imaju dostupnu kompatibilnu verziju za ovu verziju Nextclouda.",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> aplikacija nema dostupnu kompatibilnu verziju za ovu verziju Nextclouda.","<strong>%n</strong> aplikacije nemaju dostupnu kompatibilnu verziju za ovu verziju Nextclouda.","<strong>%n</strong> aplikacije nemaju dostupnu kompatibilnu verziju za ovu verziju Nextclouda."],
-    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Samo za poslovnu primjenu. Uvijek obuhvaća najnoviju razinu zakrpe, ali neće se odmah ažurirati na sljedeće veliko izdanje ili verziju. Ažuriranje se izvršava nakon dodatnih ispitivanja i provjera koje provodi Nextcloud GmbH kako bi osigurao primjereno skaliranje u kritičnim primjenama. Ovaj je kanal dostupan samo kupcima i sadrži paket Nextcloud Enterprise."
+    "{version} is available. Get more information on how to update." : "{version} je dostupna. Saznajte više informacija o ažuriranju."
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

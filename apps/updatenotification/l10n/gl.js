@@ -59,9 +59,6 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "A canle de actualización seleccionada non admite actualizacións do servidor.",
     "Changelog for app {app}" : "Notas da versión para a aplicación {app}",
     "What's new in {app} version {version}" : "Novidades en {app} versión {version}",
-    "{version} is available. Get more information on how to update." : "{version} está dispoñíbel. Obteña máis información sobre como actualizar.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Todas</strong> as aplicacións teñen dispoñíbel unha versión compatíbel para esta versión de Nextcloud.",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> aplicación non ten dispoñíbel unha versión compatíbel para esta versión de Nextcloud.","<strong>%n</strong> aplicacións non teñen dispoñíbel unha versión compatíbel para esta versión de Nextcloud."],
-    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Para uso empresarial. Ofrece sempre o último nivel de parches, pero non se actualizará inmediatamente á seguinte edición principal. Esta actualización prodúcese unha vez que Nextcloud GmbH teña feitas as probas e reforzos para despregaduras a grande escala e de obxectivos críticos. Esta canle só está dispoñíbel para os clientes e fornece o paquete Nextcloud Enterprise."
+    "{version} is available. Get more information on how to update." : "{version} está dispoñíbel. Obteña máis información sobre como actualizar."
 },
 "nplurals=2; plural=(n != 1);");

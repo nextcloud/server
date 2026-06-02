@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Theming\Tests;
 
 use OC\Files\AppData\AppData;
@@ -297,11 +298,9 @@ class IconBuilderTest extends TestCase {
 			$x = $tmp->getImageWidth();
 			$y = $tmp->getImageHeight();
 			$tmp->destroy();
-			// set resolution for proper scaling
-			$resX = (int)(72 * $size / $x);
-			$resY = (int)(72 * $size / $y);
+			$res = (int)(72 * $size / max($x, $y));
 			$appIconFile->setBackgroundColor(new \ImagickPixel('transparent'));
-			$appIconFile->setResolution($resX, $resY);
+			$appIconFile->setResolution($res, $res);
 			$appIconFile->readImageBlob($svgContent);
 		} else {
 			$appIconFile->readImage($filePath);

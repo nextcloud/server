@@ -179,7 +179,6 @@ OC.L10N.register(
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Η αλλαγή της κατάστασης θα ενεργοποιήσει αυτόματα ερωτήματα LDAP. Ανάλογα με το μέγεθος του LDAP αυτό μπορεί να διαρκέσει αρκετά. Θέλετε ακόμη να αλλάξετε κατάσταση λειτουργίας;",
     "Confirm" : "Επιβεβαίωση",
     "Failed to delete the server configuration" : "Αποτυχία διαγραφής ρυθμίσεων διακομιστή",
-    "Invalid configuration. Please have a look at the logs for further details." : "Μη έγκυρη διαμόρφωση. Παρακαλώ ρίξτε μια ματιά στα αρχεία καταγραφής για περισσότερες λεπτομέρειες.",
     "No action specified" : "Καμμία εντολή δεν προσδιορίστηκε",
     "No configuration specified" : "Καμμία διαμόρφωση δεν προσδιορίστηκε",
     "No data specified" : "Δεν προσδιορίστηκαν δεδομένα",

@@ -21,6 +21,7 @@ class DistributedGet extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('memcache:distributed:get')
@@ -29,6 +30,7 @@ class DistributedGet extends Base {
 		parent::configure();
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$cache = $this->cacheFactory->createDistributed();
 		$key = $input->getArgument('key');

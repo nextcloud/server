@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Lib\Storage;
 
 use OC\Files\Storage\DAV;
@@ -57,6 +58,7 @@ class OwnCloud extends DAV implements IDisableEncryptionStorage {
 		parent::__construct($parameters);
 	}
 
+	#[\Override]
 	public function needsPartFile(): bool {
 		return false;
 	}

@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Upload;
 
 use OCP\Files\IRootFolder;
@@ -26,11 +27,13 @@ class RootCollection extends AbstractPrincipalCollection {
 		private IManager $shareManager,
 	) {
 		parent::__construct($principalBackend, $principalPrefix);
+		$this->disableListing = true;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getChildForPrincipal(array $principalInfo): UploadHome {
 		return new UploadHome(
 			$principalInfo,
@@ -44,6 +47,7 @@ class RootCollection extends AbstractPrincipalCollection {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getName(): string {
 		return 'uploads';
 	}

@@ -41,7 +41,7 @@ import DropdownIcon from 'vue-material-design-icons/TriangleSmallDown.vue'
 import IconTune from 'vue-material-design-icons/Tune.vue'
 import {
 	ATOMIC_PERMISSIONS,
-	BUNDLED_PERMISSIONS,
+	getBundledPermissions,
 } from '../lib/SharePermissionsToolBox.js'
 import ShareDetails from '../mixins/ShareDetails.js'
 import SharesMixin from '../mixins/SharesMixin.js'
@@ -93,14 +93,19 @@ export default {
 			return t('files_sharing', 'Custom permissions')
 		},
 
+		bundledPermissions() {
+			return getBundledPermissions(this.config.excludeReshareFromEdit)
+		},
+
 		preSelectedOption() {
 			// We remove the share permission for the comparison as it is not relevant for bundled permissions.
 			const permissionsWithoutShare = this.share.permissions & ~ATOMIC_PERMISSIONS.SHARE
-			if (permissionsWithoutShare === BUNDLED_PERMISSIONS.READ_ONLY) {
+			const basePermissions = getBundledPermissions(true)
+			if (permissionsWithoutShare === basePermissions.READ_ONLY) {
 				return this.canViewText
-			} else if (permissionsWithoutShare === BUNDLED_PERMISSIONS.ALL || permissionsWithoutShare === BUNDLED_PERMISSIONS.ALL_FILE) {
+			} else if (permissionsWithoutShare === basePermissions.ALL || permissionsWithoutShare === basePermissions.ALL_FILE) {
 				return this.canEditText
-			} else if (permissionsWithoutShare === BUNDLED_PERMISSIONS.FILE_DROP) {
+			} else if (permissionsWithoutShare === basePermissions.FILE_DROP) {
 				return this.fileDropText
 			}
 
@@ -140,14 +145,14 @@ export default {
 		dropDownPermissionValue() {
 			switch (this.selectedOption) {
 				case this.canEditText:
-					return this.isFolder ? BUNDLED_PERMISSIONS.ALL : BUNDLED_PERMISSIONS.ALL_FILE
+					return this.isFolder ? this.bundledPermissions.ALL : this.bundledPermissions.ALL_FILE
 				case this.fileDropText:
-					return BUNDLED_PERMISSIONS.FILE_DROP
+					return this.bundledPermissions.FILE_DROP
 				case this.customPermissionsText:
 					return 'custom'
 				case this.canViewText:
 				default:
-					return BUNDLED_PERMISSIONS.READ_ONLY
+					return this.bundledPermissions.READ_ONLY
 			}
 		},
 	},

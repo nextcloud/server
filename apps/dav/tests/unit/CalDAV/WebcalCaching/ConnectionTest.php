@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV\WebcalCaching;
 
 use OCA\DAV\CalDAV\WebcalCaching\Connection;
@@ -15,7 +16,6 @@ use OCP\Http\Client\LocalServerException;
 use OCP\IAppConfig;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
-
 use Test\TestCase;
 
 class ConnectionTest extends TestCase {

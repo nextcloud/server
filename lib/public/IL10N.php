@@ -74,7 +74,6 @@ interface IL10N {
 	 */
 	public function l(string $type, $data, array $options = []);
 
-
 	/**
 	 * The code (en, de, ...) of the language that is used for this IL10N object
 	 *

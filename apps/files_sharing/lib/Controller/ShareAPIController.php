@@ -78,6 +78,7 @@ use Psr\Log\LoggerInterface;
 class ShareAPIController extends OCSController {
 
 	private ?Node $lockedNode = null;
+	/** @var array<bool> $trustedServerCache */
 	private array $trustedServerCache = [];
 
 	/**
@@ -236,8 +237,12 @@ class ShareAPIController extends OCSController {
 		$expiration = $share->getExpirationDate();
 		if ($expiration !== null) {
 			$expiration->setTimezone($this->dateTimeZone->getTimeZone());
-			$result['expiration'] = $expiration->format('Y-m-d 00:00:00');
+			$result['expiration'] = $expiration->format('Y-m-d H:i:s');
 		}
+
+		$currentUserPermissions = $recipientNode?->getPermissions() ?? Constants::PERMISSION_ALL;
+		$userHasEnoughPermissions = ($currentUserPermissions & $share->getPermissions()) === $share->getPermissions();
+		$token = $userHasEnoughPermissions ? $share->getToken() : null;
 
 		if ($share->getShareType() === IShare::TYPE_USER) {
 			$sharedWith = $this->userManager->get($share->getSharedWith());
@@ -264,33 +269,34 @@ class ShareAPIController extends OCSController {
 			$result['share_with'] = $share->getSharedWith();
 			$result['share_with_displayname'] = $group !== null ? $group->getDisplayName() : $share->getSharedWith();
 		} elseif ($share->getShareType() === IShare::TYPE_LINK) {
+			$url = $token ? $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.showShare', ['token' => $token]) : null;
 
 			// "share_with" and "share_with_displayname" for passwords of link
 			// shares was deprecated in Nextcloud 15, use "password" instead.
-			$result['share_with'] = $share->getPassword();
+			$result['share_with'] = $this->formatPasswordField($share->getPassword());
 			$result['share_with_displayname'] = '(' . $this->l->t('Shared link') . ')';
 
-			$result['password'] = $share->getPassword();
+			$result['password'] = $this->formatPasswordField($share->getPassword());
 
 			$result['send_password_by_talk'] = $share->getSendPasswordByTalk();
 
-			$result['token'] = $share->getToken();
-			$result['url'] = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.showShare', ['token' => $share->getToken()]);
+			$result['token'] = $token;
+			$result['url'] = $url;
 		} elseif ($share->getShareType() === IShare::TYPE_REMOTE) {
 			$result['share_with'] = $share->getSharedWith();
 			$result['share_with_displayname'] = $this->getCachedFederatedDisplayName($share->getSharedWith());
-			$result['token'] = $share->getToken();
+			$result['token'] = $token;
 		} elseif ($share->getShareType() === IShare::TYPE_REMOTE_GROUP) {
 			$result['share_with'] = $share->getSharedWith();
 			$result['share_with_displayname'] = $this->getDisplayNameFromAddressBook($share->getSharedWith(), 'CLOUD');
-			$result['token'] = $share->getToken();
+			$result['token'] = $token;
 		} elseif ($share->getShareType() === IShare::TYPE_EMAIL) {
 			$result['share_with'] = $share->getSharedWith();
-			$result['password'] = $share->getPassword();
+			$result['password'] = $this->formatPasswordField($share->getPassword());
 			$result['password_expiration_time'] = $share->getPasswordExpirationTime() !== null ? $share->getPasswordExpirationTime()->format(\DateTime::ATOM) : null;
 			$result['send_password_by_talk'] = $share->getSendPasswordByTalk();
 			$result['share_with_displayname'] = $this->getDisplayNameFromAddressBook($share->getSharedWith(), 'EMAIL');
-			$result['token'] = $share->getToken();
+			$result['token'] = $token;
 		} elseif ($share->getShareType() === IShare::TYPE_CIRCLE) {
 			// getSharedWith() returns either "name (type, owner)" or
 			// "name (type, owner) [id]", depending on the Teams app version.
@@ -333,7 +339,6 @@ class ShareAPIController extends OCSController {
 			}
 		}
 
-
 		$result['mail_send'] = $share->getMailSend() ? 1 : 0;
 		$result['hide_download'] = $share->getHideDownload() ? 1 : 0;
 
@@ -343,6 +348,10 @@ class ShareAPIController extends OCSController {
 		}
 
 		return $result;
+	}
+
+	private function formatPasswordField(?string $password): ?string {
+		return ($password === null) ? null : 'redacted';
 	}
 
 	/**
@@ -379,7 +388,6 @@ class ShareAPIController extends OCSController {
 
 		return $query;
 	}
-
 
 	/**
 	 * @param list<Files_SharingShare> $shares
@@ -422,7 +430,6 @@ class ShareAPIController extends OCSController {
 		return $this->fixMissingDisplayName($shares, $displayNames);
 	}
 
-
 	/**
 	 * get displayName of a list of userIds from the lookup-server; through the globalsiteselector app.
 	 * returns an array with userIds as keys and displayName as values.
@@ -454,7 +461,6 @@ class ShareAPIController extends OCSController {
 		return $slaveService->getUsersDisplayName($userIds, $cacheOnly);
 	}
 
-
 	/**
 	 * retrieve displayName from cache if available (should be used on federated shares)
 	 * if not available in cache/lus, try for get from address-book, else returns empty string.
@@ -473,8 +479,6 @@ class ShareAPIController extends OCSController {
 		$displayName = $this->getDisplayNameFromAddressBook($userId, 'CLOUD');
 		return ($displayName === $userId) ? '' : $displayName;
 	}
-
-
 
 	/**
 	 * Get a specific share by id
@@ -1127,7 +1131,6 @@ class ShareAPIController extends OCSController {
 
 		return $formatted;
 	}
-
 
 	/**
 	 * Get all shares relative to a file, including parent folders shares rights
@@ -1787,7 +1790,7 @@ class ShareAPIController extends OCSController {
 			throw new QueryException();
 		}
 
-		return $this->serverContainer->get('\OCA\Talk\Share\Helper\ShareAPIController');
+		return $this->serverContainer->get(\OCA\Talk\Share\Helper\ShareAPIController::class);
 	}
 
 	/**
@@ -1871,7 +1874,6 @@ class ShareAPIController extends OCSController {
 		return $shares;
 	}
 
-
 	/**
 	 * @param Node $node
 	 *
@@ -1882,7 +1884,6 @@ class ShareAPIController extends OCSController {
 			throw new SharingRightsException($this->l->t('No sharing rights on this item'));
 		}
 	}
-
 
 	/**
 	 * @param string $viewer
@@ -1909,7 +1910,6 @@ class ShareAPIController extends OCSController {
 
 		return false;
 	}
-
 
 	/**
 	 * Returns if we can find resharing rights in an IShare object for a specific user.
@@ -2009,7 +2009,6 @@ class ShareAPIController extends OCSController {
 
 		return array_merge($userShares, $groupShares, $linkShares, $mailShares, $circleShares, $roomShares, $deckShares, $federatedShares, $federatedGroupShares);
 	}
-
 
 	/**
 	 * merging already formatted shares.

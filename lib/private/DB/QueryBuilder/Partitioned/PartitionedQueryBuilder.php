@@ -75,6 +75,7 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 	}
 
 	// we need to save selects until we know all the table aliases
+	#[\Override]
 	public function select(...$selects) {
 		if (count($selects) === 1 && is_array($selects[0])) {
 			$selects = $selects[0];
@@ -84,6 +85,7 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 		return $this;
 	}
 
+	#[\Override]
 	public function addSelect(...$select) {
 		$select = array_map(function ($select) {
 			return ['select' => $select, 'alias' => null];
@@ -92,7 +94,8 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 		return $this;
 	}
 
-	public function selectAlias($select, $alias) {
+	#[\Override]
+	public function selectAlias($select, $alias): self {
 		$this->selects[] = ['select' => $select, 'alias' => $alias];
 		return $this;
 	}
@@ -176,7 +179,6 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 		$this->selects = [];
 	}
 
-
 	public function addPartition(PartitionSplit $partition): void {
 		$this->partitions[] = $partition;
 	}
@@ -190,6 +192,7 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 		return null;
 	}
 
+	#[\Override]
 	public function from($from, $alias = null) {
 		if (is_string($from) && $partition = $this->getPartition($from)) {
 			$this->mainPartition = $partition;
@@ -200,14 +203,17 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 		return parent::from($from, $alias);
 	}
 
+	#[\Override]
 	public function innerJoin($fromAlias, $join, $alias, $condition = null): self {
 		return $this->join($fromAlias, $join, $alias, $condition);
 	}
 
+	#[\Override]
 	public function leftJoin($fromAlias, $join, $alias, $condition = null): self {
 		return $this->join($fromAlias, $join, $alias, $condition, PartitionQuery::JOIN_MODE_LEFT);
 	}
 
+	#[\Override]
 	public function join($fromAlias, $join, $alias, $condition = null, $joinMode = PartitionQuery::JOIN_MODE_INNER): self {
 		if ($join instanceof IQueryFunction) {
 			$partition = null;
@@ -333,10 +339,12 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 		return $partitionPredicates;
 	}
 
+	#[\Override]
 	public function where(...$predicates) {
 		return $this->andWhere(...$predicates);
 	}
 
+	#[\Override]
 	public function andWhere(...$where) {
 		if ($where) {
 			foreach ($this->splitPredicatesByParts($where) as $alias => $predicates) {
@@ -366,7 +374,6 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 		return $this;
 	}
 
-
 	private function getPartitionForPredicate(string $predicate): ?PartitionSplit {
 		foreach ($this->partitions as $partition) {
 
@@ -380,18 +387,22 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 		return null;
 	}
 
+	#[\Override]
 	public function update($update = null, $alias = null) {
 		return parent::update($update, $alias);
 	}
 
+	#[\Override]
 	public function insert($insert = null) {
 		return parent::insert($insert);
 	}
 
+	#[\Override]
 	public function delete($delete = null, $alias = null) {
 		return parent::delete($delete, $alias);
 	}
 
+	#[\Override]
 	public function setMaxResults($maxResults) {
 		if ($maxResults > 0) {
 			$this->limit = (int)$maxResults;
@@ -399,6 +410,7 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 		return parent::setMaxResults($maxResults);
 	}
 
+	#[\Override]
 	public function setFirstResult($firstResult) {
 		if ($firstResult > 0) {
 			$this->offset = (int)$firstResult;
@@ -406,6 +418,7 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 		return parent::setFirstResult($firstResult);
 	}
 
+	#[\Override]
 	public function executeQuery(?IDBConnection $connection = null): IResult {
 		$this->applySelects();
 		if ($this->splitQueries && $this->hasPositionalParameter) {
@@ -437,6 +450,7 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 		}
 	}
 
+	#[\Override]
 	public function executeStatement(?IDBConnection $connection = null): int {
 		if (count($this->splitQueries)) {
 			throw new InvalidPartitionedQueryException("Partitioning write queries isn't supported");
@@ -444,6 +458,7 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 		return parent::executeStatement($connection);
 	}
 
+	#[\Override]
 	public function getSQL() {
 		$this->applySelects();
 		return parent::getSQL();
@@ -453,6 +468,7 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 		return count($this->splitQueries) + 1;
 	}
 
+	#[\Override]
 	public function hintShardKey(string $column, mixed $value, bool $overwrite = false): self {
 		if (str_contains($column, '.')) {
 			[$alias, $column] = explode('.', $column);

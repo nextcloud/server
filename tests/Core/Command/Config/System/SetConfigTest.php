@@ -27,6 +27,7 @@ class SetConfigTest extends TestCase {
 	/** @var \Symfony\Component\Console\Command\Command */
 	protected $command;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -39,7 +40,6 @@ class SetConfigTest extends TestCase {
 		/** @var SystemConfig $systemConfig */
 		$this->command = new SetConfig($systemConfig, new CastHelper());
 	}
-
 
 	public static function dataTest() {
 		return [

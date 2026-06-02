@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files\Command;
 
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -24,6 +25,7 @@ class RepairTree extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('files:repair-tree')
@@ -33,6 +35,7 @@ class RepairTree extends Command {
 			->addOption('path', 'p', InputOption::VALUE_OPTIONAL, 'If set, only repair files within the given path', null);
 	}
 
+	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$rows = $this->findBrokenTreeBits(
 			$input->getOption('storage-id'),

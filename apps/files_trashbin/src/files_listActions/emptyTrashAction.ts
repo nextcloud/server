@@ -1,10 +1,12 @@
-/**
+/*
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+import type { IFileListAction } from '@nextcloud/files'
+
 import { getDialogBuilder } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
-import { FileListAction } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import { TRASHBIN_VIEW_ID } from '../files_views/trashbinView.ts'
@@ -14,7 +16,7 @@ export type FilesTrashbinConfigState = {
 	allow_delete: boolean
 }
 
-export const emptyTrashAction = new FileListAction({
+export const emptyTrashAction: IFileListAction = {
 	id: 'empty-trash',
 
 	displayName: () => t('files_trashbin', 'Empty deleted files'),
@@ -67,4 +69,4 @@ export const emptyTrashAction = new FileListAction({
 
 		return null
 	},
-})
+}

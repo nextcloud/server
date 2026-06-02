@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\DB\QueryBuilder;
 
 use Doctrine\DBAL\ArrayParameterType;
@@ -386,7 +387,7 @@ interface IQueryBuilder {
 	 * @psalm-taint-sink sql $select
 	 * @psalm-taint-sink sql $alias
 	 */
-	public function selectAlias($select, $alias);
+	public function selectAlias($select, $alias): self;
 
 	/**
 	 * Specifies an item that is to be returned uniquely in the query result.
@@ -1093,4 +1094,12 @@ interface IQueryBuilder {
 	 * @since 30.0.0
 	 */
 	public function getOutputColumns(): array;
+
+	/**
+	 * Locks the queried rows for a subsequent update.
+	 *
+	 * @return $this
+	 * @since 33.0.0
+	 */
+	public function forUpdate(ConflictResolutionMode $conflictResolutionMode = ConflictResolutionMode::Ordinary): self;
 }

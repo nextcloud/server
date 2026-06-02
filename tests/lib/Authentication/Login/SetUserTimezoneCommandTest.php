@@ -20,6 +20,7 @@ class SetUserTimezoneCommandTest extends ALoginTestCommand {
 
 	private ISession&MockObject $session;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

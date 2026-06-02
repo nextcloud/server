@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OC\Preview;
 
 class EMF extends Office {
+	#[\Override]
 	public function getMimeType(): string {
 		return '/image\/emf/';
 	}

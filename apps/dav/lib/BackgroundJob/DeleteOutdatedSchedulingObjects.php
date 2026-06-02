@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\BackgroundJob;
 
 use OCA\DAV\CalDAV\CalDavBackend;
@@ -27,6 +28,7 @@ class DeleteOutdatedSchedulingObjects extends TimedJob {
 	/**
 	 * @param array $argument
 	 */
+	#[\Override]
 	protected function run($argument): void {
 		$time = $this->time->getTime() - (60 * 60);
 		$this->calDavBackend->deleteOutdatedSchedulingObjects($time, 50000);

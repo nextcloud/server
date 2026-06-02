@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\App;
 
 use OCP\IGroup;
@@ -16,6 +17,8 @@ use OCP\IUser;
  * @warning This interface shouldn't be included with dependency injection in
  *          classes used for installing Nextcloud.
  *
+ * @psalm-import-type AppInfoDefinition from AppInfoDefinition
+ * @psalm-import-type AppInfoXmlDefinition from AppInfoDefinition
  * @since 8.0.0
  */
 interface IAppManager {
@@ -28,15 +31,18 @@ interface IAppManager {
 	 * Returns the app information from "appinfo/info.xml" for an app
 	 *
 	 * @param string|null $lang
-	 * @return array|null
+	 * @return AppInfoDefinition|AppInfoXmlDefinition|null
+	 * @psalm-return ($lang is null ? (AppInfoXmlDefinition|null) : (AppInfoDefinition|null))
 	 * @since 14.0.0
 	 * @since 31.0.0 Usage of $path is discontinued and throws an \InvalidArgumentException, use {@see self::getAppInfoByPath} instead.
 	 */
-	public function getAppInfo(string $appId, bool $path = false, $lang = null);
+	public function getAppInfo(string $appId, bool $path = false, $lang = null): ?array;
 
 	/**
 	 * Returns the app information from a given path ending with "/appinfo/info.xml"
 	 *
+	 * @return AppInfoDefinition|AppInfoXmlDefinition|null
+	 * @psalm-return ($lang is null ? (AppInfoXmlDefinition|null) : (AppInfoDefinition|null))
 	 * @since 31.0.0
 	 */
 	public function getAppInfoByPath(string $path, ?string $lang = null): ?array;
@@ -200,7 +206,9 @@ interface IAppManager {
 	public function getInstalledApps();
 
 	/**
-	 * List all apps enabled, either for everyone or for specific groups only
+	 * List all apps enabled
+	 *
+	 * Including apps enabled for everyone and also including apps only enabled for specific groups.
 	 *
 	 * @return list<string>
 	 * @since 32.0.0
@@ -223,20 +231,19 @@ interface IAppManager {
 	/**
 	 * Loads all apps
 	 *
-	 * @param string[] $types
-	 * @return bool
-	 *
 	 * This function walks through the Nextcloud directory and loads all apps
 	 * it can find. A directory contains an app if the file `/appinfo/info.xml`
 	 * exists.
 	 *
-	 * if $types is set to non-empty array, only apps of those types will be loaded
+	 * @param string[] $types - If set, only apps of these types will be loaded
 	 * @since 27.0.0
 	 */
 	public function loadApps(array $types = []): bool;
 
 	/**
 	 * Check if an app is of a specific type
+	 *
+	 * @param string[] $types - The types to check for
 	 * @since 27.0.0
 	 */
 	public function isType(string $app, array $types): bool;
@@ -373,4 +380,18 @@ interface IAppManager {
 	 * @since 32.0.0
 	 */
 	public function isAppCompatible(string $serverVersion, array $appInfo, bool $ignoreMax = false): bool;
+
+	/**
+	 * Get the app namespace
+	 *
+	 * @since 34.0.0
+	 */
+	public function getAppNamespace(string $appId): string;
+
+	/**
+	 * Get the app id for this namespace
+	 *
+	 * @since 34.0.0
+	 */
+	public function getAppFromNamespace(string $className): ?string;
 }

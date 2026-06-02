@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace Test;
 
 use InvalidArgumentException;
@@ -98,6 +99,7 @@ class AppConfigIntegrationTest extends TestCase {
 			]
 		];
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -157,6 +159,7 @@ class AppConfigIntegrationTest extends TestCase {
 		}
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$sql = $this->connection->getQueryBuilder();
 		$sql->delete('appconfig');
@@ -556,7 +559,6 @@ class AppConfigIntegrationTest extends TestCase {
 		$config->getValueArray('typed', 'string');
 	}
 
-
 	/**
 	 * @return array
 	 * @see testGetValueType
@@ -801,7 +803,6 @@ class AppConfigIntegrationTest extends TestCase {
 		$config->clearCache();
 		$this->assertSame(false, $config->getValueBool('feed', 'bool', true));
 	}
-
 
 	public function testSetValueArray(): void {
 		$config = $this->generateAppConfig();
@@ -1152,7 +1153,6 @@ class AppConfigIntegrationTest extends TestCase {
 		$config->setValueArray('feed', 'array', ['test' => 1], true);
 		$this->assertSame(['test' => 1], $config->getValueArray('feed', 'array', [], true));
 	}
-
 
 	public function testSetSensitiveValueArray(): void {
 		$config = $this->generateAppConfig();

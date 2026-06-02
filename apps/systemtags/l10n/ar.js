@@ -108,10 +108,6 @@ OC.L10N.register(
     "Failed to delete tag for file" : "تعذّر حذف وسم من على ملف",
     "Collaborative tags …" : "وسوم تعاونية...",
     "Loading …" : "التحميل جارٍ …",
-    "File tags modification canceled" : "تمّ إلغاء تعديل وسوم الملف",
-    "Select or create tags to apply to all selected files" : "إختيار أو إنشاء وسوم لتطبيقها على جميع الملفات المحددة",
-    "Select tags to apply to all selected files" : "إختَر وسوماً لإضافتها لجميع الملفات المُحدَّدة",
-    "Apply changes" : "تطبيق التغييرات",
     "Loading collaborative tags …" : "تحميل الوسوم التعاونية ..."
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

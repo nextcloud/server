@@ -40,7 +40,6 @@
 				ref="name"
 				:basename="basename"
 				:extension="extension"
-				:nodes="nodes"
 				:source="source"
 				@auxclick.native="execDefaultAction"
 				@click.native="execDefaultAction" />
@@ -99,7 +98,7 @@
 			<CustomElementRender
 				:active-folder="activeFolder"
 				:active-view="activeView"
-				:render="column.render"
+				:render="adaptColumnRenderToCustomElementRender(column)"
 				:source="source" />
 		</td>
 	</tr>
@@ -109,6 +108,7 @@
 import { FileType, formatFileSize } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
+import { storeToRefs } from 'pinia'
 import { defineComponent } from 'vue'
 import NcDateTime from '@nextcloud/vue/components/NcDateTime'
 import CustomElementRender from './CustomElementRender.vue'
@@ -116,6 +116,7 @@ import FileEntryActions from './FileEntry/FileEntryActions.vue'
 import FileEntryCheckbox from './FileEntry/FileEntryCheckbox.vue'
 import FileEntryName from './FileEntry/FileEntryName.vue'
 import FileEntryPreview from './FileEntry/FileEntryPreview.vue'
+import { useFileActions } from '../composables/useFileActions.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
@@ -165,20 +166,26 @@ export default defineComponent({
 			fileId: currentRouteFileId,
 		} = useRouteParameters()
 
+		const activeStore = useActiveStore()
 		const {
 			activeFolder,
 			activeNode,
 			activeView,
-		} = useActiveStore()
+		} = storeToRefs(activeStore)
+
+		const actions = useFileActions()
 
 		return {
-			actionsMenuStore,
+			actions,
 			activeFolder,
 			activeNode,
 			activeView,
 			currentRouteFileId,
-			draggingStore,
 			isNarrow,
+
+			activeStore,
+			actionsMenuStore,
+			draggingStore,
 			filesStore,
 			renamingStore,
 			selectionStore,
@@ -291,6 +298,12 @@ export default defineComponent({
 				contents: this.nodes,
 				view: this.activeView!,
 			})
+		},
+
+		adaptColumnRenderToCustomElementRender(column) {
+			return ({ nodes, view }) => {
+				return column.render(nodes[0], view)
+			}
 		},
 	},
 })

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use OC\Files\Filesystem;
@@ -16,6 +17,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\IDateTimeZone;
 use OCP\IRequest;
+use OCP\Server;
 use ownCloud\TarStreamer\TarStreamer;
 use Psr\Log\LoggerInterface;
 use ZipStreamer\ZipStreamer;
@@ -116,13 +118,13 @@ class Streamer {
 		// prevent absolute dirs
 		$internalDir = ltrim($internalDir, '/');
 
-		$userFolder = \OC::$server->get(IRootFolder::class)->get(Filesystem::getRoot());
+		$userFolder = Server::get(IRootFolder::class)->get(Filesystem::getRoot());
 		/** @var Folder $dirNode */
 		$dirNode = $userFolder->get($dir);
 		$files = $dirNode->getDirectoryListing();
 
 		/** @var LoggerInterface $logger */
-		$logger = \OC::$server->query(LoggerInterface::class);
+		$logger = Server::get(LoggerInterface::class);
 		foreach ($files as $file) {
 			if ($file instanceof File) {
 				try {

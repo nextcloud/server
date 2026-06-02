@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV;
 
 use OC\KnownUser\KnownUserService;
@@ -42,6 +43,7 @@ use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
 use OCP\SystemTag\ISystemTagManager;
@@ -75,7 +77,7 @@ class RootCollection extends SimpleCollection {
 			$proxyMapper,
 			Server::get(KnownUserService::class),
 			Server::get(IConfig::class),
-			\OC::$server->getL10NFactory()
+			Server::get(IFactory::class)
 		);
 
 		$groupPrincipalBackend = new GroupPrincipalBackend($groupManager, $userSession, $shareManager, $config);

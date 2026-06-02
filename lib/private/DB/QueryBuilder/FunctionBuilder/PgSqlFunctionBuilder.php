@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\DB\QueryBuilder\FunctionBuilder;
 
 use OC\DB\QueryBuilder\QueryFunction;
@@ -11,6 +12,7 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
 
 class PgSqlFunctionBuilder extends FunctionBuilder {
+	#[\Override]
 	public function concat($x, ...$expr): IQueryFunction {
 		$args = func_get_args();
 		$list = [];
@@ -20,6 +22,7 @@ class PgSqlFunctionBuilder extends FunctionBuilder {
 		return new QueryFunction(sprintf('(%s)', implode(' || ', $list)));
 	}
 
+	#[\Override]
 	public function groupConcat($expr, ?string $separator = ','): IQueryFunction {
 		$castedExpression = $this->queryBuilder->expr()->castColumn($expr, IQueryBuilder::PARAM_STR);
 

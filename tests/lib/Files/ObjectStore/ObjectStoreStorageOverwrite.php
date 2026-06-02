@@ -19,6 +19,7 @@ class ObjectStoreStorageOverwrite extends ObjectStoreStorage {
 		$this->objectStore = $objectStore;
 	}
 
+	#[\Override]
 	public function getObjectStore(): IObjectStore {
 		return $this->objectStore;
 	}

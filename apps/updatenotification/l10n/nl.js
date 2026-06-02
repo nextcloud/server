@@ -53,8 +53,6 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "Het geselecteerde updatekanaal ondersteunt geen updates voor de server.",
     "Changelog for app {app}" : "Wijzigingsoverzicht voor app {app}",
     "What's new in {app} version {version}" : "Wat is nieuw in {app} versie {version}",
-    "{version} is available. Get more information on how to update." : "{version} is beschikbaar. Meer informatie over het bijwerken.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Alle</strong> apps hebben een compatibele versie voor deze Nextcloud versie beschikbaar",
-    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Voor zakelijk gebruik. Biedt altijd het laatste patch level, maar zal niet meteen naar de laatste hoofdrelease bijwerken. Die update vindt pas plaats nadat Nextcloud GmbH aanvullende hardening en tests voor grootschalige en bedrijfskritische installaties heeft uitgevoerd. Dit kanaal is alleen beschikbaar voor klanten en levert het Nextcloud Enterprise pakket."
+    "{version} is available. Get more information on how to update." : "{version} is beschikbaar. Meer informatie over het bijwerken."
 },
 "nplurals=2; plural=(n != 1);");

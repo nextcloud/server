@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Config;
 
 use OC\Files\Cache\Storage;
@@ -13,7 +14,7 @@ use OC\Files\Storage\Wrapper\Availability;
 use OC\Files\Storage\Wrapper\KnownMtime;
 use OCA\Files_External\Lib\PersonalMount;
 use OCA\Files_External\Lib\StorageConfig;
-use OCA\Files_External\MountConfig;
+use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\Files\Config\IAuthoritativeMountProvider;
@@ -39,6 +40,7 @@ class ConfigAdapter implements IMountProvider, IAuthoritativeMountProvider, IPar
 	public function __construct(
 		private UserStoragesService $userStoragesService,
 		private UserGlobalStoragesService $userGlobalStoragesService,
+		private BackendService $backendService,
 		private ClockInterface $clock,
 	) {
 	}
@@ -63,7 +65,7 @@ class ConfigAdapter implements IMountProvider, IAuthoritativeMountProvider, IPar
 	 */
 	private function prepareStorageConfig(StorageConfig &$storage, IUser $user): void {
 		foreach ($storage->getBackendOptions() as $option => $value) {
-			$storage->setBackendOption($option, MountConfig::substitutePlaceholdersInConfig($value, $user->getUID()));
+			$storage->setBackendOption($option, $this->backendService->applyConfigHandlers($value, $user->getUID()));
 		}
 
 		$objectStore = $storage->getBackendOption('objectstore');
@@ -113,7 +115,6 @@ class ConfigAdapter implements IMountProvider, IAuthoritativeMountProvider, IPar
 			}
 		}, $storageConfigs);
 
-
 		Storage::getGlobalCache()->loadForStorageIds(array_map(function (IStorage $storage) {
 			return $storage->getId();
 		}, $storages));
@@ -134,11 +135,7 @@ class ConfigAdapter implements IMountProvider, IAuthoritativeMountProvider, IPar
 		}, $storages, $storageConfigs);
 	}
 
-	/**
-	 * Get all mountpoints applicable for the user
-	 *
-	 * @return IMountPoint[]
-	 */
+	#[Override]
 	public function getMountsForUser(IUser $user, IStorageFactory $loader): array {
 		$this->userStoragesService->setUser($user);
 		$this->userGlobalStoragesService->setUser($user);

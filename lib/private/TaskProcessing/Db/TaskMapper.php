@@ -216,6 +216,7 @@ class TaskMapper extends QBMapper {
 		};
 	}
 
+	#[\Override]
 	public function update(Entity $entity): Entity {
 		$entity->setLastUpdated($this->timeFactory->now()->getTimestamp());
 		return parent::update($entity);
@@ -263,6 +264,40 @@ class TaskMapper extends QBMapper {
 		}
 
 		return $this->findEntities($qb);
+	}
+
+	/**
+	 * @param list<string> $taskTypeIds
+	 * @param int $status
+	 * @return int
+	 * @throws Exception
+	 */
+	public function countByStatus(array $taskTypeIds, int $status): int {
+		if ($taskTypeIds === []) {
+			return $this->countByStatusQuery($status);
+		}
+
+		$count = 0;
+		foreach (array_chunk($taskTypeIds, 900) as $chunk) {
+			$count += $this->countByStatusQuery($status, $chunk);
+		}
+		return $count;
+	}
+
+	private function countByStatusQuery(int $status, ?array $taskTypeIds = null): int {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select($qb->func()->count('id'))
+			->from($this->tableName)
+			->where($qb->expr()->eq('status', $qb->createNamedParameter($status, IQueryBuilder::PARAM_INT)));
+
+		if ($taskTypeIds !== null) {
+			$qb->andWhere($qb->expr()->in('type', $qb->createNamedParameter($taskTypeIds, IQueryBuilder::PARAM_STR_ARRAY)));
+		}
+
+		$result = $qb->executeQuery();
+		$count = (int)$result->fetchOne();
+		$result->closeCursor();
+		return $count;
 	}
 
 	/**

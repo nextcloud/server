@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2014-2015 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Tests\Controller;
 
 use OC\Accounts\AccountManager;
@@ -337,6 +338,16 @@ class UsersControllerTest extends \Test\TestCase {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('johndoe');
 
+		$user->expects($this->atLeastOnce())
+			->method('canEditProperty')
+			->willReturnCallback(
+				fn (string $property): bool => match($property) {
+					IAccountManager::PROPERTY_EMAIL,
+					IAccountManager::PROPERTY_DISPLAYNAME => false,
+					default => true,
+				}
+			);
+
 		$this->userSession->method('getUser')->willReturn($user);
 
 		/** @var MockObject|IAccount $userAccount */
@@ -377,11 +388,6 @@ class UsersControllerTest extends \Test\TestCase {
 			->method('setValue');
 		$emailProperty->expects($this->never())
 			->method('setScope');
-
-		$this->config->expects($this->once())
-			->method('getSystemValueBool')
-			->with('allow_user_to_change_display_name')
-			->willReturn(false);
 
 		$this->appManager->expects($this->any())
 			->method('isEnabledForUser')
@@ -779,7 +785,6 @@ class UsersControllerTest extends \Test\TestCase {
 				'JOHN@example.com',
 				null
 			],
-
 		];
 	}
 
@@ -829,7 +834,6 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->invokePrivate($controller, 'saveUserSettings', [$userAccount]);
 	}
 
-
 	public static function dataTestSaveUserSettingsException(): array {
 		return [
 			[
@@ -862,7 +866,6 @@ class UsersControllerTest extends \Test\TestCase {
 				false,
 				false
 			],
-
 		];
 	}
 

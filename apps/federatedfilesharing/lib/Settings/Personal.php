@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\FederatedFileSharing\Settings;
 
 use OCA\FederatedFileSharing\AppInfo\Application;
@@ -16,6 +17,7 @@ use OCP\Defaults;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Settings\ISettings;
+use OCP\Util;
 
 class Personal implements ISettings {
 	public function __construct(
@@ -31,6 +33,7 @@ class Personal implements ISettings {
 	 * @return TemplateResponse returns the instance with all parameters set, ready to be rendered
 	 * @since 9.1
 	 */
+	#[\Override]
 	public function getForm(): TemplateResponse {
 		$cloudID = $this->userSession->getUser()->getCloudId();
 		$url = 'https://nextcloud.com/sharing#' . $cloudID;
@@ -42,8 +45,8 @@ class Personal implements ISettings {
 		$this->initialState->provideInitialState('cloudId', $cloudID);
 		$this->initialState->provideInitialState('docUrlFederated', $this->urlGenerator->linkToDocs('user-sharing-federated'));
 
-		\OCP\Util::addStyle(Application::APP_ID, 'settings-personal');
-		\OCP\Util::addScript(Application::APP_ID, 'settings-personal');
+		Util::addStyle(Application::APP_ID, 'settings-personal');
+		Util::addScript(Application::APP_ID, 'settings-personal');
 		return new TemplateResponse(Application::APP_ID, 'settings-personal', renderAs: TemplateResponse::RENDER_AS_BLANK);
 	}
 
@@ -51,6 +54,7 @@ class Personal implements ISettings {
 	 * @return string the section ID, e.g. 'sharing'
 	 * @since 9.1
 	 */
+	#[\Override]
 	public function getSection(): ?string {
 		if ($this->federatedShareProvider->isIncomingServer2serverShareEnabled()
 			|| $this->federatedShareProvider->isIncomingServer2serverGroupShareEnabled()) {
@@ -67,6 +71,7 @@ class Personal implements ISettings {
 	 * E.g.: 70
 	 * @since 9.1
 	 */
+	#[\Override]
 	public function getPriority(): int {
 		return 40;
 	}

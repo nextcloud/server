@@ -68,6 +68,12 @@ final class Task implements \JsonSerializable {
 		protected ?string $userId,
 		protected ?string $identifier = '',
 	) {
+		if ($this->numberOfImages > 12) {
+			throw new \ValueError('Cannot generate more than 12 images');
+		}
+		if ($this->numberOfImages < 1) {
+			throw new \ValueError('Cannot generate less than 1 image');
+		}
 	}
 
 	/**
@@ -182,6 +188,7 @@ final class Task implements \JsonSerializable {
 	 * @psalm-return array{id: ?int, status: self::STATUS_*, userId: ?string, appId: string, input: string, identifier: ?string, numberOfImages: int, completionExpectedAt: ?int}
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'id' => $this->getId(),

@@ -167,8 +167,8 @@ OC.L10N.register(
     "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\"." : "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\".",
     "WebDAV endpoint" : "WebDAV endpoint",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken.",
-    "Migrated calendar (%1$s)" : "Migrated calendar (%1$s)",
     "Calendars including events, details and attendees" : "Calendars including events, details and attendees",
+    "Migrated calendar (%1$s)" : "Migrated calendar (%1$s)",
     "Contacts and groups" : "Contacts and groups",
     "WebDAV" : "WebDAV",
     "Absence saved" : "Absence saved",
@@ -214,7 +214,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Please contact the organizer directly.",
     "Are you accepting the invitation?" : "Are you accepting the invitation?",
     "Tentative" : "Tentative",
-    "Your attendance was updated successfully." : "Your attendance was updated successfully.",
-    "Time zone:" : "Time zone:"
+    "Your attendance was updated successfully." : "Your attendance was updated successfully."
 },
 "nplurals=2; plural=(n!=1);");

@@ -5,12 +5,14 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Testing\Settings;
 
 use OCP\Settings\DeclarativeSettingsTypes;
 use OCP\Settings\IDeclarativeSettingsForm;
 
 class DeclarativeSettingsForm implements IDeclarativeSettingsForm {
+	#[\Override]
 	public function getSchema(): array {
 		return [
 			'id' => 'test_declarative_form',

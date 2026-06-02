@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { Folder, Navigation } from '@nextcloud/files'
+import type { IFolder } from '@nextcloud/files'
 
 import FolderSvg from '@mdi/svg/svg/folder.svg?raw'
 import { getNavigation, View } from '@nextcloud/files'
@@ -21,13 +21,21 @@ beforeAll(async () => {
 	await fireEvent.resize(window)
 })
 
+const navigation = getNavigation()
+beforeEach(() => {
+	const views = [...navigation.views]
+	for (const view of views) {
+		navigation.remove(view.id)
+	}
+	expect(navigation.views).toHaveLength(0)
+})
+
 describe('Navigation', () => {
 	beforeEach(cleanup)
 
 	beforeEach(async () => {
-		delete window._nc_navigation
 		mockWindow()
-		getNavigation().register(createView('files', 'Files'))
+		navigation.register(createView('files', 'Files'))
 		await router.replace({ name: 'filelist', params: { view: 'files' } })
 	})
 
@@ -130,11 +138,7 @@ describe('Navigation', () => {
 })
 
 describe('Navigation API', () => {
-	let Navigation: Navigation
-
 	beforeEach(async () => {
-		delete window._nc_navigation
-		Navigation = getNavigation()
 		mockWindow()
 
 		await router.replace({ name: 'filelist', params: { view: 'files' } })
@@ -144,7 +148,7 @@ describe('Navigation API', () => {
 	beforeEach(cleanup)
 
 	it('Check API entries rendering', async () => {
-		Navigation.register(createView('files', 'Files'))
+		navigation.register(createView('files', 'Files'))
 
 		const component = render(NavigationView, {
 			router,
@@ -171,8 +175,8 @@ describe('Navigation API', () => {
 	})
 
 	it('Adds a new entry and render', async () => {
-		Navigation.register(createView('files', 'Files'))
-		Navigation.register(createView('sharing', 'Sharing'))
+		navigation.register(createView('files', 'Files'))
+		navigation.register(createView('sharing', 'Sharing'))
 
 		const component = render(NavigationView, {
 			router,
@@ -198,9 +202,9 @@ describe('Navigation API', () => {
 	})
 
 	it('Adds a new children, render and open menu', async () => {
-		Navigation.register(createView('files', 'Files'))
-		Navigation.register(createView('sharing', 'Sharing'))
-		Navigation.register(createView('sharingin', 'Shared with me', 'sharing'))
+		navigation.register(createView('files', 'Files'))
+		navigation.register(createView('sharing', 'Sharing'))
+		navigation.register(createView('sharingin', 'Shared with me', 'sharing'))
 
 		const component = render(NavigationView, {
 			router,
@@ -272,7 +276,7 @@ function createView(id: string, name: string, parent?: string) {
 	return new View({
 		id,
 		name,
-		getContents: async () => ({ folder: {} as Folder, contents: [] }),
+		getContents: async () => ({ folder: {} as IFolder, contents: [] }),
 		icon: FolderSvg,
 		order: 1,
 		parent,

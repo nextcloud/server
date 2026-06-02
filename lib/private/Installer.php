@@ -7,9 +7,11 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use Doctrine\DBAL\Exception\TableExistsException;
+use OC\App\AppManager;
 use OC\App\AppStore\AppNotFoundException;
 use OC\App\AppStore\Bundles\Bundle;
 use OC\App\AppStore\Fetcher\AppFetcher;
@@ -19,7 +21,6 @@ use OC\DB\Connection;
 use OC\DB\MigrationService;
 use OC\Files\FilenameValidator;
 use OCP\App\AppPathNotFoundException;
-use OCP\App\IAppManager;
 use OCP\BackgroundJob\IJobList;
 use OCP\Files;
 use OCP\HintException;
@@ -29,6 +30,7 @@ use OCP\ITempManager;
 use OCP\L10N\IFactory;
 use OCP\Migration\IOutput;
 use OCP\Server;
+use OCP\Util;
 use phpseclib\File\X509;
 use Psr\Log\LoggerInterface;
 
@@ -45,7 +47,7 @@ class Installer {
 		private ITempManager $tempManager,
 		private LoggerInterface $logger,
 		private IConfig $config,
-		private IAppManager $appManager,
+		private AppManager $appManager,
 		private IFactory $l10nFactory,
 		private bool $isCLI,
 	) {
@@ -76,7 +78,7 @@ class Installer {
 		$ignoreMaxApps = $this->config->getSystemValue('app_install_overwrite', []);
 		$ignoreMax = $forceEnable || in_array($appId, $ignoreMaxApps, true);
 
-		$version = implode('.', \OCP\Util::getVersion());
+		$version = implode('.', Util::getVersion());
 		if (!$this->appManager->isAppCompatible($version, $info, $ignoreMax)) {
 			throw new \Exception(
 				$l->t('App "%s" cannot be installed because it is not compatible with this version of the server.',
@@ -86,7 +88,7 @@ class Installer {
 		}
 
 		// check for required dependencies
-		\OC_App::checkAppDependencies($this->config, $l, $info, $ignoreMax);
+		$this->appManager->checkAppDependencies($appId, $ignoreMax);
 		$coordinator = Server::get(Coordinator::class);
 		$coordinator->runLazyRegistration($appId);
 
@@ -135,7 +137,7 @@ class Installer {
 		foreach (\OC::$APPSROOTS as $dir) {
 			if (isset($dir['writable']) && $dir['writable'] === true) {
 				// Check if there is a writable install folder.
-				if (!is_writable($dir['path'])
+				if ((!is_writable($dir['path']) && $this->config->getSystemValueBool('appstoreenabled', true))
 					|| !is_readable($dir['path'])
 				) {
 					throw new \RuntimeException(
@@ -540,13 +542,13 @@ class Installer {
 			$ms->setOutput($output);
 		}
 		if ($previousVersion !== '') {
-			\OC_App::executeRepairSteps($info['id'], $info['repair-steps']['pre-migration']);
+			$this->appManager->executeRepairSteps($info['id'], $info['repair-steps']['pre-migration']);
 		}
 
 		$ms->migrate('latest', $previousVersion === '');
 
 		if ($previousVersion !== '') {
-			\OC_App::executeRepairSteps($info['id'], $info['repair-steps']['post-migration']);
+			$this->appManager->executeRepairSteps($info['id'], $info['repair-steps']['post-migration']);
 		}
 
 		if ($output instanceof IOutput) {
@@ -568,7 +570,7 @@ class Installer {
 			self::includeAppScript($appInstallScriptPath);
 		}
 
-		\OC_App::executeRepairSteps($info['id'], $info['repair-steps']['install']);
+		$this->appManager->executeRepairSteps($info['id'], $info['repair-steps']['install']);
 
 		// Set the installed version
 		$this->config->setAppValue($info['id'], 'installed_version', $this->appManager->getAppVersion($info['id'], false));
@@ -582,7 +584,7 @@ class Installer {
 			$this->config->setAppValue('core', 'public_' . $name, $info['id'] . '/' . $path);
 		}
 
-		\OC_App::setAppTypes($info['id']);
+		$this->appManager->setAppTypes($info['id'], $info);
 
 		return $info['id'];
 	}
@@ -631,7 +633,7 @@ class Installer {
 			}
 			$files = scandir($src);
 			foreach ($files as $file) {
-				if ($file != '.' && $file != '..') {
+				if ($file !== '.' && $file !== '..') {
 					$this->copyRecursive("$src/$file", "$dest/$file");
 				}
 			}

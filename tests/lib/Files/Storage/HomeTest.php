@@ -15,21 +15,19 @@ use OCP\ITempManager;
 use OCP\Server;
 
 class DummyUser extends User {
-	/**
-	 * @param string $uid
-	 * @param string $home
-	 */
 	public function __construct(
-		private $uid,
-		private $home,
+		private readonly string $uid,
+		private readonly string $home,
 	) {
 	}
 
-	public function getHome() {
+	#[\Override]
+	public function getHome(): string {
 		return $this->home;
 	}
 
-	public function getUID() {
+	#[\Override]
+	public function getUID(): string {
 		return $this->uid;
 	}
 }
@@ -54,6 +52,7 @@ class HomeTest extends Storage {
 	 */
 	private $user;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -63,6 +62,7 @@ class HomeTest extends Storage {
 		$this->instance = new Home(['user' => $this->user]);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		Files::rmdirr($this->tmpDir);
 		parent::tearDown();

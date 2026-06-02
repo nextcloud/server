@@ -139,7 +139,6 @@ class CORSMiddlewareController extends Controller {
 	public function testAfterExceptionWithSecurityExceptionWithStatus() {
 	}
 
-
 	public function testAfterExceptionWithRegularException() {
 	}
 }

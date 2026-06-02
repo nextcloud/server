@@ -24,15 +24,11 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class RegistryTest extends TestCase {
-	/** @var ProviderUserAssignmentDao|MockObject */
-	private $dao;
+	private ProviderUserAssignmentDao&MockObject $dao;
+	private IEventDispatcher&MockObject $dispatcher;
+	private Registry $registry;
 
-	/** @var IEventDispatcher|MockObject */
-	private $dispatcher;
-
-	/** @var Registry */
-	private $registry;
-
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -88,7 +84,6 @@ class RegistryTest extends TestCase {
 		$provider->expects($this->once())->method('getId')->willReturn('p1');
 		$this->dao->expects($this->once())->method('persist')->with('p1', 'user123',
 			false);
-
 
 		$this->dispatcher->expects($this->once())
 			->method('dispatch')

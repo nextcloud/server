@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\WorkflowEngine\Check;
 
 use OCP\IL10N;
@@ -31,6 +32,7 @@ class RequestURL extends AbstractStringCheck {
 	 * @param string $value
 	 * @return bool
 	 */
+	#[\Override]
 	public function executeCheck($operator, $value) {
 		if (\OC::$CLI) {
 			$actualValue = $this->url = RequestURL::CLI;
@@ -53,6 +55,7 @@ class RequestURL extends AbstractStringCheck {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	protected function getActualValue() {
 		if ($this->url !== null) {
 			return $this->url;

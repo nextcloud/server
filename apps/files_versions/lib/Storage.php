@@ -205,6 +205,7 @@ class Storage {
 		}
 
 		$event = new CreateVersionEvent($file);
+		$eventDispatcher->dispatchTyped($event);
 		$eventDispatcher->dispatch('OCA\Files_Versions::createVersion', $event);
 		if ($event->shouldCreateVersion() === false) {
 			return false;
@@ -215,7 +216,6 @@ class Storage {
 
 		$versionManager->createVersion($user, $file);
 	}
-
 
 	/**
 	 * mark file as deleted so that we can remove the versions if the file is gone
@@ -433,7 +433,10 @@ class Storage {
 						$target = $storage2->fopen($internalPath2, 'w');
 						$result = $target !== false;
 						if ($result) {
-							[, $result] = Files::streamCopy($source, $target, true);
+							$result = stream_copy_to_stream($source, $target);
+							if ($result !== false) {
+								$result = true;
+							}
 						}
 						// explicit check as S3 library closes streams already
 						if (is_resource($target)) {
