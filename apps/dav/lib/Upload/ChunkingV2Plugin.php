@@ -194,14 +194,19 @@ class ChunkingV2Plugin extends ServerPlugin {
 		}
 
 		$this->uploadPath = $this->server->calculateUri($this->server->httpRequest->getHeader(self::DESTINATION_HEADER));
-		$resolvedTarget = $this->resolveChunkWriteTarget($this->uploadPath, true);
 
-		$this->uploadId = $resolvedTarget['storage']->startChunkedWrite($resolvedTarget['storagePath']);
+		[
+			'file' => $uploadFile,
+			'storage' => $storage,
+			'storagePath' => $storagePath,
+		] = $this->resolveChunkWriteTarget($this->uploadPath, true);
+
+		$this->uploadId = $storage->startChunkedWrite($storagePath);
 
 		$this->cache->set($this->uploadFolder->getName(), [
 			self::UPLOAD_ID => $this->uploadId,
 			self::UPLOAD_TARGET_PATH => $this->uploadPath,
-			self::UPLOAD_TARGET_ID => $resolvedTarget['file']->getId(),
+			self::UPLOAD_TARGET_ID => $uploadFile->getId(),
 		], 86400);
 
 		$response->setStatus(Http::STATUS_CREATED);
@@ -216,11 +221,12 @@ class ChunkingV2Plugin extends ServerPlugin {
 			return true;
 		}
 
-		$resolvedTarget = $this->resolveChunkWriteTarget($this->uploadPath);
-		$storage = $resolvedTarget['storage'];
-		$storagePath = $resolvedTarget['storagePath'];
-		$uploadFile = $resolvedTarget['file'];
-		$isDirect = $resolvedTarget['isDirect'];
+		[
+			'file' => $uploadFile,
+			'storage' => $storage,
+			'storagePath' => $storagePath,
+			'isDirect' => $isDirect,
+		] = $this->resolveChunkWriteTarget($this->uploadPath);
 
 		$chunkName = basename($request->getPath());
 		$partId = is_numeric($chunkName) ? (int)$chunkName : -1;
@@ -264,10 +270,7 @@ class ChunkingV2Plugin extends ServerPlugin {
 			return true;
 		}
 
-		$resolvedTarget = $this->resolveChunkWriteTarget($this->uploadPath);
-		$storage = $resolvedTarget['storage'];
-		$storagePath = $resolvedTarget['storagePath'];
-		$targetFile = $resolvedTarget['file'];
+		['file' => $targetFile, 'storage' => $storage] = $this->resolveChunkWriteTarget($this->uploadPath);
 
 		[$destinationDir, $destinationName] = Uri\split($destination);
 		/** @var Directory $destinationParent */
@@ -340,8 +343,8 @@ class ChunkingV2Plugin extends ServerPlugin {
 			return true;
 		}
 
-		$resolvedTarget = $this->resolveChunkWriteTarget($this->uploadPath);
-		$resolvedTarget['storage']->cancelChunkedWrite($resolvedTarget['storagePath'], $this->uploadId);
+		['storage' => $storage, 'storagePath' => $storagePath] = $this->resolveChunkWriteTarget($this->uploadPath);
+		$storage->cancelChunkedWrite($storagePath, $this->uploadId);
 		
 		return true;
 	}
