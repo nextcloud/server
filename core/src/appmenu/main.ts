@@ -4,10 +4,6 @@
  *
  * Standalone entry for the waffle launcher (AppMenu). Mounts independently of
  * core-main so the app grid lives in its own chunk.
- *
- * Uses Vue 2 syntax because the legacy webpack pipeline (build/frontend-legacy/)
- * still resolves `vue` to 2.7.16. The modern Vite pipeline ships Vue 3 but does
- * not currently include core; migrating core is out of scope for this work.
  */
 import Vue from 'vue'
 import AppMenu from './AppMenu.vue'
@@ -17,12 +13,14 @@ interface AppMenuInstance {
 }
 
 declare global {
-	// eslint-disable-next-line no-var
 	var OC: {
 		setNavigationCounter?: (id: string, counter: number) => void
 	}
 }
 
+/**
+ * Mount the AppMenu into the header container, if present on this layout.
+ */
 function mount(): void {
 	const container = document.getElementById('header-start__appmenu')
 	if (!container) {
@@ -38,6 +36,4 @@ function mount(): void {
 	}
 }
 
-// Loaded as a deferred core script, so the document is already parsed and the
-// nav container exists by the time this runs.
 mount()

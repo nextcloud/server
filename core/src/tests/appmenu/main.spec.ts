@@ -4,10 +4,6 @@
  */
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-// Match every transitive dependency reachable from AppMenu.vue so its module
-// graph resolves cleanly inside JSDOM. We do NOT mock `vue`: the legacy Vitest
-// config aliases `vue` to Vue 2.7, which matches what the production webpack
-// bundle resolves to. Using the real Vue exercises the actual mount path.
 vi.mock('@nextcloud/initial-state', () => ({
 	loadState: () => [],
 }))
@@ -29,7 +25,6 @@ vi.mock('@nextcloud/router', () => ({
 }))
 
 declare global {
-	// eslint-disable-next-line no-var
 	var OC: { setNavigationCounter?: (id: string, count: number) => void }
 }
 
