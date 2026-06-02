@@ -28,7 +28,6 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
-OC::init();
 $request = Server::get(IRequest::class);
 
 if ((Util::needUpgrade() || Server::get(IConfig::class)->getSystemValueBool('maintenance')) && $request->getPathInfo() !== '/core/update') {
