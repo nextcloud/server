@@ -1,6 +1,15 @@
+# SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# THIS IS AN EXPERIMENTAL FEATURE
+# DO NOT USE THIS IN PRODUCTION, YOU HAVE BEEN WARNED.
+
 localhost {
 	php_server {
-        worker index.php
+        worker {
+			file index.php
+			watch
+		}
 	}
 
 	log {

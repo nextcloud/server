@@ -24,7 +24,7 @@ require_once __DIR__ . '/lib/OC.php';
 
 \OC::boot();
 
-function cleanupStaticCrap(): void {
+function resetStaticProperties(): void {
 	// FIXME needed because these use a static var
 	\OC_Hook::clear();
 	\OC_Util::$styles = [];
@@ -38,11 +38,7 @@ function cleanupStaticCrap(): void {
 
 $handler = static function () {
 	try {
-		// In worker mode, script name is empty in FrankenPHP
-		if ($_SERVER['SCRIPT_NAME'] === '') {
-			$_SERVER['SCRIPT_NAME'] = $_SERVER['PHP_SELF'];
-		}
-		cleanupStaticCrap();
+		resetStaticProperties();
 		OC::init();
 		OC::handleRequest();
 	} catch (ServiceUnavailableException $ex) {
