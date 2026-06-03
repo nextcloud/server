@@ -28,6 +28,7 @@ use OCA\Files_Sharing\ISharedMountPoint;
 use OCA\Files_Sharing\SharedMount;
 use OCP\App\IAppManager;
 use OCP\Constants;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IAuthoritativeMountProvider;
@@ -605,7 +606,7 @@ class SetupManager implements ISetupManager {
 				);
 
 				$rootsMetadata = [];
-				foreach (array_chunk($rootIds, 1000) as $chunk) {
+				foreach (array_chunk($rootIds, IQueryBuilder::MAX_IN_PARAMETERS) as $chunk) {
 					foreach ($this->fileAccess->getByFileIds($chunk) as $id => $fileMetadata) {
 						$rootsMetadata[$id] = $fileMetadata;
 					}
