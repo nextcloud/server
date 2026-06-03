@@ -2988,7 +2988,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$deleteQuery = $this->db->getQueryBuilder();
 		$deleteQuery->delete('schedulingobjects')
 			->where($deleteQuery->expr()->in('id', $deleteQuery->createParameter('ids'), IQueryBuilder::PARAM_INT_ARRAY));
-		foreach (array_chunk($ids, 1000) as $chunk) {
+		foreach (array_chunk($ids, IQueryBuilder::MAX_IN_PARAMETERS) as $chunk) {
 			$deleteQuery->setParameter('ids', $chunk, IQueryBuilder::PARAM_INT_ARRAY);
 			$numDeleted += $deleteQuery->executeStatement();
 		}
@@ -3523,7 +3523,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		}
 
 		$this->atomic(function () use ($subscriptionId, $calendarObjectIds, $calendarObjectUris): void {
-			foreach (array_chunk($calendarObjectIds, 1000) as $chunk) {
+			foreach (array_chunk($calendarObjectIds, IQueryBuilder::MAX_IN_PARAMETERS) as $chunk) {
 				$query = $this->db->getQueryBuilder();
 				$query->delete($this->dbObjectPropertiesTable)
 					->where($query->expr()->eq('calendarid', $query->createNamedParameter($subscriptionId)))
@@ -3539,7 +3539,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 					->executeStatement();
 			}
 
-			foreach (array_chunk($calendarObjectUris, 1000) as $chunk) {
+			foreach (array_chunk($calendarObjectUris, IQueryBuilder::MAX_IN_PARAMETERS) as $chunk) {
 				$query = $this->db->getQueryBuilder();
 				$query->delete('calendarchanges')
 					->where($query->expr()->eq('calendarid', $query->createNamedParameter($subscriptionId)))

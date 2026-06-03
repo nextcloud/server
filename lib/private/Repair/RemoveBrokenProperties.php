@@ -51,7 +51,7 @@ class RemoveBrokenProperties implements IRepairStep {
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete('properties')
 			->where($qb->expr()->in('id', $qb->createParameter('ids'), IQueryBuilder::PARAM_STR_ARRAY));
-		foreach (array_chunk($brokenIds, 1000) as $chunkIds) {
+		foreach (array_chunk($brokenIds, IQueryBuilder::MAX_IN_PARAMETERS) as $chunkIds) {
 			$qb->setParameter('ids', $chunkIds, IQueryBuilder::PARAM_STR_ARRAY);
 			$qb->executeStatement();
 		}

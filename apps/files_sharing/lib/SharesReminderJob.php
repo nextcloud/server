@@ -35,7 +35,6 @@ use Psr\Log\LoggerInterface;
  */
 class SharesReminderJob extends TimedJob {
 	private const SECONDS_BEFORE_REMINDER = 24 * 60 * 60;
-	private const CHUNK_SIZE = 1000;
 	private int $folderMimeTypeId;
 
 	public function __construct(
@@ -131,7 +130,7 @@ class SharesReminderJob extends TimedJob {
 					$qb->expr()->isNull('f.fileid')
 				)
 			)
-			->setMaxResults(SharesReminderJob::CHUNK_SIZE);
+			->setMaxResults(IQueryBuilder::MAX_IN_PARAMETERS);
 
 		$shares = $qb->executeQuery()->fetchAllAssociative();
 		return array_map(fn ($share): array => [
@@ -178,7 +177,7 @@ class SharesReminderJob extends TimedJob {
 			'share_type' => (int)$share['share_type'],
 			'file_source' => (int)$share['file_source'],
 		], $shares);
-		return $this->filterSharesWithEmptyFolders($shares, self::CHUNK_SIZE);
+		return $this->filterSharesWithEmptyFolders($shares, IQueryBuilder::MAX_IN_PARAMETERS);
 	}
 
 	/**
@@ -193,7 +192,7 @@ class SharesReminderJob extends TimedJob {
 			->where($query->expr()->eq('size', $query->createNamedParameter(0), IQueryBuilder::PARAM_INT_ARRAY))
 			->andWhere($query->expr()->eq('mimetype', $query->createNamedParameter($this->folderMimeTypeId, IQueryBuilder::PARAM_INT)))
 			->andWhere($query->expr()->in('fileid', $query->createParameter('fileids')));
-		$chunks = array_chunk($shares, SharesReminderJob::CHUNK_SIZE);
+		$chunks = array_chunk($shares, IQueryBuilder::MAX_IN_PARAMETERS);
 		$results = [];
 		foreach ($chunks as $chunk) {
 			$chunkFileIds = array_map(fn ($share): int => $share['file_source'], $chunk);
