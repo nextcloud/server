@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace OC\Snowflake;
 
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\IConfig;
+use OCP\IServerInfo;
 use OCP\Snowflake\ISnowflakeGenerator;
 use Override;
 
@@ -24,8 +24,8 @@ use Override;
 final readonly class SnowflakeGenerator implements ISnowflakeGenerator {
 	public function __construct(
 		private ITimeFactory $timeFactory,
-		private IConfig $config,
 		private ISequence $sequenceGenerator,
+		private IServerInfo $serverInfo,
 	) {
 	}
 
@@ -34,7 +34,7 @@ final readonly class SnowflakeGenerator implements ISnowflakeGenerator {
 		// Relative time
 		[$seconds, $milliseconds] = $this->getCurrentTime();
 
-		$serverId = $this->getServerId(); // Already 9 bits
+		$serverId = $this->serverInfo->getServerId();
 		$isCli = (int)$this->isCli(); // 1 bit
 		$sequenceId = $this->sequenceGenerator->nextId($seconds, $milliseconds, $serverId); //  12 bits
 		if ($sequenceId > 0xFFF || $sequenceId === false) {
@@ -100,24 +100,6 @@ final readonly class SnowflakeGenerator implements ISnowflakeGenerator {
 			$time->getTimestamp() - self::TS_OFFSET,
 			(int)$time->format('v'),
 		];
-	}
-
-	/**
-	 * Return configured serverid or generate one if not set
-	 *
-	 * @return int<0,511>
-	 */
-	private function getServerId(): int {
-		$serverid = $this->config->getSystemValueInt('serverid', -1);
-		if ($serverid < 1) {
-			// Fallback: generates a server ID based on hostname
-			// or random bytes if hostname isn't available
-			/** @var int<0,max> */
-			$serverid = hexdec(hash('xxh32', gethostname() ?: random_bytes(8)));
-		}
-
-		/** @var int<0,511> */
-		return $serverid & 0x1FF;
 	}
 
 	private function isCli(): bool {
