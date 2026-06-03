@@ -715,6 +715,18 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 
 		$targetId = $cache->copyFromCache($sourceCache, $sourceEntry, $to);
 
+		if ($targetId === $sourceEntry->getId()) {
+			// copying a file to itself? No need to do anything
+			$e = new \Exception('Object ' . $sourceEntry->getPath() . ' (' . $sourceEntry->getId() . ') being copied to itself');
+			if ($sourceEntry instanceof CacheEntry) {
+				$sourceData = $sourceEntry->getData();
+			} else {
+				$sourceData = null;
+			}
+			$this->logger->warning($e->getMessage(), ['exception' => $e, 'source' => $sourceData]);
+			return;
+		}
+
 		$targetUrn = $this->getURN($targetId);
 
 		try {
