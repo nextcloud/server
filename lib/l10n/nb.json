@@ -175,6 +175,8 @@
     "Could not find category \"%s\"" : "Kunne ikke finne kategori \"%s\"",
     "Input text" : "Inndatatekst",
     "The input text" : "Inndatateksten",
+    "Cannot generate more than 12 images" : "Kan ikke generere mer enn 12 bilder",
+    "Cannot generate less than 1 image" : "Kan ikke generere mindre enn 1 bilde",
     "Sunday" : "Søndag",
     "Monday" : "Mandag",
     "Tuesday" : "Tirsdag",
