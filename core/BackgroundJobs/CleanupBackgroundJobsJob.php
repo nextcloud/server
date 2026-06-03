@@ -18,6 +18,7 @@ use OCP\BackgroundJob\TimedJob;
 use OCP\IConfig;
 use OCP\IServerInfo;
 use Override;
+use Psr\Log\LoggerInterface;
 
 class CleanupBackgroundJobsJob extends TimedJob {
 	public function __construct(
@@ -28,7 +29,7 @@ class CleanupBackgroundJobsJob extends TimedJob {
 	) {
 		parent::__construct($time);
 		$this->setInterval(60 * 60);
-		$this->setTimeSensitivity(IJob::TIME_INSENSITIVE);
+		$this->setTimeSensitivity(IJob::TIME_SENSITIVE);
 	}
 
 	#[Override]
@@ -45,17 +46,24 @@ class CleanupBackgroundJobsJob extends TimedJob {
 			if ($job->serverId !== $currentServerId) {
 				continue;
 			}
+			$output = [];
+			$result = 0;
 			exec('ps -p ' . escapeshellarg((string)$job->pid) . ' -o cmd', $output, $result);
-			if (count($output) === 1 && $output[0] === 'CMD' && $result === 1) {
+			if (count($output) === 1 && current($output) === 'CMD' && $result === 1) {
 				// Process doesn't exists anymore
 				$maxDuration = (new DateTimeImmutable())->diff($job->startedAt);
-				$maxDuration =
-					($maxDuration->format('%a') * 24 * 60 * 60 * 1000)
-					+ ($maxDuration->format('%h') * 60 * 60 * 1000)
-					+ ($maxDuration->format('%m') * 60 * 1000)
-					+ ($maxDuration->format('%s') * 1000)
-					+ (int)($maxDuration->format('%f') / 1000);
+				$maxDuration
+					= ($maxDuration->days * 24 * 60 * 60 * 1000)
+					+ ($maxDuration->h * 60 * 60 * 1000)
+					+ ($maxDuration->i * 60 * 1000)
+					+ ($maxDuration->s * 1000)
+					+ (int)($maxDuration->f * 1000);
 				$this->jobRuns->finished($job->runId, $maxDuration, 0, JobStatus::CRASHED);
+				$this->logger->warning('No process matching PID {pid} found on server {serverId}. Job {runId} was marked as crashed', [
+					'pid' => $job->pid,
+					'serverId' => $job->serverId,
+					'runId' => $job->runId,
+				]);
 			}
 		}
 	}
