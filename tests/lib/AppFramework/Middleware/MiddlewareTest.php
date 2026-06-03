@@ -19,7 +19,6 @@ use OCP\IRequestId;
 class ChildMiddleware extends Middleware {
 };
 
-
 class MiddlewareTest extends \Test\TestCase {
 	/**
 	 * @var Middleware
@@ -52,25 +51,21 @@ class MiddlewareTest extends \Test\TestCase {
 		$this->response = $this->createMock(Response::class);
 	}
 
-
 	public function testBeforeController(): void {
 		$this->middleware->beforeController($this->controller, '');
 		$this->assertNull(null);
 	}
-
 
 	public function testAfterExceptionRaiseAgainWhenUnhandled(): void {
 		$this->expectException(\Exception::class);
 		$this->middleware->afterException($this->controller, '', $this->exception);
 	}
 
-
 	public function testAfterControllerReturnResponseWhenUnhandled(): void {
 		$response = $this->middleware->afterController($this->controller, '', $this->response);
 
 		$this->assertEquals($this->response, $response);
 	}
-
 
 	public function testBeforeOutputReturnOutputhenUnhandled(): void {
 		$output = $this->middleware->beforeOutput($this->controller, '', 'test');

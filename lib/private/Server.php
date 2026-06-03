@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use bantu\IniGetWrapper\IniGetWrapper;
@@ -107,8 +108,6 @@ use OC\Preview\Watcher;
 use OC\Preview\WatcherConnector;
 use OC\Profile\ProfileManager;
 use OC\Profiler\Profiler;
-use OC\Remote\Api\ApiFactory;
-use OC\Remote\InstanceFactory;
 use OC\RichObjectStrings\RichTextFormatter;
 use OC\RichObjectStrings\Validator;
 use OC\Route\CachingRouter;
@@ -253,8 +252,6 @@ use OCP\OCS\IDiscoveryService;
 use OCP\Preview\IMimeIconProvider;
 use OCP\Profile\IProfileManager;
 use OCP\Profiler\IProfiler;
-use OCP\Remote\Api\IApiFactory;
-use OCP\Remote\IInstanceFactory;
 use OCP\RichObjectStrings\IRichTextFormatter;
 use OCP\RichObjectStrings\IValidator;
 use OCP\Route\IRouter;
@@ -659,10 +656,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerAlias(ICacheFactory::class, Factory::class);
 
-		$this->registerService('RedisFactory', function (Server $c) {
-			$systemConfig = $c->get(SystemConfig::class);
-			return new RedisFactory($systemConfig, $c->get(IEventLogger::class));
-		});
+		$this->registerDeprecatedAlias('RedisFactory', RedisFactory::class);
 
 		$this->registerService(\OCP\Activity\IManager::class, function (Server $c) {
 			$l10n = $this->get(IFactory::class)->get('lib');
@@ -1232,15 +1226,6 @@ class Server extends ServerContainer implements IServerContainer {
 			return new ShareHelper(
 				$c->get(\OCP\Share\IManager::class)
 			);
-		});
-
-		$this->registerService(IApiFactory::class, function (ContainerInterface $c) {
-			return new ApiFactory($c->get(IClientService::class));
-		});
-
-		$this->registerService(IInstanceFactory::class, function (ContainerInterface $c) {
-			$memcacheFactory = $c->get(ICacheFactory::class);
-			return new InstanceFactory($memcacheFactory->createLocal('remoteinstance.'), $c->get(IClientService::class));
 		});
 
 		$this->registerAlias(IContactsStore::class, ContactsStore::class);

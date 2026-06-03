@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Storage\Wrapper;
 
 use OCP\Files\Storage\IStorage;
@@ -307,8 +308,6 @@ class Availability extends Wrapper {
 			throw $e;
 		}
 	}
-
-
 
 	#[\Override]
 	public function getDirectoryContent(string $directory): \Traversable {

@@ -231,7 +231,6 @@ class ChangeKeyStorageRootTest extends TestCase {
 		];
 	}
 
-
 	public function testMoveUserKeys(): void {
 		$changeKeyStorageRoot = $this->getMockBuilder('OC\Core\Command\Encryption\ChangeKeyStorageRoot')
 			->setConstructorArgs(
@@ -306,7 +305,6 @@ class ChangeKeyStorageRootTest extends TestCase {
 		];
 	}
 
-
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestPrepareParentFolder')]
 	public function testPrepareParentFolder($path, $pathExists): void {
 		$this->view->expects($this->any())->method('file_exists')
@@ -348,7 +346,6 @@ class ChangeKeyStorageRootTest extends TestCase {
 			$this->invokePrivate($this->changeKeyStorageRoot, 'targetExists', ['path'])
 		);
 	}
-
 
 	public function testTargetExistsException(): void {
 		$this->expectException(\Exception::class);

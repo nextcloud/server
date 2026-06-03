@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\Cache;
 
 use OCP\ICache;
@@ -133,7 +134,6 @@ class CappedMemoryCache implements ICache, \ArrayAccess {
 	public function getData(): array {
 		return $this->cache;
 	}
-
 
 	/**
 	 * @since 25.0.0

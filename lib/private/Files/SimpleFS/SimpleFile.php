@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Files\SimpleFS;
 
 use OCP\Files\File;
@@ -115,7 +116,6 @@ class SimpleFile implements ISimpleFile {
 			throw new NotFoundException('File does not exist');
 		}
 	}
-
 
 	/**
 	 * Delete the file

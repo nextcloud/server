@@ -5,12 +5,12 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\Share;
 
 use OCP\AppFramework\Attribute\Consumable;
 use OCP\Files\Folder;
 use OCP\Files\Node;
-
 use OCP\IUser;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
@@ -290,7 +290,7 @@ interface IManager {
 	 * @since 9.0.0
 	 * @since 33.0.0 Added optional $user parameter
 	 */
-	public function shareApiAllowLinks(): bool;
+	public function shareApiAllowLinks(?IUser $user = null): bool;
 
 	/**
 	 * Is password on public link required
@@ -455,7 +455,6 @@ interface IManager {
 	 */
 	public function ignoreSecondDisplayName(): bool;
 
-
 	/**
 	 * Check if custom tokens are allowed
 	 *
@@ -496,7 +495,6 @@ interface IManager {
 	 * @since 14.0.0
 	 */
 	public function outgoingServer2ServerGroupSharesAllowed(): bool;
-
 
 	/**
 	 * Check if a given share provider exists

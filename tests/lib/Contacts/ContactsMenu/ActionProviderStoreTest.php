@@ -103,7 +103,6 @@ class ActionProviderStoreTest extends TestCase {
 		$this->assertInstanceOf(EMailProvider::class, $providers[2]);
 	}
 
-
 	public function testGetProvidersWithQueryException(): void {
 		$this->expectException(\Exception::class);
 

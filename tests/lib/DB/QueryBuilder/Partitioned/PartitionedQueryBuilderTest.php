@@ -47,7 +47,6 @@ class PartitionedQueryBuilderTest extends TestCase {
 		parent::tearDown();
 	}
 
-
 	private function getQueryBuilder(): PartitionedQueryBuilder {
 		$builder = $this->connection->getQueryBuilder();
 		if ($builder instanceof PartitionedQueryBuilder) {

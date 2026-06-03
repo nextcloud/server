@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\AppInfo;
 
 use OCA\DAV\CalDAV\AppCalendar\AppCalendarPlugin;
@@ -48,6 +49,7 @@ use OCA\DAV\Listener\AddMissingIndicesListener;
 use OCA\DAV\Listener\AddressbookListener;
 use OCA\DAV\Listener\BirthdayListener;
 use OCA\DAV\Listener\CalendarContactInteractionListener;
+use OCA\DAV\Listener\CalendarDelegateActionListener;
 use OCA\DAV\Listener\CalendarDeletionDefaultUpdaterListener;
 use OCA\DAV\Listener\CalendarFederationNotificationListener;
 use OCA\DAV\Listener\CalendarObjectReminderUpdaterListener;
@@ -178,7 +180,6 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(SubscriptionCreatedEvent::class, SubscriptionListener::class);
 		$context->registerEventListener(SubscriptionDeletedEvent::class, SubscriptionListener::class);
 
-
 		$context->registerEventListener(AddressBookCreatedEvent::class, AddressbookListener::class);
 		$context->registerEventListener(AddressBookDeletedEvent::class, AddressbookListener::class);
 		$context->registerEventListener(AddressBookUpdatedEvent::class, AddressbookListener::class);
@@ -216,6 +217,12 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(CalendarObjectCreatedEvent::class, CalendarFederationNotificationListener::class);
 		$context->registerEventListener(CalendarObjectUpdatedEvent::class, CalendarFederationNotificationListener::class);
 		$context->registerEventListener(CalendarObjectDeletedEvent::class, CalendarFederationNotificationListener::class);
+
+		$context->registerEventListener(CalendarObjectCreatedEvent::class, CalendarDelegateActionListener::class);
+		$context->registerEventListener(CalendarObjectUpdatedEvent::class, CalendarDelegateActionListener::class);
+		$context->registerEventListener(CalendarObjectDeletedEvent::class, CalendarDelegateActionListener::class);
+		$context->registerEventListener(CalendarObjectMovedToTrashEvent::class, CalendarDelegateActionListener::class);
+		$context->registerEventListener(CalendarObjectRestoredEvent::class, CalendarDelegateActionListener::class);
 
 		$context->registerNotifierService(NotifierCalDAV::class);
 		$context->registerNotifierService(NotifierCardDAV::class);

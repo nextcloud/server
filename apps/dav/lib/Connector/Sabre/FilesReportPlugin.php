@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\Files\View;
@@ -309,7 +310,6 @@ class FilesReportPlugin extends ServerPlugin {
 		}
 		return Circles::getFilesForCircles($circlesIds);
 	}
-
 
 	/**
 	 * Prepare propfind response for the given nodes

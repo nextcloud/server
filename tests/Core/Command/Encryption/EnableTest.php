@@ -46,7 +46,6 @@ class EnableTest extends TestCase {
 		$this->command = new Enable($config, $manager);
 	}
 
-
 	public static function dataEnable(): array {
 		return [
 			['no', '', [], true, 'Encryption enabled', 'No encryption module is loaded'],

@@ -108,6 +108,5 @@ abstract class AsyncBusTestCase extends TestCase {
 		$this->assertEquals('', self::$lastCommand);
 	}
 
-
 	abstract protected function runJobs();
 }

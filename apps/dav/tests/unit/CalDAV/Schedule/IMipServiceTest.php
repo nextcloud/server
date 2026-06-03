@@ -39,7 +39,6 @@ class IMipServiceTest extends TestCase {
 	private IMipService $service;
 	private IUserManager&MockObject $userManager;
 
-
 	private VCalendar $vCalendar1a;
 	private VCalendar $vCalendar1b;
 	private VCalendar $vCalendar2;

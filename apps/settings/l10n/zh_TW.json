@@ -316,6 +316,7 @@
     "_Most tasks were successful in the last day._::_Most tasks were successful in the last %n days._" : ["最近%n天內的大多數任務都成功完成。"],
     "_A lot of tasks failed in the last day. Consider checking the nextcloud log for errors and investigating whether the AI provider apps have been set up correctly._::_A lot of tasks failed in the last %n days. Consider checking the nextcloud log for errors and investigating whether the AI provider apps have been set up correctly._" : ["最近%n天內，有許多任務執行失敗。建議檢查 Nextcloud 紀錄檔中的錯誤訊息，並確認 AI 服務提供者應用程式是否已正確設定。"],
     "Task Processing worker status" : "任務處理 worker 的狀態",
+    "_The Task Processing worker has run in the last %n minute._::_The Task Processing worker has run in the last %n minutes._" : ["任務處理 worker 已在過去 %n 分鐘內執行過。"],
     "The Task Processing worker does not seem to be running. The last run was at %s." : "任務處理 worker 似乎並未執行。上次執行為 %s。",
     "The Task Processing worker does not seem to be running. It seems it has never run so far." : "任務處理 worker 似乎並未執行。似乎從未執行過。",
     "Temporary space available" : "可用臨時空間",

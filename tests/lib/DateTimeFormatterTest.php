@@ -76,7 +76,6 @@ class DateTimeFormatterTest extends TestCase {
 			[$deL10N->n('%n hour ago', '%n hours ago', 1), new \DateTime('Wed, 02 Oct 2013 22:59:59 +0000'), new \DateTime('Wed, 02 Oct 2013 23:59:59 +0000'), $deL10N],
 			[$deL10N->n('%n hour ago', '%n hours ago', 3), new \DateTime('Wed, 02 Oct 2013 20:39:59 +0000'), new \DateTime('Wed, 02 Oct 2013 23:59:59 +0000'), $deL10N],
 			[$deL10N->n('%n day ago', '%n days ago', 2), new \DateTime('Mon, 30 Sep 2013 20:39:59 +0000'), new \DateTime('Wed, 02 Oct 2013 23:59:59 +0000'), $deL10N],
-
 		];
 	}
 
@@ -171,7 +170,6 @@ class DateTimeFormatterTest extends TestCase {
 	public function testFormatDateTime($timestamp, $timeZone, $expected): void {
 		$this->assertEquals($expected, (string)$this->formatter->formatDateTime($timestamp, 'long', 'long', $timeZone));
 	}
-
 
 	public function testFormatDateWithInvalidTZ(): void {
 		$this->expectException(\Exception::class);

@@ -676,7 +676,6 @@ class LostControllerTest extends TestCase {
 		$this->assertEquals($expectedResponse, $response);
 	}
 
-
 	/**
 	 * @return array
 	 */

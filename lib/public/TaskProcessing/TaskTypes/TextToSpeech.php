@@ -37,7 +37,6 @@ class TextToSpeech implements ITaskType {
 		$this->l = $l10nFactory->get('lib');
 	}
 
-
 	/**
 	 * @inheritDoc
 	 * @since 32.0.0

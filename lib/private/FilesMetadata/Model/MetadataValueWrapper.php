@@ -163,7 +163,6 @@ class MetadataValueWrapper implements IMetadataValueWrapper {
 		$this->assertType(self::TYPE_BOOL);
 		$this->value = $value;
 
-
 		return $this;
 	}
 
@@ -216,7 +215,6 @@ class MetadataValueWrapper implements IMetadataValueWrapper {
 
 		return $this;
 	}
-
 
 	/**
 	 * @inheritDoc

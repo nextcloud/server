@@ -58,7 +58,6 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 			->willReturn($this->createMock(IUser::class));
 	}
 
-
 	public function testBeforeControllerAsUserWithoutAnnotation(): void {
 		$this->expectException(NotAdminException::class);
 
@@ -82,7 +81,6 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 
 		$this->subadminMiddleware->beforeController($this->controller, 'foo');
 	}
-
 
 	public function testBeforeControllerWithAnnotation(): void {
 		$this->reflector
@@ -125,7 +123,6 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 		$expectedResponse->setStatus(403);
 		$this->assertEquals($expectedResponse, $this->subadminMiddleware->afterException($this->controller, 'foo', new NotAdminException('')));
 	}
-
 
 	public function testAfterRegularException(): void {
 		$this->expectException(\Exception::class);

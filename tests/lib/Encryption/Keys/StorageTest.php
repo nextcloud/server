@@ -555,7 +555,6 @@ class StorageTest extends TestCase {
 		$this->assertSame($expected, $args[0]);
 	}
 
-
 	/**
 	 * @param bool $createBackupDir
 	 */

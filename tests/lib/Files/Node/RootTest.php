@@ -111,7 +111,6 @@ class RootTest extends \Test\TestCase {
 		$this->assertInstanceOf('\OC\Files\Node\File', $node);
 	}
 
-
 	public function testGetNotFound(): void {
 		$this->expectException(NotFoundException::class);
 
@@ -143,7 +142,6 @@ class RootTest extends \Test\TestCase {
 		$root->get('/bar/foo');
 	}
 
-
 	public function testGetInvalidPath(): void {
 		$this->expectException(NotPermittedException::class);
 
@@ -162,7 +160,6 @@ class RootTest extends \Test\TestCase {
 
 		$root->get('/../foo');
 	}
-
 
 	public function testGetNoStorages(): void {
 		$this->expectException(NotFoundException::class);
@@ -221,7 +218,6 @@ class RootTest extends \Test\TestCase {
 		$this->invokePrivate($root, 'userFolderCache', [$cappedMemoryCache]);
 		$this->assertEquals($folder, $root->getUserFolder('MyUserId'));
 	}
-
 
 	public function testGetUserFolderWithNoUserObj(): void {
 		$this->expectException(NoUserException::class);

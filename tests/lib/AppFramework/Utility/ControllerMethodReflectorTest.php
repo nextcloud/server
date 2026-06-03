@@ -125,7 +125,6 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 		$this->assertFalse($reader->hasAnnotation('param'));
 	}
 
-
 	/**
 	 * @Annotation
 	 * @param int $test
@@ -161,7 +160,6 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 		$this->assertNull($reader->getType('d'));
 	}
 
-
 	/**
 	 * @Annotation
 	 * @param double $test something special
@@ -190,7 +188,6 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 		$this->assertEquals('string', $reader->getType('foo'));
 	}
 
-
 	public function arguments($arg, $arg2 = 'hi') {
 	}
 	public function testReflectParameters(): void {
@@ -202,7 +199,6 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 
 		$this->assertEquals(['arg' => null, 'arg2' => 'hi'], $reader->getParameters());
 	}
-
 
 	public function arguments2($arg) {
 	}
@@ -216,14 +212,12 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 		$this->assertEquals(['arg' => null], $reader->getParameters());
 	}
 
-
 	public function testInheritance(): void {
 		$reader = new ControllerMethodReflector(Server::get(LoggerInterface::class));
 		$reader->reflect('Test\AppFramework\Utility\EndController', 'test');
 
 		$this->assertTrue($reader->hasAnnotation('Annotation'));
 	}
-
 
 	public function testInheritanceOverride(): void {
 		$reader = new ControllerMethodReflector(Server::get(LoggerInterface::class));
@@ -232,7 +226,6 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 		$this->assertTrue($reader->hasAnnotation('NoAnnotation'));
 		$this->assertFalse($reader->hasAnnotation('Annotation'));
 	}
-
 
 	public function testInheritanceOverrideNoDocblock(): void {
 		$reader = new ControllerMethodReflector(Server::get(LoggerInterface::class));

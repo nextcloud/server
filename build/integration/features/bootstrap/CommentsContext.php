@@ -139,7 +139,6 @@ class CommentsContext implements \Behat\Behat\Context\Context {
 		}
 	}
 
-
 	/**
 	 * @Then As :user load all the comments of the file named :fileName it should return :statusCode
 	 * @param string $user

@@ -174,8 +174,6 @@ class EMailTemplateTest extends TestCase {
 		$this->assertSame($expectedTXT, $this->emailTemplate->renderText());
 	}
 
-
-
 	public function testEMailTemplateAlternativePlainTexts(): void {
 		$this->defaults
 			->expects($this->atLeastOnce())

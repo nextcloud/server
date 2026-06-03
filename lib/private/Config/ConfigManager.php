@@ -41,7 +41,6 @@ class ConfigManager {
 		$this->userConfig->clearCacheAll();
 	}
 
-
 	/**
 	 * Use the rename values from the list of ConfigLexiconEntry defined in each app ConfigLexicon
 	 * to migrate config value to a new config key.
@@ -190,7 +189,6 @@ class ConfigManager {
 		}
 	}
 
-
 	/**
 	 * converting value from rename to the new key
 	 *
@@ -202,19 +200,15 @@ class ConfigManager {
 			case ValueType::STRING:
 				$this->appConfig->setValueString($appId, $entry->getKey(), $value);
 				return;
-
 			case ValueType::INT:
 				$this->appConfig->setValueInt($appId, $entry->getKey(), $this->convertToInt($value));
 				return;
-
 			case ValueType::FLOAT:
 				$this->appConfig->setValueFloat($appId, $entry->getKey(), $this->convertToFloat($value));
 				return;
-
 			case ValueType::BOOL:
 				$this->appConfig->setValueBool($appId, $entry->getKey(), $this->convertToBool($value, $entry));
 				return;
-
 			case ValueType::ARRAY:
 				$this->appConfig->setValueArray($appId, $entry->getKey(), $this->convertToArray($value));
 				return;
@@ -232,19 +226,15 @@ class ConfigManager {
 			case ValueType::STRING:
 				$this->userConfig->setValueString($userId, $appId, $entry->getKey(), $value);
 				return;
-
 			case ValueType::INT:
 				$this->userConfig->setValueInt($userId, $appId, $entry->getKey(), $this->convertToInt($value));
 				return;
-
 			case ValueType::FLOAT:
 				$this->userConfig->setValueFloat($userId, $appId, $entry->getKey(), $this->convertToFloat($value));
 				return;
-
 			case ValueType::BOOL:
 				$this->userConfig->setValueBool($userId, $appId, $entry->getKey(), $this->convertToBool($value, $entry));
 				return;
-
 			case ValueType::ARRAY:
 				$this->userConfig->setValueArray($userId, $appId, $entry->getKey(), $this->convertToArray($value));
 				return;

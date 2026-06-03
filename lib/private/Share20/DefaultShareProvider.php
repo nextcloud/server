@@ -308,7 +308,6 @@ class DefaultShareProvider implements
 			$this->propagateNote($share);
 		}
 
-
 		return $share;
 	}
 
@@ -609,6 +608,7 @@ class DefaultShareProvider implements
 						'permissions' => $qb->createNamedParameter($share->getPermissions()),
 						'attributes' => $qb->createNamedParameter($shareAttributes),
 						'stime' => $qb->createNamedParameter($share->getShareTime()->getTimestamp()),
+						'accepted' => $qb->createNamedParameter(IShare::STATUS_ACCEPTED),
 					])->executeStatement();
 			} else {
 				// Already a usergroup share. Update it.
@@ -1058,7 +1058,6 @@ class DefaultShareProvider implements
 		} else {
 			throw new BackendError('Invalid backend');
 		}
-
 
 		return $shares;
 	}
@@ -1713,7 +1712,6 @@ class DefaultShareProvider implements
 				$l->t('Open %s', [$filename]),
 				$link
 			);
-
 
 			// The "From" contains the sharers name
 			$instanceName = $this->defaults->getName();

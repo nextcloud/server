@@ -39,7 +39,6 @@ class SetConfigTest extends TestCase {
 		$this->command = new SetConfig($this->appConfig, $this->configManager);
 	}
 
-
 	public static function dataSet(): array {
 		return [
 			[

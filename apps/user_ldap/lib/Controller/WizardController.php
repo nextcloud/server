@@ -88,7 +88,6 @@ class WizardController extends OCSController {
 						throw new OCSException($e->getMessage());
 					}
 					throw new OCSException();
-
 				case 'testLoginName':
 					try {
 						if ($loginName === null || $loginName === '') {
@@ -102,7 +101,6 @@ class WizardController extends OCSController {
 						throw new OCSException($e->getMessage());
 					}
 					throw new OCSException();
-
 				default:
 					throw new OCSException('Action ' . $wizardAction . 'does not exist');
 					break;

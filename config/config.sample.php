@@ -27,15 +27,12 @@
  */
 
 $CONFIG = [
-
-
 	/**
 	 * Default Parameters
 	 *
 	 * These parameters are configured by the Nextcloud installer, and are required
 	 * for your Nextcloud server to operate.
 	 */
-
 
 	/**
 	 * This is a unique identifier for your Nextcloud installation, created
@@ -196,7 +193,6 @@ $CONFIG = [
 	 * Defaults to ``false``
 	 */
 	'installed' => false,
-
 
 	/**
 	 * User Experience
@@ -904,7 +900,6 @@ $CONFIG = [
 	 */
 	'trashbin_retention_obligation' => 'auto',
 
-
 	/**
 	 * File versions
 	 *
@@ -1303,7 +1298,6 @@ $CONFIG = [
 	 * Note that this directory must be writable by the web server user and will not be cleaned up automatically.
 	 */
 	'profiling.path' => '/tmp',
-
 
 	/**
 	 * Alternate Code Locations
@@ -1844,7 +1838,6 @@ $CONFIG = [
 		]
 	],
 
-
 	/**
 	 * Server details for one or more Memcached servers to use for memory caching.
 	 */
@@ -1880,7 +1873,6 @@ $CONFIG = [
 		// Binary serializer will be enabled if the igbinary PECL module is available
 		//\Memcached::OPT_SERIALIZER => \Memcached::SERIALIZER_IGBINARY,
 	],
-
 
 	/**
 	 * Location of the cache folder, defaults to ``data/$user/cache`` where
@@ -2034,7 +2026,6 @@ $CONFIG = [
 	 * ``appdata_INSTANCEID/previews/FILEID`` folder structure.
 	 */
 	'objectstore.multibucket.preview-distribution' => false,
-
 
 	/**
 	 * Sharing

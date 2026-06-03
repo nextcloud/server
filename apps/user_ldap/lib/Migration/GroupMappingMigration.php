@@ -33,7 +33,6 @@ abstract class GroupMappingMigration extends SimpleMigrationStep {
 		$query->select('*')
 			->from($sourceTable);
 
-
 		$result = $query->executeQuery();
 		while ($row = $result->fetchAssociative()) {
 			$insert

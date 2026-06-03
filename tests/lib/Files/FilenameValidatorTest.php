@@ -114,7 +114,6 @@ class FilenameValidatorTest extends TestCase {
 		$validator->method('getForbiddenFilenames')
 			->willReturn($forbiddenNames);
 
-
 		$this->assertEquals($exception === null, $validator->isFilenameValid($filename));
 	}
 

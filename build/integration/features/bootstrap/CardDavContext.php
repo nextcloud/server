@@ -35,7 +35,6 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 		$this->responseXml = '';
 	}
 
-
 	/** @AfterScenario */
 	public function afterScenario() {
 		$davUrl = $this->baseUrl . '/remote.php/dav/addressbooks/users/admin/MyAddressbook';

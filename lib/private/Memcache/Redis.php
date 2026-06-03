@@ -5,8 +5,10 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Memcache;
 
+use OC\RedisFactory;
 use OCP\IMemcacheTTL;
 use OCP\Server;
 
@@ -37,24 +39,20 @@ class Redis extends Cache implements IMemcacheTTL {
 
 	private const MAX_TTL = 30 * 24 * 60 * 60; // 1 month
 
-	/**
-	 * @var \Redis|\RedisCluster $cache
-	 */
-	private static $cache = null;
+	private \Redis|\RedisCluster|null $cache = null;
 
 	public function __construct($prefix = '', string $logFile = '') {
 		parent::__construct($prefix);
 	}
 
 	/**
-	 * @return \Redis|\RedisCluster|null
 	 * @throws \Exception
 	 */
-	public function getCache() {
-		if (is_null(self::$cache)) {
-			self::$cache = Server::get('RedisFactory')->getInstance();
+	public function getCache(): \Redis|\RedisCluster {
+		if ($this->cache === null) {
+			$this->cache = \OCP\Server::get(RedisFactory::class)->getInstance();
 		}
-		return self::$cache;
+		return $this->cache;
 	}
 
 	#[\Override]

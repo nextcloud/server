@@ -296,10 +296,8 @@ class ClientTest extends \Test\TestCase {
 				'https' => 'foo'
 			],
 			'headers' => [
-
 				'User-Agent' => 'Nextcloud-Server-Crawler/123.45.6',
 				'Accept-Encoding' => $acceptEnc,
-
 			],
 			'timeout' => 30,
 			'nextcloud' => [

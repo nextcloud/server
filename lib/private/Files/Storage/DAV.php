@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Storage;
 
 use Exception;
@@ -158,6 +159,11 @@ class DAV extends Common {
 
 		$this->client = new Client($settings);
 		$this->client->setThrowExceptions(true);
+
+		$proxyExclude = Server::get(IConfig::class)->getSystemValue('proxyexclude', []);
+		if ($proxyExclude !== []) {
+			$this->client->addCurlSetting(CURLOPT_NOPROXY, implode(',', $proxyExclude));
+		}
 
 		if ($this->secure === true) {
 			if ($this->verify === false) {
@@ -666,7 +672,6 @@ class DAV extends Common {
 	public function stat(string $path): array|false {
 		$meta = $this->getMetaData($path);
 		return $meta ?: false;
-
 	}
 
 	#[\Override]

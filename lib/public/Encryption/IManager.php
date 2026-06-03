@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\Encryption;
 
 use OC\Encryption\Exceptions\ModuleAlreadyExistsException;
@@ -50,7 +51,6 @@ interface IManager {
 	 * @since 8.1.0
 	 */
 	public function getEncryptionModules();
-
 
 	/**
 	 * get a specific encryption module

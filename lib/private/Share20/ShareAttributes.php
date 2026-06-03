@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2019-2022 ownCloud GmbH
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Share20;
 
 use OCP\Share\IAttributes;

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\KnownUser\KnownUserService;
@@ -259,7 +260,6 @@ class PrincipalTest extends TestCase {
 		$this->assertSame([], $response);
 	}
 
-
 	public function testGetGroupMemberSetEmpty(): void {
 		$this->expectException(Exception::class);
 		$this->expectExceptionMessage('Principal not found');
@@ -384,7 +384,6 @@ class PrincipalTest extends TestCase {
 		$this->assertSame($expectedResponse, $response);
 	}
 
-
 	public function testGetGroupMembershipEmpty(): void {
 		$this->expectException(Exception::class);
 		$this->expectExceptionMessage('Principal not found');
@@ -397,7 +396,6 @@ class PrincipalTest extends TestCase {
 
 		$this->connector->getGroupMembership('principals/users/foo');
 	}
-
 
 	public function testSetGroupMembership(): void {
 		$this->expectException(Exception::class);
@@ -531,7 +529,6 @@ class PrincipalTest extends TestCase {
 		$this->groupManager->expects($this->any())
 			->method('getUserGroupIds')
 			->willReturnMap($getUserGroupIdsReturnMap);
-
 
 		$this->assertEquals($result, $this->connector->searchPrincipals('principals/users',
 			['{http://sabredav.org/ns}email-address' => 'user@example.com',
@@ -699,7 +696,6 @@ class PrincipalTest extends TestCase {
 			->method('allowEnumerationFullMatch')
 			->willReturn(false);
 
-
 		$this->assertEquals([], $this->connector->searchPrincipals('principals/users',
 			['{http://sabredav.org/ns}email-address' => 'user2@foo.bar']));
 	}
@@ -734,7 +730,6 @@ class PrincipalTest extends TestCase {
 		$user4->method('getDisplayName')->willReturn('User 222');
 		$user4->method('getSystemEMailAddress')->willReturn('user2@foo.bar456');
 
-
 		$this->userSession->expects($this->once())
 			->method('getUser')
 			->willReturn($user2);
@@ -751,7 +746,6 @@ class PrincipalTest extends TestCase {
 			->method('searchDisplayName')
 			->with('User')
 			->willReturn([$user2, $user3, $user4]);
-
 
 		$this->assertEquals([
 			'principals/users/user2',
@@ -790,7 +784,6 @@ class PrincipalTest extends TestCase {
 		$user4->method('getDisplayName')->willReturn('User 222');
 		$user4->method('getSystemEMailAddress')->willReturn('user2@foo.bar456');
 
-
 		$this->userSession->expects($this->once())
 			->method('getUser')
 			->willReturn($user2);
@@ -807,7 +800,6 @@ class PrincipalTest extends TestCase {
 			->method('getByEmail')
 			->with('user')
 			->willReturn([$user2, $user3, $user4]);
-
 
 		$this->assertEquals([
 			'principals/users/user2',

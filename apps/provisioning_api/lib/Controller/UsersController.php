@@ -343,8 +343,6 @@ class UsersController extends AUserDataOCSController {
 		]);
 	}
 
-
-
 	/**
 	 * @NoSubAdminRequired
 	 *

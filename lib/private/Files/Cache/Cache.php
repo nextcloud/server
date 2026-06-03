@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Cache;
 
 use OC\DatabaseException;
@@ -434,7 +435,6 @@ class Cache implements ICache {
 		// path can still be null if the file doesn't exist
 		if ($path !== null) {
 			$event = new CacheEntryUpdatedEvent($this->storage, $path, $id, $this->getNumericStorageId());
-			$this->eventDispatcher->dispatch(CacheEntryUpdatedEvent::class, $event);
 			$this->eventDispatcher->dispatchTyped($event);
 		}
 	}
@@ -848,11 +848,9 @@ class Cache implements ICache {
 				$this->eventDispatcher->dispatchTyped(new CacheEntriesRemovedEvent([$event]));
 
 				$event = new CacheEntryInsertedEvent($this->storage, $targetPath, $sourceId, $this->getNumericStorageId());
-				$this->eventDispatcher->dispatch(CacheEntryInsertedEvent::class, $event);
 				$this->eventDispatcher->dispatchTyped($event);
 			} else {
 				$event = new CacheEntryUpdatedEvent($this->storage, $targetPath, $sourceId, $this->getNumericStorageId());
-				$this->eventDispatcher->dispatch(CacheEntryUpdatedEvent::class, $event);
 				$this->eventDispatcher->dispatchTyped($event);
 			}
 		} else {
@@ -1022,7 +1020,6 @@ class Cache implements ICache {
 	public function calculateFolderSize($path, $entry = null) {
 		return $this->calculateFolderSizeInner($path, $entry);
 	}
-
 
 	/**
 	 * inner function because we can't add new params to the public function without breaking any child classes

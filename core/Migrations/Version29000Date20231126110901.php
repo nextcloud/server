@@ -38,7 +38,6 @@ class Version29000Date20231126110901 extends SimpleMigrationStep {
 		 * @see Version29000Date20240124132202 for the new migration process
 		 */
 		return null;
-
 		//		// type=2 means value is typed as MIXED
 		//		$table->addColumn('type', Types::INTEGER, ['notnull' => true, 'default' => 2]);
 		//		$table->addColumn('lazy', Types::BOOLEAN, ['notnull' => false, 'default' => false]);

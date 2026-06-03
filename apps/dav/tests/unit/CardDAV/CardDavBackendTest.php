@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\CardDAV;
 
 use OC\KnownUser\KnownUserService;
@@ -649,7 +650,6 @@ class CardDavBackendTest extends TestCase {
 			$this->invokePrivate($this->backend, 'getCardId', [1, 'uri']));
 	}
 
-
 	public function testGetCardIdFailed(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -801,7 +801,6 @@ class CardDavBackendTest extends TestCase {
 
 		$this->assertSame('uri', $this->backend->getCardUri($id));
 	}
-
 
 	public function testGetCardUriFailed(): void {
 		$this->expectException(\InvalidArgumentException::class);

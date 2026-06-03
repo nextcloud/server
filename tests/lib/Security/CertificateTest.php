@@ -32,7 +32,6 @@ class CertificateTest extends \Test\TestCase {
 		$this->expiredCertificate = new Certificate($expiredCertificate, 'ExpiredCertificate');
 	}
 
-
 	public function testBogusData(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Certificate could not get parsed.');

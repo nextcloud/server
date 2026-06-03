@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace Core\Command\User;
 
 use OC\Core\Command\User\Profile;
@@ -398,7 +399,6 @@ class ProfileTest extends TestCase {
 		$command->expects($this->once())
 			->method('writeArrayInOutputFormat')
 			->with($this->consoleInput, $this->consoleOutput, $profileData);
-
 
 		$this->assertEquals(0, $this->invokePrivate($command, 'execute', [$this->consoleInput, $this->consoleOutput]));
 	}

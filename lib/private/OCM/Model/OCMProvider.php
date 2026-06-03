@@ -276,7 +276,6 @@ class OCMProvider implements IOCMProvider {
 		return $this;
 	}
 
-
 	/**
 	 * @return bool
 	 */
@@ -313,6 +312,5 @@ class OCMProvider implements IOCMProvider {
 			$response['inviteAcceptDialog'] = $inviteAcceptDialog;
 		}
 		return $response;
-
 	}
 }

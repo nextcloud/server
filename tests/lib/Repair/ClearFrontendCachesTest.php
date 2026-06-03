@@ -34,7 +34,6 @@ class ClearFrontendCachesTest extends \Test\TestCase {
 		$this->repair = new ClearFrontendCaches($this->cacheFactory, $this->jsCombiner);
 	}
 
-
 	public function testRun(): void {
 		$imagePathCache = $this->createMock(ICache::class);
 		$imagePathCache->expects($this->once())

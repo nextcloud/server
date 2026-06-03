@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\ShareByMail;
 
 use OC\Share20\DefaultShareProvider;
@@ -205,7 +206,6 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 			);
 		}
 	}
-
 
 	/**
 	 * publish activity if a file/folder was shared by mail
@@ -511,7 +511,6 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 
 	protected function sendNote(IShare $share): void {
 		$recipient = $share->getSharedWith();
-
 
 		$filename = $share->getNode()->getName();
 		$initiator = $share->getSharedBy();
@@ -961,7 +960,6 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 			$shares[] = $this->createShareObject($data);
 		}
 		$cursor->closeCursor();
-
 
 		return $shares;
 	}

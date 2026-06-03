@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace Test\Comments;
 
 use OC\Comments\Comment;
@@ -63,7 +64,6 @@ class CommentTest extends TestCase {
 		$this->assertSame($referenceId, $comment->getReferenceId());
 		$this->assertSame($metaData, $comment->getMetaData());
 	}
-
 
 	public function testSetIdIllegalInput(): void {
 		$this->expectException(IllegalIDChangeException::class);
@@ -128,7 +128,6 @@ class CommentTest extends TestCase {
 		$setter = 'set' . $role;
 		$comment->$setter($type, $id);
 	}
-
 
 	public function testSetUberlongMessage(): void {
 		$this->expectException(MessageTooLongException::class);

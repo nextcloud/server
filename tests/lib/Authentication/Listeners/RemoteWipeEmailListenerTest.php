@@ -66,7 +66,6 @@ class RemoteWipeEmailListenerTest extends TestCase {
 		);
 	}
 
-
 	public function testHandleUnrelated(): void {
 		$event = new Event();
 		$this->mailer->expects($this->never())->method('send');

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use OCP\Diagnostics\IEventLogger;
@@ -98,7 +99,6 @@ class RedisFactory {
 				}
 			}
 
-
 			// Auth if configured
 			if ($auth !== null) {
 				$this->instance->auth($auth);
@@ -131,15 +131,14 @@ class RedisFactory {
 	}
 
 	public function getInstance(): \Redis|\RedisCluster {
-		if (!$this->isAvailable()) {
-			throw new \Exception('Redis support is not available');
-		}
 		if ($this->instance === null) {
+			if (!$this->isAvailable()) {
+				throw new \Exception('Redis support is not available');
+			}
 			$this->create();
-		}
-
-		if ($this->instance === null) {
-			throw new \Exception('Redis support is not available');
+			if ($this->instance === null) {
+				throw new \Exception('Redis support is not available');
+			}
 		}
 
 		return $this->instance;

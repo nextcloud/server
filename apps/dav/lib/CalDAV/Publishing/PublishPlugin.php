@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CalDAV\Publishing;
 
 use OCA\DAV\CalDAV\CalDavBackend;
@@ -173,7 +174,6 @@ class PublishPlugin extends ServerPlugin {
 		$this->server->xml->parse($requestBody, $request->getUrl(), $documentType);
 
 		switch ($documentType) {
-
 			case '{' . self::NS_CALENDARSERVER . '}publish-calendar':
 
 				// We can only deal with IShareableCalendar objects
@@ -208,7 +208,6 @@ class PublishPlugin extends ServerPlugin {
 
 				// Breaking the event chain
 				return false;
-
 			case '{' . self::NS_CALENDARSERVER . '}unpublish-calendar':
 
 				// We can only deal with IShareableCalendar objects
@@ -242,7 +241,6 @@ class PublishPlugin extends ServerPlugin {
 
 				// Breaking the event chain
 				return false;
-
 		}
 	}
 }

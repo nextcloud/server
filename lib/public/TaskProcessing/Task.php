@@ -76,7 +76,6 @@ final class Task implements \JsonSerializable {
 	 */
 	public const STATUS_UNKNOWN = 0;
 
-
 	/**
 	 * @param string $taskTypeId
 	 * @param array<string,list<numeric|string>|numeric|string> $input

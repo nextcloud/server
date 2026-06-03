@@ -11,8 +11,6 @@ namespace Test;
 use OC\App\AppManager;
 use OC\Group\Manager;
 use OC\NavigationManager;
-use OC\Security\CSRF\CsrfTokenManager;
-use OC\SubAdmin;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IGroupManager;
@@ -22,7 +20,6 @@ use OCP\IUser;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Navigation\Events\LoadAdditionalEntriesEvent;
-use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
@@ -260,9 +257,6 @@ class NavigationManagerTest extends TestCase {
 			->with($user)
 			->willReturn(['test']);
 		$this->groupManager->expects($this->any())->method('isAdmin')->willReturn($isAdmin);
-		$subadmin = $this->createMock(SubAdmin::class);
-		$subadmin->expects($this->any())->method('isSubAdmin')->with($user)->willReturn(false);
-		$this->groupManager->expects($this->any())->method('getSubAdmin')->willReturn($subadmin);
 
 		$this->navigationManager->clear();
 		$this->dispatcher->expects($this->once())
@@ -275,112 +269,21 @@ class NavigationManagerTest extends TestCase {
 	}
 
 	public static function providesNavigationConfig(): array {
-		$apps = [
-			'core_apps' => [
-				'id' => 'core_apps',
-				'order' => 5,
-				'href' => '/apps/test/',
-				'icon' => '/apps/appstore/img/app.svg',
-				'name' => 'Apps',
-				'active' => false,
-				'type' => 'settings',
-				'classes' => '',
-				'unread' => 0
-			]
-		];
-		$defaults = [
-			'profile' => [
-				'type' => 'settings',
-				'id' => 'profile',
-				'order' => 1,
-				'href' => '/apps/test/',
-				'name' => 'View profile',
-				'icon' => '',
-				'active' => false,
-				'classes' => '',
-				'unread' => 0,
-			],
-			'accessibility_settings' => [
-				'type' => 'settings',
-				'id' => 'accessibility_settings',
-				'order' => 2,
-				'href' => '/apps/test/',
-				'name' => 'Appearance and accessibility',
-				'icon' => '/apps/theming/img/accessibility-dark.svg',
-				'active' => false,
-				'classes' => '',
-				'unread' => 0,
-			],
-			'settings' => [
-				'id' => 'settings',
-				'order' => 3,
-				'href' => '/apps/test/',
-				'icon' => '/apps/settings/img/admin.svg',
-				'name' => 'Settings',
-				'active' => false,
-				'type' => 'settings',
-				'classes' => '',
-				'unread' => 0
-			],
-			'logout' => [
-				'id' => 'logout',
-				'order' => 99999,
-				'href' => 'https://example.com/logout?requesttoken=' . urlencode(Server::get(CsrfTokenManager::class)->getToken()->getEncryptedValue()),
-				'icon' => '/apps/core/img/actions/logout.svg',
-				'name' => 'Log out',
-				'active' => false,
-				'type' => 'settings',
-				'classes' => '',
-				'unread' => 0
-			]
-		];
-		$adminSettings = [
-			'accessibility_settings' => $defaults['accessibility_settings'],
-			'settings' => [
-				'id' => 'settings',
-				'order' => 3,
-				'href' => '/apps/test/',
-				'icon' => '/apps/settings/img/personal.svg',
-				'name' => 'Personal settings',
-				'active' => false,
-				'type' => 'settings',
-				'classes' => '',
-				'unread' => 0
-			],
-			'admin_settings' => [
-				'id' => 'admin_settings',
-				'order' => 4,
-				'href' => '/apps/test/',
-				'icon' => '/apps/settings/img/admin.svg',
-				'name' => 'Administration settings',
-				'active' => false,
-				'type' => 'settings',
-				'classes' => '',
-				'unread' => 0
-			]
-		];
-
 		return [
 			'minimalistic' => [
-				array_merge(
-					['profile' => $defaults['profile']],
-					['accessibility_settings' => $defaults['accessibility_settings']],
-					['settings' => $defaults['settings']],
-					['test' => [
-						'id' => 'test',
-						'order' => 100,
-						'href' => '/apps/test/',
-						'icon' => '/apps/test/img/app.svg',
-						'name' => 'Test',
-						'active' => false,
-						'type' => 'link',
-						'classes' => '',
-						'unread' => 0,
-						'default' => true,
-						'app' => 'test',
-					]],
-					['logout' => $defaults['logout']]
-				),
+				['test' => [
+					'id' => 'test',
+					'order' => 100,
+					'href' => '/apps/test/',
+					'icon' => '/apps/test/img/app.svg',
+					'name' => 'Test',
+					'active' => false,
+					'type' => 'link',
+					'classes' => '',
+					'unread' => 0,
+					'default' => true,
+					'app' => 'test',
+				]],
 				['navigations' => [
 					'navigation' => [
 						['route' => 'test.page.index', 'name' => 'Test']
@@ -388,23 +291,17 @@ class NavigationManagerTest extends TestCase {
 				]]
 			],
 			'minimalistic-settings' => [
-				array_merge(
-					['profile' => $defaults['profile']],
-					['accessibility_settings' => $defaults['accessibility_settings']],
-					['settings' => $defaults['settings']],
-					['test' => [
-						'id' => 'test',
-						'order' => 100,
-						'href' => '/apps/test/',
-						'icon' => '/apps/test/img/app.svg',
-						'name' => 'Test',
-						'active' => false,
-						'type' => 'settings',
-						'classes' => '',
-						'unread' => 0,
-					]],
-					['logout' => $defaults['logout']]
-				),
+				['test' => [
+					'id' => 'test',
+					'order' => 100,
+					'href' => '/apps/test/',
+					'icon' => '/apps/test/img/app.svg',
+					'name' => 'Test',
+					'active' => false,
+					'type' => 'settings',
+					'classes' => '',
+					'unread' => 0,
+				]],
 				['navigations' => [
 					'navigation' => [
 						['route' => 'test.page.index', 'name' => 'Test', 'type' => 'settings']
@@ -412,38 +309,32 @@ class NavigationManagerTest extends TestCase {
 				]]
 			],
 			'with-multiple' => [
-				array_merge(
-					['profile' => $defaults['profile']],
-					['accessibility_settings' => $defaults['accessibility_settings']],
-					['settings' => $defaults['settings']],
-					['test' => [
-						'id' => 'test',
-						'order' => 100,
+				['test' => [
+					'id' => 'test',
+					'order' => 100,
+					'href' => '/apps/test/',
+					'icon' => '/apps/test/img/app.svg',
+					'name' => 'Test',
+					'active' => false,
+					'type' => 'link',
+					'classes' => '',
+					'unread' => 0,
+					'default' => false,
+					'app' => 'test',
+				],
+					'test1' => [
+						'id' => 'test1',
+						'order' => 50,
 						'href' => '/apps/test/',
 						'icon' => '/apps/test/img/app.svg',
-						'name' => 'Test',
+						'name' => 'Other test',
 						'active' => false,
 						'type' => 'link',
 						'classes' => '',
 						'unread' => 0,
-						'default' => false,
+						'default' => true, // because of order
 						'app' => 'test',
-					],
-						'test1' => [
-							'id' => 'test1',
-							'order' => 50,
-							'href' => '/apps/test/',
-							'icon' => '/apps/test/img/app.svg',
-							'name' => 'Other test',
-							'active' => false,
-							'type' => 'link',
-							'classes' => '',
-							'unread' => 0,
-							'default' => true, // because of order
-							'app' => 'test',
-						]],
-					['logout' => $defaults['logout']]
-				),
+					]],
 				['navigations' => [
 					'navigation' => [
 						['route' => 'test.page.index', 'name' => 'Test'],
@@ -452,25 +343,19 @@ class NavigationManagerTest extends TestCase {
 				]]
 			],
 			'admin' => [
-				array_merge(
-					['profile' => $defaults['profile']],
-					$adminSettings,
-					$apps,
-					['test' => [
-						'id' => 'test',
-						'order' => 100,
-						'href' => '/apps/test/',
-						'icon' => '/apps/test/img/app.svg',
-						'name' => 'Test',
-						'active' => false,
-						'type' => 'link',
-						'classes' => '',
-						'unread' => 0,
-						'default' => true,
-						'app' => 'test',
-					]],
-					['logout' => $defaults['logout']]
-				),
+				['test' => [
+					'id' => 'test',
+					'order' => 100,
+					'href' => '/apps/test/',
+					'icon' => '/apps/test/img/app.svg',
+					'name' => 'Test',
+					'active' => false,
+					'type' => 'link',
+					'classes' => '',
+					'unread' => 0,
+					'default' => true,
+					'app' => 'test',
+				]],
 				['navigations' => [
 					'navigation' => [
 						['@attributes' => ['role' => 'admin'], 'route' => 'test.page.index', 'name' => 'Test']
@@ -479,12 +364,7 @@ class NavigationManagerTest extends TestCase {
 				true
 			],
 			'no name' => [
-				array_merge(
-					['profile' => $defaults['profile']],
-					$adminSettings,
-					$apps,
-					['logout' => $defaults['logout']]
-				),
+				[], // nothing because the entry is not added because it has no name
 				['navigations' => [
 					'navigation' => [
 						['@attributes' => ['role' => 'admin'], 'route' => 'test.page.index']
@@ -493,12 +373,13 @@ class NavigationManagerTest extends TestCase {
 				true
 			],
 			'no admin' => [
-				$defaults,
+				[], // nothing because user is not an admin
 				['navigations' => [
 					'navigation' => [
 						['@attributes' => ['role' => 'admin'], 'route' => 'test.page.index', 'name' => 'Test']
 					],
 				]],
+				false,
 			]
 		];
 	}
@@ -567,9 +448,6 @@ class NavigationManagerTest extends TestCase {
 			->with($user)
 			->willReturn(['test']);
 		$this->groupManager->expects($this->any())->method('isAdmin')->willReturn(false);
-		$subadmin = $this->createMock(SubAdmin::class);
-		$subadmin->expects($this->any())->method('isSubAdmin')->with($user)->willReturn(false);
-		$this->groupManager->expects($this->any())->method('getSubAdmin')->willReturn($subadmin);
 
 		$this->navigationManager->clear();
 		$this->dispatcher->expects($this->once())

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Diagnostics;
 
 use OCP\Cache\CappedMemoryCache;
@@ -22,7 +23,6 @@ class QueryLogger implements IQueryLogger {
 	public function __construct() {
 		$this->queries = new CappedMemoryCache(1024);
 	}
-
 
 	/**
 	 * @var bool - Module needs to be activated by some app

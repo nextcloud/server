@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\FullTextSearch\Model;
 
 use JsonSerializable;
@@ -83,7 +84,6 @@ final class SearchOption implements ISearchOption, JsonSerializable {
 	) {
 	}
 
-
 	/**
 	 * Set the name/key of the option.
 	 * The string should only contain alphanumerical chars and underscore.
@@ -110,7 +110,6 @@ final class SearchOption implements ISearchOption, JsonSerializable {
 		return $this->name;
 	}
 
-
 	/**
 	 * Set the title/display name of the option.
 	 *
@@ -132,7 +131,6 @@ final class SearchOption implements ISearchOption, JsonSerializable {
 	public function getTitle(): string {
 		return $this->title;
 	}
-
 
 	/**
 	 * Set the type of the option.
@@ -156,7 +154,6 @@ final class SearchOption implements ISearchOption, JsonSerializable {
 	public function getType(): string {
 		return $this->type;
 	}
-
 
 	/**
 	 * In case of Type is INPUT, set the size of the input field.

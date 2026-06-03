@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\CalDAV;
 
 use DateTime;
@@ -1462,10 +1463,15 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$extraData = $this->getDenormalizedData($calendarData);
 
 		return $this->atomic(function () use ($calendarId, $objectUri, $calendarData, $extraData, $calendarType) {
+			// Read the object before overwriting it so the update event can carry
+			// both the previous and the new version of the object.
+			$oldObjectRow = $this->getCalendarObject($calendarId, $objectUri, $calendarType);
+
+			$lastModified = time();
 			$query = $this->db->getQueryBuilder();
 			$query->update('calendarobjects')
 				->set('calendardata', $query->createNamedParameter($calendarData, IQueryBuilder::PARAM_LOB))
-				->set('lastmodified', $query->createNamedParameter(time()))
+				->set('lastmodified', $query->createNamedParameter($lastModified))
 				->set('etag', $query->createNamedParameter($extraData['etag']))
 				->set('size', $query->createNamedParameter($extraData['size']))
 				->set('componenttype', $query->createNamedParameter($extraData['componentType']))
@@ -1481,13 +1487,28 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$this->updateProperties($calendarId, $objectUri, $calendarData, $calendarType);
 			$this->addChanges($calendarId, [$objectUri], 2, $calendarType);
 
-			$objectRow = $this->getCalendarObject($calendarId, $objectUri, $calendarType);
-			if (is_array($objectRow)) {
+			if (is_array($oldObjectRow)) {
+				// Derive the new object row from the previous one and the freshly
+				// denormalized data instead of querying again, mirroring the columns
+				// written above (see rowToCalendarObject()).
+				$objectRow = array_merge($oldObjectRow, [
+					'uid' => $extraData['uid'],
+					'lastmodified' => $lastModified,
+					'etag' => '"' . $extraData['etag'] . '"',
+					'size' => (int)$extraData['size'],
+					'calendardata' => $calendarData,
+					'component' => strtolower($extraData['componentType']),
+					'classification' => (int)$extraData['classification'],
+				]);
+				// Refresh the cache populated by the read above so later lookups in
+				// this request see the new version instead of the stale one.
+				$this->cachedObjects[$calendarId . '::' . $objectUri . '::' . $calendarType] = $objectRow;
+
 				if ($calendarType === self::CALENDAR_TYPE_CALENDAR) {
 					$calendarRow = $this->getCalendarById($calendarId);
 					$shares = $this->getShares($calendarId);
 
-					$this->dispatcher->dispatchTyped(new CalendarObjectUpdatedEvent($calendarId, $calendarRow, $shares, $objectRow));
+					$this->dispatcher->dispatchTyped(new CalendarObjectUpdatedEvent($calendarId, $calendarRow, $shares, $objectRow, $oldObjectRow));
 				} elseif ($calendarType === self::CALENDAR_TYPE_SUBSCRIPTION) {
 					$subscriptionRow = $this->getSubscriptionById($calendarId);
 

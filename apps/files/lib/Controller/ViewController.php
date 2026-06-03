@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files\Controller;
 
 use OC\Files\FilenameValidator;
@@ -101,7 +102,6 @@ class ViewController extends Controller {
 			return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.indexViewFileid', ['fileid' => $fileid, 'view' => 'files']));
 		}
 	}
-
 
 	/**
 	 * @param string $dir

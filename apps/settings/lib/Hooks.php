@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings;
 
 use OCA\Settings\Activity\Provider;
@@ -111,7 +112,6 @@ class Hooks implements IEventListener {
 			$template->addBodyText($text . ' ' . $l->t('If you did not request this, please contact an administrator.'));
 			$template->addFooter();
 
-
 			$message = $this->mailer->createMessage();
 			$message->setTo([$user->getEMailAddress() => $user->getDisplayName()]);
 			$message->useTemplate($template);
@@ -167,7 +167,6 @@ class Hooks implements IEventListener {
 		}
 		$this->activityManager->publish($event);
 
-
 		if ($oldMailAddress !== null) {
 			$template = $this->mailer->createEMailTemplate('settings.EmailChanged', [
 				'displayname' => $user->getDisplayName(),
@@ -184,7 +183,6 @@ class Hooks implements IEventListener {
 				$template->addBodyText($l->t('The new email address is %s', [$user->getEMailAddress()]));
 			}
 			$template->addFooter();
-
 
 			$message = $this->mailer->createMessage();
 			$message->setTo([$oldMailAddress => $user->getDisplayName()]);

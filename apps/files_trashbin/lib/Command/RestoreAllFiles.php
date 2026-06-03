@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Trashbin\Command;
 
 use OC\Core\Command\Base;
@@ -29,7 +30,7 @@ class RestoreAllFiles extends Base {
 	private const SCOPE_USER = 1;
 	private const SCOPE_GROUPFOLDERS = 2;
 
-	private static array $SCOPE_MAP = [
+	private const SCOPE_MAP = [
 		'user' => self::SCOPE_USER,
 		'groupfolders' => self::SCOPE_GROUPFOLDERS,
 		'all' => self::SCOPE_ALL
@@ -220,8 +221,8 @@ class RestoreAllFiles extends Base {
 	}
 
 	protected function parseScope(string $scope): int {
-		if (isset(self::$SCOPE_MAP[$scope])) {
-			return self::$SCOPE_MAP[$scope];
+		if (isset(self::SCOPE_MAP[$scope])) {
+			return self::SCOPE_MAP[$scope];
 		}
 
 		throw new InvalidOptionException("Invalid scope '$scope'");

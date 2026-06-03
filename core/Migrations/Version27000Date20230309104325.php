@@ -50,7 +50,6 @@ class Version27000Date20230309104325 extends SimpleMigrationStep {
 		return null;
 	}
 
-
 	/**
 	 * @param IOutput $output
 	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`

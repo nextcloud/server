@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\FullTextSearch\Model;
 
 use OCP\FullTextSearch\IFullTextSearchProvider;
@@ -55,7 +56,6 @@ interface ISearchTemplate {
 	 */
 	public function getIcon(): string;
 
-
 	/**
 	 * Set the path of a CSS file that will be loaded when needed.
 	 *
@@ -75,7 +75,6 @@ interface ISearchTemplate {
 	 * @return string
 	 */
 	public function getCss(): string;
-
 
 	/**
 	 * Set the path of the file of a template that the HTML will be displayed
@@ -100,7 +99,6 @@ interface ISearchTemplate {
 	 */
 	public function getTemplate(): string;
 
-
 	/**
 	 * Add an option in the Panel that is displayed when the user start a search
 	 * within the app that generate the content.
@@ -123,7 +121,6 @@ interface ISearchTemplate {
 	 * @return ISearchOption[]
 	 */
 	public function getPanelOptions(): array;
-
 
 	/**
 	 * Add an option in the left panel of the FullTextSearch navigation page.

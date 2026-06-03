@@ -464,7 +464,6 @@ class TipBroker extends Broker {
 		$message->message = $vObject;
 
 		return $message;
-
 	}
 
 	protected function componentSanitizeScheduling(Component $component): Component {

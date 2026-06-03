@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\AppFramework\Http;
 
 use OC\Security\CSRF\CsrfToken;
@@ -435,7 +436,6 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		}
 	}
 
-
 	/**
 	 * Checks if the CSRF check was correct
 	 * @return bool true if CSRF check passed
@@ -550,7 +550,6 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		}
 		return false;
 	}
-
 
 	/**
 	 * Returns an ID for the request, value is not guaranteed to be unique and is mostly meant for logging
@@ -845,7 +844,6 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 
 		return $host;
 	}
-
 
 	/**
 	 * Returns the server host from the headers, or the first configured

@@ -59,20 +59,17 @@ class LocalTest extends Storage {
 		$this->assertNotEquals($etag1, $etag2);
 	}
 
-
 	public function testInvalidArgumentsEmptyArray(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		new Local([]);
 	}
 
-
 	public function testInvalidArgumentsNoArray(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		new Local([]);
 	}
-
 
 	public function testDisallowSymlinksOutsideDatadir(): void {
 		$this->expectException(ForbiddenException::class);

@@ -271,13 +271,11 @@ class SystemTagManagerTest extends TestCase {
 		$this->assertSameTag($tag2, $tagList[$tag2->getId()]);
 	}
 
-
 	public function testGetNonExistingTag(): void {
 		$this->expectException(TagNotFoundException::class);
 
 		$this->tagManager->getTag('nonexist', false, false);
 	}
-
 
 	public function testGetNonExistingTagsById(): void {
 		$this->expectException(TagNotFoundException::class);
@@ -285,7 +283,6 @@ class SystemTagManagerTest extends TestCase {
 		$tag1 = $this->tagManager->createTag('one', true, false);
 		$this->tagManager->getTagsByIds([$tag1->getId(), 100, 101]);
 	}
-
 
 	public function testGetInvalidTagIdFormat(): void {
 		$this->expectException(\InvalidArgumentException::class);
@@ -372,7 +369,6 @@ class SystemTagManagerTest extends TestCase {
 
 		$this->assertEmpty($this->tagManager->getAllTags());
 	}
-
 
 	public function testDeleteNonExistingTag(): void {
 		$this->expectException(TagNotFoundException::class);
@@ -576,7 +572,6 @@ class SystemTagManagerTest extends TestCase {
 
 		\OC::$CLI = $oldCli;
 	}
-
 
 	/**
 	 * @param ISystemTag $tag1

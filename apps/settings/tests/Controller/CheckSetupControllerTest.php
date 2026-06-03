@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2015 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Settings\Tests\Controller;
 
 use OC\IntegrityCheck\Checker;
@@ -102,7 +103,6 @@ class CheckSetupControllerTest extends TestCase {
 		$expected = new DataDisplayResponse('Integrity checker has been disabled. Integrity cannot be verified.');
 		$this->assertEquals($expected, $this->checkSetupController->getFailedIntegrityCheckFiles());
 	}
-
 
 	public function testGetFailedIntegrityCheckFilesWithNoErrorsFound(): void {
 		$this->checker

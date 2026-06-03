@@ -48,6 +48,7 @@ const modules = {
 	},
 	files_versions: {
 		'sidebar-tab': resolve(import.meta.dirname, 'apps/files_versions/src', 'sidebar_tab.ts'),
+		workflow: resolve(import.meta.dirname, 'apps/files_versions/src', 'workflow.ts'),
 	},
 	oauth2: {
 		'settings-admin': resolve(import.meta.dirname, 'apps/oauth2/src', 'settings-admin.ts'),

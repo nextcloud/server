@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Encryption\Tests\Controller;
 
 use OCA\Encryption\Controller\RecoveryController;
@@ -57,7 +58,6 @@ class RecoveryControllerTest extends TestCase {
 		$response = $this->controller->adminRecovery($recoveryPassword,
 			$passConfirm,
 			$enableRecovery);
-
 
 		$this->assertEquals($expectedMessage, $response->getData()['data']['message']);
 		$this->assertEquals($expectedStatus, $response->getStatus());
@@ -119,7 +119,6 @@ class RecoveryControllerTest extends TestCase {
 				['1', true],
 				['0', false]
 			]);
-
 
 		$response = $this->controller->userSetRecovery($enableRecovery);
 

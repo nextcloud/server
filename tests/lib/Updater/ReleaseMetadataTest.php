@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace Test\Updater;
 
 use OC\Updater\ReleaseMetadata;
@@ -35,7 +36,6 @@ class ReleaseMetadataTest extends \Test\TestCase {
 			->method('getBody')
 			->with()
 			->willReturn($this->resultRequest());
-
 
 		$releaseMetadata = new ReleaseMetadata($this->clientService);
 		$this->assertSame(self::resultRequestArray(), $releaseMetadata->downloadMetadata('ouila'));

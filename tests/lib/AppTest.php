@@ -266,7 +266,6 @@ class AppTest extends \Test\TestCase {
 		$user1->delete();
 	}
 
-
 	private function setupAppConfigMock() {
 		/** @var AppConfig|MockObject */
 		$appConfig = $this->getMockBuilder(AppConfig::class)

@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\FederatedFileSharing\OCM;
 
 use OC\AppFramework\Http;
@@ -297,7 +298,6 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 					'sharedSecret' => $token,
 					'message' => 'Recipient accepted the re-share'
 				]
-
 			);
 			$this->cloudFederationProviderManager->sendNotification($remote, $notification);
 		}
@@ -617,8 +617,6 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 
 		throw new AuthenticationFailedException();
 	}
-
-
 
 	/**
 	 * Check if server-to-server sharing is enabled

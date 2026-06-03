@@ -158,7 +158,6 @@ class SignAppTest extends TestCase {
 				['privateKey', false],
 			]);
 
-
 		$outputInterface
 			->expects($this->any())
 			->method('writeln')

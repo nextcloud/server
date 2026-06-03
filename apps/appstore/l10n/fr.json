@@ -101,17 +101,16 @@
     "App bundles" : "Packs d'applications",
     "Featured apps" : "Applications en vedette",
     "Supported apps" : "Applications supportées",
-    "Best Nextcloud integration" : "Meilleure intégration dans Nextcloud",
+    "Good Nextcloud integration" : "Bonne intégration dans Nextcloud",
     "Open source" : "Open Source",
+    "Best performance" : "Meilleures performances",
+    "Limited ODF compatibility" : "Compatibilité ODF limitée",
+    "Best Microsoft compatibility" : "Meilleure compatibilité Microsoft",
+    "Best Nextcloud integration" : "Meilleure intégration dans Nextcloud",
     "Good performance" : "Bonnes performances",
     "Best security: documents never leave your server" : "Meilleure sécurité : les documents ne quittent jamais votre serveur",
     "Best ODF compatibility" : "Meilleure compatibilité ODF",
     "Best support for legacy files" : "Meilleure prise en charge des anciens fichiers",
-    "Good Nextcloud integration" : "Bonne intégration dans Nextcloud",
-    "Open core" : "Open core",
-    "Best performance" : "Meilleures performances",
-    "Limited ODF compatibility" : "Compatibilité ODF limitée",
-    "Best Microsoft compatibility" : "Meilleure compatibilité Microsoft",
     "An error occurred during the request. Unable to proceed." : "Une erreur est survenue pendant la demande. Impossible de poursuivre."
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

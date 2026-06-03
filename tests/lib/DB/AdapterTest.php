@@ -49,7 +49,6 @@ class AdapterTest extends TestCase {
 		$rows = $this->getRows($configKey);
 		$this->assertSame($expected, $rows);
 
-
 		$result = $this->connection->insertIgnoreConflict('appconfig', [
 			'appid' => $this->appId,
 			'configkey' => $configKey,

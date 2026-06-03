@@ -309,7 +309,6 @@ class SignatureManager implements ISignatureManager {
 		return $this->mapper->getByHost($host, $account);
 	}
 
-
 	/**
 	 * @inheritDoc
 	 *
@@ -432,7 +431,6 @@ class SignatureManager implements ISignatureManager {
 				$this->deleteSignatory($knownSignatory->getKeyId());
 				$this->insertSignatory($signatory);
 				return;
-
 			case SignatoryType::REFRESHABLE:
 				$this->updateSignatoryPublicKey($signatory);
 				$this->updateSignatoryMetadata($signatory);
@@ -441,7 +439,6 @@ class SignatureManager implements ISignatureManager {
 			case SignatoryType::TRUSTED:
 				// TODO: send notice to admin
 				throw new SignatoryConflictException();
-
 			case SignatoryType::STATIC:
 				// TODO: send warning to admin
 				throw new SignatoryConflictException();
@@ -461,18 +458,15 @@ class SignatureManager implements ISignatureManager {
 			case null: // unknown in local database
 			case SignatoryType::FORGIVABLE: // who cares ?
 				throw new SignatoryNotFoundException(); // meaning we just return the correct exception
-
 			case SignatoryType::REFRESHABLE:
 				// TODO: send notice to admin
 				throw new SignatoryConflictException(); // while it can be refreshed, it must exist
-
 			case SignatoryType::TRUSTED:
 			case SignatoryType::STATIC:
 				// TODO: send warning to admin
 				throw new SignatoryConflictException(); // no way.
 		}
 	}
-
 
 	private function updateSignatoryPublicKey(Signatory $signatory): void {
 		$this->mapper->updatePublicKey($signatory);

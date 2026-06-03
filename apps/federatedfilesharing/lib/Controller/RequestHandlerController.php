@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\FederatedFileSharing\Controller;
 
 use OCA\FederatedFileSharing\FederatedShareProvider;
@@ -170,7 +171,6 @@ class RequestHandlerController extends OCSController {
 		throw new OCSBadRequestException();
 	}
 
-
 	/**
 	 * accept server-to-server share
 	 *
@@ -273,7 +273,6 @@ class RequestHandlerController extends OCSController {
 
 		return rtrim($remote, '/');
 	}
-
 
 	/**
 	 * federated share was revoked, either by the owner or the re-sharer

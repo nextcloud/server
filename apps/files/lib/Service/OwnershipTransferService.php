@@ -139,7 +139,6 @@ class OwnershipTransferService {
 			throw new TransferOwnershipException('Destination path does not exists or is not empty', 1);
 		}
 
-
 		// analyse source folder
 		$this->analyse(
 			$sourceUid,
@@ -434,7 +433,6 @@ class OwnershipTransferService {
 
 			$offset += 50;
 		}
-
 
 		$progress->finish();
 		$output->writeln('');

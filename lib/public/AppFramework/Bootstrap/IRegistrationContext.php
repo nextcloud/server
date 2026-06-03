@@ -448,7 +448,6 @@ interface IRegistrationContext {
 	 */
 	public function registerMailProvider(string $class): void;
 
-
 	/**
 	 * Register an implementation of \OCP\Config\Lexicon\IConfigLexicon that
 	 * will handle the config lexicon

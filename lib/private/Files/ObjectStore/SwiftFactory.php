@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Files\ObjectStore;
 
 use GuzzleHttp\Client;
@@ -198,7 +199,6 @@ class SwiftFactory {
 				throw new StorageAuthException('Connection reset while connecting to keystone, verify the keystone url', $e);
 			}
 		}
-
 
 		$client = new OpenStack($this->params);
 

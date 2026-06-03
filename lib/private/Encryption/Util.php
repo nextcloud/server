@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Encryption;
 
 use OC\Encryption\Exceptions\EncryptionHeaderKeyExistsException;
@@ -274,7 +275,6 @@ class Util {
 			) {
 				return true;
 			}
-
 
 			//detect system wide folders
 			if (in_array($root[1], $this->excludedPaths)) {

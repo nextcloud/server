@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing;
 
 use OC\Files\Cache\CacheDependencies;
@@ -88,6 +89,9 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 	private IAppConfig $appConfig;
 	private IShareManager $shareManager;
 
+	/**
+	 * @psalm-suppress ImpureStaticProperty
+	 */
 	private static int $initDepth = 0;
 
 	public function __construct(array $parameters) {

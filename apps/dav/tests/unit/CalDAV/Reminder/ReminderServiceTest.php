@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV\Reminder;
 
 use DateTime;
@@ -751,7 +752,6 @@ EOD;
 				$expected = array_shift($removeReminderCalls);
 				$this->assertEquals($expected, func_get_args());
 			});
-
 
 		$insertReminderCalls = [
 			[1337, 42, 'wej2z68l9h', true, 1467849600, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1467848700, false],
