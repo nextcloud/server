@@ -81,11 +81,16 @@ class FileAccess implements IFileAccess {
 	 */
 	#[\Override]
 	public function getByFileIds(array $fileIds): array {
-		$query = $this->getQuery()->selectFileCache();
-		$query->andWhere($query->expr()->in('filecache.fileid', $query->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)));
-
-		$rows = $query->executeQuery()->fetchAll();
-		return $this->rowsToEntries($rows);
+		if (empty($fileIds)) {
+			return [];
+		}
+		$result = [];
+		foreach (array_chunk($fileIds, 1000) as $chunk) {
+			$query = $this->getQuery()->selectFileCache();
+			$query->andWhere($query->expr()->in('filecache.fileid', $query->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY)));
+			$result += $this->rowsToEntries($query->executeQuery()->fetchAll());
+		}
+		return $result;
 	}
 
 	/**
@@ -95,13 +100,17 @@ class FileAccess implements IFileAccess {
 	 */
 	#[\Override]
 	public function getByFileIdsInStorage(array $fileIds, int $storageId): array {
-		$fileIds = array_values($fileIds);
-		$query = $this->getQuery()->selectFileCache();
-		$query->andWhere($query->expr()->in('filecache.fileid', $query->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)));
-		$query->andWhere($query->expr()->eq('filecache.storage', $query->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)));
-
-		$rows = $query->executeQuery()->fetchAll();
-		return $this->rowsToEntries($rows);
+		if (empty($fileIds)) {
+			return [];
+		}
+		$result = [];
+		foreach (array_chunk(array_values($fileIds), 1000) as $chunk) {
+			$query = $this->getQuery()->selectFileCache();
+			$query->andWhere($query->expr()->in('filecache.fileid', $query->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY)));
+			$query->andWhere($query->expr()->eq('filecache.storage', $query->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)));
+			$result += $this->rowsToEntries($query->executeQuery()->fetchAll());
+		}
+		return $result;
 	}
 
 	#[\Override]
