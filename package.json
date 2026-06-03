@@ -117,7 +117,7 @@
   },
   "devDependencies": {
     "@babel/node": "^7.29.0",
-    "@babel/plugin-transform-private-methods": "^7.28.6",
+    "@babel/plugin-transform-private-methods": "^7.29.7",
     "@babel/preset-typescript": "^7.28.5",
     "@cypress/webpack-preprocessor": "^7.1.0",
     "@nextcloud/babel-config": "^1.3.0",
