@@ -336,13 +336,6 @@ class Node implements INode {
 		$this->view->unlockFile($this->path, $type);
 	}
 
-	/**
-	 * @param string $targetPath
-	 * @return INode
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
-	 * @throws NotPermittedException if copy not allowed or failed
-	 */
 	#[\Override]
 	public function copy($targetPath) {
 		$targetPath = $this->normalizePath($targetPath);
@@ -367,14 +360,6 @@ class Node implements INode {
 		return $targetNode;
 	}
 
-	/**
-	 * @param string $targetPath
-	 * @return INode
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
-	 * @throws NotPermittedException if move not allowed or failed
-	 * @throws LockedException
-	 */
 	#[\Override]
 	public function move($targetPath) {
 		$targetPath = $this->normalizePath($targetPath);
@@ -438,10 +423,6 @@ class Node implements INode {
 		return $this->fileInfo->getParentId();
 	}
 
-	/**
-	 * @inheritDoc
-	 * @return array<string, int|string|bool|float|string[]|int[]>
-	 */
 	#[\Override]
 	public function getMetadata(): array {
 		return $this->fileInfo->getMetadata();
