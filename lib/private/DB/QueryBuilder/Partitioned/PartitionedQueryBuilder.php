@@ -38,7 +38,7 @@ use OCP\IDBConnection;
 class PartitionedQueryBuilder extends ShardedQueryBuilder {
 	/** @var array<string, PartitionQuery> $splitQueries */
 	private array $splitQueries = [];
-	/** @var list<PartitionSplit> */
+	/** @var array<string, PartitionSplit> */
 	private array $partitions = [];
 
 	/** @var array{'select': string|array, 'alias': ?string}[] */
@@ -180,7 +180,7 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 	}
 
 	public function addPartition(PartitionSplit $partition): void {
-		$this->partitions[] = $partition;
+		$this->partitions[$partition->name] = $partition;
 	}
 
 	private function getPartition(string $table): ?PartitionSplit {
@@ -264,7 +264,7 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 			if (!isset($this->splitQueries[$partitionName])) {
 				$newPartition = new PartitionSplit($partitionName, [$join]);
 				$newPartition->addAlias($join, $alias);
-				$this->partitions[] = $newPartition;
+				$this->partitions[$newPartition->name] = $newPartition;
 
 				$this->splitQueries[$partitionName] = new PartitionQuery(
 					$this->newQuery(),
@@ -349,11 +349,14 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 		if ($where) {
 			foreach ($this->splitPredicatesByParts($where) as $alias => $predicates) {
 				if (isset($this->splitQueries[$alias])) {
+					$mergedPredicate = new CompositeExpression(CompositeExpression::TYPE_AND, $predicates);
 					// when there is a condition on a table being left-joined it starts to behave as if it's an inner join
 					// since any joined column that doesn't have the left part will not match the condition
 					// when there the condition is `$joinToColumn IS NULL` we instead mark the query as excluding the left half
 					if ($this->splitQueries[$alias]->joinMode === PartitionQuery::JOIN_MODE_LEFT) {
-						$this->splitQueries[$alias]->joinMode = PartitionQuery::JOIN_MODE_INNER;
+						if ($this->constraintsPartitionNotNull($mergedPredicate, $this->partitions[$alias])) {
+							$this->splitQueries[$alias]->joinMode = PartitionQuery::JOIN_MODE_INNER;
+						}
 
 						$column = $this->quoteHelper->quoteColumnName($this->splitQueries[$alias]->joinToColumn);
 						foreach ($predicates as $predicate) {
@@ -372,6 +375,32 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 			}
 		}
 		return $this;
+	}
+
+	/**
+	 * Check if any part of a predicates constraints any part of a partition to be not null
+	 *
+	 * @return bool
+	 */
+	private function constraintsPartitionNotNull($predicate, PartitionSplit $partition): bool {
+		if ($predicate instanceof CompositeExpression) {
+			if ($predicate->getType() === CompositeExpression::TYPE_OR) {
+				$all = true;
+				foreach ($predicate->getParts() as $part) {
+					$all = $all && $this->constraintsPartitionNotNull($part, $partition);
+				}
+				return $all;
+			} else {
+				foreach ($predicate->getParts() as $part) {
+					if ($this->constraintsPartitionNotNull($part, $partition)) {
+						return true;
+					}
+				}
+				return false;
+			}
+		} else {
+			return $partition->checkPredicateForTable($predicate) && !str_ends_with($predicate, 'IS NULL');
+		}
 	}
 
 	private function getPartitionForPredicate(string $predicate): ?PartitionSplit {
