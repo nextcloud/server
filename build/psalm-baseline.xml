@@ -4057,11 +4057,6 @@
       <code><![CDATA[\RedisCluster::OPT_SLAVE_FAILOVER]]></code>
     </InvalidArgument>
   </file>
-  <file src="lib/private/Remote/Api/OCS.php">
-    <ImplementedReturnTypeMismatch>
-      <code><![CDATA[array]]></code>
-    </ImplementedReturnTypeMismatch>
-  </file>
   <file src="lib/private/Repair/RemoveLinkShares.php">
     <InvalidPropertyAssignmentValue>
       <code><![CDATA[$this->userToNotify]]></code>

@@ -108,8 +108,6 @@ use OC\Preview\Watcher;
 use OC\Preview\WatcherConnector;
 use OC\Profile\ProfileManager;
 use OC\Profiler\Profiler;
-use OC\Remote\Api\ApiFactory;
-use OC\Remote\InstanceFactory;
 use OC\RichObjectStrings\RichTextFormatter;
 use OC\RichObjectStrings\Validator;
 use OC\Route\CachingRouter;
@@ -254,8 +252,6 @@ use OCP\OCS\IDiscoveryService;
 use OCP\Preview\IMimeIconProvider;
 use OCP\Profile\IProfileManager;
 use OCP\Profiler\IProfiler;
-use OCP\Remote\Api\IApiFactory;
-use OCP\Remote\IInstanceFactory;
 use OCP\RichObjectStrings\IRichTextFormatter;
 use OCP\RichObjectStrings\IValidator;
 use OCP\Route\IRouter;
@@ -1230,15 +1226,6 @@ class Server extends ServerContainer implements IServerContainer {
 			return new ShareHelper(
 				$c->get(\OCP\Share\IManager::class)
 			);
-		});
-
-		$this->registerService(IApiFactory::class, function (ContainerInterface $c) {
-			return new ApiFactory($c->get(IClientService::class));
-		});
-
-		$this->registerService(IInstanceFactory::class, function (ContainerInterface $c) {
-			$memcacheFactory = $c->get(ICacheFactory::class);
-			return new InstanceFactory($memcacheFactory->createLocal('remoteinstance.'), $c->get(IClientService::class));
 		});
 
 		$this->registerAlias(IContactsStore::class, ContactsStore::class);
