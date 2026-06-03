@@ -28,32 +28,19 @@ use OCP\Server;
 
 // FIXME: this class really should be abstract (+1)
 class Node implements INode {
-	/**
-	 * @var View $view
-	 */
-	protected $view;
-
-	protected IRootFolder $root;
-
-	/**
-	 * @param View $view
-	 * @param \OCP\Files\IRootFolder $root
-	 * @param string $path
-	 * @param FileInfo $fileInfo
-	 */
 	public function __construct(
-		IRootFolder $root,
-		$view,
+		protected IRootFolder $root,
+		protected View $view,
 		protected $path,
 		protected ?FileInfo $fileInfo = null,
 		protected ?INode $parent = null,
 		private bool $infoHasSubMountsIncluded = true,
 	) {
 		if (Filesystem::normalizePath($view->getRoot()) !== '/') {
-			throw new PreConditionNotMetException('The view passed to the node should not have any fake root set');
+			throw new PreConditionNotMetException(
+				'The view passed to the node should not have any fake root set'
+			);
 		}
-		$this->view = $view;
-		$this->root = $root;
 	}
 
 	/**
@@ -73,6 +60,8 @@ class Node implements INode {
 	 * @return FileInfo
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
+	 *
+	 * @internal
 	 */
 	public function getFileInfo(bool $includeMountPoint = true) {
 		if (!$this->fileInfo) {
@@ -131,12 +120,6 @@ class Node implements INode {
 	public function delete() {
 	}
 
-	/**
-	 * @param int $mtime
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
-	 * @throws NotPermittedException
-	 */
 	#[\Override]
 	public function touch($mtime = null) {
 		if ($this->checkPermissions(Constants::PERMISSION_UPDATE)) {
@@ -163,123 +146,67 @@ class Node implements INode {
 		return $storage;
 	}
 
-	/**
-	 * @return string
-	 */
 	#[\Override]
 	public function getPath() {
 		return $this->path;
 	}
 
-	/**
-	 * @return string
-	 */
 	#[\Override]
 	public function getInternalPath() {
 		return $this->getFileInfo(false)->getInternalPath();
 	}
 
-	/**
-	 * @return int
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
-	 */
 	#[\Override]
 	public function getId() {
 		return $this->getFileInfo(false)->getId() ?? -1;
 	}
 
-	/**
-	 * @return array
-	 */
 	#[\Override]
 	public function stat() {
 		return $this->view->stat($this->path);
 	}
 
-	/**
-	 * @return int
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
-	 */
 	#[\Override]
 	public function getMTime() {
 		return $this->getFileInfo()->getMTime();
 	}
 
-	/**
-	 * @param bool $includeMounts
-	 * @return int|float
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
-	 */
 	#[\Override]
 	public function getSize($includeMounts = true): int|float {
 		return $this->getFileInfo()->getSize($includeMounts);
 	}
 
-	/**
-	 * @return string
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
-	 */
 	#[\Override]
 	public function getEtag() {
 		return $this->getFileInfo()->getEtag();
 	}
 
-	/**
-	 * @return int
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
-	 */
 	#[\Override]
 	public function getPermissions() {
 		return $this->getFileInfo(false)->getPermissions();
 	}
 
-	/**
-	 * @return bool
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
-	 */
 	#[\Override]
 	public function isReadable() {
 		return $this->getFileInfo(false)->isReadable();
 	}
 
-	/**
-	 * @return bool
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
-	 */
 	#[\Override]
 	public function isUpdateable() {
 		return $this->getFileInfo(false)->isUpdateable();
 	}
 
-	/**
-	 * @return bool
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
-	 */
 	#[\Override]
 	public function isDeletable() {
 		return $this->getFileInfo(false)->isDeletable();
 	}
 
-	/**
-	 * @return bool
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
-	 */
 	#[\Override]
 	public function isShareable() {
 		return $this->getFileInfo(false)->isShareable();
 	}
 
 	/**
-	 * @return bool
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 */
@@ -320,9 +247,6 @@ class Node implements INode {
 		return $this->parent;
 	}
 
-	/**
-	 * @return string
-	 */
 	#[\Override]
 	public function getName() {
 		return basename($this->path);
@@ -341,6 +265,8 @@ class Node implements INode {
 	 *
 	 * @param string $path
 	 * @return bool
+	 *
+	 * @internal
 	 */
 	public function isValidPath($path) {
 		return Filesystem::isValidPath($path);
@@ -395,28 +321,16 @@ class Node implements INode {
 		return $this->getFileInfo(false)->getExtension();
 	}
 
-	/**
-	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
-	 * @throws LockedException
-	 */
 	#[\Override]
 	public function lock($type) {
 		$this->view->lockFile($this->path, $type);
 	}
 
-	/**
-	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
-	 * @throws LockedException
-	 */
 	#[\Override]
 	public function changeLock($type) {
 		$this->view->changeLock($this->path, $type);
 	}
 
-	/**
-	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
-	 * @throws LockedException
-	 */
 	#[\Override]
 	public function unlock($type) {
 		$this->view->unlockFile($this->path, $type);
@@ -433,20 +347,24 @@ class Node implements INode {
 	public function copy($targetPath) {
 		$targetPath = $this->normalizePath($targetPath);
 		$parent = $this->root->get(dirname($targetPath));
-		if ($parent instanceof Folder && $this->isValidPath($targetPath) && $parent->isCreatable()) {
-			$nonExisting = $this->createNonExistingNode($targetPath);
-			$this->sendHooks(['preCopy'], [$this, $nonExisting]);
-			$this->sendHooks(['preWrite'], [$nonExisting]);
-			if (!$this->view->copy($this->path, $targetPath)) {
-				throw new NotPermittedException('Could not copy ' . $this->path . ' to ' . $targetPath);
-			}
-			$targetNode = $this->root->get($targetPath);
-			$this->sendHooks(['postCopy'], [$this, $targetNode]);
-			$this->sendHooks(['postWrite'], [$targetNode]);
-			return $targetNode;
-		} else {
+
+		if (!($parent instanceof Folder) || !$this->isValidPath($targetPath) || !$parent->isCreatable()) {
 			throw new NotPermittedException('No permission to copy to path ' . $targetPath);
 		}
+
+		$nonExisting = $this->createNonExistingNode($targetPath);
+		$this->sendHooks(['preCopy'], [$this, $nonExisting]);
+		$this->sendHooks(['preWrite'], [$nonExisting]);
+
+		if (!$this->view->copy($this->path, $targetPath)) {
+			throw new NotPermittedException('Could not copy ' . $this->path . ' to ' . $targetPath);
+		}
+
+		$targetNode = $this->root->get($targetPath);
+		$this->sendHooks(['postCopy'], [$this, $targetNode]);
+		$this->sendHooks(['postWrite'], [$targetNode]);
+
+		return $targetNode;
 	}
 
 	/**
@@ -461,40 +379,43 @@ class Node implements INode {
 	public function move($targetPath) {
 		$targetPath = $this->normalizePath($targetPath);
 		$parent = $this->root->get(dirname($targetPath));
-		if (
-			($parent instanceof Folder)
-			&& $this->isValidPath($targetPath)
-			&& (
-				$parent->isCreatable()
-				|| (
-					$parent->getInternalPath() === ''
-					&& ($parent->getMountPoint() instanceof IMovableMount)
-				)
-			)
-		) {
-			$nonExisting = $this->createNonExistingNode($targetPath);
-			$this->sendHooks(['preRename'], [$this, $nonExisting]);
-			$this->sendHooks(['preWrite'], [$nonExisting]);
-			if (!$this->view->rename($this->path, $targetPath)) {
-				throw new NotPermittedException('Could not move ' . $this->path . ' to ' . $targetPath);
-			}
 
-			$mountPoint = $this->getMountPoint();
-			if ($mountPoint) {
-				// update the cached fileinfo with the new (internal) path
-				/** @var \OC\Files\FileInfo $oldFileInfo */
-				$oldFileInfo = $this->getFileInfo();
-				$this->fileInfo = new \OC\Files\FileInfo($targetPath, $oldFileInfo->getStorage(), $mountPoint->getInternalPath($targetPath), $oldFileInfo->getData(), $mountPoint, $oldFileInfo->getOwner());
-			}
+		$isRootMovable = $parent->getInternalPath() === '' && $parent->getMountPoint() instanceof IMovableMount;
+		$canCreateInFolder = $parent->isCreatable() || $isRootMovable;
 
-			$targetNode = $this->root->get($targetPath);
-			$this->sendHooks(['postRename'], [$this, $targetNode]);
-			$this->sendHooks(['postWrite'], [$targetNode]);
-			$this->path = $targetPath;
-			return $targetNode;
-		} else {
-			throw new NotPermittedException('No permission to move to path ' . $targetPath);
+		if (!($parent instanceof Folder) || !$this->isValidPath($targetPath) || !$canCreateInFolder) {
+    		throw new NotPermittedException('No permission to move to path ' . $targetPath);
 		}
+
+		$nonExisting = $this->createNonExistingNode($targetPath);
+		$this->sendHooks(['preRename'], [$this, $nonExisting]);
+		$this->sendHooks(['preWrite'], [$nonExisting]);
+
+		if (!$this->view->rename($this->path, $targetPath)) {
+			throw new NotPermittedException('Could not move ' . $this->path . ' to ' . $targetPath);
+		}
+
+		$mountPoint = $this->getMountPoint();
+		if ($mountPoint) {
+			// update the cached fileinfo with the new (internal) path
+			/** @var \OC\Files\FileInfo $oldFileInfo */
+			$oldFileInfo = $this->getFileInfo();
+			$this->fileInfo = new \OC\Files\FileInfo(
+				$targetPath,
+				$oldFileInfo->getStorage(),
+				$mountPoint->getInternalPath($targetPath),
+				$oldFileInfo->getData(),
+				$mountPoint, 
+				$oldFileInfo->getOwner()
+			);
+		}
+
+		$targetNode = $this->root->get($targetPath);
+		$this->sendHooks(['postRename'], [$this, $targetNode]);
+		$this->sendHooks(['postWrite'], [$targetNode]);
+		$this->path = $targetPath;
+
+		return $targetNode;
 	}
 
 	#[\Override]
