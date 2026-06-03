@@ -186,10 +186,10 @@ class ChunkingV2Plugin extends ServerPlugin {
 		// Use file in the upload directory that will be copied or moved afterwards
 		/** @var UploadFile $uploadFile */
 		$uploadFile = $this->uploadFolder->getChild(self::TEMP_TARGET);
-		$file = $uploadFile->getFile();
+		$targetFile = $uploadFile->getFile();
 
 		return [
-			'file' => $file,
+			'file' => $targetFile,
 			'storage' => $uploadStorage,
 			'storagePath' => $file->getInternalPath(),
 			'isDirect' => false,
@@ -214,7 +214,7 @@ class ChunkingV2Plugin extends ServerPlugin {
 		$this->uploadPath = $this->server->calculateUri($headerDestination);
 
 		[
-			'file' => $uploadFile,
+			'file' => $targetFile,
 			'storage' => $storage,
 			'storagePath' => $storagePath,
 		] = $this->resolveChunkWriteTarget($this->uploadPath, true);
@@ -224,7 +224,7 @@ class ChunkingV2Plugin extends ServerPlugin {
 		$this->cache->set($this->uploadFolder->getName(), [
 			self::UPLOAD_ID => $this->uploadId,
 			self::UPLOAD_TARGET_PATH => $this->uploadPath,
-			self::UPLOAD_TARGET_ID => $uploadFile->getId(),
+			self::UPLOAD_TARGET_ID => $targetFile->getId(),
 		], 86400);
 
 		$response->setStatus(Http::STATUS_CREATED);
@@ -249,7 +249,7 @@ class ChunkingV2Plugin extends ServerPlugin {
 		}
 
 		[
-			'file' => $uploadFile,
+			'file' => $targetFile,
 			'storage' => $storage,
 			'storagePath' => $storagePath,
 			'isDirect' => $isDirect,
@@ -290,8 +290,8 @@ class ChunkingV2Plugin extends ServerPlugin {
 		);
 
 		$storage->getCache()->update(
-			$uploadFile->getId(),
-			['size' => $uploadFile->getSize() + $additionalSize]
+			$targetFile->getId(),
+			['size' => $targetFile->getSize() + $additionalSize]
 		);
 
 		if ($tempTargetFile) {
@@ -481,39 +481,42 @@ class ChunkingV2Plugin extends ServerPlugin {
 	 * finishes.
 	 */
 	private function completeChunkedWrite(string $targetAbsolutePath): void {
-		$resolvedTarget = $this->resolveChunkWriteTarget($this->uploadPath);
-		$uploadFile = $resolvedTarget['file']->getNode();
-		$storage = $resolvedTarget['storage'];
-		$storagePath = $resolvedTarget['storagePath'];
-		$isDirect = $resolvedTarget['isDirect'];
+		[
+			'file' => $targetFile,
+			'storage' => $storage,
+			'storagePath' => $storagePath,
+			'isDirect' => $isDirect,
+		] = $this->resolveChunkWriteTarget($this->uploadPath);
+
+		$targetNode = $targetFile->getNode();
 
 		$rootFolder = \OCP\Server::get(IRootFolder::class);
 		$exists = $rootFolder->nodeExists($targetAbsolutePath);
 
-		$uploadFile->lock(ILockingProvider::LOCK_SHARED);
+		$targetNode->lock(ILockingProvider::LOCK_SHARED);
 		$this->emitPreHooks($targetAbsolutePath, $exists);
 		try {
-			$uploadFile->changeLock(ILockingProvider::LOCK_EXCLUSIVE);
+			$targetNode->changeLock(ILockingProvider::LOCK_EXCLUSIVE);
 			$storage->completeChunkedWrite($storagePath, $this->uploadId);
-			$uploadFile->changeLock(ILockingProvider::LOCK_SHARED);
+			$targetNode->changeLock(ILockingProvider::LOCK_SHARED);
 		} catch (Exception $e) {
-			$uploadFile->unlock(ILockingProvider::LOCK_EXCLUSIVE);
+			$targetNode->unlock(ILockingProvider::LOCK_EXCLUSIVE);
 			throw $e;
 		}
 
 		// If the file was not uploaded to the user storage directly we need to copy/move it
 		try {
 			if (!$isDirect) {
-				$uploadFile = $rootFolder->get($uploadFile->getFileInfo()->getPath());
+				$stagingNode = $rootFolder->get($targetNode->getFileInfo()->getPath());
 				if ($exists) {
-					$uploadFile->copy($targetAbsolutePath);
+					$stagingNode->copy($targetAbsolutePath);
 				} else {
-					$uploadFile->move($targetAbsolutePath);
+					$stagingNode->move($targetAbsolutePath);
 				}
 			}
 			$this->emitPostHooks($targetAbsolutePath, $exists);
 		} catch (Exception $e) {
-			$uploadFile->unlock(ILockingProvider::LOCK_SHARED);
+			$targetNode->unlock(ILockingProvider::LOCK_SHARED);
 			throw $e;
 		}
 	}
