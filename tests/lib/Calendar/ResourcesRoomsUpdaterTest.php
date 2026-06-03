@@ -9,7 +9,9 @@ declare(strict_types=1);
 
 namespace Test\Calendar;
 
+use OC\Calendar\Resource;
 use OC\Calendar\ResourcesRoomsUpdater;
+use OC\Calendar\Room;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCP\Calendar\BackendTemporarilyUnavailableException;
 use OCP\Calendar\IMetadataProvider;
@@ -26,32 +28,24 @@ interface tmpI extends IResource, IMetadataProvider {
 
 class ResourcesRoomsUpdaterTest extends TestCase {
 	private ResourcesRoomsUpdater $updater;
-
-	/** @var IResourceManager|MockObject */
-	private $resourceManager;
-
-	/** @var IRoomManager|MockObject */
-	private $roomManager;
-
-	/** @var ContainerInterface|MockObject */
-	private $container;
-
-	/** @var CalDavBackend|MockObject */
-	private $calDavBackend;
+	private Resource\Manager&MockObject $resourceManager;
+	private Room\Manager&MockObject $roomManager;
+	private ContainerInterface&MockObject $container;
+	private CalDavBackend&MockObject $calDavBackend;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->resourceManager = $this->createMock(IResourceManager::class);
-		$this->roomManager = $this->createMock(IRoomManager::class);
+		$this->resourceManager = $this->createMock(Resource\Manager::class);
+		$this->roomManager = $this->createMock(Room\Manager::class);
 		$this->container = $this->createMock(ContainerInterface::class);
 		$this->calDavBackend = $this->createMock(CalDavBackend::class);
 
 		$this->container->method('get')
 			->willReturnMap([
-				[IResourceManager::class, $this->resourceManager],
-				[IRoomManager::class, $this->roomManager],
+				[Resource\Manager::class, $this->resourceManager],
+				[Room\Manager::class, $this->roomManager],
 			]);
 
 		$this->updater = new ResourcesRoomsUpdater(
