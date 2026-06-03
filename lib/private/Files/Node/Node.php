@@ -338,16 +338,10 @@ class Node implements INode {
 
 	#[\Override]
 	public function copy($targetPath) {
-		$targetPath = $this->normalizePath($targetPath);
-		$parent = $this->root->get(dirname($targetPath));
+		[$targetPath, $targetPlaceholder] = $this->prepareTargetPath($targetPath);
 
-		if (!($parent instanceof Folder) || !$this->isValidPath($targetPath) || !$parent->isCreatable()) {
-			throw new NotPermittedException('No permission to copy to path ' . $targetPath);
-		}
-
-		$nonExisting = $this->createNonExistingNode($targetPath);
-		$this->sendHooks(['preCopy'], [$this, $nonExisting]);
-		$this->sendHooks(['preWrite'], [$nonExisting]);
+		$this->sendHooks(['preCopy'], [$this, $targetPlaceholder]);
+		$this->sendHooks(['preWrite'], [$targetPlaceholder]);
 
 		if (!$this->view->copy($this->path, $targetPath)) {
 			throw new NotPermittedException('Could not copy ' . $this->path . ' to ' . $targetPath);
@@ -362,38 +356,16 @@ class Node implements INode {
 
 	#[\Override]
 	public function move($targetPath) {
-		$targetPath = $this->normalizePath($targetPath);
-		$parent = $this->root->get(dirname($targetPath));
+		[$targetPath, $targetPlaceholder] = $this->prepareTargetPath($targetPath, true);
 
-		$isRootMovable = $parent->getInternalPath() === '' && $parent->getMountPoint() instanceof IMovableMount;
-		$canCreateInFolder = $parent->isCreatable() || $isRootMovable;
-
-		if (!($parent instanceof Folder) || !$this->isValidPath($targetPath) || !$canCreateInFolder) {
-    		throw new NotPermittedException('No permission to move to path ' . $targetPath);
-		}
-
-		$nonExisting = $this->createNonExistingNode($targetPath);
-		$this->sendHooks(['preRename'], [$this, $nonExisting]);
-		$this->sendHooks(['preWrite'], [$nonExisting]);
+		$this->sendHooks(['preRename'], [$this, $targetPlaceholder]);
+		$this->sendHooks(['preWrite'], [$targetPlaceholder]);
 
 		if (!$this->view->rename($this->path, $targetPath)) {
 			throw new NotPermittedException('Could not move ' . $this->path . ' to ' . $targetPath);
 		}
 
-		$mountPoint = $this->getMountPoint();
-		if ($mountPoint) {
-			// update the cached fileinfo with the new (internal) path
-			/** @var \OC\Files\FileInfo $oldFileInfo */
-			$oldFileInfo = $this->getFileInfo();
-			$this->fileInfo = new \OC\Files\FileInfo(
-				$targetPath,
-				$oldFileInfo->getStorage(),
-				$mountPoint->getInternalPath($targetPath),
-				$oldFileInfo->getData(),
-				$mountPoint, 
-				$oldFileInfo->getOwner()
-			);
-		}
+		$this->updateCachedFileInfoAfterMove($targetPath);
 
 		$targetNode = $this->root->get($targetPath);
 		$this->sendHooks(['postRename'], [$this, $targetNode]);
@@ -401,6 +373,53 @@ class Node implements INode {
 		$this->path = $targetPath;
 
 		return $targetNode;
+	}
+
+	private function prepareTargetPath(string $targetPath, bool $allowRootMovable = false): array {
+		$targetPath = $this->normalizePath($targetPath);
+		$targetParent = $this->root->get(dirname($targetPath));
+
+		if (!($targetParent instanceof Folder)) {
+			throw new NotPermittedException('Target parent is not a folder: ' . dirname($targetPath));
+		}
+
+		if (!$this->isValidPath($targetPath)) {
+			throw new NotPermittedException('Invalid target path: ' . $targetPath);
+		}
+
+		$isMovableRootMountTarget = $allowRootMovable
+			&& $targetParent->getInternalPath() === ''
+			&& $targetParent->getMountPoint() instanceof IMovableMount;
+
+		$canWriteToTargetParent = $targetParent->isCreatable() || $isMovableRootMountTarget;
+
+		if (!$canWriteToTargetParent) {
+			throw new NotPermittedException('No permission to write to path ' . $targetPath);
+		}
+
+		return [
+			$targetPath,
+			$this->createNonExistingNode($targetPath),
+		];
+	}
+	
+	private function updateCachedFileInfoAfterMove(string $targetPath): void {
+		$mountPoint = $this->getMountPoint();
+		if (!$mountPoint) {
+			return;
+		}
+
+		// update the cached fileinfo with the new (internal) path
+		/** @var \OC\Files\FileInfo $oldFileInfo */
+		$oldFileInfo = $this->getFileInfo();
+		$this->fileInfo = new \OC\Files\FileInfo(
+			$targetPath,
+			$oldFileInfo->getStorage(),
+			$mountPoint->getInternalPath($targetPath),
+			$oldFileInfo->getData(),
+			$mountPoint,
+			$oldFileInfo->getOwner()
+		);
 	}
 
 	#[\Override]
