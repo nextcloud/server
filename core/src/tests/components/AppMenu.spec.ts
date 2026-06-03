@@ -191,7 +191,8 @@ describe('core: AppMenu', () => {
 		})
 		const wrapper = mount(AppMenu, { attachTo: document.body })
 		expect(wrapper.find('.app-menu__current-app').exists()).toBe(true)
-		expect(wrapper.find('.app-menu__current-app-name').text()).toBe('Administration settings')
+		// Settings sub-section names are collapsed to a single "Settings" label.
+		expect(wrapper.find('.app-menu__current-app-name').text()).toBe('Settings')
 	})
 
 	it('prefers the active app over a settings entry when both are marked active', () => {

@@ -57,12 +57,12 @@
 				<img
 					class="app-menu__current-app-icon"
 					:class="{ 'app-menu__current-app-icon--settings': currentApp.type === 'settings' }"
-					:src="currentApp.icon"
+					:src="displayIcon"
 					alt=""
 					aria-hidden="true">
 			</template>
 			<span class="app-menu__current-app-name">
-				{{ currentApp.name }}
+				{{ displayName }}
 			</span>
 		</NcButton>
 	</nav>
@@ -160,11 +160,34 @@ export default defineComponent({
 				?? Object.values(this.settingsList).find((entry) => entry.active && !SETTINGS_ACTION_IDS.has(entry.id))
 		},
 
-		// aria-label overrides the inner span text, so the section name
+		// Trigger label. Settings sub-section names ("Personal info",
+		// "Appearance and accessibility", ...) are too long and varied to
+		// surface in the header; collapse them all to a single "Settings".
+		displayName(): string {
+			if (!this.currentApp) {
+				return ''
+			}
+			return this.currentApp.type === 'settings'
+				? t('core', 'Settings')
+				: this.currentApp.name
+		},
+
+		// Match the collapsed label: a generic cog for any settings
+		// sub-section instead of the per-section icon.
+		displayIcon(): string {
+			if (!this.currentApp) {
+				return ''
+			}
+			return this.currentApp.type === 'settings'
+				? imagePath('core', 'actions/settings.svg')
+				: this.currentApp.icon
+		},
+
+		// aria-label overrides the inner span text, so the displayed name
 		// has to be duplicated here for screen readers.
 		currentAppLabel(): string {
 			return this.currentApp
-				? t('core', 'Open apps menu, currently in {app}', { app: this.currentApp.name })
+				? t('core', 'Open apps menu, currently in {app}', { app: this.displayName })
 				: t('core', 'Open apps menu')
 		},
 
@@ -452,23 +475,18 @@ export default defineComponent({
 	}
 
 	&__current-app-name {
-		// Hidden by default so the icon-only trigger fits alongside the
-		// centered search input. The button's aria-label still announces the
-		// section name. At wide viewports we restore the label with a
-		// truncation cap as a safety net for long localized names.
-		display: none;
-
-		@media only screen and (min-width: 1400px) {
-			display: inline-block;
-			vertical-align: middle;
-			font-size: var(--default-font-size);
-			font-weight: 500;
-			white-space: nowrap;
-			letter-spacing: -0.5px;
-			overflow: hidden;
-			text-overflow: ellipsis;
-			max-width: clamp(160px, 18vw, 360px);
-		}
+		// inline-block: inline elements ignore max-width + overflow.
+		display: inline-block;
+		vertical-align: middle;
+		font-size: var(--default-font-size);
+		font-weight: 500;
+		white-space: nowrap;
+		letter-spacing: -0.5px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		// Cap width so long localized labels ellipsize instead of pushing
+		// the header icons off-screen (.header-start doesn't shrink).
+		max-width: clamp(80px, 22vw, 320px);
 	}
 
 	&__popover {
