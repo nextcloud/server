@@ -166,79 +166,23 @@ class File extends Node implements IFile {
 				$this->acquireExclusiveLockForWrite();
 			}
 
-			$data = $this->normalizePutData($data);
-			$data = $this->wrapStreamWithRequestedHashes($data);
-
+			$stream = $this->normalizePutData($data);
+			$stream = $this->wrapStreamWithRequestedHashes($stream);
 			$expectedSize = $this->getExpectedSize();
 
-			if ($partStorage->instanceOfStorage(IWriteStreamStorage::class)) {
-				$isEOF = false;
-				$wrappedData = CallbackWrapper::wrap($data, null, null, null, null, function ($stream) use (&$isEOF): void {
-					$isEOF = feof($stream);
-				});
+			$writeResult = $this->writePutDataToStorage(
+				$partStorage,
+				$partInternalPath,
+				$stream,
+				$expectedSize,
+			);
 
-				$writeSucceeded = is_resource($wrappedData);
-				if ($writeSucceeded) {
-					$bytesWritten = -1;
-					try {
-						/** @var IWriteStreamStorage $partStorage */
-						$bytesWritten = $partStorage->writeStream($partInternalPath, $wrappedData, $expectedSize);
-					} catch (GenericFileException $e) {
-						$logger = Server::get(LoggerInterface::class);
-						$logger->error('Error while writing stream to storage: ' . $e->getMessage(), ['exception' => $e, 'app' => 'webdav']);
-						$writeSucceeded = $isEOF;
-
-						if (is_resource($wrappedData)) {
-							$writeSucceeded = feof($wrappedData);
-						}
-					}
-				}
-			} else {
-				$targetStream = $partStorage->fopen($partInternalPath, 'wb');
-				if ($targetStream === false) {
-					Server::get(LoggerInterface::class)->error('\OC\Files\Filesystem::fopen() failed', ['app' => 'webdav']);
-					// because we have no clue about the cause we can only throw back a 500/Internal Server Error
-					throw new Exception($this->l10n->t('Could not write file contents'));
-				}
-				$bytesWritten = stream_copy_to_stream($data, $targetStream);
-				if ($bytesWritten === false) {
-					$writeSucceeded = false;
-					$bytesWritten = 0;
-				} else {
-					$writeSucceeded = true;
-				}
-				fclose($targetStream);
-			}
-
-			if ($writeSucceeded === false && $expectedSize !== null) {
-				throw new Exception(
-					$this->l10n->t(
-						'Error while copying file to target location (copied: %1$s, expected filesize: %2$s)',
-						[
-							$this->l10n->n('%n byte', '%n bytes', $bytesWritten),
-							$this->l10n->n('%n byte', '%n bytes', $expectedSize),
-						],
-					)
-				);
-			}
-
-			// if content length is sent by client:
-			// double check if the file was fully received
-			// compare expected and actual size
-			if ($expectedSize !== null
-				&& $expectedSize !== $bytesWritten
-				&& $this->request->getMethod() === 'PUT'
-			) {
-				throw new BadRequest(
-					$this->l10n->t(
-						'Expected filesize of %1$s but read (from Nextcloud client) and wrote (to Nextcloud storage) %2$s. Could either be a network problem on the sending side or a problem writing to the storage on the server side.',
-						[
-							$this->l10n->n('%n byte', '%n bytes', $expectedSize),
-							$this->l10n->n('%n byte', '%n bytes', $bytesWritten),
-						],
-					)
-				);
-			}
+			$this->validateWrittenSize(
+				$writeResult['success'],
+				$writeResult['bytesWritten'],
+				$expectedSize,
+			);
+	
 		} catch (\Exception $e) {
 			if ($e instanceof LockedException) {
 				Server::get(LoggerInterface::class)->debug($e->getMessage(), ['exception' => $e]);
@@ -267,7 +211,13 @@ class File extends Node implements IFile {
 					$renameSucceeded = $targetStorage->moveFromStorage($partStorage, $partInternalPath, $targetInternalPath);
 					$targetExistsAfterRename = $targetStorage->file_exists($targetInternalPath);
 					if ($renameSucceeded === false || $targetExistsAfterRename === false) {
-						Server::get(LoggerInterface::class)->error('renaming part file to final file failed $renameOkay: ' . ($renameSucceeded ? 'true' : 'false') . ', $fileExists: ' . ($targetExistsAfterRename ? 'true' : 'false') . ')', ['app' => 'webdav']);
+						Server::get(LoggerInterface::class)->error(
+							'renaming part file to final file failed $renameSucceeded: '
+							. ($renameSucceeded ? 'true' : 'false')
+							. ', $targetExistsAfterRename: '
+							. ($targetExistsAfterRename ? 'true' : 'false')
+							. ')', ['app' => 'webdav']
+						);
 						throw new Exception($this->l10n->t('Could not rename part file to final file'));
 					}
 				} catch (ForbiddenException $ex) {
@@ -290,28 +240,7 @@ class File extends Node implements IFile {
 				throw new FileLocked($e->getMessage(), $e->getCode(), $e);
 			}
 
-			// allow sync clients to send the mtime along in a header
-			$mtimeHeader = $this->request->getHeader('x-oc-mtime');
-			if ($mtimeHeader !== '') {
-				$mtime = $this->sanitizeMtime($mtimeHeader);
-				if ($this->fileView->touch($this->path, $mtime)) {
-					$this->header('X-OC-MTime: accepted');
-				}
-			}
-
-			$fileInfoUpdate = [
-				'upload_time' => time()
-			];
-
-			// allow sync clients to send the creation time along in a header
-			$ctimeHeader = $this->request->getHeader('x-oc-ctime');
-			if ($ctimeHeader) {
-				$ctime = $this->sanitizeMtime($ctimeHeader);
-				$fileInfoUpdates['creation_time'] = $ctime;
-				$this->header('X-OC-CTime: accepted');
-			}
-
-			$this->fileView->putFileInfo($this->path, $fileInfoUpdates);
+			$this->applyUploadMetadata();
 
 			if ($defaultView) {
 				$this->emitPostHooks($targetExists);
@@ -319,13 +248,7 @@ class File extends Node implements IFile {
 
 			$this->refreshInfo();
 
-			$checksumHeader = $this->request->getHeader('oc-checksum');
-			if ($checksumHeader) {
-				$checksum = trim($checksumHeader);
-				$this->setChecksum($checksum);
-			} elseif ($this->getChecksum() !== null && $this->getChecksum() !== '') {
-				$this->setChecksum('');
-			}
+			$this->applyUploadChecksum();
 		} catch (StorageNotAvailableException $e) {
 			throw new ServiceUnavailable($this->l10n->t('Failed to check file size: %1$s', [$e->getMessage()]), 0, $e);
 		}
@@ -417,6 +340,137 @@ class File extends Node implements IFile {
 			// will place the .part file in the users root directory
 			// therefor we need to make the name (semi) unique - hash does not need to be secure but fast.
 			return hash('xxh128', $path);
+		}
+	}
+
+	/**
+	 * @param resource $stream
+	 * @return array{success: bool, bytesWritten: int}
+	 */
+	private function writePutDataToStorage(
+		$partStorage,
+		string $partInternalPath,
+		$stream,
+		?int $expectedSize,
+	): array {
+		if ($partStorage->instanceOfStorage(IWriteStreamStorage::class)) {
+			$isEOF = false;
+			$wrappedStream = CallbackWrapper::wrap($stream, null, null, null, null, function ($stream) use (&$isEOF): void {
+				$isEOF = feof($stream);
+			});
+
+			$writeSucceeded = is_resource($wrappedStream);
+			$bytesWritten = -1;
+
+			if ($writeSucceeded) {
+				try {
+					/** @var IWriteStreamStorage $partStorage */
+					$bytesWritten = $partStorage->writeStream($partInternalPath, $wrappedStream, $expectedSize);
+				} catch (GenericFileException $e) {
+					Server::get(LoggerInterface::class)->error(
+						'Error while writing stream to storage: ' . $e->getMessage(),
+						['exception' => $e, 'app' => 'webdav']
+					);
+					$writeSucceeded = $isEOF;
+					if (is_resource($wrappedStream)) {
+						$writeSucceeded = feof($wrappedStream);
+					}
+				}
+			}
+
+			return [
+				'success' => $writeSucceeded,
+				'bytesWritten' => $bytesWritten,
+			];
+		}
+
+		$targetStream = $partStorage->fopen($partInternalPath, 'wb');
+		if ($targetStream === false) {
+			Server::get(LoggerInterface::class)->error('\OC\Files\Filesystem::fopen() failed', ['app' => 'webdav']);
+			// because we have no clue about the cause we can only throw back a 500/Internal Server Error
+			throw new Exception($this->l10n->t('Could not write file contents'));
+		}
+
+		$bytesWritten = stream_copy_to_stream($stream, $targetStream);
+		fclose($targetStream);
+
+		if ($bytesWritten === false) {
+			return [
+				'success' => false,
+				'bytesWritten' => 0,
+			];
+		}
+
+		return [
+			'success' => true,
+			'bytesWritten' => $bytesWritten,
+		];
+	}
+
+	private function validateWrittenSize(bool $writeSucceeded, int $bytesWritten, ?int $expectedSize): void {
+		if ($writeSucceeded === false && $expectedSize !== null) {
+			throw new Exception(
+				$this->l10n->t(
+					'Error while copying file to target location (copied: %1$s, expected filesize: %2$s)',
+					[
+						$this->l10n->n('%n byte', '%n bytes', $bytesWritten),
+						$this->l10n->n('%n byte', '%n bytes', $expectedSize),
+					],
+				)
+			);
+		}
+
+		// if content length is sent by client:
+		// double check if the file was fully received
+		// compare expected and actual size
+		if ($expectedSize !== null
+			&& $expectedSize !== $bytesWritten
+			&& $this->request->getMethod() === 'PUT'
+		) {
+			throw new BadRequest(
+				$this->l10n->t(
+					'Expected filesize of %1$s but read (from Nextcloud client) and wrote (to Nextcloud storage) %2$s. Could either be a network problem on the sending side or a problem writing to the storage on the server side.',
+					[
+						$this->l10n->n('%n byte', '%n bytes', $expectedSize),
+						$this->l10n->n('%n byte', '%n bytes', $bytesWritten),
+					],
+				)
+			);
+		}
+	}
+
+	private function applyUploadMetadata(): void {
+		// allow sync clients to send the mtime along in a header
+		$mtimeHeader = $this->request->getHeader('x-oc-mtime');
+		if ($mtimeHeader !== '') {
+			$mtime = $this->sanitizeMtime($mtimeHeader);
+			if ($this->fileView->touch($this->path, $mtime)) {
+				$this->header('X-OC-MTime: accepted');
+			}
+		}
+
+		$fileInfoUpdates = [
+			'upload_time' => time(),
+		];
+
+		// allow sync clients to send the ctime along in a header
+		$ctimeHeader = $this->request->getHeader('x-oc-ctime');
+		if ($ctimeHeader) {
+			$ctime = $this->sanitizeMtime($ctimeHeader);
+			$fileInfoUpdates['creation_time'] = $ctime;
+			$this->header('X-OC-CTime: accepted');
+		}
+
+		$this->fileView->putFileInfo($this->path, $fileInfoUpdates);
+	}
+
+	private function applyUploadChecksum(): void {
+		$checksumHeader = $this->request->getHeader('oc-checksum');
+		if ($checksumHeader) {
+			$checksum = trim($checksumHeader);
+			$this->setChecksum($checksum);
+		} elseif ($this->getChecksum() !== null && $this->getChecksum() !== '') {
+			$this->setChecksum('');
 		}
 	}
 
