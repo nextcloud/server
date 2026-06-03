@@ -22,7 +22,6 @@ use OCP\Files\Mount\IMovableMount;
 use OCP\Files\Node as INode;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
-use OCP\Lock\LockedException;
 use OCP\PreConditionNotMetException;
 use OCP\Server;
 
@@ -402,7 +401,7 @@ class Node implements INode {
 			$this->createNonExistingNode($targetPath),
 		];
 	}
-	
+
 	private function updateCachedFileInfoAfterMove(string $targetPath): void {
 		$mountPoint = $this->getMountPoint();
 		if (!$mountPoint) {
