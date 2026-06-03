@@ -104,13 +104,13 @@ OC.L10N.register(
     "App bundles" : "Pacchetti di applicazioni",
     "Featured apps" : "Applicazioni in evidenza",
     "Supported apps" : "Applicazioni supportate",
+    "Good Nextcloud integration" : "Buona integrazione con Nextcloud",
+    "Best performance" : "Miglior performance",
     "Best Nextcloud integration" : "Miglior integrazione Nextcloud",
     "Good performance" : "Buone performance",
     "Best security: documents never leave your server" : "Miglior sicurezza: i documenti non lasciano mai i tuoi server",
     "Best ODF compatibility" : "Miglior compatibilità con ODF",
     "Best support for legacy files" : "Miglior supporto per i file legacy",
-    "Good Nextcloud integration" : "Buona integrazione con Nextcloud",
-    "Best performance" : "Miglior performance",
     "An error occurred during the request. Unable to proceed." : "Si è verificato un errore durante la richiesta. Impossibile continuare."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

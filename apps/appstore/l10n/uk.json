@@ -101,17 +101,16 @@
     "App bundles" : "Набори застосунків",
     "Featured apps" : "Функціональне",
     "Supported apps" : "Застосунки, що підтримуються",
-    "Best Nextcloud integration" : "Найкраща інтеграція Nextcloud",
+    "Good Nextcloud integration" : "Добра інтеграція з Nextcloud",
     "Open source" : "Відкритий код",
+    "Best performance" : "Найкраща продуктивність",
+    "Limited ODF compatibility" : "Обмежена підримка ODF",
+    "Best Microsoft compatibility" : "Найкраща підтримка продуктів Microsoft",
+    "Best Nextcloud integration" : "Найкраща інтеграція Nextcloud",
     "Good performance" : "Добра продуктивність",
     "Best security: documents never leave your server" : "Найкращий рівень безпеки: документи ніколи не полишають вашу хмару",
     "Best ODF compatibility" : "Найкраща підтримка ODF",
     "Best support for legacy files" : "Найкраща підтримка файлів старих форматів",
-    "Good Nextcloud integration" : "Добра інтеграція з Nextcloud",
-    "Open core" : "Відкрите ядро",
-    "Best performance" : "Найкраща продуктивність",
-    "Limited ODF compatibility" : "Обмежена підримка ODF",
-    "Best Microsoft compatibility" : "Найкраща підтримка продуктів Microsoft",
     "An error occurred during the request. Unable to proceed." : "Під час запиту сталася помилка. Неможливо продовжити."
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }
