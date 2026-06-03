@@ -413,51 +413,98 @@ class OC {
 		return $productName;
 	}
 
+	private const LAST_ACTIVITY_SESSION_KEY = 'LAST_ACTIVITY';
+	private const STATUS_ENDPOINT_SUFFIX = '/status.php';
+	private const COOKIE_DOMAIN_CONFIG_KEY = 'cookie_domain';
+
+	/**
+	 * Initialize the session for the current request.
+	 *
+	 * Applies session cookie settings, skips session startup for status requests,
+	 * creates the wrapped internal session, and logs out expired sessions.
+	 */
 	public static function initSession(): void {
 		$request = Server::get(IRequest::class);
+		$now = time();
 
-		// TODO: Temporary disabled again to solve issues with CalDAV/CardDAV clients like DAVx5 that use cookies
-		// TODO: See https://github.com/nextcloud/server/issues/37277#issuecomment-1476366147 and the other comments
-		// TODO: for further information.
-		// $isDavRequest = strpos($request->getRequestUri(), '/remote.php/dav') === 0 || strpos($request->getRequestUri(), '/remote.php/webdav') === 0;
-		// if ($request->getHeader('Authorization') !== '' && is_null($request->getCookie('cookie_test')) && $isDavRequest && !isset($_COOKIE['nc_session_id'])) {
-		// setcookie('cookie_test', 'test', time() + 3600);
-		// // Do not initialize the session if a request is authenticated directly
-		// // unless there is a session cookie already sent along
-		// return;
+		// When enabled, directly authenticated DAV requests do not need an initialized
+		// session unless there is already a Nextcloud session cookie present.
+		//
+		// NOTE: This is currently disabled due to compatibility issues with clients that use
+		// cookies (e.g. DAVx5). See nextcloud/server#37277 before re-enabling.
+		//
+		// if (self::shouldBypassSessionInitializationForDirectDavAuth($request)) {
+		//	self::markDavCookieProbe($now);
+		//	return;
 		// }
 
+		self::configureSessionCookieSettings($request);
+
+		if (self::shouldSkipSessionInitialization($request)) {
+			return;
+		}
+
+		$session = self::createWrappedSession(OC_Util::getInstanceId());
+
+		if (self::invalidateExpiredSession($request, $session, $now)) {
+			return;
+		}
+
+		if (!self::hasSessionRelaxedExpiry()) {
+			$session->set(self::LAST_ACTIVITY_SESSION_KEY, $now);
+		}
+
+		$session->close();
+	}
+
+	private static function shouldBypassSessionInitializationForDirectDavAuth(IRequest $request): bool {
+		$requestUri = $request->getRequestUri();
+		$isDavRequest = str_starts_with($requestUri, '/remote.php/dav')
+			|| str_starts_with($requestUri, '/remote.php/webdav');
+
+		return $request->getHeader('Authorization') !== ''
+			&& $request->getCookie('cookie_test') === null
+			&& $isDavRequest
+			&& $request->getCookie('nc_session_id') === null;
+	}
+
+	private static function markDavCookieProbe(int $now): void {
+		setcookie('cookie_test', 'test', $now + 3600);
+	}
+
+	private static function configureSessionCookieSettings(IRequest $request): void {
 		if ($request->getServerProtocol() === 'https') {
 			ini_set('session.cookie_secure', 'true');
 		}
 
-		// prevents javascript from accessing php session cookies
+		// prevent javascript from accessing php session cookies
 		ini_set('session.cookie_httponly', 'true');
 
 		// set the cookie path to the Nextcloud directory
-		$cookie_path = OC::$WEBROOT ? : '/';
-		ini_set('session.cookie_path', $cookie_path);
+		$webRoot = self::$WEBROOT ?: '/';
+		ini_set('session.cookie_path', $webRoot);
 
 		// set the cookie domain to the Nextcloud domain
-		$cookie_domain = self::$config->getValue('cookie_domain', '');
-		if ($cookie_domain) {
-			ini_set('session.cookie_domain', $cookie_domain);
+		$cookieDomain = self::$config->getValue(self::COOKIE_DOMAIN_CONFIG_KEY, '');
+		if ($cookieDomain !== '') {
+			ini_set('session.cookie_domain', $cookieDomain);
 		}
+	}
 
-		// Do not initialize sessions for 'status.php' requests
-		// Monitoring endpoints can quickly flood session handlers
-		// and 'status.php' doesn't require sessions anyway
-		// We still need to run the ini_set above so that same-site cookies use the correct configuration.
-		if (str_ends_with($request->getScriptName(), '/status.php')) {
-			return;
-		}
+	private static function shouldSkipSessionInitialization(IRequest $request): bool {
+		// Cookie parameters must be configured before this check so follow-up cookie
+		// handling in the request uses the correct path, domain, and secure settings.
 
-		// Let the session name be changed in the initSession Hook
-		$sessionName = OC_Util::getInstanceId();
+		// The monitoring endpoint does not require sessions and can flood session handlers.
+		return str_ends_with($request->getScriptName(), self::STATUS_ENDPOINT_SUFFIX);
+	}
 
+	private static function createWrappedSession(string $sessionName): ISession {
 		try {
+			$installed = Server::get(\OC\SystemConfig::class)->getValue('installed', false);
 			$logger = null;
-			if (Server::get(\OC\SystemConfig::class)->getValue('installed', false)) {
+
+			if ($installed) {
 				$logger = logger('core');
 			}
 
@@ -467,33 +514,61 @@ class OC {
 				$logger,
 			);
 
-			$cryptoWrapper = Server::get(\OC\Session\CryptoWrapper::class);
-			$session = $cryptoWrapper->wrapSession($session);
+			$session = Server::get(\OC\Session\CryptoWrapper::class)->wrapSession($session);
 			self::$server->setSession($session);
 
-			// if session can't be started break with http 500 error
+			return $session;
 		} catch (Exception $e) {
-			Server::get(LoggerInterface::class)->error($e->getMessage(), ['app' => 'base','exception' => $e]);
-			//show the user a detailed error page
+			// TODO: Consider isolating so that termination behavior is more explicit.
+			// TODO: Catch \Throwable instead and adapt rendering path.
+			Server::get(LoggerInterface::class)->error($e->getMessage(), ['app' => 'base', 'exception' => $e]);
 			Server::get(ITemplateManager::class)->printExceptionErrorPage($e, 500);
-			die();
+			exit();
+		}
+	}
+
+	private static function invalidateExpiredSession(IRequest $request, ISession $session, int $now): bool {
+		$value = $session->exists(self::LAST_ACTIVITY_SESSION_KEY)
+			? $session->get(self::LAST_ACTIVITY_SESSION_KEY)
+			: null;
+
+		if (!is_int($value) && !ctype_digit((string)$value)) {
+			return false;
 		}
 
-		//try to set the session lifetime
+		$lastActivity = (int)$value;
+		if ($lastActivity <= 0) {
+			return false;
+		}
+
 		$sessionLifeTime = self::getSessionLifeTime();
 
-		// session timeout
-		if ($session->exists('LAST_ACTIVITY') && (time() - $session->get('LAST_ACTIVITY') > $sessionLifeTime)) {
-			if (isset($_COOKIE[session_name()])) {
-				setcookie(session_name(), '', -1, self::$WEBROOT ? : '/');
-			}
-			Server::get(IUserSession::class)->logout();
+		if (($now - $lastActivity) <= $sessionLifeTime) {
+			return false;
 		}
 
-		if (!self::hasSessionRelaxedExpiry()) {
-			$session->set('LAST_ACTIVITY', time());
-		}
+		self::clearSessionCookie($request, $now);
+
+		Server::get(IUserSession::class)->logout();
 		$session->close();
+
+		return true;
+	}
+
+	private static function clearSessionCookie(IRequest $request, int $now): void {
+		$sessionName = session_name();
+		if ($sessionName === '' || $request->getCookie($sessionName) === null) {
+			return;
+		}
+
+		$sessionCookieParams = session_get_cookie_params();
+		setcookie(
+			$sessionName,
+			'',
+			$now - 3600,
+			$sessionCookieParams['path'] ?: '/',
+			$sessionCookieParams['domain'] ?: ''
+		);
 	}
 
 	private static function getSessionLifeTime(): int {
