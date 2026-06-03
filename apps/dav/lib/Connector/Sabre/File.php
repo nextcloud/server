@@ -199,36 +199,14 @@ class File extends Node implements IFile {
 		// 3. Finalize upload and update metadata
 		try {
 			if ($usePartFile) {
-				if ($defaultView && !$this->emitPreHooks($targetExists)) {
-					$partStorage->unlink($partInternalPath);
-					throw new Exception($this->l10n->t('Could not rename part file to final file, canceled by hook'));
-				}
-
-				$this->acquireExclusiveLockForWrite();
-
-				// rename to correct path
-				try {
-					$renameSucceeded = $targetStorage->moveFromStorage($partStorage, $partInternalPath, $targetInternalPath);
-					$targetExistsAfterRename = $targetStorage->file_exists($targetInternalPath);
-					if ($renameSucceeded === false || $targetExistsAfterRename === false) {
-						Server::get(LoggerInterface::class)->error(
-							'renaming part file to final file failed $renameSucceeded: '
-							. ($renameSucceeded ? 'true' : 'false')
-							. ', $targetExistsAfterRename: '
-							. ($targetExistsAfterRename ? 'true' : 'false')
-							. ')', ['app' => 'webdav']
-						);
-						throw new Exception($this->l10n->t('Could not rename part file to final file'));
-					}
-				} catch (ForbiddenException $ex) {
-					if (!$ex->getRetry()) {
-						$partStorage->unlink($partInternalPath);
-					}
-					throw new DAVForbiddenException($ex->getMessage(), $ex->getRetry());
-				} catch (\Exception $e) {
-					$partStorage->unlink($partInternalPath);
-					$this->convertToSabreException($e);
-				}
+				$this->finalizePartFileUpload(
+					$partStorage,
+					$partInternalPath,
+					$targetStorage,
+					$targetInternalPath,
+					$defaultView,
+					$targetExists,
+				);
 			}
 
 			// since we skipped the view we need to scan and emit the hooks ourselves
@@ -474,6 +452,47 @@ class File extends Node implements IFile {
 		}
 	}
 
+	private function finalizePartFileUpload(
+		$partStorage,
+		string $partInternalPath,
+		$targetStorage,
+		string $targetInternalPath,
+		$defaultView,
+		bool $targetExists,
+	): void {
+		if ($defaultView && !$this->emitPreHooks($targetExists)) {
+			$partStorage->unlink($partInternalPath);
+			throw new Exception($this->l10n->t('Could not rename part file to final file, canceled by hook'));
+		}
+
+		$this->acquireExclusiveLockForWrite();
+
+		// rename to correct path
+		try {
+			$renameSucceeded = $targetStorage->moveFromStorage($partStorage, $partInternalPath, $targetInternalPath);
+			$targetExistsAfterRename = $targetStorage->file_exists($targetInternalPath);
+
+			if ($renameSucceeded === false || $targetExistsAfterRename === false) {
+				Server::get(LoggerInterface::class)->error(
+					'renaming part file to final file failed $renameSucceeded: '
+					. ($renameSucceeded ? 'true' : 'false')
+					. ', $targetExistsAfterRename: '
+					. ($targetExistsAfterRename ? 'true' : 'false')
+					. ')', ['app' => 'webdav']
+				);
+				throw new Exception($this->l10n->t('Could not rename part file to final file'));
+			}
+		} catch (ForbiddenException $ex) {
+			if (!$ex->getRetry()) {
+				$partStorage->unlink($partInternalPath);
+			}
+			throw new DAVForbiddenException($ex->getMessage(), $ex->getRetry());
+		} catch (\Exception $e) {
+			$partStorage->unlink($partInternalPath);
+			$this->convertToSabreException($e);
+		}
+	}
+		
 	private function emitPreHooks(bool $exists, ?string $path = null): bool {
 		if (is_null($path)) {
 			$path = $this->path;
