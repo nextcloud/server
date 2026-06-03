@@ -20,6 +20,7 @@ use OCP\Files;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\Http\Client\IClientService;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUserManager;
@@ -72,20 +73,24 @@ class Manager {
 	/** @var LoggerInterface */
 	private $logger;
 
+	/** @var IConfig */
+	private $config;
+
 	public function __construct(
-		IDBConnection                   $connection,
-		\OC\Files\Mount\Manager         $mountManager,
-		IStorageFactory                 $storageLoader,
-		IClientService                  $clientService,
-		IManager                        $notificationManager,
-		IDiscoveryService               $discoveryService,
+		IDBConnection $connection,
+		\OC\Files\Mount\Manager $mountManager,
+		IStorageFactory $storageLoader,
+		IClientService $clientService,
+		IManager $notificationManager,
+		IDiscoveryService $discoveryService,
 		ICloudFederationProviderManager $cloudFederationProviderManager,
-		ICloudFederationFactory         $cloudFederationFactory,
-		IGroupManager                   $groupManager,
-		IUserManager                    $userManager,
-		IUserSession                    $userSession,
-		IEventDispatcher                $eventDispatcher,
-		LoggerInterface                 $logger
+		ICloudFederationFactory $cloudFederationFactory,
+		IGroupManager $groupManager,
+		IUserManager $userManager,
+		IUserSession $userSession,
+		IEventDispatcher $eventDispatcher,
+		LoggerInterface $logger,
+		IConfig $config,
 	) {
 		$user = $userSession->getUser();
 		$this->connection = $connection;
@@ -101,6 +106,7 @@ class Manager {
 		$this->userManager = $userManager;
 		$this->eventDispatcher = $eventDispatcher;
 		$this->logger = $logger;
+		$this->config = $config;
 	}
 
 	/**
@@ -167,7 +173,8 @@ class Manager {
 			'token' => $token,
 			'password' => $password,
 			'mountpoint' => $mountPoint,
-			'owner' => $owner
+			'owner' => $owner,
+			'verify' => !$this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates'),
 		];
 		return $this->mountShare($options);
 	}
