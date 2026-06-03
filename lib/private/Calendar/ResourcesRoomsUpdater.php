@@ -13,9 +13,7 @@ use OCA\DAV\CalDAV\CalDavBackend;
 use OCP\Calendar\BackendTemporarilyUnavailableException;
 use OCP\Calendar\IMetadataProvider;
 use OCP\Calendar\Resource\IBackend as IResourceBackend;
-use OCP\Calendar\Resource\IManager as IResourceManager;
 use OCP\Calendar\Resource\IResource;
-use OCP\Calendar\Room\IManager as IRoomManager;
 use OCP\Calendar\Room\IRoom;
 use OCP\IDBConnection;
 use Psr\Container\ContainerInterface;
@@ -33,7 +31,7 @@ class ResourcesRoomsUpdater {
 	 */
 	public function updateResources(): void {
 		$this->updateFromBackend(
-			$this->container->get(IResourceManager::class),
+			$this->container->get(Resource\Manager::class),
 			'calendar_resources',
 			'calendar_resources_md',
 			'resource_id',
@@ -46,7 +44,7 @@ class ResourcesRoomsUpdater {
 	 */
 	public function updateRooms(): void {
 		$this->updateFromBackend(
-			$this->container->get(IRoomManager::class),
+			$this->container->get(Room\Manager::class),
 			'calendar_rooms',
 			'calendar_rooms_md',
 			'room_id',
@@ -57,7 +55,7 @@ class ResourcesRoomsUpdater {
 	/**
 	 * Update cache from one specific backend manager, either ResourceManager or RoomManager
 	 *
-	 * @param IResourceManager|IRoomManager $backendManager
+	 * @param Resource\Manager|Room\Manager $backendManager
 	 */
 	private function updateFromBackend($backendManager,
 		string $dbTable,
@@ -311,15 +309,9 @@ class ResourcesRoomsUpdater {
 	/**
 	 * Gets all metadata of a backend
 	 *
-	 * @param IResource|IRoom $resource
-	 *
-	 * @return array
+	 * @return array<string, ?string>
 	 */
-	private function getAllMetadataOfBackend($resource): array {
-		if (!($resource instanceof IMetadataProvider)) {
-			return [];
-		}
-
+	private function getAllMetadataOfBackend(IMetadataProvider $resource): array {
 		$keys = $resource->getAllAvailableMetadataKeys();
 		$metadata = [];
 		foreach ($keys as $key) {
