@@ -8,11 +8,14 @@
 namespace OC\App\AppStore\Bundles;
 
 use OCP\IL10N;
+use OCP\L10N\IFactory;
 
 class BundleFetcher {
+	private IL10N $l10n;
 	public function __construct(
-		private IL10N $l10n,
+		IFactory $factory,
 	) {
+		$this->l10n = $factory->get('lib');
 	}
 
 	/**
