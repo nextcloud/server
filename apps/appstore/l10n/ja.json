@@ -101,17 +101,16 @@
     "App bundles" : "アプリバンドル",
     "Featured apps" : "注目のアプリ",
     "Supported apps" : "対応しているアプリ",
-    "Best Nextcloud integration" : "最高のNextcloud統合",
+    "Good Nextcloud integration" : "優れたNextcloud統合",
     "Open source" : "オープンソース",
+    "Best performance" : "最高のパフォーマンス",
+    "Limited ODF compatibility" : "限定的なODF互換性",
+    "Best Microsoft compatibility" : "最高のMicrosoft互換性",
+    "Best Nextcloud integration" : "最高のNextcloud統合",
     "Good performance" : "良好なパフォーマンス",
     "Best security: documents never leave your server" : "最高のセキュリティ：ドキュメントはサーバーから決して外に出ません",
     "Best ODF compatibility" : "最高のODF互換性",
     "Best support for legacy files" : "旧形式のファイルに対する最適なサポート",
-    "Good Nextcloud integration" : "優れたNextcloud統合",
-    "Open core" : "オープンコア",
-    "Best performance" : "最高のパフォーマンス",
-    "Limited ODF compatibility" : "限定的なODF互換性",
-    "Best Microsoft compatibility" : "最高のMicrosoft互換性",
     "An error occurred during the request. Unable to proceed." : "要求中にエラーが発生しました。 続行できません。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
