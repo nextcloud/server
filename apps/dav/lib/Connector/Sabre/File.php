@@ -129,7 +129,7 @@ class File extends Node implements IFile {
 
 		// The temporary upload file and final target may live on different storages,
 		// for example when writing through a single-file share.
-		[$partStorage, $partInternalPath] = $this->fileView->resolvePath($partFilePath);
+		[$partStorage, $partInternalPath] = $this->fileView->resolvePath($uploadPath);
 		[$targetStorage, $targetInternalPath] = $this->fileView->resolvePath($this->path);
 
 		if ($partStorage === null || $targetStorage === null) {
