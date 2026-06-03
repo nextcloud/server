@@ -84,23 +84,17 @@ class File extends Node implements IFile {
 	}
 
 	/**
-	 * Updates the data
+	 * Write or replace the file contents from a stream or string payload.
 	 *
-	 * The data argument is a readable stream resource.
+	 * Depending on the storage backend, the upload is written either directly to
+	 * the target path or to a temporary part file that is renamed into place after
+	 * the write completed successfully.
 	 *
-	 * After a successful put operation, you may choose to return an ETag. The
-	 * etag must always be surrounded by double-quotes. These quotes must
-	 * appear in the actual string you're returning.
+	 * In addition to writing the payload, this method validates the target path,
+	 * manages upload locks, verifies the written size, emits filesystem hooks,
+	 * updates file metadata, and translates storage exceptions to DAV exceptions.
 	 *
-	 * Clients may use the ETag from a PUT request to later on make sure that
-	 * when they update the file, the contents haven't changed in the mean
-	 * time.
-	 *
-	 * If you don't plan to store the file byte-by-byte, and you return a
-	 * different object on a subsequent GET you are strongly recommended to not
-	 * return an ETag, and just return null.
-	 *
-	 * @param resource|string $data
+	 * @param resource|string|null $data Readable stream or full file contents.
 	 *
 	 * @throws Forbidden
 	 * @throws UnsupportedMediaType
@@ -109,11 +103,12 @@ class File extends Node implements IFile {
 	 * @throws EntityTooLarge
 	 * @throws ServiceUnavailable
 	 * @throws FileLocked
-	 * @return string|null
+	 * @return string|null ETag surrounded by double quotes on success.
 	 */
 	#[\Override]
 	public function put($data) {
-		// 1. Validate target and determine upload path
+		// 1. Validate the target and choose whether to write directly or through a
+		// temporary part file.
 		try {
 			$targetExists = $this->fileView->file_exists($this->path);
 			if ($targetExists && !$this->info->isUpdateable()) {
@@ -123,6 +118,7 @@ class File extends Node implements IFile {
 			throw new ServiceUnavailable($this->l10n->t('File is not updatable: %1$s', [$e->getMessage()]));
 		}
 
+		// Validate the target path before resolving storages or opening streams.
 		$this->verifyPath();
 
 		[$partStorage] = $this->fileView->resolvePath($this->path);
@@ -135,7 +131,8 @@ class File extends Node implements IFile {
 
 		if ($usePartFile) {
 			$transferId = \rand();
-			// mark file as partial while uploading (ignored by the scanner)
+			// Use a temporary .part file while the upload is in progress.
+			// Scanner logic ignores these partial files.
 			$partFilePath = $this->getPartFileBasePath($this->path) . '.ocTransferId' . $transferId . '.part';
 
 			if (!$defaultView->isCreatable($partFilePath) && $defaultView->isUpdatable($this->path)) {
@@ -144,15 +141,18 @@ class File extends Node implements IFile {
 		}
 
 		if (!$usePartFile) {
-			// upload file directly as the final path
+			// Write directly to the final target path instead of using a temporary part file.
 			$partFilePath = $this->path;
 
+			// For direct writes, run pre-write hooks before touching the final target.
+			// Part-file uploads defer these hooks until just before the final rename.
 			if ($defaultView && !$this->emitPreHooks($targetExists)) {
 				throw new Exception($this->l10n->t('Could not write to final file, canceled by hook'));
 			}
 		}
 
-		// the part file and target file might be on a different storage in case of a single file storage (e.g. single file share)
+		// The temporary upload file and final target may live on different storages,
+		// for example when writing through a single-file share.
 		[$partStorage, $partInternalPath] = $this->fileView->resolvePath($partFilePath);
 		[$targetStorage, $targetInternalPath] = $this->fileView->resolvePath($this->path);
 
@@ -160,7 +160,7 @@ class File extends Node implements IFile {
 			throw new ServiceUnavailable($this->l10n->t('Failed to get storage for file'));
 		}
 
-		// 2. Write request body to storage
+		// 2. Stream the request body to storage.
 		try {
 			if (!$usePartFile) {
 				$this->acquireExclusiveLockForWrite();
@@ -196,7 +196,7 @@ class File extends Node implements IFile {
 			$this->convertToSabreException($e);
 		}
 
-		// 3. Finalize upload and update metadata
+		// 3. Finalize the upload, refresh metadata, and emit hooks.
 		try {
 			if ($usePartFile) {
 				$this->finalizePartFileUpload(
@@ -209,9 +209,10 @@ class File extends Node implements IFile {
 				);
 			}
 
-			// since we skipped the view we need to scan and emit the hooks ourselves
+			// Refresh storage metadata because the write path bypassed the usual view logic.
 			$targetStorage->getUpdater()->update($targetInternalPath);
 
+			// Downgrade back to a shared lock after the write/rename completed.
 			try {
 				$this->changeLock(ILockingProvider::LOCK_SHARED);
 			} catch (LockedException $e) {
@@ -221,6 +222,7 @@ class File extends Node implements IFile {
 			$this->applyUploadMetadata();
 
 			if ($defaultView) {
+				// Emit post-write hooks explicitly because the write path bypassed the usual view logic.
 				$this->emitPostHooks($targetExists);
 			}
 
@@ -238,13 +240,9 @@ class File extends Node implements IFile {
 		try {
 			$this->changeLock(ILockingProvider::LOCK_EXCLUSIVE);
 		} catch (LockedException $e) {
-			// during very large uploads, the shared lock we got at the start might have been expired
-			// meaning that the above lock can fail not just only because somebody else got a shared lock
-			// or because there is no existing shared lock to make exclusive
-			//
-			// Thus we try to get a new exclusive lock, if the original lock failed because of a different shared
-			// lock this will still fail, if our original shared lock expired the new lock will be successful and
-			// the entire operation will be safe
+			// For very large uploads the original shared lock may already have expired.
+			// In that case upgrading it can fail even when there is no competing writer.
+			// Retry by acquiring a fresh exclusive lock directly.			
 			try {
 				$this->acquireLock(ILockingProvider::LOCK_EXCLUSIVE);
 			} catch (LockedException $ex) {
@@ -365,7 +363,8 @@ class File extends Node implements IFile {
 		$targetStream = $partStorage->fopen($partInternalPath, 'wb');
 		if ($targetStream === false) {
 			Server::get(LoggerInterface::class)->error('\OC\Files\Filesystem::fopen() failed', ['app' => 'webdav']);
-			// because we have no clue about the cause we can only throw back a 500/Internal Server Error
+			// fopen() did not provide a more specific failure reason, so surface this as
+			// a generic DAV error.
 			throw new Exception($this->l10n->t('Could not write file contents'));
 		}
 
@@ -398,9 +397,8 @@ class File extends Node implements IFile {
 			);
 		}
 
-		// if content length is sent by client:
-		// double check if the file was fully received
-		// compare expected and actual size
+		// When the client sends Content-Length for a PUT request, verify that the
+		// number of bytes written matches the announced payload size.
 		if ($expectedSize !== null
 			&& $expectedSize !== $bytesWritten
 			&& $this->request->getMethod() === 'PUT'
@@ -418,7 +416,7 @@ class File extends Node implements IFile {
 	}
 
 	private function applyUploadMetadata(): void {
-		// allow sync clients to send the mtime along in a header
+		// Accept client-provided timestamps used by sync clients to preserve metadata.
 		$mtimeHeader = $this->request->getHeader('x-oc-mtime');
 		if ($mtimeHeader !== '') {
 			$mtime = $this->sanitizeMtime($mtimeHeader);
@@ -431,7 +429,6 @@ class File extends Node implements IFile {
 			'upload_time' => time(),
 		];
 
-		// allow sync clients to send the ctime along in a header
 		$ctimeHeader = $this->request->getHeader('x-oc-ctime');
 		if ($ctimeHeader) {
 			$ctime = $this->sanitizeMtime($ctimeHeader);
@@ -443,6 +440,8 @@ class File extends Node implements IFile {
 	}
 
 	private function applyUploadChecksum(): void {
+		// Persist the checksum provided by the client. If none was sent, clear any
+		// previously stored checksum so metadata reflects the current upload.
 		$checksumHeader = $this->request->getHeader('oc-checksum');
 		if ($checksumHeader) {
 			$checksum = trim($checksumHeader);
@@ -467,7 +466,6 @@ class File extends Node implements IFile {
 
 		$this->acquireExclusiveLockForWrite();
 
-		// rename to correct path
 		try {
 			$renameSucceeded = $targetStorage->moveFromStorage($partStorage, $partInternalPath, $targetInternalPath);
 			$targetExistsAfterRename = $targetStorage->file_exists($targetInternalPath);
