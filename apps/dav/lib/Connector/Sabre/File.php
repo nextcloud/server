@@ -113,103 +113,63 @@ class File extends Node implements IFile {
 	 */
 	#[\Override]
 	public function put($data) {
+		// 1. Validate target and determine upload path
 		try {
-			$exists = $this->fileView->file_exists($this->path);
-			if ($exists && !$this->info->isUpdateable()) {
+			$targetExists = $this->fileView->file_exists($this->path);
+			if ($targetExists && !$this->info->isUpdateable()) {
 				throw new Forbidden();
 			}
 		} catch (StorageNotAvailableException $e) {
 			throw new ServiceUnavailable($this->l10n->t('File is not updatable: %1$s', [$e->getMessage()]));
 		}
 
-		// verify path of the target
 		$this->verifyPath();
 
 		[$partStorage] = $this->fileView->resolvePath($this->path);
 		if ($partStorage === null) {
 			throw new ServiceUnavailable($this->l10n->t('Failed to get storage for file'));
 		}
-		$needsPartFile = $partStorage->needsPartFile() && (strlen($this->path) > 1);
+		$usePartFile = $partStorage->needsPartFile() && (strlen($this->path) > 1);
 
-		$view = Filesystem::getView();
+		$defaultView = Filesystem::getView();
 
-		if ($needsPartFile) {
+		if ($usePartFile) {
 			$transferId = \rand();
 			// mark file as partial while uploading (ignored by the scanner)
 			$partFilePath = $this->getPartFileBasePath($this->path) . '.ocTransferId' . $transferId . '.part';
 
-			if (!$view->isCreatable($partFilePath) && $view->isUpdatable($this->path)) {
-				$needsPartFile = false;
+			if (!$defaultView->isCreatable($partFilePath) && $defaultView->isUpdatable($this->path)) {
+				$usePartFile = false;
 			}
 		}
-		if (!$needsPartFile) {
+
+		if (!$usePartFile) {
 			// upload file directly as the final path
 			$partFilePath = $this->path;
 
-			if ($view && !$this->emitPreHooks($exists)) {
+			if ($defaultView && !$this->emitPreHooks($targetExists)) {
 				throw new Exception($this->l10n->t('Could not write to final file, canceled by hook'));
 			}
 		}
 
 		// the part file and target file might be on a different storage in case of a single file storage (e.g. single file share)
-		[$partStorage, $internalPartPath] = $this->fileView->resolvePath($partFilePath);
-		[$storage, $internalPath] = $this->fileView->resolvePath($this->path);
-		if ($partStorage === null || $storage === null) {
+		[$partStorage, $partInternalPath] = $this->fileView->resolvePath($partFilePath);
+		[$targetStorage, $targetInternalPath] = $this->fileView->resolvePath($this->path);
+
+		if ($partStorage === null || $targetStorage === null) {
 			throw new ServiceUnavailable($this->l10n->t('Failed to get storage for file'));
 		}
+
+		// 2. Write request body to storage
 		try {
-			if (!$needsPartFile) {
-				try {
-					$this->changeLock(ILockingProvider::LOCK_EXCLUSIVE);
-				} catch (LockedException $e) {
-					// during very large uploads, the shared lock we got at the start might have been expired
-					// meaning that the above lock can fail not just only because somebody else got a shared lock
-					// or because there is no existing shared lock to make exclusive
-					//
-					// Thus we try to get a new exclusive lock, if the original lock failed because of a different shared
-					// lock this will still fail, if our original shared lock expired the new lock will be successful and
-					// the entire operation will be safe
-
-					try {
-						$this->acquireLock(ILockingProvider::LOCK_EXCLUSIVE);
-					} catch (LockedException $ex) {
-						throw new FileLocked($e->getMessage(), $e->getCode(), $e);
-					}
-				}
+			if (!$usePartFile) {
+				$this->acquireExclusiveLockForWrite();
 			}
 
-			if (!is_resource($data)) {
-				$tmpData = fopen('php://temp', 'r+');
-				if ($data !== null) {
-					fwrite($tmpData, $data);
-					rewind($tmpData);
-				}
-				$data = $tmpData;
-			}
+			$data = $this->normalizePutData($data);
+			$data = $this->wrapStreamWithRequestedHashes($data);
 
-			if ($this->request->getHeader('X-HASH') !== '') {
-				$hash = $this->request->getHeader('X-HASH');
-				if ($hash === 'all' || $hash === 'md5') {
-					$data = HashWrapper::wrap($data, 'md5', function ($hash): void {
-						$this->header('X-Hash-MD5: ' . $hash);
-					});
-				}
-
-				if ($hash === 'all' || $hash === 'sha1') {
-					$data = HashWrapper::wrap($data, 'sha1', function ($hash): void {
-						$this->header('X-Hash-SHA1: ' . $hash);
-					});
-				}
-
-				if ($hash === 'all' || $hash === 'sha256') {
-					$data = HashWrapper::wrap($data, 'sha256', function ($hash): void {
-						$this->header('X-Hash-SHA256: ' . $hash);
-					});
-				}
-			}
-
-			$lengthHeader = $this->request->getHeader('content-length');
-			$expected = $lengthHeader !== '' ? (int)$lengthHeader : null;
+			$expectedSize = $this->getExpectedSize();
 
 			if ($partStorage->instanceOfStorage(IWriteStreamStorage::class)) {
 				$isEOF = false;
@@ -217,44 +177,46 @@ class File extends Node implements IFile {
 					$isEOF = feof($stream);
 				});
 
-				$result = is_resource($wrappedData);
-				if ($result) {
-					$count = -1;
+				$writeSucceeded = is_resource($wrappedData);
+				if ($writeSucceeded) {
+					$bytesWritten = -1;
 					try {
 						/** @var IWriteStreamStorage $partStorage */
-						$count = $partStorage->writeStream($internalPartPath, $wrappedData, $expected);
+						$bytesWritten = $partStorage->writeStream($partInternalPath, $wrappedData, $expectedSize);
 					} catch (GenericFileException $e) {
 						$logger = Server::get(LoggerInterface::class);
 						$logger->error('Error while writing stream to storage: ' . $e->getMessage(), ['exception' => $e, 'app' => 'webdav']);
-						$result = $isEOF;
+						$writeSucceeded = $isEOF;
+
 						if (is_resource($wrappedData)) {
-							$result = feof($wrappedData);
+							$writeSucceeded = feof($wrappedData);
 						}
 					}
 				}
 			} else {
-				$target = $partStorage->fopen($internalPartPath, 'wb');
-				if ($target === false) {
+				$targetStream = $partStorage->fopen($partInternalPath, 'wb');
+				if ($targetStream === false) {
 					Server::get(LoggerInterface::class)->error('\OC\Files\Filesystem::fopen() failed', ['app' => 'webdav']);
 					// because we have no clue about the cause we can only throw back a 500/Internal Server Error
 					throw new Exception($this->l10n->t('Could not write file contents'));
 				}
-				$count = stream_copy_to_stream($data, $target);
-				if ($count === false) {
-					$result = false;
-					$count = 0;
+				$bytesWritten = stream_copy_to_stream($data, $targetStream);
+				if ($bytesWritten === false) {
+					$writeSucceeded = false;
+					$bytesWritten = 0;
 				} else {
-					$result = true;
+					$writeSucceeded = true;
 				}
-				fclose($target);
+				fclose($targetStream);
 			}
-			if ($result === false && $expected !== null) {
+
+			if ($writeSucceeded === false && $expectedSize !== null) {
 				throw new Exception(
 					$this->l10n->t(
 						'Error while copying file to target location (copied: %1$s, expected filesize: %2$s)',
 						[
-							$this->l10n->n('%n byte', '%n bytes', $count),
-							$this->l10n->n('%n byte', '%n bytes', $expected),
+							$this->l10n->n('%n byte', '%n bytes', $bytesWritten),
+							$this->l10n->n('%n byte', '%n bytes', $expectedSize),
 						],
 					)
 				);
@@ -263,16 +225,16 @@ class File extends Node implements IFile {
 			// if content length is sent by client:
 			// double check if the file was fully received
 			// compare expected and actual size
-			if ($expected !== null
-				&& $expected !== $count
+			if ($expectedSize !== null
+				&& $expectedSize !== $bytesWritten
 				&& $this->request->getMethod() === 'PUT'
 			) {
 				throw new BadRequest(
 					$this->l10n->t(
 						'Expected filesize of %1$s but read (from Nextcloud client) and wrote (to Nextcloud storage) %2$s. Could either be a network problem on the sending side or a problem writing to the storage on the server side.',
 						[
-							$this->l10n->n('%n byte', '%n bytes', $expected),
-							$this->l10n->n('%n byte', '%n bytes', $count),
+							$this->l10n->n('%n byte', '%n bytes', $expectedSize),
+							$this->l10n->n('%n byte', '%n bytes', $bytesWritten),
 						],
 					)
 				);
@@ -284,60 +246,43 @@ class File extends Node implements IFile {
 				Server::get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
 			}
 
-			if ($needsPartFile) {
-				$partStorage->unlink($internalPartPath);
+			if ($usePartFile) {
+				$partStorage->unlink($partInternalPath);
 			}
 			$this->convertToSabreException($e);
 		}
 
+		// 3. Finalize upload and update metadata
 		try {
-			if ($needsPartFile) {
-				if ($view && !$this->emitPreHooks($exists)) {
-					$partStorage->unlink($internalPartPath);
+			if ($usePartFile) {
+				if ($defaultView && !$this->emitPreHooks($targetExists)) {
+					$partStorage->unlink($partInternalPath);
 					throw new Exception($this->l10n->t('Could not rename part file to final file, canceled by hook'));
 				}
-				try {
-					$this->changeLock(ILockingProvider::LOCK_EXCLUSIVE);
-				} catch (LockedException $e) {
-					// during very large uploads, the shared lock we got at the start might have been expired
-					// meaning that the above lock can fail not just only because somebody else got a shared lock
-					// or because there is no existing shared lock to make exclusive
-					//
-					// Thus we try to get a new exclusive lock, if the original lock failed because of a different shared
-					// lock this will still fail, if our original shared lock expired the new lock will be successful and
-					// the entire operation will be safe
 
-					try {
-						$this->acquireLock(ILockingProvider::LOCK_EXCLUSIVE);
-					} catch (LockedException $ex) {
-						if ($needsPartFile) {
-							$partStorage->unlink($internalPartPath);
-						}
-						throw new FileLocked($e->getMessage(), $e->getCode(), $e);
-					}
-				}
+				$this->acquireExclusiveLockForWrite();
 
 				// rename to correct path
 				try {
-					$renameOkay = $storage->moveFromStorage($partStorage, $internalPartPath, $internalPath);
-					$fileExists = $storage->file_exists($internalPath);
-					if ($renameOkay === false || $fileExists === false) {
-						Server::get(LoggerInterface::class)->error('renaming part file to final file failed $renameOkay: ' . ($renameOkay ? 'true' : 'false') . ', $fileExists: ' . ($fileExists ? 'true' : 'false') . ')', ['app' => 'webdav']);
+					$renameSucceeded = $targetStorage->moveFromStorage($partStorage, $partInternalPath, $targetInternalPath);
+					$targetExistsAfterRename = $targetStorage->file_exists($targetInternalPath);
+					if ($renameSucceeded === false || $targetExistsAfterRename === false) {
+						Server::get(LoggerInterface::class)->error('renaming part file to final file failed $renameOkay: ' . ($renameSucceeded ? 'true' : 'false') . ', $fileExists: ' . ($targetExistsAfterRename ? 'true' : 'false') . ')', ['app' => 'webdav']);
 						throw new Exception($this->l10n->t('Could not rename part file to final file'));
 					}
 				} catch (ForbiddenException $ex) {
 					if (!$ex->getRetry()) {
-						$partStorage->unlink($internalPartPath);
+						$partStorage->unlink($partInternalPath);
 					}
 					throw new DAVForbiddenException($ex->getMessage(), $ex->getRetry());
 				} catch (\Exception $e) {
-					$partStorage->unlink($internalPartPath);
+					$partStorage->unlink($partInternalPath);
 					$this->convertToSabreException($e);
 				}
 			}
 
 			// since we skipped the view we need to scan and emit the hooks ourselves
-			$storage->getUpdater()->update($internalPath);
+			$targetStorage->getUpdater()->update($targetInternalPath);
 
 			try {
 				$this->changeLock(ILockingProvider::LOCK_SHARED);
@@ -362,14 +307,14 @@ class File extends Node implements IFile {
 			$ctimeHeader = $this->request->getHeader('x-oc-ctime');
 			if ($ctimeHeader) {
 				$ctime = $this->sanitizeMtime($ctimeHeader);
-				$fileInfoUpdate['creation_time'] = $ctime;
+				$fileInfoUpdates['creation_time'] = $ctime;
 				$this->header('X-OC-CTime: accepted');
 			}
 
-			$this->fileView->putFileInfo($this->path, $fileInfoUpdate);
+			$this->fileView->putFileInfo($this->path, $fileInfoUpdates);
 
-			if ($view) {
-				$this->emitPostHooks($exists);
+			if ($defaultView) {
+				$this->emitPostHooks($targetExists);
 			}
 
 			$this->refreshInfo();
@@ -386,6 +331,79 @@ class File extends Node implements IFile {
 		}
 
 		return '"' . $this->info->getEtag() . '"';
+	}
+
+	private function acquireExclusiveLockForWrite(): void {
+		try {
+			$this->changeLock(ILockingProvider::LOCK_EXCLUSIVE);
+		} catch (LockedException $e) {
+			// during very large uploads, the shared lock we got at the start might have been expired
+			// meaning that the above lock can fail not just only because somebody else got a shared lock
+			// or because there is no existing shared lock to make exclusive
+			//
+			// Thus we try to get a new exclusive lock, if the original lock failed because of a different shared
+			// lock this will still fail, if our original shared lock expired the new lock will be successful and
+			// the entire operation will be safe
+			try {
+				$this->acquireLock(ILockingProvider::LOCK_EXCLUSIVE);
+			} catch (LockedException $ex) {
+				throw new FileLocked($e->getMessage(), $e->getCode(), $e);
+			}
+		}
+	}
+
+	/**
+	 * @param resource|string|null $data
+	 * @return resource
+	 */
+	private function normalizePutData($data) {
+		if (is_resource($data)) {
+			return $data;
+		}
+
+		$stream = fopen('php://temp', 'r+');
+		if ($data !== null) {
+			fwrite($stream, $data);
+			rewind($stream);
+		}
+
+		return $stream;
+	}
+
+	/**
+	 * @param resource $stream
+	 * @return resource
+	 */
+	private function wrapStreamWithRequestedHashes($stream) {
+		$requestedHash = $this->request->getHeader('X-HASH');
+		if ($requestedHash === '') {
+			return $stream;
+		}
+
+		if ($requestedHash === 'all' || $requestedHash === 'md5') {
+			$stream = HashWrapper::wrap($stream, 'md5', function ($hash): void {
+				$this->header('X-Hash-MD5: ' . $hash);
+			});
+		}
+
+		if ($requestedHash === 'all' || $requestedHash === 'sha1') {
+			$stream = HashWrapper::wrap($stream, 'sha1', function ($hash): void {
+				$this->header('X-Hash-SHA1: ' . $hash);
+			});
+		}
+
+		if ($requestedHash === 'all' || $requestedHash === 'sha256') {
+			$stream = HashWrapper::wrap($stream, 'sha256', function ($hash): void {
+				$this->header('X-Hash-SHA256: ' . $hash);
+			});
+		}
+
+		return $stream;
+	}
+
+	private function getExpectedSize(): ?int {
+		$contentLength = $this->request->getHeader('content-length');
+		return $contentLength !== '' ? (int)$contentLength : null;
 	}
 
 	private function getPartFileBasePath($path) {
