@@ -708,11 +708,11 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 				$this->copyInner($sourceCache, $child, $to . '/' . $child->getName());
 			}
 		} else {
-			$this->copyFile($sourceEntry, $to);
+			$this->copyFile($sourceCache, $sourceEntry, $to);
 		}
 	}
 
-	private function copyFile(ICacheEntry $sourceEntry, string $to) {
+	private function copyFile(ICache $sourceCache, ICacheEntry $sourceEntry, string $to) {
 		$cache = $this->getCache();
 
 		$sourceUrn = $this->getURN($sourceEntry->getId());
@@ -721,7 +721,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			throw new \Exception('Invalid source cache for object store copy');
 		}
 
-		$targetId = $cache->copyFromCache($cache, $sourceEntry, $to);
+		$targetId = $cache->copyFromCache($sourceCache, $sourceEntry, $to);
 
 		$targetUrn = $this->getURN($targetId);
 
