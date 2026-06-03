@@ -242,7 +242,9 @@ class ChunkingV2Plugin extends ServerPlugin {
 	 */
 	public function beforePut(RequestInterface $request, ResponseInterface $response): bool {
 		try {
-			$this->prepareUpload(dirname($request->getPath()));
+			if ($this->prepareUpload(dirname($request->getPath())) === null) {
+				return true;
+			}
 			$this->checkPrerequisites();
 		} catch (StorageInvalidException|BadRequest|NotFound $e) {
 			return true;
@@ -314,7 +316,9 @@ class ChunkingV2Plugin extends ServerPlugin {
 	 */
 	public function beforeMove($sourcePath, $destination): bool {
 		try {
-			$this->prepareUpload(dirname($sourcePath));
+			if ($this->prepareUpload(dirname($sourcePath)) === null) {
+				return true;
+			}
 			$this->checkPrerequisites();
 		} catch (StorageInvalidException|BadRequest|NotFound|PreconditionFailed $e) {
 			return true;
@@ -389,7 +393,9 @@ class ChunkingV2Plugin extends ServerPlugin {
 
 	public function beforeDelete(RequestInterface $request, ResponseInterface $response) {
 		try {
-			$this->prepareUpload(dirname($request->getPath()));
+			if ($this->prepareUpload(dirname($request->getPath()))) {
+				return true;
+			}
 			$this->checkPrerequisites();
 		} catch (StorageInvalidException|BadRequest|NotFound $e) {
 			return true;
@@ -466,11 +472,18 @@ class ChunkingV2Plugin extends ServerPlugin {
 	 *
 	 * @throws NotFound
 	 */
-	public function prepareUpload($path): void {
-		$this->uploadFolder = $this->server->tree->getNodeForPath($path);
+	public function prepareUpload($path): ?UploadFolder {
+		$node = $this->server->tree->getNodeForPath($path);
+		if (!$node instanceof UploadFolder) {
+			return null;
+		}
+
+		$this->uploadFolder = $node;
 		$uploadMetadata = $this->cache->get($this->uploadFolder->getName());
 		$this->uploadId = $uploadMetadata[self::UPLOAD_ID] ?? null;
 		$this->uploadPath = $uploadMetadata[self::UPLOAD_TARGET_PATH] ?? null;
+
+		return $node;
 	}
 
 	/**
