@@ -13,6 +13,7 @@ use JsonSerializable;
 
 /**
  * @since 18.0.0
+ * @deprecated 35.0.0 Not used
  */
 interface IBroadcastEvent {
 	/**
