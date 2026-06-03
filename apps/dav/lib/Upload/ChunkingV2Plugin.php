@@ -191,7 +191,7 @@ class ChunkingV2Plugin extends ServerPlugin {
 		return [
 			'file' => $targetFile,
 			'storage' => $uploadStorage,
-			'storagePath' => $file->getInternalPath(),
+			'storagePath' => $targetFile->getInternalPath(),
 			'isDirect' => false,
 		];
 	}
