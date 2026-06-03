@@ -120,36 +120,12 @@ class File extends Node implements IFile {
 
 		// Validate the target path before resolving storages or opening streams.
 		$this->verifyPath();
-
-		[$partStorage] = $this->fileView->resolvePath($this->path);
-		if ($partStorage === null) {
-			throw new ServiceUnavailable($this->l10n->t('Failed to get storage for file'));
-		}
-		$usePartFile = $partStorage->needsPartFile() && (strlen($this->path) > 1);
-
 		$defaultView = Filesystem::getView();
 
-		if ($usePartFile) {
-			$transferId = \rand();
-			// Use a temporary .part file while the upload is in progress.
-			// Scanner logic ignores these partial files.
-			$partFilePath = $this->getPartFileBasePath($this->path) . '.ocTransferId' . $transferId . '.part';
-
-			if (!$defaultView->isCreatable($partFilePath) && $defaultView->isUpdatable($this->path)) {
-				$usePartFile = false;
-			}
-		}
-
-		if (!$usePartFile) {
-			// Write directly to the final target path instead of using a temporary part file.
-			$partFilePath = $this->path;
-
-			// For direct writes, run pre-write hooks before touching the final target.
-			// Part-file uploads defer these hooks until just before the final rename.
-			if ($defaultView && !$this->emitPreHooks($targetExists)) {
-				throw new Exception($this->l10n->t('Could not write to final file, canceled by hook'));
-			}
-		}
+		[
+			'usePartFile' => $usePartFile,
+			'uploadPath' => $uploadPath,
+		] = $this->resolveUploadTarget($targetExists, $defaultView);
 
 		// The temporary upload file and final target may live on different storages,
 		// for example when writing through a single-file share.
@@ -317,6 +293,53 @@ class File extends Node implements IFile {
 			// therefor we need to make the name (semi) unique - hash does not need to be secure but fast.
 			return hash('xxh128', $path);
 		}
+	}
+
+	/**
+	 * Decide whether the upload should write directly to the final target or to a
+	 * temporary part file first.
+	 *
+	 * For direct writes, pre-write hooks are emitted immediately before the target
+	 * is modified. Part-file uploads defer those hooks until just before the final
+	 * rename into place.
+	 *
+	 * @return array{usePartFile: bool, uploadPath: string, partStorage: mixed}
+	 */
+	private function resolveUploadTarget(bool $targetExists, View $defaultView): array {
+		[$initialStorage] = $this->fileView->resolvePath($this->path);
+		if ($initialStorage === null) {
+			throw new ServiceUnavailable($this->l10n->t('Failed to get storage for file'));
+		}
+
+		$usePartFile = $initialStorage->needsPartFile() && (strlen($this->path) > 1);
+
+		if ($usePartFile) {
+			$transferId = \rand();
+			// Use a temporary .part file while the upload is in progress.
+			// Scanner logic ignores these partial files.
+			$uploadPath = $this->getPartFileBasePath($this->path) . '.ocTransferId' . $transferId . '.part';
+
+			if (!$defaultView->isCreatable($uploadPath) && $defaultView->isUpdatable($this->path)) {
+				$usePartFile = false;
+			}
+		}
+
+		if (!$usePartFile) {
+			// Write directly to the final target path instead of using a temporary part file.
+			$uploadPath = $this->path;
+
+			// For direct writes, run pre-write hooks before touching the final target.
+			// Part-file uploads defer these hooks until just before the final rename.
+			if (!$this->emitPreHooks($targetExists)) {
+				throw new Exception($this->l10n->t('Could not write to final file, canceled by hook'));
+			}
+		}
+
+		return [
+			'usePartFile' => $usePartFile,
+			'uploadPath' => $uploadPath,
+			'partStorage' => $initialStorage,
+		];
 	}
 
 	/**
