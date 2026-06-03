@@ -28,7 +28,10 @@ use function implode;
 class Plugin extends ServerPlugin {
 	public const PROPERTY_DELETED_AT = '{http://nextcloud.com/ns}deleted-at';
 	public const PROPERTY_CALENDAR_URI = '{http://nextcloud.com/ns}calendar-uri';
+	public const PROPERTY_SOURCE_CALENDAR_URI = '{http://nextcloud.com/ns}source-calendar-uri';
+	public const PROPERTY_CALENDAR_OWNER_PRINCIPAL_URI = '{http://nextcloud.com/ns}calendar-owner-principal-uri';
 	public const PROPERTY_RETENTION_DURATION = '{http://nextcloud.com/ns}trash-bin-retention-duration';
+	public const PROPERTY_DELEGATOR = '{http://nextcloud.com/ns}delegator';
 
 	/** @var bool */
 	private $disableTrashbin;
@@ -97,6 +100,16 @@ class Plugin extends ServerPlugin {
 			});
 			$propFind->handle(self::PROPERTY_CALENDAR_URI, function () use ($node) {
 				return $node->getCalendarUri();
+			});
+			// needed in case of delegated or shared calendars
+			$propFind->handle(self::PROPERTY_SOURCE_CALENDAR_URI, function () use ($node) {
+				return $node->getSourceCalendarUri();
+			});
+			$propFind->handle(self::PROPERTY_CALENDAR_OWNER_PRINCIPAL_URI, function () use ($node) {
+				return $node->getCalendarPrincipalUri();
+			});
+			$propFind->handle(self::PROPERTY_DELEGATOR, function () use ($node) {
+				return $node->getDelegator();
 			});
 		}
 		if ($node instanceof TrashbinHome) {
