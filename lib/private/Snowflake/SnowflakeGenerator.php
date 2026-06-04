@@ -43,6 +43,23 @@ final readonly class SnowflakeGenerator implements ISnowflakeGenerator {
 			return $this->nextId();
 		}
 
+		return $this->packSnowflakeId($seconds, $milliseconds, $serverId, $isCli, $sequenceId);
+	}
+
+	/**
+	 * Return minimal snowflake ID for a given timestamp
+	 *
+	 * Not a real snowflake ID!
+	 * Only use it for comparisons. For example get all snowflake IDs generated before $timestamp
+	 *
+	 * @since 34.0.1
+	 */
+	#[Override]
+	public function minForTimeId(int $timestamp): string {
+		return $this->packSnowflakeId($timestamp - self::TS_OFFSET, 0, 0, 0, 0);
+	}
+
+	private function packSnowflakeId($seconds, $milliseconds, $serverId, $isCli, $sequenceId): string {
 		if (PHP_INT_SIZE === 8) {
 			$firstHalf = $seconds & 0x7FFFFFFF;
 			$secondHalf = (($milliseconds & 0x3FF) << 22) | ($serverId << 13) | ($isCli << 12) | $sequenceId;
