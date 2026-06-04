@@ -64,6 +64,25 @@ class GeneratorTest extends TestCase {
 		$this->assertEquals($this->serverInfo->getServerId(), $data->getServerId());
 	}
 
+	public function testMinForTime(): void {
+		$generator = new SnowflakeGenerator(new TimeFactory(), $this->sequence, $this->serverInfo);
+		$now = time();
+		$snowflakeId = $generator->minForTimeId($now);
+		$data = $this->decoder->decode($snowflakeId);
+
+		$this->assertIsString($snowflakeId);
+
+		// Check timestamp
+		$this->assertEquals($now - ISnowflakeGenerator::TS_OFFSET, $data->getSeconds());
+
+		// Check all other fields are at zero
+		$this->assertEquals(0, $data->getMilliseconds());
+		$this->assertEquals(0, $data->getServerId());
+		$this->assertEquals(0, $data->getSequenceId());
+		$this->assertFalse($data->isCli());
+		$this->assertEquals(0, $data->getServerId());
+	}
+
 	#[DataProvider('provideSnowflakeData')]
 	public function testGeneratorWithFixedTime(string $date, int $expectedSeconds, int $expectedMilliseconds): void {
 		$dt = new \DateTimeImmutable($date);
