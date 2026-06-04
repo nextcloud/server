@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "خروج",
     "Please select a file." : "لطفا فایل مورد نظر را انتخاب کنید ",
     "File is too big" : "فایل خیلی بزرگ است",
     "The selected file is not an image." : "فایل انتخاب شده عکس نمی باشد.",
@@ -198,6 +199,7 @@ OC.L10N.register(
     "Done" : "Done",
     "_{count} notification_::_{count} notifications_" : ["{count} اعلان.","{count} اعلان."],
     "More apps" : "برنامه های بیشتر",
+    "Settings" : "تنظیمات",
     "Apps" : "  برنامه ها",
     "No" : "نه",
     "Yes" : "بله",

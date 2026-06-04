@@ -1,6 +1,7 @@
 OC.L10N.register(
     "profile",
     {
+    "View profile" : "مشاهدهٔ نمایه",
     "Profile" : "نمایه",
     "Searching …" : "درحال جستجو",
     "Not found" : "پیدا نشد.",

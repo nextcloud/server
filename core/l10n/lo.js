@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "ອອກຈາກລະບົບ",
     "Please select a file." : "ກະລຸນາເລືອກຟາຍ",
     "File is too big" : "ຟາຍໃຫຍ່ໂພດ",
     "The selected file is not an image." : "ຟາຍທີ່ເລືອກບໍ່ແມ່ນຮູບ",
@@ -201,6 +202,7 @@ OC.L10N.register(
     "Done" : "ສະຖານະ",
     "_{count} notification_::_{count} notifications_" : ["{count} notifications"],
     "More apps" : "ແອັບພລິເຄຊັນເພີ່ມເຕີມ",
+    "Settings" : "ການຕັ້ງຄ່າ",
     "Applications" : "ແອັບພລິເຄຊັນ",
     "Apps" : "ແອັບພລິເຄຊັນ",
     "No" : "ບໍ່",

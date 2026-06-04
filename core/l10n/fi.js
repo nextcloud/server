@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "Kirjaudu ulos",
     "Please select a file." : "Valitse tiedosto.",
     "File is too big" : "Tiedosto on liian suuri",
     "The selected file is not an image." : "Valittu tiedosto ei ole kuva.",
@@ -168,6 +169,7 @@ OC.L10N.register(
     "Code will expire {timeCountdown} or after use" : "Koodi vanhenee {timeCountdown} tai kun se on käytetty",
     "_{count} notification_::_{count} notifications_" : ["{count} ilmoitus","{count} ilmoitusta"],
     "More apps" : "Lisää sovelluksia",
+    "Settings" : "Asetukset",
     "Applications" : "Sovellukset",
     "Apps" : "Sovellukset",
     "No" : "Ei",

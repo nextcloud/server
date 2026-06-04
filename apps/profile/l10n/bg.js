@@ -1,6 +1,7 @@
 OC.L10N.register(
     "profile",
     {
+    "View profile" : "Преглед на профил",
     "Profile" : "Профил",
     "Not found" : "Не е намерен",
     "Insert" : "Вмъкване",

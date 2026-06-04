@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "Se déconnecter",
     "Please select a file." : "Veuillez sélectionner un fichier.",
     "File is too big" : "Le fichier est trop volumineux",
     "The selected file is not an image." : "Le fichier sélectionné n’est pas une image.",
@@ -206,6 +207,7 @@ OC.L10N.register(
     "Code will expire {timeCountdown} or after use" : "Le code expirera dans {timeCountdown} ou après utilisation",
     "_{count} notification_::_{count} notifications_" : ["{count} notification","{count} notifications","{count} notifications"],
     "More apps" : "Plus d’applis",
+    "Settings" : "Paramètres",
     "Open apps menu" : "Ouvrir le menu des applications",
     "Applications" : "Applications",
     "Apps" : "Applications",

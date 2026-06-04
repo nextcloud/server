@@ -1,4 +1,5 @@
 { "translations": {
+    "View profile" : "프로필 보기",
     "Profile" : "프로필",
     "This application provides the profile" : "이 애플리케이션은 프로필을 제공합니다.",
     "Provides a customisable user profile interface." : "사용자 정의 가능한 사용자 프로필 인터페이스 제공",

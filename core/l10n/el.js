@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "Έξοδος",
     "Please select a file." : "Παρακαλούμε επιλέξτε αρχείο.",
     "File is too big" : "Το αρχείο είναι πολύ μεγάλο",
     "The selected file is not an image." : "Το επιλεγμένο αρχείο δεν είναι εικόνα.",
@@ -206,6 +207,7 @@ OC.L10N.register(
     "Code will expire {timeCountdown} or after use" : "Ο κωδικός θα λήξει {timeCountdown} ή μετά τη χρήση",
     "_{count} notification_::_{count} notifications_" : ["{count} ειδοποίηση","{count} ειδοποιήσεις"],
     "More apps" : "Περισσότερες εφαρμογές",
+    "Settings" : "Ρυθμίσεις",
     "Applications" : "Εφαρμογές",
     "Apps" : "Εφαρμογές",
     "No" : "Όχι",

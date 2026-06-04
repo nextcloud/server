@@ -79,6 +79,7 @@ OC.L10N.register(
     "Done" : "Bajarildi",
     "_{count} notification_::_{count} notifications_" : ["{count} bildirishnomalarnotifications"],
     "More apps" : "Ko'proq ilovalar",
+    "Settings" : "Sozlamalar",
     "Applications" : "Ilovalar",
     "Apps" : "Ilovalar",
     "No" : "Yo`q",

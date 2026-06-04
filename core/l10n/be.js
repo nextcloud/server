@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "Выйсці",
     "Please select a file." : "Выберыце файл.",
     "File is too big" : "Файл занадта вялікі",
     "The selected file is not an image." : "Выбраны файл не з'яўляецца відарысам.",
@@ -187,6 +188,7 @@ OC.L10N.register(
     "Done" : "Гатова",
     "_{count} notification_::_{count} notifications_" : ["{count} апавяшчэнне","{count} апавяшчэнні","{count} апавяшчэнняў","{count} апавяшчэнняў"],
     "More apps" : "Болей праграм",
+    "Settings" : "Налады",
     "Applications" : "Праграмы",
     "Apps" : "Праграмы",
     "No" : "Не",

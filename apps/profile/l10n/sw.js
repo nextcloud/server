@@ -1,6 +1,7 @@
 OC.L10N.register(
     "profile",
     {
+    "View profile" : "Angalia wasifu",
     "Profile" : "Wasifu",
     "This application provides the profile" : "Programu hii hutoa wasifu",
     "Provides a customisable user profile interface." : "Hutoa kiolesura cha wasifu unaoweza kubinafsishwa.",

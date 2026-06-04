@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "Гарах",
     "Please select a file." : "Файл сонгоно уу.",
     "File is too big" : "Файлын хэмжээ хэт их байна",
     "The selected file is not an image." : "Сонгосон файл зураг биш байна.",
@@ -206,6 +207,7 @@ OC.L10N.register(
     "Code will expire {timeCountdown} or after use" : "Код {timeCountdown} дараа эсвэл ашигласны дараа хүчингүй болно",
     "_{count} notification_::_{count} notifications_" : ["{count} мэдэгдэл","{count} мэдэгдэл"],
     "More apps" : "Бусад аппууд",
+    "Settings" : "–¢–æ—Ö–∏—Ä–≥–æ–æ",
     "Apps" : "Апп-ууд",
     "No" : "Үгүй",
     "Yes" : "Тийм",
