@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "Saioa itxi",
     "Please select a file." : "Aukeratu fitxategi bat.",
     "File is too big" : "Fitxategia handiegia da",
     "The selected file is not an image." : "Aukeratutako fitxategia ez da irudi bat.",
@@ -204,6 +205,7 @@ OC.L10N.register(
     "Scan QR code to log in" : "Eskaneatu QRa saioa hasteko",
     "_{count} notification_::_{count} notifications_" : ["Jakinarazpen {count}","{count} jakinarazpenak"],
     "More apps" : "Aplikazio gehiago",
+    "Settings" : "Ezarpenak",
     "Applications" : "Aplikazioak",
     "Apps" : "Aplikazioak",
     "No" : "Ez",

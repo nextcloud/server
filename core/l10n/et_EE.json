@@ -1,4 +1,5 @@
 { "translations": {
+    "Log out" : "Logi välja",
     "Please select a file." : "Palun vali fail.",
     "File is too big" : "Fail on liiga suur",
     "The selected file is not an image." : "Valitud fail ei ole pilt.",
@@ -205,6 +206,7 @@
     "_{count} notification_::_{count} notifications_" : ["{count} teavitus","{count} teavitust"],
     "More apps" : "Veel rakendusi",
     "App store" : "Rakendustepood",
+    "Settings" : "Seadistused",
     "Open apps menu, currently in {app}" : "Ava rakenduste menüü, hetkel siin: {app}",
     "Open apps menu" : "Ava rakenduste menüü",
     "Applications" : "Rakendused",

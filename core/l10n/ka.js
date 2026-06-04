@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "Log out",
     "Please select a file." : "აირჩიეთ ფაილი.",
     "File is too big" : "ფაილი ძალიან დიდია",
     "The selected file is not an image." : "არჩეული ფაილი გამოსახულება არაა.",
@@ -203,6 +204,7 @@ OC.L10N.register(
     "Scan QR code to log in" : "შესასვლელად დაასკანირეთ QRCode",
     "_{count} notification_::_{count} notifications_" : ["{count} გაფრთხილება","{count} გაფრთხილება"],
     "More apps" : "მეტი აპი",
+    "Settings" : "ოფციები",
     "Apps" : "აპები",
     "No" : "არა",
     "Yes" : "დიახ",

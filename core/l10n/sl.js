@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "Odjava",
     "Please select a file." : "Izberite datoteko.",
     "File is too big" : "Datoteka je prevelika",
     "The selected file is not an image." : "Izbrana datoteka ni slika.",
@@ -206,6 +207,7 @@ OC.L10N.register(
     "Code will expire {timeCountdown} or after use" : "Koda poteče {timeCountdown} ali po uporabi",
     "_{count} notification_::_{count} notifications_" : ["{count} obvestilo","{count} obvestili","{count} obvestila","{count} obvestil"],
     "More apps" : "Več programov",
+    "Settings" : "Nastavitve",
     "Applications" : "Programi",
     "Apps" : "Programi",
     "No" : "Ne",

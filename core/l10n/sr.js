@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "Одјави се",
     "Please select a file." : "Изаберите фајл.",
     "File is too big" : "Фајл је превелик",
     "The selected file is not an image." : "Изабрани фајл није слика.",
@@ -200,6 +201,7 @@ OC.L10N.register(
     "Done" : "Завршено",
     "_{count} notification_::_{count} notifications_" : ["{count} обавештење","{count} обавештења","{count} обавештења"],
     "More apps" : "Још апликација",
+    "Settings" : "Поставке",
     "Applications" : "Апликације",
     "Apps" : "Апликације",
     "No" : "Не",

@@ -1,6 +1,7 @@
 OC.L10N.register(
     "profile",
     {
+    "View profile" : "查看个人资料",
     "Profile" : "个人资料",
     "This application provides the profile" : "此应用程序提供个人资料",
     "Provides a customisable user profile interface." : "提供可定制的用户个人资料界面。",

@@ -1,6 +1,7 @@
 OC.L10N.register(
     "profile",
     {
+    "View profile" : "Näytä profiili",
     "Profile picker" : "Profiilivalitsin",
     "Profile" : "Profiili",
     "Searching …" : "Haetaan …",

@@ -1,6 +1,7 @@
 OC.L10N.register(
     "profile",
     {
+    "View profile" : "Vaata profiili",
     "Profile picker" : "Profiilivalija",
     "Profile" : "Profiil",
     "This application provides the profile" : "See rakendus tagab profiili olemasolu",

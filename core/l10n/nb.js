@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "Logg av",
     "Please select a file." : "Velg en fil.",
     "File is too big" : "Filen er for stor",
     "The selected file is not an image." : "Den valgte filen er ikke et bilde.",
@@ -159,6 +160,7 @@ OC.L10N.register(
     "Done" : "Ferdig",
     "_{count} notification_::_{count} notifications_" : ["{count} varsel","{count} varsler"],
     "More apps" : "Flere apper",
+    "Settings" : "Innstillinger",
     "Applications" : "Applikasjoner",
     "Apps" : "Apper",
     "No" : "Nei",

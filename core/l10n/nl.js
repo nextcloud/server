@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "Afmelden",
     "Please select a file." : "Selecteer een bestand.",
     "File is too big" : "Bestand te groot",
     "The selected file is not an image." : "Het geselecteerde bestand is geen afbeelding.",
@@ -206,6 +207,7 @@ OC.L10N.register(
     "Code will expire {timeCountdown} or after use" : "De code verloopt {timeCountdown} of na gebruik.",
     "_{count} notification_::_{count} notifications_" : ["{count} melding","{count} meldingen"],
     "More apps" : "Meer apps",
+    "Settings" : "Instellingen",
     "Applications" : "Toepassingen",
     "Apps" : "Apps",
     "No" : "Nee",
