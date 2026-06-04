@@ -1,0 +1,28 @@
+OC.L10N.register(
+    "sharebymail",
+    {
+    "Shared with {email}" : "Cumpartzidu cun {email}",
+    "Shared with {email} by {actor}" : "Cumpartzidu cun {email} dae {actor}",
+    "Unshared from {email}" : "Cumpartzidura annullada {email}",
+    "Unshared from {email} by {actor}" : "Cumpartzidura annullada dae {email} dae {actor}",
+    "Password for mail share sent to {email}" : "Crae pro sa cumpartzidura cun posta eletrònica imbiada a {email}",
+    "Password for mail share sent to you" : "Crae pro sa cumpartzidura cun posta eletrònica imbiada a tie",
+    "You shared {file} with {email} by mail" : "As cumpartzidu {file} cun {email} tràmite posta eletrònica",
+    "{actor} shared {file} with {email} by mail" : "{actor} at cumpartzidu {file} cun {email} tràmite posta eletrònica",
+    "You unshared {file} from {email} by mail" : "As annulladu sa cumpartzidura de {file} dae {email} tràmite posta eletrònica",
+    "{actor} unshared {file} from {email} by mail" : "{actor} at annulladu sa cumpartzidura de {file} dae {email} tràmite posta eletrònica",
+    "Password to access {file} was sent to {email}" : "Sa crae pro s'atzessu a {file} est istada imbiada a {email}",
+    "Password to access {file} was sent to you" : "Sa crae pro s'atzessu a {file} est istada imbiada a tie",
+    "Share by mail" : "Cumpartzi tràmite posta eletrònica",
+    "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Impossìbile a t'imbiare sa crae auto-generada. Cunfigura un'indiritzu de posta eletrònica bàlidu in sa cunfiguratzione personale e torra a proare.",
+    "Failed to send share by email" : "No at fatu a fàghere sa cumpartzidura tràmite posta eletrònica",
+    "%1$s via %2$s" : "%1$s cun %2$s",
+    "It is protected with the following password:" : "Est amparadu cun sa crae in fatu:",
+    "This is the password:" : "Custa est sa crae:",
+    "You can choose a different password at any time in the share dialog." : "Podes seberare una crae diferente in ogni momentu in sa ventana de cumpartzidura.",
+    "Could not find share" : "No at fatu a agatare sa cumpartzidura",
+    "Share provider which allows you to share files by mail" : "Frunidore de cumpartzidura chi ti permitit de cumpartzire archìvios tràmite posta eletrònica",
+    "Send password by mail" : "Imbia crae tràmite posta eletrònica",
+    "Reply to initiator" : "Risponde a chie cumintzat"
+},
+"nplurals=2; plural=(n != 1);");

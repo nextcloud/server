@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<!--
+ - SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-FileCopyrightText: 2015-2016 ownCloud, Inc.
+ - SPDX-License-Identifier: AGPL-3.0-only
+ -->
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+	<id>encryption</id>
+	<name>Default Encryption Module</name>
+	<summary>Default encryption module for Nextcloud Server-side Encryption (SSE)</summary>
+	<description>
+		<![CDATA[
+			This app provides the (default) cryptography implementation for Nextcloud's Server-side Encryption (SSE) feature.
+
+			**Encryption Details**
+			*   **Cipher Mode:** AES-256-CTR (default)
+			*   **Authentication:** HMAC-SHA256
+
+			**Important Warnings**
+			*   **DANGER:** Do not disable this application until all files have been decrypted (`occ encryption:decrypt-all`).
+			*   **WARNING**: Reverting to non-encrypted file storage after activation requires command-line access. The action is permanent via the Web UI."
+
+			**Notes for Existing Files**
+			*   By default, enabling SSE does not encrypt existing files; only new files will be encrypted.
+			*   To encrypt all existing files, use the command `occ encryption:encrypt-all`.
+
+			**Before You Begin**
+			*   **Read the Documentation:** Before you enable SSE, encrypt existing files, or disable SSE, it is critical to
+				read the documentation to understand implications and the appropriate procedures to avoid data loss.
+		]]>
+	</description>
+	<version>2.22.0</version>
+	<licence>agpl</licence>
+	<author>Bjoern Schiessle</author>
+	<author>Clark Tomlinson</author>
+	<types>
+		<filesystem/>
+	</types>
+
+	<documentation>
+		<user>user-encryption</user>
+		<admin>admin-encryption</admin>
+	</documentation>
+
+	<category>files</category>
+	<category>security</category>
+
+	<bugs>https://github.com/nextcloud/server/issues</bugs>
+
+	<dependencies>
+		<lib>openssl</lib>
+		<nextcloud min-version="34" max-version="34"/>
+	</dependencies>
+
+	<repair-steps>
+		<post-migration>
+			<step>OCA\Encryption\Migration\SetMasterKeyStatus</step>
+		</post-migration>
+	</repair-steps>
+
+	<commands>
+		<command>OCA\Encryption\Command\EnableMasterKey</command>
+		<command>OCA\Encryption\Command\DisableMasterKey</command>
+		<command>OCA\Encryption\Command\RecoverUser</command>
+		<command>OCA\Encryption\Command\ScanLegacyFormat</command>
+		<command>OCA\Encryption\Command\FixEncryptedVersion</command>
+		<command>OCA\Encryption\Command\FixKeyLocation</command>
+		<command>OCA\Encryption\Command\DropLegacyFileKey</command>
+		<command>OCA\Encryption\Command\CleanOrphanedKeys</command>
+	</commands>
+
+	<settings>
+		<admin>OCA\Encryption\Settings\Admin</admin>
+		<personal>OCA\Encryption\Settings\Personal</personal>
+	</settings>
+</info>

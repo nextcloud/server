@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!--
+  - SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+<info xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+    <id>webhook_listeners</id>
+    <name>Nextcloud Webhook Support</name>
+
+    <summary>Send notifications to external services whenever something important happens, like when files are changed or updated.</summary>
+    <description>
+        <![CDATA[Set up webhooks that automatically notify external services whenever certain events - like file changes - occur within Nextcloud. By configuring these webhooks, administrators can specify which actions in their Nextcloud instance should trigger notifications and where those notifications should be sent, enabling seamless integration with other platforms and automating workflows.
+
+The app works by monitoring Nextcloud's event system and dispatching HTTP requests (webhooks) containing relevant event data to the specified endpoints whenever a configured event takes place. This approach makes it easy to connect Nextcloud with external tools, allowing for real-time interactions without needing to manually check for updates or changes.
+
+Administrators can configure webhook listeners via the app's OCS API. The app also provides a command-line tool to list currently configured webhooks. There are no Web UI settings.
+        ]]>
+    </description>
+
+    <version>1.6.0</version>
+    <licence>agpl</licence>
+    <author>Côme Chilliet</author>
+    <namespace>WebhookListeners</namespace>
+    <types>
+        <filesystem/>
+    </types>
+
+    <documentation>
+        <admin>https://docs.nextcloud.com/server/latest/admin_manual/webhook_listeners/index.html</admin>
+        <developer>https://docs.nextcloud.com/server/latest/developer_manual/_static/openapi.html#/operations/webhook_listeners-webhooks-index</developer>
+    </documentation>
+
+    <category>customization</category>
+
+    <website>https://github.com/nextcloud/server</website>
+    <bugs>https://github.com/nextcloud/server/issues</bugs>
+    <repository>https://github.com/nextcloud/server.git</repository>
+
+    <dependencies>
+        <nextcloud min-version="34" max-version="34"/>
+    </dependencies>
+
+    <commands>
+        <command>OCA\WebhookListeners\Command\ListWebhooks</command>
+    </commands>
+
+    <settings>
+        <admin-delegation>OCA\WebhookListeners\Settings\Admin</admin-delegation>
+        <admin-delegation-section>OCA\WebhookListeners\Settings\AdminSection</admin-delegation-section>
+    </settings>
+
+    <background-jobs>
+		<job>OCA\WebhookListeners\BackgroundJobs\WebhookTokenCleanup</job>
+	</background-jobs>
+</info>

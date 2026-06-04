@@ -1,0 +1,23 @@
+badge guidelines
+Dos & Don'ts
+
+Follow these guidelines whenever you are using a Google Play badge.
+
+* Use the badges as provided. Never alter the badges.
+* There must be clear space surrounding the badge equal to one-quarter the height of the badge.
+* The badge must be large enough that all of the text is legible.
+* The Google Play badge should be the same size or larger than other application store badges.
+* Badges must be shown on a solid colored background or a simple background image that does not obscure the badge.
+* Match the badge language to the language of your marketing campaign whenever possible.
+* Any online use of the badge must link to the Google Play store. Use the generator below to get the HTML to include in your digital marketing.
+* The badge can only be used to promote content available on Google Play.
+* Include the appropriate Google Play legal attribution when there is space in the creative. See the badge generator for localized legal attributions.
+* Use of the Google Play badge must be reviewed and approved by the Google Play Partner Brand team if the badge will be in:
+  * a TV commercial
+  * an out-of-home marketing campaign
+  * a marketing campaign that will receive over 1 million impressions
+* Use this form (https://partnermarketinghub.withgoogle.com/login/?next=/submit-assets/) to submit your marketing for approval.
+
+see https://play.google.com/intl/en_us/badges/
+
+Google Play and the Google Play logo are trademarks of Google LLC.

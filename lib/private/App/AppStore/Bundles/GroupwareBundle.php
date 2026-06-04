@@ -1,0 +1,32 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+namespace OC\App\AppStore\Bundles;
+
+class GroupwareBundle extends Bundle {
+	/**
+	 * {@inheritDoc}
+	 */
+	#[\Override]
+	public function getName() {
+		return $this->l10n->t('Groupware bundle');
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	#[\Override]
+	public function getAppIdentifiers() {
+		return [
+			'calendar',
+			'contacts',
+			'deck',
+			'mail'
+		];
+	}
+}

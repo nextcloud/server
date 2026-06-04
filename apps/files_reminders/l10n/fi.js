@@ -1,0 +1,28 @@
+OC.L10N.register(
+    "files_reminders",
+    {
+    "File reminders" : "Tiedostomuistutukset",
+    "Reminder for {name}" : "Muistutus kohteesta {name}",
+    "View file" : "Näytä tiedosto",
+    "View folder" : "Näytä kansio",
+    "Set file reminders" : "Aseta tiedostomuistutuksia",
+    "Please choose a valid date & time" : "Valitse kelvollinen päivä ja aika",
+    "Reminder set for \"{fileName}\"" : "Muistutus asetettu tiedostolle \"{fileName}\"",
+    "Failed to set reminder" : "Muistutuksen asettaminen epäonnistui",
+    "Failed to clear reminder" : "Muistutuksen tyhjentäminen epäonnistui",
+    "We will remind you of this file" : "Muistutamme sinua tästä tiedostosta",
+    "Cancel" : "Peruuta",
+    "Clear reminder" : "Tyhjennä muistutus",
+    "Set reminder" : "Aseta muistutus",
+    "Reminder set" : "Muistutus asetettu",
+    "Later today" : "Myöhemmin tänään",
+    "Set reminder for later today" : "Aseta muistutus myöhemmälle ajankohdalle tälle päivälle",
+    "Tomorrow" : "Huomenna",
+    "Set reminder for tomorrow" : "Aseta muistutus huomiselle",
+    "This weekend" : "Tämä viikonloppu",
+    "Set reminder for this weekend" : "Aseta muistutus tälle viikonlopulle",
+    "Next week" : "Seuraava viikko",
+    "Set reminder for next week" : "Aseta muistutus seuraavalle viikolle",
+    "Set reminder for \"{fileName}\"" : "Muistutus asetettu tiedostolle \"{fileName}\""
+},
+"nplurals=2; plural=(n != 1);");

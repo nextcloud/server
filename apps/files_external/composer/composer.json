@@ -1,0 +1,13 @@
+{
+    "config" : {
+        "vendor-dir": ".",
+        "optimize-autoloader": true,
+        "classmap-authoritative": true,
+        "autoloader-suffix": "Files_External"
+    },
+    "autoload" : {
+        "psr-4": {
+            "OCA\\Files_External\\": "../lib/"
+        }
+    }
+}

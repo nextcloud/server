@@ -1,0 +1,25 @@
+/**
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+.challenge-form {
+	margin: 16px auto 1px !important;
+}
+
+.challenge {
+	margin-top: 0 !important;
+	margin-inline-start: 0 !important;
+	box-sizing: border-box !important;
+	width: 100% !important;
+}
+
+.confirm-inline {
+	position: absolute;
+	inset-inline-end: 0;
+	top: 0;
+	margin: 0 !important;
+	padding-inline-end: 25px !important;
+	background-color: transparent !important;
+	border: none !important;
+	opacity: .5;
+}

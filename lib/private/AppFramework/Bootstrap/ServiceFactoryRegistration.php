@@ -1,0 +1,50 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+namespace OC\AppFramework\Bootstrap;
+
+use OC\AppFramework\Utility\SimpleContainer;
+
+/**
+ * @psalm-immutable
+ */
+class ServiceFactoryRegistration extends ARegistration {
+	/**
+	 * @var callable
+	 * @psalm-var callable(SimpleContainer): mixed
+	 */
+	private $factory;
+
+	/**
+	 * @param class-string $name
+	 */
+	public function __construct(
+		string $appId,
+		private string $name,
+		callable $target,
+		private bool $shared,
+	) {
+		parent::__construct($appId);
+		$this->factory = $target;
+	}
+
+	public function getName(): string {
+		return $this->name;
+	}
+
+	/**
+	 * @psalm-return callable(SimpleContainer): mixed
+	 */
+	public function getFactory(): callable {
+		return $this->factory;
+	}
+
+	public function isShared(): bool {
+		return $this->shared;
+	}
+}

@@ -1,0 +1,230 @@
+/**
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+import { subscribe } from '@nextcloud/event-bus'
+import {
+	getCanonicalLocale,
+	getLanguage,
+	getLocale,
+} from '@nextcloud/l10n'
+import {
+	basename,
+	dirname,
+	encodePath,
+	isSamePath,
+	join,
+} from '@nextcloud/paths'
+import {
+	generateFilePath,
+	generateOcsUrl,
+	generateRemoteUrl,
+	generateUrl,
+	getRootUrl,
+	imagePath,
+	linkTo,
+} from '@nextcloud/router'
+import logger from '../logger.js'
+import { isUserAdmin } from './admin.js'
+import { appConfig } from './appconfig.js'
+import appswebroots from './appswebroots.js'
+import { getCapabilities } from './capabilities.js'
+import Config from './config.js'
+import {
+	coreApps,
+	menuSpeed,
+	PERMISSION_ALL,
+	PERMISSION_CREATE,
+	PERMISSION_DELETE,
+	PERMISSION_NONE,
+	PERMISSION_READ,
+	PERMISSION_SHARE,
+	PERMISSION_UPDATE,
+	TAG_FAVORITE,
+} from './constants.js'
+import { currentUser, getCurrentUser } from './currentuser.js'
+import { debug } from './debug.js'
+import Dialogs from './dialogs.js'
+import EventSource from './eventsource.js'
+import L10N from './l10n.js'
+import * as MimeType from './mimeType.js'
+import msg from './msg.js'
+import PasswordConfirmation from './password-confirmation.js'
+import Plugins from './plugins.js'
+import {
+	build as buildQueryString,
+	parse as parseQueryString,
+} from './query-string.ts'
+import { getRequestToken } from './requesttoken.ts'
+import {
+	linkToRemoteBase,
+} from './routing.js'
+import { theme } from './theme.js'
+import Util from './util.js'
+import webroot from './webroot.js'
+
+/** @namespace OC */
+export default {
+	/*
+	 * Constants
+	 */
+	coreApps,
+	menuSpeed,
+	PERMISSION_ALL,
+	PERMISSION_CREATE,
+	PERMISSION_DELETE,
+	PERMISSION_NONE,
+	PERMISSION_READ,
+	PERMISSION_SHARE,
+	PERMISSION_UPDATE,
+	TAG_FAVORITE,
+
+	/*
+	 * Deprecated helpers to be removed
+	 */
+	appConfig,
+	appswebroots,
+	config: Config,
+	/**
+	 * Currently logged in user or null if none
+	 *
+	 * @type {string}
+	 * @deprecated use `getCurrentUser` from https://www.npmjs.com/package/@nextcloud/auth
+	 */
+	currentUser,
+	dialogs: Dialogs,
+	EventSource,
+	MimeType,
+	/**
+	 * Returns the currently logged in user or null if there is no logged in
+	 * user (public page mode)
+	 *
+	 * @since 9.0.0
+	 * @deprecated 19.0.0 use `getCurrentUser` from https://www.npmjs.com/package/@nextcloud/auth
+	 */
+	getCurrentUser,
+	isUserAdmin,
+	L10N,
+
+	/**
+	 * This is already handled by `interceptRequests` in `core/src/init.js`.
+	 *
+	 * @deprecated 33.0.0 - unused by Nextcloud and only a stub remains. Just remove usage.
+	 */
+	registerXHRForErrorProcessing: () => {},
+
+	/**
+	 * Capabilities
+	 *
+	 * @type {Array}
+	 * @deprecated 20.0.0 use @nextcloud/capabilities instead
+	 */
+	getCapabilities,
+
+	/*
+	 * Path helpers
+	 */
+	/**
+	 * @deprecated 18.0.0 use https://www.npmjs.com/package/@nextcloud/paths
+	 */
+	basename,
+	/**
+	 * @deprecated 18.0.0 use https://www.npmjs.com/package/@nextcloud/paths
+	 */
+	encodePath,
+	/**
+	 * @deprecated 18.0.0 use https://www.npmjs.com/package/@nextcloud/paths
+	 */
+	dirname,
+	/**
+	 * @deprecated 18.0.0 use https://www.npmjs.com/package/@nextcloud/paths
+	 */
+	isSamePath,
+	/**
+	 * @deprecated 18.0.0 use https://www.npmjs.com/package/@nextcloud/paths
+	 */
+	joinPaths: join,
+
+	/**
+	 * @deprecated 20.0.0 use `getCanonicalLocale` from https://www.npmjs.com/package/@nextcloud/l10n
+	 */
+	getCanonicalLocale,
+	/**
+	 * @deprecated 26.0.0 use `getLocale` from https://www.npmjs.com/package/@nextcloud/l10n
+	 */
+	getLocale,
+	/**
+	 * @deprecated 26.0.0 use `getLanguage` from https://www.npmjs.com/package/@nextcloud/l10n
+	 */
+	getLanguage,
+
+	// Query string helpers
+	buildQueryString,
+	parseQueryString,
+
+	msg,
+	/**
+	 * @deprecated 28.0.0 use methods from '@nextcloud/password-confirmation'
+	 */
+	PasswordConfirmation,
+	Plugins,
+	theme,
+	Util,
+	debug,
+	/**
+	 * @deprecated 19.0.0 use `generateFilePath` from https://www.npmjs.com/package/@nextcloud/router
+	 */
+	filePath: generateFilePath,
+	/**
+	 * @deprecated 19.0.0 use `WgenerateUrl` from https://www.npmjs.com/package/@nextcloud/router
+	 */
+	generateUrl,
+	/**
+	 * @deprecated 19.0.0 use `getRootUrl` from https://www.npmjs.com/package/@nextcloud/router
+	 */
+	getRootPath: getRootUrl,
+	/**
+	 * @deprecated 19.0.0 use `imagePath` from https://www.npmjs.com/package/@nextcloud/router
+	 */
+	imagePath,
+	requestToken: getRequestToken(),
+	/**
+	 * @deprecated 19.0.0 use `linkTo` from https://www.npmjs.com/package/@nextcloud/router
+	 */
+	linkTo,
+	/**
+	 * @param {string} service service name
+	 * @param {number} version OCS API version
+	 * @return {string} OCS API base path
+	 * @deprecated 19.0.0 use `generateOcsUrl` from https://www.npmjs.com/package/@nextcloud/router
+	 */
+	linkToOCS: (service, version) => {
+		return generateOcsUrl(service, {}, {
+			ocsVersion: version || 1,
+		}) + '/'
+	},
+	/**
+	 * @deprecated 19.0.0 use `generateRemoteUrl` from https://www.npmjs.com/package/@nextcloud/router
+	 */
+	linkToRemote: generateRemoteUrl,
+	linkToRemoteBase,
+	/**
+	 * Relative path to Nextcloud root.
+	 * For example: "/nextcloud"
+	 *
+	 * @type {string}
+	 *
+	 * @deprecated 19.0.0 use `getRootUrl` from https://www.npmjs.com/package/@nextcloud/router
+	 * @see OC#getRootPath
+	 */
+	webroot,
+}
+
+// Keep the request token prop in sync
+subscribe('csrf-token-update', (e) => {
+	OC.requestToken = e.token
+
+	// Logging might help debug (Sentry) issues
+	logger.info('OC.requestToken changed', { token: e.token })
+})
