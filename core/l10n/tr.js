@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "Oturumu kapat",
     "Please select a file." : "Lütfen bir dosya seçin.",
     "File is too big" : "Dosya çok büyük",
     "The selected file is not an image." : "Seçilmiş dosya bir görsel dosyası değil.",
@@ -207,6 +208,7 @@ OC.L10N.register(
     "_{count} notification_::_{count} notifications_" : ["{count} bildirim","{count} bildirim"],
     "More apps" : "Diğer uygulamalar",
     "App store" : "Uygulama mağazası",
+    "Settings" : "Ayarlar",
     "Open apps menu, currently in {app}" : "Uygulamalar menüsünü aç, şu anda {app} içinde",
     "Open apps menu" : "Uygulamalar menüsünü aç",
     "Applications" : "Uygulamalar",

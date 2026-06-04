@@ -1,6 +1,7 @@
 OC.L10N.register(
     "profile",
     {
+    "View profile" : "Pokaži profil",
     "Profile" : "Profil",
     "Searching …" : "Poteka iskanje ...",
     "Not found" : "Predmeta ni mogoče najti",

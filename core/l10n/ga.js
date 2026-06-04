@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "Logáil Amach",
     "Please select a file." : "A roghnaigh comhad le do thoil.",
     "File is too big" : "Tá an comhad ró-mhór",
     "The selected file is not an image." : "Ní íomhá é an comhad roghnaithe.",
@@ -207,6 +208,7 @@ OC.L10N.register(
     "_{count} notification_::_{count} notifications_" : ["{count} fógra","{count} fógra","{count} fógra","{count} fógra","{count} fógra"],
     "More apps" : "Tuilleadh apps",
     "App store" : "Siopa aip",
+    "Settings" : "Socruithe",
     "Open apps menu, currently in {app}" : "Oscail roghchlár na n-aipeanna, atá i {app} faoi láthair",
     "Open apps menu" : "Oscail roghchlár na n-aipeanna",
     "Applications" : "Feidhmchláir",

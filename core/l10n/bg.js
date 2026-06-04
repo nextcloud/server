@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "Изход",
     "Please select a file." : "Моля изберете файл.",
     "File is too big" : "Файлът е твърде голям",
     "The selected file is not an image." : "Избраният файл не е изображение.",
@@ -78,6 +79,7 @@ OC.L10N.register(
     "Done" : "Завършено",
     "_{count} notification_::_{count} notifications_" : ["{count} известие","{count} известия"],
     "More apps" : "Още приложения",
+    "Settings" : "Настройки",
     "Apps" : "Приложения",
     "No" : "Не",
     "Yes" : "Да",

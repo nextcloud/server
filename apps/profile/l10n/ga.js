@@ -1,6 +1,7 @@
 OC.L10N.register(
     "profile",
     {
+    "View profile" : "Féach ar phróifíl",
     "Profile picker" : "Roghnóir próifíle",
     "Profile" : "Próifíl",
     "This application provides the profile" : "Soláthraíonn an feidhmchlár seo an phróifíl",

@@ -1,4 +1,5 @@
 { "translations": {
+    "Log out" : "注销",
     "Please select a file." : "请选择一个文件。",
     "File is too big" : "文件太大了",
     "The selected file is not an image." : "所选的文件不是图片格式。",
@@ -205,6 +206,7 @@
     "_{count} notification_::_{count} notifications_" : ["{count} 条通知"],
     "More apps" : "更多的应用程序",
     "App store" : "应用商店",
+    "Settings" : "设置",
     "Open apps menu" : "打开应用菜单",
     "Applications" : "应用程序",
     "Apps" : "应用",

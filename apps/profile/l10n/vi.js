@@ -1,6 +1,7 @@
 OC.L10N.register(
     "profile",
     {
+    "View profile" : "Xem hồ sơ",
     "Profile" : "Hồ sơ",
     "Not found" : "Không tìm thấy",
     "You have not added any info yet" : "Bạn chưa thêm bất kỳ thông tin nào",

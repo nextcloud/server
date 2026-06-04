@@ -1,6 +1,7 @@
 OC.L10N.register(
     "profile",
     {
+    "View profile" : "View profile",
     "Profile" : "Profil",
     "This application provides the profile" : "Ushbu ilova profilni taqdim etadi",
     "Provides a customisable user profile interface." : "Moslashtirilgan foydalanuvchi Profil interfeysini taqdim etadi.",

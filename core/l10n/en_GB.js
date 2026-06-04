@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "Log out",
     "Please select a file." : "Please select a file.",
     "File is too big" : "File is too big",
     "The selected file is not an image." : "The selected file is not an image.",
@@ -206,6 +207,7 @@ OC.L10N.register(
     "Code will expire {timeCountdown} or after use" : "Code will expire {timeCountdown} or after use",
     "_{count} notification_::_{count} notifications_" : ["{count} notification","{count} notifications"],
     "More apps" : "More apps",
+    "Settings" : "Settings",
     "Applications" : "Applications",
     "Apps" : "Apps",
     "No" : "No",
