@@ -97,7 +97,15 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 		}
 
 		$protocol = $share->getProtocol();
-		if ($protocol['name'] !== 'webdav') {
+		$protocolName = $protocol['name'] ?? '';
+		// The files provider serves the webdav protocol. It is named directly in the
+		// legacy and new single-protocol formats, and carried as a sibling entry in
+		// the OCM multi-protocol envelope (name => 'multi').
+		if ($protocolName === 'multi') {
+			if (!isset($protocol['webdav']) || !is_array($protocol['webdav'])) {
+				throw new ProviderCouldNotAddShareException('Unsupported protocol for data exchange.', '', Http::STATUS_NOT_IMPLEMENTED);
+			}
+		} elseif ($protocolName !== 'webdav') {
 			throw new ProviderCouldNotAddShareException('Unsupported protocol for data exchange.', '', Http::STATUS_NOT_IMPLEMENTED);
 		}
 

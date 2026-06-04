@@ -151,6 +151,52 @@ class CloudFederationProviderFilesTest extends TestCase {
 		return $share;
 	}
 
+	private function buildMultiShare(array $requirements = []): ICloudFederationShare&MockObject {
+		$share = $this->createMock(ICloudFederationShare::class);
+		// OCM multi-protocol envelope: name => 'multi' with the webdav entry as a
+		// sibling, alongside other protocols (e.g. webapp) the files provider ignores.
+		$share->method('getProtocol')->willReturn([
+			'name' => 'multi',
+			'webdav' => ['sharedSecret' => 'refresh-token-abc', 'requirements' => $requirements],
+			'webapp' => ['sharedSecret' => 'refresh-token-abc', 'uri' => 'https://app.example/open'],
+		]);
+		$share->method('getOwner')->willReturn('owner@example.com');
+		$share->method('getOwnerDisplayName')->willReturn('Owner Name');
+		$share->method('getShareSecret')->willReturn('refresh-token-abc');
+		$share->method('getResourceName')->willReturn('/SharedFolder');
+		$share->method('getShareWith')->willReturn('localuser');
+		$share->method('getProviderId')->willReturn('42');
+		$share->method('getSharedBy')->willReturn('owner@example.com');
+		$share->method('getShareType')->willReturn('user');
+		return $share;
+	}
+
+	/**
+	 * A multi-protocol envelope (name => 'multi') must be accepted by serving its
+	 * webdav entry. We drive through to the user lookup guard to prove the protocol
+	 * check passed rather than rejecting the share as unsupported.
+	 */
+	public function testShareReceivedAcceptsMultiProtocolEnvelope(): void {
+		$this->enableS2S();
+
+		$this->addressHandler->method('splitUserRemote')
+			->with('owner@example.com')
+			->willReturn(['owner', 'https://example.com/']);
+
+		$share = $this->buildMultiShare();
+
+		$this->discoveryService->method('discover')
+			->willThrowException(new \Exception('network error'));
+
+		$this->userManager->method('get')->with('localuser')->willReturn(null);
+		$this->filenameValidator->method('isFilenameValid')->willReturn(true);
+
+		$this->expectException(ProviderCouldNotAddShareException::class);
+		$this->expectExceptionMessage('User does not exists');
+
+		$this->provider->shareReceived($share);
+	}
+
 	/**
 	 * When must-exchange-token is required but the remote has no token endpoint,
 	 * shareReceived must throw rather than silently accept the share.

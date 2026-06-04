@@ -377,8 +377,19 @@ class CloudFederationShare implements ICloudFederationShare {
 
 		if (isset($protocol['name'])) {
 			$protocolName = $protocol['name'];
-			if (isset($protocol[$protocolName]['sharedSecret'])) {
+			// New single-protocol format: the secret lives under the protocol name.
+			if (isset($protocol[$protocolName]['sharedSecret']) && is_string($protocol[$protocolName]['sharedSecret'])) {
 				return $protocol[$protocolName]['sharedSecret'];
+			}
+			// Multi-protocol envelope (name => 'multi'): the secret lives in one of
+			// the sibling protocol entries, which all carry the same share secret.
+			foreach ($protocol as $key => $value) {
+				if ($key === 'name' || $key === 'options' || !is_array($value)) {
+					continue;
+				}
+				if (isset($value['sharedSecret']) && is_string($value['sharedSecret'])) {
+					return $value['sharedSecret'];
+				}
 			}
 		}
 

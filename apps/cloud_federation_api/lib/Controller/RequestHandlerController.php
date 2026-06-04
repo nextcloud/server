@@ -90,7 +90,7 @@ class RequestHandlerController extends Controller {
 	 * @param string|null $ownerDisplayName Display name of the user who shared the item
 	 * @param string|null $sharedBy Provider specific UID of the user who shared the resource
 	 * @param string|null $sharedByDisplayName Display name of the user who shared the resource
-	 * @param array{name: string, options?: array<string, mixed>, webdav?: array<string, mixed>} $protocol Old format: ['name' => 'webdav', 'options' => ['sharedSecret' => '...', 'permissions' => '...']] or New format: ['name' => 'webdav', 'webdav' => ['uri' => '...', 'sharedSecret' => '...', 'permissions' => [...]]]
+	 * @param array{name: string, options?: array<string, mixed>, webdav?: array<string, mixed>} $protocol Legacy format: ['name' => 'webdav', 'options' => ['sharedSecret' => '...', 'permissions' => '...']], new single-protocol format: ['name' => 'webdav', 'webdav' => ['uri' => '...', 'sharedSecret' => '...', 'permissions' => [...]]], or multi-protocol envelope per OCM spec: ['name' => 'multi', 'webdav' => ['sharedSecret' => '...', ...], 'webapp' => [...]]
 	 * @param string $shareType 'group' or 'user' share
 	 * @param string $resourceType 'file', 'calendar',...
 	 *
@@ -139,11 +139,7 @@ class RequestHandlerController extends Controller {
 			);
 		}
 
-		$protocolName = $protocol['name'];
-		$hasOldFormat = isset($protocol['options']) && is_array($protocol['options']) && isset($protocol['options']['sharedSecret']);
-		$hasNewFormat = isset($protocol[$protocolName]) && is_array($protocol[$protocolName]) && isset($protocol[$protocolName]['sharedSecret']);
-
-		if (!$hasOldFormat && !$hasNewFormat) {
+		if (!$this->protocolCarriesSharedSecret($protocol)) {
 			return new JSONResponse(
 				[
 					'message' => 'Missing sharedSecret in protocol',
@@ -471,6 +467,39 @@ class RequestHandlerController extends Controller {
 		}
 
 		return new JSONResponse($result, Http::STATUS_CREATED);
+	}
+
+	/**
+	 * Check that the protocol envelope carries at least one sharedSecret.
+	 *
+	 * Accepts the legacy single-protocol shape ['name' => '<type>', 'options' => ['sharedSecret' => ...]],
+	 * the new single-protocol shape ['name' => '<type>', '<type>' => ['sharedSecret' => ...]] and the
+	 * multi-protocol envelope from the OCM spec ['name' => 'multi', '<type>' => ['sharedSecret' => ...], ...].
+	 * Because a payload may use 'name' => 'multi' even when it carries a single inner protocol, we do not
+	 * gate on the name value but scan every sibling entry for the first sharedSecret. The full envelope is
+	 * forwarded to the resource provider unchanged; the provider decides which entries it understands.
+	 *
+	 * @param array<string, mixed> $protocol
+	 * @see https://github.com/cs3org/OCM-API/
+	 */
+	private function protocolCarriesSharedSecret(array $protocol): bool {
+		if (
+			isset($protocol['options'])
+			&& is_array($protocol['options'])
+			&& isset($protocol['options']['sharedSecret'])
+			&& is_string($protocol['options']['sharedSecret'])
+		) {
+			return true;
+		}
+		foreach ($protocol as $key => $value) {
+			if ($key === 'name' || $key === 'options' || !is_array($value)) {
+				continue;
+			}
+			if (isset($value['sharedSecret']) && is_string($value['sharedSecret'])) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**

@@ -161,7 +161,7 @@
                                     },
                                     "protocol": {
                                         "type": "object",
-                                        "description": "Old format: ['name' => 'webdav', 'options' => ['sharedSecret' => '...', 'permissions' => '...']] or New format: ['name' => 'webdav', 'webdav' => ['uri' => '...', 'sharedSecret' => '...', 'permissions' => [...]]]",
+                                        "description": "Legacy format: ['name' => 'webdav', 'options' => ['sharedSecret' => '...', 'permissions' => '...']], new single-protocol format: ['name' => 'webdav', 'webdav' => ['uri' => '...', 'sharedSecret' => '...', 'permissions' => [...]]], or multi-protocol envelope per OCM spec: ['name' => 'multi', 'webdav' => ['sharedSecret' => '...', ...], 'webapp' => [...]]",
                                         "required": [
                                             "name"
                                         ],
