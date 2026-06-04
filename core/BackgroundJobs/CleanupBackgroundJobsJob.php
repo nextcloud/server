@@ -19,12 +19,14 @@ use OCP\IConfig;
 use OCP\IServerInfo;
 use Override;
 use Psr\Log\LoggerInterface;
+use RuntimeException;
 
 class CleanupBackgroundJobsJob extends TimedJob {
 	public function __construct(
 		ITimeFactory $time,
 		private readonly JobRuns $jobRuns,
 		private readonly IServerInfo $serverInfo,
+		private readonly IConfig $config,
 		private readonly LoggerInterface $logger,
 	) {
 		parent::__construct($time);
@@ -35,8 +37,7 @@ class CleanupBackgroundJobsJob extends TimedJob {
 	#[Override]
 	protected function run($argument): void {
 		$this->reapCrashedJobs();
-
-		// TODO Clean oldest jobs
+		$this->cleanOldestRuns();
 	}
 
 	private function reapCrashedJobs(): void {
@@ -65,6 +66,21 @@ class CleanupBackgroundJobsJob extends TimedJob {
 					'runId' => $job->runId,
 				]);
 			}
+		}
+	}
+
+	private function cleanOldestRuns(): void {
+		$daysToKeep = $this->config->getSystemValueInt('background_jobs_expiration_days', 60);
+		if ($daysToKeep < 1) {
+			throw new RuntimeException('Invalid number of days');
+		}
+		$cleanBeforeTimestamp = time() - ($daysToKeep * 24 * 3600);
+
+		$cleanedJobs = $this->jobRuns->deleteBefore($cleanBeforeTimestamp);
+		if ($cleanedJobs > 0) {
+			$this->logger->info(
+				'Cleanup of old background jobs. Number of jobs removed: ' . $cleanedJobs . 'Reason: older than ' . $daysToKeep . ' days.',
+			);
 		}
 	}
 }
