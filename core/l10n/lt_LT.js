@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "Atsijungti",
     "Please select a file." : "Pasirinkite failą.",
     "File is too big" : "Failas yra per didelis",
     "The selected file is not an image." : "Pasirinktas failas nėra paveikslas.",
@@ -207,6 +208,7 @@ OC.L10N.register(
     "_{count} notification_::_{count} notifications_" : ["{count} pranešimas","{count} pranešimai","{count} pranešimų","{count} pranešimas"],
     "More apps" : "Daugiau programėlių",
     "App store" : "Programėlių parduotuvė",
+    "Settings" : "Nustatymai",
     "Open apps menu, currently in {app}" : "Atidaryti programėlių meniu, šiuo metu {app}",
     "Open apps menu" : "Atidarykite programėlių meniu",
     "Applications" : "Programėlės",

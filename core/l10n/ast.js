@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "Zarrar la sesión",
     "Please select a file." : "Seleiciona un ficheru.",
     "File is too big" : "El ficheru ye mui grande",
     "The selected file is not an image." : "El ficheru seleicionáu nun ye una imaxe.",
@@ -79,6 +80,7 @@ OC.L10N.register(
     "Done" : "Fecho",
     "_{count} notification_::_{count} notifications_" : ["{count} avisu","{count} avisos"],
     "More apps" : "Más aplicaciones",
+    "Settings" : "Configuración",
     "Apps" : "Aplicaciones",
     "No" : "Non",
     "Yes" : "Sí",

@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "Kijelentkezés",
     "Please select a file." : "Válasszon egy fájlt.",
     "File is too big" : "A fájl túl nagy",
     "The selected file is not an image." : "A kiválasztott fájl nem kép.",
@@ -207,6 +208,7 @@ OC.L10N.register(
     "_{count} notification_::_{count} notifications_" : ["{count} értesítés","{count} értesítés"],
     "More apps" : "További alkalmazások",
     "App store" : "Alkalmazástár",
+    "Settings" : "Beállítások",
     "Open apps menu" : "Alkalmazásmenü megnyitása",
     "Applications" : "Alkalmazások",
     "Apps" : "Alkalmazások",

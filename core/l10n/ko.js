@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "로그아웃",
     "Please select a file." : "파일을 선택하십시오.",
     "File is too big" : "파일이 너무 큼",
     "The selected file is not an image." : "선택한 파일은 사진이 아닙니다.",
@@ -206,6 +207,7 @@ OC.L10N.register(
     "Code will expire {timeCountdown} or after use" : "코드는 {timeCountdown} 또는 사용 후 만료됩니다.",
     "_{count} notification_::_{count} notifications_" : ["{count}개의 알림"],
     "More apps" : "더 많은 앱",
+    "Settings" : "설정",
     "Apps" : "앱",
     "No" : "아니요",
     "Yes" : "예",

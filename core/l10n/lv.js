@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "Izrakstīties",
     "Please select a file." : "Lūgums atlasīt datni.",
     "File is too big" : "Datne ir pārāk liela.",
     "The selected file is not an image." : "Atlasītā datne nav attēls.",
@@ -78,6 +79,7 @@ OC.L10N.register(
     "Done" : "Pabeigts",
     "_{count} notification_::_{count} notifications_" : ["{count} paziņojumu","{count}paziņojums","{count}paziņojumi"],
     "More apps" : "Vairāk lietotņu",
+    "Settings" : "Iestatījumi",
     "Applications" : "Lietotnes",
     "Apps" : "Lietotnes",
     "No" : "Nē",

@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "Log out",
     "Please select a file." : "Seleziona un file.",
     "File is too big" : "Il file è troppo grande",
     "The selected file is not an image." : "Il file selezionato non è un'immagine.",
@@ -207,6 +208,7 @@ OC.L10N.register(
     "_{count} notification_::_{count} notifications_" : ["{count} notifica","{count} notifiche","{count} notifiche"],
     "More apps" : "Altre applicazioni",
     "App store" : "Store delle app",
+    "Settings" : "Impostazioni",
     "Open apps menu, currently in {app}" : "Apri il menu delle app, attualmente in {app}",
     "Open apps menu" : "Apri menu delle app",
     "Applications" : "Applicazioni",

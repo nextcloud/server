@@ -4,10 +4,6 @@
     "seconds ago" : "Tasinin aya",
     "Templates" : "Timudmiwin",
     "Filename contains at least one invalid character" : "Isem n ufaylu yegber ma drus yiwen n usekkil d armeɣtu",
-    "Apps" : "Isnasen",
-    "Settings" : "Iɣewwaṛen",
-    "Log out" : "Senser",
-    "Accounts" : "Imiḍanen",
     "Email" : "Imayl",
     "Phone" : "Tiliɣri",
     "Twitter" : "Twitter",
@@ -26,6 +22,10 @@
     "Images" : "Tugniwin",
     "Question" : "Asteqsi",
     "Text" : "Aḍris",
-    "Translate" : "Suqel"
+    "Translate" : "Suqel",
+    "Apps" : "Isnasen",
+    "Settings" : "Iɣewwaṛen",
+    "Log out" : "Senser",
+    "Accounts" : "Imiḍanen"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
