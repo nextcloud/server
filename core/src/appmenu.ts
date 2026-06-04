@@ -6,7 +6,7 @@
  * core-main so the app grid lives in its own chunk.
  */
 import Vue from 'vue'
-import AppMenu from './AppMenu.vue'
+import AppMenu from './components/AppMenu/AppMenu.vue'
 
 interface AppMenuInstance {
 	setNavigationCounter(id: string, counter: number): void

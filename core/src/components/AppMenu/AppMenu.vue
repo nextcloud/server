@@ -34,7 +34,7 @@
 				role="menu"
 				:aria-label="t('core', 'Apps')">
 				<div ref="grid" class="app-menu__grid" @keydown="onGridKeydown">
-					<AppItem
+					<AppMenuItem
 						v-for="(item, i) in gridItems"
 						:key="item.id"
 						ref="items"
@@ -69,7 +69,7 @@
 </template>
 
 <script lang="ts">
-import type { INavigationEntry } from '../types/navigation.d.ts'
+import type { INavigationEntry } from '../../types/navigation.d.ts'
 
 import { getCurrentUser } from '@nextcloud/auth'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
@@ -80,8 +80,8 @@ import { defineComponent, ref } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcPopover from '@nextcloud/vue/components/NcPopover'
 import IconDotsGrid from 'vue-material-design-icons/DotsGrid.vue'
-import AppItem from './AppItem.vue'
-import logger from '../logger.js'
+import AppMenuItem from './AppMenuItem.vue'
+import logger from '../../logger.js'
 
 // Settings IDs that represent actions, not navigable pages.
 const SETTINGS_ACTION_IDS = new Set(['logout'])
@@ -90,7 +90,7 @@ export default defineComponent({
 	name: 'AppMenu',
 
 	components: {
-		AppItem,
+		AppMenuItem,
 		IconDotsGrid,
 		NcButton,
 		NcPopover,
@@ -509,7 +509,7 @@ export default defineComponent({
 
 		// Extra top padding on first-row tiles so the hover bg reads
 		// concentric with the popover's rounded top corner. !important
-		// because AppItem's scoped rule has the same specificity.
+		// because AppMenuItem's scoped rule has the same specificity.
 		> :nth-child(-n+4) {
 			padding-block-start: calc(var(--default-grid-baseline) * 2) !important;
 		}
@@ -538,7 +538,7 @@ export default defineComponent({
 	margin-block-start: -1px;
 }
 
-// Without this reset the override above cascades into AppItem and inflates
+// Without this reset the override above cascades into AppMenuItem and inflates
 // its hover radius. Restores the system default from apps/theming/css/default.css.
 .app-menu__popover-base .app-menu__popover {
 	--border-radius-element: 8px;

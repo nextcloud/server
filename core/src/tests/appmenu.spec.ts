@@ -35,7 +35,7 @@ function addContainer(): void {
 	document.body.appendChild(container)
 }
 
-describe('appmenu/main', () => {
+describe('core: appmenu', () => {
 	beforeEach(() => {
 		document.body.innerHTML = ''
 		globalThis.OC = {}
@@ -45,14 +45,14 @@ describe('appmenu/main', () => {
 	it('mounts AppMenu when the container is present', async () => {
 		addContainer()
 
-		await import('../../appmenu/main.ts')
+		await import('../appmenu.ts')
 
 		// Vue 2 $mount replaces the container with AppMenu's root <nav class="app-menu">.
 		expect(document.querySelector('.app-menu')).not.toBeNull()
 	})
 
 	it('no-ops when the container is missing', async () => {
-		await import('../../appmenu/main.ts')
+		await import('../appmenu.ts')
 
 		expect(document.body.children.length).toBe(0)
 	})
@@ -60,7 +60,7 @@ describe('appmenu/main', () => {
 	it('exposes OC.setNavigationCounter as a callable function', async () => {
 		addContainer()
 
-		await import('../../appmenu/main.ts')
+		await import('../appmenu.ts')
 
 		expect(typeof globalThis.OC.setNavigationCounter).toBe('function')
 	})
