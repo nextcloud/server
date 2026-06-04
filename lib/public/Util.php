@@ -97,11 +97,15 @@ class Util {
 	}
 
 	/**
-	 * Add a standalone init js file that is loaded for initialization
+	 * Add an initialization JavaScript asset that should be emitted before
+	 * regular app scripts.
 	 *
-	 * Be careful loading scripts using this method as they are loaded early
-	 * and block the initial page rendering. They should not have dependencies
-	 * on any other scripts than core-common and core-main.
+	 * These scripts are loaded very early and can block initial page rendering.
+	 * They should therefore stay small and only rely on assets that are guaranteed
+	 * to be available at that stage, namely core/js/common and core/js/main.
+	 *
+	 * For non-core apps, the matching translation asset is added first so that
+	 * translations are available when the init script executes.
 	 *
 	 * @since 28.0.0
 	 */
@@ -112,8 +116,8 @@ class Util {
 			$path = "js/$file";
 		}
 
-		// We need to handle the translation BEFORE the init script
-		// is loaded, as the init script might use translations
+		// Init scripts may access translations immediately on execution, so for
+		// non-core apps load the translation asset before the init script itself.
 		if ($application !== 'core' && !str_contains($file, 'l10n')) {
 			self::addTranslations($application, null, true);
 		}
@@ -122,12 +126,19 @@ class Util {
 	}
 
 	/**
-	 * add a javascript file
+	 * Add a JavaScript asset for an app.
 	 *
-	 * @param string $application
-	 * @param string|null $file
-	 * @param string $afterAppId
-	 * @param bool $prepend
+	 * Scripts are grouped by app and app-level dependencies are tracked in
+	 * self::$scriptDeps. The dependency sorter uses that information later when
+	 * building the final script list.
+	 *
+	 * For non-core apps, the matching translation asset is added automatically
+	 * unless the requested file already represents a translation asset.
+	 *
+	 * @param string $application Application ID. Use an empty string for unscoped assets.
+	 * @param string|null $file JavaScript file name relative to the app's js/ directory.
+	 * @param string $afterAppId App ID that should be ordered before this app's scripts.
+	 * @param bool $prepend Whether to insert the script at the beginning of the app's script list.
 	 * @since 4.0.0
 	 */
 	public static function addScript(string $application, ?string $file = null, string $afterAppId = 'core', bool $prepend = false): void {
@@ -137,16 +148,15 @@ class Util {
 			$path = "js/$file";
 		}
 
-		// Inject js translations if we load a script for
-		// a specific app that is not core, as those js files
-		// need separate handling
+		// For non-core apps, ensure translations are registered together with the
+		// app script unless this is already a translation asset.
 		if ($application !== 'core'
 			&& $file !== null
 			&& !str_contains($file, 'l10n')) {
 			self::addTranslations($application);
 		}
 
-		// store app in dependency list
+		// Track app-level ordering dependencies used when building the final script list.
 		if (!array_key_exists($application, self::$scriptDeps)) {
 			self::$scriptDeps[$application] = new AppScriptDependency($application, [$afterAppId]);
 		} else {
@@ -161,30 +171,40 @@ class Util {
 	}
 
 	/**
-	 * Return the list of scripts injected to the page
+	 * Return the final list of JavaScript assets to inject into the page.
 	 *
-	 * @return array
+	 * The result is built in four steps:
+	 * 1. sort app script groups using app-level dependency information
+	 * 2. prepend early init assets
+	 * 3. flatten grouped assets into a single list and remove duplicates
+	 * 4. apply explicit priority rules for core bootstrap assets
+	 *
+	 * @return array<int, string>
 	 * @since 24.0.0
 	 */
 	public static function getScripts(): array {
-		// Sort scriptDeps into sortedScriptDeps
+		// Sort app script groups using the registered app-level dependencies.
 		$scriptSort = Server::get(AppScriptSort::class);
 		$sortedScripts = $scriptSort->sort(self::$scripts, self::$scriptDeps);
 
-		// Flatten array and remove duplicates
+		// Prepend init assets, flatten the grouped arrays into a single list,
+		// then remove duplicate asset paths.
 		$sortedScripts = array_merge([self::$scriptsInit], $sortedScripts);
 		$sortedScripts = array_merge(...array_values($sortedScripts));
 		$sortedScripts = array_unique($sortedScripts);
 
+		// Apply explicit bootstrap ordering for selected core assets.
 		usort($sortedScripts, fn (string $a, string $b) => self::scriptOrderValue($b) <=> self::scriptOrderValue($a));
 		return $sortedScripts;
 	}
 
 	/**
-	 * Gets a numeric value based on the script name.
-	 * This is used to ensure that the global state is initialized before all other scripts.
+	 * Return a relative priority for a script asset.
 	 *
-	 * @param string $name - The script name
+	 * Higher values are sorted earlier. This is used to force critical core
+	 * bootstrap assets to the front of the final list.
+	 *
+	 * @param string $name Script asset path
 	 * @since 34.0.0
 	 */
 	private static function scriptOrderValue(string $name): int {
@@ -192,16 +212,21 @@ class Util {
 			'core/js/common' => 3,
 			'core/js/main' => 2,
 			default => str_starts_with($name, 'core/l10n/')
-				? 1 // core translations have to be loaded directly after core-main
-				: 0, // other scripts should preserve their current order
+				? 1 // Core translations must be available immediately after core/js/main.
+				: 0, // No explicit priority; ordering is determined elsewhere.
 		};
 	}
 
 	/**
-	 * Add a translation JS file
-	 * @param string $application application id
-	 * @param string $languageCode language code, defaults to the current locale
-	 * @param bool $init whether the translations should be loaded early or not
+	 * Add a JavaScript translation asset.
+	 *
+	 * If no language code is provided, the current language for the given app is
+	 * resolved through the localization factory. Translation assets can either be
+	 * registered as early init assets or as regular app scripts.
+	 *
+	 * @param string $application Application ID
+	 * @param string $languageCode Language code; defaults to the current app language
+	 * @param bool $init Whether to register the translation asset as an early init asset
 	 * @since 8.0.0
 	 */
 	public static function addTranslations($application, $languageCode = null, $init = false) {
