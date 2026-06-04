@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Trashbin\Sabre;
 
 use OCA\Files_Trashbin\Service\ConfigService;
@@ -26,6 +27,7 @@ class TrashRoot implements ICollection {
 	) {
 	}
 
+	#[\Override]
 	public function delete() {
 		if (!ConfigService::getDeleteFromTrashEnabled()) {
 			throw new Forbidden('Not allowed to delete items from the trash bin');
@@ -37,22 +39,27 @@ class TrashRoot implements ICollection {
 		}
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'trash';
 	}
 
+	#[\Override]
 	public function setName($name) {
 		throw new Forbidden('Permission denied to rename this trashbin');
 	}
 
+	#[\Override]
 	public function createFile($name, $data = null) {
 		throw new Forbidden('Not allowed to create files in the trashbin');
 	}
 
+	#[\Override]
 	public function createDirectory($name) {
 		throw new Forbidden('Not allowed to create folders in the trashbin');
 	}
 
+	#[\Override]
 	public function getChildren(): array {
 		$entries = $this->trashManager->listTrashRoot($this->user);
 
@@ -66,6 +73,7 @@ class TrashRoot implements ICollection {
 		return $children;
 	}
 
+	#[\Override]
 	public function getChild($name): ITrash {
 		$entries = $this->getChildren();
 
@@ -78,6 +86,7 @@ class TrashRoot implements ICollection {
 		throw new NotFound();
 	}
 
+	#[\Override]
 	public function childExists($name): bool {
 		try {
 			$this->getChild($name);
@@ -87,6 +96,7 @@ class TrashRoot implements ICollection {
 		}
 	}
 
+	#[\Override]
 	public function getLastModified(): int {
 		return 0;
 	}

@@ -13,11 +13,15 @@ namespace OC\Core\Service;
 
 use OC;
 use OC\Authentication\LoginCredentials\Store;
+use OC\BackgroundJob\JobClassesRegistry;
+use OC\BackgroundJob\JobRuns;
+use OC\DB\Connection;
 use OC\Security\CSRF\TokenStorage\SessionStorage;
 use OC\Session\CryptoWrapper;
 use OC\Session\Memory;
 use OC\User\Session;
 use OCP\App\IAppManager;
+use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\IJobList;
 use OCP\Files\ISetupManager;
 use OCP\IAppConfig;
@@ -29,6 +33,8 @@ use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 class CronService {
+	private ?IJob $currentJob = null;
+
 	/** * @var ?callable $verboseCallback */
 	private $verboseCallback = null;
 
@@ -38,12 +44,15 @@ class CronService {
 		private readonly IAppManager $appManager,
 		private readonly ISession $session,
 		private readonly Session $userSession,
+		private readonly Connection $connection,
 		private readonly CryptoWrapper $cryptoWrapper,
 		private readonly Store $store,
 		private readonly SessionStorage $sessionStorage,
 		private readonly ITempManager $tempManager,
 		private readonly IAppConfig $appConfig,
 		private readonly IJobList $jobList,
+		private readonly JobRuns $jobRuns,
+		private readonly JobClassesRegistry $jobClassesRegistry,
 		private readonly ISetupManager $setupManager,
 		private readonly bool $isCLI,
 	) {
@@ -151,6 +160,21 @@ class CronService {
 			}
 		}
 
+		// Try to log and unlock job in case of failure (eg. Allowed memory size exhausted)
+		register_shutdown_function(function (): void {
+			$error = error_get_last();
+			if ($error === null) {
+				return;
+			}
+
+			$message = 'Uncaught error when running job ' . $this->currentJob->getId() . ': ' . $error['message'];
+			$this->logger->error($message);
+			$this->verboseOutput($message);
+			if ($this->currentJob instanceof IJob) {
+				$this->jobList->unlockJob($this->currentJob);
+			}
+		});
+
 		// We only ask for jobs for 14 minutes, because after 5 minutes the next
 		// system cron task should spawn and we want to have at most three
 		// cron jobs running in parallel.
@@ -159,28 +183,35 @@ class CronService {
 		$executedJobs = [];
 
 		while ($job = $this->jobList->getNext($onlyTimeSensitive, $jobClasses)) {
+			$this->currentJob = $job;
 			if (isset($executedJobs[$job->getId()])) {
 				$this->jobList->unlockJob($job);
 				break;
 			}
 
-			$jobDetails = get_class($job) . ' (id: ' . $job->getId() . ', arguments: ' . json_encode($job->getArgument()) . ')';
+			$jobClass = get_class($job);
+			$jobDetails = $jobClass . ' (id: ' . $job->getId() . ', arguments: ' . json_encode($job->getArgument()) . ')';
 			$this->logger->debug('CLI cron call has selected job ' . $jobDetails, ['app' => 'cron']);
-
-			$timeBefore = time();
-			$memoryBefore = memory_get_usage();
-			$memoryPeakBefore = memory_get_peak_usage();
 
 			$this->verboseOutput('Starting job ' . $jobDetails);
 
+			$referenceMemory = memory_get_usage();
+			memory_reset_peak_usage();
+
+			$jobClassId = $this->jobClassesRegistry->getId($jobClass);
+			$jobRunId = $this->jobRuns->started($jobClassId);
+			$startTime = microtime(true);
 			$job->start($this->jobList);
 
-			$timeAfter = time();
-			$memoryAfter = memory_get_usage();
-			$memoryPeakAfter = memory_get_peak_usage();
+			$memoryIncrease = memory_get_usage() - $referenceMemory;
+			$timeSpent = microtime(true) - $startTime;
+			$jobMemoryPeak = memory_get_peak_usage();
+			// TODO Job failure will never be caught here because exceptions are caught within $job->start method
+			// The error will only be visible in server logs.
+			// It should be a temporary state until a proper job runner is implemented.
+			$this->jobRuns->finished($jobRunId, (int)($timeSpent * 1000), (int)($jobMemoryPeak / 1024));
 
 			$cronInterval = 5 * 60;
-			$timeSpent = $timeAfter - $timeBefore;
 			if ($timeSpent > $cronInterval) {
 				$logLevel = match (true) {
 					$timeSpent > $cronInterval * 128 => ILogger::FATAL,
@@ -196,13 +227,13 @@ class CronService {
 				);
 			}
 
-			if ($memoryAfter - $memoryBefore > 50_000_000) {
-				$message = 'Used memory grew by more than 50 MB when executing job ' . $jobDetails . ': ' . Util::humanFileSize($memoryAfter) . ' (before: ' . Util::humanFileSize($memoryBefore) . ')';
+			if ($memoryIncrease > 50 * 1024 * 1024) {
+				$message = 'Memory leak detected after executing job ' . $jobDetails . '. Memory usage grew by ' . Util::humanFileSize($memoryIncrease) . '.';
 				$this->logger->warning($message, ['app' => 'cron']);
 				$this->verboseOutput($message);
 			}
-			if ($memoryPeakAfter > 300_000_000 && $memoryPeakBefore <= 300_000_000) {
-				$message = 'Cron job used more than 300 MB of ram after executing job ' . $jobDetails . ': ' . Util::humanFileSize($memoryPeakAfter) . ' (before: ' . Util::humanFileSize($memoryPeakBefore) . ')';
+			if ($jobMemoryPeak > 300 * 1024 * 1024) {
+				$message = 'Cron job used more than 300 MiB of RAM after executing job ' . $jobDetails . ': ' . Util::humanFileSize($jobMemoryPeak) . ')';
 				$this->logger->warning($message, ['app' => 'cron']);
 				$this->verboseOutput($message);
 			}
@@ -210,17 +241,26 @@ class CronService {
 			// clean up after unclean jobs
 			$this->setupManager->tearDown();
 			$this->tempManager->clean();
+			if ($this->connection->inTransaction()) {
+				$this->connection->rollBack();
+				$message = 'Cron job left a transaction opened after executing job ' . $jobDetails . '. The transaction was rolled back.';
+				$this->logger->warning($message, ['app' => 'cron']);
+				$this->verboseOutput($message);
+			}
 
-			$this->verboseOutput('Job ' . $jobDetails . ' done in ' . ($timeAfter - $timeBefore) . ' seconds');
+			$this->verboseOutput('Job ' . $jobDetails . ' done in ' . number_format($timeSpent, 2) . ' seconds');
 
 			$this->jobList->setLastJob($job);
 			$executedJobs[$job->getId()] = true;
 			unset($job);
 
-			if ($timeAfter > $endTime) {
+			if (time() > $endTime) {
 				break;
 			}
 		}
+
+		// Makes sure last error isn't caught by shutdown function
+		error_clear_last();
 	}
 
 	private function runWeb(string $appMode): void {

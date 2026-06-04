@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Connector;
 
 use OCA\DAV\Connector\Sabre\PublicAuth;
@@ -50,6 +51,7 @@ class LegacyPublicAuth extends AbstractBasic {
 	 * @return bool
 	 * @throws \Sabre\DAV\Exception\NotAuthenticated
 	 */
+	#[\Override]
 	protected function validateUserPass($username, $password) {
 		$this->throttler->sleepDelayOrThrowOnMax($this->request->getRemoteAddress(), self::BRUTEFORCE_ACTION);
 

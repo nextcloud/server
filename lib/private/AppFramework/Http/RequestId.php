@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\AppFramework\Http;
 
 use OCP\IRequestId;
@@ -22,6 +23,7 @@ class RequestId implements IRequestId {
 	 * If `mod_unique_id` is installed this value will be taken.
 	 * @return string
 	 */
+	#[\Override]
 	public function getId(): string {
 		if (empty($this->requestId)) {
 			$validChars = ISecureRandom::CHAR_ALPHANUMERIC;

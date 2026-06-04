@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Http\WellKnown;
 
 use OC\AppFramework\Bootstrap\Coordinator;
@@ -16,7 +17,7 @@ use OCP\Http\WellKnown\IRequestContext;
 use OCP\Http\WellKnown\IResponse;
 use OCP\Http\WellKnown\JrdResponse;
 use OCP\IRequest;
-use OCP\IServerContainer;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 use function array_reduce;
@@ -24,7 +25,7 @@ use function array_reduce;
 class RequestManager {
 	public function __construct(
 		private Coordinator $coordinator,
-		private IServerContainer $container,
+		private ContainerInterface $container,
 		private LoggerInterface $logger,
 	) {
 	}
@@ -37,6 +38,7 @@ class RequestManager {
 			) {
 			}
 
+			#[\Override]
 			public function getHttpRequest(): IRequest {
 				return $this->request;
 			}

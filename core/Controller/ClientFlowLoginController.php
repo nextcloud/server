@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Controller;
 
 use OC\Authentication\Events\AppPasswordCreatedEvent;
@@ -160,7 +161,6 @@ class ClientFlowLoginController extends Controller {
 				]),
 			'appTokenUrl' => $this->urlGenerator->linkToRouteAbsolute('core.ClientFlowLogin.apptokenRedirect'),
 		]);
-
 
 		Util::addScript('core', 'login_flow');
 		$response = new StandaloneTemplateResponse(

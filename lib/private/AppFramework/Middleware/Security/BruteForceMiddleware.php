@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Utility\ControllerMethodReflector;
@@ -44,6 +45,7 @@ class BruteForceMiddleware extends Middleware {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function beforeController($controller, $methodName) {
 		parent::beforeController($controller, $methodName);
 
@@ -70,6 +72,7 @@ class BruteForceMiddleware extends Middleware {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function afterController($controller, $methodName, Response $response) {
 		if ($response->isThrottled()) {
 			try {
@@ -123,6 +126,7 @@ class BruteForceMiddleware extends Middleware {
 	 * @throws \Exception
 	 * @return Response
 	 */
+	#[\Override]
 	public function afterException($controller, $methodName, \Exception $exception): Response {
 		if ($exception instanceof MaxDelayReached) {
 			if ($controller instanceof OCSController) {

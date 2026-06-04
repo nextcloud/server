@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Config;
 
 use OCP\Files\Mount\IMountPoint;
@@ -22,6 +23,7 @@ class LazyStorageMountInfo extends CachedMountInfo {
 	/**
 	 * @return int the numeric storage id of the mount
 	 */
+	#[\Override]
 	public function getStorageId(): int {
 		if (!$this->storageId) {
 			$this->storageId = $this->mount->getNumericStorageId();
@@ -32,6 +34,7 @@ class LazyStorageMountInfo extends CachedMountInfo {
 	/**
 	 * @return int the fileid of the root of the mount
 	 */
+	#[\Override]
 	public function getRootId(): int {
 		if (!$this->rootId) {
 			$this->rootId = $this->mount->getStorageRootId();
@@ -42,6 +45,7 @@ class LazyStorageMountInfo extends CachedMountInfo {
 	/**
 	 * @return string the mount point of the mount for the user
 	 */
+	#[\Override]
 	public function getMountPoint(): string {
 		if (!$this->mountPoint) {
 			$this->mountPoint = $this->mount->getMountPoint();
@@ -49,6 +53,7 @@ class LazyStorageMountInfo extends CachedMountInfo {
 		return parent::getMountPoint();
 	}
 
+	#[\Override]
 	public function getMountId(): ?int {
 		return $this->mount->getMountId();
 	}
@@ -58,14 +63,17 @@ class LazyStorageMountInfo extends CachedMountInfo {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function getRootInternalPath(): string {
 		return $this->mount->getInternalPath($this->mount->getMountPoint());
 	}
 
+	#[\Override]
 	public function getMountProvider(): string {
 		return $this->mount->getMountProvider();
 	}
 
+	#[\Override]
 	public function getKey(): string {
 		if (!$this->key) {
 			$this->key = $this->getRootId() . '::' . $this->getMountPoint();

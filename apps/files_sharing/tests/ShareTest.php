@@ -5,11 +5,11 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\FileInfo;
 use OC\Files\Filesystem;
-use OCA\Files_Sharing\Helper;
 use OCP\Constants;
 use OCP\IConfig;
 use OCP\IGroupManager;
@@ -128,7 +128,7 @@ class ShareTest extends TestCase {
 			Constants::PERMISSION_READ | Constants::PERMISSION_UPDATE | Constants::PERMISSION_SHARE
 		);
 
-		Helper::setShareFolder('/Shared/subfolder');
+		Server::get(IConfig::class)->setSystemValue('share_folder', '/Shared/subfolder');
 
 		$share = $this->share(
 			IShare::TYPE_USER,

@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Repair;
 
 use Doctrine\DBAL\Exception\DriverException;
@@ -25,6 +26,7 @@ class Collation implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Repair MySQL collation';
 	}
@@ -32,6 +34,7 @@ class Collation implements IRepairStep {
 	/**
 	 * Fix mime types
 	 */
+	#[\Override]
 	public function run(IOutput $output): void {
 		if ($this->connection->getDatabaseProvider() !== IDBConnection::PLATFORM_MYSQL) {
 			$output->info('Not a mysql database -> nothing to do');

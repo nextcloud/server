@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\AppFramework\Http;
 
 use OC\AppFramework\Http;
@@ -26,6 +27,9 @@ use Psr\Log\LoggerInterface;
  * Class to dispatch the request to the middleware dispatcher
  */
 class Dispatcher {
+	public const DEFAULT_MIN = 1;
+	public const DEFAULT_MAX = 500;
+
 	/**
 	 * @param Http $protocol the http protocol with contains all status headers
 	 * @param MiddlewareDispatcher $middlewareDispatcher the dispatcher which
@@ -43,7 +47,6 @@ class Dispatcher {
 		private readonly ContainerInterface $appContainer,
 	) {
 	}
-
 
 	/**
 	 * Handles a request and calls the dispatcher on the controller
@@ -124,7 +127,6 @@ class Dispatcher {
 		];
 	}
 
-
 	/**
 	 * Uses the reflected parameters, types and request parameters to execute
 	 * the controller
@@ -149,7 +151,7 @@ class Dispatcher {
 				$value = false;
 			} elseif ($value !== null && \in_array($type, $types, true)) {
 				settype($value, $type);
-				$this->ensureParameterValueSatisfiesRange($param, $value);
+				$this->ensureParameterValueSatisfiesRange($param, $value, $default);
 			} elseif ($value === null && $type !== null && $this->appContainer->has($type)) {
 				$value = $this->appContainer->get($type);
 			}
@@ -193,7 +195,7 @@ class Dispatcher {
 	 * @psalm-param mixed $value
 	 * @throws ParameterOutOfRangeException
 	 */
-	private function ensureParameterValueSatisfiesRange(string $param, $value): void {
+	private function ensureParameterValueSatisfiesRange(string $param, $value, $default): void {
 		$rangeInfo = $this->reflector->getRange($param);
 		if ($rangeInfo) {
 			if ($value < $rangeInfo['min'] || $value > $rangeInfo['max']) {
@@ -202,6 +204,15 @@ class Dispatcher {
 					$value,
 					$rangeInfo['min'],
 					$rangeInfo['max'],
+				);
+			}
+		} elseif ($param === 'limit') {
+			if ($value !== $default && ($value < self::DEFAULT_MIN || $value > self::DEFAULT_MAX)) {
+				throw new ParameterOutOfRangeException(
+					$param,
+					$value,
+					self::DEFAULT_MIN,
+					self::DEFAULT_MAX,
 				);
 			}
 		}

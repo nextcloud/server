@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\SetupChecks;
 
 use OCP\IDBConnection;
@@ -32,14 +33,17 @@ class SupportedDatabase implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'database';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Database version');
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		$databasePlatform = $this->connection->getDatabaseProvider();
 		if ($databasePlatform === IDBConnection::PLATFORM_MYSQL || $databasePlatform === IDBConnection::PLATFORM_MARIADB) {

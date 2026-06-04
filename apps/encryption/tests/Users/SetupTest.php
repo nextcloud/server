@@ -7,11 +7,14 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Encryption\Tests\Users;
 
 use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\KeyManager;
 use OCA\Encryption\Users\Setup;
+use OCP\ICache;
+use OCP\ICacheFactory;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -32,11 +35,17 @@ class SetupTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
+		$cache = $this->createMock(ICache::class);
+		$cacheFactory = $this->createMock(ICacheFactory::class);
+		$cacheFactory->method('createLocal')
+			->willReturn($cache);
+
 		$this->instance = new Setup(
 			$this->cryptMock,
-			$this->keyManagerMock);
+			$this->keyManagerMock,
+			$cacheFactory,
+		);
 	}
-
 
 	public function testSetupSystem(): void {
 		$this->keyManagerMock->expects($this->once())->method('validateShareKey');

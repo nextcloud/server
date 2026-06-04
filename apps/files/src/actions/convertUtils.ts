@@ -12,8 +12,8 @@ import { emit } from '@nextcloud/event-bus'
 import { n, t } from '@nextcloud/l10n'
 import { generateOcsUrl } from '@nextcloud/router'
 import PQueue from 'p-queue'
-import logger from '../logger.ts'
 import { fetchNode } from '../services/WebdavClient.ts'
+import { logger } from '../utils/logger.ts'
 
 type ConversionResponse = {
 	path: string

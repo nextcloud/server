@@ -144,7 +144,6 @@ class UserStatusMapper extends QBMapper {
 		$qb->executeStatement();
 	}
 
-
 	/**
 	 * Deletes a user status so we can restore the backup
 	 *

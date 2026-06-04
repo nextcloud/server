@@ -38,8 +38,7 @@ export function usePreviewImage(
 		const fallback = toValue(options).fallback ?? true
 		if (source.attributes['has-preview'] !== true
 			&& source.mime !== undefined
-			&& source.mime !== 'application/octet-stream'
-		) {
+			&& source.mime !== 'application/octet-stream') {
 			if (!fallback) {
 				return
 			}

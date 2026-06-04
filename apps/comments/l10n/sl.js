@@ -12,6 +12,7 @@ OC.L10N.register(
     "Files" : "Datoteke",
     "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "Uporabnik, ki je sicer že izbrisan, vas omenja v opombi k datoteki »{file}«.",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} vas omeni v opombi k datoteki »{file}«",
+    "Go to file" : "Odpri mesto datoteke",
     "Files app plugin to add comments to files" : "Vstavek programa Datoteke za dodajanje opomb k datotekam",
     "Edit comment" : "Uredi opombo",
     "Delete comment" : "Izbriši opombo",

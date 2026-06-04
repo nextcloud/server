@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\AppFramework\Middleware;
 
 use OC\AppFramework\Http;
@@ -35,6 +36,7 @@ class OCSMiddleware extends Middleware {
 	 * @param Controller $controller
 	 * @param string $methodName
 	 */
+	#[\Override]
 	public function beforeController($controller, $methodName) {
 		if ($controller instanceof OCSController) {
 			if (substr_compare($this->request->getScriptName(), '/ocs/v2.php', -strlen('/ocs/v2.php')) === 0) {
@@ -53,6 +55,7 @@ class OCSMiddleware extends Middleware {
 	 * @throws \Exception
 	 * @return BaseResponse
 	 */
+	#[\Override]
 	public function afterException($controller, $methodName, \Exception $exception) {
 		if ($controller instanceof OCSController && $exception instanceof OCSException) {
 			$code = $exception->getCode();
@@ -72,6 +75,7 @@ class OCSMiddleware extends Middleware {
 	 * @param Response $response
 	 * @return Response
 	 */
+	#[\Override]
 	public function afterController($controller, $methodName, Response $response) {
 		/*
 		 * If a different middleware has detected that a request unauthorized or forbidden

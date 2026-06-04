@@ -18,6 +18,7 @@ class UserIdHeaderPlugin extends \Sabre\DAV\ServerPlugin {
 	) {
 	}
 
+	#[\Override]
 	public function initialize(\Sabre\DAV\Server $server): void {
 		$server->on('beforeMethod:*', [$this, 'beforeMethod']);
 	}

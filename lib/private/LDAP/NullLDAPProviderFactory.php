@@ -6,19 +6,22 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\LDAP;
 
-use OCP\IServerContainer;
 use OCP\LDAP\ILDAPProviderFactory;
+use Psr\Container\ContainerInterface;
 
 class NullLDAPProviderFactory implements ILDAPProviderFactory {
-	public function __construct(IServerContainer $serverContainer) {
+	public function __construct(ContainerInterface $serverContainer) {
 	}
 
-	public function getLDAPProvider() {
+	#[\Override]
+	public function getLDAPProvider(): never {
 		throw new \Exception('No LDAP provider is available');
 	}
 
+	#[\Override]
 	public function isAvailable(): bool {
 		return false;
 	}

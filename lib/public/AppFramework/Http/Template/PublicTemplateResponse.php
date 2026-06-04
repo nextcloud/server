@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\AppFramework\Http\Template;
 
 use InvalidArgumentException;
@@ -166,6 +167,7 @@ class PublicTemplateResponse extends TemplateResponse {
 	 * @return string
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function render(): string {
 		$params = array_merge($this->getParams(), [
 			'template' => $this,

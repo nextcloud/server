@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Middleware\MiddlewareUtils;
@@ -14,9 +15,11 @@ use OC\AppFramework\Middleware\Security\Exceptions\AppNotEnabledException;
 use OC\AppFramework\Middleware\Security\Exceptions\CrossSiteRequestForgeryException;
 use OC\AppFramework\Middleware\Security\Exceptions\ExAppRequiredException;
 use OC\AppFramework\Middleware\Security\Exceptions\NotAdminException;
+use OC\AppFramework\Middleware\Security\Exceptions\NotConfirmedException;
 use OC\AppFramework\Middleware\Security\Exceptions\NotLoggedInException;
 use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 use OC\AppFramework\Middleware\Security\Exceptions\StrictCookieMissingException;
+use OC\Security\CSRF\CsrfTokenManager;
 use OC\Settings\AuthorizedGroupMapper;
 use OC\User\Session;
 use OCA\Talk\Controller\PageController as TalkPageController;
@@ -45,7 +48,7 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Security\Ip\IRemoteAddress;
-use OCP\Util;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 use ReflectionMethod;
 
@@ -104,6 +107,7 @@ class SecurityMiddleware extends Middleware {
 	 *
 	 * @suppress PhanUndeclaredClassConstant
 	 */
+	#[\Override]
 	public function beforeController($controller, $methodName) {
 		// this will set the current navigation entry of the app, use this only
 		// for normal HTML requests and not for AJAX requests
@@ -193,7 +197,7 @@ class SecurityMiddleware extends Middleware {
 			}
 		}
 		// CSRF check - also registers the CSRF token since the session may be closed later
-		Util::callRegister();
+		Server::get(CsrfTokenManager::class)->generateSessionToken();
 		if ($this->isInvalidCSRFRequired($reflectionMethod)) {
 			/*
 			 * Only allow the CSRF check to fail on OCS Requests. This kind of
@@ -249,6 +253,7 @@ class SecurityMiddleware extends Middleware {
 	 * @return Response a Response object or null in case that the exception could not be handled
 	 * @throws \Exception the passed in exception if it can't handle it
 	 */
+	#[\Override]
 	public function afterException($controller, $methodName, \Exception $exception): Response {
 		if ($exception instanceof SecurityException) {
 			if ($exception instanceof StrictCookieMissingException) {
@@ -280,6 +285,9 @@ class SecurityMiddleware extends Middleware {
 				}
 			}
 
+			if ($exception instanceof NotConfirmedException) {
+				$response->addHeader('X-NC-Auth-NotConfirmed', 'true');
+			}
 			$this->logger->debug($exception->getMessage(), [
 				'exception' => $exception,
 			]);

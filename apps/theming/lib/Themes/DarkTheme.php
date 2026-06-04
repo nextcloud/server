@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Theming\Themes;
 
 use OCA\Theming\ITheme;
@@ -13,26 +14,32 @@ class DarkTheme extends DefaultTheme implements ITheme {
 
 	protected bool $isDarkVariant = true;
 
+	#[\Override]
 	public function getId(): string {
 		return 'dark';
 	}
 
+	#[\Override]
 	public function getTitle(): string {
 		return $this->l->t('Dark theme');
 	}
 
+	#[\Override]
 	public function getEnableLabel(): string {
 		return $this->l->t('Enable dark theme');
 	}
 
+	#[\Override]
 	public function getDescription(): string {
 		return $this->l->t('A dark theme to ease your eyes by reducing the overall luminosity and brightness.');
 	}
 
+	#[\Override]
 	public function getMediaQuery(): string {
 		return '(prefers-color-scheme: dark)';
 	}
 
+	#[\Override]
 	public function getMeta(): array {
 		// https://html.spec.whatwg.org/multipage/semantics.html#meta-color-scheme
 		return [[
@@ -41,6 +48,7 @@ class DarkTheme extends DefaultTheme implements ITheme {
 		]];
 	}
 
+	#[\Override]
 	public function getCSSVariables(): array {
 		$defaultVariables = parent::getCSSVariables();
 
@@ -115,6 +123,9 @@ class DarkTheme extends DefaultTheme implements ITheme {
 				'--color-info-hover' => $this->util->lighten($colorInfo, 10),
 				'--color-info-text' => $colorInfoText,
 				'--color-favorite' => '#ffde00',
+				'--color-mark' => '#4d3800',
+				'--color-background-selection' => 'rgb(from var(--color-primary-element) r g b / 0.4)',
+				'--color-text-selection' => 'var(--color-main-text)',
 				// deprecated
 				'--color-error-rgb' => join(',', $this->util->hexToRGB($colorError)),
 				'--color-warning-rgb' => join(',', $this->util->hexToRGB($colorWarning)),

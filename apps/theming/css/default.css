@@ -42,6 +42,9 @@
   --color-info-hover: #b5e6f6;
   --color-info-text: #0066AC;
   --color-favorite: #A37200;
+  --color-mark: #fff0c7;
+  --color-background-selection: rgb(from var(--color-primary-element) r g b / 0.2);
+  --color-text-selection: var(--color-main-text);
   /** @deprecated use css color functions */
   --color-error-rgb: 255,231,231;
   /** @deprecated use css color functions */
@@ -67,6 +70,12 @@
   --font-face: system-ui, -apple-system, 'Segoe UI', Roboto, Oxygen-Sans, Cantarell, Ubuntu, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   --default-font-size: 15px;
   --font-size-small: 13px;
+  /* Default text font weight */
+  --font-weight-default: 400;
+  /* Font weight for interactive elements */
+  --font-weight-element: 500;
+  /* Weight for titles and headings */
+  --font-weight-heading: 600;
   /* 1.5 x font-size for accessibility */
   --default-line-height: 1.5;
   --animation-quick: 100ms;

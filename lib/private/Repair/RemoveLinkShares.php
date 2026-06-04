@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Repair;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -31,6 +32,7 @@ class RemoveLinkShares implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Remove potentially over exposing share links';
 	}
@@ -184,6 +186,7 @@ class RemoveLinkShares implements IRepairStep {
 		$this->sendNotification();
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		if ($this->shouldRun() === false || ($total = $this->getTotal()) === 0) {
 			$output->info('No need to remove link shares.');

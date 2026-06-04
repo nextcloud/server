@@ -38,6 +38,7 @@ class SearchBuilderTest extends TestCase {
 	/** @var integer */
 	private $numericStorageId;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->builder = Server::get(IDBConnection::class)->getQueryBuilder();
@@ -74,6 +75,7 @@ class SearchBuilderTest extends TestCase {
 			->where($this->builder->expr()->eq('storage', new Literal($this->numericStorageId)));
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		parent::tearDown();
 
@@ -171,7 +173,6 @@ class SearchBuilderTest extends TestCase {
 			[new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_NOT, [
 				new SearchComparison(ISearchComparison::COMPARE_LIKE, 'name', '%bar'),
 			]), [1]],
-
 		];
 	}
 

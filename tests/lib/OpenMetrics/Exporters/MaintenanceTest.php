@@ -13,6 +13,7 @@ use OC\OpenMetrics\Exporters\Maintenance;
 use OCP\OpenMetrics\IMetricFamily;
 
 class MaintenanceTest extends ExporterTestCase {
+	#[\Override]
 	protected function getExporter():IMetricFamily {
 		return new Maintenance();
 	}

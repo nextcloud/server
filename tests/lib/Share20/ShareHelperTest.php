@@ -20,6 +20,7 @@ class ShareHelperTest extends TestCase {
 	/** @var ShareHelper */
 	private $helper;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

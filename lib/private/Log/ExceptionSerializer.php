@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Log;
 
 use OC\Core\Controller\SetupController;
@@ -90,7 +91,6 @@ class ExceptionSerializer {
 		'updateSession',
 		'mention',
 		'loginSessionUser',
-
 	];
 
 	public function __construct(

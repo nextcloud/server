@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Setup;
 
 use OC\DB\ConnectionFactory;
@@ -12,10 +13,12 @@ use OC\DB\ConnectionFactory;
 class Sqlite extends AbstractDatabase {
 	public string $dbprettyname = 'Sqlite';
 
+	#[\Override]
 	public function validate(array $config): array {
 		return [];
 	}
 
+	#[\Override]
 	public function initialize(array $config): void {
 		/*
 		 * Web: When using web based installer its not possible to set dbname
@@ -45,6 +48,7 @@ class Sqlite extends AbstractDatabase {
 		}
 	}
 
+	#[\Override]
 	public function setupDatabase(): void {
 		$datadir = $this->config->getValue(
 			'datadirectory',

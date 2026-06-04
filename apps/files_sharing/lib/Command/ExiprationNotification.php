@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Sharing\Command;
 
 use OCA\Files_Sharing\OrphanHelper;
@@ -29,12 +30,14 @@ class ExiprationNotification extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('sharing:expiration-notification')
 			->setDescription('Notify share initiators when a share will expire the next day.');
 	}
 
+	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		//Current time
 		$minTime = $this->time->getDateTime();

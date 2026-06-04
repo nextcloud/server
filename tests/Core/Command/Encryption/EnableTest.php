@@ -28,6 +28,7 @@ class EnableTest extends TestCase {
 	/** @var \Symfony\Component\Console\Command\Command */
 	protected $command;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -44,7 +45,6 @@ class EnableTest extends TestCase {
 		/** @var \OCP\Encryption\IManager $manager */
 		$this->command = new Enable($config, $manager);
 	}
-
 
 	public static function dataEnable(): array {
 		return [

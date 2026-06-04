@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\SystemTag;
 
 use OCP\EventDispatcher\Event;
@@ -63,6 +64,7 @@ class TagUnassignedEvent extends Event implements IWebhookCompatibleEvent {
 	 * @return array{objectType: string, objectIds: list<string>, tagIds: list<int>}
 	 * @since 32.0.0
 	 */
+	#[\Override]
 	public function getWebhookSerializable(): array {
 		return [
 			'objectType' => $this->getObjectType(),

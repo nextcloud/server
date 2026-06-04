@@ -32,11 +32,11 @@ class FreePromptTaskType implements ITaskType {
 		$this->l = $l10nFactory->get('core');
 	}
 
-
 	/**
 	 * @inheritDoc
 	 * @since 27.1.0
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->l->t('Free prompt');
 	}
@@ -45,6 +45,7 @@ class FreePromptTaskType implements ITaskType {
 	 * @inheritDoc
 	 * @since 27.1.0
 	 */
+	#[\Override]
 	public function getDescription(): string {
 		return $this->l->t('Runs an arbitrary prompt through the language model.');
 	}

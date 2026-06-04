@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Theming\Tests\Controller;
 
 use OC\L10N\L10N;
@@ -633,8 +634,6 @@ class ThemingControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->themingController->undo($value));
 	}
 
-
-
 	public function testGetLogoNotExistent(): void {
 		$this->imageManager->method('getImage')
 			->with($this->equalTo('logo'))
@@ -668,6 +667,28 @@ class ThemingControllerTest extends TestCase {
 		@$this->assertEquals($expected, $this->themingController->getImage('logo', true));
 	}
 
+	public function testGetLogoOriginalFile(): void {
+		$file = $this->createMock(ISimpleFile::class);
+		$file->method('getName')->willReturn('logo');
+		$file->method('getMTime')->willReturn(42);
+		$this->imageManager->expects($this->once())
+			->method('getImage')
+			->willReturn($file);
+		$this->appConfig
+			->expects($this->once())
+			->method('getAppValueString')
+			->with('logoMime', '')
+			->willReturn('image/png');
+
+		@$expected = new FileDisplayResponse($file);
+		$expected->cacheFor(3600);
+		$expected->addHeader('Content-Type', 'image/png');
+		$expected->addHeader('Content-Disposition', 'attachment; filename="logo"');
+		$csp = new ContentSecurityPolicy();
+		$csp->allowInlineStyle();
+		$expected->setContentSecurityPolicy($csp);
+		@$this->assertEquals($expected, $this->themingController->getImage('logo', false));
+	}
 
 	public function testGetLoginBackgroundNotExistent(): void {
 		$this->imageManager->method('getImage')
@@ -711,10 +732,10 @@ class ThemingControllerTest extends TestCase {
 
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataGetManifest')]
 	public function testGetManifest(bool $standalone): void {
-		$this->config
+		$this->appConfig
 			->expects($this->once())
-			->method('getAppValue')
-			->with('theming', 'cachebuster', '0')
+			->method('getAppValueString')
+			->with('cachebuster', '0')
 			->willReturn('0');
 		$this->themingDefaults
 			->expects($this->any())

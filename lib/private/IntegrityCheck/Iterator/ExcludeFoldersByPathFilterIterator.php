@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\IntegrityCheck\Iterator;
 
 use OCP\IConfig;
@@ -43,6 +44,7 @@ class ExcludeFoldersByPathFilterIterator extends \RecursiveFilterIterator {
 		$this->excludedFolders = array_merge($excludedFolders, $appFolders);
 	}
 
+	#[\Override]
 	public function accept(): bool {
 		return !\in_array(
 			$this->current()->getPathName(),

@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Federation;
 
 use OCP\Federation\ICloudFederationShare;
@@ -79,6 +80,7 @@ class CloudFederationShare implements ICloudFederationShare {
 	 *
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function setShareWith($user) {
 		$this->share['shareWith'] = $user;
 	}
@@ -90,6 +92,7 @@ class CloudFederationShare implements ICloudFederationShare {
 	 *
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function setResourceName($name) {
 		$this->share['name'] = $name;
 	}
@@ -101,6 +104,7 @@ class CloudFederationShare implements ICloudFederationShare {
 	 *
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function setResourceType($resourceType) {
 		$this->share['resourceType'] = $resourceType;
 	}
@@ -112,6 +116,7 @@ class CloudFederationShare implements ICloudFederationShare {
 	 *
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function setDescription($description) {
 		$this->share['description'] = $description;
 	}
@@ -123,6 +128,7 @@ class CloudFederationShare implements ICloudFederationShare {
 	 *
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function setProviderId($providerId) {
 		$this->share['providerId'] = (string)$providerId;
 	}
@@ -134,6 +140,7 @@ class CloudFederationShare implements ICloudFederationShare {
 	 *
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function setOwner($owner) {
 		$this->share['owner'] = $owner;
 	}
@@ -145,6 +152,7 @@ class CloudFederationShare implements ICloudFederationShare {
 	 *
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function setOwnerDisplayName($ownerDisplayName) {
 		$this->share['ownerDisplayName'] = $ownerDisplayName;
 	}
@@ -156,6 +164,7 @@ class CloudFederationShare implements ICloudFederationShare {
 	 *
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function setSharedBy($sharedBy) {
 		$this->share['sharedBy'] = $sharedBy;
 		$this->share['sender'] = $sharedBy;
@@ -168,6 +177,7 @@ class CloudFederationShare implements ICloudFederationShare {
 	 *
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function setSharedByDisplayName($sharedByDisplayName) {
 		$this->share['sharedByDisplayName'] = $sharedByDisplayName;
 		$this->share['senderDisplayName'] = $sharedByDisplayName;
@@ -180,6 +190,7 @@ class CloudFederationShare implements ICloudFederationShare {
 	 *
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function setProtocol(array $protocol) {
 		$this->share['protocol'] = $protocol;
 	}
@@ -191,6 +202,7 @@ class CloudFederationShare implements ICloudFederationShare {
 	 *
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function setShareType($shareType) {
 		if ($shareType === 'group' || $shareType === IShare::TYPE_REMOTE_GROUP) {
 			$this->share['shareType'] = 'group';
@@ -206,6 +218,7 @@ class CloudFederationShare implements ICloudFederationShare {
 	 *
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function getShare() {
 		return $this->share;
 	}
@@ -217,6 +230,7 @@ class CloudFederationShare implements ICloudFederationShare {
 	 *
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function getShareWith() {
 		return $this->share['shareWith'];
 	}
@@ -228,6 +242,7 @@ class CloudFederationShare implements ICloudFederationShare {
 	 *
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function getResourceName() {
 		return $this->share['name'];
 	}
@@ -239,6 +254,7 @@ class CloudFederationShare implements ICloudFederationShare {
 	 *
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function getResourceType() {
 		return $this->share['resourceType'];
 	}
@@ -250,6 +266,7 @@ class CloudFederationShare implements ICloudFederationShare {
 	 *
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function getDescription() {
 		return $this->share['description'];
 	}
@@ -261,6 +278,7 @@ class CloudFederationShare implements ICloudFederationShare {
 	 *
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function getProviderId() {
 		return $this->share['providerId'];
 	}
@@ -272,6 +290,7 @@ class CloudFederationShare implements ICloudFederationShare {
 	 *
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function getOwner() {
 		return $this->share['owner'];
 	}
@@ -283,6 +302,7 @@ class CloudFederationShare implements ICloudFederationShare {
 	 *
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function getOwnerDisplayName() {
 		return $this->share['ownerDisplayName'];
 	}
@@ -294,6 +314,7 @@ class CloudFederationShare implements ICloudFederationShare {
 	 *
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function getSharedBy() {
 		return $this->share['sharedBy'];
 	}
@@ -305,6 +326,7 @@ class CloudFederationShare implements ICloudFederationShare {
 	 *
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function getSharedByDisplayName() {
 		return $this->share['sharedByDisplayName'];
 	}
@@ -316,6 +338,7 @@ class CloudFederationShare implements ICloudFederationShare {
 	 *
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function getShareType() {
 		return $this->share['shareType'];
 	}
@@ -327,6 +350,7 @@ class CloudFederationShare implements ICloudFederationShare {
 	 *
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function getShareSecret() {
 		return $this->share['protocol']['options']['sharedSecret'];
 	}
@@ -338,6 +362,7 @@ class CloudFederationShare implements ICloudFederationShare {
 	 *
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function getProtocol() {
 		return $this->share['protocol'];
 	}

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Connector\Sabre;
 
 use Exception;
@@ -73,6 +74,7 @@ class Auth extends AbstractBasic {
 	 * @return bool
 	 * @throws PasswordLoginForbidden
 	 */
+	#[\Override]
 	protected function validateUserPass($username, $password) {
 		if ($this->userSession->isLoggedIn()
 			&& $this->isDavAuthenticated($this->userSession->getUser()->getUID())
@@ -104,6 +106,7 @@ class Auth extends AbstractBasic {
 	 * @throws NotAuthenticated
 	 * @throws ServiceUnavailable
 	 */
+	#[\Override]
 	public function check(RequestInterface $request, ResponseInterface $response) {
 		try {
 			return $this->auth($request, $response);

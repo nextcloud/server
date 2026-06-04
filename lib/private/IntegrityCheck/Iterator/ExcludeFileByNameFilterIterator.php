@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\IntegrityCheck\Iterator;
 
 /**
@@ -42,6 +43,7 @@ class ExcludeFileByNameFilterIterator extends \RecursiveFilterIterator {
 		'/^\.webapp-nextcloud-(\d+\.){2}(\d+)(-r\d+)?$/', // Gentoo/Funtoo & derivatives use a tool known as webapp-config to manage wep-apps.
 	];
 
+	#[\Override]
 	public function accept(): bool {
 		/** @var \SplFileInfo $current */
 		$current = $this->current();

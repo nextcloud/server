@@ -78,9 +78,9 @@ import CollectivesIcon from './CollectivesIcon.vue'
 import FavoriteIcon from './FavoriteIcon.vue'
 import RecentlyCreatedIcon from './RecentlyCreatedIcon.vue'
 import { usePreviewImage } from '../../composables/usePreviewImage.ts'
-import logger from '../../logger.ts'
 import { isLivePhoto } from '../../services/LivePhotos.ts'
 import { useUserConfigStore } from '../../store/userconfig.ts'
+import { logger } from '../../utils/logger.ts'
 
 export default defineComponent({
 	name: 'FileEntryPreview',

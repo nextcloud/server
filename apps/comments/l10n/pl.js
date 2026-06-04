@@ -12,6 +12,7 @@ OC.L10N.register(
     "Files" : "Pliki",
     "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "Wspomniano o Tobie w „{file}” w komentarzu konta, które zostało już usunięte",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} wspomniał o Tobie w komentarzu do “{file}”",
+    "Go to file" : "Przejdź do pliku",
     "Files app plugin to add comments to files" : "Plugin umożliwiający dodawanie komentarzy w aplikacji Pliki",
     "Edit comment" : "Edytuj komentarz",
     "Delete comment" : "Usuń komentarz",

@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\ShareByMail\Tests;
 
 use DateTime;
@@ -635,7 +636,6 @@ class ShareByMailProviderTest extends TestCase {
 		$instance->expects($this->once())->method('sendPassword')->with($share, 'password');
 		$instance->expects($this->never())->method('sendPasswordToOwner');
 
-
 		$message = $this->createMock(IMessage::class);
 		$message->expects($this->never())->method('setTo');
 		$message->expects($this->exactly(2))->method('setBcc')->with(['receiver1@example.com', 'receiver2@example.com', 'receiver3@example.com']);
@@ -719,7 +719,6 @@ class ShareByMailProviderTest extends TestCase {
 		$expiration = new \DateTime();
 		$passwordExpirationTime = new \DateTime();
 
-
 		$instance = $this->getInstance();
 		$id = $this->invokePrivate(
 			$instance,
@@ -776,7 +775,6 @@ class ShareByMailProviderTest extends TestCase {
 		$permissions = 1;
 		$token = 'token';
 		$note = 'personal note';
-
 
 		$instance = $this->getInstance();
 
@@ -906,7 +904,6 @@ class ShareByMailProviderTest extends TestCase {
 		$this->assertInstanceOf('OCP\Share\IShare', $result);
 	}
 
-
 	public function testGetShareByIdFailed(): void {
 		$this->expectException(ShareNotFound::class);
 
@@ -936,7 +933,6 @@ class ShareByMailProviderTest extends TestCase {
 
 		$node = $this->createMock(Node::class);
 		$node->expects($this->once())->method('getId')->willReturn($itemSource);
-
 
 		$instance = $this->getInstance(['createShareObject']);
 
@@ -989,10 +985,8 @@ class ShareByMailProviderTest extends TestCase {
 		$this->assertInstanceOf('OCP\Share\IShare', $result);
 	}
 
-
 	public function testGetShareByTokenFailed(): void {
 		$this->expectException(ShareNotFound::class);
-
 
 		$itemSource = 11;
 		$itemType = 'file';
@@ -1074,7 +1068,6 @@ class ShareByMailProviderTest extends TestCase {
 		$this->assertTrue(is_array($before));
 		$this->assertSame(2, count($before));
 
-
 		$instance = $this->getInstance();
 
 		$instance->userDeleted($uidOwner, IShare::TYPE_EMAIL);
@@ -1115,7 +1108,6 @@ class ShareByMailProviderTest extends TestCase {
 		$this->assertSame($permissions, (int)$result['permissions']);
 		$this->assertSame($token, $result['token']);
 	}
-
 
 	public function testGetRawShareFailed(): void {
 		$this->expectException(ShareNotFound::class);
@@ -1307,7 +1299,7 @@ class ShareByMailProviderTest extends TestCase {
 			->expects($this->once())
 			->method('addBodyButton')
 			->with(
-				'Open file.txt',
+				'Open shared item',
 				'https://example.com/file.txt'
 			);
 		$message
@@ -1426,7 +1418,7 @@ class ShareByMailProviderTest extends TestCase {
 			->expects($this->once())
 			->method('addBodyButton')
 			->with(
-				'Open file.txt',
+				'Open shared item',
 				'https://example.com/file.txt'
 			);
 		$message
@@ -1550,7 +1542,7 @@ class ShareByMailProviderTest extends TestCase {
 			->expects($this->once())
 			->method('addBodyButton')
 			->with(
-				'Open file.txt',
+				'Open shared item',
 				'https://example.com/file.txt'
 			);
 		$message
@@ -1654,7 +1646,7 @@ class ShareByMailProviderTest extends TestCase {
 			->expects($this->once())
 			->method('addBodyButton')
 			->with(
-				'Open file.txt',
+				'Open shared item',
 				'https://example.com/file.txt'
 			);
 		$message
@@ -1748,7 +1740,7 @@ class ShareByMailProviderTest extends TestCase {
 			->expects($this->once())
 			->method('addBodyButton')
 			->with(
-				'Open file.txt',
+				'Open shared item',
 				'https://example.com/file.txt'
 			);
 		$message
@@ -1846,7 +1838,7 @@ class ShareByMailProviderTest extends TestCase {
 			->expects($this->once())
 			->method('addBodyButton')
 			->with(
-				'Open file.txt',
+				'Open shared item',
 				'https://example.com/file.txt'
 			);
 		$message

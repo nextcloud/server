@@ -20,6 +20,7 @@ class DateTimeFormatterTest extends TestCase {
 
 	protected static $defaultTimeZone;
 
+	#[\Override]
 	public static function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();
 		self::$defaultTimeZone = date_default_timezone_get();
@@ -29,11 +30,13 @@ class DateTimeFormatterTest extends TestCase {
 		self::$oneYear = self::$oneDay * 365;
 	}
 
+	#[\Override]
 	public static function tearDownAfterClass(): void {
 		date_default_timezone_set(self::$defaultTimeZone);
 		parent::tearDownAfterClass();
 	}
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->formatter = new DateTimeFormatter(new \DateTimeZone('UTC'), Util::getL10N('lib', 'en'));
@@ -73,7 +76,6 @@ class DateTimeFormatterTest extends TestCase {
 			[$deL10N->n('%n hour ago', '%n hours ago', 1), new \DateTime('Wed, 02 Oct 2013 22:59:59 +0000'), new \DateTime('Wed, 02 Oct 2013 23:59:59 +0000'), $deL10N],
 			[$deL10N->n('%n hour ago', '%n hours ago', 3), new \DateTime('Wed, 02 Oct 2013 20:39:59 +0000'), new \DateTime('Wed, 02 Oct 2013 23:59:59 +0000'), $deL10N],
 			[$deL10N->n('%n day ago', '%n days ago', 2), new \DateTime('Mon, 30 Sep 2013 20:39:59 +0000'), new \DateTime('Wed, 02 Oct 2013 23:59:59 +0000'), $deL10N],
-
 		];
 	}
 
@@ -168,7 +170,6 @@ class DateTimeFormatterTest extends TestCase {
 	public function testFormatDateTime($timestamp, $timeZone, $expected): void {
 		$this->assertEquals($expected, (string)$this->formatter->formatDateTime($timestamp, 'long', 'long', $timeZone));
 	}
-
 
 	public function testFormatDateWithInvalidTZ(): void {
 		$this->expectException(\Exception::class);

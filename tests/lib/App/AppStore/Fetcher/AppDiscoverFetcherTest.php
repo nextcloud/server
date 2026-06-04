@@ -19,6 +19,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 class AppDiscoverFetcherTest extends FetcherBase {
 	protected CompareVersion&MockObject $compareVersion;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->fileName = 'discover.json';

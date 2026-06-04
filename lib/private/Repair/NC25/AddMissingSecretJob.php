@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Repair\NC25;
 
 use OCP\HintException;
@@ -21,10 +22,12 @@ class AddMissingSecretJob implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Add possibly missing system config';
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		$passwordSalt = $this->config->getSystemValueString('passwordsalt', '');
 		if ($passwordSalt === '') {

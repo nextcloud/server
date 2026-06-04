@@ -18,6 +18,7 @@ class MetaDataTest extends \Test\TestCase {
 	private bool $isAdmin = true;
 	private bool $isDelegatedAdmin = true;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->groupManager = $this->getMockBuilder('\OC\Group\Manager')
@@ -50,7 +51,6 @@ class MetaDataTest extends \Test\TestCase {
 
 		return $group;
 	}
-
 
 	public function testGet(): void {
 		$group = $this->getGroupMock();

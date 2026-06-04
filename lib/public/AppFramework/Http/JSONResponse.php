@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\AppFramework\Http;
 
 use OCP\AppFramework\Http;
@@ -29,7 +30,6 @@ class JSONResponse extends Response {
 	 */
 	protected $encodeFlags;
 
-
 	/**
 	 * constructor of JSONResponse
 	 * @param T $data the object or array that should be transformed
@@ -52,7 +52,6 @@ class JSONResponse extends Response {
 		$this->addHeader('Content-Type', 'application/json; charset=utf-8');
 	}
 
-
 	/**
 	 * Returns the rendered json
 	 * @return string the rendered json
@@ -62,7 +61,9 @@ class JSONResponse extends Response {
 	 * @psalm-taint-escape has_quotes
 	 * @psalm-taint-escape html
 	 */
+	#[\Override]
 	public function render() {
+		/** @psalm-suppress FalsableReturnStatement */
 		return json_encode($this->data, JSON_HEX_TAG | JSON_THROW_ON_ERROR | $this->encodeFlags, 2048);
 	}
 
@@ -79,7 +80,6 @@ class JSONResponse extends Response {
 
 		return $this;
 	}
-
 
 	/**
 	 * @return T the data

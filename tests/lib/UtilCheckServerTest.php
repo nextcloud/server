@@ -40,6 +40,7 @@ class UtilCheckServerTest extends \Test\TestCase {
 		return $config;
 	}
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -49,6 +50,7 @@ class UtilCheckServerTest extends \Test\TestCase {
 		Server::get(ISession::class)->set('checkServer_succeeded', false);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		// clean up
 		@unlink($this->datadir . '/.ncdata');

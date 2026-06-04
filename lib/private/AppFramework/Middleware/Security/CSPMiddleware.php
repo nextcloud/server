@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\AppFramework\Middleware\Security;
 
 use OC\Security\CSP\ContentSecurityPolicyManager;
@@ -33,6 +34,7 @@ class CSPMiddleware extends Middleware {
 	 * @param Response $response
 	 * @return Response
 	 */
+	#[\Override]
 	public function afterController($controller, $methodName, Response $response): Response {
 		$policy = !is_null($response->getContentSecurityPolicy()) ? $response->getContentSecurityPolicy() : new ContentSecurityPolicy();
 

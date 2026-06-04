@@ -16,7 +16,7 @@ use OCP\SetupCheck\SetupResult;
 use OCP\TaskProcessing\IManager;
 
 class TaskProcessingPickupSpeed implements ISetupCheck {
-	public const MAX_SLOW_PERCENTAGE = 0.2;
+	public const MAX_SLOW_PERCENTAGE = 0.1;
 
 	public const MAX_DAYS = 14;
 
@@ -27,14 +27,17 @@ class TaskProcessingPickupSpeed implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'ai';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Task Processing pickup speed');
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		$taskCount = 0;
 		$lastNDays = 1;

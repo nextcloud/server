@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Files\Lock;
 
 use OCP\Files\Lock\ILock;
@@ -20,6 +21,7 @@ class LockManager implements ILockManager {
 	private ?ILockProvider $lockProvider = null;
 	private ?LockContext $lockInScope = null;
 
+	#[\Override]
 	public function registerLockProvider(ILockProvider $lockProvider): void {
 		if ($this->lockProvider) {
 			throw new PreConditionNotMetException('There is already a registered lock provider');
@@ -28,6 +30,7 @@ class LockManager implements ILockManager {
 		$this->lockProvider = $lockProvider;
 	}
 
+	#[\Override]
 	public function registerLazyLockProvider(string $lockProviderClass): void {
 		if ($this->lockProviderClass || $this->lockProvider) {
 			throw new PreConditionNotMetException('There is already a registered lock provider');
@@ -50,10 +53,12 @@ class LockManager implements ILockManager {
 		return $this->lockProvider;
 	}
 
+	#[\Override]
 	public function isLockProviderAvailable(): bool {
 		return $this->getLockProvider() !== null;
 	}
 
+	#[\Override]
 	public function runInScope(LockContext $lock, callable $callback): void {
 		if (!$this->getLockProvider()) {
 			$callback();
@@ -72,10 +77,12 @@ class LockManager implements ILockManager {
 		}
 	}
 
+	#[\Override]
 	public function getLockInScope(): ?LockContext {
 		return $this->lockInScope;
 	}
 
+	#[\Override]
 	public function getLocks(int $fileId): array {
 		if (!$this->getLockProvider()) {
 			throw new PreConditionNotMetException('No lock provider available');
@@ -84,6 +91,7 @@ class LockManager implements ILockManager {
 		return $this->getLockProvider()->getLocks($fileId);
 	}
 
+	#[\Override]
 	public function lock(LockContext $lockInfo): ILock {
 		if (!$this->getLockProvider()) {
 			throw new PreConditionNotMetException('No lock provider available');
@@ -92,6 +100,7 @@ class LockManager implements ILockManager {
 		return $this->getLockProvider()->lock($lockInfo);
 	}
 
+	#[\Override]
 	public function unlock(LockContext $lockInfo): void {
 		if (!$this->getLockProvider()) {
 			throw new PreConditionNotMetException('No lock provider available');

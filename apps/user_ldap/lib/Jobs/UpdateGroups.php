@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP\Jobs;
 
 use OCA\User_LDAP\Service\UpdateGroupsService;
@@ -31,6 +32,7 @@ class UpdateGroups extends TimedJob {
 	 * @param mixed $argument
 	 * @throws Exception
 	 */
+	#[\Override]
 	public function run($argument): void {
 		$this->logger->debug('Run background job "updateGroups"');
 		$this->service->updateGroups();

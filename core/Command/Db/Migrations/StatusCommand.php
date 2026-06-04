@@ -5,11 +5,13 @@
  * SPDX-FileCopyrightText: 2017 ownCloud GmbH
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Command\Db\Migrations;
 
 use OC\DB\Connection;
 use OC\DB\MigrationService;
 use OC\Migration\ConsoleOutput;
+use OCP\App\IAppManager;
 use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareInterface;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Command\Command;
@@ -20,10 +22,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 class StatusCommand extends Command implements CompletionAwareInterface {
 	public function __construct(
 		private Connection $connection,
+		private IAppManager $appManager,
 	) {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('migrations:status')
@@ -31,6 +35,7 @@ class StatusCommand extends Command implements CompletionAwareInterface {
 			->addArgument('app', InputArgument::REQUIRED, 'Name of the app this migration command shall work on');
 	}
 
+	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$appName = $input->getArgument('app');
 		$ms = new MigrationService($appName, $this->connection, new ConsoleOutput($output));
@@ -54,6 +59,7 @@ class StatusCommand extends Command implements CompletionAwareInterface {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
+	#[\Override]
 	public function completeOptionValues($optionName, CompletionContext $context) {
 		return [];
 	}
@@ -63,10 +69,11 @@ class StatusCommand extends Command implements CompletionAwareInterface {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
+	#[\Override]
 	public function completeArgumentValues($argumentName, CompletionContext $context) {
 		if ($argumentName === 'app') {
-			$allApps = \OC_App::getAllApps();
-			return array_diff($allApps, \OC_App::getEnabledApps(true, true));
+			$allApps = $this->appManager->getAllAppsInAppsFolders();
+			return array_diff($allApps, $this->appManager->getEnabledApps());
 		}
 		return [];
 	}

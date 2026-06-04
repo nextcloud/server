@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Sharing\Migration;
 
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -29,6 +30,7 @@ class SetAcceptedStatus implements IRepairStep {
 	 * @return string
 	 * @since 9.1.0
 	 */
+	#[\Override]
 	public function getName(): string {
 		return 'Set existing shares as accepted';
 	}
@@ -36,6 +38,7 @@ class SetAcceptedStatus implements IRepairStep {
 	/**
 	 * @param IOutput $output
 	 */
+	#[\Override]
 	public function run(IOutput $output): void {
 		if (!$this->shouldRun()) {
 			return;

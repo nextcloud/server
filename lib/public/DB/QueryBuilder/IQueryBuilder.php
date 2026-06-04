@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\DB\QueryBuilder;
 
 use Doctrine\DBAL\ArrayParameterType;
@@ -1098,7 +1099,7 @@ interface IQueryBuilder {
 	 * Locks the queried rows for a subsequent update.
 	 *
 	 * @return $this
-	 * @since 34.0.0
+	 * @since 33.0.0
 	 */
 	public function forUpdate(ConflictResolutionMode $conflictResolutionMode = ConflictResolutionMode::Ordinary): self;
 }

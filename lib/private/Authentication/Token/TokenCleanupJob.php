@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Authentication\Token;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -22,6 +23,7 @@ class TokenCleanupJob extends TimedJob {
 		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
+	#[\Override]
 	protected function run($argument) {
 		$this->provider->invalidateOldTokens();
 	}

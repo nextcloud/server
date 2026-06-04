@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Repair;
 
 use OCP\DB\Exception;
@@ -33,6 +34,7 @@ class RepairDavShares implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Repair DAV shares';
 	}
@@ -88,6 +90,7 @@ class RepairDavShares implements IRepairStep {
 		return true;
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		$versionFromBeforeUpdate = $this->config->getSystemValueString('version', '0.0.0');
 		if (version_compare($versionFromBeforeUpdate, '20.0.8', '<')

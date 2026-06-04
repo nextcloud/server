@@ -51,22 +51,26 @@ use Test\TestMoveableMountPoint;
 use Test\Traits\UserTrait;
 
 class TemporaryNoTouch extends Temporary {
+	#[\Override]
 	public function touch(string $path, ?int $mtime = null): bool {
 		return false;
 	}
 }
 
 class TemporaryNoCross extends Temporary {
+	#[\Override]
 	public function copyFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath, bool $preserveMtime = false): bool {
 		return Common::copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime);
 	}
 
+	#[\Override]
 	public function moveFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): bool {
 		return Common::moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 	}
 }
 
 class TemporaryNoLocal extends Temporary {
+	#[\Override]
 	public function instanceOfStorage(string $class): bool {
 		if ($class === '\OC\Files\Storage\Local') {
 			return false;
@@ -121,6 +125,7 @@ class ViewTest extends \Test\TestCase {
 	/** @var Storage */
 	private $tempStorage;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		\OC_Hook::clear();
@@ -146,6 +151,7 @@ class ViewTest extends \Test\TestCase {
 		$this->tempStorage = null;
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		\OC_User::setUserId($this->user);
 		foreach ($this->storages as $storage) {
@@ -209,6 +215,7 @@ class ViewTest extends \Test\TestCase {
 		$this->assertEquals('httpd/unix-directory', $cachedData['mimetype']);
 
 		$folderData = $rootView->getDirectoryContent('/');
+		usort($folderData, fn (FileInfo $a, FileInfo $b) => $a->getName() <=> $b->getName());
 		/**
 		 * expected entries:
 		 * folder
@@ -228,6 +235,7 @@ class ViewTest extends \Test\TestCase {
 		$this->assertEquals($storageSize, $folderData[3]['size']);
 
 		$folderData = $rootView->getDirectoryContent('/substorage');
+		usort($folderData, fn (FileInfo $a, FileInfo $b) => $a->getName() <=> $b->getName());
 		/**
 		 * expected entries:
 		 * folder
@@ -274,7 +282,6 @@ class ViewTest extends \Test\TestCase {
 
 		$rootView = new View('/test/files');
 
-
 		$cachedData = $rootView->getFileInfo('/foo.txt');
 		$id1 = $cachedData->getId();
 		$this->assertEquals('/foo.txt', $rootView->getPath($id1));
@@ -286,7 +293,6 @@ class ViewTest extends \Test\TestCase {
 		$folderView = new View('/test/files/substorage');
 		$this->assertEquals('/foo.txt', $folderView->getPath($id2));
 	}
-
 
 	public function testGetPathNotExisting(): void {
 		$this->expectException(NotFoundException::class);
@@ -414,8 +420,8 @@ class ViewTest extends \Test\TestCase {
 		foreach ($results as $result) {
 			$paths[] = $result['path'];
 		}
-		$this->assertContains('/anotherstorage/folder/bar.txt', $paths);
-		$this->assertContains('/bar.txt', $paths);
+		$this->assertContains('/folder/anotherstorage/folder/bar.txt', $paths);
+		$this->assertContains('/folder/bar.txt', $paths);
 
 		$results = $folderView->search('foo');
 		$this->assertCount(2, $results);
@@ -423,8 +429,8 @@ class ViewTest extends \Test\TestCase {
 		foreach ($results as $result) {
 			$paths[] = $result['path'];
 		}
-		$this->assertContains('/anotherstorage/foo.txt', $paths);
-		$this->assertContains('/anotherstorage/foo.png', $paths);
+		$this->assertContains('/folder/anotherstorage/foo.txt', $paths);
+		$this->assertContains('/folder/anotherstorage/foo.png', $paths);
 
 		$this->assertCount(6, $rootView->searchByMime('text'));
 		$this->assertCount(3, $folderView->searchByMime('text'));
@@ -593,20 +599,6 @@ class ViewTest extends \Test\TestCase {
 		$cachedData = $rootView->getFileInfo('foo.txt');
 		$this->assertGreaterThanOrEqual($oldCachedData['mtime'], $cachedData['mtime']);
 		$this->assertEquals($cachedData['storage_mtime'], $cachedData['mtime']);
-	}
-
-	public function testTouchFloat(): void {
-		$storage = $this->getTestStorage(true, TemporaryNoTouch::class);
-
-		Filesystem::mount($storage, [], '/');
-
-		$rootView = new View('');
-		$oldCachedData = $rootView->getFileInfo('foo.txt');
-
-		$rootView->touch('foo.txt', 500.5);
-
-		$cachedData = $rootView->getFileInfo('foo.txt');
-		$this->assertEquals(500, $cachedData['mtime']);
 	}
 
 	public function testViewHooks(): void {
@@ -1035,7 +1027,6 @@ class ViewTest extends \Test\TestCase {
 	public function testTooLongPath($operation, $param0 = null): void {
 		$this->expectException(InvalidPathException::class);
 
-
 		$longPath = '';
 		// 4000 is the maximum path length in file_cache.path
 		$folderName = 'abcdefghijklmnopqrstuvwxyz012345678901234567890123456789';
@@ -1268,7 +1259,6 @@ class ViewTest extends \Test\TestCase {
 		$view = new View();
 		$this->assertNull($view->getRelativePath(null));
 	}
-
 
 	public function testNullAsRoot(): void {
 		$this->expectException(\TypeError::class);
@@ -2569,7 +2559,6 @@ class ViewTest extends \Test\TestCase {
 		return null;
 	}
 
-
 	public function testRemoveMoveableMountPoint(): void {
 		$mountPoint = '/' . $this->user . '/files/mount/';
 
@@ -2581,7 +2570,7 @@ class ViewTest extends \Test\TestCase {
 			->willReturn($mountPoint);
 		$mount->expects($this->once())
 			->method('removeMount')
-			->willReturn('foo');
+			->willReturn(true);
 		$mount->expects($this->any())
 			->method('getInternalPath')
 			->willReturn('');
@@ -2825,11 +2814,13 @@ class ViewTest extends \Test\TestCase {
 		$rootView = new View('');
 
 		$folderData = $rootView->getDirectoryContent('/');
+		usort($folderData, fn (FileInfo $a, FileInfo $b) => $a->getName() <=> $b->getName());
 		$this->assertCount(4, $folderData);
-		$this->assertEquals('folder', $folderData[0]['name']);
-		$this->assertEquals('foo.png', $folderData[1]['name']);
-		$this->assertEquals('foo.txt', $folderData[2]['name']);
-		$this->assertEquals('A', $folderData[3]['name']);
+
+		$this->assertEquals('A', $folderData[0]['name']);
+		$this->assertEquals('folder', $folderData[1]['name']);
+		$this->assertEquals('foo.png', $folderData[2]['name']);
+		$this->assertEquals('foo.txt', $folderData[3]['name']);
 
 		$folderData = $rootView->getDirectoryContent('/A');
 		$this->assertCount(1, $folderData);
@@ -2840,6 +2831,7 @@ class ViewTest extends \Test\TestCase {
 		$this->assertEquals('C', $folderData[0]['name']);
 
 		$folderData = $rootView->getDirectoryContent('/A/B/C');
+		usort($folderData, fn (FileInfo $a, FileInfo $b) => $a->getName() <=> $b->getName());
 		$this->assertCount(3, $folderData);
 		$this->assertEquals('folder', $folderData[0]['name']);
 		$this->assertEquals('foo.png', $folderData[1]['name']);

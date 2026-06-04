@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Files\Sharing;
 
 use OCP\Files\Folder;
@@ -35,6 +36,7 @@ class FilesDropPlugin extends ServerPlugin {
 	 * This initializes the plugin.
 	 * It is ONLY initialized by the server on a file drop request.
 	 */
+	#[\Override]
 	public function initialize(\Sabre\DAV\Server $server): void {
 		$server->on('beforeMethod:*', [$this, 'beforeMethod'], 999);
 		$server->on('method:MKCOL', [$this, 'onMkcol']);

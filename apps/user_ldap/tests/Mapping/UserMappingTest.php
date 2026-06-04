@@ -6,12 +6,14 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP\Tests\Mapping;
 
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IDBConnection;
+use OCP\IRequest;
 use OCP\Support\Subscription\IAssertion;
 
 /**
@@ -23,6 +25,6 @@ use OCP\Support\Subscription\IAssertion;
 #[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class UserMappingTest extends AbstractMappingTestCase {
 	public function getMapper(IDBConnection $dbMock, ICacheFactory $cacheFactory, IAppConfig $appConfig): UserMapping {
-		return new UserMapping($dbMock, $cacheFactory, $appConfig, true, $this->createMock(IAssertion::class));
+		return new UserMapping($dbMock, $cacheFactory, $appConfig, true, $this->createMock(IAssertion::class), $this->createMock(IRequest::class));
 	}
 }

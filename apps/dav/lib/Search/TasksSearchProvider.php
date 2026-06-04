@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Search;
 
 use OCA\DAV\CalDAV\CalDavBackend;
@@ -24,7 +25,7 @@ class TasksSearchProvider extends ACalendarSearchProvider {
 	/**
 	 * @var string[]
 	 */
-	private static $searchProperties = [
+	private const SEARCH_PROPERTIES = [
 		'SUMMARY',
 		'DESCRIPTION',
 		'CATEGORIES',
@@ -33,16 +34,17 @@ class TasksSearchProvider extends ACalendarSearchProvider {
 	/**
 	 * @var string[]
 	 */
-	private static $searchParameters = [];
+	private const SEARCH_PARAMETERS = [];
 
 	/**
 	 * @var string
 	 */
-	private static $componentType = 'VTODO';
+	private const COMPONENT_TYPE = 'VTODO';
 
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getId(): string {
 		return 'tasks';
 	}
@@ -50,6 +52,7 @@ class TasksSearchProvider extends ACalendarSearchProvider {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Tasks');
 	}
@@ -57,6 +60,7 @@ class TasksSearchProvider extends ACalendarSearchProvider {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getOrder(string $route, array $routeParameters): ?int {
 		if ($this->appManager->isEnabledForUser('tasks')) {
 			return $route === 'tasks.Page.index' ? -1 : 35;
@@ -68,6 +72,7 @@ class TasksSearchProvider extends ACalendarSearchProvider {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function search(
 		IUser $user,
 		ISearchQuery $query,
@@ -83,9 +88,9 @@ class TasksSearchProvider extends ACalendarSearchProvider {
 		$searchResults = $this->backend->searchPrincipalUri(
 			$principalUri,
 			$query->getFilter('term')?->get() ?? '',
-			[self::$componentType],
-			self::$searchProperties,
-			self::$searchParameters,
+			[self::COMPONENT_TYPE],
+			self::SEARCH_PROPERTIES,
+			self::SEARCH_PARAMETERS,
 			[
 				'limit' => $query->getLimit(),
 				'offset' => $query->getCursor(),
@@ -94,7 +99,7 @@ class TasksSearchProvider extends ACalendarSearchProvider {
 			]
 		);
 		$formattedResults = \array_map(function (array $taskRow) use ($calendarsById, $subscriptionsById):SearchResultEntry {
-			$component = $this->getPrimaryComponent($taskRow['calendardata'], self::$componentType);
+			$component = $this->getPrimaryComponent($taskRow['calendardata'], self::COMPONENT_TYPE);
 			$title = (string)($component->SUMMARY ?? $this->l10n->t('Untitled task'));
 
 			if ($taskRow['calendartype'] === CalDavBackend::CALENDAR_TYPE_CALENDAR) {

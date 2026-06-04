@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Avatar;
 
 use Imagick;
@@ -64,6 +65,7 @@ abstract class Avatar implements IAvatar {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function get(int $size = 64, bool $darkTheme = false) {
 		try {
 			$file = $this->getFile($size, $darkTheme);
@@ -227,7 +229,6 @@ abstract class Avatar implements IAvatar {
 		return [$x, $y];
 	}
 
-
 	/**
 	 * Convert a string to an integer evenly
 	 * @param string $hash the text to parse
@@ -254,6 +255,7 @@ abstract class Avatar implements IAvatar {
 	/**
 	 * @return Color Object containing r g b int in the range [0, 255]
 	 */
+	#[\Override]
 	public function avatarBackgroundColor(string $hash): Color {
 		// Normalize hash
 		$hash = strtolower($hash);

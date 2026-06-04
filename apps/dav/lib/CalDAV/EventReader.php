@@ -14,7 +14,6 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
 use InvalidArgumentException;
-
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\Reader;
@@ -372,7 +371,6 @@ class EventReader {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -397,7 +395,6 @@ class EventReader {
 		$count += (int)$this->rdateIterator?->concludesAfter();
 		// return count
 		return !empty($count) ? $count : null;
-
 	}
 
 	/**
@@ -438,7 +435,6 @@ class EventReader {
 		}
 
 		return null;
-
 	}
 
 	/**

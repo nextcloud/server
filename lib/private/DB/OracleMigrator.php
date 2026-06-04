@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\DB;
 
 use Doctrine\DBAL\Exception;
@@ -18,6 +19,7 @@ class OracleMigrator extends Migrator {
 	 * @return \Doctrine\DBAL\Schema\SchemaDiff
 	 * @throws Exception
 	 */
+	#[\Override]
 	protected function getDiff(Schema $targetSchema, \Doctrine\DBAL\Connection $connection): \Doctrine\DBAL\Schema\SchemaDiff {
 		// oracle forces us to quote the identifiers
 		$quotedSchema = new Schema();
@@ -123,6 +125,7 @@ class OracleMigrator extends Migrator {
 	 * @param $statement
 	 * @return string
 	 */
+	#[\Override]
 	protected function convertStatementToScript($statement) {
 		if (str_ends_with($statement, ';')) {
 			return $statement . PHP_EOL . '/' . PHP_EOL;
@@ -133,6 +136,7 @@ class OracleMigrator extends Migrator {
 		return $script;
 	}
 
+	#[\Override]
 	protected function getFilterExpression() {
 		return '/^"' . preg_quote($this->config->getSystemValueString('dbtableprefix', 'oc_')) . '/';
 	}

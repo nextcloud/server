@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace Test\Mail\Provider;
 
 use OCP\Mail\Provider\Address;
@@ -26,6 +27,7 @@ class MessageTest extends TestCase {
 	/** @var Attachment&MockObject */
 	private Attachment $attachment2;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

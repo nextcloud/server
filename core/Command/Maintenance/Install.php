@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Command\Maintenance;
 
 use bantu\IniGetWrapper\IniGetWrapper;
@@ -33,6 +34,7 @@ class Install extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('maintenance:install')
@@ -53,6 +55,7 @@ class Install extends Command {
 			->addOption('server-secret', null, InputOption::VALUE_OPTIONAL, 'Server secret, at least ' . Setup::MIN_SECRET_LENGTH . ' characters (will be randomly generated if not provided)');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		// validate the environment
 		$setupHelper = Server::get(Setup::class);

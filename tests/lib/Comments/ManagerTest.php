@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace Test\Comments;
 
 use OC\Comments\Comment;
@@ -40,6 +41,7 @@ class ManagerTest extends TestCase {
 	private IDBConnection $connection;
 	private IRootFolder&MockObject $rootFolder;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -97,14 +99,12 @@ class ManagerTest extends TestCase {
 		);
 	}
 
-
 	public function testGetCommentNotFound(): void {
 		$this->expectException(NotFoundException::class);
 
 		$manager = $this->getManager();
 		$manager->get('22');
 	}
-
 
 	public function testGetCommentNotFoundInvalidInput(): void {
 		$this->expectException(\InvalidArgumentException::class);
@@ -445,7 +445,6 @@ class ManagerTest extends TestCase {
 		$this->assertSame($objectId, $comment->getObjectId());
 	}
 
-
 	public function testDelete(): void {
 		$this->expectException(NotFoundException::class);
 
@@ -544,7 +543,6 @@ class ManagerTest extends TestCase {
 		);
 	}
 
-
 	public function testSaveUpdateException(): void {
 		$manager = $this->getManager();
 		$comment = new Comment();
@@ -562,7 +560,6 @@ class ManagerTest extends TestCase {
 		$this->expectException(NotFoundException::class);
 		$manager->save($comment);
 	}
-
 
 	public function testSaveIncomplete(): void {
 
@@ -930,7 +927,6 @@ class ManagerTest extends TestCase {
 		$this->assertSame('SOMBRERO', $manager->resolveDisplayName('galaxy', 'sombrero'));
 	}
 
-
 	public function testRegisterResolverDuplicate(): void {
 		$this->expectException(\OutOfBoundsException::class);
 
@@ -940,7 +936,6 @@ class ManagerTest extends TestCase {
 		$manager->registerDisplayNameResolver('planet', $planetClosure);
 		$manager->registerDisplayNameResolver('planet', $planetClosure);
 	}
-
 
 	public function testResolveDisplayNameUnregisteredType(): void {
 		$this->expectException(\OutOfBoundsException::class);
@@ -2466,7 +2461,6 @@ class ManagerTest extends TestCase {
 	public function testReactionsSummarizeOrdered(array $comments, array $expected, bool $isFullMatch): void {
 		$this->skipIfNotSupport4ByteUTF();
 		$manager = $this->getManager();
-
 
 		$processedComments = $this->proccessComments($comments);
 		$comment = end($processedComments);

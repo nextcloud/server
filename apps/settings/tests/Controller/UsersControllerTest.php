@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2014-2015 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Tests\Controller;
 
 use OC\Accounts\AccountManager;
@@ -784,7 +785,6 @@ class UsersControllerTest extends \Test\TestCase {
 				'JOHN@example.com',
 				null
 			],
-
 		];
 	}
 
@@ -834,7 +834,6 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->invokePrivate($controller, 'saveUserSettings', [$userAccount]);
 	}
 
-
 	public static function dataTestSaveUserSettingsException(): array {
 		return [
 			[
@@ -867,7 +866,6 @@ class UsersControllerTest extends \Test\TestCase {
 				false,
 				false
 			],
-
 		];
 	}
 

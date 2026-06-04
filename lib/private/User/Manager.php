@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\User;
 
 use OC\Hooks\PublicEmitter;
@@ -19,6 +20,7 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserBackend;
 use OCP\IUserManager;
@@ -37,6 +39,7 @@ use OCP\User\Events\UserCreatedEvent;
 use OCP\UserInterface;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
+use RuntimeException;
 
 /**
  * Class Manager
@@ -70,6 +73,9 @@ class Manager extends PublicEmitter implements IUserManager {
 
 	private DisplayNameCache $displayNameCache;
 
+	// IURLGenerator can't be injected through DI
+	private ?IURLGenerator $urlGenerator;
+
 	// This constructor can't autoload any class requiring a DB connection.
 	public function __construct(
 		private IConfig $config,
@@ -88,14 +94,17 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * Get the active backends
 	 * @return UserInterface[]
 	 */
+	#[\Override]
 	public function getBackends(): array {
 		return $this->backends;
 	}
 
+	#[\Override]
 	public function registerBackend(UserInterface $backend): void {
 		$this->backends[] = $backend;
 	}
 
+	#[\Override]
 	public function removeBackend(UserInterface $backend): void {
 		$this->cachedUsers = [];
 		if (($i = array_search($backend, $this->backends)) !== false) {
@@ -103,6 +112,7 @@ class Manager extends PublicEmitter implements IUserManager {
 		}
 	}
 
+	#[\Override]
 	public function clearBackends(): void {
 		$this->cachedUsers = [];
 		$this->backends = [];
@@ -114,6 +124,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @param string $uid
 	 * @return User|null Either the user or null if the specified user does not exist
 	 */
+	#[\Override]
 	public function get($uid) {
 		if (is_null($uid) || $uid === '' || $uid === false) {
 			return null;
@@ -150,6 +161,7 @@ class Manager extends PublicEmitter implements IUserManager {
 		return null;
 	}
 
+	#[\Override]
 	public function getDisplayName(string $uid): ?string {
 		return $this->displayNameCache->getDisplayName($uid);
 	}
@@ -184,6 +196,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @param string $uid
 	 * @return bool
 	 */
+	#[\Override]
 	public function userExists($uid) {
 		if (strlen($uid) > IUser::MAX_USERID_LENGTH) {
 			return false;
@@ -200,6 +213,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @param string $password
 	 * @return IUser|false the User object on success, false otherwise
 	 */
+	#[\Override]
 	public function checkPassword($loginName, $password) {
 		$result = $this->checkPasswordNoLogging($loginName, $password);
 
@@ -256,6 +270,7 @@ class Manager extends PublicEmitter implements IUserManager {
 		return false;
 	}
 
+	#[\Override]
 	public function search($pattern, $limit = null, $offset = null) {
 		$users = [];
 		foreach ($this->backends as $backend) {
@@ -273,6 +288,7 @@ class Manager extends PublicEmitter implements IUserManager {
 		return $users;
 	}
 
+	#[\Override]
 	public function searchDisplayName($pattern, $limit = null, $offset = null) {
 		$users = [];
 		foreach ($this->backends as $backend) {
@@ -293,6 +309,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	/**
 	 * @return IUser[]
 	 */
+	#[\Override]
 	public function getDisabledUsers(?int $limit = null, int $offset = 0, string $search = ''): array {
 		$users = $this->config->getUsersForUserValue('core', 'enabled', 'false');
 		$users = array_combine(
@@ -342,6 +359,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @param int|null $offset
 	 * @return IUser[]
 	 */
+	#[\Override]
 	public function searchKnownUsersByDisplayName(string $searcher, string $pattern, ?int $limit = null, ?int $offset = null): array {
 		$users = [];
 		foreach ($this->backends as $backend) {
@@ -375,6 +393,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @throws \InvalidArgumentException
 	 * @throws HintException
 	 */
+	#[\Override]
 	public function createUser($uid, $password): IUser|false {
 		// DI injection is not used here as IRegistry needs the user manager itself for user count and thus it would create a cyclic dependency
 		/** @var IAssertion $assertion */
@@ -408,6 +427,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @param string $password
 	 * @throws \InvalidArgumentException
 	 */
+	#[\Override]
 	public function createUserFromBackend($uid, $password, UserInterface $backend): IUser|false {
 		$l = Util::getL10N('lib');
 
@@ -445,6 +465,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 *
 	 * @return array<string, int> an array of backend class as key and count number as value
 	 */
+	#[\Override]
 	public function countUsers(bool $onlyMappedUsers = false) {
 		$userCountStatistics = [];
 		foreach ($this->backends as $backend) {
@@ -472,6 +493,7 @@ class Manager extends PublicEmitter implements IUserManager {
 		return $userCountStatistics;
 	}
 
+	#[\Override]
 	public function countUsersTotal(int $limit = 0, bool $onlyMappedUsers = false): int|false {
 		$userCount = false;
 
@@ -536,6 +558,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 *                          in the preferences table will be affected
 	 * @since 9.0.0
 	 */
+	#[\Override]
 	public function callForAllUsers(\Closure $callback, $search = '', $onlySeen = false) {
 		if ($onlySeen) {
 			$this->callForSeenUsers($callback);
@@ -567,6 +590,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @return int
 	 * @since 12.0.0
 	 */
+	#[\Override]
 	public function countDisabledUsers(): int {
 		$queryBuilder = Server::get(IDBConnection::class)->getQueryBuilder();
 		$queryBuilder->select($queryBuilder->func()->count('*'))
@@ -574,7 +598,6 @@ class Manager extends PublicEmitter implements IUserManager {
 			->where($queryBuilder->expr()->eq('appid', $queryBuilder->createNamedParameter('core')))
 			->andWhere($queryBuilder->expr()->eq('configkey', $queryBuilder->createNamedParameter('enabled')))
 			->andWhere($queryBuilder->expr()->eq('configvalue', $queryBuilder->createNamedParameter('false'), IQueryBuilder::PARAM_STR));
-
 
 		$result = $queryBuilder->executeQuery();
 		$count = $result->fetchOne();
@@ -595,6 +618,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @return int
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function countSeenUsers() {
 		$queryBuilder = Server::get(IDBConnection::class)->getQueryBuilder();
 		$queryBuilder->select($queryBuilder->func()->count('*'))
@@ -610,6 +634,7 @@ class Manager extends PublicEmitter implements IUserManager {
 		return $result;
 	}
 
+	#[\Override]
 	public function callForSeenUsers(\Closure $callback) {
 		$users = $this->getSeenUsers();
 		foreach ($users as $user) {
@@ -672,6 +697,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @return IUser[]
 	 * @since 9.1.0
 	 */
+	#[\Override]
 	public function getByEmail($email): array {
 		$users = [];
 		$userConfig = $this->getUserConfig();
@@ -692,6 +718,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @throws \InvalidArgumentException Message is an already translated string with a reason why the id is not valid
 	 * @since 26.0.0
 	 */
+	#[\Override]
 	public function validateUserId(string $uid, bool $checkDataDirectory = false): void {
 		$l = Server::get(IFactory::class)->get('lib');
 
@@ -736,6 +763,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @param string $search search users based on search params
 	 * @return list<string> list of user IDs
 	 */
+	#[\Override]
 	public function getLastLoggedInUsers(?int $limit = null, int $offset = 0, string $search = ''): array {
 		// We can't load all users who already logged in
 		$limit = min(100, $limit ?: 25);
@@ -808,6 +836,7 @@ class Manager extends PublicEmitter implements IUserManager {
 		return $this->displayNameCache;
 	}
 
+	#[\Override]
 	public function getSeenUsers(int $offset = 0, ?int $limit = null): \Iterator {
 		$maxBatchSize = 1000;
 
@@ -834,7 +863,28 @@ class Manager extends PublicEmitter implements IUserManager {
 		} while (count($userIds) === $batchSize && $limit !== 0);
 	}
 
+	#[\Override]
 	public function getExistingUser(string $userId, ?string $displayName = null): IUser {
 		return new LazyUser($userId, $this, $displayName);
+	}
+
+	#[\Override]
+	public function getAvatarUrlLight(string $userId, int $size): string {
+		$url = ($this->urlGenerator ??= Server::get(IURLGenerator::class))->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $userId, 'size' => $size]);
+		if ($url === '') {
+			throw new RuntimeException('The URL is empty.');
+		}
+
+		return $url;
+	}
+
+	#[\Override]
+	public function getAvatarUrlDark(string $userId, int $size): string {
+		$url = ($this->urlGenerator ??= Server::get(IURLGenerator::class))->linkToRouteAbsolute('core.avatar.getAvatarDark', ['userId' => $userId, 'size' => $size]);
+		if ($url === '') {
+			throw new RuntimeException('The URL is empty.');
+		}
+
+		return $url;
 	}
 }

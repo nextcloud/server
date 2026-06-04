@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Authentication\Listeners;
 
 use OC\Authentication\Events\ARemoteWipeEvent;
@@ -27,6 +28,7 @@ class RemoteWipeNotificationsListener implements IEventListener {
 	) {
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof RemoteWipeStarted) {
 			$this->sendNotification('remote_wipe_start', $event->getToken());

@@ -5,10 +5,10 @@
  * SPDX-FileCopyrightText: 2016 ownCloud GmbH
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use InvalidArgumentException;
-use OC\Group\Manager;
 use OCP\App\IAppManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
@@ -36,7 +36,7 @@ class NavigationManager implements INavigationManager {
 	protected array $unreadCounters = [];
 	protected bool $init = false;
 	/** User defined app order (cached for the `add` function) */
-	private array $customAppOrder;
+	private ?array $customAppOrder = null;
 
 	public function __construct(
 		protected IAppManager $appManager,
@@ -161,7 +161,6 @@ class NavigationManager implements INavigationManager {
 		return $list;
 	}
 
-
 	/**
 	 * removes all the entries
 	 */
@@ -182,6 +181,15 @@ class NavigationManager implements INavigationManager {
 	}
 
 	private function init(bool $resolveClosures = true): void {
+		if ($this->customAppOrder === null) {
+			if ($this->userSession->isLoggedIn()) {
+				$user = $this->userSession->getUser();
+				$this->customAppOrder = json_decode($this->config->getUserValue($user->getUID(), 'core', 'apporder', '[]'), true, flags:JSON_THROW_ON_ERROR);
+			} else {
+				$this->customAppOrder = [];
+			}
+		}
+
 		if ($resolveClosures) {
 			while ($c = array_pop($this->closureEntries)) {
 				$this->add($c());
@@ -194,125 +202,16 @@ class NavigationManager implements INavigationManager {
 		$this->init = true;
 
 		$l = $this->l10nFac->get('lib');
-		if ($this->config->getSystemValueBool('knowledgebaseenabled', true)) {
-			$this->add([
-				'type' => 'settings',
-				'id' => 'help',
-				'order' => 99998,
-				'href' => $this->urlGenerator->linkToRoute('settings.Help.help'),
-				'name' => $l->t('Help & privacy'),
-				'icon' => $this->urlGenerator->imagePath('settings', 'help.svg'),
-			]);
-		}
-
-		if ($this->userSession->isLoggedIn()) {
-			// Profile
-			$this->add([
-				'type' => 'settings',
-				'id' => 'profile',
-				'order' => 1,
-				'href' => $this->urlGenerator->linkToRoute(
-					'profile.ProfilePage.index',
-					['targetUserId' => $this->userSession->getUser()->getUID()],
-				),
-				'name' => $l->t('View profile'),
-			]);
-
-			// Accessibility settings
-			if ($this->appManager->isEnabledForUser('theming', $this->userSession->getUser())) {
-				$this->add([
-					'type' => 'settings',
-					'id' => 'accessibility_settings',
-					'order' => 2,
-					'href' => $this->urlGenerator->linkToRoute('settings.PersonalSettings.index', ['section' => 'theming']),
-					'name' => $l->t('Appearance and accessibility'),
-					'icon' => $this->urlGenerator->imagePath('theming', 'accessibility-dark.svg'),
-				]);
-			}
-
-			if ($this->isAdmin()) {
-				// App management
-				$this->add([
-					'type' => 'settings',
-					'id' => 'core_apps',
-					'order' => 5,
-					'href' => $this->urlGenerator->linkToRoute('settings.AppSettings.viewApps'),
-					'icon' => $this->urlGenerator->imagePath('settings', 'apps.svg'),
-					'name' => $l->t('Apps'),
-				]);
-
-				// Personal settings
-				$this->add([
-					'type' => 'settings',
-					'id' => 'settings',
-					'order' => 3,
-					'href' => $this->urlGenerator->linkToRoute('settings.PersonalSettings.index'),
-					'name' => $l->t('Personal settings'),
-					'icon' => $this->urlGenerator->imagePath('settings', 'personal.svg'),
-				]);
-
-				// Admin settings
-				$this->add([
-					'type' => 'settings',
-					'id' => 'admin_settings',
-					'order' => 4,
-					'href' => $this->urlGenerator->linkToRoute('settings.AdminSettings.index', ['section' => 'overview']),
-					'name' => $l->t('Administration settings'),
-					'icon' => $this->urlGenerator->imagePath('settings', 'admin.svg'),
-				]);
-			} else {
-				// Personal settings
-				$this->add([
-					'type' => 'settings',
-					'id' => 'settings',
-					'order' => 3,
-					'href' => $this->urlGenerator->linkToRoute('settings.PersonalSettings.index'),
-					'name' => $l->t('Settings'),
-					'icon' => $this->urlGenerator->imagePath('settings', 'admin.svg'),
-				]);
-			}
-
-			$logoutUrl = \OC_User::getLogoutUrl($this->urlGenerator);
-			if ($logoutUrl !== '') {
-				// Logout
-				$this->add([
-					'type' => 'settings',
-					'id' => 'logout',
-					'order' => 99999,
-					'href' => $logoutUrl,
-					'name' => $l->t('Log out'),
-					'icon' => $this->urlGenerator->imagePath('core', 'actions/logout.svg'),
-				]);
-			}
-
-			if ($this->isSubadmin()) {
-				// User management
-				$this->add([
-					'type' => 'settings',
-					'id' => 'core_users',
-					'order' => 6,
-					'href' => $this->urlGenerator->linkToRoute('settings.Users.usersList'),
-					'name' => $l->t('Accounts'),
-					'icon' => $this->urlGenerator->imagePath('settings', 'users.svg'),
-				]);
-			}
-		}
 		$this->eventDispatcher->dispatchTyped(new LoadAdditionalEntriesEvent());
 
 		if ($this->userSession->isLoggedIn()) {
 			$user = $this->userSession->getUser();
 			$apps = $this->appManager->getEnabledAppsForUser($user);
-			$this->customAppOrder = json_decode($this->config->getUserValue($user->getUID(), 'core', 'apporder', '[]'), true, flags:JSON_THROW_ON_ERROR);
 		} else {
 			$apps = $this->appManager->getEnabledApps();
-			$this->customAppOrder = [];
 		}
 
 		foreach ($apps as $app) {
-			if (!$this->userSession->isLoggedIn() && !$this->appManager->isEnabledForUser($app, $this->userSession->getUser())) {
-				continue;
-			}
-
 			// load plugins and collections from info.xml
 			$info = $this->appManager->getAppInfo($app);
 			if (!isset($info['navigations']['navigation'])) {
@@ -348,7 +247,7 @@ class NavigationManager implements INavigationManager {
 					$icon = $this->appManager->getAppIcon($app);
 				}
 				if ($icon === null) {
-					$icon = $this->urlGenerator->imagePath('core', 'default-app-icon');
+					$icon = $this->urlGenerator->imagePath('core', 'places/default-app-icon.svg');
 				}
 
 				$this->add(array_merge([
@@ -358,14 +257,14 @@ class NavigationManager implements INavigationManager {
 					'order' => $order,
 					// Target of the navigation entry
 					'href' => $route,
-					// The icon used for the naviation entry
+					// The icon used for the navigation entry
 					'icon' => $icon,
 					// Type of the navigation entry ('link' vs 'settings')
 					'type' => $type,
 					// Localized name of the navigation entry
 					'name' => $l->t($nav['name']),
 				], $type === 'link' ? [
-					// App that registered this navigation entry (not necessarly the same as the id)
+					// App that registered this navigation entry (not necessarily the same as the id)
 					'app' => $app,
 				] : []
 				));
@@ -377,14 +276,6 @@ class NavigationManager implements INavigationManager {
 		$user = $this->userSession->getUser();
 		if ($user !== null) {
 			return $this->groupManager->isAdmin($user->getUID());
-		}
-		return false;
-	}
-
-	private function isSubadmin(): bool {
-		$user = $this->userSession->getUser();
-		if ($user !== null && $this->groupManager instanceof Manager) {
-			return $this->groupManager->getSubAdmin()->isSubAdmin($user);
 		}
 		return false;
 	}

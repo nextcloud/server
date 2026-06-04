@@ -11,14 +11,12 @@ import { AuthBackend, createStorageWithConfig, StorageBackend } from './StorageU
 describe('Files user credentials', { testIsolation: true }, () => {
 	let currentUser: User
 
-	beforeEach(() => {
-	})
-
 	before(() => {
 		cy.runOccCommand('app:enable files_external')
 		cy.createRandomUser().then((user) => {
 			currentUser = user
 		})
+		cy.runCommand('php ./cron.php')
 	})
 
 	afterEach(() => {
@@ -41,6 +39,11 @@ describe('Files user credentials', { testIsolation: true }, () => {
 
 		cy.login(currentUser)
 		cy.visit('/apps/files')
+
+		// TODO: Why does the first PROPFIND does not return it?
+		getRowForFile('Storage1')
+			.if('not.exist')
+			.reload()
 
 		// Ensure the row is visible and marked as unavailable
 		getRowForFile('Storage1').as('row').should('be.visible')

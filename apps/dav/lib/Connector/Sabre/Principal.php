@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\KnownUser\KnownUserService;
@@ -76,6 +77,7 @@ class Principal implements BackendInterface {
 	 * @param string $prefixPath
 	 * @return string[]
 	 */
+	#[\Override]
 	public function getPrincipalsByPrefix($prefixPath) {
 		$principals = [];
 
@@ -96,6 +98,7 @@ class Principal implements BackendInterface {
 	 * @param string $path
 	 * @return array
 	 */
+	#[\Override]
 	public function getPrincipalByPath($path) {
 		return $this->getPrincipalPropertiesByPath($path);
 	}
@@ -180,6 +183,7 @@ class Principal implements BackendInterface {
 	 * @return array
 	 * @throws Exception
 	 */
+	#[\Override]
 	public function getGroupMembership($principal, $needGroups = false) {
 		[$prefix, $name] = \Sabre\Uri\split($principal);
 
@@ -217,6 +221,7 @@ class Principal implements BackendInterface {
 	 * @param PropPatch $propPatch
 	 * @return int
 	 */
+	#[\Override]
 	public function updatePrincipal($path, PropPatch $propPatch) {
 		// Updating schedule-default-calendar-URL is handled in CustomPropertiesBackend
 		return 0;
@@ -395,7 +400,6 @@ class Principal implements BackendInterface {
 		switch ($test) {
 			case 'anyof':
 				return array_values(array_unique(array_merge(...$results)));
-
 			case 'allof':
 			default:
 				return array_values(array_intersect(...$results));
@@ -408,6 +412,7 @@ class Principal implements BackendInterface {
 	 * @param string $test
 	 * @return array
 	 */
+	#[\Override]
 	public function searchPrincipals($prefixPath, array $searchProperties, $test = 'allof') {
 		if (count($searchProperties) === 0) {
 			return [];
@@ -416,7 +421,6 @@ class Principal implements BackendInterface {
 		switch ($prefixPath) {
 			case 'principals/users':
 				return $this->searchUserPrincipals($searchProperties, $test);
-
 			default:
 				return [];
 		}
@@ -427,6 +431,7 @@ class Principal implements BackendInterface {
 	 * @param string $principalPrefix
 	 * @return string
 	 */
+	#[\Override]
 	public function findByUri($uri, $principalPrefix) {
 		// If sharing is disabled, return the empty array
 		$shareAPIEnabled = $this->shareManager->shareApiEnabled();

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Security;
 
 use OCP\Security\ISecureRandom;
@@ -27,6 +28,7 @@ class SecureRandom implements ISecureRandom {
 	 *                           specified all valid base64 characters are used.
 	 * @throws \LengthException if an invalid length is requested
 	 */
+	#[\Override]
 	public function generate(
 		int $length,
 		string $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',

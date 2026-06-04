@@ -20,6 +20,7 @@ use OCP\EventDispatcher\IEventListener;
  * @template-implements IEventListener<AppEnableEvent|AppDisableEvent|AppUpdateEvent>
  */
 class AppManagementEventListener extends Action implements IEventListener {
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof AppEnableEvent) {
 			$this->appEnable($event);

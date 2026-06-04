@@ -22,7 +22,6 @@ OC.L10N.register(
     "Note:" : "Notitie:",
     "This share is valid until %s at midnight" : "Deze share is geldig tot %s middernacht",
     "Expiration:" : "Vervaldatum:",
-    "Open %s" : "%s openen",
     "%1$s via %2$s" : "%1$s via %2$s",
     "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "%1$s deelde %2$s met jou. Je zou een aparte e-mail hebben moeten ontvangen met een link om er toegang toe te krijgen.",
     "Password to access %1$s shared to you by %2$s" : "Wachtwoord om toegang te krijgen tot %1$sdat met jou gedeeld werd door %2$s",

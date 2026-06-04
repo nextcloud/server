@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Repair;
 
 use OC\Template\JSCombiner;
@@ -20,10 +21,12 @@ class ClearFrontendCaches implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Clear frontend caches';
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		try {
 			$c = $this->cacheFactory->createDistributed('imagePath');

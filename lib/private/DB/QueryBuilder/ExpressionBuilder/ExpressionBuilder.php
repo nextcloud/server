@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\DB\QueryBuilder\ExpressionBuilder;
 
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder as DoctrineExpressionBuilder;
@@ -51,6 +52,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 *
 	 * @return ICompositeExpression
 	 */
+	#[\Override]
 	public function andX(...$x): ICompositeExpression {
 		if (empty($x)) {
 			$this->logger->debug('Calling ' . IQueryBuilder::class . '::' . __FUNCTION__ . ' without parameters is deprecated and will throw soon.', ['exception' => new \Exception('No parameters in call to ' . __METHOD__)]);
@@ -72,6 +74,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 *
 	 * @return ICompositeExpression
 	 */
+	#[\Override]
 	public function orX(...$x): ICompositeExpression {
 		if (empty($x)) {
 			$this->logger->debug('Calling ' . IQueryBuilder::class . '::' . __FUNCTION__ . ' without parameters is deprecated and will throw soon.', ['exception' => new \Exception('No parameters in call to ' . __METHOD__)]);
@@ -90,6 +93,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function comparison($x, string $operator, $y, $type = null): string {
 		$x = $this->prepareColumn($x, $type);
 		$y = $this->prepareColumn($y, $type);
@@ -113,6 +117,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function eq($x, $y, $type = null): string {
 		$x = $this->prepareColumn($x, $type);
 		$y = $this->prepareColumn($y, $type);
@@ -135,6 +140,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function neq($x, $y, $type = null): string {
 		$x = $this->prepareColumn($x, $type);
 		$y = $this->prepareColumn($y, $type);
@@ -157,6 +163,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function lt($x, $y, $type = null): string {
 		$x = $this->prepareColumn($x, $type);
 		$y = $this->prepareColumn($y, $type);
@@ -179,6 +186,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function lte($x, $y, $type = null): string {
 		$x = $this->prepareColumn($x, $type);
 		$y = $this->prepareColumn($y, $type);
@@ -201,6 +209,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function gt($x, $y, $type = null): string {
 		$x = $this->prepareColumn($x, $type);
 		$y = $this->prepareColumn($y, $type);
@@ -223,6 +232,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function gte($x, $y, $type = null): string {
 		$x = $this->prepareColumn($x, $type);
 		$y = $this->prepareColumn($y, $type);
@@ -236,6 +246,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function isNull($x): string {
 		$x = $this->helper->quoteColumnName($x);
 		return $this->expressionBuilder->isNull($x);
@@ -248,6 +259,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function isNotNull($x): string {
 		$x = $this->helper->quoteColumnName($x);
 		return $this->expressionBuilder->isNotNull($x);
@@ -263,6 +275,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function like($x, $y, $type = null): string {
 		$x = $this->helper->quoteColumnName($x);
 		$y = $this->helper->quoteColumnName($y);
@@ -280,6 +293,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @return string
 	 * @since 9.0.0
 	 */
+	#[\Override]
 	public function iLike($x, $y, $type = null): string {
 		return $this->expressionBuilder->like($this->functionBuilder->lower($x), $this->functionBuilder->lower($y));
 	}
@@ -294,6 +308,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function notLike($x, $y, $type = null): string {
 		$x = $this->helper->quoteColumnName($x);
 		$y = $this->helper->quoteColumnName($y);
@@ -310,6 +325,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function in($x, $y, $type = null): string {
 		$x = $this->helper->quoteColumnName($x);
 		$y = $this->helper->quoteColumnNames($y);
@@ -326,6 +342,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function notIn($x, $y, $type = null): string {
 		$x = $this->helper->quoteColumnName($x);
 		$y = $this->helper->quoteColumnNames($y);
@@ -339,6 +356,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @return string
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	public function emptyString($x): string {
 		return $this->eq($x, $this->literal('', IQueryBuilder::PARAM_STR));
 	}
@@ -350,6 +368,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @return string
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	public function nonEmptyString($x): string {
 		return $this->neq($x, $this->literal('', IQueryBuilder::PARAM_STR));
 	}
@@ -362,6 +381,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @return IQueryFunction
 	 * @since 12.0.0
 	 */
+	#[\Override]
 	public function bitwiseAnd($x, int $y): IQueryFunction {
 		return new QueryFunction($this->connection->getDatabasePlatform()->getBitAndComparisonExpression(
 			$this->helper->quoteColumnName($x),
@@ -377,6 +397,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @return IQueryFunction
 	 * @since 12.0.0
 	 */
+	#[\Override]
 	public function bitwiseOr($x, int $y): IQueryFunction {
 		return new QueryFunction($this->connection->getDatabasePlatform()->getBitOrComparisonExpression(
 			$this->helper->quoteColumnName($x),
@@ -392,6 +413,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 *
 	 * @return ILiteral
 	 */
+	#[\Override]
 	public function literal($input, $type = IQueryBuilder::PARAM_STR): ILiteral {
 		return new Literal($this->expressionBuilder->literal($input, $type));
 	}
@@ -404,6 +426,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @psalm-param IQueryBuilder::PARAM_* $type
 	 * @return IQueryFunction
 	 */
+	#[\Override]
 	public function castColumn($column, $type): IQueryFunction {
 		return new QueryFunction(
 			$this->helper->quoteColumnName($column)

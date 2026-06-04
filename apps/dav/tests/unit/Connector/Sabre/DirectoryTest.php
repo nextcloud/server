@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\Files\FileInfo;
@@ -57,7 +58,6 @@ class TestViewDirectory extends View {
 	}
 }
 
-
 #[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class DirectoryTest extends \Test\TestCase {
 	use UserTrait;
@@ -98,7 +98,6 @@ class DirectoryTest extends \Test\TestCase {
 		return new Directory($this->view, $this->info);
 	}
 
-
 	public function testDeleteRootFolderFails(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -110,7 +109,6 @@ class DirectoryTest extends \Test\TestCase {
 		$dir = $this->getDir();
 		$dir->delete();
 	}
-
 
 	public function testDeleteForbidden(): void {
 		$this->expectException(Forbidden::class);
@@ -130,7 +128,6 @@ class DirectoryTest extends \Test\TestCase {
 		$dir->delete();
 	}
 
-
 	public function testDeleteFolderWhenAllowed(): void {
 		// deletion allowed
 		$this->info->expects($this->once())
@@ -147,7 +144,6 @@ class DirectoryTest extends \Test\TestCase {
 		$dir->delete();
 	}
 
-
 	public function testDeleteFolderFailsWhenNotAllowed(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -158,7 +154,6 @@ class DirectoryTest extends \Test\TestCase {
 		$dir = $this->getDir('sub');
 		$dir->delete();
 	}
-
 
 	public function testDeleteFolderThrowsWhenDeletionFailed(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
@@ -222,7 +217,6 @@ class DirectoryTest extends \Test\TestCase {
 		$dir->getChildren();
 	}
 
-
 	public function testGetChildrenNoPermission(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -239,7 +233,6 @@ class DirectoryTest extends \Test\TestCase {
 		$dir->getChildren();
 	}
 
-
 	public function testGetChildNoPermission(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
@@ -255,7 +248,6 @@ class DirectoryTest extends \Test\TestCase {
 		$dir->getChild('test');
 	}
 
-
 	public function testGetChildThrowStorageNotAvailableException(): void {
 		$this->expectException(\Sabre\DAV\Exception\ServiceUnavailable::class);
 
@@ -270,7 +262,6 @@ class DirectoryTest extends \Test\TestCase {
 		$dir = new Directory($this->view, $this->info);
 		$dir->getChild('.');
 	}
-
 
 	public function testGetChildThrowInvalidPath(): void {
 		$this->expectException(InvalidPath::class);
@@ -600,7 +591,6 @@ class DirectoryTest extends \Test\TestCase {
 			->willReturn(false);
 		$this->assertTrue($targetNode->moveInto(basename($destination), $source, $sourceNode));
 	}
-
 
 	public function testFailingMove(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);

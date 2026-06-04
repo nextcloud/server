@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\User_LDAP\AppInfo;
 
 use Closure;
@@ -52,6 +53,7 @@ class Application extends App implements IBootstrap {
 		parent::__construct(self::APP_ID);
 	}
 
+	#[\Override]
 	public function register(IRegistrationContext $context): void {
 		$context->registerServiceAlias(ILDAPWrapper::class, LDAP::class);
 
@@ -80,6 +82,7 @@ class Application extends App implements IBootstrap {
 		$context->registerSetupCheck(LdapConnection::class);
 	}
 
+	#[\Override]
 	public function boot(IBootContext $context): void {
 		$context->injectFn(function (
 			INotificationManager $notificationManager,

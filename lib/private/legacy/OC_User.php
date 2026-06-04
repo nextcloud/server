@@ -6,10 +6,12 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 use OC\Authentication\Token\IProvider;
+use OC\Security\CSRF\CsrfTokenManager;
 use OC\SystemConfig;
 use OC\User\Database;
 use OC\User\DisabledUserException;
 use OC\User\Session;
+use OCP\App\IAppManager;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\Exceptions\WipeTokenException;
 use OCP\Authentication\IApacheBackend;
@@ -29,7 +31,6 @@ use OCP\User\Backend\ICustomLogout;
 use OCP\User\Events\BeforeUserLoggedInEvent;
 use OCP\User\Events\UserLoggedInEvent;
 use OCP\UserInterface;
-use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -108,7 +109,8 @@ class OC_User {
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function setupBackends() {
-		OC_App::loadApps(['prelogin']);
+		Server::get(IAppManager::class)->loadApps(['prelogin']);
+
 		$backends = Server::get(SystemConfig::class)->getValue('user_backends', []);
 		if (isset($backends['default']) && !$backends['default']) {
 			// clear default backends
@@ -231,7 +233,7 @@ class OC_User {
 	public static function handleApacheAuth(): ?bool {
 		$backend = self::findFirstActiveUsedBackend();
 		if ($backend) {
-			OC_App::loadApps();
+			Server::get(IAppManager::class)->loadApps();
 
 			//setup extra user backends
 			self::setupBackends();
@@ -244,7 +246,6 @@ class OC_User {
 
 		return null;
 	}
-
 
 	/**
 	 * Sets user id for session and triggers emit
@@ -291,7 +292,7 @@ class OC_User {
 		}
 
 		$logoutUrl = $urlGenerator->linkToRoute('core.login.logout');
-		$logoutUrl .= '?requesttoken=' . urlencode(Util::callRegister());
+		$logoutUrl .= '?requesttoken=' . urlencode(Server::get(CsrfTokenManager::class)->getToken()->getEncryptedValue());
 
 		return $logoutUrl;
 	}
@@ -306,7 +307,6 @@ class OC_User {
 		$isAdmin = $user && Server::get(IGroupManager::class)->isAdmin($user->getUID());
 		return $isAdmin && self::$incognitoMode === false;
 	}
-
 
 	/**
 	 * get the user id of the user currently logged in.

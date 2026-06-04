@@ -42,6 +42,8 @@ $expectedFiles = [
 	'README.md',
 	'REUSE.toml',
 	'SECURITY.md',
+	'CLAUDE.md',
+	'AGENTS.md',
 	'apps',
 	'autotest-checkers.sh',
 	'autotest-external.sh',

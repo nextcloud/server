@@ -38,6 +38,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Security\Ip\IRemoteAddress;
+use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\AppFramework\Middleware\Security\Mock\NormalController;
@@ -59,6 +60,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	private IUserSession&MockObject $userSession;
 	private AuthorizedGroupMapper&MockObject $authorizedGroupMapper;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -72,7 +74,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			'test',
 			$this->request
 		);
-		$this->reader = new ControllerMethodReflector();
+		$this->reader = new ControllerMethodReflector(Server::get(LoggerInterface::class));
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->navigationManager = $this->createMock(INavigationManager::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
@@ -194,7 +196,6 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$this->middleware->beforeController($this->controller, $method);
 	}
 
-
 	/**
 	 * @param string $method
 	 * @param string $test
@@ -306,7 +307,6 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$this->reader->reflect($this->controller, $method);
 		$sec->beforeController($this->controller, $method);
 	}
-
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataPublicPage')]
 	public function testCsrfCheck(string $method): void {
@@ -433,6 +433,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			->willReturn(true);
 
 		$controller = new $controllerClass('test', $this->request);
+		$this->reader->reflect($controller, 'foo');
 
 		try {
 			$this->middleware->beforeController($controller, 'foo');
@@ -467,21 +468,21 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataNoCSRFRequiredSubAdminRequired')]
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testIsSubAdminCheck(string $method): void {
 		$this->reader->reflect($this->controller, $method);
 		$sec = $this->getMiddleware(true, false, true);
 
 		$sec->beforeController($this->controller, $method);
-		$this->addToAssertionCount(1);
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataNoCSRFRequiredSubAdminRequired')]
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testIsSubAdminAndAdminCheck(string $method): void {
 		$this->reader->reflect($this->controller, $method);
 		$sec = $this->getMiddleware(true, true, true);
 
 		$sec->beforeController($this->controller, $method);
-		$this->addToAssertionCount(1);
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataNoCSRFRequired')]
@@ -503,7 +504,6 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			->willReturn(false);
 
 		$middleware->beforeController($this->controller, $method);
-		$this->addToAssertionCount(1);
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataNoAdminRequiredNoCSRFRequiredPublicPage')]
@@ -520,7 +520,6 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			->willReturn(false);
 
 		$middleware->beforeController($this->controller, $method);
-		$this->addToAssertionCount(1);
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataNoAdminRequiredNoCSRFRequired')]
@@ -535,7 +534,6 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$this->expectException(AppNotEnabledException::class);
 		$middleware->beforeController($this->controller, $method);
 	}
-
 
 	public function testAfterExceptionNotCaughtThrowsItAgain(): void {
 		$ex = new \Exception();
@@ -600,7 +598,6 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$expected = new RedirectResponse(\OC::$WEBROOT . '/');
 		$this->assertEquals($expected, $response);
 	}
-
 
 	/**
 	 * @return array

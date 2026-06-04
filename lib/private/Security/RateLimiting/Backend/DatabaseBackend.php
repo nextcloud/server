@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Security\RateLimiting\Backend;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -63,6 +64,7 @@ class DatabaseBackend implements IBackend {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getAttempts(
 		string $methodIdentifier,
 		string $userIdentifier,
@@ -74,6 +76,7 @@ class DatabaseBackend implements IBackend {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function registerAttempt(
 		string $methodIdentifier,
 		string $userIdentifier,

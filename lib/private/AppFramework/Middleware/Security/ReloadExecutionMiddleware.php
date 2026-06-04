@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Middleware\Security\Exceptions\ReloadExecutionException;
@@ -25,12 +26,14 @@ class ReloadExecutionMiddleware extends Middleware {
 	) {
 	}
 
+	#[\Override]
 	public function beforeController($controller, $methodName) {
 		if ($this->session->exists('clearingExecutionContexts')) {
 			throw new ReloadExecutionException();
 		}
 	}
 
+	#[\Override]
 	public function afterException($controller, $methodName, \Exception $exception) {
 		if ($exception instanceof ReloadExecutionException) {
 			$this->session->remove('clearingExecutionContexts');

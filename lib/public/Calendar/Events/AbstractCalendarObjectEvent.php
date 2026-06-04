@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\Calendar\Events;
 
 use OCP\EventDispatcher\Event;
@@ -68,6 +69,7 @@ abstract class AbstractCalendarObjectEvent extends Event implements IWebhookComp
 	 * @return array
 	 * @since 32.0.0
 	 */
+	#[\Override]
 	public function getWebhookSerializable(): array {
 		return [
 			'calendarId' => $this->getCalendarId(),

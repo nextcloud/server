@@ -18,6 +18,7 @@ use OC\OCM\Model\OCMProvider;
 use OCP\AppFramework\Attribute\Consumable;
 use OCP\AppFramework\Http;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Federation\ICloudIdManager;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
@@ -63,11 +64,11 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 		private IURLGenerator $urlGenerator,
 		private readonly ISignatureManager $signatureManager,
 		private readonly OCMSignatoryManager $signatoryManager,
+		private readonly ICloudIdManager $cloudIdManager,
 		private LoggerInterface $logger,
 	) {
 		$this->cache = $cacheFactory->createDistributed('ocm-discovery');
 	}
-
 
 	/**
 	 * @inheritDoc
@@ -79,6 +80,7 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 	 * @throws OCMProviderException if no valid discovery data can be returned
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function discover(string $remote, bool $skipCache = false): IOCMProvider {
 		$remote = rtrim($remote, '/');
 		if (!str_starts_with($remote, 'http://') && !str_starts_with($remote, 'https://')) {
@@ -126,7 +128,6 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 				$remote . '/.well-known/ocm',
 				$remote . '/ocm-provider',
 			];
-
 
 			foreach ($urls as $url) {
 				$exception = null;
@@ -180,6 +181,7 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 	 * @return IOCMProvider
 	 * @since 33.0.0
 	 */
+	#[\Override]
 	public function getLocalOCMProvider(bool $fullDetails = true): IOCMProvider {
 		if ($this->localProvider !== null) {
 			return $this->localProvider;
@@ -197,10 +199,15 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 			return $provider;
 		}
 
+		$signingEnabled = !$this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_DISABLED, lazy: true);
+
 		$provider->setEnabled(true);
 		$provider->setApiVersion(self::API_VERSION);
 		$provider->setEndPoint(substr($url, 0, $pos));
 		$provider->setCapabilities(['invite-accepted', 'notifications', 'shares']);
+		if ($signingEnabled) {
+			$provider->setCapabilities(['http-sig']);
+		}
 
 		// The inviteAcceptDialog is available from the contacts app, if this config value is set
 		$inviteAcceptDialog = $this->appConfig->getValueString('core', ConfigLexicon::OCM_INVITE_ACCEPT_DIALOG);
@@ -215,9 +222,8 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 		$provider->addResourceType($resource);
 
 		if ($fullDetails) {
-			// Adding a public key to the ocm discovery
 			try {
-				if (!$this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_DISABLED, lazy: true)) {
+				if ($signingEnabled) {
 					/**
 					 * @experimental 31.0.0
 					 * @psalm-suppress UndefinedInterfaceMethod
@@ -249,6 +255,7 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 	 * @throws IncomingRequestException
 	 * @since 33.0.0
 	 */
+	#[\Override]
 	public function getIncomingSignedRequest(): ?IIncomingSignedRequest {
 		try {
 			$signedRequest = $this->signatureManager->getIncomingSignedRequest($this->signatoryManager);
@@ -273,6 +280,49 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 	/**
 	 * @inheritDoc
 	 *
+	 * @since 34.0.0
+	 */
+	#[\Override]
+	public function confirmRequestOrigin(?string $signedOrigin, string $ocmAddress): void {
+		if ($this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_DISABLED, lazy: true)) {
+			return;
+		}
+
+		$instance = $this->getHostFromOcmAddress($ocmAddress);
+
+		if ($signedOrigin === null) {
+			try {
+				$this->signatureManager->getSignatory($instance);
+			} catch (SignatoryNotFoundException) {
+				return;
+			}
+			throw new IncomingRequestException('instance is supposed to sign its request');
+		}
+
+		if ($instance !== $signedOrigin) {
+			throw new IncomingRequestException(
+				'claimed origin ' . $instance . ' does not match signed origin ' . $signedOrigin
+			);
+		}
+	}
+
+	/**
+	 * @throws IncomingRequestException on malformed address or unresolvable host
+	 */
+	private function getHostFromOcmAddress(string $entry): string {
+		try {
+			$cloudId = $this->cloudIdManager->resolveCloudId(trim($entry, '@'));
+			return $this->signatureManager->extractIdentityFromUri($cloudId->getRemote());
+		} catch (\InvalidArgumentException $e) {
+			throw new IncomingRequestException('invalid OCM address: ' . $entry, previous: $e);
+		} catch (IdentityNotFoundException $e) {
+			throw new IncomingRequestException('invalid host within OCM address: ' . $entry, previous: $e);
+		}
+	}
+
+	/**
+	 * @inheritDoc
+	 *
 	 * @param string|null $capability when not NULL, method will throw
 	 *                                {@see OCMCapabilityException}
 	 *                                if remote does not support the capability
@@ -291,6 +341,7 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 	 * @throws OCMRequestException on internal issue
 	 * @since 33.0.0
 	 */
+	#[\Override]
 	public function requestRemoteOcmEndpoint(
 		?string $capability,
 		string $remote,
@@ -338,10 +389,11 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 	}
 
 	/**
-	 * add entries to the payload to auth the whole request
+	 * Sign the outgoing payload using the scheme the remote advertises
+	 * (RFC 9421 if `http-sig`, else cavage if a `publicKey` is present).
+	 * APPCONFIG_SIGN_ENFORCED / APPCONFIG_SIGN_DISABLED still apply.
 	 *
 	 * @throws OCMProviderException
-	 * @return array
 	 */
 	private function prepareOcmPayload(string $uri, string $method, array $options, string $payload, bool $signed): array {
 		$payload = array_merge($this->generateRequestOptions($options), ['body' => $payload]);
@@ -349,20 +401,31 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 			return $payload;
 		}
 
-		if ($this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_ENFORCED, lazy: true)
-			&& $this->signatoryManager->getRemoteSignatory($this->signatureManager->extractIdentityFromUri($uri)) === null) {
+		$origin = $this->signatureManager->extractIdentityFromUri($uri);
+		$ocmProvider = $this->discover($origin);
+
+		$useRfc9421 = $ocmProvider->hasCapability('http-sig');
+		$hasPublicKey = $this->signatoryManager->getRemoteSignatory($origin) !== null;
+
+		if (!$useRfc9421 && !$hasPublicKey
+			&& $this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_ENFORCED, lazy: true)) {
 			throw new OCMProviderException('remote endpoint does not support signed request');
 		}
 
-		if (!$this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_DISABLED, lazy: true)) {
-			$signedPayload = $this->signatureManager->signOutgoingRequestIClientPayload(
-				$this->signatoryManager,
-				$payload,
-				$method, $uri
-			);
+		if ($this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_DISABLED, lazy: true)) {
+			return $payload;
 		}
 
-		return $signedPayload ?? $payload;
+		$signatoryManager = $useRfc9421
+			? new Rfc9421SignatoryManager($this->signatoryManager)
+			: $this->signatoryManager;
+
+		return $this->signatureManager->signOutgoingRequestIClientPayload(
+			$signatoryManager,
+			$payload,
+			$method,
+			$uri,
+		);
 	}
 
 	private function generateRequestOptions(array $options): array {

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Share20;
 
 use OCP\Files\InvalidPathException;
@@ -16,6 +17,9 @@ use OCP\Share\IManager;
 use OCP\Share\IShareHelper;
 use Override;
 
+/**
+ * @psalm-api - we cannot use final as this will break unit tests
+ */
 class ShareHelper implements IShareHelper {
 	public function __construct(
 		private readonly IManager $shareManager,

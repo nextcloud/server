@@ -47,6 +47,7 @@ class GeneratorTest extends TestCase {
 	private PreviewMapper&MockObject $previewMapper;
 	private PreviewMigrationService&MockObject $migrationService;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -256,7 +257,6 @@ class GeneratorTest extends TestCase {
 		$this->assertSame(1000, $result->getSize());
 	}
 
-
 	public function testMigrateOldPreview(): void {
 		$file = $this->getFile(42, 'myMimeType', false);
 
@@ -435,7 +435,6 @@ class GeneratorTest extends TestCase {
 
 			[1024, 2048, 4096, 2048, false, IPreview::MODE_FILL, 1024, 2048],
 			[1024, 2048, 4096, 2048, false, IPreview::MODE_COVER, 1024, 2048],
-
 
 			[2048, 1024, 512, 512, false, IPreview::MODE_FILL, 512, 256],
 			[2048, 1024, 512, 512, false, IPreview::MODE_COVER, 1024, 512],

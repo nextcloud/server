@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 
 use OC\Profiler\BuiltInProfiler;
+use OC\Security\CSP\ContentSecurityPolicyNonceManager;
 use OC\Share20\GroupDeletedListener;
 use OC\Share20\Hooks;
 use OC\Share20\UserDeletedListener;
@@ -22,6 +23,7 @@ use OCP\IConfig;
 use OCP\IInitialStateService;
 use OCP\ILogger;
 use OCP\IRequest;
+use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Security\Bruteforce\IThrottler;
@@ -44,38 +46,57 @@ require_once 'public/Constants.php';
 class OC {
 	/**
 	 * The installation path for Nextcloud  on the server (e.g. /srv/http/nextcloud)
+	 * @internal Use auto-loaded $serverRoot with DI instead.
+	 * @psalm-suppress ImpureStaticProperty
 	 */
 	public static string $SERVERROOT = '';
 	/**
 	 * the current request path relative to the Nextcloud root (e.g. files/index.php)
+	 * @psalm-suppress ImpureStaticProperty
 	 */
 	private static string $SUBURI = '';
 	/**
 	 * the Nextcloud root path for http requests (e.g. /nextcloud)
+	 * @psalm-suppress ImpureStaticProperty
 	 */
 	public static string $WEBROOT = '';
 	/**
 	 * The installation path array of the apps folder on the server (e.g. /srv/http/nextcloud) 'path' and
 	 * web path in 'url'
+	 * @psalm-suppress ImpureStaticProperty
 	 */
 	public static array $APPSROOTS = [];
 
+	/**
+	 * @psalm-suppress ImpureStaticProperty
+	 */
 	public static string $configDir;
 
 	/**
 	 * requested app
+	 * @psalm-suppress ImpureStaticProperty
 	 */
 	public static string $REQUESTEDAPP = '';
 
 	/**
 	 * check if Nextcloud runs in cli mode
+	 * @psalm-suppress ImpureStaticProperty
 	 */
 	public static bool $CLI = false;
 
+	/**
+	 * @psalm-suppress ImpureStaticProperty
+	 */
 	public static \Composer\Autoload\ClassLoader $composerAutoloader;
 
+	/**
+	 * @psalm-suppress ImpureStaticProperty
+	 */
 	public static \OC\Server $server;
 
+	/**
+	 * @psalm-suppress ImpureStaticProperty
+	 */
 	private static \OC\Config $config;
 
 	/**
@@ -117,8 +138,8 @@ class OC {
 		if (substr($scriptName, -1) == '/') {
 			$scriptName .= 'index.php';
 			//make sure suburi follows the same rules as scriptName
-			if (substr(OC::$SUBURI, -9) != 'index.php') {
-				if (substr(OC::$SUBURI, -1) != '/') {
+			if (substr(OC::$SUBURI, -9) !== 'index.php') {
+				if (substr(OC::$SUBURI, -1) !== '/') {
 					OC::$SUBURI = OC::$SUBURI . '/';
 				}
 				OC::$SUBURI = OC::$SUBURI . 'index.php';
@@ -131,7 +152,7 @@ class OC {
 			if (substr($scriptName, 0 - strlen(OC::$SUBURI)) === OC::$SUBURI) {
 				OC::$WEBROOT = substr($scriptName, 0, 0 - strlen(OC::$SUBURI));
 
-				if (OC::$WEBROOT != '' && OC::$WEBROOT[0] !== '/') {
+				if (OC::$WEBROOT !== '' && OC::$WEBROOT[0] !== '/') {
 					OC::$WEBROOT = '/' . OC::$WEBROOT;
 				}
 			} else {
@@ -236,7 +257,7 @@ class OC {
 
 	public static function checkMaintenanceMode(\OC\SystemConfig $systemConfig): void {
 		// Allow ajax update script to execute without being stopped
-		if (((bool)$systemConfig->getValue('maintenance', false)) && OC::$SUBURI != '/core/ajax/update.php') {
+		if (((bool)$systemConfig->getValue('maintenance', false)) && OC::$SUBURI !== '/core/ajax/update.php') {
 			// send http status 503
 			http_response_code(503);
 			header('X-Nextcloud-Maintenance-Mode: 1');
@@ -298,7 +319,7 @@ class OC {
 		Util::addScript('core', 'update');
 
 		$initialState = Server::get(IInitialStateService::class);
-		$serverVersion = \OCP\Server::get(\OCP\ServerVersion::class);
+		$serverVersion = Server::get(\OCP\ServerVersion::class);
 		if ($disableWebUpdater || ($tooBig && !$ignoreTooBigWarning)) {
 			// send http status 503
 			http_response_code(503);
@@ -621,7 +642,7 @@ class OC {
 		 * @see \OCP\AppFramework\Http\Response::getHeaders
 		 */
 		$policy = 'default-src \'self\'; '
-			. 'script-src \'self\' \'nonce-' . \OC::$server->getContentSecurityPolicyNonceManager()->getNonce() . '\'; '
+			. 'script-src \'self\' \'nonce-' . Server::get(ContentSecurityPolicyNonceManager::class)->getNonce() . '\'; '
 			. 'style-src \'self\' \'unsafe-inline\'; '
 			. 'frame-src *; '
 			. 'img-src * data: blob:; '
@@ -670,7 +691,6 @@ class OC {
 		// Add default composer PSR-4 autoloader, ensure apcu to be disabled
 		self::$composerAutoloader = require_once OC::$SERVERROOT . '/lib/composer/autoload.php';
 		self::$composerAutoloader->setApcuPrefix(null);
-
 
 		try {
 			self::initPaths();
@@ -727,7 +747,7 @@ class OC {
 		$config = Server::get(IConfig::class);
 		if (!defined('PHPUNIT_RUN')) {
 			$errorHandler = new OC\Log\ErrorHandler(
-				\OCP\Server::get(\Psr\Log\LoggerInterface::class),
+				Server::get(\Psr\Log\LoggerInterface::class),
 			);
 			$exceptionHandler = [$errorHandler, 'onException'];
 			if ($config->getSystemValueBool('debug', false)) {
@@ -812,7 +832,7 @@ class OC {
 
 		// User and Groups
 		if (!$systemConfig->getValue('installed', false)) {
-			self::$server->getSession()->set('user_id', '');
+			Server::get(ISession::class)->set('user_id', '');
 		}
 
 		$eventLogger->start('setup_backends', 'Setup group and user backends');
@@ -847,6 +867,7 @@ class OC {
 
 		// Make sure that the application class is not loaded before the database is setup
 		if ($systemConfig->getValue('installed', false)) {
+			$appManager->loadApp('core');
 			$appManager->loadApp('settings');
 		}
 
@@ -1076,7 +1097,7 @@ class OC {
 
 		// Check if Nextcloud is installed or in maintenance (update) mode
 		if (!$systemConfig->getValue('installed', false)) {
-			\OC::$server->getSession()->clear();
+			Server::get(ISession::class)->clear();
 			$controller = Server::get(\OC\Core\Controller\SetupController::class);
 			$controller->run($_POST);
 			exit();

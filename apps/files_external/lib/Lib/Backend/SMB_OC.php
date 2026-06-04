@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Lib\Backend;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
@@ -28,7 +29,7 @@ class SMB_OC extends Backend {
 		$this
 			->setIdentifier('\OC\Files\Storage\SMB_OC')
 			->setStorageClass('\OCA\Files_External\Lib\Storage\SMB')
-			->setText($l->t('SMB/CIFS using OC login'))
+			->setText($l->t('SMB/CIFS using Nextcloud login'))
 			->addParameters([
 				new DefinitionParameter('host', $l->t('Host')),
 				(new DefinitionParameter('username_as_share', $l->t('Login as share')))
@@ -48,6 +49,7 @@ class SMB_OC extends Backend {
 	/**
 	 * @return void
 	 */
+	#[\Override]
 	public function manipulateStorageConfig(StorageConfig &$storage, ?IUser $user = null) {
 		$username_as_share = ($storage->getBackendOption('username_as_share') === true);
 

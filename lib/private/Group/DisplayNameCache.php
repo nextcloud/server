@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Group;
 
 use OCP\Cache\CappedMemoryCache;
@@ -61,6 +62,7 @@ class DisplayNameCache implements IEventListener {
 		$this->memCache->clear();
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof GroupChangedEvent && $event->getFeature() === 'displayName') {
 			$groupId = $event->getGroup()->getGID();

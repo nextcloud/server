@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Node;
 
 use OCP\Constants;
@@ -19,6 +20,7 @@ class File extends Node implements \OCP\Files\File {
 	 * @param string $path path
 	 * @return NonExistingFile non-existing node
 	 */
+	#[\Override]
 	protected function createNonExistingNode($path) {
 		return new NonExistingFile($this->root, $this->view, $path);
 	}
@@ -29,6 +31,7 @@ class File extends Node implements \OCP\Files\File {
 	 * @throws GenericFileException
 	 * @throws LockedException
 	 */
+	#[\Override]
 	public function getContent() {
 		if ($this->checkPermissions(Constants::PERMISSION_READ)) {
 			$content = $this->view->file_get_contents($this->path);
@@ -47,6 +50,7 @@ class File extends Node implements \OCP\Files\File {
 	 * @throws GenericFileException
 	 * @throws LockedException
 	 */
+	#[\Override]
 	public function putContent($data) {
 		if ($this->checkPermissions(Constants::PERMISSION_UPDATE)) {
 			$this->sendHooks(['preWrite']);
@@ -66,6 +70,7 @@ class File extends Node implements \OCP\Files\File {
 	 * @throws NotPermittedException
 	 * @throws LockedException
 	 */
+	#[\Override]
 	public function fopen($mode) {
 		$preHooks = [];
 		$postHooks = [];
@@ -106,6 +111,7 @@ class File extends Node implements \OCP\Files\File {
 	 * @throws \OCP\Files\InvalidPathException
 	 * @throws \OCP\Files\NotFoundException
 	 */
+	#[\Override]
 	public function delete() {
 		if ($this->checkPermissions(Constants::PERMISSION_DELETE)) {
 			$this->sendHooks(['preDelete']);
@@ -124,6 +130,7 @@ class File extends Node implements \OCP\Files\File {
 	 * @param bool $raw
 	 * @return string
 	 */
+	#[\Override]
 	public function hash($type, $raw = false) {
 		return $this->view->hash($type, $this->path, $raw);
 	}
@@ -131,10 +138,12 @@ class File extends Node implements \OCP\Files\File {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getChecksum() {
 		return $this->getFileInfo()->getChecksum();
 	}
 
+	#[\Override]
 	public function getExtension(): string {
 		return $this->getFileInfo()->getExtension();
 	}

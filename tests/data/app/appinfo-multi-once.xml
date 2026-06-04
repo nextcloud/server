@@ -1,0 +1,149 @@
+<?xml version="1.0"?>
+<!--
+ - SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+<info xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+	<id>multi_once</id>
+	<name>Multi Once</name>
+	<summary>Every repeatable element is used exactly once.</summary>
+	<description>Fixture that exercises the single-item normalization path.</description>
+	<version>1.0.0</version>
+	<licence>agpl</licence>
+	<author>Jane Doe</author>
+	<types>
+		<filesystem/>
+		<logging/>
+	</types>
+	<documentation>
+		<user>https://example.test/multi-once/user</user>
+		<admin>https://example.test/multi-once/admin</admin>
+		<developer>https://example.test/multi-once/developer</developer>
+	</documentation>
+	<category>monitoring</category>
+	<website>https://example.test/multi-once</website>
+	<discussion>https://example.test/multi-once/discussion</discussion>
+	<bugs>https://example.test/multi-once/issues</bugs>
+	<repository>https://example.test/multi-once.git</repository>
+	<screenshot>https://example.test/multi-once.png</screenshot>
+	<donation>https://example.test/donate</donation>
+	<dependencies>
+		<database>sqlite</database>
+		<command>awk</command>
+		<lib min-version="1.0">curl</lib>
+		<nextcloud min-version="30.0" max-version="31.0"/>
+		<architecture>x86_64</architecture>
+		<backend>caldav</backend>
+	</dependencies>
+	<background-jobs>
+		<job>OCA\MultiOnce\BackgroundJob\Cleanup</job>
+	</background-jobs>
+	<repair-steps>
+		<pre-migration>
+			<step>OCA\MultiOnce\RepairStep\PreMigration</step>
+		</pre-migration>
+		<post-migration>
+			<step>OCA\MultiOnce\RepairStep\PostMigration</step>
+		</post-migration>
+		<live-migration>
+			<step>OCA\MultiOnce\RepairStep\LiveMigration</step>
+		</live-migration>
+		<install>
+			<step>OCA\MultiOnce\RepairStep\Install</step>
+		</install>
+		<uninstall>
+			<step>OCA\MultiOnce\RepairStep\Uninstall</step>
+		</uninstall>
+	</repair-steps>
+	<two-factor-providers>
+		<provider>OCA\MultiOnce\TwoFactor\Provider</provider>
+	</two-factor-providers>
+	<commands>
+		<command>OCA\MultiOnce\Command\Migrate</command>
+	</commands>
+	<settings>
+		<admin>OCA\MultiOnce\Settings\Admin</admin>
+		<admin-section>OCA\MultiOnce\Settings\AdminSection</admin-section>
+		<personal>OCA\MultiOnce\Settings\Personal</personal>
+		<personal-section>OCA\MultiOnce\Settings\PersonalSection</personal-section>
+		<admin-delegation>OCA\MultiOnce\Settings\AdminDelegation</admin-delegation>
+		<admin-delegation-section>OCA\MultiOnce\Settings\AdminDelegationSection</admin-delegation-section>
+	</settings>
+	<activity>
+		<settings>
+			<setting>OCA\MultiOnce\Activity\Setting</setting>
+		</settings>
+		<filters>
+			<filter>OCA\MultiOnce\Activity\Filter</filter>
+		</filters>
+		<providers>
+			<provider>OCA\MultiOnce\Activity\Provider</provider>
+		</providers>
+	</activity>
+	<dashboard>
+		<widget>OCA\MultiOnce\Dashboard\Widget</widget>
+	</dashboard>
+	<fulltextsearch>
+		<platform>OCA\MultiOnce\Search\Platform</platform>
+		<provider>OCA\MultiOnce\Search\Provider</provider>
+	</fulltextsearch>
+	<navigations>
+		<navigation>
+			<name>Multi Once</name>
+			<route>multi.once.route</route>
+			<icon>multi-once.svg</icon>
+			<order>1</order>
+		</navigation>
+	</navigations>
+	<contactsmenu>
+		<provider>OCA\MultiOnce\ContactsMenu\Provider</provider>
+	</contactsmenu>
+	<collaboration>
+		<plugins>
+			<plugin type="collaborator-search">OCA\MultiOnce\Collaboration\Plugin</plugin>
+		</plugins>
+	</collaboration>
+	<openmetrics>
+		<exporter>OCA\MultiOnce\OpenMetrics\Exporter</exporter>
+	</openmetrics>
+	<sabre>
+		<collections>
+			<collection>OCA\MultiOnce\Sabre\Collection</collection>
+		</collections>
+		<plugins>
+			<plugin>OCA\MultiOnce\Sabre\Plugin</plugin>
+		</plugins>
+		<address-book-plugins>
+			<plugin>OCA\MultiOnce\Sabre\AddressBookPlugin</plugin>
+		</address-book-plugins>
+		<calendar-plugins>
+			<plugin>OCA\MultiOnce\Sabre\CalendarPlugin</plugin>
+		</calendar-plugins>
+	</sabre>
+	<trash>
+		<backend for="files">OCA\MultiOnce\Trash\Backend</backend>
+	</trash>
+	<versions>
+		<backend for="files">OCA\MultiOnce\Versions\Backend</backend>
+	</versions>
+	<external-app>
+		<docker-install>
+			<registry>registry.example.test</registry>
+			<image>multi-once</image>
+			<image-tag>1.0.0</image-tag>
+		</docker-install>
+		<scopes>
+			<value>scope-one</value>
+		</scopes>
+		<system>true</system>
+		<environment-variables>
+			<variable>
+				<name>MULTI_ONCE_ONE</name>
+				<display-name>Multi Once One</display-name>
+				<description>First variable</description>
+				<default>one</default>
+			</variable>
+		</environment-variables>
+	</external-app>
+</info>

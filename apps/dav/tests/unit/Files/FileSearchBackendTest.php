@@ -97,7 +97,7 @@ class FileSearchBackendTest extends TestCase {
 					'name',
 					'foo'
 				),
-				0,
+				100,
 				0,
 				[],
 				$this->user
@@ -126,7 +126,7 @@ class FileSearchBackendTest extends TestCase {
 					'mimetype',
 					'foo'
 				),
-				0,
+				100,
 				0,
 				[],
 				$this->user
@@ -155,7 +155,7 @@ class FileSearchBackendTest extends TestCase {
 					'size',
 					10
 				),
-				0,
+				100,
 				0,
 				[],
 				$this->user
@@ -184,7 +184,7 @@ class FileSearchBackendTest extends TestCase {
 					'mtime',
 					10
 				),
-				0,
+				100,
 				0,
 				[],
 				$this->user
@@ -213,7 +213,7 @@ class FileSearchBackendTest extends TestCase {
 					'mimetype',
 					FileInfo::MIMETYPE_FOLDER
 				),
-				0,
+				100,
 				0,
 				[],
 				$this->user
@@ -228,7 +228,6 @@ class FileSearchBackendTest extends TestCase {
 		$this->assertCount(1, $result);
 		$this->assertEquals('/files/test/test/path', $result[0]->href);
 	}
-
 
 	public function testSearchInvalidProp(): void {
 		$this->expectException(\InvalidArgumentException::class);
@@ -265,7 +264,6 @@ class FileSearchBackendTest extends TestCase {
 
 		return new Query($select, $from, $where, $orderBy, $limit);
 	}
-
 
 	public function testSearchNonFolder(): void {
 		$this->expectException(\InvalidArgumentException::class);

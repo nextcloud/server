@@ -1,6 +1,7 @@
 OC.L10N.register(
     "profile",
     {
+    "View profile" : "查看个人资料",
     "Profile" : "个人资料",
     "This application provides the profile" : "此应用程序提供个人资料",
     "Provides a customisable user profile interface." : "提供可定制的用户个人资料界面。",
@@ -13,7 +14,7 @@ OC.L10N.register(
     "Edit Profile" : "编辑个人资料",
     "The headline and about sections will show up here" : "标题和关于部分将显示在此处",
     "Profile not found" : "未找到个人资料",
-    "The profile does not exist." : "个人资料不存在",
-    "Back to %s" : "返回 %s"
+    "Back to %s" : "返回 %s",
+    "The profile does not exist." : "个人资料不存在"
 },
 "nplurals=1; plural=0;");

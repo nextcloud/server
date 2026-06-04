@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace Test\Settings\Controller;
 
 use OC\AppFramework\Http;
@@ -144,7 +145,6 @@ class AuthSettingsControllerTest extends TestCase {
 		$this->tokenProvider->expects($this->never())
 			->method('getPassword');
 
-
 		$this->tokenProvider->expects($this->never())
 			->method('generateToken');
 
@@ -231,6 +231,43 @@ class AuthSettingsControllerTest extends TestCase {
 			->with($this->uid, $tokenId);
 
 		$this->assertSame([], $this->controller->destroy($tokenId));
+	}
+
+	public function testDestroyWipePendingEmitsCancelledSubject(): void {
+		$tokenId = 125;
+		$token = $this->createMock(PublicKeyToken::class);
+
+		$token->method('getId')->willReturn($tokenId);
+		$token->method('getName')->willReturn('My phone');
+
+		$this->tokenProvider->expects($this->once())
+			->method('getTokenById')
+			->with($tokenId)
+			->willThrowException(new \OCP\Authentication\Exceptions\WipeTokenException($token));
+
+		// The token is still invalidated (the user opted into cancelling the wipe).
+		$this->tokenProvider->expects($this->once())
+			->method('invalidateTokenById')
+			->with($this->uid, $tokenId);
+
+		// Activity event must use the distinguishing subject.
+		$event = $this->createMock(IEvent::class);
+		$event->method('setApp')->willReturnSelf();
+		$event->method('setType')->willReturnSelf();
+		$event->method('setAffectedUser')->willReturnSelf();
+		$event->method('setAuthor')->willReturnSelf();
+		$event->method('setObject')->willReturnSelf();
+		$event->expects($this->once())
+			->method('setSubject')
+			->with(\OCA\Settings\Activity\Provider::APP_TOKEN_DELETED_WIPE_CANCELLED, ['name' => 'My phone'])
+			->willReturnSelf();
+		$this->activityManager->expects($this->once())
+			->method('generateEvent')
+			->willReturn($event);
+		$this->activityManager->expects($this->once())
+			->method('publish');
+
+		$this->assertEquals([], $this->controller->destroy($tokenId));
 	}
 
 	public function testDestroyWrongUser(): void {

@@ -28,6 +28,7 @@ class JSResourceLocatorTest extends \Test\TestCase {
 	private LoggerInterface&MockObject $logger;
 	private IAppManager&MockObject $appManager;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

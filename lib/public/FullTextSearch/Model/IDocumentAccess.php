@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\FullTextSearch\Model;
 
 /**
@@ -38,7 +39,6 @@ interface IDocumentAccess {
 	 */
 	public function __construct(string $ownerId = '');
 
-
 	/**
 	 * Set the Owner of the document.
 	 *
@@ -59,7 +59,6 @@ interface IDocumentAccess {
 	 */
 	public function getOwnerId(): string;
 
-
 	/**
 	 * Set the viewer of the document.
 	 *
@@ -79,7 +78,6 @@ interface IDocumentAccess {
 	 * @return string
 	 */
 	public function getViewerId(): string;
-
 
 	/**
 	 * Set the list of users that have read access to the document.
@@ -124,7 +122,6 @@ interface IDocumentAccess {
 	 */
 	public function getUsers(): array;
 
-
 	/**
 	 * Set the list of groups that have read access to the document.
 	 *
@@ -168,7 +165,6 @@ interface IDocumentAccess {
 	 */
 	public function getGroups(): array;
 
-
 	/**
 	 * Set the list of circles that have read access to the document.
 	 *
@@ -211,7 +207,6 @@ interface IDocumentAccess {
 	 * @return array
 	 */
 	public function getCircles(): array;
-
 
 	/**
 	 * Set the list of links that have read access to the document.

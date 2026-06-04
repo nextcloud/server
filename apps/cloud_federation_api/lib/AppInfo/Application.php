@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\CloudFederationAPI\AppInfo;
 
 use OCA\CloudFederationAPI\Capabilities;
@@ -21,10 +22,12 @@ class Application extends App implements IBootstrap {
 		parent::__construct(self::APP_ID);
 	}
 
+	#[\Override]
 	public function register(IRegistrationContext $context): void {
 		$context->registerCapability(Capabilities::class);
 	}
 
+	#[\Override]
 	public function boot(IBootContext $context): void {
 	}
 }

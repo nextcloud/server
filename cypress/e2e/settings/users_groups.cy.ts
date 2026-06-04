@@ -4,12 +4,20 @@
  */
 
 import { User } from '@nextcloud/e2e-test-server/cypress'
+import { clearState } from '../../support/commonUtils.ts'
 import { randomString } from '../../support/utils/randomString.ts'
-import { assertNotExistOrNotVisible, getUserListRow, handlePasswordConfirmation, toggleEditButton } from './usersUtils.ts'
+import { handlePasswordConfirmation } from '../core-utils.ts'
+import { assertNotExistOrNotVisible, getUserListRow, openEditDialog, saveEditDialog } from './usersUtils.ts'
 
 const admin = new User('admin', 'admin')
 
 describe('Settings: Create groups', () => {
+	let groupName: string
+
+	after(() => {
+		cy.runOccCommand(`group:delete '${groupName!}'`)
+	})
+
 	before(() => {
 		cy.login(admin)
 		cy.visit('/settings/users')
@@ -18,7 +26,7 @@ describe('Settings: Create groups', () => {
 	it('Can create a group', () => {
 		cy.intercept('POST', '**/ocs/v2.php/cloud/groups').as('createGroups')
 
-		const groupName = randomString(7)
+		groupName = randomString(7)
 		// open the Create group menu
 		cy.get('button[aria-label="Create group"]').click()
 
@@ -49,8 +57,14 @@ describe('Settings: Assign user to a group', { testIsolation: false }, () => {
 	const groupName = randomString(7)
 	let testUser: User
 
-	after(() => cy.deleteUser(testUser))
+	after(() => {
+		cy.deleteUser(testUser)
+		cy.runOccCommand(`group:delete '${groupName}'`)
+	})
+
 	before(() => {
+		clearState()
+
 		cy.createRandomUser().then((user) => {
 			testUser = user
 		})
@@ -76,34 +90,27 @@ describe('Settings: Assign user to a group', { testIsolation: false }, () => {
 			.scrollIntoView()
 	})
 
-	it('switch into user edit mode', () => {
-		toggleEditButton(testUser)
-		getUserListRow(testUser.userId)
-			.find('[data-cy-user-list-input-groups]')
-			.should('exist')
-	})
+	it('assign the group via the edit dialog', () => {
+		openEditDialog(testUser)
 
-	it('assign the group', () => {
-		// focus inside the input
-		getUserListRow(testUser.userId)
-			.find('[data-cy-user-list-input-groups] input')
-			.click({ force: true })
-		// enter the group name
-		getUserListRow(testUser.userId)
-			.find('[data-cy-user-list-input-groups] input')
-			.type(`${groupName.slice(0, 5)}`) // only type part as otherwise we would create a new one with the same name
-		cy.contains('li.vs__dropdown-option', groupName)
-			.click({ force: true })
+		// Type part of the group name in the groups NcSelect
+		cy.get('.edit-dialog [data-test="form"]').within(() => {
+			cy.get('[data-test="groups"] input[type="search"]').click({ force: true })
+			cy.get('[data-test="groups"] input[type="search"]').type(groupName.slice(0, 5))
+		})
+
+		// Select the group from the floating dropdown
+		cy.get('.vs__dropdown-menu').should('be.visible')
+			.contains('li', groupName).click({ force: true })
 
 		handlePasswordConfirmation(admin.password)
-	})
+		saveEditDialog()
 
-	it('leave the user edit mode', () => {
-		toggleEditButton(testUser, false)
+		cy.get('.toastify.toast-success').contains(/Account updated/i).should('exist')
 	})
 
 	it('see the group was successfully assigned', () => {
-		// see a new memeber
+		// see a new member
 		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').find('li').contains(groupName)
 			.find('.counter-bubble__counter')
 			.should('contain', '1')
@@ -120,6 +127,9 @@ describe('Settings: Assign user to a group', { testIsolation: false }, () => {
 describe('Settings: Delete an empty group', { testIsolation: false }, () => {
 	const groupName = randomString(7)
 
+	after(() => {
+		cy.runOccCommand(`group:delete '${groupName}'`, { failOnNonZeroExit: false })
+	})
 	before(() => {
 		cy.runOccCommand(`group:add '${groupName}'`)
 		cy.login(admin)
@@ -151,7 +161,8 @@ describe('Settings: Delete an empty group', { testIsolation: false }, () => {
 
 	it('deleted group is not shown anymore', () => {
 		// see that the list of groups does not contain the group
-		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').find('li').contains(groupName)
+		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]')
+			.find('li')
 			.should('not.exist')
 		// and also not in database
 		cy.runOccCommand('group:list --output=json').then(($response) => {
@@ -164,6 +175,10 @@ describe('Settings: Delete an empty group', { testIsolation: false }, () => {
 describe('Settings: Delete a non empty group', () => {
 	let testUser: User
 	const groupName = randomString(7)
+
+	after(() => {
+		cy.runOccCommand(`group:delete '${groupName}'`, { failOnNonZeroExit: false })
+	})
 
 	before(() => {
 		cy.runOccCommand(`group:add '${groupName}'`)
@@ -202,7 +217,8 @@ describe('Settings: Delete a non empty group', () => {
 
 	it('deleted group is not shown anymore', () => {
 		// see that the list of groups does not contain the group foo
-		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').find('li').contains(groupName)
+		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]')
+			.find('li')
 			.should('not.exist')
 		// and also not in database
 		cy.runOccCommand('group:list --output=json').then(($response) => {
@@ -215,12 +231,7 @@ describe('Settings: Delete a non empty group', () => {
 describe('Settings: Sort groups in the UI', () => {
 	before(() => {
 		// Clear state
-		cy.runOccCommand('group:list --output json').then((output) => {
-			const groups = Object.keys(JSON.parse(output.stdout)).filter((group) => group !== 'admin')
-			groups.forEach((group) => {
-				cy.runOccCommand(`group:delete '${group}'`)
-			})
-		})
+		clearState()
 
 		// Add two groups and add one user to group B
 		cy.runOccCommand('group:add A')

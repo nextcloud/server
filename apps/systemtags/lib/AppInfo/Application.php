@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\SystemTags\AppInfo;
 
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
@@ -32,6 +33,7 @@ class Application extends App implements IBootstrap {
 		parent::__construct(self::APP_ID);
 	}
 
+	#[\Override]
 	public function register(IRegistrationContext $context): void {
 		$context->registerSearchProvider(TagSearchProvider::class);
 		$context->registerCapability(Capabilities::class);
@@ -40,6 +42,7 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(BeforeSabrePubliclyLoadedEvent::class, BeforeSabrePubliclyLoadedListener::class);
 	}
 
+	#[\Override]
 	public function boot(IBootContext $context): void {
 		$context->injectFn(function (IEventDispatcher $dispatcher) use ($context): void {
 			$managerListener = function (ManagerEvent $event) use ($context): void {

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\Cache\Storage;
@@ -15,6 +16,7 @@ use OC\SystemConfig;
 use OC\User\DisplayNameCache;
 use OCA\Files_Sharing\AppInfo\Application;
 use OCA\Files_Sharing\External\MountProvider as ExternalMountProvider;
+use OCA\Files_Sharing\Listener\SharesUpdatedListener;
 use OCA\Files_Sharing\MountProvider;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\IRootFolder;
@@ -99,6 +101,8 @@ abstract class TestCase extends \Test\TestCase {
 		$groupBackend->addToGroup(self::TEST_FILES_SHARING_API_USER4, 'group3');
 		$groupBackend->addToGroup(self::TEST_FILES_SHARING_API_USER2, self::TEST_FILES_SHARING_API_GROUP1);
 		Server::get(IGroupManager::class)->addBackend($groupBackend);
+
+		Server::get(SharesUpdatedListener::class)->setCutOffMarkTime(-1);
 	}
 
 	protected function setUp(): void {

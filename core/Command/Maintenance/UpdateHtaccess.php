@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Command\Maintenance;
 
 use OC\Setup;
@@ -15,12 +16,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class UpdateHtaccess extends Command {
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('maintenance:update:htaccess')
 			->setDescription('Updates the .htaccess file');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		if (Setup::updateHtaccess()) {
 			$output->writeln('.htaccess has been updated');

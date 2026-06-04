@@ -167,7 +167,6 @@ class AllConfigTest extends \Test\TestCase {
 		$config->setUserValue('userSetBool', 'appSetBool', 'keySetBool', $value);
 	}
 
-
 	public function testSetUserValueWithPreConditionFailure(): void {
 		$this->expectException(PreConditionNotMetException::class);
 

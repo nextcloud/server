@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Repair;
 
 use OC\TaskProcessing\RemoveOldTasksBackgroundJob;
@@ -21,10 +22,12 @@ class AddRemoveOldTasksBackgroundJob implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Add AI tasks cleanup jobs';
 	}
 
+	#[\Override]
 	public function run(IOutput $output) {
 		$this->jobList->add(RemoveOldTextProcessingTasksBackgroundJob::class);
 		$this->jobList->add(RemoveOldTextToImageTasksBackgroundJob::class);

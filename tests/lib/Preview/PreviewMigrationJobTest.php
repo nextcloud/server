@@ -3,8 +3,7 @@
 declare(strict_types=1);
 
 /*
- * SPDX-FileCopyrightText: 2025 Nextcloud GmbH
- * SPDX-FileContributor: Carl Schwan
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
@@ -43,6 +42,7 @@ class PreviewMigrationJobTest extends TestCase {
 	private IMimeTypeDetector&MockObject $mimeTypeDetector;
 	private LoggerInterface&MockObject $logger;
 
+	#[\Override]
 	public function setUp(): void {
 		parent::setUp();
 		$this->previewAppData = Server::get(IAppDataFactory::class)->get('preview');
@@ -92,6 +92,7 @@ class PreviewMigrationJobTest extends TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 	}
 
+	#[\Override]
 	public function tearDown(): void {
 		foreach ($this->previewAppData->getDirectoryListing() as $folder) {
 			$folder->delete();
@@ -102,6 +103,7 @@ class PreviewMigrationJobTest extends TestCase {
 		$qb->delete('filecache')
 			->where($qb->expr()->eq('fileid', $qb->createNamedParameter(5)))
 			->executeStatement();
+		parent::tearDown();
 	}
 
 	#[TestDox('Test the migration from the legacy flat hierarchy to the new database format')]

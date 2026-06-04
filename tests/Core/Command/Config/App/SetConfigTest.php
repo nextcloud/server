@@ -27,6 +27,7 @@ class SetConfigTest extends TestCase {
 	protected OutputInterface&MockObject $consoleOutput;
 	protected Command $command;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -37,7 +38,6 @@ class SetConfigTest extends TestCase {
 
 		$this->command = new SetConfig($this->appConfig, $this->configManager);
 	}
-
 
 	public static function dataSet(): array {
 		return [

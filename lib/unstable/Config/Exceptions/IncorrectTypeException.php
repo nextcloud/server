@@ -15,5 +15,5 @@ use Exception;
  * @deprecated 32.0.0  use \OCP\Config\Exceptions\IncorrectTypeException
  * @see \OCP\Config\Exceptions\IncorrectTypeException
  */
-class IncorrectTypeException extends Exception {
+final class IncorrectTypeException extends Exception {
 }

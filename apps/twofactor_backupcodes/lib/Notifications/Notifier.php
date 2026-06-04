@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\TwoFactorBackupCodes\Notifications;
 
 use OCP\IURLGenerator;
@@ -28,6 +29,7 @@ class Notifier implements INotifier {
 	 * @return string
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function getID(): string {
 		return 'twofactor_backupcodes';
 	}
@@ -38,10 +40,12 @@ class Notifier implements INotifier {
 	 * @return string
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->factory->get('twofactor_backupcodes')->t('Second-factor backup codes');
 	}
 
+	#[\Override]
 	public function prepare(INotification $notification, string $languageCode): INotification {
 		if ($notification->getApp() !== 'twofactor_backupcodes') {
 			// Not my app => throw
@@ -64,7 +68,6 @@ class Notifier implements INotifier {
 				$notification->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/password.svg')));
 
 				return $notification;
-
 			default:
 				// Unknown subject => Unknown notification => throw
 				throw new UnknownNotificationException();

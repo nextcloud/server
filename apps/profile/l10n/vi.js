@@ -1,6 +1,7 @@
 OC.L10N.register(
     "profile",
     {
+    "View profile" : "Xem hồ sơ",
     "Profile" : "Hồ sơ",
     "Not found" : "Không tìm thấy",
     "You have not added any info yet" : "Bạn chưa thêm bất kỳ thông tin nào",
@@ -9,7 +10,7 @@ OC.L10N.register(
     "Edit Profile" : "Chỉnh sửa hồ sơ",
     "The headline and about sections will show up here" : "Dòng tiêu đề và phần giới thiệu sẽ hiển thị ở đây",
     "Profile not found" : "Không tìm thấy hồ sơ",
-    "The profile does not exist." : "Hồ sơ không tồn tại.",
-    "Back to %s" : "Quay lại %s"
+    "Back to %s" : "Quay lại %s",
+    "The profile does not exist." : "Hồ sơ không tồn tại."
 },
 "nplurals=1; plural=0;");

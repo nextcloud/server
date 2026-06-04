@@ -12,6 +12,7 @@ OC.L10N.register(
     "Files" : "Файлы",
     "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "Вы были упомянуты в комментарии к «{file}» пользователем, учётная запись которого была удалена.",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} упомянул(а) вас в комментарии к «{file}»",
+    "Go to file" : "Перейти к файлу",
     "Files app plugin to add comments to files" : "Модуль приложения «Файлы», позволяющий комментировать файлы",
     "Edit comment" : "Редактировать комментарий",
     "Delete comment" : "Удалить комментарий",

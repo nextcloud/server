@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Authentication\WebAuthn;
 
 use OC\Authentication\WebAuthn\Db\PublicKeyCredentialEntity;
@@ -21,6 +22,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository {
 	) {
 	}
 
+	#[\Override]
 	public function findOneByCredentialId(string $publicKeyCredentialId): ?PublicKeyCredentialSource {
 		try {
 			$entity = $this->credentialMapper->findOneByCredentialId($publicKeyCredentialId);
@@ -33,6 +35,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository {
 	/**
 	 * @return PublicKeyCredentialSource[]
 	 */
+	#[\Override]
 	public function findAllForUserEntity(PublicKeyCredentialUserEntity $publicKeyCredentialUserEntity): array {
 		$uid = $publicKeyCredentialUserEntity->getId();
 		$entities = $this->credentialMapper->findAllForUid($uid);
@@ -73,6 +76,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository {
 		return $this->credentialMapper->insertOrUpdate($entity);
 	}
 
+	#[\Override]
 	public function saveCredentialSource(PublicKeyCredentialSource $publicKeyCredentialSource, ?string $name = null): void {
 		$this->saveAndReturnCredentialSource($publicKeyCredentialSource, $name);
 	}

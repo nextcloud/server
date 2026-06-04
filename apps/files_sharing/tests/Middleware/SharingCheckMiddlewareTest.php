@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Middleware;
 
 use OCA\Files_Sharing\Controller\ExternalSharesController;
@@ -173,7 +174,6 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 		$this->sharingCheckMiddleware->beforeController($controller, 'myMethod');
 	}
 
-
 	public function testBeforeControllerWithSharingDisabled(): void {
 		$this->expectException(NotFoundException::class);
 		$this->expectExceptionMessage('Sharing is disabled.');
@@ -186,7 +186,6 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 
 		$this->sharingCheckMiddleware->beforeController($this->controllerMock, 'myMethod');
 	}
-
 
 	public function testAfterExceptionWithRegularException(): void {
 		$this->expectException(\Exception::class);

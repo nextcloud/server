@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Diagnostics;
 
 use OCP\Cache\CappedMemoryCache;
@@ -23,7 +24,6 @@ class QueryLogger implements IQueryLogger {
 		$this->queries = new CappedMemoryCache(1024);
 	}
 
-
 	/**
 	 * @var bool - Module needs to be activated by some app
 	 */
@@ -32,6 +32,7 @@ class QueryLogger implements IQueryLogger {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function startQuery($sql, ?array $params = null, ?array $types = null) {
 		if ($this->activated) {
 			$this->activeQuery = new Query($sql, $params, microtime(true), $this->getStack());
@@ -49,6 +50,7 @@ class QueryLogger implements IQueryLogger {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function stopQuery() {
 		if ($this->activated && $this->activeQuery) {
 			$this->activeQuery->end(microtime(true));
@@ -61,6 +63,7 @@ class QueryLogger implements IQueryLogger {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getQueries() {
 		return $this->queries->getData();
 	}
@@ -68,6 +71,7 @@ class QueryLogger implements IQueryLogger {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function activate() {
 		$this->activated = true;
 	}

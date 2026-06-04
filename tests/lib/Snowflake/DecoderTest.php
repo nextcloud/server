@@ -17,6 +17,7 @@ use Test\TestCase;
 class DecoderTest extends TestCase {
 	private SnowflakeDecoder $decoder;
 
+	#[\Override]
 	public function setUp():void {
 		$this->decoder = new SnowflakeDecoder();
 	}

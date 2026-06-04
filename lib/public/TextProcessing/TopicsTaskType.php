@@ -32,11 +32,11 @@ class TopicsTaskType implements ITaskType {
 		$this->l = $l10nFactory->get('core');
 	}
 
-
 	/**
 	 * @inheritDoc
 	 * @since 27.1.0
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->l->t('Extract topics');
 	}
@@ -45,6 +45,7 @@ class TopicsTaskType implements ITaskType {
 	 * @inheritDoc
 	 * @since 27.1.0
 	 */
+	#[\Override]
 	public function getDescription(): string {
 		return $this->l->t('Extracts topics from a text and outputs them separated by commas.');
 	}

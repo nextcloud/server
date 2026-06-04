@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\Share;
 
 use OCP\AppFramework\Attribute\Consumable;
@@ -353,7 +354,6 @@ interface IShare {
 	 */
 	public function getNote();
 
-
 	/**
 	 * Set the expiration date
 	 *
@@ -379,7 +379,6 @@ interface IShare {
 	 * @since 30.0.0
 	 */
 	public function setNoExpirationDate(bool $noExpirationDate);
-
 
 	/**
 	 * Get value of overwrite falsy expiry date flag
@@ -546,6 +545,13 @@ interface IShare {
 	public function setTarget($target);
 
 	/**
+	 * Return the original target, if this share was moved
+	 *
+	 * @since 33.0.0
+	 */
+	public function getOriginalTarget(): ?string;
+
+	/**
 	 * Get the target path of this share relative to the recipients user folder.
 	 *
 	 * @return string
@@ -645,6 +651,15 @@ interface IShare {
 	 * Check if the current user can see this share files contents.
 	 * This will check the download permissions as well as the global
 	 * admin setting to allow viewing files without downloading.
+	 *
+	 * @since 32.0.0
 	 */
 	public function canSeeContent(): bool;
+
+	/**
+	 * Check if it is allowed to download this share.
+	 *
+	 * @since 34.0.0
+	 */
+	public function canDownload(): bool;
 }

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Sharing\Middleware;
 
 use OCA\Files_Sharing\Controller\ShareAPIController;
@@ -29,6 +30,7 @@ class OCSShareAPIMiddleware extends Middleware {
 	 *
 	 * @throws OCSNotFoundException
 	 */
+	#[\Override]
 	public function beforeController($controller, $methodName) {
 		if ($controller instanceof ShareAPIController) {
 			if (!$this->shareManager->shareApiEnabled()) {
@@ -43,6 +45,7 @@ class OCSShareAPIMiddleware extends Middleware {
 	 * @param Response $response
 	 * @return Response
 	 */
+	#[\Override]
 	public function afterController($controller, $methodName, Response $response) {
 		if ($controller instanceof ShareAPIController) {
 			/** @var ShareAPIController $controller */

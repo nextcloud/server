@@ -1,6 +1,7 @@
 OC.L10N.register(
     "profile",
     {
+    "View profile" : "مشاهدهٔ نمایه",
     "Profile" : "نمایه",
     "Searching …" : "درحال جستجو",
     "Not found" : "پیدا نشد.",
@@ -11,7 +12,7 @@ OC.L10N.register(
     "Edit Profile" : "ویرایش نمایه",
     "The headline and about sections will show up here" : "The headline and about sections will show up here",
     "Profile not found" : "نمایه، یافت نشد",
-    "The profile does not exist." : "این نمایه وجود ندارد.",
-    "Back to %s" : "Back to %s"
+    "Back to %s" : "Back to %s",
+    "The profile does not exist." : "این نمایه وجود ندارد."
 },
 "nplurals=2; plural=(n > 1);");

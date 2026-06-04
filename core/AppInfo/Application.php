@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\AppInfo;
 
 use OC\Authentication\Events\RemoteWipeFinished;
@@ -23,6 +24,7 @@ use OC\Core\Listener\BeforeTemplateRenderedListener;
 use OC\Core\Listener\PasswordUpdatedListener;
 use OC\Core\Notification\CoreNotifier;
 use OC\OCM\OCMDiscoveryHandler;
+use OC\OCM\OCMJwksHandler;
 use OC\TagManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
@@ -32,6 +34,11 @@ use OCP\AppFramework\Http\Events\BeforeLoginTemplateRenderedEvent;
 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\DB\Events\AddMissingIndicesEvent;
 use OCP\DB\Events\AddMissingPrimaryKeyEvent;
+use OCP\INavigationManager;
+use OCP\IURLGenerator;
+use OCP\IUserSession;
+use OCP\L10N\IFactory;
+use OCP\Server;
 use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\User\Events\PasswordUpdatedEvent;
 use OCP\User\Events\UserDeletedEvent;
@@ -53,6 +60,7 @@ class Application extends App implements IBootstrap {
 		parent::__construct(self::APP_ID, $urlParams);
 	}
 
+	#[\Override]
 	public function register(IRegistrationContext $context): void {
 		$context->registerService('defaultMailAddress', function () {
 			return Util::getDefaultEmailAddress('lostpassword-noreply');
@@ -87,11 +95,42 @@ class Application extends App implements IBootstrap {
 		$context->registerConfigLexicon(ConfigLexicon::class);
 
 		$context->registerWellKnownHandler(OCMDiscoveryHandler::class);
+		$context->registerWellKnownHandler(OCMJwksHandler::class);
 		$context->registerCapability(Capabilities::class);
 	}
 
+	#[\Override]
 	public function boot(IBootContext $context): void {
-		// ...
+		$context->injectFn($this->registerNavigationEntries(...));
+	}
+
+	/**
+	 * Registers the navigation entries for the core app:
+	 * - The logout button in the settings menu
+	 */
+	public function registerNavigationEntries(
+		INavigationManager $navigationManager,
+		IUserSession $userSession,
+		IURLGenerator $urlGenerator,
+	): void {
+		if (!$userSession->isLoggedIn()) {
+			return;
+		}
+
+		$l = Server::get(IFactory::class)->get('core');
+
+		// Register the logout button in the user settings
+		$logoutUrl = \OC_User::getLogoutUrl($urlGenerator);
+		if ($logoutUrl !== '') {
+			$navigationManager->add([
+				'type' => 'settings',
+				'id' => 'logout',
+				'order' => 99999,
+				'href' => $logoutUrl,
+				'name' => $l->t('Log out'),
+				'icon' => $urlGenerator->imagePath('core', 'actions/logout.svg'),
+			]);
+		}
 	}
 
 }

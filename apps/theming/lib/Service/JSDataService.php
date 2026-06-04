@@ -6,11 +6,15 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Theming\Service;
 
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 
+/**
+ * @deprecated since Nextcloud 34 — all properties are now exposed via Capabilities
+ */
 class JSDataService implements \JsonSerializable {
 
 	public function __construct(
@@ -23,6 +27,7 @@ class JSDataService implements \JsonSerializable {
 		$this->themesService = $themesService;
 	}
 
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'name' => $this->themingDefaults->getName(),
@@ -40,10 +45,6 @@ class JSDataService implements \JsonSerializable {
 
 			'cacheBuster' => $this->util->getCacheBuster(),
 			'enabledThemes' => $this->themesService->getEnabledThemes(),
-
-			// deprecated use primaryColor
-			'color' => $this->themingDefaults->getColorPrimary(),
-			'' => 'color is deprecated since Nextcloud 29, use primaryColor instead'
 		];
 	}
 }

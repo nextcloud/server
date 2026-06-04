@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Security\VerificationToken;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -36,6 +37,7 @@ class VerificationToken implements IVerificationToken {
 		throw new InvalidTokenException($code);
 	}
 
+	#[\Override]
 	public function check(
 		string $token,
 		?IUser $user,
@@ -78,6 +80,7 @@ class VerificationToken implements IVerificationToken {
 		}
 	}
 
+	#[\Override]
 	public function create(
 		IUser $user,
 		string $subject,
@@ -103,6 +106,7 @@ class VerificationToken implements IVerificationToken {
 		return $token;
 	}
 
+	#[\Override]
 	public function delete(string $token, IUser $user, string $subject): void {
 		$this->config->deleteUserValue($user->getUID(), 'core', $subject);
 	}

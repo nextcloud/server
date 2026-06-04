@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 use OC\Files\Filesystem;
-use OC\Files\Storage\Wrapper\PermissionsMask;
+use OC\Files\Storage\Wrapper\DirPermissionsMask;
 use OC\Files\View;
 use OCA\DAV\Connector\LegacyPublicAuth;
 use OCA\DAV\Connector\Sabre\ServerFactory;
@@ -92,14 +92,17 @@ $server = $serverFactory->createServer(
 		}
 
 		$share = $authBackend->getShare();
-		$owner = $share->getShareOwner();
 		$isReadable = $share->getPermissions() & Constants::PERMISSION_READ;
 		$fileId = $share->getNodeId();
 
 		// FIXME: should not add storage wrappers outside of preSetup, need to find a better way
 		$previousLog = Filesystem::logWarningWhenAddingStorageWrapper(false);
 		Filesystem::addStorageWrapper('sharePermissions', function ($mountPoint, $storage) use ($share) {
-			return new PermissionsMask(['storage' => $storage, 'mask' => $share->getPermissions() | Constants::PERMISSION_SHARE]);
+			return new DirPermissionsMask([
+				'storage' => $storage,
+				'mask' => $share->getPermissions() | Constants::PERMISSION_SHARE,
+				'path' => 'files'
+			]);
 		});
 		Filesystem::addStorageWrapper('shareOwner', function ($mountPoint, $storage) use ($share) {
 			return new PublicOwnerWrapper(['storage' => $storage, 'owner' => $share->getShareOwner()]);
@@ -107,7 +110,7 @@ $server = $serverFactory->createServer(
 		Filesystem::logWarningWhenAddingStorageWrapper($previousLog);
 
 		$rootFolder = Server::get(IRootFolder::class);
-		$userFolder = $rootFolder->getUserFolder($owner);
+		$userFolder = $rootFolder->getUserFolder($share->getSharedBy());
 		$node = $userFolder->getFirstNodeById($fileId);
 		if (!$node) {
 			throw new \Sabre\DAV\Exception\NotFound();

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Tests\Controller;
 
 use OCA\FederatedFileSharing\FederatedShareProvider;
@@ -199,7 +200,6 @@ class ShareesAPIControllerTest extends TestCase {
 			[[
 				'itemType' => 'folder',
 			], 'no', 'no', false, true, true, true, $allTypes, false, false, true],
-
 		];
 	}
 
@@ -282,13 +282,10 @@ class ShareesAPIControllerTest extends TestCase {
 
 		$sharees->expects($this->any())
 			->method('isRemoteSharingAllowed')
-			->with($itemType)
 			->willReturn($remoteSharingEnabled);
-
 
 		$sharees->expects($this->any())
 			->method('isRemoteGroupSharingAllowed')
-			->with($itemType)
 			->willReturn($isRemoteGroupSharingEnabled);
 
 		$this->shareManager->expects($this->any())
@@ -383,25 +380,6 @@ class ShareesAPIControllerTest extends TestCase {
 		} catch (OCSBadRequestException $e) {
 			$this->assertEquals($message, $e->getMessage());
 		}
-	}
-
-	public static function dataIsRemoteSharingAllowed() {
-		return [
-			['file', true],
-			['folder', true],
-			['', false],
-			['contacts', false],
-		];
-	}
-
-	/**
-	 *
-	 * @param string $itemType
-	 * @param bool $expected
-	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataIsRemoteSharingAllowed')]
-	public function testIsRemoteSharingAllowed($itemType, $expected): void {
-		$this->assertSame($expected, $this->invokePrivate($this->sharees, 'isRemoteSharingAllowed', [$itemType]));
 	}
 
 	public function testSearchSharingDisabled(): void {

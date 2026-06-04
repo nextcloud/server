@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Authentication\LoginCredentials;
 
 use Exception;
@@ -58,6 +59,7 @@ class Store implements IStore {
 	 * @return ICredentials the login credentials of the current user
 	 * @throws CredentialsUnavailableException
 	 */
+	#[\Override]
 	public function getLoginCredentials(): ICredentials {
 		if ($this->tokenProvider === null) {
 			throw new CredentialsUnavailableException();

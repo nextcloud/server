@@ -20,6 +20,7 @@ class FileDisplayResponseTest extends \Test\TestCase {
 	private File&MockObject $file;
 	private FileDisplayResponse $response;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -68,7 +69,6 @@ class FileDisplayResponseTest extends \Test\TestCase {
 
 		$this->response->callback($output);
 	}
-
 
 	public function testNon304(): void {
 		$resource = fopen('php://memory', 'w+b');

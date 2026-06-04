@@ -38,7 +38,6 @@ use OCP\IAppConfig;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IL10N;
-use OCP\IServerContainer;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
@@ -84,6 +83,7 @@ use OCP\TaskProcessing\TaskTypes\TextToTextChatWithTools;
 use OCP\TaskProcessing\TaskTypes\TextToTextFormalization;
 use OCP\TaskProcessing\TaskTypes\TextToTextHeadline;
 use OCP\TaskProcessing\TaskTypes\TextToTextProofread;
+use OCP\TaskProcessing\TaskTypes\TextToTextReformatParagraphs;
 use OCP\TaskProcessing\TaskTypes\TextToTextReformulation;
 use OCP\TaskProcessing\TaskTypes\TextToTextSimplification;
 use OCP\TaskProcessing\TaskTypes\TextToTextSummary;
@@ -97,6 +97,7 @@ use OCP\TextProcessing\IProviderWithUserId;
 use OCP\TextProcessing\SummaryTaskType;
 use OCP\TextProcessing\TopicsTaskType;
 use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 
@@ -140,7 +141,7 @@ class Manager implements IManager {
 	public function __construct(
 		private IAppConfig $appConfig,
 		private Coordinator $coordinator,
-		private IServerContainer $serverContainer,
+		private ContainerInterface $serverContainer,
 		private LoggerInterface $logger,
 		private TaskMapper $taskMapper,
 		private IJobList $jobList,
@@ -159,7 +160,6 @@ class Manager implements IManager {
 		$this->appData = $appDataFactory->get('core');
 		$this->distributedCache = $cacheFactory->createDistributed('task_processing::');
 	}
-
 
 	/**
 	 * This is almost a copy of textProcessingManager->getProviders
@@ -197,6 +197,7 @@ class Manager implements IManager {
 				) {
 				}
 
+				#[\Override]
 				public function getId(): string {
 					if ($this->provider instanceof IProviderWithId) {
 						return $this->provider->getId();
@@ -204,10 +205,12 @@ class Manager implements IManager {
 					return Manager::LEGACY_PREFIX_TEXTPROCESSING . $this->provider::class;
 				}
 
+				#[\Override]
 				public function getName(): string {
 					return $this->provider->getName();
 				}
 
+				#[\Override]
 				public function getTaskTypeId(): string {
 					return match ($this->provider->getTaskType()) {
 						FreePromptTaskType::class => TextToText::ID,
@@ -218,6 +221,7 @@ class Manager implements IManager {
 					};
 				}
 
+				#[\Override]
 				public function getExpectedRuntime(): int {
 					if ($this->provider instanceof IProviderWithExpectedRuntime) {
 						return $this->provider->getExpectedRuntime();
@@ -225,14 +229,17 @@ class Manager implements IManager {
 					return 60;
 				}
 
+				#[\Override]
 				public function getOptionalInputShape(): array {
 					return [];
 				}
 
+				#[\Override]
 				public function getOptionalOutputShape(): array {
 					return [];
 				}
 
+				#[\Override]
 				public function process(?string $userId, array $input, callable $reportProgress): array {
 					if ($this->provider instanceof IProviderWithUserId) {
 						$this->provider->setUserId($userId);
@@ -244,26 +251,32 @@ class Manager implements IManager {
 					}
 				}
 
+				#[\Override]
 				public function getInputShapeEnumValues(): array {
 					return [];
 				}
 
+				#[\Override]
 				public function getInputShapeDefaults(): array {
 					return [];
 				}
 
+				#[\Override]
 				public function getOptionalInputShapeEnumValues(): array {
 					return [];
 				}
 
+				#[\Override]
 				public function getOptionalInputShapeDefaults(): array {
 					return [];
 				}
 
+				#[\Override]
 				public function getOutputShapeEnumValues(): array {
 					return [];
 				}
 
+				#[\Override]
 				public function getOptionalOutputShapeEnumValues(): array {
 					return [];
 				}
@@ -301,22 +314,27 @@ class Manager implements IManager {
 					$this->l = Server::get(IFactory::class)->get('core');
 				}
 
+				#[\Override]
 				public function getId(): string {
 					return Manager::LEGACY_PREFIX_TEXTPROCESSING . $this->oldTaskTypeClass;
 				}
 
+				#[\Override]
 				public function getName(): string {
 					return $this->oldTaskType->getName();
 				}
 
+				#[\Override]
 				public function getDescription(): string {
 					return $this->oldTaskType->getDescription();
 				}
 
+				#[\Override]
 				public function getInputShape(): array {
 					return ['input' => new ShapeDescriptor($this->l->t('Input text'), $this->l->t('The input text'), EShapeType::Text)];
 				}
 
+				#[\Override]
 				public function getOutputShape(): array {
 					return ['output' => new ShapeDescriptor($this->l->t('Input text'), $this->l->t('The input text'), EShapeType::Text)];
 				}
@@ -343,30 +361,37 @@ class Manager implements IManager {
 				) {
 				}
 
+				#[\Override]
 				public function getId(): string {
 					return Manager::LEGACY_PREFIX_TEXTTOIMAGE . $this->provider->getId();
 				}
 
+				#[\Override]
 				public function getName(): string {
 					return $this->provider->getName();
 				}
 
+				#[\Override]
 				public function getTaskTypeId(): string {
 					return TextToImage::ID;
 				}
 
+				#[\Override]
 				public function getExpectedRuntime(): int {
 					return $this->provider->getExpectedRuntime();
 				}
 
+				#[\Override]
 				public function getOptionalInputShape(): array {
 					return [];
 				}
 
+				#[\Override]
 				public function getOptionalOutputShape(): array {
 					return [];
 				}
 
+				#[\Override]
 				public function process(?string $userId, array $input, callable $reportProgress): array {
 					try {
 						$folder = $this->appData->getFolder('text2image');
@@ -417,26 +442,32 @@ class Manager implements IManager {
 					return ['images' => array_map(fn (ISimpleFile $file) => $file->getContent(), $files)];
 				}
 
+				#[\Override]
 				public function getInputShapeEnumValues(): array {
 					return [];
 				}
 
+				#[\Override]
 				public function getInputShapeDefaults(): array {
 					return [];
 				}
 
+				#[\Override]
 				public function getOptionalInputShapeEnumValues(): array {
 					return [];
 				}
 
+				#[\Override]
 				public function getOptionalInputShapeDefaults(): array {
 					return [];
 				}
 
+				#[\Override]
 				public function getOutputShapeEnumValues(): array {
 					return [];
 				}
 
+				#[\Override]
 				public function getOptionalOutputShapeEnumValues(): array {
 					return [];
 				}
@@ -486,6 +517,7 @@ class Manager implements IManager {
 				) {
 				}
 
+				#[\Override]
 				public function getId(): string {
 					if ($this->provider instanceof ISpeechToTextProviderWithId) {
 						return Manager::LEGACY_PREFIX_SPEECHTOTEXT . $this->provider->getId();
@@ -493,26 +525,32 @@ class Manager implements IManager {
 					return Manager::LEGACY_PREFIX_SPEECHTOTEXT . $this->provider::class;
 				}
 
+				#[\Override]
 				public function getName(): string {
 					return $this->provider->getName();
 				}
 
+				#[\Override]
 				public function getTaskTypeId(): string {
 					return AudioToText::ID;
 				}
 
+				#[\Override]
 				public function getExpectedRuntime(): int {
 					return 60;
 				}
 
+				#[\Override]
 				public function getOptionalInputShape(): array {
 					return [];
 				}
 
+				#[\Override]
 				public function getOptionalOutputShape(): array {
 					return [];
 				}
 
+				#[\Override]
 				public function process(?string $userId, array $input, callable $reportProgress): array {
 					if ($this->provider instanceof ISpeechToTextProviderWithUserId) {
 						$this->provider->setUserId($userId);
@@ -525,26 +563,32 @@ class Manager implements IManager {
 					return ['output' => $result];
 				}
 
+				#[\Override]
 				public function getInputShapeEnumValues(): array {
 					return [];
 				}
 
+				#[\Override]
 				public function getInputShapeDefaults(): array {
 					return [];
 				}
 
+				#[\Override]
 				public function getOptionalInputShapeEnumValues(): array {
 					return [];
 				}
 
+				#[\Override]
 				public function getOptionalInputShapeDefaults(): array {
 					return [];
 				}
 
+				#[\Override]
 				public function getOutputShapeEnumValues(): array {
 					return [];
 				}
 
+				#[\Override]
 				public function getOptionalOutputShapeEnumValues(): array {
 					return [];
 				}
@@ -645,6 +689,7 @@ class Manager implements IManager {
 			TextToTextChatWithTools::ID => Server::get(TextToTextChatWithTools::class),
 			ContextAgentInteraction::ID => Server::get(ContextAgentInteraction::class),
 			TextToTextProofread::ID => Server::get(TextToTextProofread::class),
+			TextToTextReformatParagraphs::ID => Server::get(TextToTextReformatParagraphs::class),
 			TextToSpeech::ID => Server::get(TextToSpeech::class),
 			AudioToAudioChat::ID => Server::get(AudioToAudioChat::class),
 			ContextAgentAudioInteraction::ID => Server::get(ContextAgentAudioInteraction::class),
@@ -829,10 +874,12 @@ class Manager implements IManager {
 		return array_combine($keys, $values);
 	}
 
+	#[\Override]
 	public function hasProviders(): bool {
 		return count($this->getProviders()) !== 0;
 	}
 
+	#[\Override]
 	public function getProviders(): array {
 		if ($this->providers === null) {
 			$this->providers = $this->_getProviders();
@@ -841,6 +888,7 @@ class Manager implements IManager {
 		return $this->providers;
 	}
 
+	#[\Override]
 	public function getPreferredProvider(string $taskTypeId) {
 		try {
 			if ($this->preferences === null) {
@@ -878,6 +926,7 @@ class Manager implements IManager {
 		throw new \OCP\TaskProcessing\Exception\Exception('No matching provider found');
 	}
 
+	#[\Override]
 	public function getAvailableTaskTypes(bool $showDisabled = false, ?string $userId = null): array {
 		// We cache by language, because some task type fields are translated
 		$cacheKey = self::TASK_TYPES_CACHE_KEY . ':' . $this->l10nFactory->findLanguage();
@@ -889,7 +938,13 @@ class Manager implements IManager {
 		if ($this->availableTaskTypes === null) {
 			$cachedValue = $this->distributedCache->get($cacheKey);
 			if ($cachedValue !== null) {
-				$this->availableTaskTypes = unserialize($cachedValue);
+				$this->availableTaskTypes = unserialize($cachedValue, [
+					'allowed_classes' => [
+						ShapeDescriptor::class,
+						ShapeEnumValue::class,
+						EShapeType::class,
+					],
+				]);
 			}
 		}
 		// Either we have no cache or showDisabled is turned on, which we don't want to cache, ever.
@@ -937,9 +992,9 @@ class Manager implements IManager {
 			$this->distributedCache->set($cacheKey, serialize($this->availableTaskTypes), 60);
 		}
 
-
 		return $this->availableTaskTypes;
 	}
+	#[\Override]
 	public function getAvailableTaskTypeIds(bool $showDisabled = false, ?string $userId = null): array {
 		// userId will be obtained from the session if left to null
 		if (!$this->checkGuestAccess($userId)) {
@@ -978,7 +1033,6 @@ class Manager implements IManager {
 			$this->distributedCache->set(self::TASK_TYPE_IDS_CACHE_KEY, $this->availableTaskTypeIds, 60);
 		}
 
-
 		return $this->availableTaskTypeIds;
 	}
 
@@ -1003,6 +1057,7 @@ class Manager implements IManager {
 		return false;
 	}
 
+	#[\Override]
 	public function scheduleTask(Task $task): void {
 		if (!$this->checkGuestAccess($task->getUserId())) {
 			throw new PreConditionNotMetException('Access to this resource is forbidden for guests.');
@@ -1042,6 +1097,7 @@ class Manager implements IManager {
 		}
 	}
 
+	#[\Override]
 	public function runTask(Task $task): Task {
 		if (!$this->checkGuestAccess($task->getUserId())) {
 			throw new PreConditionNotMetException('Access to this resource is forbidden for guests.');
@@ -1068,6 +1124,7 @@ class Manager implements IManager {
 		return $task;
 	}
 
+	#[\Override]
 	public function processTask(Task $task, ISynchronousProvider $provider): bool {
 		try {
 			try {
@@ -1103,11 +1160,13 @@ class Manager implements IManager {
 		return true;
 	}
 
+	#[\Override]
 	public function deleteTask(Task $task): void {
 		$taskEntity = \OC\TaskProcessing\Db\Task::fromPublicTask($task);
 		$this->taskMapper->delete($taskEntity);
 	}
 
+	#[\Override]
 	public function getTask(int $id): Task {
 		try {
 			$taskEntity = $this->taskMapper->find($id);
@@ -1121,6 +1180,7 @@ class Manager implements IManager {
 		}
 	}
 
+	#[\Override]
 	public function cancelTask(int $id): void {
 		$task = $this->getTask($id);
 		if ($task->getStatus() !== Task::STATUS_SCHEDULED && $task->getStatus() !== Task::STATUS_RUNNING) {
@@ -1137,6 +1197,7 @@ class Manager implements IManager {
 		}
 	}
 
+	#[\Override]
 	public function setTaskProgress(int $id, float $progress): bool {
 		// TODO: Not sure if we should rather catch the exceptions of getTask here and fail silently
 		$task = $this->getTask($id);
@@ -1158,6 +1219,7 @@ class Manager implements IManager {
 		return true;
 	}
 
+	#[\Override]
 	public function setTaskResult(int $id, ?string $error, ?array $result, bool $isUsingFileIds = false, ?string $userFacingError = null): void {
 		// TODO: Not sure if we should rather catch the exceptions of getTask here and fail silently
 		$task = $this->getTask($id);
@@ -1252,6 +1314,7 @@ class Manager implements IManager {
 		$this->dispatcher->dispatchTyped($event);
 	}
 
+	#[\Override]
 	public function getNextScheduledTask(array $taskTypeIds = [], array $taskIdsToIgnore = []): Task {
 		try {
 			$taskEntity = $this->taskMapper->findOldestScheduledByType($taskTypeIds, $taskIdsToIgnore);
@@ -1265,6 +1328,7 @@ class Manager implements IManager {
 		}
 	}
 
+	#[\Override]
 	public function getNextScheduledTasks(array $taskTypeIds = [], array $taskIdsToIgnore = [], int $numberOfTasks = 1): array {
 		try {
 			return array_map(fn ($taskEntity) => $taskEntity->toPublicTask(), $this->taskMapper->findNOldestScheduledByType($taskTypeIds, $taskIdsToIgnore, $numberOfTasks));
@@ -1319,6 +1383,7 @@ class Manager implements IManager {
 		return $newInputOutput;
 	}
 
+	#[\Override]
 	public function getUserTask(int $id, ?string $userId): Task {
 		try {
 			$taskEntity = $this->taskMapper->findByIdAndUser($id, $userId);
@@ -1332,6 +1397,7 @@ class Manager implements IManager {
 		}
 	}
 
+	#[\Override]
 	public function getUserTasks(?string $userId, ?string $taskTypeId = null, ?string $customId = null): array {
 		try {
 			$taskEntities = $this->taskMapper->findByUserAndTaskType($userId, $taskTypeId, $customId);
@@ -1343,6 +1409,7 @@ class Manager implements IManager {
 		}
 	}
 
+	#[\Override]
 	public function getTasks(
 		?string $userId, ?string $taskTypeId = null, ?string $appId = null, ?string $customId = null,
 		?int $status = null, ?int $scheduleAfter = null, ?int $endedBefore = null,
@@ -1357,6 +1424,16 @@ class Manager implements IManager {
 		}
 	}
 
+	#[\Override]
+	public function countTasks(int $status, array $taskTypeIds = []): int {
+		try {
+			return $this->taskMapper->countByStatus($taskTypeIds, $status);
+		} catch (\OCP\DB\Exception $e) {
+			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem counting the tasks', 0, $e);
+		}
+	}
+
+	#[\Override]
 	public function getUserTasksByApp(?string $userId, string $appId, ?string $customId = null): array {
 		try {
 			$taskEntities = $this->taskMapper->findUserTasksByApp($userId, $appId, $customId);
@@ -1417,6 +1494,7 @@ class Manager implements IManager {
 	 * @throws NotPermittedException
 	 * @throws ValidationException|UnauthorizedException
 	 */
+	#[\Override]
 	public function prepareInputData(Task $task): array {
 		$taskTypes = $this->getAvailableTaskTypes();
 		$inputShape = $taskTypes[$task->getTaskTypeId()]['inputShape'];
@@ -1427,6 +1505,7 @@ class Manager implements IManager {
 		return $input;
 	}
 
+	#[\Override]
 	public function lockTask(Task $task): bool {
 		$taskEntity = \OC\TaskProcessing\Db\Task::fromPublicTask($task);
 		if ($this->taskMapper->lockTask($taskEntity) === 0) {
@@ -1440,6 +1519,7 @@ class Manager implements IManager {
 	 * @throws \JsonException
 	 * @throws Exception
 	 */
+	#[\Override]
 	public function setTaskStatus(Task $task, int $status): void {
 		$currentTaskStatus = $task->getStatus();
 		if ($currentTaskStatus === Task::STATUS_SCHEDULED && $status === Task::STATUS_RUNNING) {
@@ -1594,6 +1674,7 @@ class Manager implements IManager {
 	 * @return list<int>
 	 * @throws NotFoundException
 	 */
+	#[\Override]
 	public function extractFileIdsFromTask(Task $task): array {
 		$ids = [];
 		$taskTypes = $this->getAvailableTaskTypes();

@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Files\Cache;
 
 use OC\Files\Cache\Wrapper\CacheJail;
@@ -79,7 +80,6 @@ class QuerySearchHelper {
 		}
 	}
 
-
 	/**
 	 * @return list<array{id: int, name: string, visibility: int, editable: int, ref_file_id: int, number_files: int}>
 	 */
@@ -118,7 +118,6 @@ class QuerySearchHelper {
 			));
 	}
 
-
 	protected function equipQueryForShares(CacheQueryBuilder $query): void {
 		$query->join('file', 'share', 's', $query->expr()->eq('file.fileid', 's.file_source'));
 	}
@@ -153,7 +152,11 @@ class QuerySearchHelper {
 
 		$requestedFields = $this->searchBuilder->extractRequestedFields($searchQuery->getSearchOperation());
 
-		$joinExtendedCache = in_array('creation_time', $requestedFields) || in_array('upload_time', $requestedFields);
+		$orderFields = array_map(fn ($order) => $order->getField(), $searchQuery->getOrder());
+
+		$joinExtendedCache = in_array('creation_time', $requestedFields)
+			|| in_array('upload_time', $requestedFields)
+			|| in_array('last_activity', $orderFields);
 
 		$query = $builder->selectFileCache('file', $joinExtendedCache);
 

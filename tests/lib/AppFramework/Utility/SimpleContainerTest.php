@@ -58,21 +58,18 @@ class ClassInterfaceConstructor {
 	}
 }
 
-
 class SimpleContainerTest extends \Test\TestCase {
 	private $container;
 
+	#[\Override]
 	protected function setUp(): void {
 		$this->container = new SimpleContainer();
 	}
-
-
 
 	public function testRegister(): void {
 		$this->container->registerParameter('test', 'abc');
 		$this->assertEquals('abc', $this->container->query('test'));
 	}
-
 
 	/**
 	 * Test querying a class that is not registered without autoload enabled
@@ -87,7 +84,6 @@ class SimpleContainerTest extends \Test\TestCase {
 		}
 	}
 
-
 	/**
 	 * Test querying a class that is not registered with autoload enabled
 	 */
@@ -101,20 +97,16 @@ class SimpleContainerTest extends \Test\TestCase {
 		}
 	}
 
-
-
 	public function testNotAClass(): void {
 		$this->expectException(QueryException::class);
 
 		$this->container->query('Test\AppFramework\Utility\TestInterface');
 	}
 
-
 	public function testNoConstructorClass(): void {
 		$object = $this->container->query('Test\AppFramework\Utility\ClassEmptyConstructor');
 		$this->assertTrue($object instanceof ClassEmptyConstructor);
 	}
-
 
 	public function testInstancesOnlyOnce(): void {
 		$object = $this->container->query('Test\AppFramework\Utility\ClassEmptyConstructor');
@@ -131,7 +123,6 @@ class SimpleContainerTest extends \Test\TestCase {
 		$this->assertEquals('abc', $object->test);
 	}
 
-
 	public function testConstructorComplex(): void {
 		$this->container->registerParameter('test', 'abc');
 		$object = $this->container->query(
@@ -141,7 +132,6 @@ class SimpleContainerTest extends \Test\TestCase {
 		$this->assertEquals('abc', $object->class->test);
 		$this->assertEquals('abc', $object->test);
 	}
-
 
 	public function testConstructorComplexInterface(): void {
 		$this->container->registerParameter('test', 'abc');
@@ -156,7 +146,6 @@ class SimpleContainerTest extends \Test\TestCase {
 		$this->assertEquals('abc', $object->class->test);
 		$this->assertEquals('abc', $object->test);
 	}
-
 
 	public function testOverrideService(): void {
 		$this->container->registerService(
@@ -208,7 +197,6 @@ class SimpleContainerTest extends \Test\TestCase {
 		});
 		$this->assertEquals('abc', $this->container->query($query));
 	}
-
 
 	public function testConstructorComplexNoTestParameterFound(): void {
 		$this->expectException(QueryException::class);

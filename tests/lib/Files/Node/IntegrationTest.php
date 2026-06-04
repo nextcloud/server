@@ -49,6 +49,7 @@ class IntegrationTest extends \Test\TestCase {
 	 */
 	private $view;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -85,6 +86,7 @@ class IntegrationTest extends \Test\TestCase {
 		$manager->removeMount('/' . $user->getUID());
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		foreach ($this->storages as $storage) {
 			$storage->getCache()->clear();
@@ -128,7 +130,6 @@ class IntegrationTest extends \Test\TestCase {
 		$this->assertEquals(1, count($listing));
 		$this->assertEquals($file->getId(), $listing[0]->getId());
 		$this->assertEquals($file->getStorage(), $listing[0]->getStorage());
-
 
 		$rootListing = $this->root->getDirectoryListing();
 		$this->assertEquals(2, count($rootListing));

@@ -6,11 +6,13 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Controller;
 
 use OC\Authentication\TwoFactorAuth\EnforcementState;
 use OC\Authentication\TwoFactorAuth\MandatoryTwoFactor;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 
@@ -28,6 +30,7 @@ class TwoFactorSettingsController extends Controller {
 		return new JSONResponse($this->mandatoryTwoFactor->getState());
 	}
 
+	#[PasswordConfirmationRequired(strict: true)]
 	public function update(bool $enforced, array $enforcedGroups = [], array $excludedGroups = []): JSONResponse {
 		$this->mandatoryTwoFactor->setState(
 			new EnforcementState($enforced, $enforcedGroups, $excludedGroups)

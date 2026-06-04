@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\AppFramework\Middleware;
 
 use OC\AppFramework\OCS\BaseResponse;
@@ -26,6 +27,7 @@ class CompressionMiddleware extends Middleware {
 		$this->useGZip = false;
 	}
 
+	#[\Override]
 	public function afterController($controller, $methodName, Response $response) {
 		// By default we do not gzip
 		$allowGzip = false;
@@ -60,6 +62,7 @@ class CompressionMiddleware extends Middleware {
 		return $response;
 	}
 
+	#[\Override]
 	public function beforeOutput($controller, $methodName, $output) {
 		if (!$this->useGZip) {
 			return $output;

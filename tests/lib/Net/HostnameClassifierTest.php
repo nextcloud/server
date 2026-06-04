@@ -15,6 +15,7 @@ use Test\TestCase;
 class HostnameClassifierTest extends TestCase {
 	private HostnameClassifier $classifier;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

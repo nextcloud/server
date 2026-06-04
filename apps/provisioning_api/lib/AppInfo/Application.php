@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Provisioning_API\AppInfo;
 
 use OC\Group\Manager as GroupManager;
@@ -36,6 +37,7 @@ class Application extends App implements IBootstrap {
 		parent::__construct('provisioning_api', $urlParams);
 	}
 
+	#[\Override]
 	public function register(IRegistrationContext $context): void {
 		$context->registerEventListener(UserDeletedEvent::class, UserDeletedListener::class);
 
@@ -74,6 +76,7 @@ class Application extends App implements IBootstrap {
 		$context->registerCapability(Capabilities::class);
 	}
 
+	#[\Override]
 	public function boot(IBootContext $context): void {
 	}
 }

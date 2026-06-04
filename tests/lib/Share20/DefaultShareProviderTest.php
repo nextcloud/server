@@ -84,6 +84,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 	protected IShareManager&MockObject $shareManager;
 
+	#[\Override]
 	protected function setUp(): void {
 		$this->dbConn = Server::get(IDBConnection::class);
 		$this->userManager = $this->createMock(IUserManager::class);
@@ -121,10 +122,12 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$this->dbConn->getQueryBuilder()->delete('share')->executeStatement();
 		$this->dbConn->getQueryBuilder()->delete('filecache')->runAcrossAllShards()->executeStatement();
 		$this->dbConn->getQueryBuilder()->delete('storages')->executeStatement();
+		parent::tearDown();
 	}
 
 	/**
@@ -183,9 +186,6 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertEquals(1, $qb->executeStatement());
 		return $qb->getLastInsertId();
 	}
-
-
-
 
 	public function testGetShareByIdNotExist(): void {
 		$this->expectException(ShareNotFound::class);
@@ -660,6 +660,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share->method('getId')->willReturn($id);
 
 		$children = $this->provider->getChildren($share);
+		usort($children, fn (IShare $a, IShare $b) => $a->getId() <=> $b->getId());
 
 		$this->assertCount(2, $children);
 
@@ -1635,7 +1636,6 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertEquals('user2', $share2['share_with']);
 	}
 
-
 	public function testDeleteFromSelfGroupUserNotInGroup(): void {
 		$qb = $this->dbConn->getQueryBuilder();
 		$stmt = $qb->insert('share')
@@ -1677,7 +1677,6 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$this->provider->deleteFromSelf($share, 'user2');
 	}
-
 
 	public function testDeleteFromSelfGroupDoesNotExist(): void {
 		$this->expectException(ProviderException::class);
@@ -1769,7 +1768,6 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertCount(0, $shares);
 	}
 
-
 	public function testDeleteFromSelfUserNotRecipient(): void {
 		$this->expectException(ProviderException::class);
 		$this->expectExceptionMessage('Recipient does not match');
@@ -1811,7 +1809,6 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$this->provider->deleteFromSelf($share, $user3);
 	}
-
 
 	public function testDeleteFromSelfLink(): void {
 		$this->expectException(ProviderException::class);
@@ -2200,7 +2197,6 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertSame('user5', $shares[1]['uid_owner']);
 		$this->assertSame(0, (int)$shares[1]['permissions']);
 
-
 		$stmt->closeCursor();
 	}
 
@@ -2269,12 +2265,18 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$share = $this->provider->getShareById($id, 'user0');
 		$this->assertSame('/newTarget', $share->getTarget());
+		// The USERGROUP subshare created on first move must be STATUS_ACCEPTED so
+		// MountProvider does not skip it (default DB value is STATUS_PENDING=0).
+		$this->assertSame(IShare::STATUS_ACCEPTED, $share->getStatus());
 
 		$share->setTarget('/ultraNewTarget');
 		$this->provider->move($share, 'user0');
 
 		$share = $this->provider->getShareById($id, 'user0');
 		$this->assertSame('/ultraNewTarget', $share->getTarget());
+		// Second move hits the UPDATE branch (USERGROUP subshare already exists).
+		// STATUS_ACCEPTED must be preserved — the UPDATE only touches file_target.
+		$this->assertSame(IShare::STATUS_ACCEPTED, $share->getStatus());
 	}
 
 	public static function dataDeleteUser(): array {
@@ -2640,6 +2642,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertSame(IShare::TYPE_USER, $file_shares[0]->getShareType());
 
 		$folder_shares = $result[$folder2->getId()];
+		usort($folder_shares, fn (IShare $a, IShare $b) => $a->getId() <=> $b->getId());
 		$this->assertCount(2, $folder_shares);
 		$this->assertSame($folder2->getId(), $folder_shares[0]->getNodeId());
 		$this->assertSame($folder2->getId(), $folder_shares[1]->getNodeId());
@@ -3028,7 +3031,6 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertEquals('myTarget5', $share->getTarget());
 	}
 
-
 	public function testGetSharesByPath(): void {
 		$qb = $this->dbConn->getQueryBuilder();
 
@@ -3100,6 +3102,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->willReturn(1);
 
 		$shares = $this->provider->getSharesByPath($node);
+		usort($shares, fn (IShare $a, IShare $b) => $a->getId() <=> $b->getId());
 		$this->assertCount(3, $shares);
 
 		$this->assertEquals($id1, $shares[0]->getId());

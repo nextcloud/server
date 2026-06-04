@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CalDAV\Activity\Setting;
 
 class Todo extends CalDAVSetting {
@@ -14,6 +15,7 @@ class Todo extends CalDAVSetting {
 	 * @return string Lowercase a-z and underscore only identifier
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function getIdentifier() {
 		return 'calendar_todo';
 	}
@@ -22,6 +24,7 @@ class Todo extends CalDAVSetting {
 	 * @return string A translated string
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function getName() {
 		return $this->l->t('A calendar <strong>to-do</strong> was modified');
 	}
@@ -32,6 +35,7 @@ class Todo extends CalDAVSetting {
 	 *             priority values. It is required to return a value between 0 and 100.
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function getPriority() {
 		return 50;
 	}
@@ -40,6 +44,7 @@ class Todo extends CalDAVSetting {
 	 * @return bool True when the option can be changed for the stream
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function canChangeStream() {
 		return true;
 	}
@@ -48,6 +53,7 @@ class Todo extends CalDAVSetting {
 	 * @return bool True when the option can be changed for the stream
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function isDefaultEnabledStream() {
 		return true;
 	}
@@ -56,6 +62,7 @@ class Todo extends CalDAVSetting {
 	 * @return bool True when the option can be changed for the mail
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function canChangeMail() {
 		return true;
 	}
@@ -64,6 +71,7 @@ class Todo extends CalDAVSetting {
 	 * @return bool True when the option can be changed for the stream
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function isDefaultEnabledMail() {
 		return false;
 	}

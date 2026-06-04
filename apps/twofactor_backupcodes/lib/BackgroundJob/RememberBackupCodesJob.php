@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\TwoFactorBackupCodes\BackgroundJob;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -31,6 +32,7 @@ class RememberBackupCodesJob extends TimedJob {
 		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
+	#[\Override]
 	protected function run($argument) {
 		$uid = $argument['uid'];
 		$user = $this->userManager->get($uid);

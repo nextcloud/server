@@ -59,7 +59,7 @@
 
 				<!-- revoke & wipe -->
 				<template v-if="token.canDelete">
-					<template v-if="token.type !== 2">
+					<template v-if="token.type !== TokenType.WIPING_TOKEN">
 						<NcActionButton
 							icon="icon-delete"
 							@click.stop.prevent="revoke">
@@ -73,7 +73,7 @@
 						</NcActionButton>
 					</template>
 					<NcActionButton
-						v-else-if="token.type === 2"
+						v-else
 						icon="icon-delete"
 						:name="t('settings', 'Revoke')"
 						@click.stop.prevent="revoke">
@@ -82,6 +82,11 @@
 				</template>
 			</NcActions>
 		</td>
+		<AuthTokenDeleteDialog
+			v-if="deleteDialogOpen"
+			:token="token"
+			:open.sync="deleteDialogOpen"
+			@confirm="confirmDelete" />
 	</tr>
 </template>
 
@@ -90,6 +95,7 @@ import type { PropType } from 'vue'
 import type { IToken } from '../store/authtoken.ts'
 
 import { mdiAndroid, mdiAppleIos, mdiAppleSafari, mdiCellphone, mdiCheck, mdiFirefox, mdiGoogleChrome, mdiKeyOutline, mdiMicrosoftEdge, mdiMonitor, mdiTablet, mdiWeb } from '@mdi/js'
+import { showConfirmation } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
@@ -99,36 +105,10 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import NcDateTime from '@nextcloud/vue/components/NcDateTime'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
+import AuthTokenDeleteDialog from './AuthTokenDeleteDialog.vue'
 import { TokenType, useAuthTokenStore } from '../store/authtoken.ts'
+import { detect } from '../utils/userAgentDetect.ts'
 
-// When using capture groups the following parts are extracted the first is used as the version number, the second as the OS
-const userAgentMap = {
-	ie: /(?:MSIE|Trident|Trident\/7.0; rv)[ :](\d+)/,
-	// Microsoft Edge User Agent from https://msdn.microsoft.com/en-us/library/hh869301(v=vs.85).aspx
-	edge: /^Mozilla\/5\.0 \([^)]+\) AppleWebKit\/[0-9.]+ \(KHTML, like Gecko\) Chrome\/[0-9.]+ (?:Mobile Safari|Safari)\/[0-9.]+ Edge\/[0-9.]+$/,
-	// Firefox User Agent from https://developer.mozilla.org/en-US/docs/Web/HTTP/Gecko_user_agent_string_reference
-	firefox: /^Mozilla\/5\.0 \([^)]*(Windows|OS X|Linux)[^)]+\) Gecko\/[0-9.]+ Firefox\/(\d+)(?:\.\d)?$/,
-	// Chrome User Agent from https://developer.chrome.com/multidevice/user-agent
-	chrome: /^Mozilla\/5\.0 \([^)]*(Windows|OS X|Linux)[^)]+\) AppleWebKit\/[0-9.]+ \(KHTML, like Gecko\) Chrome\/(\d+)[0-9.]+ (?:Mobile Safari|Safari)\/[0-9.]+$/,
-	// Safari User Agent from http://www.useragentstring.com/pages/Safari/
-	safari: /^Mozilla\/5\.0 \([^)]*(Windows|OS X)[^)]+\) AppleWebKit\/[0-9.]+ \(KHTML, like Gecko\)(?: Version\/([0-9]+)[0-9.]+)? Safari\/[0-9.A-Z]+$/,
-	// Android Chrome user agent: https://developers.google.com/chrome/mobile/docs/user-agent
-	androidChrome: /Android.*(?:; (.*) Build\/).*Chrome\/(\d+)[0-9.]+/,
-	iphone: / *CPU +iPhone +OS +([0-9]+)_(?:[0-9_])+ +like +Mac +OS +X */,
-	ipad: /\(iPad; *CPU +OS +([0-9]+)_(?:[0-9_])+ +like +Mac +OS +X */,
-	iosClient: /^Mozilla\/5\.0 \(iOS\) (?:ownCloud|Nextcloud)-iOS.*$/,
-	androidClient: /^Mozilla\/5\.0 \(Android\) (?:ownCloud|Nextcloud)-android.*$/,
-	iosTalkClient: /^Mozilla\/5\.0 \(iOS\) Nextcloud-Talk.*$/,
-	androidTalkClient: /^Mozilla\/5\.0 \(Android\) Nextcloud-Talk.*$/,
-	// DAVx5/3.3.8-beta2-gplay (2021/01/02; dav4jvm; okhttp/4.9.0) Android/10
-	davx5: /DAV(?:droid|x5)\/([^ ]+)/,
-	// Mozilla/5.0 (U; Linux; Maemo; Jolla; Sailfish; like Android 4.3) AppleWebKit/538.1 (KHTML, like Gecko) WebPirate/2.0 like Mobile Safari/538.1 (compatible)
-	webPirate: /(Sailfish).*WebPirate\/(\d+)/,
-	// Mozilla/5.0 (Maemo; Linux; U; Jolla; Sailfish; Mobile; rv:31.0) Gecko/31.0 Firefox/31.0 SailfishBrowser/1.0
-	sailfishBrowser: /(Sailfish).*SailfishBrowser\/(\d+)/,
-	// Neon 1.0.0+1
-	neon: /Neon \d+\.\d+\.\d+\+\d+/,
-}
 const nameMap = {
 	edge: 'Microsoft Edge',
 	firefox: 'Firefox',
@@ -151,6 +131,7 @@ const nameMap = {
 export default defineComponent({
 	name: 'AuthToken',
 	components: {
+		AuthTokenDeleteDialog,
 		NcActions,
 		NcActionButton,
 		NcActionCheckbox,
@@ -178,7 +159,9 @@ export default defineComponent({
 			renaming: false,
 			newName: '',
 			oldName: '',
+			deleteDialogOpen: false,
 			mdiCheck,
+			TokenType,
 		}
 	},
 
@@ -203,18 +186,7 @@ export default defineComponent({
 				}
 			}
 
-			for (const client in userAgentMap) {
-				const matches = this.token.name.match(userAgentMap[client])
-				if (matches) {
-					return {
-						id: client,
-						os: matches[2] && matches[1],
-						version: matches[2] ?? matches[1],
-					}
-				}
-			}
-
-			return null
+			return detect(this.token.name)
 		},
 
 		/**
@@ -315,6 +287,10 @@ export default defineComponent({
 
 		revoke() {
 			this.actionOpen = false
+			this.deleteDialogOpen = true
+		},
+
+		confirmDelete() {
 			this.authTokenStore.deleteToken(this.token)
 		},
 
@@ -323,9 +299,18 @@ export default defineComponent({
 			this.authTokenStore.renameToken(this.token, this.newName)
 		},
 
-		wipe() {
+		async wipe() {
 			this.actionOpen = false
-			this.authTokenStore.wipeToken(this.token)
+			const confirmed = await showConfirmation({
+				name: t('settings', 'Confirm wipe'),
+				text: t('settings', 'Do you really want to wipe your data from this device?'),
+				labelConfirm: t('settings', 'Wipe device'),
+				labelReject: t('settings', 'Cancel'),
+				severity: 'warning',
+			})
+			if (confirmed) {
+				this.authTokenStore.wipeToken(this.token)
+			}
 		},
 	},
 })

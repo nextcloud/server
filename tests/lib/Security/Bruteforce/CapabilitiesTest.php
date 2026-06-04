@@ -24,6 +24,7 @@ class CapabilitiesTest extends TestCase {
 	/** @var IThrottler|\PHPUnit\Framework\MockObject\MockObject */
 	private $throttler;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

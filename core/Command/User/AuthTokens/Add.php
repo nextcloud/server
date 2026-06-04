@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Command\User\AuthTokens;
 
 use OC\Authentication\Events\AppPasswordCreatedEvent;
@@ -32,6 +33,7 @@ class Add extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('user:auth-tokens:add')
@@ -57,6 +59,7 @@ class Add extends Command {
 		;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$username = $input->getArgument('user');
 		$password = null;

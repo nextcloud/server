@@ -37,6 +37,7 @@ class MigrationServiceTest extends \Test\TestCase {
 
 	private MigrationService $migrationService;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

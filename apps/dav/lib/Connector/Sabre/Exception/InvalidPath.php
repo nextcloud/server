@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Connector\Sabre\Exception;
 
 use Sabre\DAV\Exception;
@@ -30,6 +31,7 @@ class InvalidPath extends Exception {
 	 *
 	 * @return int
 	 */
+	#[\Override]
 	public function getHTTPCode() {
 		return 400;
 	}
@@ -42,6 +44,7 @@ class InvalidPath extends Exception {
 	 * @param \DOMElement $errorNode
 	 * @return void
 	 */
+	#[\Override]
 	public function serialize(\Sabre\DAV\Server $server, \DOMElement $errorNode) {
 
 		// set ownCloud namespace

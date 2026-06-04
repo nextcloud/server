@@ -7,7 +7,6 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-
 namespace OC\TextProcessing;
 
 use OC\TextProcessing\Db\TaskMapper;
@@ -33,6 +32,7 @@ class RemoveOldTasksBackgroundJob extends TimedJob {
 	 * @param mixed $argument
 	 * @inheritDoc
 	 */
+	#[\Override]
 	protected function run($argument) {
 		try {
 			$this->taskMapper->deleteOlderThan(self::MAX_TASK_AGE_SECONDS);

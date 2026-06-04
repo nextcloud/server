@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\DB\QueryBuilder;
 
 use OCP\AppFramework\Attribute\Consumable;
@@ -22,6 +23,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	/**
 	 * @inheritDoc
 	 * @return IResult<S>
+	 * @since 34.0.0
 	 */
 	#[Override]
 	public function executeQuery(?IDBConnection $connection = null): IResult;
@@ -29,6 +31,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	/**
 	 * @inheritDoc
 	 * @internal This method does not work with {@see self}. Use {@see self::selectColumns()} or {@see self::selectAlias()} instead.
+	 * @since 34.0.0
 	 */
 	#[Override]
 	public function select(...$selects);
@@ -46,6 +49,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	/**
 	 * @inheritDoc
 	 * @internal This method does not work with {@see self}. Use {@see self::selectColumnDistinct()} or {@see self::selectAlias()} instead.
+	 * @since 34.0.0
 	 */
 	#[Override]
 	public function selectDistinct($select);
@@ -63,6 +67,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	/**
 	 * @inheritDoc
 	 * @internal This method does not work with {@see self}. Use {@see self::selectColumns()} or {@see self::selectAlias()} instead.
+	 * @since 34.0.0
 	 */
 	#[Override]
 	public function addSelect(...$select);
@@ -75,6 +80,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @psalm-this-out self<S|NewS>
 	 * @return $this
 	 * @note Psalm has a bug that prevents inferring the correct type in chained calls: https://github.com/vimeo/psalm/issues/8803. Convert the chained calls to standalone calls or switch to PHPStan, which suffered the same bug in the past, but fixed it in 2.1.5: https://github.com/phpstan/phpstan/issues/8439
+	 * @since 34.0.0
 	 */
 	#[Override]
 	public function selectAlias($select, $alias): self;
@@ -83,6 +89,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @inheritDoc
 	 * @return $this
 	 * @psalm-suppress MissingParamType
+	 * @since 34.0.0
 	 */
 	#[Override]
 	public function setParameter($key, $value, $type = null);
@@ -90,6 +97,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	/**
 	 * @inheritDoc
 	 * @return $this
+	 * @since 34.0.0
 	 */
 	#[Override]
 	public function setParameters(array $params, array $types = []);
@@ -98,6 +106,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @inheritDoc
 	 * @return $this
 	 * @psalm-suppress MissingParamType
+	 * @since 34.0.0
 	 */
 	#[Override]
 	public function setFirstResult($firstResult);
@@ -106,6 +115,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @inheritDoc
 	 * @return $this
 	 * @psalm-suppress MissingParamType
+	 * @since 34.0.0
 	 */
 	#[Override]
 	public function setMaxResults($maxResults);
@@ -114,6 +124,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @inheritDoc
 	 * @return $this
 	 * @psalm-suppress MissingParamType
+	 * @since 34.0.0
 	 */
 	#[Override]
 	public function delete($delete = null, $alias = null);
@@ -122,6 +133,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @inheritDoc
 	 * @return $this
 	 * @psalm-suppress MissingParamType
+	 * @since 34.0.0
 	 */
 	#[Override]
 	public function update($update = null, $alias = null);
@@ -130,6 +142,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @inheritDoc
 	 * @return $this
 	 * @psalm-suppress MissingParamType
+	 * @since 34.0.0
 	 */
 	#[Override]
 	public function insert($insert = null);
@@ -138,6 +151,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @inheritDoc
 	 * @return $this
 	 * @psalm-suppress MissingParamType
+	 * @since 34.0.0
 	 */
 	#[Override]
 	public function from($from, $alias = null);
@@ -146,6 +160,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @inheritDoc
 	 * @return $this
 	 * @psalm-suppress MissingParamType
+	 * @since 34.0.0
 	 */
 	#[Override]
 	public function join($fromAlias, $join, $alias, $condition = null);
@@ -154,6 +169,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @inheritDoc
 	 * @return $this
 	 * @psalm-suppress MissingParamType
+	 * @since 34.0.0
 	 */
 	#[Override]
 	public function innerJoin($fromAlias, $join, $alias, $condition = null);
@@ -162,6 +178,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @inheritDoc
 	 * @return $this
 	 * @psalm-suppress MissingParamType
+	 * @since 34.0.0
 	 */
 	#[Override]
 	public function leftJoin($fromAlias, $join, $alias, $condition = null);
@@ -170,6 +187,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @inheritDoc
 	 * @return $this
 	 * @psalm-suppress MissingParamType
+	 * @since 34.0.0
 	 */
 	#[Override]
 	public function rightJoin($fromAlias, $join, $alias, $condition = null);
@@ -178,6 +196,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @inheritDoc
 	 * @return $this
 	 * @psalm-suppress MissingParamType
+	 * @since 34.0.0
 	 */
 	#[Override]
 	public function set($key, $value);
@@ -186,6 +205,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @inheritDoc
 	 * @return $this
 	 * @psalm-suppress MissingParamType
+	 * @since 34.0.0
 	 */
 	#[Override]
 	public function where(...$predicates);
@@ -194,6 +214,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @inheritDoc
 	 * @return $this
 	 * @psalm-suppress MissingParamType
+	 * @since 34.0.0
 	 */
 	#[Override]
 	public function andWhere(...$where);
@@ -202,6 +223,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @inheritDoc
 	 * @return $this
 	 * @psalm-suppress MissingParamType
+	 * @since 34.0.0
 	 */
 	#[Override]
 	public function orWhere(...$where);
@@ -210,6 +232,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @inheritDoc
 	 * @return $this
 	 * @psalm-suppress MissingParamType
+	 * @since 34.0.0
 	 */
 	#[Override]
 	public function groupBy(...$groupBys);
@@ -218,6 +241,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @inheritDoc
 	 * @return $this
 	 * @psalm-suppress MissingParamType
+	 * @since 34.0.0
 	 */
 	#[Override]
 	public function addGroupBy(...$groupBy);
@@ -226,6 +250,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @inheritDoc
 	 * @return $this
 	 * @psalm-suppress MissingParamType
+	 * @since 34.0.0
 	 */
 	#[Override]
 	public function setValue($column, $value);
@@ -233,6 +258,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	/**
 	 * @inheritDoc
 	 * @return $this
+	 * @since 34.0.0
 	 */
 	#[Override]
 	public function values(array $values);
@@ -241,6 +267,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @inheritDoc
 	 * @return $this
 	 * @psalm-suppress MissingParamType
+	 * @since 34.0.0
 	 */
 	#[Override]
 	public function having(...$having);
@@ -249,6 +276,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @inheritDoc
 	 * @return $this
 	 * @psalm-suppress MissingParamType
+	 * @since 34.0.0
 	 */
 	#[Override]
 	public function andHaving(...$having);
@@ -257,6 +285,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @inheritDoc
 	 * @return $this
 	 * @psalm-suppress MissingParamType
+	 * @since 34.0.0
 	 */
 	#[Override]
 	public function orHaving(...$having);
@@ -265,6 +294,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @inheritDoc
 	 * @return $this
 	 * @psalm-suppress MissingParamType
+	 * @since 34.0.0
 	 */
 	#[Override]
 	public function orderBy($sort, $order = null);
@@ -273,6 +303,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @inheritDoc
 	 * @return $this
 	 * @psalm-suppress MissingParamType
+	 * @since 34.0.0
 	 */
 	#[Override]
 	public function addOrderBy($sort, $order = null);
@@ -281,6 +312,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @inheritDoc
 	 * @return $this
 	 * @psalm-suppress MissingParamType
+	 * @since 34.0.0
 	 */
 	#[Override]
 	public function resetQueryParts($queryPartNames = null);
@@ -289,6 +321,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @inheritDoc
 	 * @return $this
 	 * @psalm-suppress MissingParamType
+	 * @since 34.0.0
 	 */
 	#[Override]
 	public function resetQueryPart($queryPartName);
@@ -296,6 +329,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	/**
 	 * @inheritDoc
 	 * @return $this
+	 * @since 34.0.0
 	 */
 	#[Override]
 	public function hintShardKey(string $column, mixed $value, bool $overwrite = false): self;
@@ -303,6 +337,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	/**
 	 * @inheritDoc
 	 * @return $this
+	 * @since 34.0.0
 	 */
 	#[Override]
 	public function runAcrossAllShards(): self;
@@ -310,6 +345,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	/**
 	 * @inheritDoc
 	 * @return $this
+	 * @since 34.0.0
 	 */
 	#[Override]
 	public function forUpdate(ConflictResolutionMode $conflictResolutionMode = ConflictResolutionMode::Ordinary): self;

@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Activity;
 
 use OCP\Activity\IEvent;
@@ -47,6 +48,7 @@ class EventMerger implements IEventMerger {
 	 * @param IEvent|null $previousEvent
 	 * @return IEvent
 	 */
+	#[\Override]
 	public function mergeEvents($mergeParameter, IEvent $event, ?IEvent $previousEvent = null) {
 		// No second event => can not combine
 		if (!$previousEvent instanceof IEvent) {

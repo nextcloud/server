@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\SetupChecks;
 
 use Doctrine\DBAL\Types\BigIntType;
@@ -29,10 +30,12 @@ class DatabasePendingBigIntConversions implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'database';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Database pending bigint migrations');
 	}
@@ -63,6 +66,7 @@ class DatabasePendingBigIntConversions implements ISetupCheck {
 		return $pendingColumns;
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		$pendingColumns = $this->getBigIntConversionPendingColumns();
 		if (empty($pendingColumns)) {

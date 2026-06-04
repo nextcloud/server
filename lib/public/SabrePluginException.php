@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP;
 
 use Sabre\DAV\Exception;
@@ -19,6 +20,7 @@ class SabrePluginException extends Exception {
 	 * @return int
 	 * @since 8.2.0
 	 */
+	#[\Override]
 	public function getHTTPCode() {
 		return $this->code;
 	}

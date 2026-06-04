@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\Files\View;
@@ -209,6 +210,7 @@ class ServerFactory {
 				);
 			}
 			$server->addPlugin(new CopyEtagHeaderPlugin());
+			$server->addPlugin(new AddExtraHeadersPlugin($this->logger, $isPublicShare));
 
 			// Load dav plugins from apps
 			$event = new SabrePluginEvent($server);

@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Sharing\Tests\Controller;
 
 use OCA\Files_Sharing\Controller\PublicPreviewController;
@@ -251,7 +252,6 @@ class PublicPreviewControllerTest extends TestCase {
 		$expected = new DataResponse([], Http::STATUS_NOT_FOUND);
 		$this->assertEquals($expected, $res);
 	}
-
 
 	public function testPreviewFolderValidFile(): void {
 		$share = $this->createMock(IShare::class);

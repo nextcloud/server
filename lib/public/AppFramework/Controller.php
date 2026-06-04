@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\AppFramework;
 
 use Closure;
@@ -82,7 +83,6 @@ abstract class Controller {
 		];
 	}
 
-
 	/**
 	 * Parses an HTTP accept header and returns the supported responder type
 	 * @param string $acceptHeader
@@ -110,7 +110,6 @@ abstract class Controller {
 		return $default;
 	}
 
-
 	/**
 	 * Registers a formatter for a type
 	 * @param string $format
@@ -120,7 +119,6 @@ abstract class Controller {
 	protected function registerResponder($format, Closure $responder) {
 		$this->responders[$format] = $responder;
 	}
-
 
 	/**
 	 * Serializes and formats a response
@@ -141,6 +139,9 @@ abstract class Controller {
 			. $format . '!');
 	}
 
+	/**
+	 * @since 33.0.0
+	 */
 	public function isResponderRegistered(string $responder): bool {
 		return isset($this->responders[$responder]);
 	}

@@ -22,6 +22,7 @@ class Storages extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		parent::configure();
 		$this
@@ -31,6 +32,7 @@ class Storages extends Base {
 			->addOption('all', 'a', InputOption::VALUE_NONE, 'Display all storages');
 	}
 
+	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$count = (int)$input->getOption('count');
 		$all = $input->getOption('all');

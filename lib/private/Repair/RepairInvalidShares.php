@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Repair;
 
 use OCP\Constants;
@@ -25,6 +26,7 @@ class RepairInvalidShares implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Repair invalid shares';
 	}
@@ -85,6 +87,7 @@ class RepairInvalidShares implements IRepairStep {
 		}
 	}
 
+	#[\Override]
 	public function run(IOutput $output) {
 		$ocVersionFromBeforeUpdate = $this->config->getSystemValueString('version', '0.0.0');
 		if (version_compare($ocVersionFromBeforeUpdate, '12.0.0.11', '<')) {

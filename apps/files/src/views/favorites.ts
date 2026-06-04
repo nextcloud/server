@@ -10,9 +10,9 @@ import StarSvg from '@mdi/svg/svg/star-outline.svg?raw'
 import { subscribe } from '@nextcloud/event-bus'
 import { FileType, getNavigation, View } from '@nextcloud/files'
 import { getCanonicalLocale, getLanguage, t } from '@nextcloud/l10n'
-import logger from '../logger.ts'
 import { getContents } from '../services/Favorites.ts'
 import { hashCode } from '../utils/hashUtils.ts'
+import { logger } from '../utils/logger.ts'
 
 /**
  * Generate a favorite folder view

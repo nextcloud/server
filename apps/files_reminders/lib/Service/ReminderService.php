@@ -203,7 +203,6 @@ class ReminderService {
 		$this->cache->set("{$reminder->getUserId()}-{$reminder->getFileId()}", false);
 	}
 
-
 	/**
 	 * @throws NodeNotFoundException
 	 */

@@ -37,9 +37,9 @@ import { UploadStatus } from '@nextcloud/upload'
 import debounce from 'debounce'
 import { defineComponent } from 'vue'
 import TrayArrowDownIcon from 'vue-material-design-icons/TrayArrowDown.vue'
-import logger from '../logger.ts'
 import { dataTransferToFileTree, onDropExternalFiles } from '../services/DropService.ts'
 import { useActiveStore } from '../store/active.ts'
+import { logger } from '../utils/logger.ts'
 
 export default defineComponent({
 	name: 'DragAndDropNotice',

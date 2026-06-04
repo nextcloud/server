@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\SystemTag;
 
 use OCP\IUser;
@@ -55,6 +56,7 @@ class SystemTagNode implements \Sabre\DAV\ICollection {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function getName() {
 		return $this->tag->getId();
 	}
@@ -77,6 +79,7 @@ class SystemTagNode implements \Sabre\DAV\ICollection {
 	 *
 	 * @return never
 	 */
+	#[\Override]
 	public function setName($name) {
 		throw new MethodNotAllowed();
 	}
@@ -133,6 +136,7 @@ class SystemTagNode implements \Sabre\DAV\ICollection {
 	 *
 	 * @return null
 	 */
+	#[\Override]
 	public function getLastModified() {
 		return null;
 	}
@@ -140,6 +144,7 @@ class SystemTagNode implements \Sabre\DAV\ICollection {
 	/**
 	 * @return void
 	 */
+	#[\Override]
 	public function delete() {
 		try {
 			if (!$this->isAdmin) {
@@ -173,23 +178,28 @@ class SystemTagNode implements \Sabre\DAV\ICollection {
 		$this->referenceFileId = $referenceFileId;
 	}
 
+	#[\Override]
 	public function createFile($name, $data = null) {
 		throw new MethodNotAllowed();
 	}
 
+	#[\Override]
 	public function createDirectory($name) {
 		throw new MethodNotAllowed();
 	}
 
+	#[\Override]
 	public function getChild($name) {
 		return new SystemTagObjectType($this->tag, $name, $this->tagManager, $this->tagMapper);
 	}
 
+	#[\Override]
 	public function childExists($name) {
 		$objectTypes = $this->tagMapper->getAvailableObjectTypes();
 		return in_array($name, $objectTypes);
 	}
 
+	#[\Override]
 	public function getChildren() {
 		$objectTypes = $this->tagMapper->getAvailableObjectTypes();
 		return array_map(

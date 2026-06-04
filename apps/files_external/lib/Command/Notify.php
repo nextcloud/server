@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_External\Command;
 
 use Doctrine\DBAL\Exception\DriverException;
@@ -34,6 +35,7 @@ class Notify extends StorageAuthBase {
 		parent::__construct($globalService, $userManager);
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('files_external:notify')
@@ -72,6 +74,7 @@ class Notify extends StorageAuthBase {
 		parent::configure();
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		[$mount, $storage] = $this->createStorage($input, $output);
 		if ($storage === null) {
@@ -210,7 +213,6 @@ class Notify extends StorageAuthBase {
 		}
 		return $connection;
 	}
-
 
 	private function selfTest(IStorage $storage, INotifyHandler $notifyHandler, OutputInterface $output): void {
 		usleep(100 * 1000); //give time for the notify to start

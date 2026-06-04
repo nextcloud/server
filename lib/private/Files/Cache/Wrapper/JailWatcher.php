@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Files\Cache\Wrapper;
 
 use OC\Files\Cache\Watcher;
@@ -28,31 +29,37 @@ class JailWatcher extends Watcher {
 		}
 	}
 
+	#[\Override]
 	public function setPolicy($policy) {
 		$this->watcher->setPolicy($policy);
 	}
 
+	#[\Override]
 	public function getPolicy() {
 		return $this->watcher->getPolicy();
 	}
 
-
+	#[\Override]
 	public function checkUpdate($path, $cachedEntry = null) {
 		return $this->watcher->checkUpdate($this->getSourcePath($path), $cachedEntry);
 	}
 
+	#[\Override]
 	public function update($path, $cachedData) {
 		$this->watcher->update($this->getSourcePath($path), $cachedData);
 	}
 
+	#[\Override]
 	public function needsUpdate($path, $cachedData) {
 		return $this->watcher->needsUpdate($this->getSourcePath($path), $cachedData);
 	}
 
+	#[\Override]
 	public function cleanFolder($path) {
 		$this->watcher->cleanFolder($this->getSourcePath($path));
 	}
 
+	#[\Override]
 	public function onUpdate(callable $callback): void {
 		$this->watcher->onUpdate($callback);
 	}

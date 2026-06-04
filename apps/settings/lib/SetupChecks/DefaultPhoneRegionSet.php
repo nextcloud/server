@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\SetupChecks;
 
 use OCP\IConfig;
@@ -20,14 +21,17 @@ class DefaultPhoneRegionSet implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Default phone region');
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'config';
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		if ($this->config->getSystemValueString('default_phone_region', '') !== '') {
 			return SetupResult::success($this->config->getSystemValueString('default_phone_region', ''));

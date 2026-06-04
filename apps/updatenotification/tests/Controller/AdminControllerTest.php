@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\UpdateNotification\Tests\Controller;
 
 use OCA\UpdateNotification\BackgroundJob\ResetToken;
@@ -18,6 +19,7 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\Security\ISecureRandom;
+use OCP\ServerVersion;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -56,6 +58,7 @@ class AdminControllerTest extends TestCase {
 			$this->timeFactory,
 			$this->l10n,
 			$this->logger,
+			$this->createMock(ServerVersion::class),
 		);
 	}
 

@@ -28,6 +28,7 @@ class RegistryTest extends TestCase {
 	private IEventDispatcher&MockObject $dispatcher;
 	private Registry $registry;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -83,7 +84,6 @@ class RegistryTest extends TestCase {
 		$provider->expects($this->once())->method('getId')->willReturn('p1');
 		$this->dao->expects($this->once())->method('persist')->with('p1', 'user123',
 			false);
-
 
 		$this->dispatcher->expects($this->once())
 			->method('dispatch')

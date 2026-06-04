@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Files;
 
 use OCP\Constants;
@@ -157,6 +158,7 @@ class FilenameValidator implements IFilenameValidator {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function isFilenameValid(string $filename): bool {
 		try {
 			$this->validateFilename($filename);
@@ -169,6 +171,7 @@ class FilenameValidator implements IFilenameValidator {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function validateFilename(string $filename): void {
 		$trimmed = trim($filename);
 		if ($trimmed === '') {
@@ -229,6 +232,7 @@ class FilenameValidator implements IFilenameValidator {
 		return false;
 	}
 
+	#[\Override]
 	public function sanitizeFilename(string $name, ?string $charReplacement = null): string {
 		$forbiddenCharacters = $this->getForbiddenCharacters();
 
@@ -280,7 +284,6 @@ class FilenameValidator implements IFilenameValidator {
 			throw new ReservedWordException($this->l10n->t('"%1$s" is a forbidden prefix for file or folder names.', [$filename]));
 		}
 	}
-
 
 	/**
 	 * Check if a filename contains any of the forbidden characters
