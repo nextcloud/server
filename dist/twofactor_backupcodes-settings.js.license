@@ -70,6 +70,9 @@ This file is generated from multiple sources. Included packages:
 - @vueuse/shared
 	- version: 14.3.0
 	- license: MIT
+- focus-trap
+	- version: 8.2.1
+	- license: MIT
 - perfect-debounce
 	- version: 2.1.0
 	- license: MIT
@@ -152,7 +155,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.6.2
 	- license: MIT
 - webpack
-	- version: 5.106.2
+	- version: 5.107.2
 	- license: MIT
 - nextcloud
 	- version: 1.0.0

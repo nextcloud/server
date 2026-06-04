@@ -2,6 +2,7 @@ SPDX-License-Identifier: MIT
 SPDX-License-Identifier: ISC
 SPDX-License-Identifier: GPL-3.0-or-later
 SPDX-License-Identifier: BSD-3-Clause
+SPDX-License-Identifier: BSD-2-Clause
 SPDX-License-Identifier: AGPL-3.0-or-later
 SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
 SPDX-FileCopyrightText: webfansplz
@@ -43,6 +44,7 @@ SPDX-FileCopyrightText: Guillaume Chau <guillaume.b.chau@gmail.com>
 SPDX-FileCopyrightText: Guillaume Chau
 SPDX-FileCopyrightText: GitHub Inc.
 SPDX-FileCopyrightText: Feross Aboukhadijeh
+SPDX-FileCopyrightText: Felix Boehm <me@feedic.com>
 SPDX-FileCopyrightText: Evan You
 SPDX-FileCopyrightText: Eugene Sharygin <eush77@gmail.com>
 SPDX-FileCopyrightText: Eric Norris (https://github.com/ericnorris)
@@ -54,6 +56,7 @@ SPDX-FileCopyrightText: Ben Drucker
 SPDX-FileCopyrightText: Arnout Kazemier
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
 SPDX-FileCopyrightText: Anthony Fu <anthonyfu117@hotmail.com>
+SPDX-FileCopyrightText: Amit Gupta (https://solothought.work/)
 SPDX-FileCopyrightText: Amit Gupta (https://solothought.com)
 SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
@@ -218,6 +221,9 @@ This file is generated from multiple sources. Included packages:
 - dunder-proto
 	- version: 1.0.1
 	- license: MIT
+- entities
+	- version: 6.0.1
+	- license: BSD-2-Clause
 - es-define-property
 	- version: 1.0.1
 	- license: MIT
@@ -238,6 +244,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - fast-xml-parser
 	- version: 5.8.0
+	- license: MIT
+- @floating-ui/core
+	- version: 0.3.1
 	- license: MIT
 - floating-vue
 	- version: 1.0.0-beta.19
@@ -389,6 +398,9 @@ This file is generated from multiple sources. Included packages:
 - striptags
 	- version: 3.2.0
 	- license: MIT
+- strnum
+	- version: 2.3.0
+	- license: MIT
 - style-loader
 	- version: 4.0.0
 	- license: MIT
@@ -438,7 +450,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.10.0
 	- license: MIT
 - webpack
-	- version: 5.106.2
+	- version: 5.107.2
 	- license: MIT
 - which-typed-array
 	- version: 1.1.19
