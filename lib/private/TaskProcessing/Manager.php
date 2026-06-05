@@ -1197,7 +1197,7 @@ class Manager implements IManager {
 				/** @psalm-suppress UndefinedClass */
 				$queue->push('notify_custom', [
 					'user' => $userId,
-					'message' => 'task_update',
+					'message' => 'taskprocessing:task_update',
 					'body' => [
 						'task_id' => $task->getId(),
 						'new_status' => $status,
@@ -1285,7 +1285,7 @@ class Manager implements IManager {
 				/** @psalm-suppress UndefinedClass */
 				$queue->push('notify_custom', [
 					'user' => $userId,
-					'message' => 'task_' . $task->getId(),
+					'message' => 'taskprocessing:task_id_' . $task->getId(),
 					'body' => $output,
 				]);
 			} catch (ContainerExceptionInterface|NotFoundExceptionInterface $e) {
