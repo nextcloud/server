@@ -21,18 +21,17 @@
 </template>
 
 <script setup lang="ts">
-import type { FormData } from './userFormUtils.ts'
-
 import { translate as t } from '@nextcloud/l10n'
 import { computed, inject } from 'vue'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import { useStore } from '../../store/index.js'
+import { formDataKey } from './injectionKeys.ts'
 import { languageFilterBy } from './userFormUtils.ts'
 
 const store = useStore()
 
 /** Shared, reactive form state provided by the parent dialog */
-const formData = inject<FormData>('formData')!
+const formData = inject(formDataKey)!
 
 /** Per-admin UI flags from the store (controls language field visibility) */
 const showConfig = computed(() => store.getters.getShowConfig)

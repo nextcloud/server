@@ -41,120 +41,105 @@
 	</NcDialog>
 </template>
 
-<script>
+<script setup lang="ts">
+import type { IUser } from '../../views/user-types.d.ts'
+import type { QuotaOption } from './userFormUtils.ts'
+
 import { showError, showSuccess } from '@nextcloud/dialogs'
+import { translate as t } from '@nextcloud/l10n'
 import { confirmPassword } from '@nextcloud/password-confirmation'
+import { computed, provide, reactive, ref } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcDialog from '@nextcloud/vue/components/NcDialog'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import UserFormFields from './UserFormFields.vue'
 import logger from '../../logger.ts'
+import { useStore } from '../../store/index.js'
+import { formDataKey } from './injectionKeys.ts'
 import { diffPayload, userToFormData } from './userFormUtils.ts'
 
-export default {
-	name: 'EditUserDialog',
+const props = defineProps<{
+	/** The user being edited */
+	user: IUser
+	/** Quota preset options for the quota select */
+	quotaOptions: QuotaOption[]
+}>()
 
-	components: {
-		NcButton,
-		NcDialog,
-		NcLoadingIcon,
-		UserFormFields,
+const emit = defineEmits<{
+	closing: []
+}>()
+
+const store = useStore()
+
+const allGroups = store.getters.getGroups
+const serverLanguages = store.getters.getServerData.languages
+const formData = userToFormData(props.user, allGroups, props.quotaOptions, serverLanguages)
+
+/** Snapshot of initial state for diffing */
+const initialData = structuredClone(formData)
+// Children inject this reactive object and mutate its properties via v-model.
+// Do not reassign editedUser entirely, the injected reference would go stale.
+const editedUser = reactive(formData)
+const saving = ref(false)
+const fieldErrors = ref<Record<string, string>>({})
+
+// Children inject editedUser and mutate its properties via v-model.
+provide(formDataKey, editedUser)
+
+const settings = computed(() => store.getters.getServerData)
+
+const fieldConfig = computed(() => ({
+	username: {
+		show: true,
+		disabled: true,
+		label: t('settings', 'Account name'),
 	},
 
-	// Children inject this reactive object and mutate its properties via v-model.
-	// Do not reassign editedUser entirely, the injected reference would go stale.
-	provide() {
-		return {
-			formData: this.editedUser,
+	password: {
+		show: settings.value.canChangePassword && props.user.backendCapabilities.setPassword,
+		label: t('settings', 'New password'),
+	},
+}))
+
+/**
+ * Diff the form against its initial snapshot and submit only changed fields.
+ * Maps a 422 response to per-field errors; closes the dialog on success or no-op.
+ */
+async function save() {
+	// Guard against re-submit while a request is already running. The
+	// button is only aria-disabled (not disabled), so it can still fire.
+	if (saving.value) {
+		return
+	}
+	fieldErrors.value = {}
+
+	const payload = diffPayload(initialData, editedUser)
+	if (Object.keys(payload).length === 0) {
+		emit('closing')
+		return
+	}
+
+	saving.value = true
+	try {
+		await confirmPassword()
+		await store.dispatch('editUserMultiField', {
+			userid: props.user.id,
+			payload,
+		})
+		showSuccess(t('settings', 'Account updated'))
+		emit('closing')
+	} catch (error) {
+		const errors = (error as { response?: { data?: { ocs?: { data?: { errors?: Record<string, string> } } } } })
+			.response?.data?.ocs?.data?.errors
+		if (errors && typeof errors === 'object') {
+			fieldErrors.value = errors
+		} else {
+			logger.error('Failed to update account', { error })
+			showError(t('settings', 'Failed to update account'))
 		}
-	},
-
-	props: {
-		user: {
-			type: Object,
-			required: true,
-		},
-
-		quotaOptions: {
-			type: Array,
-			required: true,
-		},
-	},
-
-	emits: ['closing'],
-
-	data() {
-		const allGroups = this.$store.getters.getGroups
-		const serverLanguages = this.$store.getters.getServerData.languages
-		const formData = userToFormData(this.user, allGroups, this.quotaOptions, serverLanguages)
-		return {
-			/** Snapshot of initial state for diffing */
-			initialData: structuredClone(formData),
-			/** Mutable form state */
-			editedUser: formData,
-			saving: false,
-			fieldErrors: {},
-		}
-	},
-
-	computed: {
-		settings() {
-			return this.$store.getters.getServerData
-		},
-
-		fieldConfig() {
-			return {
-				username: {
-					show: true,
-					disabled: true,
-					label: t('settings', 'Account name'),
-				},
-
-				password: {
-					show: this.settings.canChangePassword && this.user.backendCapabilities.setPassword,
-					label: t('settings', 'New password'),
-				},
-			}
-		},
-	},
-
-	methods: {
-		async save() {
-			// Guard against re-submit while a request is already running. The
-			// button is only aria-disabled (not disabled), so it can still fire.
-			if (this.saving) {
-				return
-			}
-			this.fieldErrors = {}
-
-			const payload = diffPayload(this.initialData, this.editedUser)
-			if (Object.keys(payload).length === 0) {
-				this.$emit('closing')
-				return
-			}
-
-			this.saving = true
-			try {
-				await confirmPassword()
-				await this.$store.dispatch('editUserMultiField', {
-					userid: this.user.id,
-					payload,
-				})
-				showSuccess(t('settings', 'Account updated'))
-				this.$emit('closing')
-			} catch (error) {
-				const errors = error.response?.data?.ocs?.data?.errors
-				if (errors && typeof errors === 'object') {
-					this.fieldErrors = errors
-				} else {
-					logger.error('Failed to update account', { error })
-					showError(t('settings', 'Failed to update account'))
-				}
-			} finally {
-				this.saving = false
-			}
-		},
-	},
+	} finally {
+		saving.value = false
+	}
 }
 </script>
 

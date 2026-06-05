@@ -19,18 +19,18 @@
 
 <script setup lang="ts">
 import type { NcSelectUsersModel } from '@nextcloud/vue/components/NcSelectUsers'
-import type { FormData } from './userFormUtils.ts'
 
 import { translate as t } from '@nextcloud/l10n'
 import { computed, inject, onBeforeUnmount, ref } from 'vue'
 import NcSelectUsers from '@nextcloud/vue/components/NcSelectUsers'
 import logger from '../../logger.ts'
 import { useStore } from '../../store/index.js'
+import { formDataKey } from './injectionKeys.ts'
 
 const store = useStore()
 
 /** Shared, reactive form state provided by the parent dialog */
-const formData = inject<FormData>('formData')!
+const formData = inject(formDataKey)!
 
 const possibleManagers = ref<Array<{ id: string, displayname?: string, email?: string }>>([])
 const loading = ref(false)
