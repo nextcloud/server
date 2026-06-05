@@ -10,47 +10,41 @@
 		<NcSelect
 			v-model="formData.language"
 			class="user-form__select"
-			:input-label="t('settings', 'Language')"
+			:inputLabel="t('settings', 'Language')"
 			:placeholder="t('settings', 'Set default language')"
 			:clearable="false"
 			:selectable="option => !option.languages"
-			:filter-by="languageFilterBy"
+			:filterBy="languageFilterBy"
 			:options="languages"
 			label="name" />
 	</div>
 </template>
 
-<script>
+<script setup lang="ts">
+import type { FormData } from './userFormUtils.ts'
+
+import { translate as t } from '@nextcloud/l10n'
+import { computed, inject } from 'vue'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
+import { useStore } from '../../store/index.js'
 import { languageFilterBy } from './userFormUtils.ts'
 
-export default {
-	name: 'UserFormLanguage',
+const store = useStore()
 
-	components: {
-		NcSelect,
-	},
+/** Shared, reactive form state provided by the parent dialog */
+const formData = inject<FormData>('formData')!
 
-	inject: ['formData'],
+/** Per-admin UI flags from the store (controls language field visibility) */
+const showConfig = computed(() => store.getters.getShowConfig)
 
-	computed: {
-		showConfig() {
-			return this.$store.getters.getShowConfig
-		},
-
-		languages() {
-			const { commonLanguages, otherLanguages } = this.$store.getters.getServerData.languages
-			return [
-				{ name: t('settings', 'Common languages'), languages: commonLanguages },
-				...commonLanguages,
-				{ name: t('settings', 'Other languages'), languages: otherLanguages },
-				...otherLanguages,
-			]
-		},
-	},
-
-	methods: {
-		languageFilterBy,
-	},
-}
+/** Grouped options: a section header followed by its languages, twice */
+const languages = computed(() => {
+	const { commonLanguages, otherLanguages } = store.getters.getServerData.languages
+	return [
+		{ name: t('settings', 'Common languages'), languages: commonLanguages },
+		...commonLanguages,
+		{ name: t('settings', 'Other languages'), languages: otherLanguages },
+		...otherLanguages,
+	]
+})
 </script>
