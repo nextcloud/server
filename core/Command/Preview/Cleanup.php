@@ -39,11 +39,11 @@ class Cleanup extends Base {
 
 	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		if ($this->deletePreviewFromPreviewTable($output) !== 0) {
+		if ($this->deletePreviewFromFileCacheTable($output) !== 0) {
 			return 1;
 		}
 
-		return $this->deletePreviewFromFileCacheTable($output);
+		return $this->deletePreviewFromPreviewTable($output);
 	}
 
 	/**
