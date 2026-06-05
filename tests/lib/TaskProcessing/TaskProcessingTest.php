@@ -855,6 +855,7 @@ class TaskProcessingTest extends \Test\TestCase {
 			Server::get(IUserSession::class),
 			Server::get(ICacheFactory::class),
 			Server::get(IFactory::class),
+			Server::get(ITimeFactory::class),
 		);
 	}
 
@@ -1595,6 +1596,7 @@ class TaskProcessingTest extends \Test\TestCase {
 			Server::get(IUserSession::class),
 			Server::get(ICacheFactory::class),
 			Server::get(IFactory::class),
+			Server::get(ITimeFactory::class),
 		);
 	}
 
