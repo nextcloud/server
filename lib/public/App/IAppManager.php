@@ -152,7 +152,7 @@ interface IAppManager {
 	 * Enable an app only for specific groups
 	 *
 	 * @param string $appId
-	 * @param \OCP\IGroup[] $groups
+	 * @param list<\OCP\IGroup|string> $groups
 	 * @param bool $forceEnable
 	 * @throws \Exception
 	 * @since 8.0.0
