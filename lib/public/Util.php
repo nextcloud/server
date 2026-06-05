@@ -173,10 +173,14 @@ class Util {
 		}
 
 		// Track app-level ordering dependencies used when building the final script list.
-		if (!array_key_exists($application, self::$scriptDeps)) {
+		if (!isset(self::$scriptDeps[$application])) {
 			self::$scriptDeps[$application] = new AppScriptDependency($application, [$afterAppId]);
 		} else {
 			self::$scriptDeps[$application]->addDep($afterAppId);
+		}
+
+		if (!isset(self::$scripts[$application])) {
+			self::$scripts[$application] = [];
 		}
 
 		if ($prepend) {
@@ -258,6 +262,10 @@ class Util {
 			$translationPath = "$application/l10n/$languageCode";
 		} else {
 			$translationPath = "l10n/$languageCode";
+		}
+
+		if (!isset(self::$scripts[$application])) {
+			self::$scripts[$application] = [];
 		}
 
 		if ($init) {
