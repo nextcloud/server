@@ -19,21 +19,4 @@
 	<dependencies>
 		<nextcloud min-version="34" max-version="34"/>
 	</dependencies>
-
-	<navigations>
-		<navigation role="admin">
-			<name>Appstore</name>
-			<route>appstore.page.viewApps</route>
-			<icon>app.svg</icon>
-			<order>99</order>
-		</navigation>
-
-		<navigation role="admin">
-			<name>Apps</name>
-			<route>appstore.page.viewApps</route>
-			<icon>app.svg</icon>
-			<order>5</order>
-			<type>settings</type>
-		</navigation>
-	</navigations>
 </info>
