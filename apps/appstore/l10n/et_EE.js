@@ -4,6 +4,7 @@ OC.L10N.register(
     "App store" : "Rakendustepood",
     "Apps" : "Rakendused",
     "Nextcloud Appstore" : "Nextcloudi rakendustepood",
+    "Appstore" : "Rakendustepood",
     "App name" : "Rakenduse nimi",
     "Version" : "Versioon",
     "Support level" : "Kasutajatoe tase",

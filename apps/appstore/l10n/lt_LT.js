@@ -4,6 +4,7 @@ OC.L10N.register(
     "App store" : "Programėlių parduotuvė",
     "Apps" : "Programėlės",
     "Nextcloud Appstore" : "Nextcloud programėlių parduotuvė",
+    "Appstore" : "Programėlių parduotuvė",
     "App name" : "Programėlės pavadinimas",
     "Version" : "Versija",
     "Support level" : "Palaikymo lygis",

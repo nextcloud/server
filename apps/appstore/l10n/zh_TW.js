@@ -4,6 +4,7 @@ OC.L10N.register(
     "App store" : "應用程式商店",
     "Apps" : "應用程式",
     "Nextcloud Appstore" : "Nextcloud 應用程式商店",
+    "Appstore" : "應用程式商店",
     "App name" : "應用程式名稱",
     "Version" : "版本",
     "Support level" : "支援層級",
