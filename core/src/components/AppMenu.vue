@@ -179,7 +179,7 @@ export default defineComponent({
 				return ''
 			}
 			return this.currentApp.type === 'settings'
-				? imagePath('core', 'actions/settings.svg')
+				? imagePath('core', 'actions/settings-dark.svg')
 				: this.currentApp.icon
 		},
 
