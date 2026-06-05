@@ -139,7 +139,12 @@ class Util {
 	 * @param bool $prepend Whether to insert the script at the beginning of the app's script list.
 	 * @since 4.0.0
 	 */
-	public static function addScript(string $application, ?string $file = null, string $afterAppId = 'core', bool $prepend = false): void {
+	public static function addScript(
+		string $application,
+		?string $file = null,
+		string $afterAppId = 'core',
+		bool $prepend = false
+	): void {
 		if (!empty($application)) {
 			$scriptPath = "$application/js/$file";
 		} else {
@@ -195,7 +200,7 @@ class Util {
 		usort(
 			$scriptList,
 			fn (string $leftScript, string $rightScript) =>
-				self::scriptOrderValue($rightScript) <=> self::scriptOrderValue($leftScript)
+				self::scriptPriority($rightScript) <=> self::scriptPriority($leftScript)
 		);
 
 		return $scriptList;
@@ -210,7 +215,7 @@ class Util {
 	 * @param string $name Script asset path
 	 * @since 34.0.0
 	 */
-	private static function scriptOrderValue(string $name): int {
+	private static function scriptPriority(string $name): int {
 		return match($name) {
 			'core/js/common' => 3,
 			'core/js/main' => 2,
@@ -228,11 +233,11 @@ class Util {
 	 * registered as early init assets or as regular app scripts.
 	 *
 	 * @param string $application Application ID
-	 * @param string $languageCode Language code; defaults to the current app language
+	 * @param ?string $languageCode Language code; defaults to the current app language
 	 * @param bool $init Whether to register the translation asset as an early init asset
 	 * @since 8.0.0
 	 */
-	public static function addTranslations($application, $languageCode = null, $init = false) {
+	public static function addTranslations(string $application, ?string $languageCode = null, bool $init = false) {
 		if (is_null($languageCode)) {
 			$languageCode = Server::get(IFactory::class)->findLanguage($application);
 		}
