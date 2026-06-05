@@ -2259,20 +2259,12 @@
       <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
     </DeprecatedConstant>
     <DeprecatedMethod>
-      <code><![CDATA[deleteUserValue]]></code>
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getUserValue]]></code>
-      <code><![CDATA[implementsActions]]></code>
       <code><![CDATA[implementsActions]]></code>
       <code><![CDATA[search]]></code>
       <code><![CDATA[search]]></code>
-      <code><![CDATA[setUserValue]]></code>
-      <code><![CDATA[setUserValue]]></code>
-      <code><![CDATA[setUserValue]]></code>
-      <code><![CDATA[setUserValue]]></code>
-      <code><![CDATA[setUserValue]]></code>
     </DeprecatedMethod>
     <TypeDoesNotContainNull>
       <code><![CDATA[$groupid === null]]></code>
