@@ -166,9 +166,7 @@ class Util {
 
 		// For non-core apps, ensure translations are registered together with the
 		// app script unless this is already a translation asset.
-		if ($application !== 'core'
-			&& $file !== null
-			&& !str_contains($file, 'l10n')) {
+		if ($application !== 'core' && !str_contains($file, 'l10n')) {
 			self::addTranslations($application);
 		}
 
@@ -179,11 +177,10 @@ class Util {
 			self::$scriptDeps[$application]->addDep($afterAppId);
 		}
 
-		if (!isset(self::$scripts[$application])) {
-			self::$scripts[$application] = [];
-		}
-
 		if ($prepend) {
+			if (!isset(self::$scripts[$application])) {
+				self::$scripts[$application] = [];
+			}
 			array_unshift(self::$scripts[$application], $scriptPath);
 		} else {
 			self::$scripts[$application][] = $scriptPath;
