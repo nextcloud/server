@@ -22,22 +22,36 @@ use Psr\Container\ContainerExceptionInterface;
  * @since 4.0.0
  */
 class Util {
-	/** @psalm-suppress ImpureStaticProperty legacy stuff, keep them for now */
+	/**
+	 * List of early init script asset paths.
+	 *
+	 * @psalm-suppress ImpureStaticProperty
+	 */
 	private static array $scriptsInit = [];
-	/** @psalm-suppress ImpureStaticProperty */
+
+	/**
+	 * Script asset paths grouped by application ID.
+	 *
+	 * @psalm-suppress ImpureStaticProperty
+	 */
 	private static array $scripts = [];
-	/** @psalm-suppress ImpureStaticProperty */
+	
+	/**
+	 * App-level script dependency metadata keyed by application ID.
+	 *
+	 * @psalm-suppress ImpureStaticProperty 
+	 */
 	private static array $scriptDeps = [];
+
 	/** @psalm-suppress ImpureStaticProperty */
 	private static ?bool $needUpgradeCache = null;
 
 	/**
 	 * get the current installed version of Nextcloud
-	 * @return array
 	 * @since 4.0.0
 	 * @deprecated 31.0.0 Use \OCP\ServerVersion::getVersion
 	 */
-	public static function getVersion() {
+	public static function getVersion(): array {
 		return Server::get(ServerVersion::class)->getVersion();
 	}
 
@@ -56,27 +70,26 @@ class Util {
 
 	/**
 	 * Set current update channel
-	 * @param string $channel
 	 * @since 8.1.0
 	 * @deprecated 33.0.0 Use \OCP\ServerVersion::setChannel
 	 */
-	public static function setChannel($channel) {
+	public static function setChannel(string $channel): void {
 		Server::get(IConfig::class)->setSystemValue('updater.release.channel', $channel);
 	}
 
 	/**
 	 * Get current update channel
-	 * @return string
 	 * @since 8.1.0
 	 * @deprecated 31.0.0 Use \OCP\ServerVersion::getChannel
 	 */
-	public static function getChannel() {
+	public static function getChannel(): string {
 		return Server::get(ServerVersion::class)->getChannel();
 	}
 
 	/**
 	 * get l10n object
-	 * @since 6.0.0 - parameter $language was added in 8.0.0
+	 * @since 6.0.0
+	 * @since 8.0.0 parameter $language was added
 	 */
 	public static function getL10N(string $application, ?string $language = null): IL10N {
 		return Server::get(\OCP\L10N\IFactory::class)->get($application, $language);
@@ -143,7 +156,7 @@ class Util {
 		string $application,
 		?string $file = null,
 		string $afterAppId = 'core',
-		bool $prepend = false
+		bool $prepend = false,
 	): void {
 		if (!empty($application)) {
 			$scriptPath = "$application/js/$file";
@@ -237,7 +250,7 @@ class Util {
 	 * @param bool $init Whether to register the translation asset as an early init asset
 	 * @since 8.0.0
 	 */
-	public static function addTranslations(string $application, ?string $languageCode = null, bool $init = false) {
+	public static function addTranslations(string $application, ?string $languageCode = null, bool $init = false): void {
 		if (is_null($languageCode)) {
 			$languageCode = Server::get(IFactory::class)->findLanguage($application);
 		}
@@ -260,10 +273,10 @@ class Util {
 	 * So use "" to get a closing tag.
 	 * @param string $tag tag name of the element
 	 * @param array $attributes array of attributes for the element
-	 * @param string $text the text content for the element
+	 * @param ?string $text the text content for the element
 	 * @since 4.0.0
 	 */
-	public static function addHeader($tag, $attributes, $text = null) {
+	public static function addHeader(string $tag, array $attributes, ?string $text = null): void {
 		\OC_Util::addHeader($tag, $attributes, $text);
 	}
 
@@ -277,7 +290,7 @@ class Util {
 	 * @since 4.0.0 - parameter $args was added in 4.5.0
 	 * @deprecated 34.0.0 Use IUrlGenerator::getAbsoluteUrl and IUrlGenerator::linkTo
 	 */
-	public static function linkToAbsolute($app, $file, $args = []) {
+	public static function linkToAbsolute(string $app, string $file, array $args = []): string {
 		$urlGenerator = Server::get(IURLGenerator::class);
 		return $urlGenerator->getAbsoluteURL(
 			$urlGenerator->linkTo($app, $file, $args)
@@ -298,18 +311,18 @@ class Util {
 	}
 
 	/**
-	 * Returns the server host name without an eventual port number
-	 * @return string the server hostname
+	 * Returns the server host name without the port number.
+	 *
+	 * @return string The server hostname
 	 * @since 5.0.0
+	 *
+	 * TODO: Move to IRequest
 	 */
-	public static function getServerHostName() {
-		$host_name = Server::get(IRequest::class)->getServerHost();
-		// strip away port number (if existing)
-		$colon_pos = strpos($host_name, ':');
-		if ($colon_pos !== false) {
-			$host_name = substr($host_name, 0, $colon_pos);
-		}
-		return $host_name;
+	public static function getServerHostName(): string {
+		$host = Server::get(IRequest::class)->getServerHost();
+
+		// Extract only the host part before the colon
+		return explode(':', $host, 2)[0];
 	}
 
 	/**
@@ -345,14 +358,18 @@ class Util {
 	}
 
 	/**
-	 * Converts string to int of float depending on if it fits an int
-	 * @param numeric-string|float|int $number numeric string
-	 * @return int|float int if it fits, float if it is too big
+	 * Converts a numeric value to an integer or float.
+	 * 
+	 * Returns an integer if the value fits within the system's integer limits, 
+	 * ootherwise returns a float up to maximum hardware precision.
+	 * 
+	 * @param numeric-string|float|int $number The numeric value to convert.
+	 * @return int|float An integer if it fits, otherwise a float.
 	 * @since 26.0.0
 	 */
 	public static function numericToNumber(string|float|int $number): int|float {
-		/* This is a hack to cast to (int|float) */
-		return 0 + (string)$number;
+		// Triggers native engine-level type coercion to int or float
+		return +$number;
 	}
 
 	/**
@@ -439,7 +456,6 @@ class Util {
 	 *
 	 * This function makes it very easy to connect to use hooks.
 	 *
-	 * TODO: write example
 	 * @since 4.0.0
 	 * @deprecated 21.0.0 use \OCP\EventDispatcher\IEventDispatcher::addListener
 	 */
