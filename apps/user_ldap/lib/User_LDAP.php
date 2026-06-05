@@ -689,17 +689,17 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 		return match($property) {
 			// Display name is always set by LDAP
 			IAccountManager::PROPERTY_DISPLAYNAME => false,
-			IAccountManager::PROPERTY_EMAIL => ((string)$this->access->connection->ldapEmailAttribute !== ''),
-			IAccountManager::PROPERTY_PHONE => ((string)$this->access->connection->ldapAttributePhone !== ''),
-			IAccountManager::PROPERTY_WEBSITE => ((string)$this->access->connection->ldapAttributeWebsite !== ''),
-			IAccountManager::PROPERTY_ADDRESS => ((string)$this->access->connection->ldapAttributeAddress !== ''),
-			IAccountManager::PROPERTY_FEDIVERSE => ((string)$this->access->connection->ldapAttributeFediverse !== ''),
-			IAccountManager::PROPERTY_ORGANISATION => ((string)$this->access->connection->ldapAttributeOrganisation !== ''),
-			IAccountManager::PROPERTY_ROLE => ((string)$this->access->connection->ldapAttributeRole !== ''),
-			IAccountManager::PROPERTY_HEADLINE => ((string)$this->access->connection->ldapAttributeHeadline !== ''),
-			IAccountManager::PROPERTY_BIOGRAPHY => ((string)$this->access->connection->ldapAttributeBiography !== ''),
-			IAccountManager::PROPERTY_BIRTHDATE => ((string)$this->access->connection->ldapAttributeBirthDate !== ''),
-			IAccountManager::PROPERTY_PRONOUNS => ((string)$this->access->connection->ldapAttributePronouns !== ''),
+			IAccountManager::PROPERTY_EMAIL => ((string)$this->access->connection->ldapEmailAttribute === ''),
+			IAccountManager::PROPERTY_PHONE => ((string)$this->access->connection->ldapAttributePhone === ''),
+			IAccountManager::PROPERTY_WEBSITE => ((string)$this->access->connection->ldapAttributeWebsite === ''),
+			IAccountManager::PROPERTY_ADDRESS => ((string)$this->access->connection->ldapAttributeAddress === ''),
+			IAccountManager::PROPERTY_FEDIVERSE => ((string)$this->access->connection->ldapAttributeFediverse === ''),
+			IAccountManager::PROPERTY_ORGANISATION => ((string)$this->access->connection->ldapAttributeOrganisation === ''),
+			IAccountManager::PROPERTY_ROLE => ((string)$this->access->connection->ldapAttributeRole === ''),
+			IAccountManager::PROPERTY_HEADLINE => ((string)$this->access->connection->ldapAttributeHeadline === ''),
+			IAccountManager::PROPERTY_BIOGRAPHY => ((string)$this->access->connection->ldapAttributeBiography === ''),
+			IAccountManager::PROPERTY_BIRTHDATE => ((string)$this->access->connection->ldapAttributeBirthDate === ''),
+			IAccountManager::PROPERTY_PRONOUNS => ((string)$this->access->connection->ldapAttributePronouns === ''),
 			default => true,
 		};
 	}
