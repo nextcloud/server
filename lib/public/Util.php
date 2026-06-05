@@ -39,7 +39,7 @@ class Util {
 	/**
 	 * App-level script dependency metadata keyed by application ID.
 	 *
-	 * @psalm-suppress ImpureStaticProperty 
+	 * @psalm-suppress ImpureStaticProperty
 	 */
 	private static array $scriptDeps = [];
 
@@ -151,6 +151,7 @@ class Util {
 	 * @param string $afterAppId App ID that should be ordered before this app's scripts.
 	 * @param bool $prepend Whether to insert the script at the beginning of the app's script list.
 	 * @since 4.0.0
+	 * @since 35.0.0 $file make non-nullable (effectively already was but now enforced)
 	 */
 	public static function addScript(
 		string $application,
@@ -227,7 +228,6 @@ class Util {
 	 * bootstrap assets to the front of the final list.
 	 *
 	 * @param string $name Script asset path
-	 * @since 34.0.0
 	 */
 	private static function scriptPriority(string $name): int {
 		return match($name) {
@@ -383,7 +383,7 @@ class Util {
 	 * Converts a numeric value to an integer or float.
 	 * 
 	 * Returns an integer if the value fits within the system's integer limits, 
-	 * ootherwise returns a float up to maximum hardware precision.
+	 * otherwise returns a float up to maximum hardware precision.
 	 * 
 	 * @param numeric-string|float|int $number The numeric value to convert.
 	 * @return int|float An integer if it fits, otherwise a float.
