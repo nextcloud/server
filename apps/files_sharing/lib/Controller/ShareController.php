@@ -429,6 +429,9 @@ class ShareController extends AuthPublicShareController {
 		}
 
 		$davUrl = '/public.php/dav/files/' . $token . $davPath;
+		if (!str_ends_with($davUrl, '/')) {
+			$davUrl .= '/';
+		}
 		$davUrl .= '?' . http_build_query($params);
 		return new RedirectResponse($this->urlGenerator->getAbsoluteURL($davUrl));
 	}
