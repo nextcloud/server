@@ -23,7 +23,7 @@
 			:disabled="disabled"
 			:aria-label="text"
 			:icon="icon"
-			close-after-click
+			closeAfterClick
 			@click="(event) => action(event, { ...user })">
 			{{ text }}
 			<template v-if="isSvg(icon)" #icon>
@@ -33,12 +33,11 @@
 	</NcActions>
 </template>
 
-<script lang="ts">
-import type { PropType } from 'vue'
-
+<script setup lang="ts">
 import SvgPencil from '@mdi/svg/svg/pencil-outline.svg?raw'
+import { translate as t } from '@nextcloud/l10n'
 import isSvg from 'is-svg'
-import { defineComponent } from 'vue'
+import { computed } from 'vue'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActions from '@nextcloud/vue/components/NcActions'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
@@ -50,42 +49,19 @@ interface UserAction {
 	text: string
 }
 
-export default defineComponent({
-	components: {
-		NcActionButton,
-		NcActions,
-		NcIconSvgWrapper,
-	},
+const props = defineProps<{
+	/** Row action descriptors; the optional `enabled` predicate filters them per user */
+	actions: readonly UserAction[]
+	/** Disables all actions (e.g. while a request is pending) */
+	disabled: boolean
+	/** The user the actions operate on */
+	user: Record<string, unknown>
+}>()
 
-	props: {
-		actions: {
-			type: Array as PropType<readonly UserAction[]>,
-			required: true,
-		},
+defineEmits<{
+	'update:edit': [value: boolean]
+}>()
 
-		disabled: {
-			type: Boolean,
-			required: true,
-		},
-
-		user: {
-			type: Object,
-			required: true,
-		},
-	},
-
-	setup() {
-		return { SvgPencil }
-	},
-
-	computed: {
-		enabledActions(): UserAction[] {
-			return this.actions.filter((action) => typeof action.enabled === 'function' ? action.enabled(this.user) : true)
-		},
-	},
-
-	methods: {
-		isSvg,
-	},
-})
+/** Actions whose optional `enabled(user)` predicate passes for this user */
+const enabledActions = computed<UserAction[]>(() => props.actions.filter((action) => typeof action.enabled === 'function' ? action.enabled(props.user) : true))
 </script>
