@@ -1071,8 +1071,8 @@ class Manager implements IManager {
 		}
 		$this->prepareTask($task);
 		$task->setStatus(Task::STATUS_SCHEDULED);
-		$this->notifyTaskStatus($task, Task::STATUS_SCHEDULED);
 		$this->storeTask($task);
+		$this->notifyTaskStatus($task, Task::STATUS_SCHEDULED);
 		// schedule synchronous job if the provider is synchronous
 		$provider = $this->getPreferredProvider($task->getTaskTypeId());
 		if ($provider instanceof ISynchronousProvider) {
@@ -1115,8 +1115,8 @@ class Manager implements IManager {
 		if ($provider instanceof ISynchronousProvider) {
 			$this->prepareTask($task);
 			$task->setStatus(Task::STATUS_SCHEDULED);
-			$this->notifyTaskStatus($task, Task::STATUS_SCHEDULED);
 			$this->storeTask($task);
+			$this->notifyTaskStatus($task, Task::STATUS_SCHEDULED);
 			$this->processTask($task, $provider);
 			$task = $this->getTask($task->getId());
 		} else {
@@ -1232,11 +1232,10 @@ class Manager implements IManager {
 		$task->setStatus(Task::STATUS_CANCELLED);
 		$task->setEndedAt(time());
 
-		$this->notifyTaskStatus($task, Task::STATUS_CANCELLED);
-
 		$taskEntity = \OC\TaskProcessing\Db\Task::fromPublicTask($task);
 		try {
 			$this->taskMapper->update($taskEntity);
+			$this->notifyTaskStatus($task, Task::STATUS_CANCELLED);
 			$this->runWebhook($task);
 		} catch (\OCP\DB\Exception $e) {
 			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem finding the task', 0, $e);
@@ -1255,11 +1254,11 @@ class Manager implements IManager {
 			$task->setStartedAt(time());
 		}
 		$task->setStatus(Task::STATUS_RUNNING);
-		$this->notifyTaskStatus($task, Task::STATUS_RUNNING);
 		$task->setProgress($progress);
 		$taskEntity = \OC\TaskProcessing\Db\Task::fromPublicTask($task);
 		try {
 			$this->taskMapper->update($taskEntity);
+			$this->notifyTaskStatus($task, Task::STATUS_RUNNING);
 		} catch (\OCP\DB\Exception $e) {
 			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem finding the task', 0, $e);
 		}
@@ -1320,7 +1319,6 @@ class Manager implements IManager {
 		}
 		if ($error !== null) {
 			$task->setStatus(Task::STATUS_FAILED);
-			$this->notifyTaskStatus($task, Task::STATUS_FAILED);
 			$task->setEndedAt(time());
 			// truncate error message to 4000 characters
 			$task->setErrorMessage(substr($error, 0, 4000));
@@ -1363,12 +1361,10 @@ class Manager implements IManager {
 				$task->setOutput($output);
 				$task->setProgress(1);
 				$task->setStatus(Task::STATUS_SUCCESSFUL);
-				$this->notifyTaskStatus($task, Task::STATUS_SUCCESSFUL);
 				$task->setEndedAt(time());
 			} catch (ValidationException $e) {
 				$task->setProgress(1);
 				$task->setStatus(Task::STATUS_FAILED);
-				$this->notifyTaskStatus($task, Task::STATUS_FAILED);
 				$task->setEndedAt(time());
 				$error = 'The task was processed successfully but the provider\'s output doesn\'t pass validation against the task type\'s outputShape spec and/or the provider\'s own optionalOutputShape spec';
 				$task->setErrorMessage($error);
@@ -1376,7 +1372,6 @@ class Manager implements IManager {
 			} catch (NotPermittedException $e) {
 				$task->setProgress(1);
 				$task->setStatus(Task::STATUS_FAILED);
-				$this->notifyTaskStatus($task, Task::STATUS_FAILED);
 				$task->setEndedAt(time());
 				$error = 'The task was processed successfully but storing the output in a file failed';
 				$task->setErrorMessage($error);
@@ -1384,7 +1379,6 @@ class Manager implements IManager {
 			} catch (InvalidPathException|\OCP\Files\NotFoundException $e) {
 				$task->setProgress(1);
 				$task->setStatus(Task::STATUS_FAILED);
-				$this->notifyTaskStatus($task, Task::STATUS_FAILED);
 				$task->setEndedAt(time());
 				$error = 'The task was processed successfully but the result file could not be found';
 				$task->setErrorMessage($error);
@@ -1398,6 +1392,7 @@ class Manager implements IManager {
 		}
 		try {
 			$this->taskMapper->update($taskEntity);
+			$this->notifyTaskStatus($task, $task->getStatus());
 			$this->runWebhook($task);
 		} catch (\OCP\DB\Exception $e) {
 			throw new \OCP\TaskProcessing\Exception\Exception($e->getMessage());
@@ -1627,9 +1622,9 @@ class Manager implements IManager {
 			$task->setScheduledAt(time());
 		}
 		$task->setStatus($status);
-		$this->notifyTaskStatus($task, $status);
 		$taskEntity = \OC\TaskProcessing\Db\Task::fromPublicTask($task);
 		$this->taskMapper->update($taskEntity);
+		$this->notifyTaskStatus($task, $status);
 	}
 
 	/**
