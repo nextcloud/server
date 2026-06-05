@@ -258,6 +258,7 @@ class Util {
 		if (is_null($languageCode)) {
 			$languageCode = Server::get(IFactory::class)->findLanguage($application);
 		}
+
 		if (!empty($application)) {
 			$translationPath = "$application/l10n/$languageCode";
 		} else {
@@ -269,9 +270,25 @@ class Util {
 		}
 
 		if ($init) {
-			self::$scriptsInit[] = $translationPath;
+			self::appendInitScriptPathOnce($translationPath);
 		} else {
-			self::$scripts[$application][] = $translationPath;
+			self::appendAppScriptPathOnce($application, $translationPath);
+		}
+	}
+
+	private static function appendInitScriptPathOnce(string $scriptPath): void {
+		if (!in_array($scriptPath, self::$scriptsInit, true)) {
+			self::$scriptsInit[] = $scriptPath;
+		}
+	}
+
+	private static function appendAppScriptPathOnce(string $application, string $scriptPath): void {
+		if (!isset(self::$scripts[$application])) {
+			self::$scripts[$application] = [];
+		}
+
+		if (!in_array($scriptPath, self::$scripts[$application], true)) {
+			self::$scripts[$application][] = $scriptPath;
 		}
 	}
 
