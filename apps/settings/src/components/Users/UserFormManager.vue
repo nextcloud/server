@@ -29,7 +29,6 @@ import { formDataKey } from './injectionKeys.ts'
 
 const store = useStore()
 
-/** Shared, reactive form state provided by the parent dialog */
 const formData = inject(formDataKey)!
 
 const possibleManagers = ref<Array<{ id: string, displayname?: string, email?: string }>>([])
@@ -37,11 +36,7 @@ const loading = ref(false)
 let searchTimeout: ReturnType<typeof setTimeout> | undefined
 let managerModelCache: NcSelectUsersModel | undefined
 
-/**
- * Map internal formData.manager to the NcSelectUsers model shape.
- * Cached to keep object identity stable across reads, so NcSelectUsers
- * doesn't see a fresh modelValue on every parent re-render.
- */
+// Cache by value so NcSelectUsers keeps a stable modelValue reference across re-renders.
 const managerModel = computed<NcSelectUsersModel | undefined>(() => {
 	const m = formData.manager
 	if (!m) {
@@ -56,7 +51,6 @@ const managerModel = computed<NcSelectUsersModel | undefined>(() => {
 	return managerModelCache
 })
 
-/** Map API users to the NcSelectUsers model shape */
 const managerOptions = computed<NcSelectUsersModel[]>(() => possibleManagers.value.map((u) => ({
 	id: u.id,
 	displayName: u.displayname ?? u.id,
@@ -66,9 +60,9 @@ const managerOptions = computed<NcSelectUsersModel[]>(() => possibleManagers.val
 onBeforeUnmount(() => clearTimeout(searchTimeout))
 
 /**
- * Map the NcSelectUsers model back to the internal formData shape
+ * Write the selected manager back to formData.
  *
- * @param value The selected manager model, or null when cleared
+ * @param value The selected model, or null when cleared
  */
 function onManagerChange(value: NcSelectUsersModel | NcSelectUsersModel[] | null) {
 	const manager = Array.isArray(value) ? value[0] : value
@@ -78,7 +72,7 @@ function onManagerChange(value: NcSelectUsersModel | NcSelectUsersModel[] | null
 }
 
 /**
- * Debounce keystrokes so a 10-char query produces 1-2 requests, not 10.
+ * Debounce the search so a 10-char query produces 1-2 requests, not 10.
  *
  * @param query The current search string
  */
@@ -88,7 +82,7 @@ function searchUserManager(query: string) {
 }
 
 /**
- * Fetch matching users from the store to populate the manager dropdown.
+ * Fetch matching users to populate the manager dropdown.
  *
  * @param query The current search string
  */

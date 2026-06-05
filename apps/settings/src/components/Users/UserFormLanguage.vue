@@ -30,13 +30,10 @@ import { languageFilterBy } from './userFormUtils.ts'
 
 const store = useStore()
 
-/** Shared, reactive form state provided by the parent dialog */
 const formData = inject(formDataKey)!
 
-/** Per-admin UI flags from the store (controls language field visibility) */
 const showConfig = computed(() => store.getters.getShowConfig)
 
-/** Grouped options: a section header followed by its languages, twice */
 const languages = computed(() => {
 	const { commonLanguages, otherLanguages } = store.getters.getServerData.languages
 	return [

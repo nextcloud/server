@@ -50,11 +50,8 @@ interface UserAction {
 }
 
 const props = defineProps<{
-	/** Row action descriptors; the optional `enabled` predicate filters them per user */
 	actions: readonly UserAction[]
-	/** Disables all actions (e.g. while a request is pending) */
 	disabled: boolean
-	/** The user the actions operate on */
 	user: Record<string, unknown>
 }>()
 
@@ -62,6 +59,5 @@ defineEmits<{
 	'update:edit': [value: boolean]
 }>()
 
-/** Actions whose optional `enabled(user)` predicate passes for this user */
 const enabledActions = computed<UserAction[]>(() => props.actions.filter((action) => typeof action.enabled === 'function' ? action.enabled(props.user) : true))
 </script>

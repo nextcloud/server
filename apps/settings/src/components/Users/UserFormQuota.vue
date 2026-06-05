@@ -27,18 +27,15 @@ import { formDataKey } from './injectionKeys.ts'
 import { validateQuota as validateQuotaOption } from './userFormUtils.ts'
 
 const props = defineProps<{
-	/** Quota preset options; the first entry is the fallback for invalid input */
 	quotaOptions: QuotaOption[]
 }>()
 
-/** Shared, reactive form state provided by the parent dialog */
 const formData = inject(formDataKey)!
 
 /**
- * Wraps the pure validator so NcSelect's create-option callback receives the
- * preset fallback (first option) for unparseable quota strings.
+ * Validate a typed quota, falling back to the first preset when unparseable.
  *
- * @param quota Raw quota string entered by the user
+ * @param quota The raw quota string entered in the select
  */
 function validateQuota(quota: string) {
 	return validateQuotaOption(quota, props.quotaOptions[0])
