@@ -9,7 +9,7 @@ namespace OCA\DAV\CardDAV;
 
 use OCP\AppFramework\Http;
 use OCP\Files\NotFoundException;
-use Sabre\CardDAV\Card;
+use Sabre\CardDAV\ICard;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
@@ -61,7 +61,7 @@ class ImageExportPlugin extends ServerPlugin {
 		$path = $request->getPath();
 		$node = $this->server->tree->getNodeForPath($path);
 
-		if (!$node instanceof Card) {
+		if (!$node instanceof ICard) {
 			return true;
 		}
 
