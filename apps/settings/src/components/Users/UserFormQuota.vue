@@ -18,11 +18,12 @@
 </template>
 
 <script setup lang="ts">
-import type { FormData, QuotaOption } from './userFormUtils.ts'
+import type { QuotaOption } from './userFormUtils.ts'
 
 import { translate as t } from '@nextcloud/l10n'
 import { inject } from 'vue'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
+import { formDataKey } from './injectionKeys.ts'
 import { validateQuota as validateQuotaOption } from './userFormUtils.ts'
 
 const props = defineProps<{
@@ -31,7 +32,7 @@ const props = defineProps<{
 }>()
 
 /** Shared, reactive form state provided by the parent dialog */
-const formData = inject<FormData>('formData')!
+const formData = inject(formDataKey)!
 
 /**
  * Wraps the pure validator so NcSelect's create-option callback receives the

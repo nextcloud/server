@@ -38,7 +38,7 @@
 			data-test="displayName"
 			:label="t('settings', 'Display name')"
 			:error="!!errors.displayName"
-			:helper-text="errors.displayName"
+			:helperText="errors.displayName"
 			autocapitalize="none"
 			autocomplete="off"
 			spellcheck="false" />
@@ -61,7 +61,7 @@
 			:aria-describedby="fieldConfig.showPasswordEmailHint ? 'password-email-hint' : undefined"
 			:label="fieldConfig.password?.label"
 			:error="!!errors.password"
-			:helper-text="errors.password"
+			:helperText="errors.password"
 			autocapitalize="none"
 			autocomplete="new-password"
 			spellcheck="false"
@@ -75,14 +75,14 @@
 			:aria-describedby="fieldConfig.showPasswordEmailHint ? 'password-email-hint' : undefined"
 			:label="fieldConfig.email?.label || t('settings', 'Email')"
 			:error="!!errors.email"
-			:helper-text="errors.email"
+			:helperText="errors.email"
 			autocapitalize="none"
 			autocomplete="off"
 			spellcheck="false"
 			:required="fieldConfig.email?.required" />
 
 		<UserFormGroups />
-		<UserFormQuota :quota-options="quotaOptions" />
+		<UserFormQuota :quotaOptions="quotaOptions" />
 		<UserFormLanguage />
 		<UserFormManager />
 
@@ -99,13 +99,27 @@
 	</div>
 </template>
 
-<script>
+<script setup lang="ts">
+import type { QuotaOption } from './userFormUtils.ts'
+
+import { translate as t } from '@nextcloud/l10n'
+import { computed, inject, ref } from 'vue'
 import NcPasswordField from '@nextcloud/vue/components/NcPasswordField'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 import UserFormGroups from './UserFormGroups.vue'
 import UserFormLanguage from './UserFormLanguage.vue'
 import UserFormManager from './UserFormManager.vue'
 import UserFormQuota from './UserFormQuota.vue'
+import { useStore } from '../../store/index.js'
+import { formDataKey } from './injectionKeys.ts'
+
+/** Per-field configuration for visibility, labels, and required state */
+interface FieldConfig {
+	username?: { show?: boolean, disabled?: boolean, label?: string, required?: boolean }
+	password?: { show?: boolean, label?: string, required?: boolean }
+	email?: { label?: string, required?: boolean }
+	showPasswordEmailHint?: boolean
+}
 
 /**
  * Shared form fields for creating and editing user accounts.
@@ -114,69 +128,48 @@ import UserFormQuota from './UserFormQuota.vue'
  * and binds directly to its properties via v-model. Complex field logic
  * (groups, quota, language, manager) is delegated to dedicated sub-components
  * that also inject the same formData.
- *
- * Expected formData shape:
- *   { username, displayName, password, email, groups, subadminGroups, quota, language, manager }
  */
-export default {
-	name: 'UserFormFields',
+const props = withDefaults(defineProps<{
+	/** Quota preset options for the quota select */
+	quotaOptions: QuotaOption[]
+	/** Per-field configuration; only fields differing from defaults need specifying */
+	fieldConfig?: FieldConfig
+	/** Per-field error messages from 422 validation (e.g. { email: 'Invalid' }) */
+	errors?: Record<string, string>
+}>(), {
+	fieldConfig: () => ({}),
+	errors: () => ({}),
+})
 
-	components: {
-		NcPasswordField,
-		NcTextField,
-		UserFormGroups,
-		UserFormLanguage,
-		UserFormManager,
-		UserFormQuota,
-	},
+const store = useStore()
 
-	inject: ['formData'],
+/** Shared, reactive form state provided by the parent dialog */
+const formData = inject(formDataKey)!
 
-	props: {
-		/** Quota preset options for the quota select */
-		quotaOptions: {
-			type: Array,
-			required: true,
-		},
+/** Template refs used by the parent dialog to focus a field on error */
+const username = ref<{ focus?: () => void } | null>(null)
+const password = ref<{ focus?: () => void } | null>(null)
 
-		/**
-		 * Per-field configuration for visibility, labels, and required state.
-		 * Only fields that differ from defaults need to be specified.
-		 *
-		 * Example: { username: { show: true, label: 'Account name', required: true },
-		 *            password: { show: true, label: 'Password', required: false },
-		 *            email: { label: 'Email (required)', required: true },
-		 *            showPasswordEmailHint: true }
-		 */
-		fieldConfig: {
-			type: Object,
-			default: () => ({}),
-		},
+const minPasswordLength = computed(() => store.getters.getPasswordPolicyMinLength)
 
-		/** Per-field error messages from 422 validation (e.g. { email: 'Invalid' }) */
-		errors: {
-			type: Object,
-			default: () => ({}),
-		},
-	},
+/** Errors not bound to a dedicated input, surfaced in the catch-all live region */
+const unhandledErrors = computed(() => {
+	const handled = new Set(['displayName', 'password', 'email'])
+	return Object.fromEntries(Object.entries(props.errors).filter(([key]) => !handled.has(key)))
+})
 
-	computed: {
-		minPasswordLength() {
-			return this.$store.getters.getPasswordPolicyMinLength
-		},
-
-		unhandledErrors() {
-			const handled = new Set(['displayName', 'password', 'email'])
-			return Object.fromEntries(Object.entries(this.errors).filter(([key]) => !handled.has(key)))
-		},
-	},
-
-	methods: {
-		focusField(name) {
-			this.$refs[name]?.focus?.()
-		},
-	},
+/**
+ * Focus a named field. Called by the parent dialog (e.g. on 422 to focus the
+ * offending input, or on mount to focus the username).
+ *
+ * @param name The field to focus
+ */
+function focusField(name: 'username' | 'password') {
+	const field = name === 'username' ? username : password
+	field.value?.focus?.()
 }
+
+defineExpose({ focusField })
 </script>
 
 <style lang="scss" scoped>

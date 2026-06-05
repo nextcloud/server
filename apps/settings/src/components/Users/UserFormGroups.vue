@@ -44,7 +44,6 @@
 
 <script setup lang="ts">
 import type { IGroup } from '../../views/user-types.d.ts'
-import type { FormData } from './userFormUtils.ts'
 
 import { translate as t } from '@nextcloud/l10n'
 import { computed, inject, ref } from 'vue'
@@ -52,12 +51,13 @@ import NcSelect from '@nextcloud/vue/components/NcSelect'
 import logger from '../../logger.ts'
 import { searchGroups as searchGroupsApi } from '../../service/groups.ts'
 import { useStore } from '../../store/index.js'
+import { formDataKey } from './injectionKeys.ts'
 import { isSelectableGroup } from './userFormUtils.ts'
 
 const store = useStore()
 
 /** Shared, reactive form state provided by the parent dialog */
-const formData = inject<FormData>('formData')!
+const formData = inject(formDataKey)!
 
 /** True while a freshly tagged group is being created (disables the selects) */
 const creatingGroup = ref(false)
