@@ -5,8 +5,6 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-// use OCP namespace for all classes that are considered public.
-// This means that they should be used by apps instead of the internal Nextcloud classes
 
 namespace OCP;
 
@@ -111,9 +109,9 @@ class Util {
 	 */
 	public static function addInitScript(string $application, string $file): void {
 		if (!empty($application)) {
-			$path = "$application/js/$file";
+			$scriptPath = "$application/js/$file";
 		} else {
-			$path = "js/$file";
+			$scriptPath = "js/$file";
 		}
 
 		// Init scripts may access translations immediately on execution, so for
@@ -122,7 +120,7 @@ class Util {
 			self::addTranslations($application, null, true);
 		}
 
-		self::$scriptsInit[] = $path;
+		self::$scriptsInit[] = $scriptPath;
 	}
 
 	/**
@@ -143,9 +141,9 @@ class Util {
 	 */
 	public static function addScript(string $application, ?string $file = null, string $afterAppId = 'core', bool $prepend = false): void {
 		if (!empty($application)) {
-			$path = "$application/js/$file";
+			$scriptPath = "$application/js/$file";
 		} else {
-			$path = "js/$file";
+			$scriptPath = "js/$file";
 		}
 
 		// For non-core apps, ensure translations are registered together with the
@@ -164,9 +162,9 @@ class Util {
 		}
 
 		if ($prepend) {
-			array_unshift(self::$scripts[$application], $path);
+			array_unshift(self::$scripts[$application], $scriptPath);
 		} else {
-			self::$scripts[$application][] = $path;
+			self::$scripts[$application][] = $scriptPath;
 		}
 	}
 
@@ -184,18 +182,23 @@ class Util {
 	 */
 	public static function getScripts(): array {
 		// Sort app script groups using the registered app-level dependencies.
-		$scriptSort = Server::get(AppScriptSort::class);
-		$sortedScripts = $scriptSort->sort(self::$scripts, self::$scriptDeps);
+		$scriptSorter = Server::get(AppScriptSort::class);
+		$groupedScripts = $scriptSorter->sort(self::$scripts, self::$scriptDeps);
 
 		// Prepend init assets, flatten the grouped arrays into a single list,
 		// then remove duplicate asset paths.
-		$sortedScripts = array_merge([self::$scriptsInit], $sortedScripts);
-		$sortedScripts = array_merge(...array_values($sortedScripts));
-		$sortedScripts = array_unique($sortedScripts);
+		$groupedScripts = array_merge([self::$scriptsInit], $groupedScripts);
+		$scriptList = array_merge(...array_values($groupedScripts));
+		$scriptList = array_unique($scriptList);
 
 		// Apply explicit bootstrap ordering for selected core assets.
-		usort($sortedScripts, fn (string $a, string $b) => self::scriptOrderValue($b) <=> self::scriptOrderValue($a));
-		return $sortedScripts;
+		usort(
+			$scriptList,
+			fn (string $leftScript, string $rightScript) =>
+				self::scriptOrderValue($rightScript) <=> self::scriptOrderValue($leftScript)
+		);
+
+		return $scriptList;
 	}
 
 	/**
@@ -234,15 +237,15 @@ class Util {
 			$languageCode = Server::get(IFactory::class)->findLanguage($application);
 		}
 		if (!empty($application)) {
-			$path = "$application/l10n/$languageCode";
+			$translationPath = "$application/l10n/$languageCode";
 		} else {
-			$path = "l10n/$languageCode";
+			$translationPath = "l10n/$languageCode";
 		}
 
 		if ($init) {
-			self::$scriptsInit[] = $path;
+			self::$scriptsInit[] = $translationPath;
 		} else {
-			self::$scripts[$application][] = $path;
+			self::$scripts[$application][] = $translationPath;
 		}
 	}
 
