@@ -59,9 +59,7 @@ import { formDataKey } from './injectionKeys.ts'
 import { diffPayload, userToFormData } from './userFormUtils.ts'
 
 const props = defineProps<{
-	/** The user being edited */
 	user: IUser
-	/** Quota preset options for the quota select */
 	quotaOptions: QuotaOption[]
 }>()
 
@@ -75,15 +73,13 @@ const allGroups = store.getters.getGroups
 const serverLanguages = store.getters.getServerData.languages
 const formData = userToFormData(props.user, allGroups, props.quotaOptions, serverLanguages)
 
-/** Snapshot of initial state for diffing */
 const initialData = structuredClone(formData)
-// Children inject this reactive object and mutate its properties via v-model.
-// Do not reassign editedUser entirely, the injected reference would go stale.
+// Children inject and mutate this object's properties; never reassign it or the
+// injected reference goes stale.
 const editedUser = reactive(formData)
 const saving = ref(false)
 const fieldErrors = ref<Record<string, string>>({})
 
-// Children inject editedUser and mutate its properties via v-model.
 provide(formDataKey, editedUser)
 
 const settings = computed(() => store.getters.getServerData)
@@ -102,8 +98,7 @@ const fieldConfig = computed(() => ({
 }))
 
 /**
- * Diff the form against its initial snapshot and submit only changed fields.
- * Maps a 422 response to per-field errors; closes the dialog on success or no-op.
+ * Submit the changed fields; map a 422 to per-field errors, else close.
  */
 async function save() {
 	// Guard against re-submit while a request is already running. The

@@ -113,7 +113,6 @@ import UserFormQuota from './UserFormQuota.vue'
 import { useStore } from '../../store/index.js'
 import { formDataKey } from './injectionKeys.ts'
 
-/** Per-field configuration for visibility, labels, and required state */
 interface FieldConfig {
 	username?: { show?: boolean, disabled?: boolean, label?: string, required?: boolean }
 	password?: { show?: boolean, label?: string, required?: boolean }
@@ -121,20 +120,9 @@ interface FieldConfig {
 	showPasswordEmailHint?: boolean
 }
 
-/**
- * Shared form fields for creating and editing user accounts.
- *
- * Injects a reactive `formData` object (provided by the parent dialog)
- * and binds directly to its properties via v-model. Complex field logic
- * (groups, quota, language, manager) is delegated to dedicated sub-components
- * that also inject the same formData.
- */
 const props = withDefaults(defineProps<{
-	/** Quota preset options for the quota select */
 	quotaOptions: QuotaOption[]
-	/** Per-field configuration; only fields differing from defaults need specifying */
 	fieldConfig?: FieldConfig
-	/** Per-field error messages from 422 validation (e.g. { email: 'Invalid' }) */
 	errors?: Record<string, string>
 }>(), {
 	fieldConfig: () => ({}),
@@ -143,24 +131,21 @@ const props = withDefaults(defineProps<{
 
 const store = useStore()
 
-/** Shared, reactive form state provided by the parent dialog */
 const formData = inject(formDataKey)!
 
-/** Template refs used by the parent dialog to focus a field on error */
 const username = ref<{ focus?: () => void } | null>(null)
 const password = ref<{ focus?: () => void } | null>(null)
 
 const minPasswordLength = computed(() => store.getters.getPasswordPolicyMinLength)
 
-/** Errors not bound to a dedicated input, surfaced in the catch-all live region */
+// Errors not bound to a dedicated input, shown in the catch-all live region.
 const unhandledErrors = computed(() => {
 	const handled = new Set(['displayName', 'password', 'email'])
 	return Object.fromEntries(Object.entries(props.errors).filter(([key]) => !handled.has(key)))
 })
 
 /**
- * Focus a named field. Called by the parent dialog (e.g. on 422 to focus the
- * offending input, or on mount to focus the username).
+ * Focus a field. Exposed so the parent dialog can call it on mount or on a 422.
  *
  * @param name The field to focus
  */

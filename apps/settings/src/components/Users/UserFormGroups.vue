@@ -56,15 +56,12 @@ import { isSelectableGroup } from './userFormUtils.ts'
 
 const store = useStore()
 
-/** Shared, reactive form state provided by the parent dialog */
 const formData = inject(formDataKey)!
 
-/** True while a freshly tagged group is being created (disables the selects) */
 const creatingGroup = ref(false)
-/** In-flight group search, kept so a new search can cancel the previous one */
+// Kept so a new search can cancel the in-flight one.
 let promise: ReturnType<typeof searchGroupsApi> | null = null
 
-/** Server settings for the current user (admin/delegated-admin flags) */
 const settings = computed(() => store.getters.getServerData)
 
 const availableGroups = computed(() => {
@@ -85,7 +82,7 @@ const groupsLabel = computed(() => !settings.value.isAdmin && !settings.value.is
  * Search groups from the backend and add them to the store.
  *
  * @param query The current search string
- * @param toggleLoading NcSelect callback to toggle its loading spinner
+ * @param toggleLoading NcSelect callback to toggle its spinner
  */
 async function searchGroups(query: string, toggleLoading: (loading: boolean) => void) {
 	if (!settings.value.isAdmin && !settings.value.isDelegatedAdmin) {
@@ -109,7 +106,7 @@ async function searchGroups(query: string, toggleLoading: (loading: boolean) => 
 }
 
 /**
- * Create a new group from a tagged option and add it to the selection.
+ * Create a tagged group and add it to the selection.
  *
  * @param option The created NcSelect option
  * @param option.name The new group id/name

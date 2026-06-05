@@ -146,22 +146,15 @@ import { useStore } from '../../store/index.js'
 import { isObfuscated as isObfuscatedUser } from '../../utils/userUtils.ts'
 
 const props = withDefaults(defineProps<{
-	/** The user this row renders */
 	user: IUser
-	/** Whether the row is within the rendered viewport window */
 	visible: boolean
-	/** All loaded users (passed through from the list) */
 	users: IUser[]
-	/** Quota preset options */
 	quotaOptions: QuotaOption[]
-	/** Grouped language options */
 	languages: { languages: LanguageOption[] }[]
-	/** Server settings for the current admin (loose until the store is typed) */
+	// settings is loose until the store is typed.
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	settings: Record<string, any>
-	/** Extra row actions contributed by other apps */
 	externalActions?: { icon: string, text: string, action: (...args: unknown[]) => void }[]
-	/** Callback from UserList to open the edit dialog */
 	onEditUser?: ((user: IUser) => void) | null
 }>(), {
 	externalActions: () => [],
@@ -318,7 +311,9 @@ const userActions = computed(() => {
 	return actions.concat(props.externalActions)
 })
 
-/** Open the edit dialog for this user via the list-provided callback */
+/**
+ * Open the edit dialog via the list-provided callback.
+ */
 function toggleEdit() {
 	if (props.onEditUser) {
 		props.onEditUser(props.user)
@@ -326,7 +321,7 @@ function toggleEdit() {
 }
 
 /**
- * Confirm and remotely wipe all devices associated with this account.
+ * Confirm and remotely wipe the account's devices.
  */
 async function wipeUserDevices() {
 	const userid = props.user.id
@@ -361,7 +356,7 @@ async function wipeUserDevices() {
 }
 
 /**
- * Confirm and fully delete this account and its data.
+ * Confirm and fully delete the account and its data.
  */
 async function deleteUser() {
 	const userid = props.user.id
@@ -391,7 +386,7 @@ async function deleteUser() {
 }
 
 /**
- * Toggle this account's enabled state.
+ * Toggle the account's enabled state.
  */
 function enableDisableUser() {
 	loading.delete = true
@@ -409,7 +404,7 @@ function enableDisableUser() {
 }
 
 /**
- * Resend the welcome email to this account.
+ * Resend the welcome email to the account.
  */
 function sendWelcomeMail() {
 	loading.all = true
