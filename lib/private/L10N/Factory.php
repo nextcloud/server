@@ -593,7 +593,7 @@ class Factory implements IFactory {
 
 		if (($this->isSubDirectory($translationFile, $this->serverRoot . '/core/l10n/')
 				|| $this->isSubDirectory($translationFile, $this->serverRoot . '/lib/l10n/')
-				|| $this->isSubDirectory($translationFile, $this->appManager->getAppPath($app) . '/l10n/')) // FIXME: catch AppPathNotFoundException
+				|| $this->isSubDirectory($translationFile, $l10nDir))
 			&& file_exists($translationFile)
 		) {
 			$languageFiles[] = $translationFile;
