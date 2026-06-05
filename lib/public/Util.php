@@ -147,14 +147,14 @@ class Util {
 	 * unless the requested file already represents a translation asset.
 	 *
 	 * @param string $application Application ID. Use an empty string for unscoped assets.
-	 * @param string|null $file JavaScript file name relative to the app's js/ directory.
+	 * @param string $file JavaScript file name relative to the app's js/ directory.
 	 * @param string $afterAppId App ID that should be ordered before this app's scripts.
 	 * @param bool $prepend Whether to insert the script at the beginning of the app's script list.
 	 * @since 4.0.0
 	 */
 	public static function addScript(
 		string $application,
-		?string $file = null,
+		string $file,
 		string $afterAppId = 'core',
 		bool $prepend = false,
 	): void {
