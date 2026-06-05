@@ -135,7 +135,7 @@ class Factory implements IFactory {
 
 			$forcedLanguage = $this->cleanLanguage($this->request->getParam('forceLanguage'))
 				?? $this->config->getSystemValue('force_language', false);
-			if (is_string($forcedLanguage)) 
+			if (is_string($forcedLanguage)) {
 				$lang = $forcedLanguage;
 			}
 
@@ -593,7 +593,7 @@ class Factory implements IFactory {
 
 		if (($this->isSubDirectory($translationFile, $this->serverRoot . '/core/l10n/')
 				|| $this->isSubDirectory($translationFile, $this->serverRoot . '/lib/l10n/')
-				|| $this->isSubDirectory($translationFile, $this->appManager->getAppPath($app) . '/l10n/'))
+				|| $this->isSubDirectory($translationFile, $this->appManager->getAppPath($app) . '/l10n/')) // FIXME: catch AppPathNotFoundException
 			&& file_exists($translationFile)
 		) {
 			$languageFiles[] = $translationFile;
@@ -621,7 +621,7 @@ class Factory implements IFactory {
 	 * @param string|null $app App id or null for core
 	 */
 	protected function findL10nDir(?string $app = null): string {
-		if (in_array($app, ['core', 'lib'])) {
+		if (in_array($app, ['core', 'lib'], true)) {
 			if (file_exists($this->serverRoot . '/' . $app . '/l10n/')) {
 				return $this->serverRoot . '/' . $app . '/l10n/';
 			}
@@ -638,7 +638,7 @@ class Factory implements IFactory {
 	#[\Override]
 	public function getLanguages(): array {
 		$forcedLanguage = $this->config->getSystemValue('force_language', false);
-		if ($forceLanguage !== false) {
+		if ($forcedLanguage !== false) {
 			$l10n = $this->get('lib', $forcedLanguage);
 			$languageName = $l10n->t('__language_name__');
 
