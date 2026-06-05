@@ -8,39 +8,38 @@
 		<NcSelect
 			v-model="formData.quota"
 			class="user-form__select"
-			:input-label="t('settings', 'Quota')"
+			:inputLabel="t('settings', 'Quota')"
 			:placeholder="t('settings', 'Set account quota')"
 			:options="quotaOptions"
 			:clearable="false"
 			:taggable="true"
-			:create-option="validateQuota" />
+			:createOption="validateQuota" />
 	</div>
 </template>
 
-<script>
+<script setup lang="ts">
+import type { FormData, QuotaOption } from './userFormUtils.ts'
+
+import { translate as t } from '@nextcloud/l10n'
+import { inject } from 'vue'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
-import { validateQuota } from './userFormUtils.ts'
+import { validateQuota as validateQuotaOption } from './userFormUtils.ts'
 
-export default {
-	name: 'UserFormQuota',
+const props = defineProps<{
+	/** Quota preset options; the first entry is the fallback for invalid input */
+	quotaOptions: QuotaOption[]
+}>()
 
-	components: {
-		NcSelect,
-	},
+/** Shared, reactive form state provided by the parent dialog */
+const formData = inject<FormData>('formData')!
 
-	inject: ['formData'],
-
-	props: {
-		quotaOptions: {
-			type: Array,
-			required: true,
-		},
-	},
-
-	methods: {
-		validateQuota(quota) {
-			return validateQuota(quota, this.quotaOptions[0])
-		},
-	},
+/**
+ * Wraps the pure validator so NcSelect's create-option callback receives the
+ * preset fallback (first option) for unparseable quota strings.
+ *
+ * @param quota Raw quota string entered by the user
+ */
+function validateQuota(quota: string) {
+	return validateQuotaOption(quota, props.quotaOptions[0])
 }
 </script>
