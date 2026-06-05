@@ -74,5 +74,6 @@
 			<provider>OCA\Settings\Activity\Provider</provider>
 			<provider>OCA\Settings\Activity\SecurityProvider</provider>
 		</providers>
+
 	</activity>
 </info>

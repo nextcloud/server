@@ -21,7 +21,7 @@ describe('Create system tags', () => {
 
 		// login as admin and go to admin settings
 		cy.login(admin)
-		cy.visit('/settings/admin/server')
+		cy.visit('/settings/admin')
 	})
 
 	it('Can create a tag', () => {
@@ -48,7 +48,7 @@ describe('Create system tags', () => {
 describe('Update system tags', { testIsolation: false }, () => {
 	before(() => {
 		cy.login(admin)
-		cy.visit('/settings/admin/server')
+		cy.visit('/settings/admin')
 	})
 
 	it('select the tag', () => {
@@ -92,7 +92,7 @@ describe('Update system tags', { testIsolation: false }, () => {
 describe('Delete system tags', { testIsolation: false }, () => {
 	before(() => {
 		cy.login(admin)
-		cy.visit('/settings/admin/server')
+		cy.visit('/settings/admin')
 	})
 
 	it('select the tag', () => {

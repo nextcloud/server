@@ -23,6 +23,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\Server;
@@ -40,6 +41,7 @@ final class PageController extends Controller {
 		private readonly IURLGenerator $urlGenerator,
 		private readonly IInitialState $initialState,
 		private readonly BundleFetcher $bundleFetcher,
+		private readonly INavigationManager $navigationManager,
 	) {
 		parent::__construct(Application::APP_ID, $request);
 	}
@@ -49,6 +51,8 @@ final class PageController extends Controller {
 	#[FrontpageRoute(verb: 'GET', url: '/settings/apps/{category}', defaults: ['category' => ''], root: '')]
 	#[FrontpageRoute(verb: 'GET', url: '/settings/apps/{category}/{id}', defaults: ['category' => '', 'id' => ''], root: '')]
 	public function viewApps(): TemplateResponse {
+		$this->navigationManager->setActiveEntry('core_apps');
+
 		$this->initialState->provideInitialState('appstoreEnabled', $this->config->getSystemValueBool('appstoreenabled', true));
 		$this->initialState->provideInitialState('appstoreBundles', $this->getBundles());
 		$this->initialState->provideInitialState('appstoreDeveloperDocs', $this->urlGenerator->linkToDocs('developer-manual'));

@@ -16,6 +16,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -28,6 +29,8 @@ final class PageControllerTest extends TestCase {
 	private IL10N&MockObject $l10n;
 
 	private IConfig&MockObject $config;
+
+	private INavigationManager&MockObject $navigationManager;
 
 	private IAppManager&MockObject $appManager;
 
@@ -51,6 +54,7 @@ final class PageControllerTest extends TestCase {
 			->method('t')
 			->willReturnArgument(0);
 		$this->config = $this->createMock(IConfig::class);
+		$this->navigationManager = $this->createMock(INavigationManager::class);
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->bundleFetcher = $this->createMock(BundleFetcher::class);
 		$this->installer = $this->createMock(Installer::class);
@@ -66,6 +70,7 @@ final class PageControllerTest extends TestCase {
 			$this->urlGenerator,
 			$this->initialState,
 			$this->bundleFetcher,
+			$this->navigationManager,
 		);
 	}
 
@@ -79,6 +84,10 @@ final class PageControllerTest extends TestCase {
 			->method('getSystemValueBool')
 			->with('appstoreenabled', true)
 			->willReturn(true);
+		$this->navigationManager
+			->expects($this->once())
+			->method('setActiveEntry')
+			->with('core_apps');
 
 		$this->initialState
 			->expects($this->exactly(4))
@@ -108,6 +117,10 @@ final class PageControllerTest extends TestCase {
 			->method('getSystemValueBool')
 			->with('appstoreenabled', true)
 			->willReturn(false);
+		$this->navigationManager
+			->expects($this->once())
+			->method('setActiveEntry')
+			->with('core_apps');
 
 		$this->initialState
 			->expects($this->exactly(4))
