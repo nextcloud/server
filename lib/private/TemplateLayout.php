@@ -86,12 +86,12 @@ class TemplateLayout {
 		// Select the base layout template for the requested render mode.
 		switch ($renderAs) {
 			case TemplateResponse::RENDER_AS_USER:
-				$page = $this->templateManager->getTemplate('core', 'layout.user');
+				$template = $this->templateManager->getTemplate('core', 'layout.user');
 				$pathInfo = $this->request->getPathInfo();
 				if ($pathInfo !== false && str_starts_with($pathInfo, '/settings/')) {
-					$page->assign('bodyid', 'body-settings');
+					$template->assign('bodyid', 'body-settings');
 				} else {
-					$page->assign('bodyid', 'body-user');
+					$template->assign('bodyid', 'body-user');
 				}
 
 				$this->initialState->provideInitialState('core', 'active-app', $this->navigationManager->getActiveEntry());
@@ -108,32 +108,32 @@ class TemplateLayout {
 
 				// Set logo link target
 				$logoUrl = $this->config->getSystemValueString('logo_url', '');
-				$page->assign('logoUrl', $logoUrl);
+				$template->assign('logoUrl', $logoUrl);
 
 				// Set default entry name
-				$defaultEntryId = $this->navigationManager->getDefaultEntryIdForUser();
-				$defaultEntry = $this->navigationManager->get($defaultEntryId);
-				$page->assign('defaultAppName', $defaultEntry['name'] ?? '');
+				$defaultNavigationEntryId = $this->navigationManager->getDefaultEntryIdForUser();
+				$defaultNavigationEntry = $this->navigationManager->get($defaultNavigationEntryId);
+				$template->assign('defaultAppName', $defaultNavigationEntry['name'] ?? '');
 
 				// Add navigation entry
-				$page->assign('application', '');
-				$page->assign('appid', $appId);
+				$template->assign('application', '');
+				$template->assign('appid', $appId);
 
-				$navigation = $this->navigationManager->getAll();
-				$page->assign('navigation', $navigation);
+				$mainNavigation = $this->navigationManager->getAll();
+				$template->assign('navigation', $mainNavigation);
 				$settingsNavigation = $this->navigationManager->getAll('settings');
 				$this->initialState->provideInitialState('core', 'settingsNavEntries', $settingsNavigation);
 
-				foreach ($navigation as $entry) {
+				foreach ($mainNavigation as $entry) {
 					if ($entry['active']) {
-						$page->assign('application', $entry['name']);
+						$template->assign('application', $entry['name']);
 						break;
 					}
 				}
 
 				foreach ($settingsNavigation as $entry) {
 					if ($entry['active']) {
-						$page->assign('application', $entry['name']);
+						$template->assign('application', $entry['name']);
 						break;
 					}
 				}
@@ -141,27 +141,27 @@ class TemplateLayout {
 				$user = Server::get(IUserSession::class)->getUser();
 
 				if ($user === null) {
-					$page->assign('user_uid', false);
-					$page->assign('user_displayname', false);
-					$page->assign('userAvatarSet', false);
-					$page->assign('userStatus', false);
+					$template->assign('user_uid', false);
+					$template->assign('user_displayname', false);
+					$template->assign('userAvatarSet', false);
+					$template->assign('userStatus', false);
 				} else {
-					$page->assign('user_uid', $user->getUID());
-					$page->assign('user_displayname', $user->getDisplayName());
-					$page->assign('userAvatarSet', true);
-					$page->assign('userAvatarVersion', $this->config->getUserValue($user->getUID(), 'avatar', 'version', 0));
+					$template->assign('user_uid', $user->getUID());
+					$template->assign('user_displayname', $user->getDisplayName());
+					$template->assign('userAvatarSet', true);
+					$template->assign('userAvatarVersion', $this->config->getUserValue($user->getUID(), 'avatar', 'version', 0));
 				}
 				break;
 			case TemplateResponse::RENDER_AS_ERROR:
-				$page = $this->templateManager->getTemplate('core', 'layout.guest', '', false);
-				$page->assign('bodyid', 'body-login');
-				$page->assign('user_displayname', '');
-				$page->assign('user_uid', '');
+				$template = $this->templateManager->getTemplate('core', 'layout.guest', '', false);
+				$template->assign('bodyid', 'body-login');
+				$template->assign('user_displayname', '');
+				$template->assign('user_uid', '');
 				break;
 			case TemplateResponse::RENDER_AS_GUEST:
-				$page = $this->templateManager->getTemplate('core', 'layout.guest');
+				$template = $this->templateManager->getTemplate('core', 'layout.guest');
 				Util::addStyle('guest');
-				$page->assign('bodyid', 'body-login');
+				$template->assign('bodyid', 'body-login');
 
 				$userDisplayName = false;
 				$user = Server::get(IUserSession::class)->getUser();
@@ -169,24 +169,24 @@ class TemplateLayout {
 					$userDisplayName = $user->getDisplayName();
 				}
 
-				$page->assign('user_displayname', $userDisplayName);
-				$page->assign('user_uid', \OC_User::getUser());
+				$template->assign('user_displayname', $userDisplayName);
+				$template->assign('user_uid', \OC_User::getUser());
 				break;
 			case TemplateResponse::RENDER_AS_PUBLIC:
-				$page = $this->templateManager->getTemplate('core', 'layout.public');
-				$page->assign('appid', $appId);
-				$page->assign('bodyid', 'body-public');
+				$template = $this->templateManager->getTemplate('core', 'layout.public');
+				$template->assign('appid', $appId);
+				$template->assign('bodyid', 'body-public');
 
-				$currentAppData = $this->navigationManager->get($appId);
-				$this->initialState->provideInitialState('core', 'apps', $currentAppData === null ? [] : [$currentAppData]);
+				$currentAppNavigationEntry = $this->navigationManager->get($appId);
+				$this->initialState->provideInitialState('core', 'apps', $currentAppNavigationEntry === null ? [] : [$currentAppNavigationEntry]);
 
 				// Set logo link target
 				$logoUrl = $this->config->getSystemValueString('logo_url', '');
-				$page->assign('logoUrl', $logoUrl);
+				$template->assign('logoUrl', $logoUrl);
 
-				$subscription = Server::get(IRegistry::class);
+				$subscriptionRegistry = Server::get(IRegistry::class);
 				$showSimpleSignup = $this->config->getSystemValueBool('simpleSignUpLink.shown', true);
-				if ($showSimpleSignup && $subscription->delegateHasValidSubscription()) {
+				if ($showSimpleSignup && $subscriptionRegistry->delegateHasValidSubscription()) {
 					$showSimpleSignup = false;
 				}
 
@@ -201,11 +201,11 @@ class TemplateLayout {
 					$signUpLink = $urlGenerator->getAbsoluteURL('/index.php/apps/registration/');
 				}
 
-				$page->assign('showSimpleSignUpLink', $showSimpleSignup);
-				$page->assign('signUpLink', $signUpLink);
+				$template->assign('showSimpleSignUpLink', $showSimpleSignup);
+				$template->assign('signUpLink', $signUpLink);
 				break;
 			default:
-				$page = $this->templateManager->getTemplate('core', 'layout.base');
+				$template = $this->templateManager->getTemplate('core', 'layout.base');
 				break;
 		}
 
@@ -216,9 +216,9 @@ class TemplateLayout {
 		$direction = $l10nFactory->getLanguageDirection($lang);
 
 		$lang = str_replace('_', '-', $lang);
-		$page->assign('language', $lang);
-		$page->assign('locale', $locale);
-		$page->assign('direction', $direction);
+		$template->assign('language', $lang);
+		$template->assign('locale', $locale);
+		$template->assign('direction', $direction);
 
 		// Expose enabled themes for body/theme-related rendering.
 		try {
@@ -226,7 +226,7 @@ class TemplateLayout {
 		} catch (\Exception) {
 			$themesService = null;
 		}
-		$page->assign('enabledThemes', $themesService?->getEnabledThemes() ?? []);
+		$template->assign('enabledThemes', $themesService?->getEnabledThemes() ?? []);
 
 		if ($this->config->getSystemValueBool('installed', false)) {
 			if (empty($this->versionHash)) {
@@ -240,7 +240,7 @@ class TemplateLayout {
 
 		// Resolve and append JavaScript assets.
 		$jsFiles = $this->findJavascriptFiles(Util::getScripts());
-		$page->assign('jsfiles', []);
+		$template->assign('jsfiles', []);
 		if ($this->config->getSystemValueBool('installed', false) && $renderAs !== TemplateResponse::RENDER_AS_ERROR) {
 			// Intentionally build JS config before deciding how to deliver it so the
 			// initial state is populated as a side effect of getConfig().
@@ -264,16 +264,15 @@ class TemplateLayout {
 			);
 			$config = $jsConfigHelper->getConfig();
 			if (Server::get(ContentSecurityPolicyNonceManager::class)->browserSupportsCspV3()) {
-				$page->assign('inline_ocjs', $config);
+				$template->assign('inline_ocjs', $config);
 			} else {
-				$page->append('jsfiles', Server::get(IURLGenerator::class)->linkToRoute('core.OCJS.getConfig', ['v' => $this->versionHash]));
+				$template->append('jsfiles', Server::get(IURLGenerator::class)->linkToRoute('core.OCJS.getConfig', ['v' => $this->versionHash]));
 			}
 		}
 		/** @var array{0:string,1:string,2:string} $resourceInfo */
 		foreach ($jsFiles as $info) {
-			$web = $info[1];
-			$file = $info[2];
-			$page->append('jsfiles', $web . '/' . $file . $this->getVersionHashSuffix());
+			[$absolutePath, $webPath, $resourcePath] = $info;
+			$template->append('jsfiles', $webPath . '/' . $resourcePath . $this->getVersionHashSuffix());
 		}
 
 		try {
@@ -298,23 +297,22 @@ class TemplateLayout {
 			$cssFiles = $this->findStylesheetFiles(\OC_Util::$styles);
 		}
 
-		$page->assign('cssfiles', []);
-		$page->assign('printcssfiles', []);
+		$template->assign('cssfiles', []);
+		$template->assign('printcssfiles', []);
 		$this->initialState->provideInitialState('core', 'versionHash', $this->versionHash);
 		/** @var array{0:string,1:string,2:string} $resourceInfo */
 		foreach ($cssFiles as $info) {
-			$web = $info[1];
-			$file = $info[2];
+			[$absolutePath, $webPath, $resourcePath] = $info;
 
 			if (str_ends_with($file, 'print.css')) {
-				$page->append('printcssfiles', $web . '/' . $file . $this->getVersionHashSuffix());
+				$template->append('printcssfiles', $webPath . '/' . $resourcePath . $this->getVersionHashSuffix());
 			} else {
-				$suffix = $this->getVersionHashSuffix($web, $file);
+				$suffix = $this->getVersionHashSuffix($webPath, $resourcePath);
 
 				if (!str_contains($file, '?v=')) {
-					$page->append('cssfiles', $web . '/' . $file . $suffix);
+					$template->append('cssfiles', $webPath . '/' . $resourcePath . $suffix);
 				} else {
-					$page->append('cssfiles', $web . '/' . $file . '-' . substr($suffix, 3));
+					$template->append('cssfiles', $webPath . '/' . $resourcePath . '-' . substr($suffix, 3));
 				}
 			}
 		}
@@ -322,15 +320,15 @@ class TemplateLayout {
 		if ($this->request->isUserAgent([Request::USER_AGENT_CLIENT_IOS, Request::USER_AGENT_SAFARI, Request::USER_AGENT_SAFARI_MOBILE])) {
 			// Prevent auto zoom with iOS but still allow user zoom
 			// On chrome (and others) this does not work (will also disable user zoom)
-			$page->assign('viewport_maximum_scale', '1.0');
+			$template->assign('viewport_maximum_scale', '1.0');
 		}
 
-		$page->assign('initialStates', $this->initialState->getInitialStates());
+		$template->assign('initialStates', $this->initialState->getInitialStates());
 
-		$page->assign('id-app-content', $renderAs === TemplateResponse::RENDER_AS_USER ? '#app-content' : '#content');
-		$page->assign('id-app-navigation', $renderAs === TemplateResponse::RENDER_AS_USER ? '#app-navigation' : null);
+		$template->assign('id-app-content', $renderAs === TemplateResponse::RENDER_AS_USER ? '#app-content' : '#content');
+		$template->assign('id-app-navigation', $renderAs === TemplateResponse::RENDER_AS_USER ? '#app-navigation' : null);
 
-		return $page;
+		return $template;
 	}
 
 	/**
@@ -344,7 +342,7 @@ class TemplateLayout {
 	 * @param string $file Resource file hint
 	 * @return string Query suffix beginning with "?v=", or an empty string in debug mode
 	 */
-	protected function getVersionHashSuffix(string $path = '', string $file = ''): string {
+	protected function getVersionHashSuffix(string $resourcePathHint = '', string $file = ''): string {
 		if ($this->config->getSystemValueBool('debug', false)) {
 			// allows chrome workspace mapping in debug mode
 			return '';
@@ -471,11 +469,11 @@ class TemplateLayout {
 	 * @throws \Exception If the file path is not under \OC::$SERVERROOT
 	 */
 	public static function convertToRelativePath(string $filePath): string {
-		$relativePath = explode(\OC::$SERVERROOT, $filePath);
-		if (count($relativePath) !== 2) {
+		$pathParts = explode(\OC::$SERVERROOT, $filePath);
+		if (count($pathParts) !== 2) {
 			throw new \Exception('$filePath is not under the \OC::$SERVERROOT');
 		}
 
-		return $relativePath[1];
+		return $pathParts[1];
 	}
 }
