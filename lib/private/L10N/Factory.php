@@ -431,6 +431,7 @@ class Factory implements IFactory {
 				$this->findAvailableLanguages($app);
 			}
 
+			// The membership map is derived lazily from the cached language list.
 			$this->availableLanguageMap[$appCacheKey] = array_fill_keys(
 				$this->availableLanguages[$appCacheKey] ?? [],
 				true
@@ -714,7 +715,7 @@ class Factory implements IFactory {
 				// If left does have a name, but right doesn't, list left before right
 				return -1;
 			}
-	
+
 			// Otherwise compare the names
 			return strcmp($left['name'], $right['name']);
 		});
