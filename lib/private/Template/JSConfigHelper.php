@@ -66,7 +66,7 @@ class JSConfigHelper {
 		private readonly ISession $session,
 		private readonly ?IUser $currentUser,
 		private readonly IConfig $config,
-		private readonly readonly IAppConfig $appConfig,
+		private readonly IAppConfig $appConfig,
 		private readonly IGroupManager $groupManager,
 		private readonly IniGetWrapper $iniWrapper,
 		private readonly IURLGenerator $urlGenerator,
