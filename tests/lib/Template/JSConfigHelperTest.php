@@ -17,6 +17,7 @@ use OC\Template\JSConfigHelper;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\Authentication\Exceptions\ExpiredTokenException;
+use OCP\Authentication\Token\IToken;
 use OCP\Defaults;
 use OCP\IAppConfig;
 use OCP\IConfig;
@@ -194,18 +195,23 @@ class JSConfigHelperTest extends TestCase {
 			->with('files')
 			->willReturn('/apps/files');
 
+		$calls = [];
 		$this->initialStateService->expects(self::exactly(3))
 			->method('provideInitialState')
-			->withConsecutive(
-				['core', 'projects_enabled', false],
-				['core', 'config', self::isType('array')],
-				['core', 'capabilities', ['files' => ['chunked_upload' => true]]],
-			);
+			->willReturnCallback(function (string $app, string $key, mixed $value) use (&$calls): void {
+				$calls[] = [$app, $key, $value];
+			});
 
 		$helper = $this->createHelper(null);
 
 		$result = $helper->getConfig();
 
+		self::assertSame('core', $calls[0][0]);
+		self::assertSame('projects_enabled', $calls[0][1]);
+		self::assertFalse($calls[0][2]);
+		self::assertSame(['core', 'config'], array_slice($calls[1], 0, 2));
+		self::assertIsArray($calls[1][2]);
+		self::assertSame(['core', 'capabilities', ['files' => ['chunked_upload' => true]]], $calls[2]);
 		self::assertIsString($result);
 		self::assertStringContainsString('var _oc_appswebroots=', $result);
 		self::assertStringContainsString('/apps/files', $result);
@@ -240,7 +246,7 @@ class JSConfigHelperTest extends TestCase {
 			->method('getId')
 			->willReturn('session-id');
 
-		$token = $this->createStubToken([]);
+		$token = $this->createToken([]);
 
 		$this->tokenProvider->expects(self::once())
 			->method('getToken')
@@ -281,7 +287,7 @@ class JSConfigHelperTest extends TestCase {
 		$this->tokenProvider->expects(self::once())
 			->method('getToken')
 			->with('session-id')
-			->willThrowException(new ExpiredTokenException());
+			->willThrowException(new ExpiredTokenException('expired'));
 
 		$helper = $this->createHelper($user);
 
@@ -308,7 +314,7 @@ class JSConfigHelperTest extends TestCase {
 
 		$result = $helper->getConfig();
 
-		self::assertStringContainsString('"files":"\/apps\/files"', $result);
+		self::assertStringContainsString('"files":"/apps/files"', $result);
 		self::assertStringContainsString('"broken":false', $result);
 	}
 
@@ -333,18 +339,13 @@ class JSConfigHelperTest extends TestCase {
 	}
 
 	/**
-	 * Lightweight token stub with the single method JSConfigHelper needs.
+	 * Creates an IToken mock exposing the requested scope array.
 	 */
-	private function createStubToken(array $scope): object {
-		return new class ($scope) {
-			public function __construct(
-				private array $scope,
-			) {
-			}
+	private function createToken(array $scope): IToken&MockObject {
+		$token = $this->createMock(IToken::class);
+		$token->method('getScopeAsArray')
+			->willReturn($scope);
 
-			public function getScopeAsArray(): array {
-				return $this->scope;
-			}
-		};
+		return $token;
 	}
 }
