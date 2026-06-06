@@ -43,8 +43,8 @@ use OCP\Util;
  * Builds frontend bootstrap configuration for the web UI.
  *
  * This class collects server, user, sharing, localization, and theme settings,
- * exposes selected values through the initial state service, and renders the
- * JavaScript configuration payload consumed during page initialization.
+ * provides selected values through the initial state service, and renders the
+ * JavaScript configuration payload used during page initialization.
  */
 class JSConfigHelper {
 
@@ -83,23 +83,29 @@ class JSConfigHelper {
 	 * @return string JavaScript source containing global variable assignments.
 	 */
 	public function getConfig(): string {
+		// Determine whether the current user/session can perform password confirmation.
 		$userBackendAllowsPasswordConfirmation = true;
 		if ($this->currentUser !== null) {
 			$uid = $this->currentUser->getUID();
-
+			$canValidatePassword = $this->canUserValidatePassword();
 			$userBackend = $this->currentUser->getBackend();
+			$userBackendClassName = $this->currentUser->getBackendClassName();
+
 			if ($userBackend instanceof IPasswordConfirmationBackend) {
-				$userBackendAllowsPasswordConfirmation = $userBackend->canConfirmPassword($uid) && $this->canUserValidatePassword();
-			} elseif (isset($this->passwordConfirmationExcludedBackends[$this->currentUser->getBackendClassName()])) {
+				$userBackendAllowsPasswordConfirmation = $userBackend->canConfirmPassword($uid) && $canValidatePassword;
+			} elseif (isset($this->passwordConfirmationExcludedBackends[$$userBackendClassName])) {
 				$userBackendAllowsPasswordConfirmation = false;
 			} else {
-				$userBackendAllowsPasswordConfirmation = $this->canUserValidatePassword();
+				$userBackendAllowsPasswordConfirmation = $canValidatePassword;
 			}
 		} else {
 			$uid = null;
 		}
 
+		$isAdmin = $uid !== null && $this->groupManager->isAdmin($uid);
+
 		// Build the map of enabled app IDs to their public web paths for the current context.
+		/** @var array<string, string|false> $appWebPaths */
 		$appWebPaths = [];
 
 		if ($this->currentUser === null) {
@@ -108,20 +114,24 @@ class JSConfigHelper {
 			$enabledApps = $this->appManager->getEnabledAppsForUser($this->currentUser);
 		}
 
+		// Resolve enabled app web paths for frontend bootstrapping.
 		foreach ($enabledApps as $app) {
 			try {
 				$appWebPaths[$app] = $this->appManager->getAppWebPath($app);
 			} catch (AppPathNotFoundException $e) {
+				// If an app's filesystem path cannot be resolved, mark it as unavailable
+				// instead of aborting JS config generation for all apps.
 				$appWebPaths[$app] = false;
 			}
 		}
 
+		// Collect sharing defaults exposed to the frontend.
 		$enableLinkPasswordByDefault = $this->appConfig->getValueBool('core', ConfigLexicon::SHARE_LINK_PASSWORD_DEFAULT);
 		$defaultExpireDateEnabled = $this->appConfig->getValueBool('core', ConfigLexicon::SHARE_LINK_EXPIRE_DATE_DEFAULT);
-		$defaultExpireDate = $enforceDefaultExpireDate = null;
+		$defaultExpireDate = $defaultExpireDateEnforced = null;
 		if ($defaultExpireDateEnabled) {
 			$defaultExpireDate = (int)$this->config->getAppValue('core', 'shareapi_expire_after_n_days', '7');
-			$enforceDefaultExpireDate = $this->appConfig->getValueBool('core', ConfigLexicon::SHARE_LINK_EXPIRE_DATE_ENFORCED);
+			$defaultExpireDateEnforced = $this->appConfig->getValueBool('core', ConfigLexicon::SHARE_LINK_EXPIRE_DATE_ENFORCED);
 		}
 		$outgoingServer2serverShareEnabled = $this->config->getAppValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes') === 'yes';
 
@@ -143,7 +153,7 @@ class JSConfigHelper {
 		// current user is an admin; otherwise keep it hidden from the client.
 		$dataDirectoryPrefixReplacementCount = 0;
 		$relativeDataDirectory = str_replace(\OC::$SERVERROOT . '/', '', $this->config->getSystemValue('datadirectory', ''), $dataDirectoryPrefixReplacementCount);
-		if ($dataDirectoryPrefixReplacementCount !== 1 || $uid === null || !$this->groupManager->isAdmin($uid)) {
+		if ($dataDirectoryPrefixReplacementCount !== 1 || $uid === null || !$isAdmin) {
 			$relativeDataDirectory = false;
 		}
 
@@ -195,9 +205,12 @@ class JSConfigHelper {
 
 		$shareManager = Server::get(IShareManager::class);
 
+		// Values in this map must already be serialized as JavaScript literals because
+		// they are concatenated directly into `var <name> = <value>;` statements below.
+		/** @var array<string, int|string> $legacyJsGlobals */
 		$legacyJsGlobals = [
 			'_oc_debug' => $this->config->getSystemValue('debug', false) ? 'true' : 'false',
-			'_oc_isadmin' => $uid !== null && $this->groupManager->isAdmin($uid) ? 'true' : 'false',
+			'_oc_isadmin' => $isAdmin ? 'true' : 'false',
 			'backendAllowsPasswordConfirmation' => $userBackendAllowsPasswordConfirmation ? 'true' : 'false',
 			'oc_dataURL' => is_string($relativeDataDirectory) ? '"' . $relativeDataDirectory . '"' : 'false',
 			'_oc_webroot' => '"' . \OC::$WEBROOT . '"',
@@ -266,7 +279,7 @@ class JSConfigHelper {
 				'core' => [
 					'defaultExpireDateEnabled' => $defaultExpireDateEnabled,
 					'defaultExpireDate' => $defaultExpireDate,
-					'defaultExpireDateEnforced' => $enforceDefaultExpireDate,
+					'defaultExpireDateEnforced' => $defaultExpireDateEnforced,
 					'enforcePasswordForPublicLink' => Util::isPublicLinkPasswordRequired(),
 					'enableLinkPasswordByDefault' => $enableLinkPasswordByDefault,
 					'sharingDisabledForUser' => $shareManager->sharingDisabledForUser($uid),
@@ -332,7 +345,8 @@ class JSConfigHelper {
 	 */
 	protected function canUserValidatePassword(): bool {
 		try {
-			$token = $this->tokenProvider->getToken($this->session->getId());
+			$sessionId = $this->session->getId();
+			$token = $this->tokenProvider->getToken($sessionId);
 		} catch (ExpiredTokenException|WipeTokenException|InvalidTokenException|SessionNotAvailableException) {
 			// If the session token cannot be inspected, keep password validation enabled by default.
 			return true;
