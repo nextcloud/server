@@ -56,6 +56,10 @@ class Factory implements IFactory {
 	 *
 	 * Structure: appKey => languageCode => true
 	 *
+	 * This map is derived from $availableLanguages and may be built lazily in
+	 * languageExists(). Code that updates $availableLanguages must either rebuild
+	 * the corresponding map entry or let languageExists() do so on demand.
+	 *
 	 * @var array<string, array<string, true>>
 	 */
 	protected array $availableLanguageMap = [];
@@ -354,7 +358,7 @@ class Factory implements IFactory {
 		$cachedLanguages = $this->cache->get($appCacheKey);
 		if (is_array($cachedLanguages)) {
 			$this->availableLanguages[$appCacheKey] = $cachedLanguages;
-			$this->availableLanguageMap[$appCacheKey] = array_fill_keys($cachedLanguages, true);
+			return $cachedLanguages;
 		}
 
 		if (!empty($this->availableLanguages[$appCacheKey])) {
@@ -416,14 +420,21 @@ class Factory implements IFactory {
 
 	#[\Override]
 	public function languageExists($app, $lang) {
-		if ($lang === 'en') { //english is always available
+		if ($lang === 'en') {
 			return true;
 		}
 
 		$appCacheKey = $this->getAppCacheKey($app);
 
 		if (!isset($this->availableLanguageMap[$appCacheKey])) {
-			$this->findAvailableLanguages($app);
+			if (!isset($this->availableLanguages[$appCacheKey])) {
+				$this->findAvailableLanguages($app);
+			}
+
+			$this->availableLanguageMap[$appCacheKey] = array_fill_keys(
+				$this->availableLanguages[$appCacheKey] ?? [],
+				true
+			);
 		}
 
 		return isset($this->availableLanguageMap[$appCacheKey][$lang]);
