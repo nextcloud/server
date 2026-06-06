@@ -1,7 +1,10 @@
 OC.L10N.register(
     "files_versions",
     {
+    "Block file versioning" : "ファイルのバージョン管理をブロックする",
+    "Automatic tag based blocking of file version creation." : "タグに基づいたファイルバージョンの作成を自動的にブロックする。",
     "No rule given" : "ルールが未定義です。",
+    "A new version is created" : "新しいバージョンが作成されます",
     "Versions" : "バージョン",
     "This application automatically maintains older versions of files that are changed." : "このアプリケーションは、変更された古いバージョンのファイルを自動的に維持します。",
     "This application automatically maintains older versions of files that are changed. When enabled, a hidden versions folder is provisioned in every user's directory and is used to store old file versions. A user can revert to an older version through the web interface at any time, with the replaced file becoming a version. The app automatically manages the versions folder to ensure the account does not run out of Quota because of versions.\n\t\tIn addition to the expiry of versions, the versions app makes certain never to use more than 50% of the account's currently available free space. If stored versions exceed this limit, the app will delete the oldest versions first until it meets this limit. More information is available in the Versions documentation." : "このアプリケーションは、変更された古いバージョンのファイルを自動的に維持します。有効にすると、隠れバージョン用フォルダーがすべてのユーザーのディレクトリに用意され、古いファイルバージョンを格納するために使用されます。ユーザーはいつでもWebインターフェースから古いバージョンに戻すことができ、置き換えられたファイルはバージョン管理されます。アプリはバージョンフォルダーを自動的に管理して、アカウントがバージョン履歴のために容量を使い果たさないようにします。\nバージョンの有効期限に加えて、バージョンアプリは、アカウントの現在利用可能な空き容量の50％以上を使用しないように維持します。保存されたバージョンがこの制限を超えた場合、アプリはこの制限を満たすまで、最初に最も古いバージョンから削除します。詳細は、バージョンのドキュメントを参照してください。",
