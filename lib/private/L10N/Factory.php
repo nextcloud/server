@@ -20,7 +20,6 @@ use OCP\IUser;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\L10N\ILanguageIterator;
-use function is_null;
 
 /**
  * Factory for creating language instances.
@@ -131,14 +130,49 @@ class Factory implements IFactory {
 		return $locale ?? '__default__';
 	}
 
+	/**
+	 * Return the forced language from the request or system config.
+	 *
+	 * Request-level `forceLanguage` takes precedence over the system
+	 * `force_language` setting.
+	 *
+	 * @return string|false
+	 */
+	private function getForcedLanguage(): string|false {
+		return $this->cleanLanguage($this->request->getParam('forceLanguage'))
+			?? $this->config->getSystemValue('force_language', false);
+	}
+
+	/**
+	 * Add language codes from a translation directory into the given set.
+	 *
+	 * @param string $l10nDir
+	 * @param array<string, true> &$languageSet
+	 */
+	private function addAvailableLanguagesFromDir(string $l10nDir, array &$languageSet): void {
+		if (!is_dir($l10nDir)) {
+			return;
+		}
+
+		$files = scandir($l10nDir);
+		if ($files === false) {
+			return;
+		}
+
+		foreach ($files as $fileName) {
+			if (str_ends_with($fileName, '.json') && !str_starts_with($fileName, 'l10n')) {
+				$languageSet[substr($fileName, 0, -5)] = true;
+			}
+		}
+	}
+
 	#[\Override]
 	public function get($app, $lang = null, $locale = null) {
 		return new LazyL10N(function () use ($app, $lang, $locale) {
 			$app = $this->appManager->cleanAppId($app);
 			$lang = $this->cleanLanguage($lang);
 
-			$forcedLanguage = $this->cleanLanguage($this->request->getParam('forceLanguage'))
-				?? $this->config->getSystemValue('force_language', false);
+			$forcedLanguage = $this->getForcedLanguage();
 			if (is_string($forcedLanguage)) {
 				$lang = $forcedLanguage;
 			}
@@ -225,8 +259,7 @@ class Factory implements IFactory {
 		$appCacheKey = $this->getAppCacheKey($appId);
 
 		// Step 1: a forced language overrides any other source.
-		$forcedLanguage = $this->cleanLanguage($this->request->getParam('forceLanguage'))
-			?? $this->config->getSystemValue('force_language', false);
+		$forcedLanguage = $this->getForcedLanguage();
 		if (is_string($forcedLanguage)) {
 			$this->requestLanguages[$appCacheKey] = $forcedLanguage;
 		}
@@ -284,8 +317,7 @@ class Factory implements IFactory {
 
 	#[\Override]
 	public function findGenericLanguage(?string $appId = null): string {
-		$forcedLanguage = $this->cleanLanguage($this->request->getParam('forceLanguage'))
-			?? $this->config->getSystemValue('force_language', false);
+		$forcedLanguage = $this->getForcedLanguage();
 		if ($forcedLanguage !== false) {
 			return $forcedLanguage;
 		}
@@ -368,32 +400,13 @@ class Factory implements IFactory {
 		$availableLanguageSet = ['en' => true]; // English is always available
 		$l10nDir = $this->findL10nDir($app);
 
-		if (is_dir($l10nDir)) {
-			$files = scandir($l10nDir);
-			if ($files !== false) {
-				foreach ($files as $fileName) {
-					if (str_ends_with($fileName, '.json') && !str_starts_with($fileName, 'l10n')) {
-						$availableLanguageSet[substr($fileName, 0, -5)] = true;
-					}
-				}
-			}
-		}
+		$this->addAvailableLanguagesFromDir($l10nDir, $availableLanguageSet);
 
 		// Merge translations from the active theme.
 		$theme = $this->config->getSystemValueString('theme');
 		if (!empty($theme)) {
 			$themeL10nDir = $this->serverRoot . '/themes/' . $theme . substr($l10nDir, strlen($this->serverRoot));
-
-			if (is_dir($themeL10nDir)) {
-				$files = scandir($themeL10nDir);
-				if ($files !== false) {
-					foreach ($files as $fileName) {
-						if (str_ends_with($fileName, '.json') && !str_starts_with($fileName, 'l10n')) {
-							$availableLanguageSet[substr($fileName, 0, -5)] = true;
-						}
-					}
-				}
-			}
+			$this->addAvailableLanguagesFromDir($themeL10nDir, $availableLanguageSet);
 		}
 
 		$availableLanguages = array_keys($availableLanguageSet);
