@@ -39,10 +39,24 @@ use OCP\Share\IManager as IShareManager;
 use OCP\User\Backend\IPasswordConfirmationBackend;
 use OCP\Util;
 
+/**
+ * Builds frontend bootstrap configuration for the web UI.
+ *
+ * This class collects server, user, sharing, localization, and theme settings,
+ * exposes selected values through the initial state service, and renders the
+ * JavaScript configuration payload consumed during page initialization.
+ */
 class JSConfigHelper {
 
-	/** @var array user back-ends excluded from password verification */
-	private $excludedUserBackEnds = ['user_saml' => true, 'user_globalsiteselector' => true];
+	/**
+	 * Backend class names for which password confirmation should be treated as unavailable.
+	 *
+	 * @var array<string, bool>
+	 */
+	private $passwordConfirmationExcludedBackends = [
+		'user_saml' => true,
+		'user_globalsiteselector' => true,
+	];
 
 	public function __construct(
 		protected ServerVersion $serverVersion,
@@ -63,15 +77,20 @@ class JSConfigHelper {
 	) {
 	}
 
+	/**
+	 * Builds the JavaScript configuration payload for page initialization.
+	 *
+	 * @return string JavaScript source containing global variable assignments.
+	 */
 	public function getConfig(): string {
 		$userBackendAllowsPasswordConfirmation = true;
 		if ($this->currentUser !== null) {
 			$uid = $this->currentUser->getUID();
 
-			$backend = $this->currentUser->getBackend();
-			if ($backend instanceof IPasswordConfirmationBackend) {
-				$userBackendAllowsPasswordConfirmation = $backend->canConfirmPassword($uid) && $this->canUserValidatePassword();
-			} elseif (isset($this->excludedUserBackEnds[$this->currentUser->getBackendClassName()])) {
+			$userBackend = $this->currentUser->getBackend();
+			if ($userBackend instanceof IPasswordConfirmationBackend) {
+				$userBackendAllowsPasswordConfirmation = $userBackend->canConfirmPassword($uid) && $this->canUserValidatePassword();
+			} elseif (isset($this->passwordConfirmationExcludedBackends[$this->currentUser->getBackendClassName()])) {
 				$userBackendAllowsPasswordConfirmation = false;
 			} else {
 				$userBackendAllowsPasswordConfirmation = $this->canUserValidatePassword();
@@ -80,20 +99,20 @@ class JSConfigHelper {
 			$uid = null;
 		}
 
-		// Get the config
-		$apps_paths = [];
+		// Build the map of enabled app IDs to their public web paths for the current context.
+		$appWebPaths = [];
 
 		if ($this->currentUser === null) {
-			$apps = $this->appManager->getEnabledApps();
+			$enabledApps = $this->appManager->getEnabledApps();
 		} else {
-			$apps = $this->appManager->getEnabledAppsForUser($this->currentUser);
+			$enabledApps = $this->appManager->getEnabledAppsForUser($this->currentUser);
 		}
 
-		foreach ($apps as $app) {
+		foreach ($enabledApps as $app) {
 			try {
-				$apps_paths[$app] = $this->appManager->getAppWebPath($app);
+				$appWebPaths[$app] = $this->appManager->getAppWebPath($app);
 			} catch (AppPathNotFoundException $e) {
-				$apps_paths[$app] = false;
+				$appWebPaths[$app] = false;
 			}
 		}
 
@@ -120,10 +139,12 @@ class JSConfigHelper {
 			$defaultRemoteExpireDateEnforced = $this->config->getAppValue('core', 'shareapi_enforce_remote_expire_date', 'no') === 'yes';
 		}
 
-		$countOfDataLocation = 0;
-		$dataLocation = str_replace(\OC::$SERVERROOT . '/', '', $this->config->getSystemValue('datadirectory', ''), $countOfDataLocation);
-		if ($countOfDataLocation !== 1 || $uid === null || !$this->groupManager->isAdmin($uid)) {
-			$dataLocation = false;
+		// Expose the data directory only when it is a child of the server root and the
+		// current user is an admin; otherwise keep it hidden from the client.
+		$dataDirectoryPrefixReplacementCount = 0;
+		$relativeDataDirectory = str_replace(\OC::$SERVERROOT . '/', '', $this->config->getSystemValue('datadirectory', ''), $dataDirectoryPrefixReplacementCount);
+		if ($dataDirectoryPrefixReplacementCount !== 1 || $uid === null || !$this->groupManager->isAdmin($uid)) {
+			$relativeDataDirectory = false;
 		}
 
 		if ($this->currentUser instanceof IUser) {
@@ -133,6 +154,8 @@ class JSConfigHelper {
 					$lastConfirmTimestamp = 0;
 				}
 			} else {
+				// Use a sentinel value so the frontend treats password confirmation as already satisfied
+				// when this user/session cannot perform password validation.
 				$lastConfirmTimestamp = PHP_INT_MAX;
 			}
 		} else {
@@ -141,14 +164,14 @@ class JSConfigHelper {
 
 		$capabilities = $this->capabilitiesManager->getCapabilities(false, true);
 
-		$firstDay = $this->config->getUserValue($uid, 'core', AUserDataOCSController::USER_FIELD_FIRST_DAY_OF_WEEK, '');
-		if ($firstDay === '') {
-			$firstDay = (int)$this->l->l('firstday', null);
+		$firstDayOfWeek = $this->config->getUserValue($uid, 'core', AUserDataOCSController::USER_FIELD_FIRST_DAY_OF_WEEK, '');
+		if ($firstDayOfWeek === '') {
+			$firstDayOfWeek = (int)$this->l->l('firstday', null);
 		} else {
-			$firstDay = (int)$firstDay;
+			$firstDayOfWeek = (int)$firstDayOfWeek;
 		}
 
-		$config = [
+		$coreConfig = [
 			/** @deprecated 30.0.0 - use files capabilities instead */
 			'blacklist_files_regex' => FileInfo::BLACKLIST_FILES_REGEX,
 			/** @deprecated 30.0.0 - use files capabilities instead */
@@ -172,13 +195,13 @@ class JSConfigHelper {
 
 		$shareManager = Server::get(IShareManager::class);
 
-		$array = [
+		$legacyJsGlobals = [
 			'_oc_debug' => $this->config->getSystemValue('debug', false) ? 'true' : 'false',
 			'_oc_isadmin' => $uid !== null && $this->groupManager->isAdmin($uid) ? 'true' : 'false',
 			'backendAllowsPasswordConfirmation' => $userBackendAllowsPasswordConfirmation ? 'true' : 'false',
-			'oc_dataURL' => is_string($dataLocation) ? '"' . $dataLocation . '"' : 'false',
+			'oc_dataURL' => is_string($relativeDataDirectory) ? '"' . $relativeDataDirectory . '"' : 'false',
 			'_oc_webroot' => '"' . \OC::$WEBROOT . '"',
-			'_oc_appswebroots' => str_replace('\\/', '/', json_encode($apps_paths)), // Ugly unescape slashes waiting for better solution
+			'_oc_appswebroots' => str_replace('\\/', '/', json_encode($appWebPaths)), // Ugly unescape slashes waiting for better solution
 			'datepickerFormatDate' => json_encode($this->l->l('jsdate', null)),
 			'nc_lastLogin' => $lastConfirmTimestamp,
 			'nc_pageLoad' => time(),
@@ -237,8 +260,8 @@ class JSConfigHelper {
 				$this->l->t('Nov.'),
 				$this->l->t('Dec.')
 			]),
-			'firstDay' => json_encode($firstDay),
-			'_oc_config' => json_encode($config),
+			'firstDay' => json_encode($firstDayOfWeek),
+			'_oc_config' => json_encode($coreConfig),
 			'oc_appconfig' => json_encode([
 				'core' => [
 					'defaultExpireDateEnabled' => $defaultExpireDateEnabled,
@@ -275,7 +298,7 @@ class JSConfigHelper {
 		];
 
 		if ($this->currentUser !== null) {
-			$array['oc_userconfig'] = json_encode([
+			$legacyJsGlobals['oc_userconfig'] = json_encode([
 				'avatar' => [
 					'version' => (int)$this->config->getUserValue($uid, 'avatar', 'version', 0),
 					'generated' => $this->config->getUserValue($uid, 'avatar', 'generated', 'true') === 'true',
@@ -283,29 +306,35 @@ class JSConfigHelper {
 			]);
 		}
 
+		// Provide structured initial state for modern consumers in addition to the legacy JS globals below.
 		$this->initialStateService->provideInitialState('core', 'projects_enabled', $this->config->getSystemValueBool('projects.enabled', false));
-
-		$this->initialStateService->provideInitialState('core', 'config', $config);
+		$this->initialStateService->provideInitialState('core', 'config', $coreConfig);
 		$this->initialStateService->provideInitialState('core', 'capabilities', $capabilities);
 
-		// Allow hooks to modify the output values
-		\OC_Hook::emit('\OCP\Config', 'js', ['array' => &$array]);
+		// Allow legacy hooks to amend the generated JavaScript globals before rendering.
+		\OC_Hook::emit('\OCP\Config', 'js', ['array' => &$legacyJsGlobals]);
 
-		$result = '';
+		$jsBootstrap = '';
 
-		// Echo it
-		foreach ($array as $setting => $value) {
-			$result .= 'var ' . $setting . '=' . $value . ';' . PHP_EOL;
+		// Render the globals as legacy `var` assignments.
+		foreach ($legacyJsGlobals as $globalName => $serializedValue) {
+			$jsBootstrap .= 'var ' . $globalName . '=' . $serializedValue . ';' . PHP_EOL;
 		}
 
-		return $result;
+		return $jsBootstrap;
 	}
 
+	/**
+	 * Returns whether the current session token allows password validation.
+	 *
+	 * If the token cannot be resolved from the current session, this method falls
+	 * back to `true` to avoid incorrectly disabling password confirmation flows.
+	 */
 	protected function canUserValidatePassword(): bool {
 		try {
 			$token = $this->tokenProvider->getToken($this->session->getId());
 		} catch (ExpiredTokenException|WipeTokenException|InvalidTokenException|SessionNotAvailableException) {
-			// actually we do not know, so we fall back to this statement
+			// If the session token cannot be inspected, keep password validation enabled by default.
 			return true;
 		}
 		$scope = $token->getScopeAsArray();
