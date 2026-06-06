@@ -36,7 +36,7 @@ OC.L10N.register(
     "Password to access %1$s shared by you with %2$s" : "Slaptažodis, skirtas %1$s prieigai, kurią bendrinote su %2$s",
     "This is the password:" : "Štai yra slaptažodis:",
     "You can choose a different password at any time in the share dialog." : "Dalinimosi dialoge bet kuriuo metu galite pasirinkti kitą slaptažodį.",
-    "Could not find share" : "Nepavyko rasti viešinio",
+    "Could not find share" : "Nepavyko rasti bendrinimo",
     "Share provider which allows you to share files by mail" : "Bendrinimo teikėjas, kuris leidžia bendrinti failus el. paštu",
     "Unable to update share by mail config" : "Nepavyko atnaujinti bendrinimo el. paštu konfigūracijos",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "Leidžia žmonėms bendrinti asmeninę nuorodą į failą ar aplanką, įvedus el. pašto adresą.",
