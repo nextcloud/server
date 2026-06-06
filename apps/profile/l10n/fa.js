@@ -2,9 +2,15 @@ OC.L10N.register(
     "profile",
     {
     "View profile" : "مشاهدهٔ نمایه",
+    "Profile picker" : "انتخابگر نمایه",
     "Profile" : "نمایه",
+    "This application provides the profile" : "این برنامه نمایه را فراهم می‌کند",
+    "Provides a customisable user profile interface." : "یک رابط نمایه کاربر قابل سفارشی‌سازی فراهم می‌کند.",
     "Searching …" : "درحال جستجو",
     "Not found" : "پیدا نشد.",
+    "Search for a user profile" : "جست‌وجوی نمایه کاربر",
+    "Search for a user profile. Start typing" : "جست‌وجوی نمایه کاربر. شروع به تایپ کنید",
+    "Insert selected user profile link" : "درج پیوند نمایه کاربر انتخاب‌شده",
     "Insert" : "Insert",
     "You have not added any info yet" : "You have not added any info yet",
     "{user} has not added any info yet" : "{user} has not added any info yet",
@@ -12,6 +18,7 @@ OC.L10N.register(
     "Edit Profile" : "ویرایش نمایه",
     "The headline and about sections will show up here" : "The headline and about sections will show up here",
     "Profile not found" : "نمایه، یافت نشد",
+    "The profile does not exist or is unavailable." : "نمایه وجود ندارد یا در دسترس نیست.",
     "Back to %s" : "Back to %s",
     "The profile does not exist." : "این نمایه وجود ندارد."
 },
