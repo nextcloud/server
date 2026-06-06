@@ -59,21 +59,21 @@ class JSConfigHelper {
 	];
 
 	public function __construct(
-		protected ServerVersion $serverVersion,
-		protected IL10N $l,
-		protected Defaults $defaults,
-		protected IAppManager $appManager,
-		protected ISession $session,
-		protected ?IUser $currentUser,
-		protected IConfig $config,
-		protected readonly IAppConfig $appConfig,
-		protected IGroupManager $groupManager,
-		protected IniGetWrapper $iniWrapper,
-		protected IURLGenerator $urlGenerator,
-		protected CapabilitiesManager $capabilitiesManager,
-		protected IInitialStateService $initialStateService,
-		protected IProvider $tokenProvider,
-		protected FilenameValidator $filenameValidator,
+		private readonly ServerVersion $serverVersion,
+		private readonly IL10N $l,
+		private readonly Defaults $defaults,
+		private readonly IAppManager $appManager,
+		private readonly ISession $session,
+		private readonly ?IUser $currentUser,
+		private readonly IConfig $config,
+		private readonly readonly IAppConfig $appConfig,
+		private readonly IGroupManager $groupManager,
+		private readonly IniGetWrapper $iniWrapper,
+		private readonly IURLGenerator $urlGenerator,
+		private readonly CapabilitiesManager $capabilitiesManager,
+		private readonly IInitialStateService $initialStateService,
+		private readonly IProvider $tokenProvider,
+		private readonly FilenameValidator $filenameValidator,
 	) {
 	}
 
@@ -342,6 +342,8 @@ class JSConfigHelper {
 	 *
 	 * If the token cannot be resolved from the current session, this method falls
 	 * back to `true` to avoid incorrectly disabling password confirmation flows.
+	 *
+	 * FIXME: make private / declare @internal?
 	 */
 	protected function canUserValidatePassword(): bool {
 		try {
