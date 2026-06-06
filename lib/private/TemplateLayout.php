@@ -42,6 +42,11 @@ use OCP\Template\ITemplate;
 use OCP\Template\ITemplateManager;
 use OCP\Util;
 
+/**
+ * Builds and populates page layout templates for the different render modes
+ * (user, guest, public, error, base), including navigation, initial state,
+ * asset lists, language metadata, and cache-busting version suffixes.
+ */
 class TemplateLayout {
 	private string $versionHash = '';
 	/** @var string[] */
@@ -62,6 +67,15 @@ class TemplateLayout {
 	) {
 	}
 
+	/**
+	 * Build the layout template for the requested render mode and populate it with
+	 * common view data such as navigation, localization, initial state, user data,
+	 * and versioned JS/CSS assets.
+	 *
+	 * @param string $renderAs One of the TemplateResponse::RENDER_AS_* constants
+	 * @param string $appId Active app identifier used for navigation and public layout state
+	 * @return ITemplate Prepared layout template
+	 */
 	public function getPageTemplate(string $renderAs, string $appId): ITemplate {
 		// Add fallback theming variables if not rendered as user
 		if ($renderAs !== TemplateResponse::RENDER_AS_USER) {
@@ -69,7 +83,7 @@ class TemplateLayout {
 			Util::addStyle('theming', 'default');
 		}
 
-		// Decide which page we show
+		// Select the base layout template for the requested render mode.
 		switch ($renderAs) {
 			case TemplateResponse::RENDER_AS_USER:
 				$page = $this->templateManager->getTemplate('core', 'layout.user');
@@ -194,7 +208,8 @@ class TemplateLayout {
 				$page = $this->templateManager->getTemplate('core', 'layout.base');
 				break;
 		}
-		// Send the language, locale, and direction to our layouts
+
+		// Expose localization metadata to the selected layout.
 		$l10nFactory = Server::get(IFactory::class);
 		$lang = $l10nFactory->findLanguage();
 		$locale = $l10nFactory->findLocale($lang);
@@ -205,7 +220,7 @@ class TemplateLayout {
 		$page->assign('locale', $locale);
 		$page->assign('direction', $direction);
 
-		// Set body data-theme
+		// Expose enabled themes for body/theme-related rendering.
 		try {
 			$themesService = Server::get(ThemesService::class);
 		} catch (\Exception) {
@@ -223,12 +238,13 @@ class TemplateLayout {
 			$this->versionHash = md5('not installed');
 		}
 
-		// Add the js files
+		// Resolve and append JavaScript assets.
 		$jsFiles = $this->findJavascriptFiles(Util::getScripts());
 		$page->assign('jsfiles', []);
 		if ($this->config->getSystemValueBool('installed', false) && $renderAs !== TemplateResponse::RENDER_AS_ERROR) {
-			// this is on purpose outside of the if statement below so that the initial state is prefilled (done in the getConfig() call)
-			// see https://github.com/nextcloud/server/pull/22636 for details
+			// Intentionally build JS config before deciding how to deliver it so the
+			// initial state is populated as a side effect of getConfig().
+			// See PR #22636 for historical context.
 			$jsConfigHelper = new JSConfigHelper(
 				$this->serverVersion,
 				Util::getL10N('lib'),
@@ -253,6 +269,7 @@ class TemplateLayout {
 				$page->append('jsfiles', Server::get(IURLGenerator::class)->linkToRoute('core.OCJS.getConfig', ['v' => $this->versionHash]));
 			}
 		}
+		/** @var array{0:string,1:string,2:string} $resourceInfo */
 		foreach ($jsFiles as $info) {
 			$web = $info[1];
 			$file = $info[2];
@@ -265,8 +282,8 @@ class TemplateLayout {
 			$pathInfo = '';
 		}
 
-		// Do not initialise scss appdata until we have a fully installed instance
-		// Do not load scss for update, errors, installation or login page
+		// Only use compiled SCSS assets on fully installed, non-upgrade, non-error,
+		// non-login requests. Fall back to guest styling otherwise.
 		if ($this->config->getSystemValueBool('installed', false)
 			&& !Util::needUpgrade()
 			&& $pathInfo !== ''
@@ -284,6 +301,7 @@ class TemplateLayout {
 		$page->assign('cssfiles', []);
 		$page->assign('printcssfiles', []);
 		$this->initialState->provideInitialState('core', 'versionHash', $this->versionHash);
+		/** @var array{0:string,1:string,2:string} $resourceInfo */
 		foreach ($cssFiles as $info) {
 			$web = $info[1];
 			$file = $info[2];
@@ -315,6 +333,17 @@ class TemplateLayout {
 		return $page;
 	}
 
+	/**
+	 * Build the cache-busting query suffix for a static resource.
+	 *
+	 * In non-debug mode this prefers a hash derived from the owning app/version
+	 * when the app can be inferred from the resource path. If that fails, it falls
+	 * back to the server-wide version hash. A theming cache-buster is always appended.
+	 *
+	 * @param string $path Resource web path hint
+	 * @param string $file Resource file hint
+	 * @return string Query suffix beginning with "?v=", or an empty string in debug mode
+	 */
 	protected function getVersionHashSuffix(string $path = '', string $file = ''): string {
 		if ($this->config->getSystemValueBool('debug', false)) {
 			// allows chrome workspace mapping in debug mode
@@ -331,11 +360,11 @@ class TemplateLayout {
 		if ($path !== '') {
 			$hash = $this->getVersionHashByPath($path);
 		}
-		// If not found try the file
+		// If no hash was derived from the web path, try the file hint.
 		if ($hash === false && $file !== '') {
 			$hash = $this->getVersionHashByPath($file);
 		}
-		// As a last resort we use the server version hash
+		// Fall back to the server-wide version hash.
 		if ($hash === false) {
 			$hash = $this->versionHash;
 		}
@@ -346,17 +375,25 @@ class TemplateLayout {
 		return '?v=' . $hash . $themingSuffix;
 	}
 
+	/**
+	 * Resolve a cache-busting hash for a resource path by inferring its owning app.
+	 *
+	 * Returns false when no app can be inferred from the provided path.
+	 *
+	 * @param string $path Resource path used to infer the app name
+	 * @return string|false
+	 */
 	private function getVersionHashByPath(string $path): string|false {
 		if (array_key_exists($path, $this->cacheBusterCache) === false) {
-			// Not yet cached, so lets find the cache buster string
-			$appId = $this->getAppNamefromPath($path);
+			// Not cached yet; compute the resource cache-buster hash.
+			$appId = $this->getAppNameFromPath($path);
 			if ($appId === false) {
-				// No app Id could be guessed
+				// Unable to infer an owning app from the resource path.
 				return false;
 			}
 
 			if ($appId === 'core') {
-				// core is not a real app but the server itself
+				// "core" maps to the server version hash rather than an app version.
 				$hash = $this->versionHash;
 			} else {
 				$appVersion = $this->appManager->getAppVersion($appId);
@@ -373,6 +410,12 @@ class TemplateLayout {
 		return $this->cacheBusterCache[$path];
 	}
 
+	/**
+	 * Resolve stylesheet resources via the CSS resource locator.
+	 *
+	 * @param array $styles Registered style definitions
+	 * @return array<int, array{0:string, 1:string, 2:string}> Located stylesheet resources
+	 */
 	private function findStylesheetFiles(array $styles): array {
 		if ($this->cssLocator === null) {
 			$this->cssLocator = Server::get(CSSResourceLocator::class);
@@ -381,7 +424,18 @@ class TemplateLayout {
 		return $this->cssLocator->getResources();
 	}
 
-	public function getAppNamefromPath(string $path): string|false {
+	/**
+	 * Heuristically infer the app name from a resource path.
+	 *
+	 * Expected formats include:
+	 * - "css/<app>/..."
+	 * - "core/..."
+	 * - other resource paths where the last path segment represents the app id
+	 *
+	 * @param string $path
+	 * @return string|false Inferred app id, or false if it cannot be determined
+	 */
+	public function getAppNameFromPath(string $path): string|false {
 		if ($path !== '') {
 			$pathParts = explode('/', $path);
 			if ($pathParts[0] === 'css') {
@@ -395,6 +449,12 @@ class TemplateLayout {
 		return false;
 	}
 
+	/**
+	 * Resolve Javascript resources via the JS resource locator.
+	 *
+	 * @param array $styles Registered JS definitions
+	 * @return array<int, array{0:string, 1:string, 2:string}> Located JS resources
+	 */
 	private function findJavascriptFiles(array $scripts): array {
 		if ($this->jsLocator === null) {
 			$this->jsLocator = Server::get(JSResourceLocator::class);
@@ -404,12 +464,13 @@ class TemplateLayout {
 	}
 
 	/**
-	 * Converts the absolute file path to a relative path from \OC::$SERVERROOT
+	 * Convert an absolute file path into a path relative to \OC::$SERVERROOT.
+	 *
 	 * @param string $filePath Absolute path
 	 * @return string Relative path
-	 * @throws \Exception If $filePath is not under \OC::$SERVERROOT
+	 * @throws \Exception If the file path is not under \OC::$SERVERROOT
 	 */
-	public static function convertToRelativePath(string $filePath) {
+	public static function convertToRelativePath(string $filePath): string {
 		$relativePath = explode(\OC::$SERVERROOT, $filePath);
 		if (count($relativePath) !== 2) {
 			throw new \Exception('$filePath is not under the \OC::$SERVERROOT');
