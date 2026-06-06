@@ -52,8 +52,8 @@ class TemplateLayout {
 	/** @var string[] */
 	private array $cacheBusterCache = [];
 
-	public ?CSSResourceLocator $cssLocator = null;
-	public ?JSResourceLocator $jsLocator = null;
+	private ?CSSResourceLocator $cssLocator = null;
+	private ?JSResourceLocator $jsLocator = null;
 
 	public function __construct(
 		private IConfig $config,
@@ -77,7 +77,13 @@ class TemplateLayout {
 	 * @return ITemplate Prepared layout template
 	 */
 	public function getPageTemplate(string $renderAs, string $appId): ITemplate {
-		// Add fallback theming variables if not rendered as user
+		$userSession = Server::get(IUserSession::class);
+		$urlGenerator = Server::get(IURLGenerator::class);
+		$l10nFactory = Server::get(IFactory::class);
+
+		$isInstalled = $this->config->getSystemValueBool('installed', false);
+
+		// Add fallback theming variables when no authenticated user layout is rendered.
 		if ($renderAs !== TemplateResponse::RENDER_AS_USER) {
 			// TODO cache generated default theme if enabled for fallback if server is erroring ?
 			Util::addStyle('theming', 'default');
@@ -97,10 +103,27 @@ class TemplateLayout {
 				$this->initialState->provideInitialState('core', 'active-app', $this->navigationManager->getActiveEntry());
 				$this->initialState->provideInitialState('core', 'apps', array_values($this->navigationManager->getAll()));
 
-				$this->initialState->provideInitialState('unified-search', 'min-search-length', $this->appConfig->getValueInt(Application::APP_ID, ConfigLexicon::UNIFIED_SEARCH_MIN_SEARCH_LENGTH));
-				if ($this->config->getSystemValueBool('unified_search.enabled', false) || !$this->config->getSystemValueBool('enable_non-accessible_features', true)) {
-					$this->initialState->provideInitialState('unified-search', 'limit-default', (int)$this->config->getAppValue('core', 'unified-search.limit-default', (string)SearchQuery::LIMIT_DEFAULT));
-					$this->initialState->provideInitialState('unified-search', 'live-search', $this->config->getAppValue('core', 'unified-search.live-search', 'yes') === 'yes');
+				$this->initialState->provideInitialState(
+					'unified-search',
+					'min-search-length',
+					$this->appConfig->getValueInt(Application::APP_ID, ConfigLexicon::UNIFIED_SEARCH_MIN_SEARCH_LENGTH),
+				);
+
+				$unifiedSearchEnabled = $this->config->getSystemValueBool('unified_search.enabled', false);
+				$nonAccessibleFeaturesEnabled = $this->config->getSystemValueBool('enable_non-accessible_features', true);
+	
+				if ($unifiedSearchEnabled || !$nonAccessibleFeaturesEnabled) {
+					$this->initialState->provideInitialState(
+						'unified-search',
+						'limit-default',
+						(int)$this->config->getAppValue('core', 'unified-search.limit-default', (string)SearchQuery::LIMIT_DEFAULT),
+					);
+					$this->initialState->provideInitialState(
+						'unified-search',
+						'live-search',
+						$this->config->getAppValue('core', 'unified-search.live-search', 'yes') === 'yes',
+					);
+
 					Util::addScript('core', 'legacy-unified-search', 'core');
 				} else {
 					Util::addScript('core', 'unified-search', 'core');
@@ -138,7 +161,7 @@ class TemplateLayout {
 					}
 				}
 
-				$user = Server::get(IUserSession::class)->getUser();
+				$user = $userSession->getUser();
 
 				if ($user === null) {
 					$template->assign('user_uid', false);
@@ -164,7 +187,7 @@ class TemplateLayout {
 				$template->assign('bodyid', 'body-login');
 
 				$userDisplayName = false;
-				$user = Server::get(IUserSession::class)->getUser();
+				$user = $userSession->getUser();
 				if ($user) {
 					$userDisplayName = $user->getDisplayName();
 				}
@@ -197,7 +220,6 @@ class TemplateLayout {
 				}
 
 				if ($this->appManager->isEnabledForUser('registration')) {
-					$urlGenerator = Server::get(IURLGenerator::class);
 					$signUpLink = $urlGenerator->getAbsoluteURL('/index.php/apps/registration/');
 				}
 
@@ -210,7 +232,6 @@ class TemplateLayout {
 		}
 
 		// Expose localization metadata to the selected layout.
-		$l10nFactory = Server::get(IFactory::class);
 		$lang = $l10nFactory->findLanguage();
 		$locale = $l10nFactory->findLocale($lang);
 		$direction = $l10nFactory->getLanguageDirection($lang);
@@ -224,11 +245,12 @@ class TemplateLayout {
 		try {
 			$themesService = Server::get(ThemesService::class);
 		} catch (\Exception) {
+			// theming service may be unavailable during early/bootstrap/error states
 			$themesService = null;
 		}
 		$template->assign('enabledThemes', $themesService?->getEnabledThemes() ?? []);
 
-		if ($this->config->getSystemValueBool('installed', false)) {
+		if ($isInstalled) {
 			if (empty($this->versionHash)) {
 				$v = $this->appManager->getAppInstalledVersions(true);
 				$v['core'] = implode('.', $this->serverVersion->getVersion());
@@ -241,7 +263,7 @@ class TemplateLayout {
 		// Resolve and append JavaScript assets.
 		$jsFiles = $this->findJavascriptFiles(Util::getScripts());
 		$template->assign('jsfiles', []);
-		if ($this->config->getSystemValueBool('installed', false) && $renderAs !== TemplateResponse::RENDER_AS_ERROR) {
+		if ($isInstalled && $renderAs !== TemplateResponse::RENDER_AS_ERROR) {
 			// Intentionally build JS config before deciding how to deliver it so the
 			// initial state is populated as a side effect of getConfig().
 			// See PR #22636 for historical context.
@@ -251,12 +273,12 @@ class TemplateLayout {
 				Server::get(Defaults::class),
 				$this->appManager,
 				Server::get(ISession::class),
-				Server::get(IUserSession::class)->getUser(),
+				$userSession->getUser(),
 				$this->config,
 				$this->appConfig,
 				Server::get(IGroupManager::class),
 				Server::get(IniGetWrapper::class),
-				Server::get(IURLGenerator::class),
+				$urlGenerator,
 				Server::get(CapabilitiesManager::class),
 				Server::get(IInitialStateService::class),
 				Server::get(IProvider::class),
@@ -266,7 +288,7 @@ class TemplateLayout {
 			if (Server::get(ContentSecurityPolicyNonceManager::class)->browserSupportsCspV3()) {
 				$template->assign('inline_ocjs', $config);
 			} else {
-				$template->append('jsfiles', Server::get(IURLGenerator::class)->linkToRoute('core.OCJS.getConfig', ['v' => $this->versionHash]));
+				$template->append('jsfiles', $urlGenerator->linkToRoute('core.OCJS.getConfig', ['v' => $this->versionHash]));
 			}
 		}
 		/** @var array{0:string,1:string,2:string} $resourceInfo */
@@ -278,12 +300,13 @@ class TemplateLayout {
 		try {
 			$pathInfo = $this->request->getPathInfo();
 		} catch (\Exception $e) {
+			// FIXME: When might this happen? Why?
 			$pathInfo = '';
 		}
 
 		// Only use compiled SCSS assets on fully installed, non-upgrade, non-error,
 		// non-login requests. Fall back to guest styling otherwise.
-		if ($this->config->getSystemValueBool('installed', false)
+		if ($isInstalled
 			&& !Util::needUpgrade()
 			&& $pathInfo !== ''
 			&& !preg_match('/^\/login/', $pathInfo)
