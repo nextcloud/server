@@ -55,8 +55,9 @@ describe('Files: Sidebar', { testIsolation: true }, () => {
 			.findByRole('heading', { name: 'file' })
 			.should('be.visible')
 
-		// eslint-disable-next-line cypress/no-unnecessary-waiting
-		cy.wait(600) // wait for a bit to avoid flakiness
+		// Ensure the sidebar has committed to the file (its id is reflected in
+		// the URL) before selecting another file, instead of a fixed timeout.
+		cy.url().should('contain', `apps/files/files/${fileId}`)
 
 		triggerActionForFile('folder', 'details')
 		cy.get('[data-cy-sidebar]')
@@ -94,8 +95,9 @@ describe('Files: Sidebar', { testIsolation: true }, () => {
 		// validate it is open
 		cy.get('[data-cy-sidebar]')
 			.should('be.visible')
-		// eslint-disable-next-line cypress/no-unnecessary-waiting
-		cy.wait(600) // wait for a bit to avoid flakiness
+		// Ensure the sidebar has committed to the file (its id is reflected in
+		// the URL) before deleting it, instead of a fixed timeout.
+		cy.url().should('contain', `apps/files/files/${fileId}`)
 
 		// delete the file
 		triggerActionForFile('file', 'delete')
@@ -121,10 +123,9 @@ describe('Files: Sidebar', { testIsolation: true }, () => {
 			triggerActionForFile('other', 'details')
 			// validate it is open
 			cy.get('[data-cy-sidebar]').should('be.visible')
+			// The URL assertion below already proves the sidebar committed to
+			// the file, so no fixed timeout is needed before deleting it.
 			cy.url().should('contain', `apps/files/files/${otherFileId}`)
-
-			// eslint-disable-next-line cypress/no-unnecessary-waiting
-			cy.wait(600) // wait for a bit to avoid flakiness
 
 			triggerActionForFile('other', 'delete')
 			cy.wait('@deleteFile')
