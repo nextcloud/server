@@ -58,6 +58,12 @@ export default defineConfig({
 		// Disable session isolation
 		testIsolation: false,
 
+		// The default command timeout (4s) is frequently too short on loaded CI
+		// runners and is a common source of flaky timeouts in `cy.get().should()`
+		// retries. Give commands more headroom to settle.
+		// https://docs.cypress.io/app/references/configuration#Timeouts
+		defaultCommandTimeout: 30000,
+
 		requestTimeout: 30000,
 
 		// We've imported your old cypress plugins here.
