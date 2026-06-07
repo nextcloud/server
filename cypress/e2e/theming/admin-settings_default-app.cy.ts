@@ -55,11 +55,13 @@ describe('Admin theming set default apps', () => {
 			.as('defaultAppSelect')
 			.scrollIntoView()
 
-		cy.get('@defaultAppSelect')
-			.findByText('Dashboard')
+		// The selected option names are rendered with a middle-ellipsis that
+		// splits the text across elements, so match the `title` attribute.
+		cy.findByRole('region', { name: 'Global default app' })
+			.find('[title="Dashboard"]')
 			.should('be.visible')
-		cy.get('@defaultAppSelect')
-			.findByText('Files')
+		cy.findByRole('region', { name: 'Global default app' })
+			.find('[title="Files"]')
 			.should('be.visible')
 	})
 
