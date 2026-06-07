@@ -105,14 +105,23 @@ describe('files_trashbin: file row', { testIsolation: true }, () => {
 		cy.login(alice)
 		cy.visit('/apps/files/trashbin')
 
-		getRowForFileId(fileId).should('be.visible')
-		// The full name includes one span for the name and one span for the
-		// extension, so text() returns a space when composing them even if it
-		// will not be visible when rendered in the browser.
-		getRowForFileId(fileId).find('[data-cy-files-list-row-name]').should((element) => expect(element.text().trim()).to.equal('test-file .txt'))
-		getRowForFileId(fileId).find('[data-cy-files-list-row-column-custom="files_trashbin--original-location"]').should('have.text', 'All files')
-		getRowForFileId(fileId).find('[data-cy-files-list-row-column-custom="files_trashbin--deleted-by"]').should('have.text', 'You')
-		getRowForFileId(fileId).find('[data-cy-files-list-row-column-custom="files_trashbin--deleted"]').should('have.text', 'few seconds ago')
+		// fileId is only set once the upload above resolves, which happens after
+		// the synchronous test body has finished queuing commands. Read it inside
+		// cy.then() so the row lookups use the real id instead of `undefined`.
+		cy.then(() => {
+			getRowForFileId(fileId).should('be.visible')
+			// The full name includes one span for the name and one span for the
+			// extension, so text() returns a space when composing them even if it
+			// will not be visible when rendered in the browser.
+			getRowForFileId(fileId).find('[data-cy-files-list-row-name]').should((element) => expect(element.text().trim()).to.equal('test-file .txt'))
+			getRowForFileId(fileId).find('[data-cy-files-list-row-column-custom="files_trashbin--original-location"]').should('have.text', 'All files')
+			getRowForFileId(fileId).find('[data-cy-files-list-row-column-custom="files_trashbin--deleted-by"]').should('have.text', 'You')
+			// Assert a recent relative time rather than the exact "few seconds ago":
+			// on slow CI more than a minute can pass before this runs, so the value
+			// ticks to "1 minute ago" and an exact match never matches (retrying the
+			// full timeout on every attempt).
+			getRowForFileId(fileId).find('[data-cy-files-list-row-column-custom="files_trashbin--deleted"]').should((element) => expect(element.text().trim()).to.match(/(seconds?|minutes?) ago$/))
+		})
 	})
 
 	it('shows data for file deleted by sharee in a folder shared with a group', () => {
@@ -125,13 +134,17 @@ describe('files_trashbin: file row', { testIsolation: true }, () => {
 		cy.login(alice)
 		cy.visit('/apps/files/trashbin')
 
-		getRowForFileId(fileId).should('be.visible')
-		// The full name includes one span for the name and one span for the
-		// extension, so text() returns a space when composing them even if it
-		// will not be visible when rendered in the browser.
-		getRowForFileId(fileId).find('[data-cy-files-list-row-name]').should((element) => expect(element.text().trim()).to.equal('test-file .txt'))
-		getRowForFileId(fileId).find('[data-cy-files-list-row-column-custom="files_trashbin--original-location"]').should('have.text', 'Shared')
-		getRowForFileId(fileId).find('[data-cy-files-list-row-column-custom="files_trashbin--deleted-by"]').should('have.text', 'Bob')
-		getRowForFileId(fileId).find('[data-cy-files-list-row-column-custom="files_trashbin--deleted"]').should('have.text', 'few seconds ago')
+		// See note in the previous test: read fileId at execution time.
+		cy.then(() => {
+			getRowForFileId(fileId).should('be.visible')
+			// The full name includes one span for the name and one span for the
+			// extension, so text() returns a space when composing them even if it
+			// will not be visible when rendered in the browser.
+			getRowForFileId(fileId).find('[data-cy-files-list-row-name]').should((element) => expect(element.text().trim()).to.equal('test-file .txt'))
+			getRowForFileId(fileId).find('[data-cy-files-list-row-column-custom="files_trashbin--original-location"]').should('have.text', 'Shared')
+			getRowForFileId(fileId).find('[data-cy-files-list-row-column-custom="files_trashbin--deleted-by"]').should('have.text', 'Bob')
+			// Assert a recent relative time, not the exact string.
+			getRowForFileId(fileId).find('[data-cy-files-list-row-column-custom="files_trashbin--deleted"]').should((element) => expect(element.text().trim()).to.match(/(seconds?|minutes?) ago$/))
+		})
 	})
 })
