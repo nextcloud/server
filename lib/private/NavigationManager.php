@@ -36,6 +36,8 @@ class NavigationManager implements INavigationManager {
 	protected bool $init = false;
 	/** User defined app order (cached for the `add` function) */
 	private ?array $customAppOrder = null;
+	/** List of loaded app info */
+	private array $loadedAppInfo = [];
 
 	public function __construct(
 		protected IAppManager $appManager,
@@ -55,7 +57,7 @@ class NavigationManager implements INavigationManager {
 			$this->closureEntries[] = $entry;
 			return;
 		}
-		$this->init(false);
+		$this->init();
 
 		$id = $entry['id'];
 
@@ -98,7 +100,7 @@ class NavigationManager implements INavigationManager {
 
 	#[Override]
 	public function getAll(string $type = 'link'): array {
-		$this->init();
+		$this->resolveAppNavigationEntries();
 
 		$result = $this->entries;
 		if ($type !== 'all') {
@@ -180,7 +182,16 @@ class NavigationManager implements INavigationManager {
 		return $this->activeEntry;
 	}
 
-	private function init(bool $resolveClosures = true): void {
+	/**
+	 * Initialize the internal state.
+	 * This loads the default app mapping and user mapping for app ordering.
+	 */
+	private function init(): void {
+		if ($this->init) {
+			return;
+		}
+		$this->init = true;
+
 		if ($this->customAppOrder === null) {
 			if ($this->userSession->isLoggedIn()) {
 				$user = $this->userSession->getUser();
@@ -189,21 +200,23 @@ class NavigationManager implements INavigationManager {
 				$this->customAppOrder = [];
 			}
 		}
+	}
 
-		if ($resolveClosures) {
-			while ($c = array_pop($this->closureEntries)) {
-				$this->add($c());
-			}
+	/**
+	 * Resolve the app navigation entries from closures and info.xml files.
+	 */
+	private function resolveAppNavigationEntries(): void {
+		// Resolve app navigation closures
+		while ($c = array_pop($this->closureEntries)) {
+			$this->add($c());
 		}
 
-		if ($this->init) {
-			return;
+		// Resolve dynamically added navigation entries via event listeners
+		if ($this->loadedAppInfo === []) {
+			$this->eventDispatcher->dispatchTyped(new LoadAdditionalEntriesEvent());
 		}
-		$this->init = true;
 
-		$l = $this->l10nFac->get('lib');
-		$this->eventDispatcher->dispatchTyped(new LoadAdditionalEntriesEvent());
-
+		// Resolve classic info.xml based navigation entries
 		if ($this->userSession->isLoggedIn()) {
 			$user = $this->userSession->getUser();
 			$apps = $this->appManager->getEnabledAppsForUser($user);
@@ -212,6 +225,11 @@ class NavigationManager implements INavigationManager {
 		}
 
 		foreach ($apps as $app) {
+			// skip already loaded apps
+			if (in_array($app, $this->loadedAppInfo)) {
+				continue;
+			}
+
 			// load plugins and collections from info.xml
 			$info = $this->appManager->getAppInfo($app);
 			if (!isset($info['navigations']['navigation'])) {
@@ -230,7 +248,6 @@ class NavigationManager implements INavigationManager {
 				if ($role === 'admin' && !$this->isAdmin()) {
 					continue;
 				}
-				$l = $this->l10nFac->get($app);
 				$id = $nav['id'] ?? $app . ($key === 0 ? '' : $key);
 				$order = $nav['order'] ?? 100;
 				$type = $nav['type'];
@@ -249,7 +266,14 @@ class NavigationManager implements INavigationManager {
 				if ($icon === null) {
 					$icon = $this->urlGenerator->imagePath('core', 'places/default-app-icon.svg');
 				}
+				if ($type === 'link' && $route === '') {
+					// This means either the route is invalid in the info.xml or the app was not year loaded by the router
+					$this->logger->debug('Missing or invalid navigation route for app ' . $app, ['entry' => $nav]);
+					continue;
+				}
 
+				$l = $this->l10nFac->get($app);
+				$this->loadedAppInfo[] = $app;
 				$this->add(array_merge([
 					// Navigation id
 					'id' => $id,
@@ -287,13 +311,13 @@ class NavigationManager implements INavigationManager {
 
 	#[Override]
 	public function get(string $id): ?array {
-		$this->init();
+		$this->resolveAppNavigationEntries();
 		return $this->entries[$id];
 	}
 
 	#[Override]
 	public function getDefaultEntryIdForUser(?IUser $user = null, bool $withFallbacks = true): string {
-		$this->init();
+		$this->resolveAppNavigationEntries();
 		// Disable fallbacks here, as we need to override them with the user defaults if none are configured.
 		$defaultEntryIds = $this->getDefaultEntryIds(false);
 
@@ -335,7 +359,7 @@ class NavigationManager implements INavigationManager {
 
 	#[Override]
 	public function getDefaultEntryIds(bool $withFallbacks = true): array {
-		$this->init();
+		$this->resolveAppNavigationEntries();
 		$storedIds = explode(',', $this->config->getSystemValueString('defaultapp', $withFallbacks ? 'dashboard,files' : ''));
 		$ids = [];
 		$entryIds = array_keys($this->entries);
@@ -349,7 +373,7 @@ class NavigationManager implements INavigationManager {
 
 	#[Override]
 	public function setDefaultEntryIds(array $ids): void {
-		$this->init();
+		$this->resolveAppNavigationEntries();
 		$entryIds = array_keys($this->entries);
 
 		foreach ($ids as $id) {
