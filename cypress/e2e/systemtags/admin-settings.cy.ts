@@ -10,6 +10,16 @@ const admin = new User('admin', 'admin')
 const tagName = 'foo'
 const updatedTagName = 'bar'
 
+/**
+ * Open the system-tags NcSelect dropdown and return its (visible) menu.
+ * Since the Vue 3 migration the dropdown opens on click, not focus, and the
+ * options are listed in `.vs__dropdown-menu` rather than an aria-controls list.
+ */
+function openTagDropdown(): Cypress.Chainable<JQuery<HTMLElement>> {
+	cy.get('input#system-tags-input').click({ force: true })
+	return cy.get('.vs__dropdown-menu').should('be.visible')
+}
+
 describe('Create system tags', () => {
 	before(() => {
 		// delete any existing tags
@@ -36,12 +46,7 @@ describe('Create system tags', () => {
 		cy.wait('@createTag').its('response.statusCode').should('eq', 201)
 
 		// see that the created tag is in the list
-		cy.get('input#system-tags-input').focus()
-		cy.get('input#system-tags-input').invoke('attr', 'aria-controls').then((id) => {
-			cy.get(`ul#${id} li span[title="${tagName}"]`)
-				.should('exist')
-				.should('have.length', 1)
-		})
+		openTagDropdown().contains('li', tagName).should('be.visible')
 	})
 })
 
@@ -52,15 +57,11 @@ describe('Update system tags', { testIsolation: false }, () => {
 	})
 
 	it('select the tag', () => {
-		cy.get('input#system-tags-input').focus()
-		cy.get('input#system-tags-input').invoke('attr', 'aria-controls').then((id) => {
-			cy.get(`ul#${id} li span[title="${tagName}"]`).should('exist').click()
-		})
+		openTagDropdown().contains('li', tagName).click({ force: true })
 		// see that the tag name matches the selected tag
 		cy.get('input#system-tag-name').should('exist').and('have.value', tagName)
 		// see that the tag level matches the selected tag
-		cy.get('input#system-tag-level').click()
-		cy.get('input#system-tag-level').siblings('.vs__selected').contains('Public').should('exist')
+		cy.get('input#system-tag-level').siblings('.vs__selected').should('contain', 'Public')
 	})
 
 	it('update the tag name and level', () => {
@@ -69,10 +70,8 @@ describe('Update system tags', { testIsolation: false }, () => {
 		cy.get('input#system-tag-name').type(updatedTagName)
 		cy.get('input#system-tag-name').should('have.value', updatedTagName)
 		// select the new tag level
-		cy.get('input#system-tag-level').focus()
-		cy.get('input#system-tag-level').invoke('attr', 'aria-controls').then((id) => {
-			cy.get(`ul#${id} li span[title="Invisible"]`).should('exist').click()
-		})
+		cy.get('input#system-tag-level').click({ force: true })
+		cy.get('.vs__dropdown-menu').should('be.visible').contains('li', 'Invisible').click({ force: true })
 		// submit the form
 		cy.get('input#system-tag-name').type('{enter}')
 		// wait for the tag to be updated
@@ -80,12 +79,7 @@ describe('Update system tags', { testIsolation: false }, () => {
 	})
 
 	it('see the tag was successfully updated', () => {
-		cy.get('input#system-tags-input').focus()
-		cy.get('input#system-tags-input').invoke('attr', 'aria-controls').then((id) => {
-			cy.get(`ul#${id} li span[title="${updatedTagName} (invisible)"]`)
-				.should('exist')
-				.should('have.length', 1)
-		})
+		openTagDropdown().contains('li', `${updatedTagName} (invisible)`).should('be.visible')
 	})
 })
 
@@ -97,15 +91,11 @@ describe('Delete system tags', { testIsolation: false }, () => {
 
 	it('select the tag', () => {
 		// select the tag to edit
-		cy.get('input#system-tags-input').focus()
-		cy.get('input#system-tags-input').invoke('attr', 'aria-controls').then((id) => {
-			cy.get(`ul#${id} li span[title="${updatedTagName} (invisible)"]`).should('exist').click()
-		})
+		openTagDropdown().contains('li', `${updatedTagName} (invisible)`).click({ force: true })
 		// see that the tag name matches the selected tag
 		cy.get('input#system-tag-name').should('exist').and('have.value', updatedTagName)
 		// see that the tag level matches the selected tag
-		cy.get('input#system-tag-level').focus()
-		cy.get('input#system-tag-level').siblings('.vs__selected').contains('Invisible').should('exist')
+		cy.get('input#system-tag-level').siblings('.vs__selected').should('contain', 'Invisible')
 	})
 
 	it('can delete the tag', () => {
@@ -118,9 +108,7 @@ describe('Delete system tags', { testIsolation: false }, () => {
 	})
 
 	it('see that the deleted tag is not present', () => {
-		cy.get('input#system-tags-input').focus()
-		cy.get('input#system-tags-input').invoke('attr', 'aria-controls').then((id) => {
-			cy.get(`ul#${id} li span[title="${updatedTagName}"]`).should('not.exist')
-		})
+		cy.get('input#system-tags-input').click({ force: true })
+		cy.get('.vs__dropdown-menu').should('be.visible').should('not.contain', updatedTagName)
 	})
 })
