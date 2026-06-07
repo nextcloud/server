@@ -15,8 +15,11 @@ export const getRowForFile = (filename: string) => cy.get(`[data-cy-files-list-r
 export const getActionsForFileId = (fileid: number) => cy.get(`[data-cy-files-list-row-fileid="${fileid}"] [data-cy-files-list-row-actions]`)
 export const getActionsForFile = (filename: string) => cy.get(`[data-cy-files-list-row-name="${CSS.escape(filename)}"] [data-cy-files-list-row-actions]`)
 
-export const getActionButtonForFileId = (fileid: number) => getActionsForFileId(fileid).findByRole('button', { name: 'Actions' })
-export const getActionButtonForFile = (filename: string) => getActionsForFile(filename).findByRole('button', { name: 'Actions' })
+// Atomic (re-queryable) selector for the row's actions menu toggle. A chained
+// `.findByRole('button')` detaches when the row re-renders, so clicks/reads can
+// hit a stale element and silently miss (e.g. the menu never opens).
+export const getActionButtonForFileId = (fileid: number) => cy.get(`[data-cy-files-list-row-fileid="${fileid}"] [data-cy-files-list-row-actions] button.action-item__menutoggle`)
+export const getActionButtonForFile = (filename: string) => cy.get(`[data-cy-files-list-row-name="${CSS.escape(filename)}"] [data-cy-files-list-row-actions] button.action-item__menutoggle`)
 
 /**
  *
@@ -26,9 +29,8 @@ export const getActionButtonForFile = (filename: string) => getActionsForFile(fi
 export function getActionEntryForFileId(fileid: number, actionId: string) {
 	return getActionButtonForFileId(fileid)
 		.should('have.attr', 'aria-controls')
-		.then((menuId) => cy.get(`#${menuId}`)
-			.should('exist')
-			.find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`))
+		// Atomic query so it is re-queried as a whole when the menu re-renders
+		.then((menuId) => cy.get(`#${menuId} [data-cy-files-list-row-action="${CSS.escape(actionId)}"]`))
 }
 
 /**
@@ -39,9 +41,8 @@ export function getActionEntryForFileId(fileid: number, actionId: string) {
 export function getActionEntryForFile(file: string, actionId: string) {
 	return getActionButtonForFile(file)
 		.should('have.attr', 'aria-controls')
-		.then((menuId) => cy.get(`#${menuId}`)
-			.should('exist')
-			.find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`))
+		// Atomic query so it is re-queried as a whole when the menu re-renders
+		.then((menuId) => cy.get(`#${menuId} [data-cy-files-list-row-action="${CSS.escape(actionId)}"]`))
 }
 
 /**
@@ -72,10 +73,15 @@ export function triggerActionForFileId(fileid: number, actionId: string) {
 		.scrollIntoView()
 	getActionButtonForFileId(fileid)
 		.click({ force: true }) // force to avoid issues with overlaying file list header
-	getActionEntryForFileId(fileid, actionId)
-		.find('button')
-		.should('be.visible')
-		.click()
+	getActionButtonForFileId(fileid)
+		.should('have.attr', 'aria-controls')
+		.then((menuId) => {
+			// Wait for the menu to actually open, then query the action atomically
+			cy.get(`#${menuId}`).should('be.visible')
+			cy.get(`#${menuId} [data-cy-files-list-row-action="${CSS.escape(actionId)}"] button`)
+				.should('be.visible')
+				.click()
+		})
 }
 
 /**
@@ -88,10 +94,15 @@ export function triggerActionForFile(filename: string, actionId: string) {
 		.scrollIntoView()
 	getActionButtonForFile(filename)
 		.click({ force: true }) // force to avoid issues with overlaying file list header
-	getActionEntryForFile(filename, actionId)
-		.find('button')
-		.should('be.visible')
-		.click()
+	getActionButtonForFile(filename)
+		.should('have.attr', 'aria-controls')
+		.then((menuId) => {
+			// Wait for the menu to actually open, then query the action atomically
+			cy.get(`#${menuId}`).should('be.visible')
+			cy.get(`#${menuId} [data-cy-files-list-row-action="${CSS.escape(actionId)}"] button`)
+				.should('be.visible')
+				.click()
+		})
 }
 
 /**
