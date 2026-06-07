@@ -182,13 +182,19 @@ class AlgorithmTest extends TestCase {
 		$priv = '';
 		openssl_pkey_export($pkey, $priv);
 		$details = openssl_pkey_get_details($pkey);
+		// OpenSSL strips leading zero bytes from EC coordinates, but a JWK
+		// coordinate must be the full curve size (RFC 7518 §6.2.1.2). Without
+		// left-padding, a coordinate that happens to start with a zero byte
+		// (~1/256 of generated keys) yields a short x/y, a wrong reconstructed
+		// public key, and an intermittently failing verify() — a flaky test.
+		$coordSize = $jwkCurve === 'P-384' ? 48 : 32;
 		$key = JWK::parseKey([
 			'kty' => 'EC',
 			'crv' => $jwkCurve,
 			'kid' => 'k',
 			'alg' => $joseAlg,
-			'x' => self::b64url($details['ec']['x']),
-			'y' => self::b64url($details['ec']['y']),
+			'x' => self::b64url(str_pad($details['ec']['x'], $coordSize, "\x00", STR_PAD_LEFT)),
+			'y' => self::b64url(str_pad($details['ec']['y'], $coordSize, "\x00", STR_PAD_LEFT)),
 		], $joseAlg);
 		return [$priv, $key];
 	}
