@@ -1267,27 +1267,45 @@ class OC {
 		return false;
 	}
 
+	/**
+	 * Normalizes authorization headers exposed through different $_SERVER keys
+	 * during early bootstrap and extracts PHP Basic auth credentials when present.
+	 *
+	 * This runs before IRequest is available, so it operates directly on $_SERVER.
+	 *
+	 * The PHP execution path and web server configuration must pass the
+	 * Authorization header through via one of the supported server variables.
+	 *
+	 * For Apache + PHP (any mode), this is handled by the distributed .htaccess file.
+	 */
 	protected static function handleAuthHeaders(): void {
-		//copy http auth headers for apache+php-fcgid work around
-		if (isset($_SERVER['HTTP_XAUTHORIZATION']) && !isset($_SERVER['HTTP_AUTHORIZATION'])) {
-			$_SERVER['HTTP_AUTHORIZATION'] = $_SERVER['HTTP_XAUTHORIZATION'];
+		$authHeaderValue = $_SERVER['HTTP_AUTHORIZATION']
+			?? $_SERVER['REDIRECT_HTTP_AUTHORIZATION']
+			?? $_SERVER['HTTP_XAUTHORIZATION']
+			?? null;
+
+		if (!is_string($authHeaderValue) || $authHeaderValue === '') {
+			return;
 		}
 
-		// Extract PHP_AUTH_USER/PHP_AUTH_PW from other headers if necessary.
-		$vars = [
-			'HTTP_AUTHORIZATION', // apache+php-cgi work around
-			'REDIRECT_HTTP_AUTHORIZATION', // apache+php-cgi alternative
-		];
-		foreach ($vars as $var) {
-			if (isset($_SERVER[$var]) && is_string($_SERVER[$var]) && preg_match('/Basic\s+(.*)$/i', $_SERVER[$var], $matches)) {
-				$credentials = explode(':', base64_decode($matches[1]), 2);
-				if (count($credentials) === 2) {
-					$_SERVER['PHP_AUTH_USER'] = $credentials[0];
-					$_SERVER['PHP_AUTH_PW'] = $credentials[1];
-					break;
-				}
-			}
+		$_SERVER['HTTP_AUTHORIZATION'] ??= $authHeaderValue;
+
+		if (stripos($authHeaderValue, 'Basic ') !== 0) {
+			// Silently ignore non-Basic authentication requests.
+			return;
 		}
+
+		$decodedCredentials = base64_decode(substr($authHeaderValue, 6), true);
+
+		if ($decodedCredentials === false || !str_contains($decodedCredentials, ':')) {
+			// Silently ignore malformed Basic auth credentials.
+			return;
+		}
+
+		[$user, $pw] = explode(':', $decodedCredentials, 2);
+
+		$_SERVER['PHP_AUTH_USER'] = $user;
+		$_SERVER['PHP_AUTH_PW'] = $pw;
 	}
 
 	protected static function tryAppAPILogin(OCP\IRequest $request): bool {
