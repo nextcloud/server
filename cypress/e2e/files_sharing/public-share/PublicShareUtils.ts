@@ -137,17 +137,33 @@ export function openLinkShareDetails(index: number) {
 }
 
 /**
- * Adjust share permissions to be editable
+ * Create an "upload-edit" public link share through the OCS API.
+ *
+ * Used for test setup only (the share-creation UI is covered by dedicated
+ * specs). Driving the share panel here meant a slow render in a `before` hook
+ * failed the whole suite; an API call is deterministic.
+ *
+ * @param context The current share context
+ * @param shareName The name of the shared folder
  */
-function adjustSharePermission(): void {
-	openLinkShareDetails(0)
-
-	cy.get('[data-cy-files-sharing-share-permissions-bundle]').should('be.visible')
-	cy.get('[data-cy-files-sharing-share-permissions-bundle="upload-edit"]').click()
-
-	cy.intercept('PUT', '**/ocs/v2.php/apps/files_sharing/api/v1/shares/*').as('updateShare')
-	cy.findByRole('button', { name: 'Update share' }).click()
-	cy.wait('@updateShare').its('response.statusCode').should('eq', 200)
+function createLinkShareViaApi(context: ShareContext, shareName: string): Cypress.Chainable<string> {
+	const base = Cypress.env('baseUrl')
+	const auth = { user: context.user.userId, pass: context.user.password }
+	const headers = { 'OCS-ApiRequest': 'true', Accept: 'application/json' }
+	// permissions 15 = read + update + create + delete ("upload-edit")
+	return cy.request({
+		method: 'POST',
+		url: `${base}/ocs/v2.php/apps/files_sharing/api/v1/shares?format=json`,
+		auth,
+		headers,
+		form: true,
+		body: { path: `/${shareName}`, shareType: 3, permissions: 15 },
+	}).then(({ status, body }) => {
+		expect(status).to.eq(200)
+		context.url = body.ocs.data.url
+		expect(context.url).to.match(/^https?:\/\//)
+		return cy.wrap(context.url as string)
+	})
 }
 
 /**
@@ -172,11 +188,10 @@ export function setupPublicShare(shareName = 'shared'): Cypress.Chainable<string
 						defaultShareContext.user = user
 					})
 					.then(() => setupData(defaultShareContext.user, shareName))
-					.then(() => createLinkShare(defaultShareContext, shareName))
+					.then(() => createLinkShareViaApi(defaultShareContext, shareName))
 					.then((url) => {
 						shareData.shareUrl = url
 					})
-					.then(() => adjustSharePermission())
 					.then(() => cy.saveState().then((snapshot) => {
 						shareData.dataSnapshot = snapshot
 					}))
