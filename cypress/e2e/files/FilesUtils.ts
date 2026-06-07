@@ -75,13 +75,9 @@ export function triggerActionForFileId(fileid: number, actionId: string) {
 		.click({ force: true }) // force to avoid issues with overlaying file list header
 	getActionButtonForFileId(fileid)
 		.should('have.attr', 'aria-controls')
-		.then((menuId) => {
-			// Wait for the menu to actually open, then query the action atomically
-			cy.get(`#${menuId}`).should('be.visible')
-			cy.get(`#${menuId} [data-cy-files-list-row-action="${CSS.escape(actionId)}"] button`)
-				.should('be.visible')
-				.click()
-		})
+		.then((menuId) => cy.get(`#${menuId} [data-cy-files-list-row-action="${CSS.escape(actionId)}"] button`)
+			.should('be.visible')
+			.click())
 }
 
 /**
@@ -96,13 +92,9 @@ export function triggerActionForFile(filename: string, actionId: string) {
 		.click({ force: true }) // force to avoid issues with overlaying file list header
 	getActionButtonForFile(filename)
 		.should('have.attr', 'aria-controls')
-		.then((menuId) => {
-			// Wait for the menu to actually open, then query the action atomically
-			cy.get(`#${menuId}`).should('be.visible')
-			cy.get(`#${menuId} [data-cy-files-list-row-action="${CSS.escape(actionId)}"] button`)
-				.should('be.visible')
-				.click()
-		})
+		.then((menuId) => cy.get(`#${menuId} [data-cy-files-list-row-action="${CSS.escape(actionId)}"] button`)
+			.should('be.visible')
+			.click())
 }
 
 /**
