@@ -45,6 +45,11 @@ export default defineConfig({
 	experimentalMemoryManagement: true,
 	numTestsKeptInMemory: process.env.CI ? 0 : 50,
 
+	// occ/cron commands (cy.exec) run inside the container and can exceed the
+	// 60s default on loaded CI. A before-all hook timing out skips the whole
+	// suite and is never retried, so give exec more room.
+	execTimeout: 120000,
+
 	// disabled if running in CI but enabled in debug mode
 	video: !process.env.CI || !!process.env.RUNNER_DEBUG,
 
