@@ -637,41 +637,82 @@ export default defineComponent({
 				return
 			}
 
-			// Check known status codes
-			if (status === 507) {
-				showError(t('files', 'Not enough free space'))
+			// Quota / size limits may surface as either classic 507 or EntityTooLarge (413)
+			if (status === 507 || status = 413) {
+				showError(t('files', 'File is too large or there is not enough free space'))
 				return
-			} else if (status === 404 || status === 409) {
-				showError(t('files', 'Target folder does not exist any more'))
-				return
-			} else if (status === 403) {
+			} 
+
+			const davError = this.parseDavError(upload.response?.data)
+
+			if (this.isAccessControlError(status, davError)) {
 				showError(t('files', 'Operation is blocked by access control'))
 				return
 			}
 
-			// Else we try to parse the response error message
-			if (typeof upload.response?.data === 'string') {
-				try {
-					const parser = new DOMParser()
-					const doc = parser.parseFromString(upload.response.data, 'text/xml')
-					const message = doc.getElementsByTagName('s:message')[0]?.textContent ?? ''
-					if (message.trim() !== '') {
-						// The server message is also translated
-						showError(t('files', 'Error during upload: {message}', { message }))
-						return
-					}
-				} catch (error) {
-					logger.error('Could not parse message', { error })
-				}
+			// Prefer explicit Nextcloud/Sabre error payload over generic status assumptions
+			const reasonOrMessage = davError.reason || davError.message
+			if (reasonOrMessage !== '') {
+				// The server message is also translated
+				showError(t('files', 'Error during upload: {message}', { message: reasonOrMessage }))
+				return
 			}
 
-			// Finally, check the status code if we have one
+			// Only use generic fallback messages if DAV XML did not provide one
+			if (status === 404 || status === 409) {
+				showError(t('files', 'Target folder does not exist any more'))
+				return
+			}
+
+			// TODO: optionally special-case more DAV statuses in the future, e.g.:
+			// 400 InvalidPath, 401 PasswordLoginForbidden, 413 EntityTooLarge,
+			// 415 UnsupportedMediaType, 423 FileLocked, 429 TooManyRequests, 502 BadGateway
+
 			if (status !== 0) {
 				showError(t('files', 'Error during upload, status code {status}', { status }))
 				return
 			}
 
 			showError(t('files', 'Unknown error during upload'))
+		},
+
+		parseDavError(data?: unknown) {
+			const empty = {
+				exception: '',
+				message: '',
+				reason: '',
+				retry: '',
+				hint: '',
+			}
+
+			if (typeof data !== 'string' || data.trim() === '') {
+				return empty
+			}
+
+			try {
+				const parser = new DOMParser()
+				const doc = parser.parseFromString(data, 'text/xml')
+
+				return {
+					exception: doc.getElementsByTagName('s:exception')[0]?.textContent?.trim() ?? '',
+					message: doc.getElementsByTagName('s:message')[0]?.textContent?.trim() ?? '',
+					reason: doc.getElementsByTagName('o:reason')[0]?.textContent?.trim() ?? '',
+					retry: doc.getElementsByTagName('o:retry')[0]?.textContent?.trim() ?? '',
+					hint: doc.getElementsByTagName('o:hint')[0]?.textContent?.trim() ?? '',
+				}
+			} catch (error) {
+				logger.error('Could not parse DAV error response', { error })
+				return empty
+			}
+		},
+
+		isAccessControlError(status: number, davError: { exception: string, message: string, reason: string }) {
+			return status === 403
+				&& davError.exception === 'OCA\\DAV\\Connector\\Sabre\\Exception\\Forbidden'
+				&& (
+					davError.reason === 'Access denied by access control'
+					|| davError.message === 'Access denied by access control'
+				)
 		},
 
 		/**
