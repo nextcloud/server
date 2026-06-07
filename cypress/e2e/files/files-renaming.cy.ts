@@ -165,43 +165,6 @@ describe('files: Rename nodes', { testIsolation: true }, () => {
 			.should('not.exist')
 	})
 
-	/**
-	 * This is a regression test of: https://github.com/nextcloud/server/issues/47438
-	 * The issue was that the renaming state was not reset when the new name moved the file out of the view of the current files list
-	 * due to virtual scrolling the renaming state was not changed then by the UI events (as the component was taken out of DOM before any event handling).
-	 */
-	it('correctly resets renaming state', () => {
-		// Create 19 additional files
-		for (let i = 1; i <= 19; i++) {
-			cy.uploadContent(user, new Blob([]), 'text/plain', `/file${i}.txt`)
-		}
-
-		// Calculate and setup a viewport where only the first 4 files are visible, causing 6 rows to be rendered
-		cy.viewport(768, 500)
-		cy.login(user)
-		calculateViewportHeight(4)
-			.then((height) => cy.viewport(768, height))
-
-		cy.visit('/apps/files')
-
-		getRowForFile('file.txt')
-			.should('be.visible')
-		// Z so it is shown last
-		renameFile('file.txt', 'zzz.txt')
-		// not visible any longer
-		getRowForFile('zzz.txt')
-			.should('not.exist')
-		// scroll file list to bottom
-		cy.get('[data-cy-files-list]')
-			.scrollTo('bottom')
-		cy.screenshot()
-		// The file is no longer in rename state
-		getRowForFile('zzz.txt')
-			.should('be.visible')
-			.findByRole('textbox', { name: 'Filename' })
-			.should('not.exist')
-	})
-
 	it('shows warning on extension change - select new extension', () => {
 		getRowForFile('file.txt').should('be.visible')
 
@@ -284,5 +247,45 @@ describe('files: Rename nodes', { testIsolation: true }, () => {
 
 		// See it is not renamed
 		getRowForFile('folder.2025').should('be.visible')
+	})
+
+	/**
+	 * This is a regression test of: https://github.com/nextcloud/server/issues/47438
+	 * The issue was that the renaming state was not reset when the new name moved the file out of the view of the current files list
+	 * due to virtual scrolling the renaming state was not changed then by the UI events (as the component was taken out of DOM before any event handling).
+	 *
+	 * Kept last: it creates many files and shrinks the viewport, which can affect
+	 * later tests' rendering.
+	 */
+	it('correctly resets renaming state', () => {
+		// Create 19 additional files
+		for (let i = 1; i <= 19; i++) {
+			cy.uploadContent(user, new Blob([]), 'text/plain', `/file${i}.txt`)
+		}
+
+		// Calculate and setup a viewport where only the first 4 files are visible, causing 6 rows to be rendered
+		cy.viewport(768, 500)
+		cy.login(user)
+		calculateViewportHeight(4)
+			.then((height) => cy.viewport(768, height))
+
+		cy.visit('/apps/files')
+
+		getRowForFile('file.txt')
+			.should('be.visible')
+		// Z so it is shown last
+		renameFile('file.txt', 'zzz.txt')
+		// not visible any longer
+		getRowForFile('zzz.txt')
+			.should('not.exist')
+		// scroll file list to bottom
+		cy.get('[data-cy-files-list]')
+			.scrollTo('bottom')
+		cy.screenshot()
+		// The file is no longer in rename state
+		getRowForFile('zzz.txt')
+			.should('be.visible')
+			.findByRole('textbox', { name: 'Filename' })
+			.should('not.exist')
 	})
 })
