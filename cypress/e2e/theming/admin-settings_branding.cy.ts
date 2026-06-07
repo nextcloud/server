@@ -154,7 +154,7 @@ describe('Admin theming: Change the login fields then reset them', function() {
 
 	it('See the admin theming section', function() {
 		cy.visit('/settings/admin/theming')
-		cy.findByRole('heading', { name: /^Theming/ })
+		cy.findByRole('heading', { name: /^Theming/, level: 2 })
 			.should('exist')
 			.scrollIntoView()
 	})
