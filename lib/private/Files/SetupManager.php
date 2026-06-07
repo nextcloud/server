@@ -604,12 +604,7 @@ class SetupManager implements ISetupManager {
 					array_merge(...array_values($authoritativeCachedMounts)),
 				);
 
-				$rootsMetadata = [];
-				foreach (array_chunk($rootIds, 1000) as $chunk) {
-					foreach ($this->fileAccess->getByFileIds($chunk) as $id => $fileMetadata) {
-						$rootsMetadata[$id] = $fileMetadata;
-					}
-				}
+				$rootsMetadata = $this->fileAccess->getByFileIds($rootIds);
 				$this->setupMountProviderPaths[$mountPoint] = self::SETUP_WITH_CHILDREN;
 				foreach ($authoritativeCachedMounts as $providerClass => $cachedMounts) {
 					$providerArgs = array_values(array_filter(array_map(

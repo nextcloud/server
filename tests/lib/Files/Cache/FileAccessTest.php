@@ -303,6 +303,71 @@ class FileAccessTest extends TestCase {
 			->executeStatement();
 	}
 
+	public function testGetByFileIds(): void {
+		$result = $this->fileAccess->getByFileIds([1, 2, 3]);
+
+		$this->assertCount(3, $result);
+		$this->assertArrayHasKey(1, $result);
+		$this->assertArrayHasKey(2, $result);
+		$this->assertArrayHasKey(3, $result);
+	}
+
+	public function testGetByFileIdsWithEmptyArray(): void {
+		$result = $this->fileAccess->getByFileIds([]);
+		$this->assertCount(0, $result);
+	}
+
+	public function testGetByFileIdsWithNonExistentIds(): void {
+		$result = $this->fileAccess->getByFileIds([9998, 9999]);
+		$this->assertCount(0, $result);
+	}
+
+	public function testGetByFileIdsSpanningChunkBoundary(): void {
+		// 1001 IDs exceeds Oracle's 1000-element IN limit — verifies chunked queries return correct results
+		$ids = range(1, 1001);
+		$result = $this->fileAccess->getByFileIds($ids);
+
+		// Only fileids 1–7 exist in the test data
+		$this->assertCount(7, $result);
+		foreach (range(1, 7) as $id) {
+			$this->assertArrayHasKey($id, $result);
+		}
+	}
+
+	public function testGetByFileIdsInStorage(): void {
+		$result = $this->fileAccess->getByFileIdsInStorage([1, 2, 3], 1);
+
+		$this->assertCount(3, $result);
+		$this->assertArrayHasKey(1, $result);
+		$this->assertArrayHasKey(2, $result);
+		$this->assertArrayHasKey(3, $result);
+	}
+
+	public function testGetByFileIdsInStorageFiltersStorage(): void {
+		// fileids 6 and 7 belong to storage 2, not storage 1
+		$result = $this->fileAccess->getByFileIdsInStorage([1, 6, 7], 1);
+
+		$this->assertCount(1, $result);
+		$this->assertArrayHasKey(1, $result);
+	}
+
+	public function testGetByFileIdsInStorageWithEmptyArray(): void {
+		$result = $this->fileAccess->getByFileIdsInStorage([], 1);
+		$this->assertCount(0, $result);
+	}
+
+	public function testGetByFileIdsInStorageSpanningChunkBoundary(): void {
+		// 1001 IDs exceeds Oracle's 1000-element IN limit — verifies chunked queries return correct results
+		$ids = range(1, 1001);
+		$result = $this->fileAccess->getByFileIdsInStorage($ids, 1);
+
+		// fileids 1–5 are in storage 1; 6 and 7 are in storage 2
+		$this->assertCount(5, $result);
+		foreach (range(1, 5) as $id) {
+			$this->assertArrayHasKey($id, $result);
+		}
+	}
+
 	/**
 	 * Test fetching files by ancestor in storage.
 	 */
