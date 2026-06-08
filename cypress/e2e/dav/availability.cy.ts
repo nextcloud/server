@@ -94,7 +94,9 @@ describe('Calendar: Availability', { testIsolation: true }, () => {
 			.type('Happy holidays!')
 
 		cy.intercept('GET', '**/ocs/v2.php/apps/files_sharing/api/v1/sharees?*search=replacement*').as('userSearch')
-		cy.findByRole('searchbox')
+		// The replacement-user picker is an NcSelect; its input is role=combobox
+		// (matches the post-reload assertion below), not searchbox.
+		cy.findByRole('combobox')
 			.should('be.visible')
 			.as('userSearchBox')
 			.click()
@@ -122,7 +124,10 @@ describe('Calendar: Availability', { testIsolation: true }, () => {
 			.should('have.value', 'Vacation')
 		cy.findByRole('textbox', { name: /Long absence/ })
 			.should('have.value', 'Happy holidays!')
-		cy.findByRole('combobox')
+		// The selected replacement renders in the NcSelect's value chip, not in
+		// the combobox input (which is the empty search field).
+		cy.get('#absence')
+			.find('.vs__selected')
 			.should('contain.text', 'replacement-user')
 	})
 })
