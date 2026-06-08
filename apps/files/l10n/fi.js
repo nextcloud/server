@@ -54,6 +54,7 @@ OC.L10N.register(
     "Limit must be a positive integer." : "Rajan tulee olla positiivinen kokonaisluku.",
     "The replacement character may only be a single character." : "Korvaava merkki voi olla yksi ainoa merkki.",
     "Filename sanitization already started." : "Tiedostonimien siistiminen on jo aloitettu.",
+    "No filename sanitization in progress." : "Ei tiedostonimien siistimistä käynnissä.",
     "Favorite files" : "Suosikkitiedostot",
     "No favorites" : "Ei suosikkeja",
     "More favorites" : "Lisää suosikeja",
