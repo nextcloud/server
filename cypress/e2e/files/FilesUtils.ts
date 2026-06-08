@@ -69,15 +69,7 @@ export function getInlineActionEntryForFile(file: string, actionId: string) {
  * @param actionId
  */
 export function triggerActionForFileId(fileid: number, actionId: string) {
-	getActionButtonForFileId(fileid)
-		.scrollIntoView()
-	getActionButtonForFileId(fileid)
-		.click({ force: true }) // force to avoid issues with overlaying file list header
-	getActionButtonForFileId(fileid)
-		.should('have.attr', 'aria-controls')
-		.then((menuId) => cy.get(`#${menuId} [data-cy-files-list-row-action="${CSS.escape(actionId)}"] button`)
-			.should('be.visible')
-			.click())
+	openMenuAndClickAction(() => getActionButtonForFileId(fileid), actionId)
 }
 
 /**
@@ -86,15 +78,51 @@ export function triggerActionForFileId(fileid: number, actionId: string) {
  * @param actionId
  */
 export function triggerActionForFile(filename: string, actionId: string) {
-	getActionButtonForFile(filename)
-		.scrollIntoView()
-	getActionButtonForFile(filename)
-		.click({ force: true }) // force to avoid issues with overlaying file list header
-	getActionButtonForFile(filename)
+	openMenuAndClickAction(() => getActionButtonForFile(filename), actionId)
+}
+
+/**
+ * Open a row's actions menu and click the requested entry.
+ *
+ * The menu entries are computed when the menu opens and the open menu is not
+ * recomputed afterwards. Some actions only become enabled once an async
+ * dependency is ready — e.g. `details` is disabled until the Files sidebar
+ * registers, which happens a little after the file list first renders. If the
+ * menu is opened in that window the entry is simply absent and never appears,
+ * so retrying the entry lookup alone times out. Re-open the menu until the
+ * entry is present (bounded), then click it.
+ *
+ * @param getToggle Re-queryable getter for the row's menu toggle button
+ * @param actionId The `data-cy-files-list-row-action` id to click
+ * @param attemptsLeft Remaining open attempts before failing loudly
+ */
+function openMenuAndClickAction(
+	getToggle: () => Cypress.Chainable<JQuery<HTMLElement>>,
+	actionId: string,
+	attemptsLeft = 5,
+) {
+	const entrySelector = `[data-cy-files-list-row-action="${CSS.escape(actionId)}"] button`
+	getToggle().scrollIntoView()
+	getToggle().click({ force: true }) // force to avoid issues with overlaying file list header
+	getToggle()
 		.should('have.attr', 'aria-controls')
-		.then((menuId) => cy.get(`#${menuId} [data-cy-files-list-row-action="${CSS.escape(actionId)}"] button`)
-			.should('be.visible')
-			.click())
+		.then((menuId) => {
+			cy.get(`#${menuId}`).should('be.visible')
+			cy.get(`#${menuId}`).then(($menu) => {
+				if ($menu.find(entrySelector).length > 0 || attemptsLeft <= 1) {
+					// Entry present (normal case) or last attempt: click and let an
+					// absent entry fail with a clear assertion error.
+					cy.get(`#${menuId} ${entrySelector}`)
+						.should('be.visible')
+						.click()
+					return
+				}
+				// Entry not (yet) registered: close and re-open so the menu recomputes
+				getToggle().click({ force: true })
+				cy.get(`#${menuId}`).should('not.exist')
+				openMenuAndClickAction(getToggle, actionId, attemptsLeft - 1)
+			})
+		})
 }
 
 /**
