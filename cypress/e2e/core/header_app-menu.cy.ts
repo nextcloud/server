@@ -12,12 +12,10 @@ const getAppMenu = () => getNextcloudHeader().find('.app-menu')
 // the next-best stable selectors.
 const getWaffleTrigger = () => getAppMenu().find('.app-menu__waffle')
 
-describe('Header: App menu (waffle launcher)', { testIsolation: true }, () => {
-	beforeEach(() => {
-		clearState()
-	})
+before(clearState)
 
-	describe('Open and click', () => {
+describe('Header: App menu (waffle launcher)', { testIsolation: true }, () => {
+	describe('Normal user', () => {
 		beforeEach(() => {
 			cy.createRandomUser().then(($user) => {
 				cy.login($user)
@@ -25,7 +23,7 @@ describe('Header: App menu (waffle launcher)', { testIsolation: true }, () => {
 			})
 		})
 
-		it('opens the popover and navigates when a tile is clicked', () => {
+		it('Open and click opens the popover and navigates when a tile is clicked', () => {
 			getWaffleTrigger().click()
 			cy.get('.app-menu__popover').should('be.visible')
 			getWaffleTrigger().should('have.attr', 'aria-expanded', 'true')
@@ -39,9 +37,16 @@ describe('Header: App menu (waffle launcher)', { testIsolation: true }, () => {
 					cy.location('pathname').should('include', '/apps/')
 				})
 		})
+
+		it('has all correct app navigation items', () => {
+			waffleMenuShouldContainApps([
+				{ name: 'Files', href: '/apps/files' },
+				{ name: 'Dashboard', href: '/apps/dashboard' },
+			])
+		})
 	})
 
-	describe('Admin gating: "More apps" tile', () => {
+	describe('Admin', () => {
 		const admin = new User('admin', 'admin')
 
 		beforeEach(() => {
@@ -54,5 +59,33 @@ describe('Header: App menu (waffle launcher)', { testIsolation: true }, () => {
 			cy.get('.app-menu__popover').should('be.visible')
 			cy.findByRole('menuitem', { name: 'More apps' }).should('be.visible')
 		})
+
+		it('has all correct app navigation items', () => {
+			waffleMenuShouldContainApps([
+				{ name: 'Files', href: '/apps/files' },
+				{ name: 'Dashboard', href: '/apps/dashboard' },
+				{ name: 'Appstore', href: '/settings/apps' },
+			])
+		})
 	})
 })
+
+/**
+ * Check that the waffle menu contains the given apps, by name and href.
+ *
+ * @param apps - The apps that should be present in the waffle menu, with their expected name and href.
+ */
+function waffleMenuShouldContainApps(apps: { name: string, href: string }[]) {
+	getWaffleTrigger().click()
+	getWaffleTrigger().should('have.attr', 'aria-expanded', 'true')
+	cy.findByRole('menu', { name: 'Apps' }).should('be.visible')
+
+	cy.findAllByRole('menuitem')
+		.then((items) => {
+			apps.forEach((app) => {
+				const item = items.toArray().find((i) => i.textContent?.includes(app.name))
+				expect(item, `App menu should contain ${app.name}`).to.exist
+				expect(item?.getAttribute('href')).to.match(new RegExp(`${app.href}(\\?.+|/?$)`))
+			})
+		})
+}
