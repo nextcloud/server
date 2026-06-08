@@ -27,10 +27,7 @@ export default defineConfig({
 
 	// Tries again when in run mode (cypress run) e.g. on CI
 	retries: {
-		// A failing test retries the full command timeout on every attempt, so
-		// a high count makes genuine failures very slow. 2 still absorbs a
-		// one-off flake without multiplying failure cost.
-		runMode: 2,
+		runMode: 5,
 		// do not retry in `cypress open`
 		openMode: 0,
 	},
