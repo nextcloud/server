@@ -637,11 +637,6 @@ class AppManager implements IAppManager {
 	}
 
 	/**
-	 * Enable an app only for specific groups
-	 *
-	 * @param string $appId
-	 * @param IGroup[] $groups
-	 * @param bool $forceEnable
 	 * @throws \InvalidArgumentException if app can't be enabled for groups
 	 * @throws AppPathNotFoundException
 	 */
@@ -663,9 +658,8 @@ class AppManager implements IAppManager {
 			$this->overwriteNextcloudRequirement($appId);
 		}
 
-		/** @var string[] $groupIds */
-		$groupIds = array_map(function ($group) {
-			/** @var IGroup $group */
+		/** @var list<string> $groupIds */
+		$groupIds = array_map(function (IGroup|string $group): string {
 			return ($group instanceof IGroup)
 				? $group->getGID()
 				: $group;

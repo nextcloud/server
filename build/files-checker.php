@@ -92,6 +92,7 @@ $expectedFiles = [
 	'vite.config.ts',
 	'vitest.config.ts',
 	'window.d.ts',
+	'Caddyfile',
 ];
 $actualFiles = [];
 

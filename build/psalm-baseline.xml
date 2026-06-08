@@ -3268,11 +3268,6 @@
       <code><![CDATA[provideInitialState]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="lib/base.php">
-    <InvalidArgument>
-      <code><![CDATA[$restrictions]]></code>
-    </InvalidArgument>
-  </file>
   <file src="lib/private/Accounts/AccountManager.php">
     <FalsableReturnStatement>
       <code><![CDATA[json_encode($preparedData)]]></code>
