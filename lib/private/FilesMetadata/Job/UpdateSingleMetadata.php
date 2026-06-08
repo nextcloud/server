@@ -14,6 +14,7 @@ use OCP\BackgroundJob\QueuedJob;
 use OCP\Files\IRootFolder;
 use OCP\FilesMetadata\Event\MetadataLiveEvent;
 use OCP\FilesMetadata\IFilesMetadataManager;
+use OCP\User\NoUserException;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -43,6 +44,8 @@ class UpdateSingleMetadata extends QueuedJob {
 			if ($node) {
 				$this->filesMetadataManager->refreshMetadata($node, IFilesMetadataManager::PROCESS_BACKGROUND);
 			}
+		} catch (NoUserException $e) {
+			// Owner is not a local user (e.g. a federated cloud ID) — skip silently
 		} catch (\Exception $e) {
 			$this->logger->warning('issue while running UpdateSingleMetadata', ['exception' => $e, 'userId' => $userId, 'fileId' => $fileId]);
 		}
