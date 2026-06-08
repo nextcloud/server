@@ -4,6 +4,7 @@ OC.L10N.register(
     "App store" : "Магазин приложений",
     "Apps" : "Приложения",
     "Nextcloud Appstore" : "Магазин приложений Nextcloud",
+    "Appstore" : "Appstore",
     "App name" : "Название приложения",
     "Version" : "Версия",
     "Support level" : "Уровень поддержки",
