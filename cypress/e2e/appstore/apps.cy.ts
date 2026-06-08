@@ -228,8 +228,11 @@ describe('Settings: App management', { testIsolation: true }, () => {
 		cy.findByRole('dialog')
 			.should('be.visible')
 			.within(() => {
+				// The select auto-focuses its search input, but that focus can
+				// land a tick after the dialog renders; typing focuses the input
+				// itself, so wait for it to be visible rather than racing autofocus.
 				cy.get('input')
-					.should('be.focused')
+					.should('be.visible')
 					.type('admin')
 			})
 		cy.findByRole('option', { name: /admin/ })
