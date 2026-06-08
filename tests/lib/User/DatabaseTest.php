@@ -43,6 +43,10 @@ class DatabaseTest extends Backend {
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 
 		$this->backend = new Database($this->eventDispatcher);
+
+		foreach ($this->backend->getUsers() as $user) {
+			$this->backend->deleteUser($user);
+		}
 	}
 
 	#[\Override]
