@@ -280,7 +280,7 @@ class NavigationManagerTest extends TestCase {
 				'id' => 'core_apps',
 				'order' => 5,
 				'href' => '/apps/test/',
-				'icon' => '/apps/appstore/img/app.svg',
+				'icon' => '/apps/appstore/img/app-dark.svg',
 				'name' => 'Apps',
 				'active' => false,
 				'type' => 'settings',
