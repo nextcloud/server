@@ -47,3 +47,9 @@ Feature: maintenance-mode
     Then the HTTP status code should be "503"
     Then Maintenance mode is disabled
     And the command was successful
+
+  Scenario: Accessing a JS asset with maintenance mode enabled
+    When requesting "/dist/core-maintenance.js" with "GET"
+    Then the HTTP status code should be "200"
+    Then Maintenance mode is disabled
+    And the command was successful
