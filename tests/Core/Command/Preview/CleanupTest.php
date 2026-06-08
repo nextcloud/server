@@ -81,8 +81,6 @@ class CleanupTest extends TestCase {
 	}
 
 	public function testCleanupWhenNotDeletable(): void {
-		$this->previewService->expects($this->once())->method('deleteAll');
-
 		$previewFolder = $this->createMock(Folder::class);
 		$previewFolder->expects($this->once())
 			->method('isDeletable')
@@ -112,8 +110,6 @@ class CleanupTest extends TestCase {
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataForTestCleanupWithDeleteException')]
 	public function testCleanupWithDeleteException(string $exceptionClass, string $errorMessage): void {
-		$this->previewService->expects($this->once())->method('deleteAll');
-
 		$previewFolder = $this->createMock(Folder::class);
 		$previewFolder->expects($this->once())
 			->method('isDeletable')
@@ -150,8 +146,6 @@ class CleanupTest extends TestCase {
 	}
 
 	public function testCleanupWithCreateException(): void {
-		$this->previewService->expects($this->once())->method('deleteAll');
-
 		$previewFolder = $this->createMock(Folder::class);
 		$previewFolder->expects($this->once())
 			->method('isDeletable')
@@ -188,13 +182,40 @@ class CleanupTest extends TestCase {
 	}
 
 	public function testCleanupWithPreviewServiceException(): void {
+		$previewFolder = $this->createMock(Folder::class);
+		$previewFolder->expects($this->once())
+			->method('isDeletable')
+			->willReturn(true);
+
+		$previewFolder->expects($this->once())
+			->method('delete');
+
+		$appDataFolder = $this->createMock(Folder::class);
+		$appDataFolder->expects($this->once())->method('get')->with('preview')->willReturn($previewFolder);
+		$appDataFolder->expects($this->once())->method('newFolder')->with('preview');
+
+		$this->rootFolder->method('getAppDataDirectoryName')
+			->willReturn('appdata_some_id');
+
+		$this->rootFolder->method('get')
+			->with('appdata_some_id')
+			->willReturn($appDataFolder);
+
+		$this->output->expects($this->exactly(3))->method('writeln')
+			->with(self::callback(function (string $message): bool {
+				static $i = 0;
+				return match (++$i) {
+					1 => $message === 'Preview folder deleted',
+					2 => $message === 'Preview folder recreated',
+					3 => $message === 'Previews removed'
+				};
+			}));
+
+		$this->assertEquals(0, $this->repair->run($this->input, $this->output));
 		$this->previewService->expects($this->once())->method('deleteAll')
 			->willThrowException(new NotPermittedException('abc'));
 
 		$this->logger->expects($this->once())->method('error')->with("Previews can't be removed: exception occurred: abc");
-
-		$this->rootFolder->expects($this->never())
-			->method('get');
 
 		$this->assertEquals(1, $this->repair->run($this->input, $this->output));
 	}
