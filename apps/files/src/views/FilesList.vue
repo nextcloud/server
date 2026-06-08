@@ -638,7 +638,7 @@ export default defineComponent({
 			}
 
 			// Quota / size limits may surface as either classic 507 or EntityTooLarge (413)
-			if (status === 507 || status = 413) {
+			if (status === 507 || status === 413) {
 				showError(t('files', 'File is too large or there is not enough free space'))
 				return
 			} 
