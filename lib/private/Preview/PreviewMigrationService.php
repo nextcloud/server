@@ -109,9 +109,10 @@ class PreviewMigrationService {
 				try {
 					$preview = $this->previewMapper->insert($preview);
 				} catch (Exception) {
+					$delete = $this->connection->getQueryBuilder();
 					// We already have this preview in the preview table, skip
-					$qb->delete('filecache')
-						->where($qb->expr()->eq('fileid', $qb->createNamedParameter($file->getId())))
+					$delete->delete('filecache')
+						->where($delete->expr()->eq('fileid', $delete->createNamedParameter($file->getId())))
 						->hintShardKey('storage', $this->rootFolder->getMountPoint()->getNumericStorageId())
 						->executeStatement();
 					continue;
