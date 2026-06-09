@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
+use OC\Files\Filesystem;
 use OC\Profiler\BuiltInProfiler;
 use OC\Security\CSP\ContentSecurityPolicyNonceManager;
 use OC\Share20\GroupDeletedListener;
@@ -1322,6 +1323,42 @@ class OC {
 			return $appAPIService->validateExAppRequestToNC($request);
 		} catch (\Psr\Container\NotFoundExceptionInterface|\Psr\Container\ContainerExceptionInterface $e) {
 			return false;
+		}
+	}
+
+	/**
+	 * @internal
+	 */
+	public static function resetStaticProperties(): void {
+		// FIXME needed because these use a static var
+		\OC_Hook::clear();
+		\OC_Util::$styles = [];
+		\OC_Util::$headers = [];
+		\OC_User::setIncognitoMode(false);
+		\OC_User::$_setupedBackends = [];
+		\OC_App::reset();
+		\OC_Helper::reset();
+		Filesystem::reset();
+	}
+
+	/**
+	 * @internal
+	 */
+	public static function handleRequests(callable $handler): void {
+		if (function_exists('frankenphp_handle_request') && isset($_SERVER['FRANKENPHP_WORKER']) && $_SERVER['FRANKENPHP_WORKER'] === '1') {
+			$maxRequests = (int)($_SERVER['MAX_REQUESTS'] ?? 0);
+			for ($nbRequests = 0; !$maxRequests || $nbRequests < $maxRequests; ++$nbRequests) {
+				$keepRunning = \frankenphp_handle_request($handler);
+
+				// Call the garbage collector to reduce the chances of it being triggered in the middle of a page generation
+				gc_collect_cycles();
+
+				if (!$keepRunning) {
+					break;
+				}
+			}
+		} else {
+			$handler();
 		}
 	}
 }
