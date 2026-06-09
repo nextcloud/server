@@ -51,10 +51,14 @@ class PreviewMigrationJob extends TimedJob {
 			$qb = $this->connection->getQueryBuilder();
 			$qb->select('path')
 				->from('filecache')
-				// Hierarchical preview folder structure
-				->where($qb->expr()->like('path', $qb->createNamedParameter($this->previewRootPath . '%/%/%/%/%/%/%/%/%')))
-				// Legacy flat preview folder structure
-				->orWhere($qb->expr()->like('path', $qb->createNamedParameter($this->previewRootPath . '%/%.%')))
+				->where($qb->expr()->orX(
+					// Hierarchical preview folder structure
+					$qb->expr()->like('path', $qb->createNamedParameter($this->previewRootPath . '%/%/%/%/%/%/%/%/%')),
+					// Legacy flat preview folder structure
+					$qb->expr()->like('path', $qb->createNamedParameter($this->previewRootPath . '%/%.%'))
+				))->andWhere(
+					$qb->expr()->eq('storage', $qb->createNamedParameter($this->rootFolder->getMountPoint()->getNumericStorageId()))
+				)
 				->hintShardKey('storage', $this->rootFolder->getMountPoint()->getNumericStorageId())
 				->setMaxResults(100);
 

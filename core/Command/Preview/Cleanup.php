@@ -77,9 +77,8 @@ class Cleanup extends Base {
 			$previewFolder = $appDataFolder->get('preview');
 
 		} catch (NotFoundException $e) {
-			$this->logger->error("Previews can't be removed: appdata folder can't be found", ['exception' => $e]);
-			$output->writeln("Previews can't be removed: preview folder isn't deletable");
-			return 1;
+			$this->logger->info("Legacy previews can't be removed: appdata folder can't be found", ['exception' => $e]);
+			return 0;
 		}
 
 		if (!$previewFolder->isDeletable()) {
