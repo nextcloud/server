@@ -56,7 +56,6 @@ class CleanupTest extends TestCase {
 
 		$appDataFolder = $this->createMock(Folder::class);
 		$appDataFolder->expects($this->once())->method('get')->with('preview')->willReturn($previewFolder);
-		$appDataFolder->expects($this->once())->method('newFolder')->with('preview');
 
 		$this->rootFolder->expects($this->once())
 			->method('getAppDataDirectoryName')
@@ -67,13 +66,12 @@ class CleanupTest extends TestCase {
 			->with('appdata_some_id')
 			->willReturn($appDataFolder);
 
-		$this->output->expects($this->exactly(3))->method('writeln')
+		$this->output->expects($this->exactly(2))->method('writeln')
 			->with(self::callback(function (string $message): bool {
 				static $i = 0;
 				return match (++$i) {
 					1 => $message === 'Preview folder deleted',
-					2 => $message === 'Preview folder recreated',
-					3 => $message === 'Previews removed'
+					2 => $message === 'Previews removed'
 				};
 			}));
 
@@ -91,7 +89,6 @@ class CleanupTest extends TestCase {
 
 		$appDataFolder = $this->createMock(Folder::class);
 		$appDataFolder->expects($this->once())->method('get')->with('preview')->willReturn($previewFolder);
-		$appDataFolder->expects($this->never())->method('newFolder')->with('preview');
 
 		$this->rootFolder->expects($this->once())
 			->method('getAppDataDirectoryName')
@@ -121,7 +118,6 @@ class CleanupTest extends TestCase {
 
 		$appDataFolder = $this->createMock(Folder::class);
 		$appDataFolder->expects($this->once())->method('get')->with('preview')->willReturn($previewFolder);
-		$appDataFolder->expects($this->never())->method('newFolder')->with('preview');
 
 		$this->rootFolder->expects($this->once())
 			->method('getAppDataDirectoryName')
@@ -145,42 +141,6 @@ class CleanupTest extends TestCase {
 		];
 	}
 
-	public function testCleanupWithCreateException(): void {
-		$previewFolder = $this->createMock(Folder::class);
-		$previewFolder->expects($this->once())
-			->method('isDeletable')
-			->willReturn(true);
-
-		$previewFolder->expects($this->once())
-			->method('delete');
-
-		$appDataFolder = $this->createMock(Folder::class);
-		$appDataFolder->expects($this->once())->method('get')->with('preview')->willReturn($previewFolder);
-		$appDataFolder->expects($this->once())->method('newFolder')->with('preview')->willThrowException(new NotPermittedException());
-
-		$this->rootFolder->expects($this->once())
-			->method('getAppDataDirectoryName')
-			->willReturn('appdata_some_id');
-
-		$this->rootFolder->expects($this->once())
-			->method('get')
-			->with('appdata_some_id')
-			->willReturn($appDataFolder);
-
-		$this->output->expects($this->exactly(2))->method('writeln')
-			->with(self::callback(function (string $message): bool {
-				static $i = 0;
-				return match (++$i) {
-					1 => $message === 'Preview folder deleted',
-					2 => $message === "Preview folder was deleted, but you don't have the permission to create preview folder",
-				};
-			}));
-
-		$this->logger->expects($this->once())->method('error')->with("Preview folder was deleted, but you don't have the permission to create preview folder");
-
-		$this->assertEquals(1, $this->repair->run($this->input, $this->output));
-	}
-
 	public function testCleanupWithPreviewServiceException(): void {
 		$previewFolder = $this->createMock(Folder::class);
 		$previewFolder->expects($this->once())
@@ -192,7 +152,6 @@ class CleanupTest extends TestCase {
 
 		$appDataFolder = $this->createMock(Folder::class);
 		$appDataFolder->expects($this->once())->method('get')->with('preview')->willReturn($previewFolder);
-		$appDataFolder->expects($this->once())->method('newFolder')->with('preview');
 
 		$this->rootFolder->method('getAppDataDirectoryName')
 			->willReturn('appdata_some_id');
@@ -201,17 +160,15 @@ class CleanupTest extends TestCase {
 			->with('appdata_some_id')
 			->willReturn($appDataFolder);
 
-		$this->output->expects($this->exactly(3))->method('writeln')
+		$this->output->expects($this->exactly(2))->method('writeln')
 			->with(self::callback(function (string $message): bool {
 				static $i = 0;
 				return match (++$i) {
 					1 => $message === 'Preview folder deleted',
-					2 => $message === 'Preview folder recreated',
-					3 => $message === 'Previews removed'
+					2 => $message === 'Previews removed'
 				};
 			}));
 
-		$this->assertEquals(0, $this->repair->run($this->input, $this->output));
 		$this->previewService->expects($this->once())->method('deleteAll')
 			->willThrowException(new NotPermittedException('abc'));
 

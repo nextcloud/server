@@ -102,16 +102,6 @@ class Cleanup extends Base {
 			return 1;
 		}
 
-		try {
-			$appDataFolder->newFolder('preview');
-			$this->logger->debug('Preview folder recreated');
-			$output->writeln('Preview folder recreated', OutputInterface::VERBOSITY_VERBOSE);
-		} catch (NotPermittedException $e) {
-			$output->writeln("Preview folder was deleted, but you don't have the permission to create preview folder");
-			$this->logger->error("Preview folder was deleted, but you don't have the permission to create preview folder", ['exception' => $e]);
-			return 1;
-		}
-
 		$output->writeln('Previews removed');
 		return 0;
 	}
