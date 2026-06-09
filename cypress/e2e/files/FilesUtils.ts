@@ -26,9 +26,7 @@ export const getActionButtonForFile = (filename: string) => getActionsForFile(fi
 export function getActionEntryForFileId(fileid: number, actionId: string) {
 	return getActionButtonForFileId(fileid)
 		.should('have.attr', 'aria-controls')
-		.then((menuId) => cy.get(`#${menuId}`)
-			.should('exist')
-			.find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`))
+		.then((menuId) => cy.get(`#${menuId} [data-cy-files-list-row-action="${CSS.escape(actionId)}"]`))
 }
 
 /**
@@ -39,9 +37,7 @@ export function getActionEntryForFileId(fileid: number, actionId: string) {
 export function getActionEntryForFile(file: string, actionId: string) {
 	return getActionButtonForFile(file)
 		.should('have.attr', 'aria-controls')
-		.then((menuId) => cy.get(`#${menuId}`)
-			.should('exist')
-			.find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`))
+		.then((menuId) => cy.get(`#${menuId} [data-cy-files-list-row-action="${CSS.escape(actionId)}"]`))
 }
 
 /**
