@@ -61,7 +61,7 @@ class Cache implements ICache {
 	 */
 	protected array $partial = [];
 	protected string $storageId;
-	protected Storage $storageCache;
+	protected ?Storage $storageCache = null;
 	protected IMimeTypeLoader $mimetypeLoader;
 	protected IDBConnection $connection;
 	protected SystemConfig $systemConfig;
@@ -69,6 +69,7 @@ class Cache implements ICache {
 	protected QuerySearchHelper $querySearchHelper;
 	protected IEventDispatcher $eventDispatcher;
 	protected IFilesMetadataManager $metadataManager;
+	private CacheDependencies $cacheDependencies;
 
 	public function __construct(
 		private IStorage $storage,
@@ -83,7 +84,7 @@ class Cache implements ICache {
 		if (!$dependencies) {
 			$dependencies = Server::get(CacheDependencies::class);
 		}
-		$this->storageCache = new Storage($this->storage, true, $dependencies->getConnection());
+		$this->cacheDependencies = $dependencies;
 		$this->mimetypeLoader = $dependencies->getMimeTypeLoader();
 		$this->connection = $dependencies->getConnection();
 		$this->systemConfig = $dependencies->getSystemConfig();
@@ -101,6 +102,9 @@ class Cache implements ICache {
 	}
 
 	public function getStorageCache(): Storage {
+		if (!$this->storageCache) {
+			$this->storageCache = new Storage($this->storage, true, $this->cacheDependencies->getConnection());
+		}
 		return $this->storageCache;
 	}
 
@@ -111,7 +115,7 @@ class Cache implements ICache {
 	 */
 	#[\Override]
 	public function getNumericStorageId() {
-		return $this->storageCache->getNumericId();
+		return $this->getStorageCache()->getNumericId();
 	}
 
 	/**
