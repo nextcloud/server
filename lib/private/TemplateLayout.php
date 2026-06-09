@@ -380,7 +380,10 @@ class TemplateLayout {
 	public function getAppNamefromPath(string $path): string|false {
 		if ($path !== '') {
 			$pathParts = explode('/', $path);
-			if ($pathParts[0] === 'css') {
+			if ($pathParts[0] === 'dist') {
+				// Return the part before the dash in the file name
+				return explode('-', \array_last($pathParts), 2)[0];
+			} elseif ($pathParts[0] === 'css') {
 				// This is a scss request
 				return $pathParts[1];
 			} elseif ($pathParts[0] === 'core') {
