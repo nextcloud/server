@@ -25,8 +25,7 @@ require_once __DIR__ . '/lib/OC.php';
 
 \OC::handleRequests(static function () {
 	try {
-		\OC::resetStaticProperties();
-		\OC::init();
+		\OC::initForRequest();
 		\OC::handleRequest();
 	} catch (ServiceUnavailableException $ex) {
 		Server::get(LoggerInterface::class)->error($ex->getMessage(), [
