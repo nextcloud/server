@@ -133,6 +133,9 @@
 		<file name="build/stubs/php-polyfill.php" />
 		<file name="build/stubs/oca_talk_share_helper_shareapicontroller.php" />
 	</stubs>
+	<forbiddenFunctions>
+		<function name="iconv"/>
+	</forbiddenFunctions>
 	<issueHandlers>
 		<LessSpecificReturnStatement errorLevel="error"/>
 		<LessSpecificReturnType errorLevel="error"/>
