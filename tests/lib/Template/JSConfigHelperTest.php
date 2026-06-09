@@ -242,7 +242,7 @@ class JSConfigHelperTest extends TestCase {
 			->with('alice')
 			->willReturn(false);
 
-		$this->session->expects(self::once())
+		$this->session->expects(self::exactly(2))
 			->method('getId')
 			->willReturn('session-id');
 
@@ -284,10 +284,11 @@ class JSConfigHelperTest extends TestCase {
 			->method('getId')
 			->willReturn('session-id');
 
+		$expiredToken = $this->createMock(IToken::class);
 		$this->tokenProvider->expects(self::once())
 			->method('getToken')
 			->with('session-id')
-			->willThrowException(new ExpiredTokenException('expired'));
+			->willThrowException(new ExpiredTokenException($expiredToken));
 
 		$helper = $this->createHelper($user);
 
