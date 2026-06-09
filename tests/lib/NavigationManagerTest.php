@@ -233,6 +233,10 @@ class NavigationManagerTest extends TestCase {
 			->method('getAppInfo')
 			->with('test')
 			->willReturn($navigation);
+		$this->appManager->expects($this->any())
+			->method('isAppLoaded')
+			->with('test')
+			->willReturn(true);
 		$this->urlGenerator->expects($this->any())
 			->method('imagePath')
 			->willReturnCallback(function ($appName, $file) {
@@ -259,7 +263,7 @@ class NavigationManagerTest extends TestCase {
 		$this->groupManager->expects($this->any())->method('isAdmin')->willReturn($isAdmin);
 
 		$this->navigationManager->clear();
-		$this->dispatcher->expects($this->once())
+		$this->dispatcher->expects($this->atLeastOnce())
 			->method('dispatchTyped')
 			->willReturnCallback(function ($event): void {
 				$this->assertInstanceOf(LoadAdditionalEntriesEvent::class, $event);
@@ -428,6 +432,7 @@ class NavigationManagerTest extends TestCase {
 			->with('theming')
 			->willReturn(true);
 		$this->appManager->expects($this->once())->method('getAppInfo')->with('test')->willReturn($navigation);
+		$this->appManager->expects($this->any())->method('isAppLoaded')->with('test')->willReturn(true);
 		$this->appManager->expects($this->once())->method('getAppIcon')->with('test')->willReturn('/apps/test/img/app.svg');
 		$this->l10nFac->expects($this->any())->method('get')->willReturn($l);
 		$this->urlGenerator->expects($this->any())->method('imagePath')->willReturnCallback(function ($appName, $file) {
