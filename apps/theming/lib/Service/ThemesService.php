@@ -212,7 +212,18 @@ class ThemesService {
 		return array_values(array_unique(array_merge($themes, [$requestThemeOverride])));
 	}
 
-	private function getRequestThemeOverride(): ?string {
+	/**
+	 * Get the request-scoped light/dark theme override, if any.
+	 *
+	 * Returns the id of a registered light/dark theme requested through the
+	 * `theme` query parameter, or null when no valid override is present.
+	 *
+	 * Note: callers are responsible for honoring an admin-enforced theme,
+	 * which always takes precedence over this request-scoped override.
+	 *
+	 * @return ?string
+	 */
+	public function getRequestThemeOverride(): ?string {
 		$requestThemeOverride = $this->request->getParam(self::REQUEST_THEME_PARAM, '');
 		if (!is_string($requestThemeOverride)) {
 			return null;

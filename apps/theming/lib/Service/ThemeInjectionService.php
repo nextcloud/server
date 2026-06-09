@@ -36,6 +36,19 @@ class ThemeInjectionService {
 	public function injectHeaders(): void {
 		$themes = $this->themesService->getThemes();
 		$defaultTheme = $themes[$this->defaultTheme->getId()];
+
+		// A request-scoped light/dark override must win over the OS
+		// `prefers-color-scheme` preference, so we force it on `:root`
+		// instead of relying on the media-query auto-switching.
+		// An admin-enforced theme always takes precedence over the override.
+		$requestThemeOverride = $this->config->getSystemValueString('enforce_theme', '') === ''
+			? $this->themesService->getRequestThemeOverride()
+			: null;
+		if ($requestThemeOverride !== null && isset($themes[$requestThemeOverride])) {
+			$this->injectOverrideHeaders($themes, $defaultTheme, $themes[$requestThemeOverride]);
+			return;
+		}
+
 		$mediaThemes = array_filter($themes, function ($theme) {
 			// Check if the theme provides a media query
 			return (bool)$theme->getMediaQuery();
@@ -60,6 +73,36 @@ class ThemeInjectionService {
 
 		// Meta headers
 		$this->addThemeMetaHeaders($themes);
+	}
+
+	/**
+	 * Inject the headers for a request-scoped light/dark theme override.
+	 *
+	 * The override has to take precedence over the OS `prefers-color-scheme`
+	 * preference, so the overridden theme is forced on `:root` (without any
+	 * media query) and only its `color-scheme` meta is exposed.
+	 *
+	 * @param ITheme[] $themes all registered themes
+	 * @param ITheme $defaultTheme the default theme used as a fallback
+	 * @param ITheme $overrideTheme the theme requested through the query string
+	 */
+	private function injectOverrideHeaders(array $themes, ITheme $defaultTheme, ITheme $overrideTheme): void {
+		// Default theme fallback
+		$this->addThemeHeaders($defaultTheme);
+
+		// Force the overridden theme unconditionally on `:root`
+		$this->addThemeHeaders($overrideTheme, true);
+
+		// Keep body-scoped themes so `[data-theme-*]` selectors keep working
+		foreach ($themes as $theme) {
+			if ($theme->getId() === $this->defaultTheme->getId()) {
+				continue;
+			}
+			$this->addThemeHeaders($theme, false);
+		}
+
+		// Only expose the overridden theme color-scheme meta
+		$this->addThemeMetaHeaders([$overrideTheme->getId() => $overrideTheme]);
 	}
 
 	/**
@@ -92,7 +135,7 @@ class ThemeInjectionService {
 		$metaHeaders = [];
 
 		// Meta headers
-		foreach ($this->themesService->getThemes() as $theme) {
+		foreach ($themes as $theme) {
 			if (!empty($theme->getMeta())) {
 				foreach ($theme->getMeta() as $meta) {
 					if (!isset($meta['name']) || !isset($meta['content'])) {
