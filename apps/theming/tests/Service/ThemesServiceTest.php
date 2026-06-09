@@ -23,6 +23,7 @@ use OCA\Theming\Util;
 use OCP\App\IAppManager;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -33,6 +34,7 @@ use Test\TestCase;
 class ThemesServiceTest extends TestCase {
 	private IUserSession&MockObject $userSession;
 	private IConfig&MockObject $config;
+	private IRequest&MockObject $request;
 	private LoggerInterface&MockObject $logger;
 
 	private ThemingDefaults&MockObject $themingDefaults;
@@ -44,6 +46,7 @@ class ThemesServiceTest extends TestCase {
 	protected function setUp(): void {
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->request = $this->createMock(IRequest::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
 
@@ -60,6 +63,7 @@ class ThemesServiceTest extends TestCase {
 		$this->themesService = new ThemesService(
 			$this->userSession,
 			$this->config,
+			$this->request,
 			$this->logger,
 			...array_values($this->themes)
 		);
@@ -230,6 +234,93 @@ class ThemesServiceTest extends TestCase {
 			->willReturn('');
 
 		$this->assertEquals(['default'], $this->themesService->getEnabledThemes());
+	}
+
+	public function testGetEnabledThemesRequestThemeForGuest(): void {
+		$this->userSession->expects($this->any())
+			->method('getUser')
+			->willReturn(null);
+		$this->config->expects($this->once())
+			->method('getSystemValueString')
+			->with('enforce_theme', '')
+			->willReturn('');
+		$this->request->expects($this->once())
+			->method('getParam')
+			->with('theme', '')
+			->willReturn('dark');
+
+		$this->assertEquals(['dark'], $this->themesService->getEnabledThemes());
+	}
+
+	public function testGetEnabledThemesRequestThemeOverridesUserTheme(): void {
+		$user = $this->createMock(IUser::class);
+		$this->userSession->expects($this->any())
+			->method('getUser')
+			->willReturn($user);
+		$user->expects($this->any())
+			->method('getUID')
+			->willReturn('user');
+
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with('user', Application::APP_ID, 'enabled-themes', '["default"]')
+			->willReturn(json_encode(['dark', 'opendyslexic']));
+		$this->config->expects($this->once())
+			->method('getSystemValueString')
+			->with('enforce_theme', '')
+			->willReturn('');
+		$this->request->expects($this->once())
+			->method('getParam')
+			->with('theme', '')
+			->willReturn('light');
+
+		$this->assertEquals(['opendyslexic', 'light'], $this->themesService->getEnabledThemes());
+	}
+
+	public function testGetEnabledThemesInvalidRequestTheme(): void {
+		$this->userSession->expects($this->any())
+			->method('getUser')
+			->willReturn(null);
+		$this->config->expects($this->once())
+			->method('getSystemValueString')
+			->with('enforce_theme', '')
+			->willReturn('');
+		$this->request->expects($this->once())
+			->method('getParam')
+			->with('theme', '')
+			->willReturn('sepia');
+
+		$this->assertEquals([], $this->themesService->getEnabledThemes());
+	}
+
+	public function testGetEnabledThemesNonStringRequestThemeIsIgnored(): void {
+		$this->userSession->expects($this->any())
+			->method('getUser')
+			->willReturn(null);
+		$this->config->expects($this->once())
+			->method('getSystemValueString')
+			->with('enforce_theme', '')
+			->willReturn('');
+		$this->request->expects($this->once())
+			->method('getParam')
+			->with('theme', '')
+			->willReturn(['dark']);
+
+		$this->assertEquals([], $this->themesService->getEnabledThemes());
+	}
+
+	public function testGetEnabledThemesRequestThemeDoesNotOverrideEnforcedTheme(): void {
+		$this->userSession->expects($this->any())
+			->method('getUser')
+			->willReturn(null);
+		$this->config->expects($this->once())
+			->method('getSystemValueString')
+			->with('enforce_theme', '')
+			->willReturn('light');
+		$this->request->expects($this->never())
+			->method('getParam');
+
+		$this->assertEquals(['light'], $this->themesService->getEnabledThemes());
 	}
 
 	public function testGetEnabledThemesEnforced(): void {

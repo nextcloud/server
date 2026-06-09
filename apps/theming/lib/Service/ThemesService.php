@@ -16,17 +16,25 @@ use OCA\Theming\Themes\DyslexiaFont;
 use OCA\Theming\Themes\HighContrastTheme;
 use OCA\Theming\Themes\LightTheme;
 use OCP\IConfig;
+use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
 class ThemesService {
+	private const REQUEST_THEME_PARAM = 'theme';
+	private const REQUEST_THEME_OVERRIDES = [
+		'light',
+		'dark',
+	];
+
 	/** @var ITheme[] */
 	private array $themesProviders;
 
 	public function __construct(
 		private IUserSession $userSession,
 		private IConfig $config,
+		private IRequest $request,
 		private LoggerInterface $logger,
 		private DefaultTheme $defaultTheme,
 		LightTheme $lightTheme,
@@ -161,6 +169,12 @@ class ThemesService {
 			if ($enforcedTheme !== '') {
 				return [$enforcedTheme];
 			}
+
+			$requestThemeOverride = $this->getRequestThemeOverride();
+			if ($requestThemeOverride !== null) {
+				return [$requestThemeOverride];
+			}
+
 			return [];
 		}
 
@@ -171,10 +185,49 @@ class ThemesService {
 		}
 
 		try {
-			return $enabledThemes;
+			return $this->applyRequestThemeOverride($enabledThemes);
 		} catch (\Exception $e) {
 			return [];
 		}
+	}
+
+	/**
+	 * Apply a request-scoped light/dark theme override without persisting it.
+	 *
+	 * @param list<string> $themes
+	 * @return list<string>
+	 */
+	private function applyRequestThemeOverride(array $themes): array {
+		$requestThemeOverride = $this->getRequestThemeOverride();
+		if ($requestThemeOverride === null) {
+			return $themes;
+		}
+
+		$theme = $this->themesProviders[$requestThemeOverride];
+		$themes = array_filter($themes, function (string $themeId) use ($theme): bool {
+			return !isset($this->themesProviders[$themeId])
+				|| $this->themesProviders[$themeId]->getType() !== $theme->getType();
+		});
+
+		return array_values(array_unique(array_merge($themes, [$requestThemeOverride])));
+	}
+
+	private function getRequestThemeOverride(): ?string {
+		$requestThemeOverride = $this->request->getParam(self::REQUEST_THEME_PARAM, '');
+		if (!is_string($requestThemeOverride)) {
+			return null;
+		}
+
+		$requestThemeOverride = strtolower(trim($requestThemeOverride));
+		if (!in_array($requestThemeOverride, self::REQUEST_THEME_OVERRIDES, true)) {
+			return null;
+		}
+
+		if (!isset($this->themesProviders[$requestThemeOverride])) {
+			return null;
+		}
+
+		return $requestThemeOverride;
 	}
 
 	/**
