@@ -8,6 +8,7 @@
 namespace OC\Comments;
 
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Cache\CappedMemoryCache;
 use OCP\Comments\CommentsEvent;
 use OCP\Comments\Events\BeforeCommentUpdatedEvent;
 use OCP\Comments\Events\CommentAddedEvent;
@@ -33,8 +34,7 @@ use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 class Manager implements ICommentsManager {
-	/** @var IComment[] */
-	protected array $commentsCache = [];
+	protected CappedMemoryCache $commentsCache;
 
 	/** @var \Closure[] */
 	protected array $eventHandlerClosures = [];
@@ -55,6 +55,7 @@ class Manager implements ICommentsManager {
 		protected IRootFolder $rootFolder,
 		protected IEventDispatcher $eventDispatcher,
 	) {
+		$this->commentsCache = new CappedMemoryCache(256);
 	}
 
 	/**
@@ -1322,7 +1323,7 @@ class Manager implements ICommentsManager {
 			->setParameter('id', $actorId);
 
 		$affectedRows = $qb->executeStatement();
-		$this->commentsCache = [];
+		$this->commentsCache->clear();
 		return true;
 	}
 
@@ -1342,7 +1343,7 @@ class Manager implements ICommentsManager {
 			->setParameter('id', $objectId);
 
 		$affectedRows = $qb->executeStatement();
-		$this->commentsCache = [];
+		$this->commentsCache->clear();
 		return true;
 	}
 
@@ -1601,7 +1602,7 @@ class Manager implements ICommentsManager {
 
 		$affectedRows = $qb->executeStatement();
 
-		$this->commentsCache = [];
+		$this->commentsCache->clear();
 
 		return $affectedRows > 0;
 	}
