@@ -43,7 +43,7 @@
 					@input="updateOperation" />
 			</Operation>
 			<div class="buttons">
-				<NcButton v-if="rule.id < -1 || dirty" @click="cancelRule">
+				<NcButton v-if="rule.id < 1 || dirty" @click="cancelRule">
 					{{ t('workflowengine', 'Cancel') }}
 				</NcButton>
 				<NcButton v-else-if="!dirty" @click="deleteRule">
@@ -101,7 +101,7 @@ export default {
 			editing: false,
 			checks: [],
 			error: null,
-			dirty: this.rule.id < 0,
+			dirty: this.rule.id < 1,
 			originalRule: null,
 			element: null,
 			inputValue: '',
@@ -196,7 +196,7 @@ export default {
 		},
 
 		cancelRule() {
-			if (this.rule.id < 0) {
+			if (this.rule.id < 1) {
 				this.$store.dispatch('removeRule', this.rule)
 			} else {
 				this.inputValue = this.originalRule.operation

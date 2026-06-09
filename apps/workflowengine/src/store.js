@@ -103,7 +103,7 @@ const store = new Store({
 		async pushUpdateRule(context, rule) {
 			await confirmPassword()
 			let result
-			if (rule.id < 0) {
+			if (rule.id < 1) {
 				result = await axios.post(getApiUrl(''), rule)
 			} else {
 				result = await axios.put(getApiUrl(`/${rule.id}`), rule)
