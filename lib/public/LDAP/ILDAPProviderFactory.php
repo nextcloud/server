@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace OCP\LDAP;
 
 use OCP\AppFramework\Attribute\Consumable;
-use OCP\IServerContainer;
+use Psr\Container\ContainerInterface;
 
 /**
  * Interface ILDAPProviderFactory
@@ -27,7 +27,7 @@ interface ILDAPProviderFactory {
 	 *
 	 * @since 11.0.0
 	 */
-	public function __construct(IServerContainer $serverContainer);
+	public function __construct(ContainerInterface $serverContainer);
 
 	/**
 	 * creates and returns an instance of the ILDAPProvider

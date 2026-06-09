@@ -9,34 +9,35 @@ declare(strict_types=1);
 
 namespace OCP\AppFramework\Bootstrap;
 
-use OCP\AppFramework\IAppContainer;
-use OCP\IServerContainer;
+use OCP\AppFramework\Attribute\Consumable;
 use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
 use Throwable;
 
 /**
  * @since 20.0.0
  */
+#[Consumable(since: '20.0.0')]
 interface IBootContext {
 	/**
 	 * Get hold of the app's container
 	 *
 	 * Useful to register and query app-specific services
 	 *
-	 * @return IAppContainer
 	 * @since 20.0.0
+	 * @since 35.0.0 Typed as returning a ContainerInterface instead of the deprecated IAppContainer
 	 */
-	public function getAppContainer(): IAppContainer;
+	public function getAppContainer(): ContainerInterface;
 
 	/**
 	 * Get hold of the server DI container
 	 *
 	 * Useful to register and query system-wide services
 	 *
-	 * @return IServerContainer
 	 * @since 20.0.0
+	 * @since 35.0.0 Typed as returning a ContainerInterface instead of the deprecated IServerContainer
 	 */
-	public function getServerContainer(): IServerContainer;
+	public function getServerContainer(): ContainerInterface;
 
 	/**
 	 * Invoke the given callable and inject all parameters based on their types

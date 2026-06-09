@@ -22,7 +22,6 @@ use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\DBConfigService;
 use OCA\Files_External\Service\StoragesService;
-use OCP\AppFramework\IAppContainer;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Config\IUserMountCache;
@@ -128,14 +127,6 @@ abstract class StoragesServiceTestCase extends \Test\TestCase {
 			Filesystem::CLASSNAME,
 			Filesystem::signal_delete_mount,
 			get_class($this), 'deleteHookCallback');
-
-		$containerMock = $this->createMock(IAppContainer::class);
-		$containerMock->method('query')
-			->willReturnCallback(function ($name) {
-				if ($name === 'OCA\Files_External\Service\BackendService') {
-					return $this->backendService;
-				}
-			});
 	}
 
 	protected function tearDown(): void {

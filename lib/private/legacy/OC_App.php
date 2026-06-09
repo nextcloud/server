@@ -26,6 +26,7 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Server;
 use OCP\Support\Subscription\IRegistry;
 use Psr\Container\ContainerExceptionInterface;
@@ -402,7 +403,7 @@ class OC_App {
 		//we don't want to show configuration for these
 		$blacklist = $appManager->getAlwaysEnabledApps();
 		$appList = [];
-		$langCode = \OC::$server->getL10N('core')->getLanguageCode();
+		$langCode = Server::get(IFactory::class)->get('core')->getLanguageCode();
 		$urlGenerator = Server::get(IURLGenerator::class);
 		$supportedApps = $this->getSupportedApps();
 

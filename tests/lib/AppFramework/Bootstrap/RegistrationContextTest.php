@@ -11,11 +11,12 @@ namespace lib\AppFramework\Bootstrap;
 
 use OC\AppFramework\Bootstrap\RegistrationContext;
 use OC\AppFramework\Bootstrap\ServiceRegistration;
+use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\Core\Middleware\TwoFactorMiddleware;
 use OCP\AppFramework\App;
-use OCP\AppFramework\IAppContainer;
 use OCP\EventDispatcher\IEventDispatcher;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -37,7 +38,7 @@ class RegistrationContextTest extends TestCase {
 	public function testRegisterCapability(): void {
 		$app = $this->createMock(App::class);
 		$name = 'abc';
-		$container = $this->createMock(IAppContainer::class);
+		$container = $this->createMock(DIContainer::class);
 		$app->method('getContainer')
 			->willReturn($container);
 		$container->expects($this->once())
@@ -73,7 +74,7 @@ class RegistrationContextTest extends TestCase {
 		$factory = function () {
 			return 'def';
 		};
-		$container = $this->createMock(IAppContainer::class);
+		$container = $this->createMock(DIContainer::class);
 		$app->method('getContainer')
 			->willReturn($container);
 		$container->expects($this->once())
@@ -92,7 +93,7 @@ class RegistrationContextTest extends TestCase {
 		$app = $this->createMock(App::class);
 		$alias = 'abc';
 		$target = 'def';
-		$container = $this->createMock(IAppContainer::class);
+		$container = $this->createMock(ContainerInterface::class);
 		$app->method('getContainer')
 			->willReturn($container);
 		$container->expects($this->once())
@@ -111,7 +112,7 @@ class RegistrationContextTest extends TestCase {
 		$app = $this->createMock(App::class);
 		$name = 'abc';
 		$value = 'def';
-		$container = $this->createMock(IAppContainer::class);
+		$container = $this->createMock(DIContainer::class);
 		$app->method('getContainer')
 			->willReturn($container);
 		$container->expects($this->once())
