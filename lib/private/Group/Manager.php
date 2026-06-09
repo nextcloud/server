@@ -105,6 +105,14 @@ class Manager extends PublicEmitter implements IGroupManager {
 	}
 
 	#[\Override]
+	public function removeBackend(GroupInterface $backend): void {
+		$this->clearCaches();
+		if (($i = array_search($backend, $this->backends)) !== false) {
+			unset($this->backends[$i]);
+		}
+	}
+
+	#[\Override]
 	public function clearBackends() {
 		$this->backends = [];
 		$this->clearCaches();
