@@ -30,12 +30,14 @@ class Cleanup extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('preview:cleanup')
 			->setDescription('Removes existing preview files');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		if ($this->deletePreviewFromFileCacheTable($output) !== 0) {
 			return 1;
@@ -75,9 +77,8 @@ class Cleanup extends Base {
 			$previewFolder = $appDataFolder->get('preview');
 
 		} catch (NotFoundException $e) {
-			$this->logger->error("Previews can't be removed: appdata folder can't be found", ['exception' => $e]);
-			$output->writeln("Previews can't be removed: preview folder isn't deletable");
-			return 1;
+			$this->logger->info("Legacy previews can't be removed: appdata folder can't be found", ['exception' => $e]);
+			return 0;
 		}
 
 		if (!$previewFolder->isDeletable()) {
