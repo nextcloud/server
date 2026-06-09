@@ -3,89 +3,129 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<div v-if="operation" class="section rule" :style="{ borderLeftColor: operation.color || '' }">
-		<div class="trigger">
-			<p>
-				<span>{{ t('workflowengine', 'When') }}</span>
-				<Event :rule="rule" @update="updateRule" />
-			</p>
-			<p v-for="(check, index) in rule.checks" :key="index">
-				<span>{{ t('workflowengine', 'and') }}</span>
-				<Check
-					:check="check"
-					:rule="rule"
-					@update="updateRule"
-					@validate="validate"
-					@remove="removeCheck(check)" />
-			</p>
-			<p>
-				<span />
-				<input
-					v-if="lastCheckComplete"
-					type="button"
-					class="check--add"
-					:value="t('workflowengine', 'Add a new filter')"
-					@click="onAddFilter">
-			</p>
-		</div>
-		<div class="flow-icon icon-confirm" />
-		<div class="action">
-			<Operation :operation="operation">
-				<component
-					:is="operation.element"
-					v-if="operation.element"
-					:model-value="inputValue"
-					@update:model-value="updateOperationByEvent" />
-				<component
-					:is="operation.options"
-					v-else-if="operation.options"
-					v-model="rule.operation"
-					@input="updateOperation" />
-			</Operation>
-			<div class="buttons">
-				<NcButton v-if="rule.id < 1 || dirty" @click="cancelRule">
-					{{ t('workflowengine', 'Cancel') }}
-				</NcButton>
-				<NcButton v-else-if="!dirty" @click="deleteRule">
-					{{ t('workflowengine', 'Delete') }}
-				</NcButton>
-				<NcButton
-					:type="ruleStatus.type"
-					:title="ruleStatus.tooltip"
-					@click="saveRule">
-					<template #icon>
-						<component :is="ruleStatus.icon" :size="20" />
-					</template>
-					{{ ruleStatus.title }}
-				</NcButton>
+	<details
+		v-if="operation"
+		:open="expanded"
+		class="section rule"
+		:style="{ borderLeftColor: operation.color || '' }"
+		@toggle="expanded = $event.target.open">
+		<summary class="rule__header">
+			<span class="rule__header__status">
+				<component :is="ruleStatus.icon" :size="20" />
+			</span>
+			<span class="rule__header__title">{{ displayName }}</span>
+			<span class="rule__header__chevron">
+				<component :is="expanded ? 'MenuUp' : 'MenuDown'" :size="20" />
+			</span>
+		</summary>
+		<div class="rule__body">
+			<div class="rule__meta">
+				<NcTextField
+					class="rule__meta__field"
+					:label="t('workflowengine', 'Name')"
+					:model-value="rule.name || ''"
+					:maxlength="256"
+					@update:modelValue="updateName" />
+				<NcTextArea
+					class="rule__meta__field"
+					:label="t('workflowengine', 'Description')"
+					:model-value="rule.description || ''"
+					@update:modelValue="updateDescription" />
 			</div>
-			<p v-if="error" class="error-message">
-				{{ error }}
-			</p>
+			<div class="rule__editor">
+				<div class="trigger">
+					<p>
+						<span>{{ t('workflowengine', 'When') }}</span>
+						<Event :rule="rule" @update="updateRule" />
+					</p>
+					<p v-for="(check, index) in rule.checks" :key="index">
+						<span>{{ t('workflowengine', 'and') }}</span>
+						<Check
+							:check="check"
+							:rule="rule"
+							@update="updateRule"
+							@validate="validate"
+							@remove="removeCheck(check)" />
+					</p>
+					<p>
+						<span />
+						<input
+							v-if="lastCheckComplete"
+							type="button"
+							class="check--add"
+							:value="t('workflowengine', 'Add a new filter')"
+							@click="onAddFilter">
+					</p>
+				</div>
+				<div class="flow-icon icon-confirm" />
+				<div class="action">
+					<Operation :operation="operation">
+						<component
+							:is="operation.element"
+							v-if="operation.element"
+							:model-value="inputValue"
+							@update:model-value="updateOperationByEvent" />
+						<component
+							:is="operation.options"
+							v-else-if="operation.options"
+							:value="rule.operation"
+							@input="updateOperation" />
+					</Operation>
+					<div class="buttons">
+						<NcButton v-if="rule.id < 1 || dirty" @click="cancelRule">
+							{{ t('workflowengine', 'Cancel') }}
+						</NcButton>
+						<NcButton v-else-if="!dirty" @click="deleteRule">
+							{{ t('workflowengine', 'Delete') }}
+						</NcButton>
+						<NcButton
+							:type="ruleStatus.type"
+							:title="ruleStatus.tooltip"
+							@click="saveRule">
+							<template #icon>
+								<component :is="ruleStatus.icon" :size="20" />
+							</template>
+							{{ ruleStatus.title }}
+						</NcButton>
+					</div>
+					<p v-if="error" class="error-message">
+						{{ error }}
+					</p>
+				</div>
+			</div>
 		</div>
-	</div>
+	</details>
 </template>
 
 <script>
+import { t } from '@nextcloud/l10n'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActions from '@nextcloud/vue/components/NcActions'
 import NcButton from '@nextcloud/vue/components/NcButton'
+import NcTextArea from '@nextcloud/vue/components/NcTextArea'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 import IconArrowRight from 'vue-material-design-icons/ArrowRight.vue'
 import IconCheckMark from 'vue-material-design-icons/Check.vue'
 import IconClose from 'vue-material-design-icons/Close.vue'
+import MenuDown from 'vue-material-design-icons/MenuDown.vue'
+import MenuUp from 'vue-material-design-icons/MenuUp.vue'
 import Check from './Check.vue'
 import Event from './Event.vue'
 import Operation from './Operation.vue'
 import { logger } from '../logger.ts'
 
 export default {
-	name: 'Rule',
+	name: 'FlowRule',
 	components: {
 		Check,
 		Event,
+		MenuDown,
+		MenuUp,
 		NcActionButton,
 		NcActions,
 		NcButton,
+		NcTextArea,
+		NcTextField,
 		Operation,
 	},
 
@@ -105,6 +145,7 @@ export default {
 			originalRule: null,
 			element: null,
 			inputValue: '',
+			expanded: this.rule.id < 1,
 		}
 	},
 
@@ -135,6 +176,11 @@ export default {
 			const lastCheck = this.rule.checks[this.rule.checks.length - 1]
 			return typeof lastCheck === 'undefined' || lastCheck.class !== null
 		},
+
+		displayName() {
+			const name = (this.rule.name || '').trim()
+			return name || t('workflowengine', 'Unnamed flow')
+		},
 	},
 
 	mounted() {
@@ -149,15 +195,21 @@ export default {
 	},
 
 	methods: {
+		updateName(value) {
+			this._applyUpdate({ name: value })
+		},
+
+		updateDescription(value) {
+			this._applyUpdate({ description: value })
+		},
+
 		async updateOperation(operation) {
-			this.$set(this.rule, 'operation', operation)
-			this.updateRule()
+			this._applyUpdate({ operation })
 		},
 
 		async updateOperationByEvent(event) {
 			this.inputValue = event.detail[0]
-			this.$set(this.rule, 'operation', event.detail[0])
-			this.updateRule()
+			this._applyUpdate({ operation: event.detail[0] })
 		},
 
 		validate(/* state */) {
@@ -165,19 +217,28 @@ export default {
 			this.$store.dispatch('updateRule', this.rule)
 		},
 
+		// Called by child components (Check, Event) after they've updated the rule
 		updateRule() {
 			if (!this.dirty) {
 				this.dirty = true
 			}
-
 			this.error = null
 			this.$store.dispatch('updateRule', this.rule)
+		},
+
+		_applyUpdate(changes) {
+			if (!this.dirty) {
+				this.dirty = true
+			}
+			this.error = null
+			this.$store.dispatch('updateRule', { ...this.rule, ...changes })
 		},
 
 		async saveRule() {
 			try {
 				await this.$store.dispatch('pushUpdateRule', this.rule)
 				this.dirty = false
+				this.expanded = false
 				this.error = null
 				this.originalRule = JSON.parse(JSON.stringify(this.rule))
 			} catch (error) {
@@ -203,20 +264,16 @@ export default {
 				this.$store.dispatch('updateRule', this.originalRule)
 				this.originalRule = JSON.parse(JSON.stringify(this.rule))
 				this.dirty = false
+				this.expanded = false
 			}
 		},
 
 		async removeCheck(check) {
-			const index = this.rule.checks.findIndex((item) => item === check)
-			if (index > -1) {
-				this.$delete(this.rule.checks, index)
-			}
-			this.$store.dispatch('updateRule', this.rule)
+			this._applyUpdate({ checks: this.rule.checks.filter((item) => item !== check) })
 		},
 
 		onAddFilter() {
-			// eslint-disable-next-line vue/no-mutating-props
-			this.rule.checks.push({ class: null, operator: null, value: '' })
+			this._applyUpdate({ checks: [...this.rule.checks, { class: null, operator: null, value: '' }] })
 		},
 	},
 }
@@ -224,31 +281,82 @@ export default {
 
 <style scoped lang="scss">
 
-	.buttons {
-		display: flex;
-		justify-content: end;
-
-		button {
-			margin-inline-start: 5px;
-		}
-		button:last-child{
-			margin-inline-end: 10px;
-		}
-	}
-
-	.error-message {
-		float: right;
-		margin-inline-end: 10px;
-	}
-
-	.flow-icon {
-		width: 44px;
-	}
-
 	.rule {
 		display: flex;
-		flex-wrap: wrap;
+		flex-direction: column;
 		border-inline-start: 5px solid var(--color-primary-element);
+		padding: 10px;
+	}
+
+	summary.rule__header {
+		display: flex;
+		align-items: center;
+		gap: calc(2 * var(--default-grid-baseline, 4px));
+		width: 100%;
+		padding: calc(2 * var(--default-grid-baseline, 4px));
+		border-bottom: 1px solid transparent;
+		text-align: start;
+		cursor: pointer;
+		color: inherit;
+		font: inherit;
+		list-style: none;
+
+		&::-webkit-details-marker {
+			display: none;
+		}
+
+		&:hover,
+		&:focus-visible {
+			background-color: var(--color-background-hover);
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--color-primary-element);
+			outline-offset: -2px;
+		}
+	}
+
+	.rule__header__status {
+		display: inline-flex;
+		flex-shrink: 0;
+	}
+
+	.rule__header__title {
+		font-weight: bold;
+		flex-shrink: 0;
+		max-width: 40%;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.rule__header__chevron {
+		display: inline-flex;
+		flex-shrink: 0;
+		color: var(--color-text-maxcontrast);
+	}
+
+	.rule__body {
+		display: flex;
+		flex-direction: column;
+		gap: calc(2 * var(--default-grid-baseline, 4px));
+		padding: calc(2 * var(--default-grid-baseline, 4px));
+		border-top: 1px solid var(--color-border);
+	}
+
+	.rule__meta {
+		display: flex;
+		flex-direction: column;
+		gap: calc(2 * var(--default-grid-baseline, 4px));
+	}
+
+	.rule__meta__field {
+		width: 100%;
+	}
+
+	.rule__editor {
+		display: flex;
+		flex-wrap: wrap;
 
 		.trigger,
 		.action {
@@ -265,6 +373,27 @@ export default {
 			padding-inline-end: 20px;
 			margin-inline-end: 20px;
 		}
+	}
+
+	.buttons {
+		display: flex;
+		justify-content: end;
+
+		button {
+			margin-inline-start: 5px;
+		}
+		button:last-child{
+			margin-inline-end: 10px;
+		}
+	}
+
+	.error-message {
+		float: inline-end;
+		margin-inline-end: 10px;
+	}
+
+	.flow-icon {
+		width: 44px;
 	}
 
 	.trigger p, .action p {
@@ -306,7 +435,7 @@ export default {
 	}
 
 	@media (max-width:1400px) {
-		.rule {
+		.rule__editor {
 			&, .trigger, .action {
 				width: 100%;
 				max-width: 100%;

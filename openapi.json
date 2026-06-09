@@ -4855,6 +4855,7 @@
                     "id",
                     "class",
                     "name",
+                    "description",
                     "checks",
                     "operation",
                     "entity",
@@ -4870,6 +4871,9 @@
                         "minLength": 1
                     },
                     "name": {
+                        "type": "string"
+                    },
+                    "description": {
                         "type": "string"
                     },
                     "checks": {
@@ -41955,6 +41959,11 @@
                                             "type": "string",
                                             "minLength": 1
                                         }
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "default": "",
+                                        "description": "Optional free-text description of the workflow rule"
                                     }
                                 }
                             }
@@ -42280,6 +42289,11 @@
                                             "type": "string",
                                             "minLength": 1
                                         }
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "default": "",
+                                        "description": "Optional free-text description of the workflow rule"
                                     }
                                 }
                             }
@@ -42757,6 +42771,11 @@
                                             "type": "string",
                                             "minLength": 1
                                         }
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "default": "",
+                                        "description": "Optional free-text description of the workflow rule"
                                     }
                                 }
                             }
@@ -43025,6 +43044,11 @@
                                             "type": "string",
                                             "minLength": 1
                                         }
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "default": "",
+                                        "description": "Optional free-text description of the workflow rule"
                                     }
                                 }
                             }

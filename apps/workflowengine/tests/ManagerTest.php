@@ -447,13 +447,15 @@ class ManagerTest extends TestCase {
 		$check2 = ['class' => ICheck::class, 'operator' => 'eq', 'value' => 23456];
 
 		/** @noinspection PhpUnhandledExceptionInspection */
-		$op = $this->manager->updateOperation($opId1, 'Test01a', [$check1, $check2], 'foohur', $adminScope, $entity, ['\OCP\Files::postDelete']);
+		$op = $this->manager->updateOperation($opId1, 'Test01a', [$check1, $check2], 'foohur', $adminScope, $entity, ['\OCP\Files::postDelete'], 'Admin description');
 		$this->assertSame('Test01a', $op['name']);
+		$this->assertSame('Admin description', $op['description']);
 		$this->assertSame('foohur', $op['operation']);
 
 		/** @noinspection PhpUnhandledExceptionInspection */
 		$op = $this->manager->updateOperation($opId2, 'Test02a', [$check1], 'barfoo', $userScope, $entity, ['\OCP\Files::postDelete']);
 		$this->assertSame('Test02a', $op['name']);
+		$this->assertSame('', $op['description']);
 		$this->assertSame('barfoo', $op['operation']);
 
 		foreach ([[$adminScope, $opId2], [$userScope, $opId1]] as $run) {
@@ -740,6 +742,52 @@ class ManagerTest extends TestCase {
 			$this->manager->validateOperation(IOperation::class, 'test', [$check], $operationData, $scopeMock, IEntity::class, ['MyEvent']);
 		} catch (\UnexpectedValueException $e) {
 			$this->assertSame('The provided operation data is too long', $e->getMessage());
+		}
+	}
+
+	public function testValidateOperationNameLengthError(): void {
+		$check = [
+			'id' => 1,
+			'class' => ICheck::class,
+			'operator' => 'is',
+			'value' => 'barfoo',
+			'hash' => 'abc',
+		];
+		$name = str_pad('', Manager::MAX_NAME_BYTES + 1, 'x');
+
+		$operationMock = $this->createMock(IOperation::class);
+		$entityMock = $this->createMock(IEntity::class);
+		$eventEntityMock = $this->createMock(IEntityEvent::class);
+		$checkMock = $this->createMock(ICheck::class);
+		$scopeMock = $this->createMock(ScopeContext::class);
+
+		$scopeMock->method('getScope')->willReturn(IManager::SCOPE_ADMIN);
+
+		$operationMock->expects($this->never())
+			->method('validateOperation');
+
+		$entityMock->method('getEvents')->willReturn([$eventEntityMock]);
+		$eventEntityMock->method('getEventName')->willReturn('MyEvent');
+		$checkMock->method('supportedEntities')->willReturn([IEntity::class]);
+		$checkMock->expects($this->never())->method('validateCheck');
+
+		$this->container->expects($this->any())
+			->method('get')
+			->willReturnCallback(function ($className) use ($operationMock, $entityMock, $eventEntityMock, $checkMock) {
+				return match ($className) {
+					IOperation::class => $operationMock,
+					IEntity::class => $entityMock,
+					IEntityEvent::class => $eventEntityMock,
+					ICheck::class => $checkMock,
+					default => $this->createMock($className),
+				};
+			});
+
+		try {
+			$this->manager->validateOperation(IOperation::class, $name, [$check], 'operationData', $scopeMock, IEntity::class, ['MyEvent']);
+			$this->fail('UnexpectedValueException not thrown');
+		} catch (\UnexpectedValueException $e) {
+			$this->assertSame('The provided name is too long', $e->getMessage());
 		}
 	}
 

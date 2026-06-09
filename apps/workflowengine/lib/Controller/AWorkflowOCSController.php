@@ -95,6 +95,7 @@ abstract class AWorkflowOCSController extends OCSController {
 	 * @param string $operation Operation class to execute on match
 	 * @param string $entity The matched entity
 	 * @param list<class-string<IEntityEvent>> $events The list of events on which the rule should be validated
+	 * @param string $description Optional free-text description of the workflow rule
 	 * @return DataResponse<Http::STATUS_OK, WorkflowEngineRule, array{}>
 	 *
 	 * 200: Workflow created
@@ -109,10 +110,11 @@ abstract class AWorkflowOCSController extends OCSController {
 		string $operation,
 		string $entity,
 		array $events,
+		string $description = '',
 	): DataResponse {
 		$context = $this->getScopeContext();
 		try {
-			$operation = $this->manager->addOperation($class, $name, $checks, $operation, $context, $entity, $events);
+			$operation = $this->manager->addOperation($class, $name, $checks, $operation, $context, $entity, $events, $description);
 			$operation = $this->manager->formatOperation($operation);
 			return new DataResponse($operation);
 		} catch (\UnexpectedValueException $e) {
@@ -134,6 +136,7 @@ abstract class AWorkflowOCSController extends OCSController {
 	 * @param string $operation Operation action to execute on match
 	 * @param string $entity The matched entity
 	 * @param list<class-string<IEntityEvent>> $events The list of events on which the rule should be validated
+	 * @param string $description Optional free-text description of the workflow rule
 	 * @return DataResponse<Http::STATUS_OK, WorkflowEngineRule, array{}>
 	 *
 	 * 200: Workflow updated
@@ -149,10 +152,11 @@ abstract class AWorkflowOCSController extends OCSController {
 		string $operation,
 		string $entity,
 		array $events,
+		string $description = '',
 	): DataResponse {
 		try {
 			$context = $this->getScopeContext();
-			$operation = $this->manager->updateOperation($id, $name, $checks, $operation, $context, $entity, $events);
+			$operation = $this->manager->updateOperation($id, $name, $checks, $operation, $context, $entity, $events, $description);
 			$operation = $this->manager->formatOperation($operation);
 			return new DataResponse($operation);
 		} catch (\UnexpectedValueException $e) {

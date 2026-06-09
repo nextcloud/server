@@ -52,6 +52,8 @@ use Psr\Log\LoggerInterface;
  * @psalm-import-type WorkflowEngineRule from ResponseDefinitions
  */
 class Manager implements IManager {
+	public const MAX_NAME_BYTES = 256;
+
 	/** @var array<string, array<string, array<int, WorkflowEngineCheck>>> */
 	protected array $operations = [];
 
@@ -320,12 +322,14 @@ class Manager implements IManager {
 		string $operation,
 		string $entity,
 		array $events,
+		string $description = '',
 	): int {
 		$query = $this->connection->getQueryBuilder();
 		$query->insert('flow_operations')
 			->values([
 				'class' => $query->createNamedParameter($class),
 				'name' => $query->createNamedParameter($name),
+				'description' => $query->createNamedParameter($description),
 				'checks' => $query->createNamedParameter(json_encode(array_unique($checkIds))),
 				'operation' => $query->createNamedParameter($operation),
 				'entity' => $query->createNamedParameter($entity),
@@ -452,6 +456,7 @@ class Manager implements IManager {
 	 * @param string $name
 	 * @param list<WorkflowEngineCheck> $checks
 	 * @param string $operation
+	 * @param string $description optional free-text description shown in the UI
 	 * @return array The added operation
 	 * @throws \UnexpectedValueException
 	 * @throws Exception
@@ -464,8 +469,9 @@ class Manager implements IManager {
 		ScopeContext $scope,
 		string $entity,
 		array $events,
+		string $description = '',
 	) {
-		$this->validateOperation($class, $name, $checks, $operation, $scope, $entity, $events);
+		$this->validateOperation($class, $name, $checks, $operation, $scope, $entity, $events, $description);
 
 		$this->connection->beginTransaction();
 
@@ -475,7 +481,7 @@ class Manager implements IManager {
 				$checkIds[] = $this->addCheck($check['class'], $check['operator'], $check['value']);
 			}
 
-			$id = $this->insertOperation($class, $name, $checkIds, $operation, $entity, $events);
+			$id = $this->insertOperation($class, $name, $checkIds, $operation, $entity, $events, $description);
 			$this->addScope($id, $scope);
 
 			$this->connection->commit();
@@ -520,6 +526,7 @@ class Manager implements IManager {
 	 * @param string $name
 	 * @param list<WorkflowEngineCheck> $checks
 	 * @param string $operation
+	 * @param string $description optional free-text description shown in the UI
 	 * @return array The updated operation
 	 * @throws \UnexpectedValueException
 	 * @throws \DomainException
@@ -533,12 +540,13 @@ class Manager implements IManager {
 		ScopeContext $scopeContext,
 		string $entity,
 		array $events,
+		string $description = '',
 	): array {
 		if (!$this->canModify($id, $scopeContext)) {
 			throw new \DomainException('Target operation not within scope');
 		};
 		$row = $this->getOperation($id);
-		$this->validateOperation($row['class'], $name, $checks, $operation, $scopeContext, $entity, $events);
+		$this->validateOperation($row['class'], $name, $checks, $operation, $scopeContext, $entity, $events, $description);
 
 		$checkIds = [];
 		try {
@@ -550,6 +558,7 @@ class Manager implements IManager {
 			$query = $this->connection->getQueryBuilder();
 			$query->update('flow_operations')
 				->set('name', $query->createNamedParameter($name))
+				->set('description', $query->createNamedParameter($description))
 				->set('checks', $query->createNamedParameter(json_encode(array_unique($checkIds))))
 				->set('operation', $query->createNamedParameter($operation))
 				->set('entity', $query->createNamedParameter($entity))
@@ -645,9 +654,13 @@ class Manager implements IManager {
 	 * @param array $events
 	 * @throws \UnexpectedValueException
 	 */
-	public function validateOperation(string $class, string $name, array $checks, string $operation, ScopeContext $scope, string $entity, array $events): void {
+	public function validateOperation(string $class, string $name, array $checks, string $operation, ScopeContext $scope, string $entity, array $events, string $description = ''): void {
 		if (strlen($operation) > IManager::MAX_OPERATION_VALUE_BYTES) {
 			throw new \UnexpectedValueException($this->l->t('The provided operation data is too long'));
+		}
+
+		if (strlen($name) > self::MAX_NAME_BYTES) {
+			throw new \UnexpectedValueException($this->l->t('The provided name is too long'));
 		}
 
 		/** @psalm-suppress TaintedCallable newInstance is not called */
@@ -810,7 +823,7 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * @param array{class: class-string<\OCP\WorkflowEngine\IOperation>, entity: class-string<\OCP\WorkflowEngine\IEntity>, checks: string, events: string, id: int, name: string, operation: string} $operation
+	 * @param array{class: class-string<\OCP\WorkflowEngine\IOperation>, entity: class-string<\OCP\WorkflowEngine\IEntity>, checks: string, events: string, id: int, name: string, description: ?string, operation: string} $operation
 	 * @return WorkflowEngineRule
 	 */
 	public function formatOperation(array $operation): array {
@@ -822,6 +835,9 @@ class Manager implements IManager {
 		/** @var list<class-string<IEntityEvent>> $events */
 		$events = json_decode($operation['events'], true) ?? [];
 		$operation['events'] = $events;
+
+		$operation['name'] = (string)($operation['name'] ?? '');
+		$operation['description'] = (string)($operation['description'] ?? '');
 
 		return $operation;
 	}

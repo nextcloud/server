@@ -84,7 +84,8 @@ const store = new Store({
 				class: rule.id,
 				entity: entity ? entity.id : rule.fixedEntity,
 				events,
-				name: '', // unused in the new ui, there for legacy reasons
+				name: '',
+				description: '',
 				checks: [
 					{ class: null, operator: null, value: '' },
 				],
