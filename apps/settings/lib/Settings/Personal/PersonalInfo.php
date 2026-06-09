@@ -94,7 +94,7 @@ class PersonalInfo implements ISettings {
 			'usageRelative' => round($storageInfo['relative']),
 			'displayName' => $this->getProperty($account, IAccountManager::PROPERTY_DISPLAYNAME),
 			'emailMap' => $this->getEmailMap($account),
-			'phone' => $this->getProperty($account, IAccountManager::PROPERTY_PHONE),
+			'phoneMap' => $this->getPhoneMap($account),
 			'defaultPhoneRegion' => $this->config->getSystemValueString('default_phone_region'),
 			'location' => $this->getProperty($account, IAccountManager::PROPERTY_ADDRESS),
 			'website' => $this->getProperty($account, IAccountManager::PROPERTY_WEBSITE),
@@ -241,6 +241,38 @@ class PersonalInfo implements ISettings {
 		];
 
 		return $emailMap;
+	}
+
+	/**
+	 * returns the primary phone and additional phones in an
+	 * associative array
+	 */
+	private function getPhoneMap(IAccount $account): array {
+		$primaryPhone = [
+			'name' => $account->getProperty(IAccountManager::PROPERTY_PHONE)->getName(),
+			'value' => $account->getProperty(IAccountManager::PROPERTY_PHONE)->getValue(),
+			'scope' => $account->getProperty(IAccountManager::PROPERTY_PHONE)->getScope(),
+			'verified' => $account->getProperty(IAccountManager::PROPERTY_PHONE)->getVerified(),
+		];
+
+		$additionalPhones = array_map(
+			function (IAccountProperty $property) {
+				return [
+					'name' => $property->getName(),
+					'value' => $property->getValue(),
+					'scope' => $property->getScope(),
+					'verified' => $property->getVerified(),
+				];
+			},
+			$account->getPropertyCollection(IAccountManager::COLLECTION_PHONE)->getProperties(),
+		);
+
+		$phoneMap = [
+			'primaryPhone' => $primaryPhone,
+			'additionalPhones' => $additionalPhones,
+		];
+
+		return $phoneMap;
 	}
 
 	/**

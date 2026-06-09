@@ -127,6 +127,7 @@
                 "type": "object",
                 "required": [
                     "additional_mail",
+                    "additional_phone",
                     "address",
                     "backend",
                     "backendCapabilities",
@@ -165,6 +166,18 @@
                         }
                     },
                     "additional_mailScope": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/UserDetailsScope"
+                        }
+                    },
+                    "additional_phone": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "additional_phoneScope": {
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/UserDetailsScope"

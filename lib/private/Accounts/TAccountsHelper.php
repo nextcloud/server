@@ -19,6 +19,7 @@ trait TAccountsHelper {
 			$propertyName,
 			[
 				IAccountManager::COLLECTION_EMAIL,
+				IAccountManager::COLLECTION_PHONE,
 			],
 			true
 		);

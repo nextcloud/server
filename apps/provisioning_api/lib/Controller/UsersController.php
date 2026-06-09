@@ -785,6 +785,10 @@ class UsersController extends AUserDataOCSController {
 			$permittedFields[] = IAccountManager::COLLECTION_EMAIL;
 		}
 
+		if ($targetUser->canEditProperty(IAccountManager::COLLECTION_PHONE)) {
+			$permittedFields[] = IAccountManager::COLLECTION_PHONE;
+		}
+
 		return new DataResponse($permittedFields);
 	}
 
@@ -833,11 +837,16 @@ class UsersController extends AUserDataOCSController {
 				$permittedFields[] = IAccountManager::COLLECTION_EMAIL;
 			}
 			$permittedFields[] = IAccountManager::COLLECTION_EMAIL . self::SCOPE_SUFFIX;
+			if ($targetUser->canEditProperty(IAccountManager::COLLECTION_PHONE)) {
+				$permittedFields[] = IAccountManager::COLLECTION_PHONE;
+			}
+			$permittedFields[] = IAccountManager::COLLECTION_PHONE . self::SCOPE_SUFFIX;
 		} else {
 			// Check if admin / subadmin
 			if ($isAdminOrSubadmin || $isDelegatedAdmin && !$this->groupManager->isInGroup($targetUser->getUID(), 'admin')) {
 				// They have permissions over the user
 				$permittedFields[] = IAccountManager::COLLECTION_EMAIL;
+				$permittedFields[] = IAccountManager::COLLECTION_PHONE;
 			} else {
 				// No rights
 				throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
@@ -874,6 +883,43 @@ class UsersController extends AUserDataOCSController {
 				$mailCollection = $userAccount->getPropertyCollection(IAccountManager::COLLECTION_EMAIL);
 				$targetProperty = null;
 				foreach ($mailCollection->getProperties() as $property) {
+					if ($property->getValue() === $key) {
+						$targetProperty = $property;
+						break;
+					}
+				}
+				if ($targetProperty instanceof IAccountProperty) {
+					try {
+						$targetProperty->setScope($value);
+						$this->accountManager->updateAccount($userAccount);
+					} catch (InvalidArgumentException $e) {
+						throw new OCSException('', 102);
+					}
+				} else {
+					throw new OCSException('', 102);
+				}
+				break;
+
+			case IAccountManager::COLLECTION_PHONE:
+				$userAccount = $this->accountManager->getAccount($targetUser);
+				$phoneCollection = $userAccount->getPropertyCollection(IAccountManager::COLLECTION_PHONE);
+				$phoneCollection->removePropertyByValue($key);
+				if ($value !== '') {
+					$phoneCollection->addPropertyWithDefaults($value);
+				}
+				try {
+					$this->accountManager->updateAccount($userAccount);
+					$this->knownUserService->deleteByContactUserId($targetUser->getUID());
+				} catch (InvalidArgumentException $e) {
+					throw new OCSException('Invalid ' . $e->getMessage(), 101);
+				}
+				break;
+
+			case IAccountManager::COLLECTION_PHONE . self::SCOPE_SUFFIX:
+				$userAccount = $this->accountManager->getAccount($targetUser);
+				$phoneCollection = $userAccount->getPropertyCollection(IAccountManager::COLLECTION_PHONE);
+				$targetProperty = null;
+				foreach ($phoneCollection->getProperties() as $property) {
 					if ($property->getValue() === $key) {
 						$targetProperty = $property;
 						break;
@@ -1199,6 +1245,7 @@ class UsersController extends AUserDataOCSController {
 			}
 
 			$permittedFields[] = IAccountManager::COLLECTION_EMAIL;
+			$permittedFields[] = IAccountManager::COLLECTION_PHONE;
 
 			$permittedFields[] = self::USER_FIELD_PASSWORD;
 			$permittedFields[] = self::USER_FIELD_NOTIFICATION_EMAIL;
@@ -1256,6 +1303,7 @@ class UsersController extends AUserDataOCSController {
 				}
 				$permittedFields[] = IAccountManager::PROPERTY_EMAIL;
 				$permittedFields[] = IAccountManager::COLLECTION_EMAIL;
+				$permittedFields[] = IAccountManager::COLLECTION_PHONE;
 				$permittedFields[] = self::USER_FIELD_PASSWORD;
 				$permittedFields[] = self::USER_FIELD_LANGUAGE;
 				$permittedFields[] = self::USER_FIELD_LOCALE;
@@ -1385,6 +1433,28 @@ class UsersController extends AUserDataOCSController {
 
 					$mailCollection->addPropertyWithDefaults($value);
 					$this->accountManager->updateAccount($userAccount);
+				} else {
+					throw new OCSException('', 101);
+				}
+				break;
+			case IAccountManager::COLLECTION_PHONE:
+				if ($value !== '') {
+					$userAccount = $this->accountManager->getAccount($targetUser);
+					$primaryPhone = $userAccount->getProperty(IAccountManager::PROPERTY_PHONE)->getValue();
+					if ($value === $primaryPhone) {
+						throw new OCSException('', 101);
+					}
+					$phoneCollection = $userAccount->getPropertyCollection(IAccountManager::COLLECTION_PHONE);
+					if ($phoneCollection->getPropertyByValue($value)) {
+						throw new OCSException('', 101);
+					}
+					$phoneCollection->addPropertyWithDefaults($value);
+					try {
+						$this->accountManager->updateAccount($userAccount);
+						$this->knownUserService->deleteByContactUserId($targetUser->getUID());
+					} catch (InvalidArgumentException $e) {
+						throw new OCSException('Invalid ' . $e->getMessage(), 101);
+					}
 				} else {
 					throw new OCSException('', 101);
 				}
