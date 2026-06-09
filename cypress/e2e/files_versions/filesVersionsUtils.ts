@@ -27,22 +27,21 @@ export function openVersionsPanel(fileName: string) {
 	cy.intercept('PROPFIND', '**/dav/versions/*/versions/**').as('getVersions')
 
 	triggerActionForFile(basename(fileName), 'details')
-	cy.get('[data-cy-sidebar]')
-		.as('sidebar')
-		.should('be.visible')
-	cy.get('@sidebar')
-		.find('[aria-controls="tab-files_versions"]')
-		.click()
+	cy.get('[data-cy-sidebar]').should('be.visible')
+	// Fresh query for the tab button avoids stale DOM if the sidebar re-renders after opening
+	cy.get('[data-cy-sidebar] [aria-controls="tab-files_versions"]').click()
 
-	// Wait for the versions list to be fetched
+	// Wait for the versions list to be fetched and rendered
 	cy.wait('@getVersions')
 	cy.get('#tab-files_versions').should('be.visible', { timeout: 10000 })
+	cy.get('#tab-files_versions [data-files-versions-version]').should('have.length.at.least', 1)
 }
 
 export function toggleVersionMenu(index: number) {
-	cy.get('#tab-files_versions [data-files-versions-version]')
+	// Query the button directly in a single selector to avoid stale DOM from chaining
+	// .find('button') off a .eq() result when the versions list re-renders
+	cy.get('#tab-files_versions [data-files-versions-version] button')
 		.eq(index)
-		.find('button')
 		.click()
 }
 

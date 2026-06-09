@@ -798,6 +798,7 @@ class CacheTest extends \Test\TestCase {
 
 		$entries = $this->cache->getFolderContents('');
 		$this->assertCount(4, $entries);
+		usort($entries, fn ($a, $b) => $a->getName() <=> $b->getName());
 
 		$entriesByName = [];
 		foreach ($entries as $entry) {

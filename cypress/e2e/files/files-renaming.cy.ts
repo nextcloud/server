@@ -31,10 +31,10 @@ describe('files: Rename nodes', { testIsolation: true }, () => {
 
 		triggerActionForFile('file.txt', 'rename')
 
-		getRowForFile('file.txt')
-			.findByRole('textbox', { name: 'Filename' })
+		cy.findByRole('textbox', { name: 'Filename' })
 			.should('be.visible')
 			.type('{selectAll}other.txt')
+		cy.findByRole('textbox', { name: 'Filename' })
 			.should(haveValidity(''))
 			.type('{enter}')
 
@@ -52,8 +52,7 @@ describe('files: Rename nodes', { testIsolation: true }, () => {
 
 		triggerActionForFile('file.txt', 'rename')
 
-		getRowForFile('file.txt')
-			.findByRole('textbox', { name: 'Filename' })
+		cy.findByRole('textbox', { name: 'Filename' })
 			.should('be.visible')
 			.should((el) => {
 				const input = el.get(0) as HTMLInputElement
@@ -68,11 +67,11 @@ describe('files: Rename nodes', { testIsolation: true }, () => {
 
 		triggerActionForFile('file.txt', 'rename')
 
-		getRowForFile('file.txt')
-			.findByRole('textbox', { name: 'Filename' })
+		cy.findByRole('textbox', { name: 'Filename' })
 			.should('be.visible')
 			.type('{selectAll}.htaccess')
-			// See validity
+		// See validity
+		cy.findByRole('textbox', { name: 'Filename' })
 			.should(haveValidity(/reserved name/i))
 	})
 
@@ -96,8 +95,7 @@ describe('files: Rename nodes', { testIsolation: true }, () => {
 
 		// Start the renaming
 		triggerActionForFile('file.txt', 'rename')
-		getRowForFile('file.txt')
-			.findByRole('textbox', { name: 'Filename' })
+		cy.findByRole('textbox', { name: 'Filename' })
 			.should('be.visible')
 			.type('{selectAll}new-name.txt{enter}')
 
@@ -132,10 +130,10 @@ describe('files: Rename nodes', { testIsolation: true }, () => {
 
 		triggerActionForFile('file.txt', 'rename')
 
-		getRowForFile('file.txt')
-			.findByRole('textbox', { name: 'Filename' })
+		cy.findByRole('textbox', { name: 'Filename' })
 			.should('be.visible')
 			.type('{selectAll}other.txt')
+		cy.findByRole('textbox', { name: 'Filename' })
 			.should(haveValidity(''))
 			.type('{esc}')
 
@@ -153,8 +151,7 @@ describe('files: Rename nodes', { testIsolation: true }, () => {
 
 		triggerActionForFile('file.txt', 'rename')
 
-		getRowForFile('file.txt')
-			.findByRole('textbox', { name: 'Filename' })
+		cy.findByRole('textbox', { name: 'Filename' })
 			.should('be.visible')
 			.type('{enter}')
 
@@ -206,11 +203,9 @@ describe('files: Rename nodes', { testIsolation: true }, () => {
 		getRowForFile('file.txt').should('be.visible')
 
 		triggerActionForFile('file.txt', 'rename')
-		getRowForFile('file.txt')
-			.findByRole('textbox', { name: 'Filename' })
+		cy.findByRole('textbox', { name: 'Filename' })
 			.should('be.visible')
-			.type('{selectAll}file.md')
-			.type('{enter}')
+			.type('{selectAll}file.md{enter}')
 
 		// See warning dialog
 		cy.findByRole('dialog', { name: 'Change file extension' })
@@ -226,11 +221,9 @@ describe('files: Rename nodes', { testIsolation: true }, () => {
 		getRowForFile('file.txt').should('be.visible')
 
 		triggerActionForFile('file.txt', 'rename')
-		getRowForFile('file.txt')
-			.findByRole('textbox', { name: 'Filename' })
+		cy.findByRole('textbox', { name: 'Filename' })
 			.should('be.visible')
-			.type('{selectAll}document.md')
-			.type('{enter}')
+			.type('{selectAll}document.md{enter}')
 
 		// See warning dialog
 		cy.findByRole('dialog', { name: 'Change file extension' })
@@ -246,11 +239,9 @@ describe('files: Rename nodes', { testIsolation: true }, () => {
 		getRowForFile('file.txt').should('be.visible')
 
 		triggerActionForFile('file.txt', 'rename')
-		getRowForFile('file.txt')
-			.findByRole('textbox', { name: 'Filename' })
+		cy.findByRole('textbox', { name: 'Filename' })
 			.should('be.visible')
-			.type('{selectAll}file')
-			.type('{enter}')
+			.type('{selectAll}file{enter}')
 
 		cy.findByRole('dialog', { name: 'Change file extension' })
 			.should('be.visible')
@@ -272,10 +263,10 @@ describe('files: Rename nodes', { testIsolation: true }, () => {
 		getRowForFile('folder.2024').should('be.visible')
 
 		triggerActionForFile('folder.2024', 'rename')
-		getRowForFile('folder.2024')
-			.findByRole('textbox', { name: 'Folder name' })
+		cy.findByRole('textbox', { name: 'Folder name' })
 			.should('be.visible')
 			.type('{selectAll}folder.2025')
+		cy.findByRole('textbox', { name: 'Folder name' })
 			.should(haveValidity(''))
 			.type('{enter}')
 
