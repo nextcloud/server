@@ -142,36 +142,13 @@ class CleanupTest extends TestCase {
 	}
 
 	public function testCleanupWithPreviewServiceException(): void {
-		$previewFolder = $this->createMock(Folder::class);
-		$previewFolder->expects($this->once())
-			->method('isDeletable')
-			->willReturn(true);
-
-		$previewFolder->expects($this->once())
-			->method('delete');
-
-		$appDataFolder = $this->createMock(Folder::class);
-		$appDataFolder->expects($this->once())->method('get')->with('preview')->willReturn($previewFolder);
-
 		$this->rootFolder->method('getAppDataDirectoryName')
-			->willReturn('appdata_some_id');
-
-		$this->rootFolder->method('get')
-			->with('appdata_some_id')
-			->willReturn($appDataFolder);
-
-		$this->output->expects($this->exactly(2))->method('writeln')
-			->with(self::callback(function (string $message): bool {
-				static $i = 0;
-				return match (++$i) {
-					1 => $message === 'Preview folder deleted',
-					2 => $message === 'Previews removed'
-				};
-			}));
+			->willThrowException(new NotFoundException());
 
 		$this->previewService->expects($this->once())->method('deleteAll')
 			->willThrowException(new NotPermittedException('abc'));
 
+		$this->logger->expects($this->once())->method('info')->with("Legacy previews can't be removed: appdata folder can't be found");
 		$this->logger->expects($this->once())->method('error')->with("Previews can't be removed: exception occurred: abc");
 
 		$this->assertEquals(1, $this->repair->run($this->input, $this->output));
