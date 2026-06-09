@@ -3,11 +3,35 @@
 #
 # THIS IS AN EXPERIMENTAL FEATURE
 # DO NOT USE THIS IN PRODUCTION, YOU HAVE BEEN WARNED.
+{
+	metrics
+	frankenphp {
+		num_threads 192
+		max_threads 256
+		# max_requests 500
+	}
+}
 
 localhost {
 	php_server {
         worker {
 			file index.php
+			num 32
+			watch
+		}
+        worker {
+			file remote.php
+			num 32
+			watch
+		}
+        worker {
+			file ocs/v1.php
+			num 32
+			watch
+		}
+        worker {
+			file ocs/v2.php
+			num 32
 			watch
 		}
 	}
