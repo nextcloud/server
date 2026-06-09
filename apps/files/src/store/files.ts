@@ -6,6 +6,7 @@
 import type { IFolder, INode } from '@nextcloud/files'
 import type { FileSource, FilesStore, RootOptions, RootsStore, Service } from '../types.ts'
 
+import { getRootPath } from '@nextcloud/files/dav'
 import { subscribe } from '@nextcloud/event-bus'
 import { defineStore } from 'pinia'
 import Vue, { ref } from 'vue'
@@ -215,12 +216,19 @@ export const useFilesStore = defineStore('files', () => {
 	 * @param node - The updated node
 	 */
 	async function onUpdatedNode(node: INode) {
-		// If we have multiple nodes with the same file ID, we need to update all of them
+		// If we have multiple nodes with the same file ID, we need to update all of them.
+		// Filter to only nodes under the files DAV root — e.g. systemtag folder nodes share
+		// an integer ID namespace with regular files but live under /systemtags and cannot
+		// be fetched via the /files/{uid} DAV client.
 		const nodes = node.id
 			? getNodesById(node.id)
 			: getNodes([node.source])
 		if (nodes.length > 1) {
-			await Promise.all(nodes.map((node) => fetchNode(node.path))).then(updateNodes)
+			const filesRoot = getRootPath()
+			const fileNodes = nodes.filter((n) => n.root === filesRoot)
+			if (fileNodes.length > 0) {
+				await Promise.all(fileNodes.map((n) => fetchNode(n.path))).then(updateNodes)
+			}
 			logger.debug(nodes.length + ' nodes updated in store', { fileid: node.id, source: node.source })
 			return
 		}
@@ -231,7 +239,12 @@ export const useFilesStore = defineStore('files', () => {
 			return
 		}
 
-		// Otherwise, it means we receive an event for a node that is not in the store
+		// Otherwise, it means we receive an event for a node that is not in the store.
+		// Skip nodes from non-files roots (e.g. /systemtags) — they cannot be fetched
+		// via the /files/{uid} DAV client and would result in a spurious 404.
+		if (node.root !== getRootPath()) {
+			return
+		}
 		fetchNode(node.path).then((n) => updateNodes([n]))
 	}
 

@@ -222,7 +222,15 @@ export default defineComponent({
 
 			const source = this.getFileSourceFromPath(path)
 			const node = source ? this.getNodeFromSource(source) : undefined
-			return node?.displayname || basename(path)
+			if (node?.displayname) {
+				return node.displayname
+			}
+			// Fallback while the path store is not yet populated (e.g. tag folder
+			// before the REPORT completes): use the active folder's display name.
+			if (this.activeStore.activeFolder?.path === path) {
+				return this.activeStore.activeFolder.displayname || basename(path)
+			}
+			return basename(path)
 		},
 
 		getTo(dir: string, node?: Node): Record<string, unknown> {
