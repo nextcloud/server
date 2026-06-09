@@ -666,6 +666,9 @@ class OC {
 		}
 	}
 
+	/*
+	 * Called only once at the beginning to setup things
+	 */
 	public static function boot(): void {
 		// prevent any XML processing from loading external entities
 		libxml_set_external_entity_loader(static function () {
@@ -726,7 +729,12 @@ class OC {
 		}
 	}
 
-	public static function init(): void {
+	/*
+	 * Called before each request served if the same worker serves several request
+	 */
+	public static function initForRequest(): void {
+		self::resetStaticProperties();
+
 		// First handle PHP configuration and copy auth headers to the expected
 		// $_SERVER variable before doing anything Server object related
 		self::setRequiredIniValues();
@@ -1329,7 +1337,7 @@ class OC {
 	/**
 	 * @internal
 	 */
-	public static function resetStaticProperties(): void {
+	private static function resetStaticProperties(): void {
 		// FIXME needed because these use a static var
 		\OC_Hook::clear();
 		\OC_Util::$styles = [];

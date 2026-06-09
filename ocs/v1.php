@@ -31,8 +31,7 @@ require_once __DIR__ . '/../lib/OC.php';
 \OC::boot();
 
 \OC::handleRequests(static function () {
-	\OC::resetStaticProperties();
-	\OC::init();
+	\OC::initForRequest();
 	$request = Server::get(IRequest::class);
 
 	if ((Util::needUpgrade() || Server::get(IConfig::class)->getSystemValueBool('maintenance')) && $request->getPathInfo() !== '/core/update') {

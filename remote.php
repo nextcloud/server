@@ -103,8 +103,7 @@ require_once __DIR__ . '/lib/OC.php';
 
 \OC::handleRequests(static function () {
 	try {
-		\OC::resetStaticProperties();
-		\OC::init();
+		\OC::initForRequest();
 
 		// All resources served via the DAV endpoint should have the strictest possible
 		// policy. Exempted from this is the SabreDAV browser plugin which overwrites
