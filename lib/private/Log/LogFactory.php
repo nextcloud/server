@@ -1,5 +1,4 @@
 <?php
-
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -29,6 +28,7 @@ class LogFactory implements ILogFactory {
 	public function get(string $type):IWriter {
 		return match (strtolower($type)) {
 			'errorlog' => new Errorlog($this->systemConfig),
+			'stdlog' => new Stdlog($this->systemConfig),
 			'syslog' => $this->c->resolve(Syslog::class),
 			'systemd' => $this->c->resolve(Systemdlog::class),
 			'file' => $this->buildLogFile(),
@@ -39,6 +39,7 @@ class LogFactory implements ILogFactory {
 	protected function createNewLogger(string $type, string $tag, string $path): IWriter {
 		return match (strtolower($type)) {
 			'errorlog' => new Errorlog($this->systemConfig, $tag),
+			'stdlog' => new Stdlog($this->systemConfig, $tag),
 			'syslog' => new Syslog($this->systemConfig, $tag),
 			'systemd' => new Systemdlog($this->systemConfig, $tag),
 			default => $this->buildLogFile($path),
