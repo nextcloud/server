@@ -138,7 +138,7 @@ describe('files: search', () => {
 			.should('be.visible')
 			.within(() => {
 				// see within there is a search box with the same value
-				cy.findByRole('searchbox', { name: /search for files/i })
+				cy.findByRole('combobox', { name: /search for files/i })
 					.should('be.visible')
 					.and('have.value', 'xyz')
 			})

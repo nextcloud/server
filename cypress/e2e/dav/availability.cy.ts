@@ -94,7 +94,7 @@ describe('Calendar: Availability', { testIsolation: true }, () => {
 			.type('Happy holidays!')
 
 		cy.intercept('GET', '**/ocs/v2.php/apps/files_sharing/api/v1/sharees?*search=replacement*').as('userSearch')
-		cy.findByRole('searchbox')
+		cy.findByRole('combobox')
 			.should('be.visible')
 			.as('userSearchBox')
 			.click()

@@ -52,7 +52,7 @@ describe('Navigation', () => {
 		// see the navigation
 		await expect(component.findByRole('navigation', { name: 'Files' })).resolves.not.toThrow()
 		// see the search box
-		await expect(component.findByRole('searchbox', { name: /Search here/ })).resolves.not.toThrow()
+		await expect(component.findByRole('combobox', { name: /Search here/ })).resolves.not.toThrow()
 		// see the settings entry
 		await expect(component.findByRole('link', { name: /Files settings/ })).resolves.not.toThrow()
 	})

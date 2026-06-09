@@ -12,7 +12,7 @@ export class FilesNavigationPage {
 	}
 
 	searchInput() {
-		return this.navigation().findByRole('searchbox')
+		return this.navigation().findByRole('combobox')
 	}
 
 	searchScopeTrigger() {
