@@ -7,6 +7,7 @@
  */
 use OC\Files\Filesystem;
 use OC\Files\Storage\Wrapper\DirPermissionsMask;
+use OC\Files\Storage\Wrapper\PermissionsMask;
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\PublicAuth;
 use OCA\DAV\Connector\Sabre\ServerFactory;
@@ -21,6 +22,7 @@ use OCP\App\IAppManager;
 use OCP\BeforeSabrePubliclyLoadedEvent;
 use OCP\Constants;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\IHomeStorage;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
 use OCP\ICacheFactory;
@@ -115,11 +117,22 @@ $server = $serverFactory->createServer(true, $baseuri, $requestUri, $authPlugin,
 			$mask |= Constants::PERMISSION_READ | Constants::PERMISSION_DELETE;
 		}
 
-		return new DirPermissionsMask([
-			'storage' => $storage,
-			'mask' => $mask,
-			'path' => 'files',
-		]);
+		// A user home storage keeps the shared files/ tree next to sibling
+		// directories (files_versions/, files_trashbin/, uploads/, …). Only the
+		// files/ subtree may be masked so versions/trashbin stay usable (see #59511).
+		// Jailed storages such as group folders are rooted at their own files area
+		// and carry no files/ prefix, so DirPermissionsMask would never match and
+		// the share mask would be bypassed. Mask the whole (already jailed) storage
+		// in that case.
+		if ($storage->instanceOfStorage(IHomeStorage::class)) {
+			return new DirPermissionsMask([
+				'storage' => $storage,
+				'mask' => $mask,
+				'path' => 'files',
+			]);
+		}
+
+		return new PermissionsMask(['storage' => $storage, 'mask' => $mask]);
 	});
 
 	/** @psalm-suppress MissingClosureParamType */
