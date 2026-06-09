@@ -386,7 +386,7 @@ class TemplateLayout {
 			$pathParts = explode('/', $path);
 			if ($pathParts[0] === 'dist') {
 				// Return the part before the dash in the file name
-				return explode('-', \array_last($pathParts), 2)[0];
+				return explode('-', \end($pathParts), 2)[0];
 			} elseif ($pathParts[0] === 'css') {
 				// This is a scss request
 				return $pathParts[1];
