@@ -36,7 +36,7 @@ describe('Create system tags', () => {
 		cy.wait('@createTag').its('response.statusCode').should('eq', 201)
 
 		// see that the created tag is in the list
-		cy.get('input#system-tags-input').focus()
+		cy.get('input#system-tags-input').click()
 		cy.get('input#system-tags-input').invoke('attr', 'aria-controls').then((id) => {
 			cy.get(`ul#${id} li span[title="${tagName}"]`)
 				.should('exist')
@@ -52,7 +52,7 @@ describe('Update system tags', { testIsolation: false }, () => {
 	})
 
 	it('select the tag', () => {
-		cy.get('input#system-tags-input').focus()
+		cy.get('input#system-tags-input').click()
 		cy.get('input#system-tags-input').invoke('attr', 'aria-controls').then((id) => {
 			cy.get(`ul#${id} li span[title="${tagName}"]`).should('exist').click()
 		})
@@ -69,7 +69,7 @@ describe('Update system tags', { testIsolation: false }, () => {
 		cy.get('input#system-tag-name').type(updatedTagName)
 		cy.get('input#system-tag-name').should('have.value', updatedTagName)
 		// select the new tag level
-		cy.get('input#system-tag-level').focus()
+		cy.get('input#system-tag-level').click()
 		cy.get('input#system-tag-level').invoke('attr', 'aria-controls').then((id) => {
 			cy.get(`ul#${id} li span[title="Invisible"]`).should('exist').click()
 		})
@@ -80,7 +80,7 @@ describe('Update system tags', { testIsolation: false }, () => {
 	})
 
 	it('see the tag was successfully updated', () => {
-		cy.get('input#system-tags-input').focus()
+		cy.get('input#system-tags-input').click()
 		cy.get('input#system-tags-input').invoke('attr', 'aria-controls').then((id) => {
 			cy.get(`ul#${id} li span[title="${updatedTagName} (invisible)"]`)
 				.should('exist')
@@ -97,7 +97,7 @@ describe('Delete system tags', { testIsolation: false }, () => {
 
 	it('select the tag', () => {
 		// select the tag to edit
-		cy.get('input#system-tags-input').focus()
+		cy.get('input#system-tags-input').click()
 		cy.get('input#system-tags-input').invoke('attr', 'aria-controls').then((id) => {
 			cy.get(`ul#${id} li span[title="${updatedTagName} (invisible)"]`).should('exist').click()
 		})
@@ -118,7 +118,7 @@ describe('Delete system tags', { testIsolation: false }, () => {
 	})
 
 	it('see that the deleted tag is not present', () => {
-		cy.get('input#system-tags-input').focus()
+		cy.get('input#system-tags-input').click()
 		cy.get('input#system-tags-input').invoke('attr', 'aria-controls').then((id) => {
 			cy.get(`ul#${id} li span[title="${updatedTagName}"]`).should('not.exist')
 		})

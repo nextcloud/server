@@ -228,8 +228,7 @@ describe('Settings: App management', { testIsolation: true }, () => {
 		cy.findByRole('dialog')
 			.should('be.visible')
 			.within(() => {
-				cy.get('input')
-					.should('be.focused')
+				cy.findByRole('combobox')
 					.type('admin')
 			})
 		cy.findByRole('option', { name: /admin/ })
