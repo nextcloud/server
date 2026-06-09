@@ -1582,6 +1582,7 @@ class Manager implements ICommentsManager {
 	#[\Override]
 	public function load(): void {
 		$this->initialStateService->provideInitialState('comments', 'max-message-length', IComment::MAX_MESSAGE_LENGTH);
+		Util::addStyle('comments', 'comments-app');
 		Util::addScript('comments', 'comments-app');
 	}
 
