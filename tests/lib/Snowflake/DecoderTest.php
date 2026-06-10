@@ -19,6 +19,8 @@ class DecoderTest extends TestCase {
 
 	#[\Override]
 	public function setUp():void {
+		parent::setUp();
+
 		$this->decoder = new SnowflakeDecoder();
 	}
 
