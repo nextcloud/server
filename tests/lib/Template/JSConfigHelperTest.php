@@ -248,7 +248,7 @@ class JSConfigHelperTest extends TestCase {
 
 		$token = $this->createToken([]);
 
-		$this->tokenProvider->expects(self::once())
+		$this->tokenProvider->expects(self::exactly(2))
 			->method('getToken')
 			->with('session-id')
 			->willReturn($token);
@@ -280,7 +280,7 @@ class JSConfigHelperTest extends TestCase {
 			->with('alice')
 			->willReturn(false);
 
-		$this->session->expects(self::once())
+		$this->session->expects(self::exactly(2))
 			->method('getId')
 			->willReturn('session-id');
 
