@@ -336,6 +336,23 @@ trait WebDav {
 	}
 
 	/**
+	 * @When Uploading public file :filename with content :content
+	 */
+	public function uploadingPublicFile(string $filename, string $content) {
+		$token = $this->lastShareData->data->token;
+		$fullUrl = substr($this->baseUrl, 0, -4) . "public.php/dav/files/$token/$filename";
+
+		$client = new GClient();
+		try {
+			$this->response = $client->request('PUT', $fullUrl, [
+				'body' => $content
+			]);
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$this->response = $e->getResponse();
+		}
+	}
+
+	/**
 	 * @Then /^as "([^"]*)" gets properties of (file|folder|entry) "([^"]*)" with$/
 	 * @param string $user
 	 * @param string $elementType
