@@ -36,12 +36,7 @@ class TempManagerTest extends \Test\TestCase {
 		parent::tearDown();
 	}
 
-	/**
-	 * @param ?LoggerInterface $logger
-	 * @param ?IConfig $config
-	 * @return TempManager
-	 */
-	protected function getManager($logger = null, $config = null) {
+	protected function getManager(?LoggerInterface $logger = null, ?IConfig $config = null): TempManager {
 		if (!$logger) {
 			$logger = $this->createMock(LoggerInterface::class);
 		}
