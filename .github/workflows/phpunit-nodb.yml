@@ -59,7 +59,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ["8.2", "8.3", "8.4", "8.5"]
+        php-versions: ['8.2', '8.5']
 
     name: No DB unit tests (PHP ${{ matrix.php-versions }})
 

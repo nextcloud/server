@@ -44,10 +44,6 @@ jobs:
     needs: changes
     if: needs.changes.outputs.src != 'false'
 
-    strategy:
-      matrix:
-        php-versions: ['8.2']
-
     name: PHP checkers
 
     steps:
@@ -57,11 +53,11 @@ jobs:
           persist-credentials: false
           submodules: true
 
-      - name: Set up php ${{ matrix.php-versions }}
+      - name: Set up php
         uses: shivammathur/setup-php@7c071dfe9dc99bdf297fa79cb49ea005b9fcadbc #v2.37.1
         timeout-minutes: 5
         with:
-          php-version: ${{ matrix.php-versions }}
+          php-version: '8.2'
           extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
           coverage: none
           ini-file: development
@@ -77,10 +73,6 @@ jobs:
     needs: changes
     if: needs.changes.outputs.src != 'false'
 
-    strategy:
-      matrix:
-        php-versions: ['8.2']
-
     name: Translation and Files checkers
 
     steps:
@@ -90,11 +82,11 @@ jobs:
           persist-credentials: false
           submodules: true
 
-      - name: Set up php ${{ matrix.php-versions }}
+      - name: Set up php
         uses: shivammathur/setup-php@7c071dfe9dc99bdf297fa79cb49ea005b9fcadbc #v2.37.1
         timeout-minutes: 5
         with:
-          php-version: ${{ matrix.php-versions }}
+          php-version: '8.2'
           extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
           coverage: none
           ini-file: development

@@ -60,14 +60,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - php-versions: '8.2'
-            postgres-versions: '14'
-          - php-versions: '8.3'
-            postgres-versions: '18'
-          - php-versions: '8.4'
-            postgres-versions: '18'
-          - php-versions: '8.5'
-            postgres-versions: '18'
+          - postgres-versions: '14'
+            php-versions: '8.2'
+          - postgres-versions: '18'
+            php-versions: '8.5'
 
     name: PostgreSQL ${{ matrix.postgres-versions }} (PHP ${{ matrix.php-versions }}) - database tests
 

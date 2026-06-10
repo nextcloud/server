@@ -45,7 +45,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.2']
+        php-versions: ['8.2', '8.5']
         endpoint: ['webdav', 'dav']
 
     name: Litmus WebDAV ${{ matrix.endpoint }}
