@@ -163,10 +163,9 @@ export class AppstorePage {
 
 	/**
 	 * Gets the group search input.
-	 * NcSelectUsers uses role="combobox" on the search input, not role="textbox".
 	 */
 	groupSearchInput(): Locator {
-		return this.groupDialog().locator('input').first()
+		return this.groupDialog().getByRole('combobox')
 	}
 
 	/**
