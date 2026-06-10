@@ -938,6 +938,7 @@ return array(
     'OCP\\TaskProcessing\\TaskTypes\\AnalyzeImages' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/AnalyzeImages.php',
     'OCP\\TaskProcessing\\TaskTypes\\AudioToAudioChat' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/AudioToAudioChat.php',
     'OCP\\TaskProcessing\\TaskTypes\\AudioToText' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/AudioToText.php',
+    'OCP\\TaskProcessing\\TaskTypes\\AudioToTextSubtitles' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/AudioToTextSubtitles.php',
     'OCP\\TaskProcessing\\TaskTypes\\ContextAgentAudioInteraction' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/ContextAgentAudioInteraction.php',
     'OCP\\TaskProcessing\\TaskTypes\\ContextAgentInteraction' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/ContextAgentInteraction.php',
     'OCP\\TaskProcessing\\TaskTypes\\ContextWrite' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/ContextWrite.php',

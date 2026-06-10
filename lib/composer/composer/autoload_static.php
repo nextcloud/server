@@ -979,6 +979,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\TaskProcessing\\TaskTypes\\AnalyzeImages' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/AnalyzeImages.php',
         'OCP\\TaskProcessing\\TaskTypes\\AudioToAudioChat' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/AudioToAudioChat.php',
         'OCP\\TaskProcessing\\TaskTypes\\AudioToText' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/AudioToText.php',
+        'OCP\\TaskProcessing\\TaskTypes\\AudioToTextSubtitles' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/AudioToTextSubtitles.php',
         'OCP\\TaskProcessing\\TaskTypes\\ContextAgentAudioInteraction' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/ContextAgentAudioInteraction.php',
         'OCP\\TaskProcessing\\TaskTypes\\ContextAgentInteraction' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/ContextAgentInteraction.php',
         'OCP\\TaskProcessing\\TaskTypes\\ContextWrite' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/ContextWrite.php',

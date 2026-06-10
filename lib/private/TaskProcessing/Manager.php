@@ -72,6 +72,7 @@ use OCP\TaskProcessing\Task;
 use OCP\TaskProcessing\TaskTypes\AnalyzeImages;
 use OCP\TaskProcessing\TaskTypes\AudioToAudioChat;
 use OCP\TaskProcessing\TaskTypes\AudioToText;
+use OCP\TaskProcessing\TaskTypes\AudioToTextSubtitles;
 use OCP\TaskProcessing\TaskTypes\ContextAgentAudioInteraction;
 use OCP\TaskProcessing\TaskTypes\ContextAgentInteraction;
 use OCP\TaskProcessing\TaskTypes\ContextWrite;
@@ -687,6 +688,7 @@ class Manager implements IManager {
 			TextToTextReformulation::ID => Server::get(TextToTextReformulation::class),
 			TextToImage::ID => Server::get(TextToImage::class),
 			AudioToText::ID => Server::get(AudioToText::class),
+			AudioToTextSubtitles::ID => Server::get(AudioToTextSubtitles::class),
 			ContextWrite::ID => Server::get(ContextWrite::class),
 			GenerateEmoji::ID => Server::get(GenerateEmoji::class),
 			TextToTextChangeTone::ID => Server::get(TextToTextChangeTone::class),
