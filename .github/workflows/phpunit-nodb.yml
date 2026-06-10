@@ -59,9 +59,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.3', '8.4', '8.5']
+        php-versions: ["8.3", "8.4", "8.5"]
         include:
-          - php-versions: '8.2'
+          - php-versions: "8.2"
             coverage: ${{ github.event_name != 'pull_request' }}
 
     name: No DB unit tests (PHP ${{ matrix.php-versions }})
@@ -92,6 +92,7 @@ jobs:
           # Required for tests that use pcntl
           ini-values: disable_functions=""
         env:
+          fail-fast: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up dependencies

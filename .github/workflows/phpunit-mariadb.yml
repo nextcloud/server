@@ -104,6 +104,7 @@ jobs:
           ini-file: development
           ini-values: disable_functions=""
         env:
+          fail-fast: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up dependencies
