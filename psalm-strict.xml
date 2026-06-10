@@ -36,6 +36,8 @@
 		<file name="lib/private/Share20/ShareHelper.php"/>
 		<file name="lib/public/Share/IShareHelper.php"/>
 		<directory name="apps/appstore/lib" />
+		<directory name="lib/public/Interaction"/>
+		<directory name="tests/lib/Interaction"/>
 		<ignoreFiles>
 			<!-- Missing types of the AppFetcher and the OC_Apps class for return types -->
 			<file name="apps/appstore/lib/Controller/ApiController.php" />
@@ -56,6 +58,8 @@
 		<directory name="lib/private"/>
 		<directory name="lib/public"/>
 		<directory name="3rdparty"/>
+		<directory name="tests/lib"/>
+		<directory name="vendor-bin/phpunit/vendor/phpunit/phpunit"/>
 	</extraFiles>
 	<stubs>
 		<!-- Psalm does not find methods in here through <extraFiles/> 🤷‍♀️ -->
