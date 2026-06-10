@@ -40,7 +40,7 @@ export async function uploadContent(
 	content: Buffer | string,
 	mimeType: string,
 	path: string,
-): Promise<number> {
+): Promise<string> {
 	const requesttoken = await getRequestToken(request)
 	const response = await request.fetch(davUrl(user, path), {
 		method: 'PUT',
@@ -54,7 +54,7 @@ export async function uploadContent(
 		throw new Error(`PUT ${path} failed with status ${response.status()}`)
 	}
 	const fileId = response.headers()['oc-fileid']
-	return fileId ? parseInt(fileId, 10) : 0
+	return fileId ? String(parseInt(fileId, 10)) : '0'
 }
 
 /**

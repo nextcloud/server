@@ -6,19 +6,17 @@
 import { expect } from '@playwright/test'
 import { runOcc } from '@nextcloud/e2e-test-server/docker'
 import { test } from '../../support/fixtures/admin-session.ts'
+import { createTag, deleteTag, listTags } from '../../support/utils/systemtags.ts'
 
 const tagName = 'foo'
 const updatedTagName = 'bar'
 
 test.describe('System tags admin settings', () => {
-	// Tests are sequential: update depends on create, delete depends on update
-	test.describe.configure({ mode: 'serial' })
-
-	test.beforeAll(async () => {
-		// Delete all existing tags so each test run starts from a clean state
-		const output = await runOcc(['tag:list', '--output=json'])
-		const tags = JSON.parse(output) as Record<string, unknown>
-		await Promise.all(Object.keys(tags).map((id) => runOcc(['tag:delete', id]).catch(() => {})))
+	test.beforeEach(async () => {
+		const tags = await listTags()
+		for (const tag of tags) {
+			await deleteTag(tag.id)
+		}
 	})
 
 	test('Can create a tag', async ({ page }) => {
@@ -44,6 +42,8 @@ test.describe('System tags admin settings', () => {
 	})
 
 	test('Can update a tag', async ({ page }) => {
+		const tag = await createTag(tagName)
+
 		await page.goto('settings/admin/server')
 		await page.getByRole('heading', { name: 'Collaborative tags' }).scrollIntoViewIfNeeded()
 
@@ -69,24 +69,25 @@ test.describe('System tags admin settings', () => {
 		await page.getByRole('button', { name: 'Update' }).click()
 		expect((await updateResponse).status()).toBe(207)
 
+		await page.getByRole('combobox', { name: 'Search for a tag to edit' }).click()
 		// NcEllipsisedOption splits names ≥ 10 chars across two spans, breaking the accessible name.
 		// "bar (invisible)" (15 chars) splits at position 8 → accessible name "bar (inv isible)".
 		// Use filter({ hasText }) to match on text content instead of the exact accessible name.
-		await page.getByRole('combobox', { name: 'Search for a tag to edit' }).click()
 		await expect(page.getByRole('option').filter({ hasText: updatedTagName })).toBeVisible()
 	})
 
 	test('Can delete a tag', async ({ page }) => {
+		await createTag(tagName)
+
 		await page.goto('settings/admin/server')
 		await page.getByRole('heading', { name: 'Collaborative tags' }).scrollIntoViewIfNeeded()
 
 		// Select the invisible tag to delete
 		await page.getByRole('combobox', { name: 'Search for a tag to edit' }).click()
-		await page.getByRole('option').filter({ hasText: updatedTagName }).click()
+		await page.getByRole('option').filter({ hasText: tagName }).click()
 
 		// Verify the form reflects the selected tag
-		await expect(page.getByLabel('Tag name')).toHaveValue(updatedTagName)
-		await expect(page.locator('.system-tag-form__group:has(#system-tag-level) .vs__selected')).toContainText('Invisible')
+		await expect(page.getByLabel('Tag name')).toHaveValue(tagName)
 
 		const deleteResponse = page.waitForResponse(
 			(r) => r.url().includes('/remote.php/dav/systemtags/') && r.request().method() === 'DELETE',
@@ -96,6 +97,6 @@ test.describe('System tags admin settings', () => {
 
 		// Verify the tag is gone from the dropdown
 		await page.getByRole('combobox', { name: 'Search for a tag to edit' }).click()
-		await expect(page.getByRole('option').filter({ hasText: updatedTagName })).not.toBeVisible()
+		await expect(page.getByRole('option').filter({ hasText: tagName })).not.toBeVisible()
 	})
 })

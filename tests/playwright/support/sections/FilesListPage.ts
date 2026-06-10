@@ -6,7 +6,7 @@
 import type { Locator, Page } from '@playwright/test'
 
 export class FilesListPage {
-	constructor(private readonly page: Page) {}
+	constructor(protected readonly page: Page) {}
 
 	/**
 	 * Open the files app. Pass a view id (e.g. 'recent') to open that view
