@@ -29,7 +29,6 @@ use OC\AppFramework\Middleware\Security\CSPMiddleware;
 use OC\AppFramework\Middleware\Security\FeaturePolicyMiddleware;
 use OC\AppFramework\Middleware\Security\PasswordConfirmationMiddleware;
 use OC\AppFramework\Middleware\Security\RateLimitingMiddleware;
-use OC\AppFramework\Middleware\Security\ReloadExecutionMiddleware;
 use OC\AppFramework\Middleware\Security\SameSiteCookieMiddleware;
 use OC\AppFramework\Middleware\Security\SecurityMiddleware;
 use OC\AppFramework\Middleware\SessionMiddleware;
@@ -202,7 +201,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 			$dispatcher->registerMiddleware($c->get(CompressionMiddleware::class));
 			$dispatcher->registerMiddleware($c->get(NotModifiedMiddleware::class));
-			$dispatcher->registerMiddleware($c->get(ReloadExecutionMiddleware::class));
 			$dispatcher->registerMiddleware($c->get(SameSiteCookieMiddleware::class));
 			$dispatcher->registerMiddleware($c->get(CORSMiddleware::class));
 			$dispatcher->registerMiddleware($c->get(OCSMiddleware::class));
