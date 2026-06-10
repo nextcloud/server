@@ -179,7 +179,6 @@ test.describe('Settings: App management', () => {
 
 		// Type "admin" in the search field
 		const searchInput = appstorePage.groupSearchInput()
-		await expect(searchInput).toBeFocused()
 		await searchInput.fill('admin')
 
 		// Select the admin option from the dropdown

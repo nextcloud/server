@@ -11,7 +11,36 @@ permissions:
   contents: read
 
 jobs:
+  playwright-setup:
+    timeout-minutes: 15
+    name: Playwright setup
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      with:
+        persist-credentials: false
+        submodules: true # for 3rdparty
+    - name: Read package.json
+      uses: nextcloud-libraries/parse-package-engines-action@122ae05d4257008180a514e1ddeb0c1b9d094bdd # v0.1.0
+      id: versions
+    - name: Set up node
+      uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
+      with:
+        node-version: ${{ steps.versions.outputs.node-version }}
+    - name: Set up npm
+      run: npm i -g 'npm@${{ steps.versions.outputs.package-manager-version }}'
+    - name: Install dependencies and build
+      run: |
+        npm ci
+        npm run build --if-present
+    - name: Save context
+      uses: buildjet/cache/save@3e70d19e31d6a8030aeddf6ed8dbe601f94d09f4 # v4.0.2
+      with:
+        key: playwright-context-${{ github.run_id }}
+        path: ./
+
   playwright-tests:
+    needs: [playwright-setup]
     timeout-minutes: 60
     name: Playwright tests ${{ matrix.shardIndex }} / ${{ matrix.shardTotal }}
     runs-on: ubuntu-latest
@@ -25,24 +54,36 @@ jobs:
       package-manager-version: ${{ steps.versions.outputs.package-manager-version }}
 
     steps:
+    - name: Restore context
+      id: cache
+      uses: buildjet/cache/restore@3e70d19e31d6a8030aeddf6ed8dbe601f94d09f4 # v4.0.2
+      with:
+        key: playwright-context-${{ github.run_id }}
+        path: ./
+
     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      if: steps.cache.outputs.cache-hit != 'true'
       with:
         persist-credentials: false
         submodules: true # for 3rdparty
 
     - name: Read package.json
+      if: steps.cache.outputs.cache-hit != 'true'
       uses: nextcloud-libraries/parse-package-engines-action@122ae05d4257008180a514e1ddeb0c1b9d094bdd # v0.1.0
       id: versions
 
     - name: Set up node
+      if: steps.cache.outputs.cache-hit != 'true'
       uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
       with:
         node-version: ${{ steps.versions.outputs.node-version }}
 
     - name: Set up npm
+      if: steps.cache.outputs.cache-hit != 'true'
       run: npm i -g 'npm@${{ steps.versions.outputs.package-manager-version }}'
 
     - name: Install dependencies and build
+      if: steps.cache.outputs.cache-hit != 'true'
       run: |
         npm ci
         npm run build --if-present
@@ -76,20 +117,31 @@ jobs:
     if: ${{ !cancelled() }}
     needs: [playwright-tests]
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-low
     steps:
+    - name: Restore context
+      id: cache
+      uses: buildjet/cache/restore@3e70d19e31d6a8030aeddf6ed8dbe601f94d09f4 # v4.0.2
+      with:
+        key: playwright-context-${{ github.run_id }}
+        path: ./
+
     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      if: steps.cache.outputs.cache-hit != 'true'
       with:
         persist-credentials: false
 
     - uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
+      if: steps.cache.outputs.cache-hit != 'true'
       with:
         node-version: ${{ needs.playwright-tests.outputs.node-version }}
 
     - name: Set up npm
+      if: steps.cache.outputs.cache-hit != 'true'
       run: npm i -g 'npm@${{ needs.playwright-tests.outputs.package-manager-version }}'
 
     - name: Install dependencies
+      if: steps.cache.outputs.cache-hit != 'true'
       run: npm ci
 
     - name: Download blob reports from GitHub Actions Artifacts
