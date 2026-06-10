@@ -83,15 +83,17 @@ class JSConfigHelper {
 	 * @return string JavaScript source containing global variable assignments.
 	 */
 	public function getConfig(): string {
-		$passwordConfirmationContext = $this->buildPasswordConfirmationContext();
-		$uid = $passwordConfirmationContext['uid'];
-		$canValidatePassword = $passwordConfirmationContext['canValidatePassword'];
-		$userBackendAllowsPasswordConfirmation = $passwordConfirmationContext['backendAllowsPasswordConfirmation'];
+		[
+			'uid' => $uid,
+			'canValidatePassword' => $canValidatePassword,
+			'backendAllowsPasswordConfirmation' => $userBackendAllowsPasswordConfirmation,
+		] = $this->buildPasswordConfirmationContext();
 
-		$requestUserContext = $this->buildRequestUserContext($uid, $canValidatePassword);
-		$isAdmin = $requestUserContext['isAdmin'];
-		$relativeDataDirectory = $requestUserContext['relativeDataDirectory'];
-		$lastConfirmTimestamp = $requestUserContext['lastConfirmTimestamp']
+		[
+			'isAdmin' => $isAdmin,
+			'relativeDataDirectory' => $relativeDataDirectory,
+			'lastConfirmTimestamp' => $lastConfirmTimestamp,
+		] = $this->buildRequestUserContext($uid, $canValidatePassword);
 
 		/** @var array<string, string|false> $appWebPaths */
 		$appWebPaths = $this->getEnabledAppWebPaths();
@@ -108,17 +110,21 @@ class JSConfigHelper {
 			'backendAllowsPasswordConfirmation' => $userBackendAllowsPasswordConfirmation ? 'true' : 'false',
 			'oc_dataURL' => is_string($relativeDataDirectory) ? '"' . $relativeDataDirectory . '"' : 'false',
 			'_oc_webroot' => '"' . \OC::$WEBROOT . '"',
-			'_oc_appswebroots' => str_replace('\\/', '/', json_encode($appWebPaths)), // Ugly unescape slashes waiting for better solution
+			'_oc_appswebroots' => json_encode($appWebPaths, JSON_UNESCAPED_SLASHES),
 			'datepickerFormatDate' => json_encode($this->l->l('jsdate', null)),
 			'nc_lastLogin' => $lastConfirmTimestamp,
 			'nc_pageLoad' => time(),
-		] + $this->buildLocaleConfig($uid) + [
-			'_oc_config' => json_encode($coreConfig),
-			'oc_appconfig' => json_encode([
-				'core' => $this->buildSharingAppConfig($uid, $shareManager),
-			]),
-			'_theme' => json_encode($this->buildThemeConfig()),
 		];
+
+		foreach ($this->buildLocaleConfig($uid) as $key => $value) {
+			$legacyJsGlobals[$key] = $value;
+		}
+
+		$legacyJsGlobals['_oc_config'] = json_encode($coreConfig);
+		$legacyJsGlobals['oc_appconfig'] = json_encode([
+			'core' => $this->buildSharingAppConfig($uid, $shareManager),
+		]);
+		$legacyJsGlobals['_theme'] = json_encode($this->buildThemeConfig());
 
 		if ($this->currentUser !== null) {
 			$legacyJsGlobals['oc_userconfig'] = json_encode([
@@ -148,8 +154,6 @@ class JSConfigHelper {
 	 * }
 	 */
 	private function buildPasswordConfirmationContext(): array {
-		$uid = $this->currentUser?->getUID();
-
 		if ($this->currentUser === null) {
 			return [
 				'uid' => null,
@@ -158,6 +162,7 @@ class JSConfigHelper {
 			];
 		}
 
+		$uid = $this->currentUser->getUID();
 		$canValidatePassword = $this->canUserValidatePassword();
 		$userBackend = $this->currentUser->getBackend();
 		$userBackendClassName = $this->currentUser->getBackendClassName();
@@ -370,6 +375,7 @@ class JSConfigHelper {
 	 * @return array<string, mixed>
 	 */
 	private function buildSharingAppConfig(?string $uid, IShareManager $shareManager): array {
+		// Public (link) sharing
 		$enableLinkPasswordByDefault = $this->appConfig->getValueBool('core', ConfigLexicon::SHARE_LINK_PASSWORD_DEFAULT);
 		$defaultExpireDateEnabled = $this->appConfig->getValueBool('core', ConfigLexicon::SHARE_LINK_EXPIRE_DATE_DEFAULT);
 		$defaultExpireDate = $defaultExpireDateEnforced = null;
@@ -380,6 +386,7 @@ class JSConfigHelper {
 
 		$outgoingServer2serverShareEnabled = $this->config->getAppValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes') === 'yes';
 
+		// Internal sharing
 		$defaultInternalExpireDateEnabled = $this->config->getAppValue('core', 'shareapi_default_internal_expire_date', 'no') === 'yes';
 		$defaultInternalExpireDate = $defaultInternalExpireDateEnforced = null;
 		if ($defaultInternalExpireDateEnabled) {
@@ -387,6 +394,7 @@ class JSConfigHelper {
 			$defaultInternalExpireDateEnforced = $this->config->getAppValue('core', 'shareapi_enforce_internal_expire_date', 'no') === 'yes';
 		}
 
+		// Remote sharing
 		$defaultRemoteExpireDateEnabled = $this->config->getAppValue('core', 'shareapi_default_remote_expire_date', 'no') === 'yes';
 		$defaultRemoteExpireDate = $defaultRemoteExpireDateEnforced = null;
 		if ($defaultRemoteExpireDateEnabled) {
