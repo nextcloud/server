@@ -30,36 +30,25 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class PublicKeyTokenProviderTest extends TestCase {
-	/** @var PublicKeyTokenProvider|\PHPUnit\Framework\MockObject\MockObject */
-	private $tokenProvider;
-	/** @var PublicKeyTokenMapper|\PHPUnit\Framework\MockObject\MockObject */
-	private $mapper;
-	/** @var IHasher|\PHPUnit\Framework\MockObject\MockObject */
-	private $hasher;
-	/** @var ICrypto */
-	private $crypto;
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	private $config;
-	/** @var IDBConnection|MockObject */
-	private IDBConnection $db;
-	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
-	private $logger;
-	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
-	private $timeFactory;
-	/** @var ICacheFactory|\PHPUnit\Framework\MockObject\MockObject */
-	private $cacheFactory;
-	/** @var int */
-	private $time;
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
+	private PublicKeyTokenProvider $tokenProvider;
+
+	private PublicKeyTokenMapper&MockObject $mapper;
+	private IConfig&MockObject $config;
+	private IDBConnection&MockObject $db;
+	private LoggerInterface&MockObject $logger;
+	private ITimeFactory&MockObject $timeFactory;
+	private ICacheFactory&MockObject $cacheFactory;
+
+	private int $time;
+	private IHasher $hasher;
+	private ICrypto $crypto;
+	private IEventDispatcher $eventDispatcher;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->mapper = $this->createMock(PublicKeyTokenMapper::class);
-		$this->hasher = Server::get(IHasher::class);
-		$this->crypto = Server::get(ICrypto::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->config->method('getSystemValue')
 			->willReturnMap([
@@ -76,6 +65,9 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->timeFactory->method('getTime')
 			->willReturn($this->time);
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
+
+		$this->hasher = Server::get(IHasher::class);
+		$this->crypto = Server::get(ICrypto::class);
 		$this->eventDispatcher = Server::get(IEventDispatcher::class);
 
 		$this->tokenProvider = new PublicKeyTokenProvider(
