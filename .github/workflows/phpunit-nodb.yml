@@ -106,7 +106,7 @@ jobs:
           php -f tests/enable_all.php
 
       - name: PHPUnit nodb testsuite
-        run: composer run test -- --exclude-group DB --exclude-group SLOWDB --log-junit junit.xml ${{ matrix.coverage && '--coverage-clover ./clover.nodb.xml' || '' }}
+        run: composer run test -- --exclude-group DB --exclude-group SLOWDB --exclude-group Memcached --exclude-group PRIMARY-swift --exclude-group PRIMARY-s3 --exclude-group PRIMARY-azure --log-junit junit.xml ${{ matrix.coverage && '--coverage-clover ./clover.nodb.xml' || '' }}
 
       - name: Upload nodb code coverage
         if: ${{ !cancelled() && matrix.coverage }}
