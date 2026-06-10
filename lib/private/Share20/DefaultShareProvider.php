@@ -685,7 +685,7 @@ class DefaultShareProvider implements
 
 		$shares = [];
 
-		$chunks = array_chunk($childMountRootIds, 1000);
+		$chunks = array_chunk($childMountRootIds, IQueryBuilder::MAX_IN_PARAMETERS);
 
 		// Force the request to be run when there is 0 mount.
 		if (count($chunks) === 0) {

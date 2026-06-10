@@ -707,7 +707,7 @@ class Manager implements ICommentsManager {
 		}
 
 		$unreadComments = array_fill_keys($objectIds, 0);
-		foreach (array_chunk($objectIds, 1000) as $chunk) {
+		foreach (array_chunk($objectIds, IQueryBuilder::MAX_IN_PARAMETERS) as $chunk) {
 			$query->setParameter('ids', $chunk, IQueryBuilder::PARAM_STR_ARRAY);
 
 			$result = $query->executeQuery();

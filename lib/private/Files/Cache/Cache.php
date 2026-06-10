@@ -623,7 +623,7 @@ class Cache implements ICache {
 				->where($query->expr()->in('fileid', $query->createParameter('childIds')))
 				->hintShardKey('storage', $this->getNumericStorageId());
 
-			foreach (array_chunk($childIds, 1000) as $childIdChunk) {
+			foreach (array_chunk($childIds, IQueryBuilder::MAX_IN_PARAMETERS) as $childIdChunk) {
 				$query->setParameter('childIds', $childIdChunk, IQueryBuilder::PARAM_INT_ARRAY);
 				$query->executeStatement();
 			}
@@ -649,13 +649,13 @@ class Cache implements ICache {
 		// Sorting before chunking allows the db to find the entries close to each
 		// other in the index
 		sort($parentIds, SORT_NUMERIC);
-		foreach (array_chunk($parentIds, 1000) as $parentIdChunk) {
+		foreach (array_chunk($parentIds, IQueryBuilder::MAX_IN_PARAMETERS) as $parentIdChunk) {
 			$query->setParameter('parentIds', $parentIdChunk, IQueryBuilder::PARAM_INT_ARRAY);
 			$query->executeStatement();
 		}
 
 		$cacheEntryRemovedEvents = [];
-		foreach (array_chunk(array_combine($deletedIds, $deletedPaths), 1000) as $chunk) {
+		foreach (array_chunk(array_combine($deletedIds, $deletedPaths), IQueryBuilder::MAX_IN_PARAMETERS) as $chunk) {
 			/** @var array<int, string> $chunk */
 			foreach ($chunk as $fileId => $filePath) {
 				$cacheEntryRemovedEvents[] = new CacheEntryRemovedEvent(
@@ -764,7 +764,7 @@ class Cache implements ICache {
 
 				$childIds = $this->getChildIds($sourceStorageId, $sourcePath);
 
-				$childChunks = array_chunk($childIds, 1000);
+				$childChunks = array_chunk($childIds, IQueryBuilder::MAX_IN_PARAMETERS);
 
 				$query = $this->getQueryBuilder();
 
