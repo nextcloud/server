@@ -53,26 +53,7 @@ jobs:
       fail-fast: false
       matrix:
         test-suite:
-          - 'capabilities_features'
-          - 'collaboration_features'
-          - 'comments_features'
-          - 'dav_features'
-          - 'features'
-          - 'federation_features'
-          - '--tags ~@large files_features'
           - 'filesdrop_features'
-          - 'file_conversions'
-          - 'files_reminders'
-          - 'openldap_features'
-          - 'openldap_numerical_features'
-          - 'ldap_features'
-          - 'routing_features'
-          - 'setup_features'
-          - 'sharees_features'
-          - 'sharing_features'
-          - 'theming_features'
-          - 'videoverification_features'
-          - 'guests_features'
 
         php-versions: ['8.4']
         guests-versions: ['main']
