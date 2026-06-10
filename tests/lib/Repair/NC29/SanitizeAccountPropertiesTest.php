@@ -21,6 +21,8 @@ class SanitizeAccountPropertiesTest extends TestCase {
 
 	#[\Override]
 	protected function setUp(): void {
+		parent::setUp();
+
 		$this->jobList = $this->createMock(IJobList::class);
 
 		$this->repairStep = new SanitizeAccountProperties($this->jobList);
