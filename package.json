@@ -21,7 +21,7 @@
     "cypress:version": "cypress version",
     "dev": "build/demi.sh dev",
     "postinstall": "build/demi.sh ci",
-    "lint": "eslint --suppressions-location build/eslint-baseline.json --no-error-on-unmatched-pattern ./cypress",
+    "lint": "eslint --suppressions-location build/eslint-baseline.json --no-error-on-unmatched-pattern ./cypress ./tests/playwright",
     "postlint": "build/demi.sh lint",
     "lint:fix": "build/demi.sh lint:fix",
     "playwright": "playwright test",
