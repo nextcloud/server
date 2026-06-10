@@ -148,9 +148,9 @@ class UtilCheckServerTest extends \Test\TestCase {
 	}
 
 	/**
-	 * Tests an error is given when the datadir is not writable
+	 * Tests an error is given when the datadir is not readable
 	 */
-	public function testDataDirNotWritable(): void {
+	public function testDataDirNotReadable(): void {
 		chmod($this->datadir, 0300);
 		$result = \OC_Util::checkServer($this->getConfig([
 			'installed' => true,
@@ -163,7 +163,7 @@ class UtilCheckServerTest extends \Test\TestCase {
 	 * Tests no error is given when the datadir is not writable during setup
 	 */
 	public function testDataDirNotWritableSetup(): void {
-		chmod($this->datadir, 0300);
+		chmod($this->datadir, 0500);
 		$result = \OC_Util::checkServer($this->getConfig([
 			'installed' => false,
 			'version' => implode('.', Util::getVersion())
