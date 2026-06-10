@@ -34,7 +34,7 @@ jobs:
         uses: shivammathur/setup-php@7c071dfe9dc99bdf297fa79cb49ea005b9fcadbc # v2.37.1
         timeout-minutes: 5
         with:
-          php-version: '8.2'
+          php-version: '8.3'
           extensions: ctype, curl, dom, fileinfo, gd, json, libxml, mbstring, openssl, pcntl, pdo, posix, session, simplexml, xml, xmlreader, xmlwriter, zip, zlib
           coverage: none
           ini-file: development
