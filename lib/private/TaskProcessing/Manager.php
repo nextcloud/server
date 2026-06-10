@@ -1268,7 +1268,12 @@ class Manager implements IManager {
 	#[\Override]
 	public function setTaskIntermediateOutput(int $id, array $output): bool {
 		// TODO: Not sure if we should rather catch the exceptions of getTask here and fail silently
-		$task = $this->getTask($id);
+		try {
+			$task = $this->getTask($id);
+		} catch (NotFoundException|\OCP\TaskProcessing\Exception\Exception $e) {
+			$this->logger->debug('Couldn\'t find task, not sending intermediate output', ['exception' => $e, 'task_id' => $id]);
+			return false;
+		}
 		if ($task->getStatus() !== Task::STATUS_RUNNING) {
 			return false;
 		}
