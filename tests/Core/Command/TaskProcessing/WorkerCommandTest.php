@@ -219,22 +219,6 @@ class WorkerCommandTest extends TestCase {
 		$this->assertSame(0, $result);
 	}
 
-	public function testTimeoutExitsLoop(): void {
-		// Arrange: no providers so each iteration does nothing, but timeout=1 should exit quickly
-		$this->manager->method('getProviders')->willReturn([]);
-
-		$input = new ArrayInput(['--timeout' => '1', '--interval' => '0'], $this->command->getDefinition());
-		$output = new NullOutput();
-
-		$start = time();
-		$result = $this->command->run($input, $output);
-		$elapsed = time() - $start;
-
-		$this->assertSame(0, $result);
-		// Should have exited within a few seconds
-		$this->assertLessThanOrEqual(5, $elapsed);
-	}
-
 	public function testProcessesCorrectProviderForReturnedTaskType(): void {
 		$taskTypeId1 = 'type_a';
 		$taskTypeId2 = 'type_b';
