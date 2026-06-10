@@ -8,8 +8,12 @@ import type { Locator, Page } from '@playwright/test'
 export class FilesListPage {
 	constructor(private readonly page: Page) {}
 
-	async open(): Promise<void> {
-		await this.page.goto('apps/files')
+	/**
+	 * Open the files app. Pass a view id (e.g. 'recent') to open that view
+	 * instead of the default "All files" list.
+	 */
+	async open(viewId?: string): Promise<void> {
+		await this.page.goto(viewId ? `apps/files/${viewId}` : 'apps/files')
 		await this.page.locator('[data-cy-files-list]').waitFor({ state: 'visible' })
 	}
 
@@ -126,5 +130,30 @@ export class FilesListPage {
 				.filter({ hasText: directory })
 				.click()
 		}
+	}
+
+	/**
+	 * Create a folder through the upload picker's "New" menu and wait for the
+	 * MKCOL to land. The upload-picker and new-node-dialog hooks are product-owned
+	 * data-cy attributes (no stable accessible name to target by role).
+	 */
+	async createFolder(folderName: string): Promise<void> {
+		const created = this.page.waitForResponse(
+			(r) => r.request().method() === 'MKCOL' && r.url().includes('/remote.php/dav/files/'),
+		)
+
+		await this.page.locator('[data-cy-upload-picker]')
+			.getByRole('button', { name: 'New' })
+			.click()
+		await this.page.locator('[data-cy-upload-picker-menu-entry="newFolder"]')
+			.getByRole('menuitem')
+			.click()
+
+		const dialog = this.page.locator('[data-cy-files-new-node-dialog]')
+		await dialog.getByRole('textbox').fill(folderName)
+		await dialog.locator('[data-cy-files-new-node-dialog-submit]').click()
+
+		await created
+		await this.getRowForFile(folderName).waitFor({ state: 'visible' })
 	}
 }
