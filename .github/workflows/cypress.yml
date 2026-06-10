@@ -105,10 +105,10 @@ jobs:
       matrix:
         # Run multiple copies of the current job in parallel
         # Please increase the number or runners as your tests suite grows (0 based index for e2e tests)
-        containers: ['setup', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+        containers: ['setup', '0', '1', '2', '3', '4', '5', '6', '7', '8']
         # Hack as strategy.job-total includes the "setup" and GitHub does not allow math expressions
         # Always align this number with the total of e2e runners (max. index + 1)
-        total-containers: [10]
+        total-containers: [9]
 
     services:
       mysql:
