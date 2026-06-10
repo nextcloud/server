@@ -68,12 +68,45 @@ export class FilesListPage {
 			.click({ force: true })
 	}
 
+	async selectRowForFile(filename: string): Promise<void> {
+		// The checkbox is visually hidden inside NcCheckboxRadioSwitch, so force the check
+		await this.getRowForFile(filename)
+			.getByRole('checkbox', { name: /Toggle selection/ })
+			.check({ force: true })
+	}
+
+	/**
+	 * The toolbar that replaces the list header once one or more rows are selected.
+	 */
+	getSelectionActionsToolbar(): Locator {
+		return this.page.locator('[data-cy-files-list-selection-actions]')
+	}
+
+	private getSelectionActionsButton(): Locator {
+		return this.getSelectionActionsToolbar().getByRole('button', { name: 'Actions' })
+	}
+
+	/**
+	 * Open the bulk-selection actions menu. Pair with {@link getSelectionActionEntry}
+	 * to inspect an entry (e.g. assert it is visible) before acting; for a plain
+	 * "open and click" use {@link triggerSelectionAction}.
+	 */
+	async openSelectionActionsMenu(): Promise<void> {
+		await this.getSelectionActionsButton().click({ force: true })
+	}
+
+	/**
+	 * A selection action entry. Matched at page level on the product-owned
+	 * attribute because selection actions can render inline or inside the menu popover.
+	 */
+	getSelectionActionEntry(actionId: string): Locator {
+		return this.page.locator(`[data-cy-files-list-selection-action="${actionId}"]`)
+	}
+
 	async triggerSelectionAction(actionId: string): Promise<void> {
-		const actionsButton = this.page.locator('[data-cy-files-list-selection-actions]')
-			.getByRole('button', { name: 'Actions' })
-		await actionsButton.click({ force: true })
+		await this.openSelectionActionsMenu()
 		// NcActionButton renders as <li data-cy-...><button role="menuitem">
-		const actionButton = this.page.locator(`[data-cy-files-list-selection-action="${actionId}"] button`)
+		const actionButton = this.getSelectionActionEntry(actionId).locator('button')
 		await actionButton.waitFor({ state: 'visible' })
 		await actionButton.click()
 	}
