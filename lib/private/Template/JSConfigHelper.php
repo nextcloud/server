@@ -104,26 +104,10 @@ class JSConfigHelper {
 
 		$isAdmin = $uid !== null && $this->groupManager->isAdmin($uid);
 
-		// Build the map of enabled app IDs to their public web paths for the current context.
 		/** @var array<string, string|false> $appWebPaths */
-		$appWebPaths = [];
-
-		if ($this->currentUser === null) {
-			$enabledApps = $this->appManager->getEnabledApps();
-		} else {
-			$enabledApps = $this->appManager->getEnabledAppsForUser($this->currentUser);
-		}
-
-		// Resolve enabled app web paths for frontend bootstrapping.
-		foreach ($enabledApps as $app) {
-			try {
-				$appWebPaths[$app] = $this->appManager->getAppWebPath($app);
-			} catch (AppPathNotFoundException $e) {
-				// If an app's filesystem path cannot be resolved, mark it as unavailable
-				// instead of aborting JS config generation for all apps.
-				$appWebPaths[$app] = false;
-			}
-		}
+		$appWebPaths = $this->getEnabledAppWebPaths();
+		$coreConfig = $this->buildCoreConfig();
+		$capabilities = $this->capabilitiesManager->getCapabilities(false, true);
 
 		// Collect sharing defaults exposed to the frontend.
 		$enableLinkPasswordByDefault = $this->appConfig->getValueBool('core', ConfigLexicon::SHARE_LINK_PASSWORD_DEFAULT);
@@ -172,36 +156,12 @@ class JSConfigHelper {
 			$lastConfirmTimestamp = 0;
 		}
 
-		$capabilities = $this->capabilitiesManager->getCapabilities(false, true);
-
 		$firstDayOfWeek = $this->config->getUserValue($uid, 'core', AUserDataOCSController::USER_FIELD_FIRST_DAY_OF_WEEK, '');
 		if ($firstDayOfWeek === '') {
 			$firstDayOfWeek = (int)$this->l->l('firstday', null);
 		} else {
 			$firstDayOfWeek = (int)$firstDayOfWeek;
 		}
-
-		$coreConfig = [
-			/** @deprecated 30.0.0 - use files capabilities instead */
-			'blacklist_files_regex' => FileInfo::BLACKLIST_FILES_REGEX,
-			/** @deprecated 30.0.0 - use files capabilities instead */
-			'forbidden_filename_characters' => $this->filenameValidator->getForbiddenCharacters(),
-
-			'auto_logout' => $this->config->getSystemValue('auto_logout', false),
-			'loglevel' => $this->config->getSystemValue('loglevel_frontend',
-				$this->config->getSystemValue('loglevel', ILogger::WARN)
-			),
-			'lost_password_link' => $this->config->getSystemValue('lost_password_link', null),
-			'modRewriteWorking' => $this->config->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true',
-			'no_unsupported_browser_warning' => $this->config->getSystemValue('no_unsupported_browser_warning', false),
-			'session_keepalive' => $this->config->getSystemValue('session_keepalive', true),
-			'session_lifetime' => min($this->config->getSystemValue('session_lifetime', $this->iniWrapper->getNumeric('session.gc_maxlifetime')), $this->iniWrapper->getNumeric('session.gc_maxlifetime')),
-			'sharing.maxAutocompleteResults' => max(0, $this->config->getSystemValueInt('sharing.maxAutocompleteResults', Constants::SHARING_MAX_AUTOCOMPLETE_RESULTS_DEFAULT)),
-			'sharing.minSearchStringLength' => $this->config->getSystemValueInt('sharing.minSearchStringLength', 0),
-			'version' => implode('.', $this->serverVersion->getVersion()),
-			'versionstring' => $this->serverVersion->getVersionString(),
-			'enable_non-accessible_features' => $this->config->getSystemValueBool('enable_non-accessible_features', true),
-		];
 
 		$shareManager = Server::get(IShareManager::class);
 
@@ -218,62 +178,7 @@ class JSConfigHelper {
 			'datepickerFormatDate' => json_encode($this->l->l('jsdate', null)),
 			'nc_lastLogin' => $lastConfirmTimestamp,
 			'nc_pageLoad' => time(),
-			'dayNames' => json_encode([
-				$this->l->t('Sunday'),
-				$this->l->t('Monday'),
-				$this->l->t('Tuesday'),
-				$this->l->t('Wednesday'),
-				$this->l->t('Thursday'),
-				$this->l->t('Friday'),
-				$this->l->t('Saturday')
-			]),
-			'dayNamesShort' => json_encode([
-				$this->l->t('Sun.'),
-				$this->l->t('Mon.'),
-				$this->l->t('Tue.'),
-				$this->l->t('Wed.'),
-				$this->l->t('Thu.'),
-				$this->l->t('Fri.'),
-				$this->l->t('Sat.')
-			]),
-			'dayNamesMin' => json_encode([
-				$this->l->t('Su'),
-				$this->l->t('Mo'),
-				$this->l->t('Tu'),
-				$this->l->t('We'),
-				$this->l->t('Th'),
-				$this->l->t('Fr'),
-				$this->l->t('Sa')
-			]),
-			'monthNames' => json_encode([
-				$this->l->t('January'),
-				$this->l->t('February'),
-				$this->l->t('March'),
-				$this->l->t('April'),
-				$this->l->t('May'),
-				$this->l->t('June'),
-				$this->l->t('July'),
-				$this->l->t('August'),
-				$this->l->t('September'),
-				$this->l->t('October'),
-				$this->l->t('November'),
-				$this->l->t('December')
-			]),
-			'monthNamesShort' => json_encode([
-				$this->l->t('Jan.'),
-				$this->l->t('Feb.'),
-				$this->l->t('Mar.'),
-				$this->l->t('Apr.'),
-				$this->l->t('May.'),
-				$this->l->t('Jun.'),
-				$this->l->t('Jul.'),
-				$this->l->t('Aug.'),
-				$this->l->t('Sep.'),
-				$this->l->t('Oct.'),
-				$this->l->t('Nov.'),
-				$this->l->t('Dec.')
-			]),
-			'firstDay' => json_encode($firstDayOfWeek),
+		] + $this->buildLocaleConfig($uid) + [
 			'_oc_config' => json_encode($coreConfig),
 			'oc_appconfig' => json_encode([
 				'core' => [
@@ -295,19 +200,7 @@ class JSConfigHelper {
 					'defaultRemoteExpireDateEnforced' => $defaultRemoteExpireDateEnforced,
 				]
 			]),
-			'_theme' => json_encode([
-				'entity' => $this->defaults->getEntity(),
-				'name' => $this->defaults->getName(),
-				'productName' => $this->defaults->getProductName(),
-				'title' => $this->defaults->getTitle(),
-				'baseUrl' => $this->defaults->getBaseUrl(),
-				'syncClientUrl' => $this->defaults->getSyncClientUrl(),
-				'docBaseUrl' => $this->defaults->getDocBaseUrl(),
-				'docPlaceholderUrl' => $this->defaults->buildDocLinkToKey('PLACEHOLDER'),
-				'slogan' => $this->defaults->getSlogan(),
-				'logoClaim' => '',
-				'folder' => \OC_Util::getTheme(),
-			]),
+			'_theme' => json_encode($this->buildThemeConfig()),
 		];
 
 		if ($this->currentUser !== null) {
@@ -320,16 +213,186 @@ class JSConfigHelper {
 		}
 
 		// Provide structured initial state for modern consumers in addition to the legacy JS globals below.
-		$this->initialStateService->provideInitialState('core', 'projects_enabled', $this->config->getSystemValueBool('projects.enabled', false));
-		$this->initialStateService->provideInitialState('core', 'config', $coreConfig);
-		$this->initialStateService->provideInitialState('core', 'capabilities', $capabilities);
+		$this->publishInitialState($coreConfig, $capabilities);
 
 		// Allow legacy hooks to amend the generated JavaScript globals before rendering.
 		\OC_Hook::emit('\OCP\Config', 'js', ['array' => &$legacyJsGlobals]);
 
+		return $this->renderLegacyJsGlobals($legacyJsGlobals);
+	}
+
+	/**
+	 * Returns enabled app IDs mapped to their public web paths.
+	 *
+	 * @return array<string, string|false>
+	 */
+	private function getEnabledAppWebPaths(): array {
+		/** @var array<string, string|false> $appWebPaths */
+		$appWebPaths = [];
+
+		if ($this->currentUser === null) {
+			$enabledApps = $this->appManager->getEnabledApps();
+		} else {
+			$enabledApps = $this->appManager->getEnabledAppsForUser($this->currentUser);
+		}
+
+		// Resolve enabled app web paths for frontend bootstrapping.
+		foreach ($enabledApps as $app) {
+			try {
+				$appWebPaths[$app] = $this->appManager->getAppWebPath($app);
+			} catch (AppPathNotFoundException $e) {
+				// If an app's filesystem path cannot be resolved, mark it as unavailable
+				// instead of aborting JS config generation for all apps.
+				$appWebPaths[$app] = false;
+			}
+		}
+
+		return $appWebPaths;
+	}
+
+	/**
+	 * Builds core configuration exposed to the frontend.
+	 *
+	 * @return array<string, mixed>
+	 */
+	private function buildCoreConfig(): array {
+		return [
+			/** @deprecated 30.0.0 - use files capabilities instead */
+			'blacklist_files_regex' => FileInfo::BLACKLIST_FILES_REGEX,
+			/** @deprecated 30.0.0 - use files capabilities instead */
+			'forbidden_filename_characters' => $this->filenameValidator->getForbiddenCharacters(),
+
+			'auto_logout' => $this->config->getSystemValue('auto_logout', false),
+			'loglevel' => $this->config->getSystemValue('loglevel_frontend',
+				$this->config->getSystemValue('loglevel', ILogger::WARN)
+			),
+			'lost_password_link' => $this->config->getSystemValue('lost_password_link', null),
+			'modRewriteWorking' => $this->config->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true',
+			'no_unsupported_browser_warning' => $this->config->getSystemValue('no_unsupported_browser_warning', false),
+			'session_keepalive' => $this->config->getSystemValue('session_keepalive', true),
+			'session_lifetime' => min($this->config->getSystemValue('session_lifetime', $this->iniWrapper->getNumeric('session.gc_maxlifetime')), $this->iniWrapper->getNumeric('session.gc_maxlifetime')),
+			'sharing.maxAutocompleteResults' => max(0, $this->config->getSystemValueInt('sharing.maxAutocompleteResults', Constants::SHARING_MAX_AUTOCOMPLETE_RESULTS_DEFAULT)),
+			'sharing.minSearchStringLength' => $this->config->getSystemValueInt('sharing.minSearchStringLength', 0),
+			'version' => implode('.', $this->serverVersion->getVersion()),
+			'versionstring' => $this->serverVersion->getVersionString(),
+			'enable_non-accessible_features' => $this->config->getSystemValueBool('enable_non-accessible_features', true),
+		];
+	}
+
+	/**
+	 * Builds locale-related legacy JS globals.
+	 *
+	 * @return array<string, string>
+	 */
+	private function buildLocaleConfig(?string $uid): array {
+		$firstDayOfWeek = $this->config->getUserValue($uid, 'core', AUserDataOCSController::USER_FIELD_FIRST_DAY_OF_WEEK, '');
+		if ($firstDayOfWeek === '') {
+			$firstDayOfWeek = (int)$this->l->l('firstday', null);
+		} else {
+			$firstDayOfWeek = (int)$firstDayOfWeek;
+		}
+
+		return [
+			'dayNames' => json_encode([
+				$this->l->t('Sunday'),
+				$this->l->t('Monday'),
+				$this->l->t('Tuesday'),
+				$this->l->t('Wednesday'),
+				$this->l->t('Thursday'),
+				$this->l->t('Friday'),
+				$this->l->t('Saturday'),
+			]),
+			'dayNamesShort' => json_encode([
+				$this->l->t('Sun.'),
+				$this->l->t('Mon.'),
+				$this->l->t('Tue.'),
+				$this->l->t('Wed.'),
+				$this->l->t('Thu.'),
+				$this->l->t('Fri.'),
+				$this->l->t('Sat.'),
+			]),
+			'dayNamesMin' => json_encode([
+				$this->l->t('Su'),
+				$this->l->t('Mo'),
+				$this->l->t('Tu'),
+				$this->l->t('We'),
+				$this->l->t('Th'),
+				$this->l->t('Fr'),
+				$this->l->t('Sa'),
+			]),
+			'monthNames' => json_encode([
+				$this->l->t('January'),
+				$this->l->t('February'),
+				$this->l->t('March'),
+				$this->l->t('April'),
+				$this->l->t('May'),
+				$this->l->t('June'),
+				$this->l->t('July'),
+				$this->l->t('August'),
+				$this->l->t('September'),
+				$this->l->t('October'),
+				$this->l->t('November'),
+				$this->l->t('December'),
+			]),
+			'monthNamesShort' => json_encode([
+				$this->l->t('Jan.'),
+				$this->l->t('Feb.'),
+				$this->l->t('Mar.'),
+				$this->l->t('Apr.'),
+				$this->l->t('May.'),
+				$this->l->t('Jun.'),
+				$this->l->t('Jul.'),
+				$this->l->t('Aug.'),
+				$this->l->t('Sep.'),
+				$this->l->t('Oct.'),
+				$this->l->t('Nov.'),
+				$this->l->t('Dec.'),
+			]),
+			'firstDay' => json_encode($firstDayOfWeek),
+		];
+	}
+
+	/**
+	 * Builds theme config exposed to the frontend.
+	 *
+	 * @return array<string, string>
+	 */
+	private function buildThemeConfig(): array {
+		return [
+			'entity' => $this->defaults->getEntity(),
+			'name' => $this->defaults->getName(),
+			'productName' => $this->defaults->getProductName(),
+			'title' => $this->defaults->getTitle(),
+			'baseUrl' => $this->defaults->getBaseUrl(),
+			'syncClientUrl' => $this->defaults->getSyncClientUrl(),
+			'docBaseUrl' => $this->defaults->getDocBaseUrl(),
+			'docPlaceholderUrl' => $this->defaults->buildDocLinkToKey('PLACEHOLDER'),
+			'slogan' => $this->defaults->getSlogan(),
+			'logoClaim' => '',
+			'folder' => \OC_Util::getTheme(),
+		];
+	}
+
+	/**
+	 * Provides structured initial state for modern consumers.
+	 *
+	 * @param array<string, mixed> $coreConfig
+	 * @param array<string, mixed> $capabilities
+	 */
+	private function publishInitialState(array $coreConfig, array $capabilities): void {
+		$this->initialStateService->provideInitialState('core', 'projects_enabled', $this->config->getSystemValueBool('projects.enabled', false));
+		$this->initialStateService->provideInitialState('core', 'config', $coreConfig);
+		$this->initialStateService->provideInitialState('core', 'capabilities', $capabilities);
+	}
+
+	/**
+	 * Renders serialized globals as legacy JavaScript var assignments.
+	 *
+	 * @param array<string, int|string> $legacyJsGlobals
+	 */
+	private function renderLegacyJsGlobals(array $legacyJsGlobals): string {
 		$jsBootstrap = '';
 
-		// Render the globals as legacy `var` assignments.
 		foreach ($legacyJsGlobals as $globalName => $serializedValue) {
 			$jsBootstrap .= 'var ' . $globalName . '=' . $serializedValue . ';' . PHP_EOL;
 		}
