@@ -101,6 +101,10 @@ class PrincipalTest extends TestCase {
 			->expects($this->once())
 			->method('getSystemEMailAddress')
 			->willReturn('bar@nextcloud.com');
+		$barUser
+			->expects($this->once())
+			->method('getDisplayName')
+			->willReturn('bar');
 		$this->userManager
 			->expects($this->once())
 			->method('search')
@@ -189,6 +193,10 @@ class PrincipalTest extends TestCase {
 			->expects($this->once())
 			->method('getUID')
 			->willReturn('foo');
+		$fooUser
+			->expects($this->once())
+			->method('getDisplayName')
+			->willReturn('foo');
 		$this->userManager
 			->expects($this->once())
 			->method('get')
@@ -220,6 +228,10 @@ class PrincipalTest extends TestCase {
 		$fooUser
 			->expects($this->once())
 			->method('getUID')
+			->willReturn('foo');
+		$fooUser
+			->expects($this->once())
+			->method('getDisplayName')
 			->willReturn('foo');
 		$this->userManager
 			->expects($this->once())
