@@ -379,7 +379,8 @@ class Server {
 						\OCP\Server::get(IRootFolder::class),
 						$shareManager,
 						$view,
-						\OCP\Server::get(IFilesMetadataManager::class)
+						\OCP\Server::get(IFilesMetadataManager::class),
+						\OCP\Server::get(IAppConfig::class),
 					));
 					$this->server->addPlugin(
 						new BulkUploadPlugin(
