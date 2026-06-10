@@ -90,6 +90,8 @@ class ShareByMailProviderTest extends TestCase {
 
 	#[\Override]
 	protected function setUp(): void {
+		parent::setUp();
+
 		$this->dbConn = Server::get(IDBConnection::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);

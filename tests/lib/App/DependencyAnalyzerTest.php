@@ -22,6 +22,8 @@ class DependencyAnalyzerTest extends TestCase {
 
 	#[\Override]
 	protected function setUp(): void {
+		parent::setUp();
+
 		$this->platformMock = $this->getMockBuilder(Platform::class)
 			->disableOriginalConstructor()
 			->getMock();

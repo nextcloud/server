@@ -30,6 +30,8 @@ class GeneratorTest extends TestCase {
 
 	#[\Override]
 	public function setUp(): void {
+		parent::setUp();
+
 		$this->decoder = new SnowflakeDecoder();
 
 		$this->config = $this->createMock(IConfig::class);

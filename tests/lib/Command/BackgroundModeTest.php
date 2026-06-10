@@ -25,6 +25,8 @@ class BackgroundModeTest extends TestCase {
 
 	#[\Override]
 	public function setUp(): void {
+		parent::setUp();
+
 		$this->appConfig = $this->createMock(IAppConfig::class);
 
 		$inputDefinition = new InputDefinition([
