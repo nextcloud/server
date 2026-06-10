@@ -216,7 +216,7 @@ class GroupsController extends AUserDataOCSController {
 			foreach ($users as $user) {
 				try {
 					/** @var IUser $user */
-					$userId = (string)$user->getUID();
+					$userId = $user->getUID();
 					$userData = $this->getUserData($userId);
 					// Do not insert empty entry
 					if ($userData !== null) {

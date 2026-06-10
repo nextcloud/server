@@ -148,7 +148,7 @@ class LazyUser implements IUser {
 	}
 
 	#[\Override]
-	public function getEMailAddress(): string {
+	public function getEMailAddress(): ?string {
 		return $this->getUser()->getEMailAddress();
 	}
 
