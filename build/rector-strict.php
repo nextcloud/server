@@ -27,6 +27,8 @@ return (require __DIR__ . '/rector-shared.php')
 		$nextcloudDir . '/build/psalm/ITypedQueryBuilderTest.php',
 		$nextcloudDir . '/lib/private/DB/QueryBuilder/TypedQueryBuilder.php',
 		$nextcloudDir . '/lib/public/DB/QueryBuilder/ITypedQueryBuilder.php',
+		$nextcloudDir . '/lib/public/Interaction',
+		$nextcloudDir . '/tests/lib/Interaction',
 	])
 	->withAutoloadPaths([
 		// ensure rector properly autoload the public interfaces
