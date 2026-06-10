@@ -144,7 +144,7 @@ interface IManager {
 
 	/**
 	 * Set the task intermediate output.
-	 * If notify_push is available, the output will be pushed to the user and the task won't be updated in the DB.
+	 * If notify_push is available, the output will be pushed to the user and the task will be updated in the DB every 2 seconds at most.
 	 *
 	 * @param int $id The id of the task
 	 * @param array $output The intermediate output

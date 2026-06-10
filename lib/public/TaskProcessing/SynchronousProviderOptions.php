@@ -11,22 +11,22 @@ namespace OCP\TaskProcessing;
  * @since 35.0.0
  */
 class SynchronousProviderOptions {
-	private \Closure $reportOutput;
+	private \Closure $reportIntermediateOutput;
 
 	/**
 	 * @param bool $includeWatermarks Whether to include the watermark in the media output files or not
 	 * @param bool $preferStreaming Whether to prefer streaming the output or not
-	 * @param null|callable $reportOutput Callback for the provider to report the intermediate output (streaming)
+	 * @param null|callable $reportIntermediateOutput Callback for the provider to report the intermediate output (streaming)
 	 * @return void
 	 * @since 35.0.0
 	 */
 	public function __construct(
 		private readonly bool $includeWatermarks = false,
 		private readonly bool $preferStreaming = true,
-		?callable $reportOutput = null,
+		?callable $reportIntermediateOutput = null,
 	) {
-		$this->reportOutput = $reportOutput !== null
-			? \Closure::fromCallable($reportOutput)
+		$this->reportIntermediateOutput = $reportIntermediateOutput !== null
+			? \Closure::fromCallable($reportIntermediateOutput)
 			: static function (array $output): bool {
 				return true;
 			};
@@ -55,7 +55,7 @@ class SynchronousProviderOptions {
 	 * @return callable Callback for the provider to report the intermediate output (streaming)
 	 * @since 35.0.0
 	 */
-	public function getReportOutput(): callable {
-		return $this->reportOutput;
+	public function getReportIntermediateOutput(): callable {
+		return $this->reportIntermediateOutput;
 	}
 }
