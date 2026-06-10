@@ -20,66 +20,81 @@ abstract class LogDetails {
 	}
 
 	public function logDetails(string $app, string|array $message, int $level): array {
-		// default to ISO8601
+		$version = $this->config->getValue('version', '');
+		// Default to ATOM/ISO8601 formatting and UTC timezone.
 		$format = $this->config->getValue('logdateformat', \DateTimeInterface::ATOM);
-		$logTimeZone = $this->config->getValue('logtimezone', 'UTC');
+		$configuredTimeZone = $this->config->getValue('logtimezone', 'UTC');
+		
 		try {
-			$timezone = new \DateTimeZone($logTimeZone);
+			$timezone = new \DateTimeZone($configuredTimeZone);
 		} catch (\Exception $e) {
 			$timezone = new \DateTimeZone('UTC');
 		}
-		$time = \DateTime::createFromFormat('U.u', number_format(microtime(true), 4, '.', ''));
-		if ($time === false) {
-			$time = new \DateTime('now', $timezone);
-		} else {
-			// apply timezone if $time is created from UNIX timestamp
+
+		$timestamp = number_format(microtime(true), 4, '.', '');
+		$time = \DateTime::createFromFormat('U.u', $timestamp);
+		if ($time !== false) {
+			// UNIX timestamps are timezone-independent; apply the configured display timezone.
 			$time->setTimezone($timezone);
+		} else {
+			// Fall back to a current wall-clock time if parsing fails.
+			$time = new \DateTime('now', $timezone);
 		}
+		$formattedTime = $time->format($format);
+	
 		$request = Server::get(IRequest::class);
+
 		$reqId = $request->getId();
 		$remoteAddr = $request->getRemoteAddress();
-		// remove username/passwords from URLs before writing the to the log file
-		$time = $time->format($format);
-		$url = ($request->getRequestUri() !== '') ? $request->getRequestUri() : '--';
 		$method = $request->getMethod();
-		if ($this->config->getValue('installed', false)) {
-			$user = \OC_User::getUser() ?: '--';
-		} else {
-			$user = '--';
-		}
+		$url = $request->getRequestUri();
+		$scriptName = $request->getScriptName();
 		$userAgent = $request->getHeader('User-Agent');
+		$clientReqId = $request->getHeader('X-Request-Id');
+
+		if ($url === '') {
+			$url = '--';
+		}
+
 		if ($userAgent === '') {
 			$userAgent = '--';
 		}
-		$version = $this->config->getValue('version', '');
-		$scriptName = $request->getScriptName();
-		$entry = compact(
-			'reqId',
-			'level',
-			'time',
-			'remoteAddr',
-			'user',
-			'app',
-			'method',
-			'url',
-			'scriptName',
-			'message',
-			'userAgent',
-			'version',
-		);
-		$clientReqId = $request->getHeader('X-Request-Id');
+
+		$user = '--';
+		if ($this->config->getValue('installed', false)) {
+			$user = \OC_User::getUser() ?: '--';
+		}
+
+		$entry = [
+			'reqId' => $reqId,
+			'level' => $level,
+			'time' => $formattedTime,
+			'remoteAddr' => $remoteAddr,
+			'user' => $user,
+			'app' => $app,
+			'method' => $method,
+			'url' => $url,
+			'scriptName' => $scriptName,
+			'message' => $message,
+			'userAgent' => $userAgent,
+			'version' => $version,
+		];
+
 		if ($clientReqId !== '') {
 			$entry['clientReqId'] = $clientReqId;
 		}
+
 		if (\OC::$CLI) {
-			/* Only logging the command, not the parameters */
+			// Only logging the command, not the parameters
 			$entry['occ_command'] = array_slice($_SERVER['argv'] ?? [], 0, 2);
 		}
 
 		if (is_array($message)) {
-			// Exception messages are extracted and the exception is put into a separate field
-			// anything else modern is split to 'message' (string) and
-			// data (array) fields
+			// Array messages are normalized into one of two forms:
+			// - exception payloads ('Exception' present): keep the full payload in 'exception'
+			//   and derive the top-level 'message' from CustomMessage/Message
+			// - structured payloads: use 'message' as the top-level message and store the
+			//   remaining fields under 'data'
 			if (array_key_exists('Exception', $message)) {
 				$entry['exception'] = $message;
 				$entry['message'] = $message['CustomMessage'] !== '--' ? $message['CustomMessage'] : $message['Message'];
