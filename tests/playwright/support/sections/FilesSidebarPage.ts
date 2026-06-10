@@ -15,4 +15,19 @@ export class FilesSidebarPage {
 	heading(name: string): Locator {
 		return this.sidebar().getByRole('heading', { name })
 	}
+
+	/**
+	 * Open the sidebar "Actions" menu and click the entry with the given name
+	 * (e.g. "Favorite" / "Unfavorite").
+	 */
+	async triggerAction(name: string): Promise<void> {
+		await this.sidebar().getByRole('button', { name: 'Actions' }).click()
+		const action = this.page.getByRole('menuitem', { name })
+		await action.waitFor({ state: 'visible' })
+		await action.click()
+	}
+
+	async close(): Promise<void> {
+		await this.sidebar().getByRole('button', { name: 'Close sidebar' }).click()
+	}
 }
