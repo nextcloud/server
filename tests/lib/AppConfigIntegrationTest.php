@@ -141,8 +141,12 @@ class AppConfigIntegrationTest extends TestCase {
 				$type = $row[2] ?? IAppConfig::VALUE_MIXED;
 				if (($row[4] ?? false) === true) {
 					$type |= IAppConfig::VALUE_SENSITIVE;
-					$value = self::invokePrivate(AppConfig::class, 'ENCRYPTION_PREFIX') . $this->crypto->encrypt($value);
-					self::$baseStruct[$appId][$key]['encrypted'] = $value;
+					if (!isset(self::$baseStruct[$appId][$key]['encrypted'])) {
+						$value = self::invokePrivate(AppConfig::class, 'ENCRYPTION_PREFIX') . $this->crypto->encrypt($value);
+						self::$baseStruct[$appId][$key]['encrypted'] = $value;
+					} else {
+						$value = self::$baseStruct[$appId][$key]['encrypted'];
+					}
 				}
 
 				$sql->setParameters(
