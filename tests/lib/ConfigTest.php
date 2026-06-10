@@ -218,4 +218,35 @@ class ConfigTest extends TestCase {
 
 		unlink($additionalConfigPath);
 	}
+
+	/**
+	 * The current behavior of additional config files is broken.
+	 * Setting or deleting a key in the current process will remove it from the main config file,
+	 * but if the key is specified in an additional config file it will just be overwritten again.
+	 */
+	public function testConfigAdditionalSetDelete(): void {
+		$additionalConfig = '<?php $CONFIG=["key1" => "value1", "key2" => "value2"];';
+		$additionalConfigPath = $this->randomTmpDir . 'additionalConfig.testconfig.php';
+		file_put_contents($additionalConfigPath, $additionalConfig);
+
+		$config = new Config($this->randomTmpDir, 'testconfig.php');
+
+		$config->setValue('key1', 'value3');
+		$config->deleteKey('key2');
+
+		// The updated config is written to the main config file
+		$expected = "<?php\n";
+		$expected .= Config::CONF_WARNING;
+		$expected .= "\$CONFIG = array (\n  'foo' => 'bar',\n  'beers' => \n  array (\n    0 => 'Appenzeller',\n  "
+			. "  1 => 'Guinness',\n    2 => 'Kölsch',\n  ),\n  'alcohol_free' => false,\n  'top' => \n  array (\n    'bottom1' => 'value1',\n  ),\n  'key1' => 'value3',\n);\n";
+		$this->assertEquals($expected, file_get_contents($this->configFile));
+
+		$config = new Config($this->randomTmpDir, 'testconfig.php');
+
+		// The additional config file overwrites the values again
+		$this->assertEquals('value1', $config->getValue('key1'));
+		$this->assertEquals('value2', $config->getValue('key2'));
+
+		unlink($additionalConfigPath);
+	}
 }
