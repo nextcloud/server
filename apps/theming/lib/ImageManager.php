@@ -265,12 +265,7 @@ class ImageManager {
 						}
 					}
 					$tmpFile = $newTmpFile;
-					imagedestroy($outputImage);
 				} catch (\Exception $e) {
-					if (isset($outputImage) && is_resource($outputImage) || $outputImage instanceof \GdImage) {
-						imagedestroy($outputImage);
-					}
-
 					$this->logger->debug($e->getMessage());
 				}
 			}

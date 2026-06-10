@@ -508,7 +508,6 @@ class Image implements IImage {
 			if ($res) {
 				if (imagealphablending($res, true)) {
 					if (imagesavealpha($res, true)) {
-						imagedestroy($this->resource);
 						$this->resource = $res;
 						return true;
 					} else {
@@ -926,7 +925,6 @@ class Image implements IImage {
 		$res = imagecopyresampled($process, $this->resource, 0, 0, 0, 0, $width, $height, $widthOrig, $heightOrig);
 		if ($res === false) {
 			$this->logger->debug(__METHOD__ . '(): Error re-sampling process image', ['app' => 'core']);
-			imagedestroy($process);
 			return false;
 		}
 		return $process;
@@ -988,7 +986,6 @@ class Image implements IImage {
 			$this->logger->debug('Image->centerCrop, Error re-sampling process image ' . $width . 'x' . $height, ['app' => 'core']);
 			return false;
 		}
-		imagedestroy($this->resource);
 		$this->resource = $process;
 		return true;
 	}
@@ -1009,7 +1006,6 @@ class Image implements IImage {
 			return false;
 		}
 		$result = $this->cropNew($x, $y, $w, $h);
-		imagedestroy($this->resource);
 		$this->resource = $result;
 		return $this->valid();
 	}
