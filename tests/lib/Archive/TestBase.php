@@ -139,11 +139,9 @@ abstract class TestBase extends \Test\TestCase {
 		$this->assertFalse($this->instance->fileExists('target.txt'));
 	}
 	public function testRecursive(): void {
-		$dir = \OC::$SERVERROOT . '/tests/data';
+		$dir = \OC::$SERVERROOT . '/tests/data/themes';
 		$this->instance = $this->getNew();
 		$this->instance->addRecursive('/dir', $dir);
-		$this->assertTrue($this->instance->fileExists('/dir/lorem.txt'));
-		$this->assertTrue($this->instance->fileExists('/dir/data.zip'));
-		$this->assertTrue($this->instance->fileExists('/dir/data.tar.gz'));
+		$this->assertTrue($this->instance->fileExists('/dir/abc/apps/files/l10n/zz.json'));
 	}
 }
