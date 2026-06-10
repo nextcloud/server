@@ -86,7 +86,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
-          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, imagick, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
+          extensions: apcu, bz2, ctype, curl, dom, fileinfo, gd, iconv, imagick, intl, json, libxml, mbstring, openssl, pcntl, pdo_sqlite, posix, redis, session, simplexml, sqlite, xmlreader, xmlwriter, zip, zlib
           coverage: ${{ matrix.coverage && 'xdebug' || 'none' }}
           ini-file: development
           # Required for tests that use pcntl
