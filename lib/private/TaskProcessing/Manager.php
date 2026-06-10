@@ -1338,6 +1338,21 @@ class Manager implements IManager {
 		}
 	}
 
+	#[\Override]
+	public function claimNextScheduledTask(array $taskTypeIds = []): ?Task {
+		try {
+			$taskEntity = $this->taskMapper->claimOldestScheduledTask($taskTypeIds);
+			if ($taskEntity === null) {
+				return null;
+			}
+			return $taskEntity->toPublicTask();
+		} catch (\OCP\DB\Exception $e) {
+			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem claiming the task', previous: $e);
+		} catch (\JsonException $e) {
+			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem parsing JSON after claiming the task', previous: $e);
+		}
+	}
+
 	/**
 	 * Takes task input data and replaces fileIds with File objects
 	 *

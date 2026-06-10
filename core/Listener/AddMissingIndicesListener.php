@@ -224,5 +224,11 @@ class AddMissingIndicesListener implements IEventListener {
 			['user', 'mountpoint'],
 			['lengths' => [null, 128]]
 		);
+
+		$event->addMissingIndex(
+			'taskprocessing_tasks',
+			'taskp_status_type_upd',
+			['status', 'type', 'last_updated']
+		);
 	}
 }
