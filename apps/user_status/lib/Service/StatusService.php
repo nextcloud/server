@@ -252,16 +252,19 @@ class StatusService {
 		$updateStatus = false;
 		if ($messageId === IUserStatus::MESSAGE_OUT_OF_OFFICE) {
 			// OUT_OF_OFFICE trumps AVAILABILITY, CALL and CALENDAR status
-			$updateStatus = $userStatus->getMessageId() === IUserStatus::MESSAGE_AVAILABILITY || $userStatus->getMessageId() === IUserStatus::MESSAGE_CALL || $userStatus->getMessageId() === IUserStatus::MESSAGE_CALENDAR_BUSY;
+			$updateStatus = $userStatus->getMessageId() === IUserStatus::MESSAGE_AVAILABILITY || $userStatus->getMessageId() === IUserStatus::MESSAGE_CALL || $userStatus->getMessageId() === IUserStatus::MESSAGE_CALENDAR_BUSY || $userStatus->getMessageId() === IUserStatus::MESSAGE_CALENDAR_BUSY_SINGLE;
 		} elseif ($messageId === IUserStatus::MESSAGE_AVAILABILITY) {
 			// AVAILABILITY trumps CALL and CALENDAR status
-			$updateStatus = $userStatus->getMessageId() === IUserStatus::MESSAGE_CALL || $userStatus->getMessageId() === IUserStatus::MESSAGE_CALENDAR_BUSY;
+			$updateStatus = $userStatus->getMessageId() === IUserStatus::MESSAGE_CALL || $userStatus->getMessageId() === IUserStatus::MESSAGE_CALENDAR_BUSY || $userStatus->getMessageId() === IUserStatus::MESSAGE_CALENDAR_BUSY_SINGLE;
 		} elseif ($messageId === IUserStatus::MESSAGE_CALL) {
 			// CALL trumps CALENDAR status
-			$updateStatus = $userStatus->getMessageId() === IUserStatus::MESSAGE_CALENDAR_BUSY;
+			$updateStatus = $userStatus->getMessageId() === IUserStatus::MESSAGE_CALENDAR_BUSY || $userStatus->getMessageId() === IUserStatus::MESSAGE_CALENDAR_BUSY_SINGLE;
+		} elseif ($messageId === IUserStatus::MESSAGE_CALENDAR_BUSY) {
+			// A meeting trumps a solo busy event
+			$updateStatus = $userStatus->getMessageId() === IUserStatus::MESSAGE_CALENDAR_BUSY_SINGLE;
 		}
 
-		if ($messageId === IUserStatus::MESSAGE_OUT_OF_OFFICE || $messageId === IUserStatus::MESSAGE_AVAILABILITY || $messageId === IUserStatus::MESSAGE_CALL || $messageId === IUserStatus::MESSAGE_CALENDAR_BUSY) {
+		if ($messageId === IUserStatus::MESSAGE_OUT_OF_OFFICE || $messageId === IUserStatus::MESSAGE_AVAILABILITY || $messageId === IUserStatus::MESSAGE_CALL || $messageId === IUserStatus::MESSAGE_CALENDAR_BUSY || $messageId === IUserStatus::MESSAGE_CALENDAR_BUSY_SINGLE) {
 			if ($updateStatus) {
 				$this->logger->debug('User ' . $userId . ' is currently NOT available, overwriting status [status: ' . $userStatus->getStatus() . ', messageId: ' . json_encode($userStatus->getMessageId()) . ']', ['app' => 'dav']);
 			} else {
