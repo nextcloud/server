@@ -13,7 +13,7 @@ use OCP\ITempManager;
 use OCP\Server;
 
 class ConfigTest extends TestCase {
-	public const TESTCONTENT = '<?php $CONFIG=array("foo"=>"bar", "beers" => array("Appenzeller", "Guinness", "Kölsch"), "alcohol_free" => false);';
+	public const TESTCONTENT = '<?php $CONFIG=array("foo"=>"bar", "beers" => array("Appenzeller", "Guinness", "Kölsch"), "alcohol_free" => false, "top" => ["bottom1" => "value1"]);';
 
 	/** @var array */
 	private $initialConfig = ['foo' => 'bar', 'beers' => ['Appenzeller', 'Guinness', 'Kölsch'], 'alcohol_free' => false];
@@ -42,12 +42,12 @@ class ConfigTest extends TestCase {
 	}
 
 	public function testGetKeys(): void {
-		$expectedConfig = ['foo', 'beers', 'alcohol_free'];
+		$expectedConfig = ['foo', 'beers', 'alcohol_free', 'top'];
 		$this->assertSame($expectedConfig, $this->getConfig()->getKeys());
 	}
 
 	public function testGetKeysReturnsEnvironmentKeysIfSet() {
-		$expectedConfig = ['foo', 'beers', 'alcohol_free', 'taste'];
+		$expectedConfig = ['foo', 'beers', 'alcohol_free', 'top', 'taste'];
 		putenv('NC_taste=great');
 		$this->assertSame($expectedConfig, $this->getConfig()->getKeys());
 		putenv('NC_taste');
@@ -102,7 +102,7 @@ class ConfigTest extends TestCase {
 		$expected = "<?php\n";
 		$expected .= Config::CONF_WARNING;
 		$expected .= "\$CONFIG = array (\n  'foo' => 'moo',\n  'beers' => \n  array (\n    0 => 'Appenzeller',\n  "
-			. "  1 => 'Guinness',\n    2 => 'Kölsch',\n  ),\n  'alcohol_free' => false,\n);\n";
+			. "  1 => 'Guinness',\n    2 => 'Kölsch',\n  ),\n  'alcohol_free' => false,\n  'top' => \n  array (\n    'bottom1' => 'value1',\n  ),\n);\n";
 		$this->assertEquals($expected, $content);
 
 		$config->setValue('bar', 'red');
@@ -115,7 +115,7 @@ class ConfigTest extends TestCase {
 		$expected = "<?php\n";
 		$expected .= Config::CONF_WARNING;
 		$expected .= "\$CONFIG = array (\n  'foo' => 'moo',\n  'beers' => \n  array (\n    0 => 'Appenzeller',\n  "
-			. "  1 => 'Guinness',\n    2 => 'Kölsch',\n  ),\n  'alcohol_free' => false,\n  'bar' => 'red',\n  'apps' => \n "
+			. "  1 => 'Guinness',\n    2 => 'Kölsch',\n  ),\n  'alcohol_free' => false,\n  'top' => \n  array (\n    'bottom1' => 'value1',\n  ),\n  'bar' => 'red',\n  'apps' => \n "
 			. " array (\n    0 => 'files',\n    1 => 'gallery',\n  ),\n);\n";
 		$this->assertEquals($expected, $content);
 	}
@@ -148,7 +148,7 @@ class ConfigTest extends TestCase {
 		$expected = "<?php\n";
 		$expected .= Config::CONF_WARNING;
 		$expected .= "\$CONFIG = array (\n  'foo' => 'moo',\n  'beers' => \n  array (\n    0 => 'Appenzeller',\n  "
-			. "  1 => 'Guinness',\n    2 => 'Kölsch',\n  ),\n);\n";
+			. "  1 => 'Guinness',\n    2 => 'Kölsch',\n  ),\n  'top' => \n  array (\n    'bottom1' => 'value1',\n  ),\n);\n";
 		$this->assertEquals($expected, $content);
 	}
 
@@ -161,13 +161,13 @@ class ConfigTest extends TestCase {
 		$expected = "<?php\n";
 		$expected .= Config::CONF_WARNING;
 		$expected .= "\$CONFIG = array (\n  'beers' => \n  array (\n    0 => 'Appenzeller',\n  "
-			. "  1 => 'Guinness',\n    2 => 'Kölsch',\n  ),\n  'alcohol_free' => false,\n);\n";
+			. "  1 => 'Guinness',\n    2 => 'Kölsch',\n  ),\n  'alcohol_free' => false,\n  'top' => \n  array (\n    'bottom1' => 'value1',\n  ),\n);\n";
 		$this->assertEquals($expected, $content);
 	}
 
 	public function testConfigMerge(): void {
 		// Create additional config
-		$additionalConfig = '<?php $CONFIG=array("php53"=>"totallyOutdated");';
+		$additionalConfig = '<?php $CONFIG=array("php53"=>"totallyOutdated","alcohol_free"=>true);';
 		$additionalConfigPath = $this->randomTmpDir . 'additionalConfig.testconfig.php';
 		file_put_contents($additionalConfigPath, $additionalConfig);
 
@@ -178,16 +178,44 @@ class ConfigTest extends TestCase {
 		$this->assertSame('totallyOutdated', $config->getValue('php53', 'bogusValue'));
 		$this->assertEquals(self::TESTCONTENT, file_get_contents($this->configFile));
 
+		// Value is overwritten by additional config file, but not saved to the main config file.
+		$this->assertTrue($config->getValue('alcohol_free'));
+
+		// Set a new key that's saved to the main config file
+		$config->setValue('new_key', 'new_value');
+
 		// Write a new value to the config
 		$config->setValue('CoolWebsites', ['demo.owncloud.org', 'owncloud.org', 'owncloud.com']);
 		$expected = "<?php\n";
 		$expected .= Config::CONF_WARNING;
 		$expected .= "\$CONFIG = array (\n  'foo' => 'bar',\n  'beers' => \n  array (\n    0 => 'Appenzeller',\n  "
-			. "  1 => 'Guinness',\n    2 => 'Kölsch',\n  ),\n  'alcohol_free' => false,\n  'php53' => 'totallyOutdated',\n  'CoolWebsites' => \n  array (\n  "
+			. "  1 => 'Guinness',\n    2 => 'Kölsch',\n  ),\n  'alcohol_free' => false,\n  'top' => \n  array (\n    'bottom1' => 'value1',\n  ),\n  'new_key' => 'new_value',\n  'CoolWebsites' => \n  array (\n  "
 			. "  0 => 'demo.owncloud.org',\n    1 => 'owncloud.org',\n    2 => 'owncloud.com',\n  ),\n);\n";
 		$this->assertEquals($expected, file_get_contents($this->configFile));
 
 		// Cleanup
+		unlink($additionalConfigPath);
+	}
+
+	public function testConfigMergeRecursive(): void {
+		$additionalConfig = '<?php $CONFIG=["top" => ["bottom2" => "value2"]];';
+		$additionalConfigPath = $this->randomTmpDir . 'additionalConfig.testconfig.php';
+		file_put_contents($additionalConfigPath, $additionalConfig);
+
+		$config = new Config($this->randomTmpDir, 'testconfig.php');
+
+		// Values are merged correctly from the additional config file
+		$this->assertEquals(['bottom1' => 'value1', 'bottom2' => 'value2'], $config->getValue('top'));
+
+		self::invokePrivate($config, 'writeData');
+
+		// Values from the additional config file are not saved to the main config file
+		$expected = "<?php\n";
+		$expected .= Config::CONF_WARNING;
+		$expected .= "\$CONFIG = array (\n  'foo' => 'bar',\n  'beers' => \n  array (\n    0 => 'Appenzeller',\n  "
+			. "  1 => 'Guinness',\n    2 => 'Kölsch',\n  ),\n  'alcohol_free' => false,\n  'top' => \n  array (\n    'bottom1' => 'value1',\n  ),\n);\n";
+		$this->assertEquals($expected, file_get_contents($this->configFile));
+
 		unlink($additionalConfigPath);
 	}
 }

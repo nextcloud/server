@@ -35,7 +35,8 @@ class Config {
  */
 ";
 
-	protected array $cache = [];
+	protected array $mergedCache = [];
+	protected array $cacheByPath = [];
 	protected array $envCache = [];
 	protected string $configFilePath;
 	protected bool $isReadOnly;
@@ -61,7 +62,7 @@ class Config {
 	 * @return array an array of key names
 	 */
 	public function getKeys(): array {
-		return array_merge(array_keys($this->cache), array_keys($this->envCache));
+		return array_merge(array_keys($this->mergedCache), array_keys($this->envCache));
 	}
 
 	/**
@@ -80,8 +81,8 @@ class Config {
 			return self::trustSystemConfig($this->envCache[$key]);
 		}
 
-		if (isset($this->cache[$key])) {
-			return self::trustSystemConfig($this->cache[$key]);
+		if (isset($this->mergedCache[$key])) {
+			return self::trustSystemConfig($this->mergedCache[$key]);
 		}
 
 		return $default;
@@ -153,9 +154,10 @@ class Config {
 	 * @throws HintException
 	 */
 	protected function set($key, $value) {
-		if (!isset($this->cache[$key]) || $this->cache[$key] !== $value) {
+		if (!isset($this->mergedCache[$key]) || $this->mergedCache[$key] !== $value) {
 			// Add change
-			$this->cache[$key] = $value;
+			$this->mergedCache[$key] = $value;
+			$this->cacheByPath[$this->configFilePath][$key] = $value;
 			return true;
 		}
 
@@ -183,9 +185,9 @@ class Config {
 	 * @throws HintException
 	 */
 	protected function delete($key) {
-		if (isset($this->cache[$key])) {
+		if (isset($this->mergedCache[$key])) {
 			// Delete key from cache
-			unset($this->cache[$key]);
+			unset($this->mergedCache[$key], $this->cacheByPath[$this->configFilePath][$key]);
 			return true;
 		}
 		return false;
@@ -254,7 +256,8 @@ class Config {
 				throw new \Exception($errorMessage);
 			}
 			if (isset($CONFIG) && is_array($CONFIG)) {
-				$this->cache = array_replace_recursive($this->cache, $CONFIG);
+				$this->mergedCache = array_replace_recursive($this->mergedCache, $CONFIG);
+				$this->cacheByPath[$file] = $CONFIG;
 			}
 		}
 
@@ -281,22 +284,25 @@ class Config {
 	private function writeData(): void {
 		$this->checkReadOnly();
 
-		if (!is_file(\OC::$configDir . '/CAN_INSTALL') && !isset($this->cache['version'])) {
+		if (!is_file(\OC::$configDir . '/CAN_INSTALL') && !isset($this->mergedCache['version'])) {
 			throw new HintException(sprintf('Configuration was not read or initialized correctly, not overwriting %s', $this->configFilePath));
 		}
+
+		// Only save the values to config.php that originally came from it or were added in the current process.
+		$values = $this->cacheByPath[$this->configFilePath];
 
 		// Create a php file ...
 		$content = "<?php\n";
 		$content .= self::CONF_WARNING;
 		$content .= '$CONFIG = ';
-		$content .= var_export(self::trustSystemConfig($this->cache), true);
+		$content .= var_export(self::trustSystemConfig($values), true);
 		$content .= ";\n";
 
 		touch($this->configFilePath);
 		$filePointer = fopen($this->configFilePath, 'r+');
 
 		// Apply permissions for config.php, defaulting to user read-write and group read
-		$permissions = $this->cache['configfilemode'] ?? 0640;
+		$permissions = $this->mergedCache['configfilemode'] ?? 0640;
 		chmod($this->configFilePath, $permissions);
 
 		// File does not exist, this can happen when doing a fresh install
