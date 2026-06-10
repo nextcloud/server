@@ -913,7 +913,7 @@ class TaskProcessingTest extends \Test\TestCase {
 			new ServiceRegistration('test', AsyncProvider::class)
 		]);
 		$user = $this->createMock(IUser::class);
-		$user->expects($this->any())->method('getUID')->willReturn(null);
+		$user->expects($this->any())->method('getUID')->willReturn('uid');
 		$mount = $this->createMock(ICachedMountInfo::class);
 		$mount->expects($this->any())->method('getUser')->willReturn($user);
 		$this->userMountCache->expects($this->any())->method('getMountsForFileId')->willReturn([$mount]);
