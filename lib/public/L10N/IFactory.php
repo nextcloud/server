@@ -98,11 +98,10 @@ interface IFactory {
 	public function languageExists($app, $lang);
 
 	/**
-	 * @param string $locale
-	 * @return bool
 	 * @since 14.0.0
+	 * @since 35.0.0 Use typed parameter and return
 	 */
-	public function localeExists($locale);
+	public function localeExists(string $locale): bool;
 
 	/**
 	 * Return the language direction
