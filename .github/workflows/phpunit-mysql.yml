@@ -59,16 +59,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.2']
-        mysql-versions: ['8.0']
         include:
           - mysql-versions: '8.0'
-            php-versions: '8.3'
-            coverage: ${{ github.event_name != 'pull_request' }}
-          - mysql-versions: '8.4'
-            php-versions: '8.4'
+            php-versions: '8.2'
           - mysql-versions: '8.4'
             php-versions: '8.5'
+            coverage: ${{ github.event_name != 'pull_request' }}
 
     name: MySQL ${{ matrix.mysql-versions }} (PHP ${{ matrix.php-versions }}) - database tests
 
