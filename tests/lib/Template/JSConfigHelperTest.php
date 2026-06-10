@@ -167,12 +167,12 @@ class JSConfigHelperTest extends TestCase {
 		);
 
 		$this->config->method('getUserValue')->willReturnCallback(
-			static function (?string $uid, string $app, string $key, string $default): string {
+			static function (?string $uid, string $app, string $key, mixed $default): string {
 				return match ([$uid, $app, $key]) {
 					['alice', 'core', 'first_day_of_week'] => '',
 					['alice', 'avatar', 'version'] => '7',
 					['alice', 'avatar', 'generated'] => 'false',
-					default => $default,
+					default => (string)$default,
 				};
 			}
 		);
@@ -285,7 +285,7 @@ class JSConfigHelperTest extends TestCase {
 			->willReturn('session-id');
 
 		$expiredToken = $this->createMock(IToken::class);
-		$this->tokenProvider->expects(self::once())
+		$this->tokenProvider->expects(self::exactly(2))
 			->method('getToken')
 			->with('session-id')
 			->willThrowException(new ExpiredTokenException($expiredToken));
