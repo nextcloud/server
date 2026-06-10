@@ -55,10 +55,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.2']
-        include:
-          - php-versions: '8.3'
-            coverage: ${{ github.event_name != 'pull_request' }}
+        php-versions: ['8.2', '8.3']
 
     name: php${{ matrix.php-versions }}-swift
 
@@ -89,7 +86,7 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
           extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
-          coverage: ${{ matrix.coverage && 'xdebug' || 'none' }}
+          coverage: none
           ini-file: development
           ini-values: disable_functions=""
         env:
@@ -110,20 +107,7 @@ jobs:
         env:
           OBJECT_STORE: swift
           OBJECT_STORE_SECRET: veryfast
-        run: composer run test -- --group PRIMARY-swift --log-junit junit.xml ${{ matrix.coverage && '--coverage-clover ./clover.xml' || '' }}
-
-      - name: Upload code coverage
-        if: ${{ !cancelled() && matrix.coverage }}
-        uses: codecov/codecov-action@e79a6962e0d4c0c17b229090214935d2e33f8354 # v6.0.1
-        with:
-          files: ./clover.xml
-          flags: phpunit-swift
-
-      - name: Upload test results
-        if: ${{ !cancelled() }}
-        uses: codecov/test-results-action@0fa95f0e1eeaafde2c782583b36b28ad0d8c77d3 # v1.2.1
-        with:
-          flags: phpunit-swift
+        run: composer run test -- --group PRIMARY-swift --log-junit junit.xml
 
       - name: Swift logs
         if: always()
