@@ -8,11 +8,13 @@ import { createRandomUser, login } from '@nextcloud/e2e-test-server/playwright'
 import { test as baseTest } from '@playwright/test'
 import type { User } from '@nextcloud/e2e-test-server'
 import { FilesListPage } from '../sections/FilesListPage.ts'
+import { FilesNavigationPage } from '../sections/FilesNavigationPage.ts'
 import { FilesSidebarPage } from '../sections/FilesSidebarPage.ts'
 
 type FilesFixtures = {
 	user: User
 	filesListPage: FilesListPage
+	filesNavigation: FilesNavigationPage
 	filesSidebar: FilesSidebarPage
 }
 
@@ -32,6 +34,10 @@ export const test = baseTest.extend<FilesFixtures>({
 
 	filesListPage: async ({ page }, use) => {
 		await use(new FilesListPage(page))
+	},
+
+	filesNavigation: async ({ page }, use) => {
+		await use(new FilesNavigationPage(page))
 	},
 
 	filesSidebar: async ({ page }, use) => {
