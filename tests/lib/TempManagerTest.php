@@ -135,8 +135,6 @@ class TempManagerTest extends \Test\TestCase {
 	}
 
 	public function testLogCantCreateFile(): void {
-		$this->markTestSkipped('TODO: Disable because fails on drone');
-
 		$logger = $this->createMock(LoggerInterface::class);
 		$manager = $this->getManager($logger);
 		chmod($this->baseDir, 0500);
@@ -147,8 +145,6 @@ class TempManagerTest extends \Test\TestCase {
 	}
 
 	public function testLogCantCreateFolder(): void {
-		$this->markTestSkipped('TODO: Disable because fails on drone');
-
 		$logger = $this->createMock(LoggerInterface::class);
 		$manager = $this->getManager($logger);
 		chmod($this->baseDir, 0500);

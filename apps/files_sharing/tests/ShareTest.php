@@ -148,8 +148,6 @@ class ShareTest extends TestCase {
 	}
 
 	public function testShareWithGroupUniqueName(): void {
-		$this->markTestSkipped('TODO: Disable because fails on drone');
-
 		$this->loginHelper(self::TEST_FILES_SHARING_API_USER1);
 		Filesystem::file_put_contents('test.txt', 'test');
 
