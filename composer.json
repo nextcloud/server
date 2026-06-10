@@ -83,7 +83,7 @@
 		],
 		"test": [
 			"Composer\\Config::disableProcessTimeout",
-			"phpunit --fail-on-warning --fail-on-risky --display-warnings --display-deprecations --display-phpunit-deprecations --colors=always --configuration tests/phpunit-autotest.xml"
+			"phpunit --fail-on-warning --fail-on-risky --display-warnings --display-deprecations --display-phpunit-deprecations --display-skipped --colors=always --configuration tests/phpunit-autotest.xml"
 		],
 		"test:db": "@composer run test -- --group DB --group SLOWDB",
 		"test:files_external": "phpunit --fail-on-warning --fail-on-risky --display-warnings --display-deprecations --display-phpunit-deprecations --colors=always --configuration tests/phpunit-autotest-external.xml",
