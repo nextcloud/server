@@ -38,6 +38,7 @@ class HostnameClassifier {
 	 * IP addresses are not considered local. Use the IpAddressClassifier for those.
 	 */
 	public function isLocalHostname(string $hostname): bool {
+		$hostname = rtrim($hostname, '.');
 		// Disallow local network top-level domains from RFC 6762
 		$topLevelDomain = substr((strrchr($hostname, '.') ?: ''), 1);
 		if (in_array($topLevelDomain, self::LOCAL_TOPLEVEL_DOMAINS)) {
