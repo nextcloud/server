@@ -8,6 +8,7 @@ import axios from '@nextcloud/axios'
 import { addPasswordConfirmationInterceptors, PwdConfirmationMode } from '@nextcloud/password-confirmation'
 import { generateOcsUrl } from '@nextcloud/router'
 import { ACCOUNT_PROPERTY_ENUM, SCOPE_SUFFIX } from '../../constants/AccountPropertyConstants.ts'
+import type { OCSResponse } from '@nextcloud/typings/ocs'
 
 addPasswordConfirmationInterceptors(axios)
 
@@ -20,7 +21,7 @@ export async function savePrimaryPhone(phone: string) {
 	const userId = getCurrentUser()?.uid
 	const url = generateOcsUrl('cloud/users/{userId}', { userId })
 
-	const res = await axios.put(url, {
+	const res = await axios.put<OCSResponse<[]>>(url, {
 		key: ACCOUNT_PROPERTY_ENUM.PHONE,
 		value: phone,
 	}, { confirmPassword: PwdConfirmationMode.Strict })
@@ -37,7 +38,7 @@ export async function saveAdditionalPhone(phone: string) {
 	const userId = getCurrentUser()?.uid
 	const url = generateOcsUrl('cloud/users/{userId}', { userId })
 
-	const res = await axios.put(url, {
+	const res = await axios.put<OCSResponse<[]>>(url, {
 		key: ACCOUNT_PROPERTY_ENUM.PHONE_COLLECTION,
 		value: phone,
 	}, { confirmPassword: PwdConfirmationMode.Strict })
@@ -54,7 +55,7 @@ export async function removeAdditionalPhone(phone: string) {
 	const userId = getCurrentUser()?.uid
 	const url = generateOcsUrl('cloud/users/{userId}/{collection}', { userId, collection: ACCOUNT_PROPERTY_ENUM.PHONE_COLLECTION })
 
-	const res = await axios.put(url, {
+	const res = await axios.put<OCSResponse<[]>>(url, {
 		key: phone,
 		value: '',
 	}, { confirmPassword: PwdConfirmationMode.Strict })
@@ -72,7 +73,7 @@ export async function updateAdditionalPhone(prevPhone: string, newPhone: string)
 	const userId = getCurrentUser()?.uid
 	const url = generateOcsUrl('cloud/users/{userId}/{collection}', { userId, collection: ACCOUNT_PROPERTY_ENUM.PHONE_COLLECTION })
 
-	const res = await axios.put(url, {
+	const res = await axios.put<OCSResponse<[]>>(url, {
 		key: prevPhone,
 		value: newPhone,
 	}, { confirmPassword: PwdConfirmationMode.Strict })
@@ -90,7 +91,7 @@ export async function saveAdditionalPhoneScope(phone: string, scope: string) {
 	const userId = getCurrentUser()?.uid
 	const url = generateOcsUrl('cloud/users/{userId}/{collectionScope}', { userId, collectionScope: `${ACCOUNT_PROPERTY_ENUM.PHONE_COLLECTION}${SCOPE_SUFFIX}` })
 
-	const res = await axios.put(url, {
+	const res = await axios.put<OCSResponse<[]>>(url, {
 		key: phone,
 		value: scope,
 	}, { confirmPassword: PwdConfirmationMode.Strict })

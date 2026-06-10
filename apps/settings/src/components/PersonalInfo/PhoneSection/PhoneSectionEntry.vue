@@ -10,7 +10,7 @@
 				<label :for="inputIdWithDefault">{{ inputPlaceholder }}</label>
 				<FederationControl
 					v-if="!federationDisabled && !primary"
-					:readable="propertyReadable"
+					:readable="ACCOUNT_PROPERTY_READABLE_ENUM.PHONE_COLLECTION"
 					:additional="true"
 					:additional-value="phone"
 					:disabled="federationDisabled"
@@ -84,7 +84,6 @@ const props = withDefaults(defineProps<{
 	inputId?: string
 }>(), {
 	index: 0,
-	primary: false,
 	inputId: '',
 })
 
@@ -102,7 +101,6 @@ const helperText = ref<string>('')
 const initialPhone = ref(props.phone)
 const isSuccess = ref(false)
 const localScope = ref(props.scope)
-const propertyReadable = ACCOUNT_PROPERTY_READABLE_ENUM.PHONE_COLLECTION
 
 const debouncePhoneChange = debounce(async (phone: string) => {
 	if (isValidPhone(phone)) {
