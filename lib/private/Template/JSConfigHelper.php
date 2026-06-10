@@ -83,86 +83,20 @@ class JSConfigHelper {
 	 * @return string JavaScript source containing global variable assignments.
 	 */
 	public function getConfig(): string {
-		// Determine whether the current user/session can perform password confirmation.
-		$userBackendAllowsPasswordConfirmation = true;
-		if ($this->currentUser !== null) {
-			$uid = $this->currentUser->getUID();
-			$canValidatePassword = $this->canUserValidatePassword();
-			$userBackend = $this->currentUser->getBackend();
-			$userBackendClassName = $this->currentUser->getBackendClassName();
+		$passwordConfirmationContext = $this->buildPasswordConfirmationContext();
+		$uid = $passwordConfirmationContext['uid'];
+		$canValidatePassword = $passwordConfirmationContext['canValidatePassword'];
+		$userBackendAllowsPasswordConfirmation = $passwordConfirmationContext['backendAllowsPasswordConfirmation'];
 
-			if ($userBackend instanceof IPasswordConfirmationBackend) {
-				$userBackendAllowsPasswordConfirmation = $userBackend->canConfirmPassword($uid) && $canValidatePassword;
-			} elseif (isset($this->passwordConfirmationExcludedBackends[$userBackendClassName])) {
-				$userBackendAllowsPasswordConfirmation = false;
-			} else {
-				$userBackendAllowsPasswordConfirmation = $canValidatePassword;
-			}
-		} else {
-			$uid = null;
-		}
-
-		$isAdmin = $uid !== null && $this->groupManager->isAdmin($uid);
+		$requestUserContext = $this->buildRequestUserContext($uid, $canValidatePassword);
+		$isAdmin = $requestUserContext['isAdmin'];
+		$relativeDataDirectory = $requestUserContext['relativeDataDirectory'];
+		$lastConfirmTimestamp = $requestUserContext['lastConfirmTimestamp']
 
 		/** @var array<string, string|false> $appWebPaths */
 		$appWebPaths = $this->getEnabledAppWebPaths();
 		$coreConfig = $this->buildCoreConfig();
 		$capabilities = $this->capabilitiesManager->getCapabilities(false, true);
-
-		// Collect sharing defaults exposed to the frontend.
-		$enableLinkPasswordByDefault = $this->appConfig->getValueBool('core', ConfigLexicon::SHARE_LINK_PASSWORD_DEFAULT);
-		$defaultExpireDateEnabled = $this->appConfig->getValueBool('core', ConfigLexicon::SHARE_LINK_EXPIRE_DATE_DEFAULT);
-		$defaultExpireDate = $defaultExpireDateEnforced = null;
-		if ($defaultExpireDateEnabled) {
-			$defaultExpireDate = (int)$this->config->getAppValue('core', 'shareapi_expire_after_n_days', '7');
-			$defaultExpireDateEnforced = $this->appConfig->getValueBool('core', ConfigLexicon::SHARE_LINK_EXPIRE_DATE_ENFORCED);
-		}
-		$outgoingServer2serverShareEnabled = $this->config->getAppValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes') === 'yes';
-
-		$defaultInternalExpireDateEnabled = $this->config->getAppValue('core', 'shareapi_default_internal_expire_date', 'no') === 'yes';
-		$defaultInternalExpireDate = $defaultInternalExpireDateEnforced = null;
-		if ($defaultInternalExpireDateEnabled) {
-			$defaultInternalExpireDate = (int)$this->config->getAppValue('core', 'shareapi_internal_expire_after_n_days', '7');
-			$defaultInternalExpireDateEnforced = $this->config->getAppValue('core', 'shareapi_enforce_internal_expire_date', 'no') === 'yes';
-		}
-
-		$defaultRemoteExpireDateEnabled = $this->config->getAppValue('core', 'shareapi_default_remote_expire_date', 'no') === 'yes';
-		$defaultRemoteExpireDate = $defaultRemoteExpireDateEnforced = null;
-		if ($defaultRemoteExpireDateEnabled) {
-			$defaultRemoteExpireDate = (int)$this->config->getAppValue('core', 'shareapi_remote_expire_after_n_days', '7');
-			$defaultRemoteExpireDateEnforced = $this->config->getAppValue('core', 'shareapi_enforce_remote_expire_date', 'no') === 'yes';
-		}
-
-		// Expose the data directory only when it is a child of the server root and the
-		// current user is an admin; otherwise keep it hidden from the client.
-		$dataDirectoryPrefixReplacementCount = 0;
-		$relativeDataDirectory = str_replace(\OC::$SERVERROOT . '/', '', $this->config->getSystemValue('datadirectory', ''), $dataDirectoryPrefixReplacementCount);
-		if ($dataDirectoryPrefixReplacementCount !== 1 || $uid === null || !$isAdmin) {
-			$relativeDataDirectory = false;
-		}
-
-		if ($this->currentUser instanceof IUser) {
-			if ($this->canUserValidatePassword()) {
-				$lastConfirmTimestamp = $this->session->get('last-password-confirm');
-				if (!is_int($lastConfirmTimestamp)) {
-					$lastConfirmTimestamp = 0;
-				}
-			} else {
-				// Use a sentinel value so the frontend treats password confirmation as already satisfied
-				// when this user/session cannot perform password validation.
-				$lastConfirmTimestamp = PHP_INT_MAX;
-			}
-		} else {
-			$lastConfirmTimestamp = 0;
-		}
-
-		$firstDayOfWeek = $this->config->getUserValue($uid, 'core', AUserDataOCSController::USER_FIELD_FIRST_DAY_OF_WEEK, '');
-		if ($firstDayOfWeek === '') {
-			$firstDayOfWeek = (int)$this->l->l('firstday', null);
-		} else {
-			$firstDayOfWeek = (int)$firstDayOfWeek;
-		}
-
 		$shareManager = Server::get(IShareManager::class);
 
 		// Values in this map must already be serialized as JavaScript literals because
@@ -181,24 +115,7 @@ class JSConfigHelper {
 		] + $this->buildLocaleConfig($uid) + [
 			'_oc_config' => json_encode($coreConfig),
 			'oc_appconfig' => json_encode([
-				'core' => [
-					'defaultExpireDateEnabled' => $defaultExpireDateEnabled,
-					'defaultExpireDate' => $defaultExpireDate,
-					'defaultExpireDateEnforced' => $defaultExpireDateEnforced,
-					'enforcePasswordForPublicLink' => Util::isPublicLinkPasswordRequired(),
-					'enableLinkPasswordByDefault' => $enableLinkPasswordByDefault,
-					'sharingDisabledForUser' => $shareManager->sharingDisabledForUser($uid),
-					'resharingAllowed' => $this->appConfig->getValueBool('core', 'shareapi_allow_resharing', true),
-					'remoteShareAllowed' => $outgoingServer2serverShareEnabled,
-					'federatedCloudShareDoc' => $this->urlGenerator->linkToDocs('user-sharing-federated'),
-					'allowGroupSharing' => $shareManager->allowGroupSharing(),
-					'defaultInternalExpireDateEnabled' => $defaultInternalExpireDateEnabled,
-					'defaultInternalExpireDate' => $defaultInternalExpireDate,
-					'defaultInternalExpireDateEnforced' => $defaultInternalExpireDateEnforced,
-					'defaultRemoteExpireDateEnabled' => $defaultRemoteExpireDateEnabled,
-					'defaultRemoteExpireDate' => $defaultRemoteExpireDate,
-					'defaultRemoteExpireDateEnforced' => $defaultRemoteExpireDateEnforced,
-				]
+				'core' => $this->buildSharingAppConfig($uid, $shareManager),
 			]),
 			'_theme' => json_encode($this->buildThemeConfig()),
 		];
@@ -219,6 +136,64 @@ class JSConfigHelper {
 		\OC_Hook::emit('\OCP\Config', 'js', ['array' => &$legacyJsGlobals]);
 
 		return $this->renderLegacyJsGlobals($legacyJsGlobals);
+	}
+
+	/**
+	 * Builds password-confirmation-related context for the current user/session.
+	 *
+	 * @return array{
+	 *   uid: ?string,
+	 *   canValidatePassword: bool,
+	 *   backendAllowsPasswordConfirmation: bool
+	 * }
+	 */
+	private function buildPasswordConfirmationContext(): array {
+		$uid = $this->currentUser?->getUID();
+
+		if ($this->currentUser === null) {
+			return [
+				'uid' => null,
+				'canValidatePassword' => true,
+				'backendAllowsPasswordConfirmation' => true,
+			];
+		}
+
+		$canValidatePassword = $this->canUserValidatePassword();
+		$userBackend = $this->currentUser->getBackend();
+		$userBackendClassName = $this->currentUser->getBackendClassName();
+
+		if ($userBackend instanceof IPasswordConfirmationBackend) {
+			$backendAllowsPasswordConfirmation = $userBackend->canConfirmPassword($uid) && $canValidatePassword;
+		} elseif (isset($this->passwordConfirmationExcludedBackends[$userBackendClassName])) {
+			$backendAllowsPasswordConfirmation = false;
+		} else {
+			$backendAllowsPasswordConfirmation = $canValidatePassword;
+		}
+
+		return [
+			'uid' => $uid,
+			'canValidatePassword' => $canValidatePassword,
+			'backendAllowsPasswordConfirmation' => $backendAllowsPasswordConfirmation,
+		];
+	}
+
+	/**
+	 * Builds request-scoped user context needed for frontend bootstrapping.
+	 *
+	 * @return array{
+	 *   isAdmin: bool,
+	 *   relativeDataDirectory: string|false,
+	 *   lastConfirmTimestamp: int
+	 * }
+	 */
+	private function buildRequestUserContext(?string $uid, bool $canValidatePassword): array {
+		$isAdmin = $uid !== null && $this->groupManager->isAdmin($uid);
+
+		return [
+			'isAdmin' => $isAdmin,
+			'relativeDataDirectory' => $this->getRelativeDataDirectoryForAdmin($uid, $isAdmin),
+			'lastConfirmTimestamp' => $this->getLastConfirmTimestamp($canValidatePassword),
+		];
 	}
 
 	/**
@@ -248,6 +223,43 @@ class JSConfigHelper {
 		}
 
 		return $appWebPaths;
+	}
+
+	/**
+	 * Exposes the data directory only when it is below the server root and the current user is an admin.
+	 */
+	private function getRelativeDataDirectoryForAdmin(?string $uid, bool $isAdmin): string|false {
+		$dataDirectoryPrefixReplacementCount = 0;
+		$relativeDataDirectory = str_replace(
+			\OC::$SERVERROOT . '/',
+			'',
+			$this->config->getSystemValue('datadirectory', ''),
+			$dataDirectoryPrefixReplacementCount,
+		);
+
+		if ($dataDirectoryPrefixReplacementCount !== 1 || $uid === null || !$isAdmin) {
+			return false;
+		}
+
+		return $relativeDataDirectory;
+	}
+
+	/**
+	 * Returns the timestamp of the last successful password confirmation.
+	 */
+	private function getLastConfirmTimestamp(bool $canValidatePassword): int {
+		if (!($this->currentUser instanceof IUser)) {
+			return 0;
+		}
+
+		if (!$canValidatePassword) {
+			// Use a sentinel value so the frontend treats password confirmation as already satisfied
+			// when this user/session cannot perform password validation.
+			return PHP_INT_MAX;
+		}
+
+		$lastConfirmTimestamp = $this->session->get('last-password-confirm');
+		return is_int($lastConfirmTimestamp) ? $lastConfirmTimestamp : 0;
 	}
 
 	/**
@@ -349,6 +361,56 @@ class JSConfigHelper {
 				$this->l->t('Dec.'),
 			]),
 			'firstDay' => json_encode($firstDayOfWeek),
+		];
+	}
+
+	/**
+	 * Builds sharing-related frontend app config.
+	 *
+	 * @return array<string, mixed>
+	 */
+	private function buildSharingAppConfig(?string $uid, IShareManager $shareManager): array {
+		$enableLinkPasswordByDefault = $this->appConfig->getValueBool('core', ConfigLexicon::SHARE_LINK_PASSWORD_DEFAULT);
+		$defaultExpireDateEnabled = $this->appConfig->getValueBool('core', ConfigLexicon::SHARE_LINK_EXPIRE_DATE_DEFAULT);
+		$defaultExpireDate = $defaultExpireDateEnforced = null;
+		if ($defaultExpireDateEnabled) {
+			$defaultExpireDate = (int)$this->config->getAppValue('core', 'shareapi_expire_after_n_days', '7');
+			$defaultExpireDateEnforced = $this->appConfig->getValueBool('core', ConfigLexicon::SHARE_LINK_EXPIRE_DATE_ENFORCED);
+		}
+
+		$outgoingServer2serverShareEnabled = $this->config->getAppValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes') === 'yes';
+
+		$defaultInternalExpireDateEnabled = $this->config->getAppValue('core', 'shareapi_default_internal_expire_date', 'no') === 'yes';
+		$defaultInternalExpireDate = $defaultInternalExpireDateEnforced = null;
+		if ($defaultInternalExpireDateEnabled) {
+			$defaultInternalExpireDate = (int)$this->config->getAppValue('core', 'shareapi_internal_expire_after_n_days', '7');
+			$defaultInternalExpireDateEnforced = $this->config->getAppValue('core', 'shareapi_enforce_internal_expire_date', 'no') === 'yes';
+		}
+
+		$defaultRemoteExpireDateEnabled = $this->config->getAppValue('core', 'shareapi_default_remote_expire_date', 'no') === 'yes';
+		$defaultRemoteExpireDate = $defaultRemoteExpireDateEnforced = null;
+		if ($defaultRemoteExpireDateEnabled) {
+			$defaultRemoteExpireDate = (int)$this->config->getAppValue('core', 'shareapi_remote_expire_after_n_days', '7');
+			$defaultRemoteExpireDateEnforced = $this->config->getAppValue('core', 'shareapi_enforce_remote_expire_date', 'no') === 'yes';
+		}
+
+		return [
+			'defaultExpireDateEnabled' => $defaultExpireDateEnabled,
+			'defaultExpireDate' => $defaultExpireDate,
+			'defaultExpireDateEnforced' => $defaultExpireDateEnforced,
+			'enforcePasswordForPublicLink' => Util::isPublicLinkPasswordRequired(),
+			'enableLinkPasswordByDefault' => $enableLinkPasswordByDefault,
+			'sharingDisabledForUser' => $shareManager->sharingDisabledForUser($uid),
+			'resharingAllowed' => $this->appConfig->getValueBool('core', 'shareapi_allow_resharing', true),
+			'remoteShareAllowed' => $outgoingServer2serverShareEnabled,
+			'federatedCloudShareDoc' => $this->urlGenerator->linkToDocs('user-sharing-federated'),
+			'allowGroupSharing' => $shareManager->allowGroupSharing(),
+			'defaultInternalExpireDateEnabled' => $defaultInternalExpireDateEnabled,
+			'defaultInternalExpireDate' => $defaultInternalExpireDate,
+			'defaultInternalExpireDateEnforced' => $defaultInternalExpireDateEnforced,
+			'defaultRemoteExpireDateEnabled' => $defaultRemoteExpireDateEnabled,
+			'defaultRemoteExpireDate' => $defaultRemoteExpireDate,
+			'defaultRemoteExpireDateEnforced' => $defaultRemoteExpireDateEnforced,
 		];
 	}
 
