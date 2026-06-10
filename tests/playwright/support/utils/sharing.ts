@@ -1,0 +1,67 @@
+/*
+ * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+import type { APIRequestContext } from '@playwright/test'
+
+/** Nextcloud share permission bits (see OCS Share API). */
+export const SharePermission = {
+	READ: 1,
+	UPDATE: 2,
+	CREATE: 4,
+	DELETE: 8,
+	SHARE: 16,
+} as const
+
+/** All permissions a user share can grant. */
+export const ALL_PERMISSIONS = SharePermission.READ
+	| SharePermission.UPDATE
+	| SharePermission.CREATE
+	| SharePermission.DELETE
+	| SharePermission.SHARE
+
+/**
+ * Create a user-to-user share via the OCS Share API. Seeding shares through the
+ * API avoids driving the (flaky) share-editor sidebar.
+ *
+ * @param request - A request context authenticated as the share owner (e.g. the
+ *   `ownerRequest` fixture)
+ * @param path - The path to share, relative to the owner's root
+ * @param shareWith - The user id of the share recipient
+ * @param permissions - The permission bitmask to grant (defaults to all)
+ */
+export async function createShare(
+	request: APIRequestContext,
+	path: string,
+	shareWith: string,
+	permissions: number = ALL_PERMISSIONS,
+): Promise<void> {
+	const response = await request.post('/ocs/v2.php/apps/files_sharing/api/v1/shares?format=json', {
+		headers: { 'OCS-APIRequest': 'true' },
+		form: {
+			path,
+			shareType: 0, // user share
+			shareWith,
+			permissions,
+		},
+	})
+	// OCS returns HTTP 200 even on failure; the real status lives in ocs.meta
+	const { ocs } = await response.json()
+	if (ocs?.meta?.statuscode !== 200) {
+		throw new Error(`Creating share for ${path} failed: ${ocs?.meta?.statuscode} ${ocs?.meta?.message}`)
+	}
+
+	// A new share ignores the create-time permissions and always starts with the
+	// full set, so restricted permissions must be applied with a follow-up update.
+	if (permissions !== ALL_PERMISSIONS) {
+		const update = await request.put(`/ocs/v2.php/apps/files_sharing/api/v1/shares/${ocs.data.id}?format=json`, {
+			headers: { 'OCS-APIRequest': 'true' },
+			form: { permissions },
+		})
+		const updateMeta = (await update.json()).ocs?.meta
+		if (updateMeta?.statuscode !== 200) {
+			throw new Error(`Updating share ${ocs.data.id} failed: ${updateMeta?.statuscode} ${updateMeta?.message}`)
+		}
+	}
+}
