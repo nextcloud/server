@@ -26,7 +26,12 @@ export class FilesListPage {
 			.getByRole('button', { name: 'Actions' })
 	}
 
-	async triggerActionForFile(filename: string, actionId: string): Promise<void> {
+	/**
+	 * Open the row actions menu for a file and return the menu popover locator.
+	 * Use this when a test needs to inspect a menu entry (e.g. its label) before
+	 * clicking; for a plain "open and click" use {@link triggerActionForFile}.
+	 */
+	async openActionsMenuForFile(filename: string): Promise<Locator> {
 		const row = this.getRowForFile(filename)
 		await row.hover()
 
@@ -36,11 +41,25 @@ export class FilesListPage {
 		await actionsButton.click({ force: true })
 
 		const menuId = await actionsButton.getAttribute('aria-controls')
+		const menu = this.page.locator(`#${menuId}`)
+		await menu.waitFor({ state: 'visible' })
+		return menu
+	}
+
+	getActionButtonInMenu(menu: Locator, actionId: string): Locator {
 		// The action button has role="menuitem", so use tag selector not getByRole
-		const actionEntry = this.page
-			.locator(`#${menuId} [data-cy-files-list-row-action="${actionId}"] button`)
+		return menu.locator(`[data-cy-files-list-row-action="${actionId}"] button`)
+	}
+
+	async triggerActionForFile(filename: string, actionId: string): Promise<void> {
+		const menu = await this.openActionsMenuForFile(filename)
+		const actionEntry = this.getActionButtonInMenu(menu, actionId)
 		await actionEntry.waitFor({ state: 'visible' })
 		await actionEntry.click()
+	}
+
+	getFavoriteIconForFile(filename: string): Locator {
+		return this.getRowForFile(filename).getByRole('img', { name: 'Favorite' })
 	}
 
 	async selectAll(): Promise<void> {
