@@ -16,6 +16,7 @@ $CONFIG = [
 			'writable' => true,
 		],
 	],
+	'tempdirectory' => '/dev/shm',
 ];
 
 if (is_dir(OC::$SERVERROOT . '/apps2')) {
