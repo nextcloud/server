@@ -178,6 +178,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 			->method('updateActivity')
 			->with($tk, $this->time);
 		$tk->setLastActivity($this->time - 200);
+		$tk->setToken('token');
 		$this->config->method('getSystemValueBool')
 			->willReturnMap([
 				['auth.storeCryptedPassword', true, true],
@@ -440,6 +441,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 
 	public function testGetToken(): void {
 		$token = new PublicKeyToken();
+		$token->setToken('token');
 
 		$this->config->method('getSystemValue')
 			->with('secret')
@@ -587,6 +589,9 @@ class PublicKeyTokenProviderTest extends TestCase {
 
 	public function testMarkPasswordInvalid(): void {
 		$token = $this->createMock(PublicKeyToken::class);
+		$token->expects($this->once())
+			->method('getToken')
+			->willReturn('token');
 
 		$token->expects($this->once())
 			->method('setPasswordInvalid')
