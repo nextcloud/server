@@ -229,8 +229,13 @@ class UserConfigTest extends TestCase {
 
 					$flags = $row[4] ?? 0;
 					if ((UserConfig::FLAG_SENSITIVE & $flags) !== 0) {
-						$value = self::invokePrivate(UserConfig::class, 'ENCRYPTION_PREFIX')
-								 . $this->crypto->encrypt((string)$value);
+						if (!isset($this->basePreferences[$userId][$appId][$key]['encrypted'])) {
+							$value = self::invokePrivate(UserConfig::class, 'ENCRYPTION_PREFIX')
+								. $this->crypto->encrypt((string)$value);
+							$this->basePreferences[$userId][$appId][$key]['encrypted'] = $value;
+						} else {
+							$value = $this->basePreferences[$userId][$appId][$key]['encrypted'];
+						}
 					} else {
 						$indexed = (($row[5] ?? false) === true) ? $value : '';
 					}
