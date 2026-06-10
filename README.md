@@ -62,6 +62,16 @@ Several apps that are included by default in regular releases such as [First run
 
 Otherwise, git checkouts can be handled the same as release archives, by using the `stable*` branches. Note they should never be used on production systems.
 
+#### Testing your code
+
+We use multiple test frameworks for specific areas of the code:
+- PHPUnit for PHP unit tests
+- Behat for PHP integration tests
+- Vitest for Javascript / Typescript unit tests
+- Playwright for end-to-end tests
+
+For our end-to-end tests using Playwright you can refer [to our documentation](./tests/playwright/README.md)
+on how to debug errors and to contribute new test cases.
 
 ### Tools we use 🛠
 
