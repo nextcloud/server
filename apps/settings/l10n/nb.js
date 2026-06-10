@@ -97,6 +97,7 @@ OC.L10N.register(
     "Administration privileges" : "Administratorrettigheter",
     "Groupware" : "Gruppevare",
     "Overview" : "Oversikt",
+    "Quick presets" : "Hurtig-forhåndsinnstillinger",
     "Basic settings" : "Grunninnstillinger",
     "Sharing" : "Deling",
     "Availability" : "Tilgjengelighet",
