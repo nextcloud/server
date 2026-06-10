@@ -70,6 +70,7 @@ class IpAddressClassifier {
 	 * Hostnames are not considered local. Use the HostnameClassifier for those.
 	 */
 	public function isLocalAddress(string $ip): bool {
+		$ip = rtrim($ip, '.');
 		$parsedIp = Factory::parseAddressString(
 			$ip,
 			ParseStringFlag::IPV4_MAYBE_NON_DECIMAL | ParseStringFlag::IPV4ADDRESS_MAYBE_NON_QUAD_DOTTED | ParseStringFlag::MAY_INCLUDE_ZONEID
