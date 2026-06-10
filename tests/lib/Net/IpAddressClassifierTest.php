@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace lib\Net;
 
+use IPLib\Address\IPv4;
+use IPLib\Address\IPv6;
 use OC\Net\IpAddressClassifier;
 use Test\TestCase;
 
@@ -52,6 +54,10 @@ class IpAddressClassifierTest extends TestCase {
 			['100.100.100.200'],
 			['192.0.0.1'],
 			['64:ff9b::a9fe:a9fe'], // NAT64 of 169.254.169.254
+			['::ffff:127.0.0.1'],
+			['2130706433'],
+			['0177.0.0.1'],
+			['169.254.169.254'],
 		];
 	}
 
@@ -62,5 +68,29 @@ class IpAddressClassifierTest extends TestCase {
 		$isLocal = $this->classifier->isLocalAddress($ip);
 
 		self::assertTrue($isLocal);
+	}
+
+	public static function mappedAddresses(): array {
+		return [
+			['64:ff9b::a9fe:a9fe', '169.254.169.254'],
+			['::ffff:7f00:1', '127.0.0.1'],
+			['::127.0.0.1', '127.0.0.1'],
+			['::7f00:1', '127.0.0.1'],
+			['2001:0000:4136:e378:8000:63bf:3fff:fdd2', '192.0.2.45'],
+			['2001:4860:4860::8888', null],
+		];
+	}
+
+	/**
+	 * @dataProvider mappedAddresses
+	 */
+	public function testMappedAddresses(string $ipv6, ?string $ipv4): void {
+		$mapped = $this->classifier->getMappedIpv4(IPv6::parseString($ipv6));
+
+		if ($ipv4 === null) {
+			self::assertEquals(null, $mapped);
+		} else {
+			self::assertEquals(IPv4::parseString($ipv4), $mapped);
+		}
 	}
 }
