@@ -44,7 +44,7 @@ class TempManagerTest extends \Test\TestCase {
 			$config = $this->createMock(IConfig::class);
 			$config->method('getSystemValue')
 				->with('tempdirectory', null)
-				->willReturn('/tmp');
+				->willReturn('/dev/shm');
 		}
 		$iniGetWrapper = $this->createMock(IniGetWrapper::class);
 		$manager = new TempManager($logger, $config, $iniGetWrapper);
