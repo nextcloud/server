@@ -35,139 +35,150 @@
 	</section>
 </template>
 
-<script>
+<script setup lang="ts">
+import type { AxiosError } from '@nextcloud/axios'
+import type { CountryCode } from 'libphonenumber-js'
+import type { IAccountProperty } from '../../../constants/AccountPropertyConstants.ts'
+
 import { loadState } from '@nextcloud/initial-state'
+import { translate as t } from '@nextcloud/l10n'
 import { isValidPhoneNumber } from 'libphonenumber-js'
+import { computed, ref } from 'vue'
 import HeaderBar from '../shared/HeaderBar.vue'
 import PhoneSectionEntry from './PhoneSectionEntry.vue'
-import { ACCOUNT_PROPERTY_READABLE_ENUM, DEFAULT_ADDITIONAL_PHONE_SCOPE, NAME_READABLE_ENUM } from '../../../constants/AccountPropertyConstants.js'
-import { removeAdditionalPhone, savePrimaryPhone } from '../../../service/PersonalInfo/PhoneService.js'
+import { DEFAULT_ADDITIONAL_PHONE_SCOPE, NAME_READABLE_ENUM } from '../../../constants/AccountPropertyConstants.ts'
+import { removeAdditionalPhone, savePrimaryPhone } from '../../../service/PersonalInfo/PhoneService.ts'
 import { handleError } from '../../../utils/handlers.ts'
 
-const { phoneMap: { additionalPhones, primaryPhone }, defaultPhoneRegion } = loadState('settings', 'personalInfoParameters', {})
+type AdditionalPhoneEntry = Partial<IAccountProperty> & {
+	value: string
+	scope: IAccountProperty['scope']
+	key: string
+}
 
-export default {
-	name: 'PhoneSection',
+interface PrimaryPhoneEntry extends IAccountProperty {
+	readable: string
+}
 
-	components: {
-		HeaderBar,
-		PhoneSectionEntry,
+interface PersonalInfoParameters {
+	phoneMap: {
+		additionalPhones: IAccountProperty[]
+		primaryPhone: IAccountProperty
+	}
+	defaultPhoneRegion?: CountryCode
+}
+
+function generateUniqueKey(): string {
+	return Math.random().toString(36).substring(2)
+}
+
+const { phoneMap: { additionalPhones: initialAdditionalPhones, primaryPhone: initialPrimaryPhone }, defaultPhoneRegion } = loadState<PersonalInfoParameters>('settings', 'personalInfoParameters', {
+	phoneMap: {
+		additionalPhones: [],
+		primaryPhone: { name: '', value: '', scope: DEFAULT_ADDITIONAL_PHONE_SCOPE, verified: 0 },
 	},
+})
 
-	data() {
-		return {
-			accountProperty: ACCOUNT_PROPERTY_READABLE_ENUM.PHONE,
-			additionalPhones: additionalPhones.map((properties) => ({ ...properties, key: this.generateUniqueKey() })),
-			primaryPhone: { ...primaryPhone, readable: NAME_READABLE_ENUM[primaryPhone.name] },
-		}
+const additionalPhones = ref<AdditionalPhoneEntry[]>(initialAdditionalPhones.map((properties) => ({ ...properties, key: generateUniqueKey() })))
+
+const primaryPhone = ref<PrimaryPhoneEntry>({
+	...initialPrimaryPhone,
+	readable: NAME_READABLE_ENUM[initialPrimaryPhone.name as keyof typeof NAME_READABLE_ENUM],
+})
+
+const firstAdditionalPhone = computed(() => {
+	if (additionalPhones.value.length) {
+		return additionalPhones.value[0].value
+	}
+	return null
+})
+
+const inputId = computed(() => `account-property-${primaryPhone.value.name}`)
+
+const primaryPhoneValue = computed({
+	get() {
+		return primaryPhone.value.value
 	},
-
-	computed: {
-		firstAdditionalPhone() {
-			if (this.additionalPhones.length) {
-				return this.additionalPhones[0].value
-			}
-			return null
-		},
-
-		inputId() {
-			return `account-property-${this.primaryPhone.name}`
-		},
-
-		isValidSection() {
-			return this.isValidPhone(this.primaryPhone.value)
-				&& this.additionalPhones.map(({ value }) => value).every(this.isValidPhone)
-		},
-
-		primaryPhoneValue: {
-			get() {
-				return this.primaryPhone.value
-			},
-
-			set(value) {
-				this.primaryPhone.value = value
-			},
-		},
+	set(value: string) {
+		primaryPhone.value.value = value
 	},
+})
 
-	methods: {
-		isValidPhone(value) {
-			if (value === '') {
-				return true
-			}
-			if (defaultPhoneRegion) {
-				return isValidPhoneNumber(value, defaultPhoneRegion)
-			}
-			return isValidPhoneNumber(value)
-		},
+function isValidPhone(value: string): boolean {
+	if (value === '') {
+		return true
+	}
+	if (defaultPhoneRegion) {
+		return isValidPhoneNumber(value, defaultPhoneRegion)
+	}
+	return isValidPhoneNumber(value)
+}
 
-		onAddAdditionalPhone() {
-			if (this.isValidSection) {
-				this.additionalPhones.push({ value: '', scope: DEFAULT_ADDITIONAL_PHONE_SCOPE, key: this.generateUniqueKey() })
-			}
-		},
+const isValidSection = computed(() => {
+	return isValidPhone(primaryPhone.value.value)
+		&& additionalPhones.value.map(({ value }) => value).every(isValidPhone)
+})
 
-		onDeleteAdditionalPhone(index) {
-			this.$delete(this.additionalPhones, index)
-		},
+function onAddAdditionalPhone() {
+	if (isValidSection.value) {
+		additionalPhones.value.push({ value: '', scope: DEFAULT_ADDITIONAL_PHONE_SCOPE, key: generateUniqueKey() })
+	}
+}
 
-		async onUpdatePhone() {
-			if (this.primaryPhoneValue === '' && this.firstAdditionalPhone) {
-				const deletedPhone = this.firstAdditionalPhone
-				await this.deleteFirstAdditionalPhone()
-				this.primaryPhoneValue = deletedPhone
-				await this.updatePrimaryPhone()
-			}
-		},
+function onDeleteAdditionalPhone(index: number) {
+	additionalPhones.value.splice(index, 1)
+}
 
-		async updatePrimaryPhone() {
-			try {
-				const responseData = await savePrimaryPhone(this.primaryPhoneValue)
-				this.handleResponse(responseData.ocs?.meta?.status)
-			} catch (e) {
-				this.handleResponse(
-					'error',
-					t('settings', 'Unable to update primary phone number'),
-					e,
-				)
-			}
-		},
+async function onUpdatePhone() {
+	if (primaryPhoneValue.value === '' && firstAdditionalPhone.value) {
+		const deletedPhone = firstAdditionalPhone.value
+		await deleteFirstAdditionalPhone()
+		primaryPhoneValue.value = deletedPhone
+		await updatePrimaryPhone()
+	}
+}
 
-		async deleteFirstAdditionalPhone() {
-			try {
-				const responseData = await removeAdditionalPhone(this.firstAdditionalPhone)
-				this.handleDeleteFirstAdditionalPhone(responseData.ocs?.meta?.status)
-			} catch (e) {
-				this.handleResponse(
-					'error',
-					t('settings', 'Unable to delete additional phone number'),
-					e,
-				)
-			}
-		},
+async function updatePrimaryPhone() {
+	try {
+		const responseData = await savePrimaryPhone(primaryPhoneValue.value)
+		handleResponse(responseData.ocs?.meta?.status)
+	} catch (e) {
+		handleResponse(
+			'error',
+			t('settings', 'Unable to update primary phone number'),
+			e as AxiosError,
+		)
+	}
+}
 
-		handleDeleteFirstAdditionalPhone(status) {
-			if (status === 'ok') {
-				this.$delete(this.additionalPhones, 0)
-			} else {
-				this.handleResponse(
-					'error',
-					t('settings', 'Unable to delete additional phone number'),
-					{},
-				)
-			}
-		},
+async function deleteFirstAdditionalPhone() {
+	try {
+		const responseData = await removeAdditionalPhone(firstAdditionalPhone.value!)
+		handleDeleteFirstAdditionalPhone(responseData.ocs?.meta?.status)
+	} catch (e) {
+		handleResponse(
+			'error',
+			t('settings', 'Unable to delete additional phone number'),
+			e as AxiosError,
+		)
+	}
+}
 
-		handleResponse(status, errorMessage, error) {
-			if (status !== 'ok') {
-				handleError(error, errorMessage)
-			}
-		},
+function handleDeleteFirstAdditionalPhone(status?: string) {
+	if (status === 'ok') {
+		additionalPhones.value.splice(0, 1)
+	} else {
+		handleResponse(
+			'error',
+			t('settings', 'Unable to delete additional phone number'),
+		)
+	}
+}
 
-		generateUniqueKey() {
-			return Math.random().toString(36).substring(2)
-		},
-	},
+function handleResponse(status?: string, errorMessage?: string, error?: AxiosError) {
+	if (status !== 'ok') {
+		handleError(error!, errorMessage!)
+	}
 }
 </script>
 

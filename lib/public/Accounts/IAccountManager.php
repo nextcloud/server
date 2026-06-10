@@ -176,7 +176,7 @@ interface IAccountManager {
 	public const COLLECTION_EMAIL = 'additional_mail';
 
 	/**
-	 * @since 33.0.0
+	 * @since 35.0.0
 	 */
 	public const COLLECTION_PHONE = 'additional_phone';
 

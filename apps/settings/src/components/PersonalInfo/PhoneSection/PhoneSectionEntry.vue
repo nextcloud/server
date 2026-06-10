@@ -21,7 +21,7 @@
 			<div class="phone__input-container">
 				<NcTextField
 					:id="inputIdWithDefault"
-					ref="phone"
+					ref="phoneInput"
 					v-model="phoneNumber"
 					class="phone__input"
 					autocomplete="tel"
@@ -51,279 +51,246 @@
 	</div>
 </template>
 
-<script>
+<script setup lang="ts">
+import type { AxiosError } from '@nextcloud/axios'
+import type { CountryCode } from 'libphonenumber-js'
+
 import { mdiTrashCanOutline } from '@mdi/js'
 import { loadState } from '@nextcloud/initial-state'
+import { translate as t } from '@nextcloud/l10n'
 import debounce from 'debounce'
 import { isValidPhoneNumber } from 'libphonenumber-js'
+import { computed, nextTick, onMounted, ref } from 'vue'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActions from '@nextcloud/vue/components/NcActions'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 import FederationControl from '../shared/FederationControl.vue'
-import { ACCOUNT_PROPERTY_READABLE_ENUM } from '../../../constants/AccountPropertyConstants.js'
+import { ACCOUNT_PROPERTY_READABLE_ENUM } from '../../../constants/AccountPropertyConstants.ts'
 import {
 	removeAdditionalPhone,
 	saveAdditionalPhone,
 	saveAdditionalPhoneScope,
 	savePrimaryPhone,
 	updateAdditionalPhone,
-} from '../../../service/PersonalInfo/PhoneService.js'
+} from '../../../service/PersonalInfo/PhoneService.ts'
 import { handleError } from '../../../utils/handlers.ts'
 
-const { defaultPhoneRegion } = loadState('settings', 'personalInfoParameters', {})
+const props = withDefaults(defineProps<{
+	phone: string
+	index?: number
+	primary?: boolean
+	scope: string
+	inputId?: string
+}>(), {
+	index: 0,
+	primary: false,
+	inputId: '',
+})
 
-export default {
-	name: 'PhoneSectionEntry',
+const emit = defineEmits<{
+	(e: 'update:phone', value: string): void
+	(e: 'update:scope', scope: string): void
+	(e: 'delete-additional-phone'): void
+}>()
 
-	components: {
-		NcActions,
-		NcActionButton,
-		NcIconSvgWrapper,
-		NcTextField,
-		FederationControl,
-	},
+const { defaultPhoneRegion } = loadState<{ defaultPhoneRegion?: CountryCode }>('settings', 'personalInfoParameters', {})
 
-	props: {
-		phone: {
-			type: String,
-			required: true,
-		},
+const phoneInput = ref<InstanceType<typeof NcTextField>>()
+const hasError = ref(false)
+const helperText = ref<string>('')
+const initialPhone = ref(props.phone)
+const isSuccess = ref(false)
+const localScope = ref(props.scope)
+const propertyReadable = ACCOUNT_PROPERTY_READABLE_ENUM.PHONE_COLLECTION
 
-		index: {
-			type: Number,
-			default: 0,
-		},
-
-		primary: {
-			type: Boolean,
-			default: false,
-		},
-
-		scope: {
-			type: String,
-			required: true,
-		},
-
-		inputId: {
-			type: String,
-			required: false,
-			default: '',
-		},
-	},
-
-	setup() {
-		return {
-			mdiTrashCanOutline,
-			saveAdditionalPhoneScope,
-		}
-	},
-
-	data() {
-		return {
-			hasError: false,
-			helperText: '',
-			initialPhone: this.phone,
-			isSuccess: false,
-			localScope: this.scope,
-			propertyReadable: ACCOUNT_PROPERTY_READABLE_ENUM.PHONE_COLLECTION,
-		}
-	},
-
-	computed: {
-		actionsLabel() {
-			if (this.primary) {
-				return t('settings', 'Phone number options')
-			}
-			return t('settings', 'Options for additional phone number {index}', { index: this.index + 1 })
-		},
-
-		deleteDisabled() {
-			if (this.primary) {
-				return this.phone === '' || this.initialPhone !== this.phone
-			} else if (this.initialPhone !== '') {
-				return this.initialPhone !== this.phone
-			}
-			return false
-		},
-
-		deletePhoneLabel() {
-			if (this.primary) {
-				return t('settings', 'Remove primary phone number')
-			}
-			return t('settings', 'Delete phone number')
-		},
-
-		helperTextWithNonConfirmed() {
-			if (this.helperText || this.hasError || this.isSuccess) {
-				return this.helperText || ''
-			}
-			return ''
-		},
-
-		federationDisabled() {
-			return !this.initialPhone
-		},
-
-		inputIdWithDefault() {
-			return this.inputId || `account-property-phone--${this.index}`
-		},
-
-		inputPlaceholder() {
-			return !this.primary ? t('settings', 'Additional phone number {index}', { index: this.index + 1 }) : undefined
-		},
-
-		phoneNumber: {
-			get() {
-				return this.phone
-			},
-
-			set(value) {
-				this.$emit('update:phone', value)
-				this.debouncePhoneChange(value.trim())
-			},
-		},
-	},
-
-	mounted() {
-		if (!this.primary && this.initialPhone === '') {
-			this.$nextTick(() => this.$refs.phone?.focus())
-		}
-	},
-
-	methods: {
-		isValidPhone(value) {
-			if (value === '') {
-				return true
-			}
-			if (defaultPhoneRegion) {
-				return isValidPhoneNumber(value, defaultPhoneRegion)
-			}
-			return isValidPhoneNumber(value)
-		},
-
-		debouncePhoneChange: debounce(async function(phone) {
-			if (this.isValidPhone(phone)) {
-				if (this.primary) {
-					await this.updatePrimaryPhone(phone)
-				} else {
-					if (phone) {
-						if (this.initialPhone === '') {
-							await this.addAdditionalPhone(phone)
-						} else {
-							await this.updateAdditionalPhone(phone)
-						}
-					}
-				}
-			}
-		}, 1000),
-
-		async deletePhone() {
-			if (this.primary) {
-				this.$emit('update:phone', '')
-				await this.updatePrimaryPhone('')
+const debouncePhoneChange = debounce(async (phone: string) => {
+	if (isValidPhone(phone)) {
+		if (props.primary) {
+			await updatePrimaryPhone(phone)
+		} else if (phone) {
+			if (initialPhone.value === '') {
+				await addAdditionalPhone(phone)
 			} else {
-				await this.deleteAdditionalPhone()
+				await updateAdditionalPhoneEntry(phone)
 			}
-		},
+		}
+	}
+}, 1000)
 
-		async updatePrimaryPhone(phone) {
-			try {
-				const responseData = await savePrimaryPhone(phone)
-				this.handleResponse({
-					phone,
-					status: responseData.ocs?.meta?.status,
-				})
-			} catch (e) {
-				if (phone === '') {
-					this.handleResponse({
-						errorMessage: t('settings', 'Unable to delete primary phone number'),
-						error: e,
-					})
-				} else {
-					this.handleResponse({
-						errorMessage: t('settings', 'Unable to update primary phone number'),
-						error: e,
-					})
-				}
-			}
-		},
+const actionsLabel = computed(() => {
+	if (props.primary) {
+		return t('settings', 'Phone number options')
+	}
+	return t('settings', 'Options for additional phone number {index}', { index: props.index + 1 })
+})
 
-		async addAdditionalPhone(phone) {
-			try {
-				const responseData = await saveAdditionalPhone(phone)
-				this.handleResponse({
-					phone,
-					status: responseData.ocs?.meta?.status,
-				})
-			} catch (e) {
-				this.handleResponse({
-					errorMessage: t('settings', 'Unable to add additional phone number'),
-					error: e,
-				})
-			}
-		},
+const deleteDisabled = computed(() => {
+	if (props.primary) {
+		return props.phone === '' || initialPhone.value !== props.phone
+	} else if (initialPhone.value !== '') {
+		return initialPhone.value !== props.phone
+	}
+	return false
+})
 
-		async updateAdditionalPhone(phone) {
-			try {
-				const responseData = await updateAdditionalPhone(this.initialPhone, phone)
-				this.handleResponse({
-					phone,
-					status: responseData.ocs?.meta?.status,
-				})
-			} catch (e) {
-				this.handleResponse({
-					errorMessage: t('settings', 'Unable to update additional phone number'),
-					error: e,
-				})
-			}
-		},
+const deletePhoneLabel = computed(() => {
+	if (props.primary) {
+		return t('settings', 'Remove primary phone number')
+	}
+	return t('settings', 'Delete phone number')
+})
 
-		async deleteAdditionalPhone() {
-			try {
-				const responseData = await removeAdditionalPhone(this.initialPhone)
-				this.handleDeleteAdditionalPhone(responseData.ocs?.meta?.status)
-			} catch (e) {
-				this.handleResponse({
-					errorMessage: t('settings', 'Unable to delete additional phone number'),
-					error: e,
-				})
-			}
-		},
+const helperTextWithNonConfirmed = computed(() => {
+	if (helperText.value || hasError.value || isSuccess.value) {
+		return helperText.value || ''
+	}
+	return ''
+})
 
-		handleDeleteAdditionalPhone(status) {
-			if (status === 'ok') {
-				this.$emit('delete-additional-phone')
-			} else {
-				this.handleResponse({
-					errorMessage: t('settings', 'Unable to delete additional phone number'),
-				})
-			}
-		},
+const federationDisabled = computed(() => !initialPhone.value)
 
-		handleResponse({ phone, status, errorMessage, error }) {
-			if (status === 'ok') {
-				if (phone) {
-					this.initialPhone = phone
-				}
-				this.isSuccess = true
-				setTimeout(() => {
-					this.isSuccess = false
-				}, 2000)
-			} else {
-				handleError(error, errorMessage)
-				this.hasError = true
-				setTimeout(() => {
-					this.hasError = false
-				}, 2000)
-			}
-		},
+const inputIdWithDefault = computed(() => props.inputId || `account-property-phone--${props.index}`)
 
-		onScopeChange(scope) {
-			this.$emit('update:scope', scope)
-		},
+const inputPlaceholder = computed(() => {
+	return !props.primary ? t('settings', 'Additional phone number {index}', { index: props.index + 1 }) : undefined
+})
+
+const phoneNumber = computed({
+	get() {
+		return props.phone
 	},
+	set(value: string) {
+		emit('update:phone', value)
+		debouncePhoneChange(value.trim())
+	},
+})
+
+function isValidPhone(value: string): boolean {
+	if (value === '') {
+		return true
+	}
+	if (defaultPhoneRegion) {
+		return isValidPhoneNumber(value, defaultPhoneRegion)
+	}
+	return isValidPhoneNumber(value)
 }
+
+async function deletePhone() {
+	if (props.primary) {
+		emit('update:phone', '')
+		await updatePrimaryPhone('')
+	} else {
+		await deleteAdditionalPhone()
+	}
+}
+
+async function updatePrimaryPhone(phone: string) {
+	try {
+		const responseData = await savePrimaryPhone(phone)
+		handleResponse({
+			phone,
+			status: responseData.ocs?.meta?.status,
+		})
+	} catch (e) {
+		if (phone === '') {
+			handleResponse({
+				errorMessage: t('settings', 'Unable to delete primary phone number'),
+				error: e as AxiosError,
+			})
+		} else {
+			handleResponse({
+				errorMessage: t('settings', 'Unable to update primary phone number'),
+				error: e as AxiosError,
+			})
+		}
+	}
+}
+
+async function addAdditionalPhone(phone: string) {
+	try {
+		const responseData = await saveAdditionalPhone(phone)
+		handleResponse({
+			phone,
+			status: responseData.ocs?.meta?.status,
+		})
+	} catch (e) {
+		handleResponse({
+			errorMessage: t('settings', 'Unable to add additional phone number'),
+			error: e as AxiosError,
+		})
+	}
+}
+
+async function updateAdditionalPhoneEntry(phone: string) {
+	try {
+		const responseData = await updateAdditionalPhone(initialPhone.value, phone)
+		handleResponse({
+			phone,
+			status: responseData.ocs?.meta?.status,
+		})
+	} catch (e) {
+		handleResponse({
+			errorMessage: t('settings', 'Unable to update additional phone number'),
+			error: e as AxiosError,
+		})
+	}
+}
+
+async function deleteAdditionalPhone() {
+	try {
+		const responseData = await removeAdditionalPhone(initialPhone.value)
+		handleDeleteAdditionalPhone(responseData.ocs?.meta?.status)
+	} catch (e) {
+		handleResponse({
+			errorMessage: t('settings', 'Unable to delete additional phone number'),
+			error: e as AxiosError,
+		})
+	}
+}
+
+function handleDeleteAdditionalPhone(status?: string) {
+	if (status === 'ok') {
+		emit('delete-additional-phone')
+	} else {
+		handleResponse({
+			errorMessage: t('settings', 'Unable to delete additional phone number'),
+		})
+	}
+}
+
+function handleResponse({ phone, status, errorMessage, error }: {
+	phone?: string
+	status?: string
+	errorMessage?: string
+	error?: AxiosError
+}) {
+	if (status === 'ok') {
+		if (phone) {
+			initialPhone.value = phone
+		}
+		isSuccess.value = true
+		setTimeout(() => {
+			isSuccess.value = false
+		}, 2000)
+	} else {
+		handleError(error!, errorMessage!)
+		hasError.value = true
+		setTimeout(() => {
+			hasError.value = false
+		}, 2000)
+	}
+}
+
+function onScopeChange(scope: string) {
+	emit('update:scope', scope)
+}
+
+onMounted(() => {
+	if (!props.primary && initialPhone.value === '') {
+		nextTick(() => phoneInput.value?.focus())
+	}
+})
 </script>
 
 <style lang="scss" scoped>
