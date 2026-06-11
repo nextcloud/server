@@ -227,6 +227,7 @@ OC.L10N.register(
     "Pick start date" : "Sélectionner une date de début",
     "Pick end date" : "Sélectionner une date de fin",
     "Search in date range" : "Rechercher dans la plage de dates",
+    "Search apps, files, tags, messages …" : "Rechercher des applications, des fichiers, des étiquettes, des messages …",
     "Search in current app" : "Recherche dans l'application courante",
     "Clear search" : "Effacer la recherche",
     "Search everywhere" : "Chercher partout",
