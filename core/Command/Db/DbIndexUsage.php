@@ -103,7 +103,7 @@ class DbIndexUsage extends Command {
 
 		if (!$showAll) {
 			$output->writeln(sprintf(
-				'<comment>Found %d unused index(es). Consider removing them to improve write performance.</comment>',
+				'<comment>Found %d unused index(es). If those were not created by Nextcloud, consider removing them to improve write performance.</comment>',
 				count($rows)
 			));
 		}
