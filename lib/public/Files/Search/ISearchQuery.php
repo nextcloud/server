@@ -57,4 +57,12 @@ interface ISearchQuery {
 	 * @since 18.0.0
 	 */
 	public function limitToHome(): bool;
+
+	/**
+	 * The fields to include in the search results
+	 *
+	 * @return list<string>
+	 * @since 34.0.1
+	 */
+	public function getSelectFields(): array;
 }

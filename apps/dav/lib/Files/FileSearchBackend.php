@@ -347,6 +347,15 @@ class FileSearchBackend implements ISearchBackend {
 			}
 		}, $query->orderBy);
 
+		$selectFields = [];
+		foreach ($query->select as $searchProperty) {
+			try {
+				$selectFields[] = $this->mapPropertyNameToColumn($searchProperty);
+			} catch (\InvalidArgumentException) {
+				// property does not represent a column on DB
+			}
+		}
+
 		$limit = $query->limit;
 		$maxResults = $limit->maxResults !== 0 ? (int)$limit->maxResults : 100;
 		$offset = $limit->firstResult;
@@ -380,7 +389,8 @@ class FileSearchBackend implements ISearchBackend {
 			$offset,
 			$orders,
 			$this->user,
-			$limitHome
+			$limitHome,
+			$selectFields
 		);
 	}
 
