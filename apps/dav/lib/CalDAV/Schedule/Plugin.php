@@ -638,7 +638,7 @@ EOF;
 		]);
 	}
 	
-	private function ensureDescriptionConsistency(RequestInterface $request, VCalendar $vCal, &$modified) {
+	private function ensureDescriptionConsistency(RequestInterface $request, VCalendar $vCal, &$modified): void {
 	    $xAltDescPropName = "X-ALT-DESC";
 	    
 	    // Obtain previous version
