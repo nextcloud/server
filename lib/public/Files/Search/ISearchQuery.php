@@ -61,7 +61,7 @@ interface ISearchQuery {
 	/**
 	 * The fields to include in the search results
 	 *
-	 * @return list<string>
+	 * @return array
 	 * @since 32.0.12
 	 */
 	public function getSelectFields(): array;
