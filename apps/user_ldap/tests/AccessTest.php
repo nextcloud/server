@@ -59,6 +59,8 @@ class AccessTest extends TestCase {
 	private Access $access;
 
 	protected function setUp(): void {
+		parent::setUp();
+
 		$this->ldap = $this->createMock(LDAP::class);
 		$this->connection = $this->getMockBuilder(Connection::class)
 			->setConstructorArgs([$this->ldap])

@@ -25,6 +25,8 @@ class OfflineUserTest extends TestCase {
 	protected OfflineUser $offlineUser;
 
 	public function setUp(): void {
+		parent::setUp();
+
 		$this->uid = 'deborah';
 		$this->userConfig = $this->createMock(IUserConfig::class);
 		$this->mapping = $this->createMock(UserMapping::class);

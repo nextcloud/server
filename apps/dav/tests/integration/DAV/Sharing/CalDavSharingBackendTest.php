@@ -79,6 +79,8 @@ class CalDavSharingBackendTest extends TestCase {
 
 	protected function tearDown(): void {
 		$this->removeFixtures();
+
+		parent::tearDown();
 	}
 
 	protected function removeFixtures(): void {

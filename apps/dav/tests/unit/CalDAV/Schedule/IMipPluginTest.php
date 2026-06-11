@@ -60,6 +60,8 @@ class IMipPluginTest extends TestCase {
 	private IMailMessageNew&MockObject $mailMessageNew;
 
 	protected function setUp(): void {
+		parent::setUp();
+
 		$this->mailMessage = $this->createMock(IMessage::class);
 		$this->mailMessage->method('setFrom')->willReturn($this->mailMessage);
 		$this->mailMessage->method('setReplyTo')->willReturn($this->mailMessage);

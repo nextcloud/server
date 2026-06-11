@@ -14,6 +14,7 @@ use OC\Files\Storage\StorageFactory;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IConfig;
 use OCP\IUser;
+use PHPUnit\Framework\Attributes\Group;
 use Test\TestCase;
 
 class CacheMountProviderTestStream {
@@ -33,6 +34,7 @@ class CacheMountProviderTestStream {
 	}
 }
 
+#[Group('DB')]
 class CacheMountProviderTest extends TestCase {
 	private IConfig $config;
 	private IUser $user;
@@ -40,6 +42,8 @@ class CacheMountProviderTest extends TestCase {
 
 	#[\Override]
 	protected function setUp(): void {
+		parent::setUp();
+
 		$this->config = $this->createMock(IConfig::class);
 		$this->user = $this->createMock(IUser::class);
 		$this->storageFactory = new StorageFactory();
@@ -49,6 +53,8 @@ class CacheMountProviderTest extends TestCase {
 	#[\Override]
 	protected function tearDown(): void {
 		stream_wrapper_unregister('cachemountprovidertest');
+
+		parent::tearDown();
 	}
 
 	public function testGetMountsForUser(): void {

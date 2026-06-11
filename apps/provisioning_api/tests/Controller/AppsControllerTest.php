@@ -56,6 +56,8 @@ class AppsControllerTest extends TestCase {
 
 	protected function tearDown(): void {
 		$this->userSession->setUser(null);
+
+		parent::tearDown();
 	}
 
 	public function testGetAppInfo(): void {

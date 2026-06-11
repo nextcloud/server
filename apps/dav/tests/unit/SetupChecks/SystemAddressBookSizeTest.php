@@ -23,6 +23,8 @@ class SystemAddressBookSizeTest extends TestCase {
 	private $l10n;
 
 	protected function setUp(): void {
+		parent::setUp();
+
 		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->l10n = $this->createMock(IL10N::class);

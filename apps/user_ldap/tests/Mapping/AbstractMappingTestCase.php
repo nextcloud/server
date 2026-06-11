@@ -25,6 +25,8 @@ abstract class AbstractMappingTestCase extends \Test\TestCase {
 	abstract public function getMapper(IDBConnection $dbMock, ICacheFactory $cacheFactory, IAppConfig $appConfig): AbstractMapping;
 
 	protected function setUp(): void {
+		parent::setUp();
+
 		$this->cacheFactoryMock = $this->createMock(ICacheFactory::class);
 		$this->configMock = $this->createMock(IAppConfig::class);
 	}

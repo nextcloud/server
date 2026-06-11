@@ -51,6 +51,8 @@ abstract class AbstractPrincipalBackendTestCase extends TestCase {
 		$query->delete('calendar_resources_md')->executeStatement();
 		$query->delete('calendar_rooms')->executeStatement();
 		$query->delete('calendar_rooms_md')->executeStatement();
+
+		parent::tearDown();
 	}
 
 	public function testGetPrincipalsByPrefix(): void {

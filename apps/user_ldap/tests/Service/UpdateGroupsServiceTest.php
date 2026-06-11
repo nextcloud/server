@@ -34,6 +34,8 @@ class UpdateGroupsServiceTest extends TestCase {
 	protected UpdateGroupsService $updateGroupsService;
 
 	public function setUp(): void {
+		parent::setUp();
+
 		$this->groupBackend = $this->createMock(Group_Proxy::class);
 		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);

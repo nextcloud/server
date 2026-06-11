@@ -26,6 +26,8 @@ class ConnectionTest extends TestCase {
 	private Connection $connection;
 
 	public function setUp(): void {
+		parent::setUp();
+
 		$this->clientService = $this->createMock(IClientService::class);
 		$this->config = $this->createMock(IAppConfig::class);
 		$this->logger = $this->createMock(LoggerInterface::class);

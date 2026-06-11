@@ -23,6 +23,8 @@ class BackendServiceTest extends \Test\TestCase {
 	protected LoggerInterface&MockObject $logger;
 
 	protected function setUp(): void {
+		parent::setUp();
+
 		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 	}

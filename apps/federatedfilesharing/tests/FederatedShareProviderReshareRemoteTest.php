@@ -50,6 +50,8 @@ class FederatedShareProviderReshareRemoteTest extends \Test\TestCase {
 	private FederatedShareProvider $shareProvider;
 
 	protected function setUp(): void {
+		parent::setUp();
+
 		$this->connection = $this->createMock(IDBConnection::class);
 		$this->addressHandler = $this->createMock(AddressHandler::class);
 		$this->notifications = $this->createMock(Notifications::class);

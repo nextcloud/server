@@ -23,6 +23,8 @@ class BinaryFinderTest extends TestCase {
 
 	#[\Override]
 	protected function setUp(): void {
+		parent::setUp();
+
 		$this->oldEnv = getenv('PATH');
 		// BinaryFinder always includes the "PATH" environment variable into the search path,
 		// which we want to avoid in this test because they are not usually found in webserver
@@ -36,6 +38,7 @@ class BinaryFinderTest extends TestCase {
 	#[\Override]
 	protected function tearDown(): void {
 		putenv('PATH=' . $this->oldEnv);
+		parent::tearDown();
 	}
 
 	public function testDefaultFindsCat() {

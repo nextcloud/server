@@ -106,6 +106,8 @@ class ShareAPIControllerTest extends TestCase {
 	private TrustedServers&MockObject $trustedServers;
 
 	protected function setUp(): void {
+		parent::setUp();
+
 		$this->shareManager = $this->createMock(IManager::class);
 		$this->shareManager
 			->expects($this->any())

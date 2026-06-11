@@ -67,6 +67,8 @@ class IMipPluginCharsetTest extends TestCase {
 	private Message $itipMessage;
 
 	protected function setUp(): void {
+		parent::setUp();
+
 		// Used by IMipService and IMipPlugin
 		$today = new \DateTime('2025-06-15 14:30');
 		$this->timeFactory = $this->createMock(ITimeFactory::class);

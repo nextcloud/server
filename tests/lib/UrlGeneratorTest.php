@@ -59,6 +59,8 @@ class UrlGeneratorTest extends \Test\TestCase {
 	protected function tearDown(): void {
 		// Reset webRoot
 		\OC::$WEBROOT = $this->originalWebRoot;
+
+		parent::tearDown();
 	}
 
 	private function mockBaseUrl() {

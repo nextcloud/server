@@ -51,6 +51,8 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 	private IEventDispatcher&MockObject $eventDispatcher;
 
 	protected function setUp(): void {
+		parent::setUp();
+
 		$this->share = $this->createMock(IShare::class);
 		$this->federatedShareProvider = $this->createMock(FederatedShareProvider::class);
 		$this->federatedShareProvider->expects($this->any())

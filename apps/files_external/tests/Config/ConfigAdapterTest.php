@@ -85,6 +85,8 @@ class ConfigAdapterTest extends TestCase {
 	}
 
 	public function setUp(): void {
+		parent::setUp();
+
 		// prepare BackendService mock
 		$this->backendService = $this->createMock(BackendService::class);
 
@@ -193,6 +195,8 @@ class ConfigAdapterTest extends TestCase {
 		foreach ($this->storageIds as $storageId) {
 			$this->userStoragesService->removeStorage($storageId);
 		}
+
+		parent::tearDown();
 	}
 
 	public static function pathsProvider(): \Generator {
