@@ -26,6 +26,9 @@ jobs:
   changes:
     runs-on: ubuntu-latest-low
 
+    env:
+      COMPOSER_HOME: /tmp/shared_on_guest/composer/
+
     outputs:
       src: ${{ steps.changes.outputs.src }}
 
@@ -51,7 +54,7 @@ jobs:
               - '**.php'
 
   phpunit-nodb:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-cache
 
     needs: changes
     if: needs.changes.outputs.src != 'false'
@@ -59,9 +62,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.3', '8.4', '8.5']
+        php-versions: ["8.3", "8.4", "8.5"]
         include:
-          - php-versions: '8.2'
+          - php-versions: "8.2"
             coverage: ${{ github.event_name != 'pull_request' }}
 
     name: No DB unit tests (PHP ${{ matrix.php-versions }})
