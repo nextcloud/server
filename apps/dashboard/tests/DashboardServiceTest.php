@@ -18,11 +18,13 @@ use OCP\IUser;
 use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
+use Test\FakeAppConfig;
+use Test\FakeFrameworkAppConfig;
 
 class DashboardServiceTest extends TestCase {
 
 	private IUserConfig&MockObject $userConfig;
-	private IAppConfig&MockObject $appConfig;
+	private IAppConfig $appConfig;
 	private IUserManager&MockObject $userManager;
 	private IAccountManager&MockObject $accountManager;
 	private DashboardService $service;
@@ -31,7 +33,7 @@ class DashboardServiceTest extends TestCase {
 		parent::setUp();
 
 		$this->userConfig = $this->createMock(IUserConfig::class);
-		$this->appConfig = $this->createMock(IAppConfig::class);
+		$this->appConfig = new FakeFrameworkAppConfig('dashboard');
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->accountManager = $this->createMock(IAccountManager::class);
 
@@ -45,9 +47,6 @@ class DashboardServiceTest extends TestCase {
 	}
 
 	public function testGetLayoutRemovesEmptyAndDuplicateEntries(): void {
-		$this->appConfig->method('getAppValueString')
-			->with('layout', 'recommendations,spreed,mail,calendar')
-			->willReturn('recommendations,spreed,mail,calendar');
 		$this->userConfig->method('getValueString')
 			->with('alice', 'dashboard', 'layout', 'recommendations,spreed,mail,calendar')
 			->willReturn('spreed,,mail,mail,calendar,spreed');
