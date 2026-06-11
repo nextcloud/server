@@ -566,5 +566,14 @@ class Manager {
 			$this->logger->emergency('Error when retrieving shares', ['exception' => $e]);
 			return [];
 		}
+
+	}
+
+	public function updateSharePermissions(string $token, int $permissions): void {
+		try {
+			$share = $this->externalShareMapper->getShareByToken($token);
+			$share->setPermissions($permissions);
+			$this->externalShareMapper->update($share);
+		} catch (DoesNotExistException) {}
 	}
 }
