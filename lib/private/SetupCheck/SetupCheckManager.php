@@ -18,8 +18,8 @@ use Psr\Log\LoggerInterface;
 
 class SetupCheckManager implements ISetupCheckManager {
 	public function __construct(
-		readonly private Coordinator $coordinator,
-		readonly private LoggerInterface $logger,
+		private readonly Coordinator $coordinator,
+		private readonly LoggerInterface $logger,
 	) {
 	}
 
