@@ -221,7 +221,7 @@ OC.L10N.register(
     "Invalid remote URL." : "آدرس URL راه دور نامعتبر است.",
     "Failed to add the public link to your Nextcloud" : "خطا در افزودن آدرس عمومی به نکست‌کلود شما.",
     "Federated user" : "کاربر فدرال.",
-    "user@your-nextcloud.org" : "user@your-nextcloud.org.",
+    "user@your-nextcloud.org" : "user@your-nextcloud.org",
     "Create share" : "ساختن اشتراک.",
     "Direct link copied" : "پیوند مستقیم کپی شد",
     "Please copy the link manually:" : "لطفاً پیوند را به‌صورت دستی کپی کنید:",
