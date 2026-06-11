@@ -181,7 +181,7 @@ OC.L10N.register(
     "Choose a default folder for accepted shares" : "Välj en standardmapp för accepterade delningar",
     "Invalid path selected" : "Ogiltigt sökväg vald",
     "Unknown error" : "Okänt fel",
-    "Set default folder for accepted shares" : "Sätt standardmapp för accepterade delningar",
+    "Set default folder for accepted shares" : "Ange standardmapp för accepterade delningar",
     "Reset" : "Återställ",
     "Reset folder to system default" : "Återställ mapp till system-standard",
     "Share expiration: {date}" : "Delningens utgång: {date}",
@@ -405,8 +405,6 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Delning av %s misslyckades eftersom servern inte stödjer ScienceMesh-delningar",
     "Name or email …" : "Namn eller e-post ...",
     "Name, email, or Federated Cloud ID …" : "Namn, e-post eller federerat moln-ID ...",
-    "Searching …" : "Söker ...",
-    "Error deleting the share: {errorMessage}" : "Fel vid radering av delning: {errorMessage}",
-    "Error updating the share: {errorMessage}" : "Kunde inte uppdatera delningen: {errorMessage}"
+    "Searching …" : "Söker ..."
 },
 "nplurals=2; plural=(n != 1);");

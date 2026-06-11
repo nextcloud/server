@@ -107,7 +107,7 @@ class CleanupShareTarget implements IRepairStep {
 					(int)$shareInfo['file_source'],
 					$absoluteNewTarget,
 					$targetParentNode->getMountPoint(),
-					$userMounts,
+					fn ($path) => $userMounts[$path] ?? null,
 				);
 				$newTarget = $userFolder->getRelativePath($absoluteNewTarget);
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\User;
 
 use OCP\EventDispatcher\Event;
@@ -69,6 +70,7 @@ class DisplayNameCache implements IEventListener {
 		$this->memCache->clear();
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof UserChangedEvent && $event->getFeature() === 'displayName') {
 			$userId = $event->getUser()->getUID();

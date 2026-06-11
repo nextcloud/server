@@ -41,6 +41,7 @@ class AnalyzeImages implements ITaskType {
 	 * @inheritDoc
 	 * @since 32.0.0
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->l->t('Analyze images');
 	}
@@ -49,6 +50,7 @@ class AnalyzeImages implements ITaskType {
 	 * @inheritDoc
 	 * @since 32.0.0
 	 */
+	#[\Override]
 	public function getDescription(): string {
 		return $this->l->t('Ask a question about the given images.');
 	}
@@ -57,6 +59,7 @@ class AnalyzeImages implements ITaskType {
 	 * @return string
 	 * @since 32.0.0
 	 */
+	#[\Override]
 	public function getId(): string {
 		return self::ID;
 	}
@@ -65,6 +68,7 @@ class AnalyzeImages implements ITaskType {
 	 * @return ShapeDescriptor[]
 	 * @since 32.0.0
 	 */
+	#[\Override]
 	public function getInputShape(): array {
 		return [
 			'images' => new ShapeDescriptor(
@@ -84,6 +88,7 @@ class AnalyzeImages implements ITaskType {
 	 * @return ShapeDescriptor[]
 	 * @since 32.0.0
 	 */
+	#[\Override]
 	public function getOutputShape(): array {
 		return [
 			'output' => new ShapeDescriptor(

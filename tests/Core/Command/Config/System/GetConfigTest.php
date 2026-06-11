@@ -26,6 +26,7 @@ class GetConfigTest extends TestCase {
 	/** @var \Symfony\Component\Console\Command\Command */
 	protected $command;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -38,7 +39,6 @@ class GetConfigTest extends TestCase {
 		/** @var SystemConfig $systemConfig */
 		$this->command = new GetConfig($systemConfig);
 	}
-
 
 	public static function getData(): array {
 		return [
@@ -84,7 +84,6 @@ class GetConfigTest extends TestCase {
 			[['name', 'a'], ['a' => 1, 'b' => 2], true, null, false, 'plain', 0, '1'],
 			[['name', 'c'], ['a' => 1, 'b' => 2], true, true, true, 'json', 0, json_encode(true)],
 			[['name', 'c'], ['a' => 1, 'b' => 2], true, true, false, 'json', 1, null],
-
 		];
 	}
 

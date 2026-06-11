@@ -116,6 +116,10 @@ abstract class Storage extends \Test\TestCase {
 			['file with space.txt'],
 			['spéciäl fäile'],
 			['test single\'quote.txt'],
+			/*['0'],*/ // disabled until upstream aws-sdk is patched
+			['#'],
+			['%'],
+			['%20'],
 		];
 	}
 
@@ -127,6 +131,10 @@ abstract class Storage extends \Test\TestCase {
 			['folder with space'],
 			['spéciäl földer'],
 			['test single\'quote'],
+			/*['0'],*/ // disabled until upstream aws-sdk is patched
+			['#'],
+			['%'],
+			['%20'],
 		];
 	}
 
@@ -176,7 +184,6 @@ abstract class Storage extends \Test\TestCase {
 		$this->instance->file_put_contents('/desktopapp.svg', file_get_contents($svgFile, 'r'));
 		$this->assertEquals('image/svg+xml', $this->instance->getMimeType('/desktopapp.svg'));
 	}
-
 
 	public static function copyAndMoveProvider(): array {
 		return [

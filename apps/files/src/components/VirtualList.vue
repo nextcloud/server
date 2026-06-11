@@ -77,7 +77,7 @@ import type { PropType } from 'vue'
 import debounce from 'debounce'
 import { defineComponent } from 'vue'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
-import logger from '../logger.ts'
+import { logger } from '../utils/logger.ts'
 
 interface RecycledPoolItem {
 	key: string

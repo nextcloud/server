@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\DB\QueryBuilder\FunctionBuilder;
 
 use OC\DB\ConnectionAdapter;
@@ -13,6 +14,7 @@ use OCP\DB\QueryBuilder\IParameter;
 use OCP\DB\QueryBuilder\IQueryFunction;
 
 class OCIFunctionBuilder extends FunctionBuilder {
+	#[\Override]
 	public function md5($input): IQueryFunction {
 		/** @var ConnectionAdapter $co */
 		$co = $this->connection;
@@ -34,6 +36,7 @@ class OCIFunctionBuilder extends FunctionBuilder {
 	 * @param string|ILiteral|IParameter|IQueryFunction $y
 	 * @return IQueryFunction
 	 */
+	#[\Override]
 	public function greatest($x, $y): IQueryFunction {
 		if (is_string($y) || $y instanceof IQueryFunction) {
 			return parent::greatest($y, $x);
@@ -54,6 +57,7 @@ class OCIFunctionBuilder extends FunctionBuilder {
 	 * @param string|ILiteral|IParameter|IQueryFunction $y
 	 * @return IQueryFunction
 	 */
+	#[\Override]
 	public function least($x, $y): IQueryFunction {
 		if (is_string($y) || $y instanceof IQueryFunction) {
 			return parent::least($y, $x);
@@ -62,6 +66,7 @@ class OCIFunctionBuilder extends FunctionBuilder {
 		return parent::least($x, $y);
 	}
 
+	#[\Override]
 	public function concat($x, ...$expr): IQueryFunction {
 		$args = func_get_args();
 		$list = [];
@@ -71,6 +76,7 @@ class OCIFunctionBuilder extends FunctionBuilder {
 		return new QueryFunction(sprintf('(%s)', implode(' || ', $list)));
 	}
 
+	#[\Override]
 	public function groupConcat($expr, ?string $separator = ','): IQueryFunction {
 		$orderByClause = ' WITHIN GROUP(ORDER BY NULL)';
 		if (is_null($separator)) {
@@ -81,12 +87,14 @@ class OCIFunctionBuilder extends FunctionBuilder {
 		return new QueryFunction('LISTAGG(' . $this->helper->quoteColumnName($expr) . ', ' . $separator . ')' . $orderByClause);
 	}
 
+	#[\Override]
 	public function octetLength($field, $alias = ''): IQueryFunction {
 		$alias = $alias ? (' AS ' . $this->helper->quoteColumnName($alias)) : '';
 		$quotedName = $this->helper->quoteColumnName($field);
 		return new QueryFunction('COALESCE(LENGTHB(' . $quotedName . '), 0)' . $alias);
 	}
 
+	#[\Override]
 	public function charLength($field, $alias = ''): IQueryFunction {
 		$alias = $alias ? (' AS ' . $this->helper->quoteColumnName($alias)) : '';
 		$quotedName = $this->helper->quoteColumnName($field);

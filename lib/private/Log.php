@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use Exception;
@@ -143,7 +144,6 @@ class Log implements ILogger, IDataLogger {
 		$this->log(ILogger::DEBUG, $message, $context);
 	}
 
-
 	/**
 	 * Logs with an arbitrary level.
 	 *
@@ -269,20 +269,9 @@ class Log implements ILogger, IDataLogger {
 			}
 		}
 
-		if (!isset($logCondition['matches'])) {
-			$configLogLevel = $this->config->getValue('loglevel', ILogger::WARN);
-			if (is_numeric($configLogLevel)) {
-				$this->nestingLevel--;
-				return min((int)$configLogLevel, ILogger::FATAL);
-			}
+		$logConditionMatches = $logCondition['matches'] ?? [];
 
-			// Invalid configuration, warn the user and fall back to default level of WARN
-			error_log('Nextcloud configuration: "loglevel" is not a valid integer');
-			$this->nestingLevel--;
-			return ILogger::WARN;
-		}
-
-		foreach ($logCondition['matches'] as $option) {
+		foreach ($logConditionMatches as $option) {
 			if (
 				(!isset($option['shared_secret']) || $this->checkLogSecret($option['shared_secret']))
 				&& (!isset($option['users']) || in_array($userId, $option['users'], true))
@@ -300,6 +289,14 @@ class Log implements ILogger, IDataLogger {
 			}
 		}
 
+		$configLogLevel = $this->config->getValue('loglevel', ILogger::WARN);
+		if (is_numeric($configLogLevel)) {
+			$this->nestingLevel--;
+			return min((int)$configLogLevel, ILogger::FATAL);
+		}
+
+		// Invalid configuration, warn the user and fall back to default level of WARN
+		error_log('Nextcloud configuration: "loglevel" is not a valid integer');
 		$this->nestingLevel--;
 		return ILogger::WARN;
 	}
@@ -370,6 +367,7 @@ class Log implements ILogger, IDataLogger {
 		}
 	}
 
+	#[\Override]
 	public function logData(string $message, array $data, array $context = []): void {
 		$app = $context['app'] ?? 'no app in context';
 		$level = $context['level'] ?? ILogger::ERROR;

@@ -22,6 +22,7 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\AppFramework\Middleware\Security\Mock\RateLimitingMiddlewareController;
@@ -40,12 +41,13 @@ class RateLimitingMiddlewareTest extends TestCase {
 	private LoggerInterface|MockObject $logger;
 	private RateLimitingMiddleware $rateLimitingMiddleware;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->createMock(IRequest::class);
 		$this->userSession = $this->createMock(IUserSession::class);
-		$this->reflector = new ControllerMethodReflector();
+		$this->reflector = new ControllerMethodReflector(Server::get(LoggerInterface::class));
 		$this->limiter = $this->createMock(Limiter::class);
 		$this->session = $this->createMock(ISession::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
@@ -148,7 +150,6 @@ class RateLimitingMiddlewareTest extends TestCase {
 			->method('registerUserRequest')
 			->with(get_class($controller) . '::testMethodWithAnnotation', '20', '200', $user);
 
-
 		$this->reflector->reflect($controller, 'testMethodWithAnnotation');
 		$this->rateLimitingMiddleware->beforeController($controller, 'testMethodWithAnnotation');
 	}
@@ -164,7 +165,6 @@ class RateLimitingMiddlewareTest extends TestCase {
 			->expects($this->once())
 			->method('isLoggedIn')
 			->willReturn(true);
-
 
 		$this->limiter
 			->expects($this->never())
@@ -224,7 +224,6 @@ class RateLimitingMiddlewareTest extends TestCase {
 			->method('registerUserRequest')
 			->with(get_class($controller) . '::testMethodWithAttributes', '20', '200', $user);
 
-
 		$this->reflector->reflect($controller, 'testMethodWithAttributes');
 		$this->rateLimitingMiddleware->beforeController($controller, 'testMethodWithAttributes');
 	}
@@ -240,7 +239,6 @@ class RateLimitingMiddlewareTest extends TestCase {
 			->expects($this->once())
 			->method('isLoggedIn')
 			->willReturn(true);
-
 
 		$this->limiter
 			->expects($this->never())

@@ -16,7 +16,7 @@ import { generateUrl } from '@nextcloud/router'
 import { isPublicShare } from '@nextcloud/sharing/public'
 import PQueue from 'p-queue'
 import Vue from 'vue'
-import logger from '../logger.ts'
+import { logger } from '../utils/logger.ts'
 
 const queue = new PQueue({ concurrency: 5 })
 

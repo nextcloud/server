@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Cache;
 
 use OC\Files\Filesystem;
@@ -13,6 +14,7 @@ use OC\ForbiddenException;
 use OC\User\NoUserException;
 use OCP\Files\LockNotAcquiredException;
 use OCP\ICache;
+use OCP\IConfig;
 use OCP\IUserSession;
 use OCP\Lock\LockedException;
 use OCP\Security\ISecureRandom;
@@ -55,6 +57,7 @@ class File implements ICache {
 	 * @return mixed|null
 	 * @throws ForbiddenException
 	 */
+	#[\Override]
 	public function get($key) {
 		$result = null;
 		if ($this->hasKey($key)) {
@@ -86,6 +89,7 @@ class File implements ICache {
 	 * @return bool|mixed
 	 * @throws ForbiddenException
 	 */
+	#[\Override]
 	public function set($key, $value, $ttl = 0) {
 		$storage = $this->getStorage();
 		$result = false;
@@ -113,6 +117,7 @@ class File implements ICache {
 	 * @return bool
 	 * @throws ForbiddenException
 	 */
+	#[\Override]
 	public function hasKey($key) {
 		$storage = $this->getStorage();
 		if ($storage && $storage->is_file($key) && $storage->isReadable($key)) {
@@ -126,6 +131,7 @@ class File implements ICache {
 	 * @return bool|mixed
 	 * @throws ForbiddenException
 	 */
+	#[\Override]
 	public function remove($key) {
 		$storage = $this->getStorage();
 		if (!$storage) {
@@ -139,6 +145,7 @@ class File implements ICache {
 	 * @return bool
 	 * @throws ForbiddenException
 	 */
+	#[\Override]
 	public function clear($prefix = '') {
 		$storage = $this->getStorage();
 		if ($storage && $storage->is_dir('/')) {
@@ -161,7 +168,7 @@ class File implements ICache {
 	public function gc() {
 		$storage = $this->getStorage();
 		if ($storage) {
-			$ttl = \OC::$server->getConfig()->getSystemValueInt('cache_chunk_gc_ttl', 60 * 60 * 24);
+			$ttl = Server::get(IConfig::class)->getSystemValueInt('cache_chunk_gc_ttl', 60 * 60 * 24);
 			$now = time() - $ttl;
 
 			$dh = $storage->opendir('/');
@@ -188,6 +195,7 @@ class File implements ICache {
 		}
 	}
 
+	#[\Override]
 	public static function isAvailable(): bool {
 		return true;
 	}

@@ -22,6 +22,7 @@ class CreateSessionTokenCommandTest extends ALoginTestCommand {
 	/** @var Session|MockObject */
 	private $userSession;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

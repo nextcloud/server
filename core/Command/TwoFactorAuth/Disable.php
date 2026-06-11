@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Command\TwoFactorAuth;
 
 use OC\Authentication\TwoFactorAuth\ProviderManager;
@@ -24,6 +25,7 @@ class Disable extends Base {
 		);
 	}
 
+	#[\Override]
 	protected function configure() {
 		parent::configure();
 
@@ -33,6 +35,7 @@ class Disable extends Base {
 		$this->addArgument('provider_id', InputArgument::REQUIRED);
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$uid = $input->getArgument('uid');
 		$providerId = $input->getArgument('provider_id');

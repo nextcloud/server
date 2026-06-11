@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Connector\Sabre;
 
 use Icewind\Streams\CallbackWrapper;
@@ -29,8 +30,10 @@ use OCP\Files\IMimeTypeDetector;
 use OCP\Files\InvalidContentException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\LockNotAcquiredException;
+use OCP\Files\NotEnoughSpaceException;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IWriteStreamStorage;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IConfig;
@@ -109,6 +112,7 @@ class File extends Node implements IFile {
 	 * @throws FileLocked
 	 * @return string|null
 	 */
+	#[\Override]
 	public function put($data) {
 		try {
 			$exists = $this->fileView->file_exists($this->path);
@@ -333,56 +337,64 @@ class File extends Node implements IFile {
 				}
 			}
 
-			// since we skipped the view we need to scan and emit the hooks ourselves
-			$storage->getUpdater()->update($internalPath);
-
-			try {
-				$this->changeLock(ILockingProvider::LOCK_SHARED);
-			} catch (LockedException $e) {
-				throw new FileLocked($e->getMessage(), $e->getCode(), $e);
-			}
-
-			// allow sync clients to send the mtime along in a header
-			$mtimeHeader = $this->request->getHeader('x-oc-mtime');
-			if ($mtimeHeader !== '') {
-				$mtime = $this->sanitizeMtime($mtimeHeader);
-				if ($this->fileView->touch($this->path, $mtime)) {
-					$this->header('X-OC-MTime: accepted');
-				}
-			}
-
-			$fileInfoUpdate = [
-				'upload_time' => time()
-			];
-
-			// allow sync clients to send the creation time along in a header
-			$ctimeHeader = $this->request->getHeader('x-oc-ctime');
-			if ($ctimeHeader) {
-				$ctime = $this->sanitizeMtime($ctimeHeader);
-				$fileInfoUpdate['creation_time'] = $ctime;
-				$this->header('X-OC-CTime: accepted');
-			}
-
-			$this->fileView->putFileInfo($this->path, $fileInfoUpdate);
-
-			if ($view) {
-				$this->emitPostHooks($exists);
-			}
-
-			$this->refreshInfo();
-
-			$checksumHeader = $this->request->getHeader('oc-checksum');
-			if ($checksumHeader) {
-				$checksum = trim($checksumHeader);
-				$this->setChecksum($checksum);
-			} elseif ($this->getChecksum() !== null && $this->getChecksum() !== '') {
-				$this->setChecksum('');
-			}
+			$this->finalizeUpload($storage, $internalPath, $exists, $view);
 		} catch (StorageNotAvailableException $e) {
 			throw new ServiceUnavailable($this->l10n->t('Failed to check file size: %1$s', [$e->getMessage()]), 0, $e);
 		}
 
 		return '"' . $this->info->getEtag() . '"';
+	}
+
+	private function finalizeUpload(IStorage $storage, string $internalPath, bool $exists, ?View $view): void {
+		// Since we skipped the view for the final publish step, finalize the file
+		// state explicitly here: update cache/bookkeeping, persist metadata, then
+		// downgrade to a shared lock before emitting post-write hooks so listeners
+		// can still access the file.
+		$storage->getUpdater()->update($internalPath);
+
+		$fileInfoUpdate = [
+			'upload_time' => time(),
+		];
+
+		// allow sync clients to send the mtime along in a header
+		$mtimeHeader = $this->request->getHeader('x-oc-mtime');
+		if ($mtimeHeader !== '') {
+			$mtime = $this->sanitizeMtime($mtimeHeader);
+			if ($this->fileView->touch($this->path, $mtime)) {
+				$this->header('X-OC-MTime: accepted');
+			}
+		}
+
+		// allow sync clients to send the creation time along in a header
+		$ctimeHeader = $this->request->getHeader('x-oc-ctime');
+		if ($ctimeHeader !== '') {
+			$ctime = $this->sanitizeMtime($ctimeHeader);
+			$fileInfoUpdate['creation_time'] = $ctime;
+			$this->header('X-OC-CTime: accepted');
+		}
+
+		// Persist checksum before post hooks so observers see fully finalized metadata.
+		$checksumHeader = $this->request->getHeader('oc-checksum');
+		if ($checksumHeader) {
+			$fileInfoUpdate['checksum'] = trim($checksumHeader);
+		} elseif ($this->getChecksum() !== null && $this->getChecksum() !== '') {
+			$fileInfoUpdate['checksum'] = '';
+		}
+
+		$this->fileView->putFileInfo($this->path, $fileInfoUpdate);
+		$this->refreshInfo();
+
+		// Downgrade to shared lock before post hooks so legacy hook consumers can
+		// still access the file during post_write.
+		try {
+			$this->changeLock(ILockingProvider::LOCK_SHARED);
+		} catch (LockedException $e) {
+			throw new FileLocked($e->getMessage(), $e->getCode(), $e);
+		}
+
+		if ($view) {
+			$this->emitPostHooks($exists);
+		}
 	}
 
 	private function getPartFileBasePath($path) {
@@ -458,6 +470,7 @@ class File extends Node implements IFile {
 	 * @throws Forbidden
 	 * @throws ServiceUnavailable
 	 */
+	#[\Override]
 	public function get() {
 		//throw exception if encryption is disabled but files are still encrypted
 		try {
@@ -480,11 +493,15 @@ class File extends Node implements IFile {
 				}
 			}
 
+			$logger = Server::get(LoggerInterface::class);
 			// comparing current file size with the one in DB
 			// if different, fix DB and refresh cache.
+			//
 			$fsSize = $this->fileView->filesize($this->getPath());
-			if ($this->getSize() !== $fsSize) {
-				$logger = Server::get(LoggerInterface::class);
+			if ($fsSize === false) {
+				$logger->warning('file not found on storage after successfully opening it');
+				throw new ServiceUnavailable($this->l10n->t('Failed to get size for : %1$s', [$this->getPath()]));
+			} elseif ($this->getSize() !== $fsSize) {
 				$logger->warning('fixing cached size of file id=' . $this->getId() . ', cached size was ' . $this->getSize() . ', but the filesystem reported a size of ' . $fsSize);
 
 				$this->getFileInfo()->getStorage()->getUpdater()->update($this->getFileInfo()->getInternalPath());
@@ -510,6 +527,7 @@ class File extends Node implements IFile {
 	 * @throws Forbidden
 	 * @throws ServiceUnavailable
 	 */
+	#[\Override]
 	public function delete() {
 		if (!$this->info->isDeletable()) {
 			throw new Forbidden();
@@ -536,6 +554,7 @@ class File extends Node implements IFile {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function getContentType() {
 		$mimeType = $this->info->getMimetype();
 
@@ -613,6 +632,9 @@ class File extends Node implements IFile {
 		if ($e instanceof NotFoundException) {
 			throw new NotFound($this->l10n->t('File not found: %1$s', [$e->getMessage()]), 0, $e);
 		}
+		if ($e instanceof NotEnoughSpaceException) {
+			throw new EntityTooLarge($this->l10n->t('Insufficient space'), 0, $e);
+		}
 
 		throw new \Sabre\DAV\Exception($e->getMessage(), 0, $e);
 	}
@@ -641,6 +663,7 @@ class File extends Node implements IFile {
 		return $this->fileView->hash($type, $this->path);
 	}
 
+	#[\Override]
 	public function getNode(): \OCP\Files\File {
 		return $this->node;
 	}

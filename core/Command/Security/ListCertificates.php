@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Command\Security;
 
 use OC\Core\Command\Base;
@@ -27,6 +28,7 @@ class ListCertificates extends Base {
 		$this->l = $l10nFactory->get('core');
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('security:certificates')
@@ -34,6 +36,7 @@ class ListCertificates extends Base {
 		parent::configure();
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$outputType = $input->getOption('output');
 		if ($outputType === self::OUTPUT_FORMAT_JSON || $outputType === self::OUTPUT_FORMAT_JSON_PRETTY) {

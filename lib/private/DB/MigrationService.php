@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2017 ownCloud GmbH
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\DB;
 
 use Doctrine\DBAL\Schema\Index;
@@ -63,7 +64,7 @@ class MigrationService {
 		} else {
 			$appManager = Server::get(IAppManager::class);
 			$appPath = $appManager->getAppPath($this->appName);
-			$namespace = App::buildAppNamespace($this->appName);
+			$namespace = $appManager->getAppNamespace($this->appName);
 			$this->migrationsPath = "$appPath/lib/Migration";
 			$this->migrationsNamespace = $namespace . '\\Migration';
 

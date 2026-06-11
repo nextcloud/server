@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Authentication\Token;
 
 use OC\Authentication\Exceptions\ExpiredTokenException;
@@ -56,6 +57,7 @@ class PublicKeyTokenProvider implements IProvider {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function generateToken(string $token,
 		string $uid,
 		string $loginName,
@@ -102,6 +104,7 @@ class PublicKeyTokenProvider implements IProvider {
 		return $dbToken;
 	}
 
+	#[\Override]
 	public function getToken(string $tokenId): OCPIToken {
 		/**
 		 * Token length: 72
@@ -177,6 +180,7 @@ class PublicKeyTokenProvider implements IProvider {
 		$this->cache->set($tokenHash, false, self::TOKEN_CACHE_TTL * 2);
 	}
 
+	#[\Override]
 	public function getTokenById(int $tokenId): OCPIToken {
 		try {
 			$token = $this->mapper->getTokenById($tokenId);
@@ -204,6 +208,7 @@ class PublicKeyTokenProvider implements IProvider {
 		}
 	}
 
+	#[\Override]
 	public function renewSessionToken(string $oldSessionId, string $sessionId): OCPIToken {
 		return $this->atomic(function () use ($oldSessionId, $sessionId) {
 			$token = $this->getToken($oldSessionId);
@@ -238,6 +243,7 @@ class PublicKeyTokenProvider implements IProvider {
 		}, $this->db);
 	}
 
+	#[\Override]
 	public function invalidateToken(string $token) {
 		$tokenHash = $this->hashToken($token);
 		$tokenEntry = null;
@@ -253,6 +259,7 @@ class PublicKeyTokenProvider implements IProvider {
 		}
 	}
 
+	#[\Override]
 	public function invalidateTokenById(string $uid, int $id) {
 		$token = $this->mapper->getTokenById($id);
 		if ($token->getUID() !== $uid) {
@@ -263,6 +270,7 @@ class PublicKeyTokenProvider implements IProvider {
 		$this->eventDispatcher->dispatchTyped(new TokenInvalidatedEvent($token));
 	}
 
+	#[\Override]
 	public function invalidateOldTokens() {
 		$olderThan = $this->time->getTime() - $this->config->getSystemValueInt('session_lifetime', 60 * 60 * 24);
 		$this->logger->debug('Invalidating session tokens older than ' . date('c', $olderThan), ['app' => 'cron']);
@@ -281,10 +289,12 @@ class PublicKeyTokenProvider implements IProvider {
 		$this->mapper->invalidateOld($authTokenThreshold, OCPIToken::PERMANENT_TOKEN);
 	}
 
+	#[\Override]
 	public function invalidateLastUsedBefore(string $uid, int $before): void {
 		$this->mapper->invalidateLastUsedBefore($uid, $before);
 	}
 
+	#[\Override]
 	public function updateToken(OCPIToken $token) {
 		if (!($token instanceof PublicKeyToken)) {
 			throw new InvalidTokenException('Invalid token type');
@@ -293,6 +303,7 @@ class PublicKeyTokenProvider implements IProvider {
 		$this->cacheToken($token);
 	}
 
+	#[\Override]
 	public function updateTokenActivity(OCPIToken $token) {
 		if (!($token instanceof PublicKeyToken)) {
 			throw new InvalidTokenException('Invalid token type');
@@ -310,10 +321,12 @@ class PublicKeyTokenProvider implements IProvider {
 		}
 	}
 
+	#[\Override]
 	public function getTokenByUser(string $uid): array {
 		return $this->mapper->getTokenByUser($uid);
 	}
 
+	#[\Override]
 	public function getPassword(OCPIToken $savedToken, string $tokenId): string {
 		if (!($savedToken instanceof PublicKeyToken)) {
 			throw new InvalidTokenException('Invalid token type');
@@ -330,6 +343,7 @@ class PublicKeyTokenProvider implements IProvider {
 		return $this->decryptPassword($savedToken->getPassword(), $privateKey);
 	}
 
+	#[\Override]
 	public function setPassword(OCPIToken $token, string $tokenId, string $password) {
 		if (!($token instanceof PublicKeyToken)) {
 			throw new InvalidTokenException('Invalid token type');
@@ -355,6 +369,7 @@ class PublicKeyTokenProvider implements IProvider {
 		return $this->hasher->hash(sha1($password) . $password);
 	}
 
+	#[\Override]
 	public function rotate(OCPIToken $token, string $oldTokenId, string $newTokenId): OCPIToken {
 		if (!($token instanceof PublicKeyToken)) {
 			throw new InvalidTokenException('Invalid token type');
@@ -484,6 +499,7 @@ class PublicKeyTokenProvider implements IProvider {
 		return $dbToken;
 	}
 
+	#[\Override]
 	public function markPasswordInvalid(OCPIToken $token, string $tokenId) {
 		if (!($token instanceof PublicKeyToken)) {
 			throw new InvalidTokenException('Invalid token type');
@@ -494,6 +510,7 @@ class PublicKeyTokenProvider implements IProvider {
 		$this->cacheToken($token);
 	}
 
+	#[\Override]
 	public function updatePasswords(string $uid, string $password) {
 		// prevent setting an empty pw as result of pw-less-login
 		if ($password === '' || !$this->config->getSystemValueBool('auth.storeCryptedPassword', true)) {

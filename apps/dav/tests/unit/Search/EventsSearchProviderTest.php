@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\Search;
 
 use OCA\DAV\CalDAV\CalDavBackend;
@@ -436,7 +437,7 @@ class EventsSearchProviderTest extends TestCase {
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'generateSublineDataProvider')]
-	public function testGenerateSubline(string $ics, string $expectedSubline): void {
+	public function testGenerateSubline(string $ics, string $expectedSubline, array $calendarInfo = []): void {
 		$vCalendar = Reader::read($ics, Reader::OPTION_FORGIVING);
 		$eventComponent = $vCalendar->VEVENT;
 
@@ -449,19 +450,23 @@ class EventsSearchProviderTest extends TestCase {
 				return $date->format('m-d');
 			});
 
-		$actual = self::invokePrivate($this->provider, 'generateSubline', [$eventComponent]);
+		$actual = self::invokePrivate($this->provider, 'generateSubline', [$eventComponent, $calendarInfo]);
 		$this->assertEquals($expectedSubline, $actual);
 	}
 
 	public static function generateSublineDataProvider(): array {
 		return [
-			[self::$vEvent1, '08-16 09:00 - 10:00'],
-			[self::$vEvent2, '08-16 09:00 - 08-17 10:00'],
-			[self::$vEvent3, '10-05'],
-			[self::$vEvent4, '10-05 - 10-07'],
-			[self::$vEvent5, '10-05 - 10-09'],
-			[self::$vEvent6, '10-05'],
-			[self::$vEvent7, '08-16 09:00 - 09:00'],
+			[self::$vEvent1, '08-16 09:00 - 10:00', []],
+			[self::$vEvent2, '08-16 09:00 - 08-17 10:00', []],
+			[self::$vEvent3, '10-05', []],
+			[self::$vEvent4, '10-05 - 10-07', []],
+			[self::$vEvent5, '10-05 - 10-09', []],
+			[self::$vEvent6, '10-05', []],
+			[self::$vEvent7, '08-16 09:00 - 09:00', []],
+			[self::$vEvent1, '08-16 09:00 - 10:00 (My Calendar)', ['{DAV:}displayname' => 'My Calendar']],
+			[self::$vEvent3, '10-05 (My Calendar)', ['{DAV:}displayname' => 'My Calendar']],
+			[self::$vEvent2, '08-16 09:00 - 08-17 10:00 (My Calendar)', ['{DAV:}displayname' => 'My Calendar']],
+			[self::$vEvent1, '08-16 09:00 - 10:00', ['{DAV:}displayname' => '']],
 		];
 	}
 }

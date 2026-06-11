@@ -31,7 +31,7 @@ jobs:
       src: ${{ steps.changes.outputs.src }}
 
     steps:
-      - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
+      - uses: dorny/paths-filter@fbd0ab8f3e69293af611ebaee6363fc25e6d187d # v4.0.1
         id: changes
         continue-on-error: true
         with:
@@ -59,17 +59,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.2']
-        # To keep the matrix smaller we ignore PostgreSQL versions in between as we already test the minimum and the maximum
-        postgres-versions: ['14']
         include:
+          - php-versions: '8.2'
+            postgres-versions: '14'
           - php-versions: '8.3'
             postgres-versions: '18'
-            coverage: ${{ github.event_name != 'pull_request' }}
           - php-versions: '8.4'
             postgres-versions: '18'
           - php-versions: '8.5'
             postgres-versions: '18'
+            coverage: ${{ github.event_name != 'pull_request' }}
 
     name: PostgreSQL ${{ matrix.postgres-versions }} (PHP ${{ matrix.php-versions }}) - database tests
 
@@ -98,7 +97,7 @@ jobs:
           submodules: true
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 # v2.36.0
+        uses: shivammathur/setup-php@7c071dfe9dc99bdf297fa79cb49ea005b9fcadbc # v2.37.1
         timeout-minutes: 5
         with:
           php-version: ${{ matrix.php-versions }}
@@ -106,6 +105,7 @@ jobs:
           extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, pgsql, pdo_pgsql
           coverage: ${{ matrix.coverage && 'xdebug' || 'none' }}
           ini-file: development
+          ini-values: disable_functions=""
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -127,7 +127,7 @@ jobs:
 
       - name: Upload db code coverage
         if: ${{ !cancelled() && matrix.coverage }}
-        uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
+        uses: codecov/codecov-action@e79a6962e0d4c0c17b229090214935d2e33f8354 # v6.0.1
         with:
           files: ./clover.db.xml
           flags: phpunit-postgres

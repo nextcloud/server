@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 ownCloud GmbH
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Preview;
 
 use OCP\Files\File;
@@ -25,6 +26,7 @@ class HEIC extends ProviderV2 {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getMimeType(): string {
 		return '/image\/(x-)?hei(f|c)/';
 	}
@@ -32,6 +34,7 @@ class HEIC extends ProviderV2 {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function isAvailable(FileInfo $file): bool {
 		return in_array('HEIC', \Imagick::queryFormats('HEI*'));
 	}
@@ -39,6 +42,7 @@ class HEIC extends ProviderV2 {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
 		if (!$this->isAvailable($file)) {
 			return null;

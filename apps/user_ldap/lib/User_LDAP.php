@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP;
 
 use OC\ServerNotAvailableException;
@@ -16,21 +17,23 @@ use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\User\User;
 use OCP\Accounts\IAccountManager;
 use OCP\IUserBackend;
+use OCP\LDAP\Exceptions\MultipleUsersReturnedException;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\User\Backend\ICountMappedUsersBackend;
 use OCP\User\Backend\ILimitAwareCountUsersBackend;
 use OCP\User\Backend\IPropertyPermissionBackend;
 use OCP\User\Backend\IProvideEnabledStateBackend;
 use OCP\UserInterface;
+use Override;
 use Psr\Log\LoggerInterface;
 
 class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, IUserLDAP, ILimitAwareCountUsersBackend, ICountMappedUsersBackend, IProvideEnabledStateBackend, IPropertyPermissionBackend {
 	public function __construct(
 		Access $access,
-		protected INotificationManager $notificationManager,
-		protected UserPluginManager $userPluginManager,
-		protected LoggerInterface $logger,
-		protected DeletedUsersIndex $deletedUsersIndex,
+		protected readonly INotificationManager $notificationManager,
+		protected readonly UserPluginManager $userPluginManager,
+		protected readonly LoggerInterface $logger,
+		protected readonly DeletedUsersIndex $deletedUsersIndex,
 	) {
 		parent::__construct($access);
 	}
@@ -106,6 +109,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	 * @param string $dn
 	 * @return string|false with the username
 	 */
+	#[\Override]
 	public function dn2UserName($dn) {
 		return $this->access->dn2username($dn);
 	}
@@ -219,6 +223,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	 * @param integer $offset
 	 * @return string[] an array of all uids
 	 */
+	#[\Override]
 	public function getUsers($search = '', $limit = 10, $offset = 0) {
 		$search = $this->access->escapeFilterPart($search, true);
 		$cachekey = 'getUsers-' . $search . '-' . $limit . '-' . $offset;
@@ -262,7 +267,8 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	/**
 	 * checks whether a user is still available on LDAP
 	 *
-	 * @param string|User $user either the Nextcloud user id or an instance of that user
+	 * @param string|User $user either the Nextcloud user id or an instance of
+	 *                          that user
 	 * @throws \Exception
 	 * @throws ServerNotAvailableException
 	 */
@@ -320,6 +326,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	 * @return boolean
 	 * @throws \Exception when connection could not be established
 	 */
+	#[\Override]
 	public function userExists($uid) {
 		$userExists = $this->access->connection->getFromCache('userExists' . $uid);
 		if (!is_null($userExists)) {
@@ -346,6 +353,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	 * @param string $uid The username of the user to delete
 	 * @return bool
 	 */
+	#[\Override]
 	public function deleteUser($uid) {
 		if ($this->userPluginManager->canDeleteUser()) {
 			$status = $this->userPluginManager->deleteUser($uid);
@@ -421,26 +429,21 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 		return $path;
 	}
 
-	/**
-	 * get display name of the user
-	 * @param string $uid user ID of the user
-	 * @return string|false display name
-	 */
-	public function getDisplayName($uid) {
-		if ($this->userPluginManager->implementsActions(Backend::GET_DISPLAYNAME)) {
-			return $this->userPluginManager->getDisplayName($uid);
+	private function getDisplayNameFromDatabase(string $uid): ?string {
+		$user = $this->access->userManager->get($uid);
+		if ($user instanceof User) {
+			$displayName = $user->fetchStoredDisplayName();
+			if ($displayName !== '') {
+				return $displayName;
+			}
 		}
-
-		if (!$this->userExists($uid)) {
-			return false;
+		if ($user instanceof OfflineUser) {
+			return $user->getDisplayName();
 		}
+		return null;
+	}
 
-		$cacheKey = 'getDisplayName' . $uid;
-		if (!is_null($displayName = $this->access->connection->getFromCache($cacheKey))) {
-			return $displayName;
-		}
-
-		//Check whether the display name is configured to have a 2nd feature
+	private function getDisplayNameFromLdap(string $uid): string {
 		$additionalAttribute = $this->access->connection->ldapUserDisplayName2;
 		$displayName2 = '';
 		if ($additionalAttribute !== '') {
@@ -462,16 +465,41 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 
 			$user = $this->access->userManager->get($uid);
 			if ($user instanceof User) {
-				$displayName = $user->composeAndStoreDisplayName($displayName, (string)$displayName2);
-				$this->access->connection->writeToCache($cacheKey, $displayName);
+				return $user->composeAndStoreDisplayName($displayName, (string)$displayName2);
 			}
 			if ($user instanceof OfflineUser) {
-				$displayName = $user->getDisplayName();
+				return $user->getDisplayName();
 			}
+		}
+
+		return '';
+	}
+
+	#[\Override]
+	public function getDisplayName($uid): string {
+		if ($this->userPluginManager->implementsActions(Backend::GET_DISPLAYNAME)) {
+			return $this->userPluginManager->getDisplayName($uid);
+		}
+
+		if (!$this->userExists($uid)) {
+			return '';
+		}
+
+		$cacheKey = 'getDisplayName' . $uid;
+		if (!is_null($displayName = $this->access->connection->getFromCache($cacheKey))) {
 			return $displayName;
 		}
 
-		return null;
+		if ($displayName = $this->getDisplayNameFromDatabase($uid)) {
+			$this->access->connection->writeToCache($cacheKey, $displayName);
+			return $displayName;
+		}
+
+		if ($displayName = $this->getDisplayNameFromLdap($uid)) {
+			$this->access->connection->writeToCache($cacheKey, $displayName);
+		}
+
+		return $displayName;
 	}
 
 	/**
@@ -495,8 +523,10 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	 * @param string $search
 	 * @param int|null $limit
 	 * @param int|null $offset
-	 * @return array an array of all displayNames (value) and the corresponding uids (key)
+	 * @return array an array of all displayNames (value) and the corresponding
+	 *               uids (key)
 	 */
+	#[\Override]
 	public function getDisplayNames($search = '', $limit = null, $offset = null) {
 		$cacheKey = 'getDisplayNames-' . $search . '-' . $limit . '-' . $offset;
 		if (!is_null($displayNames = $this->access->connection->getFromCache($cacheKey))) {
@@ -520,6 +550,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	 * Returns the supported actions as int to be
 	 * compared with \OC\User\Backend::CREATE_USER etc.
 	 */
+	#[\Override]
 	public function implementsActions($actions) {
 		return (bool)((Backend::CHECK_PASSWORD
 			| Backend::GET_HOME
@@ -534,6 +565,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	/**
 	 * @return bool
 	 */
+	#[\Override]
 	public function hasUserListings() {
 		return true;
 	}
@@ -541,6 +573,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	/**
 	 * counts the users in LDAP
 	 */
+	#[\Override]
 	public function countUsers(int $limit = 0): int|false {
 		if ($this->userPluginManager->implementsActions(Backend::COUNT_USERS)) {
 			return $this->userPluginManager->countUsers();
@@ -556,6 +589,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 		return $entries;
 	}
 
+	#[\Override]
 	public function countMappedUsers(): int {
 		return $this->access->getUserMapper()->count();
 	}
@@ -564,6 +598,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	 * Backend name to be shown in user management
 	 * @return string the name of the backend to be shown
 	 */
+	#[\Override]
 	public function getBackendName() {
 		return 'LDAP';
 	}
@@ -573,6 +608,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	 * @param string $uid
 	 * @return Access instance of Access for LDAP interaction
 	 */
+	#[\Override]
 	public function getLDAPAccess($uid) {
 		return $this->access;
 	}
@@ -584,6 +620,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	 * @param string $uid
 	 * @return \LDAP\Connection The LDAP connection
 	 */
+	#[\Override]
 	public function getNewLDAPConnection($uid) {
 		$connection = clone $this->access->getConnection();
 		return $connection->getConnectionResource();
@@ -628,6 +665,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 		return false;
 	}
 
+	#[\Override]
 	public function isUserEnabled(string $uid, callable $queryDatabaseValue): bool {
 		if ($this->deletedUsersIndex->isUserMarked($uid) && ((int)$this->access->connection->markRemnantsAsDisabled === 1)) {
 			return false;
@@ -636,31 +674,55 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 		}
 	}
 
+	#[\Override]
 	public function setUserEnabled(string $uid, bool $enabled, callable $queryDatabaseValue, callable $setDatabaseValue): bool {
 		$setDatabaseValue($enabled);
 		return $enabled;
 	}
 
+	#[\Override]
 	public function getDisabledUserList(?int $limit = null, int $offset = 0, string $search = ''): array {
 		throw new \Exception('This is implemented directly in User_Proxy');
 	}
 
+	#[\Override]
 	public function canEditProperty(string $uid, string $property): bool {
 		return match($property) {
 			// Display name is always set by LDAP
 			IAccountManager::PROPERTY_DISPLAYNAME => false,
-			IAccountManager::PROPERTY_EMAIL => ((string)$this->access->connection->ldapEmailAttribute !== ''),
-			IAccountManager::PROPERTY_PHONE => ((string)$this->access->connection->ldapAttributePhone !== ''),
-			IAccountManager::PROPERTY_WEBSITE => ((string)$this->access->connection->ldapAttributeWebsite !== ''),
-			IAccountManager::PROPERTY_ADDRESS => ((string)$this->access->connection->ldapAttributeAddress !== ''),
-			IAccountManager::PROPERTY_FEDIVERSE => ((string)$this->access->connection->ldapAttributeFediverse !== ''),
-			IAccountManager::PROPERTY_ORGANISATION => ((string)$this->access->connection->ldapAttributeOrganisation !== ''),
-			IAccountManager::PROPERTY_ROLE => ((string)$this->access->connection->ldapAttributeRole !== ''),
-			IAccountManager::PROPERTY_HEADLINE => ((string)$this->access->connection->ldapAttributeHeadline !== ''),
-			IAccountManager::PROPERTY_BIOGRAPHY => ((string)$this->access->connection->ldapAttributeBiography !== ''),
-			IAccountManager::PROPERTY_BIRTHDATE => ((string)$this->access->connection->ldapAttributeBirthDate !== ''),
-			IAccountManager::PROPERTY_PRONOUNS => ((string)$this->access->connection->ldapAttributePronouns !== ''),
+			IAccountManager::PROPERTY_EMAIL => ((string)$this->access->connection->ldapEmailAttribute === ''),
+			IAccountManager::PROPERTY_PHONE => ((string)$this->access->connection->ldapAttributePhone === ''),
+			IAccountManager::PROPERTY_WEBSITE => ((string)$this->access->connection->ldapAttributeWebsite === ''),
+			IAccountManager::PROPERTY_ADDRESS => ((string)$this->access->connection->ldapAttributeAddress === ''),
+			IAccountManager::PROPERTY_FEDIVERSE => ((string)$this->access->connection->ldapAttributeFediverse === ''),
+			IAccountManager::PROPERTY_ORGANISATION => ((string)$this->access->connection->ldapAttributeOrganisation === ''),
+			IAccountManager::PROPERTY_ROLE => ((string)$this->access->connection->ldapAttributeRole === ''),
+			IAccountManager::PROPERTY_HEADLINE => ((string)$this->access->connection->ldapAttributeHeadline === ''),
+			IAccountManager::PROPERTY_BIOGRAPHY => ((string)$this->access->connection->ldapAttributeBiography === ''),
+			IAccountManager::PROPERTY_BIRTHDATE => ((string)$this->access->connection->ldapAttributeBirthDate === ''),
+			IAccountManager::PROPERTY_PRONOUNS => ((string)$this->access->connection->ldapAttributePronouns === ''),
 			default => true,
 		};
+	}
+
+	#[Override]
+	public function getUserFromCustomAttribute(string $attribute, string $searchTerm): ?string {
+		$searchTerm = $this->access->escapeFilterPart($searchTerm);
+		$attribute = $this->access->escapeFilterPart($attribute);
+
+		$filter = "($attribute=$searchTerm)";
+
+		$records = $this->access->searchUsers($filter, ['dn']);
+		$this->logger->error($filter);
+		if (count($records) === 1) {
+			return $this->access->dn2username($records[0]['dn'][0]) ?: null;
+		} elseif (count($records) > 1) {
+			$this->logger->error(
+				'Multiple users found for filter: ' . $filter,
+				['app' => 'user_ldap']
+			);
+			throw new MultipleUsersReturnedException();
+		}
+		return null;
 	}
 }

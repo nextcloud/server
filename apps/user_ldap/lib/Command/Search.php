@@ -5,15 +5,12 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP\Command;
 
 use OCA\User_LDAP\Group_Proxy;
-use OCA\User_LDAP\Helper;
-use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\User_Proxy;
 use OCP\IConfig;
-use OCP\Server;
-
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -29,6 +26,7 @@ class Search extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('ldap:search')
@@ -81,11 +79,8 @@ class Search extends Command {
 		}
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$helper = Server::get(Helper::class);
-		$configPrefixes = $helper->getServerConfigurationPrefixes(true);
-		$ldapWrapper = new LDAP();
-
 		$offset = (int)$input->getOption('offset');
 		$limit = (int)$input->getOption('limit');
 		$this->validateOffsetAndLimit($offset, $limit);

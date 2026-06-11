@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CardDAV\Activity;
 
 use OCP\Activity\IFilter;
@@ -23,6 +24,7 @@ class Filter implements IFilter {
 	/**
 	 * @return string Lowercase a-z and underscore only identifier
 	 */
+	#[\Override]
 	public function getIdentifier(): string {
 		return 'contacts';
 	}
@@ -30,6 +32,7 @@ class Filter implements IFilter {
 	/**
 	 * @return string A translated string
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->l->t('Contacts');
 	}
@@ -39,6 +42,7 @@ class Filter implements IFilter {
 	 *             the admin section. The filters are arranged in ascending order of the
 	 *             priority values. It is required to return a value between 0 and 100.
 	 */
+	#[\Override]
 	public function getPriority(): int {
 		return 40;
 	}
@@ -46,6 +50,7 @@ class Filter implements IFilter {
 	/**
 	 * @return string Full URL to an icon, empty string when none is given
 	 */
+	#[\Override]
 	public function getIcon(): string {
 		return $this->url->getAbsoluteURL($this->url->imagePath('core', 'places/contacts.svg'));
 	}
@@ -54,6 +59,7 @@ class Filter implements IFilter {
 	 * @param string[] $types
 	 * @return string[] An array of allowed apps from which activities should be displayed
 	 */
+	#[\Override]
 	public function filterTypes(array $types): array {
 		return array_intersect(['contacts'], $types);
 	}
@@ -61,6 +67,7 @@ class Filter implements IFilter {
 	/**
 	 * @return string[] An array of allowed apps from which activities should be displayed
 	 */
+	#[\Override]
 	public function allowedApps(): array {
 		return [];
 	}

@@ -403,8 +403,6 @@
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "%s-г хуваалцахад алдаа гарлаа, учир нь арын систем ScienceMesh хуваалцалтыг дэмждэггүй",
     "Name or email …" : "Нэр эсвэл имэйл …",
     "Name, email, or Federated Cloud ID …" : "Нэр, имэйл эсвэл Холбогдсон Үүл ID …",
-    "Searching …" : "Хайж байна …",
-    "Error deleting the share: {errorMessage}" : "Хуваалцалт устгахад алдаа гарлаа: {errorMessage}",
-    "Error updating the share: {errorMessage}" : "Хуваалцалт шинэчлэхэд алдаа гарлаа: {errorMessage}"
+    "Searching …" : "Хайж байна …"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -39,10 +39,12 @@ class CalendarFederationProvider implements ICloudFederationProvider {
 	) {
 	}
 
+	#[\Override]
 	public function getShareType(): string {
 		return self::PROVIDER_ID;
 	}
 
+	#[\Override]
 	public function shareReceived(ICloudFederationShare $share): string {
 		if (!$this->calendarFederationConfig->isFederationEnabled()) {
 			$this->logger->debug('Received a federation invite but federation is disabled');
@@ -104,9 +106,10 @@ class CalendarFederationProvider implements ICloudFederationProvider {
 			);
 		}
 
-		// TODO: implement read-write sharing
+		// convert access to permissions
 		$permissions = match ($access) {
 			DavSharingBackend::ACCESS_READ => Constants::PERMISSION_READ,
+			DavSharingBackend::ACCESS_READ_WRITE => Constants::PERMISSION_READ | Constants::PERMISSION_CREATE | Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE,
 			default => throw new ProviderCouldNotAddShareException(
 				"Unsupported access value: $access",
 				'',
@@ -122,20 +125,27 @@ class CalendarFederationProvider implements ICloudFederationProvider {
 		$sharedWithPrincipal = 'principals/users/' . $share->getShareWith();
 
 		// Delete existing incoming federated share first
-		$this->federatedCalendarMapper->deleteByUri($sharedWithPrincipal, $calendarUri);
+		$calendar = $this->federatedCalendarMapper->findByUri($sharedWithPrincipal, $calendarUri);
 
-		$calendar = new FederatedCalendarEntity();
-		$calendar->setPrincipaluri($sharedWithPrincipal);
-		$calendar->setUri($calendarUri);
-		$calendar->setRemoteUrl($calendarUrl);
-		$calendar->setDisplayName($displayName);
-		$calendar->setColor($color);
-		$calendar->setToken($share->getShareSecret());
-		$calendar->setSharedBy($share->getSharedBy());
-		$calendar->setSharedByDisplayName($share->getSharedByDisplayName());
-		$calendar->setPermissions($permissions);
-		$calendar->setComponents($components);
-		$calendar = $this->federatedCalendarMapper->insert($calendar);
+		if ($calendar === null) {
+			$calendar = new FederatedCalendarEntity();
+			$calendar->setPrincipaluri($sharedWithPrincipal);
+			$calendar->setUri($calendarUri);
+			$calendar->setRemoteUrl($calendarUrl);
+			$calendar->setDisplayName($displayName);
+			$calendar->setColor($color);
+			$calendar->setToken($share->getShareSecret());
+			$calendar->setSharedBy($share->getSharedBy());
+			$calendar->setSharedByDisplayName($share->getSharedByDisplayName());
+			$calendar->setPermissions($permissions);
+			$calendar->setComponents($components);
+			$calendar = $this->federatedCalendarMapper->insert($calendar);
+		} else {
+			$calendar->setToken($share->getShareSecret());
+			$calendar->setPermissions($permissions);
+			$calendar->setComponents($components);
+			$this->federatedCalendarMapper->update($calendar);
+		}
 
 		$this->jobList->add(FederatedCalendarSyncJob::class, [
 			FederatedCalendarSyncJob::ARGUMENT_ID => $calendar->getId(),
@@ -144,6 +154,7 @@ class CalendarFederationProvider implements ICloudFederationProvider {
 		return (string)$calendar->getId();
 	}
 
+	#[\Override]
 	public function notificationReceived(
 		$notificationType,
 		$providerId,
@@ -164,6 +175,7 @@ class CalendarFederationProvider implements ICloudFederationProvider {
 	/**
 	 * @return string[]
 	 */
+	#[\Override]
 	public function getSupportedShareTypes(): array {
 		return [self::USER_SHARE_TYPE];
 	}

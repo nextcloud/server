@@ -81,6 +81,7 @@ class DefaultShareProvider implements
 	 *
 	 * @return string Containing only [a-zA-Z0-9]
 	 */
+	#[\Override]
 	public function identifier() {
 		return 'ocinternal';
 	}
@@ -93,6 +94,7 @@ class DefaultShareProvider implements
 	 * @throws ShareNotFound
 	 * @throws \Exception
 	 */
+	#[\Override]
 	public function create(IShare $share) {
 		$qb = $this->dbConn->getQueryBuilder();
 
@@ -212,6 +214,7 @@ class DefaultShareProvider implements
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 */
+	#[\Override]
 	public function update(IShare $share) {
 		$originalShare = $this->getShareById($share->getId());
 
@@ -305,7 +308,6 @@ class DefaultShareProvider implements
 			$this->propagateNote($share);
 		}
 
-
 		return $share;
 	}
 
@@ -317,6 +319,7 @@ class DefaultShareProvider implements
 	 * @return IShare The share object
 	 * @since 9.0.0
 	 */
+	#[\Override]
 	public function acceptShare(IShare $share, string $recipient): IShare {
 		if ($share->getShareType() === IShare::TYPE_GROUP) {
 			$group = $this->groupManager->get($share->getSharedWith());
@@ -371,6 +374,7 @@ class DefaultShareProvider implements
 		return $share;
 	}
 
+	#[\Override]
 	public function getChildren(IShare $parent): array {
 		$children = [];
 
@@ -388,8 +392,7 @@ class DefaultShareProvider implements
 					], IQueryBuilder::PARAM_INT_ARRAY)
 				)
 			)
-			->andWhere($qb->expr()->in('item_type', $qb->createNamedParameter(['file', 'folder'], IQueryBuilder::PARAM_STR_ARRAY)))
-			->orderBy('id');
+			->andWhere($qb->expr()->in('item_type', $qb->createNamedParameter(['file', 'folder'], IQueryBuilder::PARAM_STR_ARRAY)));
 
 		$cursor = $qb->executeQuery();
 		while ($data = $cursor->fetch()) {
@@ -405,6 +408,7 @@ class DefaultShareProvider implements
 	 *
 	 * @param IShare $share
 	 */
+	#[\Override]
 	public function delete(IShare $share) {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->delete('share')
@@ -430,6 +434,7 @@ class DefaultShareProvider implements
 	 * @throws BackendError
 	 * @throws ProviderException
 	 */
+	#[\Override]
 	public function deleteFromSelf(IShare $share, $recipient) {
 		if ($share->getShareType() === IShare::TYPE_GROUP) {
 			$group = $this->groupManager->get($share->getSharedWith());
@@ -525,6 +530,7 @@ class DefaultShareProvider implements
 	 * For now this only works for group shares
 	 * If this gets implemented for normal shares we have to extend it
 	 */
+	#[\Override]
 	public function restore(IShare $share, string $recipient): IShare {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->select('permissions')
@@ -557,6 +563,7 @@ class DefaultShareProvider implements
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function move(IShare $share, $recipient) {
 		if ($share->getShareType() === IShare::TYPE_USER) {
 			// Just update the target
@@ -601,6 +608,7 @@ class DefaultShareProvider implements
 						'permissions' => $qb->createNamedParameter($share->getPermissions()),
 						'attributes' => $qb->createNamedParameter($shareAttributes),
 						'stime' => $qb->createNamedParameter($share->getShareTime()->getTimestamp()),
+						'accepted' => $qb->createNamedParameter(IShare::STATUS_ACCEPTED),
 					])->executeStatement();
 			} else {
 				// Already a usergroup share. Update it.
@@ -615,6 +623,7 @@ class DefaultShareProvider implements
 		return $share;
 	}
 
+	#[\Override]
 	public function getSharesInFolder($userId, Folder $node, $reshares, $shallow = true) {
 		if (!$shallow) {
 			throw new \Exception('non-shallow getSharesInFolder is no longer supported');
@@ -623,6 +632,7 @@ class DefaultShareProvider implements
 		return $this->getSharesInFolderInternal($userId, $node, $reshares);
 	}
 
+	#[\Override]
 	public function getAllSharesInFolder(Folder $node): array {
 		return $this->getSharesInFolderInternal(null, $node, null);
 	}
@@ -673,11 +683,9 @@ class DefaultShareProvider implements
 			)
 		);
 
-		$qb->orderBy('id');
-
 		$shares = [];
 
-		$chunks = array_chunk($childMountRootIds, 1000);
+		$chunks = array_chunk($childMountRootIds, IQueryBuilder::MAX_IN_PARAMETERS);
 
 		// Force the request to be run when there is 0 mount.
 		if (count($chunks) === 0) {
@@ -699,6 +707,7 @@ class DefaultShareProvider implements
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getSharesBy($userId, $shareType, $node, $reshares, $limit, $offset) {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->select('*')
@@ -732,7 +741,9 @@ class DefaultShareProvider implements
 		}
 
 		$qb->setFirstResult($offset);
-		$qb->orderBy('id');
+		if ($offset !== 0 || $limit !== -1) {
+			$qb->orderBy('id');
+		}
 
 		$cursor = $qb->executeQuery();
 		$shares = [];
@@ -747,6 +758,7 @@ class DefaultShareProvider implements
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getShareById($id, $recipientId = null) {
 		$qb = $this->dbConn->getQueryBuilder();
 
@@ -793,6 +805,7 @@ class DefaultShareProvider implements
 	 * @param Node $path
 	 * @return IShare[]
 	 */
+	#[\Override]
 	public function getSharesByPath(Node $path) {
 		$qb = $this->dbConn->getQueryBuilder();
 
@@ -801,7 +814,6 @@ class DefaultShareProvider implements
 			->andWhere($qb->expr()->eq('file_source', $qb->createNamedParameter($path->getId())))
 			->andWhere($qb->expr()->in('share_type', $qb->createNamedParameter([IShare::TYPE_USER, IShare::TYPE_GROUP, IShare::TYPE_LINK], IQueryBuilder::PARAM_INT_ARRAY)))
 			->andWhere($qb->expr()->in('item_type', $qb->createNamedParameter(['file', 'folder'], IQueryBuilder::PARAM_STR_ARRAY)))
-			->orderBy('id', 'ASC')
 			->executeQuery();
 
 		$shares = [];
@@ -838,10 +850,12 @@ class DefaultShareProvider implements
 		return true;
 	}
 
+	#[\Override]
 	public function getSharedWith($userId, $shareType, $node, $limit, $offset) {
 		return $this->_getSharedWith($userId, $shareType, $limit, $offset, $node);
 	}
 
+	#[\Override]
 	public function getSharedWithByPath(
 		string $userId,
 		int $shareType,
@@ -894,8 +908,10 @@ class DefaultShareProvider implements
 				->leftJoin('s', 'filecache', 'f', $qb->expr()->eq('s.file_source', 'f.fileid'))
 				->leftJoin('f', 'storages', 'st', $qb->expr()->eq('f.storage', 'st.numeric_id'));
 
-			// Order by id
-			$qb->orderBy('s.id');
+			if ($offset !== 0 || $limit !== -1) {
+				// Order by id
+				$qb->orderBy('s.id');
+			}
 
 			// Set limit and offset
 			if ($limit !== -1) {
@@ -964,8 +980,11 @@ class DefaultShareProvider implements
 					->from('share', 's')
 					->leftJoin('s', 'filecache', 'f', $qb->expr()->eq('s.file_source', 'f.fileid'))
 					->leftJoin('f', 'storages', 'st', $qb->expr()->eq('f.storage', 'st.numeric_id'))
-					->orderBy('s.id')
 					->setFirstResult(0);
+
+				if ($offset !== 0 || $limit !== -1) {
+					$qb->orderBy('s.id');
+				}
 
 				if ($limit !== -1) {
 					$qb->setMaxResults($limit - count($shares));
@@ -1040,7 +1059,6 @@ class DefaultShareProvider implements
 			throw new BackendError('Invalid backend');
 		}
 
-
 		return $shares;
 	}
 
@@ -1051,6 +1069,7 @@ class DefaultShareProvider implements
 	 * @return IShare
 	 * @throws ShareNotFound
 	 */
+	#[\Override]
 	public function getShareByToken($token) {
 		$qb = $this->dbConn->getQueryBuilder();
 
@@ -1079,11 +1098,10 @@ class DefaultShareProvider implements
 	/**
 	 * Create a share object from a database row
 	 *
-	 * @param mixed[] $data
-	 * @return IShare
+	 * @param array<string, mixed> $data
 	 * @throws InvalidShare
 	 */
-	private function createShare($data) {
+	private function createShare($data): IShare {
 		$share = new Share($this->rootFolder, $this->userManager);
 		$share->setId($data['id'])
 			->setShareType((int)$data['share_type'])
@@ -1100,16 +1118,10 @@ class DefaultShareProvider implements
 
 		if ($share->getShareType() === IShare::TYPE_USER) {
 			$share->setSharedWith($data['share_with']);
-			$displayName = $this->userManager->getDisplayName($data['share_with']);
-			if ($displayName !== null) {
-				$share->setSharedWithDisplayName($displayName);
-			}
+			$share->setSharedWithDisplayNameCallback(fn (IShare $share) => $this->userManager->getDisplayName($share->getSharedWith()));
 		} elseif ($share->getShareType() === IShare::TYPE_GROUP) {
 			$share->setSharedWith($data['share_with']);
-			$group = $this->groupManager->get($data['share_with']);
-			if ($group !== null) {
-				$share->setSharedWithDisplayName($group->getDisplayName());
-			}
+			$share->setSharedWithDisplayNameCallback(fn (IShare $share) => $this->groupManager->getDisplayName($share->getSharedWith()));
 		} elseif ($share->getShareType() === IShare::TYPE_LINK) {
 			$share->setPassword($data['password']);
 			$share->setSendPasswordByTalk((bool)$data['password_by_talk']);
@@ -1196,6 +1208,7 @@ class DefaultShareProvider implements
 	 * @param string $uid
 	 * @param int $shareType
 	 */
+	#[\Override]
 	public function userDeleted($uid, $shareType) {
 		$qb = $this->dbConn->getQueryBuilder();
 
@@ -1261,6 +1274,7 @@ class DefaultShareProvider implements
 	 *
 	 * @param string $gid
 	 */
+	#[\Override]
 	public function groupDeleted($gid) {
 		/*
 		 * First delete all custom group shares for group members
@@ -1309,6 +1323,7 @@ class DefaultShareProvider implements
 	 * @param string $gid
 	 * @return void
 	 */
+	#[\Override]
 	public function userDeletedFromGroup($uid, $gid) {
 		/*
 		 * Get all group shares
@@ -1387,6 +1402,7 @@ class DefaultShareProvider implements
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getAccessList($nodes, $currentAccess) {
 		$ids = [];
 		foreach ($nodes as $node) {
@@ -1466,6 +1482,7 @@ class DefaultShareProvider implements
 
 	/**
 	 * For each user the path with the fewest slashes is returned
+	 *
 	 * @param array $shares
 	 * @return array
 	 */
@@ -1517,6 +1534,7 @@ class DefaultShareProvider implements
 		}
 	}
 
+	#[\Override]
 	public function sendMailNotification(IShare $share): bool {
 		try {
 			// Check user
@@ -1690,7 +1708,6 @@ class DefaultShareProvider implements
 				$link
 			);
 
-
 			// The "From" contains the sharers name
 			$instanceName = $this->defaults->getName();
 			$senderName = $l->t(
@@ -1719,6 +1736,7 @@ class DefaultShareProvider implements
 		}
 	}
 
+	#[\Override]
 	public function getAllShares(): iterable {
 		$qb = $this->dbConn->getQueryBuilder();
 
@@ -1783,6 +1801,7 @@ class DefaultShareProvider implements
 		return \json_encode($compressedAttributes);
 	}
 
+	#[\Override]
 	public function getUsersForShare(IShare $share): iterable {
 		if ($share->getShareType() === IShare::TYPE_USER) {
 			return [new LazyUser($share->getSharedWith(), $this->userManager)];

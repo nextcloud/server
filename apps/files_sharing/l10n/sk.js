@@ -265,7 +265,7 @@ OC.L10N.register(
     "Share in conversation" : "Zdieľať v rozhovore",
     "Share with {user} on remote server {server}" : "Sprístupniť s {user} na vzdialenom servery {server}",
     "Share with remote group" : "Zdieľať so vzdialenou skupinou",
-    "Share with guest" : "Zdiľať s hosťom",
+    "Share with guest" : "Zdieľať s hosťom",
     "Update share" : "Aktualizovať zdieľanie",
     "Save share" : "Uložiť zdieľanie",
     "Read" : "Čítať",
@@ -405,8 +405,6 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Zdieľanie %s sa nepodarilo, pretože backend nepodporuje zdieľanie ScienceMesh miestností.",
     "Name or email …" : "Meno alebo e-mail …",
     "Name, email, or Federated Cloud ID …" : "Meno, e-mail alebo ID združeného cloudu …",
-    "Searching …" : "Hľadá sa …",
-    "Error deleting the share: {errorMessage}" : "Chyba pri odstraňovaní zdieľania: {errorMessage}",
-    "Error updating the share: {errorMessage}" : "Chyba pri úprave zdieľania: {errorMessage}"
+    "Searching …" : "Hľadá sa …"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

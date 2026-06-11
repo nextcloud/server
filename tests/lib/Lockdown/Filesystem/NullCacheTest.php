@@ -17,6 +17,7 @@ class NulLCacheTest extends \Test\TestCase {
 	/** @var NullCache */
 	private $cache;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

@@ -24,6 +24,7 @@ class LimiterTest extends TestCase {
 	private ILimiter $limiter;
 	private LoggerInterface $logger;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -35,7 +36,6 @@ class LimiterTest extends TestCase {
 			$this->logger,
 		);
 	}
-
 
 	public function testRegisterAnonRequestExceeded(): void {
 		$this->expectException(RateLimitExceededException::class);
@@ -77,7 +77,6 @@ class LimiterTest extends TestCase {
 
 		$this->limiter->registerAnonRequest('MyIdentifier', 100, 100, '127.0.0.1');
 	}
-
 
 	public function testRegisterUserRequestExceeded(): void {
 		$this->expectException(RateLimitExceededException::class);

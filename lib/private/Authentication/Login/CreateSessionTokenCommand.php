@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Authentication\Login;
 
 use OC\Authentication\Token\IToken;
@@ -19,6 +20,7 @@ class CreateSessionTokenCommand extends ALoginCommand {
 	) {
 	}
 
+	#[\Override]
 	public function process(LoginData $loginData): LoginResult {
 		if ($this->config->getSystemValueInt('remember_login_cookie_lifetime', 60 * 60 * 24 * 15) === 0) {
 			$loginData->setRememberLogin(false);

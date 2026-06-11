@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Files\Notify;
 
 use OCP\Files\Notify\IChange;
@@ -24,6 +27,7 @@ class RenameChange extends Change implements IRenameChange {
 	/**
 	 * Get the new path of the renamed file relative to the storage root
 	 */
+	#[\Override]
 	public function getTargetPath(): string {
 		return $this->targetPath;
 	}

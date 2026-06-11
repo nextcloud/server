@@ -405,8 +405,6 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "%s partekatzeak huts egin du atzealdeak ez dituelako ScienceMesh parteatzeak onartzen",
     "Name or email …" : "Izena edo posta ...",
     "Name, email, or Federated Cloud ID …" : "Izena, posta, edo federatutako hodei IDa...",
-    "Searching …" : "Bilatzen…",
-    "Error deleting the share: {errorMessage}" : "Errorea partekatzea ezabatzean: {errorMessage}",
-    "Error updating the share: {errorMessage}" : " Errorea partekatzea eguneratzean {errorMessage}"
+    "Searching …" : "Bilatzen…"
 },
 "nplurals=2; plural=(n != 1);");

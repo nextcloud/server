@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\Migration\Attributes;
 
 use OCP\AppFramework\Attribute\Consumable;
@@ -77,6 +78,7 @@ class ColumnMigrationAttribute extends MigrationAttribute {
 	 * @return $this
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function import(array $data): self {
 		parent::import($data);
 		$this->setName($data['name'] ?? '');
@@ -88,6 +90,7 @@ class ColumnMigrationAttribute extends MigrationAttribute {
 	 * @return array
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		return array_merge(
 			parent::jsonSerialize(),

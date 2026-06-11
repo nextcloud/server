@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Command\TaskProcessing;
 
 use OC\Core\Command\Base;
@@ -32,6 +33,7 @@ class Cleanup extends Base {
 		$this->appData = $appDataFactory->get('core');
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('taskprocessing:task:cleanup')
@@ -45,6 +47,7 @@ class Cleanup extends Base {
 		parent::configure();
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$maxAgeSeconds = (int)($input->getArgument('maxAgeSeconds') ?? Manager::MAX_TASK_AGE_SECONDS);
 		$output->writeln('<comment>Cleanup up tasks older than ' . $maxAgeSeconds . ' seconds and the related output files</comment>');

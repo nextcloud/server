@@ -87,7 +87,7 @@ OC.L10N.register(
     "shared by %s" : "souporaba: %s",
     "Download" : "Prejmi",
     "Add to your %s" : "Dodaj v %s",
-    "Direct link" : "Neposredna povezava",
+    "Direct link" : "Začetna povezava",
     "Share API is disabled" : "Vmesnik API za souporabo je onemogočen",
     "File sharing" : "Souporaba datotek",
     "Share will expire tomorrow" : "Souporaba bo jutri pretekla",
@@ -107,6 +107,7 @@ OC.L10N.register(
     "Link copied" : "Povezava je kopirana",
     "Email already added" : "Elektronski naslov je že dodan",
     "Invalid email address" : "Vpisan je neveljaven elektronski naslov",
+    "You can now share the link below to allow people to upload files to your directory." : "Na spodnji povezavi lahko zdaj uporabniki pošljejo datoteke v izbrano mapo.",
     "Share link" : "Povezava za souporabo",
     "Copy" : "Kopiraj",
     "Send link via email" : "Pošlji povezavo po elektronski pošti",
@@ -172,7 +173,7 @@ OC.L10N.register(
     "Can edit" : "Lahko ureja",
     "Custom permissions" : "Dovoljenja po meri",
     "Resharing is not allowed" : "Nadaljnja souporaba ni dovoljena",
-    "Searching …" : "Poteka iskanje ...",
+    "Searching …" : "Poteka iskanje ...",
     "No elements found." : "Ni najdenih predmetov",
     "Search everywhere" : "Išči povsod",
     "Guest" : "Gost",
@@ -249,7 +250,6 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Souporaba %s je spodletela, ker sistem ne podpira souporabe ScienceMesh",
     "Name or email …" : "Ime ali elektronski naslov ...",
     "Name, email, or Federated Cloud ID …" : "Ime, elektronski naslov, ali ID zveznega oblaka ...",
-    "Searching …" : "Poteka iskanje ...",
-    "Error updating the share: {errorMessage}" : "Napaka pri posodabljanju mesta souporabe: {errorMessage}"
+    "Searching …" : "Poteka iskanje ..."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

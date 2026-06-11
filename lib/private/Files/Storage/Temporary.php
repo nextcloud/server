@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Storage;
 
 use OCP\Files;
@@ -23,6 +24,7 @@ class Temporary extends Local {
 		Files::rmdirr($this->datadir);
 	}
 
+	#[\Override]
 	public function __destruct() {
 		parent::__destruct();
 		$this->cleanUp();

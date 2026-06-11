@@ -35,7 +35,6 @@ use Sabre\DAV\Xml\Property\Href;
 use Sabre\DAV\Xml\Property\LocalHref;
 use Sabre\Xml\ParseException;
 use Sabre\Xml\Service as XmlService;
-
 use function array_intersect;
 
 class CustomPropertiesBackend implements BackendInterface {
@@ -498,7 +497,7 @@ class CustomPropertiesBackend implements BackendInterface {
 		if (!empty($requestedProperties)) {
 			// request only a subset
 			$qb->andWhere($qb->expr()->in('propertyname', $qb->createParameter('requestedProperties')));
-			$chunks = array_chunk($requestedProperties, 1000);
+			$chunks = array_chunk($requestedProperties, IQueryBuilder::MAX_IN_PARAMETERS);
 			foreach ($chunks as $chunk) {
 				$qb->setParameter('requestedProperties', $chunk, IQueryBuilder::PARAM_STR_ARRAY);
 				$result = $qb->executeQuery();

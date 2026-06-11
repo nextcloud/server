@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\SetupChecks;
 
 use OCP\Http\Client\IClientService;
@@ -27,14 +28,17 @@ class InternetConnectivity implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'network';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Internet connectivity');
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		if ($this->config->getSystemValue('has_internet_connection', true) === false) {
 			return SetupResult::success($this->l10n->t('Internet connectivity is disabled in configuration file.'));

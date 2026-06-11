@@ -403,8 +403,6 @@
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Udostępnienie %s nie powiodło się, ponieważ oprogramowanie nie obsługuje udostępniania ScienceMesh",
     "Name or email …" : "Nazwa lub adres e-mail…",
     "Name, email, or Federated Cloud ID …" : "Nazwa, adres e-mail lub ID Chmury Federacyjnej…",
-    "Searching …" : "Wyszukiwanie…",
-    "Error deleting the share: {errorMessage}" : "Błąd podczas usuwania udostępnienia: {errorMessage}",
-    "Error updating the share: {errorMessage}" : "Błąd podczas aktualizacji udostępnienia: {errorMessage}"
+    "Searching …" : "Wyszukiwanie…"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

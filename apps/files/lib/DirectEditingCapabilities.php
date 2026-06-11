@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files;
 
 use OCA\Files\Service\DirectEditingService;
@@ -22,6 +23,7 @@ class DirectEditingCapabilities implements ICapability, IInitialStateExcludedCap
 	/**
 	 * @return array{files: array{directEditing: array{url: string, etag: string, supportsFileId: bool}}}
 	 */
+	#[\Override]
 	public function getCapabilities() {
 		return [
 			'files' => [

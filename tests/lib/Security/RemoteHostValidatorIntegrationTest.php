@@ -23,6 +23,7 @@ class RemoteHostValidatorIntegrationTest extends TestCase {
 	private IConfig $config;
 	private RemoteHostValidator $validator;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

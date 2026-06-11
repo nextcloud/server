@@ -38,7 +38,6 @@ class PublicTemplateResponseTest extends TestCase {
 		$this->assertEquals([], $template->getOtherActions());
 	}
 
-
 	public function testActionMultiple(): void {
 		$actions = [
 			new SimpleMenuAction('link1', 'Download1', 'download1', 'downloadLink1', 100),
@@ -52,7 +51,6 @@ class PublicTemplateResponseTest extends TestCase {
 		$this->assertEquals(3, $template->getActionCount());
 		$this->assertEquals([$actions[1], $actions[0]], $template->getOtherActions());
 	}
-
 
 	public function testGetRenderAs(): void {
 		$template = new PublicTemplateResponse('app', 'home', ['key' => 'value']);

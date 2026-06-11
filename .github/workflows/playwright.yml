@@ -1,0 +1,182 @@
+# SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+
+name: Playwright Tests
+
+on:
+  pull_request:
+    branches: [ master ]
+
+permissions:
+  contents: read
+
+jobs:
+  playwright-setup:
+    timeout-minutes: 15
+    name: Playwright setup
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      with:
+        persist-credentials: false
+        submodules: true # for 3rdparty
+    - name: Read package.json
+      uses: nextcloud-libraries/parse-package-engines-action@122ae05d4257008180a514e1ddeb0c1b9d094bdd # v0.1.0
+      id: versions
+    - name: Set up node
+      uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
+      with:
+        node-version: ${{ steps.versions.outputs.node-version }}
+    - name: Set up npm
+      run: npm i -g 'npm@${{ steps.versions.outputs.package-manager-version }}'
+    - name: Install dependencies and build
+      run: |
+        npm ci
+        npm run build --if-present
+    - name: Save context
+      uses: buildjet/cache/save@3e70d19e31d6a8030aeddf6ed8dbe601f94d09f4 # v4.0.2
+      with:
+        key: playwright-context-${{ github.run_id }}
+        path: ./
+
+  playwright-tests:
+    needs: [playwright-setup]
+    timeout-minutes: 60
+    name: Playwright tests ${{ matrix.shardIndex }} / ${{ matrix.shardTotal }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shardIndex: [1, 2, 3]
+        shardTotal: [3]
+    outputs:
+      node-version: ${{ steps.versions.outputs.node-version }}
+      package-manager-version: ${{ steps.versions.outputs.package-manager-version }}
+
+    steps:
+    - name: Restore context
+      id: cache
+      uses: buildjet/cache/restore@3e70d19e31d6a8030aeddf6ed8dbe601f94d09f4 # v4.0.2
+      with:
+        key: playwright-context-${{ github.run_id }}
+        path: ./
+
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      if: steps.cache.outputs.cache-hit != 'true'
+      with:
+        persist-credentials: false
+        submodules: true # for 3rdparty
+
+    - name: Read package.json
+      if: steps.cache.outputs.cache-hit != 'true'
+      uses: nextcloud-libraries/parse-package-engines-action@122ae05d4257008180a514e1ddeb0c1b9d094bdd # v0.1.0
+      id: versions
+
+    - name: Set up node
+      if: steps.cache.outputs.cache-hit != 'true'
+      uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
+      with:
+        node-version: ${{ steps.versions.outputs.node-version }}
+
+    - name: Set up npm
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: npm i -g 'npm@${{ steps.versions.outputs.package-manager-version }}'
+
+    - name: Install dependencies and build
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: |
+        npm ci
+        npm run build --if-present
+
+    - name: Install Playwright browsers
+      run: npx playwright install --with-deps
+
+    - name: Run Playwright tests
+      run: npm run playwright -- --shard='${{ matrix.shardIndex }}/${{ matrix.shardTotal }}'
+
+    - name: Show logs
+      if: failure()
+      run: |
+        for id in $(docker ps -aq); do
+          docker container inspect "$id" --format '=== Logs for container {{.Name}} ==='
+          docker logs "$id" >> nextcloud.log
+        done
+        echo '=== Nextcloud server logs ==='
+        docker exec nextcloud-e2e-test-server_server cat data/nextcloud.log
+
+    - name: Upload blob report to GitHub Actions Artifacts
+      if: ${{ !cancelled() }}
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      with:
+        name: blob-report-${{ matrix.shardIndex }}
+        path: blob-report
+        retention-days: 1
+
+  merge-reports:
+    # Merge reports after playwright-tests, even if some shards have failed
+    if: ${{ !cancelled() }}
+    needs: [playwright-tests]
+
+    runs-on: ubuntu-latest-low
+    steps:
+    - name: Restore context
+      id: cache
+      uses: buildjet/cache/restore@3e70d19e31d6a8030aeddf6ed8dbe601f94d09f4 # v4.0.2
+      with:
+        key: playwright-context-${{ github.run_id }}
+        path: ./
+
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      if: steps.cache.outputs.cache-hit != 'true'
+      with:
+        persist-credentials: false
+
+    - uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
+      if: steps.cache.outputs.cache-hit != 'true'
+      with:
+        node-version: ${{ needs.playwright-tests.outputs.node-version }}
+
+    - name: Set up npm
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: npm i -g 'npm@${{ needs.playwright-tests.outputs.package-manager-version }}'
+
+    - name: Install dependencies
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: npm ci
+
+    - name: Download blob reports from GitHub Actions Artifacts
+      uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
+      with:
+        path: all-blob-reports
+        pattern: blob-report-*
+        merge-multiple: true
+
+    - name: Merge into HTML Report
+      run: npx playwright merge-reports --config tests/playwright/merge.config.ts --reporter html,github ./all-blob-reports
+
+    - name: Upload HTML report
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      with:
+        name: html-report--attempt-${{ github.run_attempt }}
+        path: playwright-report
+        retention-days: 7
+
+    - name: Show the logs
+      run: |
+        echo 'To view the report:'
+        echo '  1. Extract the folder from the zip file'
+        echo '  2. run "npx playwright show-report name-of-my-extracted-playwright-report"'
+
+  summary:
+    permissions:
+      contents: none
+    runs-on: ubuntu-latest-low
+    needs: [playwright-tests]
+
+    if: always()
+
+    name: playwright-test-summary
+
+    steps:
+      - name: Summary status
+        run: if ${{ needs.playwright-tests.result != 'success' }}; then exit 1; fi

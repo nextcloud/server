@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\SetupChecks;
 
 use bantu\IniGetWrapper\IniGetWrapper;
@@ -22,10 +23,12 @@ class PhpOpcacheSetup implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('PHP opcache');
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'php';
 	}
@@ -111,6 +114,7 @@ class PhpOpcacheSetup implements ISetupCheck {
 		return [$level, $recommendations];
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		// Skip OPcache checks if running from CLI
 		if (\OC::$CLI && !$this->iniGetWrapper->getBool('opcache.enable_cli')) {

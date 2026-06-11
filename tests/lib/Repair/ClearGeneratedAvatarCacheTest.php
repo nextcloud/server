@@ -21,6 +21,7 @@ class ClearGeneratedAvatarCacheTest extends \Test\TestCase {
 
 	protected ClearGeneratedAvatarCache $repair;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

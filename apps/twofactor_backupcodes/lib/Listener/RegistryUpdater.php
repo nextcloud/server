@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\TwoFactorBackupCodes\Listener;
 
 use OCA\TwoFactorBackupCodes\Event\CodesGenerated;
@@ -23,6 +24,7 @@ class RegistryUpdater implements IEventListener {
 	) {
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof CodesGenerated) {
 			$this->registry->enableProviderFor($this->provider, $event->getUser());

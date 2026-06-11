@@ -35,14 +35,17 @@ class RichReminder extends Reminder implements JsonSerializable {
 		return $node;
 	}
 
+	#[\Override]
 	protected function getter(string $name): mixed {
 		return $this->reminder->getter($name);
 	}
 
+	#[\Override]
 	public function __call(string $methodName, array $args) {
 		return $this->reminder->__call($methodName, $args);
 	}
 
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'userId' => $this->getUserId(),

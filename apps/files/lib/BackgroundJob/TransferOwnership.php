@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files\BackgroundJob;
 
 use OCA\Files\AppInfo\Application;
@@ -35,6 +36,7 @@ class TransferOwnership extends QueuedJob {
 		parent::__construct($timeFactory);
 	}
 
+	#[\Override]
 	protected function run($argument) {
 		$id = $argument['id'];
 

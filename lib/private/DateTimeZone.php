@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use OCP\IConfig;
@@ -23,6 +24,7 @@ class DateTimeZone implements IDateTimeZone {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getTimeZone(int|false $timestamp = false, ?string $userId = null): \DateTimeZone {
 		$uid = $userId ?? $this->session->get('user_id');
 		$timezoneName = $this->config->getUserValue($uid, 'core', 'timezone', '');
@@ -41,6 +43,7 @@ class DateTimeZone implements IDateTimeZone {
 		}
 	}
 
+	#[\Override]
 	public function getDefaultTimeZone(): \DateTimeZone {
 		/** @var non-empty-string */
 		$timezone = $this->config->getSystemValueString('default_timezone', 'UTC');

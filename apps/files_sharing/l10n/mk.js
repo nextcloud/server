@@ -233,7 +233,7 @@ OC.L10N.register(
     "Create a new share link" : "Креирајте нов линк за споделување",
     "Quick share options, the current selected is \"{selectedOption}\"" : "Опции за брзо споделување за , тековната избрана е \"{selectedOption}\"",
     "View only" : "Само за гледање",
-    "Can edit" : "Може да се уредува",
+    "Can edit" : "Може да уредува",
     "Custom permissions" : "Прилагодени дозволи",
     "Resharing is not allowed" : "Повторно споделување не е дозволено",
     "Name or email …" : "Име или е-пошта …",
@@ -405,8 +405,6 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Споделувањето на %s е неуспешно бидејќи серверот не дозволува ScienceMesh споделувања",
     "Name or email …" : "Име или е-пошта ...",
     "Name, email, or Federated Cloud ID …" : "Име, е-пошта или федерален ИД ...",
-    "Searching …" : "Пребарување ...",
-    "Error deleting the share: {errorMessage}" : "Грешка при бришење на споделувањето: {errorMessage}",
-    "Error updating the share: {errorMessage}" : "Грешка при ажурирање на споделувањето: {errorMessage}"
+    "Searching …" : "Пребарување ..."
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

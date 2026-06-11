@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Tests;
 
 use OC\SystemConfig;
@@ -14,11 +15,11 @@ use OCP\Constants;
 use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
 use OCP\IUser;
-use OCP\IUserManager;
 use OCP\Server;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 use PHPUnit\Framework\Attributes\DataProvider;
+use Test\Traits\UserTrait;
 
 /**
  * Class ExpireSharesJobTest
@@ -28,6 +29,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
  */
 #[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ExpireSharesJobTest extends \Test\TestCase {
+	use UserTrait;
 
 	private ExpireSharesJob $job;
 
@@ -50,9 +52,8 @@ class ExpireSharesJobTest extends \Test\TestCase {
 		$user1 = $this->getUniqueID('user1_');
 		$user2 = $this->getUniqueID('user2_');
 
-		$userManager = Server::get(IUserManager::class);
-		$this->user1 = $userManager->createUser($user1, 'longrandompassword');
-		$this->user2 = $userManager->createUser($user2, 'longrandompassword');
+		$this->user1 = $this->createUser($user1, 'longrandompassword');
+		$this->user2 = $this->createUser($user2, 'longrandompassword');
 
 		\OC::registerShareHooks(Server::get(SystemConfig::class));
 

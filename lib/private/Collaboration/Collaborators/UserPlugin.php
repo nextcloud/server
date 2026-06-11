@@ -18,6 +18,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Share\IShare;
+use OCP\Teams\ITeamManager;
 use OCP\UserStatus\IManager as IUserStatusManager;
 use OCP\UserStatus\IUserStatus;
 
@@ -26,12 +27,14 @@ readonly class UserPlugin implements ISearchPlugin {
 		private IAppConfig $appConfig,
 		private IUserManager $userManager,
 		private IGroupManager $groupManager,
+		private ITeamManager $teamManager,
 		private IUserSession $userSession,
 		private IUserStatusManager $userStatusManager,
 		private IDBConnection $connection,
 	) {
 	}
 
+	#[\Override]
 	public function search($search, $limit, $offset, ISearchResult $searchResult): bool {
 		/** @var IUser $currentUser */
 		$currentUser = $this->userSession->getUser();
@@ -41,6 +44,7 @@ readonly class UserPlugin implements ISearchPlugin {
 
 		/** @var array<string, array{0: 'wide'|'exact', 1: IUser}> $users */
 		$users = [];
+		$lowerSearch = mb_strtolower($search);
 
 		$shareeEnumeration = $this->appConfig->getValueString('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
 		if ($shareeEnumeration) {
@@ -67,6 +71,23 @@ readonly class UserPlugin implements ISearchPlugin {
 							}
 						}
 					}
+
+					// If teams are enabled, also search in them
+					if ($this->teamManager->hasTeamSupport()) {
+						$teams = $this->teamManager->getTeamsForUser($currentUser->getUID());
+						foreach ($teams as $team) {
+							$usersInTeam = $this->teamManager->getMembersOfTeam($team->getId(), $currentUser->getUID());
+							foreach ($usersInTeam as $userId => $displayName) {
+								if (!str_contains(mb_strtolower($userId), $lowerSearch) && !str_contains(mb_strtolower($displayName), $lowerSearch)) {
+									continue;
+								}
+								$user = $this->userManager->get($userId);
+								if ($user !== null && $user->isEnabled()) {
+									$users[$userId] = ['wide', $user];
+								}
+							}
+						}
+					}
 				}
 
 				if ($shareeEnumerationRestrictToPhone) {
@@ -83,11 +104,9 @@ readonly class UserPlugin implements ISearchPlugin {
 		// Even if normal sharee enumeration is not allowed, full matches are still allowed.
 		$shareeEnumerationFullMatch = $this->appConfig->getValueString('core', 'shareapi_restrict_user_enumeration_full_match', 'yes') === 'yes';
 		if ($shareeEnumerationFullMatch && $search !== '') {
-			$shareeEnumerationFullMatchUserId = $this->appConfig->getValueString('core', 'shareapi_restrict_user_enumeration_full_match_userid', 'yes') === 'yes';
+			$shareeEnumerationFullMatchUserId = $this->appConfig->getValueString('core', 'shareapi_restrict_user_enumeration_full_match_user_id', 'yes') === 'yes';
 			$shareeEnumerationFullMatchEmail = $this->appConfig->getValueString('core', 'shareapi_restrict_user_enumeration_full_match_email', 'yes') === 'yes';
 			$shareeEnumerationFullMatchIgnoreSecondDisplayName = $this->appConfig->getValueString('core', 'shareapi_restrict_user_enumeration_full_match_ignore_second_dn', 'no') === 'yes';
-
-			$lowerSearch = mb_strtolower($search);
 
 			// Re-use the results from earlier if possible
 			$usersByDisplayName ??= $this->userManager->searchDisplayName($search, $limit, $offset);

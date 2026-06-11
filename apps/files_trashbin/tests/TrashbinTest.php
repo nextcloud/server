@@ -83,7 +83,6 @@ class TrashbinTest extends \Test\TestCase {
 		self::loginHelper(self::TEST_TRASHBIN_USER1, true);
 	}
 
-
 	public static function tearDownAfterClass(): void {
 		// cleanup test user
 		$user = Server::get(IUserManager::class)->get(self::TEST_TRASHBIN_USER1);
@@ -314,7 +313,6 @@ class TrashbinTest extends \Test\TestCase {
 		}
 		return \OCA\Files\Helper::sortFiles($files, 'mtime');
 	}
-
 
 	/**
 	 * test expiration of old files in the trash bin until the max size
@@ -708,7 +706,6 @@ class TrashbinTest extends \Test\TestCase {
 		Server::get(IRootFolder::class)->getUserFolder($user);
 	}
 }
-
 
 // just a dummy class to make protected methods available for testing
 class TrashbinForTesting extends Trashbin {

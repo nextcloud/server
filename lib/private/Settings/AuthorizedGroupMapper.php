@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Settings;
 
 use OCP\AppFramework\Db\DoesNotExistException;
@@ -21,6 +22,7 @@ use OCP\Server;
 
 /**
  * @template-extends QBMapper<AuthorizedGroup>
+ * @psalm-api - we cannot use final as this will break unit tests
  */
 class AuthorizedGroupMapper extends QBMapper {
 	public function __construct(IDBConnection $db) {

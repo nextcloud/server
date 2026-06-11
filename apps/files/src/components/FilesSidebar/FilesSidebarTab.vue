@@ -7,12 +7,11 @@
 import type { ISidebarTab } from '@nextcloud/files'
 
 import { NcIconSvgWrapper, NcLoadingIcon } from '@nextcloud/vue'
-import { ref, toRef, watch } from 'vue'
+import { computed, ref, toRef, watch } from 'vue'
 import NcAppSidebarTab from '@nextcloud/vue/components/NcAppSidebarTab'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
-import logger from '../../logger.ts'
-import { useActiveStore } from '../../store/active.ts'
 import { useSidebarStore } from '../../store/sidebar.ts'
+import { logger } from '../../utils/logger.ts'
 
 const props = defineProps<{
 	/**
@@ -27,7 +26,17 @@ const props = defineProps<{
 }>()
 
 const sidebar = useSidebarStore()
-const activeStore = useActiveStore()
+
+const context = computed(() => {
+	if (!sidebar.currentContext) {
+		return undefined
+	}
+	return {
+		folder: sidebar.currentContext.folder.clone(),
+		node: sidebar.currentContext.node.clone(),
+		view: sidebar.currentContext.view,
+	}
+})
 
 const loading = ref(true)
 watch(toRef(props, 'active'), async (active) => {
@@ -65,7 +74,7 @@ const initializedTabs = new Set<string>()
 		<template #icon>
 			<NcIconSvgWrapper :svg="tab.iconSvgInline" />
 		</template>
-		<NcEmptyContent v-if="loading">
+		<NcEmptyContent v-if="loading || !context">
 			<template #icon>
 				<NcLoadingIcon />
 			</template>
@@ -75,8 +84,8 @@ const initializedTabs = new Set<string>()
 			:is="tab.tagName"
 			v-else
 			:active.prop="active"
-			:node.prop="sidebar.currentNode"
-			:folder.prop="activeStore.activeFolder"
-			:view.prop="activeStore.activeView" />
+			:node.prop="context.node"
+			:folder.prop="context.folder"
+			:view.prop="context.view" />
 	</NcAppSidebarTab>
 </template>

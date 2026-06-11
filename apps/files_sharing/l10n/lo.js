@@ -405,8 +405,6 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "ການແບ່ງປັນ %s ລົ້ມເຫຼວ ເນື່ອງຈາກລະບົບຫຼັງບ້ານບໍ່ຮອງຮັບການແບ່ງປັນ ScienceMesh",
     "Name or email …" : "ຊື່ ຫຼື ອິເມວ...",
     "Name, email, or Federated Cloud ID …" : "ຊື່, ອິເມວ, ຫຼື ໄອດີຄລາວແບບລວມສູນ...",
-    "Searching …" : "ກຳລັງຄົ້ນຫາ...",
-    "Error deleting the share: {errorMessage}" : "ເກີດຂໍ້ຜິດພາດໃນການລຶບການແບ່ງປັນ: {errorMessage}",
-    "Error updating the share: {errorMessage}" : "ເກີດຂໍ້ຜິດພາດໃນການອັບເດດການແບ່ງປັນ: {errorMessage}"
+    "Searching …" : "ກຳລັງຄົ້ນຫາ..."
 },
 "nplurals=1; plural=0;");

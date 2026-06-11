@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\External;
 
 use OCA\Files_Sharing\External\Storage as ExternalShareStorage;
@@ -17,6 +18,7 @@ use OCP\Files\Config\IPartialMountProvider;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\Http\Client\IClientService;
 use OCP\ICertificateManager;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\Server;
@@ -37,6 +39,7 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 		private readonly IDBConnection $connection,
 		callable $managerProvider,
 		private readonly ICloudIdManager $cloudIdManager,
+		private IConfig $config,
 	) {
 		$this->managerProvider = $managerProvider;
 	}
@@ -50,10 +53,12 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 		$data['cloudId'] = $this->cloudIdManager->getCloudId($data['owner'], $data['remote']);
 		$data['certificateManager'] = Server::get(ICertificateManager::class);
 		$data['HttpClientService'] = Server::get(IClientService::class);
+		$data['verify'] = !$this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates');
 
 		return new Mount(self::STORAGE, $mountPoint, $data, $manager, $storageFactory);
 	}
 
+	#[\Override]
 	public function getMountsForUser(IUser $user, IStorageFactory $loader): array {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->select('id', 'remote', 'share_token', 'password', 'mountpoint', 'owner')
@@ -71,6 +76,7 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 		return $mounts;
 	}
 
+	#[\Override]
 	public function getMountsForPath(
 		string $setupPathHint,
 		bool $forChildren,

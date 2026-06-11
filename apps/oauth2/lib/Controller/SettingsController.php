@@ -6,21 +6,26 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\OAuth2\Controller;
 
+use OC\Authentication\Token\IProvider as IAuthTokenProvider;
 use OCA\OAuth2\Db\AccessTokenMapper;
 use OCA\OAuth2\Db\Client;
 use OCA\OAuth2\Db\ClientMapper;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\JSONResponse;
-use OCP\Authentication\Token\IProvider as IAuthTokenProvider;
+use OCP\Authentication\Exceptions\InvalidTokenException;
+use OCP\Authentication\Exceptions\WipeTokenException;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
+use Psr\Log\LoggerInterface;
 
 class SettingsController extends Controller {
 
@@ -36,10 +41,12 @@ class SettingsController extends Controller {
 		private IAuthTokenProvider $tokenProvider,
 		private IUserManager $userManager,
 		private ICrypto $crypto,
+		private LoggerInterface $logger,
 	) {
 		parent::__construct($appName, $request);
 	}
 
+	#[PasswordConfirmationRequired(strict: true)]
 	public function addClient(string $name,
 		string $redirectUri): JSONResponse {
 		if (filter_var($redirectUri, FILTER_VALIDATE_URL) === false) {
@@ -66,11 +73,31 @@ class SettingsController extends Controller {
 		return new JSONResponse($result);
 	}
 
+	#[PasswordConfirmationRequired]
 	public function deleteClient(int $id): JSONResponse {
 		$client = $this->clientMapper->getByUid($id);
 
 		$this->userManager->callForSeenUsers(function (IUser $user) use ($client): void {
-			$this->tokenProvider->invalidateTokensOfUser($user->getUID(), $client->getName());
+			// Skip tokens that are marked for remote wipe so revoking the
+			// OAuth2 client does not silently cancel a pending wipe.
+			$tokens = $this->tokenProvider->getTokenByUser($user->getUID());
+			foreach ($tokens as $token) {
+				if ($token->getName() !== $client->getName()) {
+					continue;
+				}
+				try {
+					$this->tokenProvider->getTokenById($token->getId());
+				} catch (WipeTokenException $e) {
+					$this->logger->info('Preserving token {tokenId} of user {uid}: marked for remote wipe, OAuth2 client revoke would cancel the wipe.', [
+						'tokenId' => $token->getId(),
+						'uid' => $user->getUID(),
+					]);
+					continue;
+				} catch (InvalidTokenException $e) {
+					// Token already invalid; let invalidateTokenById handle it.
+				}
+				$this->tokenProvider->invalidateTokenById($user->getUID(), $token->getId());
+			}
 		});
 
 		$this->accessTokenMapper->deleteByClientId($id);

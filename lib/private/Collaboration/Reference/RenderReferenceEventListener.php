@@ -31,6 +31,7 @@ class RenderReferenceEventListener implements IEventListener {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!($event instanceof RenderReferenceEvent)) {
 			return;

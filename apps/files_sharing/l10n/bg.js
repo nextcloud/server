@@ -226,7 +226,6 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Споделянето %s не бе успешно, защото вътрешния сървър не позволява споделяния на приложението ScienceMesh",
     "Name or email …" : "Име или имейл",
     "Name, email, or Federated Cloud ID …" : "Име, имейл или Federed Cloud ID/ИД за облачно пространство/ ...",
-    "Searching …" : "Търсене ...",
-    "Error updating the share: {errorMessage}" : "Грешка приактуализиране на споделянето: {errorMessage}"
+    "Searching …" : "Търсене ..."
 },
 "nplurals=2; plural=(n != 1);");

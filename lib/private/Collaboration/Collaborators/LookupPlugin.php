@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Collaboration\Collaborators;
 
 use OCA\Federation\TrustedServers;
@@ -33,6 +34,7 @@ class LookupPlugin implements ISearchPlugin {
 		$this->currentUserRemote = $cloudIdManager->resolveCloudId($currentUserCloudId)->getRemote();
 	}
 
+	#[\Override]
 	public function search($search, $limit, $offset, ISearchResult $searchResult): bool {
 		$isGlobalScaleEnabled = $this->config->getSystemValueBool('gs.enabled', false);
 		$isLookupServerEnabled = $this->config->getAppValue('files_sharing', 'lookupServerEnabled', 'no') === 'yes';

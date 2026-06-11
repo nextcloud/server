@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\L10N;
 
 class L10NString implements \JsonSerializable {
@@ -54,6 +55,7 @@ class L10NString implements \JsonSerializable {
 		return vsprintf($text, $this->parameters);
 	}
 
+	#[\Override]
 	public function jsonSerialize(): string {
 		return $this->__toString();
 	}

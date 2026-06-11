@@ -38,7 +38,7 @@ class TaskMapper extends QBMapper {
 	 */
 	public function find(int $id): Task {
 		$qb = $this->db->getQueryBuilder();
-		$qb->select(Task::$columns)
+		$qb->select(Task::COLUMNS)
 			->from($this->tableName)
 			->where($qb->expr()->eq('id', $qb->createPositionalParameter($id)));
 		return $this->findEntity($qb);
@@ -53,7 +53,7 @@ class TaskMapper extends QBMapper {
 	 */
 	public function findOldestScheduledByType(array $taskTypes, array $taskIdsToIgnore): Task {
 		$qb = $this->db->getQueryBuilder();
-		$qb->select(Task::$columns)
+		$qb->select(Task::COLUMNS)
 			->from($this->tableName)
 			->where($qb->expr()->eq('status', $qb->createPositionalParameter(\OCP\TaskProcessing\Task::STATUS_SCHEDULED, IQueryBuilder::PARAM_INT)))
 			->setMaxResults(1)
@@ -85,7 +85,7 @@ class TaskMapper extends QBMapper {
 	 */
 	public function findByIdAndUser(int $id, ?string $userId): Task {
 		$qb = $this->db->getQueryBuilder();
-		$qb->select(Task::$columns)
+		$qb->select(Task::COLUMNS)
 			->from($this->tableName)
 			->where($qb->expr()->eq('id', $qb->createPositionalParameter($id)));
 		if ($userId === null) {
@@ -105,7 +105,7 @@ class TaskMapper extends QBMapper {
 	 */
 	public function findByUserAndTaskType(?string $userId, ?string $taskType = null, ?string $customId = null): array {
 		$qb = $this->db->getQueryBuilder();
-		$qb->select(Task::$columns)
+		$qb->select(Task::COLUMNS)
 			->from($this->tableName)
 			->where($qb->expr()->eq('user_id', $qb->createPositionalParameter($userId)));
 		if ($taskType !== null) {
@@ -126,7 +126,7 @@ class TaskMapper extends QBMapper {
 	 */
 	public function findUserTasksByApp(?string $userId, string $appId, ?string $customId = null): array {
 		$qb = $this->db->getQueryBuilder();
-		$qb->select(Task::$columns)
+		$qb->select(Task::COLUMNS)
 			->from($this->tableName)
 			->where($qb->expr()->eq('user_id', $qb->createPositionalParameter($userId)))
 			->andWhere($qb->expr()->eq('app_id', $qb->createPositionalParameter($appId)));
@@ -151,7 +151,7 @@ class TaskMapper extends QBMapper {
 		?string $userId, ?string $taskType = null, ?string $appId = null, ?string $customId = null,
 		?int $status = null, ?int $scheduleAfter = null, ?int $endedBefore = null): array {
 		$qb = $this->db->getQueryBuilder();
-		$qb->select(Task::$columns)
+		$qb->select(Task::COLUMNS)
 			->from($this->tableName);
 
 		// empty string: no userId filter
@@ -205,7 +205,7 @@ class TaskMapper extends QBMapper {
 	 */
 	public function getTasksToCleanup(int $timeout, bool $force = false): \Generator {
 		$qb = $this->db->getQueryBuilder();
-		$qb->select(Task::$columns)
+		$qb->select(Task::COLUMNS)
 			->from($this->tableName)
 			->where($qb->expr()->lt('last_updated', $qb->createPositionalParameter($this->timeFactory->getDateTime()->getTimestamp() - $timeout)));
 		if (!$force) {
@@ -216,6 +216,7 @@ class TaskMapper extends QBMapper {
 		};
 	}
 
+	#[\Override]
 	public function update(Entity $entity): Entity {
 		$entity->setLastUpdated($this->timeFactory->now()->getTimestamp());
 		return parent::update($entity);
@@ -243,7 +244,7 @@ class TaskMapper extends QBMapper {
 	 */
 	public function findNOldestScheduledByType(array $taskTypes, array $taskIdsToIgnore, int $numberOfTasks) {
 		$qb = $this->db->getQueryBuilder();
-		$qb->select(Task::$columns)
+		$qb->select(Task::COLUMNS)
 			->from($this->tableName)
 			->where($qb->expr()->eq('status', $qb->createPositionalParameter(\OCP\TaskProcessing\Task::STATUS_SCHEDULED, IQueryBuilder::PARAM_INT)))
 			->setMaxResults($numberOfTasks)
@@ -263,6 +264,40 @@ class TaskMapper extends QBMapper {
 		}
 
 		return $this->findEntities($qb);
+	}
+
+	/**
+	 * @param list<string> $taskTypeIds
+	 * @param int $status
+	 * @return int
+	 * @throws Exception
+	 */
+	public function countByStatus(array $taskTypeIds, int $status): int {
+		if ($taskTypeIds === []) {
+			return $this->countByStatusQuery($status);
+		}
+
+		$count = 0;
+		foreach (array_chunk($taskTypeIds, 900) as $chunk) {
+			$count += $this->countByStatusQuery($status, $chunk);
+		}
+		return $count;
+	}
+
+	private function countByStatusQuery(int $status, ?array $taskTypeIds = null): int {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select($qb->func()->count('id'))
+			->from($this->tableName)
+			->where($qb->expr()->eq('status', $qb->createNamedParameter($status, IQueryBuilder::PARAM_INT)));
+
+		if ($taskTypeIds !== null) {
+			$qb->andWhere($qb->expr()->in('type', $qb->createNamedParameter($taskTypeIds, IQueryBuilder::PARAM_STR_ARRAY)));
+		}
+
+		$result = $qb->executeQuery();
+		$count = (int)$result->fetchOne();
+		$result->closeCursor();
+		return $count;
 	}
 
 	/**

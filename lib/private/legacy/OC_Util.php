@@ -7,16 +7,16 @@
  */
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Authentication\TwoFactorAuth\Manager as TwoFactorAuthManager;
-use OC\Files\Cache\Scanner;
 use OC\Files\Filesystem;
 use OC\Files\SetupManager;
+use OC\Files\Template\TemplateManager;
 use OC\Setup;
 use OC\SystemConfig;
+use OCP\App\IAppManager;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
-use OCP\Files\Template\ITemplateManager;
 use OCP\HintException;
 use OCP\IConfig;
 use OCP\IGroupManager;
@@ -26,7 +26,6 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
-use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
 use OCP\Share\IManager;
@@ -115,49 +114,10 @@ class OC_Util {
 	 * @param Folder $userDirectory
 	 * @throws NotFoundException
 	 * @throws NotPermittedException
-	 * @suppress PhanDeprecatedFunction
+	 * @deprecated 34.0.0 Not needed anymore, triggered automatically when UserFirstTimeLoggedInEvent is triggered
 	 */
 	public static function copySkeleton($userId, Folder $userDirectory) {
-		/** @var LoggerInterface $logger */
-		$logger = Server::get(LoggerInterface::class);
-
-		$plainSkeletonDirectory = Server::get(IConfig::class)->getSystemValueString('skeletondirectory', \OC::$SERVERROOT . '/core/skeleton');
-		$userLang = Server::get(IFactory::class)->findLanguage();
-		$skeletonDirectory = str_replace('{lang}', $userLang, $plainSkeletonDirectory);
-
-		if (!file_exists($skeletonDirectory)) {
-			$dialectStart = strpos($userLang, '_');
-			if ($dialectStart !== false) {
-				$skeletonDirectory = str_replace('{lang}', substr($userLang, 0, $dialectStart), $plainSkeletonDirectory);
-			}
-			if ($dialectStart === false || !file_exists($skeletonDirectory)) {
-				$skeletonDirectory = str_replace('{lang}', 'default', $plainSkeletonDirectory);
-			}
-			if (!file_exists($skeletonDirectory)) {
-				$skeletonDirectory = '';
-			}
-		}
-
-		$instanceId = Server::get(IConfig::class)->getSystemValue('instanceid', '');
-
-		if ($instanceId === null) {
-			throw new \RuntimeException('no instance id!');
-		}
-		$appdata = 'appdata_' . $instanceId;
-		if ($userId === $appdata) {
-			throw new \RuntimeException('username is reserved name: ' . $appdata);
-		}
-
-		if (!empty($skeletonDirectory)) {
-			$logger->debug('copying skeleton for ' . $userId . ' from ' . $skeletonDirectory . ' to ' . $userDirectory->getFullPath('/'), ['app' => 'files_skeleton']);
-			self::copyr($skeletonDirectory, $userDirectory);
-			// update the file cache
-			$userDirectory->getStorage()->getScanner()->scan('', Scanner::SCAN_RECURSIVE);
-
-			/** @var ITemplateManager $templateManager */
-			$templateManager = Server::get(ITemplateManager::class);
-			$templateManager->initializeTemplateDirectory(null, $userId);
-		}
+		Server::get(TemplateManager::class)->copySkeleton($userId);
 	}
 
 	/**
@@ -166,6 +126,7 @@ class OC_Util {
 	 * @param string $source
 	 * @param Folder $target
 	 * @return void
+	 * @deprecated 34.0.0 Unused, if you really need this functionality, open an issue on GitHub
 	 */
 	public static function copyr($source, Folder $target) {
 		$logger = Server::get(LoggerInterface::class);
@@ -565,44 +526,6 @@ class OC_Util {
 	}
 
 	/**
-	 * Check if the user is a admin, redirects to home if not
-	 *
-	 * @deprecated 32.0.0
-	 */
-	public static function checkAdminUser(): void {
-		self::checkLoggedIn();
-		if (!OC_User::isAdminUser(OC_User::getUser())) {
-			header('Location: ' . Util::linkToAbsolute('', 'index.php'));
-			exit();
-		}
-	}
-
-	/**
-	 * Returns the URL of the default page
-	 * based on the system configuration and
-	 * the apps visible for the current user
-	 *
-	 * @return string URL
-	 * @deprecated 32.0.0 use IURLGenerator's linkToDefaultPageUrl directly
-	 */
-	public static function getDefaultPageUrl() {
-		/** @var IURLGenerator $urlGenerator */
-		$urlGenerator = Server::get(IURLGenerator::class);
-		return $urlGenerator->linkToDefaultPageUrl();
-	}
-
-	/**
-	 * Redirect to the user default page
-	 *
-	 * @deprecated 32.0.0
-	 */
-	public static function redirectToDefaultPage(): void {
-		$location = self::getDefaultPageUrl();
-		header('Location: ' . $location);
-		exit();
-	}
-
-	/**
 	 * get an id unique for this instance
 	 *
 	 * @return string
@@ -615,45 +538,6 @@ class OC_Util {
 			Server::get(SystemConfig::class)->setValue('instanceid', $id);
 		}
 		return $id;
-	}
-
-	/**
-	 * Public function to sanitize HTML
-	 *
-	 * This function is used to sanitize HTML and should be applied on any
-	 * string or array of strings before displaying it on a web page.
-	 *
-	 * @param string|string[] $value
-	 * @return ($value is array ? string[] : string)
-	 * @deprecated 32.0.0 use \OCP\Util::sanitizeHTML instead
-	 */
-	public static function sanitizeHTML($value) {
-		if (is_array($value)) {
-			$value = array_map(function ($value) {
-				return self::sanitizeHTML($value);
-			}, $value);
-		} else {
-			// Specify encoding for PHP<5.4
-			$value = htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
-		}
-		return $value;
-	}
-
-	/**
-	 * Public function to encode url parameters
-	 *
-	 * This function is used to encode path to file before output.
-	 * Encoding is done according to RFC 3986 with one exception:
-	 * Character '/' is preserved as is.
-	 *
-	 * @param string $component part of URI to encode
-	 * @return string
-	 * @deprecated 32.0.0 use \OCP\Util::encodePath instead
-	 */
-	public static function encodePath($component) {
-		$encoded = rawurlencode($component);
-		$encoded = str_replace('%2F', '/', $encoded);
-		return $encoded;
 	}
 
 	/**
@@ -730,21 +614,26 @@ class OC_Util {
 	}
 
 	/**
-	 * Handles the case that there may not be a theme, then check if a "default"
-	 * theme exists and take that one
+	 * Returns the name of the active legacy theme.
 	 *
-	 * @return string the theme
+	 * This method does not verify that the configured theme directory exists. It
+	 * only applies to the legacy filesystem-based theme mechanism, not the modern
+	 * theming app.
+	 *
+	 * @return string The configured legacy theme name, `default` as a fallback if present, or an empty string if there is no active legacy theme.
 	 */
 	public static function getTheme() {
-		$theme = Server::get(SystemConfig::class)->getValue('theme', '');
+		$themeName = Server::get(SystemConfig::class)->getValue('theme', '');
 
-		if ($theme === '') {
-			if (is_dir(OC::$SERVERROOT . '/themes/default')) {
-				$theme = 'default';
-			}
+		if ($themeName !== '') {
+			return $themeName;
 		}
 
-		return $theme;
+		if (is_dir(OC::$SERVERROOT . '/themes/default')) {
+			return 'default';
+		}
+
+		return '';
 	}
 
 	/**
@@ -787,14 +676,14 @@ class OC_Util {
 	 * @deprecated 32.0.0 Use \OCP\Util::needUpgrade() instead.
 	 * @see \OCP\Util::needUpgrade
 	 */
-	public static function needUpgrade(\OC\SystemConfig $config): bool {
+	public static function needUpgrade(SystemConfig $config): bool {
 		if (!$config->getValue('installed', false)) {
 			// not installed (nothing to do)
 			return false;
 		}
 
 		$installedVersion = (string)$config->getValue('version', '0.0.0');
-		$codeVersion = implode('.', \OCP\Util::getVersion());
+		$codeVersion = implode('.', Util::getVersion());
 
 		// codebase newer: upgrade needed
 		if (version_compare($codeVersion, $installedVersion, '>')) {
@@ -815,12 +704,12 @@ class OC_Util {
 
 			// disallow downgrade (not in debug mode or major.minor mismatch)
 			/** @var \Psr\Log\LoggerInterface $logger */
-			$logger = \OCP\Server::get(LoggerInterface::class);
+			$logger = Server::get(LoggerInterface::class);
 			$logger->error(
 				'Detected downgrade attempt from installed {installed} to code {code}',
 				[ 'installed' => $installedVersion, 'code' => $codeVersion, 'app' => 'core', ]
 			);
-			throw new \OCP\HintException(sprintf(
+			throw new HintException(sprintf(
 				'Downgrading Nextcloud from %s to %s is not supported and may corrupt your instance (database and data directory). '
 				. 'Restore a full backup (code, database, and data directory) taken before the change, '
 				. 'or restore the previous codebase so that it matches the installed version (version %s).',
@@ -829,7 +718,7 @@ class OC_Util {
 		}
 
 		// versions are equal: check whether any enabled apps need upgrading
-		$appManager = \OCP\Server::get(\OCP\App\IAppManager::class);
+		$appManager = Server::get(IAppManager::class);
 		$apps = $appManager->getEnabledApps();
 		foreach ($apps as $app) {
 			if ($appManager->isUpgradeRequired($app)) {

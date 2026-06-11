@@ -18,11 +18,11 @@ use OCP\Server;
 class DataResponseTest extends \Test\TestCase {
 	private DataResponse $response;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->response = new DataResponse();
 	}
-
 
 	public function testSetData(): void {
 		$params = ['hi', 'yo'];
@@ -30,7 +30,6 @@ class DataResponseTest extends \Test\TestCase {
 
 		$this->assertEquals(['hi', 'yo'], $this->response->getData());
 	}
-
 
 	public function testConstructorAllowsToSetData(): void {
 		$data = ['hi'];
@@ -40,7 +39,6 @@ class DataResponseTest extends \Test\TestCase {
 		$this->assertEquals($data, $response->getData());
 		$this->assertEquals($code, $response->getStatus());
 	}
-
 
 	public function testConstructorAllowsToSetHeaders(): void {
 		$data = ['hi'];
@@ -61,7 +59,6 @@ class DataResponseTest extends \Test\TestCase {
 		$this->assertEquals($code, $response->getStatus());
 		$this->assertEquals($expectedHeaders, $response->getHeaders());
 	}
-
 
 	public function testChainability(): void {
 		$params = ['hi', 'yo'];

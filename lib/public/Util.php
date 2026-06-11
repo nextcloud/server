@@ -16,7 +16,6 @@ use OC\AppScriptSort;
 use OC\Security\CSRF\CsrfTokenManager;
 use OCP\L10N\IFactory;
 use OCP\Mail\IEmailValidator;
-use OCP\Share\IManager;
 use Psr\Container\ContainerExceptionInterface;
 
 /**
@@ -25,11 +24,14 @@ use Psr\Container\ContainerExceptionInterface;
  * @since 4.0.0
  */
 class Util {
-	private static ?IManager $shareManager = null;
-
+	/** @psalm-suppress ImpureStaticProperty legacy stuff, keep them for now */
 	private static array $scriptsInit = [];
+	/** @psalm-suppress ImpureStaticProperty */
 	private static array $scripts = [];
+	/** @psalm-suppress ImpureStaticProperty */
 	private static array $scriptDeps = [];
+	/** @psalm-suppress ImpureStaticProperty */
+	private static ?bool $needUpgradeCache = null;
 
 	/**
 	 * get the current installed version of Nextcloud
@@ -51,16 +53,17 @@ class Util {
 			return $subscriptionRegistry->delegateHasExtendedSupport();
 		} catch (ContainerExceptionInterface $e) {
 		}
-		return \OCP\Server::get(IConfig::class)->getSystemValueBool('extendedSupport', false);
+		return Server::get(IConfig::class)->getSystemValueBool('extendedSupport', false);
 	}
 
 	/**
 	 * Set current update channel
 	 * @param string $channel
 	 * @since 8.1.0
+	 * @deprecated 33.0.0 Use \OCP\ServerVersion::setChannel
 	 */
 	public static function setChannel($channel) {
-		\OCP\Server::get(IConfig::class)->setSystemValue('updater.release.channel', $channel);
+		Server::get(IConfig::class)->setSystemValue('updater.release.channel', $channel);
 	}
 
 	/**
@@ -70,24 +73,7 @@ class Util {
 	 * @deprecated 31.0.0 Use \OCP\ServerVersion::getChannel
 	 */
 	public static function getChannel() {
-		return \OCP\Server::get(ServerVersion::class)->getChannel();
-	}
-
-	/**
-	 * check if sharing is disabled for the current user
-	 *
-	 * @return boolean
-	 * @since 7.0.0
-	 * @deprecated 9.1.0 Use Server::get(\OCP\Share\IManager::class)->sharingDisabledForUser
-	 */
-	public static function isSharingDisabledForUser() {
-		if (self::$shareManager === null) {
-			self::$shareManager = Server::get(IManager::class);
-		}
-
-		$user = Server::get(\OCP\IUserSession::class)->getUser();
-
-		return self::$shareManager->sharingDisabledForUser($user?->getUID());
+		return Server::get(ServerVersion::class)->getChannel();
 	}
 
 	/**
@@ -182,22 +168,33 @@ class Util {
 	 */
 	public static function getScripts(): array {
 		// Sort scriptDeps into sortedScriptDeps
-		$scriptSort = \OCP\Server::get(AppScriptSort::class);
+		$scriptSort = Server::get(AppScriptSort::class);
 		$sortedScripts = $scriptSort->sort(self::$scripts, self::$scriptDeps);
 
 		// Flatten array and remove duplicates
 		$sortedScripts = array_merge([self::$scriptsInit], $sortedScripts);
 		$sortedScripts = array_merge(...array_values($sortedScripts));
+		$sortedScripts = array_unique($sortedScripts);
 
-		// Override core-common and core-main order
-		if (in_array('core/js/main', $sortedScripts)) {
-			array_unshift($sortedScripts, 'core/js/main');
-		}
-		if (in_array('core/js/common', $sortedScripts)) {
-			array_unshift($sortedScripts, 'core/js/common');
-		}
+		usort($sortedScripts, fn (string $a, string $b) => self::scriptOrderValue($b) <=> self::scriptOrderValue($a));
+		return $sortedScripts;
+	}
 
-		return array_unique($sortedScripts);
+	/**
+	 * Gets a numeric value based on the script name.
+	 * This is used to ensure that the global state is initialized before all other scripts.
+	 *
+	 * @param string $name - The script name
+	 * @since 34.0.0
+	 */
+	private static function scriptOrderValue(string $name): int {
+		return match($name) {
+			'core/js/common' => 3,
+			'core/js/main' => 2,
+			default => str_starts_with($name, 'core/l10n/')
+				? 1 // core translations have to be loaded directly after core-main
+				: 0, // other scripts should preserve their current order
+		};
 	}
 
 	/**
@@ -209,7 +206,7 @@ class Util {
 	 */
 	public static function addTranslations($application, $languageCode = null, $init = false) {
 		if (is_null($languageCode)) {
-			$languageCode = \OCP\Server::get(IFactory::class)->findLanguage($application);
+			$languageCode = Server::get(IFactory::class)->findLanguage($application);
 		}
 		if (!empty($application)) {
 			$path = "$application/l10n/$languageCode";
@@ -245,9 +242,10 @@ class Util {
 	 *                    The value of $args will be urlencoded
 	 * @return string the url
 	 * @since 4.0.0 - parameter $args was added in 4.5.0
+	 * @deprecated 34.0.0 Use IUrlGenerator::getAbsoluteUrl and IUrlGenerator::linkTo
 	 */
 	public static function linkToAbsolute($app, $file, $args = []) {
-		$urlGenerator = \OCP\Server::get(IURLGenerator::class);
+		$urlGenerator = Server::get(IURLGenerator::class);
 		return $urlGenerator->getAbsoluteURL(
 			$urlGenerator->linkTo($app, $file, $args)
 		);
@@ -255,16 +253,15 @@ class Util {
 
 	/**
 	 * Creates an absolute url for remote use.
+	 *
 	 * @param string $service id
 	 * @return string the url
 	 * @since 4.0.0
+	 * @deprecated 34.0.0 Use IURlGenerator::linkToRemote
 	 */
-	public static function linkToRemote($service) {
-		$urlGenerator = \OCP\Server::get(IURLGenerator::class);
-		$remoteBase = $urlGenerator->linkTo('', 'remote.php') . '/' . $service;
-		return $urlGenerator->getAbsoluteURL(
-			$remoteBase . (($service[strlen($service) - 1] != '/') ? '/' : '')
-		);
+	public static function linkToRemote(string $service): string {
+		$urlGenerator = Server::get(IURLGenerator::class);
+		return $urlGenerator->linkToRemote($service);
 	}
 
 	/**
@@ -273,10 +270,10 @@ class Util {
 	 * @since 5.0.0
 	 */
 	public static function getServerHostName() {
-		$host_name = \OCP\Server::get(IRequest::class)->getServerHost();
+		$host_name = Server::get(IRequest::class)->getServerHost();
 		// strip away port number (if existing)
 		$colon_pos = strpos($host_name, ':');
-		if ($colon_pos != false) {
+		if ($colon_pos !== false) {
 			$host_name = substr($host_name, 0, $colon_pos);
 		}
 		return $host_name;
@@ -299,13 +296,13 @@ class Util {
 	 * @since 5.0.0
 	 */
 	public static function getDefaultEmailAddress(string $user_part): string {
-		$config = \OCP\Server::get(IConfig::class);
+		$config = Server::get(IConfig::class);
 		$user_part = $config->getSystemValueString('mail_from_address', $user_part);
 		$host_name = self::getServerHostName();
 		$host_name = $config->getSystemValueString('mail_domain', $host_name);
 		$defaultEmailAddress = $user_part . '@' . $host_name;
 
-		$emailValidator = \OCP\Server::get(IEmailValidator::class);
+		$emailValidator = Server::get(IEmailValidator::class);
 		if ($emailValidator->isValid($defaultEmailAddress)) {
 			return $defaultEmailAddress;
 		}
@@ -433,23 +430,12 @@ class Util {
 	}
 
 	/**
-	 * Cached encrypted CSRF token. Some static unit-tests of ownCloud compare
-	 * multiple Template elements which invoke `callRegister`. If the value
-	 * would not be cached these unit-tests would fail.
-	 * @var string
-	 */
-	private static $token = '';
-
-	/**
 	 * Register an get/post call. This is important to prevent CSRF attacks
 	 * @since 4.5.0
 	 * @deprecated 32.0.0 directly use CsrfTokenManager instead
 	 */
 	public static function callRegister() {
-		if (self::$token === '') {
-			self::$token = \OCP\Server::get(CsrfTokenManager::class)->getToken()->getEncryptedValue();
-		}
-		return self::$token;
+		return Server::get(CsrfTokenManager::class)->getToken()->getEncryptedValue();
 	}
 
 	/**
@@ -458,12 +444,17 @@ class Util {
 	 * This function is used to sanitize HTML and should be applied on any
 	 * string or array of strings before displaying it on a web page.
 	 *
-	 * @param string|string[] $value
+	 * @param string|string[]|null $value
 	 * @return ($value is array ? string[] : string) an array of sanitized strings or a single sanitized string, depends on the input parameter.
 	 * @since 4.5.0
 	 */
-	public static function sanitizeHTML($value) {
-		return \OC_Util::sanitizeHTML($value);
+	public static function sanitizeHTML(string|array|null $value): string|array {
+		if (is_array($value)) {
+			return array_map(function (string $value): string {
+				return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
+			}, $value);
+		}
+		return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
 	}
 
 	/**
@@ -477,8 +468,9 @@ class Util {
 	 * @return string
 	 * @since 6.0.0
 	 */
-	public static function encodePath($component) {
-		return \OC_Util::encodePath($component);
+	public static function encodePath(string $component): string {
+		$encoded = rawurlencode($component);
+		return str_replace('%2F', '/', $encoded);
 	}
 
 	/**
@@ -491,37 +483,12 @@ class Util {
 	 * @since 4.5.0
 	 */
 	public static function mb_array_change_key_case($input, $case = MB_CASE_LOWER, $encoding = 'UTF-8') {
-		$case = ($case != MB_CASE_UPPER) ? MB_CASE_LOWER : MB_CASE_UPPER;
+		$case = ($case !== MB_CASE_UPPER) ? MB_CASE_LOWER : MB_CASE_UPPER;
 		$ret = [];
 		foreach ($input as $k => $v) {
 			$ret[mb_convert_case($k, $case, $encoding)] = $v;
 		}
 		return $ret;
-	}
-
-	/**
-	 * performs a search in a nested array
-	 *
-	 * @param array $haystack the array to be searched
-	 * @param string $needle the search string
-	 * @param mixed $index optional, only search this key name
-	 * @return mixed the key of the matching field, otherwise false
-	 * @since 4.5.0
-	 * @deprecated 15.0.0
-	 */
-	public static function recursiveArraySearch($haystack, $needle, $index = null) {
-		$aIt = new \RecursiveArrayIterator($haystack);
-		$it = new \RecursiveIteratorIterator($aIt);
-
-		while ($it->valid()) {
-			if (((isset($index) && ($it->key() == $index)) || !isset($index)) && ($it->current() == $needle)) {
-				return $aIt->key();
-			}
-
-			$it->next();
-		}
-
-		return false;
 	}
 
 	/**
@@ -592,21 +559,22 @@ class Util {
 	 * @param bool $checkGroupMembership Check group membership exclusion
 	 * @return boolean
 	 * @since 7.0.0
+	 * @deprecated 34.0.0 use OCP\Share\IManager's shareApiLinkEnforcePassword directly
 	 */
 	public static function isPublicLinkPasswordRequired(bool $checkGroupMembership = true) {
 		return \OC_Util::isPublicLinkPasswordRequired($checkGroupMembership);
 	}
 
 	/**
-	 * check if share API enforces a default expire date
+	 * Check if share API enforces a default expire date
+	 *
 	 * @return boolean
 	 * @since 8.0.0
+	 * @deprecated 34.0.0 use OCP\Share\IManager's shareApiLinkDefaultExpireDateEnforced directly
 	 */
 	public static function isDefaultExpireDateEnforced() {
 		return \OC_Util::isDefaultExpireDateEnforced();
 	}
-
-	protected static $needUpgradeCache = null;
 
 	/**
 	 * Checks whether the current version needs upgrade.
@@ -615,8 +583,8 @@ class Util {
 	 * @since 7.0.0
 	 */
 	public static function needUpgrade() {
-		if (!isset(self::$needUpgradeCache)) {
-			self::$needUpgradeCache = \OC_Util::needUpgrade(\OCP\Server::get(\OC\SystemConfig::class));
+		if (self::$needUpgradeCache === null) {
+			self::$needUpgradeCache = \OC_Util::needUpgrade(Server::get(\OC\SystemConfig::class));
 		}
 		return self::$needUpgradeCache;
 	}

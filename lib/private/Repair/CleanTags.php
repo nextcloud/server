@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Repair;
 
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -28,6 +29,7 @@ class CleanTags implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Clean tags and favorites';
 	}
@@ -35,6 +37,7 @@ class CleanTags implements IRepairStep {
 	/**
 	 * Updates the configuration after running an update
 	 */
+	#[\Override]
 	public function run(IOutput $output): void {
 		$this->deleteOrphanTags($output);
 		$this->deleteOrphanFileEntries($output);

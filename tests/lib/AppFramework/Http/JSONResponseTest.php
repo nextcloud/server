@@ -17,17 +17,16 @@ class JSONResponseTest extends \Test\TestCase {
 	 */
 	private $json;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->json = new JSONResponse();
 	}
 
-
 	public function testHeader(): void {
 		$headers = $this->json->getHeaders();
 		$this->assertEquals('application/json; charset=utf-8', $headers['Content-Type']);
 	}
-
 
 	public function testSetData(): void {
 		$params = ['hi', 'yo'];
@@ -35,7 +34,6 @@ class JSONResponseTest extends \Test\TestCase {
 
 		$this->assertEquals(['hi', 'yo'], $this->json->getData());
 	}
-
 
 	public function testSetRender(): void {
 		$params = ['test' => 'hi'];
@@ -66,7 +64,6 @@ class JSONResponseTest extends \Test\TestCase {
 		$this->json->setData($input);
 		$this->assertEquals($expected, $this->json->render());
 	}
-
 
 	public function testRenderWithNonUtf8Encoding(): void {
 		$this->expectException(\JsonException::class);

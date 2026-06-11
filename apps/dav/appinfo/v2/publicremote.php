@@ -6,6 +6,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 use OC\Files\Filesystem;
+use OC\Files\Storage\Wrapper\DirPermissionsMask;
 use OC\Files\Storage\Wrapper\PermissionsMask;
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\PublicAuth;
@@ -21,6 +22,7 @@ use OCP\App\IAppManager;
 use OCP\BeforeSabrePubliclyLoadedEvent;
 use OCP\Constants;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\IHomeStorage;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
 use OCP\ICacheFactory;
@@ -81,7 +83,6 @@ $serverFactory = new ServerFactory(
 	$l10nFactory->get('dav'),
 );
 
-
 $linkCheckPlugin = new PublicLinkCheckPlugin();
 $filesDropPlugin = new FilesDropPlugin();
 
@@ -99,7 +100,6 @@ $server = $serverFactory->createServer(true, $baseuri, $requestUri, $authPlugin,
 	}
 
 	$share = $authBackend->getShare();
-	$owner = $share->getShareOwner();
 	$isReadable = $share->getPermissions() & Constants::PERMISSION_READ;
 	$fileId = $share->getNodeId();
 
@@ -117,7 +117,15 @@ $server = $serverFactory->createServer(true, $baseuri, $requestUri, $authPlugin,
 			$mask |= Constants::PERMISSION_READ | Constants::PERMISSION_DELETE;
 		}
 
-		return new PermissionsMask(['storage' => $storage, 'mask' => $mask]);
+		if ($storage instanceof IHomeStorage) {
+			return new DirPermissionsMask([
+				'storage' => $storage,
+				'mask' => $mask,
+				'path' => 'files',
+			]);
+		} else {
+			return new PermissionsMask(['storage' => $storage, 'mask' => $mask]);
+		}
 	});
 
 	/** @psalm-suppress MissingClosureParamType */
@@ -135,7 +143,7 @@ $server = $serverFactory->createServer(true, $baseuri, $requestUri, $authPlugin,
 	Filesystem::logWarningWhenAddingStorageWrapper($previousLog);
 
 	$rootFolder = Server::get(IRootFolder::class);
-	$userFolder = $rootFolder->getUserFolder($owner);
+	$userFolder = $rootFolder->getUserFolder($share->getSharedBy());
 	$node = $userFolder->getFirstNodeById($fileId);
 	if (!$node) {
 		throw new NotFound();

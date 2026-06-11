@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Log;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -29,6 +30,7 @@ class Rotate extends TimedJob {
 		$this->setInterval(3600);
 	}
 
+	#[\Override]
 	public function run($argument): void {
 		$config = Server::get(IConfig::class);
 		$this->filePath = $config->getSystemValueString('logfile', $config->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/nextcloud.log');

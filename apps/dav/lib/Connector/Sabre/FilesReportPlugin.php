@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\Files\View;
@@ -80,6 +81,7 @@ class FilesReportPlugin extends ServerPlugin {
 	 * @param \Sabre\DAV\Server $server
 	 * @return void
 	 */
+	#[\Override]
 	public function initialize(\Sabre\DAV\Server $server) {
 		$server->xml->namespaceMap[self::NS_OWNCLOUD] = 'oc';
 
@@ -95,6 +97,7 @@ class FilesReportPlugin extends ServerPlugin {
 	 * @param string $uri
 	 * @return array
 	 */
+	#[\Override]
 	public function getSupportedReportSet($uri) {
 		return [self::REPORT_NAME];
 	}
@@ -307,7 +310,6 @@ class FilesReportPlugin extends ServerPlugin {
 		}
 		return Circles::getFilesForCircles($circlesIds);
 	}
-
 
 	/**
 	 * Prepare propfind response for the given nodes

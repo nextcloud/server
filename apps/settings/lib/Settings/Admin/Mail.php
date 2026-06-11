@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Settings\Admin;
 
 use OCP\AppFramework\Http\TemplateResponse;
@@ -29,6 +30,7 @@ class Mail implements IDelegatedSettings {
 	/**
 	 * @return TemplateResponse
 	 */
+	#[\Override]
 	public function getForm() {
 		$finder = Server::get(IBinaryFinder::class);
 
@@ -90,6 +92,7 @@ class Mail implements IDelegatedSettings {
 	/**
 	 * @return string the section ID, e.g. 'sharing'
 	 */
+	#[\Override]
 	public function getSection() {
 		return 'server';
 	}
@@ -101,14 +104,17 @@ class Mail implements IDelegatedSettings {
 	 *
 	 * E.g.: 70
 	 */
+	#[\Override]
 	public function getPriority() {
 		return 10;
 	}
 
+	#[\Override]
 	public function getName(): ?string {
 		return $this->l->t('Email server');
 	}
 
+	#[\Override]
 	public function getAuthorizedAppConfig(): array {
 		return [];
 	}

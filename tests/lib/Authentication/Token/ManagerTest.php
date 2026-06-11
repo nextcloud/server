@@ -24,6 +24,7 @@ class ManagerTest extends TestCase {
 	/** @var Manager */
 	private $manager;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -102,7 +103,6 @@ class ManagerTest extends TestCase {
 		$token = $this->createMock(IToken::class);
 		$token->method('getName')
 			->willReturn(str_repeat('a', 120) . '…');
-
 
 		$this->publicKeyTokenProvider->expects($this->once())
 			->method('generateToken')

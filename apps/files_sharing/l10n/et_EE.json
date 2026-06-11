@@ -384,7 +384,7 @@
     "Upload files to {folder}" : "Laadi failid üles kausta {folder}",
     "Please confirm your name to upload files to {folder}" : "Laadimaks faile {folder} kausta, palun kinnita oma nimi",
     "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} jagas sinuga kausta.",
-    "Names must not be empty." : "Nimed ei tohi ollla tühjad.",
+    "Names must not be empty." : "Nimed ei tohi olla tühjad.",
     "Names must not start with a dot." : "Nime alguses ei tohi olla punkti.",
     "\"{char}\" is not allowed inside a name." : "„{char}“ pole failinimedes lubatud.",
     "\"{segment}\" is a reserved name and not allowed." : "„{segment}“ on reserveeritud nimi ja seda ei saa kasutada.",
@@ -403,8 +403,6 @@
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "„%s“ jagamine ei õnnestunud, sest taustateenus ei toeta ScienceMeshi meedia jagamist",
     "Name or email …" : "Nimi või e-posti aadress…",
     "Name, email, or Federated Cloud ID …" : "Nimi, e-posti aadress või liitpilve kasutajatunnus…",
-    "Searching …" : "Otsin...",
-    "Error deleting the share: {errorMessage}" : "Viga jagamise kustutamisel: {errorMessage}",
-    "Error updating the share: {errorMessage}" : "Viga jaosmeedia uuendamisel: {errorMessage}"
+    "Searching …" : "Otsin..."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -14,7 +14,6 @@ use Sabre\DAV\Xml\Property\ResourceType;
 
 require __DIR__ . '/autoload.php';
 
-
 trait WebDav {
 	use Sharing;
 
@@ -332,6 +331,23 @@ trait WebDav {
 					$this->response->getBody()->getContents()
 				)
 			);
+		}
+	}
+
+	/**
+	 * @When Uploading public file :filename with content :content
+	 */
+	public function uploadingPublicFile(string $filename, string $content) {
+		$token = $this->lastShareData->data->token;
+		$fullUrl = substr($this->baseUrl, 0, -4) . "public.php/dav/files/$token/$filename";
+
+		$client = new GClient();
+		try {
+			$this->response = $client->request('PUT', $fullUrl, [
+				'body' => $content
+			]);
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$this->response = $e->getResponse();
 		}
 	}
 
@@ -859,7 +875,6 @@ trait WebDav {
 		}
 	}
 
-
 	/**
 	 * @Given user :user creates a new chunking v2 upload with id :id and destination :targetDestination
 	 */
@@ -1011,7 +1026,7 @@ trait WebDav {
 	 */
 	public function connectingToDavEndpoint() {
 		try {
-			$this->response = $this->makeDavRequest(null, 'PROPFIND', '', []);
+			$this->response = $this->makeDavRequest($this->currentUser, 'PROPFIND', '', []);
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			$this->response = $e->getResponse();
 		}
@@ -1087,7 +1102,6 @@ trait WebDav {
 			$this->userDeletesFile($user, 'element', $element);
 		}
 	}
-
 
 	/**
 	 * @param string $user

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings;
 
 use OCP\Config\IUserConfig;
@@ -29,16 +30,19 @@ class ConfigLexicon implements ILexicon {
 	public const USER_LIST_SHOW_NEW_USER_FORM = 'user_list_show_new_user_form';
 	public const USER_LIST_SHOW_LANGUAGES = 'user_list_show_languages';
 
+	#[\Override]
 	public function getStrictness(): Strictness {
 		return Strictness::IGNORE;
 	}
 
+	#[\Override]
 	public function getAppConfigs(): array {
 		return [
-			new Entry(key: self::LOGIN_QRCODE_ONETIME, type: ValueType::BOOL, defaultRaw: false, definition: 'Use onetime QR codes for app passwords', note: 'Limits compatibility for mobile apps to versions released in 2026 or later'),
+			new Entry(key: self::LOGIN_QRCODE_ONETIME, type: ValueType::BOOL, defaultRaw: true, definition: 'Use onetime QR codes for app passwords', note: 'Limits compatibility for mobile apps to versions released in 2026 or later'),
 		];
 	}
 
+	#[\Override]
 	public function getUserConfigs(): array {
 		return [
 			new Entry(

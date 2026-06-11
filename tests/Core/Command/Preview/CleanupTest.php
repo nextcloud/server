@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace Core\Command\Preview;
 
 use OC\Core\Command\Preview\Cleanup;
@@ -26,6 +27,7 @@ class CleanupTest extends TestCase {
 	private PreviewService&MockObject $previewService;
 	private Cleanup $repair;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->rootFolder = $this->createMock(IRootFolder::class);

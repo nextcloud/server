@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Migrations;
 
 use Closure;
@@ -21,6 +22,7 @@ use OCP\Migration\SimpleMigrationStep;
  */
 #[DropIndex(table: 'filecache', type: IndexType::INDEX, description: 'remove index fs_id_storage_size (concurrent with PRIMARY KEY)')]
 class Version31000Date20250213102442 extends SimpleMigrationStep {
+	#[\Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();

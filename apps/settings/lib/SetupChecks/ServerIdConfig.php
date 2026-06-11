@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\SetupChecks;
 
 use OCP\IConfig;
@@ -50,9 +51,9 @@ final class ServerIdConfig implements ISetupCheck {
 			);
 		}
 
-		if ($serverid < 0 || $serverid > 1023) {
+		if ($serverid < 0 || $serverid > 511) {
 			return SetupResult::error(
-				$this->l10n->t('"%d" is not a valid server identifier. It must be between 0 and 1023.', [$serverid]),
+				$this->l10n->t('"%d" is not a valid server identifier. It must be between 0 and 511.', [$serverid]),
 				$linkToDoc,
 			);
 		}

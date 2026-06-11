@@ -50,6 +50,7 @@ class PersonalInfo implements ISettings {
 	) {
 	}
 
+	#[\Override]
 	public function getForm(): TemplateResponse {
 		$federationEnabled = $this->appManager->isEnabledForUser('federation');
 		$federatedFileSharingEnabled = $this->appManager->isEnabledForUser('federatedfilesharing');
@@ -161,6 +162,7 @@ class PersonalInfo implements ISettings {
 	 * returns the section ID string, e.g. 'sharing'
 	 * @since 9.1
 	 */
+	#[\Override]
 	public function getSection(): string {
 		return 'personal-info';
 	}
@@ -173,6 +175,7 @@ class PersonalInfo implements ISettings {
 	 * E.g.: 70
 	 * @since 9.1
 	 */
+	#[\Override]
 	public function getPriority(): int {
 		return 10;
 	}

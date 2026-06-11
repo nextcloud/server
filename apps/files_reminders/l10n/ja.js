@@ -20,6 +20,7 @@ OC.L10N.register(
     "Cancel" : "キャンセル",
     "Clear reminder" : "リマインダーをクリア",
     "Set reminder" : "リマインダーを設定",
+    "Set reminder for " : "リマインダーを設定する",
     "Reminder set" : "リマインダーセット",
     "Custom reminder" : "カスタムリマインダー",
     "Later today" : "今日この後",

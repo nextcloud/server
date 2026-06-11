@@ -3,8 +3,7 @@
 declare(strict_types=1);
 
 /**
- * SPDX-FileCopyrightText: 2025 Nextcloud GmbH
- * SPDX-FileContributor: Carl Schwan
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
@@ -31,19 +30,10 @@ class MiddlewareUtils {
 	 * @param ReflectionMethod $reflectionMethod
 	 * @param ?string $annotationName
 	 * @param class-string<T> $attributeClass
-	 * @return boolean
+	 * @deprecated 34.0.0 call directly on the reflector
 	 */
 	public function hasAnnotationOrAttribute(ReflectionMethod $reflectionMethod, ?string $annotationName, string $attributeClass): bool {
-		if (!empty($reflectionMethod->getAttributes($attributeClass))) {
-			return true;
-		}
-
-		if ($annotationName && $this->reflector->hasAnnotation($annotationName)) {
-			$this->logger->debug($reflectionMethod->getDeclaringClass()->getName() . '::' . $reflectionMethod->getName() . ' uses the @' . $annotationName . ' annotation and should use the #[' . $attributeClass . '] attribute instead');
-			return true;
-		}
-
-		return false;
+		return $this->reflector->hasAnnotationOrAttribute($annotationName, $attributeClass);
 	}
 
 	/**

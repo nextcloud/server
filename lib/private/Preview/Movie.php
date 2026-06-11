@@ -27,6 +27,7 @@ class Movie extends ProviderV2 {
 		$this->config = Server::get(IConfig::class);
 	}
 
+	#[\Override]
 	public function getMimeType(): string {
 		return '/video\/.*/';
 	}
@@ -34,6 +35,7 @@ class Movie extends ProviderV2 {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function isAvailable(FileInfo $file): bool {
 		if (is_null($this->binary)) {
 			if (isset($this->options['movieBinary'])) {
@@ -63,6 +65,7 @@ class Movie extends ProviderV2 {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
 		// TODO: use proc_open() and stream the source file ?
 
@@ -286,8 +289,10 @@ class Movie extends ProviderV2 {
 		if ($test_hdr_proc === false) {
 			return false;
 		}
-		$test_hdr_stdout = trim(stream_get_contents($test_hdr_pipes[1]));
+		// Read stderr before stdout: ffprobe's stderr can exceed 64KB (OS pipe buffer) for certain
+		// files, causing a deadlock if stdout is read first. stdout is always a short string.
 		$test_hdr_stderr = trim(stream_get_contents($test_hdr_pipes[2]));
+		$test_hdr_stdout = trim(stream_get_contents($test_hdr_pipes[1]));
 		proc_close($test_hdr_proc);
 		// search build options for libzimg (provides zscale filter)
 		$ffmpeg_libzimg_installed = strpos($test_hdr_stderr, '--enable-libzimg');
@@ -338,6 +343,8 @@ class Movie extends ProviderV2 {
 		$returnCode = -1;
 		$output = '';
 		if (is_resource($proc)) {
+			// Read stderr before stdout: ffmpeg's stderr can exceed 64KB (OS pipe buffer) for certain
+			// files, causing a deadlock if stdout is read first. stdout is always empty.
 			$stderr = trim(stream_get_contents($pipes[2]));
 			$stdout = trim(stream_get_contents($pipes[1]));
 			$returnCode = proc_close($proc);

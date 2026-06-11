@@ -26,6 +26,7 @@ class Move extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('files:move')
@@ -35,6 +36,7 @@ class Move extends Command {
 			->addOption('force', 'f', InputOption::VALUE_NONE, "Don't ask for configuration and don't output any warnings");
 	}
 
+	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$sourceInput = $input->getArgument('source');
 		$targetInput = $input->getArgument('target');

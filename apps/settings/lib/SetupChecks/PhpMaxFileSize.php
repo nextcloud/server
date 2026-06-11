@@ -24,14 +24,17 @@ class PhpMaxFileSize implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'php';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('PHP file size upload limit');
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		$upload_max_filesize = (string)$this->iniGetWrapper->getString('upload_max_filesize');
 		$post_max_size = (string)$this->iniGetWrapper->getString('post_max_size');

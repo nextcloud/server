@@ -29,7 +29,6 @@ use OC\AppFramework\Middleware\Security\CSPMiddleware;
 use OC\AppFramework\Middleware\Security\FeaturePolicyMiddleware;
 use OC\AppFramework\Middleware\Security\PasswordConfirmationMiddleware;
 use OC\AppFramework\Middleware\Security\RateLimitingMiddleware;
-use OC\AppFramework\Middleware\Security\ReloadExecutionMiddleware;
 use OC\AppFramework\Middleware\Security\SameSiteCookieMiddleware;
 use OC\AppFramework\Middleware\Security\SecurityMiddleware;
 use OC\AppFramework\Middleware\SessionMiddleware;
@@ -38,6 +37,7 @@ use OC\AppFramework\Services\AppConfig;
 use OC\AppFramework\Services\InitialState;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\AppFramework\Utility\SimpleContainer;
+use OC\CapabilitiesManager;
 use OC\Core\Middleware\TwoFactorMiddleware;
 use OC\Diagnostics\EventLogger;
 use OC\Log\PsrLoggerAdapter;
@@ -75,6 +75,7 @@ use Psr\Log\LoggerInterface;
 class DIContainer extends SimpleContainer implements IAppContainer {
 	private array $middleWares = [];
 	private ServerContainer $server;
+	private IAppManager $appManager;
 
 	public function __construct(
 		protected string $appName,
@@ -92,6 +93,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			$server = \OC::$server;
 		}
 		$this->server = $server;
+		$this->appManager = $this->server->get(IAppManager::class);
 		$this->server->registerAppContainer($this->appName, $this);
 
 		// aliases
@@ -199,7 +201,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 			$dispatcher->registerMiddleware($c->get(CompressionMiddleware::class));
 			$dispatcher->registerMiddleware($c->get(NotModifiedMiddleware::class));
-			$dispatcher->registerMiddleware($c->get(ReloadExecutionMiddleware::class));
 			$dispatcher->registerMiddleware($c->get(SameSiteCookieMiddleware::class));
 			$dispatcher->registerMiddleware($c->get(CORSMiddleware::class));
 			$dispatcher->registerMiddleware($c->get(OCSMiddleware::class));
@@ -255,6 +256,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		$this->registerAlias(IInitialState::class, InitialState::class);
 	}
 
+	#[\Override]
 	public function getServer(): ServerContainer {
 		return $this->server;
 	}
@@ -262,6 +264,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	/**
 	 * @param string $middleWare
 	 */
+	#[\Override]
 	public function registerMiddleWare($middleWare): bool {
 		if (in_array($middleWare, $this->middleWares, true) !== false) {
 			return false;
@@ -274,6 +277,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * used to return the appname of the set application
 	 * @return string the name of your application
 	 */
+	#[\Override]
 	public function getAppName() {
 		return $this->query('appName');
 	}
@@ -304,12 +308,14 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 *
 	 * @param string $serviceName e.g. 'OCA\Files\Capabilities'
 	 */
+	#[\Override]
 	public function registerCapability($serviceName) {
-		$this->query(\OC\CapabilitiesManager::class)->registerCapability(function () use ($serviceName) {
+		$this->query(CapabilitiesManager::class)->registerCapability(function () use ($serviceName) {
 			return $this->query($serviceName);
 		});
 	}
 
+	#[\Override]
 	public function has($id): bool {
 		if (parent::has($id)) {
 			return true;
@@ -326,6 +332,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @inheritDoc
 	 * @param list<class-string> $chain
 	 */
+	#[\Override]
 	public function query(string $name, bool $autoload = true, array $chain = []): mixed {
 		if ($name === 'AppName' || $name === 'appName') {
 			return $this->appName;
@@ -356,6 +363,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 	/**
 	 * @param string $name
+	 * @param list<class-string> $chain
 	 * @return mixed
 	 * @throws QueryException if the query could not be resolved
 	 */
@@ -368,7 +376,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return parent::query($name, chain: $chain);
 		} elseif ($this->appName === 'core' && str_starts_with($name, 'OC\\Core\\')) {
 			return parent::query($name, chain: $chain);
-		} elseif (str_starts_with($name, App::buildAppNamespace($this->appName) . '\\')) {
+		} elseif (str_starts_with($name, $this->appManager->getAppNamespace($this->appName) . '\\')) {
 			return parent::query($name, chain: $chain);
 		} elseif (
 			str_starts_with($name, 'OC\\AppFramework\\Services\\')

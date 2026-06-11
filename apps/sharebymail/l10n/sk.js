@@ -22,7 +22,6 @@ OC.L10N.register(
     "Note:" : "Poznámka:",
     "This share is valid until %s at midnight" : "Toto zdieľanie je platné do %s po polnoci",
     "Expiration:" : "Expirácia:",
-    "Open %s" : "Otvoriť %s",
     "%1$s via %2$s" : "%1$s cez %2$s",
     "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "%1$s s vami zdieľal %2$s. Správa s odkazom by Vám už mala byť doručená.",
     "Password to access %1$s shared to you by %2$s" : "Heslo pre prístup k %1$s s vami zdieľal %2$s",

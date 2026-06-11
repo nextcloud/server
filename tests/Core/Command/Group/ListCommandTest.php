@@ -28,6 +28,7 @@ class ListCommandTest extends TestCase {
 	/** @var OutputInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $output;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

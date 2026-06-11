@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\WorkflowEngine\Entity;
 
 use OC\Files\Config\UserMountCache;
@@ -50,14 +51,17 @@ class File implements IEntity, IDisplayText, IUrl, IIcon, IContextPortation {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('File');
 	}
 
+	#[\Override]
 	public function getIcon(): string {
 		return $this->urlGenerator->imagePath('core', 'categories/files.svg');
 	}
 
+	#[\Override]
 	public function getEvents(): array {
 		return [
 			new GenericEntityEvent($this->l10n->t('File created'), self::EVENT_NAMESPACE . 'postCreate'),
@@ -70,6 +74,7 @@ class File implements IEntity, IDisplayText, IUrl, IIcon, IContextPortation {
 		];
 	}
 
+	#[\Override]
 	public function prepareRuleMatcher(IRuleMatcher $ruleMatcher, string $eventName, Event $event): void {
 		if (!$event instanceof GenericEvent && !$event instanceof MapperEvent) {
 			return;
@@ -86,6 +91,7 @@ class File implements IEntity, IDisplayText, IUrl, IIcon, IContextPortation {
 		}
 	}
 
+	#[\Override]
 	public function isLegitimatedForUserId(string $userId): bool {
 		try {
 			$node = $this->getNode();
@@ -145,6 +151,7 @@ class File implements IEntity, IDisplayText, IUrl, IIcon, IContextPortation {
 		throw new NotFoundException();
 	}
 
+	#[\Override]
 	public function getDisplayText(int $verbosity = 0): string {
 		try {
 			$node = $this->getNode();
@@ -193,6 +200,7 @@ class File implements IEntity, IDisplayText, IUrl, IIcon, IContextPortation {
 		}
 	}
 
+	#[\Override]
 	public function getUrl(): string {
 		try {
 			return $this->urlGenerator->linkToRouteAbsolute('files.viewcontroller.showFile', ['fileid' => $this->getNode()->getId()]);
@@ -204,6 +212,7 @@ class File implements IEntity, IDisplayText, IUrl, IIcon, IContextPortation {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function exportContextIDs(): array {
 		$nodeOwner = $this->getNode()->getOwner();
 		$actingUserId = null;
@@ -223,6 +232,7 @@ class File implements IEntity, IDisplayText, IUrl, IIcon, IContextPortation {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function importContextIDs(array $contextIDs): void {
 		$this->eventName = $contextIDs['eventName'];
 		if ($contextIDs['nodeOwnerId'] !== null) {
@@ -240,6 +250,7 @@ class File implements IEntity, IDisplayText, IUrl, IIcon, IContextPortation {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getIconUrl(): string {
 		return $this->getIcon();
 	}

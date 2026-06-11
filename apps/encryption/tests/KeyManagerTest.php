@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Encryption\Tests;
 
 use OC\Files\FileInfo;
@@ -96,7 +97,6 @@ class KeyManagerTest extends TestCase {
 			->with($this->equalTo($this->userId), $this->equalTo('privateKey'))
 			->willReturn('privateKey');
 
-
 		$this->assertSame('privateKey',
 			$this->instance->getPrivateKey($this->userId)
 		);
@@ -108,7 +108,6 @@ class KeyManagerTest extends TestCase {
 			->with($this->equalTo($this->userId), $this->equalTo('publicKey'))
 			->willReturn('publicKey');
 
-
 		$this->assertSame('publicKey',
 			$this->instance->getPublicKey($this->userId)
 		);
@@ -119,7 +118,6 @@ class KeyManagerTest extends TestCase {
 			->method('getSystemUserKey')
 			->with($this->equalTo($this->systemKeyId . '.publicKey'))
 			->willReturn('recoveryKey');
-
 
 		$this->assertTrue($this->instance->recoveryKeyExists());
 	}
@@ -146,7 +144,6 @@ class KeyManagerTest extends TestCase {
 				$this->equalTo('key'))
 			->willReturn(true);
 
-
 		$this->assertTrue(
 			$this->instance->setPublicKey($this->userId, 'key')
 		);
@@ -161,7 +158,6 @@ class KeyManagerTest extends TestCase {
 				$this->equalTo('key'))
 			->willReturn(true);
 
-
 		$this->assertTrue(
 			$this->instance->setPrivateKey($this->userId, 'key')
 		);
@@ -174,7 +170,6 @@ class KeyManagerTest extends TestCase {
 			->with($this->equalTo($this->userId), $this->anything())
 			->willReturn($key);
 
-
 		$this->assertSame($expected,
 			$this->instance->userHasKeys($this->userId)
 		);
@@ -186,7 +181,6 @@ class KeyManagerTest extends TestCase {
 			['', false]
 		];
 	}
-
 
 	public function testUserHasKeysMissingPrivateKey(): void {
 		$this->expectException(PrivateKeyMissingException::class);
@@ -202,7 +196,6 @@ class KeyManagerTest extends TestCase {
 
 		$this->instance->userHasKeys($this->userId);
 	}
-
 
 	public function testUserHasKeysMissingPublicKey(): void {
 		$this->expectException(PublicKeyMissingException::class);
@@ -282,7 +275,6 @@ class KeyManagerTest extends TestCase {
 		];
 	}
 
-
 	public function testSetRecoveryKey(): void {
 		$this->keyStorageMock->expects($this->exactly(2))
 			->method('setSystemUserKey')
@@ -291,7 +283,6 @@ class KeyManagerTest extends TestCase {
 			->method('encryptPrivateKey')
 			->with($this->equalTo('privateKey'), $this->equalTo('pass'))
 			->willReturn('decryptedPrivateKey');
-
 
 		$this->assertTrue(
 			$this->instance->setRecoveryKey('pass',
@@ -305,7 +296,6 @@ class KeyManagerTest extends TestCase {
 			->with($this->equalTo('keyId.privateKey'), $this->equalTo('key'))
 			->willReturn(true);
 
-
 		$this->assertTrue(
 			$this->instance->setSystemPrivateKey('keyId', 'key')
 		);
@@ -316,7 +306,6 @@ class KeyManagerTest extends TestCase {
 			->method('getSystemUserKey')
 			->with($this->equalTo('keyId.privateKey'))
 			->willReturn('systemPrivateKey');
-
 
 		$this->assertSame('systemPrivateKey',
 			$this->instance->getSystemPrivateKey('keyId')
@@ -528,7 +517,6 @@ class KeyManagerTest extends TestCase {
 			$this->invokePrivate($this->instance, 'getMasterKeyPassword', [])
 		);
 	}
-
 
 	public function testGetMasterKeyPasswordException(): void {
 		$this->expectException(\Exception::class);

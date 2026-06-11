@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\SetupChecks;
 
 use OCP\Http\Client\IClientService;
@@ -32,14 +33,17 @@ class JavaScriptModules implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'network';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('JavaScript modules support');
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		$testFile = $this->urlGenerator->linkTo('settings', 'js/esm-test.mjs');
 
@@ -55,6 +59,5 @@ class JavaScriptModules implements ISetupCheck {
 			return SetupResult::warning($this->l10n->t('Unable to run check for JavaScript support. Please remedy or confirm manually if your webserver serves `.mjs` files using the JavaScript MIME type.') . "\n" . $this->serverConfigHelp());
 		}
 		return SetupResult::error($this->l10n->t('Your webserver does not serve `.mjs` files using the JavaScript MIME type. This will break some apps by preventing browsers from executing the JavaScript files. You should configure your webserver to serve `.mjs` files with either the `text/javascript` or `application/javascript` MIME type.'));
-
 	}
 }

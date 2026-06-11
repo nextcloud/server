@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Lib\Storage;
 
 use Aws\S3\Exception\S3Exception;
@@ -32,30 +33,23 @@ class AmazonS3 extends Common {
 
 	private LoggerInterface $logger;
 
-	public function needsPartFile(): bool {
-		return false;
-	}
-
 	/** @var CappedMemoryCache<array|false> */
 	private CappedMemoryCache $objectCache;
-
 	/** @var CappedMemoryCache<bool> */
 	private CappedMemoryCache $directoryCache;
-
 	/** @var CappedMemoryCache<array> */
 	private CappedMemoryCache $filesCache;
 
 	private IMimeTypeDetector $mimeDetector;
-	private ?bool $versioningEnabled = null;
 	private ICache $memCache;
+	private ?bool $versioningEnabled = null;
 
 	public function __construct(array $parameters) {
 		parent::__construct($parameters);
 		$this->parseParams($parameters);
+		// @todo: using `key` here may be problematic with different authentication methods and/or key rotation...
 		$this->id = 'amazon::external::' . md5($this->params['hostname'] . ':' . $this->params['bucket'] . ':' . $this->params['key']);
-		$this->objectCache = new CappedMemoryCache();
-		$this->directoryCache = new CappedMemoryCache();
-		$this->filesCache = new CappedMemoryCache();
+		$this->initCaches();
 		$this->mimeDetector = Server::get(IMimeTypeDetector::class);
 		/** @var ICacheFactory $cacheFactory */
 		$cacheFactory = Server::get(ICacheFactory::class);
@@ -66,7 +60,7 @@ class AmazonS3 extends Common {
 	private function normalizePath(string $path): string {
 		$path = trim($path, '/');
 
-		if (!$path) {
+		if ($path === '') {
 			$path = '.';
 		}
 
@@ -84,10 +78,16 @@ class AmazonS3 extends Common {
 		return $path;
 	}
 
-	private function clearCache(): void {
-		$this->objectCache = new CappedMemoryCache();
-		$this->directoryCache = new CappedMemoryCache();
-		$this->filesCache = new CappedMemoryCache();
+	private function initCaches(): void {
+		$this->objectCache = new CappedMemoryCache(2048);
+		$this->directoryCache = new CappedMemoryCache(8192);
+		$this->filesCache = new CappedMemoryCache(4096);
+	}
+
+	private function clearCaches(): void {
+		$this->objectCache->clear();
+		$this->directoryCache->clear();
+		$this->filesCache->clear();
 	}
 
 	private function invalidateCache(string $key): void {
@@ -116,7 +116,7 @@ class AmazonS3 extends Common {
 				$this->objectCache[$key] = $this->getConnection()->headObject([
 					'Bucket' => $this->bucket,
 					'Key' => $key
-				] + $this->getSSECParameters())->toArray();
+				] + $this->getServerSideEncryptionParameters())->toArray();
 			} catch (S3Exception $e) {
 				if ($e->getStatusCode() >= 500) {
 					throw $e;
@@ -180,11 +180,11 @@ class AmazonS3 extends Common {
 			throw $e;
 		}
 
-
 		$this->directoryCache[$path] = false;
 		return false;
 	}
 
+	#[\Override]
 	protected function remove(string $path): bool {
 		// remember fileType to reduce http calls
 		$fileType = $this->filetype($path);
@@ -197,6 +197,7 @@ class AmazonS3 extends Common {
 		}
 	}
 
+	#[\Override]
 	public function mkdir(string $path): bool {
 		$path = $this->normalizePath($path);
 
@@ -210,7 +211,7 @@ class AmazonS3 extends Common {
 				'Key' => $path . '/',
 				'Body' => '',
 				'ContentType' => FileInfo::MIMETYPE_FOLDER
-			] + $this->getSSECParameters());
+			] + $this->getServerSideEncryptionParameters());
 			$this->testTimeout();
 		} catch (S3Exception $e) {
 			$this->logger->error($e->getMessage(), [
@@ -225,11 +226,12 @@ class AmazonS3 extends Common {
 		return true;
 	}
 
+	#[\Override]
 	public function file_exists(string $path): bool {
 		return $this->filetype($path) !== false;
 	}
 
-
+	#[\Override]
 	public function rmdir(string $path): bool {
 		$path = $this->normalizePath($path);
 
@@ -246,7 +248,7 @@ class AmazonS3 extends Common {
 	}
 
 	protected function clearBucket(): bool {
-		$this->clearCache();
+		$this->clearCaches();
 		return $this->batchDelete();
 	}
 
@@ -270,8 +272,8 @@ class AmazonS3 extends Common {
 					$connection->deleteObjects([
 						'Bucket' => $this->bucket,
 						'Delete' => [
+							'Quiet' => true,
 							'Objects' => array_map(fn (array $object) => [
-								'ETag' => $object['ETag'],
 								'Key' => $object['Key'],
 							], $objects['Contents'])
 						]
@@ -293,6 +295,7 @@ class AmazonS3 extends Common {
 		return true;
 	}
 
+	#[\Override]
 	public function opendir(string $path) {
 		try {
 			$content = iterator_to_array($this->getDirectoryContent($path));
@@ -304,6 +307,7 @@ class AmazonS3 extends Common {
 		}
 	}
 
+	#[\Override]
 	public function stat(string $path): array|false {
 		$path = $this->normalizePath($path);
 
@@ -321,50 +325,9 @@ class AmazonS3 extends Common {
 		return $stat;
 	}
 
-	/**
-	 * Return content length for object
-	 *
-	 * When the information is already present (e.g. opendir has been called before)
-	 * this value is return. Otherwise a headObject is emitted.
-	 */
-	private function getContentLength(string $path): int {
-		if (isset($this->filesCache[$path])) {
-			return (int)$this->filesCache[$path]['ContentLength'];
-		}
-
-		$result = $this->headObject($path);
-		if (isset($result['ContentLength'])) {
-			return (int)$result['ContentLength'];
-		}
-
-		return 0;
-	}
-
-	/**
-	 * Return last modified for object
-	 *
-	 * When the information is already present (e.g. opendir has been called before)
-	 * this value is return. Otherwise a headObject is emitted.
-	 */
-	private function getLastModified(string $path): string {
-		if (isset($this->filesCache[$path])) {
-			return $this->filesCache[$path]['LastModified'];
-		}
-
-		$result = $this->headObject($path);
-		if (isset($result['LastModified'])) {
-			return $result['LastModified'];
-		}
-
-		return 'now';
-	}
-
+	#[\Override]
 	public function is_dir(string $path): bool {
 		$path = $this->normalizePath($path);
-
-		if (isset($this->filesCache[$path])) {
-			return false;
-		}
 
 		try {
 			return $this->doesDirectoryExist($path);
@@ -377,6 +340,7 @@ class AmazonS3 extends Common {
 		}
 	}
 
+	#[\Override]
 	public function filetype(string $path): string|false {
 		$path = $this->normalizePath($path);
 
@@ -388,7 +352,7 @@ class AmazonS3 extends Common {
 			if (isset($this->directoryCache[$path]) && $this->directoryCache[$path]) {
 				return 'dir';
 			}
-			if (isset($this->filesCache[$path]) || $this->headObject($path)) {
+			if ($this->headObject($path)) {
 				return 'file';
 			}
 			if ($this->doesDirectoryExist($path)) {
@@ -405,6 +369,7 @@ class AmazonS3 extends Common {
 		return false;
 	}
 
+	#[\Override]
 	public function getPermissions(string $path): int {
 		$type = $this->filetype($path);
 		if (!$type) {
@@ -413,6 +378,7 @@ class AmazonS3 extends Common {
 		return $type === 'dir' ? Constants::PERMISSION_ALL : Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE;
 	}
 
+	#[\Override]
 	public function unlink(string $path): bool {
 		$path = $this->normalizePath($path);
 
@@ -434,6 +400,7 @@ class AmazonS3 extends Common {
 		return true;
 	}
 
+	#[\Override]
 	public function fopen(string $path, string $mode) {
 		$path = $this->normalizePath($path);
 
@@ -492,6 +459,7 @@ class AmazonS3 extends Common {
 		return false;
 	}
 
+	#[\Override]
 	public function touch(string $path, ?int $mtime = null): bool {
 		if (is_null($mtime)) {
 			$mtime = time();
@@ -513,7 +481,7 @@ class AmazonS3 extends Common {
 				'Body' => '',
 				'ContentType' => $mimeType,
 				'MetadataDirective' => 'REPLACE',
-			] + $this->getSSECParameters());
+			] + $this->getServerSideEncryptionParameters());
 			$this->testTimeout();
 		} catch (S3Exception $e) {
 			$this->logger->error($e->getMessage(), [
@@ -527,6 +495,7 @@ class AmazonS3 extends Common {
 		return true;
 	}
 
+	#[\Override]
 	public function copy(string $source, string $target, ?bool $isFile = null): bool {
 		$source = $this->normalizePath($source);
 		$target = $this->normalizePath($target);
@@ -570,6 +539,7 @@ class AmazonS3 extends Common {
 		return true;
 	}
 
+	#[\Override]
 	public function rename(string $source, string $target): bool {
 		$source = $this->normalizePath($source);
 		$target = $this->normalizePath($target);
@@ -597,6 +567,7 @@ class AmazonS3 extends Common {
 		return true;
 	}
 
+	#[\Override]
 	public function test(): bool {
 		$this->getConnection()->headBucket([
 			'Bucket' => $this->bucket
@@ -604,6 +575,7 @@ class AmazonS3 extends Common {
 		return true;
 	}
 
+	#[\Override]
 	public function getId(): string {
 		return $this->id;
 	}
@@ -632,6 +604,7 @@ class AmazonS3 extends Common {
 		return true;
 	}
 
+	#[\Override]
 	public function getDirectoryContent(string $directory): \Traversable {
 		$path = $this->normalizePath($directory);
 
@@ -651,6 +624,12 @@ class AmazonS3 extends Common {
 			// sub folders
 			if (is_array($result['CommonPrefixes'])) {
 				foreach ($result['CommonPrefixes'] as $prefix) {
+					if (preg_match('/\/{2,}$/', $prefix['Prefix'])) {
+						$this->logger->warning('Detected a repeating delimiter in prefix \'' . $prefix['Prefix']
+											   . '\'. This is unsupported and its contents have been ignored.');
+						continue;
+					}
+
 					$dir = $this->getDirectoryMetaData($prefix['Prefix']);
 					if ($dir) {
 						yield $dir;
@@ -729,6 +708,7 @@ class AmazonS3 extends Common {
 		}
 	}
 
+	#[\Override]
 	public function hasUpdated(string $path, int $time): bool {
 		// for files we can get the proper mtime
 		if ($path !== '' && $object = $this->headObject($path)) {
@@ -742,6 +722,13 @@ class AmazonS3 extends Common {
 		}
 	}
 
+	#[\Override]
+	public function needsPartFile(): bool {
+		// handled natively by the S3 backend/client integration
+		return false;
+	}
+
+	#[\Override]
 	public function writeStream(string $path, $stream, ?int $size = null): int {
 		if ($size === null) {
 			$size = 0;

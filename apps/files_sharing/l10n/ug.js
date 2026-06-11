@@ -405,8 +405,6 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "%s نى ئورتاقلىشىش مەغلۇب بولدى ، چۈنكى ئارقا تەرىپى ScienceMesh نىڭ پاي چېكىنى قوللىمايدۇ",
     "Name or email …" : "ئىسىم ياكى ئېلخەت…",
     "Name, email, or Federated Cloud ID …" : "ئىسمى ، ئېلېكترونلۇق خەت ياكى فېدېراتسىيە بۇلۇت كىملىكى…",
-    "Searching …" : "ئىزدەش…",
-    "Error deleting the share: {errorMessage}" : "بۇ ھەمبەھىرنى ئۆچۈرۋاتقاندا خاتالىق كۆرۈلدى: {errorMessage}",
-    "Error updating the share: {errorMessage}" : "ھەمبەھىرنى يېڭىلاشتا خاتالىق: {errorMessage}"
+    "Searching …" : "ئىزدەش…"
 },
 "nplurals=2; plural=(n != 1);");

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\WorkflowEngine\Check;
 
 use OC\Files\Storage\Local;
@@ -33,6 +34,7 @@ class FileName extends AbstractStringCheck implements IFileCheck {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	protected function getActualValue(): string {
 		$fileName = $this->path === null ? '' : basename($this->path);
 		if ($fileName === '' && (!$this->storage->isLocal() || $this->storage->instanceOfStorage(Local::class))) {
@@ -57,6 +59,7 @@ class FileName extends AbstractStringCheck implements IFileCheck {
 	 * @param string $actualValue
 	 * @return bool
 	 */
+	#[\Override]
 	protected function executeStringCheck($operator, $checkValue, $actualValue): bool {
 		if ($operator === 'is' || $operator === '!is') {
 			$checkValue = mb_strtolower($checkValue);
@@ -65,10 +68,12 @@ class FileName extends AbstractStringCheck implements IFileCheck {
 		return parent::executeStringCheck($operator, $checkValue, $actualValue);
 	}
 
+	#[\Override]
 	public function supportedEntities(): array {
 		return [ File::class ];
 	}
 
+	#[\Override]
 	public function isAvailableForScope(int $scope): bool {
 		return true;
 	}

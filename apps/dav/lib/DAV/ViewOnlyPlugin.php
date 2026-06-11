@@ -38,6 +38,7 @@ class ViewOnlyPlugin extends ServerPlugin {
 	 *
 	 * This method should set up the required event subscriptions.
 	 */
+	#[\Override]
 	public function initialize(Server $server): void {
 		$this->server = $server;
 		//priority 90 to make sure the plugin is called before

@@ -12,8 +12,6 @@ use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\ResponseInterface;
 
 class CalDavContext implements \Behat\Behat\Context\Context {
-	/** @var string */
-	private $baseUrl;
 	/** @var Client */
 	private $client;
 	/** @var ResponseInterface */
@@ -24,9 +22,9 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 	/**
 	 * @param string $baseUrl
 	 */
-	public function __construct($baseUrl) {
-		$this->baseUrl = $baseUrl;
-
+	public function __construct(
+		private $baseUrl,
+	) {
 		// in case of ci deployment we take the server url from the environment
 		$testServerUrl = getenv('TEST_SERVER_URL');
 		if ($testServerUrl !== false) {
@@ -42,21 +40,39 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 
 	/** @AfterScenario */
 	public function afterScenario() {
-		$davUrl = $this->baseUrl . '/remote.php/dav/calendars/admin/MyCalendar';
-		try {
-			$this->client->delete(
-				$davUrl,
-				[
-					'auth' => [
-						'admin',
-						'admin',
-					],
-					'headers' => [
-						'X-NC-CalDAV-No-Trashbin' => '1',
+		foreach (['MyCalendar', 'MyCalendar2'] as $calendarName) {
+			try {
+				$this->client->delete(
+					$this->baseUrl . '/remote.php/dav/calendars/admin/' . $calendarName,
+					[
+						'auth' => ['admin', 'admin'],
+						'headers' => ['X-NC-CalDAV-No-Trashbin' => '1'],
 					]
-				]
-			);
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
+				);
+			} catch (\GuzzleHttp\Exception\ClientException $e) {
+			}
+		}
+	}
+
+	/** @AfterScenario @caldav-delegation */
+	public function afterDelegationScenario() {
+		foreach (['calendar-proxy-read', 'calendar-proxy-write'] as $proxyType) {
+			try {
+				$propPatch = new \Sabre\DAV\Xml\Request\PropPatch();
+				$propPatch->properties = ['{DAV:}group-member-set' => new \Sabre\DAV\Xml\Property\Href([])];
+				$xml = new \Sabre\Xml\Service();
+				$body = $xml->write('{DAV:}propertyupdate', $propPatch, '/');
+				$this->client->request(
+					'PROPPATCH',
+					$this->baseUrl . '/remote.php/dav/principals/users/admin/' . $proxyType,
+					[
+						'headers' => ['Content-Type' => 'application/xml; charset=UTF-8'],
+						'body' => $body,
+						'auth' => ['admin', 'admin'],
+					]
+				);
+			} catch (\GuzzleHttp\Exception\ClientException $e) {
+			}
 		}
 	}
 
@@ -172,6 +188,26 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 		if ($actualValue !== $value) {
 			throw new \Exception("Property \"$key\" found with value \"$actualValue\", expected \"$value\"");
 		}
+	}
+
+	/**
+	 * @Then The CalDAV response should contain an href :href
+	 * @throws \Exception
+	 */
+	public function theCaldavResponseShouldContainAnHref(string $href): void {
+		/** @var \Sabre\DAV\Xml\Response\MultiStatus $multiStatus */
+		$multiStatus = $this->responseXml['value'];
+		foreach ($multiStatus->getResponses() as $response) {
+			if ($response->getHref() === $href) {
+				return;
+			}
+		}
+		throw new \Exception(
+			sprintf(
+				'Expected href %s not found in response',
+				$href,
+			)
+		);
 	}
 
 	/**
@@ -372,19 +408,23 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 		$xml = new \Sabre\Xml\Service();
 		$body = $xml->write('{DAV:}propertyupdate', $propPatch, '/');
 
-		$this->response = $this->client->request(
-			'PROPPATCH',
-			$davUrl,
-			[
-				'headers' => [
-					'Content-Type' => 'application/xml; charset=UTF-8',
-				],
-				'body' => $body,
-				'auth' => [
-					$user,
-					$password,
-				],
-			]
-		);
+		try {
+			$this->response = $this->client->request(
+				'PROPPATCH',
+				$davUrl,
+				[
+					'headers' => [
+						'Content-Type' => 'application/xml; charset=UTF-8',
+					],
+					'body' => $body,
+					'auth' => [
+						$user,
+						$password,
+					],
+				]
+			);
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$this->response = $e->getResponse();
+		}
 	}
 }

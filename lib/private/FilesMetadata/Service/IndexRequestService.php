@@ -186,7 +186,7 @@ class IndexRequestService {
 	 * @throws DbException
 	 */
 	public function dropIndexForFiles(array $fileIds, string $key = ''): void {
-		$chunks = array_chunk($fileIds, 1000);
+		$chunks = array_chunk($fileIds, IQueryBuilder::MAX_IN_PARAMETERS);
 
 		foreach ($chunks as $chunk) {
 			$qb = $this->dbConnection->getQueryBuilder();

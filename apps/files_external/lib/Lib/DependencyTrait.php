@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Lib;
 
 /**
@@ -28,7 +29,7 @@ trait DependencyTrait {
 	 *
 	 * @return MissingDependency[] Unsatisfied required dependencies
 	 */
-	public function checkRequiredDependencies() {
+	public function checkRequiredDependencies(): array {
 		return array_filter(
 			$this->checkDependencies(),
 			fn (MissingDependency $dependency) => !$dependency->isOptional()

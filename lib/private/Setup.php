@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use bantu\IniGetWrapper\IniGetWrapper;
@@ -72,7 +73,7 @@ class Setup {
 		$this->l10n = $l10nFactory->get('lib');
 	}
 
-	protected static array $dbSetupClasses = [
+	private const DB_SETUP_CLASSES = [
 		'mysql' => MySQL::class,
 		'pgsql' => PostgreSQL::class,
 		'oci' => OCI::class,
@@ -334,13 +335,13 @@ class Setup {
 			$options['directory'] = \OC::$SERVERROOT . '/data';
 		}
 
-		if (!isset(self::$dbSetupClasses[$dbType])) {
+		if (!isset(self::DB_SETUP_CLASSES[$dbType])) {
 			$dbType = 'sqlite';
 		}
 
 		$dataDir = htmlspecialchars_decode($options['directory']);
 
-		$class = self::$dbSetupClasses[$dbType];
+		$class = self::DB_SETUP_CLASSES[$dbType];
 		/** @var AbstractDatabase $dbSetup */
 		$dbSetup = new $class($l, $this->config, $this->logger, $this->random);
 		$error = array_merge($error, $dbSetup->validate($options));
@@ -387,6 +388,9 @@ class Setup {
 		}
 
 		$this->config->setValues($newConfigValues);
+
+		// Ensure instanceid is generated during the installation.
+		\OC_Util::getInstanceId();
 
 		$this->outputDebug($output, 'Configuring database');
 		$dbSetup->initialize($options);

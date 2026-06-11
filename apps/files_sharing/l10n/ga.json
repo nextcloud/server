@@ -403,8 +403,6 @@
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Theip ar chomhroinnt %s toisc nach dtacaíonn an cúlcheann le scaireanna ScienceMesh",
     "Name or email …" : "Ainm nó ríomhphost…",
     "Name, email, or Federated Cloud ID …" : "Ainm, ríomhphost, nó ID Néal Cónaidhme…",
-    "Searching …" : "Ag cuardach…",
-    "Error deleting the share: {errorMessage}" : "Earráid ag scriosadh an chomhroinnte: {errorMessage}",
-    "Error updating the share: {errorMessage}" : "Earráid agus an sciar á nuashonrú: {errorMessage}"
+    "Searching …" : "Ag cuardach…"
 },"pluralForm" :"nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);"
 }

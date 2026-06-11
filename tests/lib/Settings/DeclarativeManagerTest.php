@@ -254,6 +254,7 @@ class DeclarativeManagerTest extends TestCase {
 
 	public static bool $testSetInternalValueAfterChange = false;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

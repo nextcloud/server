@@ -23,6 +23,7 @@ use OCP\Files\Config\MountProviderArgs;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorageFactory;
+use OCP\IAppConfig;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
@@ -52,6 +53,7 @@ class SetupManagerTest extends TestCase {
 	private string $path;
 	private string $mountPoint;
 
+	#[\Override]
 	protected function setUp(): void {
 		$eventLogger = $this->createMock(IEventLogger::class);
 		$eventLogger->method('start');
@@ -111,6 +113,7 @@ class SetupManagerTest extends TestCase {
 			$shareDisableChecker,
 			$appManager,
 			$this->fileAccess,
+			$this->createMock(IAppConfig::class),
 		);
 	}
 
@@ -546,7 +549,6 @@ class SetupManagerTest extends TestCase {
 			->willReturnCallback($this->getAddMountCheckCallback($invokedCount,
 				$addMountExpectations));
 
-
 		// setting up for $path but then for user should remove the setup path
 		$this->setupManager->setupForPath($this->path, false);
 
@@ -633,7 +635,7 @@ class SetupManagerTest extends TestCase {
 	}
 
 	private function getAddMountCheckCallback(InvokedCount $invokedCount, $expectations): \Closure {
-		return function (IMountPoint $actualMount) use ($invokedCount, $expectations) {
+		return function (IMountPoint $actualMount) use ($invokedCount, $expectations): void {
 			$expectedMount = $expectations[$invokedCount->numberOfInvocations()] ?? null;
 			$this->assertSame($expectedMount, $actualMount);
 		};
@@ -650,16 +652,19 @@ class SetupManagerTest extends TestCase {
 }
 
 class SetupManagerTestPartialMountProvider implements IPartialMountProvider {
+	#[\Override]
 	public function getMountsForUser(IUser $user, IStorageFactory $loader): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getMountsForPath(string $path, bool $forChildren, array $mountProviderArgs, IStorageFactory $loader): array {
 		return [];
 	}
 }
 
 class SetupManagerTestFullMountProvider implements IMountProvider {
+	#[\Override]
 	public function getMountsForUser(IUser $user, IStorageFactory $loader): array {
 		return [];
 	}

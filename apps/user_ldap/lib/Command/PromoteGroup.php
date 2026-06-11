@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\User_LDAP\Command;
 
 use OCA\User_LDAP\Group_Proxy;
@@ -27,6 +28,7 @@ class PromoteGroup extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('ldap:promote-group')
@@ -82,6 +84,7 @@ class PromoteGroup extends Command {
 		}
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$groupInput = (string)$input->getArgument('group');
 		$group = $this->groupManager->get($groupInput);

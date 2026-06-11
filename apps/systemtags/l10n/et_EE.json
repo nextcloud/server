@@ -40,7 +40,7 @@
     "Tags" : "Sildid",
     "All tagged %s …" : "Kõik sildistatud kui „%s“…",
     "tagged %s" : "sildistatud kui „%s“",
-    "Collaborative tags" : "Koostöö sildid",
+    "Collaborative tags" : "Ühistegevuslikud sildid",
     "Collaborative tagging functionality which shares tags among people." : "Ühistegevuslik siltide lisamine ja haldus, mis võimaldab jagada silte eri kasutajate vahel.",
     "Collaborative tagging functionality which shares tags among people. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Ühistegevuslik siltide lisamine ja haldus, mis võimaldab jagada silte eri kasutajate vahel. Sobib hästi tiimidele.\n\n(Kui oled teenusepakkuja, mis ühes serveris majutab mitut organisatsiooni, siis me soovitame, et lülitad selle rakenduse välja - sildid on ju jagatud kõikide kasutajate vahel.)",
     "Public" : "Avalik",
@@ -98,8 +98,8 @@
     "Add tags" : "Lisa silte",
     "Assigned collaborative tags" : "Eelkirjeldatud ühistegevuslikud sildid",
     "Open in Files" : "Ava failirakenduses",
-    "List of tags and their associated files and folders." : "Siltude ja nendega seotud failide ja kaustade loend.",
-    "No tags found" : "Silte ei leidinud",
+    "List of tags and their associated files and folders." : "Siltide ja nendega seotud failide ja kaustade loend.",
+    "No tags found" : "Silte ei leidunud",
     "Tags you have created will show up here." : "Sinu loodud sildid saavad olema nähtavad siin.",
     "Failed to load tag" : "Sildi laadimine ei õnnestunud",
     "Failed to load last used tags" : "Viimatikasutatud siltide laadimine ei õnnestunud",
@@ -109,7 +109,7 @@
     "Failed to set tag for file" : "Failile ei õnnestunud silte lisada",
     "Failed to delete tag for file" : "Faililt ei õnnestunud silte eemaldada",
     "Collaborative tags …" : "Ühistegevuslikud sildid…",
-    "Loading …" : "Laadimine ...",
+    "Loading …" : "Laadin...",
     "Loading collaborative tags …" : "Laadin ühistegevuslikke silte…"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

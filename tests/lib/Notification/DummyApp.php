@@ -17,6 +17,7 @@ class DummyApp implements IApp {
 	 * @throws \InvalidArgumentException When the notification is not valid
 	 * @since 9.0.0
 	 */
+	#[\Override]
 	public function notify(INotification $notification): void {
 		// TODO: Implement notify() method.
 	}
@@ -25,6 +26,7 @@ class DummyApp implements IApp {
 	 * @param INotification $notification
 	 * @since 9.0.0
 	 */
+	#[\Override]
 	public function markProcessed(INotification $notification): void {
 		// TODO: Implement markProcessed() method.
 	}
@@ -34,6 +36,7 @@ class DummyApp implements IApp {
 	 * @return int
 	 * @since 9.0.0
 	 */
+	#[\Override]
 	public function getCount(INotification $notification): int {
 		// TODO: Implement getCount() method.
 	}

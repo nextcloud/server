@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\TwoFactorBackupCodes\Migration;
 
 use Doctrine\DBAL\Types\Type;
@@ -23,6 +24,7 @@ class Version1002Date20170919123342 extends SimpleMigrationStep {
 	 * @return null|ISchemaWrapper
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	public function changeSchema(IOutput $output, \Closure $schemaClosure, array $options) {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();

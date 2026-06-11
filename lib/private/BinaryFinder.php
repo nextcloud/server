@@ -42,6 +42,7 @@ class BinaryFinder implements IBinaryFinder {
 	 *
 	 * @return false|string
 	 */
+	#[\Override]
 	public function findBinaryPath(string $program) {
 		$result = $this->cache->get($program);
 		if ($result !== null) {

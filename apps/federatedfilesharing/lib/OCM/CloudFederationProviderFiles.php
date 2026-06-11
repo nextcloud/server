@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\FederatedFileSharing\OCM;
 
 use OC\AppFramework\Http;
@@ -297,7 +298,6 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 					'sharedSecret' => $token,
 					'message' => 'Recipient accepted the re-share'
 				]
-
 			);
 			$this->cloudFederationProviderManager->sendNotification($remote, $notification);
 		}
@@ -382,7 +382,7 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 	 * @throws ShareNotFound
 	 */
 	protected function executeDeclineShare(IShare $share): void {
-		$this->federatedShareProvider->removeShareFromTable($share);
+		$this->federatedShareProvider->removeShareFromTable($share->getId());
 
 		$user = $this->getCorrectUser($share);
 
@@ -420,7 +420,7 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 		$share = $this->federatedShareProvider->getShareById($id);
 
 		$this->verifyShare($share, $token);
-		$this->federatedShareProvider->removeShareFromTable($share);
+		$this->federatedShareProvider->removeShareFromTable($share->getId());
 		return [];
 	}
 
@@ -569,7 +569,10 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 			$file = null;
 		}
 		$args = Filesystem::is_dir($file) ? ['dir' => $file] : ['dir' => dirname($file), 'scrollto' => $file];
-		$link = Util::linkToAbsolute('files', 'index.php', $args);
+		$urlGenerator = Server::get(IURLGenerator::class);
+		$link = $urlGenerator->getAbsoluteURL(
+			$urlGenerator->linkTo('files', 'index.php', $args)
+		);
 
 		return [$file, $link];
 	}
@@ -614,8 +617,6 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 
 		throw new AuthenticationFailedException();
 	}
-
-
 
 	/**
 	 * Check if server-to-server sharing is enabled

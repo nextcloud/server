@@ -7,7 +7,6 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-
 namespace OC\Core\Controller;
 
 use OC\Core\ResponseDefinitions;
@@ -371,7 +370,6 @@ class TaskProcessingApiController extends OCSController {
 		return $this->handleDeleteTaskInternal($id);
 	}
 
-
 	/**
 	 * Returns tasks for the current user filtered by the appId and optional customId
 	 *
@@ -418,6 +416,34 @@ class TaskProcessingApiController extends OCSController {
 
 			return new DataResponse([
 				'tasks' => $json,
+			]);
+		} catch (Exception) {
+			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	/**
+	 * Returns queue statistics for task processing
+	 *
+	 * Returns the count of scheduled and running tasks, optionally filtered
+	 * by task type(s). Designed for external scalers (e.g. KEDA) to poll
+	 * for task queue depth. Admin-only endpoint authenticated via app_password.
+	 *
+	 * @param list<string> $taskTypeIds List of task type IDs to filter by
+	 * @return DataResponse<Http::STATUS_OK, array{scheduled_count: int, running_count: int}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
+	 *
+	 * 200: Queue stats returned
+	 */
+	#[NoCSRFRequired]
+	#[ApiRoute(verb: 'GET', url: '/queue_stats', root: '/taskprocessing')]
+	public function queueStats(array $taskTypeIds = []): DataResponse {
+		try {
+			$scheduled = $this->taskProcessingManager->countTasks(Task::STATUS_SCHEDULED, $taskTypeIds);
+			$running = $this->taskProcessingManager->countTasks(Task::STATUS_RUNNING, $taskTypeIds);
+
+			return new DataResponse([
+				'scheduled_count' => $scheduled,
+				'running_count' => $running,
 			]);
 		} catch (Exception) {
 			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
@@ -602,6 +628,37 @@ class TaskProcessingApiController extends OCSController {
 		try {
 			// set result
 			$this->taskProcessingManager->setTaskResult($taskId, $errorMessage, $output, isUsingFileIds: true, userFacingError: $userFacingErrorMessage);
+			$task = $this->taskProcessingManager->getTask($taskId);
+
+			/** @var CoreTaskProcessingTask $json */
+			$json = $task->jsonSerialize();
+
+			return new DataResponse([
+				'task' => $json,
+			]);
+		} catch (NotFoundException) {
+			return new DataResponse(['message' => $this->l->t('Not found')], Http::STATUS_NOT_FOUND);
+		} catch (Exception) {
+			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	/**
+	 * Sets the task intermediate result while it is running
+	 *
+	 * @param int $taskId The id of the task
+	 * @param array<string,mixed> $output The intermediate task output, files are represented by their IDs
+	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTaskProcessingTask}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
+	 *
+	 * 200: Result updated successfully
+	 * 404: Task not found
+	 */
+	#[ExAppRequired]
+	#[ApiRoute(verb: 'POST', url: '/tasks_provider/{taskId}/stream-result', root: '/taskprocessing')]
+	public function setIntermediateResult(int $taskId, array $output): DataResponse {
+		try {
+			// set result
+			$this->taskProcessingManager->setTaskIntermediateOutput($taskId, $output);
 			$task = $this->taskProcessingManager->getTask($taskId);
 
 			/** @var CoreTaskProcessingTask $json */

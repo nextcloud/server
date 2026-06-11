@@ -39,6 +39,7 @@ abstract class ALoginTestCommand extends TestCase {
 	/** @var ALoginTestCommand */
 	protected $cmd;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

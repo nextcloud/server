@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Storage;
 
 use Exception;
@@ -54,6 +55,7 @@ class DAV extends Common {
 	protected $host;
 	/** @var bool */
 	protected $secure;
+	protected bool $verify;
 	/** @var string */
 	protected $root;
 	/** @var string */
@@ -108,17 +110,19 @@ class DAV extends Common {
 				$this->authType = $parameters['authType'];
 			}
 			if (isset($parameters['secure'])) {
+				$this->verify = $parameters['verify'] ?? true;
 				if (is_string($parameters['secure'])) {
 					$this->secure = ($parameters['secure'] === 'true');
 				} else {
 					$this->secure = (bool)$parameters['secure'];
 				}
 			} else {
+				$this->verify = false;
 				$this->secure = false;
 			}
 			if ($this->secure === true) {
 				// inject mock for testing
-				$this->certManager = \OC::$server->getCertificateManager();
+				$this->certManager = Server::get(ICertificateManager::class);
 			}
 			$this->root = rawurldecode($parameters['root'] ?? '/');
 			$this->root = '/' . ltrim($this->root, '/');
@@ -156,7 +160,15 @@ class DAV extends Common {
 		$this->client = new Client($settings);
 		$this->client->setThrowExceptions(true);
 
+		$proxyExclude = Server::get(IConfig::class)->getSystemValue('proxyexclude', []);
+		if ($proxyExclude !== []) {
+			$this->client->addCurlSetting(CURLOPT_NOPROXY, implode(',', $proxyExclude));
+		}
+
 		if ($this->secure === true) {
+			if ($this->verify === false) {
+				$this->client->addCurlSetting(CURLOPT_SSL_VERIFYPEER, false);
+			}
 			$certPath = $this->certManager->getAbsoluteBundlePath();
 			if (file_exists($certPath)) {
 				$this->certPath = $certPath;
@@ -186,6 +198,7 @@ class DAV extends Common {
 		$this->statCache->clear();
 	}
 
+	#[\Override]
 	public function getId(): string {
 		return 'webdav::' . $this->user . '@' . $this->host . '/' . $this->root;
 	}
@@ -199,6 +212,7 @@ class DAV extends Common {
 		return $baseUri;
 	}
 
+	#[\Override]
 	public function mkdir(string $path): bool {
 		$this->init();
 		$path = $this->cleanPath($path);
@@ -209,6 +223,7 @@ class DAV extends Common {
 		return $result;
 	}
 
+	#[\Override]
 	public function rmdir(string $path): bool {
 		$this->init();
 		$path = $this->cleanPath($path);
@@ -220,6 +235,7 @@ class DAV extends Common {
 		return $result;
 	}
 
+	#[\Override]
 	public function opendir(string $path) {
 		$this->init();
 		$path = $this->cleanPath($path);
@@ -305,6 +321,7 @@ class DAV extends Common {
 		return $response;
 	}
 
+	#[\Override]
 	public function filetype(string $path): string|false {
 		try {
 			$response = $this->propfind($path);
@@ -323,6 +340,7 @@ class DAV extends Common {
 		return false;
 	}
 
+	#[\Override]
 	public function file_exists(string $path): bool {
 		try {
 			$path = $this->cleanPath($path);
@@ -341,6 +359,7 @@ class DAV extends Common {
 		return false;
 	}
 
+	#[\Override]
 	public function unlink(string $path): bool {
 		$this->init();
 		$path = $this->cleanPath($path);
@@ -350,6 +369,7 @@ class DAV extends Common {
 		return $result;
 	}
 
+	#[\Override]
 	public function fopen(string $path, string $mode) {
 		$this->init();
 		$path = $this->cleanPath($path);
@@ -363,7 +383,8 @@ class DAV extends Common {
 							'auth' => [$this->user, $this->password],
 							'stream' => true,
 							// set download timeout for users with slow connections or large files
-							'timeout' => $this->timeout
+							'timeout' => $this->timeout,
+							'verify' => $this->verify,
 						]);
 				} catch (\GuzzleHttp\Exception\ClientException $e) {
 					if ($e->getResponse() instanceof ResponseInterface
@@ -437,6 +458,7 @@ class DAV extends Common {
 		unlink($tmpFile);
 	}
 
+	#[\Override]
 	public function free_space(string $path): int|float|false {
 		$this->init();
 		$path = $this->cleanPath($path);
@@ -455,6 +477,7 @@ class DAV extends Common {
 		}
 	}
 
+	#[\Override]
 	public function touch(string $path, ?int $mtime = null): bool {
 		$this->init();
 		if (is_null($mtime)) {
@@ -492,6 +515,7 @@ class DAV extends Common {
 		return true;
 	}
 
+	#[\Override]
 	public function file_put_contents(string $path, mixed $data): int|float|false {
 		$path = $this->cleanPath($path);
 		$result = parent::file_put_contents($path, $data);
@@ -513,12 +537,14 @@ class DAV extends Common {
 				'body' => $source,
 				'auth' => [$this->user, $this->password],
 				// set upload timeout for users with slow connections or large files
-				'timeout' => $this->timeout
+				'timeout' => $this->timeout,
+				'verify' => $this->verify,
 			]);
 
 		$this->removeCachedFile($target);
 	}
 
+	#[\Override]
 	public function rename(string $source, string $target): bool {
 		$this->init();
 		$source = $this->cleanPath($source);
@@ -550,6 +576,7 @@ class DAV extends Common {
 		return false;
 	}
 
+	#[\Override]
 	public function copy(string $source, string $target): bool {
 		$this->init();
 		$source = $this->cleanPath($source);
@@ -578,6 +605,7 @@ class DAV extends Common {
 		return false;
 	}
 
+	#[\Override]
 	public function getMetaData(string $path): ?array {
 		if (Filesystem::isFileBlacklisted($path)) {
 			throw new ForbiddenException('Invalid path: ' . $path, false);
@@ -640,17 +668,19 @@ class DAV extends Common {
 		];
 	}
 
+	#[\Override]
 	public function stat(string $path): array|false {
 		$meta = $this->getMetaData($path);
 		return $meta ?: false;
-
 	}
 
+	#[\Override]
 	public function getMimeType(string $path): string|false {
 		$meta = $this->getMetaData($path);
 		return $meta ? $meta['mimetype'] : false;
 	}
 
+	#[\Override]
 	public function cleanPath(string $path): string {
 		if ($path === '') {
 			return $path;
@@ -702,27 +732,33 @@ class DAV extends Common {
 		return true;
 	}
 
+	#[\Override]
 	public function isUpdatable(string $path): bool {
 		return (bool)($this->getPermissions($path) & Constants::PERMISSION_UPDATE);
 	}
 
+	#[\Override]
 	public function isCreatable(string $path): bool {
 		return (bool)($this->getPermissions($path) & Constants::PERMISSION_CREATE);
 	}
 
+	#[\Override]
 	public function isSharable(string $path): bool {
 		return (bool)($this->getPermissions($path) & Constants::PERMISSION_SHARE);
 	}
 
+	#[\Override]
 	public function isDeletable(string $path): bool {
 		return (bool)($this->getPermissions($path) & Constants::PERMISSION_DELETE);
 	}
 
+	#[\Override]
 	public function getPermissions(string $path): int {
 		$stat = $this->getMetaData($path);
 		return $stat ? $stat['permissions'] : 0;
 	}
 
+	#[\Override]
 	public function getETag(string $path): string|false {
 		$meta = $this->getMetaData($path);
 		return $meta ? $meta['etag'] : false;
@@ -746,6 +782,7 @@ class DAV extends Common {
 		return $permissions;
 	}
 
+	#[\Override]
 	public function hasUpdated(string $path, int $time): bool {
 		$this->init();
 		$path = $this->cleanPath($path);
@@ -844,6 +881,7 @@ class DAV extends Common {
 		// TODO: only log for now, but in the future need to wrap/rethrow exception
 	}
 
+	#[\Override]
 	public function getDirectoryContent(string $directory): \Traversable {
 		$this->init();
 		$directory = $this->cleanPath($directory);

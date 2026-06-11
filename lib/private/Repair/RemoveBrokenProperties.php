@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Repair;
 
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -37,7 +38,7 @@ class RemoveBrokenProperties implements IRepairStep {
 		$brokenIds = [];
 		while ($entry = $result->fetch()) {
 			if (!empty($entry['propertyvalue'])) {
-				$object = @unserialize(str_replace('\x00', chr(0), $entry['propertyvalue']));
+				$object = @unserialize(str_replace('\x00', chr(0), $entry['propertyvalue']), ['allowed_classes' => false]);
 				if ($object === false) {
 					$brokenIds[] = $entry['id'];
 				}
@@ -50,7 +51,7 @@ class RemoveBrokenProperties implements IRepairStep {
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete('properties')
 			->where($qb->expr()->in('id', $qb->createParameter('ids'), IQueryBuilder::PARAM_STR_ARRAY));
-		foreach (array_chunk($brokenIds, 1000) as $chunkIds) {
+		foreach (array_chunk($brokenIds, IQueryBuilder::MAX_IN_PARAMETERS) as $chunkIds) {
 			$qb->setParameter('ids', $chunkIds, IQueryBuilder::PARAM_STR_ARRAY);
 			$qb->executeStatement();
 		}

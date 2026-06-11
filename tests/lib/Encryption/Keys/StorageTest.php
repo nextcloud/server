@@ -25,6 +25,7 @@ class StorageTest extends TestCase {
 
 	private array $mkdirStack = [];
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -553,7 +554,6 @@ class StorageTest extends TestCase {
 		$expected = array_pop($this->mkdirStack);
 		$this->assertSame($expected, $args[0]);
 	}
-
 
 	/**
 	 * @param bool $createBackupDir

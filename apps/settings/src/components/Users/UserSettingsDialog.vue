@@ -103,6 +103,15 @@
 				taggable
 				@option:selected="setDefaultQuota" />
 		</NcAppSettingsSection>
+
+		<NcAppSettingsShortcutsSection>
+			<NcHotkeyList :label="t('settings', 'Search')">
+				<NcHotkey :label="t('settings', 'Focus search')" hotkey="Control F" />
+			</NcHotkeyList>
+			<NcHotkeyList :label="t('settings', 'Help')">
+				<NcHotkey :label="t('settings', 'Show those shortcuts')" hotkey="?" />
+			</NcHotkeyList>
+		</NcAppSettingsShortcutsSection>
 	</NcAppSettingsDialog>
 </template>
 
@@ -110,9 +119,14 @@
 import axios from '@nextcloud/axios'
 import { formatFileSize, parseFileSize } from '@nextcloud/files'
 import { generateUrl } from '@nextcloud/router'
+import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
+import { nextTick } from 'vue'
 import NcAppSettingsDialog from '@nextcloud/vue/components/NcAppSettingsDialog'
 import NcAppSettingsSection from '@nextcloud/vue/components/NcAppSettingsSection'
+import NcAppSettingsShortcutsSection from '@nextcloud/vue/components/NcAppSettingsShortcutsSection'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcHotkey from '@nextcloud/vue/components/NcHotkey'
+import NcHotkeyList from '@nextcloud/vue/components/NcHotkeyList'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import { GroupSorting } from '../../constants/GroupManagement.ts'
@@ -125,7 +139,10 @@ export default {
 	components: {
 		NcAppSettingsDialog,
 		NcAppSettingsSection,
+		NcAppSettingsShortcutsSection,
 		NcCheckboxRadioSwitch,
+		NcHotkey,
+		NcHotkeyList,
 		NcNoteCard,
 		NcSelect,
 	},
@@ -135,6 +152,20 @@ export default {
 			type: Boolean,
 			required: true,
 		},
+	},
+
+	emits: ['update:open'],
+
+	setup(_, { emit }) {
+		// ? opens the settings dialog on the keyboard shortcuts section
+		useHotKey('?', async () => {
+			emit('update:open', true)
+			await nextTick()
+			document.getElementById('settings-section_keyboard-shortcuts')?.scrollIntoView({
+				behavior: 'smooth',
+				inline: 'nearest',
+			})
+		}, { stop: true, prevent: true })
 	},
 
 	data() {

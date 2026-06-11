@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Settings\Personal\Security;
 
 use OC\Authentication\Token\INamedToken;
@@ -33,6 +34,7 @@ class Authtokens implements ISettings {
 	) {
 	}
 
+	#[\Override]
 	public function getForm(): TemplateResponse {
 		$this->initialState->provideInitialState(
 			'app_tokens',
@@ -48,10 +50,12 @@ class Authtokens implements ISettings {
 		return new TemplateResponse('settings', 'settings/personal/security/authtokens');
 	}
 
+	#[\Override]
 	public function getSection(): string {
 		return 'security';
 	}
 
+	#[\Override]
 	public function getPriority(): int {
 		return 100;
 	}

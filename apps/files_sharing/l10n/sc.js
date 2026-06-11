@@ -209,7 +209,6 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Agiunghe a su Nextcloud tuo",
     "Name or email …" : "Nùmene o indiritzu de posta ...",
     "Name, email, or Federated Cloud ID …" : "Nùmene, indiritzu de posta o ID de sa nue federada ...",
-    "Searching …" : "Chirchende …",
-    "Error updating the share: {errorMessage}" : "Errore in s'agiornamentu de sa cumpartzidura: {errorMessage}"
+    "Searching …" : "Chirchende …"
 },
 "nplurals=2; plural=(n != 1);");

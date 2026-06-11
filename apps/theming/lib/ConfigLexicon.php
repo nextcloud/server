@@ -42,10 +42,12 @@ class ConfigLexicon implements ILexicon {
 	/** Base URL for documentation */
 	public const DOC_BASE_URL = 'docBaseUrl';
 
+	#[\Override]
 	public function getStrictness(): Strictness {
 		return Strictness::NOTICE;
 	}
 
+	#[\Override]
 	public function getAppConfigs(): array {
 		return [
 			// internals
@@ -110,6 +112,7 @@ class ConfigLexicon implements ILexicon {
 		];
 	}
 
+	#[\Override]
 	public function getUserConfigs(): array {
 		return [];
 	}

@@ -58,6 +58,7 @@ class Team implements \JsonSerializable {
 	 *
 	 * @since 29.0.0
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'teamId' => $this->teamId,

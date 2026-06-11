@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\DAV;
 
 use Sabre\DAV\Auth\Backend\BackendInterface;
@@ -51,6 +52,7 @@ class PublicAuth implements BackendInterface {
 	 * @param ResponseInterface $response
 	 * @return array
 	 */
+	#[\Override]
 	public function check(RequestInterface $request, ResponseInterface $response) {
 		if ($this->isRequestPublic($request)) {
 			return [true, 'principals/system/public'];
@@ -61,6 +63,7 @@ class PublicAuth implements BackendInterface {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function challenge(RequestInterface $request, ResponseInterface $response) {
 	}
 

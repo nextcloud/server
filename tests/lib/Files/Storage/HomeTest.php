@@ -21,10 +21,12 @@ class DummyUser extends User {
 	) {
 	}
 
+	#[\Override]
 	public function getHome(): string {
 		return $this->home;
 	}
 
+	#[\Override]
 	public function getUID(): string {
 		return $this->uid;
 	}
@@ -50,6 +52,7 @@ class HomeTest extends Storage {
 	 */
 	private $user;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -59,6 +62,7 @@ class HomeTest extends Storage {
 		$this->instance = new Home(['user' => $this->user]);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		Files::rmdirr($this->tmpDir);
 		parent::tearDown();

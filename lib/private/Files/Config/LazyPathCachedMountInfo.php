@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Files\Config;
 
 use OCP\IUser;
@@ -39,6 +40,7 @@ class LazyPathCachedMountInfo extends CachedMountInfo {
 		$this->rootInternalPathCallback = $rootInternalPathCallback;
 	}
 
+	#[\Override]
 	public function getRootInternalPath(): string {
 		if ($this->rootInternalPath === self::PATH_PLACEHOLDER) {
 			$this->rootInternalPath = ($this->rootInternalPathCallback)($this);

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\L10N;
 
 use OCP\IL10N;
@@ -41,6 +42,7 @@ class L10N implements IL10N {
 	 *
 	 * @return string language
 	 */
+	#[\Override]
 	public function getLanguageCode(): string {
 		return $this->lang;
 	}
@@ -50,6 +52,7 @@ class L10N implements IL10N {
 	 *
 	 * @return string locale
 	 */
+	#[\Override]
 	public function getLocaleCode(): string {
 		return $this->locale ?? '';
 	}
@@ -63,6 +66,7 @@ class L10N implements IL10N {
 	 * Returns the translation. If no translation is found, $text will be
 	 * returned.
 	 */
+	#[\Override]
 	public function t(string $text, $parameters = []): string {
 		if (!\is_array($parameters)) {
 			$parameters = [$parameters];
@@ -86,6 +90,7 @@ class L10N implements IL10N {
 	 * provided by the po file.
 	 *
 	 */
+	#[\Override]
 	public function n(string $text_singular, string $text_plural, int $count, array $parameters = []): string {
 		$identifier = "_{$text_singular}_::_{$text_plural}_";
 		if (isset($this->translations[$identifier])) {
@@ -121,6 +126,7 @@ class L10N implements IL10N {
 	 *  - firstday: Returns the first day of the week (0 sunday - 6 saturday)
 	 *  - jsdate: Returns the short JS date format
 	 */
+	#[\Override]
 	public function l(string $type, $data = null, array $options = []) {
 		if ($this->locale === null) {
 			// Use the language of the instance

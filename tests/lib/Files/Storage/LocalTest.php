@@ -29,6 +29,7 @@ class LocalTest extends Storage {
 	 */
 	private $tmpDir;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -36,6 +37,7 @@ class LocalTest extends Storage {
 		$this->instance = new Local(['datadir' => $this->tmpDir]);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		Files::rmdirr($this->tmpDir);
 		parent::tearDown();
@@ -57,20 +59,17 @@ class LocalTest extends Storage {
 		$this->assertNotEquals($etag1, $etag2);
 	}
 
-
 	public function testInvalidArgumentsEmptyArray(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		new Local([]);
 	}
 
-
 	public function testInvalidArgumentsNoArray(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		new Local([]);
 	}
-
 
 	public function testDisallowSymlinksOutsideDatadir(): void {
 		$this->expectException(ForbiddenException::class);

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Activity;
 
 use OCP\Activity\Exceptions\UnknownActivityException;
@@ -24,6 +25,7 @@ class SecurityProvider implements IProvider {
 	) {
 	}
 
+	#[\Override]
 	public function parse($language, IEvent $event, ?IEvent $previousEvent = null) {
 		if ($event->getType() !== 'security') {
 			throw new UnknownActivityException();

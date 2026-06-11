@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace Test\Files\Stream;
 
 use OC\Files\Stream\Encryption;
@@ -18,6 +19,7 @@ class DummyEncryptionWrapper extends Encryption {
 	 * @param int $position
 	 * @return bool
 	 */
+	#[\Override]
 	protected function parentStreamSeek($position) {
 		return false;
 	}

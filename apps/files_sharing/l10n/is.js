@@ -352,7 +352,6 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Deiling %s mistókst því bakvinnslukerfið leyfir ekki ScienceMesh-sameignir",
     "Name or email …" : "Nafn eða tölvupóstfang …",
     "Name, email, or Federated Cloud ID …" : "Nafn, tölvupóstfang eða skýjasambandsauðkenni (Federated Cloud ID) …",
-    "Searching …" : "Leita …",
-    "Error updating the share: {errorMessage}" : "Villa kom upp við að uppfæra sameignina: {errorMessage}"
+    "Searching …" : "Leita …"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

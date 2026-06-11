@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Tests;
 
 use OC\KnownUser\KnownUserService;
@@ -18,6 +19,7 @@ use OCP\Files\Mount\IMountManager;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDateTimeZone;
+use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -92,6 +94,7 @@ class CapabilitiesTest extends \Test\TestCase {
 			$this->createMock(ShareDisableChecker::class),
 			$this->createMock(IDateTimeZone::class),
 			$appConfig,
+			$this->createMock(IDBConnection::class),
 		);
 
 		$cap = new Capabilities($config, $appConfig, $shareManager, $appManager);

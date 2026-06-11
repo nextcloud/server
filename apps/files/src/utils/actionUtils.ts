@@ -8,8 +8,8 @@ import { showError, showSuccess } from '@nextcloud/dialogs'
 import { NodeStatus } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import Vue from 'vue'
-import logger from '../logger.ts'
 import { useActiveStore } from '../store/active.ts'
+import { logger } from '../utils/logger.ts'
 
 /**
  * Execute an action on the current active node

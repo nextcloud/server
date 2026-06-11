@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Security;
 
 use OCP\ICertificate;
@@ -14,7 +15,6 @@ class Certificate implements ICertificate {
 	protected ?string $commonName;
 
 	protected ?string $organization;
-
 
 	protected \DateTime $issueDate;
 
@@ -63,35 +63,43 @@ class Certificate implements ICertificate {
 		$this->issuerOrganization = $info['issuer']['O'] ?? null;
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->name;
 	}
 
+	#[\Override]
 	public function getCommonName(): ?string {
 		return $this->commonName;
 	}
 
+	#[\Override]
 	public function getOrganization(): ?string {
 		return $this->organization;
 	}
 
+	#[\Override]
 	public function getIssueDate(): \DateTime {
 		return $this->issueDate;
 	}
 
+	#[\Override]
 	public function getExpireDate(): \DateTime {
 		return $this->expireDate;
 	}
 
+	#[\Override]
 	public function isExpired(): bool {
 		$now = new \DateTime();
 		return $this->issueDate > $now || $now > $this->expireDate;
 	}
 
+	#[\Override]
 	public function getIssuerName(): ?string {
 		return $this->issuerName;
 	}
 
+	#[\Override]
 	public function getIssuerOrganization(): ?string {
 		return $this->issuerOrganization;
 	}

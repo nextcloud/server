@@ -40,7 +40,7 @@ OC.L10N.register(
     "<strong>System tags</strong> for a file have been modified" : "<strong>System-Schlagwort</strong> für eine Datei wurde geändert",
     "Files" : "Dateien",
     "Tags" : "Schlagworte",
-    "All tagged %s …" : "Alle Schlagwort %s hinzugefügt …",
+    "All tagged %s …" : "Alle Schlagworte %s hinzugefügt …",
     "tagged %s" : "Schlagwort %s hinzugefügt",
     "Collaborative tags" : "Kollaborative Schlagworte",
     "Collaborative tagging functionality which shares tags among people." : "Gemeinschaftliche Schlagwort-Funktionalität, welche Schlagworte unter den Benutzern teilt.",
@@ -75,7 +75,7 @@ OC.L10N.register(
     "Only admins can create new tags" : "Nur die Administration kann neue Schlagworte erstellen",
     "Failed to apply tags changes" : "Schlagwort-Änderungen konnten nicht angewendet werden",
     "Manage tags" : "Schlagworte verwalten",
-    "Applying tags changes…" : "Schlagwort-Änderungen werden angewendet…",
+    "Applying tags changes…" : "Schlagwort-Änderungen werden angewendet …",
     "Search or create tag" : "Schlagwort suchen oder erstellen",
     "Search tag" : "Schlagworte suchen",
     "Change tag color" : "Schlagwortfarbe ändern",
@@ -110,8 +110,8 @@ OC.L10N.register(
     "Failed to load tags for file" : "Schlagworte für Datei konnten nicht geladen werden",
     "Failed to set tag for file" : "Schlagwort für Datei konnte nicht gesetzt werden",
     "Failed to delete tag for file" : "Schlagwort für Datei konnte nicht gelöscht werden",
-    "Collaborative tags …" : "Kollaborative Schlagworte …",
-    "Loading …" : "Lade …",
-    "Loading collaborative tags …" : "Kollaborative Schlagworte laden…"
+    "Collaborative tags …" : "Kollaborative Schlagworte …",
+    "Loading …" : "Lade …",
+    "Loading collaborative tags …" : "Kollaborative Schlagworte laden …"
 },
 "nplurals=2; plural=(n != 1);");

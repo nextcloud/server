@@ -22,6 +22,7 @@ class UserDisabledCheckCommandTest extends ALoginTestCommand {
 	/** @var LoggerInterface|MockObject */
 	private $logger;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

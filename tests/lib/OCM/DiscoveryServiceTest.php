@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace Test\OCM;
 
 use OC\AppFramework\Bootstrap\RegistrationContext;
@@ -31,6 +32,7 @@ class DiscoveryServiceTest extends TestCase {
 	private IConfig $config;
 	private OCMRequestController $requestController;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -121,12 +123,18 @@ class DiscoveryServiceTest extends TestCase {
 		}
 	}
 
-
 	public function testLocalBaseCapability(): void {
 		$local = $this->discoveryService->getLocalOCMProvider();
 		$this->assertEmpty(array_diff(['notifications', 'shares'], $local->getCapabilities()));
 	}
 
+	public function testLocalCapabilitiesAdvertiseHttpSigByDefault(): void {
+		// `http-sig` is the OCM-spec flag signalling RFC 9421 support backed
+		// by /.well-known/jwks.json. Advertised whenever signing is not
+		// disabled outright.
+		$local = $this->discoveryService->getLocalOCMProvider();
+		$this->assertTrue($local->hasCapability('http-sig'));
+	}
 
 	public function testLocalAddedCapability(): void {
 		$this->context->for('ocm-capability-app')->registerEventListener(LocalOCMDiscoveryEvent::class, LocalOCMDiscoveryTestEvent::class);

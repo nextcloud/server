@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\WorkflowEngine\Controller;
 
 use OCA\WorkflowEngine\Helper\ScopeContext;
@@ -51,6 +52,7 @@ class UserWorkflowsController extends AWorkflowOCSController {
 	 *
 	 * 200: List of workflows returned
 	 */
+	#[\Override]
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/api/v1/workflows/user')]
 	public function index(): DataResponse {
@@ -65,6 +67,7 @@ class UserWorkflowsController extends AWorkflowOCSController {
 	 *
 	 * 200: Workflow returned or empty array if the ID is unknown in the scope
 	 */
+	#[\Override]
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/api/v1/workflows/user/{id}')]
 	public function show(string $id): DataResponse {
@@ -86,6 +89,7 @@ class UserWorkflowsController extends AWorkflowOCSController {
 	 *
 	 * @throws OCSBadRequestException Thrown when a check or check value is invalid
 	 */
+	#[\Override]
 	#[NoAdminRequired]
 	#[PasswordConfirmationRequired]
 	#[ApiRoute(verb: 'POST', url: '/api/v1/workflows/user')]
@@ -109,6 +113,7 @@ class UserWorkflowsController extends AWorkflowOCSController {
 	 * @throws OCSBadRequestException Thrown when a check or check value is invalid
 	 * @throws OCSForbiddenException Thrown when workflow is from a different scope
 	 */
+	#[\Override]
 	#[NoAdminRequired]
 	#[PasswordConfirmationRequired]
 	#[ApiRoute(verb: 'PUT', url: '/api/v1/workflows/user/{id}')]
@@ -126,6 +131,7 @@ class UserWorkflowsController extends AWorkflowOCSController {
 	 *
 	 * @throws OCSForbiddenException Thrown when workflow is from a different scope
 	 */
+	#[\Override]
 	#[NoAdminRequired]
 	#[PasswordConfirmationRequired]
 	#[ApiRoute(verb: 'DELETE', url: '/api/v1/workflows/user/{id}')]
@@ -136,6 +142,7 @@ class UserWorkflowsController extends AWorkflowOCSController {
 	/**
 	 * @throws OCSForbiddenException
 	 */
+	#[\Override]
 	protected function getScopeContext(): ScopeContext {
 		if ($this->scopeContext === null) {
 			$user = $this->session->getUser();

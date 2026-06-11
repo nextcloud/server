@@ -7,7 +7,7 @@ import type { IFolder, IView } from '@nextcloud/files'
 
 import { File, Permission } from '@nextcloud/files'
 import { describe, expect, test, vi } from 'vitest'
-import logger from '../logger.js'
+import logger from '../logger.ts'
 import { action } from './inlineUnreadCommentsAction.ts'
 
 const view = {

@@ -1,6 +1,7 @@
 OC.L10N.register(
     "files_versions",
     {
+    "No rule given" : "Engin regla gefin",
     "Versions" : "Útgáfur",
     "This application automatically maintains older versions of files that are changed." : "Þetta forrit viðheldur sjálfvirkt eldri útgáfum skráa sem er breytt.",
     "Current version" : "Fyrirliggjandi útgáfa",

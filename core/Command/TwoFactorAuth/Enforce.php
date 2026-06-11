@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Command\TwoFactorAuth;
 
 use OC\Authentication\TwoFactorAuth\EnforcementState;
@@ -23,6 +24,7 @@ class Enforce extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this->setName('twofactorauth:enforce');
 		$this->setDescription('Enabled/disable enforced two-factor authentication');
@@ -52,6 +54,7 @@ class Enforce extends Command {
 		);
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		if ($input->getOption('on')) {
 			$enforcedGroups = $input->getOption('group');

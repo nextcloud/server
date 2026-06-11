@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\AppFramework\Http;
 
 use OCP\AppFramework\Http;
@@ -34,6 +35,7 @@ class TooManyRequestsResponse extends Response {
 	 * @return string
 	 * @since 19.0.0
 	 */
+	#[\Override]
 	public function render() {
 		$template = Server::get(ITemplateManager::class)->getTemplate('core', '429', TemplateResponse::RENDER_AS_BLANK);
 		return $template->fetchPage();

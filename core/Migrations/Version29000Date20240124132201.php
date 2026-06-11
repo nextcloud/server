@@ -18,6 +18,7 @@ use OCP\Migration\SimpleMigrationStep;
  * Create new column for type and remove previous lazy column in appconfig (will be recreated by Version29000Date20240124132202) for the new IAppConfig API.
  */
 class Version29000Date20240124132201 extends SimpleMigrationStep {
+	#[\Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();

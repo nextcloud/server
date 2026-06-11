@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Type;
 
 use OCP\Files\IMimeTypeDetector;
@@ -121,6 +122,7 @@ class Detection implements IMimeTypeDetector {
 	/**
 	 * @return array<string,string>
 	 */
+	#[\Override]
 	public function getAllAliases(): array {
 		$this->loadAliases();
 		return $this->mimeTypeAlias;
@@ -149,6 +151,7 @@ class Detection implements IMimeTypeDetector {
 	/**
 	 * @return array<list{string, string|null}>
 	 */
+	#[\Override]
 	public function getAllMappings(): array {
 		$this->loadMappings();
 		return $this->mimeTypes;
@@ -168,6 +171,7 @@ class Detection implements IMimeTypeDetector {
 	/**
 	 * @return array<string,string>
 	 */
+	#[\Override]
 	public function getAllNamings(): array {
 		$this->loadNamings();
 		return $this->mimeTypesNames;
@@ -179,6 +183,7 @@ class Detection implements IMimeTypeDetector {
 	 * @param string $path
 	 * @return string
 	 */
+	#[\Override]
 	public function detectPath($path): string {
 		$this->loadMappings();
 
@@ -211,6 +216,7 @@ class Detection implements IMimeTypeDetector {
 	 * @return string
 	 * @since 18.0.0
 	 */
+	#[\Override]
 	public function detectContent(string $path): string {
 		$this->loadMappings();
 
@@ -274,6 +280,7 @@ class Detection implements IMimeTypeDetector {
 	 * @param string $path
 	 * @return string
 	 */
+	#[\Override]
 	public function detect($path): string {
 		$mimeType = $this->detectPath($path);
 
@@ -290,6 +297,7 @@ class Detection implements IMimeTypeDetector {
 	 * @param string $data
 	 * @return string
 	 */
+	#[\Override]
 	public function detectString($data): string {
 		if (class_exists(finfo::class)) {
 			$finfo = new finfo(FILEINFO_MIME_TYPE);
@@ -314,6 +322,7 @@ class Detection implements IMimeTypeDetector {
 	 * @param string $mimeType
 	 * @return string
 	 */
+	#[\Override]
 	public function getSecureMimeType($mimeType): string {
 		$this->loadMappings();
 
@@ -325,6 +334,7 @@ class Detection implements IMimeTypeDetector {
 	 * @param string $mimeType the MIME type
 	 * @return string the url
 	 */
+	#[\Override]
 	public function mimeTypeIcon($mimeType): string {
 		$this->loadAliases();
 

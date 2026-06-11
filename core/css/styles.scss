@@ -85,6 +85,10 @@ select, .button span, label {
 	cursor: pointer;
 }
 
+mark {
+	background-color: var(--color-mark);
+}
+
 ul {
 	list-style: none;
 }
@@ -177,8 +181,8 @@ body {
 /* SELECTION */
 
 ::selection {
-	background-color: var(--color-primary-element);
-	color: var(--color-primary-element-text);
+	background-color: var(--color-background-selection);
+	color: var(--color-text-selection);
 }
 
 

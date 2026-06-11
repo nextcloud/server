@@ -43,6 +43,7 @@ class ControllerTest extends \Test\TestCase {
 	private Controller $controller;
 	private Request $request;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -65,20 +66,17 @@ class ControllerTest extends \Test\TestCase {
 		$this->request = $request;
 	}
 
-
 	public function testFormatResonseInvalidFormat(): void {
 		$this->expectException(\DomainException::class);
 
 		$this->controller->buildResponse(null, 'test');
 	}
 
-
 	public function testFormat(): void {
 		$response = $this->controller->buildResponse(['hi'], 'json');
 
 		$this->assertEquals(['hi'], $response->getData());
 	}
-
 
 	public function testFormatDataResponseJSON(): void {
 		$expectedHeaders = [
@@ -99,7 +97,6 @@ class ControllerTest extends \Test\TestCase {
 		$this->assertEquals($expectedHeaders, $response->getHeaders());
 	}
 
-
 	public function testCustomFormatter(): void {
 		$response = $this->controller->custom('hi');
 		$response = $this->controller->buildResponse($response, 'json');
@@ -107,13 +104,11 @@ class ControllerTest extends \Test\TestCase {
 		$this->assertEquals([2], $response->getData());
 	}
 
-
 	public function testDefaultResponderToJSON(): void {
 		$responder = $this->controller->getResponderByHTTPHeader('*/*');
 
 		$this->assertEquals('json', $responder);
 	}
-
 
 	public function testResponderAcceptHeaderParsed(): void {
 		$responder = $this->controller->getResponderByHTTPHeader(
@@ -122,7 +117,6 @@ class ControllerTest extends \Test\TestCase {
 
 		$this->assertEquals('tom', $responder);
 	}
-
 
 	public function testResponderAcceptHeaderParsedUpperCase(): void {
 		$responder = $this->controller->getResponderByHTTPHeader(

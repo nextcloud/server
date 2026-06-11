@@ -1,0 +1,179 @@
+# This workflow is provided via the organization template repository
+#
+# https://github.com/nextcloud/.github
+# https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
+#
+# SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+
+name: AI Policy
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [master, main]
+
+permissions:
+  contents: read
+  # Required to add the "AI assisted" label via `gh pr edit --add-label`
+  pull-requests: write
+  # Required to create the "AI assisted" label via the REST labels endpoint
+  # (labels are an issues-scoped resource in the GitHub API)
+  issues: write
+
+concurrency:
+  group: ai-policy-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  check-ai-trailers:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Collect PR commit messages
+        id: collect
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          set -euo pipefail
+          git fetch origin "${BASE_REF}"
+          MERGE_BASE=$(git merge-base "origin/${BASE_REF}" HEAD)
+          git log --format="%B" "${MERGE_BASE}..HEAD" > /tmp/pr_commits.txt
+          echo "--- PR commit messages ---"
+          cat /tmp/pr_commits.txt
+          echo "--------------------------"
+
+      - name: Define shared agent detection patterns
+        run: |
+          set -euo pipefail
+
+          # Email addresses known to be used by coding agents.
+          # These should never appear in Signed-off-by because the DCO can only be attested by a human.
+          EMAIL_PATTERN="copilot@github\.com\
+            |noreply@anthropic\.com\
+            |devin@cognition\.ai\
+            |devin@cognition-labs\.com\
+            |aider@aider\.chat\
+            |noreply@aider\.chat\
+            |codex@openai\.com\
+            |cursor@anysphere\.com\
+            |windsurf@codeium\.com\
+            |codeium@codeium\.com\
+            |amazon-q@amazon\.com\
+            |codewhisperer@amazon\.com\
+            |gemini-code-assist@google\.com\
+            |openhands@all-hands\.dev\
+            |swe-agent@princeton\.edu"
+
+          # Strip embedded whitespace (used above only for readability)
+          EMAIL_PATTERN=$(echo "$EMAIL_PATTERN" | tr -d ' \n')
+          echo "AGENT_EMAIL_PATTERN=${EMAIL_PATTERN}" >> "$GITHUB_ENV"
+
+          # Display-name prefixes used by known coding agents (shared by Signed-off-by and Co-Authored-By checks)
+          # shellcheck disable=SC2016
+          echo 'AGENT_NAMES=GitHub Copilot|Claude( [A-Za-z0-9. -]+)?|Devin( AI)?|aider( \(.*\))?|OpenAI Codex|Cursor( AI)?|Windsurf|Amazon Q|CodeWhisperer|Gemini Code Assist|OpenHands|SWE-agent|AutoCodeRover|Tabnine' >> "$GITHUB_ENV"
+
+      - name: Check for AI-assistant / Assisted-by trailers
+        id: ai_trailers
+        run: |
+          set -euo pipefail
+          AI_ASSISTED=false
+          if grep -qiE '^(AI-assistant|Assisted-by):' /tmp/pr_commits.txt; then
+            AI_ASSISTED=true
+            echo "Found AI-assistant/Assisted-by trailer(s):"
+            grep -iE '^(AI-assistant|Assisted-by):' /tmp/pr_commits.txt
+          fi
+          echo "ai_assisted=${AI_ASSISTED}" >> "$GITHUB_OUTPUT"
+
+      - name: Check for coding-agent Signed-off-by trailers
+        id: agent_signoff
+        run: |
+          set -euo pipefail
+
+          EMAIL_HITS=$(grep -iE "^Signed-off-by:.*<(${AGENT_EMAIL_PATTERN})>" /tmp/pr_commits.txt 2>/dev/null || true)
+          NAME_HITS=$(grep -iE "^Signed-off-by: *(${AGENT_NAMES}) *[<(]" /tmp/pr_commits.txt 2>/dev/null || true)
+
+          AGENT_LINES=$(printf '%s\n%s' "$EMAIL_HITS" "$NAME_HITS" | sort -u | sed '/^[[:space:]]*$/d')
+
+          AGENT_SIGNOFF=false
+          if [ -n "$AGENT_LINES" ]; then
+            AGENT_SIGNOFF=true
+          fi
+
+          echo "agent_signoff=${AGENT_SIGNOFF}" >> "$GITHUB_OUTPUT"
+          {
+            echo "agent_lines<<AGENT_EOF"
+            echo "${AGENT_LINES}"
+            echo "AGENT_EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Check for coding-agent Co-Authored-By trailers
+        id: co_authored
+        run: |
+          set -euo pipefail
+
+          EMAIL_HITS=$(grep -iE "^Co-Authored-By:.*<(${AGENT_EMAIL_PATTERN})>" /tmp/pr_commits.txt 2>/dev/null || true)
+          NAME_HITS=$(grep -iE "^Co-Authored-By: *(${AGENT_NAMES}) *[<(]" /tmp/pr_commits.txt 2>/dev/null || true)
+
+          CO_AUTHORED=false
+          if [ -n "$EMAIL_HITS" ] || [ -n "$NAME_HITS" ]; then
+            CO_AUTHORED=true
+            echo "Found coding-agent Co-Authored-By trailer(s):"
+            printf '%s\n%s' "$EMAIL_HITS" "$NAME_HITS" | sort -u | sed '/^[[:space:]]*$/d'
+          fi
+
+          echo "co_authored=${CO_AUTHORED}" >> "$GITHUB_OUTPUT"
+
+      - name: Create 'AI assisted' label if absent
+        if: steps.ai_trailers.outputs.ai_assisted == 'true' || steps.agent_signoff.outputs.agent_signoff == 'true' || steps.co_authored.outputs.co_authored == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api "repos/${{ github.repository }}/labels" \
+            --method POST \
+            -f name="AI assisted" \
+            -f color="d93f0b" \
+            -f description="This PR contains AI-assisted commits" \
+            2>/dev/null || true
+
+      - name: Label PR as AI assisted
+        if: steps.ai_trailers.outputs.ai_assisted == 'true' || steps.agent_signoff.outputs.agent_signoff == 'true' || steps.co_authored.outputs.co_authored == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh pr edit "${{ github.event.pull_request.number }}" \
+            --repo "${{ github.repository }}" \
+            --add-label "AI assisted"
+          echo "Added 'AI assisted' label to PR #${{ github.event.pull_request.number }}"
+
+      - name: Fail on coding-agent Signed-off-by
+        if: steps.agent_signoff.outputs.agent_signoff == 'true'
+        env:
+          AGENT_LINES: ${{ steps.agent_signoff.outputs.agent_lines }}
+          AGENTS_MD_URL: https://github.com/${{ github.repository }}/blob/${{ github.base_ref }}/AGENTS.md
+        run: |
+          echo "::error title=Coding-agent sign-off detected::A Signed-off-by trailer from a known coding agent was found in one or more commits."
+          echo ""
+          echo "Offending trailer(s):"
+          echo "${AGENT_LINES}"
+          echo ""
+          echo "The 'Signed-off-by' trailer represents the Developer Certificate of Origin (DCO)"
+          echo "and must only be attested by a human contributor."
+          echo "Please amend the affected commit(s) to remove the coding-agent sign-off"
+          echo "and replace it with an 'Assisted-by' trailer, for example:"
+          echo ""
+          echo "  Assisted-by: Claude Code:claude-sonnet-4-6"
+          echo ""
+          echo "References:"
+          echo "  • AGENTS.md (this repository)"
+          echo "    ${AGENTS_MD_URL}"
+          echo "  • AI Contribution Policy"
+          echo "    https://github.com/nextcloud/.github/blob/master/AI_POLICY.md"
+          echo "  • Contribution Guidelines"
+          echo "    https://github.com/nextcloud/.github/blob/master/CONTRIBUTING.md"
+          exit 1

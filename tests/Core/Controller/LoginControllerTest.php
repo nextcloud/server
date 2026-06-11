@@ -81,6 +81,7 @@ class LoginControllerTest extends TestCase {
 	/** @var IAppManager|MockObject */
 	private $appManager;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->request = $this->createMock(IRequest::class);
@@ -103,7 +104,6 @@ class LoginControllerTest extends TestCase {
 			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			});
-
 
 		$this->request->method('getRemoteAddress')
 			->willReturn('1.2.3.4');

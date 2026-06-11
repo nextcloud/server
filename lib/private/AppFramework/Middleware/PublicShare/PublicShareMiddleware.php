@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\AppFramework\Middleware\PublicShare;
 
 use OC\AppFramework\Middleware\PublicShare\Exceptions\NeedAuthenticationException;
@@ -29,6 +30,7 @@ class PublicShareMiddleware extends Middleware {
 	) {
 	}
 
+	#[\Override]
 	public function beforeController($controller, $methodName) {
 		if (!($controller instanceof PublicShareController)) {
 			return;
@@ -79,6 +81,7 @@ class PublicShareMiddleware extends Middleware {
 		throw new NotFoundException();
 	}
 
+	#[\Override]
 	public function afterException($controller, $methodName, \Exception $exception) {
 		if (!($controller instanceof PublicShareController)) {
 			throw $exception;

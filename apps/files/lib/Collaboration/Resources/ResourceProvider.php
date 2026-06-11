@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files\Collaboration\Resources;
 
 use OCP\Collaboration\Resources\IProvider;
@@ -47,6 +48,7 @@ class ResourceProvider implements IProvider {
 	 * @return array
 	 * @since 16.0.0
 	 */
+	#[\Override]
 	public function getResourceRichObject(IResource $resource): array {
 		if (isset($this->nodes[(int)$resource->getId()])) {
 			$node = $this->nodes[(int)$resource->getId()]->getPath();
@@ -81,6 +83,7 @@ class ResourceProvider implements IProvider {
 	 * @return bool
 	 * @since 16.0.0
 	 */
+	#[\Override]
 	public function canAccessResource(IResource $resource, ?IUser $user = null): bool {
 		if (!$user instanceof IUser) {
 			return false;
@@ -103,6 +106,7 @@ class ResourceProvider implements IProvider {
 	 * @return string
 	 * @since 16.0.0
 	 */
+	#[\Override]
 	public function getType(): string {
 		return self::RESOURCE_TYPE;
 	}

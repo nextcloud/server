@@ -37,10 +37,12 @@ class SystemTagsInUseCollection extends SimpleCollection {
 		}
 	}
 
+	#[\Override]
 	public function setName($name): void {
 		throw new Forbidden('Permission denied to rename this collection');
 	}
 
+	#[\Override]
 	public function getChild($name): self {
 		if ($this->mediaType !== '') {
 			throw new NotFound('Invalid media type');
@@ -53,6 +55,7 @@ class SystemTagsInUseCollection extends SimpleCollection {
 	 * @throws NotPermittedException
 	 * @throws Forbidden
 	 */
+	#[\Override]
 	public function getChildren(): array {
 		$user = $this->userSession->getUser();
 		$userFolder = null;

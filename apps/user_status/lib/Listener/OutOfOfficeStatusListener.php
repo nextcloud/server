@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\UserStatus\Listener;
 
 use OCA\DAV\BackgroundJob\UserStatusAutomation;
@@ -38,6 +39,7 @@ class OutOfOfficeStatusListener implements IEventListener {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof OutOfOfficeClearedEvent) {
 			$this->manager->revertUserStatus($event->getData()->getUser()->getUID(), IUserStatus::MESSAGE_OUT_OF_OFFICE, IUserStatus::DND);

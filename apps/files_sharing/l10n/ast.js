@@ -271,7 +271,6 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Nun se pudo compartir «%s» porque nun ye compatible coles comparticiones de ScienceMesh",
     "Name or email …" : "Nome o direición de corréu electrónicu…",
     "Name, email, or Federated Cloud ID …" : "Nome, direición de corréu electrónicu o ID de nube federada…",
-    "Searching …" : "Buscando…",
-    "Error updating the share: {errorMessage}" : "Hebo un error al anovar la compartición: {errorMessage}"
+    "Searching …" : "Buscando…"
 },
 "nplurals=2; plural=(n != 1);");

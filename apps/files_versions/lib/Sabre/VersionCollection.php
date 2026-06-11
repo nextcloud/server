@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Versions\Sabre;
 
 use OCA\Files_Versions\Versions\IVersion;
@@ -25,14 +26,17 @@ class VersionCollection implements ICollection {
 	) {
 	}
 
+	#[\Override]
 	public function createFile($name, $data = null) {
 		throw new Forbidden();
 	}
 
+	#[\Override]
 	public function createDirectory($name) {
 		throw new Forbidden();
 	}
 
+	#[\Override]
 	public function getChild($name) {
 		/** @var VersionFile[] $versions */
 		$versions = $this->getChildren();
@@ -46,6 +50,7 @@ class VersionCollection implements ICollection {
 		throw new NotFound();
 	}
 
+	#[\Override]
 	public function getChildren(): array {
 		$versions = $this->versionManager->getVersionsForFile($this->user, $this->file);
 
@@ -54,6 +59,7 @@ class VersionCollection implements ICollection {
 		}, $versions);
 	}
 
+	#[\Override]
 	public function childExists($name): bool {
 		try {
 			$this->getChild($name);
@@ -63,18 +69,22 @@ class VersionCollection implements ICollection {
 		}
 	}
 
+	#[\Override]
 	public function delete() {
 		throw new Forbidden();
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return (string)$this->file->getId();
 	}
 
+	#[\Override]
 	public function setName($name) {
 		throw new Forbidden();
 	}
 
+	#[\Override]
 	public function getLastModified(): int {
 		return 0;
 	}

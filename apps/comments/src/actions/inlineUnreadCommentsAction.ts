@@ -8,8 +8,8 @@ import type { IFileAction } from '@nextcloud/files'
 import CommentProcessingSvg from '@mdi/svg/svg/comment-processing.svg?raw'
 import { getSidebar } from '@nextcloud/files'
 import { n, t } from '@nextcloud/l10n'
-import logger from '../logger.js'
-import { isUsingActivityIntegration } from '../utils/activity.js'
+import logger from '../logger.ts'
+import { isUsingActivityIntegration } from '../utils/activity.ts'
 
 export const action: IFileAction = {
 	id: 'comments-unread',

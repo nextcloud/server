@@ -9,13 +9,17 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Tests\unit\CalDAV\Federation;
 
+use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Federation\FederatedCalendarEntity;
 use OCA\DAV\CalDAV\Federation\FederatedCalendarMapper;
 use OCA\DAV\CalDAV\Federation\FederatedCalendarSyncService;
-use OCA\DAV\CalDAV\SyncService as CalDavSyncService;
-use OCA\DAV\CalDAV\SyncServiceResult;
 use OCP\Federation\ICloudId;
 use OCP\Federation\ICloudIdManager;
+use OCP\Http\Client\IClient;
+use OCP\Http\Client\IClientService;
+use OCP\Http\Client\IResponse;
+use OCP\IConfig;
+use OCP\IDBConnection;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -26,21 +30,30 @@ class FederatedCalendarSyncServiceTest extends TestCase {
 
 	private FederatedCalendarMapper&MockObject $federatedCalendarMapper;
 	private LoggerInterface&MockObject $logger;
-	private CalDavSyncService&MockObject $calDavSyncService;
+	private CalDavBackend&MockObject $backend;
+	private IDBConnection&MockObject $dbConnection;
 	private ICloudIdManager&MockObject $cloudIdManager;
+	private IClientService&MockObject $clientService;
+	private IConfig&MockObject $config;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->federatedCalendarMapper = $this->createMock(FederatedCalendarMapper::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
-		$this->calDavSyncService = $this->createMock(CalDavSyncService::class);
+		$this->backend = $this->createMock(CalDavBackend::class);
+		$this->dbConnection = $this->createMock(IDBConnection::class);
 		$this->cloudIdManager = $this->createMock(ICloudIdManager::class);
+		$this->clientService = $this->createMock(IClientService::class);
+		$this->config = $this->createMock(IConfig::class);
 
 		$this->federatedCalendarSyncService = new FederatedCalendarSyncService(
+			$this->clientService,
+			$this->config,
 			$this->federatedCalendarMapper,
 			$this->logger,
-			$this->calDavSyncService,
+			$this->backend,
+			$this->dbConnection,
 			$this->cloudIdManager,
 		);
 	}
@@ -61,16 +74,24 @@ class FederatedCalendarSyncServiceTest extends TestCase {
 			->with('user1')
 			->willReturn($cloudId);
 
-		$this->calDavSyncService->expects(self::once())
-			->method('syncRemoteCalendar')
-			->with(
-				'https://remote.tld/remote.php/dav/remote-calendars/abcdef123/cal1_shared_by_user2',
-				'dXNlcjFAbmV4dGNsb3VkLnRlc3Rpbmc=',
-				'token',
-				'http://sabre.io/ns/sync/100',
-				$calendar,
-			)
-			->willReturn(new SyncServiceResult('http://sabre.io/ns/sync/101', 10));
+		// Mock HTTP client for sync report
+		$client = $this->createMock(IClient::class);
+		$response = $this->createMock(IResponse::class);
+		$response->method('getBody')
+			->willReturn('<?xml version="1.0"?><d:multistatus xmlns:d="DAV:"><d:sync-token>http://sabre.io/ns/sync/101</d:sync-token></d:multistatus>');
+
+		$client->expects(self::once())
+			->method('request')
+			->with('REPORT', 'https://remote.tld/remote.php/dav/remote-calendars/abcdef123/cal1_shared_by_user2', self::anything())
+			->willReturn($response);
+
+		$this->clientService->method('newClient')
+			->willReturn($client);
+
+		$this->config->method('getSystemValueInt')
+			->willReturn(30);
+		$this->config->method('getSystemValue')
+			->willReturn(false);
 
 		$this->federatedCalendarMapper->expects(self::once())
 			->method('updateSyncTokenAndTime')
@@ -78,7 +99,7 @@ class FederatedCalendarSyncServiceTest extends TestCase {
 		$this->federatedCalendarMapper->expects(self::never())
 			->method('updateSyncTime');
 
-		$this->assertEquals(10, $this->federatedCalendarSyncService->syncOne($calendar));
+		$this->assertEquals(0, $this->federatedCalendarSyncService->syncOne($calendar));
 	}
 
 	public function testSyncOneUnchanged(): void {
@@ -97,16 +118,24 @@ class FederatedCalendarSyncServiceTest extends TestCase {
 			->with('user1')
 			->willReturn($cloudId);
 
-		$this->calDavSyncService->expects(self::once())
-			->method('syncRemoteCalendar')
-			->with(
-				'https://remote.tld/remote.php/dav/remote-calendars/abcdef123/cal1_shared_by_user2',
-				'dXNlcjFAbmV4dGNsb3VkLnRlc3Rpbmc=',
-				'token',
-				'http://sabre.io/ns/sync/100',
-				$calendar,
-			)
-			->willReturn(new SyncServiceResult('http://sabre.io/ns/sync/100', 0));
+		// Mock HTTP client for sync report
+		$client = $this->createMock(IClient::class);
+		$response = $this->createMock(IResponse::class);
+		$response->method('getBody')
+			->willReturn('<?xml version="1.0"?><d:multistatus xmlns:d="DAV:"><d:sync-token>http://sabre.io/ns/sync/100</d:sync-token></d:multistatus>');
+
+		$client->expects(self::once())
+			->method('request')
+			->with('REPORT', 'https://remote.tld/remote.php/dav/remote-calendars/abcdef123/cal1_shared_by_user2', self::anything())
+			->willReturn($response);
+
+		$this->clientService->method('newClient')
+			->willReturn($client);
+
+		$this->config->method('getSystemValueInt')
+			->willReturn(30);
+		$this->config->method('getSystemValue')
+			->willReturn(false);
 
 		$this->federatedCalendarMapper->expects(self::never())
 			->method('updateSyncTokenAndTime');
@@ -143,16 +172,24 @@ class FederatedCalendarSyncServiceTest extends TestCase {
 			->with('user1')
 			->willReturn($cloudId);
 
-		$this->calDavSyncService->expects(self::once())
-			->method('syncRemoteCalendar')
-			->with(
-				'https://remote.tld/remote.php/dav/remote-calendars/abcdef123/cal1_shared_by_user2',
-				'dXNlcjFAbmV4dGNsb3VkLnRlc3Rpbmc=',
-				'token',
-				'http://sabre.io/ns/sync/100',
-				$calendar,
-			)
-			->willReturn(new SyncServiceResult($syncToken, 10));
+		// Mock HTTP client for sync report with unexpected token format
+		$client = $this->createMock(IClient::class);
+		$response = $this->createMock(IResponse::class);
+		$response->method('getBody')
+			->willReturn('<?xml version="1.0"?><d:multistatus xmlns:d="DAV:"><d:sync-token>' . $syncToken . '</d:sync-token></d:multistatus>');
+
+		$client->expects(self::once())
+			->method('request')
+			->with('REPORT', 'https://remote.tld/remote.php/dav/remote-calendars/abcdef123/cal1_shared_by_user2', self::anything())
+			->willReturn($response);
+
+		$this->clientService->method('newClient')
+			->willReturn($client);
+
+		$this->config->method('getSystemValueInt')
+			->willReturn(30);
+		$this->config->method('getSystemValue')
+			->willReturn(false);
 
 		$this->federatedCalendarMapper->expects(self::never())
 			->method('updateSyncTokenAndTime');

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Setup;
 
 use OC\DB\Connection;
@@ -73,6 +74,27 @@ abstract class AbstractDatabase {
 		$this->dbHost = $dbHost;
 		$this->dbPort = $dbPort;
 		$this->tablePrefix = $dbTablePrefix;
+	}
+
+	/**
+	 * Generate a strong random password suitable for database user accounts.
+	 *
+	 * Guarantees at least 2 uppercase, 2 lowercase, 2 digit, and 2 symbol
+	 * characters are present, with symbols filtered to exclude characters
+	 * that are problematic in SQL string contexts (", \, ', `).
+	 *
+	 * @return string A 30-character random password
+	 */
+	protected function generateDbPassword(): string {
+		$safeSymbols = str_replace(['\"', '\\', '\'', '`'], '', ISecureRandom::CHAR_SYMBOLS);
+
+		$password = $this->random->generate(22, ISecureRandom::CHAR_ALPHANUMERIC . $safeSymbols)
+			. $this->random->generate(2, ISecureRandom::CHAR_UPPER)
+			. $this->random->generate(2, ISecureRandom::CHAR_LOWER)
+			. $this->random->generate(2, ISecureRandom::CHAR_DIGITS)
+			. $this->random->generate(2, $safeSymbols);
+
+		return str_shuffle($password);
 	}
 
 	/**

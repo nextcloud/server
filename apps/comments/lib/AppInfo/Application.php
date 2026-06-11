@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Comments\AppInfo;
 
 use OCA\Comments\Capabilities;
@@ -23,7 +24,10 @@ use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Comments\CommentsEntityEvent;
-use OCP\Comments\CommentsEvent;
+use OCP\Comments\Events\BeforeCommentUpdatedEvent;
+use OCP\Comments\Events\CommentAddedEvent;
+use OCP\Comments\Events\CommentDeletedEvent;
+use OCP\Comments\Events\CommentUpdatedEvent;
 
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'comments';
@@ -32,6 +36,7 @@ class Application extends App implements IBootstrap {
 		parent::__construct(self::APP_ID, $urlParams);
 	}
 
+	#[\Override]
 	public function register(IRegistrationContext $context): void {
 		$context->registerCapability(Capabilities::class);
 
@@ -48,7 +53,19 @@ class Application extends App implements IBootstrap {
 			CommentsEntityEventListener::class
 		);
 		$context->registerEventListener(
-			CommentsEvent::class,
+			CommentAddedEvent::class,
+			CommentsEventListener::class,
+		);
+		$context->registerEventListener(
+			BeforeCommentUpdatedEvent::class,
+			CommentsEventListener::class,
+		);
+		$context->registerEventListener(
+			CommentUpdatedEvent::class,
+			CommentsEventListener::class,
+		);
+		$context->registerEventListener(
+			CommentDeletedEvent::class,
 			CommentsEventListener::class,
 		);
 
@@ -59,6 +76,7 @@ class Application extends App implements IBootstrap {
 		$context->registerNotifierService(Notifier::class);
 	}
 
+	#[\Override]
 	public function boot(IBootContext $context): void {
 	}
 }

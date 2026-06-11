@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\AppFramework\Http;
 
 use OCP\AppFramework\Http;
@@ -50,6 +51,7 @@ class DataDownloadResponse extends DownloadResponse {
 	 * @return string
 	 * @since 8.0.0
 	 */
+	#[\Override]
 	public function render() {
 		return $this->data;
 	}

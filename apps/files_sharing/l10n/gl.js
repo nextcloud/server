@@ -181,7 +181,7 @@ OC.L10N.register(
     "Choose a default folder for accepted shares" : "Escolla un cartafol predeterminado para as comparticións aceptadas",
     "Invalid path selected" : "Seleccionou unha ruta incorrecta.",
     "Unknown error" : "Produciuse un erro descoñecido",
-    "Set default folder for accepted shares" : "Definir o cartafol predeterminado para as s aceptadas",
+    "Set default folder for accepted shares" : "Definir o cartafol predeterminado para as comparticións aceptadas",
     "Reset" : "Restabelecer",
     "Reset folder to system default" : "Restabelecer o cartafol ao predeterminado do sistema",
     "Share expiration: {date}" : "Caducidade da compartición: {date}",
@@ -405,8 +405,6 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Produciuse un erro ao compartir %s porque a infraestrutura non admite comparticións de ScienceMesh",
     "Name or email …" : "Nome ou correo…",
     "Name, email, or Federated Cloud ID …" : "Nome, correo ou ID de nube federada…",
-    "Searching …" : "Buscando…",
-    "Error deleting the share: {errorMessage}" : "Produciuse un erro ao eliminar a compartición: {errorMessage}",
-    "Error updating the share: {errorMessage}" : "Produciuse un erro ao actualizar a compartición: {errorMessage}"
+    "Searching …" : "Buscando…"
 },
 "nplurals=2; plural=(n != 1);");

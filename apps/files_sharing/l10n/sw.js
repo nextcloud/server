@@ -405,8 +405,6 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Ushirikishaji %s kumeshindwa kwa sababu sehemu ya nyuma haitumii hisa za ScienceMesh",
     "Name or email …" : "Jina au barua pepe",
     "Name, email, or Federated Cloud ID …" : "Jina, barua pepe au kitambulisho cha Cloudi kilichoshirikishwa...",
-    "Searching …" : "Inatafuta",
-    "Error deleting the share: {errorMessage}" : "Hitilafu katika kufuta kushiriki: {errorMessage}",
-    "Error updating the share: {errorMessage}" : "Hitilafu katika kusasisha ushiriki: {errorMessage}"
+    "Searching …" : "Inatafuta"
 },
 "nplurals=2; plural=(n != 1);");

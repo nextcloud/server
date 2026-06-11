@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Mail;
 
 use OCP\Defaults;
@@ -76,6 +77,7 @@ class Mailer implements IMailer {
 	/**
 	 * Creates a new message object that can be passed to send()
 	 */
+	#[\Override]
 	public function createMessage(): Message {
 		$plainTextOnly = $this->config->getSystemValueBool('mail_send_plaintext_only', false);
 		return new Message(new Email(), $plainTextOnly);
@@ -87,6 +89,7 @@ class Mailer implements IMailer {
 	 * @param string|null $contentType
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	public function createAttachment($data = null, $filename = null, $contentType = null): IAttachment {
 		return new Attachment($data, $filename, $contentType);
 	}
@@ -95,6 +98,7 @@ class Mailer implements IMailer {
 	 * @param string|null $contentType
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	public function createAttachmentFromPath(string $path, $contentType = null): IAttachment {
 		return new Attachment(null, null, $contentType, $path);
 	}
@@ -104,6 +108,7 @@ class Mailer implements IMailer {
 	 *
 	 * @since 12.0.0
 	 */
+	#[\Override]
 	public function createEMailTemplate(string $emailId, array $data = []): IEMailTemplate {
 		$logoDimensions = $this->config->getAppValue('theming', 'logoDimensions', self::DEFAULT_DIMENSIONS);
 		if (str_contains($logoDimensions, 'x')) {
@@ -165,6 +170,7 @@ class Mailer implements IMailer {
 	 * @param IMessage $message Message to send
 	 * @return string[] $failedRecipients
 	 */
+	#[\Override]
 	public function send(IMessage $message): array {
 		$debugMode = $this->config->getSystemValueBool('mail_smtpdebug', false);
 
@@ -235,8 +241,9 @@ class Mailer implements IMailer {
 	/**
 	 * @param string $email Email address to be validated
 	 * @return bool True if the mail address is valid, false otherwise
-	 * @deprecated 26.0.0 use IEmailValidator.isValid instead
+	 * @deprecated 32.0.0 use {@see IEmailValidator::isValid()} instead
 	 */
+	#[\Override]
 	public function validateMailAddress(string $email): bool {
 		return $this->emailValidator->isValid($email);
 	}

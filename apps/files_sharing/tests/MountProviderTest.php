@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Share20\Share;
@@ -464,7 +465,6 @@ class MountProviderTest extends \Test\TestCase {
 		} else {
 			$mounts = $this->provider->getMountsForPath('/', true, $mountArgs, $this->loader);
 		}
-
 
 		$this->assertCount(\count($expectedShares), $mounts);
 

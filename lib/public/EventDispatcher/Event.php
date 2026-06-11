@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\EventDispatcher;
 
 use Psr\EventDispatcher\StoppableEventInterface;
@@ -62,6 +63,7 @@ class Event implements StoppableEventInterface {
 	 * @since 22.0.0
 	 * @see \Psr\EventDispatcher\StoppableEventInterface
 	 */
+	#[\Override]
 	public function isPropagationStopped(): bool {
 		return $this->propagationStopped;
 	}

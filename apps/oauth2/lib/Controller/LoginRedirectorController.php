@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\OAuth2\Controller;
 
 use OC\Core\Controller\ClientFlowLoginController;
@@ -81,7 +82,7 @@ class LoginRedirectorController extends Controller {
 
 		if ($response_type !== 'code') {
 			//Fail
-			$url = $client->getRedirectUri() . '?error=unsupported_response_type&state=' . $state;
+			$url = $client->getRedirectUri() . '?error=unsupported_response_type&state=' . \urlencode($state);
 			return new RedirectResponse($url);
 		}
 

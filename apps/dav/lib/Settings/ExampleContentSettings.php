@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Settings;
 
 use OCA\DAV\AppInfo\Application;
@@ -28,6 +29,7 @@ class ExampleContentSettings implements ISettings {
 	) {
 	}
 
+	#[\Override]
 	public function getForm(): TemplateResponse {
 		$calendarEnabled = $this->appManager->isEnabledForUser('calendar');
 		$contactsEnabled = $this->appManager->isEnabledForUser('contacts');
@@ -59,6 +61,7 @@ class ExampleContentSettings implements ISettings {
 		return new TemplateResponse(Application::APP_ID, 'settings-admin-example-content');
 	}
 
+	#[\Override]
 	public function getSection(): ?string {
 		if (!$this->appManager->isEnabledForUser('contacts')
 				&& !$this->appManager->isEnabledForUser('calendar')) {
@@ -68,6 +71,7 @@ class ExampleContentSettings implements ISettings {
 		return 'groupware';
 	}
 
+	#[\Override]
 	public function getPriority(): int {
 		return 10;
 	}

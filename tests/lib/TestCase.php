@@ -23,9 +23,11 @@ use OC\Files\SetupManager;
 use OC\Files\View;
 use OC\Installer;
 use OC\Updater;
+use OC\User\Session;
 use OCP\Command\IBus;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\IRootFolder;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUserManager;
@@ -40,10 +42,13 @@ use Psr\Container\ContainerExceptionInterface;
 abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	private QueueBus $commandBus;
 
+	/** @psalm-suppress ImpureStaticProperty For tests it's not an issue */
 	protected static ?IDBConnection $realDatabase = null;
+	/** @psalm-suppress ImpureStaticProperty */
 	private static bool $wasDatabaseAllowed = false;
 	protected array $services = [];
 
+	#[\Override]
 	protected function onNotSuccessfulTest(\Throwable $t): never {
 		$this->restoreAllServices();
 
@@ -94,7 +99,6 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 				unset($container[$oldService]);
 			}
 
-
 			unset($this->services[$name]);
 			return true;
 		}
@@ -123,6 +127,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		});
 	}
 
+	#[\Override]
 	protected function setUp(): void {
 		// overwrite the command bus with one we can run ourselves
 		$this->commandBus = new QueueBus();
@@ -151,6 +156,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		}
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$this->restoreAllServices();
 
@@ -190,6 +196,22 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 			if (method_exists($this, $methodName)) {
 				call_user_func([$this, $methodName]);
 			}
+		}
+
+		// Clean up encryption state to prevent test pollution
+		// This ensures encryption_enabled is reset after each test, preventing
+		// MultiKeyEncryptException failures in subsequent tests when encryption
+		// is left enabled but user keys don't exist
+		try {
+			$appConfig = Server::get(IAppConfig::class);
+			$currentValue = $appConfig->getValueBool('core', 'encryption_enabled', false);
+			if ($currentValue) {
+				$appConfig->setValueBool('core', 'encryption_enabled', false);
+				$appConfig->deleteKey('core', 'default_encryption_module');
+				$appConfig->deleteKey('encryption', 'useMasterKey');
+			}
+		} catch (\Throwable $e) {
+			// Ignore - may be called before bootstrap completes
 		}
 	}
 
@@ -274,6 +296,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		return $methods;
 	}
 
+	#[\Override]
 	public static function tearDownAfterClass(): void {
 		if (!self::$wasDatabaseAllowed && self::$realDatabase !== null) {
 			// in case an error is thrown in a test, PHPUnit jumps straight to tearDownAfterClass,
@@ -364,7 +387,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 			'nextcloud.log' => true,
 			'audit.log' => true,
 			'owncloud.db' => true,
-			'.ocdata' => true,
+			'.ncdata' => true,
 			'..' => true,
 			'.' => true,
 		];
@@ -442,7 +465,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	 */
 	protected static function logout(): void {
 		Server::get(SetupManager::class)->tearDown();
-		$userSession = Server::get(\OC\User\Session::class);
+		$userSession = Server::get(Session::class);
 		$userSession->getSession()->set('user_id', '');
 		// needed for fully logout
 		$userSession->setUser(null);

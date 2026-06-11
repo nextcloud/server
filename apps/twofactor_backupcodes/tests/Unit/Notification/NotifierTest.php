@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\TwoFactorBackupCodes\Tests\Unit\Notification;
 
 use OCA\TwoFactorBackupCodes\Notifications\Notifier;
@@ -43,7 +44,6 @@ class NotifierTest extends TestCase {
 		);
 	}
 
-
 	public function testPrepareWrongApp(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -57,7 +57,6 @@ class NotifierTest extends TestCase {
 
 		$this->notifier->prepare($notification, 'en');
 	}
-
 
 	public function testPrepareWrongSubject(): void {
 		$this->expectException(\InvalidArgumentException::class);

@@ -69,6 +69,7 @@ class SessionTest extends \Test\TestCase {
 	/** @var IEventDispatcher|MockObject */
 	private $dispatcher;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -224,7 +225,6 @@ class SessionTest extends \Test\TestCase {
 		$userSession->login('foo', 'bar');
 		$this->assertEquals($user, $userSession->getUser());
 	}
-
 
 	public function testLoginValidPasswordDisabled(): void {
 		$this->expectException(LoginException::class);
@@ -516,7 +516,6 @@ class SessionTest extends \Test\TestCase {
 
 		$this->assertTrue($userSession->logClientIn('john', 'I-AM-AN-APP-PASSWORD', $request, $this->throttler));
 	}
-
 
 	public function testLogClientInNoTokenPasswordNo2fa(): void {
 		$this->expectException(PasswordLoginForbiddenException::class);

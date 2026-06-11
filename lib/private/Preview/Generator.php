@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Preview;
 
 use OC\Core\AppInfo\ConfigLexicon;
@@ -32,6 +33,8 @@ use Psr\Log\LoggerInterface;
 class Generator {
 	public const SEMAPHORE_ID_ALL = 0x0a11;
 	public const SEMAPHORE_ID_NEW = 0x07ea;
+
+	private array $cachedNumConcurrentPreviews = [];
 
 	public function __construct(
 		private readonly IConfig $config,
@@ -89,7 +92,6 @@ class Generator {
 			'mode' => $mode,
 			'mimeType' => $mimeType,
 		]);
-
 
 		// since we only ask for one preview, and the generate method return the last one it created, it returns the one we want
 		return $this->generatePreviews($file, [$specification], $mimeType, $cacheResult);
@@ -259,22 +261,14 @@ class Generator {
 	 *
 	 * @return int number of concurrent threads, or 0 if it cannot be determined
 	 */
-	public static function getHardwareConcurrency(): int {
-		static $width;
-
-		if (!isset($width)) {
-			if (function_exists('ini_get')) {
-				$openBasedir = ini_get('open_basedir');
-				if (empty($openBasedir) || strpos($openBasedir, '/proc/cpuinfo') !== false) {
-					$width = is_readable('/proc/cpuinfo') ? substr_count(file_get_contents('/proc/cpuinfo'), 'processor') : 0;
-				} else {
-					$width = 0;
-				}
-			} else {
-				$width = 0;
+	private static function getHardwareConcurrency(): int {
+		if (function_exists('ini_get')) {
+			$openBasedir = ini_get('open_basedir');
+			if (empty($openBasedir) || strpos($openBasedir, '/proc/cpuinfo') !== false) {
+				return is_readable('/proc/cpuinfo') ? substr_count(file_get_contents('/proc/cpuinfo'), 'processor') : 0;
 			}
 		}
-		return $width;
+		return 0;
 	}
 
 	/**
@@ -293,9 +287,8 @@ class Generator {
 	 * @return int number of concurrent preview generations, or -1 if $type is invalid
 	 */
 	public function getNumConcurrentPreviews(string $type): int {
-		static $cached = [];
-		if (array_key_exists($type, $cached)) {
-			return $cached[$type];
+		if (array_key_exists($type, $this->cachedNumConcurrentPreviews)) {
+			return $this->cachedNumConcurrentPreviews[$type];
 		}
 
 		$hardwareConcurrency = self::getHardwareConcurrency();
@@ -304,16 +297,19 @@ class Generator {
 				$fallback = $hardwareConcurrency > 0 ? $hardwareConcurrency * 2 : 8;
 				$concurrency_all = $this->config->getSystemValueInt($type, $fallback);
 				$concurrency_new = $this->getNumConcurrentPreviews('preview_concurrency_new');
-				$cached[$type] = max($concurrency_all, $concurrency_new);
+				$this->cachedNumConcurrentPreviews[$type] = max($concurrency_all, $concurrency_new);
 				break;
 			case 'preview_concurrency_new':
 				$fallback = $hardwareConcurrency > 0 ? $hardwareConcurrency : 4;
-				$cached[$type] = $this->config->getSystemValueInt($type, $fallback);
+				$this->cachedNumConcurrentPreviews[$type] = $this->config->getSystemValueInt($type, $fallback);
 				break;
 			default:
 				return -1;
 		}
-		return $cached[$type];
+		if ($this->cachedNumConcurrentPreviews[$type] < 1) {
+			$this->cachedNumConcurrentPreviews[$type] = 1;
+		}
+		return $this->cachedNumConcurrentPreviews[$type];
 	}
 
 	/**
@@ -543,6 +539,10 @@ class Generator {
 			self::unguardWithSemaphore($sem);
 		}
 
+		if (!$preview->valid() || $preview->dataMimeType() === null) {
+			throw new \InvalidArgumentException('Preview generation failed: invalid or null MIME type');
+		}
+
 		$previewEntry = new Preview();
 		$previewEntry->generateId();
 		$previewEntry->setFileId($file->getId());
@@ -557,12 +557,13 @@ class Generator {
 		$previewEntry->setMimeType($preview->dataMimeType());
 		$previewEntry->setEtag($file->getEtag());
 		$previewEntry->setMtime((new \DateTime())->getTimestamp());
+
 		if ($cacheResult) {
 			$previewEntry = $this->savePreview($previewEntry, $preview);
 			return new PreviewFile($previewEntry, $this->storageFactory, $this->previewMapper);
-		} else {
-			return new InMemoryFile($previewEntry->getName(), $preview->data());
 		}
+
+		return new InMemoryFile($previewEntry->getName(), $preview->data());
 	}
 
 	/**

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Cache;
 
 use Doctrine\DBAL\Exception\DeadlockException;
@@ -225,7 +226,7 @@ class Updater implements IUpdater {
 	private function correctParentStorageMtime(string $internalPath): void {
 		$parentId = $this->cache->getParentId($internalPath);
 		$parent = dirname($internalPath);
-		if ($parentId != -1) {
+		if ($parentId !== -1) {
 			$mtime = $this->storage->filemtime($parent);
 			if ($mtime !== false) {
 				try {

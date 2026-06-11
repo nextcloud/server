@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Command\Integrity;
 
 use OC\IntegrityCheck\Checker;
@@ -31,6 +32,7 @@ class SignApp extends Command {
 		parent::__construct(null);
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('integrity:sign-app')
@@ -43,6 +45,7 @@ class SignApp extends Command {
 	/**
 	 * {@inheritdoc }
 	 */
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$path = $input->getOption('path');
 		$privateKeyPath = $input->getOption('privateKey');

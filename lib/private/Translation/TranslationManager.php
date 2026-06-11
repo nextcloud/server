@@ -7,13 +7,11 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-
 namespace OC\Translation;
 
 use InvalidArgumentException;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OCP\IConfig;
-use OCP\IServerContainer;
 use OCP\IUserSession;
 use OCP\PreConditionNotMetException;
 use OCP\Translation\CouldNotTranslateException;
@@ -23,6 +21,7 @@ use OCP\Translation\ITranslationProvider;
 use OCP\Translation\ITranslationProviderWithId;
 use OCP\Translation\ITranslationProviderWithUserId;
 use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
@@ -33,7 +32,7 @@ class TranslationManager implements ITranslationManager {
 	private ?array $providers = null;
 
 	public function __construct(
-		private IServerContainer $serverContainer,
+		private ContainerInterface $serverContainer,
 		private Coordinator $coordinator,
 		private LoggerInterface $logger,
 		private IConfig $config,
@@ -41,6 +40,7 @@ class TranslationManager implements ITranslationManager {
 	) {
 	}
 
+	#[\Override]
 	public function getLanguages(): array {
 		$languages = [];
 		foreach ($this->getProviders() as $provider) {
@@ -49,6 +49,7 @@ class TranslationManager implements ITranslationManager {
 		return $languages;
 	}
 
+	#[\Override]
 	public function translate(string $text, ?string &$fromLanguage, string $toLanguage): string {
 		if (!$this->hasProviders()) {
 			throw new PreConditionNotMetException('No translation providers available');
@@ -112,6 +113,7 @@ class TranslationManager implements ITranslationManager {
 		throw new CouldNotTranslateException($fromLanguage);
 	}
 
+	#[\Override]
 	public function getProviders(): array {
 		$context = $this->coordinator->getRegistrationContext();
 
@@ -134,11 +136,13 @@ class TranslationManager implements ITranslationManager {
 		return $this->providers;
 	}
 
+	#[\Override]
 	public function hasProviders(): bool {
 		$context = $this->coordinator->getRegistrationContext();
 		return !empty($context->getTranslationProviders());
 	}
 
+	#[\Override]
 	public function canDetectLanguage(): bool {
 		foreach ($this->getProviders() as $provider) {
 			if ($provider instanceof IDetectLanguageProvider) {

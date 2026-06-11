@@ -1,4 +1,5 @@
 { "translations": {
-    "Lookup Server Connector" : "اتصال سرور جستجو"
+    "Lookup Server Connector" : "اتصال سرور جستجو",
+    "Sync public account information with the lookup server" : "همگام‌سازی اطلاعات عمومی حساب با سرور جست‌وجو"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

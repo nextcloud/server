@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace Test\Encryption;
 
 use OC\Encryption\Exceptions\ModuleAlreadyExistsException;
@@ -41,6 +42,7 @@ class ManagerTest extends TestCase {
 	/** @var ArrayCache|\PHPUnit\Framework\MockObject\MockObject */
 	private $arrayCache;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->config = $this->createMock(IConfig::class);
@@ -103,7 +105,6 @@ class ManagerTest extends TestCase {
 		$this->manager->unregisterEncryptionModule('ID0');
 		$this->assertEmpty($this->manager->getEncryptionModules());
 	}
-
 
 	public function testGetEncryptionModuleUnknown(): void {
 		$this->expectException(ModuleDoesNotExistsException::class);

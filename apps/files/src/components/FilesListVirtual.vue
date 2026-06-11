@@ -91,10 +91,10 @@ import { useEnabledFileActions } from '../composables/useFileActions.ts'
 import { useFileListHeaders } from '../composables/useFileListHeaders.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
-import logger from '../logger.ts'
 import { useActiveStore } from '../store/active.ts'
 import { useSelectionStore } from '../store/selection.ts'
 import { useUserConfigStore } from '../store/userconfig.ts'
+import { logger } from '../utils/logger.ts'
 
 export default defineComponent({
 	name: 'FilesListVirtual',
@@ -428,8 +428,7 @@ export default defineComponent({
 			}
 
 			if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown'
-				&& (!this.userConfig.grid_view || (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight'))
-			) {
+				&& (!this.userConfig.grid_view || (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight'))) {
 				// not an arrow key we handle
 				return
 			}
@@ -743,7 +742,7 @@ export default defineComponent({
 			& > span {
 				justify-content: flex-start;
 
-				&:not(.files-list__row-icon-favorite) svg {
+				&:not(.files-list__row-icon-favorite):not(.files-list__row-icon-recently-created) svg {
 					width: var(--icon-preview-size);
 					height: var(--icon-preview-size);
 				}
@@ -791,7 +790,8 @@ export default defineComponent({
 				}
 			}
 
-			&-favorite {
+			&-favorite,
+			&-recently-created {
 				position: absolute;
 				top: 0px;
 				inset-inline-end: -10px;
@@ -993,8 +993,9 @@ export default defineComponent({
 		}
 	}
 
-	// Star icon in the top right
-	.files-list__row-icon-favorite {
+	// Icon in the top right
+	.files-list__row-icon-favorite,
+	.files-list__row-icon-recently-created {
 		position: absolute;
 		top: 0;
 		inset-inline-end: 0;
