@@ -82,8 +82,7 @@ class TaskMapper extends QBMapper {
 	 * This is the structural fix for the worker "claim loop": instead of every worker
 	 * racing for the single oldest task (a thundering herd that grows a per-worker
 	 * `id NOT IN (...)` ignore list and slows the SELECT), each worker claims a
-	 * *distinct* task in one round trip.
-	 *
+	 * *distinct* task in a single claim attempt without a per-worker ignore-list.
 	 * On databases that support row-level locking with SKIP LOCKED
 	 * (MySQL/MariaDB/PostgreSQL) the claim is a single transaction:
 	 *   SELECT ... WHERE status = SCHEDULED [AND type IN (...)]
