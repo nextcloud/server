@@ -5,14 +5,16 @@
 
 import type { APIRequestContext } from '@playwright/test'
 
-/** Nextcloud share permission bits (see OCS Share API). */
+// we cannot import the enum directly from the files app.
+// It references the window object and causes errors when imported in a node context,
+// so we re-declare the relevant values here. The type assertion ensures we stay in sync.
 export const SharePermission = {
 	READ: 1,
 	UPDATE: 2,
 	CREATE: 4,
 	DELETE: 8,
 	SHARE: 16,
-} as const
+} as const satisfies Partial<typeof import('@nextcloud/files').Permission>
 
 /** All permissions a user share can grant. */
 export const ALL_PERMISSIONS = SharePermission.READ
