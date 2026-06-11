@@ -19,6 +19,7 @@ use OCA\Guests\UserBackend;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\DB\Exception;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -59,12 +60,14 @@ use OCP\TaskProcessing\Exception\ValidationException;
 use OCP\TaskProcessing\IInternalTaskType;
 use OCP\TaskProcessing\IManager;
 use OCP\TaskProcessing\IProvider;
+use OCP\TaskProcessing\ISynchronousOptionsAwareProvider;
 use OCP\TaskProcessing\ISynchronousProvider;
 use OCP\TaskProcessing\ISynchronousWatermarkingProvider;
 use OCP\TaskProcessing\ITaskType;
 use OCP\TaskProcessing\ITriggerableProvider;
 use OCP\TaskProcessing\ShapeDescriptor;
 use OCP\TaskProcessing\ShapeEnumValue;
+use OCP\TaskProcessing\SynchronousProviderOptions;
 use OCP\TaskProcessing\Task;
 use OCP\TaskProcessing\TaskTypes\AnalyzeImages;
 use OCP\TaskProcessing\TaskTypes\AudioToAudioChat;
@@ -156,6 +159,7 @@ class Manager implements IManager {
 		private IUserSession $userSession,
 		ICacheFactory $cacheFactory,
 		private IFactory $l10nFactory,
+		private ITimeFactory $timeFactory,
 	) {
 		$this->appData = $appDataFactory->get('core');
 		$this->distributedCache = $cacheFactory->createDistributed('task_processing::');
@@ -1068,6 +1072,7 @@ class Manager implements IManager {
 		$this->prepareTask($task);
 		$task->setStatus(Task::STATUS_SCHEDULED);
 		$this->storeTask($task);
+		$this->notifyTaskStatus($task, Task::STATUS_SCHEDULED);
 		// schedule synchronous job if the provider is synchronous
 		$provider = $this->getPreferredProvider($task->getTaskTypeId());
 		if ($provider instanceof ISynchronousProvider) {
@@ -1111,6 +1116,7 @@ class Manager implements IManager {
 			$this->prepareTask($task);
 			$task->setStatus(Task::STATUS_SCHEDULED);
 			$this->storeTask($task);
+			$this->notifyTaskStatus($task, Task::STATUS_SCHEDULED);
 			$this->processTask($task, $provider);
 			$task = $this->getTask($task->getId());
 		} else {
@@ -1138,6 +1144,18 @@ class Manager implements IManager {
 				$this->setTaskStatus($task, Task::STATUS_RUNNING);
 				if ($provider instanceof ISynchronousWatermarkingProvider) {
 					$output = $provider->process($task->getUserId(), $input, fn (float $progress) => $this->setTaskProgress($task->getId(), $progress), $task->getIncludeWatermark());
+				} elseif ($provider instanceof ISynchronousOptionsAwareProvider) {
+					$options = new SynchronousProviderOptions(
+						$task->getIncludeWatermark(),
+						$task->getPreferStreaming(),
+						fn (array $output) => $this->setTaskIntermediateOutput($task->getId(), $output),
+					);
+					$output = $provider->process(
+						$task->getUserId(),
+						$input,
+						fn (float $progress) => $this->setTaskProgress($task->getId(), $progress),
+						$options,
+					);
 				} else {
 					$output = $provider->process($task->getUserId(), $input, fn (float $progress) => $this->setTaskProgress($task->getId(), $progress));
 				}
@@ -1166,6 +1184,31 @@ class Manager implements IManager {
 		$this->taskMapper->delete($taskEntity);
 	}
 
+	private function notifyTaskStatus(Task $task, int $status): void {
+		$userId = $task->getUserId();
+		if ($userId !== null
+			&& $userId !== ''
+			&& $this->appManager->isEnabledForAnyone('notify_push')
+			&& interface_exists('\OCA\NotifyPush\Queue\IQueue')
+		) {
+			try {
+				/** @psalm-suppress UndefinedClass */
+				$queue = Server::get(\OCA\NotifyPush\Queue\IQueue::class);
+				/** @psalm-suppress UndefinedClass */
+				$queue->push('notify_custom', [
+					'user' => $userId,
+					'message' => 'taskprocessing:task_update',
+					'body' => [
+						'task_id' => $task->getId(),
+						'new_status' => $status,
+					],
+				]);
+			} catch (ContainerExceptionInterface|NotFoundExceptionInterface $e) {
+				$this->logger->debug('OCA\NotifyPush\IQueue not found, not sending to queue');
+			}
+		}
+	}
+
 	#[\Override]
 	public function getTask(int $id): Task {
 		try {
@@ -1188,9 +1231,11 @@ class Manager implements IManager {
 		}
 		$task->setStatus(Task::STATUS_CANCELLED);
 		$task->setEndedAt(time());
+
 		$taskEntity = \OC\TaskProcessing\Db\Task::fromPublicTask($task);
 		try {
 			$this->taskMapper->update($taskEntity);
+			$this->notifyTaskStatus($task, Task::STATUS_CANCELLED);
 			$this->runWebhook($task);
 		} catch (\OCP\DB\Exception $e) {
 			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem finding the task', 0, $e);
@@ -1210,6 +1255,56 @@ class Manager implements IManager {
 		}
 		$task->setStatus(Task::STATUS_RUNNING);
 		$task->setProgress($progress);
+		$taskEntity = \OC\TaskProcessing\Db\Task::fromPublicTask($task);
+		try {
+			$this->taskMapper->update($taskEntity);
+			$this->notifyTaskStatus($task, Task::STATUS_RUNNING);
+		} catch (\OCP\DB\Exception $e) {
+			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem finding the task', 0, $e);
+		}
+		return true;
+	}
+
+	#[\Override]
+	public function setTaskIntermediateOutput(int $id, array $output): bool {
+		// TODO: Not sure if we should rather catch the exceptions of getTask here and fail silently
+		try {
+			$task = $this->getTask($id);
+		} catch (NotFoundException|\OCP\TaskProcessing\Exception\Exception $e) {
+			$this->logger->debug('Couldn\'t find task, not sending intermediate output', ['exception' => $e, 'task_id' => $id]);
+			return false;
+		}
+		if ($task->getStatus() !== Task::STATUS_RUNNING) {
+			return false;
+		}
+		$userId = $task->getUserId();
+		if ($userId !== null
+			&& $userId !== ''
+			&& $this->appManager->isEnabledForAnyone('notify_push')
+			&& interface_exists('\OCA\NotifyPush\Queue\IQueue')
+		) {
+			try {
+				/** @psalm-suppress UndefinedClass */
+				$queue = Server::get(\OCA\NotifyPush\Queue\IQueue::class);
+				/** @psalm-suppress UndefinedClass */
+				$queue->push('notify_custom', [
+					'user' => $userId,
+					'message' => 'taskprocessing:task_id_' . $task->getId(),
+					'body' => $output,
+				]);
+			} catch (ContainerExceptionInterface|NotFoundExceptionInterface $e) {
+				$this->logger->debug('OCA\NotifyPush\IQueue not found, not sending to queue');
+			}
+		}
+
+		// throttle DB update
+		$now = $this->timeFactory->now()->getTimestamp();
+		if ($now - $task->getLastUpdated() < 2) {
+			return true;
+		}
+
+		// no output shape validation for now
+		$task->setOutput($output);
 		$taskEntity = \OC\TaskProcessing\Db\Task::fromPublicTask($task);
 		try {
 			$this->taskMapper->update($taskEntity);
@@ -1302,6 +1397,7 @@ class Manager implements IManager {
 		}
 		try {
 			$this->taskMapper->update($taskEntity);
+			$this->notifyTaskStatus($task, $task->getStatus());
 			$this->runWebhook($task);
 		} catch (\OCP\DB\Exception $e) {
 			throw new \OCP\TaskProcessing\Exception\Exception($e->getMessage());
@@ -1512,6 +1608,7 @@ class Manager implements IManager {
 			return false;
 		}
 		$task->setStatus(Task::STATUS_RUNNING);
+		$this->notifyTaskStatus($task, Task::STATUS_RUNNING);
 		return true;
 	}
 
@@ -1532,6 +1629,7 @@ class Manager implements IManager {
 		$task->setStatus($status);
 		$taskEntity = \OC\TaskProcessing\Db\Task::fromPublicTask($task);
 		$this->taskMapper->update($taskEntity);
+		$this->notifyTaskStatus($task, $status);
 	}
 
 	/**
