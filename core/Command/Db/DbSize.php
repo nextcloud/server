@@ -8,14 +8,14 @@ declare(strict_types=1);
  */
 namespace OC\Core\Command\Db;
 
+use Doctrine\DBAL\Platforms\MySQLPlatform;
+use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use OC\DB\Connection;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Doctrine\DBAL\Platforms\MySQLPlatform;
-use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 
 class DbSize extends Command {
 
@@ -36,10 +36,10 @@ class DbSize extends Command {
 	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$platform = $this->connection->getDatabasePlatform();
-		$asJson   = $input->getOption('json');
+		$asJson = $input->getOption('json');
 
 		if ($platform instanceof MySQLPlatform) {
-			$sql = "
+			$sql = '
 				SELECT table_name AS `table`,
 					   ROUND((data_length + index_length) / 1024 / 1024, 2) AS total_mb,
 					   ROUND(data_length / 1024 / 1024, 2) AS data_mb,
@@ -49,9 +49,9 @@ class DbSize extends Command {
 				FROM information_schema.tables
 				WHERE table_schema = DATABASE()
 				ORDER BY (data_length + index_length) DESC
-			";
+			';
 			$headers = ['Table', 'Total (MB)', 'Data (MB)', 'Index (MB)', 'Rows', 'Avg Row (bytes)'];
-			$cols	= ['table', 'total_mb', 'data_mb', 'index_mb', 'rows', 'avg_row_bytes'];
+			$cols = ['table', 'total_mb', 'data_mb', 'index_mb', 'rows', 'avg_row_bytes'];
 		} elseif ($platform instanceof PostgreSQLPlatform) {
 			$sql = "
 				SELECT relname AS table,
@@ -66,7 +66,7 @@ class DbSize extends Command {
 				ORDER BY pg_total_relation_size(c.oid) DESC
 			";
 			$headers = ['Table', 'Total (MB)', 'Data (MB)', 'Index (MB)', 'Rows (est.)', 'Avg Row (bytes)'];
-			$cols	= ['table', 'total_mb', 'data_mb', 'index_mb', 'rows', 'avg_row_bytes'];
+			$cols = ['table', 'total_mb', 'data_mb', 'index_mb', 'rows', 'avg_row_bytes'];
 		} else {
 			$output->writeln('<comment>db:size is not supported for SQLite and Oracle.</comment>');
 			return Command::SUCCESS;
@@ -83,7 +83,7 @@ class DbSize extends Command {
 		$table->setHeaders($headers);
 
 		foreach ($rows as $row) {
-			$table->addRow(array_map(fn($col) => $row[$col], $cols));
+			$table->addRow(array_map(fn ($col) => $row[$col], $cols));
 		}
 
 		$table->render();
