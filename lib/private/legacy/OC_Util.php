@@ -26,6 +26,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
 use OCP\Share\IManager;
@@ -260,7 +261,7 @@ class OC_Util {
 	 * @return array arrays with error messages and hints
 	 */
 	public static function checkServer(SystemConfig $config) {
-		$l = \OC::$server->getL10N('lib');
+		$l = \OCP\Server::get(IFactory::class)->get('lib');
 		$errors = [];
 		$CONFIG_DATADIRECTORY = $config->getValue('datadirectory', OC::$SERVERROOT . '/data');
 
