@@ -534,15 +534,17 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 			return $annotations['class']['group'] ?? [];
 		}
 
-		$r = new \ReflectionClass($this);
-		$doc = $r->getDocComment();
+		$reflectionClass = new \ReflectionClass($this);
+		/** @psalm-suppress InternalMethod */
+		$reflectionMethod = $reflectionClass->getMethod($this->name());
+		$doc = $reflectionClass->getDocComment() . '\n' . $reflectionMethod->getDocComment();
 
 		if (class_exists(Group::class)) {
 			$attributes = array_map(function (\ReflectionAttribute $attribute): string {
 				/** @var Group $group */
 				$group = $attribute->newInstance();
 				return $group->name();
-			}, $r->getAttributes(Group::class));
+			}, array_merge($reflectionClass->getAttributes(Group::class), $reflectionMethod->getAttributes(Group::class)));
 			if (count($attributes) > 0) {
 				return $attributes;
 			}
