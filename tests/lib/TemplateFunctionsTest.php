@@ -54,13 +54,34 @@ class TemplateFunctionsTest extends \Test\TestCase {
 	}
 
 	public function testEmitScriptTagWithModuleSource(): void {
-		$this->expectOutputRegex('/<script nonce=".*" defer src="some.mjs" type="module"><\/script>/');
+		$this->expectOutputRegex('/<script nonce=".*" type="module" src="some.mjs"><\/script>/');
 		emit_script_tag('some.mjs', '', 'module');
+	}
+
+	public function testEmitImportMap(): void {
+		$this->expectOutputRegex('/^<script[^>]+type="importmap">\n{"imports":{"\/some\/path\/file\.mjs":"\/some\/path\/file\.mjs\?v=123"}}\n<\/script>$/m');
+		emit_import_map(['jsfiles' => ['/some/path/file.mjs?v=123']]);
+	}
+
+	// only create import map for modules with versioning
+	public function testEmitImportMapMixedScripts(): void {
+		$this->expectOutputRegex('/^<script[^>]+type="importmap">\n{"imports":{"\/some\/path\/module\.mjs":"\/some\/path\/module\.mjs\?v=123"}}\n<\/script>$/m');
+		emit_import_map(['jsfiles' => ['/some/path/module.mjs?v=123', '/some/path/classic.js?v=123']]);
+	}
+
+	public function testEmitImportMapNoOutputWithoutVersion(): void {
+		$this->expectOutputString('');
+		emit_import_map(['jsfiles' => ['some.mjs']]);
+	}
+
+	public function testEmitImportMapNoOutputWithClassicScript(): void {
+		$this->expectOutputString('');
+		emit_import_map(['jsfiles' => ['some.js?v=123']]);
 	}
 
 	public function testEmitScriptLoadingTags(): void {
 		// Test mjs js and inline content
-		$pattern = '/src="some\.mjs"[^>]+type="module"[^>]*>.+\n'; // some.mjs with type = module
+		$pattern = '/type="module"[^>]+src="some\.mjs"[^>]*>.+\n'; // some.mjs with type = module
 		$pattern .= '<script[^>]+src="other\.js"[^>]*>.+\n'; // other.js as plain javascript
 		$pattern .= '<script[^>]*>\n?.*inline.*\n?<\/script>'; // inline content
 		$pattern .= '/'; // no flags
@@ -74,7 +95,7 @@ class TemplateFunctionsTest extends \Test\TestCase {
 
 	public function testEmitScriptLoadingTagsWithVersion(): void {
 		// Test mjs js and inline content
-		$pattern = '/src="some\.mjs\?v=ab123cd"[^>]+type="module"[^>]*>.+\n'; // some.mjs with type = module
+		$pattern = '/type="module"[^>]+src="some\.mjs\?v=ab123cd"[^>]*>.+\n'; // some.mjs with type = module
 		$pattern .= '<script[^>]+src="other\.js\?v=12abc34"[^>]*>.+\n'; // other.js as plain javascript
 		$pattern .= '/'; // no flags
 
