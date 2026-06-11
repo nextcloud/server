@@ -23,6 +23,7 @@ use OCP\IL10N;
 use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -33,7 +34,6 @@ use Test\TestCase;
  *
  * @package OCA\DAV\Tests\unit\CalDAV
  */
-#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class PublicCalendarRootTest extends TestCase {
 	public const UNIT_TEST_USER = '';
 	private CalDavBackend $backend;
@@ -117,6 +117,7 @@ class PublicCalendarRootTest extends TestCase {
 		$this->assertEquals('public-calendars', $name);
 	}
 
+	#[Group('DB')]
 	public function testGetChild(): void {
 		$calendar = $this->createPublicCalendar();
 
@@ -130,6 +131,7 @@ class PublicCalendarRootTest extends TestCase {
 		$this->assertEquals($calendar, $calendarResult);
 	}
 
+	#[Group('DB')]
 	public function testGetChildren(): void {
 		$this->createPublicCalendar();
 		$calendarResults = $this->publicCalendarRoot->getChildren();

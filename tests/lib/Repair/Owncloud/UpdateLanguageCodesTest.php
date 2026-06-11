@@ -13,6 +13,7 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -22,7 +23,6 @@ use Test\TestCase;
  *
  * @package Test\Repair
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
 class UpdateLanguageCodesTest extends TestCase {
 
 	protected IDBConnection $connection;
@@ -36,6 +36,7 @@ class UpdateLanguageCodesTest extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 	}
 
+	#[Group('DB')]
 	public function testRun(): void {
 		$users = [
 			['userid' => 'user1', 'configvalue' => 'fi_FI'],

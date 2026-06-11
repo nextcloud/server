@@ -14,7 +14,6 @@ use OC\Files\Storage\StorageFactory;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IConfig;
 use OCP\IUser;
-use PHPUnit\Framework\Attributes\Group;
 use Test\TestCase;
 
 class CacheMountProviderTestStream {
@@ -34,7 +33,6 @@ class CacheMountProviderTestStream {
 	}
 }
 
-#[Group('DB')]
 class CacheMountProviderTest extends TestCase {
 	private IConfig $config;
 	private IUser $user;

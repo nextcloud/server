@@ -11,13 +11,13 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\App;
 use OCP\OpenMetrics\IMetricFamily;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Class InfoXmlTest
  *
  * @package Test
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
 class InfoXmlTest extends TestCase {
 	private IAppManager $appManager;
 
@@ -54,6 +54,7 @@ class InfoXmlTest extends TestCase {
 	/**
 	 * @param string $app
 	 */
+	#[Group('DB')]
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataApps')]
 	public function testClasses($app): void {
 		$appInfo = $this->appManager->getAppInfo($app);

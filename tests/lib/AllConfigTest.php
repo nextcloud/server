@@ -12,13 +12,13 @@ use OC\AllConfig;
 use OCP\IDBConnection;
 use OCP\PreConditionNotMetException;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Class AllConfigTest
  *
  * @package Test
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
 class AllConfigTest extends \Test\TestCase {
 	/** @var IDBConnection */
 	protected $connection;
@@ -38,6 +38,7 @@ class AllConfigTest extends \Test\TestCase {
 		return new AllConfig($systemConfig, $connection);
 	}
 
+	#[Group('DB')]
 	public function testDeleteUserValue(): void {
 		$config = $this->getConfig();
 
@@ -59,6 +60,7 @@ class AllConfigTest extends \Test\TestCase {
 		$this->assertEquals(0, $actualCount, 'There was one value in the database and after the tests there should be no entry left.');
 	}
 
+	#[Group('DB')]
 	public function testSetUserValue(): void {
 		$selectAllSQL = 'SELECT `userid`, `appid`, `configkey`, `configvalue` FROM `*PREFIX*preferences` WHERE `userid` = ?';
 		$config = $this->getConfig();
@@ -96,6 +98,7 @@ class AllConfigTest extends \Test\TestCase {
 	 * This test needs to stay! Emails are expected to be lowercase due to performance reasons.
 	 * This way we can skip the expensive casing change on the database.
 	 */
+	#[Group('DB')]
 	public function testSetUserValueSettingsEmail(): void {
 		$selectAllSQL = 'SELECT `userid`, `appid`, `configkey`, `configvalue` FROM `*PREFIX*preferences` WHERE `userid` = ?';
 		$config = $this->getConfig();
@@ -113,6 +116,7 @@ class AllConfigTest extends \Test\TestCase {
 		], $result[0]);
 	}
 
+	#[Group('DB')]
 	public function testSetUserValueWithPreCondition(): void {
 		$config = $this->getConfig();
 
@@ -167,6 +171,7 @@ class AllConfigTest extends \Test\TestCase {
 		$config->setUserValue('userSetBool', 'appSetBool', 'keySetBool', $value);
 	}
 
+	#[Group('DB')]
 	public function testSetUserValueWithPreConditionFailure(): void {
 		$this->expectException(PreConditionNotMetException::class);
 
@@ -203,6 +208,7 @@ class AllConfigTest extends \Test\TestCase {
 		$config->deleteUserValue('userPreCond1', 'appPreCond', 'keyPreCond');
 	}
 
+	#[Group('DB')]
 	public function testSetUserValueWithPreConditionFailureWhenResultStillMatches(): void {
 		$this->expectException(PreConditionNotMetException::class);
 
@@ -264,6 +270,7 @@ class AllConfigTest extends \Test\TestCase {
 		$config->setUserValue('userSetUnchanged', 'appSetUnchanged', 'keySetUnchanged', 'valueSetUnchanged');
 	}
 
+	#[Group('DB')]
 	public function testGetUserValue(): void {
 		$config = $this->getConfig();
 
@@ -302,6 +309,7 @@ class AllConfigTest extends \Test\TestCase {
 		$this->assertEquals(0, count($result));
 	}
 
+	#[Group('DB')]
 	public function testGetUserKeys(): void {
 		$config = $this->getConfig();
 
@@ -333,6 +341,7 @@ class AllConfigTest extends \Test\TestCase {
 		$this->connection->executeUpdate('DELETE FROM `*PREFIX*preferences`');
 	}
 
+	#[Group('DB')]
 	public function testGetUserKeysAllInts(): void {
 		$config = $this->getConfig();
 
@@ -358,6 +367,7 @@ class AllConfigTest extends \Test\TestCase {
 		$this->connection->executeUpdate('DELETE FROM `*PREFIX*preferences`');
 	}
 
+	#[Group('DB')]
 	public function testGetUserValueDefault(): void {
 		$config = $this->getConfig();
 
@@ -366,6 +376,7 @@ class AllConfigTest extends \Test\TestCase {
 		$this->assertEquals('foobar', $config->getUserValue('userGetUnset', 'appGetUnset', 'keyGetUnset', 'foobar'));
 	}
 
+	#[Group('DB')]
 	public function testGetUserValueForUsers(): void {
 		$config = $this->getConfig();
 
@@ -407,6 +418,7 @@ class AllConfigTest extends \Test\TestCase {
 		$this->connection->executeUpdate('DELETE FROM `*PREFIX*preferences`');
 	}
 
+	#[Group('DB')]
 	public function testDeleteAllUserValues(): void {
 		$config = $this->getConfig();
 
@@ -441,6 +453,7 @@ class AllConfigTest extends \Test\TestCase {
 		$this->connection->executeUpdate('DELETE FROM `*PREFIX*preferences`');
 	}
 
+	#[Group('DB')]
 	public function testDeleteAppFromAllUsers(): void {
 		$config = $this->getConfig();
 
@@ -484,6 +497,7 @@ class AllConfigTest extends \Test\TestCase {
 		$this->connection->executeUpdate('DELETE FROM `*PREFIX*preferences`');
 	}
 
+	#[Group('DB')]
 	public function testGetUsersForUserValue(): void {
 		// mock the check for the database to run the correct SQL statements for each database type
 		$systemConfig = $this->getMockBuilder('\OC\SystemConfig')

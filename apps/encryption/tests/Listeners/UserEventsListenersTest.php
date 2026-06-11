@@ -29,7 +29,6 @@ use OCP\User\Events\UserLoggedOutEvent;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
-#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class UserEventsListenersTest extends TestCase {
 	protected Util&MockObject $util;
 	protected Setup&MockObject $userSetup;

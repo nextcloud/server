@@ -13,7 +13,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Clock\ClockInterface;
 use Test\Files\Storage\Storage;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
 class KnownMtimeTest extends Storage {
 	/** @var Temporary */
 	private $sourceStorage;

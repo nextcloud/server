@@ -62,7 +62,6 @@ use OCP\Share\IShareProvider;
 use OCP\Share\IShareProviderSupportsAllSharesInFolder;
 use OCP\Util;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockBuilder;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Container\ContainerInterface;
@@ -80,7 +79,6 @@ class DummyShareManagerListener {
  *
  * @package Test\Share20
  */
-#[Group(name: 'DB')]
 class ManagerTest extends \Test\TestCase {
 	protected Manager $manager;
 	protected LoggerInterface&MockObject $logger;

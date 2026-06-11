@@ -43,7 +43,6 @@ use Test\TestCase;
  *
  * @package OCA\User_LDAP\Tests
  */
-#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class AccessTest extends TestCase {
 	protected UserMapping&MockObject $userMapper;
 	protected IManager&MockObject $shareManager;

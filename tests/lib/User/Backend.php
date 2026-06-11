@@ -8,6 +8,8 @@
 
 namespace Test\User;
 
+use PHPUnit\Framework\Attributes\Group;
+
 /**
  * Abstract class to provide the basis of backend-specific unit test classes.
  *
@@ -33,6 +35,7 @@ abstract class Backend extends \Test\TestCase {
 		return $this->getUniqueID('test_');
 	}
 
+	#[Group('DB')]
 	public function testAddRemove(): void {
 		//get the number of groups we start with, in case there are exising groups
 		$startCount = count($this->backend->getUsers());
@@ -57,6 +60,7 @@ abstract class Backend extends \Test\TestCase {
 		$this->assertFalse((array_search($name2, $this->backend->getUsers()) !== false));
 	}
 
+	#[Group('DB')]
 	public function testLogin(): void {
 		$name1 = $this->getUser();
 		$name2 = $this->getUser();

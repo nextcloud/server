@@ -21,7 +21,6 @@ use Test\TestCase;
  *
  * @package OCA\Provisioning_API\Tests
  */
-#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class CapabilitiesTest extends TestCase {
 
 	protected IAppManager&MockObject $appManager;

@@ -28,7 +28,6 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
-#[Group('DB')]
 class UserTest extends TestCase {
 	protected IEventDispatcher $dispatcher;
 
@@ -87,6 +86,7 @@ class UserTest extends TestCase {
 		$this->assertEquals('foo', $user->getDisplayName());
 	}
 
+	#[Group('DB')]
 	public function testSetPassword(): void {
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->method('getBackendName')->willReturn('foo');
@@ -171,6 +171,7 @@ class UserTest extends TestCase {
 		$this->assertTrue($user->canChangeAvatar());
 	}
 
+	#[Group('DB')]
 	public function testDelete(): void {
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->method('getBackendName')->willReturn('foo');
@@ -183,6 +184,7 @@ class UserTest extends TestCase {
 		$this->assertTrue($user->delete());
 	}
 
+	#[Group('DB')]
 	public function testDeleteWithDifferentHome(): void {
 		$homeProvider = Server::get(ObjectHomeMountProvider::class);
 		$user = $this->createMock(IUser::class);
@@ -358,6 +360,7 @@ class UserTest extends TestCase {
 		$this->assertEquals('foo', $user->getDisplayName());
 	}
 
+	#[Group('DB')]
 	public function testSetPasswordHooks(): void {
 		$hooksCalled = 0;
 		$test = $this;
@@ -395,6 +398,7 @@ class UserTest extends TestCase {
 		];
 	}
 
+	#[Group('DB')]
 	#[DataProvider('dataDeleteHooks')]
 	public function testDeleteHooks(bool $result, int $expectedHooks): void {
 		$hooksCalled = 0;
@@ -480,6 +484,7 @@ class UserTest extends TestCase {
 		$this->assertEquals($expectedHooks, $hooksCalled);
 	}
 
+	#[Group('DB')]
 	public function testDeleteRecoverState() {
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->method('getBackendName')->willReturn('foo');
@@ -552,6 +557,7 @@ class UserTest extends TestCase {
 		$this->assertEquals($cloudId, $user->getCloudId());
 	}
 
+	#[Group('DB')]
 	public function testSetEMailAddressEmpty(): void {
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->method('getBackendName')->willReturn('foo');
@@ -581,6 +587,7 @@ class UserTest extends TestCase {
 		$user->setSystemEMailAddress('');
 	}
 
+	#[Group('DB')]
 	public function testSetEMailAddress(): void {
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->method('getBackendName')->willReturn('foo');
@@ -634,6 +641,7 @@ class UserTest extends TestCase {
 		$user->setSystemEMailAddress('foo@bar.com');
 	}
 
+	#[Group('DB')]
 	public function testSetQuota(): void {
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->method('getBackendName')->willReturn('foo');
@@ -760,6 +768,7 @@ class UserTest extends TestCase {
 		$this->assertSame(42, $user->getLastLogin());
 	}
 
+	#[Group('DB')]
 	public function testSetEnabled(): void {
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->method('getBackendName')->willReturn('foo');

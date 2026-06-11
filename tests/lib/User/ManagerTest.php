@@ -26,7 +26,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
-#[Group('DB')]
 class ManagerTest extends TestCase {
 	private IConfig&MockObject $config;
 	private IEventDispatcher&MockObject $eventDispatcher;
@@ -508,6 +507,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals(7 + 16, $users);
 	}
 
+	#[Group('DB')]
 	public function testCountUsersOnlyDisabled(): void {
 		$this->manager = Server::get(IUserManager::class);
 		// count other users in the db before adding our own
@@ -533,6 +533,7 @@ class ManagerTest extends TestCase {
 		$user4->delete();
 	}
 
+	#[Group('DB')]
 	public function testCountUsersOnlySeen(): void {
 		$this->manager = Server::get(IUserManager::class);
 		// count other users in the db before adding our own
@@ -559,6 +560,7 @@ class ManagerTest extends TestCase {
 		$user4->delete();
 	}
 
+	#[Group('DB')]
 	public function testCallForSeenUsers(): void {
 		$this->manager = Server::get(IUserManager::class);
 		// count other users in the db before adding our own
@@ -593,6 +595,7 @@ class ManagerTest extends TestCase {
 		$user4->delete();
 	}
 
+	#[Group('DB')]
 	#[\PHPUnit\Framework\Attributes\RunInSeparateProcess]
 	#[\PHPUnit\Framework\Attributes\PreserveGlobalState(enabled: false)]
 	public function testRecentlyActive(): void {
@@ -651,6 +654,7 @@ class ManagerTest extends TestCase {
 		$user5->delete();
 	}
 
+	#[Group('DB')]
 	public function testDeleteUser(): void {
 		/** @var AllConfig&MockObject */
 		$config = $this->getMockBuilder(AllConfig::class)

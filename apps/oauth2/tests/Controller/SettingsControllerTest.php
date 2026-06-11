@@ -12,10 +12,8 @@ namespace OCA\OAuth2\Tests\Controller;
 use OCA\OAuth2\Controller\SettingsController;
 use OCP\AppFramework\Http;
 use OCP\Server;
-use PHPUnit\Framework\Attributes\Group;
 use Test\TestCase;
 
-#[Group(name: 'DB')]
 class SettingsControllerTest extends TestCase {
 	public function testInvalidRedirectUri(): void {
 		$settingsController = Server::get(SettingsController::class);

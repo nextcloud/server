@@ -14,14 +14,12 @@ use OC\DB\ConnectionFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Server;
-use PHPUnit\Framework\Attributes\Group;
 use Test\TestCase;
 
 /**
  * We cannot test the actual driver here,
  * but we can at least test that it does what we want.
  */
-#[Group('DB')]
 final class UtcTimezoneMiddlewareDriverTest extends TestCase {
 	private ?Connection $connection = null;
 

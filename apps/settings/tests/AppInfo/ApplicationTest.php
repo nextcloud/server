@@ -26,7 +26,6 @@ use Test\TestCase;
  *
  * @package Tests\Settings
  */
-#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ApplicationTest extends TestCase {
 	protected Application $app;
 	protected IAppContainer $container;

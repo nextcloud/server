@@ -20,7 +20,6 @@ use OCP\IConfig;
  *
  * @package Test
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ServerTest extends \Test\TestCase {
 	/** @var Server */
 	protected $server;

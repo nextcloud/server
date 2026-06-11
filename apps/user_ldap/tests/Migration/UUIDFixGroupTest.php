@@ -17,7 +17,6 @@ use OCA\User_LDAP\Migration\UUIDFixGroup;
  *
  * @package OCA\Group_LDAP\Tests\Migration
  */
-#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class UUIDFixGroupTest extends AbstractUUIDFixTestCase {
 	protected function setUp(): void {
 		$this->isUser = false;

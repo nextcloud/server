@@ -32,6 +32,7 @@ use OCP\Mail\IMailer;
 use OCP\Security\ICrypto;
 use OCP\Security\VerificationToken\IVerificationToken;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -41,7 +42,6 @@ use Test\TestCase;
  *
  * @package Test\Accounts
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
 class AccountManagerTest extends TestCase {
 
 	/** accounts table name */
@@ -907,6 +907,7 @@ class AccountManagerTest extends TestCase {
 		}
 	}
 
+	#[Group('DB')]
 	#[\PHPUnit\Framework\Attributes\DataProvider('searchDataProvider')]
 	public function testSearchUsers(string $property, array $values, array $expected): void {
 		$this->populateOrUpdate();
@@ -983,6 +984,7 @@ class AccountManagerTest extends TestCase {
 		];
 	}
 
+	#[Group('DB')]
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataCheckEmailVerification')]
 	public function testCheckEmailVerification(array $userData, ?string $newEmail): void {
 		$user = $this->makeUser(...$userData);

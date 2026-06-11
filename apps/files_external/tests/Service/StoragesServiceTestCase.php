@@ -35,6 +35,7 @@ use OCP\IUser;
 use OCP\Security\ICrypto;
 use OCP\Server;
 use OCP\Util;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class CleaningDBConfig extends DBConfigService {
@@ -217,6 +218,7 @@ abstract class StoragesServiceTestCase extends \Test\TestCase {
 		$this->service->updateStorage($storage);
 	}
 
+	#[Group('DB')]
 	public function testNonExistingStorage(): void {
 		$this->expectException(NotFoundException::class);
 
@@ -247,6 +249,7 @@ abstract class StoragesServiceTestCase extends \Test\TestCase {
 		];
 	}
 
+	#[Group('DB')]
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'deleteStorageDataProvider')]
 	public function testDeleteStorage(array $backendOptions, string $rustyStorageId): void {
 		$backend = $this->backendService->getBackend('identifier:\OCA\Files_External\Lib\Backend\DAV');
@@ -320,6 +323,7 @@ abstract class StoragesServiceTestCase extends \Test\TestCase {
 		$this->service->removeStorage(255);
 	}
 
+	#[Group('DB')]
 	public function testDeleteUnexistingStorage(): void {
 		$this->expectException(NotFoundException::class);
 
@@ -380,6 +384,7 @@ abstract class StoragesServiceTestCase extends \Test\TestCase {
 		$this->assertInstanceOf(InvalidAuth::class, $storage->getAuthMechanism());
 	}
 
+	#[Group('DB')]
 	public function testGetStoragesBackendNotVisible(): void {
 		/** @var Backend&MockObject $backend */
 		$backend = $this->backendService->getBackend('identifier:\OCA\Files_External\Lib\Backend\SMB');
@@ -406,6 +411,7 @@ abstract class StoragesServiceTestCase extends \Test\TestCase {
 		$this->assertEmpty($this->service->getStorages());
 	}
 
+	#[Group('DB')]
 	public function testGetStoragesAuthMechanismNotVisible(): void {
 		/** @var Backend&MockObject $backend */
 		$backend = $this->backendService->getBackend('identifier:\OCA\Files_External\Lib\Backend\SMB');
@@ -472,6 +478,7 @@ abstract class StoragesServiceTestCase extends \Test\TestCase {
 		);
 	}
 
+	#[Group('DB')]
 	public function testUpdateStorageMountPoint(): void {
 		$backend = $this->backendService->getBackend('identifier:\OCA\Files_External\Lib\Backend\SMB');
 		$authMechanism = $this->backendService->getAuthMechanism('identifier:\Auth\Mechanism');

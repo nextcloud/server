@@ -28,6 +28,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -38,7 +39,6 @@ use Test\TestCase;
  *
  * @package OCA\User_LDAP\Tests
  */
-#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class User_LDAPTest extends TestCase {
 	protected Access&MockObject $access;
 	protected OfflineUser&MockObject $offlineUser;
@@ -1242,6 +1242,7 @@ class User_LDAPTest extends TestCase {
 		$this->assertTrue(\OC_User::setPassword('roland', 'dt'));
 	}
 
+	#[Group('DB')]
 	public function testSetPasswordValid(): void {
 		$this->prepareAccessForSetPassword($this->access);
 

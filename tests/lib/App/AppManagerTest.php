@@ -544,6 +544,7 @@ class AppManagerTest extends TestCase {
 		$this->assertTrue($this->manager->isEnabledForUser('test'));
 	}
 
+	#[Group('DB')]
 	public function testGetEnabledApps(): void {
 		$this->appConfig->setValue('test1', 'enabled', 'yes');
 		$this->appConfig->setValue('test2', 'enabled', 'no');

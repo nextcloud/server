@@ -17,7 +17,6 @@ use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Server;
-use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\PropPatch;

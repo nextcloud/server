@@ -22,7 +22,6 @@ use Test\TestCase;
  *
  * @package OCA\User_LDAP\Tests
  */
-#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class WizardTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();

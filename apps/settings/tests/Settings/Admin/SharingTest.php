@@ -17,11 +17,9 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\Share\IManager;
-use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
-#[Group(name: 'DB')]
 class SharingTest extends TestCase {
 	private Sharing $admin;
 

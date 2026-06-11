@@ -24,7 +24,6 @@ use PHPUnit\Framework\MockObject\MockObject;
  *
  * @package Test\Files\Node
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
 class FileTest extends NodeTestCase {
 	#[\Override]
 	protected function createTestNode(IRootFolder $root, View&MockObject $view, string $path, array $data = [], string $internalPath = '', ?IStorage $storage = null): File {

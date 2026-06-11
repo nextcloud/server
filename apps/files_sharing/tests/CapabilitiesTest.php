@@ -32,7 +32,6 @@ use Psr\Log\LoggerInterface;
 /**
  * Class CapabilitiesTest
  */
-#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class CapabilitiesTest extends \Test\TestCase {
 
 	/**

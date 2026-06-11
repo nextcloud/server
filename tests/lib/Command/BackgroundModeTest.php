@@ -17,7 +17,6 @@ use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Tester\CommandTester;
 use Test\TestCase;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
 class BackgroundModeTest extends TestCase {
 	private IAppConfig $appConfig;
 

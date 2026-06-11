@@ -11,13 +11,13 @@ namespace Tests\Core\Command\Config;
 use OC\Core\Command\App\Disable;
 use OCP\App\IAppManager;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Component\Console\Tester\CommandTester;
 use Test\TestCase;
 
 /**
  * Class AppsDisableTest
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
 class AppsDisableTest extends TestCase {
 	/** @var CommandTester */
 	private $commandTester;
@@ -42,6 +42,7 @@ class AppsDisableTest extends TestCase {
 	 * @param $statusCode
 	 * @param $pattern
 	 */
+	#[Group('DB')]
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataCommandInput')]
 	public function testCommandInput($appId, $statusCode, $pattern): void {
 		$input = ['app-id' => $appId];

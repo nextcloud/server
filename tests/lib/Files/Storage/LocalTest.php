@@ -15,6 +15,7 @@ use OCP\Files\ForbiddenException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\ITempManager;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Class LocalTest
@@ -22,7 +23,6 @@ use OCP\Server;
  *
  * @package Test\Files\Storage
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
 class LocalTest extends Storage {
 	/**
 	 * @var string tmpDir
@@ -163,5 +163,10 @@ class LocalTest extends Storage {
 		]);
 		$jail3->moveFromStorage($jail2, 'file.txt', 'file.txt');
 		$this->assertTrue($this->instance->file_exists('target/file.txt'));
+	}
+
+	#[Group('DB')]
+	public function testCheckUpdate(): void {
+		parent::testCheckUpdate();
 	}
 }

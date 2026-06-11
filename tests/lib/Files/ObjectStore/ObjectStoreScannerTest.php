@@ -12,9 +12,9 @@ use OC\Files\ObjectStore\ObjectStoreScanner;
 use OC\Files\Storage\Temporary;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Storage\IStorage;
+use PHPUnit\Framework\Attributes\Group;
 use Test\TestCase;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ObjectStoreScannerTest extends TestCase {
 	private IStorage $storage;
 	private ICache $cache;
@@ -58,6 +58,7 @@ class ObjectStoreScannerTest extends TestCase {
 		);
 	}
 
+	#[Group('DB')]
 	public function testBackgroundScan(): void {
 		$this->fillTestFolders();
 		$this->storage->mkdir('folder2');

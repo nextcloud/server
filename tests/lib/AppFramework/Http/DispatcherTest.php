@@ -76,7 +76,6 @@ class TestController extends Controller {
  *
  * @package Test\AppFramework\Http
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
 class DispatcherTest extends \Test\TestCase {
 	/** @var MiddlewareDispatcher */
 	private $middlewareDispatcher;

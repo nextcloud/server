@@ -24,7 +24,6 @@ use Test\TestCase;
  *
  * @package Test\Accounts
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
 class HooksTest extends TestCase {
 
 	private LoggerInterface&MockObject $logger;

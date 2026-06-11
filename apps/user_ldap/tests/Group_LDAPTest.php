@@ -34,7 +34,6 @@ use Test\TestCase;
  *
  * @package OCA\User_LDAP\Tests
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
 class Group_LDAPTest extends TestCase {
 	private Access&MockObject $access;
 	private GroupPluginManager&MockObject $pluginManager;

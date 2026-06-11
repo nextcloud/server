@@ -14,12 +14,12 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\HintException;
 use OCP\Security\Events\ValidatePasswordPolicyEvent;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class DatabaseTest
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
 class DatabaseTest extends Backend {
 	/** @var array */
 	private $users;
@@ -60,6 +60,7 @@ class DatabaseTest extends Backend {
 		parent::tearDown();
 	}
 
+	#[Group('DB')]
 	public function testVerifyPasswordEvent(): void {
 		$user = $this->getUser();
 		$this->backend->createUser($user, 'pass1');
@@ -77,6 +78,7 @@ class DatabaseTest extends Backend {
 		$this->assertSame($user, $this->backend->checkPassword($user, 'newpass'));
 	}
 
+	#[Group('DB')]
 	public function testVerifyPasswordEventFail(): void {
 		$this->expectException(HintException::class);
 		$this->expectExceptionMessage('password change failed');
@@ -115,6 +117,7 @@ class DatabaseTest extends Backend {
 		$this->assertTrue($this->backend->userExists($user1));
 	}
 
+	#[Group('DB')]
 	#[\Override]
 	public function testSearch(): void {
 		parent::testSearch();
@@ -151,6 +154,7 @@ class DatabaseTest extends Backend {
 		$this->assertCount(2, $result);
 	}
 
+	#[Group('DB')]
 	public function testUserCount(): void {
 		$base = $this->backend->countUsers() ?: 0;
 		$users = $this->backend->getUsers();

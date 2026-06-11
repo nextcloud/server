@@ -18,7 +18,6 @@ use OCA\DAV\Capabilities;
 use Psr\Container\ContainerExceptionInterface;
 use Test\TestCase;
 
-#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class NotificationProviderManagerTest extends TestCase {
 	private NotificationProviderManager $providerManager;
 

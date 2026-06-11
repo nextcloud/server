@@ -36,7 +36,6 @@ use Test\TestCase;
 /**
  * Class ManagerTest
  */
-#[Group(name: 'DB')]
 class ManagerTest extends TestCase {
 	private IDBConnection $connection;
 	private IRootFolder&MockObject $rootFolder;
@@ -99,6 +98,7 @@ class ManagerTest extends TestCase {
 		);
 	}
 
+	#[Group(name: 'DB')]
 	public function testGetCommentNotFound(): void {
 		$this->expectException(NotFoundException::class);
 
@@ -113,6 +113,7 @@ class ManagerTest extends TestCase {
 		$manager->get('unexisting22');
 	}
 
+	#[Group(name: 'DB')]
 	public function testGetComment(): void {
 		$manager = $this->getManager();
 
@@ -159,6 +160,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals(['last_edit_actor_id' => 'admin'], $comment->getMetaData());
 	}
 
+	#[Group(name: 'DB')]
 	public function testGetTreeNotFound(): void {
 		$this->expectException(NotFoundException::class);
 
@@ -173,6 +175,7 @@ class ManagerTest extends TestCase {
 		$manager->getTree('unexisting22');
 	}
 
+	#[Group(name: 'DB')]
 	public function testGetTree(): void {
 		$headId = $this->addDatabaseEntry('0', '0');
 
@@ -199,6 +202,7 @@ class ManagerTest extends TestCase {
 		}
 	}
 
+	#[Group(name: 'DB')]
 	public function testGetTreeNoReplies(): void {
 		$id = $this->addDatabaseEntry('0', '0');
 
@@ -213,6 +217,7 @@ class ManagerTest extends TestCase {
 		$this->assertCount(0, $tree['replies']);
 	}
 
+	#[Group(name: 'DB')]
 	public function testGetTreeWithLimitAndOffset(): void {
 		$headId = $this->addDatabaseEntry('0', '0');
 
@@ -243,6 +248,7 @@ class ManagerTest extends TestCase {
 		}
 	}
 
+	#[Group(name: 'DB')]
 	public function testGetForObject(): void {
 		$this->addDatabaseEntry('0', '0');
 
@@ -255,6 +261,7 @@ class ManagerTest extends TestCase {
 		$this->assertSame('nice one', $comments[0]->getMessage());
 	}
 
+	#[Group(name: 'DB')]
 	public function testGetForObjectWithLimitAndOffset(): void {
 		$this->addDatabaseEntry('0', '0', new \DateTime('-6 hours'));
 		$this->addDatabaseEntry('0', '0', new \DateTime('-5 hours'));
@@ -280,6 +287,7 @@ class ManagerTest extends TestCase {
 		} while (count($comments) > 0);
 	}
 
+	#[Group(name: 'DB')]
 	public function testGetForObjectWithDateTimeConstraint(): void {
 		$this->addDatabaseEntry('0', '0', new \DateTime('-6 hours'));
 		$this->addDatabaseEntry('0', '0', new \DateTime('-5 hours'));
@@ -294,6 +302,7 @@ class ManagerTest extends TestCase {
 		$this->assertSame($id1, $comments[1]->getId());
 	}
 
+	#[Group(name: 'DB')]
 	public function testGetForObjectWithLimitAndOffsetAndDateTimeConstraint(): void {
 		$this->addDatabaseEntry('0', '0', new \DateTime('-7 hours'));
 		$this->addDatabaseEntry('0', '0', new \DateTime('-6 hours'));
@@ -320,6 +329,7 @@ class ManagerTest extends TestCase {
 		} while (count($comments) > 0);
 	}
 
+	#[Group(name: 'DB')]
 	public function testGetNumberOfCommentsForObject(): void {
 		for ($i = 1; $i < 5; $i++) {
 			$this->addDatabaseEntry('0', '0');
@@ -334,6 +344,7 @@ class ManagerTest extends TestCase {
 		$this->assertSame(4, $amount);
 	}
 
+	#[Group(name: 'DB')]
 	public function testGetNumberOfUnreadCommentsForFolder(): void {
 		$folder = $this->createMock(Folder::class);
 		$fileIds = range(1111, 1114);
@@ -377,6 +388,7 @@ class ManagerTest extends TestCase {
 		], $amount);
 	}
 
+	#[Group(name: 'DB')]
 	#[DataProvider(methodName: 'dataGetForObjectSince')]
 	public function testGetForObjectSince(?int $lastKnown, string $order, int $limit, int $resultFrom, int $resultTo): void {
 		$ids = [];
@@ -445,6 +457,7 @@ class ManagerTest extends TestCase {
 		$this->assertSame($objectId, $comment->getObjectId());
 	}
 
+	#[Group(name: 'DB')]
 	public function testDelete(): void {
 		$this->expectException(NotFoundException::class);
 
@@ -467,6 +480,7 @@ class ManagerTest extends TestCase {
 		$manager->get($id);
 	}
 
+	#[Group(name: 'DB')]
 	#[DataProvider(methodName: 'providerTestSave')]
 	public function testSave(string $message, string $actorId, string $verb, ?string $parentId, ?string $id = ''): IComment {
 		$manager = $this->getManager();
@@ -499,6 +513,7 @@ class ManagerTest extends TestCase {
 		];
 	}
 
+	#[Group(name: 'DB')]
 	public function testSaveUpdate(): void {
 		$manager = $this->getManager();
 		$comment = new Comment();
@@ -543,6 +558,7 @@ class ManagerTest extends TestCase {
 		);
 	}
 
+	#[Group(name: 'DB')]
 	public function testSaveUpdateException(): void {
 		$manager = $this->getManager();
 		$comment = new Comment();
@@ -571,6 +587,7 @@ class ManagerTest extends TestCase {
 		$manager->save($comment);
 	}
 
+	#[Group(name: 'DB')]
 	public function testSaveAsChild(): void {
 		$id = $this->addDatabaseEntry('0', '0');
 
@@ -613,6 +630,7 @@ class ManagerTest extends TestCase {
 		$manager->deleteReferencesOfActor($type, $id);
 	}
 
+	#[Group(name: 'DB')]
 	public function testDeleteReferencesOfActor(): void {
 		$ids = [];
 		$ids[] = $this->addDatabaseEntry('0', '0');
@@ -641,6 +659,7 @@ class ManagerTest extends TestCase {
 		$this->assertTrue($wasSuccessful);
 	}
 
+	#[Group(name: 'DB')]
 	public function testDeleteReferencesOfActorWithUserManagement(): void {
 		$user = Server::get(IUserManager::class)->createUser('xenia', 'NotAnEasyPassword123456+');
 		$this->assertInstanceOf(IUser::class, $user);
@@ -678,6 +697,7 @@ class ManagerTest extends TestCase {
 		$manager->deleteCommentsAtObject($type, $id);
 	}
 
+	#[Group(name: 'DB')]
 	public function testDeleteCommentsAtObject(): void {
 		$ids = [];
 		$ids[] = $this->addDatabaseEntry('0', '0');
@@ -710,6 +730,7 @@ class ManagerTest extends TestCase {
 		$this->assertTrue($wasSuccessful);
 	}
 
+	#[Group(name: 'DB')]
 	public function testDeleteCommentsExpiredAtObjectTypeAndId(): void {
 		$ids = [];
 		$ids[] = $this->addDatabaseEntry('0', '0', null, null, null, new \DateTime('+2 hours'));
@@ -758,6 +779,7 @@ class ManagerTest extends TestCase {
 		$this->assertFalse($deleted);
 	}
 
+	#[Group(name: 'DB')]
 	public function testDeleteCommentsExpiredAtObjectType(): void {
 		$ids = [];
 		$ids[] = $this->addDatabaseEntry('0', '0', null, null, 'file1', new \DateTime('-2 hours'));
@@ -801,6 +823,7 @@ class ManagerTest extends TestCase {
 		$this->assertFalse($deleted);
 	}
 
+	#[Group(name: 'DB')]
 	public function testSetMarkRead(): void {
 		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
@@ -818,6 +841,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals($dateTimeSet->getTimestamp(), $dateTimeGet->getTimestamp());
 	}
 
+	#[Group(name: 'DB')]
 	public function testSetMarkReadUpdate(): void {
 		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
@@ -838,6 +862,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals($dateTimeSet, $dateTimeGet);
 	}
 
+	#[Group(name: 'DB')]
 	public function testReadMarkDeleteUser(): void {
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())
@@ -855,6 +880,7 @@ class ManagerTest extends TestCase {
 		$this->assertNull($dateTimeGet);
 	}
 
+	#[Group(name: 'DB')]
 	public function testReadMarkDeleteObject(): void {
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())
@@ -872,6 +898,7 @@ class ManagerTest extends TestCase {
 		$this->assertNull($dateTimeGet);
 	}
 
+	#[Group(name: 'DB')]
 	public function testSendEvent(): void {
 		/** @psalm-suppress DeprecatedInterface Test for deprecated interface */
 		$handler1 = $this->createMock(ICommentsEventHandler::class);
@@ -961,6 +988,7 @@ class ManagerTest extends TestCase {
 		}
 	}
 
+	#[Group(name: 'DB')]
 	#[DataProvider(methodName: 'providerTestReactionAddAndDelete')]
 	public function testReactionAddAndDelete(array $comments, array $reactionsExpected): void {
 		$this->skipIfNotSupport4ByteUTF();
@@ -1046,6 +1074,7 @@ class ManagerTest extends TestCase {
 		return $comments;
 	}
 
+	#[Group(name: 'DB')]
 	#[DataProvider(methodName: 'providerTestRetrieveAllReactions')]
 	public function testRetrieveAllReactions(array $comments, array $expected): void {
 		$this->skipIfNotSupport4ByteUTF();
@@ -1169,6 +1198,7 @@ class ManagerTest extends TestCase {
 		];
 	}
 
+	#[Group(name: 'DB')]
 	#[DataProvider(methodName: 'providerTestRetrieveAllReactionsWithSpecificReaction')]
 	public function testRetrieveAllReactionsWithSpecificReaction(array $comments, string $reaction, array $expected): void {
 		$this->skipIfNotSupport4ByteUTF();
@@ -1222,6 +1252,7 @@ class ManagerTest extends TestCase {
 		];
 	}
 
+	#[Group(name: 'DB')]
 	#[DataProvider(methodName: 'providerTestGetReactionComment')]
 	public function testGetReactionComment(array $comments, array $expected, bool $notFound): void {
 		$this->skipIfNotSupport4ByteUTF();
@@ -1289,6 +1320,7 @@ class ManagerTest extends TestCase {
 		];
 	}
 
+	#[Group(name: 'DB')]
 	#[DataProvider(methodName: 'providerTestReactionMessageSize')]
 	public function testReactionMessageSize(string $reactionString, bool $valid): void {
 		$this->skipIfNotSupport4ByteUTF();
@@ -1318,6 +1350,7 @@ class ManagerTest extends TestCase {
 		];
 	}
 
+	#[Group(name: 'DB')]
 	#[DataProvider(methodName: 'providerTestReactionsSummarizeOrdered')]
 	public function testReactionsSummarizeOrdered(array $comments, array $expected, bool $isFullMatch): void {
 		$this->skipIfNotSupport4ByteUTF();

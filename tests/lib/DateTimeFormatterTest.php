@@ -10,6 +10,7 @@ namespace Test;
 
 use OC\DateTimeFormatter;
 use OCP\Util;
+use PHPUnit\Framework\Attributes\Group;
 
 class DateTimeFormatterTest extends TestCase {
 	protected DateTimeFormatter $formatter;
@@ -79,6 +80,7 @@ class DateTimeFormatterTest extends TestCase {
 		];
 	}
 
+	#[Group('DB')]
 	#[\PHPUnit\Framework\Attributes\DataProvider('formatTimeSpanData')]
 	public function testFormatTimeSpan($expected, $timestamp, $compare, $locale = null): void {
 		$this->assertEquals((string)$expected, (string)$this->formatter->formatTimeSpan($timestamp, $compare, $locale));

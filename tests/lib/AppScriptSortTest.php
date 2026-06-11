@@ -17,7 +17,6 @@ use Psr\Log\LoggerInterface;
  *
  * @package Test
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
 class AppScriptSortTest extends \Test\TestCase {
 	private $logger;
 

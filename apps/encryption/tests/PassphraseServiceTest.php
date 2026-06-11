@@ -22,7 +22,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
-#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class PassphraseServiceTest extends TestCase {
 
 	protected Util&MockObject $util;

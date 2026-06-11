@@ -26,6 +26,7 @@ use OCP\IConfig;
 use OCP\IPreview;
 use OCP\IRequest;
 use OCP\IUserSession;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
@@ -38,7 +39,6 @@ use Sabre\HTTP\ResponseInterface;
 use Sabre\Xml\Service;
 use Test\TestCase;
 
-#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class FilesPluginTest extends TestCase {
 
 	private Tree&MockObject $tree;
@@ -284,6 +284,7 @@ class FilesPluginTest extends TestCase {
 		$this->assertEquals('M. Foo', $propFind->get(FilesPlugin::OWNER_DISPLAY_NAME_PROPERTYNAME));
 	}
 
+	#[Group('DB')]
 	public function testGetPropertiesStorageNotAvailable(): void {
 		/** @var File&MockObject $node */
 		$node = $this->createTestNode(File::class);

@@ -15,7 +15,6 @@ use OCP\Lockdown\ILockdownManager;
 use OCP\Server;
 use Test\Traits\UserTrait;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
 class NoFSTest extends \Test\TestCase {
 	use UserTrait;
 

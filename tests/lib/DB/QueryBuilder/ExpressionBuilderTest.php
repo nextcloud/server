@@ -29,7 +29,6 @@ use Test\TestCase;
  *
  * @package Test\DB\QueryBuilder
  */
-#[Group('DB')]
 class ExpressionBuilderTest extends TestCase {
 	protected ExpressionBuilder $expressionBuilder;
 	protected DoctrineExpressionBuilder $doctrineExpressionBuilder;
@@ -301,6 +300,7 @@ class ExpressionBuilderTest extends TestCase {
 		];
 	}
 
+	#[Group('DB')]
 	#[DataProvider('dataClobComparisons')]
 	public function testClobComparisons(string $function, string|array $value, int $type, bool $compareKeyToValue, int $expected): void {
 		$appId = $this->getUniqueID('testing');

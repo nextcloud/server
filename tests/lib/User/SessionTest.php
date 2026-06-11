@@ -35,6 +35,7 @@ use OCP\Lockdown\ILockdownManager;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ISecureRandom;
 use OCP\User\Events\PostLoginEvent;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -44,7 +45,6 @@ use function get_class_methods;
 /**
  * @package Test\User
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
 class SessionTest extends \Test\TestCase {
 	/** @var ITimeFactory|MockObject */
 	private $timeFactory;
@@ -113,6 +113,7 @@ class SessionTest extends \Test\TestCase {
 		];
 	}
 
+	#[Group('DB')]
 	#[\PHPUnit\Framework\Attributes\DataProvider('isLoggedInData')]
 	public function testIsLoggedIn($isLoggedIn): void {
 		$session = $this->createMock(Memory::class);

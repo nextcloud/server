@@ -18,6 +18,7 @@ use OC\Files\View;
 use OCP\Files\Storage\IStorage;
 use OCP\IUserManager;
 use OCP\UserInterface;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Formatter\OutputFormatterInterface;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -31,7 +32,6 @@ use Test\TestCase;
  *
  * @package Test\Encryption
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
 class DecryptAllTest extends TestCase {
 	private IUserManager&MockObject $userManager;
 	private Manager&MockObject $encryptionManager;
@@ -220,6 +220,7 @@ class DecryptAllTest extends TestCase {
 		];
 	}
 
+	#[Group('DB')]
 	public function testDecryptUsersFiles(): void {
 		/** @var DecryptAll | \PHPUnit\Framework\MockObject\MockObject  $instance */
 		$instance = $this->getMockBuilder('OC\Encryption\DecryptAll')

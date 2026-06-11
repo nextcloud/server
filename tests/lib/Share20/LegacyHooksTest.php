@@ -22,7 +22,6 @@ use OCP\Share\Events\ShareDeletedFromSelfEvent;
 use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
 use OCP\Util;
-use PHPUnit\Framework\Attributes\Group;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -40,7 +39,6 @@ class Dummy {
 	}
 }
 
-#[Group(name: 'DB')]
 class LegacyHooksTest extends TestCase {
 	private LegacyHooks $hooks;
 	private IEventDispatcher $eventDispatcher;

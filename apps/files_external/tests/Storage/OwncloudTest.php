@@ -17,7 +17,6 @@ use OCA\Files_External\Lib\Storage\OwnCloud;
  *
  * @package OCA\Files_External\Tests\Storage
  */
-#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class OwncloudTest extends \Test\Files\Storage\Storage {
 	use ConfigurableStorageTrait;
 

@@ -18,10 +18,10 @@ use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\Traits\UserTrait;
 
-#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 	use UserTrait;
 
@@ -97,6 +97,7 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 		];
 	}
 
+	#[Group('DB')]
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'applicableStorageProvider')]
 	public function testGetStorageWithApplicable($applicableUsers, $applicableGroups, $isVisible): void {
 		$backend = $this->backendService->getBackend('identifier:\OCA\Files_External\Lib\Backend\SMB');
@@ -144,6 +145,7 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 		$this->service->addStorage($storage);
 	}
 
+	#[Group('DB')]
 	public function testUpdateStorage($storageParams = null): void {
 		$this->expectException(\DomainException::class);
 
@@ -169,6 +171,7 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 		$this->ActualNonExistingStorageTest();
 	}
 
+	#[Group('DB')]
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'deleteStorageDataProvider')]
 	public function testDeleteStorage($backendOptions, $rustyStorageId): void {
 		$this->expectException(\DomainException::class);
@@ -222,6 +225,7 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 		];
 	}
 
+	#[Group('DB')]
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'getUniqueStoragesProvider')]
 	public function testGetUniqueStorages(
 		$priority1, $applicableUsers1, $applicableGroups1,

@@ -23,6 +23,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\Group;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -31,7 +32,6 @@ use Psr\Log\LoggerInterface;
  *
  * @package OCA\User_LDAP\Tests
  */
-#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class LDAPProviderTest extends \Test\TestCase {
 	private function getUserManagerMock(IUserLDAP $userBackend) {
 		$userManager = $this->getMockBuilder(Manager::class)
@@ -466,6 +466,7 @@ class LDAPProviderTest extends \Test\TestCase {
 		$this->assertTrue($ldapProvider->dnExists('cn=existing_user,ou=Are Sufficient To,ou=Test,dc=example,dc=org'));
 	}
 
+	#[Group('DB')]
 	public function testFlagRecord(): void {
 		$userBackend = $this->createMock(User_LDAP::class);
 

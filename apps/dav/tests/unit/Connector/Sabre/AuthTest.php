@@ -31,7 +31,6 @@ use Test\TestCase;
  *
  * @package OCA\DAV\Tests\unit\Connector\Sabre
  */
-#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class AuthTest extends TestCase {
 	private ISession&MockObject $session;
 	private Session&MockObject $userSession;

@@ -18,6 +18,7 @@ use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\IUserSession;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -26,7 +27,6 @@ use PHPUnit\Framework\MockObject\MockObject;
  *
  * @package OCA\Provisioning_API\Tests
  */
-#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class AppsControllerTest extends TestCase {
 	private IAppManager $appManager;
 	private IAppConfig&MockObject $appConfig;
@@ -60,6 +60,7 @@ class AppsControllerTest extends TestCase {
 		parent::tearDown();
 	}
 
+	#[Group('DB')]
 	public function testGetAppInfo(): void {
 		$result = $this->api->getAppInfo('provisioning_api');
 		$expected = $this->appManager->getAppInfo('provisioning_api');
@@ -73,6 +74,7 @@ class AppsControllerTest extends TestCase {
 		$this->api->getAppInfo('not_provisioning_api');
 	}
 
+	#[Group('DB')]
 	public function testGetApps(): void {
 		$user = $this->generateUsers();
 		$this->groupManager->get('admin')->addUser($user);

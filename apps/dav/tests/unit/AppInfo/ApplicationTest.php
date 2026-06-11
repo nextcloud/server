@@ -20,7 +20,6 @@ use Test\TestCase;
  *
  * @package OCA\DAV\Tests\Unit\AppInfo
  */
-#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ApplicationTest extends TestCase {
 	public function test(): void {
 		$app = new Application();

@@ -19,6 +19,7 @@ use OCP\Migration\Attributes\DropTable;
 use OCP\Migration\Attributes\IndexType;
 use OCP\Migration\Attributes\ModifyColumn;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Class MetadataManagerTest
@@ -34,6 +35,7 @@ class MetadataManagerTest extends \Test\TestCase {
 		$this->appManager = Server::get(IAppManager::class);
 	}
 
+	#[Group('DB')]
 	public function testExtractMigrationAttributes(): void {
 		$metadataManager = Server::get(MetadataManager::class);
 		$this->appManager->loadApp('testing');
