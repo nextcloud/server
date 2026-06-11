@@ -15,8 +15,8 @@ use OCP\AppFramework\Attribute\Implementable;
  * Marks the 2FA provider stateless. That means the state of 2FA activation
  * for user will be checked dynamically and not stored in the database.
  *
- * @since 34.0.0
+ * @since 35.0.0
  */
-#[Implementable(since: '34.0.0')]
+#[Implementable(since: '35.0.0')]
 interface IStatelessProvider extends IProvider {
 }
