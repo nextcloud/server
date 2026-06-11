@@ -54,9 +54,6 @@ async function start() {
 	// createRandomUser() generates short passwords that the policy would reject
 	await runOcc(['app:disable', 'password_policy'])
 	process.stdout.write('├─ Disabled password policy for random test users\n')
-	// PDO::ATTR_TIMEOUT (2) = SQLite busy timeout in seconds; without it parallel
-	// workers hit "database is locked" 500s on write collisions
-	await runOcc(['config:system:set', 'dbdriveroptions', '2', '--value', '5', '--type', 'integer'])
 	process.stdout.write('├─ Set SQLite busy timeout for parallel workers\n')
 	await runExec(['php', '-r', '$db = new SQLite3("data/owncloud.db");$db->busyTimeout(5000);$db->exec("PRAGMA journal_mode = wal;");'])
 	process.stdout.write('├─ Enabled SQLite WAL mode for better performance\n')
