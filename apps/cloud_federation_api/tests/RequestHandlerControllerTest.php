@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\CloudFederationApi\Tests;
 
+use OC\Federation\CloudFederationNotification;
 use OCA\CloudFederationAPI\Config;
 use OCA\CloudFederationAPI\Controller\RequestHandlerController;
 use OCA\CloudFederationAPI\Db\FederatedInvite;
@@ -19,6 +20,7 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
+use OCP\Federation\ICloudFederationProvider;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudIdManager;
 use OCP\IAppConfig;
@@ -27,6 +29,7 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\OCM\Events\OCMNotificationReceivedEvent;
 use OCP\OCM\IOCMDiscoveryService;
 use OCP\Security\Signature\ISignatureManager;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -133,5 +136,44 @@ class RequestHandlerControllerTest extends TestCase {
 		$json = new JSONResponse($response, Http::STATUS_OK);
 
 		$this->assertEquals($json, $this->requestHandlerController->inviteAccepted($recipientProvider, $token, $recipientId, $recipientEmail, $recipientName));
+	}
+
+	public function testNotificationReceived(): void {
+		$notificationType = 'SHARE_ACCEPTED';
+		$resourceType = 'file';
+		$providerId = '1337';
+		$notification = ['sharedSecret' => 'secret'];
+		$notificationObject = new CloudFederationNotification();
+
+		$this->appConfig->method('getValueBool')->willReturn(true);
+		$provider = $this->createMock(ICloudFederationProvider::class);
+		$provider->method('notificationReceived')->willReturn([]);
+		$this->cloudFederationFactory->method('getCloudFederationNotification')
+			->willReturn($notificationObject);
+		$this->cloudFederationProviderManager->method('getCloudFederationProvider')
+			->willReturn($provider);
+
+		$this->eventDispatcher->expects(self::once())
+			->method('dispatchTyped')
+			->with(self::callback(
+				fn (
+					OCMNotificationReceivedEvent $event)
+					   => $event->getNotification() === $notificationObject
+			)
+			);
+		$response = $this->requestHandlerController->receiveNotification(
+			$notificationType,
+			$resourceType,
+			$providerId,
+			$notification
+		);
+		self::assertEquals(Http::STATUS_CREATED, $response->getStatus());
+		self::assertEquals([
+			'notificationType' => $notificationType,
+			'resourceType' => $resourceType,
+			'providerId' => $providerId,
+			'notification' => $notification,
+		], $notificationObject->getMessage());
+
 	}
 }
