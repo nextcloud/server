@@ -23,6 +23,8 @@ class SearchQuery implements ISearchQuery {
 	/** @var ?IUser */
 	private $user;
 	private $limitToHome;
+	/** @var array */
+	private $selectFields;
 
 	/**
 	 * SearchQuery constructor.
@@ -33,6 +35,7 @@ class SearchQuery implements ISearchQuery {
 	 * @param array $order
 	 * @param ?IUser $user
 	 * @param bool $limitToHome
+	 * @param list<string> $selectFields
 	 */
 	public function __construct(
 		ISearchOperator $searchOperation,
@@ -41,6 +44,7 @@ class SearchQuery implements ISearchQuery {
 		array $order,
 		?IUser $user = null,
 		bool $limitToHome = false,
+		array $selectFields = [],
 	) {
 		$this->searchOperation = $searchOperation;
 		$this->limit = $limit;
@@ -48,6 +52,7 @@ class SearchQuery implements ISearchQuery {
 		$this->order = $order;
 		$this->user = $user;
 		$this->limitToHome = $limitToHome;
+		$this->selectFields = $selectFields;
 	}
 
 	/**
@@ -87,5 +92,10 @@ class SearchQuery implements ISearchQuery {
 
 	public function limitToHome(): bool {
 		return $this->limitToHome;
+	}
+
+	#[\Override]
+	public function getSelectFields(): array {
+		return $this->selectFields;
 	}
 }
