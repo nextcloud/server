@@ -22,7 +22,7 @@ class SynchronousProviderOptions {
 	 */
 	public function __construct(
 		private readonly bool $includeWatermarks = false,
-		private readonly bool $preferStreaming = true,
+		private readonly bool $preferStreaming = false,
 		?callable $reportIntermediateOutput = null,
 	) {
 		$this->reportIntermediateOutput = $reportIntermediateOutput !== null
