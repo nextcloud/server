@@ -534,14 +534,14 @@ class AccountManagerTest extends TestCase {
 			[
 				'name' => IAccountManager::PROPERTY_DISPLAYNAME,
 				'value' => 'bob',
-				'scope' => IAccountManager::SCOPE_FEDERATED,
+				'scope' => IAccountManager::SCOPE_LOCAL,
 				'verified' => IAccountManager::NOT_VERIFIED,
 			],
 
 			[
 				'name' => IAccountManager::PROPERTY_EMAIL,
 				'value' => 'bob@bob.bob',
-				'scope' => IAccountManager::SCOPE_FEDERATED,
+				'scope' => IAccountManager::SCOPE_LOCAL,
 				'verified' => IAccountManager::NOT_VERIFIED,
 			],
 
@@ -561,7 +561,7 @@ class AccountManagerTest extends TestCase {
 
 			[
 				'name' => IAccountManager::PROPERTY_AVATAR,
-				'scope' => IAccountManager::SCOPE_FEDERATED
+				'scope' => IAccountManager::SCOPE_LOCAL,
 			],
 
 			[
@@ -630,7 +630,7 @@ class AccountManagerTest extends TestCase {
 			[
 				'name' => IAccountManager::PROPERTY_PRONOUNS,
 				'value' => '',
-				'scope' => IAccountManager::SCOPE_FEDERATED,
+				'scope' => IAccountManager::SCOPE_LOCAL,
 			],
 		];
 		$this->config->expects($this->once())->method('getSystemValue')->with('account_manager.default_property_scope', [])->willReturn([]);
@@ -1016,10 +1016,12 @@ class AccountManagerTest extends TestCase {
 			[
 				[],
 				[
-					IAccountManager::PROPERTY_DISPLAYNAME => IAccountManager::SCOPE_FEDERATED,
+					IAccountManager::PROPERTY_DISPLAYNAME => IAccountManager::SCOPE_LOCAL,
 					IAccountManager::PROPERTY_ADDRESS => IAccountManager::SCOPE_LOCAL,
-					IAccountManager::PROPERTY_EMAIL => IAccountManager::SCOPE_FEDERATED,
+					IAccountManager::PROPERTY_EMAIL => IAccountManager::SCOPE_LOCAL,
 					IAccountManager::PROPERTY_ROLE => IAccountManager::SCOPE_LOCAL,
+					IAccountManager::PROPERTY_AVATAR => IAccountManager::SCOPE_LOCAL,
+					IAccountManager::PROPERTY_PRONOUNS => IAccountManager::SCOPE_LOCAL,
 				]
 			],
 			[
@@ -1041,7 +1043,7 @@ class AccountManagerTest extends TestCase {
 				],
 				[
 					IAccountManager::PROPERTY_ADDRESS => IAccountManager::SCOPE_LOCAL,
-					IAccountManager::PROPERTY_EMAIL => IAccountManager::SCOPE_FEDERATED,
+					IAccountManager::PROPERTY_EMAIL => IAccountManager::SCOPE_LOCAL,
 					IAccountManager::PROPERTY_ROLE => IAccountManager::SCOPE_PRIVATE,
 				]
 			],

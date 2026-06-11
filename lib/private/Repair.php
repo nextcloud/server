@@ -43,6 +43,7 @@ use OC\Repair\NC24\AddTokenCleanupJob;
 use OC\Repair\NC25\AddMissingSecretJob;
 use OC\Repair\NC29\SanitizeAccountProperties;
 use OC\Repair\NC30\RemoveLegacyDatadirFile;
+use OC\Repair\NC33\FixDefaultAccountScopesToLocal;
 use OC\Repair\OldGroupMembershipShares;
 use OC\Repair\Owncloud\CleanPreviews;
 use OC\Repair\Owncloud\DropAccountTermsTable;
@@ -195,6 +196,7 @@ class Repair implements IOutput {
 			Server::get(SanitizeAccountProperties::class),
 			Server::get(AddMovePreviewJob::class),
 			Server::get(ConfigKeyMigration::class),
+			Server::get(FixDefaultAccountScopesToLocal::class),
 		];
 
 		if ($includeExpensive) {
