@@ -49,6 +49,7 @@ export const useUpdatesStore = defineStore('updates', () => {
 				internalUpdateCount.value = Math.max(internalUpdateCount.value - 1, 0)
 			}
 
+			app.update = undefined
 			rebuildNavigation()
 		} catch (error) {
 			logger.error('Failed to update app', { appId, error })
