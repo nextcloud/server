@@ -149,29 +149,17 @@ class EncryptionTest extends \Test\TestCase {
 		// set internal properties of the stream wrapper
 		$stream = new \ReflectionClass(Encryption::class);
 		$encryptionModule = $stream->getProperty('encryptionModule');
-		$encryptionModule->setAccessible(true);
 		$encryptionModule->setValue($streamWrapper, $encryptionModuleMock);
-		$encryptionModule->setAccessible(false);
 		$storage = $stream->getProperty('storage');
-		$storage->setAccessible(true);
 		$storage->setValue($streamWrapper, $storageMock);
-		$storage->setAccessible(false);
 		$file = $stream->getProperty('file');
-		$file->setAccessible(true);
 		$file->setValue($streamWrapper, $fileMock);
-		$file->setAccessible(false);
 		$util = $stream->getProperty('util');
-		$util->setAccessible(true);
 		$util->setValue($streamWrapper, $utilMock);
-		$util->setAccessible(false);
 		$fullPathP = $stream->getProperty('fullPath');
-		$fullPathP->setAccessible(true);
 		$fullPathP->setValue($streamWrapper, $fullPath);
-		$fullPathP->setAccessible(false);
 		$header = $stream->getProperty('header');
-		$header->setAccessible(true);
 		$header->setValue($streamWrapper, []);
-		$header->setAccessible(false);
 		$this->invokePrivate($streamWrapper, 'signed', [true]);
 		$this->invokePrivate($streamWrapper, 'internalPath', [$fullPath]);
 		$this->invokePrivate($streamWrapper, 'uid', ['test']);
@@ -182,19 +170,13 @@ class EncryptionTest extends \Test\TestCase {
 
 		// check internal properties
 		$size = $stream->getProperty('size');
-		$size->setAccessible(true);
 		$this->assertSame($expectedSize, $size->getValue($streamWrapper));
-		$size->setAccessible(false);
 
 		$unencryptedSize = $stream->getProperty('unencryptedSize');
-		$unencryptedSize->setAccessible(true);
 		$this->assertSame($expectedUnencryptedSize, $unencryptedSize->getValue($streamWrapper));
-		$unencryptedSize->setAccessible(false);
 
 		$readOnly = $stream->getProperty('readOnly');
-		$readOnly->setAccessible(true);
 		$this->assertSame($expectedReadOnly, $readOnly->getValue($streamWrapper));
-		$readOnly->setAccessible(false);
 	}
 
 	public static function dataProviderStreamOpen(): array {

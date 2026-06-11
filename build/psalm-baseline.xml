@@ -3414,6 +3414,7 @@
       <code><![CDATA[getPassword]]></code>
       <code><![CDATA[getRemember]]></code>
       <code><![CDATA[getScope]]></code>
+      <code><![CDATA[getToken]]></code>
       <code><![CDATA[setExpires]]></code>
       <code><![CDATA[setLastCheck]]></code>
       <code><![CDATA[setName]]></code>

@@ -90,6 +90,7 @@ jobs:
           ini-file: development
           ini-values: disable_functions=""
         env:
+          fail-fast: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up dependencies
@@ -110,7 +111,7 @@ jobs:
         run: ./occ app:list && echo "======= System config =======" && ./occ config:list system
 
       - name: PHPUnit database tests
-        run: composer run test:db -- --log-junit junit.xml ${{ matrix.coverage && '--coverage-clover ./clover.db.xml' || '' }} tests/lib/Preview/PostscriptTest.php
+        run: composer run test:db -- --log-junit junit.xml ${{ matrix.coverage && '--coverage-clover ./clover.db.xml' || '' }}
 
       - name: Upload db code coverage
         if: ${{ !cancelled() && matrix.coverage }}

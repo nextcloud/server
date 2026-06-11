@@ -315,7 +315,14 @@ class OC_Util {
 							[$urlGenerator->linkToDocs('admin-dir_permissions')])
 					];
 				}
-			} elseif (!is_writable($CONFIG_DATADIRECTORY) || !is_readable($CONFIG_DATADIRECTORY)) {
+			} elseif (!is_readable($CONFIG_DATADIRECTORY)) {
+				$permissionsHint = $l->t('Permissions can usually be fixed by giving the web server write access to the root directory. See %s.',
+					[$urlGenerator->linkToDocs('admin-dir_permissions')]);
+				$errors[] = [
+					'error' => $l->t('Your data directory is not readable.'),
+					'hint' => $permissionsHint
+				];
+			} elseif (!is_writable($CONFIG_DATADIRECTORY)) {
 				// is_writable doesn't work for NFS mounts, so try to write a file and check if it exists.
 				$testFile = sprintf('%s/%s.tmp', $CONFIG_DATADIRECTORY, uniqid('data_dir_writability_test_'));
 				$handle = fopen($testFile, 'w');

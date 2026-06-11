@@ -675,7 +675,7 @@ class UsersControllerTest extends \Test\TestCase {
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestSaveUserSettings')]
-	public function testSaveUserSettings(array $data, ?string $oldEmailAddress, ?string $oldDisplayName): void {
+	public function testSaveUserSettings(array $data, ?string $oldEmailAddress, string $oldDisplayName): void {
 		$controller = $this->getController();
 		$user = $this->createMock(IUser::class);
 
@@ -690,7 +690,7 @@ class UsersControllerTest extends \Test\TestCase {
 				->with($data[IAccountManager::PROPERTY_EMAIL]['value']);
 		}
 
-		if ($data[IAccountManager::PROPERTY_DISPLAYNAME]['value'] === $oldDisplayName ?? '') {
+		if ($data[IAccountManager::PROPERTY_DISPLAYNAME]['value'] === $oldDisplayName) {
 			$user->expects($this->never())->method('setDisplayName');
 		} else {
 			$user->expects($this->once())->method('setDisplayName')
@@ -775,7 +775,7 @@ class UsersControllerTest extends \Test\TestCase {
 					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'john doe'],
 				],
 				'john@example.com',
-				null
+				''
 			],
 			[
 				[
@@ -783,7 +783,7 @@ class UsersControllerTest extends \Test\TestCase {
 					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'john doe'],
 				],
 				'JOHN@example.com',
-				null
+				''
 			],
 		];
 	}
