@@ -18,18 +18,43 @@ use Psr\Log\LoggerInterface;
 
 class SetupCheckManager implements ISetupCheckManager {
 	public function __construct(
-		private Coordinator $coordinator,
-		private LoggerInterface $logger,
+		readonly private Coordinator $coordinator,
+		readonly private LoggerInterface $logger,
 	) {
 	}
 
 	#[\Override]
+	public function runByClass(string $filterByClass): array {
+		if (str_starts_with($filterByClass, '\\')) {
+			$filterByClass = substr($filterByClass, 1);
+		}
+		return $this->run(filterByClass: $filterByClass);
+	}
+
+	#[\Override]
+	public function runByCategory(string $filterByCategory): array {
+		return $this->run(filterByCategory: $filterByCategory);
+	}
+
+	#[\Override]
 	public function runAll(): array {
+		return $this->run();
+	}
+
+	private function run(?string $filterByCategory = null, ?string $filterByClass = null): array {
 		$results = [];
 		$setupChecks = $this->coordinator->getRegistrationContext()->getSetupChecks();
 		foreach ($setupChecks as $setupCheck) {
 			/** @var ISetupCheck $setupCheckObject */
 			$setupCheckObject = Server::get($setupCheck->getService());
+			if ($filterByCategory !== null && $filterByCategory !== $setupCheckObject->getCategory()) {
+				continue;
+			}
+
+			if ($filterByClass !== null && $filterByClass !== get_class($setupCheckObject)) {
+				continue;
+			}
+
 			$this->logger->debug('Running check ' . get_class($setupCheckObject));
 			try {
 				$setupResult = $setupCheckObject->run();

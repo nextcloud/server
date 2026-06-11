@@ -11,6 +11,7 @@ namespace OC\Core\Command;
 
 use OCP\RichObjectStrings\IRichTextFormatter;
 use OCP\SetupCheck\ISetupCheckManager;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -29,12 +30,44 @@ class SetupChecks extends Base {
 		$this
 			->setName('setupchecks')
 			->setDescription('Run setup checks and output the results')
+			->addArgument(
+				'category',
+				InputArgument::OPTIONAL,
+				'Category of setup checks to run ' . "\n" . '(e.g. "network" to run all the network-related checks)',
+				''
+			)
+			->addArgument(
+				'class',
+				InputArgument::OPTIONAL,
+				'Class of setup checks to run ' . "\n" . '(e.g. "OCA\\Settings\\SetupChecks\\InternetConnectivity" to run only the InternetConnectivity check)',
+				''
+			)
 		;
 	}
 
 	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$results = $this->setupCheckManager->runAll();
+		$filterByCategory = $input->getArgument('category');
+		$filterByClass = $input->getArgument('class');
+
+		if (!is_string($filterByCategory) || !is_string($filterByClass)) {
+			$output->writeln('<error>Invalid type specified</error>');
+			return self::FAILURE;
+		}
+
+		if ($filterByCategory !== '' && $filterByClass !== '') {
+			$output->writeln('<error>Please specify only one of category or class</error>');
+			return self::FAILURE;
+		}
+
+		if ($filterByCategory !== '') {
+			$results = $this->setupCheckManager->runByCategory($filterByCategory);
+		} elseif ($filterByClass !== '') {
+			$results = $this->setupCheckManager->runByClass($filterByClass);
+		} else {
+			$results = $this->setupCheckManager->runAll();
+		}
+
 		switch ($input->getOption('output')) {
 			case self::OUTPUT_FORMAT_JSON:
 			case self::OUTPUT_FORMAT_JSON_PRETTY:
