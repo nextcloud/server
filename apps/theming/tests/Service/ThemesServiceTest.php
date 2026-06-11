@@ -245,9 +245,8 @@ class ThemesServiceTest extends TestCase {
 			->with('enforce_theme', '')
 			->willReturn('');
 		$this->request->expects($this->once())
-			->method('getParam')
-			->with('theme', '')
-			->willReturn('dark');
+			->method('getRequestUri')
+			->willReturn('/index.php/login?theme=dark');
 
 		$this->assertEquals(['dark'], $this->themesService->getEnabledThemes());
 	}
@@ -270,9 +269,8 @@ class ThemesServiceTest extends TestCase {
 			->with('enforce_theme', '')
 			->willReturn('');
 		$this->request->expects($this->once())
-			->method('getParam')
-			->with('theme', '')
-			->willReturn('light');
+			->method('getRequestUri')
+			->willReturn('/index.php/apps/files?theme=light');
 
 		$this->assertEquals(['opendyslexic', 'light'], $this->themesService->getEnabledThemes());
 	}
@@ -286,9 +284,8 @@ class ThemesServiceTest extends TestCase {
 			->with('enforce_theme', '')
 			->willReturn('');
 		$this->request->expects($this->once())
-			->method('getParam')
-			->with('theme', '')
-			->willReturn('sepia');
+			->method('getRequestUri')
+			->willReturn('/index.php/login?theme=sepia');
 
 		$this->assertEquals([], $this->themesService->getEnabledThemes());
 	}
@@ -301,10 +298,42 @@ class ThemesServiceTest extends TestCase {
 			->method('getSystemValueString')
 			->with('enforce_theme', '')
 			->willReturn('');
+		// An array-style query parameter (?theme[]=dark) must not be applied
 		$this->request->expects($this->once())
-			->method('getParam')
-			->with('theme', '')
-			->willReturn(['dark']);
+			->method('getRequestUri')
+			->willReturn('/index.php/login?theme[]=dark');
+
+		$this->assertEquals([], $this->themesService->getEnabledThemes());
+	}
+
+	public function testGetEnabledThemesNoQueryStringIsIgnored(): void {
+		$this->userSession->expects($this->any())
+			->method('getUser')
+			->willReturn(null);
+		$this->config->expects($this->once())
+			->method('getSystemValueString')
+			->with('enforce_theme', '')
+			->willReturn('');
+		$this->request->expects($this->once())
+			->method('getRequestUri')
+			->willReturn('/index.php/login');
+
+		$this->assertEquals([], $this->themesService->getEnabledThemes());
+	}
+
+	public function testGetEnabledThemesIgnoresRouteThemeParameter(): void {
+		$this->userSession->expects($this->any())
+			->method('getUser')
+			->willReturn(null);
+		$this->config->expects($this->once())
+			->method('getSystemValueString')
+			->with('enforce_theme', '')
+			->willReturn('');
+		// A route URL placeholder named "theme" (e.g. /foo/{theme}) must not be
+		// interpreted as an override: only the query string is honored.
+		$this->request->expects($this->once())
+			->method('getRequestUri')
+			->willReturn('/index.php/apps/example/dark');
 
 		$this->assertEquals([], $this->themesService->getEnabledThemes());
 	}
@@ -318,7 +347,7 @@ class ThemesServiceTest extends TestCase {
 			->with('enforce_theme', '')
 			->willReturn('light');
 		$this->request->expects($this->never())
-			->method('getParam');
+			->method('getRequestUri');
 
 		$this->assertEquals(['light'], $this->themesService->getEnabledThemes());
 	}

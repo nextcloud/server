@@ -216,7 +216,11 @@ class ThemesService {
 	 * Get the request-scoped light/dark theme override, if any.
 	 *
 	 * Returns the id of a registered light/dark theme requested through the
-	 * `theme` query parameter, or null when no valid override is present.
+	 * `theme` query string parameter, or null when no valid override is present.
+	 *
+	 * The value is read exclusively from the URL query string (never from route
+	 * URL placeholders or the POST body), so a route that defines a parameter
+	 * named `theme` cannot interfere with - or be hijacked by - this override.
 	 *
 	 * Note: callers are responsible for honoring an admin-enforced theme,
 	 * which always takes precedence over this request-scoped override.
@@ -224,8 +228,8 @@ class ThemesService {
 	 * @return ?string
 	 */
 	public function getRequestThemeOverride(): ?string {
-		$requestThemeOverride = $this->request->getParam(self::REQUEST_THEME_PARAM, '');
-		if (!is_string($requestThemeOverride)) {
+		$requestThemeOverride = $this->getQueryStringThemeParam();
+		if ($requestThemeOverride === null) {
 			return null;
 		}
 
@@ -239,6 +243,32 @@ class ThemesService {
 		}
 
 		return $requestThemeOverride;
+	}
+
+	/**
+	 * Read the `theme` parameter from the URL query string only.
+	 *
+	 * Unlike IRequest::getParam(), which merges route placeholders, POST and GET
+	 * values (route placeholders taking precedence), this looks exclusively at
+	 * the query string of the current request URI. This avoids any conflict with
+	 * routes that define a `theme` URL parameter.
+	 *
+	 * @return ?string the raw query value, or null when absent or not a string
+	 */
+	private function getQueryStringThemeParam(): ?string {
+		$requestUri = $this->request->getRequestUri();
+		$queryStringPos = strpos($requestUri, '?');
+		if ($queryStringPos === false) {
+			return null;
+		}
+
+		parse_str(substr($requestUri, $queryStringPos + 1), $queryParams);
+		$value = $queryParams[self::REQUEST_THEME_PARAM] ?? null;
+		if (!is_string($value)) {
+			return null;
+		}
+
+		return $value;
 	}
 
 	/**
