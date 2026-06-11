@@ -41,27 +41,51 @@ class ThunderbirdPutInvitationQuirkPluginTest extends TestCase {
 	public function testInitialize(): void {
 		$this->server->expects(self::once())
 			->method('on')
-			->with('beforeMethod:PUT', $this->plugin->beforePut(...), 21);
+			->with('beforeMethod:PUT', $this->plugin->beforePut(...), 19);
 
 		$this->plugin->initialize($this->server);
 	}
 
+	private static function buildIcs(string $organizerLine): string {
+		return <<<EOF
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//IDN nextcloud.com//Calendar app//EN
+BEGIN:VEVENT
+CREATED:20250817T094141Z
+LAST-MODIFIED:20250817T094211Z
+SEQUENCE:2
+UID:cc5d41aa-7dbc-4278-8ffd-4fb5d626397c
+DTSTART:20250819T030000Z
+DTEND:20250819T080000Z
+STATUS:CONFIRMED
+SUMMARY:thunderbird-put-test
+ATTENDEE;CN=user a;CUTYPE=INDIVIDUAL;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICI
+ PANT;RSVP=TRUE;LANGUAGE=en:mailto:usera@imap.localhost
+$organizerLine
+DTSTAMP:20250817T094211Z
+END:VEVENT
+END:VCALENDAR
+EOF;
+	}
+
 	public static function provideBeforePutData(): array {
+		$storedData = self::buildIcs('ORGANIZER;CN=Admin Account:mailto:admin@imap.localhost');
 		return [
 			// No collision
 			[[], false],
 			// Many collisions
 			[
 				[
-					['uri' => 'sabredav-3dd349f8-58e0-483d-921f-70bc9f02366b.ics'],
-					['uri' => 'sabredav-19a50615-2db0-4046-a537-000979925e16.ics'],
+					['uri' => 'sabredav-3dd349f8-58e0-483d-921f-70bc9f02366b.ics', 'calendardata' => $storedData],
+					['uri' => 'sabredav-19a50615-2db0-4046-a537-000979925e16.ics', 'calendardata' => $storedData],
 				],
 				false,
 			],
 			// Exactly one collision
 			[
 				[
-					['uri' => 'sabredav-ab2dd681-c265-4b1e-8a20-e9d356f2c33c.ics'],
+					['uri' => 'sabredav-ab2dd681-c265-4b1e-8a20-e9d356f2c33c.ics', 'calendardata' => $storedData],
 				],
 				true,
 			],
@@ -133,11 +157,16 @@ EOF;
 			$request->expects(self::once())
 				->method('setUrl')
 				->with('remote.php/dav/calendars/usera/personal/sabredav-ab2dd681-c265-4b1e-8a20-e9d356f2c33c.ics');
+			$request->expects(self::once())
+				->method('removeHeader')
+				->with('If-None-Match');
 		} else {
 			$request->expects(self::never())
 				->method('getUrl');
 			$request->expects(self::never())
 				->method('setUrl');
+			$request->expects(self::never())
+				->method('removeHeader');
 		}
 
 		$authPlugin = $this->createMock(\Sabre\DAV\Auth\Plugin::class);
@@ -394,6 +423,206 @@ EOF;
 			[$noVEvent],
 			[$noVCalendar],
 		];
+	}
+
+	public static function provideScheduleAgentRestoreData(): array {
+		return [
+			'incoming SCHEDULE-AGENT=CLIENT is dropped when the stored organizer has none' => [
+				'ORGANIZER;CN=Admin Account:mailto:admin@imap.localhost',
+				'ORGANIZER;CN=Admin Account;SCHEDULE-AGENT=CLIENT:mailto:admin@imap.localhost',
+				true,
+				null,
+			],
+			'incoming SCHEDULE-AGENT matching the stored organizer is left alone' => [
+				'ORGANIZER;CN=Admin Account;SCHEDULE-AGENT=CLIENT:mailto:admin@imap.localhost',
+				'ORGANIZER;CN=Admin Account;SCHEDULE-AGENT=CLIENT:mailto:admin@imap.localhost',
+				false,
+				null,
+			],
+			'missing incoming SCHEDULE-AGENT is restored from the stored organizer' => [
+				'ORGANIZER;CN=Admin Account;SCHEDULE-AGENT=CLIENT:mailto:admin@imap.localhost',
+				'ORGANIZER;CN=Admin Account:mailto:admin@imap.localhost',
+				true,
+				'CLIENT',
+			],
+			'unparsable stored calendar data disables the restore' => [
+				null,
+				'ORGANIZER;CN=Admin Account;SCHEDULE-AGENT=CLIENT:mailto:admin@imap.localhost',
+				false,
+				null,
+			],
+		];
+	}
+
+	#[DataProvider('provideScheduleAgentRestoreData')]
+	public function testBeforePutRestoresScheduleAgent(
+		?string $storedOrganizerLine,
+		string $incomingOrganizerLine,
+		bool $expectRestore,
+		?string $expectedAgent,
+	): void {
+		$storedData = $storedOrganizerLine === null
+			? 'THIS IS NOT A CALENDAR OBJECT'
+			: self::buildIcs($storedOrganizerLine);
+		$ics = self::buildIcs($incomingOrganizerLine);
+
+		$request = $this->createMock(RequestInterface::class);
+		$request->expects(self::exactly(2))
+			->method('getHeader')
+			->willReturnMap([
+				['User-Agent', 'Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101 Thunderbird/38.2.0 Lightning/4.0.2'],
+				['Content-Type', 'text/calendar; charset=utf-8'],
+			]);
+		$request->expects(self::once())
+			->method('getPath')
+			->willReturn('calendars/usera/personal/cc5d41aa-7dbc-4278-8ffd-4fb5d626397c.ics');
+		$request->expects(self::once())
+			->method('getBodyAsString')
+			->willReturn($ics);
+		$request->expects(self::once())
+			->method('getUrl')
+			->willReturn('remote.php/dav/calendars/usera/personal/cc5d41aa-7dbc-4278-8ffd-4fb5d626397c.ics');
+		$request->expects(self::once())
+			->method('setUrl')
+			->with('remote.php/dav/calendars/usera/personal/sabredav-ab2dd681-c265-4b1e-8a20-e9d356f2c33c.ics');
+		$request->expects(self::once())
+			->method('removeHeader')
+			->with('If-None-Match');
+
+		$bodies = [];
+		$request->expects($expectRestore ? self::exactly(2) : self::once())
+			->method('setBody')
+			->willReturnCallback(function (string $body) use (&$bodies): void {
+				$bodies[] = $body;
+			});
+
+		$authPlugin = $this->createMock(\Sabre\DAV\Auth\Plugin::class);
+		$authPlugin->expects(self::once())
+			->method('getCurrentPrincipal')
+			->willReturn('principals/users/usera');
+		$this->server->expects(self::once())
+			->method('getPlugin')
+			->with('auth')
+			->willReturn($authPlugin);
+
+		$qb = $this->createMock(IQueryBuilder::class);
+		$qb->method('select')
+			->willReturnSelf();
+		$qb->method('from')
+			->willReturnSelf();
+		$qb->method('join')
+			->willReturnSelf();
+		$qb->method('where')
+			->willReturnSelf();
+		$expr = $this->createMock(IExpressionBuilder::class);
+		$qb->method('expr')
+			->willReturn($expr);
+		$this->db->expects(self::once())
+			->method('getQueryBuilder')
+			->willReturn($qb);
+
+		$result = $this->createMock(IResult::class);
+		$result->expects(self::once())
+			->method('fetchAll')
+			->willReturn([
+				['uri' => 'sabredav-ab2dd681-c265-4b1e-8a20-e9d356f2c33c.ics', 'calendardata' => $storedData],
+			]);
+		$result->expects(self::once())
+			->method('closeCursor');
+		$qb->expects(self::once())
+			->method('executeQuery')
+			->willReturn($result);
+
+		$response = $this->createMock(ResponseInterface::class);
+
+		$this->plugin->initialize($this->server);
+		$this->plugin->beforePut($request, $response);
+
+		self::assertSame($ics, $bodies[0]);
+		if ($expectRestore) {
+			// Unfold the serialized body as long lines are split per RFC 5545
+			$unfolded = str_replace("\r\n ", '', $bodies[1]);
+			if ($expectedAgent === null) {
+				self::assertStringNotContainsString('SCHEDULE-AGENT', $unfolded);
+			} else {
+				self::assertStringContainsString('SCHEDULE-AGENT=' . $expectedAgent, $unfolded);
+			}
+		}
+	}
+
+	/**
+	 * When Thunderbird already PUTs to the object's real URI (calendar was synced), the plugin
+	 * must not rewrite anything and must leave the body untouched - in particular it must not
+	 * strip a SCHEDULE-AGENT the user set on their own organizer copy.
+	 */
+	public function testBeforePutLeavesAlreadyKnownObjectUntouched(): void {
+		$ics = self::buildIcs('ORGANIZER;CN=Admin Account;SCHEDULE-AGENT=CLIENT:mailto:admin@imap.localhost');
+
+		$request = $this->createMock(RequestInterface::class);
+		$request->expects(self::exactly(2))
+			->method('getHeader')
+			->willReturnMap([
+				['User-Agent', 'Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101 Thunderbird/38.2.0 Lightning/4.0.2'],
+				['Content-Type', 'text/calendar; charset=utf-8'],
+			]);
+		$request->expects(self::once())
+			->method('getPath')
+			->willReturn('calendars/usera/personal/known-object.ics');
+		$request->expects(self::once())
+			->method('getBodyAsString')
+			->willReturn($ics);
+		// Only the initial echo-back of the unchanged body, never a rewritten one.
+		$request->expects(self::once())
+			->method('setBody')
+			->with($ics);
+		$request->expects(self::never())
+			->method('getUrl');
+		$request->expects(self::never())
+			->method('setUrl');
+		$request->expects(self::never())
+			->method('removeHeader');
+
+		$authPlugin = $this->createMock(\Sabre\DAV\Auth\Plugin::class);
+		$authPlugin->expects(self::once())
+			->method('getCurrentPrincipal')
+			->willReturn('principals/users/usera');
+		$this->server->expects(self::once())
+			->method('getPlugin')
+			->with('auth')
+			->willReturn($authPlugin);
+
+		$qb = $this->createMock(IQueryBuilder::class);
+		$qb->method('select')
+			->willReturnSelf();
+		$qb->method('from')
+			->willReturnSelf();
+		$qb->method('join')
+			->willReturnSelf();
+		$qb->method('where')
+			->willReturnSelf();
+		$expr = $this->createMock(IExpressionBuilder::class);
+		$qb->method('expr')
+			->willReturn($expr);
+		$this->db->expects(self::once())
+			->method('getQueryBuilder')
+			->willReturn($qb);
+
+		$result = $this->createMock(IResult::class);
+		$result->expects(self::once())
+			->method('fetchAll')
+			->willReturn([
+				['uri' => 'known-object.ics', 'calendardata' => self::buildIcs('ORGANIZER;CN=Admin Account:mailto:admin@imap.localhost')],
+			]);
+		$result->expects(self::once())
+			->method('closeCursor');
+		$qb->expects(self::once())
+			->method('executeQuery')
+			->willReturn($result);
+
+		$response = $this->createMock(ResponseInterface::class);
+
+		$this->plugin->initialize($this->server);
+		$this->plugin->beforePut($request, $response);
 	}
 
 	#[DataProvider('provideInvalidIcsData')]

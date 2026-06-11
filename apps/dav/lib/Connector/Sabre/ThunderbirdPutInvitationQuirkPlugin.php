@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Connector\Sabre;
 
+use OCA\DAV\CalDAV\CalDavBackend;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use Sabre\DAV\Server;
@@ -34,8 +35,8 @@ class ThunderbirdPutInvitationQuirkPlugin extends ServerPlugin {
 	public function initialize(Server $server) {
 		$this->server = $server;
 
-		// Run right after the ACL plugin to make sure that the current user principal is available
-		$server->on('beforeMethod:PUT', $this->beforePut(...), 21);
+		// Before the ACL plugin (priority 20) so its PUT check sees the rewritten object.
+		$server->on('beforeMethod:PUT', $this->beforePut(...), 19);
 	}
 
 	public function beforePut(RequestInterface $request, ResponseInterface $response): void {
@@ -44,9 +45,12 @@ class ThunderbirdPutInvitationQuirkPlugin extends ServerPlugin {
 			return;
 		}
 
-		if (!str_starts_with($request->getPath(), 'calendars/')) {
+		// calendars/{principal}/{calendar}/{object}
+		$pathParts = explode('/', $request->getPath());
+		if (count($pathParts) !== 4 || $pathParts[0] !== 'calendars') {
 			return;
 		}
+		[, , $calendarUri, $requestedObjectUri] = $pathParts;
 
 		if (!str_contains($request->getHeader('Content-Type') ?? '', 'text/calendar')) {
 			return;
@@ -76,8 +80,9 @@ class ThunderbirdPutInvitationQuirkPlugin extends ServerPlugin {
 			return;
 		}
 
+		// Same calendar as the request, real calendar objects only, nothing trashed.
 		$qb = $this->db->getQueryBuilder();
-		$qb->select('co.uri')
+		$qb->select('co.uri', 'co.calendardata')
 			->from('calendarobjects', 'co')
 			->join('co', 'calendars', 'c', $qb->expr()->eq('co.calendarid', 'c.id'))
 			->where(
@@ -87,10 +92,22 @@ class ThunderbirdPutInvitationQuirkPlugin extends ServerPlugin {
 					IQueryBuilder::PARAM_STR,
 				),
 				$qb->expr()->eq(
+					'c.uri',
+					$qb->createNamedParameter($calendarUri, IQueryBuilder::PARAM_STR),
+					IQueryBuilder::PARAM_STR,
+				),
+				$qb->expr()->eq(
 					'co.uid',
 					$qb->createNamedParameter($uid, IQueryBuilder::PARAM_STR),
 					IQueryBuilder::PARAM_STR,
 				),
+				$qb->expr()->eq(
+					'co.calendartype',
+					$qb->createNamedParameter(CalDavBackend::CALENDAR_TYPE_CALENDAR, IQueryBuilder::PARAM_INT),
+					IQueryBuilder::PARAM_INT,
+				),
+				$qb->expr()->isNull('co.deleted_at'),
+				$qb->expr()->isNull('c.deleted_at'),
 			);
 		$result = $qb->executeQuery();
 		$rows = $result->fetchAll();
@@ -101,10 +118,67 @@ class ThunderbirdPutInvitationQuirkPlugin extends ServerPlugin {
 			return;
 		}
 
-		$requestUrl = $request->getUrl();
-		[$prefix] = \Sabre\Uri\split($requestUrl);
 		$objectUri = $rows[0]['uri'];
+		if ($objectUri === $requestedObjectUri) {
+			// Already synced: Thunderbird targets the real URI, leave the request untouched.
+			return;
+		}
+
+		// Restore SCHEDULE-AGENT from the stored organizer so server-side scheduling still runs.
+		$storedData = $rows[0]['calendardata'];
+		if (is_resource($storedData)) {
+			$storedData = stream_get_contents($storedData);
+		}
+		$storedScheduleAgent = null;
+		$storedHasOrganizer = false;
+		try {
+			$storedVCalendar = VObjectReader::read((string)$storedData);
+			if ($storedVCalendar instanceof VCalendar) {
+				$storedOrganizer = $storedVCalendar->getBaseComponent('VEVENT')?->ORGANIZER;
+				if ($storedOrganizer !== null) {
+					$storedHasOrganizer = true;
+					$storedScheduleAgent = isset($storedOrganizer['SCHEDULE-AGENT'])
+						? $storedOrganizer['SCHEDULE-AGENT']->getValue()
+						: null;
+				}
+			}
+		} catch (\Throwable $e) {
+			$storedHasOrganizer = false;
+		}
+
+		$organizerRestored = false;
+		if ($storedHasOrganizer) {
+			foreach ($vCalendar->getComponents() as $component) {
+				if ($component->name !== 'VEVENT') {
+					continue;
+				}
+				$organizer = $component->ORGANIZER ?? null;
+				if ($organizer === null) {
+					continue;
+				}
+				$incomingScheduleAgent = isset($organizer['SCHEDULE-AGENT'])
+					? $organizer['SCHEDULE-AGENT']->getValue()
+					: null;
+				if ($incomingScheduleAgent === $storedScheduleAgent) {
+					continue;
+				}
+				if ($storedScheduleAgent === null) {
+					unset($organizer['SCHEDULE-AGENT']);
+				} else {
+					$organizer['SCHEDULE-AGENT'] = $storedScheduleAgent;
+				}
+				$organizerRestored = true;
+			}
+		}
+		if ($organizerRestored) {
+			$request->setBody($vCalendar->serialize());
+		}
+
+		[$prefix] = \Sabre\Uri\split($request->getUrl());
 		$request->setUrl("$prefix/$objectUri");
+
+		// "If-None-Match: *" from the attempted create would fail with 412 after the rewrite
+		$request->removeHeader('If-None-Match');
 	}
 
 	private function isThunderbirdUserAgent(string $userAgent): bool {
