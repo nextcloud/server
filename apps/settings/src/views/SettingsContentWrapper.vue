@@ -5,7 +5,7 @@
 
 <template>
 	<NcAppContent>
-		<div ref="contentMain" />
+		<div ref="contentMain" class="settings-content" />
 	</NcAppContent>
 </template>
 
@@ -20,3 +20,14 @@ onMounted(() => {
 	realElement.parentNode!.removeChild(realElement)
 })
 </script>
+
+<style scoped>
+/* The NcAppNavigationToggle is absolutely positioned in the top inline-start
+   corner of the content. Reserve the standard toggle clearance
+   (--app-navigation-padding above + --default-clickable-area + matching padding
+   below) so the first section's heading clears it. Sections already contribute
+   ~7 grid units of leading space, so subtract that to avoid a large empty band. */
+.settings-content {
+	padding-block-start: calc(2 * var(--app-navigation-padding) + var(--default-clickable-area) - var(--default-grid-baseline) * 7);
+}
+</style>
