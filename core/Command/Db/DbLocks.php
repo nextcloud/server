@@ -19,26 +19,27 @@ use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 
 class DbLocks extends Command {
 
-    public function __construct(
-        private readonly Connection $connection,
-    ) {
-        parent::__construct();
-    }
+	public function __construct(
+		private readonly Connection $connection,
+	) {
+		parent::__construct();
+	}
 
-    protected function configure(): void {
-        $this
-            ->setName('db:locks')
-            ->setDescription('Show active database locks, deadlocks, and long-running transactions')
-            ->addOption('json', null, InputOption::VALUE_NONE, 'Output in JSON format');
-    }
+	#[\Override]
+	protected function configure(): void {
+		$this
+			->setName('db:locks')
+			->setDescription('Show active database locks, deadlocks, and long-running transactions')
+			->addOption('json', null, InputOption::VALUE_NONE, 'Output in JSON format');
+	}
 
-    protected function execute(InputInterface $input, OutputInterface $output): int {
-        $platform = $this->connection->getDatabasePlatform();
-        $asJson   = $input->getOption('json');
+	#[\Override]
+	protected function execute(InputInterface $input, OutputInterface $output): int {
+		$platform = $this->connection->getDatabasePlatform();
+		$asJson = $input->getOption('json');
 
-        if ($platform instanceof MySQLPlatform) {
-            $sql = "
-                SELECT r.trx_id AS waiting_trx_id,
+		if ($platform instanceof MySQLPlatform) {
+			$sql = "SELECT r.trx_id AS waiting_trx_id,
                        r.trx_mysql_thread_id AS waiting_thread,
                        r.trx_query AS waiting_query,
                        b.trx_id AS blocking_trx_id,
@@ -46,19 +47,17 @@ class DbLocks extends Command {
                        b.trx_query AS blocking_query
                 FROM information_schema.innodb_lock_waits w
                 JOIN information_schema.innodb_trx b ON b.trx_id = w.blocking_trx_id
-                JOIN information_schema.innodb_trx r ON r.trx_id = w.requesting_trx_id
-            ";
-            $headers = ['Waiting TRX', 'Waiting Thread', 'Waiting Query', 'Blocking TRX', 'Blocking Thread', 'Blocking Query'];
-            $cols    = ['waiting_trx_id', 'waiting_thread', 'waiting_query', 'blocking_trx_id', 'blocking_thread', 'blocking_query'];
-        } elseif ($platform instanceof PostgreSQLPlatform) {
-            $sql = "
-                SELECT blocked_locks.pid AS blocked_pid,
-                       blocked_activity.usename AS blocked_user,
-                       blocking_locks.pid AS blocking_pid,
-                       blocking_activity.usename AS blocking_user,
-                       blocked_activity.query AS blocked_query,
-                       blocking_activity.query AS blocking_query,
-                       now() - blocked_activity.query_start AS blocked_duration
+                JOIN information_schema.innodb_trx r ON r.trx_id = w.requesting_trx_id";
+			$headers = ['Waiting TRX', 'Waiting Thread', 'Waiting Query', 'Blocking TRX', 'Blocking Thread', 'Blocking Query'];
+			$cols = ['waiting_trx_id', 'waiting_thread', 'waiting_query', 'blocking_trx_id', 'blocking_thread', 'blocking_query'];
+		} elseif ($platform instanceof PostgreSQLPlatform) {
+			$sql = "SELECT blocked_locks.pid AS blocked_pid,
+                           blocked_activity.usename AS blocked_user,
+                           blocking_locks.pid AS blocking_pid,
+                           blocking_activity.usename AS blocking_user,
+                           blocked_activity.query AS blocked_query,
+                           blocking_activity.query AS blocking_query,
+                           now() - blocked_activity.query_start AS blocked_duration
                 FROM pg_catalog.pg_locks blocked_locks
                 JOIN pg_catalog.pg_stat_activity blocked_activity ON blocked_activity.pid = blocked_locks.pid
                 JOIN pg_catalog.pg_locks blocking_locks
@@ -66,38 +65,37 @@ class DbLocks extends Command {
                     AND blocking_locks.relation IS NOT DISTINCT FROM blocked_locks.relation
                     AND blocking_locks.pid != blocked_locks.pid
                 JOIN pg_catalog.pg_stat_activity blocking_activity ON blocking_activity.pid = blocking_locks.pid
-                WHERE NOT blocked_locks.granted
-            ";
-            $headers = ['Blocked PID', 'Blocked User', 'Blocking PID', 'Blocking User', 'Blocked Query', 'Duration'];
-            $cols    = ['blocked_pid', 'blocked_user', 'blocking_pid', 'blocking_user', 'blocked_query', 'blocked_duration'];
-        } else {
-            $output->writeln('<comment>db:locks is not supported for SQLite (SQLite uses file-level locking).</comment>');
-            return Command::SUCCESS;
-        }
+                WHERE NOT blocked_locks.granted";
+			$headers = ['Blocked PID', 'Blocked User', 'Blocking PID', 'Blocking User', 'Blocked Query', 'Duration'];
+			$cols	= ['blocked_pid', 'blocked_user', 'blocking_pid', 'blocking_user', 'blocked_query', 'blocked_duration'];
+		} else {
+			$output->writeln('<comment>db:locks is not supported for SQLite and Oracle (SQLite uses file-level locking).</comment>');
+			return Command::SUCCESS;
+		}
 
-        $rows = $this->connection->executeQuery($sql)->fetchAllAssociative();
+		$rows = $this->connection->executeQuery($sql)->fetchAllAssociative();
 
-        if (empty($rows)) {
-            $output->writeln('<info>No active locks or blocking transactions detected.</info>');
-            return Command::SUCCESS;
-        }
+		if (empty($rows)) {
+			$output->writeln('<info>No active locks or blocking transactions detected.</info>');
+			return Command::SUCCESS;
+		}
 
-        if ($asJson) {
-            $output->writeln(json_encode($rows, JSON_PRETTY_PRINT));
-            return Command::SUCCESS;
-        }
+		if ($asJson) {
+			$output->writeln(json_encode($rows, JSON_PRETTY_PRINT));
+			return Command::SUCCESS;
+		}
 
-        $output->writeln(sprintf('<error>Found %d blocking transaction(s)!</error>', count($rows)));
-        $output->writeln('');
+		$output->writeln(sprintf('<error>Found %d blocking transaction(s)!</error>', count($rows)));
+		$output->writeln('');
 
-        $table = new Table($output);
-        $table->setHeaders($headers);
+		$table = new Table($output);
+		$table->setHeaders($headers);
 
-        foreach ($rows as $row) {
-            $table->addRow(array_map(fn($col) => $row[$col] ?? '—', $cols));
-        }
+		foreach ($rows as $row) {
+			$table->addRow(array_map(fn($col) => $row[$col] ?? '—', $cols));
+		}
 
-        $table->render();
-        return Command::SUCCESS;
-    }
+		$table->render();
+		return Command::SUCCESS;
+	}
 }

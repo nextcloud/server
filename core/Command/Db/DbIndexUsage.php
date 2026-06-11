@@ -25,6 +25,7 @@ class DbIndexUsage extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('db:index-usage')
@@ -33,39 +34,36 @@ class DbIndexUsage extends Command {
 			->addOption('all', null, InputOption::VALUE_NONE, 'Show all indexes, not just unused ones');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$platform = $this->connection->getDatabasePlatform();
-		$asJson   = $input->getOption('json');
-		$showAll  = $input->getOption('all');
+		$asJson = $input->getOption('json');
+		$showAll = $input->getOption('all');
 
 		if ($platform instanceof MySQLPlatform) {
 			// Requires performance_schema to be enabled (default in MySQL 5.6+/MariaDB 10.0+)
 			$unused_filter = $showAll ? '' : "WHERE s.count_read = 0 AND s.index_name IS NOT NULL AND s.index_name != 'PRIMARY'";
-			$sql = "
-                SELECT s.object_name AS `table`,
-                       s.index_name AS `index`,
-                       s.count_read AS reads,
-                       s.count_write AS writes
+			$sql = "SELECT s.object_name AS `table`,
+                           s.index_name AS `index`,
+                           s.count_read AS reads,
+                           s.count_write AS writes
                 FROM performance_schema.table_io_waits_summary_by_index_usage s
                 {$unused_filter}
-                ORDER BY s.object_name, s.index_name
-            ";
+                ORDER BY s.object_name, s.index_name";
 		} elseif ($platform instanceof PostgreSQLPlatform) {
 			$unused_filter = $showAll ? '' : 'AND idx_scan = 0';
-			$sql = "
-                SELECT relname AS table,
-                       indexrelname AS index,
-                       idx_scan AS reads,
-                       idx_tup_read AS tuples_read,
-                       idx_tup_fetch AS tuples_fetched
+			$sql = "SELECT relname AS table,
+                           indexrelname AS index,
+                           idx_scan AS reads,
+                           idx_tup_read AS tuples_read,
+                           idx_tup_fetch AS tuples_fetched
                 FROM pg_stat_user_indexes
                 JOIN pg_index USING (indexrelid)
                 WHERE indisunique IS FALSE
                 {$unused_filter}
-                ORDER BY relname, indexrelname
-            ";
+                ORDER BY relname, indexrelname";
 		} else {
-			$output->writeln('<comment>db:index-usage is not supported for SQLite.</comment>');
+			$output->writeln('<comment>db:index-usage is not supported for SQLite and Oracle.</comment>');
 			return Command::SUCCESS;
 		}
 
