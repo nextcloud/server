@@ -36,8 +36,8 @@ class Version35000Date20260520071407 extends SimpleMigrationStep {
 		$table = $schema->getTable('share_external');
 		if (!$table->hasColumn('permissions')) {
 			$table->addColumn('permissions', Types::SMALLINT, [
-				'notnull' => true,
-				'default' => 0
+				'notnull' => false,
+				'default' => null
 			]);
 
 			return $schema;

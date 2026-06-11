@@ -41,8 +41,8 @@ use OCP\Share\IShare;
  * @method void setMountpointHash(string $mountPointHash)
  * @method int getAccepted()
  * @method void setAccepted(int $accepted)
- * @method int getPermissions()
- * @method void setPermissions(int $permissions)
+ * @method int|null getPermissions()
+ * @method void setPermissions(?int $permissions)
  *
  * @psalm-import-type Files_SharingRemoteShare from ResponseDefinitions
  */
