@@ -740,6 +740,7 @@ return array(
     'OCP\\OCM\\Enum\\ParamType' => $baseDir . '/lib/public/OCM/Enum/ParamType.php',
     'OCP\\OCM\\Events\\LocalOCMDiscoveryEvent' => $baseDir . '/lib/public/OCM/Events/LocalOCMDiscoveryEvent.php',
     'OCP\\OCM\\Events\\OCMEndpointRequestEvent' => $baseDir . '/lib/public/OCM/Events/OCMEndpointRequestEvent.php',
+    'OCP\\OCM\\Events\\OCMNotificationReceivedEvent' => $baseDir . '/lib/public/OCM/Events/OCMNotificationReceivedEvent.php',
     'OCP\\OCM\\Events\\ResourceTypeRegisterEvent' => $baseDir . '/lib/public/OCM/Events/ResourceTypeRegisterEvent.php',
     'OCP\\OCM\\Exceptions\\OCMArgumentException' => $baseDir . '/lib/public/OCM/Exceptions/OCMArgumentException.php',
     'OCP\\OCM\\Exceptions\\OCMCapabilityException' => $baseDir . '/lib/public/OCM/Exceptions/OCMCapabilityException.php',
