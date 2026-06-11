@@ -42,9 +42,9 @@ final class ServerIdConfig implements ISetupCheck {
 			return SetupResult::info(
 				$this->l10n->t(
 					'The ``serverid`` parameter is not configured. '
-        			. 'By default, Nextcloud uses a fallback based on the server hostname. '
-        			. 'The fallback suggests a standalone setup, which is generally safe if your configuration will remain on a single server and never be cloned, migrated, or scaled out. '
-        			. 'However, if you are running Nextcloud on multiple servers, sharing ``config.php``, or you plan to expand your setup in the future, you should explicitly set a unique integer ``serverid`` (0–1023) for each server. '
+					. 'By default, Nextcloud uses a fallback based on the server hostname. '
+					. 'The fallback is safe for a standalone setup.'
+					. 'However, if you are running Nextcloud on multiple servers, you plan to expand your setup in the future, or simply want to suppress this message, you should explicitly set a unique integer ``serverid`` (0–1023) for each server. '
 				),
 				$linkToDoc,
 			);
