@@ -205,6 +205,7 @@ class ViewController extends Controller {
 		$this->initialState->provideInitialState('templates_enabled', true);
 		$this->initialState->provideInitialState('templates_path', $this->templateManager->hasTemplateDirectory() ? $this->templateManager->getTemplatePath() : false);
 		$this->initialState->provideInitialState('templates', $this->templateManager->listCreators());
+		$this->initialState->provideInitialState('localClientEnabled', $this->appConfig->getAppValueBool(ConfigLexicon::LOCAL_CLIENT_INTEGRATION));
 
 		$isTwoFactorEnabled = false;
 		foreach ($this->twoFactorRegistry->getProviderStates($user) as $providerId => $providerState) {
