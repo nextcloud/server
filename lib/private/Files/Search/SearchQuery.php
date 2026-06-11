@@ -23,7 +23,7 @@ class SearchQuery implements ISearchQuery {
 	/** @var ?IUser */
 	private $user;
 	private $limitToHome;
-	/** @var array */
+	/** @var list<string> */
 	private $selectFields;
 
 	/**
