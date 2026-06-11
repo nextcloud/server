@@ -54,7 +54,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.2']
+        php-versions: ['8.2', '8.5']
         key: ['objectstore', 'objectstore_multibucket']
 
     name: php${{ matrix.php-versions }}-${{ matrix.key }}-minio
@@ -88,7 +88,7 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
           extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
-          coverage: 'none'
+          coverage: none
           ini-file: development
           ini-values: disable_functions=""
         env:
