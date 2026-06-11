@@ -272,14 +272,14 @@ class FileEventsListener implements IEventListener {
 					);
 				}
 			} catch (DoesNotExistException $e) {
-				// This happens if the versions app was not enabled while the file was created or updated the last time.
-				// meaning there is no such revision and we need to create this file.
-				if ($writeHookInfo['versionCreated']) {
-					$this->created($node);
-				} else {
-					// Normally this should not happen so we re-throw the exception to not hide any potential issues.
-					throw $e;
-				}
+				// There is no version entity to update. This happens when the file has
+				// no tracked version yet, for example because the versions app was
+				// disabled when the file was last written, or because the file was just
+				// created at this location by a copy operation (the copy gets a new file
+				// id but no version entity, only NodeCopiedEvent and write events fire).
+				// In all these cases we create the version entity for the current content
+				// instead of failing the whole write/copy operation.
+				$this->created($node);
 			} catch (Exception $e) {
 				$this->logger->error('Failed to update existing version for ' . $node->getPath(), [
 					'exception' => $e,
