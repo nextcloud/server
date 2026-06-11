@@ -53,9 +53,7 @@ use OCP\Group\Events\GroupCreatedEvent;
 use OCP\Group\Events\GroupDeletedEvent;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
-use OCP\IConfig;
 use OCP\Log\Audit\CriticalActionPerformedEvent;
-use OCP\Log\ILogFactory;
 use OCP\Preview\BeforePreviewFetchedEvent;
 use OCP\Share;
 use OCP\Share\Events\ShareCreatedEvent;
@@ -81,9 +79,7 @@ class Application extends App implements IBootstrap {
 
 	#[\Override]
 	public function register(IRegistrationContext $context): void {
-		$context->registerService(IAuditLogger::class, function (ContainerInterface $c) {
-			return new AuditLogger($c->get(ILogFactory::class), $c->get(IConfig::class));
-		});
+		$context->registerServiceAlias(IAuditLogger::class, AuditLogger::class);
 
 		$context->registerEventListener(CriticalActionPerformedEvent::class, CriticalActionPerformedEventListener::class);
 
