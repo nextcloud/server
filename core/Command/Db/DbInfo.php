@@ -8,15 +8,15 @@ declare(strict_types=1);
  */
 namespace OC\Core\Command\Db;
 
+use Doctrine\DBAL\Platforms\MySQLPlatform;
+use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
+use Doctrine\DBAL\Platforms\SqlitePlatform;
 use OC\DB\Connection;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Doctrine\DBAL\Platforms\MySQLPlatform;
-use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
-use Doctrine\DBAL\Platforms\SqlitePlatform;
 
 class DbInfo extends Command {
 
@@ -37,7 +37,7 @@ class DbInfo extends Command {
 	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$platform = $this->connection->getDatabasePlatform();
-		$asJson	= $input->getOption('json');
+		$asJson = $input->getOption('json');
 
 		if ($platform instanceof MySQLPlatform) {
 			$rows = $this->getMySQLInfo();
@@ -76,9 +76,9 @@ class DbInfo extends Command {
 
 	private function getMySQLInfo(): array {
 		$result = $this->connection->executeQuery(
-			"SELECT VERSION() AS version, @@innodb_buffer_pool_size AS buffer_pool,
+			'SELECT VERSION() AS version, @@innodb_buffer_pool_size AS buffer_pool,
 					@@max_connections AS max_conn, @@character_set_database AS charset,
-					@@transaction_isolation AS tx_isolation"
+					@@transaction_isolation AS tx_isolation'
 		);
 		$info = $result->fetchAssociative();
 
@@ -114,7 +114,7 @@ class DbInfo extends Command {
 
 	private function getSQLiteInfo(): array {
 		$result = $this->connection->executeQuery('SELECT sqlite_version() AS version');
-		$info   = $result->fetchAssociative();
+		$info = $result->fetchAssociative();
 		return [
 			['setting' => 'Engine',  'value' => 'SQLite'],
 			['setting' => 'Version', 'value' => $info['version']],
