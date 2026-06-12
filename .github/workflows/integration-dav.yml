@@ -45,7 +45,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.2', '8.5']
+        php-versions: ['8.3', '8.5']
         endpoint: ['old', 'new']
         service: ['CalDAV', 'CardDAV']
 

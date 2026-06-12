@@ -61,7 +61,7 @@ jobs:
       matrix:
         include:
           - oracle-versions: '18'
-            php-versions: '8.2'
+            php-versions: '8.3'
           - oracle-versions: '23'
             php-versions: '8.5'
 

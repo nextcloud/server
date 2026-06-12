@@ -58,7 +58,7 @@ jobs:
       matrix:
         include:
           - mysql-versions: '8.0'
-            php-versions: '8.2'
+            php-versions: '8.3'
           - mysql-versions: '8.4'
             php-versions: '8.5'
 

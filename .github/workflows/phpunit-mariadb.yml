@@ -61,7 +61,7 @@ jobs:
       matrix:
         include:
           - mariadb-versions: '10.6'
-            php-versions: '8.2'
+            php-versions: '8.3'
           - mariadb-versions: '11.8'
             php-versions: '8.5'
 
