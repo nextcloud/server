@@ -96,6 +96,7 @@ OC.L10N.register(
     "Assistant" : "Асистент",
     "Administration privileges" : "Административни привилегии",
     "Groupware" : "Групни производи",
+    "Office" : "Канцеларија",
     "Overview" : "Преглед",
     "Quick presets" : "Брзи предефинирани поставки",
     "Basic settings" : "Основни параметри",

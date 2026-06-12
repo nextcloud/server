@@ -100,6 +100,7 @@ OC.L10N.register(
     "Assistant" : "Yardımcı",
     "Administration privileges" : "Yönetim yetkileri",
     "Groupware" : "Grup çalışması",
+    "Office" : "Ofis",
     "Overview" : "Özet",
     "Quick presets" : "Hızlı hazır ayarlar",
     "Basic settings" : "Temel ayarlar",

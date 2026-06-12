@@ -332,7 +332,7 @@
     "The generated voice response as part of the conversation" : "Sugeneruotas balso atsakymas, kuris yra pokalbio dalis",
     "Output transcript" : "Išvesties transkripcija",
     "Transcription of the audio output" : "Garso įrašo transkripcija",
-    "Transcribe audio" : "Transkribuoti garso įrašą",
+    "Transcribe audio" : "Garso įrašą paversti tekstu",
     "Transcribe the things said in an audio" : "Transkribuoti tai, kas pasakyta garso įraše",
     "Audio input" : "Garso įvestis",
     "The audio to transcribe" : "Garso įrašas transkribavimui",

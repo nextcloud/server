@@ -99,6 +99,7 @@ OC.L10N.register(
     "Assistant" : "助手",
     "Administration privileges" : "管理权限",
     "Groupware" : "协作套件",
+    "Office" : "办公",
     "Overview" : "概览",
     "Quick presets" : "快速预设",
     "Basic settings" : "基本设置",

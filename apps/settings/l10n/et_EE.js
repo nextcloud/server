@@ -100,6 +100,7 @@ OC.L10N.register(
     "Assistant" : "Abiline",
     "Administration privileges" : "Peakasutaja õigused",
     "Groupware" : "Grupitöö",
+    "Office" : "Kontorirakendus",
     "Overview" : "Ülevaade",
     "Quick presets" : "Kiired eelseadistused",
     "Basic settings" : "Põhiseadistused",

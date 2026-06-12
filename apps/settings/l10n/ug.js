@@ -97,6 +97,7 @@ OC.L10N.register(
     "Assistant" : "ياردەمچى",
     "Administration privileges" : "باشقۇرۇش ھوقۇقلىرى",
     "Groupware" : "گۇرۇپپالىق دېتال",
+    "Office" : "ئىشخانا",
     "Overview" : "ئومۇمىي چۈشەنچە",
     "Quick presets" : "تېز تەڭشەكلەر",
     "Basic settings" : "ئاساسىي تەڭشەكلەر",

@@ -100,6 +100,7 @@ OC.L10N.register(
     "Assistant" : "Помічник",
     "Administration privileges" : "Права адміністратора",
     "Groupware" : "Робочі групи",
+    "Office" : "Офіс",
     "Overview" : "Огляд",
     "Quick presets" : "Швидкі набори налаштувань",
     "Basic settings" : "Основні налаштування",

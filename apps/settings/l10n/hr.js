@@ -99,6 +99,7 @@ OC.L10N.register(
     "Assistant" : "Asistent",
     "Administration privileges" : "Ovlasti za administriranje",
     "Groupware" : "Groupware",
+    "Office" : "Ured",
     "Overview" : "Pregled",
     "Quick presets" : "Brzi predlošci",
     "Basic settings" : "Osnovne postavke",
