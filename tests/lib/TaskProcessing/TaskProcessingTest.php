@@ -1757,4 +1757,29 @@ class TaskProcessingTest extends \Test\TestCase {
 		self::assertGreaterThanOrEqual($before, $persisted->getStartedAt());
 		self::assertLessThanOrEqual($after, $persisted->getStartedAt());
 	}
+
+	public function testLockTaskDoesNotResurrectFinishedTask(): void {
+		// Regression guard for the lockTask claim path (used by the SQLite fallback and the
+		// external-provider API claim). lockTask must only ever transition SCHEDULED -> RUNNING.
+		// If another worker finished a task (SUCCESSFUL/FAILED) between the SELECT and this
+		// UPDATE, lockTask must NOT flip it back to RUNNING -- otherwise a completed task is
+		// resurrected and processed twice. (The previous `status != RUNNING` guard let a
+		// SUCCESSFUL/FAILED row be re-locked.)
+		$this->registerTextToTextProvider();
+
+		$task = new Task(TextToText::ID, ['input' => 'Hello'], 'test', null);
+		$this->manager->scheduleTask($task);
+		$id = $task->getId();
+
+		// Simulate another worker having already finished the task.
+		$entity = $this->taskMapper->find($id);
+		$entity->setStatus(Task::STATUS_SUCCESSFUL);
+		$this->taskMapper->update($entity);
+
+		// Attempting to claim the (now SUCCESSFUL) task must be a no-op.
+		$affected = $this->taskMapper->lockTask($this->taskMapper->find($id));
+
+		self::assertSame(0, $affected, 'lockTask must not claim a task that is no longer SCHEDULED');
+		self::assertEquals(Task::STATUS_SUCCESSFUL, $this->manager->getTask($id)->getStatus());
+	}
 }
