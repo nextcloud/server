@@ -62,7 +62,7 @@ jobs:
         include:
           - mariadb-versions: '10.6'
             php-versions: '8.3'
-          - mariadb-versions: '11.8'
+          - mariadb-versions: '12.3'
             php-versions: '8.5'
 
     name: MariaDB ${{ matrix.mariadb-versions }} (PHP ${{ matrix.php-versions }}) - database tests
