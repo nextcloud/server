@@ -51,6 +51,9 @@ async function start() {
 	process.stdout.write('\nApply custom configuration for Playwright tests\n')
 	await runOcc(['config:system:set', 'appstoreenabled', '--value', 'false', '--type', 'boolean'])
 	process.stdout.write('├─ Disabled app store\n')
+	// createRandomUser() generates short passwords that the policy would reject
+	await runOcc(['app:disable', 'password_policy'])
+	process.stdout.write('├─ Disabled password policy for random test users\n')
 	await runExec(['php', '-r', '$db = new SQLite3("data/owncloud.db");$db->busyTimeout(5000);$db->exec("PRAGMA journal_mode = wal;");'])
 	process.stdout.write('├─ Enabled SQLite WAL mode for better performance\n')
 	process.stdout.write('├─ Initialize cron job...\n')
