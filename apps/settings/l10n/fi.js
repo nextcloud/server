@@ -88,6 +88,7 @@ OC.L10N.register(
     "Assistant" : "Avustaja",
     "Administration privileges" : "Ylläpitäjän oikeudet",
     "Groupware" : "Groupware",
+    "Office" : "Toimisto",
     "Overview" : "Yleiskuvaus",
     "Basic settings" : "Perusasetukset",
     "Sharing" : "Jakaminen",

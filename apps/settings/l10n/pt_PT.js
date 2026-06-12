@@ -74,6 +74,7 @@ OC.L10N.register(
     "Additional settings" : "Definições adicionais",
     "Assistant" : "Assistente",
     "Administration privileges" : "Privilégios de administração",
+    "Office" : "OFFICE",
     "Overview" : "Visão Geral",
     "Basic settings" : "Definições básicas",
     "Sharing" : "Partilha",

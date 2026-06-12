@@ -100,6 +100,7 @@ OC.L10N.register(
     "Assistant" : "助理",
     "Administration privileges" : "管理員職權",
     "Groupware" : "協作應用",
+    "Office" : "Office",
     "Overview" : "概覽",
     "Quick presets" : "快速預設集",
     "Basic settings" : "基本設定",

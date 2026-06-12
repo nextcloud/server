@@ -80,6 +80,7 @@ OC.L10N.register(
     "Additional settings" : "Cunfiguratziones in agiunta",
     "Administration privileges" : "Privilègios de amministratzione",
     "Groupware" : "Groupware",
+    "Office" : "Ofìtziu",
     "Overview" : "Panoràmica",
     "Basic settings" : "Cunfiguratzione de base",
     "Sharing" : "Cumpartzidura",

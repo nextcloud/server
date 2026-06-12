@@ -100,6 +100,7 @@ OC.L10N.register(
     "Assistant" : "Помощник",
     "Administration privileges" : "Администрирование",
     "Groupware" : "Приложения для совместной работы",
+    "Office" : "Офис",
     "Overview" : "Общие сведения",
     "Quick presets" : "Быстрые предустановки",
     "Basic settings" : "Основные параметры",

@@ -99,6 +99,7 @@ OC.L10N.register(
     "Assistant" : "Assistent",
     "Administration privileges" : "Administreringsprivilegier",
     "Groupware" : "Grupprogram",
+    "Office" : "Office",
     "Overview" : "Översikt",
     "Quick presets" : "Snabbval",
     "Basic settings" : "Generella inställningar",

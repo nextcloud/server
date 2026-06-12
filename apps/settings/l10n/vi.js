@@ -84,6 +84,7 @@ OC.L10N.register(
     "Additional settings" : "Cài đặt bổ sung",
     "Administration privileges" : "Đặc quyền quản trị",
     "Groupware" : "Phần mềm nhóm",
+    "Office" : "Văn phòng",
     "Overview" : "Tổng quan",
     "Basic settings" : "Thiết lập cơ bản",
     "Sharing" : "Chia sẻ",
