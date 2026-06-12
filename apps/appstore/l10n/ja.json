@@ -74,6 +74,7 @@
     "{index} of {total}" : "{total} のうち {index}",
     "Limit to groups" : "グループに制限する",
     "Save" : "保存する",
+    "Update all" : "全て更新する",
     "Loading app list" : "アプリ一覧を読み込み中",
     "Search everywhere" : "あらゆる場所を検索",
     "Download and enable all" : "すべてをダウンロードして有効にする",

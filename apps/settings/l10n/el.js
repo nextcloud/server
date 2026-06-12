@@ -99,6 +99,7 @@ OC.L10N.register(
     "Assistant" : "Βοηθός",
     "Administration privileges" : "Προνόμια διαχειριστή",
     "Groupware" : "Ομαδικό",
+    "Office" : "Γραφείο",
     "Overview" : "Επισκόπηση",
     "Quick presets" : "Γρήγορες προεπιλογές",
     "Basic settings" : "Βασικές ρυθμίσεις",

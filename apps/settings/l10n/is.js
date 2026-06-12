@@ -96,6 +96,7 @@ OC.L10N.register(
     "Assistant" : "Meðhjálpari",
     "Administration privileges" : "Kerfisstjórnunarheimildir",
     "Groupware" : "Hópvinnukerfi",
+    "Office" : "Skrifstofa",
     "Overview" : "Yfirlit",
     "Basic settings" : "Grunnstillingar",
     "Sharing" : "Deiling",

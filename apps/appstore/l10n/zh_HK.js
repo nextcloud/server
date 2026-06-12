@@ -97,6 +97,7 @@ OC.L10N.register(
     "Restrict the usage of {app} to members of the following groups." : "限制只有以下群組成員可使用 {app}。",
     "Reset limitation" : "重設限制",
     "Save" : "儲存",
+    "Update all" : "更新全部",
     "Loading app list" : "正在載入應用程式清單",
     "No matching apps found" : "找不到符合的應用程式",
     "Search everywhere" : "到處搜尋",

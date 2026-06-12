@@ -76,6 +76,7 @@ OC.L10N.register(
     "{index} of {total}" : "{index} із {total}",
     "Limit to groups" : "Обмежити групами",
     "Save" : "Зберегти",
+    "Update all" : "Оновити всі",
     "Loading app list" : "Завантаження переліку застосунків",
     "Search everywhere" : "Шукати всюди",
     "Download and enable all" : "Звантажити та увімкнути все",

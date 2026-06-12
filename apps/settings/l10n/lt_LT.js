@@ -100,6 +100,7 @@ OC.L10N.register(
     "Assistant" : "Asistentas.",
     "Administration privileges" : "Administravimo teisės",
     "Groupware" : "Grupinio darbo įranga",
+    "Office" : "Biuras",
     "Overview" : "Apžvalga",
     "Quick presets" : "Greitieji nustatymai",
     "Basic settings" : "Pagrindiniai nustatymai",

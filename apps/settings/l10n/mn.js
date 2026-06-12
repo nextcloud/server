@@ -99,6 +99,7 @@ OC.L10N.register(
     "Assistant" : "Туслах",
     "Administration privileges" : "Удирдлагын эрхүүд",
     "Groupware" : "Бүлгийн програм",
+    "Office" : "Office",
     "Overview" : "Тойм",
     "Quick presets" : "Хурдан тохиргоо",
     "Basic settings" : "Үндсэн тохиргоо",

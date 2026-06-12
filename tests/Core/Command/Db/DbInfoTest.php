@@ -30,17 +30,17 @@ class DbInfoTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 		$this->connection = $this->createMock(Connection::class);
-		$this->input      = $this->createMock(InputInterface::class);
-		$this->command    = new DbInfo($this->connection);
+		$this->input = $this->createMock(InputInterface::class);
+		$this->command = new DbInfo($this->connection);
 	}
 
 	private function mockMySQLResult(array $overrides = []): Result&MockObject {
 		$result = $this->createMock(Result::class);
 		$result->method('fetchAssociative')->willReturn(array_merge([
-			'version'      => '8.0.30',
-			'buffer_pool'  => 1073741824,  // 1 GB
-			'max_conn'     => '200',
-			'charset'      => 'utf8mb4',
+			'version' => '8.0.30',
+			'buffer_pool' => 1073741824,  // 1 GB
+			'max_conn' => '200',
+			'charset' => 'utf8mb4',
 			'tx_isolation' => 'READ-COMMITTED',
 		], $overrides));
 		return $result;
@@ -49,10 +49,10 @@ class DbInfoTest extends TestCase {
 	private function mockPostgreSQLResult(): Result&MockObject {
 		$result = $this->createMock(Result::class);
 		$result->method('fetchAssociative')->willReturn([
-			'version'        => 'PostgreSQL 15.2 on x86_64',
-			'max_conn'       => '100',
+			'version' => 'PostgreSQL 15.2 on x86_64',
+			'max_conn' => '100',
 			'shared_buffers' => '128MB',
-			'work_mem'       => '4MB',
+			'work_mem' => '4MB',
 		]);
 		return $result;
 	}
@@ -128,17 +128,17 @@ class DbInfoTest extends TestCase {
 		$data = json_decode($output->fetch(), true);
 		$this->assertIsArray($data);
 		$this->assertArrayHasKey('setting', $data[0]);
-		$this->assertArrayHasKey('value',   $data[0]);
+		$this->assertArrayHasKey('value', $data[0]);
 	}
 
 	public static function dataMySQLHealthChecks(): array {
 		return [
-			'charset utf8mb4 → OK'                 => ['charset',      'utf8mb4',         true,  'Character Set'],
-			'charset latin1 → CHECK'                => ['charset',      'latin1',          false, 'Character Set'],
-			'max_conn 200 → OK'                     => ['max_conn',     '200',             true,  'Max Connections'],
-			'max_conn 50 → CHECK'                   => ['max_conn',     '50',              false, 'Max Connections'],
-			'tx_isolation READ-COMMITTED → OK'      => ['tx_isolation', 'READ-COMMITTED',  true,  'Transaction Isolation'],
-			'tx_isolation REPEATABLE-READ → CHECK'  => ['tx_isolation', 'REPEATABLE-READ', false, 'Transaction Isolation'],
+			'charset utf8mb4 → OK' => ['charset',      'utf8mb4',         true,  'Character Set'],
+			'charset latin1 → CHECK' => ['charset',      'latin1',          false, 'Character Set'],
+			'max_conn 200 → OK' => ['max_conn',     '200',             true,  'Max Connections'],
+			'max_conn 50 → CHECK' => ['max_conn',     '50',              false, 'Max Connections'],
+			'tx_isolation READ-COMMITTED → OK' => ['tx_isolation', 'READ-COMMITTED',  true,  'Transaction Isolation'],
+			'tx_isolation REPEATABLE-READ → CHECK' => ['tx_isolation', 'REPEATABLE-READ', false, 'Transaction Isolation'],
 		];
 	}
 
@@ -159,7 +159,7 @@ class DbInfoTest extends TestCase {
 		self::invokePrivate($this->command, 'execute', [$this->input, $output]);
 
 		$data = json_decode($output->fetch(), true);
-		$rows = array_values(array_filter($data, fn($r) => $r['setting'] === $settingLabel));
+		$rows = array_values(array_filter($data, fn ($r) => $r['setting'] === $settingLabel));
 		$this->assertNotEmpty($rows, "Setting '{$settingLabel}' not found in JSON output");
 		$this->assertSame($expectedOk, $rows[0]['ok']);
 	}

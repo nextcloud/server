@@ -96,6 +96,7 @@
     "Restrict the usage of {app} to members of the following groups." : "將 {app} 的使用權限限制為以下群組的成員。",
     "Reset limitation" : "重設限制",
     "Save" : "儲存",
+    "Update all" : "更新全部",
     "Loading app list" : "正在載入應用程式清單",
     "No matching apps found" : "找不到符合的應用程式",
     "Search everywhere" : "到處搜尋",

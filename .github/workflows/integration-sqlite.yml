@@ -69,7 +69,7 @@ jobs:
           - 'videoverification_features'
           - 'guests_features'
 
-        php-versions: ['8.4']
+        php-versions: ['8.2', '8.5']
         guests-versions: ['main']
         spreed-versions: ['main']
         activity-versions: ['master']

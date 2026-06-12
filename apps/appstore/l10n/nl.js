@@ -52,6 +52,7 @@ OC.L10N.register(
     "{index} of {total}" : "{index} van {total}",
     "Limit to groups" : "Beperk tot groepen",
     "Save" : "Opslaan",
+    "Update all" : "Update alles",
     "Loading app list" : "Laden applijst",
     "Search everywhere" : "Zoek in alles",
     "Download and enable all" : "Download en alles inschakelen",

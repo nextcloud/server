@@ -96,6 +96,7 @@ OC.L10N.register(
     "Assistant" : "Assistent",
     "Administration privileges" : "Administratorrettigheter",
     "Groupware" : "Gruppevare",
+    "Office" : "Kontor",
     "Overview" : "Oversikt",
     "Quick presets" : "Hurtig-forhåndsinnstillinger",
     "Basic settings" : "Grunninnstillinger",

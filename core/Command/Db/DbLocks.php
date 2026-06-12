@@ -6,16 +6,17 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Command\Db;
 
+use Doctrine\DBAL\Platforms\MySQLPlatform;
+use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use OC\DB\Connection;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Doctrine\DBAL\Platforms\MySQLPlatform;
-use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 
 class DbLocks extends Command {
 
@@ -39,7 +40,7 @@ class DbLocks extends Command {
 		$asJson = $input->getOption('json');
 
 		if ($platform instanceof MySQLPlatform) {
-			$sql = "SELECT r.trx_id AS waiting_trx_id,
+			$sql = 'SELECT r.trx_id AS waiting_trx_id,
                        r.trx_mysql_thread_id AS waiting_thread,
                        r.trx_query AS waiting_query,
                        b.trx_id AS blocking_trx_id,
@@ -47,11 +48,11 @@ class DbLocks extends Command {
                        b.trx_query AS blocking_query
                 FROM information_schema.innodb_lock_waits w
                 JOIN information_schema.innodb_trx b ON b.trx_id = w.blocking_trx_id
-                JOIN information_schema.innodb_trx r ON r.trx_id = w.requesting_trx_id";
+                JOIN information_schema.innodb_trx r ON r.trx_id = w.requesting_trx_id';
 			$headers = ['Waiting TRX', 'Waiting Thread', 'Waiting Query', 'Blocking TRX', 'Blocking Thread', 'Blocking Query'];
 			$cols = ['waiting_trx_id', 'waiting_thread', 'waiting_query', 'blocking_trx_id', 'blocking_thread', 'blocking_query'];
 		} elseif ($platform instanceof PostgreSQLPlatform) {
-			$sql = "SELECT blocked_locks.pid AS blocked_pid,
+			$sql = 'SELECT blocked_locks.pid AS blocked_pid,
                            blocked_activity.usename AS blocked_user,
                            blocking_locks.pid AS blocking_pid,
                            blocking_activity.usename AS blocking_user,
@@ -65,9 +66,9 @@ class DbLocks extends Command {
                     AND blocking_locks.relation IS NOT DISTINCT FROM blocked_locks.relation
                     AND blocking_locks.pid != blocked_locks.pid
                 JOIN pg_catalog.pg_stat_activity blocking_activity ON blocking_activity.pid = blocking_locks.pid
-                WHERE NOT blocked_locks.granted";
+                WHERE NOT blocked_locks.granted';
 			$headers = ['Blocked PID', 'Blocked User', 'Blocking PID', 'Blocking User', 'Blocked Query', 'Duration'];
-			$cols	= ['blocked_pid', 'blocked_user', 'blocking_pid', 'blocking_user', 'blocked_query', 'blocked_duration'];
+			$cols = ['blocked_pid', 'blocked_user', 'blocking_pid', 'blocking_user', 'blocked_query', 'blocked_duration'];
 		} else {
 			$output->writeln('<comment>db:locks is not supported for SQLite and Oracle (SQLite uses file-level locking).</comment>');
 			return Command::SUCCESS;
@@ -92,7 +93,7 @@ class DbLocks extends Command {
 		$table->setHeaders($headers);
 
 		foreach ($rows as $row) {
-			$table->addRow(array_map(fn($col) => $row[$col] ?? '—', $cols));
+			$table->addRow(array_map(fn ($col) => $row[$col] ?? '—', $cols));
 		}
 
 		$table->render();

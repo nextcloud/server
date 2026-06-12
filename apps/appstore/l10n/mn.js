@@ -75,6 +75,7 @@ OC.L10N.register(
     "{index} of {total}" : "{index}/{total}",
     "Limit to groups" : "Бүлгүүдэд хязгаарлах",
     "Save" : "–•–∞–¥–≥–∞–ª–∞—Ö",
+    "Update all" : "Шинэчлэх",
     "Loading app list" : "Апп жагсаалтыг ачаалж байна",
     "Search everywhere" : "Хаа сайгүй хайх",
     "Download and enable all" : "Бүгдийг татаж идэвхжүүлэх",
