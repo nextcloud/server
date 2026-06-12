@@ -49,13 +49,19 @@ async function start() {
 	await configureNextcloud()
 
 	process.stdout.write('\nApply custom configuration for Playwright tests\n')
+	await runExec(['php', '-r', '$db = new SQLite3("data/owncloud.db");$db->busyTimeout(5000);$db->exec("PRAGMA journal_mode = wal;");'])
+	process.stdout.write('├─ Enabled SQLite WAL mode for better performance\n')
+
+	await runOcc(['config:system:set', 'cache_app_config', '--value', 'false', '--type', 'boolean'])
+	process.stdout.write('├─ Disabled caching AppConfig\n') // otherwise test setup using OCC will need to wait 3s so that web cache TTL expires
+
 	await runOcc(['config:system:set', 'appstoreenabled', '--value', 'false', '--type', 'boolean'])
 	process.stdout.write('├─ Disabled app store\n')
+
 	// createRandomUser() generates short passwords that the policy would reject
 	await runOcc(['app:disable', 'password_policy'])
 	process.stdout.write('├─ Disabled password policy for random test users\n')
-	await runExec(['php', '-r', '$db = new SQLite3("data/owncloud.db");$db->busyTimeout(5000);$db->exec("PRAGMA journal_mode = wal;");'])
-	process.stdout.write('├─ Enabled SQLite WAL mode for better performance\n')
+
 	process.stdout.write('├─ Initialize cron job...\n')
 	await runExec(['php', 'cron.php'])
 	process.stdout.write('│  └─ OK !\n')
