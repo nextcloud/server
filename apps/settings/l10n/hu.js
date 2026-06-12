@@ -96,6 +96,7 @@ OC.L10N.register(
     "Assistant" : "Asszisztens",
     "Administration privileges" : "Rendszergazdai jogosultságok",
     "Groupware" : "Csoportmunka",
+    "Office" : "Office",
     "Overview" : "Áttekintés",
     "Quick presets" : "Gyors előbeállítások",
     "Basic settings" : "Alapvető beállítások",

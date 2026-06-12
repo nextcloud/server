@@ -98,6 +98,7 @@ OC.L10N.register(
     "Restrict the usage of {app} to members of the following groups." : "Piira „{app}“ rakenduse kasutamist järgmiste gruppidega.",
     "Reset limitation" : "Lähtesta piirang",
     "Save" : "Salvesta",
+    "Update all" : "Uuenda kõik",
     "Loading app list" : "Laadin rakenduste loendit",
     "No matching apps found" : "Vastavaid rakendusi ei leidunud",
     "Search everywhere" : "Otsi kõikjalt",

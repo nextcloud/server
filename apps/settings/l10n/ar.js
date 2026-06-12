@@ -97,6 +97,7 @@ OC.L10N.register(
     "Assistant" : "المُساعِد",
     "Administration privileges" : "امتيازات الإدارة",
     "Groupware" : "برمجيات العمل التعاوني",
+    "Office" : "المكتب",
     "Overview" : "نظرة عامة",
     "Basic settings" : "الإعدادات الأساسية",
     "Sharing" : "المشاركة",

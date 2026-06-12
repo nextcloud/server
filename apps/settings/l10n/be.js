@@ -50,6 +50,7 @@ OC.L10N.register(
     "Additional settings" : "Дадатковыя налады",
     "Assistant" : "Памочнік",
     "Administration privileges" : "Прывілеі адміністратара",
+    "Office" : "Офіс",
     "Overview" : "Агляд",
     "Basic settings" : "Асноўныя налады",
     "Sharing" : "Абагульванне",

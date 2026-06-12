@@ -100,6 +100,7 @@ OC.L10N.register(
     "Assistant" : "Cúntóir",
     "Administration privileges" : "Pribhléidí riaracháin",
     "Groupware" : "Earraí grúpa",
+    "Office" : "Oifig",
     "Overview" : "Forbhreathnú",
     "Quick presets" : "Réamhshocruithe tapa",
     "Basic settings" : "Socruithe bunúsacha",

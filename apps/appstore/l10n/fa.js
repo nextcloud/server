@@ -98,6 +98,7 @@ OC.L10N.register(
     "Restrict the usage of {app} to members of the following groups." : "استفاده از {app} را به اعضای گروه‌های زیر محدود کنید.",
     "Reset limitation" : "بازنشانی محدودیت",
     "Save" : "ذخیره",
+    "Update all" : "بروزرسانی همه",
     "Loading app list" : "در حال بارگذاری فهرست کاره‌ها",
     "No matching apps found" : "هیچ کاره‌ای مطابق یافت نشد",
     "Search everywhere" : "جستجو در هر کجا.",

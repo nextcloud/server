@@ -97,6 +97,7 @@ OC.L10N.register(
     "Assistant" : "Assistant",
     "Administration privileges" : "Administration privileges",
     "Groupware" : "Groupware",
+    "Office" : "ຫ້ອງການ",
     "Overview" : "Overview",
     "Quick presets" : "Quick presets",
     "Basic settings" : "Basic settings",

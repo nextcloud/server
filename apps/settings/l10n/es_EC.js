@@ -86,6 +86,7 @@ OC.L10N.register(
     "Additional settings" : "Configuraciones adicionales",
     "Administration privileges" : "Privilegios de administración",
     "Groupware" : "Groupware",
+    "Office" : "Semana de colaboradores",
     "Overview" : "Generalidades",
     "Basic settings" : "Configuraciones  básicas",
     "Sharing" : "Compartiendo",

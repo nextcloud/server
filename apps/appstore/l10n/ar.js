@@ -69,6 +69,7 @@ OC.L10N.register(
     "{index} of {total}" : "{index} من {total}",
     "Limit to groups" : "مقتصر على المجموعات التالية",
     "Save" : "حفظ",
+    "Update all" : "تحديث الكل",
     "Loading app list" : "تحميل قائمة التطبيقات",
     "Search everywhere" : "البحث الشامل",
     "Download and enable all" : "تنزيل و تمكين الكل",

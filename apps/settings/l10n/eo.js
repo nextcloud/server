@@ -72,6 +72,7 @@ OC.L10N.register(
     "Users" : "Uzantoj",
     "Additional settings" : "Plia agordo",
     "Groupware" : "Grupa kunlaborado",
+    "Office" : "Oficejo",
     "Overview" : "Superrigardo",
     "Basic settings" : "Bazaj agordoj",
     "Sharing" : "Kunhavigo",

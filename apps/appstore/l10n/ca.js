@@ -70,6 +70,7 @@ OC.L10N.register(
     "{index} of {total}" : "{index} de {total}",
     "Limit to groups" : "Limita a grups",
     "Save" : "Desa",
+    "Update all" : "Actualitza-les totes",
     "Loading app list" : "S'està carregant la llista d'aplicacions",
     "Search everywhere" : "Cerca a tot arreu",
     "Download and enable all" : "Baixada i activació de tot",

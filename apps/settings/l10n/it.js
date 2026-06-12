@@ -98,6 +98,7 @@ OC.L10N.register(
     "Assistant" : "Assistente",
     "Administration privileges" : "Privilegi di amministratore",
     "Groupware" : "Groupware",
+    "Office" : "Office",
     "Overview" : "Riepilogo",
     "Quick presets" : "Preimpostazioni rapide",
     "Basic settings" : "Impostazioni di base",

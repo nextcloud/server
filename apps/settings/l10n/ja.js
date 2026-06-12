@@ -100,6 +100,7 @@ OC.L10N.register(
     "Assistant" : "アシスタント",
     "Administration privileges" : "管理者権限",
     "Groupware" : "グループウェア",
+    "Office" : "オフィス",
     "Overview" : "概要",
     "Quick presets" : "クイックプリセット",
     "Basic settings" : "基本設定",

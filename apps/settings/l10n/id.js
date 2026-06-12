@@ -99,6 +99,7 @@ OC.L10N.register(
     "Assistant" : "Asisten",
     "Administration privileges" : "Hak administrator",
     "Groupware" : "Peralatan Grup",
+    "Office" : "Office",
     "Overview" : "Ringkasan",
     "Quick presets" : "Preset cepat",
     "Basic settings" : "Setelan dasar",

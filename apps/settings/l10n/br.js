@@ -75,6 +75,7 @@ OC.L10N.register(
     "Additional settings" : "Stummoù ouzhpenn",
     "Assistant" : "Skoazeller",
     "Groupware" : "Labour a stroll",
+    "Office" : "Burev",
     "Overview" : "Taol-lagad",
     "Basic settings" : "Stummoù diazez",
     "Sharing" : "Rannan",

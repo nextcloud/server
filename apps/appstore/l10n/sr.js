@@ -71,6 +71,7 @@ OC.L10N.register(
     "{index} of {total}" : "{index} од {total}",
     "Limit to groups" : "Ограничи на групе",
     "Save" : "Сачувај",
+    "Update all" : "Ажурирај све",
     "Loading app list" : "Листа апликација се учитава",
     "Search everywhere" : "Претражи свуда",
     "Download and enable all" : "Преузми и укључи све",
