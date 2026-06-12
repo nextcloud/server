@@ -1420,6 +1420,11 @@
       <code><![CDATA[getUsersForUserValue]]></code>
     </DeprecatedMethod>
   </file>
+  <file src="apps/files/lib/Command/RepairTree.php">
+    <DeprecatedMethod>
+      <code><![CDATA[md5]]></code>
+    </DeprecatedMethod>
+  </file>
   <file src="apps/files/lib/Command/Scan.php">
     <DeprecatedMethod>
       <code><![CDATA[listen]]></code>
@@ -3231,6 +3236,11 @@
     <NoInterfaceProperties>
       <code><![CDATA[$this->request->server]]></code>
     </NoInterfaceProperties>
+  </file>
+  <file src="core/Migrations/Version24000Date20211230140012.php">
+    <DeprecatedMethod>
+      <code><![CDATA[md5]]></code>
+    </DeprecatedMethod>
   </file>
   <file src="core/Migrations/Version25000Date20220515204012.php">
     <DeprecatedConstant>

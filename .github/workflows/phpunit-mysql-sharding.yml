@@ -151,6 +151,13 @@ jobs:
           echo "SET GLOBAL sql_mode=(SELECT CONCAT(@@sql_mode,',ONLY_FULL_GROUP_BY'));" | mysql -h 127.0.0.1 -P 4444 -u root -prootpassword
           echo "SELECT @@sql_mode;" | mysql -h 127.0.0.1 -P 4444 -u root -prootpassword
 
+      - name: Enable MD5 MySQL support
+        if: matrix.mysql-versions == '9.7'
+        run: |
+          for MYSQL_PORT in 4444 5001 5002 5003 5004; do
+            echo "INSTALL COMPONENT 'file://component_classic_hashing';" | mysql -h 127.0.0.1 -P $MYSQL_PORT -u root -prootpassword
+          done
+
       - name: Set up Nextcloud
         env:
           DB_PORT: 4444
