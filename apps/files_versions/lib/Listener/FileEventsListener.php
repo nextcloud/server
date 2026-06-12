@@ -56,6 +56,16 @@ class FileEventsListener implements IEventListener {
 	 * @var array<string, Node>
 	 */
 	private array $versionsDeleted = [];
+	/**
+	 * Source paths currently involved in a cross-backend rename.
+	 *
+	 * Cross-backend renames can emit write events as part of their copy/unlink
+	 * implementation. For nodes under these paths, version creation is handled
+	 * by VersionStorageMoveListener and must not be re-triggered by write_hook().
+	 *
+	 * @var array<string, true>
+	 */
+	private array $crossBackendRenamePaths = [];
 
 	public function __construct(
 		private IRootFolder $rootFolder,
@@ -105,12 +115,61 @@ class FileEventsListener implements IEventListener {
 		}
 
 		if ($event instanceof BeforeNodeRenamedEvent) {
+			$this->markCrossBackendRenamePath($event->getSource(), $event->getTarget());
 			$this->pre_renameOrCopy_hook($event->getSource(), $event->getTarget());
 		}
 
 		if ($event instanceof BeforeNodeCopiedEvent) {
 			$this->pre_renameOrCopy_hook($event->getSource(), $event->getTarget());
 		}
+	}
+
+	private function markCrossBackendRenamePath(Node $source, Node $target): void {
+		$sourceBackend = $this->versionManager->getBackendForStorage($source->getStorage());
+		$targetBackend = $this->versionManager->getBackendForStorage($target->getParent()->getStorage());
+
+		if ($sourceBackend === $targetBackend) {
+			return;
+		}
+
+		$sourcePath = $this->getPathForNode($source);
+		if ($sourcePath === null) {
+			return;
+		}
+
+		$this->crossBackendRenamePaths[$this->normalizeRelativePath($sourcePath)] = true;
+	}
+
+	private function unmarkCrossBackendRenamePath(Node $source, Node $target): void {
+		$sourceBackend = $this->versionManager->getBackendForStorage($source->getParent()->getStorage());
+		$targetBackend = $this->versionManager->getBackendForStorage($target->getStorage());
+
+		if ($sourceBackend === $targetBackend) {
+			return;
+		}
+
+		$sourcePath = $this->getPathForNode($source);
+		if ($sourcePath === null) {
+			return;
+		}
+
+		unset($this->crossBackendRenamePaths[$this->normalizeRelativePath($sourcePath)]);
+	}
+
+	private function normalizeRelativePath(string $path): string {
+		return trim($path, '/');
+	}
+
+	private function isCrossBackendRenamePath(string $path): bool {
+		$path = $this->normalizeRelativePath($path);
+
+		foreach ($this->crossBackendRenamePaths as $renamePath => $_true) {
+			if ($path === $renamePath || ($renamePath !== '' && str_starts_with($path, $renamePath . '/'))) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	public function pre_touch_hook(Node $node): void {
@@ -211,6 +270,25 @@ class FileEventsListener implements IEventListener {
 		if ($path === null) {
 			return;
 		}
+
+		// Cross-backend renames can emit write events while the file is being
+		// copied away from the source storage. In that case, the dedicated
+		// VersionStorageMoveListener handles preserving versions.
+		if ($this->isCrossBackendRenamePath($path)) {
+			$this->logger->debug('Skipping version creation during cross-backend rename', [
+				'path' => $path,
+				'node' => [
+					'id' => $node->getId(),
+					'path' => $node->getPath(),
+					'size' => $node->getSize(),
+					'mtime' => $node->getMTime(),
+				],
+				'activeCrossBackendRenamePaths' => array_keys($this->crossBackendRenamePaths),
+			]);
+
+			return;
+		}
+
 		$result = Storage::store($path);
 
 		// Store the result of the version creation so it can be used in post_write_hook.
@@ -345,6 +423,8 @@ class FileEventsListener implements IEventListener {
 	 * of the stored versions along the actual file
 	 */
 	public function rename_hook(Node $source, Node $target): void {
+		$this->unmarkCrossBackendRenamePath($source, $target);
+
 		$sourceBackend = $this->versionManager->getBackendForStorage($source->getParent()->getStorage());
 		$targetBackend = $this->versionManager->getBackendForStorage($target->getStorage());
 		// If different backends, do nothing.
