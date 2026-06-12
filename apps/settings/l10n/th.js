@@ -49,6 +49,7 @@ OC.L10N.register(
     "Personal" : "ส่วนตัว",
     "Users" : "ผู้ใช้",
     "Additional settings" : "การตั้งค่าเพิ่มเติม",
+    "Office" : "สำนักงาน",
     "Sharing" : "การแชร์",
     "Calendar" : "ปฏิทิน",
     "Personal info" : "ข้อมูลส่วนบุคคล",

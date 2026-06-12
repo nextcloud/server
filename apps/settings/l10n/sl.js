@@ -98,6 +98,7 @@ OC.L10N.register(
     "Assistant" : "Pomočnik",
     "Administration privileges" : "Skrbniška dovoljenja",
     "Groupware" : "Skupinsko delo",
+    "Office" : "Pisarna",
     "Overview" : "Splošni pregled",
     "Quick presets" : "Hitre nastavitve",
     "Basic settings" : "Osnovne nastavitve",

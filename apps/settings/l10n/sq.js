@@ -53,6 +53,7 @@ OC.L10N.register(
     "Personal" : "Personale",
     "Users" : "Përdoruesit",
     "Additional settings" : "Konfigurime shtesë",
+    "Office" : "Zyrë",
     "Basic settings" : "Konfigurime bazike",
     "Sharing" : "Ndarje me të tjerët",
     "Calendar" : "Kalendar",

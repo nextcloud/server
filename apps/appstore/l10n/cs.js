@@ -76,6 +76,7 @@ OC.L10N.register(
     "{index} of {total}" : "{index} z {total}",
     "Limit to groups" : "Omezit na skupiny",
     "Save" : "Uložit",
+    "Update all" : "Aktualizovat vše",
     "Loading app list" : "Načítání seznamu aplikací …",
     "Search everywhere" : "Hledat všude",
     "Download and enable all" : "Stáhnout a zapnout vše",

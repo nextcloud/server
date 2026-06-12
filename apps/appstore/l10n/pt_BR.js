@@ -98,6 +98,7 @@ OC.L10N.register(
     "Restrict the usage of {app} to members of the following groups." : "Restringir o uso de {app} aos membros dos seguintes grupos.",
     "Reset limitation" : "Redefinir limitação",
     "Save" : "Salvar",
+    "Update all" : "Atualizar todos",
     "Loading app list" : "Carregando lista de aplicativos",
     "No matching apps found" : "Não foram encontrados aplicativos correspondentes",
     "Search everywhere" : "Pesquisar em qualquer lugar",

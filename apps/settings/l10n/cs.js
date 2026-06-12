@@ -99,6 +99,7 @@ OC.L10N.register(
     "Assistant" : "Asistent",
     "Administration privileges" : "Oprávnění ke správě",
     "Groupware" : "Software pro podporu spolupráce",
+    "Office" : "Kancelář",
     "Overview" : "Přehled",
     "Quick presets" : "Rychlá přednastavení",
     "Basic settings" : "Základní nastavení",

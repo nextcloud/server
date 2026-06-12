@@ -98,6 +98,7 @@ OC.L10N.register(
     "Restrict the usage of {app} to members of the following groups." : "{app} kullanımını belirtilen grupların üyeleriyle sınırlar.",
     "Reset limitation" : "Sınırlamayı sıfırla",
     "Save" : "Kaydet",
+    "Update all" : "Tümünü güncelle",
     "Loading app list" : "Uygulama listesi yükleniyor",
     "No matching apps found" : "Eşleşen bir uygulama bulunamadı",
     "Search everywhere" : "Her yerde ara",

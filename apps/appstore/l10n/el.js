@@ -76,6 +76,7 @@ OC.L10N.register(
     "{index} of {total}" : "{index} από {total}",
     "Limit to groups" : "Περιορισμός σε ομάδες",
     "Save" : "Αποθήκευση",
+    "Update all" : "Ενημέρωση όλων",
     "Loading app list" : "Φόρτωση λίστας εφαρμογών",
     "Search everywhere" : "Αναζητήστε παντού",
     "Download and enable all" : "Λήψη και ενεργοποίηση όλων",
