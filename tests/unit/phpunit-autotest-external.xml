@@ -14,19 +14,19 @@
 		 cacheDirectory=".phpunit.cache"
 		 xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd">
 	<testsuite name="Nextcloud files external">
-		<directory>../apps/files_external/tests</directory>
+		<directory>../../apps/files_external/tests</directory>
 		<!-- exclude backends as they are called separately -->
-		<exclude>../apps/files_external/tests/Storage/</exclude>
+		<exclude>../../apps/files_external/tests/Storage/</exclude>
 	</testsuite>
 	<source>
 		<include>
-			<file>../lib/private/Files/Storage/DAV.php</file>
-			<directory>../apps/files_external</directory>
+			<file>../../lib/private/Files/Storage/DAV.php</file>
+			<directory>../../apps/files_external</directory>
 		</include>
 		<exclude>
-			<directory>../apps/files_external/l10n</directory>
-			<directory>../apps/files_external/3rdparty</directory>
-			<directory>../apps/files_external/tests</directory>
+			<directory>../../apps/files_external/l10n</directory>
+			<directory>../../apps/files_external/3rdparty</directory>
+			<directory>../../apps/files_external/tests</directory>
 		</exclude>
 	</source>
 </phpunit>

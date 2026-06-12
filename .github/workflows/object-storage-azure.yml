@@ -102,7 +102,7 @@ jobs:
         run: |
           composer install
           cp tests/redis.config.php config/
-          cp tests/preseed-config.php config/config.php
+          cp tests/fixtures/preseed-config.php config/config.php
           ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-host=127.0.0.1 --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass password
           php -f tests/enable_all.php
 

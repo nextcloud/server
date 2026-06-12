@@ -26,17 +26,16 @@ jobs:
         with:
           filters: |
             src:
-              - '.github/workflows/**'
+              - '.github/workflows/integration-sqlite.yml'
               - '3rdparty/**'
-              - '**/*.php'
-              - '**/lib/**'
-              - '**/tests/**'
-              - '**/vendor-bin/**'
-              - 'build/integration/**'
-              - '.php-cs-fixer.dist.php'
+              - 'apps/*/lib/**'
+              - 'core/**.php'
+              - 'core/shipped.json'
+              - 'lib/**'
+              - 'tests/integration/**'
+              - '**/vendor*/**'
               - 'composer.json'
               - 'composer.lock'
-              - 'core/shipped.json'
 
   integration-sqlite:
     runs-on: ubuntu-latest
@@ -163,7 +162,7 @@ jobs:
           ./occ config:system:set memcache.distributed --value='\OC\Memcache\Redis'
 
       - name: Run integration
-        working-directory: build/integration
+        working-directory: tests/integration
         env:
           LDAP_HOST: localhost
         run: bash run.sh ${{ matrix.test-suite }} no-tail-log
