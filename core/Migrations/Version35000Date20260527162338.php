@@ -39,7 +39,7 @@ class Version35000Date20260527162338 extends SimpleMigrationStep {
 			if (!$table->hasColumn('prefer_streaming')) {
 				$table->addColumn('prefer_streaming', Types::SMALLINT, [
 					'notnull' => true,
-					'default' => 1,
+					'default' => 0,
 					'unsigned' => true,
 				]);
 				return $schema;

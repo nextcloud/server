@@ -5098,6 +5098,11 @@
                                         "type": "boolean",
                                         "default": true,
                                         "description": "Whether to include a watermark in the output file or not"
+                                    },
+                                    "preferStreaming": {
+                                        "type": "boolean",
+                                        "default": false,
+                                        "description": "Whether to prefer getting a progressive output from the provider or not"
                                     }
                                 }
                             }
@@ -10457,6 +10462,11 @@
                                         "type": "boolean",
                                         "default": true,
                                         "description": "Whether to include a watermark in the output file or not"
+                                    },
+                                    "preferStreaming": {
+                                        "type": "boolean",
+                                        "default": false,
+                                        "description": "Whether to prefer getting a progressive output from the provider or not"
                                     }
                                 }
                             }

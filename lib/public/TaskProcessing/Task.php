@@ -51,7 +51,7 @@ final class Task implements \JsonSerializable {
 
 	protected bool $includeWatermark = true;
 
-	protected bool $preferStreaming = true;
+	protected bool $preferStreaming = false;
 
 	/**
 	 * @since 30.0.0
