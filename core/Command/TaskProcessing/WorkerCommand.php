@@ -117,9 +117,10 @@ class WorkerCommand extends Base {
 	 *
 	 * To avoid starvation, all eligible task types are first collected and then
 	 * the oldest scheduled task across all of them is claimed in a single atomic
-	 * query (FOR UPDATE SKIP LOCKED, with a SQLite fallback). This ensures tasks
-	 * are processed in the order they were scheduled, regardless of which provider
-	 * handles them, and guarantees no two workers ever claim the same task.
+	 * query (FOR UPDATE SKIP LOCKED, with a SQLite fallback). Each claim prefers the
+	 * oldest available scheduled task -- under parallel workers SKIP LOCKED skips rows
+	 * another worker has locked, so this reduces starvation rather than guaranteeing a
+	 * strict global processing order -- and no two workers ever claim the same task.
 	 *
 	 * @param list<string> $taskTypes When non-empty, only providers for these task type IDs are considered.
 	 * @return bool True if a task was processed, false if no task was found
@@ -164,9 +165,10 @@ class WorkerCommand extends Base {
 		// Atomically claim the oldest scheduled task across all eligible task types in
 		// one query. SELECT ... FOR UPDATE SKIP LOCKED (with a SQLite fallback) both
 		// fetches and marks the task RUNNING, so multiple workers never claim the same
-		// task and no per-worker ignore-list / retry loop is needed. This also naturally
-		// prevents starvation: regardless of how many tasks one provider has queued,
-		// another provider's older tasks are picked up first.
+		// task and no per-worker ignore-list / retry loop is needed. This also reduces
+		// starvation: each claim prefers the oldest available task, so a provider with a
+		// large queue does not indefinitely block another provider's older tasks (though a
+		// worker may claim a newer task while an older one is locked by another worker).
 		try {
 			$task = $this->taskProcessingManager->claimNextScheduledTask(array_keys($eligibleProviders));
 		} catch (Exception $e) {

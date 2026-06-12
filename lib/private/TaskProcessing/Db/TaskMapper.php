@@ -90,11 +90,15 @@ class TaskMapper extends QBMapper {
 	 * followed by a guarded UPDATE to RUNNING. Concurrent workers skip rows already
 	 * locked by another transaction, so no two workers ever claim the same task.
 	 *
-	 * SQLite does not support SKIP LOCKED (verified: Doctrine throws "Operation
-	 * 'SKIP LOCKED' is not supported by platform"), so we feature-detect via the DB
-	 * provider and fall back to the existing bounded {@see lockTask} retry, which is
-	 * still safe because the UPDATE ... WHERE status = SCHEDULED is itself atomic and
-	 * SQLite serialises writers.
+	 * Two databases cannot use the SKIP LOCKED path and fall back to a bounded
+	 * lock-and-retry claim instead:
+	 *   - SQLite has no SKIP LOCKED (Doctrine throws "Operation 'SKIP LOCKED' is not
+	 *     supported by platform").
+	 *   - Oracle cannot combine a row-limiting clause with FOR UPDATE: the LIMIT is
+	 *     emulated with a ROWNUM sub-select, and selecting FOR UPDATE from that derived
+	 *     view raises ORA-02014.
+	 * The fallback is still safe because the UPDATE ... WHERE status = SCHEDULED is itself
+	 * atomic (SQLite additionally serialises writers).
 	 *
 	 * A task is only ever transitioned SCHEDULED -> RUNNING here; it is never marked
 	 * FAILED by claiming. If the task cannot be claimed (none scheduled, or it was
@@ -105,8 +109,10 @@ class TaskMapper extends QBMapper {
 	 * @throws Exception
 	 */
 	public function claimOldestScheduledTask(array $taskTypes): ?Task {
-		if ($this->db->getDatabaseProvider() === IDBConnection::PLATFORM_SQLITE) {
-			// SKIP LOCKED is unsupported on SQLite: fall back to the bounded lock-and-retry claim.
+		$provider = $this->db->getDatabaseProvider();
+		// SKIP LOCKED is unusable on SQLite (unsupported) and Oracle (LIMIT + FOR UPDATE =>
+		// ORA-02014): both fall back to the bounded lock-and-retry claim.
+		if ($provider === IDBConnection::PLATFORM_SQLITE || $provider === IDBConnection::PLATFORM_ORACLE) {
 			return $this->claimWithBoundedRetry($taskTypes);
 		}
 
@@ -184,7 +190,7 @@ class TaskMapper extends QBMapper {
 	}
 
 	/**
-	 * Fallback claim for databases without SKIP LOCKED (SQLite).
+	 * Fallback claim for databases that cannot use the SKIP LOCKED path (SQLite, Oracle).
 	 *
 	 * Repeatedly fetches the oldest scheduled task and attempts the atomic
 	 * UPDATE ... WHERE status = SCHEDULED. Tasks lost to another worker are added to a
@@ -207,19 +213,9 @@ class TaskMapper extends QBMapper {
 			}
 
 			if ($this->lockTask($task) !== 0) {
-				$task->setStatus(\OCP\TaskProcessing\Task::STATUS_RUNNING);
-				// Record the start time at claim time. lockTask only flips the status (and is
-				// shared with other callers), so persist started_at with a targeted follow-up
-				// UPDATE rather than changing lockTask's behaviour. The worker receives the task
-				// already RUNNING, so Manager::setTaskStatus would otherwise never write it.
-				$startedAt = $this->timeFactory->now()->getTimestamp();
-				$update = $this->db->getQueryBuilder();
-				$update->update($this->tableName)
-					->set('started_at', $update->createPositionalParameter($startedAt, IQueryBuilder::PARAM_INT))
-					->where($update->expr()->eq('id', $update->createPositionalParameter($task->getId(), IQueryBuilder::PARAM_INT)));
-				$update->executeStatement();
-				$task->setStartedAt($startedAt);
-				return $task;
+				// lockTask atomically flipped SCHEDULED -> RUNNING and stamped started_at.
+				// Re-read so the returned task reflects the persisted status and started_at.
+				return $this->find($task->getId());
 			}
 
 			// Another worker took it; skip this id and try the next oldest.
@@ -376,12 +372,25 @@ class TaskMapper extends QBMapper {
 		return parent::update($entity);
 	}
 
+	/**
+	 * Atomically claim a task by transitioning it SCHEDULED -> RUNNING.
+	 *
+	 * The UPDATE is guarded on `status = SCHEDULED` so a task another worker has already
+	 * finished (SUCCESSFUL/FAILED) between a caller's SELECT and this UPDATE can never be
+	 * re-claimed and processed twice. started_at is stamped in the same statement: the
+	 * worker receives the task already RUNNING, so the later SCHEDULED -> RUNNING edge in
+	 * Manager::setTaskStatus (which used to set started_at) no longer fires.
+	 *
+	 * @return int Number of rows updated: 1 if the task was claimed, 0 if it was no longer scheduled.
+	 */
 	public function lockTask(Entity $entity): int {
+		$startedAt = $this->timeFactory->now()->getTimestamp();
 		$qb = $this->db->getQueryBuilder();
 		$qb->update($this->tableName)
 			->set('status', $qb->createPositionalParameter(\OCP\TaskProcessing\Task::STATUS_RUNNING, IQueryBuilder::PARAM_INT))
+			->set('started_at', $qb->createPositionalParameter($startedAt, IQueryBuilder::PARAM_INT))
 			->where($qb->expr()->eq('id', $qb->createPositionalParameter($entity->getId(), IQueryBuilder::PARAM_INT)))
-			->andWhere($qb->expr()->neq('status', $qb->createPositionalParameter(2, IQueryBuilder::PARAM_INT)));
+			->andWhere($qb->expr()->eq('status', $qb->createPositionalParameter(\OCP\TaskProcessing\Task::STATUS_SCHEDULED, IQueryBuilder::PARAM_INT)));
 		try {
 			return $qb->executeStatement();
 		} catch (Exception) {
