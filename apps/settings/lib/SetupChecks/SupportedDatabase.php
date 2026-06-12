@@ -19,8 +19,8 @@ class SupportedDatabase implements ISetupCheck {
 
 	private const MIN_MARIADB = '10.6';
 	private const MAX_MARIADB = '11.8';
-	private const MIN_MYSQL = '8.0';
-	private const MAX_MYSQL = '8.4';
+	private const MIN_MYSQL = '8.4';
+	private const MAX_MYSQL = '9.7';
 	private const MIN_POSTGRES = '14';
 	private const MAX_POSTGRES = '18';
 	private const MIN_ORACLE = '12.2';
