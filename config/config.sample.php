@@ -3002,4 +3002,12 @@ $CONFIG = [
 	 * Defaults to ``0``.
 	 */
 	'preview_expiration_days' => 0,
+
+	/**
+	 * Delete job runs older than a certain number of days.
+	 * Less than one day is not allowed.
+	 *
+	 * Defaults to ``60``.
+	 */
+	'background_jobs_expiration_days' => 60,
 ];
