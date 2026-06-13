@@ -1,0 +1,26 @@
+OC.L10N.register(
+    "files_reminders",
+    {
+    "File reminders" : "Потсетник на датотеки",
+    "Reminder for {name}" : "Потсетник за {name}",
+    "View file" : "Види датотека",
+    "View folder" : "Види папка",
+    "Set file reminders" : "Постави потсетник на датотека",
+    "Please choose a valid date & time" : "Внесете валиден датум & време",
+    "Reminder set for \"{fileName}\"" : "Поставен потсетник за \"{fileName}\"",
+    "Failed to set reminder" : "Неуспешно поставување на потсетник",
+    "Failed to clear reminder" : "Неуспешно остранување на потсетник",
+    "Cancel" : "Откажи",
+    "Clear reminder" : "Отстрани потсетник",
+    "Set reminder" : "Постави потсетник",
+    "Later today" : "Денес покасно",
+    "Set reminder for later today" : "Постави потсетник за денес покасно",
+    "Tomorrow" : "Утре",
+    "Set reminder for tomorrow" : "Постави потсетник за утре",
+    "This weekend" : "Овој викенд",
+    "Set reminder for this weekend" : "Постави потсетник за овој викенд",
+    "Next week" : "Следна недела",
+    "Set reminder for next week" : "Постави потсетник за наредната недела",
+    "Set reminder for \"{fileName}\"" : "Постави потсетник за \"{fileName}\""
+},
+"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

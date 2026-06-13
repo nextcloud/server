@@ -1,0 +1,162 @@
+{
+    "id": "attributes_once",
+    "name": {
+        "@attributes": {
+            "lang": "en"
+        },
+        "@value": "Attributes Once"
+    },
+    "summary": {
+        "@attributes": {
+            "lang": "en"
+        },
+        "@value": "Single occurrence with attributes set on allowed elements."
+    },
+    "description": {
+        "@attributes": {
+            "lang": "en"
+        },
+        "@value": "Fixture that sets attributes where allowed (e.g., lang, type, min-version, for)."
+    },
+    "version": "1.2.3",
+    "licence": "agpl",
+    "author": {
+        "@attributes": {
+            "homepage": "http://example.com",
+            "mail": "jane@example.com"
+        },
+        "@value": "Jane Doe"
+    },
+    "types": [
+        "filesystem"
+    ],
+    "documentation": {
+        "user": "https://example.test/attributes-once/user"
+    },
+    "category": [
+        "tools"
+    ],
+    "website": "https://example.test/attributes-once",
+    "bugs": "https://example.com/issues",
+    "repository": {
+        "@attributes": {
+            "type": "git"
+        },
+        "@value": "https://example.test/attributes-once.git"
+    },
+    "screenshot": {
+        "@attributes": {
+            "small-thumbnail": "https://example.test/attributes-once-small.png"
+        },
+        "@value": "https://example.test/attributes-once.png"
+    },
+    "dependencies": {
+        "php": {
+            "@attributes": {
+                "min-version": "8.2"
+            }
+        },
+        "database": {
+            "@attributes": {
+                "min-version": "2.0"
+            },
+            "@value": "pgsql"
+        },
+        "lib": {
+            "@attributes": {
+                "min-version": "1.5"
+            },
+            "@value": "curl"
+        },
+        "owncloud": {
+            "@attributes": {
+                "min-version": "1.0",
+                "max-version": "2.0"
+            }
+        },
+        "nextcloud": {
+            "@attributes": {
+                "min-version": "30.0",
+                "max-version": "31.0"
+            }
+        },
+        "backend": [
+            "caldav"
+        ]
+    },
+    "background-jobs": {
+        "job": "OCA\\AttributesOnce\\BackgroundJob\\Job"
+    },
+    "repair-steps": {
+        "install": {
+            "step": "OCA\\AttributesOnce\\RepairStep\\Install"
+        },
+        "pre-migration": [],
+        "post-migration": [],
+        "live-migration": [],
+        "uninstall": []
+    },
+    "commands": {
+        "command": "OCA\\AttributesOnce\\Command\\Run"
+    },
+    "settings": {
+        "admin": [
+            "OCA\\AttributesOnce\\Settings\\Admin"
+        ],
+        "admin-section": [],
+        "personal": [],
+        "personal-section": []
+    },
+    "activity": {
+        "providers": {
+            "provider": "OCA\\AttributesOnce\\Activity\\Provider"
+        },
+        "filters": [],
+        "settings": []
+    },
+    "navigations": {
+        "navigation": [
+            {
+                "@attributes": {
+                    "role": "admin"
+                },
+                "name": "Attributes",
+                "route": "attributes.once.route",
+                "icon": "attributes-once.svg",
+                "order": "5"
+            }
+        ]
+    },
+    "collaboration": {
+        "plugins": {
+            "@attributes": {
+                "type": "collaborator-search"
+            },
+            "@value": "OCA\\AttributesOnce\\Collaboration\\Plugin"
+        }
+    },
+    "sabre": {
+        "plugins": {
+            "plugin": "OCA\\AttributesOnce\\Sabre\\Plugin"
+        }
+    },
+    "trash": {
+        "backend": {
+            "@attributes": {
+                "for": "files"
+            },
+            "@value": "OCA\\AttributesOnce\\Trash\\Backend"
+        }
+    },
+    "versions": {
+        "backend": {
+            "@attributes": {
+                "for": "files"
+            },
+            "@value": "OCA\\AttributesOnce\\Versions\\Backend"
+        }
+    },
+    "remote": [],
+    "public": [],
+    "two-factor-providers": []
+}

@@ -1,0 +1,37 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
+use Rector\TypeDeclaration\Rector\StmtsAwareInterface\SafeDeclareStrictTypesRector;
+
+$nextcloudDir = dirname(__DIR__);
+
+return (require 'rector-shared.php')
+	->withPaths([
+		$nextcloudDir . '/apps',
+		$nextcloudDir . '/core',
+		$nextcloudDir . '/ocs',
+		$nextcloudDir . '/ocs-provider',
+		$nextcloudDir . '/console.php',
+		$nextcloudDir . '/cron.php',
+		$nextcloudDir . '/index.php',
+		$nextcloudDir . '/occ',
+		$nextcloudDir . '/public.php',
+		$nextcloudDir . '/remote.php',
+		$nextcloudDir . '/status.php',
+		$nextcloudDir . '/version.php',
+		$nextcloudDir . '/lib/private',
+		$nextcloudDir . '/tests',
+		$nextcloudDir . '/build/integration/features/bootstrap',
+		// $nextcloudDir . '/config',
+		// $nextcloudDir . '/themes',
+	])
+	->withTypeCoverageLevel(0)
+	->withRules([
+		SafeDeclareStrictTypesRector::class
+	]);

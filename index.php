@@ -1,0 +1,143 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
+require_once __DIR__ . '/lib/versioncheck.php';
+
+use OC\Files\Filesystem;
+use OC\ServiceUnavailableException;
+use OC\User\LoginException;
+use OCP\HintException;
+use OCP\IRequest;
+use OCP\Security\Bruteforce\MaxDelayReached;
+use OCP\Server;
+use OCP\Template\ITemplateManager;
+use Psr\Log\LoggerInterface;
+
+require_once __DIR__ . '/lib/OC.php';
+
+\OC::boot();
+
+function resetStaticProperties(): void {
+	// FIXME needed because these use a static var
+	\OC_Hook::clear();
+	\OC_Util::$styles = [];
+	\OC_Util::$headers = [];
+	\OC_User::setIncognitoMode(false);
+	\OC_User::$_setupedBackends = [];
+	\OC_App::reset();
+	\OC_Helper::reset();
+	Filesystem::reset();
+}
+
+$handler = static function () {
+	try {
+		resetStaticProperties();
+		OC::init();
+		OC::handleRequest();
+	} catch (ServiceUnavailableException $ex) {
+		Server::get(LoggerInterface::class)->error($ex->getMessage(), [
+			'app' => 'index',
+			'exception' => $ex,
+		]);
+
+		//show the user a detailed error page
+		Server::get(ITemplateManager::class)->printExceptionErrorPage($ex, 503);
+	} catch (HintException $ex) {
+		try {
+			Server::get(ITemplateManager::class)->printErrorPage($ex->getMessage(), $ex->getHint(), 503);
+		} catch (Exception $ex2) {
+			try {
+				Server::get(LoggerInterface::class)->error($ex->getMessage(), [
+					'app' => 'index',
+					'exception' => $ex,
+				]);
+				Server::get(LoggerInterface::class)->error($ex2->getMessage(), [
+					'app' => 'index',
+					'exception' => $ex2,
+				]);
+			} catch (Throwable $e) {
+				// no way to log it properly - but to avoid a white page of death we try harder and ignore this one here
+			}
+
+			//show the user a detailed error page
+			Server::get(ITemplateManager::class)->printExceptionErrorPage($ex, 500);
+		}
+	} catch (LoginException $ex) {
+		$request = Server::get(IRequest::class);
+		/**
+		 * Routes with the @CORS annotation and other API endpoints should
+		 * not return a webpage, so we only print the error page when html is accepted,
+		 * otherwise we reply with a JSON array like the SecurityMiddleware would do.
+		 */
+		if (stripos($request->getHeader('Accept'), 'html') === false) {
+			http_response_code(401);
+			header('Content-Type: application/json; charset=utf-8');
+			echo json_encode(['message' => $ex->getMessage()]);
+			exit();
+		}
+		Server::get(ITemplateManager::class)->printErrorPage($ex->getMessage(), $ex->getMessage(), 401);
+	} catch (MaxDelayReached $ex) {
+		$request = Server::get(IRequest::class);
+		/**
+		 * Routes with the @CORS annotation and other API endpoints should
+		 * not return a webpage, so we only print the error page when html is accepted,
+		 * otherwise we reply with a JSON array like the BruteForceMiddleware would do.
+		 */
+		if (stripos($request->getHeader('Accept'), 'html') === false) {
+			http_response_code(429);
+			header('Content-Type: application/json; charset=utf-8');
+			echo json_encode(['message' => $ex->getMessage()]);
+			exit();
+		}
+		http_response_code(429);
+		Server::get(ITemplateManager::class)->printGuestPage('core', '429');
+	} catch (Exception $ex) {
+		Server::get(LoggerInterface::class)->error($ex->getMessage(), [
+			'app' => 'index',
+			'exception' => $ex,
+		]);
+
+		//show the user a detailed error page
+		Server::get(ITemplateManager::class)->printExceptionErrorPage($ex, 500);
+	} catch (Error $ex) {
+		try {
+			Server::get(LoggerInterface::class)->error($ex->getMessage(), [
+				'app' => 'index',
+				'exception' => $ex,
+			]);
+		} catch (Error $e) {
+			http_response_code(500);
+			header('Content-Type: text/plain; charset=utf-8');
+			print("Internal Server Error\n\n");
+			print("The server encountered an internal error and was unable to complete your request.\n");
+			print("Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report.\n");
+			print("More details can be found in the webserver log.\n");
+
+			throw $ex;
+		}
+		Server::get(ITemplateManager::class)->printExceptionErrorPage($ex, 500);
+	}
+};
+
+if (function_exists('frankenphp_handle_request') && isset($_SERVER['FRANKENPHP_WORKER']) && $_SERVER['FRANKENPHP_WORKER'] === '1') {
+	$maxRequests = (int)($_SERVER['MAX_REQUESTS'] ?? 0);
+	for ($nbRequests = 0; !$maxRequests || $nbRequests < $maxRequests; ++$nbRequests) {
+		$keepRunning = \frankenphp_handle_request($handler);
+
+		// Call the garbage collector to reduce the chances of it being triggered in the middle of a page generation
+		gc_collect_cycles();
+
+		if (!$keepRunning) {
+			break;
+		}
+	}
+} else {
+	$handler();
+}
