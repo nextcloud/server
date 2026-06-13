@@ -150,21 +150,20 @@ class S3Test extends ObjectStoreTestCase {
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataFileSizes')]
 	public function testFileSizes($size): void {
-		if (str_starts_with(PHP_VERSION, '8.5') && getenv('CI')) {
-			$this->markTestSkipped('Test is unreliable and skipped on 8.5');
-		}
-
 		$this->cleanupAfter('testfilesizes');
 		$s3 = $this->getInstance();
 
 		$sourceStream = fopen('php://memory', 'wb+');
 		$writeChunkSize = 1024;
-		$chunkCount = $size / $writeChunkSize;
-		for ($i = 0; $i < $chunkCount; $i++) {
-			fwrite($sourceStream, str_repeat('A',
-				($i < $chunkCount - 1) ? $writeChunkSize : $size - ($i * $writeChunkSize)
-			));
+		$chunk = str_repeat('A', $writeChunkSize);
+		$remainingSize = $size;
+
+		while ($remainingSize > 0) {
+			$bytesToWrite = min($writeChunkSize, $remainingSize);
+			fwrite($sourceStream, ($bytesToWrite === $writeChunkSize) ? $chunk : str_repeat('A', $bytesToWrite));
+			$remainingSize -= $bytesToWrite;
 		}
+
 		rewind($sourceStream);
 		$s3->writeObject('testfilesizes', $sourceStream);
 
@@ -174,16 +173,21 @@ class S3Test extends ObjectStoreTestCase {
 		$result = $s3->readObject('testfilesizes');
 
 		// compare first 100 bytes
-		self::assertEquals(str_repeat('A', 100), fread($result, 100), 'Compare first 100 bytes');
+		self::assertSame(str_repeat('A', 100), fread($result, 100), 'Compare first 100 bytes');
 
 		// compare last 100 bytes
-		fseek($result, $size - 100);
-		self::assertEquals(str_repeat('A', 100), fread($result, 100), 'Compare last 100 bytes');
+		self::assertSame(0, fseek($result, $size - 100), 'Seek to last 100 bytes succeeds');
+		self::assertSame(str_repeat('A', 100), fread($result, 100), 'Compare last 100 bytes');
 
 		// end of file reached
-		fseek($result, $size);
-		self::assertTrue(feof($result), 'End of file reached');
+		self::assertSame(0, fseek($result, $size), 'Seek to EOF succeeds');
+		self::assertSame($size, ftell($result), 'Pointer is at the end of file');
+		self::assertSame('', fread($result, 1), 'Reading at end of file returns no bytes');
+		self::assertTrue(feof($result), 'End of file reached after read attempt');
 
 		$this->assertNoUpload('testfilesizes');
+
+		fclose($sourceStream);
+		fclose($result);
 	}
 }
