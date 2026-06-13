@@ -279,6 +279,7 @@
     "Cannot create \"data\" directory." : "Kann das \"Daten\"-Verzeichnis nicht erstellen.",
     "This can usually be fixed by giving the web server write access to the root directory. See %s" : "Dies kann normalerweise behoben werden, indem dem Webserver Schreibzugriff auf das Wurzel-Verzeichnis eingeräumt wird. Siehe auch %s",
     "Permissions can usually be fixed by giving the web server write access to the root directory. See %s." : "Berechtigungen können normalerweise korrigiert werden, indem dem Webserver Schreibzugriff auf das Wurzel-Verzeichnis eingeräumt wird. Siehe auch %s. ",
+    "Your data directory is not readable." : "Das Datenverzeichnis ist schreibgeschützt.",
     "Your data directory is not writable." : "Ihr Datenverzeichnis ist schreibgeschützt.",
     "Setting locale to %s failed." : "Das Setzen der Sprache (locale) auf %s ist fehlgeschlagen.",
     "Please install one of these locales on your system and restart your web server." : "Bitte installieren Sie eine dieser Sprachen (locales) auf Ihrem System und starten Sie den Webserver neu.",

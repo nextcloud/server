@@ -279,6 +279,7 @@
     "Cannot create \"data\" directory." : "\"data\" klasörü oluşturulamadı",
     "This can usually be fixed by giving the web server write access to the root directory. See %s" : "Bu sorun genellikle, site sunucusuna kök klasöre yazma izni verilerek çözülebilir. %s bölümüne bakın",
     "Permissions can usually be fixed by giving the web server write access to the root directory. See %s." : "İzinler genellikle, site sunucusuna kök klasöre yazma izni verilerek düzeltilebilir. %s bölümüne bakın.",
+    "Your data directory is not readable." : "Veri klasörünüz okunabilir değil.",
     "Your data directory is not writable." : "Veri klasörünüz yazılabilir değil.",
     "Setting locale to %s failed." : "Dil %s olarak ayarlanamadı.",
     "Please install one of these locales on your system and restart your web server." : "Lütfen bu dillerden birini sisteminize kurun ve site sunucunuzu yeniden başlatın.",
