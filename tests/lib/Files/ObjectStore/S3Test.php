@@ -186,8 +186,5 @@ class S3Test extends ObjectStoreTestCase {
 		self::assertTrue(feof($result), 'End of file reached after read attempt');
 
 		$this->assertNoUpload('testfilesizes');
-
-		fclose($sourceStream);
-		fclose($result);
 	}
 }
