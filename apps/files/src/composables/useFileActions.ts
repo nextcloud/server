@@ -4,12 +4,10 @@
  */
 
 import type { ActionContext, IFileAction } from '@nextcloud/files'
-import type { MaybeRefOrGetter } from '@vueuse/core'
-import type { Ref } from 'vue'
+import type { MaybeRefOrGetter, Ref } from 'vue'
 
 import { getFileActions, getFilesRegistry } from '@nextcloud/files'
-import { toValue } from '@vueuse/core'
-import { computed, readonly, ref } from 'vue'
+import { computed, readonly, ref, toValue } from 'vue'
 
 const actions = ref<IFileAction[] | undefined>()
 

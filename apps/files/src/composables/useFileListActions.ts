@@ -4,12 +4,10 @@
  */
 
 import type { IFileListAction, IFolder, INode, IView } from '@nextcloud/files'
-import type { MaybeRefOrGetter } from '@vueuse/core'
-import type { ComputedRef } from 'vue'
+import type { ComputedRef, MaybeRefOrGetter } from 'vue'
 
 import { getFileListActions, getFilesRegistry } from '@nextcloud/files'
-import { toValue } from '@vueuse/core'
-import { computed, ref } from 'vue'
+import { computed, ref, toValue } from 'vue'
 
 const actions = ref<IFileListAction[]>()
 const sorted = computed(() => [...(actions.value ?? [])].sort((a, b) => a.order - b.order))

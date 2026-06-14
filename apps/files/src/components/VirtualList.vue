@@ -17,7 +17,7 @@
 			<slot name="filters" />
 		</div>
 
-		<div v-if="!!$scopedSlots['header-overlay']" class="files-list__thead-overlay">
+		<div v-if="!!$slots['header-overlay']" class="files-list__thead-overlay">
 			<slot name="header-overlay" />
 		</div>
 
@@ -32,7 +32,7 @@
 			:inert="dataSources.length === 0"
 			class="files-list__table"
 			:class="{
-				'files-list__table--with-thead-overlay': !!$scopedSlots['header-overlay'],
+				'files-list__table--with-thead-overlay': !!$slots['header-overlay'],
 				'files-list__table--hidden': dataSources.length === 0,
 			}">
 			<!-- Accessibility table caption for screen readers -->
@@ -324,7 +324,7 @@ export default defineComponent({
 		})
 	},
 
-	beforeDestroy() {
+	beforeUnmount() {
 		if (this.resizeObserver) {
 			this.resizeObserver.disconnect()
 		}

@@ -15,7 +15,6 @@ import { encodePath } from '@nextcloud/paths'
 import { generateUrl } from '@nextcloud/router'
 import { isPublicShare } from '@nextcloud/sharing/public'
 import PQueue from 'p-queue'
-import Vue from 'vue'
 import { logger } from '../utils/logger.ts'
 
 const queue = new PQueue({ concurrency: 5 })
@@ -107,7 +106,7 @@ export async function favoriteNode(node: INode, view: IView, willFavorite: boole
 		}
 
 		// Update the node webdav attribute
-		Vue.set(node.attributes, 'favorite', willFavorite ? 1 : 0)
+		node.attributes.favorite = willFavorite ? 1 : 0
 		emit('files:node:updated', node)
 
 		// Dispatch event to whoever is interested

@@ -12,7 +12,7 @@ import { t } from '@nextcloud/l10n'
 import { basename, dirname, extname } from '@nextcloud/paths'
 import { spawnDialog } from '@nextcloud/vue/functions/dialog'
 import { defineStore } from 'pinia'
-import Vue, { defineAsyncComponent, ref } from 'vue'
+import { defineAsyncComponent, ref } from 'vue'
 import { fetchNode } from '../services/WebdavClient.ts'
 import { logger } from '../utils/logger.ts'
 import { useUserConfigStore } from './userconfig.ts'
@@ -58,7 +58,7 @@ export const useRenamingStore = defineStore('renaming', () => {
 
 		const userConfig = useUserConfigStore()
 		let node = renamingNode.value
-		Vue.set(node, 'status', NodeStatus.LOADING)
+		node.status = NodeStatus.LOADING
 		try {
 			if (userConfig.userConfig.show_dialog_file_extension) {
 				const oldExtension = extname(oldName)
@@ -139,7 +139,7 @@ export const useRenamingStore = defineStore('renaming', () => {
 			// Unknown error
 			throw new Error(t('files', 'Could not rename "{oldName}"', { oldName }), { cause: error })
 		} finally {
-			Vue.set(node, 'status', undefined)
+			node.status = undefined
 			isRenaming.value = false
 		}
 	}
