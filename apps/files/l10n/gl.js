@@ -14,7 +14,7 @@ OC.L10N.register(
     "Renamed by {user}" : "Renomeado por {user}",
     "Moved by {user}" : "Movido por {user}",
     "\"remote account\"" : "«conta remota»",
-    "You created {file}" : "{file} foi creado por Vde.",
+    "You created {file}" : "Vostede creou {file}",
     "You created an encrypted file in {file}" : "Vde. creo un ficheiro cifrado en {file}",
     "{user} created {file}" : "{user} creou {file}",
     "{user} created an encrypted file in {file}" : "{user} creou un ficheiro cifrado en {file}",

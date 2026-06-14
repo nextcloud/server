@@ -139,7 +139,7 @@ OC.L10N.register(
     "Featured apps" : "Aplicacións destacadas",
     "Supported apps" : "Aplicacións compatíbeis",
     "Search results" : "Resultados da busca",
-    "Powered by Euro-Office" : "Desenvolvido por Euro-Office",
+    "Powered by Euro-Office" : "Coa tecnoloxía de Euro-Office",
     "Good Nextcloud integration" : "Boa integración con Nextcloud",
     "Open source" : "Código aberto",
     "Best performance" : "Mellor rendemento",
@@ -150,9 +150,9 @@ OC.L10N.register(
     "Best security: documents never leave your server" : "Mellor seguridade: os documentos nunca saen do seu servidor",
     "Best ODF compatibility" : "Mellor compatibilidade ODF",
     "Best support for legacy files" : "Mellor compatibilidade con ficheiros antigos",
-    "Could not load app categories. Please try again later." : "Non foi posible cargar as categorías de aplicacións. Téntao de novo máis tarde.",
-    "Could not load apps list. Please try again later." : "Non foi posible cargar a lista de aplicacións. Téntao de novo máis tarde.",
-    "Could not update the app. Please try again later." : "Non foi posible actualizar a aplicación. Téntao de novo máis tarde.",
+    "Could not load app categories. Please try again later." : "Non foi posíbel cargar as categorías de aplicacións. Ténteo de novo máis tarde.",
+    "Could not load apps list. Please try again later." : "Non foi posíbel cargar a lista de aplicacións. Ténteo de novo máis tarde.",
+    "Could not update the app. Please try again later." : "Non foi posíbel actualizar a aplicación. Ténteo de novo máis tarde.",
     "An error occurred during the request. Unable to proceed." : "Produciuse un erro durante a solicitude. Non é posíbel continuar."
 },
 "nplurals=2; plural=(n != 1);");
