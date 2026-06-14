@@ -11,7 +11,7 @@ import { createTestingPinia } from '@pinia/testing'
 import { cleanup, fireEvent, getAllByRole, render } from '@testing-library/vue'
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 import NavigationView from './FilesNavigation.vue'
-import router from '../router/router.ts'
+import { router } from '../router/router.ts'
 import RouterService from '../services/RouterService.ts'
 import { useViewConfigStore } from '../store/viewConfig.ts'
 
@@ -41,9 +41,8 @@ describe('Navigation', () => {
 
 	it('renders navigation with settings button and search', async () => {
 		const component = render(NavigationView, {
-			router,
 			global: {
-				plugins: [createTestingPinia({
+				plugins: [router, createTestingPinia({
 					createSpy: vi.fn,
 				})],
 			},
@@ -59,9 +58,8 @@ describe('Navigation', () => {
 
 	it('renders no quota without storage stats', () => {
 		const component = render(NavigationView, {
-			router,
 			global: {
-				plugins: [createTestingPinia({
+				plugins: [router, createTestingPinia({
 					createSpy: vi.fn,
 				})],
 			},
@@ -78,9 +76,8 @@ describe('Navigation', () => {
 		})
 
 		const component = render(NavigationView, {
-			router,
 			global: {
-				plugins: [createTestingPinia({
+				plugins: [router, createTestingPinia({
 					createSpy: vi.fn,
 				})],
 			},
@@ -101,9 +98,8 @@ describe('Navigation', () => {
 		})
 
 		const component = render(NavigationView, {
-			router,
 			global: {
-				plugins: [createTestingPinia({
+				plugins: [router, createTestingPinia({
 					createSpy: vi.fn,
 				})],
 			},
@@ -123,9 +119,8 @@ describe('Navigation', () => {
 		})
 
 		const component = render(NavigationView, {
-			router,
 			global: {
-				plugins: [createTestingPinia({
+				plugins: [router, createTestingPinia({
 					createSpy: vi.fn,
 				})],
 			},
@@ -151,9 +146,9 @@ describe('Navigation API', () => {
 		navigation.register(createView('files', 'Files'))
 
 		const component = render(NavigationView, {
-			router,
 			global: {
 				plugins: [
+					router,
 					createTestingPinia({
 						createSpy: vi.fn,
 					}),
@@ -179,9 +174,9 @@ describe('Navigation API', () => {
 		navigation.register(createView('sharing', 'Sharing'))
 
 		const component = render(NavigationView, {
-			router,
 			global: {
 				plugins: [
+					router,
 					createTestingPinia({
 						createSpy: vi.fn,
 					}),
@@ -207,9 +202,9 @@ describe('Navigation API', () => {
 		navigation.register(createView('sharingin', 'Shared with me', 'sharing'))
 
 		const component = render(NavigationView, {
-			router,
 			global: {
 				plugins: [
+					router,
 					createTestingPinia({
 						createSpy: vi.fn,
 					}),

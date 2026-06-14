@@ -11,17 +11,14 @@ import { FileType, Folder, File as NcFile, Node, NodeStatus, Permission } from '
 import { t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import { isPublicShare } from '@nextcloud/sharing/public'
-import { vOnClickOutside } from '@vueuse/components'
 import { extname } from 'path'
-import Vue, { computed, defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import { dataTransferToFileTree, onDropExternalFiles, onDropInternalFiles } from '../services/DropService.ts'
 import { getDragAndDropPreview } from '../utils/dragUtils.ts'
 import { hashCode } from '../utils/hashUtils.ts'
 import { logger } from '../utils/logger.ts'
 import { isDownloadable } from '../utils/permissions.ts'
-
-Vue.directive('onClickOutside', vOnClickOutside)
 
 export default defineComponent({
 	props: {
@@ -287,7 +284,7 @@ export default defineComponent({
 		},
 	},
 
-	beforeDestroy() {
+	beforeUnmount() {
 		this.resetState()
 	},
 

@@ -4,11 +4,11 @@
  */
 
 import { mapState } from 'pinia'
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 import { useActiveStore } from '../store/active.ts'
 import { useViewConfigStore } from '../store/viewConfig.ts'
 
-export default Vue.extend({
+export default defineComponent({
 	setup() {
 		const activeStore = useActiveStore()
 

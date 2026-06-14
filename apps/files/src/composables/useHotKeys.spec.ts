@@ -4,11 +4,12 @@
  */
 
 import type { View } from '@nextcloud/files'
-import type { Location } from 'vue-router'
+import type * as vueRouter from 'vue-router'
+import type { RouteLocation } from 'vue-router'
 
 import axios from '@nextcloud/axios'
 import { File, Folder, Permission, registerFileAction } from '@nextcloud/files'
-import { enableAutoDestroy, mount } from '@vue/test-utils'
+import { enableAutoUnmount, mount } from '@vue/test-utils'
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 import { defineComponent, nextTick } from 'vue'
 import { action as deleteAction } from '../actions/deleteAction.ts'
@@ -32,7 +33,7 @@ const route = vi.hoisted(() => ({
 
 // mocked router
 const router = vi.hoisted(() => ({
-	push: vi.fn<(route: Location) => void>(),
+	push: vi.fn<(route: RouteLocation) => void>(),
 }))
 
 vi.mock('../actions/sidebarAction.ts', { spy: true })
@@ -40,7 +41,8 @@ vi.mock('../actions/deleteAction.ts', { spy: true })
 vi.mock('../actions/favoriteAction.ts', { spy: true })
 vi.mock('../actions/renameAction.ts', { spy: true })
 
-vi.mock('vue-router/composables', () => ({
+vi.mock('vue-router', async (importOriginal) => ({
+	...await importOriginal<typeof vueRouter>(),
 	useRoute: vi.fn(() => route),
 	useRouter: vi.fn(() => router),
 }))
@@ -77,7 +79,7 @@ describe('HotKeysService testing', () => {
 	let initialState: HTMLInputElement
 	let component: ReturnType<typeof mount>
 
-	enableAutoDestroy(afterEach)
+	enableAutoUnmount(afterEach)
 
 	afterEach(() => {
 		document.body.removeChild(initialState)
@@ -129,7 +131,7 @@ describe('HotKeysService testing', () => {
 	// tests for register action handling
 
 	it('registeres actions', () => {
-		component.destroy()
+		component.unmount()
 		registerFileAction(deleteAction)
 		component = mount(TestComponent)
 
@@ -146,7 +148,7 @@ describe('HotKeysService testing', () => {
 	})
 
 	it('passes the hotkey trigger to the action', () => {
-		component.destroy()
+		component.unmount()
 		registerFileAction(deleteAction)
 		component = mount(TestComponent)
 

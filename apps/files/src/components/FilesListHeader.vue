@@ -86,7 +86,7 @@ export default {
 		})
 	},
 
-	destroyed() {
+	unmounted() {
 		logger.debug(`Destroyed ${this.header.id} FilesListHeader`, { header: this.header })
 	},
 

@@ -202,8 +202,8 @@ export default defineComponent({
 			const label = t('files', 'Toggle selection for all files and folders')
 			return {
 				'aria-label': label,
-				checked: this.isAllSelected,
 				indeterminate: this.isSomeSelected,
+				modelValue: this.isAllSelected,
 				title: label,
 			}
 		},
