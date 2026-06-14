@@ -27,15 +27,6 @@ module.exports = {
 	dashboard: {
 		main: path.join(__dirname, 'apps/dashboard/src', 'main.js'),
 	},
-	files: {
-		sidebar: path.join(__dirname, 'apps/files/src', 'sidebar.ts'),
-		main: path.join(__dirname, 'apps/files/src', 'main.ts'),
-		init: path.join(__dirname, 'apps/files/src', 'init.ts'),
-		search: path.join(__dirname, 'apps/files/src/plugins/search', 'folderSearch.ts'),
-		'settings-admin': path.join(__dirname, 'apps/files/src', 'main-settings-admin.ts'),
-		'settings-personal': path.join(__dirname, 'apps/files/src', 'main-settings-personal.ts'),
-		'reference-files': path.join(__dirname, 'apps/files/src', 'reference-files.ts'),
-	},
 	files_sharing: {
 		additionalScripts: path.join(__dirname, 'apps/files_sharing/src', 'additionalScripts.js'),
 		collaboration: path.join(__dirname, 'apps/files_sharing/src', 'collaborationresourceshandler.js'),

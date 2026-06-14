@@ -33,6 +33,15 @@ const modules = {
 		'settings-admin': resolve(import.meta.dirname, 'apps/federatedfilesharing/src', 'settings-admin.ts'),
 		'settings-personal': resolve(import.meta.dirname, 'apps/federatedfilesharing/src', 'settings-personal.ts'),
 	},
+	files: {
+		sidebar: resolve(import.meta.dirname, 'apps/files/src', 'sidebar.ts'),
+		main: resolve(import.meta.dirname, 'apps/files/src', 'main.ts'),
+		init: resolve(import.meta.dirname, 'apps/files/src', 'init.ts'),
+		search: resolve(import.meta.dirname, 'apps/files/src/plugins/search', 'folderSearch.ts'),
+		'settings-admicn': resolve(import.meta.dirname, 'apps/files/src', 'main-settings-admin.ts'),
+		'settings-personal': resolve(import.meta.dirname, 'apps/files/src', 'main-settings-personal.ts'),
+		'reference-files': resolve(import.meta.dirname, 'apps/files/src', 'reference-files.ts'),
+	},
 	files_external: {
 		auth_rsa: resolve(import.meta.dirname, 'apps/files_external/src', 'auth-rsa.ts'),
 
