@@ -1,0 +1,27 @@
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: David Myers <hello@davidmyers.dev>
+SPDX-FileCopyrightText: Evan You
+SPDX-FileCopyrightText: Rob Cresswell <robcresswell@pm.me>
+
+This file is generated from multiple sources. Included packages:
+- @vue/reactivity
+	- version: 3.5.35
+	- license: MIT
+- @vue/runtime-core
+	- version: 3.5.35
+	- license: MIT
+- @vue/runtime-dom
+	- version: 3.5.35
+	- license: MIT
+- @vue/shared
+	- version: 3.5.35
+	- license: MIT
+- vite
+	- version: 7.3.3
+	- license: MIT
+- vite-plugin-node-polyfills
+	- version: 0.24.0
+	- license: MIT
+- vue-material-design-icons
+	- version: 5.3.1
+	- license: MIT
