@@ -18,10 +18,10 @@
 			:to="section.to"
 			:force-icon-text="index === 0 && !isNarrow"
 			force-menu
-			:open.sync="isMenuOpen"
+			v-model:open="isMenuOpen"
 			:title="titleForSection(index, section)"
 			:aria-description="ariaForSection(section)"
-			@dragover.native="onDragOver($event, section.dir)"
+			@dragover="onDragOver($event, section.dir)"
 			@drop="onDrop($event, section.dir)">
 			<template v-if="index === 0" #icon>
 				<NcIconSvgWrapper

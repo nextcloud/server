@@ -35,16 +35,16 @@
 				:dragover="dragover"
 				:grid-mode="true"
 				:source="source"
-				@auxclick.native="execDefaultAction"
-				@click.native="execDefaultAction" />
+				@auxclick="execDefaultAction"
+				@click="execDefaultAction" />
 
 			<FileEntryName
 				ref="name"
 				:basename="basename"
 				:extension="extension"
 				:source="source"
-				@auxclick.native="execDefaultAction"
-				@click.native="execDefaultAction" />
+				@auxclick="execDefaultAction"
+				@click="execDefaultAction" />
 		</td>
 
 		<!-- Mtime -->
@@ -63,7 +63,7 @@
 		<!-- Actions -->
 		<FileEntryActions
 			ref="actions"
-			:opened.sync="openedMenu"
+			v-model:opened="openedMenu"
 			:class="`files-list__row-actions-${uniqueId}`"
 			:grid-mode="true"
 			:source="source" />

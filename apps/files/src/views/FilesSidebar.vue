@@ -84,7 +84,7 @@ function onToggle(open: boolean) {
 	<NcAppSidebar
 		data-cy-sidebar
 		force-menu
-		:active.sync="sidebar.activeTab"
+		v-model:active="sidebar.activeTab"
 		:background="background"
 		:class="{ 'app-sidebar--full': sidebar.isFullScreen }"
 		:empty="!sidebar.hasContext"

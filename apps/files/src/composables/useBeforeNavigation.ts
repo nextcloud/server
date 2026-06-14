@@ -6,7 +6,7 @@
 import type { NavigationGuard } from 'vue-router'
 
 import { onUnmounted } from 'vue'
-import { useRouter } from 'vue-router/composables'
+import { useRouter } from 'vue-router'
 
 /**
  * Helper until we use Vue-Router v4 (Vue3).

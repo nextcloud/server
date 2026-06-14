@@ -6,7 +6,7 @@
 	<div class="files-list__column files-list__row-actions-batch" data-cy-files-list-selection-actions>
 		<NcActions
 			ref="actionsMenu"
-			:open.sync="openedMenu"
+			v-model:open="openedMenu"
 			container="#app-content-vue"
 			:boundaries-element="boundariesElement"
 			:disabled="!!loading || areSomeNodesLoading"
@@ -298,7 +298,7 @@ export default defineComponent({
 				// Set loading markers
 				this.loading = action.id
 				this.nodes.forEach((node) => {
-					this.$set(node, 'status', NodeStatus.LOADING)
+					node.status = NodeStatus.LOADING
 				})
 
 				// Dispatch action execution
@@ -338,7 +338,7 @@ export default defineComponent({
 				// Remove loading markers
 				this.loading = null
 				this.nodes.forEach((node) => {
-					this.$set(node, 'status', undefined)
+					node.status = undefined
 				})
 			}
 		},

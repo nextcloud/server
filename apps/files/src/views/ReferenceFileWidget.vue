@@ -67,7 +67,7 @@ import path from 'path'
 import { defineComponent } from 'vue'
 import FileIcon from 'vue-material-design-icons/File.vue'
 import FolderIcon from 'vue-material-design-icons/Folder.vue'
-import { generateFileUrl } from '../../../files_sharing/src/utils/generateUrl.ts'
+import { generateFileUrl } from '../utils/generateUrl.ts'
 import { logger } from '../utils/logger.ts'
 
 // see lib/private/Collaboration/Reference/File/FileReferenceProvider.php
