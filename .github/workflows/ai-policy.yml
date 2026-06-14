@@ -27,23 +27,16 @@ concurrency:
 
 jobs:
   check-ai-trailers:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-low
     steps:
-      - name: Checkout
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
-        with:
-          fetch-depth: 0
-          persist-credentials: false
-
       - name: Collect PR commit messages
         id: collect
         env:
-          BASE_REF: ${{ github.base_ref }}
+          GH_TOKEN: ${{ github.token }}
+          COMMITS_URL: ${{ github.event.pull_request.commits_url }}
         run: |
           set -euo pipefail
-          git fetch origin "${BASE_REF}"
-          MERGE_BASE=$(git merge-base "origin/${BASE_REF}" HEAD)
-          git log --format="%B" "${MERGE_BASE}..HEAD" > /tmp/pr_commits.txt
+          gh api ${COMMITS_URL} | jq -r '.[] | .commit.message' > /tmp/pr_commits.txt
           echo "--- PR commit messages ---"
           cat /tmp/pr_commits.txt
           echo "--------------------------"
@@ -83,10 +76,10 @@ jobs:
         run: |
           set -euo pipefail
           AI_ASSISTED=false
-          if grep -qiE '^(AI-assistant|Assisted-by):' /tmp/pr_commits.txt; then
+          if grep -qiE '^(AI-assistant|Assisted-by|AI-Assisted-By):' /tmp/pr_commits.txt; then
             AI_ASSISTED=true
-            echo "Found AI-assistant/Assisted-by trailer(s):"
-            grep -iE '^(AI-assistant|Assisted-by):' /tmp/pr_commits.txt
+            echo "Found AI-assistant/Assisted-by/AI-Assisted-By trailer(s):"
+            grep -iE '^(AI-assistant|Assisted-by|AI-Assisted-By):' /tmp/pr_commits.txt
           fi
           echo "ai_assisted=${AI_ASSISTED}" >> "$GITHUB_OUTPUT"
 
