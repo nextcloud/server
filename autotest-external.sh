@@ -95,8 +95,8 @@ function execute_tests {
 	# back to root folder
 	cd "$BASEDIR"
 
-	# revert changes to tests/data
-	git checkout tests/data
+	# revert changes to tests/fixtures/data
+	git checkout tests/fixtures/data
 
 	# reset data directory
 	rm -rf "$DATADIR"
@@ -104,7 +104,7 @@ function execute_tests {
 
 	# remove the old config file
 	#rm -rf config/config.php
-	cp tests/preseed-config.php config/config.php
+	cp tests/fixtures/preseed-config.php config/config.php
 
 	# drop database
 	if [ "$1" == "mysql" ] ; then
@@ -141,7 +141,7 @@ EOF
 	fi
 
 	# copy autoconfig
-	cp "$BASEDIR/tests/autoconfig-$1.php" "$BASEDIR/config/autoconfig.php"
+	cp "$BASEDIR/tests/fixtures/autoconfig-$1.php" "$BASEDIR/config/autoconfig.php"
 
 	# trigger installation
 	echo "Installing ...."

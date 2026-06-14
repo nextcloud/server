@@ -120,7 +120,7 @@ jobs:
         run: |
           mkdir data
           cp tests/redis.config.php config/
-          cp tests/preseed-config.php config/config.php
+          cp tests/fixtures/preseed-config.php config/config.php
           ./occ maintenance:install --verbose --database=mysql --database-name=nextcloud --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass admin
           php -f tests/enable_all.php
 

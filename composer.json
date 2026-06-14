@@ -78,10 +78,10 @@
 		],
 		"test": [
 			"Composer\\Config::disableProcessTimeout",
-			"phpunit --fail-on-warning --fail-on-risky --display-warnings --display-deprecations --display-phpunit-deprecations --display-skipped --colors=always --configuration tests/phpunit-autotest.xml"
+			"phpunit --fail-on-warning --fail-on-risky --display-warnings --display-deprecations --display-phpunit-deprecations --display-skipped --colors=always --configuration tests/unit/phpunit-autotest.xml"
 		],
 		"test:db": "@composer run test -- --group DB --group SLOWDB --exclude-group S3 --exclude-group PRIMARY-swift --exclude-group PRIMARY-s3 --exclude-group PRIMARY-azure",
-		"test:files_external": "phpunit --fail-on-warning --fail-on-risky --display-warnings --display-deprecations --display-phpunit-deprecations --colors=always --configuration tests/phpunit-autotest-external.xml",
+		"test:files_external": "phpunit --fail-on-warning --fail-on-risky --display-warnings --display-deprecations --display-phpunit-deprecations --colors=always --configuration tests/unit/phpunit-autotest-external.xml",
 		"rector": "rector --config=build/rector.php && composer cs:fix",
 		"rector:strict": "rector --config=build/rector-strict.php && composer cs:fix",
 		"openapi": "./build/openapi-checker.sh"

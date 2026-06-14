@@ -53,7 +53,7 @@ function print_syntax {
 	echo -e "\t\"dbconfigname\" can be one of: $DBCONFIGS" >&2
 	echo -e "\t\"testfile\" is the name of a test file, for example lib/template.php" >&2
 	echo -e "\nExample: ./autotest.sh sqlite lib/template.php" >&2
-	echo "will run the test suite from \"tests/lib/template.php\"" >&2
+	echo "will run the test suite from \"tests/unit/lib/template.php\"" >&2
 	echo -e "\nIf no arguments are specified, all tests will be run with all database configs" >&2
 }
 
@@ -181,8 +181,8 @@ function execute_tests {
 	# back to root folder
 	cd "$BASEDIR"
 
-	# revert changes to tests/data
-	git checkout tests/data
+	# revert changes to tests/fixtures/data
+	git checkout tests/fixtures/data
 
 	# reset data directory
 	rm -rf "$DATADIR"
@@ -192,12 +192,12 @@ function execute_tests {
 		tests/objectstore/start-swift-ceph.sh
 		cp tests/objectstore/swift.config.php config/autotest-storage-swift.config.php
 	fi
-	cp tests/preseed-config.php config/config.php
+	cp tests/fixtures/preseed-config.php config/config.php
 
 	if [ "$ENABLE_REDIS" == "true" ] ; then
-		cp tests/redis.config.php config/redis.config.php
+		cp tests/fixtures/redis.config.php config/redis.config.php
 	elif [ "$ENABLE_REDIS_CLUSTER" == "true" ] ; then
-		cp tests/redis-cluster.config.php config/redis.config.php
+		cp tests/fixtures/redis-cluster.config.php config/redis.config.php
 	fi
 
 	_DB=$DB
@@ -207,7 +207,7 @@ function execute_tests {
 		if [ ! -z "$USEDOCKER" ] ; then
 			echo "Fire up the mysql docker"
 			DOCKER_CONTAINER_ID=$(docker run \
-				-v $BASEDIR/tests/docker/mariadb:/etc/mysql/conf.d \
+				-v $BASEDIR/tests/fixtures/docker/mariadb:/etc/mysql/conf.d \
 				-e MYSQL_ROOT_PASSWORD=owncloud \
 				-e MYSQL_USER="$DATABASEUSER" \
 				-e MYSQL_PASSWORD=owncloud \
@@ -233,7 +233,7 @@ function execute_tests {
 		if [ ! -z "$USEDOCKER" ] ; then
 			echo "Fire up the mysql docker"
 			DOCKER_CONTAINER_ID=$(docker run \
-				-v $BASEDIR/tests/docker/mysqlmb4:/etc/mysql/conf.d \
+				-v $BASEDIR/tests/fixtures/docker/mysqlmb4:/etc/mysql/conf.d \
 				-e MYSQL_ROOT_PASSWORD=owncloud \
 				-e MYSQL_USER="$DATABASEUSER" \
 				-e MYSQL_PASSWORD=owncloud \
@@ -265,13 +265,13 @@ function execute_tests {
 		echo "MySQL(utf8mb4)  is up."
 		_DB="mysql"
 
-		cp tests/docker/mysqlmb4.config.php config
+		cp tests/fixtures/docker/mysqlmb4.config.php config
 	fi
 	if [ "$DB" == "mariadb" ] ; then
 		if [ ! -z "$USEDOCKER" ] ; then
 			echo "Fire up the mariadb docker"
 			DOCKER_CONTAINER_ID=$(docker run \
-				-v $BASEDIR/tests/docker/mariadb:/etc/mysql/conf.d \
+				-v $BASEDIR/tests/fixtures/docker/mariadb:/etc/mysql/conf.d \
 				-e MYSQL_ROOT_PASSWORD=owncloud \
 				-e MYSQL_USER="$DATABASEUSER" \
 				-e MYSQL_PASSWORD=owncloud \
@@ -420,7 +420,7 @@ if [ -z "$1" ]
 	done
 else
 	FILENAME="$2"
-	if [ ! -z "$2" ] && [ ! -f "tests/$FILENAME" ] && [ "${FILENAME:0:2}" != "--" ]; then
+	if [ ! -z "$2" ] && [ ! -f "tests/unit/$FILENAME" ] && [ "${FILENAME:0:2}" != "--" ]; then
 		FILENAME="../$FILENAME"
 	fi
 	execute_tests "$1" "$FILENAME" "$3"

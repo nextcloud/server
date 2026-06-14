@@ -16,24 +16,24 @@
 	<testsuite name="Nextcloud Server">
 		<directory>lib/</directory>
 		<directory>Core/</directory>
-		<directory>../apps/</directory>
-		<exclude>../apps/user_ldap/tests/Integration</exclude>
+		<directory>../../apps/</directory>
+		<exclude>../../apps/user_ldap/tests/Integration</exclude>
 		<!-- exclude files_external as it is tested separately -->
-		<exclude>../apps/files_external</exclude>
+		<exclude>../../apps/files_external</exclude>
 	</testsuite>
 	<source>
 		<include>
-			<directory>..</directory>
+			<directory>../..</directory>
 		</include>
 		<exclude>
-			<directory>../3rdparty</directory>
-			<directory>../apps/*/composer</directory>
-			<directory>../apps/*/tests</directory>
-			<directory>../apps/files_external</directory>
-			<directory>../build</directory>
-			<directory>../lib/composer</directory>
-			<directory>../tests</directory>
-			<directory>../vendor-bin</directory>
+			<directory>../../3rdparty</directory>
+			<directory>../../apps/*/composer</directory>
+			<directory>../../apps/*/tests</directory>
+			<directory>../../apps/files_external</directory>
+			<directory>../../build</directory>
+			<directory>../../lib/composer</directory>
+			<directory>../../tests</directory>
+			<directory>../../vendor-bin</directory>
 		</exclude>
 	</source>
 </phpunit>

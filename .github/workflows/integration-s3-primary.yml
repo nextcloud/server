@@ -109,7 +109,7 @@ jobs:
 
       - name: Integration
         run: |
-          cd build/integration
+          cd tests/integration
           bash run.sh --tags "~@failure-s3" dav_features/webdav-related.feature
 
       - name: S3 logs
