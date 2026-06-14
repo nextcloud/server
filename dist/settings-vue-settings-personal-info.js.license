@@ -243,7 +243,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.1.6
 	- license: MIT
 - libphonenumber-js
-	- version: 1.13.3
+	- version: 1.13.4
 	- license: MIT
 - md5
 	- version: 2.3.0
