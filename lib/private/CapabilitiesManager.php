@@ -13,7 +13,6 @@ use OCP\AppFramework\QueryException;
 use OCP\Capabilities\ICapability;
 use OCP\Capabilities\IInitialStateExcludedCapability;
 use OCP\Capabilities\IPublicCapability;
-use OCP\IConfig;
 use OCP\ILogger;
 use Psr\Log\LoggerInterface;
 
@@ -41,6 +40,7 @@ class CapabilitiesManager {
 	 */
 	public function getCapabilities(bool $public = false, bool $initialState = false) : array {
 		$capabilities = [];
+		$slowCapabilities = [];
 		foreach ($this->capabilities as $capability) {
 			try {
 				$c = $capability();
@@ -61,27 +61,10 @@ class CapabilitiesManager {
 
 					$startTime = microtime(true);
 					$capabilities = array_replace_recursive($capabilities, $c->getCapabilities());
-					$endTime = microtime(true);
+					$timeSpent = microtime(true) - $startTime;
 
-					// Only check execution time if debug mode is enabled
-					$debugMode = \OCP\Server::get(IConfig::class)->getSystemValueBool('debug', false);
-					$timeSpent = $endTime - $startTime;
-					if ($debugMode && $timeSpent > self::ACCEPTABLE_LOADING_TIME) {
-						$logLevel = match (true) {
-							$timeSpent > self::ACCEPTABLE_LOADING_TIME * 16 => ILogger::FATAL,
-							$timeSpent > self::ACCEPTABLE_LOADING_TIME * 8 => ILogger::ERROR,
-							$timeSpent > self::ACCEPTABLE_LOADING_TIME * 4 => ILogger::WARN,
-							$timeSpent > self::ACCEPTABLE_LOADING_TIME * 2 => ILogger::INFO,
-							default => ILogger::DEBUG,
-						};
-						$this->logger->log(
-							$logLevel,
-							'Capabilities of {className} took {duration} seconds to generate.',
-							[
-								'className' => get_class($c),
-								'duration' => round($timeSpent, 2),
-							]
-						);
+					if ($timeSpent > self::ACCEPTABLE_LOADING_TIME) {
+						$slowCapabilities[get_class($c)] = $timeSpent;
 					}
 				}
 			} else {
@@ -89,7 +72,42 @@ class CapabilitiesManager {
 			}
 		}
 
+		if ($slowCapabilities !== []) {
+			$this->logSlowCapabilities($slowCapabilities);
+		}
+
 		return $capabilities;
+	}
+
+	/**
+	 * Log a single message for all capabilities that took too long to generate,
+	 * using the highest log level applicable to the slowest one.
+	 *
+	 * @param array<string, float> $slowCapabilities Map of class name to time spent in seconds
+	 */
+	private function logSlowCapabilities(array $slowCapabilities): void {
+		$slowestTime = max($slowCapabilities);
+		$logLevel = match (true) {
+			$slowestTime > self::ACCEPTABLE_LOADING_TIME * 16 => ILogger::FATAL,
+			$slowestTime > self::ACCEPTABLE_LOADING_TIME * 8 => ILogger::ERROR,
+			$slowestTime > self::ACCEPTABLE_LOADING_TIME * 4 => ILogger::WARN,
+			$slowestTime > self::ACCEPTABLE_LOADING_TIME * 2 => ILogger::INFO,
+			default => ILogger::DEBUG,
+		};
+
+		$durations = [];
+		foreach ($slowCapabilities as $className => $timeSpent) {
+			$durations[] = $className . ' (' . round($timeSpent, 2) . 's)';
+		}
+
+		$this->logger->log(
+			$logLevel,
+			'Generating the capabilities of the following apps took longer than {acceptable} seconds: {capabilities}',
+			[
+				'acceptable' => self::ACCEPTABLE_LOADING_TIME,
+				'capabilities' => implode(', ', $durations),
+			]
+		);
 	}
 
 	/**
