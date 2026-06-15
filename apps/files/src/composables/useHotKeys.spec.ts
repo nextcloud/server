@@ -14,7 +14,7 @@ import { defineComponent, nextTick } from 'vue'
 import { action as deleteAction } from '../actions/deleteAction.ts'
 import { useActiveStore } from '../store/active.ts'
 import { useFilesStore } from '../store/files.ts'
-import { getPinia } from '../store/index.ts'
+import { pinia } from '../store/index.ts'
 import { useUserConfigStore } from '../store/userconfig.ts'
 import { useHotKeys } from './useHotKeys.ts'
 
@@ -72,7 +72,7 @@ beforeAll(() => {
 })
 
 describe('HotKeysService testing', () => {
-	const activeStore = useActiveStore(getPinia())
+	const activeStore = useActiveStore(pinia)
 
 	let initialState: HTMLInputElement
 	let component: ReturnType<typeof mount>
@@ -105,7 +105,7 @@ describe('HotKeysService testing', () => {
 			permissions: Permission.CREATE,
 		})
 
-		const files = useFilesStore(getPinia())
+		const files = useFilesStore(pinia)
 		files.setRoot({ service: 'files', root })
 
 		// Setting the view first as it reset the active node
@@ -158,7 +158,7 @@ describe('HotKeysService testing', () => {
 	it('Pressing v should toggle grid view', async () => {
 		vi.spyOn(axios, 'put').mockImplementationOnce(() => Promise.resolve())
 
-		const userConfigStore = useUserConfigStore(getPinia())
+		const userConfigStore = useUserConfigStore(pinia)
 		userConfigStore.userConfig.grid_view = false
 		expect(userConfigStore.userConfig.grid_view).toBe(false)
 
@@ -174,7 +174,7 @@ describe('HotKeysService testing', () => {
 	])('Pressing v with modifier key %s should not toggle grid view', async (modifier: string) => {
 		vi.spyOn(axios, 'put').mockImplementationOnce(() => Promise.resolve())
 
-		const userConfigStore = useUserConfigStore(getPinia())
+		const userConfigStore = useUserConfigStore(pinia)
 		userConfigStore.userConfig.grid_view = false
 		expect(userConfigStore.userConfig.grid_view).toBe(false)
 
