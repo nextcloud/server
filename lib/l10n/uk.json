@@ -279,6 +279,7 @@
     "Cannot create \"data\" directory." : "Неможливо створити каталог \"data\".",
     "This can usually be fixed by giving the web server write access to the root directory. See %s" : "Зазвичай це можна виправити шляхом надання вебсерверу доступу на запис до кореневого каталогу. Докладно %s",
     "Permissions can usually be fixed by giving the web server write access to the root directory. See %s." : "Дозволи зазвичай можна виправити шляхом надання вебсерверу доступу на запис до кореневого каталогу. Докладно %s. ",
+    "Your data directory is not readable." : "Неможливо отримати доступ до каталогу з даними",
     "Your data directory is not writable." : "Ваш каталог даних не доступний для запису.",
     "Setting locale to %s failed." : "Помилка налаштування мови %s.",
     "Please install one of these locales on your system and restart your web server." : "Установіть одну з цих локалей у вашій системі та перезапустіть веб-сервер.",
