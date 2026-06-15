@@ -63,7 +63,7 @@ const sortedChildViews = computed(() => childViews.value.slice().sort((a, b) => 
 }))
 const hasChildViews = computed(() => childViews.value.length > 0)
 const activeViewId = inject('currentNavigationView', ref<string | undefined>(undefined))
-const isActiveView = computed(() => activeViewId.value.id === props.view.id)
+const isActiveView = computed(() => activeViewId.value === props.view.id)
 
 const navigationRoute = computed(() => {
 	if (props.view.params) {
@@ -130,21 +130,15 @@ const collator = Intl.Collator(
 	[getLanguage(), getCanonicalLocale()],
 	{ numeric: true, usage: 'sort' },
 )
-
-// TODO: Remove this with Vue 3 - the name is inferred by the filename!
-export default {
-	name: 'FilesNavigationListItem',
-}
 </script>
 
 <template>
 	<NcAppNavigationItem
 		class="files-navigation__item"
-		:active="isActiveView"
-		allow-collapse
-		:loading="isLoading"
 		:data-cy-files-navigation-item="view.id"
-		:exact="hasChildViews"
+		:active="isActiveView"
+		allowCollapse
+		:loading="isLoading"
 		:name="view.name"
 		:open="isExpanded"
 		:pinned="view.sticky"
@@ -154,17 +148,13 @@ export default {
 			<NcIconSvgWrapper :svg="view.icon" />
 		</template>
 
-		<!-- Hack to force the collapse icon to be displayed -->
-		<li
-			v-if="!hasChildViews && !childViewsLoaded && view.loadChildViews"
-			v-show="false"
-			role="presentation" />
-
 		<!-- Recursively nest child views -->
-		<FilesNavigationListItem
-			v-for="childView in sortedChildViews"
-			:key="childView.id"
-			:level="level + 1"
-			:view="childView" />
+		<template v-if="hasChildViews || (!childViewsLoaded && view.loadChildViews)" #default>
+			<FilesNavigationListItem
+				v-for="childView in sortedChildViews"
+				:key="childView.id"
+				:level="level + 1"
+				:view="childView" />
+		</template>
 	</NcAppNavigationItem>
 </template>
