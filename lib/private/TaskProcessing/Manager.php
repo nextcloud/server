@@ -1254,18 +1254,20 @@ class Manager implements IManager {
 			$task->setStartedAt(time());
 		}
 		$task->setStatus(Task::STATUS_RUNNING);
-		$task->setProgress($progress);
-		// Refine the expected completion time from the actual progress reported so far.
-		// We need a positive elapsed time and a positive progress to avoid divide-by-zero
-		// and the wildly unstable estimates produced when progress is still near zero.
-		$startedAt = $task->getStartedAt();
-		if ($startedAt !== null && $progress > 0.0) {
-			$elapsed = time() - $startedAt;
-			if ($elapsed > 0) {
-				$remainingSeconds = (int)ceil($elapsed * (1.0 - $progress) / $progress);
-				$completionExpectedAt = new \DateTime('now');
-				$completionExpectedAt->add(new \DateInterval('PT' . $remainingSeconds . 'S'));
-				$task->setCompletionExpectedAt($completionExpectedAt);
+		if ($progress >= 0 && $progress <= 1.0) {
+			$task->setProgress($progress);
+			// Refine the expected completion time from the actual progress reported so far.
+			// We need a positive elapsed time and a positive progress to avoid divide-by-zero
+			// and the wildly unstable estimates produced when progress is still near zero.
+			$startedAt = $task->getStartedAt();
+			if ($startedAt !== null && $progress > 0.0) {
+				$elapsed = time() - $startedAt;
+				if ($elapsed > 0) {
+					$remainingSeconds = (int)ceil($elapsed * (1.0 - $progress) / $progress);
+					$completionExpectedAt = new \DateTime('now');
+					$completionExpectedAt->add(new \DateInterval('PT' . $remainingSeconds . 'S'));
+					$task->setCompletionExpectedAt($completionExpectedAt);
+				}
 			}
 		}
 		$taskEntity = \OC\TaskProcessing\Db\Task::fromPublicTask($task);
