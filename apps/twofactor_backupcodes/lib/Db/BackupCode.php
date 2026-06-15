@@ -9,15 +9,13 @@ declare(strict_types=1);
 
 namespace OCA\TwoFactorBackupCodes\Db;
 
-use OCP\AppFramework\Db\Attribute\Column;
-use OCP\AppFramework\Db\Attribute\Entity;
-use OCP\AppFramework\Db\Attribute\Id;
-use OCP\AppFramework\Db\Attribute\Table;
+use OCP\AppFramework\ORM\Attribute\Column;
+use OCP\AppFramework\ORM\Attribute\Entity;
+use OCP\AppFramework\ORM\Attribute\Id;
 use OCP\DB\Types;
 use OCP\Snowflake\IGenerator;
 
-#[Entity]
-#[Table(name: 'twofactor_backupcodes')]
+#[Entity(name: 'twofactor_backupcodes')]
 final class BackupCode {
 	#[Id(generatorClass: IGenerator::class)]
 	#[Column(name: 'id', type: Types::STRING, length: 64, nullable: false)]
