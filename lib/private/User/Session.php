@@ -643,15 +643,15 @@ class Session implements IUserSession, Emitter {
 
 	/**
 	 * Create a new session token for the given user credentials
-	 *
-	 * @param IRequest $request
-	 * @param string $uid user UID
-	 * @param string $loginName login name
-	 * @param string $password
-	 * @param int $remember
-	 * @return boolean
 	 */
-	public function createSessionToken(IRequest $request, $uid, $loginName, $password = null, $remember = IToken::DO_NOT_REMEMBER) {
+	public function createSessionToken(
+		IRequest $request,
+		string $uid,
+		string $loginName,
+		?string $password = null,
+		int $remember = IToken::DO_NOT_REMEMBER,
+		?int $expires = null,
+	): bool {
 		if (is_null($this->manager->get($uid))) {
 			// User does not exist
 			return false;
@@ -661,9 +661,9 @@ class Session implements IUserSession, Emitter {
 			$sessionId = $this->session->getId();
 			$pwd = $this->getPassword($password);
 			// Make sure the current sessionId has no leftover tokens
-			$this->atomic(function () use ($sessionId, $uid, $loginName, $pwd, $name, $remember): void {
+			$this->atomic(function () use ($sessionId, $uid, $loginName, $pwd, $name, $remember, $expires): void {
 				$this->tokenProvider->invalidateToken($sessionId);
-				$this->tokenProvider->generateToken($sessionId, $uid, $loginName, $pwd, $name, IToken::TEMPORARY_TOKEN, $remember);
+				$this->tokenProvider->generateToken($sessionId, $uid, $loginName, $pwd, $name, IToken::TEMPORARY_TOKEN, $remember, expires:$expires);
 			}, Server::get(IDBConnection::class));
 			return true;
 		} catch (SessionNotAvailableException $ex) {
