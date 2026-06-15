@@ -9,7 +9,6 @@ import { emit } from '@nextcloud/event-bus'
 import { ShareType } from '@nextcloud/sharing'
 import debounce from 'debounce'
 import PQueue from 'p-queue'
-import { fetchNode } from '../../../files/src/services/WebdavClient.ts'
 import {
 	ATOMIC_PERMISSIONS,
 	getBundledPermissions,
@@ -19,6 +18,7 @@ import Config from '../services/ConfigService.ts'
 import logger from '../services/logger.ts'
 import GeneratePassword from '../utils/GeneratePassword.ts'
 import SharesRequests from './ShareRequests.js'
+import { fetchNode } from '~/apps/files/src/services/WebdavClient.ts'
 
 export default {
 	mixins: [SharesRequests],

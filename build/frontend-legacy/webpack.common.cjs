@@ -255,6 +255,8 @@ const config = {
 		alias: {
 			// make sure to use the handlebar runtime when importing
 			handlebars: 'handlebars/runtime',
+			// allow to import from root (cross reference already migrated apps)
+			'~*': path.resolve(__dirname, '../../*'),
 		},
 		extensions: ['*', '.ts', '.js', '.vue'],
 		extensionAlias: {
