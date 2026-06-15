@@ -8,32 +8,32 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCP\AppFramework\Db\Attribute;
+namespace OCP\AppFramework\ORM\Attribute;
 
 use Attribute;
 use OCP\AppFramework\Attribute\Consumable;
+use OCP\Snowflake\ISnowflakeGenerator;
 
 /**
  * Attribute for marking a column as a primary id.
  *
  * ```php
- * #[Entity]
- * #[Table(name: 'my_entity']
+ * #[Entity(name: 'my_entity']
  * final class MyEntity {
- *     #[Id(generatorClass: IGenerator::class)]
+ *     #[Id(generatorClass: ISnowflakeGenerator::class)]
  *     #[Column(name: 'id', type: Types::BIGINT)]
- *     public string $id = '';
+ *     public ?string $id = null;
  * }
  * ```
  *
- * @since 33.0.0
+ * @since 35.0.0
  */
 #[Attribute(Attribute::TARGET_PROPERTY)]
-#[Consumable(since: '33.0.0')]
+#[Consumable(since: '35.0.0')]
 final readonly class Id {
 	public function __construct(
-		/** @params string-class $generatorClass */
-		public string $generatorClass,
+		/** @param class-string<ISnowflakeGenerator> $generatorClass */
+		public ?string $generatorClass = null,
 	) {
 	}
 }

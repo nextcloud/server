@@ -8,7 +8,7 @@
 
 namespace OC\Tagging;
 
-use OCP\AppFramework\Db\Repository;
+use OCP\AppFramework\ORM\Repository;
 use OCP\IDBConnection;
 
 /**
@@ -17,11 +17,6 @@ use OCP\IDBConnection;
  * @template-extends Repository<Tag>
  */
 class TagMapper extends Repository {
-	/**
-	 * Constructor.
-	 *
-	 * @param IDBConnection $db Instance of the Db abstraction layer.
-	 */
 	public function __construct(IDBConnection $db) {
 		parent::__construct($db, Tag::class);
 	}
