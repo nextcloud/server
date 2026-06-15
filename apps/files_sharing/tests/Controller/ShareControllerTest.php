@@ -50,12 +50,14 @@ use OCP\Share\IAttributes;
 use OCP\Share\IPublicShareTemplateFactory;
 use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
+use Test\Traits\UserTrait;
 
 /**
  * @package OCA\Files_Sharing\Controllers
  */
 #[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ShareControllerTest extends \Test\TestCase {
+	use UserTrait;
 
 	private string $user;
 	private string $oldUser;
@@ -150,7 +152,7 @@ class ShareControllerTest extends \Test\TestCase {
 		// Create a dummy user
 		$this->user = Server::get(ISecureRandom::class)->generate(12, ISecureRandom::CHAR_LOWER);
 
-		Server::get(IUserManager::class)->createUser($this->user, $this->user);
+		$this->createUser($this->user, $this->user);
 		\OC_Util::tearDownFS();
 		$this->loginAsUser($this->user);
 	}

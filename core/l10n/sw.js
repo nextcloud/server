@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "Ondoka",
     "Please select a file." : "Tafadhali teua faili",
     "File is too big" : "Faili ni kubwa mno",
     "The selected file is not an image." : "Faili lililoteuliwa si taswira",
@@ -201,6 +202,7 @@ OC.L10N.register(
     "Done" : "Imefanyika",
     "_{count} notification_::_{count} notifications_" : ["{count} notification","{count} taarifa"],
     "More apps" : "Apps zaidi",
+    "Settings" : "Mipangilio",
     "Applications" : "Maombi",
     "Apps" : "Maombi",
     "No" : "Hapana",

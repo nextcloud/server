@@ -17,10 +17,6 @@
     "_%n hour ago_::_%n hours ago_" : ["%n Stonn hier","%n Stonnen hier"],
     "seconds ago" : "Sekonnen hir",
     "__language_name__" : "Lëtzebuergesch",
-    "Apps" : "Applikatiounen",
-    "Settings" : "Astellungen",
-    "Log out" : "Ofmellen",
-    "Accounts" : "Accounts",
     "Email" : "Email",
     "Phone" : "Telefon",
     "Address" : "Adress",
@@ -66,6 +62,10 @@
     "Dec." : "Dez.",
     "Storage is temporarily not available" : "Späicherplaatz temporär net erreeschbar",
     "Translate" : "Iwwersetzen",
+    "Apps" : "Applikatiounen",
+    "Settings" : "Astellungen",
+    "Log out" : "Ofmellen",
+    "Accounts" : "Accounts",
     "Authentication error" : "Authentifikatioun's Fehler"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

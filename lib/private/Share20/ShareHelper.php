@@ -104,7 +104,7 @@ class ShareHelper implements IShareHelper {
 			try {
 				$item = $item->getParent();
 
-				if ($byId[$item->getId()] !== []) {
+				if (isset($byId[$item->getId()]) && $byId[$item->getId()] !== []) {
 					foreach ($byId[$item->getId()] as $uid => $path) {
 						$results[$uid] = $path . $appendix;
 					}
@@ -161,7 +161,7 @@ class ShareHelper implements IShareHelper {
 		$item = $node;
 		while (!empty($byId)) {
 			try {
-				if ($byId[$item->getId()] !== []) {
+				if (isset($byId[$item->getId()]) && $byId[$item->getId()] !== []) {
 					$path = $this->getMountedPath($item);
 					foreach ($byId[$item->getId()] as $uid => $token) {
 						$results[$uid] = [

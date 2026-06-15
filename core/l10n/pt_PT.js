@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "Sair",
     "Please select a file." : "Por favor, selecione um ficheiro.",
     "File is too big" : "O ficheiro é demasiado grande",
     "The selected file is not an image." : "O ficheiro selecionado não é uma imagem.",
@@ -201,6 +202,7 @@ OC.L10N.register(
     "Done" : "Concluído",
     "_{count} notification_::_{count} notifications_" : ["{count} notificação","{count} notificações","{count} notificações"],
     "More apps" : "Mais aplicações",
+    "Settings" : "Definições",
     "Apps" : "Aplicações",
     "No" : "Não",
     "Yes" : "Sim",

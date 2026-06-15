@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "Desconectar",
     "Please select a file." : "Seleccione un ficheiro.",
     "File is too big" : "O ficheiro é grande de máis",
     "The selected file is not an image." : "O ficheiro seleccionado non é unha imaxe.",
@@ -207,6 +208,7 @@ OC.L10N.register(
     "_{count} notification_::_{count} notifications_" : ["{count} notificación","{count} notificacións"],
     "More apps" : "Máis aplicacións",
     "App store" : "Tenda de aplicacións",
+    "Settings" : "Axustes",
     "Open apps menu, currently in {app}" : "Abrir o menú de aplicacións, actualmente en {app}",
     "Open apps menu" : "Abrir o menú de aplicacións",
     "Applications" : "Aplicacións",
@@ -515,7 +517,7 @@ OC.L10N.register(
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["A actualización foi satisfactoria. Redirixindoo a {productName} en %n segundo.","A actualización foi satisfactoria. Redirixindoo a {productName} en %n segundos."],
     "Applications menu" : "Menú de aplicacións",
     "Searching …" : "Buscando…",
-    "Logging in …" : "Acceder…",
+    "Logging in …" : "Accedendo…",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Detectamos varias tentativas de acceso non válidas desde o seu IP. Por mor diso, o seu próximo acceso estará limitado a 30 segundos",
     "Loading apps …" : "Cargando aplicacións…",
     "Installing apps …" : "Instalando aplicacións…",

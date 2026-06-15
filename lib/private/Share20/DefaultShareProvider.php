@@ -608,6 +608,7 @@ class DefaultShareProvider implements
 						'permissions' => $qb->createNamedParameter($share->getPermissions()),
 						'attributes' => $qb->createNamedParameter($shareAttributes),
 						'stime' => $qb->createNamedParameter($share->getShareTime()->getTimestamp()),
+						'accepted' => $qb->createNamedParameter(IShare::STATUS_ACCEPTED),
 					])->executeStatement();
 			} else {
 				// Already a usergroup share. Update it.
@@ -684,7 +685,7 @@ class DefaultShareProvider implements
 
 		$shares = [];
 
-		$chunks = array_chunk($childMountRootIds, 1000);
+		$chunks = array_chunk($childMountRootIds, IQueryBuilder::MAX_IN_PARAMETERS);
 
 		// Force the request to be run when there is 0 mount.
 		if (count($chunks) === 0) {
@@ -1117,16 +1118,10 @@ class DefaultShareProvider implements
 
 		if ($share->getShareType() === IShare::TYPE_USER) {
 			$share->setSharedWith($data['share_with']);
-			$displayName = $this->userManager->getDisplayName($data['share_with']);
-			if ($displayName !== null) {
-				$share->setSharedWithDisplayName($displayName);
-			}
+			$share->setSharedWithDisplayNameCallback(fn (IShare $share) => $this->userManager->getDisplayName($share->getSharedWith()));
 		} elseif ($share->getShareType() === IShare::TYPE_GROUP) {
 			$share->setSharedWith($data['share_with']);
-			$group = $this->groupManager->get($data['share_with']);
-			if ($group !== null) {
-				$share->setSharedWithDisplayName($group->getDisplayName());
-			}
+			$share->setSharedWithDisplayNameCallback(fn (IShare $share) => $this->groupManager->getDisplayName($share->getSharedWith()));
 		} elseif ($share->getShareType() === IShare::TYPE_LINK) {
 			$share->setPassword($data['password']);
 			$share->setSendPasswordByTalk((bool)$data['password_by_talk']);
@@ -1487,6 +1482,7 @@ class DefaultShareProvider implements
 
 	/**
 	 * For each user the path with the fewest slashes is returned
+	 *
 	 * @param array $shares
 	 * @return array
 	 */

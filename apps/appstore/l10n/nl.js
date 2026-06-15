@@ -52,6 +52,7 @@ OC.L10N.register(
     "{index} of {total}" : "{index} van {total}",
     "Limit to groups" : "Beperk tot groepen",
     "Save" : "Opslaan",
+    "Update all" : "Update alles",
     "Loading app list" : "Laden applijst",
     "Search everywhere" : "Zoek in alles",
     "Download and enable all" : "Download en alles inschakelen",
@@ -79,13 +80,12 @@ OC.L10N.register(
     "App bundles" : "App bundels",
     "Featured apps" : "Aanbevolen apps",
     "Supported apps" : "Ondersteunde apps",
-    "Best Nextcloud integration" : "Beste Nextcloud integratie",
     "Open source" : "Open source",
-    "Good performance" : "Goede prestaties",
-    "Open core" : "Open core",
     "Best performance" : "Beste prestaties",
     "Limited ODF compatibility" : "Gelimiteerde ODF compatibiliteit",
     "Best Microsoft compatibility" : "Beste Microsoft compatibiliteit",
+    "Best Nextcloud integration" : "Beste Nextcloud integratie",
+    "Good performance" : "Goede prestaties",
     "An error occurred during the request. Unable to proceed." : "Er is een fout opgetreden tijdens het verzoek. Kan niet doorgaan."
 },
 "nplurals=2; plural=(n != 1);");

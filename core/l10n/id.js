@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "Keluar",
     "Please select a file." : "Mohon pilih berkas.",
     "File is too big" : "Berkas terlalu besar",
     "The selected file is not an image." : "Berkas terpilih bukan suatu gambar.",
@@ -204,6 +205,7 @@ OC.L10N.register(
     "Code will expire {timeCountdown} or after use" : "Kode akan kedaluwarsa {timeCountdown} atau setelah digunakan",
     "_{count} notification_::_{count} notifications_" : ["{count} notifikasi"],
     "More apps" : "Aplikasi lainnya",
+    "Settings" : "Pengaturan",
     "Apps" : "Aplikasi",
     "No" : "Tidak",
     "Yes" : "Ya",

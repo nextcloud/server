@@ -72,6 +72,7 @@ OC.L10N.register(
     "{index} of {total}" : "{index} ud af {total}",
     "Limit to groups" : "Begræns til grupper",
     "Save" : "Gem",
+    "Update all" : "Opdater alle",
     "Loading app list" : "Indlæser app liste",
     "Search everywhere" : "Søg overalt",
     "Download and enable all" : "Download og aktiver alle",

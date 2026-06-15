@@ -496,10 +496,9 @@ class Principal implements BackendInterface {
 		};
 
 		$userId = $user->getUID();
-		$displayName = $user->getDisplayName();
 		$principal = [
 			'uri' => $this->principalPrefix . '/' . $userId,
-			'{DAV:}displayname' => is_null($displayName) ? $userId : $displayName,
+			'{DAV:}displayname' => $user->getDisplayName(),
 			'{urn:ietf:params:xml:ns:caldav}calendar-user-type' => 'INDIVIDUAL',
 		];
 

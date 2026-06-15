@@ -16,10 +16,6 @@
     "File already exists" : "ගොනුව දැනටමත් පවතී",
     "__language_name__" : "සිංහල",
     "This is an automatically sent email, please do not reply." : "මෙය ස්වයංක්‍රීයව යවන ලද විද්‍යුත් තැපෑලකි, කරුණාකර පිළිතුරු නොදෙන්න.",
-    "Apps" : "යෙදුම්",
-    "Settings" : "සැකසුම්",
-    "Log out" : "නික්මෙන්න",
-    "Accounts" : "Accounts",
     "Email" : "විද්‍යුත් තැපෑල",
     "Phone" : "දුරකථනය",
     "Twitter" : "ට්විටර්",
@@ -63,6 +59,10 @@
     "December" : "දෙසැම්බර්",
     "Images" : "පින්තූර",
     "Summary" : "සාරාංශය",
-    "Translate" : "පරිවර්තනය"
+    "Translate" : "පරිවර්තනය",
+    "Apps" : "යෙදුම්",
+    "Settings" : "සැකසුම්",
+    "Log out" : "නික්මෙන්න",
+    "Accounts" : "Accounts"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

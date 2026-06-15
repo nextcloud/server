@@ -454,7 +454,7 @@ class FilesPlugin extends ServerPlugin {
 			});
 
 			foreach ($node->getFileInfo()->getMetadata() as $metadataKey => $metadataValue) {
-				$propFind->handle(self::FILE_METADATA_PREFIX . $metadataKey, $metadataValue);
+				$propFind->handle(self::FILE_METADATA_PREFIX . $metadataKey, fn () => $metadataValue);
 			}
 
 			$propFind->handle(self::HIDDEN_PROPERTYNAME, function () use ($node) {

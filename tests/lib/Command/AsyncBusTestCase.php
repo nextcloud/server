@@ -75,6 +75,8 @@ abstract class AsyncBusTestCase extends TestCase {
 
 	#[\Override]
 	protected function setUp(): void {
+		parent::setUp();
+
 		self::$lastCommand = '';
 	}
 

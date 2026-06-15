@@ -1460,4 +1460,37 @@ class User_LDAPTest extends TestCase {
 
 		$this->assertSame($expected, $this->backend->implementsActions($actionCode));
 	}
+
+	public static function canEditPropertyProvider(): array {
+		return [
+			// Display name is always managed by LDAP
+			[\OCP\Accounts\IAccountManager::PROPERTY_DISPLAYNAME, '', false],
+			[\OCP\Accounts\IAccountManager::PROPERTY_DISPLAYNAME, 'cn', false],
+			// Fields with no LDAP attribute configured are user-editable
+			[\OCP\Accounts\IAccountManager::PROPERTY_EMAIL, '', true],
+			[\OCP\Accounts\IAccountManager::PROPERTY_PHONE, '', true],
+			[\OCP\Accounts\IAccountManager::PROPERTY_WEBSITE, '', true],
+			[\OCP\Accounts\IAccountManager::PROPERTY_ADDRESS, '', true],
+			[\OCP\Accounts\IAccountManager::PROPERTY_FEDIVERSE, '', true],
+			[\OCP\Accounts\IAccountManager::PROPERTY_ORGANISATION, '', true],
+			[\OCP\Accounts\IAccountManager::PROPERTY_ROLE, '', true],
+			[\OCP\Accounts\IAccountManager::PROPERTY_HEADLINE, '', true],
+			[\OCP\Accounts\IAccountManager::PROPERTY_BIOGRAPHY, '', true],
+			[\OCP\Accounts\IAccountManager::PROPERTY_BIRTHDATE, '', true],
+			[\OCP\Accounts\IAccountManager::PROPERTY_PRONOUNS, '', true],
+			// Fields with an LDAP attribute configured are managed by LDAP, not user-editable
+			[\OCP\Accounts\IAccountManager::PROPERTY_EMAIL, 'mail', false],
+			[\OCP\Accounts\IAccountManager::PROPERTY_PHONE, 'telephoneNumber', false],
+			[\OCP\Accounts\IAccountManager::PROPERTY_WEBSITE, 'labeledURI', false],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'canEditPropertyProvider')]
+	public function testCanEditProperty(string $property, string $ldapAttributeValue, bool $expected): void {
+		$this->connection->expects($this->any())
+			->method('__get')
+			->willReturn($ldapAttributeValue);
+
+		$this->assertSame($expected, $this->backend->canEditProperty('uid', $property));
+	}
 }

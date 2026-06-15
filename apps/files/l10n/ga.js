@@ -117,7 +117,7 @@ OC.L10N.register(
     "Documents" : "Doiciméid",
     "Spreadsheets" : "Scarbhileoga",
     "Presentations" : "Cur i láthair",
-    "PDFs" : "PDFs",
+    "PDFs" : "PDFanna",
     "Folders" : "Fillteáin",
     "Audio" : "Fuaime",
     "Images" : "Íomhánna",

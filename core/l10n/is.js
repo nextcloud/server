@@ -206,6 +206,7 @@ OC.L10N.register(
     "Code will expire {timeCountdown} or after use" : "Kóðinn mun renna út {timeCountdown} eða eftir notkun",
     "_{count} notification_::_{count} notifications_" : ["{count} tilkynning","{count} tilkynningar"],
     "More apps" : "Fleiri forrit",
+    "Settings" : "Stillingar",
     "Apps" : "Forrit",
     "No" : "Nei",
     "Yes" : "Já",

@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "چېكىنىش",
     "Please select a file." : "ھۆججەت تاللاڭ.",
     "File is too big" : "ھۆججەت بەك چوڭ",
     "The selected file is not an image." : "تاللانغان ھۆججەت رەسىم ئەمەس.",
@@ -201,6 +202,7 @@ OC.L10N.register(
     "Done" : "پۈتتى",
     "_{count} notification_::_{count} notifications_" : ["{count} ئۇقتۇرۇش","{count} ئۇقتۇرۇش"],
     "More apps" : "تېخىمۇ كۆپ ئەپلەر",
+    "Settings" : "تەڭشەكلەر",
     "Applications" : "قوللىنىشچان پروگراممىلار",
     "Apps" : "ئەپلەر",
     "No" : "ياق",

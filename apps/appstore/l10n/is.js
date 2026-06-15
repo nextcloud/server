@@ -59,6 +59,7 @@ OC.L10N.register(
     "{index} of {total}" : "{index} af {total}",
     "Limit to groups" : "Takmarka við hópa",
     "Save" : "Vista",
+    "Update all" : "Uppfæra allt",
     "Loading app list" : "Hleð inn forritalista",
     "Search everywhere" : "Leita allsstaðar",
     "Download and enable all" : "Sækja og virkja allt",

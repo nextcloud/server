@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "Se desconnectar",
     "Please select a file." : "Seleccionatz un fichièr.",
     "File is too big" : "Fichièr tròp pesuc",
     "The selected file is not an image." : "Lo fichièr seleccionat es pas un imatge.",
@@ -59,6 +60,7 @@ OC.L10N.register(
     "Unknown" : "Desconegut",
     "_{count} notification_::_{count} notifications_" : ["{count} notificacion","{count} notificacions"],
     "More apps" : "Mai d’aplicacions",
+    "Settings" : "Paramètres",
     "Apps" : "Aplicacions",
     "No" : "No",
     "Yes" : "Yes",

@@ -45,6 +45,14 @@ class OC_App {
 	public const officialApp = 200;
 
 	/**
+	 * @internal
+	 */
+	public static function reset(): void {
+		self::$altLogin = [];
+		self::$alreadyRegistered = [];
+	}
+
+	/**
 	 * clean the appId
 	 *
 	 * @psalm-taint-escape file

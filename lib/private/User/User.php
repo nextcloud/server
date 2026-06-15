@@ -481,11 +481,9 @@ class User implements IUser {
 
 	/**
 	 * set the enabled status for the user
-	 *
-	 * @return void
 	 */
 	#[\Override]
-	public function setEnabled(bool $enabled = true) {
+	public function setEnabled(bool $enabled = true): void {
 		$oldStatus = $this->isEnabled();
 		$setDatabaseValue = function (bool $enabled): void {
 			$this->config->setUserValue($this->uid, 'core', 'enabled', $enabled ? 'true' : 'false');
@@ -524,18 +522,12 @@ class User implements IUser {
 		return $this->getPrimaryEMailAddress() ?? $this->getSystemEMailAddress();
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	#[\Override]
 	public function getSystemEMailAddress(): ?string {
 		$email = $this->config->getUserValue($this->uid, 'settings', 'email', null);
 		return $email ? mb_strtolower(trim($email)) : null;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	#[\Override]
 	public function getPrimaryEMailAddress(): ?string {
 		$email = $this->config->getUserValue($this->uid, 'settings', 'primary_email', null);

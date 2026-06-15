@@ -206,7 +206,7 @@ class Propagator implements IPropagator {
 				// queries as a faster lookup than the path_hash
 				$hashes = array_map(static fn (array $a): string => $a['hash'], $this->batch);
 
-				foreach (array_chunk($hashes, 1000) as $hashesChunk) {
+				foreach (array_chunk($hashes, IQueryBuilder::MAX_IN_PARAMETERS) as $hashesChunk) {
 					$query = $this->connection->getQueryBuilder();
 					$result = $query->select('fileid', 'path', 'path_hash', 'size')
 						->from('filecache')

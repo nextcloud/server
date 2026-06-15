@@ -54,15 +54,22 @@
 			:aria-expanded="opened ? 'true' : 'false'"
 			@click="onTriggerClick('currentApp')">
 			<template #icon>
+				<!-- Settings sub-sections share one generic cog. An inline MDI icon
+					inherits the button's currentColor (--color-background-plain-text),
+					so it stays legible on both bright and dark headers without a filter. -->
+				<IconCog
+					v-if="currentApp.type === 'settings'"
+					class="app-menu__current-app-cog"
+					:size="20" />
 				<img
+					v-else
 					class="app-menu__current-app-icon"
-					:class="{ 'app-menu__current-app-icon--settings': currentApp.type === 'settings' }"
 					:src="currentApp.icon"
 					alt=""
 					aria-hidden="true">
 			</template>
 			<span class="app-menu__current-app-name">
-				{{ currentApp.name }}
+				{{ displayName }}
 			</span>
 		</NcButton>
 	</nav>
@@ -79,6 +86,7 @@ import { generateUrl, imagePath } from '@nextcloud/router'
 import { defineComponent, ref } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcPopover from '@nextcloud/vue/components/NcPopover'
+import IconCog from 'vue-material-design-icons/Cog.vue'
 import IconDotsGrid from 'vue-material-design-icons/DotsGrid.vue'
 import AppItem from './AppItem.vue'
 import logger from '../logger.js'
@@ -91,6 +99,7 @@ export default defineComponent({
 
 	components: {
 		AppItem,
+		IconCog,
 		IconDotsGrid,
 		NcButton,
 		NcPopover,
@@ -160,11 +169,23 @@ export default defineComponent({
 				?? Object.values(this.settingsList).find((entry) => entry.active && !SETTINGS_ACTION_IDS.has(entry.id))
 		},
 
-		// aria-label overrides the inner span text, so the section name
+		// Trigger label. Settings sub-section names ("Personal info",
+		// "Appearance and accessibility", ...) are too long and varied to
+		// surface in the header; collapse them all to a single "Settings".
+		displayName(): string {
+			if (!this.currentApp) {
+				return ''
+			}
+			return this.currentApp.type === 'settings'
+				? t('core', 'Settings')
+				: this.currentApp.name
+		},
+
+		// aria-label overrides the inner span text, so the displayed name
 		// has to be duplicated here for screen readers.
 		currentAppLabel(): string {
 			return this.currentApp
-				? t('core', 'Open apps menu, currently in {app}', { app: this.currentApp.name })
+				? t('core', 'Open apps menu, currently in {app}', { app: this.displayName })
 				: t('core', 'Open apps menu')
 		},
 
@@ -443,32 +464,25 @@ export default defineComponent({
 		// Theme-aware inversion + vertical alpha fade via --header-menu-icon-mask.
 		filter: var(--background-image-invert-if-bright);
 		mask: var(--header-menu-icon-mask);
+	}
 
-		// Settings icons ship dark (designed for the white settings sidebar);
-		// force-white so they read against the themed header.
-		&--settings {
-			filter: brightness(0) invert(1);
-		}
+	&__current-app-cog {
+		mask: var(--header-menu-icon-mask);
 	}
 
 	&__current-app-name {
-		// Hidden by default so the icon-only trigger fits alongside the
-		// centered search input. The button's aria-label still announces the
-		// section name. At wide viewports we restore the label with a
-		// truncation cap as a safety net for long localized names.
-		display: none;
-
-		@media only screen and (min-width: 1400px) {
-			display: inline-block;
-			vertical-align: middle;
-			font-size: var(--default-font-size);
-			font-weight: 500;
-			white-space: nowrap;
-			letter-spacing: -0.5px;
-			overflow: hidden;
-			text-overflow: ellipsis;
-			max-width: clamp(160px, 18vw, 360px);
-		}
+		// inline-block: inline elements ignore max-width + overflow.
+		display: inline-block;
+		vertical-align: middle;
+		font-size: var(--default-font-size);
+		font-weight: 500;
+		white-space: nowrap;
+		letter-spacing: -0.5px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		// Cap width so long localized labels ellipsize instead of pushing
+		// the header icons off-screen (.header-start doesn't shrink).
+		max-width: clamp(80px, 22vw, 320px);
 	}
 
 	&__popover {

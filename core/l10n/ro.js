@@ -78,6 +78,7 @@ OC.L10N.register(
     "Done" : "Realizat",
     "_{count} notification_::_{count} notifications_" : ["{count} notificare","{count} notificări","{count} notificări"],
     "More apps" : "Mai multe aplicatii",
+    "Settings" : "Setări",
     "Apps" : "Aplicații",
     "No" : "Nu",
     "Yes" : "Da",

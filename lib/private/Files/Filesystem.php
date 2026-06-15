@@ -27,13 +27,35 @@ use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class Filesystem {
+	/**
+	 * @psalm-suppress ImpureStaticProperty This class has a reset method
+	 */
 	private static ?Mount\Manager $mounts = null;
 
+	/**
+	 * @psalm-suppress ImpureStaticProperty This class has a reset method
+	 */
 	public static bool $loaded = false;
 
+	/**
+	 * @psalm-suppress ImpureStaticProperty This class has a reset method
+	 */
 	private static ?View $defaultInstance = null;
 
+	/**
+	 * @psalm-suppress ImpureStaticProperty This class has a reset method
+	 */
 	private static ?FilenameValidator $validator = null;
+
+	/**
+	 * @psalm-suppress ImpureStaticProperty This class has a reset method
+	 */
+	private static ?StorageFactory $loader = null;
+
+	/**
+	 * @psalm-suppress ImpureStaticProperty This class has a reset method
+	 */
+	private static bool $logWarningWhenAddingStorageWrapper = true;
 
 	/**
 	 * classname which used for hooks handling
@@ -151,10 +173,6 @@ class Filesystem {
 	public const signal_delete_mount = 'delete_mount';
 	public const signal_param_mount_type = 'mounttype';
 	public const signal_param_users = 'users';
-
-	private static ?StorageFactory $loader = null;
-
-	private static bool $logWarningWhenAddingStorageWrapper = true;
 
 	/**
 	 * @param bool $shouldLog
@@ -702,5 +720,13 @@ class Filesystem {
 	 */
 	public static function getETag(string $path): string|false {
 		return self::$defaultInstance->getETag($path);
+	}
+
+	public static function reset(): void {
+		self::$defaultInstance = null;
+		self::$loader = null;
+		self::$loaded = false;
+		self::$mounts = null;
+		self::$validator = null;
 	}
 }

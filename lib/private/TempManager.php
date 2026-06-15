@@ -50,13 +50,14 @@ class TempManager implements ITempManager {
 		$path = $this->generateTemporaryPath($postFix);
 
 		$old_umask = umask(0077);
-		$fp = fopen($path, 'x');
+		$fp = @fopen($path, 'x');
 		umask($old_umask);
 		if ($fp === false) {
 			$this->log->warning(
 				'Can not create a temporary file in directory {dir}. Check it exists and has correct permissions',
 				[
 					'dir' => $this->tmpBaseDir,
+					'error' => error_get_last(),
 				]
 			);
 			return false;
@@ -71,11 +72,12 @@ class TempManager implements ITempManager {
 	public function getTemporaryFolder($postFix = ''): string|false {
 		$path = $this->generateTemporaryPath($postFix) . '/';
 
-		if (mkdir($path, 0700) === false) {
+		if (@mkdir($path, 0700) === false) {
 			$this->log->warning(
 				'Can not create a temporary folder in directory {dir}. Check it exists and has correct permissions',
 				[
 					'dir' => $this->tmpBaseDir,
+					'error' => error_get_last(),
 				]
 			);
 			return false;

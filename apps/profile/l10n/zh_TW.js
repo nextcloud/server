@@ -1,6 +1,7 @@
 OC.L10N.register(
     "profile",
     {
+    "View profile" : "檢視個人檔案",
     "Profile picker" : "個人資料挑選程式",
     "Profile" : "個人檔案",
     "This application provides the profile" : "此應用程式提供了個人檔案",

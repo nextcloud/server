@@ -42,6 +42,8 @@ $expectedFiles = [
 	'README.md',
 	'REUSE.toml',
 	'SECURITY.md',
+	'CLAUDE.md',
+	'AGENTS.md',
 	'apps',
 	'autotest-checkers.sh',
 	'autotest-external.sh',
@@ -72,6 +74,7 @@ $expectedFiles = [
 	'openapi.json',
 	'package-lock.json',
 	'package.json',
+	'playwright.config.ts',
 	'psalm-ncu.xml',
 	'psalm-ocp.xml',
 	'psalm-strict.xml',
@@ -90,6 +93,7 @@ $expectedFiles = [
 	'vite.config.ts',
 	'vitest.config.ts',
 	'window.d.ts',
+	'Caddyfile',
 ];
 $actualFiles = [];
 

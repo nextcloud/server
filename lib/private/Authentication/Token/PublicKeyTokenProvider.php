@@ -531,16 +531,18 @@ class PublicKeyTokenProvider implements IProvider {
 			$hashNeedsUpdate = [];
 
 			foreach ($tokens as $t) {
-				if (!isset($hashNeedsUpdate[$t->getPasswordHash()])) {
-					if ($t->getPasswordHash() === null) {
-						$hashNeedsUpdate[$t->getPasswordHash() ?: ''] = true;
-					} elseif (!$this->hasher->verify(sha1($password) . $password, $t->getPasswordHash())) {
-						$hashNeedsUpdate[$t->getPasswordHash() ?: ''] = true;
+				$passwordHash = $t->getPasswordHash();
+				if ($passwordHash === null) {
+					$hashNeedsUpdate[''] = true;
+					$needsUpdating = true;
+				} elseif (!isset($hashNeedsUpdate[$passwordHash])) {
+					if (!$this->hasher->verify(sha1($password) . $password, $passwordHash)) {
+						$hashNeedsUpdate[$passwordHash] = true;
 					} else {
-						$hashNeedsUpdate[$t->getPasswordHash() ?: ''] = false;
+						$hashNeedsUpdate[$passwordHash] = false;
 					}
+					$needsUpdating = $hashNeedsUpdate[$passwordHash] ?? true;
 				}
-				$needsUpdating = $hashNeedsUpdate[$t->getPasswordHash() ?: ''] ?? true;
 
 				if ($needsUpdating) {
 					if ($newPasswordHash === null) {

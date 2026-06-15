@@ -100,24 +100,19 @@ class RecoveryControllerTest extends TestCase {
 
 	public static function userSetRecoveryProvider(): array {
 		return [
-			['1', 'Recovery Key enabled', Http::STATUS_OK],
-			['0', 'Could not enable the recovery key, please try again or contact your administrator', Http::STATUS_BAD_REQUEST]
+			[true, 'Recovery Key enabled', Http::STATUS_OK],
+			[false, 'Could not enable the recovery key, please try again or contact your administrator', Http::STATUS_BAD_REQUEST]
 		];
 	}
 
-	/**
-	 * @param $enableRecovery
-	 * @param $expectedMessage
-	 * @param $expectedStatus
-	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'userSetRecoveryProvider')]
-	public function testUserSetRecovery($enableRecovery, $expectedMessage, $expectedStatus): void {
+	public function testUserSetRecovery(bool $enableRecovery, string $expectedMessage, int $expectedStatus): void {
 		$this->recoveryMock->expects($this->any())
 			->method('setRecoveryForUser')
 			->with($enableRecovery)
 			->willReturnMap([
-				['1', true],
-				['0', false]
+				[true, true],
+				[false, false]
 			]);
 
 		$response = $this->controller->userSetRecovery($enableRecovery);

@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "Tanca la sessió",
     "Please select a file." : "Seleccioneu un fitxer.",
     "File is too big" : "El fitxer és massa gran",
     "The selected file is not an image." : "El fitxer seleccionat no és una imatge.",
@@ -201,6 +202,7 @@ OC.L10N.register(
     "Done" : "Fet",
     "_{count} notification_::_{count} notifications_" : ["{count} notificació","{count} notificacions"],
     "More apps" : "Més aplicacions",
+    "Settings" : "Paràmetres",
     "Apps" : "Aplicacions",
     "No" : "No",
     "Yes" : "Sí",

@@ -150,7 +150,7 @@ class MetadataRequestService {
 	 * @throws Exception
 	 */
 	public function dropMetadataForFiles(int $storage, array $fileIds): void {
-		$chunks = array_chunk($fileIds, 1000);
+		$chunks = array_chunk($fileIds, IQueryBuilder::MAX_IN_PARAMETERS);
 
 		foreach ($chunks as $chunk) {
 			$qb = $this->dbConnection->getQueryBuilder();

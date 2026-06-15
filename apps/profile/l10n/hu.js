@@ -1,6 +1,7 @@
 OC.L10N.register(
     "profile",
     {
+    "View profile" : "Profil megtekintése",
     "Profile" : "Profil",
     "Searching …" : "Keresés…",
     "Not found" : "Nem található",

@@ -9,14 +9,18 @@ namespace Test\DB;
 
 use OCP\IDBConnection;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\Group;
 use Test\TestCase;
 
+#[Group('DB')]
 class AdapterTest extends TestCase {
 	private string $appId;
 	private $connection;
 
 	#[\Override]
 	public function setUp(): void {
+		parent::setUp();
+
 		$this->connection = Server::get(IDBConnection::class);
 		$this->appId = substr(uniqid('test_db_adapter', true), 0, 32);
 	}
