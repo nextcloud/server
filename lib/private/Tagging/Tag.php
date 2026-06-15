@@ -8,18 +8,16 @@
 
 namespace OC\Tagging;
 
-use OCP\AppFramework\Db\Attribute\Column;
-use OCP\AppFramework\Db\Attribute\Entity;
-use OCP\AppFramework\Db\Attribute\Id;
-use OCP\AppFramework\Db\Attribute\Table;
+use OCP\AppFramework\ORM\Attribute\Column;
+use OCP\AppFramework\ORM\Attribute\Entity;
+use OCP\AppFramework\ORM\Attribute\Id;
 use OCP\DB\Types;
 use OCP\Snowflake\IGenerator;
 
 /**
  * Class to represent a tag.
  */
-#[Entity]
-#[Table(name: 'vcategory')]
+#[Entity(name: 'vcategory')]
 final class Tag {
 	#[Id(generatorClass: IGenerator::class)]
 	#[Column(name: 'id', type: Types::BIGINT, nullable: false)]

@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\TwoFactorBackupCodes\Db;
 
-use OCP\AppFramework\Db\Repository;
+use OCP\AppFramework\ORM\Repository;
 use OCP\IDBConnection;
 use OCP\IUser;
 
