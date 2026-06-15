@@ -11,7 +11,7 @@
 				v-bind="selectAllBind"
 				:id="FILES_LIST_HEADER_SELECT_ALL_CHECKBOX_ID"
 				data-cy-files-list-selection-checkbox
-				@update:model-value="onToggleAll" />
+				@update:modelValue="onToggleAll" />
 		</th>
 
 		<!-- Columns display -->
@@ -86,9 +86,9 @@ import { defineComponent } from 'vue'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import { FILE_LIST_HEAD_FIRST_BATCH_ACTION_ID } from './FilesListTableHeaderActions.vue'
 import FilesListTableHeaderButton from './FilesListTableHeaderButton.vue'
+import { useFilesSorting } from '../composables/filesSorting.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
-import filesSortingMixin from '../mixins/filesSorting.ts'
 import { useActiveStore } from '../store/active.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useSelectionStore } from '../store/selection.ts'
@@ -103,10 +103,6 @@ export default defineComponent({
 		FilesListTableHeaderButton,
 		NcCheckboxRadioSwitch,
 	},
-
-	mixins: [
-		filesSortingMixin,
-	],
 
 	props: {
 		isMimeAvailable: {
@@ -145,6 +141,8 @@ export default defineComponent({
 
 			directory,
 			isNarrow,
+
+			...useFilesSorting(),
 
 			FILES_LIST_HEADER_SELECT_ALL_CHECKBOX_ID,
 		}
