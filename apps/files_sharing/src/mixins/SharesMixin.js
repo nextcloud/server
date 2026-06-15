@@ -291,9 +291,10 @@ export default {
 				this.open = false
 				await this.deleteShare(this.share.id)
 				logger.debug('Share deleted', { shareId: this.share.id })
+				const path = this.share.path.replace(/^\//, '')
 				const message = this.share.itemType === 'file'
-					? t('files_sharing', 'File "{path}" has been unshared', { path: this.share.path })
-					: t('files_sharing', 'Folder "{path}" has been unshared', { path: this.share.path })
+					? t('files_sharing', 'File "{path}" has been unshared', { path })
+					: t('files_sharing', 'Folder "{path}" has been unshared', { path })
 				showSuccess(message)
 				this.$emit('remove:share', this.share)
 				await this.getNode()
