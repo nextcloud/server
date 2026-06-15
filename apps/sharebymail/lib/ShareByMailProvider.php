@@ -330,14 +330,15 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		$initiatorDisplayName = ($initiatorUser instanceof IUser) ? $initiatorUser->getDisplayName() : $initiator;
 		$message = $this->mailer->createMessage();
 
-		$emailTemplate = $this->mailer->createEMailTemplate('sharebymail.RecipientNotification', [
+		$templateData = [
 			'filename' => $filename,
 			'link' => $link,
 			'initiator' => $initiatorDisplayName,
 			'expiration' => $expiration,
 			'shareWith' => $shareWith,
-			'note' => $note
-		]);
+			'note' => $note,
+		];
+		$emailTemplate = $this->mailer->createEMailTemplate('sharebymail.RecipientNotification', $templateData);
 
 		$emailTemplate->setSubject($this->l->t('%1$s shared %2$s with you', [$initiatorDisplayName, $filename]));
 		$emailTemplate->addHeader();
@@ -440,13 +441,14 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 
 		$message = $this->mailer->createMessage();
 
-		$emailTemplate = $this->mailer->createEMailTemplate('sharebymail.RecipientPasswordNotification', [
+		$templateData = [
 			'filename' => $filename,
 			'password' => $password,
 			'initiator' => $initiatorDisplayName,
 			'initiatorEmail' => $initiatorEmailAddress,
 			'shareWith' => $shareWith,
-		]);
+		];
+		$emailTemplate = $this->mailer->createEMailTemplate('sharebymail.RecipientPasswordNotification', $templateData);
 
 		$emailTemplate->setSubject($this->l->t('Password to access %1$s shared to you by %2$s', [$filename, $initiatorDisplayName]));
 		$emailTemplate->addHeader();
@@ -525,7 +527,11 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 
 		$message = $this->mailer->createMessage();
 
-		$emailTemplate = $this->mailer->createEMailTemplate('shareByMail.sendNote');
+		$templateData = [
+			'filename' => $filename,
+			'note' => $note,
+		];
+		$emailTemplate = $this->mailer->createEMailTemplate('shareByMail.sendNote', $templateData);
 
 		$emailTemplate->setSubject($this->l->t('%s added a note to a file shared with you', [$initiatorDisplayName]));
 		$emailTemplate->addHeader();
@@ -586,13 +592,14 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		$bodyPart = $this->l->t('You just shared %1$s with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient.', [$filename, $shareWith, $this->defaults->getName()]);
 
 		$message = $this->mailer->createMessage();
-		$emailTemplate = $this->mailer->createEMailTemplate('sharebymail.OwnerPasswordNotification', [
+		$templateData = [
 			'filename' => $filename,
 			'password' => $password,
 			'initiator' => $initiatorDisplayName,
 			'initiatorEmail' => $initiatorEMailAddress,
 			'shareWith' => $shareWith,
-		]);
+		];
+		$emailTemplate = $this->mailer->createEMailTemplate('sharebymail.OwnerPasswordNotification', $templateData);
 
 		$emailTemplate->setSubject($this->l->t('Password to access %1$s shared by you with %2$s', [$filename, $shareWith]));
 		$emailTemplate->addHeader();
