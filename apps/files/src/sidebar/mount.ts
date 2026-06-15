@@ -6,7 +6,7 @@
 import { PiniaVuePlugin } from 'pinia'
 import Vue from 'vue'
 import FilesSidebar from '../views/FilesSidebar.vue'
-import { getPinia } from '../store/index.ts'
+import { pinia } from '../store/index.ts'
 import { logger } from '../utils/logger.ts'
 import { getSidebarSharedState } from './sharedState.ts'
 
@@ -49,7 +49,7 @@ export function mountSidebar(target: HTMLElement): boolean {
 	const SidebarRoot = Vue.extend(FilesSidebar)
 	state.instance = new SidebarRoot({
 		name: 'SidebarRoot',
-		pinia: getPinia(),
+		pinia: pinia,
 	}).$mount(mountpoint)
 
 	logger.debug('sidebar: rendered within the current app')

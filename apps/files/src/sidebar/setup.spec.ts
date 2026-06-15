@@ -6,7 +6,7 @@
 import { File } from '@nextcloud/files'
 import { createPinia, setActivePinia } from 'pinia'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { getPinia } from '../store/index.ts'
+import { pinia } from '../store/index.ts'
 import { useSidebarStore } from '../store/sidebar.ts'
 import { logger } from '../utils/logger.ts'
 import { isSidebarMounted, mountSidebar } from './mount.ts'
@@ -222,7 +222,7 @@ describe('Sidebar API', () => {
 
 		expect(sidebar.isOpen).toBe(true)
 		expect(sidebar.node).toBe(node)
-		expect(useSidebarStore(getPinia()).currentNode).toBe(node)
+		expect(useSidebarStore(pinia).currentNode).toBe(node)
 
 		sidebar.close()
 		expect(sidebar.isOpen).toBe(false)

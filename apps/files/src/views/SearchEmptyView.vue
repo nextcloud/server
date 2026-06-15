@@ -10,10 +10,10 @@ import debounce from 'debounce'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcInputField from '@nextcloud/vue/components/NcInputField'
-import { getPinia } from '../store/index.ts'
+import { pinia } from '../store/index.ts'
 import { useSearchStore } from '../store/search.ts'
 
-const searchStore = useSearchStore(getPinia())
+const searchStore = useSearchStore(pinia)
 const debouncedUpdate = debounce((value: string) => {
 	searchStore.query = value
 }, 500)

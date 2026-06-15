@@ -13,7 +13,7 @@ import queryString from 'query-string'
 import Vue from 'vue'
 import Router, { isNavigationFailure, NavigationFailureType } from 'vue-router'
 import { useFilesStore } from '../store/files.ts'
-import { getPinia } from '../store/index.ts'
+import { pinia } from '../store/index.ts'
 import { usePathsStore } from '../store/paths.ts'
 import { defaultView } from '../utils/filesViews.ts'
 import { logger } from '../utils/logger.ts'
@@ -148,11 +148,11 @@ router.beforeResolve((to, from, next) => {
 })
 
 subscribe('files:node:deleted', (node: INode) => {
-	if (router.currentRoute.params.fileid === String(node.fileid)) {
-		const params = { ...router.currentRoute.params }
-		const { getPath } = usePathsStore(getPinia())
-		const { getNode } = useFilesStore(getPinia())
-		const source = getPath(router.currentRoute.params.view, node.dirname)
+	if (router.currentRoute.value.params.fileid === String(node.fileid)) {
+		const params = { ...router.currentRoute.value.params }
+		const { getPath } = usePathsStore(pinia)
+		const { getNode } = useFilesStore(pinia)
+		const source = getPath(router.currentRoute.value.params.view as string, node.dirname)
 		const parentFolder = getNode(source!)
 		if (source && parentFolder) {
 			params.fileid = String(parentFolder.fileid)
