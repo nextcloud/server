@@ -381,6 +381,11 @@ class TaskMapper extends QBMapper {
 	 * worker receives the task already RUNNING, so the later SCHEDULED -> RUNNING edge in
 	 * Manager::setTaskStatus (which used to set started_at) no longer fires.
 	 *
+	 * Semantic change: this previously guarded on `status != RUNNING`, which allowed an
+	 * already SUCCESSFUL/FAILED task to be re-locked back to RUNNING. Callers must now
+	 * treat a 0 return as "the task is no longer claimable" (it is no longer SCHEDULED)
+	 * and move on, rather than assuming the lock succeeded.
+	 *
 	 * @return int Number of rows updated: 1 if the task was claimed, 0 if it was no longer scheduled.
 	 */
 	public function lockTask(Entity $entity): int {
