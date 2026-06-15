@@ -7,11 +7,11 @@
 import { mdiMagnify, mdiSearchWeb } from '@mdi/js'
 import { t } from '@nextcloud/l10n'
 import { computed } from 'vue'
+import { onBeforeRouteUpdate } from 'vue-router'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActions from '@nextcloud/vue/components/NcActions'
 import NcAppNavigationSearch from '@nextcloud/vue/components/NcAppNavigationSearch'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
-import { onBeforeNavigation } from '../composables/useBeforeNavigation.ts'
 import { useActiveStore } from '../store/active.ts'
 import { useSearchStore } from '../store/search.ts'
 import { VIEW_ID } from '../views/search.ts'
@@ -20,10 +20,9 @@ const activeStore = useActiveStore()
 const searchStore = useSearchStore()
 
 /**
- * When the route is changed from search view to something different
- * we need to clear the search box.
+ * When the route is changed from search view to something different we need to clear the search box.
  */
-onBeforeNavigation((to, from, next) => {
+onBeforeRouteUpdate((to, from) => {
 	if (to.params.view !== VIEW_ID
 		&& (from.params.view === VIEW_ID || from.query.dir !== to.query.dir)) {
 		// we are leaving the search view or navigate to another directory -> unset the query
@@ -32,17 +31,15 @@ onBeforeNavigation((to, from, next) => {
 	} else if (to.params.view === VIEW_ID && from.params.view === VIEW_ID) {
 		// fix the query if the user refreshed the view
 		if (searchStore.query && !to.query.query) {
-			// @ts-expect-error This is a weird issue with vue-router v4 and will be fixed in v5 (vue 3)
-			return next({
+			return {
 				...to,
 				query: {
 					...to.query,
 					query: searchStore.query,
 				},
-			})
+			}
 		}
 	}
-	next()
 })
 
 /**
@@ -69,13 +66,13 @@ const searchLabel = computed(() => {
 				<template #icon>
 					<NcIconSvgWrapper :path="searchStore.scope === 'globally' ? mdiSearchWeb : mdiMagnify" />
 				</template>
-				<NcActionButton close-after-click @click="searchStore.scope = 'filter'">
+				<NcActionButton closeAfterClick @click="searchStore.scope = 'filter'">
 					<template #icon>
 						<NcIconSvgWrapper :path="mdiMagnify" />
 					</template>
 					{{ t('files', 'Search here') }}
 				</NcActionButton>
-				<NcActionButton close-after-click @click="searchStore.scope = 'globally'">
+				<NcActionButton closeAfterClick @click="searchStore.scope = 'globally'">
 					<template #icon>
 						<NcIconSvgWrapper :path="mdiSearchWeb" />
 					</template>
