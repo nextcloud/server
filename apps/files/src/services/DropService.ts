@@ -4,15 +4,16 @@
  */
 
 import type { IFolder, INode } from '@nextcloud/files'
-import type { Upload } from '@nextcloud/upload'
+import type { IUpload } from '@nextcloud/files/upload'
 import type { RootDirectory } from './DropServiceUtils.ts'
 
 import { showError, showInfo, showSuccess, showWarning } from '@nextcloud/dialogs'
+import { getUploader } from '@nextcloud/files/upload'
 import { t } from '@nextcloud/l10n'
 import { join } from '@nextcloud/paths'
-import { getUploader, hasConflict } from '@nextcloud/upload'
 import { handleCopyMoveNodesTo, HintException } from '../actions/moveOrCopyAction.ts'
 import { MoveCopyAction } from '../actions/moveOrCopyActionUtils.ts'
+import { getConflicts } from '../utils/conflicts.ts'
 import { logger } from '../utils/logger.ts'
 import { createDirectoryIfNotExists, Directory, renameInvalidDroppedEntries, resolveConflict, traverseTree } from './DropServiceUtils.ts'
 
@@ -93,7 +94,7 @@ export async function dataTransferToFileTree(items: DataTransferItem[]): Promise
  * @param destination - The destination folder
  * @param contents - The contents of the destination folder
  */
-export async function onDropExternalFiles(root: RootDirectory, destination: IFolder, contents: INode[]): Promise<Upload[]> {
+export async function onDropExternalFiles(root: RootDirectory, destination: IFolder, contents: INode[]): Promise<IUpload[]> {
 	// Ask the user to fix any invalid name before uploading anything
 	if (!await renameInvalidDroppedEntries(root)) {
 		showInfo(t('files', 'Upload cancelled, drop the files again to retry'))
@@ -103,7 +104,7 @@ export async function onDropExternalFiles(root: RootDirectory, destination: IFol
 	const uploader = getUploader()
 
 	// Check for conflicts on root elements
-	if (await hasConflict(root.contents, contents)) {
+	if (getConflicts(root.contents, contents).length !== 0) {
 		root.contents = await resolveConflict(root.contents, destination, contents)
 		if (root.contents.length === 0) {
 			// user cancelled the upload
@@ -117,7 +118,7 @@ export async function onDropExternalFiles(root: RootDirectory, destination: IFol
 
 	// Let's process the files
 	logger.debug(`Uploading files to ${destination.path}`, { root, contents: root.contents })
-	const queue = [] as Promise<Upload>[]
+	const queue = [] as Promise<IUpload>[]
 	let hasDirectoryErrors = false
 
 	const uploadDirectoryContents = async (directory: Directory, path: string) => {
@@ -145,7 +146,7 @@ export async function onDropExternalFiles(root: RootDirectory, destination: IFol
 			logger.debug('Uploading file to ' + join(destination.path, relativePath), { file })
 
 			// Overriding the root to avoid changing the current uploader context
-			queue.push(uploader.upload(relativePath, file, destination.source))
+			queue.push(uploader.upload(relativePath, file, { root: destination.source }))
 		}
 	}
 
@@ -187,7 +188,7 @@ export async function onDropExternalFiles(root: RootDirectory, destination: IFol
  */
 export async function onDropInternalFiles(nodes: INode[], destination: IFolder, contents: INode[], isCopy = false) {
 	// Check for conflicts on root elements
-	if (await hasConflict(nodes, contents)) {
+	if (getConflicts(nodes, contents).length !== 0) {
 		nodes = await resolveConflict(nodes, destination, contents)
 	}
 

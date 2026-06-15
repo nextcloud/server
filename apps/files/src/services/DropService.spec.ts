@@ -7,16 +7,19 @@ import type { IFolder } from '@nextcloud/files'
 import type { RootDirectory } from './DropServiceUtils.ts'
 
 import { showError, showInfo, showSuccess } from '@nextcloud/dialogs'
-import { getUploader, hasConflict } from '@nextcloud/upload'
+import { getUploader } from '@nextcloud/files/upload'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { getConflicts } from '../utils/conflicts.ts'
 import { newNodeName } from '../utils/newNodeDialog.ts'
 import { onDropExternalFiles } from './DropService.ts'
 import { createDirectoryIfNotExists, Directory } from './DropServiceUtils.ts'
 
 vi.mock('@nextcloud/dialogs')
-vi.mock('@nextcloud/upload', () => ({
+vi.mock('@nextcloud/files/upload', () => ({
 	getUploader: vi.fn(),
-	hasConflict: vi.fn(),
+}))
+vi.mock('../utils/conflicts.ts', () => ({
+	getConflicts: vi.fn(),
 }))
 vi.mock('../utils/newNodeDialog.ts')
 vi.mock('./DropServiceUtils.ts', async (importOriginal) => ({
@@ -41,7 +44,7 @@ describe('onDropExternalFiles', () => {
 			pause: vi.fn(),
 			start: vi.fn(),
 		} as never)
-		vi.mocked(hasConflict).mockReturnValue(false)
+		vi.mocked(getConflicts).mockReturnValue([])
 	})
 
 	it('asks to rename an invalid entry before starting the upload', async () => {
@@ -63,7 +66,7 @@ describe('onDropExternalFiles', () => {
 		expect(uploads).toEqual([])
 		expect(showInfo).toHaveBeenCalledWith('Upload cancelled, drop the files again to retry')
 		expect(getUploader).not.toHaveBeenCalled()
-		expect(hasConflict).not.toHaveBeenCalled()
+		expect(getConflicts).not.toHaveBeenCalled()
 	})
 
 	it('does not report success after a directory creation failure', async () => {

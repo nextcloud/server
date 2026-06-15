@@ -17,6 +17,7 @@ import { defaultRootPath, getClient, getDefaultPropfind, resultToNode } from '@n
 import { n, t } from '@nextcloud/l10n'
 import { basename, join } from '@nextcloud/paths'
 import { getContents } from '../services/Files.ts'
+import { getConflicts } from '../utils/conflicts.ts'
 import { logger } from '../utils/logger.ts'
 import { canCopy, canMove, getQueue, MoveCopyAction } from './moveOrCopyActionUtils.ts'
 
