@@ -12,7 +12,7 @@
 			<NcCheckboxRadioSwitch
 				v-bind="selectAllBind"
 				data-cy-files-list-selection-checkbox
-				@update:model-value="onToggleAll" />
+				@update:modelValue="onToggleAll" />
 
 			<!-- Batch selection UI lives in the select-all cell so column headers
 			     stay valid and Tab order stays in document flow
@@ -118,9 +118,9 @@ import { defineComponent } from 'vue'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import FilesListTableHeaderActions from './FilesListTableHeaderActions.vue'
 import FilesListTableHeaderButton from './FilesListTableHeaderButton.vue'
+import { useFilesSorting } from '../composables/filesSorting.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
-import filesSortingMixin from '../mixins/filesSorting.ts'
 import { useActiveStore } from '../store/active.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useSelectionStore } from '../store/selection.ts'
@@ -134,10 +134,6 @@ export default defineComponent({
 		FilesListTableHeaderButton,
 		NcCheckboxRadioSwitch,
 	},
-
-	mixins: [
-		filesSortingMixin,
-	],
 
 	props: {
 		currentView: {
@@ -181,6 +177,8 @@ export default defineComponent({
 
 			directory,
 			isNarrow,
+
+			...useFilesSorting(),
 		}
 	},
 
