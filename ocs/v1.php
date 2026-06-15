@@ -30,7 +30,18 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 $request = Server::get(IRequest::class);
 
-if ((Util::needUpgrade() || Server::get(IConfig::class)->getSystemValueBool('maintenance')) && $request->getPathInfo() !== '/core/update') {
+$serveAppApiDuringMaintenance = false;
+if (!Util::needUpgrade() && Server::get(IConfig::class)->getSystemValueBool('maintenance')) {
+	$pathInfo = $request->getPathInfo();
+	// AppAPI must keep serving HaRP traffic (signed OCS calls and ExApp callbacks)
+	$serveAppApiDuringMaintenance
+		= ($pathInfo === '/apps/app_api' || str_starts_with($pathInfo, '/apps/app_api/'))
+		&& Server::get(IAppManager::class)->isEnabledForAnyone('app_api');
+}
+
+if ((Util::needUpgrade()
+	|| (Server::get(IConfig::class)->getSystemValueBool('maintenance') && !$serveAppApiDuringMaintenance))
+	&& $request->getPathInfo() !== '/core/update') {
 	// since the behavior of apps or remotes are unpredictable during
 	// an upgrade, return a 503 directly
 	ApiHelper::respond(503, 'Service unavailable', ['X-Nextcloud-Maintenance-Mode' => '1'], 503);
@@ -49,6 +60,10 @@ try {
 	$request->throwDecodingExceptionIfAny();
 
 	if ($request->getPathInfo() !== '/core/update') {
+		if ($serveAppApiDuringMaintenance) {
+			// loadApps() below is a no-op during maintenance, load app_api explicitly
+			$appManager->loadApp('app_api');
+		}
 		// load all apps to get all api routes properly setup
 		// FIXME: this should ideally appear after handleLogin but will cause
 		// side effects in existing apps
