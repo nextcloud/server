@@ -237,7 +237,7 @@
     "PHP set_time_limit" : "تابع set_time_limit در پی‌اچ‌پی",
     "The function is available." : "این تابع در دسترس است.",
     "The PHP function \"set_time_limit\" is not available. This could result in scripts being halted mid-execution, breaking your installation. Enabling this function is strongly recommended." : "تابع «set_time_limit» در پی‌اچ‌پی در دسترس نیست. این موضوع می‌تواند باعث شود اسکریپت‌ها در میانهٔ اجرا متوقف شوند و نصب شما را از کار بیندازند. اکیداً توصیه می‌شود این تابع را فعال کنید.",
-    "Freetype" : "FreeType",
+    "Freetype" : "Freetype",
     "Supported" : "پشتیبانی شده",
     "Your PHP does not have FreeType support, resulting in breakage of profile pictures and the settings interface." : "پی‌اچ‌پی شما از FreeType پشتیبانی نمی‌کند و همین موضوع باعث از کار افتادن نگاره‌های نمایه و رابط تنظیمات می‌شود.",
     "PHP getenv" : "تابع getenv در پی‌اچ‌پی",
