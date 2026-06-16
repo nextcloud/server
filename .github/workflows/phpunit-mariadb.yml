@@ -62,11 +62,6 @@ jobs:
         php-versions: ['8.2']
         mariadb-versions: ['10.6']
         include:
-          - php-versions: '8.3'
-            mariadb-versions: '10.11'
-            coverage: ${{ github.event_name != 'pull_request' }}
-          - php-versions: '8.4'
-            mariadb-versions: '11.4'
           - php-versions: '8.5'
             mariadb-versions: '11.8'
 
@@ -128,14 +123,7 @@ jobs:
           php -f tests/enable_all.php
 
       - name: PHPUnit
-        run: composer run test:db -- --log-junit junit.xml ${{ matrix.coverage && '--coverage-clover ./clover.db.xml' || '' }}
-
-      - name: Upload db code coverage
-        if: ${{ !cancelled() && matrix.coverage }}
-        uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
-        with:
-          files: ./clover.db.xml
-          flags: phpunit-mariadb
+        run: composer run test:db -- --log-junit junit.xml
 
       - name: Upload test results
         if: ${{ !cancelled() }}

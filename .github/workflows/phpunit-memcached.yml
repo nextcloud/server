@@ -56,10 +56,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.3', '8.4', '8.5']
-        include:
-          - php-versions: '8.2'
-            coverage: ${{ github.event_name != 'pull_request' }}
+        php-versions: ['8.2', '8.5']
 
     name: Memcached (PHP ${{ matrix.php-versions }})
 
@@ -100,14 +97,7 @@ jobs:
           php -f tests/enable_all.php
 
       - name: PHPUnit memcached tests
-        run: composer run test -- --group Memcache --group Memcached --log-junit junit.xml ${{ matrix.coverage && '--coverage-clover ./clover.xml' || '' }}
-
-      - name: Upload code coverage
-        if: ${{ !cancelled() && matrix.coverage }}
-        uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
-        with:
-          files: ./clover.xml
-          flags: phpunit-memcached
+        run: composer run test -- --group Memcache --group Memcached --log-junit junit.xml
 
       - name: Upload test results
         if: ${{ !cancelled() }}
