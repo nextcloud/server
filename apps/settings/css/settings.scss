@@ -19,92 +19,11 @@ input {
 	clear: both;
 }
 
-#personal-settings-avatar-container {
-	display: inline-grid;
-	grid-template-columns: 1fr;
-	grid-template-rows: 2fr 1fr 2fr;
-	vertical-align: top;
-}
-
-.profile-settings-container {
-	display: inline-grid;
-	grid-template-columns: 1fr 1fr 1fr;
-}
-
-.personal-show-container {
-	width: 100%;
-}
-
-.personal-settings-setting-box {
-	.section {
-		padding: 10px 30px;
-		.headerbar-label {
-			margin-bottom: 0;
-		}
-
-		input {
-			&[type='text'], &[type='email'], &[type='tel'], &[type='url'] {
-				width: 100%;
-			}
-		}
-	}
-
-	&-profile {
-		grid-row: 3/5;
-	}
-
-	&-detail {
-		grid-row: 5;
-	}
-	&-detail--without-profile {
-		grid-row: 3;
-	}
-}
-
-select {
-	&#timezone {
-		width: 100%;
-	}
-}
-
-#personal-settings {
-	display: grid;
-	padding: 20px;
-	max-width: 1700px;
-	grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
-	column-gap: 10px;
-
-	.section {
-		padding: 10px 10px;
-		border: 0;
-
-		h2 {
-			margin-bottom: 12px;
-		}
-
-		h3 {
-			> label {
-				font-weight: bold;
-			}
-		}
-	}
-
-	.personal-info {
-		margin-inline-end: 10%;
-		margin-bottom: 12px;
-		margin-top: 12px;
-	}
-
-	.personal-info[class^='icon-'], .personal-info[class*=' icon-'] {
-		background-position: 0px 2px;
-		padding-inline-start: 30px;
-		opacity: 0.7;
-	}
-}
-
-
 // Button for 'Reasons to use Nextcloud in your organization'
 .development-notice {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 	text-align: center;
 	a:not(.link-button) {
 		text-decoration: underline;
@@ -138,65 +57,6 @@ select {
 		filter: var(--primary-invert-if-dark);
 		width: 20px;
 		height: 20px;
-	}
-}
-
-.personal-settings-container {
-	display: inline-grid;
-	grid-template-columns: 1fr 1fr 1fr;
-
-	&:after {
-		clear: both;
-	}
-
-	> div {
-		h3 {
-			position: relative;
-			display: inline-flex;
-			flex-wrap: nowrap;
-			justify-content: flex-start;
-			width: 100%;
-			align-items: center;
-			gap: 8px;
-
-			> label {
-				white-space: nowrap;
-				text-overflow: ellipsis;
-				overflow: hidden;
-			}
-		}
-
-		> form span {
-			&[class^='icon-checkmark'], &[class^='icon-error'] {
-				position: relative;
-				inset-inline-end: 8px;
-				top: -28px;
-				pointer-events: none;
-				float: right;
-			}
-		}
-	}
-
-	.verify {
-		position: relative;
-		inset-inline-start: 100%;
-		top: 0;
-		height: 0;
-
-		img {
-			padding: 12px 7px 6px;
-		}
-	}
-
-	.verify-action {
-		cursor: pointer;
-	}
-
-	input:disabled {
-		background-color: white;
-		color: black;
-		border: none;
-		opacity: 100;
 	}
 }
 
