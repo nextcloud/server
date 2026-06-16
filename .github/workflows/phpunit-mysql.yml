@@ -123,7 +123,7 @@ jobs:
           php -f tests/enable_all.php
 
       - name: PHPUnit
-        run: composer run test:db -- --log-junit junit.xml ${{ matrix.coverage && '--coverage-clover ./clover.db.xml' || '' }}
+        run: composer run test:db -- --log-junit junit.xml
 
       - name: Upload test results
         if: ${{ !cancelled() }}
