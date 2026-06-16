@@ -15,6 +15,7 @@ OC.L10N.register(
     "Unsatisfied authentication mechanism parameters" : "Paramètres pour la méthode d'authentification incorrects",
     "Insufficient data: %s" : "Données insuffisantes : %s",
     "Storage with ID \"%d\" is not editable by non-admins" : "Le support de stockage avec l'ID \"%d\" n'est pas modifiable par les non-administrateurs.",
+    "Static credentials" : "Identifiants statiques",
     "Builtin" : "Intégré",
     "None" : "Aucun",
     "OpenStack v2" : "OpenStack v2",

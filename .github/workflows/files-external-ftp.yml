@@ -55,11 +55,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.2', '8.4']
+        php-versions: ['8.3', '8.5']
         ftpd: ['proftpd', 'vsftpd', 'pure-ftpd']
-        include:
-          - php-versions: '8.2'
-            coverage: ${{ github.event_name != 'pull_request' }}
 
     name: php${{ matrix.php-versions }}-${{ matrix.ftpd }}
 
@@ -87,7 +84,7 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
           extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
-          coverage: ${{ matrix.coverage && 'xdebug' || 'none' }}
+          coverage: none
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -110,21 +107,7 @@ jobs:
       - name: PHPUnit
         run: composer run test:files_external -- \
           apps/files_external/tests/Storage/FtpTest.php \
-          --log-junit junit.xml \
-          ${{ matrix.coverage && '--coverage-clover ./clover.xml' || '' }}
-
-      - name: Upload code coverage
-        if: ${{ !cancelled() && matrix.coverage }}
-        uses: codecov/codecov-action@e79a6962e0d4c0c17b229090214935d2e33f8354 # v6.0.1
-        with:
-          files: ./clover.xml
-          flags: phpunit-files-external-ftp
-
-      - name: Upload test results
-        if: ${{ !cancelled() }}
-        uses: codecov/test-results-action@0fa95f0e1eeaafde2c782583b36b28ad0d8c77d3 # v1.2.1
-        with:
-          flags: phpunit-files-external-ftp
+          --log-junit junit.xml
 
       - name: ftpd logs
         if: always()

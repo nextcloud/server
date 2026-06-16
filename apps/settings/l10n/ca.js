@@ -96,6 +96,7 @@ OC.L10N.register(
     "Assistant" : "Assistent",
     "Administration privileges" : "Privilegis d'administració",
     "Groupware" : "Treball en grup",
+    "Office" : "Oficina",
     "Overview" : "Resum",
     "Basic settings" : "Paràmetres bàsics",
     "Sharing" : "Compartició",

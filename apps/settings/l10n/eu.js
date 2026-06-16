@@ -97,6 +97,7 @@ OC.L10N.register(
     "Assistant" : "Morroia",
     "Administration privileges" : "Administrazio pribilegioak",
     "Groupware" : "Taldelanerako tresnak",
+    "Office" : "Bulegoa",
     "Overview" : "Ikuspegi orokorra",
     "Quick presets" : "Aurrezarpen bizkorrak",
     "Basic settings" : "Oinarrizko ezarpenak",

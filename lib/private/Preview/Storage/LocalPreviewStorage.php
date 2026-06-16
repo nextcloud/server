@@ -315,7 +315,7 @@ class LocalPreviewStorage implements IPreviewStorage {
 			->from('filecache')
 			->where($qb->expr()->in('fileid', $qb->createParameter('fileIds')))
 			->runAcrossAllShards();
-		foreach (array_chunk($fileIds, 1000) as $chunk) {
+		foreach (array_chunk($fileIds, IQueryBuilder::MAX_IN_PARAMETERS) as $chunk) {
 			$qb->setParameter('fileIds', $chunk, IQueryBuilder::PARAM_INT_ARRAY);
 			$rows = $qb->executeQuery();
 			while ($row = $rows->fetchAssociative()) {
@@ -342,7 +342,7 @@ class LocalPreviewStorage implements IPreviewStorage {
 			->from('filecache')
 			->where($qb->expr()->in('path_hash', $qb->createParameter('pathHashes')))
 			->runAcrossAllShards();
-		foreach (array_chunk($pathHashes, 1000) as $chunk) {
+		foreach (array_chunk($pathHashes, IQueryBuilder::MAX_IN_PARAMETERS) as $chunk) {
 			$qb->setParameter('pathHashes', $chunk, IQueryBuilder::PARAM_STR_ARRAY);
 			$rows = $qb->executeQuery();
 			while ($row = $rows->fetchAssociative()) {

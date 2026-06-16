@@ -43,6 +43,8 @@ jobs:
               - 'vendor-bin/**'
               - 'composer.json'
               - 'composer.lock'
+              - 'psalm*.xml'
+              - 'build/psalm-baseline*.xml'
               - '**.php'
 
   static-code-analysis:
@@ -62,7 +64,7 @@ jobs:
         uses: shivammathur/setup-php@7c071dfe9dc99bdf297fa79cb49ea005b9fcadbc #v2.37.1
         timeout-minutes: 5
         with:
-          php-version: '8.2'
+          php-version: '8.3'
           extensions: apcu,ctype,curl,dom,fileinfo,ftp,gd,imagick,intl,json,ldap,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
           coverage: none
         env:
@@ -98,7 +100,7 @@ jobs:
         uses: shivammathur/setup-php@7c071dfe9dc99bdf297fa79cb49ea005b9fcadbc #v2.37.1
         timeout-minutes: 5
         with:
-          php-version: '8.2'
+          php-version: '8.3'
           extensions: ctype,curl,dom,fileinfo,ftp,gd,imagick,intl,json,ldap,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
           coverage: none
 
@@ -135,7 +137,7 @@ jobs:
         uses: shivammathur/setup-php@7c071dfe9dc99bdf297fa79cb49ea005b9fcadbc #v2.37.1
         timeout-minutes: 5
         with:
-          php-version: '8.2'
+          php-version: '8.3'
           extensions: ctype,curl,dom,fileinfo,gd,imagick,intl,json,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
           coverage: none
         env:
@@ -168,7 +170,7 @@ jobs:
         uses: shivammathur/setup-php@7c071dfe9dc99bdf297fa79cb49ea005b9fcadbc #v2.37.1
         timeout-minutes: 5
         with:
-          php-version: '8.2'
+          php-version: '8.3'
           extensions: ctype,curl,dom,fileinfo,gd,imagick,intl,json,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
           coverage: none
         env:
@@ -196,7 +198,7 @@ jobs:
       - name: Set up php
         uses: shivammathur/setup-php@7c071dfe9dc99bdf297fa79cb49ea005b9fcadbc #v2.37.1
         with:
-          php-version: '8.2'
+          php-version: '8.3'
           extensions: ctype,curl,dom,fileinfo,gd,imagick,intl,json,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
           coverage: none
         env:

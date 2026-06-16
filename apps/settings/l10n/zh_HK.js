@@ -100,6 +100,7 @@ OC.L10N.register(
     "Assistant" : "助手",
     "Administration privileges" : "管理員權限",
     "Groupware" : "協作應用程式",
+    "Office" : "Nextcloud Office",
     "Overview" : "概覽",
     "Quick presets" : "快速預設",
     "Basic settings" : "基本設定",

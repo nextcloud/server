@@ -1660,15 +1660,6 @@ $CONFIG = [
 	'comments.managerFactory' => '\OC\Comments\ManagerFactory',
 
 	/**
-	 * Replaces the default System Tags Manager Factory. This can be utilized if an
-	 * own or 3rd-party SystemTagsManager should be used that – for instance – uses the
-	 * filesystem instead of the database to keep the tags.
-	 *
-	 * Defaults to ``\OC\SystemTag\ManagerFactory``
-	 */
-	'systemtags.managerFactory' => '\OC\SystemTag\ManagerFactory',
-
-	/**
 	 * Maintenance
 	 *
 	 * These options are for halting user activity when you are performing server
@@ -3011,4 +3002,12 @@ $CONFIG = [
 	 * Defaults to ``0``.
 	 */
 	'preview_expiration_days' => 0,
+
+	/**
+	 * Delete job runs older than a certain number of days.
+	 * Less than one day is not allowed.
+	 *
+	 * Defaults to ``60``.
+	 */
+	'background_jobs_expiration_days' => 60,
 ];

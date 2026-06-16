@@ -279,6 +279,7 @@
     "Cannot create \"data\" directory." : "dataディレクトリを作成できません。",
     "This can usually be fixed by giving the web server write access to the root directory. See %s" : "これは通常、ウェブサーバーにルートディレクトリへの書き込み権限を与えることで解決できます。詳しくは%sを確認してください。",
     "Permissions can usually be fixed by giving the web server write access to the root directory. See %s." : "Webサーバーのルートディレクトリに書き込み権限パーミッションが必要です。詳しくは%sを確認してください。",
+    "Your data directory is not readable." : "データディレクトリが読み取り不可です。",
     "Your data directory is not writable." : "データディレクトリに書き込み権がありません",
     "Setting locale to %s failed." : "ロケールを %s に設定できませんでした",
     "Please install one of these locales on your system and restart your web server." : "これらのロケールのうちいずれかをシステムにインストールし、Webサーバーを再起動してください。",

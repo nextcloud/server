@@ -71,6 +71,7 @@ OC.L10N.register(
     "{index} of {total}" : "{index}на {total}",
     "Limit to groups" : "Ограничен достъп",
     "Save" : "Запиши",
+    "Update all" : "Актуализирай всички",
     "Loading app list" : "Списъкът с приложения се зарежда",
     "Search everywhere" : "Търси навсякъде",
     "Download and enable all" : "Изтеглете и активирайте всички",

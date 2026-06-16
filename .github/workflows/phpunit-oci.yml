@@ -61,12 +61,7 @@ jobs:
       matrix:
         include:
           - oracle-versions: '18'
-            php-versions: '8.2'
-            coverage: ${{ github.event_name != 'pull_request' }}
-          - oracle-versions: '21'
             php-versions: '8.3'
-          - oracle-versions: '23'
-            php-versions: '8.4'
           - oracle-versions: '23'
             php-versions: '8.5'
 
@@ -111,10 +106,11 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
           extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, oci8
-          coverage: ${{ matrix.coverage && 'xdebug' || 'none' }}
+          coverage: none
           ini-file: development
           ini-values: disable_functions=""
         env:
+          fail-fast: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up dependencies
@@ -129,20 +125,7 @@ jobs:
           php -f tests/enable_all.php
 
       - name: PHPUnit
-        run: composer run test:db -- --log-junit junit.xml ${{ matrix.coverage && '--coverage-clover ./clover.db.xml' || '' }}
-
-      - name: Upload db code coverage
-        if: ${{ !cancelled() && matrix.coverage }}
-        uses: codecov/codecov-action@e79a6962e0d4c0c17b229090214935d2e33f8354 # v6.0.1
-        with:
-          files: ./clover.db.xml
-          flags: phpunit-oci
-
-      - name: Upload test results
-        if: ${{ !cancelled() }}
-        uses: codecov/test-results-action@0fa95f0e1eeaafde2c782583b36b28ad0d8c77d3 # v1.2.1
-        with:
-          flags: phpunit-oci
+        run: composer run test:db -- --log-junit junit.xml
 
       - name: Run repair steps
         run: |

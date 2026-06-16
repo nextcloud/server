@@ -71,6 +71,7 @@ OC.L10N.register(
     "{index} of {total}" : "{index} of {total}",
     "Limit to groups" : "Limit to groups",
     "Save" : "ບັນທຶກ",
+    "Update all" : "ອັບເດດທັງໝົດ",
     "Loading app list" : "Loading app list",
     "Search everywhere" : "ຄົ້ນຫາທຸກບ່ອນ",
     "Download and enable all" : "Download and enable all",

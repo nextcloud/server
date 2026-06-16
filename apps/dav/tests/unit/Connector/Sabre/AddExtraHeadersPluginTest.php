@@ -81,9 +81,13 @@ class AddExtraHeadersPluginTest extends TestCase {
 		$this->tree->expects($this->once())->method('getNodeForPath')
 			->willReturn($node);
 
-		$user = $this->createMock(IUser::class);
-		$node->expects($this->once())->method('getOwner')->willReturn($user);
-		$user->expects($this->once())->method('getUID')->willReturn($ownerId);
+		if ($ownerId !== null) {
+			$user = $this->createMock(IUser::class);
+			$node->expects($this->once())->method('getOwner')->willReturn($user);
+			$user->expects($this->once())->method('getUID')->willReturn($ownerId);
+		} else {
+			$node->expects($this->once())->method('getOwner')->willReturn(null);
+		}
 		$node->expects($this->once())->method('getDavPermissions')->willReturn($permissions);
 
 		$matcher = $this->exactly($expectedInvocations);

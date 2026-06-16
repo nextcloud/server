@@ -14,6 +14,7 @@ use OCP\Authentication\TwoFactorAuth\IActivatableByAdmin;
 use OCP\Authentication\TwoFactorAuth\IDeactivatableByAdmin;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
+use OCP\Authentication\TwoFactorAuth\IStatelessProvider;
 use OCP\IUser;
 
 class ProviderManager {
@@ -43,7 +44,9 @@ class ProviderManager {
 	public function tryEnableProviderFor(string $providerId, IUser $user): bool {
 		$provider = $this->getProvider($providerId, $user);
 
-		if ($provider instanceof IActivatableByAdmin) {
+		if ($provider instanceof IActivatableByAdmin
+			&& !($provider instanceof IStatelessProvider)
+		) {
 			$provider->enableFor($user);
 			$this->providerRegistry->enableProviderFor($provider, $user);
 			return true;
@@ -62,7 +65,9 @@ class ProviderManager {
 	public function tryDisableProviderFor(string $providerId, IUser $user): bool {
 		$provider = $this->getProvider($providerId, $user);
 
-		if ($provider instanceof IDeactivatableByAdmin) {
+		if ($provider instanceof IDeactivatableByAdmin
+			&& !($provider instanceof IStatelessProvider)
+		) {
 			$provider->disableFor($user);
 			$this->providerRegistry->disableProviderFor($provider, $user);
 			return true;

@@ -16,6 +16,7 @@ use InvalidArgumentException;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Authentication\Token\PublicKeyTokenProvider;
 use OC\Authentication\Token\TokenCleanupJob;
+use OC\Core\BackgroundJobs\CleanupBackgroundJobsJob;
 use OC\Core\BackgroundJobs\ExpirePreviewsJob;
 use OC\Core\BackgroundJobs\GenerateMetadataJob;
 use OC\Core\BackgroundJobs\PreviewMigrationJob;
@@ -532,6 +533,7 @@ class Setup {
 		$jobList->add(GenerateMetadataJob::class);
 		$jobList->add(PreviewMigrationJob::class);
 		$jobList->add(ExpirePreviewsJob::class);
+		$jobList->add(CleanupBackgroundJobsJob::class);
 	}
 
 	/**
@@ -579,6 +581,15 @@ class Setup {
 		}
 
 		$setupHelper = Server::get(Setup::class);
+
+		// Note: The .htaccess file also needs to exist, otherwise `is_writable()`
+		// will return false, even though the file could be written.
+		// This function writes the .htaccess file in that case.
+		if (!file_exists($setupHelper->pathToHtaccess())) {
+			if (!touch($setupHelper->pathToHtaccess())) {
+				return false;
+			}
+		}
 
 		if (!is_writable($setupHelper->pathToHtaccess())) {
 			return false;

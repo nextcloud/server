@@ -98,6 +98,7 @@ OC.L10N.register(
     "Restrict the usage of {app} to members of the following groups." : "Apriboti {app} naudojimąsi toliau nurodytų grupių nariams.",
     "Reset limitation" : "Iš naujo nustatyti apribojimą",
     "Save" : "Išsaugoti",
+    "Update all" : "Atnaujinti visas",
     "Loading app list" : "Įkeliamas programėlių sąrašas",
     "No matching apps found" : "Atitinkačių programų nerasta",
     "Search everywhere" : "Ieškoti visur",

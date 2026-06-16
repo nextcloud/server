@@ -28,32 +28,32 @@ use Psr\Log\LoggerInterface;
 
 class Filesystem {
 	/**
-	 * @psalm-suppress ImpureStaticProperty
+	 * @psalm-suppress ImpureStaticProperty This class has a reset method
 	 */
 	private static ?Mount\Manager $mounts = null;
 
 	/**
-	 * @psalm-suppress ImpureStaticProperty
+	 * @psalm-suppress ImpureStaticProperty This class has a reset method
 	 */
 	public static bool $loaded = false;
 
 	/**
-	 * @psalm-suppress ImpureStaticProperty
+	 * @psalm-suppress ImpureStaticProperty This class has a reset method
 	 */
 	private static ?View $defaultInstance = null;
 
 	/**
-	 * @psalm-suppress ImpureStaticProperty
+	 * @psalm-suppress ImpureStaticProperty This class has a reset method
 	 */
 	private static ?FilenameValidator $validator = null;
 
 	/**
-	 * @psalm-suppress ImpureStaticProperty
+	 * @psalm-suppress ImpureStaticProperty This class has a reset method
 	 */
 	private static ?StorageFactory $loader = null;
 
 	/**
-	 * @psalm-suppress ImpureStaticProperty
+	 * @psalm-suppress ImpureStaticProperty This class has a reset method
 	 */
 	private static bool $logWarningWhenAddingStorageWrapper = true;
 
@@ -720,5 +720,13 @@ class Filesystem {
 	 */
 	public static function getETag(string $path): string|false {
 		return self::$defaultInstance->getETag($path);
+	}
+
+	public static function reset(): void {
+		self::$defaultInstance = null;
+		self::$loader = null;
+		self::$loaded = false;
+		self::$mounts = null;
+		self::$validator = null;
 	}
 }

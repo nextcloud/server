@@ -31,7 +31,7 @@
 		<navigation role="admin">
 			<name>Apps</name>
 			<route>appstore.page.viewApps</route>
-			<icon>app.svg</icon>
+			<icon>app-dark.svg</icon>
 			<order>5</order>
 			<type>settings</type>
 		</navigation>

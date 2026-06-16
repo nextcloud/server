@@ -33,7 +33,7 @@ class UtilTest extends TestCase {
 	protected IMountPoint&MockObject $mountMock;
 
 	public function testSetRecoveryForUser(): void {
-		$this->instance->setRecoveryForUser('1');
+		$this->instance->setRecoveryForUser(true);
 		$this->assertArrayHasKey('recoveryEnabled', self::$tempStorage);
 	}
 

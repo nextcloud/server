@@ -44,6 +44,7 @@ OC.L10N.register(
     "Users" : "Lietotāji",
     "Additional settings" : "Papildu iestatījumi",
     "Administration privileges" : "Pārvaldīšanas tiesības",
+    "Office" : "Birojs",
     "Overview" : "Pārskats",
     "Basic settings" : "Pamata iestatījumi",
     "Sharing" : "Koplietošana",
