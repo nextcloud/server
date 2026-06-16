@@ -28,6 +28,8 @@
 			</template>
 			{{ supportedScopes.includes(federationScope.name) ? federationScope.tooltip : federationScope.tooltipDisabled }}
 		</NcActionButton>
+
+		<slot />
 	</NcActions>
 </template>
 

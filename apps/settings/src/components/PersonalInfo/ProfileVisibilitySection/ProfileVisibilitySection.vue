@@ -4,10 +4,7 @@
 -->
 
 <template>
-	<!-- TODO remove this inline margin placeholder once the settings layout is updated -->
-	<section
-		id="profile-visibility"
-		:style="{ marginLeft }">
+	<section id="profile-visibility">
 		<HeaderBar :is-heading="true" :readable="heading" />
 
 		<em :class="{ disabled }">
@@ -68,11 +65,6 @@ export default {
 			visibilityParams: Object.entries(profileConfig)
 				.map(([paramId, { appId, displayId, visibility }]) => ({ id: paramId, appId, displayId, visibility }))
 				.sort(compareParams),
-
-			// TODO remove this when not used once the settings layout is updated
-			marginLeft: window.matchMedia('(min-width: 1600px)').matches
-				? window.getComputedStyle(document.getElementById('vue-avatar-section')).getPropertyValue('width').trim()
-				: '0px',
 		}
 	},
 
@@ -88,12 +80,6 @@ export default {
 
 	mounted() {
 		subscribe('settings:profile-enabled:updated', this.handleProfileEnabledUpdate)
-		// TODO remove this when not used once the settings layout is updated
-		window.onresize = () => {
-			this.marginLeft = window.matchMedia('(min-width: 1600px)').matches
-				? window.getComputedStyle(document.getElementById('vue-avatar-section')).getPropertyValue('width').trim()
-				: '0px'
-		}
 	},
 
 	beforeDestroy() {

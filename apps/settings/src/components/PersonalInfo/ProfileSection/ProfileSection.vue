@@ -4,32 +4,47 @@
 -->
 
 <template>
-	<section>
-		<HeaderBar :is-heading="true" :readable="propertyReadable" />
-
-		<ProfileCheckbox :profile-enabled.sync="profileEnabled" />
-
+	<section class="profile-section">
 		<ProfilePreviewCard
-			:organisation="organisation"
+			:status-message="statusMessage"
 			:display-name="displayName"
-			:profile-enabled="profileEnabled"
 			:user-id="userId" />
 
-		<EditProfileAnchorLink :profile-enabled="profileEnabled" />
+		<NcFormBox>
+			<NcFormBoxSwitch
+				:model-value="profileEnabled"
+				:label="t('settings', 'Nextcloud profile')"
+				:disabled="loading"
+				@update:model-value="saveEnableProfile" />
+			<NcFormBoxButton
+				v-if="profileEnabled"
+				:label="t('settings', 'View full profile')"
+				:href="profilePageLink"
+				target="_blank">
+				<template #icon>
+					<OpenInNew :size="20" />
+				</template>
+			</NcFormBoxButton>
+		</NcFormBox>
 	</section>
 </template>
 
 <script>
-import { subscribe, unsubscribe } from '@nextcloud/event-bus'
+import { getCurrentUser } from '@nextcloud/auth'
+import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { loadState } from '@nextcloud/initial-state'
-import HeaderBar from '../shared/HeaderBar.vue'
-import EditProfileAnchorLink from './EditProfileAnchorLink.vue'
-import ProfileCheckbox from './ProfileCheckbox.vue'
+import { generateUrl } from '@nextcloud/router'
+import NcFormBox from '@nextcloud/vue/components/NcFormBox'
+import NcFormBoxButton from '@nextcloud/vue/components/NcFormBoxButton'
+import NcFormBoxSwitch from '@nextcloud/vue/components/NcFormBoxSwitch'
+import OpenInNew from 'vue-material-design-icons/OpenInNew.vue'
 import ProfilePreviewCard from './ProfilePreviewCard.vue'
-import { ACCOUNT_PROPERTY_READABLE_ENUM } from '../../../constants/AccountPropertyConstants.js'
+import { ACCOUNT_PROPERTY_ENUM } from '../../../constants/AccountPropertyConstants.js'
+import { savePrimaryAccountProperty } from '../../../service/PersonalInfo/PersonalInfoService.js'
+import { handleError } from '../../../utils/handlers.ts'
 
 const {
-	organisation: { value: organisation },
+	statusMessage,
 	displayName: { value: displayName },
 	profileEnabled,
 	userId,
@@ -39,50 +54,68 @@ export default {
 	name: 'ProfileSection',
 
 	components: {
-		EditProfileAnchorLink,
-		HeaderBar,
-		ProfileCheckbox,
+		NcFormBox,
+		NcFormBoxButton,
+		NcFormBoxSwitch,
+		OpenInNew,
 		ProfilePreviewCard,
 	},
 
 	data() {
 		return {
-			propertyReadable: ACCOUNT_PROPERTY_READABLE_ENUM.PROFILE_ENABLED,
-			organisation,
+			statusMessage,
 			displayName,
 			profileEnabled,
 			userId,
+			loading: false,
 		}
+	},
+
+	computed: {
+		profilePageLink() {
+			return generateUrl('/u/{userId}', { userId: getCurrentUser().uid })
+		},
 	},
 
 	mounted() {
 		subscribe('settings:display-name:updated', this.handleDisplayNameUpdate)
-		subscribe('settings:organisation:updated', this.handleOrganisationUpdate)
 	},
 
 	beforeDestroy() {
 		unsubscribe('settings:display-name:updated', this.handleDisplayNameUpdate)
-		unsubscribe('settings:organisation:updated', this.handleOrganisationUpdate)
 	},
 
 	methods: {
-		handleDisplayNameUpdate(displayName) {
-			this.displayName = displayName
+		async saveEnableProfile(profileEnabled) {
+			this.loading = true
+			try {
+				const responseData = await savePrimaryAccountProperty(ACCOUNT_PROPERTY_ENUM.PROFILE_ENABLED, profileEnabled)
+				if (responseData.ocs?.meta?.status === 'ok') {
+					this.profileEnabled = profileEnabled
+					emit('settings:profile-enabled:updated', profileEnabled)
+				} else {
+					handleError(null, t('settings', 'Unable to update profile enabled state'))
+				}
+			} catch (e) {
+				handleError(e, t('settings', 'Unable to update profile enabled state'))
+			} finally {
+				this.loading = false
+			}
 		},
 
-		handleOrganisationUpdate(organisation) {
-			this.organisation = organisation
+		handleDisplayNameUpdate(displayName) {
+			this.displayName = displayName
 		},
 	},
 }
 </script>
 
 <style lang="scss" scoped>
-section {
-	padding: 10px 10px;
-
-	&:deep(button:disabled) {
-		cursor: default;
-	}
+.profile-section {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	padding-block: 6px;
+	padding-inline: 0 52px;
 }
 </style>
