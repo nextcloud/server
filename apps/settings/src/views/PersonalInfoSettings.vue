@@ -24,7 +24,6 @@ import LocationSection from '../components/PersonalInfo/LocationSection.vue'
 import OrganisationSection from '../components/PersonalInfo/OrganisationSection.vue'
 import PhoneSection from '../components/PersonalInfo/PhoneSection.vue'
 import ProfileSection from '../components/PersonalInfo/ProfileSection/ProfileSection.vue'
-import ProfileVisibilitySection from '../components/PersonalInfo/ProfileVisibilitySection/ProfileVisibilitySection.vue'
 import PronounsSection from '../components/PersonalInfo/PronounsSection.vue'
 import RoleSection from '../components/PersonalInfo/RoleSection.vue'
 import TimezoneSection from '../components/PersonalInfo/TimezoneSection.vue'
@@ -67,10 +66,6 @@ const profileEnabledGlobally = loadState('settings', 'profileEnabledGlobally', t
 			<LocaleSection />
 			<FirstDayOfWeekSection />
 			<TimezoneSection />
-		</NcSettingsSection>
-
-		<NcSettingsSection v-if="profileEnabledGlobally" :name="t('settings', 'Profile visibility')">
-			<ProfileVisibilitySection />
 		</NcSettingsSection>
 	</div>
 </template>

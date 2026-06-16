@@ -62,9 +62,10 @@
 							</template>
 						</NcFormBoxButton>
 					</NcFormBox>
-					<FederationControl
+					<VisibilityScopeControl
 						class="avatar-section__scope"
 						:readable="avatar.readable"
+						:name="avatar.name"
 						:scope="avatar.scope"
 						@update:scope="onScopeChange" />
 				</div>
@@ -97,7 +98,7 @@ import NcFormBoxButton from '@nextcloud/vue/components/NcFormBoxButton'
 import Folder from 'vue-material-design-icons/Folder.vue'
 import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
 import Upload from 'vue-material-design-icons/TrayArrowUp.vue'
-import FederationControl from './shared/FederationControl.vue'
+import VisibilityScopeControl from './shared/VisibilityScopeControl.vue'
 import { NAME_READABLE_ENUM } from '../../constants/AccountPropertyConstants.js'
 
 import 'cropperjs/dist/cropper.css'
@@ -120,13 +121,13 @@ export default {
 
 	components: {
 		Delete,
-		FederationControl,
 		Folder,
 		NcAvatar,
 		NcButton,
 		NcFormBox,
 		NcFormBoxButton,
 		Upload,
+		VisibilityScopeControl,
 		VueCropper,
 	},
 
