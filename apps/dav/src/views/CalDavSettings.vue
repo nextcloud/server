@@ -5,7 +5,7 @@
 <template>
 	<NcSettingsSection
 		:name="t('dav', 'Calendar server')"
-		:doc-url="userSyncCalendarsDocUrl">
+		:docUrl="userSyncCalendarsDocUrl">
 		<!-- Can use v-html as:
 			- t passes the translated string through DOMPurify.sanitize,
 			- replacement strings are not user-controlled. -->

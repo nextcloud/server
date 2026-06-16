@@ -6,7 +6,7 @@
 import type { User } from '@nextcloud/e2e-test-server/cypress'
 
 import { FilesNavigationPage } from '../../pages/FilesNavigation.ts'
-import { getRowForFile, navigateToFolder } from './FilesUtils.ts'
+import { getRowForFile, navigateToFolder, reloadCurrentFolder } from './FilesUtils.ts'
 
 describe('files: search', () => {
 	let user: User
@@ -74,7 +74,7 @@ describe('files: search', () => {
 
 	it('See "search everywhere" button', () => {
 		// Not visible initially
-		cy.get('[data-cy-files-filters]')
+		cy.get('.files-list__filters')
 			.findByRole('button', { name: /Search everywhere/i })
 			.should('not.to.exist')
 
@@ -82,7 +82,7 @@ describe('files: search', () => {
 		navigation.searchInput().type('file')
 
 		// see its visible
-		cy.get('[data-cy-files-filters]')
+		cy.get('.files-list__filters')
 			.findByRole('button', { name: /Search everywhere/i })
 			.should('be.visible')
 
@@ -90,7 +90,7 @@ describe('files: search', () => {
 		navigation.searchClearButton().click()
 
 		// see its not visible again
-		cy.get('[data-cy-files-filters]')
+		cy.get('.files-list__filters')
 			.findByRole('button', { name: /Search everywhere/i })
 			.should('not.to.exist')
 	})
@@ -108,7 +108,7 @@ describe('files: search', () => {
 		cy.get('[data-cy-files-list-row-fileid]').should('have.length', 3)
 
 		// toggle global search
-		cy.get('[data-cy-files-filters]')
+		cy.get('.files-list__filters')
 			.findByRole('button', { name: /Search everywhere/i })
 			.should('be.visible')
 			.click()
@@ -206,7 +206,7 @@ describe('files: search', () => {
 
 		cy.intercept('SEARCH', '**/remote.php/dav/').as('search')
 		// refresh the view
-		cy.findByRole('button', { description: /reload current directory/i }).click()
+		reloadCurrentFolder(false) // no PROPFIND intercept here as we want to wait for SEARCH
 		// wait for the request
 		cy.wait('@search')
 		// see that the search view is reloaded

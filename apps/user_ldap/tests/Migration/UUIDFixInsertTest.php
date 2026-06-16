@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\User_LDAP\Tests\Migration;
 
 use OCA\User_LDAP\Mapping\GroupMapping;
@@ -86,7 +87,7 @@ class UUIDFixInsertTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('recordProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'recordProvider')]
 	public function testRun(array $userBatches, array $groupBatches): void {
 		$this->appConfig->expects($this->once())
 			->method('getAppValueString')
@@ -114,7 +115,7 @@ class UUIDFixInsertTest extends TestCase {
 		$this->job->run($out);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('recordProviderTooLongAndNone')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'recordProviderTooLongAndNone')]
 	public function testRunWithManyAndNone(array $userBatches, array $groupBatches): void {
 		$this->appConfig->expects($this->once())
 			->method('getAppValueString')

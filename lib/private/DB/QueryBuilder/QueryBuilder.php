@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\DB\QueryBuilder;
 
 use Doctrine\DBAL\Query\QueryException;
@@ -19,47 +20,35 @@ use OC\DB\QueryBuilder\FunctionBuilder\PgSqlFunctionBuilder;
 use OC\DB\QueryBuilder\FunctionBuilder\SqliteFunctionBuilder;
 use OC\SystemConfig;
 use OCP\DB\IResult;
+use OCP\DB\QueryBuilder\ConflictResolutionMode;
 use OCP\DB\QueryBuilder\ICompositeExpression;
+use OCP\DB\QueryBuilder\IExpressionBuilder;
+use OCP\DB\QueryBuilder\IFunctionBuilder;
 use OCP\DB\QueryBuilder\ILiteral;
 use OCP\DB\QueryBuilder\IParameter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
 use OCP\IDBConnection;
+use Override;
 use Psr\Log\LoggerInterface;
+use RuntimeException;
 
-class QueryBuilder implements IQueryBuilder {
-	/** @var ConnectionAdapter */
-	private $connection;
-
-	/** @var SystemConfig */
-	private $systemConfig;
-
-	private LoggerInterface $logger;
-
-	/** @var \Doctrine\DBAL\Query\QueryBuilder */
-	private $queryBuilder;
-
-	/** @var QuoteHelper */
-	private $helper;
-
-	/** @var bool */
-	private $automaticTablePrefix = true;
+class QueryBuilder extends TypedQueryBuilder {
+	private \Doctrine\DBAL\Query\QueryBuilder $queryBuilder;
+	private QuoteHelper $helper;
+	private bool $automaticTablePrefix = true;
 	private bool $nonEmptyWhere = false;
-
-	/** @var string */
-	protected $lastInsertedTable;
+	protected ?string $lastInsertedTable = null;
 	private array $selectedColumns = [];
 
 	/**
 	 * Initializes a new QueryBuilder.
-	 *
-	 * @param ConnectionAdapter $connection
-	 * @param SystemConfig $systemConfig
 	 */
-	public function __construct(ConnectionAdapter $connection, SystemConfig $systemConfig, LoggerInterface $logger) {
-		$this->connection = $connection;
-		$this->systemConfig = $systemConfig;
-		$this->logger = $logger;
+	public function __construct(
+		private ConnectionAdapter $connection,
+		private SystemConfig $systemConfig,
+		private LoggerInterface $logger,
+	) {
 		$this->queryBuilder = new \Doctrine\DBAL\Query\QueryBuilder($this->connection->getInner());
 		$this->helper = new QuoteHelper();
 	}
@@ -71,6 +60,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *                      owncloud database prefix automatically.
 	 * @since 8.2.0
 	 */
+	#[\Override]
 	public function automaticTablePrefix($enabled) {
 		$this->automaticTablePrefix = (bool)$enabled;
 	}
@@ -89,8 +79,9 @@ class QueryBuilder implements IQueryBuilder {
 	 * For more complex expression construction, consider storing the expression
 	 * builder object in a local variable.
 	 *
-	 * @return \OCP\DB\QueryBuilder\IExpressionBuilder
+	 * @return IExpressionBuilder
 	 */
+	#[\Override]
 	public function expr() {
 		return match($this->connection->getDatabaseProvider()) {
 			IDBConnection::PLATFORM_ORACLE => new OCIExpressionBuilder($this->connection, $this, $this->logger),
@@ -115,8 +106,9 @@ class QueryBuilder implements IQueryBuilder {
 	 * For more complex function construction, consider storing the function
 	 * builder object in a local variable.
 	 *
-	 * @return \OCP\DB\QueryBuilder\IFunctionBuilder
+	 * @return IFunctionBuilder
 	 */
+	#[\Override]
 	public function func() {
 		return match($this->connection->getDatabaseProvider()) {
 			IDBConnection::PLATFORM_ORACLE => new OCIFunctionBuilder($this->connection, $this, $this->helper),
@@ -132,6 +124,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return integer
 	 */
+	#[\Override]
 	public function getType() {
 		return $this->queryBuilder->getType();
 	}
@@ -139,8 +132,9 @@ class QueryBuilder implements IQueryBuilder {
 	/**
 	 * Gets the associated DBAL Connection for this query builder.
 	 *
-	 * @return \OCP\IDBConnection
+	 * @return IDBConnection
 	 */
+	#[\Override]
 	public function getConnection() {
 		return $this->connection;
 	}
@@ -152,6 +146,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
 	 *    and we can not fix this in our wrapper.
 	 */
+	#[\Override]
 	public function getState() {
 		$this->logger->debug(IQueryBuilder::class . '::' . __FUNCTION__ . ' is deprecated and will be removed soon.', ['exception' => new \Exception('Deprecated call to ' . __METHOD__)]);
 		return $this->queryBuilder->getState();
@@ -253,9 +248,10 @@ class QueryBuilder implements IQueryBuilder {
 		}
 	}
 
+	#[\Override]
 	public function executeQuery(?IDBConnection $connection = null): IResult {
 		if ($this->getType() !== \Doctrine\DBAL\Query\QueryBuilder::SELECT) {
-			throw new \RuntimeException('Invalid query type, expected SELECT query');
+			throw new RuntimeException('Invalid query type, expected SELECT query');
 		}
 
 		$this->prepareForExecute();
@@ -270,9 +266,10 @@ class QueryBuilder implements IQueryBuilder {
 		);
 	}
 
+	#[\Override]
 	public function executeStatement(?IDBConnection $connection = null): int {
 		if ($this->getType() === \Doctrine\DBAL\Query\QueryBuilder::SELECT) {
-			throw new \RuntimeException('Invalid query type, expected INSERT, DELETE or UPDATE statement');
+			throw new RuntimeException('Invalid query type, expected INSERT, DELETE or UPDATE statement');
 		}
 
 		$this->prepareForExecute();
@@ -287,7 +284,6 @@ class QueryBuilder implements IQueryBuilder {
 		);
 	}
 
-
 	/**
 	 * Gets the complete SQL string formed by the current specifications of this QueryBuilder.
 	 *
@@ -300,6 +296,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return string The SQL query string.
 	 */
+	#[\Override]
 	public function getSQL() {
 		return $this->queryBuilder->getSQL();
 	}
@@ -321,6 +318,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
+	#[\Override]
 	public function setParameter($key, $value, $type = null) {
 		$this->queryBuilder->setParameter($key, $value, $type);
 
@@ -346,6 +344,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
+	#[\Override]
 	public function setParameters(array $params, array $types = []) {
 		$this->queryBuilder->setParameters($params, $types);
 
@@ -357,6 +356,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return array The currently defined query parameters indexed by parameter index or name.
 	 */
+	#[\Override]
 	public function getParameters() {
 		return $this->queryBuilder->getParameters();
 	}
@@ -368,6 +368,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return mixed The value of the bound parameter.
 	 */
+	#[\Override]
 	public function getParameter($key) {
 		return $this->queryBuilder->getParameter($key);
 	}
@@ -377,6 +378,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return array The currently defined query parameter types indexed by parameter index or name.
 	 */
+	#[\Override]
 	public function getParameterTypes() {
 		return $this->queryBuilder->getParameterTypes();
 	}
@@ -388,6 +390,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return mixed The value of the bound parameter type.
 	 */
+	#[\Override]
 	public function getParameterType($key) {
 		return $this->queryBuilder->getParameterType($key);
 	}
@@ -399,6 +402,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
+	#[\Override]
 	public function setFirstResult($firstResult) {
 		$this->queryBuilder->setFirstResult((int)$firstResult);
 
@@ -411,6 +415,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return int The position of the first result.
 	 */
+	#[\Override]
 	public function getFirstResult() {
 		return $this->queryBuilder->getFirstResult();
 	}
@@ -426,6 +431,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
+	#[\Override]
 	public function setMaxResults($maxResults) {
 		if ($maxResults === null) {
 			$this->queryBuilder->setMaxResults($maxResults);
@@ -442,6 +448,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return int|null The maximum number of results.
 	 */
+	#[\Override]
 	public function getMaxResults() {
 		return $this->queryBuilder->getMaxResults();
 	}
@@ -461,6 +468,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * '@return $this This QueryBuilder instance.
 	 */
+	#[\Override]
 	public function select(...$selects) {
 		if (count($selects) === 1 && is_array($selects[0])) {
 			$selects = $selects[0];
@@ -489,7 +497,8 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
-	public function selectAlias($select, $alias) {
+	#[\Override]
+	public function selectAlias($select, $alias): self {
 		$this->queryBuilder->addSelect(
 			$this->helper->quoteColumnName($select) . ' AS ' . $this->helper->quoteColumnName($alias)
 		);
@@ -511,6 +520,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
+	#[\Override]
 	public function selectDistinct($select) {
 		if (!is_array($select)) {
 			$select = [$select];
@@ -537,18 +547,19 @@ class QueryBuilder implements IQueryBuilder {
 	 *         ->leftJoin('u', 'phonenumbers', 'u.id = p.user_id');
 	 * </code>
 	 *
-	 * @param mixed ...$selects The selection expression.
+	 * @param mixed ...$select The selection expression.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
-	public function addSelect(...$selects) {
-		if (count($selects) === 1 && is_array($selects[0])) {
-			$selects = $selects[0];
+	#[\Override]
+	public function addSelect(...$select) {
+		if (count($select) === 1 && is_array($select[0])) {
+			$select = $select[0];
 		}
-		$this->addOutputColumns($selects);
+		$this->addOutputColumns($select);
 
 		$this->queryBuilder->addSelect(
-			$this->helper->quoteColumnNames($selects)
+			$this->helper->quoteColumnNames($select)
 		);
 
 		return $this;
@@ -570,6 +581,7 @@ class QueryBuilder implements IQueryBuilder {
 		}
 	}
 
+	#[\Override]
 	public function getOutputColumns(): array {
 		return array_unique($this->selectedColumns);
 	}
@@ -591,6 +603,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 * @since 30.0.0 Alias is deprecated and will no longer be used with the next Doctrine/DBAL update
 	 */
+	#[\Override]
 	public function delete($delete = null, $alias = null) {
 		if ($alias !== null) {
 			$this->logger->debug('DELETE queries with alias are no longer supported and the provided alias is ignored', ['exception' => new \InvalidArgumentException('Table alias provided for DELETE query')]);
@@ -621,6 +634,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 * @since 30.0.0 Alias is deprecated and will no longer be used with the next Doctrine/DBAL update
 	 */
+	#[\Override]
 	public function update($update = null, $alias = null) {
 		if ($alias !== null) {
 			$this->logger->debug('UPDATE queries with alias are no longer supported and the provided alias is ignored', ['exception' => new \InvalidArgumentException('Table alias provided for UPDATE query')]);
@@ -653,6 +667,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
+	#[\Override]
 	public function insert($insert = null) {
 		$this->queryBuilder->insert(
 			$this->getTableName($insert)
@@ -678,6 +693,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
+	#[\Override]
 	public function from($from, $alias = null) {
 		$this->queryBuilder->from(
 			$this->getTableName($from),
@@ -704,6 +720,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
+	#[\Override]
 	public function join($fromAlias, $join, $alias, $condition = null) {
 		$this->queryBuilder->join(
 			$this->quoteAlias($fromAlias),
@@ -732,6 +749,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
+	#[\Override]
 	public function innerJoin($fromAlias, $join, $alias, $condition = null) {
 		$this->queryBuilder->innerJoin(
 			$this->quoteAlias($fromAlias),
@@ -760,6 +778,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
+	#[\Override]
 	public function leftJoin($fromAlias, $join, $alias, $condition = null) {
 		$this->queryBuilder->leftJoin(
 			$this->quoteAlias($fromAlias),
@@ -788,6 +807,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
+	#[\Override]
 	public function rightJoin($fromAlias, $join, $alias, $condition = null) {
 		$this->queryBuilder->rightJoin(
 			$this->quoteAlias($fromAlias),
@@ -814,6 +834,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
+	#[\Override]
 	public function set($key, $value) {
 		$this->queryBuilder->set(
 			$this->helper->quoteColumnName($key),
@@ -850,6 +871,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
+	#[\Override]
 	public function where(...$predicates) {
 		if ($this->nonEmptyWhere && $this->systemConfig->getValue('debug', false)) {
 			// Only logging a warning, not throwing for now.
@@ -885,6 +907,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @see where()
 	 */
+	#[\Override]
 	public function andWhere(...$where) {
 		$this->nonEmptyWhere = true;
 		call_user_func_array(
@@ -913,6 +936,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @see where()
 	 */
+	#[\Override]
 	public function orWhere(...$where) {
 		$this->nonEmptyWhere = true;
 		call_user_func_array(
@@ -938,6 +962,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
+	#[\Override]
 	public function groupBy(...$groupBys) {
 		if (count($groupBys) === 1 && is_array($groupBys[0])) {
 			$groupBys = $groupBys[0];
@@ -966,6 +991,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
+	#[\Override]
 	public function addGroupBy(...$groupBy) {
 		call_user_func_array(
 			[$this->queryBuilder, 'addGroupBy'],
@@ -990,10 +1016,11 @@ class QueryBuilder implements IQueryBuilder {
 	 * </code>
 	 *
 	 * @param string $column The column into which the value should be inserted.
-	 * @param IParameter|string $value The value that should be inserted into the column.
+	 * @param IParameter|IQueryFunction|string $value The value that should be inserted into the column.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
+	#[\Override]
 	public function setValue($column, $value) {
 		$this->queryBuilder->setValue(
 			$this->helper->quoteColumnName($column),
@@ -1022,6 +1049,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
+	#[\Override]
 	public function values(array $values) {
 		$quotedValues = [];
 		foreach ($values as $key => $value) {
@@ -1041,6 +1069,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
+	#[\Override]
 	public function having(...$having) {
 		call_user_func_array(
 			[$this->queryBuilder, 'having'],
@@ -1058,6 +1087,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
+	#[\Override]
 	public function andHaving(...$having) {
 		call_user_func_array(
 			[$this->queryBuilder, 'andHaving'],
@@ -1075,6 +1105,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
+	#[\Override]
 	public function orHaving(...$having) {
 		call_user_func_array(
 			[$this->queryBuilder, 'orHaving'],
@@ -1093,6 +1124,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
+	#[\Override]
 	public function orderBy($sort, $order = null) {
 		if ($order !== null && !in_array(strtoupper((string)$order), ['ASC', 'DESC'], true)) {
 			$order = null;
@@ -1114,6 +1146,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
+	#[\Override]
 	public function addOrderBy($sort, $order = null) {
 		if ($order !== null && !in_array(strtoupper((string)$order), ['ASC', 'DESC'], true)) {
 			$order = null;
@@ -1136,6 +1169,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
 	 *   and we can not fix this in our wrapper. Please track the details you need, outside the object.
 	 */
+	#[\Override]
 	public function getQueryPart($queryPartName) {
 		$this->logger->debug(IQueryBuilder::class . '::' . __FUNCTION__ . ' is deprecated and will be removed soon.', ['exception' => new \Exception('Deprecated call to ' . __METHOD__)]);
 		return $this->queryBuilder->getQueryPart($queryPartName);
@@ -1148,6 +1182,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
 	 *   and we can not fix this in our wrapper. Please track the details you need, outside the object.
 	 */
+	#[\Override]
 	public function getQueryParts() {
 		$this->logger->debug(IQueryBuilder::class . '::' . __FUNCTION__ . ' is deprecated and will be removed soon.', ['exception' => new \Exception('Deprecated call to ' . __METHOD__)]);
 		return $this->queryBuilder->getQueryParts();
@@ -1162,6 +1197,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
 	 *  and we can not fix this in our wrapper. Please create a new IQueryBuilder instead.
 	 */
+	#[\Override]
 	public function resetQueryParts($queryPartNames = null) {
 		$this->logger->debug(IQueryBuilder::class . '::' . __FUNCTION__ . ' is deprecated and will be removed soon.', ['exception' => new \Exception('Deprecated call to ' . __METHOD__)]);
 		$this->queryBuilder->resetQueryParts($queryPartNames);
@@ -1178,6 +1214,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
 	 *  and we can not fix this in our wrapper. Please create a new IQueryBuilder instead.
 	 */
+	#[\Override]
 	public function resetQueryPart($queryPartName) {
 		$this->logger->debug(IQueryBuilder::class . '::' . __FUNCTION__ . ' is deprecated and will be removed soon.', ['exception' => new \Exception('Deprecated call to ' . __METHOD__)]);
 		$this->queryBuilder->resetQueryPart($queryPartName);
@@ -1214,6 +1251,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return IParameter the placeholder name used.
 	 */
+	#[\Override]
 	public function createNamedParameter($value, $type = IQueryBuilder::PARAM_STR, $placeHolder = null) {
 		return new Parameter($this->queryBuilder->createNamedParameter($value, $type, $placeHolder));
 	}
@@ -1240,6 +1278,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return IParameter
 	 */
+	#[\Override]
 	public function createPositionalParameter($value, $type = IQueryBuilder::PARAM_STR) {
 		return new Parameter($this->queryBuilder->createPositionalParameter($value, $type));
 	}
@@ -1260,6 +1299,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return IParameter
 	 */
+	#[\Override]
 	public function createParameter($name) {
 		return new Parameter(':' . $name);
 	}
@@ -1287,6 +1327,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return IQueryFunction
 	 */
+	#[\Override]
 	public function createFunction($call) {
 		return new QueryFunction($call);
 	}
@@ -1296,6 +1337,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return int
 	 * @throws \BadMethodCallException When being called before an insert query has been run.
 	 */
+	#[\Override]
 	public function getLastInsertId(): int {
 		if ($this->getType() === \Doctrine\DBAL\Query\QueryBuilder::INSERT && $this->lastInsertedTable) {
 			// lastInsertId() needs the prefix but no quotes
@@ -1312,6 +1354,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @param string|IQueryFunction $table
 	 * @return string
 	 */
+	#[\Override]
 	public function getTableName($table) {
 		if ($table instanceof IQueryFunction) {
 			return (string)$table;
@@ -1329,6 +1372,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @param string $table
 	 * @return string
 	 */
+	#[\Override]
 	public function prefixTableName(string $table): string {
 		if ($this->automaticTablePrefix === false || str_starts_with($table, '*PREFIX*')) {
 			return $table;
@@ -1344,6 +1388,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @param string $tableAlias
 	 * @return string
 	 */
+	#[\Override]
 	public function getColumnName($column, $tableAlias = '') {
 		if ($tableAlias !== '') {
 			$tableAlias .= '.';
@@ -1370,13 +1415,23 @@ class QueryBuilder implements IQueryBuilder {
 		return $this->connection->escapeLikeParameter($parameter);
 	}
 
+	#[\Override]
 	public function hintShardKey(string $column, mixed $value, bool $overwrite = false): self {
 		return $this;
 	}
 
+	#[\Override]
 	public function runAcrossAllShards(): self {
 		// noop
 		return $this;
 	}
 
+	#[Override]
+	public function forUpdate(ConflictResolutionMode $conflictResolutionMode = ConflictResolutionMode::Ordinary): self {
+		match ($conflictResolutionMode) {
+			ConflictResolutionMode::Ordinary => $this->queryBuilder->forUpdate(),
+			ConflictResolutionMode::SkipLocked => $this->queryBuilder->forUpdate(\Doctrine\DBAL\Query\ForUpdate\ConflictResolutionMode::SKIP_LOCKED),
+		};
+		return $this;
+	}
 }

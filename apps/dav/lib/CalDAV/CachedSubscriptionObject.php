@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CalDAV;
 
 use Sabre\DAV\Exception\MethodNotAllowed;
@@ -21,6 +22,7 @@ class CachedSubscriptionObject extends \Sabre\CalDAV\CalendarObject {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function get() {
 		// Pre-populating the 'calendardata' is optional, if we don't have it
 		// already we fetch it from the backend.
@@ -36,6 +38,7 @@ class CachedSubscriptionObject extends \Sabre\CalDAV\CalendarObject {
 	 * @return string
 	 * @throws MethodNotAllowed
 	 */
+	#[\Override]
 	public function put($calendarData) {
 		throw new MethodNotAllowed('Creating objects in a cached subscription is not allowed');
 	}
@@ -43,6 +46,7 @@ class CachedSubscriptionObject extends \Sabre\CalDAV\CalendarObject {
 	/**
 	 * @throws MethodNotAllowed
 	 */
+	#[\Override]
 	public function delete() {
 		throw new MethodNotAllowed('Deleting objects in a cached subscription is not allowed');
 	}

@@ -6,9 +6,9 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\UpdateNotification\Tests;
 
-use OC\Updater\ChangesCheck;
 use OC\Updater\VersionCheck;
 use OCA\UpdateNotification\UpdateChecker;
 use OCP\AppFramework\Services\IInitialState;
@@ -17,7 +17,6 @@ use Test\TestCase;
 
 class UpdateCheckerTest extends TestCase {
 
-	private ChangesCheck&MockObject $changesChecker;
 	private VersionCheck&MockObject $updater;
 	private IInitialState&MockObject $initialState;
 	private UpdateChecker $updateChecker;
@@ -26,11 +25,9 @@ class UpdateCheckerTest extends TestCase {
 		parent::setUp();
 
 		$this->updater = $this->createMock(VersionCheck::class);
-		$this->changesChecker = $this->createMock(ChangesCheck::class);
 		$this->initialState = $this->createMock(IInitialState::class);
 		$this->updateChecker = new UpdateChecker(
 			$this->updater,
-			$this->changesChecker,
 			$this->initialState,
 		);
 	}
@@ -85,14 +82,9 @@ class UpdateCheckerTest extends TestCase {
 				'versionstring' => 'Nextcloud 1.2.3',
 				'web' => 'https://docs.nextcloud.com/myUrl',
 				'url' => 'https://downloads.nextcloud.org/server',
-				'changes' => 'https://updates.nextcloud.com/changelog_server/?version=123.0.0',
 				'autoupdater' => '1',
 				'eol' => '0',
 			]);
-
-		$this->changesChecker->expects($this->once())
-			->method('check')
-			->willReturn($changes);
 
 		$expected = [
 			'updateAvailable' => true,
@@ -102,7 +94,6 @@ class UpdateCheckerTest extends TestCase {
 			'versionIsEol' => false,
 			'updateLink' => 'https://docs.nextcloud.com/myUrl',
 			'downloadLink' => 'https://downloads.nextcloud.org/server',
-			'changes' => $changes,
 		];
 		$this->assertSame($expected, $this->updateChecker->getUpdateState());
 	}
@@ -126,7 +117,6 @@ class UpdateCheckerTest extends TestCase {
 				'versionstring' => 'Nextcloud 1.2.3',
 				'web' => 'https://docs.nextcloud.com/myUrl',
 				'url' => 'https://downloads.nextcloud.org/server',
-				'changes' => 'https://updates.nextcloud.com/changelog_server/?version=123.0.0',
 				'autoupdater' => '1',
 				'eol' => '0',
 			]);

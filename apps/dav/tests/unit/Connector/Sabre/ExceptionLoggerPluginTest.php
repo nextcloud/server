@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\SystemConfig;
@@ -42,7 +43,7 @@ class ExceptionLoggerPluginTest extends TestCase {
 		$this->plugin->initialize($this->server);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providesExceptions')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesExceptions')]
 	public function testLogging(string $expectedLogLevel, \Throwable $e): void {
 		$this->init();
 

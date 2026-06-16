@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Tests\External;
 
 use OC\Federation\CloudIdManager;
@@ -26,7 +27,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  *
  * @package OCA\Files_Sharing\Tests\External
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class CacheTest extends TestCase {
 	protected IManager&MockObject $contactsManager;
 	private Storage&MockObject $storage;

@@ -40,13 +40,14 @@ class WebhookCall extends QueuedJob {
 	/**
 	 * @param array $argument
 	 */
+	#[\Override]
 	protected function run($argument): void {
 		[$data, $webhookId] = $argument;
 		$webhookListener = $this->mapper->getById($webhookId);
 		$client = $this->clientService->newClient();
 
 		// adding Ephemeral auth tokens to the call
-		$data['tokens'] = $this->tokenService->getTokens($webhookListener, $data['user']['uid'] ?? null);
+		$data['authentication'] = $this->tokenService->getTokens($webhookListener, $data['user']['uid'] ?? null);
 		$options = [
 			'verify' => $this->certificateManager->getAbsoluteBundlePath(),
 			'headers' => $webhookListener->getHeaders() ?? [],

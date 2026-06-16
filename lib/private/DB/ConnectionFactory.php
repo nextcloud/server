@@ -5,12 +5,14 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\DB;
 
 use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Event\Listeners\OracleSessionInit;
+use OC\DB\Middleware\UtcTimezoneMiddleware;
 use OC\DB\QueryBuilder\Sharded\AutoIncrementHandler;
 use OC\DB\QueryBuilder\Sharded\ShardConnectionManager;
 use OC\SystemConfig;
@@ -143,10 +145,14 @@ class ConnectionFactory {
 				$eventManager->addEventSubscriber(new SQLiteSessionInit(true, $journalMode));
 				break;
 		}
+		$configuration = new Configuration();
+		$configuration->setMiddlewares([
+			new UtcTimezoneMiddleware(),
+		]);
 		/** @var Connection $connection */
 		$connection = DriverManager::getConnection(
 			$connectionParams,
-			new Configuration(),
+			$configuration,
 			$eventManager
 		);
 		return $connection;

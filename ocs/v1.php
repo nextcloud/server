@@ -28,14 +28,14 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
-if (Util::needUpgrade()
-	|| Server::get(IConfig::class)->getSystemValueBool('maintenance')) {
+$request = Server::get(IRequest::class);
+
+if ((Util::needUpgrade() || Server::get(IConfig::class)->getSystemValueBool('maintenance')) && $request->getPathInfo() !== '/core/update') {
 	// since the behavior of apps or remotes are unpredictable during
 	// an upgrade, return a 503 directly
 	ApiHelper::respond(503, 'Service unavailable', ['X-Nextcloud-Maintenance-Mode' => '1'], 503);
 	exit;
 }
-
 
 /*
  * Try the appframework routes
@@ -46,16 +46,18 @@ try {
 	$appManager->loadApps(['authentication']);
 	$appManager->loadApps(['extended_authentication']);
 
-	// load all apps to get all api routes properly setup
-	// FIXME: this should ideally appear after handleLogin but will cause
-	// side effects in existing apps
-	$appManager->loadApps();
-
-	$request = Server::get(IRequest::class);
 	$request->throwDecodingExceptionIfAny();
 
-	if (!Server::get(IUserSession::class)->isLoggedIn()) {
-		OC::handleLogin($request);
+	if ($request->getPathInfo() !== '/core/update') {
+		// load all apps to get all api routes properly setup
+		// FIXME: this should ideally appear after handleLogin but will cause
+		// side effects in existing apps
+		$appManager->loadApps();
+		if (!Server::get(IUserSession::class)->isLoggedIn()) {
+			OC::handleLogin($request);
+		}
+	} else {
+		$appManager->loadApps(['core']);
 	}
 
 	Server::get(Router::class)->match('/ocsapp' . $request->getRawPathInfo());

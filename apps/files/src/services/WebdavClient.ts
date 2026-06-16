@@ -1,8 +1,9 @@
-import type { Node } from '@nextcloud/files'
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+import type { Node } from '@nextcloud/files'
 import type { FileStat, ResponseDataDetailed } from 'webdav'
 
 import { getClient, getDefaultPropfind, getRootPath, resultToNode } from '@nextcloud/files/dav'
@@ -10,8 +11,9 @@ import { getClient, getDefaultPropfind, getRootPath, resultToNode } from '@nextc
 export const client = getClient()
 
 /**
+ * Fetches a node from the given path
  *
- * @param path
+ * @param path - The path to fetch the node from
  */
 export async function fetchNode(path: string): Promise<Node> {
 	const propfindPayload = getDefaultPropfind()

@@ -8,30 +8,35 @@
 
 namespace Test\Files\Cache;
 
+use OC\Files\Cache\CacheEntry;
 use OC\Files\Cache\Watcher;
 use OC\Files\Storage\Storage;
 use OC\Files\Storage\Temporary;
+use OCP\Files\Cache\ICache;
+use OCP\Files\Cache\IScanner;
+use OCP\Files\Cache\IWatcher;
+use OCP\Files\Storage\IStorage;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
+use Test\TestCase;
 
-/**
- * Class WatcherTest
- *
- *
- * @package Test\Files\Cache
- */
-#[\PHPUnit\Framework\Attributes\Medium]
-#[\PHPUnit\Framework\Attributes\Group('DB')]
-class WatcherTest extends \Test\TestCase {
+#[Medium]
+#[Group(name: 'DB')]
+class WatcherTest extends TestCase {
 	/**
 	 * @var Storage[] $storages
 	 */
-	private $storages = [];
+	private array $storages = [];
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->loginAsUser();
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		foreach ($this->storages as $storage) {
 			$cache = $storage->getCache();
@@ -80,7 +85,6 @@ class WatcherTest extends \Test\TestCase {
 		$this->assertTrue($cache->inCache('folder/bar.txt'));
 		$this->assertFalse($cache->inCache('folder/bar2.txt'));
 	}
-
 
 	public function testFileToFolder(): void {
 		$storage = $this->getTestStorage();
@@ -171,11 +175,7 @@ class WatcherTest extends \Test\TestCase {
 		$this->assertTrue($updater->checkUpdate('foo.txt'));
 	}
 
-	/**
-	 * @param bool $scan
-	 * @return Storage
-	 */
-	private function getTestStorage($scan = true) {
+	private function getTestStorage(bool $scan = true): IStorage {
 		$storage = new Temporary([]);
 		$textData = "dummy file data\n";
 		$imgData = file_get_contents(\OC::$SERVERROOT . '/core/img/logo/logo.png');
@@ -191,5 +191,48 @@ class WatcherTest extends \Test\TestCase {
 		}
 		$this->storages[] = $storage;
 		return $storage;
+	}
+
+	public static function checkFilterProvider(): array {
+		return [
+			[null, [
+				'' => true,
+				'foo' => true,
+				'foo.txt' => true,
+			]],
+			['/^.+$/', [
+				'' => false,
+				'foo' => true,
+				'foo.txt' => true,
+			]],
+			['/^.+\..+$/', [
+				'' => false,
+				'foo' => false,
+				'foo.txt' => true,
+			]]
+		];
+	}
+
+	#[DataProvider(methodName: 'checkFilterProvider')]
+	public function testCheckFilter(?string $filter, array $paths): void {
+		$storage = $this->createMock(IStorage::class);
+		$storage->method('hasUpdated')
+			->willReturn(true);
+		$storage->method('getCache')
+			->willReturn($this->createMock(ICache::class));
+		$storage->method('getScanner')
+			->willReturn($this->createMock(IScanner::class));
+		$watcher = new Watcher($storage);
+		$watcher->setPolicy(IWatcher::CHECK_ALWAYS);
+
+		$watcher->setCheckFilter($filter);
+
+		$entry = new CacheEntry([
+			'storage_mtime' => 0,
+		]);
+
+		foreach ($paths as $patch => $shouldUpdate) {
+			$this->assertEquals($shouldUpdate, $watcher->needsUpdate($patch, $entry));
+		}
 	}
 }

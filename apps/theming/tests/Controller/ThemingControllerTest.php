@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Theming\Tests\Controller;
 
 use OC\L10N\L10N;
@@ -98,7 +99,7 @@ class ThemingControllerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataUpdateStylesheetSuccess')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataUpdateStylesheetSuccess')]
 	public function testUpdateStylesheetSuccess(string $setting, string $value, string $message, ?string $realSetting = null): void {
 		$this->themingDefaults
 			->expects($this->once())
@@ -156,7 +157,7 @@ class ThemingControllerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataUpdateStylesheetError')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataUpdateStylesheetError')]
 	public function testUpdateStylesheetError(string $setting, string $value, string $message): void {
 		$this->themingDefaults
 			->expects($this->never())
@@ -345,7 +346,7 @@ class ThemingControllerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataUpdateImages')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataUpdateImages')]
 	public function testUpdateLogoNormalLogoUpload(string $mimeType, bool $folderExists = true): void {
 		$tmpLogo = Server::get(ITempManager::class)->getTemporaryFolder() . '/logo.svg';
 		$destination = Server::get(ITempManager::class)->getTemporaryFolder();
@@ -501,7 +502,7 @@ class ThemingControllerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataPhpUploadErrors')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataPhpUploadErrors')]
 	public function testUpdateLogoLoginScreenUploadWithInvalidImageUpload(int $error, string $expectedErrorMessage): void {
 		$this->request
 			->expects($this->once())
@@ -538,7 +539,7 @@ class ThemingControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->themingController->uploadImage());
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataPhpUploadErrors')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataPhpUploadErrors')]
 	public function testUpdateLogoUploadWithInvalidImageUpload($error, $expectedErrorMessage): void {
 		$this->request
 			->expects($this->once())
@@ -607,7 +608,7 @@ class ThemingControllerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataUndoDelete')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataUndoDelete')]
 	public function testUndoDelete(string $value, string $filename): void {
 		$this->l10n
 			->expects($this->once())
@@ -633,8 +634,6 @@ class ThemingControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->themingController->undo($value));
 	}
 
-
-
 	public function testGetLogoNotExistent(): void {
 		$this->imageManager->method('getImage')
 			->with($this->equalTo('logo'))
@@ -648,6 +647,7 @@ class ThemingControllerTest extends TestCase {
 		$file = $this->createMock(ISimpleFile::class);
 		$file->method('getName')->willReturn('logo.svg');
 		$file->method('getMTime')->willReturn(42);
+		$file->method('getMimeType')->willReturn('text/svg');
 		$this->imageManager->expects($this->once())
 			->method('getImage')
 			->willReturn($file);
@@ -664,9 +664,31 @@ class ThemingControllerTest extends TestCase {
 		$csp = new ContentSecurityPolicy();
 		$csp->allowInlineStyle();
 		$expected->setContentSecurityPolicy($csp);
-		@$this->assertEquals($expected, $this->themingController->getImage('logo'));
+		@$this->assertEquals($expected, $this->themingController->getImage('logo', true));
 	}
 
+	public function testGetLogoOriginalFile(): void {
+		$file = $this->createMock(ISimpleFile::class);
+		$file->method('getName')->willReturn('logo');
+		$file->method('getMTime')->willReturn(42);
+		$this->imageManager->expects($this->once())
+			->method('getImage')
+			->willReturn($file);
+		$this->appConfig
+			->expects($this->once())
+			->method('getAppValueString')
+			->with('logoMime', '')
+			->willReturn('image/png');
+
+		@$expected = new FileDisplayResponse($file);
+		$expected->cacheFor(3600);
+		$expected->addHeader('Content-Type', 'image/png');
+		$expected->addHeader('Content-Disposition', 'attachment; filename="logo"');
+		$csp = new ContentSecurityPolicy();
+		$csp->allowInlineStyle();
+		$expected->setContentSecurityPolicy($csp);
+		@$this->assertEquals($expected, $this->themingController->getImage('logo', false));
+	}
 
 	public function testGetLoginBackgroundNotExistent(): void {
 		$this->imageManager->method('getImage')
@@ -680,6 +702,7 @@ class ThemingControllerTest extends TestCase {
 		$file = $this->createMock(ISimpleFile::class);
 		$file->method('getName')->willReturn('background.png');
 		$file->method('getMTime')->willReturn(42);
+		$file->method('getMimeType')->willReturn('image/png');
 		$this->imageManager->expects($this->once())
 			->method('getImage')
 			->willReturn($file);
@@ -707,13 +730,13 @@ class ThemingControllerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetManifest')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataGetManifest')]
 	public function testGetManifest(bool $standalone): void {
-		$this->config
+		$this->appConfig
 			->expects($this->once())
-			->method('getAppValue')
-			->with('theming', 'cachebuster', '0')
-			->willReturn('0');
+			->method('getAppValueInt')
+			->with('cachebuster')
+			->willReturn(0);
 		$this->themingDefaults
 			->expects($this->any())
 			->method('getName')

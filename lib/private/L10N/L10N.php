@@ -6,46 +6,32 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\L10N;
 
 use OCP\IL10N;
 use OCP\L10N\IFactory;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Punic\Calendar;
 use Symfony\Component\Translation\IdentityTranslator;
 
 class L10N implements IL10N {
-	/** @var IFactory */
-	protected $factory;
-
-	/** @var string App of this object */
-	protected $app;
-
-	/** @var string Language of this object */
-	protected $lang;
-
-	/** @var string Locale of this object */
-	protected $locale;
-
-	/** @var IdentityTranslator */
-	private $identityTranslator;
+	private ?IdentityTranslator $identityTranslator = null;
 
 	/** @var string[] */
-	private $translations = [];
+	private array $translations = [];
 
 	/**
-	 * @param IFactory $factory
-	 * @param string $app
-	 * @param string $lang
-	 * @param string $locale
-	 * @param array $files
+	 * @param string[] $files
 	 */
-	public function __construct(IFactory $factory, $app, $lang, $locale, array $files) {
-		$this->factory = $factory;
-		$this->app = $app;
-		$this->lang = $lang;
-		$this->locale = $locale;
-
+	public function __construct(
+		protected IFactory $factory,
+		protected string $app,
+		protected string $lang,
+		protected ?string $locale,
+		array $files,
+	) {
 		foreach ($files as $languageFile) {
 			$this->load($languageFile);
 		}
@@ -56,6 +42,7 @@ class L10N implements IL10N {
 	 *
 	 * @return string language
 	 */
+	#[\Override]
 	public function getLanguageCode(): string {
 		return $this->lang;
 	}
@@ -65,8 +52,9 @@ class L10N implements IL10N {
 	 *
 	 * @return string locale
 	 */
+	#[\Override]
 	public function getLocaleCode(): string {
-		return $this->locale;
+		return $this->locale ?? '';
 	}
 
 	/**
@@ -78,6 +66,7 @@ class L10N implements IL10N {
 	 * Returns the translation. If no translation is found, $text will be
 	 * returned.
 	 */
+	#[\Override]
 	public function t(string $text, $parameters = []): string {
 		if (!\is_array($parameters)) {
 			$parameters = [$parameters];
@@ -101,6 +90,7 @@ class L10N implements IL10N {
 	 * provided by the po file.
 	 *
 	 */
+	#[\Override]
 	public function n(string $text_singular, string $text_plural, int $count, array $parameters = []): string {
 		$identifier = "_{$text_singular}_::_{$text_plural}_";
 		if (isset($this->translations[$identifier])) {
@@ -136,6 +126,7 @@ class L10N implements IL10N {
 	 *  - firstday: Returns the first day of the week (0 sunday - 6 saturday)
 	 *  - jsdate: Returns the short JS date format
 	 */
+	#[\Override]
 	public function l(string $type, $data = null, array $options = []) {
 		if ($this->locale === null) {
 			// Use the language of the instance
@@ -215,7 +206,7 @@ class L10N implements IL10N {
 		$json = json_decode(file_get_contents($translationFile), true);
 		if (!\is_array($json)) {
 			$jsonError = json_last_error();
-			\OCP\Server::get(LoggerInterface::class)->warning("Failed to load $translationFile - json error code: $jsonError", ['app' => 'l10n']);
+			Server::get(LoggerInterface::class)->warning("Failed to load $translationFile - json error code: $jsonError", ['app' => 'l10n']);
 			return false;
 		}
 

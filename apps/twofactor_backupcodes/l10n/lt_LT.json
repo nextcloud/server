@@ -6,13 +6,18 @@
     "Backup code" : "Atsarginis kodas",
     "Use backup code" : "Naudoti atsarginį kodą",
     "Two factor backup codes" : "Dviejų faktorių atsarginiai kodai",
+    "A two-factor auth backup codes provider" : "Dviejų veiksnių autentifikavimo atsarginių kodų teikėjas",
     "An error occurred while generating your backup codes" : "Generuojant jūsų atsarginius kodus, įvyko klaida",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Atsarginiai kodai sugeneruoti. Panaudota {used} iš {total} kodų.",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "Tai yra jūsų atsarginiai kodai. Prašome juos išsaugoti ir (arba) atsispausdinti, nes vėliau negalėsite jų perskaityti.",
+    "List of backup codes" : "Atsarginių kodų sąrašas",
     "Regenerate backup codes" : "Iš naujo generuoti atsarginius kodus",
     "Print backup codes" : "Spausdinti atsarginius kodus",
     "Save backup codes" : "Įrašyti atsarginius kodus",
     "If you regenerate backup codes, you automatically invalidate old codes." : "Jeigu iš naujo generuosite atsarginius kodus, automatiškai paversite senuosius kodus nebegaliojančiais.",
     "{name} backup codes" : "{name} atsarginiai kodai",
+    "Unable to open a new tab for printing" : "Nepavyksta atidaryti naujo skirtuko spausdinimui",
+    "Use one of the backup codes you saved when setting up two-factor authentication." : "Naudokite vieną iš atsarginių kodų, kuriuos išsaugojote nustatydami dviejų veiksnių autentifikavimą.",
     "Submit" : "Pateikti"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

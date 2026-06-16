@@ -38,10 +38,14 @@ class ConfigLexicon implements ILexicon {
 
 	public const LASTCRON_TIMESTAMP = 'lastcron';
 
+	public const ON_DEMAND_PREVIEW_MIGRATION = 'on_demand_preview_migration';
+
+	#[\Override]
 	public function getStrictness(): Strictness {
 		return Strictness::IGNORE;
 	}
 
+	#[\Override]
 	public function getAppConfigs(): array {
 		return [
 			new Entry(
@@ -93,9 +97,16 @@ class ConfigLexicon implements ILexicon {
 			new Entry(self::OCM_INVITE_ACCEPT_DIALOG, ValueType::STRING, '', 'route to local invite accept dialog', note: 'set as empty string to disable feature'),
 			new Entry(self::UNIFIED_SEARCH_MIN_SEARCH_LENGTH, ValueType::INT, 1, 'Minimum search length to trigger the request', rename: 'unified-search.min-search-length'),
 			new Entry(self::UNIFIED_SEARCH_MAX_RESULTS_PER_REQUEST, ValueType::INT, 25, 'Maximum results returned per search request', rename: 'unified-search.max-results-per-request'),
+			new Entry(
+				key: self::ON_DEMAND_PREVIEW_MIGRATION,
+				type: ValueType::BOOL,
+				defaultRaw: true,
+				definition: 'Whether on demand preview migration is enabled.'
+			),
 		];
 	}
 
+	#[\Override]
 	public function getUserConfigs(): array {
 		return [
 			new Entry(self::USER_LANGUAGE, ValueType::STRING, definition: 'language'),

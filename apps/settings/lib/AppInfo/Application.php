@@ -6,12 +6,13 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Settings\AppInfo;
 
 use OC\AppFramework\Utility\TimeFactory;
 use OC\Authentication\Events\AppPasswordCreatedEvent;
 use OC\Authentication\Token\IProvider;
-use OC\Server;
+use OC\Settings\Manager;
 use OCA\Settings\ConfigLexicon;
 use OCA\Settings\Hooks;
 use OCA\Settings\Listener\AppPasswordCreatedActivityListener;
@@ -21,7 +22,6 @@ use OCA\Settings\Listener\UserAddedToGroupActivityListener;
 use OCA\Settings\Listener\UserRemovedFromGroupActivityListener;
 use OCA\Settings\Mailer\NewUserMailHelper;
 use OCA\Settings\Middleware\SubadminMiddleware;
-use OCA\Settings\Search\AppSearch;
 use OCA\Settings\Search\SectionSearch;
 use OCA\Settings\Search\UserSearch;
 use OCA\Settings\Settings\Admin\MailProvider;
@@ -73,8 +73,11 @@ use OCA\Settings\SetupChecks\ServerIdConfig;
 use OCA\Settings\SetupChecks\SupportedDatabase;
 use OCA\Settings\SetupChecks\SystemIs64bit;
 use OCA\Settings\SetupChecks\TaskProcessingPickupSpeed;
+use OCA\Settings\SetupChecks\TaskProcessingSuccessRate;
+use OCA\Settings\SetupChecks\TaskProcessingWorkerIsRunning;
 use OCA\Settings\SetupChecks\TempSpaceAvailable;
 use OCA\Settings\SetupChecks\TransactionIsolation;
+use OCA\Settings\SetupChecks\TwoFactorConfiguration;
 use OCA\Settings\SetupChecks\WellKnownUrls;
 use OCA\Settings\SetupChecks\Woff2Loading;
 use OCA\Settings\UserMigration\AccountMigrator;
@@ -84,35 +87,42 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
-use OCP\AppFramework\IAppContainer;
 use OCP\Defaults;
 use OCP\Group\Events\GroupDeletedEvent;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
-use OCP\IServerContainer;
+use OCP\Group\ISubAdmin;
+use OCP\IConfig;
+use OCP\IGroupManager;
+use OCP\INavigationManager;
+use OCP\IURLGenerator;
+use OCP\IUserSession;
+use OCP\L10N\IFactory;
+use OCP\Mail\IMailer;
+use OCP\Security\ICrypto;
+use OCP\Security\ISecureRandom;
+use OCP\Server;
 use OCP\Settings\Events\DeclarativeSettingsGetValueEvent;
 use OCP\Settings\Events\DeclarativeSettingsSetValueEvent;
 use OCP\Settings\IManager;
 use OCP\User\Events\PasswordUpdatedEvent;
 use OCP\User\Events\UserChangedEvent;
 use OCP\Util;
+use Psr\Container\ContainerInterface;
 
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'settings';
 
-	/**
-	 * @param array $urlParams
-	 */
 	public function __construct(array $urlParams = []) {
 		parent::__construct(self::APP_ID, $urlParams);
 	}
 
+	#[\Override]
 	public function register(IRegistrationContext $context): void {
 		// Register Middleware
 		$context->registerServiceAlias('SubadminMiddleware', SubadminMiddleware::class);
 		$context->registerMiddleware(SubadminMiddleware::class);
 		$context->registerSearchProvider(SectionSearch::class);
-		$context->registerSearchProvider(AppSearch::class);
 		$context->registerSearchProvider(UserSearch::class);
 
 		$context->registerConfigLexicon(ConfigLexicon::class);
@@ -139,32 +149,23 @@ class Application extends App implements IBootstrap {
 		/**
 		 * Core class wrappers
 		 */
-		$context->registerService(IProvider::class, function (IAppContainer $appContainer) {
-			/** @var IServerContainer $serverContainer */
-			$serverContainer = $appContainer->query(IServerContainer::class);
-			return $serverContainer->query(IProvider::class);
+		$context->registerService(IProvider::class, function (): IProvider {
+			return Server::get(IProvider::class);
 		});
-		$context->registerService(IManager::class, function (IAppContainer $appContainer) {
-			/** @var IServerContainer $serverContainer */
-			$serverContainer = $appContainer->query(IServerContainer::class);
-			return $serverContainer->getSettingsManager();
+		$context->registerService(IManager::class, function (): Manager {
+			return  Server::get(Manager::class);
 		});
 
-		$context->registerService(NewUserMailHelper::class, function (IAppContainer $appContainer) {
-			/** @var Server $server */
-			$server = $appContainer->query(IServerContainer::class);
-			/** @var Defaults $defaults */
-			$defaults = $server->query(Defaults::class);
-
+		$context->registerService(NewUserMailHelper::class, function (ContainerInterface $appContainer) {
 			return new NewUserMailHelper(
-				$defaults,
-				$server->getURLGenerator(),
-				$server->getL10NFactory(),
-				$server->getMailer(),
-				$server->getSecureRandom(),
+				Server::get(Defaults::class),
+				$appContainer->get(IURLGenerator::class),
+				$appContainer->get(IFactory::class),
+				$appContainer->get(IMailer::class),
+				$appContainer->get(ISecureRandom::class),
 				new TimeFactory(),
-				$server->getConfig(),
-				$server->getCrypto(),
+				$appContainer->get(IConfig::class),
+				$appContainer->get(ICrypto::class),
 				Util::getDefaultEmailAddress('no-reply')
 			);
 		});
@@ -216,8 +217,11 @@ class Application extends App implements IBootstrap {
 		$context->registerSetupCheck(SupportedDatabase::class);
 		$context->registerSetupCheck(SystemIs64bit::class);
 		$context->registerSetupCheck(TaskProcessingPickupSpeed::class);
+		$context->registerSetupCheck(TaskProcessingSuccessRate::class);
+		$context->registerSetupCheck(TaskProcessingWorkerIsRunning::class);
 		$context->registerSetupCheck(TempSpaceAvailable::class);
 		$context->registerSetupCheck(TransactionIsolation::class);
+		$context->registerSetupCheck(TwoFactorConfiguration::class);
 		$context->registerSetupCheck(PushService::class);
 		$context->registerSetupCheck(WellKnownUrls::class);
 		$context->registerSetupCheck(Woff2Loading::class);
@@ -225,6 +229,95 @@ class Application extends App implements IBootstrap {
 		$context->registerUserMigrator(AccountMigrator::class);
 	}
 
+	#[\Override]
 	public function boot(IBootContext $context): void {
+		$context->injectFn($this->registerNavigationEntries(...));
+	}
+
+	/**
+	 * Registers the navigation entries for the user settings.
+	 * Needed as some entries are dynamic and thus we cannot use the appinfo/info.xml
+	 *
+	 * Registers the following entries:
+	 * - Appearance and accessibility
+	 * - Personal settings (named "Settings" for non-admins)
+	 * - Accounts (only for subadmins)
+	 * - Help & privacy (conditionally enabled based on config)
+	 */
+	public function registerNavigationEntries(
+		INavigationManager $navigationManager,
+		IURLGenerator $urlGenerator,
+		IUserSession $userSession,
+		IConfig $config,
+	): void {
+		if ($userSession->getUser() === null) {
+			return;
+		}
+
+		$l = Server::get(IFactory::class)
+			->get('settings');
+		$groupManager = Server::get(IGroupManager::class);
+		$subAdmin = Server::get(ISubAdmin::class);
+		$isAdmin = $groupManager->isAdmin($userSession->getUser()->getUID());
+		$isSubAdmin = $subAdmin->isSubAdmin($userSession->getUser());
+
+		// Accessibility settings - the URL is dynamic (route parameters) which is currently not supported by appinfo.xml
+		$navigationManager->add([
+			'type' => 'settings',
+			'id' => 'accessibility_settings',
+			'order' => 2,
+			'href' => $urlGenerator->linkToRoute('settings.PersonalSettings.index', ['section' => 'theming']),
+			'name' => $l->t('Appearance and accessibility'),
+			'icon' => $urlGenerator->imagePath('theming', 'accessibility-dark.svg'),
+		]);
+
+		// Personal settings - this entry is dynamic so we cannot use appinfo
+		$navigationManager->add([
+			'type' => 'settings',
+			'id' => 'settings_personal',
+			'order' => 3,
+			'href' => $urlGenerator->linkToRoute('settings.PersonalSettings.index'),
+			'name' => $isAdmin
+				? $l->t('Personal settings')
+				: $l->t('Settings'),
+			'icon' => $isAdmin
+				? $urlGenerator->imagePath('settings', 'personal.svg')
+				: $urlGenerator->imagePath('settings', 'admin.svg'),
+		]);
+
+		if ($isAdmin) {
+			$navigationManager->add([
+				'type' => 'settings',
+				'id' => 'settings_administration',
+				'order' => 4,
+				'href' => $urlGenerator->linkToRoute('settings.adminSettings.index'),
+				'name' => $l->t('Administration settings'),
+				'icon' => $urlGenerator->imagePath('settings', 'admin.svg'),
+			]);
+		}
+
+		// User management is conditionally enabled for subadmins, but appinfo currently only supports full admins
+		if ($isSubAdmin) {
+			$navigationManager->add([
+				'type' => 'settings',
+				'id' => 'core_users',
+				'order' => 6,
+				'href' => $urlGenerator->linkToRoute('settings.Users.usersList'),
+				'name' => $l->t('Accounts'),
+				'icon' => $urlGenerator->imagePath('settings', 'users.svg'),
+			]);
+		}
+
+		// conditionally enabled navigation entry
+		if ($config->getSystemValueBool('knowledgebaseenabled', true)) {
+			$navigationManager->add([
+				'type' => 'settings',
+				'id' => 'help',
+				'order' => 99998,
+				'href' => $urlGenerator->linkToRoute('settings.Help.help'),
+				'name' => $l->t('Help & privacy'),
+				'icon' => $urlGenerator->imagePath('settings', 'help.svg'),
+			]);
+		}
 	}
 }

@@ -24,7 +24,7 @@ class ViewOnly {
 	}
 
 	/**
-	 * @param string[] $pathsToCheck
+	 * @param string[] $pathsToCheck paths to check, relative to the user folder
 	 * @return bool
 	 */
 	public function check(array $pathsToCheck): bool {

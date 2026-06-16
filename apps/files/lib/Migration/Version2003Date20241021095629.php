@@ -11,26 +11,26 @@ namespace OCA\Files\Migration;
 
 use Closure;
 use OCA\Files\Service\ChunkedUploadConfig;
-use OCP\DB\ISchemaWrapper;
-use OCP\IConfig;
+use OCP\IAppConfig;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
-use OCP\Server;
+use Override;
 
 class Version2003Date20241021095629 extends SimpleMigrationStep {
-	/**
-	 * @param IOutput $output
-	 * @param Closure(): ISchemaWrapper $schemaClosure
-	 * @param array $options
-	 */
+	public function __construct(
+		public readonly IAppConfig $appConfig,
+	) {
+	}
+
+	#[Override]
 	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options): void {
-		$maxChunkSize = Server::get(IConfig::class)->getAppValue('files', 'max_chunk_size');
-		if ($maxChunkSize === '') {
+		$maxChunkSize = $this->appConfig->getValueInt('files', 'max_chunk_size');
+		if ($maxChunkSize === 0) {
 			// Skip if no value was configured before
 			return;
 		}
 
-		ChunkedUploadConfig::setMaxChunkSize((int)$maxChunkSize);
-		Server::get(IConfig::class)->deleteAppValue('files', 'max_chunk_size');
+		ChunkedUploadConfig::setMaxChunkSize($maxChunkSize);
+		$this->appConfig->deleteKey('files', 'max_chunk_size');
 	}
 }

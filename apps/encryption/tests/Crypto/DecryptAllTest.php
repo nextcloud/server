@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Encryption\Tests\Crypto;
 
 use OCA\Encryption\Crypto\Crypt;
@@ -63,7 +64,7 @@ class DecryptAllTest extends TestCase {
 	 * @param string $user
 	 * @param string $recoveryKeyId
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestGetPrivateKey')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestGetPrivateKey')]
 	public function testGetPrivateKey($user, $recoveryKeyId, $masterKeyId): void {
 		$password = 'passwd';
 		$recoveryKey = 'recoveryKey';

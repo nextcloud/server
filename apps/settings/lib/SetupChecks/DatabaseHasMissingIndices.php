@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\SetupChecks;
 
 use OC\DB\Connection;
@@ -27,10 +28,12 @@ class DatabaseHasMissingIndices implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'database';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Database missing indices');
 	}
@@ -70,6 +73,7 @@ class DatabaseHasMissingIndices implements ISetupCheck {
 		return $indexInfo->getListOfMissingIndices();
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		$missingIndices = $this->getMissingIndices();
 		if (empty($missingIndices)) {

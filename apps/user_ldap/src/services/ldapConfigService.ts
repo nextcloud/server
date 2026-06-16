@@ -34,7 +34,7 @@ export type WizardAction
 		| 'testLoginName'
 
 /**
- *
+ * Create a new LDAP configuration
  */
 export async function createConfig() {
 	const response = await axios.post(generateOcsUrl('apps/user_ldap/api/v1/config')) as AxiosResponse<OCSResponse<{ configID: string }>>
@@ -43,8 +43,9 @@ export async function createConfig() {
 }
 
 /**
+ * Copy an existing LDAP configuration
  *
- * @param configId
+ * @param configId - ID of the configuration to copy
  */
 export async function copyConfig(configId: string) {
 	const params = new FormData()
@@ -60,8 +61,9 @@ export async function copyConfig(configId: string) {
 }
 
 /**
+ * Get an LDAP configuration
  *
- * @param configId
+ * @param configId - ID of the configuration to fetch
  */
 export async function getConfig(configId: string): Promise<LDAPConfig> {
 	const response = await axios.get(generateOcsUrl('apps/user_ldap/api/v1/config/{configId}', { configId })) as AxiosResponse<OCSResponse<LDAPConfig>>
@@ -70,9 +72,10 @@ export async function getConfig(configId: string): Promise<LDAPConfig> {
 }
 
 /**
+ * Update an LDAP configuration
  *
- * @param configId
- * @param config
+ * @param configId - ID of the configuration to update
+ * @param config - Partial configuration data to update
  */
 export async function updateConfig(configId: string, config: Partial<LDAPConfig>): Promise<LDAPConfig> {
 	const response = await axios.put(
@@ -86,8 +89,9 @@ export async function updateConfig(configId: string, config: Partial<LDAPConfig>
 }
 
 /**
+ * Delete an LDAP configuration
  *
- * @param configId
+ * @param configId - ID of the configuration to delete
  */
 export async function deleteConfig(configId: string): Promise<boolean> {
 	try {
@@ -110,8 +114,9 @@ export async function deleteConfig(configId: string): Promise<boolean> {
 }
 
 /**
+ * Test an LDAP configuration
  *
- * @param configId
+ * @param configId - ID of the configuration to test
  */
 export async function testConfiguration(configId: string) {
 	const params = new FormData()
@@ -124,8 +129,9 @@ export async function testConfiguration(configId: string) {
 }
 
 /**
+ * Clear LDAP mapping
  *
- * @param subject
+ * @param subject - 'user' or 'group'
  */
 export async function clearMapping(subject: 'user' | 'group') {
 	const isConfirmed = await confirmOperation(
@@ -152,10 +158,11 @@ export async function clearMapping(subject: 'user' | 'group') {
 }
 
 /**
+ * Call wizard action
  *
- * @param action
- * @param configId
- * @param extraParams
+ * @param action - The wizard action to call
+ * @param configId - ID of the configuration
+ * @param extraParams - Additional parameters for the wizard action
  */
 export async function callWizard(action: WizardAction, configId: string, extraParams: Record<string, string> = {}) {
 	const params = new FormData()
@@ -189,7 +196,7 @@ export async function callWizard(action: WizardAction, configId: string, extraPa
 }
 
 /**
- *
+ * Show info dialog when enabling automatic filter mode
  */
 export async function showEnableAutomaticFilterInfo() {
 	return await confirmOperation(
@@ -199,9 +206,10 @@ export async function showEnableAutomaticFilterInfo() {
 }
 
 /**
+ * Show confirmation dialog for dangerous operations
  *
- * @param name
- * @param text
+ * @param name - Dialog title
+ * @param text - Dialog text
  */
 export async function confirmOperation(name: string, text: string): Promise<boolean> {
 	let result = false

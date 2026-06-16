@@ -20,7 +20,6 @@ OC.L10N.register(
     "You" : "Vós",
     "List of files that have been deleted." : "Llista de fitxers que s'han suprimit.",
     "No deleted files" : "No hi ha cap fitxer suprimit",
-    "Files and folders you have deleted will show up here" : "Els fitxers i les carpetes que suprimiu es mostraran aquí",
-    "Deletion cancelled" : "S'ha cancel·lat la supressió"
+    "Files and folders you have deleted will show up here" : "Els fitxers i les carpetes que suprimiu es mostraran aquí"
 },
 "nplurals=2; plural=(n != 1);");

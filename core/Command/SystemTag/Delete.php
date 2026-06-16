@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Command\SystemTag;
 
 use OC\Core\Command\Base;
@@ -20,6 +21,7 @@ class Delete extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('tag:delete')
@@ -31,6 +33,7 @@ class Delete extends Base {
 			);
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		try {
 			$this->systemTagManager->deleteTags($input->getArgument('id'));

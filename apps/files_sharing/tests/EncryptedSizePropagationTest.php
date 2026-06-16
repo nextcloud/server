@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\View;
@@ -12,7 +13,7 @@ use OCP\ITempManager;
 use OCP\Server;
 use Test\Traits\EncryptionTrait;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class EncryptedSizePropagationTest extends SizePropagationTest {
 	use EncryptionTrait;
 

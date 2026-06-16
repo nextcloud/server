@@ -50,7 +50,7 @@ const textColor = computed(() => getTextColor(previewColor.value))
 			<NcColorPicker
 				:id
 				v-model="previewColor"
-				advanced-fields
+				advancedFields
 				@submit="modelValue = $event!">
 				<NcButton
 					:class="$style.colorPickerField__button"

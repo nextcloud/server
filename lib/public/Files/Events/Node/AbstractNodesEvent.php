@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\Files\Events\Node;
 
 use OCP\EventDispatcher\Event;
@@ -43,6 +44,7 @@ abstract class AbstractNodesEvent extends Event implements IWebhookCompatibleEve
 	/**
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function getWebhookSerializable(): array {
 		return [
 			'source' => JsonSerializer::serializeFileInfo($this->source),

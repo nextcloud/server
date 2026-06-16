@@ -10,7 +10,7 @@
 	<name>Files</name>
 	<summary>File Management</summary>
 	<description>File Management</description>
-	<version>2.5.0</version>
+	<version>3.0.0-dev.0</version>
 	<licence>agpl</licence>
 	<author>John Molakvoæ</author>
 	<author>Robin Appelman</author>
@@ -24,7 +24,7 @@
 	<category>files</category>
 	<bugs>https://github.com/nextcloud/server/issues</bugs>
 	<dependencies>
-		<nextcloud min-version="33" max-version="33"/>
+		<nextcloud min-version="35" max-version="35"/>
 	</dependencies>
 
 	<background-jobs>

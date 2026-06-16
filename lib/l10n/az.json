@@ -10,9 +10,6 @@
     "yesterday" : "dünən",
     "seconds ago" : "saniyələr öncə",
     "__language_name__" : "Azərbaycan dili",
-    "Apps" : "Tətbiqlər",
-    "Settings" : "Quraşdırmalar",
-    "Accounts" : "Accounts",
     "Email" : "Email",
     "Address" : "Ünvan",
     "Profile picture" : "Profil şəkli",
@@ -60,10 +57,13 @@
     "Nov." : "Noy.",
     "Dec." : "Dek.",
     "A valid password must be provided" : "Düzgün şifrə daxil edilməlidir",
+    "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Bu ola bilər ki, cache/accelerator such tərəfindən cağırılıb hansi ki, Zend OPcache və eAccelerator-da olduğu kimidir.",
+    "Summary" : "Xülasə",
+    "Apps" : "Tətbiqlər",
+    "Settings" : "Quraşdırmalar",
+    "Accounts" : "Accounts",
     "Application is not enabled" : "Proqram təminatı aktiv edilməyib",
     "Authentication error" : "Təyinat metodikası",
-    "Token expired. Please reload page." : "Token vaxtı bitib. Xahiş olunur səhifəni yenidən yükləyəsiniz.",
-    "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Bu ola bilər ki, cache/accelerator such tərəfindən cağırılıb hansi ki, Zend OPcache və eAccelerator-da olduğu kimidir.",
-    "Summary" : "Xülasə"
+    "Token expired. Please reload page." : "Token vaxtı bitib. Xahiş olunur səhifəni yenidən yükləyəsiniz."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

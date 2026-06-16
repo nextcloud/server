@@ -165,8 +165,8 @@
     "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\"." : "DAV 시스템 주소록 동기화가 아직 작동하지 않았습니다. 이는 인스턴스의 사용자가 1000명을 초과하거나 오류가 발생했기 때문입니다. occ dav:sync-system-addressbook 명령어를 통해 수동으로 이를 수행하십시오.",
     "WebDAV endpoint" : "WebDAV 종단점",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "WebDAV 인터페이스를 사용할 수 없어서 웹 서버에서 파일 동기화를 사용할 수 있도록 설정할 수 없습니다.",
-    "Migrated calendar (%1$s)" : "가져온 달력 (%1$s)",
     "Calendars including events, details and attendees" : "일정, 세부 정보 및 참석자를 포함한 캘린더",
+    "Migrated calendar (%1$s)" : "가져온 달력 (%1$s)",
     "Contacts and groups" : "연락처 및 그룹",
     "WebDAV" : "WebDAV",
     "Absence saved" : "부재 상태 저장됨",
@@ -213,7 +213,6 @@
     "Please contact the organizer directly." : "주최자에게 직접 연락하십시오.",
     "Are you accepting the invitation?" : "초대를 수락하시겠습니까?",
     "Tentative" : "보류",
-    "Your attendance was updated successfully." : "참석 정보를 업데이트했습니다.",
-    "Time zone:" : "시간대:"
+    "Your attendance was updated successfully." : "참석 정보를 업데이트했습니다."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

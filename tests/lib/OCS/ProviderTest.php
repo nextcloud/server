@@ -21,6 +21,7 @@ class ProviderTest extends \Test\TestCase {
 	/** @var Provider */
 	private $ocsProvider;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

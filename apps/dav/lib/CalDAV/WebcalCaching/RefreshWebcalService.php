@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CalDAV\WebcalCaching;
 
 use OCA\DAV\CalDAV\CalDavBackend;
@@ -78,7 +79,8 @@ class RefreshWebcalService {
 				/** @var Component\VCalendar $vObject */
 				$vBase = $vObject->getBaseComponent();
 
-				if (!$vBase->UID) {
+				// Skip if no base component found
+				if (!isset($vBase->UID)) {
 					continue;
 				}
 

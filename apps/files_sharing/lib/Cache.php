@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing;
 
 use OC\Files\Cache\CacheDependencies;
@@ -52,6 +53,7 @@ class Cache extends CacheJail {
 		);
 	}
 
+	#[\Override]
 	protected function getRoot() {
 		if ($this->root === '') {
 			$absoluteRoot = $this->sourceRootInfo->getPath();
@@ -69,10 +71,12 @@ class Cache extends CacheJail {
 		return $this->root;
 	}
 
+	#[\Override]
 	public function getGetUnjailedRoot(): string {
 		return $this->sourceRootInfo->getPath();
 	}
 
+	#[\Override]
 	public function getCache(): ICache {
 		if (is_null($this->cache)) {
 			$sourceStorage = $this->storage->getSourceStorage();
@@ -86,6 +90,7 @@ class Cache extends CacheJail {
 		return $this->cache;
 	}
 
+	#[\Override]
 	public function getNumericStorageId() {
 		if (isset($this->numericId)) {
 			return $this->numericId;
@@ -94,6 +99,7 @@ class Cache extends CacheJail {
 		}
 	}
 
+	#[\Override]
 	public function get($file) {
 		if ($this->rootUnchanged && ($file === '' || $file === $this->sourceRootInfo->getId())) {
 			return $this->formatCacheEntry(clone $this->sourceRootInfo, '');
@@ -101,26 +107,31 @@ class Cache extends CacheJail {
 		return parent::get($file);
 	}
 
+	#[\Override]
 	public function update($id, array $data) {
 		$this->rootUnchanged = false;
 		parent::update($id, $data);
 	}
 
+	#[\Override]
 	public function insert($file, array $data) {
 		$this->rootUnchanged = false;
 		return parent::insert($file, $data);
 	}
 
+	#[\Override]
 	public function remove($file) {
 		$this->rootUnchanged = false;
 		parent::remove($file);
 	}
 
+	#[\Override]
 	public function moveFromCache(ICache $sourceCache, $sourcePath, $targetPath) {
 		$this->rootUnchanged = false;
 		return parent::moveFromCache($sourceCache, $sourcePath, $targetPath);
 	}
 
+	#[\Override]
 	protected function formatCacheEntry($entry, $path = null) {
 		if (is_null($path)) {
 			$path = $entry['path'] ?? '';
@@ -163,10 +174,12 @@ class Cache extends CacheJail {
 	/**
 	 * remove all entries for files that are stored on the storage from the cache
 	 */
+	#[\Override]
 	public function clear() {
 		// Not a valid action for Shared Cache
 	}
 
+	#[\Override]
 	public function getQueryFilterForStorage(): ISearchOperator {
 		$storageFilter = \OC\Files\Cache\Cache::getQueryFilterForStorage();
 
@@ -185,6 +198,7 @@ class Cache extends CacheJail {
 		);
 	}
 
+	#[\Override]
 	public function getCacheEntryFromSearchResult(ICacheEntry $rawEntry): ?ICacheEntry {
 		if ($rawEntry->getStorageId() === $this->getNumericStorageId()) {
 			return parent::getCacheEntryFromSearchResult($rawEntry);

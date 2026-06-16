@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CalDAV\Integration;
 
 use Sabre\CalDAV;
@@ -48,6 +51,7 @@ abstract class ExternalCalendar implements CalDAV\ICalendar, DAV\IProperties {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	final public function getName() {
 		return implode(self::DELIMITER, [
 			self::PREFIX,
@@ -59,6 +63,7 @@ abstract class ExternalCalendar implements CalDAV\ICalendar, DAV\IProperties {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	final public function setName($name) {
 		throw new DAV\Exception\MethodNotAllowed('Renaming calendars is not yet supported');
 	}
@@ -66,6 +71,7 @@ abstract class ExternalCalendar implements CalDAV\ICalendar, DAV\IProperties {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	final public function createDirectory($name) {
 		throw new DAV\Exception\MethodNotAllowed('Creating collections in calendar objects is not allowed');
 	}

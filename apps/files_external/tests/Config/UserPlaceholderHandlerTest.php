@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_External\Tests\Config;
 
 use OCA\Files_External\Config\UserPlaceholderHandler;
@@ -58,13 +59,13 @@ class UserPlaceholderHandlerTest extends TestCase {
 		];
 	}
 
-	#[DataProvider('optionProvider')]
+	#[DataProvider(methodName: 'optionProvider')]
 	public function testHandle(string|array $option, string|array $expected): void {
 		$this->setUser();
 		$this->assertSame($expected, $this->handler->handle($option));
 	}
 
-	#[DataProvider('optionProvider')]
+	#[DataProvider(methodName: 'optionProvider')]
 	public function testHandleNoUser(string|array $option): void {
 		$this->shareManager->expects($this->once())
 			->method('getShareByToken')

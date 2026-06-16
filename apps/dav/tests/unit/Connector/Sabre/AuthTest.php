@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
@@ -19,7 +20,9 @@ use OCP\IUser;
 use OCP\Security\Bruteforce\IThrottler;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\Server;
+use Sabre\HTTP\Request;
 use Sabre\HTTP\RequestInterface;
+use Sabre\HTTP\Response;
 use Sabre\HTTP\ResponseInterface;
 use Test\TestCase;
 
@@ -28,7 +31,7 @@ use Test\TestCase;
  *
  * @package OCA\DAV\Tests\unit\Connector\Sabre
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class AuthTest extends TestCase {
 	private ISession&MockObject $session;
 	private Session&MockObject $userSession;
@@ -184,7 +187,6 @@ class AuthTest extends TestCase {
 		$this->assertFalse(self::invokePrivate($this->auth, 'validateUserPass', ['MyTestUser', 'MyTestPassword']));
 	}
 
-
 	public function testValidateUserPassWithPasswordLoginForbidden(): void {
 		$this->expectException(PasswordLoginForbidden::class);
 
@@ -202,6 +204,14 @@ class AuthTest extends TestCase {
 			->method('close');
 
 		self::invokePrivate($this->auth, 'validateUserPass', ['MyTestUser', 'MyTestPassword']);
+	}
+
+	public function testValidateUserPassReturnsFalseWithEmptyUsernameAndPassword(): void {
+		$this->userSession
+			->expects($this->never())
+			->method('logClientIn');
+
+		$this->assertFalse(self::invokePrivate($this->auth, 'validateUserPass', ['', '']));
 	}
 
 	public function testAuthenticateAlreadyLoggedInWithoutCsrfTokenForNonGet(): void {
@@ -276,7 +286,6 @@ class AuthTest extends TestCase {
 		$this->auth->check($request, $response);
 	}
 
-
 	public function testAuthenticateAlreadyLoggedInWithoutTwoFactorChallengePassed(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotAuthenticated::class);
 		$this->expectExceptionMessage('2FA challenge not passed.');
@@ -318,7 +327,6 @@ class AuthTest extends TestCase {
 			->willReturn(true);
 		$this->auth->check($request, $response);
 	}
-
 
 	public function testAuthenticateAlreadyLoggedInWithoutCsrfTokenAndIncorrectlyDavAuthenticated(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotAuthenticated::class);
@@ -454,12 +462,11 @@ class AuthTest extends TestCase {
 
 	public function testAuthenticateNoBasicAuthenticateHeadersProvided(): void {
 		$server = $this->createMock(Server::class);
-		$server->httpRequest = $this->createMock(RequestInterface::class);
-		$server->httpResponse = $this->createMock(ResponseInterface::class);
+		$server->httpRequest = $this->createMock(Request::class);
+		$server->httpResponse = $this->createMock(Response::class);
 		$response = $this->auth->check($server->httpRequest, $server->httpResponse);
 		$this->assertEquals([false, 'No \'Authorization: Basic\' header found. Either the client didn\'t send one, or the server is misconfigured'], $response);
 	}
-
 
 	public function testAuthenticateNoBasicAuthenticateHeadersProvidedWithAjax(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotAuthenticated::class);
@@ -525,9 +532,7 @@ class AuthTest extends TestCase {
 	}
 
 	public function testAuthenticateNoBasicAuthenticateHeadersProvidedWithAjaxButUserIsStillLoggedIn(): void {
-		/** @var \Sabre\HTTP\RequestInterface $httpRequest */
 		$httpRequest = $this->createMock(RequestInterface::class);
-		/** @var \Sabre\HTTP\ResponseInterface $httpResponse */
 		$httpResponse = $this->createMock(ResponseInterface::class);
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('MyTestUser');
@@ -561,14 +566,14 @@ class AuthTest extends TestCase {
 
 	public function testAuthenticateValidCredentials(): void {
 		$server = $this->createMock(Server::class);
-		$server->httpRequest = $this->createMock(RequestInterface::class);
+		$server->httpRequest = $this->createMock(Request::class);
 		$server->httpRequest
 			->expects($this->once())
 			->method('getHeader')
 			->with('Authorization')
 			->willReturn('basic dXNlcm5hbWU6cGFzc3dvcmQ=');
 
-		$server->httpResponse = $this->createMock(ResponseInterface::class);
+		$server->httpResponse = $this->createMock(Response::class);
 		$this->userSession
 			->expects($this->once())
 			->method('logClientIn')
@@ -588,7 +593,7 @@ class AuthTest extends TestCase {
 
 	public function testAuthenticateInvalidCredentials(): void {
 		$server = $this->createMock(Server::class);
-		$server->httpRequest = $this->createMock(RequestInterface::class);
+		$server->httpRequest = $this->createMock(Request::class);
 		$server->httpRequest
 			->expects($this->exactly(2))
 			->method('getHeader')
@@ -596,7 +601,7 @@ class AuthTest extends TestCase {
 				['Authorization', 'basic dXNlcm5hbWU6cGFzc3dvcmQ='],
 				['X-Requested-With', null],
 			]);
-		$server->httpResponse = $this->createMock(ResponseInterface::class);
+		$server->httpResponse = $this->createMock(Response::class);
 		$this->userSession
 			->expects($this->once())
 			->method('logClientIn')

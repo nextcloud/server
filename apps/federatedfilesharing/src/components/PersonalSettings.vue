@@ -76,18 +76,18 @@ async function copyCloudId(): Promise<void> {
 	<NcSettingsSection
 		:name="t('federatedfilesharing', 'Federated Cloud')"
 		:description="t('federatedfilesharing', 'You can share with anyone who uses a {productName} server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com', { productName })"
-		:doc-url="docUrlFederated">
+		:docUrl="docUrlFederated">
 		<NcInputField
 			class="federated-cloud__cloud-id"
 			readonly
 			:label="t('federatedfilesharing', 'Your Federated Cloud ID')"
-			:model-value="cloudId"
+			:modelValue="cloudId"
 			:success="isCopied"
-			show-trailing-button
-			:trailing-button-label="copyLinkTooltip"
-			@trailing-button-click="copyCloudId">
+			showTrailingButton
+			:trailingButtonLabel="copyLinkTooltip"
+			@trailingButtonClick="copyCloudId">
 			<template #trailing-button-icon>
-				<IconCheck v-if="isCopied" :size="20" fill-color="var(--color-border-success)" />
+				<IconCheck v-if="isCopied" :size="20" fillColor="var(--color-border-success)" />
 				<IconClipboard v-else :size="20" />
 			</template>
 		</NcInputField>
@@ -134,11 +134,11 @@ async function copyCloudId(): Promise<void> {
 				</a>
 			</p>
 
-			<p>
-				{{ t('federatedfilesharing', 'HTML Code:') }}
+			<div>
+				<p>{{ t('federatedfilesharing', 'HTML Code:') }}</p>
 				<br>
-				<pre>{{ htmlCode }}</pre>
-			</p>
+				<pre><code>{{ htmlCode }}</code></pre>
+			</div>
 		</template>
 	</NcSettingsSection>
 </template>

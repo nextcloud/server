@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\CopyEtagHeaderPlugin;
@@ -13,6 +14,8 @@ use OCA\DAV\Connector\Sabre\File;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Server;
 use Sabre\DAV\Tree;
+use Sabre\HTTP\Request;
+use Sabre\HTTP\Response;
 use Test\TestCase;
 
 class CopyEtagHeaderPluginTest extends TestCase {
@@ -27,8 +30,8 @@ class CopyEtagHeaderPluginTest extends TestCase {
 	}
 
 	public function testCopyEtag(): void {
-		$request = new \Sabre\Http\Request('GET', 'dummy.file');
-		$response = new \Sabre\Http\Response();
+		$request = new Request('GET', 'dummy.file');
+		$response = new Response();
 		$response->setHeader('Etag', 'abcd');
 
 		$this->plugin->afterMethod($request, $response);
@@ -37,8 +40,8 @@ class CopyEtagHeaderPluginTest extends TestCase {
 	}
 
 	public function testNoopWhenEmpty(): void {
-		$request = new \Sabre\Http\Request('GET', 'dummy.file');
-		$response = new \Sabre\Http\Response();
+		$request = new Request('GET', 'dummy.file');
+		$response = new Response();
 
 		$this->plugin->afterMethod($request, $response);
 

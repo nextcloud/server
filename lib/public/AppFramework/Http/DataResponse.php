@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\AppFramework\Http;
 
 use OCP\AppFramework\Http;
@@ -13,10 +14,9 @@ use OCP\AppFramework\Http;
  * A generic DataResponse class that is used to return generic data responses
  * for responders to transform
  * @since 8.0.0
- * @psalm-type DataResponseType = array|int|float|string|bool|object|null|\stdClass|\JsonSerializable
- * @template S of Http::STATUS_*
- * @template-covariant T of DataResponseType
- * @template H of array<string, mixed>
+ * @template-covariant S of Http::STATUS_*
+ * @template-covariant T of mixed
+ * @template-covariant H of array<string, mixed>
  * @template-extends Response<Http::STATUS_*, array<string, mixed>>
  */
 class DataResponse extends Response {
@@ -25,7 +25,6 @@ class DataResponse extends Response {
 	 * @var T
 	 */
 	protected $data;
-
 
 	/**
 	 * @param T $data the object or array that should be transformed
@@ -39,7 +38,6 @@ class DataResponse extends Response {
 		$this->data = $data;
 	}
 
-
 	/**
 	 * Sets values in the data json array
 	 * @psalm-suppress InvalidTemplateParam
@@ -52,7 +50,6 @@ class DataResponse extends Response {
 
 		return $this;
 	}
-
 
 	/**
 	 * Used to get the set parameters

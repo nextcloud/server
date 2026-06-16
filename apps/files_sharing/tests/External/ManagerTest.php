@@ -5,11 +5,11 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Tests\External;
 
 use OC\Federation\CloudIdManager;
 use OC\Files\Mount\MountPoint;
-use OC\Files\SetupManager;
 use OC\Files\SetupManagerFactory;
 use OC\Files\Storage\StorageFactory;
 use OC\Files\Storage\Temporary;
@@ -24,12 +24,14 @@ use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\Files\NotFoundException;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 use OCP\ICacheFactory;
 use OCP\ICertificateManager;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -40,7 +42,6 @@ use OCP\IUserSession;
 use OCP\OCS\IDiscoveryService;
 use OCP\Server;
 use OCP\Share\IShare;
-use OCP\Snowflake\IGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\Traits\UserTrait;
@@ -51,7 +52,7 @@ use Test\Traits\UserTrait;
  *
  * @package OCA\Files_Sharing\Tests\External
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ManagerTest extends TestCase {
 	use UserTrait;
 
@@ -69,9 +70,10 @@ class ManagerTest extends TestCase {
 	protected ICloudFederationFactory&MockObject $cloudFederationFactory;
 	protected IGroupManager&MockObject $groupManager;
 	protected IUserManager&MockObject $userManager;
-	protected SetupManager&MockObject $setupManager;
+	protected ISetupManager&MockObject $setupManagerEncTrait;
 	protected ICertificateManager&MockObject $certificateManager;
 	private ExternalShareMapper $externalShareMapper;
+	private IConfig $config;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -82,10 +84,11 @@ class ManagerTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->cloudFederationProviderManager = $this->createMock(ICloudFederationProviderManager::class);
 		$this->cloudFederationFactory = $this->createMock(ICloudFederationFactory::class);
+		$this->config = $this->createMock(IConfig::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
-		$this->setupManager = $this->createMock(SetupManager::class);
+		$this->setupManagerEncTrait = $this->createMock(ISetupManager::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 		$this->rootFolder->method('getUserFolder')
 			->willReturnCallback(function (string $userId): Folder {
@@ -120,7 +123,7 @@ class ManagerTest extends TestCase {
 			$this->contactsManager,
 			$this->createMock(IURLGenerator::class),
 			$this->userManager,
-		));
+		), $this->config);
 
 		$this->group1 = $this->createMock(IGroup::class);
 		$this->group1->expects($this->any())->method('getGID')->willReturn('group1');
@@ -167,10 +170,10 @@ class ManagerTest extends TestCase {
 					$this->eventDispatcher,
 					$this->logger,
 					$this->rootFolder,
-					$this->setupManager,
+					$this->setupManagerEncTrait,
 					$this->certificateManager,
 					$this->externalShareMapper,
-					Server::get(IGenerator::class),
+					$this->config,
 				]
 			)->onlyMethods(['tryOCMEndPoint'])->getMock();
 	}
@@ -190,7 +193,7 @@ class ManagerTest extends TestCase {
 
 	public function testAddUserShare(): void {
 		$userShare = new ExternalShare();
-		$userShare->setId(Server::get(IGenerator::class)->nextId());
+		$userShare->generateId();
 		$userShare->setRemote('http://localhost');
 		$userShare->setShareToken('token1');
 		$userShare->setPassword('');
@@ -205,7 +208,7 @@ class ManagerTest extends TestCase {
 
 	public function testAddGroupShare(): void {
 		$groupShare = new ExternalShare();
-		$groupShare->setId(Server::get(IGenerator::class)->nextId());
+		$groupShare->generateId();
 		$groupShare->setRemote('http://localhost');
 		$groupShare->setOwner('foobar');
 		$groupShare->setShareType(IShare::TYPE_GROUP);
@@ -237,10 +240,10 @@ class ManagerTest extends TestCase {
 
 		$shareData2 = $shareData1->clone();
 		$shareData2->setShareToken('token2');
-		$shareData2->setId(\OCP\Server::get(IGenerator::class)->nextId());
+		$shareData2->generateId();
 		$shareData3 = $shareData1->clone();
 		$shareData3->setShareToken('token3');
-		$shareData3->setId(\OCP\Server::get(IGenerator::class)->nextId());
+		$shareData3->generateId();
 
 		$this->setupMounts();
 		$this->assertNotMount('SharedFolder');
@@ -440,7 +443,7 @@ class ManagerTest extends TestCase {
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())->method('getUID')->willReturn($userId);
 		$share = new ExternalShare();
-		$share->setId(Server::get(IGenerator::class)->nextId());
+		$share->generateId();
 		$share->setRemote('http://localhost');
 		$share->setShareToken('token1');
 		$share->setPassword('');
@@ -460,7 +463,7 @@ class ManagerTest extends TestCase {
 	 */
 	private function createTestGroupShare(string $groupId = 'group1'): array {
 		$share = new ExternalShare();
-		$share->setId(Server::get(IGenerator::class)->nextId());
+		$share->generateId();
 		$share->setRemote('http://localhost');
 		$share->setShareToken('token1');
 		$share->setPassword('');
@@ -646,7 +649,7 @@ class ManagerTest extends TestCase {
 		// user 2 shares
 		$manager2 = $this->createManagerForUser($user2);
 		$share = new ExternalShare();
-		$share->setId(Server::get(IGenerator::class)->nextId());
+		$share->generateId();
 		$share->setRemote('http://localhost');
 		$share->setShareToken('token1');
 		$share->setPassword('');
@@ -696,7 +699,7 @@ class ManagerTest extends TestCase {
 		$manager2 = $this->createManagerForUser($user);
 
 		$share = new ExternalShare();
-		$share->setId(Server::get(IGenerator::class)->nextId());
+		$share->generateId();
 		$share->setRemote('http://localhost');
 		$share->setShareToken('token1');
 		$share->setPassword('');

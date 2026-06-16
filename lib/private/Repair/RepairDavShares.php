@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Repair;
 
 use OCP\DB\Exception;
@@ -23,25 +24,22 @@ use function urlencode;
 class RepairDavShares implements IRepairStep {
 	protected const GROUP_PRINCIPAL_PREFIX = 'principals/groups/';
 
-	/** @var bool */
-	private $hintInvalidShares = false;
+	private bool $hintInvalidShares = false;
 
 	public function __construct(
-		private IConfig $config,
-		private IDBConnection $dbc,
-		private IGroupManager $groupManager,
-		private LoggerInterface $logger,
+		private readonly IConfig $config,
+		private readonly IDBConnection $dbc,
+		private readonly IGroupManager $groupManager,
+		private readonly LoggerInterface $logger,
 	) {
 	}
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getName() {
+	#[\Override]
+	public function getName(): string {
 		return 'Repair DAV shares';
 	}
 
-	protected function repairUnencodedGroupShares() {
+	protected function repairUnencodedGroupShares(): bool {
 		$qb = $this->dbc->getQueryBuilder();
 		$qb->select(['id', 'principaluri'])
 			->from('dav_shares')
@@ -92,10 +90,8 @@ class RepairDavShares implements IRepairStep {
 		return true;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
-	public function run(IOutput $output) {
+	#[\Override]
+	public function run(IOutput $output): void {
 		$versionFromBeforeUpdate = $this->config->getSystemValueString('version', '0.0.0');
 		if (version_compare($versionFromBeforeUpdate, '20.0.8', '<')
 			&& $this->repairUnencodedGroupShares()

@@ -62,7 +62,7 @@ class ExampleEventServiceTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('provideCustomEventData')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'provideCustomEventData')]
 	public function testCreateExampleEventWithCustomEvent($customEventIcs): void {
 		$this->appConfig->expects(self::once())
 			->method('getValueBool')
@@ -142,7 +142,7 @@ class ExampleEventServiceTest extends TestCase {
 		$this->service->createExampleEvent(1000);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('provideCustomEventData')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'provideCustomEventData')]
 	public function testGetExampleEventWithCustomEvent($customEventIcs): void {
 		$exampleEventFolder = $this->createMock(ISimpleFolder::class);
 		$this->appData->expects(self::once())

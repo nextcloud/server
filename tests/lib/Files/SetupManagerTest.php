@@ -17,12 +17,13 @@ use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IMountProvider;
-use OCP\Files\Config\IMountProviderArgs;
 use OCP\Files\Config\IPartialMountProvider;
 use OCP\Files\Config\IUserMountCache;
+use OCP\Files\Config\MountProviderArgs;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorageFactory;
+use OCP\IAppConfig;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
@@ -52,6 +53,7 @@ class SetupManagerTest extends TestCase {
 	private string $path;
 	private string $mountPoint;
 
+	#[\Override]
 	protected function setUp(): void {
 		$eventLogger = $this->createMock(IEventLogger::class);
 		$eventLogger->method('start');
@@ -111,6 +113,7 @@ class SetupManagerTest extends TestCase {
 			$shareDisableChecker,
 			$appManager,
 			$this->fileAccess,
+			$this->createMock(IAppConfig::class),
 		);
 	}
 
@@ -118,6 +121,10 @@ class SetupManagerTest extends TestCase {
 		$this->setupManager->tearDown();
 	}
 
+	/**
+	 * Tests that a path is not set up twice for providers implementing
+	 * IPartialMountProvider in setupForPath.
+	 */
 	public function testSetupForPathWithPartialProviderSkipsAlreadySetupPath(): void {
 		$cachedMount = $this->getCachedMountInfo($this->mountPoint, 42);
 
@@ -140,9 +147,10 @@ class SetupManagerTest extends TestCase {
 			->with(
 				SetupManagerTestPartialMountProvider::class,
 				$this->path,
+				false,
 				$this->callback(function (array $args) use ($cachedMount) {
 					$this->assertCount(1, $args);
-					$this->assertInstanceOf(IMountProviderArgs::class, $args[0]);
+					$this->assertInstanceOf(MountProviderArgs::class, $args[0]);
 					$this->assertSame($cachedMount, $args[0]->mountInfo);
 					return true;
 				})
@@ -172,6 +180,10 @@ class SetupManagerTest extends TestCase {
 		$this->setupManager->setupForPath($this->path, false);
 	}
 
+	/**
+	 * Tests that providers that are not implementing IPartialMountProvider are
+	 * not set up more than once by setupForPath.
+	 */
 	public function testSetupForPathWithNonPartialProviderSkipsAlreadySetupProvider(): void {
 		$cachedMount = $this->getCachedMountInfo($this->mountPoint, 42,
 			IMountProvider::class);
@@ -211,6 +223,11 @@ class SetupManagerTest extends TestCase {
 		$this->setupManager->setupForPath($this->path, false);
 	}
 
+	/**
+	 * Tests that setupForPath does not instantiate already set up providers
+	 * when called for the same path first with $withChildren set to true
+	 * and then set to false.
+	 */
 	public function testSetupForPathWithChildrenAndNonPartialProviderSkipsAlreadySetupProvider(): void {
 		$cachedMount = $this->getCachedMountInfo($this->mountPoint, 42, IMountProvider::class);
 		$additionalCachedMount = $this->getCachedMountInfo($this->mountPoint . 'additional/', 43, SetupManagerTestFullMountProvider::class);
@@ -269,6 +286,10 @@ class SetupManagerTest extends TestCase {
 		$this->setupManager->setupForPath($this->path, false);
 	}
 
+	/**
+	 * Tests that setupForPath does not set up child mounts again if a parent
+	 * was set up with $withChildren set to true.
+	 */
 	public function testSetupForPathWithChildrenAndPartialProviderSkipsIfParentAlreadySetup():	void {
 		$childPath = "{$this->path}/child";
 		$childMountPoint = "{$childPath}/";
@@ -322,6 +343,7 @@ class SetupManagerTest extends TestCase {
 			->willReturnCallback(function (
 				string $providerClass,
 				string $pathArg,
+				bool $forChildren,
 				array $mountProviderArgs,
 			) use (
 				$cachedChildMount,
@@ -335,16 +357,19 @@ class SetupManagerTest extends TestCase {
 					// call for the parent
 					$expectedCachedMount = $cachedMount;
 					$mountPoints = [$partialMount];
+					$expectedForChildren = false;
 				} else {
 					// call for the children
 					$expectedCachedMount = $cachedChildMount;
 					$mountPoints = [$partialChildMount];
+					$expectedForChildren = true;
 				}
 
 				$this->assertSame(SetupManagerTestPartialMountProvider::class, $providerClass);
 				$this->assertSame($expectedPath, $pathArg);
+				$this->assertSame($expectedForChildren, $forChildren);
 				$this->assertCount(1, $mountProviderArgs);
-				$this->assertInstanceOf(IMountProviderArgs::class, $mountProviderArgs[0]);
+				$this->assertInstanceOf(MountProviderArgs::class, $mountProviderArgs[0]);
 				$this->assertSame($expectedCachedMount, $mountProviderArgs[0]->mountInfo);
 
 				return $mountPoints;
@@ -376,6 +401,10 @@ class SetupManagerTest extends TestCase {
 		$this->setupManager->setupForPath($childPath, true);
 	}
 
+	/**
+	 * Tests that when called twice setupForPath does not set up mounts from
+	 * providers implementing IPartialMountProviders or IMountProvider.
+	 */
 	public function testSetupForPathHandlesPartialAndFullProvidersWithChildren(): void {
 		$parentPartialCachedMount = $this->getCachedMountInfo($this->mountPoint, 42);
 		$childCachedPartialMount = $this->getCachedMountInfo("{$this->mountPoint}partial/", 43);
@@ -419,7 +448,7 @@ class SetupManagerTest extends TestCase {
 		$invokedCount = $this->exactly(2);
 		$this->mountProviderCollection->expects($invokedCount)
 			->method('getUserMountsFromProviderByPath')
-			->willReturnCallback(function (string $providerClass, string $pathArg, array $mountProviderArgs) use (
+			->willReturnCallback(function (string $providerClass, string $pathArg, bool $forChildren, array $mountProviderArgs) use (
 				$childCachedPartialMount,
 				$childPartialMount,
 				$parentPartialMount,
@@ -430,16 +459,19 @@ class SetupManagerTest extends TestCase {
 					// call for the parent
 					$expectedCachedMount = $parentPartialCachedMount;
 					$mountPoints = [$parentPartialMount];
+					$expectedForChildren = false;
 				} else {
 					// call for the children
 					$expectedCachedMount = $childCachedPartialMount;
 					$mountPoints = [$childPartialMount];
+					$expectedForChildren = true;
 				}
 
 				$this->assertSame(SetupManagerTestPartialMountProvider::class, $providerClass);
 				$this->assertSame($expectedPath, $pathArg);
+				$this->assertSame($expectedForChildren, $forChildren);
 				$this->assertCount(1, $mountProviderArgs);
-				$this->assertInstanceOf(IMountProviderArgs::class, $mountProviderArgs[0]);
+				$this->assertInstanceOf(MountProviderArgs::class, $mountProviderArgs[0]);
 				$this->assertSame($expectedCachedMount, $mountProviderArgs[0]->mountInfo);
 
 				return $mountPoints;
@@ -466,8 +498,144 @@ class SetupManagerTest extends TestCase {
 		$this->setupManager->setupForPath($this->path, true);
 	}
 
+	public function testSetupForUserResetsUserPaths(): void {
+		$cachedMount = $this->getCachedMountInfo($this->mountPoint, 42);
+
+		$this->userMountCache->expects($this->once())
+			->method('getMountForPath')
+			->with($this->user, $this->path)
+			->willReturn($cachedMount);
+		$this->userMountCache->expects($this->never())
+			->method('getMountsInPath');
+
+		$this->fileAccess->expects($this->once())
+			->method('getByFileId')
+			->with(42)
+			->willReturn($this->createMock(CacheEntry::class));
+
+		$partialMount = $this->createMock(IMountPoint::class);
+
+		$this->mountProviderCollection->expects($this->once())
+			->method('getUserMountsFromProviderByPath')
+			->with(
+				SetupManagerTestPartialMountProvider::class,
+				$this->path,
+				false,
+				$this->callback(function (array $args) use ($cachedMount) {
+					$this->assertCount(1, $args);
+					$this->assertInstanceOf(MountProviderArgs::class,
+						$args[0]);
+					$this->assertSame($cachedMount, $args[0]->mountInfo);
+					return true;
+				})
+			)
+			->willReturn([$partialMount]);
+
+		$homeMount = $this->createMock(IMountPoint::class);
+
+		$this->mountProviderCollection->expects($this->once())
+			->method('getHomeMountForUser')
+			->willReturn($homeMount);
+		$this->mountProviderCollection->expects($this->never())
+			->method('getUserMountsForProviderClasses');
+
+		$invokedCount = $this->exactly(2);
+		$addMountExpectations = [
+			1 => $homeMount,
+			2 => $partialMount,
+		];
+		$this->mountManager->expects($invokedCount)
+			->method('addMount')
+			->willReturnCallback($this->getAddMountCheckCallback($invokedCount,
+				$addMountExpectations));
+
+		// setting up for $path but then for user should remove the setup path
+		$this->setupManager->setupForPath($this->path, false);
+
+		// note that only the mount known by SetupManrger is removed not the
+		// home mount, because MountManager is mocked
+		$this->mountManager->expects($this->once())
+			->method('removeMount')
+			->with($this->mountPoint);
+
+		$this->setupManager->setupForUser($this->user);
+	}
+
+	/**
+	 * Tests that after a path is setup by a
+	 */
+	public function testSetupForProviderResetsUserProviderPaths(): void {
+		$cachedMount = $this->getCachedMountInfo($this->mountPoint, 42);
+
+		$this->userMountCache->expects($this->once())
+			->method('getMountForPath')
+			->with($this->user, $this->path)
+			->willReturn($cachedMount);
+		$this->userMountCache->expects($this->never())
+			->method('getMountsInPath');
+
+		$this->fileAccess->expects($this->once())
+			->method('getByFileId')
+			->with(42)
+			->willReturn($this->createMock(CacheEntry::class));
+
+		$partialMount = $this->createMock(IMountPoint::class);
+		$partialMount->expects($this->once())->method('getMountProvider')
+			->willReturn(SetupManagerTestFullMountProvider::class);
+
+		$this->mountProviderCollection->expects($this->once())
+			->method('getUserMountsFromProviderByPath')
+			->with(
+				SetupManagerTestPartialMountProvider::class,
+				$this->path,
+				false,
+				$this->callback(function (array $args) use ($cachedMount) {
+					$this->assertCount(1, $args);
+					$this->assertInstanceOf(MountProviderArgs::class,
+						$args[0]);
+					$this->assertSame($cachedMount, $args[0]->mountInfo);
+					return true;
+				})
+			)
+			->willReturn([$partialMount]);
+
+		$homeMount = $this->createMock(IMountPoint::class);
+
+		$this->mountProviderCollection->expects($this->once())
+			->method('getHomeMountForUser')
+			->willReturn($homeMount);
+
+		$invokedCount = $this->exactly(2);
+		$addMountExpectations = [
+			1 => $homeMount,
+			2 => $partialMount,
+		];
+		$this->mountManager->expects($invokedCount)
+			->method('addMount')
+			->willReturnCallback($this->getAddMountCheckCallback($invokedCount,
+				$addMountExpectations));
+		$this->mountManager->expects($this->once())->method('getAll')
+			->willReturn([$this->mountPoint => $partialMount]);
+
+		// setting up for $path but then for user should remove the setup path
+		$this->setupManager->setupForPath($this->path, false);
+
+		// note that only the mount known by SetupManrger is removed not the
+		// home mount, because MountManager is mocked
+		$this->mountManager->expects($this->once())
+			->method('removeMount')
+			->with($this->mountPoint);
+
+		$this->mountProviderCollection->expects($this->once())
+			->method('getUserMountsForProviderClasses')
+			->with($this->user, [SetupManagerTestFullMountProvider::class]);
+
+		$this->setupManager->setupForProvider($this->path,
+			[SetupManagerTestFullMountProvider::class]);
+	}
+
 	private function getAddMountCheckCallback(InvokedCount $invokedCount, $expectations): \Closure {
-		return function (IMountPoint $actualMount) use ($invokedCount, $expectations) {
+		return function (IMountPoint $actualMount) use ($invokedCount, $expectations): void {
 			$expectedMount = $expectations[$invokedCount->numberOfInvocations()] ?? null;
 			$this->assertSame($expectedMount, $actualMount);
 		};
@@ -484,16 +652,19 @@ class SetupManagerTest extends TestCase {
 }
 
 class SetupManagerTestPartialMountProvider implements IPartialMountProvider {
+	#[\Override]
 	public function getMountsForUser(IUser $user, IStorageFactory $loader): array {
 		return [];
 	}
 
-	public function getMountsForPath(string $path, array $mountProviderArgs, IStorageFactory $loader): array {
+	#[\Override]
+	public function getMountsForPath(string $path, bool $forChildren, array $mountProviderArgs, IStorageFactory $loader): array {
 		return [];
 	}
 }
 
 class SetupManagerTestFullMountProvider implements IMountProvider {
+	#[\Override]
 	public function getMountsForUser(IUser $user, IStorageFactory $loader): array {
 		return [];
 	}

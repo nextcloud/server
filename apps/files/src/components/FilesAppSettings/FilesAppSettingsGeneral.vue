@@ -4,10 +4,12 @@
 -->
 
 <script setup lang="ts">
+import { mdiAccountOutline, mdiFolderOutline } from '@mdi/js'
 import { t } from '@nextcloud/l10n'
 import NcAppSettingsSection from '@nextcloud/vue/components/NcAppSettingsSection'
 import NcFormBox from '@nextcloud/vue/components/NcFormBox'
 import NcFormBoxSwitch from '@nextcloud/vue/components/NcFormBoxSwitch'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcRadioGroup from '@nextcloud/vue/components/NcRadioGroup'
 import NcRadioGroupButton from '@nextcloud/vue/components/NcRadioGroupButton'
 import { useUserConfigStore } from '../../store/userconfig.ts'
@@ -37,8 +39,16 @@ const store = useUserConfigStore()
 			v-model="store.userConfig.default_view"
 			:label="t('files', 'Default view')"
 			@update:modelValue="store.update('default_view', $event)">
-			<NcRadioGroupButton :label="t('files', 'All files')" value="files" />
-			<NcRadioGroupButton :label="t('files', 'Personal files')" value="personal" />
+			<NcRadioGroupButton :label="t('files', 'All files')" value="files">
+				<template #icon>
+					<NcIconSvgWrapper :path="mdiFolderOutline" />
+				</template>
+			</NcRadioGroupButton>
+			<NcRadioGroupButton :label="t('files', 'Personal files')" value="personal">
+				<template #icon>
+					<NcIconSvgWrapper :path="mdiAccountOutline" />
+				</template>
+			</NcRadioGroupButton>
 		</NcRadioGroup>
 	</NcAppSettingsSection>
 </template>

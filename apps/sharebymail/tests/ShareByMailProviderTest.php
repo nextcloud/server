@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\ShareByMail\Tests;
 
 use DateTime;
@@ -48,7 +49,7 @@ use Test\Traits\EmailValidatorTrait;
  *
  * @package OCA\ShareByMail\Tests
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ShareByMailProviderTest extends TestCase {
 	use EmailValidatorTrait;
 
@@ -171,9 +172,9 @@ class ShareByMailProviderTest extends TestCase {
 		$instance = $this->getInstance(['getSharedWith', 'createMailShare', 'getRawShare', 'createShareObject', 'createShareActivity', 'sendEmail', 'sendPassword']);
 
 		$instance->expects($this->once())->method('getSharedWith')->willReturn([]);
-		$instance->expects($this->once())->method('createMailShare')->with($share)->willReturn(42);
+		$instance->expects($this->once())->method('createMailShare')->with($share)->willReturn('42');
 		$instance->expects($this->once())->method('createShareActivity')->with($share);
-		$instance->expects($this->once())->method('getRawShare')->with(42)->willReturn(['rawShare']);
+		$instance->expects($this->once())->method('getRawShare')->with('42')->willReturn(['rawShare']);
 		$instance->expects($this->once())->method('createShareObject')->with(['rawShare'])->willReturn($expectedShare);
 		$share->expects($this->any())->method('getNode')->willReturn($node);
 
@@ -199,15 +200,15 @@ class ShareByMailProviderTest extends TestCase {
 		$share->expects($this->any())->method('getSendPasswordByTalk')->willReturn(false);
 		$share->expects($this->any())->method('getSharedBy')->willReturn('owner');
 		$share->expects($this->any())->method('getNode')->willReturn($node);
-		$share->expects($this->any())->method('getId')->willReturn(42);
+		$share->expects($this->any())->method('getId')->willReturn('42');
 		$share->expects($this->any())->method('getNote')->willReturn('');
 		$share->expects($this->any())->method('getToken')->willReturn('token');
 
 		$instance = $this->getInstance(['getSharedWith', 'createMailShare', 'getRawShare', 'createShareObject', 'createShareActivity', 'autoGeneratePassword', 'createPasswordSendActivity', 'sendEmail', 'sendPassword', 'sendPasswordToOwner']);
 		$instance->expects($this->once())->method('getSharedWith')->willReturn([]);
-		$instance->expects($this->once())->method('createMailShare')->with($share)->willReturn(42);
+		$instance->expects($this->once())->method('createMailShare')->with($share)->willReturn('42');
 		$instance->expects($this->once())->method('createShareActivity')->with($share);
-		$instance->expects($this->once())->method('getRawShare')->with(42)->willReturn(['rawShare']);
+		$instance->expects($this->once())->method('getRawShare')->with('42')->willReturn(['rawShare']);
 		$instance->expects($this->once())->method('createShareObject')->with(['rawShare'])->willReturn($expectedShare);
 		$share->expects($this->any())->method('getNode')->willReturn($node);
 
@@ -238,16 +239,16 @@ class ShareByMailProviderTest extends TestCase {
 		$share->expects($this->any())->method('getSendPasswordByTalk')->willReturn(false);
 		$share->expects($this->any())->method('getSharedBy')->willReturn('owner');
 		$share->expects($this->any())->method('getNode')->willReturn($node);
-		$share->expects($this->any())->method('getId')->willReturn(42);
+		$share->expects($this->any())->method('getId')->willReturn('42');
 		$share->expects($this->any())->method('getNote')->willReturn('');
 		$share->expects($this->any())->method('getToken')->willReturn('token');
 
 		$instance = $this->getInstance(['getSharedWith', 'createMailShare', 'getRawShare', 'createShareObject', 'createShareActivity', 'autoGeneratePassword', 'createPasswordSendActivity', 'sendEmail', 'sendPassword', 'sendPasswordToOwner']);
 
 		$instance->expects($this->once())->method('getSharedWith')->willReturn([]);
-		$instance->expects($this->once())->method('createMailShare')->with($share)->willReturn(42);
+		$instance->expects($this->once())->method('createMailShare')->with($share)->willReturn('42');
 		$instance->expects($this->once())->method('createShareActivity')->with($share);
-		$instance->expects($this->once())->method('getRawShare')->with(42)->willReturn(['rawShare', 'password' => 'password']);
+		$instance->expects($this->once())->method('getRawShare')->with('42')->willReturn(['rawShare', 'password' => 'password']);
 		$instance->expects($this->once())->method('createShareObject')->with(['rawShare', 'password' => 'password'])->willReturn($expectedShare);
 		$share->expects($this->any())->method('getNode')->willReturn($node);
 
@@ -281,7 +282,7 @@ class ShareByMailProviderTest extends TestCase {
 		$share->expects($this->any())->method('getSendPasswordByTalk')->willReturn(false);
 		$share->expects($this->any())->method('getSharedBy')->willReturn('owner');
 		$share->expects($this->any())->method('getNode')->willReturn($node);
-		$share->expects($this->any())->method('getId')->willReturn(42);
+		$share->expects($this->any())->method('getId')->willReturn('42');
 		$share->expects($this->any())->method('getNote')->willReturn('');
 		$share->expects($this->any())->method('getToken')->willReturn('token');
 
@@ -292,9 +293,9 @@ class ShareByMailProviderTest extends TestCase {
 		]);
 
 		$instance->expects($this->once())->method('getSharedWith')->willReturn([]);
-		$instance->expects($this->once())->method('createMailShare')->with($share)->willReturn(42);
+		$instance->expects($this->once())->method('createMailShare')->with($share)->willReturn('42');
 		$instance->expects($this->once())->method('createShareActivity')->with($share);
-		$instance->expects($this->once())->method('getRawShare')->with(42)->willReturn(['rawShare', 'password' => 'password']);
+		$instance->expects($this->once())->method('getRawShare')->with('42')->willReturn(['rawShare', 'password' => 'password']);
 		$instance->expects($this->once())->method('createShareObject')->with(['rawShare', 'password' => 'password'])->willReturn($expectedShare);
 		$share->expects($this->any())->method('getNode')->willReturn($node);
 
@@ -331,7 +332,7 @@ class ShareByMailProviderTest extends TestCase {
 		$share->expects($this->any())->method('getSendPasswordByTalk')->willReturn(false);
 		$share->expects($this->any())->method('getSharedBy')->willReturn('owner');
 		$share->expects($this->any())->method('getNode')->willReturn($node);
-		$share->expects($this->any())->method('getId')->willReturn(42);
+		$share->expects($this->any())->method('getId')->willReturn('42');
 		$share->expects($this->any())->method('getNote')->willReturn('');
 		$share->expects($this->any())->method('getToken')->willReturn('token');
 
@@ -350,9 +351,9 @@ class ShareByMailProviderTest extends TestCase {
 		$instance = $this->getInstance(['getSharedWith', 'createMailShare', 'getRawShare', 'createShareObject', 'createShareActivity', 'createPasswordSendActivity', 'sendPasswordToOwner']);
 
 		$instance->expects($this->once())->method('getSharedWith')->willReturn([]);
-		$instance->expects($this->once())->method('createMailShare')->with($share)->willReturn(42);
+		$instance->expects($this->once())->method('createMailShare')->with($share)->willReturn('42');
 		$instance->expects($this->once())->method('createShareActivity')->with($share);
-		$instance->expects($this->once())->method('getRawShare')->with(42)->willReturn(['rawShare', 'password' => 'autogeneratedPassword']);
+		$instance->expects($this->once())->method('getRawShare')->with('42')->willReturn(['rawShare', 'password' => 'autogeneratedPassword']);
 		$instance->expects($this->once())->method('createShareObject')->with(['rawShare', 'password' => 'autogeneratedPassword'])->willReturn($expectedShare);
 
 		// Initially not set, but will be set by the autoGeneratePassword method.
@@ -419,7 +420,7 @@ class ShareByMailProviderTest extends TestCase {
 		$share->expects($this->any())->method('getSendPasswordByTalk')->willReturn(false);
 		$share->expects($this->any())->method('getSharedBy')->willReturn('owner');
 		$share->expects($this->any())->method('getNode')->willReturn($node);
-		$share->expects($this->any())->method('getId')->willReturn(42);
+		$share->expects($this->any())->method('getId')->willReturn('42');
 		$share->expects($this->any())->method('getNote')->willReturn('');
 		$share->expects($this->any())->method('getToken')->willReturn('token');
 
@@ -430,9 +431,9 @@ class ShareByMailProviderTest extends TestCase {
 		$instance = $this->getInstance(['getSharedWith', 'createMailShare', 'getRawShare', 'createShareObject', 'createShareActivity', 'autoGeneratePassword', 'createPasswordSendActivity', 'sendPasswordToOwner']);
 
 		$instance->expects($this->once())->method('getSharedWith')->willReturn([]);
-		$instance->expects($this->once())->method('createMailShare')->with($share)->willReturn(42);
+		$instance->expects($this->once())->method('createMailShare')->with($share)->willReturn('42');
 		$instance->expects($this->once())->method('createShareActivity')->with($share);
-		$instance->expects($this->once())->method('getRawShare')->with(42)->willReturn(['rawShare', 'password' => 'password']);
+		$instance->expects($this->once())->method('getRawShare')->with('42')->willReturn(['rawShare', 'password' => 'password']);
 		$instance->expects($this->once())->method('createShareObject')->with(['rawShare', 'password' => 'password'])->willReturn($expectedShare);
 
 		$share->expects($this->exactly(3))->method('getPassword')->willReturn('password');
@@ -507,7 +508,7 @@ class ShareByMailProviderTest extends TestCase {
 		$share->expects($this->any())->method('getSendPasswordByTalk')->willReturn(true);
 		$share->expects($this->any())->method('getSharedBy')->willReturn('owner');
 		$share->expects($this->any())->method('getNode')->willReturn($node);
-		$share->expects($this->any())->method('getId')->willReturn(42);
+		$share->expects($this->any())->method('getId')->willReturn('42');
 		$share->expects($this->any())->method('getNote')->willReturn('');
 		$share->expects($this->any())->method('getToken')->willReturn('token');
 
@@ -518,9 +519,9 @@ class ShareByMailProviderTest extends TestCase {
 		$instance = $this->getInstance(['getSharedWith', 'createMailShare', 'getRawShare', 'createShareObject', 'createShareActivity', 'autoGeneratePassword', 'createPasswordSendActivity']);
 
 		$instance->expects($this->once())->method('getSharedWith')->willReturn([]);
-		$instance->expects($this->once())->method('createMailShare')->with($share)->willReturn(42);
+		$instance->expects($this->once())->method('createMailShare')->with($share)->willReturn('42');
 		$instance->expects($this->once())->method('createShareActivity')->with($share);
-		$instance->expects($this->once())->method('getRawShare')->with(42)->willReturn(['rawShare', 'password' => 'autogeneratedPassword']);
+		$instance->expects($this->once())->method('getRawShare')->with('42')->willReturn(['rawShare', 'password' => 'autogeneratedPassword']);
 		$instance->expects($this->once())->method('createShareObject')->with(['rawShare', 'password' => 'autogeneratedPassword'])->willReturn($expectedShare);
 
 		$share->expects($this->exactly(4))->method('getPassword')->willReturnOnConsecutiveCalls(null, 'autogeneratedPassword', 'autogeneratedPassword', 'autogeneratedPassword');
@@ -598,7 +599,7 @@ class ShareByMailProviderTest extends TestCase {
 		$share->expects($this->any())->method('getSendPasswordByTalk')->willReturn(false);
 		$share->expects($this->any())->method('getSharedBy')->willReturn('owner');
 		$share->expects($this->any())->method('getNode')->willReturn($node);
-		$share->expects($this->any())->method('getId')->willReturn(42);
+		$share->expects($this->any())->method('getId')->willReturn('42');
 		$share->expects($this->any())->method('getNote')->willReturn('');
 		$share->expects($this->any())->method('getToken')->willReturn('token');
 
@@ -613,9 +614,9 @@ class ShareByMailProviderTest extends TestCase {
 		$instance = $this->getInstance(['getSharedWith', 'createMailShare', 'getRawShare', 'createShareObject', 'createShareActivity', 'autoGeneratePassword', 'createPasswordSendActivity', 'sendEmail', 'sendPassword', 'sendPasswordToOwner']);
 
 		$instance->expects($this->once())->method('getSharedWith')->willReturn([]);
-		$instance->expects($this->once())->method('createMailShare')->with($share)->willReturn(42);
+		$instance->expects($this->once())->method('createMailShare')->with($share)->willReturn('42');
 		$instance->expects($this->once())->method('createShareActivity')->with($share);
-		$instance->expects($this->once())->method('getRawShare')->with(42)->willReturn(['rawShare', 'password' => 'password']);
+		$instance->expects($this->once())->method('getRawShare')->with('42')->willReturn(['rawShare', 'password' => 'password']);
 		$instance->expects($this->once())->method('createShareObject')->with(['rawShare', 'password' => 'password'])->willReturn($expectedShare);
 		$share->expects($this->any())->method('getNode')->willReturn($node);
 
@@ -634,7 +635,6 @@ class ShareByMailProviderTest extends TestCase {
 			->with($share, ['receiver1@example.com', 'receiver2@example.com', 'receiver3@example.com']);
 		$instance->expects($this->once())->method('sendPassword')->with($share, 'password');
 		$instance->expects($this->never())->method('sendPasswordToOwner');
-
 
 		$message = $this->createMock(IMessage::class);
 		$message->expects($this->never())->method('setTo');
@@ -684,12 +684,12 @@ class ShareByMailProviderTest extends TestCase {
 		$instance = $this->getInstance(['generateToken', 'addShareToDB', 'sendMailNotification']);
 
 		$instance->expects($this->once())->method('generateToken')->willReturn('token');
-		$instance->expects($this->once())->method('addShareToDB')->willReturn(42);
+		$instance->expects($this->once())->method('addShareToDB')->willReturn('42');
 
 		// The manager handle the mail sending
 		$instance->expects($this->never())->method('sendMailNotification');
 
-		$this->assertSame(42,
+		$this->assertSame('42',
 			$this->invokePrivate($instance, 'createMailShare', [$this->share])
 		);
 	}
@@ -718,7 +718,6 @@ class ShareByMailProviderTest extends TestCase {
 		$label = 'label';
 		$expiration = new \DateTime();
 		$passwordExpirationTime = new \DateTime();
-
 
 		$instance = $this->getInstance();
 		$id = $this->invokePrivate(
@@ -777,7 +776,6 @@ class ShareByMailProviderTest extends TestCase {
 		$token = 'token';
 		$note = 'personal note';
 
-
 		$instance = $this->getInstance();
 
 		$id = $this->createDummyShare($itemType, $itemSource, $shareWith, $sharedBy, $uidOwner, $permissions, $token, $note);
@@ -827,7 +825,7 @@ class ShareByMailProviderTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataUpdateSendPassword')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataUpdateSendPassword')]
 	public function testUpdateSendPassword(?string $plainTextPassword, string $originalPassword, string $newPassword, bool $originalSendPasswordByTalk, bool $newSendPasswordByTalk, bool $sendMail): void {
 		$node = $this->createMock(File::class);
 		$node->expects($this->any())->method('getName')->willReturn('filename');
@@ -837,14 +835,14 @@ class ShareByMailProviderTest extends TestCase {
 		$originalShare = $this->createMock(IShare::class);
 		$originalShare->expects($this->any())->method('getSharedWith')->willReturn('receiver@example.com');
 		$originalShare->expects($this->any())->method('getNode')->willReturn($node);
-		$originalShare->expects($this->any())->method('getId')->willReturn(42);
+		$originalShare->expects($this->any())->method('getId')->willReturn('42');
 		$originalShare->expects($this->any())->method('getPassword')->willReturn($originalPassword);
 		$originalShare->expects($this->any())->method('getSendPasswordByTalk')->willReturn($originalSendPasswordByTalk);
 
 		$share = $this->createMock(IShare::class);
 		$share->expects($this->any())->method('getSharedWith')->willReturn('receiver@example.com');
 		$share->expects($this->any())->method('getNode')->willReturn($node);
-		$share->expects($this->any())->method('getId')->willReturn(42);
+		$share->expects($this->any())->method('getId')->willReturn('42');
 		$share->expects($this->any())->method('getPassword')->willReturn($newPassword);
 		$share->expects($this->any())->method('getSendPasswordByTalk')->willReturn($newSendPasswordByTalk);
 
@@ -871,8 +869,8 @@ class ShareByMailProviderTest extends TestCase {
 
 	public function testDelete(): void {
 		$instance = $this->getInstance(['removeShareFromTable', 'createShareActivity']);
-		$this->share->expects($this->once())->method('getId')->willReturn(42);
-		$instance->expects($this->once())->method('removeShareFromTable')->with(42);
+		$this->share->expects($this->once())->method('getId')->willReturn('42');
+		$instance->expects($this->once())->method('removeShareFromTable')->with('42');
 		$instance->expects($this->once())->method('createShareActivity')->with($this->share, 'unshare');
 		$instance->delete($this->share);
 	}
@@ -896,7 +894,7 @@ class ShareByMailProviderTest extends TestCase {
 				function ($data) use ($uidOwner, $sharedBy, $id2) {
 					$this->assertSame($uidOwner, $data['uid_owner']);
 					$this->assertSame($sharedBy, $data['uid_initiator']);
-					$this->assertSame($id2, (int)$data['id']);
+					$this->assertSame($id2, (string)$data['id']);
 					return $this->share;
 				}
 			);
@@ -905,7 +903,6 @@ class ShareByMailProviderTest extends TestCase {
 
 		$this->assertInstanceOf('OCP\Share\IShare', $result);
 	}
-
 
 	public function testGetShareByIdFailed(): void {
 		$this->expectException(ShareNotFound::class);
@@ -937,7 +934,6 @@ class ShareByMailProviderTest extends TestCase {
 		$node = $this->createMock(Node::class);
 		$node->expects($this->once())->method('getId')->willReturn($itemSource);
 
-
 		$instance = $this->getInstance(['createShareObject']);
 
 		$this->createDummyShare($itemType, 111, $shareWith, $sharedBy, $uidOwner, $permissions, $token);
@@ -948,7 +944,7 @@ class ShareByMailProviderTest extends TestCase {
 				function ($data) use ($uidOwner, $sharedBy, $id) {
 					$this->assertSame($uidOwner, $data['uid_owner']);
 					$this->assertSame($sharedBy, $data['uid_initiator']);
-					$this->assertSame($id, (int)$data['id']);
+					$this->assertSame($id, $data['id']);
 					return $this->share;
 				}
 			);
@@ -979,7 +975,7 @@ class ShareByMailProviderTest extends TestCase {
 		$instance->expects($this->once())->method('createShareObject')
 			->willReturnCallback(
 				function ($data) use ($idMail) {
-					$this->assertSame($idMail, (int)$data['id']);
+					$this->assertSame($idMail, $data['id']);
 					return $this->share;
 				}
 			);
@@ -989,10 +985,8 @@ class ShareByMailProviderTest extends TestCase {
 		$this->assertInstanceOf('OCP\Share\IShare', $result);
 	}
 
-
 	public function testGetShareByTokenFailed(): void {
 		$this->expectException(ShareNotFound::class);
-
 
 		$itemSource = 11;
 		$itemType = 'file';
@@ -1074,7 +1068,6 @@ class ShareByMailProviderTest extends TestCase {
 		$this->assertTrue(is_array($before));
 		$this->assertSame(2, count($before));
 
-
 		$instance = $this->getInstance();
 
 		$instance->userDeleted($uidOwner, IShare::TYPE_EMAIL);
@@ -1088,7 +1081,7 @@ class ShareByMailProviderTest extends TestCase {
 
 		$this->assertTrue(is_array($after));
 		$this->assertSame(1, count($after));
-		$this->assertSame($id, (int)$after[0]['id']);
+		$this->assertSame($id, (string)$after[0]['id']);
 	}
 
 	public function testGetRawShare(): void {
@@ -1116,7 +1109,6 @@ class ShareByMailProviderTest extends TestCase {
 		$this->assertSame($token, $result['token']);
 	}
 
-
 	public function testGetRawShareFailed(): void {
 		$this->expectException(ShareNotFound::class);
 
@@ -1132,10 +1124,10 @@ class ShareByMailProviderTest extends TestCase {
 
 		$id = $this->createDummyShare($itemType, $itemSource, $shareWith, $sharedBy, $uidOwner, $permissions, $token);
 
-		$this->invokePrivate($instance, 'getRawShare', [$id + 1]);
+		$this->invokePrivate($instance, 'getRawShare', [(string)((int)$id + 1)]);
 	}
 
-	private function createDummyShare($itemType, $itemSource, $shareWith, $sharedBy, $uidOwner, $permissions, $token, $note = '', $shareType = IShare::TYPE_EMAIL) {
+	private function createDummyShare($itemType, $itemSource, $shareWith, $sharedBy, $uidOwner, $permissions, $token, $note = '', $shareType = IShare::TYPE_EMAIL): string {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->insert('share')
 			->setValue('share_type', $qb->createNamedParameter($shareType))
@@ -1157,9 +1149,7 @@ class ShareByMailProviderTest extends TestCase {
 		$qb->setValue('file_target', $qb->createNamedParameter(''));
 
 		$qb->executeStatement();
-		$id = $qb->getLastInsertId();
-
-		return (int)$id;
+		return (string)$qb->getLastInsertId();
 	}
 
 	public function testGetSharesInFolder(): void {
@@ -1309,7 +1299,7 @@ class ShareByMailProviderTest extends TestCase {
 			->expects($this->once())
 			->method('addBodyButton')
 			->with(
-				'Open file.txt',
+				'Open shared item',
 				'https://example.com/file.txt'
 			);
 		$message
@@ -1367,7 +1357,7 @@ class ShareByMailProviderTest extends TestCase {
 		$share->expects($this->any())->method('getSharedBy')->willReturn('OwnerUser');
 		$share->expects($this->any())->method('getSharedWith')->willReturn('john@doe.com');
 		$share->expects($this->any())->method('getNode')->willReturn($node);
-		$share->expects($this->any())->method('getId')->willReturn(42);
+		$share->expects($this->any())->method('getId')->willReturn('42');
 		$share->expects($this->any())->method('getNote')->willReturn('');
 		$share->expects($this->any())->method('getToken')->willReturn('token');
 
@@ -1428,7 +1418,7 @@ class ShareByMailProviderTest extends TestCase {
 			->expects($this->once())
 			->method('addBodyButton')
 			->with(
-				'Open file.txt',
+				'Open shared item',
 				'https://example.com/file.txt'
 			);
 		$message
@@ -1486,7 +1476,7 @@ class ShareByMailProviderTest extends TestCase {
 		$share->expects($this->any())->method('getSharedBy')->willReturn('OwnerUser');
 		$share->expects($this->any())->method('getSharedWith')->willReturn('john@doe.com');
 		$share->expects($this->any())->method('getNode')->willReturn($node);
-		$share->expects($this->any())->method('getId')->willReturn(42);
+		$share->expects($this->any())->method('getId')->willReturn('42');
 		$share->expects($this->any())->method('getNote')->willReturn('This is a note to the recipient');
 		$share->expects($this->any())->method('getToken')->willReturn('token');
 
@@ -1552,7 +1542,7 @@ class ShareByMailProviderTest extends TestCase {
 			->expects($this->once())
 			->method('addBodyButton')
 			->with(
-				'Open file.txt',
+				'Open shared item',
 				'https://example.com/file.txt'
 			);
 		$message
@@ -1610,7 +1600,7 @@ class ShareByMailProviderTest extends TestCase {
 		$share->expects($this->any())->method('getSharedBy')->willReturn('OwnerUser');
 		$share->expects($this->any())->method('getSharedWith')->willReturn('john@doe.com');
 		$share->expects($this->any())->method('getNode')->willReturn($node);
-		$share->expects($this->any())->method('getId')->willReturn(42);
+		$share->expects($this->any())->method('getId')->willReturn('42');
 		$share->expects($this->any())->method('getNote')->willReturn('');
 		$share->expects($this->any())->method('getExpirationDate')->willReturn($expiration);
 		$share->expects($this->any())->method('getToken')->willReturn('token');
@@ -1656,7 +1646,7 @@ class ShareByMailProviderTest extends TestCase {
 			->expects($this->once())
 			->method('addBodyButton')
 			->with(
-				'Open file.txt',
+				'Open shared item',
 				'https://example.com/file.txt'
 			);
 		$message
@@ -1705,7 +1695,7 @@ class ShareByMailProviderTest extends TestCase {
 		$share->expects($this->any())->method('getSharedBy')->willReturn('InitiatorUser');
 		$share->expects($this->any())->method('getSharedWith')->willReturn('john@doe.com');
 		$share->expects($this->any())->method('getNode')->willReturn($node);
-		$share->expects($this->any())->method('getId')->willReturn(42);
+		$share->expects($this->any())->method('getId')->willReturn('42');
 		$share->expects($this->any())->method('getNote')->willReturn('');
 		$share->expects($this->any())->method('getToken')->willReturn('token');
 
@@ -1750,7 +1740,7 @@ class ShareByMailProviderTest extends TestCase {
 			->expects($this->once())
 			->method('addBodyButton')
 			->with(
-				'Open file.txt',
+				'Open shared item',
 				'https://example.com/file.txt'
 			);
 		$message
@@ -1803,7 +1793,7 @@ class ShareByMailProviderTest extends TestCase {
 		$share->expects($this->any())->method('getSharedBy')->willReturn('OwnerUser');
 		$share->expects($this->any())->method('getSharedWith')->willReturn('john@doe.com');
 		$share->expects($this->any())->method('getNode')->willReturn($node);
-		$share->expects($this->any())->method('getId')->willReturn(42);
+		$share->expects($this->any())->method('getId')->willReturn('42');
 		$share->expects($this->any())->method('getNote')->willReturn('');
 		$share->expects($this->any())->method('getToken')->willReturn('token');
 
@@ -1848,7 +1838,7 @@ class ShareByMailProviderTest extends TestCase {
 			->expects($this->once())
 			->method('addBodyButton')
 			->with(
-				'Open file.txt',
+				'Open shared item',
 				'https://example.com/file.txt'
 			);
 		$message
@@ -1897,7 +1887,7 @@ class ShareByMailProviderTest extends TestCase {
 		$share->expects($this->any())->method('getSharedBy')->willReturn('InitiatorUser');
 		$share->expects($this->any())->method('getSharedWith')->willReturn('john@doe.com');
 		$share->expects($this->any())->method('getNode')->willReturn($node);
-		$share->expects($this->any())->method('getId')->willReturn(42);
+		$share->expects($this->any())->method('getId')->willReturn('42');
 		$share->expects($this->any())->method('getNote')->willReturn('');
 		$share->expects($this->any())->method('getToken')->willReturn('token');
 

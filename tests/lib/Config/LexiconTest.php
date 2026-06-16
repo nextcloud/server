@@ -5,17 +5,16 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace Tests\lib\Config;
 
 use OC\AppConfig;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Config\ConfigManager;
-use OC\Config\PresetManager;
 use OCP\App\IAppManager;
 use OCP\Config\Exceptions\TypeConflictException;
 use OCP\Config\Exceptions\UnknownKeyException;
 use OCP\Config\IUserConfig;
-use OCP\Config\Lexicon\Preset;
 use OCP\Exceptions\AppConfigTypeConflictException;
 use OCP\Exceptions\AppConfigUnknownKeyException;
 use OCP\IAppConfig;
@@ -34,9 +33,9 @@ class LexiconTest extends TestCase {
 	private IAppConfig $appConfig;
 	private IUserConfig $userConfig;
 	private ConfigManager $configManager;
-	private PresetManager $presetManager;
 	private IAppManager $appManager;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -49,10 +48,10 @@ class LexiconTest extends TestCase {
 		$this->appConfig = Server::get(IAppConfig::class);
 		$this->userConfig = Server::get(IUserConfig::class);
 		$this->configManager = Server::get(ConfigManager::class);
-		$this->presetManager = Server::get(PresetManager::class);
 		$this->appManager = Server::get(IAppManager::class);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		parent::tearDown();
 
@@ -213,30 +212,6 @@ class LexiconTest extends TestCase {
 		$this->assertSame(true, $this->appConfig->getValueBool(TestConfigLexicon_I::APPID, 'key4'));
 		$this->configManager->migrateConfigLexiconKeys(TestConfigLexicon_I::APPID);
 		$this->assertSame(false, $this->appConfig->getValueBool(TestConfigLexicon_I::APPID, 'key4'));
-	}
-
-	public function testAppConfigLexiconPreset() {
-		$this->presetManager->setLexiconPreset(Preset::FAMILY);
-		$this->assertSame('family', $this->appConfig->getValueString(TestLexicon_E::APPID, 'key3'));
-	}
-
-	public function testAppConfigLexiconPresets() {
-		$this->presetManager->setLexiconPreset(Preset::MEDIUM);
-		$this->assertSame('club+medium', $this->appConfig->getValueString(TestLexicon_E::APPID, 'key3'));
-		$this->presetManager->setLexiconPreset(Preset::FAMILY);
-		$this->assertSame('family', $this->appConfig->getValueString(TestLexicon_E::APPID, 'key3'));
-	}
-
-	public function testUserConfigLexiconPreset() {
-		$this->presetManager->setLexiconPreset(Preset::FAMILY);
-		$this->assertSame('family', $this->userConfig->getValueString('user1', TestLexicon_E::APPID, 'key3'));
-	}
-
-	public function testUserConfigLexiconPresets() {
-		$this->presetManager->setLexiconPreset(Preset::MEDIUM);
-		$this->assertSame('club+medium', $this->userConfig->getValueString('user1', TestLexicon_E::APPID, 'key3'));
-		$this->presetManager->setLexiconPreset(Preset::FAMILY);
-		$this->assertSame('family', $this->userConfig->getValueString('user1', TestLexicon_E::APPID, 'key3'));
 	}
 
 	public function testLexiconIndexedUpdate() {

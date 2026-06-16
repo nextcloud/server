@@ -7,15 +7,16 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Encryption\Tests\Crypto;
 
-use OC\Files\SetupManager;
 use OC\Files\View;
 use OCA\Encryption\Crypto\EncryptAll;
 use OCA\Encryption\KeyManager;
 use OCA\Encryption\Users\Setup;
 use OCA\Encryption\Util;
 use OCP\Files\FileInfo;
+use OCP\Files\ISetupManager;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IUser;
@@ -50,7 +51,7 @@ class EncryptAllTest extends TestCase {
 	protected UserInterface&MockObject $userInterface;
 	protected ISecureRandom&MockObject $secureRandom;
 	protected LoggerInterface&MockObject $logger;
-	protected SetupManager&MockObject $setupManager;
+	protected ISetupManager&MockObject $setupManager;
 	protected IUser&MockObject $user1;
 	protected IUser&MockObject $user2;
 
@@ -84,7 +85,7 @@ class EncryptAllTest extends TestCase {
 		$this->userInterface = $this->getMockBuilder(UserInterface::class)
 			->disableOriginalConstructor()->getMock();
 		$this->logger = $this->createMock(LoggerInterface::class);
-		$this->setupManager = $this->createMock(SetupManager::class);
+		$this->setupManager = $this->createMock(ISetupManager::class);
 
 		/**
 		 * We need format method to return a string
@@ -103,13 +104,12 @@ class EncryptAllTest extends TestCase {
 		$this->user2 = $this->createMock(IUser::class);
 		$this->user2->method('getUID')->willReturn('user2');
 
-		$this->userManager->expects($this->any())->method('getSeenUsers')->will($this->returnCallback(function () {
+		$this->userManager->expects($this->any())->method('getSeenUsers')->willReturnCallback(function () {
 			yield $this->user1;
 			yield $this->user2;
-		}));
+		});
 		$this->secureRandom = $this->getMockBuilder(ISecureRandom::class)->disableOriginalConstructor()->getMock();
 		$this->secureRandom->expects($this->any())->method('generate')->willReturn('12345678');
-
 
 		$this->encryptAll = new EncryptAll(
 			$this->setupUser,
@@ -221,7 +221,6 @@ class EncryptAllTest extends TestCase {
 			->onlyMethods(['generateOneTimePassword', 'setupUserFileSystem'])
 			->getMock();
 
-
 		// set protected property $output
 		$this->invokePrivate($encryptAll, 'output', [$this->outputInterface]);
 
@@ -331,7 +330,7 @@ class EncryptAllTest extends TestCase {
 			->willReturnMap([
 				[
 					'/user1/files',
-					'',
+					null,
 					null,
 					[
 						$this->createFileInfoMock(FileInfo::TYPE_FOLDER, 'foo'),
@@ -340,7 +339,7 @@ class EncryptAllTest extends TestCase {
 				],
 				[
 					'/user1/files/foo',
-					'',
+					null,
 					null,
 					[
 						$this->createFileInfoMock(FileInfo::TYPE_FILE, 'subfile'),
@@ -383,13 +382,12 @@ class EncryptAllTest extends TestCase {
 	/**
 	 * @param $isEncrypted
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestEncryptFile')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestEncryptFile')]
 	public function testEncryptFile($isEncrypted): void {
 		$fileInfo = $this->createMock(FileInfo::class);
 		$fileInfo->expects($this->any())->method('isEncrypted')
 			->willReturn($isEncrypted);
 		$this->view->expects($this->never())->method('getFileInfo');
-
 
 		if ($isEncrypted) {
 			$this->view->expects($this->never())->method('copy');

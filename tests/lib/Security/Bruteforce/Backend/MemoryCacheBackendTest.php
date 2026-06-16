@@ -26,6 +26,7 @@ class MemoryCacheBackendTest extends TestCase {
 	private $cache;
 	private IBackend $backend;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

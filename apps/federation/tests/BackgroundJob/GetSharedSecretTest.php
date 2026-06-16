@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Federation\Tests\BackgroundJob;
 
 use GuzzleHttp\Exception\ConnectException;
@@ -30,7 +31,7 @@ use Psr\Log\LoggerInterface;
  *
  * @package OCA\Federation\Tests\BackgroundJob
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class GetSharedSecretTest extends TestCase {
 
 	private MockObject&IClient $httpClient;
@@ -76,7 +77,7 @@ class GetSharedSecretTest extends TestCase {
 		);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestExecute')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestExecute')]
 	public function testExecute(bool $isTrustedServer, bool $retainBackgroundJob): void {
 		/** @var GetSharedSecret&MockObject $getSharedSecret */
 		$getSharedSecret = $this->getMockBuilder(GetSharedSecret::class)
@@ -134,7 +135,7 @@ class GetSharedSecretTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestRun')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestRun')]
 	public function testRun(int $statusCode): void {
 		$target = 'targetURL';
 		$source = 'sourceURL';

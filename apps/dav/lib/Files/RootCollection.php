@@ -5,9 +5,11 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Files;
 
 use OCP\Files\FileInfo;
+use OCP\Files\IRootFolder;
 use OCP\IUserSession;
 use OCP\Server;
 use Sabre\DAV\INode;
@@ -26,6 +28,7 @@ class RootCollection extends AbstractPrincipalCollection {
 	 * @param array $principalInfo
 	 * @return INode
 	 */
+	#[\Override]
 	public function getChildForPrincipal(array $principalInfo) {
 		[,$name] = \Sabre\Uri\split($principalInfo['uri']);
 		$user = Server::get(IUserSession::class)->getUser();
@@ -35,13 +38,14 @@ class RootCollection extends AbstractPrincipalCollection {
 			// in the future this could be considered to be used for accessing shared files
 			return new SimpleCollection($name);
 		}
-		$userFolder = \OC::$server->getUserFolder();
+		$userFolder = Server::get(IRootFolder::class)->getUserFolder($user->getUID());
 		if (!($userFolder instanceof FileInfo)) {
 			throw new \Exception('Home does not exist');
 		}
 		return new FilesHome($principalInfo, $userFolder);
 	}
 
+	#[\Override]
 	public function getName() {
 		return 'files';
 	}

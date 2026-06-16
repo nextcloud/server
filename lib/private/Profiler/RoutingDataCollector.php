@@ -14,16 +14,14 @@ use OCP\AppFramework\Http\Response;
 use OCP\DataCollector\AbstractDataCollector;
 
 class RoutingDataCollector extends AbstractDataCollector {
-	private string $appName;
-	private string $controllerName;
-	private string $actionName;
-
-	public function __construct(string $appName, string $controllerName, string $actionName) {
-		$this->appName = $appName;
-		$this->controllerName = $controllerName;
-		$this->actionName = $actionName;
+	public function __construct(
+		private string $appName,
+		private string $controllerName,
+		private string $actionName,
+	) {
 	}
 
+	#[\Override]
 	public function collect(Request $request, Response $response, ?\Throwable $exception = null): void {
 		$this->data = [
 			'appName' => $this->appName,
@@ -32,6 +30,7 @@ class RoutingDataCollector extends AbstractDataCollector {
 		];
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'router';
 	}

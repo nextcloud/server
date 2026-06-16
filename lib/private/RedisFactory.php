@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use OCP\Diagnostics\IEventLogger;
@@ -13,24 +14,15 @@ class RedisFactory {
 	public const REDIS_MINIMAL_VERSION = '4.0.0';
 	public const REDIS_EXTRA_PARAMETERS_MINIMAL_VERSION = '5.3.0';
 
-	/** @var \Redis|\RedisCluster */
-	private $instance;
+	private \Redis|\RedisCluster|null $instance = null;
 
-	private SystemConfig $config;
-
-	private IEventLogger $eventLogger;
-
-	/**
-	 * RedisFactory constructor.
-	 *
-	 * @param SystemConfig $config
-	 */
-	public function __construct(SystemConfig $config, IEventLogger $eventLogger) {
-		$this->config = $config;
-		$this->eventLogger = $eventLogger;
+	public function __construct(
+		private SystemConfig $config,
+		private IEventLogger $eventLogger,
+	) {
 	}
 
-	private function create() {
+	private function create(): void {
 		$isCluster = in_array('redis.cluster', $this->config->getKeys(), true);
 		$config = $isCluster
 			? $this->config->getValue('redis.cluster', [])
@@ -107,7 +99,6 @@ class RedisFactory {
 				}
 			}
 
-
 			// Auth if configured
 			if ($auth !== null) {
 				$this->instance->auth($auth);
@@ -124,10 +115,9 @@ class RedisFactory {
 	 * Get the ssl context config
 	 *
 	 * @param array $config the current config
-	 * @return array|null
 	 * @throws \UnexpectedValueException
 	 */
-	private function getSslContext($config) {
+	private function getSslContext(array $config): ?array {
 		if (isset($config['ssl_context'])) {
 			if (!$this->isConnectionParametersSupported()) {
 				throw new \UnexpectedValueException(\sprintf(
@@ -140,12 +130,15 @@ class RedisFactory {
 		return null;
 	}
 
-	public function getInstance() {
-		if (!$this->isAvailable()) {
-			throw new \Exception('Redis support is not available');
-		}
-		if (!$this->instance instanceof \Redis) {
+	public function getInstance(): \Redis|\RedisCluster {
+		if ($this->instance === null) {
+			if (!$this->isAvailable()) {
+				throw new \Exception('Redis support is not available');
+			}
 			$this->create();
+			if ($this->instance === null) {
+				throw new \Exception('Redis support is not available');
+			}
 		}
 
 		return $this->instance;

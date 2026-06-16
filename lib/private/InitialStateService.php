@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC;
 
 use Closure;
@@ -24,7 +25,6 @@ class InitialStateService implements IInitialStateService {
 	/** @var Closure[][] */
 	private array $lazyStates = [];
 
-
 	public function __construct(
 		private LoggerInterface $logger,
 		private Coordinator $bootstrapCoordinator,
@@ -32,6 +32,7 @@ class InitialStateService implements IInitialStateService {
 	) {
 	}
 
+	#[\Override]
 	public function provideInitialState(string $appName, string $key, $data): void {
 		// Scalars and JsonSerializable are fine
 		if (is_scalar($data) || $data instanceof \JsonSerializable || is_array($data)) {
@@ -49,6 +50,7 @@ class InitialStateService implements IInitialStateService {
 		$this->logger->warning('Invalid ' . $key . ' data provided to provideInitialState by ' . $appName);
 	}
 
+	#[\Override]
 	public function provideLazyInitialState(string $appName, string $key, Closure $closure): void {
 		if (!isset($this->lazyStates[$appName])) {
 			$this->lazyStates[$appName] = [];

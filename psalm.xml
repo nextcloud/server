@@ -12,15 +12,20 @@
 	errorBaseline="build/psalm-baseline.xml"
 	findUnusedBaselineEntry="true"
 	findUnusedCode="false"
+	findUnusedIssueHandlerSuppression="false"
+	strictBinaryOperands="false"
 	phpVersion="8.2"
 >
 	<plugins>
 		<plugin filename="build/psalm/AppFrameworkTainter.php" />
 		<plugin filename="build/psalm/AttributeNamedParameters.php" />
 		<plugin filename="build/psalm/LogicalOperatorChecker.php" />
+		<pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
+		<plugin filename="build/psalm/StaticVarsChecker.php" />
 	</plugins>
 	<projectFiles>
 		<directory name="apps/admin_audit"/>
+		<directory name="apps/appstore"/>
 		<directory name="apps/cloud_federation_api"/>
 		<directory name="apps/comments"/>
 		<directory name="apps/contactsinteraction"/>
@@ -54,6 +59,7 @@
 		<directory name="core"/>
 		<directory name="lib"/>
 		<directory name="ocs"/>
+		<directory name="tests/lib/Comments"/>
 		<directory name="ocs-provider"/>
 		<file name="cron.php"/>
 		<file name="index.php"/>
@@ -61,16 +67,45 @@
 		<file name="remote.php"/>
 		<file name="status.php"/>
 		<file name="version.php"/>
+		<file name="tests/lib/TestCase.php"/>
+		<file name="tests/lib/Files/Template/*.php"/>
 		<ignoreFiles>
+			<directory name="apps/admin_audit/tests"/>
+			<directory name="apps/cloud_federation_api/tests"/>
+			<directory name="apps/contactsinteraction/tests"/>
+			<directory name="apps/dashboard/tests"/>
+			<directory name="apps/dav/tests"/>
+			<directory name="apps/encryption/tests"/>
+			<directory name="apps/federatedfilesharing/tests"/>
+			<directory name="apps/federation/tests"/>
+			<directory name="apps/files/tests"/>
+			<directory name="apps/files_external/tests"/>
+			<directory name="apps/files_sharing/tests"/>
+			<directory name="apps/files_trashbin/tests"/>
+			<directory name="apps/files_versions/tests"/>
+			<directory name="apps/oauth2/tests"/>
+			<directory name="apps/profile/tests"/>
+			<directory name="apps/provisioning_api/tests"/>
+			<directory name="apps/settings/tests"/>
+			<directory name="apps/sharebymail/tests"/>
+			<directory name="apps/systemtags/tests"/>
+			<directory name="apps/theming/tests"/>
+			<directory name="apps/twofactor_backupcodes/tests"/>
+			<directory name="apps/updatenotification/tests"/>
+			<directory name="apps/user_ldap/tests"/>
+			<directory name="apps/user_status/tests"/>
+			<directory name="apps/webhook_listeners/tests"/>
+			<directory name="apps/workflowengine/tests"/>
 			<directory name="apps/**/composer"/>
-			<directory name="apps/**/tests"/>
 			<directory name="lib/composer"/>
 			<directory name="lib/l10n"/>
 			<directory name="3rdparty"/>
+			<directory name="vendor-bin"/>
 		</ignoreFiles>
 	</projectFiles>
 	<extraFiles>
 		<directory name="3rdparty"/>
+		<directory name="vendor-bin/phpunit/vendor/phpunit"/>
 	</extraFiles>
 	<stubs>
 		<file name="build/stubs/apcu.php"/>
@@ -82,9 +117,11 @@
 		<file name="build/stubs/SensitiveParameter.phpstub"/>
 		<file name="build/stubs/ldap.php"/>
 		<file name="build/stubs/memcached.php"/>
+		<file name="build/stubs/openssl.php"/>
 		<file name="build/stubs/redis.php"/>
 		<file name="build/stubs/redis_cluster.php"/>
 		<file name="build/stubs/sftp.php"/>
+		<file name="build/stubs/sodium.php"/>
 		<file name="build/stubs/ssh2.php"/>
 		<file name="build/stubs/xsl.php"/>
 		<file name="build/stubs/ftp.php"/>
@@ -94,7 +131,11 @@
 		<file name="3rdparty/sabre/uri/lib/functions.php" />
 		<file name="build/stubs/app_api.php" />
 		<file name="build/stubs/php-polyfill.php" />
+		<file name="build/stubs/oca_talk_share_helper_shareapicontroller.php" />
 	</stubs>
+	<forbiddenFunctions>
+		<function name="iconv"/>
+	</forbiddenFunctions>
 	<issueHandlers>
 		<LessSpecificReturnStatement errorLevel="error"/>
 		<LessSpecificReturnType errorLevel="error"/>
@@ -111,6 +152,7 @@
 				<referencedClass name="OCA\TwoFactorNextcloudNotification\Controller\APIController"/>
 				<referencedClass name="OCA\GlobalSiteSelector\Service\SlaveService"/>
 				<referencedClass name="OCA\Guests\UserBackend"/>
+				<referencedClass name="OCA\GroupFolders\Mount\GroupMountPoint"/>
 			</errorLevel>
 		</UndefinedClass>
 		<UndefinedFunction>
@@ -167,37 +209,43 @@
 		<DeprecatedClass>
 			<errorLevel type="suppress">
 				<directory name="lib" />
+				<directory name="apps/*/tests" />
 			</errorLevel>
 		</DeprecatedClass>
 		<DeprecatedConstant>
 			<errorLevel type="suppress">
 				<directory name="lib" />
+				<directory name="apps/*/tests" />
 			</errorLevel>
 		</DeprecatedConstant>
-		<DeprecatedFunction>
-			<errorLevel type="suppress">
-				<directory name="lib" />
-			</errorLevel>
-		</DeprecatedFunction>
 		<DeprecatedInterface>
 			<errorLevel type="suppress">
 				<directory name="lib" />
+				<directory name="apps/*/tests" />
 			</errorLevel>
 		</DeprecatedInterface>
 		<DeprecatedMethod>
 			<errorLevel type="suppress">
 				<directory name="lib" />
+				<directory name="apps/*/tests" />
 			</errorLevel>
 		</DeprecatedMethod>
 		<DeprecatedProperty>
 			<errorLevel type="suppress">
 				<directory name="lib" />
+				<directory name="apps/*/tests" />
 			</errorLevel>
 		</DeprecatedProperty>
 		<DeprecatedTrait>
 			<errorLevel type="suppress">
 				<directory name="lib" />
+				<directory name="apps/*/tests" />
 			</errorLevel>
 		</DeprecatedTrait>
+		<PluginIssue name="ImpureStaticProperty">
+			<errorLevel type="suppress">
+				<directory name="lib/private/legacy" />
+			</errorLevel>
+		</PluginIssue>
 	</issueHandlers>
 </psalm>

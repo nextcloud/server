@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files\Tests\Controller;
 
 use OC\Files\FilenameValidator;
@@ -18,6 +19,7 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
 use OCP\Diagnostics\IEventLogger;
@@ -48,6 +50,7 @@ use Test\TestCase;
 class ViewControllerTest extends TestCase {
 	private ContainerInterface&MockObject $container;
 	private IAppManager&MockObject $appManager;
+	private IAppConfig&MockObject $appConfig;
 	private ICacheFactory&MockObject $cacheFactory;
 	private IConfig&MockObject $config;
 	private IEventDispatcher $eventDispatcher;
@@ -71,6 +74,7 @@ class ViewControllerTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 		$this->appManager = $this->createMock(IAppManager::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->initialState = $this->createMock(IInitialState::class);
@@ -101,6 +105,10 @@ class ViewControllerTest extends TestCase {
 		$this->appManager->expects($this->any())
 			->method('isAppLoaded')
 			->willReturn(true);
+		$this->appManager->expects($this->any())
+			->method('getAppNamespace')
+			->with('files')
+			->willReturn('OCA\\Files');
 
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
@@ -142,6 +150,7 @@ class ViewControllerTest extends TestCase {
 				$this->viewConfig,
 				$filenameValidator,
 				$this->twoFactorRegistry,
+				$this->appConfig,
 			])
 			->onlyMethods([
 				'getStorageInfo',
@@ -214,7 +223,7 @@ class ViewControllerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestShortRedirect')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestShortRedirect')]
 	public function testShortRedirect(?string $openfile, ?string $opendetails, string $result): void {
 		$this->appManager->expects($this->any())
 			->method('isEnabledForUser')
@@ -298,14 +307,11 @@ class ViewControllerTest extends TestCase {
 				'backup_codes' => true,
 			]);
 
-		$invokedCountProvideInitialState = $this->exactly(9);
-		$this->initialState->expects($invokedCountProvideInitialState)
+		$initialStates = [];
+		$this->initialState->expects(self::atLeast(13))
 			->method('provideInitialState')
-			->willReturnCallback(function ($key, $data) use ($invokedCountProvideInitialState): void {
-				if ($invokedCountProvideInitialState->numberOfInvocations() === 9) {
-					$this->assertEquals('isTwoFactorEnabled', $key);
-					$this->assertTrue($data);
-				}
+			->willReturnCallback(function ($key, $data) use (&$initialStates): void {
+				$initialStates[$key] = $data;
 			});
 
 		$this->config
@@ -315,5 +321,6 @@ class ViewControllerTest extends TestCase {
 			]);
 
 		$this->viewController->index('', '', null);
+		$this->assertTrue($initialStates['isTwoFactorEnabled'] ?? false);
 	}
 }

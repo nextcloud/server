@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016-2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
@@ -16,7 +16,7 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Server;
-use OCP\Snowflake\IGenerator;
+use OCP\Snowflake\ISnowflakeGenerator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -34,6 +34,7 @@ class JobListTest extends TestCase {
 	protected IConfig&MockObject $config;
 	protected ITimeFactory&MockObject $timeFactory;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -46,7 +47,7 @@ class JobListTest extends TestCase {
 			$this->config,
 			$this->timeFactory,
 			Server::get(LoggerInterface::class),
-			Server::get(IGenerator::class),
+			Server::get(ISnowflakeGenerator::class),
 		);
 	}
 
@@ -99,6 +100,24 @@ class JobListTest extends TestCase {
 		$this->assertEquals($existingJobs, $jobs);
 	}
 
+	public function testAddAcceptsArgumentUnderMaxLength(): void {
+		$argument = str_repeat('a', $this->instance::MAX_ARGUMENT_JSON_LENGTH - 100);
+		$job = new TestJob();
+		$this->assertFalse($this->instance->has($job, $argument));
+		$this->instance->add($job, $argument);
+
+		$this->assertTrue($this->instance->has($job, $argument));
+	}
+
+	public function testAddRejectsArgumentAboveMaxLength(): void {
+		$argument = str_repeat('a', $this->instance::MAX_ARGUMENT_JSON_LENGTH + 100);
+
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage('Background job arguments can\'t exceed ' . $this->instance::MAX_ARGUMENT_JSON_LENGTH . ' characters (json encoded)');
+
+		$this->instance->add(new TestJob(), $argument);
+	}
+
 	#[DataProvider('argumentProvider')]
 	public function testRemoveDifferentArgument(mixed $argument): void {
 		$existingJobs = $this->getAllSorted();
@@ -146,12 +165,12 @@ class JobListTest extends TestCase {
 		if ($lastChecked === 0) {
 			$lastChecked = time();
 		}
-		$id = Server::get(IGenerator::class)->nextId();
+		$id = Server::get(ISnowflakeGenerator::class)->nextId();
 
 		$query = $this->connection->getQueryBuilder();
 		$query->insert('jobs')
 			->values([
-				'id' => $query->createNamedParameter($id, IQueryBuilder::PARAM_INT),
+				'id' => $query->createNamedParameter($id),
 				'class' => $query->createNamedParameter($class),
 				'argument' => $query->createNamedParameter($argument),
 				'last_run' => $query->createNamedParameter($lastRun, IQueryBuilder::PARAM_INT),

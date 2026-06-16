@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV\WebcalCaching;
 
 use OCA\DAV\CalDAV\CalDavBackend;
@@ -17,7 +18,6 @@ use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\VObject;
 use Sabre\VObject\Recur\NoInstancesException;
-
 use Test\TestCase;
 
 class RefreshWebcalServiceTest extends TestCase {
@@ -50,7 +50,7 @@ class RefreshWebcalServiceTest extends TestCase {
 		return $stream;
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('runDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'runDataProvider')]
 	public function testRun(string $body, string $format, string $result): void {
 		$refreshWebcalService = new RefreshWebcalService(
 			$this->caldavBackend,
@@ -119,7 +119,7 @@ class RefreshWebcalServiceTest extends TestCase {
 		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('identicalDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'identicalDataProvider')]
 	public function testRunIdentical(string $uid, array $calendarObject, string $body, string $format, string $result): void {
 		$refreshWebcalService = new RefreshWebcalService(
 			$this->caldavBackend,
@@ -354,7 +354,7 @@ class RefreshWebcalServiceTest extends TestCase {
 		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('runDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'runDataProvider')]
 	public function testRunCreateCalendarNoException(string $body, string $format, string $result): void {
 		$refreshWebcalService = $this->getMockBuilder(RefreshWebcalService::class)
 			->onlyMethods(['getSubscription'])
@@ -407,7 +407,7 @@ class RefreshWebcalServiceTest extends TestCase {
 		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('runDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'runDataProvider')]
 	public function testRunCreateCalendarBadRequest(string $body, string $format, string $result): void {
 		$refreshWebcalService = $this->getMockBuilder(RefreshWebcalService::class)
 			->onlyMethods(['getSubscription'])

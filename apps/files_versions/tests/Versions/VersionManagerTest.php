@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Versions\Tests\Versions;
 
 use OC\Files\Storage\Local;
@@ -26,6 +27,9 @@ class VersionManagerTest extends TestCase {
 		return $backend;
 	}
 
+	/**
+	 * @param class-string<IStorage> $class
+	 */
 	private function getStorage(string $class): IStorage&MockObject {
 		return $this->getMockBuilder($class)
 			->disableOriginalConstructor()

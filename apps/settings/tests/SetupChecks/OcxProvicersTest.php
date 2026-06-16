@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Tests\SetupChecks;
 
 use OCA\Settings\SetupChecks\OcxProviders;
@@ -144,8 +145,6 @@ class OcxProvicersTest extends TestCase {
 	 * Helper function creates a nicer interface for mocking Generator behavior
 	 */
 	protected function generate(array $yield_values) {
-		return $this->returnCallback(function () use ($yield_values) {
-			yield from $yield_values;
-		});
+		yield from $yield_values;
 	}
 }

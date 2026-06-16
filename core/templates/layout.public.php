@@ -93,7 +93,7 @@ p($theme->getTitle());
 		<?php print_unescaped($_['content']); ?>
 	</div>
 
-	<?php if ((isset($template) && $template->getFooterVisible()) || $theme->getLongFooter() !== '' || $_['showSimpleSignUpLink']) { ?>
+	<?php if ((!isset($template) || $template->getFooterVisible() !== false) && ($theme->getLongFooter() !== '' || $_['showSimpleSignUpLink'])) { ?>
 	<footer class="guest-box">
 		<?php if ($theme->getLongFooter() !== '') { ?>
 		<p class="info">

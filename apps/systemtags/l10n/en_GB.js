@@ -97,6 +97,7 @@ OC.L10N.register(
     "If enabled, only administrators can create and edit tags. Accounts can still assign and remove them from files." : "If enabled, only administrators can create and edit tags. Accounts can still assign and remove them from files.",
     "Restrict tag creation and editing to administrators" : "Restrict tag creation and editing to administrators",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them.",
+    "Add tags" : "Add tags",
     "Assigned collaborative tags" : "Assigned collaborative tags",
     "Open in Files" : "Open in Files",
     "List of tags and their associated files and folders." : "List of tags and their associated files and folders.",
@@ -111,10 +112,6 @@ OC.L10N.register(
     "Failed to delete tag for file" : "Failed to delete tag for file",
     "Collaborative tags …" : "Collaborative tags …",
     "Loading …" : "Loading …",
-    "File tags modification canceled" : "File tags modification cancelled",
-    "Select or create tags to apply to all selected files" : "Select or create tags to apply to all selected files",
-    "Select tags to apply to all selected files" : "Select tags to apply to all selected files",
-    "Apply changes" : "Apply changes",
     "Loading collaborative tags …" : "Loading collaborative tags …"
 },
 "nplurals=2; plural=(n != 1);");

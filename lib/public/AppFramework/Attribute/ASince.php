@@ -22,12 +22,16 @@ abstract class ASince {
 	 * @param string $since For shipped apps and server code such as core/ and lib/,
 	 *                      this should be the server version. For other apps it
 	 *                      should be the semantic app version.
+	 * @since 32.0.0
 	 */
 	public function __construct(
 		protected string $since,
 	) {
 	}
 
+	/**
+	 * @since 32.0.0
+	 */
 	public function getSince(): string {
 		return $this->since;
 	}

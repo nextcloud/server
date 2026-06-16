@@ -11,10 +11,9 @@ namespace OCA\Files_External\Migration;
 
 use Closure;
 use OCA\Files_External\Service\GlobalStoragesService;
-use OCP\DB\ISchemaWrapper;
-use OCP\IAppConfig;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
+use Override;
 
 /**
  * Check for any external storage overwriting the home folder
@@ -22,13 +21,10 @@ use OCP\Migration\SimpleMigrationStep;
 class Version1025Date20250228162604 extends SimpleMigrationStep {
 	public function __construct(
 		private GlobalStoragesService $globalStoragesServices,
-		private IAppConfig $appConfig,
 	) {
 	}
 
-	/**
-	 * @param Closure(): ISchemaWrapper $schemaClosure
-	 */
+	#[Override]
 	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options): void {
 		$this->globalStoragesServices->updateOverwriteHomeFolders();
 	}

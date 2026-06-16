@@ -54,7 +54,7 @@ namespace OCA\Files_Sharing;
  *     token: ?string,
  *     uid_file_owner: string,
  *     uid_owner: string,
- *     url?: string,
+ *     url?: string|null,
  * }
  *
  * @psalm-type Files_SharingDeletedShare = array{
@@ -97,6 +97,7 @@ namespace OCA\Files_Sharing;
  *     share_type: int,
  *     type: string|null,
  *     user: string,
+ *     item_size: int|float|null,
  * }
  *
  * @psalm-type Files_SharingSharee = array{

@@ -1,27 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\AppFramework;
 
 use OCP\AppFramework\Http as BaseHttp;
 
 class Http extends BaseHttp {
-	private $server;
-	private $protocolVersion;
 	protected $headers;
 
 	/**
 	 * @param array $server $_SERVER
 	 * @param string $protocolVersion the http version to use defaults to HTTP/1.1
 	 */
-	public function __construct($server, $protocolVersion = 'HTTP/1.1') {
-		$this->server = $server;
-		$this->protocolVersion = $protocolVersion;
-
+	public function __construct(
+		private $server,
+		private $protocolVersion = 'HTTP/1.1',
+	) {
 		$this->headers = [
 			self::STATUS_CONTINUE => 'Continue',
 			self::STATUS_SWITCHING_PROTOCOLS => 'Switching Protocols',
@@ -84,7 +85,6 @@ class Http extends BaseHttp {
 			self::STATUS_NETWORK_AUTHENTICATION_REQUIRED => 'Network Authentication Required', // draft-nottingham-http-new-status
 		];
 	}
-
 
 	/**
 	 * Gets the correct header

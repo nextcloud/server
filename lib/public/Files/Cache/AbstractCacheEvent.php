@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\Files\Cache;
 
 use OCP\EventDispatcher\Event;
@@ -37,6 +38,7 @@ class AbstractCacheEvent extends Event implements ICacheEvent {
 	 * @return IStorage
 	 * @since 22.0.0
 	 */
+	#[\Override]
 	public function getStorage(): IStorage {
 		return $this->storage;
 	}
@@ -45,6 +47,7 @@ class AbstractCacheEvent extends Event implements ICacheEvent {
 	 * @return string
 	 * @since 22.0.0
 	 */
+	#[\Override]
 	public function getPath(): string {
 		return $this->path;
 	}
@@ -53,6 +56,7 @@ class AbstractCacheEvent extends Event implements ICacheEvent {
 	 * @param string $path
 	 * @since 22.0.0
 	 */
+	#[\Override]
 	public function setPath(string $path): void {
 		$this->path = $path;
 	}
@@ -61,6 +65,7 @@ class AbstractCacheEvent extends Event implements ICacheEvent {
 	 * @return int
 	 * @since 22.0.0
 	 */
+	#[\Override]
 	public function getFileId(): int {
 		return $this->fileId;
 	}
@@ -69,6 +74,7 @@ class AbstractCacheEvent extends Event implements ICacheEvent {
 	 * @return int
 	 * @since 22.0.0
 	 */
+	#[\Override]
 	public function getStorageId(): int {
 		return $this->storageId;
 	}

@@ -11,6 +11,7 @@ namespace OC\Core\Controller;
 use OC\Authentication\TwoFactorAuth\ProviderManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
@@ -60,6 +61,7 @@ class TwoFactorApiController extends OCSController {
 	 * 404: user not found
 	 */
 	#[ApiRoute(verb: 'POST', url: '/enable', root: '/twofactor')]
+	#[PasswordConfirmationRequired]
 	public function enable(string $user, array $providers = []): DataResponse {
 		$userObject = $this->userManager->get($user);
 		if ($userObject !== null) {
@@ -84,6 +86,7 @@ class TwoFactorApiController extends OCSController {
 	 * 404: user not found
 	 */
 	#[ApiRoute(verb: 'POST', url: '/disable', root: '/twofactor')]
+	#[PasswordConfirmationRequired(strict: true)]
 	public function disable(string $user, array $providers = []): DataResponse {
 		$userObject = $this->userManager->get($user);
 		if ($userObject !== null) {

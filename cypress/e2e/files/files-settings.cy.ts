@@ -19,11 +19,10 @@ describe('files: Set default view', { testIsolation: true }, () => {
 
 		// See URL and current view
 		cy.url().should('match', /\/apps\/files\/files/)
-		cy.get('[data-cy-files-content-breadcrumbs]')
-			.findByRole('button', {
-				name: 'All files',
-				description: 'Reload current directory',
-			})
+		cy.findByRole('navigation', { name: 'Current directory path' })
+			.findAllByRole('button')
+			.first()
+			.should('have.text', 'All files')
 
 		// See the option is also selected
 		// Open the files settings
@@ -54,11 +53,10 @@ describe('files: Set default view', { testIsolation: true }, () => {
 
 		cy.visit('/apps/files')
 		cy.url().should('match', /\/apps\/files\/personal/)
-		cy.get('[data-cy-files-content-breadcrumbs]')
-			.findByRole('button', {
-				name: 'Personal files',
-				description: 'Reload current directory',
-			})
+		cy.findByRole('navigation', { name: 'Current directory path' })
+			.findAllByRole('button')
+			.first()
+			.should('have.text', 'Personal files')
 	})
 })
 

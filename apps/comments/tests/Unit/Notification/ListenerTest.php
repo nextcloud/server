@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Comments\Tests\Unit\Notification;
 
 use OCA\Comments\Notification\Listener;
@@ -26,6 +27,7 @@ class ListenerTest extends TestCase {
 	protected IURLGenerator&MockObject $urlGenerator;
 	protected Listener $listener;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -51,7 +53,7 @@ class ListenerTest extends TestCase {
 	 * @param string $eventType
 	 * @param string $notificationMethod
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('eventProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'eventProvider')]
 	public function testEvaluate(string $eventType, $notificationMethod): void {
 		/** @var IComment|MockObject $comment */
 		$comment = $this->createMock(IComment::class);
@@ -111,7 +113,7 @@ class ListenerTest extends TestCase {
 		$this->listener->evaluate($event);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('eventProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'eventProvider')]
 	public function testEvaluateNoMentions(string $eventType): void {
 		/** @var IComment|MockObject $comment */
 		$comment = $this->createMock(IComment::class);

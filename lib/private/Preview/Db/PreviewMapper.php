@@ -9,13 +9,15 @@ declare(strict_types=1);
 
 namespace OC\Preview\Db;
 
+use DateInterval;
+use DateTimeImmutable;
 use OCP\AppFramework\Db\Entity;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\IMimeTypeLoader;
 use OCP\IDBConnection;
-use OCP\Snowflake\IGenerator;
+use OCP\Snowflake\ISnowflakeGenerator;
 use Override;
 
 /**
@@ -26,15 +28,17 @@ class PreviewMapper extends QBMapper {
 	private const TABLE_NAME = 'previews';
 	private const LOCATION_TABLE_NAME = 'preview_locations';
 	private const VERSION_TABLE_NAME = 'preview_versions';
+	public const MAX_CHUNK_SIZE = 1000;
 
 	public function __construct(
 		IDBConnection $db,
 		private readonly IMimeTypeLoader $mimeTypeLoader,
-		private readonly IGenerator $snowflake,
+		private readonly ISnowflakeGenerator $snowflake,
 	) {
 		parent::__construct($db, self::TABLE_NAME, Preview::class);
 	}
 
+	#[\Override]
 	protected function mapRowToEntity(array $row): Entity {
 		$row['mimetype'] = $this->mimeTypeLoader->getMimetypeById((int)$row['mimetype_id']);
 		$row['source_mimetype'] = $this->mimeTypeLoader->getMimetypeById((int)$row['source_mimetype_id']);
@@ -52,15 +56,14 @@ class PreviewMapper extends QBMapper {
 
 		if ($preview->getVersion() !== null && $preview->getVersion() !== '') {
 			$qb = $this->db->getQueryBuilder();
-			$id = $this->snowflake->nextId();
 			$qb->insert(self::VERSION_TABLE_NAME)
 				->values([
-					'id' => $qb->createNamedParameter($id),
+					'id' => $qb->createNamedParameter($preview->getId()),
 					'version' => $qb->createNamedParameter($preview->getVersion(), IQueryBuilder::PARAM_STR),
 					'file_id' => $qb->createNamedParameter($preview->getFileId()),
 				])
 				->executeStatement();
-			$entity->setVersionId($id);
+			$entity->setVersionId((string)$preview->getId());
 		}
 		return parent::insert($preview);
 	}
@@ -205,13 +208,17 @@ class PreviewMapper extends QBMapper {
 	/**
 	 * @return \Generator<Preview>
 	 */
-	public function getPreviews(int $lastId, int $limit = 1000): \Generator {
+	public function getPreviews(string $lastId, int $limit = self::MAX_CHUNK_SIZE, ?int $maxAgeDays = null): \Generator {
 		$qb = $this->db->getQueryBuilder();
 		$this->joinLocation($qb)
-			->where($qb->expr()->gt('p.id', $qb->createNamedParameter($lastId, IQueryBuilder::PARAM_INT)))
+			->where($qb->expr()->gt('p.id', $qb->createNamedParameter($lastId)))
 			->setMaxResults($limit);
-		return $this->yieldEntities($qb);
 
+		if ($maxAgeDays !== null) {
+			$qb->andWhere($qb->expr()->lt('mtime', $qb->createNamedParameter((new DateTimeImmutable())->sub(new DateInterval('P' . $maxAgeDays . 'D'))->getTimestamp(), IQueryBuilder::PARAM_INT)));
+		}
+
+		return $this->yieldEntities($qb);
 	}
 
 	/**

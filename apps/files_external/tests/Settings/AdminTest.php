@@ -5,15 +5,21 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_External\Tests\Settings;
 
 use OCA\Files_External\Lib\Auth\Password\GlobalAuth;
-use OCA\Files_External\MountConfig;
+use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Settings\Admin;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\Encryption\IManager;
+use OCP\IL10N;
+use OCP\IURLGenerator;
+use OCP\Settings\IDelegatedSettings;
+use OCP\Settings\ISettings;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -22,6 +28,9 @@ class AdminTest extends TestCase {
 	private GlobalStoragesService&MockObject $globalStoragesService;
 	private BackendService&MockObject $backendService;
 	private GlobalAuth&MockObject $globalAuth;
+	private IInitialState&MockObject $initialState;
+	private IURLGenerator&MockObject $urlGenerator;
+	private IL10N&MockObject $l10n;
 	private Admin $admin;
 
 	protected function setUp(): void {
@@ -30,58 +39,87 @@ class AdminTest extends TestCase {
 		$this->globalStoragesService = $this->createMock(GlobalStoragesService::class);
 		$this->backendService = $this->createMock(BackendService::class);
 		$this->globalAuth = $this->createMock(GlobalAuth::class);
+		$this->initialState = $this->createMock(IInitialState::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->l10n = $this->createMock(IL10N::class);
+		$this->l10n->method('t')->willReturnCallback(function ($text) {
+			return $text;
+		});
 
 		$this->admin = new Admin(
 			$this->encryptionManager,
 			$this->globalStoragesService,
 			$this->backendService,
-			$this->globalAuth
+			$this->globalAuth,
+			$this->initialState,
+			$this->urlGenerator,
+			$this->l10n,
 		);
 	}
 
 	public function testGetForm(): void {
+		$backends = [
+			$this->createMock(Backend::class),
+		];
+		$backends[0]->method('checkDependencies')->willReturn([]);
+		$backends[0]->method('getIdentifier')->willReturn('backend1');
+
+		$authMechanism = $this->createMock(GlobalAuth::class);
 		$this->encryptionManager
 			->expects($this->once())
 			->method('isEnabled')
 			->willReturn(false);
-		$this->globalStoragesService
-			->expects($this->once())
-			->method('getStorages')
-			->willReturn(['a', 'b', 'c']);
 		$this->backendService
-			->expects($this->once())
+			->expects($this->atLeastOnce())
 			->method('getAvailableBackends')
-			->willReturn(['d', 'e', 'f']);
+			->willReturn($backends);
 		$this->backendService
-			->expects($this->once())
+			->expects($this->atLeastOnce())
 			->method('getAuthMechanisms')
-			->willReturn(['g', 'h', 'i']);
+			->willReturn([$authMechanism]);
 		$this->backendService
-			->expects($this->once())
+			->expects($this->atLeastOnce())
 			->method('isUserMountingAllowed')
 			->willReturn(true);
-		$this->backendService
-			->expects($this->exactly(2))
-			->method('getBackends')
-			->willReturn([]);
 		$this->globalAuth
 			->expects($this->once())
 			->method('getAuth')
 			->with('')
-			->willReturn('asdf:asdf');
-		$params = [
-			'encryptionEnabled' => false,
-			'visibilityType' => BackendService::VISIBILITY_ADMIN,
-			'storages' => ['a', 'b', 'c'],
-			'backends' => ['d', 'e', 'f'],
-			'authMechanisms' => ['g', 'h', 'i'],
-			'dependencies' => MountConfig::dependencyMessage($this->backendService->getBackends()),
-			'allowUserMounting' => true,
-			'globalCredentials' => 'asdf:asdf',
-			'globalCredentialsUid' => '',
-		];
-		$expected = new TemplateResponse('files_external', 'settings', $params, '');
+			->willReturn(['asdf' => 'asdf']);
+
+		$initialState = [];
+		$this->initialState
+			->expects($this->atLeastOnce())
+			->method('provideInitialState')
+			->willReturnCallback(function () use (&$initialState): void {
+				$args = func_get_args();
+				$initialState[$args[0]] = $args[1];
+			});
+
+		$expected = new TemplateResponse('files_external', 'settings', renderAs: '');
 		$this->assertEquals($expected, $this->admin->getForm());
+		$this->assertEquals($initialState, [
+			'settings' => [
+				'docUrl' => '',
+				'dependencyIssues' => [
+					'messages' => [],
+					'modules' => [],
+				],
+				'isAdmin' => true,
+				'hasEncryption' => false,
+			],
+			'global-credentials' => [
+				'uid' => '',
+				'asdf' => 'asdf',
+			],
+			'allowedBackends' => ['backend1'],
+			'backends' => $backends,
+			'authMechanisms' => [$authMechanism],
+			'user-mounting' => [
+				'allowUserMounting' => true,
+				'allowedBackends' => [],
+			],
+		]);
 	}
 
 	public function testGetSection(): void {
@@ -90,5 +128,23 @@ class AdminTest extends TestCase {
 
 	public function testGetPriority(): void {
 		$this->assertSame(40, $this->admin->getPriority());
+	}
+
+	public function testGetName(): void {
+		$this->l10n->expects($this->once())
+			->method('t')
+			->with('External storage')
+			->willReturn('External storage');
+
+		$this->assertSame('External storage', $this->admin->getName());
+	}
+
+	public function testGetAuthorizedAppConfig(): void {
+		$this->assertSame([], $this->admin->getAuthorizedAppConfig());
+	}
+
+	public function testImplementsIDelegatedSettings(): void {
+		$this->assertInstanceOf(IDelegatedSettings::class, $this->admin);
+		$this->assertInstanceOf(ISettings::class, $this->admin);
 	}
 }

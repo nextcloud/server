@@ -1,5 +1,4 @@
 {
-	"info": [],
 	"remote": [],
 	"public": [],
 	"id": "files_encryption",
@@ -91,5 +90,11 @@
 		"admin-section": [],
 		"personal": [],
 		"personal-section": []
+	},
+	"openmetrics": {
+		"exporter": [
+			"OC\\OpenMetrics\\Exporters\\ActiveSessions",
+			"OC\\OpenMetrics\\Exporters\\ActiveUsers"
+		]
 	}
 }

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 ownCloud GmbH
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Command;
 
 use OCA\DAV\Command\RemoveInvalidShares;
@@ -24,7 +25,7 @@ use Test\TestCase;
  *
  * @package OCA\DAV\Tests\Unit\Repair
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class RemoveInvalidSharesTest extends TestCase {
 	private RemoveInvalidShares $command;
 

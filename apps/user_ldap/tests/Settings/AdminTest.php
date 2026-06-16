@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\User_LDAP\Tests\Settings;
 
 use OCA\User_LDAP\Configuration;
@@ -20,7 +21,7 @@ use Test\TestCase;
 /**
  * @package OCA\User_LDAP\Tests\Settings
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class AdminTest extends TestCase {
 	private IL10N&MockObject $l10n;
 	private ITemplateManager $templateManager;

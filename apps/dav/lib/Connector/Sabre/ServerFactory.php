@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\Files\View;
@@ -103,6 +104,7 @@ class ServerFactory {
 		$server->addPlugin(new LockPlugin());
 
 		$server->addPlugin(new RequestIdHeaderPlugin($this->request));
+		$server->addPlugin(new UserIdHeaderPlugin($this->userSession));
 
 		$server->addPlugin(new ZipFolderPlugin(
 			$tree,
@@ -179,7 +181,6 @@ class ServerFactory {
 				$server->addPlugin(new SharesPlugin(
 					$tree,
 					$this->userSession,
-					$userFolder,
 					\OCP\Server::get(\OCP\Share\IManager::class)
 				));
 				$server->addPlugin(new CommentPropertiesPlugin(\OCP\Server::get(ICommentsManager::class), $this->userSession));
@@ -209,6 +210,7 @@ class ServerFactory {
 				);
 			}
 			$server->addPlugin(new CopyEtagHeaderPlugin());
+			$server->addPlugin(new AddExtraHeadersPlugin($this->logger, $isPublicShare));
 
 			// Load dav plugins from apps
 			$event = new SabrePluginEvent($server);

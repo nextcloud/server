@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Tests\Storage;
 
 use OC\Files\Storage\DAV;
@@ -19,7 +20,7 @@ use OCP\Server;
  *
  * @package OCA\Files_External\Tests\Storage
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class WebdavTest extends \Test\Files\Storage\Storage {
 	use ConfigurableStorageTrait;
 
@@ -27,7 +28,7 @@ class WebdavTest extends \Test\Files\Storage\Storage {
 		parent::setUp();
 
 		$id = $this->getUniqueID();
-		$this->loadConfig('files_external/tests/config.webdav.php');
+		$this->loadConfig(__DIR__ . '/../config.webdav.php');
 		if (isset($this->config['wait'])) {
 			$this->waitDelay = $this->config['wait'];
 		}

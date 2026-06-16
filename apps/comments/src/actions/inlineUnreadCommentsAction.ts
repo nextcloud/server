@@ -1,13 +1,17 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import CommentProcessingSvg from '@mdi/svg/svg/comment-processing.svg?raw'
-import { FileAction } from '@nextcloud/files'
-import { n, t } from '@nextcloud/l10n'
-import logger from '../logger.js'
 
-export const action = new FileAction({
+import type { IFileAction } from '@nextcloud/files'
+
+import CommentProcessingSvg from '@mdi/svg/svg/comment-processing.svg?raw'
+import { getSidebar } from '@nextcloud/files'
+import { n, t } from '@nextcloud/l10n'
+import logger from '../logger.ts'
+import { isUsingActivityIntegration } from '../utils/activity.ts'
+
+export const action: IFileAction = {
 	id: 'comments-unread',
 
 	title({ nodes }) {
@@ -34,8 +38,14 @@ export const action = new FileAction({
 		}
 
 		try {
-			window.OCA.Files.Sidebar.setActiveTab('comments')
-			await window.OCA.Files.Sidebar.open(nodes[0].path)
+			const sidebar = getSidebar()
+			const sidebarTabId = isUsingActivityIntegration() ? 'activity' : 'comments'
+			if (sidebar.isOpen && sidebar.node?.source === nodes[0].source) {
+				logger.debug('Sidebar already open for this node, just activating comments tab')
+				sidebar.setActiveTab(sidebarTabId)
+				return null
+			}
+			sidebar.open(nodes[0], sidebarTabId)
 			return null
 		} catch (error) {
 			logger.error('Error while opening sidebar', { error })
@@ -46,4 +56,4 @@ export const action = new FileAction({
 	inline: () => true,
 
 	order: -140,
-})
+}

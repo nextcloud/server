@@ -34,6 +34,7 @@ class JSCombinerTest extends \Test\TestCase {
 
 	private JSCombiner $jsCombiner;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -414,7 +415,6 @@ var b = \'world\';
 		$gzFile = $this->createMock(ISimpleFile::class);
 
 		$path = __DIR__ . '/data/';
-
 
 		$folder->method('getFile')->willReturnCallback(
 			function ($filename) use ($file, $depsFile, $gzFile) {

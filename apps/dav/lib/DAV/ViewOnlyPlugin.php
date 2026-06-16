@@ -38,6 +38,7 @@ class ViewOnlyPlugin extends ServerPlugin {
 	 *
 	 * This method should set up the required event subscriptions.
 	 */
+	#[\Override]
 	public function initialize(Server $server): void {
 		$this->server = $server;
 		//priority 90 to make sure the plugin is called before
@@ -69,9 +70,8 @@ class ViewOnlyPlugin extends ServerPlugin {
 				// The version source file is relative to the owner storage.
 				// But we need the node from the current user perspective.
 				if ($node->getOwner()->getUID() !== $currentUserId) {
-					$nodes = $this->userFolder->getById($node->getId());
-					$node = array_pop($nodes);
-					if (!$node) {
+					$node = $this->userFolder->getFirstNodeById($node->getId());
+					if ($node === null) {
 						throw new NotFoundException('Version file not accessible by current user');
 					}
 				}

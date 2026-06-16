@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\Directory;
@@ -27,7 +28,6 @@ class SharesPluginTest extends \Test\TestCase {
 	private \Sabre\DAV\Server $server;
 	private \Sabre\DAV\Tree&MockObject $tree;
 	private \OCP\Share\IManager&MockObject $shareManager;
-	private Folder&MockObject $userFolder;
 	private SharesPlugin $plugin;
 
 	protected function setUp(): void {
@@ -43,18 +43,16 @@ class SharesPluginTest extends \Test\TestCase {
 		$userSession->expects($this->once())
 			->method('getUser')
 			->willReturn($user);
-		$this->userFolder = $this->createMock(Folder::class);
 
 		$this->plugin = new SharesPlugin(
 			$this->tree,
 			$userSession,
-			$this->userFolder,
 			$this->shareManager
 		);
 		$this->plugin->initialize($this->server);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('sharesGetPropertiesDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'sharesGetPropertiesDataProvider')]
 	public function testGetProperties(array $shareTypes): void {
 		$sabreNode = $this->createMock(Node::class);
 		$sabreNode->expects($this->any())
@@ -117,7 +115,7 @@ class SharesPluginTest extends \Test\TestCase {
 		$this->assertEquals($shareTypes, $result[200][self::SHARETYPES_PROPERTYNAME]->getShareTypes());
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('sharesGetPropertiesDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'sharesGetPropertiesDataProvider')]
 	public function testPreloadThenGetProperties(array $shareTypes): void {
 		$sabreNode1 = $this->createMock(File::class);
 		$sabreNode1->method('getId')
@@ -253,7 +251,6 @@ class SharesPluginTest extends \Test\TestCase {
 			[[IShare::TYPE_REMOTE]],
 			[[IShare::TYPE_ROOM]],
 			[[IShare::TYPE_DECK]],
-			[[IShare::TYPE_SCIENCEMESH]],
 			[[IShare::TYPE_USER, IShare::TYPE_GROUP]],
 			[[IShare::TYPE_USER, IShare::TYPE_GROUP, IShare::TYPE_LINK]],
 			[[IShare::TYPE_USER, IShare::TYPE_LINK]],

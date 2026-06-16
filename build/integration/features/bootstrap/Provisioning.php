@@ -239,7 +239,6 @@ trait Provisioning {
 		}
 	}
 
-
 	/**
 	 * @Then /^user "([^"]*)" has editable fields$/
 	 *
@@ -267,6 +266,9 @@ trait Provisioning {
 
 		$expectedFields = $fields->getRows();
 		$expectedFields = $this->simplifyArray($expectedFields);
+		/* Sort both arrays as order is not important */
+		sort($fieldsArray);
+		sort($expectedFields);
 		Assert::assertEquals($expectedFields, $fieldsArray);
 	}
 
@@ -552,7 +554,6 @@ trait Provisioning {
 
 		$this->response = $client->post($fullUrl, $options);
 	}
-
 
 	public function groupExists($group) {
 		$fullUrl = $this->baseUrl . "v2.php/cloud/groups/$group";

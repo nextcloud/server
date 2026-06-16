@@ -115,8 +115,6 @@
     "Background and login image" : "Позадина и слика пријављивања",
     "Advanced options" : "Напредне опције",
     "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Инсталирајте ImageMagick PHP проширење са подшком за SVG слике да би било могуће аутоматско генерисање favicons према отпремљеном логоу и боји.",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Универзални приступ нам је веома важан. Пратимо веб стандарде и проверавамо да све буде употребљиво и без миша а и са помоћним софтвером попут читача екрана. Циљ нам је да будемо усклађени са документом {guidelines}Смернице приступачности веб садржаја{linkend}  2.1 на АА нивоу а са темом високог контраста и на ААА нивоу.",
-    ". Unable to apply the setting." : ". Подешавање није могло да се примени.",
     "No background has been selected" : "Није изабрана ниједна позадина",
     "Select a custom color" : "Изаберите прилагођену боју",
     "Upload" : "Отпреми"

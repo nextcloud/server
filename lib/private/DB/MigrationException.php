@@ -5,20 +5,21 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\DB;
 
 class MigrationException extends \Exception {
-	private $table;
-
-	public function __construct($table, $message) {
-		$this->table = $table;
+	public function __construct(
+		private string $table,
+		$message,
+	) {
 		parent::__construct($message);
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getTable() {
+	public function getTable(): string {
 		return $this->table;
 	}
 }

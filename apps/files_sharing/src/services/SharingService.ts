@@ -93,7 +93,7 @@ async function ocsEntryToNode(ocsEntry: any): Promise<Folder | File | null> {
 			owner: ocsEntry?.uid_owner,
 			mime: ocsEntry?.mimetype || 'application/octet-stream',
 			mtime,
-			size: ocsEntry?.item_size,
+			size: ocsEntry?.item_size ?? undefined,
 			permissions: ocsEntry?.item_permissions || ocsEntry?.permissions,
 			root: getRootPath(),
 			attributes: {

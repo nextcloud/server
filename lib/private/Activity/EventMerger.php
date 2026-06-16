@@ -4,21 +4,21 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Activity;
 
 use OCP\Activity\IEvent;
 use OCP\Activity\IEventMerger;
 use OCP\IL10N;
+use OCP\L10N\IFactory;
 
 class EventMerger implements IEventMerger {
-	/** @var IL10N */
-	protected $l10n;
+	private readonly IL10N $l10n;
 
-	/**
-	 * @param IL10N $l10n
-	 */
-	public function __construct(IL10N $l10n) {
-		$this->l10n = $l10n;
+	public function __construct(
+		IFactory $factory,
+	) {
+		$this->l10n = $factory->get('lib');
 	}
 
 	/**
@@ -49,6 +49,7 @@ class EventMerger implements IEventMerger {
 	 * @param IEvent|null $previousEvent
 	 * @return IEvent
 	 */
+	#[\Override]
 	public function mergeEvents($mergeParameter, IEvent $event, ?IEvent $previousEvent = null) {
 		// No second event => can not combine
 		if (!$previousEvent instanceof IEvent) {

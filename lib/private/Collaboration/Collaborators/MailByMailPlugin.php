@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Collaboration\Collaborators;
 
 use OC\KnownUser\KnownUserService;
@@ -11,6 +14,7 @@ use OCP\Contacts\IManager;
 use OCP\Federation\ICloudIdManager;
 use OCP\IConfig;
 use OCP\IGroupManager;
+use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Mail\IEmailValidator;
 use OCP\Share\IShare;
@@ -28,6 +32,7 @@ class MailByMailPlugin extends MailPlugin {
 		KnownUserService $knownUserService,
 		IUserSession $userSession,
 		IEmailValidator $emailValidator,
+		IUserManager $userManager,
 		mixed $shareWithGroupOnlyExcludeGroupsList = [],
 	) {
 		parent::__construct(
@@ -38,6 +43,7 @@ class MailByMailPlugin extends MailPlugin {
 			$knownUserService,
 			$userSession,
 			$emailValidator,
+			$userManager,
 			$shareWithGroupOnlyExcludeGroupsList,
 			IShare::TYPE_EMAIL,
 		);

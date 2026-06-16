@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Command\User;
 
 use OC\Avatar\AvatarManager;
@@ -20,12 +21,14 @@ class ClearGeneratedAvatarCacheCommand extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setDescription('clear avatar cache')
 			->setName('user:clear-avatar-cache');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$output->writeln('Clearing avatar cache has started');
 		$this->avatarManager->clearCachedAvatars();

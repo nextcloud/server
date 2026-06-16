@@ -8,7 +8,9 @@
 
 namespace Test\Core\Middleware;
 
+use OC\AppFramework\Http\Attributes\TwoFactorSetUpDoneRequired;
 use OC\AppFramework\Http\Request;
+use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Authentication\Exceptions\TwoFactorAuthRequiredException;
 use OC\Authentication\Exceptions\UserAlreadyLoggedInException;
 use OC\Authentication\TwoFactorAuth\Manager;
@@ -17,8 +19,9 @@ use OC\Core\Controller\TwoFactorChallengeController;
 use OC\Core\Middleware\TwoFactorMiddleware;
 use OC\User\Session;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\NoTwoFactorRequired;
 use OCP\AppFramework\Http\RedirectResponse;
-use OCP\AppFramework\Utility\IControllerMethodReflector;
+use OCP\AppFramework\Http\Response;
 use OCP\Authentication\TwoFactorAuth\ALoginSetupController;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\IConfig;
@@ -28,34 +31,54 @@ use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
+class HasTwoFactorAnnotationController extends Controller {
+	#[NoTwoFactorRequired]
+	public function index(): Response {
+		return new Response();
+	}
+}
+
+class LoginSetupController extends ALoginSetupController {
+	public function index(): Response {
+		return new Response();
+	}
+}
+
+class NoTwoFactorAnnotationController extends Controller {
+	public function index(): Response {
+		return new Response();
+	}
+}
+
+class NoTwoFactorChallengeAnnotationController extends TwoFactorChallengeController {
+	public function index(): Response {
+		return new Response();
+	}
+}
+
+class HasTwoFactorSetUpDoneAnnotationController extends TwoFactorChallengeController {
+	#[TwoFactorSetUpDoneRequired]
+	public function index(): Response {
+		return new Response();
+	}
+}
+
 class TwoFactorMiddlewareTest extends TestCase {
-	/** @var Manager|MockObject */
-	private $twoFactorManager;
+	private Manager&MockObject $twoFactorManager;
+	private IUserSession&MockObject $userSession;
+	private ISession&MockObject $session;
+	private IURLGenerator&MockObject $urlGenerator;
+	private ControllerMethodReflector&MockObject $reflector;
+	private IRequest $request;
+	private TwoFactorMiddleware $middleware;
+	private LoggerInterface&MockObject $logger;
 
-	/** @var IUserSession|MockObject */
-	private $userSession;
-
-	/** @var ISession|MockObject */
-	private $session;
-
-	/** @var IURLGenerator|MockObject */
-	private $urlGenerator;
-
-	/** @var IControllerMethodReflector|MockObject */
-	private $reflector;
-
-	/** @var IRequest|MockObject */
-	private $request;
-
-	/** @var TwoFactorMiddleware */
-	private $middleware;
-
-	/** @var Controller */
-	private $controller;
-
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -67,7 +90,8 @@ class TwoFactorMiddlewareTest extends TestCase {
 			->getMock();
 		$this->session = $this->createMock(ISession::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
-		$this->reflector = $this->createMock(IControllerMethodReflector::class);
+		$this->reflector = $this->createMock(ControllerMethodReflector::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->request = new Request(
 			[
 				'server' => [
@@ -79,7 +103,6 @@ class TwoFactorMiddlewareTest extends TestCase {
 		);
 
 		$this->middleware = new TwoFactorMiddleware($this->twoFactorManager, $this->userSession, $this->session, $this->urlGenerator, $this->reflector, $this->request);
-		$this->controller = $this->createMock(Controller::class);
 	}
 
 	public function testBeforeControllerNotLoggedIn(): void {
@@ -90,12 +113,14 @@ class TwoFactorMiddlewareTest extends TestCase {
 		$this->userSession->expects($this->never())
 			->method('getUser');
 
-		$this->middleware->beforeController($this->controller, 'index');
+		$controller = $this->getMockBuilder(NoTwoFactorAnnotationController::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$this->middleware->beforeController($controller, 'index');
 	}
 
 	public function testBeforeSetupController(): void {
 		$user = $this->createMock(IUser::class);
-		$controller = $this->createMock(ALoginSetupController::class);
 		$this->userSession->expects($this->any())
 			->method('getUser')
 			->willReturn($user);
@@ -105,7 +130,7 @@ class TwoFactorMiddlewareTest extends TestCase {
 		$this->userSession->expects($this->never())
 			->method('isLoggedIn');
 
-		$this->middleware->beforeController($controller, 'create');
+		$this->middleware->beforeController(new LoginSetupController('foo', $this->request), 'index');
 	}
 
 	public function testBeforeControllerNoTwoFactorCheckNeeded(): void {
@@ -122,9 +147,11 @@ class TwoFactorMiddlewareTest extends TestCase {
 			->with($user)
 			->willReturn(false);
 
-		$this->middleware->beforeController($this->controller, 'index');
+		$controller = $this->getMockBuilder(NoTwoFactorAnnotationController::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$this->middleware->beforeController($controller, 'index');
 	}
-
 
 	public function testBeforeControllerTwoFactorAuthRequired(): void {
 		$this->expectException(TwoFactorAuthRequiredException::class);
@@ -146,18 +173,17 @@ class TwoFactorMiddlewareTest extends TestCase {
 			->with($user)
 			->willReturn(true);
 
-		$this->middleware->beforeController($this->controller, 'index');
+		$controller = $this->getMockBuilder(NoTwoFactorAnnotationController::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$this->middleware->beforeController($controller, 'index');
 	}
-
 
 	public function testBeforeControllerUserAlreadyLoggedIn(): void {
 		$this->expectException(UserAlreadyLoggedInException::class);
 
 		$user = $this->createMock(IUser::class);
 
-		$this->reflector
-			->method('hasAnnotation')
-			->willReturn(false);
 		$this->userSession->expects($this->once())
 			->method('isLoggedIn')
 			->willReturn(true);
@@ -173,7 +199,7 @@ class TwoFactorMiddlewareTest extends TestCase {
 			->with($user)
 			->willReturn(false);
 
-		$twoFactorChallengeController = $this->getMockBuilder(TwoFactorChallengeController::class)
+		$twoFactorChallengeController = $this->getMockBuilder(NoTwoFactorChallengeAnnotationController::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->middleware->beforeController($twoFactorChallengeController, 'index');
@@ -188,7 +214,8 @@ class TwoFactorMiddlewareTest extends TestCase {
 			->willReturn('test/url');
 		$expected = new RedirectResponse('test/url');
 
-		$this->assertEquals($expected, $this->middleware->afterException($this->controller, 'index', $ex));
+		$controller = new HasTwoFactorAnnotationController('foo', $this->request);
+		$this->assertEquals($expected, $this->middleware->afterException($controller, 'index', $ex));
 	}
 
 	public function testAfterException(): void {
@@ -200,17 +227,13 @@ class TwoFactorMiddlewareTest extends TestCase {
 			->willReturn('redirect/url');
 		$expected = new RedirectResponse('redirect/url');
 
-		$this->assertEquals($expected, $this->middleware->afterException($this->controller, 'index', $ex));
+		$controller = new HasTwoFactorAnnotationController('foo', $this->request);
+		$this->assertEquals($expected, $this->middleware->afterException($controller, 'index', $ex));
 	}
 
 	public function testRequires2FASetupDoneAnnotated(): void {
 		$user = $this->createMock(IUser::class);
 
-		$this->reflector
-			->method('hasAnnotation')
-			->willReturnCallback(function (string $annotation) {
-				return $annotation === 'TwoFactorSetUpDoneRequired';
-			});
 		$this->userSession->expects($this->once())
 			->method('isLoggedIn')
 			->willReturn(true);
@@ -228,10 +251,10 @@ class TwoFactorMiddlewareTest extends TestCase {
 
 		$this->expectException(UserAlreadyLoggedInException::class);
 
-		$twoFactorChallengeController = $this->getMockBuilder(TwoFactorChallengeController::class)
+		$controller = $this->getMockBuilder(HasTwoFactorSetUpDoneAnnotationController::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->middleware->beforeController($twoFactorChallengeController, 'index');
+		$this->middleware->beforeController($controller, 'index');
 	}
 
 	public static function dataRequires2FASetupDone(): array {
@@ -243,7 +266,7 @@ class TwoFactorMiddlewareTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataRequires2FASetupDone')]
+	#[DataProvider('dataRequires2FASetupDone')]
 	public function testRequires2FASetupDone(bool $hasProvider, bool $missingProviders, bool $expectEception): void {
 		if ($hasProvider) {
 			$provider = $this->createMock(IProvider::class);
@@ -254,12 +277,8 @@ class TwoFactorMiddlewareTest extends TestCase {
 			$providers = [];
 		}
 
-
 		$user = $this->createMock(IUser::class);
 
-		$this->reflector
-			->method('hasAnnotation')
-			->willReturn(false);
 		$this->userSession
 			->method('getUser')
 			->willReturn($user);
@@ -278,9 +297,9 @@ class TwoFactorMiddlewareTest extends TestCase {
 			$this->assertTrue(true);
 		}
 
-		$twoFactorChallengeController = $this->getMockBuilder(TwoFactorChallengeController::class)
+		$controller = $this->getMockBuilder(NoTwoFactorChallengeAnnotationController::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->middleware->beforeController($twoFactorChallengeController, 'index');
+		$this->middleware->beforeController($controller, 'index');
 	}
 }

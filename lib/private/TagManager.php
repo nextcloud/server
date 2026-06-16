@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use OC\Tagging\TagMapper;
@@ -17,6 +18,7 @@ use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
 use OCP\ITagManager;
 use OCP\ITags;
+use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\User\Events\UserDeletedEvent;
 use Psr\Log\LoggerInterface;
@@ -29,6 +31,7 @@ class TagManager implements ITagManager, IEventListener {
 	public function __construct(
 		private TagMapper $mapper,
 		private IUserSession $userSession,
+		private IUserManager $userManager,
 		private IDBConnection $connection,
 		private LoggerInterface $logger,
 		private IEventDispatcher $dispatcher,
@@ -45,10 +48,11 @@ class TagManager implements ITagManager, IEventListener {
 	 * @param boolean $includeShared Whether to include tags for items shared with this user by others.
 	 * @param string $userId user for which to retrieve the tags, defaults to the currently
 	 *                       logged in user
-	 * @return \OCP\ITags
+	 * @return ?ITags
 	 *
 	 * since 20.0.0 $includeShared isn't used anymore
 	 */
+	#[\Override]
 	public function load($type, $defaultTags = [], $includeShared = false, $userId = null) {
 		if (is_null($userId)) {
 			$user = $this->userSession->getUser();
@@ -59,7 +63,7 @@ class TagManager implements ITagManager, IEventListener {
 			$userId = $this->userSession->getUser()->getUId();
 		}
 		$userFolder = $this->rootFolder->getUserFolder($userId);
-		return new Tags($this->mapper, $userId, $type, $this->logger, $this->connection, $this->dispatcher, $this->userSession, $userFolder, $defaultTags);
+		return new Tags($this->mapper, $userId, $type, $this->logger, $this->connection, $this->dispatcher, $this->userManager, $userFolder, $defaultTags);
 	}
 
 	/**
@@ -85,6 +89,7 @@ class TagManager implements ITagManager, IEventListener {
 		return $users;
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!($event instanceof UserDeletedEvent)) {
 			return;
@@ -123,7 +128,7 @@ class TagManager implements ITagManager, IEventListener {
 		$qb1 = $qb1->delete('vcategory')
 			->where($qb1->expr()->in('uid', $qb1->createParameter('chunk')));
 
-		foreach (array_chunk($tagsIds, 1000) as $tagChunk) {
+		foreach (array_chunk($tagsIds, IQueryBuilder::MAX_IN_PARAMETERS) as $tagChunk) {
 			$qb->setParameter('chunk', $tagChunk, IQueryBuilder::PARAM_INT_ARRAY);
 			$qb1->setParameter('chunk', $tagChunk, IQueryBuilder::PARAM_INT_ARRAY);
 			try {

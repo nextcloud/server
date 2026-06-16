@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP;
 
 use OCP\Cache\CappedMemoryCache;
@@ -141,7 +142,7 @@ class Helper {
 	 */
 	public function deleteServerConfiguration($prefix) {
 		$prefixes = $this->getServerConfigurationPrefixes();
-		$index = array_search($prefix, $prefixes);
+		$index = array_search($prefix, $prefixes, true);
 		if ($index === false) {
 			return false;
 		}

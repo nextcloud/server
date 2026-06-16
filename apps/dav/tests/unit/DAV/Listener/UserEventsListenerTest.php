@@ -182,4 +182,15 @@ class UserEventsListenerTest extends TestCase {
 		$this->userEventsListener->preDeleteUser($user);
 		$this->userEventsListener->postDeleteUser('newUser');
 	}
+
+	public function testDeleteGroup(): void {
+		$this->calDavBackend->expects($this->once())
+			->method('deleteAllSharesByUser')
+			->with('principals/groups/testGroup');
+		$this->cardDavBackend->expects($this->once())
+			->method('deleteAllSharesByUser')
+			->with('principals/groups/testGroup');
+
+		$this->userEventsListener->postDeleteGroup('testGroup');
+	}
 }

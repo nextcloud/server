@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Versions\Versions;
 
 use OCP\Files\FileInfo;
@@ -26,46 +27,57 @@ class Version implements IVersion, IMetadataVersion {
 	) {
 	}
 
+	#[\Override]
 	public function getBackend(): IVersionBackend {
 		return $this->backend;
 	}
 
+	#[\Override]
 	public function getSourceFile(): FileInfo {
 		return $this->sourceFileInfo;
 	}
 
+	#[\Override]
 	public function getRevisionId() {
 		return $this->revisionId;
 	}
 
+	#[\Override]
 	public function getTimestamp(): int {
 		return $this->timestamp;
 	}
 
+	#[\Override]
 	public function getSize(): int|float {
 		return $this->size;
 	}
 
+	#[\Override]
 	public function getSourceFileName(): string {
 		return $this->name;
 	}
 
+	#[\Override]
 	public function getMimeType(): string {
 		return $this->mimetype;
 	}
 
+	#[\Override]
 	public function getVersionPath(): string {
 		return $this->path;
 	}
 
+	#[\Override]
 	public function getUser(): IUser {
 		return $this->user;
 	}
 
+	#[\Override]
 	public function getMetadata(): array {
 		return $this->metadata;
 	}
 
+	#[\Override]
 	public function getMetadataValue(string $key): ?string {
 		return $this->metadata[$key] ?? null;
 	}

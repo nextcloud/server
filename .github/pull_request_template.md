@@ -23,3 +23,7 @@
 - [ ] [Backports requested](https://github.com/nextcloud/backportbot/#usage) where applicable (ex: critical bugfixes)
 - [ ] [Labels added](https://github.com/nextcloud/server/labels) where applicable (ex: bug/enhancement, `3. to review`, feature component)
 - [ ] [Milestone added](https://github.com/nextcloud/server/milestones) for target branch/version (ex: 32.x for `stable32`)
+
+## AI (if applicable)
+
+- [ ] The content of this PR was partly or fully generated using AI

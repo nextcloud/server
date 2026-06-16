@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OCA\DAV\CalDAV\DefaultCalendarValidator;
@@ -25,7 +26,7 @@ use Sabre\DAV\Tree;
  *
  * @package OCA\DAV\Tests\unit\Connector\Sabre
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class CustomPropertiesBackendTest extends \Test\TestCase {
 	private \Sabre\DAV\Server $server;
 	private \Sabre\DAV\Tree&MockObject $tree;

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Settings\Personal\Security;
 
 use OCP\AppFramework\Http\TemplateResponse;
@@ -20,6 +21,7 @@ class Password implements ISettings {
 	) {
 	}
 
+	#[\Override]
 	public function getForm(): TemplateResponse {
 		$user = $this->userManager->get($this->userId);
 		$passwordChangeSupported = false;
@@ -32,10 +34,12 @@ class Password implements ISettings {
 		]);
 	}
 
+	#[\Override]
 	public function getSection(): string {
 		return 'security';
 	}
 
+	#[\Override]
 	public function getPriority(): int {
 		return 10;
 	}

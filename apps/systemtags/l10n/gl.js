@@ -97,6 +97,7 @@ OC.L10N.register(
     "If enabled, only administrators can create and edit tags. Accounts can still assign and remove them from files." : "Se está activado, só a administración pode crear e editar etiquetas. As contas aínda poden asignalas e eliminalas dos ficheiros.",
     "Restrict tag creation and editing to administrators" : "Restrinxir a creación e edición  de etiquetas á administración do sitio",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "As etiquetas colaborativas están dispoñíbeis para todos os usuarios. As etiquetas restrinxidas son visíbeis para os usuarios, mais non poden ser asignadas por eles. As etiquetas invisíbeis son para uso interno, pois os usuarios non poden velas nin asignalas.",
+    "Add tags" : "Engadir etiquetas",
     "Assigned collaborative tags" : "Etiquetas colaborativas asignadas",
     "Open in Files" : "Abrir en Ficheiros",
     "List of tags and their associated files and folders." : "Lista de etiquetas e os seus ficheiros e cartafoles asociados.",
@@ -111,10 +112,6 @@ OC.L10N.register(
     "Failed to delete tag for file" : "Produciuse un fallo ao eliminar a etiqueta do ficheiro",
     "Collaborative tags …" : "Etiquetas colaborativas…",
     "Loading …" : "Cargando…",
-    "File tags modification canceled" : "Cancelouse a modificación das etiquetas do ficheiro",
-    "Select or create tags to apply to all selected files" : "Seleccionar ou crear etiquetas para aplicalas a todos os ficheiros seleccionados",
-    "Select tags to apply to all selected files" : "Seleccionar etiquetas para aplicalas a todos os ficheiros seleccionados",
-    "Apply changes" : "Aplicar os cambios",
     "Loading collaborative tags …" : "Cargando etiquetas colaborativas…"
 },
 "nplurals=2; plural=(n != 1);");

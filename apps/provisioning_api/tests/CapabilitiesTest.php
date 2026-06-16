@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Provisioning_API\Tests;
 
 use OCA\FederatedFileSharing\FederatedShareProvider;
@@ -20,7 +21,7 @@ use Test\TestCase;
  *
  * @package OCA\Provisioning_API\Tests
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class CapabilitiesTest extends TestCase {
 
 	protected IAppManager&MockObject $appManager;
@@ -48,7 +49,7 @@ class CapabilitiesTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('getCapabilitiesProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'getCapabilitiesProvider')]
 	public function testGetCapabilities(bool $federationAppEnabled, bool $federatedFileSharingAppEnabled, bool $lookupServerEnabled, bool $expectedFederatedScopeEnabled, bool $expectedPublishedScopeEnabled): void {
 		$this->appManager->expects($this->any())
 			->method('isEnabledForUser')

@@ -7,14 +7,11 @@ import type { View } from '@nextcloud/files'
 import type { Location } from 'vue-router'
 
 import axios from '@nextcloud/axios'
-import { File, Folder, Permission } from '@nextcloud/files'
+import { File, Folder, Permission, registerFileAction } from '@nextcloud/files'
 import { enableAutoDestroy, mount } from '@vue/test-utils'
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 import { defineComponent, nextTick } from 'vue'
 import { action as deleteAction } from '../actions/deleteAction.ts'
-import { action as favoriteAction } from '../actions/favoriteAction.ts'
-import { action as renameAction } from '../actions/renameAction.ts'
-import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import { useActiveStore } from '../store/active.ts'
 import { useFilesStore } from '../store/files.ts'
 import { getPinia } from '../store/index.ts'
@@ -62,10 +59,23 @@ const TestComponent = defineComponent({
 	template: '<div />',
 })
 
+beforeAll(() => {
+	// @ts-expect-error mocking for tests
+	window.OCP ??= {}
+	// @ts-expect-error mocking for tests
+	window.OCP.Files ??= {}
+	// @ts-expect-error mocking for tests
+	window.OCP.Files.Router ??= {
+		...router,
+		goToRoute: vi.fn(),
+	}
+})
+
 describe('HotKeysService testing', () => {
 	const activeStore = useActiveStore(getPinia())
 
 	let initialState: HTMLInputElement
+	let component: ReturnType<typeof mount>
 
 	enableAutoDestroy(afterEach)
 
@@ -104,7 +114,7 @@ describe('HotKeysService testing', () => {
 		activeStore.activeFolder = root
 
 		// @ts-expect-error mocking for tests
-		window.OCA = { Files: { Sidebar: { async open() {}, setActiveTab: () => {} } } }
+		window.OCA = { Files: { _sidebar: () => ({ open() {} }) } }
 		initialState = document.createElement('input')
 		initialState.setAttribute('type', 'hidden')
 		initialState.setAttribute('id', 'initial-state-files_trashbin-config')
@@ -113,52 +123,15 @@ describe('HotKeysService testing', () => {
 		})))
 		document.body.appendChild(initialState)
 
-		mount(TestComponent)
+		component = mount(TestComponent)
 	})
 
-	it('Pressing d should open the sidebar once', () => {
-		dispatchEvent({ key: 'd', code: 'KeyD' })
+	// tests for register action handling
 
-		// Modifier keys should not trigger the action
-		dispatchEvent({ key: 'd', code: 'KeyD', ctrlKey: true })
-		dispatchEvent({ key: 'd', code: 'KeyD', altKey: true })
-		dispatchEvent({ key: 'd', code: 'KeyD', shiftKey: true })
-		dispatchEvent({ key: 'd', code: 'KeyD', metaKey: true })
-
-		expect(sidebarAction.enabled).toHaveReturnedWith(true)
-		expect(sidebarAction.exec).toHaveBeenCalledOnce()
-	})
-
-	it('Pressing F2 should rename the file', () => {
-		dispatchEvent({ key: 'F2', code: 'F2' })
-
-		// Modifier keys should not trigger the action
-		dispatchEvent({ key: 'F2', code: 'F2', ctrlKey: true })
-		dispatchEvent({ key: 'F2', code: 'F2', altKey: true })
-		dispatchEvent({ key: 'F2', code: 'F2', shiftKey: true })
-		dispatchEvent({ key: 'F2', code: 'F2', metaKey: true })
-
-		expect(renameAction.enabled).toHaveReturnedWith(true)
-		expect(renameAction.exec).toHaveBeenCalledOnce()
-	})
-
-	it('Pressing s should toggle favorite', () => {
-		vi.spyOn(axios, 'post').mockImplementationOnce(() => Promise.resolve())
-		dispatchEvent({ key: 's', code: 'KeyS' })
-
-		// Modifier keys should not trigger the action
-		dispatchEvent({ key: 's', code: 'KeyS', ctrlKey: true })
-		dispatchEvent({ key: 's', code: 'KeyS', altKey: true })
-		dispatchEvent({ key: 's', code: 'KeyS', shiftKey: true })
-		dispatchEvent({ key: 's', code: 'KeyS', metaKey: true })
-
-		expect(favoriteAction.enabled).toHaveReturnedWith(true)
-		expect(favoriteAction.exec).toHaveBeenCalledOnce()
-	})
-
-	it('Pressing Delete should delete the file', async () => {
-		// @ts-expect-error unit testing - private method access
-		vi.spyOn(deleteAction._action, 'exec').mockResolvedValue(() => true)
+	it('registeres actions', () => {
+		component.destroy()
+		registerFileAction(deleteAction)
+		component = mount(TestComponent)
 
 		dispatchEvent({ key: 'Delete', code: 'Delete' })
 
@@ -171,6 +144,8 @@ describe('HotKeysService testing', () => {
 		expect(deleteAction.enabled).toHaveReturnedWith(true)
 		expect(deleteAction.exec).toHaveBeenCalledOnce()
 	})
+
+	// actions implemented by the composable
 
 	it('Pressing alt+up should go to parent directory', () => {
 		expect(router.push).toHaveBeenCalledTimes(0)
@@ -194,9 +169,8 @@ describe('HotKeysService testing', () => {
 	it.each([
 		['ctrlKey'],
 		['altKey'],
-		// those meta keys are still triggering...
-		// ['shiftKey'],
-		// ['metaKey']
+		['shiftKey'],
+		['metaKey'],
 	])('Pressing v with modifier key %s should not toggle grid view', async (modifier: string) => {
 		vi.spyOn(axios, 'put').mockImplementationOnce(() => Promise.resolve())
 

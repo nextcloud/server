@@ -6,18 +6,35 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Http\Client;
 
+use OC\Diagnostics\TLogSlowOperation;
 use OC\Net\IpAddressClassifier;
 use OCP\Http\Client\LocalServerException;
 use Psr\Http\Message\RequestInterface;
+use Psr\Log\LoggerInterface;
 
 class DnsPinMiddleware {
+
+	use TLogSlowOperation;
 
 	public function __construct(
 		private NegativeDnsCache $negativeDnsCache,
 		private IpAddressClassifier $ipAddressClassifier,
+		private LoggerInterface $logger,
 	) {
+	}
+
+	/**
+	 * DNS lookups must end with a dot to be marked as
+	 * FQDN. Otherwise, a record without answer may trigger
+	 * a lookup on the local domain name. See GitHub
+	 * issue #56489 for details.
+	 */
+	private function enforceFqdn(string $hostname): string {
+		$trimmedHostname = rtrim($hostname, '.');
+		return "$trimmedHostname.";
 	}
 
 	/**
@@ -30,7 +47,7 @@ class DnsPinMiddleware {
 		$second = array_pop($labels);
 
 		$hostname = $second . '.' . $top;
-		$responses = $this->dnsGetRecord($hostname, DNS_SOA);
+		$responses = $this->dnsGetRecord($this->enforceFqdn($hostname), DNS_SOA);
 
 		if ($responses === false || count($responses) === 0) {
 			return null;
@@ -63,7 +80,7 @@ class DnsPinMiddleware {
 				continue;
 			}
 
-			$dnsResponses = $this->dnsGetRecord($target, $dnsType);
+			$dnsResponses = $this->dnsGetRecord($this->enforceFqdn($target), $dnsType);
 			if ($dnsResponses !== false && count($dnsResponses) > 0) {
 				foreach ($dnsResponses as $dnsResponse) {
 					if (isset($dnsResponse['ip'])) {
@@ -88,7 +105,11 @@ class DnsPinMiddleware {
 	 * Wrapper for dns_get_record
 	 */
 	protected function dnsGetRecord(string $hostname, int $type): array|false {
-		return \dns_get_record($hostname, $type);
+		return $this->monitorAndLog(
+			$this->logger,
+			'dns_get_record',
+			fn () => \dns_get_record($hostname, $type),
+		);
 	}
 
 	public function addDnsPinning(): callable {

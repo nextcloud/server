@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Tests\Settings\Admin;
 
 use OC\Authentication\TwoFactorAuth\MandatoryTwoFactor;
@@ -17,8 +18,8 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class SecurityTest extends TestCase {
-	private Manager $manager;
-	private IUserManager $userManager;
+	private Manager&MockObject $manager;
+	private IUserManager&MockObject $userManager;
 	private MandatoryTwoFactor&MockObject $mandatoryTwoFactor;
 	private IInitialState&MockObject $initialState;
 	private Security $admin;
@@ -46,7 +47,7 @@ class SecurityTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('encryptionSettingsProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'encryptionSettingsProvider')]
 	public function testGetFormWithOnlyOneBackend(bool $enabled): void {
 		$this->manager
 			->expects($this->once())
@@ -76,7 +77,7 @@ class SecurityTest extends TestCase {
 	/**
 	 * @param bool $enabled
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('encryptionSettingsProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'encryptionSettingsProvider')]
 	public function testGetFormWithMultipleBackends($enabled): void {
 		$this->manager
 			->expects($this->once())

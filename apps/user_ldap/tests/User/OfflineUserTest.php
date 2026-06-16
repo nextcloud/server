@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\User_LDAP\Tests\User;
 
 use OCA\User_LDAP\Mapping\UserMapping;
@@ -47,7 +48,7 @@ class OfflineUserTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('shareOwnerProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'shareOwnerProvider')]
 	public function testHasActiveShares(array $existingShareTypes, bool $expected): void {
 		$shareMock = $this->createMock(IShare::class);
 

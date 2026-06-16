@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Tests\Controller;
 
 use OC\Mail\Message;
@@ -95,7 +96,7 @@ class MailSettingsControllerTest extends \Test\TestCase {
 			'smtp',
 			'ssl',
 			'mx.nextcloud.org',
-			'1',
+			true,
 			'25',
 			'smtp'
 		);
@@ -108,7 +109,7 @@ class MailSettingsControllerTest extends \Test\TestCase {
 			'smtp',
 			'ssl',
 			'mx.nextcloud.org',
-			'0',
+			false,
 			'25',
 			'smtp'
 		);
@@ -116,15 +117,29 @@ class MailSettingsControllerTest extends \Test\TestCase {
 	}
 
 	public function testStoreCredentials(): void {
+		$calls = [];
 		$this->config
-			->expects($this->once())
-			->method('setSystemValues')
-			->with([
-				'mail_smtpname' => 'UsernameToStore',
-				'mail_smtppassword' => 'PasswordToStore',
-			]);
+			->expects($this->exactly(2))
+			->method('setSystemValue')
+			->willReturnCallback(function (string $key, ?string $value) use (&$calls): void {
+				$calls[] = [$key, $value];
+			});
 
 		$response = $this->mailController->storeCredentials('UsernameToStore', 'PasswordToStore');
+		$this->assertSame(Http::STATUS_OK, $response->getStatus());
+		self::assertEqualsCanonicalizing([
+			['mail_smtpname', 'UsernameToStore'],
+			['mail_smtppassword', 'PasswordToStore'],
+		], $calls);
+	}
+
+	public function testStoreCredentialsWithoutPassword(): void {
+		$this->config
+			->expects($this->exactly(1))
+			->method('setSystemValue')
+			->with('mail_smtpname', 'UsernameToStore');
+
+		$response = $this->mailController->storeCredentials('UsernameToStore', null);
 		$this->assertSame(Http::STATUS_OK, $response->getStatus());
 	}
 

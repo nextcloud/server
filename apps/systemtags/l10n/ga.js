@@ -97,6 +97,7 @@ OC.L10N.register(
     "If enabled, only administrators can create and edit tags. Accounts can still assign and remove them from files." : "Má tá sé cumasaithe, ní féidir ach le riarthóirí clibeanna a chruthú agus a chur in eagar. Is féidir le cuntais iad a shannadh agus a bhaint de chomhaid fós.",
     "Restrict tag creation and editing to administrators" : "Srian a chur le cruthú clibeanna agus eagarthóireacht do riarthóirí",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Tá clibeanna comhoibríocha ar fáil do gach úsáideoir. Tá clibeanna srianta le feiceáil ag úsáideoirí ach ní féidir leo a shannadh. Tá clibeanna dofheicthe le húsáid inmheánach, toisc nach féidir le húsáideoirí iad a fheiceáil ná a shannadh.",
+    "Add tags" : "Cuir clibeanna leis",
     "Assigned collaborative tags" : "Clibeanna comhoibrithe sannta",
     "Open in Files" : "Oscail i Comhaid",
     "List of tags and their associated files and folders." : "Liosta clibeanna agus na comhaid agus na fillteáin a bhaineann leo.",
@@ -111,10 +112,6 @@ OC.L10N.register(
     "Failed to delete tag for file" : "Theip ar scriosadh an chlib don chomhad",
     "Collaborative tags …" : "Clibeanna comhoibríocha…",
     "Loading …" : "Á lódáil…",
-    "File tags modification canceled" : "Cealaíodh modhnú clibeanna comhaid",
-    "Select or create tags to apply to all selected files" : "Roghnaigh nó cruthaigh clibeanna le cur i bhfeidhm ar gach comhad roghnaithe",
-    "Select tags to apply to all selected files" : "Roghnaigh clibeanna le cur i bhfeidhm ar gach comhad roghnaithe",
-    "Apply changes" : "Cuir athruithe i bhfeidhm",
     "Loading collaborative tags …" : "Clibeanna comhoibritheacha á lódáil…"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

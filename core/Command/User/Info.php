@@ -4,10 +4,11 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Command\User;
 
 use OC\Core\Command\Base;
-use OC\Files\SetupManager;
+use OCP\Files\ISetupManager;
 use OCP\Files\NotFoundException;
 use OCP\IGroupManager;
 use OCP\IUser;
@@ -22,12 +23,13 @@ class Info extends Base {
 	public function __construct(
 		protected IUserManager $userManager,
 		protected IGroupManager $groupManager,
-		protected SetupManager $setupManager,
+		protected ISetupManager $setupManager,
 	) {
 		parent::__construct();
 	}
 
-	protected function configure() {
+	#[\Override]
+	protected function configure(): void {
 		$this
 			->setName('user:info')
 			->setDescription('show user info')
@@ -44,6 +46,7 @@ class Info extends Base {
 			);
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$user = $this->userManager->get($input->getArgument('user'));
 		if (is_null($user)) {
@@ -105,6 +108,7 @@ class Info extends Base {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
+	#[\Override]
 	public function completeArgumentValues($argumentName, CompletionContext $context) {
 		if ($argumentName === 'user') {
 			return array_map(static fn (IUser $user) => $user->getUID(), $this->userManager->searchDisplayName($context->getCurrentWord()));

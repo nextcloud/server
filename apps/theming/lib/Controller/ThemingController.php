@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Theming\Controller;
 
 use InvalidArgumentException;
@@ -17,6 +18,8 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\NoSameSiteCookieRequired;
+use OCP\AppFramework\Http\Attribute\NoTwoFactorRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
@@ -61,13 +64,10 @@ class ThemingController extends Controller {
 	}
 
 	/**
-	 * @param string $setting
-	 * @param string $value
-	 * @return DataResponse
 	 * @throws NotPermittedException
 	 */
 	#[AuthorizedAdminSetting(settings: Admin::class)]
-	public function updateStylesheet($setting, $value) {
+	public function updateStylesheet(string $setting, string $value): DataResponse {
 		$value = trim($value);
 		$error = null;
 		$saved = false;
@@ -92,7 +92,7 @@ class ThemingController extends Controller {
 				if (strlen($value) > 500) {
 					$error = $this->l10n->t('The given legal notice address is too long');
 				}
-				if (!$this->isValidUrl($value)) {
+				if ($value !== '' && !$this->isValidUrl($value)) {
 					$error = $this->l10n->t('The given legal notice address is not a valid URL');
 				}
 				break;
@@ -103,7 +103,7 @@ class ThemingController extends Controller {
 				if (strlen($value) > 500) {
 					$error = $this->l10n->t('The given privacy policy address is too long');
 				}
-				if (!$this->isValidUrl($value)) {
+				if ($value !== '' && !$this->isValidUrl($value)) {
 					$error = $this->l10n->t('The given privacy policy address is not a valid URL');
 				}
 				break;
@@ -167,13 +167,10 @@ class ThemingController extends Controller {
 	}
 
 	/**
-	 * @param string $setting
-	 * @param mixed $value
-	 * @return DataResponse
 	 * @throws NotPermittedException
 	 */
 	#[AuthorizedAdminSetting(settings: Admin::class)]
-	public function updateAppMenu($setting, $value) {
+	public function updateAppMenu(string $setting, mixed $value): DataResponse {
 		$error = null;
 		switch ($setting) {
 			case 'defaultApps':
@@ -218,7 +215,6 @@ class ThemingController extends Controller {
 	}
 
 	/**
-	 * @return DataResponse
 	 * @throws NotPermittedException
 	 */
 	#[AuthorizedAdminSetting(settings: Admin::class)]
@@ -308,6 +304,8 @@ class ThemingController extends Controller {
 		$setting = match ($setting) {
 			'primaryColor' => 'primary_color',
 			'backgroundColor' => 'background_color',
+			'legalNoticeUrl' => 'imprintUrl',
+			'privacyPolicyUrl' => 'privacyUrl',
 			default => $setting,
 		};
 		$value = $this->themingDefaults->undo($setting);
@@ -364,6 +362,7 @@ class ThemingController extends Controller {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	public function getImage(string $key, bool $useSvg = true) {
 		try {
+			$useSvg = $useSvg && $this->imageManager->canConvert('SVG');
 			$file = $this->imageManager->getImage($key, $useSvg);
 		} catch (NotFoundException $e) {
 			return new NotFoundResponse();
@@ -374,20 +373,18 @@ class ThemingController extends Controller {
 		$csp->allowInlineStyle();
 		$response->setContentSecurityPolicy($csp);
 		$response->cacheFor(3600);
-		$response->addHeader('Content-Type', $this->config->getAppValue($this->appName, $key . 'Mime', ''));
+		// The original stored file has no extension (e.g. "logo"), so getMimeType() returns
+		// application/octet-stream for it. Use the config-stored MIME type for the original
+		// file, and getMimeType() only for converted files which have a proper extension.
+		$mimeType = $file->getName() === $key
+			? $this->appConfig->getAppValueString($key . 'Mime', '')
+			: $file->getMimeType();
+		$response->addHeader('Content-Type', $mimeType);
 		$response->addHeader('Content-Disposition', 'attachment; filename="' . $key . '"');
-		if (!$useSvg) {
-			$response->addHeader('Content-Type', 'image/png');
-		} else {
-			$response->addHeader('Content-Type', $this->config->getAppValue($this->appName, $key . 'Mime', ''));
-		}
 		return $response;
 	}
 
 	/**
-	 * @NoSameSiteCookieRequired
-	 * @NoTwoFactorRequired
-	 *
 	 * Get the CSS stylesheet for a theme
 	 *
 	 * @param string $themeId ID of the theme
@@ -400,7 +397,9 @@ class ThemingController extends Controller {
 	 */
 	#[PublicPage]
 	#[NoCSRFRequired]
+	#[NoTwoFactorRequired]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
+	#[NoSameSiteCookieRequired]
 	public function getThemeStylesheet(string $themeId, bool $plain = false, bool $withCustomCss = false) {
 		$themes = $this->themesService->getThemes();
 		if (!in_array($themeId, array_keys($themes))) {
@@ -458,7 +457,7 @@ class ThemingController extends Controller {
 	#[BruteForceProtection(action: 'manifest')]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	public function getManifest(string $app): JSONResponse {
-		$cacheBusterValue = $this->config->getAppValue('theming', 'cachebuster', '0');
+		$cacheBusterValue = (string)$this->appConfig->getAppValueInt('cachebuster');
 		if ($app === 'core' || $app === 'settings') {
 			$name = $this->themingDefaults->getName();
 			$shortName = $this->themingDefaults->getName();

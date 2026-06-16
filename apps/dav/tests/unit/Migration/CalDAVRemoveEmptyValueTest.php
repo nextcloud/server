@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\DAV\Migration;
 
 use OCA\DAV\CalDAV\CalDavBackend;
@@ -22,7 +23,7 @@ use Test\TestCase;
  *
  * @package OCA\DAV\Tests\Unit\DAV\Migration
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class CalDAVRemoveEmptyValueTest extends TestCase {
 	private LoggerInterface&MockObject $logger;
 	private CalDavBackend&MockObject $backend;
@@ -165,7 +166,6 @@ END:VCALENDAR';
 		$this->output->expects($this->once())
 			->method('finishProgress');
 
-
 		$this->backend->expects($this->exactly(1))
 			->method('getCalendarObject')
 			->with(42, 'myuri')
@@ -206,7 +206,6 @@ END:VCALENDAR';
 			->with(1);
 		$this->output->expects($this->once())
 			->method('finishProgress');
-
 
 		$this->backend->expects($this->exactly(1))
 			->method('getCalendarObject')

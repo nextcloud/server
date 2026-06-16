@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Tests\SetupChecks;
 
 use OCA\Settings\SetupChecks\SupportedDatabase;
@@ -16,7 +17,7 @@ use OCP\Server;
 use OCP\SetupCheck\SetupResult;
 use Test\TestCase;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class SupportedDatabaseTest extends TestCase {
 	private IL10N $l10n;
 	private IUrlGenerator $urlGenerator;

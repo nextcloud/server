@@ -189,6 +189,9 @@
                                 "type": "integer",
                                 "format": "int64"
                             },
+                            "exclude_reshare_from_edit": {
+                                "type": "boolean"
+                            },
                             "federation": {
                                 "type": "object",
                                 "required": [
@@ -231,10 +234,15 @@
                             "sharee": {
                                 "type": "object",
                                 "required": [
+                                    "minSearchStringLength",
                                     "query_lookup_default",
                                     "always_show_unique"
                                 ],
                                 "properties": {
+                                    "minSearchStringLength": {
+                                        "type": "integer",
+                                        "format": "int64"
+                                    },
                                     "query_lookup_default": {
                                         "type": "boolean"
                                     },
@@ -404,7 +412,8 @@
                     "share_token",
                     "share_type",
                     "type",
-                    "user"
+                    "user",
+                    "item_size"
                 ],
                 "properties": {
                     "accepted": {
@@ -465,6 +474,19 @@
                     },
                     "user": {
                         "type": "string"
+                    },
+                    "item_size": {
+                        "nullable": true,
+                        "anyOf": [
+                            {
+                                "type": "integer",
+                                "format": "int64"
+                            },
+                            {
+                                "type": "number",
+                                "format": "double"
+                            }
+                        ]
                     }
                 }
             },
@@ -699,7 +721,8 @@
                         "type": "string"
                     },
                     "url": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     }
                 }
             },

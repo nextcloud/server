@@ -5,81 +5,47 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Diagnostics;
 
 use OCP\Diagnostics\IEvent;
 
 class Event implements IEvent {
-	/**
-	 * @var string
-	 */
-	protected $id;
+	protected ?float $end = null;
 
-	/**
-	 * @var float
-	 */
-	protected $start;
-
-	/**
-	 * @var float
-	 */
-	protected $end;
-
-	/**
-	 * @var string
-	 */
-	protected $description;
-
-	/**
-	 * @param string $id
-	 * @param string $description
-	 * @param float $start
-	 */
-	public function __construct($id, $description, $start) {
-		$this->id = $id;
-		$this->description = $description;
-		$this->start = $start;
+	public function __construct(
+		protected string $id,
+		protected string $description,
+		protected float $start,
+	) {
 	}
 
-	/**
-	 * @param float $time
-	 */
-	public function end($time) {
+	public function end(float $time): void {
 		$this->end = $time;
 	}
 
-	/**
-	 * @return float
-	 */
-	public function getStart() {
+	#[\Override]
+	public function getStart(): float {
 		return $this->start;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getId() {
+	#[\Override]
+	public function getId(): string {
 		return $this->id;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getDescription() {
+	#[\Override]
+	public function getDescription(): string {
 		return $this->description;
 	}
 
-	/**
-	 * @return float
-	 */
-	public function getEnd() {
-		return $this->end;
+	#[\Override]
+	public function getEnd(): float {
+		return $this->end ?? -1;
 	}
 
-	/**
-	 * @return float
-	 */
-	public function getDuration() {
+	#[\Override]
+	public function getDuration(): float {
 		if (!$this->end) {
 			$this->end = microtime(true);
 		}

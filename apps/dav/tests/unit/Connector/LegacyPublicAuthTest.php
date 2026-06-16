@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Connector;
 
 use OCA\DAV\Connector\LegacyPublicAuth;
@@ -15,16 +16,12 @@ use OCP\Security\Bruteforce\IThrottler;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
+use Test\TestCase;
 
-/**
- * Class LegacyPublicAuthTest
- *
- *
- * @package OCA\DAV\Tests\unit\Connector
- */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
-class LegacyPublicAuthTest extends \Test\TestCase {
+#[Group(name: 'DB')]
+class LegacyPublicAuthTest extends TestCase {
 	private ISession&MockObject $session;
 	private IRequest&MockObject $request;
 	private IManager&MockObject $shareManager;
@@ -55,7 +52,7 @@ class LegacyPublicAuthTest extends \Test\TestCase {
 		\OC_User::setIncognitoMode(false);
 
 		// Set old user
-		\OC_User::setUserId($this->oldUser);
+		\OC_User::setUserId($this->oldUser ?: null);
 		if ($this->oldUser !== false) {
 			\OC_Util::setupFS($this->oldUser);
 		}
@@ -99,7 +96,6 @@ class LegacyPublicAuthTest extends \Test\TestCase {
 
 		$this->assertFalse($result);
 	}
-
 
 	public function testSharePasswordRemote(): void {
 		$share = $this->createMock(IShare::class);
@@ -202,7 +198,6 @@ class LegacyPublicAuthTest extends \Test\TestCase {
 
 		$this->assertFalse($result);
 	}
-
 
 	public function testSharePasswordMailInvalidSession(): void {
 		$share = $this->createMock(IShare::class);

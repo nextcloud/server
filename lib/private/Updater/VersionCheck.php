@@ -5,8 +5,10 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Updater;
 
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Http\Client\IClientService;
 use OCP\IAppConfig;
 use OCP\IConfig;
@@ -25,9 +27,9 @@ class VersionCheck {
 		private IUserManager $userManager,
 		private IRegistry $registry,
 		private LoggerInterface $logger,
+		private ITimeFactory $timeFactory,
 	) {
 	}
-
 
 	/**
 	 * Check if a new version is available
@@ -41,13 +43,13 @@ class VersionCheck {
 		}
 
 		// Look up the cache - it is invalidated all 30 minutes
-		if (($this->appConfig->getValueInt('core', 'lastupdatedat') + 1800) > time()) {
+		if (($this->appConfig->getValueInt('core', 'lastupdatedat') + 1800) > $this->timeFactory->getTime()) {
 			return json_decode($this->config->getAppValue('core', 'lastupdateResult'), true);
 		}
 
 		$updaterUrl = $this->config->getSystemValueString('updater.server.url', 'https://updates.nextcloud.com/updater_server/');
 
-		$this->appConfig->setValueInt('core', 'lastupdatedat', time());
+		$this->appConfig->setValueInt('core', 'lastupdatedat', $this->timeFactory->getTime());
 
 		if ($this->config->getAppValue('core', 'installedat', '') === '') {
 			$this->config->setAppValue('core', 'installedat', (string)microtime(true));

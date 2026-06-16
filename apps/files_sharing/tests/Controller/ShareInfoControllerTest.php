@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Sharing\Tests\Controller;
 
 use OCA\Files_Sharing\Controller\ShareInfoController;
@@ -23,7 +24,6 @@ class ShareInfoControllerTest extends TestCase {
 
 	protected ShareInfoController $controller;
 	protected ShareManager&MockObject $shareManager;
-
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -183,7 +183,6 @@ class ShareInfoControllerTest extends TestCase {
 		$root->method('getSize')->willReturn(1);
 		$root->method('getType')->willReturn('folder');
 		$root->method('getEtag')->willReturn('etag');
-
 
 		//Subfolder
 		$sub = $this->createMock(Folder::class);

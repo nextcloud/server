@@ -4,8 +4,10 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Collaboration\Collaborators;
 
+use OCP\AppFramework\QueryException;
 use OCP\Collaboration\Collaborators\ISearch;
 use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\ISearchResult;
@@ -26,8 +28,9 @@ class Search implements ISearch {
 	 * @param bool $lookup
 	 * @param int|null $limit
 	 * @param int|null $offset
-	 * @throws \OCP\AppFramework\QueryException
+	 * @throws QueryException
 	 */
+	#[\Override]
 	public function search($search, array $shareTypes, $lookup, $limit, $offset): array {
 		$hasMoreResults = false;
 
@@ -80,6 +83,7 @@ class Search implements ISearch {
 		return [$searchResult->asArray(), $hasMoreResults];
 	}
 
+	#[\Override]
 	public function registerPlugin(array $pluginInfo): void {
 		$shareType = constant(IShare::class . '::' . substr($pluginInfo['shareType'], strlen('SHARE_')));
 		if ($shareType === null) {

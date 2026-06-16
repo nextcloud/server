@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Connector\Sabre\RequestTest;
 
 use OC\Files\View;
@@ -20,7 +21,7 @@ use Test\Traits\EncryptionTrait;
  *
  * @package OCA\DAV\Tests\Unit\Connector\Sabre\RequestTest
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class EncryptionUploadTest extends UploadTest {
 	use EncryptionTrait;
 

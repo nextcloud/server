@@ -2,11 +2,13 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { IFileListFilterChip, INode } from '@nextcloud/files'
 
-import calendarSvg from '@mdi/svg/svg/calendar.svg?raw'
+import type { IFileListFilterChip, IFileListFilterWithUi, INode } from '@nextcloud/files'
+
+import svgCalendarRangeOutline from '@mdi/svg/svg/calendar-range-outline.svg?raw'
 import { FileListFilter, registerFileListFilter } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
+import wrap from '@vue/web-component-wrapper'
 import Vue from 'vue'
 import FileListFilterModified from '../components/FileListFilter/FileListFilterModified.vue'
 
@@ -16,61 +18,18 @@ export interface ITimePreset {
 	filter: (time: number) => boolean
 }
 
-const startOfToday = () => (new Date()).setHours(0, 0, 0, 0)
+const tagName = 'files-file-list-filter-modified'
 
-/**
- * Available presets
- */
-const timePresets: ITimePreset[] = [
-	{
-		id: 'today',
-		label: t('files', 'Today'),
-		filter: (time: number) => time > startOfToday(),
-	},
-	{
-		id: 'last-7',
-		label: t('files', 'Last 7 days'),
-		filter: (time: number) => time > (startOfToday() - (7 * 24 * 60 * 60 * 1000)),
-	},
-	{
-		id: 'last-30',
-		label: t('files', 'Last 30 days'),
-		filter: (time: number) => time > (startOfToday() - (30 * 24 * 60 * 60 * 1000)),
-	},
-	{
-		id: 'this-year',
-		label: t('files', 'This year ({year})', { year: (new Date()).getFullYear() }),
-		filter: (time: number) => time > (new Date(startOfToday())).setMonth(0, 1),
-	},
-	{
-		id: 'last-year',
-		label: t('files', 'Last year ({year})', { year: (new Date()).getFullYear() - 1 }),
-		filter: (time: number) => (time > (new Date(startOfToday())).setFullYear((new Date()).getFullYear() - 1, 0, 1)) && (time < (new Date(startOfToday())).setMonth(0, 1)),
-	},
-] as const
-
-class ModifiedFilter extends FileListFilter {
+class ModifiedFilter extends FileListFilter implements IFileListFilterWithUi {
 	private currentInstance?: Vue
 	private currentPreset?: ITimePreset
 
+	public readonly displayName = t('files', 'Modified')
+	public readonly iconSvgInline = svgCalendarRangeOutline
+	public readonly tagName = tagName
+
 	constructor() {
 		super('files:modified', 50)
-	}
-
-	public mount(el: HTMLElement) {
-		if (this.currentInstance) {
-			this.currentInstance.$destroy()
-		}
-
-		const View = Vue.extend(FileListFilterModified as never)
-		this.currentInstance = new View({
-			propsData: {
-				timePresets,
-			},
-			el,
-		})
-			.$on('update:preset', this.setPreset.bind(this))
-			.$mount()
 	}
 
 	public filter(nodes: INode[]): INode[] {
@@ -82,7 +41,11 @@ class ModifiedFilter extends FileListFilter {
 	}
 
 	public reset(): void {
-		this.setPreset()
+		this.dispatchEvent(new CustomEvent('reset'))
+	}
+
+	public get preset() {
+		return this.currentPreset
 	}
 
 	public setPreset(preset?: ITimePreset) {
@@ -92,9 +55,9 @@ class ModifiedFilter extends FileListFilter {
 		const chips: IFileListFilterChip[] = []
 		if (preset) {
 			chips.push({
-				icon: calendarSvg,
+				icon: svgCalendarRangeOutline,
 				text: preset.label,
-				onclick: () => this.setPreset(),
+				onclick: () => this.reset(),
 			})
 		} else {
 			(this.currentInstance as { resetFilter: () => void } | undefined)?.resetFilter()
@@ -103,9 +66,26 @@ class ModifiedFilter extends FileListFilter {
 	}
 }
 
+export type { ModifiedFilter }
+
 /**
  * Register the file list filter by modification date
  */
 export function registerModifiedFilter() {
+	const WrappedComponent = wrap(Vue, FileListFilterModified)
+	// In Vue 2, wrap doesn't support disabling shadow :(
+	// Disable with a hack
+	Object.defineProperty(WrappedComponent.prototype, 'attachShadow', {
+		value() {
+			return this
+		},
+	})
+	Object.defineProperty(WrappedComponent.prototype, 'shadowRoot', {
+		get() {
+			return this
+		},
+	})
+
+	customElements.define(tagName, WrappedComponent)
 	registerFileListFilter(new ModifiedFilter())
 }

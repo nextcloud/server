@@ -97,6 +97,7 @@ OC.L10N.register(
     "If enabled, only administrators can create and edit tags. Accounts can still assign and remove them from files." : "Se ativado, somente os administradores poderão criar e editar etiquetas. As contas ainda podem atribuí-las e removê-las dos arquivos.",
     "Restrict tag creation and editing to administrators" : "Restringir a criação e a edição de etiquetas aos administradores",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Etiquetas colaborativas estão disponíveis para todos os usuários. As etiquetas restritas são visíveis para os usuários, mas não podem ser atribuídas por eles. Etiquetas invisíveis são para uso interno, já que os usuários não podem vê-las ou atribuí-las.",
+    "Add tags" : "Adicionar etiquetas",
     "Assigned collaborative tags" : "Etiquetas colaborativas atribuídas",
     "Open in Files" : "Abrir em Arquivos",
     "List of tags and their associated files and folders." : "Lista de etiquetas e seus arquivos e pastas associados.",
@@ -111,10 +112,6 @@ OC.L10N.register(
     "Failed to delete tag for file" : "Falha ao excluir etiqueta do arquivo",
     "Collaborative tags …" : "Etiquetas colaborativas …",
     "Loading …" : "Carregando …",
-    "File tags modification canceled" : "Modificação de etiquetas de arquivo cancelada",
-    "Select or create tags to apply to all selected files" : "Selecione ou crie etiquetas para aplicar a todos os arquivos selecionados",
-    "Select tags to apply to all selected files" : "Selecione etiquetas para aplicar a todos os arquivos selecionados",
-    "Apply changes" : "Aplicar alterações",
     "Loading collaborative tags …" : "Carregando etiquetas colaborativas …"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -16,17 +16,13 @@ use OCP\Migration\Attributes\AddColumn;
 use OCP\Migration\Attributes\ColumnType;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
+use Override;
 
 #[AddColumn(table: 'share', name: 'reminder_sent', type: ColumnType::BOOLEAN)]
 class Version31000Date20240821142813 extends SimpleMigrationStep {
-
-	/**
-	 * @param IOutput $output
-	 * @param Closure(): ISchemaWrapper $schemaClosure
-	 * @param array $options
-	 * @return null|ISchemaWrapper
-	 */
+	#[Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
+		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 		$table = $schema->getTable('share');
 		if ($table->hasColumn('reminder_sent')) {

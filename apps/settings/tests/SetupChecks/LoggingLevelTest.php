@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Tests\SetupChecks;
 
 use OCA\Settings\SetupChecks\LoggingLevel;
@@ -59,7 +60,7 @@ class LoggingLevelTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataRun')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataRun')]
 	public function testRun(string|int $value, string $expected): void {
 		$this->urlGenerator->method('linkToDocs')->willReturn('admin-logging');
 

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2018 ownCloud GmbH
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Command;
 
 use OCA\DAV\Connector\Sabre\Principal;
@@ -30,12 +30,14 @@ class RemoveInvalidShares extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('dav:remove-invalid-shares')
 			->setDescription('Remove invalid dav shares');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$query = $this->connection->getQueryBuilder();
 		$result = $query->selectDistinct('principaluri')

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Preview;
 
 use OC\Preview\Db\Preview;
@@ -32,6 +33,7 @@ class BackgroundCleanupJob extends TimedJob {
 		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
+	#[\Override]
 	public function run($argument): void {
 		foreach ($this->getDeletedFiles() as $fileId) {
 			$previewIds = [];

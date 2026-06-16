@@ -12,6 +12,7 @@ OC.L10N.register(
     "Files" : "Dateien",
     "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "Du wurdest in einem Kommentar zu \"{file}\" von einem Konto erwähnt, das inzwischen gelöscht wurde.",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} hat dich in einem Kommentar zu \"{file}\" erwähnt",
+    "Go to file" : "Zur Datei wechseln",
     "Files app plugin to add comments to files" : "Ein Plugin für die Dateien-App zum Kommentieren von Dateien",
     "Edit comment" : "Kommentar bearbeiten",
     "Delete comment" : "Kommentar löschen",
@@ -32,6 +33,6 @@ OC.L10N.register(
     "Comment deleted" : "Kommentar gelöscht",
     "An error occurred while trying to delete the comment" : "Es ist ein Fehler beim Löschen des Kommentars aufgetreten",
     "An error occurred while trying to create the comment" : "Es ist ein Fehler beim Erstellen des Kommentars aufgetreten",
-    "Write a comment …" : "Einen Kommentar schreiben …"
+    "Write a comment …" : "Einen Kommentar schreiben …"
 },
 "nplurals=2; plural=(n != 1);");

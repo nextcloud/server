@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\TwoFactorBackupCodes\Tests\Service;
 
 use OCA\TwoFactorBackupCodes\Service\BackupCodeStorage;
@@ -16,7 +17,7 @@ use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class BackupCodeStorageTest extends TestCase {
 	private IManager&MockObject $notificationManager;
 	private string $testUID = 'test123456789';

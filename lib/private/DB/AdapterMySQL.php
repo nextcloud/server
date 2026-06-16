@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\DB;
 
 class AdapterMySQL extends Adapter {
@@ -14,14 +15,17 @@ class AdapterMySQL extends Adapter {
 	/**
 	 * @param string $tableName
 	 */
+	#[\Override]
 	public function lockTable($tableName) {
 		$this->conn->executeUpdate('LOCK TABLES `' . $tableName . '` WRITE');
 	}
 
+	#[\Override]
 	public function unlockTable() {
 		$this->conn->executeUpdate('UNLOCK TABLES');
 	}
 
+	#[\Override]
 	public function fixupStatement($statement) {
 		$statement = str_replace(' ILIKE ', ' COLLATE ' . $this->getCollation() . ' LIKE ', $statement);
 		return $statement;
@@ -36,6 +40,7 @@ class AdapterMySQL extends Adapter {
 		return $this->collation;
 	}
 
+	#[\Override]
 	public function insertIgnoreConflict(string $table, array $values): int {
 		$builder = $this->conn->getQueryBuilder();
 		$builder->insert($table);

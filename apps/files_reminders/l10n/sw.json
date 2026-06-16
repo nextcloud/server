@@ -29,10 +29,6 @@
     "Set reminder for this weekend" : "Weka kikumbusho cha wikendi hii",
     "Next week" : "Wiki ijayo",
     "Set reminder for next week" : " Weka kikumbusho cha wiki ijayo",
-    "This files_reminder can work properly." : " Kikumbusho hiki cha faili kinaweza kufanya kazi vizuri.",
-    "The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "Programu ya kikumbusho cha faili inahitaji programu ya arifa kufanya kazi vizuri. Unapaswa kuwezesha arifa au kuzima kikumbusho cha faili",
-    "Set reminder for \"{fileName}\"" : "Weka kikumbusho kwa \"{fileName}\"",
-    "Set reminder at custom date & time" : "Weka kikumbusho kwa tarehe na saa maalum",
-    "Set custom reminder" : " Weka kikumbusho maalum"
+    "Set reminder for \"{fileName}\"" : "Weka kikumbusho kwa \"{fileName}\""
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

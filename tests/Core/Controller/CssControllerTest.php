@@ -31,6 +31,7 @@ class CssControllerTest extends TestCase {
 	/** @var CssController */
 	private $controller;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -66,7 +67,6 @@ class CssControllerTest extends TestCase {
 
 		$this->assertInstanceOf(NotFoundResponse::class, $result);
 	}
-
 
 	public function testNoCssFile(): void {
 		$folder = $this->createMock(ISimpleFolder::class);

@@ -16,7 +16,6 @@ OC.L10N.register(
     "You" : "Tu",
     "List of files that have been deleted." : "Una llista de ficheros que se desaniciaron.",
     "No deleted files" : "Nun hai nengún ficheros desnaiciáu",
-    "Files and folders you have deleted will show up here" : "Equí apaecen los ficheros y les carpetes que desaniciares",
-    "Deletion cancelled" : "Anulóse'l desaniciu"
+    "Files and folders you have deleted will show up here" : "Equí apaecen los ficheros y les carpetes que desaniciares"
 },
 "nplurals=2; plural=(n != 1);");

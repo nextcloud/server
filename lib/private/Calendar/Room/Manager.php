@@ -6,13 +6,15 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Calendar\Room;
 
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Calendar\ResourcesRoomsUpdater;
+use OCP\AppFramework\QueryException;
 use OCP\Calendar\Room\IBackend;
 use OCP\Calendar\Room\IManager;
-use OCP\IServerContainer;
+use Psr\Container\ContainerInterface;
 
 class Manager implements IManager {
 	private bool $bootstrapBackendsLoaded = false;
@@ -28,7 +30,7 @@ class Manager implements IManager {
 
 	public function __construct(
 		private Coordinator $bootstrapCoordinator,
-		private IServerContainer $server,
+		private ContainerInterface $container,
 		private ResourcesRoomsUpdater $updater,
 	) {
 	}
@@ -38,6 +40,7 @@ class Manager implements IManager {
 	 *
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function registerBackend(string $backendClass): void {
 		$this->backends[$backendClass] = $backendClass;
 	}
@@ -48,6 +51,7 @@ class Manager implements IManager {
 	 * @param string $backendClass
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function unregisterBackend(string $backendClass): void {
 		unset($this->backends[$backendClass], $this->initializedBackends[$backendClass]);
 	}
@@ -70,9 +74,10 @@ class Manager implements IManager {
 
 	/**
 	 * @return IBackend[]
-	 * @throws \OCP\AppFramework\QueryException
+	 * @throws QueryException
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function getBackends():array {
 		$this->fetchBootstrapBackends();
 
@@ -87,7 +92,7 @@ class Manager implements IManager {
 			 * The backend might have services injected that can't be build from the
 			 * server container.
 			 */
-			$this->initializedBackends[$backend] = $this->server->query($backend);
+			$this->initializedBackends[$backend] = $this->container->get($backend);
 		}
 
 		return array_values($this->initializedBackends);
@@ -95,8 +100,9 @@ class Manager implements IManager {
 
 	/**
 	 * @param string $backendId
-	 * @throws \OCP\AppFramework\QueryException
+	 * @throws QueryException
 	 */
+	#[\Override]
 	public function getBackend($backendId): ?IBackend {
 		$backends = $this->getBackends();
 		foreach ($backends as $backend) {
@@ -113,11 +119,13 @@ class Manager implements IManager {
 	 *
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function clear(): void {
 		$this->backends = [];
 		$this->initializedBackends = [];
 	}
 
+	#[\Override]
 	public function update(): void {
 		$this->updater->updateRooms();
 	}

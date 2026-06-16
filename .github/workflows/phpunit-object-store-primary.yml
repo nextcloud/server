@@ -21,7 +21,7 @@ jobs:
       src: ${{ steps.changes.outputs.src}}
 
     steps:
-      - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
+      - uses: dorny/paths-filter@fbd0ab8f3e69293af611ebaee6363fc25e6d187d # v4.0.1
         id: changes
         continue-on-error: true
         with:
@@ -49,7 +49,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.2']
+        php-versions: ['8.3', '8.5']
         key: ['s3', 's3-multibucket']
 
     name: php${{ matrix.php-versions }}-${{ matrix.key }}-minio
@@ -72,17 +72,19 @@ jobs:
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
           submodules: true
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@bf6b4fbd49ca58e4608c9c89fba0b8d90bd2a39f #v2.35.5
+        uses: shivammathur/setup-php@7c071dfe9dc99bdf297fa79cb49ea005b9fcadbc #v2.37.1
+        timeout-minutes: 5
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
         env:
+          fail-fast: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Nextcloud
@@ -103,7 +105,7 @@ jobs:
           curl -f -m 1 --retry-connrefused --retry 10 --retry-delay 10 http://localhost:9000/minio/health/ready
 
       - name: PHPUnit
-        run: composer run test:db
+        run: composer run test:db -- --log-junit junit.xml
 
       - name: S3 logs
         if: always()
@@ -112,10 +114,9 @@ jobs:
           docker ps -a
           docker ps -aq | while read container ; do IMAGE=$(docker inspect --format='{{.Config.Image}}' $container); echo $IMAGE; docker logs $container; echo "\n\n" ; done
 
-
   object-store-primary-summary:
     runs-on: ubuntu-latest-low
-    needs: [changes,object-store-primary-tests-minio]
+    needs: [changes, object-store-primary-tests-minio]
 
     if: always()
 

@@ -1,12 +1,15 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { DefaultType, FileAction, FileType } from '@nextcloud/files'
+
+import type { IFileAction } from '@nextcloud/files'
+
+import { DefaultType, FileType } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { VIEW_ID as SEARCH_VIEW_ID } from '../views/search.ts'
 
-export const action = new FileAction({
+export const action: IFileAction = {
 	id: 'open-in-files',
 	displayName: () => t('files', 'Open in Files'),
 	iconSvgInline: () => '',
@@ -36,4 +39,4 @@ export const action = new FileAction({
 	// Before openFolderAction
 	order: -1000,
 	default: DefaultType.HIDDEN,
-})
+}

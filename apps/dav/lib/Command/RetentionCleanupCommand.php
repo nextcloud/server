@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Command;
 
 use OCA\DAV\CalDAV\RetentionService;
@@ -20,6 +21,7 @@ class RetentionCleanupCommand extends Command {
 		parent::__construct('dav:retention:clean-up');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$this->service->cleanUp();
 

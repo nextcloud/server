@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Tests\Storage;
 
 use OCA\Files_External\Lib\Storage\SFTP;
@@ -16,7 +17,7 @@ use OCA\Files_External\Lib\Storage\SFTP;
  *
  * @package OCA\Files_External\Tests\Storage
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class SftpTest extends \Test\Files\Storage\Storage {
 	use ConfigurableStorageTrait;
 	/**
@@ -28,7 +29,7 @@ class SftpTest extends \Test\Files\Storage\Storage {
 		parent::setUp();
 
 		$id = $this->getUniqueID();
-		$this->loadConfig('files_external/tests/config.sftp.php');
+		$this->loadConfig(__DIR__ . '/../config.sftp.php');
 		$this->config['root'] .= '/' . $id; //make sure we have an new empty folder to work in
 		$this->instance = new SFTP($this->config);
 		$this->instance->mkdir('/');
@@ -42,7 +43,7 @@ class SftpTest extends \Test\Files\Storage\Storage {
 		parent::tearDown();
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('configProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'configProvider')]
 	public function testStorageId($config, $expectedStorageId): void {
 		$instance = new SFTP($config);
 		$this->assertEquals($expectedStorageId, $instance->getId());

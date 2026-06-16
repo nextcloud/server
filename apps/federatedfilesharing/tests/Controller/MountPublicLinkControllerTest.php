@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\FederatedFileSharing\Tests\Controller;
 
 use OC\Federation\CloudIdManager;
@@ -58,6 +59,7 @@ class MountPublicLinkControllerTest extends \Test\TestCase {
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->share = new Share($this->rootFolder, $this->userManager);
+		$this->share->setId('42');
 		$this->session = $this->createMock(ISession::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->userSession = $this->createMock(IUserSession::class);
@@ -85,7 +87,7 @@ class MountPublicLinkControllerTest extends \Test\TestCase {
 		);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestCreateFederatedShare')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestCreateFederatedShare')]
 	public function testCreateFederatedShare(
 		string $shareWith,
 		bool $outgoingSharesAllowed,

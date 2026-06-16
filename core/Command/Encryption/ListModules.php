@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Command\Encryption;
 
 use OC\Core\Command\Base;
@@ -21,6 +22,7 @@ class ListModules extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		parent::configure();
 
@@ -30,6 +32,7 @@ class ListModules extends Base {
 		;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$isMaintenanceModeEnabled = $this->config->getSystemValue('maintenance', false);
 		if ($isMaintenanceModeEnabled) {

@@ -93,6 +93,7 @@
     "If enabled, only administrators can create and edit tags. Accounts can still assign and remove them from files." : "Si está habilitado, sólo los administradores podrán crear y editar etiquetas. Las demás cuentas todavía serán capaces de asignarlas o eliminarlas de los archivos.",
     "Restrict tag creation and editing to administrators" : "Restringir la creación y edición de etiquetas a los administradores",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Las etiquetas colaborativas están disponibles para todos los usuarios. Las etiquetas restringidas son visibles para los usuarios, pero no pueden ser asignadas por ellos. Las etiquetas invisibles son para uso interno, pues los usuarios no pueden verlas ni asignarlas.",
+    "Add tags" : "Añadir etiquetas",
     "Assigned collaborative tags" : "Etiquetas colaborativas asignadas",
     "Open in Files" : "Abrir en Archivos",
     "List of tags and their associated files and folders." : "Lista de etiquetas y sus carpetas y archivos asociados.",
@@ -107,10 +108,6 @@
     "Failed to delete tag for file" : "Fallo al borrar la etiqueta del archivo",
     "Collaborative tags …" : "Etiquetas colaborativas ...",
     "Loading …" : "Cargando …",
-    "File tags modification canceled" : "Modificación de las etiquetas del archivo cancelada",
-    "Select or create tags to apply to all selected files" : "Selecciona o crea etiquetas para aplicar a los archivos seleccionados",
-    "Select tags to apply to all selected files" : "Seleccione las etiquetas que se aplicarán a todos los archivos",
-    "Apply changes" : "Aplicar cambios",
     "Loading collaborative tags …" : "Cargando etiquetas colaborativas …"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

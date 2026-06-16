@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\ShareByMail;
 
 use OC\Share20\DefaultShareProvider;
@@ -51,6 +52,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	 *
 	 * @return string Containing only [a-zA-Z0-9]
 	 */
+	#[\Override]
 	public function identifier(): string {
 		return 'ocMailShare';
 	}
@@ -81,6 +83,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	 * @throws ShareNotFound
 	 * @throws \Exception
 	 */
+	#[\Override]
 	public function create(IShare $share): IShare {
 		$shareWith = $share->getSharedWith();
 		// Check if file is not already shared with the given email,
@@ -164,8 +167,11 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		if ($share->getShareOwner() !== $share->getSharedBy()) {
 			$ownerFolder = $this->rootFolder->getUserFolder($share->getShareOwner());
 			$fileId = $share->getNode()->getId();
-			$nodes = $ownerFolder->getById($fileId);
-			$ownerPath = $nodes[0]->getPath();
+			$node = $ownerFolder->getFirstNodeById($fileId);
+			if ($node === null) {
+				throw new \LogicException("Unable to find node $fileId asociated with the share");
+			}
+			$ownerPath = $node->getPath();
 			$this->publishActivity(
 				$type === 'share' ? Activity::SUBJECT_SHARED_EMAIL_BY : Activity::SUBJECT_UNSHARED_EMAIL_BY,
 				[$ownerFolder->getRelativePath($ownerPath), $share->getSharedWith(), $share->getSharedBy()],
@@ -201,7 +207,6 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		}
 	}
 
-
 	/**
 	 * publish activity if a file/folder was shared by mail
 	 */
@@ -218,7 +223,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	/**
 	 * @throws \Exception
 	 */
-	protected function createMailShare(IShare $share): int {
+	protected function createMailShare(IShare $share): string {
 		$share->setToken($this->generateToken());
 		return $this->addShareToDB(
 			$share->getNodeId(),
@@ -243,6 +248,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function sendMailNotification(IShare $share): bool {
 		$shareId = $share->getId();
 
@@ -356,7 +362,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		}
 
 		$emailTemplate->addBodyButton(
-			$this->l->t('Open %s', [$filename]),
+			$this->l->t('Open shared item'),
 			$link
 		);
 
@@ -506,7 +512,6 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	protected function sendNote(IShare $share): void {
 		$recipient = $share->getSharedWith();
 
-
 		$filename = $share->getNode()->getName();
 		$initiator = $share->getSharedBy();
 		$note = $share->getNote();
@@ -530,7 +535,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		$link = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.showShare',
 			['token' => $share->getToken()]);
 		$emailTemplate->addBodyButton(
-			$this->l->t('Open %s', [$filename]),
+			$this->l->t('Open shared item'),
 			$link
 		);
 
@@ -639,6 +644,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		return $token;
 	}
 
+	#[\Override]
 	public function getChildren(IShare $parent): array {
 		$children = [];
 
@@ -646,8 +652,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		$qb->select('*')
 			->from('share')
 			->where($qb->expr()->eq('parent', $qb->createNamedParameter($parent->getId())))
-			->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_EMAIL)))
-			->orderBy('id');
+			->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_EMAIL)));
 
 		$cursor = $qb->executeQuery();
 		while ($data = $cursor->fetchAssociative()) {
@@ -678,7 +683,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		?string $note = '',
 		?IAttributes $attributes = null,
 		?bool $mailSend = true,
-	): int {
+	): string {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->insert('share')
 			->setValue('share_type', $qb->createNamedParameter(IShare::TYPE_EMAIL))
@@ -708,12 +713,13 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		}
 
 		$qb->executeStatement();
-		return $qb->getLastInsertId();
+		return (string)$qb->getLastInsertId();
 	}
 
 	/**
 	 * Update a share
 	 */
+	#[\Override]
 	public function update(IShare $share, ?string $plainTextPassword = null): IShare {
 		$originalShare = $this->getShareById($share->getId());
 
@@ -765,6 +771,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function move(IShare $share, $recipient): IShare {
 		/**
 		 * nothing to do here, mail shares are only outgoing shares
@@ -777,6 +784,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	 *
 	 * @param IShare $share
 	 */
+	#[\Override]
 	public function delete(IShare $share): void {
 		try {
 			$this->createShareActivity($share, 'unshare');
@@ -789,10 +797,12 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function deleteFromSelf(IShare $share, $recipient): void {
 		// nothing to do here, mail shares are only outgoing shares
 	}
 
+	#[\Override]
 	public function restore(IShare $share, string $recipient): IShare {
 		throw new GenericShareException('not implemented');
 	}
@@ -800,6 +810,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getSharesBy($userId, $shareType, $node, $reshares, $limit, $offset): array {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->select('*')
@@ -841,7 +852,9 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		}
 
 		$qb->setFirstResult($offset);
-		$qb->orderBy('id');
+		if ($offset !== 0 || $limit !== -1) {
+			$qb->orderBy('id');
+		}
 
 		$cursor = $qb->executeQuery();
 		$shares = [];
@@ -856,6 +869,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getShareById($id, $recipientId = null): IShare {
 		$qb = $this->dbConnection->getQueryBuilder();
 
@@ -872,6 +886,8 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 			throw new ShareNotFound();
 		}
 
+		$data['id'] = (string)$data['id'];
+
 		try {
 			$share = $this->createShareObject($data);
 		} catch (InvalidShare $e) {
@@ -886,6 +902,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	 *
 	 * @return IShare[]
 	 */
+	#[\Override]
 	public function getSharesByPath(Node $path): array {
 		$qb = $this->dbConnection->getQueryBuilder();
 
@@ -897,6 +914,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 
 		$shares = [];
 		while ($data = $cursor->fetchAssociative()) {
+			$data['id'] = (string)$data['id'];
 			$shares[] = $this->createShareObject($data);
 		}
 		$cursor->closeCursor();
@@ -907,6 +925,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getSharedWith($userId, $shareType, $node, $limit, $offset): array {
 		/** @var IShare[] $shares */
 		$shares = [];
@@ -916,8 +935,10 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		$qb->select('*')
 			->from('share');
 
-		// Order by id
-		$qb->orderBy('id');
+		// Order by id only if we need it for limit/offset
+		if ($offset !== 0 || $limit !== -1) {
+			$qb->orderBy('id');
+		}
 
 		// Set limit and offset
 		if ($limit !== -1) {
@@ -940,7 +961,6 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		}
 		$cursor->closeCursor();
 
-
 		return $shares;
 	}
 
@@ -949,6 +969,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	 *
 	 * @throws ShareNotFound
 	 */
+	#[\Override]
 	public function getShareByToken($token): IShare {
 		$qb = $this->dbConnection->getQueryBuilder();
 
@@ -963,6 +984,8 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		if ($data === false) {
 			throw new ShareNotFound('Share not found', $this->l->t('Could not find share'));
 		}
+
+		$data['id'] = (string)$data['id'];
 
 		try {
 			$share = $this->createShareObject($data);
@@ -1065,6 +1088,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	 * A user is deleted from the system
 	 * So clean up the relevant shares.
 	 */
+	#[\Override]
 	public function userDeleted($uid, $shareType): void {
 		$qb = $this->dbConnection->getQueryBuilder();
 
@@ -1077,12 +1101,14 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	/**
 	 * This provider does not support group shares
 	 */
+	#[\Override]
 	public function groupDeleted($gid): void {
 	}
 
 	/**
 	 * This provider does not support group shares
 	 */
+	#[\Override]
 	public function userDeletedFromGroup($uid, $gid): void {
 	}
 
@@ -1091,7 +1117,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	 *
 	 * @throws ShareNotFound
 	 */
-	protected function getRawShare(int $id): array {
+	protected function getRawShare(string $id): array {
 		// Now fetch the inserted share and create a complete share object
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->select('*')
@@ -1109,10 +1135,12 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		return $data;
 	}
 
+	#[\Override]
 	public function getSharesInFolder($userId, Folder $node, $reshares, $shallow = true): array {
 		return $this->getSharesInFolderInternal($userId, $node, $reshares);
 	}
 
+	#[\Override]
 	public function getAllSharesInFolder(Folder $node): array {
 		return $this->getSharesInFolderInternal(null, $node, null);
 	}
@@ -1149,8 +1177,6 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 
 		$qb->andWhere($qb->expr()->eq('f.parent', $qb->createNamedParameter($node->getId())));
 
-		$qb->orderBy('id');
-
 		$cursor = $qb->executeQuery();
 		$shares = [];
 		while ($data = $cursor->fetchAssociative()) {
@@ -1164,6 +1190,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getAccessList($nodes, $currentAccess): array {
 		$ids = [];
 		foreach ($nodes as $node) {
@@ -1196,6 +1223,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		return ['public' => $public, 'mail' => $mail];
 	}
 
+	#[\Override]
 	public function getAllShares(): iterable {
 		$qb = $this->dbConnection->getQueryBuilder();
 

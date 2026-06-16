@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -17,6 +19,7 @@ class DummyEncryptionWrapper extends Encryption {
 	 * @param int $position
 	 * @return bool
 	 */
+	#[\Override]
 	protected function parentStreamSeek($position) {
 		return false;
 	}

@@ -5,12 +5,14 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace Test\Comments;
 
 use OC\Comments\Comment;
 use OCP\Comments\IComment;
 use OCP\Comments\IllegalIDChangeException;
 use OCP\Comments\MessageTooLongException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Test\TestCase;
 
 class CommentTest extends TestCase {
@@ -63,7 +65,6 @@ class CommentTest extends TestCase {
 		$this->assertSame($metaData, $comment->getMetaData());
 	}
 
-
 	public function testSetIdIllegalInput(): void {
 		$this->expectException(IllegalIDChangeException::class);
 
@@ -96,7 +97,7 @@ class CommentTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('simpleSetterProvider')]
+	#[DataProvider(methodName: 'simpleSetterProvider')]
 	public function testSimpleSetterInvalidInput($field, $input): void {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -119,7 +120,7 @@ class CommentTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('roleSetterProvider')]
+	#[DataProvider(methodName: 'roleSetterProvider')]
 	public function testSetRoleInvalidInput($role, $type, $id): void {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -127,7 +128,6 @@ class CommentTest extends TestCase {
 		$setter = 'set' . $role;
 		$comment->$setter($type, $id);
 	}
-
 
 	public function testSetUberlongMessage(): void {
 		$this->expectException(MessageTooLongException::class);
@@ -201,23 +201,67 @@ class CommentTest extends TestCase {
 					['type' => 'email', 'id' => 'aa23d315de327cfc330f0401ea061005b2b0cdd45ec8346f12664dd1f34cb886'],
 				],
 			],
+			[
+				'Mention @alice but not `@bob` inside inline code',
+				[['type' => 'user', 'id' => 'alice']],
+			],
+			[
+				'Mention @alice but not `Hello @bob there` inside inline code',
+				[['type' => 'user', 'id' => 'alice']],
+			],
+			[
+				"Mention ` user @alice\nAs it's just 2 ` accents",
+				[['type' => 'user', 'id' => 'alice']],
+			],
+			[
+				'Mention @alice and @bob but not `Hello @bob there` inside inline code',
+				[['type' => 'user', 'id' => 'alice'], ['type' => 'user', 'id' => 'bob']],
+			],
+			[
+				"Mention @alice but not in fenced code block\n```\n@bob @charlie\n```\nend",
+				[['type' => 'user', 'id' => 'alice']],
+			],
+			[
+				"Mention @alice but not in tilde code block\n~~~\n@bob\n~~~\nend",
+				[['type' => 'user', 'id' => 'alice']],
+			],
+			[
+				'No mentions at all in `@alice` and `@bob`',
+				[],
+			],
+			[
+				"@alice\n```\n@bob\n```\n@charlie",
+				[['type' => 'user', 'id' => 'charlie'], ['type' => 'user', 'id' => 'alice']],
+			],
+			[
+				"@alice\n```\n@bob\n```\n@charlie",
+				[['type' => 'user', 'id' => 'charlie'], ['type' => 'user', 'id' => 'alice'], ['type' => 'user', 'id' => 'bob']],
+				null,
+				false,
+			],
+			[
+				'Mention @alice and `also @bob as end of text only applies to code blocks',
+				[['type' => 'user', 'id' => 'alice'], ['type' => 'user', 'id' => 'bob']],
+			],
+			[
+				"Mention @alice but not in unclosed fenced code block\n```\n@bob\n@charlie",
+				[['type' => 'user', 'id' => 'alice']],
+			],
+			[
+				"Mention @alice but not in unclosed tilde code block\n~~~\n@bob",
+				[['type' => 'user', 'id' => 'alice']],
+			],
 		];
 	}
 
-	/**
-	 *
-	 * @param string $message
-	 * @param array $expectedMentions
-	 * @param ?string $author
-	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('mentionsProvider')]
-	public function testMentions(string $message, array $expectedMentions, ?string $author = null): void {
+	#[DataProvider(methodName: 'mentionsProvider')]
+	public function testMentions(string $message, array $expectedMentions, ?string $author = null, bool $markdown = true): void {
 		$comment = new Comment();
 		$comment->setMessage($message);
 		if (!is_null($author)) {
 			$comment->setActor('user', $author);
 		}
-		$mentions = $comment->getMentions();
+		$mentions = $comment->getMentions($markdown);
 		$this->assertSame($expectedMentions, $mentions);
 	}
 }

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\DB;
 
 class OracleConnection extends Connection {
@@ -26,9 +27,18 @@ class OracleConnection extends Connection {
 		return $return;
 	}
 
+	#[\Override]
+	public function truncateTable(string $table, bool $cascade) {
+		if ($table[0] !== $this->getDatabasePlatform()->getIdentifierQuoteCharacter()) {
+			$table = $this->quoteIdentifier($table);
+		}
+		return parent::truncateTable($table, $cascade);
+	}
+
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function insert($table, array $data, array $types = []) {
 		if ($table[0] !== $this->getDatabasePlatform()->getIdentifierQuoteCharacter()) {
 			$table = $this->quoteIdentifier($table);
@@ -40,6 +50,7 @@ class OracleConnection extends Connection {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function update($table, array $data, array $criteria, array $types = []) {
 		if ($table[0] !== $this->getDatabasePlatform()->getIdentifierQuoteCharacter()) {
 			$table = $this->quoteIdentifier($table);
@@ -52,6 +63,7 @@ class OracleConnection extends Connection {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function delete($table, array $criteria, array $types = []) {
 		if ($table[0] !== $this->getDatabasePlatform()->getIdentifierQuoteCharacter()) {
 			$table = $this->quoteIdentifier($table);
@@ -65,6 +77,7 @@ class OracleConnection extends Connection {
 	 *
 	 * @param string $table table name without the prefix
 	 */
+	#[\Override]
 	public function dropTable($table) {
 		$table = $this->tablePrefix . trim($table);
 		$table = $this->quoteIdentifier($table);
@@ -80,6 +93,7 @@ class OracleConnection extends Connection {
 	 * @param string $table table name without the prefix
 	 * @return bool
 	 */
+	#[\Override]
 	public function tableExists($table) {
 		$table = $this->tablePrefix . trim($table);
 		$table = $this->quoteIdentifier($table);

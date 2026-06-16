@@ -67,9 +67,6 @@ OC.L10N.register(
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Hozzáadja a(z) {name} távoli megosztást innen: {owner}@{remote}?",
     "Remote share password" : "Jelszó a távoli megosztáshoz",
     "Incoming share could not be processed" : "A bejövő megosztás nem dolgozható fel",
-    "Cloud ID copied to the clipboard" : "Felhőazonosító a vágólapra másolva",
-    "Copy to clipboard" : "Másolás a vágólapra",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Bármelyik Nextcloud-kiszolgálót vagy egyéb Open Cloud Mesh-kompatibilis (OCM) kiszolgálót és szolgáltatást használó felhasználóval megoszthatja adatait. Csak tegye a föderált felhőazonosítóját a megosztási párbeszédablakba. Hasonlóan néz ki: person@cloud.example.com",
     "X (formerly Twitter)" : "X (korábban Twitter)",
     "formerly Twitter" : "korábban Twitter"
 },

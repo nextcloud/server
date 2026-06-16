@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files\BackgroundJob;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -36,6 +37,7 @@ class DeleteOrphanedItems extends TimedJob {
 	 *
 	 * @param array $argument unused argument
 	 */
+	#[\Override]
 	public function run($argument) {
 		$this->cleanSystemTags();
 		$this->cleanUserTags();

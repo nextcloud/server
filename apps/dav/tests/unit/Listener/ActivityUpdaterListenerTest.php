@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\Listener;
 
 use OCA\DAV\CalDAV\Activity\Backend as ActivityBackend;
@@ -36,7 +37,7 @@ class ActivityUpdaterListenerTest extends TestCase {
 		);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataForTestHandleCalendarObjectDeletedEvent')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataForTestHandleCalendarObjectDeletedEvent')]
 	public function testHandleCalendarObjectDeletedEvent(int $calendarId, array $calendarData, array $shares, array $objectData, bool $createsActivity): void {
 		$event = new CalendarObjectDeletedEvent($calendarId, $calendarData, $shares, $objectData);
 		$this->logger->expects($this->once())->method('debug')->with(
@@ -58,7 +59,7 @@ class ActivityUpdaterListenerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataForTestHandleCalendarDeletedEvent')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataForTestHandleCalendarDeletedEvent')]
 	public function testHandleCalendarDeletedEvent(int $calendarId, array $calendarData, array $shares, bool $createsActivity): void {
 		$event = new CalendarDeletedEvent($calendarId, $calendarData, $shares);
 		$this->logger->expects($this->once())->method('debug')->with(

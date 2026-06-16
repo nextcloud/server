@@ -5,10 +5,10 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-// Show warning if a PHP version below 8.2 is used,
-if (PHP_VERSION_ID < 80200) {
+// Show warning if a PHP version below 8.3 is used,
+if (PHP_VERSION_ID < 80300) {
 	http_response_code(500);
-	echo 'This version of Nextcloud requires at least PHP 8.2<br/>';
+	echo 'This version of Nextcloud requires at least PHP 8.3<br/>';
 	echo 'You are currently running ' . PHP_VERSION . '. Please update your PHP version.';
 	exit(1);
 }

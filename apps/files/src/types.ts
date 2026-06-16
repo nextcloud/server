@@ -1,8 +1,9 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { FileAction, Folder, Node, View } from '@nextcloud/files'
+
+import type { IFileAction, IFolder, INode, IView } from '@nextcloud/files'
 import type { Upload } from '@nextcloud/upload'
 
 // Global definitions
@@ -12,11 +13,11 @@ export type ViewId = string
 
 // Files store
 export type FilesStore = {
-	[source: FileSource]: Node
+	[source: FileSource]: INode
 }
 
 export type RootsStore = {
-	[service: Service]: Folder
+	[service: Service]: IFolder
 }
 
 export type FilesState = {
@@ -25,7 +26,7 @@ export type FilesState = {
 }
 
 export interface RootOptions {
-	root: Folder
+	root: IFolder
 	service: Service
 }
 
@@ -95,7 +96,7 @@ export interface ViewConfigStore {
 
 // Renaming store
 export interface RenamingStore {
-	renamingNode?: Node
+	renamingNode?: INode
 	newName: string
 }
 
@@ -111,10 +112,10 @@ export interface DragAndDropStore {
 
 // Active node store
 export interface ActiveStore {
-	activeAction: FileAction | null
-	activeFolder: Folder | null
-	activeNode: Node | null
-	activeView: View | null
+	activeAction: IFileAction | null
+	activeFolder: IFolder | null
+	activeNode: INode | null
+	activeView: IView | null
 }
 
 /**

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\DAV;
 
 use OCA\DAV\DAV\SystemPrincipalBackend;
@@ -14,7 +15,7 @@ use Test\TestCase;
 
 class SystemPrincipalBackendTest extends TestCase {
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providesPrefix')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesPrefix')]
 	public function testGetPrincipalsByPrefix(array $expected, string $prefix): void {
 		$backend = new SystemPrincipalBackend();
 		$result = $backend->getPrincipalsByPrefix($prefix);
@@ -36,7 +37,7 @@ class SystemPrincipalBackendTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providesPath')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesPath')]
 	public function testGetPrincipalByPath(?array $expected, string $path): void {
 		$backend = new SystemPrincipalBackend();
 		$result = $backend->getPrincipalByPath($path);
@@ -55,7 +56,7 @@ class SystemPrincipalBackendTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providesPrincipalForGetGroupMemberSet')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesPrincipalForGetGroupMemberSet')]
 	public function testGetGroupMemberSetExceptional(?string $principal): void {
 		$this->expectException(Exception::class);
 		$this->expectExceptionMessage('Principal not found');
@@ -77,7 +78,7 @@ class SystemPrincipalBackendTest extends TestCase {
 		$this->assertEquals(['principals/system/system'], $result);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providesPrincipalForGetGroupMembership')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesPrincipalForGetGroupMembership')]
 	public function testGetGroupMembershipExceptional(string $principal): void {
 		$this->expectException(Exception::class);
 		$this->expectExceptionMessage('Principal not found');

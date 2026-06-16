@@ -6,11 +6,12 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Encryption\Command;
 
-use OC\Files\SetupManager;
 use OC\Files\View;
 use OCA\Encryption\Util;
+use OCP\Files\ISetupManager;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -27,19 +28,21 @@ class ScanLegacyFormat extends Command {
 		protected readonly IConfig $config,
 		protected readonly QuestionHelper $questionHelper,
 		private readonly IUserManager $userManager,
-		private readonly SetupManager $setupManager,
+		private readonly ISetupManager $setupManager,
 	) {
 		parent::__construct();
 
 		$this->rootView = new View();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('encryption:scan:legacy-format')
 			->setDescription('Scan the files for the legacy format');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$result = true;
 

@@ -26,6 +26,7 @@ class CryptoTest extends \Test\TestCase {
 	/** @var Crypto */
 	protected $crypto;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->crypto = new Crypto(Server::get(IConfig::class));
@@ -36,7 +37,6 @@ class CryptoTest extends \Test\TestCase {
 		$ciphertext = $this->crypto->encrypt($stringToEncrypt);
 		$this->assertEquals($stringToEncrypt, $this->crypto->decrypt($ciphertext));
 	}
-
 
 	public function testWrongPassword(): void {
 		$this->expectException(\Exception::class);
@@ -53,7 +53,6 @@ class CryptoTest extends \Test\TestCase {
 		$this->assertEquals($stringToEncrypt, $this->crypto->decrypt($encryptedString, 'ThisIsAVeryS3cur3P4ssw0rd'));
 	}
 
-
 	public function testWrongIV(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('HMAC does not match.');
@@ -61,7 +60,6 @@ class CryptoTest extends \Test\TestCase {
 		$encryptedString = '560f5436ba864b9f12f7f7ca6d41c327554a6f2c0a160a03316b202af07c65163274993f3a46e7547c07ba89304f00594a2f3bd99f83859097c58049c39d0d4ade10e0de914ff0604961e7c849d0271ed6c0b23f984ba16e7d033e3305fb0910e7b6a2a65c988d17dbee71d8f953684d|d2kdFUspVjC0o0sr|1a5feacf87eaa6869a6abdfba9a296e7bbad45b6ad89f7dce67cdc98e2da5dc4379cc672cc655e52bbf19599bf59482fbea13a73937697fa656bf10f3fc4f1aa';
 		$this->crypto->decrypt($encryptedString, 'ThisIsAVeryS3cur3P4ssw0rd');
 	}
-
 
 	public function testWrongParameters(): void {
 		$this->expectException(\Exception::class);
@@ -99,6 +97,27 @@ class CryptoTest extends \Test\TestCase {
 				'ThisIsAVeryS3cur3P4ssw0rd'
 			)
 		);
+	}
+
+	public function testDecryptWithWrongSecretThrowsHmacExceptionNotValueError(): void {
+		// Encrypt with 'secret-A'
+		$configA = $this->createMock(IConfig::class);
+		$configA->method('getSystemValue')->with('secret')->willReturn('secret-A');
+		$configA->method('getSystemValueString')->with('secret')->willReturn('secret-A');
+		$cryptoA = new Crypto($configA);
+		$ciphertext = $cryptoA->encrypt('plaintext');
+
+		// Decrypt with 'secret-B': first attempt fails (HMAC mismatch), fallback to empty
+		// string must not propagate a ValueError for v3 ciphertexts — it must rethrow the
+		// original HMAC exception instead.
+		$configB = $this->createMock(IConfig::class);
+		$configB->method('getSystemValue')->with('secret')->willReturn('secret-B');
+		$configB->method('getSystemValueString')->with('secret')->willReturn('secret-B');
+		$cryptoB = new Crypto($configB);
+
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('HMAC does not match.');
+		$cryptoB->decrypt($ciphertext);
 	}
 
 	public function testVersion3CiphertextDecryptsToCorrectPlaintext(): void {

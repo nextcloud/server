@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 ownCloud GmbH
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\DAV;
 
 use OCA\DAV\Connector\Sabre\Exception\Forbidden;
@@ -94,9 +95,10 @@ class ViewOnlyPluginTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providesDataForCanGet')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesDataForCanGet')]
 	public function testCanGet(bool $isVersion, ?bool $attrEnabled, bool $expectCanDownloadFile, bool $allowViewWithoutDownload): void {
 		$nodeInfo = $this->createMock(File::class);
+		$nodeInfo->method('getId')->willReturn(42);
 		if ($isVersion) {
 			$davPath = 'versions/alice/versions/117/123456';
 			$version = $this->createMock(IVersion::class);
@@ -122,8 +124,9 @@ class ViewOnlyPluginTest extends TestCase {
 				->method('getUID')
 				->willReturn('bob');
 			$this->userFolder->expects($this->once())
-				->method('getById')
-				->willReturn([$nodeInfo]);
+				->method('getFirstNodeById')
+				->with(42)
+				->willReturn($nodeInfo);
 			$this->userFolder->expects($this->once())
 				->method('getOwner')
 				->willReturn($owner);

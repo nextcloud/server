@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Core\AppInfo\ConfigLexicon;
@@ -48,7 +49,7 @@ use Test\Traits\EmailValidatorTrait;
  * Class ApiTest
  */
 #[\PHPUnit\Framework\Attributes\Medium]
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ApiTest extends TestCase {
 	use EmailValidatorTrait;
 
@@ -216,7 +217,7 @@ class ApiTest extends TestCase {
 		$ocs->cleanup();
 	}
 
-	#[\PHPUnit\Framework\Attributes\Group('RoutingWeirdness')]
+	#[\PHPUnit\Framework\Attributes\Group(name: 'RoutingWeirdness')]
 	public function testCreateShareLink(): void {
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 		$result = $ocs->createShare($this->folder, Constants::PERMISSION_ALL, IShare::TYPE_LINK);
@@ -239,8 +240,8 @@ class ApiTest extends TestCase {
 		$ocs->cleanup();
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataAllowFederationOnPublicShares')]
-	#[\PHPUnit\Framework\Attributes\Group('RoutingWeirdness')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataAllowFederationOnPublicShares')]
+	#[\PHPUnit\Framework\Attributes\Group(name: 'RoutingWeirdness')]
 	public function testCreateShareLinkPublicUpload(array $appConfig, int $permissions): void {
 		$this->appConfig->method('getValueBool')
 			->willReturnMap([$appConfig]);
@@ -472,8 +473,8 @@ class ApiTest extends TestCase {
 		$ocs->cleanup();
 	}
 
-	#[\PHPUnit\Framework\Attributes\Depends('testCreateShareUserFile')]
-	#[\PHPUnit\Framework\Attributes\Depends('testCreateShareLink')]
+	#[\PHPUnit\Framework\Attributes\Depends(methodName: 'testCreateShareUserFile')]
+	#[\PHPUnit\Framework\Attributes\Depends(methodName: 'testCreateShareLink')]
 	public function testGetShareFromSource(): void {
 		$node = $this->userFolder->get($this->filename);
 		$share = $this->shareManager->newShare();
@@ -502,8 +503,8 @@ class ApiTest extends TestCase {
 		$this->shareManager->deleteShare($share2);
 	}
 
-	#[\PHPUnit\Framework\Attributes\Depends('testCreateShareUserFile')]
-	#[\PHPUnit\Framework\Attributes\Depends('testCreateShareLink')]
+	#[\PHPUnit\Framework\Attributes\Depends(methodName: 'testCreateShareUserFile')]
+	#[\PHPUnit\Framework\Attributes\Depends(methodName: 'testCreateShareLink')]
 	public function testGetShareFromSourceWithReshares(): void {
 		$node = $this->userFolder->get($this->filename);
 		$share1 = $this->shareManager->newShare();
@@ -541,7 +542,7 @@ class ApiTest extends TestCase {
 		$this->shareManager->deleteShare($share2);
 	}
 
-	#[\PHPUnit\Framework\Attributes\Depends('testCreateShareUserFile')]
+	#[\PHPUnit\Framework\Attributes\Depends(methodName: 'testCreateShareUserFile')]
 	public function testGetShareFromId(): void {
 		$node = $this->userFolder->get($this->filename);
 		$share1 = $this->shareManager->newShare();
@@ -826,6 +827,8 @@ class ApiTest extends TestCase {
 		$share3->setStatus(IShare::STATUS_ACCEPTED);
 		$this->shareManager->updateShare($share3);
 
+		$this->logout();
+
 		// $request = $this->createRequest(['path' => $this->subfolder]);
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER2);
 		$result1 = $ocs->getShares('false', 'false', 'false', $this->subfolder);
@@ -920,8 +923,8 @@ class ApiTest extends TestCase {
 		$ocs->cleanup();
 	}
 
-	#[\PHPUnit\Framework\Attributes\Depends('testCreateShareUserFile')]
-	#[\PHPUnit\Framework\Attributes\Depends('testCreateShareLink')]
+	#[\PHPUnit\Framework\Attributes\Depends(methodName: 'testCreateShareUserFile')]
+	#[\PHPUnit\Framework\Attributes\Depends(methodName: 'testCreateShareLink')]
 	public function testUpdateShare(): void {
 		$password = md5(time());
 
@@ -979,7 +982,7 @@ class ApiTest extends TestCase {
 		$this->shareManager->deleteShare($share2);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataAllowFederationOnPublicShares')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataAllowFederationOnPublicShares')]
 	public function testUpdateShareUpload(array $appConfig, int $permissions): void {
 		$this->appConfig->method('getValueBool')->willReturnMap([
 			$appConfig,
@@ -1050,7 +1053,7 @@ class ApiTest extends TestCase {
 		$share1 = $this->shareManager->getShareById($share1->getFullId());
 
 		// date should be changed
-		$dateWithinRange->setTime(0, 0, 0);
+		$dateWithinRange->setTime(23, 59, 59);
 		$dateWithinRange->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 		$this->assertEquals($dateWithinRange, $share1->getExpirationDate());
 
@@ -1261,7 +1264,7 @@ class ApiTest extends TestCase {
 
 	public static function datesProvider() {
 		$date = new \DateTime();
-		$date->setTime(0, 0);
+		$date->setTime(23, 59, 59);
 		$date->add(new \DateInterval('P5D'));
 		$date->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 
@@ -1275,7 +1278,7 @@ class ApiTest extends TestCase {
 	/**
 	 * Make sure only ISO 8601 dates are accepted
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('datesProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'datesProvider')]
 	#[\PHPUnit\Framework\Attributes\Group('RoutingWeirdness')]
 	public function testPublicLinkExpireDate($date, $valid): void {
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
@@ -1323,14 +1326,14 @@ class ApiTest extends TestCase {
 
 		$data = $result->getData();
 		$this->assertTrue(is_string($data['token']));
-		$this->assertEquals($date->format('Y-m-d 00:00:00'), $data['expiration']);
+		$this->assertEquals($date->format('Y-m-d 23:59:59'), $data['expiration']);
 
 		// check for correct link
 		$url = Server::get(IURLGenerator::class)->getAbsoluteURL('/index.php/s/' . $data['token']);
 		$this->assertEquals($url, $data['url']);
 
 		$share = $this->shareManager->getShareById('ocinternal:' . $data['id']);
-		$date->setTime(0, 0, 0);
+		$date->setTime(23, 59, 59);
 		$this->assertEquals($date, $share->getExpirationDate());
 
 		$this->shareManager->deleteShare($share);

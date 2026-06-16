@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Connector\Sabre\RequestTest;
 
 use OCP\AppFramework\Http;
@@ -17,7 +18,7 @@ use OCP\Lock\ILockingProvider;
  *
  * @package OCA\DAV\Tests\unit\Connector\Sabre\RequestTest
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class DownloadTest extends RequestTestCase {
 	public function testDownload(): void {
 		$user = self::getUniqueID();

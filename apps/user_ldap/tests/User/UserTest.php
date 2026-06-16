@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP\Tests\User;
 
 use OCA\User_LDAP\Access;
@@ -32,7 +33,7 @@ use Psr\Log\LoggerInterface;
  *
  * @package OCA\User_LDAP\Tests\User
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class UserTest extends \Test\TestCase {
 	protected Access&MockObject $access;
 	protected Connection&MockObject $connection;
@@ -788,7 +789,7 @@ class UserTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('extStorageHomeDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'extStorageHomeDataProvider')]
 	public function testUpdateExtStorageHome(string $expected, ?string $valueFromLDAP = null, bool $isSet = true): void {
 		if ($valueFromLDAP === null) {
 			$this->connection->expects($this->once())
@@ -944,7 +945,7 @@ class UserTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('emptyHomeFolderAttributeValueProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'emptyHomeFolderAttributeValueProvider')]
 	public function testGetHomePathNotConfigured(string $attributeValue): void {
 		$this->connection->expects($this->any())
 			->method('__get')
@@ -984,7 +985,6 @@ class UserTest extends \Test\TestCase {
 		$this->assertFalse($this->user->getHomePath());
 	}
 
-
 	public function testGetHomePathConfiguredNotAvailableNotAllowed(): void {
 		$this->expectException(\Exception::class);
 
@@ -1018,7 +1018,7 @@ class UserTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('displayNameProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'displayNameProvider')]
 	public function testComposeAndStoreDisplayName(string $part1, string $part2, string $expected, bool $expectTriggerChange): void {
 		$this->userConfig->expects($this->once())
 			->method('setValueString');

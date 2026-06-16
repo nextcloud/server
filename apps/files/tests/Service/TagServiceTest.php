@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files\Tests\Service;
 
 use OCA\Files\Service\TagService;
@@ -27,7 +28,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  *
  * @package OCA\Files
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class TagServiceTest extends \Test\TestCase {
 	private string $user;
 	private IUserSession&MockObject $userSession;
@@ -44,9 +45,9 @@ class TagServiceTest extends \Test\TestCase {
 		\OC_User::setUserId($this->user);
 		\OC_Util::setupFS($this->user);
 		$user = $this->createMock(IUser::class);
-		/**
-		 * @var IUserSession
-		 */
+		$user->expects($this->any())
+			->method('getUID')
+			->willReturn($this->user);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->userSession->expects($this->any())
 			->method('getUser')
@@ -64,8 +65,8 @@ class TagServiceTest extends \Test\TestCase {
 			->setConstructorArgs([
 				$this->userSession,
 				$this->activityManager,
-				$this->tagger,
-				$this->root,
+				Server::get(ITagManager::class),
+				Server::get(IRootFolder::class),
 			])
 			->onlyMethods($methods)
 			->getMock();
@@ -94,16 +95,22 @@ class TagServiceTest extends \Test\TestCase {
 		// set tags
 		$this->tagService->updateFileTags('subdir/test.txt', [$tag1, $tag2]);
 
+		// Sync to reload tags
+		$this->tagger->addMultiple([], sync:true);
 		$this->assertEquals([$fileId], $this->tagger->getIdsForTag($tag1));
 		$this->assertEquals([$fileId], $this->tagger->getIdsForTag($tag2));
 
 		// remove tag
 		$this->tagService->updateFileTags('subdir/test.txt', [$tag2]);
+		// Sync to reload tags
+		$this->tagger->addMultiple([], sync:true);
 		$this->assertEquals([], $this->tagger->getIdsForTag($tag1));
 		$this->assertEquals([$fileId], $this->tagger->getIdsForTag($tag2));
 
 		// clear tags
 		$this->tagService->updateFileTags('subdir/test.txt', []);
+		// Sync to reload tags
+		$this->tagger->addMultiple([], sync:true);
 		$this->assertEquals([], $this->tagger->getIdsForTag($tag1));
 		$this->assertEquals([], $this->tagger->getIdsForTag($tag2));
 

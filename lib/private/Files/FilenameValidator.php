@@ -5,8 +5,10 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Files;
 
+use OCP\Constants;
 use OCP\Files\EmptyFileNameException;
 use OCP\Files\FileNameTooLongException;
 use OCP\Files\IFilenameValidator;
@@ -126,7 +128,7 @@ class FilenameValidator implements IFilenameValidator {
 	public function getForbiddenCharacters(): array {
 		if (empty($this->forbiddenCharacters)) {
 			// Get always forbidden characters
-			$forbiddenCharacters = str_split(\OCP\Constants::FILENAME_INVALID_CHARS);
+			$forbiddenCharacters = str_split(Constants::FILENAME_INVALID_CHARS);
 
 			// Get admin defined invalid characters
 			$additionalChars = $this->config->getSystemValue('forbidden_filename_characters', []);
@@ -156,10 +158,11 @@ class FilenameValidator implements IFilenameValidator {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function isFilenameValid(string $filename): bool {
 		try {
 			$this->validateFilename($filename);
-		} catch (\OCP\Files\InvalidPathException) {
+		} catch (InvalidPathException) {
 			return false;
 		}
 		return true;
@@ -168,6 +171,7 @@ class FilenameValidator implements IFilenameValidator {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function validateFilename(string $filename): void {
 		$trimmed = trim($filename);
 		if ($trimmed === '') {
@@ -228,6 +232,7 @@ class FilenameValidator implements IFilenameValidator {
 		return false;
 	}
 
+	#[\Override]
 	public function sanitizeFilename(string $name, ?string $charReplacement = null): string {
 		$forbiddenCharacters = $this->getForbiddenCharacters();
 
@@ -279,7 +284,6 @@ class FilenameValidator implements IFilenameValidator {
 			throw new ReservedWordException($this->l10n->t('"%1$s" is a forbidden prefix for file or folder names.', [$filename]));
 		}
 	}
-
 
 	/**
 	 * Check if a filename contains any of the forbidden characters

@@ -19,6 +19,7 @@ use OCP\Files\Cache\CacheEntryRemovedEvent;
  * @template-implements IEventListener<CacheEntryInsertedEvent|CacheEntryRemovedEvent>
  */
 class CacheEventListener extends Action implements IEventListener {
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof CacheEntryInsertedEvent) {
 			$this->entryInserted($event);

@@ -20,9 +20,10 @@ class CryptoWrappingTest extends TestCase {
 	/** @var \PHPUnit\Framework\MockObject\MockObject|ISession */
 	protected $wrappedSession;
 
-	/** @var \OC\Session\CryptoSessionData */
+	/** @var CryptoSessionData */
 	protected $instance;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

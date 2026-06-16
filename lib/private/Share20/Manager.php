@@ -5,22 +5,28 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Share20;
 
+use ArrayIterator;
 use OC\Core\AppInfo\ConfigLexicon;
-use OC\Files\Mount\MoveableMount;
+use OC\Files\Filesystem;
 use OC\KnownUser\KnownUserService;
-use OC\Share\Helper;
+use OC\Share\Constants as ShareConstants;
 use OC\Share20\Exception\ProviderException;
+use OCA\Circles\Api\v1\Circles;
 use OCA\Files_Sharing\AppInfo\Application;
 use OCA\Files_Sharing\SharedStorage;
 use OCA\ShareByMail\ShareByMailProvider;
+use OCP\Constants;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
+use OCP\Files\Mount\IMovableMount;
 use OCP\Files\Mount\IShareOwnerlessMount;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
@@ -28,6 +34,7 @@ use OCP\HintException;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDateTimeZone;
+use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IUser;
@@ -39,22 +46,27 @@ use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 use OCP\Security\PasswordContext;
 use OCP\Share;
+use OCP\Share\Events\BeforeShareCreatedEvent;
 use OCP\Share\Events\BeforeShareDeletedEvent;
 use OCP\Share\Events\ShareAcceptedEvent;
 use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\Events\ShareDeletedEvent;
 use OCP\Share\Events\ShareDeletedFromSelfEvent;
+use OCP\Share\Events\ShareMovedEvent;
 use OCP\Share\Exceptions\AlreadySharedException;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\Exceptions\ShareTokenException;
 use OCP\Share\IManager;
+use OCP\Share\IPartialShareProvider;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
 use OCP\Share\IShareProvider;
+use OCP\Share\IShareProviderGetUsers;
 use OCP\Share\IShareProviderSupportsAccept;
 use OCP\Share\IShareProviderSupportsAllSharesInFolder;
 use OCP\Share\IShareProviderWithNotification;
+use OCP\Util;
 use Override;
 use Psr\Log\LoggerInterface;
 
@@ -83,6 +95,7 @@ class Manager implements IManager {
 		private ShareDisableChecker $shareDisableChecker,
 		private IDateTimeZone $dateTimeZone,
 		private IAppConfig $appConfig,
+		private IDBConnection $connection,
 	) {
 		$this->l = $this->l10nFactory->get('lib');
 		// The constructor of LegacyHooks registers the listeners of share events
@@ -162,14 +175,12 @@ class Manager implements IManager {
 				throw new \InvalidArgumentException($this->l->t('Share recipient should not be empty'));
 			}
 		} elseif ($share->getShareType() === IShare::TYPE_CIRCLE) {
-			$circle = \OCA\Circles\Api\v1\Circles::detailsCircle($share->getSharedWith());
+			/** @psalm-suppress UndefinedClass */
+			$circle = Circles::detailsCircle($share->getSharedWith());
 			if ($circle === null) {
 				throw new \InvalidArgumentException($this->l->t('Share recipient is not a valid circle'));
 			}
-		} elseif ($share->getShareType() === IShare::TYPE_ROOM) {
-		} elseif ($share->getShareType() === IShare::TYPE_DECK) {
-		} elseif ($share->getShareType() === IShare::TYPE_SCIENCEMESH) {
-		} else {
+		} elseif ($share->getShareType() !== IShare::TYPE_ROOM && $share->getShareType() !== IShare::TYPE_DECK) {
 			// We cannot handle other types yet
 			throw new \InvalidArgumentException($this->l->t('Unknown share type'));
 		}
@@ -186,13 +197,15 @@ class Manager implements IManager {
 		}
 
 		// The path should be set
-		if ($share->getNode() === null) {
+		try {
+			$share->getNode();
+		} catch (NotFoundException $e) {
 			throw new \InvalidArgumentException($this->l->t('Shared path must be set'));
 		}
 
 		// And it should be a file or a folder
-		if (!($share->getNode() instanceof \OCP\Files\File)
-			&& !($share->getNode() instanceof \OCP\Files\Folder)) {
+		if (!($share->getNode() instanceof File)
+			&& !($share->getNode() instanceof Folder)) {
 			throw new \InvalidArgumentException($this->l->t('Shared path must be either a file or a folder'));
 		}
 
@@ -217,20 +230,20 @@ class Manager implements IManager {
 		}
 
 		// Permissions must be valid
-		if ($share->getPermissions() < 0 || $share->getPermissions() > \OCP\Constants::PERMISSION_ALL) {
+		if ($share->getPermissions() < 0 || $share->getPermissions() > Constants::PERMISSION_ALL) {
 			throw new \InvalidArgumentException($this->l->t('Valid permissions are required for sharing'));
 		}
 
 		// Single file shares should never have delete or create permissions
 		if (($share->getNode() instanceof File)
-			&& (($share->getPermissions() & (\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_DELETE)) !== 0)) {
+			&& (($share->getPermissions() & (Constants::PERMISSION_CREATE | Constants::PERMISSION_DELETE)) !== 0)) {
 			throw new \InvalidArgumentException($this->l->t('File shares cannot have create or delete permissions'));
 		}
 
 		$permissions = 0;
 		$nodesForUser = $userFolder->getById($share->getNodeId());
 		foreach ($nodesForUser as $node) {
-			if ($node->getInternalPath() === '' && !$node->getMountPoint() instanceof MoveableMount) {
+			if ($node->getInternalPath() === '' && !$node->getMountPoint() instanceof IMovableMount) {
 				// for the root of non-movable mount, the permissions we see if limited by the mount itself,
 				// so we instead use the "raw" permissions from the storage
 				$permissions |= $node->getStorage()->getPermissions('');
@@ -250,18 +263,112 @@ class Manager implements IManager {
 		$noReadPermissionRequired = $share->getShareType() === IShare::TYPE_LINK
 			|| $share->getShareType() === IShare::TYPE_EMAIL;
 		if (!$noReadPermissionRequired
-			&& ($share->getPermissions() & \OCP\Constants::PERMISSION_READ) === 0) {
+			&& ($share->getPermissions() & Constants::PERMISSION_READ) === 0) {
 			throw new \InvalidArgumentException($this->l->t('Shares need at least read permissions'));
 		}
 
-		if ($share->getNode() instanceof \OCP\Files\File) {
-			if ($share->getPermissions() & \OCP\Constants::PERMISSION_DELETE) {
+		if ($share->getNode() instanceof File) {
+			if ($share->getPermissions() & Constants::PERMISSION_DELETE) {
 				throw new GenericShareException($this->l->t('Files cannot be shared with delete permissions'));
 			}
-			if ($share->getPermissions() & \OCP\Constants::PERMISSION_CREATE) {
+			if ($share->getPermissions() & Constants::PERMISSION_CREATE) {
 				throw new GenericShareException($this->l->t('Files cannot be shared with create permissions'));
 			}
 		}
+	}
+
+	/**
+	 * Validate if the expiration date fits the provided share policy settings.
+	 *
+	 * @param IShare $share The share to validate the expiration date of
+	 * @param bool $isEnforced Whether an expiration date is mandatory and capped
+	 * @param bool $defaultExpireDate Whether a default expiration date should be applied
+	 * @param int $defaultExpireDays Maximum/default number of expiration days
+	 * @param string $configProp Config key used to retrieve the admin-configured default days
+	 * @return IShare The modified share object
+	 * @throws GenericShareException
+	 * @throws \InvalidArgumentException
+	 * @throws \Exception
+	 */
+	protected function validateExpirationDate(
+		IShare $share,
+		bool $isEnforced,
+		bool $defaultExpireDate,
+		int $defaultExpireDays,
+		string $configProp,
+	): IShare {
+		$expirationDate = $share->getExpirationDate();
+
+		// If no-expiration is allowed and expiration is not enforced, null is accepted.
+		if (!$share->getNoExpirationDate() || $isEnforced) {
+			if ($expirationDate !== null) {
+				$expirationDate->setTimezone($this->dateTimeZone->getTimeZone());
+				$expirationDate->setTime(23, 59, 59);
+
+				$date = new \DateTime('now', $this->dateTimeZone->getTimeZone());
+				$date->setTime(0, 0, 0);
+				if ($date >= $expirationDate) {
+					throw new GenericShareException($this->l->t('Expiration date is in the past'), code: 404);
+				}
+			}
+
+			// If expire date is empty, set a default one for new shares if configured.
+			$fullId = null;
+			try {
+				$fullId = $share->getFullId();
+			} catch (\UnexpectedValueException $e) {
+				// This is a new share
+			}
+
+			if ($fullId === null && $expirationDate === null && $defaultExpireDate) {
+				$expirationDate = new \DateTime('now', $this->dateTimeZone->getTimeZone());
+				$expirationDate->setTime(23, 59, 59);
+
+				$days = (int)$this->config->getAppValue('core', $configProp, (string)$defaultExpireDays);
+				if ($days > $defaultExpireDays) {
+					$days = $defaultExpireDays;
+				}
+				$expirationDate->add(new \DateInterval('P' . $days . 'D'));
+			}
+
+			// If expiration is enforced, it must be present and must not exceed the maximum.
+			if ($isEnforced) {
+				if (empty($expirationDate)) {
+					throw new \InvalidArgumentException($this->l->t('Expiration date is enforced'));
+				}
+
+				$date = new \DateTime('now', $this->dateTimeZone->getTimeZone());
+				$date->setTime(23, 59, 59);
+				$date->add(new \DateInterval('P' . $defaultExpireDays . 'D'));
+				if ($date < $expirationDate) {
+					throw new GenericShareException(
+						$this->l->n(
+							'Cannot set expiration date more than %n day in the future',
+							'Cannot set expiration date more than %n days in the future',
+							$defaultExpireDays
+						),
+						code: 404,
+					);
+				}
+			}
+		}
+
+		$accepted = true;
+		$message = '';
+		Util::emitHook('\OC\Share', 'verifyExpirationDate', [
+			'expirationDate' => &$expirationDate,
+			'accepted' => &$accepted,
+			'message' => &$message,
+			'passwordSet' => $share->getPassword() !== null,
+		]);
+
+		if (!$accepted) {
+			throw new \Exception($message);
+		}
+
+		$share->setExpirationDate($expirationDate);
+
+		return $share;
 	}
 
 	/**
@@ -276,8 +383,6 @@ class Manager implements IManager {
 	protected function validateExpirationDateInternal(IShare $share): IShare {
 		$isRemote = $share->getShareType() === IShare::TYPE_REMOTE || $share->getShareType() === IShare::TYPE_REMOTE_GROUP;
 
-		$expirationDate = $share->getExpirationDate();
-
 		if ($isRemote) {
 			$defaultExpireDate = $this->shareApiRemoteDefaultExpireDate();
 			$defaultExpireDays = $this->shareApiRemoteDefaultExpireDays();
@@ -290,69 +395,13 @@ class Manager implements IManager {
 			$isEnforced = $this->shareApiInternalDefaultExpireDateEnforced();
 		}
 
-		// If $expirationDate is falsy, noExpirationDate is true and expiration not enforced
-		// Then skip expiration date validation as null is accepted
-		if (!$share->getNoExpirationDate() || $isEnforced) {
-			if ($expirationDate !== null) {
-				$expirationDate->setTimezone($this->dateTimeZone->getTimeZone());
-				$expirationDate->setTime(0, 0, 0);
-
-				$date = new \DateTime('now', $this->dateTimeZone->getTimeZone());
-				$date->setTime(0, 0, 0);
-				if ($date >= $expirationDate) {
-					throw new GenericShareException($this->l->t('Expiration date is in the past'), code: 404);
-				}
-			}
-
-			// If expiredate is empty set a default one if there is a default
-			$fullId = null;
-			try {
-				$fullId = $share->getFullId();
-			} catch (\UnexpectedValueException $e) {
-				// This is a new share
-			}
-
-			if ($fullId === null && $expirationDate === null && $defaultExpireDate) {
-				$expirationDate = new \DateTime('now', $this->dateTimeZone->getTimeZone());
-				$expirationDate->setTime(0, 0, 0);
-				$days = (int)$this->config->getAppValue('core', $configProp, (string)$defaultExpireDays);
-				if ($days > $defaultExpireDays) {
-					$days = $defaultExpireDays;
-				}
-				$expirationDate->add(new \DateInterval('P' . $days . 'D'));
-			}
-
-			// If we enforce the expiration date check that is does not exceed
-			if ($isEnforced) {
-				if (empty($expirationDate)) {
-					throw new \InvalidArgumentException($this->l->t('Expiration date is enforced'));
-				}
-
-				$date = new \DateTime('now', $this->dateTimeZone->getTimeZone());
-				$date->setTime(0, 0, 0);
-				$date->add(new \DateInterval('P' . $defaultExpireDays . 'D'));
-				if ($date < $expirationDate) {
-					throw new GenericShareException($this->l->n('Cannot set expiration date more than %n day in the future', 'Cannot set expiration date more than %n days in the future', $defaultExpireDays), code: 404);
-				}
-			}
-		}
-
-		$accepted = true;
-		$message = '';
-		\OCP\Util::emitHook('\OC\Share', 'verifyExpirationDate', [
-			'expirationDate' => &$expirationDate,
-			'accepted' => &$accepted,
-			'message' => &$message,
-			'passwordSet' => $share->getPassword() !== null,
-		]);
-
-		if (!$accepted) {
-			throw new \Exception($message);
-		}
-
-		$share->setExpirationDate($expirationDate);
-
-		return $share;
+		return $this->validateExpirationDate(
+			$share,
+			$isEnforced,
+			$defaultExpireDate,
+			$defaultExpireDays,
+			$configProp,
+		);
 	}
 
 	/**
@@ -365,77 +414,13 @@ class Manager implements IManager {
 	 * @throws \Exception
 	 */
 	protected function validateExpirationDateLink(IShare $share): IShare {
-		$expirationDate = $share->getExpirationDate();
-		$isEnforced = $this->shareApiLinkDefaultExpireDateEnforced();
-
-		// If $expirationDate is falsy, noExpirationDate is true and expiration not enforced
-		// Then skip expiration date validation as null is accepted
-		if (!($share->getNoExpirationDate() && !$isEnforced)) {
-			if ($expirationDate !== null) {
-				$expirationDate->setTimezone($this->dateTimeZone->getTimeZone());
-				$expirationDate->setTime(0, 0, 0);
-
-				$date = new \DateTime('now', $this->dateTimeZone->getTimeZone());
-				$date->setTime(0, 0, 0);
-				if ($date >= $expirationDate) {
-					throw new GenericShareException($this->l->t('Expiration date is in the past'), code: 404);
-				}
-			}
-
-			// If expiredate is empty set a default one if there is a default
-			$fullId = null;
-			try {
-				$fullId = $share->getFullId();
-			} catch (\UnexpectedValueException $e) {
-				// This is a new share
-			}
-
-			if ($fullId === null && $expirationDate === null && $this->shareApiLinkDefaultExpireDate()) {
-				$expirationDate = new \DateTime('now', $this->dateTimeZone->getTimeZone());
-				$expirationDate->setTime(0, 0, 0);
-
-				$days = (int)$this->config->getAppValue('core', 'link_defaultExpDays', (string)$this->shareApiLinkDefaultExpireDays());
-				if ($days > $this->shareApiLinkDefaultExpireDays()) {
-					$days = $this->shareApiLinkDefaultExpireDays();
-				}
-				$expirationDate->add(new \DateInterval('P' . $days . 'D'));
-			}
-
-			// If we enforce the expiration date check that is does not exceed
-			if ($isEnforced) {
-				if (empty($expirationDate)) {
-					throw new \InvalidArgumentException($this->l->t('Expiration date is enforced'));
-				}
-
-				$date = new \DateTime('now', $this->dateTimeZone->getTimeZone());
-				$date->setTime(0, 0, 0);
-				$date->add(new \DateInterval('P' . $this->shareApiLinkDefaultExpireDays() . 'D'));
-				if ($date < $expirationDate) {
-					throw new GenericShareException(
-						$this->l->n('Cannot set expiration date more than %n day in the future', 'Cannot set expiration date more than %n days in the future', $this->shareApiLinkDefaultExpireDays()),
-						code: 404,
-					);
-				}
-			}
-
-		}
-
-		$accepted = true;
-		$message = '';
-		\OCP\Util::emitHook('\OC\Share', 'verifyExpirationDate', [
-			'expirationDate' => &$expirationDate,
-			'accepted' => &$accepted,
-			'message' => &$message,
-			'passwordSet' => $share->getPassword() !== null,
-		]);
-
-		if (!$accepted) {
-			throw new \Exception($message);
-		}
-
-		$share->setExpirationDate($expirationDate);
-
-		return $share;
+		return $this->validateExpirationDate(
+			$share,
+			$this->shareApiLinkDefaultExpireDateEnforced(),
+			$this->shareApiLinkDefaultExpireDate(),
+			$this->shareApiLinkDefaultExpireDays(),
+			'link_defaultExpDays',
+		);
 	}
 
 	/**
@@ -557,7 +542,7 @@ class Manager implements IManager {
 
 		// Check if public upload is allowed
 		if ($share->getNodeType() === 'folder' && !$this->shareApiLinkAllowPublicUpload()
-			&& ($share->getPermissions() & (\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE))) {
+			&& ($share->getPermissions() & (Constants::PERMISSION_CREATE | Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE))) {
 			throw new \InvalidArgumentException($this->l->t('Public upload is not allowed'));
 		}
 	}
@@ -574,14 +559,14 @@ class Manager implements IManager {
 	protected function setLinkParent(IShare $share): void {
 		$storage = $share->getNode()->getStorage();
 		if ($storage->instanceOfStorage(SharedStorage::class)) {
-			/** @var \OCA\Files_Sharing\SharedStorage $storage */
+			/** @var SharedStorage $storage */
 			$share->setParent((int)$storage->getShareId());
 		}
 	}
 
 	protected function pathCreateChecks(Node $path): void {
 		// Make sure that we do not share a path that contains a shared mountpoint
-		if ($path instanceof \OCP\Files\Folder) {
+		if ($path instanceof Folder) {
 			$mounts = $this->mountManager->findIn($path->getPath());
 			foreach ($mounts as $mount) {
 				if ($mount->getStorage()->instanceOfStorage('\OCA\Files_Sharing\ISharedStorage')) {
@@ -692,11 +677,11 @@ class Manager implements IManager {
 			}
 
 			$target = $shareFolder . '/' . $share->getNode()->getName();
-			$target = \OC\Files\Filesystem::normalizePath($target);
+			$target = Filesystem::normalizePath($target);
 			$share->setTarget($target);
 
 			// Pre share event
-			$event = new Share\Events\BeforeShareCreatedEvent($share);
+			$event = new BeforeShareCreatedEvent($share);
 			$this->dispatchEvent($event, 'before share created');
 			if ($event->isPropagationStopped() && $event->getError()) {
 				throw new \Exception($event->getError());
@@ -779,7 +764,7 @@ class Manager implements IManager {
 		if ($share->getShareType() === IShare::TYPE_USER) {
 			$this->userCreateChecks($share);
 
-			if ($share->getExpirationDate() != $originalShare->getExpirationDate()) {
+			if ($share->getExpirationDate() !== $originalShare->getExpirationDate()) {
 				// Verify the expiration date
 				$this->validateExpirationDateInternal($share);
 				$expirationDateUpdated = true;
@@ -787,7 +772,7 @@ class Manager implements IManager {
 		} elseif ($share->getShareType() === IShare::TYPE_GROUP) {
 			$this->groupCreateChecks($share);
 
-			if ($share->getExpirationDate() != $originalShare->getExpirationDate()) {
+			if ($share->getExpirationDate() !== $originalShare->getExpirationDate()) {
 				// Verify the expiration date
 				$this->validateExpirationDateInternal($share);
 				$expirationDateUpdated = true;
@@ -823,13 +808,13 @@ class Manager implements IManager {
 				}
 			}
 
-			if ($share->getExpirationDate() != $originalShare->getExpirationDate()) {
+			if ($share->getExpirationDate() !== $originalShare->getExpirationDate()) {
 				// Verify the expiration date
 				$this->validateExpirationDateLink($share);
 				$expirationDateUpdated = true;
 			}
 		} elseif ($share->getShareType() === IShare::TYPE_REMOTE || $share->getShareType() === IShare::TYPE_REMOTE_GROUP) {
-			if ($share->getExpirationDate() != $originalShare->getExpirationDate()) {
+			if ($share->getExpirationDate() !== $originalShare->getExpirationDate()) {
 				// Verify the expiration date
 				$this->validateExpirationDateInternal($share);
 				$expirationDateUpdated = true;
@@ -849,7 +834,7 @@ class Manager implements IManager {
 
 		if ($expirationDateUpdated === true) {
 			\OC_Hook::emit(Share::class, 'post_set_expiration_date', [
-				'itemType' => $share->getNode() instanceof \OCP\Files\File ? 'file' : 'folder',
+				'itemType' => $share->getNode() instanceof File ? 'file' : 'folder',
 				'itemSource' => $share->getNode()->getId(),
 				'date' => $share->getExpirationDate(),
 				'uidOwner' => $share->getSharedBy(),
@@ -858,7 +843,7 @@ class Manager implements IManager {
 
 		if ($share->getPassword() !== $originalShare->getPassword()) {
 			\OC_Hook::emit(Share::class, 'post_update_password', [
-				'itemType' => $share->getNode() instanceof \OCP\Files\File ? 'file' : 'folder',
+				'itemType' => $share->getNode() instanceof File ? 'file' : 'folder',
 				'itemSource' => $share->getNode()->getId(),
 				'uidOwner' => $share->getSharedBy(),
 				'token' => $share->getToken(),
@@ -873,7 +858,7 @@ class Manager implements IManager {
 				$userFolder = $this->rootFolder->getUserFolder($share->getSharedBy());
 			}
 			\OC_Hook::emit(Share::class, 'post_update_permissions', [
-				'itemType' => $share->getNode() instanceof \OCP\Files\File ? 'file' : 'folder',
+				'itemType' => $share->getNode() instanceof File ? 'file' : 'folder',
 				'itemSource' => $share->getNode()->getId(),
 				'shareType' => $share->getShareType(),
 				'shareWith' => $share->getSharedWith(),
@@ -968,7 +953,6 @@ class Manager implements IManager {
 		$share->setPasswordExpirationTime($expirationTime);
 	}
 
-
 	/**
 	 * Delete all the children of this share
 	 *
@@ -1032,35 +1016,76 @@ class Manager implements IManager {
 			IShare::TYPE_EMAIL,
 		];
 
-		foreach ($userIds as $userId) {
-			foreach ($shareTypes as $shareType) {
+		// Figure out which users has some shares with which providers
+		$qb = $this->connection->getQueryBuilder();
+		$qb->select('uid_initiator', 'share_type', 'uid_owner', 'file_source')
+			->from('share')
+			->andWhere($qb->expr()->in('item_type', $qb->createNamedParameter(['file', 'folder'], IQueryBuilder::PARAM_STR_ARRAY)))
+			->andWhere($qb->expr()->in('share_type', $qb->createNamedParameter($shareTypes, IQueryBuilder::PARAM_INT_ARRAY)))
+			->andWhere(
+				$qb->expr()->orX(
+					$qb->expr()->in('uid_initiator', $qb->createNamedParameter($userIds, IQueryBuilder::PARAM_STR_ARRAY)),
+					// Special case for old shares created via the web UI
+					$qb->expr()->andX(
+						$qb->expr()->in('uid_owner', $qb->createNamedParameter($userIds, IQueryBuilder::PARAM_STR_ARRAY)),
+						$qb->expr()->isNull('uid_initiator')
+					)
+				)
+			);
+
+		if (!$node instanceof Folder) {
+			$qb->andWhere($qb->expr()->eq('file_source', $qb->createNamedParameter($node->getId(), IQueryBuilder::PARAM_INT)));
+		}
+
+		$qb->orderBy('id');
+
+		$cursor = $qb->executeQuery();
+		/** @var array<string, list<array{IShare::TYPE_*, Node}>> $rawShare */
+		$rawShares = [];
+		while ($data = $cursor->fetch()) {
+			if (!isset($rawShares[$data['uid_initiator']])) {
+				$rawShares[$data['uid_initiator']] = [];
+			}
+			if (!in_array($data['share_type'], $rawShares[$data['uid_initiator']], true)) {
+				if ($node instanceof Folder) {
+					if ($data['file_source'] === null || $data['uid_owner'] === null) {
+						/* Ignore share of non-existing node */
+						continue;
+					}
+
+					// for federated shares the owner can be a remote user, in this
+					// case we use the initiator
+					if ($this->userManager->userExists($data['uid_owner'])) {
+						$userFolder = $this->rootFolder->getUserFolder($data['uid_owner']);
+					} else {
+						$userFolder = $this->rootFolder->getUserFolder($data['uid_initiator']);
+					}
+					$sharedNode = $userFolder->getFirstNodeById((int)$data['file_source']);
+					if (!$sharedNode) {
+						continue;
+					}
+					if ($node->getRelativePath($sharedNode->getPath()) !== null) {
+						$rawShares[$data['uid_initiator']][] = [(int)$data['share_type'], $sharedNode];
+					}
+				} elseif ($node instanceof File) {
+					$rawShares[$data['uid_initiator']][] = [(int)$data['share_type'], $node];
+				}
+			}
+		}
+		$cursor->closeCursor();
+
+		foreach ($rawShares as $userId => $shareInfos) {
+			foreach ($shareInfos as $shareInfo) {
+				[$shareType, $sharedNode] = $shareInfo;
 				try {
 					$provider = $this->factory->getProviderForType($shareType);
-				} catch (ProviderException $e) {
+				} catch (ProviderException) {
 					continue;
 				}
 
-				if ($node instanceof Folder) {
-					/* We need to get all shares by this user to get subshares */
-					$shares = $provider->getSharesBy($userId, $shareType, null, false, -1, 0);
-
-					foreach ($shares as $share) {
-						try {
-							$path = $share->getNode()->getPath();
-						} catch (NotFoundException) {
-							/* Ignore share of non-existing node */
-							continue;
-						}
-						if ($node->getRelativePath($path) !== null) {
-							/* If relative path is not null it means the shared node is the same or in a subfolder */
-							$reshareRecords[] = $share;
-						}
-					}
-				} else {
-					$shares = $provider->getSharesBy($userId, $shareType, $node, false, -1, 0);
-					foreach ($shares as $child) {
-						$reshareRecords[] = $child;
-					}
+				$shares = $provider->getSharesBy($userId, $shareType, $sharedNode, false, -1, 0);
+				foreach ($shares as $child) {
+					$reshareRecords[] = $child;
 				}
 			}
 		}
@@ -1133,13 +1158,16 @@ class Manager implements IManager {
 		if ($share->getShareType() === IShare::TYPE_USER && $share->getSharedWith() !== $recipientId) {
 			throw new \InvalidArgumentException($this->l->t('Invalid share recipient'));
 		}
+		$recipient = $this->userManager->get($recipientId);
+		if (!$recipient) {
+			throw new \InvalidArgumentException($this->l->t('Unknown share recipient'));
+		}
 
 		if ($share->getShareType() === IShare::TYPE_GROUP) {
 			$sharedWith = $this->groupManager->get($share->getSharedWith());
 			if (is_null($sharedWith)) {
 				throw new \InvalidArgumentException($this->l->t('Group "%s" does not exist', [$share->getSharedWith()]));
 			}
-			$recipient = $this->userManager->get($recipientId);
 			if (!$sharedWith->inGroup($recipient)) {
 				throw new \InvalidArgumentException($this->l->t('Invalid share recipient'));
 			}
@@ -1148,7 +1176,11 @@ class Manager implements IManager {
 		[$providerId,] = $this->splitFullId($share->getFullId());
 		$provider = $this->factory->getProvider($providerId);
 
-		return $provider->move($share, $recipientId);
+		$result = $provider->move($share, $recipientId);
+
+		$this->dispatchEvent(new ShareMovedEvent($share, $recipient), 'share moved');
+
+		return $result;
 	}
 
 	#[Override]
@@ -1185,8 +1217,8 @@ class Manager implements IManager {
 	#[Override]
 	public function getSharesBy(string $userId, int $shareType, ?Node $path = null, bool $reshares = false, int $limit = 50, int $offset = 0, bool $onlyValid = true): array {
 		if ($path !== null
-			&& !($path instanceof \OCP\Files\File)
-			&& !($path instanceof \OCP\Files\Folder)) {
+			&& !($path instanceof File)
+			&& !($path instanceof Folder)) {
 			throw new \InvalidArgumentException($this->l->t('Invalid path'));
 		}
 
@@ -1286,6 +1318,47 @@ class Manager implements IManager {
 		return $shares;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
+	#[\Override]
+	public function getSharedWithByPath(string $userId, int $shareType, string $path, bool $forChildren, int $limit = 50, int $offset = 0): iterable {
+		try {
+			$provider = $this->factory->getProviderForType($shareType);
+		} catch (ProviderException $e) {
+			return [];
+		}
+
+		if (!$provider instanceof IPartialShareProvider) {
+			throw new \RuntimeException(\get_class($provider) . ' must implement IPartialShareProvider');
+		}
+
+		$shares = $provider->getSharedWithByPath(
+			$userId,
+			$shareType,
+			$path,
+			$forChildren,
+			$limit,
+			$offset,
+		);
+
+		if (\is_array($shares)) {
+			$shares = new ArrayIterator($shares);
+		} elseif (!$shares instanceof \Iterator) {
+			$shares = new \IteratorIterator($shares);
+		}
+
+		return new \CallbackFilterIterator($shares, function (IShare $share) {
+			// remove all shares which are already expired
+			try {
+				$this->checkShare($share);
+				return true;
+			} catch (ShareNotFound $e) {
+				return false;
+			}
+		});
+	}
+
 	#[Override]
 	public function getDeletedSharedWith(string $userId, int $shareType, ?Node $node = null, int $limit = 50, int $offset = 0): array {
 		$shares = $this->getSharedWith($userId, $shareType, $node, $limit, $offset);
@@ -1333,7 +1406,6 @@ class Manager implements IManager {
 		} catch (ProviderException|ShareNotFound) {
 		}
 
-
 		// If it is not a link share try to fetch a federated share by token
 		if ($share === null) {
 			try {
@@ -1379,7 +1451,7 @@ class Manager implements IManager {
 		 */
 		if (($share->getShareType() === IShare::TYPE_LINK || $share->getShareType() === IShare::TYPE_EMAIL)
 			&& $share->getNodeType() === 'folder' && !$this->shareApiLinkAllowPublicUpload()) {
-			$share->setPermissions($share->getPermissions() & ~(\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE));
+			$share->setPermissions($share->getPermissions() & ~(Constants::PERMISSION_CREATE | Constants::PERMISSION_UPDATE));
 		}
 
 		return $share;
@@ -1403,7 +1475,7 @@ class Manager implements IManager {
 			foreach ($uids as $uid) {
 				$user = $this->userManager->get($uid);
 				if ($user?->isEnabled() === false) {
-					throw new ShareNotFound($this->l->t('The requested share comes from a disabled user'));
+					throw new ShareNotFound($this->l->t('The requested share does not exist anymore'));
 				}
 			}
 		}
@@ -1500,7 +1572,7 @@ class Manager implements IManager {
 	}
 
 	#[\Override]
-	public function getAccessList(\OCP\Files\Node $path, $recursive = true, $currentAccess = false): array {
+	public function getAccessList(Node $path, $recursive = true, $currentAccess = false): array {
 		$owner = $path->getOwner();
 
 		if ($owner === null) {
@@ -1532,7 +1604,6 @@ class Manager implements IManager {
 
 		/** @var Node[] $nodes */
 		$nodes = [];
-
 
 		if ($currentAccess) {
 			$ownerPath = $path->getPath();
@@ -1742,6 +1813,7 @@ class Manager implements IManager {
 		return $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_user_id', 'yes') === 'yes';
 	}
 
+	#[\Override]
 	public function matchDisplayName(): bool {
 		return $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_displayname', 'yes') === 'yes';
 	}
@@ -1824,6 +1896,7 @@ class Manager implements IManager {
 		return true;
 	}
 
+	#[\Override]
 	public function registerShareProvider(string $shareProviderClass): void {
 		$this->factory->registerProvider($shareProviderClass);
 	}
@@ -1837,10 +1910,18 @@ class Manager implements IManager {
 		}
 	}
 
+	private function getTokenLength(): int {
+		$tokenLength = $this->appConfig->getValueInt('core', 'shareapi_token_length', ShareConstants::DEFAULT_TOKEN_LENGTH);
+		$tokenLength = $tokenLength ?: ShareConstants::DEFAULT_TOKEN_LENGTH;
+
+		// Token length should be within the defined min and max limits
+		return max(ShareConstants::MIN_TOKEN_LENGTH, min($tokenLength, ShareConstants::MAX_TOKEN_LENGTH));
+	}
+
 	#[Override]
 	public function generateToken(): string {
 		// Initial token length
-		$tokenLength = Helper::getTokenLength();
+		$tokenLength = $this->getTokenLength();
 
 		do {
 			$tokenExists = false;
@@ -1868,7 +1949,7 @@ class Manager implements IManager {
 				$tokenLength++;
 
 				// Check if the token length exceeds the maximum allowed length
-				if ($tokenLength > \OC\Share\Constants::MAX_TOKEN_LENGTH) {
+				if ($tokenLength > ShareConstants::MAX_TOKEN_LENGTH) {
 					throw new ShareTokenException('Unable to generate a unique share token. Maximum token length exceeded.');
 				}
 			}
@@ -1881,7 +1962,17 @@ class Manager implements IManager {
 		try {
 			$this->dispatcher->dispatchTyped($event);
 		} catch (\Exception $e) {
-			$this->logger->error("Error while sending ' . $name . ' event", ['exception' => $e]);
+			$this->logger->error("Error while sending '$name' event", ['exception' => $e]);
+		}
+	}
+
+	#[\Override]
+	public function getUsersForShare(IShare $share): iterable {
+		$provider = $this->factory->getProviderForType($share->getShareType());
+		if ($provider instanceof IShareProviderGetUsers) {
+			return $provider->getUsersForShare($share);
+		} else {
+			return [];
 		}
 	}
 }

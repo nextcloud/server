@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CalDAV\Trashbin;
 
 use OCA\DAV\CalDAV\CalDavBackend;
@@ -32,18 +33,44 @@ class TrashbinHome implements IACL, ICollection, IProperties {
 	) {
 	}
 
+	#[\Override]
 	public function getOwner(): string {
 		return $this->principalInfo['uri'];
 	}
 
+	#[\Override]
+	public function getACL(): array {
+		$ownerPrincipal = $this->principalInfo['uri'];
+		return [
+			[
+				'privilege' => '{DAV:}all',
+				'principal' => $ownerPrincipal,
+				'protected' => true,
+			],
+			[
+				'privilege' => '{DAV:}all',
+				'principal' => $ownerPrincipal . '/calendar-proxy-write',
+				'protected' => true,
+			],
+			[
+				'privilege' => '{DAV:}read',
+				'principal' => $ownerPrincipal . '/calendar-proxy-read',
+				'protected' => true,
+			],
+		];
+	}
+
+	#[\Override]
 	public function createFile($name, $data = null) {
 		throw new Forbidden('Permission denied to create files in the trashbin');
 	}
 
+	#[\Override]
 	public function createDirectory($name) {
 		throw new Forbidden('Permission denied to create a directory in the trashbin');
 	}
 
+	#[\Override]
 	public function getChild($name): INode {
 		switch ($name) {
 			case RestoreTarget::NAME:
@@ -58,6 +85,7 @@ class TrashbinHome implements IACL, ICollection, IProperties {
 		throw new NotFound();
 	}
 
+	#[\Override]
 	public function getChildren(): array {
 		return [
 			new RestoreTarget(),
@@ -68,6 +96,7 @@ class TrashbinHome implements IACL, ICollection, IProperties {
 		];
 	}
 
+	#[\Override]
 	public function childExists($name): bool {
 		return in_array($name, [
 			RestoreTarget::NAME,
@@ -75,26 +104,32 @@ class TrashbinHome implements IACL, ICollection, IProperties {
 		], true);
 	}
 
+	#[\Override]
 	public function delete() {
 		throw new Forbidden('Permission denied to delete the trashbin');
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return self::NAME;
 	}
 
+	#[\Override]
 	public function setName($name) {
 		throw new Forbidden('Permission denied to rename the trashbin');
 	}
 
+	#[\Override]
 	public function getLastModified(): int {
 		return 0;
 	}
 
+	#[\Override]
 	public function propPatch(PropPatch $propPatch): void {
 		throw new Forbidden('not implemented');
 	}
 
+	#[\Override]
 	public function getProperties($properties): array {
 		return [
 			'{DAV:}resourcetype' => new ResourceType([

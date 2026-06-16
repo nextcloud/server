@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Security;
 
 use Exception;
@@ -39,6 +40,7 @@ class Crypto implements ICrypto {
 	 * @param string $password Password to use (defaults to `secret` in config.php)
 	 * @return string Calculated HMAC
 	 */
+	#[\Override]
 	public function calculateHMAC(string $message, string $password = ''): string {
 		if ($password === '') {
 			$password = $this->config->getSystemValueString('secret');
@@ -60,6 +62,7 @@ class Crypto implements ICrypto {
 	 * @throws Exception if it was not possible to gather sufficient entropy
 	 * @throws Exception if encrypting the data failed
 	 */
+	#[\Override]
 	public function encrypt(string $plaintext, string $password = ''): string {
 		if ($password === '') {
 			$password = $this->config->getSystemValueString('secret');
@@ -89,6 +92,7 @@ class Crypto implements ICrypto {
 	 * @throws Exception If the HMAC does not match
 	 * @throws Exception If the decryption failed
 	 */
+	#[\Override]
 	public function decrypt(string $authenticatedCiphertext, string $password = ''): string {
 		$secret = $this->config->getSystemValue('secret');
 		try {
@@ -99,7 +103,13 @@ class Crypto implements ICrypto {
 		} catch (Exception $e) {
 			if ($password === '') {
 				// Retry with empty secret as a fallback for instances where the secret might not have been set by accident
-				return $this->decryptWithoutSecret($authenticatedCiphertext, '');
+				try {
+					return $this->decryptWithoutSecret($authenticatedCiphertext, '');
+				} catch (\Throwable) {
+					// Fallback failed (e.g. v3 ciphertext requires a non-empty key for hash_hkdf),
+					// rethrow the original exception
+					throw $e;
+				}
 			}
 			throw $e;
 		}
@@ -159,7 +169,7 @@ class Crypto implements ICrypto {
 			}
 		} else {
 			if (!hash_equals($this->calculateHMAC($parts[0] . $parts[1], $hmacKey), $hmac)) {
-				throw new Exception('HMAC does not match.');
+				throw new \RuntimeException('HMAC does not match.');
 			}
 		}
 

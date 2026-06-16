@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\User\BackgroundJobs;
 
 use OC\User\Manager;
@@ -15,6 +16,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class CleanupDeletedUsers extends TimedJob {
@@ -29,6 +31,7 @@ class CleanupDeletedUsers extends TimedJob {
 		$this->setInterval(24 * 60 * 60);
 	}
 
+	#[\Override]
 	protected function run($argument): void {
 		$backend = new PartiallyDeletedUsersBackend($this->config);
 		$users = $backend->getUsers();
@@ -49,7 +52,7 @@ class CleanupDeletedUsers extends TimedJob {
 				$user = new User(
 					$userId,
 					$backend,
-					\OCP\Server::get(IEventDispatcher::class),
+					Server::get(IEventDispatcher::class),
 					$this->userManager,
 					$this->config,
 				);

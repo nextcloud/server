@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Versions\Tests\Command;
 
 use OC\User\Manager;
@@ -25,7 +26,7 @@ use Test\TestCase;
  *
  * @package OCA\Files_Versions\Tests\Command
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class CleanupTest extends TestCase {
 	protected Manager&MockObject $userManager;
 	protected IRootFolder&MockObject $rootFolder;
@@ -45,7 +46,7 @@ class CleanupTest extends TestCase {
 	/**
 	 * @param boolean $nodeExists
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestDeleteVersions')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestDeleteVersions')]
 	public function testDeleteVersions(bool $nodeExists): void {
 		$this->rootFolder->expects($this->once())
 			->method('nodeExists')
@@ -91,7 +92,6 @@ class CleanupTest extends TestCase {
 			[false]
 		];
 	}
-
 
 	/**
 	 * test delete versions from users given as parameter

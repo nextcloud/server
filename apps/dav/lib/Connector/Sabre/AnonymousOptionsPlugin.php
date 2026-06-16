@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Connector\Sabre;
 
 use Sabre\DAV\CorePlugin;
@@ -24,6 +25,7 @@ class AnonymousOptionsPlugin extends ServerPlugin {
 	 * @param \Sabre\DAV\Server $server
 	 * @return void
 	 */
+	#[\Override]
 	public function initialize(\Sabre\DAV\Server $server) {
 		$this->server = $server;
 		// before auth

@@ -6,19 +6,23 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Files\Template;
 
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Files\Cache\Scanner;
 use OC\Files\Filesystem;
+use OC\User\NoUserException;
 use OCA\Files\ResponseDefinitions;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\GenericFileException;
 use OCP\Files\IFilenameValidator;
+use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\Files\Template\BeforeGetTemplatesEvent;
 use OCP\Files\Template\FileCreatedFromTemplateEvent;
 use OCP\Files\Template\ICustomTemplateProvider;
@@ -61,9 +65,11 @@ class TemplateManager implements ITemplateManager {
 		private readonly IFactory $l10nFactory,
 		private readonly LoggerInterface $logger,
 		private readonly IFilenameValidator $filenameValidator,
+		private readonly string $serverRoot,
 	) {
 		$this->l10n = $l10nFactory->get('lib');
 		$this->userId = $userSession->getUser()?->getUID();
+
 	}
 
 	#[Override]
@@ -177,9 +183,9 @@ class TemplateManager implements ITemplateManager {
 	}
 
 	/**
-	 * @throws \OCP\Files\NotFoundException
-	 * @throws \OCP\Files\NotPermittedException
-	 * @throws \OC\User\NoUserException
+	 * @throws NotFoundException
+	 * @throws NotPermittedException
+	 * @throws NoUserException
 	 */
 	private function getTemplateFolder(): Folder {
 		if ($this->getTemplatePath() !== '') {
@@ -275,7 +281,7 @@ class TemplateManager implements ITemplateManager {
 	/**
 	 * @return FilesTemplateFile
 	 * @throws NotFoundException
-	 * @throws \OCP\Files\InvalidPathException
+	 * @throws InvalidPathException
 	 */
 	private function formatFile(File $file): array {
 		return [
@@ -292,6 +298,7 @@ class TemplateManager implements ITemplateManager {
 		];
 	}
 
+	#[\Override]
 	public function hasTemplateDirectory(): bool {
 		try {
 			$this->getTemplateFolder();
@@ -317,15 +324,15 @@ class TemplateManager implements ITemplateManager {
 			$this->userId = $userId;
 		}
 
-		$defaultSkeletonDirectory = \OC::$SERVERROOT . '/core/skeleton';
-		$defaultTemplateDirectory = \OC::$SERVERROOT . '/core/skeleton/Templates';
+		$defaultSkeletonDirectory = $this->serverRoot . '/core/skeleton';
+		$defaultTemplateDirectory = $this->serverRoot . '/core/skeleton/Templates';
 		$skeletonPath = $this->config->getSystemValueString('skeletondirectory', $defaultSkeletonDirectory);
 		$skeletonTemplatePath = $this->config->getSystemValueString('templatedirectory', $defaultTemplateDirectory);
 		$isDefaultSkeleton = $skeletonPath === $defaultSkeletonDirectory;
 		$isDefaultTemplates = $skeletonTemplatePath === $defaultTemplateDirectory;
 		$userLang = $this->l10nFactory->getUserLanguage($this->userManager->get($this->userId));
 
-		if ($skeletonTemplatePath === '') {
+		if ($path === null && $skeletonTemplatePath === '' && $skeletonPath === '') {
 			$this->setTemplatePath('');
 			return '';
 		}
@@ -368,7 +375,7 @@ class TemplateManager implements ITemplateManager {
 			if (!$isDefaultTemplates && $folderIsEmpty) {
 				$localizedSkeletonTemplatePath = $this->getLocalizedTemplatePath($skeletonTemplatePath, $userLang);
 				if (!empty($localizedSkeletonTemplatePath) && file_exists($localizedSkeletonTemplatePath)) {
-					\OC_Util::copyr($localizedSkeletonTemplatePath, $folder);
+					$this->copyr($localizedSkeletonTemplatePath, $folder);
 					$userFolder->getStorage()->getScanner()->scan($folder->getInternalPath(), Scanner::SCAN_RECURSIVE);
 					$this->setTemplatePath($userTemplatePath);
 					return $userTemplatePath;
@@ -378,7 +385,7 @@ class TemplateManager implements ITemplateManager {
 			if ($path !== null && $isDefaultSkeleton && $isDefaultTemplates && $folderIsEmpty) {
 				$localizedSkeletonPath = $this->getLocalizedTemplatePath($skeletonPath . '/Templates', $userLang);
 				if (!empty($localizedSkeletonPath) && file_exists($localizedSkeletonPath)) {
-					\OC_Util::copyr($localizedSkeletonPath, $folder);
+					$this->copyr($localizedSkeletonPath, $folder);
 					$userFolder->getStorage()->getScanner()->scan($folder->getInternalPath(), Scanner::SCAN_RECURSIVE);
 					$this->setTemplatePath($userTemplatePath);
 					return $userTemplatePath;
@@ -408,5 +415,81 @@ class TemplateManager implements ITemplateManager {
 		}
 
 		return $localizedSkeletonTemplatePath;
+	}
+
+	/**
+	 * Copies a local directory recursively by using streams
+	 */
+	private function copyr(string $source, Folder $target): void {
+		// Verify if folder exists
+		$dir = opendir($source);
+		if ($dir === false) {
+			$this->logger->error(sprintf('Could not opendir "%s"', $source), ['app' => 'core']);
+			return;
+		}
+
+		// Copy the files
+		while (false !== ($file = readdir($dir))) {
+			if (!Filesystem::isIgnoredDir($file)) {
+				if (is_dir($source . '/' . $file)) {
+					$child = $target->newFolder($file);
+					$this->copyr($source . '/' . $file, $child);
+				} else {
+					$sourceStream = fopen($source . '/' . $file, 'r');
+					if ($sourceStream === false) {
+						$this->logger->error(sprintf('Could not fopen "%s"', $source . '/' . $file), ['app' => 'core']);
+						closedir($dir);
+						return;
+					}
+					$target->newFile($file, $sourceStream);
+				}
+			}
+		}
+		closedir($dir);
+	}
+
+	public function copySkeleton(string $userId): void {
+		$user = $this->userManager->get($userId);
+		if ($user === null) {
+			throw new \LogicException('Trying to initialize home dir for a non-existent user');
+		}
+
+		$userDirectory = $this->rootFolder->getUserFolder($userId);
+
+		$plainSkeletonDirectory = $this->config->getSystemValueString('skeletondirectory', $this->serverRoot . '/core/skeleton');
+		$userLang = $this->l10nFactory->findLanguage();
+		$skeletonDirectory = str_replace('{lang}', $userLang, $plainSkeletonDirectory);
+
+		if (!file_exists($skeletonDirectory)) {
+			$dialectStart = strpos($userLang, '_');
+			if ($dialectStart !== false) {
+				$skeletonDirectory = str_replace('{lang}', substr($userLang, 0, $dialectStart), $plainSkeletonDirectory);
+			}
+			if ($dialectStart === false || !file_exists($skeletonDirectory)) {
+				$skeletonDirectory = str_replace('{lang}', 'default', $plainSkeletonDirectory);
+			}
+			if (!file_exists($skeletonDirectory)) {
+				$skeletonDirectory = '';
+			}
+		}
+
+		$instanceId = $this->config->getSystemValue('instanceid', '');
+
+		if ($instanceId === null) {
+			throw new \RuntimeException('no instance id!');
+		}
+		$appdata = 'appdata_' . $instanceId;
+		if ($userId === $appdata) {
+			throw new \RuntimeException('username is reserved name: ' . $appdata);
+		}
+
+		if (!empty($skeletonDirectory)) {
+			$this->logger->debug('copying skeleton for ' . $userId . ' from ' . $skeletonDirectory . ' to ' . $userDirectory->getFullPath('/'), ['app' => 'files_skeleton']);
+			$this->copyr($skeletonDirectory, $userDirectory);
+			// update the file cache
+			$userDirectory->getStorage()->getScanner()->scan('', Scanner::SCAN_RECURSIVE);
+
+			$this->initializeTemplateDirectory(null, $userId);
+		}
 	}
 }

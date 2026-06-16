@@ -23,14 +23,17 @@ class HttpsUrlGeneration implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'security';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('HTTPS access and URLs');
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		if (!\OC::$CLI && $this->request->getServerProtocol() !== 'https') {
 			if (!preg_match('/(?:^(?:localhost|127\.0\.0\.1|::1)|\.onion)$/', $this->request->getInsecureServerHost())) {

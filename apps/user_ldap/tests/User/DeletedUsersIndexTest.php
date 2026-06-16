@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\User_LDAP\Tests\User;
 
 use OCA\User_LDAP\Mapping\UserMapping;
@@ -21,7 +22,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  *
  * @package OCA\User_LDAP\Tests\User
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class DeletedUsersIndexTest extends \Test\TestCase {
 	protected DeletedUsersIndex $dui;
 	protected IUserConfig $userConfig;
@@ -71,7 +72,7 @@ class DeletedUsersIndexTest extends \Test\TestCase {
 		// ensure the different uids were used
 		foreach ($deletedUsers as $deletedUser) {
 			$this->assertTrue(in_array($deletedUser->getOCName(), $uids));
-			$i = array_search($deletedUser->getOCName(), $uids);
+			$i = array_search($deletedUser->getOCName(), $uids, true);
 			$this->assertNotFalse($i);
 			unset($uids[$i]);
 		}

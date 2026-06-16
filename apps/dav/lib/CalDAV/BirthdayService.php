@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\CalDAV;
 
 use Exception;
@@ -217,7 +218,7 @@ class BirthdayService {
 		$vEvent->DTSTART['VALUE'] = 'DATE';
 		$vEvent->add('DTEND');
 
-		$dtEndDate = (new \DateTime())->setTimestamp($date->getTimeStamp());
+		$dtEndDate = \DateTime::createFromInterface($date);
 		$dtEndDate->add(new \DateInterval('P1D'));
 		$vEvent->DTEND->setDateTime(
 			$dtEndDate

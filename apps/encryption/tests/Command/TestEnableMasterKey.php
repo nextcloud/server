@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Encryption\Tests\Command;
 
 use OCA\Encryption\Command\EnableMasterKey;
@@ -46,7 +47,7 @@ class TestEnableMasterKey extends TestCase {
 		$this->enableMasterKey = new EnableMasterKey($this->util, $this->config, $this->questionHelper);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestExecute')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestExecute')]
 	public function testExecute(bool $isAlreadyEnabled, string $answer): void {
 		$this->util->expects($this->once())->method('isMasterKeyEnabled')
 			->willReturn($isAlreadyEnabled);

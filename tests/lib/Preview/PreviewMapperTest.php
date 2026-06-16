@@ -3,8 +3,7 @@
 declare(strict_types=1);
 
 /**
- * SPDX-FileCopyrightText: 2025 Nextcloud GmbH
- * SPDX-FileContributor: Carl Schwan
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
@@ -14,20 +13,21 @@ use OC\Preview\Db\Preview;
 use OC\Preview\Db\PreviewMapper;
 use OCP\IDBConnection;
 use OCP\Server;
-use OCP\Snowflake\IGenerator;
+use OCP\Snowflake\ISnowflakeGenerator;
 use Test\TestCase;
 
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class PreviewMapperTest extends TestCase {
 	private PreviewMapper $previewMapper;
 	private IDBConnection $connection;
-	private IGenerator $snowflake;
+	private ISnowflakeGenerator $snowflake;
 
+	#[\Override]
 	public function setUp(): void {
 		parent::setUp();
 		$this->previewMapper = Server::get(PreviewMapper::class);
 		$this->connection = Server::get(IDBConnection::class);
-		$this->snowflake = Server::get(IGenerator::class);
+		$this->snowflake = Server::get(ISnowflakeGenerator::class);
 
 		$qb = $this->connection->getQueryBuilder();
 		$qb->delete('preview_locations')->executeStatement();
@@ -39,6 +39,7 @@ class PreviewMapperTest extends TestCase {
 		$qb->delete('previews')->executeStatement();
 	}
 
+	#[\Override]
 	public function tearDown(): void {
 		$this->previewMapper->deleteAll();
 		parent::tearDown();
@@ -65,7 +66,7 @@ class PreviewMapperTest extends TestCase {
 		$this->assertEquals('default', $previews[43][0]->getObjectStoreName());
 	}
 
-	private function createPreviewForFileId(int $fileId, ?int $bucket = null): void {
+	private function createPreviewForFileId(int $fileId, ?int $bucket = null): string {
 		$locationId = null;
 		if ($bucket) {
 			$qb = $this->connection->getQueryBuilder();
@@ -79,7 +80,7 @@ class PreviewMapperTest extends TestCase {
 			$qb->executeStatement();
 		}
 		$preview = new Preview();
-		$preview->setId($this->snowflake->nextId());
+		$preview->generateId();
 		$preview->setFileId($fileId);
 		$preview->setStorageId(1);
 		$preview->setCropped(true);
@@ -96,5 +97,16 @@ class PreviewMapperTest extends TestCase {
 			$preview->setLocationId($locationId);
 		}
 		$this->previewMapper->insert($preview);
+
+		return $preview->id;
+	}
+
+	public function testLargeIdInsertRetrieve(): void {
+		$fileId = PHP_INT_MAX;
+		$originalPreviewId = $this->createPreviewForFileId($fileId);
+
+		$dbPreview = $this->previewMapper->getAvailablePreviews([$fileId])[$fileId][0];
+		$this->assertEquals($originalPreviewId, $dbPreview->id);
+		$this->assertEquals($fileId, $dbPreview->getFileId());
 	}
 }

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Route;
 
 use DirectoryIterator;
@@ -223,7 +224,6 @@ class Router implements IRouter {
 		return $this->collectionName;
 	}
 
-
 	/**
 	 * Create a \OC\Route\Route.
 	 *
@@ -233,6 +233,7 @@ class Router implements IRouter {
 	 * @param array $requirements An array of requirements for parameters (regexes)
 	 * @return \OC\Route\Route
 	 */
+	#[\Override]
 	public function create($name,
 		$pattern,
 		array $defaults = [],
@@ -265,6 +266,8 @@ class Router implements IRouter {
 			$app = $this->appManager->cleanAppId($app);
 			\OC::$REQUESTEDAPP = $app;
 			$this->loadRoutes($app);
+		} elseif (str_starts_with($url, '/settings/apps')) {
+			$this->loadRoutes('appstore');
 		} elseif (str_starts_with($url, '/settings/')) {
 			$this->loadRoutes('settings');
 		} elseif (str_starts_with($url, '/core/')) {
@@ -480,7 +483,7 @@ class Router implements IRouter {
 			} catch (AppPathNotFoundException) {
 				return [];
 			}
-			$appNameSpace = App::buildAppNamespace($app);
+			$appNameSpace = $this->appManager->getAppNamespace($app);
 		}
 
 		if (!file_exists($appControllerPath)) {
@@ -524,7 +527,6 @@ class Router implements IRouter {
 		$this->setupRoutes(include $file, $appName);
 	}
 
-
 	/**
 	 * If a routes.php file returns an array, try to set up the application and
 	 * register the routes for the app. The application class will be chosen by
@@ -550,7 +552,7 @@ class Router implements IRouter {
 	}
 
 	private function getApplicationClass(string $appName) {
-		$appNameSpace = App::buildAppNamespace($appName);
+		$appNameSpace = $this->appManager->getAppNamespace($appName);
 
 		$applicationClassName = $appNameSpace . '\\AppInfo\\Application';
 

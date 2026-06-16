@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV\Activity\Provider;
 
 use InvalidArgumentException;
@@ -67,7 +68,7 @@ class EventTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataGenerateObjectParameter')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataGenerateObjectParameter')]
 	public function testGenerateObjectParameter(int $id, string $name, ?array $link, bool $calendarAppEnabled = true): void {
 		$affectedUser = 'otheruser';
 		if ($link) {
@@ -148,7 +149,7 @@ class EventTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('generateObjectParameterLinkEncodingDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'generateObjectParameterLinkEncodingDataProvider')]
 	public function testGenerateObjectParameterLinkEncoding(array $link, string $objectId): void {
 		$generatedLink = [
 			'objectId' => $objectId,
@@ -181,7 +182,7 @@ class EventTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataGenerateObjectParameterThrows')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataGenerateObjectParameterThrows')]
 	public function testGenerateObjectParameterThrows(string|array $eventData, string $exception = InvalidArgumentException::class): void {
 		$this->expectException($exception);
 

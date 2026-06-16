@@ -7,15 +7,38 @@ import { createAppConfig } from '@nextcloud/vite-config'
 import { resolve } from 'node:path'
 
 const modules = {
+	appstore: {
+		main: resolve(import.meta.dirname, 'apps/appstore/src', 'main.ts'),
+	},
+	comments: {
+		'comments-app': resolve(import.meta.dirname, 'apps/comments/src', 'comments-app.ts'),
+		'comments-tab': resolve(import.meta.dirname, 'apps/comments/src', 'files-sidebar.ts'),
+		init: resolve(import.meta.dirname, 'apps/comments/src', 'init.ts'),
+	},
 	dav: {
 		'settings-admin-caldav': resolve(import.meta.dirname, 'apps/dav/src', 'settings-admin.ts'),
 		'settings-admin-example-content': resolve(import.meta.dirname, 'apps/dav/src', 'settings-admin-example-content.ts'),
 		'settings-personal-availability': resolve(import.meta.dirname, 'apps/dav/src', 'settings-personal-availability.ts'),
 	},
+	encryption: {
+		encryption: resolve(import.meta.dirname, 'apps/encryption/src', 'encryption.ts'),
+		settings_admin: resolve(import.meta.dirname, 'apps/encryption/src', 'settings-admin.ts'),
+		settings_personal: resolve(import.meta.dirname, 'apps/encryption/src', 'settings-personal.ts'),
+	},
+	federation: {
+		'settings-admin': resolve(import.meta.dirname, 'apps/federation/src', 'settings-admin.ts'),
+	},
 	federatedfilesharing: {
 		'init-files': resolve(import.meta.dirname, 'apps/federatedfilesharing/src', 'init-files.js'),
 		'settings-admin': resolve(import.meta.dirname, 'apps/federatedfilesharing/src', 'settings-admin.ts'),
 		'settings-personal': resolve(import.meta.dirname, 'apps/federatedfilesharing/src', 'settings-personal.ts'),
+	},
+	files_external: {
+		auth_rsa: resolve(import.meta.dirname, 'apps/files_external/src', 'auth-rsa.ts'),
+
+		init: resolve(import.meta.dirname, 'apps/files_external/src', 'init-files.ts'),
+		init_settings: resolve(import.meta.dirname, 'apps/files_external/src', 'init-settings.ts'),
+		settings: resolve(import.meta.dirname, 'apps/files_external/src', 'settings-main.ts'),
 	},
 	files_reminders: {
 		init: resolve(import.meta.dirname, 'apps/files_reminders/src', 'files-init.ts'),
@@ -25,21 +48,32 @@ const modules = {
 	},
 	files_versions: {
 		'sidebar-tab': resolve(import.meta.dirname, 'apps/files_versions/src', 'sidebar_tab.ts'),
+		workflow: resolve(import.meta.dirname, 'apps/files_versions/src', 'workflow.ts'),
 	},
 	oauth2: {
 		'settings-admin': resolve(import.meta.dirname, 'apps/oauth2/src', 'settings-admin.ts'),
 	},
+	profile: {
+		main: resolve(import.meta.dirname, 'apps/profile/src', 'main.ts'),
+		reference: resolve(import.meta.dirname, 'apps/profile/src', 'reference.js'),
+	},
 	sharebymail: {
 		'admin-settings': resolve(import.meta.dirname, 'apps/sharebymail/src', 'settings-admin.ts'),
+	},
+	systemtags: {
+		init: resolve(import.meta.dirname, 'apps/systemtags/src', 'init.ts'),
+		admin: resolve(import.meta.dirname, 'apps/systemtags/src', 'admin.ts'),
 	},
 	theming: {
 		'settings-personal': resolve(import.meta.dirname, 'apps/theming/src', 'settings-personal.ts'),
 		'settings-admin': resolve(import.meta.dirname, 'apps/theming/src', 'settings-admin.ts'),
+		theming: resolve(import.meta.dirname, 'apps/theming/src', 'theming.ts'),
 	},
 	twofactor_backupcodes: {
 		'settings-personal': resolve(import.meta.dirname, 'apps/twofactor_backupcodes/src', 'settings-personal.ts'),
 	},
 	user_ldap: {
+		renewPassword: resolve(import.meta.dirname, 'apps/user_ldap/src', 'renewPassword.ts'),
 		'settings-admin': resolve(import.meta.dirname, 'apps/user_ldap/src', 'settings-admin.ts'),
 	},
 	user_status: {
@@ -56,6 +90,7 @@ const viteModuleEntries = Object.entries(modules)
 	.flat(1)
 
 export default createAppConfig(Object.fromEntries(viteModuleEntries), {
+	createEmptyCSSEntryPoints: true,
 	emptyOutputDirectory: {
 		additionalDirectories: [resolve(import.meta.dirname, '../..', 'dist')],
 	},
@@ -74,12 +109,10 @@ export default createAppConfig(Object.fromEntries(viteModuleEntries), {
 					entryFileNames: '[name].mjs',
 					chunkFileNames: '[name]-[hash].chunk.mjs',
 					assetFileNames({ originalFileNames }) {
-						const [name] = originalFileNames
-						if (name) {
-							const [, appId] = name.match(/apps\/([^/]+)\//)!
-							return `${appId}-[name]-[hash][extname]`
-						}
-						return '[name]-[hash][extname]'
+						const apps = originalFileNames.map((name) => name.match(/apps\/([^/]+)\//)?.[1])
+							.filter(Boolean)
+						const appId = apps.length === 1 ? apps[0] : 'common'
+						return `${appId}-[name]-[hash][extname]`
 					},
 					experimentalMinChunkSize: 100 * 1024,
 					/* // with rolldown-vite:

@@ -37,11 +37,11 @@ class TextToTextChat implements ITaskType {
 		$this->l = $l10nFactory->get('lib');
 	}
 
-
 	/**
 	 * @inheritDoc
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->l->t('Chat');
 	}
@@ -50,6 +50,7 @@ class TextToTextChat implements ITaskType {
 	 * @inheritDoc
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function getDescription(): string {
 		return $this->l->t('Chat with the assistant');
 	}
@@ -58,6 +59,7 @@ class TextToTextChat implements ITaskType {
 	 * @return string
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function getId(): string {
 		return self::ID;
 	}
@@ -66,6 +68,7 @@ class TextToTextChat implements ITaskType {
 	 * @return ShapeDescriptor[]
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function getInputShape(): array {
 		return [
 			'system_prompt' => new ShapeDescriptor(
@@ -90,6 +93,7 @@ class TextToTextChat implements ITaskType {
 	 * @return ShapeDescriptor[]
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function getOutputShape(): array {
 		return [
 			'output' => new ShapeDescriptor(

@@ -12,7 +12,6 @@ SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
 SPDX-FileCopyrightText: GitHub Inc.
 SPDX-FileCopyrightText: Evan You
 SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
-SPDX-FileCopyrightText: Christopher Jeffrey
 SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Antoni Andre <antoniandre.web@gmail.com>
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
@@ -24,7 +23,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.1.5
 	- license: Apache-2.0
 - @nextcloud/auth
-	- version: 2.5.3
+	- version: 2.6.0
 	- license: GPL-3.0-or-later
 - @nextcloud/browser-storage
 	- version: 0.5.0
@@ -54,7 +53,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.35.0
+	- version: 8.39.0
 	- license: AGPL-3.0-or-later
 - @vueuse/core
 	- version: 11.3.0
@@ -66,13 +65,10 @@ This file is generated from multiple sources. Included packages:
 	- version: 7.1.2
 	- license: MIT
 - dompurify
-	- version: 3.3.1
+	- version: 3.4.2
 	- license: (MPL-2.0 OR Apache-2.0)
 - escape-html
 	- version: 1.0.3
-	- license: MIT
-- marked
-	- version: 17.0.1
 	- license: MIT
 - process
 	- version: 0.11.10
@@ -93,7 +89,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.7.16
 	- license: MIT
 - webpack
-	- version: 5.104.1
+	- version: 5.106.2
 	- license: MIT
 - nextcloud
 	- version: 1.0.0

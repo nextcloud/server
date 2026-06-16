@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Comments;
 
 use OCP\AppFramework\Http;
@@ -62,6 +63,7 @@ class CommentsPlugin extends ServerPlugin {
 	 * @param Server $server
 	 * @return void
 	 */
+	#[\Override]
 	public function initialize(Server $server) {
 		$this->server = $server;
 		if (!str_starts_with($this->server->getRequestUri(), 'comments/')) {
@@ -121,6 +123,7 @@ class CommentsPlugin extends ServerPlugin {
 	 * @param string $uri
 	 * @return array
 	 */
+	#[\Override]
 	public function getSupportedReportSet($uri) {
 		return [self::REPORT_NAME];
 	}
@@ -157,6 +160,7 @@ class CommentsPlugin extends ServerPlugin {
 		if (!is_null($args['datetime'])) {
 			$args['datetime'] = new \DateTime((string)$args['datetime']);
 		}
+		$args['limit'] = min(max(1, $args['limit']), 100);
 
 		$results = $node->findChildren($args['limit'], $args['offset'], $args['datetime']);
 

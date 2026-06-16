@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV;
 
 use OCA\DAV\CalDAV\BirthdayService;
@@ -54,7 +55,6 @@ class CalendarTest extends TestCase {
 		$c = new Calendar($backend, $calendarInfo, $this->l10n, $this->config, $this->logger);
 		$c->delete();
 	}
-
 
 	public function testDeleteFromGroup(): void {
 		/** @var CalDavBackend&MockObject $backend */
@@ -144,7 +144,7 @@ class CalendarTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataPropPatch')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataPropPatch')]
 	public function testPropPatch(string $ownerPrincipal, string $principalUri, array $mutations, bool $shared): void {
 		/** @var CalDavBackend&MockObject $backend */
 		$backend = $this->createMock(CalDavBackend::class);
@@ -166,7 +166,7 @@ class CalendarTest extends TestCase {
 		$this->addToAssertionCount(1);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providesReadOnlyInfo')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesReadOnlyInfo')]
 	public function testAcl($expectsWrite, $readOnlyValue, $hasOwnerSet, $uri = 'default'): void {
 		/** @var CalDavBackend&MockObject $backend */
 		$backend = $this->createMock(CalDavBackend::class);
@@ -236,16 +236,36 @@ class CalendarTest extends TestCase {
 				'principal' => 'user2',
 				'protected' => true
 			];
+			$expectedAcl[] = [
+				'privilege' => '{DAV:}read',
+				'principal' => 'user2/calendar-proxy-read',
+				'protected' => true
+			];
+			$expectedAcl[] = [
+				'privilege' => '{DAV:}read',
+				'principal' => 'user2/calendar-proxy-write',
+				'protected' => true
+			];
 			if ($expectsWrite) {
 				$expectedAcl[] = [
 					'privilege' => '{DAV:}write',
 					'principal' => 'user2',
 					'protected' => true
 				];
+				$expectedAcl[] = [
+					'privilege' => '{DAV:}write',
+					'principal' => 'user2/calendar-proxy-write',
+					'protected' => true
+				];
 			} else {
 				$expectedAcl[] = [
 					'privilege' => '{DAV:}write-properties',
 					'principal' => 'user2',
+					'protected' => true
+				];
+				$expectedAcl[] = [
+					'privilege' => '{DAV:}write-properties',
+					'principal' => 'user2/calendar-proxy-write',
 					'protected' => true
 				];
 			}
@@ -266,7 +286,7 @@ class CalendarTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providesConfidentialClassificationData')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesConfidentialClassificationData')]
 	public function testPrivateClassification(int $expectedChildren, bool $isShared): void {
 		$calObject0 = ['uri' => 'event-0', 'classification' => CalDavBackend::CLASSIFICATION_PUBLIC];
 		$calObject1 = ['uri' => 'event-1', 'classification' => CalDavBackend::CLASSIFICATION_CONFIDENTIAL];
@@ -304,7 +324,7 @@ class CalendarTest extends TestCase {
 		$this->assertEquals(!$isShared, $c->childExists('event-2'));
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providesConfidentialClassificationData')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesConfidentialClassificationData')]
 	public function testConfidentialClassification(int $expectedChildren, bool $isShared): void {
 		$start = '20160609';
 		$end = '20160610';
@@ -517,8 +537,6 @@ END:VCALENDAR
 
 EOD;
 
-
-
 		$publicObject = ['uri' => 'event-0',
 			'classification' => CalDavBackend::CLASSIFICATION_PUBLIC,
 			'calendardata' => $publicObjectData];
@@ -544,10 +562,8 @@ EOD;
 				switch ($uri) {
 					case 'event-0':
 						return $publicObject;
-
 					case 'event-1':
 						return $confidentialObject;
-
 					default:
 						throw new \Exception('unexpected uri');
 				}

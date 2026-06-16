@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Federation\Tests\Controller;
 
 use OCA\Federation\Controller\SettingsController;
@@ -65,7 +66,7 @@ class SettingsControllerTest extends TestCase {
 		$this->assertArrayHasKey('id', $data);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('checkServerFails')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'checkServerFails')]
 	public function testAddServerFail(bool $isTrustedServer, bool $isNextcloud): void {
 		$this->trustedServers
 			->expects($this->any())
@@ -113,7 +114,7 @@ class SettingsControllerTest extends TestCase {
 		);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('checkServerFails')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'checkServerFails')]
 	public function testCheckServerFail(bool $isTrustedServer, bool $isNextcloud): void {
 		$this->trustedServers
 			->expects($this->any())

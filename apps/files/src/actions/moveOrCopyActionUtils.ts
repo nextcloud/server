@@ -1,9 +1,9 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { Folder, Node } from '@nextcloud/files'
+import type { IFolder, INode } from '@nextcloud/files'
 import type { ShareAttribute } from '../../../files_sharing/src/sharing.ts'
 
 import { Permission } from '@nextcloud/files'
@@ -36,24 +36,26 @@ export enum MoveCopyAction {
 }
 
 export type MoveCopyResult = {
-	destination: Folder
+	destination: IFolder
 	action: MoveCopyAction.COPY | MoveCopyAction.MOVE
 }
 
 /**
+ * Check if the given nodes can be moved
  *
- * @param nodes
+ * @param nodes - The nodes to check
  */
-export function canMove(nodes: Node[]) {
+export function canMove(nodes: INode[]) {
 	const minPermission = nodes.reduce((min, node) => Math.min(min, node.permissions), Permission.ALL)
 	return Boolean(minPermission & Permission.DELETE)
 }
 
 /**
+ * Check if the given nodes can be downloaded
  *
- * @param nodes
+ * @param nodes - The nodes to check
  */
-export function canDownload(nodes: Node[]) {
+export function canDownload(nodes: INode[]) {
 	return nodes.every((node) => {
 		const shareAttributes = JSON.parse(node.attributes?.['share-attributes'] ?? '[]') as Array<ShareAttribute>
 		return !shareAttributes.some((attribute) => attribute.scope === 'permissions' && attribute.value === false && attribute.key === 'download')
@@ -61,10 +63,11 @@ export function canDownload(nodes: Node[]) {
 }
 
 /**
+ * Check if the given nodes can be copied
  *
- * @param nodes
+ * @param nodes - The nodes to check
  */
-export function canCopy(nodes: Node[]) {
+export function canCopy(nodes: INode[]) {
 	// a shared file cannot be copied if the download is disabled
 	if (!canDownload(nodes)) {
 		return false

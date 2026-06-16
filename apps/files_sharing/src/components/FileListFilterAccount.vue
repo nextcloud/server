@@ -3,53 +3,45 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<FileListFilter
-		class="file-list-filter-accounts"
-		:is-active="selectedAccounts.length > 0"
-		:filter-name="t('files_sharing', 'People')"
-		@reset-filter="resetFilter">
-		<template #icon>
-			<NcIconSvgWrapper :path="mdiAccountMultipleOutline" />
-		</template>
-		<NcActionInput
+	<div :class="$style.fileListFilterAccount">
+		<NcTextField
 			v-if="availableAccounts.length > 1"
 			v-model="accountFilter"
-			:label="t('files_sharing', 'Filter accounts')"
-			:label-outside="false"
-			:show-trailing-button="false"
-			type="search" />
-		<NcActionButton
+			type="search"
+			:label="t('files_sharing', 'Filter accounts')" />
+		<NcButton
 			v-for="account of shownAccounts"
 			:key="account.id"
-			class="file-list-filter-accounts__item"
-			type="radio"
-			:model-value="selectedAccounts.includes(account)"
-			:value="account.id"
-			@click="toggleAccount(account.id)">
+			alignment="start"
+			:pressed="selectedAccounts.includes(account)"
+			variant="tertiary"
+			wide
+			@update:pressed="toggleAccount(account.id, $event)">
 			<template #icon>
 				<NcAvatar
-					class="file-list-filter-accounts__avatar"
+					:class="$style.fileListFilterAccount__avatar"
 					v-bind="account"
 					:size="24"
 					disable-menu
 					hide-status />
 			</template>
 			{{ account.displayName }}
-		</NcActionButton>
-	</FileListFilter>
+			<span v-if="account.id === currentUserId" :class="$style.fileListFilterAccount__currentUser">
+				({{ t('files', 'you') }})
+			</span>
+		</NcButton>
+	</div>
 </template>
 
 <script setup lang="ts">
-import type { IAccountData } from '../files_filters/AccountFilter.ts'
+import type { AccountFilter, IAccountData } from '../files_filters/AccountFilter.ts'
 
-import { mdiAccountMultipleOutline } from '@mdi/js'
-import { translate as t } from '@nextcloud/l10n'
-import { computed, ref, watch } from 'vue'
-import NcActionButton from '@nextcloud/vue/components/NcActionButton'
-import NcActionInput from '@nextcloud/vue/components/NcActionInput'
+import { t } from '@nextcloud/l10n'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
-import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
-import FileListFilter from '../../../files/src/components/FileListFilter/FileListFilter.vue'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
+import { getCurrentUser } from '../../../../core/src/OC/currentuser.js'
 
 interface IUserSelectData {
 	id: string
@@ -57,48 +49,88 @@ interface IUserSelectData {
 	displayName: string
 }
 
-const emit = defineEmits<{
-	(event: 'update:accounts', value: IAccountData[]): void
+const props = defineProps<{
+	filter: AccountFilter
 }>()
+
+const currentUserId = getCurrentUser()!.uid
 
 const accountFilter = ref('')
 const availableAccounts = ref<IUserSelectData[]>([])
 const selectedAccounts = ref<IUserSelectData[]>([])
+watch(selectedAccounts, () => {
+	const accounts = selectedAccounts.value.map(({ id: uid, displayName }) => ({ uid, displayName }))
+	props.filter.setAccounts(accounts.length > 0 ? accounts : undefined)
+})
+
+onMounted(() => {
+	setAvailableAccounts(props.filter.availableAccounts)
+	selectedAccounts.value = availableAccounts.value.filter(({ id }) => props.filter.filterAccounts?.some(({ uid }) => uid === id)) ?? []
+	props.filter.addEventListener('accounts-updated', setAvailableAccounts)
+	props.filter.addEventListener('reset', resetFilter)
+	props.filter.addEventListener('deselect', deselect)
+})
+onUnmounted(() => {
+	props.filter.removeEventListener('accounts-updated', setAvailableAccounts)
+	props.filter.removeEventListener('reset', resetFilter)
+	props.filter.removeEventListener('deselect', deselect)
+})
 
 /**
  * Currently shown accounts (filtered)
  */
 const shownAccounts = computed(() => {
 	if (!accountFilter.value) {
-		return availableAccounts.value
+		return [...availableAccounts.value].sort(sortAccounts)
 	}
+
 	const queryParts = accountFilter.value.toLocaleLowerCase().trim().split(' ')
-	return availableAccounts.value.filter((account) => queryParts.every((part) => account.user.toLocaleLowerCase().includes(part)
+	const accounts = availableAccounts.value.filter((account) => queryParts.every((part) => account.user.toLocaleLowerCase().includes(part)
 		|| account.displayName.toLocaleLowerCase().includes(part)))
+	return accounts.sort(sortAccounts)
 })
+
+/**
+ * Sort accounts, putting the current user at the begin
+ *
+ * @param a - First account
+ * @param b - Second account
+ */
+function sortAccounts(a: IUserSelectData, b: IUserSelectData) {
+	if (a.id === currentUserId) {
+		return -1
+	}
+	if (b.id === currentUserId) {
+		return 1
+	}
+	return a.displayName.localeCompare(b.displayName)
+}
 
 /**
  * Toggle an account as selected
  *
  * @param accountId The account to toggle
+ * @param selected Whether to select or deselect the account
  */
-function toggleAccount(accountId: string) {
-	const account = availableAccounts.value.find(({ id }) => id === accountId)
-	if (account && selectedAccounts.value.includes(account)) {
-		selectedAccounts.value = selectedAccounts.value.filter(({ id }) => id !== accountId)
-	} else {
+function toggleAccount(accountId: string, selected: boolean) {
+	selectedAccounts.value = selectedAccounts.value.filter(({ id }) => id !== accountId)
+	if (selected) {
+		const account = availableAccounts.value.find(({ id }) => id === accountId)
 		if (account) {
 			selectedAccounts.value = [...selectedAccounts.value, account]
 		}
 	}
 }
 
-// Watch selected account, on change we emit the new account data to the filter instance
-watch(selectedAccounts, () => {
-	// Emit selected accounts as account data
-	const accounts = selectedAccounts.value.map(({ id: uid, displayName }) => ({ uid, displayName }))
-	emit('update:accounts', accounts)
-})
+/**
+ * Deselect an account
+ *
+ * @param event - The custom event
+ */
+function deselect(event: CustomEvent) {
+	const accountId = event.detail as string
+	selectedAccounts.value = selectedAccounts.value.filter(({ id }) => id !== accountId)
+}
 
 /**
  * Reset this filter
@@ -113,26 +145,27 @@ function resetFilter() {
  *
  * @param accounts - Accounts to use
  */
-function setAvailableAccounts(accounts: IAccountData[]): void {
+function setAvailableAccounts(accounts: IAccountData[] | CustomEvent): void {
+	if (accounts instanceof CustomEvent) {
+		accounts = accounts.detail as IAccountData[]
+	}
 	availableAccounts.value = accounts.map(({ uid, displayName }) => ({ displayName, id: uid, user: uid }))
 }
-
-defineExpose({
-	resetFilter,
-	setAvailableAccounts,
-	toggleAccount,
-})
 </script>
 
-<style scoped lang="scss">
-.file-list-filter-accounts {
-	&__item {
-		min-width: 250px;
-	}
+<style module>
+.fileListFilterAccount {
+	display: flex;
+	flex-direction: column;
+	gap: var(--default-grid-baseline);
+}
 
-	&__avatar {
-		// 24px is the avatar size
-		margin: calc((var(--default-clickable-area) - 24px) / 2)
-	}
+.fileListFilterAccount__avatar {
+	/* 24px is the avatar size */
+	margin: calc((var(--default-clickable-area) - 24px) / 2);
+}
+
+.fileListFilterAccount__currentUser {
+	font-weight: normal !important;
 }
 </style>

@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\User_LDAP\Tests\Jobs;
 
 use OCA\User_LDAP\Access;
@@ -27,7 +28,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class SyncTest extends TestCase {
 	protected Helper&MockObject $helper;
 	protected LDAP&MockObject $ldapWrapper;
@@ -76,8 +77,6 @@ class SyncTest extends TestCase {
 			$this->connectionFactory,
 			$this->accessFactory,
 		);
-
-		$this->sync->overwritePropertiesForTest($this->ldapWrapper);
 	}
 
 	public static function intervalDataProvider(): array {
@@ -100,7 +99,7 @@ class SyncTest extends TestCase {
 		];
 	}
 
-	#[DataProvider('intervalDataProvider')]
+	#[DataProvider(methodName: 'intervalDataProvider')]
 	public function testUpdateInterval(int $userCount, int $pagingSize1, int $pagingSize2): void {
 		$this->appConfig->expects($this->once())
 			->method('setAppValueInt')
@@ -141,7 +140,7 @@ class SyncTest extends TestCase {
 		];
 	}
 
-	#[DataProvider('moreResultsProvider')]
+	#[DataProvider(methodName: 'moreResultsProvider')]
 	public function testMoreResults($pagingSize, $results, $expected): void {
 		$connection = $this->getMockBuilder(Connection::class)
 			->setConstructorArgs([
@@ -198,7 +197,7 @@ class SyncTest extends TestCase {
 		];
 	}
 
-	#[DataProvider('cycleDataProvider')]
+	#[DataProvider(methodName: 'cycleDataProvider')]
 	public function testDetermineNextCycle(?array $cycleData, array $prefixes, ?array $expectedCycle): void {
 		$this->helper->expects($this->any())
 			->method('getServerConfigurationPrefixes')
@@ -275,7 +274,7 @@ class SyncTest extends TestCase {
 		];
 	}
 
-	#[DataProvider('runDataProvider')]
+	#[DataProvider(methodName: 'runDataProvider')]
 	public function testRun(array $runData): void {
 		$this->globalAppConfig->expects($this->any())
 			->method('getValueString')

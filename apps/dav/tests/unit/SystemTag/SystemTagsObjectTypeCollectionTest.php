@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\SystemTag;
 
 use OCA\DAV\SystemTag\SystemTagsObjectTypeCollection;
@@ -72,13 +73,11 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 		);
 	}
 
-
 	public function testForbiddenCreateFile(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		$this->node->createFile('555');
 	}
-
 
 	public function testForbiddenCreateDirectory(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
@@ -97,7 +96,6 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 		$this->assertEquals('555', $childNode->getName());
 	}
 
-
 	public function testGetChildWithoutAccess(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
@@ -107,7 +105,6 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 			->willReturn(null);
 		$this->node->getChild('555');
 	}
-
 
 	public function testGetChildren(): void {
 		$this->expectException(\Sabre\DAV\Exception\MethodNotAllowed::class);
@@ -131,13 +128,11 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 		$this->assertFalse($this->node->childExists('555'));
 	}
 
-
 	public function testDelete(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		$this->node->delete();
 	}
-
 
 	public function testSetName(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);

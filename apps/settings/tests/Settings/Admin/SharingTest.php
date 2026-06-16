@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Tests\Settings\Admin;
 
 use OCA\Settings\Settings\Admin\Sharing;
@@ -16,9 +17,11 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\Share\IManager;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
+#[Group(name: 'DB')]
 class SharingTest extends TestCase {
 	private Sharing $admin;
 

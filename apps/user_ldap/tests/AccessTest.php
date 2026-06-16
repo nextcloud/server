@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP\Tests;
 
 use OC\ServerNotAvailableException;
@@ -29,6 +30,7 @@ use OCP\IConfig;
 use OCP\Image;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
+use OCP\Profiler\IProfiler;
 use OCP\Server;
 use OCP\Share\IManager;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -41,7 +43,7 @@ use Test\TestCase;
  *
  * @package OCA\User_LDAP\Tests
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class AccessTest extends TestCase {
 	protected UserMapping&MockObject $userMapper;
 	protected IManager&MockObject $shareManager;
@@ -86,7 +88,10 @@ class AccessTest extends TestCase {
 		$this->access->setGroupMapper($this->groupMapper);
 	}
 
-	private function getConnectorAndLdapMock() {
+	/**
+	 * @return array{0: ILDAPWrapper&MockObject, 1: Connection&MockObject, 2: Manager&MockObject, 3: Helper}
+	 */
+	private function getConnectorAndLdapMock(): array {
 		/** @var ILDAPWrapper&MockObject */
 		$lw = $this->createMock(ILDAPWrapper::class);
 		/** @var Connection&MockObject */
@@ -135,7 +140,7 @@ class AccessTest extends TestCase {
 	 * @param array $sidArray
 	 * @param $sidExpected
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('convertSID2StrSuccessData')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'convertSID2StrSuccessData')]
 	public function testConvertSID2StrSuccess(array $sidArray, $sidExpected): void {
 		$sidBinary = implode('', $sidArray);
 		$this->assertSame($sidExpected, $this->access->convertSID2Str($sidBinary));
@@ -219,7 +224,7 @@ class AccessTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dnInputDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dnInputDataProvider')]
 	public function testStringResemblesDN(string $input, array|bool $interResult, bool $expectedResult): void {
 		[$lw, $con, $um, $helper] = $this->getConnectorAndLdapMock();
 		$access = new Access($lw, $con, $um, $helper, $this->ncUserManager, $this->logger, $this->appConfig, $this->dispatcher);
@@ -236,10 +241,14 @@ class AccessTest extends TestCase {
 		$this->assertSame($expectedResult, $access->stringResemblesDN($input));
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dnInputDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dnInputDataProvider')]
 	public function testStringResemblesDNLDAPmod(string $input, array|bool $interResult, bool $expectedResult): void {
 		[, $con, $um, $helper] = $this->getConnectorAndLdapMock();
-		$lw = new LDAP();
+		$lw = new LDAP(
+			$this->createMock(IProfiler::class),
+			$this->createMock(IConfig::class),
+			$this->createMock(LoggerInterface::class),
+		);
 		$access = new Access($lw, $con, $um, $helper, $this->ncUserManager, $this->logger, $this->appConfig, $this->dispatcher);
 
 		if (!function_exists('ldap_explode_dn')) {
@@ -406,7 +415,7 @@ class AccessTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dNAttributeProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dNAttributeProvider')]
 	public function testSanitizeDN(string $attribute): void {
 		[$lw, $con, $um, $helper] = $this->getConnectorAndLdapMock();
 		$dnFromServer = 'cn=Mixed Cases,ou=Are Sufficient To,ou=Test,dc=example,dc=org';
@@ -424,7 +433,6 @@ class AccessTest extends TestCase {
 		$values = $access->readAttribute('uid=whoever,dc=example,dc=org', $attribute);
 		$this->assertSame($values[0], strtolower($dnFromServer));
 	}
-
 
 	public function testSetPasswordWithDisabledChanges(): void {
 		$this->expectException(\Exception::class);
@@ -455,7 +463,6 @@ class AccessTest extends TestCase {
 		$this->expectExceptionMessage('Connection to LDAP server could not be established');
 		$this->access->setPassword('CN=foo', 'MyPassword');
 	}
-
 
 	public function testSetPasswordWithRejectedChange(): void {
 		$this->expectException(HintException::class);
@@ -685,7 +692,7 @@ class AccessTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('intUsernameProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'intUsernameProvider')]
 	public function testSanitizeUsername(string $name, ?string $expected): void {
 		if ($expected === null) {
 			$this->expectException(\InvalidArgumentException::class);
@@ -694,7 +701,7 @@ class AccessTest extends TestCase {
 		$this->assertSame($expected, $sanitizedName);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('groupIDCandidateProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'groupIDCandidateProvider')]
 	public function testSanitizeGroupIDCandidate(string $name, string $expected): void {
 		$sanitizedName = $this->access->sanitizeGroupIDCandidate($name);
 		$this->assertSame($expected, $sanitizedName);
@@ -705,7 +712,7 @@ class AccessTest extends TestCase {
 			->method('__get')
 			->willReturnMap([
 				[ 'ldapUserDisplayName', 'displayName' ],
-				[ 'ldapUserDisplayName2', null],
+				[ 'ldapUserDisplayName2', ''],
 			]);
 
 		$offlineUserMock = $this->createMock(OfflineUser::class);

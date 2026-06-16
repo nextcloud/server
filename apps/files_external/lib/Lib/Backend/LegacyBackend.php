@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Lib\Backend;
 
 use OCA\Files_External\Lib\Auth\Builtin;
@@ -74,6 +75,7 @@ class LegacyBackend extends Backend {
 	/**
 	 * @return MissingDependency[]
 	 */
+	#[\Override]
 	public function checkDependencies() {
 		if ($this->hasDependencies) {
 			return $this->doCheckDependencies();

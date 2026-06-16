@@ -22,6 +22,7 @@ use Test\TestCase;
 class RootMountProviderTest extends TestCase {
 	private StorageFactory $loader;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -84,7 +85,6 @@ class RootMountProviderTest extends TestCase {
 
 		$class = new \ReflectionClass($storage);
 		$prop = $class->getProperty('objectStore');
-		$prop->setAccessible(true);
 		/** @var S3 $objectStore */
 		$objectStore = $prop->getValue($storage);
 		$this->assertEquals('nextcloud', $objectStore->getBucket());
@@ -117,7 +117,6 @@ class RootMountProviderTest extends TestCase {
 
 		$class = new \ReflectionClass($storage);
 		$prop = $class->getProperty('objectStore');
-		$prop->setAccessible(true);
 		/** @var S3 $objectStore */
 		$objectStore = $prop->getValue($storage);
 		$this->assertEquals('nextcloud0', $objectStore->getBucket());

@@ -23,6 +23,7 @@ use OCA\Files_Trashbin\Trashbin;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Constants;
+use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\Files\IRootFolder;
 use OCP\IConfig;
@@ -34,7 +35,7 @@ use OCP\Share\IShare;
 /**
  * Class Test_Encryption
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class TrashbinTest extends \Test\TestCase {
 	public const TEST_TRASHBIN_USER1 = 'test-trashbin-user1';
 	public const TEST_TRASHBIN_USER2 = 'test-trashbin-user2';
@@ -81,7 +82,6 @@ class TrashbinTest extends \Test\TestCase {
 		self::loginHelper(self::TEST_TRASHBIN_USER2, true);
 		self::loginHelper(self::TEST_TRASHBIN_USER1, true);
 	}
-
 
 	public static function tearDownAfterClass(): void {
 		// cleanup test user
@@ -314,7 +314,6 @@ class TrashbinTest extends \Test\TestCase {
 		return \OCA\Files\Helper::sortFiles($files, 'mtime');
 	}
 
-
 	/**
 	 * test expiration of old files in the trash bin until the max size
 	 * of the trash bin is met again
@@ -377,6 +376,7 @@ class TrashbinTest extends \Test\TestCase {
 			)
 		);
 
+		/** @var File $file */
 		$file = $userFolder->get('file1.txt');
 		$this->assertEquals('foo', $file->getContent());
 	}
@@ -410,6 +410,7 @@ class TrashbinTest extends \Test\TestCase {
 			)
 		);
 
+		/** @var File $file */
 		$file = $userFolder->get('folder/file1.txt');
 		$this->assertEquals('foo', $file->getContent());
 	}
@@ -443,6 +444,7 @@ class TrashbinTest extends \Test\TestCase {
 			)
 		);
 
+		/** @var File $file */
 		$file = $userFolder->get('folder/file1.txt');
 		$this->assertEquals('foo', $file->getContent());
 	}
@@ -476,6 +478,7 @@ class TrashbinTest extends \Test\TestCase {
 			)
 		);
 
+		/** @var File $file */
 		$file = $userFolder->get('file1.txt');
 		$this->assertEquals('foo', $file->getContent());
 	}
@@ -513,6 +516,7 @@ class TrashbinTest extends \Test\TestCase {
 			)
 		);
 
+		/** @var File $file */
 		$file = $userFolder->get('file1.txt');
 		$this->assertEquals('foo', $file->getContent());
 	}
@@ -550,9 +554,11 @@ class TrashbinTest extends \Test\TestCase {
 			)
 		);
 
+		/** @var File $anotherFile */
 		$anotherFile = $userFolder->get('file1.txt');
 		$this->assertEquals('bar', $anotherFile->getContent());
 
+		/** @var File $restoredFile */
 		$restoredFile = $userFolder->get('file1 (restored).txt');
 		$this->assertEquals('foo', $restoredFile->getContent());
 	}
@@ -591,9 +597,11 @@ class TrashbinTest extends \Test\TestCase {
 			)
 		);
 
+		/** @var File $anotherFile */
 		$anotherFile = $userFolder->get('folder/file1.txt');
 		$this->assertEquals('bar', $anotherFile->getContent());
 
+		/** @var File $restoredFile */
 		$restoredFile = $userFolder->get('folder/file1 (restored).txt');
 		$this->assertEquals('foo', $restoredFile->getContent());
 	}
@@ -648,6 +656,7 @@ class TrashbinTest extends \Test\TestCase {
 				)
 			);
 
+			/** @var File $file */
 			$file = $userFolder->get('file1.txt');
 			$this->assertEquals('foo', $file->getContent());
 
@@ -697,7 +706,6 @@ class TrashbinTest extends \Test\TestCase {
 		Server::get(IRootFolder::class)->getUserFolder($user);
 	}
 }
-
 
 // just a dummy class to make protected methods available for testing
 class TrashbinForTesting extends Trashbin {

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\BackgroundJob;
 
 use DateInterval;
@@ -33,6 +34,7 @@ class RefreshWebcalJob extends Job {
 	 *
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function start(IJobList $jobList): void {
 		$subscription = $this->refreshWebcalService->getSubscription($this->argument['principaluri'], $this->argument['uri']);
 		if (!$subscription) {
@@ -69,6 +71,7 @@ class RefreshWebcalJob extends Job {
 	/**
 	 * @param array $argument
 	 */
+	#[\Override]
 	protected function run($argument) {
 		$this->refreshWebcalService->refreshSubscription($argument['principaluri'], $argument['uri']);
 	}

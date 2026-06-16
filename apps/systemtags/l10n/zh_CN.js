@@ -97,6 +97,7 @@ OC.L10N.register(
     "If enabled, only administrators can create and edit tags. Accounts can still assign and remove them from files." : "如果启用，则只有管理员可以创建和编辑标签。一般账号仍然可以分配和移除文件中标签。",
     "Restrict tag creation and editing to administrators" : "仅限管理员创建和编辑标签",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "协作标签可供所有用户使用。受限制的标签对用户可见，但不能由他们分配。隐藏标签供内部使用，因为用户无法查看或分配它们。",
+    "Add tags" : "添加多个标签",
     "Assigned collaborative tags" : "已分配的协作标签",
     "Open in Files" : "在文件中打开",
     "List of tags and their associated files and folders." : "标签以及其相关文件和文件夹",
@@ -111,10 +112,6 @@ OC.L10N.register(
     "Failed to delete tag for file" : "无法删除该文件的标签",
     "Collaborative tags …" : "协作标签",
     "Loading …" : "正在加载 …",
-    "File tags modification canceled" : "文件标签修改已取消",
-    "Select or create tags to apply to all selected files" : "选择或创建标签以应用于所有选定文件",
-    "Select tags to apply to all selected files" : "选择要应用于所有选定文件的标签",
-    "Apply changes" : "应用更改",
     "Loading collaborative tags …" : "正在加载协作标签 ..."
 },
 "nplurals=1; plural=0;");

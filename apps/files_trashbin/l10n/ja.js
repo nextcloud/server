@@ -24,7 +24,6 @@ OC.L10N.register(
     "No deleted files" : "削除されたファイルはありません",
     "Files and folders you have deleted will show up here" : "削除したファイルとフォルダーがここに表示されます",
     "All files have been permanently deleted" : "すべてのファイルが完全に削除されました",
-    "Failed to empty deleted files" : "削除されたファイルを空にできませんでした",
-    "Deletion cancelled" : "削除はキャンセルされました"
+    "Failed to empty deleted files" : "削除されたファイルを空にできませんでした"
 },
 "nplurals=1; plural=0;");

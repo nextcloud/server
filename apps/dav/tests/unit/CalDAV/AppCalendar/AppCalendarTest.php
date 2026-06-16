@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV\AppCalendar;
 
 use OCA\DAV\CalDAV\AppCalendar\AppCalendar;
@@ -13,7 +14,6 @@ use OCP\Calendar\ICreateFromString;
 use OCP\Constants;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
-
 use function rewind;
 
 class AppCalendarTest extends TestCase {

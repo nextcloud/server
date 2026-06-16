@@ -6,18 +6,19 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Dashboard\Service;
 
 use JsonException;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\AppFramework\Services\IAppConfig;
-use OCP\IConfig;
+use OCP\Config\IUserConfig;
 use OCP\IUserManager;
 
 class DashboardService {
 	public function __construct(
-		private IConfig $config,
+		private IUserConfig $userConfig,
 		private IAppConfig $appConfig,
 		private ?string $userId,
 		private IUserManager $userManager,
@@ -31,21 +32,42 @@ class DashboardService {
 	 */
 	public function getLayout(): array {
 		$systemDefault = $this->appConfig->getAppValueString('layout', 'recommendations,spreed,mail,calendar');
-		return array_values(array_filter(explode(',', $this->config->getUserValue($this->userId, 'dashboard', 'layout', $systemDefault)), fn (string $value) => $value !== ''));
+		return $this->sanitizeLayout(
+			explode(',', $this->userConfig->getValueString($this->userId, 'dashboard', 'layout', $systemDefault)),
+		);
+	}
+
+	/**
+	 * @param list<string> $layout
+	 * @return list<string>
+	 */
+	public function sanitizeLayout(array $layout): array {
+		$seen = [];
+		$result = [];
+		foreach ($layout as $value) {
+			if ($value === '' || isset($seen[$value])) {
+				continue;
+			}
+
+			$seen[$value] = true;
+			$result[] = $value;
+		}
+
+		return $result;
 	}
 
 	/**
 	 * @return list<string>
 	 */
-	public function getStatuses() {
-		$configStatuses = $this->config->getUserValue($this->userId, 'dashboard', 'statuses', '');
+	public function getStatuses(): array {
+		$configStatuses = $this->userConfig->getValueString($this->userId, 'dashboard', 'statuses');
 		try {
 			// Parse the old format
 			/** @var array<string, bool> $statuses */
 			$statuses = json_decode($configStatuses, true, 512, JSON_THROW_ON_ERROR);
 			// We avoid getting an empty array as it will not produce an object in UI's JS
 			return array_keys(array_filter($statuses, static fn (bool $value) => $value));
-		} catch (JsonException $e) {
+		} catch (JsonException) {
 			return array_values(array_filter(explode(',', $configStatuses), fn (string $value) => $value !== ''));
 		}
 	}

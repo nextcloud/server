@@ -40,6 +40,7 @@ class RestoreBackgroundImageColor extends QueuedJob {
 		parent::__construct($time);
 	}
 
+	#[\Override]
 	protected function run(mixed $argument): void {
 		if (!is_array($argument) || !isset($argument['stage'])) {
 			throw new \Exception('Job ' . self::class . ' called with wrong argument');

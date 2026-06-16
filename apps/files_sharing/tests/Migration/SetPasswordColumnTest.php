@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2017 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Tests\Migration;
 
 use OCA\Files_Sharing\Migration\SetPasswordColumn;
@@ -18,7 +19,7 @@ use OCP\Share\IShare;
 /**
  * Class SetPasswordColumnTest
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class SetPasswordColumnTest extends TestCase {
 
 	/** @var IDBConnection */

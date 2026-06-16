@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\AppFramework\Routing;
 
 use OC\Route\Route;
@@ -16,8 +17,10 @@ class RouteParser {
 	private $controllerNameCache = [];
 
 	private const rootUrlApps = [
+		'appstore',
 		'cloud_federation_api',
 		'core',
+		'files_sharing_raw',
 		'files_sharing',
 		'files',
 		'globalsiteselector',
@@ -75,7 +78,6 @@ class RouteParser {
 		$root = $this->buildRootPrefix($route, $appName, $routeNamePrefix);
 
 		$url = $root . '/' . ltrim($route['url'], '/');
-		$verb = strtoupper($route['verb'] ?? 'GET');
 
 		$split = explode('#', $name, 3);
 		if (count($split) !== 2) {
@@ -95,7 +97,7 @@ class RouteParser {
 		$routeName = strtolower($routeNamePrefix . $appName . '.' . $controller . '.' . $action . $postfix);
 
 		$routeObject = new Route($url);
-		$routeObject->method($verb);
+		$routeObject->method($route['verb'] ?? 'GET');
 
 		// optionally register requirements for route. This is used to
 		// tell the route parser how url parameters should be matched
@@ -174,7 +176,6 @@ class RouteParser {
 				$url = $root . '/' . ltrim($config['url'], '/');
 				$method = $action['name'];
 
-				$verb = strtoupper($action['verb'] ?? 'GET');
 				$collectionAction = $action['on-collection'] ?? false;
 				if (!$collectionAction) {
 					$url .= '/{id}';
@@ -188,7 +189,7 @@ class RouteParser {
 				$routeName = $routeNamePrefix . $appName . '.' . strtolower($resource) . '.' . $method;
 
 				$route = new Route($url);
-				$route->method($verb);
+				$route->method($action['verb'] ?? 'GET');
 
 				$route->defaults(['caller' => [$appName, $controllerName, $actionName]]);
 

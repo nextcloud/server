@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP;
 
 use DomainException;
@@ -15,6 +16,7 @@ use OCA\User_LDAP\Exceptions\NoMoreResults;
 use OCA\User_LDAP\Mapping\AbstractMapping;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User\OfflineUser;
+use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\HintException;
 use OCP\IAppConfig;
@@ -48,6 +50,7 @@ class Access extends LDAPUtility {
 	protected $groupMapper;
 
 	private string $lastCookie = '';
+	private CappedMemoryCache $intermediates;
 
 	public function __construct(
 		ILDAPWrapper $ldap,
@@ -61,6 +64,7 @@ class Access extends LDAPUtility {
 	) {
 		parent::__construct($ldap);
 		$this->userManager->setLdapAccess($this);
+		$this->intermediates = new CappedMemoryCache();
 	}
 
 	/**
@@ -483,8 +487,7 @@ class Access extends LDAPUtility {
 	 * @throws \Exception
 	 */
 	public function dn2ocname($fdn, $ldapName = null, $isUser = true, &$newlyMapped = null, ?array $record = null, bool $autoMapping = true) {
-		static $intermediates = [];
-		if (isset($intermediates[($isUser ? 'user-' : 'group-') . $fdn])) {
+		if (isset($this->intermediates[($isUser ? 'user-' : 'group-') . $fdn])) {
 			return false; // is a known intermediate
 		}
 
@@ -531,7 +534,7 @@ class Access extends LDAPUtility {
 			$record = $this->readAttributes($fdn, $attributesToRead, $filter);
 			if ($record === false) {
 				$this->logger->debug('Cannot read attributes for ' . $fdn . '. Skipping.', ['filter' => $filter]);
-				$intermediates[($isUser ? 'user-' : 'group-') . $fdn] = true;
+				$this->intermediates[($isUser ? 'user-' : 'group-') . $fdn] = true;
 				return false;
 			}
 		}
@@ -578,7 +581,7 @@ class Access extends LDAPUtility {
 				$ldapName = $record[$nameAttribute];
 				if (!isset($ldapName[0]) || empty($ldapName[0])) {
 					$this->logger->debug('No or empty name for ' . $fdn . ' with filter ' . $filter . '.', ['app' => 'user_ldap']);
-					$intermediates['group-' . $fdn] = true;
+					$this->intermediates['group-' . $fdn] = true;
 					return false;
 				}
 				$ldapName = $ldapName[0];
@@ -704,7 +707,7 @@ class Access extends LDAPUtility {
 						continue;
 					}
 					$sndName = $ldapObject[$sndAttribute][0] ?? '';
-					$this->cacheUserDisplayName($ncName, $nameByLDAP, $sndName);
+					$this->applyUserDisplayName($ncName, $nameByLDAP, $sndName);
 				} elseif ($nameByLDAP !== null) {
 					$this->cacheGroupDisplayName($ncName, $nameByLDAP);
 				}
@@ -752,20 +755,16 @@ class Access extends LDAPUtility {
 		$this->connection->writeToCache('groupExists' . $gid, true);
 	}
 
-	/**
-	 * caches the user display name
-	 *
-	 * @param string $ocName the internal Nextcloud username
-	 * @param string $displayName the display name
-	 * @param string $displayName2 the second display name
-	 * @throws \Exception
-	 */
-	public function cacheUserDisplayName(string $ocName, string $displayName, string $displayName2 = ''): void {
-		$user = $this->userManager->get($ocName);
+	public function applyUserDisplayName(string $uid, string $displayName, string $displayName2 = ''): void {
+		$user = $this->userManager->get($uid);
 		if ($user === null) {
 			return;
 		}
-		$displayName = $user->composeAndStoreDisplayName($displayName, $displayName2);
+		$composedDisplayName = $user->composeAndStoreDisplayName($displayName, $displayName2);
+		$this->cacheUserDisplayName($uid, $composedDisplayName);
+	}
+
+	public function cacheUserDisplayName(string $ocName, string $displayName): void {
 		$cacheKeyTrunk = 'getDisplayName';
 		$this->connection->writeToCache($cacheKeyTrunk . $ocName, $displayName);
 	}
@@ -1048,13 +1047,9 @@ class Access extends LDAPUtility {
 	/**
 	 * Returns the LDAP handler
 	 *
-	 * @throws \OC\ServerNotAvailableException
-	 */
-
-	/**
 	 * @param mixed[] $arguments
 	 * @return mixed
-	 * @throws \OC\ServerNotAvailableException
+	 * @throws ServerNotAvailableException
 	 */
 	private function invokeLDAPMethod(string $command, ...$arguments) {
 		if ($command == 'controlPagedResultResponse') {
@@ -1576,7 +1571,12 @@ class Access extends LDAPUtility {
 		if ($term === '') {
 			$result = '*';
 		} elseif ($allowEnum) {
-			$result = $term . '*';
+			$usePrefixWildcard = $this->appConfig->getValueBool('user_ldap', 'partial_search_with_prefix_wildcard', false);
+			if ($usePrefixWildcard) {
+				$result = '*' . $term . '*';
+			} else {
+				$result = $term . '*';
+			}
 		}
 		return $result;
 	}

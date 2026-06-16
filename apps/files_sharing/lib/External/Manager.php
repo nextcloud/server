@@ -9,7 +9,6 @@
 namespace OCA\Files_Sharing\External;
 
 use OC\Files\Filesystem;
-use OC\Files\SetupManager;
 use OC\User\NoUserException;
 use OCA\FederatedFileSharing\Events\FederatedShareAddedEvent;
 use OCA\Files_Sharing\Helper;
@@ -21,11 +20,13 @@ use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Files\Events\InvalidateMountCacheEvent;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\Http\Client\IClientService;
 use OCP\ICertificateManager;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -34,7 +35,6 @@ use OCP\IUserSession;
 use OCP\Notification\IManager;
 use OCP\OCS\IDiscoveryService;
 use OCP\Share\IShare;
-use OCP\Snowflake\IGenerator;
 use Psr\Log\LoggerInterface;
 
 class Manager {
@@ -54,10 +54,10 @@ class Manager {
 		private IEventDispatcher $eventDispatcher,
 		private LoggerInterface $logger,
 		private IRootFolder $rootFolder,
-		private SetupManager $setupManager,
+		private ISetupManager $setupManager,
 		private ICertificateManager $certificateManager,
 		private ExternalShareMapper $externalShareMapper,
-		private IGenerator $snowflakeGenerator,
+		private IConfig $config,
 	) {
 		$this->user = $userSession->getUser();
 	}
@@ -115,6 +115,7 @@ class Manager {
 			'password' => $externalShare->getPassword(),
 			'mountpoint' => $externalShare->getMountpoint(),
 			'owner' => $externalShare->getOwner(),
+			'verify' => !$this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates'),
 		];
 		return $this->mountShare($options, $user);
 	}
@@ -186,7 +187,7 @@ class Manager {
 				$subShare = $this->externalShareMapper->getUserShare($externalShare, $user);
 			} catch (DoesNotExistException) {
 				$subShare = new ExternalShare();
-				$subShare->setId($this->snowflakeGenerator->nextId());
+				$subShare->generateId();
 				$subShare->setRemote($externalShare->getRemote());
 				$subShare->setPassword($externalShare->getPassword());
 				$subShare->setName($externalShare->getName());
@@ -195,7 +196,7 @@ class Manager {
 				$subShare->setMountpoint($mountPoint ?? $externalShare->getMountpoint());
 				$subShare->setAccepted($accepted);
 				$subShare->setRemoteId($externalShare->getRemoteId());
-				$subShare->setParent($externalShare->getId());
+				$subShare->setParent((string)$externalShare->getId());
 				$subShare->setShareType($externalShare->getShareType());
 				$subShare->setShareToken($externalShare->getShareToken());
 				$this->externalShareMapper->insert($subShare);
@@ -317,7 +318,7 @@ class Manager {
 		$filter = $this->notificationManager->createNotification();
 		$filter->setApp('files_sharing')
 			->setUser($user->getUID())
-			->setObject('remote_share', $remoteShare->getId());
+			->setObject('remote_share', (string)$remoteShare->getId());
 		$this->notificationManager->markProcessed($filter);
 	}
 
@@ -375,7 +376,6 @@ class Manager {
 						'sharedSecret' => $externalShare->getShareToken(),
 						'message' => 'Recipient accept the share'
 					]
-
 				);
 				return $this->cloudFederationProviderManager->sendNotification($externalShare->getRemote(), $notification);
 			case 'decline':

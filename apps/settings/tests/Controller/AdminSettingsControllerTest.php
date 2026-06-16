@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Tests\Controller;
 
 use OCA\Settings\Controller\AdminSettingsController;
@@ -29,7 +30,7 @@ use Test\TestCase;
  *
  * @package Tests\Settings\Controller
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class AdminSettingsControllerTest extends TestCase {
 
 	private IRequest&MockObject $request;
@@ -122,12 +123,23 @@ class AdminSettingsControllerTest extends TestCase {
 			->with($user, 'admin', 'test')
 			->willReturn([]);
 
-		$idx = $this->adminSettingsController->index('test');
+		$initialState = [];
+		$this->initialState->expects(self::atLeastOnce())
+			->method('provideInitialState')
+			->willReturnCallback(function () use (&$initialState): void {
+				$initialState[] = func_get_args();
+			});
 
-		$expected = new TemplateResponse('settings', 'settings/frame', [
-			'forms' => ['personal' => [], 'admin' => []],
-			'content' => ''
-		]);
-		$this->assertEquals($expected, $idx);
+		$expected = new TemplateResponse(
+			'settings',
+			'settings/frame',
+			[
+				'content' => ''
+			],
+		);
+		$this->assertEquals($expected, $this->adminSettingsController->index('test'));
+		$this->assertEquals([
+			['sections', ['admin' => [], 'personal' => []]],
+		], $initialState);
 	}
 }

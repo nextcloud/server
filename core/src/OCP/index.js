@@ -5,18 +5,20 @@
 
 import { loadState } from '@nextcloud/initial-state'
 import Accessibility from './accessibility.js'
-import * as AppConfig from './appconfig.js'
+import * as AppConfig from './appconfig.ts'
 import Collaboration from './collaboration.js'
-import * as Comments from './comments.js'
+import * as Comments from './comments.ts'
 import Loader from './loader.js'
 import Toast from './toast.js'
-import * as WhatsNew from './whatsnew.js'
 
 /** @namespace OCP */
 export default {
 	Accessibility,
 	AppConfig,
 	Collaboration,
+	/**
+	 * @deprecated 33.0.0
+	 */
 	Comments,
 	InitialState: {
 		/**
@@ -29,5 +31,4 @@ export default {
 	 * @deprecated 19.0.0 use the `@nextcloud/dialogs` package instead
 	 */
 	Toast,
-	WhatsNew,
 }

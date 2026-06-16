@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files\Controller;
 
 use OC\Files\Node\Node;
@@ -53,6 +54,8 @@ use Throwable;
  * @package OCA\Files\Controller
  */
 class ApiController extends Controller {
+	private ?Folder $userFolder = null;
+
 	public function __construct(
 		string $appName,
 		IRequest $request,
@@ -61,7 +64,6 @@ class ApiController extends Controller {
 		private IPreview $previewManager,
 		private IManager $shareManager,
 		private IConfig $config,
-		private ?Folder $userFolder,
 		private UserConfig $userConfig,
 		private ViewConfig $viewConfig,
 		private IL10N $l10n,
@@ -69,6 +71,10 @@ class ApiController extends Controller {
 		private LoggerInterface $logger,
 	) {
 		parent::__construct($appName, $request);
+		$user = $this->userSession->getUser();
+		if ($user) {
+			$this->userFolder = $this->rootFolder->getUserFolder($user->getUID());
+		}
 	}
 
 	/**
@@ -198,7 +204,6 @@ class ApiController extends Controller {
 			IShare::TYPE_EMAIL,
 			IShare::TYPE_ROOM,
 			IShare::TYPE_DECK,
-			IShare::TYPE_SCIENCEMESH,
 		];
 		$shareTypes = [];
 
@@ -248,9 +253,11 @@ class ApiController extends Controller {
 
 	/**
 	 * @param \OCP\Files\Node[] $nodes
+	 * @param ?non-empty-string $mimeTypeFilter limit returned content to this mimetype or mimepart
 	 * @param int $depth The depth to traverse into the contents of each node
+	 * @return FilesFolderTree
 	 */
-	private function getChildren(array $nodes, int $depth = 1, int $currentDepth = 0): array {
+	private function getChildren(array $nodes, int $depth = 1, int $currentDepth = 0, ?string $mimeTypeFilter = null): array {
 		if ($currentDepth >= $depth) {
 			return [];
 		}
@@ -265,7 +272,7 @@ class ApiController extends Controller {
 			$entry = [
 				'id' => $node->getId(),
 				'basename' => $basename,
-				'children' => $this->getChildren($node->getDirectoryListing(), $depth, $currentDepth + 1),
+				'children' => $this->getChildren($node->getDirectoryListing($mimeTypeFilter), $depth, $currentDepth + 1),
 			];
 			$displayName = $node->getName();
 			if ($basename !== $displayName) {
@@ -273,7 +280,34 @@ class ApiController extends Controller {
 			}
 			$children[] = $entry;
 		}
+		/** @var FilesFolderTree $children */
 		return $children;
+	}
+
+	/**
+	 * Get all parents with their contents of the current folder.
+	 *
+	 * @param Folder $currentFolder - The current folder to get the parents for
+	 * @param string $root - The root path to stop at
+	 * @param array $children - The children of the current folder to include in the response
+	 */
+	private function getParents(Folder $currentFolder, string $root, array $children): array {
+		$parentFolder = $currentFolder->getParent();
+		$parentContent = $parentFolder->getDirectoryListing('httpd/unix-directory');
+		$parentData = array_map(fn (Folder $node) => [
+			'id' => $node->getId(),
+			'basename' => basename($node->getPath()),
+			'displayName' => $node->getName(),
+			'children' => $node->getId() === $currentFolder->getId()
+				? $children
+				: [],
+		], $parentContent);
+
+		if ($parentFolder->getPath() === $root) {
+			return array_values($parentData);
+		}
+
+		return $this->getParents($parentFolder, $root, array_values($parentData));
 	}
 
 	/**
@@ -281,6 +315,7 @@ class ApiController extends Controller {
 	 *
 	 * @param string $path The path relative to the user folder
 	 * @param int $depth The depth of the tree
+	 * @param bool $withParents Whether to include parent folders in the response
 	 *
 	 * @return JSONResponse<Http::STATUS_OK, FilesFolderTree, array{}>|JSONResponse<Http::STATUS_UNAUTHORIZED|Http::STATUS_BAD_REQUEST|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
 	 *
@@ -292,7 +327,7 @@ class ApiController extends Controller {
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/api/v1/folder-tree')]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
-	public function getFolderTree(string $path = '/', int $depth = 1): JSONResponse {
+	public function getFolderTree(string $path = '/', int $depth = 1, bool $withParents = false): JSONResponse {
 		$user = $this->userSession->getUser();
 		if (!($user instanceof IUser)) {
 			return new JSONResponse([
@@ -309,8 +344,12 @@ class ApiController extends Controller {
 					'message' => $this->l10n->t('Invalid folder path'),
 				], Http::STATUS_BAD_REQUEST);
 			}
-			$nodes = $node->getDirectoryListing();
-			$tree = $this->getChildren($nodes, $depth);
+			$nodes = $node->getDirectoryListing('httpd/unix-directory');
+			$tree = $this->getChildren($nodes, $depth, 0, 'httpd/unix-directory');
+
+			if ($withParents && $path !== '/') {
+				$tree = $this->getParents($node, $userFolderPath, $tree);
+			}
 		} catch (NotFoundException $e) {
 			return new JSONResponse([
 				'message' => $this->l10n->t('Folder not found'),
@@ -355,7 +394,6 @@ class ApiController extends Controller {
 		return new JSONResponse(['message' => 'ok', 'data' => $this->viewConfig->getConfig($view)]);
 	}
 
-
 	/**
 	 * Get the user view config
 	 *
@@ -383,7 +421,6 @@ class ApiController extends Controller {
 
 		return new JSONResponse(['message' => 'ok', 'data' => ['key' => $key, 'value' => $value]]);
 	}
-
 
 	/**
 	 * Get the user config

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP\Tests;
 
 use OC\User\Backend;
@@ -37,7 +38,7 @@ use Test\TestCase;
  *
  * @package OCA\User_LDAP\Tests
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class User_LDAPTest extends TestCase {
 	protected Access&MockObject $access;
 	protected OfflineUser&MockObject $offlineUser;
@@ -698,7 +699,6 @@ class User_LDAPTest extends TestCase {
 		$this->assertEquals($dataDir . '/susannah/', $result);
 	}
 
-
 	public function testGetHomeNoPath(): void {
 		$this->expectException(\Exception::class);
 
@@ -1228,7 +1228,6 @@ class User_LDAPTest extends TestCase {
 			});
 	}
 
-
 	public function testSetPasswordInvalid(): void {
 		$this->expectException(HintException::class);
 		$this->expectExceptionMessage('Password fails quality checking policy');
@@ -1271,7 +1270,6 @@ class User_LDAPTest extends TestCase {
 
 		$this->assertFalse(\OC_User::setPassword('roland', 'dt12234$'));
 	}
-
 
 	public function testSetPasswordWithInvalidUser(): void {
 		$this->expectException(\Exception::class);
@@ -1324,7 +1322,7 @@ class User_LDAPTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('avatarDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'avatarDataProvider')]
 	public function testCanChangeAvatar(string|bool $imageData, bool $expected): void {
 		$isValidImage = str_starts_with((string)$imageData, 'valid');
 
@@ -1372,7 +1370,6 @@ class User_LDAPTest extends TestCase {
 
 		$this->assertEquals($newDisplayName, $this->backend->setDisplayName('uid', $newDisplayName));
 	}
-
 
 	public function testSetDisplayNameErrorWithPlugin(): void {
 		$this->expectException(HintException::class);
@@ -1449,7 +1446,7 @@ class User_LDAPTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('actionProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'actionProvider')]
 	public function testImplementsAction(string $configurable, string|int $value, int $actionCode, bool $expected): void {
 		$this->pluginManager->expects($this->once())
 			->method('getImplementedActions')
@@ -1462,5 +1459,38 @@ class User_LDAPTest extends TestCase {
 			]);
 
 		$this->assertSame($expected, $this->backend->implementsActions($actionCode));
+	}
+
+	public static function canEditPropertyProvider(): array {
+		return [
+			// Display name is always managed by LDAP
+			[\OCP\Accounts\IAccountManager::PROPERTY_DISPLAYNAME, '', false],
+			[\OCP\Accounts\IAccountManager::PROPERTY_DISPLAYNAME, 'cn', false],
+			// Fields with no LDAP attribute configured are user-editable
+			[\OCP\Accounts\IAccountManager::PROPERTY_EMAIL, '', true],
+			[\OCP\Accounts\IAccountManager::PROPERTY_PHONE, '', true],
+			[\OCP\Accounts\IAccountManager::PROPERTY_WEBSITE, '', true],
+			[\OCP\Accounts\IAccountManager::PROPERTY_ADDRESS, '', true],
+			[\OCP\Accounts\IAccountManager::PROPERTY_FEDIVERSE, '', true],
+			[\OCP\Accounts\IAccountManager::PROPERTY_ORGANISATION, '', true],
+			[\OCP\Accounts\IAccountManager::PROPERTY_ROLE, '', true],
+			[\OCP\Accounts\IAccountManager::PROPERTY_HEADLINE, '', true],
+			[\OCP\Accounts\IAccountManager::PROPERTY_BIOGRAPHY, '', true],
+			[\OCP\Accounts\IAccountManager::PROPERTY_BIRTHDATE, '', true],
+			[\OCP\Accounts\IAccountManager::PROPERTY_PRONOUNS, '', true],
+			// Fields with an LDAP attribute configured are managed by LDAP, not user-editable
+			[\OCP\Accounts\IAccountManager::PROPERTY_EMAIL, 'mail', false],
+			[\OCP\Accounts\IAccountManager::PROPERTY_PHONE, 'telephoneNumber', false],
+			[\OCP\Accounts\IAccountManager::PROPERTY_WEBSITE, 'labeledURI', false],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'canEditPropertyProvider')]
+	public function testCanEditProperty(string $property, string $ldapAttributeValue, bool $expected): void {
+		$this->connection->expects($this->any())
+			->method('__get')
+			->willReturn($ldapAttributeValue);
+
+		$this->assertSame($expected, $this->backend->canEditProperty('uid', $property));
 	}
 }

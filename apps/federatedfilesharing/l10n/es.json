@@ -65,9 +65,6 @@
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "¿Deseas añadir el recurso compartido remoto {name} de {owner}@{remote}?",
     "Remote share password" : "Contraseña del compartido remoto",
     "Incoming share could not be processed" : "Elemento compartido entrante no pudo ser procesado",
-    "Cloud ID copied to the clipboard" : "ID de nube copiado al portapapeles",
-    "Copy to clipboard" : "Copiar al portapapeles",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "¡Puede compartir con cualquier persona que use un servidor Nextcloud u otros servidores y servicios compatibles con Open Cloud Mesh (OCM)!. Solo coloque el ID de Nube Federada de esta(s) persona(s) en el diálogo de compartir. Se verán así: persona@nube.ejemplo.com",
     "X (formerly Twitter)" : "X (anteriormente Twitter)",
     "formerly Twitter" : "anteriormente Twitter"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"

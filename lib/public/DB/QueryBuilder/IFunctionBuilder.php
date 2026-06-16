@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\DB\QueryBuilder;
 
 /**
@@ -170,4 +171,10 @@ interface IFunctionBuilder {
 	 * @since 18.0.0
 	 */
 	public function least($x, $y): IQueryFunction;
+
+	/**
+	 * Get the current date and time as a UNIX timestamp.
+	 * @since 34.0.0
+	 */
+	public function now(): IQueryFunction;
 }

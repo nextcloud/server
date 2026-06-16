@@ -6,12 +6,17 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP;
+
+use OCP\AppFramework\Attribute\Consumable;
 
 /**
  * Class to generate URLs
+ *
  * @since 6.0.0
  */
+#[Consumable(since: '6.0.0')]
 interface IURLGenerator {
 	/**
 	 * Regex for matching http(s) urls
@@ -80,7 +85,6 @@ interface IURLGenerator {
 	 */
 	public function imagePath(string $appName, string $file): string;
 
-
 	/**
 	 * Makes an URL absolute
 	 * @param string $url the url in the ownCloud host
@@ -115,4 +119,11 @@ interface IURLGenerator {
 	 * @since 23.0.0
 	 */
 	public function getWebroot(): string;
+
+	/**
+	 * Return the url to the remote DAV handler.
+	 *
+	 * @since 34.0.0
+	 */
+	public function linkToRemote(string $service): string;
 }

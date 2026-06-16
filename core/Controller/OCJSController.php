@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Controller;
 
 use bantu\IniGetWrapper\IniGetWrapper;
@@ -16,6 +17,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\NoTwoFactorRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataDisplayResponse;
@@ -75,12 +77,10 @@ class OCJSController extends Controller {
 		);
 	}
 
-	/**
-	 * @NoTwoFactorRequired
-	 */
 	#[PublicPage]
 	#[NoCSRFRequired]
 	#[FrontpageRoute(verb: 'GET', url: '/core/js/oc.js')]
+	#[NoTwoFactorRequired]
 	public function getConfig(): DataDisplayResponse {
 		$data = $this->helper->getConfig();
 

@@ -12,6 +12,7 @@ use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\IConfig;
 use OCP\IImage;
+use OCP\Image;
 use OCP\ITempManager;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
@@ -26,6 +27,7 @@ class Movie extends ProviderV2 {
 		$this->config = Server::get(IConfig::class);
 	}
 
+	#[\Override]
 	public function getMimeType(): string {
 		return '/video\/.*/';
 	}
@@ -33,6 +35,7 @@ class Movie extends ProviderV2 {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function isAvailable(FileInfo $file): bool {
 		if (is_null($this->binary)) {
 			if (isset($this->options['movieBinary'])) {
@@ -42,9 +45,27 @@ class Movie extends ProviderV2 {
 		return is_string($this->binary);
 	}
 
+	private function connectDirect(File $file): string|false {
+		if ($file->isEncrypted()) {
+			return false;
+		}
+
+		// Checks for availability to access the video file directly via HTTP/HTTPS.
+		// Returns a string containing URL if available. Only implemented and tested
+		// with Amazon S3 currently. In all other cases, return false. ffmpeg
+		// supports other protocols so this function may expand in the future.
+		$gddValues = $file->getStorage()->getDirectDownloadById((string)$file->getId());
+
+		if (is_array($gddValues) && array_key_exists('url', $gddValues)) {
+			return str_starts_with($gddValues['url'], 'http') ? $gddValues['url'] : false;
+		}
+		return false;
+	}
+
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
 		// TODO: use proc_open() and stream the source file ?
 
@@ -54,74 +75,87 @@ class Movie extends ProviderV2 {
 
 		$result = null;
 
+		$connectDirect = $this->connectDirect($file);
+
 		// Timestamps to make attempts to generate a still
 		$timeAttempts = [5, 1, 0];
 
-		// By default, download $sizeAttempts from the file along with
-		// the 'moov' atom.
-		// Example bitrates in the higher range:
-		// 4K HDR H265 60 FPS = 75 Mbps = 9 MB per second needed for a still
-		// 1080p H265 30 FPS = 10 Mbps = 1.25 MB per second needed for a still
-		// 1080p H264 30 FPS = 16 Mbps = 2 MB per second needed for a still
-		$sizeAttempts = [1024 * 1024 * 10];
+		// If HTTP/HTTPS direct connect is not available or if the file is encrypted,
+		// process normally
+		if ($connectDirect === false) {
+			// By default, download $sizeAttempts from the file along with
+			// the 'moov' atom.
+			// Example bitrates in the higher range:
+			// 4K HDR H265 60 FPS = 75 Mbps = 9 MB per second needed for a still
+			// 1080p H265 30 FPS = 10 Mbps = 1.25 MB per second needed for a still
+			// 1080p H264 30 FPS = 16 Mbps = 2 MB per second needed for a still
+			$sizeAttempts = [1024 * 1024 * 10];
 
-		if ($this->useTempFile($file)) {
-			if ($file->getStorage()->isLocal()) {
-				// Temp file required but file is local, so retrieve $sizeAttempt bytes first,
-				// and if it doesn't work, retrieve the entire file.
-				$sizeAttempts[] = null;
+			if ($this->useTempFile($file)) {
+				if ($file->getStorage()->isLocal()) {
+					// Temp file required but file is local, so retrieve $sizeAttempt bytes first,
+					// and if it doesn't work, retrieve the entire file.
+					$sizeAttempts[] = null;
+				}
+			} else {
+				// Temp file is not required and file is local so retrieve entire file.
+				$sizeAttempts = [null];
+			}
+
+			foreach ($sizeAttempts as $size) {
+				$absPath = false;
+				// File is remote, generate a sparse file
+				if (!$file->getStorage()->isLocal()) {
+					$absPath = $this->getSparseFile($file, $size);
+				}
+				// Defaults to existing routine if generating sparse file fails
+				if ($absPath === false) {
+					$absPath = $this->getLocalFile($file, $size);
+				}
+				if ($absPath === false) {
+					Server::get(LoggerInterface::class)->error(
+						'Failed to get local file to generate thumbnail for: ' . $file->getPath(),
+						['app' => 'core']
+					);
+					return null;
+				}
+
+				// Attempt still image grabs from selected timestamps
+				foreach ($timeAttempts as $timeStamp) {
+					$result = $this->generateThumbNail($maxX, $maxY, $absPath, $timeStamp);
+					if ($result !== null) {
+						break;
+					}
+					Server::get(LoggerInterface::class)->debug(
+						'Movie preview generation attempt failed'
+							. ', file=' . $file->getPath()
+							. ', time=' . $timeStamp
+							. ', size=' . ($size ?? 'entire file'),
+						['app' => 'core']
+					);
+				}
+
+				$this->cleanTmpFiles();
+
+				if ($result !== null) {
+					Server::get(LoggerInterface::class)->debug(
+						'Movie preview generation attempt success'
+							. ', file=' . $file->getPath()
+							. ', time=' . $timeStamp
+							. ', size=' . ($size ?? 'entire file'),
+						['app' => 'core']
+					);
+					break;
+				}
 			}
 		} else {
-			// Temp file is not required and file is local so retrieve entire file.
-			$sizeAttempts = [null];
-		}
-
-		foreach ($sizeAttempts as $size) {
-			$absPath = false;
-			// File is remote, generate a sparse file
-			if (!$file->getStorage()->isLocal()) {
-				$absPath = $this->getSparseFile($file, $size);
-			}
-			// Defaults to existing routine if generating sparse file fails
-			if ($absPath === false) {
-				$absPath = $this->getLocalFile($file, $size);
-			}
-			if ($absPath === false) {
-				Server::get(LoggerInterface::class)->error(
-					'Failed to get local file to generate thumbnail for: ' . $file->getPath(),
-					['app' => 'core']
-				);
-				return null;
-			}
-
-			// Attempt still image grabs from selected timestamps
+			// HTTP/HTTPS direct connect is available so pass the URL directly to ffmpeg
 			foreach ($timeAttempts as $timeStamp) {
-				$result = $this->generateThumbNail($maxX, $maxY, $absPath, $timeStamp);
+				$result = $this->generateThumbNail($maxX, $maxY, $connectDirect, $timeStamp);
 				if ($result !== null) {
 					break;
 				}
-				Server::get(LoggerInterface::class)->debug(
-					'Movie preview generation attempt failed'
-						. ', file=' . $file->getPath()
-						. ', time=' . $timeStamp
-						. ', size=' . ($size ?? 'entire file'),
-					['app' => 'core']
-				);
 			}
-
-			$this->cleanTmpFiles();
-
-			if ($result !== null) {
-				Server::get(LoggerInterface::class)->debug(
-					'Movie preview generation attempt success'
-						. ', file=' . $file->getPath()
-						. ', time=' . $timeStamp
-						. ', size=' . ($size ?? 'entire file'),
-					['app' => 'core']
-				);
-				break;
-			}
-
 		}
 		if ($result === null) {
 			Server::get(LoggerInterface::class)->error(
@@ -255,8 +289,10 @@ class Movie extends ProviderV2 {
 		if ($test_hdr_proc === false) {
 			return false;
 		}
-		$test_hdr_stdout = trim(stream_get_contents($test_hdr_pipes[1]));
+		// Read stderr before stdout: ffprobe's stderr can exceed 64KB (OS pipe buffer) for certain
+		// files, causing a deadlock if stdout is read first. stdout is always a short string.
 		$test_hdr_stderr = trim(stream_get_contents($test_hdr_pipes[2]));
+		$test_hdr_stdout = trim(stream_get_contents($test_hdr_pipes[1]));
 		proc_close($test_hdr_proc);
 		// search build options for libzimg (provides zscale filter)
 		$ffmpeg_libzimg_installed = strpos($test_hdr_stderr, '--enable-libzimg');
@@ -307,6 +343,10 @@ class Movie extends ProviderV2 {
 		$returnCode = -1;
 		$output = '';
 		if (is_resource($proc)) {
+			stream_set_blocking($pipes[1], false);
+			stream_set_blocking($pipes[2], false);
+			// Read stderr before stdout: ffmpeg's stderr can exceed 64KB (OS pipe buffer) for certain
+			// files, causing a deadlock if stdout is read first. stdout is always empty.
 			$stderr = trim(stream_get_contents($pipes[2]));
 			$stdout = trim(stream_get_contents($pipes[1]));
 			$returnCode = proc_close($proc);
@@ -321,7 +361,7 @@ class Movie extends ProviderV2 {
 		);
 
 		if ($returnCode === 0) {
-			$image = new \OCP\Image();
+			$image = new Image();
 			$image->loadFromFile($tmpPath);
 			if ($image->valid()) {
 				unlink($tmpPath);
@@ -329,7 +369,6 @@ class Movie extends ProviderV2 {
 				return $image;
 			}
 		}
-
 
 		unlink($tmpPath);
 		return null;

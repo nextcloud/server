@@ -6,23 +6,25 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC;
 
 use OCP\IDBConnection;
 use OCP\IEmojiHelper;
 
 class EmojiHelper implements IEmojiHelper {
-	private IDBConnection $db;
-
-	public function __construct(IDBConnection $db) {
-		$this->db = $db;
+	public function __construct(
+		private IDBConnection $db,
+	) {
 	}
 
+	#[\Override]
 	public function doesPlatformSupportEmoji(): bool {
 		return $this->db->supports4ByteText()
 			&& \class_exists(\IntlBreakIterator::class);
 	}
 
+	#[\Override]
 	public function isValidSingleEmoji(string $emoji): bool {
 		$intlBreakIterator = \IntlBreakIterator::createCharacterInstance();
 		$intlBreakIterator->setText($emoji);

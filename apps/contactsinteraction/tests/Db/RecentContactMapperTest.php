@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\ContactsInteraction\Tests\Db;
 
 use OCA\ContactsInteraction\Db\RecentContact;
@@ -17,7 +18,7 @@ use Sabre\VObject\Component\VCard;
 use Sabre\VObject\UUIDUtil;
 use Test\TestCase;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class RecentContactMapperTest extends TestCase {
 	private RecentContactMapper $recentContactMapper;
 	private ITimeFactory $time;

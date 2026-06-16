@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Theming;
 
 use OCA\Theming\AppInfo\Application;
@@ -68,26 +69,32 @@ class ThemingDefaults extends \OC_Defaults {
 		$this->docBaseUrl = parent::getDocBaseUrl();
 	}
 
+	#[\Override]
 	public function getName() {
 		return strip_tags($this->appConfig->getAppValueString(ConfigLexicon::INSTANCE_NAME, $this->name));
 	}
 
+	#[\Override]
 	public function getHTMLName() {
 		return $this->appConfig->getAppValueString(ConfigLexicon::INSTANCE_NAME, $this->name);
 	}
 
+	#[\Override]
 	public function getTitle() {
 		return strip_tags($this->appConfig->getAppValueString(ConfigLexicon::INSTANCE_NAME, $this->title));
 	}
 
+	#[\Override]
 	public function getEntity() {
 		return strip_tags($this->appConfig->getAppValueString(ConfigLexicon::INSTANCE_NAME, $this->entity));
 	}
 
-	public function getProductName() {
+	#[\Override]
+	public function getProductName(): string {
 		return strip_tags($this->appConfig->getAppValueString(ConfigLexicon::PRODUCT_NAME, $this->productName));
 	}
 
+	#[\Override]
 	public function getBaseUrl() {
 		return $this->appConfig->getAppValueString(ConfigLexicon::BASE_URL, $this->url);
 	}
@@ -97,6 +104,7 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @psalm-suppress InvalidReturnStatement
 	 * @psalm-suppress InvalidReturnType
 	 */
+	#[\Override]
 	public function getSlogan(?string $lang = null): string {
 		return \OCP\Util::sanitizeHTML($this->appConfig->getAppValueString(ConfigLexicon::INSTANCE_SLOGAN, parent::getSlogan($lang)));
 	}
@@ -109,10 +117,12 @@ class ThemingDefaults extends \OC_Defaults {
 		return $this->appConfig->getAppValueString(ConfigLexicon::INSTANCE_PRIVACY_URL, '');
 	}
 
+	#[\Override]
 	public function getDocBaseUrl(): string {
 		return $this->appConfig->getAppValueString(ConfigLexicon::DOC_BASE_URL, $this->docBaseUrl);
 	}
 
+	#[\Override]
 	public function getShortFooter() {
 		$slogan = $this->getSlogan();
 		$baseUrl = $this->getBaseUrl();
@@ -171,6 +181,7 @@ class ThemingDefaults extends \OC_Defaults {
 	 * Color that is used for highlighting elements like important buttons
 	 * If user theming is enabled then the user defined value is returned
 	 */
+	#[\Override]
 	public function getColorPrimary(): string {
 		$user = $this->userSession->getUser();
 
@@ -197,6 +208,7 @@ class ThemingDefaults extends \OC_Defaults {
 	 * Color that is used for the page background (e.g. the header)
 	 * If user theming is enabled then the user defined value is returned
 	 */
+	#[\Override]
 	public function getColorBackground(): string {
 		$user = $this->userSession->getUser();
 
@@ -251,6 +263,7 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @param bool $useSvg Whether to point to the SVG image or a fallback
 	 * @return string
 	 */
+	#[\Override]
 	public function getLogo($useSvg = true): string {
 		$logo = $this->appConfig->getAppValueString('logoMime', '');
 
@@ -296,6 +309,7 @@ class ThemingDefaults extends \OC_Defaults {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getiTunesAppId() {
 		return $this->appConfig->getAppValueString('iTunesAppId', $this->iTunesAppId);
 	}
@@ -303,6 +317,7 @@ class ThemingDefaults extends \OC_Defaults {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getiOSClientUrl() {
 		return $this->appConfig->getAppValueString('iOSClientUrl', $this->iOSClientUrl);
 	}
@@ -310,6 +325,7 @@ class ThemingDefaults extends \OC_Defaults {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getAndroidClientUrl() {
 		return $this->appConfig->getAppValueString('AndroidClientUrl', $this->AndroidClientUrl);
 	}
@@ -317,6 +333,7 @@ class ThemingDefaults extends \OC_Defaults {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getFDroidClientUrl() {
 		return $this->appConfig->getAppValueString('FDroidClientUrl', $this->FDroidClientUrl);
 	}
@@ -325,6 +342,7 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @return array scss variables to overwrite
 	 * @deprecated since Nextcloud 22 - https://github.com/nextcloud/server/issues/9940
 	 */
+	#[\Override]
 	public function getScssVariables() {
 		$cacheBuster = $this->appConfig->getAppValueInt(ConfigLexicon::CACHE_BUSTER);
 		$cache = $this->cacheFactory->createDistributed('theming-' . (string)$cacheBuster . '-' . $this->urlGenerator->getBaseUrl());
@@ -379,10 +397,10 @@ class ThemingDefaults extends \OC_Defaults {
 		}
 
 		$route = false;
-		if ($image === 'favicon.ico' && ($this->imageManager->shouldReplaceIcons() || $this->getCustomFavicon() !== null)) {
+		if ($image === 'favicon.ico' && ($this->imageManager->canConvert('ICO') || $this->getCustomFavicon() !== null)) {
 			$route = $this->urlGenerator->linkToRoute('theming.Icon.getFavicon', ['app' => $app]);
 		}
-		if (($image === 'favicon-touch.png' || $image === 'favicon-fb.png') && ($this->imageManager->shouldReplaceIcons() || $this->getCustomFavicon() !== null)) {
+		if (($image === 'favicon-touch.png' || $image === 'favicon-fb.png') && ($this->imageManager->canConvert('PNG') || $this->getCustomFavicon() !== null)) {
 			$route = $this->urlGenerator->linkToRoute('theming.Icon.getTouchIcon', ['app' => $app]);
 		}
 		if ($image === 'manifest.json') {
@@ -515,6 +533,7 @@ class ThemingDefaults extends \OC_Defaults {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function getTextColorPrimary() {
 		return $this->util->invertTextColor($this->getColorPrimary()) ? '#000000' : '#ffffff';
 	}

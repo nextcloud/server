@@ -5,8 +5,10 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Repair;
 
+use OCP\Constants;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
@@ -24,7 +26,8 @@ class RepairInvalidShares implements IRepairStep {
 	) {
 	}
 
-	public function getName() {
+	#[\Override]
+	public function getName(): string {
 		return 'Repair invalid shares';
 	}
 
@@ -32,7 +35,7 @@ class RepairInvalidShares implements IRepairStep {
 	 * Adjust file share permissions
 	 */
 	private function adjustFileSharePermissions(IOutput $output): void {
-		$mask = \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_SHARE;
+		$mask = Constants::PERMISSION_READ | Constants::PERMISSION_UPDATE | Constants::PERMISSION_SHARE;
 		$builder = $this->connection->getQueryBuilder();
 
 		$permsFunc = $builder->expr()->bitwiseAnd('permissions', $mask);
@@ -84,6 +87,7 @@ class RepairInvalidShares implements IRepairStep {
 		}
 	}
 
+	#[\Override]
 	public function run(IOutput $output) {
 		$ocVersionFromBeforeUpdate = $this->config->getSystemValueString('version', '0.0.0');
 		if (version_compare($ocVersionFromBeforeUpdate, '12.0.0.11', '<')) {

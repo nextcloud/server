@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Lib\Auth\PublicKey;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
@@ -35,13 +36,14 @@ class RSA extends AuthMechanism {
 					->setType(DefinitionParameter::VALUE_PASSWORD)
 					->setFlag(DefinitionParameter::FLAG_HIDDEN),
 			])
-			->addCustomJs('public_key')
+			->addCustomJs('auth_rsa')
 		;
 	}
 
 	/**
 	 * @return void
 	 */
+	#[\Override]
 	public function manipulateStorageConfig(StorageConfig &$storage, ?IUser $user = null) {
 		$auth = new RSACrypt();
 		$auth->setPassword($this->config->getSystemValue('secret', ''));

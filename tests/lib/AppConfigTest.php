@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace Test;
 
 use OC\AppConfig;
@@ -36,6 +37,7 @@ class AppConfigTest extends TestCase {
 	private CacheFactory&MockObject $cacheFactory;
 	private ICache&MockObject $localCache;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -51,7 +53,7 @@ class AppConfigTest extends TestCase {
 
 	protected function getAppConfig($cached = false): AppConfig {
 		$this->config->method('getSystemValueBool')
-			->with('cache_app_config', $cached)
+			->with('cache_app_config', true)
 			->willReturn(true);
 		$this->cacheFactory->method('isLocalCacheAvailable')->willReturn($cached);
 		if ($cached) {
@@ -94,7 +96,6 @@ class AppConfigTest extends TestCase {
 		$this->connection->expects(self::never())->method('getQueryBuilder');
 		$config = $this->getAppConfig(true);
 
-
 		$this->assertSame('some-value', $config->getValueString('appid', 'some-key'));
 		$this->assertSame('other value', $config->getValueString('appid', 'other-key'));
 		$this->assertSame(AppConfig::VALUE_STRING, $config->getValueType('appid', 'some-key', false));
@@ -125,7 +126,6 @@ class AppConfigTest extends TestCase {
 
 		$this->connection->expects(self::never())->method('getQueryBuilder');
 		$config = $this->getAppConfig(true);
-
 
 		$this->assertSame('fast value', $config->getValueString('appid', 'fast-key'));
 		$this->assertSame('lazy value', $config->getValueString('appid', 'lazy-key', '', true));
@@ -160,7 +160,6 @@ class AppConfigTest extends TestCase {
 
 		$this->connection->expects(self::once())->method('getQueryBuilder')->willReturn($queryBuilder);
 		$config = $this->getAppConfig(true);
-
 
 		$this->assertSame('fast value', $config->getValueString('appid', 'fast-key'));
 		$this->assertSame('lazy value', $config->getValueString('appid', 'lazy-key', '', true));

@@ -48,7 +48,8 @@ import { spawnDialog } from '@nextcloud/vue/functions/dialog'
 import {
 	type Ref,
 
-	computed, ref,
+	computed,
+	ref,
 } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcHeaderMenu from '@nextcloud/vue/components/NcHeaderMenu'
@@ -134,7 +135,23 @@ function openDialogIfNeeded() {
 	}
 
 	&__primary-icon {
-		filter: var(--primary-invert-if-bright);
+		// Light mode: icon is black by default, invert to white when primary is dark
+		filter: var(--primary-invert-if-dark);
+
+		// Dark mode: icon is white (swapped in icons.css), invert to black when primary is bright
+		@media (prefers-color-scheme: dark) {
+			filter: var(--primary-invert-if-bright);
+		}
 	}
+}
+
+// Dark theme via Nextcloud setting (data-themes attribute, not media query)
+:global([data-themes*=dark]) .public-page-menu__primary-icon {
+	filter: var(--primary-invert-if-bright);
+}
+
+// Light theme explicitly set (overrides dark media query if system is dark but user chose light)
+:global([data-themes*=light]) .public-page-menu__primary-icon {
+	filter: var(--primary-invert-if-dark);
 }
 </style>

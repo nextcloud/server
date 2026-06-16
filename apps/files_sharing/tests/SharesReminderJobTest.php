@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Sharing\Tests;
 
 use OC\SystemConfig;
@@ -25,6 +26,7 @@ use OCP\Share\IManager;
 use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
+use Test\Traits\UserTrait;
 
 /**
  * Class SharesReminderJobTest
@@ -32,8 +34,10 @@ use Psr\Log\LoggerInterface;
  *
  * @package OCA\Files_Sharing\Tests
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class SharesReminderJobTest extends \Test\TestCase {
+	use UserTrait;
+
 	private SharesReminderJob $job;
 	private IDBConnection $db;
 	private IManager $shareManager;
@@ -56,8 +60,8 @@ class SharesReminderJobTest extends \Test\TestCase {
 		$this->user1 = $this->getUniqueID('user1_');
 		$this->user2 = $this->getUniqueID('user2_');
 
-		$user1 = $this->userManager->createUser($this->user1, 'longrandompassword');
-		$user2 = $this->userManager->createUser($this->user2, 'longrandompassword');
+		$user1 = $this->createUser($this->user1, 'longrandompassword');
+		$user2 = $this->createUser($this->user2, 'longrandompassword');
 		$user1->setSystemEMailAddress('user1@test.com');
 		$user2->setSystemEMailAddress('user2@test.com');
 
@@ -80,16 +84,6 @@ class SharesReminderJobTest extends \Test\TestCase {
 	protected function tearDown(): void {
 		$this->db->executeUpdate('DELETE FROM `*PREFIX*share`');
 
-		$userManager = Server::get(IUserManager::class);
-		$user1 = $userManager->get($this->user1);
-		if ($user1) {
-			$user1->delete();
-		}
-		$user2 = $userManager->get($this->user2);
-		if ($user2) {
-			$user2->delete();
-		}
-
 		$this->logout();
 
 		parent::tearDown();
@@ -99,12 +93,11 @@ class SharesReminderJobTest extends \Test\TestCase {
 		$someMail = 'test@test.com';
 		$noExpirationDate = null;
 		$today = new \DateTime();
-		// For expiration dates, the time is always automatically set to zero by ShareAPIController
-		$today->setTime(0, 0);
-		$nearFuture = new \DateTime();
-		$nearFuture->setTimestamp($today->getTimestamp() + 86400 * 1);
+		// Expiration dates are set to end of day (23:59:59) by the Share Manager
+		$today->setTime(23, 59, 59);
+		$nearFuture = clone $today;
 		$farFuture = new \DateTime();
-		$farFuture->setTimestamp($today->getTimestamp() + 86400 * 2);
+		$farFuture->setTimestamp($today->getTimestamp() + 86400 * 1);
 		$permissionRead = Constants::PERMISSION_READ;
 		$permissionCreate = $permissionRead | Constants::PERMISSION_CREATE;
 		$permissionUpdate = $permissionRead | Constants::PERMISSION_UPDATE;
@@ -151,7 +144,7 @@ class SharesReminderJobTest extends \Test\TestCase {
 	 * @param int $permissions
 	 * @param bool $shouldBeReminded
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataSharesReminder')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataSharesReminder')]
 	public function testSharesReminder(
 		?\DateTime $expirationDate, string $email, bool $isEmpty, int $permissions, bool $shouldBeReminded,
 	): void {

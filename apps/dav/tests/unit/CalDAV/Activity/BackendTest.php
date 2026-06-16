@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV\Activity;
 
 use OCA\DAV\CalDAV\Activity\Backend;
@@ -71,7 +72,7 @@ class BackendTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataCallTriggerCalendarActivity')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataCallTriggerCalendarActivity')]
 	public function testCallTriggerCalendarActivity(string $method, array $payload, string $expectedSubject, array $expectedPayload): void {
 		$backend = $this->getBackend(['triggerCalendarActivity']);
 		$backend->expects($this->once())
@@ -166,7 +167,7 @@ class BackendTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTriggerCalendarActivity')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTriggerCalendarActivity')]
 	public function testTriggerCalendarActivity(string $action, array $data, array $shares, array $changedProperties, string $currentUser, string $author, ?array $shareUsers, array $users): void {
 		$backend = $this->getBackend(['getUsersForShares']);
 
@@ -295,7 +296,7 @@ class BackendTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetUsersForShares')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataGetUsersForShares')]
 	public function testGetUsersForShares(array $shares, array $groups, array $expected): void {
 		$backend = $this->getBackend();
 

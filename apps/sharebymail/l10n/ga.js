@@ -22,7 +22,7 @@ OC.L10N.register(
     "Note:" : "Nóta:",
     "This share is valid until %s at midnight" : "Tá an sciar seo bailí go dtí%sag meán oíche",
     "Expiration:" : "Dul in éag:",
-    "Open %s" : "Oscailte %s",
+    "Open shared item" : "Oscail mír chomhroinnte",
     "%1$s via %2$s" : "%1$s trí %2$s",
     "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "%1$sroinnte%2$s leat. Ba chóir go mbeadh post ar leith faighte agat cheana féin le nasc chun rochtain a fháil air.",
     "Password to access %1$s shared to you by %2$s" : "Pasfhocal chun rochtain a fháil ar%1$sroinnte leat%2$s",

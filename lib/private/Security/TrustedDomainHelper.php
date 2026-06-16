@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Security;
 
 use OC\AppFramework\Http\Request;
@@ -36,6 +37,7 @@ class TrustedDomainHelper implements ITrustedDomainHelper {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function isTrustedUrl(string $url): bool {
 		$parsedUrl = parse_url($url);
 		if (empty($parsedUrl['host'])) {
@@ -52,6 +54,7 @@ class TrustedDomainHelper implements ITrustedDomainHelper {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function isTrustedDomain(string $domainWithPort): bool {
 		// overwritehost is always trusted
 		if ($this->config->getSystemValue('overwritehost') !== '') {

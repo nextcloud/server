@@ -97,6 +97,7 @@ OC.L10N.register(
     "If enabled, only administrators can create and edit tags. Accounts can still assign and remove them from files." : "若啟用，僅有管理員可以建立與編輯標籤。一般帳戶仍可分配與移除檔案中的標籤。",
     "Restrict tag creation and editing to administrators" : "限制僅管理員才能建立與編輯標籤",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "協作標籤可以被所有用戶使用。受限標籤是可見的，但用戶無法分配它們。不可見標籤僅供內部使用，用戶既看不到也無法分配它們。",
+    "Add tags" : "添加標籤",
     "Assigned collaborative tags" : "已分配的協作標籤",
     "Open in Files" : "在「檔案」應用程式中打開",
     "List of tags and their associated files and folders." : "標籤及其關聯檔案與資料夾的清單。",
@@ -111,10 +112,6 @@ OC.L10N.register(
     "Failed to delete tag for file" : "無法刪除檔案的標籤",
     "Collaborative tags …" : "協作的標籤 ...",
     "Loading …" : "加載中 …",
-    "File tags modification canceled" : "檔案標籤修改已取消",
-    "Select or create tags to apply to all selected files" : "選擇或創建標籤以應用於所有已選擇的檔案。",
-    "Select tags to apply to all selected files" : "選取要套用到所有選取檔案的標籤",
-    "Apply changes" : "應用更新",
     "Loading collaborative tags …" : "正在載入協作標籤 ..."
 },
 "nplurals=1; plural=0;");

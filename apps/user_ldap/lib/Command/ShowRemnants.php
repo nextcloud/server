@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP\Command;
 
 use OCA\User_LDAP\User\DeletedUsersIndex;
@@ -12,7 +13,6 @@ use OCP\IDateTimeFormatter;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
-
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -24,6 +24,7 @@ class ShowRemnants extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('ldap:show-remnants')
@@ -47,6 +48,7 @@ class ShowRemnants extends Command {
 	 *
 	 * {@inheritdoc}
 	 */
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		/** @var \Symfony\Component\Console\Helper\Table $table */
 		$table = new Table($output);

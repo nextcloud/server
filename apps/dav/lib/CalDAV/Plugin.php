@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud GmbH.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\CalDAV;
 
 class Plugin extends \Sabre\CalDAV\Plugin {
@@ -20,6 +21,7 @@ class Plugin extends \Sabre\CalDAV\Plugin {
 	 * @param string $principalUrl
 	 * @return string|null
 	 */
+	#[\Override]
 	public function getCalendarHomeForPrincipal($principalUrl) {
 		if (strrpos($principalUrl, 'principals/users', -strlen($principalUrl)) !== false) {
 			[, $principalId] = \Sabre\Uri\split($principalUrl);

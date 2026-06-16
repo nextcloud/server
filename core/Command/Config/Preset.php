@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Command\Config;
 
 use OC\Config\PresetManager;
@@ -24,6 +25,7 @@ class Preset extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		parent::configure();
 		$this->setName('config:preset')
@@ -34,6 +36,7 @@ class Preset extends Base {
 			->addOption('compare', '', InputOption::VALUE_NONE, 'compare preset');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		if ($input->getOption('list')) {
 			$this->getEnum('', $list);

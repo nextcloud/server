@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files\Controller;
 
 use OCA\Files\Service\TagService;
@@ -44,11 +45,11 @@ class ApiControllerTest extends TestCase {
 	private string $appName = 'files';
 	private IUser $user;
 	private IRequest $request;
-	private TagService $tagService;
+	private TagService&MockObject $tagService;
 	private IPreview&MockObject $preview;
 	private ApiController $apiController;
 	private IManager $shareManager;
-	private IConfig $config;
+	private IConfig&MockObject $config;
 	private Folder&MockObject $userFolder;
 	private UserConfig&MockObject $userConfig;
 	private ViewConfig&MockObject $viewConfig;
@@ -77,6 +78,9 @@ class ApiControllerTest extends TestCase {
 		$this->viewConfig = $this->createMock(ViewConfig::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
+		$this->rootFolder->expects($this->any())
+			->method('getUserFolder')
+			->willReturn($this->userFolder);
 		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->apiController = new ApiController(
@@ -87,7 +91,6 @@ class ApiControllerTest extends TestCase {
 			$this->preview,
 			$this->shareManager,
 			$this->config,
-			$this->userFolder,
 			$this->userConfig,
 			$this->viewConfig,
 			$this->l10n,

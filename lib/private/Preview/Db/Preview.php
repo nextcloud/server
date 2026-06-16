@@ -11,14 +11,13 @@ declare(strict_types=1);
 namespace OC\Preview\Db;
 
 use OCP\AppFramework\Db\Entity;
+use OCP\AppFramework\Db\SnowflakeAwareEntity;
 use OCP\DB\Types;
 use OCP\Files\IMimeTypeDetector;
 
 /**
  * Preview entity mapped to the oc_previews and oc_preview_locations table.
  *
- * @method string getId()
- * @method void setId(string $id)
  * @method int getFileId() Get the file id of the original file.
  * @method void setFileId(int $fileId)
  * @method int getStorageId() Get the storage id of the original file.
@@ -55,7 +54,7 @@ use OCP\Files\IMimeTypeDetector;
  *
  * @see PreviewMapper
  */
-class Preview extends Entity {
+class Preview extends SnowflakeAwareEntity {
 	protected ?int $fileId = null;
 	protected ?int $oldFileId = null;
 	protected ?int $storageId = null;
@@ -101,19 +100,29 @@ class Preview extends Entity {
 		$preview->setFileId((int)basename(dirname($path)));
 
 		$fileName = pathinfo($path, PATHINFO_FILENAME) . '.' . pathinfo($path, PATHINFO_EXTENSION);
-		$ok = preg_match('/(([A-Za-z0-9\+\/]+)-)?([0-9]+)-([0-9]+)(-(max))?(-(crop))?\.([a-z]{3,4})/', $fileName, $matches);
+		$ok = preg_match('/(([A-Za-z0-9\+\/]+)-)?([0-9]+)-([0-9]+)(-(crop))?(-(max))?\.([a-z]{3,4})$/', $fileName, $matches);
 
 		if ($ok !== 1) {
-			return false;
+			$ok = preg_match('/(([A-Za-z0-9\+\/]+)-)?([0-9]+)-([0-9]+)(-(max))?(-(crop))?\.([a-z]{3,4})$/', $fileName, $matches);
+			if ($ok !== 1) {
+				return false;
+			}
+			[
+				2 => $version,
+				3 => $width,
+				4 => $height,
+				6 => $max,
+				8 => $crop,
+			] = $matches;
+		} else {
+			[
+				2 => $version,
+				3 => $width,
+				4 => $height,
+				6 => $crop,
+				8 => $max,
+			] = $matches;
 		}
-
-		[
-			2 => $version,
-			3 => $width,
-			4 => $height,
-			6 => $max,
-			8 => $crop,
-		] = $matches;
 
 		$preview->setMimeType($mimeTypeDetector->detectPath($fileName));
 

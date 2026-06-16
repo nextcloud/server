@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Trashbin\Tests;
 
 use OCA\Files_Trashbin\Expiration;
@@ -82,7 +83,7 @@ class ExpirationTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('expirationData')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'expirationData')]
 	public function testExpiration(string $retentionObligation, int $timeNow, int $timestamp, bool $quotaExceeded, bool $expectedResult): void {
 		$mockedConfig = $this->getMockedConfig($retentionObligation);
 		$mockedTimeFactory = $this->getMockedTimeFactory($timeNow);
@@ -92,7 +93,6 @@ class ExpirationTest extends \Test\TestCase {
 
 		$this->assertEquals($expectedResult, $actualResult);
 	}
-
 
 	public static function timestampTestData(): array {
 		return [
@@ -107,8 +107,7 @@ class ExpirationTest extends \Test\TestCase {
 		];
 	}
 
-
-	#[\PHPUnit\Framework\Attributes\DataProvider('timestampTestData')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'timestampTestData')]
 	public function testGetMaxAgeAsTimestamp(string $configValue, bool|int $expectedMaxAgeTimestamp): void {
 		$mockedConfig = $this->getMockedConfig($configValue);
 		$mockedTimeFactory = $this->getMockedTimeFactory(

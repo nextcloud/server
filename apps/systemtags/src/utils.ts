@@ -3,12 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { Node } from '@nextcloud/files'
+import type { INode } from '@nextcloud/files'
 import type { DAVResultResponseProps } from 'webdav'
-import type { BaseTag, ServerTag, Tag, TagWithId } from './types.js'
+import type { BaseTag, ServerTag, Tag, TagWithId } from './types.ts'
 
-import camelCase from 'camelcase'
-import Vue from 'vue'
+import { emit } from '@nextcloud/event-bus'
 
 export const defaultBaseTag: BaseTag = {
 	userVisible: true,
@@ -16,13 +15,25 @@ export const defaultBaseTag: BaseTag = {
 	canAssign: true,
 }
 
+const propertyMappings = Object.freeze({
+	'display-name': 'displayName',
+	'user-visible': 'userVisible',
+	'user-assignable': 'userAssignable',
+	'can-assign': 'canAssign',
+})
+
 /**
+ * Parse tags from WebDAV response
  *
- * @param tags
+ * @param tags - Array of tags from WebDAV response
  */
 export function parseTags(tags: { props: DAVResultResponseProps }[]): TagWithId[] {
 	return tags.map(({ props }) => Object.fromEntries(Object.entries(props)
-		.map(([key, value]) => [camelCase(key), camelCase(key) === 'displayName' ? String(value) : value]))) as TagWithId[]
+		.map(([key, value]) => {
+			key = propertyMappings[key] ?? key
+			value = key === 'displayName' ? String(value) : value
+			return [key, value]
+		})) as unknown as TagWithId)
 }
 
 /**
@@ -49,8 +60,9 @@ export function parseIdFromLocation(url: string): number {
 }
 
 /**
+ * Format a tag for WebDAV operations
  *
- * @param initialTag
+ * @param initialTag - Tag to format
  */
 export function formatTag(initialTag: Tag | ServerTag): ServerTag {
 	if ('name' in initialTag && !('displayName' in initialTag)) {
@@ -65,10 +77,11 @@ export function formatTag(initialTag: Tag | ServerTag): ServerTag {
 }
 
 /**
+ * Get system tags from a node
  *
- * @param node
+ * @param node - The node to get tags from
  */
-export function getNodeSystemTags(node: Node): string[] {
+export function getNodeSystemTags(node: INode): string[] {
 	const attribute = node.attributes?.['system-tags']?.['system-tag']
 	if (attribute === undefined) {
 		return []
@@ -88,12 +101,14 @@ export function getNodeSystemTags(node: Node): string[] {
 }
 
 /**
+ * Set system tags on a node
  *
- * @param node
- * @param tags
+ * @param node - The node to set tags on
+ * @param tags - The tags to set
  */
-export function setNodeSystemTags(node: Node, tags: string[]): void {
-	Vue.set(node.attributes, 'system-tags', {
+export function setNodeSystemTags(node: INode, tags: string[]): void {
+	node.attributes['system-tags'] = {
 		'system-tag': tags,
-	})
+	}
+	emit('files:node:updated', node)
 }

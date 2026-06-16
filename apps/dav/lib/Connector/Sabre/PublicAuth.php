@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -59,6 +58,7 @@ class PublicAuth extends AbstractBasic {
 	 * @throws MaxDelayReached
 	 * @throws ServiceUnavailable
 	 */
+	#[\Override]
 	public function check(RequestInterface $request, ResponseInterface $response): array {
 		try {
 			$this->throttler->sleepDelayOrThrowOnMax($this->request->getRemoteAddress(), self::BRUTEFORCE_ACTION);
@@ -162,6 +162,7 @@ class PublicAuth extends AbstractBasic {
 	 * @return bool
 	 * @throws NotAuthenticated
 	 */
+	#[\Override]
 	protected function validateUserPass($username, $password) {
 		$this->throttler->sleepDelayOrThrowOnMax($this->request->getRemoteAddress(), self::BRUTEFORCE_ACTION);
 

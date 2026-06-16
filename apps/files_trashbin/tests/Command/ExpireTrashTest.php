@@ -4,19 +4,23 @@
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Trashbin\Tests\Command;
 
+use OC\Files\SetupManager;
 use OCA\Files_Trashbin\Command\ExpireTrash;
 use OCA\Files_Trashbin\Expiration;
 use OCA\Files_Trashbin\Helper;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
-use OCP\Files\Node;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
-use Psr\Log\LoggerInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
@@ -27,15 +31,14 @@ use Test\TestCase;
  *
  * @package OCA\Files_Trashbin\Tests\Command
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[Group(name: 'DB')]
 class ExpireTrashTest extends TestCase {
 	private Expiration $expiration;
-	private Node $userFolder;
+	private Folder $userFolder;
 	private IConfig $config;
 	private IUserManager $userManager;
 	private IUser $user;
-	private ITimeFactory $timeFactory;
-
+	private ITimeFactory&MockObject $timeFactory;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -64,7 +67,7 @@ class ExpireTrashTest extends TestCase {
 		parent::tearDown();
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('retentionObligationProvider')]
+	#[DataProvider(methodName: 'retentionObligationProvider')]
 	public function testRetentionObligation(string $obligation, string $quota, int $elapsed, int $fileSize, bool $shouldExpire): void {
 		$this->config->setSystemValues(['trashbin_retention_obligation' => $obligation]);
 		$this->expiration->setRetentionObligation($obligation);
@@ -97,9 +100,10 @@ class ExpireTrashTest extends TestCase {
 			->willReturn([$userId]);
 
 		$command = new ExpireTrash(
-			Server::get(LoggerInterface::class),
 			Server::get(IUserManager::class),
-			$this->expiration
+			$this->expiration,
+			Server::get(SetupManager::class),
+			Server::get(IRootFolder::class),
 		);
 
 		$this->invokePrivate($command, 'execute', [$inputInterface, $outputInterface]);

@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\OAuth2\Tests\Db;
 
 use OCA\OAuth2\Db\Client;
@@ -13,7 +14,7 @@ use OCP\IDBConnection;
 use OCP\Server;
 use Test\TestCase;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ClientMapperTest extends TestCase {
 	/** @var ClientMapper */
 	private $clientMapper;

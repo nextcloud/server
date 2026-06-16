@@ -28,9 +28,7 @@ import {
 import logger from '../logger.js'
 import { isUserAdmin } from './admin.js'
 import { appConfig } from './appconfig.js'
-import Apps from './apps.js'
 import appswebroots from './appswebroots.js'
-import Backbone from './backbone.js'
 import { getCapabilities } from './capabilities.js'
 import Config from './config.js'
 import {
@@ -50,21 +48,14 @@ import { debug } from './debug.js'
 import Dialogs from './dialogs.js'
 import EventSource from './eventsource.js'
 import L10N from './l10n.js'
-import {
-	hideMenus,
-	registerMenu,
-	showMenu,
-	unregisterMenu,
-} from './menu.js'
 import * as MimeType from './mimeType.js'
 import msg from './msg.js'
-import Notification from './notification.js'
 import PasswordConfirmation from './password-confirmation.js'
 import Plugins from './plugins.js'
 import {
 	build as buildQueryString,
 	parse as parseQueryString,
-} from './query-string.js'
+} from './query-string.ts'
 import { getRequestToken } from './requesttoken.ts'
 import {
 	linkToRemoteBase,
@@ -72,11 +63,6 @@ import {
 import { theme } from './theme.js'
 import Util from './util.js'
 import webroot from './webroot.js'
-import {
-	ajaxConnectionLostHandler,
-	processAjaxError,
-	registerXHRForErrorProcessing,
-} from './xhr-error.js'
 
 /** @namespace OC */
 export default {
@@ -97,10 +83,8 @@ export default {
 	/*
 	 * Deprecated helpers to be removed
 	 */
-	Apps,
 	appConfig,
 	appswebroots,
-	Backbone,
 	config: Config,
 	/**
 	 * Currently logged in user or null if none
@@ -124,13 +108,11 @@ export default {
 	L10N,
 
 	/**
-	 * Ajax error handlers
+	 * This is already handled by `interceptRequests` in `core/src/init.js`.
 	 *
-	 * @todo remove from here and keep internally -> requires new tests
+	 * @deprecated 33.0.0 - unused by Nextcloud and only a stub remains. Just remove usage.
 	 */
-	_ajaxConnectionLostHandler: ajaxConnectionLostHandler,
-	_processAjaxError: processAjaxError,
-	registerXHRForErrorProcessing,
+	registerXHRForErrorProcessing: () => {},
 
 	/**
 	 * Capabilities
@@ -139,14 +121,6 @@ export default {
 	 * @deprecated 20.0.0 use @nextcloud/capabilities instead
 	 */
 	getCapabilities,
-
-	/*
-	 * Legacy menu helpers
-	 */
-	hideMenus,
-	registerMenu,
-	showMenu,
-	unregisterMenu,
 
 	/*
 	 * Path helpers
@@ -185,14 +159,11 @@ export default {
 	 */
 	getLanguage,
 
-	/**
-	 * Query string helpers
-	 */
+	// Query string helpers
 	buildQueryString,
 	parseQueryString,
 
 	msg,
-	Notification,
 	/**
 	 * @deprecated 28.0.0 use methods from '@nextcloud/password-confirmation'
 	 */
@@ -206,7 +177,7 @@ export default {
 	 */
 	filePath: generateFilePath,
 	/**
-	 * @deprecated 19.0.0 use `generateUrl` from https://www.npmjs.com/package/@nextcloud/router
+	 * @deprecated 19.0.0 use `WgenerateUrl` from https://www.npmjs.com/package/@nextcloud/router
 	 */
 	generateUrl,
 	/**

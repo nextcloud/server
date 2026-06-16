@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\User_LDAP\Settings;
 
 use OCA\User_LDAP\AppInfo\Application;
@@ -15,6 +16,7 @@ use OCP\IL10N;
 use OCP\Server;
 use OCP\Settings\IDelegatedSettings;
 use OCP\Template\ITemplateManager;
+use OCP\Util;
 
 class Admin implements IDelegatedSettings {
 	public function __construct(
@@ -24,6 +26,7 @@ class Admin implements IDelegatedSettings {
 	) {
 	}
 
+	#[\Override]
 	public function getForm(): TemplateResponse {
 		$helper = Server::get(Helper::class);
 		$prefixes = $helper->getServerConfigurationPrefixes();
@@ -60,11 +63,12 @@ class Admin implements IDelegatedSettings {
 		$this->initialState->provideInitialState('ldapConfigs', $ldapConfigs);
 		$this->initialState->provideInitialState('ldapModuleInstalled', function_exists('ldap_connect'));
 
-		\OCP\Util::addStyle(Application::APP_ID, 'settings-admin');
-		\OCP\Util::addScript(Application::APP_ID, 'settings-admin');
+		Util::addStyle(Application::APP_ID, 'settings-admin');
+		Util::addScript(Application::APP_ID, 'settings-admin');
 		return new TemplateResponse(Application::APP_ID, 'settings', $parameters);
 	}
 
+	#[\Override]
 	public function getSection(): string {
 		return 'ldap';
 	}
@@ -76,14 +80,17 @@ class Admin implements IDelegatedSettings {
 	 *
 	 * E.g.: 70
 	 */
+	#[\Override]
 	public function getPriority(): int {
 		return 5;
 	}
 
+	#[\Override]
 	public function getName(): ?string {
 		return null; // Only one setting in this section
 	}
 
+	#[\Override]
 	public function getAuthorizedAppConfig(): array {
 		return []; // Custom controller
 	}

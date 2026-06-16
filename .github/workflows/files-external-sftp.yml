@@ -21,7 +21,7 @@ jobs:
       src: ${{ steps.changes.outputs.src}}
 
     steps:
-      - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
+      - uses: dorny/paths-filter@fbd0ab8f3e69293af611ebaee6363fc25e6d187d # v4.0.1
         id: changes
         continue-on-error: true
         with:
@@ -29,12 +29,22 @@ jobs:
             src:
               - '.github/workflows/**'
               - '3rdparty/**'
-              - 'apps/files_external/**'
               - 'vendor/**'
               - 'vendor-bin/**'
               - 'composer.json'
               - 'composer.lock'
-              - '**.php'
+              - 'apps/files/lib/**'
+              - 'apps/files/tests/**'
+              - 'apps/files_external/**'
+              - 'apps/files_sharing/lib/**'
+              - 'apps/files_sharing/tests/**'
+              - 'apps/files_trashbin/lib/**'
+              - 'apps/files_trashbin/tests/**'
+              - 'apps/files_versions/lib/**'
+              - 'apps/files_versions/tests/**'
+              - 'lib/private/Files/**'
+              - 'lib/public/Files/**'
+              - 'tests/lib/Files/**'
 
   files-external-sftp:
     runs-on: ubuntu-latest
@@ -45,17 +55,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.2', '8.4']
+        php-versions: ['8.3', '8.5']
         sftpd: ['openssh']
-        include:
-          - php-versions: '8.2'
-            coverage: ${{ github.event_name != 'pull_request' }}
 
     name: php${{ matrix.php-versions }}-${{ matrix.sftpd }}
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
           submodules: true
@@ -63,16 +70,17 @@ jobs:
       - name: Set up sftpd
         run: |
           sudo mkdir /tmp/sftp
-          sudo chown -R 0777 /tmp/sftp
+          sudo chmod -R 0777 /tmp/sftp
           if [[ '${{ matrix.sftpd }}' == 'openssh' ]]; then docker run -p 2222:22 --name sftp -d -v /tmp/sftp:/home/test atmoz/sftp 'test:test:::data'; fi
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@bf6b4fbd49ca58e4608c9c89fba0b8d90bd2a39f #v2.35.5
+        uses: shivammathur/setup-php@7c071dfe9dc99bdf297fa79cb49ea005b9fcadbc #v2.37.1
+        timeout-minutes: 5
         with:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
           extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
-          coverage: ${{ matrix.coverage && 'xdebug' || 'none' }}
+          coverage: none
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -87,22 +95,7 @@ jobs:
       - name: PHPUnit
         run: composer run test:files_external -- \
           apps/files_external/tests/Storage/SftpTest.php \
-          apps/files_external/tests/Storage/SFTP_KeyTest.php \
-          --log-junit junit.xml \
-          ${{ matrix.coverage && '--coverage-clover ./clover.xml' || '' }}
-
-      - name: Upload code coverage
-        if: ${{ !cancelled() && matrix.coverage }}
-        uses: codecov/codecov-action@5a1091511ad55cbe89839c7260b706298ca349f7 # v5.5.1
-        with:
-          files: ./clover.xml
-          flags: phpunit-files-external-sftp
-
-      - name: Upload test results
-        if: ${{ !cancelled() }}
-        uses: codecov/test-results-action@47f89e9acb64b76debcd5ea40642d25a4adced9f # v1.1.1
-        with:
-          flags: phpunit-files-external-sftp
+          --log-junit junit.xml
 
       - name: sftpd logs
         if: always()

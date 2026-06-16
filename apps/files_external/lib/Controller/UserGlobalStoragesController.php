@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Controller;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
@@ -14,6 +15,7 @@ use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\NotFoundException;
+use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -50,6 +52,7 @@ class UserGlobalStoragesController extends StoragesController {
 		IUserSession $userSession,
 		IGroupManager $groupManager,
 		IConfig $config,
+		BackendService $backendService,
 	) {
 		parent::__construct(
 			$appName,
@@ -59,7 +62,8 @@ class UserGlobalStoragesController extends StoragesController {
 			$logger,
 			$userSession,
 			$groupManager,
-			$config
+			$config,
+			$backendService,
 		);
 	}
 
@@ -68,6 +72,7 @@ class UserGlobalStoragesController extends StoragesController {
 	 *
 	 * @return DataResponse
 	 */
+	#[\Override]
 	#[NoAdminRequired]
 	public function index() {
 		/** @var UserGlobalStoragesService */
@@ -84,6 +89,7 @@ class UserGlobalStoragesController extends StoragesController {
 		);
 	}
 
+	#[\Override]
 	protected function manipulateStorageConfig(StorageConfig $storage) {
 		/** @var AuthMechanism */
 		$authMechanism = $storage->getAuthMechanism();
@@ -99,6 +105,7 @@ class UserGlobalStoragesController extends StoragesController {
 	 * @param int $id storage id
 	 * @return DataResponse
 	 */
+	#[\Override]
 	#[NoAdminRequired]
 	public function show($id) {
 		try {
@@ -138,7 +145,7 @@ class UserGlobalStoragesController extends StoragesController {
 	#[NoAdminRequired]
 	#[PasswordConfirmationRequired(strict: true)]
 	public function update(
-		$id,
+		int $id,
 		$backendOptions,
 	) {
 		try {

@@ -1,32 +1,29 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 import type { AxiosResponse } from '@nextcloud/axios'
-import type { Node } from '@nextcloud/files'
-import type { StorageConfig } from '../services/externalStorage.ts'
+import type { IFileAction, INode } from '@nextcloud/files'
+import type { IStorage } from '../types.ts'
 
 import LoginSvg from '@mdi/svg/svg/login.svg?raw'
 import axios from '@nextcloud/axios'
 import { showError, showSuccess } from '@nextcloud/dialogs'
-import { DefaultType, FileAction } from '@nextcloud/files'
+import { emit } from '@nextcloud/event-bus'
+import { DefaultType } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { addPasswordConfirmationInterceptors, PwdConfirmationMode } from '@nextcloud/password-confirmation'
 import { generateUrl } from '@nextcloud/router'
 import { spawnDialog } from '@nextcloud/vue/functions/dialog'
-import Vue, { defineAsyncComponent } from 'vue'
-import { isMissingAuthConfig, STORAGE_STATUS } from '../utils/credentialsUtils.ts'
+import { defineAsyncComponent } from 'vue'
+import { StorageStatus } from '../types.ts'
+import { isMissingAuthConfig } from '../utils/credentialsUtils.ts'
 import { isNodeExternalStorage } from '../utils/externalStorageUtils.ts'
 
 // Add password confirmation interceptors as
 // the backend requires the user to confirm their password
 addPasswordConfirmationInterceptors(axios)
-
-type CredentialResponse = {
-	login?: string
-	password?: string
-}
 
 /**
  * Set credentials for external storage
@@ -35,18 +32,18 @@ type CredentialResponse = {
  * @param login The username
  * @param password The password
  */
-async function setCredentials(node: Node, login: string, password: string): Promise<null | true> {
+async function setCredentials(node: INode, login: string, password: string): Promise<null | true> {
 	const configResponse = await axios.request({
 		method: 'PUT',
-		url: generateUrl('apps/files_external/userglobalstorages/{id}', { id: node.attributes.id }),
+		url: generateUrl('apps/files_external/userglobalstorages/{id}', { id: node.id }),
 		confirmPassword: PwdConfirmationMode.Strict,
 		data: {
 			backendOptions: { user: login, password },
 		},
-	}) as AxiosResponse<StorageConfig>
+	}) as AxiosResponse<IStorage>
 
 	const config = configResponse.data
-	if (config.status !== STORAGE_STATUS.SUCCESS) {
+	if (config.status !== StorageStatus.Success) {
 		showError(t('files_external', 'Unable to update this external storage config. {statusMessage}', {
 			statusMessage: config?.statusMessage || '',
 		}))
@@ -55,13 +52,15 @@ async function setCredentials(node: Node, login: string, password: string): Prom
 
 	// Success update config attribute
 	showSuccess(t('files_external', 'New configuration successfully saved'))
-	Vue.set(node.attributes, 'config', config)
+	node.attributes.config = config
+	emit('files:node:updated', node)
+
 	return true
 }
 
 export const ACTION_CREDENTIALS_EXTERNAL_STORAGE = 'credentials-external-storage'
 
-export const action = new FileAction({
+export const action: IFileAction = {
 	id: ACTION_CREDENTIALS_EXTERNAL_STORAGE,
 	displayName: () => t('files', 'Enter missing credentials'),
 	iconSvgInline: () => LoginSvg,
@@ -77,7 +76,7 @@ export const action = new FileAction({
 			return false
 		}
 
-		const config = (node.attributes?.config || {}) as StorageConfig
+		const config = (node.attributes?.config || {}) as IStorage
 		if (isMissingAuthConfig(config)) {
 			return true
 		}
@@ -86,17 +85,10 @@ export const action = new FileAction({
 	},
 
 	async exec({ nodes }) {
-		const { login, password } = await new Promise<CredentialResponse>((resolve) => spawnDialog(
-			defineAsyncComponent(() => import('../views/CredentialsDialog.vue')),
-			{},
-			(args) => {
-				resolve(args as CredentialResponse)
-			},
-		))
-
+		const { login, password } = await spawnDialog(defineAsyncComponent(() => import('../views/CredentialsDialog.vue'))) ?? {}
 		if (login && password) {
 			try {
-				await setCredentials(nodes[0], login, password)
+				await setCredentials(nodes[0]!, login, password)
 				showSuccess(t('files_external', 'Credentials successfully set'))
 			} catch (error) {
 				showError(t('files_external', 'Error while setting credentials: {error}', {
@@ -112,4 +104,4 @@ export const action = new FileAction({
 	order: -1000,
 	default: DefaultType.DEFAULT,
 	inline: () => true,
-})
+}

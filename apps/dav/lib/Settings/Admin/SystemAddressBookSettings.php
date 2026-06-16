@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Settings\Admin;
 
 use OCP\IL10N;
@@ -18,6 +19,7 @@ class SystemAddressBookSettings implements IDeclarativeSettingsForm {
 	) {
 	}
 
+	#[\Override]
 	public function getSchema(): array {
 		return [
 			'id' => 'dav-admin-system-address-book',

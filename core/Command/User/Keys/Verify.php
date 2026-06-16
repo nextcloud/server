@@ -26,6 +26,7 @@ class Verify extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('user:keys:verify')
@@ -49,6 +50,7 @@ class Verify extends Command {
 	 * @param OutputInterface $output
 	 * @return int
 	 */
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$userId = $input->getArgument('user-id');
 

@@ -20,7 +20,7 @@ use NCU\Config\ValueType;
  * @see \OCP\Config\Lexicon\Entry
  * @psalm-suppress DeprecatedClass
  */
-class ConfigLexiconEntry {
+final class ConfigLexiconEntry {
 	/**
 	 * @experimental 32.0.0
 	 * @deprecated 32.0.0  use \OCP\Config\Lexicon\Entry
@@ -145,7 +145,7 @@ class ConfigLexiconEntry {
 	 * @see \OCP\Config\Lexicon\Entry
 	 */
 	private function convertFromArray(array $default): string {
-		return json_encode($default);
+		return json_encode($default, JSON_THROW_ON_ERROR);
 	}
 
 	/**

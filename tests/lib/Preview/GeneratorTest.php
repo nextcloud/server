@@ -7,22 +7,24 @@
 
 namespace Test\Preview;
 
+use OC\Core\AppInfo\ConfigLexicon;
 use OC\Preview\Db\Preview;
 use OC\Preview\Db\PreviewMapper;
 use OC\Preview\Generator;
 use OC\Preview\GeneratorHelper;
+use OC\Preview\PreviewMigrationService;
 use OC\Preview\Storage\StorageFactory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IImage;
 use OCP\IPreview;
 use OCP\Preview\BeforePreviewFetchedEvent;
 use OCP\Preview\IProviderV2;
 use OCP\Preview\IVersionedPreviewFile;
-use OCP\Snowflake\IGenerator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -35,6 +37,7 @@ abstract class VersionedPreviewFile implements IVersionedPreviewFile, File {
 
 class GeneratorTest extends TestCase {
 	private IConfig&MockObject $config;
+	private IAppConfig&MockObject $appConfig;
 	private IPreview&MockObject $previewManager;
 	private GeneratorHelper&MockObject $helper;
 	private IEventDispatcher&MockObject $eventDispatcher;
@@ -42,29 +45,32 @@ class GeneratorTest extends TestCase {
 	private LoggerInterface&MockObject $logger;
 	private StorageFactory&MockObject $storageFactory;
 	private PreviewMapper&MockObject $previewMapper;
-	private IGenerator&MockObject $snowflakeGenerator;
+	private PreviewMigrationService&MockObject $migrationService;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->config = $this->createMock(IConfig::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->previewManager = $this->createMock(IPreview::class);
 		$this->helper = $this->createMock(GeneratorHelper::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->previewMapper = $this->createMock(PreviewMapper::class);
 		$this->storageFactory = $this->createMock(StorageFactory::class);
-		$this->snowflakeGenerator = $this->createMock(IGenerator::class);
+		$this->migrationService = $this->createMock(PreviewMigrationService::class);
 
 		$this->generator = new Generator(
 			$this->config,
+			$this->appConfig,
 			$this->previewManager,
 			$this->helper,
 			$this->eventDispatcher,
 			$this->logger,
 			$this->previewMapper,
 			$this->storageFactory,
-			$this->snowflakeGenerator,
+			$this->migrationService,
 		);
 	}
 
@@ -251,6 +257,62 @@ class GeneratorTest extends TestCase {
 		$this->assertSame(1000, $result->getSize());
 	}
 
+	public function testMigrateOldPreview(): void {
+		$file = $this->getFile(42, 'myMimeType', false);
+
+		$maxPreview = new Preview();
+		$maxPreview->setWidth(1000);
+		$maxPreview->setHeight(1000);
+		$maxPreview->setMax(true);
+		$maxPreview->setSize(1000);
+		$maxPreview->setCropped(false);
+		$maxPreview->setStorageId(1);
+		$maxPreview->setVersion(null);
+		$maxPreview->setMimeType('image/png');
+
+		$previewFile = new Preview();
+		$previewFile->setWidth(256);
+		$previewFile->setHeight(256);
+		$previewFile->setMax(false);
+		$previewFile->setSize(1000);
+		$previewFile->setVersion(null);
+		$previewFile->setCropped(false);
+		$previewFile->setStorageId(1);
+		$previewFile->setMimeType('image/png');
+
+		$this->previewManager->method('isMimeSupported')
+			->with($this->equalTo('myMimeType'))
+			->willReturn(true);
+
+		$this->previewMapper->method('getAvailablePreviews')
+			->with($this->equalTo([42]))
+			->willReturn([42 => []]);
+
+		$this->config->method('getSystemValueString')
+			->willReturnCallback(function ($key, $default) {
+				return $default;
+			});
+
+		$this->config->method('getSystemValueInt')
+			->willReturnCallback(function ($key, $default) {
+				return $default;
+			});
+
+		$this->appConfig->method('getValueBool')
+			->willReturnCallback(fn ($app, $key, $default) => match ($key) {
+				ConfigLexicon::ON_DEMAND_PREVIEW_MIGRATION => true,
+				'previewMovedDone' => false,
+			});
+
+		$this->migrationService->expects($this->exactly(1))
+			->method('migrateFileId')
+			->willReturn([$maxPreview, $previewFile]);
+
+		$result = $this->generator->getPreview($file, 100, 100);
+		$this->assertSame('256-256.png', $result->getName());
+		$this->assertSame(1000, $result->getSize());
+	}
+
 	public function testInvalidMimeType(): void {
 		$this->expectException(NotFoundException::class);
 
@@ -373,7 +435,6 @@ class GeneratorTest extends TestCase {
 
 			[1024, 2048, 4096, 2048, false, IPreview::MODE_FILL, 1024, 2048],
 			[1024, 2048, 4096, 2048, false, IPreview::MODE_COVER, 1024, 2048],
-
 
 			[2048, 1024, 512, 512, false, IPreview::MODE_FILL, 512, 256],
 			[2048, 1024, 512, 512, false, IPreview::MODE_COVER, 1024, 512],

@@ -18,6 +18,7 @@ class RequestIdHeaderPlugin extends \Sabre\DAV\ServerPlugin {
 	) {
 	}
 
+	#[\Override]
 	public function initialize(\Sabre\DAV\Server $server) {
 		$server->on('afterMethod:*', [$this, 'afterMethod']);
 	}

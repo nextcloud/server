@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Connector\Sabre;
 
 /**
@@ -49,11 +50,7 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 	 * @var \Sabre\DAV\Server
 	 */
 	private $server;
-
-	/**
-	 * @var ITags
-	 */
-	private $tagger;
+	private ?ITags $tagger = null;
 
 	/**
 	 * Array of file id to tags array
@@ -89,6 +86,7 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 	 * @param \Sabre\DAV\Server $server
 	 * @return void
 	 */
+	#[\Override]
 	public function initialize(\Sabre\DAV\Server $server) {
 		$server->xml->namespaceMap[self::NS_OWNCLOUD] = 'oc';
 		$server->xml->elementMap[self::TAGS_PROPERTYNAME] = TagList::class;
@@ -105,11 +103,17 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 	 *
 	 * @return ITags tagger
 	 */
-	private function getTagger() {
-		if (!$this->tagger) {
-			$this->tagger = $this->tagManager->load('files');
+	private function getTagger(): ITags {
+		if ($this->tagger) {
+			return $this->tagger;
 		}
-		return $this->tagger;
+
+		$tagger = $this->tagManager->load('files');
+		if ($tagger === null) {
+			throw new \RuntimeException('Tagger not found for files');
+		}
+		$this->tagger = $tagger;
+		return $tagger;
 	}
 
 	/**
@@ -123,7 +127,7 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 		$isFav = false;
 		$tags = $this->getTags($fileId);
 		if ($tags) {
-			$favPos = array_search(self::TAG_FAVORITE, $tags);
+			$favPos = array_search(self::TAG_FAVORITE, $tags, true);
 			if ($favPos !== false) {
 				$isFav = true;
 				unset($tags[$favPos]);

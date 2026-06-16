@@ -20,6 +20,7 @@ use Test\TestCase;
 class RegistryTest extends TestCase {
 	private Registry $registry;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

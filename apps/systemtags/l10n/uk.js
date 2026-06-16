@@ -97,6 +97,7 @@ OC.L10N.register(
     "If enabled, only administrators can create and edit tags. Accounts can still assign and remove them from files." : "Якщо ця функція увімкнена, створювати та редагувати теги можуть лише адміністратори. Користувачі можуть як і раніше присвоювати та видаляти теги з файлів.",
     "Restrict tag creation and editing to administrators" : "Обмежити створення та редагування тегів адміністраторами",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Спільні мітки доступні для всіх користувачів. Заборонені мітки видимі для користувачів, але вони не можуть їх призначити. Невидимі мітки призначені для внутрішнього використання, оскільки користувачі не можуть бачити або призначати їх.",
+    "Add tags" : "Додати теги",
     "Assigned collaborative tags" : "Призначені спільні мітки",
     "Open in Files" : "Відкрити у Файлах",
     "List of tags and their associated files and folders." : "Перелік міток та файлів й каталогів, які їх мають",
@@ -111,10 +112,6 @@ OC.L10N.register(
     "Failed to delete tag for file" : "Не вдалося вилучить мітку для файлу",
     "Collaborative tags …" : "Спільні мітки...",
     "Loading …" : "Завантаження …",
-    "File tags modification canceled" : "Скасовано зміни до міток файлів",
-    "Select or create tags to apply to all selected files" : "Застосувати до всіх вибраних файлів шукати або створити мітки",
-    "Select tags to apply to all selected files" : "Виберіть теги, які потрібно застосувати до всіх вибраних файлів",
-    "Apply changes" : "Застосувати зміни",
     "Loading collaborative tags …" : "Завантажую спільні мітки ..."
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

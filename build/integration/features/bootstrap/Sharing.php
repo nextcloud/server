@@ -7,12 +7,11 @@
  */
 use Behat\Gherkin\Node\TableNode;
 use GuzzleHttp\Client;
+use OCA\Files_Sharing\MountProvider;
 use PHPUnit\Framework\Assert;
 use Psr\Http\Message\ResponseInterface;
 
 require __DIR__ . '/autoload.php';
-
-
 
 trait Sharing {
 	use Provisioning;
@@ -23,6 +22,15 @@ trait Sharing {
 	/** @var SimpleXMLElement[] */
 	private array $storedShareData = [];
 	private ?string $savedShareId = null;
+
+	/**
+	 * @BeforeScenario
+	 */
+	public function resetSharingState(): void {
+		$this->lastShareData = null;
+		$this->storedShareData = [];
+		$this->savedShareId = null;
+	}
 	/** @var ResponseInterface */
 	private $response;
 
@@ -86,6 +94,15 @@ trait Sharing {
 	 */
 	public function creatingShare(?TableNode $body): void {
 		$this->asCreatingAShareWith($this->currentUser, $body);
+	}
+
+	/**
+	 * @When /^accepting last share via the accept endpoint$/
+	 */
+	public function acceptingLastShareViaAcceptEndpoint(): void {
+		$share_id = $this->lastShareData->data[0]->id;
+		$url = "/index.php/apps/files_sharing/accept/ocinternal:$share_id";
+		$this->sendingToDirectUrl('GET', $url);
 	}
 
 	/**
@@ -310,7 +327,7 @@ trait Sharing {
 		$data = simplexml_load_string($this->response->getBody())->data[0];
 		if ((string)$field == 'expiration') {
 			if (!empty($contentExpected)) {
-				$contentExpected = date('Y-m-d', strtotime($contentExpected)) . ' 00:00:00';
+				$contentExpected = date('Y-m-d', strtotime($contentExpected)) . ' 23:59:59';
 			}
 		}
 		if (count($data->element) > 0) {
@@ -547,7 +564,13 @@ trait Sharing {
 
 		$returnedShare = $this->getXmlResponse()->data[0];
 		if ($returnedShare->element) {
-			$returnedShare = $returnedShare->element[$number];
+			$returnedShare = (array)$returnedShare;
+			$returnedShare = $returnedShare['element'];
+			if (is_array($returnedShare)) {
+				usort($returnedShare, fn ($share1, $share2) => (int)$share1->id <=> (int)$share2->id);
+			}
+
+			$returnedShare = $returnedShare[$number];
 		}
 
 		$defaultExpectedFields = [
@@ -566,17 +589,17 @@ trait Sharing {
 		$expectedFields = array_merge($defaultExpectedFields, $body->getRowsHash());
 
 		if (!array_key_exists('uid_file_owner', $expectedFields)
-				&& array_key_exists('uid_owner', $expectedFields)) {
+			&& array_key_exists('uid_owner', $expectedFields)) {
 			$expectedFields['uid_file_owner'] = $expectedFields['uid_owner'];
 		}
 		if (!array_key_exists('displayname_file_owner', $expectedFields)
-				&& array_key_exists('displayname_owner', $expectedFields)) {
+			&& array_key_exists('displayname_owner', $expectedFields)) {
 			$expectedFields['displayname_file_owner'] = $expectedFields['displayname_owner'];
 		}
 
 		if (array_key_exists('share_type', $expectedFields)
-				&& $expectedFields['share_type'] == 10 /* IShare::TYPE_ROOM */
-				&& array_key_exists('share_with', $expectedFields)) {
+			&& $expectedFields['share_type'] == 10 /* IShare::TYPE_ROOM */
+			&& array_key_exists('share_with', $expectedFields)) {
 			if ($expectedFields['share_with'] === 'private_conversation') {
 				$expectedFields['share_with'] = 'REGEXP /^private_conversation_[0-9a-f]{6}$/';
 			} else {
@@ -611,7 +634,7 @@ trait Sharing {
 		}
 
 		if ($field === 'expiration' && !empty($contentExpected)) {
-			$contentExpected = date('Y-m-d', strtotime($contentExpected)) . ' 00:00:00';
+			$contentExpected = date('Y-m-d', strtotime($contentExpected)) . ' 23:59:59';
 		}
 
 		if ($contentExpected === 'A_NUMBER') {
@@ -619,9 +642,9 @@ trait Sharing {
 		} elseif ($contentExpected === 'A_TOKEN') {
 			// A token is composed by 15 characters from
 			// ISecureRandom::CHAR_HUMAN_READABLE.
-			Assert::assertRegExp('/^[abcdefgijkmnopqrstwxyzABCDEFGHJKLMNPQRSTWXYZ23456789]{15}$/', (string)$returnedShare->$field, "Field '$field' is not a token");
+			Assert::assertMatchesRegularExpression('/^[abcdefgijkmnopqrstwxyzABCDEFGHJKLMNPQRSTWXYZ23456789]{15}$/', (string)$returnedShare->$field, "Field '$field' is not a token");
 		} elseif (strpos($contentExpected, 'REGEXP ') === 0) {
-			Assert::assertRegExp(substr($contentExpected, strlen('REGEXP ')), (string)$returnedShare->$field, "Field '$field' does not match");
+			Assert::assertMatchesRegularExpression(substr($contentExpected, strlen('REGEXP ')), (string)$returnedShare->$field, "Field '$field' does not match");
 		} else {
 			Assert::assertEquals($contentExpected, (string)$returnedShare->$field, "Field '$field' does not match");
 		}
@@ -781,5 +804,35 @@ trait Sharing {
 			$sharees[] = $sharee;
 		}
 		return $sharees;
+	}
+
+	/**
+	 * @Then /^Share mounts for "([^"]*)" match$/
+	 */
+	public function checkShareMounts(string $user, ?TableNode $body) {
+		if ($body instanceof TableNode) {
+			$fd = $body->getRows();
+
+			$expected = [];
+			foreach ($fd as $row) {
+				$expected[] = $row[0];
+			}
+			$this->runOcc(['files:mount:list', '--output', 'json', '--cached-only', $user]);
+			$mounts = json_decode($this->lastStdOut, true)['cached'];
+			$shareMounts = array_filter($mounts, fn (array $data) => $data['provider'] === MountProvider::class);
+			$actual = array_values(array_map(fn (array $data) => $data['mountpoint'], $shareMounts));
+			Assert::assertEquals($expected, $actual);
+		}
+	}
+
+	/**
+	 * @Then /^Share mounts for "([^"]*)" are empty$/
+	 */
+	public function checkShareMountsEmpty(string $user) {
+		$this->runOcc(['files:mount:list', '--output', 'json', '--cached-only', $user]);
+		$mounts = json_decode($this->lastStdOut, true)['cached'];
+		$shareMounts = array_filter($mounts, fn (array $data) => $data['provider'] === MountProvider::class);
+		$actual = array_values(array_map(fn (array $data) => $data['mountpoint'], $shareMounts));
+		Assert::assertEquals([], $actual);
 	}
 }

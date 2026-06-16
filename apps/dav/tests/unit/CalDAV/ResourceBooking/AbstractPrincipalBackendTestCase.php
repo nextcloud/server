@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV\ResourceBooking;
 
 use OCA\DAV\CalDAV\Proxy\Proxy;
@@ -246,7 +247,7 @@ abstract class AbstractPrincipalBackendTestCase extends TestCase {
 		$this->assertEquals(0, $actual);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataSearchPrincipals')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataSearchPrincipals')]
 	public function testSearchPrincipals($expected, $test): void {
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->once())

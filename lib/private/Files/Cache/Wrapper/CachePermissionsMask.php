@@ -1,27 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Cache\Wrapper;
 
-class CachePermissionsMask extends CacheWrapper {
-	/**
-	 * @var int
-	 */
-	protected $mask;
+use OCP\Files\Cache\ICache;
 
-	/**
-	 * @param \OCP\Files\Cache\ICache $cache
-	 * @param int $mask
-	 */
-	public function __construct($cache, $mask) {
+class CachePermissionsMask extends CacheWrapper {
+	public function __construct(
+		ICache $cache,
+		protected readonly int $mask,
+	) {
 		parent::__construct($cache);
-		$this->mask = $mask;
 	}
 
+	#[\Override]
 	protected function formatCacheEntry($entry) {
 		if (isset($entry['permissions'])) {
 			$entry['scan_permissions'] ??= $entry['permissions'];

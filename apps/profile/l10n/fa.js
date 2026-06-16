@@ -1,14 +1,25 @@
 OC.L10N.register(
     "profile",
     {
+    "View profile" : "مشاهدهٔ نمایه",
+    "Profile picker" : "انتخابگر نمایه",
     "Profile" : "نمایه",
-    "You have not added any info yet" : "You have not added any info yet",
-    "{user} has not added any info yet" : "{user} has not added any info yet",
-    "Error opening the user status modal, try hard refreshing the page" : "Error opening the user status modal, try hard refreshing the page",
+    "This application provides the profile" : "این برنامه نمایه را فراهم می‌کند",
+    "Provides a customisable user profile interface." : "یک رابط نمایه کاربر قابل سفارشی‌سازی فراهم می‌کند.",
+    "Searching …" : "درحال جستجو",
+    "Not found" : "پیدا نشد.",
+    "Search for a user profile" : "جست‌وجوی نمایه کاربر",
+    "Search for a user profile. Start typing" : "جست‌وجوی نمایه کاربر. شروع به تایپ کنید",
+    "Insert selected user profile link" : "درج پیوند نمایه کاربر انتخاب‌شده",
+    "Insert" : "درج",
+    "You have not added any info yet" : "هنوز اطلاعاتی اضافه نکرده‌اید",
+    "{user} has not added any info yet" : "{user} هنوز اطلاعاتی اضافه نکرده است",
+    "Error opening the user status modal, try hard refreshing the page" : "خطا در باز کردن پنجره وضعیت کاربر؛ صفحه را به‌طور کامل تازه‌سازی کنید",
     "Edit Profile" : "ویرایش نمایه",
-    "The headline and about sections will show up here" : "The headline and about sections will show up here",
+    "The headline and about sections will show up here" : "بخش‌های عنوان و درباره در اینجا نمایش داده می‌شوند",
     "Profile not found" : "نمایه، یافت نشد",
-    "The profile does not exist." : "این نمایه وجود ندارد.",
-    "Back to %s" : "Back to %s"
+    "The profile does not exist or is unavailable." : "نمایه وجود ندارد یا در دسترس نیست.",
+    "Back to %s" : "بازگشت به %s",
+    "The profile does not exist." : "این نمایه وجود ندارد."
 },
 "nplurals=2; plural=(n > 1);");

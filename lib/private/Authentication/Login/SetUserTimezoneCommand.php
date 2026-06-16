@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Authentication\Login;
 
 use OC\Core\AppInfo\Application;
@@ -14,18 +15,13 @@ use OCP\IConfig;
 use OCP\ISession;
 
 class SetUserTimezoneCommand extends ALoginCommand {
-	/** @var IConfig */
-	private $config;
-
-	/** @var ISession */
-	private $session;
-
-	public function __construct(IConfig $config,
-		ISession $session) {
-		$this->config = $config;
-		$this->session = $session;
+	public function __construct(
+		private IConfig $config,
+		private ISession $session,
+	) {
 	}
 
+	#[\Override]
 	public function process(LoginData $loginData): LoginResult {
 		if ($loginData->getTimeZoneOffset() !== '' && $this->isValidTimezone($loginData->getTimeZone())) {
 			$userId = $loginData->getUser()->getUID();

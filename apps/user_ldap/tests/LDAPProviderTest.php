@@ -5,9 +5,9 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\User_LDAP\Tests;
 
-use OC\Config;
 use OC\User\Manager;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
@@ -16,12 +16,12 @@ use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\IGroupLDAP;
 use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\IUserLDAP;
-use OCA\User_LDAP\LDAPProviderFactory;
+use OCA\User_LDAP\LDAPProvider;
+use OCA\User_LDAP\User\DeletedUsersIndex;
 use OCA\User_LDAP\User_LDAP;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ICacheFactory;
 use OCP\IConfig;
-use OCP\IServerContainer;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
 
@@ -31,23 +31,8 @@ use Psr\Log\LoggerInterface;
  *
  * @package OCA\User_LDAP\Tests
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class LDAPProviderTest extends \Test\TestCase {
-	private function getServerMock(IUserLDAP $userBackend, IGroupLDAP $groupBackend) {
-		$server = $this->getMockBuilder('OC\Server')
-			->onlyMethods(['getUserManager', 'getGroupManager'])
-			->setConstructorArgs(['', new Config(\OC::$configDir)])
-			->getMock();
-		$server->expects($this->any())
-			->method('getUserManager')
-			->willReturn($this->getUserManagerMock($userBackend));
-		$server->expects($this->any())
-			->method('getGroupManager')
-			->willReturn($this->getGroupManagerMock($groupBackend));
-
-		return $server;
-	}
-
 	private function getUserManagerMock(IUserLDAP $userBackend) {
 		$userManager = $this->getMockBuilder(Manager::class)
 			->onlyMethods(['getBackends'])
@@ -83,11 +68,15 @@ class LDAPProviderTest extends \Test\TestCase {
 		return $groupBackend;
 	}
 
-	private function getLDAPProvider(IServerContainer $serverContainer) {
-		$factory = new LDAPProviderFactory($serverContainer);
-		return $factory->getLDAPProvider();
+	private function getLDAPProvider(IUserLDAP $userBackend, IGroupLDAP $groupBackend): LDAPProvider {
+		return new LDAPProvider(
+			$this->getUserManagerMock($userBackend),
+			$this->getGroupManagerMock($groupBackend),
+			Server::get(Helper::class),
+			Server::get(DeletedUsersIndex::class),
+			$this->createMock(LoggerInterface::class),
+		);
 	}
-
 
 	public function testGetUserDNUserIDNotFound(): void {
 		$this->expectException(\Exception::class);
@@ -99,12 +88,9 @@ class LDAPProviderTest extends \Test\TestCase {
 			->getMock();
 		$userBackend->expects($this->any())->method('userExists')->willReturn(false);
 
-		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
-
-		$ldapProvider = $this->getLDAPProvider($server);
+		$ldapProvider = $this->getLDAPProvider($userBackend, $this->getDefaultGroupBackendMock());
 		$ldapProvider->getUserDN('nonexisting_user');
 	}
-
 
 	public function testGetUserDN(): void {
 		$userAccess = $this->getMockBuilder(Access::class)
@@ -125,13 +111,10 @@ class LDAPProviderTest extends \Test\TestCase {
 			->method('getLDAPAccess')
 			->willReturn($userAccess);
 
-		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
-
-		$ldapProvider = $this->getLDAPProvider($server);
+		$ldapProvider = $this->getLDAPProvider($userBackend, $this->getDefaultGroupBackendMock());
 		$this->assertEquals('cn=existing_user,ou=Are Sufficient To,ou=Test,dc=example,dc=org',
 			$ldapProvider->getUserDN('existing_user'));
 	}
-
 
 	public function testGetGroupDNGroupIDNotFound(): void {
 		$this->expectException(\Exception::class);
@@ -145,9 +128,7 @@ class LDAPProviderTest extends \Test\TestCase {
 
 		$groupBackend->expects($this->any())->method('groupExists')->willReturn(false);
 
-		$server = $this->getServerMock($userBackend, $groupBackend);
-
-		$ldapProvider = $this->getLDAPProvider($server);
+		$ldapProvider = $this->getLDAPProvider($userBackend, $groupBackend);
 		$ldapProvider->getGroupDN('nonexisting_group');
 	}
 
@@ -170,9 +151,7 @@ class LDAPProviderTest extends \Test\TestCase {
 			->method('getLDAPAccess')
 			->willReturn($groupAccess);
 
-		$server = $this->getServerMock($userBackend, $groupBackend);
-
-		$ldapProvider = $this->getLDAPProvider($server);
+		$ldapProvider = $this->getLDAPProvider($userBackend, $groupBackend);
 		$this->assertEquals('cn=existing_group,ou=Are Sufficient To,ou=Test,dc=example,dc=org',
 			$ldapProvider->getGroupDN('existing_group'));
 	}
@@ -186,9 +165,7 @@ class LDAPProviderTest extends \Test\TestCase {
 			->method('dn2UserName')
 			->willReturn('existing_user');
 
-		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
-
-		$ldapProvider = $this->getLDAPProvider($server);
+		$ldapProvider = $this->getLDAPProvider($userBackend, $this->getDefaultGroupBackendMock());
 		$this->assertEquals('existing_user',
 			$ldapProvider->getUserName('cn=existing_user,ou=Are Sufficient To,ou=Test,dc=example,dc=org'));
 	}
@@ -196,11 +173,9 @@ class LDAPProviderTest extends \Test\TestCase {
 	public function testDNasBaseParameter(): void {
 		$userBackend = $this->createMock(User_LDAP::class);
 
-		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
-
 		$helper = Server::get(Helper::class);
 
-		$ldapProvider = $this->getLDAPProvider($server);
+		$ldapProvider = $this->getLDAPProvider($userBackend, $this->getDefaultGroupBackendMock());
 		$this->assertEquals(
 			$helper->DNasBaseParameter('cn=existing_user,ou=Are Sufficient To,ou=Test,dc=example,dc=org'),
 			$ldapProvider->DNasBaseParameter('cn=existing_user,ou=Are Sufficient To,ou=Test,dc=example,dc=org'));
@@ -209,16 +184,13 @@ class LDAPProviderTest extends \Test\TestCase {
 	public function testSanitizeDN(): void {
 		$userBackend = $this->createMock(User_LDAP::class);
 
-		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
-
 		$helper = Server::get(Helper::class);
 
-		$ldapProvider = $this->getLDAPProvider($server);
+		$ldapProvider = $this->getLDAPProvider($userBackend, $this->getDefaultGroupBackendMock());
 		$this->assertEquals(
 			$helper->sanitizeDN('cn=existing_user,ou=Are Sufficient To,ou=Test,dc=example,dc=org'),
 			$ldapProvider->sanitizeDN('cn=existing_user,ou=Are Sufficient To,ou=Test,dc=example,dc=org'));
 	}
-
 
 	public function testGetLDAPConnectionUserIDNotFound(): void {
 		$this->expectException(\Exception::class);
@@ -227,9 +199,7 @@ class LDAPProviderTest extends \Test\TestCase {
 		$userBackend = $this->createMock(User_LDAP::class);
 		$userBackend->expects($this->any())->method('userExists')->willReturn(false);
 
-		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
-
-		$ldapProvider = $this->getLDAPProvider($server);
+		$ldapProvider = $this->getLDAPProvider($userBackend, $this->getDefaultGroupBackendMock());
 		$ldapProvider->getLDAPConnection('nonexisting_user');
 	}
 
@@ -246,12 +216,9 @@ class LDAPProviderTest extends \Test\TestCase {
 			->method('getNewLDAPConnection')
 			->willReturn($ldapConnection);
 
-		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
-
-		$ldapProvider = $this->getLDAPProvider($server);
+		$ldapProvider = $this->getLDAPProvider($userBackend, $this->getDefaultGroupBackendMock());
 		$this->assertEquals($ldapConnection, $ldapProvider->getLDAPConnection('existing_user'));
 	}
-
 
 	public function testGetGroupLDAPConnectionGroupIDNotFound(): void {
 		$this->expectException(\Exception::class);
@@ -265,9 +232,7 @@ class LDAPProviderTest extends \Test\TestCase {
 
 		$groupBackend->expects($this->any())->method('groupExists')->willReturn(false);
 
-		$server = $this->getServerMock($userBackend, $groupBackend);
-
-		$ldapProvider = $this->getLDAPProvider($server);
+		$ldapProvider = $this->getLDAPProvider($userBackend, $groupBackend);
 		$ldapProvider->getGroupLDAPConnection('nonexisting_group');
 	}
 
@@ -287,12 +252,9 @@ class LDAPProviderTest extends \Test\TestCase {
 			->method('getNewLDAPConnection')
 			->willReturn($ldapConnection);
 
-		$server = $this->getServerMock($userBackend, $groupBackend);
-
-		$ldapProvider = $this->getLDAPProvider($server);
+		$ldapProvider = $this->getLDAPProvider($userBackend, $groupBackend);
 		$this->assertEquals($ldapConnection, $ldapProvider->getGroupLDAPConnection('existing_group'));
 	}
-
 
 	public function testGetLDAPBaseUsersUserIDNotFound(): void {
 		$this->expectException(\Exception::class);
@@ -304,9 +266,7 @@ class LDAPProviderTest extends \Test\TestCase {
 			->getMock();
 		$userBackend->expects($this->any())->method('userExists')->willReturn(false);
 
-		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
-
-		$ldapProvider = $this->getLDAPProvider($server);
+		$ldapProvider = $this->getLDAPProvider($userBackend, $this->getDefaultGroupBackendMock());
 		$ldapProvider->getLDAPBaseUsers('nonexisting_user');
 	}
 
@@ -352,12 +312,9 @@ class LDAPProviderTest extends \Test\TestCase {
 			->method('getLDAPAccess')
 			->willReturn($access);
 
-		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
-
-		$ldapProvider = $this->getLDAPProvider($server);
+		$ldapProvider = $this->getLDAPProvider($userBackend, $this->getDefaultGroupBackendMock());
 		$this->assertEquals($bases[1], $ldapProvider->getLDAPBaseUsers('existing_user'));
 	}
-
 
 	public function testGetLDAPBaseGroupsUserIDNotFound(): void {
 		$this->expectException(\Exception::class);
@@ -369,9 +326,7 @@ class LDAPProviderTest extends \Test\TestCase {
 			->getMock();
 		$userBackend->expects($this->any())->method('userExists')->willReturn(false);
 
-		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
-
-		$ldapProvider = $this->getLDAPProvider($server);
+		$ldapProvider = $this->getLDAPProvider($userBackend, $this->getDefaultGroupBackendMock());
 		$ldapProvider->getLDAPBaseGroups('nonexisting_user');
 	}
 
@@ -410,12 +365,9 @@ class LDAPProviderTest extends \Test\TestCase {
 			->method('getLDAPAccess')
 			->willReturn($access);
 
-		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
-
-		$ldapProvider = $this->getLDAPProvider($server);
+		$ldapProvider = $this->getLDAPProvider($userBackend, $this->getDefaultGroupBackendMock());
 		$this->assertEquals($bases[0], $ldapProvider->getLDAPBaseGroups('existing_user'));
 	}
-
 
 	public function testClearCacheUserIDNotFound(): void {
 		$this->expectException(\Exception::class);
@@ -427,9 +379,7 @@ class LDAPProviderTest extends \Test\TestCase {
 			->getMock();
 		$userBackend->expects($this->any())->method('userExists')->willReturn(false);
 
-		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
-
-		$ldapProvider = $this->getLDAPProvider($server);
+		$ldapProvider = $this->getLDAPProvider($userBackend, $this->getDefaultGroupBackendMock());
 		$ldapProvider->clearCache('nonexisting_user');
 	}
 
@@ -454,13 +404,10 @@ class LDAPProviderTest extends \Test\TestCase {
 			->method('getLDAPAccess')
 			->willReturn($access);
 
-		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
-
-		$ldapProvider = $this->getLDAPProvider($server);
+		$ldapProvider = $this->getLDAPProvider($userBackend, $this->getDefaultGroupBackendMock());
 		$ldapProvider->clearCache('existing_user');
 		$this->addToAssertionCount(1);
 	}
-
 
 	public function testClearGroupCacheGroupIDNotFound(): void {
 		$this->expectException(\Exception::class);
@@ -475,9 +422,7 @@ class LDAPProviderTest extends \Test\TestCase {
 			->getMock();
 		$groupBackend->expects($this->any())->method('groupExists')->willReturn(false);
 
-		$server = $this->getServerMock($userBackend, $groupBackend);
-
-		$ldapProvider = $this->getLDAPProvider($server);
+		$ldapProvider = $this->getLDAPProvider($userBackend, $groupBackend);
 		$ldapProvider->clearGroupCache('nonexisting_group');
 	}
 
@@ -503,9 +448,7 @@ class LDAPProviderTest extends \Test\TestCase {
 			->method('getLDAPAccess')
 			->willReturn($access);
 
-		$server = $this->getServerMock($userBackend, $groupBackend);
-
-		$ldapProvider = $this->getLDAPProvider($server);
+		$ldapProvider = $this->getLDAPProvider($userBackend, $groupBackend);
 		$ldapProvider->clearGroupCache('existing_group');
 		$this->addToAssertionCount(1);
 	}
@@ -519,30 +462,25 @@ class LDAPProviderTest extends \Test\TestCase {
 			->method('dn2UserName')
 			->willReturn('existing_user');
 
-		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
-
-		$ldapProvider = $this->getLDAPProvider($server);
+		$ldapProvider = $this->getLDAPProvider($userBackend, $this->getDefaultGroupBackendMock());
 		$this->assertTrue($ldapProvider->dnExists('cn=existing_user,ou=Are Sufficient To,ou=Test,dc=example,dc=org'));
 	}
 
 	public function testFlagRecord(): void {
 		$userBackend = $this->createMock(User_LDAP::class);
-		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
 
-		$ldapProvider = $this->getLDAPProvider($server);
+		$ldapProvider = $this->getLDAPProvider($userBackend, $this->getDefaultGroupBackendMock());
 		$ldapProvider->flagRecord('existing_user');
 		$this->addToAssertionCount(1);
 	}
 
 	public function testUnflagRecord(): void {
 		$userBackend = $this->createMock(User_LDAP::class);
-		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
 
-		$ldapProvider = $this->getLDAPProvider($server);
+		$ldapProvider = $this->getLDAPProvider($userBackend, $this->getDefaultGroupBackendMock());
 		$ldapProvider->unflagRecord('existing_user');
 		$this->addToAssertionCount(1);
 	}
-
 
 	public function testGetLDAPDisplayNameFieldUserIDNotFound(): void {
 		$this->expectException(\Exception::class);
@@ -554,9 +492,7 @@ class LDAPProviderTest extends \Test\TestCase {
 			->getMock();
 		$userBackend->expects($this->any())->method('userExists')->willReturn(false);
 
-		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
-
-		$ldapProvider = $this->getLDAPProvider($server);
+		$ldapProvider = $this->getLDAPProvider($userBackend, $this->getDefaultGroupBackendMock());
 		$ldapProvider->getLDAPDisplayNameField('nonexisting_user');
 	}
 
@@ -581,12 +517,9 @@ class LDAPProviderTest extends \Test\TestCase {
 			->method('getLDAPAccess')
 			->willReturn($access);
 
-		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
-
-		$ldapProvider = $this->getLDAPProvider($server);
+		$ldapProvider = $this->getLDAPProvider($userBackend, $this->getDefaultGroupBackendMock());
 		$this->assertEquals('displayName', $ldapProvider->getLDAPDisplayNameField('existing_user'));
 	}
-
 
 	public function testGetLDAPEmailFieldUserIDNotFound(): void {
 		$this->expectException(\Exception::class);
@@ -598,9 +531,7 @@ class LDAPProviderTest extends \Test\TestCase {
 			->getMock();
 		$userBackend->expects($this->any())->method('userExists')->willReturn(false);
 
-		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
-
-		$ldapProvider = $this->getLDAPProvider($server);
+		$ldapProvider = $this->getLDAPProvider($userBackend, $this->getDefaultGroupBackendMock());
 		$ldapProvider->getLDAPEmailField('nonexisting_user');
 	}
 
@@ -625,12 +556,9 @@ class LDAPProviderTest extends \Test\TestCase {
 			->method('getLDAPAccess')
 			->willReturn($access);
 
-		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
-
-		$ldapProvider = $this->getLDAPProvider($server);
+		$ldapProvider = $this->getLDAPProvider($userBackend, $this->getDefaultGroupBackendMock());
 		$this->assertEquals('mail', $ldapProvider->getLDAPEmailField('existing_user'));
 	}
-
 
 	public function testGetLDAPGroupMemberAssocUserIDNotFound(): void {
 		$this->expectException(\Exception::class);
@@ -646,9 +574,7 @@ class LDAPProviderTest extends \Test\TestCase {
 			->method('groupExists')
 			->willReturn(false);
 
-		$server = $this->getServerMock($userBackend, $groupBackend);
-
-		$ldapProvider = $this->getLDAPProvider($server);
+		$ldapProvider = $this->getLDAPProvider($userBackend, $groupBackend);
 		$ldapProvider->getLDAPGroupMemberAssoc('nonexisting_group');
 	}
 
@@ -676,9 +602,7 @@ class LDAPProviderTest extends \Test\TestCase {
 			->method('getLDAPAccess')
 			->willReturn($access);
 
-		$server = $this->getServerMock($userBackend, $groupBackend);
-
-		$ldapProvider = $this->getLDAPProvider($server);
+		$ldapProvider = $this->getLDAPProvider($userBackend, $groupBackend);
 		$this->assertEquals('assoc_type', $ldapProvider->getLDAPGroupMemberAssoc('existing_group'));
 	}
 
@@ -692,9 +616,8 @@ class LDAPProviderTest extends \Test\TestCase {
 			->with('admin')
 			->willReturn(false);
 		$groupBackend = $this->createMock(Group_LDAP::class);
-		$server = $this->getServerMock($userBackend, $groupBackend);
 
-		$ldapProvider = $this->getLDAPProvider($server);
+		$ldapProvider = $this->getLDAPProvider($userBackend, $groupBackend);
 		$ldapProvider->getMultiValueUserAttribute('admin', 'mailAlias');
 	}
 
@@ -719,9 +642,8 @@ class LDAPProviderTest extends \Test\TestCase {
 			->method('getLDAPAccess')
 			->willReturn($access);
 		$groupBackend = $this->createMock(Group_LDAP::class);
-		$server = $this->getServerMock($userBackend, $groupBackend);
 
-		$ldapProvider = $this->getLDAPProvider($server);
+		$ldapProvider = $this->getLDAPProvider($userBackend, $groupBackend);
 		$ldapProvider->getMultiValueUserAttribute('admin', 'mailAlias');
 	}
 
@@ -756,9 +678,8 @@ class LDAPProviderTest extends \Test\TestCase {
 		$groupBackend = $this->getMockBuilder(Group_LDAP::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$server = $this->getServerMock($userBackend, $groupBackend);
 
-		$ldapProvider = $this->getLDAPProvider($server);
+		$ldapProvider = $this->getLDAPProvider($userBackend, $groupBackend);
 		$values = $ldapProvider->getMultiValueUserAttribute('admin', 'mailAlias');
 
 		self::assertCount(0, $values);
@@ -795,9 +716,8 @@ class LDAPProviderTest extends \Test\TestCase {
 		$groupBackend = $this->getMockBuilder(Group_LDAP::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$server = $this->getServerMock($userBackend, $groupBackend);
 
-		$ldapProvider = $this->getLDAPProvider($server);
+		$ldapProvider = $this->getLDAPProvider($userBackend, $groupBackend);
 		$values = $ldapProvider->getMultiValueUserAttribute('admin', 'mailAlias');
 
 		self::assertCount(2, $values);
@@ -834,9 +754,8 @@ class LDAPProviderTest extends \Test\TestCase {
 		$groupBackend = $this->getMockBuilder(Group_LDAP::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$server = $this->getServerMock($userBackend, $groupBackend);
 
-		$ldapProvider = $this->getLDAPProvider($server);
+		$ldapProvider = $this->getLDAPProvider($userBackend, $groupBackend);
 		$value = $ldapProvider->getUserAttribute('admin', 'mailAlias');
 
 		self::assertNull($value);
@@ -873,9 +792,8 @@ class LDAPProviderTest extends \Test\TestCase {
 		$groupBackend = $this->getMockBuilder(Group_LDAP::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$server = $this->getServerMock($userBackend, $groupBackend);
 
-		$ldapProvider = $this->getLDAPProvider($server);
+		$ldapProvider = $this->getLDAPProvider($userBackend, $groupBackend);
 		$value = $ldapProvider->getUserAttribute('admin', 'mailAlias');
 
 		self::assertEquals('aliasA@test.local', $value);

@@ -78,7 +78,7 @@ async function saveSetting(key: string, value: unknown) {
 			</h4>
 			<NcSelect
 				v-model="selectedApps"
-				keep-open
+				keepOpen
 				multiple
 				:placeholder="t('theming', 'Global default apps')"
 				:options="allApps" />

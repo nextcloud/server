@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\BackgroundJob;
 
 use OCA\DAV\BackgroundJob\EventReminderJob;
@@ -50,7 +51,7 @@ class EventReminderJobTest extends TestCase {
 	 * @param bool $sendEventRemindersMode
 	 * @param bool $expectCall
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('data')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'data')]
 	public function testRun(bool $sendEventReminders, bool $sendEventRemindersMode, bool $expectCall): void {
 		$this->config->expects($this->exactly($sendEventReminders ? 2 : 1))
 			->method('getAppValue')

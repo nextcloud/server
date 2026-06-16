@@ -1,13 +1,12 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { Node } from '@nextcloud/files'
+import type { IFileAction, INode } from '@nextcloud/files'
 import type { TagWithId } from '../types.ts'
 
 import { subscribe } from '@nextcloud/event-bus'
-import { FileAction } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import logger from '../logger.ts'
 import { fetchTags } from '../services/api.ts'
@@ -19,7 +18,7 @@ import '../css/fileEntryInlineSystemTags.scss'
 // Init tag cache
 const cache: TagWithId[] = []
 
-export const action = new FileAction({
+export const action: IFileAction = {
 	id: 'system-tags',
 	displayName: () => '',
 	iconSvgInline: () => '',
@@ -35,21 +34,19 @@ export const action = new FileAction({
 		return true
 	},
 
-	exec: async () => null,
-	renderInline: ({ nodes }) => {
+	async exec() {
+		return null
+	},
+
+	async renderInline({ nodes }) {
 		if (nodes.length !== 1 || !nodes[0]) {
-			return Promise.resolve(null)
+			return null
 		}
-		return renderInline(nodes[0])
+		return await renderInline(nodes[0])
 	},
 
 	order: 0,
-
-	hotkey: {
-		description: t('files', 'Manage tags'),
-		key: 'T',
-	},
-})
+}
 
 // Subscribe to the events
 subscribe('systemtags:node:updated', updateSystemTagsHtml)
@@ -62,12 +59,12 @@ subscribe('systemtags:tag:updated', updateTag)
  *
  * @param node - The updated node
  */
-function updateSystemTagsHtml(node: Node) {
-	renderInline(node).then((systemTagsHtml) => {
-		document.querySelectorAll(`[data-systemtags-fileid="${node.fileid}"]`).forEach((element) => {
-			element.replaceWith(systemTagsHtml)
-		})
-	})
+async function updateSystemTagsHtml(node: INode) {
+	const systemTagsHtml = await renderInline(node)
+	const elements = document.querySelectorAll(`[data-systemtags-fileid="${node.id}"]`)
+	for (const element of elements) {
+		element.replaceWith(systemTagsHtml)
+	}
 }
 
 /**
@@ -113,9 +110,10 @@ function updateSystemTagsColorAttribute(tag: TagWithId) {
 }
 
 /**
+ * Render a single tag element
  *
- * @param tag
- * @param isMore
+ * @param tag - The tag to render
+ * @param isMore - Whether this is a "more" tag
  */
 function renderTag(tag: string, isMore = false): HTMLElement {
 	const tagElement = document.createElement('li')
@@ -143,56 +141,57 @@ function renderTag(tag: string, isMore = false): HTMLElement {
 }
 
 /**
+ * Render the inline system tags for a node
  *
- * @param node
+ * @param node - The node to render the tags for
  */
-async function renderInline(node: Node): Promise<HTMLElement> {
+async function renderInline(node: INode): Promise<HTMLElement> {
 	// Ensure we have the system tags as an array
 	const tags = getNodeSystemTags(node)
+	const systemTagsElementWrapper = document.createElement('div')
+	systemTagsElementWrapper.setAttribute('data-systemtags-fileid', node.id || '')
 
-	const systemTagsElement = document.createElement('ul')
-	systemTagsElement.classList.add('files-list__system-tags')
-	systemTagsElement.setAttribute('aria-label', t('files', 'Assigned collaborative tags'))
-	systemTagsElement.setAttribute('data-systemtags-fileid', node.fileid?.toString() || '')
+	if (tags.length > 0) {
+		const systemTagsElement = document.createElement('ul')
+		systemTagsElement.classList.add('files-list__system-tags')
+		systemTagsElement.setAttribute('aria-label', t('files', 'Assigned collaborative tags'))
+		systemTagsElementWrapper.appendChild(systemTagsElement)
 
-	if (tags.length === 0) {
-		return systemTagsElement
-	}
+		// Fetch the tags if the cache is empty
+		if (cache.length === 0) {
+			try {
+				// Best would be to support attributes from webdav,
+				// but currently the library does not support it
+				cache.push(...await fetchTags())
+			} catch (error) {
+				logger.error('Failed to fetch tags', { error })
+			}
+		}
 
-	// Fetch the tags if the cache is empty
-	if (cache.length === 0) {
-		try {
-			// Best would be to support attributes from webdav,
-			// but currently the library does not support it
-			cache.push(...await fetchTags())
-		} catch (error) {
-			logger.error('Failed to fetch tags', { error })
+		systemTagsElement.append(renderTag(tags[0]!))
+		if (tags.length === 2) {
+			// Special case only two tags:
+			// the overflow fake tag would take the same space as this, so render it
+			systemTagsElement.append(renderTag(tags[1]!))
+		} else if (tags.length > 1) {
+			// More tags than the one we're showing
+			// So we add a overflow element indicating there are more tags
+			const moreTagElement = renderTag('+' + (tags.length - 1), true)
+			moreTagElement.setAttribute('title', tags.slice(1).join(', '))
+			// because the title is not accessible we hide this element for screen readers (see alternative below)
+			moreTagElement.setAttribute('aria-hidden', 'true')
+			moreTagElement.setAttribute('role', 'presentation')
+			systemTagsElement.append(moreTagElement)
+
+			// For accessibility the tags are listed, as the title is not accessible
+			// but those tags are visually hidden
+			for (const tag of tags.slice(1)) {
+				const tagElement = renderTag(tag)
+				tagElement.classList.add('hidden-visually')
+				systemTagsElement.append(tagElement)
+			}
 		}
 	}
 
-	systemTagsElement.append(renderTag(tags[0]))
-	if (tags.length === 2) {
-		// Special case only two tags:
-		// the overflow fake tag would take the same space as this, so render it
-		systemTagsElement.append(renderTag(tags[1]))
-	} else if (tags.length > 1) {
-		// More tags than the one we're showing
-		// So we add a overflow element indicating there are more tags
-		const moreTagElement = renderTag('+' + (tags.length - 1), true)
-		moreTagElement.setAttribute('title', tags.slice(1).join(', '))
-		// because the title is not accessible we hide this element for screen readers (see alternative below)
-		moreTagElement.setAttribute('aria-hidden', 'true')
-		moreTagElement.setAttribute('role', 'presentation')
-		systemTagsElement.append(moreTagElement)
-
-		// For accessibility the tags are listed, as the title is not accessible
-		// but those tags are visually hidden
-		for (const tag of tags.slice(1)) {
-			const tagElement = renderTag(tag)
-			tagElement.classList.add('hidden-visually')
-			systemTagsElement.append(tagElement)
-		}
-	}
-
-	return systemTagsElement
+	return systemTagsElementWrapper
 }

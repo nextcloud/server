@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2017 ownCloud GmbH
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Upload;
 
 use OCA\DAV\Connector\Sabre\Directory;
@@ -26,6 +27,7 @@ class ChunkingPlugin extends ServerPlugin {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function initialize(Server $server) {
 		$server->on('beforeMove', [$this, 'beforeMove']);
 		$this->server = $server;

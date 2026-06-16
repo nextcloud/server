@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CalDAV\Activity\Provider;
 
 use OCP\Activity\Exceptions\UnknownActivityException;
@@ -19,6 +20,7 @@ class Todo extends Event {
 	 * @throws UnknownActivityException
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function parse($language, IEvent $event, ?IEvent $previousEvent = null) {
 		if ($event->getApp() !== 'dav' || $event->getType() !== 'calendar_todo') {
 			throw new UnknownActivityException();
@@ -72,6 +74,7 @@ class Todo extends Event {
 	 * @param IEvent $event
 	 * @return array
 	 */
+	#[\Override]
 	protected function getParameters(IEvent $event) {
 		$subject = $event->getSubject();
 		$parameters = $event->getSubjectParameters();

@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\FederatedFileSharing\Tests\Settings;
 
 use OCA\FederatedFileSharing\FederatedShareProvider;
@@ -53,7 +54,7 @@ class AdminTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('sharingStateProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'sharingStateProvider')]
 	public function testGetForm(bool $state): void {
 		$this->federatedShareProvider
 			->expects($this->once())

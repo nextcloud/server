@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Theming\Tests\Themes;
 
 use OCA\Theming\ITheme;
@@ -201,7 +202,7 @@ class AccessibleThemeTestCase extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataAccessibilityPairs')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataAccessibilityPairs')]
 	public function testAccessibilityOfVariables(array $mainColors, array $backgroundColors, float $minContrast): void {
 		if (!isset($this->theme)) {
 			$this->markTestSkipped('You need to setup $this->theme in your setUp function');

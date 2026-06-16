@@ -97,6 +97,7 @@ OC.L10N.register(
     "If enabled, only administrators can create and edit tags. Accounts can still assign and remove them from files." : "Если включено, только администраторы смогут создавать и редактировать метки. Пользователи всё ещё смогут назначать и удалять их с файлов.",
     "Restrict tag creation and editing to administrators" : "Разрешить создание и редактирование меток только администраторам",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Совместные метки доступны для всех пользователей. Ограниченные метки видны пользователям, но не могут быть назначены ими. Невидимые метки предназначены для внутреннего использования, поскольку пользователи не могут их видеть или назначать.",
+    "Add tags" : "Добавить теги",
     "Assigned collaborative tags" : "Присвоенные метки для совместной работы",
     "Open in Files" : "Открыть в приложении «Файлы»",
     "List of tags and their associated files and folders." : "Список меток и связанных с ними файлов и папок.",
@@ -111,10 +112,6 @@ OC.L10N.register(
     "Failed to delete tag for file" : "Не удалось удалить метку у файла",
     "Collaborative tags …" : "Совместные метки ...",
     "Loading …" : "Загрузка…",
-    "File tags modification canceled" : "Изменение меток отменено",
-    "Select or create tags to apply to all selected files" : "Выберите или создайте метки для применения ко всем выбранным файлам",
-    "Select tags to apply to all selected files" : "Выберите метки для применения ко всем выбранным файлам",
-    "Apply changes" : "Применить изменения",
     "Loading collaborative tags …" : "Загрузка совместных меток ..."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

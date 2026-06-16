@@ -13,6 +13,7 @@ use OCP\Server;
 
 #[\PHPUnit\Framework\Attributes\Group('PRIMARY-azure')]
 class AzureTest extends ObjectStoreTestCase {
+	#[\Override]
 	protected function getInstance() {
 		$config = Server::get(IConfig::class)->getSystemValue('objectstore');
 		if (!is_array($config) || $config['class'] !== 'OC\\Files\\ObjectStore\\Azure') {
@@ -22,6 +23,7 @@ class AzureTest extends ObjectStoreTestCase {
 		return new Azure($config['arguments']);
 	}
 
+	#[\Override]
 	public function testFseekSize(): void {
 		$this->markTestSkipped('azure does not support seeking at the moment');
 	}

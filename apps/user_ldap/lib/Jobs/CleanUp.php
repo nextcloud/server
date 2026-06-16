@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP\Jobs;
 
 use OCA\User_LDAP\Helper;
@@ -101,6 +102,7 @@ class CleanUp extends TimedJob {
 	 * makes the background job do its work
 	 * @param array $argument
 	 */
+	#[\Override]
 	public function run($argument): void {
 		$this->setArguments($argument);
 

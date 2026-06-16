@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\FullTextSearch\Model;
 
 use JsonSerializable;
@@ -61,13 +62,13 @@ final class SearchTemplate implements ISearchTemplate, JsonSerializable {
 	) {
 	}
 
-
 	/**
 	 * Set the class of the icon to be displayed in the left panel of the
 	 * FullTextSearch navigation page, in front of the related Content Provider.
 	 *
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function setIcon(string $class): ISearchTemplate {
 		$this->icon = $class;
 
@@ -77,16 +78,17 @@ final class SearchTemplate implements ISearchTemplate, JsonSerializable {
 	/**
 	 * Get the class of the icon.
 	 */
+	#[\Override]
 	public function getIcon(): string {
 		return $this->icon;
 	}
-
 
 	/**
 	 * Set the path of a CSS file that will be loaded when needed.
 	 *
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function setCss(string $css): ISearchTemplate {
 		$this->css = $css;
 
@@ -98,10 +100,10 @@ final class SearchTemplate implements ISearchTemplate, JsonSerializable {
 	 *
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function getCss(): string {
 		return $this->css;
 	}
-
 
 	/**
 	 * Set the path of the file of a template that the HTML will be displayed
@@ -111,6 +113,7 @@ final class SearchTemplate implements ISearchTemplate, JsonSerializable {
 	 *
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function setTemplate(string $template): ISearchTemplate {
 		$this->template = $template;
 
@@ -122,10 +125,10 @@ final class SearchTemplate implements ISearchTemplate, JsonSerializable {
 	 *
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function getTemplate(): string {
 		return $this->template;
 	}
-
 
 	/**
 	 * Add an option in the Panel that is displayed when the user start a search
@@ -135,6 +138,7 @@ final class SearchTemplate implements ISearchTemplate, JsonSerializable {
 	 *
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function addPanelOption(ISearchOption $option): ISearchTemplate {
 		$this->panelOptions[] = $option;
 
@@ -148,10 +152,10 @@ final class SearchTemplate implements ISearchTemplate, JsonSerializable {
 	 *
 	 * @return SearchOption[]
 	 */
+	#[\Override]
 	public function getPanelOptions(): array {
 		return $this->panelOptions;
 	}
-
 
 	/**
 	 * Add an option in the left panel of the FullTextSearch navigation page.
@@ -160,6 +164,7 @@ final class SearchTemplate implements ISearchTemplate, JsonSerializable {
 	 *
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function addNavigationOption(ISearchOption $option): ISearchTemplate {
 		$this->navigationOptions[] = $option;
 
@@ -171,14 +176,15 @@ final class SearchTemplate implements ISearchTemplate, JsonSerializable {
 	 *
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function getNavigationOptions(): array {
 		return $this->navigationOptions;
 	}
 
-
 	/**
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'icon' => $this->getIcon(),

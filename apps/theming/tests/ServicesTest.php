@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Theming\Tests;
 
 use OCA\Theming\Capabilities;
@@ -26,7 +27,7 @@ use Test\TestCase;
  *
  * @package OCA\Theming\Tests
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ServicesTest extends TestCase {
 	protected App $app;
 
@@ -60,7 +61,7 @@ class ServicesTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('queryData')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'queryData')]
 	public function testContainerQuery(string $service, ?string $expected = null): void {
 		if ($expected === null) {
 			$expected = $service;

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\UpdateNotification\Tests\Controller;
 
 use OC\App\AppStore\Fetcher\AppFetcher;
@@ -55,7 +56,7 @@ class APIControllerTest extends TestCase {
 		);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetAppChangelog')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataGetAppChangelog')]
 	public function testGetAppChangelogEntry(
 		array $params,
 		bool $hasChanges,

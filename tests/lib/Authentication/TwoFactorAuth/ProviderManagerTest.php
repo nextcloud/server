@@ -30,6 +30,7 @@ class ProviderManagerTest extends TestCase {
 	/** @var ProviderManager */
 	private $providerManager;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -41,7 +42,6 @@ class ProviderManagerTest extends TestCase {
 			$this->registry
 		);
 	}
-
 
 	public function testTryEnableInvalidProvider(): void {
 		$this->expectException(InvalidProviderException::class);
@@ -87,7 +87,6 @@ class ProviderManagerTest extends TestCase {
 
 		$this->assertTrue($res);
 	}
-
 
 	public function testTryDisableInvalidProvider(): void {
 		$this->expectException(InvalidProviderException::class);

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Authentication\Login;
 
 class Chain {
@@ -21,7 +22,6 @@ class Chain {
 		private SetUserTimezoneCommand $setUserTimezoneCommand,
 		private TwoFactorCommand $twoFactorCommand,
 		private FinishRememberedLoginCommand $finishRememberedLoginCommand,
-		private FlowV2EphemeralSessionsCommand $flowV2EphemeralSessionsCommand,
 	) {
 	}
 
@@ -32,7 +32,6 @@ class Chain {
 			->setNext($this->uidLoginCommand)
 			->setNext($this->loggedInCheckCommand)
 			->setNext($this->completeLoginCommand)
-			->setNext($this->flowV2EphemeralSessionsCommand)
 			->setNext($this->createSessionTokenCommand)
 			->setNext($this->clearLostPasswordTokensCommand)
 			->setNext($this->updateLastPasswordConfirmCommand)

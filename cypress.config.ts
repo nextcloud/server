@@ -8,7 +8,7 @@ import { configureNextcloud, docker, getContainer, getContainerName, runExec, ru
 import { defineConfig } from 'cypress'
 import cypressSplit from 'cypress-split'
 import vitePreprocessor from 'cypress-vite'
-import { existsSync, rmdirSync } from 'node:fs'
+import { existsSync, rmSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { nodePolyfills } from 'vite-plugin-node-polyfills'
@@ -25,9 +25,9 @@ export default defineConfig({
 	viewportWidth: 1280,
 	viewportHeight: 720,
 
-	// Tries again 2 more times on failure
+	// Tries again when in run mode (cypress run) e.g. on CI
 	retries: {
-		runMode: 2,
+		runMode: 5,
 		// do not retry in `cypress open`
 		openMode: 0,
 	},
@@ -82,11 +82,11 @@ export default defineConfig({
 				deleteFolder(path: string) {
 					try {
 						if (existsSync(path)) {
-							rmdirSync(path, { maxRetries: 10, recursive: true })
+							rmSync(path, { maxRetries: 10, recursive: true })
 						}
 						return null
 					} catch (error) {
-						throw Error(`Error while deleting ${path}. Original error: ${error}`)
+						throw Error(`Error while deleting ${path}. Original error: ${error}`, { cause: error })
 					}
 				},
 			})
@@ -173,6 +173,8 @@ export default defineConfig({
 			await configureNextcloud()
 			// additionally we do not want to DoS the app store
 			runOcc(['config:system:set', 'appstoreenabled', '--value', 'false', '--type', 'boolean'])
+			console.log('Running cron to finish setup and avoid first-run effects during tests 🕒')
+			runExec(['php', 'cron.php'])
 
 			// for later use in tests save the container name
 			// @ts-expect-error we are adding a custom property

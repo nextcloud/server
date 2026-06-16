@@ -23,36 +23,25 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Share\IShare;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 use Test\Traits\EmailValidatorTrait;
 
 class MailPluginTest extends TestCase {
 	use EmailValidatorTrait;
 
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	protected $config;
+	protected IConfig&MockObject $config;
+	protected IManager&MockObject $contactsManager;
+	protected ICloudIdManager $cloudIdManager;
+	protected MailPlugin $plugin;
+	protected SearchResult $searchResult;
+	protected IGroupManager&MockObject $groupManager;
+	protected KnownUserService&MockObject $knownUserService;
+	protected IUserSession&MockObject $userSession;
+	protected IUserManager&MockObject $userManager;
 
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $contactsManager;
-
-	/** @var ICloudIdManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $cloudIdManager;
-
-	/** @var MailPlugin */
-	protected $plugin;
-
-	/** @var SearchResult */
-	protected $searchResult;
-
-	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $groupManager;
-
-	/** @var KnownUserService|\PHPUnit\Framework\MockObject\MockObject */
-	protected $knownUserService;
-
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
-	protected $userSession;
-
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -61,6 +50,17 @@ class MailPluginTest extends TestCase {
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->knownUserService = $this->createMock(KnownUserService::class);
 		$this->userSession = $this->createMock(IUserSession::class);
+		$this->userManager = $this->createMock(IUserManager::class);
+		$this->userManager
+			->method('get')
+			->willReturnCallback(function (string $uid): IUser {
+				$user = $this->createMock(IUser::class);
+				$user
+					->method('getUID')
+					->willReturn($uid);
+
+				return $user;
+			});
 		$this->cloudIdManager = new CloudIdManager(
 			$this->createMock(ICacheFactory::class),
 			$this->createMock(IEventDispatcher::class),
@@ -81,23 +81,14 @@ class MailPluginTest extends TestCase {
 			$this->knownUserService,
 			$this->userSession,
 			$this->getEmailValidatorWithStrictEmailCheck(),
+			$this->userManager,
 			[],
 			$shareType,
 		);
 	}
 
-	/**
-	 *
-	 * @param string $searchTerm
-	 * @param array $contacts
-	 * @param bool $shareeEnumeration
-	 * @param array $expectedResult
-	 * @param bool $expectedExactIdMatch
-	 * @param bool $expectedMoreResults
-	 * @param bool $validEmail
-	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataSearchEmail')]
-	public function testSearchEmail($searchTerm, $contacts, $shareeEnumeration, $expectedResult, $expectedExactIdMatch, $expectedMoreResults, $validEmail): void {
+	#[DataProvider('dataSearchEmail')]
+	public function testSearchEmail(string $searchTerm, array $contacts, bool $shareeEnumeration, array $expectedResult, bool $expectedExactIdMatch, bool $expectedMoreResults, bool $validEmail): void {
 		$this->config->expects($this->any())
 			->method('getAppValue')
 			->willReturnCallback(
@@ -564,17 +555,8 @@ class MailPluginTest extends TestCase {
 		];
 	}
 
-	/**
-	 *
-	 * @param string $searchTerm
-	 * @param array $contacts
-	 * @param bool $shareeEnumeration
-	 * @param array $expectedResult
-	 * @param bool $expectedExactIdMatch
-	 * @param bool $expectedMoreResults
-	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataSearchUser')]
-	public function testSearchUser($searchTerm, $contacts, $shareeEnumeration, $expectedResult, $expectedExactIdMatch, $expectedMoreResults): void {
+	#[DataProvider('dataSearchUser')]
+	public function testSearchUser(string $searchTerm, array $contacts, bool $shareeEnumeration, array $expectedResult, bool $expectedExactIdMatch, bool $expectedMoreResults): void {
 		$this->config->expects($this->any())
 			->method('getAppValue')
 			->willReturnCallback(
@@ -606,7 +588,7 @@ class MailPluginTest extends TestCase {
 		$moreResults = $this->plugin->search($searchTerm, 2, 0, $this->searchResult);
 		$result = $this->searchResult->asArray();
 
-		$this->assertSame($expectedExactIdMatch, $this->searchResult->hasExactIdMatch(new SearchResultType('emails')));
+		$this->assertSame($expectedExactIdMatch, $this->searchResult->hasExactIdMatch(new SearchResultType('users')));
 		$this->assertEquals($expectedResult, $result);
 		$this->assertSame($expectedMoreResults, $moreResults);
 	}
@@ -614,15 +596,15 @@ class MailPluginTest extends TestCase {
 	public static function dataSearchUser(): array {
 		return [
 			// data set 0
-			['test', [], true, ['exact' => []], false, false],
+			['test', [], true, ['users' => [], 'exact' => ['users' => [],]], false, false],
 			// data set 1
-			['test', [], false, ['exact' => []], false, false],
+			['test', [], false, ['users' => [], 'exact' => ['users' => [],]], false, false],
 			// data set 2
 			[
 				'test@remote.com',
 				[],
 				true,
-				['exact' => []],
+				['users' => [], 'exact' => ['users' => [],]],
 				false,
 				false,
 			],
@@ -631,7 +613,7 @@ class MailPluginTest extends TestCase {
 				'test@remote.com',
 				[],
 				false,
-				['exact' => []],
+				['users' => [], 'exact' => ['users' => [],]],
 				false,
 				false,
 			],
@@ -658,7 +640,7 @@ class MailPluginTest extends TestCase {
 					],
 				],
 				true,
-				['exact' => []],
+				['users' => [], 'exact' => ['users' => [],]],
 				false,
 				false,
 			],
@@ -686,7 +668,7 @@ class MailPluginTest extends TestCase {
 					],
 				],
 				false,
-				['exact' => []],
+				['users' => [], 'exact' => ['users' => [],]],
 				false,
 				false,
 			],
@@ -713,7 +695,7 @@ class MailPluginTest extends TestCase {
 					],
 				],
 				true,
-				['exact' => []],
+				['users' => [], 'exact' => ['users' => [],]],
 				false,
 				false,
 			],
@@ -740,7 +722,7 @@ class MailPluginTest extends TestCase {
 					],
 				],
 				true,
-				['exact' => []],
+				['users' => [], 'exact' => ['users' => [],]],
 				false,
 				false,
 			],
@@ -758,7 +740,7 @@ class MailPluginTest extends TestCase {
 					]
 				],
 				false,
-				['users' => [], 'exact' => ['users' => [['uuid' => 'uid1', 'name' => 'User', 'label' => 'User (test@example.com)','value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test'], 'shareWithDisplayNameUnique' => 'test@example.com']]]],
+				['users' => [], 'exact' => ['users' => [['uuid' => 'uid1', 'name' => 'User', 'label' => 'User (test@example.com)', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test'], 'shareWithDisplayNameUnique' => 'test@example.com']]]],
 				true,
 				false,
 			],
@@ -853,25 +835,15 @@ class MailPluginTest extends TestCase {
 					],
 				],
 				true,
-				['exact' => []],
+				['users' => [], 'exact' => ['users' => [],]],
 				false,
 				false,
 			],
 		];
 	}
 
-	/**
-	 *
-	 * @param string $searchTerm
-	 * @param array $contacts
-	 * @param array $expectedResult
-	 * @param bool $expectedExactIdMatch
-	 * @param bool $expectedMoreResults
-	 * @param array $userToGroupMapping
-	 * @param bool $validEmail
-	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataSearchEmailGroupsOnly')]
-	public function testSearchEmailGroupsOnly($searchTerm, $contacts, $expectedResult, $expectedExactIdMatch, $expectedMoreResults, $userToGroupMapping, $validEmail): void {
+	#[DataProvider('dataSearchEmailGroupsOnly')]
+	public function testSearchEmailGroupsOnly(string $searchTerm, array $contacts, array $expectedResult, bool $expectedExactIdMatch, bool $expectedMoreResults, array $userToGroupMapping, bool $validEmail): void {
 		$this->config->expects($this->any())
 			->method('getAppValue')
 			->willReturnCallback(
@@ -911,12 +883,6 @@ class MailPluginTest extends TestCase {
 			->method('getUserGroupIds')
 			->willReturnCallback(function (IUser $user) use ($userToGroupMapping) {
 				return $userToGroupMapping[$user->getUID()];
-			});
-
-		$this->groupManager->expects($this->any())
-			->method('isInGroup')
-			->willReturnCallback(function ($userId, $group) use ($userToGroupMapping) {
-				return in_array($group, $userToGroupMapping[$userId]);
 			});
 
 		$moreResults = $this->plugin->search($searchTerm, 2, 0, $this->searchResult);
@@ -983,7 +949,7 @@ class MailPluginTest extends TestCase {
 						'UID' => 'User',
 					]
 				],
-				['emails' => [], 'exact' => ['emails' => [['label' => 'test@example.com', 'uuid' => 'test@example.com', 'value' => ['shareType' => IShare::TYPE_EMAIL,'shareWith' => 'test@example.com']]]]],
+				['emails' => [], 'exact' => ['emails' => [['label' => 'test@example.com', 'uuid' => 'test@example.com', 'value' => ['shareType' => IShare::TYPE_EMAIL, 'shareWith' => 'test@example.com']]]]],
 				false,
 				false,
 				[
@@ -995,17 +961,8 @@ class MailPluginTest extends TestCase {
 		];
 	}
 
-	/**
-	 *
-	 * @param string $searchTerm
-	 * @param array $contacts
-	 * @param array $expectedResult
-	 * @param bool $expectedExactIdMatch
-	 * @param bool $expectedMoreResults
-	 * @param array $userToGroupMapping
-	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataSearchUserGroupsOnly')]
-	public function testSearchUserGroupsOnly($searchTerm, $contacts, $expectedResult, $expectedExactIdMatch, $expectedMoreResults, $userToGroupMapping): void {
+	#[DataProvider('dataSearchUserGroupsOnly')]
+	public function testSearchUserGroupsOnly(string $searchTerm, array $contacts, array $expectedResult, bool $expectedExactIdMatch, bool $expectedMoreResults, array $userToGroupMapping): void {
 		$this->config->expects($this->any())
 			->method('getAppValue')
 			->willReturnCallback(
@@ -1021,8 +978,7 @@ class MailPluginTest extends TestCase {
 
 		$this->instantiatePlugin(IShare::TYPE_USER);
 
-		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject */
-		$currentUser = $this->createMock('\OCP\IUser');
+		$currentUser = $this->createMock(IUser::class);
 
 		$currentUser->expects($this->any())
 			->method('getUID')
@@ -1047,12 +1003,6 @@ class MailPluginTest extends TestCase {
 				return $userToGroupMapping[$user->getUID()];
 			});
 
-		$this->groupManager->expects($this->any())
-			->method('isInGroup')
-			->willReturnCallback(function ($userId, $group) use ($userToGroupMapping) {
-				return in_array($group, $userToGroupMapping[$userId]);
-			});
-
 		$moreResults = $this->plugin->search($searchTerm, 2, 0, $this->searchResult);
 		$result = $this->searchResult->asArray();
 
@@ -1075,7 +1025,7 @@ class MailPluginTest extends TestCase {
 						'UID' => 'User',
 					]
 				],
-				['users' => [['label' => 'User (test@example.com)', 'uuid' => 'User', 'name' => 'User', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test'],'shareWithDisplayNameUnique' => 'test@example.com',]], 'exact' => ['users' => []]],
+				['users' => [['label' => 'User (test@example.com)', 'uuid' => 'User', 'name' => 'User', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test'], 'shareWithDisplayNameUnique' => 'test@example.com',]], 'exact' => ['users' => []]],
 				false,
 				false,
 				[
@@ -1095,7 +1045,7 @@ class MailPluginTest extends TestCase {
 						'UID' => 'User',
 					]
 				],
-				['exact' => []],
+				['users' => [], 'exact' => ['users' => [],]],
 				false,
 				false,
 				[
@@ -1115,7 +1065,7 @@ class MailPluginTest extends TestCase {
 						'UID' => 'User',
 					]
 				],
-				['exact' => []],
+				['users' => [], 'exact' => ['users' => [],]],
 				false,
 				false,
 				[

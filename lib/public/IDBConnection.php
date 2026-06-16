@@ -17,6 +17,7 @@ use OCP\DB\Exception;
 use OCP\DB\IPreparedStatement;
 use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\DB\QueryBuilder\ITypedQueryBuilder;
 
 /**
  * Interface IDBConnection
@@ -54,8 +55,16 @@ interface IDBConnection {
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder
 	 * @since 8.2.0
+	 * @note Since 34.0.0 prefer using {@see self::getTypedQueryBuilder()} instead.
 	 */
 	public function getQueryBuilder();
+
+	/**
+	 * Gets the ITypedQueryBuilder for the connection.
+	 *
+	 * @since 34.0.0
+	 */
+	public function getTypedQueryBuilder(): ITypedQueryBuilder;
 
 	/**
 	 * Used to abstract the Nextcloud database access away
@@ -149,7 +158,6 @@ interface IDBConnection {
 	 * @deprecated 15.0.0 - use unique index and "try { $db->insert() } catch (\OCP\DB\Exception $e) { if ($e->getReason() === \OCP\DB\Exception::REASON_CONSTRAINT_VIOLATION) {} }" instead, because it is more reliable and does not have the risk for deadlocks - see https://github.com/nextcloud/server/pull/12371
 	 */
 	public function insertIfNotExist(string $table, array $input, ?array $compare = null);
-
 
 	/**
 	 *

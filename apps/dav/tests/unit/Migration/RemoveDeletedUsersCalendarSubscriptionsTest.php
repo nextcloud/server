@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\DAV\Migration;
 
 use OCA\DAV\Migration\RemoveDeletedUsersCalendarSubscriptions;
@@ -27,7 +28,6 @@ class RemoveDeletedUsersCalendarSubscriptionsTest extends TestCase {
 	private IOutput&MockObject $output;
 	private RemoveDeletedUsersCalendarSubscriptions $migration;
 
-
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -45,7 +45,7 @@ class RemoveDeletedUsersCalendarSubscriptionsTest extends TestCase {
 		);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestRun')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestRun')]
 	public function testRun(array $subscriptions, array $userExists, int $deletions): void {
 		$qb = $this->createMock(IQueryBuilder::class);
 
@@ -96,7 +96,6 @@ class RemoveDeletedUsersCalendarSubscriptionsTest extends TestCase {
 		$qb->expects($this->exactly($deletions))->method('executeStatement');
 
 		$this->dbConnection->method('getQueryBuilder')->willReturn($qb);
-
 
 		$this->output->expects($this->once())->method('startProgress');
 

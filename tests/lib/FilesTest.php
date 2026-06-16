@@ -39,36 +39,4 @@ class FilesTest extends TestCase {
 		Files::rmdirr($baseDir);
 		$this->assertFalse(file_exists($baseDir));
 	}
-
-	#[\PHPUnit\Framework\Attributes\DataProvider('streamCopyDataProvider')]
-	public function testStreamCopy($expectedCount, $expectedResult, $source, $target): void {
-		if (is_string($source)) {
-			$source = fopen($source, 'r');
-		}
-		if (is_string($target)) {
-			$target = fopen($target, 'w');
-		}
-
-		[$count, $result] = Files::streamCopy($source, $target, true);
-
-		if (is_resource($source)) {
-			fclose($source);
-		}
-		if (is_resource($target)) {
-			fclose($target);
-		}
-
-		$this->assertSame($expectedCount, $count);
-		$this->assertSame($expectedResult, $result);
-	}
-
-
-	public static function streamCopyDataProvider(): array {
-		return [
-			[0, false, false, false],
-			[0, false, \OC::$SERVERROOT . '/tests/data/lorem.txt', false],
-			[filesize(\OC::$SERVERROOT . '/tests/data/lorem.txt'), true, \OC::$SERVERROOT . '/tests/data/lorem.txt', \OC::$SERVERROOT . '/tests/data/lorem-copy.txt'],
-			[3670, true, \OC::$SERVERROOT . '/tests/data/testimage.png', \OC::$SERVERROOT . '/tests/data/testimage-copy.png'],
-		];
-	}
 }

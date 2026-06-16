@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\DB\QueryBuilder;
 
 use Doctrine\DBAL\ArrayParameterType;
@@ -118,6 +119,14 @@ interface IQueryBuilder {
 	 * database server.
 	 */
 	public const MAX_ROW_DELETION = 100000;
+
+	/**
+	 * @since 35.0.0 Indicates how many parameters can be passed to a IN query
+	 * with Oracle database server.
+	 *
+	 * Mostly useful as magic value to give to array_chunk
+	 */
+	public const MAX_IN_PARAMETERS = 1000;
 
 	/**
 	 * Enable/disable automatic prefixing of table names with the oc_ prefix
@@ -386,7 +395,7 @@ interface IQueryBuilder {
 	 * @psalm-taint-sink sql $select
 	 * @psalm-taint-sink sql $alias
 	 */
-	public function selectAlias($select, $alias);
+	public function selectAlias($select, $alias): self;
 
 	/**
 	 * Specifies an item that is to be returned uniquely in the query result.
@@ -770,7 +779,7 @@ interface IQueryBuilder {
 	 * </code>
 	 *
 	 * @param string $column The column into which the value should be inserted.
-	 * @param IParameter|string $value The value that should be inserted into the column.
+	 * @param IParameter|IQueryFunction|string $value The value that should be inserted into the column.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
@@ -1001,9 +1010,10 @@ interface IQueryBuilder {
 	public function createParameter($name);
 
 	/**
-	 * Creates a new function
+	 * Creates a new function.
 	 *
-	 * Attention: Column names inside the call have to be quoted before hand
+	 * @warning Column names inside the call have to be quoted beforehand. In most
+	 * case you can use the IFunctionBuilder instead.
 	 *
 	 * Example:
 	 * <code>
@@ -1092,4 +1102,12 @@ interface IQueryBuilder {
 	 * @since 30.0.0
 	 */
 	public function getOutputColumns(): array;
+
+	/**
+	 * Locks the queried rows for a subsequent update.
+	 *
+	 * @return $this
+	 * @since 33.0.0
+	 */
+	public function forUpdate(ConflictResolutionMode $conflictResolutionMode = ConflictResolutionMode::Ordinary): self;
 }

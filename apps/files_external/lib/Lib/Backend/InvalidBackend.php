@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud GmbH.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Lib\Backend;
 
 use OCA\Files_External\Lib\StorageConfig;
@@ -44,6 +45,7 @@ class InvalidBackend extends Backend {
 	/**
 	 * @return void
 	 */
+	#[\Override]
 	public function manipulateStorageConfig(StorageConfig &$storage, ?IUser $user = null) {
 		$storage->setBackendOption('exception', new \Exception('Unknown storage backend "' . $this->invalidId . '"', StorageNotAvailableException::STATUS_ERROR));
 	}

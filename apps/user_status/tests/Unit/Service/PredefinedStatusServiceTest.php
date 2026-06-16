@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\UserStatus\Tests\Service;
 
 use OCA\UserStatus\Service\PredefinedStatusService;
@@ -102,7 +103,7 @@ class PredefinedStatusServiceTest extends TestCase {
 		], $actual);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('getIconForIdDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'getIconForIdDataProvider')]
 	public function testGetIconForId(string $id, ?string $expectedIcon): void {
 		$actual = $this->service->getIconForId($id);
 		$this->assertEquals($expectedIcon, $actual);
@@ -121,7 +122,7 @@ class PredefinedStatusServiceTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('getTranslatedStatusForIdDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'getTranslatedStatusForIdDataProvider')]
 	public function testGetTranslatedStatusForId(string $id, ?string $expected): void {
 		$this->l10n->method('t')
 			->willReturnArgument(0);
@@ -143,7 +144,7 @@ class PredefinedStatusServiceTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('isValidIdDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'isValidIdDataProvider')]
 	public function testIsValidId(string $id, bool $expected): void {
 		$actual = $this->service->isValidId($id);
 		$this->assertEquals($expected, $actual);

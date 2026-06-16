@@ -7,11 +7,13 @@ import type { User } from '@nextcloud/e2e-test-server/cypress'
 
 const ACTION_COPY_MOVE = 'move-copy'
 
-export const getRowForFileId = (fileid: number) => cy.get(`[data-cy-files-list-row-fileid="${fileid}"]`)
+export const getRowForFileId = (fileid: string | number) => cy.get(`[data-cy-files-list-row-fileid="${fileid}"]`)
 export const getRowForFile = (filename: string) => cy.get(`[data-cy-files-list-row-name="${CSS.escape(filename)}"]`)
 
-export const getActionsForFileId = (fileid: number) => getRowForFileId(fileid).find('[data-cy-files-list-row-actions]')
-export const getActionsForFile = (filename: string) => getRowForFile(filename).find('[data-cy-files-list-row-actions]')
+// Atomic query so the lookup is retried as a whole when rows re-render
+// (chained .find() can fail with "subject no longer attached" mid-render).
+export const getActionsForFileId = (fileid: number) => cy.get(`[data-cy-files-list-row-fileid="${fileid}"] [data-cy-files-list-row-actions]`)
+export const getActionsForFile = (filename: string) => cy.get(`[data-cy-files-list-row-name="${CSS.escape(filename)}"] [data-cy-files-list-row-actions]`)
 
 export const getActionButtonForFileId = (fileid: number) => getActionsForFileId(fileid).findByRole('button', { name: 'Actions' })
 export const getActionButtonForFile = (filename: string) => getActionsForFile(filename).findByRole('button', { name: 'Actions' })
@@ -24,7 +26,9 @@ export const getActionButtonForFile = (filename: string) => getActionsForFile(fi
 export function getActionEntryForFileId(fileid: number, actionId: string) {
 	return getActionButtonForFileId(fileid)
 		.should('have.attr', 'aria-controls')
-		.then((menuId) => cy.get(`#${menuId}`).find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`))
+		.then((menuId) => cy.get(`#${menuId}`)
+			.should('exist')
+			.find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`))
 }
 
 /**
@@ -35,7 +39,9 @@ export function getActionEntryForFileId(fileid: number, actionId: string) {
 export function getActionEntryForFile(file: string, actionId: string) {
 	return getActionButtonForFile(file)
 		.should('have.attr', 'aria-controls')
-		.then((menuId) => cy.get(`#${menuId}`).find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`))
+		.then((menuId) => cy.get(`#${menuId}`)
+			.should('exist')
+			.find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`))
 }
 
 /**
@@ -44,8 +50,7 @@ export function getActionEntryForFile(file: string, actionId: string) {
  * @param actionId
  */
 export function getInlineActionEntryForFileId(fileid: number, actionId: string) {
-	return getActionsForFileId(fileid)
-		.find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
+	return cy.get(`[data-cy-files-list-row-fileid="${fileid}"] [data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
 }
 
 /**
@@ -54,8 +59,7 @@ export function getInlineActionEntryForFileId(fileid: number, actionId: string) 
  * @param actionId
  */
 export function getInlineActionEntryForFile(file: string, actionId: string) {
-	return getActionsForFile(file)
-		.find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
+	return cy.get(`[data-cy-files-list-row-name="${CSS.escape(file)}"] [data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
 }
 
 /**
@@ -65,9 +69,8 @@ export function getInlineActionEntryForFile(file: string, actionId: string) {
  */
 export function triggerActionForFileId(fileid: number, actionId: string) {
 	getActionButtonForFileId(fileid)
-		.as('actionButton')
 		.scrollIntoView()
-	cy.get('@actionButton')
+	getActionButtonForFileId(fileid)
 		.click({ force: true }) // force to avoid issues with overlaying file list header
 	getActionEntryForFileId(fileid, actionId)
 		.find('button')
@@ -82,9 +85,8 @@ export function triggerActionForFileId(fileid: number, actionId: string) {
  */
 export function triggerActionForFile(filename: string, actionId: string) {
 	getActionButtonForFile(filename)
-		.as('actionButton')
 		.scrollIntoView()
-	cy.get('@actionButton')
+	getActionButtonForFile(filename)
 		.click({ force: true }) // force to avoid issues with overlaying file list header
 	getActionEntryForFile(filename, actionId)
 		.find('button')
@@ -160,7 +162,7 @@ export function triggerSelectionAction(actionId: string) {
 	getSelectionActionButton().click({ force: true })
 	// the entry might already be a button or a button might its child
 	getSelectionActionEntry(actionId)
-		.then(($el) => $el.is('button') ? cy.wrap($el) : cy.wrap($el).findByRole('button').last())
+		.then(($el) => $el.is('button') ? cy.wrap($el) : cy.wrap($el).findByRole('menuitem').last())
 		.should('exist')
 		.click()
 }
@@ -281,11 +283,23 @@ export function navigateToFolder(dirPath: string) {
 }
 
 /**
- *
+ * Close the sidebar
  */
 export function closeSidebar() {
 	// {force: true} as it might be hidden behind toasts
-	cy.get('[data-cy-sidebar] .app-sidebar__close').click({ force: true })
+	cy.get('[data-cy-sidebar] .app-sidebar__close')
+		.click({ force: true })
+	cy.get('[data-cy-sidebar]')
+		.should('not.be.visible')
+	// eslint-disable-next-line cypress/no-unnecessary-waiting -- wait for the animation to finish
+	cy.wait(500)
+	cy.url()
+		.should('not.contain', 'opendetails')
+	// close all toasts
+	cy.get('.toast-success')
+		.if()
+		.findAllByRole('button')
+		.click({ force: true, multiple: true })
 }
 
 /**
@@ -370,12 +384,24 @@ export function triggerFileListAction(actionId: string) {
 }
 
 /**
+ * Reloads the current folder
  *
+ * @param intercept if true this will wait for the PROPFIND to complete before it resolves
  */
-export function reloadCurrentFolder() {
+export function reloadCurrentFolder(intercept = true) {
 	cy.intercept('PROPFIND', /\/remote.php\/dav\//).as('propfind')
-	cy.get('[data-cy-files-content-breadcrumbs]').findByRole('button', { description: 'Reload current directory' }).click()
-	cy.wait('@propfind')
+	cy.findByRole('navigation', { name: 'Current directory path' })
+		.findAllByRole('button')
+		.filter('[aria-haspopup="menu"]')
+		.click()
+	cy.findByRole('menu')
+		.should('be.visible')
+		.findByRole('menuitem', { name: 'Reload content' })
+		.click()
+
+	if (intercept) {
+		cy.wait('@propfind')
+	}
 }
 
 /**

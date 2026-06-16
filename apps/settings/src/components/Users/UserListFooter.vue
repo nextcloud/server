@@ -86,7 +86,7 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
-@use './shared/styles';
+@use './shared/styles.scss';
 
 .footer {
 	@include styles.row;

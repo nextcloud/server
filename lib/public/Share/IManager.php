@@ -5,12 +5,12 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\Share;
 
 use OCP\AppFramework\Attribute\Consumable;
 use OCP\Files\Folder;
 use OCP\Files\Node;
-
 use OCP\IUser;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
@@ -135,6 +135,18 @@ interface IManager {
 	public function getSharedWith(string $userId, int $shareType, ?Node $node = null, int $limit = 50, int $offset = 0): array;
 
 	/**
+	 * Get shares shared with a $user filtering by $path.
+	 *
+	 * @param IShare::TYPE_* $shareType
+	 * @param bool $forChildren if true, results should only include children of $path
+	 * @param int $limit The maximum number of shares returned, -1 for all
+	 *
+	 * @return iterable<IShare>
+	 * @since 33.0.0
+	 */
+	public function getSharedWithByPath(string $userId, int $shareType, string $path, bool $forChildren, int $limit = 50, int $offset = 0): iterable;
+
+	/**
 	 * Get deleted shares shared with $user.
 	 * Filter by $node if provided
 	 *
@@ -246,9 +258,9 @@ interface IManager {
 	 * @return ($currentAccess is true
 	 * 		? array{
 	 *     		users?: array<string, array{node_id: int, node_path: string}>,
-	 *     		remote?: array<string, array{node_id: int, node_path: string}>,
+	 *     		remote?: array<string, array{node_id: int, token: string}>,
 	 *     		public?: bool,
-	 *     		mail?: array<string, array{node_id: int, node_path: string}>
+	 *     		mail?: array<string, array{node_id: int, token: string}>
 	 *     	}
 	 *      : array{users?: list<string>, remote?: bool, public?: bool, mail?: list<string>})
 	 * @since 12.0.0
@@ -278,7 +290,7 @@ interface IManager {
 	 * @since 9.0.0
 	 * @since 33.0.0 Added optional $user parameter
 	 */
-	public function shareApiAllowLinks(): bool;
+	public function shareApiAllowLinks(?IUser $user = null): bool;
 
 	/**
 	 * Is password on public link required
@@ -443,7 +455,6 @@ interface IManager {
 	 */
 	public function ignoreSecondDisplayName(): bool;
 
-
 	/**
 	 * Check if custom tokens are allowed
 	 *
@@ -485,7 +496,6 @@ interface IManager {
 	 */
 	public function outgoingServer2ServerGroupSharesAllowed(): bool;
 
-
 	/**
 	 * Check if a given share provider exists
 	 * @param IShare::TYPE_* $shareType
@@ -518,4 +528,13 @@ interface IManager {
 	 * @since 31.0.0
 	 */
 	public function generateToken(): string;
+
+	/**
+	 * Get all users with access to a share
+	 *
+	 * @param IShare $share
+	 * @return iterable<IUser>
+	 * @since 33.0.0
+	 */
+	public function getUsersForShare(IShare $share): iterable;
 }

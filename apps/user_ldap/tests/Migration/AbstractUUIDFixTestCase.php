@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\User_LDAP\Tests\Migration;
 
 use OCA\User_LDAP\Access;
@@ -24,7 +25,7 @@ abstract class AbstractUUIDFixTestCase extends TestCase {
 	protected LDAP&MockObject $ldap;
 	protected AbstractMapping $mapper;
 	protected UUIDFix $job;
-	protected Proxy $proxy;
+	protected Proxy&MockObject $proxy;
 	protected Access&MockObject $access;
 	protected ITimeFactory&MockObject $time;
 	protected bool $isUser = true;

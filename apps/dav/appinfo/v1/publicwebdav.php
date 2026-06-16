@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 use OC\Files\Filesystem;
-use OC\Files\Storage\Wrapper\PermissionsMask;
+use OC\Files\Storage\Wrapper\DirPermissionsMask;
 use OC\Files\View;
 use OCA\DAV\Connector\LegacyPublicAuth;
 use OCA\DAV\Connector\Sabre\ServerFactory;
@@ -14,6 +14,7 @@ use OCA\DAV\Files\Sharing\FilesDropPlugin;
 use OCA\DAV\Files\Sharing\PublicLinkCheckPlugin;
 use OCA\DAV\Storage\PublicOwnerWrapper;
 use OCA\FederatedFileSharing\FederatedShareProvider;
+use OCP\App\IAppManager;
 use OCP\BeforeSabrePubliclyLoadedEvent;
 use OCP\Constants;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -26,16 +27,19 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\ITagManager;
 use OCP\IUserSession;
+use OCP\L10N\IFactory as IL10nFactory;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 // load needed apps
 $RUNTIME_APPTYPES = ['filesystem', 'authentication', 'logging'];
+Server::get(IAppManager::class)->loadApps($RUNTIME_APPTYPES);
 
-OC_App::loadApps($RUNTIME_APPTYPES);
-
-OC_Util::obEnd();
+// Turn off output buffering to prevent memory problems
+while (ob_get_level()) {
+	ob_end_clean();
+}
 Server::get(ISession::class)->close();
 
 // Backends
@@ -60,7 +64,7 @@ $serverFactory = new ServerFactory(
 	Server::get(IRequest::class),
 	Server::get(IPreview::class),
 	$eventDispatcher,
-	\OC::$server->getL10N('dav')
+	Server::get(IL10nFactory::class)->get('dav')
 );
 
 $requestUri = Server::get(IRequest::class)->getRequestUri();
@@ -68,6 +72,7 @@ $requestUri = Server::get(IRequest::class)->getRequestUri();
 $linkCheckPlugin = new PublicLinkCheckPlugin();
 $filesDropPlugin = new FilesDropPlugin();
 
+/** @var string $baseuri defined in public.php */
 $server = $serverFactory->createServer(
 	true,
 	$baseuri,
@@ -87,14 +92,17 @@ $server = $serverFactory->createServer(
 		}
 
 		$share = $authBackend->getShare();
-		$owner = $share->getShareOwner();
 		$isReadable = $share->getPermissions() & Constants::PERMISSION_READ;
 		$fileId = $share->getNodeId();
 
 		// FIXME: should not add storage wrappers outside of preSetup, need to find a better way
 		$previousLog = Filesystem::logWarningWhenAddingStorageWrapper(false);
 		Filesystem::addStorageWrapper('sharePermissions', function ($mountPoint, $storage) use ($share) {
-			return new PermissionsMask(['storage' => $storage, 'mask' => $share->getPermissions() | Constants::PERMISSION_SHARE]);
+			return new DirPermissionsMask([
+				'storage' => $storage,
+				'mask' => $share->getPermissions() | Constants::PERMISSION_SHARE,
+				'path' => 'files'
+			]);
 		});
 		Filesystem::addStorageWrapper('shareOwner', function ($mountPoint, $storage) use ($share) {
 			return new PublicOwnerWrapper(['storage' => $storage, 'owner' => $share->getShareOwner()]);
@@ -102,7 +110,7 @@ $server = $serverFactory->createServer(
 		Filesystem::logWarningWhenAddingStorageWrapper($previousLog);
 
 		$rootFolder = Server::get(IRootFolder::class);
-		$userFolder = $rootFolder->getUserFolder($owner);
+		$userFolder = $rootFolder->getUserFolder($share->getSharedBy());
 		$node = $userFolder->getFirstNodeById($fileId);
 		if (!$node) {
 			throw new \Sabre\DAV\Exception\NotFound();
@@ -125,4 +133,4 @@ $event = new BeforeSabrePubliclyLoadedEvent($server);
 $eventDispatcher->dispatchTyped($event);
 
 // And off we go!
-$server->exec();
+$server->start();

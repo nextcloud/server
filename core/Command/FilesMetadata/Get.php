@@ -29,6 +29,7 @@ class Get extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this->setName('metadata:get')
 			->setDescription('get stored metadata about a file, by its id')
@@ -68,6 +69,7 @@ class Get extends Command {
 	 * @throws NoUserException
 	 * @throws NotFoundException
 	 */
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$fileId = (int)$input->getArgument('fileId');
 

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { FileAction } from '@nextcloud/files'
+import type { IFileAction } from '@nextcloud/files'
 
 import { defineComponent } from 'vue'
 
@@ -11,23 +11,23 @@ export default defineComponent({
 
 	data() {
 		return {
-			openedSubmenu: null as FileAction | null,
+			openedSubmenu: null as IFileAction | null,
 		}
 	},
 
 	computed: {
-		enabledSubmenuActions(): Record<string, FileAction[]> {
-			return (this.enabledFileActions as FileAction[])
+		enabledSubmenuActions(): Record<string, IFileAction[]> {
+			return (this.enabledFileActions as IFileAction[])
 				.reduce((record, action) => {
 					if (action.parent !== undefined) {
 						if (!record[action.parent]) {
 							record[action.parent] = []
 						}
 
-						record[action.parent].push(action)
+						record[action.parent]!.push(action)
 					}
 					return record
-				}, {} as Record<string, FileAction[]>)
+				}, {} as Record<string, IFileAction[]>)
 		},
 	},
 
@@ -38,11 +38,11 @@ export default defineComponent({
 		 *
 		 * @param action The action to check
 		 */
-		isValidMenu(action: FileAction): boolean {
+		isValidMenu(action: IFileAction): boolean {
 			return this.enabledSubmenuActions[action.id]?.length > 0
 		},
 
-		async onBackToMenuClick(action: FileAction | null) {
+		async onBackToMenuClick(action: IFileAction | null) {
 			if (!action) {
 				return
 			}

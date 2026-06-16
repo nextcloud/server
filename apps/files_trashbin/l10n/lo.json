@@ -22,7 +22,6 @@
     "No deleted files" : "ບໍ່ມີຟາຍທີ່ຖືກລຶບອອກ",
     "Files and folders you have deleted will show up here" : "Files and folders you have deleted will show up here",
     "All files have been permanently deleted" : "All files have been permanently deleted",
-    "Failed to empty deleted files" : "Failed to empty deleted files",
-    "Deletion cancelled" : "Deletion cancelled"
+    "Failed to empty deleted files" : "Failed to empty deleted files"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

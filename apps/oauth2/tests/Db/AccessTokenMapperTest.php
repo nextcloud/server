@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\OAuth2\Tests\Db;
 
 use OCA\OAuth2\Db\AccessToken;
@@ -14,7 +15,7 @@ use OCP\IDBConnection;
 use OCP\Server;
 use Test\TestCase;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class AccessTokenMapperTest extends TestCase {
 	/** @var AccessTokenMapper */
 	private $accessTokenMapper;
@@ -28,7 +29,7 @@ class AccessTokenMapperTest extends TestCase {
 		$this->accessTokenMapper->deleteByClientId(1234);
 		$token = new AccessToken();
 		$token->setClientId(1234);
-		$token->setTokenId((string)time());
+		$token->setTokenId(time());
 		$token->setEncryptedToken('MyEncryptedToken');
 		$token->setHashedCode(hash('sha512', 'MyAwesomeToken'));
 		$this->accessTokenMapper->insert($token);
@@ -39,14 +40,13 @@ class AccessTokenMapperTest extends TestCase {
 		$this->accessTokenMapper->delete($token);
 	}
 
-
 	public function testDeleteByClientId(): void {
 		$this->expectException(AccessTokenNotFoundException::class);
 
 		$this->accessTokenMapper->deleteByClientId(1234);
 		$token = new AccessToken();
 		$token->setClientId(1234);
-		$token->setTokenId((string)time());
+		$token->setTokenId(time());
 		$token->setEncryptedToken('MyEncryptedToken');
 		$token->setHashedCode(hash('sha512', 'MyAwesomeToken'));
 		$this->accessTokenMapper->insert($token);

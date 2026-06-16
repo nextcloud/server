@@ -97,6 +97,7 @@ OC.L10N.register(
     "If enabled, only administrators can create and edit tags. Accounts can still assign and remove them from files." : "Ако се укључи, само администратори могу да креирају и уређују ознаке. Налози и даље могу да их додељују или уклањају са фајлова.",
     "Restrict tag creation and editing to administrators" : "Ограничи креирање и уређивање ознака само администраторима",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Заједниче ознаке су доступне свим корисницима. Заштићене ознаке су доступне свим корисницима, али их они не могу додељивати. Невидљиве ознаке су за интерну употребу, пошто их корисници не могу ни видети ни додељивати.",
+    "Add tags" : "Додај ознаке",
     "Assigned collaborative tags" : "Додељене ознаке сарадње",
     "Open in Files" : "Отвори у Фајловима",
     "List of tags and their associated files and folders." : "Листа ознака и њима придружени фајлови и директоријуми.",
@@ -111,10 +112,6 @@ OC.L10N.register(
     "Failed to delete tag for file" : "Није успело брисање ознака за фајл",
     "Collaborative tags …" : "Ознаке сарадње...",
     "Loading …" : "Учитавање…",
-    "File tags modification canceled" : "Отказана је измена ознака фајла",
-    "Select or create tags to apply to all selected files" : "Избор или креирање ознака које ће се применити на све изабране фајлове",
-    "Select tags to apply to all selected files" : "Изаберите ознаке које ће се применити на све изабране фајлове",
-    "Apply changes" : "Примени измене",
     "Loading collaborative tags …" : "Учитавају се ознаке сарадње…"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

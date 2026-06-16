@@ -133,6 +133,7 @@ class SMB extends Common implements INotifyStorage {
 		return [null, $user];
 	}
 
+	#[\Override]
 	public function getId(): string {
 		// FIXME: double slash to keep compatible with the old storage ids,
 		// failure to do so will lead to creation of a new storage id and
@@ -172,13 +173,21 @@ class SMB extends Common implements INotifyStorage {
 			}
 		} catch (ConnectException $e) {
 			$this->throwUnavailable($e);
+		} catch (InvalidArgumentException $e) {
+			$this->throwUnavailable($e);
 		} catch (NotFoundException $e) {
 			throw new \OCP\Files\NotFoundException($e->getMessage(), 0, $e);
 		} catch (ForbiddenException $e) {
 			// with php-smbclient, this exception is thrown when the provided password is invalid.
-			// Possible is also ForbiddenException with a different error code, so we check it.
-			if ($e->getCode() === 1) {
+			// we check if we can stat the root, which should only fail in authentication failures
+			if ($path === '') {
 				$this->throwUnavailable($e);
+			} else {
+				try {
+					$this->share->stat('');
+				} catch (\Exception $e) {
+					$this->throwUnavailable($e);
+				}
 			}
 			throw new \OCP\Files\ForbiddenException($e->getMessage(), false, $e);
 		}
@@ -286,6 +295,7 @@ class SMB extends Common implements INotifyStorage {
 	 * @param string $source the old name of the path
 	 * @param string $target the new name of the path
 	 */
+	#[\Override]
 	public function rename(string $source, string $target, bool $retry = true): bool {
 		if ($this->isRootDir($source) || $this->isRootDir($target)) {
 			return false;
@@ -325,6 +335,7 @@ class SMB extends Common implements INotifyStorage {
 		return $result;
 	}
 
+	#[\Override]
 	public function stat(string $path, bool $retry = true): array|false {
 		try {
 			$result = $this->formatInfo($this->getFileInfo($path));
@@ -379,6 +390,7 @@ class SMB extends Common implements INotifyStorage {
 		return $this->share->getName() && (!$this->root || $this->root === '/');
 	}
 
+	#[\Override]
 	public function unlink(string $path): bool {
 		if ($this->isRootDir($path)) {
 			return false;
@@ -406,6 +418,7 @@ class SMB extends Common implements INotifyStorage {
 	/**
 	 * check if a file or folder has been updated since $time
 	 */
+	#[\Override]
 	public function hasUpdated(string $path, int $time): bool {
 		if (!$path && $this->root === '/') {
 			// mtime doesn't work for shares, but giving the nature of the backend,
@@ -420,6 +433,7 @@ class SMB extends Common implements INotifyStorage {
 	/**
 	 * @return resource|false
 	 */
+	#[\Override]
 	public function fopen(string $path, string $mode) {
 		$fullPath = $this->buildPath($path);
 		try {
@@ -490,6 +504,7 @@ class SMB extends Common implements INotifyStorage {
 		}
 	}
 
+	#[\Override]
 	public function rmdir(string $path): bool {
 		if ($this->isRootDir($path)) {
 			return false;
@@ -517,6 +532,7 @@ class SMB extends Common implements INotifyStorage {
 		}
 	}
 
+	#[\Override]
 	public function touch(string $path, ?int $mtime = null): bool {
 		try {
 			if (!$this->file_exists($path)) {
@@ -533,6 +549,7 @@ class SMB extends Common implements INotifyStorage {
 		}
 	}
 
+	#[\Override]
 	public function getMetaData(string $path): ?array {
 		try {
 			$fileInfo = $this->getFileInfo($path);
@@ -578,6 +595,7 @@ class SMB extends Common implements INotifyStorage {
 		return $data;
 	}
 
+	#[\Override]
 	public function opendir(string $path) {
 		try {
 			$files = $this->getFolderContents($path);
@@ -593,6 +611,7 @@ class SMB extends Common implements INotifyStorage {
 		return IteratorDirectory::wrap($names);
 	}
 
+	#[\Override]
 	public function getDirectoryContent(string $directory): \Traversable {
 		try {
 			$files = $this->getFolderContents($directory);
@@ -606,6 +625,7 @@ class SMB extends Common implements INotifyStorage {
 		}
 	}
 
+	#[\Override]
 	public function filetype(string $path): string|false {
 		try {
 			return $this->getFileInfo($path)->isDirectory() ? 'dir' : 'file';
@@ -616,6 +636,7 @@ class SMB extends Common implements INotifyStorage {
 		}
 	}
 
+	#[\Override]
 	public function mkdir(string $path): bool {
 		$path = $this->buildPath($path);
 		try {
@@ -629,6 +650,7 @@ class SMB extends Common implements INotifyStorage {
 		}
 	}
 
+	#[\Override]
 	public function file_exists(string $path): bool {
 		try {
 			// Case sensitive filesystem doesn't matter for root directory
@@ -653,6 +675,7 @@ class SMB extends Common implements INotifyStorage {
 		}
 	}
 
+	#[\Override]
 	public function isReadable(string $path): bool {
 		try {
 			$info = $this->getFileInfo($path);
@@ -664,6 +687,7 @@ class SMB extends Common implements INotifyStorage {
 		}
 	}
 
+	#[\Override]
 	public function isUpdatable(string $path): bool {
 		try {
 			$info = $this->getFileInfo($path);
@@ -677,6 +701,7 @@ class SMB extends Common implements INotifyStorage {
 		}
 	}
 
+	#[\Override]
 	public function isDeletable(string $path): bool {
 		try {
 			$info = $this->getFileInfo($path);
@@ -696,6 +721,7 @@ class SMB extends Common implements INotifyStorage {
 		return Server::available($system) || NativeServer::available($system) ?: ['smbclient'];
 	}
 
+	#[\Override]
 	public function test(): bool {
 		try {
 			return parent::test();
@@ -719,6 +745,7 @@ class SMB extends Common implements INotifyStorage {
 		});
 	}
 
+	#[\Override]
 	public function notify(string $path): SMBNotifyHandler {
 		$path = '/' . ltrim($path, '/');
 		$shareNotifyHandler = $this->share->notify($this->buildPath($path));

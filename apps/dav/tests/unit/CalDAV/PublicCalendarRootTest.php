@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV;
 
 use OCA\DAV\CalDAV\CalDavBackend;
@@ -32,7 +33,7 @@ use Test\TestCase;
  *
  * @package OCA\DAV\Tests\unit\CalDAV
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class PublicCalendarRootTest extends TestCase {
 	public const UNIT_TEST_USER = '';
 	private CalDavBackend $backend;

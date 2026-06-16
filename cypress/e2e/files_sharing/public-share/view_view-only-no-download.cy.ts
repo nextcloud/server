@@ -44,6 +44,7 @@ describe('files_sharing: Public share - View only', { testIsolation: true }, () 
 				.should('be.visible')
 			cy.get('[data-cy-files-sharing-share-permissions-bundle="read-only"]')
 				.click()
+			cy.findByRole('button', { name: /advanced settings/i }).click()
 			cy.findByRole('checkbox', { name: 'Hide download' })
 				.check({ force: true })
 			// save the update

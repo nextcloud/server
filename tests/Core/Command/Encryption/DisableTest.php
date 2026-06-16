@@ -25,6 +25,7 @@ class DisableTest extends TestCase {
 	/** @var \Symfony\Component\Console\Command\Command */
 	protected $command;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -37,7 +38,6 @@ class DisableTest extends TestCase {
 		/** @var IConfig $config */
 		$this->command = new Disable($config);
 	}
-
 
 	public static function dataDisable(): array {
 		return [

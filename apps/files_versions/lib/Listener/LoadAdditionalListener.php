@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Versions\Listener;
 
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
@@ -16,6 +17,7 @@ use OCP\Util;
 
 /** @template-implements IEventListener<LoadAdditionalScriptsEvent> */
 class LoadAdditionalListener implements IEventListener {
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!($event instanceof LoadAdditionalScriptsEvent)) {
 			return;
@@ -24,6 +26,6 @@ class LoadAdditionalListener implements IEventListener {
 		// TODO: make sure to only include the sidebar script when
 		// we properly split it between files list and sidebar
 		Util::addStyle(Application::APP_ID, 'sidebar-tab');
-		Util::addScript(Application::APP_ID, 'sidebar-tab');
+		Util::addInitScript(Application::APP_ID, 'sidebar-tab');
 	}
 }

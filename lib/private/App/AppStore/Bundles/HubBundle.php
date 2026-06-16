@@ -6,13 +6,16 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\App\AppStore\Bundles;
 
 class HubBundle extends Bundle {
+	#[\Override]
 	public function getName() {
 		return $this->l10n->t('Hub bundle');
 	}
 
+	#[\Override]
 	public function getAppIdentifiers() {
 		$hubApps = [
 			'spreed',

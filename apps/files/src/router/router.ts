@@ -1,18 +1,22 @@
-/**
+/*
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+import type { INode } from '@nextcloud/files'
 import type { RawLocation, Route } from 'vue-router'
 
+import { subscribe } from '@nextcloud/event-bus'
 import { generateUrl } from '@nextcloud/router'
 import { relative } from 'path'
 import queryString from 'query-string'
 import Vue from 'vue'
 import Router, { isNavigationFailure, NavigationFailureType } from 'vue-router'
-import logger from '../logger.ts'
 import { useFilesStore } from '../store/files.ts'
+import { getPinia } from '../store/index.ts'
 import { usePathsStore } from '../store/paths.ts'
 import { defaultView } from '../utils/filesViews.ts'
+import { logger } from '../utils/logger.ts'
 
 Vue.use(Router)
 
@@ -34,13 +38,14 @@ Router.prototype.replace = (function(this: Router, ...args: Parameters<typeof or
 }) as typeof originalReplace
 
 /**
- * Ignore duplicated-navigation error but forward real exceptions
+ * Ignore duplicated- and redirected-navigation errors but forward real exceptions
  *
  * @param error The thrown error
  */
 function ignoreDuplicateNavigation(error: unknown): void {
-	if (isNavigationFailure(error, NavigationFailureType.duplicated)) {
-		logger.debug('Ignoring duplicated navigation from vue-router', { error })
+	if (isNavigationFailure(error, NavigationFailureType.duplicated)
+		|| isNavigationFailure(error, NavigationFailureType.redirected)) {
+		logger.debug('Ignoring duplicated/redirected navigation from vue-router', { error })
 	} else {
 		throw error
 	}
@@ -140,6 +145,32 @@ router.beforeResolve((to, from, next) => {
 
 	// else, we just continue
 	next()
+})
+
+subscribe('files:node:deleted', (node: INode) => {
+	if (router.currentRoute.params.fileid === String(node.fileid)) {
+		const params = { ...router.currentRoute.params }
+		const { getPath } = usePathsStore(getPinia())
+		const { getNode } = useFilesStore(getPinia())
+		const source = getPath(router.currentRoute.params.view, node.dirname)
+		const parentFolder = getNode(source!)
+		if (source && parentFolder) {
+			params.fileid = String(parentFolder.fileid)
+		} else {
+			delete params.fileid
+		}
+
+		const query = { ...router.currentRoute.query }
+		delete query.opendetails
+		delete query.openfile
+
+		router.replace({
+			...router.currentRoute,
+			name: router.currentRoute.name as string,
+			params,
+			query,
+		})
+	}
 })
 
 export default router

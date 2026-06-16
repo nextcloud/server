@@ -1,15 +1,15 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { Folder, View } from '@nextcloud/files'
+import type { IFolder, IView } from '@nextcloud/files'
 
 import axios from '@nextcloud/axios'
 import * as eventBus from '@nextcloud/event-bus'
-import { File, FileAction, Permission } from '@nextcloud/files'
+import { File, Permission } from '@nextcloud/files'
 import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
-import logger from '../logger.ts'
+import { logger } from '../utils/logger.ts'
 import { action } from './favoriteAction.ts'
 import * as favoriteAction from './favoriteAction.ts'
 
@@ -19,12 +19,12 @@ vi.mock('@nextcloud/axios')
 const view = {
 	id: 'files',
 	name: 'Files',
-} as View
+} as IView
 
 const favoriteView = {
 	id: 'favorites',
 	name: 'Favorites',
-} as View
+} as IView
 
 // Mock webroot variable
 beforeAll(() => {
@@ -46,18 +46,17 @@ describe('Favorite action conditions tests', () => {
 			root: '/files/admin',
 		})
 
-		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('favorite')
 		expect(action.displayName({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe('Add to favorites')
 		expect(action.iconSvgInline({
 			nodes: [],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toMatch(/<svg.+<\/svg>/)
 		expect(action.default).toBeUndefined()
@@ -79,7 +78,7 @@ describe('Favorite action conditions tests', () => {
 		expect(action.displayName({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe('Remove from favorites')
 	})
@@ -122,25 +121,25 @@ describe('Favorite action conditions tests', () => {
 		expect(action.displayName({
 			nodes: [file1, file2, file3],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe('Add to favorites')
 		expect(action.displayName({
 			nodes: [file2, file3],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe('Add to favorites')
 		expect(action.displayName({
 			nodes: [file2, file3],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe('Add to favorites')
 		expect(action.displayName({
 			nodes: [file1, file3],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe('Remove from favorites')
 	})
@@ -161,7 +160,7 @@ describe('Favorite action enabled tests', () => {
 		expect(action.enabled!({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe(true)
 	})
@@ -179,7 +178,7 @@ describe('Favorite action enabled tests', () => {
 		expect(action.enabled!({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})).toBe(false)
 	})
@@ -205,7 +204,7 @@ describe('Favorite action execute tests', () => {
 		const exec = await action.exec({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})
 
@@ -217,7 +216,7 @@ describe('Favorite action execute tests', () => {
 
 		// Check node change propagation
 		expect(file.attributes.favorite).toBe(1)
-		expect(eventBus.emit).toBeCalledTimes(1)
+		expect(eventBus.emit).toHaveBeenCalled()
 		expect(eventBus.emit).toBeCalledWith('files:favorites:added', file)
 	})
 
@@ -239,7 +238,7 @@ describe('Favorite action execute tests', () => {
 		const exec = await action.exec({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})
 
@@ -251,7 +250,7 @@ describe('Favorite action execute tests', () => {
 
 		// Check node change propagation
 		expect(file.attributes.favorite).toBe(0)
-		expect(eventBus.emit).toBeCalledTimes(1)
+		expect(eventBus.emit).toHaveBeenCalled()
 		expect(eventBus.emit).toBeCalledWith('files:favorites:removed', file)
 	})
 
@@ -273,7 +272,7 @@ describe('Favorite action execute tests', () => {
 		const exec = await action.exec({
 			nodes: [file],
 			view: favoriteView,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})
 
@@ -285,9 +284,9 @@ describe('Favorite action execute tests', () => {
 
 		// Check node change propagation
 		expect(file.attributes.favorite).toBe(0)
-		expect(eventBus.emit).toBeCalledTimes(2)
-		expect(eventBus.emit).toHaveBeenNthCalledWith(1, 'files:node:deleted', file)
-		expect(eventBus.emit).toHaveBeenNthCalledWith(2, 'files:favorites:removed', file)
+		expect(eventBus.emit).toHaveBeenCalled()
+		expect(eventBus.emit).toHaveBeenCalledWith('files:node:deleted', file)
+		expect(eventBus.emit).toHaveBeenCalledWith('files:favorites:removed', file)
 	})
 
 	test('Favorite does NOT triggers node removal if favorite view but NOT root dir', async () => {
@@ -308,7 +307,7 @@ describe('Favorite action execute tests', () => {
 		const exec = await action.exec({
 			nodes: [file],
 			view: favoriteView,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})
 
@@ -320,7 +319,7 @@ describe('Favorite action execute tests', () => {
 
 		// Check node change propagation
 		expect(file.attributes.favorite).toBe(0)
-		expect(eventBus.emit).toBeCalledTimes(1)
+		expect(eventBus.emit).toHaveBeenCalled()
 		expect(eventBus.emit).toBeCalledWith('files:favorites:removed', file)
 	})
 
@@ -345,7 +344,7 @@ describe('Favorite action execute tests', () => {
 		const exec = await action.exec({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})
 
@@ -383,7 +382,7 @@ describe('Favorite action execute tests', () => {
 		const exec = await action.exec({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})
 
@@ -437,7 +436,7 @@ describe('Favorite action batch execute tests', () => {
 		const exec = await action.execBatch!({
 			nodes: [file1, file2],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})
 		expect(exec).toStrictEqual([true, true])
@@ -479,7 +478,7 @@ describe('Favorite action batch execute tests', () => {
 		const exec = await action.execBatch!({
 			nodes: [file1, file2],
 			view,
-			folder: {} as Folder,
+			folder: {} as IFolder,
 			contents: [],
 		})
 		expect(exec).toStrictEqual([true, true])

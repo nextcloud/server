@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CalDAV\Reminder\NotificationProvider;
 
 use OCA\DAV\AppInfo\Application;
@@ -50,6 +51,7 @@ class PushProvider extends AbstractProvider {
 	 * @param IUser[] $users
 	 * @throws \Exception
 	 */
+	#[\Override]
 	public function send(VEvent $vevent,
 		?string $calendarDisplayName,
 		array $principalEmailAddresses,

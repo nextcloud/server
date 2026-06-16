@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\DB\Exceptions;
 
 use Doctrine\DBAL\ConnectionException;
@@ -33,23 +34,17 @@ use OCP\DB\Exception;
  * @psalm-immutable
  */
 class DbalException extends Exception {
-	/** @var \Doctrine\DBAL\Exception */
-	private $original;
-	public readonly ?string $query;
-
-	/**
-	 * @param \Doctrine\DBAL\Exception $original
-	 * @param int $code
-	 * @param string $message
-	 */
-	private function __construct(\Doctrine\DBAL\Exception $original, int $code, string $message, ?string $query = null) {
+	private function __construct(
+		private \Doctrine\DBAL\Exception $original,
+		int $code,
+		string $message,
+		public readonly ?string $query = null,
+	) {
 		parent::__construct(
 			$message,
 			$code,
 			$original
 		);
-		$this->original = $original;
-		$this->query = $query;
 	}
 
 	public static function wrap(\Doctrine\DBAL\Exception $original, string $message = '', ?string $query = null): self {
@@ -65,6 +60,7 @@ class DbalException extends Exception {
 		return $this->original instanceof RetryableException;
 	}
 
+	#[\Override]
 	public function getReason(): ?int {
 		/**
 		 * Constraint errors

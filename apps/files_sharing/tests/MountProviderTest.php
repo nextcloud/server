@@ -5,16 +5,20 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Tests;
 
-use OC\Memcache\NullCache;
 use OC\Share20\Share;
 use OCA\Files_Sharing\MountProvider;
 use OCA\Files_Sharing\SharedMount;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\Config\ICachedMountInfo;
+use OCP\Files\Config\MountProviderArgs;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Storage\IStorageFactory;
+use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IUser;
@@ -25,7 +29,7 @@ use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class MountProviderTest extends \Test\TestCase {
 
 	protected MountProvider $provider;
@@ -35,29 +39,27 @@ class MountProviderTest extends \Test\TestCase {
 	protected IManager&MockObject $shareManager;
 	protected IStorageFactory&MockObject $loader;
 	protected LoggerInterface&MockObject $logger;
+	private ICache&MockObject $cache;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
-		$this->user = $this->getMockBuilder(IUser::class)->getMock();
-		$this->loader = $this->getMockBuilder('OCP\Files\Storage\IStorageFactory')->getMock();
-		$this->shareManager = $this->getMockBuilder(IManager::class)->getMock();
-		$this->logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
+		$this->config = $this->createMock(IConfig::class);
+		$this->user = $this->createMock(IUser::class);
+		$this->loader = $this->createMock(IStorageFactory::class);
+		$this->shareManager = $this->createMock(IManager::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$eventDispatcher = $this->createMock(IEventDispatcher::class);
+		$this->cache = $this->createMock(ICache::class);
+		$this->cache->method('get')->willReturn(true);
 		$cacheFactory = $this->createMock(ICacheFactory::class);
-		$cacheFactory->method('createLocal')
-			->willReturn(new NullCache());
+		$cacheFactory->method('createLocal')->willReturn($this->cache);
 		$mountManager = $this->createMock(IMountManager::class);
 
 		$this->provider = new MountProvider($this->config, $this->shareManager, $this->logger, $eventDispatcher, $cacheFactory, $mountManager);
 	}
 
-	private function makeMockShareAttributes($attrs) {
-		if ($attrs === null) {
-			return null;
-		}
-
+	private function makeMockShareAttributes(array $attrs): IShareAttributes&MockObject {
 		$shareAttributes = $this->createMock(IShareAttributes::class);
 		$shareAttributes->method('toArray')->willReturn($attrs);
 		$shareAttributes->method('getAttribute')->willReturnCallback(
@@ -74,14 +76,14 @@ class MountProviderTest extends \Test\TestCase {
 		return $shareAttributes;
 	}
 
-	private function makeMockShare($id, $nodeId, $owner = 'user2', $target = null, $permissions = 31, $attributes = null) {
+	private function makeMockShare(string $id, $nodeId, $owner = 'user2', $target = null, $permissions = 31, $attributes = null) {
 		$share = $this->createMock(IShare::class);
 		$share->expects($this->any())
 			->method('getPermissions')
 			->willReturn($permissions);
 		$share->expects($this->any())
 			->method('getAttributes')
-			->willReturn($this->makeMockShareAttributes($attributes));
+			->willReturn($attributes === null ? null : $this->makeMockShareAttributes($attributes));
 		$share->expects($this->any())
 			->method('getShareOwner')
 			->willReturn($owner);
@@ -114,25 +116,25 @@ class MountProviderTest extends \Test\TestCase {
 		$attr1 = [];
 		$attr2 = [['scope' => 'permission', 'key' => 'download', 'value' => true]];
 		$userShares = [
-			$this->makeMockShare(1, 100, 'user2', '/share2', 0, $attr1),
-			$this->makeMockShare(2, 100, 'user2', '/share2', 31, $attr2),
+			$this->makeMockShare('1', 100, 'user2', '/share2', 0, $attr1),
+			$this->makeMockShare('2', 100, 'user2', '/share2', 31, $attr2),
 		];
 		$groupShares = [
-			$this->makeMockShare(3, 100, 'user2', '/share2', 0, $attr1),
-			$this->makeMockShare(4, 101, 'user2', '/share4', 31, $attr2),
-			$this->makeMockShare(5, 100, 'user1', '/share4', 31, $attr2),
+			$this->makeMockShare('3', 100, 'user2', '/share2', 0, $attr1),
+			$this->makeMockShare('4', 101, 'user2', '/share4', 31, $attr2),
+			$this->makeMockShare('5', 100, 'user1', '/share4', 31, $attr2),
 		];
 		$roomShares = [
-			$this->makeMockShare(6, 102, 'user2', '/share6', 0),
-			$this->makeMockShare(7, 102, 'user1', '/share6', 31),
-			$this->makeMockShare(8, 102, 'user2', '/share6', 31),
-			$this->makeMockShare(9, 102, 'user2', '/share6', 31),
+			$this->makeMockShare('6', 102, 'user2', '/share6', 0),
+			$this->makeMockShare('7', 102, 'user1', '/share6', 31),
+			$this->makeMockShare('8', 102, 'user2', '/share6', 31),
+			$this->makeMockShare('9', 102, 'user2', '/share6', 31),
 		];
 		$deckShares = [
-			$this->makeMockShare(10, 103, 'user2', '/share7', 0),
-			$this->makeMockShare(11, 103, 'user1', '/share7', 31),
-			$this->makeMockShare(12, 103, 'user2', '/share7', 31),
-			$this->makeMockShare(13, 103, 'user2', '/share7', 31),
+			$this->makeMockShare('10', 103, 'user2', '/share7', 0),
+			$this->makeMockShare('11', 103, 'user1', '/share7', 31),
+			$this->makeMockShare('12', 103, 'user2', '/share7', 31),
+			$this->makeMockShare('13', 103, 'user2', '/share7', 31),
 		];
 		// tests regarding circles and sciencemesh are made in the apps themselves.
 		$circleShares = [];
@@ -140,7 +142,7 @@ class MountProviderTest extends \Test\TestCase {
 		$this->user->expects($this->any())
 			->method('getUID')
 			->willReturn('user1');
-		$this->shareManager->expects($this->exactly(6))
+		$this->shareManager->expects($this->exactly(5))
 			->method('getSharedWith')
 			->willReturnMap([
 				['user1', IShare::TYPE_USER, null, -1, 0, $userShares],
@@ -148,7 +150,6 @@ class MountProviderTest extends \Test\TestCase {
 				['user1', IShare::TYPE_CIRCLE, null, -1, 0, $circleShares],
 				['user1', IShare::TYPE_ROOM, null, -1, 0, $roomShares],
 				['user1', IShare::TYPE_DECK, null, -1, 0, $deckShares],
-				['user1', IShare::TYPE_SCIENCEMESH, null, -1, 0, $scienceMeshShares],
 			]);
 
 		$this->shareManager->expects($this->any())
@@ -157,13 +158,13 @@ class MountProviderTest extends \Test\TestCase {
 				return new Share($rootFolder, $userManager);
 			});
 
+		/** @var SharedMount[] $mounts */
 		$mounts = $this->provider->getMountsForUser($this->user, $this->loader);
 		$this->assertCount(4, $mounts);
 		$this->assertInstanceOf('OCA\Files_Sharing\SharedMount', $mounts[0]);
 		$this->assertInstanceOf('OCA\Files_Sharing\SharedMount', $mounts[1]);
 		$this->assertInstanceOf('OCA\Files_Sharing\SharedMount', $mounts[2]);
 		$this->assertInstanceOf('OCA\Files_Sharing\SharedMount', $mounts[3]);
-		/** @var SharedMount[] $mounts */
 		$mountedShare1 = $mounts[0]->getShare();
 		$this->assertEquals('2', $mountedShare1->getId());
 		$this->assertEquals('user2', $mountedShare1->getShareOwner());
@@ -199,10 +200,10 @@ class MountProviderTest extends \Test\TestCase {
 			// #0: share as outsider with "group1" and "user1" with same permissions
 			[
 				[
-					[1, 100, 'user2', '/share2', 31, null],
+					['1', 100, 'user2', '/share2', 31, null],
 				],
 				[
-					[2, 100, 'user2', '/share2', 31, null],
+					['2', 100, 'user2', '/share2', 31, null],
 				],
 				[
 					// combined, user share has higher priority
@@ -212,10 +213,10 @@ class MountProviderTest extends \Test\TestCase {
 			// #1: share as outsider with "group1" and "user1" with different permissions
 			[
 				[
-					[1, 100, 'user2', '/share', 31, [['scope' => 'permission', 'key' => 'download', 'value' => true], ['scope' => 'app', 'key' => 'attribute1', 'value' => true]]],
+					['1', 100, 'user2', '/share', 31, [['scope' => 'permission', 'key' => 'download', 'value' => true], ['scope' => 'app', 'key' => 'attribute1', 'value' => true]]],
 				],
 				[
-					[2, 100, 'user2', '/share', 15, [['scope' => 'permission', 'key' => 'download', 'value' => false], ['scope' => 'app', 'key' => 'attribute2', 'value' => false]]],
+					['2', 100, 'user2', '/share', 15, [['scope' => 'permission', 'key' => 'download', 'value' => false], ['scope' => 'app', 'key' => 'attribute2', 'value' => false]]],
 				],
 				[
 					// use highest permissions
@@ -227,8 +228,8 @@ class MountProviderTest extends \Test\TestCase {
 				[
 				],
 				[
-					[1, 100, 'user2', '/share', 31, null],
-					[2, 100, 'user2', '/share', 31, []],
+					['1', 100, 'user2', '/share', 31, null],
+					['2', 100, 'user2', '/share', 31, []],
 				],
 				[
 					// combined, first group share has higher priority
@@ -240,8 +241,8 @@ class MountProviderTest extends \Test\TestCase {
 				[
 				],
 				[
-					[1, 100, 'user2', '/share', 31, [['scope' => 'permission', 'key' => 'download', 'value' => false]]],
-					[2, 100, 'user2', '/share', 15, [['scope' => 'permission', 'key' => 'download', 'value' => true]]],
+					['1', 100, 'user2', '/share', 31, [['scope' => 'permission', 'key' => 'download', 'value' => false]]],
+					['2', 100, 'user2', '/share', 15, [['scope' => 'permission', 'key' => 'download', 'value' => true]]],
 				],
 				[
 					// use higher permissions (most permissive)
@@ -253,7 +254,7 @@ class MountProviderTest extends \Test\TestCase {
 				[
 				],
 				[
-					[1, 100, 'user1', '/share', 31, []],
+					['1', 100, 'user1', '/share', 31, []],
 				],
 				[
 					// no received share since "user1" is the sharer/owner
@@ -264,8 +265,8 @@ class MountProviderTest extends \Test\TestCase {
 				[
 				],
 				[
-					[1, 100, 'user1', '/share', 31, [['scope' => 'permission', 'key' => 'download', 'value' => true]]],
-					[2, 100, 'user1', '/share', 15, [['scope' => 'permission', 'key' => 'download', 'value' => false]]],
+					['1', 100, 'user1', '/share', 31, [['scope' => 'permission', 'key' => 'download', 'value' => true]]],
+					['2', 100, 'user1', '/share', 15, [['scope' => 'permission', 'key' => 'download', 'value' => false]]],
 				],
 				[
 					// no received share since "user1" is the sharer/owner
@@ -276,7 +277,7 @@ class MountProviderTest extends \Test\TestCase {
 				[
 				],
 				[
-					[1, 100, 'user2', '/share', 0, []],
+					['1', 100, 'user2', '/share', 0, []],
 				],
 				[
 					// no received share since "user1" opted out
@@ -285,10 +286,10 @@ class MountProviderTest extends \Test\TestCase {
 			// #7: share as outsider with "group1" and "user1" where recipient renamed in between
 			[
 				[
-					[1, 100, 'user2', '/share2-renamed', 31, []],
+					['1', 100, 'user2', '/share2-renamed', 31, []],
 				],
 				[
-					[2, 100, 'user2', '/share2', 31, []],
+					['2', 100, 'user2', '/share2', 31, []],
 				],
 				[
 					// use target of least recent share
@@ -298,10 +299,10 @@ class MountProviderTest extends \Test\TestCase {
 			// #8: share as outsider with "group1" and "user1" where recipient renamed in between
 			[
 				[
-					[2, 100, 'user2', '/share2', 31, []],
+					['2', 100, 'user2', '/share2', 31, []],
 				],
 				[
-					[1, 100, 'user2', '/share2-renamed', 31, []],
+					['1', 100, 'user2', '/share2-renamed', 31, []],
 				],
 				[
 					// use target of least recent share
@@ -311,10 +312,10 @@ class MountProviderTest extends \Test\TestCase {
 			// #9: share as outsider with "nullgroup" and "user1" where recipient renamed in between
 			[
 				[
-					[2, 100, 'user2', '/share2', 31, []],
+					['2', 100, 'user2', '/share2', 31, []],
 				],
 				[
-					[1, 100, 'nullgroup', '/share2-renamed', 31, []],
+					['1', 100, 'nullgroup', '/share2-renamed', 31, []],
 				],
 				[
 					// use target of least recent share
@@ -336,8 +337,8 @@ class MountProviderTest extends \Test\TestCase {
 	 * @param array $groupShares array of group share specs
 	 * @param array $expectedShares array of expected supershare specs
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('mergeSharesDataProvider')]
-	public function testMergeShares($userShares, $groupShares, $expectedShares, $moveFails = false): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'mergeSharesDataProvider')]
+	public function testMergeShares(array $userShares, array $groupShares, array $expectedShares, bool $moveFails = false): void {
 		$rootFolder = $this->createMock(IRootFolder::class);
 		$userManager = $this->createMock(IUserManager::class);
 
@@ -356,8 +357,7 @@ class MountProviderTest extends \Test\TestCase {
 		$circleShares = [];
 		$roomShares = [];
 		$deckShares = [];
-		$scienceMeshShares = [];
-		$this->shareManager->expects($this->exactly(6))
+		$this->shareManager->expects($this->exactly(5))
 			->method('getSharedWith')
 			->willReturnMap([
 				['user1', IShare::TYPE_USER, null, -1, 0, $userShares],
@@ -365,7 +365,6 @@ class MountProviderTest extends \Test\TestCase {
 				['user1', IShare::TYPE_CIRCLE, null, -1, 0, $circleShares],
 				['user1', IShare::TYPE_ROOM, null, -1, 0, $roomShares],
 				['user1', IShare::TYPE_DECK, null, -1, 0, $deckShares],
-				['user1', IShare::TYPE_SCIENCEMESH, null, -1, 0, $scienceMeshShares],
 			]);
 
 		$this->shareManager->expects($this->any())
@@ -385,6 +384,91 @@ class MountProviderTest extends \Test\TestCase {
 		$this->assertCount(count($expectedShares), $mounts);
 
 		foreach ($mounts as $index => $mount) {
+			$expectedShare = $expectedShares[$index];
+			$this->assertInstanceOf(SharedMount::class, $mount);
+
+			// supershare
+			/** @var SharedMount $mount */
+			$share = $mount->getShare();
+
+			$this->assertEquals($expectedShare[0], $share->getId());
+			$this->assertEquals($expectedShare[1], $share->getNodeId());
+			$this->assertEquals($expectedShare[2], $share->getShareOwner());
+			$this->assertEquals($expectedShare[3], $share->getTarget());
+			$this->assertEquals($expectedShare[4], $share->getPermissions());
+			if ($expectedShare[5] === null) {
+				$this->assertNull($share->getAttributes());
+			} else {
+				$this->assertEquals($expectedShare[5], $share->getAttributes()->toArray());
+			}
+		}
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'mergeSharesDataProvider')]
+	public function testMergeSharesInGetMountsForPath(array $userShares, array $groupShares, array $expectedShares, bool $moveFails = false): void {
+		$rootFolder = $this->createMock(IRootFolder::class);
+		$userManager = $this->createMock(IUserManager::class);
+
+		$userShares = array_map(function ($shareSpec) {
+			return $this->makeMockShare($shareSpec[0], $shareSpec[1], $shareSpec[2], $shareSpec[3], $shareSpec[4], $shareSpec[5]);
+		}, $userShares);
+		$groupShares = array_map(function ($shareSpec) {
+			return $this->makeMockShare($shareSpec[0], $shareSpec[1], $shareSpec[2], $shareSpec[3], $shareSpec[4], $shareSpec[5]);
+		}, $groupShares);
+
+		$this->user->expects($this->any())
+			->method('getUID')
+			->willReturn('user1');
+
+		// tests regarding circles are made in the app itself.
+		$circleShares = [];
+		$roomShares = [];
+		$deckShares = [];
+		$path = '/';
+
+		// no expected shares? then no calls are performed to providers
+		$expectedProviderCalls = \count($expectedShares) ? 5 : 0;
+		$this->shareManager->expects($this->exactly($expectedProviderCalls))
+			->method('getSharedWithByPath')
+			->willReturnMap([
+				['user1', IShare::TYPE_USER, $path, true, -1, 0, $userShares],
+				['user1', IShare::TYPE_GROUP, $path, true, -1, 0, $groupShares],
+				['user1', IShare::TYPE_CIRCLE, $path, true, -1, 0, $circleShares],
+				['user1', IShare::TYPE_ROOM, $path, true, -1, 0, $roomShares],
+				['user1', IShare::TYPE_DECK, $path, true, -1, 0, $deckShares],
+			]);
+
+		$this->shareManager->expects($this->any())
+			->method('newShare')
+			->willReturnCallback(function () use ($rootFolder, $userManager) {
+				return new Share($rootFolder, $userManager);
+			});
+
+		if ($moveFails) {
+			$this->shareManager->expects($this->any())
+				->method('moveShare')
+				->willThrowException(new \InvalidArgumentException());
+		}
+
+		$mountArgs = [];
+		foreach ($expectedShares as $share) {
+			$mountInfo = $this->createMock(ICachedMountInfo::class);
+			$mountInfo->method('getUser')->willReturn($this->user);
+			$mountInfo->method('getRootId')->willReturn($share[1]);
+			$rootCacheEntry = $this->createMock(ICacheEntry::class);
+			$mountArg = new MountProviderArgs($mountInfo, $rootCacheEntry);
+			$mountArgs[] = $mountArg;
+		}
+
+		if (count($mountArgs) === 0) {
+			$mounts = [];
+		} else {
+			$mounts = $this->provider->getMountsForPath('/', true, $mountArgs, $this->loader);
+		}
+
+		$this->assertCount(\count($expectedShares), $mounts);
+
+		foreach (array_values($mounts) as $index => $mount) {
 			$expectedShare = $expectedShares[$index];
 			$this->assertInstanceOf('OCA\Files_Sharing\SharedMount', $mount);
 

@@ -21,9 +21,6 @@ use Override;
 #[ModifyColumn(table: 'calendar_reminders', name: 'uid', type: ColumnType::STRING, description: 'Increase uid length to 512 characters')]
 #[ModifyColumn(table: 'calendar_invitations', name: 'uid', type: ColumnType::STRING, description: 'Increase uid length to 512 characters')]
 class Version1036Date20251202000000 extends SimpleMigrationStep {
-	/**
-	 * @param Closure(): ISchemaWrapper $schemaClosure
-	 */
 	#[Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */

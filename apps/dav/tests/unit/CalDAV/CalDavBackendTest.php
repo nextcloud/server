@@ -29,7 +29,7 @@ use function time;
 /**
  * Class CalDavBackendTest
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class CalDavBackendTest extends AbstractCalDavBackend {
 	public function testCalendarOperations(): void {
 		$calendarId = $this->createTestCalendar();
@@ -107,11 +107,10 @@ class CalDavBackendTest extends AbstractCalDavBackend {
 			], [
 				self::UNIT_TEST_USER1,
 			]],
-
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providesSharingData')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesSharingData')]
 	public function testCalendarSharing($userCanRead, $userCanWrite, $groupCanRead, $groupCanWrite, $add, $principals): void {
 		$logger = $this->createMock(\Psr\Log\LoggerInterface::class);
 		$config = $this->createMock(IConfig::class);
@@ -264,7 +263,6 @@ EOD;
 		$this->assertCount(0, $calendarObjects);
 	}
 
-
 	public function testMultipleCalendarObjectsWithSameUID(): void {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
 		$this->expectExceptionMessage('Calendar object with uid already exists in this calendar collection.');
@@ -400,7 +398,7 @@ EOD;
 		$this->assertCount(0, $calendarObjects);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providesCalendarQueryParameters')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesCalendarQueryParameters')]
 	public function testCalendarQuery($expectedEventsInResult, $propFilters, $compFilter): void {
 		$calendarId = $this->createTestCalendar();
 		$events = [];
@@ -445,7 +443,6 @@ CLASS:PUBLIC
 END:VEVENT
 END:VCALENDAR
 EOD;
-
 
 		$this->backend->createCalendarObject($calendarId, $uri, $calData);
 
@@ -689,7 +686,7 @@ EOS;
 	/**
 	 * @param $objectData
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('providesSchedulingData')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesSchedulingData')]
 	public function testScheduling($objectData): void {
 		$this->backend->createSchedulingObject(self::UNIT_TEST_USER, 'Sample Schedule', $objectData);
 
@@ -705,7 +702,7 @@ EOS;
 		$this->assertCount(0, $sos);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providesCalDataForGetDenormalizedData')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesCalDataForGetDenormalizedData')]
 	public function testGetDenormalizedData($expected, $key, $calData): void {
 		try {
 			$actual = $this->backend->getDenormalizedData($calData);
@@ -776,7 +773,6 @@ EOD;
 			'search-term' => 'Test',
 		]);
 		$this->assertEquals(count($search1), 1);
-
 
 		// update the card
 		$calData = <<<'EOD'
@@ -871,7 +867,7 @@ EOD;
 		$this->assertEquals(count($search5), 0);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('searchDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'searchDataProvider')]
 	public function testSearch(bool $isShared, array $searchOptions, int $count): void {
 		$calendarId = $this->createTestCalendar();
 
@@ -1840,6 +1836,72 @@ EOD;
 		$this->assertEquals('Missing DTSTART 2', $results[3]['objects'][0]['SUMMARY'][0]);
 	}
 
+	public function testSearchByUri(): void {
+		$calendarId = $this->createTestCalendar();
+		$uris = [];
+		$calData = [];
+
+		$uris[] = static::getUniqueID('calobj');
+		$calData[] = <<<'EOD'
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:Nextcloud Calendar
+BEGIN:VEVENT
+CREATED;VALUE=DATE-TIME:20260323T093039Z
+UID:search-by-uri-test1
+LAST-MODIFIED;VALUE=DATE-TIME:20260323T093039Z
+DTSTAMP;VALUE=DATE-TIME:20260323T093039Z
+SUMMARY:First Test Event
+DTSTART;VALUE=DATE-TIME:20260323T093039Z
+DTEND;VALUE=DATE-TIME:20260323T093039Z
+CLASS:PUBLIC
+END:VEVENT
+END:VCALENDAR
+EOD;
+
+		$uris[] = static::getUniqueID('calobj');
+		$calData[] = <<<'EOD'
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:Nextcloud Calendar
+BEGIN:VEVENT
+CREATED;VALUE=DATE-TIME:20260323T093039Z
+UID:search-by-uri-test2
+LAST-MODIFIED;VALUE=DATE-TIME:20260323T093039Z
+DTSTAMP;VALUE=DATE-TIME:20260323T093039Z
+SUMMARY:Second Test Event
+DTSTART;VALUE=DATE-TIME:20260323T093039Z
+DTEND;VALUE=DATE-TIME:20260323T093039Z
+CLASS:PUBLIC
+END:VEVENT
+END:VCALENDAR
+EOD;
+
+		foreach ($uris as $i => $uri) {
+			$this->backend->createCalendarObject($calendarId, $uri, $calData[$i]);
+		}
+
+		$calendarInfo = [
+			'id' => $calendarId,
+			'principaluri' => 'user1',
+			'{http://owncloud.org/ns}owner-principal' => 'user1',
+		];
+
+		// Searching by first event's URI returns this event
+		$results = $this->backend->search($calendarInfo, '', [], ['uri' => $uris[0]], null, null);
+		$this->assertCount(1, $results);
+		$this->assertEquals($uris[0], $results[0]['uri']);
+
+		// Searching by second event's URI returns this event
+		$results = $this->backend->search($calendarInfo, '', [], ['uri' => $uris[1]], null, null);
+		$this->assertCount(1, $results);
+		$this->assertEquals($uris[1], $results[0]['uri']);
+
+		// Searching by a non-existent URI returns nothing
+		$result = $this->backend->search($calendarInfo, '', [], ['uri' => 'nonexistant.ical'], null, null);
+		$this->assertCount(0, $result);
+	}
+
 	public function testUnshare(): void {
 		$principalGroup = 'principal:' . self::UNIT_TEST_GROUP;
 		$principalUser = 'principal:' . self::UNIT_TEST_USER;
@@ -1880,5 +1942,50 @@ EOD;
 			principal: $principalUser
 		);
 
+	}
+
+	public function testDefaultAlarmProperties(): void {
+		$calendarId = $this->createTestCalendar();
+
+		// Test setting both default alarm properties
+		$patch = new PropPatch([
+			'{http://nextcloud.com/ns}default-alarm-part-day' => -900,
+			'{http://nextcloud.com/ns}default-alarm-full-day' => -3600,
+		]);
+		$this->backend->updateCalendar($calendarId, $patch);
+		$patch->commit();
+
+		// Verify the properties were set
+		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
+		$this->assertCount(1, $calendars);
+		$this->assertEquals(-900, $calendars[0]['{http://nextcloud.com/ns}default-alarm-part-day']);
+		$this->assertEquals(-3600, $calendars[0]['{http://nextcloud.com/ns}default-alarm-full-day']);
+
+		// Test updating to different values
+		$patch = new PropPatch([
+			'{http://nextcloud.com/ns}default-alarm-part-day' => -86400,
+			'{http://nextcloud.com/ns}default-alarm-full-day' => -43200,
+		]);
+		$this->backend->updateCalendar($calendarId, $patch);
+		$patch->commit();
+
+		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
+		$this->assertEquals(-86400, $calendars[0]['{http://nextcloud.com/ns}default-alarm-part-day']);
+		$this->assertEquals(-43200, $calendars[0]['{http://nextcloud.com/ns}default-alarm-full-day']);
+
+		// Test setting to null
+		$patch = new PropPatch([
+			'{http://nextcloud.com/ns}default-alarm-part-day' => null,
+			'{http://nextcloud.com/ns}default-alarm-full-day' => null,
+		]);
+		$this->backend->updateCalendar($calendarId, $patch);
+		$patch->commit();
+
+		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
+		$this->assertNull($calendars[0]['{http://nextcloud.com/ns}default-alarm-part-day']);
+		$this->assertNull($calendars[0]['{http://nextcloud.com/ns}default-alarm-full-day']);
+
+		// Clean up
+		$this->backend->deleteCalendar($calendars[0]['id'], true);
 	}
 }

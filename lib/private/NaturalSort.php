@@ -5,12 +5,13 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class NaturalSort {
-	private static $instance;
 	private $collator;
 	private $cache = [];
 
@@ -23,7 +24,7 @@ class NaturalSort {
 		// or inject an instance of \OC\NaturalSort_DefaultCollator to force using Owncloud's default collator
 		if (isset($injectedCollator)) {
 			$this->collator = $injectedCollator;
-			\OC::$server->get(LoggerInterface::class)->debug('forced use of ' . get_class($injectedCollator));
+			Server::get(LoggerInterface::class)->debug('forced use of ' . get_class($injectedCollator));
 		}
 	}
 
@@ -71,7 +72,7 @@ class NaturalSort {
 			if (class_exists('Collator')) {
 				$this->collator = new \Collator('en_US');
 			} else {
-				$this->collator = new \OC\NaturalSort_DefaultCollator();
+				$this->collator = new NaturalSort_DefaultCollator();
 			}
 		}
 		return $this->collator;
@@ -110,12 +111,9 @@ class NaturalSort {
 
 	/**
 	 * Returns a singleton
-	 * @return \OC\NaturalSort instance
+	 * @return NaturalSort instance
 	 */
-	public static function getInstance() {
-		if (!isset(self::$instance)) {
-			self::$instance = new \OC\NaturalSort();
-		}
-		return self::$instance;
+	public static function getInstance(): NaturalSort {
+		return Server::get(NaturalSort::class);
 	}
 }

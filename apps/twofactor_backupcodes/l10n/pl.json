@@ -10,11 +10,13 @@
     "An error occurred while generating your backup codes" : "Wystąpił błąd podczas generowania kodów zapasowych.",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Wygenerowano kody zapasowe. Użyto {used} z {total} kodów.",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "To są kody zapasowe. Zapisz je i/lub wydrukuj, ponieważ nie będziesz mógł ich później odczytać.",
+    "List of backup codes" : "Lista kodów zapasowych",
     "Regenerate backup codes" : "Ponownie generuj kody zapasowe",
     "Print backup codes" : "Drukuj kody zapasowe",
     "Save backup codes" : "Zapisz kody zapasowe",
     "If you regenerate backup codes, you automatically invalidate old codes." : "Jeśli generujesz kody zapasowe ponownie, automatycznie unieważniasz stare kody.",
     "{name} backup codes" : "Kody kopii zapasowej {name}",
+    "Unable to open a new tab for printing" : "Nie można otworzyć nowej zakładki dla wydruku",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Użyj jednego z kodów zapasowych zapisanych podczas konfigurowania uwierzytelniania dwuskładnikowego.",
     "Submit" : "Wyślij"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"

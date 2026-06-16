@@ -30,12 +30,14 @@ class Cleanup extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('preview:cleanup')
 			->setDescription('Removes existing preview files');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		if ($this->deletePreviewFromPreviewTable($output) !== 0) {
 			return 1;

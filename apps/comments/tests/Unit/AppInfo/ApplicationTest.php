@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Comments\Tests\Unit\AppInfo;
 
 use OCA\Comments\Activity\Filter;
@@ -26,14 +27,16 @@ use Test\TestCase;
  *
  * @package OCA\Comments\Tests\Unit\AppInfo
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ApplicationTest extends TestCase {
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		Server::get(IUserManager::class)->createUser('dummy', '456');
 		Server::get(IUserSession::class)->setUser(Server::get(IUserManager::class)->get('dummy'));
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		Server::get(IUserManager::class)->get('dummy')->delete();
 		parent::tearDown();

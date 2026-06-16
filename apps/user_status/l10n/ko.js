@@ -12,6 +12,7 @@ OC.L10N.register(
     "In a call" : "통화중",
     "User status" : "사용자 상태",
     "Clear status after" : "상태 메시지 지우기 예약",
+    "Emoji for your status message" : "상태 메시지 이모지",
     "What is your status?" : "당신의 상태는?",
     "There was an error saving the status" : "상태 저장에 오류가 발생했습니다.",
     "There was an error clearing the status" : "상태 해제에 오류가 발생했습니다.",

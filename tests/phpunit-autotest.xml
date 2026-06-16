@@ -6,9 +6,11 @@
 -->
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 bootstrap="bootstrap.php"
-		 timeoutForSmallTests="900"
-		 timeoutForMediumTests="900"
-		 timeoutForLargeTests="900"
+		 enforceTimeLimit="true"
+		 defaultTimeLimit="300"
+		 timeoutForSmallTests="60"
+		 timeoutForMediumTests="300"
+		 timeoutForLargeTests="600"
 		 cacheDirectory=".phpunit.cache"
 		 xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd">
 	<testsuite name="Nextcloud Server">
@@ -16,6 +18,8 @@
 		<directory>Core/</directory>
 		<directory>../apps/</directory>
 		<exclude>../apps/user_ldap/tests/Integration</exclude>
+		<!-- exclude files_external as it is tested separately -->
+		<exclude>../apps/files_external</exclude>
 	</testsuite>
 	<source>
 		<include>
@@ -25,7 +29,7 @@
 			<directory>../3rdparty</directory>
 			<directory>../apps/*/composer</directory>
 			<directory>../apps/*/tests</directory>
-			<directory>../apps/files_external/3rdparty</directory>
+			<directory>../apps/files_external</directory>
 			<directory>../build</directory>
 			<directory>../lib/composer</directory>
 			<directory>../tests</directory>

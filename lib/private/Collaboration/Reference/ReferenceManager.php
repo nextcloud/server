@@ -49,6 +49,7 @@ class ReferenceManager implements IReferenceManager {
 	 *
 	 * @return string[]
 	 */
+	#[\Override]
 	public function extractReferences(string $text): array {
 		preg_match_all(IURLGenerator::URL_REGEX, $text, $matches);
 		$references = $matches[0] ?? [];
@@ -60,6 +61,7 @@ class ReferenceManager implements IReferenceManager {
 	/**
 	 * Try to get a cached reference object from a reference string
 	 */
+	#[\Override]
 	public function getReferenceFromCache(string $referenceId, bool $public = false, string $sharingToken = ''): ?IReference {
 		$matchedProvider = $this->getMatchedProvider($referenceId, $public);
 
@@ -74,6 +76,7 @@ class ReferenceManager implements IReferenceManager {
 	/**
 	 * Try to get a cached reference object from a full cache key
 	 */
+	#[\Override]
 	public function getReferenceByCacheKey(string $cacheKey): ?IReference {
 		$cached = $this->cache->get($cacheKey);
 		if ($cached) {
@@ -87,6 +90,7 @@ class ReferenceManager implements IReferenceManager {
 	 * Get a reference object from a reference string with a matching provider
 	 * Use a cached reference if possible
 	 */
+	#[\Override]
 	public function resolveReference(string $referenceId, bool $public = false, $sharingToken = ''): ?IReference {
 		$matchedProvider = $this->getMatchedProvider($referenceId, $public);
 
@@ -162,6 +166,7 @@ class ReferenceManager implements IReferenceManager {
 	/**
 	 * Remove a specific cache entry from its key+prefix
 	 */
+	#[\Override]
 	public function invalidateCache(string $cachePrefix, ?string $cacheKey = null): void {
 		if ($cacheKey === null) {
 			// clear might be a heavy operation, so we only do it if there have actually been keys set
@@ -208,6 +213,7 @@ class ReferenceManager implements IReferenceManager {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getDiscoverableProviders(): array {
 		// preserve 0 based index to avoid returning an object in data responses
 		return array_values(
@@ -220,6 +226,7 @@ class ReferenceManager implements IReferenceManager {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function touchProvider(string $userId, string $providerId, ?int $timestamp = null): bool {
 		$providers = $this->getDiscoverableProviders();
 		$matchingProviders = array_filter($providers, static function (IDiscoverableReferenceProvider $provider) use ($providerId) {
@@ -240,6 +247,7 @@ class ReferenceManager implements IReferenceManager {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getUserProviderTimestamps(): array {
 		$user = $this->userSession->getUser();
 		if ($user === null) {

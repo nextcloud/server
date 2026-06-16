@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV\WebcalCaching;
 
 use OCA\DAV\CalDAV\WebcalCaching\Connection;
@@ -15,7 +16,6 @@ use OCP\Http\Client\LocalServerException;
 use OCP\IAppConfig;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
-
 use Test\TestCase;
 
 class ConnectionTest extends TestCase {
@@ -32,7 +32,7 @@ class ConnectionTest extends TestCase {
 		$this->connection = new Connection($this->clientService, $this->config, $this->logger);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('runLocalURLDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'runLocalURLDataProvider')]
 	public function testLocalUrl($source): void {
 		$subscription = [
 			'id' => 42,
@@ -89,7 +89,7 @@ class ConnectionTest extends TestCase {
 
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('urlDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'urlDataProvider')]
 	public function testConnection(string $url, string $contentType, string $expectedFormat): void {
 		$client = $this->createMock(IClient::class);
 		$response = $this->createMock(IResponse::class);

@@ -40,6 +40,7 @@ class UserMountCacheTest extends TestCase {
 	private UserMountCache $cache;
 	private array $fileIds = [];
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -76,6 +77,7 @@ class UserMountCacheTest extends TestCase {
 		);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$builder = $this->connection->getQueryBuilder();
 
@@ -88,6 +90,7 @@ class UserMountCacheTest extends TestCase {
 				->where($builder->expr()->eq('fileid', new Literal($fileId)))
 				->executeStatement();
 		}
+		parent::tearDown();
 	}
 
 	private function getStorage($storageId, $rootInternalPath = '') {
@@ -183,8 +186,10 @@ class UserMountCacheTest extends TestCase {
 		$this->eventDispatcher
 			->expects($this->exactly(2))
 			->method('dispatchTyped')
-			->with($this->callback(function (UserMountAddedEvent|UserMountRemovedEvent $event) use (&$operation) {
-				return match(++$operation) {
+			->with($this->callback(function (
+				UserMountAddedEvent|UserMountRemovedEvent $event,
+			) use (&$operation) {
+				return match (++$operation) {
 					1 => $event instanceof UserMountAddedEvent && $event->mountPoint->getMountPoint() === '/asd/',
 					2 => $event instanceof UserMountRemovedEvent && $event->mountPoint->getMountPoint() === '/asd/',
 					default => false,
@@ -214,8 +219,10 @@ class UserMountCacheTest extends TestCase {
 		$this->eventDispatcher
 			->expects($this->exactly(3))
 			->method('dispatchTyped')
-			->with($this->callback(function (UserMountAddedEvent|UserMountRemovedEvent $event) use (&$operation) {
-				return match(++$operation) {
+			->with($this->callback(function (
+				UserMountAddedEvent|UserMountRemovedEvent $event,
+			) use (&$operation) {
+				return match (++$operation) {
 					1 => $event instanceof UserMountAddedEvent && $event->mountPoint->getMountPoint() === '/bar/',
 					2 => $event instanceof UserMountAddedEvent && $event->mountPoint->getMountPoint() === '/foo/',
 					3 => $event instanceof UserMountRemovedEvent && $event->mountPoint->getMountPoint() === '/bar/',
@@ -250,8 +257,10 @@ class UserMountCacheTest extends TestCase {
 		$this->eventDispatcher
 			->expects($this->exactly(2))
 			->method('dispatchTyped')
-			->with($this->callback(function (UserMountAddedEvent|UserMountUpdatedEvent $event) use (&$operation) {
-				return match(++$operation) {
+			->with($this->callback(function (
+				UserMountAddedEvent|UserMountUpdatedEvent $event,
+			) use (&$operation) {
+				return match (++$operation) {
 					1 => $event instanceof UserMountAddedEvent && $event->mountPoint->getMountPoint() === '/foo/',
 					2 => $event instanceof UserMountUpdatedEvent && $event->oldMountPoint->getMountId() === null && $event->newMountPoint->getMountId() === 1,
 					default => false,
@@ -472,7 +481,6 @@ class UserMountCacheTest extends TestCase {
 		$folderId = $this->createCacheEntry('/foo', 2);
 		$fileId = $this->createCacheEntry('/foo/bar', 2);
 
-
 		$mount1 = $this->getMockBuilder(MountPoint::class)
 			->setConstructorArgs([$storage1, '/'])
 			->onlyMethods(['getStorageRootId'])
@@ -526,7 +534,6 @@ class UserMountCacheTest extends TestCase {
 		$this->assertCount(0, $cachedMounts);
 	}
 
-
 	public function testGetMountsForFileIdDeletedUser(): void {
 		$user1 = $this->userManager->get('u1');
 
@@ -572,7 +579,6 @@ class UserMountCacheTest extends TestCase {
 		$this->assertEquals(['u1' => 100], $result);
 	}
 
-
 	public function testMigrateMountProvider(): void {
 		$user1 = $this->userManager->get('u1');
 
@@ -595,5 +601,75 @@ class UserMountCacheTest extends TestCase {
 		$cachedMounts = $this->cache->getMountsForUser($user1);
 		$this->assertCount(1, $cachedMounts);
 		$this->assertEquals('dummy', $cachedMounts[$this->keyForMount($mount1)]->getMountProvider());
+	}
+
+	public function testChangedSameRootId(): void {
+		$user = $this->userManager->get('u1');
+
+		[$storage] = $this->getStorage(10);
+		$mount1 = new MountPoint($storage, '/asd/');
+		$mount2 = new MountPoint($storage, '/asd2/');
+
+		$this->cache->registerMounts($user, [$mount1, $mount2]);
+
+		$mount2 = new MountPoint($storage, '/asd2/', null, null, null, 1);
+		$this->cache->registerMounts($user, [$mount1, $mount2]);
+
+		$this->cache->flush();
+		$cached = $this->cache->getMountsForUser($user);
+		usort($cached, fn (ICachedMountInfo $a, ICachedMountInfo $b,
+		) => $a->getMountPoint() <=> $b->getMountPoint());
+
+		$mountPoints = array_map(fn (ICachedMountInfo $mountInfo,
+		) => $mountInfo->getMountPoint(), $cached);
+		$this->assertEquals(['/asd/', '/asd2/'], $mountPoints);
+
+		$mountIds = array_map(fn (ICachedMountInfo $mountInfo,
+		) => $mountInfo->getMountId(), $cached);
+		$this->assertEquals([null, 1], $mountIds);
+	}
+
+	public function testGetMountForPath(): void {
+		$user = $this->userManager->get('u1');
+
+		[$storage] = $this->getStorage(10);
+		$mount1 = new MountPoint($storage, '/asd/');
+		$mount2 = new MountPoint($storage, '/asd/foo');
+
+		$this->cache->registerMounts($user, [$mount1, $mount2]);
+		$this->cache->flush();
+
+		$this->assertEquals('/asd/', $this->cache->getMountForPath($user, '/asd/bar/')->getMountPoint());
+		$this->assertEquals('/asd/', $this->cache->getMountForPath($user, '/asd/')->getMountPoint());
+		$this->assertEquals('/asd/foo/', $this->cache->getMountForPath($user, '/asd/foo/bar/')->getMountPoint());
+		$this->assertEquals('/asd/foo/', $this->cache->getMountForPath($user, '/asd/foo/')->getMountPoint());
+	}
+
+	public function testGetMountsInPath(): void {
+		$user = $this->userManager->get('u1');
+
+		[$storage] = $this->getStorage(10);
+		$mount1 = new MountPoint($storage, '/asd/');
+		$mount2 = new MountPoint($storage, '/asd/foo/');
+		$mount3 = new MountPoint($storage, '/asd/foo/bar/');
+
+		$this->cache->registerMounts($user, [$mount1, $mount2, $mount3]);
+		$this->cache->flush();
+
+		$getMountPaths = function (string $path) use ($user) {
+			$mountPoints = array_values(
+				array_map(
+					fn (ICachedMountInfo $mount) => $mount->getMountPoint(),
+					$this->cache->getMountsInPath($user, $path)
+				)
+			);
+			sort($mountPoints);
+			return $mountPoints;
+		};
+
+		$this->assertEquals(['/asd/foo/', '/asd/foo/bar/'], $getMountPaths('/asd/'));
+		$this->assertEquals([], $getMountPaths('/asd/foo/bar/'));
+		$this->assertEquals(['/asd/foo/bar/'], $getMountPaths('/asd/foo/'));
+		$this->assertEquals([], $getMountPaths('/asd/bar/'));
 	}
 }

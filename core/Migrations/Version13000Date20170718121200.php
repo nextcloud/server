@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Migrations;
 
 use OCP\DB\ISchemaWrapper;
@@ -18,6 +19,7 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 	) {
 	}
 
+	#[\Override]
 	public function preSchemaChange(IOutput $output, \Closure $schemaClosure, array $options) {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
@@ -35,7 +37,6 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 		}
 	}
 
-
 	/**
 	 * @param IOutput $output
 	 * @param \Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
@@ -43,6 +44,7 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 	 * @return null|ISchemaWrapper
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	public function changeSchema(IOutput $output, \Closure $schemaClosure, array $options) {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
@@ -121,7 +123,6 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 			$table->addIndex(['storage_id'], 'mounts_storage_index');
 			$table->addIndex(['root_id'], 'mounts_root_index');
 			$table->addIndex(['mount_id'], 'mounts_mount_id_index');
-			$table->addIndex(['user_id', 'root_id', 'mount_point'], 'mounts_user_root_path_index', [], ['lengths' => [null, null, 128]]);
 		} else {
 			$table = $schema->getTable('mounts');
 			if (!$table->hasColumn('mount_id')) {
@@ -341,6 +342,7 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 			// $table->addIndex(['userid'], 'property_index');
 			$table->addIndex(['userid', 'propertypath'], 'properties_path_index');
 			$table->addIndex(['propertypath'], 'properties_pathonly_index');
+			$table->addIndex(['propertyname', 'propertypath', 'userid'], 'properties_name_path_user');
 		} else {
 			$table = $schema->getTable('properties');
 			if ($table->hasColumn('propertytype')) {
@@ -454,6 +456,7 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 			$table->addIndex(['file_source'], 'file_source_index');
 			$table->addIndex(['token'], 'token_index');
 			$table->addIndex(['share_with'], 'share_with_index');
+			$table->addIndex(['share_with', 'file_target'], 'share_with_file_target_index', [], ['lengths' => [null, 128]]);
 			$table->addIndex(['parent'], 'parent_index');
 			$table->addIndex(['uid_owner'], 'owner_index');
 			$table->addIndex(['uid_initiator'], 'initiator_index');
@@ -999,6 +1002,7 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 		return $schema;
 	}
 
+	#[\Override]
 	public function postSchemaChange(IOutput $output, \Closure $schemaClosure, array $options) {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();

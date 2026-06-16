@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\SystemTag;
 
 use OCP\DB\Exception;
@@ -20,6 +21,7 @@ use OCP\SystemTag\MapperEvent;
 use OCP\SystemTag\TagAssignedEvent;
 use OCP\SystemTag\TagNotFoundException;
 use OCP\SystemTag\TagUnassignedEvent;
+use Override;
 
 class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	public const RELATION_TABLE = 'systemtag_object_mapping';
@@ -31,9 +33,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	) {
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	#[Override]
 	public function getTagIdsForObjects($objIds, string $objectType): array {
 		if (!\is_array($objIds)) {
 			$objIds = [$objIds];
@@ -59,7 +59,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 			$result = $query->executeQuery();
 			while ($row = $result->fetch()) {
 				$objectId = $row['objectid'];
-				$mapping[$objectId][] = $row['systemtagid'];
+				$mapping[$objectId][] = (string)$row['systemtagid'];
 			}
 
 			$result->closeCursor();
@@ -71,6 +71,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	/**
 	 * {@inheritdoc}
 	 */
+	#[\Override]
 	public function getObjectIdsForTags($tagIds, string $objectType, int $limit = 0, string $offset = ''): array {
 		if (!\is_array($tagIds)) {
 			$tagIds = [$tagIds];
@@ -108,9 +109,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 		return $objectIds;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	#[Override]
 	public function assignTags(string $objId, string $objectType, $tagIds): void {
 		if (!\is_array($tagIds)) {
 			$tagIds = [$tagIds];
@@ -168,18 +167,24 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 			return;
 		}
 
+		$tagsAssigned = array_map(static fn (string $tagId): int => (int)$tagId, $tagsAssigned);
+
 		$this->dispatcher->dispatch(MapperEvent::EVENT_ASSIGN, new MapperEvent(
 			MapperEvent::EVENT_ASSIGN,
 			$objectType,
 			$objId,
-			$tagsAssigned
+			$tagsAssigned,
 		));
 		$this->dispatcher->dispatchTyped(new TagAssignedEvent($objectType, [$objId], $tagsAssigned));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	#[Override]
+	public function assignGeneratedByAITag(string $objId, string $objectType) {
+		$tag = $this->tagManager->getGeneratedByAITag();
+		$this->assignTags($objId, $objectType, [$tag->getId()]);
+	}
+
+	#[Override]
 	public function unassignTags(string $objId, string $objectType, $tagIds): void {
 		if (!\is_array($tagIds)) {
 			$tagIds = [$tagIds];
@@ -198,6 +203,9 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 			->executeStatement();
 
 		$this->updateEtagForTags($tagIds);
+
+		// convert ids to int because the event uses ints
+		$tagIds = array_map(static fn (string $tagId): int => (int)$tagId, $tagIds);
 
 		$this->dispatcher->dispatch(MapperEvent::EVENT_UNASSIGN, new MapperEvent(
 			MapperEvent::EVENT_UNASSIGN,
@@ -226,6 +234,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	/**
 	 * {@inheritdoc}
 	 */
+	#[\Override]
 	public function haveTag($objIds, string $objectType, string $tagId, bool $all = true): bool {
 		$this->assertTagsExist([$tagId]);
 
@@ -268,7 +277,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	 *
 	 * @param string[] $tagIds tag ids to check
 	 *
-	 * @throws \OCP\SystemTag\TagNotFoundException if at least one tag did not exist
+	 * @throws TagNotFoundException if at least one tag did not exist
 	 */
 	private function assertTagsExist(array $tagIds): void {
 		$tags = $this->tagManager->getTagsByIds($tagIds);
@@ -290,6 +299,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	/**
 	 * {@inheritdoc}
 	 */
+	#[\Override]
 	public function setObjectIdsForTag(string $tagId, string $objectType, array $objectIds): void {
 		$currentObjectIds = $this->getObjectIdsForTags($tagId, $objectType);
 		$removedObjectIds = array_diff($currentObjectIds, $objectIds);
@@ -363,6 +373,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	/**
 	 * {@inheritdoc}
 	 */
+	#[\Override]
 	public function getAvailableObjectTypes(): array {
 		$query = $this->connection->getQueryBuilder();
 		$query->selectDistinct('objecttype')

@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Controller;
 
 use OC\AppFramework\Http\Request;
@@ -79,8 +80,9 @@ class LoginController extends Controller {
 	#[FrontpageRoute(verb: 'GET', url: '/logout')]
 	public function logout() {
 		$loginToken = $this->request->getCookie('nc_token');
-		if (!is_null($loginToken)) {
-			$this->config->deleteUserValue($this->userSession->getUser()->getUID(), 'login_token', $loginToken);
+		$uid = $this->userSession->getUser()?->getUID();
+		if ($loginToken !== null && $uid !== null) {
+			$this->config->deleteUserValue($uid, 'login_token', $loginToken);
 		}
 		$this->userSession->logout();
 
@@ -89,7 +91,6 @@ class LoginController extends Controller {
 			['clear' => true] // this param the code in login.js may be removed when the "Clear-Site-Data" is working in the browsers
 		));
 
-		$this->session->set('clearingExecutionContexts', '1');
 		$this->session->close();
 
 		if (
@@ -97,6 +98,10 @@ class LoginController extends Controller {
 			&& !$this->request->isUserAgent([Request::USER_AGENT_CHROME, Request::USER_AGENT_ANDROID_MOBILE_CHROME])
 		) {
 			$response->addHeader('Clear-Site-Data', '"cache", "storage"');
+		}
+
+		if ($uid !== null) {
+			$response->addHeader('X-User-Id', $uid);
 		}
 
 		return $response;

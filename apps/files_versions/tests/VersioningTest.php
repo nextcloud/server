@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Versions\Tests;
 
 use OC\AllConfig;
@@ -35,7 +36,7 @@ use OCP\Util;
  * Class Test_Files_versions
  * this class provide basic files versions test
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class VersioningTest extends \Test\TestCase {
 	public const TEST_VERSIONS_USER = 'test-versions-user';
 	public const TEST_VERSIONS_USER2 = 'test-versions-user2';
@@ -104,6 +105,8 @@ class VersioningTest extends \Test\TestCase {
 		\OC::registerShareHooks(Server::get(SystemConfig::class));
 		\OC::$server->boot();
 
+		// ensure both users have an up-to-date state
+		self::loginHelper(self::TEST_VERSIONS_USER2);
 		self::loginHelper(self::TEST_VERSIONS_USER);
 		$this->rootView = new View();
 		if (!$this->rootView->file_exists(self::USERS_VERSIONS_ROOT)) {
@@ -139,7 +142,7 @@ class VersioningTest extends \Test\TestCase {
 	/**
 	 * test expire logic
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('versionsProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'versionsProvider')]
 	public function testGetExpireList($versions, $sizeOfAllDeletedFiles): void {
 
 		// last interval end at 2592000
@@ -282,7 +285,6 @@ class VersioningTest extends \Test\TestCase {
 				[],
 				0
 			]
-
 		];
 	}
 
@@ -396,7 +398,6 @@ class VersioningTest extends \Test\TestCase {
 		$this->assertTrue($this->rootView->file_exists($v1Renamed));
 		$this->assertTrue($this->rootView->file_exists($v2Renamed));
 	}
-
 
 	public function testMoveFileIntoSharedFolderAsRecipient(): void {
 		Filesystem::mkdir('folder1');
@@ -631,7 +632,6 @@ class VersioningTest extends \Test\TestCase {
 
 		$this->assertFalse(Storage::expire('/void/unexist.txt', self::TEST_VERSIONS_USER));
 	}
-
 
 	public function testExpireNonexistingUser(): void {
 		$this->expectException(NoUserException::class);

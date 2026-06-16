@@ -5,42 +5,33 @@
 <template>
 	<NcAppContent :page-heading="pageHeading" data-cy-files-content>
 		<div class="files-list__header" :class="{ 'files-list__header--public': isPublic }">
+			<!-- Uploader -->
+			<component :is="isNarrow ? 'Teleport' : 'div'" :to="isNarrow ? 'body' : undefined">
+				<UploadPicker
+					v-if="canUpload && !isQuotaExceeded && currentFolder"
+					allow-folders
+					:no-label="isNarrow"
+					class="files-list__header-upload-button"
+					:class="{ 'files-list__header-upload-button--narrow': isNarrow }"
+					:content="getContent"
+					:destination="currentFolder"
+					:forbidden-characters="forbiddenCharacters"
+					multiple
+					primary
+					@failed="onUploadFail"
+					@uploaded="onUpload" />
+			</component>
+
 			<!-- Current folder breadcrumbs -->
-			<BreadCrumbs :path="directory" @reload="fetchContent">
-				<template #actions>
-					<!-- Sharing button -->
-					<NcButton
-						v-if="canShare && fileListWidth >= 512"
-						:aria-label="shareButtonLabel"
-						:class="{ 'files-list__header-share-button--shared': shareButtonType }"
-						:title="shareButtonLabel"
-						class="files-list__header-share-button"
-						variant="tertiary"
-						@click="openSharingSidebar">
-						<template #icon>
-							<LinkIcon v-if="shareButtonType === ShareType.Link" />
-							<AccountPlusIcon v-else :size="20" />
-						</template>
-					</NcButton>
+			<BreadCrumbs :path="directory" @reload="fetchContent" />
 
-					<!-- Uploader -->
-					<UploadPicker
-						v-if="canUpload && !isQuotaExceeded && currentFolder"
-						allow-folders
-						:no-label="fileListWidth <= 511"
-						class="files-list__header-upload-button"
-						:content="getContent"
-						:destination="currentFolder"
-						:forbidden-characters="forbiddenCharacters"
-						multiple
-						@failed="onUploadFail"
-						@uploaded="onUpload" />
-				</template>
-			</BreadCrumbs>
+			<!-- Loading indicator -->
+			<NcLoadingIcon
+				v-if="isRefreshing"
+				class="files-list__refresh-icon"
+				:name="t('files', 'File list is reloading')" />
 
-			<!-- Secondary loading indicator -->
-			<NcLoadingIcon v-if="isRefreshing" class="files-list__refresh-icon" />
-
+			<!-- File list actions (global actions like restore all files from trashbin) -->
 			<NcActions
 				class="files-list__header-actions"
 				:inline="1"
@@ -63,6 +54,10 @@
 				</NcActionButton>
 			</NcActions>
 
+			<!-- Filters thats can be applied to the file list -->
+			<FileListFilters />
+
+			<!-- Grid view toggle -->
 			<NcButton
 				v-if="enableGridView"
 				:aria-label="gridViewButtonLabel"
@@ -165,12 +160,9 @@ import type { ComponentPublicInstance } from 'vue'
 import type { Route } from 'vue-router'
 import type { UserConfig } from '../types.ts'
 
-import { getCurrentUser } from '@nextcloud/auth'
-import { getCapabilities } from '@nextcloud/capabilities'
 import { showError, showSuccess, showWarning } from '@nextcloud/dialogs'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
-import { Folder, getFileListActions, Permission, sortNodes } from '@nextcloud/files'
-import { getRemoteURL, getRootPath } from '@nextcloud/files/dav'
+import { Permission, sortNodes } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 import { dirname, join } from '@nextcloud/paths'
@@ -178,7 +170,8 @@ import { ShareType } from '@nextcloud/sharing'
 import { UploadPicker, UploadStatus } from '@nextcloud/upload'
 import { useThrottleFn } from '@vueuse/core'
 import { normalize, relative } from 'path'
-import { defineComponent } from 'vue'
+import { computed, defineComponent, nextTick, watch } from 'vue'
+import Teleport from 'vue2-teleport' // TODO: replace with native Vue Teleport when we switch to Vue 3
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActions from '@nextcloud/vue/components/NcActions'
 import NcAppContent from '@nextcloud/vue/components/NcAppContent'
@@ -186,34 +179,31 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
-import AccountPlusIcon from 'vue-material-design-icons/AccountPlusOutline.vue'
 import IconAlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
 import ListViewIcon from 'vue-material-design-icons/FormatListBulletedSquare.vue'
-import LinkIcon from 'vue-material-design-icons/Link.vue'
 import IconReload from 'vue-material-design-icons/Reload.vue'
 import ViewGridIcon from 'vue-material-design-icons/ViewGridOutline.vue'
 import BreadCrumbs from '../components/BreadCrumbs.vue'
 import DragAndDropNotice from '../components/DragAndDropNotice.vue'
+import FileListFilters from '../components/FileListFilter/FileListFilters.vue'
 import FilesListVirtual from '../components/FilesListVirtual.vue'
-import { action as sidebarAction } from '../actions/sidebarAction.ts'
+import { useEnabledFileListActions } from '../composables/useFileListActions.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
-import { useNavigation } from '../composables/useNavigation.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
-import logger from '../logger.ts'
 import filesSortingMixin from '../mixins/filesSorting.ts'
 import { useActiveStore } from '../store/active.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useFiltersStore } from '../store/filters.ts'
 import { usePathsStore } from '../store/paths.ts'
 import { useSelectionStore } from '../store/selection.ts'
+import { useSidebarStore } from '../store/sidebar.ts'
 import { useUploaderStore } from '../store/uploader.ts'
 import { useUserConfigStore } from '../store/userconfig.ts'
 import { useViewConfigStore } from '../store/viewConfig.ts'
 import { humanizeWebDAVError } from '../utils/davUtils.ts'
 import { defaultView } from '../utils/filesViews.ts'
 import { getSummaryFor } from '../utils/fileUtils.ts'
-
-const isSharingEnabled = (getCapabilities() as { files_sharing?: boolean })?.files_sharing !== undefined
+import { logger } from '../utils/logger.ts'
 
 export default defineComponent({
 	name: 'FilesList',
@@ -221,8 +211,8 @@ export default defineComponent({
 	components: {
 		BreadCrumbs,
 		DragAndDropNotice,
+		FileListFilters,
 		FilesListVirtual,
-		LinkIcon,
 		ListViewIcon,
 		NcAppContent,
 		NcActions,
@@ -231,7 +221,7 @@ export default defineComponent({
 		NcEmptyContent,
 		NcIconSvgWrapper,
 		NcLoadingIcon,
-		AccountPlusIcon,
+		Teleport,
 		UploadPicker,
 		ViewGridIcon,
 		IconAlertCircleOutline,
@@ -250,10 +240,7 @@ export default defineComponent({
 	},
 
 	setup() {
-		const { currentView } = useNavigation()
-		const { directory, fileId } = useRouteParameters()
-		const fileListWidth = useFileListWidth()
-
+		const sidebar = useSidebarStore()
 		const activeStore = useActiveStore()
 		const filesStore = useFilesStore()
 		const filtersStore = useFiltersStore()
@@ -263,16 +250,44 @@ export default defineComponent({
 		const userConfigStore = useUserConfigStore()
 		const viewConfigStore = useViewConfigStore()
 
+		const { isNarrow } = useFileListWidth()
+		const { directory, fileId } = useRouteParameters()
+
 		const enableGridView = (loadState('core', 'config', [])['enable_non-accessible_features'] ?? true)
 		const forbiddenCharacters = loadState<string[]>('files', 'forbiddenCharacters', [])
 
-		return {
-			currentView,
-			directory,
-			fileId,
-			fileListWidth,
-			t,
+		const currentView = computed(() => activeStore.activeView)
+		const currentFolder = computed(() => activeStore.activeFolder)
+		const dirContents = computed<INode[]>(() => {
+			const sources = (currentFolder.value as { _children?: string[] })?._children ?? []
+			return sources.map(filesStore.getNode)
+				.filter(Boolean) as INode[]
+		})
 
+		const enabledFileListActions = useEnabledFileListActions(
+			currentFolder,
+			dirContents,
+			currentView,
+		)
+
+		// wait until the current folder is set up to notifiy the list is initialized
+		const stopWatching = watch(currentFolder, () => {
+			if (currentFolder.value.fileid !== undefined && currentFolder.value.fileid! > 0) {
+				nextTick(async () => emit('files:list:initialized'))
+				stopWatching()
+			}
+		}, { immediate: true })
+
+		return {
+			currentFolder,
+			currentView,
+			dirContents,
+			directory,
+			enabledFileListActions,
+			fileId,
+			isNarrow,
+
+			sidebar,
 			activeStore,
 			filesStore,
 			filtersStore,
@@ -286,11 +301,14 @@ export default defineComponent({
 			enableGridView,
 			forbiddenCharacters,
 			ShareType,
+			t,
 		}
 	},
 
 	data() {
 		return {
+			initialized: false,
+
 			loading: true,
 			loadingAction: null as string | null,
 			error: null as string | null,
@@ -317,7 +335,8 @@ export default defineComponent({
 				}
 				// If not found in the files store (cache)
 				// use the current view to fetch the content for the requested path
-				return (await view.getContents(normalizedPath)).contents
+				const controller = new AbortController()
+				return (await view.getContents(normalizedPath, { signal: controller.signal })).contents
 			}
 		},
 
@@ -332,34 +351,6 @@ export default defineComponent({
 				return title
 			}
 			return `${this.currentFolder.displayname} - ${title}`
-		},
-
-		/**
-		 * The current folder.
-		 */
-		currentFolder(): Folder {
-			// Temporary fake folder to use until we have the first valid folder
-			// fetched and cached. This allow us to mount the FilesListVirtual
-			// at all time and avoid unmount/mount and undesired rendering issues.
-			const dummyFolder = new Folder({
-				id: 0,
-				source: getRemoteURL() + getRootPath(),
-				root: getRootPath(),
-				owner: getCurrentUser()?.uid || null,
-				permissions: Permission.NONE,
-			})
-
-			if (!this.currentView?.id) {
-				return dummyFolder
-			}
-
-			return this.filesStore.getDirectoryByPath(this.currentView.id, this.directory) || dummyFolder
-		},
-
-		dirContents(): Node[] {
-			return (this.currentFolder?._children || [])
-				.map(this.filesStore.getNode)
-				.filter((node: Node) => !!node)
 		},
 
 		/**
@@ -429,37 +420,6 @@ export default defineComponent({
 			return { ...this.$route, query: { dir } }
 		},
 
-		shareTypesAttributes(): number[] | undefined {
-			if (!this.currentFolder?.attributes?.['share-types']) {
-				return undefined
-			}
-			return Object.values(this.currentFolder?.attributes?.['share-types'] || {}).flat() as number[]
-		},
-
-		shareButtonLabel() {
-			if (!this.shareTypesAttributes) {
-				return t('files', 'Share')
-			}
-
-			if (this.shareButtonType === ShareType.Link) {
-				return t('files', 'Shared by link')
-			}
-			return t('files', 'Shared')
-		},
-
-		shareButtonType(): ShareType | null {
-			if (!this.shareTypesAttributes) {
-				return null
-			}
-
-			// If all types are links, show the link icon
-			if (this.shareTypesAttributes.some((type) => type === ShareType.Link)) {
-				return ShareType.Link
-			}
-
-			return ShareType.User
-		},
-
 		gridViewButtonLabel() {
 			return this.userConfig.grid_view
 				? t('files', 'Switch to list view')
@@ -477,37 +437,8 @@ export default defineComponent({
 			return this.currentFolder?.attributes?.['quota-available-bytes'] === 0
 		},
 
-		/**
-		 * Check if current folder has share permissions
-		 */
-		canShare() {
-			return isSharingEnabled && !this.isPublic
-				&& this.currentFolder && (this.currentFolder.permissions & Permission.SHARE) !== 0
-		},
-
 		showCustomEmptyView() {
 			return !this.loading && this.isEmptyDir && this.currentView?.emptyView !== undefined
-		},
-
-		enabledFileListActions() {
-			if (!this.currentView || !this.currentFolder) {
-				return []
-			}
-
-			const actions = getFileListActions()
-			const enabledActions = actions
-				.filter((action) => {
-					if (action.enabled === undefined) {
-						return true
-					}
-					return action.enabled({
-						view: this.currentView!,
-						folder: this.currentFolder!,
-						contents: this.dirContents,
-					})
-				})
-				.toSorted((a, b) => a.order - b.order)
-			return enabledActions
 		},
 
 		/**
@@ -539,10 +470,6 @@ export default defineComponent({
 			}
 		},
 
-		currentFolder() {
-			this.activeStore.activeFolder = this.currentFolder
-		},
-
 		currentView(newView, oldView) {
 			if (newView?.id === oldView?.id) {
 				return
@@ -557,9 +484,7 @@ export default defineComponent({
 			logger.debug('Directory changed', { newDir, oldDir })
 			// TODO: preserve selection on browsing?
 			this.selectionStore.reset()
-			if (window.OCA.Files.Sidebar?.close) {
-				window.OCA.Files.Sidebar.close()
-			}
+			this.sidebar.close()
 			this.fetchContent()
 
 			// Scroll to top, force virtual scroller to re-render
@@ -578,7 +503,6 @@ export default defineComponent({
 	},
 
 	async mounted() {
-		subscribe('files:node:deleted', this.onNodeDeleted)
 		subscribe('files:node:updated', this.onUpdatedNode)
 
 		// reload on settings change
@@ -603,7 +527,6 @@ export default defineComponent({
 	},
 
 	unmounted() {
-		unsubscribe('files:node:deleted', this.onNodeDeleted)
 		unsubscribe('files:node:updated', this.onUpdatedNode)
 		unsubscribe('files:config:updated', this.fetchContent)
 		unsubscribe('files:filters:changed', this.filterDirContent)
@@ -678,37 +601,13 @@ export default defineComponent({
 				folders.forEach((node) => {
 					this.pathsStore.addPath({ service: currentView.id, source: node.source, path: join(dir, node.basename) })
 				})
+
+				this.activeStore.activeFolder = folder
 			} catch (error) {
 				logger.error('Error while fetching content', { error })
 				this.error = humanizeWebDAVError(error)
 			} finally {
 				this.loading = false
-			}
-		},
-
-		/**
-		 * Handle the node deleted event to reset open file
-		 *
-		 * @param node The deleted node
-		 */
-		onNodeDeleted(node: Node) {
-			if (node.fileid && node.fileid === this.fileId) {
-				if (node.fileid === this.currentFolder?.fileid) {
-					// Handle the edge case that the current directory is deleted
-					// in this case we need to keep the current view but move to the parent directory
-					window.OCP.Files.Router.goToRoute(
-						null,
-						{ view: this.currentView!.id },
-						{ dir: this.currentFolder?.dirname ?? '/' },
-					)
-				} else {
-					// If the currently active file is deleted we need to remove the fileid and possible the `openfile` query
-					window.OCP.Files.Router.goToRoute(
-						null,
-						{ ...this.$route.params, fileid: undefined },
-						{ ...this.$route.query, openfile: undefined },
-					)
-				}
 			}
 		},
 
@@ -786,23 +685,6 @@ export default defineComponent({
 			}
 		},
 
-		openSharingSidebar() {
-			if (!this.currentFolder) {
-				logger.debug('No current folder found for opening sharing sidebar')
-				return
-			}
-
-			if (window?.OCA?.Files?.Sidebar?.setActiveTab) {
-				window.OCA.Files.Sidebar.setActiveTab('sharing')
-			}
-			sidebarAction.exec({
-				nodes: [this.source],
-				view: this.currentView,
-				folder: this.currentFolder,
-				contents: this.dirContents,
-			})
-		},
-
 		toggleGridView() {
 			this.userConfigStore.update('grid_view', !this.userConfig.grid_view)
 		},
@@ -877,13 +759,14 @@ export default defineComponent({
 .files-list {
 	&__header {
 		display: flex;
+		gap: var(--default-grid-baseline);
 		align-items: center;
 		// Do not grow or shrink (vertically)
 		flex: 0 0;
 		max-width: 100%;
 		// Align with the navigation toggle icon
 		margin-block: var(--app-navigation-padding, 4px);
-		margin-inline: calc(var(--default-clickable-area, 44px) + 2 * var(--app-navigation-padding, 4px)) var(--app-navigation-padding, 4px);
+		margin-inline: calc(var(--default-clickable-area) + 2 * var(--app-navigation-padding, 4px)) var(--app-navigation-padding, 4px);
 
 		&--public {
 			// There is no navigation toggle on public shares
@@ -896,18 +779,16 @@ export default defineComponent({
 			flex: 0 0;
 		}
 
-		&-share-button {
-			color: var(--color-text-maxcontrast) !important;
-
-			&--shared {
-				color: var(--color-main-text) !important;
-			}
-		}
-
 		&-actions {
 			min-width: fit-content !important;
-			margin-inline: calc(var(--default-grid-baseline) * 2);
 		}
+	}
+
+	&__header-upload-button--narrow {
+		// this is teleported to body on narrow screens
+		position: fixed;
+		inset-block-end: calc(1.5 * var(--default-grid-baseline));
+		inset-inline-end: calc(1.5 * var(--default-grid-baseline));
 	}
 
 	&__before {

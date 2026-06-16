@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\User_LDAP\Tests\Migration;
 
 use OCA\User_LDAP\Mapping\UserMapping;
@@ -16,7 +17,7 @@ use OCA\User_LDAP\User_Proxy;
  *
  * @package OCA\User_LDAP\Tests\Migration
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class UUIDFixUserTest extends AbstractUUIDFixTestCase {
 	protected function setUp(): void {
 		$this->isUser = true;

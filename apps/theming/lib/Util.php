@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Theming;
 
 use Mexitek\PHPColors\Color;
@@ -201,35 +202,42 @@ class Util {
 		return base64_encode($radioButtonIcon);
 	}
 
-
 	/**
 	 * @param string $app app name
 	 * @return string|ISimpleFile path to app icon / file of logo
 	 */
-	public function getAppIcon($app) {
+	public function getAppIcon($app, $useSvg = true) {
 		$app = $this->appManager->cleanAppId($app);
 		try {
+			// find app specific icon
 			$appPath = $this->appManager->getAppPath($app);
-			$icon = $appPath . '/img/' . $app . '.svg';
+			$extension = ($useSvg ? '.svg' : '.png');
+
+			$icon = $appPath . '/img/' . $app . $extension;
 			if (file_exists($icon)) {
 				return $icon;
 			}
-			$icon = $appPath . '/img/app.svg';
+
+			$icon = $appPath . '/img/app' . $extension;
 			if (file_exists($icon)) {
 				return $icon;
 			}
 		} catch (AppPathNotFoundException $e) {
 		}
-
+		// fallback to custom instance logo
 		if ($this->config->getAppValue('theming', 'logoMime', '') !== '') {
-			$logoFile = null;
 			try {
 				$folder = $this->appData->getFolder('global/images');
 				return $folder->getFile('logo');
 			} catch (NotFoundException $e) {
 			}
 		}
-		return \OC::$SERVERROOT . '/core/img/logo/logo.svg';
+		// fallback to core logo
+		if ($useSvg) {
+			return \OC::$SERVERROOT . '/core/img/logo/logo.svg';
+		} else {
+			return \OC::$SERVERROOT . '/core/img/logo/logo.png';
+		}
 	}
 
 	/**

@@ -6,12 +6,13 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\TwoFactorBackupCodes\Tests\Unit\Migration;
 
 use OCA\TwoFactorBackupCodes\Migration\CheckBackupCodes;
 use OCP\BackgroundJob\IJobList;
 use OCP\Migration\IOutput;
-use PHPunit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class CheckBackupCodeTest extends TestCase {

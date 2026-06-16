@@ -8,12 +8,12 @@
 
 namespace OCA\Encryption\Command;
 
-use OC\Files\SetupManager;
 use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\View;
 use OC\ServerNotAvailableException;
 use OCA\Encryption\Util;
 use OCP\Encryption\Exceptions\InvalidHeaderException;
+use OCP\Files\ISetupManager;
 use OCP\HintException;
 use OCP\IConfig;
 use OCP\IUser;
@@ -34,11 +34,12 @@ class FixEncryptedVersion extends Command {
 		private readonly IUserManager $userManager,
 		private readonly Util $util,
 		private readonly View $view,
-		private readonly SetupManager $setupManager,
+		private readonly ISetupManager $setupManager,
 	) {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		parent::configure();
 
@@ -62,6 +63,7 @@ class FixEncryptedVersion extends Command {
 			);
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$skipSignatureCheck = $this->config->getSystemValueBool('encryption_skip_signature_check', false);
 		$this->supportLegacy = $this->config->getSystemValueBool('encryption.legacy_format_support', false);

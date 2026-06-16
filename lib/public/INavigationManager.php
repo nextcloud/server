@@ -10,12 +10,31 @@
 
 namespace OCP;
 
+use OCP\AppFramework\Attribute\Consumable;
+use OCP\AppFramework\Attribute\ExceptionalImplementable;
+
 /**
- * Manages the ownCloud navigation
+ * Manages the Nextcloud navigation
+ *
  * @since 6.0.0
  *
  * @psalm-type NavigationEntry = array{id: string, order: int, href: string, name: string, app?: string, icon?: string, classes?: string, type?: string}
+ * @psalm-type NavigationEntryOutput = array{
+ *     id: string,
+ *     order?: int,
+ *     href: string,
+ *     icon: string,
+ *     type: string,
+ *     name: string,
+ *     app?: string,
+ *     default?: bool,
+ *     active: bool,
+ *     classes: string,
+ *     unread: int,
+ * }
  */
+#[Consumable(since: '6.0.0')]
+#[ExceptionalImplementable(app: 'guest')]
 interface INavigationManager {
 	/**
 	 * Navigation entries of the app navigation
@@ -36,17 +55,21 @@ interface INavigationManager {
 	public const TYPE_GUEST = 'guest';
 
 	/**
+	 * All navigation entries
+	 * @since 33.0.0
+	 */
+	public const TYPE_ALL = 'all';
+
+	/**
 	 * Creates a new navigation entry
 	 *
-	 * @param array array|\Closure $entry Array containing: id, name, order, icon and href key
-	 * 					If a menu entry (type = 'link') is added, you shall also set app to the app that added the entry.
-	 *					The use of a closure is preferred, because it will avoid
-	 * 					loading the routing of your app, unless required.
-	 * @psalm-param NavigationEntry|callable():NavigationEntry $entry
+	 * @param NavigationEntry|callable():NavigationEntry $entry If a menu entry (type = 'link') is added, you shall also set app to the app that
+	 *                                                          added the entry. The use of a closure is preferred, because it will avoid loading
+	 *                                                          the routing of your app, unless required.
 	 * @return void
 	 * @since 6.0.0
 	 */
-	public function add($entry);
+	public function add(array|callable $entry): void;
 
 	/**
 	 * Sets the current navigation entry of the currently running app
@@ -54,20 +77,20 @@ interface INavigationManager {
 	 * @return void
 	 * @since 6.0.0
 	 */
-	public function setActiveEntry($appId);
+	public function setActiveEntry(string $appId): void;
 
 	/**
 	 * Get the current navigation entry of the currently running app
-	 * @return string
+	 * @return ?string
 	 * @since 20.0.0
 	 */
-	public function getActiveEntry();
+	public function getActiveEntry(): ?string;
 
 	/**
 	 * Get a list of navigation entries
 	 *
-	 * @param string $type type of the navigation entries
-	 * @return array
+	 * @param self::TYPE_APPS|self::TYPE_SETTINGS|self::TYPE_GUEST|self::TYPE_ALL $type type of the navigation entries
+	 * @return array<string, NavigationEntryOutput>
 	 * @since 14.0.0
 	 */
 	public function getAll(string $type = self::TYPE_APPS): array;
@@ -92,7 +115,7 @@ interface INavigationManager {
 	/**
 	 * Returns the id of the user's default entry
 	 *
-	 * If `user` is not passed, the currently logged in user will be used
+	 * If `user` is not passed, the currently logged-in user will be used
 	 *
 	 * @param ?IUser $user User to query default entry for
 	 * @param bool $withFallbacks Include fallback values if no default entry was configured manually

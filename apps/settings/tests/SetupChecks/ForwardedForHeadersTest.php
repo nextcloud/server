@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Tests\SetupChecks;
 
 use OCA\Settings\SetupChecks\ForwardedForHeaders;
@@ -14,13 +15,15 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\SetupCheck\SetupResult;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ForwardedForHeadersTest extends TestCase {
-	private IL10N $l10n;
-	private IConfig $config;
-	private IURLGenerator $urlGenerator;
-	private IRequest $request;
+	private IL10N&MockObject $l10n;
+	private IConfig&MockObject $config;
+	private IURLGenerator&MockObject $urlGenerator;
+	private IRequest&MockObject $request;
 	private ForwardedForHeaders $check;
 
 	protected function setUp(): void {
@@ -32,9 +35,9 @@ class ForwardedForHeadersTest extends TestCase {
 			->willReturnCallback(function ($message, array $replace) {
 				return vsprintf($message, $replace);
 			});
-		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
-		$this->urlGenerator = $this->getMockBuilder(IURLGenerator::class)->getMock();
-		$this->request = $this->getMockBuilder(IRequest::class)->getMock();
+		$this->config = $this->createMock(IConfig::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->request = $this->createMock(IRequest::class);
 		$this->check = new ForwardedForHeaders(
 			$this->l10n,
 			$this->config,
@@ -43,7 +46,7 @@ class ForwardedForHeadersTest extends TestCase {
 		);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataForwardedForHeadersWorking')]
+	#[DataProvider(methodName: 'dataForwardedForHeadersWorking')]
 	public function testForwardedForHeadersWorking(array $trustedProxies, string $remoteAddrNotForwarded, string $remoteAddr, string $result): void {
 		$this->config->expects($this->once())
 			->method('getSystemValue')

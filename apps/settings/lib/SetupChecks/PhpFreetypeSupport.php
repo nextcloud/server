@@ -19,10 +19,12 @@ class PhpFreetypeSupport implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Freetype');
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'php';
 	}
@@ -34,6 +36,7 @@ class PhpFreetypeSupport implements ISetupCheck {
 		return function_exists('imagettfbbox') && function_exists('imagettftext');
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		if ($this->hasFreeTypeSupport()) {
 			return SetupResult::success($this->l10n->t('Supported'));

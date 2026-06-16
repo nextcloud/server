@@ -1,17 +1,19 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+import type { IFileAction } from '@nextcloud/files'
+
 import CloseSvg from '@mdi/svg/svg/close.svg?raw'
 import axios from '@nextcloud/axios'
 import { emit } from '@nextcloud/event-bus'
-import { FileAction, registerFileAction } from '@nextcloud/files'
 import { translatePlural as n } from '@nextcloud/l10n'
 import { generateOcsUrl } from '@nextcloud/router'
 import { ShareType } from '@nextcloud/sharing'
 import { pendingSharesViewId } from '../files_views/shares.ts'
 
-export const action = new FileAction({
+export const action: IFileAction = {
 	id: 'reject-share',
 	displayName: ({ nodes }) => n('files_sharing', 'Reject share', 'Reject shares', nodes.length),
 	iconSvgInline: () => CloseSvg,
@@ -40,7 +42,7 @@ export const action = new FileAction({
 			const node = nodes[0]
 			const isRemote = !!node.attributes.remote
 			const shareBase = isRemote ? 'remote_shares' : 'shares'
-			const id = node.attributes.id
+			const id = node.id
 			let url: string
 			if (node.attributes.accepted === 0) {
 				url = generateOcsUrl('apps/files_sharing/api/v1/{shareBase}/pending/{id}', {
@@ -69,6 +71,4 @@ export const action = new FileAction({
 
 	order: 2,
 	inline: () => true,
-})
-
-registerFileAction(action)
+}

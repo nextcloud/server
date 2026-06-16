@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Theming\Tests\Service;
 
 use OC\Route\Router;
@@ -107,7 +108,6 @@ class DyslexiaFontTest extends TestCase {
 		parent::setUp();
 	}
 
-
 	public function testGetId(): void {
 		$this->assertEquals('opendyslexic', $this->dyslexiaFont->getId());
 	}
@@ -149,7 +149,7 @@ class DyslexiaFontTest extends TestCase {
 	 * Ensure the fonts are always loaded from the web root
 	 * despite having url rewriting enabled or not
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestGetCustomCss')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestGetCustomCss')]
 	public function testGetCustomCss(string $webRoot, bool $prettyUrlsEnabled): void {
 		\OC::$WEBROOT = $webRoot;
 		$this->config->expects($this->any())

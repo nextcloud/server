@@ -5,15 +5,18 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\CardDAV;
 
 use OCP\AppFramework\Http;
 use OCP\Files\NotFoundException;
-use Sabre\CardDAV\Card;
+use Sabre\CardDAV\ICard;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
+use Symfony\Component\HttpFoundation\HeaderUtils;
+use Symfony\Component\String\UnicodeString;
 
 class ImageExportPlugin extends ServerPlugin {
 
@@ -36,6 +39,7 @@ class ImageExportPlugin extends ServerPlugin {
 	 * @param Server $server
 	 * @return void
 	 */
+	#[\Override]
 	public function initialize(Server $server) {
 		$this->server = $server;
 		$this->server->on('method:GET', [$this, 'httpGet'], 90);
@@ -60,7 +64,7 @@ class ImageExportPlugin extends ServerPlugin {
 		$path = $request->getPath();
 		$node = $this->server->tree->getNodeForPath($path);
 
-		if (!$node instanceof Card) {
+		if (!$node instanceof ICard) {
 			return true;
 		}
 
@@ -86,7 +90,9 @@ class ImageExportPlugin extends ServerPlugin {
 			$file = $this->cache->get($addressbook->getResourceId(), $node->getName(), $size, $node);
 			$response->setHeader('Content-Type', $file->getMimeType());
 			$fileName = $node->getName() . '.' . PhotoCache::ALLOWED_CONTENT_TYPES[$file->getMimeType()];
-			$response->setHeader('Content-Disposition', "attachment; filename=$fileName");
+			$sanitized = str_replace(['/', '\\'], '-', $fileName);
+			$fallback = str_replace('%', '', (new UnicodeString($sanitized))->ascii()->toString());
+			$response->setHeader('Content-Disposition', HeaderUtils::makeDisposition(HeaderUtils::DISPOSITION_ATTACHMENT, $sanitized, $fallback));
 			$response->setStatus(Http::STATUS_OK);
 
 			$response->setBody($file->getContent());

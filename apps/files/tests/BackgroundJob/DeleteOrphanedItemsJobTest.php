@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files\Tests\BackgroundJob;
 
 use OCA\Files\BackgroundJob\DeleteOrphanedItems;
@@ -21,7 +22,7 @@ use Psr\Log\LoggerInterface;
  *
  * @package Test\BackgroundJob
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class DeleteOrphanedItemsJobTest extends \Test\TestCase {
 	protected IDBConnection $connection;
 	protected LoggerInterface $logger;

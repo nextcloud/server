@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\BackgroundJob;
 
 use InvalidArgumentException;
@@ -39,7 +40,7 @@ class PruneOutdatedSyncTokensJobTest extends TestCase {
 		$this->backgroundJob = new PruneOutdatedSyncTokensJob($this->timeFactory, $this->calDavBackend, $this->cardDavBackend, $this->config, $this->logger);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataForTestRun')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataForTestRun')]
 	public function testRun(string $configToKeep, string $configRetentionDays, int $actualLimit, int $retentionDays, int $deletedCalendarSyncTokens, int $deletedAddressBookSyncTokens): void {
 		$this->config->expects($this->exactly(2))
 			->method('getAppValue')

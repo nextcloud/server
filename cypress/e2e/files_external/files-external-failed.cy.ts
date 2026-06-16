@@ -11,14 +11,12 @@ import { AuthBackend, createStorageWithConfig, StorageBackend } from './StorageU
 describe('Files user credentials', { testIsolation: true }, () => {
 	let currentUser: User
 
-	beforeEach(() => {
-	})
-
 	before(() => {
 		cy.runOccCommand('app:enable files_external')
 		cy.createRandomUser().then((user) => {
 			currentUser = user
 		})
+		cy.runCommand('php ./cron.php')
 	})
 
 	afterEach(() => {
@@ -35,10 +33,17 @@ describe('Files user credentials', { testIsolation: true }, () => {
 
 	it('Create a failed user storage with invalid url', () => {
 		const url = 'http://cloud.domain.com/remote.php/dav/files/abcdef123456'
-		createStorageWithConfig('Storage1', StorageBackend.DAV, AuthBackend.LoginCredentials, { host: url.replace('index.php/', ''), secure: 'false' })
+		createStorageWithConfig('Storage1', StorageBackend.DAV, AuthBackend.LoginCredentials, { host: url.replace('index.php/', ''), secure: 'false' }).then((id) => {
+			cy.runOccCommand(`files_external:verify ${id}`)
+		})
 
 		cy.login(currentUser)
 		cy.visit('/apps/files')
+
+		// TODO: Why does the first PROPFIND does not return it?
+		getRowForFile('Storage1')
+			.if('not.exist')
+			.reload()
 
 		// Ensure the row is visible and marked as unavailable
 		getRowForFile('Storage1').as('row').should('be.visible')
@@ -59,6 +64,8 @@ describe('Files user credentials', { testIsolation: true }, () => {
 			user: 'invaliduser',
 			password: 'invalidpassword',
 			secure: 'false',
+		}).then((id) => {
+			cy.runOccCommand(`files_external:verify ${id}`)
 		})
 
 		cy.login(currentUser)

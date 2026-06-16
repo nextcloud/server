@@ -15,6 +15,7 @@ class RichTextFormatter implements IRichTextFormatter {
 	/**
 	 * @throws \InvalidArgumentException if a parameter has no name or no type
 	 */
+	#[\Override]
 	public function richToParsed(string $message, array $parameters): string {
 		$placeholders = [];
 		$replacements = [];

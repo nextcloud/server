@@ -6,56 +6,39 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Support\Subscription;
 
-use OCP\AppFramework\QueryException;
 use OCP\IConfig;
 use OCP\IGroupManager;
-use OCP\IServerContainer;
 use OCP\IUserManager;
 use OCP\Notification\IManager;
 use OCP\Support\Subscription\Exception\AlreadyRegisteredException;
 use OCP\Support\Subscription\IRegistry;
 use OCP\Support\Subscription\ISubscription;
 use OCP\Support\Subscription\ISupportedApps;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 class Registry implements IRegistry {
-	/** @var ISubscription */
-	private $subscription = null;
+	private ?ISubscription $subscription = null;
+	private ?string $subscriptionService = null;
 
-	/** @var string */
-	private $subscriptionService = null;
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var IServerContainer */
-	private $container;
-	/** @var IUserManager */
-	private $userManager;
-	/** @var IGroupManager */
-	private $groupManager;
-	/** @var LoggerInterface */
-	private $logger;
-
-	public function __construct(IConfig $config,
-		IServerContainer $container,
-		IUserManager $userManager,
-		IGroupManager $groupManager,
-		LoggerInterface $logger) {
-		$this->config = $config;
-		$this->container = $container;
-		$this->userManager = $userManager;
-		$this->groupManager = $groupManager;
-		$this->logger = $logger;
+	public function __construct(
+		private IConfig $config,
+		private ContainerInterface $container,
+		private IUserManager $userManager,
+		private IGroupManager $groupManager,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	private function getSubscription(): ?ISubscription {
 		if ($this->subscription === null && $this->subscriptionService !== null) {
 			try {
-				$this->subscription = $this->container->query($this->subscriptionService);
-			} catch (QueryException $e) {
+				$this->subscription = $this->container->get($this->subscriptionService);
+			} catch (ContainerExceptionInterface) {
 				// Ignore this
 			}
 		}
@@ -67,11 +50,11 @@ class Registry implements IRegistry {
 	 * Register a subscription instance. In case it is called multiple times the
 	 * first one is used.
 	 *
-	 * @param ISubscription $subscription
 	 * @throws AlreadyRegisteredException
 	 *
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function register(ISubscription $subscription): void {
 		if ($this->subscription !== null || $this->subscriptionService !== null) {
 			throw new AlreadyRegisteredException();
@@ -79,6 +62,7 @@ class Registry implements IRegistry {
 		$this->subscription = $subscription;
 	}
 
+	#[\Override]
 	public function registerService(string $subscriptionService): void {
 		if ($this->subscription !== null || $this->subscriptionService !== null) {
 			throw new AlreadyRegisteredException();
@@ -87,12 +71,12 @@ class Registry implements IRegistry {
 		$this->subscriptionService = $subscriptionService;
 	}
 
-
 	/**
 	 * Fetches the list of app IDs that are supported by the subscription
 	 *
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function delegateGetSupportedApps(): array {
 		if ($this->getSubscription() instanceof ISupportedApps) {
 			return $this->getSubscription()->getSupportedApps();
@@ -105,6 +89,7 @@ class Registry implements IRegistry {
 	 *
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function delegateHasValidSubscription(): bool {
 		// Allow overwriting this manually for environments where the subscription information cannot be fetched
 		if ($this->config->getSystemValueBool('has_valid_subscription')) {
@@ -122,6 +107,7 @@ class Registry implements IRegistry {
 	 *
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function delegateHasExtendedSupport(): bool {
 		if ($this->getSubscription() instanceof ISubscription) {
 			return $this->getSubscription()->hasExtendedSupport();
@@ -129,13 +115,13 @@ class Registry implements IRegistry {
 		return false;
 	}
 
-
 	/**
 	 * Indicates if a hard user limit is reached and no new users should be created
 	 *
 	 * @param IManager|null $notificationManager
 	 * @since 21.0.0
 	 */
+	#[\Override]
 	public function delegateIsHardUserLimitReached(?IManager $notificationManager = null): bool {
 		$subscription = $this->getSubscription();
 		if ($subscription instanceof ISubscription

@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Provisioning_API\Tests\Middleware;
 
 use OCA\Provisioning_API\Middleware\Exceptions\NotSubAdminException;
@@ -44,7 +45,7 @@ class ProvisioningApiMiddlewareTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataAnnotation')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataAnnotation')]
 	public function testBeforeController(bool $subadminRequired, bool $isAdmin, bool $isSubAdmin, bool $hasSettingAuthorizationAnnotation, bool $shouldThrowException): void {
 		$middleware = new ProvisioningApiMiddleware(
 			$this->reflector,
@@ -53,10 +54,14 @@ class ProvisioningApiMiddlewareTest extends TestCase {
 		);
 
 		$this->reflector->method('hasAnnotation')
-			->willReturnCallback(function ($annotation) use ($subadminRequired, $hasSettingAuthorizationAnnotation) {
+			->willReturnCallback(function ($annotation) use ($subadminRequired) {
 				if ($annotation === 'NoSubAdminRequired') {
 					return !$subadminRequired;
 				}
+				return false;
+			});
+		$this->reflector->method('hasAnnotationOrAttribute')
+			->willReturnCallback(function ($annotation, $attribute) use ($hasSettingAuthorizationAnnotation) {
 				if ($annotation === 'AuthorizedAdminSetting') {
 					return $hasSettingAuthorizationAnnotation;
 				}
@@ -81,7 +86,7 @@ class ProvisioningApiMiddlewareTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataAfterException')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataAfterException')]
 	public function testAfterException(\Exception $exception, bool $forwared): void {
 		$middleware = new ProvisioningApiMiddleware(
 			$this->reflector,

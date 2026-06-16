@@ -4,12 +4,15 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Preview;
 
+use OC\Core\AppInfo\ConfigLexicon;
 use OC\Preview\Db\Preview;
 use OC\Preview\Db\PreviewMapper;
 use OC\Preview\Storage\PreviewFile;
 use OC\Preview\Storage\StorageFactory;
+use OCP\DB\Exception as DBException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\InvalidPathException;
@@ -17,28 +20,32 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\InMemoryFile;
 use OCP\Files\SimpleFS\ISimpleFile;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IImage;
+use OCP\Image;
 use OCP\IPreview;
 use OCP\IStreamImage;
 use OCP\Preview\BeforePreviewFetchedEvent;
 use OCP\Preview\IVersionedPreviewFile;
-use OCP\Snowflake\IGenerator;
 use Psr\Log\LoggerInterface;
 
 class Generator {
 	public const SEMAPHORE_ID_ALL = 0x0a11;
 	public const SEMAPHORE_ID_NEW = 0x07ea;
 
+	private array $cachedNumConcurrentPreviews = [];
+
 	public function __construct(
-		private IConfig $config,
-		private IPreview $previewManager,
-		private GeneratorHelper $helper,
-		private IEventDispatcher $eventDispatcher,
-		private LoggerInterface $logger,
-		private PreviewMapper $previewMapper,
-		private StorageFactory $storageFactory,
-		private IGenerator $snowflakeGenerator,
+		private readonly IConfig $config,
+		private readonly IAppConfig $appConfig,
+		private readonly IPreview $previewManager,
+		private readonly GeneratorHelper $helper,
+		private readonly IEventDispatcher $eventDispatcher,
+		private readonly LoggerInterface $logger,
+		private readonly PreviewMapper $previewMapper,
+		private readonly StorageFactory $storageFactory,
+		private readonly PreviewMigrationService $migrationService,
 	) {
 	}
 
@@ -86,7 +93,6 @@ class Generator {
 			'mimeType' => $mimeType,
 		]);
 
-
 		// since we only ask for one preview, and the generate method return the last one it created, it returns the one we want
 		return $this->generatePreviews($file, [$specification], $mimeType, $cacheResult);
 	}
@@ -109,6 +115,10 @@ class Generator {
 		}
 
 		[$file->getId() => $previews] = $this->previewMapper->getAvailablePreviews([$file->getId()]);
+
+		if (empty($previews) && $this->appConfig->getValueBool('core', ConfigLexicon::ON_DEMAND_PREVIEW_MIGRATION)) {
+			$previews = $this->migrateOldPreviews($file->getId());
+		}
 
 		$previewVersion = null;
 		if ($file instanceof IVersionedPreviewFile) {
@@ -188,11 +198,26 @@ class Generator {
 
 		// Free memory being used by the embedded image resource.  Without this the image is kept in memory indefinitely.
 		// Garbage Collection does NOT free this memory.  We have to do it ourselves.
-		if ($maxPreviewImage instanceof \OCP\Image) {
+		if ($maxPreviewImage instanceof Image) {
 			$maxPreviewImage->destroy();
 		}
 
 		return $previewFile;
+	}
+
+	/**
+	 * @return Preview[]
+	 */
+	private function migrateOldPreviews(int $fileId): array {
+		if ($this->appConfig->getValueBool('core', 'previewMovedDone')) {
+			return [];
+		}
+
+		$previews = $this->migrationService->migrateFileId($fileId, flatPath: false);
+		if (empty($previews)) {
+			$previews = $this->migrationService->migrateFileId($fileId, flatPath: true);
+		}
+		return $previews;
 	}
 
 	/**
@@ -236,22 +261,14 @@ class Generator {
 	 *
 	 * @return int number of concurrent threads, or 0 if it cannot be determined
 	 */
-	public static function getHardwareConcurrency(): int {
-		static $width;
-
-		if (!isset($width)) {
-			if (function_exists('ini_get')) {
-				$openBasedir = ini_get('open_basedir');
-				if (empty($openBasedir) || strpos($openBasedir, '/proc/cpuinfo') !== false) {
-					$width = is_readable('/proc/cpuinfo') ? substr_count(file_get_contents('/proc/cpuinfo'), 'processor') : 0;
-				} else {
-					$width = 0;
-				}
-			} else {
-				$width = 0;
+	private static function getHardwareConcurrency(): int {
+		if (function_exists('ini_get')) {
+			$openBasedir = ini_get('open_basedir');
+			if (empty($openBasedir) || strpos($openBasedir, '/proc/cpuinfo') !== false) {
+				return is_readable('/proc/cpuinfo') ? substr_count(file_get_contents('/proc/cpuinfo'), 'processor') : 0;
 			}
 		}
-		return $width;
+		return 0;
 	}
 
 	/**
@@ -270,9 +287,8 @@ class Generator {
 	 * @return int number of concurrent preview generations, or -1 if $type is invalid
 	 */
 	public function getNumConcurrentPreviews(string $type): int {
-		static $cached = [];
-		if (array_key_exists($type, $cached)) {
-			return $cached[$type];
+		if (array_key_exists($type, $this->cachedNumConcurrentPreviews)) {
+			return $this->cachedNumConcurrentPreviews[$type];
 		}
 
 		$hardwareConcurrency = self::getHardwareConcurrency();
@@ -281,16 +297,19 @@ class Generator {
 				$fallback = $hardwareConcurrency > 0 ? $hardwareConcurrency * 2 : 8;
 				$concurrency_all = $this->config->getSystemValueInt($type, $fallback);
 				$concurrency_new = $this->getNumConcurrentPreviews('preview_concurrency_new');
-				$cached[$type] = max($concurrency_all, $concurrency_new);
+				$this->cachedNumConcurrentPreviews[$type] = max($concurrency_all, $concurrency_new);
 				break;
 			case 'preview_concurrency_new':
 				$fallback = $hardwareConcurrency > 0 ? $hardwareConcurrency : 4;
-				$cached[$type] = $this->config->getSystemValueInt($type, $fallback);
+				$this->cachedNumConcurrentPreviews[$type] = $this->config->getSystemValueInt($type, $fallback);
 				break;
 			default:
 				return -1;
 		}
-		return $cached[$type];
+		if ($this->cachedNumConcurrentPreviews[$type] < 1) {
+			$this->cachedNumConcurrentPreviews[$type] = 1;
+		}
+		return $this->cachedNumConcurrentPreviews[$type];
 	}
 
 	/**
@@ -309,9 +328,26 @@ class Generator {
 		$maxWidth = $this->config->getSystemValueInt('preview_max_x', 4096);
 		$maxHeight = $this->config->getSystemValueInt('preview_max_y', 4096);
 
-		return $this->generateProviderPreview($file, $maxWidth, $maxHeight, false, true, $mimeType, $version);
+		try {
+			return $this->generateProviderPreview($file, $maxWidth, $maxHeight, false, true, $mimeType, $version);
+		} catch (DBException $e) {
+			if ($e->getReason() === DBException::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+				// Fetch again, likely two HTTP requests for the same file were done around the same time
+				[$file->getId() => $previews] = $this->previewMapper->getAvailablePreviews([$file->getId()]);
+				foreach ($previews as $preview) {
+					if ($preview->isMax() && ($version === $preview->getVersion())) {
+						return $preview;
+					}
+				}
+			}
+			throw $e;
+		}
 	}
 
+	/**
+	 * @throws DBException
+	 * @throws NotFoundException
+	 */
 	private function generateProviderPreview(File $file, int $width, int $height, bool $crop, bool $max, string $mimeType, ?string $version): Preview {
 		$previewProviders = $this->previewManager->getProviders();
 		foreach ($previewProviders as $supportedMimeType => $providers) {
@@ -350,7 +386,7 @@ class Generator {
 
 				try {
 					$previewEntry = new Preview();
-					$previewEntry->setId($this->snowflakeGenerator->nextId());
+					$previewEntry->generateId();
 					$previewEntry->setFileId($file->getId());
 					$previewEntry->setStorageId($file->getMountPoint()->getNumericStorageId());
 					$previewEntry->setSourceMimeType($file->getMimeType());
@@ -503,8 +539,12 @@ class Generator {
 			self::unguardWithSemaphore($sem);
 		}
 
+		if (!$preview->valid() || $preview->dataMimeType() === null) {
+			throw new \InvalidArgumentException('Preview generation failed: invalid or null MIME type');
+		}
+
 		$previewEntry = new Preview();
-		$previewEntry->setId($this->snowflakeGenerator->nextId());
+		$previewEntry->generateId();
 		$previewEntry->setFileId($file->getId());
 		$previewEntry->setStorageId($file->getMountPoint()->getNumericStorageId());
 		$previewEntry->setWidth($width);
@@ -517,19 +557,20 @@ class Generator {
 		$previewEntry->setMimeType($preview->dataMimeType());
 		$previewEntry->setEtag($file->getEtag());
 		$previewEntry->setMtime((new \DateTime())->getTimestamp());
+
 		if ($cacheResult) {
 			$previewEntry = $this->savePreview($previewEntry, $preview);
 			return new PreviewFile($previewEntry, $this->storageFactory, $this->previewMapper);
-		} else {
-			return new InMemoryFile($previewEntry->getName(), $preview->data());
 		}
+
+		return new InMemoryFile($previewEntry->getName(), $preview->data());
 	}
 
 	/**
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 * @throws NotPermittedException
-	 * @throws \OCP\DB\Exception
+	 * @throws DBException
 	 */
 	public function savePreview(Preview $previewEntry, IImage $preview): Preview {
 		// we need to save to DB first
@@ -545,7 +586,7 @@ class Generator {
 			throw new \RuntimeException('Unable to write preview file');
 		}
 		$previewEntry->setSize($size);
-
+		$previewEntry->generateId();
 		return $this->previewMapper->insert($previewEntry);
 	}
 }
