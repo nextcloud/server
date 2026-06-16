@@ -179,6 +179,21 @@ class OCMProvider implements IOCMProvider {
 	 */
 	#[\Override]
 	public function addResourceType(IOCMResource $resource): static {
+		foreach ($this->resourceTypes as $existing) {
+			if ($existing->getName() === $resource->getName()) {
+				$existing->setShareTypes(array_values(array_unique(
+					array_merge(
+						$existing->getShareTypes(),
+						$resource->getShareTypes()
+					)
+				)));
+				$existing->setProtocols(array_merge(
+					$existing->getProtocols(),
+					$resource->getProtocols()
+				));
+				return $this;
+			}
+		}
 		$this->resourceTypes[] = $resource;
 
 		return $this;
