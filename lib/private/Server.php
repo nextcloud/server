@@ -232,6 +232,7 @@ use OCP\IPreview;
 use OCP\IRequest;
 use OCP\IRequestId;
 use OCP\IServerContainer;
+use OCP\IServerInfo;
 use OCP\ISession;
 use OCP\ITagManager;
 use OCP\ITempManager;
@@ -1146,6 +1147,9 @@ class Server extends ServerContainer implements IServerContainer {
 			/** @var IProviderFactory $factory */
 			return $c->get($factoryClass);
 		});
+		$this->registerAlias(ISnowflakeDecoder::class, SnowflakeDecoder::class);
+		$this->registerAlias(IJobRuns::class, JobRuns::class);
+		$this->registerAlias(IServerInfo::class, ServerInfo::class);
 
 		$this->registerAlias(\OCP\Share\IManager::class, \OC\Share20\Manager::class);
 

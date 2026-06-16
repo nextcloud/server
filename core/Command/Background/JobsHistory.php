@@ -12,7 +12,7 @@ namespace OC\Core\Command\Background;
 use OC\BackgroundJob\JobRuns;
 use OC\Core\Command\Base;
 use OCP\BackgroundJob\JobStatus;
-use OCP\IConfig;
+use OCP\IServerInfo;
 use OCP\Util;
 use Override;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,7 +23,7 @@ use ValueError;
 final class JobsHistory extends Base {
 	public function __construct(
 		private readonly JobRuns $jobRuns,
-		private IConfig $config,
+		private readonly IServerInfo $serverInfo,
 	) {
 		parent::__construct();
 	}
@@ -75,7 +75,7 @@ final class JobsHistory extends Base {
 	private function formatLine(iterable $jobs): \Generator {
 		$jobsInfo = [];
 		$now = time();
-		$currentServerId = $this->config->getSystemValueInt('serverid', -1);
+		$currentServerId = $this->serverInfo->getServerId();
 		foreach ($jobs as $job) {
 			$status = match ($job->status) {
 				JobStatus::RUNNING => 'Running',
