@@ -71,7 +71,6 @@ body:
         Select Nextcloud Server version.
         _Versions not listed here are not maintained and not supported anymore_
       options:
-        - "32"
         - "33"
         - "34"
         - "35 (master)"
