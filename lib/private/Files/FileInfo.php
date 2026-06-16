@@ -59,7 +59,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		private ?IUser $owner = null,
 	) {
 		$this->mount = $mount;
-		if (isset($this->data['unencrypted_size']) && $this->data['unencrypted_size'] !== 0) {
+		if (($this->data['encrypted'] ?? false) && isset($this->data['unencrypted_size'])) {
 			$this->rawSize = $this->data['unencrypted_size'];
 		} else {
 			$this->rawSize = $this->data['size'] ?? 0;
@@ -356,7 +356,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		if (!$data) {
 			return;
 		}
-		$hasUnencryptedSize = isset($data['unencrypted_size']) && $data['unencrypted_size'] > 0;
+		$hasUnencryptedSize = !empty($data['encrypted']) && isset($data['unencrypted_size']);
 		if ($hasUnencryptedSize) {
 			$subSize = $data['unencrypted_size'];
 		} else {

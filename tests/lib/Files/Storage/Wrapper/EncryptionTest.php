@@ -386,7 +386,11 @@ class EncryptionTest extends Storage {
 			[120, 80, false, 80],
 			[120, 120, false, 80],
 			[120, -1, false, 80],
-			[120, -1, true, -1]
+			[120, -1, true, -1],
+			// Zero-byte encrypted file: on-disk size equals header only (8192) — should NOT recalculate
+			[8192, 0, false, 0],
+			// Encrypted file with content beyond header but unencrypted_size=0 — SHOULD recalculate
+			[16384, 0, false, 80],
 		];
 	}
 
