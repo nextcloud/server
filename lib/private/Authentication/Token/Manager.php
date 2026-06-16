@@ -43,6 +43,7 @@ class Manager implements IProvider, OCPIProvider {
 		int $type = OCPIToken::TEMPORARY_TOKEN,
 		int $remember = OCPIToken::DO_NOT_REMEMBER,
 		?array $scope = null,
+		?int $expires = null,
 	): OCPIToken {
 		if (mb_strlen($name) > 128) {
 			$name = mb_substr($name, 0, 120) . '…';
@@ -58,6 +59,7 @@ class Manager implements IProvider, OCPIProvider {
 				$type,
 				$remember,
 				$scope,
+				$expires,
 			);
 		} catch (Exception $e) {
 			if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
