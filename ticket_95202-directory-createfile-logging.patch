@@ -1,0 +1,37 @@
+--- a/apps/dav/lib/Connector/Sabre/Directory.php	2026-06-16 11:10:01.556385675 +0000
++++ b/apps/dav/lib/Connector/Sabre/Directory.php	2026-06-16 11:10:34.848384914 +0000
+@@ -96,9 +96,34 @@
+ 	public function createFile($name, $data = null) {
+ 		try {
+ 			if (!$this->fileView->isCreatable($this->path)) {
++				// ticket_95202: log *why* creation is refused here. The suspicion is
++				// that the parent folder cannot be found, so capture whether it
++				// exists and which permissions (if any) it reports before throwing.
++				$parentExists = $this->fileView->file_exists($this->path);
++				$parentInfo = $this->fileView->getFileInfo($this->path);
++				$this->getLogger()->warning(
++					'Refusing to create file "{name}": parent folder "{path}" is not creatable (parentExists={parentExists}, parentPermissions={parentPermissions})',
++					[
++						'app' => 'ticket_95202',
++						'name' => $name,
++						'path' => $this->path,
++						'parentExists' => $parentExists ? 'true' : 'false',
++						'parentPermissions' => $parentInfo ? $parentInfo->getPermissions() : 'no-fileinfo',
++					],
++				);
+ 				throw new \Sabre\DAV\Exception\Forbidden();
+ 			}
+ 
++			// ticket_95202: the parent folder was found and is creatable.
++			$this->getLogger()->debug(
++				'Parent folder "{path}" found and creatable for new file "{name}"',
++				[
++					'app' => 'ticket_95202',
++					'name' => $name,
++					'path' => $this->path,
++				],
++			);
++
+ 			$this->fileView->verifyPath($this->path, $name);
+ 
+ 			$path = $this->fileView->getAbsolutePath($this->path) . '/' . $name;
