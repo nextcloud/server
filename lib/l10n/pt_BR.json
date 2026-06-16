@@ -279,6 +279,7 @@
     "Cannot create \"data\" directory." : "Não é possível criar o diretório \"data\".",
     "This can usually be fixed by giving the web server write access to the root directory. See %s" : "Geralmente, isso pode ser corrigido dando ao servidor web acesso de gravação ao diretório raiz. Consulte %s",
     "Permissions can usually be fixed by giving the web server write access to the root directory. See %s." : "Geralmente, as permissões podem ser corrigidas dando ao servidor web acesso de gravação ao diretório raiz. Consulte %s.",
+    "Your data directory is not readable." : "Seu diretório de dados não pode ser lido.",
     "Your data directory is not writable." : "Seu diretório de dados não é gravável.",
     "Setting locale to %s failed." : "Falha ao definir a configuração regional para %s.",
     "Please install one of these locales on your system and restart your web server." : "Por favor, instale uma dessas configurações regionais em seu sistema e reinicie seu servidor web.",
