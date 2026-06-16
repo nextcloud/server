@@ -12,9 +12,10 @@
 				:label="birthdate.readable"
 				:model-value="value"
 				@input="onInput" />
-			<FederationControl
+			<VisibilityScopeControl
 				class="property__scope"
 				:readable="birthdate.readable"
+				:name="birthdate.name"
 				:scope="birthdate.scope"
 				@update:scope="onScopeChange" />
 		</div>
@@ -25,7 +26,7 @@
 import { loadState } from '@nextcloud/initial-state'
 import debounce from 'debounce'
 import NcDateTimePickerNative from '@nextcloud/vue/components/NcDateTimePickerNative'
-import FederationControl from './shared/FederationControl.vue'
+import VisibilityScopeControl from './shared/VisibilityScopeControl.vue'
 import { NAME_READABLE_ENUM } from '../../constants/AccountPropertyConstants.js'
 import { savePrimaryAccountProperty } from '../../service/PersonalInfo/PersonalInfoService.js'
 import { handleError } from '../../utils/handlers.js'
@@ -37,7 +38,7 @@ export default {
 
 	components: {
 		NcDateTimePickerNative,
-		FederationControl,
+		VisibilityScopeControl,
 	},
 
 	data() {
