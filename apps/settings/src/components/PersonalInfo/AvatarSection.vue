@@ -4,68 +4,13 @@
 -->
 
 <template>
-	<section id="vue-avatar-section">
-		<HeaderBar
-			:is-heading="true"
-			:readable="avatar.readable"
-			:scope.sync="avatar.scope" />
-
-		<div v-if="!showCropper" class="avatar__container">
-			<div class="avatar__preview">
-				<NcAvatar
-					v-if="!loading"
-					:key="version"
-					:user="userId"
-					:aria-label="t('settings', 'Your profile picture')"
-					:disable-tooltip="true"
-					hide-status
-					:size="180" />
-				<div v-else class="icon-loading" />
-			</div>
-			<template v-if="avatarChangeSupported">
-				<div class="avatar__buttons">
-					<NcButton
-						:aria-label="t('settings', 'Upload profile picture')"
-						@click="activateLocalFilePicker">
-						<template #icon>
-							<Upload :size="20" />
-						</template>
-					</NcButton>
-					<NcButton
-						:aria-label="t('settings', 'Choose profile picture from Files')"
-						@click="openFilePicker">
-						<template #icon>
-							<Folder :size="20" />
-						</template>
-					</NcButton>
-					<NcButton
-						v-if="!isGenerated"
-						:aria-label="t('settings', 'Remove profile picture')"
-						@click="removeAvatar">
-						<template #icon>
-							<Delete :size="20" />
-						</template>
-					</NcButton>
-				</div>
-				<span>{{ t('settings', 'The file must be a PNG or JPG') }}</span>
-				<input
-					ref="input"
-					type="file"
-					:accept="validMimeTypes.join(',')"
-					@change="onChange">
-			</template>
-			<span v-else>
-				{{ t('settings', 'Picture provided by original account') }}
-			</span>
-		</div>
-
-		<!-- Use v-show to ensure early cropper ref availability -->
-		<div v-show="showCropper" class="avatar__container">
+	<section class="avatar-section">
+		<div v-show="showCropper" class="avatar-section__cropper">
 			<VueCropper
 				ref="cropper"
-				class="avatar__cropper"
+				class="avatar-section__cropper-canvas"
 				v-bind="cropperOptions" />
-			<div class="avatar__cropper-buttons">
+			<div class="avatar-section__cropper-buttons">
 				<NcButton @click="cancel">
 					{{ t('settings', 'Cancel') }}
 				</NcButton>
@@ -75,8 +20,65 @@
 					{{ t('settings', 'Set as profile picture') }}
 				</NcButton>
 			</div>
-			<span>{{ t('settings', 'Please note that it can take up to 24 hours for your profile picture to be updated everywhere.') }}</span>
+			<span class="avatar-section__hint">{{ t('settings', 'Please note that it can take up to 24 hours for your profile picture to be updated everywhere.') }}</span>
 		</div>
+
+		<template v-if="!showCropper">
+			<div v-if="!profileEnabledGlobally" class="avatar-section__preview">
+				<NcAvatar
+					v-if="!loading"
+					:key="version"
+					:user="userId"
+					:aria-label="t('settings', 'Your profile picture')"
+					:disable-tooltip="true"
+					hide-status
+					:size="120" />
+				<div v-else class="icon-loading" />
+			</div>
+
+			<template v-if="avatarChangeSupported">
+				<div class="avatar-section__actions">
+					<NcFormBox class="avatar-section__buttons">
+						<NcFormBoxButton
+							:label="t('settings', 'Upload profile picture')"
+							@click="activateLocalFilePicker">
+							<template #icon>
+								<Upload :size="20" />
+							</template>
+						</NcFormBoxButton>
+						<NcFormBoxButton
+							:label="t('settings', 'Choose from Nextcloud Files')"
+							@click="openFilePicker">
+							<template #icon>
+								<Folder :size="20" />
+							</template>
+						</NcFormBoxButton>
+						<NcFormBoxButton
+							v-if="!isGenerated"
+							:label="t('settings', 'Delete picture')"
+							@click="removeAvatar">
+							<template #icon>
+								<Delete :size="20" />
+							</template>
+						</NcFormBoxButton>
+					</NcFormBox>
+					<FederationControl
+						class="avatar-section__scope"
+						:readable="avatar.readable"
+						:scope="avatar.scope"
+						@update:scope="onScopeChange" />
+				</div>
+				<span class="avatar-section__hint">{{ t('settings', 'The file must be a PNG or JPG') }}</span>
+				<input
+					ref="input"
+					type="file"
+					:accept="validMimeTypes.join(',')"
+					@change="onChange">
+			</template>
+			<span v-else class="avatar-section__hint">
+				{{ t('settings', 'Picture provided by original account') }}
+			</span>
+		</template>
 	</section>
 </template>
 
@@ -90,16 +92,19 @@ import { generateUrl } from '@nextcloud/router'
 import VueCropper from 'vue-cropperjs'
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcButton from '@nextcloud/vue/components/NcButton'
+import NcFormBox from '@nextcloud/vue/components/NcFormBox'
+import NcFormBoxButton from '@nextcloud/vue/components/NcFormBoxButton'
 import Folder from 'vue-material-design-icons/Folder.vue'
 import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
 import Upload from 'vue-material-design-icons/TrayArrowUp.vue'
-import HeaderBar from './shared/HeaderBar.vue'
+import FederationControl from './shared/FederationControl.vue'
 import { NAME_READABLE_ENUM } from '../../constants/AccountPropertyConstants.js'
 
 import 'cropperjs/dist/cropper.css'
 
 const { avatar } = loadState('settings', 'personalInfoParameters', {})
 const { avatarChangeSupported } = loadState('settings', 'accountParameters', {})
+const profileEnabledGlobally = loadState('settings', 'profileEnabledGlobally', true)
 
 const VALID_MIME_TYPES = ['image/png', 'image/jpeg']
 
@@ -115,10 +120,12 @@ export default {
 
 	components: {
 		Delete,
+		FederationControl,
 		Folder,
-		HeaderBar,
 		NcAvatar,
 		NcButton,
+		NcFormBox,
+		NcFormBoxButton,
 		Upload,
 		VueCropper,
 	},
@@ -127,6 +134,7 @@ export default {
 		return {
 			avatar: { ...avatar, readable: NAME_READABLE_ENUM[avatar.name] },
 			avatarChangeSupported,
+			profileEnabledGlobally,
 			showCropper: false,
 			loading: false,
 			userId: getCurrentUser().uid,
@@ -156,6 +164,10 @@ export default {
 	},
 
 	methods: {
+		onScopeChange(scope) {
+			this.avatar.scope = scope
+		},
+
 		activateLocalFilePicker() {
 			// Set to null so that selecting the same file will trigger the change event
 			this.$refs.input.value = null
@@ -257,52 +269,63 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-section {
-	grid-row: 1/3;
-	padding: 10px 10px;
-}
-
-.avatar {
-	&__container {
-		margin: calc(var(--default-grid-baseline) * 2) auto 0 auto;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		gap: 16px 0;
-		width: min(100%, 300px);
-
-		span {
-			color: var(--color-text-maxcontrast);
-		}
-	}
+.avatar-section {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	padding: 6px 0;
 
 	&__preview {
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		width: 180px;
-		height: 180px;
+		width: 120px;
+		height: 120px;
+		margin: 0 auto;
+	}
+
+	&__actions {
+		display: flex;
+		flex-direction: row;
+		align-items: flex-start;
+		gap: 8px;
 	}
 
 	&__buttons {
+		flex: 1 1 auto;
+		min-width: 0;
+	}
+
+	&__scope {
+		flex: 0 0 44px;
 		display: flex;
-		gap: 0 10px;
+		justify-content: center;
+	}
+
+	&__hint {
+		color: var(--color-text-maxcontrast);
 	}
 
 	&__cropper {
-		width: 300px;
-		height: 300px;
-		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 16px;
+
+		&-canvas {
+			width: 300px;
+			height: 300px;
+			overflow: hidden;
+
+			:deep(.cropper-view-box) {
+				border-radius: 50%;
+			}
+		}
 
 		&-buttons {
 			width: 100%;
 			display: flex;
 			justify-content: space-between;
-		}
-
-		:deep(.cropper-view-box) {
-			border-radius: 50%;
 		}
 	}
 }

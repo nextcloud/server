@@ -4,64 +4,71 @@
 -->
 
 <template>
-	<div>
-		<div class="email" :class="{ 'email--additional': !primary }">
-			<div v-if="!primary" class="email__label-container">
-				<label :for="inputIdWithDefault">{{ inputPlaceholder }}</label>
-				<FederationControl
-					v-if="!federationDisabled && !primary"
-					:readable="propertyReadable"
-					:additional="true"
-					:additional-value="email"
-					:disabled="federationDisabled"
-					:handle-additional-scope-change="saveAdditionalEmailScope"
-					:scope.sync="localScope"
-					@update:scope="onScopeChange" />
-			</div>
-			<div class="email__input-container">
-				<NcTextField
-					:id="inputIdWithDefault"
-					ref="email"
-					v-model="emailAddress"
-					class="email__input"
-					autocapitalize="none"
-					autocomplete="email"
-					:error="hasError || !!helperText"
-					:helper-text="helperTextWithNonConfirmed"
-					label-outside
-					:placeholder="inputPlaceholder"
-					spellcheck="false"
-					:success="isSuccess"
-					type="email" />
+	<div class="property-section">
+		<div class="property">
+			<NcTextField
+				:id="inputIdWithDefault"
+				ref="email"
+				v-model="emailAddress"
+				class="property__field"
+				autocapitalize="none"
+				autocomplete="email"
+				:error="hasError || !!helperText"
+				:helper-text="helperTextWithNonConfirmed"
+				:label="entryLabel"
+				spellcheck="false"
+				:success="isSuccess"
+				type="email" />
 
-				<div class="email__actions">
-					<NcActions :aria-label="actionsLabel">
-						<NcActionButton
-							v-if="!primary || !isNotificationEmail"
-							close-after-click
-							:disabled="!isConfirmedAddress"
-							@click="setNotificationMail">
-							<template #icon>
-								<NcIconSvgWrapper v-if="isNotificationEmail" :path="mdiStar" />
-								<NcIconSvgWrapper v-else :path="mdiStarOutline" />
-							</template>
-							{{ setNotificationMailLabel }}
-						</NcActionButton>
-						<NcActionButton
-							close-after-click
-							:disabled="deleteDisabled"
-							@click="deleteEmail">
-							<template #icon>
-								<NcIconSvgWrapper :path="mdiTrashCanOutline" />
-							</template>
-							{{ deleteEmailLabel }}
-						</NcActionButton>
-					</NcActions>
-				</div>
-			</div>
+			<FederationControl
+				v-if="!federationDisabled"
+				class="property__scope"
+				:readable="propertyReadable"
+				:additional="!primary"
+				:additional-value="email"
+				:disabled="federationDisabled"
+				:handle-additional-scope-change="saveAdditionalEmailScope"
+				:scope.sync="localScope"
+				@update:scope="onScopeChange">
+				<NcActionButton
+					v-if="!primary || !isNotificationEmail"
+					close-after-click
+					:disabled="!isConfirmedAddress"
+					@click="setNotificationMail">
+					<template #icon>
+						<NcIconSvgWrapper v-if="isNotificationEmail" :path="mdiStar" />
+						<NcIconSvgWrapper v-else :path="mdiStarOutline" />
+					</template>
+					{{ setNotificationMailLabel }}
+				</NcActionButton>
+				<NcActionButton
+					close-after-click
+					:disabled="deleteDisabled"
+					@click="deleteEmail">
+					<template #icon>
+						<NcIconSvgWrapper :path="mdiTrashCanOutline" />
+					</template>
+					{{ deleteEmailLabel }}
+				</NcActionButton>
+			</FederationControl>
+
+			<NcActions
+				v-else
+				class="property__scope"
+				:aria-label="actionsLabel">
+				<NcActionButton
+					close-after-click
+					:disabled="deleteDisabled"
+					@click="deleteEmail">
+					<template #icon>
+						<NcIconSvgWrapper :path="mdiTrashCanOutline" />
+					</template>
+					{{ deleteEmailLabel }}
+				</NcActionButton>
+			</NcActions>
 		</div>
 
-		<em v-if="isNotificationEmail">
+		<em v-if="isNotificationEmail" class="property-section__note">
 			{{ t('settings', 'Primary email for password reset and notifications') }}
 		</em>
 	</div>
@@ -219,9 +226,14 @@ export default {
 			return this.inputId || `account-property-email--${this.index}`
 		},
 
-		inputPlaceholder() {
-			// Primary email has implicit linked <label>
-			return !this.primary ? t('settings', 'Additional email address {index}', { index: this.index + 1 }) : undefined
+		entryLabel() {
+			const label = this.primary
+				? t('settings', 'Primary email address')
+				: t('settings', 'Additional email address {index}', { index: this.index + 1 })
+			if (!this.primary && this.initialEmail && !this.isConfirmedAddress) {
+				return t('settings', '{label} (confirmation sent)', { label })
+			}
+			return label
 		},
 
 		isNotificationEmail() {
@@ -402,30 +414,31 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.email {
-	&__label-container {
-		height: var(--default-clickable-area);
+.property-section {
+	padding: 6px 0;
+
+	&__note {
+		display: block;
+		margin-top: 4px;
+		color: var(--color-text-maxcontrast);
+	}
+}
+
+.property {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 8px;
+
+	&__field {
+		flex: 1 1 auto;
+		min-width: 0;
+	}
+
+	&__scope {
+		flex: 0 0 44px;
 		display: flex;
-		flex-direction: row;
-		align-items: center;
-		gap: calc(var(--default-grid-baseline) * 2);
-	}
-
-	&__input-container {
-		position: relative;
-	}
-
-	&__input {
-		// TODO: provide a way to hide status icon or combine it with trailing button in NcInputField
-		:deep(.input-field__icon--trailing) {
-			display: none;
-		}
-	}
-
-	&__actions {
-		position: absolute;
-		inset-block-start: 0;
-		inset-inline-end: 0;
+		justify-content: center;
 	}
 }
 </style>
