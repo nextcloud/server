@@ -342,7 +342,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		if (!$data) {
 			return;
 		}
-		$hasUnencryptedSize = isset($data['unencrypted_size']) && $data['unencrypted_size'] > 0;
+		$hasUnencryptedSize = !empty($data['encrypted']) && isset($data['unencrypted_size']);
 		if ($hasUnencryptedSize) {
 			$subSize = $data['unencrypted_size'];
 		} else {
