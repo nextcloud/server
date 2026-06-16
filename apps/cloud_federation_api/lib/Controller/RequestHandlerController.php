@@ -36,6 +36,7 @@ use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
+use OCP\OCM\Events\OCMNotificationReceivedEvent;
 use OCP\OCM\IOCMDiscoveryService;
 use OCP\Security\Signature\Exceptions\IncomingRequestException;
 use OCP\Security\Signature\IIncomingSignedRequest;
@@ -402,6 +403,15 @@ class RequestHandlerController extends Controller {
 				],
 				Http::STATUS_BAD_REQUEST
 			);
+		}
+
+		try {
+			$notificationObject = $this->factory->getCloudFederationNotification();
+			$notificationObject->setMessage($notificationType, $resourceType, $providerId, $notification);
+			$notificationEvent = new OCMNotificationReceivedEvent($notificationObject);
+			$this->dispatcher->dispatchTyped($notificationEvent);
+		} catch (\Exception $e) {
+			$this->logger->warning('error while dispatching OCM notification received event', ['exception' => $e]);
 		}
 
 		return new JSONResponse($result, Http::STATUS_CREATED);
