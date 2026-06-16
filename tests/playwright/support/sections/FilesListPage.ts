@@ -4,6 +4,7 @@
  */
 
 import type { Locator, Page } from '@playwright/test'
+import { escapeAttributeValue } from '../utils/css.ts'
 
 export class FilesListPage {
 	constructor(protected readonly page: Page) {}
@@ -18,7 +19,7 @@ export class FilesListPage {
 	}
 
 	getRowForFile(filename: string): Locator {
-		return this.page.locator(`[data-cy-files-list-row-name="${filename}"]`)
+		return this.page.locator(`[data-cy-files-list-row-name="${escapeAttributeValue(filename)}"]`)
 	}
 
 	getRowForFileId(fileid: number): Locator {

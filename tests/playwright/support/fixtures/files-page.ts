@@ -7,6 +7,7 @@ import { runOcc } from '@nextcloud/e2e-test-server/docker'
 import { createRandomUser, login } from '@nextcloud/e2e-test-server/playwright'
 import { test as baseTest } from '@playwright/test'
 import type { User } from '@nextcloud/e2e-test-server'
+import { CopyMoveDialogPage } from '../sections/CopyMoveDialogPage.ts'
 import { FilesListPage } from '../sections/FilesListPage.ts'
 import { FilesNavigationPage } from '../sections/FilesNavigationPage.ts'
 import { FilesSidebarPage } from '../sections/FilesSidebarPage.ts'
@@ -16,6 +17,7 @@ type FilesFixtures = {
 	filesListPage: FilesListPage
 	filesNavigation: FilesNavigationPage
 	filesSidebar: FilesSidebarPage
+	copyMoveDialog: CopyMoveDialogPage
 }
 
 export const test = baseTest.extend<FilesFixtures>({
@@ -42,6 +44,10 @@ export const test = baseTest.extend<FilesFixtures>({
 
 	filesSidebar: async ({ page }, use) => {
 		await use(new FilesSidebarPage(page))
+	},
+
+	copyMoveDialog: async ({ page }, use) => {
+		await use(new CopyMoveDialogPage(page))
 	},
 })
 
