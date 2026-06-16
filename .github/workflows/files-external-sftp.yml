@@ -57,9 +57,6 @@ jobs:
       matrix:
         php-versions: ['8.2', '8.4']
         sftpd: ['openssh']
-        include:
-          - php-versions: '8.2'
-            coverage: ${{ github.event_name != 'pull_request' }}
 
     name: php${{ matrix.php-versions }}-${{ matrix.sftpd }}
 
@@ -83,7 +80,7 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
           extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
-          coverage: ${{ matrix.coverage && 'xdebug' || 'none' }}
+          coverage: none
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -99,15 +96,7 @@ jobs:
         run: composer run test:files_external -- \
           apps/files_external/tests/Storage/SftpTest.php \
           apps/files_external/tests/Storage/SFTP_KeyTest.php \
-          --log-junit junit.xml \
-          ${{ matrix.coverage && '--coverage-clover ./clover.xml' || '' }}
-
-      - name: Upload code coverage
-        if: ${{ !cancelled() && matrix.coverage }}
-        uses: codecov/codecov-action@57e3a136b779b570ffcdbf80b3bdc90e7fab3de2 # v6.0.0
-        with:
-          files: ./clover.xml
-          flags: phpunit-files-external-sftp
+          --log-junit junit.xml
 
       - name: Upload test results
         if: ${{ !cancelled() }}
