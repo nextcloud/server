@@ -66,6 +66,13 @@ export class FilesListPage {
 		return this.getRowForFile(filename).getByRole('img', { name: 'Favorite' })
 	}
 
+	/**
+	 * The inline "Download" button rendered on a row for the default download action.
+	 */
+	getDownloadButtonForFile(filename: string): Locator {
+		return this.getRowForFile(filename).getByRole('button', { name: 'Download' })
+	}
+
 	async selectAll(): Promise<void> {
 		await this.page.locator('[data-cy-files-list-selection-checkbox]')
 			.getByRole('checkbox')
