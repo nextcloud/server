@@ -454,9 +454,12 @@ class Session implements IUserSession, Emitter {
 			} else {
 				$this->session->set('app_password', $password);
 			}
-		} elseif ($this->supportsCookies($request)) {
-			// Password login, but cookies supported -> create (browser) session token
-			$this->createSessionToken($request, $this->getUser()->getUID(), $user, $password);
+		} else {
+			$this->session->set('last-password-confirm', $this->timeFactory->getTime());
+			if ($this->supportsCookies($request)) {
+				// Password login, but cookies supported -> create (browser) session token
+				$this->createSessionToken($request, $this->getUser()->getUID(), $user, $password);
+			}
 		}
 
 		return true;
@@ -561,9 +564,6 @@ class Session implements IUserSession, Emitter {
 					$this->session->set(
 						Auth::DAV_AUTHENTICATED, $this->getUser()->getUID()
 					);
-
-					// Set the last-password-confirm session to make the sudo mode work
-					$this->session->set('last-password-confirm', $this->timeFactory->getTime());
 
 					return true;
 				}
