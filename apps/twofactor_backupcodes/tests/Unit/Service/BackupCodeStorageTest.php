@@ -166,12 +166,11 @@ class BackupCodeStorageTest extends TestCase {
 			->with('CHALLENGE', 'HASHEDVALUE', $this->anything())
 			->willReturn(true);
 		$this->mapper->expects($this->once())
-			->method('update')
-			->with($code);
+			->method('markUsedIfUnused')
+			->with($code)
+			->willReturn(1);
 
 		$this->assertTrue($this->storage->validateCode($user, 'CHALLENGE'));
-
-		$this->assertEquals(1, $code->getUsed());
 	}
 
 	public function testValidateUsedCode(): void {
