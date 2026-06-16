@@ -104,7 +104,7 @@ Feature: auth
 		Then the HTTP status code should be "200"
 		When the CSRF token is extracted from the previous response
 		When a new unrestricted client token is added using restricted basic token auth
-		Then the HTTP status code should be "503"
+		Then the HTTP status code should be "403"
 
 	Scenario: Creating a restricted auth token with regular login should work
 		When a new restricted client token is added
@@ -113,4 +113,3 @@ Feature: auth
 	Scenario: Creating an unrestricted auth token with regular login should work
 		When a new unrestricted client token is added
 		Then the HTTP status code should be "200"
-
