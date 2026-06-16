@@ -16,19 +16,23 @@ class ScopedPsrLogger implements LoggerInterface {
 	public function __construct(
 		private LoggerInterface $inner,
 		private string $appId,
+		private ?string $appVersion,
 	) {
+	}
+
+	private function prepareContext(array $context): array {
+		$default = [
+			'app' => $this->appId,
+			'appVersion' => $this->appVersion,
+		];
+		return array_merge($default, $context);
 	}
 
 	#[\Override]
 	public function emergency($message, array $context = []): void {
 		$this->inner->emergency(
 			$message,
-			array_merge(
-				[
-					'app' => $this->appId,
-				],
-				$context
-			)
+			$this->prepareContext($context),
 		);
 	}
 
@@ -36,12 +40,7 @@ class ScopedPsrLogger implements LoggerInterface {
 	public function alert($message, array $context = []): void {
 		$this->inner->alert(
 			$message,
-			array_merge(
-				[
-					'app' => $this->appId,
-				],
-				$context
-			)
+			$this->prepareContext($context),
 		);
 	}
 
@@ -49,12 +48,7 @@ class ScopedPsrLogger implements LoggerInterface {
 	public function critical($message, array $context = []): void {
 		$this->inner->critical(
 			$message,
-			array_merge(
-				[
-					'app' => $this->appId,
-				],
-				$context
-			)
+			$this->prepareContext($context),
 		);
 	}
 
@@ -62,12 +56,7 @@ class ScopedPsrLogger implements LoggerInterface {
 	public function error($message, array $context = []): void {
 		$this->inner->error(
 			$message,
-			array_merge(
-				[
-					'app' => $this->appId,
-				],
-				$context
-			)
+			$this->prepareContext($context),
 		);
 	}
 
@@ -75,12 +64,7 @@ class ScopedPsrLogger implements LoggerInterface {
 	public function warning($message, array $context = []): void {
 		$this->inner->warning(
 			$message,
-			array_merge(
-				[
-					'app' => $this->appId,
-				],
-				$context
-			)
+			$this->prepareContext($context),
 		);
 	}
 
@@ -88,12 +72,7 @@ class ScopedPsrLogger implements LoggerInterface {
 	public function notice($message, array $context = []): void {
 		$this->inner->notice(
 			$message,
-			array_merge(
-				[
-					'app' => $this->appId,
-				],
-				$context
-			)
+			$this->prepareContext($context),
 		);
 	}
 
@@ -101,12 +80,7 @@ class ScopedPsrLogger implements LoggerInterface {
 	public function info($message, array $context = []): void {
 		$this->inner->info(
 			$message,
-			array_merge(
-				[
-					'app' => $this->appId,
-				],
-				$context
-			)
+			$this->prepareContext($context),
 		);
 	}
 
@@ -114,12 +88,7 @@ class ScopedPsrLogger implements LoggerInterface {
 	public function debug($message, array $context = []): void {
 		$this->inner->debug(
 			$message,
-			array_merge(
-				[
-					'app' => $this->appId,
-				],
-				$context
-			)
+			$this->prepareContext($context),
 		);
 	}
 
@@ -128,12 +97,7 @@ class ScopedPsrLogger implements LoggerInterface {
 		$this->inner->log(
 			$level,
 			$message,
-			array_merge(
-				[
-					'app' => $this->appId,
-				],
-				$context
-			)
+			$this->prepareContext($context),
 		);
 	}
 }

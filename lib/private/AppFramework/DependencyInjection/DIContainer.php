@@ -95,6 +95,8 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		$this->appManager = $this->server->get(IAppManager::class);
 		$this->server->registerAppContainer($this->appName, $this);
 
+		$this->registerParameter('appVersion', $this->appManager->getAppVersion($this->appName));
+
 		// aliases
 		/** @deprecated 26.0.0 inject $appName */
 		$this->registerDeprecatedAlias('AppName', 'appName');
@@ -128,9 +130,13 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		// Log wrappers
 		$this->registerService(LoggerInterface::class, function (ContainerInterface $c) {
 			/* Cannot be an alias because it uses LoggerInterface so it would infinite loop */
+
+			$appVersion = $c->get('appVersion');
+
 			return new ScopedPsrLogger(
 				$c->get(PsrLoggerAdapter::class),
-				$c->get('appName')
+				$c->get('appName'),
+				$appVersion,
 			);
 		});
 
