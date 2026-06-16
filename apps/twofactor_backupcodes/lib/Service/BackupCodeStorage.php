@@ -99,19 +99,12 @@ class BackupCodeStorage {
 		];
 	}
 
-	/**
-	 * @param IUser $user
-	 * @param string $code
-	 * @return bool
-	 */
 	public function validateCode(IUser $user, string $code): bool {
 		$dbCodes = $this->mapper->getBackupCodes($user);
 
 		foreach ($dbCodes as $dbCode) {
 			if ((int) $dbCode->getUsed() === 0 && $this->hasher->verify($code, $dbCode->getCode())) {
-				$dbCode->setUsed(1);
-				$this->mapper->update($dbCode);
-				return true;
+				return ($this->mapper->markUsedIfUnused($dbCode) === 1);
 			}
 		}
 		return false;
