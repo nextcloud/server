@@ -157,6 +157,7 @@ class RequestHandlerController extends Controller {
 					Http::STATUS_BAD_REQUEST
 				);
 				$response->throttle();
+				$this->logger->info('user does not exist', ['user' => $shareWith]);
 				return $response;
 			}
 		}
@@ -171,6 +172,7 @@ class RequestHandlerController extends Controller {
 					Http::STATUS_BAD_REQUEST
 				);
 				$response->throttle();
+				$this->logger->info('group does not exist', ['user' => $shareWith]);
 				return $response;
 			}
 		}
@@ -208,11 +210,13 @@ class RequestHandlerController extends Controller {
 		}
 
 		try {
+			$this->logger->info('share creation', ['sharedBy' => $sharedBy, 'sharedByDisplayName' => $sharedByDisplayName, 'ownerDisplayName' => $ownerDisplayName]);
 			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider($resourceType);
 			$share = $this->factory->getCloudFederationShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, '', $shareType, $resourceType);
 			$share->setProtocol($protocol);
 			$provider->shareReceived($share);
 		} catch (ProviderDoesNotExistsException|ProviderCouldNotAddShareException $e) {
+			$this->logger->error('issue with share provider', ['exception' => $e]);
 			return new JSONResponse(
 				['message' => $e->getMessage()],
 				Http::STATUS_NOT_IMPLEMENTED
@@ -239,6 +243,7 @@ class RequestHandlerController extends Controller {
 			}
 		}
 
+		$this->logger->info('share created', ['data' => $responseData]);
 		return new JSONResponse($responseData, Http::STATUS_CREATED);
 	}
 
