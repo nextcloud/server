@@ -91,6 +91,10 @@ class CalendarFederationProviderTest extends TestCase {
 			->method('isFederationEnabled')
 			->willReturn(true);
 
+		$this->calendarFederationConfig->expects(self::once())
+			->method('isIncomingServer2serverShareEnabled')
+			->willReturn(true);
+
 		$this->federatedCalendarMapper->expects(self::once())
 			->method('deleteByUri')
 			->with(
@@ -141,6 +145,10 @@ class CalendarFederationProviderTest extends TestCase {
 			->method('isFederationEnabled')
 			->willReturn(true);
 
+		$this->calendarFederationConfig->expects(self::once())
+			->method('isIncomingServer2serverShareEnabled')
+			->willReturn(true);
+
 		$this->federatedCalendarMapper->expects(self::never())
 			->method('insert');
 		$this->jobList->expects(self::never())
@@ -167,6 +175,10 @@ class CalendarFederationProviderTest extends TestCase {
 
 		$this->calendarFederationConfig->expects(self::once())
 			->method('isFederationEnabled')
+			->willReturn(true);
+
+		$this->calendarFederationConfig->expects(self::once())
+			->method('isIncomingServer2serverShareEnabled')
 			->willReturn(true);
 
 		$this->federatedCalendarMapper->expects(self::never())
@@ -198,6 +210,30 @@ class CalendarFederationProviderTest extends TestCase {
 		$this->calendarFederationProvider->shareReceived($share);
 	}
 
+	public function testShareReceivedWithIncomingServer2serverShareDisabled(): void {
+		$share = $this->createMock(ICloudFederationShare::class);
+		$share->method('getShareType')
+			->willReturn('user');
+
+		$this->calendarFederationConfig->expects(self::once())
+			->method('isFederationEnabled')
+			->willReturn(true);
+
+		$this->calendarFederationConfig->expects(self::once())
+			->method('isIncomingServer2serverShareEnabled')
+			->willReturn(false);
+
+		$this->federatedCalendarMapper->expects(self::never())
+			->method('insert');
+		$this->jobList->expects(self::never())
+			->method('add');
+
+		$this->expectException(ProviderCouldNotAddShareException::class);
+		$this->expectExceptionMessage('Instance does not support receiving federated calendar shares');
+		$this->expectExceptionCode(503);
+		$this->calendarFederationProvider->shareReceived($share);
+	}
+
 	public function testShareReceivedWithUnsupportedShareType(): void {
 		$share = $this->createMock(ICloudFederationShare::class);
 		$share->method('getShareType')
@@ -205,6 +241,10 @@ class CalendarFederationProviderTest extends TestCase {
 
 		$this->calendarFederationConfig->expects(self::once())
 			->method('isFederationEnabled')
+			->willReturn(true);
+
+		$this->calendarFederationConfig->expects(self::once())
+			->method('isIncomingServer2serverShareEnabled')
 			->willReturn(true);
 
 		$this->federatedCalendarMapper->expects(self::never())
@@ -259,6 +299,10 @@ class CalendarFederationProviderTest extends TestCase {
 			->method('isFederationEnabled')
 			->willReturn(true);
 
+		$this->calendarFederationConfig->expects(self::once())
+			->method('isIncomingServer2serverShareEnabled')
+			->willReturn(true);
+
 		$this->federatedCalendarMapper->expects(self::never())
 			->method('insert');
 		$this->jobList->expects(self::never())
@@ -294,6 +338,10 @@ class CalendarFederationProviderTest extends TestCase {
 
 		$this->calendarFederationConfig->expects(self::once())
 			->method('isFederationEnabled')
+			->willReturn(true);
+
+		$this->calendarFederationConfig->expects(self::once())
+			->method('isIncomingServer2serverShareEnabled')
 			->willReturn(true);
 
 		$this->federatedCalendarMapper->expects(self::never())
