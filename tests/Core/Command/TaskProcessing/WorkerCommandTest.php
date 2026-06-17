@@ -13,7 +13,6 @@ use OC\Core\Command\TaskProcessing\WorkerCommand;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IAppConfig;
 use OCP\TaskProcessing\Exception\Exception;
-use OCP\TaskProcessing\Exception\NotFoundException;
 use OCP\TaskProcessing\IManager;
 use OCP\TaskProcessing\ISynchronousProvider;
 use OCP\TaskProcessing\Task;
@@ -89,7 +88,7 @@ class WorkerCommandTest extends TestCase {
 			->willReturn($provider);
 
 		$this->manager->expects($this->once())
-			->method('getNextScheduledTask')
+			->method('claimNextScheduledTask')
 			->with([$taskTypeId])
 			->willReturn($task);
 
@@ -120,7 +119,7 @@ class WorkerCommandTest extends TestCase {
 			->method('getPreferredProvider');
 
 		$this->manager->expects($this->never())
-			->method('getNextScheduledTask');
+			->method('claimNextScheduledTask');
 
 		$input = new ArrayInput(['--once' => true], $this->command->getDefinition());
 		$output = new NullOutput();
@@ -144,9 +143,9 @@ class WorkerCommandTest extends TestCase {
 			->with($taskTypeId)
 			->willReturn($preferredProvider);
 
-		// provider_a is not preferred (provider_b is), so getNextScheduledTask is never called
+		// provider_a is not preferred (provider_b is), so claimNextScheduledTask is never called
 		$this->manager->expects($this->never())
-			->method('getNextScheduledTask');
+			->method('claimNextScheduledTask');
 
 		$input = new ArrayInput(['--once' => true], $this->command->getDefinition());
 		$output = new NullOutput();
@@ -169,10 +168,11 @@ class WorkerCommandTest extends TestCase {
 			->with($taskTypeId)
 			->willReturn($provider);
 
+		// The no-task path is now claimNextScheduledTask returning null (not an exception).
 		$this->manager->expects($this->once())
-			->method('getNextScheduledTask')
+			->method('claimNextScheduledTask')
 			->with([$taskTypeId])
-			->willThrowException(new NotFoundException());
+			->willReturn(null);
 
 		$this->manager->expects($this->never())
 			->method('processTask');
@@ -200,13 +200,13 @@ class WorkerCommandTest extends TestCase {
 
 		$exception = new Exception('DB error');
 		$this->manager->expects($this->once())
-			->method('getNextScheduledTask')
+			->method('claimNextScheduledTask')
 			->with([$taskTypeId])
 			->willThrowException($exception);
 
 		$this->logger->expects($this->once())
 			->method('error')
-			->with('Unknown error while retrieving scheduled TaskProcessing tasks', ['exception' => $exception]);
+			->with('Unknown error while claiming scheduled TaskProcessing tasks', ['exception' => $exception]);
 
 		$this->manager->expects($this->never())
 			->method('processTask');
@@ -240,9 +240,9 @@ class WorkerCommandTest extends TestCase {
 				[$taskTypeId2, $provider2],
 			]);
 
-		// All eligible task types are passed in a single query
+		// All eligible task types are passed in a single atomic claim
 		$this->manager->expects($this->once())
-			->method('getNextScheduledTask')
+			->method('claimNextScheduledTask')
 			->with($this->equalTo([$taskTypeId1, $taskTypeId2]))
 			->willReturn($task);
 
@@ -278,7 +278,7 @@ class WorkerCommandTest extends TestCase {
 			->willReturn($provider2);
 
 		$this->manager->expects($this->once())
-			->method('getNextScheduledTask')
+			->method('claimNextScheduledTask')
 			->with([$taskTypeId2])
 			->willReturn($task);
 
@@ -307,7 +307,7 @@ class WorkerCommandTest extends TestCase {
 			->method('getPreferredProvider');
 
 		$this->manager->expects($this->never())
-			->method('getNextScheduledTask');
+			->method('claimNextScheduledTask');
 
 		$input = new ArrayInput(['--once' => true, '--taskTypes' => ['type_b']], $this->command->getDefinition());
 		$output = new NullOutput();
@@ -332,7 +332,7 @@ class WorkerCommandTest extends TestCase {
 			->willReturn($provider);
 
 		$this->manager->expects($this->once())
-			->method('getNextScheduledTask')
+			->method('claimNextScheduledTask')
 			->with([$taskTypeId])
 			->willReturn($task);
 

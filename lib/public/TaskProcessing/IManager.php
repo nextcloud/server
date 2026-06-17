@@ -187,6 +187,22 @@ interface IManager {
 	public function getNextScheduledTasks(array $taskTypeIds = [], array $taskIdsToIgnore = [], int $numberOfTasks = 1): array;
 
 	/**
+	 * Atomically claim the oldest scheduled task of the given task types and mark it RUNNING.
+	 *
+	 * Unlike {@see getNextScheduledTask} (which only fetches) this both selects and
+	 * locks the task in one step, so concurrent workers never claim the same task.
+	 * On databases supporting it this uses SELECT ... FOR UPDATE SKIP LOCKED; on
+	 * SQLite it falls back to a bounded lock-and-retry. The task is only ever
+	 * transitioned SCHEDULED -> RUNNING; it is never marked FAILED by claiming.
+	 *
+	 * @param list<string> $taskTypeIds When non-empty, only tasks of these task type IDs are considered.
+	 * @return Task|null The claimed task (status RUNNING), or null if nothing could be claimed.
+	 * @throws Exception If the query failed
+	 * @since 35.0.0
+	 */
+	public function claimNextScheduledTask(array $taskTypeIds = []): ?Task;
+
+	/**
 	 * @param int $id The id of the task
 	 * @param string|null $userId The user id that scheduled the task
 	 * @return Task
