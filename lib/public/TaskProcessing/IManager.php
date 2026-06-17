@@ -198,7 +198,7 @@ interface IManager {
 	 * @param list<string> $taskTypeIds When non-empty, only tasks of these task type IDs are considered.
 	 * @return Task|null The claimed task (status RUNNING), or null if nothing could be claimed.
 	 * @throws Exception If the query failed
-	 * @since 34.0.0
+	 * @since 35.0.0
 	 */
 	public function claimNextScheduledTask(array $taskTypeIds = []): ?Task;
 
