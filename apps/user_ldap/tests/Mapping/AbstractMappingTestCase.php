@@ -283,7 +283,7 @@ abstract class AbstractMappingTestCase extends \Test\TestCase {
 		[$mapper,] = $this->initTest();
 
 		$listOfDNs = [];
-		// List size exceeds the implementation's 65000-parameter chunk limit, forcing multiple chunked queries
+		// List size exceeds any single-query chunk limit (65k for most DBs, 9k for SQLite, 5k for Oracle), forcing multiple chunked queries
 		for ($i = 0; $i < 66640; $i++) {
 			$name = 'as_' . $i;
 			$dn = 'uid=' . $name . ',dc=example,dc=org';
