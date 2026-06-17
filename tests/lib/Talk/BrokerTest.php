@@ -103,10 +103,9 @@ class BrokerTest extends TestCase {
 	}
 
 	public function testNewConversationOptions(): void {
-		$this->broker->newConversationOptions();
+		$options = $this->broker->newConversationOptions();
 
-		// Nothing to assert
-		$this->addToAssertionCount(1);
+		$this->assertInstanceOf(IConversationOptions::class, $options);
 	}
 
 	public function testCreateConversation(): void {
