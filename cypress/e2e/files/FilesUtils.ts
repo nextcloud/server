@@ -22,6 +22,7 @@ export const getActionButtonForFile = (filename: string) => getActionsForFile(fi
  *
  * @param fileid
  * @param actionId
+ * @warning: callers that chain .find() onto the result will fail if Vue re-renders.
  */
 export function getActionEntryForFileId(fileid: number, actionId: string) {
 	return getActionButtonForFileId(fileid)
@@ -35,6 +36,7 @@ export function getActionEntryForFileId(fileid: number, actionId: string) {
  *
  * @param file
  * @param actionId
+ * @warning: callers that chain .find() onto the result will fail if Vue re-renders.
  */
 export function getActionEntryForFile(file: string, actionId: string) {
 	return getActionButtonForFile(file)
@@ -72,11 +74,14 @@ export function triggerActionForFileId(fileid: number, actionId: string) {
 		.scrollIntoView()
 	getActionButtonForFileId(fileid)
 		.click({ force: true }) // force to avoid issues with overlaying file list header
-	getActionEntryForFileId(fileid, actionId)
-		.find('button')
-		.should('be.visible')
-		.click()
-}
+	getActionButtonForFileId(filename)
+		.should('have.attr', 'aria-controls')
+		.then((menuId) => {
+			cy.get(`#${menuId}`)
+				.find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"] button`)
+				.should('be.visible')
+				.click()
+		})
 
 /**
  *
@@ -88,10 +93,14 @@ export function triggerActionForFile(filename: string, actionId: string) {
 		.scrollIntoView()
 	getActionButtonForFile(filename)
 		.click({ force: true }) // force to avoid issues with overlaying file list header
-	getActionEntryForFile(filename, actionId)
-		.find('button')
-		.should('be.visible')
-		.click()
+	getActionButtonForFile(filename)
+		.should('have.attr', 'aria-controls')
+		.then((menuId) => {
+			cy.get(`#${menuId}`)
+				.find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"] button`)
+				.should('be.visible')
+				.click()
+		})
 }
 
 /**
