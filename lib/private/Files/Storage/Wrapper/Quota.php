@@ -119,7 +119,7 @@ class Quota extends Wrapper {
 
 	public function fopen(string $path, string $mode) {
 		if (!$this->hasQuota() || $this->isPartFile($path)) {
-			return $this->storage->fopen($path, $mode);
+			return $this->getWrapperStorage()->fopen($path, $mode);
 		}
 
 		$free = $this->free_space($path);
@@ -127,7 +127,6 @@ class Quota extends Wrapper {
 			return false;
 		}
 
-		// todo: storage or getWrapperStorage() ?
 		$source = $this->getWrapperStorage()->fopen($path, $mode);
 		if ($source && (is_int($free) || is_float($free)) && $free >= 0 && $mode !== 'r' && $mode !== 'rb') {
 			// only apply quota for files, not metadata, trash or others
