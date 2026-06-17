@@ -56,16 +56,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.3', '8.5']
+        php-versions: ["8.3", "8.5"]
 
     name: Memcached (PHP ${{ matrix.php-versions }})
 
     services:
       memcached:
-        image: ghcr.io/nextcloud/continuous-integration-redis:latest # zizmor: ignore[unpinned-images]
+        image: ghcr.io/nextcloud/continuous-integration-memcached:latest # zizmor: ignore[unpinned-images]
         ports:
-          - 11212:11212/tcp
-          - 11212:11212/udp
+          - 11211:11211/tcp
 
     steps:
       - name: Checkout server
@@ -80,7 +79,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
-          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, memcached, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
+          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, memcached, openssl, pcntl, pdo_sqlite, posix, session, simplexml, sqlite, xmlreader, xmlwriter, zip, zlib
           coverage: none
           ini-file: development
           ini-values: disable_functions=""
@@ -94,12 +93,13 @@ jobs:
       - name: Set up Nextcloud
         run: |
           mkdir data
+          cp tests/memcached.config.php config/
           cp tests/preseed-config.php config/config.php
           ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass admin
           php -f tests/enable_all.php
 
       - name: PHPUnit memcached tests
-        run: composer run test -- --group Memcache --group Memcached --log-junit junit.xml
+        run: composer run test -- --group Memcached --log-junit junit.xml
 
       - name: Print logs
         if: always()
