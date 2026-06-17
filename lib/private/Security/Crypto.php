@@ -99,7 +99,13 @@ class Crypto implements ICrypto {
 		} catch (Exception $e) {
 			if ($password === '') {
 				// Retry with empty secret as a fallback for instances where the secret might not have been set by accident
-				return $this->decryptWithoutSecret($authenticatedCiphertext, '');
+				try {
+					return $this->decryptWithoutSecret($authenticatedCiphertext, '');
+				} catch (\Throwable) {
+					// Fallback failed (e.g. v3 ciphertext requires a non-empty key for hash_hkdf),
+					// rethrow the original exception
+					throw $e;
+				}
 			}
 			throw $e;
 		}
