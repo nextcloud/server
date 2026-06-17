@@ -37,7 +37,7 @@ class RemoveBrokenProperties implements IRepairStep {
 		$brokenIds = [];
 		while ($entry = $result->fetch()) {
 			if (!empty($entry['propertyvalue'])) {
-				$object = @unserialize(str_replace('\x00', chr(0), $entry['propertyvalue']));
+				$object = @unserialize(str_replace('\x00', chr(0), $entry['propertyvalue']), ['allowed_classes' => false]);
 				if ($object === false) {
 					$brokenIds[] = $entry['id'];
 				}
