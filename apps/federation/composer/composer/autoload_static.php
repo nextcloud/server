@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitFederation
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\Federation\\' => 15,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\Federation\\' => 
+        'OCA\\Federation\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),

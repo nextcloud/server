@@ -5,7 +5,8 @@
 
 <template>
 	<li class="template-picker__item">
-		<input :id="id"
+		<input
+			:id="id"
 			ref="input"
 			:checked="checked"
 			type="radio"
@@ -14,9 +15,11 @@
 			@change="onCheck">
 
 		<label :for="id" class="template-picker__label" @click="onClick">
-			<div class="template-picker__preview"
+			<div
+				class="template-picker__preview"
 				:class="failedPreview ? 'template-picker__preview--failed' : ''">
-				<img class="template-picker__image"
+				<img
+					class="template-picker__image"
 					:src="realPreviewUrl"
 					alt=""
 					draggable="false"
@@ -33,7 +36,7 @@
 <script>
 import { encodePath } from '@nextcloud/paths'
 import { generateUrl } from '@nextcloud/router'
-import { isPublicShare, getSharingToken } from '@nextcloud/sharing/public'
+import { getSharingToken, isPublicShare } from '@nextcloud/sharing/public'
 
 // preview width generation
 const previewWidth = 256
@@ -47,30 +50,37 @@ export default {
 			type: String,
 			required: true,
 		},
+
 		checked: {
 			type: Boolean,
 			default: false,
 		},
+
 		fileid: {
 			type: [String, Number],
 			required: true,
 		},
+
 		filename: {
 			type: String,
 			required: true,
 		},
+
 		previewUrl: {
 			type: String,
 			default: null,
 		},
+
 		hasPreview: {
 			type: Boolean,
 			default: true,
 		},
+
 		mime: {
 			type: String,
 			required: true,
 		},
+
 		ratio: {
 			type: Number,
 			default: null,
@@ -122,12 +132,15 @@ export default {
 		onCheck() {
 			this.$emit('check', this.fileid)
 		},
+
 		onFailure() {
 			this.failedPreview = true
 		},
+
 		focus() {
 			this.$refs.input?.focus()
 		},
+
 		onClick() {
 			if (this.checked) {
 				this.$emit('confirm-click', this.fileid)

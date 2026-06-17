@@ -4,8 +4,10 @@
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Theming\Settings;
 
+use OCA\Theming\AppInfo\Application;
 use OCA\Theming\ITheme;
 use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\Service\ThemesService;
@@ -20,7 +22,6 @@ use OCP\Util;
 class Personal implements ISettings {
 
 	public function __construct(
-		protected string $appName,
 		private string $userId,
 		private IConfig $config,
 		private ThemesService $themesService,
@@ -30,6 +31,7 @@ class Personal implements ISettings {
 	) {
 	}
 
+	#[\Override]
 	public function getForm(): TemplateResponse {
 		$enforcedTheme = $this->config->getSystemValueString('enforce_theme', '');
 
@@ -82,17 +84,18 @@ class Personal implements ISettings {
 			'enforcedDefaultApp' => $forcedDefaultEntry
 		]);
 
-		Util::addScript($this->appName, 'personal-theming');
-
-		return new TemplateResponse($this->appName, 'settings-personal');
+		Util::addStyle(Application::APP_ID, 'settings-personal');
+		Util::addScript(Application::APP_ID, 'settings-personal');
+		return new TemplateResponse(Application::APP_ID, 'settings-personal');
 	}
 
 	/**
 	 * @return string the section ID, e.g. 'sharing'
 	 * @since 9.1
 	 */
+	#[\Override]
 	public function getSection(): string {
-		return $this->appName;
+		return Application::APP_ID;
 	}
 
 	/**
@@ -103,6 +106,7 @@ class Personal implements ISettings {
 	 * E.g.: 70
 	 * @since 9.1
 	 */
+	#[\Override]
 	public function getPriority(): int {
 		return 40;
 	}

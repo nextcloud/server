@@ -4,8 +4,8 @@
  */
 
 import { describe, expect, it } from 'vitest'
-import { showRemoteShareDialog } from './dialogService'
 import { nextTick } from 'vue'
+import { showRemoteShareDialog } from './dialogService.ts'
 
 describe('federatedfilesharing: dialog service', () => {
 	it('mounts dialog', async () => {
@@ -47,7 +47,7 @@ describe('federatedfilesharing: dialog service', () => {
 			}
 		}
 
-		expect(await promise).toBe('')
+		await expect(promise).resolves.toBe('')
 	})
 
 	it('rejects if cancelled', async () => {
@@ -60,6 +60,6 @@ describe('federatedfilesharing: dialog service', () => {
 			}
 		}
 
-		expect(async () => await promise).rejects.toThrow()
+		await expect(promise).rejects.toThrow()
 	})
 })

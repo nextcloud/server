@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Migration;
 
 use OCA\DAV\CardDAV\CardDavBackend;
@@ -27,6 +28,7 @@ class BuildSocialSearchIndexBackgroundJob extends QueuedJob {
 		parent::__construct($timeFactory);
 	}
 
+	#[\Override]
 	public function run($argument) {
 		$offset = $argument['offset'];
 		$stopAt = $argument['stopAt'];
@@ -62,7 +64,7 @@ class BuildSocialSearchIndexBackgroundJob extends QueuedJob {
 			->where($query->expr()->like('carddata', $query->createNamedParameter('%SOCIALPROFILE%')))
 			->andWhere($query->expr()->gt('id', $query->createNamedParameter((int)$offset, IQueryBuilder::PARAM_INT)))
 			->setMaxResults(100);
-		$social_cards = $query->executeQuery()->fetchAll();
+		$social_cards = $query->executeQuery()->fetchAllAssociative();
 
 		if (empty($social_cards)) {
 			return $stopAt;

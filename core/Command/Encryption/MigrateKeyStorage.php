@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Command\Encryption;
 
 use OC\Encryption\Keys\Storage;
@@ -30,6 +31,7 @@ class MigrateKeyStorage extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		parent::configure();
 		$this
@@ -37,6 +39,7 @@ class MigrateKeyStorage extends Command {
 			->setDescription('Migrate the format of the keystorage to a newer format');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$root = $this->util->getKeyStorageRoot();
 
@@ -158,7 +161,6 @@ class MigrateKeyStorage extends Command {
 		}
 	}
 
-
 	/**
 	 * setup file system for the given user
 	 */
@@ -166,7 +168,6 @@ class MigrateKeyStorage extends Command {
 		\OC_Util::tearDownFS();
 		\OC_Util::setupFS($uid);
 	}
-
 
 	/**
 	 * iterate over each user and move the keys to the new storage

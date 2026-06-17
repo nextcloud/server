@@ -3,7 +3,8 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<div v-show="dragover"
+	<div
+		v-show="dragover"
 		data-cy-files-drag-drop-area
 		class="files-list__drag-drop-notice"
 		@drop="onDrop">
@@ -27,20 +28,18 @@
 
 <script lang="ts">
 import type { Folder } from '@nextcloud/files'
+import type { PropType } from 'vue'
 
-import { Permission } from '@nextcloud/files'
 import { showError } from '@nextcloud/dialogs'
+import { Permission } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import { UploadStatus } from '@nextcloud/upload'
-import { defineComponent, type PropType } from 'vue'
 import debounce from 'debounce'
-
+import { defineComponent } from 'vue'
 import TrayArrowDownIcon from 'vue-material-design-icons/TrayArrowDown.vue'
-
-import { useNavigation } from '../composables/useNavigation'
-import { dataTransferToFileTree, onDropExternalFiles } from '../services/DropService'
-import logger from '../logger.ts'
-import type { RawLocation } from 'vue-router'
+import { dataTransferToFileTree, onDropExternalFiles } from '../services/DropService.ts'
+import { useActiveStore } from '../store/active.ts'
+import { logger } from '../utils/logger.ts'
 
 export default defineComponent({
 	name: 'DragAndDropNotice',
@@ -57,10 +56,10 @@ export default defineComponent({
 	},
 
 	setup() {
-		const { currentView } = useNavigation()
+		const activeStore = useActiveStore()
 
 		return {
-			currentView,
+			activeStore,
 		}
 	},
 
@@ -77,6 +76,7 @@ export default defineComponent({
 		canUpload() {
 			return this.currentFolder && (this.currentFolder.permissions & Permission.CREATE) !== 0
 		},
+
 		isQuotaExceeded() {
 			return this.currentFolder?.attributes?.['quota-available-bytes'] === 0
 		},
@@ -110,7 +110,7 @@ export default defineComponent({
 		mainContent.addEventListener('drop', this.onContentDrop)
 	},
 
-	beforeDestroy() {
+	beforeUnmount() {
 		const mainContent = window.document.getElementById('app-content-vue') as HTMLElement
 		mainContent.removeEventListener('dragover', this.onDragOver)
 		mainContent.removeEventListener('dragleave', this.onDragLeave)
@@ -169,14 +169,15 @@ export default defineComponent({
 			event.stopPropagation()
 
 			// Caching the selection
-			const items: DataTransferItem[] = [...event.dataTransfer?.items || []]
+			const items: DataTransferItem[] = Array.from(event.dataTransfer?.items || [])
 
 			// We need to process the dataTransfer ASAP before the
 			// browser clears it. This is why we cache the items too.
 			const fileTree = await dataTransferToFileTree(items)
 
 			// We might not have the target directory fetched yet
-			const contents = await this.currentView?.getContents(this.currentFolder.path)
+			const controller = new AbortController()
+			const contents = await this.activeStore.activeView?.getContents(this.currentFolder.path, { signal: controller.signal })
 			const folder = contents?.folder
 			if (!folder) {
 				showError(this.t('files', 'Target folder does not exist any more'))
@@ -202,21 +203,19 @@ export default defineComponent({
 				&& upload.source.replace(folder.source, '').split('/').length === 2)
 
 			if (lastUpload !== undefined) {
+				const fileid = String(lastUpload.response!.headers['oc-fileid']).split(/(oc|nc)/, 2)[0]!
 				logger.debug('Scrolling to last upload in current folder', { lastUpload })
-				const location: RawLocation = {
-					path: this.$route.path,
-					// Keep params but change file id
+				this.$router.push({
+					name: this.$route.name!,
 					params: {
+						// Keep params but change file id
 						...this.$route.params,
-						fileid: String(lastUpload.response!.headers['oc-fileid']),
+						fileid,
 					},
 					query: {
-						...this.$route.query,
+						dir: this.$route.query.dir,
 					},
-				}
-				// Remove open file from query
-				delete location.query.openfile
-				this.$router.push(location)
+				})
 			}
 
 			this.dragover = false

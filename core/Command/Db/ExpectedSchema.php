@@ -14,6 +14,8 @@ use OC\DB\Connection;
 use OC\DB\MigrationService;
 use OC\DB\SchemaWrapper;
 use OC\Migration\NullOutput;
+use OCP\App\IAppManager;
+use Override;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -21,11 +23,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ExpectedSchema extends Base {
 	public function __construct(
-		protected Connection $connection,
+		protected readonly Connection $connection,
+		protected readonly IAppManager $appManager,
 	) {
 		parent::__construct();
 	}
 
+	#[Override]
 	protected function configure(): void {
 		$this
 			->setName('db:schema:expected')
@@ -36,13 +40,14 @@ class ExpectedSchema extends Base {
 		parent::configure();
 	}
 
+	#[Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$schema = new Schema();
 		$onlyTable = $input->getArgument('table');
 
 		$this->applyMigrations('core', $schema);
 
-		$apps = \OC_App::getEnabledApps();
+		$apps = $this->appManager->getEnabledApps();
 		foreach ($apps as $app) {
 			$this->applyMigrations($app, $schema);
 		}

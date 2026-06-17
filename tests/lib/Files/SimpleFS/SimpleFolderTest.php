@@ -16,9 +16,7 @@ use OCP\Files\SimpleFS\ISimpleFolder;
 use Test\Traits\MountProviderTrait;
 use Test\Traits\UserTrait;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class SimpleFolderTest extends \Test\TestCase {
 	use MountProviderTrait;
 	use UserTrait;
@@ -34,6 +32,7 @@ class SimpleFolderTest extends \Test\TestCase {
 
 	private $storage;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

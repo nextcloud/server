@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Tests\Auth;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
@@ -37,7 +38,7 @@ class AuthMechanismTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('validateStorageProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'validateStorageProvider')]
 	public function testValidateStorage(bool $expectedSuccess, string $scheme, bool $definitionSuccess): void {
 		$mechanism = $this->getMockBuilder(AuthMechanism::class)
 			->onlyMethods(['validateStorageDefinition'])

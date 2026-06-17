@@ -9,12 +9,14 @@ declare(strict_types=1);
 namespace OCA\DAV\Tests\unit\CalDAV;
 
 use DateTimeZone;
+use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarImpl;
 use OCA\DAV\CalDAV\TimezoneService;
 use OCA\DAV\Db\Property;
 use OCA\DAV\Db\PropertyMapper;
 use OCP\Calendar\ICalendar;
 use OCP\Calendar\IManager;
+use OCP\Config\IUserConfig;
 use OCP\IConfig;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\VObject\Component\VTimeZone;
@@ -22,6 +24,7 @@ use Test\TestCase;
 
 class TimezoneServiceTest extends TestCase {
 	private IConfig&MockObject $config;
+	private IUserConfig&MockObject $userConfig;
 	private PropertyMapper&MockObject $propertyMapper;
 	private IManager&MockObject $calendarManager;
 	private TimezoneService $service;
@@ -30,19 +33,21 @@ class TimezoneServiceTest extends TestCase {
 		parent::setUp();
 
 		$this->config = $this->createMock(IConfig::class);
+		$this->userConfig = $this->createMock(IUserConfig::class);
 		$this->propertyMapper = $this->createMock(PropertyMapper::class);
 		$this->calendarManager = $this->createMock(IManager::class);
 
 		$this->service = new TimezoneService(
 			$this->config,
+			$this->userConfig,
 			$this->propertyMapper,
 			$this->calendarManager,
 		);
 	}
 
 	public function testGetUserTimezoneFromSettings(): void {
-		$this->config->expects(self::once())
-			->method('getUserValue')
+		$this->userConfig->expects(self::once())
+			->method('getValueString')
 			->with('test123', 'core', 'timezone', '')
 			->willReturn('Europe/Warsaw');
 
@@ -52,8 +57,8 @@ class TimezoneServiceTest extends TestCase {
 	}
 
 	public function testGetUserTimezoneFromAvailability(): void {
-		$this->config->expects(self::once())
-			->method('getUserValue')
+		$this->userConfig->expects(self::once())
+			->method('getValueString')
 			->with('test123', 'core', 'timezone', '')
 			->willReturn('');
 		$property = new Property();
@@ -76,11 +81,11 @@ END:VCALENDAR');
 	}
 
 	public function testGetUserTimezoneFromPersonalCalendar(): void {
-		$this->config->expects(self::exactly(2))
-			->method('getUserValue')
+		$this->userConfig->expects(self::exactly(2))
+			->method('getValueString')
 			->willReturnMap([
-				['test123', 'core', 'timezone', '', ''],
-				['test123', 'dav', 'defaultCalendar', '', 'personal-1'],
+				['test123', 'core', 'timezone', '', false, ''],
+				['test123', 'dav', 'defaultCalendar', CalDavBackend::PERSONAL_CALENDAR_URI, false, 'personal-1'],
 			]);
 		$other = $this->createMock(ICalendar::class);
 		$other->method('getUri')->willReturn('other');
@@ -105,11 +110,11 @@ END:VCALENDAR');
 	}
 
 	public function testGetUserTimezoneFromAny(): void {
-		$this->config->expects(self::exactly(2))
-			->method('getUserValue')
+		$this->userConfig->expects(self::exactly(2))
+			->method('getValueString')
 			->willReturnMap([
-				['test123', 'core', 'timezone', '', ''],
-				['test123', 'dav', 'defaultCalendar', '', 'personal-1'],
+				['test123', 'core', 'timezone', '', false, ''],
+				['test123', 'dav', 'defaultCalendar', CalDavBackend::PERSONAL_CALENDAR_URI, false, 'personal-1'],
 			]);
 		$other = $this->createMock(ICalendar::class);
 		$other->method('getUri')->willReturn('other');

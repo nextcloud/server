@@ -6,9 +6,9 @@
 import type { DAVResultResponseProps } from 'webdav'
 import type { ServerTag, Tag } from './types.js'
 
-import { describe, expect, it } from 'vitest'
-import { formatTag, getNodeSystemTags, parseIdFromLocation, parseTags } from './utils'
 import { Folder } from '@nextcloud/files'
+import { describe, expect, it } from 'vitest'
+import { formatTag, getNodeSystemTags, parseIdFromLocation, parseTags } from './utils.ts'
 
 describe('systemtags - utils', () => {
 	describe('parseTags', () => {
@@ -97,6 +97,7 @@ describe('systemtags - utils', () => {
 						'system-tag': 'tag',
 					},
 				},
+				root: '/files/test',
 			})
 			expect(getNodeSystemTags(node)).toStrictEqual(['tag'])
 		})
@@ -113,6 +114,7 @@ describe('systemtags - utils', () => {
 						],
 					},
 				},
+				root: '/files/test',
 			})
 			expect(getNodeSystemTags(node)).toStrictEqual(['tag', 'my-tag'])
 		})
@@ -129,6 +131,7 @@ describe('systemtags - utils', () => {
 						},
 					},
 				},
+				root: '/files/test',
 			})
 			expect(getNodeSystemTags(node)).toStrictEqual(['tag'])
 		})
@@ -151,6 +154,7 @@ describe('systemtags - utils', () => {
 						],
 					},
 				},
+				root: '/files/test',
 			})
 			expect(getNodeSystemTags(node)).toStrictEqual(['tag', 'my-tag'])
 		})
@@ -170,6 +174,7 @@ describe('systemtags - utils', () => {
 						],
 					},
 				},
+				root: '/files/test',
 			})
 			expect(getNodeSystemTags(node)).toStrictEqual(['tag', 'my-tag'])
 		})

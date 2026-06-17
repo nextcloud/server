@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_External\Migration;
 
 use Closure;
@@ -26,6 +27,7 @@ class Version1015Date20211104103506 extends SimpleMigrationStep {
 	) {
 	}
 
+	#[\Override]
 	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->update('storages')
@@ -37,7 +39,7 @@ class Version1015Date20211104103506 extends SimpleMigrationStep {
 			throw new \Exception('Could not fetch existing mounts for migration');
 		}
 
-		while ($mount = $mounts->fetch()) {
+		while ($mount = $mounts->fetchAssociative()) {
 			$config = $this->getStorageConfig((int)$mount['mount_id']);
 			$hostname = $config['hostname'];
 			$bucket = $config['bucket'];
@@ -82,7 +84,7 @@ class Version1015Date20211104103506 extends SimpleMigrationStep {
 			->from('external_config')
 			->where($qb->expr()->eq('mount_id', $qb->createPositionalParameter($mountId)));
 		$config = [];
-		foreach ($qb->executeQuery()->fetchAll() as $row) {
+		foreach ($qb->executeQuery()->fetchAllAssociative() as $row) {
 			$config[$row['key']] = $row['value'];
 		}
 		return $config;

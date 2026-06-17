@@ -10,7 +10,7 @@ OC.L10N.register(
     "Not enough free space to restore the file/folder" : "Non hai espazo libre abondo para restaurar o ficheiro/cartafol",
     "Empty deleted files" : "Baleirar os ficheiros eliminados",
     "Confirm permanent deletion" : "Confirmar a eliminación definitiva",
-    "Are you sure you want to permanently delete all files and folders in the trash? This cannot be undone." : "Confirma que quere eliminar definitivamente todos os ficheiros e cartafoles do cesto do lixo? Non é posíbel desfacer esta operación.",
+    "Are you sure you want to permanently delete all files and folders in the trash? This cannot be undone." : "Confirma que quere eliminar definitivamente todos os ficheiros e cartafoles do cesto do lixo? Isto non é posíbel desfacelo.",
     "Cancel" : "Cancelar",
     "Original location" : "Localización orixinal",
     "Deleted by" : "Eliminado por",
@@ -24,7 +24,6 @@ OC.L10N.register(
     "No deleted files" : "Non hai ficheiros eliminados",
     "Files and folders you have deleted will show up here" : "Os ficheiros e cartafoles que eliminou amosaranse aquí",
     "All files have been permanently deleted" : "Todos os ficheiros foron eliminados definitivamente",
-    "Failed to empty deleted files" : "Produciuse un fallo ao baleirar os ficheiros borrados",
-    "Deletion cancelled" : "Foi cancelada a eliminación"
+    "Failed to empty deleted files" : "Produciuse un fallo ao baleirar os ficheiros borrados"
 },
 "nplurals=2; plural=(n != 1);");

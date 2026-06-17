@@ -40,32 +40,39 @@ class FavoriteWidget implements IIconWidget, IAPIWidgetV2, IButtonWidget, IOptio
 	) {
 	}
 
+	#[\Override]
 	public function getId(): string {
 		return Application::APP_ID . '-favorites';
 	}
 
+	#[\Override]
 	public function getTitle(): string {
 		return $this->l10n->t('Favorite files');
 	}
 
+	#[\Override]
 	public function getOrder(): int {
 		return 0;
 	}
 
+	#[\Override]
 	public function getIconClass(): string {
 		return 'icon-starred-dark';
 	}
 
+	#[\Override]
 	public function getIconUrl(): string {
 		return $this->urlGenerator->getAbsoluteURL(
 			$this->urlGenerator->imagePath('core', 'actions/star-dark.svg')
 		);
 	}
 
+	#[\Override]
 	public function getUrl(): ?string {
 		return $this->urlGenerator->linkToRouteAbsolute('files.View.indexView', ['view' => 'favorites']);
 	}
 
+	#[\Override]
 	public function load(): void {
 	}
 
@@ -117,6 +124,7 @@ class FavoriteWidget implements IIconWidget, IAPIWidgetV2, IButtonWidget, IOptio
 		return $favoriteNodes;
 	}
 
+	#[\Override]
 	public function getItemsV2(string $userId, ?string $since = null, int $limit = 7): WidgetItems {
 		$items = $this->getItems($userId, $limit);
 		return new WidgetItems(
@@ -125,6 +133,7 @@ class FavoriteWidget implements IIconWidget, IAPIWidgetV2, IButtonWidget, IOptio
 		);
 	}
 
+	#[\Override]
 	public function getWidgetButtons(string $userId): array {
 		return [
 			new WidgetButton(
@@ -135,6 +144,7 @@ class FavoriteWidget implements IIconWidget, IAPIWidgetV2, IButtonWidget, IOptio
 		];
 	}
 
+	#[\Override]
 	public function getWidgetOptions(): WidgetOptions {
 		return new WidgetOptions(roundItemIcons: false);
 	}

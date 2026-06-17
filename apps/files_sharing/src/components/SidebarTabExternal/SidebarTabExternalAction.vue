@@ -4,7 +4,8 @@
 -->
 
 <template>
-	<component :is="action.element"
+	<component
+		:is="action.element"
 		:key="action.id"
 		ref="actionElement"
 		:share.prop="share"

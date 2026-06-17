@@ -14,14 +14,16 @@ use OC\AppFramework\Http;
 use OC\AppFramework\Middleware\Security\Exceptions\NotAdminException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Middleware;
 use OCP\Group\ISubAdmin;
 use OCP\IL10N;
 use OCP\IUserSession;
+use Override;
 
 /**
- * Verifies whether an user has at least subadmin rights.
+ * Verifies whether a user has at least sub-admin rights.
  * To bypass use the `@NoSubAdminRequired` annotation
  */
 class SubadminMiddleware extends Middleware {
@@ -41,29 +43,17 @@ class SubadminMiddleware extends Middleware {
 		return $this->subAdminManager->isSubAdmin($userObject);
 	}
 
-	/**
-	 * Check if sharing is enabled before the controllers is executed
-	 * @param Controller $controller
-	 * @param string $methodName
-	 * @throws \Exception
-	 */
-	public function beforeController($controller, $methodName) {
-		if (!$this->reflector->hasAnnotation('NoSubAdminRequired') && !$this->reflector->hasAnnotation('AuthorizedAdminSetting')) {
+	#[Override]
+	public function beforeController(Controller $controller, string $methodName): void {
+		if (!$this->reflector->hasAnnotation('NoSubAdminRequired') && !$this->reflector->hasAnnotationOrAttribute('AuthorizedAdminSetting', AuthorizedAdminSetting::class)) {
 			if (!$this->isSubAdmin()) {
 				throw new NotAdminException($this->l10n->t('Logged in account must be a sub admin'));
 			}
 		}
 	}
 
-	/**
-	 * Return 403 page in case of an exception
-	 * @param Controller $controller
-	 * @param string $methodName
-	 * @param \Exception $exception
-	 * @return TemplateResponse
-	 * @throws \Exception
-	 */
-	public function afterException($controller, $methodName, \Exception $exception) {
+	#[Override]
+	public function afterException(Controller $controller, string $methodName, \Exception $exception): TemplateResponse {
 		if ($exception instanceof NotAdminException) {
 			$response = new TemplateResponse('core', '403', [], 'guest');
 			$response->setStatus(Http::STATUS_FORBIDDEN);

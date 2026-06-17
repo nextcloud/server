@@ -35,6 +35,7 @@ class TransferOwnership extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('files:transfer-ownership')
@@ -76,9 +77,16 @@ class TransferOwnership extends Command {
 				null,
 				InputOption::VALUE_NONE,
 				'don\'t ask for confirmation for transferring external storages',
+			)
+			->addOption(
+				'use-user-id',
+				null,
+				InputOption::VALUE_NONE,
+				'use user ID instead of display name in the transferred folder name',
 			);
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 
 		/**
@@ -137,6 +145,7 @@ class TransferOwnership extends Command {
 				$input->getOption('move') === true,
 				false,
 				$includeExternalStorage,
+				$input->getOption('use-user-id') === true,
 			);
 		} catch (TransferOwnershipException $e) {
 			$output->writeln('<error>' . $e->getMessage() . '</error>');

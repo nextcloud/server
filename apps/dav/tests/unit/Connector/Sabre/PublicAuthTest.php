@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Connector;
 
 use OCA\DAV\Connector\Sabre\PublicAuth;
@@ -22,10 +23,10 @@ use Psr\Log\LoggerInterface;
 /**
  * Class PublicAuthTest
  *
- * @group DB
  *
  * @package OCA\DAV\Tests\unit\Connector
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class PublicAuthTest extends \Test\TestCase {
 
 	private ISession&MockObject $session;
@@ -227,7 +228,6 @@ class PublicAuthTest extends \Test\TestCase {
 		$this->assertFalse($result);
 	}
 
-
 	public function testSharePasswordRemote(): void {
 		$this->request->method('getPathInfo')
 			->willReturn('/dav/files/GX9HSGQrGE');
@@ -316,7 +316,7 @@ class PublicAuthTest extends \Test\TestCase {
 			)->willReturn(false);
 
 		$this->session->method('exists')->with('public_link_authenticated')->willReturn(true);
-		$this->session->method('get')->with('public_link_authenticated')->willReturn('42');
+		$this->session->method('get')->with('public_link_authenticated')->willReturn(['42']);
 
 		$result = self::invokePrivate($this->auth, 'validateUserPass', ['username', 'password']);
 
@@ -351,7 +351,6 @@ class PublicAuthTest extends \Test\TestCase {
 
 		$this->assertFalse($result);
 	}
-
 
 	public function testSharePasswordMailInvalidSession(): void {
 		$this->request->method('getPathInfo')

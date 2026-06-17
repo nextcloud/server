@@ -21,7 +21,6 @@ class DefinitionsTest extends TestCase {
 		return $testsuite;
 	}
 
-
 	public function testGetDefinitionNotExisting(): void {
 		$this->expectException(InvalidObjectExeption::class);
 		$this->expectExceptionMessage('Object type is undefined');
@@ -49,7 +48,6 @@ class DefinitionsTest extends TestCase {
 		$this->assertArrayHasKey('parameters', $definition);
 		$this->assertTrue(is_array($definition['parameters']), 'Parameters of definition must be of type array');
 		$this->assertNotEmpty($definition['parameters'], 'Parameters of definition must not be empty');
-
 
 		$this->assertArrayHasKey('id', $definition['parameters'], 'Parameter ID must be defined');
 		$this->assertArrayHasKey('name', $definition['parameters'], 'Parameter name must be defined');

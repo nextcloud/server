@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Connector\Sabre;
 
 use Sabre\Xml\Element;
@@ -60,6 +61,7 @@ class TagList implements Element {
 	 * @param Reader $reader
 	 * @return mixed
 	 */
+	#[\Override]
 	public static function xmlDeserialize(Reader $reader) {
 		$tags = [];
 
@@ -94,6 +96,7 @@ class TagList implements Element {
 	 * @param Writer $writer
 	 * @return void
 	 */
+	#[\Override]
 	public function xmlSerialize(Writer $writer) {
 		foreach ($this->tags as $tag) {
 			$writer->writeElement('{' . self::NS_OWNCLOUD . '}tag', $tag);

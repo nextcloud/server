@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Notification;
 
 use OCP\Notification\IAction;
@@ -21,6 +22,7 @@ class Action implements IAction {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function setLabel(string $label): IAction {
 		if ($label === '' || isset($label[32])) {
 			throw new InvalidValueException('label');
@@ -32,6 +34,7 @@ class Action implements IAction {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getLabel(): string {
 		return $this->label;
 	}
@@ -39,6 +42,7 @@ class Action implements IAction {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function setParsedLabel(string $label): IAction {
 		if ($label === '') {
 			throw new InvalidValueException('parsedLabel');
@@ -50,6 +54,7 @@ class Action implements IAction {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getParsedLabel(): string {
 		return $this->labelParsed;
 	}
@@ -57,6 +62,7 @@ class Action implements IAction {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function setPrimary(bool $primary): IAction {
 		$this->primary = $primary;
 		return $this;
@@ -65,6 +71,7 @@ class Action implements IAction {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function isPrimary(): bool {
 		return $this->primary;
 	}
@@ -72,10 +79,17 @@ class Action implements IAction {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function setLink(string $link, string $requestType): IAction {
 		if ($link === '' || isset($link[256])) {
 			throw new InvalidValueException('link');
 		}
+
+		// Only allow absolute URLs for support of desktop and mobile clients
+		if (!str_starts_with($link, 'http://') && !str_starts_with($link, 'https://')) {
+			throw new InvalidValueException('link');
+		}
+
 		if (!in_array($requestType, [
 			self::TYPE_GET,
 			self::TYPE_POST,
@@ -93,6 +107,7 @@ class Action implements IAction {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getLink(): string {
 		return $this->link;
 	}
@@ -100,6 +115,7 @@ class Action implements IAction {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getRequestType(): string {
 		return $this->requestType;
 	}
@@ -107,6 +123,7 @@ class Action implements IAction {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function isValid(): bool {
 		return $this->label !== '' && $this->link !== '';
 	}
@@ -114,6 +131,7 @@ class Action implements IAction {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function isValidParsed(): bool {
 		return $this->labelParsed !== '' && $this->link !== '';
 	}

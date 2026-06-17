@@ -9,17 +9,19 @@ namespace Test;
 
 use OCP\App\IAppManager;
 use OCP\AppFramework\App;
+use OCP\OpenMetrics\IMetricFamily;
 use OCP\Server;
 
 /**
  * Class InfoXmlTest
  *
- * @group DB
  * @package Test
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class InfoXmlTest extends TestCase {
 	private IAppManager $appManager;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->appManager = Server::get(IAppManager::class);
@@ -59,7 +61,7 @@ class InfoXmlTest extends TestCase {
 		\OC_App::registerAutoloading($app, $appPath);
 
 		//Add the appcontainer
-		$applicationClassName = App::buildAppNamespace($app) . '\\AppInfo\\Application';
+		$applicationClassName = $this->appManager->getAppNamespace($app) . '\\AppInfo\\Application';
 		if (class_exists($applicationClassName)) {
 			$application = new $applicationClassName();
 			$this->addToAssertionCount(1);
@@ -128,6 +130,15 @@ class InfoXmlTest extends TestCase {
 			foreach ($appInfo['commands'] as $command) {
 				$this->assertTrue(class_exists($command), 'Asserting command "' . $command . '"exists');
 				$this->assertInstanceOf($command, Server::get($command));
+			}
+		}
+
+		if (isset($appInfo['openmetrics']['exporter'])) {
+			foreach ($appInfo['openmetrics']['exporter'] as $class) {
+				$this->assertTrue(class_exists($class), 'Asserting exporter "' . $class . '"exists');
+				$exporter = Server::get($class);
+				$this->assertInstanceOf($class, $exporter);
+				$this->assertInstanceOf(IMetricFamily::class, $exporter);
 			}
 		}
 	}

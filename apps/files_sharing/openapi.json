@@ -189,6 +189,9 @@
                                 "type": "integer",
                                 "format": "int64"
                             },
+                            "exclude_reshare_from_edit": {
+                                "type": "boolean"
+                            },
                             "federation": {
                                 "type": "object",
                                 "required": [
@@ -231,10 +234,15 @@
                             "sharee": {
                                 "type": "object",
                                 "required": [
+                                    "minSearchStringLength",
                                     "query_lookup_default",
                                     "always_show_unique"
                                 ],
                                 "properties": {
+                                    "minSearchStringLength": {
+                                        "type": "integer",
+                                        "format": "int64"
+                                    },
                                     "query_lookup_default": {
                                         "type": "boolean"
                                     },
@@ -404,11 +412,13 @@
                     "share_token",
                     "share_type",
                     "type",
-                    "user"
+                    "user",
+                    "item_size"
                 ],
                 "properties": {
                     "accepted": {
-                        "type": "boolean"
+                        "type": "integer",
+                        "format": "int64"
                     },
                     "file_id": {
                         "type": "integer",
@@ -416,8 +426,7 @@
                         "nullable": true
                     },
                     "id": {
-                        "type": "integer",
-                        "format": "int64"
+                        "type": "string"
                     },
                     "mimetype": {
                         "type": "string",
@@ -438,8 +447,7 @@
                         "type": "string"
                     },
                     "parent": {
-                        "type": "integer",
-                        "format": "int64",
+                        "type": "string",
                         "nullable": true
                     },
                     "permissions": {
@@ -466,6 +474,19 @@
                     },
                     "user": {
                         "type": "string"
+                    },
+                    "item_size": {
+                        "nullable": true,
+                        "anyOf": [
+                            {
+                                "type": "integer",
+                                "format": "int64"
+                            },
+                            {
+                                "type": "number",
+                                "format": "double"
+                            }
+                        ]
                     }
                 }
             },
@@ -700,7 +721,8 @@
                         "type": "string"
                     },
                     "url": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     }
                 }
             },
@@ -3932,7 +3954,7 @@
         "/ocs/v2.php/apps/files_sharing/api/v1/remote_shares/pending/{id}": {
             "post": {
                 "operationId": "remote-accept-share",
-                "summary": "Accept a remote share",
+                "summary": "Accept a remote share.",
                 "tags": [
                     "remote"
                 ],
@@ -3951,8 +3973,7 @@
                         "description": "ID of the share",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -4055,7 +4076,7 @@
             },
             "delete": {
                 "operationId": "remote-decline-share",
-                "summary": "Decline a remote share",
+                "summary": "Decline a remote share.",
                 "tags": [
                     "remote"
                 ],
@@ -4074,8 +4095,7 @@
                         "description": "ID of the share",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -4199,8 +4219,7 @@
                         "description": "ID of the share",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {
@@ -4324,8 +4343,7 @@
                         "description": "ID of the share",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                         }
                     },
                     {

@@ -3,13 +3,15 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { translate as t, translatePlural as n } from '@nextcloud/l10n'
+import { translatePlural as n, translate as t } from '@nextcloud/l10n'
 import Vue from 'vue'
-
 import AppMenu from './AppMenu.vue'
 
-export const setUp = () => {
-
+/**
+ * Set up the main menu component ("AppMenu")
+ * This is the top left menu where users can navigate between different apps.
+ */
+export function setUp() {
 	Vue.mixin({
 		methods: {
 			t,
@@ -30,5 +32,4 @@ export const setUp = () => {
 			appMenu.setNavigationCounter(id, counter)
 		},
 	})
-
 }

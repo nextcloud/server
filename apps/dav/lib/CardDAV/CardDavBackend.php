@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\CardDAV;
 
 use OC\Search\Filter\DateTimeFilter;
@@ -26,7 +27,6 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUserManager;
-use PDO;
 use Sabre\CardDAV\Backend\BackendInterface;
 use Sabre\CardDAV\Backend\SyncSupport;
 use Sabre\CardDAV\Plugin;
@@ -43,7 +43,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	private string $dbCardsPropertiesTable = 'cards_properties';
 
 	/** @var array properties to index */
-	public static array $indexProperties = [
+	private const INDEXED_PROPERTIES = [
 		'BDAY', 'UID', 'N', 'FN', 'TITLE', 'ROLE', 'NOTE', 'NICKNAME',
 		'ORG', 'CATEGORIES', 'EMAIL', 'TEL', 'IMPP', 'ADR', 'URL', 'GEO',
 		'CLOUD', 'X-SOCIALPROFILE'];
@@ -100,6 +100,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param string $principalUri
 	 * @return array
 	 */
+	#[\Override]
 	public function getAddressBooksForUser($principalUri) {
 		return $this->atomic(function () use ($principalUri) {
 			$principalUriOriginal = $principalUri;
@@ -112,7 +113,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			$addressBooks = [];
 
 			$result = $select->executeQuery();
-			while ($row = $result->fetch()) {
+			while ($row = $result->fetchAssociative()) {
 				$addressBooks[$row['id']] = [
 					'id' => $row['id'],
 					'uri' => $row['uri'],
@@ -140,7 +141,6 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				->where($subSelect->expr()->eq('d.access', $select->createNamedParameter(\OCA\DAV\CardDAV\Sharing\Backend::ACCESS_UNSHARED, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT))
 				->andWhere($subSelect->expr()->in('d.principaluri', $select->createNamedParameter($principals, IQueryBuilder::PARAM_STR_ARRAY), IQueryBuilder::PARAM_STR_ARRAY));
 
-
 			$select->select(['a.id', 'a.uri', 'a.displayname', 'a.principaluri', 'a.description', 'a.synctoken', 's.access'])
 				->from('dav_shares', 's')
 				->join('s', 'addressbooks', 'a', $select->expr()->eq('s.resourceid', 'a.id'))
@@ -150,7 +150,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			$result = $select->executeQuery();
 
 			$readOnlyPropertyName = '{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}read-only';
-			while ($row = $result->fetch()) {
+			while ($row = $result->fetchAssociative()) {
 				if ($row['principaluri'] === $principalUri) {
 					continue;
 				}
@@ -202,7 +202,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$addressBooks = [];
 
 		$result = $query->executeQuery();
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$addressBooks[$row['id']] = [
 				'id' => $row['id'],
 				'uri' => $row['uri'],
@@ -229,7 +229,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->from('addressbooks')
 			->where($query->expr()->eq('id', $query->createNamedParameter($addressBookId, IQueryBuilder::PARAM_INT)))
 			->executeQuery();
-		$row = $result->fetch();
+		$row = $result->fetchAssociative();
 		$result->closeCursor();
 		if (!$row) {
 			return null;
@@ -259,7 +259,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->setMaxResults(1)
 			->executeQuery();
 
-		$row = $result->fetch();
+		$row = $result->fetchAssociative();
 		$result->closeCursor();
 		if ($row === false) {
 			return null;
@@ -273,7 +273,6 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			'{' . Plugin::NS_CARDDAV . '}addressbook-description' => $row['description'],
 			'{http://calendarserver.org/ns/}getctag' => $row['synctoken'],
 			'{http://sabredav.org/ns}sync-token' => $row['synctoken'] ?: '0',
-
 		];
 
 		// system address books are always read only
@@ -303,6 +302,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param \Sabre\DAV\PropPatch $propPatch
 	 * @return void
 	 */
+	#[\Override]
 	public function updateAddressBook($addressBookId, \Sabre\DAV\PropPatch $propPatch) {
 		$supportedProperties = [
 			'{DAV:}displayname',
@@ -354,6 +354,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @throws BadRequest
 	 * @throws Exception
 	 */
+	#[\Override]
 	public function createAddressBook($principalUri, $url, array $properties) {
 		if (strlen($url) > 255) {
 			throw new BadRequest('URI too long. Address book not created');
@@ -417,6 +418,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param mixed $addressBookId
 	 * @return void
 	 */
+	#[\Override]
 	public function deleteAddressBook($addressBookId) {
 		$this->atomic(function () use ($addressBookId): void {
 			$addressBookId = (int)$addressBookId;
@@ -473,16 +475,24 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param mixed $addressbookId
 	 * @return array
 	 */
+	#[\Override]
 	public function getCards($addressbookId) {
 		$query = $this->db->getQueryBuilder();
 		$query->select(['id', 'addressbookid', 'uri', 'lastmodified', 'etag', 'size', 'carddata', 'uid'])
 			->from($this->dbCardsTable)
 			->where($query->expr()->eq('addressbookid', $query->createNamedParameter($addressbookId)));
 
+		return $this->getCardsFromQuery($query);
+	}
+
+	/**
+	 * @return array[]
+	 */
+	private function getCardsFromQuery(IQueryBuilder $query): array {
 		$cards = [];
 
 		$result = $query->executeQuery();
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$row['etag'] = '"' . $row['etag'] . '"';
 
 			$modified = false;
@@ -510,6 +520,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param string $cardUri
 	 * @return array
 	 */
+	#[\Override]
 	public function getCard($addressBookId, $cardUri) {
 		$query = $this->db->getQueryBuilder();
 		$query->select(['id', 'addressbookid', 'uri', 'lastmodified', 'etag', 'size', 'carddata', 'uid'])
@@ -519,7 +530,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->setMaxResults(1);
 
 		$result = $query->executeQuery();
-		$row = $result->fetch();
+		$row = $result->fetchAssociative();
 		if (!$row) {
 			return false;
 		}
@@ -546,6 +557,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param array $uris
 	 * @return array
 	 */
+	#[\Override]
 	public function getMultipleCards($addressBookId, array $uris) {
 		if (empty($uris)) {
 			return [];
@@ -564,7 +576,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			$query->setParameter('uri', $uris, IQueryBuilder::PARAM_STR_ARRAY);
 			$result = $query->executeQuery();
 
-			while ($row = $result->fetch()) {
+			while ($row = $result->fetchAssociative()) {
 				$row['etag'] = '"' . $row['etag'] . '"';
 
 				$modified = false;
@@ -606,6 +618,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param bool $checkAlreadyExists
 	 * @return string
 	 */
+	#[\Override]
 	public function createCard($addressBookId, $cardUri, $cardData, bool $checkAlreadyExists = true) {
 		$etag = md5($cardData);
 		$uid = $this->getUID($cardData);
@@ -678,6 +691,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param string $cardData
 	 * @return string
 	 */
+	#[\Override]
 	public function updateCard($addressBookId, $cardUri, $cardData) {
 		$uid = $this->getUID($cardData);
 		$etag = md5($cardData);
@@ -765,6 +779,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param string $cardUri
 	 * @return bool
 	 */
+	#[\Override]
 	public function deleteCard($addressBookId, $cardUri) {
 		return $this->atomic(function () use ($addressBookId, $cardUri) {
 			$addressBookData = $this->getAddressBookById($addressBookId);
@@ -852,6 +867,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param int|null $limit
 	 * @return array
 	 */
+	#[\Override]
 	public function getChangesForAddressBook($addressBookId, $syncToken, $syncLevel, $limit = null) {
 		$maxLimit = $this->config->getSystemValueInt('carddav_sync_request_truncation', 2500);
 		$limit = ($limit === null) ? $maxLimit : min($limit, $maxLimit);
@@ -891,7 +907,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 					)->orderBy('id')
 					->setMaxResults($limit);
 				$stmt = $qb->executeQuery();
-				$values = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+				$values = $stmt->fetchAllAssociative();
 				$stmt->closeCursor();
 				if (count($values) === 0) {
 					$result['syncToken'] = $initialSyncToken;
@@ -928,7 +944,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 				// This loop ensures that any duplicates are overwritten, only the
 				// last change on a node is relevant.
-				while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+				while ($row = $stmt->fetchAssociative()) {
 					$changes[$row['uri']] = $row['operation'];
 					$highestSyncToken = $row['synctoken'];
 				}
@@ -973,11 +989,12 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 					->from('cards')
 					->where(
 						$qb->expr()->eq('addressbookid', $qb->createNamedParameter($addressBookId))
-					);
+					)
+					->orderBy('id');
 				// No synctoken supplied, this is the initial sync.
 				$qb->setMaxResults($limit);
 				$stmt = $qb->executeQuery();
-				$values = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+				$values = $stmt->fetchAllAssociative();
 				if (empty($values)) {
 					$result['added'] = [];
 					return $result;
@@ -1239,7 +1256,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		}
 
 		$result = $query2->executeQuery();
-		$matches = $result->fetchAll();
+		$matches = $result->fetchAllAssociative();
 		$result->closeCursor();
 		$matches = array_map(function ($match) {
 			return (int)$match['cardid'];
@@ -1251,10 +1268,10 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->from($this->dbCardsTable, 'c')
 			->where($query->expr()->in('c.id', $query->createParameter('matches')));
 
-		foreach (array_chunk($matches, 1000) as $matchesChunk) {
+		foreach (array_chunk($matches, IQueryBuilder::MAX_IN_PARAMETERS) as $matchesChunk) {
 			$query->setParameter('matches', $matchesChunk, IQueryBuilder::PARAM_INT_ARRAY);
 			$result = $query->executeQuery();
-			$cardResults[] = $result->fetchAll();
+			$cardResults[] = $result->fetchAllAssociative();
 			$result->closeCursor();
 		}
 
@@ -1283,7 +1300,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->andWhere($query->expr()->eq('addressbookid', $query->createNamedParameter($bookId)))
 			->executeQuery();
 
-		$all = $result->fetchAll(PDO::FETCH_COLUMN);
+		$all = $result->fetchFirstColumn();
 		$result->closeCursor();
 
 		return $all;
@@ -1302,7 +1319,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->setParameter('id', $id);
 
 		$result = $query->executeQuery();
-		$uri = $result->fetch();
+		$uri = $result->fetchAssociative();
 		$result->closeCursor();
 
 		if (!isset($uri['uri'])) {
@@ -1326,7 +1343,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->where($query->expr()->eq('uri', $query->createNamedParameter($uri)))
 			->andWhere($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)));
 		$queryResult = $query->executeQuery();
-		$contact = $queryResult->fetch();
+		$contact = $queryResult->fetchAssociative();
 		$queryResult->closeCursor();
 
 		if (is_array($contact)) {
@@ -1385,7 +1402,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				);
 
 			foreach ($vCard->children() as $property) {
-				if (!in_array($property->name, self::$indexProperties)) {
+				if (!in_array($property->name, self::INDEXED_PROPERTIES)) {
 					continue;
 				}
 				$preferred = 0;
@@ -1437,7 +1454,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->andWhere($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)));
 
 		$result = $query->executeQuery();
-		$cardIds = $result->fetch();
+		$cardIds = $result->fetchAssociative();
 		$result->closeCursor();
 
 		if (!isset($cardIds['id'])) {
@@ -1532,5 +1549,33 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		}
 		// should already be handled, but just in case
 		throw new BadRequest('vCard can not be empty');
+	}
+
+	/**
+	 * Mark all cards in an address book as needing to be validated
+	 *
+	 * This is done by setting the modified date to `null`, once a sync runs
+	 * the mtime will be set to a non-null value. Leaving all deleted items with
+	 * a null modified date.
+	 */
+	public function markCardsAsPending(int $addressBookId): void {
+		$query = $this->db->getTypedQueryBuilder();
+		$query->update($this->dbCardsTable)
+			->set('lastmodified', $query->createNamedParameter(null))
+			->where($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)))
+			->executeStatement();
+	}
+
+	/**
+	 * @return array[]
+	 */
+	public function getPendingCards(int $addressBookId): array {
+		$query = $this->db->getQueryBuilder();
+		$query->select(['id', 'addressbookid', 'uri', 'lastmodified', 'etag', 'size', 'carddata', 'uid'])
+			->from($this->dbCardsTable)
+			->where($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)))
+			->andWhere($query->expr()->isNull('lastmodified'));
+
+		return $this->getCardsFromQuery($query);
 	}
 }

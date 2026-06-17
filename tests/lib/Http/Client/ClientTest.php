@@ -17,6 +17,8 @@ use OCP\Http\Client\LocalServerException;
 use OCP\ICertificateManager;
 use OCP\IConfig;
 use OCP\Security\IRemoteHostValidator;
+use OCP\ServerVersion;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use function parse_url;
@@ -36,9 +38,11 @@ class ClientTest extends \Test\TestCase {
 	/** @var IRemoteHostValidator|MockObject */
 	private IRemoteHostValidator $remoteHostValidator;
 	private LoggerInterface $logger;
+	private ServerVersion $serverVersion;
 	/** @var array */
 	private $defaultRequestOptions;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->config = $this->createMock(IConfig::class);
@@ -46,12 +50,15 @@ class ClientTest extends \Test\TestCase {
 		$this->certificateManager = $this->createMock(ICertificateManager::class);
 		$this->remoteHostValidator = $this->createMock(IRemoteHostValidator::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->serverVersion = $this->createMock(ServerVersion::class);
+
 		$this->client = new Client(
 			$this->config,
 			$this->certificateManager,
 			$this->guzzleClient,
 			$this->remoteHostValidator,
 			$this->logger,
+			$this->serverVersion,
 		);
 	}
 
@@ -262,12 +269,14 @@ class ClientTest extends \Test\TestCase {
 			->willReturnMap([
 				['proxy', '', 'foo'],
 				['proxyuserpwd', '', ''],
+				['overwrite.cli.url', '', '']
 			]);
 		$this->config
 			->method('getSystemValueBool')
 			->willReturnMap([
 				['installed', false, true],
 				['allow_local_remote_servers', false, true],
+				['http_client_add_user_agent_url', false, false]
 			]);
 
 		$this->certificateManager
@@ -276,6 +285,10 @@ class ClientTest extends \Test\TestCase {
 			->with()
 			->willReturn('/my/path.crt');
 
+		$this->serverVersion->method('getVersionString')
+			->willReturn('123.45.6');
+
+		$acceptEnc = (((curl_version()['features'] ?? 0) & CURL_VERSION_BROTLI) === CURL_VERSION_BROTLI) ? 'br, gzip' : 'gzip';
 		$this->defaultRequestOptions = [
 			'verify' => '/my/path.crt',
 			'proxy' => [
@@ -283,12 +296,16 @@ class ClientTest extends \Test\TestCase {
 				'https' => 'foo'
 			],
 			'headers' => [
-				'User-Agent' => 'Nextcloud Server Crawler',
-				'Accept-Encoding' => 'gzip',
+				'User-Agent' => 'Nextcloud-Server-Crawler/123.45.6',
+				'Accept-Encoding' => $acceptEnc,
 			],
 			'timeout' => 30,
 			'nextcloud' => [
 				'allow_local_address' => true,
+			],
+			'version' => '2.0',
+			'curl' => [
+				\CURLOPT_HTTP_VERSION => \CURL_HTTP_VERSION_2TLS,
 			],
 		];
 	}
@@ -451,26 +468,38 @@ class ClientTest extends \Test\TestCase {
 
 	public function testSetDefaultOptionsWithNotInstalled(): void {
 		$this->config
-			->expects($this->exactly(2))
+			->expects($this->exactly(3))
 			->method('getSystemValueBool')
 			->willReturnMap([
 				['installed', false, false],
 				['allow_local_remote_servers', false, false],
+				['http_client_add_user_agent_url', false, false],
 			]);
 		$this->config
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getSystemValueString')
-			->with('proxy', '')
-			->willReturn('');
+			->willReturnMap([
+				['proxy', '', ''],
+				['overwrite.cli.url', '', ''],
+			]);
 		$this->certificateManager
 			->expects($this->never())
 			->method('listCertificates');
+		$this->certificateManager
+			->expects($this->once())
+			->method('getDefaultCertificatesBundlePath')
+			->willReturn(\OC::$SERVERROOT . '/resources/config/ca-bundle.crt');
+
+		$this->serverVersion->method('getVersionString')
+			->willReturn('123.45.6');
+
+		$acceptEnc = (((curl_version()['features'] ?? 0) & CURL_VERSION_BROTLI) === CURL_VERSION_BROTLI) ? 'br, gzip' : 'gzip';
 
 		$this->assertEquals([
 			'verify' => \OC::$SERVERROOT . '/resources/config/ca-bundle.crt',
 			'headers' => [
-				'User-Agent' => 'Nextcloud Server Crawler',
-				'Accept-Encoding' => 'gzip',
+				'User-Agent' => 'Nextcloud-Server-Crawler/123.45.6',
+				'Accept-Encoding' => $acceptEnc,
 			],
 			'timeout' => 30,
 			'nextcloud' => [
@@ -484,16 +513,21 @@ class ClientTest extends \Test\TestCase {
 				): void {
 				},
 			],
+			'version' => '2.0',
+			'curl' => [
+				\CURLOPT_HTTP_VERSION => \CURL_HTTP_VERSION_2TLS,
+			],
 		], self::invokePrivate($this->client, 'buildRequestOptions', [[]]));
 	}
 
 	public function testSetDefaultOptionsWithProxy(): void {
 		$this->config
-			->expects($this->exactly(2))
+			->expects($this->exactly(3))
 			->method('getSystemValueBool')
 			->willReturnMap([
 				['installed', false, true],
 				['allow_local_remote_servers', false, false],
+				['http_client_add_user_agent_url', false, false],
 			]);
 		$this->config
 			->expects($this->once())
@@ -501,17 +535,23 @@ class ClientTest extends \Test\TestCase {
 			->with('proxyexclude', [])
 			->willReturn([]);
 		$this->config
-			->expects($this->exactly(2))
+			->expects($this->exactly(3))
 			->method('getSystemValueString')
 			->willReturnMap([
 				['proxy', '', 'foo'],
 				['proxyuserpwd', '', ''],
+				['overwrite.cli.url', '', ''],
 			]);
 		$this->certificateManager
 			->expects($this->once())
 			->method('getAbsoluteBundlePath')
 			->with()
 			->willReturn('/my/path.crt');
+
+		$this->serverVersion->method('getVersionString')
+			->willReturn('123.45.6');
+
+		$acceptEnc = (((curl_version()['features'] ?? 0) & CURL_VERSION_BROTLI) === CURL_VERSION_BROTLI) ? 'br, gzip' : 'gzip';
 
 		$this->assertEquals([
 			'verify' => '/my/path.crt',
@@ -520,8 +560,8 @@ class ClientTest extends \Test\TestCase {
 				'https' => 'foo'
 			],
 			'headers' => [
-				'User-Agent' => 'Nextcloud Server Crawler',
-				'Accept-Encoding' => 'gzip',
+				'User-Agent' => 'Nextcloud-Server-Crawler/123.45.6',
+				'Accept-Encoding' => $acceptEnc,
 			],
 			'timeout' => 30,
 			'nextcloud' => [
@@ -535,16 +575,21 @@ class ClientTest extends \Test\TestCase {
 				): void {
 				},
 			],
+			'version' => '2.0',
+			'curl' => [
+				\CURLOPT_HTTP_VERSION => \CURL_HTTP_VERSION_2TLS,
+			],
 		], self::invokePrivate($this->client, 'buildRequestOptions', [[]]));
 	}
 
 	public function testSetDefaultOptionsWithProxyAndExclude(): void {
 		$this->config
-			->expects($this->exactly(2))
+			->expects($this->exactly(3))
 			->method('getSystemValueBool')
 			->willReturnMap([
 				['installed', false, true],
 				['allow_local_remote_servers', false, false],
+				['http_client_add_user_agent_url', false, false],
 			]);
 		$this->config
 			->expects($this->once())
@@ -552,17 +597,23 @@ class ClientTest extends \Test\TestCase {
 			->with('proxyexclude', [])
 			->willReturn(['bar']);
 		$this->config
-			->expects($this->exactly(2))
+			->expects($this->exactly(3))
 			->method('getSystemValueString')
 			->willReturnMap([
 				['proxy', '', 'foo'],
 				['proxyuserpwd', '', ''],
+				['overwrite.cli.url', '', ''],
 			]);
 		$this->certificateManager
 			->expects($this->once())
 			->method('getAbsoluteBundlePath')
 			->with()
 			->willReturn('/my/path.crt');
+
+		$this->serverVersion->method('getVersionString')
+			->willReturn('123.45.6');
+
+		$acceptEnc = (((curl_version()['features'] ?? 0) & CURL_VERSION_BROTLI) === CURL_VERSION_BROTLI) ? 'br, gzip' : 'gzip';
 
 		$this->assertEquals([
 			'verify' => '/my/path.crt',
@@ -572,8 +623,8 @@ class ClientTest extends \Test\TestCase {
 				'no' => ['bar']
 			],
 			'headers' => [
-				'User-Agent' => 'Nextcloud Server Crawler',
-				'Accept-Encoding' => 'gzip',
+				'User-Agent' => 'Nextcloud-Server-Crawler/123.45.6',
+				'Accept-Encoding' => $acceptEnc,
 			],
 			'timeout' => 30,
 			'nextcloud' => [
@@ -586,6 +637,69 @@ class ClientTest extends \Test\TestCase {
 					\Psr\Http\Message\UriInterface $uri,
 				): void {
 				},
+			],
+			'version' => '2.0',
+			'curl' => [
+				\CURLOPT_HTTP_VERSION => \CURL_HTTP_VERSION_2TLS,
+			],
+		], self::invokePrivate($this->client, 'buildRequestOptions', [[]]));
+	}
+
+	public static function dataForTestSetServerUrlInUserAgent(): array {
+		return [
+			['https://example.com/', 'Nextcloud-Server-Crawler/123.45.6; +https://example.com'],
+			['', 'Nextcloud-Server-Crawler/123.45.6'],
+		];
+	}
+
+	#[DataProvider('dataForTestSetServerUrlInUserAgent')]
+	public function testSetServerUrlInUserAgent(string $url, string $userAgent): void {
+		$this->config
+			->expects($this->exactly(3))
+			->method('getSystemValueBool')
+			->willReturnMap([
+				['installed', false, true],
+				['allow_local_remote_servers', false, false],
+				['http_client_add_user_agent_url', false, true],
+			]);
+		$this->config
+			->expects($this->exactly(2))
+			->method('getSystemValueString')
+			->willReturnMap([
+				['proxy', '', ''],
+				['overwrite.cli.url', '', $url],
+			]);
+		$this->certificateManager
+			->expects($this->once())
+			->method('getAbsoluteBundlePath')
+			->with()
+			->willReturn('/my/path.crt');
+
+		$this->serverVersion->method('getVersionString')
+			->willReturn('123.45.6');
+
+		$acceptEnc = (((curl_version()['features'] ?? 0) & CURL_VERSION_BROTLI) === CURL_VERSION_BROTLI) ? 'br, gzip' : 'gzip';
+		$this->assertEquals([
+			'verify' => '/my/path.crt',
+			'headers' => [
+				'User-Agent' => $userAgent,
+				'Accept-Encoding' => $acceptEnc,
+			],
+			'timeout' => 30,
+			'nextcloud' => [
+				'allow_local_address' => false,
+			],
+			'allow_redirects' => [
+				'on_redirect' => function (
+					\Psr\Http\Message\RequestInterface $request,
+					\Psr\Http\Message\ResponseInterface $response,
+					\Psr\Http\Message\UriInterface $uri,
+				): void {
+				},
+			],
+			'version' => '2.0',
+			'curl' => [
+				\CURLOPT_HTTP_VERSION => \CURL_HTTP_VERSION_2TLS,
 			],
 		], self::invokePrivate($this->client, 'buildRequestOptions', [[]]));
 	}

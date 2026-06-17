@@ -8,26 +8,37 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-/**
- * Drop privileges when run as root
- */
-function dropPrivileges(): void {
-	if (posix_getuid() !== 0) {
-		return;
-	}
-
-	$configPath = __DIR__ . '/config/config.php';
-	$uid = @fileowner($configPath);
-	if ($uid === false) {
-		return;
-	}
-	$info = posix_getpwuid($uid);
-	if ($info === false) {
-		return;
-	}
-	posix_setuid($uid);
-	posix_setgid($info['gid']);
+if (posix_getuid() === 0) {
+	switchToConfigFileOwner();
 }
 
-dropPrivileges();
 require_once __DIR__ . '/console.php';
+
+/**
+ * Attempt to switch process identity to match the config file when run as root.
+ *
+ * This is a convenience for the operator to allow `occ` to run without manual
+ * user switching. It drops primary root privileges but is not a true sandbox.
+ *
+ * Note: Best-effort only. Will not change privileges if config file owner has
+ * no passwd entry. Does not clear environment variables nor supplementary groups.
+ * Failures are ignored here as downstream checks validate the final UID state.
+ */
+function switchToConfigFileOwner(): void {
+	$configPath = __DIR__ . '/config/config.php';
+	$targetUid = @fileowner($configPath);
+
+	if ($targetUid === false) {
+		return;
+	}
+
+	$ownerInfo = posix_getpwuid($targetUid);
+	if ($ownerInfo === false) {
+		return;
+	}
+
+	$targetGid = $ownerInfo['gid'];
+
+	posix_setgid($targetGid);
+	posix_setuid($targetUid);
+}

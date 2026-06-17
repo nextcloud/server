@@ -35,7 +35,6 @@ use Sabre\DAV\Xml\Property\Href;
 use Sabre\DAV\Xml\Property\LocalHref;
 use Sabre\Xml\ParseException;
 use Sabre\Xml\Service as XmlService;
-
 use function array_intersect;
 
 class CustomPropertiesBackend implements BackendInterface {
@@ -111,6 +110,34 @@ class CustomPropertiesBackend implements BackendInterface {
 	 */
 	private const PROPERTY_DEFAULT_VALUES = [
 		'{http://owncloud.org/ns}calendar-enabled' => '1',
+	];
+
+	/**
+	 * Allowed classes for deserialization
+	 *
+	 * @var class-string[]
+	 */
+	private const ALLOWED_SERIALIZED_CLASSES = [
+		\Sabre\CalDAV\Xml\Property\AllowedSharingModes::class,
+		\Sabre\CalDAV\Xml\Property\EmailAddressSet::class,
+		\Sabre\CalDAV\Xml\Property\Invite::class,
+		\Sabre\CalDAV\Xml\Property\ScheduleCalendarTransp::class,
+		\Sabre\CalDAV\Xml\Property\SupportedCalendarComponentSet::class,
+		\Sabre\CalDAV\Xml\Property\SupportedCalendarData::class,
+		\Sabre\CalDAV\Xml\Property\SupportedCollationSet::class,
+		\Sabre\CardDAV\Xml\Property\SupportedAddressData::class,
+		\Sabre\CardDAV\Xml\Property\SupportedCollationSet::class,
+		\Sabre\DAV\Xml\Property\Complex::class,
+		\Sabre\DAV\Xml\Property\GetLastModified::class,
+		\Sabre\DAV\Xml\Property\Href::class,
+		\Sabre\DAV\Xml\Property\Invite::class,
+		\Sabre\DAV\Xml\Property\LocalHref::class,
+		\Sabre\DAV\Xml\Property\LockDiscovery::class,
+		\Sabre\DAV\Xml\Property\ResourceType::class,
+		\Sabre\DAV\Xml\Property\ShareAccess::class,
+		\Sabre\DAV\Xml\Property\SupportedLock::class,
+		\Sabre\DAV\Xml\Property\SupportedMethodSet::class,
+		\Sabre\DAV\Xml\Property\SupportedReportSet::class,
 	];
 
 	/**
@@ -345,7 +372,7 @@ class CustomPropertiesBackend implements BackendInterface {
 			->where($qb->expr()->eq('propertypath', $qb->createNamedParameter($path)));
 		$result = $qb->executeQuery();
 		$props = [];
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$props[$row['propertyname']] = $this->decodeValueFromDatabase($row['propertyvalue'], $row['valuetype']);
 		}
 		$result->closeCursor();
@@ -376,7 +403,7 @@ class CustomPropertiesBackend implements BackendInterface {
 
 		$propsByPath = [];
 
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$childPath = $prefix . $row['name'];
 			if (!isset($propsByPath[$childPath])) {
 				$propsByPath[$childPath] = [];
@@ -470,17 +497,17 @@ class CustomPropertiesBackend implements BackendInterface {
 		if (!empty($requestedProperties)) {
 			// request only a subset
 			$qb->andWhere($qb->expr()->in('propertyname', $qb->createParameter('requestedProperties')));
-			$chunks = array_chunk($requestedProperties, 1000);
+			$chunks = array_chunk($requestedProperties, IQueryBuilder::MAX_IN_PARAMETERS);
 			foreach ($chunks as $chunk) {
 				$qb->setParameter('requestedProperties', $chunk, IQueryBuilder::PARAM_STR_ARRAY);
 				$result = $qb->executeQuery();
-				while ($row = $result->fetch()) {
+				while ($row = $result->fetchAssociative()) {
 					$props[$row['propertyname']] = $this->decodeValueFromDatabase($row['propertyvalue'], $row['valuetype']);
 				}
 			}
 		} else {
 			$result = $qb->executeQuery();
-			while ($row = $result->fetch()) {
+			while ($row = $result->fetchAssociative()) {
 				$props[$row['propertyname']] = $this->decodeValueFromDatabase($row['propertyvalue'], $row['valuetype']);
 			}
 		}
@@ -566,6 +593,18 @@ class CustomPropertiesBackend implements BackendInterface {
 		return $path;
 	}
 
+	private static function checkIsArrayOfScalar(string $name, array $array): void {
+		foreach ($array as $item) {
+			if (is_array($item)) {
+				self::checkIsArrayOfScalar($name, $item);
+			} elseif ($item !== null && !is_scalar($item)) {
+				throw new DavException(
+					"Property \"$name\" has an invalid value of array containing " . gettype($item),
+				);
+			}
+		}
+	}
+
 	/**
 	 * @throws ParseException If parsing a \Sabre\DAV\Xml\Property\Complex value fails
 	 * @throws DavException If the property value is invalid
@@ -600,6 +639,20 @@ class CustomPropertiesBackend implements BackendInterface {
 			$valueType = self::PROPERTY_TYPE_HREF;
 			$value = $value->getHref();
 		} else {
+			if (is_array($value)) {
+				// For array only allow scalar values
+				self::checkIsArrayOfScalar($name, $value);
+			} elseif (!is_object($value)) {
+				throw new DavException(
+					"Property \"$name\" has an invalid value of type " . gettype($value),
+				);
+			} else {
+				if (!in_array($value::class, self::ALLOWED_SERIALIZED_CLASSES)) {
+					throw new DavException(
+						"Property \"$name\" has an invalid value of class " . $value::class,
+					);
+				}
+			}
 			$valueType = self::PROPERTY_TYPE_OBJECT;
 			// serialize produces null character
 			// these can not be properly stored in some databases and need to be replaced
@@ -612,13 +665,18 @@ class CustomPropertiesBackend implements BackendInterface {
 	 * @return mixed|Complex|string
 	 */
 	private function decodeValueFromDatabase(string $value, int $valueType): mixed {
-		return match ($valueType) {
-			self::PROPERTY_TYPE_XML => new Complex($value),
-			self::PROPERTY_TYPE_HREF => new Href($value),
-			// some databases can not handel null characters, these are custom encoded during serialization
-			// this custom encoding needs to be first reversed before unserializing
-			self::PROPERTY_TYPE_OBJECT => unserialize(str_replace('\x00', chr(0), $value)),
-			default => $value,
+		switch ($valueType) {
+			case self::PROPERTY_TYPE_XML:
+				return new Complex($value);
+			case self::PROPERTY_TYPE_HREF:
+				return new Href($value);
+			case self::PROPERTY_TYPE_OBJECT:
+				return unserialize(
+					str_replace('\x00', chr(0), $value),
+					['allowed_classes' => self::ALLOWED_SERIALIZED_CLASSES]
+				);
+			default:
+				return $value;
 		};
 	}
 

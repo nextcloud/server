@@ -3,8 +3,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { User } from "@nextcloud/cypress"
-import { createShare } from "./FilesSharingUtils.ts"
+import type { User } from '@nextcloud/e2e-test-server/cypress'
+
+import { randomString } from '../../support/utils/randomString.ts'
+import { createShare } from './FilesSharingUtils.ts'
 
 describe('Limit to sharing to people in the same group', () => {
 	let alice: User
@@ -16,20 +18,20 @@ describe('Limit to sharing to people in the same group', () => {
 	let randomGroupName3 = ''
 
 	before(() => {
-		randomFileName1 = Math.random().toString(36).replace(/[^a-z]+/g, '').substring(0, 10) + '.txt'
-		randomFileName2 = Math.random().toString(36).replace(/[^a-z]+/g, '').substring(0, 10) + '.txt'
-		randomGroupName = Math.random().toString(36).replace(/[^a-z]+/g, '').substring(0, 10)
-		randomGroupName2 = Math.random().toString(36).replace(/[^a-z]+/g, '').substring(0, 10)
-		randomGroupName3 = Math.random().toString(36).replace(/[^a-z]+/g, '').substring(0, 10)
+		randomFileName1 = randomString(10) + '.txt'
+		randomFileName2 = randomString(10) + '.txt'
+		randomGroupName = randomString(10)
+		randomGroupName2 = randomString(10)
+		randomGroupName3 = randomString(10)
 
 		cy.runOccCommand('config:app:set core shareapi_only_share_with_group_members --value yes')
 
 		cy.createRandomUser()
-			.then(user => {
+			.then((user) => {
 				alice = user
-				cy.createRandomUser()
 			})
-			.then(user => {
+		cy.createRandomUser()
+			.then((user) => {
 				bob = user
 
 				cy.runOccCommand(`group:add ${randomGroupName}`)
@@ -47,9 +49,12 @@ describe('Limit to sharing to people in the same group', () => {
 				cy.login(alice)
 				cy.visit('/apps/files')
 				createShare(randomFileName1, bob.userId)
+				cy.logout()
+
 				cy.login(bob)
 				cy.visit('/apps/files')
 				createShare(randomFileName2, alice.userId)
+				cy.logout()
 			})
 	})
 
@@ -95,13 +100,13 @@ describe('Limit to sharing to people in the same group', () => {
 		it('Alice cannot see the shared file', () => {
 			cy.login(alice)
 			cy.visit('/apps/files')
-		cy.get(`[data-cy-files-list] [data-cy-files-list-row-name="${randomFileName2}"]`).should('not.exist')
+			cy.get(`[data-cy-files-list] [data-cy-files-list-row-name="${randomFileName2}"]`).should('not.exist')
 		})
 
 		it('Bob cannot see the shared file', () => {
 			cy.login(alice)
 			cy.visit('/apps/files')
-		cy.get(`[data-cy-files-list] [data-cy-files-list-row-name="${randomFileName1}"]`).should('not.exist')
+			cy.get(`[data-cy-files-list] [data-cy-files-list-row-name="${randomFileName1}"]`).should('not.exist')
 		})
 	})
 })

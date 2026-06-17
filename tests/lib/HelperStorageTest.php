@@ -19,9 +19,8 @@ use Test\Traits\UserTrait;
 
 /**
  * Test the storage functions of OC_Helper
- *
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class HelperStorageTest extends \Test\TestCase {
 	use UserTrait;
 
@@ -33,6 +32,7 @@ class HelperStorageTest extends \Test\TestCase {
 	private $storage;
 	private bool $savedQuotaIncludeExternalStorage;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -51,6 +51,7 @@ class HelperStorageTest extends \Test\TestCase {
 		$this->storageMock = null;
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$this->setIncludeExternalStorage($this->savedQuotaIncludeExternalStorage);
 		$this->user = null;
@@ -103,14 +104,12 @@ class HelperStorageTest extends \Test\TestCase {
 	private function getIncludeExternalStorage(): bool {
 		$class = new \ReflectionClass(\OC_Helper::class);
 		$prop = $class->getProperty('quotaIncludeExternalStorage');
-		$prop->setAccessible(true);
 		return $prop->getValue(null) ?? false;
 	}
 
 	private function setIncludeExternalStorage(bool $include) {
 		$class = new \ReflectionClass(\OC_Helper::class);
 		$prop = $class->getProperty('quotaIncludeExternalStorage');
-		$prop->setAccessible(true);
 		$prop->setValue(null, $include);
 	}
 
@@ -187,7 +186,6 @@ class HelperStorageTest extends \Test\TestCase {
 		$this->assertEquals(22, $storageInfo['used'], '5 bytes of home storage and 17 bytes of the temporary storage are used');
 		$this->assertEquals(34, $storageInfo['total'], '5 bytes used and 12 bytes free in home storage as well as 17 bytes used in temporary storage');
 	}
-
 
 	/**
 	 * Test getting the storage info with quota enabled

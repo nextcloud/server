@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Encryption\Tests;
 
 use OCA\Encryption\Exceptions\PrivateKeyMissingException;
@@ -28,17 +29,13 @@ class SessionTest extends TestCase {
 		$this->instance->getPrivateKey();
 	}
 
-	/**
-	 * @depends testThatGetPrivateKeyThrowsExceptionWhenNotSet
-	 */
+	#[\PHPUnit\Framework\Attributes\Depends('testThatGetPrivateKeyThrowsExceptionWhenNotSet')]
 	public function testSetAndGetPrivateKey(): void {
 		$this->instance->setPrivateKey('dummyPrivateKey');
 		$this->assertEquals('dummyPrivateKey', $this->instance->getPrivateKey());
 	}
 
-	/**
-	 * @depends testSetAndGetPrivateKey
-	 */
+	#[\PHPUnit\Framework\Attributes\Depends('testSetAndGetPrivateKey')]
 	public function testIsPrivateKeySet(): void {
 		$this->instance->setPrivateKey('dummyPrivateKey');
 		$this->assertTrue($this->instance->isPrivateKeySet());
@@ -99,7 +96,6 @@ class SessionTest extends TestCase {
 		$this->instance->getDecryptAllKey();
 	}
 
-
 	public function testSetAndGetStatusWillSetAndReturn(): void {
 		// Check if get status will return 0 if it has not been set before
 		$this->assertEquals(0, $this->instance->getStatus());
@@ -119,7 +115,7 @@ class SessionTest extends TestCase {
 	 * @param int $status
 	 * @param bool $expected
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestIsReady')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestIsReady')]
 	public function testIsReady($status, $expected): void {
 		/** @var Session&MockObject $instance */
 		$instance = $this->getMockBuilder(Session::class)
@@ -167,7 +163,6 @@ class SessionTest extends TestCase {
 		return null;
 	}
 
-
 	public function testClearWillRemoveValues(): void {
 		$this->instance->setPrivateKey('privateKey');
 		$this->instance->setStatus('initStatus');
@@ -176,7 +171,6 @@ class SessionTest extends TestCase {
 		$this->instance->clear();
 		$this->assertEmpty(self::$tempStorage);
 	}
-
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -193,7 +187,6 @@ class SessionTest extends TestCase {
 		$this->sessionMock->expects($this->any())
 			->method('remove')
 			->willReturnCallback([$this, 'removeValueTester']);
-
 
 		$this->instance = new Session($this->sessionMock);
 	}

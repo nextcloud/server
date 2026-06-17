@@ -6,9 +6,11 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Command\App;
 
 use OC\Installer;
+use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -24,6 +26,7 @@ class Install extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('app:install')
@@ -54,13 +57,16 @@ class Install extends Command {
 		;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$appId = $input->getArgument('app-id');
 		$forceEnable = (bool)$input->getOption('force');
 
-		if ($this->appManager->isEnabledForAnyone($appId)) {
+		try {
+			$this->appManager->getAppPath($appId);
 			$output->writeln($appId . ' already installed');
 			return 1;
+		} catch (AppPathNotFoundException) {
 		}
 
 		try {

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Encryption;
 
 use OC\Files\Filesystem;
@@ -16,6 +17,11 @@ use OCP\Encryption\Keys\IStorage as EncryptionKeysStorage;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IDisableEncryptionStorage;
 use OCP\Files\Storage\IStorage;
+use OCP\IConfig;
+use OCP\IGroupManager;
+use OCP\IUserManager;
+use OCP\IUserSession;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -26,24 +32,14 @@ use Psr\Log\LoggerInterface;
  * @package OC\Encryption
  */
 class EncryptionWrapper {
-	/** @var ArrayCache */
-	private $arrayCache;
-
-	/** @var Manager */
-	private $manager;
-
-	private LoggerInterface $logger;
-
 	/**
 	 * EncryptionWrapper constructor.
 	 */
-	public function __construct(ArrayCache $arrayCache,
-		Manager $manager,
-		LoggerInterface $logger,
+	public function __construct(
+		private ArrayCache $arrayCache,
+		private Manager $manager,
+		private LoggerInterface $logger,
 	) {
-		$this->arrayCache = $arrayCache;
-		$this->manager = $manager;
-		$this->logger = $logger;
 	}
 
 	/**
@@ -62,32 +58,42 @@ class EncryptionWrapper {
 			'mount' => $mount
 		];
 
-		if ($force || (!$storage->instanceOfStorage(IDisableEncryptionStorage::class) && $mountPoint !== '/')) {
-			$user = \OC::$server->getUserSession()->getUser();
-			$mountManager = Filesystem::getMountManager();
-			$uid = $user ? $user->getUID() : null;
-			$fileHelper = \OC::$server->get(IFile::class);
-			$keyStorage = \OC::$server->get(EncryptionKeysStorage::class);
+		// Only evaluate other conditions if not forced
+		if (!$force) {
+			// If a disabled storage medium, return basic storage
+			if ($storage->instanceOfStorage(IDisableEncryptionStorage::class)) {
+				return $storage;
+			}
 
-			$util = new Util(
-				new View(),
-				\OC::$server->getUserManager(),
-				\OC::$server->getGroupManager(),
-				\OC::$server->getConfig()
-			);
-			return new Encryption(
-				$parameters,
-				$this->manager,
-				$util,
-				$this->logger,
-				$fileHelper,
-				$uid,
-				$keyStorage,
-				$mountManager,
-				$this->arrayCache
-			);
-		} else {
-			return $storage;
+			// Root mount point handling: skip encryption wrapper
+			if ($mountPoint === '/') {
+				return $storage;
+			}
 		}
+
+		// Apply encryption wrapper
+		$user = Server::get(IUserSession::class)->getUser();
+		$mountManager = Filesystem::getMountManager();
+		$uid = $user ? $user->getUID() : null;
+		$fileHelper = Server::get(IFile::class);
+		$keyStorage = Server::get(EncryptionKeysStorage::class);
+
+		$util = new Util(
+			new View(),
+			Server::get(IUserManager::class),
+			Server::get(IGroupManager::class),
+			Server::get(IConfig::class)
+		);
+		return new Encryption(
+			$parameters,
+			$this->manager,
+			$util,
+			$this->logger,
+			$fileHelper,
+			$uid,
+			$keyStorage,
+			$mountManager,
+			$this->arrayCache
+		);
 	}
 }

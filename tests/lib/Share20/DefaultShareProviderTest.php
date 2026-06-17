@@ -41,8 +41,8 @@ use Psr\Log\LoggerInterface;
  * Class DefaultShareProviderTest
  *
  * @package Test\Share20
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class DefaultShareProviderTest extends \Test\TestCase {
 	/** @var IDBConnection */
 	protected $dbConn;
@@ -84,7 +84,10 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 	protected IShareManager&MockObject $shareManager;
 
+	#[\Override]
 	protected function setUp(): void {
+		parent::setUp();
+
 		$this->dbConn = Server::get(IDBConnection::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
@@ -121,10 +124,12 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$this->dbConn->getQueryBuilder()->delete('share')->executeStatement();
 		$this->dbConn->getQueryBuilder()->delete('filecache')->runAcrossAllShards()->executeStatement();
 		$this->dbConn->getQueryBuilder()->delete('storages')->executeStatement();
+		parent::tearDown();
 	}
 
 	/**
@@ -183,9 +188,6 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertEquals(1, $qb->executeStatement());
 		return $qb->getLastInsertId();
 	}
-
-
-
 
 	public function testGetShareByIdNotExist(): void {
 		$this->expectException(ShareNotFound::class);
@@ -463,7 +465,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			]);
 		$this->assertEquals(1, $qb->executeStatement());
 
-		$id = $qb->getLastInsertId();
+		$id = (string)$qb->getLastInsertId();
 
 		$share = $this->createMock(IShare::class);
 		$share->method('getId')->willReturn($id);
@@ -494,7 +496,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->from('share');
 
 		$cursor = $qb->executeQuery();
-		$result = $cursor->fetchAll();
+		$result = $cursor->fetchAllAssociative();
 		$cursor->closeCursor();
 
 		$this->assertEmpty($result);
@@ -527,7 +529,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->from('share');
 
 		$cursor = $qb->executeQuery();
-		$result = $cursor->fetchAll();
+		$result = $cursor->fetchAllAssociative();
 		$cursor->closeCursor();
 
 		$this->assertEmpty($result);
@@ -546,7 +548,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'permissions' => $qb->expr()->literal(13),
 			]);
 		$this->assertEquals(1, $qb->executeStatement());
-		$id = $qb->getLastInsertId();
+		$id = (string)$qb->getLastInsertId();
 
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('share')
@@ -592,7 +594,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->from('share');
 
 		$cursor = $qb->executeQuery();
-		$result = $cursor->fetchAll();
+		$result = $cursor->fetchAllAssociative();
 		$cursor->closeCursor();
 
 		$this->assertEmpty($result);
@@ -614,7 +616,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$qb->executeStatement();
 
 		// Get the id
-		$id = $qb->getLastInsertId();
+		$id = (string)$qb->getLastInsertId();
 
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('share')
@@ -660,6 +662,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share->method('getId')->willReturn($id);
 
 		$children = $this->provider->getChildren($share);
+		usort($children, fn (IShare $a, IShare $b) => $a->getId() <=> $b->getId());
 
 		$this->assertCount(2, $children);
 
@@ -1553,7 +1556,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(2)))
 			->executeQuery();
 
-		$shares = $stmt->fetchAll();
+		$shares = $stmt->fetchAllAssociative();
 		$stmt->closeCursor();
 
 		$this->assertCount(1, $shares);
@@ -1625,7 +1628,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(2)))
 			->executeQuery();
 
-		$shares = $stmt->fetchAll();
+		$shares = $stmt->fetchAllAssociative();
 		$stmt->closeCursor();
 
 		$this->assertCount(1, $shares);
@@ -1634,7 +1637,6 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertEquals(0, $share2['permissions']);
 		$this->assertEquals('user2', $share2['share_with']);
 	}
-
 
 	public function testDeleteFromSelfGroupUserNotInGroup(): void {
 		$qb = $this->dbConn->getQueryBuilder();
@@ -1677,7 +1679,6 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$this->provider->deleteFromSelf($share, 'user2');
 	}
-
 
 	public function testDeleteFromSelfGroupDoesNotExist(): void {
 		$this->expectException(ProviderException::class);
@@ -1763,12 +1764,11 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
 			->executeQuery();
 
-		$shares = $stmt->fetchAll();
+		$shares = $stmt->fetchAllAssociative();
 		$stmt->closeCursor();
 
 		$this->assertCount(0, $shares);
 	}
-
 
 	public function testDeleteFromSelfUserNotRecipient(): void {
 		$this->expectException(ProviderException::class);
@@ -1811,7 +1811,6 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$this->provider->deleteFromSelf($share, $user3);
 	}
-
 
 	public function testDeleteFromSelfLink(): void {
 		$this->expectException(ProviderException::class);
@@ -2188,7 +2187,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->orderBy('id')
 			->executeQuery();
 
-		$shares = $stmt->fetchAll();
+		$shares = $stmt->fetchAllAssociative();
 
 		$this->assertSame('user0', $shares[0]['share_with']);
 		$this->assertSame('user4', $shares[0]['uid_initiator']);
@@ -2199,7 +2198,6 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertSame('user4', $shares[1]['uid_initiator']);
 		$this->assertSame('user5', $shares[1]['uid_owner']);
 		$this->assertSame(0, (int)$shares[1]['permissions']);
-
 
 		$stmt->closeCursor();
 	}
@@ -2269,12 +2267,18 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$share = $this->provider->getShareById($id, 'user0');
 		$this->assertSame('/newTarget', $share->getTarget());
+		// The USERGROUP subshare created on first move must be STATUS_ACCEPTED so
+		// MountProvider does not skip it (default DB value is STATUS_PENDING=0).
+		$this->assertSame(IShare::STATUS_ACCEPTED, $share->getStatus());
 
 		$share->setTarget('/ultraNewTarget');
 		$this->provider->move($share, 'user0');
 
 		$share = $this->provider->getShareById($id, 'user0');
 		$this->assertSame('/ultraNewTarget', $share->getTarget());
+		// Second move hits the UPDATE branch (USERGROUP subshare already exists).
+		// STATUS_ACCEPTED must be preserved — the UPDATE only touches file_target.
+		$this->assertSame(IShare::STATUS_ACCEPTED, $share->getStatus());
 	}
 
 	public static function dataDeleteUser(): array {
@@ -2329,7 +2333,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				$qb->expr()->eq('id', $qb->createNamedParameter($id))
 			);
 		$cursor = $qb->executeQuery();
-		$data = $cursor->fetchAll();
+		$data = $cursor->fetchAllAssociative();
 		$cursor->closeCursor();
 
 		$this->assertCount($rowDeleted ? 0 : 1, $data);
@@ -2388,7 +2392,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				$qb->expr()->eq('id', $qb->createNamedParameter($userGroupId))
 			);
 		$cursor = $qb->executeQuery();
-		$data = $cursor->fetchAll();
+		$data = $cursor->fetchAllAssociative();
 		$cursor->closeCursor();
 		$this->assertCount($userGroupShareDeleted ? 0 : 1, $data);
 
@@ -2399,7 +2403,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				$qb->expr()->eq('id', $qb->createNamedParameter($groupId))
 			);
 		$cursor = $qb->executeQuery();
-		$data = $cursor->fetchAll();
+		$data = $cursor->fetchAllAssociative();
 		$cursor->closeCursor();
 		$this->assertCount($groupShareDeleted ? 0 : 1, $data);
 	}
@@ -2492,7 +2496,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->from('share')
 			->where($qb->expr()->in('id', $qb->createNamedParameter($ids, IQueryBuilder::PARAM_INT_ARRAY)))
 			->executeQuery();
-		$data = $cursor->fetchAll();
+		$data = $cursor->fetchAllAssociative();
 		$cursor->closeCursor();
 
 		$this->assertCount($shouldBeDeleted ? 0 : count($ids), $data);
@@ -2550,7 +2554,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->from('share')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id2)));
 		$cursor = $qb->executeQuery();
-		$data = $cursor->fetchAll();
+		$data = $cursor->fetchAllAssociative();
 		$cursor->closeCursor();
 
 		$this->assertCount($toDelete ? 0 : 1, $data);
@@ -2640,6 +2644,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertSame(IShare::TYPE_USER, $file_shares[0]->getShareType());
 
 		$folder_shares = $result[$folder2->getId()];
+		usort($folder_shares, fn (IShare $a, IShare $b) => $a->getId() <=> $b->getId());
 		$this->assertCount(2, $folder_shares);
 		$this->assertSame($folder2->getId(), $folder_shares[0]->getNodeId());
 		$this->assertSame($folder2->getId(), $folder_shares[1]->getNodeId());
@@ -3028,7 +3033,6 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertEquals('myTarget5', $share->getTarget());
 	}
 
-
 	public function testGetSharesByPath(): void {
 		$qb = $this->dbConn->getQueryBuilder();
 
@@ -3100,6 +3104,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->willReturn(1);
 
 		$shares = $this->provider->getSharesByPath($node);
+		usort($shares, fn (IShare $a, IShare $b) => $a->getId() <=> $b->getId());
 		$this->assertCount(3, $shares);
 
 		$this->assertEquals($id1, $shares[0]->getId());

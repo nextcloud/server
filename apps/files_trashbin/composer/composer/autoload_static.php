@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitFiles_Trashbin
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\Files_Trashbin\\' => 19,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\Files_Trashbin\\' => 
+        'OCA\\Files_Trashbin\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),

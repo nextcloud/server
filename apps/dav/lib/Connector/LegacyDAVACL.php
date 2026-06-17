@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Connector;
 
 use OCA\DAV\Connector\Sabre\DavAclPlugin;
@@ -17,6 +18,7 @@ class LegacyDAVACL extends DavAclPlugin {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getCurrentUserPrincipals() {
 		$principalV2 = $this->getCurrentUserPrincipal();
 
@@ -42,6 +44,7 @@ class LegacyDAVACL extends DavAclPlugin {
 		return "principals/$name";
 	}
 
+	#[\Override]
 	public function propFind(PropFind $propFind, INode $node) {
 		/* Overload current-user-principal */
 		$propFind->handle('{DAV:}current-user-principal', function () {

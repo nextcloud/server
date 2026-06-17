@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP\Tests;
 
 use OCA\User_LDAP\Access;
@@ -18,10 +19,10 @@ use Test\TestCase;
 /**
  * Class Test_Wizard
  *
- * @group DB
  *
  * @package OCA\User_LDAP\Tests
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class WizardTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();

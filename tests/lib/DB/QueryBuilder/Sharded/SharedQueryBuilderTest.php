@@ -19,21 +19,21 @@ use OCP\IDBConnection;
 use OCP\Server;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class SharedQueryBuilderTest extends TestCase {
 	private IDBConnection $connection;
 	private AutoIncrementHandler $autoIncrementHandler;
 
+	#[\Override]
 	protected function setUp(): void {
+		parent::setUp();
+
 		if (PHP_INT_SIZE < 8) {
 			$this->markTestSkipped('Test requires 64bit');
 		}
 		$this->connection = Server::get(IDBConnection::class);
 		$this->autoIncrementHandler = Server::get(AutoIncrementHandler::class);
 	}
-
 
 	private function getQueryBuilder(string $table, string $shardColumn, string $primaryColumn, array $companionTables = []): ShardedQueryBuilder {
 		return new ShardedQueryBuilder(
@@ -66,6 +66,7 @@ class SharedQueryBuilderTest extends TestCase {
 		$this->assertEquals([], $query->getShardKeys());
 	}
 
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testValidateWithShardKey(): void {
 		$query = $this->getQueryBuilder('filecache', 'storage', 'fileid');
 		$query->select('fileid', 'path')
@@ -73,9 +74,9 @@ class SharedQueryBuilderTest extends TestCase {
 			->where($query->expr()->eq('storage', $query->createNamedParameter(10)));
 
 		$query->validate();
-		$this->assertTrue(true);
 	}
 
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testValidateWithPrimaryKey(): void {
 		$query = $this->getQueryBuilder('filecache', 'storage', 'fileid');
 		$query->select('fileid', 'path')
@@ -83,7 +84,6 @@ class SharedQueryBuilderTest extends TestCase {
 			->where($query->expr()->in('fileid', $query->createNamedParameter([10, 11], IQueryBuilder::PARAM_INT)));
 
 		$query->validate();
-		$this->assertTrue(true);
 	}
 
 	public function testValidateWithNoKey(): void {
@@ -97,6 +97,7 @@ class SharedQueryBuilderTest extends TestCase {
 		$this->fail('exception expected');
 	}
 
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testValidateNonSharedTable(): void {
 		$query = $this->getQueryBuilder('filecache', 'storage', 'fileid');
 		$query->select('configvalue')
@@ -104,7 +105,6 @@ class SharedQueryBuilderTest extends TestCase {
 			->where($query->expr()->eq('configkey', $query->createNamedParameter('test')));
 
 		$query->validate();
-		$this->assertTrue(true);
 	}
 
 	public function testGetShardKeyMultipleSingleParam(): void {

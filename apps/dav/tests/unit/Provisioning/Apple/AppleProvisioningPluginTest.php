@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\Provisioning\Apple;
 
 use OCA\DAV\Provisioning\Apple\AppleProvisioningPlugin;
@@ -148,7 +149,7 @@ class AppleProvisioningPluginTest extends TestCase {
 			->with(200);
 
 		$calls = [
-			['Content-Disposition', 'attachment; filename="userName-apple-provisioning.mobileconfig"'],
+			['Content-Disposition', 'attachment; filename=userName-apple-provisioning.mobileconfig'],
 			['Content-Type', 'application/xml; charset=utf-8'],
 		];
 		$this->sabreResponse->expects($this->exactly(2))

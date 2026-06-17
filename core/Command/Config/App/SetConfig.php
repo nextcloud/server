@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Command\Config\App;
 
 use OC\AppConfig;
@@ -19,6 +20,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 
 class SetConfig extends Base {
+	#[\Override]
 	protected function configure() {
 		parent::configure();
 
@@ -61,6 +63,12 @@ class SetConfig extends Base {
 				'Set value as sensitive',
 			)
 			->addOption(
+				'internal',
+				null,
+				InputOption::VALUE_NONE,
+				'Confirm the edit of an internal value',
+			)
+			->addOption(
 				'update-only',
 				null,
 				InputOption::VALUE_NONE,
@@ -69,6 +77,7 @@ class SetConfig extends Base {
 		;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$appName = $input->getArgument('app');
 		$configName = $input->getArgument('name');
@@ -157,6 +166,12 @@ class SetConfig extends Base {
 				}
 			} catch (AppConfigUnknownKeyException) {
 				$sensitive = $sensitive ?? false;
+			}
+
+			if (!$input->getOption('internal') && ($this->appConfig->getKeyDetails($appName, $configName)['internal'] ?? false)) {
+				$output->writeln('<error>Config key is set as INTERNAL and modifying it might induce strange behavior or break user experience.</error>');
+				$output->writeln('please use option <comment>--internal</comment> to confirm your action');
+				return self::FAILURE;
 			}
 
 			$value = (string)$input->getOption('value');

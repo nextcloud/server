@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Tests;
 
 use OC\KnownUser\KnownUserService;
@@ -18,12 +19,11 @@ use OCP\Files\Mount\IMountManager;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDateTimeZone;
+use OCP\IDBConnection;
 use OCP\IGroupManager;
-use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
-use OCP\Mail\IMailer;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 use OCP\Share\IProviderFactory;
@@ -31,19 +31,17 @@ use Psr\Log\LoggerInterface;
 
 /**
  * Class CapabilitiesTest
- *
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class CapabilitiesTest extends \Test\TestCase {
 
 	/**
 	 * Test for the general part in each return statement and assert.
 	 * Strip of the general part on the way.
 	 *
-	 * @param string[] $data Capabilities
-	 * @return string[]
+	 * @param array $data Capabilities
 	 */
-	private function getFilesSharingPart(array $data) {
+	private function getFilesSharingPart(array $data): array {
 		$this->assertArrayHasKey('files_sharing', $data);
 		return $data['files_sharing'];
 	}
@@ -54,9 +52,8 @@ class CapabilitiesTest extends \Test\TestCase {
 	 * levels in the array
 	 *
 	 * @param (string[])[] $map Map of arguments to return types for the getAppValue function in the mock
-	 * @return string[]
 	 */
-	private function getResults(array $map, array $typedMap = [], bool $federationEnabled = true) {
+	private function getResults(array $map, array $typedMap = [], bool $federationEnabled = true): array {
 		$config = $this->getMockBuilder(IConfig::class)->disableOriginalConstructor()->getMock();
 		$appManager = $this->getMockBuilder(IAppManager::class)->disableOriginalConstructor()->getMock();
 		$config->method('getAppValue')->willReturnMap($map);
@@ -91,20 +88,17 @@ class CapabilitiesTest extends \Test\TestCase {
 			$this->createMock(IProviderFactory::class),
 			$this->createMock(IUserManager::class),
 			$this->createMock(IRootFolder::class),
-			$this->createMock(IMailer::class),
-			$this->createMock(IURLGenerator::class),
-			$this->createMock(\OC_Defaults::class),
 			$this->createMock(IEventDispatcher::class),
 			$this->createMock(IUserSession::class),
 			$this->createMock(KnownUserService::class),
 			$this->createMock(ShareDisableChecker::class),
 			$this->createMock(IDateTimeZone::class),
 			$appConfig,
+			$this->createMock(IDBConnection::class),
 		);
 
 		$cap = new Capabilities($config, $appConfig, $shareManager, $appManager);
-		$result = $this->getFilesSharingPart($cap->getCapabilities());
-		return $result;
+		return $this->getFilesSharingPart($cap->getCapabilities());
 	}
 
 	public function testEnabledSharingAPI(): void {

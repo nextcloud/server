@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Tests\Backend;
 
 use OCA\Files_External\Lib\Backend\Backend;
@@ -41,7 +42,7 @@ class BackendTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('validateStorageProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'validateStorageProvider')]
 	public function testValidateStorage(bool $expectedSuccess, bool $definitionSuccess): void {
 		$backend = $this->getMockBuilder(Backend::class)
 			->onlyMethods(['validateStorageDefinition'])

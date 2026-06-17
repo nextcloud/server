@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\AppFramework\Http;
 
 use OC\Streamer;
@@ -16,8 +17,8 @@ use OCP\IRequest;
  * Public library to send several files in one zip archive.
  *
  * @since 15.0.0
- * @template S of Http::STATUS_*
- * @template H of array<string, mixed>
+ * @template-covariant S of Http::STATUS_*
+ * @template-covariant H of array<string, mixed>
  * @template-extends Response<Http::STATUS_*, array<string, mixed>>
  */
 class ZipResponse extends Response implements ICallbackResponse {
@@ -58,6 +59,7 @@ class ZipResponse extends Response implements ICallbackResponse {
 	/**
 	 * @since 15.0.0
 	 */
+	#[\Override]
 	public function callback(IOutput $output) {
 		$size = 0;
 		$files = count($this->resources);

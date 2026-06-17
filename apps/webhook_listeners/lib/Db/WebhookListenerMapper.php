@@ -82,8 +82,9 @@ class WebhookListenerMapper extends QBMapper {
 		AuthMethod $authMethod,
 		#[\SensitiveParameter]
 		?array $authData,
+		?array $tokenNeeded = [],
 	): WebhookListener {
-		/* Remove any superfluous antislash */
+		/* Remove any superfluous backslash */
 		$event = ltrim($event, '\\');
 		if (!class_exists($event) || !is_a($event, IWebhookCompatibleEvent::class, true)) {
 			throw new \UnexpectedValueException("$event is not an event class compatible with webhooks");
@@ -99,6 +100,7 @@ class WebhookListenerMapper extends QBMapper {
 				'userIdFilter' => $userIdFilter ?? '',
 				'headers' => $headers,
 				'authMethod' => $authMethod->value,
+				'tokenNeeded' => $tokenNeeded ?? [],
 			]
 		);
 		$webhookListener->setAuthDataClear($authData);
@@ -122,8 +124,9 @@ class WebhookListenerMapper extends QBMapper {
 		AuthMethod $authMethod,
 		#[\SensitiveParameter]
 		?array $authData,
+		?array $tokenNeeded = [],
 	): WebhookListener {
-		/* Remove any superfluous antislash */
+		/* Remove any superfluous backslash */
 		$event = ltrim($event, '\\');
 		if (!class_exists($event) || !is_a($event, IWebhookCompatibleEvent::class, true)) {
 			throw new \UnexpectedValueException("$event is not an event class compatible with webhooks");
@@ -140,6 +143,7 @@ class WebhookListenerMapper extends QBMapper {
 				'userIdFilter' => $userIdFilter ?? '',
 				'headers' => $headers,
 				'authMethod' => $authMethod->value,
+				'tokenNeeded' => $tokenNeeded ?? [],
 			]
 		);
 		$webhookListener->setAuthDataClear($authData);
@@ -226,7 +230,6 @@ class WebhookListenerMapper extends QBMapper {
 		$qb->select('*')
 			->from($this->getTableName())
 			->where($qb->expr()->eq('event', $qb->createNamedParameter($event, IQueryBuilder::PARAM_STR)));
-
 
 		if ($userId === '' || $userId === null) {
 			$qb->andWhere($qb->expr()->emptyString('user_id_filter'));

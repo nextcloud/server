@@ -4,17 +4,18 @@
  */
 
 import type { ShareType } from '@nextcloud/sharing'
-import type { ShareAttribute } from '../sharing'
-import { isFileRequest } from '../services/SharingService'
+import type { ShareAttribute } from '../sharing.d.ts'
+
+import logger from '../services/logger.ts'
+import { isFileRequest } from '../services/SharingService.ts'
 
 export default class Share {
-
 	_share
 
 	/**
 	 * Create the share object
 	 *
-	 * @param {object} ocsData ocs request response
+	 * @param ocsData ocs request response
 	 */
 	constructor(ocsData) {
 		if (ocsData.ocs && ocsData.ocs.data && ocsData.ocs.data[0]) {
@@ -32,11 +33,15 @@ export default class Share {
 		if (ocsData.attributes && typeof ocsData.attributes === 'string') {
 			try {
 				ocsData.attributes = JSON.parse(ocsData.attributes)
-			} catch (e) {
-				console.warn('Could not parse share attributes returned by server', ocsData.attributes)
+			} catch {
+				logger.warn('Could not parse share attributes returned by server', ocsData.attributes)
 			}
 		}
 		ocsData.attributes = ocsData.attributes ?? []
+
+		// Pre-declared so Vue 2 makes newPassword reactive at observation time,
+		// avoiding $set's property-addition path which races with async setters.
+		ocsData.newPassword = ocsData.newPassword ?? undefined
 
 		// store state
 		this._share = ocsData
@@ -49,7 +54,7 @@ export default class Share {
 	 * inject its watchers into the #share
 	 * state and make the whole class reactive
 	 *
-	 * @return {object} the share raw state
+	 * @return the share raw state
 	 */
 	get state() {
 		return this._share
@@ -174,7 +179,8 @@ export default class Share {
 
 	/**
 	 * Get the expiration date
-	 * @return {string} date with YYYY-MM-DD format
+	 *
+	 * @return date with YYYY-MM-DD format
 	 */
 	get expireDate(): string {
 		return this._share.expiration
@@ -182,7 +188,8 @@ export default class Share {
 
 	/**
 	 * Set the expiration date
-	 * @param {string} date the share expiration date with YYYY-MM-DD format
+	 *
+	 * @param date the share expiration date with YYYY-MM-DD format
 	 */
 	set expireDate(date: string) {
 		this._share.expiration = date
@@ -267,7 +274,7 @@ export default class Share {
 	/**
 	 * Password protection of the share
 	 */
-	get password():string {
+	get password(): string {
 		return this._share.password
 	}
 
@@ -279,8 +286,21 @@ export default class Share {
 	}
 
 	/**
+	 * Unsaved password (set during share creation or editing).
+	 * Delegates to _share so reads/writes go through the reactive state.
+	 */
+	get newPassword(): string | undefined {
+		return this._share.newPassword
+	}
+
+	set newPassword(value: string | undefined) {
+		this._share.newPassword = value
+	}
+
+	/**
 	 * Password expiration time
-	 * @return {string} date with YYYY-MM-DD format
+	 *
+	 * @return date with YYYY-MM-DD format
 	 */
 	get passwordExpirationTime(): string {
 		return this._share.password_expiration_time
@@ -288,7 +308,8 @@ export default class Share {
 
 	/**
 	 * Password expiration time
-	 * @param {string} passwordExpirationTime date with YYYY-MM-DD format
+	 *
+	 * @param passwordExpirationTime date with YYYY-MM-DD format
 	 */
 	set passwordExpirationTime(passwordExpirationTime: string) {
 		this._share.password_expiration_time = passwordExpirationTime
@@ -304,7 +325,7 @@ export default class Share {
 	/**
 	 * Password protection by Talk of the share
 	 *
-	 * @param {boolean} sendPasswordByTalk whether to send the password by Talk or not
+	 * @param sendPasswordByTalk whether to send the password by Talk or not
 	 */
 	set sendPasswordByTalk(sendPasswordByTalk: boolean) {
 		this._share.send_password_by_talk = sendPasswordByTalk
@@ -320,7 +341,8 @@ export default class Share {
 
 	/**
 	 * Return the item type: file or folder
-	 * @return {string} 'folder' | 'file'
+	 *
+	 * @return 'folder' | 'file'
 	 */
 	get itemType(): string {
 		return this._share.item_type
@@ -492,5 +514,4 @@ export default class Share {
 	get isTrustedServer(): boolean {
 		return !!this._share.is_trusted_server
 	}
-
 }

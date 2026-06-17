@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\FederatedFileSharing\Controller;
 
 use OCA\DAV\Connector\Sabre\PublicAuth;
@@ -18,7 +19,6 @@ use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\JSONResponse;
-use OCP\Constants;
 use OCP\Federation\ICloudIdManager;
 use OCP\HintException;
 use OCP\Http\Client\IClientService;
@@ -90,9 +90,15 @@ class MountPublicLinkController extends Controller {
 		}
 
 		// make sure that user is authenticated in case of a password protected link
-		$storedPassword = $share->getPassword();
-		$authenticated = $this->session->get(PublicAuth::DAV_AUTHENTICATED) === $share->getId()
+		$allowedShareIds = $this->session->get(PublicAuth::DAV_AUTHENTICATED);
+		if (!is_array($allowedShareIds)) {
+			$allowedShareIds = [];
+		}
+
+		$authenticated = in_array($share->getId(), $allowedShareIds)
 			|| $this->shareManager->checkPassword($share, $password);
+
+		$storedPassword = $share->getPassword();
 		if (!empty($storedPassword) && !$authenticated) {
 			$response = new JSONResponse(
 				['message' => 'No permission to access the share'],
@@ -102,9 +108,9 @@ class MountPublicLinkController extends Controller {
 			return $response;
 		}
 
-		if (($share->getPermissions() & Constants::PERMISSION_READ) === 0) {
+		if (!$share->canDownload()) {
 			$response = new JSONResponse(
-				['message' => 'Mounting file drop not supported'],
+				['message' => 'Mounting download restricted share is not allowed'],
 				Http::STATUS_BAD_REQUEST
 			);
 			$response->throttle();

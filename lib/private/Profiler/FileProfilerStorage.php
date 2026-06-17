@@ -8,25 +8,40 @@ declare(strict_types = 1);
 
 namespace OC\Profiler;
 
+use OC\DB\DbDataCollector;
+use OC\Memcache\ProfilerWrapperCache;
+use OCA\Profiler\DataCollector\EventLoggerDataProvider;
+use OCA\Profiler\DataCollector\HttpDataCollector;
+use OCA\Profiler\DataCollector\MemoryDataCollector;
+use OCA\User_LDAP\DataCollector\LdapDataCollector;
 use OCP\Profiler\IProfile;
 
 /**
  * Storage for profiler using files.
  */
 class FileProfilerStorage {
-	// Folder where profiler data are stored.
-	private string $folder;
+	/** @psalm-suppress UndefinedClass */
+	public const allowedClasses = [
+		EventLoggerDataProvider::class,
+		HttpDataCollector::class,
+		MemoryDataCollector::class,
+		LdapDataCollector::class,
+		ProfilerWrapperCache::class,
+		RoutingDataCollector::class,
+		DbDataCollector::class,
+	];
 
 	/**
 	 * Constructs the file storage using a "dsn-like" path.
 	 *
 	 * Example : "file:/path/to/the/storage/folder"
 	 *
+	 * @param string $folder Folder where profiler data are stored.
 	 * @throws \RuntimeException
 	 */
-	public function __construct(string $folder) {
-		$this->folder = $folder;
-
+	public function __construct(
+		private string $folder,
+	) {
 		if (!is_dir($this->folder) && @mkdir($this->folder, 0777, true) === false && !is_dir($this->folder)) {
 			throw new \RuntimeException(sprintf('Unable to create the storage directory (%s).', $this->folder));
 		}
@@ -48,15 +63,17 @@ class FileProfilerStorage {
 			[$csvToken, $csvMethod, $csvUrl, $csvTime, $csvParent, $csvStatusCode] = $values;
 			$csvTime = (int)$csvTime;
 
-			if ($url && !str_contains($csvUrl, $url) || $method && !str_contains($csvMethod, $method) || $statusCode && !str_contains($csvStatusCode, $statusCode)) {
+			if (($url && !str_contains($csvUrl, $url))
+				|| ($method && !str_contains($csvMethod, $method))
+				|| ($statusCode && !str_contains($csvStatusCode, $statusCode))) {
 				continue;
 			}
 
-			if (!empty($start) && $csvTime < $start) {
+			if ($start !== null && $csvTime < $start) {
 				continue;
 			}
 
-			if (!empty($end) && $csvTime > $end) {
+			if ($end !== null && $csvTime > $end) {
 				continue;
 			}
 
@@ -95,11 +112,21 @@ class FileProfilerStorage {
 			return null;
 		}
 
-		if (\function_exists('gzcompress')) {
-			$file = 'compress.zlib://' . $file;
+		$h = fopen($file, 'r');
+		flock($h, \LOCK_SH);
+		$data = stream_get_contents($h);
+		flock($h, \LOCK_UN);
+		fclose($h);
+
+		if (\function_exists('gzdecode')) {
+			$data = @gzdecode($data) ?: $data;
 		}
 
-		return $this->createProfileFromData($token, unserialize(file_get_contents($file)));
+		if (!$data = unserialize($data, ['allowed_classes' => self::allowedClasses])) {
+			return null;
+		}
+
+		return $this->createProfileFromData($token, $data);
 	}
 
 	/**
@@ -137,14 +164,13 @@ class FileProfilerStorage {
 			'status_code' => $profile->getStatusCode(),
 		];
 
-		$context = stream_context_create();
+		$data = serialize($data);
 
-		if (\function_exists('gzcompress')) {
-			$file = 'compress.zlib://' . $file;
-			stream_context_set_option($context, 'zlib', 'level', 3);
+		if (\function_exists('gzencode')) {
+			$data = gzencode($data, 3);
 		}
 
-		if (file_put_contents($file, serialize($data), 0, $context) === false) {
+		if (file_put_contents($file, $data, \LOCK_EX) === false) {
 			return false;
 		}
 
@@ -154,18 +180,25 @@ class FileProfilerStorage {
 				return false;
 			}
 
-			fputcsv($file, [
+			fputcsv($file, array_map([$this, 'escapeFormulae'], [
 				$profile->getToken(),
 				$profile->getMethod(),
 				$profile->getUrl(),
 				$profile->getTime(),
 				$profile->getParentToken(),
 				$profile->getStatusCode(),
-			], escape: '');
+			]), escape: '');
 			fclose($file);
 		}
 
 		return true;
+	}
+
+	protected function escapeFormulae(?string $value): ?string {
+		if ($value !== null && preg_match('/^[=+\-@\t\r]/', $value)) {
+			return "'" . $value;
+		}
+		return $value;
 	}
 
 	/**
@@ -257,11 +290,21 @@ class FileProfilerStorage {
 				continue;
 			}
 
-			if (\function_exists('gzcompress')) {
-				$file = 'compress.zlib://' . $file;
+			$h = fopen($file, 'r');
+			flock($h, \LOCK_SH);
+			$data = stream_get_contents($h);
+			flock($h, \LOCK_UN);
+			fclose($h);
+
+			if (\function_exists('gzdecode')) {
+				$data = @gzdecode($data) ?: $data;
 			}
 
-			$profile->addChild($this->createProfileFromData($token, unserialize(file_get_contents($file)), $profile));
+			if (!$data = unserialize($data, ['allowed_classes' => self::allowedClasses])) {
+				continue;
+			}
+
+			$profile->addChild($this->createProfileFromData($token, $data, $profile));
 		}
 
 		return $profile;

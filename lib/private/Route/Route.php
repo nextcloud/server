@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Route;
 
 use OCP\Route\IRoute;
@@ -14,9 +15,10 @@ class Route extends SymfonyRoute implements IRoute {
 	/**
 	 * Specify the method when this route is to be used
 	 *
-	 * @param string $method HTTP method (uppercase)
+	 * @param string|array $method HTTP method
 	 * @return \OC\Route\Route
 	 */
+	#[\Override]
 	public function method($method) {
 		$this->setMethods($method);
 		return $this;
@@ -26,6 +28,7 @@ class Route extends SymfonyRoute implements IRoute {
 	 * Specify POST as the method to use with this route
 	 * @return \OC\Route\Route
 	 */
+	#[\Override]
 	public function post() {
 		$this->method('POST');
 		return $this;
@@ -35,6 +38,7 @@ class Route extends SymfonyRoute implements IRoute {
 	 * Specify GET as the method to use with this route
 	 * @return \OC\Route\Route
 	 */
+	#[\Override]
 	public function get() {
 		$this->method('GET');
 		return $this;
@@ -44,6 +48,7 @@ class Route extends SymfonyRoute implements IRoute {
 	 * Specify PUT as the method to use with this route
 	 * @return \OC\Route\Route
 	 */
+	#[\Override]
 	public function put() {
 		$this->method('PUT');
 		return $this;
@@ -53,6 +58,7 @@ class Route extends SymfonyRoute implements IRoute {
 	 * Specify DELETE as the method to use with this route
 	 * @return \OC\Route\Route
 	 */
+	#[\Override]
 	public function delete() {
 		$this->method('DELETE');
 		return $this;
@@ -62,6 +68,7 @@ class Route extends SymfonyRoute implements IRoute {
 	 * Specify PATCH as the method to use with this route
 	 * @return \OC\Route\Route
 	 */
+	#[\Override]
 	public function patch() {
 		$this->method('PATCH');
 		return $this;
@@ -73,6 +80,7 @@ class Route extends SymfonyRoute implements IRoute {
 	 * @param array $defaults The defaults
 	 * @return \OC\Route\Route
 	 */
+	#[\Override]
 	public function defaults($defaults) {
 		$action = $this->getDefault('action');
 		$this->setDefaults($defaults);
@@ -89,6 +97,7 @@ class Route extends SymfonyRoute implements IRoute {
 	 * @param array $requirements The requirements
 	 * @return \OC\Route\Route
 	 */
+	#[\Override]
 	public function requirements($requirements) {
 		$method = $this->getMethods();
 		$this->setRequirements($requirements);
@@ -111,6 +120,7 @@ class Route extends SymfonyRoute implements IRoute {
 	 * This function is called with $class set to a callable or
 	 * to the class with $function
 	 */
+	#[\Override]
 	public function action($class, $function = null) {
 		$action = [$class, $function];
 		if (is_null($function)) {
@@ -125,6 +135,7 @@ class Route extends SymfonyRoute implements IRoute {
 	 * it is called directly
 	 * @param string $file
 	 */
+	#[\Override]
 	public function actionInclude($file) {
 		$this->setDefault('file', $file);
 		return $this;

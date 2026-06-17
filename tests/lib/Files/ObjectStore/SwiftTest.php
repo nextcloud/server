@@ -13,13 +13,12 @@ use OCP\Files\ObjectStore\IObjectStore;
 use OCP\IConfig;
 use OCP\Server;
 
-/**
- * @group PRIMARY-swift
- */
+#[\PHPUnit\Framework\Attributes\Group('PRIMARY-swift')]
 class SwiftTest extends ObjectStoreTestCase {
 	/**
 	 * @return IObjectStore
 	 */
+	#[\Override]
 	protected function getInstance() {
 		$config = Server::get(IConfig::class)->getSystemValue('objectstore');
 		if (!is_array($config) || $config['class'] !== 'OC\\Files\\ObjectStore\\Swift') {
@@ -29,6 +28,7 @@ class SwiftTest extends ObjectStoreTestCase {
 		return new Swift($config['arguments']);
 	}
 
+	#[\Override]
 	public function testFseekSize(): void {
 		$this->markTestSkipped('Swift does not support seeking at the moment');
 	}

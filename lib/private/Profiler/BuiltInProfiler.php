@@ -11,6 +11,7 @@ namespace OC\Profiler;
 use DateTime;
 use OCP\IConfig;
 use OCP\IRequest;
+use OCP\Server;
 
 class BuiltInProfiler {
 	private \ExcimerProfiler $excimer;
@@ -29,7 +30,6 @@ class BuiltInProfiler {
 		$shouldProfileSingleRequest = $this->shouldProfileSingleRequest();
 		$shouldSample = $this->config->getSystemValueBool('profiling.sample') && !$shouldProfileSingleRequest;
 
-
 		if (!$shouldProfileSingleRequest && !$shouldSample) {
 			return;
 		}
@@ -37,7 +37,6 @@ class BuiltInProfiler {
 		$requestRate = $this->config->getSystemValue('profiling.request.rate', 0.001);
 		$sampleRate = $this->config->getSystemValue('profiling.sample.rate', 1.0);
 		$eventType = $this->config->getSystemValue('profiling.event_type', EXCIMER_REAL);
-
 
 		$this->excimer = new \ExcimerProfiler();
 		$this->excimer->setPeriod($shouldProfileSingleRequest ? $requestRate : $sampleRate);
@@ -64,7 +63,7 @@ class BuiltInProfiler {
 			return;
 		}
 
-		$request = \OCP\Server::get(IRequest::class);
+		$request = Server::get(IRequest::class);
 		$data = $this->excimer->getLog()->getSpeedscopeData();
 
 		$data['profiles'][0]['name'] = $request->getMethod() . ' ' . $request->getRequestUri() . ' ' . $request->getId();

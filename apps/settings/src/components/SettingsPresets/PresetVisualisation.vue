@@ -4,15 +4,12 @@
 -->
 
 <script setup lang="ts">
-import { computed } from 'vue'
-
-import { t } from '@nextcloud/l10n'
-import { loadState } from '@nextcloud/initial-state'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
-
 import type { PresetAppConfig, PresetAppConfigs, PresetAppsStates, PresetIds } from './models.ts'
 
-const applicationsStates = loadState('settings', 'settings-presets-apps', {}) as PresetAppsStates
+import { loadState } from '@nextcloud/initial-state'
+import { t } from '@nextcloud/l10n'
+import { computed } from 'vue'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 
 const props = defineProps({
 	presets: {
@@ -25,11 +22,13 @@ const props = defineProps({
 	},
 })
 
+const applicationsStates = loadState('settings', 'settings-presets-apps', {}) as PresetAppsStates
+
 const appsConfigPresets = Object.entries(props.presets)
-	.map(([appId, presets]) => [appId, presets.filter(configPreset => configPreset.config === 'app')])
+	.map(([appId, presets]) => [appId, presets.filter((configPreset) => configPreset.config === 'app')])
 	.filter(([, presets]) => presets.length > 0) as [string, PresetAppConfig[]][]
 const userConfigPresets = Object.entries(props.presets)
-	.map(([appId, presets]) => [appId, presets.filter(configPreset => configPreset.config === 'user')])
+	.map(([appId, presets]) => [appId, presets.filter((configPreset) => configPreset.config === 'user')])
 	.filter(([, presets]) => presets.length > 0) as [string, PresetAppConfig[]][]
 
 const hasApplicationsPreset = computed(() => applicationsStates[props.selectedPreset].enabled.length > 0 || applicationsStates[props.selectedPreset].disabled.length > 0)
@@ -46,7 +45,8 @@ const hasApplicationsPreset = computed(() => applicationsStates[props.selectedPr
 				{{ t('settings', 'Applications config') }}
 			</h4>
 			<template v-for="[appId, appConfigPresets] in appsConfigPresets">
-				<div v-for="configPreset in appConfigPresets"
+				<div
+					v-for="configPreset in appConfigPresets"
 					:key="appId + '-' + configPreset.entry.key"
 					class="presets__config-list__item">
 					<span>
@@ -54,7 +54,8 @@ const hasApplicationsPreset = computed(() => applicationsStates[props.selectedPr
 						<code class="presets__config-list__item__key">{{ configPreset.entry.key }}</code>
 					</span>
 					<span>
-						<NcCheckboxRadioSwitch v-if="configPreset.entry.type === 'BOOL'"
+						<NcCheckboxRadioSwitch
+							v-if="configPreset.entry.type === 'BOOL'"
 							:model-value="configPreset.defaults[selectedPreset] === '1'"
 							:disabled="true" />
 						<code v-else>{{ configPreset.defaults[selectedPreset] }}</code>
@@ -68,7 +69,8 @@ const hasApplicationsPreset = computed(() => applicationsStates[props.selectedPr
 				{{ t('settings', 'User config') }}
 			</h4>
 			<template v-for="[appId, userPresets] in userConfigPresets">
-				<div v-for="configPreset in userPresets"
+				<div
+					v-for="configPreset in userPresets"
 					:key="appId + '-' + configPreset.entry.key"
 					class="presets__config-list__item">
 					<span>
@@ -76,7 +78,8 @@ const hasApplicationsPreset = computed(() => applicationsStates[props.selectedPr
 						<code class="presets__config-list__item__key">{{ configPreset.entry.key }}</code>
 					</span>
 					<span>
-						<NcCheckboxRadioSwitch v-if="configPreset.entry.type === 'BOOL'"
+						<NcCheckboxRadioSwitch
+							v-if="configPreset.entry.type === 'BOOL'"
 							:model-value="configPreset.defaults[selectedPreset] === '1'"
 							:disabled="true" />
 						<code v-else>{{ configPreset.defaults[selectedPreset] }}</code>
@@ -96,7 +99,8 @@ const hasApplicationsPreset = computed(() => applicationsStates[props.selectedPr
 						{{ t('settings', 'Enabled applications') }}
 					</h4>
 					<ul>
-						<li v-for="applicationId in applicationsStates[selectedPreset].enabled"
+						<li
+							v-for="applicationId in applicationsStates[selectedPreset].enabled"
 							:key="applicationId">
 							{{ applicationId }}
 						</li>
@@ -107,7 +111,8 @@ const hasApplicationsPreset = computed(() => applicationsStates[props.selectedPr
 						{{ t('settings', 'Disabled applications') }}
 					</h4>
 					<ul>
-						<li v-for="applicationId in applicationsStates[selectedPreset].disabled"
+						<li
+							v-for="applicationId in applicationsStates[selectedPreset].disabled"
 							:key="applicationId">
 							{{ applicationId }}
 						</li>

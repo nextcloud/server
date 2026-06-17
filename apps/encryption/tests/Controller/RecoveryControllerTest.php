@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Encryption\Tests\Controller;
 
 use OCA\Encryption\Controller\RecoveryController;
@@ -16,6 +17,7 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class RecoveryControllerTest extends TestCase {
@@ -28,11 +30,11 @@ class RecoveryControllerTest extends TestCase {
 
 	public static function adminRecoveryProvider(): array {
 		return [
-			['test', 'test', '1', 'Recovery key successfully enabled', Http::STATUS_OK],
-			['', 'test', '1', 'Missing recovery key password', Http::STATUS_BAD_REQUEST],
-			['test', '', '1', 'Please repeat the recovery key password', Http::STATUS_BAD_REQUEST],
-			['test', 'something that doesn\'t match', '1', 'Repeated recovery key password does not match the provided recovery key password', Http::STATUS_BAD_REQUEST],
-			['test', 'test', '0', 'Recovery key successfully disabled', Http::STATUS_OK],
+			['test', 'test', true, 'Recovery key successfully enabled', Http::STATUS_OK],
+			['', 'test', true, 'Missing recovery key password', Http::STATUS_BAD_REQUEST],
+			['test', '', true, 'Please repeat the recovery key password', Http::STATUS_BAD_REQUEST],
+			['test', 'something that doesn\'t match', true, 'Repeated recovery key password does not match the provided recovery key password', Http::STATUS_BAD_REQUEST],
+			['test', 'test', false, 'Recovery key successfully disabled', Http::STATUS_OK],
 		];
 	}
 
@@ -43,7 +45,7 @@ class RecoveryControllerTest extends TestCase {
 	 * @param $expectedMessage
 	 * @param $expectedStatus
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('adminRecoveryProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'adminRecoveryProvider')]
 	public function testAdminRecovery($recoveryPassword, $passConfirm, $enableRecovery, $expectedMessage, $expectedStatus): void {
 		$this->recoveryMock->expects($this->any())
 			->method('enableAdminRecovery')
@@ -56,7 +58,6 @@ class RecoveryControllerTest extends TestCase {
 		$response = $this->controller->adminRecovery($recoveryPassword,
 			$passConfirm,
 			$enableRecovery);
-
 
 		$this->assertEquals($expectedMessage, $response->getData()['data']['message']);
 		$this->assertEquals($expectedStatus, $response->getStatus());
@@ -79,7 +80,7 @@ class RecoveryControllerTest extends TestCase {
 	 * @param $expectedMessage
 	 * @param $expectedStatus
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('changeRecoveryPasswordProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'changeRecoveryPasswordProvider')]
 	public function testChangeRecoveryPassword($password, $confirmPassword, $oldPassword, $expectedMessage, $expectedStatus): void {
 		$this->recoveryMock->expects($this->any())
 			->method('changeRecoveryKeyPassword')
@@ -99,26 +100,20 @@ class RecoveryControllerTest extends TestCase {
 
 	public static function userSetRecoveryProvider(): array {
 		return [
-			['1', 'Recovery Key enabled', Http::STATUS_OK],
-			['0', 'Could not enable the recovery key, please try again or contact your administrator', Http::STATUS_BAD_REQUEST]
+			[true, 'Recovery Key enabled', Http::STATUS_OK],
+			[false, 'Could not enable the recovery key, please try again or contact your administrator', Http::STATUS_BAD_REQUEST]
 		];
 	}
 
-	/**
-	 * @param $enableRecovery
-	 * @param $expectedMessage
-	 * @param $expectedStatus
-	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('userSetRecoveryProvider')]
-	public function testUserSetRecovery($enableRecovery, $expectedMessage, $expectedStatus): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'userSetRecoveryProvider')]
+	public function testUserSetRecovery(bool $enableRecovery, string $expectedMessage, int $expectedStatus): void {
 		$this->recoveryMock->expects($this->any())
 			->method('setRecoveryForUser')
 			->with($enableRecovery)
 			->willReturnMap([
-				['1', true],
-				['0', false]
+				[true, true],
+				[false, false]
 			]);
-
 
 		$response = $this->controller->userSetRecovery($enableRecovery);
 
@@ -150,10 +145,12 @@ class RecoveryControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->controller = new RecoveryController('encryption',
+		$this->controller = new RecoveryController(
+			'encryption',
 			$this->requestMock,
-			$this->configMock,
 			$this->l10nMock,
-			$this->recoveryMock);
+			$this->recoveryMock,
+			$this->createMock(LoggerInterface::class),
+		);
 	}
 }

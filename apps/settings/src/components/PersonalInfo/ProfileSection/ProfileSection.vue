@@ -9,7 +9,8 @@
 
 		<ProfileCheckbox :profile-enabled.sync="profileEnabled" />
 
-		<ProfilePreviewCard :organisation="organisation"
+		<ProfilePreviewCard
+			:organisation="organisation"
 			:display-name="displayName"
 			:profile-enabled="profileEnabled"
 			:user-id="userId" />
@@ -19,14 +20,12 @@
 </template>
 
 <script>
-import { loadState } from '@nextcloud/initial-state'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
-
-import EditProfileAnchorLink from './EditProfileAnchorLink.vue'
+import { loadState } from '@nextcloud/initial-state'
 import HeaderBar from '../shared/HeaderBar.vue'
+import EditProfileAnchorLink from './EditProfileAnchorLink.vue'
 import ProfileCheckbox from './ProfileCheckbox.vue'
 import ProfilePreviewCard from './ProfilePreviewCard.vue'
-
 import { ACCOUNT_PROPERTY_READABLE_ENUM } from '../../../constants/AccountPropertyConstants.js'
 
 const {

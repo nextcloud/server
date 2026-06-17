@@ -5,10 +5,12 @@ declare(strict_types = 1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Command\AdminDelegation;
 
 use OC\Core\Command\Base;
 use OCA\Settings\Service\AuthorizedGroupService;
+use OCA\Settings\Service\ConflictException;
 use OCP\IGroupManager;
 use OCP\Settings\IDelegatedSettings;
 use OCP\Settings\IManager;
@@ -26,6 +28,7 @@ class Add extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('admin-delegation:add')
@@ -36,7 +39,8 @@ class Add extends Base {
 		;
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output): int {
+	#[\Override]
+	public function execute(InputInterface $input, OutputInterface $output): int {
 		$io = new SymfonyStyle($input, $output);
 		$settingClass = $input->getArgument('settingClass');
 		if (!in_array(IDelegatedSettings::class, (array)class_implements($settingClass), true)) {
@@ -50,7 +54,12 @@ class Add extends Base {
 			return 3;
 		}
 
-		$this->authorizedGroupService->create($groupId, $settingClass);
+		try {
+			$this->authorizedGroupService->create($groupId, $settingClass);
+		} catch (ConflictException) {
+			$io->warning('Administration of ' . $settingClass . ' is already delegated to ' . $groupId . '.');
+			return 4;
+		}
 
 		$io->success('Administration of ' . $settingClass . ' delegated to ' . $groupId . '.');
 

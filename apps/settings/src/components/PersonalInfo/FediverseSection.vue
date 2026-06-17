@@ -4,7 +4,8 @@
 -->
 
 <template>
-	<AccountPropertySection v-bind.sync="value"
+	<AccountPropertySection
+		v-bind.sync="value"
 		:readable="readable"
 		:on-validate="onValidate"
 		:placeholder="t('settings', 'Your handle')" />
@@ -12,12 +13,12 @@
 
 <script setup lang="ts">
 import type { AccountProperties } from '../../constants/AccountPropertyConstants.js'
+
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import { ref } from 'vue'
-import { NAME_READABLE_ENUM } from '../../constants/AccountPropertyConstants.js'
-
 import AccountPropertySection from './shared/AccountPropertySection.vue'
+import { NAME_READABLE_ENUM } from '../../constants/AccountPropertyConstants.js'
 
 const { fediverse } = loadState<AccountProperties>('settings', 'personalInfoParameters')
 
@@ -26,6 +27,7 @@ const readable = NAME_READABLE_ENUM[fediverse.name]
 
 /**
  * Validate a fediverse handle
+ *
  * @param text The potential fediverse handle
  */
 function onValidate(text: string): boolean {

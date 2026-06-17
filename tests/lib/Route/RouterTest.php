@@ -21,14 +21,15 @@ use Test\TestCase;
 /**
  * Class RouterTest
  *
- * @group RoutingWeirdness
  *
  * @package Test\Route
  */
+#[\PHPUnit\Framework\Attributes\Group('RoutingWeirdness')]
 class RouterTest extends TestCase {
 	private Router $router;
 	private IAppManager&MockObject $appManager;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		/** @var LoggerInterface $logger */

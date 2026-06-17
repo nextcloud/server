@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\KnownUser\KnownUserService;
@@ -78,7 +79,7 @@ class PrincipalTest extends TestCase {
 	}
 
 	public function testGetPrincipalsByPrefixWithUsers(): void {
-		$fooUser = $this->createMock(User::class);
+		$fooUser = $this->createMock(IUser::class);
 		$fooUser
 			->expects($this->once())
 			->method('getUID')
@@ -91,7 +92,7 @@ class PrincipalTest extends TestCase {
 			->expects($this->once())
 			->method('getSystemEMailAddress')
 			->willReturn('');
-		$barUser = $this->createMock(User::class);
+		$barUser = $this->createMock(IUser::class);
 		$barUser
 			->expects($this->once())
 			->method('getUID')
@@ -100,6 +101,10 @@ class PrincipalTest extends TestCase {
 			->expects($this->once())
 			->method('getSystemEMailAddress')
 			->willReturn('bar@nextcloud.com');
+		$barUser
+			->expects($this->once())
+			->method('getDisplayName')
+			->willReturn('bar');
 		$this->userManager
 			->expects($this->once())
 			->method('search')
@@ -183,10 +188,14 @@ class PrincipalTest extends TestCase {
 	}
 
 	public function testGetPrincipalsByPathWithoutMail(): void {
-		$fooUser = $this->createMock(User::class);
+		$fooUser = $this->createMock(IUser::class);
 		$fooUser
 			->expects($this->once())
 			->method('getUID')
+			->willReturn('foo');
+		$fooUser
+			->expects($this->once())
+			->method('getDisplayName')
 			->willReturn('foo');
 		$this->userManager
 			->expects($this->once())
@@ -211,7 +220,7 @@ class PrincipalTest extends TestCase {
 	}
 
 	public function testGetPrincipalsByPathWithMail(): void {
-		$fooUser = $this->createMock(User::class);
+		$fooUser = $this->createMock(IUser::class);
 		$fooUser
 			->expects($this->once())
 			->method('getSystemEMailAddress')
@@ -219,6 +228,10 @@ class PrincipalTest extends TestCase {
 		$fooUser
 			->expects($this->once())
 			->method('getUID')
+			->willReturn('foo');
+		$fooUser
+			->expects($this->once())
+			->method('getDisplayName')
 			->willReturn('foo');
 		$this->userManager
 			->expects($this->once())
@@ -258,7 +271,6 @@ class PrincipalTest extends TestCase {
 		$response = $this->connector->getGroupMemberSet('principals/users/foo');
 		$this->assertSame([], $response);
 	}
-
 
 	public function testGetGroupMemberSetEmpty(): void {
 		$this->expectException(Exception::class);
@@ -384,7 +396,6 @@ class PrincipalTest extends TestCase {
 		$this->assertSame($expectedResponse, $response);
 	}
 
-
 	public function testGetGroupMembershipEmpty(): void {
 		$this->expectException(Exception::class);
 		$this->expectExceptionMessage('Principal not found');
@@ -397,7 +408,6 @@ class PrincipalTest extends TestCase {
 
 		$this->connector->getGroupMembership('principals/users/foo');
 	}
-
 
 	public function testSetGroupMembership(): void {
 		$this->expectException(Exception::class);
@@ -463,7 +473,7 @@ class PrincipalTest extends TestCase {
 			['{http://sabredav.org/ns}email-address' => 'foo']));
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('searchPrincipalsDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'searchPrincipalsDataProvider')]
 	public function testSearchPrincipals(bool $sharingEnabled, bool $groupsOnly, string $test, array $result): void {
 		$this->shareManager->expects($this->once())
 			->method('shareAPIEnabled')
@@ -531,7 +541,6 @@ class PrincipalTest extends TestCase {
 		$this->groupManager->expects($this->any())
 			->method('getUserGroupIds')
 			->willReturnMap($getUserGroupIdsReturnMap);
-
 
 		$this->assertEquals($result, $this->connector->searchPrincipals('principals/users',
 			['{http://sabredav.org/ns}email-address' => 'user@example.com',
@@ -699,7 +708,6 @@ class PrincipalTest extends TestCase {
 			->method('allowEnumerationFullMatch')
 			->willReturn(false);
 
-
 		$this->assertEquals([], $this->connector->searchPrincipals('principals/users',
 			['{http://sabredav.org/ns}email-address' => 'user2@foo.bar']));
 	}
@@ -734,7 +742,6 @@ class PrincipalTest extends TestCase {
 		$user4->method('getDisplayName')->willReturn('User 222');
 		$user4->method('getSystemEMailAddress')->willReturn('user2@foo.bar456');
 
-
 		$this->userSession->expects($this->once())
 			->method('getUser')
 			->willReturn($user2);
@@ -751,7 +758,6 @@ class PrincipalTest extends TestCase {
 			->method('searchDisplayName')
 			->with('User')
 			->willReturn([$user2, $user3, $user4]);
-
 
 		$this->assertEquals([
 			'principals/users/user2',
@@ -790,7 +796,6 @@ class PrincipalTest extends TestCase {
 		$user4->method('getDisplayName')->willReturn('User 222');
 		$user4->method('getSystemEMailAddress')->willReturn('user2@foo.bar456');
 
-
 		$this->userSession->expects($this->once())
 			->method('getUser')
 			->willReturn($user2);
@@ -808,7 +813,6 @@ class PrincipalTest extends TestCase {
 			->with('user')
 			->willReturn([$user2, $user3, $user4]);
 
-
 		$this->assertEquals([
 			'principals/users/user2',
 			'principals/users/user3'
@@ -824,7 +828,7 @@ class PrincipalTest extends TestCase {
 		$this->assertEquals(null, $this->connector->findByUri('mailto:user@foo.com', 'principals/users'));
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('findByUriWithGroupRestrictionDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'findByUriWithGroupRestrictionDataProvider')]
 	public function testFindByUriWithGroupRestriction(string $uri, string $email, ?string $expects): void {
 		$this->shareManager->expects($this->once())
 			->method('shareApiEnabled')
@@ -875,7 +879,7 @@ class PrincipalTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('findByUriWithoutGroupRestrictionDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'findByUriWithoutGroupRestrictionDataProvider')]
 	public function testFindByUriWithoutGroupRestriction(string $uri, string $email, string $expects): void {
 		$this->shareManager->expects($this->once())
 			->method('shareApiEnabled')

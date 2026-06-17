@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing;
 
 use OC\Files\Cache\FileAccess;
@@ -13,6 +14,7 @@ use OC\Files\Mount\MountPoint;
 use OCP\Constants;
 use OCP\Files\Folder;
 use OCP\Files\Mount\IMountManager;
+use OCP\Files\NotFoundException;
 use OCP\Server;
 use OCP\Share\IShare;
 
@@ -48,7 +50,17 @@ class Updater {
 			throw new \Exception('user folder has no owner');
 		}
 
-		$src = $userFolder->get($path);
+		try {
+			$src = $userFolder->get($path);
+		} catch (NotFoundException) {
+			return;
+		}
+
+		// if the share itself is being moved, we don't need to do anything,
+		// since incoming shares can't be moved into other shares (and thus also not out of shares)
+		if ($src->getMountPoint() instanceof SharedMount && $src->getInternalPath() === '') {
+			return;
+		}
 
 		$shareManager = Server::get(\OCP\Share\IManager::class);
 

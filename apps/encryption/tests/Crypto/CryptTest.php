@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Encryption\Tests\Crypto;
 
 use OCA\Encryption\Crypto\Crypt;
@@ -77,11 +78,10 @@ class CryptTest extends TestCase {
 		$this->assertSame('bar', $result['foo']);
 	}
 
-
 	/**
 	 * test generateHeader with valid key formats
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestGenerateHeader')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestGenerateHeader')]
 	public function testGenerateHeader($keyFormat, $expected): void {
 		$this->config->expects($this->once())
 			->method('getSystemValueString')
@@ -132,7 +132,7 @@ class CryptTest extends TestCase {
 	 * @param string $configValue
 	 * @param string $expected
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataProviderGetCipher')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataProviderGetCipher')]
 	public function testGetCipher($configValue, $expected): void {
 		$this->config->expects($this->once())
 			->method('getSystemValueString')
@@ -172,7 +172,7 @@ class CryptTest extends TestCase {
 		);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestSplitMetaData')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestSplitMetaData')]
 	public function testSplitMetaData($data, $expected): void {
 		$this->config->method('getSystemValueBool')
 			->with('encryption_skip_signature_check', false)
@@ -197,7 +197,7 @@ class CryptTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestHasSignature')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestHasSignature')]
 	public function testHasSignature($data, $expected): void {
 		$this->config->method('getSystemValueBool')
 			->with('encryption_skip_signature_check', false)
@@ -214,7 +214,7 @@ class CryptTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestHasSignatureFail')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestHasSignatureFail')]
 	public function testHasSignatureFail($cipher): void {
 		$this->expectException(GenericEncryptionException::class);
 
@@ -245,7 +245,7 @@ class CryptTest extends TestCase {
 	 * @param $data
 	 * @param $expected
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataProviderRemovePadding')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataProviderRemovePadding')]
 	public function testRemovePadding($data, $expected): void {
 		$result = self::invokePrivate($this->crypt, 'removePadding', [$data]);
 		$this->assertSame($expected, $result);
@@ -306,9 +306,8 @@ class CryptTest extends TestCase {
 
 	/**
 	 * test decrypt()
-	 *
-	 * @depends testEncrypt
 	 */
+	#[\PHPUnit\Framework\Attributes\Depends('testEncrypt')]
 	public function testDecrypt($data): void {
 		$result = self::invokePrivate(
 			$this->crypt,
@@ -321,7 +320,7 @@ class CryptTest extends TestCase {
 	/**
 	 * test return values of valid ciphers
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestGetKeySize')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestGetKeySize')]
 	public function testGetKeySize($cipher, $expected): void {
 		$result = $this->invokePrivate($this->crypt, 'getKeySize', [$cipher]);
 		$this->assertSame($expected, $result);
@@ -346,7 +345,7 @@ class CryptTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestDecryptPrivateKey')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestDecryptPrivateKey')]
 	public function testDecryptPrivateKey($header, $privateKey, $expectedCipher, $isValidKey, $expected): void {
 		$this->config->method('getSystemValueBool')
 			->willReturnMap([

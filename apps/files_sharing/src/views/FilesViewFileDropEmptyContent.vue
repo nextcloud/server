@@ -3,7 +3,8 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcEmptyContent class="file-drop-empty-content"
+	<NcEmptyContent
+		class="file-drop-empty-content"
 		data-cy-files-sharing-file-drop
 		:name="name">
 		<template #icon>
@@ -16,7 +17,8 @@
 			<p v-if="disclaimer">
 				{{ t('files_sharing', 'By uploading files, you agree to the terms of service.') }}
 			</p>
-			<NcNoteCard v-if="getSortedUploads().length"
+			<NcNoteCard
+				v-if="getSortedUploads().length"
 				class="file-drop-empty-content__note-card"
 				type="success">
 				<h2 id="file-drop-empty-content__heading">
@@ -32,16 +34,18 @@
 		<template #action>
 			<template v-if="disclaimer">
 				<!-- Terms of service if enabled -->
-				<NcButton type="primary" @click="showDialog = true">
+				<NcButton variant="primary" @click="showDialog = true">
 					{{ t('files_sharing', 'View terms of service') }}
 				</NcButton>
-				<NcDialog close-on-click-outside
+				<NcDialog
+					close-on-click-outside
 					content-classes="terms-of-service-dialog"
 					:open.sync="showDialog"
 					:name="t('files_sharing', 'Terms of service')"
 					:message="disclaimer" />
 			</template>
-			<UploadPicker allow-folders
+			<UploadPicker
+				allow-folders
 				:content="() => []"
 				no-menu
 				:destination="uploadDestination"
@@ -51,24 +55,21 @@
 </template>
 
 <script lang="ts">
-/* eslint-disable import/first */
-
 // We need this on module level rather than on the instance as view will be refreshed by the files app after uploading
 const uploads = new Set<string>()
 </script>
 
 <script setup lang="ts">
+import svgCloudUpload from '@mdi/svg/svg/cloud-upload-outline.svg?raw'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 import { getUploader, UploadPicker, UploadStatus } from '@nextcloud/upload'
 import { ref } from 'vue'
-
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcDialog from '@nextcloud/vue/components/NcDialog'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
-import svgCloudUpload from '@mdi/svg/svg/cloud-upload-outline.svg?raw'
 
 defineProps<{
 	foldername: string

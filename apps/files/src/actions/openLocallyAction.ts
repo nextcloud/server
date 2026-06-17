@@ -1,27 +1,34 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { encodePath } from '@nextcloud/paths'
-import { generateOcsUrl } from '@nextcloud/router'
-import { getCurrentUser } from '@nextcloud/auth'
-import { FileAction, Permission, type Node } from '@nextcloud/files'
-import { showError, DialogBuilder } from '@nextcloud/dialogs'
-import { translate as t } from '@nextcloud/l10n'
-import axios from '@nextcloud/axios'
+
+import type { IFileAction } from '@nextcloud/files'
+
 import LaptopSvg from '@mdi/svg/svg/laptop.svg?raw'
 import IconWeb from '@mdi/svg/svg/web.svg?raw'
+import { getCurrentUser } from '@nextcloud/auth'
+import axios from '@nextcloud/axios'
+import { DialogBuilder, showError } from '@nextcloud/dialogs'
+import { loadState } from '@nextcloud/initial-state'
+import { translate as t } from '@nextcloud/l10n'
+import { encodePath } from '@nextcloud/paths'
+import { generateOcsUrl } from '@nextcloud/router'
 import { isPublicShare } from '@nextcloud/sharing/public'
+import { logger } from '../utils/logger.ts'
+import { isSyncable } from '../utils/permissions.ts'
 
-export const action = new FileAction({
+const localClientEnabled = loadState('files', 'localClientEnabled', true)
+
+export const action: IFileAction = {
 	id: 'edit-locally',
 	displayName: () => t('files', 'Open locally'),
 	iconSvgInline: () => LaptopSvg,
 
 	// Only works on single files
-	enabled(nodes: Node[]) {
+	enabled({ nodes }) {
 		// Only works on single node
-		if (nodes.length !== 1) {
+		if (nodes.length !== 1 || !nodes[0]) {
 			return false
 		}
 
@@ -30,16 +37,20 @@ export const action = new FileAction({
 			return false
 		}
 
-		return (nodes[0].permissions & Permission.UPDATE) !== 0
+		if (!localClientEnabled) {
+			return false
+		}
+
+		return isSyncable(nodes[0]!)
 	},
 
-	async exec(node: Node) {
-		await attemptOpenLocalClient(node.path)
+	async exec({ nodes }) {
+		await attemptOpenLocalClient(nodes[0].path)
 		return null
 	},
 
 	order: 25,
-})
+}
 
 /**
  * Try to open the path in the Nextcloud client.
@@ -63,7 +74,7 @@ async function attemptOpenLocalClient(path: string) {
 
 /**
  * Try to open a file in the Nextcloud client.
- * There is no way to get notified if this action was successfull.
+ * There is no way to get notified if this action was successful.
  *
  * @param path - Path to open
  */
@@ -79,21 +90,22 @@ async function openLocalClient(path: string): Promise<void> {
 		window.open(url, '_self')
 	} catch (error) {
 		showError(t('files', 'Failed to redirect to client'))
+		logger.error('Failed to redirect to client', { error })
 	}
 }
 
 /**
  * Open the confirmation dialog.
  */
-async function confirmLocalEditDialog(): Promise<'online'|'local'|false> {
-	let result: 'online'|'local'|false = false
+async function confirmLocalEditDialog(): Promise<'online' | 'local' | false> {
+	let result: 'online' | 'local' | false = false
 	const dialog = (new DialogBuilder())
 		.setName(t('files', 'Open file locally'))
 		.setText(t('files', 'The file should now open on your device. If it doesn\'t, please check that you have the desktop app installed.'))
 		.setButtons([
 			{
 				label: t('files', 'Retry and close'),
-				type: 'secondary',
+				variant: 'secondary',
 				callback: () => {
 					result = 'local'
 				},
@@ -101,7 +113,7 @@ async function confirmLocalEditDialog(): Promise<'online'|'local'|false> {
 			{
 				label: t('files', 'Open online'),
 				icon: IconWeb,
-				type: 'primary',
+				variant: 'primary',
 				callback: () => {
 					result = 'online'
 				},
@@ -109,6 +121,11 @@ async function confirmLocalEditDialog(): Promise<'online'|'local'|false> {
 		])
 		.build()
 
-	await dialog.show()
+	try {
+		await dialog.show()
+	} catch (error) {
+		logger.debug('Open locally dialog closed', { error })
+	}
+
 	return result
 }

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { spawnDialog } from '@nextcloud/dialogs'
+import { spawnDialog } from '@nextcloud/vue/functions/dialog'
 import RemoteShareDialog from '../components/RemoteShareDialog.vue'
 
 /**
@@ -14,23 +14,24 @@ import RemoteShareDialog from '../components/RemoteShareDialog.vue'
  * @param remote The remote address
  * @param passwordRequired True if the share is password protected
  */
-export function showRemoteShareDialog(
+export async function showRemoteShareDialog(
 	name: string,
 	owner: string,
 	remote: string,
 	passwordRequired = false,
-): Promise<string|void> {
-	const { promise, reject, resolve } = Promise.withResolvers<string|void>()
-
-	spawnDialog(RemoteShareDialog, { name, owner, remote, passwordRequired }, (status, password) => {
-		if (passwordRequired && status) {
-			resolve(password as string)
-		} else if (status) {
-			resolve(undefined)
-		} else {
-			reject()
-		}
+): Promise<string | void> {
+	const [status, password] = await spawnDialog(RemoteShareDialog, {
+		name,
+		owner,
+		remote,
+		passwordRequired,
 	})
 
-	return promise
+	if (passwordRequired && status) {
+		return password as string
+	} else if (status) {
+		return
+	} else {
+		throw new Error('Dialog was cancelled')
+	}
 }

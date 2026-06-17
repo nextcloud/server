@@ -4,27 +4,30 @@
 -->
 
 <template>
-	<NcDialog data-cy-systemtags-picker
-		:can-close="status !== Status.LOADING"
+	<NcDialog
+		data-cy-systemtags-picker
+		:noClose="status === Status.LOADING"
 		:name="t('systemtags', 'Manage tags')"
 		:open="opened"
 		:class="'systemtags-picker--' + status"
 		class="systemtags-picker"
-		close-on-click-outside
-		out-transition
+		closeOnClickOutside
+		outTransition
 		@update:open="onCancel">
-		<NcEmptyContent v-if="status === Status.LOADING || status === Status.DONE"
+		<NcEmptyContent
+			v-if="status === Status.LOADING || status === Status.DONE"
 			:name="t('systemtags', 'Applying tags changes…')">
 			<template #icon>
 				<NcLoadingIcon v-if="status === Status.LOADING" />
-				<CheckIcon v-else fill-color="var(--color-border-success)" />
+				<CheckIcon v-else fillColor="var(--color-border-success)" />
 			</template>
 		</NcEmptyContent>
 
 		<template v-else>
 			<!-- Search or create input -->
 			<div class="systemtags-picker__input">
-				<NcTextField :value.sync="input"
+				<NcTextField
+					v-model="input"
 					:label="canEditOrCreateTag ? t('systemtags', 'Search or create tag') : t('systemtags', 'Search tag')"
 					data-cy-systemtags-picker-input>
 					<TagIcon :size="20" />
@@ -32,40 +35,46 @@
 			</div>
 
 			<!-- Tags list -->
-			<ul class="systemtags-picker__tags"
+			<ul
+				class="systemtags-picker__tags"
 				data-cy-systemtags-picker-tags>
-				<li v-for="tag in filteredTags"
+				<li
+					v-for="tag in filteredTags"
 					:key="tag.id"
+					ref="tags"
 					:data-cy-systemtags-picker-tag="tag.id"
 					:style="tagListStyle(tag)"
 					class="systemtags-picker__tag">
-					<NcCheckboxRadioSwitch :checked="isChecked(tag)"
+					<NcCheckboxRadioSwitch
+						:modelValue="isChecked(tag)"
 						:disabled="!tag.canAssign"
 						:indeterminate="isIndeterminate(tag)"
 						:label="tag.displayName"
 						class="systemtags-picker__tag-checkbox"
-						@update:checked="onCheckUpdate(tag, $event)">
+						@update:modelValue="onCheckUpdate(tag, $event)">
 						{{ formatTagName(tag) }}
 					</NcCheckboxRadioSwitch>
 
 					<!-- Color picker -->
-					<NcColorPicker v-if="canEditOrCreateTag"
+					<NcColorPicker
+						v-if="canEditOrCreateTag"
 						:data-cy-systemtags-picker-tag-color="tag.id"
-						:value="`#${tag.color || '000000'}`"
+						:modelValue="`#${tag.color || '000000'}`"
 						:shown="openedPicker === tag.id"
 						class="systemtags-picker__tag-color"
-						@update:value="onColorChange(tag, $event)"
 						@update:shown="openedPicker = $event ? tag.id : false"
-						@submit="openedPicker = false">
-						<NcButton :aria-label="t('systemtags', 'Change tag color')" type="tertiary">
+						@submit="onColorChange(tag, $event)">
+						<NcButton :aria-label="t('systemtags', 'Change tag color')" variant="tertiary">
 							<template #icon>
-								<CircleIcon v-if="tag.color"
+								<CircleIcon
+									v-if="tag.color"
 									:size="24"
-									fill-color="var(--color-circle-icon)"
+									fillColor="var(--color-circle-icon)"
 									class="button-color-circle" />
-								<CircleOutlineIcon v-else
+								<CircleOutlineIcon
+									v-else
 									:size="24"
-									fill-color="var(--color-circle-icon)"
+									fillColor="var(--color-circle-icon)"
 									class="button-color-empty" />
 								<PencilIcon class="button-color-pencil" />
 							</template>
@@ -75,12 +84,13 @@
 
 				<!-- Create new tag -->
 				<li>
-					<NcButton v-if="canEditOrCreateTag && canCreateTag"
+					<NcButton
+						v-if="canEditOrCreateTag && canCreateTag"
 						:disabled="status === Status.CREATING_TAG"
 						alignment="start"
 						class="systemtags-picker__tag-create"
-						native-type="submit"
-						type="tertiary"
+						type="submit"
+						variant="tertiary"
 						data-cy-systemtags-picker-button-create
 						@click="onNewTag">
 						{{ input.trim() }}<br>
@@ -98,19 +108,22 @@
 					{{ t('systemtags', 'Choose tags for the selected files') }}
 				</NcNoteCard>
 				<NcNoteCard v-else type="info">
+					<!-- eslint-disable-next-line vue/no-v-html -- we use this to format the message with chips -->
 					<span v-html="statusMessage" />
 				</NcNoteCard>
 			</div>
 		</template>
 
 		<template #actions>
-			<NcButton :disabled="status !== Status.BASE"
-				type="tertiary"
+			<NcButton
+				:disabled="status !== Status.BASE"
+				variant="tertiary"
 				data-cy-systemtags-picker-button-cancel
 				@click="onCancel">
 				{{ t('systemtags', 'Cancel') }}
 			</NcButton>
-			<NcButton :disabled="!hasChanges || status !== Status.BASE"
+			<NcButton
+				:disabled="!hasChanges || status !== Status.BASE"
 				data-cy-systemtags-picker-button-submit
 				@click="onSubmit">
 				{{ t('systemtags', 'Apply') }}
@@ -119,29 +132,29 @@
 
 		<!-- Chip html for v-html tag rendering -->
 		<div v-show="false">
-			<NcChip ref="chip"
+			<NcChip
+				ref="chip"
 				text="%s"
-				type="primary"
-				no-close />
+				noClose
+				variant="primary" />
 		</div>
 	</NcDialog>
 </template>
 
 <script lang="ts">
-import type { Node } from '@nextcloud/files'
+import type { INode } from '@nextcloud/files'
 import type { PropType } from 'vue'
-import type { Tag, TagWithId } from '../types'
+import type { Tag, TagWithId } from '../types.ts'
 
-import { defineComponent } from 'vue'
-import { emit } from '@nextcloud/event-bus'
 import { getCurrentUser } from '@nextcloud/auth'
-import { getLanguage, n, t } from '@nextcloud/l10n'
-import { loadState } from '@nextcloud/initial-state'
 import { showError } from '@nextcloud/dialogs'
+import { emit } from '@nextcloud/event-bus'
+import { loadState } from '@nextcloud/initial-state'
+import { getLanguage, n, t } from '@nextcloud/l10n'
 import debounce from 'debounce'
 import domPurify from 'dompurify'
 import escapeHTML from 'escape-html'
-
+import { defineComponent } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcChip from '@nextcloud/vue/components/NcChip'
@@ -157,11 +170,10 @@ import CircleOutlineIcon from 'vue-material-design-icons/CircleOutline.vue'
 import PencilIcon from 'vue-material-design-icons/PencilOutline.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import TagIcon from 'vue-material-design-icons/TagOutline.vue'
-
-import { createTag, fetchTag, fetchTags, getTagObjects, setTagObjects, updateTag } from '../services/api.ts'
-import { elementColor, invertTextColor, isDarkModeEnabled } from '../utils/colorUtils.ts'
-import { getNodeSystemTags, setNodeSystemTags } from '../utils.ts'
 import logger from '../logger.ts'
+import { createTag, fetchTag, fetchTags, getTagObjects, setTagObjects, updateTag } from '../services/api.ts'
+import { getNodeSystemTags, setNodeSystemTags } from '../utils.ts'
+import { elementColor, invertTextColor, isDarkModeEnabled } from '../utils/colorUtils.ts'
 
 const debounceUpdateTag = debounce(updateTag, 500)
 const mainBackgroundColor = getComputedStyle(document.body)
@@ -190,7 +202,7 @@ export default defineComponent({
 		CircleOutlineIcon,
 		NcButton,
 		NcCheckboxRadioSwitch,
-		// eslint-disable-next-line vue/no-unused-components
+
 		NcChip,
 		NcColorPicker,
 		NcDialog,
@@ -205,8 +217,14 @@ export default defineComponent({
 
 	props: {
 		nodes: {
-			type: Array as PropType<Node[]>,
+			type: Array as PropType<INode[]>,
 			required: true,
+		},
+	},
+
+	emits: {
+		close(status: null | boolean) {
+			return status === null || typeof status === 'boolean'
 		},
 	},
 
@@ -247,7 +265,7 @@ export default defineComponent({
 			}
 
 			return this.sortedTags
-				.filter(tag => tag.displayName.normalize().toLowerCase().includes(this.input.normalize().toLowerCase()))
+				.filter((tag) => tag.displayName.normalize().toLowerCase().includes(this.input.normalize().toLowerCase()))
 		},
 
 		hasChanges(): boolean {
@@ -256,7 +274,7 @@ export default defineComponent({
 
 		canCreateTag(): boolean {
 			return this.input.trim() !== ''
-				&& !this.tags.some(tag => tag.displayName.trim().toLocaleLowerCase() === this.input.trim().toLocaleLowerCase())
+				&& !this.tags.some((tag) => tag.displayName.trim().toLocaleLowerCase() === this.input.trim().toLocaleLowerCase())
 		},
 
 		statusMessage(): string {
@@ -365,14 +383,14 @@ export default defineComponent({
 	},
 
 	beforeMount() {
-		fetchTags().then(tags => {
+		fetchTags().then((tags) => {
 			this.tags = tags
 		})
 
 		// Efficient way of counting tags and their occurrences
-		this.tagList = this.nodes.reduce((acc: TagListCount, node: Node) => {
+		this.tagList = this.nodes.reduce((acc: TagListCount, node: INode) => {
 			const tags = getNodeSystemTags(node) || []
-			tags.forEach(tag => {
+			tags.forEach((tag) => {
 				acc[tag] = (acc[tag] || 0) + 1
 			})
 			return acc
@@ -386,7 +404,7 @@ export default defineComponent({
 	methods: {
 		// Format & sanitize a tag chip for v-html tag rendering
 		formatTagChip(tag: TagWithId): string {
-			const chip = this.$refs.chip as NcChip
+			const chip = this.$refs.chip as InstanceType<typeof NcChip>
 			const chipCloneEl = chip.$el.cloneNode(true) as HTMLElement
 			if (tag.color) {
 				const style = this.tagListStyle(tag)
@@ -429,11 +447,11 @@ export default defineComponent({
 		onCheckUpdate(tag: TagWithId, checked: boolean) {
 			if (checked) {
 				this.toAdd.push(tag)
-				this.toRemove = this.toRemove.filter(search => search.id !== tag.id)
+				this.toRemove = this.toRemove.filter((search) => search.id !== tag.id)
 				this.tagList[tag.displayName] = this.nodes.length
 			} else {
 				this.toRemove.push(tag)
-				this.toAdd = this.toAdd.filter(search => search.id !== tag.id)
+				this.toAdd = this.toAdd.filter((search) => search.id !== tag.id)
 				this.tagList[tag.displayName] = 0
 			}
 		},
@@ -463,12 +481,15 @@ export default defineComponent({
 
 				// Scroll to the newly created tag
 				await this.$nextTick()
-				const newTagEl = this.$el.querySelector(`input[type="checkbox"][label="${tag.displayName}"]`)
-				newTagEl?.scrollIntoView({
-					behavior: 'instant',
-					block: 'center',
-					inline: 'center',
-				})
+				if (Array.isArray(this.$refs.tags)) {
+					const newTagEl = this.$refs.tags
+						.find((el: HTMLElement) => el.dataset.cySystemtagsPickerTag === id.toString())
+					newTagEl?.scrollIntoView({
+						behavior: 'instant',
+						block: 'center',
+						inline: 'center',
+					})
+				}
 			} catch (error) {
 				showError((error as Error)?.message || t('systemtags', 'Failed to create tag'))
 			} finally {
@@ -490,12 +511,12 @@ export default defineComponent({
 
 					// Create a new list of ids in one pass
 					const ids = [...new Set([
-						...objects.map(obj => obj.id).filter(Boolean),
-						...this.nodes.map(node => node.fileid).filter(Boolean),
+						...objects.map((obj) => obj.id).filter(Boolean),
+						...this.nodes.map((node) => node.fileid).filter(Boolean),
 					])] as number[]
 
 					// Set tags
-					await setTagObjects(tag, 'files', ids.map(id => ({ id, type: 'files' })), etag)
+					await setTagObjects(tag, 'files', ids.map((id) => ({ id, type: 'files' })), etag)
 				}
 
 				// Remove tags
@@ -503,15 +524,15 @@ export default defineComponent({
 					const { etag, objects } = await getTagObjects(tag, 'files')
 
 					// Get file IDs from the nodes array just once
-					const nodeFileIds = new Set(this.nodes.map(node => node.fileid))
+					const nodeFileIds = new Set(this.nodes.map((node) => node.fileid))
 
 					// Create a filtered and deduplicated list of ids in one pass
 					const ids = objects
-						.map(obj => obj.id)
+						.map((obj) => obj.id)
 						.filter((id, index, self) => !nodeFileIds.has(id) && self.indexOf(id) === index)
 
 					// Set tags
-					await setTagObjects(tag, 'files', ids.map(id => ({ id, type: 'files' })), etag)
+					await setTagObjects(tag, 'files', ids.map((id) => ({ id, type: 'files' })), etag)
 				}
 			} catch (error) {
 				logger.error('Failed to apply tags', { error })
@@ -520,11 +541,11 @@ export default defineComponent({
 				return
 			}
 
-			const nodes = [] as Node[]
+			const nodes = [] as INode[]
 
 			// Update nodes
-			this.toAdd.forEach(tag => {
-				this.nodes.forEach(node => {
+			this.toAdd.forEach((tag) => {
+				this.nodes.forEach((node) => {
 					const tags = [...(getNodeSystemTags(node) || []), tag.displayName]
 						.sort((a, b) => a.localeCompare(b, getLanguage(), { ignorePunctuation: true }))
 					setNodeSystemTags(node, tags)
@@ -532,9 +553,9 @@ export default defineComponent({
 				})
 			})
 
-			this.toRemove.forEach(tag => {
-				this.nodes.forEach(node => {
-					const tags = [...(getNodeSystemTags(node) || [])].filter(t => t !== tag.displayName)
+			this.toRemove.forEach((tag) => {
+				this.nodes.forEach((node) => {
+					const tags = [...(getNodeSystemTags(node) || [])].filter((t) => t !== tag.displayName)
 						.sort((a, b) => a.localeCompare(b, getLanguage(), { ignorePunctuation: true }))
 					setNodeSystemTags(node, tags)
 					nodes.push(node)
@@ -542,7 +563,7 @@ export default defineComponent({
 			})
 
 			// trigger update event
-			nodes.forEach(node => emit('systemtags:node:updated', node))
+			nodes.forEach((node) => emit('systemtags:node:updated', node))
 
 			this.status = Status.DONE
 			setTimeout(() => {

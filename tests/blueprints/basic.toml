@@ -1,5 +1,8 @@
 # SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
 # SPDX-License-Identifier: AGPL-3.0-or-later
+
+# Used for performance testing, see .github/workflows/performance.yml
+
 [[user]]
 id = "test"
 groups = ["test_group"]

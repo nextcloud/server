@@ -9,16 +9,16 @@ declare(strict_types=1);
 
 namespace OC\OCM\Model;
 
-use NCU\Security\Signature\Model\Signatory;
 use OCP\OCM\Exceptions\OCMArgumentException;
 use OCP\OCM\Exceptions\OCMProviderException;
-use OCP\OCM\ICapabilityAwareOCMProvider;
+use OCP\OCM\IOCMProvider;
 use OCP\OCM\IOCMResource;
+use OCP\Security\Signature\Model\Signatory;
 
 /**
  * @since 28.0.0
  */
-class OCMProvider implements ICapabilityAwareOCMProvider {
+class OCMProvider implements IOCMProvider {
 	private bool $enabled = false;
 	private string $apiVersion = '';
 	private string $inviteAcceptDialog = '';
@@ -38,6 +38,7 @@ class OCMProvider implements ICapabilityAwareOCMProvider {
 	 *
 	 * @return $this
 	 */
+	#[\Override]
 	public function setEnabled(bool $enabled): static {
 		$this->enabled = $enabled;
 
@@ -47,6 +48,7 @@ class OCMProvider implements ICapabilityAwareOCMProvider {
 	/**
 	 * @return bool
 	 */
+	#[\Override]
 	public function isEnabled(): bool {
 		return $this->enabled;
 	}
@@ -56,6 +58,7 @@ class OCMProvider implements ICapabilityAwareOCMProvider {
 	 *
 	 * @return $this
 	 */
+	#[\Override]
 	public function setApiVersion(string $apiVersion): static {
 		$this->apiVersion = $apiVersion;
 
@@ -65,6 +68,7 @@ class OCMProvider implements ICapabilityAwareOCMProvider {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getApiVersion(): string {
 		return $this->apiVersion;
 	}
@@ -75,6 +79,7 @@ class OCMProvider implements ICapabilityAwareOCMProvider {
 	 * @return string
 	 * @since 32.0.0
 	 */
+	#[\Override]
 	public function getInviteAcceptDialog(): string {
 		return $this->inviteAcceptDialog;
 	}
@@ -87,6 +92,7 @@ class OCMProvider implements ICapabilityAwareOCMProvider {
 	 * @return $this
 	 * @since 32.0.0
 	 */
+	#[\Override]
 	public function setInviteAcceptDialog(string $inviteAcceptDialog): static {
 		$this->inviteAcceptDialog = $inviteAcceptDialog;
 
@@ -98,6 +104,7 @@ class OCMProvider implements ICapabilityAwareOCMProvider {
 	 *
 	 * @return $this
 	 */
+	#[\Override]
 	public function setEndPoint(string $endPoint): static {
 		$this->endPoint = $endPoint;
 
@@ -107,6 +114,7 @@ class OCMProvider implements ICapabilityAwareOCMProvider {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getEndPoint(): string {
 		return $this->endPoint;
 	}
@@ -114,6 +122,7 @@ class OCMProvider implements ICapabilityAwareOCMProvider {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getProvider(): string {
 		return $this->provider;
 	}
@@ -123,26 +132,42 @@ class OCMProvider implements ICapabilityAwareOCMProvider {
 	 *
 	 * @return $this
 	 */
+	#[\Override]
 	public function setCapabilities(array $capabilities): static {
-		foreach ($capabilities as $value) {
-			if (!in_array($value, $this->capabilities)) {
-				array_push($this->capabilities, $value);
-			}
-		}
-
+		$this->capabilities = array_unique(array_merge(
+			$this->capabilities,
+			array_map([$this, 'normalizeCapability'], $capabilities)
+		));
 		return $this;
 	}
 
 	/**
 	 * @return array
 	 */
+	#[\Override]
 	public function getCapabilities(): array {
 		return $this->capabilities;
 	}
+
+	/**
+	 * @param string $capability
+	 * @return bool
+	 */
+	#[\Override]
+	public function hasCapability(string $capability): bool {
+		return (in_array($this->normalizeCapability($capability), $this->capabilities, true));
+	}
+
+	private function normalizeCapability(string $capability): string {
+		// since ocm 1.2, removing leading slashes from capabilities
+		return strtolower(ltrim($capability, '/'));
+	}
+
 	/**
 	 * create a new resource to later add it with {@see IOCMProvider::addResourceType()}
 	 * @return IOCMResource
 	 */
+	#[\Override]
 	public function createNewResourceType(): IOCMResource {
 		return new OCMResource();
 	}
@@ -152,7 +177,23 @@ class OCMProvider implements ICapabilityAwareOCMProvider {
 	 *
 	 * @return $this
 	 */
+	#[\Override]
 	public function addResourceType(IOCMResource $resource): static {
+		foreach ($this->resourceTypes as $existing) {
+			if ($existing->getName() === $resource->getName()) {
+				$existing->setShareTypes(array_values(array_unique(
+					array_merge(
+						$existing->getShareTypes(),
+						$resource->getShareTypes()
+					)
+				)));
+				$existing->setProtocols(array_merge(
+					$existing->getProtocols(),
+					$resource->getProtocols()
+				));
+				return $this;
+			}
+		}
 		$this->resourceTypes[] = $resource;
 
 		return $this;
@@ -163,6 +204,7 @@ class OCMProvider implements ICapabilityAwareOCMProvider {
 	 *
 	 * @return $this
 	 */
+	#[\Override]
 	public function setResourceTypes(array $resourceTypes): static {
 		$this->resourceTypes = $resourceTypes;
 
@@ -172,6 +214,7 @@ class OCMProvider implements ICapabilityAwareOCMProvider {
 	/**
 	 * @return IOCMResource[]
 	 */
+	#[\Override]
 	public function getResourceTypes(): array {
 		return $this->resourceTypes;
 	}
@@ -183,6 +226,7 @@ class OCMProvider implements ICapabilityAwareOCMProvider {
 	 * @return string
 	 * @throws OCMArgumentException
 	 */
+	#[\Override]
 	public function extractProtocolEntry(string $resourceName, string $protocol): string {
 		foreach ($this->getResourceTypes() as $resource) {
 			if ($resource->getName() === $resourceName) {
@@ -214,6 +258,7 @@ class OCMProvider implements ICapabilityAwareOCMProvider {
 	 * @return OCMProvider&static
 	 * @throws OCMProviderException in case a descent provider cannot be generated from data
 	 */
+	#[\Override]
 	public function import(array $data): static {
 		$this->setEnabled(is_bool($data['enabled'] ?? '') ? $data['enabled'] : false)
 			// Fall back to old apiVersion for Nextcloud 30 compatibility
@@ -227,6 +272,7 @@ class OCMProvider implements ICapabilityAwareOCMProvider {
 		}
 		$this->setResourceTypes($resources);
 		$this->setInviteAcceptDialog($data['inviteAcceptDialog'] ?? '');
+		$this->setCapabilities($data['capabilities'] ?? []);
 
 		if (isset($data['publicKey'])) {
 			// import details about the remote request signing public key, if available
@@ -245,7 +291,6 @@ class OCMProvider implements ICapabilityAwareOCMProvider {
 		return $this;
 	}
 
-
 	/**
 	 * @return bool
 	 */
@@ -256,6 +301,7 @@ class OCMProvider implements ICapabilityAwareOCMProvider {
 	/**
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		$resourceTypes = [];
 		foreach ($this->getResourceTypes() as $res) {
@@ -268,6 +314,7 @@ class OCMProvider implements ICapabilityAwareOCMProvider {
 			'version' => $this->getApiVersion(), // informative but real version
 			'endPoint' => $this->getEndPoint(),
 			'publicKey' => $this->getSignatory()?->jsonSerialize(),
+			'provider' => $this->getProvider(),
 			'resourceTypes' => $resourceTypes
 		];
 
@@ -280,6 +327,5 @@ class OCMProvider implements ICapabilityAwareOCMProvider {
 			$response['inviteAcceptDialog'] = $inviteAcceptDialog;
 		}
 		return $response;
-
 	}
 }

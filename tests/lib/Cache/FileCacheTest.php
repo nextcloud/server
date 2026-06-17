@@ -24,10 +24,10 @@ use Test\Traits\UserTrait;
 /**
  * Class FileCacheTest
  *
- * @group DB
  *
  * @package Test\Cache
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class FileCacheTest extends TestCache {
 	use UserTrait;
 
@@ -52,6 +52,7 @@ class FileCacheTest extends TestCache {
 		//$this->skipUnless(OC_User::isLoggedIn());
 	}
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -81,6 +82,7 @@ class FileCacheTest extends TestCache {
 		$this->instance->set('hack', 'hack');
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		if ($this->instance) {
 			$this->instance->remove('hack', 'hack');
@@ -150,7 +152,8 @@ class FileCacheTest extends TestCache {
 			->method('filemtime')
 			->willReturn(100);
 		$mockStorage->expects($this->atLeastOnce())
-			->method('unlink')->willReturnOnConsecutiveCalls($this->throwException($testException), $this->returnValue(true));
+			->method('unlink')
+			->willReturnOnConsecutiveCalls($this->throwException($testException), true);
 
 		$this->instance->set('key1', 'value1');
 		$this->instance->set('key2', 'value2');

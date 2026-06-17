@@ -21,15 +21,16 @@ use PHPUnit\Framework\MockObject\MockObject;
 /**
  * Class CommonTest
  *
- * @group DB
  *
  * @package Test\Files\Storage
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class CommonTest extends Storage {
 
 	private string $tmpDir;
 	private IFilenameValidator&MockObject $filenameValidator;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -39,6 +40,7 @@ class CommonTest extends Storage {
 		$this->instance = new \OC\Files\Storage\CommonTest(['datadir' => $this->tmpDir]);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		Files::rmdirr($this->tmpDir);
 		$this->restoreService(IFilenameValidator::class);

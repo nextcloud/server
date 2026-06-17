@@ -22,10 +22,12 @@ watch(timezone, () => {
 
 <template>
 	<section class="timezone-section">
-		<HeaderBar :input-id="inputId"
+		<HeaderBar
+			:input-id="inputId"
 			:readable="t('settings', 'Timezone')" />
 
-		<NcTimezonePicker v-model="timezone"
+		<NcTimezonePicker
+			v-model="timezone"
 			class="timezone-section__picker"
 			:input-id="inputId" />
 	</section>

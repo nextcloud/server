@@ -4,9 +4,10 @@
  */
 
 import axios from '@nextcloud/axios'
-import Config from '../services/ConfigService.ts'
 import { showError, showSuccess } from '@nextcloud/dialogs'
-import { translate as t } from '@nextcloud/l10n'
+import { t } from '@nextcloud/l10n'
+import Config from '../services/ConfigService.ts'
+import logger from '../services/logger.ts'
 
 const config = new Config()
 // note: some chars removed on purpose to make them human friendly when read out
@@ -15,7 +16,7 @@ const passwordSet = 'abcdefgijkmnopqrstwxyzABCDEFGHJKLMNPQRSTWXYZ23456789'
 /**
  * Generate a valid policy password or request a valid password if password_policy is enabled
  *
- * @param {boolean} verbose If enabled the the status is shown to the user via toast
+ * @param verbose If enabled the the status is shown to the user via toast
  */
 export default async function(verbose = false): Promise<string> {
 	// password policy is enabled, let's request a pass
@@ -29,7 +30,7 @@ export default async function(verbose = false): Promise<string> {
 				return request.data.ocs.data.password
 			}
 		} catch (error) {
-			console.info('Error generating password from password_policy', error)
+			logger.info('Error generating password from password_policy', { error })
 			if (verbose) {
 				showError(t('files_sharing', 'Error generating password from password policy'))
 			}
@@ -51,7 +52,7 @@ export default async function(verbose = false): Promise<string> {
  * If the crypto API is not available, it falls back to less secure Math.random().
  * Crypto API is available in modern browsers on secure contexts (HTTPS).
  *
- * @param {Uint8Array} array - The array to fill with random values.
+ * @param array - The array to fill with random values.
  */
 function getRandomValues(array: Uint8Array): void {
 	if (self?.crypto?.getRandomValues) {

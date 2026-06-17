@@ -12,12 +12,12 @@ OC.L10N.register(
     "Files" : "Fitxers",
     "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "Se us ha esmentat a «{file}» en un comentari d'un compte que s'ha suprimit",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} us ha esmentat en un comentari a «{file}»",
+    "Go to file" : "Vés al fitxer",
     "Files app plugin to add comments to files" : "Connector de l'aplicació Fitxers per a afegir comentaris als fitxers",
     "Edit comment" : "Edita el comentari",
     "Delete comment" : "Suprimeix el comentari",
     "Cancel edit" : "Cancel·la l'edició",
     "New comment" : "Comentari nou",
-    "Write a comment …" : "Escriviu un comentari…",
     "Post comment" : "Publica el comentari",
     "@ for mentions, : for emoji, / for smart picker" : "@ per a mencions, : per a emojis, / per al selector intel·ligent",
     "Could not reload comments" : "No s'han pogut tornar a carregar els comentaris",
@@ -31,6 +31,7 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "S'ha produït un error en intentar editar el comentari",
     "Comment deleted" : "S'ha suprimit el comentari",
     "An error occurred while trying to delete the comment" : "S'ha produït un error en intentar suprimir el comentari",
-    "An error occurred while trying to create the comment" : "S'ha produït un error en intentar crear el comentari"
+    "An error occurred while trying to create the comment" : "S'ha produït un error en intentar crear el comentari",
+    "Write a comment …" : "Escriviu un comentari…"
 },
 "nplurals=2; plural=(n != 1);");

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\SetupChecks;
 
 use OC\DB\Connection;
@@ -25,10 +26,12 @@ class DatabaseHasMissingPrimaryKeys implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'database';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Database missing primary keys');
 	}
@@ -55,6 +58,7 @@ class DatabaseHasMissingPrimaryKeys implements ISetupCheck {
 		return $primaryKeyInfo->getListOfMissingPrimaryKeys();
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		$missingPrimaryKeys = $this->getMissingPrimaryKeys();
 		if (empty($missingPrimaryKeys)) {

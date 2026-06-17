@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Command;
 
 use OC\Core\Command\Base;
@@ -33,6 +34,7 @@ class ListCommand extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('files_external:list')
@@ -60,6 +62,7 @@ class ListCommand extends Base {
 		parent::configure();
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		/** @var StorageConfig[] $mounts */
 		if ($input->getOption('all')) {

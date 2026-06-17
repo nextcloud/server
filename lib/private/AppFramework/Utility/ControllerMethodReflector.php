@@ -6,31 +6,43 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\AppFramework\Utility;
 
 use OCP\AppFramework\Utility\IControllerMethodReflector;
+use Psr\Log\LoggerInterface;
 
 /**
  * Reads and parses annotations from doc comments
  */
 class ControllerMethodReflector implements IControllerMethodReflector {
-	public $annotations = [];
-	private $types = [];
-	private $parameters = [];
+	public array $annotations = [];
+	private array $types = [];
+	private array $parameters = [];
 	private array $ranges = [];
 	private int $startLine = 0;
 	private string $file = '';
+	private ?\ReflectionMethod $reflectionMethod = null;
+
+	public function __construct(
+		private readonly LoggerInterface $logger,
+	) {
+	}
 
 	/**
 	 * @param object $object an object or classname
 	 * @param string $method the method which we want to inspect
 	 */
 	public function reflect($object, string $method) {
-		$reflection = new \ReflectionMethod($object, $method);
-		$this->startLine = $reflection->getStartLine();
-		$this->file = $reflection->getFileName();
+		$this->annotations = [];
+		$this->types = [];
+		$this->parameters = [];
+		$this->ranges = [];
+		$this->reflectionMethod = new \ReflectionMethod($object, $method);
+		$this->startLine = $this->reflectionMethod->getStartLine();
+		$this->file = $this->reflectionMethod->getFileName();
 
-		$docs = $reflection->getDocComment();
+		$docs = $this->reflectionMethod->getDocComment();
 
 		if ($docs !== false) {
 			// extract everything prefixed by @ and first letter uppercase
@@ -55,7 +67,7 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 			// extract type parameter information
 			preg_match_all('/@param\h+(?P<type>\w+)\h+\$(?P<var>\w+)/', $docs, $matches);
 			$this->types = array_combine($matches['var'], $matches['type']);
-			preg_match_all('/@psalm-param\h+(\?)?(?P<type>\w+)<(?P<rangeMin>(-?\d+|min)),\h*(?P<rangeMax>(-?\d+|max))>(\|null)?\h+\$(?P<var>\w+)/', $docs, $matches);
+			preg_match_all('/@(?:psalm-)?param\h+(\?)?(?P<type>\w+)<(?P<rangeMin>(-?\d+|min)),\h*(?P<rangeMax>(-?\d+|max))>(\|null)?\h+\$(?P<var>\w+)/', $docs, $matches);
 			foreach ($matches['var'] as $index => $varName) {
 				if ($matches['type'][$index] !== 'int') {
 					// only int ranges are possible at the moment
@@ -69,7 +81,7 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 			}
 		}
 
-		foreach ($reflection->getParameters() as $param) {
+		foreach ($this->reflectionMethod->getParameters() as $param) {
 			// extract type information from PHP 7 scalar types and prefer them over phpdoc annotations
 			$type = $param->getType();
 			if ($type instanceof \ReflectionNamedType) {
@@ -91,6 +103,7 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 	 * @return string|null type in the type parameters (@param int $something)
 	 *                     would return int or null if not existing
 	 */
+	#[\Override]
 	public function getType(string $parameter) {
 		if (array_key_exists($parameter, $this->types)) {
 			return $this->types[$parameter];
@@ -110,8 +123,28 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 	/**
 	 * @return array the arguments of the method with key => default value
 	 */
+	#[\Override]
 	public function getParameters(): array {
 		return $this->parameters;
+	}
+
+	/**
+	 * @template T
+	 *
+	 * @param class-string<T> $attributeClass
+	 */
+	#[\Override]
+	public function hasAnnotationOrAttribute(?string $annotationName, string $attributeClass): bool {
+		if (!empty($this->reflectionMethod->getAttributes($attributeClass))) {
+			return true;
+		}
+
+		if ($annotationName && $this->hasAnnotation($annotationName)) {
+			$this->logger->debug($this->reflectionMethod->getDeclaringClass()->getName() . '::' . $this->reflectionMethod->getName() . ' uses the @' . $annotationName . ' annotation and should use the #[' . $attributeClass . '] attribute instead');
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -119,6 +152,7 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 	 * @param string $name the name of the annotation
 	 * @return bool true if the annotation is found
 	 */
+	#[\Override]
 	public function hasAnnotation(string $name): bool {
 		$name = strtolower($name);
 		return array_key_exists($name, $this->annotations);

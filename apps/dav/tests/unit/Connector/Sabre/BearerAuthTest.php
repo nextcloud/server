@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\User\Session;
@@ -19,9 +20,7 @@ use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class BearerAuthTest extends TestCase {
 	private IUserSession&MockObject $userSession;
 	private ISession&MockObject $session;
@@ -76,7 +75,7 @@ class BearerAuthTest extends TestCase {
 		$request = $this->createMock(RequestInterface::class);
 		/** @var ResponseInterface&MockObject $response */
 		$response = $this->createMock(ResponseInterface::class);
-		$result = $this->bearerAuth->challenge($request, $response);
-		$this->assertEmpty($result);
+		$this->bearerAuth->challenge($request, $response);
+		$this->assertTrue(true);
 	}
 }

@@ -41,12 +41,13 @@ class GuzzlePromiseAdapter implements IPromise {
 	 * @return IPromise
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function then(
 		?callable $onFulfilled = null,
 		?callable $onRejected = null,
 	): IPromise {
 		if ($onFulfilled !== null) {
-			$wrappedOnFulfilled = static function (ResponseInterface $response) use ($onFulfilled) {
+			$wrappedOnFulfilled = static function (ResponseInterface $response) use ($onFulfilled): void {
 				$onFulfilled(new Response($response));
 			};
 		} else {
@@ -54,7 +55,7 @@ class GuzzlePromiseAdapter implements IPromise {
 		}
 
 		if ($onRejected !== null) {
-			$wrappedOnRejected = static function (RequestException $e) use ($onRejected) {
+			$wrappedOnRejected = static function (RequestException $e) use ($onRejected): void {
 				$onRejected($e);
 			};
 		} else {
@@ -74,6 +75,7 @@ class GuzzlePromiseAdapter implements IPromise {
 	 * @return IPromise::STATE_*
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function getState(): string {
 		$state = $this->promise->getState();
 		if ($state === PromiseInterface::FULFILLED) {
@@ -98,6 +100,7 @@ class GuzzlePromiseAdapter implements IPromise {
 	 * @link https://github.com/promises-aplus/cancellation-spec/issues/7
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function cancel(): void {
 		$this->promise->cancel();
 	}
@@ -118,6 +121,7 @@ class GuzzlePromiseAdapter implements IPromise {
 	 *                        promise does not settle after waiting.
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function wait(bool $unwrap = true): mixed {
 		return $this->promise->wait($unwrap);
 	}

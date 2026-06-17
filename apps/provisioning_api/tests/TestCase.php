@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Provisioning_API\Tests;
 
 use OCP\IGroupManager;
@@ -15,13 +16,9 @@ use OCP\Server;
 abstract class TestCase extends \Test\TestCase {
 
 	/** @var IUser[] */
-	protected $users = [];
-
-	/** @var IUserManager */
-	protected $userManager;
-
-	/** @var IGroupManager */
-	protected $groupManager;
+	protected array $users = [];
+	protected IUserManager $userManager;
+	protected IGroupManager $groupManager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -43,7 +40,9 @@ abstract class TestCase extends \Test\TestCase {
 			$this->users[] = $user;
 			$users[] = $user;
 		}
-		return count($users) == 1 ? reset($users) : $users;
+		$result = count($users) === 1 ? reset($users) : $users;
+		$this->assertNotEquals(false, $result);
+		return $result;
 	}
 
 	protected function tearDown(): void {

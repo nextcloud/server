@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Mail;
 
 use OCP\Defaults;
@@ -333,6 +334,7 @@ EOF;
 	/**
 	 * Sets the subject of the email
 	 */
+	#[\Override]
 	public function setSubject(string $subject): void {
 		$this->subject = $subject;
 	}
@@ -340,6 +342,7 @@ EOF;
 	/**
 	 * Adds a header to the email
 	 */
+	#[\Override]
 	public function addHeader(): void {
 		if ($this->headerAdded) {
 			return;
@@ -362,6 +365,7 @@ EOF;
 	 * @param string|bool $plainTitle Title that is used in the plain text email
 	 *                                if empty the $title is used, if false none will be used
 	 */
+	#[\Override]
 	public function addHeading(string $title, $plainTitle = ''): void {
 		if ($this->footerAdded) {
 			return;
@@ -395,6 +399,7 @@ EOF;
 	 * @param string|bool $plainText Text that is used in the plain text email
 	 *                               if empty the $text is used, if false none will be used
 	 */
+	#[\Override]
 	public function addBodyText(string $text, $plainText = ''): void {
 		if ($this->footerAdded) {
 			return;
@@ -426,6 +431,7 @@ EOF;
 	 * @param integer $plainIndent plainIndent If > 0, Indent plainText by this amount.
 	 * @since 12.0.0
 	 */
+	#[\Override]
 	public function addBodyListItem(
 		string $text,
 		string $metaInfo = '',
@@ -512,6 +518,7 @@ EOF;
 	 * @param string $plainTextLeft Text of left button that is used in the plain text version - if unset the $textLeft is used
 	 * @param string $plainTextRight Text of right button that is used in the plain text version - if unset the $textRight is used
 	 */
+	#[\Override]
 	public function addBodyButtonGroup(
 		string $textLeft,
 		string $urlLeft,
@@ -554,6 +561,7 @@ EOF;
 	 *
 	 * @since 12.0.0
 	 */
+	#[\Override]
 	public function addBodyButton(string $text, string $url, $plainText = ''): void {
 		if ($this->footerAdded) {
 			return;
@@ -597,6 +605,7 @@ EOF;
 	 *
 	 * @param string $text If the text is empty the default "Name - Slogan<br>This is an automatically sent email" will be used
 	 */
+	#[\Override]
 	public function addFooter(string $text = '', ?string $lang = null): void {
 		if ($text === '') {
 			$l10n = $this->l10nFactory->get('lib', $lang);
@@ -623,6 +632,7 @@ EOF;
 	/**
 	 * Returns the rendered email subject as string
 	 */
+	#[\Override]
 	public function renderSubject(): string {
 		return $this->subject;
 	}
@@ -630,6 +640,7 @@ EOF;
 	/**
 	 * Returns the rendered HTML email as string
 	 */
+	#[\Override]
 	public function renderHtml(): string {
 		if (!$this->footerAdded) {
 			$this->footerAdded = true;
@@ -642,6 +653,7 @@ EOF;
 	/**
 	 * Returns the rendered plain text email as string
 	 */
+	#[\Override]
 	public function renderText(): string {
 		if (!$this->footerAdded) {
 			$this->footerAdded = true;

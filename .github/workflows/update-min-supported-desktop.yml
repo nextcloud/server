@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest-low
 
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
           submodules: true
@@ -107,7 +107,7 @@ jobs:
           fi
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1
         if: steps.update-files.outputs.CHANGES_MADE == 'true'
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
@@ -115,7 +115,7 @@ jobs:
           committer: GitHub <noreply@github.com>
           author: nextcloud-command <nextcloud-command@users.noreply.github.com>
           signoff: true
-          branch: "automated/noid/${{ matrix.branches }}-update-min-supported-desktop-version"
+          branch: "automated/noid/update-min-supported-desktop-version"
           title: "chore: Update minimum supported desktop version to ${{ steps.extract-version.outputs.VERSION }}"
           base: "master"
           body: |

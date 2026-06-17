@@ -26,7 +26,8 @@ const debouncedUpdate = debounce((value: string) => {
 		</template>
 		<template #action>
 			<div class="search-empty-view__wrapper">
-				<NcInputField class="search-empty-view__input"
+				<NcInputField
+					class="search-empty-view__input"
 					:label="t('files', 'Search for files')"
 					:model-value="searchStore.query"
 					type="search"

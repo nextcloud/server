@@ -6,9 +6,9 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files\BackgroundJob;
 
-use OC\Files\SetupManager;
 use OCA\Files\AppInfo\Application;
 use OCA\Files\Service\SettingsService;
 use OCP\AppFramework\Services\IAppConfig;
@@ -16,10 +16,10 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\QueuedJob;
 use OCP\Config\IUserConfig;
-use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IFilenameValidator;
 use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IUser;
@@ -43,7 +43,7 @@ class SanitizeFilenames extends QueuedJob {
 		private IAppConfig $appConfig,
 		private IUserConfig $userConfig,
 		private IRootFolder $rootFolder,
-		private SetupManager $setupManager,
+		private ISetupManager $setupManager,
 		private IFilenameValidator $filenameValidator,
 		private LoggerInterface $logger,
 	) {
@@ -57,6 +57,7 @@ class SanitizeFilenames extends QueuedJob {
 	 * @param array $argument unused argument
 	 * @throws \Exception
 	 */
+	#[\Override]
 	public function run($argument) {
 		$this->charReplacement = strval($argument['charReplacement']) ?: null;
 		if (isset($argument['errorsOnly'])) {
@@ -152,7 +153,6 @@ class SanitizeFilenames extends QueuedJob {
 
 		return $hasErrors;
 	}
-
 
 	private function sanitizeUserFiles(IUser $user): void {
 		// Set an active user so that event listeners can correctly work (e.g. files versions)

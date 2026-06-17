@@ -5,19 +5,25 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Service;
 
+use OC\Files\Storage\Common;
+use OCA\Files_External\AppInfo\Application;
 use OCA\Files_External\Config\IConfigHandler;
+use OCA\Files_External\Config\UserContext;
 use OCA\Files_External\ConfigLexicon;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Lib\Config\IAuthMechanismProvider;
 use OCA\Files_External\Lib\Config\IBackendProvider;
-use OCA\Files_External\Lib\MissingDependency;
 use OCP\EventDispatcher\GenericEvent;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\StorageNotAvailableException;
 use OCP\IAppConfig;
 use OCP\Server;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Service class to manage backend definitions
@@ -35,40 +41,33 @@ class BackendService {
 	/** Priority constants for PriorityTrait */
 	public const PRIORITY_DEFAULT = 100;
 
-	/** @var bool */
-	private $userMountingAllowed = true;
-
+	private ?bool $userMountingAllowed = null;
 	/** @var string[] */
-	private $userMountingBackends = [];
+	private array $userMountingBackends = [];
 
 	/** @var Backend[] */
-	private $backends = [];
+	private array $backends = [];
 
 	/** @var IBackendProvider[] */
-	private $backendProviders = [];
+	private array $backendProviders = [];
 
 	/** @var AuthMechanism[] */
-	private $authMechanisms = [];
+	private array $authMechanisms = [];
 
 	/** @var IAuthMechanismProvider[] */
-	private $authMechanismProviders = [];
+	private array $authMechanismProviders = [];
 
 	/** @var callable[] */
-	private $configHandlerLoaders = [];
+	private array $configHandlerLoaders = [];
 
-	private $configHandlers = [];
+	/** @var IConfigHandler[] */
+	private array $configHandlers = [];
+	private bool $eventSent = false;
 
 	public function __construct(
-		protected IAppConfig $appConfig,
+		protected readonly IAppConfig $appConfig,
+		private readonly LoggerInterface $logger,
 	) {
-		// Load config values
-		$this->userMountingAllowed = $appConfig->getValueBool('files_external', ConfigLexicon::ALLOW_USER_MOUNTING);
-		$this->userMountingBackends = explode(',', $appConfig->getValueString('files_external', ConfigLexicon::USER_MOUNTING_BACKENDS));
-
-		// if no backend is in the list an empty string is in the array and user mounting is disabled
-		if ($this->userMountingBackends === ['']) {
-			$this->userMountingAllowed = false;
-		}
 	}
 
 	/**
@@ -81,14 +80,14 @@ class BackendService {
 		$this->backendProviders[] = $provider;
 	}
 
-	private function callForRegistrations() {
-		static $eventSent = false;
-		if (!$eventSent) {
+	private function callForRegistrations(): void {
+		$instance = Server::get(self::class);
+		if (!$instance->eventSent) {
 			Server::get(IEventDispatcher::class)->dispatch(
 				'OCA\\Files_External::loadAdditionalBackends',
 				new GenericEvent()
 			);
-			$eventSent = true;
+			$instance->eventSent = true;
 		}
 	}
 
@@ -188,10 +187,9 @@ class BackendService {
 	 * @return Backend[]
 	 */
 	public function getAvailableBackends() {
-		return array_filter($this->getBackends(), function ($backend) {
-			$missing = array_filter($backend->checkDependencies(), fn (MissingDependency $dependency) => !$dependency->isOptional());
-			return count($missing) === 0;
-		});
+		$backends = array_filter($this->getBackends(), fn (Backend $backend) => $backend->checkRequiredDependencies() === []);
+		uasort($backends, [Backend::class, 'lexicalCompare']);
+		return $backends;
 	}
 
 	/**
@@ -246,9 +244,23 @@ class BackendService {
 	}
 
 	/**
-	 * @return bool
+	 * returns if user mounting is allowed.
+	 * also initiate the list of available backends.
+	 *
+	 * @psalm-assert bool $this->userMountingAllowed
 	 */
-	public function isUserMountingAllowed() {
+	public function isUserMountingAllowed(): bool {
+		if ($this->userMountingAllowed === null) {
+			// Load config values
+			$this->userMountingAllowed = $this->appConfig->getValueBool(Application::APP_ID, ConfigLexicon::ALLOW_USER_MOUNTING);
+			$this->userMountingBackends = explode(',', $this->appConfig->getValueString(Application::APP_ID, ConfigLexicon::USER_MOUNTING_BACKENDS));
+
+			// if no backend is in the list an empty string is in the array and user mounting is disabled
+			if ($this->userMountingBackends === ['']) {
+				$this->userMountingAllowed = false;
+			}
+		}
+
 		return $this->userMountingAllowed;
 	}
 
@@ -258,13 +270,8 @@ class BackendService {
 	 * @param Backend $backend
 	 * @return bool
 	 */
-	protected function isAllowedUserBackend(Backend $backend) {
-		if ($this->userMountingAllowed
-			&& array_intersect($backend->getIdentifierAliases(), $this->userMountingBackends)
-		) {
-			return true;
-		}
-		return false;
+	public function isAllowedUserBackend(Backend $backend): bool {
+		return ($this->isUserMountingAllowed() && array_intersect($backend->getIdentifierAliases(), $this->userMountingBackends));
 	}
 
 	/**
@@ -334,9 +341,66 @@ class BackendService {
 
 	/**
 	 * @since 16.0.0
+	 * @return IConfigHandler[]
 	 */
-	public function getConfigHandlers() {
+	public function getConfigHandlers(): array {
 		$this->loadConfigHandlers();
 		return $this->configHandlers;
+	}
+
+	/**
+	 * @param mixed $input
+	 * @return mixed
+	 * @throws ContainerExceptionInterface
+	 */
+	public function applyConfigHandlers($input, ?string $userId = null) {
+		/** @var IConfigHandler[] $handlers */
+		$handlers = $this->getConfigHandlers();
+		foreach ($handlers as $handler) {
+			if ($handler instanceof UserContext && $userId !== null) {
+				$handler->setUserId($userId);
+			}
+			$input = $handler->handle($input);
+		}
+		return $input;
+	}
+
+	/**
+	 * Test connecting using the given backend configuration
+	 *
+	 * @param string $class backend class name
+	 * @param array $options backend configuration options
+	 * @return StorageNotAvailableException::STATUS_*
+	 * @throws \Exception
+	 */
+	public function getBackendStatus(string $class, array $options): int {
+		foreach ($options as $key => &$option) {
+			if ($key === 'password') {
+				// no replacements in passwords
+				continue;
+			}
+			$option = $this->applyConfigHandlers($option);
+		}
+		if (class_exists($class)) {
+			try {
+				/** @var Common $storage */
+				$storage = new $class($options);
+
+				try {
+					$result = $storage->test();
+					$storage->setAvailability($result);
+					if ($result) {
+						return StorageNotAvailableException::STATUS_SUCCESS;
+					}
+				} catch (\Exception $e) {
+					$storage->setAvailability(false);
+					throw $e;
+				}
+			} catch (\Exception $exception) {
+				$this->logger->error($exception->getMessage(), ['exception' => $exception]);
+				throw $exception;
+			}
+		}
+		return StorageNotAvailableException::STATUS_ERROR;
 	}
 }

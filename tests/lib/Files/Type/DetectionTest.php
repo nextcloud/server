@@ -17,6 +17,7 @@ class DetectionTest extends \Test\TestCase {
 	/** @var Detection */
 	private $detection;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->detection = new Detection(
@@ -117,24 +118,72 @@ class DetectionTest extends \Test\TestCase {
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataMimeTypeCustom')]
 	public function testDetectMimeTypeCustom(string $ext, string $mime): void {
-		$confDir = sys_get_temp_dir();
-		file_put_contents($confDir . '/mimetypemapping.dist.json', json_encode([]));
+		$tmpDir = sys_get_temp_dir() . '/nc-detect-' . uniqid('', true);
+		mkdir($tmpDir, 0700);
 
-		/** @var IURLGenerator $urlGenerator */
-		$urlGenerator = $this->getMockBuilder(IURLGenerator::class)
-			->disableOriginalConstructor()
-			->getMock();
+		try {
+			// Create a default / shipped mapping file (dist)
+			file_put_contents($tmpDir . '/mimetypemapping.dist.json', json_encode([]));
 
-		/** @var LoggerInterface $logger */
-		$logger = $this->createMock(LoggerInterface::class);
+			// Create new custom mapping file that should be picked up by Detection
+			file_put_contents($tmpDir . '/mimetypemapping.json', json_encode([$ext => [$mime]]));
 
-		// Create new mapping file
-		file_put_contents($confDir . '/mimetypemapping.dist.json', json_encode([$ext => [$mime]]));
+			/** @var IURLGenerator $urlGenerator */
+			$urlGenerator = $this->getMockBuilder(IURLGenerator::class)
+				->disableOriginalConstructor()
+				->getMock();
 
-		$detection = new Detection($urlGenerator, $logger, $confDir, $confDir);
-		$mappings = $detection->getAllMappings();
-		$this->assertArrayHasKey($ext, $mappings);
-		$this->assertEquals($mime, $detection->detectPath('foo.' . $ext));
+			/** @var LoggerInterface $logger */
+			$logger = $this->createMock(LoggerInterface::class);
+
+			$detection = new Detection($urlGenerator, $logger, $tmpDir, $tmpDir);
+			$mappings = $detection->getAllMappings();
+
+			$this->assertArrayHasKey($ext, $mappings);
+			$this->assertEquals($mime, $detection->detectPath('foo.' . $ext));
+		} finally {
+			// cleanup
+			@unlink($tmpDir . '/mimetypemapping.json');
+			@unlink($tmpDir . '/mimetypemapping.dist.json');
+			@rmdir($tmpDir);
+		}
+	}
+
+	public function testDetectMimeTypePreservesLeadingZeroKeys(): void {
+		$tmpDir = sys_get_temp_dir() . '/nc-detect-' . uniqid();
+		mkdir($tmpDir, 0700);
+		try {
+			// Create a default / shipped mapping file (dist)
+			file_put_contents($tmpDir . '/mimetypemapping.dist.json', json_encode([]));
+
+			// Create new custom mapping file with potentially problematic keys
+			$mappings = [
+				'001' => ['application/x-zeroone', null],
+				'1' => ['application/x-one', null],
+			];
+			file_put_contents($tmpDir . '/mimetypemapping.json', json_encode($mappings));
+
+			/** @var IURLGenerator $urlGenerator */
+			$urlGenerator = $this->getMockBuilder(IURLGenerator::class)
+				->disableOriginalConstructor()
+				->getMock();
+
+			/** @var LoggerInterface $logger */
+			$logger = $this->createMock(LoggerInterface::class);
+
+			$detection = new Detection($urlGenerator, $logger, $tmpDir, $tmpDir);
+			$mappings = $detection->getAllMappings();
+
+			$this->assertArrayHasKey('001', $mappings, 'Expected mapping to contain key "001"');
+			$this->assertArrayHasKey('1', $mappings, 'Expected mapping to contain key "1"');
+
+			$this->assertEquals('application/x-zeroone', $detection->detectPath('foo.001'));
+			$this->assertEquals('application/x-one', $detection->detectPath('foo.1'));
+		} finally {
+			@unlink($tmpDir . '/mimetypemapping.json');
+			@unlink($tmpDir . '/mimetypemapping.dist.json');
+			@rmdir($tmpDir);
+		}
 	}
 
 	public static function dataGetSecureMimeType(): array {
@@ -164,7 +213,6 @@ class DetectionTest extends \Test\TestCase {
 		//Empty alias file
 		$mimetypealiases_dist->setContent(json_encode([], JSON_FORCE_OBJECT));
 
-
 		/*
 		 * Test dir mimetype
 		 */
@@ -187,7 +235,6 @@ class DetectionTest extends \Test\TestCase {
 		$mimeType = $detection->mimeTypeIcon('dir');
 		$this->assertEquals('folder.svg', $mimeType);
 
-
 		/*
 		 * Test dir-shareed mimetype
 		 */
@@ -205,7 +252,6 @@ class DetectionTest extends \Test\TestCase {
 		$detection = new Detection($urlGenerator, $logger, $confDir->url(), $confDir->url());
 		$mimeType = $detection->mimeTypeIcon('dir-shared');
 		$this->assertEquals('folder-shared.svg', $mimeType);
-
 
 		/*
 		 * Test dir external
@@ -226,7 +272,6 @@ class DetectionTest extends \Test\TestCase {
 		$mimeType = $detection->mimeTypeIcon('dir-external');
 		$this->assertEquals('folder-external.svg', $mimeType);
 
-
 		/*
 		 * Test complete mimetype
 		 */
@@ -245,7 +290,6 @@ class DetectionTest extends \Test\TestCase {
 		$detection = new Detection($urlGenerator, $logger, $confDir->url(), $confDir->url());
 		$mimeType = $detection->mimeTypeIcon('my-type');
 		$this->assertEquals('my-type.svg', $mimeType);
-
 
 		/*
 		 * Test subtype
@@ -277,7 +321,6 @@ class DetectionTest extends \Test\TestCase {
 		$detection = new Detection($urlGenerator, $logger, $confDir->url(), $confDir->url());
 		$mimeType = $detection->mimeTypeIcon('my-type');
 		$this->assertEquals('my.svg', $mimeType);
-
 
 		/*
 		 * Test default mimetype
@@ -331,8 +374,6 @@ class DetectionTest extends \Test\TestCase {
 		$this->assertEquals('foo-bar.svg', $mimeType);
 		$mimeType = $detection->mimeTypeIcon('foo-bar');
 		$this->assertEquals('foo-bar.svg', $mimeType);
-
-
 
 		/*
 		 * Test aliases

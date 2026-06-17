@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Activity;
 
 use OCP\Activity\Exceptions\InvalidValueException;
@@ -48,8 +49,7 @@ class Event implements IEvent {
 	protected $messageRichParameters = [];
 	/** @var string */
 	protected $objectType = '';
-	/** @var int */
-	protected $objectId = 0;
+	protected string|int $objectId = 0;
 	/** @var string */
 	protected $objectName = '';
 	/** @var string */
@@ -71,6 +71,7 @@ class Event implements IEvent {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function setApp(string $app): IEvent {
 		if ($app === '' || isset($app[32])) {
 			throw new InvalidValueException('app');
@@ -82,6 +83,7 @@ class Event implements IEvent {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getApp(): string {
 		return $this->app;
 	}
@@ -89,6 +91,7 @@ class Event implements IEvent {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function setType(string $type): IEvent {
 		if ($type === '' || isset($type[255])) {
 			throw new InvalidValueException('type');
@@ -100,6 +103,7 @@ class Event implements IEvent {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getType(): string {
 		return $this->type;
 	}
@@ -107,6 +111,7 @@ class Event implements IEvent {
 	/**
 	 *  {@inheritDoc}
 	 */
+	#[\Override]
 	public function setAffectedUser(string $affectedUser): IEvent {
 		if ($affectedUser === '' || isset($affectedUser[64])) {
 			throw new InvalidValueException('affectedUser');
@@ -118,6 +123,7 @@ class Event implements IEvent {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getAffectedUser(): string {
 		return $this->affectedUser;
 	}
@@ -125,6 +131,7 @@ class Event implements IEvent {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function setAuthor(string $author): IEvent {
 		if (isset($author[64])) {
 			throw new InvalidValueException('author');
@@ -136,6 +143,7 @@ class Event implements IEvent {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getAuthor(): string {
 		return $this->author;
 	}
@@ -143,6 +151,7 @@ class Event implements IEvent {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function setTimestamp(int $timestamp): IEvent {
 		if ($timestamp < 0) {
 			throw new InvalidValueException('timestamp');
@@ -154,6 +163,7 @@ class Event implements IEvent {
 	/**
 	 * @return int
 	 */
+	#[\Override]
 	public function getTimestamp(): int {
 		return $this->timestamp;
 	}
@@ -161,6 +171,7 @@ class Event implements IEvent {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function setSubject(string $subject, array $parameters = []): IEvent {
 		if (isset($subject[255])) {
 			throw new InvalidValueException('subject');
@@ -173,6 +184,7 @@ class Event implements IEvent {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getSubject(): string {
 		return $this->subject;
 	}
@@ -180,6 +192,7 @@ class Event implements IEvent {
 	/**
 	 * @return array
 	 */
+	#[\Override]
 	public function getSubjectParameters(): array {
 		return $this->subjectParameters;
 	}
@@ -187,6 +200,7 @@ class Event implements IEvent {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function setParsedSubject(string $subject): IEvent {
 		if ($subject === '') {
 			throw new InvalidValueException('parsedSubject');
@@ -199,6 +213,7 @@ class Event implements IEvent {
 	 * @return string
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function getParsedSubject(): string {
 		return $this->subjectParsed;
 	}
@@ -206,6 +221,7 @@ class Event implements IEvent {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function setRichSubject(string $subject, array $parameters = []): IEvent {
 		if ($subject === '') {
 			throw new InvalidValueException('richSubject');
@@ -228,6 +244,7 @@ class Event implements IEvent {
 	 * @return string
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function getRichSubject(): string {
 		return $this->subjectRich;
 	}
@@ -236,6 +253,7 @@ class Event implements IEvent {
 	 * @return array<string, array<string, string>>
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function getRichSubjectParameters(): array {
 		return $this->subjectRichParameters;
 	}
@@ -243,6 +261,7 @@ class Event implements IEvent {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function setMessage(string $message, array $parameters = []): IEvent {
 		if (isset($message[255])) {
 			throw new InvalidValueException('message');
@@ -255,6 +274,7 @@ class Event implements IEvent {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getMessage(): string {
 		return $this->message;
 	}
@@ -262,6 +282,7 @@ class Event implements IEvent {
 	/**
 	 * @return array
 	 */
+	#[\Override]
 	public function getMessageParameters(): array {
 		return $this->messageParameters;
 	}
@@ -269,6 +290,7 @@ class Event implements IEvent {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function setParsedMessage(string $message): IEvent {
 		$this->messageParsed = $message;
 		return $this;
@@ -278,6 +300,7 @@ class Event implements IEvent {
 	 * @return string
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function getParsedMessage(): string {
 		return $this->messageParsed;
 	}
@@ -285,6 +308,7 @@ class Event implements IEvent {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function setRichMessage(string $message, array $parameters = []): IEvent {
 		$this->messageRich = $message;
 		$this->messageRichParameters = $parameters;
@@ -304,6 +328,7 @@ class Event implements IEvent {
 	 * @return string
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function getRichMessage(): string {
 		return $this->messageRich;
 	}
@@ -312,6 +337,7 @@ class Event implements IEvent {
 	 * @return array<string, array<string, string>>
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function getRichMessageParameters(): array {
 		return $this->messageRichParameters;
 	}
@@ -319,12 +345,16 @@ class Event implements IEvent {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function setObject(string $objectType, int $objectId, string $objectName = ''): IEvent {
+	#[\Override]
+	public function setObject(string $objectType, string|int $objectId, string $objectName = ''): IEvent {
 		if (isset($objectType[255])) {
 			throw new InvalidValueException('objectType');
 		}
 		if (isset($objectName[4000])) {
 			throw new InvalidValueException('objectName');
+		}
+		if (is_string($objectId) && isset($objectId[19])) {
+			throw new InvalidValueException('objectId');
 		}
 		$this->objectType = $objectType;
 		$this->objectId = $objectId;
@@ -335,20 +365,23 @@ class Event implements IEvent {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getObjectType(): string {
 		return $this->objectType;
 	}
 
 	/**
-	 * @return int
+	 * @return int|string
 	 */
-	public function getObjectId(): int {
+	#[\Override]
+	public function getObjectId(): string|int {
 		return $this->objectId;
 	}
 
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getObjectName(): string {
 		return $this->objectName;
 	}
@@ -356,6 +389,7 @@ class Event implements IEvent {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function setLink(string $link): IEvent {
 		if (isset($link[4000])) {
 			throw new InvalidValueException('link');
@@ -367,6 +401,7 @@ class Event implements IEvent {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getLink(): string {
 		return $this->link;
 	}
@@ -374,6 +409,7 @@ class Event implements IEvent {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function setIcon(string $icon): IEvent {
 		if (isset($icon[4000])) {
 			throw new InvalidValueException('icon');
@@ -386,6 +422,7 @@ class Event implements IEvent {
 	 * @return string
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function getIcon(): string {
 		return $this->icon;
 	}
@@ -395,6 +432,7 @@ class Event implements IEvent {
 	 * @return $this
 	 * @since 11.0.0 - Since 15.0.0 returns $this
 	 */
+	#[\Override]
 	public function setChildEvent(IEvent $child): IEvent {
 		$this->child = $child;
 		return $this;
@@ -404,6 +442,7 @@ class Event implements IEvent {
 	 * @return IEvent|null
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function getChildEvent() {
 		return $this->child;
 	}
@@ -412,6 +451,7 @@ class Event implements IEvent {
 	 * @return bool
 	 * @since 8.2.0
 	 */
+	#[\Override]
 	public function isValid(): bool {
 		return
 			$this->isValidCommon()
@@ -423,6 +463,7 @@ class Event implements IEvent {
 	 * @return bool
 	 * @since 8.2.0
 	 */
+	#[\Override]
 	public function isValidParsed(): bool {
 		if ($this->getRichSubject() !== '' || !empty($this->getRichSubjectParameters())) {
 			try {
@@ -461,11 +502,13 @@ class Event implements IEvent {
 		;
 	}
 
+	#[\Override]
 	public function setGenerateNotification(bool $generate): IEvent {
 		$this->generateNotification = $generate;
 		return $this;
 	}
 
+	#[\Override]
 	public function getGenerateNotification(): bool {
 		return $this->generateNotification;
 	}

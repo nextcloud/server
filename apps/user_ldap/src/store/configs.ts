@@ -2,21 +2,31 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { defineStore } from 'pinia'
-import Vue, { computed, ref } from 'vue'
+
+import type { LDAPConfig } from '../models/index.ts'
 
 import { loadState } from '@nextcloud/initial-state'
-
-import { callWizard, copyConfig, createConfig, deleteConfig, getConfig } from '../services/ldapConfigService'
-import type { LDAPConfig } from '../models'
+import { defineStore } from 'pinia'
+import { computed, ref } from 'vue'
+import { copyConfig, createConfig, deleteConfig, getConfig, updateConfig } from '../services/ldapConfigService.ts'
 
 export const useLDAPConfigsStore = defineStore('ldap-configs', () => {
 	const ldapConfigs = ref(loadState('user_ldap', 'ldapConfigs') as Record<string, LDAPConfig>)
-	const selectedConfigId = ref<string>(Object.keys(ldapConfigs.value)[0])
-	const selectedConfig = computed(() => ldapConfigs.value[selectedConfigId.value])
+	const selectedConfigId = ref<string | undefined>(Object.keys(ldapConfigs.value)[0])
+	const selectedConfig = computed(() => selectedConfigId.value === undefined ? undefined : ldapConfigs.value[selectedConfigId.value])
 	const updatingConfig = ref(0)
 
-	function getConfigProxy<J>(configId: string, postSetHooks: Partial<Record<keyof LDAPConfig, (value: J) => void >> = {}) {
+	/**
+	 * Get a proxy for the LDAP configuration that automatically updates the backend on property set
+	 *
+	 * @param configId - ID of the configuration
+	 * @param postSetHooks - Optional hooks to call after a property has been set
+	 */
+	function getConfigProxy<J>(configId: string, postSetHooks: Partial<Record<keyof LDAPConfig, (value: J) => void>> = {}) {
+		if (ldapConfigs.value[configId] === undefined) {
+			throw new Error(`Config with id ${configId} does not exist`)
+		}
+
 		return new Proxy(ldapConfigs.value[configId], {
 			get(target, property) {
 				return target[property]
@@ -26,7 +36,7 @@ export const useLDAPConfigsStore = defineStore('ldap-configs', () => {
 
 				;(async () => {
 					updatingConfig.value++
-					await callWizard('save', configId, { cfgkey: property, cfgval: newValue })
+					await updateConfig(configId, { [property]: newValue })
 					updatingConfig.value--
 
 					if (postSetHooks[property] !== undefined) {
@@ -39,27 +49,55 @@ export const useLDAPConfigsStore = defineStore('ldap-configs', () => {
 		})
 	}
 
+	/**
+	 * Create a new LDAP configuration
+	 */
 	async function create() {
 		const configId = await createConfig()
-		Vue.set(ldapConfigs.value, configId, await getConfig(configId))
+		ldapConfigs.value[configId] = await getConfig(configId)
 		selectedConfigId.value = configId
 		return configId
 	}
 
+	/**
+	 * Copy an existing LDAP configuration
+	 *
+	 * @param fromConfigId - ID of the configuration to copy
+	 */
 	async function _copyConfig(fromConfigId: string) {
-		const configId = await copyConfig(fromConfigId)
-		Vue.set(ldapConfigs.value, configId, { ...ldapConfigs.value[fromConfigId] })
-		selectedConfigId.value = configId
-		return configId
-	}
-
-	async function removeConfig(configId: string) {
-		const result = await deleteConfig(configId)
-		if (result === true) {
-			Vue.delete(ldapConfigs.value, configId)
+		if (ldapConfigs.value[fromConfigId] === undefined) {
+			throw new Error(`Config with id ${fromConfigId} does not exist`)
 		}
 
-		selectedConfigId.value = Object.keys(ldapConfigs.value)[0] ?? await create()
+		const configId = await copyConfig(fromConfigId)
+
+		ldapConfigs.value[configId] = { ...ldapConfigs.value[fromConfigId] }
+		selectedConfigId.value = configId
+		return configId
+	}
+
+	/**
+	 * Delete an LDAP configuration
+	 *
+	 * @param configId - ID of the configuration to delete
+	 */
+	async function removeConfig(configId: string) {
+		const result = await deleteConfig(configId)
+
+		if (result === true) {
+			if (Object.keys(ldapConfigs.value).length === 1) {
+				// Ensure at least one config exists before deleting the last one
+				selectedConfigId.value = await create()
+				// The new config id could be the same as the deleted one, so only delete if different
+				if (selectedConfigId.value !== configId) {
+					delete ldapConfigs.value[configId]
+				}
+			} else {
+				// Select the first config that is not the deleted one
+				selectedConfigId.value = Object.keys(ldapConfigs.value).filter((_configId) => configId !== _configId)[0]
+				delete ldapConfigs.value[configId]
+			}
+		}
 	}
 
 	return {

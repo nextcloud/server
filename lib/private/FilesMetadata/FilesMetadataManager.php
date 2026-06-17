@@ -20,7 +20,7 @@ use OCP\DB\Exception;
 use OCP\DB\Exception as DBException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\Cache\CacheEntryRemovedEvent;
+use OCP\Files\Cache\CacheEntriesRemovedEvent;
 use OCP\Files\Events\Node\NodeWrittenEvent;
 use OCP\Files\InvalidPathException;
 use OCP\Files\Node;
@@ -72,6 +72,7 @@ class FilesMetadataManager implements IFilesMetadataManager {
 	 * @see self::PROCESS_LIVE
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function refreshMetadata(
 		Node $node,
 		int $process = self::PROCESS_LIVE,
@@ -122,6 +123,7 @@ class FilesMetadataManager implements IFilesMetadataManager {
 	 * @throws FilesMetadataNotFoundException if not found
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function getMetadata(int $fileId, bool $generate = false): IFilesMetadata {
 		try {
 			return $this->metadataRequestService->getMetadataFromFileId($fileId);
@@ -143,6 +145,7 @@ class FilesMetadataManager implements IFilesMetadataManager {
 	 * @psalm-return array<int, IFilesMetadata>
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function getMetadataForFiles(array $fileIds): array {
 		return $this->metadataRequestService->getMetadataFromFileIds($fileIds);
 	}
@@ -154,6 +157,7 @@ class FilesMetadataManager implements IFilesMetadataManager {
 	 * @throws FilesMetadataException if metadata seems malformed
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function saveMetadata(IFilesMetadata $filesMetadata): void {
 		if ($filesMetadata->getFileId() === 0 || !$filesMetadata->updated()) {
 			return;
@@ -200,17 +204,33 @@ class FilesMetadataManager implements IFilesMetadataManager {
 	 * @inheritDoc
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function deleteMetadata(int $fileId): void {
 		try {
 			$this->metadataRequestService->dropMetadata($fileId);
-		} catch (Exception $e) {
+		} catch (DBException $e) {
 			$this->logger->warning('issue while deleteMetadata', ['exception' => $e, 'fileId' => $fileId]);
 		}
 
 		try {
 			$this->indexRequestService->dropIndex($fileId);
-		} catch (Exception $e) {
+		} catch (DBException $e) {
 			$this->logger->warning('issue while deleteMetadata', ['exception' => $e, 'fileId' => $fileId]);
+		}
+	}
+
+	#[\Override]
+	public function deleteMetadataForFiles(int $storage, array $fileIds): void {
+		try {
+			$this->metadataRequestService->dropMetadataForFiles($storage, $fileIds);
+		} catch (DBException $e) {
+			$this->logger->warning('issue while deleteMetadata', ['exception' => $e, 'fileIds' => $fileIds]);
+		}
+
+		try {
+			$this->indexRequestService->dropIndexForFiles($fileIds);
+		} catch (DBException $e) {
+			$this->logger->warning('issue while deleteMetadata', ['exception' => $e, 'fileIds' => $fileIds]);
 		}
 	}
 
@@ -224,6 +244,7 @@ class FilesMetadataManager implements IFilesMetadataManager {
 	 * @see IMetadataQuery
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function getMetadataQuery(
 		IQueryBuilder $qb,
 		string $fileTableAlias,
@@ -237,6 +258,7 @@ class FilesMetadataManager implements IFilesMetadataManager {
 	 * @return IFilesMetadata
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function getKnownMetadata(): IFilesMetadata {
 		if ($this->all !== null) {
 			return $this->all;
@@ -272,6 +294,7 @@ class FilesMetadataManager implements IFilesMetadataManager {
 	 * @see IMetadataValueWrapper::EDIT_REQ_WRITE_PERMISSION
 	 * @see IMetadataValueWrapper::EDIT_REQ_READ_PERMISSION
 	 */
+	#[\Override]
 	public function initMetadata(
 		string $key,
 		string $type,
@@ -301,6 +324,6 @@ class FilesMetadataManager implements IFilesMetadataManager {
 	 */
 	public static function loadListeners(IEventDispatcher $eventDispatcher): void {
 		$eventDispatcher->addServiceListener(NodeWrittenEvent::class, MetadataUpdate::class);
-		$eventDispatcher->addServiceListener(CacheEntryRemovedEvent::class, MetadataDelete::class);
+		$eventDispatcher->addServiceListener(CacheEntriesRemovedEvent::class, MetadataDelete::class);
 	}
 }

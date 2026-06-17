@@ -5,6 +5,7 @@ declare(strict_types = 1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Command\AdminDelegation;
 
 use OC\Core\Command\Base;
@@ -25,6 +26,7 @@ class Show extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		parent::configure();
 		$this
@@ -33,6 +35,7 @@ class Show extends Base {
 		;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$io = new SymfonyStyle($input, $output);
 		$outputFormat = $input->getOption('output');
@@ -112,6 +115,7 @@ class Show extends Base {
 			return [
 				'name' => $setting->getName() ?: 'Global',
 				'className' => $className,
+				'priority' => $setting->getPriority(),
 				'delegatedGroups' => $groups,
 			];
 		}, $settings);
@@ -155,6 +159,6 @@ class Show extends Base {
 	 * @param array $innerSection
 	 */
 	private function getDelegatedSettings(array $settings, array $innerSection): array {
-		return $settings + array_filter($innerSection, fn (ISettings $setting) => $setting instanceof IDelegatedSettings);
+		return array_merge($settings, array_filter($innerSection, fn (ISettings $setting) => $setting instanceof IDelegatedSettings));
 	}
 }

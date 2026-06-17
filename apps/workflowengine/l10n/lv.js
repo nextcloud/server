@@ -16,10 +16,10 @@ OC.L10N.register(
     "File renamed" : "Datne pārdēvēta",
     "%s renamed %s" : "%s pārdēvēja %s",
     "Operation #%s does not exist" : "Operation #%s does not exist",
-    "Operation %s does not exist" : "Darbība %s nepastāv",
     "Operation %s is invalid" : "Darbība %s ir nederīga",
-    "Check %s does not exist" : "Pārbaude %s nepastāv",
+    "Operation %s does not exist" : "Darbība %s nepastāv",
     "Check %s is invalid" : "Pārbaude %s ir nederīga",
+    "Check %s does not exist" : "Pārbaude %s nepastāv",
     "Check #%s does not exist" : "Pārbaude #%s nepastāv",
     "Check %s is invalid or does not exist" : "Pārbaude %s ir nederīga vai nepastāv",
     "Flow" : "Plūsma",
@@ -66,7 +66,7 @@ OC.L10N.register(
     "between" : "starp",
     "not between" : "nav starp",
     "Request user agent" : "Nepieciešams lietotāja aģents",
-    "is member of" : "ir biedrs",
+    "is member of" : "ir dalībnieks",
     "is not member of" : "nav dalībnieks"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

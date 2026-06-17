@@ -3,8 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { Node } from '@nextcloud/files'
-import { spawnDialog } from '@nextcloud/dialogs'
+import type { INode } from '@nextcloud/files'
+
+import { spawnDialog } from '@nextcloud/vue/functions/dialog'
 import NewNodeDialog from '../components/NewNodeDialog.vue'
 
 interface ILabels {
@@ -20,21 +21,22 @@ interface ILabels {
 
 /**
  * Ask user for file or folder name
+ *
  * @param defaultName Default name to use
  * @param folderContent Nodes with in the current folder to check for unique name
  * @param labels Labels to set on the dialog
  * @return string if successful otherwise null if aborted
  */
-export function newNodeName(defaultName: string, folderContent: Node[], labels: ILabels = {}) {
-	const contentNames = folderContent.map((node: Node) => node.basename)
+export function newNodeName(defaultName: string, folderContent: INode[], labels: ILabels = {}) {
+	const contentNames = folderContent.map((node: INode) => node.basename)
 
-	return new Promise<string|null>((resolve) => {
+	return new Promise<string | null>((resolve) => {
 		spawnDialog(NewNodeDialog, {
 			...labels,
 			defaultName,
 			otherNames: contentNames,
 		}, (folderName) => {
-			resolve(folderName as string|null)
+			resolve(folderName as string | null)
 		})
 	})
 }

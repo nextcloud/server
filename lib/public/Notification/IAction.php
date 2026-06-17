@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\Notification;
 
 use OCP\AppFramework\Attribute\Consumable;
@@ -77,6 +78,10 @@ interface IAction {
 	public function isPrimary(): bool;
 
 	/**
+	 * Set the target endpoint for this action
+	 *
+	 * All links should always be relative to support desktop and mobile clients.
+	 *
 	 * @param string $link
 	 * @param string $requestType
 	 * @return $this

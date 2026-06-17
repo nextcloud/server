@@ -1,13 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Lockdown\Filesystem;
 
 use OC\Files\Cache\CacheEntry;
 use OC\Files\Search\SearchComparison;
+use OC\ForbiddenException;
 use OCP\Constants;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
@@ -17,11 +21,13 @@ use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchQuery;
 
 class NullCache implements ICache {
-	public function getNumericStorageId() {
+	#[\Override]
+	public function getNumericStorageId(): int {
 		return -1;
 	}
 
-	public function get($file) {
+	#[\Override]
+	public function get($file): false|ICacheEntry {
 		if ($file !== '') {
 			return false;
 		}
@@ -41,86 +47,107 @@ class NullCache implements ICache {
 		]);
 	}
 
-	public function getFolderContents($folder) {
+	#[\Override]
+	public function getFolderContents(string $folder, ?string $mimeTypeFilter = null): array {
 		return [];
 	}
 
-	public function getFolderContentsById($fileId) {
+	#[\Override]
+	public function getFolderContentsById(int $fileId, ?string $mimeTypeFilter = null): array {
 		return [];
 	}
 
-	public function put($file, array $data) {
-		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
+	#[\Override]
+	public function put($file, array $data): never {
+		throw new ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function insert($file, array $data) {
-		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
+	#[\Override]
+	public function insert($file, array $data): never {
+		throw new ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function update($id, array $data) {
-		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
+	#[\Override]
+	public function update($id, array $data): never {
+		throw new ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
+	#[\Override]
 	public function getId($file) {
 		return -1;
 	}
 
+	#[\Override]
 	public function getParentId($file) {
 		return -1;
 	}
 
+	#[\Override]
 	public function inCache($file) {
 		return $file === '';
 	}
 
+	#[\Override]
 	public function remove($file) {
-		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
+		throw new ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
+	#[\Override]
 	public function move($source, $target) {
-		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
+		throw new ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
+	#[\Override]
 	public function moveFromCache(ICache $sourceCache, $sourcePath, $targetPath) {
-		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
+		throw new ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
+	#[\Override]
 	public function getStatus($file) {
 		return ICache::COMPLETE;
 	}
 
+	#[\Override]
 	public function search($pattern) {
 		return [];
 	}
 
+	#[\Override]
 	public function searchByMime($mimetype) {
 		return [];
 	}
 
+	#[\Override]
 	public function searchQuery(ISearchQuery $query) {
 		return [];
 	}
 
+	#[\Override]
 	public function getIncomplete() {
 		return [];
 	}
 
+	#[\Override]
 	public function getPathById($id) {
 		return '';
 	}
 
+	#[\Override]
 	public function normalize($path) {
 		return $path;
 	}
 
+	#[\Override]
 	public function copyFromCache(ICache $sourceCache, ICacheEntry $sourceEntry, string $targetPath): int {
-		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
+		throw new ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
+	#[\Override]
 	public function getQueryFilterForStorage(): ISearchOperator {
 		return new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', -1);
 	}
 
+	#[\Override]
 	public function getCacheEntryFromSearchResult(ICacheEntry $rawEntry): ?ICacheEntry {
 		return null;
 	}

@@ -22,7 +22,7 @@ export interface IAppDiscoverElement {
 	/**
 	 * Identifier for this element
 	 */
-	id: string,
+	id: string
 
 	/**
 	 * Order of this element to pin elements (smaller = shown on top)

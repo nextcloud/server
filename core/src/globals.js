@@ -1,62 +1,36 @@
-/**
+/* eslint-disable @nextcloud/no-deprecated-globals */
+/*!
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-/* eslint-disable @nextcloud/no-deprecations */
-import { initCore } from './init.js'
-
-import _ from 'underscore'
-import $ from 'jquery'
-// TODO: switch to `jquery-ui` package and import widgets and effects individually
-//       `jquery-ui-dist` is used as a workaround for the issue of missing effects
-import 'jquery-ui-dist/jquery-ui.js'
-import 'jquery-ui-dist/jquery-ui.css'
-import 'jquery-ui-dist/jquery-ui.theme.css'
-// END TODO
-import Backbone from 'backbone'
 import ClipboardJS from 'clipboard'
 import { dav } from 'davclient.js'
-import Handlebars from 'handlebars'
 import moment from 'moment'
-import 'select2'
-import 'select2/select2.css'
-import 'snap.js/dist/snap.js'
-import 'strengthify'
-import 'strengthify/strengthify.css'
-
+import _ from 'underscore'
+import { initCore } from './init.js'
 import OC from './OC/index.js'
-import OCP from './OCP/index.js'
-import OCA from './OCA/index.js'
 import { getRequestToken } from './OC/requesttoken.ts'
+import OCA from './OCA/index.js'
+import OCP from './OCP/index.js'
 
-const warnIfNotTesting = function() {
+/**
+ *
+ */
+function warnIfNotTesting() {
 	if (window.TESTING === undefined) {
+		// eslint-disable-next-line no-console
 		OC.debug && console.warn.apply(console, arguments)
 	}
 }
 
 /**
- * Mark a function as deprecated and automatically
- * warn if used!
- *
- * @param {Function} func the library to deprecate
- * @param {string} funcName the name of the library
- * @param {number} version the version this gets removed
- * @return {Function}
+ * @param {string|string[]} global - a string or array of strings with the name of the global variable(s) to deprecate
+ * @param {function} cb - a callback that returns the value of the global variable when accessed
+ * @param {string} msg - an optional message to show in the warning
  */
-const deprecate = (func, funcName, version) => {
-	const oldFunc = func
-	const newFunc = function() {
-		warnIfNotTesting(`The ${funcName} library is deprecated! It will be removed in nextcloud ${version}.`)
-		return oldFunc.apply(this, arguments)
-	}
-	Object.assign(newFunc, oldFunc)
-	return newFunc
-}
-
-const setDeprecatedProp = (global, cb, msg) => {
-	(Array.isArray(global) ? global : [global]).forEach(global => {
+function setDeprecatedProp(global, cb, msg) {
+	(Array.isArray(global) ? global : [global]).forEach((global) => {
 		if (window[global] !== undefined) {
 			delete window[global]
 		}
@@ -74,12 +48,9 @@ const setDeprecatedProp = (global, cb, msg) => {
 	})
 }
 
-window._ = _
-setDeprecatedProp(['$', 'jQuery'], () => $, 'The global jQuery is deprecated. It will be removed in a later versions without another warning. Please ship your own.')
-setDeprecatedProp('Backbone', () => Backbone, 'please ship your own, this will be removed in Nextcloud 20')
+setDeprecatedProp(['_'], () => _, 'The global underscore is deprecated. It will be removed in a later versions without another warning. Please ship your own.')
 setDeprecatedProp(['Clipboard', 'ClipboardJS'], () => ClipboardJS, 'please ship your own, this will be removed in Nextcloud 20')
-window.dav = dav
-setDeprecatedProp('Handlebars', () => Handlebars, 'please ship your own, this will be removed in Nextcloud 20')
+setDeprecatedProp(['dav'], () => dav, 'please ship your own. It will be removed in a later versions without another warning. Please ship your own.')
 setDeprecatedProp('moment', () => moment, 'please ship your own, this will be removed in Nextcloud 20')
 
 window.OC = OC
@@ -95,7 +66,6 @@ setDeprecatedProp('oc_webroot', () => OC.webroot, 'use OC.getRootPath() instead,
 setDeprecatedProp('OCDialogs', () => OC.dialogs, 'use OC.dialogs instead, this will be removed in Nextcloud 20')
 window.OCP = OCP
 window.OCA = OCA
-$.fn.select2 = deprecate($.fn.select2, 'select2', 19)
 
 /**
  * translate a string

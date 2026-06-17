@@ -16,9 +16,10 @@ use OCP\ISession;
 class SessionStorageTest extends \Test\TestCase {
 	/** @var ISession */
 	private $session;
-	/** @var \OC\Security\CSRF\TokenStorage\SessionStorage */
+	/** @var SessionStorage */
 	private $sessionStorage;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->session = $this->getMockBuilder(ISession::class)

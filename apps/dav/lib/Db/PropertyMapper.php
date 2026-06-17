@@ -45,6 +45,9 @@ class PropertyMapper extends QBMapper {
 	 * @throws \OCP\DB\Exception
 	 */
 	public function findPropertiesByPathsAndUsers(array $calendars): array {
+		if (empty($calendars)) {
+			return [];
+		}
 		$selectQb = $this->db->getQueryBuilder();
 		$selectQb->select('*')
 			->from(self::TABLE_NAME);

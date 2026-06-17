@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\WeatherStatus\AppInfo;
 
 use OCA\WeatherStatus\Capabilities;
@@ -38,12 +39,14 @@ class Application extends App implements IBootstrap {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function register(IRegistrationContext $context): void {
 		// Register OCS Capabilities
 		$context->registerCapability(Capabilities::class);
 		$context->registerEventListener(BeforeTemplateRenderedEvent::class, BeforeTemplateRenderedListener::class);
 	}
 
+	#[\Override]
 	public function boot(IBootContext $context): void {
 	}
 }

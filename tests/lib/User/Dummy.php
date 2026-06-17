@@ -9,6 +9,10 @@
 namespace Test\User;
 
 class Dummy extends Backend {
+	public function __construct() {
+		parent::__construct(static::class);
+	}
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->backend = new \Test\Util\User\Dummy();

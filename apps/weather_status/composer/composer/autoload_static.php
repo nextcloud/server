@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitWeatherStatus
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\WeatherStatus\\' => 18,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\WeatherStatus\\' => 
+        'OCA\\WeatherStatus\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),

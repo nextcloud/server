@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\Search;
 
 use OCA\DAV\CalDAV\CalDavBackend;
@@ -289,25 +290,30 @@ class TasksSearchProviderTest extends TestCase {
 		$this->assertEquals('absolute-url-link-to-route-tasks.indexcalendars/uri-john.doe/tasks/task-uri.ics', $actual);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('generateSublineDataProvider')]
-	public function testGenerateSubline(string $ics, string $expectedSubline): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'generateSublineDataProvider')]
+	public function testGenerateSubline(string $ics, string $expectedSubline, array $calendarInfo = []): void {
 		$vCalendar = Reader::read($ics, Reader::OPTION_FORGIVING);
 		$taskComponent = $vCalendar->VTODO;
 
 		$this->l10n->method('t')->willReturnArgument(0);
 		$this->l10n->method('l')->willReturnArgument(0);
 
-		$actual = self::invokePrivate($this->provider, 'generateSubline', [$taskComponent]);
+		$actual = self::invokePrivate($this->provider, 'generateSubline', [$taskComponent, $calendarInfo]);
 		$this->assertEquals($expectedSubline, $actual);
 	}
 
 	public static function generateSublineDataProvider(): array {
 		return [
-			[self::$vTodo0, ''],
-			[self::$vTodo1, 'Completed on %s'],
-			[self::$vTodo2, 'Completed on %s'],
-			[self::$vTodo3, 'Due on %s'],
-			[self::$vTodo4, 'Due on %s by %s'],
+			[self::$vTodo0, '', []],
+			[self::$vTodo1, 'Completed on %s', []],
+			[self::$vTodo2, 'Completed on %s', []],
+			[self::$vTodo3, 'Due on %s', []],
+			[self::$vTodo4, 'Due on %s by %s', []],
+			[self::$vTodo0, '(My Tasks)', ['{DAV:}displayname' => 'My Tasks']],
+			[self::$vTodo1, 'Completed on %s (My Tasks)', ['{DAV:}displayname' => 'My Tasks']],
+			[self::$vTodo3, 'Due on %s (My Tasks)', ['{DAV:}displayname' => 'My Tasks']],
+			[self::$vTodo4, 'Due on %s by %s (My Tasks)', ['{DAV:}displayname' => 'My Tasks']],
+			[self::$vTodo1, 'Completed on %s', ['{DAV:}displayname' => '']],
 		];
 	}
 }

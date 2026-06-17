@@ -4,14 +4,15 @@
 -->
 
 <template>
-	<a class="preview-card"
+	<a
+		class="preview-card"
 		:class="{ disabled }"
 		:href="profilePageLink">
-		<NcAvatar class="preview-card__avatar"
+		<NcAvatar
+			class="preview-card__avatar"
 			:user="userId"
 			:size="48"
-			:show-user-status="true"
-			:show-user-status-compact="false"
+			verbose-status
 			:disable-menu="true"
 			:disable-tooltip="true" />
 		<div class="preview-card__header">
@@ -26,7 +27,6 @@
 <script>
 import { getCurrentUser } from '@nextcloud/auth'
 import { generateUrl } from '@nextcloud/router'
-
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 
 export default {
@@ -41,14 +41,17 @@ export default {
 			type: String,
 			required: true,
 		},
+
 		organisation: {
 			type: String,
 			required: true,
 		},
+
 		profileEnabled: {
 			type: Boolean,
 			required: true,
 		},
+
 		userId: {
 			type: String,
 			required: true,

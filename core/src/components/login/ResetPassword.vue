@@ -7,8 +7,9 @@
 	<form class="reset-password-form" @submit.prevent="submit">
 		<h2>{{ t('core', 'Reset password') }}</h2>
 
-		<NcTextField id="user"
-			:value.sync="user"
+		<NcTextField
+			id="user"
+			v-model="user"
 			name="user"
 			:maxlength="255"
 			autocapitalize="off"
@@ -20,19 +21,22 @@
 
 		<LoginButton :loading="loading" :value="t('core', 'Reset password')" />
 
-		<NcButton type="tertiary" wide @click="$emit('abort')">
+		<NcButton variant="tertiary" wide @click="$emit('abort')">
 			{{ t('core', 'Back to login') }}
 		</NcButton>
 
-		<NcNoteCard v-if="message === 'send-success'"
+		<NcNoteCard
+			v-if="message === 'send-success'"
 			type="success">
 			{{ t('core', 'If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or Login, check your spam/junk folders or ask your local administration for help.') }}
 		</NcNoteCard>
-		<NcNoteCard v-else-if="message === 'send-error'"
+		<NcNoteCard
+			v-else-if="message === 'send-error'"
 			type="error">
 			{{ t('core', 'Couldn\'t send reset email. Please contact your administrator.') }}
 		</NcNoteCard>
-		<NcNoteCard v-else-if="message === 'reset-error'"
+		<NcNoteCard
+			v-else-if="message === 'reset-error'"
 			type="error">
 			{{ t('core', 'Password cannot be changed. Please contact your administrator.') }}
 		</NcNoteCard>
@@ -40,17 +44,15 @@
 </template>
 
 <script lang="ts">
+import axios from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'
 import { defineComponent } from 'vue'
-
-import axios from '@nextcloud/axios'
 import NcButton from '@nextcloud/vue/components/NcButton'
-import NcTextField from '@nextcloud/vue/components/NcTextField'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
-
-import AuthMixin from '../../mixins/auth.js'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 import LoginButton from './LoginButton.vue'
 import logger from '../../logger.js'
+import AuthMixin from '../../mixins/auth.js'
 
 export default defineComponent({
 	name: 'ResetPassword',
@@ -68,6 +70,7 @@ export default defineComponent({
 			type: String,
 			required: true,
 		},
+
 		resetPasswordLink: {
 			type: String,
 			required: true,
@@ -82,11 +85,13 @@ export default defineComponent({
 			user: this.username,
 		}
 	},
+
 	watch: {
 		username(value) {
 			this.user = value
 		},
 	},
+
 	methods: {
 		updateUsername() {
 			this.$emit('update:username', this.user)

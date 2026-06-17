@@ -10,11 +10,10 @@ namespace Test\Memcache;
 
 use OC\Memcache\APCu;
 
-/**
- * @group Memcache
- * @group APCu
- */
+#[\PHPUnit\Framework\Attributes\Group('Memcache')]
+#[\PHPUnit\Framework\Attributes\Group('APCu')]
 class APCuTest extends Cache {
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

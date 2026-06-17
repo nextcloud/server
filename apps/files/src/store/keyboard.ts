@@ -9,9 +9,10 @@ import Vue from 'vue'
  * Observe various events and save the current
  * special keys states. Useful for checking the
  * current status of a key when executing a method.
- * @param {...any} args
+ *
+ * @param args
  */
-export const useKeyboardStore = function(...args) {
+export function useKeyboardStore(...args) {
 	const store = defineStore('keyboard', {
 		state: () => ({
 			altKey: false,

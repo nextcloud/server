@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV;
 
 use OC\KnownUser\KnownUserService;
@@ -39,12 +40,11 @@ use Test\TestCase;
 /**
  * Class CalDavBackendTest
  *
- * @group DB
  *
  * @package OCA\DAV\Tests\unit\CalDAV
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 abstract class AbstractCalDavBackend extends TestCase {
-
 
 	protected CalDavBackend $backend;
 	protected Principal&MockObject $principal;

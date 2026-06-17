@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\DAV;
 
 use OCA\DAV\Files\BrowserErrorPagePlugin;
@@ -15,7 +16,7 @@ use Sabre\HTTP\Response;
 
 class BrowserErrorPagePluginTest extends \Test\TestCase {
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providesExceptions')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesExceptions')]
 	public function test(int $expectedCode, \Throwable $exception): void {
 		/** @var BrowserErrorPagePlugin&MockObject $plugin */
 		$plugin = $this->getMockBuilder(BrowserErrorPagePlugin::class)->onlyMethods(['sendResponse', 'generateBody'])->getMock();

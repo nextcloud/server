@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Migration;
 
 use OCP\BackgroundJob\IJobList;
@@ -24,6 +27,7 @@ class BuildCalendarSearchIndex implements IRepairStep {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getName() {
 		return 'Registering building of calendar search index as background job';
 	}
@@ -31,6 +35,7 @@ class BuildCalendarSearchIndex implements IRepairStep {
 	/**
 	 * @param IOutput $output
 	 */
+	#[\Override]
 	public function run(IOutput $output) {
 		// only run once
 		if ($this->config->getAppValue('dav', 'buildCalendarSearchIndex') === 'yes') {

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\DB\QueryBuilder;
 
 use Doctrine\DBAL\ArrayParameterType;
@@ -99,6 +100,8 @@ interface IQueryBuilder {
 
 	/**
 	 * @since 24.0.0
+	 * @deprecated 33.0.0 JSON fields can not properly be used in WHERE statements of Oracle and MySQL.
+	 *                    It is recommended to use a simple STRING field and handle JSON within PHP
 	 */
 	public const PARAM_JSON = 'json';
 
@@ -116,6 +119,14 @@ interface IQueryBuilder {
 	 * database server.
 	 */
 	public const MAX_ROW_DELETION = 100000;
+
+	/**
+	 * @since 35.0.0 Indicates how many parameters can be passed to a IN query
+	 * with Oracle database server.
+	 *
+	 * Mostly useful as magic value to give to array_chunk
+	 */
+	public const MAX_IN_PARAMETERS = 1000;
 
 	/**
 	 * Enable/disable automatic prefixing of table names with the oc_ prefix
@@ -189,24 +200,6 @@ interface IQueryBuilder {
 	 *    and we can not fix this in our wrapper.
 	 */
 	public function getState();
-
-	/**
-	 * Executes this query using the bound parameters and their types.
-	 *
-	 * Uses {@see Connection::executeQuery} for select statements and {@see Connection::executeStatement}
-	 * for insert, update and delete statements.
-	 *
-	 * Warning: until Nextcloud 20, this method could return a \Doctrine\DBAL\Driver\Statement but since
-	 *          that interface changed in a breaking way the adapter \OCP\DB\QueryBuilder\IStatement is returned
-	 *          to bridge old code to the new API
-	 *
-	 * @param ?IDBConnection $connection (optional) the connection to run the query against. since 30.0
-	 * @return IResult|int
-	 * @throws Exception since 21.0.0
-	 * @since 8.2.0
-	 * @deprecated 22.0.0 Use executeQuery or executeStatement
-	 */
-	public function execute(?IDBConnection $connection = null);
 
 	/**
 	 * Execute for select statements
@@ -402,7 +395,7 @@ interface IQueryBuilder {
 	 * @psalm-taint-sink sql $select
 	 * @psalm-taint-sink sql $alias
 	 */
-	public function selectAlias($select, $alias);
+	public function selectAlias($select, $alias): self;
 
 	/**
 	 * Specifies an item that is to be returned uniquely in the query result.
@@ -542,7 +535,7 @@ interface IQueryBuilder {
 	 * </code>
 	 *
 	 * @param string $fromAlias The alias that points to a from clause.
-	 * @param string $join The table name to join.
+	 * @param string|IQueryFunction $join The table name to join.
 	 * @param string $alias The alias of the join table.
 	 * @param string|ICompositeExpression|null $condition The condition for the join.
 	 *
@@ -567,7 +560,7 @@ interface IQueryBuilder {
 	 * </code>
 	 *
 	 * @param string $fromAlias The alias that points to a from clause.
-	 * @param string $join The table name to join.
+	 * @param string|IQueryFunction $join The table name to join.
 	 * @param string $alias The alias of the join table.
 	 * @param string|ICompositeExpression|null $condition The condition for the join.
 	 *
@@ -618,7 +611,7 @@ interface IQueryBuilder {
 	 * </code>
 	 *
 	 * @param string $fromAlias The alias that points to a from clause.
-	 * @param string $join The table name to join.
+	 * @param string|IQueryFunction $join The table name to join.
 	 * @param string $alias The alias of the join table.
 	 * @param string|ICompositeExpression|null $condition The condition for the join.
 	 *
@@ -786,7 +779,7 @@ interface IQueryBuilder {
 	 * </code>
 	 *
 	 * @param string $column The column into which the value should be inserted.
-	 * @param IParameter|string $value The value that should be inserted into the column.
+	 * @param IParameter|IQueryFunction|string $value The value that should be inserted into the column.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
@@ -1017,9 +1010,10 @@ interface IQueryBuilder {
 	public function createParameter($name);
 
 	/**
-	 * Creates a new function
+	 * Creates a new function.
 	 *
-	 * Attention: Column names inside the call have to be quoted before hand
+	 * @warning Column names inside the call have to be quoted beforehand. In most
+	 * case you can use the IFunctionBuilder instead.
 	 *
 	 * Example:
 	 * <code>
@@ -1108,4 +1102,12 @@ interface IQueryBuilder {
 	 * @since 30.0.0
 	 */
 	public function getOutputColumns(): array;
+
+	/**
+	 * Locks the queried rows for a subsequent update.
+	 *
+	 * @return $this
+	 * @since 33.0.0
+	 */
+	public function forUpdate(ConflictResolutionMode $conflictResolutionMode = ConflictResolutionMode::Ordinary): self;
 }

@@ -12,14 +12,17 @@ namespace OCP\TaskProcessing\TaskTypes;
 use OCP\IL10N;
 use OCP\L10N\IFactory;
 use OCP\TaskProcessing\EShapeType;
-use OCP\TaskProcessing\ITaskType;
+use OCP\TaskProcessing\IInternalTaskType;
 use OCP\TaskProcessing\ShapeDescriptor;
 
 /**
  * This is the task processing task type for Context Agent interaction
  * @since 31.0.0
  */
-class ContextAgentInteraction implements ITaskType {
+class ContextAgentInteraction implements IInternalTaskType {
+	/**
+	 * @since 31.0.0
+	 */
 	public const ID = 'core:contextagent:interaction';
 
 	private IL10N $l;
@@ -38,6 +41,7 @@ class ContextAgentInteraction implements ITaskType {
 	 * @inheritDoc
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getName(): string {
 		return 'ContextAgent'; // We do not translate this
 	}
@@ -46,6 +50,7 @@ class ContextAgentInteraction implements ITaskType {
 	 * @inheritDoc
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getDescription(): string {
 		return $this->l->t('Chat with an agent');
 	}
@@ -54,6 +59,7 @@ class ContextAgentInteraction implements ITaskType {
 	 * @return string
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getId(): string {
 		return self::ID;
 	}
@@ -62,6 +68,7 @@ class ContextAgentInteraction implements ITaskType {
 	 * @return ShapeDescriptor[]
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getInputShape(): array {
 		return [
 			'input' => new ShapeDescriptor(
@@ -86,6 +93,7 @@ class ContextAgentInteraction implements ITaskType {
 	 * @return ShapeDescriptor[]
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getOutputShape(): array {
 		return [
 			'output' => new ShapeDescriptor(

@@ -4,67 +4,59 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\User_LDAP\Controller;
 
+use OCA\User_LDAP\AppInfo\Application;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
+use OCP\Config\IUserConfig;
 use OCP\HintException;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
-use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Util;
 
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class RenewPasswordController extends Controller {
-	/**
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IUserManager $userManager
-	 * @param IConfig $config
-	 * @param IURLGenerator $urlGenerator
-	 */
 	public function __construct(
-		$appName,
+		string $appName,
 		IRequest $request,
 		private IUserManager $userManager,
 		private IConfig $config,
+		private IUserConfig $userConfig,
 		protected IL10N $l10n,
 		private ISession $session,
 		private IURLGenerator $urlGenerator,
+		private IInitialState $initialState,
 	) {
 		parent::__construct($appName, $request);
 	}
 
-	/**
-	 * @return RedirectResponse
-	 */
 	#[PublicPage]
 	#[NoCSRFRequired]
-	public function cancel() {
+	public function cancel(): RedirectResponse {
 		return new RedirectResponse($this->urlGenerator->linkToRouteAbsolute('core.login.showLoginForm'));
 	}
 
-	/**
-	 * @param string $user
-	 *
-	 * @return TemplateResponse|RedirectResponse
-	 */
 	#[PublicPage]
 	#[NoCSRFRequired]
 	#[UseSession]
-	public function showRenewPasswordForm($user) {
-		if ($this->config->getUserValue($user, 'user_ldap', 'needsPasswordReset') !== 'true') {
+	public function showRenewPasswordForm(string $user): TemplateResponse|RedirectResponse {
+		if (!$this->userConfig->getValueBool($user, 'user_ldap', 'needsPasswordReset')) {
 			return new RedirectResponse($this->urlGenerator->linkToRouteAbsolute('core.login.showLoginForm'));
 		}
-		$parameters = [];
+
 		$renewPasswordMessages = $this->session->get('renewPasswordMessages');
 		$errors = [];
 		$messages = [];
@@ -72,48 +64,42 @@ class RenewPasswordController extends Controller {
 			[$errors, $messages] = $renewPasswordMessages;
 		}
 		$this->session->remove('renewPasswordMessages');
-		foreach ($errors as $value) {
-			$parameters[$value] = true;
-		}
 
-		$parameters['messages'] = $messages;
-		$parameters['user'] = $user;
+		$this->initialState->provideInitialState('renewPasswordParameters',
+			[
+				'user' => $user,
+				'errors' => $errors,
+				'messages' => $messages,
+				'cancelRenewUrl' => $this->urlGenerator->linkToRouteAbsolute('core.login.showLoginForm'),
+				'tryRenewPasswordUrl' => $this->urlGenerator->linkToRouteAbsolute('user_ldap.renewPassword.tryRenewPassword'),
+			],
+		);
 
-		$parameters['canResetPassword'] = true;
-		$parameters['resetPasswordLink'] = $this->config->getSystemValue('lost_password_link', '');
-		if (!$parameters['resetPasswordLink']) {
-			$userObj = $this->userManager->get($user);
-			if ($userObj instanceof IUser) {
-				$parameters['canResetPassword'] = $userObj->canChangePassword();
-			}
-		}
-		$parameters['cancelLink'] = $this->urlGenerator->linkToRouteAbsolute('core.login.showLoginForm');
-
+		Util::addStyle(Application::APP_ID, 'renewPassword');
+		Util::addScript(Application::APP_ID, 'renewPassword');
 		return new TemplateResponse(
-			$this->appName, 'renewpassword', $parameters, 'guest'
+			Application::APP_ID,
+			'renewpassword',
+			renderAs: 'guest',
 		);
 	}
 
-	/**
-	 * @param string $user
-	 * @param string $oldPassword
-	 * @param string $newPassword
-	 *
-	 * @return RedirectResponse
-	 */
 	#[PublicPage]
 	#[UseSession]
-	public function tryRenewPassword($user, $oldPassword, $newPassword) {
-		if ($this->config->getUserValue($user, 'user_ldap', 'needsPasswordReset') !== 'true') {
+	#[BruteForceProtection(action: 'login')]
+	public function tryRenewPassword(string $user, string $oldPassword, ?string $newPassword): RedirectResponse {
+		if (!$this->userConfig->getValueBool($user, 'user_ldap', 'needsPasswordReset')) {
 			return new RedirectResponse($this->urlGenerator->linkToRouteAbsolute('core.login.showLoginForm'));
 		}
-		$args = !is_null($user) ? ['user' => $user] : [];
+		$args = ['user' => $user];
 		$loginResult = $this->userManager->checkPassword($user, $oldPassword);
 		if ($loginResult === false) {
 			$this->session->set('renewPasswordMessages', [
 				['invalidpassword'], []
 			]);
-			return new RedirectResponse($this->urlGenerator->linkToRoute('user_ldap.renewPassword.showRenewPasswordForm', $args));
+			$response = new RedirectResponse($this->urlGenerator->linkToRoute('user_ldap.renewPassword.showRenewPasswordForm', $args));
+			$response->throttle(['user' => $user]);
+			return $response;
 		}
 
 		try {
@@ -121,7 +107,7 @@ class RenewPasswordController extends Controller {
 				$this->session->set('loginMessages', [
 					[], [$this->l10n->t('Please login with the new password')]
 				]);
-				$this->config->setUserValue($user, 'user_ldap', 'needsPasswordReset', 'false');
+				$this->userConfig->setValueBool($user, 'user_ldap', 'needsPasswordReset', false);
 				return new RedirectResponse($this->urlGenerator->linkToRoute('core.login.showLoginForm', $args));
 			} else {
 				$this->session->set('renewPasswordMessages', [
@@ -137,13 +123,10 @@ class RenewPasswordController extends Controller {
 		return new RedirectResponse($this->urlGenerator->linkToRoute('user_ldap.renewPassword.showRenewPasswordForm', $args));
 	}
 
-	/**
-	 * @return RedirectResponse
-	 */
 	#[PublicPage]
 	#[NoCSRFRequired]
 	#[UseSession]
-	public function showLoginFormInvalidPassword($user) {
+	public function showLoginFormInvalidPassword(?string $user): RedirectResponse {
 		$args = !is_null($user) ? ['user' => $user] : [];
 		$this->session->set('loginMessages', [
 			['invalidpassword'], []

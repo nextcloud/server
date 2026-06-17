@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitSystemTags
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\SystemTags\\' => 15,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\SystemTags\\' => 
+        'OCA\\SystemTags\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),

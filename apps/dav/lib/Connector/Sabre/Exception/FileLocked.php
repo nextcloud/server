@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Connector\Sabre\Exception;
 
 use Exception;
@@ -27,6 +28,7 @@ class FileLocked extends \Sabre\DAV\Exception {
 	 *
 	 * @return int
 	 */
+	#[\Override]
 	public function getHTTPCode() {
 		return 423;
 	}

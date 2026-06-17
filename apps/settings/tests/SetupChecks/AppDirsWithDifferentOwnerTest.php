@@ -6,15 +6,18 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Tests\SetupChecks;
 
 use OCA\Settings\SetupChecks\AppDirsWithDifferentOwner;
 use OCP\IL10N;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class AppDirsWithDifferentOwnerTest extends TestCase {
-	private IL10N $l10n;
 	private AppDirsWithDifferentOwner $check;
+
+	private IL10N&MockObject $l10n;
 
 	/**
 	 * Holds a list of directories created during tests.
@@ -42,8 +45,6 @@ class AppDirsWithDifferentOwnerTest extends TestCase {
 	 * Then calls the 'getAppDirsWithDifferentOwner' method.
 	 * The result is expected to be empty since
 	 * there are no directories with different owners than the current user.
-	 *
-	 * @return void
 	 */
 	public function testAppDirectoryOwnersOk(): void {
 		$tempDir = tempnam(sys_get_temp_dir(), 'apps') . 'dir';
@@ -69,8 +70,6 @@ class AppDirsWithDifferentOwnerTest extends TestCase {
 	/**
 	 * Calls the check for a none existing app root that is marked as not writable.
 	 * It's expected that no error happens since the check shouldn't apply.
-	 *
-	 * @return void
 	 */
 	public function testAppDirectoryOwnersNotWritable(): void {
 		$tempDir = tempnam(sys_get_temp_dir(), 'apps') . 'dir';
@@ -89,11 +88,9 @@ class AppDirsWithDifferentOwnerTest extends TestCase {
 
 	/**
 	 * Removes directories created during tests.
-	 *
-	 * @after
-	 * @return void
 	 */
-	public function removeTestDirectories() {
+	#[\PHPUnit\Framework\Attributes\After()]
+	public function removeTestDirectories(): void {
 		foreach ($this->dirsToRemove as $dirToRemove) {
 			rmdir($dirToRemove);
 		}

@@ -19,11 +19,12 @@ use OCP\User\Events\PasswordUpdatedEvent;
  */
 class PasswordUpdatedListener implements IEventListener {
 	public function __construct(
-		readonly private IVerificationToken $verificationToken,
+		private readonly IVerificationToken $verificationToken,
 	) {
 
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof PasswordUpdatedEvent) {
 			$this->verificationToken->delete('', $event->getUser(), 'lostpassword');

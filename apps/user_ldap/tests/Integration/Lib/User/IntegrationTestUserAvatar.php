@@ -5,8 +5,10 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP\Tests\Integration\Lib\User;
 
+use OC\ServerNotAvailableException;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\Tests\Integration\AbstractIntegrationTest;
 use OCA\User_LDAP\User\DeletedUsersIndex;
@@ -108,7 +110,7 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 	 *
 	 * @param string $dn
 	 * @param string $image An image read via file_get_contents
-	 * @throws \OC\ServerNotAvailableException
+	 * @throws ServerNotAvailableException
 	 */
 	private function setJpegPhotoAttribute($dn, $image) {
 		$changeSet = ['jpegphoto' => $image];

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\DB;
 
 use Doctrine\DBAL\Schema\AbstractAsset;
@@ -16,23 +17,16 @@ use function preg_quote;
  * Various PostgreSQL specific helper functions.
  */
 class PgSqlTools {
-	/** @var \OCP\IConfig */
-	private $config;
-
-	/**
-	 * @param \OCP\IConfig $config
-	 */
-	public function __construct(IConfig $config) {
-		$this->config = $config;
+	public function __construct(
+		private IConfig $config,
+	) {
 	}
 
 	/**
 	 * @brief Resynchronizes all sequences of a database after using INSERTs
 	 *        without leaving out the auto-incremented column.
-	 * @param \OC\DB\Connection $conn
-	 * @return null
 	 */
-	public function resynchronizeDatabaseSequences(Connection $conn) {
+	public function resynchronizeDatabaseSequences(Connection $conn): void {
 		$databaseName = $conn->getDatabase();
 		$conn->getConfiguration()->setSchemaAssetsFilter(function ($asset) {
 			/** @var string|AbstractAsset $asset */

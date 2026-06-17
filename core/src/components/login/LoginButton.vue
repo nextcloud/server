@@ -4,8 +4,9 @@
 -->
 
 <template>
-	<NcButton type="primary"
-		native-type="submit"
+	<NcButton
+		variant="primary"
+		type="submit"
 		:wide="true"
 		:disabled="loading"
 		@click="$emit('click')">
@@ -19,7 +20,6 @@
 
 <script>
 import { translate as t } from '@nextcloud/l10n'
-
 import NcButton from '@nextcloud/vue/components/NcButton'
 import ArrowRight from 'vue-material-design-icons/ArrowRight.vue'
 
@@ -29,19 +29,23 @@ export default {
 		ArrowRight,
 		NcButton,
 	},
+
 	props: {
 		value: {
 			type: String,
 			default: t('core', 'Log in'),
 		},
+
 		valueLoading: {
 			type: String,
-			default: t('core', 'Logging in …'),
+			default: t('core', 'Logging in …'),
 		},
+
 		loading: {
 			type: Boolean,
 			required: true,
 		},
+
 		invertedColors: {
 			type: Boolean,
 			default: false,

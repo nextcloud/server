@@ -5,9 +5,11 @@
 
 import axios from '@nextcloud/axios'
 import { confirmPassword } from '@nextcloud/password-confirmation'
-import '@nextcloud/password-confirmation/dist/style.css'
 
-const sanitize = function(url) {
+/**
+ * @param {string} url - The url to sanitize
+ */
+function sanitize(url) {
 	return url.replace(/\/$/, '') // Remove last url slash
 }
 
@@ -50,8 +52,8 @@ export default {
 	get(url, options) {
 		return axios.get(sanitize(url), options)
 	},
-	post(url, data) {
-		return axios.post(sanitize(url), data)
+	post(url, data, options) {
+		return axios.post(sanitize(url), data, options)
 	},
 	patch(url, data) {
 		return axios.patch(sanitize(url), data)

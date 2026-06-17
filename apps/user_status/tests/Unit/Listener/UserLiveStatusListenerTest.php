@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\UserStatus\Tests\Listener;
 
 use OCA\DAV\CalDAV\Status\StatusService as CalendarStatusService;
@@ -15,7 +16,6 @@ use OCA\UserStatus\Listener\UserLiveStatusListener;
 use OCA\UserStatus\Service\StatusService;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\EventDispatcher\GenericEvent;
 use OCP\IUser;
 use OCP\User\Events\UserLiveStatusEvent;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -49,7 +49,7 @@ class UserLiveStatusListenerTest extends TestCase {
 		);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('handleEventWithCorrectEventDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'handleEventWithCorrectEventDataProvider')]
 	public function testHandleWithCorrectEvent(
 		string $userId,
 		string $previousStatus,
@@ -137,13 +137,5 @@ class UserLiveStatusListenerTest extends TestCase {
 			['john.doe', 'away', 5000, true, 'online', 5000, true, false],
 			['john.doe', 'online', 5000, true, 'away', 5000, true, false],
 		];
-	}
-
-	public function testHandleWithWrongEvent(): void {
-		$this->mapper->expects($this->never())
-			->method('insertOrUpdate');
-
-		$event = new GenericEvent();
-		$this->listener->handle($event);
 	}
 }

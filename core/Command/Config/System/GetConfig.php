@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Command\Config\System;
 
 use OC\SystemConfig;
@@ -20,6 +21,7 @@ class GetConfig extends Base {
 		parent::__construct($systemConfig);
 	}
 
+	#[\Override]
 	protected function configure() {
 		parent::configure();
 
@@ -47,6 +49,7 @@ class GetConfig extends Base {
 	 * @param OutputInterface $output An OutputInterface instance
 	 * @return int 0 if everything went fine, or an error code
 	 */
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$configNames = $input->getArgument('name');
 		$configName = array_shift($configNames);

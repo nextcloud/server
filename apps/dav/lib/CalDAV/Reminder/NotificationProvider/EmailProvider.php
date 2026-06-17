@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CalDAV\Reminder\NotificationProvider;
 
 use DateTime;
@@ -16,6 +17,7 @@ use OCP\IUser;
 use OCP\L10N\IFactory as L10NFactory;
 use OCP\Mail\Headers\AutoSubmitted;
 use OCP\Mail\IEMailTemplate;
+use OCP\Mail\IEmailValidator;
 use OCP\Mail\IMailer;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
@@ -39,6 +41,7 @@ class EmailProvider extends AbstractProvider {
 		LoggerInterface $logger,
 		L10NFactory $l10nFactory,
 		IURLGenerator $urlGenerator,
+		private IEmailValidator $emailValidator,
 	) {
 		parent::__construct($logger, $l10nFactory, $urlGenerator, $config);
 	}
@@ -52,6 +55,7 @@ class EmailProvider extends AbstractProvider {
 	 * @param array $users
 	 * @throws \Exception
 	 */
+	#[\Override]
 	public function send(VEvent $vevent,
 		?string $calendarDisplayName,
 		array $principalEmailAddresses,
@@ -96,7 +100,7 @@ class EmailProvider extends AbstractProvider {
 			$template->addFooter();
 
 			foreach ($emailAddresses as $emailAddress) {
-				if (!$this->mailer->validateMailAddress($emailAddress)) {
+				if (!$this->emailValidator->isValid($emailAddress)) {
 					$this->logger->error('Email address {address} for reminder notification is incorrect', ['app' => 'dav', 'address' => $emailAddress]);
 					continue;
 				}
@@ -142,19 +146,31 @@ class EmailProvider extends AbstractProvider {
 		IL10N $l10n,
 		string $calendarDisplayName,
 		VEvent $vevent):void {
-		$template->addBodyListItem($calendarDisplayName, $l10n->t('Calendar:'),
-			$this->getAbsoluteImagePath('actions/info.png'));
+		$template->addBodyListItem(
+			htmlspecialchars($calendarDisplayName),
+			$l10n->t('Calendar:'),
+			$this->getAbsoluteImagePath('actions/info.png'),
+			htmlspecialchars($calendarDisplayName),
+		);
 
 		$template->addBodyListItem($this->generateDateString($l10n, $vevent), $l10n->t('Date:'),
 			$this->getAbsoluteImagePath('places/calendar.png'));
 
 		if (isset($vevent->LOCATION)) {
-			$template->addBodyListItem((string)$vevent->LOCATION, $l10n->t('Where:'),
-				$this->getAbsoluteImagePath('actions/address.png'));
+			$template->addBodyListItem(
+				htmlspecialchars((string)$vevent->LOCATION),
+				$l10n->t('Where:'),
+				$this->getAbsoluteImagePath('actions/address.png'),
+				htmlspecialchars((string)$vevent->LOCATION),
+			);
 		}
 		if (isset($vevent->DESCRIPTION)) {
-			$template->addBodyListItem((string)$vevent->DESCRIPTION, $l10n->t('Description:'),
-				$this->getAbsoluteImagePath('actions/more.png'));
+			$template->addBodyListItem(
+				htmlspecialchars((string)$vevent->DESCRIPTION),
+				$l10n->t('Description:'),
+				$this->getAbsoluteImagePath('actions/more.png'),
+				htmlspecialchars((string)$vevent->DESCRIPTION),
+			);
 		}
 	}
 
@@ -180,7 +196,7 @@ class EmailProvider extends AbstractProvider {
 
 		$organizerEMail = substr($organizer->getValue(), 7);
 
-		if (!$this->mailer->validateMailAddress($organizerEMail)) {
+		if (!$this->emailValidator->isValid($organizerEMail)) {
 			return null;
 		}
 
@@ -251,7 +267,7 @@ class EmailProvider extends AbstractProvider {
 					foreach ($emailAddressesOfDelegates as $addressesOfDelegate) {
 						if (strcasecmp($addressesOfDelegate, 'mailto:') === 0) {
 							$delegateEmail = substr($addressesOfDelegate, 7);
-							if ($this->mailer->validateMailAddress($delegateEmail)) {
+							if ($this->emailValidator->isValid($delegateEmail)) {
 								$emailAddresses[$delegateEmail] = [];
 							}
 						}
@@ -311,7 +327,7 @@ class EmailProvider extends AbstractProvider {
 			return null;
 		}
 		$attendeeEMail = substr($attendee->getValue(), 7);
-		if (!$this->mailer->validateMailAddress($attendeeEMail)) {
+		if (!$this->emailValidator->isValid($attendeeEMail)) {
 			return null;
 		}
 

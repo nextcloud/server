@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Command\User\AuthTokens;
 
 use OC\Authentication\Events\AppPasswordCreatedEvent;
@@ -32,6 +33,7 @@ class Add extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('user:auth-tokens:add')
@@ -48,9 +50,22 @@ class Add extends Command {
 				InputOption::VALUE_NONE,
 				'Read password from environment variable NC_PASS/OC_PASS. Alternatively it will be asked for interactively or an app password without the login password will be created.'
 			)
+			->addOption(
+				'name',
+				null,
+				InputOption::VALUE_REQUIRED,
+				'Name for the app password, defaults to "cli".'
+			)
+			->addOption(
+				'login-name',
+				null,
+				InputOption::VALUE_REQUIRED,
+				'Optional login-name, defaults to UID'
+			)
 		;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$username = $input->getArgument('user');
 		$password = null;
@@ -81,13 +96,17 @@ class Add extends Command {
 			$output->writeln('<info>No password provided. The generated app password will therefore have limited capabilities. Any operation that requires the login password will fail.</info>');
 		}
 
+		$loginName = $input->getOption('login-name') ?? $user->getUID();
+
+		$tokenName = $input->getOption('name') ?: 'cli';
+
 		$token = $this->random->generate(72, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS);
 		$generatedToken = $this->tokenProvider->generateToken(
 			$token,
 			$user->getUID(),
-			$user->getUID(),
+			$loginName,
 			$password,
-			'cli',
+			$tokenName,
 			IToken::PERMANENT_TOKEN,
 			IToken::DO_NOT_REMEMBER
 		);

@@ -6,9 +6,9 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CardDAV\Notification;
 
-use InvalidArgumentException;
 use OCA\DAV\AppInfo\Application;
 use OCP\IL10N;
 use OCP\L10N\IFactory;
@@ -26,6 +26,7 @@ class Notifier implements INotifier {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getID(): string {
 		return Application::APP_ID;
 	}
@@ -33,6 +34,7 @@ class Notifier implements INotifier {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->l10nFactory->get(Application::APP_ID)->t('Contacts');
 	}
@@ -40,9 +42,10 @@ class Notifier implements INotifier {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function prepare(INotification $notification, string $languageCode): INotification {
 		if ($notification->getApp() !== Application::APP_ID) {
-			throw new InvalidArgumentException();
+			throw new UnknownNotificationException();
 		}
 
 		$l = $this->l10nFactory->get(Application::APP_ID, $languageCode);

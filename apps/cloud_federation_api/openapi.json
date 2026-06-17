@@ -354,7 +354,7 @@
                                 "required": [
                                     "recipientProvider",
                                     "token",
-                                    "userId",
+                                    "userID",
                                     "email",
                                     "name"
                                 ],
@@ -367,9 +367,9 @@
                                         "type": "string",
                                         "description": "The token used for the invitation"
                                     },
-                                    "userId": {
+                                    "userID": {
                                         "type": "string",
-                                        "description": "The userId of the recipient at the recipient's provider"
+                                        "description": "The userID of the recipient at the recipient's provider"
                                     },
                                     "email": {
                                         "type": "string",

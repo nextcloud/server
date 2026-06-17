@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV\Schedule;
 
 use OCA\DAV\CalDAV\CalDavBackend;
@@ -251,7 +252,7 @@ class PluginTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('propFindDefaultCalendarUrlProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'propFindDefaultCalendarUrlProvider')]
 	public function testPropFindDefaultCalendarUrl(string $principalUri, ?string $calendarHome, bool $isResource, string $calendarUri, string $displayName, bool $exists, bool $deleted = false, bool $hasExistingCalendars = false, bool $propertiesForPath = true): void {
 		$propFind = new PropFind(
 			$principalUri,

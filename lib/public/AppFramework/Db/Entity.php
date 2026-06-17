@@ -5,10 +5,10 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\AppFramework\Db;
 
 use OCP\DB\Types;
-
 use function lcfirst;
 use function substr;
 
@@ -19,14 +19,12 @@ use function substr;
  * @psalm-consistent-constructor
  */
 abstract class Entity {
-	/**
-	 * @var int
-	 */
+	/** @var int $id */
 	public $id;
-
+	/** @var array<string, true> $_updatedFields */
 	private array $_updatedFields = [];
-	/** @var array<string, \OCP\DB\Types::*> */
-	private array $_fieldTypes = ['id' => 'integer'];
+	/** @var array<string, Types::*> $_fieldTypes */
+	protected array $_fieldTypes = ['id' => 'integer'];
 
 	/**
 	 * Simple alternative constructor for building entities from a request
@@ -44,7 +42,6 @@ abstract class Entity {
 
 		return $instance;
 	}
-
 
 	/**
 	 * Maps the keys of the row array to the attributes
@@ -64,15 +61,13 @@ abstract class Entity {
 		return $instance;
 	}
 
-
 	/**
-	 * @return array<string, \OCP\DB\Types::*> with attribute and type
+	 * @return array<string, Types::*> with attribute and type
 	 * @since 7.0.0
 	 */
 	public function getFieldTypes(): array {
 		return $this->_fieldTypes;
 	}
-
 
 	/**
 	 * Marks the entity as clean needed for setting the id after the insertion
@@ -164,7 +159,6 @@ abstract class Entity {
 		}
 	}
 
-
 	/**
 	 * Each time a setter is called, push the part after set
 	 * into an array: for instance setId will save Id in the
@@ -207,7 +201,6 @@ abstract class Entity {
 		$this->_updatedFields[$attribute] = true;
 	}
 
-
 	/**
 	 * Transform a database columnname to a property
 	 *
@@ -229,7 +222,6 @@ abstract class Entity {
 
 		return $property;
 	}
-
 
 	/**
 	 * Transform a property to a database column name
@@ -253,23 +245,21 @@ abstract class Entity {
 		return $column;
 	}
 
-
 	/**
-	 * @return array array of updated fields for update query
+	 * @return array<string, true> array of updated fields for update query
 	 * @since 7.0.0
 	 */
 	public function getUpdatedFields(): array {
 		return $this->_updatedFields;
 	}
 
-
 	/**
 	 * Adds type information for a field so that it's automatically cast to
 	 * that value once its being returned from the database
 	 *
 	 * @param string $fieldName the name of the attribute
-	 * @param \OCP\DB\Types::* $type the type which will be used to match a cast
-	 * @since 31.0.0 Parameter $type is now restricted to {@see \OCP\DB\Types} constants. The formerly accidentally supported types 'int'|'bool'|'double' are mapped to Types::INTEGER|Types::BOOLEAN|Types::FLOAT accordingly.
+	 * @param Types::* $type the type which will be used to match a cast
+	 * @since 31.0.0 Parameter $type is now restricted to {@see Types} constants. The formerly accidentally supported types 'int'|'bool'|'double' are mapped to Types::INTEGER|Types::BOOLEAN|Types::FLOAT accordingly.
 	 * @since 7.0.0
 	 */
 	protected function addType(string $fieldName, string $type): void {
@@ -287,7 +277,6 @@ abstract class Entity {
 
 		$this->_fieldTypes[$fieldName] = $type;
 	}
-
 
 	/**
 	 * Slugify the value of a given attribute

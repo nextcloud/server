@@ -29,11 +29,9 @@ class GuestAvatarTest extends TestCase {
 
 	/**
 	 * Setups a guest avatar instance for tests.
-	 *
-	 * @before
-	 * @return void
 	 */
-	public function setupGuestAvatar() {
+	#[\PHPUnit\Framework\Attributes\Before()]
+	public function setupGuestAvatar(): void {
 		/* @var MockObject|LoggerInterface $logger */
 		$logger = $this->createMock(LoggerInterface::class);
 		$config = $this->createMock(IConfig::class);
@@ -47,7 +45,6 @@ class GuestAvatarTest extends TestCase {
 	 * the generated image is compared with an expected one.
 	 */
 	public function testGet(): void {
-		$this->markTestSkipped('TODO: Disable because fails on drone');
 		$avatar = $this->guestAvatar->getFile(32);
 		self::assertInstanceOf(InMemoryFile::class, $avatar);
 		$expectedFile = file_get_contents(

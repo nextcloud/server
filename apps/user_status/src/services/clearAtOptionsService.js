@@ -3,14 +3,14 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { translate as t } from '@nextcloud/l10n'
+import { t } from '@nextcloud/l10n'
 
 /**
  * Returns an array
  *
  * @return {object[]}
  */
-const getAllClearAtOptions = () => {
+function getAllClearAtOptions() {
 	return [{
 		label: t('user_status', 'Don\'t clear'),
 		clearAt: null,

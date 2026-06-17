@@ -25,10 +25,12 @@ class TestRepairStep implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName() {
 		return 'Test Name';
 	}
 
+	#[\Override]
 	public function run(IOutput $out) {
 		if ($this->warning) {
 			$out->warning('Simulated warning');
@@ -44,6 +46,7 @@ class RepairTest extends TestCase {
 	/** @var string[] */
 	private array $outputArray = [];
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$dispatcher = Server::get(IEventDispatcher::class);

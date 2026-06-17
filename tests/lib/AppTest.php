@@ -17,25 +17,57 @@ use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\IGroup;
 use OCP\IGroupManager;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Server;
 use OCP\ServerVersion;
-use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 /**
  * Class AppTest
- *
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class AppTest extends \Test\TestCase {
 	public const TEST_USER1 = 'user1';
 	public const TEST_USER2 = 'user2';
 	public const TEST_USER3 = 'user3';
 	public const TEST_GROUP1 = 'group1';
 	public const TEST_GROUP2 = 'group2';
+
+	private static IUser $user1;
+	private static IUser $user2;
+	private static IUser $user3;
+
+	private static IGroup $group1;
+	private static IGroup $group2;
+
+	public static function setUpBeforeClass(): void {
+		$userManager = Server::get(IUserManager::class);
+		$groupManager = Server::get(IGroupManager::class);
+
+		self::$user1 = $userManager->createUser(self::TEST_USER1, 'NotAnEasyPassword123456+');
+		self::$user2 = $userManager->createUser(self::TEST_USER2, 'NotAnEasyPassword123456_');
+		self::$user3 = $userManager->createUser(self::TEST_USER3, 'NotAnEasyPassword123456?');
+
+		self::$group1 = $groupManager->createGroup(self::TEST_GROUP1);
+		self::$group1->addUser(self::$user1);
+		self::$group1->addUser(self::$user3);
+		self::$group2 = $groupManager->createGroup(self::TEST_GROUP2);
+		self::$group2->addUser(self::$user2);
+		self::$group2->addUser(self::$user3);
+	}
+
+	public static function tearDownAfterClass(): void {
+		self::$user1->delete();
+		self::$user2->delete();
+		self::$user3->delete();
+
+		self::$group1->delete();
+		self::$group2->delete();
+	}
 
 	/**
 	 * Tests that the app order is correct
@@ -65,6 +97,7 @@ class AppTest extends \Test\TestCase {
 					'app3',
 					'appforgroup1',
 					'appforgroup12',
+					'appstore',
 					'cloud_federation_api',
 					'dav',
 					'federatedfilesharing',
@@ -89,6 +122,7 @@ class AppTest extends \Test\TestCase {
 					'app3',
 					'appforgroup12',
 					'appforgroup2',
+					'appstore',
 					'cloud_federation_api',
 					'dav',
 					'federatedfilesharing',
@@ -114,6 +148,7 @@ class AppTest extends \Test\TestCase {
 					'appforgroup1',
 					'appforgroup12',
 					'appforgroup2',
+					'appstore',
 					'cloud_federation_api',
 					'dav',
 					'federatedfilesharing',
@@ -139,6 +174,7 @@ class AppTest extends \Test\TestCase {
 					'appforgroup1',
 					'appforgroup12',
 					'appforgroup2',
+					'appstore',
 					'cloud_federation_api',
 					'dav',
 					'federatedfilesharing',
@@ -164,6 +200,7 @@ class AppTest extends \Test\TestCase {
 					'appforgroup1',
 					'appforgroup12',
 					'appforgroup2',
+					'appstore',
 					'cloud_federation_api',
 					'dav',
 					'federatedfilesharing',
@@ -186,21 +223,17 @@ class AppTest extends \Test\TestCase {
 	 * Test enabled apps
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('appConfigValuesProvider')]
-	public function testEnabledApps($user, $expectedApps, $forceAll): void {
-		$userManager = Server::get(IUserManager::class);
-		$groupManager = Server::get(IGroupManager::class);
-		$user1 = $userManager->createUser(self::TEST_USER1, 'NotAnEasyPassword123456+');
-		$user2 = $userManager->createUser(self::TEST_USER2, 'NotAnEasyPassword123456_');
-		$user3 = $userManager->createUser(self::TEST_USER3, 'NotAnEasyPassword123456?');
+	public function testEnabledApps($userId, $expectedApps, $forceAll): void {
+		$userSession = Server::get(IUserSession::class);
 
-		$group1 = $groupManager->createGroup(self::TEST_GROUP1);
-		$group1->addUser($user1);
-		$group1->addUser($user3);
-		$group2 = $groupManager->createGroup(self::TEST_GROUP2);
-		$group2->addUser($user2);
-		$group2->addUser($user3);
+		$user = match ($userId) {
+			self::TEST_USER1 => self::$user1,
+			self::TEST_USER2 => self::$user2,
+			self::TEST_USER3 => self::$user3,
+			default => null,
+		};
 
-		\OC_User::setUserId($user);
+		$userSession->setUser($user);
 
 		$this->setupAppConfigMock()->expects($this->once())
 			->method('searchValues')
@@ -218,14 +251,7 @@ class AppTest extends \Test\TestCase {
 		$apps = \OC_App::getEnabledApps(false, $forceAll);
 
 		$this->restoreAppConfig();
-		\OC_User::setUserId(null);
-
-		$user1->delete();
-		$user2->delete();
-		$user3->delete();
-
-		$group1->delete();
-		$group2->delete();
+		$userSession->setUser(null);
 
 		$this->assertEquals($expectedApps, $apps);
 	}
@@ -235,10 +261,8 @@ class AppTest extends \Test\TestCase {
 	 * enabled apps more than once when a user is set.
 	 */
 	public function testEnabledAppsCache(): void {
-		$userManager = Server::get(IUserManager::class);
-		$user1 = $userManager->createUser(self::TEST_USER1, 'NotAnEasyPassword123456+');
-
-		\OC_User::setUserId(self::TEST_USER1);
+		$userSession = Server::get(IUserSession::class);
+		$userSession->setUser(self::$user1);
 
 		$this->setupAppConfigMock()->expects($this->once())
 			->method('searchValues')
@@ -250,21 +274,17 @@ class AppTest extends \Test\TestCase {
 			);
 
 		$apps = \OC_App::getEnabledApps();
-		$this->assertEquals(['files', 'app3', 'cloud_federation_api', 'dav', 'federatedfilesharing', 'lookup_server_connector', 'oauth2', 'profile', 'provisioning_api', 'settings', 'theming', 'twofactor_backupcodes', 'viewer', 'workflowengine'], $apps);
+		$this->assertEquals(['files', 'app3', 'appstore', 'cloud_federation_api', 'dav', 'federatedfilesharing', 'lookup_server_connector', 'oauth2', 'profile', 'provisioning_api', 'settings', 'theming', 'twofactor_backupcodes', 'viewer', 'workflowengine'], $apps);
 
 		// mock should not be called again here
 		$apps = \OC_App::getEnabledApps();
-		$this->assertEquals(['files', 'app3', 'cloud_federation_api', 'dav', 'federatedfilesharing', 'lookup_server_connector', 'oauth2', 'profile', 'provisioning_api', 'settings', 'theming', 'twofactor_backupcodes', 'viewer', 'workflowengine'], $apps);
+		$this->assertEquals(['files', 'app3', 'appstore', 'cloud_federation_api', 'dav', 'federatedfilesharing', 'lookup_server_connector', 'oauth2', 'profile', 'provisioning_api', 'settings', 'theming', 'twofactor_backupcodes', 'viewer', 'workflowengine'], $apps);
 
 		$this->restoreAppConfig();
-		\OC_User::setUserId(null);
-
-		$user1->delete();
+		$userSession->setUser(null);
 	}
 
-
 	private function setupAppConfigMock() {
-		/** @var AppConfig|MockObject */
 		$appConfig = $this->getMockBuilder(AppConfig::class)
 			->onlyMethods(['searchValues'])
 			->setConstructorArgs([Server::get(IDBConnection::class)])

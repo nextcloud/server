@@ -9,19 +9,25 @@
 namespace Test\Files\Node;
 
 use OC\Files\Node\File;
+use OC\Files\Node\NonExistingFile;
 use OC\Files\Node\Root;
+use OC\Files\View;
 use OCP\Constants;
+use OCP\Files\IRootFolder;
 use OCP\Files\NotPermittedException;
+use OCP\Files\Storage\IStorage;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class FileTest
  *
- * @group DB
  *
  * @package Test\Files\Node
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class FileTest extends NodeTestCase {
-	protected function createTestNode($root, $view, $path, array $data = [], $internalPath = '', $storage = null) {
+	#[\Override]
+	protected function createTestNode(IRootFolder $root, View&MockObject $view, string $path, array $data = [], string $internalPath = '', ?IStorage $storage = null): File {
 		if ($data || $internalPath || $storage) {
 			return new File($root, $view, $path, $this->getFileInfo($data, $internalPath, $storage));
 		} else {
@@ -29,20 +35,23 @@ class FileTest extends NodeTestCase {
 		}
 	}
 
-	protected function getNodeClass() {
-		return '\OC\Files\Node\File';
+	#[\Override]
+	protected function getNodeClass(): string {
+		return File::class;
 	}
 
-	protected function getNonExistingNodeClass() {
-		return '\OC\Files\Node\NonExistingFile';
+	#[\Override]
+	protected function getNonExistingNodeClass(): string {
+		return NonExistingFile::class;
 	}
 
-	protected function getViewDeleteMethod() {
+	#[\Override]
+	protected function getViewDeleteMethod(): string {
 		return 'unlink';
 	}
 
 	public function testGetContent(): void {
-		/** @var \OC\Files\Node\Root|\PHPUnit\Framework\MockObject\MockObject $root */
+		/** @var Root|\PHPUnit\Framework\MockObject\MockObject $root */
 		$root = $this->getMockBuilder(Root::class)
 			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory, $this->appConfig])
 			->getMock();
@@ -68,11 +77,10 @@ class FileTest extends NodeTestCase {
 		$this->assertEquals('bar', $node->getContent());
 	}
 
-
 	public function testGetContentNotPermitted(): void {
 		$this->expectException(NotPermittedException::class);
 
-		/** @var \OC\Files\Node\Root|\PHPUnit\Framework\MockObject\MockObject $root */
+		/** @var Root|\PHPUnit\Framework\MockObject\MockObject $root */
 		$root = $this->getMockBuilder(Root::class)
 			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory, $this->appConfig])
 			->getMock();
@@ -91,7 +99,7 @@ class FileTest extends NodeTestCase {
 	}
 
 	public function testPutContent(): void {
-		/** @var \OC\Files\Node\Root|\PHPUnit\Framework\MockObject\MockObject $root */
+		/** @var Root|\PHPUnit\Framework\MockObject\MockObject $root */
 		$root = $this->getMockBuilder(Root::class)
 			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory, $this->appConfig])
 			->getMock();
@@ -114,11 +122,10 @@ class FileTest extends NodeTestCase {
 		$node->putContent('bar');
 	}
 
-
 	public function testPutContentNotPermitted(): void {
 		$this->expectException(NotPermittedException::class);
 
-		/** @var \OC\Files\Node\Root|\PHPUnit\Framework\MockObject\MockObject $root */
+		/** @var Root|\PHPUnit\Framework\MockObject\MockObject $root */
 		$root = $this->getMockBuilder(Root::class)
 			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory, $this->appConfig])
 			->getMock();
@@ -133,7 +140,7 @@ class FileTest extends NodeTestCase {
 	}
 
 	public function testGetMimeType(): void {
-		/** @var \OC\Files\Node\Root|\PHPUnit\Framework\MockObject\MockObject $root */
+		/** @var Root|\PHPUnit\Framework\MockObject\MockObject $root */
 		$root = $this->getMockBuilder(Root::class)
 			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory, $this->appConfig])
 			->getMock();
@@ -228,7 +235,6 @@ class FileTest extends NodeTestCase {
 		$this->assertEquals(2, $hooksCalled);
 	}
 
-
 	public function testFOpenReadNotPermitted(): void {
 		$this->expectException(NotPermittedException::class);
 
@@ -256,7 +262,6 @@ class FileTest extends NodeTestCase {
 		$node->fopen('r');
 	}
 
-
 	public function testFOpenReadWriteNoReadPermissions(): void {
 		$this->expectException(NotPermittedException::class);
 
@@ -283,7 +288,6 @@ class FileTest extends NodeTestCase {
 		$node = new File($root, $this->view, '/bar/foo');
 		$node->fopen('w');
 	}
-
 
 	public function testFOpenReadWriteNoWritePermissions(): void {
 		$this->expectException(NotPermittedException::class);

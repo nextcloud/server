@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Comments;
 
 use OCP\Comments\IComment;
@@ -52,6 +53,7 @@ class Comment implements IComment {
 	 *
 	 * @since 9.0.0
 	 */
+	#[\Override]
 	public function getId(): string {
 		return $this->data['id'];
 	}
@@ -69,6 +71,7 @@ class Comment implements IComment {
 	 * @throws IllegalIDChangeException
 	 * @since 9.0.0
 	 */
+	#[\Override]
 	public function setId($id): IComment {
 		if (!is_string($id)) {
 			throw new \InvalidArgumentException('String expected.');
@@ -88,6 +91,7 @@ class Comment implements IComment {
 	 *
 	 * @since 9.0.0
 	 */
+	#[\Override]
 	public function getParentId(): string {
 		return $this->data['parentId'];
 	}
@@ -98,6 +102,7 @@ class Comment implements IComment {
 	 * @param string $parentId
 	 * @since 9.0.0
 	 */
+	#[\Override]
 	public function setParentId($parentId): IComment {
 		if (!is_string($parentId)) {
 			throw new \InvalidArgumentException('String expected.');
@@ -111,10 +116,10 @@ class Comment implements IComment {
 	 *
 	 * @since 9.0.0
 	 */
+	#[\Override]
 	public function getTopmostParentId(): string {
 		return $this->data['topmostParentId'];
 	}
-
 
 	/**
 	 * Sets the topmost parent ID and returns itself
@@ -122,6 +127,7 @@ class Comment implements IComment {
 	 * @param string $id
 	 * @since 9.0.0
 	 */
+	#[\Override]
 	public function setTopmostParentId($id): IComment {
 		if (!is_string($id)) {
 			throw new \InvalidArgumentException('String expected.');
@@ -135,6 +141,7 @@ class Comment implements IComment {
 	 *
 	 * @since 9.0.0
 	 */
+	#[\Override]
 	public function getChildrenCount(): int {
 		return $this->data['childrenCount'];
 	}
@@ -145,6 +152,7 @@ class Comment implements IComment {
 	 * @param int $count
 	 * @since 9.0.0
 	 */
+	#[\Override]
 	public function setChildrenCount($count): IComment {
 		if (!is_int($count)) {
 			throw new \InvalidArgumentException('Integer expected.');
@@ -157,6 +165,7 @@ class Comment implements IComment {
 	 * Returns the message of the comment
 	 * @since 9.0.0
 	 */
+	#[\Override]
 	public function getMessage(): string {
 		return $this->data['message'];
 	}
@@ -169,6 +178,7 @@ class Comment implements IComment {
 	 * @throws MessageTooLongException
 	 * @since 9.0.0
 	 */
+	#[\Override]
 	public function setMessage($message, $maxLength = self::MAX_MESSAGE_LENGTH): IComment {
 		if (!is_string($message)) {
 			throw new \InvalidArgumentException('String expected.');
@@ -184,16 +194,26 @@ class Comment implements IComment {
 	/**
 	 * returns an array containing mentions that are included in the comment
 	 *
+	 * @param bool $supportMarkdown
 	 * @return array each mention provides a 'type' and an 'id', see example below
 	 * @psalm-return list<array{type: 'guest'|'email'|'federated_group'|'group'|'federated_team'|'team'|'federated_user'|'user', id: non-empty-lowercase-string}>
+	 * @since 33.0.1 Parameter $supportMarkdown was added to decide if mentions inside markdown code blocks should be ignored (default to true)
 	 * @since 30.0.2 Type 'email' is supported
 	 * @since 29.0.0 Types 'federated_group', 'federated_team', 'team' and 'federated_user' are supported
 	 * @since 23.0.0 Type 'group' is supported
 	 * @since 17.0.0 Type 'guest' is supported
 	 * @since 11.0.0
 	 */
-	public function getMentions(): array {
-		$ok = preg_match_all("/\B(?<![^a-z0-9_\-@\.\'\s])@(\"(guest|email)\/[a-f0-9]+\"|\"(?:federated_)?(?:group|team|user){1}\/[a-z0-9_\-@\.\' \/:]+\"|\"[a-z0-9_\-@\.\' ]+\"|[a-z0-9_\-@\.\']+)/i", $this->getMessage(), $mentions);
+	#[\Override]
+	public function getMentions(bool $supportMarkdown = true): array {
+		$message = $this->getMessage();
+		if ($supportMarkdown) {
+			// Strip fenced code blocks and inline code so mentions inside them are ignored
+			$message = preg_replace('/^```.*?(^```|\z)|^~~~.*?(^~~~|\z)/sm', '', $message);
+			$message = preg_replace('/`[^`\n]*`/', '', $message);
+		}
+
+		$ok = preg_match_all("/\B(?<![^a-z0-9_\-@\.\'\s])@(\"(guest|email)\/[a-f0-9]+\"|\"(?:federated_)?(?:group|team|user){1}\/[a-z0-9_\-@\.\' \/:]+\"|\"[a-z0-9_\-@\.\' ]+\"|[a-z0-9_\-@\.\']+)/i", $message, $mentions);
 		if (!$ok || !isset($mentions[0])) {
 			return [];
 		}
@@ -245,6 +265,7 @@ class Comment implements IComment {
 	 *
 	 * @since 9.0.0
 	 */
+	#[\Override]
 	public function getVerb(): string {
 		return $this->data['verb'];
 	}
@@ -255,6 +276,7 @@ class Comment implements IComment {
 	 * @param string $verb
 	 * @since 9.0.0
 	 */
+	#[\Override]
 	public function setVerb($verb): IComment {
 		if (!is_string($verb) || !trim($verb)) {
 			throw new \InvalidArgumentException('Non-empty String expected.');
@@ -267,6 +289,7 @@ class Comment implements IComment {
 	 * Returns the actor type
 	 * @since 9.0.0
 	 */
+	#[\Override]
 	public function getActorType(): string {
 		return $this->data['actorType'];
 	}
@@ -275,6 +298,7 @@ class Comment implements IComment {
 	 * Returns the actor ID
 	 * @since 9.0.0
 	 */
+	#[\Override]
 	public function getActorId(): string {
 		return $this->data['actorId'];
 	}
@@ -286,6 +310,7 @@ class Comment implements IComment {
 	 * @param string $actorId e.g. 'zombie234'
 	 * @since 9.0.0
 	 */
+	#[\Override]
 	public function setActor($actorType, $actorId): IComment {
 		if (
 			!is_string($actorType) || !trim($actorType)
@@ -305,6 +330,7 @@ class Comment implements IComment {
 	 * @since 9.0.0
 	 * @throws \LogicException if creation date time is not set yet
 	 */
+	#[\Override]
 	public function getCreationDateTime(): \DateTime {
 		if (!isset($this->data['creationDT'])) {
 			throw new \LogicException('Cannot get creation date before setting one or writting to database');
@@ -316,6 +342,7 @@ class Comment implements IComment {
 	 * Sets the creation date of the comment and returns itself
 	 * @since 9.0.0
 	 */
+	#[\Override]
 	public function setCreationDateTime(\DateTime $dateTime): IComment {
 		$this->data['creationDT'] = $dateTime;
 		return $this;
@@ -325,6 +352,7 @@ class Comment implements IComment {
 	 * Returns the DateTime of the most recent child, if set, otherwise null
 	 * @since 9.0.0
 	 */
+	#[\Override]
 	public function getLatestChildDateTime(): ?\DateTime {
 		return $this->data['latestChildDT'];
 	}
@@ -332,6 +360,7 @@ class Comment implements IComment {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function setLatestChildDateTime(?\DateTime $dateTime = null): IComment {
 		$this->data['latestChildDT'] = $dateTime;
 		return $this;
@@ -341,6 +370,7 @@ class Comment implements IComment {
 	 * Returns the object type the comment is attached to
 	 * @since 9.0.0
 	 */
+	#[\Override]
 	public function getObjectType(): string {
 		return $this->data['objectType'];
 	}
@@ -349,6 +379,7 @@ class Comment implements IComment {
 	 * Returns the object id the comment is attached to
 	 * @since 9.0.0
 	 */
+	#[\Override]
 	public function getObjectId(): string {
 		return $this->data['objectId'];
 	}
@@ -360,6 +391,7 @@ class Comment implements IComment {
 	 * @param string $objectId e.g. '16435'
 	 * @since 9.0.0
 	 */
+	#[\Override]
 	public function setObject($objectType, $objectId): IComment {
 		if (
 			!is_string($objectType) || !trim($objectType)
@@ -376,6 +408,7 @@ class Comment implements IComment {
 	 * Returns the reference id of the comment
 	 * @since 19.0.0
 	 */
+	#[\Override]
 	public function getReferenceId(): ?string {
 		return $this->data['referenceId'];
 	}
@@ -386,6 +419,7 @@ class Comment implements IComment {
 	 * @param string $referenceId e.g. sha256 hash sum
 	 * @since 19.0.0
 	 */
+	#[\Override]
 	public function setReferenceId(?string $referenceId): IComment {
 		if ($referenceId === null) {
 			$this->data['referenceId'] = $referenceId;
@@ -402,6 +436,7 @@ class Comment implements IComment {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getMetaData(): ?array {
 		if ($this->data['metaData'] === null) {
 			return null;
@@ -418,6 +453,7 @@ class Comment implements IComment {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function setMetaData(?array $metaData):  IComment {
 		if ($metaData === null) {
 			$this->data['metaData'] = null;
@@ -430,6 +466,7 @@ class Comment implements IComment {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getReactions(): array {
 		return $this->data['reactions'] ?? [];
 	}
@@ -437,6 +474,7 @@ class Comment implements IComment {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function setReactions(?array $reactions): IComment {
 		$this->data['reactions'] = $reactions;
 		return $this;
@@ -445,6 +483,7 @@ class Comment implements IComment {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function setExpireDate(?\DateTime $dateTime): IComment {
 		$this->data['expire_date'] = $dateTime;
 		return $this;
@@ -453,6 +492,7 @@ class Comment implements IComment {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getExpireDate(): ?\DateTime {
 		return $this->data['expire_date'];
 	}

@@ -5,76 +5,61 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Mount;
 
 use OC\Files\Filesystem;
 use OC\Files\Storage\Storage;
 use OC\Files\Storage\StorageFactory;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IStorageFactory;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class MountPoint implements IMountPoint {
-	/**
-	 * @var \OC\Files\Storage\Storage|null $storage
-	 */
+	/** @var IStorage|null $storage */
 	protected $storage = null;
-	protected $class;
-	protected $storageId;
-	protected $numericStorageId = null;
-	protected $rootId = null;
+	/** @var class-string<IStorage> */
+	protected string $class;
+	protected ?string $storageId = null;
+	protected ?int $numericStorageId = null;
+	protected ?int $rootId = null;
 
 	/**
 	 * Configuration options for the storage backend
-	 *
-	 * @var array
 	 */
-	protected $arguments = [];
-	protected $mountPoint;
+	protected array $arguments = [];
+	protected string $mountPoint;
 
 	/**
 	 * Mount specific options
-	 *
-	 * @var array
 	 */
-	protected $mountOptions = [];
-
-	/**
-	 * @var \OC\Files\Storage\StorageFactory $loader
-	 */
-	private $loader;
+	protected array $mountOptions = [];
+	private IStorageFactory $loader;
 
 	/**
 	 * Specified whether the storage is invalid after failing to
 	 * instantiate it.
-	 *
-	 * @var bool
 	 */
-	private $invalidStorage = false;
-
-	/** @var int|null */
-	protected $mountId;
-
-	/** @var string */
-	protected $mountProvider;
+	private bool $invalidStorage = false;
+	protected string $mountProvider;
 
 	/**
-	 * @param string|\OC\Files\Storage\Storage $storage
-	 * @param string $mountpoint
+	 * @param IStorage|class-string<IStorage> $storage
 	 * @param array $arguments (optional) configuration for the storage backend
-	 * @param \OCP\Files\Storage\IStorageFactory $loader
-	 * @param array $mountOptions mount specific options
-	 * @param int|null $mountId
-	 * @param string|null $mountProvider
+	 * @param ?array $mountOptions mount specific options
+	 * @param ?int $mountId
+	 * @param ?string $mountProvider
 	 * @throws \Exception
 	 */
 	public function __construct(
-		$storage,
+		string|IStorage $storage,
 		string $mountpoint,
 		?array $arguments = null,
 		?IStorageFactory $loader = null,
 		?array $mountOptions = null,
-		?int $mountId = null,
+		protected ?int $mountId = null,
 		?string $mountProvider = null,
 	) {
 		if (is_null($arguments)) {
@@ -90,9 +75,7 @@ class MountPoint implements IMountPoint {
 			$this->mountOptions = $mountOptions;
 		}
 
-		$mountpoint = $this->formatPath($mountpoint);
-		$this->mountPoint = $mountpoint;
-		$this->mountId = $mountId;
+		$this->mountPoint = $this->formatPath($mountpoint);
 		if ($storage instanceof Storage) {
 			$this->class = get_class($storage);
 			$this->storage = $this->loader->wrap($this, $storage);
@@ -117,6 +100,7 @@ class MountPoint implements IMountPoint {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function getMountPoint() {
 		return $this->mountPoint;
 	}
@@ -126,6 +110,7 @@ class MountPoint implements IMountPoint {
 	 *
 	 * @param string $mountPoint new mount point
 	 */
+	#[\Override]
 	public function setMountPoint($mountPoint) {
 		$this->mountPoint = $this->formatPath($mountPoint);
 	}
@@ -143,6 +128,7 @@ class MountPoint implements IMountPoint {
 				$class = $this->class;
 				// prevent recursion by setting the storage before applying wrappers
 				$this->storage = new $class($this->arguments);
+				/** @psalm-suppress UndefinedInterfaceMethod This is a StorageFactory */
 				$this->storage = $this->loader->wrap($this, $this->storage);
 			} catch (\Exception $exception) {
 				$this->storage = null;
@@ -151,20 +137,20 @@ class MountPoint implements IMountPoint {
 					// the root storage could not be initialized, show the user!
 					throw new \Exception('The root storage could not be initialized. Please contact your local administrator.', $exception->getCode(), $exception);
 				} else {
-					\OC::$server->get(LoggerInterface::class)->error($exception->getMessage(), ['exception' => $exception]);
+					Server::get(LoggerInterface::class)->error($exception->getMessage(), ['exception' => $exception]);
 				}
 				return;
 			}
 		} else {
-			\OC::$server->get(LoggerInterface::class)->error('Storage backend ' . $this->class . ' not found', ['app' => 'core']);
+			Server::get(LoggerInterface::class)->error('Storage backend ' . $this->class . ' not found', ['app' => 'core']);
 			$this->invalidStorage = true;
-			return;
 		}
 	}
 
 	/**
-	 * @return \OC\Files\Storage\Storage|null
+	 * @return IStorage|null
 	 */
+	#[\Override]
 	public function getStorage() {
 		if (is_null($this->storage)) {
 			$this->createStorage();
@@ -175,6 +161,7 @@ class MountPoint implements IMountPoint {
 	/**
 	 * @return string|null
 	 */
+	#[\Override]
 	public function getStorageId() {
 		if (!$this->storageId) {
 			$storage = $this->getStorage();
@@ -192,6 +179,7 @@ class MountPoint implements IMountPoint {
 	/**
 	 * @return int
 	 */
+	#[\Override]
 	public function getNumericStorageId() {
 		if (is_null($this->numericStorageId)) {
 			$storage = $this->getStorage();
@@ -207,6 +195,7 @@ class MountPoint implements IMountPoint {
 	 * @param string $path
 	 * @return string
 	 */
+	#[\Override]
 	public function getInternalPath($path) {
 		$path = Filesystem::normalizePath($path, true, false, true);
 		if ($this->mountPoint === $path || $this->mountPoint . '/' === $path) {
@@ -233,10 +222,11 @@ class MountPoint implements IMountPoint {
 	/**
 	 * @param callable $wrapper
 	 */
+	#[\Override]
 	public function wrapStorage($wrapper) {
 		$storage = $this->getStorage();
 		// storage can be null if it couldn't be initialized
-		if ($storage != null) {
+		if ($storage !== null) {
 			$this->storage = $wrapper($this->mountPoint, $storage, $this);
 		}
 	}
@@ -248,6 +238,7 @@ class MountPoint implements IMountPoint {
 	 * @param mixed $default Default value for the mount option
 	 * @return mixed
 	 */
+	#[\Override]
 	public function getOption($name, $default) {
 		return $this->mountOptions[$name] ?? $default;
 	}
@@ -257,6 +248,7 @@ class MountPoint implements IMountPoint {
 	 *
 	 * @return array
 	 */
+	#[\Override]
 	public function getOptions() {
 		return $this->mountOptions;
 	}
@@ -266,6 +258,7 @@ class MountPoint implements IMountPoint {
 	 *
 	 * @return int
 	 */
+	#[\Override]
 	public function getStorageRootId() {
 		if (is_null($this->rootId) || $this->rootId === -1) {
 			$storage = $this->getStorage();
@@ -279,14 +272,17 @@ class MountPoint implements IMountPoint {
 		return $this->rootId;
 	}
 
+	#[\Override]
 	public function getMountId() {
 		return $this->mountId;
 	}
 
+	#[\Override]
 	public function getMountType() {
 		return '';
 	}
 
+	#[\Override]
 	public function getMountProvider(): string {
 		return $this->mountProvider;
 	}

@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Sharing\Tests\Collaboration;
 
 use OCA\Files_Sharing\Collaboration\ShareRecipientSorter;
@@ -38,7 +39,7 @@ class ShareRecipientSorterTest extends TestCase {
 	/**
 	 * @param $data
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('sortDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'sortDataProvider')]
 	public function testSort($data): void {
 		$node = $this->createMock(Node::class);
 

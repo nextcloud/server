@@ -17,21 +17,21 @@ use OCP\Server;
 /**
  * Class PathVerificationTest
  *
- * @group DB
  *
  * @package Test\Files
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class PathVerificationTest extends \Test\TestCase {
 	/**
 	 * @var View
 	 */
 	private $view;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->view = new View();
 	}
-
 
 	public function testPathVerificationFileNameTooLong(): void {
 		$this->expectException(InvalidPathException::class);
@@ -40,7 +40,6 @@ class PathVerificationTest extends \Test\TestCase {
 		$fileName = str_repeat('a', 500);
 		$this->view->verifyPath('', $fileName);
 	}
-
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('providesEmptyFiles')]
 	public function testPathVerificationEmptyFileName($fileName): void {

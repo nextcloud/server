@@ -16,16 +16,17 @@ use Test\Files\Cache\CacheTest;
 /**
  * Class CachePermissionsMask
  *
- * @group DB
  *
  * @package Test\Files\Cache\Wrapper
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class CachePermissionsMaskTest extends CacheTest {
 	/**
 	 * @var Cache $sourceCache
 	 */
 	protected $sourceCache;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->storage->mkdir('foo');

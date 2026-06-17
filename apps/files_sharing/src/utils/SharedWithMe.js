@@ -5,7 +5,11 @@
 
 import { ShareType } from '@nextcloud/sharing'
 
-const shareWithTitle = function(share) {
+/**
+ *
+ * @param share
+ */
+function shareWithTitle(share) {
 	if (share.type === ShareType.Group) {
 		return t(
 			'files_sharing',

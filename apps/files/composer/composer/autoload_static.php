@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitFiles
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\Files\\' => 10,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\Files\\' => 
+        'OCA\\Files\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),
@@ -48,6 +48,8 @@ class ComposerStaticInitFiles
         'OCA\\Files\\Command\\Delete' => __DIR__ . '/..' . '/../lib/Command/Delete.php',
         'OCA\\Files\\Command\\DeleteOrphanedFiles' => __DIR__ . '/..' . '/../lib/Command/DeleteOrphanedFiles.php',
         'OCA\\Files\\Command\\Get' => __DIR__ . '/..' . '/../lib/Command/Get.php',
+        'OCA\\Files\\Command\\Mount\\ListMounts' => __DIR__ . '/..' . '/../lib/Command/Mount/ListMounts.php',
+        'OCA\\Files\\Command\\Mount\\Refresh' => __DIR__ . '/..' . '/../lib/Command/Mount/Refresh.php',
         'OCA\\Files\\Command\\Move' => __DIR__ . '/..' . '/../lib/Command/Move.php',
         'OCA\\Files\\Command\\Object\\Delete' => __DIR__ . '/..' . '/../lib/Command/Object/Delete.php',
         'OCA\\Files\\Command\\Object\\Get' => __DIR__ . '/..' . '/../lib/Command/Object/Get.php',
@@ -92,6 +94,7 @@ class ComposerStaticInitFiles
         'OCA\\Files\\Listener\\NodeRemovedFromFavoriteListener' => __DIR__ . '/..' . '/../lib/Listener/NodeRemovedFromFavoriteListener.php',
         'OCA\\Files\\Listener\\RenderReferenceEventListener' => __DIR__ . '/..' . '/../lib/Listener/RenderReferenceEventListener.php',
         'OCA\\Files\\Listener\\SyncLivePhotosListener' => __DIR__ . '/..' . '/../lib/Listener/SyncLivePhotosListener.php',
+        'OCA\\Files\\Listener\\UserFirstTimeLoggedInListener' => __DIR__ . '/..' . '/../lib/Listener/UserFirstTimeLoggedInListener.php',
         'OCA\\Files\\Migration\\Version11301Date20191205150729' => __DIR__ . '/..' . '/../lib/Migration/Version11301Date20191205150729.php',
         'OCA\\Files\\Migration\\Version12101Date20221011153334' => __DIR__ . '/..' . '/../lib/Migration/Version12101Date20221011153334.php',
         'OCA\\Files\\Migration\\Version2003Date20241021095629' => __DIR__ . '/..' . '/../lib/Migration/Version2003Date20241021095629.php',

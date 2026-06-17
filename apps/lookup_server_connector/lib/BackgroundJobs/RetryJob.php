@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\LookupServerConnector\BackgroundJobs;
 
 use OC\Security\IdentityProof\Signer;
@@ -20,7 +21,6 @@ use OCP\IUserManager;
 
 class RetryJob extends Job {
 	private string $lookupServer;
-	private Signer $signer;
 	protected int $retries = 0;
 	protected bool $retainJob = false;
 
@@ -38,10 +38,9 @@ class RetryJob extends Job {
 		private IConfig $config,
 		private IUserManager $userManager,
 		private IAccountManager $accountManager,
-		Signer $signer,
+		private Signer $signer,
 	) {
 		parent::__construct($time);
-		$this->signer = $signer;
 
 		$this->lookupServer = $this->config->getSystemValue('lookup_server', 'https://lookup.nextcloud.com');
 		if (!empty($this->lookupServer)) {
@@ -53,6 +52,7 @@ class RetryJob extends Job {
 	/**
 	 * Run the job, then remove it from the jobList
 	 */
+	#[\Override]
 	public function start(IJobList $jobList): void {
 		if (!isset($this->argument['userId'])) {
 			// Old background job without user id, just drop it.
@@ -97,6 +97,7 @@ class RetryJob extends Job {
 		return ($this->time->getTime() - $this->lastRun) > $delay;
 	}
 
+	#[\Override]
 	protected function run($argument): void {
 		$user = $this->userManager->get($this->argument['userId']);
 		if (!$user instanceof IUser) {

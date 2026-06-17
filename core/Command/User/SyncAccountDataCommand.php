@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Command\User;
 
 use OC\Core\Command\Base;
@@ -24,6 +25,7 @@ class SyncAccountDataCommand extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('user:sync-account-data')
@@ -43,6 +45,7 @@ class SyncAccountDataCommand extends Base {
 			);
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$users = $this->userManager->searchDisplayName('', (int)$input->getOption('limit'), (int)$input->getOption('offset'));
 

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\ObjectStore;
 
 use GuzzleHttp\Client;
@@ -14,6 +15,10 @@ use Icewind\Streams\RetryWrapper;
 use OCP\Files\NotFoundException;
 use OCP\Files\ObjectStore\IObjectStore;
 use OCP\Files\StorageAuthException;
+use OCP\Files\StorageNotAvailableException;
+use OCP\ICacheFactory;
+use OCP\ITempManager;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 const SWIFT_SEGMENT_SIZE = 1073741824; // 1GB
@@ -29,9 +34,9 @@ class Swift implements IObjectStore {
 
 	public function __construct($params, ?SwiftFactory $connectionFactory = null) {
 		$this->swiftFactory = $connectionFactory ?: new SwiftFactory(
-			\OC::$server->getMemCacheFactory()->createDistributed('swift::'),
+			Server::get(ICacheFactory::class)->createDistributed('swift::'),
 			$params,
-			\OC::$server->get(LoggerInterface::class)
+			Server::get(LoggerInterface::class)
 		);
 		$this->params = $params;
 	}
@@ -39,7 +44,7 @@ class Swift implements IObjectStore {
 	/**
 	 * @return \OpenStack\ObjectStore\v1\Models\Container
 	 * @throws StorageAuthException
-	 * @throws \OCP\Files\StorageNotAvailableException
+	 * @throws StorageNotAvailableException
 	 */
 	private function getContainer() {
 		return $this->swiftFactory->getContainer();
@@ -48,6 +53,7 @@ class Swift implements IObjectStore {
 	/**
 	 * @return string the container name where objects are stored
 	 */
+	#[\Override]
 	public function getStorageId() {
 		if (isset($this->params['bucket'])) {
 			return $this->params['bucket'];
@@ -56,8 +62,9 @@ class Swift implements IObjectStore {
 		return $this->params['container'];
 	}
 
+	#[\Override]
 	public function writeObject($urn, $stream, ?string $mimetype = null) {
-		$tmpFile = \OC::$server->getTempManager()->getTemporaryFile('swiftwrite');
+		$tmpFile = Server::get(ITempManager::class)->getTemporaryFile('swiftwrite');
 		file_put_contents($tmpFile, $stream);
 		$handle = fopen($tmpFile, 'rb');
 
@@ -83,6 +90,7 @@ class Swift implements IObjectStore {
 	 * @throws \Exception from openstack or GuzzleHttp libs when something goes wrong
 	 * @throws NotFoundException if file does not exist
 	 */
+	#[\Override]
 	public function readObject($urn) {
 		try {
 			$publicUri = $this->getContainer()->getObject($urn)->getPublicUri();
@@ -113,6 +121,7 @@ class Swift implements IObjectStore {
 	 * @return void
 	 * @throws \Exception from openstack lib when something goes wrong
 	 */
+	#[\Override]
 	public function deleteObject($urn) {
 		$this->getContainer()->getObject($urn)->delete();
 	}
@@ -125,13 +134,19 @@ class Swift implements IObjectStore {
 		$this->getContainer()->delete();
 	}
 
+	#[\Override]
 	public function objectExists($urn) {
 		return $this->getContainer()->objectExists($urn);
 	}
 
+	#[\Override]
 	public function copyObject($from, $to) {
 		$this->getContainer()->getObject($from)->copy([
 			'destination' => $this->getContainer()->name . '/' . $to
 		]);
+	}
+	#[\Override]
+	public function preSignedUrl(string $urn, \DateTimeInterface $expiration): ?string {
+		return null;
 	}
 }

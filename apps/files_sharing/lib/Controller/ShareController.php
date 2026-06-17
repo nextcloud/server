@@ -5,22 +5,24 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Controller;
 
-use OC\Security\CSP\ContentSecurityPolicy;
+use OC\ServerNotAvailableException;
 use OCA\DAV\Connector\Sabre\PublicAuth;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\Event\BeforeTemplateRenderedEvent;
 use OCA\Files_Sharing\Event\ShareLinkAccessedEvent;
 use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\AuthPublicShareController;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\NoSameSiteCookieRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\RedirectResponse;
-use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Constants;
 use OCP\Defaults;
@@ -29,6 +31,7 @@ use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\HintException;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -83,6 +86,7 @@ class ShareController extends AuthPublicShareController {
 	 * Show the authentication page
 	 * The form has to submit to the authenticate method route
 	 */
+	#[\Override]
 	#[PublicPage]
 	#[NoCSRFRequired]
 	public function showAuthenticate(): TemplateResponse {
@@ -90,53 +94,31 @@ class ShareController extends AuthPublicShareController {
 
 		$this->eventDispatcher->dispatchTyped(new BeforeTemplateRenderedEvent($this->share, BeforeTemplateRenderedEvent::SCOPE_PUBLIC_SHARE_AUTH));
 
-		$response = new TemplateResponse('core', 'publicshareauth', $templateParameters, 'guest');
-		if ($this->share->getSendPasswordByTalk()) {
-			$csp = new ContentSecurityPolicy();
-			$csp->addAllowedConnectDomain('*');
-			$csp->addAllowedMediaDomain('blob:');
-			$response->setContentSecurityPolicy($csp);
-		}
-
-		return $response;
+		return new TemplateResponse('core', 'publicshareauth', $templateParameters, 'guest');
 	}
 
 	/**
 	 * The template to show when authentication failed
 	 */
+	#[\Override]
 	protected function showAuthFailed(): TemplateResponse {
 		$templateParameters = ['share' => $this->share, 'wrongpw' => true];
 
 		$this->eventDispatcher->dispatchTyped(new BeforeTemplateRenderedEvent($this->share, BeforeTemplateRenderedEvent::SCOPE_PUBLIC_SHARE_AUTH));
 
-		$response = new TemplateResponse('core', 'publicshareauth', $templateParameters, 'guest');
-		if ($this->share->getSendPasswordByTalk()) {
-			$csp = new ContentSecurityPolicy();
-			$csp->addAllowedConnectDomain('*');
-			$csp->addAllowedMediaDomain('blob:');
-			$response->setContentSecurityPolicy($csp);
-		}
-
-		return $response;
+		return new TemplateResponse('core', 'publicshareauth', $templateParameters, 'guest');
 	}
 
 	/**
 	 * The template to show after user identification
 	 */
+	#[\Override]
 	protected function showIdentificationResult(bool $success = false): TemplateResponse {
 		$templateParameters = ['share' => $this->share, 'identityOk' => $success];
 
 		$this->eventDispatcher->dispatchTyped(new BeforeTemplateRenderedEvent($this->share, BeforeTemplateRenderedEvent::SCOPE_PUBLIC_SHARE_AUTH));
 
-		$response = new TemplateResponse('core', 'publicshareauth', $templateParameters, 'guest');
-		if ($this->share->getSendPasswordByTalk()) {
-			$csp = new ContentSecurityPolicy();
-			$csp->addAllowedConnectDomain('*');
-			$csp->addAllowedMediaDomain('blob:');
-			$response->setContentSecurityPolicy($csp);
-		}
-
-		return $response;
+		return new TemplateResponse('core', 'publicshareauth', $templateParameters, 'guest');
 	}
 
 	/**
@@ -145,6 +127,7 @@ class ShareController extends AuthPublicShareController {
 	 * @param ?string $identityToken
 	 * @return bool
 	 */
+	#[\Override]
 	protected function validateIdentity(?string $identityToken = null): bool {
 		if ($this->share->getShareType() !== IShare::TYPE_EMAIL) {
 			return false;
@@ -160,6 +143,7 @@ class ShareController extends AuthPublicShareController {
 	/**
 	 * Generates a password for the share, respecting any password policy defined
 	 */
+	#[\Override]
 	protected function generatePassword(): void {
 		$event = new GenerateSecurePasswordEvent(PasswordContext::SHARING);
 		$this->eventDispatcher->dispatchTyped($event);
@@ -169,14 +153,17 @@ class ShareController extends AuthPublicShareController {
 		$this->shareManager->updateShare($this->share);
 	}
 
+	#[\Override]
 	protected function verifyPassword(string $password): bool {
 		return $this->shareManager->checkPassword($this->share, $password);
 	}
 
+	#[\Override]
 	protected function getPasswordHash(): ?string {
 		return $this->share->getPassword();
 	}
 
+	#[\Override]
 	public function isValidToken(): bool {
 		try {
 			$this->share = $this->shareManager->getShareByToken($this->getToken());
@@ -187,19 +174,27 @@ class ShareController extends AuthPublicShareController {
 		return true;
 	}
 
+	#[\Override]
 	protected function isPasswordProtected(): bool {
 		return $this->share->getPassword() !== null;
 	}
 
+	#[\Override]
 	protected function authSucceeded() {
 		if ($this->share === null) {
 			throw new NotFoundException();
 		}
 
 		// For share this was always set so it is still used in other apps
-		$this->session->set(PublicAuth::DAV_AUTHENTICATED, $this->share->getId());
+		$allowedShareIds = $this->session->get(PublicAuth::DAV_AUTHENTICATED);
+		if (!is_array($allowedShareIds)) {
+			$allowedShareIds = [];
+		}
+
+		$this->session->set(PublicAuth::DAV_AUTHENTICATED, array_merge($allowedShareIds, [$this->share->getId()]));
 	}
 
+	#[\Override]
 	protected function authFailed() {
 		$this->emitAccessShareHook($this->share, 403, 'Wrong password');
 		$this->emitShareAccessEvent($this->share, self::SHARE_AUTH, 403, 'Wrong password');
@@ -214,7 +209,7 @@ class ShareController extends AuthPublicShareController {
 	 * @param string $errorMessage
 	 *
 	 * @throws HintException
-	 * @throws \OC\ServerNotAvailableException
+	 * @throws ServerNotAvailableException
 	 *
 	 * @deprecated use OCP\Files_Sharing\Event\ShareLinkAccessedEvent
 	 */
@@ -288,6 +283,7 @@ class ShareController extends AuthPublicShareController {
 	 * @throws NotFoundException
 	 * @throws \Exception
 	 */
+	#[\Override]
 	#[PublicPage]
 	#[NoCSRFRequired]
 	public function showShare($path = ''): TemplateResponse {
@@ -330,7 +326,6 @@ class ShareController extends AuthPublicShareController {
 			throw $e;
 		}
 
-
 		$this->emitAccessShareHook($share);
 		$this->emitShareAccessEvent($share, self::SHARE_ACCESS);
 
@@ -338,55 +333,65 @@ class ShareController extends AuthPublicShareController {
 	}
 
 	/**
-	 * @NoSameSiteCookieRequired
-	 *
-	 * @param string $token
-	 * @param string|null $files
-	 * @param string $path
-	 * @return void|Response
 	 * @throws NotFoundException
 	 * @deprecated 31.0.0 Users are encouraged to use the DAV endpoint
 	 */
 	#[PublicPage]
 	#[NoCSRFRequired]
-	public function downloadShare($token, $files = null, $path = '') {
+	#[NoSameSiteCookieRequired]
+	public function downloadShare(string $token, ?string $files = null, string $path = ''): NotFoundResponse|RedirectResponse|DataResponse {
 		\OC_User::setIncognitoMode(true);
 
 		$share = $this->shareManager->getShareByToken($token);
 
 		if (!($share->getPermissions() & Constants::PERMISSION_READ)) {
-			return new DataResponse('Share has no read permission');
+			return new DataResponse('Share has no read permission', Http::STATUS_FORBIDDEN);
 		}
 
 		$attributes = $share->getAttributes();
 		if ($attributes?->getAttribute('permissions', 'download') === false) {
-			return new DataResponse('Share has no download permission');
+			return new DataResponse('Share has no download permission', Http::STATUS_FORBIDDEN);
 		}
 
 		if (!$this->validateShare($share)) {
 			throw new NotFoundException();
 		}
 
-		$node = $share->getNode();
-		if ($node instanceof Folder) {
-			// Directory share
+		if ($share->getHideDownload()) {
+			// download API does not work if hidden - use the DAV endpoint for previews
+			throw new NotFoundException();
+		}
 
-			// Try to get the path
-			if ($path !== '') {
+		$node = $share->getNode();
+		if ($path !== '') {
+			if (!$node instanceof Folder) {
+				return new NotFoundResponse();
+			}
+
+			try {
+				$node = $node->get($path);
+			} catch (NotFoundException|NotPermittedException) {
+				$this->emitAccessShareHook($share, 404, 'Share not found');
+				$this->emitShareAccessEvent($share, self::SHARE_DOWNLOAD, 404, 'Share not found');
+				return new NotFoundResponse();
+			}
+		}
+
+		if ($files !== null) {
+			if (!$node instanceof Folder) {
+				return new NotFoundResponse();
+			}
+
+			$filesParam = json_decode($files, true);
+			if (!is_array($filesParam)) {
 				try {
-					$node = $node->get($path);
-				} catch (NotFoundException $e) {
+					// legacy wise this allows also passing the filename
+					$node = $node->get($files);
+					$files = null;
+				} catch (NotFoundException|NotPermittedException) {
 					$this->emitAccessShareHook($share, 404, 'Share not found');
 					$this->emitShareAccessEvent($share, self::SHARE_DOWNLOAD, 404, 'Share not found');
 					return new NotFoundResponse();
-				}
-			}
-
-			if ($node instanceof Folder) {
-				if ($files === null || $files === '') {
-					if ($share->getHideDownload()) {
-						throw new NotFoundException('Downloading a folder');
-					}
 				}
 			}
 		}
@@ -394,9 +399,22 @@ class ShareController extends AuthPublicShareController {
 		$this->emitAccessShareHook($share);
 		$this->emitShareAccessEvent($share, self::SHARE_DOWNLOAD);
 
-		$davUrl = '/public.php/dav/files/' . $token . '/?accept=zip';
+		$davPath = '';
+		if ($node !== $share->getNode()) {
+			$davPath = substr($node->getPath(), strlen($share->getNode()->getPath()));
+		}
+
+		$params = [];
 		if ($files !== null) {
-			$davUrl .= '&files=' . $files;
+			$params['files'] = $files;
+		}
+		if ($node instanceof Folder) {
+			$params['accept'] = 'zip';
+		}
+
+		$davUrl = '/public.php/dav/files/' . $token . $davPath;
+		if (!empty($params)) {
+			$davUrl .= '?' . http_build_query($params);
 		}
 		return new RedirectResponse($this->urlGenerator->getAbsoluteURL($davUrl));
 	}

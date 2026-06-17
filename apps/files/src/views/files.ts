@@ -3,14 +3,13 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import FolderSvg from '@mdi/svg/svg/folder-outline.svg?raw'
 import { emit, subscribe } from '@nextcloud/event-bus'
-import { View, getNavigation } from '@nextcloud/files'
+import { getNavigation, View } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { getContents } from '../services/Files.ts'
 import { useActiveStore } from '../store/active.ts'
 import { defaultView } from '../utils/filesViews.ts'
-
-import FolderSvg from '@mdi/svg/svg/folder-outline.svg?raw'
 
 export const VIEW_ID = 'files'
 

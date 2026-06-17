@@ -37,11 +37,11 @@ class TextToTextTopics implements ITaskType {
 		$this->l = $l10nFactory->get('lib');
 	}
 
-
 	/**
 	 * @inheritDoc
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->l->t('Extract topics');
 	}
@@ -50,6 +50,7 @@ class TextToTextTopics implements ITaskType {
 	 * @inheritDoc
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function getDescription(): string {
 		return $this->l->t('Extracts topics from a text and outputs them separated by commas');
 	}
@@ -58,6 +59,7 @@ class TextToTextTopics implements ITaskType {
 	 * @return string
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function getId(): string {
 		return self::ID;
 	}
@@ -66,6 +68,7 @@ class TextToTextTopics implements ITaskType {
 	 * @return ShapeDescriptor[]
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function getInputShape(): array {
 		return [
 			'input' => new ShapeDescriptor(
@@ -80,6 +83,7 @@ class TextToTextTopics implements ITaskType {
 	 * @return ShapeDescriptor[]
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function getOutputShape(): array {
 		return [
 			'output' => new ShapeDescriptor(

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\Filesystem;
@@ -15,10 +16,10 @@ use OCP\Util;
 /**
  * Class UnshareChildrenTest
  *
- * @group DB
  *
  * @package OCA\Files_Sharing\Tests
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class UnshareChildrenTest extends TestCase {
 	protected $subsubfolder;
 
@@ -55,9 +56,6 @@ class UnshareChildrenTest extends TestCase {
 		parent::tearDown();
 	}
 
-	/**
-	 * @medium
-	 */
 	public function testUnshareChildren(): void {
 		$fileInfo2 = Filesystem::getFileInfo($this->folder);
 

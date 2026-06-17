@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\FederatedFileSharing\Tests;
 
 use OC\Files\Filesystem;
@@ -17,12 +18,9 @@ use OCP\IUserSession;
 use OCP\Server;
 
 /**
- * Class Test_Files_Sharing_Base
- *
- * @group DB
- *
  * Base class for sharing tests.
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 abstract class TestCase extends \Test\TestCase {
 	public const TEST_FILES_SHARING_API_USER1 = 'test-share-user1';
 	public const TEST_FILES_SHARING_API_USER2 = 'test-share-user2';

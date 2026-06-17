@@ -2,15 +2,15 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 import type { OCSResponse } from '@nextcloud/typings/ocs'
 
+import * as auth from '@nextcloud/auth'
 import { File, Folder } from '@nextcloud/files'
 import { ShareType } from '@nextcloud/sharing'
 import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
-
-import { getContents } from './SharingService'
-import * as auth from '@nextcloud/auth'
-import logger from './logger'
+import logger from './logger.ts'
+import { getContents } from './SharingService.ts'
 
 const TAG_FAVORITE = '_$!<Favorite>!$_'
 
@@ -313,6 +313,25 @@ describe('SharingService share to Node mapping', () => {
 		accepted: false,
 	}
 
+	const remoteFolderAccepted = {
+		mimetype: 'httpd/unix-directory',
+		mtime: 1688721600,
+		permissions: 31,
+		type: 'dir',
+		file_id: 5678,
+		id: 5,
+		share_type: ShareType.User,
+		parent: null,
+		remote: 'http://example.com',
+		remote_id: '12346',
+		share_token: 'share-token-folder',
+		name: '/testfolder',
+		mountpoint: '/shares/testfolder',
+		owner: 'owner-uid',
+		user: 'sharee-uid',
+		accepted: true,
+	}
+
 	const tempExternalFile = {
 		id: 65,
 		share_type: 0,
@@ -327,7 +346,9 @@ describe('SharingService share to Node mapping', () => {
 		accepted: 0,
 	}
 
-	beforeEach(() => { vi.resetAllMocks() })
+	beforeEach(() => {
+		vi.resetAllMocks()
+	})
 
 	test('File', async () => {
 		axios.get.mockReturnValueOnce(Promise.resolve({
@@ -455,6 +476,36 @@ describe('SharingService share to Node mapping', () => {
 		})
 	})
 
+	describe('Remote folder', () => {
+		test('Accepted with type dir', async () => {
+			axios.get.mockReturnValueOnce(Promise.resolve({
+				data: {
+					ocs: {
+						data: [remoteFolderAccepted],
+					},
+				},
+			}))
+
+			const shares = await getContents(false, true, false, false)
+
+			expect(axios.get).toHaveBeenCalledTimes(1)
+			expect(shares.contents).toHaveLength(1)
+
+			const folder = shares.contents[0] as Folder
+			expect(folder).toBeInstanceOf(Folder)
+			expect(folder.fileid).toBe(5678)
+			expect(folder.source).toBe('http://nextcloud.local/remote.php/dav/files/test/shares/testfolder')
+			expect(folder.owner).toBe('owner-uid')
+			expect(folder.mime).toBe('httpd/unix-directory')
+			expect(folder.mtime?.getTime()).toBe(remoteFolderAccepted.mtime * 1000)
+			expect(folder.size).toBe(undefined)
+			expect(folder.permissions).toBe(31)
+			expect(folder.root).toBe('/files/test')
+			expect(folder.attributes).toBeInstanceOf(Object)
+			expect(folder.attributes.favorite).toBe(0)
+		})
+	})
+
 	test('External temp file', async () => {
 		axios.get.mockReturnValueOnce(Promise.resolve({
 			data: {
@@ -482,6 +533,34 @@ describe('SharingService share to Node mapping', () => {
 		expect(file.root).toBe('/files/test')
 		expect(file.attributes).toBeInstanceOf(Object)
 		expect(file.attributes.favorite).toBe(0)
+	})
+
+	test('Pending share has no permissions', async () => {
+		axios.get
+			.mockReturnValueOnce(Promise.resolve({
+				data: { ocs: { data: [shareFile] } },
+			}))
+			.mockReturnValueOnce(Promise.resolve({
+				data: { ocs: { data: [] } },
+			}))
+
+		const shares = await getContents(false, false, true, false)
+
+		expect(axios.get).toHaveBeenCalledTimes(2)
+		expect(shares.contents).toHaveLength(1)
+		expect(shares.contents[0].permissions).toBe(0)
+	})
+
+	test('Deleted share has no permissions', async () => {
+		axios.get.mockReturnValueOnce(Promise.resolve({
+			data: { ocs: { data: [shareFolder] } },
+		}))
+
+		const shares = await getContents(false, false, false, true)
+
+		expect(axios.get).toHaveBeenCalledTimes(1)
+		expect(shares.contents).toHaveLength(1)
+		expect(shares.contents[0].permissions).toBe(0)
 	})
 
 	test('Empty', async () => {

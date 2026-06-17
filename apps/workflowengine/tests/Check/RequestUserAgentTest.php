@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\WorkflowEngine\Tests\Check;
 
 use OCA\WorkflowEngine\Check\AbstractStringCheck;
@@ -82,7 +83,7 @@ class RequestUserAgentTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataExecuteCheck')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataExecuteCheck')]
 	public function testExecuteCheck(string $operation, string $checkValue, string $actualValue, bool $expected): void {
 		$this->request->expects($this->once())
 			->method('getHeader')

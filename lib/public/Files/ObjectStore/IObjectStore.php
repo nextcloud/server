@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\Files\ObjectStore;
 
 use OCP\Files\NotFoundException;
@@ -63,4 +64,10 @@ interface IObjectStore {
 	 * @since 21.0.0
 	 */
 	public function copyObject($from, $to);
+
+	/**
+	 * Get pre signed url for an object
+	 * @since 33.0.0
+	 */
+	public function preSignedUrl(string $urn, \DateTimeInterface $expiration): ?string;
 }

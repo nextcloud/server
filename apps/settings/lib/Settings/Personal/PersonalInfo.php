@@ -29,28 +29,28 @@ use OCP\L10N\IFactory;
 use OCP\Notification\IManager;
 use OCP\Server;
 use OCP\Settings\ISettings;
+use OCP\Teams\ITeamManager;
+use OCP\Teams\Team;
 use OCP\Util;
 
 class PersonalInfo implements ISettings {
-
-	/** @var ProfileManager */
-	private $profileManager;
 
 	public function __construct(
 		private IConfig $config,
 		private IUserManager $userManager,
 		private IGroupManager $groupManager,
+		private ITeamManager $teamManager,
 		private IAccountManager $accountManager,
-		ProfileManager $profileManager,
+		private ProfileManager $profileManager,
 		private IAppManager $appManager,
 		private IFactory $l10nFactory,
 		private IL10N $l,
 		private IInitialState $initialStateService,
 		private IManager $manager,
 	) {
-		$this->profileManager = $profileManager;
 	}
 
+	#[\Override]
 	public function getForm(): TemplateResponse {
 		$federationEnabled = $this->appManager->isEnabledForUser('federation');
 		$federatedFileSharingEnabled = $this->appManager->isEnabledForUser('federatedfilesharing');
@@ -87,6 +87,7 @@ class PersonalInfo implements ISettings {
 			'userId' => $uid,
 			'avatar' => $this->getProperty($account, IAccountManager::PROPERTY_AVATAR),
 			'groups' => $this->getGroups($user),
+			'teams' => $this->getTeamMemberships($user),
 			'quota' => $storageInfo['quota'],
 			'totalSpace' => $totalSpace,
 			'usage' => Util::humanFileSize($storageInfo['used']),
@@ -161,6 +162,7 @@ class PersonalInfo implements ISettings {
 	 * returns the section ID string, e.g. 'sharing'
 	 * @since 9.1
 	 */
+	#[\Override]
 	public function getSection(): string {
 		return 'personal-info';
 	}
@@ -173,6 +175,7 @@ class PersonalInfo implements ISettings {
 	 * E.g.: 70
 	 * @since 9.1
 	 */
+	#[\Override]
 	public function getPriority(): int {
 		return 10;
 	}
@@ -190,6 +193,20 @@ class PersonalInfo implements ISettings {
 		sort($groups);
 
 		return $groups;
+	}
+
+	/**
+	 * returns a list of the user's team memberships, sorted alphabetically
+	 * @return list<string> team names
+	 */
+	private function getTeamMemberships(IUser $user): array {
+		$teams = array_map(
+			static fn (Team $team): string => $team->getDisplayName(),
+			$this->teamManager->getTeamsForUser($user->getUID())
+		);
+		sort($teams);
+
+		return $teams;
 	}
 
 	/**
@@ -242,11 +259,11 @@ class PersonalInfo implements ISettings {
 		$languages = $this->l10nFactory->getLanguages();
 
 		// associate the user language with the proper array
-		$userLangIndex = array_search($userConfLang, array_column($languages['commonLanguages'], 'code'));
+		$userLangIndex = array_search($userConfLang, array_column($languages['commonLanguages'], 'code'), true);
 		$userLang = $languages['commonLanguages'][$userLangIndex];
 		// search in the other languages
 		if ($userLangIndex === false) {
-			$userLangIndex = array_search($userConfLang, array_column($languages['otherLanguages'], 'code'));
+			$userLangIndex = array_search($userConfLang, array_column($languages['otherLanguages'], 'code'), true);
 			$userLang = $languages['otherLanguages'][$userLangIndex];
 		}
 		// if user language is not available but set somehow: show the actual code as name

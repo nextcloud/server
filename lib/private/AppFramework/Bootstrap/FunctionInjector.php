@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\AppFramework\Bootstrap;
 
 use Closure;
@@ -16,11 +17,9 @@ use ReflectionParameter;
 use function array_map;
 
 class FunctionInjector {
-	/** @var ContainerInterface */
-	private $container;
-
-	public function __construct(ContainerInterface $container) {
-		$this->container = $container;
+	public function __construct(
+		private ContainerInterface $container,
+	) {
 	}
 
 	public function injectFn(callable $fn) {

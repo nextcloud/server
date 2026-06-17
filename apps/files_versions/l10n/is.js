@@ -1,6 +1,7 @@
 OC.L10N.register(
     "files_versions",
     {
+    "No rule given" : "Engin regla gefin",
     "Versions" : "Útgáfur",
     "This application automatically maintains older versions of files that are changed." : "Þetta forrit viðheldur sjálfvirkt eldri útgáfum skráa sem er breytt.",
     "Current version" : "Fyrirliggjandi útgáfa",
@@ -22,6 +23,7 @@ OC.L10N.register(
     "Version restored" : "Útgáfa endurheimt",
     "Could not restore version" : "Gat ekki endurheimt útgáfu",
     "Could not set version label" : "Gat ekki sett merkingu á útgáfu",
-    "Could not delete version" : "Gat ekki eytt útgáfu"
+    "Could not delete version" : "Gat ekki eytt útgáfu",
+    "File versions" : "Útgáfur skráa"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

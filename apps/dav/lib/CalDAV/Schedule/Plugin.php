@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CalDAV\Schedule;
 
 use DateTimeZone;
@@ -12,6 +13,7 @@ use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\CalendarHome;
 use OCA\DAV\CalDAV\CalendarObject;
 use OCA\DAV\CalDAV\DefaultCalendarValidator;
+use OCA\DAV\CalDAV\Federation\FederatedCalendar;
 use OCA\DAV\CalDAV\TipBroker;
 use OCP\IConfig;
 use Psr\Log\LoggerInterface;
@@ -67,6 +69,7 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 	 * @param Server $server
 	 * @return void
 	 */
+	#[\Override]
 	public function initialize(Server $server) {
 		parent::initialize($server);
 		$server->on('propFind', [$this, 'propFindDefaultCalendarUrl'], 90);
@@ -84,6 +87,7 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 	/**
 	 * Returns an instance of the iTip\Broker.
 	 */
+	#[\Override]
 	protected function createITipBroker(): TipBroker {
 		return new TipBroker();
 	}
@@ -107,6 +111,7 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 	 * @param INode $node
 	 * @return void
 	 */
+	#[\Override]
 	public function propFind(PropFind $propFind, INode $node) {
 		if ($node instanceof IPrincipal) {
 			// overwrite Sabre/Dav's implementation
@@ -132,6 +137,7 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 	 * @param string $principal
 	 * @return array
 	 */
+	#[\Override]
 	public function getAddressesForPrincipal($principal) {
 		$result = parent::getAddressesForPrincipal($principal);
 
@@ -155,6 +161,7 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 	 * @param mixed $modified
 	 * @param mixed $isNew
 	 */
+	#[\Override]
 	public function calendarObjectChange(RequestInterface $request, ResponseInterface $response, VCalendar $vCal, $calendarPath, &$modified, $isNew) {
 		// Save the first path we get as a calendar-object-change request
 		if (!$this->pathOfCalendarObjectChange) {
@@ -165,6 +172,7 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 
 			// Do not generate iTip and iMip messages if scheduling is disabled for this message
 			if ($request->getHeader('x-nc-scheduling') === 'false') {
+				$this->logger->debug('Skipping scheduling messages for calendar object change because x-nc-scheduling header is set to false');
 				return;
 			}
 
@@ -172,8 +180,15 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 				return;
 			}
 
-			/** @var Calendar $calendarNode */
+			/** @var Calendar&ICalendar $calendarNode */
 			$calendarNode = $this->server->tree->getNodeForPath($calendarPath);
+
+			// abort if calendar is federated
+			if ($calendarNode instanceof FederatedCalendar) {
+				$this->logger->debug('Not processing scheduling for federated calendar at path: ' . $calendarPath);
+				return;
+			}
+
 			// extract addresses for owner
 			$addresses = $this->getAddressesForPrincipal($calendarNode->getOwner());
 			// determine if request is from a sharee
@@ -211,7 +226,15 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function beforeUnbind($path): void {
+
+		// Do not generate iTip and iMip messages if scheduling is disabled for this message
+		if ($this->server->httpRequest->getHeader('x-nc-scheduling') === 'false') {
+			$this->logger->debug('Skipping scheduling messages for calendar object delete because x-nc-scheduling header is set to false');
+			return;
+		}
+
 		try {
 			parent::beforeUnbind($path);
 		} catch (SameOrganizerForAllComponentsException $e) {
@@ -229,6 +252,7 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function scheduleLocalDelivery(ITip\Message $iTipMessage):void {
 		/** @var VEvent|null $vevent */
 		$vevent = $iTipMessage->message->VEVENT ?? null;
@@ -567,11 +591,9 @@ EOF;
 				'{' . self::NS_CALDAV . '}calendar-home-set',
 				'{' . self::NS_CALDAV . '}schedule-inbox-URL',
 				'{http://sabredav.org/ns}email-address',
-
 			]
 		);
 		$this->server->on('propFind', [$aclPlugin, 'propFind'], 20);
-
 
 		// Grabbing the calendar list
 		$objects = [];
@@ -749,7 +771,7 @@ EOF;
 
 		$addresses = $this->getAddressesForPrincipal($calendarNode->getOwner());
 		foreach ($vCal->VEVENT as $vevent) {
-			if (in_array($vevent->ORGANIZER->getNormalizedValue(), $addresses, true)) {
+			if (isset($vevent->ORGANIZER) && in_array($vevent->ORGANIZER->getNormalizedValue(), $addresses, true)) {
 				// User is an organizer => throw the exception
 				throw $e;
 			}

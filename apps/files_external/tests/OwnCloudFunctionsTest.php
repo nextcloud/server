@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Tests;
 
 use OCA\Files_External\Lib\Storage\OwnCloud;
@@ -13,10 +14,10 @@ use OCA\Files_External\Lib\Storage\OwnCloud;
 /**
  * Class OwnCloudFunctions
  *
- * @group DB
  *
  * @package OCA\Files_External\Tests
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class OwnCloudFunctionsTest extends \Test\TestCase {
 	public static function configUrlProvider(): array {
 		return [
@@ -87,7 +88,7 @@ class OwnCloudFunctionsTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('configUrlProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'configUrlProvider')]
 	public function testConfig(array $config, string $expectedUri): void {
 		$config['user'] = 'someuser';
 		$config['password'] = 'somepassword';

@@ -18,16 +18,20 @@ use OCP\Server;
 /**
  * Class MovieTestRemoteFile
  *
- * @group DB
  *
  * @package Test\Preview
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class MovieTestRemoteFile extends Provider {
+	public function __construct() {
+		parent::__construct(static::class);
+	}
 	// 1080p (1920x1080) 30 FPS HEVC/H264, 10 secs, avg. bitrate: ~10 Mbps
 	protected string $fileName = 'testvideo-remote-file.mp4';
 	protected int $width = 1920;
 	protected int $height = 1080;
 
+	#[\Override]
 	protected function setUp(): void {
 		$binaryFinder = Server::get(IBinaryFinder::class);
 		$movieBinary = $binaryFinder->findBinaryPath('ffmpeg');
@@ -40,6 +44,7 @@ class MovieTestRemoteFile extends Provider {
 		}
 	}
 
+	#[\Override]
 	#[\PHPUnit\Framework\Attributes\DataProvider('dimensionsDataProvider')]
 	public function testGetThumbnail($widthAdjustment, $heightAdjustment): void {
 		$ratio = round($this->width / $this->height, 2);

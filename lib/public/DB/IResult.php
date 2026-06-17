@@ -6,9 +6,12 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\DB;
 
+use OCP\AppFramework\Attribute\Consumable;
 use PDO;
+use Traversable;
 
 /**
  * This interface represents the result of a database query.
@@ -19,12 +22,16 @@ use PDO;
  * $qb = $this->db->getQueryBuilder();
  * $qb->select(...);
  * $result = $query->executeQuery();
+ *
+ * foreach ($result->iterateAssociative() as $row) {
+ *     $id = $row['id'];
+ * }
  * ```
  *
- * This interface must not be implemented in your application.
- *
+ * @template-covariant S of string
  * @since 21.0.0
  */
+#[Consumable(since: '21.0.0')]
 interface IResult {
 	/**
 	 * @return true
@@ -34,30 +41,32 @@ interface IResult {
 	public function closeCursor(): bool;
 
 	/**
-	 * @param int $fetchMode
+	 * @param PDO::FETCH_* $fetchMode
 	 *
-	 * @return mixed
+	 * @return ($fetchMode is PDO::FETCH_ASSOC ? array<S, mixed> : ($fetchMode is PDO::FETCH_NUM ? list<mixed> : mixed))|false
 	 *
 	 * @since 21.0.0
+	 * @note Since 33.0.0, prefer using fetchAssociative/fetchNumeric/fetchOne or iterateAssociate/iterateNumeric instead.
 	 */
 	public function fetch(int $fetchMode = PDO::FETCH_ASSOC);
 
 	/**
-	 * @param int $fetchMode (one of PDO::FETCH_ASSOC, PDO::FETCH_NUM or PDO::FETCH_COLUMN (2, 3 or 7)
+	 * Returns the next row of the result as an associative array or FALSE if there are no more rows.
 	 *
-	 * @return mixed[]
+	 * @return array<S, mixed>|false
 	 *
-	 * @since 21.0.0
+	 * @since 33.0.0
 	 */
-	public function fetchAll(int $fetchMode = PDO::FETCH_ASSOC): array;
+	public function fetchAssociative(): array|false;
 
 	/**
-	 * @return mixed
+	 * Returns the next row of the result as a numeric array or FALSE if there are no more rows.
 	 *
-	 * @since 21.0.0
-	 * @deprecated 21.0.0 use \OCP\DB\IResult::fetchOne
+	 * @return list<mixed>|false
+	 *
+	 * @since 33.0.0
 	 */
-	public function fetchColumn();
+	public function fetchNumeric(): array|false;
 
 	/**
 	 * Returns the first value of the next row of the result or FALSE if there are no more rows.
@@ -69,9 +78,69 @@ interface IResult {
 	public function fetchOne();
 
 	/**
+	 * @param PDO::FETCH_* $fetchMode
+	 *
+	 * @return list<($fetchMode is PDO::FETCH_ASSOC ? array<S, mixed> : ($fetchMode is PDO::FETCH_NUM ? list<mixed> : mixed))>
+	 *
+	 * @since 21.0.0
+	 * @note Since 33.0.0, prefer using fetchAllAssociative/fetchAllNumeric/fetchFirstColumn or iterateAssociate/iterateNumeric instead.
+	 */
+	public function fetchAll(int $fetchMode = PDO::FETCH_ASSOC): array;
+
+	/**
+	 * Returns an array containing all the result rows represented as associative arrays.
+	 *
+	 * @return list<array<S, mixed>>
+	 * @since 33.0.0
+	 */
+	public function fetchAllAssociative(): array;
+
+	/**
+	 * Returns an array containing all the result rows represented as numeric arrays.
+	 *
+	 * @return list<list<mixed>>
+	 * @since 33.0.0
+	 */
+	public function fetchAllNumeric(): array;
+
+	/**
+	 * Returns the value of the first column of all rows.
+	 *
+	 * @return list<mixed>
+	 * @since 33.0.0
+	 */
+	public function fetchFirstColumn(): array;
+
+	/**
+	 * @return mixed
+	 *
+	 * @since 21.0.0
+	 * @deprecated 21.0.0 use \OCP\DB\IResult::fetchOne
+	 */
+	public function fetchColumn();
+
+	/**
 	 * @return int
 	 *
 	 * @since 21.0.0
 	 */
 	public function rowCount(): int;
+
+	/**
+	 * Returns an iterator over rows represented as numeric arrays.
+	 *
+	 * @return Traversable<list<mixed>>
+	 *
+	 * @since 33.0.0
+	 */
+	public function iterateNumeric(): Traversable;
+
+	/**
+	 * Returns an iterator over rows represented as associative arrays.
+	 *
+	 * @return Traversable<array<S, mixed>>
+	 *
+	 * @since 33.0.0
+	 */
+	public function iterateAssociative(): Traversable;
 }

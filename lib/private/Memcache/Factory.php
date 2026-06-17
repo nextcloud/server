@@ -5,15 +5,18 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Memcache;
 
 use OC\SystemConfig;
 use OCP\Cache\CappedMemoryCache;
+use OCP\HintException;
 use OCP\IAppConfig;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IMemcache;
 use OCP\Profiler\IProfiler;
+use OCP\Server;
 use OCP\ServerVersion;
 use Psr\Log\LoggerInterface;
 
@@ -72,7 +75,7 @@ class Factory implements ICacheFactory {
 				// APCu however cannot be shared between PHP instances (CLI and web) anyway.
 				$localCacheClass = self::NULL_CACHE;
 			} else {
-				throw new \OCP\HintException(strtr($missingCacheMessage, [
+				throw new HintException(strtr($missingCacheMessage, [
 					'{class}' => $localCacheClass, '{use}' => 'local'
 				]), $missingCacheHint);
 			}
@@ -88,7 +91,7 @@ class Factory implements ICacheFactory {
 				// APCu however cannot be shared between Nextcloud (PHP) instances anyway.
 				$distributedCacheClass = self::NULL_CACHE;
 			} else {
-				throw new \OCP\HintException(strtr($missingCacheMessage, [
+				throw new HintException(strtr($missingCacheMessage, [
 					'{class}' => $distributedCacheClass, '{use}' => 'distributed'
 				]), $missingCacheHint);
 			}
@@ -112,17 +115,25 @@ class Factory implements ICacheFactory {
 
 	protected function getGlobalPrefix(): string {
 		if ($this->globalPrefix === null) {
-			$config = \OCP\Server::get(SystemConfig::class);
+			$config = Server::get(SystemConfig::class);
+			$customprefix = $config->getValue('memcache_customprefix', '');
+			$maintenanceMode = $config->getValue('maintenance', false);
 			$versions = [];
-			if ($config->getValue('installed', false)) {
-				$appConfig = \OCP\Server::get(IAppConfig::class);
-				$versions = $appConfig->getAppInstalledVersions();
+			if ($config->getValue('installed', false) && !$maintenanceMode) {
+				$appConfig = Server::get(IAppConfig::class);
+				// only get the enabled apps to clear the cache in case an app is enabled or disabled (e.g. clear routes)
+				$versions = $appConfig->getAppInstalledVersions(true);
+				ksort($versions);
+			} else {
+				// if not installed or in maintenance mode, we should distinguish between both states.
+				$versions['core:maintenance'] = $maintenanceMode ? '1' : '0';
 			}
 			$versions['core'] = implode('.', $this->serverVersion->getVersion());
 
 			// Include instanceid in the prefix, in case multiple instances use the same cache (e.g. same FPM pool)
 			$instanceid = $config->getValue('instanceid');
-			$this->globalPrefix = hash('xxh128', $instanceid . implode(',', $versions));
+			$installedApps = implode(',', array_keys($versions)) . implode(',', array_values($versions));
+			$this->globalPrefix = $customprefix . hash('xxh128', $instanceid . $installedApps);
 		}
 		return $this->globalPrefix;
 	}
@@ -136,9 +147,11 @@ class Factory implements ICacheFactory {
 	public function withServerVersionPrefix(\Closure $closure): void {
 		$backupPrefix = $this->globalPrefix;
 
+		$config = Server::get(SystemConfig::class);
+		$customprefix = $config->getValue('memcache_customprefix', '');
 		// Include instanceid in the prefix, in case multiple instances use the same cache (e.g. same FPM pool)
-		$instanceid = \OCP\Server::get(SystemConfig::class)->getValue('instanceid');
-		$this->globalPrefix = hash('xxh128', $instanceid . implode('.', $this->serverVersion->getVersion()));
+		$instanceid = $config->getValue('instanceid');
+		$this->globalPrefix = $customprefix . hash('xxh128', $instanceid . implode('.', $this->serverVersion->getVersion()));
 		$closure($this);
 		$this->globalPrefix = $backupPrefix;
 	}
@@ -149,6 +162,7 @@ class Factory implements ICacheFactory {
 	 * @param string $prefix
 	 * @return IMemcache
 	 */
+	#[\Override]
 	public function createLocking(string $prefix = ''): IMemcache {
 		$cache = new $this->lockingCacheClass($this->getGlobalPrefix() . '/' . $prefix);
 		if ($this->lockingCacheClass === Redis::class) {
@@ -171,6 +185,7 @@ class Factory implements ICacheFactory {
 	 * @param string $prefix
 	 * @return ICache
 	 */
+	#[\Override]
 	public function createDistributed(string $prefix = ''): ICache {
 		$cache = new $this->distributedCacheClass($this->getGlobalPrefix() . '/' . $prefix);
 		if ($this->distributedCacheClass === Redis::class) {
@@ -193,6 +208,7 @@ class Factory implements ICacheFactory {
 	 * @param string $prefix
 	 * @return ICache
 	 */
+	#[\Override]
 	public function createLocal(string $prefix = ''): ICache {
 		$cache = new $this->localCacheClass($this->getGlobalPrefix() . '/' . $prefix);
 		if ($this->localCacheClass === Redis::class) {
@@ -214,10 +230,12 @@ class Factory implements ICacheFactory {
 	 *
 	 * @return bool
 	 */
+	#[\Override]
 	public function isAvailable(): bool {
 		return $this->distributedCacheClass !== self::NULL_CACHE;
 	}
 
+	#[\Override]
 	public function createInMemory(int $capacity = 512): ICache {
 		return new CappedMemoryCache($capacity);
 	}
@@ -227,6 +245,7 @@ class Factory implements ICacheFactory {
 	 *
 	 * @return bool
 	 */
+	#[\Override]
 	public function isLocalCacheAvailable(): bool {
 		return $this->localCacheClass !== self::NULL_CACHE;
 	}

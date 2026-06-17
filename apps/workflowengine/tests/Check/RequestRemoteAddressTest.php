@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\WorkflowEngine\Tests\Check;
 
 use OCA\WorkflowEngine\Check\RequestRemoteAddress;
@@ -44,7 +45,7 @@ class RequestRemoteAddressTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataExecuteCheckIPv4')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataExecuteCheckIPv4')]
 	public function testExecuteCheckMatchesIPv4(string $value, string $ip, bool $expected): void {
 		$check = new RequestRemoteAddress($this->getL10NMock(), $this->request);
 
@@ -55,7 +56,7 @@ class RequestRemoteAddressTest extends \Test\TestCase {
 		$this->assertEquals($expected, $check->executeCheck('matchesIPv4', $value));
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataExecuteCheckIPv4')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataExecuteCheckIPv4')]
 	public function testExecuteCheckNotMatchesIPv4(string $value, string $ip, bool $expected): void {
 		$check = new RequestRemoteAddress($this->getL10NMock(), $this->request);
 
@@ -78,7 +79,7 @@ class RequestRemoteAddressTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataExecuteCheckIPv6')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataExecuteCheckIPv6')]
 	public function testExecuteCheckMatchesIPv6(string $value, string $ip, bool $expected): void {
 		$check = new RequestRemoteAddress($this->getL10NMock(), $this->request);
 
@@ -89,7 +90,7 @@ class RequestRemoteAddressTest extends \Test\TestCase {
 		$this->assertEquals($expected, $check->executeCheck('matchesIPv6', $value));
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataExecuteCheckIPv6')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataExecuteCheckIPv6')]
 	public function testExecuteCheckNotMatchesIPv6(string $value, string $ip, bool $expected): void {
 		$check = new RequestRemoteAddress($this->getL10NMock(), $this->request);
 

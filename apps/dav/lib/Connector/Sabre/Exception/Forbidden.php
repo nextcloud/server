@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Connector\Sabre\Exception;
 
 class Forbidden extends \Sabre\DAV\Exception\Forbidden {
@@ -31,6 +32,7 @@ class Forbidden extends \Sabre\DAV\Exception\Forbidden {
 	 * @param \DOMElement $errorNode
 	 * @return void
 	 */
+	#[\Override]
 	public function serialize(\Sabre\DAV\Server $server, \DOMElement $errorNode) {
 
 		// set ownCloud namespace

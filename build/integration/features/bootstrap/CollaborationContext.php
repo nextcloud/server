@@ -11,7 +11,7 @@ use Behat\Gherkin\Node\TableNode;
 use GuzzleHttp\Client;
 use PHPUnit\Framework\Assert;
 
-require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/autoload.php';
 
 class CollaborationContext implements Context {
 	use Provisioning;
@@ -108,7 +108,7 @@ EOF;
 		$this->deleteServerConfig('core', 'shareapi_restrict_user_enumeration_to_group');
 		$this->deleteServerConfig('core', 'shareapi_restrict_user_enumeration_to_phone');
 		$this->deleteServerConfig('core', 'shareapi_restrict_user_enumeration_full_match');
-		$this->deleteServerConfig('core', 'shareapi_restrict_user_enumeration_full_match_userid');
+		$this->deleteServerConfig('core', 'shareapi_restrict_user_enumeration_full_match_user_id');
 		$this->deleteServerConfig('core', 'shareapi_restrict_user_enumeration_full_match_email');
 		$this->deleteServerConfig('core', 'shareapi_restrict_user_enumeration_full_match_ignore_second_dn');
 		$this->deleteServerConfig('core', 'shareapi_only_share_with_group_members');

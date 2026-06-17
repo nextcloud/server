@@ -15,6 +15,7 @@ use Test\TestCase;
 class IpAddressClassifierTest extends TestCase {
 	private IpAddressClassifier $classifier;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -39,6 +40,8 @@ class IpAddressClassifierTest extends TestCase {
 
 	public static function localIpAddressData(): array {
 		return [
+			['127.0.0.1'],
+			['127.0.0.13'], // all 127.0.0.0/8 network is loopback address
 			['192.168.0.1'],
 			['fe80::200:5aee:feaa:20a2'],
 			['fe80::1fc4:15d8:78db:2319%enp4s0'], // v6 zone ID
@@ -49,6 +52,7 @@ class IpAddressClassifierTest extends TestCase {
 			['::1'],
 			['100.100.100.200'],
 			['192.0.0.1'],
+			['64:ff9b::a9fe:a9fe'], // NAT64 of 169.254.169.254
 		];
 	}
 

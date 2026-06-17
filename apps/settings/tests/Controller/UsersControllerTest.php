@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2014-2015 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Tests\Controller;
 
 use OC\Accounts\AccountManager;
@@ -14,6 +15,7 @@ use OC\ForbiddenException;
 use OC\Group\Manager;
 use OC\KnownUser\KnownUserService;
 use OC\User\Manager as UserManager;
+use OCA\Settings\ConfigLexicon;
 use OCA\Settings\Controller\UsersController;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
@@ -23,9 +25,11 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\BackgroundJob\IJobList;
+use OCP\Config\IUserConfig;
 use OCP\Encryption\IEncryptionModule;
 use OCP\Encryption\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
@@ -37,15 +41,16 @@ use OCP\Mail\IMailer;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
- * @group DB
- *
  * @package Tests\Settings\Controller
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class UsersControllerTest extends \Test\TestCase {
 	private IGroupManager&MockObject $groupManager;
 	private UserManager&MockObject $userManager;
 	private IUserSession&MockObject $userSession;
 	private IConfig&MockObject $config;
+	private IAppConfig&MockObject $appConfig;
+	private IUserConfig&MockObject $userConfig;
 	private IMailer&MockObject $mailer;
 	private IFactory&MockObject $l10nFactory;
 	private IAppManager&MockObject $appManager;
@@ -66,6 +71,8 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->groupManager = $this->createMock(Manager::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
+		$this->userConfig = $this->createMock(IUserConfig::class);
 		$this->l = $this->createMock(IL10N::class);
 		$this->mailer = $this->createMock(IMailer::class);
 		$this->l10nFactory = $this->createMock(IFactory::class);
@@ -107,6 +114,8 @@ class UsersControllerTest extends \Test\TestCase {
 				$this->groupManager,
 				$this->userSession,
 				$this->config,
+				$this->appConfig,
+				$this->userConfig,
 				$this->l,
 				$this->mailer,
 				$this->l10nFactory,
@@ -129,6 +138,8 @@ class UsersControllerTest extends \Test\TestCase {
 						$this->groupManager,
 						$this->userSession,
 						$this->config,
+						$this->appConfig,
+						$this->userConfig,
 						$this->l,
 						$this->mailer,
 						$this->l10nFactory,
@@ -240,7 +251,7 @@ class UsersControllerTest extends \Test\TestCase {
 		return $account;
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestSetUserSettings')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestSetUserSettings')]
 	public function testSetUserSettings(string $email, bool $validEmail, int $expectedStatus): void {
 		$controller = $this->getController(false, ['saveUserSettings']);
 		$user = $this->createMock(IUser::class);
@@ -327,6 +338,16 @@ class UsersControllerTest extends \Test\TestCase {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('johndoe');
 
+		$user->expects($this->atLeastOnce())
+			->method('canEditProperty')
+			->willReturnCallback(
+				fn (string $property): bool => match($property) {
+					IAccountManager::PROPERTY_EMAIL,
+					IAccountManager::PROPERTY_DISPLAYNAME => false,
+					default => true,
+				}
+			);
+
 		$this->userSession->method('getUser')->willReturn($user);
 
 		/** @var MockObject|IAccount $userAccount */
@@ -367,11 +388,6 @@ class UsersControllerTest extends \Test\TestCase {
 			->method('setValue');
 		$emailProperty->expects($this->never())
 			->method('setScope');
-
-		$this->config->expects($this->once())
-			->method('getSystemValueBool')
-			->with('allow_user_to_change_display_name')
-			->willReturn(false);
 
 		$this->appManager->expects($this->any())
 			->method('isEnabledForUser')
@@ -506,7 +522,7 @@ class UsersControllerTest extends \Test\TestCase {
 		);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestSetUserSettingsSubset')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestSetUserSettingsSubset')]
 	public function testSetUserSettingsSubset(string $property, string $propertyValue): void {
 		$controller = $this->getController(false, ['saveUserSettings']);
 		$user = $this->createMock(IUser::class);
@@ -658,8 +674,8 @@ class UsersControllerTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestSaveUserSettings')]
-	public function testSaveUserSettings(array $data, ?string $oldEmailAddress, ?string $oldDisplayName): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestSaveUserSettings')]
+	public function testSaveUserSettings(array $data, ?string $oldEmailAddress, string $oldDisplayName): void {
 		$controller = $this->getController();
 		$user = $this->createMock(IUser::class);
 
@@ -674,7 +690,7 @@ class UsersControllerTest extends \Test\TestCase {
 				->with($data[IAccountManager::PROPERTY_EMAIL]['value']);
 		}
 
-		if ($data[IAccountManager::PROPERTY_DISPLAYNAME]['value'] === $oldDisplayName ?? '') {
+		if ($data[IAccountManager::PROPERTY_DISPLAYNAME]['value'] === $oldDisplayName) {
 			$user->expects($this->never())->method('setDisplayName');
 		} else {
 			$user->expects($this->once())->method('setDisplayName')
@@ -759,7 +775,7 @@ class UsersControllerTest extends \Test\TestCase {
 					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'john doe'],
 				],
 				'john@example.com',
-				null
+				''
 			],
 			[
 				[
@@ -767,13 +783,12 @@ class UsersControllerTest extends \Test\TestCase {
 					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'john doe'],
 				],
 				'JOHN@example.com',
-				null
+				''
 			],
-
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestSaveUserSettingsException')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestSaveUserSettingsException')]
 	public function testSaveUserSettingsException(
 		array $data,
 		string $oldEmailAddress,
@@ -819,7 +834,6 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->invokePrivate($controller, 'saveUserSettings', [$userAccount]);
 	}
 
-
 	public static function dataTestSaveUserSettingsException(): array {
 		return [
 			[
@@ -852,11 +866,10 @@ class UsersControllerTest extends \Test\TestCase {
 				false,
 				false
 			],
-
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestGetVerificationCode')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestGetVerificationCode')]
 	public function testGetVerificationCode(string $account, string $type, array $dataBefore, array $expectedData, bool $onlyVerificationCode): void {
 		$message = 'Use my Federated Cloud ID to share with me: user@nextcloud.com';
 		$signature = 'theSignature';
@@ -951,7 +964,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->assertSame(Http::STATUS_BAD_REQUEST, $result->getStatus());
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestCanAdminChangeUserPasswords')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestCanAdminChangeUserPasswords')]
 	public function testCanAdminChangeUserPasswords(
 		bool $encryptionEnabled,
 		bool $encryptionModuleLoaded,
@@ -991,6 +1004,58 @@ class UsersControllerTest extends \Test\TestCase {
 			[false, true, false, false],
 			[true, false, false, false],
 			[false, false, false, true],
+		];
+	}
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataSetPreference')]
+	public function testSetPreference(string $key, string $value, bool $isUserValue, bool $isAppValue, int $expectedStatus): void {
+		$controller = $this->getController(false, []);
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('testUser');
+		$this->userSession->method('getUser')->willReturn($user);
+
+		if ($isAppValue) {
+			if ($value === 'true' || $value === 'false' || $value === 'yes' || $value === 'no') {
+				$this->appConfig->expects($this->once())
+					->method('setValueBool')
+					->with('core', $key, $value === 'yes' || $value === 'true');
+			} else {
+				$this->appConfig->expects($this->once())
+					->method('setValueString')
+					->with('core', $key, $value);
+			}
+			$this->userConfig->expects($this->never())
+				->method('setValueBool');
+		} elseif ($isUserValue) {
+			$this->userConfig->expects($this->once())
+				->method('setValueBool')
+				->with('testUser', 'settings', $key, $value === 'true');
+			$this->appConfig->expects($this->never())
+				->method('setValueString');
+			$this->appConfig->expects($this->never())
+				->method('setValueBool');
+		} else {
+			$this->appConfig->expects($this->never())->method('setValueString');
+			$this->appConfig->expects($this->never())->method('setValueBool');
+			$this->userConfig->expects($this->never())->method('setValueString');
+			$this->userConfig->expects($this->never())->method('setValueBool');
+		}
+
+		$response = $controller->setPreference($key, $value);
+		$this->assertEquals($expectedStatus, $response->getStatus());
+	}
+
+	public static function dataSetPreference(): array {
+		return [
+			['newUser.sendEmail', 'yes', false, true, Http::STATUS_OK],
+			['newUser.sendEmail', 'no', false, true, Http::STATUS_OK],
+			['group.sortBy', '1', false, true, Http::STATUS_OK],
+			[ConfigLexicon::USER_LIST_SHOW_STORAGE_PATH, 'true', true, false, Http::STATUS_OK],
+			[ConfigLexicon::USER_LIST_SHOW_USER_BACKEND, 'false', true, false, Http::STATUS_OK],
+			[ConfigLexicon::USER_LIST_SHOW_FIRST_LOGIN, 'true', true, false, Http::STATUS_OK],
+			[ConfigLexicon::USER_LIST_SHOW_LAST_LOGIN, 'true', true, false, Http::STATUS_OK],
+			[ConfigLexicon::USER_LIST_SHOW_NEW_USER_FORM, 'true', true, false, Http::STATUS_OK],
+			[ConfigLexicon::USER_LIST_SHOW_LANGUAGES, 'true', true, false, Http::STATUS_OK],
+			['invalidKey', 'value', false, false, Http::STATUS_FORBIDDEN],
 		];
 	}
 }

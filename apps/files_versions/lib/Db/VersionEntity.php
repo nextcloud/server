@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace OCA\Files_Versions\Db;
 
 use JsonSerializable;
-
 use OCP\AppFramework\Db\Entity;
 use OCP\DB\Types;
 
@@ -42,9 +41,10 @@ class VersionEntity extends Entity implements JsonSerializable {
 		$this->addType('metadata', Types::JSON);
 	}
 
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
-			'id' => $this->id,
+			'id' => $this->getId(),
 			'file_id' => $this->fileId,
 			'timestamp' => $this->timestamp,
 			'size' => $this->size,

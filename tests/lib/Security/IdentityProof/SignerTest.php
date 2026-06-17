@@ -74,6 +74,7 @@ gQIDAQAB
 	/** @var Signer */
 	private $signer;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

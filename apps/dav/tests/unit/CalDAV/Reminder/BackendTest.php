@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV\Reminder;
 
 use OCA\DAV\CalDAV\Reminder\Backend as ReminderBackend;
@@ -40,13 +41,12 @@ class BackendTest extends TestCase {
 		parent::tearDown();
 	}
 
-
 	public function testCleanRemindersForEvent(): void {
 		$query = self::$realDatabase->getQueryBuilder();
 		$rows = $query->select('*')
 			->from('calendar_reminders')
-			->execute()
-			->fetchAll();
+			->executeQuery()
+			->fetchAllAssociative();
 
 		$this->assertCount(4, $rows);
 
@@ -55,8 +55,8 @@ class BackendTest extends TestCase {
 		$query = self::$realDatabase->getQueryBuilder();
 		$rows = $query->select('*')
 			->from('calendar_reminders')
-			->execute()
-			->fetchAll();
+			->executeQuery()
+			->fetchAllAssociative();
 
 		$this->assertCount(2, $rows);
 	}
@@ -65,8 +65,8 @@ class BackendTest extends TestCase {
 		$query = self::$realDatabase->getQueryBuilder();
 		$rows = $query->select('*')
 			->from('calendar_reminders')
-			->execute()
-			->fetchAll();
+			->executeQuery()
+			->fetchAllAssociative();
 
 		$this->assertCount(4, $rows);
 
@@ -75,8 +75,8 @@ class BackendTest extends TestCase {
 		$query = self::$realDatabase->getQueryBuilder();
 		$rows = $query->select('*')
 			->from('calendar_reminders')
-			->execute()
-			->fetchAll();
+			->executeQuery()
+			->fetchAllAssociative();
 
 		$this->assertCount(1, $rows);
 	}
@@ -85,8 +85,8 @@ class BackendTest extends TestCase {
 		$query = self::$realDatabase->getQueryBuilder();
 		$rows = $query->select('*')
 			->from('calendar_reminders')
-			->execute()
-			->fetchAll();
+			->executeQuery()
+			->fetchAllAssociative();
 
 		$this->assertCount(4, $rows);
 
@@ -95,8 +95,8 @@ class BackendTest extends TestCase {
 		$query = self::$realDatabase->getQueryBuilder();
 		$rows = $query->select('*')
 			->from('calendar_reminders')
-			->execute()
-			->fetchAll();
+			->executeQuery()
+			->fetchAllAssociative();
 
 		$this->assertCount(3, $rows);
 	}
@@ -192,8 +192,8 @@ class BackendTest extends TestCase {
 		$query = self::$realDatabase->getQueryBuilder();
 		$rows = $query->select('*')
 			->from('calendar_reminders')
-			->execute()
-			->fetchAll();
+			->executeQuery()
+			->fetchAllAssociative();
 
 		$this->assertCount(4, $rows);
 
@@ -203,8 +203,8 @@ class BackendTest extends TestCase {
 		$query = self::$realDatabase->getQueryBuilder();
 		$rows = $query->select('*')
 			->from('calendar_reminders')
-			->execute()
-			->fetchAll();
+			->executeQuery()
+			->fetchAllAssociative();
 
 		$this->assertCount(5, $rows);
 
@@ -231,7 +231,7 @@ class BackendTest extends TestCase {
 		$rows = $query->select('*')
 			->from('calendar_reminders')
 			->executeQuery()
-			->fetchAll();
+			->fetchAllAssociative();
 
 		$this->assertCount(4, $rows);
 
@@ -247,11 +247,10 @@ class BackendTest extends TestCase {
 			->from('calendar_reminders')
 			->where($query->expr()->eq('id', $query->createNamedParameter($reminderId)))
 			->executeQuery()
-			->fetch();
+			->fetchAssociative();
 
 		$this->assertEquals((int)$row['notification_date'], 123700);
 	}
-
 
 	private function createRemindersTestSet(): void {
 		$query = self::$realDatabase->getQueryBuilder();

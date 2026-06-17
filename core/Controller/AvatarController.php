@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Controller;
 
 use OC\AppFramework\Utility\TimeFactory;
@@ -13,6 +14,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\NoSameSiteCookieRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\FileDisplayResponse;
@@ -50,8 +52,6 @@ class AvatarController extends Controller {
 	}
 
 	/**
-	 * @NoSameSiteCookieRequired
-	 *
 	 * Get the dark avatar
 	 *
 	 * @param string $userId ID of the user
@@ -67,6 +67,7 @@ class AvatarController extends Controller {
 	#[PublicPage]
 	#[FrontpageRoute(verb: 'GET', url: '/avatar/{userId}/{size}/dark')]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
+	#[NoSameSiteCookieRequired]
 	public function getAvatarDark(string $userId, int $size, bool $guestFallback = false) {
 		if ($size <= 64) {
 			if ($size !== 64) {
@@ -100,10 +101,7 @@ class AvatarController extends Controller {
 		return $response;
 	}
 
-
 	/**
-	 * @NoSameSiteCookieRequired
-	 *
 	 * Get the avatar
 	 *
 	 * @param string $userId ID of the user
@@ -119,6 +117,7 @@ class AvatarController extends Controller {
 	#[PublicPage]
 	#[FrontpageRoute(verb: 'GET', url: '/avatar/{userId}/{size}')]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
+	#[NoSameSiteCookieRequired]
 	public function getAvatar(string $userId, int $size, bool $guestFallback = false) {
 		if ($size <= 64) {
 			if ($size !== 64) {

@@ -6,12 +6,11 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\FederatedFileSharing\Tests;
 
-use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\Controller\RequestHandlerController;
 use OCA\FederatedFileSharing\FederatedShareProvider;
-use OCA\FederatedFileSharing\Notifications;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
@@ -21,8 +20,6 @@ use OCP\Federation\ICloudFederationShare;
 use OCP\Federation\ICloudIdManager;
 use OCP\IDBConnection;
 use OCP\IRequest;
-use OCP\IUserManager;
-use OCP\Share;
 use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -31,8 +28,8 @@ use Psr\Log\LoggerInterface;
  * Class RequestHandlerTest
  *
  * @package OCA\FederatedFileSharing\Tests
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class RequestHandlerControllerTest extends \Test\TestCase {
 	private string $owner = 'owner';
 	private string $user1 = 'user1';
@@ -42,15 +39,11 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 
 	private RequestHandlerController $requestHandler;
 	private FederatedShareProvider&MockObject $federatedShareProvider;
-	private Notifications&MockObject $notifications;
-	private AddressHandler&MockObject $addressHandler;
-	private IUserManager&MockObject $userManager;
 	private IShare&MockObject $share;
 	private ICloudIdManager&MockObject $cloudIdManager;
 	private LoggerInterface&MockObject $logger;
 	private IRequest&MockObject $request;
 	private IDBConnection&MockObject $connection;
-	private Share\IManager&MockObject $shareManager;
 	private ICloudFederationFactory&MockObject $cloudFederationFactory;
 	private ICloudFederationProviderManager&MockObject $cloudFederationProviderManager;
 	private ICloudFederationProvider&MockObject $cloudFederationProvider;
@@ -67,13 +60,9 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 		$this->federatedShareProvider->expects($this->any())->method('getShareById')
 			->willReturn($this->share);
 
-		$this->notifications = $this->createMock(Notifications::class);
-		$this->addressHandler = $this->createMock(AddressHandler::class);
-		$this->userManager = $this->createMock(IUserManager::class);
 		$this->cloudIdManager = $this->createMock(ICloudIdManager::class);
 		$this->request = $this->createMock(IRequest::class);
 		$this->connection = $this->createMock(IDBConnection::class);
-		$this->shareManager = $this->createMock(Share\IManager::class);
 		$this->cloudFederationFactory = $this->createMock(ICloudFederationFactory::class);
 		$this->cloudFederationProviderManager = $this->createMock(ICloudFederationProviderManager::class);
 		$this->cloudFederationProvider = $this->createMock(ICloudFederationProvider::class);
@@ -88,10 +77,6 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 			$this->request,
 			$this->federatedShareProvider,
 			$this->connection,
-			$this->shareManager,
-			$this->notifications,
-			$this->addressHandler,
-			$this->userManager,
 			$this->cloudIdManager,
 			$this->logger,
 			$this->cloudFederationFactory,
@@ -106,7 +91,7 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 				$this->user2,
 				'name',
 				'',
-				1,
+				'1',
 				$this->ownerCloudId,
 				$this->owner,
 				$this->user1CloudId,
@@ -125,13 +110,13 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 		$this->cloudFederationProvider->expects($this->once())->method('shareReceived')
 			->with($this->cloudFederationShare);
 
-		$result = $this->requestHandler->createShare('localhost', 'token', 'name', $this->owner, $this->user1, $this->user2, 1, $this->user1CloudId, $this->ownerCloudId);
+		$result = $this->requestHandler->createShare('localhost', 'token', 'name', $this->owner, $this->user1, $this->user2, '1', $this->user1CloudId, $this->ownerCloudId);
 
 		$this->assertInstanceOf(DataResponse::class, $result);
 	}
 
 	public function testDeclineShare(): void {
-		$id = 42;
+		$id = '42';
 
 		$notification = [
 			'sharedSecret' => 'token',
@@ -152,9 +137,8 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 		$this->assertInstanceOf(DataResponse::class, $result);
 	}
 
-
 	public function testAcceptShare(): void {
-		$id = 42;
+		$id = '42';
 
 		$notification = [
 			'sharedSecret' => 'token',

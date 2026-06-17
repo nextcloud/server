@@ -12,16 +12,15 @@ use OC\Memcache\Redis;
 use OCP\IConfig;
 use OCP\Server;
 
-/**
- * @group Memcache
- * @group Redis
- */
+#[\PHPUnit\Framework\Attributes\Group('Memcache')]
+#[\PHPUnit\Framework\Attributes\Group('Redis')]
 class RedisTest extends Cache {
 	/**
 	 * @var Redis cache;
 	 */
 	protected $instance;
 
+	#[\Override]
 	public static function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();
 
@@ -60,6 +59,7 @@ class RedisTest extends Cache {
 		}
 	}
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->instance = new Redis($this->getUniqueID());

@@ -12,12 +12,13 @@ OC.L10N.register(
     "Files" : "Mafaili",
     "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "Ulitajwa kwenye \"{file}\", kwenye maoni ya akaunti ambayo imefutwa",
     "{user} mentioned you in a comment on \"{file}\"" : "{user}amekutaja katika maoni kwenye\"{file}\"",
+    "Go to file" : "Nenda kwenye faili",
     "Files app plugin to add comments to files" : "Programu-jalizi ya Faili ili kuongeza maoni kwenye faili ",
     "Edit comment" : "Hariri maoni",
     "Delete comment" : "Futa maoni",
     "Cancel edit" : "Sistisha uhariri",
     "New comment" : "Maoni mapya",
-    "Write a comment …" : "Andika maoni...",
+    "Write a comment …" : "Andika oni  ...",
     "Post comment" : "Tuma maoni",
     "@ for mentions, : for emoji, / for smart picker" : "@ kwa mitajo, : kwa emoji, / kwa kichagua smart",
     "Could not reload comments" : "Haikuweza kupakia maoni",
@@ -31,6 +32,7 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Hitilafu ilitokea wakati wa kujaribu kuhariri maoni",
     "Comment deleted" : "Maoni yamefutwa",
     "An error occurred while trying to delete the comment" : "Hitilafu ilitokea wakati wa kujaribu kufuta maoni",
-    "An error occurred while trying to create the comment" : "Hitilafu ilitokea wakati wa kujaribu kuunda maoni"
+    "An error occurred while trying to create the comment" : "Hitilafu ilitokea wakati wa kujaribu kuunda maoni",
+    "Write a comment …" : "Andika maoni..."
 },
 "nplurals=2; plural=(n != 1);");

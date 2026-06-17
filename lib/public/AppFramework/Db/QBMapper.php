@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\AppFramework\Db;
 
 use Generator;
@@ -51,7 +52,6 @@ abstract class QBMapper {
 		}
 	}
 
-
 	/**
 	 * @return string the table name
 	 * @since 14.0.0
@@ -59,7 +59,6 @@ abstract class QBMapper {
 	public function getTableName(): string {
 		return $this->tableName;
 	}
-
 
 	/**
 	 * Deletes an entity from the table
@@ -84,7 +83,6 @@ abstract class QBMapper {
 		return $entity;
 	}
 
-
 	/**
 	 * Creates a new entry in the db from an entity
 	 *
@@ -96,6 +94,11 @@ abstract class QBMapper {
 	 * @since 14.0.0
 	 */
 	public function insert(Entity $entity): Entity {
+		if ($entity instanceof SnowflakeAwareEntity) {
+			/** @psalm-suppress DocblockTypeContradiction */
+			$entity->generateId();
+		}
+
 		// get updated fields to save, fields have to be set using a setter to
 		// be saved
 		$properties = $entity->getUpdatedFields();
@@ -109,17 +112,20 @@ abstract class QBMapper {
 			$getter = 'get' . ucfirst($property);
 			$value = $entity->$getter();
 
+			if ($property === 'id' && $entity->id === null) {
+				continue;
+			}
 			$type = $this->getParameterTypeForProperty($entity, $property);
 			$qb->setValue($column, $qb->createNamedParameter($value, $type));
 		}
 
-		$qb->executeStatement();
-
 		if ($entity->id === null) {
+			$qb->executeStatement();
 			// When autoincrement is used id is always an int
 			$entity->setId($qb->getLastInsertId());
+		} else {
+			$qb->executeStatement();
 		}
-
 		return $entity;
 	}
 
@@ -300,7 +306,6 @@ abstract class QBMapper {
 			. ': query "' . $sql->getSQL() . '"; ';
 	}
 
-
 	/**
 	 * Creates an entity from a row. Automatically determines the entity class
 	 * from the current mapper name (MyEntityMapper -> MyEntity)
@@ -314,7 +319,6 @@ abstract class QBMapper {
 		unset($row['DOCTRINE_ROWNUM']); // remove doctrine/dbal helper column
 		return \call_user_func($this->entityClass . '::fromRow', $row);
 	}
-
 
 	/**
 	 * Runs a sql query and returns an array of entities
@@ -357,7 +361,6 @@ abstract class QBMapper {
 			$result->closeCursor();
 		}
 	}
-
 
 	/**
 	 * Returns an db result and throws exceptions when there are more or less

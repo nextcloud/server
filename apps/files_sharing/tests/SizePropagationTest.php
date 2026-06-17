@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\View;
@@ -17,10 +18,10 @@ use Test\Traits\UserTrait;
 /**
  * Class SizePropagationTest
  *
- * @group DB
  *
  * @package OCA\Files_Sharing\Tests
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class SizePropagationTest extends TestCase {
 	use UserTrait;
 

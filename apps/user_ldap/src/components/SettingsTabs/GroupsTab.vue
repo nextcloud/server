@@ -5,35 +5,39 @@
 <template>
 	<fieldset class="ldap-wizard__groups">
 		<legend>
-			{{ t('user_ldap', 'Groups meeting these criteria are available in {instanceName}:', {instanceName}) }}
+			{{ t('user_ldap', 'Groups meeting these criteria are available in {instanceName}:', { instanceName }) }}
 		</legend>
 
 		<div class="ldap-wizard__groups__line ldap-wizard__groups__filter-selection">
-			<NcSelect v-model="ldapGroupFilterObjectclass"
+			<NcSelect
+				v-model="ldapGroupFilterObjectclass"
 				class="ldap-wizard__groups__group-filter-groups__select"
 				:options="groupObjectClasses"
 				:disabled="ldapConfigProxy.ldapGroupFilterMode === '1'"
-				:input-label="t('user_ldap', 'Only these object classes:')"
+				:inputLabel="t('user_ldap', 'Only these object classes:')"
 				:multiple="true" />
 
-			<NcSelect v-model="ldapGroupFilterGroups"
+			<NcSelect
+				v-model="ldapGroupFilterGroups"
 				class="ldap-wizard__groups__group-filter-groups__select"
 				:options="groupGroups"
 				:disabled="ldapConfigProxy.ldapGroupFilterMode === '1'"
-				:input-label="t('user_ldap', 'Only from these groups:')"
+				:inputLabel="t('user_ldap', 'Only from these groups:')"
 				:multiple="true" />
 		</div>
 
 		<div class="ldap-wizard__groups__line ldap-wizard__groups__groups-filter">
-			<NcCheckboxRadioSwitch :checked="ldapConfigProxy.ldapGroupFilterMode === '1'"
-				@update:checked="toggleFilterMode">
+			<NcCheckboxRadioSwitch
+				:modelValue="ldapConfigProxy.ldapGroupFilterMode === '1'"
+				@update:modelValue="toggleFilterMode">
 				{{ t('user_ldap', 'Edit LDAP Query') }}
 			</NcCheckboxRadioSwitch>
 
 			<div v-if="ldapConfigProxy.ldapGroupFilterMode === '1'">
-				<NcTextArea :value.sync="ldapConfigProxy.ldapGroupFilter"
+				<NcTextArea
+					v-model="ldapConfigProxy.ldapGroupFilter"
 					:placeholder="t('user_ldap', 'Edit LDAP Query')"
-					:helper-text="t('user_ldap', 'The filter specifies which LDAP groups shall have access to the {instanceName} instance.', {instanceName})" />
+					:helperText="t('user_ldap', 'The filter specifies which LDAP groups shall have access to the {instanceName} instance.', { instanceName })" />
 			</div>
 			<div v-else>
 				<span>{{ t('user_ldap', 'LDAP Filter:') }}</span>
@@ -53,17 +57,15 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue'
-import { storeToRefs } from 'pinia'
-
-import { t } from '@nextcloud/l10n'
-import { NcButton, NcTextArea, NcCheckboxRadioSwitch, NcSelect, NcLoadingIcon } from '@nextcloud/vue'
 import { getCapabilities } from '@nextcloud/capabilities'
+import { t } from '@nextcloud/l10n'
+import { NcButton, NcCheckboxRadioSwitch, NcLoadingIcon, NcSelect, NcTextArea } from '@nextcloud/vue'
+import { storeToRefs } from 'pinia'
+import { computed, ref } from 'vue'
+import { callWizard, showEnableAutomaticFilterInfo } from '../../services/ldapConfigService.ts'
+import { useLDAPConfigsStore } from '../../store/configs.ts'
 
-import { useLDAPConfigsStore } from '../../store/configs'
-import { callWizard, showEnableAutomaticFilterInfo } from '../../services/ldapConfigService'
-
-const props = defineProps<{configId: string}>()
+const props = defineProps<{ configId: string }>()
 
 const ldapConfigsStore = useLDAPConfigsStore()
 const { ldapConfigs } = storeToRefs(ldapConfigsStore)
@@ -72,9 +74,9 @@ const ldapConfigProxy = computed(() => ldapConfigsStore.getConfigProxy(props.con
 	ldapGroupFilterGroups: getGroupFilter,
 }))
 
-const instanceName = (getCapabilities() as { theming: { name:string } }).theming.name
+const instanceName = (getCapabilities() as { theming: { name: string } }).theming.name
 
-const groupsCountLabel = ref<number|undefined>(undefined)
+const groupsCountLabel = ref<number | undefined>(undefined)
 
 const groupObjectClasses = ref([] as string[])
 const groupGroups = ref([] as string[])
@@ -89,22 +91,31 @@ const ldapGroupFilterGroups = computed({
 	set(value) { ldapConfigProxy.value.ldapGroupFilterGroups = value.join(';') },
 })
 
+/**
+ *
+ */
 async function init() {
 	const response1 = await callWizard('determineGroupObjectClasses', props.configId)
-	groupObjectClasses.value = response1.options!.ldap_groupfilter_objectclass
+	groupObjectClasses.value = response1.options?.ldap_groupfilter_objectclass ?? []
 
 	const response2 = await callWizard('determineGroupsForGroups', props.configId)
-	groupGroups.value = response2.options!.ldap_groupfilter_groups
+	groupGroups.value = response2.options?.ldap_groupfilter_groups ?? []
 }
 
 init()
 
+/**
+ *
+ */
 async function getGroupFilter() {
 	const response = await callWizard('getGroupFilter', props.configId)
 	// Not using ldapConfig to avoid triggering the save logic.
-	ldapConfigs.value[props.configId].ldapGroupFilter = response.changes!.ldap_group_filter as string
+	ldapConfigs.value[props.configId]!.ldapGroupFilter = (response.changes?.ldap_group_filter as string | undefined) ?? ''
 }
 
+/**
+ *
+ */
 async function countGroups() {
 	try {
 		loadingGroupCount.value = true
@@ -115,6 +126,11 @@ async function countGroups() {
 	}
 }
 
+/**
+ * Toggle filter mode
+ *
+ * @param value - new value
+ */
 async function toggleFilterMode(value: boolean) {
 	if (value) {
 		ldapConfigProxy.value.ldapGroupFilterMode = '1'
@@ -123,6 +139,7 @@ async function toggleFilterMode(value: boolean) {
 	}
 }
 </script>
+
 <style lang="scss" scoped>
 .ldap-wizard__groups {
 	display: flex;

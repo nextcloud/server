@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\DAV;
 
 use OC\Group\Group;
@@ -171,7 +172,6 @@ class GroupPrincipalTest extends \Test\TestCase {
 		$this->assertSame([], $response);
 	}
 
-
 	public function testSetGroupMembership(): void {
 		$this->expectException(\Sabre\DAV\Exception::class);
 		$this->expectExceptionMessage('Setting members of the group is not supported yet');
@@ -192,7 +192,7 @@ class GroupPrincipalTest extends \Test\TestCase {
 			['{DAV:}displayname' => 'Foo']));
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('searchPrincipalsDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'searchPrincipalsDataProvider')]
 	public function testSearchPrincipals(bool $sharingEnabled, bool $groupSharingEnabled, bool $groupsOnly, string $test, array $result): void {
 		$this->shareManager->expects($this->once())
 			->method('shareAPIEnabled')
@@ -263,7 +263,7 @@ class GroupPrincipalTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('findByUriDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'findByUriDataProvider')]
 	public function testFindByUri(bool $sharingEnabled, bool $groupSharingEnabled, bool $groupsOnly, string $findUri, ?string $result): void {
 		$this->shareManager->expects($this->once())
 			->method('shareAPIEnabled')

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files\Command;
 
 use Exception;
@@ -45,6 +46,7 @@ class SanitizeFilenames extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		parent::configure();
 
@@ -70,6 +72,7 @@ class SanitizeFilenames extends Base {
 
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$this->charReplacement = $input->getOption('char-replacement');
 		// check if replacement is needed

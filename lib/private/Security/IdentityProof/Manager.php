@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Security\IdentityProof;
 
 use OC\Files\AppData\Factory;
@@ -136,6 +137,18 @@ class Manager {
 	}
 
 	/**
+	 * Set public key for $user
+	 */
+	public function setPublicKey(IUser $user, string $publicKey): void {
+		$id = 'user-' . $user->getUID();
+
+		$folder = $this->appData->getFolder($id);
+		$folder->newFile('public', $publicKey);
+
+		$this->cache->set($id . '-public', $publicKey);
+	}
+
+	/**
 	 * Get instance wide public and private key
 	 *
 	 * @throws \RuntimeException
@@ -164,6 +177,47 @@ class Manager {
 
 	public function generateAppKey(string $app, string $name, array $options = []): Key {
 		return $this->generateKey($this->generateAppKeyId($app, $name), $options);
+	}
+
+	/**
+	 * Generate an ECDSA P-256 (prime256v1, SECG/JOSE ES256 curve) keypair via
+	 * openssl. Returns PEM private + PEM public. Overwrites if already
+	 * present. Private key is encrypted on disk.
+	 *
+	 * @throws \RuntimeException
+	 */
+	public function generateEcdsaP256AppKey(string $app, string $name): Key {
+		$res = openssl_pkey_new([
+			'private_key_type' => OPENSSL_KEYTYPE_EC,
+			'curve_name' => 'prime256v1',
+		]);
+		if ($res === false) {
+			$this->logOpensslError();
+			throw new \RuntimeException('OpenSSL reported a problem');
+		}
+		if (openssl_pkey_export($res, $privateKey) === false) {
+			$this->logOpensslError();
+			throw new \RuntimeException('OpenSSL reported a problem');
+		}
+		$details = openssl_pkey_get_details($res);
+		if ($details === false || !isset($details['key'])) {
+			$this->logOpensslError();
+			throw new \RuntimeException('OpenSSL reported a problem');
+		}
+		$publicKey = $details['key'];
+
+		$id = $this->generateAppKeyId($app, $name);
+		try {
+			$this->appData->newFolder($id);
+		} catch (\Exception) {
+		}
+		$folder = $this->appData->getFolder($id);
+		$folder->newFile('private')
+			->putContent($this->crypto->encrypt($privateKey));
+		$folder->newFile('public')
+			->putContent($publicKey);
+
+		return new Key($publicKey, $privateKey);
 	}
 
 	public function deleteAppKey(string $app, string $name): bool {

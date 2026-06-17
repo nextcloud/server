@@ -10,58 +10,40 @@ namespace Test\Files\Cache;
 
 use OC\Files\Storage\Home;
 use OC\User\User;
+use OCP\Files\Cache\ICache;
 use OCP\ITempManager;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\Group;
+use Test\TestCase;
 
 class DummyUser extends User {
-	/**
-	 * @param string $uid
-	 * @param string $home
-	 */
 	public function __construct(
-		private $uid,
-		private $home,
+		private string $uid,
+		private string $home,
 	) {
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getHome() {
+	#[\Override]
+	public function getHome(): string {
 		return $this->home;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getUID() {
+	#[\Override]
+	public function getUID(): string {
 		return $this->uid;
 	}
 }
 
-/**
- * Class HomeCacheTest
- *
- * @group DB
- *
- * @package Test\Files\Cache
- */
-class HomeCacheTest extends \Test\TestCase {
-	/**
-	 * @var \OC\Files\Storage\Home $storage
-	 */
-	private $storage;
+#[Group('DB')]
+class HomeCacheTest extends TestCase {
+	private Home $storage;
+	private ICache $cache;
+	private User $user;
 
-	/**
-	 * @var \OC\Files\Cache\HomeCache $cache
-	 */
-	private $cache;
-
-	/**
-	 * @var User $user
-	 */
-	private $user;
-
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Lib\Backend;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
@@ -18,7 +21,7 @@ class SFTP extends Backend {
 			->setIdentifier('sftp')
 			->addIdentifierAlias('\OC\Files\Storage\SFTP') // legacy compat
 			->setStorageClass('\OCA\Files_External\Lib\Storage\SFTP')
-			->setText($l->t('SFTP'))
+			->setText($l->t('SFTP (SSH file transfer)'))
 			->addParameters([
 				new DefinitionParameter('host', $l->t('Host')),
 				(new DefinitionParameter('port', $l->t('Port')))
@@ -28,6 +31,7 @@ class SFTP extends Backend {
 			])
 			->addAuthScheme(AuthMechanism::SCHEME_PASSWORD)
 			->addAuthScheme(AuthMechanism::SCHEME_PUBLICKEY)
+			->addAuthScheme(AuthMechanism::SCHEME_OAUTH2)
 			->setLegacyAuthMechanism($legacyAuth)
 		;
 	}

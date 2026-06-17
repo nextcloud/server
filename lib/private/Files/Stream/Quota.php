@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Stream;
 
 use Icewind\Streams\Wrapper;
@@ -35,6 +36,7 @@ class Quota extends Wrapper {
 		return Wrapper::wrapSource($stream, $context, 'quota', self::class);
 	}
 
+	#[\Override]
 	public function stream_open($path, $mode, $options, &$opened_path) {
 		$context = $this->loadContext('quota');
 		$this->source = $context['source'];
@@ -43,10 +45,12 @@ class Quota extends Wrapper {
 		return true;
 	}
 
+	#[\Override]
 	public function dir_opendir($path, $options) {
 		return false;
 	}
 
+	#[\Override]
 	public function stream_seek($offset, $whence = SEEK_SET) {
 		if ($whence === SEEK_END) {
 			// go to the end to find out last position's offset
@@ -67,18 +71,23 @@ class Quota extends Wrapper {
 		return fseek($this->source, $offset, $whence) === 0;
 	}
 
+	#[\Override]
 	public function stream_read($count) {
 		$this->limit -= $count;
 		return fread($this->source, $count);
 	}
 
+	#[\Override]
 	public function stream_write($data) {
 		$size = strlen($data);
 		if ($size > $this->limit) {
 			$data = substr($data, 0, $this->limit);
 			$size = $this->limit;
 		}
-		$this->limit -= $size;
-		return fwrite($this->source, $data);
+		$written = fwrite($this->source, $data);
+		// Decrement quota by the actual number of bytes written ($written),
+		// not the intended size
+		$this->limit -= $written;
+		return $written;
 	}
 }

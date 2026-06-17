@@ -36,6 +36,7 @@ class StoreTest extends TestCase {
 	/** @var Store */
 	private $store;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -268,7 +269,6 @@ class StoreTest extends TestCase {
 		$this->session->expects($this->once())
 			->method('set')
 			->with($this->equalTo('login_credentials'), $this->equalTo(json_encode($params)));
-
 
 		$this->session->expects($this->once())
 			->method('getId')

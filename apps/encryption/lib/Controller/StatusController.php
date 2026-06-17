@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Encryption\Controller;
 
 use OCA\Encryption\Session;
@@ -68,8 +69,10 @@ class StatusController extends Controller {
 		return new DataResponse(
 			[
 				'status' => $status,
+				'initStatus' => $this->session->getStatus(),
 				'data' => [
-					'message' => $message]
+					'message' => $message,
+				],
 			]
 		);
 	}

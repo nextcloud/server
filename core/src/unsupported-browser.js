@@ -5,10 +5,9 @@
 
 import { generateUrl } from '@nextcloud/router'
 import Vue from 'vue'
-
-import { browserStorageKey } from './utils/RedirectUnsupportedBrowsers.js'
-import browserStorage from './services/BrowserStorageService.js'
 import UnsupportedBrowser from './views/UnsupportedBrowser.vue'
+import browserStorage from './services/BrowserStorageService.js'
+import { browserStorageKey } from './utils/RedirectUnsupportedBrowsers.js'
 
 // If the ignore token is set, redirect
 if (browserStorage.getItem(browserStorageKey) === 'true') {
@@ -17,7 +16,6 @@ if (browserStorage.getItem(browserStorageKey) === 'true') {
 
 export default new Vue({
 	el: '#unsupported-browser',
-	// eslint-disable-next-line vue/match-component-file-name
 	name: 'UnsupportedBrowserRoot',
-	render: h => h(UnsupportedBrowser),
+	render: (h) => h(UnsupportedBrowser),
 })

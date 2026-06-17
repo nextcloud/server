@@ -5,8 +5,10 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\FederatedFileSharing;
 
+use OC\ServerNotAvailableException;
 use OCA\FederatedFileSharing\Events\FederatedShareAddedEvent;
 use OCP\AppFramework\Http;
 use OCP\BackgroundJob\IJobList;
@@ -47,7 +49,7 @@ class Notifications {
 	 * @param int $shareType (can be a remote user or group share)
 	 * @return bool
 	 * @throws HintException
-	 * @throws \OC\ServerNotAvailableException
+	 * @throws ServerNotAvailableException
 	 */
 	public function sendRemoteShare($token, $shareWith, $name, $remoteId, $owner, $ownerFederatedId, $sharedBy, $sharedByFederatedId, $shareType) {
 		[$user, $remote] = $this->addressHandler->splitUserRemote($shareWith);
@@ -106,7 +108,7 @@ class Notifications {
 	 * @param string $filename
 	 * @return array|false
 	 * @throws HintException
-	 * @throws \OC\ServerNotAvailableException
+	 * @throws ServerNotAvailableException
 	 */
 	public function requestReShare($token, $id, $shareId, $remote, $shareWith, $permission, $filename, $shareType) {
 		$fields = [
@@ -266,7 +268,6 @@ class Notifications {
 
 		return false;
 	}
-
 
 	/**
 	 * return current timestamp

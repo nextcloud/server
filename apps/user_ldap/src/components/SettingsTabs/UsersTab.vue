@@ -7,34 +7,38 @@
 		{{ t('user_ldap', 'Listing and searching for users is constrained by these criteria:') }}
 
 		<div class="ldap-wizard__users__line ldap-wizard__users__user-filter-object-class">
-			<NcSelect v-model="ldapUserFilterObjectclass"
+			<NcSelect
+				v-model="ldapUserFilterObjectclass"
 				:disabled="ldapConfigProxy.ldapUserFilterMode === '1'"
 				class="ldap-wizard__users__user-filter-object-class__select"
 				:options="userObjectClasses"
-				:input-label="t('user_ldap', 'Only these object classes:')"
+				:inputLabel="t('user_ldap', 'Only these object classes:')"
 				:multiple="true" />
 			{{ t('user_ldap', 'The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin.') }}
 		</div>
 
 		<div class="ldap-wizard__users__line ldap-wizard__users__user-filter-groups">
-			<NcSelect v-model="ldapUserFilterGroups"
+			<NcSelect
+				v-model="ldapUserFilterGroups"
 				class="ldap-wizard__users__user-filter-groups__select"
 				:disabled="ldapConfigProxy.ldapUserFilterMode === '1'"
 				:options="userGroups"
-				:input-label="t('user_ldap', 'Only from these groups:')"
+				:inputLabel="t('user_ldap', 'Only from these groups:')"
 				:multiple="true" />
 		</div>
 
 		<div class="ldap-wizard__users__line ldap-wizard__users__user-filter">
-			<NcCheckboxRadioSwitch :checked="ldapConfigProxy.ldapUserFilterMode === '1'"
-				@update:checked="toggleFilterMode">
+			<NcCheckboxRadioSwitch
+				:modelValue="ldapConfigProxy.ldapUserFilterMode === '1'"
+				@update:modelValue="toggleFilterMode">
 				{{ t('user_ldap', 'Edit LDAP Query') }}
 			</NcCheckboxRadioSwitch>
 
 			<div v-if="ldapConfigProxy.ldapUserFilterMode === '1'">
-				<NcTextArea :value.sync="ldapConfigProxy.ldapUserFilter"
+				<NcTextArea
+					v-model="ldapConfigProxy.ldapUserFilter"
 					:placeholder="t('user_ldap', 'Edit LDAP Query')"
-					:helper-text="t('user_ldap', 'The filter specifies which LDAP users shall have access to the {instanceName} instance.', { instanceName })" />
+					:helperText="t('user_ldap', 'The filter specifies which LDAP users shall have access to the {instanceName} instance.', { instanceName })" />
 			</div>
 			<div v-else>
 				<label>{{ t('user_ldap', 'LDAP Filter:') }}</label>
@@ -54,17 +58,15 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue'
-import { storeToRefs } from 'pinia'
-
-import { t } from '@nextcloud/l10n'
-import { NcButton, NcTextArea, NcCheckboxRadioSwitch, NcSelect, NcLoadingIcon } from '@nextcloud/vue'
 import { getCapabilities } from '@nextcloud/capabilities'
+import { t } from '@nextcloud/l10n'
+import { NcButton, NcCheckboxRadioSwitch, NcLoadingIcon, NcSelect, NcTextArea } from '@nextcloud/vue'
+import { storeToRefs } from 'pinia'
+import { computed, onBeforeMount, ref } from 'vue'
+import { callWizard, showEnableAutomaticFilterInfo } from '../../services/ldapConfigService.ts'
+import { useLDAPConfigsStore } from '../../store/configs.ts'
 
-import { useLDAPConfigsStore } from '../../store/configs'
-import { callWizard, showEnableAutomaticFilterInfo } from '../../services/ldapConfigService'
-
-const props = defineProps<{configId: string}>()
+const props = defineProps<{ configId: string }>()
 
 const ldapConfigsStore = useLDAPConfigsStore()
 const { ldapConfigs } = storeToRefs(ldapConfigsStore)
@@ -73,10 +75,10 @@ const ldapConfigProxy = computed(() => ldapConfigsStore.getConfigProxy(props.con
 	ldapUserFilterGroups: reloadFilters,
 }))
 
-const usersCount = ref<number|undefined>(undefined)
+const usersCount = ref<number | undefined>(undefined)
 const loadingUserCount = ref(false)
 
-const instanceName = (getCapabilities() as { theming: { name:string } }).theming.name
+const instanceName = (getCapabilities() as { theming: { name: string } }).theming.name
 
 const userObjectClasses = ref([] as string[])
 const userGroups = ref([] as string[])
@@ -90,32 +92,41 @@ const ldapUserFilterGroups = computed({
 	set(value) { ldapConfigProxy.value.ldapUserFilterGroups = value.join(';') },
 })
 
+onBeforeMount(init)
+
+/**
+ * Initialize user filter options
+ */
 async function init() {
 	const response1 = await callWizard('determineUserObjectClasses', props.configId)
-	userObjectClasses.value = response1.options!.ldap_userfilter_objectclass
+	userObjectClasses.value = response1.options?.ldap_userfilter_objectclass ?? []
 	// Not using ldapConfig to avoid triggering the save logic.
-	ldapConfigs.value[props.configId].ldapUserFilterObjectclass = response1.changes!.ldap_userfilter_objectclass?.join(';') ?? ''
+	ldapConfigs.value[props.configId]!.ldapUserFilterObjectclass = (response1.changes?.ldap_userfilter_objectclass as string[] | undefined)?.join(';') ?? ''
 
 	const response2 = await callWizard('determineGroupsForUsers', props.configId)
-	userGroups.value = response2.options!.ldap_userfilter_groups
+	userGroups.value = response2.options?.ldap_userfilter_groups ?? []
 	// Not using ldapConfig to avoid triggering the save logic.
-	ldapConfigs.value[props.configId].ldapUserFilterGroups = response2.changes!.ldap_userfilter_groups?.join(';') ?? ''
+	ldapConfigs.value[props.configId]!.ldapUserFilterGroups = (response2.changes?.ldap_userfilter_groups as string[] | undefined)?.join(';') ?? ''
 }
 
-init()
-
+/**
+ * Reload filters
+ */
 async function reloadFilters() {
 	if (ldapConfigProxy.value.ldapUserFilterMode === '0') {
 		const response1 = await callWizard('getUserListFilter', props.configId)
 		// Not using ldapConfig to avoid triggering the save logic.
-		ldapConfigs.value[props.configId].ldapUserFilter = response1.changes!.ldap_userlist_filter as string
+		ldapConfigs.value[props.configId]!.ldapUserFilter = (response1.changes?.ldap_userlist_filter as string | undefined) ?? ''
 
 		const response2 = await callWizard('getUserLoginFilter', props.configId)
 		// Not using ldapConfig to avoid triggering the save logic.
-		ldapConfigs.value[props.configId].ldapLoginFilter = response2.changes!.ldap_userlogin_filter as string
+		ldapConfigs.value[props.configId]!.ldapLoginFilter = (response2.changes?.ldap_login_filter as string | undefined) ?? ''
 	}
 }
 
+/**
+ * Count users
+ */
 async function countUsers() {
 	try {
 		loadingUserCount.value = true
@@ -126,6 +137,11 @@ async function countUsers() {
 	}
 }
 
+/**
+ * Toggle filter mode
+ *
+ * @param value - new value
+ */
 async function toggleFilterMode(value: boolean) {
 	if (value) {
 		ldapConfigProxy.value.ldapUserFilterMode = '1'
@@ -134,6 +150,7 @@ async function toggleFilterMode(value: boolean) {
 	}
 }
 </script>
+
 <style lang="scss" scoped>
 .ldap-wizard__users {
 	display: flex;

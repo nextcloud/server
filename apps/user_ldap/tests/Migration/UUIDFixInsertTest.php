@@ -5,19 +5,20 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\User_LDAP\Tests\Migration;
 
 use OCA\User_LDAP\Mapping\GroupMapping;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\Migration\UUIDFixInsert;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\BackgroundJob\IJobList;
-use OCP\IConfig;
 use OCP\Migration\IOutput;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class UUIDFixInsertTest extends TestCase {
-	protected IConfig&MockObject $config;
+	protected IAppConfig&MockObject $appConfig;
 	protected UserMapping&MockObject $userMapper;
 	protected GroupMapping&MockObject $groupMapper;
 	protected IJobList&MockObject $jobList;
@@ -27,11 +28,11 @@ class UUIDFixInsertTest extends TestCase {
 		parent::setUp();
 
 		$this->jobList = $this->createMock(IJobList::class);
-		$this->config = $this->createMock(IConfig::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->userMapper = $this->createMock(UserMapping::class);
 		$this->groupMapper = $this->createMock(GroupMapping::class);
 		$this->job = new UUIDFixInsert(
-			$this->config,
+			$this->appConfig,
 			$this->userMapper,
 			$this->groupMapper,
 			$this->jobList
@@ -86,11 +87,11 @@ class UUIDFixInsertTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('recordProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'recordProvider')]
 	public function testRun(array $userBatches, array $groupBatches): void {
-		$this->config->expects($this->once())
-			->method('getAppValue')
-			->with('user_ldap', 'installed_version', '1.2.1')
+		$this->appConfig->expects($this->once())
+			->method('getAppValueString')
+			->with('installed_version', '1.2.1')
 			->willReturn('1.2.0');
 
 		$this->userMapper->expects($this->exactly(3))
@@ -114,11 +115,11 @@ class UUIDFixInsertTest extends TestCase {
 		$this->job->run($out);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('recordProviderTooLongAndNone')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'recordProviderTooLongAndNone')]
 	public function testRunWithManyAndNone(array $userBatches, array $groupBatches): void {
-		$this->config->expects($this->once())
-			->method('getAppValue')
-			->with('user_ldap', 'installed_version', '1.2.1')
+		$this->appConfig->expects($this->once())
+			->method('getAppValueString')
+			->with('installed_version', '1.2.1')
 			->willReturn('1.2.0');
 
 		$this->userMapper->expects($this->exactly(5))
@@ -152,9 +153,9 @@ class UUIDFixInsertTest extends TestCase {
 	}
 
 	public function testDonNotRun(): void {
-		$this->config->expects($this->once())
-			->method('getAppValue')
-			->with('user_ldap', 'installed_version', '1.2.1')
+		$this->appConfig->expects($this->once())
+			->method('getAppValueString')
+			->with('installed_version', '1.2.1')
 			->willReturn('1.2.1');
 		$this->userMapper->expects($this->never())
 			->method('getList');

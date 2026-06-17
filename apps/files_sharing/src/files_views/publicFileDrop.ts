@@ -4,11 +4,11 @@
  */
 import type { VueConstructor } from 'vue'
 
-import { Folder, Permission, View, getNavigation } from '@nextcloud/files'
+import svgCloudUpload from '@mdi/svg/svg/cloud-upload.svg?raw'
+import { Folder, getNavigation, Permission, View } from '@nextcloud/files'
 import { defaultRemoteURL, defaultRootPath } from '@nextcloud/files/dav'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
-import svgCloudUpload from '@mdi/svg/svg/cloud-upload.svg?raw'
 import Vue from 'vue'
 
 export default () => {

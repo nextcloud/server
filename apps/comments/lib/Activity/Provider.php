@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Comments\Activity;
 
 use OCP\Activity\Exceptions\UnknownActivityException;
@@ -18,8 +19,6 @@ use OCP\IUserManager;
 use OCP\L10N\IFactory;
 
 class Provider implements IProvider {
-	protected ?IL10N $l = null;
-
 	public function __construct(
 		protected IFactory $languageFactory,
 		protected IURLGenerator $url,
@@ -37,14 +36,15 @@ class Provider implements IProvider {
 	 * @throws UnknownActivityException
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function parse($language, IEvent $event, ?IEvent $previousEvent = null): IEvent {
 		if ($event->getApp() !== 'comments') {
 			throw new UnknownActivityException();
 		}
 
-		$this->l = $this->languageFactory->get('comments', $language);
-
 		if ($event->getSubject() === 'add_comment_subject') {
+			$l = $this->languageFactory->get('comments', $language);
+
 			$this->parseMessage($event);
 			if ($this->activityManager->getRequirePNG()) {
 				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/comment.png')));
@@ -54,30 +54,29 @@ class Provider implements IProvider {
 
 			if ($this->activityManager->isFormattingFilteredObject()) {
 				try {
-					return $this->parseShortVersion($event);
+					return $this->parseShortVersion($event, $l);
 				} catch (UnknownActivityException) {
 					// Ignore and simply use the long version...
 				}
 			}
 
-			return $this->parseLongVersion($event);
+			return $this->parseLongVersion($event, $l);
 		}
 		throw new UnknownActivityException();
-
 	}
 
 	/**
 	 * @throws UnknownActivityException
 	 */
-	protected function parseShortVersion(IEvent $event): IEvent {
+	protected function parseShortVersion(IEvent $event, IL10N $l): IEvent {
 		$subjectParameters = $this->getSubjectParameters($event);
 
 		if ($event->getSubject() === 'add_comment_subject') {
 			if ($subjectParameters['actor'] === $this->activityManager->getCurrentUserId()) {
-				$event->setRichSubject($this->l->t('You commented'), []);
+				$event->setRichSubject($l->t('You commented'), []);
 			} else {
 				$author = $this->generateUserParameter($subjectParameters['actor']);
-				$event->setRichSubject($this->l->t('{author} commented'), [
+				$event->setRichSubject($l->t('{author} commented'), [
 					'author' => $author,
 				]);
 			}
@@ -91,24 +90,24 @@ class Provider implements IProvider {
 	/**
 	 * @throws UnknownActivityException
 	 */
-	protected function parseLongVersion(IEvent $event): IEvent {
+	protected function parseLongVersion(IEvent $event, IL10N $l): IEvent {
 		$subjectParameters = $this->getSubjectParameters($event);
 
 		if ($event->getSubject() === 'add_comment_subject') {
 			if ($subjectParameters['actor'] === $this->activityManager->getCurrentUserId()) {
-				$event->setParsedSubject($this->l->t('You commented on %1$s', [
+				$event->setParsedSubject($l->t('You commented on %1$s', [
 					$subjectParameters['filePath'],
 				]))
-					->setRichSubject($this->l->t('You commented on {file}'), [
+					->setRichSubject($l->t('You commented on {file}'), [
 						'file' => $this->generateFileParameter($subjectParameters['fileId'], $subjectParameters['filePath']),
 					]);
 			} else {
 				$author = $this->generateUserParameter($subjectParameters['actor']);
-				$event->setParsedSubject($this->l->t('%1$s commented on %2$s', [
+				$event->setParsedSubject($l->t('%1$s commented on %2$s', [
 					$author['name'],
 					$subjectParameters['filePath'],
 				]))
-					->setRichSubject($this->l->t('{author} commented on {file}'), [
+					->setRichSubject($l->t('{author} commented on {file}'), [
 						'author' => $author,
 						'file' => $this->generateFileParameter($subjectParameters['fileId'], $subjectParameters['filePath']),
 					]);

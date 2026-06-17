@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Command;
 
 use OC\Core\Command\Base;
@@ -18,6 +21,7 @@ class Dependencies extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('files_external:dependencies')
@@ -25,6 +29,7 @@ class Dependencies extends Base {
 		parent::configure();
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$storageBackends = $this->backendService->getBackends();
 

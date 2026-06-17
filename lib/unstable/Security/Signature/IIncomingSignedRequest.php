@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace NCU\Security\Signature;
 
 use NCU\Security\Signature\Exceptions\SignatoryNotFoundException;
@@ -26,6 +27,7 @@ use OCP\IRequest;
  *
  * @see ISignatureManager for details on signature
  * @experimental 31.0.0
+ * @deprecated 33.0.0 use {@see \OCP\Security\Signature\IIncomingSignedRequest}
  */
 interface IIncomingSignedRequest extends ISignedRequest {
 	/**
@@ -33,6 +35,7 @@ interface IIncomingSignedRequest extends ISignedRequest {
 	 *
 	 * @return IRequest
 	 * @experimental 31.0.0
+	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\IIncomingSignedRequest}
 	 */
 	public function getRequest(): IRequest;
 
@@ -42,6 +45,7 @@ interface IIncomingSignedRequest extends ISignedRequest {
 	 *
 	 * @return string
 	 * @experimental 31.0.0
+	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\IIncomingSignedRequest}
 	 */
 	public function getOrigin(): string;
 
@@ -52,6 +56,7 @@ interface IIncomingSignedRequest extends ISignedRequest {
 	 * @return string
 	 * @throws SignatureElementNotFoundException
 	 * @experimental 31.0.0
+	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\IIncomingSignedRequest}
 	 */
 	public function getKeyId(): string;
 
@@ -61,6 +66,7 @@ interface IIncomingSignedRequest extends ISignedRequest {
 	 * @throws SignatureException
 	 * @throws SignatoryNotFoundException
 	 * @experimental 31.0.0
+	 * @deprecated 33.0.0 use {@see \OCP\Security\Signature\IIncomingSignedRequest}
 	 */
 	public function verify(): void;
 }

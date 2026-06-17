@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 ownCloud GmbH
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Avatars;
 
 use OCA\DAV\Avatars\AvatarHome;
@@ -27,7 +28,7 @@ class AvatarHomeTest extends TestCase {
 		$this->home = new AvatarHome(['uri' => 'principals/users/admin'], $this->avatarManager);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providesForbiddenMethods')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesForbiddenMethods')]
 	public function testForbiddenMethods($method): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -58,7 +59,7 @@ class AvatarHomeTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providesTestGetChild')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesTestGetChild')]
 	public function testGetChild(?string $expectedException, bool $hasAvatar, string $path): void {
 		if ($expectedException !== null) {
 			$this->expectException($expectedException);
@@ -83,7 +84,7 @@ class AvatarHomeTest extends TestCase {
 		self::assertEquals(1, count($avatarNodes));
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providesTestGetChild')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesTestGetChild')]
 	public function testChildExists(?string $expectedException, bool $hasAvatar, string $path): void {
 		$avatar = $this->createMock(IAvatar::class);
 		$avatar->method('exists')->willReturn($hasAvatar);

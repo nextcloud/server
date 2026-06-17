@@ -7,20 +7,11 @@
 
 namespace OCA\CloudFederationAPI\Controller;
 
-use NCU\Federation\ISignedCloudFederationProvider;
-use NCU\Security\Signature\Exceptions\IdentityNotFoundException;
-use NCU\Security\Signature\Exceptions\IncomingRequestException;
-use NCU\Security\Signature\Exceptions\SignatoryNotFoundException;
-use NCU\Security\Signature\Exceptions\SignatureException;
-use NCU\Security\Signature\Exceptions\SignatureNotFoundException;
-use NCU\Security\Signature\IIncomingSignedRequest;
-use NCU\Security\Signature\ISignatureManager;
 use OC\OCM\OCMSignatoryManager;
 use OCA\CloudFederationAPI\Config;
 use OCA\CloudFederationAPI\Db\FederatedInviteMapper;
 use OCA\CloudFederationAPI\Events\FederatedInviteAcceptedEvent;
 use OCA\CloudFederationAPI\ResponseDefinitions;
-use OCA\FederatedFileSharing\AddressHandler;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
@@ -39,11 +30,16 @@ use OCP\Federation\Exceptions\ProviderDoesNotExistsException;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudIdManager;
+use OCP\Federation\ISignedCloudFederationProvider;
 use OCP\IAppConfig;
 use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
+use OCP\OCM\Events\OCMNotificationReceivedEvent;
+use OCP\OCM\IOCMDiscoveryService;
+use OCP\Security\Signature\Exceptions\IncomingRequestException;
+use OCP\Security\Signature\IIncomingSignedRequest;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
@@ -70,12 +66,10 @@ class RequestHandlerController extends Controller {
 		private Config $config,
 		private IEventDispatcher $dispatcher,
 		private FederatedInviteMapper $federatedInviteMapper,
-		private readonly AddressHandler $addressHandler,
 		private readonly IAppConfig $appConfig,
 		private ICloudFederationFactory $factory,
 		private ICloudIdManager $cloudIdManager,
-		private readonly ISignatureManager $signatureManager,
-		private readonly OCMSignatoryManager $signatoryManager,
+		private readonly IOCMDiscoveryService $ocmDiscoveryService,
 		private ITimeFactory $timeFactory,
 	) {
 		parent::__construct($appName, $request);
@@ -106,14 +100,16 @@ class RequestHandlerController extends Controller {
 	#[NoCSRFRequired]
 	#[BruteForceProtection(action: 'receiveFederatedShare')]
 	public function addShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, $protocol, $shareType, $resourceType) {
-		try {
-			// if request is signed and well signed, no exception are thrown
-			// if request is not signed and host is known for not supporting signed request, no exception are thrown
-			$signedRequest = $this->getSignedRequest();
-			$this->confirmSignedOrigin($signedRequest, 'owner', $owner);
-		} catch (IncomingRequestException $e) {
-			$this->logger->warning('incoming request exception', ['exception' => $e]);
-			return new JSONResponse(['message' => $e->getMessage(), 'validationErrors' => []], Http::STATUS_BAD_REQUEST);
+		if (!$this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_DISABLED, lazy: true)) {
+			try {
+				// if request is signed and well signed, no exceptions are thrown
+				// if request is not signed and host is known for not supporting signed request, no exception are thrown
+				$signedRequest = $this->ocmDiscoveryService->getIncomingSignedRequest();
+				$this->confirmSignedOrigin($signedRequest, 'owner', $owner);
+			} catch (IncomingRequestException $e) {
+				$this->logger->warning('incoming request exception', ['exception' => $e]);
+				return new JSONResponse(['message' => $e->getMessage(), 'validationErrors' => []], Http::STATUS_BAD_REQUEST);
+			}
 		}
 
 		// check if all required parameters are set
@@ -189,6 +185,28 @@ class RequestHandlerController extends Controller {
 			$sharedByDisplayName = $ownerDisplayName;
 		}
 
+		$ownerDomain = str_contains($owner, '@') ? substr(strrchr($owner, '@'), 1) : null;
+		$sharedByDomain = str_contains($sharedBy, '@') ? substr(strrchr($sharedBy, '@'), 1) : null;
+		$domainsToCheck = array_unique(array_filter([$ownerDomain, $sharedByDomain]));
+		if (count($domainsToCheck) !== 0) {
+			$spoofChecker = new \Spoofchecker();
+			foreach ($domainsToCheck as $domain) {
+				// detect suspicious chars (e.g. "pаypаl" spelled with Cyrillic "а" characters)
+				// see https://www.php.net/manual/en/spoofchecker.issuspicious.php
+				if ($spoofChecker->isSuspicious($domain)) {
+					$response = new JSONResponse(
+						[
+							'message' => 'Suspicious domain detected on owner or sharedBy field',
+							'validationErrors' => [],
+						],
+						Http::STATUS_BAD_REQUEST
+					);
+					$response->throttle();
+					return $response;
+				}
+			}
+		}
+
 		try {
 			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider($resourceType);
 			$share = $this->factory->getCloudFederationShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, '', $shareType, $resourceType);
@@ -236,7 +254,7 @@ class RequestHandlerController extends Controller {
 	 *
 	 * @param string $recipientProvider The address of the recipent's provider
 	 * @param string $token The token used for the invitation
-	 * @param string $userId The userId of the recipient at the recipient's provider
+	 * @param string $userID The userID of the recipient at the recipient's provider
 	 * @param string $email The email address of the recipient
 	 * @param string $name The display name of the recipient
 	 *
@@ -251,8 +269,8 @@ class RequestHandlerController extends Controller {
 	#[PublicPage]
 	#[NoCSRFRequired]
 	#[BruteForceProtection(action: 'inviteAccepted')]
-	public function inviteAccepted(string $recipientProvider, string $token, string $userId, string $email, string $name): JSONResponse {
-		$this->logger->debug('Processing share invitation for ' . $userId . ' with token ' . $token . ' and email ' . $email . ' and name ' . $name);
+	public function inviteAccepted(string $recipientProvider, string $token, string $userID, string $email, string $name): JSONResponse {
+		$this->logger->debug('Processing share invitation for ' . $userID . ' with token ' . $token . ' and email ' . $email . ' and name ' . $name);
 
 		$updated = $this->timeFactory->getTime();
 
@@ -309,7 +327,7 @@ class RequestHandlerController extends Controller {
 		$invitation->setRecipientEmail($email);
 		$invitation->setRecipientName($name);
 		$invitation->setRecipientProvider($recipientProvider);
-		$invitation->setRecipientUserId($userId);
+		$invitation->setRecipientUserId($userID);
 		$invitation->setAcceptedAt($updated);
 		$invitation = $this->federatedInviteMapper->update($invitation);
 
@@ -354,14 +372,16 @@ class RequestHandlerController extends Controller {
 			);
 		}
 
-		try {
-			// if request is signed and well signed, no exception are thrown
-			// if request is not signed and host is known for not supporting signed request, no exception are thrown
-			$signedRequest = $this->getSignedRequest();
-			$this->confirmNotificationIdentity($signedRequest, $resourceType, $notification);
-		} catch (IncomingRequestException $e) {
-			$this->logger->warning('incoming request exception', ['exception' => $e]);
-			return new JSONResponse(['message' => $e->getMessage(), 'validationErrors' => []], Http::STATUS_BAD_REQUEST);
+		if (!$this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_DISABLED, lazy: true)) {
+			try {
+				// if request is signed and well signed, no exception are thrown
+				// if request is not signed and host is known for not supporting signed request, no exception are thrown
+				$signedRequest = $this->ocmDiscoveryService->getIncomingSignedRequest();
+				$this->confirmNotificationIdentity($signedRequest, $resourceType, $notification);
+			} catch (IncomingRequestException $e) {
+				$this->logger->warning('incoming request exception', ['exception' => $e]);
+				return new JSONResponse(['message' => $e->getMessage(), 'validationErrors' => []], Http::STATUS_BAD_REQUEST);
+			}
 		}
 
 		try {
@@ -407,6 +427,15 @@ class RequestHandlerController extends Controller {
 			);
 		}
 
+		try {
+			$notificationObject = $this->factory->getCloudFederationNotification();
+			$notificationObject->setMessage($notificationType, $resourceType, $providerId, $notification);
+			$notificationEvent = new OCMNotificationReceivedEvent($notificationObject);
+			$this->dispatcher->dispatchTyped($notificationEvent);
+		} catch (\Exception $e) {
+			$this->logger->warning('error while dispatching OCM notification received event', ['exception' => $e]);
+		}
+
 		return new JSONResponse($result, Http::STATUS_CREATED);
 	}
 
@@ -429,44 +458,14 @@ class RequestHandlerController extends Controller {
 		return $uid;
 	}
 
-
-	/**
-	 * returns signed request if available.
-	 * throw an exception:
-	 * - if request is signed, but wrongly signed
-	 * - if request is not signed but instance is configured to only accept signed ocm request
-	 *
-	 * @return IIncomingSignedRequest|null null if remote does not (and never did) support signed request
-	 * @throws IncomingRequestException
-	 */
-	private function getSignedRequest(): ?IIncomingSignedRequest {
-		try {
-			$signedRequest = $this->signatureManager->getIncomingSignedRequest($this->signatoryManager);
-			$this->logger->debug('signed request available', ['signedRequest' => $signedRequest]);
-			return $signedRequest;
-		} catch (SignatureNotFoundException|SignatoryNotFoundException $e) {
-			$this->logger->debug('remote does not support signed request', ['exception' => $e]);
-			// remote does not support signed request.
-			// currently we still accept unsigned request until lazy appconfig
-			// core.enforce_signed_ocm_request is set to true (default: false)
-			if ($this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_ENFORCED, lazy: true)) {
-				$this->logger->notice('ignored unsigned request', ['exception' => $e]);
-				throw new IncomingRequestException('Unsigned request');
-			}
-		} catch (SignatureException $e) {
-			$this->logger->warning('wrongly signed request', ['exception' => $e]);
-			throw new IncomingRequestException('Invalid signature');
-		}
-		return null;
-	}
-
-
 	/**
 	 * confirm that the value related to $key entry from the payload is in format userid@hostname
 	 * and compare hostname with the origin of the signed request.
 	 *
 	 * If request is not signed, we still verify that the hostname from the extracted value does,
 	 * actually, not support signed request
+	 *
+	 * Delegates to {@see IOCMDiscoveryService::confirmRequestOrigin()}.
 	 *
 	 * @param IIncomingSignedRequest|null $signedRequest
 	 * @param string $key entry from data available in data
@@ -475,21 +474,13 @@ class RequestHandlerController extends Controller {
 	 * @throws IncomingRequestException
 	 */
 	private function confirmSignedOrigin(?IIncomingSignedRequest $signedRequest, string $key, string $value): void {
-		if ($signedRequest === null) {
-			$instance = $this->getHostFromFederationId($value);
-			try {
-				$this->signatureManager->getSignatory($instance);
-				throw new IncomingRequestException('instance is supposed to sign its request');
-			} catch (SignatoryNotFoundException) {
-				return;
-			}
+		if ($signedRequest !== null) {
+			$body = json_decode($signedRequest->getBody(), true) ?? [];
+			$entry = trim(($body[$key] ?? ''), '@');
+		} else {
+			$entry = trim($value, '@');
 		}
-
-		$body = json_decode($signedRequest->getBody(), true) ?? [];
-		$entry = trim($body[$key] ?? '', '@');
-		if ($this->getHostFromFederationId($entry) !== $signedRequest->getOrigin()) {
-			throw new IncomingRequestException('share initiation (' . $signedRequest->getOrigin() . ') from different instance (' . $entry . ') [key=' . $key . ']');
-		}
+		$this->ocmDiscoveryService->confirmRequestOrigin($signedRequest?->getOrigin(), $entry);
 	}
 
 	/**
@@ -500,7 +491,6 @@ class RequestHandlerController extends Controller {
 	 *
 	 * @param IIncomingSignedRequest|null $signedRequest
 	 * @param string $resourceType
-	 * @param string $sharedSecret
 	 *
 	 * @throws IncomingRequestException
 	 * @throws BadRequestException
@@ -517,58 +507,16 @@ class RequestHandlerController extends Controller {
 
 		try {
 			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider($resourceType);
-			if ($provider instanceof ISignedCloudFederationProvider) {
+			if ($provider instanceof ISignedCloudFederationProvider || $provider instanceof \NCU\Federation\ISignedCloudFederationProvider) {
 				$identity = $provider->getFederationIdFromSharedSecret($sharedSecret, $notification);
 			} else {
 				$this->logger->debug('cloud federation provider {provider} does not implements ISignedCloudFederationProvider', ['provider' => $provider::class]);
 				return;
 			}
 		} catch (\Exception $e) {
-			throw new IncomingRequestException($e->getMessage());
+			throw new IncomingRequestException($e->getMessage(), previous: $e);
 		}
 
-		$this->confirmNotificationEntry($signedRequest, $identity);
-	}
-
-
-	/**
-	 * @param IIncomingSignedRequest|null $signedRequest
-	 * @param string $entry
-	 *
-	 * @return void
-	 * @throws IncomingRequestException
-	 */
-	private function confirmNotificationEntry(?IIncomingSignedRequest $signedRequest, string $entry): void {
-		$instance = $this->getHostFromFederationId($entry);
-		if ($signedRequest === null) {
-			try {
-				$this->signatureManager->getSignatory($instance);
-				throw new IncomingRequestException('instance is supposed to sign its request');
-			} catch (SignatoryNotFoundException) {
-				return;
-			}
-		} elseif ($instance !== $signedRequest->getOrigin()) {
-			throw new IncomingRequestException('remote instance ' . $instance . ' not linked to origin ' . $signedRequest->getOrigin());
-		}
-	}
-
-	/**
-	 * @param string $entry
-	 * @return string
-	 * @throws IncomingRequestException
-	 */
-	private function getHostFromFederationId(string $entry): string {
-		if (!str_contains($entry, '@')) {
-			throw new IncomingRequestException('entry ' . $entry . ' does not contain @');
-		}
-		$rightPart = substr($entry, strrpos($entry, '@') + 1);
-
-		// in case the full scheme is sent; getting rid of it
-		$rightPart = $this->addressHandler->removeProtocolFromUrl($rightPart);
-		try {
-			return $this->signatureManager->extractIdentityFromUri('https://' . $rightPart);
-		} catch (IdentityNotFoundException) {
-			throw new IncomingRequestException('invalid host within federation id: ' . $entry);
-		}
+		$this->ocmDiscoveryService->confirmRequestOrigin($signedRequest?->getOrigin(), $identity);
 	}
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -13,15 +15,14 @@ use OC\Files\Storage\Temporary;
 use OCP\Files\ObjectStore\IObjectStore;
 use Test\Files\Storage\StoragesTestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ObjectStoreStoragesSameBucketTest extends StoragesTestCase {
 	/**
 	 * @var IObjectStore
 	 */
 	private $objectStore;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

@@ -4,16 +4,15 @@
 -->
 
 <template>
-	<AccountPropertySection v-bind.sync="biography"
+	<AccountPropertySection
+		v-bind.sync="biography"
 		:placeholder="t('settings', 'Your biography. Markdown is supported.')"
 		:multi-line="true" />
 </template>
 
 <script>
 import { loadState } from '@nextcloud/initial-state'
-
 import AccountPropertySection from './shared/AccountPropertySection.vue'
-
 import { NAME_READABLE_ENUM } from '../../constants/AccountPropertyConstants.js'
 
 const { biography } = loadState('settings', 'personalInfoParameters', {})

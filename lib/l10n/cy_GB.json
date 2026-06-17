@@ -5,10 +5,6 @@
     "last month" : "mis diwethaf",
     "last year" : "y llynedd",
     "seconds ago" : "eiliad yn ôl",
-    "Apps" : "Pecynnau",
-    "Settings" : "Gosodiadau",
-    "Log out" : "Allgofnodi",
-    "Accounts" : "Accounts",
     "Email" : "E-bost",
     "Phone" : "Ffôn",
     "Website" : "Gwefan",
@@ -55,10 +51,14 @@
     "Oct." : "Hyd.",
     "Nov." : "Tach.",
     "Dec." : "Rhag.",
+    "Summary" : "Crynodeb",
+    "Translate" : "Cyfieithu",
+    "Apps" : "Pecynnau",
+    "Settings" : "Gosodiadau",
+    "Log out" : "Allgofnodi",
+    "Accounts" : "Accounts",
     "Application is not enabled" : "Nid yw'r pecyn wedi'i alluogi",
     "Authentication error" : "Gwall dilysu",
-    "Token expired. Please reload page." : "Tocyn wedi dod i ben. Ail-lwythwch y dudalen.",
-    "Summary" : "Crynodeb",
-    "Translate" : "Cyfieithu"
+    "Token expired. Please reload page." : "Tocyn wedi dod i ben. Ail-lwythwch y dudalen."
 },"pluralForm" :"nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;"
 }

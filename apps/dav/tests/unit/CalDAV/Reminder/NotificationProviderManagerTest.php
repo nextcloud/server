@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV\Reminder;
 
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\EmailProvider;
@@ -14,17 +15,15 @@ use OCA\DAV\CalDAV\Reminder\NotificationProvider\PushProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProviderManager;
 use OCA\DAV\CalDAV\Reminder\NotificationTypeDoesNotExistException;
 use OCA\DAV\Capabilities;
-use OCP\AppFramework\QueryException;
+use Psr\Container\ContainerExceptionInterface;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class NotificationProviderManagerTest extends TestCase {
 	private NotificationProviderManager $providerManager;
 
 	/**
-	 * @throws QueryException
+	 * @throws ContainerExceptionInterface
 	 */
 	protected function setUp(): void {
 		parent::setUp();
@@ -67,7 +66,7 @@ class NotificationProviderManagerTest extends TestCase {
 	}
 
 	/**
-	 * @throws QueryException
+	 * @throws ContainerExceptionInterface
 	 */
 	public function testRegisterBadProvider(): void {
 		$this->expectException(\InvalidArgumentException::class);

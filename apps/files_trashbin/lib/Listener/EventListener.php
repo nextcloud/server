@@ -15,20 +15,39 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Files\Events\BeforeFileSystemSetupEvent;
 use OCP\Files\Events\Node\NodeWrittenEvent;
+use OCP\Files\Folder;
+use OCP\Files\IRootFolder;
+use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
+use OCP\IUserManager;
 use OCP\User\Events\BeforeUserDeletedEvent;
 
 /** @template-implements IEventListener<NodeWrittenEvent|BeforeUserDeletedEvent|BeforeFileSystemSetupEvent> */
 class EventListener implements IEventListener {
 	public function __construct(
+		private IUserManager $userManager,
+		private IRootFolder $rootFolder,
 		private ?string $userId = null,
 	) {
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof NodeWrittenEvent) {
 			// Resize trash
-			if (!empty($this->userId)) {
-				Trashbin::resizeTrash($this->userId);
+			if (empty($this->userId)) {
+				return;
+			}
+			try {
+				/** @var Folder $trashRoot */
+				$trashRoot = $this->rootFolder->get('/' . $this->userId . '/files_trashbin');
+			} catch (NotFoundException|NotPermittedException) {
+				return;
+			}
+
+			$user = $this->userManager->get($this->userId);
+			if ($user) {
+				Trashbin::resizeTrash($trashRoot, $user);
 			}
 		}
 

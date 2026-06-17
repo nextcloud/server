@@ -18,6 +18,7 @@ use OCP\Files\Config\IUserMountCache;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\Files\Node;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -33,10 +34,11 @@ class FixKeyLocation extends Command {
 	private Manager $encryptionManager;
 
 	public function __construct(
-		private IUserManager $userManager,
-		private IUserMountCache $userMountCache,
-		private Util $encryptionUtil,
-		private IRootFolder $rootFolder,
+		private readonly IUserManager $userManager,
+		private readonly IUserMountCache $userMountCache,
+		private readonly Util $encryptionUtil,
+		private readonly IRootFolder $rootFolder,
+		private readonly ISetupManager $setupManager,
 		IManager $encryptionManager,
 	) {
 		$this->keyRootDirectory = rtrim($this->encryptionUtil->getKeyStorageRoot(), '/');
@@ -49,7 +51,7 @@ class FixKeyLocation extends Command {
 		parent::__construct();
 	}
 
-
+	#[\Override]
 	protected function configure(): void {
 		parent::configure();
 
@@ -60,6 +62,7 @@ class FixKeyLocation extends Command {
 			->addArgument('user', InputArgument::REQUIRED, 'User id to fix the key locations for');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$dryRun = $input->getOption('dry-run');
 		$userId = $input->getArgument('user');
@@ -69,7 +72,7 @@ class FixKeyLocation extends Command {
 			return self::FAILURE;
 		}
 
-		\OC_Util::setupFS($user->getUID());
+		$this->setupManager->setupForUser($user);
 
 		$mounts = $this->getSystemMountsForUser($user);
 		foreach ($mounts as $mount) {
@@ -179,11 +182,12 @@ class FixKeyLocation extends Command {
 	 *
 	 * @return \Generator<File>
 	 */
-	private function getAllEncryptedFiles(Folder $folder) {
+	private function getAllEncryptedFiles(Folder $folder): \Generator {
 		foreach ($folder->getDirectoryListing() as $child) {
 			if ($child instanceof Folder) {
 				yield from $this->getAllEncryptedFiles($child);
 			} else {
+				/** @var File $child */
 				if (substr($child->getName(), -4) !== '.bak' && $child->isEncrypted()) {
 					yield $child;
 				}

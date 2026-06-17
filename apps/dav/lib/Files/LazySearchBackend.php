@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Files;
 
 use SearchDAV\Backend\ISearchBackend;
@@ -19,6 +20,7 @@ class LazySearchBackend implements ISearchBackend {
 		$this->backend = $backend;
 	}
 
+	#[\Override]
 	public function getArbiterPath(): string {
 		if ($this->backend) {
 			return $this->backend->getArbiterPath();
@@ -27,6 +29,7 @@ class LazySearchBackend implements ISearchBackend {
 		}
 	}
 
+	#[\Override]
 	public function isValidScope(string $href, $depth, ?string $path): bool {
 		if ($this->backend) {
 			return $this->backend->getArbiterPath();
@@ -34,6 +37,7 @@ class LazySearchBackend implements ISearchBackend {
 		return false;
 	}
 
+	#[\Override]
 	public function getPropertyDefinitionsForScope(string $href, ?String $path): array {
 		if ($this->backend) {
 			return $this->backend->getPropertyDefinitionsForScope($href, $path);
@@ -41,6 +45,7 @@ class LazySearchBackend implements ISearchBackend {
 		return [];
 	}
 
+	#[\Override]
 	public function search(Query $query): array {
 		if ($this->backend) {
 			return $this->backend->search($query);
@@ -48,6 +53,7 @@ class LazySearchBackend implements ISearchBackend {
 		return [];
 	}
 
+	#[\Override]
 	public function preloadPropertyFor(array $nodes, array $requestProperties): void {
 		if ($this->backend) {
 			$this->backend->preloadPropertyFor($nodes, $requestProperties);

@@ -6,9 +6,10 @@
 	<div class="share-expiry-time">
 		<NcPopover popup-role="dialog">
 			<template #trigger>
-				<NcButton v-if="expiryTime"
+				<NcButton
+					v-if="expiryTime"
 					class="hint-icon"
-					type="tertiary"
+					variant="tertiary"
 					:aria-label="t('files_sharing', 'Share expiration: {date}', { date: new Date(expiryTime).toLocaleString() })">
 					<template #icon>
 						<ClockIcon :size="20" />
@@ -19,7 +20,8 @@
 				{{ t('files_sharing', 'Share Expiration') }}
 			</h3>
 			<p v-if="expiryTime" class="hint-body">
-				<NcDateTime :timestamp="expiryTime"
+				<NcDateTime
+					:timestamp="expiryTime"
 					:format="timeFormat"
 					:relative-time="false" /> (<NcDateTime :timestamp="expiryTime" />)
 			</p>
@@ -29,9 +31,9 @@
 
 <script>
 import NcButton from '@nextcloud/vue/components/NcButton'
-import NcPopover from '@nextcloud/vue/components/NcPopover'
 import NcDateTime from '@nextcloud/vue/components/NcDateTime'
-import ClockIcon from 'vue-material-design-icons/Clock.vue'
+import NcPopover from '@nextcloud/vue/components/NcPopover'
+import ClockIcon from 'vue-material-design-icons/ClockOutline.vue'
 
 export default {
 	name: 'ShareExpiryTime',
@@ -54,6 +56,7 @@ export default {
 		expiryTime() {
 			return this.share?.expireDate ? new Date(this.share.expireDate).getTime() : null
 		},
+
 		timeFormat() {
 			return { dateStyle: 'full', timeStyle: 'short' }
 		},

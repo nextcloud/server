@@ -5,11 +5,11 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Tests\AppInfo;
 
 use OCA\Settings\AppInfo\Application;
 use OCA\Settings\Controller\AdminSettingsController;
-use OCA\Settings\Controller\AppSettingsController;
 use OCA\Settings\Controller\AuthSettingsController;
 use OCA\Settings\Controller\CheckSetupController;
 use OCA\Settings\Controller\LogSettingsController;
@@ -25,8 +25,8 @@ use Test\TestCase;
  * Class ApplicationTest
  *
  * @package Tests\Settings
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ApplicationTest extends TestCase {
 	protected Application $app;
 	protected IAppContainer $container;
@@ -45,7 +45,6 @@ class ApplicationTest extends TestCase {
 	public static function dataContainerQuery(): array {
 		return [
 			[AdminSettingsController::class, Controller::class],
-			[AppSettingsController::class, Controller::class],
 			[AuthSettingsController::class, Controller::class],
 			[CheckSetupController::class, Controller::class],
 			[LogSettingsController::class, Controller::class],
@@ -56,7 +55,7 @@ class ApplicationTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataContainerQuery')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataContainerQuery')]
 	public function testContainerQuery(string $service, string $expected): void {
 		$this->assertTrue($this->container->query($service) instanceof $expected);
 	}

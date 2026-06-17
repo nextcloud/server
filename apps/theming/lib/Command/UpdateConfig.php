@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Theming\Command;
 
 use OCA\Theming\ImageManager;
@@ -28,6 +31,7 @@ class UpdateConfig extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('theming:config')
@@ -51,7 +55,7 @@ class UpdateConfig extends Command {
 			);
 	}
 
-
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$key = $input->getArgument('key');
 		$value = $input->getArgument('value');

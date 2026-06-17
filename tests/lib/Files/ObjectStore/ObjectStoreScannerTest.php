@@ -14,15 +14,14 @@ use OCP\Files\Cache\ICache;
 use OCP\Files\Storage\IStorage;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ObjectStoreScannerTest extends TestCase {
 	private IStorage $storage;
 	private ICache $cache;
 	private ObjectStoreScanner $scanner;
 	private Scanner $realScanner;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

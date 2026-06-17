@@ -10,11 +10,10 @@ namespace Test\Memcache;
 
 use OC\Memcache\Memcached;
 
-/**
- * @group Memcache
- * @group Memcached
- */
+#[\PHPUnit\Framework\Attributes\Group('Memcache')]
+#[\PHPUnit\Framework\Attributes\Group('Memcached')]
 class MemcachedTest extends Cache {
+	#[\Override]
 	public static function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();
 
@@ -27,11 +26,13 @@ class MemcachedTest extends Cache {
 		}
 	}
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->instance = new Memcached($this->getUniqueID());
 	}
 
+	#[\Override]
 	public function testClear(): void {
 		// Memcached is sometimes broken with clear(), so we don't test it thoroughly
 		$value = 'ipsum lorum';

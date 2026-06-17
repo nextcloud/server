@@ -13,6 +13,7 @@ use OCP\IConfig;
 use OCP\Server;
 
 class MultiPartUploadS3 extends S3 {
+	#[\Override]
 	public function writeObject($urn, $stream, ?string $mimetype = null) {
 		$this->getConnection()->upload($this->bucket, $urn, $stream, 'private', [
 			'mup_threshold' => 1,
@@ -30,30 +31,33 @@ class NonSeekableStream extends Wrapper {
 		return Wrapper::wrapSource($source, $context, 'nonseek', self::class);
 	}
 
+	#[\Override]
 	public function dir_opendir($path, $options) {
 		return false;
 	}
 
+	#[\Override]
 	public function stream_open($path, $mode, $options, &$opened_path) {
 		$this->loadContext('nonseek');
 		return true;
 	}
 
+	#[\Override]
 	public function stream_seek($offset, $whence = SEEK_SET) {
 		return false;
 	}
 }
 
-/**
- * @group PRIMARY-s3
- */
+#[\PHPUnit\Framework\Attributes\Group('PRIMARY-s3')]
 class S3Test extends ObjectStoreTestCase {
+	#[\Override]
 	public function setUp(): void {
 		parent::setUp();
 		$s3 = $this->getInstance();
 		$s3->deleteObject('multiparttest');
 	}
 
+	#[\Override]
 	protected function getInstance() {
 		$config = Server::get(IConfig::class)->getSystemValue('objectstore');
 		if (!is_array($config) || $config['class'] !== S3::class) {
@@ -94,7 +98,7 @@ class S3Test extends ObjectStoreTestCase {
 	}
 
 	public function assertNoUpload($objectUrn) {
-		/** @var \OC\Files\ObjectStore\S3 */
+		/** @var S3 */
 		$s3 = $this->getInstance();
 		$s3client = $s3->getConnection();
 		$uploads = $s3client->listMultipartUploads([
@@ -146,21 +150,20 @@ class S3Test extends ObjectStoreTestCase {
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataFileSizes')]
 	public function testFileSizes($size): void {
-		if (str_starts_with(PHP_VERSION, '8.3') && getenv('CI')) {
-			$this->markTestSkipped('Test is unreliable and skipped on 8.3');
-		}
-
 		$this->cleanupAfter('testfilesizes');
 		$s3 = $this->getInstance();
 
 		$sourceStream = fopen('php://memory', 'wb+');
 		$writeChunkSize = 1024;
-		$chunkCount = $size / $writeChunkSize;
-		for ($i = 0; $i < $chunkCount; $i++) {
-			fwrite($sourceStream, str_repeat('A',
-				($i < $chunkCount - 1) ? $writeChunkSize : $size - ($i * $writeChunkSize)
-			));
+		$chunk = str_repeat('A', $writeChunkSize);
+		$remainingSize = $size;
+
+		while ($remainingSize > 0) {
+			$bytesToWrite = min($writeChunkSize, $remainingSize);
+			fwrite($sourceStream, ($bytesToWrite === $writeChunkSize) ? $chunk : str_repeat('A', $bytesToWrite));
+			$remainingSize -= $bytesToWrite;
 		}
+
 		rewind($sourceStream);
 		$s3->writeObject('testfilesizes', $sourceStream);
 
@@ -170,15 +173,17 @@ class S3Test extends ObjectStoreTestCase {
 		$result = $s3->readObject('testfilesizes');
 
 		// compare first 100 bytes
-		self::assertEquals(str_repeat('A', 100), fread($result, 100), 'Compare first 100 bytes');
+		self::assertSame(str_repeat('A', 100), fread($result, 100), 'Compare first 100 bytes');
 
 		// compare last 100 bytes
-		fseek($result, $size - 100);
-		self::assertEquals(str_repeat('A', 100), fread($result, 100), 'Compare last 100 bytes');
+		self::assertSame(0, fseek($result, $size - 100), 'Seek to last 100 bytes succeeds');
+		self::assertSame(str_repeat('A', 100), fread($result, 100), 'Compare last 100 bytes');
 
 		// end of file reached
-		fseek($result, $size);
-		self::assertTrue(feof($result), 'End of file reached');
+		self::assertSame(0, fseek($result, $size), 'Seek to EOF succeeds');
+		self::assertSame($size, ftell($result), 'Pointer is at the end of file');
+		self::assertSame('', fread($result, 1), 'Reading at end of file returns no bytes');
+		self::assertTrue(feof($result), 'End of file reached after read attempt');
 
 		$this->assertNoUpload('testfilesizes');
 	}

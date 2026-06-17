@@ -1,20 +1,73 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { Node, View } from '@nextcloud/files'
-import { FileAction, FileType, DefaultType } from '@nextcloud/files'
-import { showError } from '@nextcloud/dialogs'
-import { t } from '@nextcloud/l10n'
-import axios from '@nextcloud/axios'
+
+import type { IFileAction, INode, IView } from '@nextcloud/files'
 
 import ArrowDownSvg from '@mdi/svg/svg/arrow-down.svg?raw'
-
-import { isDownloadable } from '../utils/permissions'
-import { usePathsStore } from '../store/paths'
-import { getPinia } from '../store'
-import { useFilesStore } from '../store/files'
+import axios from '@nextcloud/axios'
+import { showError } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
+import { DefaultType, FileType } from '@nextcloud/files'
+import { t } from '@nextcloud/l10n'
+import { useFilesStore } from '../store/files.ts'
+import { getPinia } from '../store/index.ts'
+import { usePathsStore } from '../store/paths.ts'
+import { logger } from '../utils/logger.ts'
+import { isDownloadable } from '../utils/permissions.ts'
+
+export const action: IFileAction = {
+	id: 'download',
+	default: DefaultType.DEFAULT,
+
+	displayName: () => t('files', 'Download'),
+	iconSvgInline: () => ArrowDownSvg,
+
+	enabled({ nodes, view }): boolean {
+		if (nodes.length === 0) {
+			return false
+		}
+
+		// We can only download dav files and folders.
+		if (nodes.some((node) => !node.isDavResource)) {
+			return false
+		}
+
+		// Trashbin does not allow batch download
+		if (nodes.length > 1 && view.id === 'trashbin') {
+			return false
+		}
+
+		return nodes.every(isDownloadable)
+	},
+
+	async exec({ nodes }) {
+		try {
+			await downloadNodes(nodes)
+		} catch (error) {
+			showError(t('files', 'The requested file is not available.'))
+			logger.error('The requested file is not available.', { error })
+			emit('files:node:deleted', nodes[0])
+		}
+		return null
+	},
+
+	async execBatch({ nodes, view, folder }) {
+		try {
+			await downloadNodes(nodes)
+		} catch (error) {
+			showError(t('files', 'The requested files are not available.'))
+			logger.error('The requested files are not available.', { error })
+			// Try to reload the current directory to update the view
+			const directory = getCurrentDirectory(view, folder.path)!
+			emit('files:node:updated', directory)
+		}
+		return new Array(nodes.length).fill(null)
+	},
+
+	order: 30,
+}
 
 /**
  * Trigger downloading a file.
@@ -34,6 +87,7 @@ async function triggerDownload(url: string, name?: string) {
 
 /**
  * Find the longest common path prefix of both input paths
+ *
  * @param first The first path
  * @param second The second path
  */
@@ -62,8 +116,12 @@ function longestCommonPath(first: string, second: string): string {
  *
  * @param nodes The node(s) to download
  */
-async function downloadNodes(nodes: Node[]) {
+async function downloadNodes(nodes: INode[]) {
 	let url: URL
+
+	if (!nodes[0]) {
+		throw new Error('No nodes to download')
+	}
 
 	if (nodes.length === 1) {
 		if (nodes[0].type === FileType.File) {
@@ -102,7 +160,7 @@ async function downloadNodes(nodes: Node[]) {
  * @param directory The directory path
  * @return The current directory node or null if not found
  */
-function getCurrentDirectory(view: View, directory: string): Node | null {
+function getCurrentDirectory(view: IView, directory: string): INode | null {
 	const filesStore = useFilesStore(getPinia())
 	const pathsStore = usePathsStore(getPinia())
 	if (!view?.id) {
@@ -115,53 +173,3 @@ function getCurrentDirectory(view: View, directory: string): Node | null {
 	const fileId = pathsStore.getPath(view.id, directory)!
 	return filesStore.getNode(fileId) || null
 }
-
-export const action = new FileAction({
-	id: 'download',
-	default: DefaultType.DEFAULT,
-
-	displayName: () => t('files', 'Download'),
-	iconSvgInline: () => ArrowDownSvg,
-
-	enabled(nodes: Node[], view: View) {
-		if (nodes.length === 0) {
-			return false
-		}
-
-		// We can only download dav files and folders.
-		if (nodes.some(node => !node.isDavResource)) {
-			return false
-		}
-
-		// Trashbin does not allow batch download
-		if (nodes.length > 1 && view.id === 'trashbin') {
-			return false
-		}
-
-		return nodes.every(isDownloadable)
-	},
-
-	async exec(node: Node) {
-		try {
-			await downloadNodes([node])
-		} catch (e) {
-			showError(t('files', 'The requested file is not available.'))
-			emit('files:node:deleted', node)
-		}
-		return null
-	},
-
-	async execBatch(nodes: Node[], view: View, dir: string) {
-		try {
-			await downloadNodes(nodes)
-		} catch (e) {
-			showError(t('files', 'The requested files are not available.'))
-			// Try to reload the current directory to update the view
-			const directory = getCurrentDirectory(view, dir)!
-			emit('files:node:updated', directory)
-		}
-		return new Array(nodes.length).fill(null)
-	},
-
-	order: 30,
-})

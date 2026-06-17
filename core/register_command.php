@@ -17,9 +17,11 @@ use OC\Core\Command\App\Remove;
 use OC\Core\Command\App\Update;
 use OC\Core\Command\Background\Delete;
 use OC\Core\Command\Background\Job;
+use OC\Core\Command\Background\JobsHistory;
 use OC\Core\Command\Background\JobWorker;
 use OC\Core\Command\Background\ListCommand;
 use OC\Core\Command\Background\Mode;
+use OC\Core\Command\Background\RunningJobs;
 use OC\Core\Command\Broadcast\Test;
 use OC\Core\Command\Check;
 use OC\Core\Command\Config\App\DeleteConfig;
@@ -34,6 +36,10 @@ use OC\Core\Command\Db\AddMissingPrimaryKeys;
 use OC\Core\Command\Db\ConvertFilecacheBigInt;
 use OC\Core\Command\Db\ConvertMysqlToMB4;
 use OC\Core\Command\Db\ConvertType;
+use OC\Core\Command\Db\DbIndexUsage;
+use OC\Core\Command\Db\DbInfo;
+use OC\Core\Command\Db\DbLocks;
+use OC\Core\Command\Db\DbSize;
 use OC\Core\Command\Db\ExpectedSchema;
 use OC\Core\Command\Db\ExportSchema;
 use OC\Core\Command\Db\Migrations\ExecuteCommand;
@@ -74,6 +80,10 @@ use OC\Core\Command\Memcache\DistributedDelete;
 use OC\Core\Command\Memcache\DistributedGet;
 use OC\Core\Command\Memcache\DistributedSet;
 use OC\Core\Command\Memcache\RedisCommand;
+use OC\Core\Command\OCM\ActivateKey as OCMActivateKey;
+use OC\Core\Command\OCM\ListKeys as OCMListKeys;
+use OC\Core\Command\OCM\RetireKey as OCMRetireKey;
+use OC\Core\Command\OCM\StageKey as OCMStageKey;
 use OC\Core\Command\Preview\Generate;
 use OC\Core\Command\Preview\ResetRenderedTexts;
 use OC\Core\Command\Router\ListRoutes;
@@ -85,11 +95,13 @@ use OC\Core\Command\Security\ImportCertificate;
 use OC\Core\Command\Security\ListCertificates;
 use OC\Core\Command\Security\RemoveCertificate;
 use OC\Core\Command\SetupChecks;
+use OC\Core\Command\SnowflakeDecodeId;
 use OC\Core\Command\Status;
 use OC\Core\Command\SystemTag\Edit;
 use OC\Core\Command\TaskProcessing\EnabledCommand;
 use OC\Core\Command\TaskProcessing\GetCommand;
 use OC\Core\Command\TaskProcessing\Statistics;
+use OC\Core\Command\TaskProcessing\WorkerCommand;
 use OC\Core\Command\TwoFactorAuth\Cleanup;
 use OC\Core\Command\TwoFactorAuth\Enforce;
 use OC\Core\Command\TwoFactorAuth\State;
@@ -142,6 +154,8 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(ListCommand::class));
 	$application->add(Server::get(Delete::class));
 	$application->add(Server::get(JobWorker::class));
+	$application->add(Server::get(RunningJobs::class));
+	$application->add(Server::get(JobsHistory::class));
 
 	$application->add(Server::get(Test::class));
 
@@ -166,6 +180,10 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(AddMissingColumns::class));
 	$application->add(Server::get(AddMissingIndices::class));
 	$application->add(Server::get(AddMissingPrimaryKeys::class));
+	$application->add(Server::get(DbInfo::class));
+	$application->add(Server::get(DbSize::class));
+	$application->add(Server::get(DbIndexUsage::class));
+	$application->add(Server::get(DbLocks::class));
 	$application->add(Server::get(ExpectedSchema::class));
 	$application->add(Server::get(ExportSchema::class));
 
@@ -206,7 +224,6 @@ if ($config->getSystemValueBool('installed', false)) {
 
 	$application->add(Server::get(Command\Preview\Cleanup::class));
 	$application->add(Server::get(Generate::class));
-	$application->add(Server::get(Command\Preview\Repair::class));
 	$application->add(Server::get(ResetRenderedTexts::class));
 
 	$application->add(Server::get(Add::class));
@@ -247,13 +264,20 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(BruteforceAttempts::class));
 	$application->add(Server::get(BruteforceResetAttempts::class));
 	$application->add(Server::get(SetupChecks::class));
+	$application->add(Server::get(SnowflakeDecodeId::class));
 	$application->add(Server::get(Get::class));
+
+	$application->add(Server::get(OCMListKeys::class));
+	$application->add(Server::get(OCMStageKey::class));
+	$application->add(Server::get(OCMActivateKey::class));
+	$application->add(Server::get(OCMRetireKey::class));
 
 	$application->add(Server::get(GetCommand::class));
 	$application->add(Server::get(EnabledCommand::class));
 	$application->add(Server::get(Command\TaskProcessing\ListCommand::class));
 	$application->add(Server::get(Statistics::class));
 	$application->add(Server::get(Command\TaskProcessing\Cleanup::class));
+	$application->add(Server::get(WorkerCommand::class));
 
 	$application->add(Server::get(RedisCommand::class));
 	$application->add(Server::get(DistributedClear::class));

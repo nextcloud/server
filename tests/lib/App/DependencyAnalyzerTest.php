@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2014-2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace Test\App;
 
 use OC\App\DependencyAnalyzer;
@@ -19,7 +20,10 @@ class DependencyAnalyzerTest extends TestCase {
 
 	private DependencyAnalyzer $analyser;
 
+	#[\Override]
 	protected function setUp(): void {
+		parent::setUp();
+
 		$this->platformMock = $this->getMockBuilder(Platform::class)
 			->disableOriginalConstructor()
 			->getMock();

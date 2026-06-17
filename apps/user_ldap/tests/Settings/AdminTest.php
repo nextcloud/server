@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\User_LDAP\Tests\Settings;
 
 use OCA\User_LDAP\Configuration;
@@ -18,9 +19,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 /**
- * @group DB
  * @package OCA\User_LDAP\Tests\Settings
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class AdminTest extends TestCase {
 	private IL10N&MockObject $l10n;
 	private ITemplateManager $templateManager;
@@ -41,14 +42,6 @@ class AdminTest extends TestCase {
 	}
 
 	public function testGetForm(): void {
-		$prefixes = ['s01'];
-		$hosts = ['s01' => ''];
-
-		$wControls = $this->templateManager->getTemplate('user_ldap', 'part.wizardcontrols');
-		$wControls = $wControls->fetchPage();
-		$sControls = $this->templateManager->getTemplate('user_ldap', 'part.settingcontrols');
-		$sControls = $sControls->fetchPage();
-
 		$parameters = [];
 
 		// assign default values

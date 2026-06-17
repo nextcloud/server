@@ -1,14 +1,16 @@
-/**
+/*
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
 
-import { action } from './acceptShareAction'
-import { File, Permission, View, FileAction } from '@nextcloud/files'
-import { ShareType } from '@nextcloud/sharing'
-import * as eventBus from '@nextcloud/event-bus'
+import type { IFolder, IView } from '@nextcloud/files'
+
 import axios from '@nextcloud/axios'
+import * as eventBus from '@nextcloud/event-bus'
+import { File, Permission } from '@nextcloud/files'
+import { ShareType } from '@nextcloud/sharing'
+import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
+import { action } from './acceptShareAction.ts'
 
 import '../main.ts'
 
@@ -17,16 +19,15 @@ vi.mock('@nextcloud/axios')
 const view = {
 	id: 'files',
 	name: 'Files',
-} as View
+} as IView
 
 const pendingShareView = {
 	id: 'pendingshares',
 	name: 'Pending shares',
-} as View
+} as IView
 
 // Mock webroot variable
 beforeAll(() => {
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	(window as any)._oc_webroot = ''
 })
 
@@ -38,16 +39,31 @@ describe('Accept share action conditions tests', () => {
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.ALL,
+			root: '/files/admin',
 		})
 
-		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('accept-share')
-		expect(action.displayName([file], pendingShareView)).toBe('Accept share')
-		expect(action.iconSvgInline([file], pendingShareView)).toMatch(/<svg.+<\/svg>/)
+		expect(action.displayName({
+			nodes: [file],
+			view: pendingShareView,
+			folder: {} as IFolder,
+			contents: [],
+		})).toBe('Accept share')
+		expect(action.iconSvgInline({
+			nodes: [file],
+			view: pendingShareView,
+			folder: {} as IFolder,
+			contents: [],
+		})).toMatch(/<svg.+<\/svg>/)
 		expect(action.default).toBeUndefined()
 		expect(action.order).toBe(1)
 		expect(action.inline).toBeDefined()
-		expect(action.inline!(file, pendingShareView)).toBe(true)
+		expect(action.inline!({
+			nodes: [file],
+			view: pendingShareView,
+			folder: {} as IFolder,
+			contents: [],
+		})).toBe(true)
 	})
 
 	test('Default values for multiple files', () => {
@@ -57,6 +73,7 @@ describe('Accept share action conditions tests', () => {
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.ALL,
+			root: '/files/admin',
 		})
 		const file2 = new File({
 			id: 2,
@@ -64,9 +81,15 @@ describe('Accept share action conditions tests', () => {
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.ALL,
+			root: '/files/admin',
 		})
 
-		expect(action.displayName([file1, file2], pendingShareView)).toBe('Accept shares')
+		expect(action.displayName({
+			nodes: [file1, file2],
+			view: pendingShareView,
+			folder: {} as IFolder,
+			contents: [],
+		})).toBe('Accept shares')
 	})
 })
 
@@ -78,43 +101,66 @@ describe('Accept share action enabled tests', () => {
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.ALL,
+			root: '/files/admin',
 		})
 
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([file], pendingShareView)).toBe(true)
+		expect(action.enabled!({
+			nodes: [file],
+			view: pendingShareView,
+			folder: {} as IFolder,
+			contents: [],
+		})).toBe(true)
 	})
 
 	test('Disabled on wrong view', () => {
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([], view)).toBe(false)
+		expect(action.enabled!({
+			nodes: [],
+			view,
+			folder: {} as IFolder,
+			contents: [],
+		})).toBe(false)
 	})
 
 	test('Disabled without nodes', () => {
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([], pendingShareView)).toBe(false)
+		expect(action.enabled!({
+			nodes: [],
+			view: pendingShareView,
+			folder: {} as IFolder,
+			contents: [],
+		})).toBe(false)
 	})
 })
 
 describe('Accept share action execute tests', () => {
-	beforeEach(() => { vi.resetAllMocks() })
+	beforeEach(() => {
+		vi.resetAllMocks()
+	})
 
 	test('Accept share action', async () => {
 		vi.spyOn(axios, 'post')
 		vi.spyOn(eventBus, 'emit')
 
 		const file = new File({
-			id: 1,
+			id: 123,
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.READ,
 			attributes: {
-				id: 123,
 				share_type: ShareType.User,
 			},
+			root: '/files/admin',
 		})
 
-		const exec = await action.exec(file, pendingShareView, '/')
+		const exec = await action.exec({
+			nodes: [file],
+			view: pendingShareView,
+			folder: {} as IFolder,
+			contents: [],
+		})
 
 		expect(exec).toBe(true)
 		expect(axios.post).toBeCalledTimes(1)
@@ -129,19 +175,24 @@ describe('Accept share action execute tests', () => {
 		vi.spyOn(eventBus, 'emit')
 
 		const file = new File({
-			id: 1,
+			id: 123,
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.READ,
 			attributes: {
-				id: 123,
 				remote: 3,
 				share_type: ShareType.User,
 			},
+			root: '/files/admin',
 		})
 
-		const exec = await action.exec(file, pendingShareView, '/')
+		const exec = await action.exec({
+			nodes: [file],
+			view: pendingShareView,
+			folder: {} as IFolder,
+			contents: [],
+		})
 
 		expect(exec).toBe(true)
 		expect(axios.post).toBeCalledTimes(1)
@@ -156,30 +207,35 @@ describe('Accept share action execute tests', () => {
 		vi.spyOn(eventBus, 'emit')
 
 		const file1 = new File({
-			id: 1,
+			id: 123,
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foo.txt',
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.READ,
 			attributes: {
-				id: 123,
 				share_type: ShareType.User,
 			},
+			root: '/files/admin',
 		})
 
 		const file2 = new File({
-			id: 2,
+			id: 456,
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/bar.txt',
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.READ,
 			attributes: {
-				id: 456,
 				share_type: ShareType.User,
 			},
+			root: '/files/admin',
 		})
 
-		const exec = await action.execBatch!([file1, file2], pendingShareView, '/')
+		const exec = await action.execBatch!({
+			nodes: [file1, file2],
+			view: pendingShareView,
+			folder: {} as IFolder,
+			contents: [],
+		})
 
 		expect(exec).toStrictEqual([true, true])
 		expect(axios.post).toBeCalledTimes(2)
@@ -192,21 +248,28 @@ describe('Accept share action execute tests', () => {
 	})
 
 	test('Accept fails', async () => {
-		vi.spyOn(axios, 'post').mockImplementation(() => { throw new Error('Mock error') })
+		vi.spyOn(axios, 'post').mockImplementation(() => {
+			throw new Error('Mock error')
+		})
 
 		const file = new File({
-			id: 1,
+			id: 123,
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.READ,
 			attributes: {
-				id: 123,
 				share_type: ShareType.User,
 			},
+			root: '/files/admin',
 		})
 
-		const exec = await action.exec(file, pendingShareView, '/')
+		const exec = await action.exec({
+			nodes: [file],
+			view: pendingShareView,
+			folder: {} as IFolder,
+			contents: [],
+		})
 
 		expect(exec).toBe(false)
 		expect(axios.post).toBeCalledTimes(1)

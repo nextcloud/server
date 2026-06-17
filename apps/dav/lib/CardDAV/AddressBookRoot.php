@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\CardDAV;
 
 use OCA\DAV\AppInfo\PluginManager;
@@ -40,10 +41,12 @@ class AddressBookRoot extends \Sabre\CardDAV\AddressBookRoot {
 	 *
 	 * @return \Sabre\DAV\INode
 	 */
+	#[\Override]
 	public function getChildForPrincipal(array $principal) {
 		return new UserAddressBooks($this->carddavBackend, $principal['uri'], $this->pluginManager, $this->user, $this->groupManager);
 	}
 
+	#[\Override]
 	public function getName() {
 		if ($this->principalPrefix === 'principals') {
 			return parent::getName();

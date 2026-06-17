@@ -4,59 +4,61 @@
 -->
 
 <template>
-	<Fragment>
-		<NcListItem v-if="!inline"
-			class="user-status-menu-item"
-			compact
-			:name="visibleMessage"
-			@click.stop="openModal">
+	<NcListItem
+		v-if="!inline"
+		:class="$style.userStatusMenuItem"
+		compact
+		:name="visibleMessage"
+		@click.stop="openModal">
+		<template #icon>
+			<NcUserStatusIcon
+				:class="$style.userStatusIcon"
+				:status="statusType"
+				aria-hidden="true" />
+		</template>
+	</NcListItem>
+
+	<div v-else>
+		<!-- Dashboard Status -->
+		<NcButton @click.stop="openModal">
 			<template #icon>
-				<NcUserStatusIcon class="user-status-icon"
+				<NcUserStatusIcon
+					:class="$style.userStatusIcon"
 					:status="statusType"
 					aria-hidden="true" />
 			</template>
-		</NcListItem>
-
-		<div v-else>
-			<!-- Dashboard Status -->
-			<NcButton @click.stop="openModal">
-				<template #icon>
-					<NcUserStatusIcon class="user-status-icon"
-						:status="statusType"
-						aria-hidden="true" />
-				</template>
-				{{ visibleMessage }}
-			</NcButton>
-		</div>
-		<!-- Status management modal -->
-		<SetStatusModal v-if="isModalOpen"
-			:inline="inline"
-			@close="closeModal" />
-	</Fragment>
+			{{ visibleMessage }}
+		</NcButton>
+	</div>
+	<!-- Status management modal -->
+	<SetStatusModal
+		v-if="isModalOpen"
+		:inline="inline"
+		@close="closeModal" />
 </template>
 
 <script>
 import { getCurrentUser } from '@nextcloud/auth'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
-import { Fragment } from 'vue-frag'
+import debounce from 'debounce'
+import { defineAsyncComponent } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcListItem from '@nextcloud/vue/components/NcListItem'
 import NcUserStatusIcon from '@nextcloud/vue/components/NcUserStatusIcon'
-import debounce from 'debounce'
-
-import { sendHeartbeat } from './services/heartbeatService.js'
+import { logger } from './logger.ts'
 import OnlineStatusMixin from './mixins/OnlineStatusMixin.js'
+import { sendHeartbeat } from './services/heartbeatService.js'
 
 export default {
 	name: 'UserStatus',
 
 	components: {
-		Fragment,
 		NcButton,
 		NcListItem,
 		NcUserStatusIcon,
-		SetStatusModal: () => import(/* webpackChunkName: 'user-status-modal' */'./components/SetStatusModal.vue'),
+		SetStatusModal: defineAsyncComponent(() => import('./components/SetStatusModal.vue')),
 	},
+
 	mixins: [OnlineStatusMixin],
 
 	props: {
@@ -107,7 +109,7 @@ export default {
 				if (wasAway) {
 					this._backgroundHeartbeat()
 				}
-			}, 1000 * 2, true)
+			}, 1000 * 2, { immediate: true })
 			window.addEventListener('mousemove', this.mouseMoveListener, {
 				capture: true,
 				passive: true,
@@ -121,7 +123,7 @@ export default {
 	/**
 	 * Some housekeeping before destroying the component
 	 */
-	beforeDestroy() {
+	beforeUnmount() {
 		window.removeEventListener('mouseMove', this.mouseMoveListener)
 		clearInterval(this.heartbeatInterval)
 		unsubscribe('user_status:status.updated', this.handleUserStatusUpdated)
@@ -134,6 +136,7 @@ export default {
 		openModal() {
 			this.isModalOpen = true
 		},
+
 		/**
 		 * Closes the modal
 		 */
@@ -156,9 +159,10 @@ export default {
 					await this.$store.dispatch('reFetchStatusFromServer')
 				}
 			} catch (error) {
-				console.debug('Failed sending heartbeat, got: ' + error.response?.status)
+				logger.debug('Failed sending heartbeat, got: ' + error.response?.status)
 			}
 		},
+
 		handleUserStatusUpdated(state) {
 			if (getCurrentUser()?.uid === state.userId) {
 				this.$store.dispatch('setStatusFromObject', {
@@ -172,8 +176,15 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.user-status-icon {
+<style lang="scss" module>
+// Note: As for v9.3.0 NcListItem does not support <style scoped>
+.userStatusMenuItem,
+.userStatusMenuItem * {
+	// TODO: Vue 3 migration - add box-sizing to core menu component
+	box-sizing: border-box;
+}
+
+.userStatusIcon {
 	width: 20px;
 	height: 20px;
 	margin: calc((var(--default-clickable-area) - 20px) / 2); // 20px icon size

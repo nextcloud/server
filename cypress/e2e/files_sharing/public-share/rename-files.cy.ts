@@ -6,7 +6,6 @@ import { getRowForFile, haveValidity, triggerActionForFile } from '../../files/F
 import { getShareUrl, setupPublicShare } from './PublicShareUtils.ts'
 
 describe('files_sharing: Public share - renaming files', { testIsolation: true }, () => {
-
 	beforeEach(() => {
 		setupPublicShare()
 			.then(() => cy.logout())

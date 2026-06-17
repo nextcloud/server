@@ -25,24 +25,20 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserManager;
-use OCP\IUserSession;
 use OCP\Server;
 
 class ChangePasswordController extends Controller {
-	private Session $userSession;
-
 	public function __construct(
 		string $appName,
 		IRequest $request,
 		private ?string $userId,
 		private IUserManager $userManager,
-		IUserSession $userSession,
+		private Session $userSession,
 		private GroupManager $groupManager,
 		private IAppManager $appManager,
 		private IL10N $l,
 	) {
 		parent::__construct($appName, $request);
-		$this->userSession = $userSession;
 	}
 
 	/**
@@ -177,20 +173,22 @@ class ChangePasswordController extends Controller {
 						],
 					]);
 				}
-				if (!$result && $recoveryEnabledForUser) {
-					return new JSONResponse([
-						'status' => 'error',
-						'data' => [
-							'message' => $this->l->t('Backend does not support password change, but the encryption of the account key was updated.'),
-						]
-					]);
-				} elseif (!$result && !$recoveryEnabledForUser) {
-					return new JSONResponse([
-						'status' => 'error',
-						'data' => [
-							'message' => $this->l->t('Unable to change password'),
-						]
-					]);
+				if (!$result) {
+					if ($recoveryEnabledForUser) {
+						return new JSONResponse([
+							'status' => 'error',
+							'data' => [
+								'message' => $this->l->t('Backend does not support password change, but the encryption of the account key was updated.'),
+							]
+						]);
+					} else {
+						return new JSONResponse([
+							'status' => 'error',
+							'data' => [
+								'message' => $this->l->t('Unable to change password'),
+							]
+						]);
+					}
 				}
 			}
 		} else {

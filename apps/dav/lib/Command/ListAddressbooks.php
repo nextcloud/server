@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Command;
 
 use OCA\DAV\CardDAV\CardDavBackend;
@@ -24,6 +25,7 @@ class ListAddressbooks extends Command {
 		parent::__construct('dav:list-addressbooks');
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setDescription('List all addressbooks of a user')
@@ -32,6 +34,7 @@ class ListAddressbooks extends Command {
 				'User for whom all addressbooks will be listed');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$user = $input->getArgument('uid');
 		if (!$this->userManager->userExists($user)) {

@@ -16,9 +16,7 @@ use OCP\Server;
 use Test\TestCase;
 use Test\Traits\UserTrait;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class StorageTest extends TestCase {
 	use UserTrait;
 
@@ -44,7 +42,6 @@ class StorageTest extends TestCase {
 		$root = Server::get(IRootFolder::class);
 		$this->userFolder = $root->getUserFolder('version_test');
 	}
-
 
 	protected function createPastFile(string $path, int $mtime): void {
 		try {

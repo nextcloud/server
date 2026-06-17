@@ -18,6 +18,7 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class JoinConditionTest extends TestCase {
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 	}

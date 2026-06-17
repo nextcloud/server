@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use OC\Route\Router;
@@ -18,45 +19,29 @@ use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\Server;
+use Override;
 use RuntimeException;
 
-/**
- * Class to generate URLs
- */
 class URLGenerator implements IURLGenerator {
-	/** @var IConfig */
-	private $config;
-	/** @var IUserSession */
-	public $userSession;
-	/** @var ICacheFactory */
-	private $cacheFactory;
-	/** @var IRequest */
-	private $request;
-	/** @var Router */
-	private $router;
-	/** @var null|string */
-	private $baseUrl = null;
+	private ?string $baseUrl = null;
 	private ?IAppManager $appManager = null;
 	private ?INavigationManager $navigationManager = null;
 
-	public function __construct(IConfig $config,
-		IUserSession $userSession,
-		ICacheFactory $cacheFactory,
-		IRequest $request,
-		Router $router,
+	public function __construct(
+		private IConfig $config,
+		public IUserSession $userSession,
+		private ICacheFactory $cacheFactory,
+		private IRequest $request,
+		private Router $router,
 	) {
-		$this->config = $config;
-		$this->userSession = $userSession;
-		$this->cacheFactory = $cacheFactory;
-		$this->request = $request;
-		$this->router = $router;
 	}
 
 	private function getAppManager(): IAppManager {
 		if ($this->appManager !== null) {
 			return $this->appManager;
 		}
-		$this->appManager = \OCP\Server::get(IAppManager::class);
+		$this->appManager = Server::get(IAppManager::class);
 		return $this->appManager;
 	}
 
@@ -64,7 +49,7 @@ class URLGenerator implements IURLGenerator {
 		if ($this->navigationManager !== null) {
 			return $this->navigationManager;
 		}
-		$this->navigationManager = \OCP\Server::get(INavigationManager::class);
+		$this->navigationManager = Server::get(INavigationManager::class);
 		return $this->navigationManager;
 	}
 
@@ -77,6 +62,7 @@ class URLGenerator implements IURLGenerator {
 	 *
 	 * Returns a url to the given route.
 	 */
+	#[\Override]
 	public function linkToRoute(string $routeName, array $arguments = []): string {
 		return $this->router->generate($routeName, $arguments);
 	}
@@ -89,10 +75,12 @@ class URLGenerator implements IURLGenerator {
 	 *
 	 * Returns an absolute url to the given route.
 	 */
+	#[\Override]
 	public function linkToRouteAbsolute(string $routeName, array $arguments = []): string {
 		return $this->getAbsoluteURL($this->linkToRoute($routeName, $arguments));
 	}
 
+	#[\Override]
 	public function linkToOCSRouteAbsolute(string $routeName, array $arguments = []): string {
 		// Returns `/subfolder/index.php/ocsapp/…` with `'htaccess.IgnoreFrontController' => false` in config.php
 		// And `/subfolder/ocsapp/…` with `'htaccess.IgnoreFrontController' => true` in config.php
@@ -127,6 +115,7 @@ class URLGenerator implements IURLGenerator {
 	 *
 	 * Returns a url to the given app and file.
 	 */
+	#[\Override]
 	public function linkTo(string $appName, string $file, array $args = []): string {
 		$frontControllerActive = ($this->config->getSystemValueBool('htaccess.IgnoreFrontController', false) || getenv('front_controller_active') === 'true');
 
@@ -175,6 +164,7 @@ class URLGenerator implements IURLGenerator {
 	 *
 	 * Returns the path to the image.
 	 */
+	#[\Override]
 	public function imagePath(string $appName, string $file): string {
 		$cache = $this->cacheFactory->createDistributed('imagePath-' . md5($this->getBaseUrl()) . '-');
 		$cacheKey = $appName . '-' . $file;
@@ -204,7 +194,7 @@ class URLGenerator implements IURLGenerator {
 		$themingEnabled = $this->config->getSystemValueBool('installed', false) && $this->getAppManager()->isEnabledForUser('theming');
 		$themingImagePath = false;
 		if ($themingEnabled) {
-			$themingDefaults = \OC::$server->get('ThemingDefaults');
+			$themingDefaults = Server::get('ThemingDefaults');
 			if ($themingDefaults instanceof ThemingDefaults) {
 				$themingImagePath = $themingDefaults->replaceImagePath($appName, $file);
 			}
@@ -252,12 +242,12 @@ class URLGenerator implements IURLGenerator {
 		throw new RuntimeException('image not found: image:' . $file . ' webroot:' . \OC::$WEBROOT . ' serverroot:' . \OC::$SERVERROOT);
 	}
 
-
 	/**
 	 * Makes an URL absolute
 	 * @param string $url the url in the Nextcloud host
 	 * @return string the absolute version of the url
 	 */
+	#[\Override]
 	public function getAbsoluteURL(string $url): string {
 		$separator = str_starts_with($url, '/') ? '' : '/';
 
@@ -276,8 +266,9 @@ class URLGenerator implements IURLGenerator {
 	 * @param string $key
 	 * @return string url to the online documentation
 	 */
+	#[\Override]
 	public function linkToDocs(string $key): string {
-		$theme = \OC::$server->get('ThemingDefaults');
+		$theme = Server::get('ThemingDefaults');
 		return $theme->buildDocLinkToKey($key);
 	}
 
@@ -286,6 +277,7 @@ class URLGenerator implements IURLGenerator {
 	 * and the apps visible for the current user
 	 * @return string
 	 */
+	#[\Override]
 	public function linkToDefaultPageUrl(): string {
 		// Deny the redirect if the URL contains a @
 		// This prevents unvalidated redirects like ?redirect_url=:user@domain.com
@@ -319,6 +311,7 @@ class URLGenerator implements IURLGenerator {
 	/**
 	 * @return string base url of the current request
 	 */
+	#[\Override]
 	public function getBaseUrl(): string {
 		// BaseUrl can be equal to 'http(s)://' during the first steps of the initial setup.
 		if ($this->baseUrl === null || $this->baseUrl === 'http://' || $this->baseUrl === 'https://') {
@@ -330,7 +323,16 @@ class URLGenerator implements IURLGenerator {
 	/**
 	 * @return string webroot part of the base url
 	 */
+	#[\Override]
 	public function getWebroot(): string {
 		return \OC::$WEBROOT;
+	}
+
+	#[Override]
+	public function linkToRemote(string $service): string {
+		$remoteBase = $this->linkTo('', 'remote.php') . '/' . $service;
+		return $this->getAbsoluteURL(
+			$remoteBase . (($service[strlen($service) - 1] !== '/') ? '/' : '')
+		);
 	}
 }

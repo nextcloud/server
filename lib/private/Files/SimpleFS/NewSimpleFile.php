@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Files\SimpleFS;
 
 use Icewind\Streams\CallbackWrapper;
@@ -16,21 +17,18 @@ use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 
 class NewSimpleFile implements ISimpleFile {
-	private Folder $parentFolder;
-	private string $name;
 	private ?File $file = null;
 
-	/**
-	 * File constructor.
-	 */
-	public function __construct(Folder $parentFolder, string $name) {
-		$this->parentFolder = $parentFolder;
-		$this->name = $name;
+	public function __construct(
+		private Folder $parentFolder,
+		private string $name,
+	) {
 	}
 
 	/**
 	 * Get the name
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->name;
 	}
@@ -38,6 +36,7 @@ class NewSimpleFile implements ISimpleFile {
 	/**
 	 * Get the size in bytes
 	 */
+	#[\Override]
 	public function getSize(): int|float {
 		if ($this->file) {
 			return $this->file->getSize();
@@ -49,6 +48,7 @@ class NewSimpleFile implements ISimpleFile {
 	/**
 	 * Get the ETag
 	 */
+	#[\Override]
 	public function getETag(): string {
 		if ($this->file) {
 			return $this->file->getEtag();
@@ -60,6 +60,7 @@ class NewSimpleFile implements ISimpleFile {
 	/**
 	 * Get the last modification time
 	 */
+	#[\Override]
 	public function getMTime(): int {
 		if ($this->file) {
 			return $this->file->getMTime();
@@ -74,6 +75,7 @@ class NewSimpleFile implements ISimpleFile {
 	 * @throws NotFoundException
 	 * @throws NotPermittedException
 	 */
+	#[\Override]
 	public function getContent(): string {
 		if ($this->file) {
 			$result = $this->file->getContent();
@@ -95,6 +97,7 @@ class NewSimpleFile implements ISimpleFile {
 	 * @throws NotPermittedException
 	 * @throws NotFoundException
 	 */
+	#[\Override]
 	public function putContent($data): void {
 		try {
 			if ($this->file) {
@@ -139,12 +142,12 @@ class NewSimpleFile implements ISimpleFile {
 		}
 	}
 
-
 	/**
 	 * Delete the file
 	 *
 	 * @throws NotPermittedException
 	 */
+	#[\Override]
 	public function delete(): void {
 		if ($this->file) {
 			$this->file->delete();
@@ -156,6 +159,7 @@ class NewSimpleFile implements ISimpleFile {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function getMimeType(): string {
 		if ($this->file) {
 			return $this->file->getMimeType();
@@ -167,6 +171,7 @@ class NewSimpleFile implements ISimpleFile {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getExtension(): string {
 		if ($this->file) {
 			return $this->file->getExtension();
@@ -179,9 +184,10 @@ class NewSimpleFile implements ISimpleFile {
 	 * Open the file as stream for reading, resulting resource can be operated as stream like the result from php's own fopen
 	 *
 	 * @return resource|false
-	 * @throws \OCP\Files\NotPermittedException
+	 * @throws NotPermittedException
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function read() {
 		if ($this->file) {
 			return $this->file->fopen('r');
@@ -194,15 +200,16 @@ class NewSimpleFile implements ISimpleFile {
 	 * Open the file as stream for writing, resulting resource can be operated as stream like the result from php's own fopen
 	 *
 	 * @return resource|bool
-	 * @throws \OCP\Files\NotPermittedException
+	 * @throws NotPermittedException
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function write() {
 		if ($this->file) {
 			return $this->file->fopen('w');
 		} else {
 			$source = fopen('php://temp', 'w+');
-			return CallbackWrapper::wrap($source, null, null, null, null, function () use ($source) {
+			return CallbackWrapper::wrap($source, null, null, null, null, function () use ($source): void {
 				rewind($source);
 				$this->putContent($source);
 			});

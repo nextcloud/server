@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Tests\Storage;
 
 use OC\Files\Notify\Change;
@@ -17,10 +18,10 @@ use PHPUnit\Framework\ExpectationFailedException;
 /**
  * Class SmbTest
  *
- * @group DB
  *
  * @package OCA\Files_External\Tests\Storage
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class SmbTest extends \Test\Files\Storage\Storage {
 	use ConfigurableStorageTrait;
 	/**
@@ -32,7 +33,7 @@ class SmbTest extends \Test\Files\Storage\Storage {
 		parent::setUp();
 
 		$id = $this->getUniqueID();
-		$this->loadConfig('files_external/tests/config.smb.php');
+		$this->loadConfig(__DIR__ . '/../config.smb.php');
 		if (substr($this->config['root'], -1, 1) != '/') {
 			$this->config['root'] .= '/';
 		}

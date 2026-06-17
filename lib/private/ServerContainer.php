@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use OC\AppFramework\App;
@@ -24,7 +25,7 @@ class ServerContainer extends SimpleContainer {
 	/** @var DIContainer[] */
 	protected $appContainers;
 
-	/** @var string[] */
+	/** @var array<string,true> */
 	protected $hasNoAppContainer;
 
 	/** @var string[] */
@@ -45,9 +46,7 @@ class ServerContainer extends SimpleContainer {
 	 * @param string $appNamespace
 	 */
 	public function registerNamespace(string $appName, string $appNamespace): void {
-		// Cut of OCA\ and lowercase
-		$appNamespace = strtolower(substr($appNamespace, strrpos($appNamespace, '\\') + 1));
-		$this->namespaces[$appNamespace] = $appName;
+		$this->namespaces[strtolower($appNamespace)] = $appName;
 	}
 
 	/**
@@ -55,7 +54,7 @@ class ServerContainer extends SimpleContainer {
 	 * @param DIContainer $container
 	 */
 	public function registerAppContainer(string $appName, DIContainer $container): void {
-		$this->appContainers[strtolower(App::buildAppNamespace($appName, ''))] = $container;
+		$this->appContainers[strtolower(App::buildAppNamespace($appName))] = $container;
 	}
 
 	/**
@@ -64,8 +63,8 @@ class ServerContainer extends SimpleContainer {
 	 * @throws QueryException
 	 */
 	public function getRegisteredAppContainer(string $appName): DIContainer {
-		if (isset($this->appContainers[strtolower(App::buildAppNamespace($appName, ''))])) {
-			return $this->appContainers[strtolower(App::buildAppNamespace($appName, ''))];
+		if (isset($this->appContainers[strtolower(App::buildAppNamespace($appName))])) {
+			return $this->appContainers[strtolower(App::buildAppNamespace($appName))];
 		}
 
 		throw new QueryException();
@@ -77,18 +76,21 @@ class ServerContainer extends SimpleContainer {
 	 * @return DIContainer
 	 * @throws QueryException
 	 */
-	protected function getAppContainer(string $namespace, string $sensitiveNamespace): DIContainer {
+	protected function getAppContainer(string $sensitiveNamespace): DIContainer {
+		$namespace = strtolower($sensitiveNamespace);
 		if (isset($this->appContainers[$namespace])) {
 			return $this->appContainers[$namespace];
 		}
 
 		if (isset($this->namespaces[$namespace])) {
 			if (!isset($this->hasNoAppContainer[$namespace])) {
-				$applicationClassName = 'OCA\\' . $sensitiveNamespace . '\\AppInfo\\Application';
+				$applicationClassName = $sensitiveNamespace . '\\AppInfo\\Application';
 				if (class_exists($applicationClassName)) {
+					/* The application constructor will register the container, see App::__construct */
 					$app = new $applicationClassName();
 					if (isset($this->appContainers[$namespace])) {
 						$this->appContainers[$namespace]->offsetSet($applicationClassName, $app);
+						/** @psalm-suppress NoValue false-positive (see comment above) */
 						return $this->appContainers[$namespace];
 					}
 				}
@@ -100,6 +102,7 @@ class ServerContainer extends SimpleContainer {
 		throw new QueryException();
 	}
 
+	#[\Override]
 	public function has($id, bool $noRecursion = false): bool {
 		if (!$noRecursion && ($appContainer = $this->getAppContainerForService($id)) !== null) {
 			return $appContainer->has($id);
@@ -111,6 +114,7 @@ class ServerContainer extends SimpleContainer {
 	/**
 	 * @template T
 	 * @param class-string<T>|string $name
+	 * @param list<class-string> $chain
 	 * @return T|mixed
 	 * @psalm-template S as class-string<T>|string
 	 * @psalm-param S $name
@@ -118,13 +122,14 @@ class ServerContainer extends SimpleContainer {
 	 * @throws QueryException
 	 * @deprecated 20.0.0 use \Psr\Container\ContainerInterface::get
 	 */
-	public function query(string $name, bool $autoload = true) {
+	#[\Override]
+	public function query(string $name, bool $autoload = true, array $chain = []): mixed {
 		$name = $this->sanitizeName($name);
 
 		if (str_starts_with($name, 'OCA\\')) {
 			// Skip server container query for app namespace classes
 			try {
-				return parent::query($name, false);
+				return parent::query($name, false, $chain);
 			} catch (QueryException $e) {
 				// Continue with general autoloading then
 			}
@@ -132,7 +137,7 @@ class ServerContainer extends SimpleContainer {
 			// the apps container first.
 			if (($appContainer = $this->getAppContainerForService($name)) !== null) {
 				try {
-					return $appContainer->queryNoFallback($name);
+					return $appContainer->queryNoFallback($name, $chain);
 				} catch (QueryException $e) {
 					// Didn't find the service or the respective app container
 					// In this case the service won't be part of the core container,
@@ -140,18 +145,9 @@ class ServerContainer extends SimpleContainer {
 					throw $e;
 				}
 			}
-		} elseif (str_starts_with($name, 'OC\\Settings\\') && substr_count($name, '\\') >= 3) {
-			$segments = explode('\\', $name);
-			try {
-				$appContainer = $this->getAppContainer(strtolower($segments[1]), $segments[1]);
-				return $appContainer->queryNoFallback($name);
-			} catch (QueryException $e) {
-				// Didn't find the service or the respective app container,
-				// ignore it and fall back to the core container.
-			}
 		}
 
-		return parent::query($name, $autoload);
+		return parent::query($name, $autoload, $chain);
 	}
 
 	/**
@@ -165,10 +161,14 @@ class ServerContainer extends SimpleContainer {
 		}
 
 		try {
-			[,$namespace,] = explode('\\', $id);
-			return $this->getAppContainer(strtolower($namespace), $namespace);
+			[,$namespace,] = explode('\\', $id, 3);
+			return $this->getAppContainer('OCA\\' . $namespace);
 		} catch (QueryException $e) {
 			return null;
 		}
+	}
+
+	public function getWebRoot() {
+		return '';
 	}
 }

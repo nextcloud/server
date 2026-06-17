@@ -5,12 +5,14 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\DB;
 
 use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Event\Listeners\OracleSessionInit;
+use OC\DB\Middleware\UtcTimezoneMiddleware;
 use OC\DB\QueryBuilder\Sharded\AutoIncrementHandler;
 use OC\DB\QueryBuilder\Sharded\ShardConnectionManager;
 use OC\SystemConfig;
@@ -88,12 +90,23 @@ class ConnectionFactory {
 			throw new \InvalidArgumentException("Unsupported type: $type");
 		}
 		$result = $this->defaultConnectionParams[$normalizedType];
-		// \PDO::MYSQL_ATTR_FOUND_ROWS may not be defined, e.g. when the MySQL
-		// driver is missing. In this case, we won't be able to connect anyway.
-		if ($normalizedType === 'mysql' && defined('\PDO::MYSQL_ATTR_FOUND_ROWS')) {
-			$result['driverOptions'] = [
-				\PDO::MYSQL_ATTR_FOUND_ROWS => true,
-			];
+		/**
+		 * {@see \PDO::MYSQL_ATTR_FOUND_ROWS} may not be defined, e.g. when the MySQL
+		 * driver is missing. In this case, we won't be able to connect anyway.
+		 * In PHP 8.5 it's deprecated and {@see \Pdo\Mysql::ATTR_FOUND_ROWS} should be used,
+		 * but that is only available since PHP 8.4
+		 */
+		if ($normalizedType === 'mysql') {
+			if (PHP_VERSION_ID >= 80500 && class_exists(\Pdo\Mysql::class)) {
+				/** @psalm-suppress UndefinedClass */
+				$result['driverOptions'] = [
+					\Pdo\Mysql::ATTR_FOUND_ROWS => true,
+				];
+			} elseif (PHP_VERSION_ID < 80500 && defined('\PDO::MYSQL_ATTR_FOUND_ROWS')) {
+				$result['driverOptions'] = [
+					\PDO::MYSQL_ATTR_FOUND_ROWS => true,
+				];
+			}
 		}
 		return $result;
 	}
@@ -132,10 +145,14 @@ class ConnectionFactory {
 				$eventManager->addEventSubscriber(new SQLiteSessionInit(true, $journalMode));
 				break;
 		}
+		$configuration = new Configuration();
+		$configuration->setMiddlewares([
+			new UtcTimezoneMiddleware(),
+		]);
 		/** @var Connection $connection */
 		$connection = DriverManager::getConnection(
 			$connectionParams,
-			new Configuration(),
+			$configuration,
 			$eventManager
 		);
 		return $connection;

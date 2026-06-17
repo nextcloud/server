@@ -5,35 +5,35 @@
 import type { ComponentInstance } from 'vue'
 
 import { loadState } from '@nextcloud/initial-state'
-import { t, n } from '@nextcloud/l10n'
+import { n, t } from '@nextcloud/l10n'
 import Vue from 'vue'
 import DeclarativeSection from './components/DeclarativeSettings/DeclarativeSection.vue'
-import logger from './logger'
+import logger from './logger.ts'
 
 interface DeclarativeFormField {
-	id: string,
-	title: string,
-	description: string,
-	type: string,
-	placeholder: string,
-	label: string,
-	options: Array<unknown>|null,
-	value: unknown,
-	default: unknown,
-	sensitive: boolean,
+	id: string
+	title: string
+	description: string
+	type: string
+	placeholder: string
+	label: string
+	options: Array<unknown> | null
+	value: unknown
+	default: unknown
+	sensitive: boolean
 }
 
 interface DeclarativeForm {
-	id: number,
-	priority: number,
-	section_type: string,
-	section_id: string,
-	storage_type: string,
-	title: string,
-	description: string,
-	doc_url: string,
-	app: string,
-	fields: Array<DeclarativeFormField>,
+	id: number
+	priority: number
+	section_type: string
+	section_id: string
+	storage_type: string
+	title: string
+	description: string
+	doc_url: string
+	app: string
+	fields: Array<DeclarativeFormField>
 }
 
 const forms = loadState<DeclarativeForm[]>('settings', 'declarative-settings-forms', [])

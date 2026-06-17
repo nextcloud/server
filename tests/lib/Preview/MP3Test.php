@@ -13,11 +13,12 @@ use OC\Preview\MP3;
 /**
  * Class MP3Test
  *
- * @group DB
  *
  * @package Test\Preview
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class MP3Test extends Provider {
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

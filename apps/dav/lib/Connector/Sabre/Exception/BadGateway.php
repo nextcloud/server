@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Connector\Sabre\Exception;
 
 /**
@@ -19,6 +22,7 @@ class BadGateway extends \Sabre\DAV\Exception {
 	 *
 	 * @return int
 	 */
+	#[\Override]
 	public function getHTTPCode() {
 		return 502;
 	}

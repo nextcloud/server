@@ -1,13 +1,15 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { File, Permission, View, FileAction } from '@nextcloud/files'
-import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
+
+import type { IFolder, IView } from '@nextcloud/files'
 
 import axios from '@nextcloud/axios'
 import * as nextcloudDialogs from '@nextcloud/dialogs'
-import { action } from './openLocallyAction'
+import { File, Permission } from '@nextcloud/files'
+import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
+import { action } from './openLocallyAction.ts'
 
 vi.mock('@nextcloud/auth')
 vi.mock('@nextcloud/axios')
@@ -15,39 +17,53 @@ vi.mock('@nextcloud/axios')
 const view = {
 	id: 'files',
 	name: 'Files',
-} as View
+} as IView
 
 // Mock web root variable
 beforeAll(() => {
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	(window as any)._oc_webroot = '';
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 	(window as any).OCA = { Viewer: { open: vi.fn() } }
 })
 
 describe('Open locally action conditions tests', () => {
 	test('Default values', () => {
-		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('edit-locally')
-		expect(action.displayName([], view)).toBe('Open locally')
-		expect(action.iconSvgInline([], view)).toMatch(/<svg.+<\/svg>/)
+		expect(action.displayName({
+			nodes: [],
+			view,
+			folder: {} as IFolder,
+			contents: [],
+		})).toBe('Open locally')
+		expect(action.iconSvgInline({
+			nodes: [],
+			view,
+			folder: {} as IFolder,
+			contents: [],
+		})).toMatch(/<svg.+<\/svg>/)
 		expect(action.default).toBeUndefined()
 		expect(action.order).toBe(25)
 	})
 })
 
 describe('Open locally action enabled tests', () => {
-	test('Enabled for file with UPDATE permission', () => {
+	test('Enabled for file with WRITE permission', () => {
 		const file = new File({
 			id: 1,
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.ALL,
+			root: '/files/admin',
 		})
 
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([file], view)).toBe(true)
+		expect(action.enabled!({
+			nodes: [file],
+			view,
+			folder: {} as IFolder,
+			contents: [],
+		})).toBe(true)
 	})
 
 	test('Disabled for non-dav resources', () => {
@@ -56,10 +72,16 @@ describe('Open locally action enabled tests', () => {
 			source: 'https://domain.com/data/foobar.txt',
 			owner: 'admin',
 			mime: 'text/plain',
+			root: '/',
 		})
 
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([file], view)).toBe(false)
+		expect(action.enabled!({
+			nodes: [file],
+			view,
+			folder: {} as IFolder,
+			contents: [],
+		})).toBe(false)
 	})
 
 	test('Disabled if more than one node', () => {
@@ -69,6 +91,7 @@ describe('Open locally action enabled tests', () => {
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.ALL,
+			root: '/files/admin',
 		})
 		const file2 = new File({
 			id: 1,
@@ -76,10 +99,16 @@ describe('Open locally action enabled tests', () => {
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.ALL,
+			root: '/files/admin',
 		})
 
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([file1, file2], view)).toBe(false)
+		expect(action.enabled!({
+			nodes: [file1, file2],
+			view,
+			folder: {} as IFolder,
+			contents: [],
+		})).toBe(false)
 	})
 
 	test('Disabled for files', () => {
@@ -88,23 +117,35 @@ describe('Open locally action enabled tests', () => {
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/Foo/',
 			owner: 'admin',
 			mime: 'text/plain',
+			root: '/files/admin',
 		})
 
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([file], view)).toBe(false)
+		expect(action.enabled!({
+			nodes: [file],
+			view,
+			folder: {} as IFolder,
+			contents: [],
+		})).toBe(false)
 	})
 
-	test('Disabled without UPDATE permissions', () => {
+	test('Disabled without WRITE permissions', () => {
 		const file = new File({
 			id: 1,
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.READ,
+			root: '/files/admin',
 		})
 
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([file], view)).toBe(false)
+		expect(action.enabled!({
+			nodes: [file],
+			view,
+			folder: {} as IFolder,
+			contents: [],
+		})).toBe(false)
 	})
 })
 
@@ -129,9 +170,15 @@ describe('Open locally action execute tests', () => {
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.UPDATE,
+			root: '/files/admin',
 		})
 
-		const exec = await action.exec(file, view, '/')
+		const exec = await action.exec({
+			nodes: [file],
+			view,
+			folder: {} as IFolder,
+			contents: [],
+		})
 
 		expect(spyShowDialog).toBeCalled()
 
@@ -153,9 +200,15 @@ describe('Open locally action execute tests', () => {
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.UPDATE,
+			root: '/files/admin',
 		})
 
-		const exec = await action.exec(file, view, '/')
+		const exec = await action.exec({
+			nodes: [file],
+			view,
+			folder: {} as IFolder,
+			contents: [],
+		})
 
 		expect(spyShowDialog).toBeCalled()
 

@@ -6,7 +6,6 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-\OCP\Util::addScript('user_ldap', 'main', 'core');
 ?>
 
 <div id="content-ldap-settings"></div>

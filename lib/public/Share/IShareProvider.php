@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\Share;
 
 use OCP\Files\Folder;
@@ -95,7 +96,7 @@ interface IShareProvider {
 	 * @param Folder $node
 	 * @param bool $reshares Also get the shares where $user is the owner instead of just the shares where $user is the initiator
 	 * @param bool $shallow Whether the method should stop at the first level, or look into sub-folders.
-	 * @return \OCP\Share\IShare[][]
+	 * @return array<int, list<\OCP\Share\IShare>>
 	 * @since 11.0.0
 	 */
 	public function getSharesInFolder($userId, Folder $node, $reshares, $shallow = true);
@@ -117,7 +118,7 @@ interface IShareProvider {
 	/**
 	 * Get share by id
 	 *
-	 * @param int $id
+	 * @param string $id
 	 * @param string|null $recipientId
 	 * @return \OCP\Share\IShare
 	 * @throws ShareNotFound
@@ -155,7 +156,7 @@ interface IShareProvider {
 	 * @throws ShareNotFound
 	 * @since 9.0.0
 	 */
-	public function getShareByToken($token);
+	public function getShareByToken(string $token);
 
 	/**
 	 * A user is deleted from the system
@@ -204,7 +205,7 @@ interface IShareProvider {
 	 * Get all the shares in this provider returned as iterable to reduce memory
 	 * overhead
 	 *
-	 * @return iterable
+	 * @return iterable<IShare>
 	 * @since 18.0.0
 	 */
 	public function getAllShares(): iterable;

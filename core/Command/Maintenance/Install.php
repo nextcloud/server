@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Command\Maintenance;
 
 use bantu\IniGetWrapper\IniGetWrapper;
@@ -33,6 +34,7 @@ class Install extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('maintenance:install')
@@ -48,9 +50,12 @@ class Install extends Command {
 			->addOption('admin-user', null, InputOption::VALUE_REQUIRED, 'Login of the admin account', 'admin')
 			->addOption('admin-pass', null, InputOption::VALUE_REQUIRED, 'Password of the admin account')
 			->addOption('admin-email', null, InputOption::VALUE_OPTIONAL, 'E-Mail of the admin account')
-			->addOption('data-dir', null, InputOption::VALUE_REQUIRED, 'Path to data directory', \OC::$SERVERROOT . '/data');
+			->addOption('data-dir', null, InputOption::VALUE_REQUIRED, 'Path to data directory', \OC::$SERVERROOT . '/data')
+			->addOption('password-salt', null, InputOption::VALUE_OPTIONAL, 'Password salt, at least ' . Setup::MIN_PASSWORD_SALT_LENGTH . ' characters (will be randomly generated if not provided)')
+			->addOption('server-secret', null, InputOption::VALUE_OPTIONAL, 'Server secret, at least ' . Setup::MIN_SECRET_LENGTH . ' characters (will be randomly generated if not provided)');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		// validate the environment
 		$setupHelper = Server::get(Setup::class);
@@ -58,12 +63,7 @@ class Install extends Command {
 		$errors = $sysInfo['errors'];
 		if (count($errors) > 0) {
 			$this->printErrors($output, $errors);
-
-			// ignore the OS X setup warning
-			if (count($errors) !== 1
-				|| (string)$errors[0]['error'] !== 'Mac OS X is not supported and Nextcloud will not work properly on this platform. Use it at your own risk!') {
-				return 1;
-			}
+			return 1;
 		}
 
 		// validate user input
@@ -157,6 +157,16 @@ class Install extends Command {
 			throw new InvalidArgumentException('Invalid e-mail-address <' . $adminEmail . '> for <' . $adminLogin . '>.');
 		}
 
+		$passwordSalt = $input->getOption('password-salt');
+		$secret = $input->getOption('server-secret');
+
+		if ($passwordSalt !== null && strlen($passwordSalt) < Setup::MIN_PASSWORD_SALT_LENGTH) {
+			throw new InvalidArgumentException('Password salt must be at least ' . Setup::MIN_PASSWORD_SALT_LENGTH . ' characters long.');
+		}
+		if ($secret !== null && strlen($secret) < Setup::MIN_SECRET_LENGTH) {
+			throw new InvalidArgumentException('Server secret must be at least ' . Setup::MIN_SECRET_LENGTH . ' characters long.');
+		}
+
 		$options = [
 			'dbtype' => $db,
 			'dbuser' => $dbUser,
@@ -167,7 +177,9 @@ class Install extends Command {
 			'adminlogin' => $adminLogin,
 			'adminpass' => $adminPassword,
 			'adminemail' => $adminEmail,
-			'directory' => $dataDir
+			'directory' => $dataDir,
+			'passwordsalt' => $passwordSalt,
+			'secret' => $secret,
 		];
 		if ($db === 'oci') {
 			$options['dbtablespace'] = $input->getParameterOption('--database-table-space', '');

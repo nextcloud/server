@@ -6,6 +6,7 @@
  * SPDX-FileCopyrightText: 2007-2015 fruux GmbH (https://fruux.com/)
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\CalDAV\Schedule;
 
 use OCA\DAV\CalDAV\CalendarObject;
@@ -14,6 +15,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\IAppConfig;
 use OCP\IUserSession;
+use OCP\Mail\IEmailValidator;
 use OCP\Mail\IMailer;
 use OCP\Mail\Provider\Address;
 use OCP\Mail\Provider\Attachment;
@@ -63,10 +65,12 @@ class IMipPlugin extends SabreIMipPlugin {
 		private IMipService $imipService,
 		private EventComparisonService $eventComparisonService,
 		private IMailManager $mailManager,
+		private IEmailValidator $emailValidator,
 	) {
 		parent::__construct('');
 	}
 
+	#[\Override]
 	public function initialize(DAV\Server $server): void {
 		parent::initialize($server);
 		$server->on('beforeWriteContent', [$this, 'beforeWriteContent'], 10);
@@ -95,6 +99,7 @@ class IMipPlugin extends SabreIMipPlugin {
 	 * @param Message $iTipMessage
 	 * @return void
 	 */
+	#[\Override]
 	public function schedule(Message $iTipMessage) {
 
 		// Not sending any emails if the system considers the update insignificant
@@ -119,11 +124,23 @@ class IMipPlugin extends SabreIMipPlugin {
 
 		// Strip off mailto:
 		$recipient = substr($iTipMessage->recipient, 7);
-		if (!$this->mailer->validateMailAddress($recipient)) {
+		if (!$this->emailValidator->isValid($recipient)) {
 			// Nothing to send if the recipient doesn't have a valid email address
 			$iTipMessage->scheduleStatus = '5.0; EMail delivery failed';
 			return;
 		}
+
+		// Check if external attendees are disabled
+		$externalAttendeesDisabled = $this->config->getValueBool('dav', 'caldav_external_attendees_disabled', false);
+		if ($externalAttendeesDisabled && !$this->imipService->isSystemUser($recipient)) {
+			$this->logger->debug('Invitation not sent to external attendee (external attendees disabled)', [
+				'uid' => $iTipMessage->uid,
+				'attendee' => $recipient,
+			]);
+			$iTipMessage->scheduleStatus = '5.0; External attendees are disabled';
+			return;
+		}
+
 		$recipientName = $iTipMessage->recipientName ? (string)$iTipMessage->recipientName : null;
 
 		$newEvents = $iTipMessage->message;
@@ -165,7 +182,7 @@ class IMipPlugin extends SabreIMipPlugin {
 			$iTipMessage->scheduleStatus = '1.0;We got the message, but it\'s not significant enough to warrant an email';
 			return;
 		}
-		$this->imipService->setL10n($attendee);
+		$this->imipService->setL10nFromAttendee($attendee);
 
 		// Build the sender name.
 		// Due to a bug in sabre, the senderName property for an iTIP message can actually also be a VObject Property

@@ -12,7 +12,6 @@
  */
 
 export default class TabSections {
-
 	_sections
 
 	constructor() {
@@ -29,5 +28,4 @@ export default class TabSections {
 	getSections() {
 		return this._sections
 	}
-
 }

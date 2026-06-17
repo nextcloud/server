@@ -41,6 +41,7 @@ class MigrateBackgroundImages extends QueuedJob {
 		parent::__construct($time);
 	}
 
+	#[\Override]
 	protected function run(mixed $argument): void {
 		if (!is_array($argument) || !isset($argument['stage'])) {
 			throw new \Exception('Job ' . self::class . ' called with wrong argument');
@@ -68,7 +69,7 @@ class MigrateBackgroundImages extends QueuedJob {
 				->andWhere($selector->expr()->eq('configvalue', $selector->createNamedParameter('custom', IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR))
 				->executeQuery();
 
-			$userIds = $result->fetchAll(\PDO::FETCH_COLUMN);
+			$userIds = $result->fetchFirstColumn();
 			$this->storeUserIdsToProcess($userIds);
 		} catch (\Throwable $t) {
 			$this->jobList->add(self::class, ['stage' => self::STAGE_PREPARE]);

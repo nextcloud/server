@@ -5,15 +5,15 @@
 
 import type { PublicKeyCredentialCreationOptionsJSON, RegistrationResponseJSON } from '@simplewebauthn/browser'
 
+import axios, { isAxiosError } from '@nextcloud/axios'
 import { translate as t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import { startRegistration as registerWebAuthn } from '@simplewebauthn/browser'
-
-import axios, { isAxiosError } from '@nextcloud/axios'
-import logger from '../logger'
+import logger from '../logger.ts'
 
 /**
  * Start registering a new device
+ *
  * @return The device attributes
  */
 export async function startRegistration() {
@@ -28,11 +28,11 @@ export async function startRegistration() {
 	} catch (e) {
 		logger.error(e as Error)
 		if (isAxiosError(e)) {
-			throw new Error(t('settings', 'Could not register device: Network error'))
+			throw new Error(t('settings', 'Could not register device: Network error'), { cause: e })
 		} else if ((e as Error).name === 'InvalidStateError') {
-			throw new Error(t('settings', 'Could not register device: Probably already registered'))
+			throw new Error(t('settings', 'Could not register device: Probably already registered'), { cause: e })
 		}
-		throw new Error(t('settings', 'Could not register device'))
+		throw new Error(t('settings', 'Could not register device'), { cause: e })
 	}
 }
 

@@ -11,17 +11,23 @@ namespace Test\Files\Type;
 use OC\Files\Type\Loader;
 use OCP\IDBConnection;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\Group;
 use Test\TestCase;
 
+#[Group('DB')]
 class LoaderTest extends TestCase {
 	protected IDBConnection $db;
 	protected Loader $loader;
 
+	#[\Override]
 	protected function setUp(): void {
+		parent::setUp();
+
 		$this->db = Server::get(IDBConnection::class);
 		$this->loader = new Loader($this->db);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$deleteMimetypes = $this->db->getQueryBuilder();
 		$deleteMimetypes->delete('mimetypes')
@@ -29,8 +35,8 @@ class LoaderTest extends TestCase {
 				'mimetype', $deleteMimetypes->createPositionalParameter('testing/%')
 			));
 		$deleteMimetypes->executeStatement();
+		parent::tearDown();
 	}
-
 
 	public function testGetMimetype(): void {
 		$qb = $this->db->getQueryBuilder();
@@ -64,7 +70,7 @@ class LoaderTest extends TestCase {
 			->where($qb->expr()->eq('id', $qb->createPositionalParameter($mimetypeId)));
 
 		$result = $qb->executeQuery();
-		$mimetype = $result->fetch();
+		$mimetype = $result->fetchAssociative();
 		$result->closeCursor();
 		$this->assertEquals('testing/mymimetype', $mimetype['mimetype']);
 

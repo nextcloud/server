@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitAdminAudit
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\AdminAudit\\' => 15,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\AdminAudit\\' => 
+        'OCA\\AdminAudit\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),
@@ -34,6 +34,7 @@ class ComposerStaticInitAdminAudit
         'OCA\\AdminAudit\\IAuditLogger' => __DIR__ . '/..' . '/../lib/IAuditLogger.php',
         'OCA\\AdminAudit\\Listener\\AppManagementEventListener' => __DIR__ . '/..' . '/../lib/Listener/AppManagementEventListener.php',
         'OCA\\AdminAudit\\Listener\\AuthEventListener' => __DIR__ . '/..' . '/../lib/Listener/AuthEventListener.php',
+        'OCA\\AdminAudit\\Listener\\CacheEventListener' => __DIR__ . '/..' . '/../lib/Listener/CacheEventListener.php',
         'OCA\\AdminAudit\\Listener\\ConsoleEventListener' => __DIR__ . '/..' . '/../lib/Listener/ConsoleEventListener.php',
         'OCA\\AdminAudit\\Listener\\CriticalActionPerformedEventListener' => __DIR__ . '/..' . '/../lib/Listener/CriticalActionPerformedEventListener.php',
         'OCA\\AdminAudit\\Listener\\FileEventListener' => __DIR__ . '/..' . '/../lib/Listener/FileEventListener.php',

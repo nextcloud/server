@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\PropFindMonitorPlugin;
@@ -105,7 +106,7 @@ class PropFindMonitorPluginTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTest')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTest')]
 	public function test(array $queries, $expectedLogCalls): void {
 		$this->plugin->initialize($this->server);
 		$this->server->expects($this->once())->method('getPluginQueries')

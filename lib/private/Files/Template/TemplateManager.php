@@ -6,20 +6,24 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Files\Template;
 
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Files\Cache\Scanner;
 use OC\Files\Filesystem;
+use OC\User\NoUserException;
+use OCA\Files\ResponseDefinitions;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\GenericFileException;
+use OCP\Files\IFilenameValidator;
+use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
-use OCP\Files\Node;
 use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\Files\Template\BeforeGetTemplatesEvent;
-use OCP\Files\Template\Field;
 use OCP\Files\Template\FileCreatedFromTemplateEvent;
 use OCP\Files\Template\ICustomTemplateProvider;
 use OCP\Files\Template\ITemplateManager;
@@ -27,64 +31,56 @@ use OCP\Files\Template\RegisterTemplateCreatorEvent;
 use OCP\Files\Template\Template;
 use OCP\Files\Template\TemplateFileCreator;
 use OCP\IConfig;
+use OCP\IL10N;
 use OCP\IPreview;
-use OCP\IServerContainer;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use Override;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
+/**
+ * @psalm-import-type FilesTemplateFile from ResponseDefinitions
+ */
 class TemplateManager implements ITemplateManager {
-	private $registeredTypes = [];
-	private $types = [];
-
-	/** @var array|null */
-	private $providers = null;
-
-	private $serverContainer;
-	private $eventDispatcher;
-	private $rootFolder;
-	private $userManager;
-	private $previewManager;
-	private $config;
-	private $l10n;
-	private $logger;
-	private $userId;
-	private $l10nFactory;
-	/** @var Coordinator */
-	private $bootstrapCoordinator;
+	/** @var list<callable(): TemplateFileCreator> */
+	private array $registeredTypes = [];
+	/** @var list<TemplateFileCreator> */
+	private array $types = [];
+	/** @var array<class-string<ICustomTemplateProvider>, ICustomTemplateProvider>|null */
+	private ?array $providers = null;
+	private IL10n $l10n;
+	private ?string $userId;
 
 	public function __construct(
-		IServerContainer $serverContainer,
-		IEventDispatcher $eventDispatcher,
-		Coordinator $coordinator,
-		IRootFolder $rootFolder,
+		private readonly ContainerInterface $serverContainer,
+		private readonly IEventDispatcher $eventDispatcher,
+		private readonly Coordinator $bootstrapCoordinator,
+		private readonly IRootFolder $rootFolder,
 		IUserSession $userSession,
-		IUserManager $userManager,
-		IPreview $previewManager,
-		IConfig $config,
-		IFactory $l10nFactory,
-		LoggerInterface $logger,
+		private readonly IUserManager $userManager,
+		private readonly IPreview $previewManager,
+		private readonly IConfig $config,
+		private readonly IFactory $l10nFactory,
+		private readonly LoggerInterface $logger,
+		private readonly IFilenameValidator $filenameValidator,
+		private readonly string $serverRoot,
 	) {
-		$this->serverContainer = $serverContainer;
-		$this->eventDispatcher = $eventDispatcher;
-		$this->bootstrapCoordinator = $coordinator;
-		$this->rootFolder = $rootFolder;
-		$this->userManager = $userManager;
-		$this->previewManager = $previewManager;
-		$this->config = $config;
-		$this->l10nFactory = $l10nFactory;
 		$this->l10n = $l10nFactory->get('lib');
-		$this->logger = $logger;
-		$user = $userSession->getUser();
-		$this->userId = $user ? $user->getUID() : null;
+		$this->userId = $userSession->getUser()?->getUID();
+
 	}
 
+	#[Override]
 	public function registerTemplateFileCreator(callable $callback): void {
 		$this->registeredTypes[] = $callback;
 	}
 
-	public function getRegisteredProviders(): array {
+	/**
+	 * @return array<class-string<ICustomTemplateProvider>, ICustomTemplateProvider>
+	 */
+	private function getRegisteredProviders(): array {
 		if ($this->providers !== null) {
 			return $this->providers;
 		}
@@ -99,7 +95,10 @@ class TemplateManager implements ITemplateManager {
 		return $this->providers;
 	}
 
-	public function getTypes(): array {
+	/**
+	 * @return list<TemplateFileCreator>
+	 */
+	private function getTypes(): array {
 		if (!empty($this->types)) {
 			return $this->types;
 		}
@@ -110,6 +109,7 @@ class TemplateManager implements ITemplateManager {
 		return $this->types;
 	}
 
+	#[Override]
 	public function listCreators(): array {
 		$types = $this->getTypes();
 		usort($types, function (TemplateFileCreator $a, TemplateFileCreator $b) {
@@ -118,6 +118,7 @@ class TemplateManager implements ITemplateManager {
 		return $types;
 	}
 
+	#[Override]
 	public function listTemplates(): array {
 		return array_values(array_map(function (TemplateFileCreator $entry) {
 			return array_merge($entry->jsonSerialize(), [
@@ -126,6 +127,7 @@ class TemplateManager implements ITemplateManager {
 		}, $this->listCreators()));
 	}
 
+	#[Override]
 	public function listTemplateFields(int $fileId): array {
 		foreach ($this->listCreators() as $creator) {
 			$fields = $this->getTemplateFields($creator, $fileId);
@@ -139,13 +141,7 @@ class TemplateManager implements ITemplateManager {
 		return [];
 	}
 
-	/**
-	 * @param string $filePath
-	 * @param string $templateId
-	 * @param array $templateFields
-	 * @return array
-	 * @throws GenericFileException
-	 */
+	#[Override]
 	public function createFromTemplate(string $filePath, string $templateId = '', string $templateType = 'user', array $templateFields = []): array {
 		$userFolder = $this->rootFolder->getUserFolder($this->userId);
 		try {
@@ -157,6 +153,7 @@ class TemplateManager implements ITemplateManager {
 			if (!$userFolder->nodeExists(dirname($filePath))) {
 				throw new GenericFileException($this->l10n->t('Invalid path'));
 			}
+			/** @var Folder $folder */
 			$folder = $userFolder->get(dirname($filePath));
 			$template = null;
 			if ($templateType === 'user' && $templateId !== '') {
@@ -171,10 +168,14 @@ class TemplateManager implements ITemplateManager {
 				}
 			}
 
-			$targetFile = $folder->newFile(basename($filePath), ($template instanceof File ? $template->fopen('rb') : null));
+			$filename = basename($filePath);
+			$this->filenameValidator->validateFilename($filename);
+			$targetFile = $folder->newFile($filename, ($template instanceof File ? $template->fopen('rb') : null));
 
 			$this->eventDispatcher->dispatchTyped(new FileCreatedFromTemplateEvent($template, $targetFile, $templateFields));
-			return $this->formatFile($userFolder->get($filePath));
+			/** @var File $file */
+			$file = $userFolder->get($filePath);
+			return $this->formatFile($file);
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			throw new GenericFileException($this->l10n->t('Failed to create file from template'));
@@ -182,10 +183,9 @@ class TemplateManager implements ITemplateManager {
 	}
 
 	/**
-	 * @return Folder
-	 * @throws \OCP\Files\NotFoundException
-	 * @throws \OCP\Files\NotPermittedException
-	 * @throws \OC\User\NoUserException
+	 * @throws NotFoundException
+	 * @throws NotPermittedException
+	 * @throws NoUserException
 	 */
 	private function getTemplateFolder(): Folder {
 		if ($this->getTemplatePath() !== '') {
@@ -219,12 +219,13 @@ class TemplateManager implements ITemplateManager {
 		foreach ($this->getRegisteredProviders() as $provider) {
 			foreach ($type->getMimetypes() as $mimetype) {
 				foreach ($provider->getCustomTemplates($mimetype) as $template) {
-					$templates[] = $template;
+					$templateId = $template->jsonSerialize()['templateId'];
+					$templates[$templateId] = $template;
 				}
 			}
 		}
 
-		return $templates;
+		return array_values($templates);
 	}
 
 	/**
@@ -241,6 +242,9 @@ class TemplateManager implements ITemplateManager {
 
 		foreach ($type->getMimetypes() as $mimetype) {
 			foreach ($userTemplateFolder->searchByMime($mimetype) as $templateFile) {
+				if (!($templateFile instanceof File)) {
+					continue;
+				}
 				$template = new Template(
 					'user',
 					$this->rootFolder->getUserFolder($this->userId)->getRelativePath($templateFile->getPath()),
@@ -263,9 +267,7 @@ class TemplateManager implements ITemplateManager {
 
 		$matchedTemplates = array_filter(
 			array_merge($providerTemplates, $userTemplates),
-			function (Template $template) use ($fileId) {
-				return $template->jsonSerialize()['fileid'] === $fileId;
-			});
+			fn (Template $template): bool => $template->jsonSerialize()['fileid'] === $fileId);
 
 		if (empty($matchedTemplates)) {
 			return [];
@@ -273,22 +275,19 @@ class TemplateManager implements ITemplateManager {
 
 		$this->eventDispatcher->dispatchTyped(new BeforeGetTemplatesEvent($matchedTemplates, true));
 
-		return array_values(array_map(function (Template $template) {
-			return $template->jsonSerialize()['fields'] ?? [];
-		}, $matchedTemplates));
+		return array_values(array_map(static fn (Template $template): array => $template->jsonSerialize()['fields'] ?? [], $matchedTemplates));
 	}
 
 	/**
-	 * @param Node|File $file
-	 * @return array
+	 * @return FilesTemplateFile
 	 * @throws NotFoundException
-	 * @throws \OCP\Files\InvalidPathException
+	 * @throws InvalidPathException
 	 */
-	private function formatFile(Node $file): array {
+	private function formatFile(File $file): array {
 		return [
 			'basename' => $file->getName(),
 			'etag' => $file->getEtag(),
-			'fileid' => $file->getId(),
+			'fileid' => $file->getId() ?? -1,
 			'filename' => $this->rootFolder->getUserFolder($this->userId)->getRelativePath($file->getPath()),
 			'lastmod' => $file->getMTime(),
 			'mime' => $file->getMimetype(),
@@ -299,6 +298,7 @@ class TemplateManager implements ITemplateManager {
 		];
 	}
 
+	#[\Override]
 	public function hasTemplateDirectory(): bool {
 		try {
 			$this->getTemplateFolder();
@@ -308,28 +308,31 @@ class TemplateManager implements ITemplateManager {
 		return false;
 	}
 
+	#[Override]
 	public function setTemplatePath(string $path): void {
 		$this->config->setUserValue($this->userId, 'core', 'templateDirectory', $path);
 	}
 
+	#[Override]
 	public function getTemplatePath(): string {
 		return $this->config->getUserValue($this->userId, 'core', 'templateDirectory', '');
 	}
 
+	#[Override]
 	public function initializeTemplateDirectory(?string $path = null, ?string $userId = null, $copyTemplates = true): string {
 		if ($userId !== null) {
 			$this->userId = $userId;
 		}
 
-		$defaultSkeletonDirectory = \OC::$SERVERROOT . '/core/skeleton';
-		$defaultTemplateDirectory = \OC::$SERVERROOT . '/core/skeleton/Templates';
+		$defaultSkeletonDirectory = $this->serverRoot . '/core/skeleton';
+		$defaultTemplateDirectory = $this->serverRoot . '/core/skeleton/Templates';
 		$skeletonPath = $this->config->getSystemValueString('skeletondirectory', $defaultSkeletonDirectory);
 		$skeletonTemplatePath = $this->config->getSystemValueString('templatedirectory', $defaultTemplateDirectory);
 		$isDefaultSkeleton = $skeletonPath === $defaultSkeletonDirectory;
 		$isDefaultTemplates = $skeletonTemplatePath === $defaultTemplateDirectory;
 		$userLang = $this->l10nFactory->getUserLanguage($this->userManager->get($this->userId));
 
-		if ($skeletonTemplatePath === '') {
+		if ($path === null && $skeletonTemplatePath === '' && $skeletonPath === '') {
 			$this->setTemplatePath('');
 			return '';
 		}
@@ -360,12 +363,7 @@ class TemplateManager implements ITemplateManager {
 				}
 			}
 
-			try {
-				$folder = $userFolder->get($userTemplatePath);
-			} catch (NotFoundException $e) {
-				$folder = $userFolder->get(dirname($userTemplatePath));
-				$folder = $folder->newFolder(basename($userTemplatePath));
-			}
+			$folder = $userFolder->getOrCreateFolder($userTemplatePath);
 
 			$folderIsEmpty = count($folder->getDirectoryListing()) === 0;
 
@@ -377,7 +375,7 @@ class TemplateManager implements ITemplateManager {
 			if (!$isDefaultTemplates && $folderIsEmpty) {
 				$localizedSkeletonTemplatePath = $this->getLocalizedTemplatePath($skeletonTemplatePath, $userLang);
 				if (!empty($localizedSkeletonTemplatePath) && file_exists($localizedSkeletonTemplatePath)) {
-					\OC_Util::copyr($localizedSkeletonTemplatePath, $folder);
+					$this->copyr($localizedSkeletonTemplatePath, $folder);
 					$userFolder->getStorage()->getScanner()->scan($folder->getInternalPath(), Scanner::SCAN_RECURSIVE);
 					$this->setTemplatePath($userTemplatePath);
 					return $userTemplatePath;
@@ -387,7 +385,7 @@ class TemplateManager implements ITemplateManager {
 			if ($path !== null && $isDefaultSkeleton && $isDefaultTemplates && $folderIsEmpty) {
 				$localizedSkeletonPath = $this->getLocalizedTemplatePath($skeletonPath . '/Templates', $userLang);
 				if (!empty($localizedSkeletonPath) && file_exists($localizedSkeletonPath)) {
-					\OC_Util::copyr($localizedSkeletonPath, $folder);
+					$this->copyr($localizedSkeletonPath, $folder);
 					$userFolder->getStorage()->getScanner()->scan($folder->getInternalPath(), Scanner::SCAN_RECURSIVE);
 					$this->setTemplatePath($userTemplatePath);
 					return $userTemplatePath;
@@ -403,7 +401,7 @@ class TemplateManager implements ITemplateManager {
 		return $this->getTemplatePath();
 	}
 
-	private function getLocalizedTemplatePath(string $skeletonTemplatePath, string $userLang) {
+	private function getLocalizedTemplatePath(string $skeletonTemplatePath, string $userLang): string {
 		$localizedSkeletonTemplatePath = str_replace('{lang}', $userLang, $skeletonTemplatePath);
 
 		if (!file_exists($localizedSkeletonTemplatePath)) {
@@ -417,5 +415,81 @@ class TemplateManager implements ITemplateManager {
 		}
 
 		return $localizedSkeletonTemplatePath;
+	}
+
+	/**
+	 * Copies a local directory recursively by using streams
+	 */
+	private function copyr(string $source, Folder $target): void {
+		// Verify if folder exists
+		$dir = opendir($source);
+		if ($dir === false) {
+			$this->logger->error(sprintf('Could not opendir "%s"', $source), ['app' => 'core']);
+			return;
+		}
+
+		// Copy the files
+		while (false !== ($file = readdir($dir))) {
+			if (!Filesystem::isIgnoredDir($file)) {
+				if (is_dir($source . '/' . $file)) {
+					$child = $target->newFolder($file);
+					$this->copyr($source . '/' . $file, $child);
+				} else {
+					$sourceStream = fopen($source . '/' . $file, 'r');
+					if ($sourceStream === false) {
+						$this->logger->error(sprintf('Could not fopen "%s"', $source . '/' . $file), ['app' => 'core']);
+						closedir($dir);
+						return;
+					}
+					$target->newFile($file, $sourceStream);
+				}
+			}
+		}
+		closedir($dir);
+	}
+
+	public function copySkeleton(string $userId): void {
+		$user = $this->userManager->get($userId);
+		if ($user === null) {
+			throw new \LogicException('Trying to initialize home dir for a non-existent user');
+		}
+
+		$userDirectory = $this->rootFolder->getUserFolder($userId);
+
+		$plainSkeletonDirectory = $this->config->getSystemValueString('skeletondirectory', $this->serverRoot . '/core/skeleton');
+		$userLang = $this->l10nFactory->findLanguage();
+		$skeletonDirectory = str_replace('{lang}', $userLang, $plainSkeletonDirectory);
+
+		if (!file_exists($skeletonDirectory)) {
+			$dialectStart = strpos($userLang, '_');
+			if ($dialectStart !== false) {
+				$skeletonDirectory = str_replace('{lang}', substr($userLang, 0, $dialectStart), $plainSkeletonDirectory);
+			}
+			if ($dialectStart === false || !file_exists($skeletonDirectory)) {
+				$skeletonDirectory = str_replace('{lang}', 'default', $plainSkeletonDirectory);
+			}
+			if (!file_exists($skeletonDirectory)) {
+				$skeletonDirectory = '';
+			}
+		}
+
+		$instanceId = $this->config->getSystemValue('instanceid', '');
+
+		if ($instanceId === null) {
+			throw new \RuntimeException('no instance id!');
+		}
+		$appdata = 'appdata_' . $instanceId;
+		if ($userId === $appdata) {
+			throw new \RuntimeException('username is reserved name: ' . $appdata);
+		}
+
+		if (!empty($skeletonDirectory)) {
+			$this->logger->debug('copying skeleton for ' . $userId . ' from ' . $skeletonDirectory . ' to ' . $userDirectory->getFullPath('/'), ['app' => 'files_skeleton']);
+			$this->copyr($skeletonDirectory, $userDirectory);
+			// update the file cache
+			$userDirectory->getStorage()->getScanner()->scan('', Scanner::SCAN_RECURSIVE);
+
+			$this->initializeTemplateDirectory(null, $userId);
+		}
 	}
 }

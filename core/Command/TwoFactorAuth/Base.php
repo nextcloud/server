@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Command\TwoFactorAuth;
 
 use OCP\IUser;
@@ -25,6 +26,7 @@ class Base extends \OC\Core\Command\Base {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
+	#[\Override]
 	public function completeOptionValues($optionName, CompletionContext $context) {
 		return [];
 	}
@@ -36,11 +38,12 @@ class Base extends \OC\Core\Command\Base {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
+	#[\Override]
 	public function completeArgumentValues($argumentName, CompletionContext $context) {
 		if ($argumentName === 'uid') {
 			return array_map(function (IUser $user) {
 				return $user->getUID();
-			}, $this->userManager->search($context->getCurrentWord(), 100));
+			}, $this->userManager->searchDisplayName($context->getCurrentWord(), 100));
 		}
 		return [];
 	}

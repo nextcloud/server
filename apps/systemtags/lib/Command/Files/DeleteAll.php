@@ -25,23 +25,26 @@ class DeleteAll extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this->setName('tag:files:delete-all')
 			->setDescription('Delete all system-tags from a file or folder')
 			->addArgument('target', InputArgument::REQUIRED, 'file id or path');
 	}
 
+	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$targetInput = $input->getArgument('target');
 		$targetNode = $this->fileUtils->getNode($targetInput);
 
-		if (! $targetNode) {
+		if (!$targetNode) {
 			$output->writeln("<error>file $targetInput not found</error>");
 			return 1;
 		}
 
-		$tags = $this->systemTagObjectMapper->getTagIdsForObjects([$targetNode->getId()], 'files');
-		$this->systemTagObjectMapper->unassignTags((string)$targetNode->getId(), 'files', $tags[$targetNode->getId()]);
+		$targetNodeId = (string)$targetNode->getId();
+		$tags = $this->systemTagObjectMapper->getTagIdsForObjects([$targetNodeId], 'files');
+		$this->systemTagObjectMapper->unassignTags($targetNodeId, 'files', $tags[$targetNodeId]);
 		$output->writeln('<info>all tags removed.</info>');
 
 		return 0;

@@ -26,8 +26,10 @@ use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
+use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\ISession;
+use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -42,6 +44,8 @@ class WebhooksController extends OCSController {
 		private WebhookListenerMapper $mapper,
 		private ?string $userId,
 		private ISession $session,
+		private IUserSession $userSession,
+		private IGroupManager $groupManager,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -112,6 +116,11 @@ class WebhooksController extends OCSController {
 	 * @param ?array<string,string> $headers Array of headers to send
 	 * @param "none"|"header"|null $authMethod Authentication method to use
 	 * @param ?array<string,mixed> $authData Array of data for authentication
+	 * @param ?array{user_ids?:list<string>,user_roles?:list<string>} $tokenNeeded
+	 *                                                                             List of user ids for which to include auth tokens in the event.
+	 *                                                                             Has two fields: "user_ids" list of user uids for which tokens are needed, "user_roles" list of roles (users not defined by their ID but by the role they have in the webhook event) for which tokens can be included.
+	 *                                                                             Possible roles: "owner" for the user creating the webhook, "trigger" for the user triggering the webhook call.
+	 *                                                                             Requested auth tokens are valid for 1 hour after receiving them in the event call request.
 	 *
 	 * @return DataResponse<Http::STATUS_OK, WebhookListenersWebhookInfo, array{}>
 	 *
@@ -134,6 +143,7 @@ class WebhooksController extends OCSController {
 		?string $authMethod,
 		#[\SensitiveParameter]
 		?array $authData,
+		?array $tokenNeeded = null,
 	): DataResponse {
 		$appId = null;
 		if ($this->session->get('app_api') === true) {
@@ -144,6 +154,12 @@ class WebhooksController extends OCSController {
 		} catch (\ValueError $e) {
 			throw new OCSBadRequestException('This auth method does not exist');
 		}
+
+		$user = $this->userSession->getUser();
+		if (!$user || !$this->groupManager->isAdmin($user->getUID())) {
+			$tokenNeeded = null;
+		}
+
 		try {
 			$webhookListener = $this->mapper->addWebhookListener(
 				$appId,
@@ -156,6 +172,7 @@ class WebhooksController extends OCSController {
 				$headers,
 				$authMethod,
 				$authData,
+				$tokenNeeded,
 			);
 			return new DataResponse($webhookListener->jsonSerialize());
 		} catch (\UnexpectedValueException $e) {
@@ -180,6 +197,11 @@ class WebhooksController extends OCSController {
 	 * @param ?array<string,string> $headers Array of headers to send
 	 * @param "none"|"header"|null $authMethod Authentication method to use
 	 * @param ?array<string,mixed> $authData Array of data for authentication
+	 * @param ?array{user_ids?:list<string>,user_roles?:list<string>} $tokenNeeded
+	 *                                                                             List of user ids for which to include auth tokens in the event.
+	 *                                                                             Has two fields: "user_ids" list of user uids for which tokens are needed, "user_roles" list of roles (users not defined by their ID but by the role they have in the webhook event) for which tokens can be included.
+	 *                                                                             Possible roles: "owner" for the user creating the webhook, "trigger" for the user triggering the webhook call.
+	 *                                                                             Requested auth tokens are valid for 1 hour after receiving them in the event call request.
 	 *
 	 * @return DataResponse<Http::STATUS_OK, WebhookListenersWebhookInfo, array{}>
 	 *
@@ -203,6 +225,7 @@ class WebhooksController extends OCSController {
 		?string $authMethod,
 		#[\SensitiveParameter]
 		?array $authData,
+		?array $tokenNeeded = null,
 	): DataResponse {
 		$appId = null;
 		if ($this->session->get('app_api') === true) {
@@ -226,6 +249,7 @@ class WebhooksController extends OCSController {
 				$headers,
 				$authMethod,
 				$authData,
+				$tokenNeeded,
 			);
 			return new DataResponse($webhookListener->jsonSerialize());
 		} catch (\UnexpectedValueException $e) {

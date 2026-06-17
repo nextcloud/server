@@ -19,10 +19,10 @@ use Doctrine\DBAL\Types\Types;
  * custom OCPostgreSqlPlatform behavior has been upstreamed, test is left to
  * ensure behavior stays correct.
  *
- * @group DB
  *
  * @package Test\DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class OCPostgreSqlPlatformTest extends \Test\TestCase {
 	public function testAlterBigint(): void {
 		$platform = new PostgreSQLPlatform();

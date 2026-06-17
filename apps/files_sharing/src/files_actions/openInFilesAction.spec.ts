@@ -1,37 +1,49 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { File, Permission, View, DefaultType, FileAction } from '@nextcloud/files'
-import { describe, expect, test, vi } from 'vitest'
-import { deletedSharesViewId, pendingSharesViewId, sharedWithOthersViewId, sharedWithYouViewId, sharesViewId, sharingByLinksViewId } from '../files_views/shares'
-import { action } from './openInFilesAction'
 
-import '../main'
+import type { IFolder, IView } from '@nextcloud/files'
+
+import { DefaultType, File, Permission } from '@nextcloud/files'
+import { describe, expect, test, vi } from 'vitest'
+import { deletedSharesViewId, pendingSharesViewId, sharedWithOthersViewId, sharedWithYouViewId, sharesViewId, sharingByLinksViewId } from '../files_views/shares.ts'
+import { action } from './openInFilesAction.ts'
+
+import '../main.ts'
 
 const view = {
 	id: 'files',
 	name: 'Files',
-} as View
+} as IView
 
 const validViews = [
 	sharesViewId,
 	sharedWithYouViewId,
 	sharedWithOthersViewId,
 	sharingByLinksViewId,
-].map(id => ({ id, name: id })) as View[]
+].map((id) => ({ id, name: id })) as IView[]
 
 const invalidViews = [
 	deletedSharesViewId,
 	pendingSharesViewId,
-].map(id => ({ id, name: id })) as View[]
+].map((id) => ({ id, name: id })) as IView[]
 
 describe('Open in files action conditions tests', () => {
 	test('Default values', () => {
-		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('files_sharing:open-in-files')
-		expect(action.displayName([], validViews[0])).toBe('Open in Files')
-		expect(action.iconSvgInline([], validViews[0])).toBe('')
+		expect(action.displayName({
+			nodes: [],
+			view: validViews[0]!,
+			folder: {} as IFolder,
+			contents: [],
+		})).toBe('Open in Files')
+		expect(action.iconSvgInline({
+			nodes: [],
+			view: validViews[0]!,
+			folder: {} as IFolder,
+			contents: [],
+		})).toBe('')
 		expect(action.default).toBe(DefaultType.HIDDEN)
 		expect(action.order).toBe(-1000)
 		expect(action.inline).toBeUndefined()
@@ -40,16 +52,26 @@ describe('Open in files action conditions tests', () => {
 
 describe('Open in files action enabled tests', () => {
 	test('Enabled with on valid view', () => {
-		validViews.forEach(view => {
+		validViews.forEach((view) => {
 			expect(action.enabled).toBeDefined()
-			expect(action.enabled!([], view)).toBe(true)
+			expect(action.enabled!({
+				nodes: [],
+				view,
+				folder: {} as IFolder,
+				contents: [],
+			})).toBe(true)
 		})
 	})
 
 	test('Disabled on wrong view', () => {
-		invalidViews.forEach(view => {
+		invalidViews.forEach((view) => {
 			expect(action.enabled).toBeDefined()
-			expect(action.enabled!([], view)).toBe(false)
+			expect(action.enabled!({
+				nodes: [],
+				view,
+				folder: {} as IFolder,
+				contents: [],
+			})).toBe(false)
 		})
 	})
 })
@@ -57,7 +79,7 @@ describe('Open in files action enabled tests', () => {
 describe('Open in files action execute tests', () => {
 	test('Open in files', async () => {
 		const goToRouteMock = vi.fn()
-		// @ts-expect-error We only mock what needed, we do not need Files.Router.goTo or Files.Navigation
+		// @ts-expect-error -- mocking for tests
 		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
 
 		const file = new File({
@@ -69,7 +91,12 @@ describe('Open in files action execute tests', () => {
 			permissions: Permission.READ,
 		})
 
-		const exec = await action.exec(file, view, '/')
+		const exec = await action.exec({
+			nodes: [file],
+			view,
+			folder: {} as IFolder,
+			contents: [],
+		})
 		// Silent action
 		expect(exec).toBe(null)
 		expect(goToRouteMock).toBeCalledTimes(1)

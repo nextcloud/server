@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\UpdateNotification\Tests\Settings;
 
 use OCA\UpdateNotification\AppInfo\Application;
@@ -368,7 +369,6 @@ class AdminTest extends TestCase {
 		$this->assertEquals($expected, $this->admin->getForm());
 	}
 
-
 	public function testGetSection(): void {
 		$this->config
 			->expects(self::atLeastOnce())
@@ -448,7 +448,7 @@ class AdminTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('changesProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'changesProvider')]
 	public function testFilterChanges($changes, $userLang, $expectation): void {
 		$iterator = $this->createMock(ILanguageIterator::class);
 		$iterator->expects($this->any())

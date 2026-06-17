@@ -12,12 +12,13 @@ OC.L10N.register(
     "Files" : "Фајлови",
     "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "Поменути сте за „{file}”, у коментару налога који је касније обрисан",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} вас је поменуо у коментару за „{file}",
+    "Go to file" : "Иди на фајл",
     "Files app plugin to add comments to files" : "Додатак апликацији за фајлове да додајете коментаре на фајлове",
     "Edit comment" : "Измени коментар",
     "Delete comment" : "Обриши коментар",
     "Cancel edit" : "Поништи измену",
     "New comment" : "Нови коментар",
-    "Write a comment …" : "Напишите коментар…",
+    "Write a comment …" : "Напишите коментар …",
     "Post comment" : "Објави коментар",
     "@ for mentions, : for emoji, / for smart picker" : "@ за помињања, : за емођи, / за паметни бирач",
     "Could not reload comments" : "Коментари не могу поново да се учитају",
@@ -31,6 +32,7 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Грешка приликом покушаја мењања коментара",
     "Comment deleted" : "Коментар обрисан",
     "An error occurred while trying to delete the comment" : "Грешка приликом покушаја брисања коментара",
-    "An error occurred while trying to create the comment" : "Грешка приликом покушаја креирања коментара"
+    "An error occurred while trying to create the comment" : "Грешка приликом покушаја креирања коментара",
+    "Write a comment …" : "Напишите коментар…"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

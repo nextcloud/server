@@ -37,6 +37,7 @@ class UrlGeneratorTest extends \Test\TestCase {
 	/** @var string */
 	private $originalWebRoot;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->config = $this->createMock(IConfig::class);
@@ -54,6 +55,7 @@ class UrlGeneratorTest extends \Test\TestCase {
 		$this->originalWebRoot = \OC::$WEBROOT;
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		// Reset webRoot
 		\OC::$WEBROOT = $this->originalWebRoot;
@@ -69,7 +71,6 @@ class UrlGeneratorTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @small
 	 * test linkTo URL construction
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('provideDocRootAppUrlParts')]
@@ -80,7 +81,6 @@ class UrlGeneratorTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @small
 	 * test linkTo URL construction in sub directory
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('provideSubDirAppUrlParts')]
@@ -116,22 +116,21 @@ class UrlGeneratorTest extends \Test\TestCase {
 
 	public static function provideDocRootAppUrlParts(): array {
 		return [
-			['user_ldap', 'ajax/wizard.php', [], '/index.php/apps/user_ldap/ajax/wizard.php'],
-			['user_ldap', 'ajax/wizard.php', ['trut' => 'trat', 'dut' => 'dat'], '/index.php/apps/user_ldap/ajax/wizard.php?trut=trat&dut=dat'],
+			['testing', 'ajax/endpoint.php', [], '/index.php/apps/testing/ajax/endpoint.php'],
+			['testing', 'ajax/endpoint.php', ['trut' => 'trat', 'dut' => 'dat'], '/index.php/apps/testing/ajax/endpoint.php?trut=trat&dut=dat'],
 			['', 'index.php', ['trut' => 'trat', 'dut' => 'dat'], '/index.php?trut=trat&dut=dat'],
 		];
 	}
 
 	public static function provideSubDirAppUrlParts(): array {
 		return [
-			['user_ldap', 'ajax/wizard.php', [], '/nextcloud/index.php/apps/user_ldap/ajax/wizard.php'],
-			['user_ldap', 'ajax/wizard.php', ['trut' => 'trat', 'dut' => 'dat'], '/nextcloud/index.php/apps/user_ldap/ajax/wizard.php?trut=trat&dut=dat'],
+			['testing', 'ajax/endpoint.php', [], '/nextcloud/index.php/apps/testing/ajax/endpoint.php'],
+			['testing', 'ajax/endpoint.php', ['trut' => 'trat', 'dut' => 'dat'], '/nextcloud/index.php/apps/testing/ajax/endpoint.php?trut=trat&dut=dat'],
 			['', 'index.php', ['trut' => 'trat', 'dut' => 'dat'], '/nextcloud/index.php?trut=trat&dut=dat'],
 		];
 	}
 
 	/**
-	 * @small
 	 * test absolute URL construction
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('provideDocRootURLs')]
@@ -143,7 +142,6 @@ class UrlGeneratorTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @small
 	 * test absolute URL construction
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('provideSubDirURLs')]

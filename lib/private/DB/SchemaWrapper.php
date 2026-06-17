@@ -4,26 +4,28 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\DB;
 
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Schema\Schema;
 use OCP\DB\ISchemaWrapper;
+use OCP\Server;
+use Psr\Log\LoggerInterface;
 
 class SchemaWrapper implements ISchemaWrapper {
-	/** @var Connection */
-	protected $connection;
+	protected Schema $schema;
 
-	/** @var Schema */
-	protected $schema;
+	/** @var array<string, true> */
+	protected array $tablesToDelete = [];
 
-	/** @var array */
-	protected $tablesToDelete = [];
-
-	public function __construct(Connection $connection, ?Schema $schema = null) {
-		$this->connection = $connection;
-		if ($schema) {
+	public function __construct(
+		protected Connection $connection,
+		?Schema $schema = null,
+	) {
+		if ($schema !== null) {
 			$this->schema = $schema;
 		} else {
 			$this->schema = $this->connection->createSchema();
@@ -34,7 +36,7 @@ class SchemaWrapper implements ISchemaWrapper {
 		return $this->schema;
 	}
 
-	public function performDropTableCalls() {
+	public function performDropTableCalls(): void {
 		foreach ($this->tablesToDelete as $tableName => $true) {
 			$this->connection->dropTable($tableName);
 			foreach ($this->connection->getShardConnections() as $shardConnection) {
@@ -49,6 +51,7 @@ class SchemaWrapper implements ISchemaWrapper {
 	 *
 	 * @return array
 	 */
+	#[\Override]
 	public function getTableNamesWithoutPrefix() {
 		$tableNames = $this->schema->getTableNames();
 		return array_map(function ($tableName) {
@@ -65,6 +68,7 @@ class SchemaWrapper implements ISchemaWrapper {
 	/**
 	 * @return array
 	 */
+	#[\Override]
 	public function getTableNames() {
 		return $this->schema->getTableNames();
 	}
@@ -75,6 +79,7 @@ class SchemaWrapper implements ISchemaWrapper {
 	 * @return \Doctrine\DBAL\Schema\Table
 	 * @throws \Doctrine\DBAL\Schema\SchemaException
 	 */
+	#[\Override]
 	public function getTable($tableName) {
 		return $this->schema->getTable($this->connection->getPrefix() . $tableName);
 	}
@@ -86,6 +91,7 @@ class SchemaWrapper implements ISchemaWrapper {
 	 *
 	 * @return boolean
 	 */
+	#[\Override]
 	public function hasTable($tableName) {
 		return $this->schema->hasTable($this->connection->getPrefix() . $tableName);
 	}
@@ -96,6 +102,7 @@ class SchemaWrapper implements ISchemaWrapper {
 	 * @param string $tableName
 	 * @return \Doctrine\DBAL\Schema\Table
 	 */
+	#[\Override]
 	public function createTable($tableName) {
 		unset($this->tablesToDelete[$tableName]);
 		return $this->schema->createTable($this->connection->getPrefix() . $tableName);
@@ -107,6 +114,7 @@ class SchemaWrapper implements ISchemaWrapper {
 	 * @param string $tableName
 	 * @return \Doctrine\DBAL\Schema\Schema
 	 */
+	#[\Override]
 	public function dropTable($tableName) {
 		$this->tablesToDelete[$tableName] = true;
 		return $this->schema->dropTable($this->connection->getPrefix() . $tableName);
@@ -117,6 +125,7 @@ class SchemaWrapper implements ISchemaWrapper {
 	 *
 	 * @return \Doctrine\DBAL\Schema\Table[]
 	 */
+	#[\Override]
 	public function getTables() {
 		return $this->schema->getTables();
 	}
@@ -128,7 +137,23 @@ class SchemaWrapper implements ISchemaWrapper {
 	 *
 	 * @throws Exception
 	 */
+	#[\Override]
 	public function getDatabasePlatform() {
 		return $this->connection->getDatabasePlatform();
+	}
+
+	#[\Override]
+	public function dropAutoincrementColumn(string $table, string $column): void {
+		$tableObj = $this->schema->getTable($this->connection->getPrefix() . $table);
+		$tableObj->modifyColumn($column, ['autoincrement' => false]);
+		$platform = $this->getDatabasePlatform();
+		if ($platform instanceof OraclePlatform) {
+			try {
+				$this->connection->executeStatement('DROP TRIGGER "' . $this->connection->getPrefix() . $table . '_AI_PK"');
+				$this->connection->executeStatement('DROP SEQUENCE "' . $this->connection->getPrefix() . $table . '_SEQ"');
+			} catch (Exception $e) {
+				Server::get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
+			}
+		}
 	}
 }

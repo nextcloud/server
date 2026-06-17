@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Sharing\Middleware;
 
 use OCA\Files_Sharing\Controller\ShareInfoController;
@@ -26,6 +29,7 @@ class ShareInfoMiddleware extends Middleware {
 	 * @param string $methodName
 	 * @throws S2SException
 	 */
+	#[\Override]
 	public function beforeController($controller, $methodName) {
 		if (!($controller instanceof ShareInfoController)) {
 			return;
@@ -43,6 +47,7 @@ class ShareInfoMiddleware extends Middleware {
 	 * @throws \Exception
 	 * @return Response
 	 */
+	#[\Override]
 	public function afterException($controller, $methodName, \Exception $exception) {
 		if (!($controller instanceof ShareInfoController)) {
 			throw $exception;
@@ -61,6 +66,7 @@ class ShareInfoMiddleware extends Middleware {
 	 * @param Response $response
 	 * @return Response
 	 */
+	#[\Override]
 	public function afterController($controller, $methodName, Response $response) {
 		if (!($controller instanceof ShareInfoController)) {
 			return $response;

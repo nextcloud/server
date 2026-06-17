@@ -2,13 +2,14 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { INavigationEntry } from '../../../core/src/types/navigation'
 
+import type { INavigationEntry } from '../../../core/src/types/navigation.ts'
+
+import axios from '@nextcloud/axios'
 import { subscribe } from '@nextcloud/event-bus'
 import { loadState } from '@nextcloud/initial-state'
 import { generateOcsUrl } from '@nextcloud/router'
 import Vue, { defineAsyncComponent } from 'vue'
-import axios from '@nextcloud/axios'
 
 const navigationEntries = loadState<INavigationEntry[]>('core', 'apps', [])
 
@@ -62,8 +63,8 @@ interface INotificationActionEvent {
 	}>
 	action: Readonly<{
 		url: string
-		type: 'WEB'|'GET'|'POST'|'DELETE'
-	}>,
+		type: 'WEB' | 'GET' | 'POST' | 'DELETE'
+	}>
 }
 
 subscribe('notifications:action:execute', (event: INotificationActionEvent) => {
@@ -72,7 +73,7 @@ subscribe('notifications:action:execute', (event: INotificationActionEvent) => {
 
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const [_, app, version, __] = event.action.url.match(/(?<=\/)([^?]+)?version=((\d+.?)+)/) ?? []
-		showDialog((app as string|undefined) || (event.notification.objectId as string), version)
+		showDialog((app as string | undefined) || (event.notification.objectId as string), version)
 			.then((dismissed) => {
 				if (dismissed) {
 					axios.delete(generateOcsUrl('apps/notifications/api/v2/notifications/{id}', { id: event.notification.notificationId }))

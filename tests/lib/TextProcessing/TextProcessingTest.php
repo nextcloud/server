@@ -22,7 +22,6 @@ use OCP\BackgroundJob\IJobList;
 use OCP\Common\Exception\NotFoundException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
-use OCP\IServerContainer;
 use OCP\PreConditionNotMetException;
 use OCP\Server;
 use OCP\TextProcessing\Events\TaskFailedEvent;
@@ -34,21 +33,25 @@ use OCP\TextProcessing\SummaryTaskType;
 use OCP\TextProcessing\Task;
 use OCP\TextProcessing\TopicsTaskType;
 use PHPUnit\Framework\Constraint\IsInstanceOf;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Test\BackgroundJob\DummyJobList;
 
 class SuccessfulSummaryProvider implements IProvider {
 	public bool $ran = false;
 
+	#[\Override]
 	public function getName(): string {
 		return 'TEST Vanilla LLM Provider';
 	}
 
+	#[\Override]
 	public function process(string $prompt): string {
 		$this->ran = true;
 		return $prompt . ' Summarize';
 	}
 
+	#[\Override]
 	public function getTaskType(): string {
 		return SummaryTaskType::class;
 	}
@@ -57,15 +60,18 @@ class SuccessfulSummaryProvider implements IProvider {
 class FailingSummaryProvider implements IProvider {
 	public bool $ran = false;
 
+	#[\Override]
 	public function getName(): string {
 		return 'TEST Vanilla LLM Provider';
 	}
 
+	#[\Override]
 	public function process(string $prompt): string {
 		$this->ran = true;
 		throw new \Exception('ERROR');
 	}
 
+	#[\Override]
 	public function getTaskType(): string {
 		return SummaryTaskType::class;
 	}
@@ -74,28 +80,29 @@ class FailingSummaryProvider implements IProvider {
 class FreePromptProvider implements IProvider {
 	public bool $ran = false;
 
+	#[\Override]
 	public function getName(): string {
 		return 'TEST Free Prompt Provider';
 	}
 
+	#[\Override]
 	public function process(string $prompt): string {
 		$this->ran = true;
 		return $prompt . ' Free Prompt';
 	}
 
+	#[\Override]
 	public function getTaskType(): string {
 		return FreePromptTaskType::class;
 	}
 }
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class TextProcessingTest extends \Test\TestCase {
 	private IManager $manager;
 	private Coordinator $coordinator;
 	private array $providers;
-	private IServerContainer $serverContainer;
+	private ContainerInterface $serverContainer;
 	private IEventDispatcher $eventDispatcher;
 	private RegistrationContext $registrationContext;
 	private \DateTimeImmutable $currentTime;
@@ -103,6 +110,7 @@ class TextProcessingTest extends \Test\TestCase {
 	private array $tasksDb;
 	private IJobList $jobList;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -112,7 +120,7 @@ class TextProcessingTest extends \Test\TestCase {
 			FreePromptProvider::class => new FreePromptProvider(),
 		];
 
-		$this->serverContainer = $this->createMock(IServerContainer::class);
+		$this->serverContainer = $this->createMock(ContainerInterface::class);
 		$this->serverContainer->expects($this->any())->method('get')->willReturnCallback(function ($class) {
 			return $this->providers[$class];
 		});

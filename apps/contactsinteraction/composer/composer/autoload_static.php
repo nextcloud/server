@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitContactsInteraction
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\ContactsInteraction\\' => 24,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\ContactsInteraction\\' => 
+        'OCA\\ContactsInteraction\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),

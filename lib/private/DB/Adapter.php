@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\DB;
 
 use Doctrine\DBAL\Exception;
@@ -16,13 +17,9 @@ use OC\DB\Exceptions\DbalException;
  * handled by the database abstraction layer.
  */
 class Adapter {
-	/**
-	 * @var \OC\DB\Connection $conn
-	 */
-	protected $conn;
-
-	public function __construct($conn) {
-		$this->conn = $conn;
+	public function __construct(
+		protected readonly Connection $conn,
+	) {
 	}
 
 	/**

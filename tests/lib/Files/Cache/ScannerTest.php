@@ -22,15 +22,16 @@ use Test\TestCase;
 /**
  * Class ScannerTest
  *
- * @group DB
  *
  * @package Test\Files\Cache
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ScannerTest extends TestCase {
 	private Storage $storage;
 	private Scanner $scanner;
 	private Cache $cache;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -39,6 +40,7 @@ class ScannerTest extends TestCase {
 		$this->cache = new Cache($this->storage);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$this->cache->clear();
 

@@ -8,7 +8,7 @@ use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use GuzzleHttp\Client;
 
-require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/autoload.php';
 
 class FilesDropContext implements Context, SnippetAcceptingContext {
 	use WebDav;
@@ -45,14 +45,12 @@ class FilesDropContext implements Context, SnippetAcceptingContext {
 		}
 	}
 
-
 	/**
 	 * @When Dropping file :path with :content as :nickName
 	 */
 	public function droppingFileWithAs($path, $content, $nickname) {
 		$this->droppingFileWith($path, $content, $nickname);
 	}
-
 
 	/**
 	 * @When Creating folder :folder in drop
@@ -83,7 +81,6 @@ class FilesDropContext implements Context, SnippetAcceptingContext {
 			$this->response = $e->getResponse();
 		}
 	}
-
 
 	/**
 	 * @When Creating folder :folder in drop as :nickName

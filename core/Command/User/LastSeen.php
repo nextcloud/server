@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Command\User;
 
 use OC\Core\Command\Base;
@@ -23,6 +24,7 @@ class LastSeen extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('user:lastseen')
@@ -38,9 +40,16 @@ class LastSeen extends Base {
 				InputOption::VALUE_NONE,
 				'shows a list of when all users were last logged in'
 			)
+			->addOption(
+				'exclude-disabled',
+				null,
+				InputOption::VALUE_NONE,
+				'exclude disabled users from the list (only works with --all)'
+			)
 		;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$singleUserId = $input->getArgument('uid');
 
@@ -68,7 +77,11 @@ class LastSeen extends Base {
 			return 1;
 		}
 
-		$this->userManager->callForAllUsers(static function (IUser $user) use ($output): void {
+		$excludeDisabled = $input->getOption('exclude-disabled');
+		$this->userManager->callForAllUsers(static function (IUser $user) use ($output, $excludeDisabled): void {
+			if ($excludeDisabled && !$user->isEnabled()) {
+				return;
+			}
 			$lastLogin = $user->getLastLogin();
 			if ($lastLogin === 0) {
 				$output->writeln($user->getUID() . ' has never logged in.');
@@ -86,9 +99,10 @@ class LastSeen extends Base {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
+	#[\Override]
 	public function completeArgumentValues($argumentName, CompletionContext $context) {
 		if ($argumentName === 'uid') {
-			return array_map(static fn (IUser $user) => $user->getUID(), $this->userManager->search($context->getCurrentWord()));
+			return array_map(static fn (IUser $user) => $user->getUID(), $this->userManager->searchDisplayName($context->getCurrentWord()));
 		}
 		return [];
 	}

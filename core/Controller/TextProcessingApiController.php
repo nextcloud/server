@@ -7,7 +7,6 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-
 namespace OC\Core\Controller;
 
 use InvalidArgumentException;
@@ -97,11 +96,14 @@ class TextProcessingApiController extends OCSController {
 	 * 400: Scheduling task is not possible
 	 * 412: Scheduling task is not possible
 	 */
-	#[PublicPage]
+	#[NoAdminRequired]
 	#[UserRateLimit(limit: 20, period: 120)]
 	#[AnonRateLimit(limit: 5, period: 120)]
 	#[ApiRoute(verb: 'POST', url: '/schedule', root: '/textprocessing')]
 	public function schedule(string $input, string $type, string $appId, string $identifier = ''): DataResponse {
+		if (strlen($input) > 64_000) {
+			return new DataResponse(['message' => $this->l->t('Input text is too long')], Http::STATUS_BAD_REQUEST);
+		}
 		try {
 			$task = new Task($type, $input, $appId, $this->userId, $identifier);
 		} catch (InvalidArgumentException) {
@@ -137,7 +139,7 @@ class TextProcessingApiController extends OCSController {
 	 * 200: Task returned
 	 * 404: Task not found
 	 */
-	#[PublicPage]
+	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/task/{id}', root: '/textprocessing')]
 	public function getTask(int $id): DataResponse {
 		try {
@@ -184,7 +186,6 @@ class TextProcessingApiController extends OCSController {
 			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
-
 
 	/**
 	 * This endpoint returns a list of tasks of a user that are related

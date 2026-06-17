@@ -5,9 +5,11 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Listener;
 
 use OCA\DAV\AppInfo\Application;
+use OCA\DAV\ConfigLexicon;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\IAppConfig;
@@ -22,6 +24,7 @@ class DavAdminSettingsListener implements IEventListener {
 	) {
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 
 		/** @var DeclarativeSettingsGetValueEvent|DeclarativeSettingsSetValueEvent $event */
@@ -46,20 +49,16 @@ class DavAdminSettingsListener implements IEventListener {
 	}
 
 	private function handleGetValue(DeclarativeSettingsGetValueEvent $event): void {
-
 		if ($event->getFieldId() === 'system_addressbook_enabled') {
-			$event->setValue((int)$this->config->getValueBool('dav', 'system_addressbook_exposed', true));
+			$event->setValue((int)$this->config->getValueBool(Application::APP_ID, ConfigLexicon::SYSTEM_ADDRESSBOOK_EXPOSED));
 		}
-
 	}
 
 	private function handleSetValue(DeclarativeSettingsSetValueEvent $event): void {
-
 		if ($event->getFieldId() === 'system_addressbook_enabled') {
-			$this->config->setValueBool('dav', 'system_addressbook_exposed', (bool)$event->getValue());
+			$this->config->setValueBool(Application::APP_ID, ConfigLexicon::SYSTEM_ADDRESSBOOK_EXPOSED, (bool)$event->getValue());
 			$event->stopPropagation();
 		}
-
 	}
 
 }

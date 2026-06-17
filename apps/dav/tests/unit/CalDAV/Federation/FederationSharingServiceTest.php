@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\DAV\Tests\unit\CalDAV\Federation;
 
 use OCA\DAV\CalDAV\Calendar;
+use OCA\DAV\CalDAV\Federation\CalendarFederationConfig;
 use OCA\DAV\CalDAV\Federation\FederationSharingService;
 use OCA\DAV\DAV\Sharing\IShareable;
 use OCA\DAV\DAV\Sharing\SharingMapper;
@@ -38,6 +39,7 @@ class FederationSharingServiceTest extends TestCase {
 	private readonly LoggerInterface&MockObject $logger;
 	private readonly ISecureRandom&MockObject $random;
 	private readonly SharingMapper&MockObject $sharingMapper;
+	private readonly CalendarFederationConfig&MockObject $config;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -49,6 +51,7 @@ class FederationSharingServiceTest extends TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->random = $this->createMock(ISecureRandom::class);
 		$this->sharingMapper = $this->createMock(SharingMapper::class);
+		$this->config = $this->createMock(CalendarFederationConfig::class);
 
 		$this->federationSharingService = new FederationSharingService(
 			$this->federationManager,
@@ -58,6 +61,7 @@ class FederationSharingServiceTest extends TestCase {
 			$this->logger,
 			$this->random,
 			$this->sharingMapper,
+			$this->config,
 		);
 	}
 
@@ -82,6 +86,10 @@ class FederationSharingServiceTest extends TestCase {
 					]),
 				]
 			});
+
+		$this->config->expects(self::once())
+			->method('isOutgoingServer2serverShareEnabled')
+			->willReturn(true);
 
 		$hostUser = $this->createMock(IUser::class);
 		$hostUser->method('getCloudId')
@@ -195,6 +203,10 @@ class FederationSharingServiceTest extends TestCase {
 				]
 			});
 
+		$this->config->expects(self::once())
+			->method('isOutgoingServer2serverShareEnabled')
+			->willReturn(true);
+
 		$hostUser = $this->createMock(IUser::class);
 		$hostUser->method('getCloudId')
 			->willReturn('host1@nextcloud.host');
@@ -299,6 +311,10 @@ class FederationSharingServiceTest extends TestCase {
 				]
 			});
 
+		$this->config->expects(self::once())
+			->method('isOutgoingServer2serverShareEnabled')
+			->willReturn(true);
+
 		$hostUser = $this->createMock(IUser::class);
 		$hostUser->method('getCloudId')
 			->willReturn('host1@nextcloud.host');
@@ -381,6 +397,34 @@ class FederationSharingServiceTest extends TestCase {
 		);
 	}
 
+	public function testShareWithWithOutgoingServer2serverShareDisabled(): void {
+		$shareable = $this->createMock(Calendar::class);
+		$shareable->method('getOwner')
+			->willReturn('principals/users/host1');
+		$shareable->method('getName')
+			->willReturn('cal1');
+
+		$this->config->expects(self::once())
+			->method('isOutgoingServer2serverShareEnabled')
+			->willReturn(false);
+
+		$this->userManager->expects(self::never())
+			->method('get');
+
+		$this->federationManager->expects(self::never())
+			->method('sendCloudShare');
+		$this->sharingMapper->expects(self::never())
+			->method('deleteShare');
+		$this->sharingMapper->expects(self::never())
+			->method('shareWithToken');
+
+		$this->federationSharingService->shareWith(
+			$shareable,
+			'principals/remote-users/cmVtb3RlMUBuZXh0Y2xvdWQucmVtb3Rl',
+			3, // Read-only
+		);
+	}
+
 	public static function provideInvalidRemoteUserPrincipalData(): array {
 		return [
 			['principals/users/foobar'],
@@ -390,7 +434,7 @@ class FederationSharingServiceTest extends TestCase {
 		];
 	}
 
-	#[DataProvider('provideInvalidRemoteUserPrincipalData')]
+	#[DataProvider(methodName: 'provideInvalidRemoteUserPrincipalData')]
 	public function testShareWithWithInvalidRemoteUserPrincipal(string $remoteUserPrincipal): void {
 		$shareable = $this->createMock(Calendar::class);
 		$shareable->method('getOwner')
@@ -418,6 +462,9 @@ class FederationSharingServiceTest extends TestCase {
 		$shareable->method('getOwner')
 			->willReturn('principals/users/host1');
 
+		$this->config->method('isOutgoingServer2serverShareEnabled')
+			->willReturn(true);
+
 		$this->userManager->expects(self::once())
 			->method('get')
 			->with('host1')
@@ -441,6 +488,9 @@ class FederationSharingServiceTest extends TestCase {
 		$shareable = $this->createMock(IShareable::class);
 		$shareable->method('getOwner')
 			->willReturn('principals/users/host1');
+
+		$this->config->method('isOutgoingServer2serverShareEnabled')
+			->willReturn(true);
 
 		$this->userManager->expects(self::once())
 			->method('get')

@@ -28,10 +28,12 @@ class FixVcardCategory implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Fix category of recent contacts vcards';
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		$query = $this->connection->getQueryBuilder();
 
@@ -53,7 +55,7 @@ class FixVcardCategory implements IRepairStep {
 			->set('card', $query->createParameter('card'))
 			->where($query->expr()->eq('id', $query->createParameter('id')));
 
-		while ($card = $cardsWithTranslatedCategory->fetch()) {
+		while ($card = $cardsWithTranslatedCategory->fetchAssociative()) {
 			$output->advance(1);
 
 			try {

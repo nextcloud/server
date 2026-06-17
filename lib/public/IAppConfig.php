@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP;
 
 use OCP\Config\ValueType;
@@ -48,6 +49,10 @@ interface IAppConfig {
 
 	/** @since 31.0.0 */
 	public const FLAG_SENSITIVE = 1;   // value is sensitive
+	/**
+	 * @since 33.0.0
+	 */
+	public const FLAG_INTERNAL = 4;   // value is considered internal and can be hidden from listing
 
 	/**
 	 * Get list of all apps that have at least one config value stored in database
@@ -472,7 +477,7 @@ interface IAppConfig {
 	 * @param string $app id of the app
 	 * @param string $key config key
 	 *
-	 * @return array{app: string, key: string, lazy?: bool, valueType?: ValueType, valueTypeName?: string, sensitive?: bool, default?: string, definition?: string, note?: string}
+	 * @return array{app: string, key: string, lazy?: bool, valueType?: ValueType, valueTypeName?: string, sensitive?: bool, internal?: bool, default?: string, definition?: string, note?: string}
 	 * @since 32.0.0
 	 */
 	public function getKeyDetails(string $app, string $key): array;

@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Channel updated" : "Canale aggiornato",
     "Web updater is disabled" : "L'aggiornamento web è disattivato",
+    "Configuration is read-only" : "La configurazione è di sola lettura",
     "App updated" : "App aggiornata",
     "See what's new" : "Guarda cosa c'è di nuovo",
     "{app} updated to version {version}" : "{app} aggiornata alla versione {version}",
@@ -12,8 +13,8 @@ OC.L10N.register(
     "Update to {serverAndVersion} is available." : "Aggiornamento a {serverAndVersion} disponibile.",
     "Update for {app} to version %s is available." : "È disponibile l'aggiornamento di {app} alla versione %s.",
     "Update notification" : "Notifica di aggiornamento",
-    "Displays update notifications for Nextcloud, app updates, and provides the SSO for the updater." : "Visualizza le notifiche di aggiornamento per Nextcloud, gli aggiornamenti dell'app e fornisce l'SSO per l'aggiornamento.",
-    "Give feedback" : "Dai un feedback",
+    "Displays update notifications for Nextcloud, app updates, and provides the SSO for the updater." : "Visualizza le notifiche di aggiornamento per Nextcloud, gli aggiornamenti dell'applicazione e fornisce l'SSO per l'aggiornamento.",
+    "Give feedback" : "Dai un riscontro",
     "Get started" : "Cominciamo",
     "No changelog available" : "Nessuna nota di rilascio disponibile",
     "What's new in {app} {version}" : "Novità in {app} {version}",
@@ -23,7 +24,12 @@ OC.L10N.register(
     "Checking apps for compatible versions" : "Controllo di applicazioni con versioni compatibili",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Assicurati che il tuo config.php non abbia <samp>appstoreenabled</samp> impostata a false.",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Impossibile connettersi al negozio delle applicazioni o il negozio delle applicazioni non ha restituito alcun aggiornamento. Cerca manualmente gli aggiornamenti o assicurati che il server abbia accesso a Internet e possa collegarsi al negozio delle applicazioni.",
+    "<strong>All</strong> apps have a compatible version for this {productName} version available." : "<strong>Tutte</strong> le app hanno una versione compatibile con questa versione di {productName}.",
+    "_<strong>%n</strong> app has no compatible version for this {productName} version available._::_<strong>%n</strong> apps have no compatible version for this {productName} version available._" : ["<strong>%n</strong> app non ha una versione compatibile per questa versione di {productName} ","<strong>%n</strong> app non hanno una versione compatibile per questa versione di {productName}.","<strong>%n</strong> app non hanno una versione compatibile per questa versione di {productName}."],
     "Enterprise" : "Enterprise",
+    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately." : "Per uso aziendale. Fornisce sempre il livello di patch più recente, ma non esegue immediatamente l'aggiornamento alla versione principale successiva.",
+    "That update happens once {vendor} has done additional hardening and testing for large-scale and mission-critical deployments." : "L'aggiornamento avverrà una volta che {vendor} avrà completato ulteriori rafforzamenti e test per implementazioni su larga scala e mission-critical.",
+    "This channel is only available to customers and provides the {enterprise} package." : "Questo canale è disponibile solo per i clienti e fornisce il pacchetto {enterprise}.",
     "Stable" : "Stabile",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "La versione stabile più recente. È appropriata per l'utilizzo di tutti i giorni e sarà sempre aggiornata all'ultima versione principale.",
     "Beta" : "Beta",
@@ -53,9 +59,6 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "Il canale di aggiornamento selezionato non supporta gli aggiornamenti del server.",
     "Changelog for app {app}" : "Note di rilascio per l'app {app}",
     "What's new in {app} version {version}" : "Novità nella versione {version} di {app}",
-    "{version} is available. Get more information on how to update." : "{version} è disponibile. Ottieni ulteriori informazioni su come eseguire l'aggiornamento.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Tutte</strong> le applicazioni hanno una versione compatibile disponibile per questa versione di Nextcloud.",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> applicazione non ha una versione compatibile disponibile per questa versione di Nextcloud.","<strong>%n</strong> applicazioni non hanno una versione compatibile disponibile per questa versione di Nextcloud.","<strong>%n</strong> applicazioni non hanno una versione compatibile disponibile per questa versione di Nextcloud."],
-    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Per utilizzo aziendale. Fornisce sempre l'ultimo livello di patch, ma non sarà aggiornato immediatamente all'ultima versione principale. Tale aggiornamento sarà disponibile nel momento in cui Nextcloud GmbH avrà apportato miglioramenti della sicurezza, test su larga scala e installazioni in ambienti di importanza rilevante. Questo canale è disponibile solo per i clienti e fornisce il pacchetto Nextcloud Enterprise."
+    "{version} is available. Get more information on how to update." : "{version} è disponibile. Ottieni ulteriori informazioni su come eseguire l'aggiornamento."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

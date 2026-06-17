@@ -29,14 +29,17 @@ use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
+use Test\Traits\EmailValidatorTrait;
 
 /**
  * Class ShareByMailProviderTest
  *
  * @package Test\Share20
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ShareByMailProviderTest extends TestCase {
+	use EmailValidatorTrait;
+
 	/** @var IDBConnection */
 	protected $dbConn;
 
@@ -85,7 +88,10 @@ class ShareByMailProviderTest extends TestCase {
 	/** @var SettingsManager|MockObject */
 	private $settingsManager;
 
+	#[\Override]
 	protected function setUp(): void {
+		parent::setUp();
+
 		$this->dbConn = Server::get(IDBConnection::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
@@ -121,13 +127,16 @@ class ShareByMailProviderTest extends TestCase {
 			$this->hasher,
 			$this->eventDispatcher,
 			$this->shareManager,
+			$this->getEmailValidatorWithStrictEmailCheck(),
 		);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$this->dbConn->getQueryBuilder()->delete('share')->executeStatement();
 		$this->dbConn->getQueryBuilder()->delete('filecache')->runAcrossAllShards()->executeStatement();
 		$this->dbConn->getQueryBuilder()->delete('storages')->executeStatement();
+		parent::tearDown();
 	}
 
 	/**

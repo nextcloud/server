@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Encryption\Tests\Controller;
 
 use OCA\Encryption\Controller\StatusController;
@@ -54,9 +55,9 @@ class StatusControllerTest extends TestCase {
 	 * @param string $status
 	 * @param string $expectedStatus
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestGetStatus')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestGetStatus')]
 	public function testGetStatus($status, $expectedStatus): void {
-		$this->sessionMock->expects($this->once())
+		$this->sessionMock->expects($this->atLeastOnce())
 			->method('getStatus')->willReturn($status);
 		$result = $this->controller->getStatus();
 		$data = $result->getData();

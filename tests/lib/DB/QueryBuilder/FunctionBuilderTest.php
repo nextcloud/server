@@ -16,14 +16,15 @@ use Test\TestCase;
 /**
  * Class FunctionBuilderTest
  *
- * @group DB
  *
  * @package Test\DB\QueryBuilder
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class FunctionBuilderTest extends TestCase {
 	/** @var \Doctrine\DBAL\Connection|IDBConnection */
 	protected $connection;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

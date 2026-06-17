@@ -3,22 +3,26 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { Entry } from '@nextcloud/files'
+import type { IFolder, INode, NewMenuEntry } from '@nextcloud/files'
 import type { ComponentInstance } from 'vue'
 import type { TemplateFile } from '../types.ts'
 
-import { Folder, Node, Permission, addNewFileMenuEntry } from '@nextcloud/files'
+import { addNewFileMenuEntry, Permission } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
-import { isPublicShare } from '@nextcloud/sharing/public'
-import { newNodeName } from '../utils/newNodeDialog'
 import { translate as t } from '@nextcloud/l10n'
+import { isPublicShare } from '@nextcloud/sharing/public'
 import Vue, { defineAsyncComponent } from 'vue'
+import { newNodeName } from '../utils/newNodeDialog.ts'
 
 // async to reduce bundle size
 const TemplatePickerVue = defineAsyncComponent(() => import('../views/TemplatePicker.vue'))
 let TemplatePicker: ComponentInstance & { open: (n: string, t: TemplateFile) => void } | null = null
 
-const getTemplatePicker = async (context: Folder) => {
+/**
+ *
+ * @param context
+ */
+async function getTemplatePicker(context: IFolder) {
 	if (TemplatePicker === null) {
 		// Create document root
 		const mountingPoint = document.createElement('div')
@@ -59,13 +63,18 @@ export function registerTemplateEntries() {
 		addNewFileMenuEntry({
 			id: `template-new-${provider.app}-${index}`,
 			displayName: provider.label,
-			iconClass: provider.iconClass || 'icon-file',
 			iconSvgInline: provider.iconSvgInline,
-			enabled(context: Folder): boolean {
-				return (context.permissions & Permission.CREATE) !== 0
+			enabled(context: IFolder): boolean {
+				if (context.attributes['is-encrypted']) {
+					return false
+				}
+
+				// templates are only supported in folders where the user has read and create permissions
+				return (context.permissions & Permission.READ) !== 0
+					&& (context.permissions & Permission.CREATE) !== 0
 			},
 			order: 11,
-			async handler(context: Folder, content: Node[]) {
+			async handler(context: IFolder, content: INode[]) {
 				const templatePicker = getTemplatePicker(context)
 				const name = await newNodeName(`${provider.label}${provider.extension}`, content, {
 					label: t('files', 'Filename'),
@@ -78,6 +87,6 @@ export function registerTemplateEntries() {
 					picker.open(name.trim(), provider)
 				}
 			},
-		} as Entry)
+		} satisfies NewMenuEntry)
 	})
 }

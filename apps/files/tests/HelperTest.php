@@ -76,7 +76,7 @@ class HelperTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('sortDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'sortDataProvider')]
 	public function testSortByName(string $sort, bool $sortDescending, array $expectedOrder): void {
 		if (($sort === 'mtime') && (PHP_INT_SIZE < 8)) {
 			$this->markTestSkipped('Skip mtime sorting on 32bit');

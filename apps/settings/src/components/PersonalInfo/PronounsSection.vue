@@ -4,7 +4,8 @@
 -->
 
 <template>
-	<AccountPropertySection v-bind.sync="pronouns"
+	<AccountPropertySection
+		v-bind.sync="pronouns"
 		:placeholder="randomPronounsPlaceholder" />
 </template>
 

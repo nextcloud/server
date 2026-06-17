@@ -8,7 +8,14 @@
 
 name: Cypress
 
-on: pull_request
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
+      - labeled
 
 concurrency:
   group: cypress-${{ github.head_ref || github.run_id }}
@@ -22,15 +29,44 @@ env:
   # Usually it's the base branch of the PR, but for pushes it's the branch itself.
   # e.g. 'main', 'stable27' or 'feature/my-feature'
   # n.b. server will use head_ref, as we want to test the PR branch.
-  BRANCH: ${{ github.head_ref || github.ref_name }}
-
+  BRANCH: ${{ github.base_ref || github.ref_name }}
 
 permissions:
   contents: read
+  pull-requests: read
 
 jobs:
+  gate:
+    runs-on: ubuntu-latest-low
+    steps:
+      - name: Evaluate e2e tests execution conditions
+        id: gate-e2e
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v8.0.0
+        with:
+          script: |
+            const pr = context.payload.pull_request
+
+            const hasForceLabel = pr.labels.some((label) => label.name === 'force-e2e-tests')
+            const hasToReviewLabel = pr.labels.some((label) => label.name === '3. to review')
+            const hasToReleaseLabel = pr.labels.some((label) => label.name === '4. to release')
+
+            const files = await github.paginate(github.rest.pulls.listFiles, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pr.number,
+              per_page: 100,
+            })
+            const cypressTouched = files.some((file) => file.filename.startsWith('cypress'))
+
+            if (hasForceLabel || hasToReviewLabel || hasToReleaseLabel || cypressTouched) {
+              return
+            } else {
+              core.setFailed('Skipping Cypress: draft state, missing labels or no cypress path changes.')
+            }
+
   init:
     runs-on: ubuntu-latest
+    needs: gate
     outputs:
       nodeVersion: ${{ steps.versions.outputs.nodeVersion }}
       npmVersion: ${{ steps.versions.outputs.npmVersion }}
@@ -41,14 +77,8 @@ jobs:
       PUPPETEER_SKIP_DOWNLOAD: true
 
     steps:
-      - name: Disabled on forks
-        if: ${{ github.event.pull_request.head.repo.full_name != github.repository }}
-        run: |
-          echo 'Can not run cypress on forks'
-          exit 1
-
       - name: Checkout server
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
           # We need to checkout submodules for 3rdparty
@@ -56,9 +86,9 @@ jobs:
 
       - name: Check composer.json
         id: check_composer
-        uses: andstor/file-existence-action@076e0072799f4942c8bc574a82233e1e4d13e9d6 # v3.0.0
+        uses: andstor/file-existence-action@558493d6c74bf472d87c84eab196434afc2fa029 # v3.1.0
         with:
-          files: "composer.json"
+          files: 'composer.json'
 
       - name: Install composer dependencies
         if: steps.check_composer.outputs.files_exists == 'true'
@@ -68,24 +98,33 @@ jobs:
         uses: skjnldsv/read-package-engines-version-actions@06d6baf7d8f41934ab630e97d9e6c0bc9c9ac5e4 # v3
         id: versions
         with:
-          fallbackNode: "^20"
-          fallbackNpm: "^10"
+          fallbackNode: '^24'
+          fallbackNpm: '^11.3'
 
       - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
-        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
           node-version: ${{ steps.versions.outputs.nodeVersion }}
 
       - name: Set up npm ${{ steps.versions.outputs.npmVersion }}
         run: npm i -g 'npm@${{ steps.versions.outputs.npmVersion }}'
 
+      - name: Restore npm cache
+        uses: buildjet/cache/restore@3e70d19e31d6a8030aeddf6ed8dbe601f94d09f4 # v4.0.2
+        with:
+          path: ~/.npm
+          key: node-${{ steps.versions.outputs.nodeVersion }}-npm-${{ steps.versions.outputs.npmVersion }}-${{ hashFiles('**/package-lock.json') }}
+
       - name: Install node dependencies & build app
         run: |
           npm ci
           TESTING=true npm run build --if-present
 
-      - name: Show cypress version
-        run: npm run cypress:version
+      - name: Save npm cache
+        uses: buildjet/cache/save@3e70d19e31d6a8030aeddf6ed8dbe601f94d09f4 # v4.0.2
+        with:
+          path: ~/.npm
+          key: node-${{ steps.versions.outputs.nodeVersion }}-npm-${{ steps.versions.outputs.npmVersion }}-${{ hashFiles('**/package-lock.json') }}
 
       - name: Save context
         uses: buildjet/cache/save@3e70d19e31d6a8030aeddf6ed8dbe601f94d09f4 # v4.0.2
@@ -95,22 +134,22 @@ jobs:
 
   cypress:
     runs-on: ubuntu-latest
-    needs: init
+    needs: [gate, init]
 
     strategy:
       fail-fast: false
       matrix:
         # Run multiple copies of the current job in parallel
         # Please increase the number or runners as your tests suite grows (0 based index for e2e tests)
-        containers: ['component', 'setup', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-        # Hack as strategy.job-total includes the component and GitHub does not allow math expressions
+        containers: ['setup', '0', '1', '2', '3', '4', '5']
+        # Hack as strategy.job-total includes the "setup" and GitHub does not allow math expressions
         # Always align this number with the total of e2e runners (max. index + 1)
-        total-containers: [10]
+        total-containers: [6]
 
     services:
       mysql:
         # Only start mysql if we are running the setup tests
-        image: ${{matrix.containers == 'setup' && 'ghcr.io/nextcloud/continuous-integration-mysql-8.4:latest' || ''}}
+        image: ${{matrix.containers == 'setup' && 'ghcr.io/nextcloud/continuous-integration-mysql-8.4:latest' || ''}} # zizmor: ignore[unpinned-images]
         ports:
           - '3306/tcp'
         env:
@@ -122,7 +161,7 @@ jobs:
 
       mariadb:
         # Only start mariadb if we are running the setup tests
-        image: ${{matrix.containers == 'setup' && 'mariadb:11.4' || ''}}
+        image: ${{matrix.containers == 'setup' && 'mariadb:11.4' || ''}} # zizmor: ignore[unpinned-images]
         ports:
           - '3306/tcp'
         env:
@@ -134,7 +173,7 @@ jobs:
 
       postgres:
         # Only start postgres if we are running the setup tests
-        image: ${{matrix.containers == 'setup' && 'ghcr.io/nextcloud/continuous-integration-postgres-17:latest' || ''}}
+        image: ${{matrix.containers == 'setup' && 'ghcr.io/nextcloud/continuous-integration-postgres-17:latest' || ''}} # zizmor: ignore[unpinned-images]
         ports:
           - '5432/tcp'
         env:
@@ -145,7 +184,7 @@ jobs:
 
       oracle:
         # Only start oracle if we are running the setup tests
-        image: ${{matrix.containers == 'setup' && 'ghcr.io/gvenzl/oracle-free:23' || ''}}
+        image: ${{matrix.containers == 'setup' && 'ghcr.io/gvenzl/oracle-free:23' || ''}} # zizmor: ignore[unpinned-images]
         ports:
           - '1521'
         env:
@@ -156,33 +195,54 @@ jobs:
 
     steps:
       - name: Restore context
+        id: cache
         uses: buildjet/cache/restore@3e70d19e31d6a8030aeddf6ed8dbe601f94d09f4 # v4.0.2
         with:
-          fail-on-cache-miss: true
           key: cypress-context-${{ github.run_id }}
           path: ./
 
+      - name: Checkout server
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        if: steps.cache.outputs.cache-hit != 'true'
+        with:
+          persist-credentials: false
+          # We need to checkout submodules for 3rdparty
+          submodules: true
+
+      - name: Check composer.json
+        id: check_composer
+        if: steps.cache.outputs.cache-hit != 'true'
+        uses: andstor/file-existence-action@558493d6c74bf472d87c84eab196434afc2fa029 # v3.1.0
+        with:
+          files: 'composer.json'
+
+      - name: Install composer dependencies
+        if: steps.check_composer.outputs.files_exists == 'true' && steps.cache.outputs.cache-hit != 'true'
+        run: composer install --no-dev
+
       - name: Set up node ${{ needs.init.outputs.nodeVersion }}
-        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
           node-version: ${{ needs.init.outputs.nodeVersion }}
 
       - name: Set up npm ${{ needs.init.outputs.npmVersion }}
         run: npm i -g 'npm@${{ needs.init.outputs.npmVersion }}'
 
+      - name: Install node dependencies & build app
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          npm ci
+          TESTING=true npm run build --if-present
+
       - name: Install cypress
         run: ./node_modules/cypress/bin/cypress install
 
       - name: Run ${{ matrix.containers == 'component' && 'component' || 'E2E' }} cypress tests
-        uses: cypress-io/github-action@b8ba51a856ba5f4c15cf39007636d4ab04f23e3c # v6.10.2
+        uses: cypress-io/github-action@dace029018fcdf86e0df89a31bc3cfa5b32570d8 # v7.3.0
         with:
           # We already installed the dependencies in the init job
           install: false
           component: ${{ matrix.containers == 'component' }}
-          group: ${{ matrix.use-cypress-cloud && matrix.containers == 'component' && 'Run component' || matrix.use-cypress-cloud && 'Run E2E' || '' }}
-          # cypress env
-          ci-build-id: ${{ matrix.use-cypress-cloud && format('{0}-{1}', github.sha, github.run_number) || '' }}
-          tag: ${{ matrix.use-cypress-cloud && github.event_name || '' }}
         env:
           # Needs to be prefixed with CYPRESS_
           CYPRESS_BRANCH: ${{ env.BRANCH }}
@@ -191,37 +251,36 @@ jobs:
           # Needed for some specific code workarounds
           TESTING: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           SPLIT: ${{ matrix.total-containers }}
           SPLIT_INDEX: ${{ matrix.containers == 'component' && 0 || matrix.containers }}
+          SPLIT_RANDOM_SEED: ${{ github.run_id }}
           SETUP_TESTING: ${{ matrix.containers == 'setup' && 'true' || '' }}
 
       - name: Upload snapshots and videos
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         if: always()
         with:
-          name: snapshots_videos_${{ matrix.containers }}
+          name: snapshots_${{ matrix.containers }}
           path: |
             cypress/snapshots
             cypress/videos
 
-      - name: Extract NC logs
+      - name: Show logs
         if: failure() && matrix.containers != 'component'
-        run: docker logs nextcloud-cypress-tests_${{ env.APP_NAME }} > nextcloud.log
-
-      - name: Upload NC logs
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
-        if: failure() && matrix.containers != 'component'
-        with:
-          name: nc_logs_${{ matrix.containers }}
-          path: nextcloud.log
+        run: |
+          for id in $(docker ps -aq); do
+            docker container inspect "$id" --format '=== Logs for container {{.Name}} ==='
+            docker logs "$id" >> nextcloud.log
+          done
+          echo '=== Nextcloud server logs ==='
+          docker exec nextcloud-e2e-test-server_${{ env.APP_NAME }} cat data/nextcloud.log
 
       - name: Create data dir archive
         if: failure() && matrix.containers != 'component'
-        run: docker exec nextcloud-cypress-tests_${{ env.APP_NAME }} tar -cvjf - data > data.tar
+        run: docker exec nextcloud-e2e-test-server_${{ env.APP_NAME }} tar -cvjf - data > data.tar
 
-      - name: Upload data dir archive
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+      - name: Upload data archive
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         if: failure() && matrix.containers != 'component'
         with:
           name: nc_data_${{ matrix.containers }}
@@ -238,3 +297,9 @@ jobs:
     steps:
       - name: Summary status
         run: if ${{ needs.init.result != 'success' || ( needs.cypress.result != 'success' && needs.cypress.result != 'skipped' ) }}; then exit 1; fi
+
+      - name: Delete cache on success
+        uses: buildjet/cache-delete@7184288b8396c4492a56728c47dd286fbd1e96ae # v1
+        if: needs.init.result == 'success' && needs.cypress.result == 'success'
+        with:
+          cache_key: cypress-context-${{ github.run_id }}

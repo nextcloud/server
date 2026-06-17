@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\Accounts\Account;
@@ -26,18 +27,18 @@ use OCP\IPreview;
 use OCP\IRequest;
 use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
+use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
 use Sabre\DAV\Server;
 use Sabre\DAV\Tree;
 use Sabre\HTTP\RequestInterface;
+use Sabre\HTTP\Response;
 use Sabre\HTTP\ResponseInterface;
 use Sabre\Xml\Service;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class FilesPluginTest extends TestCase {
 
 	private Tree&MockObject $tree;
@@ -74,14 +75,17 @@ class FilesPluginTest extends TestCase {
 			$this->accountManager,
 		);
 
-		$response = $this->createMock(ResponseInterface::class);
+		$response = $this->createMock(Response::class);
 		$this->server->httpResponse = $response;
 		$this->server->xml = new Service();
 
 		$this->plugin->initialize($this->server);
 	}
 
-	private function createTestNode(string $class, string $path = '/dummypath'): MockObject {
+	/**
+	 * @param class-string<INode> $class
+	 */
+	private function createTestNode(string $class, string $path = '/dummypath'): INode&MockObject {
 		$node = $this->createMock($class);
 
 		$node->expects($this->any())
@@ -98,7 +102,7 @@ class FilesPluginTest extends TestCase {
 			->willReturn('00000123instanceid');
 		$node->expects($this->any())
 			->method('getInternalFileId')
-			->willReturn('123');
+			->willReturn(123);
 		$node->expects($this->any())
 			->method('getEtag')
 			->willReturn('"abc"');
@@ -329,9 +333,12 @@ class FilesPluginTest extends TestCase {
 
 		/** @var File&MockObject $node */
 		$node = $this->createTestNode(File::class);
-		$node->expects($this->any())
-			->method('getDavPermissions')
-			->willReturn('DWCKMSR');
+		$node->expects($this->once())
+			->method('getPublicDavPermissions')
+			->willReturn('DWCKR');
+
+		$node->expects($this->never())
+			->method('getDavPermissions');
 
 		$this->plugin->handleGetProperties(
 			$propFind,
@@ -452,7 +459,7 @@ class FilesPluginTest extends TestCase {
 		$node->expects($this->once())
 			->method('setEtag')
 			->with('newetag')
-			->willReturn(true);
+			->willReturn(123);
 
 		$node->expects($this->once())
 			->method('setCreationTime')
@@ -464,7 +471,6 @@ class FilesPluginTest extends TestCase {
 			FilesPlugin::LASTMODIFIED_PROPERTYNAME => $testDate,
 			FilesPlugin::CREATIONDATE_PROPERTYNAME => $testCreationDate,
 		]);
-
 
 		$this->plugin->handleUpdateProperties(
 			'/dummypath',
@@ -559,35 +565,11 @@ class FilesPluginTest extends TestCase {
 		$this->plugin->checkMove('FolderA/test.txt', 'test.txt');
 	}
 
-	public function testMoveSrcNotExist(): void {
-		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
-		$this->expectExceptionMessage('FolderA/test.txt does not exist');
-
-		$node = $this->createMock(Node::class);
-		$node->expects($this->atLeastOnce())
-			->method('getFileInfo')
-			->willReturn(null);
-
-		$this->tree->expects($this->atLeastOnce())
-			->method('getNodeForPath')
-			->willReturn($node);
-
-		$this->plugin->checkMove('FolderA/test.txt', 'test.txt');
-	}
-
 	public function testMoveDestinationInvalid(): void {
 		$this->expectException(InvalidPath::class);
 		$this->expectExceptionMessage('Mocked exception');
 
-		$fileInfoFolderATestTXT = $this->createMock(FileInfo::class);
-		$fileInfoFolderATestTXT->expects(self::any())
-			->method('isDeletable')
-			->willReturn(true);
-
 		$node = $this->createMock(Node::class);
-		$node->expects($this->atLeastOnce())
-			->method('getFileInfo')
-			->willReturn($fileInfoFolderATestTXT);
 
 		$this->tree->expects($this->atLeastOnce())
 			->method('getNodeForPath')
@@ -601,31 +583,11 @@ class FilesPluginTest extends TestCase {
 		$this->plugin->checkMove('FolderA/test.txt', 'invalid\\path.txt');
 	}
 
-	public function testCopySrcNotExist(): void {
-		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
-		$this->expectExceptionMessage('FolderA/test.txt does not exist');
-
-		$node = $this->createMock(Node::class);
-		$node->expects($this->atLeastOnce())
-			->method('getFileInfo')
-			->willReturn(null);
-
-		$this->tree->expects($this->atLeastOnce())
-			->method('getNodeForPath')
-			->willReturn($node);
-
-		$this->plugin->checkCopy('FolderA/test.txt', 'test.txt');
-	}
-
 	public function testCopyDestinationInvalid(): void {
 		$this->expectException(InvalidPath::class);
 		$this->expectExceptionMessage('Mocked exception');
 
-		$fileInfoFolderATestTXT = $this->createMock(FileInfo::class);
 		$node = $this->createMock(Node::class);
-		$node->expects($this->atLeastOnce())
-			->method('getFileInfo')
-			->willReturn($fileInfoFolderATestTXT);
 
 		$this->tree->expects($this->atLeastOnce())
 			->method('getNodeForPath')
@@ -652,7 +614,7 @@ class FilesPluginTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('downloadHeadersProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'downloadHeadersProvider')]
 	public function testDownloadHeaders(bool $isClumsyAgent, string $contentDispositionHeader): void {
 		$request = $this->createMock(RequestInterface::class);
 		$response = $this->createMock(ResponseInterface::class);

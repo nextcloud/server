@@ -5,7 +5,8 @@
 
 <template>
 	<section class="section-emails">
-		<HeaderBar :input-id="inputId"
+		<HeaderBar
+			:input-id="inputId"
 			:readable="primaryEmail.readable"
 			:is-editable="true"
 			:is-multi-value-supported="true"
@@ -14,8 +15,9 @@
 			@add-additional="onAddAdditionalEmail" />
 
 		<template v-if="emailChangeSupported">
-			<Email :input-id="inputId"
-				:primary="true"
+			<EmailSectionEntry
+				:input-id="inputId"
+				primary
 				:scope.sync="primaryEmail.scope"
 				:email.sync="primaryEmail.value"
 				:active-notification-email.sync="notificationEmail"
@@ -29,7 +31,8 @@
 
 		<template v-if="additionalEmails.length">
 			<!-- TODO use unique key for additional email when uniqueness can be guaranteed, see https://github.com/nextcloud/server/issues/26866 -->
-			<Email v-for="(additionalEmail, index) in additionalEmails"
+			<EmailSectionEntry
+				v-for="(additionalEmail, index) in additionalEmails"
 				:key="additionalEmail.key"
 				class="section-emails__additional-email"
 				:index="index"
@@ -46,14 +49,12 @@
 
 <script>
 import { loadState } from '@nextcloud/initial-state'
-
-import Email from './Email.vue'
 import HeaderBar from '../shared/HeaderBar.vue'
-
+import EmailSectionEntry from './EmailSectionEntry.vue'
 import { ACCOUNT_PROPERTY_READABLE_ENUM, DEFAULT_ADDITIONAL_EMAIL_SCOPE, NAME_READABLE_ENUM } from '../../../constants/AccountPropertyConstants.js'
-import { savePrimaryEmail, removeAdditionalEmail } from '../../../service/PersonalInfo/EmailService.js'
-import { validateEmail } from '../../../utils/validate.js'
+import { removeAdditionalEmail, savePrimaryEmail } from '../../../service/PersonalInfo/EmailService.js'
 import { handleError } from '../../../utils/handlers.ts'
+import { validateEmail } from '../../../utils/validate.js'
 
 const { emailMap: { additionalEmails, primaryEmail, notificationEmail } } = loadState('settings', 'personalInfoParameters', {})
 const { emailChangeSupported } = loadState('settings', 'accountParameters', {})
@@ -63,13 +64,13 @@ export default {
 
 	components: {
 		HeaderBar,
-		Email,
+		EmailSectionEntry,
 	},
 
 	data() {
 		return {
 			accountProperty: ACCOUNT_PROPERTY_READABLE_ENUM.EMAIL,
-			additionalEmails: additionalEmails.map(properties => ({ ...properties, key: this.generateUniqueKey() })),
+			additionalEmails: additionalEmails.map((properties) => ({ ...properties, key: this.generateUniqueKey() })),
 			emailChangeSupported,
 			primaryEmail: { ...primaryEmail, readable: NAME_READABLE_ENUM[primaryEmail.name] },
 			notificationEmail,
@@ -97,6 +98,7 @@ export default {
 			get() {
 				return this.primaryEmail.value
 			},
+
 			set(value) {
 				this.primaryEmail.value = value
 			},

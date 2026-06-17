@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud GmbH.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\AppInfo;
 
 use OC\ServerContainer;
@@ -14,7 +15,7 @@ use OCA\DAV\CalDAV\AppCalendar\AppCalendarPlugin;
 use OCA\DAV\CalDAV\Integration\ICalendarProvider;
 use OCA\DAV\CardDAV\Integration\IAddressBookProvider;
 use OCP\App\IAppManager;
-use OCP\AppFramework\QueryException;
+use Psr\Container\ContainerExceptionInterface;
 use Sabre\DAV\Collection;
 use Sabre\DAV\ServerPlugin;
 use function array_map;
@@ -229,7 +230,7 @@ class PluginManager {
 	private function createClass(string $className): object {
 		try {
 			return $this->container->get($className);
-		} catch (QueryException $e) {
+		} catch (ContainerExceptionInterface $e) {
 			if (class_exists($className)) {
 				return new $className();
 			}
@@ -237,7 +238,6 @@ class PluginManager {
 
 		throw new \Exception('Could not load ' . $className, 0, $e);
 	}
-
 
 	/**
 	 * @param string[] $classes

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP\Tests\User;
 
 use OCA\User_LDAP\Access;
@@ -13,6 +14,8 @@ use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User\User;
+use OCP\AppFramework\Services\IAppConfig;
+use OCP\Config\IUserConfig;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -26,13 +29,15 @@ use Psr\Log\LoggerInterface;
 /**
  * Class Test_User_Manager
  *
- * @group DB
  *
  * @package OCA\User_LDAP\Tests\User
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ManagerTest extends \Test\TestCase {
 	protected Access&MockObject $access;
 	protected IConfig&MockObject $config;
+	protected IUserConfig&MockObject $userConfig;
+	protected IAppConfig&MockObject $appConfig;
 	protected LoggerInterface&MockObject $logger;
 	protected IAvatarManager&MockObject $avatarManager;
 	protected Image&MockObject $image;
@@ -49,6 +54,8 @@ class ManagerTest extends \Test\TestCase {
 
 		$this->access = $this->createMock(Access::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->userConfig = $this->createMock(IUserConfig::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->avatarManager = $this->createMock(IAvatarManager::class);
 		$this->image = $this->createMock(Image::class);
@@ -66,6 +73,8 @@ class ManagerTest extends \Test\TestCase {
 		/** @noinspection PhpUnhandledExceptionInspection */
 		$this->manager = new Manager(
 			$this->config,
+			$this->userConfig,
+			$this->appConfig,
 			$this->logger,
 			$this->avatarManager,
 			$this->image,
@@ -85,7 +94,7 @@ class ManagerTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dnProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dnProvider')]
 	public function testGetByDNExisting(string $inputDN): void {
 		$uid = '563418fc-423b-1033-8d1c-ad5f418ee02e';
 
@@ -182,7 +191,7 @@ class ManagerTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('attributeRequestProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'attributeRequestProvider')]
 	public function testGetAttributes($minimal): void {
 		$this->connection->setConfiguration([
 			'ldapEmailAttribute' => 'MAIL',

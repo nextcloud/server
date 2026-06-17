@@ -4,7 +4,7 @@
  */
 
 export type ShareAttribute = {
-	value: boolean|string|number|null|object|Array<unknown>
+	value: boolean | string | number | null | object | Array<unknown>
 	key: string
 	scope: string
 }

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\CardDAV;
 
 use OCA\DAV\CalDAV\BirthdayService;
@@ -50,7 +51,7 @@ class BirthdayServiceTest extends TestCase {
 			$this->dbConnection, $this->l10n);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providesVCards')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesVCards')]
 	public function testBuildBirthdayFromContact(?string $expectedSummary, ?string $expectedDTStart, ?string $expectedRrule, ?string $expectedFieldType, ?string $expectedUnknownYear, ?string $expectedOriginalYear, ?string $expectedReminder, ?string $data, string $fieldType, string $prefix, bool $supports4Bytes, ?string $configuredReminder): void {
 		$this->dbConnection->method('supports4ByteText')->willReturn($supports4Bytes);
 		$cal = $this->service->buildDateFromContact($data, $fieldType, $prefix, $configuredReminder);
@@ -198,7 +199,7 @@ class BirthdayServiceTest extends TestCase {
 		$service->onCardChanged(666, 'gump.vcf', '');
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providesCardChanges')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesCardChanges')]
 	public function testOnCardChanged(string $expectedOp): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
@@ -289,7 +290,7 @@ class BirthdayServiceTest extends TestCase {
 		$service->onCardChanged(666, 'gump.vcf', '');
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providesBirthday')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesBirthday')]
 	public function testBirthdayEvenChanged(bool $expected, string $old, string $new): void {
 		$new = Reader::read($new);
 		$this->assertEquals($expected, $this->service->birthdayEvenChanged($old, $new));
@@ -403,31 +404,31 @@ class BirthdayServiceTest extends TestCase {
 			[null, null, null, null, null, null, null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nEND:VCARD\r\n", 'BDAY', '', true, null],
 			[null, null, null, null, null, null, null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:\r\nEND:VCARD\r\n", 'BDAY', '', true, null],
 			[null, null, null, null, null, null, null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:someday\r\nEND:VCARD\r\n", 'BDAY', '', true, null],
-			['🎂 12345 (1900)', '19700101', 'FREQ=YEARLY', 'BDAY', '0', '1900', null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:19000101\r\nEND:VCARD\r\n", 'BDAY', '', true, null],
-			['🎂 12345 (1900)', '19701231', 'FREQ=YEARLY', 'BDAY', '0', '1900', null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:19001231\r\nEND:VCARD\r\n", 'BDAY', '', true, null],
-			['Death of 12345 (1900)', '19701231', 'FREQ=YEARLY', 'DEATHDATE', '0', '1900', null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nDEATHDATE:19001231\r\nEND:VCARD\r\n", 'DEATHDATE', '-death', true, null],
-			['Death of 12345 (1900)', '19701231', 'FREQ=YEARLY', 'DEATHDATE', '0', '1900', null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nDEATHDATE:19001231\r\nEND:VCARD\r\n", 'DEATHDATE', '-death', false, null],
-			['💍 12345 (1900)', '19701231', 'FREQ=YEARLY', 'ANNIVERSARY', '0', '1900', null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nANNIVERSARY:19001231\r\nEND:VCARD\r\n", 'ANNIVERSARY', '-anniversary', true, null],
-			['12345 (⚭1900)', '19701231', 'FREQ=YEARLY', 'ANNIVERSARY', '0', '1900', null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nANNIVERSARY:19001231\r\nEND:VCARD\r\n", 'ANNIVERSARY', '-anniversary', false, null],
+			['🎂 12345 (1900)', '19000101', 'FREQ=YEARLY', 'BDAY', '0', '1900', null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:19000101\r\nEND:VCARD\r\n", 'BDAY', '', true, null],
+			['🎂 12345 (1900)', '19001231', 'FREQ=YEARLY', 'BDAY', '0', '1900', null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:19001231\r\nEND:VCARD\r\n", 'BDAY', '', true, null],
+			['Death of 12345 (1900)', '19001231', 'FREQ=YEARLY', 'DEATHDATE', '0', '1900', null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nDEATHDATE:19001231\r\nEND:VCARD\r\n", 'DEATHDATE', '-death', true, null],
+			['Death of 12345 (1900)', '19001231', 'FREQ=YEARLY', 'DEATHDATE', '0', '1900', null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nDEATHDATE:19001231\r\nEND:VCARD\r\n", 'DEATHDATE', '-death', false, null],
+			['💍 12345 (1900)', '19001231', 'FREQ=YEARLY', 'ANNIVERSARY', '0', '1900', null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nANNIVERSARY:19001231\r\nEND:VCARD\r\n", 'ANNIVERSARY', '-anniversary', true, null],
+			['12345 (⚭1900)', '19001231', 'FREQ=YEARLY', 'ANNIVERSARY', '0', '1900', null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nANNIVERSARY:19001231\r\nEND:VCARD\r\n", 'ANNIVERSARY', '-anniversary', false, null],
 			['🎂 12345', '19701231', 'FREQ=YEARLY', 'BDAY', '1', null, null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:--1231\r\nEND:VCARD\r\n", 'BDAY', '', true, null],
 			['🎂 12345', '19701231', 'FREQ=YEARLY', 'BDAY', '1', null, null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY;X-APPLE-OMIT-YEAR=1604:16041231\r\nEND:VCARD\r\n", 'BDAY', '', true, null],
 			[null, null, null, null, null, null, null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:;VALUE=text:circa 1800\r\nEND:VCARD\r\n", 'BDAY', '', true, null],
 			[null, null, null, null, null, null, null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nN:12345;;;;\r\nBDAY:20031231\r\nEND:VCARD\r\n", 'BDAY', '', true, null],
-			['🎂 12345 (900)', '19701231', 'FREQ=YEARLY', 'BDAY', '0', '900', null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:09001231\r\nEND:VCARD\r\n", 'BDAY', '', true, null],
-			['12345 (*1900)', '19700101', 'FREQ=YEARLY', 'BDAY', '0', '1900', null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:19000101\r\nEND:VCARD\r\n", 'BDAY', '', false, null],
-			['12345 (*1900)', '19701231', 'FREQ=YEARLY', 'BDAY', '0', '1900', null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:19001231\r\nEND:VCARD\r\n", 'BDAY', '', false, null],
+			['🎂 12345 (900)', '09001231', 'FREQ=YEARLY', 'BDAY', '0', '900', null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:09001231\r\nEND:VCARD\r\n", 'BDAY', '', true, null],
+			['12345 (*1900)', '19000101', 'FREQ=YEARLY', 'BDAY', '0', '1900', null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:19000101\r\nEND:VCARD\r\n", 'BDAY', '', false, null],
+			['12345 (*1900)', '19001231', 'FREQ=YEARLY', 'BDAY', '0', '1900', null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:19001231\r\nEND:VCARD\r\n", 'BDAY', '', false, null],
 			['12345 *', '19701231', 'FREQ=YEARLY', 'BDAY', '1', null, null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:--1231\r\nEND:VCARD\r\n", 'BDAY', '', false, null],
 			['12345 *', '19701231', 'FREQ=YEARLY', 'BDAY', '1', null, null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY;X-APPLE-OMIT-YEAR=1604:16041231\r\nEND:VCARD\r\n", 'BDAY', '', false, null],
 			[null, null, null, null, null, null, null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:;VALUE=text:circa 1800\r\nEND:VCARD\r\n", 'BDAY', '', false, null],
 			[null, null, null, null, null, null, null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nN:12345;;;;\r\nBDAY:20031231\r\nEND:VCARD\r\n", 'BDAY', '', false, null],
-			['12345 (*900)', '19701231', 'FREQ=YEARLY', 'BDAY', '0', '900', null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:09001231\r\nEND:VCARD\r\n", 'BDAY', '', false, null],
-			['12345 (*1900)', '19701231', 'FREQ=YEARLY', 'BDAY', '0', '1900', 'PT9H', "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:19001231\r\nEND:VCARD\r\n", 'BDAY', '', false, 'PT9H'],
-			['12345 (*1900)', '19701231', 'FREQ=YEARLY', 'BDAY', '0', '1900', '-PT15H', "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:19001231\r\nEND:VCARD\r\n", 'BDAY', '', false, '-PT15H'],
-			['12345 (*1900)', '19701231', 'FREQ=YEARLY', 'BDAY', '0', '1900', '-P6DT15H', "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:19001231\r\nEND:VCARD\r\n", 'BDAY', '', false, '-P6DT15H'],
+			['12345 (*900)', '09001231', 'FREQ=YEARLY', 'BDAY', '0', '900', null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:09001231\r\nEND:VCARD\r\n", 'BDAY', '', false, null],
+			['12345 (*1900)', '19001231', 'FREQ=YEARLY', 'BDAY', '0', '1900', 'PT9H', "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:19001231\r\nEND:VCARD\r\n", 'BDAY', '', false, 'PT9H'],
+			['12345 (*1900)', '19001231', 'FREQ=YEARLY', 'BDAY', '0', '1900', '-PT15H', "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:19001231\r\nEND:VCARD\r\n", 'BDAY', '', false, '-PT15H'],
+			['12345 (*1900)', '19001231', 'FREQ=YEARLY', 'BDAY', '0', '1900', '-P6DT15H', "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:19001231\r\nEND:VCARD\r\n", 'BDAY', '', false, '-P6DT15H'],
 			[null, null, null, null, null, null, null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:19000101\r\nX-NC-EXCLUDE-FROM-BIRTHDAY-CALENDAR;TYPE=boolean:true\r\nEND:VCARD\r\n", 'BDAY', '', true, null],
 			[null, null, null, null, null, null, null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nX-NC-EXCLUDE-FROM-BIRTHDAY-CALENDAR;TYPE=boolean:true\r\nDEATHDATE:19001231\r\nEND:VCARD\r\n", 'DEATHDATE', '-death', true, null],
 			[null, null, null, null, null, null, null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nANNIVERSARY:19001231\r\nX-NC-EXCLUDE-FROM-BIRTHDAY-CALENDAR;TYPE=boolean:true\r\nEND:VCARD\r\n", 'ANNIVERSARY', '-anniversary', true, null],
-			['🎂 12345 (1902)', '19720229', 'FREQ=YEARLY;BYMONTH=2;BYMONTHDAY=-1', 'BDAY', '0', null, null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:19020229\r\nEND:VCARD\r\n", 'BDAY', '', true, null],
+			['🎂 12345 (1904)', '19040229', 'FREQ=YEARLY;BYMONTH=2;BYMONTHDAY=-1', 'BDAY', '0', '1904', null, "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nBDAY:19040229\r\nEND:VCARD\r\n", 'BDAY', '', true, null],
 		];
 	}
 }

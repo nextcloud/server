@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CalDAV\WebcalCaching;
 
 use Exception;
@@ -14,7 +15,6 @@ use OCP\Http\Client\IClientService;
 use OCP\Http\Client\LocalServerException;
 use OCP\IAppConfig;
 use Psr\Log\LoggerInterface;
-use Sabre\VObject\Reader;
 
 class Connection {
 	public function __construct(
@@ -26,8 +26,10 @@ class Connection {
 
 	/**
 	 * gets webcal feed from remote server
+	 *
+	 * @return array{data: resource, format: string}|null
 	 */
-	public function queryWebcalFeed(array $subscription): ?string {
+	public function queryWebcalFeed(array $subscription): ?array {
 		$subscriptionId = $subscription['id'];
 		$url = $this->cleanURL($subscription['source']);
 		if ($url === null) {
@@ -54,6 +56,7 @@ class Connection {
 				'User-Agent' => $uaString,
 				'Accept' => 'text/calendar, application/calendar+json, application/calendar+xml',
 			],
+			'stream' => true,
 		];
 
 		$user = parse_url($subscription['source'], PHP_URL_USER);
@@ -77,42 +80,22 @@ class Connection {
 			return null;
 		}
 
-		$body = $response->getBody();
-
 		$contentType = $response->getHeader('Content-Type');
 		$contentType = explode(';', $contentType, 2)[0];
-		switch ($contentType) {
-			case 'application/calendar+json':
-				try {
-					$jCalendar = Reader::readJson($body, Reader::OPTION_FORGIVING);
-				} catch (Exception $ex) {
-					// In case of a parsing error return null
-					$this->logger->warning("Subscription $subscriptionId could not be parsed", ['exception' => $ex]);
-					return null;
-				}
-				return $jCalendar->serialize();
 
-			case 'application/calendar+xml':
-				try {
-					$xCalendar = Reader::readXML($body);
-				} catch (Exception $ex) {
-					// In case of a parsing error return null
-					$this->logger->warning("Subscription $subscriptionId could not be parsed", ['exception' => $ex]);
-					return null;
-				}
-				return $xCalendar->serialize();
+		$format = match ($contentType) {
+			'application/calendar+json' => 'jcal',
+			'application/calendar+xml' => 'xcal',
+			default => 'ical',
+		};
 
-			case 'text/calendar':
-			default:
-				try {
-					$vCalendar = Reader::read($body);
-				} catch (Exception $ex) {
-					// In case of a parsing error return null
-					$this->logger->warning("Subscription $subscriptionId could not be parsed", ['exception' => $ex]);
-					return null;
-				}
-				return $vCalendar->serialize();
+		// With 'stream' => true, getBody() returns the underlying stream resource
+		$stream = $response->getBody();
+		if (!is_resource($stream)) {
+			return null;
 		}
+
+		return ['data' => $stream, 'format' => $format];
 	}
 
 	/**

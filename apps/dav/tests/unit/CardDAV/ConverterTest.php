@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\CardDAV;
 
 use OCA\DAV\CardDAV\Converter;
@@ -79,7 +80,7 @@ class ConverterTest extends TestCase {
 		return $accountManager;
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providesNewUsers')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesNewUsers')]
 	public function testCreation($expectedVCard, $displayName = null, $eMailAddress = null, $cloudId = null): void {
 		$user = $this->getUserMock((string)$displayName, $eMailAddress, $cloudId);
 		$accountManager = $this->getAccountManager($user);
@@ -187,7 +188,7 @@ class ConverterTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providesNames')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesNames')]
 	public function testNameSplitter(string $expected, string $fullName): void {
 		$converter = new Converter($this->accountManager, $this->userManager, $this->urlGenerator, $this->logger);
 		$r = $converter->splitFullName($fullName);

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\DB\Connection;
@@ -105,6 +106,7 @@ class Server extends \Sabre\DAV\Server {
 		$parentFn($eventName, $wrappedCallback, $priority);
 	}
 
+	#[\Override]
 	public function removeListener(
 		string $eventName,
 		callable $listener,
@@ -130,6 +132,7 @@ class Server extends \Sabre\DAV\Server {
 		return $removed;
 	}
 
+	#[\Override]
 	public function removeAllListeners(?string $eventName = null): void {
 		parent::removeAllListeners($eventName);
 
@@ -150,12 +153,13 @@ class Server extends \Sabre\DAV\Server {
 		string $pluginName,
 		string $eventName,
 	): callable {
+		$connection = \OCP\Server::get(Connection::class);
 		return function (PropFind $propFind, INode $node) use (
 			$callBack,
 			$pluginName,
 			$eventName,
+			$connection,
 		): bool {
-			$connection = \OCP\Server::get(Connection::class);
 			$queriesBefore = $connection->getStats()['executed'];
 			$result = $callBack($propFind, $node);
 			$queriesAfter = $connection->getStats()['executed'];
@@ -196,6 +200,7 @@ class Server extends \Sabre\DAV\Server {
 	 *
 	 * @return void
 	 */
+	#[\Override]
 	public function start() {
 		try {
 			// If nginx (pre-1.2) is used as a proxy server, and SabreDAV as an

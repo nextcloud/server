@@ -6,9 +6,11 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Authentication\Listeners;
 
 use Exception;
+use OC\Authentication\Events\ARemoteWipeEvent;
 use OC\Authentication\Events\RemoteWipeFinished;
 use OC\Authentication\Events\RemoteWipeStarted;
 use OCP\EventDispatcher\Event;
@@ -23,34 +25,24 @@ use Psr\Log\LoggerInterface;
 use function substr;
 
 /**
- * @template-implements IEventListener<\OC\Authentication\Events\ARemoteWipeEvent>
+ * @template-implements IEventListener<ARemoteWipeEvent>
  */
 class RemoteWipeEmailListener implements IEventListener {
-	/** @var IMailer */
-	private $mailer;
+	private IL10N $l10n;
 
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IL10N */
-	private $l10n;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	public function __construct(IMailer $mailer,
-		IUserManager $userManager,
+	public function __construct(
+		private IMailer $mailer,
+		private IUserManager $userManager,
 		IL10nFactory $l10nFactory,
-		LoggerInterface $logger) {
-		$this->mailer = $mailer;
-		$this->userManager = $userManager;
+		private LoggerInterface $logger,
+	) {
 		$this->l10n = $l10nFactory->get('core');
-		$this->logger = $logger;
 	}
 
 	/**
 	 * @param Event $event
 	 */
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof RemoteWipeStarted) {
 			$uid = $event->getToken()->getUID();

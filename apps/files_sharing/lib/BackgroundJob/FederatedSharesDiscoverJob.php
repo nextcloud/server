@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Sharing\BackgroundJob;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -30,6 +31,7 @@ class FederatedSharesDiscoverJob extends TimedJob {
 		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
+	#[\Override]
 	public function run($argument) {
 		$qb = $this->connection->getQueryBuilder();
 
@@ -37,7 +39,7 @@ class FederatedSharesDiscoverJob extends TimedJob {
 			->from('share_external');
 
 		$result = $qb->executeQuery();
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$this->discoveryService->discover($row['remote'], 'FEDERATED_SHARING', true);
 			try {
 				$this->ocmDiscoveryService->discover($row['remote'], true);

@@ -37,10 +37,9 @@ export function validateEmail(input) {
  */
 export function validateUrl(input) {
 	try {
-		// eslint-disable-next-line no-new
 		new URL(input)
 		return true
-	} catch (e) {
+	} catch {
 		return false
 	}
 }

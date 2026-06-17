@@ -18,6 +18,7 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Test\AppFramework\Middleware\Security\Mock\PasswordConfirmationMiddlewareController;
 use Test\TestCase;
@@ -44,8 +45,11 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 	/** @var Manager&\PHPUnit\Framework\MockObject\MockObject */
 	private Manager $userManager;
 
+	#[\Override]
 	protected function setUp(): void {
-		$this->reflector = new ControllerMethodReflector();
+		parent::setUp();
+
+		$this->reflector = new ControllerMethodReflector(Server::get(LoggerInterface::class));
 		$this->session = $this->createMock(ISession::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->user = $this->createMock(IUser::class);
@@ -156,8 +160,6 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 
 		$this->assertSame($exception, $thrown);
 	}
-
-
 
 	public static function dataProvider(): array {
 		return [

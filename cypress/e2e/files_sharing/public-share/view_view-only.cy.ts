@@ -6,7 +6,6 @@ import { getActionButtonForFile, getRowForFile, navigateToFolder } from '../../f
 import { openSharingPanel } from '../FilesSharingUtils.ts'
 
 describe('files_sharing: Public share - View only', { testIsolation: true }, () => {
-
 	let shareUrl: string
 	const shareName = 'shared'
 

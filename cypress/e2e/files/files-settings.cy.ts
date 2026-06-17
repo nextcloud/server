@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { User } from '@nextcloud/cypress'
+import type { User } from '@nextcloud/e2e-test-server/cypress'
 
 import { getRowForFile } from './FilesUtils.ts'
 
@@ -19,11 +19,10 @@ describe('files: Set default view', { testIsolation: true }, () => {
 
 		// See URL and current view
 		cy.url().should('match', /\/apps\/files\/files/)
-		cy.get('[data-cy-files-content-breadcrumbs]')
-			.findByRole('button', {
-				name: 'All files',
-				description: 'Reload current directory',
-			})
+		cy.findByRole('navigation', { name: 'Current directory path' })
+			.findAllByRole('button')
+			.first()
+			.should('have.text', 'All files')
 
 		// See the option is also selected
 		// Open the files settings
@@ -54,11 +53,10 @@ describe('files: Set default view', { testIsolation: true }, () => {
 
 		cy.visit('/apps/files')
 		cy.url().should('match', /\/apps\/files\/personal/)
-		cy.get('[data-cy-files-content-breadcrumbs]')
-			.findByRole('button', {
-				name: 'Personal files',
-				description: 'Reload current directory',
-			})
+		cy.findByRole('navigation', { name: 'Current directory path' })
+			.findAllByRole('button')
+			.first()
+			.should('have.text', 'Personal files')
 	})
 })
 
@@ -149,10 +147,13 @@ function showHiddenFiles() {
 	// Open the files settings
 	cy.get('[data-cy-files-navigation-settings-button] a').click({ force: true })
 	// Toggle the hidden files setting
-	cy.get('[data-cy-files-settings-setting="show_hidden"]').within(() => {
-		cy.get('input').should('not.be.checked')
-		cy.get('input').check({ force: true })
-	})
+	cy.findByRole('switch', { name: /show hidden files/i })
+		.as('hiddenFiles')
+		.scrollIntoView()
+	cy.get('@hiddenFiles')
+		.should('not.be.checked')
+		.check({ force: true })
+
 	// Close the dialog
 	cy.get('[data-cy-files-navigation-settings] button[aria-label="Close"]').click()
 }

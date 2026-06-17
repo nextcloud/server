@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV\ResourceBooking;
 
 use OCA\DAV\CalDAV\Proxy\Proxy;
@@ -246,7 +247,7 @@ abstract class AbstractPrincipalBackendTestCase extends TestCase {
 		$this->assertEquals(0, $actual);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataSearchPrincipals')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataSearchPrincipals')]
 	public function testSearchPrincipals($expected, $test): void {
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->once())
@@ -462,7 +463,7 @@ abstract class AbstractPrincipalBackendTestCase extends TestCase {
 				'displayname' => $query->createNamedParameter('Beamer1'),
 				'group_restrictions' => $query->createNamedParameter('[]'),
 			])
-			->execute();
+			->executeStatement();
 
 		$query->insert($this->mainDbTable)
 			->values([
@@ -472,7 +473,7 @@ abstract class AbstractPrincipalBackendTestCase extends TestCase {
 				'displayname' => $query->createNamedParameter('TV1'),
 				'group_restrictions' => $query->createNamedParameter('[]'),
 			])
-			->execute();
+			->executeStatement();
 
 		$query->insert($this->mainDbTable)
 			->values([
@@ -482,7 +483,7 @@ abstract class AbstractPrincipalBackendTestCase extends TestCase {
 				'displayname' => $query->createNamedParameter('Beamer2'),
 				'group_restrictions' => $query->createNamedParameter('[]'),
 			])
-			->execute();
+			->executeStatement();
 		$id3 = $query->getLastInsertId();
 
 		$query->insert($this->mainDbTable)
@@ -493,7 +494,7 @@ abstract class AbstractPrincipalBackendTestCase extends TestCase {
 				'displayname' => $query->createNamedParameter('TV2'),
 				'group_restrictions' => $query->createNamedParameter('[]'),
 			])
-			->execute();
+			->executeStatement();
 		$id4 = $query->getLastInsertId();
 
 		$query->insert($this->mainDbTable)
@@ -504,7 +505,7 @@ abstract class AbstractPrincipalBackendTestCase extends TestCase {
 				'displayname' => $query->createNamedParameter('Beamer3'),
 				'group_restrictions' => $query->createNamedParameter('["foo", "bar"]'),
 			])
-			->execute();
+			->executeStatement();
 
 		$query->insert($this->mainDbTable)
 			->values([
@@ -514,7 +515,7 @@ abstract class AbstractPrincipalBackendTestCase extends TestCase {
 				'displayname' => $query->createNamedParameter('Pointer'),
 				'group_restrictions' => $query->createNamedParameter('["group1", "bar"]'),
 			])
-			->execute();
+			->executeStatement();
 		$id6 = $query->getLastInsertId();
 
 		$query->insert($this->metadataDbTable)
@@ -523,34 +524,34 @@ abstract class AbstractPrincipalBackendTestCase extends TestCase {
 				'key' => $query->createNamedParameter('{http://nextcloud.com/ns}foo'),
 				'value' => $query->createNamedParameter('value1')
 			])
-			->execute();
+			->executeStatement();
 		$query->insert($this->metadataDbTable)
 			->values([
 				$this->foreignKey => $query->createNamedParameter($id3),
 				'key' => $query->createNamedParameter('{http://nextcloud.com/ns}meta2'),
 				'value' => $query->createNamedParameter('value2')
 			])
-			->execute();
+			->executeStatement();
 		$query->insert($this->metadataDbTable)
 			->values([
 				$this->foreignKey => $query->createNamedParameter($id4),
 				'key' => $query->createNamedParameter('{http://nextcloud.com/ns}meta1'),
 				'value' => $query->createNamedParameter('value1')
 			])
-			->execute();
+			->executeStatement();
 		$query->insert($this->metadataDbTable)
 			->values([
 				$this->foreignKey => $query->createNamedParameter($id4),
 				'key' => $query->createNamedParameter('{http://nextcloud.com/ns}meta3'),
 				'value' => $query->createNamedParameter('value3-old')
 			])
-			->execute();
+			->executeStatement();
 		$query->insert($this->metadataDbTable)
 			->values([
 				$this->foreignKey => $query->createNamedParameter($id6),
 				'key' => $query->createNamedParameter('{http://nextcloud.com/ns}meta99'),
 				'value' => $query->createNamedParameter('value99')
 			])
-			->execute();
+			->executeStatement();
 	}
 }

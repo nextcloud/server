@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Encryption\Tests\Crypto;
 
 use OC\Encryption\Exceptions\DecryptionFailedException;
@@ -137,7 +138,6 @@ class EncryptionTest extends TestCase {
 		$this->instance->end('/foo/bar');
 	}
 
-
 	public function getPublicKeyCallback($uid) {
 		if ($uid === 'user2') {
 			throw new PublicKeyMissingException($uid);
@@ -152,7 +152,7 @@ class EncryptionTest extends TestCase {
 		return $publicKeys;
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataProviderForTestGetPathToRealFile')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataProviderForTestGetPathToRealFile')]
 	public function testGetPathToRealFile($path, $expected): void {
 		$this->assertSame($expected,
 			self::invokePrivate($this->instance, 'getPathToRealFile', [$path])
@@ -168,7 +168,7 @@ class EncryptionTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestBegin')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestBegin')]
 	public function testBegin($mode, $header, $legacyCipher, $defaultCipher, $fileKey, $expected): void {
 		$this->sessionMock->expects($this->once())
 			->method('decryptAllModeActivated')
@@ -219,7 +219,6 @@ class EncryptionTest extends TestCase {
 		];
 	}
 
-
 	/**
 	 * test begin() if decryptAll mode was activated
 	 */
@@ -265,7 +264,7 @@ class EncryptionTest extends TestCase {
 	 * @param string $fileKey
 	 * @param boolean $expected
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestUpdate')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestUpdate')]
 	public function testUpdate($fileKey, $expected): void {
 		$this->keyManagerMock->expects($this->once())
 			->method('getFileKey')->willReturn($fileKey);
@@ -351,7 +350,7 @@ class EncryptionTest extends TestCase {
 	 * by default the encryption module should encrypt regular files, files in
 	 * files_versions and files in files_trashbin
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestShouldEncrypt')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestShouldEncrypt')]
 	public function testShouldEncrypt($path, $shouldEncryptHomeStorage, $isHomeStorage, $expected): void {
 		$this->utilMock->expects($this->once())->method('shouldEncryptHomeStorage')
 			->willReturn($shouldEncryptHomeStorage);
@@ -383,7 +382,6 @@ class EncryptionTest extends TestCase {
 			['/user1/files_versions/foo.txt', false, false, true],
 		];
 	}
-
 
 	public function testDecrypt(): void {
 		$this->expectException(DecryptionFailedException::class);

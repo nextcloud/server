@@ -36,9 +36,7 @@ use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\Reader;
 use Test\TestCase;
 
-/**
- * @covers \OCA\DAV\Listener\OutOfOfficeListener
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(OutOfOfficeListener::class)]
 class OutOfOfficeListenerTest extends TestCase {
 
 	private ServerFactory&MockObject $serverFactory;

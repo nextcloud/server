@@ -56,7 +56,7 @@ class ApplicationTest extends TestCase {
 		];
 	}
 
-	#[DataProvider('providesDataForCanGet')]
+	#[DataProvider(methodName: 'providesDataForCanGet')]
 	public function testCheckDirectCanBeDownloaded(
 		string $path,
 		string $storageClass,
@@ -115,7 +115,7 @@ class ApplicationTest extends TestCase {
 		];
 	}
 
-	#[DataProvider('providesDataForCanZip')]
+	#[DataProvider(methodName: 'providesDataForCanZip')]
 	public function testCheckZipCanBeDownloaded(
 		string $dir,
 		array $files,

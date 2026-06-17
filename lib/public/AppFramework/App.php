@@ -7,12 +7,14 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\AppFramework;
 
 use OC\AppFramework\Utility\SimpleContainer;
 use OC\ServerContainer;
 use OCP\IConfig;
 use OCP\Server;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -35,11 +37,11 @@ class App {
 	 *                             the transformed app id, defaults to OCA\
 	 * @return string the starting namespace for the app
 	 * @since 8.0.0
+	 * @deprecated 34.0.0 use IAppManager::getAppNamespace
 	 */
 	public static function buildAppNamespace(string $appId, string $topNamespace = 'OCA\\'): string {
 		return \OC\AppFramework\App::buildAppNamespace($appId, $topNamespace);
 	}
-
 
 	/**
 	 * @param string $appName
@@ -56,7 +58,6 @@ class App {
 			$setUpViaQuery = false;
 
 			$classNameParts = explode('\\', trim($applicationClassName, '\\'));
-
 			foreach ($e->getTrace() as $step) {
 				if (isset($step['class'], $step['function'], $step['args'][0])
 					&& $step['class'] === ServerContainer::class
@@ -67,7 +68,7 @@ class App {
 				} elseif (isset($step['class'], $step['function'], $step['args'][0])
 					&& $step['class'] === ServerContainer::class
 					&& $step['function'] === 'getAppContainer'
-					&& $step['args'][1] === $classNameParts[1]) {
+					&& $step['args'][0] === $classNameParts[0] . '\\' . $classNameParts[1]) {
 					$setUpViaQuery = true;
 					break;
 				} elseif (isset($step['class'], $step['function'], $step['args'][0])
@@ -90,7 +91,7 @@ class App {
 
 		try {
 			$this->container = \OC::$server->getRegisteredAppContainer($appName);
-		} catch (QueryException $e) {
+		} catch (ContainerExceptionInterface $e) {
 			$this->container = new \OC\AppFramework\DependencyInjection\DIContainer($appName, $urlParams);
 		}
 	}

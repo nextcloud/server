@@ -82,6 +82,10 @@ class ApiController extends OCSController {
 	public function set(int $fileId, string $dueDate): DataResponse {
 		try {
 			$dueDate = (new DateTime($dueDate))->setTimezone(new DateTimeZone('UTC'));
+			$nowDate = (new DateTime('now'))->setTimezone(new DateTimeZone('UTC'));
+			if ($dueDate <= $nowDate) {
+				return new DataResponse([], Http::STATUS_BAD_REQUEST);
+			}
 		} catch (Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);

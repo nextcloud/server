@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\Authentication\Token;
 
 use JsonSerializable;
@@ -25,6 +26,10 @@ interface IToken extends JsonSerializable {
 	 * @since 28.0.0
 	 */
 	public const WIPE_TOKEN = 2;
+	/**
+	 * @since 33.0.0
+	 */
+	public const ONETIME_TOKEN = 3;
 	/**
 	 * @since 28.0.0
 	 */

@@ -15,12 +15,11 @@ use OCP\Federation\ICloudIdManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class CloudIdTest extends TestCase {
 	protected CloudIdManager&MockObject $cloudIdManager;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

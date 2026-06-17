@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\FakeLockerPlugin;
@@ -119,7 +120,7 @@ class FakeLockerPluginTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('tokenDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'tokenDataProvider')]
 	public function testValidateTokens(array $input, array $expected): void {
 		$request = $this->createMock(RequestInterface::class);
 		$this->fakeLockerPlugin->validateTokens($request, $input);

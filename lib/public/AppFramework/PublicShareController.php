@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\AppFramework;
 
 use OCP\IRequest;
@@ -25,8 +26,11 @@ use OCP\ISession;
  * @since 14.0.0
  */
 abstract class PublicShareController extends Controller {
-	/** @var ISession */
-	protected $session;
+
+	/**
+	 * @since 33.0.0
+	 */
+	public const DAV_AUTHENTICATED_FRONTEND = 'public_link_authenticated_frontend';
 
 	/** @var string */
 	private $token;
@@ -34,12 +38,12 @@ abstract class PublicShareController extends Controller {
 	/**
 	 * @since 14.0.0
 	 */
-	public function __construct(string $appName,
+	public function __construct(
+		string $appName,
 		IRequest $request,
-		ISession $session) {
+		protected ISession $session,
+	) {
 		parent::__construct($appName, $request);
-
-		$this->session = $session;
 	}
 
 	/**
@@ -98,8 +102,7 @@ abstract class PublicShareController extends Controller {
 		}
 
 		// If we are authenticated properly
-		if ($this->session->get('public_link_authenticated_token') === $this->getToken()
-			&& $this->session->get('public_link_authenticated_password_hash') === $this->getPasswordHash()) {
+		if ($this->validateTokenSession($this->getToken(), $this->getPasswordHash())) {
 			return true;
 		}
 
@@ -115,5 +118,36 @@ abstract class PublicShareController extends Controller {
 	 * @since 14.0.0
 	 */
 	public function shareNotFound() {
+	}
+
+	/**
+	 * Validate the token and password hash stored in session
+	 *
+	 * @since 33.0.0
+	 */
+	protected function validateTokenSession(string $token, string $passwordHash): bool {
+		$allowedTokensJSON = $this->session->get(self::DAV_AUTHENTICATED_FRONTEND) ?? '[]';
+		$allowedTokens = json_decode($allowedTokensJSON, true);
+		if (!is_array($allowedTokens)) {
+			$allowedTokens = [];
+		}
+
+		return ($allowedTokens[$token] ?? '') === $passwordHash;
+	}
+
+	/**
+	 * Store the token and password hash in session
+	 *
+	 * @since 33.0.0
+	 */
+	protected function storeTokenSession(string $token, string $passwordHash = ''): void {
+		$allowedTokensJSON = $this->session->get(self::DAV_AUTHENTICATED_FRONTEND) ?? '[]';
+		$allowedTokens = json_decode($allowedTokensJSON, true);
+		if (!is_array($allowedTokens)) {
+			$allowedTokens = [];
+		}
+
+		$allowedTokens[$token] = $passwordHash;
+		$this->session->set(self::DAV_AUTHENTICATED_FRONTEND, json_encode($allowedTokens));
 	}
 }

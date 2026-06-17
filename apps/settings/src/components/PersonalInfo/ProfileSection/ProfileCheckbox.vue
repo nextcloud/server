@@ -5,10 +5,11 @@
 
 <template>
 	<div class="checkbox-container">
-		<NcCheckboxRadioSwitch type="switch"
-			:checked.sync="isProfileEnabled"
+		<NcCheckboxRadioSwitch
+			v-model="isProfileEnabled"
+			type="switch"
 			:loading="loading"
-			@update:checked="saveEnableProfile">
+			@update:modelValue="saveEnableProfile">
 			{{ t('settings', 'Enable profile') }}
 		</NcCheckboxRadioSwitch>
 	</div>
@@ -16,10 +17,9 @@
 
 <script>
 import { emit } from '@nextcloud/event-bus'
-
-import { savePrimaryAccountProperty } from '../../../service/PersonalInfo/PersonalInfoService.js'
-import { ACCOUNT_PROPERTY_ENUM } from '../../../constants/AccountPropertyConstants.js'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import { ACCOUNT_PROPERTY_ENUM } from '../../../constants/AccountPropertyConstants.js'
+import { savePrimaryAccountProperty } from '../../../service/PersonalInfo/PersonalInfoService.js'
 import { handleError } from '../../../utils/handlers.ts'
 
 export default {

@@ -1,25 +1,24 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { Node, View } from '@nextcloud/files'
 
-import { emit } from '@nextcloud/event-bus'
-import { generateOcsUrl } from '@nextcloud/router'
-import { registerFileAction, FileAction } from '@nextcloud/files'
-import { translatePlural as n } from '@nextcloud/l10n'
-import { ShareType } from '@nextcloud/sharing'
-import { pendingSharesViewId } from '../files_views/shares'
+import type { IFileAction } from '@nextcloud/files'
 
-import axios from '@nextcloud/axios'
 import CloseSvg from '@mdi/svg/svg/close.svg?raw'
+import axios from '@nextcloud/axios'
+import { emit } from '@nextcloud/event-bus'
+import { translatePlural as n } from '@nextcloud/l10n'
+import { generateOcsUrl } from '@nextcloud/router'
+import { ShareType } from '@nextcloud/sharing'
+import { pendingSharesViewId } from '../files_views/shares.ts'
 
-export const action = new FileAction({
+export const action: IFileAction = {
 	id: 'reject-share',
-	displayName: (nodes: Node[]) => n('files_sharing', 'Reject share', 'Reject shares', nodes.length),
+	displayName: ({ nodes }) => n('files_sharing', 'Reject share', 'Reject shares', nodes.length),
 	iconSvgInline: () => CloseSvg,
 
-	enabled: (nodes, view) => {
+	enabled: ({ nodes, view }) => {
 		if (view.id !== pendingSharesViewId) {
 			return false
 		}
@@ -30,7 +29,7 @@ export const action = new FileAction({
 
 		// disable rejecting group shares from the pending list because they anyway
 		// land back into that same list after rejecting them
-		if (nodes.some(node => node.attributes.remote_id
+		if (nodes.some((node) => node.attributes.remote_id
 			&& node.attributes.share_type === ShareType.RemoteGroup)) {
 			return false
 		}
@@ -38,11 +37,12 @@ export const action = new FileAction({
 		return true
 	},
 
-	async exec(node: Node) {
+	async exec({ nodes }) {
 		try {
+			const node = nodes[0]
 			const isRemote = !!node.attributes.remote
 			const shareBase = isRemote ? 'remote_shares' : 'shares'
-			const id = node.attributes.id
+			const id = node.id
 			let url: string
 			if (node.attributes.accepted === 0) {
 				url = generateOcsUrl('apps/files_sharing/api/v1/{shareBase}/pending/{id}', {
@@ -61,16 +61,14 @@ export const action = new FileAction({
 			emit('files:node:deleted', node)
 
 			return true
-		} catch (error) {
+		} catch {
 			return false
 		}
 	},
-	async execBatch(nodes: Node[], view: View, dir: string) {
-		return Promise.all(nodes.map(node => this.exec(node, view, dir)))
+	async execBatch({ nodes, view, folder, contents }) {
+		return Promise.all(nodes.map((node) => this.exec({ nodes: [node], view, folder, contents })))
 	},
 
 	order: 2,
 	inline: () => true,
-})
-
-registerFileAction(action)
+}

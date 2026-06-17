@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\TaskProcessing;
 
 /**
@@ -42,6 +43,7 @@ class ShapeEnumValue implements \JsonSerializable {
 	 * @return array{name: string, value: string}
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'name' => $this->getName(),

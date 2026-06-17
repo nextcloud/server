@@ -6,7 +6,7 @@
  */
 use PHPUnit\Framework\Assert;
 
-require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/autoload.php';
 
 trait Avatar {
 	/** @var string * */
@@ -183,14 +183,10 @@ trait Avatar {
 				// on solid color images the resizing can cause some small
 				// artifacts that slightly modify the color of certain pixels.
 				if (!$this->isSameColor($firstPixelColor, $currentPixelColor)) {
-					imagedestroy($image);
-
 					return null;
 				}
 			}
 		}
-
-		imagedestroy($image);
 
 		return $firstPixelColor;
 	}

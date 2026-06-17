@@ -23,20 +23,20 @@ describe('Files: Sorting the file list', { testIsolation: true }, () => {
 
 		cy.get('[data-cy-files-list-row]').each(($row, index) => {
 			switch (index) {
-			case 0: expect($row.attr('data-cy-files-list-row-name')).to.eq('4')
-				break
-			case 1: expect($row.attr('data-cy-files-list-row-name')).to.eq('m')
-				break
-			case 2: expect($row.attr('data-cy-files-list-row-name')).to.eq('1 first.txt')
-				break
-			case 3: expect($row.attr('data-cy-files-list-row-name')).to.eq('A.txt')
-				break
-			case 4: expect($row.attr('data-cy-files-list-row-name')).to.eq('Ä.txt')
-				break
-			case 5: expect($row.attr('data-cy-files-list-row-name')).to.eq('welcome.txt')
-				break
-			case 6: expect($row.attr('data-cy-files-list-row-name')).to.eq('z last.txt')
-				break
+				case 0: expect($row.attr('data-cy-files-list-row-name')).to.eq('4')
+					break
+				case 1: expect($row.attr('data-cy-files-list-row-name')).to.eq('m')
+					break
+				case 2: expect($row.attr('data-cy-files-list-row-name')).to.eq('1 first.txt')
+					break
+				case 3: expect($row.attr('data-cy-files-list-row-name')).to.eq('A.txt')
+					break
+				case 4: expect($row.attr('data-cy-files-list-row-name')).to.eq('Ä.txt')
+					break
+				case 5: expect($row.attr('data-cy-files-list-row-name')).to.eq('welcome.txt')
+					break
+				case 6: expect($row.attr('data-cy-files-list-row-name')).to.eq('z last.txt')
+					break
 			}
 		})
 	})
@@ -54,14 +54,14 @@ describe('Files: Sorting the file list', { testIsolation: true }, () => {
 
 		cy.get('[data-cy-files-list-row]').each(($row, index) => {
 			switch (index) {
-			case 0: expect($row.attr('data-cy-files-list-row-name')).to.eq('name.txt')
-				break
-			case 1: expect($row.attr('data-cy-files-list-row-name')).to.eq('name_01.txt')
-				break
-			case 2: expect($row.attr('data-cy-files-list-row-name')).to.eq('name_02.txt')
-				break
-			case 3: expect($row.attr('data-cy-files-list-row-name')).to.eq('name_03.txt')
-				break
+				case 0: expect($row.attr('data-cy-files-list-row-name')).to.eq('name.txt')
+					break
+				case 1: expect($row.attr('data-cy-files-list-row-name')).to.eq('name_01.txt')
+					break
+				case 2: expect($row.attr('data-cy-files-list-row-name')).to.eq('name_02.txt')
+					break
+				case 3: expect($row.attr('data-cy-files-list-row-name')).to.eq('name_03.txt')
+					break
 			}
 		})
 	})
@@ -81,16 +81,16 @@ describe('Files: Sorting the file list', { testIsolation: true }, () => {
 		// Files are sorted
 		cy.get('[data-cy-files-list-row]').each(($row, index) => {
 			switch (index) {
-			case 0: expect($row.attr('data-cy-files-list-row-name')).to.eq('folder')
-				break
-			case 1: expect($row.attr('data-cy-files-list-row-name')).to.eq('1 tiny.txt')
-				break
-			case 2: expect($row.attr('data-cy-files-list-row-name')).to.eq('welcome.txt')
-				break
-			case 3: expect($row.attr('data-cy-files-list-row-name')).to.eq('a medium.txt')
-				break
-			case 4: expect($row.attr('data-cy-files-list-row-name')).to.eq('z big.txt')
-				break
+				case 0: expect($row.attr('data-cy-files-list-row-name')).to.eq('folder')
+					break
+				case 1: expect($row.attr('data-cy-files-list-row-name')).to.eq('1 tiny.txt')
+					break
+				case 2: expect($row.attr('data-cy-files-list-row-name')).to.eq('welcome.txt')
+					break
+				case 3: expect($row.attr('data-cy-files-list-row-name')).to.eq('a medium.txt')
+					break
+				case 4: expect($row.attr('data-cy-files-list-row-name')).to.eq('z big.txt')
+					break
 			}
 		})
 
@@ -101,16 +101,16 @@ describe('Files: Sorting the file list', { testIsolation: true }, () => {
 		// Files are sorted
 		cy.get('[data-cy-files-list-row]').each(($row, index) => {
 			switch (index) {
-			case 0: expect($row.attr('data-cy-files-list-row-name')).to.eq('folder')
-				break
-			case 1: expect($row.attr('data-cy-files-list-row-name')).to.eq('z big.txt')
-				break
-			case 2: expect($row.attr('data-cy-files-list-row-name')).to.eq('a medium.txt')
-				break
-			case 3: expect($row.attr('data-cy-files-list-row-name')).to.eq('welcome.txt')
-				break
-			case 4: expect($row.attr('data-cy-files-list-row-name')).to.eq('1 tiny.txt')
-				break
+				case 0: expect($row.attr('data-cy-files-list-row-name')).to.eq('folder')
+					break
+				case 1: expect($row.attr('data-cy-files-list-row-name')).to.eq('z big.txt')
+					break
+				case 2: expect($row.attr('data-cy-files-list-row-name')).to.eq('a medium.txt')
+					break
+				case 3: expect($row.attr('data-cy-files-list-row-name')).to.eq('welcome.txt')
+					break
+				case 4: expect($row.attr('data-cy-files-list-row-name')).to.eq('1 tiny.txt')
+					break
 			}
 		})
 	})
@@ -129,14 +129,14 @@ describe('Files: Sorting the file list', { testIsolation: true }, () => {
 		// Files are sorted
 		cy.get('[data-cy-files-list-row]').each(($row, index) => {
 			switch (index) {
-			case 0: expect($row.attr('data-cy-files-list-row-name')).to.eq('welcome.txt') // uploaded right now
-				break
-			case 1: expect($row.attr('data-cy-files-list-row-name')).to.eq('z.txt') // fake time of yesterday
-				break
-			case 2: expect($row.attr('data-cy-files-list-row-name')).to.eq('a.txt') // fake time of yesterday and few minutes
-				break
-			case 3: expect($row.attr('data-cy-files-list-row-name')).to.eq('1.txt') // fake time of yesterday and ~15 minutes ago
-				break
+				case 0: expect($row.attr('data-cy-files-list-row-name')).to.eq('welcome.txt') // uploaded right now
+					break
+				case 1: expect($row.attr('data-cy-files-list-row-name')).to.eq('z.txt') // fake time of yesterday
+					break
+				case 2: expect($row.attr('data-cy-files-list-row-name')).to.eq('a.txt') // fake time of yesterday and few minutes
+					break
+				case 3: expect($row.attr('data-cy-files-list-row-name')).to.eq('1.txt') // fake time of yesterday and ~15 minutes ago
+					break
 			}
 		})
 
@@ -145,14 +145,14 @@ describe('Files: Sorting the file list', { testIsolation: true }, () => {
 		cy.contains('th', 'Modified').should('have.attr', 'aria-sort', 'descending')
 		cy.get('[data-cy-files-list-row]').each(($row, index) => {
 			switch (index) {
-			case 3: expect($row.attr('data-cy-files-list-row-name')).to.eq('welcome.txt') // uploaded right now
-				break
-			case 2: expect($row.attr('data-cy-files-list-row-name')).to.eq('z.txt') // fake time of yesterday
-				break
-			case 1: expect($row.attr('data-cy-files-list-row-name')).to.eq('a.txt') // fake time of yesterday and few minutes
-				break
-			case 0: expect($row.attr('data-cy-files-list-row-name')).to.eq('1.txt') // fake time of yesterday and ~15 minutes ago
-				break
+				case 3: expect($row.attr('data-cy-files-list-row-name')).to.eq('welcome.txt') // uploaded right now
+					break
+				case 2: expect($row.attr('data-cy-files-list-row-name')).to.eq('z.txt') // fake time of yesterday
+					break
+				case 1: expect($row.attr('data-cy-files-list-row-name')).to.eq('a.txt') // fake time of yesterday and few minutes
+					break
+				case 0: expect($row.attr('data-cy-files-list-row-name')).to.eq('1.txt') // fake time of yesterday and ~15 minutes ago
+					break
 			}
 		})
 	})
@@ -170,14 +170,14 @@ describe('Files: Sorting the file list', { testIsolation: true }, () => {
 
 		cy.get('[data-cy-files-list-row]').each(($row, index) => {
 			switch (index) {
-			case 0: expect($row.attr('data-cy-files-list-row-name')).to.eq('a.txt')
-				break
-			case 1: expect($row.attr('data-cy-files-list-row-name')).to.eq('1.txt')
-				break
-			case 2: expect($row.attr('data-cy-files-list-row-name')).to.eq('welcome.txt')
-				break
-			case 3: expect($row.attr('data-cy-files-list-row-name')).to.eq('z.txt')
-				break
+				case 0: expect($row.attr('data-cy-files-list-row-name')).to.eq('a.txt')
+					break
+				case 1: expect($row.attr('data-cy-files-list-row-name')).to.eq('1.txt')
+					break
+				case 2: expect($row.attr('data-cy-files-list-row-name')).to.eq('welcome.txt')
+					break
+				case 3: expect($row.attr('data-cy-files-list-row-name')).to.eq('z.txt')
+					break
 			}
 		})
 
@@ -187,14 +187,14 @@ describe('Files: Sorting the file list', { testIsolation: true }, () => {
 
 		cy.get('[data-cy-files-list-row]').each(($row, index) => {
 			switch (index) {
-			case 0: expect($row.attr('data-cy-files-list-row-name')).to.eq('a.txt')
-				break
-			case 3: expect($row.attr('data-cy-files-list-row-name')).to.eq('1.txt')
-				break
-			case 2: expect($row.attr('data-cy-files-list-row-name')).to.eq('welcome.txt')
-				break
-			case 1: expect($row.attr('data-cy-files-list-row-name')).to.eq('z.txt')
-				break
+				case 0: expect($row.attr('data-cy-files-list-row-name')).to.eq('a.txt')
+					break
+				case 3: expect($row.attr('data-cy-files-list-row-name')).to.eq('1.txt')
+					break
+				case 2: expect($row.attr('data-cy-files-list-row-name')).to.eq('welcome.txt')
+					break
+				case 1: expect($row.attr('data-cy-files-list-row-name')).to.eq('z.txt')
+					break
 			}
 		})
 
@@ -204,14 +204,14 @@ describe('Files: Sorting the file list', { testIsolation: true }, () => {
 
 		cy.get('[data-cy-files-list-row]').each(($row, index) => {
 			switch (index) {
-			case 0: expect($row.attr('data-cy-files-list-row-name')).to.eq('a.txt')
-				break
-			case 1: expect($row.attr('data-cy-files-list-row-name')).to.eq('1.txt')
-				break
-			case 2: expect($row.attr('data-cy-files-list-row-name')).to.eq('welcome.txt')
-				break
-			case 3: expect($row.attr('data-cy-files-list-row-name')).to.eq('z.txt')
-				break
+				case 0: expect($row.attr('data-cy-files-list-row-name')).to.eq('a.txt')
+					break
+				case 1: expect($row.attr('data-cy-files-list-row-name')).to.eq('1.txt')
+					break
+				case 2: expect($row.attr('data-cy-files-list-row-name')).to.eq('welcome.txt')
+					break
+				case 3: expect($row.attr('data-cy-files-list-row-name')).to.eq('z.txt')
+					break
 			}
 		})
 
@@ -221,14 +221,14 @@ describe('Files: Sorting the file list', { testIsolation: true }, () => {
 
 		cy.get('[data-cy-files-list-row]').each(($row, index) => {
 			switch (index) {
-			case 0: expect($row.attr('data-cy-files-list-row-name')).to.eq('a.txt')
-				break
-			case 3: expect($row.attr('data-cy-files-list-row-name')).to.eq('1.txt')
-				break
-			case 2: expect($row.attr('data-cy-files-list-row-name')).to.eq('welcome.txt')
-				break
-			case 1: expect($row.attr('data-cy-files-list-row-name')).to.eq('z.txt')
-				break
+				case 0: expect($row.attr('data-cy-files-list-row-name')).to.eq('a.txt')
+					break
+				case 3: expect($row.attr('data-cy-files-list-row-name')).to.eq('1.txt')
+					break
+				case 2: expect($row.attr('data-cy-files-list-row-name')).to.eq('welcome.txt')
+					break
+				case 1: expect($row.attr('data-cy-files-list-row-name')).to.eq('z.txt')
+					break
 			}
 		})
 
@@ -238,14 +238,14 @@ describe('Files: Sorting the file list', { testIsolation: true }, () => {
 
 		cy.get('[data-cy-files-list-row]').each(($row, index) => {
 			switch (index) {
-			case 0: expect($row.attr('data-cy-files-list-row-name')).to.eq('a.txt')
-				break
-			case 1: expect($row.attr('data-cy-files-list-row-name')).to.eq('welcome.txt')
-				break
-			case 2: expect($row.attr('data-cy-files-list-row-name')).to.eq('z.txt')
-				break
-			case 3: expect($row.attr('data-cy-files-list-row-name')).to.eq('1.txt')
-				break
+				case 0: expect($row.attr('data-cy-files-list-row-name')).to.eq('a.txt')
+					break
+				case 1: expect($row.attr('data-cy-files-list-row-name')).to.eq('welcome.txt')
+					break
+				case 2: expect($row.attr('data-cy-files-list-row-name')).to.eq('z.txt')
+					break
+				case 3: expect($row.attr('data-cy-files-list-row-name')).to.eq('1.txt')
+					break
 			}
 		})
 
@@ -255,14 +255,14 @@ describe('Files: Sorting the file list', { testIsolation: true }, () => {
 
 		cy.get('[data-cy-files-list-row]').each(($row, index) => {
 			switch (index) {
-			case 0: expect($row.attr('data-cy-files-list-row-name')).to.eq('a.txt')
-				break
-			case 1: expect($row.attr('data-cy-files-list-row-name')).to.eq('1.txt')
-				break
-			case 2: expect($row.attr('data-cy-files-list-row-name')).to.eq('z.txt')
-				break
-			case 3: expect($row.attr('data-cy-files-list-row-name')).to.eq('welcome.txt')
-				break
+				case 0: expect($row.attr('data-cy-files-list-row-name')).to.eq('a.txt')
+					break
+				case 1: expect($row.attr('data-cy-files-list-row-name')).to.eq('1.txt')
+					break
+				case 2: expect($row.attr('data-cy-files-list-row-name')).to.eq('z.txt')
+					break
+				case 3: expect($row.attr('data-cy-files-list-row-name')).to.eq('welcome.txt')
+					break
 			}
 		})
 	})
@@ -294,16 +294,16 @@ describe('Files: Sorting the file list', { testIsolation: true }, () => {
 		// Files are sorted
 		cy.get('[data-cy-files-list-row]').each(($row, index) => {
 			switch (index) {
-			case 0: expect($row.attr('data-cy-files-list-row-name')).to.eq('folder')
-				break
-			case 1: expect($row.attr('data-cy-files-list-row-name')).to.eq('1 tiny.txt')
-				break
-			case 2: expect($row.attr('data-cy-files-list-row-name')).to.eq('welcome.txt')
-				break
-			case 3: expect($row.attr('data-cy-files-list-row-name')).to.eq('a medium.txt')
-				break
-			case 4: expect($row.attr('data-cy-files-list-row-name')).to.eq('z big.txt')
-				break
+				case 0: expect($row.attr('data-cy-files-list-row-name')).to.eq('folder')
+					break
+				case 1: expect($row.attr('data-cy-files-list-row-name')).to.eq('1 tiny.txt')
+					break
+				case 2: expect($row.attr('data-cy-files-list-row-name')).to.eq('welcome.txt')
+					break
+				case 3: expect($row.attr('data-cy-files-list-row-name')).to.eq('a medium.txt')
+					break
+				case 4: expect($row.attr('data-cy-files-list-row-name')).to.eq('z big.txt')
+					break
 			}
 		})
 
@@ -314,16 +314,16 @@ describe('Files: Sorting the file list', { testIsolation: true }, () => {
 		// Files are sorted
 		cy.get('[data-cy-files-list-row]').each(($row, index) => {
 			switch (index) {
-			case 0: expect($row.attr('data-cy-files-list-row-name')).to.eq('folder')
-				break
-			case 1: expect($row.attr('data-cy-files-list-row-name')).to.eq('z big.txt')
-				break
-			case 2: expect($row.attr('data-cy-files-list-row-name')).to.eq('a medium.txt')
-				break
-			case 3: expect($row.attr('data-cy-files-list-row-name')).to.eq('welcome.txt')
-				break
-			case 4: expect($row.attr('data-cy-files-list-row-name')).to.eq('1 tiny.txt')
-				break
+				case 0: expect($row.attr('data-cy-files-list-row-name')).to.eq('folder')
+					break
+				case 1: expect($row.attr('data-cy-files-list-row-name')).to.eq('z big.txt')
+					break
+				case 2: expect($row.attr('data-cy-files-list-row-name')).to.eq('a medium.txt')
+					break
+				case 3: expect($row.attr('data-cy-files-list-row-name')).to.eq('welcome.txt')
+					break
+				case 4: expect($row.attr('data-cy-files-list-row-name')).to.eq('1 tiny.txt')
+					break
 			}
 		})
 	})

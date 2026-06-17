@@ -13,22 +13,24 @@ use OC\Files\Cache\CacheEntry;
 use OC\Files\Storage\Local;
 use OC\Files\Storage\Wrapper\Quota;
 use OCP\Files;
+use OCP\Files\NotEnoughSpaceException;
 use OCP\ITempManager;
 use OCP\Server;
 
 /**
  * Class QuotaTest
  *
- * @group DB
  *
  * @package Test\Files\Storage\Wrapper
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class QuotaTest extends \Test\Files\Storage\Storage {
 	/**
 	 * @var string tmpDir
 	 */
 	private $tmpDir;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -37,6 +39,7 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		$this->instance = new Quota(['storage' => $storage, 'quota' => 10000000]);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		Files::rmdirr($this->tmpDir);
 		parent::tearDown();
@@ -115,9 +118,8 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		$instance = $this->getLimitedStorage(16);
 		$inputStream = fopen('data://text/plain,foobarqwerty', 'r');
 		$outputStream = $instance->fopen('files/foo', 'w+');
-		[$count, $result] = Files::streamCopy($inputStream, $outputStream, true);
+		$count = stream_copy_to_stream($inputStream, $outputStream);
 		$this->assertEquals(12, $count);
-		$this->assertTrue($result);
 		fclose($inputStream);
 		fclose($outputStream);
 	}
@@ -126,9 +128,8 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		$instance = $this->getLimitedStorage(9);
 		$inputStream = fopen('data://text/plain,foobarqwerty', 'r');
 		$outputStream = $instance->fopen('files/foo', 'w+');
-		[$count, $result] = Files::streamCopy($inputStream, $outputStream, true);
-		$this->assertEquals(9, $count);
-		$this->assertFalse($result);
+		$count = stream_copy_to_stream($inputStream, $outputStream);
+		$this->assertFalse($count);
 		fclose($inputStream);
 		fclose($outputStream);
 	}
@@ -228,5 +229,32 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 	public function testNoTouchQuotaZero(): void {
 		$instance = $this->getLimitedStorage(0.0);
 		$this->assertFalse($instance->touch('foobar'));
+	}
+
+	public function testNoFopenQuotaZero(): void {
+		$instance = $this->getLimitedStorage(0.0);
+		$fh = $instance->fopen('files/test.txt', 'w');
+		$this->assertFalse($fh);
+	}
+
+	public function testNoWriteStreamQuota(): void {
+		$instance = $this->getLimitedStorage(5.0);
+		$stream = fopen('php://temp', 'w+');
+		fwrite($stream, 'foo');
+		rewind($stream);
+		$instance->writeStream('files/test.txt', $stream);
+
+		$stream = fopen('php://temp', 'w+');
+		fwrite($stream, 'foobar');
+		rewind($stream);
+		$this->expectException(NotEnoughSpaceException::class);
+		$instance->writeStream('files/test.txt', $stream);
+	}
+
+	public function testNoWriteStreamQuotaZero(): void {
+		$instance = $this->getLimitedStorage(0.0);
+		$stream = fopen('php://temp', 'w+');
+		$this->expectException(NotEnoughSpaceException::class);
+		$instance->writeStream('files/test.txt', $stream);
 	}
 }

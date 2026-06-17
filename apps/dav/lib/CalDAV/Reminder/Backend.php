@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CalDAV\Reminder;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -48,7 +49,7 @@ class Backend {
 
 		return array_map(
 			[$this, 'fixRowTyping'],
-			$stmt->fetchAll()
+			$stmt->fetchAllAssociative()
 		);
 	}
 
@@ -67,7 +68,7 @@ class Backend {
 
 		return array_map(
 			[$this, 'fixRowTyping'],
-			$stmt->fetchAll()
+			$stmt->fetchAllAssociative()
 		);
 	}
 

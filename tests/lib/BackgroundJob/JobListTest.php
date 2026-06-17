@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016-2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
@@ -12,34 +12,29 @@ namespace Test\BackgroundJob;
 
 use OC\BackgroundJob\JobList;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\BackgroundJob\IJob;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Server;
+use OCP\Snowflake\ISnowflakeGenerator;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 /**
  * Class JobList
  *
- * @group DB
  * @package Test\BackgroundJob
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class JobListTest extends TestCase {
-	/** @var \OC\BackgroundJob\JobList */
-	protected $instance;
+	protected JobList $instance;
+	protected IDBConnection $connection;
+	protected IConfig&MockObject $config;
+	protected ITimeFactory&MockObject $timeFactory;
 
-	/** @var IDBConnection */
-	protected $connection;
-
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	protected $config;
-
-	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
-	protected $timeFactory;
-	private bool $ran = false;
-
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -52,26 +47,23 @@ class JobListTest extends TestCase {
 			$this->config,
 			$this->timeFactory,
 			Server::get(LoggerInterface::class),
+			Server::get(ISnowflakeGenerator::class),
 		);
 	}
 
-	protected function clearJobsList() {
+	protected function clearJobsList(): void {
 		$query = $this->connection->getQueryBuilder();
 		$query->delete('jobs');
 		$query->executeStatement();
 	}
 
-	protected function getAllSorted() {
+	protected function getAllSorted(): array {
 		$iterator = $this->instance->getJobsIterator(null, null, 0);
 		$jobs = [];
 
 		foreach ($iterator as $job) {
 			$jobs[] = clone $job;
 		}
-
-		usort($jobs, function (IJob $job1, IJob $job2) {
-			return $job1->getId() - $job2->getId();
-		});
 
 		return $jobs;
 	}
@@ -89,11 +81,8 @@ class JobListTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @param $argument
-	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('argumentProvider')]
-	public function testAddRemove($argument): void {
+	#[DataProvider('argumentProvider')]
+	public function testAddRemove(mixed $argument): void {
 		$existingJobs = $this->getAllSorted();
 		$job = new TestJob();
 		$this->instance->add($job, $argument);
@@ -111,11 +100,26 @@ class JobListTest extends TestCase {
 		$this->assertEquals($existingJobs, $jobs);
 	}
 
-	/**
-	 * @param $argument
-	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('argumentProvider')]
-	public function testRemoveDifferentArgument($argument): void {
+	public function testAddAcceptsArgumentUnderMaxLength(): void {
+		$argument = str_repeat('a', $this->instance::MAX_ARGUMENT_JSON_LENGTH - 100);
+		$job = new TestJob();
+		$this->assertFalse($this->instance->has($job, $argument));
+		$this->instance->add($job, $argument);
+
+		$this->assertTrue($this->instance->has($job, $argument));
+	}
+
+	public function testAddRejectsArgumentAboveMaxLength(): void {
+		$argument = str_repeat('a', $this->instance::MAX_ARGUMENT_JSON_LENGTH + 100);
+
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage('Background job arguments can\'t exceed ' . $this->instance::MAX_ARGUMENT_JSON_LENGTH . ' characters (json encoded)');
+
+		$this->instance->add(new TestJob(), $argument);
+	}
+
+	#[DataProvider('argumentProvider')]
+	public function testRemoveDifferentArgument(mixed $argument): void {
 		$existingJobs = $this->getAllSorted();
 		$job = new TestJob();
 		$this->instance->add($job, $argument);
@@ -132,11 +136,8 @@ class JobListTest extends TestCase {
 		$this->assertEquals($existingJobs, $jobs);
 	}
 
-	/**
-	 * @param $argument
-	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('argumentProvider')]
-	public function testHas($argument): void {
+	#[DataProvider('argumentProvider')]
+	public function testHas(mixed $argument): void {
 		$job = new TestJob();
 		$this->assertFalse($this->instance->has($job, $argument));
 		$this->instance->add($job, $argument);
@@ -148,11 +149,8 @@ class JobListTest extends TestCase {
 		$this->assertFalse($this->instance->has($job, $argument));
 	}
 
-	/**
-	 * @param $argument
-	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('argumentProvider')]
-	public function testHasDifferentArgument($argument): void {
+	#[DataProvider('argumentProvider')]
+	public function testHasDifferentArgument(mixed $argument): void {
 		$job = new TestJob();
 		$this->instance->add($job, $argument);
 
@@ -163,14 +161,16 @@ class JobListTest extends TestCase {
 		$argument,
 		int $reservedTime = 0,
 		int $lastChecked = 0,
-		int $lastRun = 0): int {
+		int $lastRun = 0): string {
 		if ($lastChecked === 0) {
 			$lastChecked = time();
 		}
+		$id = Server::get(ISnowflakeGenerator::class)->nextId();
 
 		$query = $this->connection->getQueryBuilder();
 		$query->insert('jobs')
 			->values([
+				'id' => $query->createNamedParameter($id),
 				'class' => $query->createNamedParameter($class),
 				'argument' => $query->createNamedParameter($argument),
 				'last_run' => $query->createNamedParameter($lastRun, IQueryBuilder::PARAM_INT),
@@ -178,7 +178,7 @@ class JobListTest extends TestCase {
 				'reserved_at' => $query->createNamedParameter($reservedTime, IQueryBuilder::PARAM_INT),
 			]);
 		$query->executeStatement();
-		return $query->getLastInsertId();
+		return $id;
 	}
 
 	public function testGetNext(): void {
@@ -243,7 +243,7 @@ class JobListTest extends TestCase {
 	/**
 	 * @param $argument
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('argumentProvider')]
+	#[DataProvider('argumentProvider')]
 	public function testGetById($argument): void {
 		$job = new TestJob();
 		$this->instance->add($job, $argument);
@@ -333,9 +333,5 @@ class JobListTest extends TestCase {
 		$this->assertTrue($this->instance->hasReservedJob(TestParallelAwareJob::class));
 		$job = $this->instance->getNext();
 		$this->assertNull($job); // Job doesn't allow parallel runs
-	}
-
-	public function markRun() {
-		$this->ran = true;
 	}
 }

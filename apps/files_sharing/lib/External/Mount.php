@@ -5,59 +5,42 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\External;
 
 use OC\Files\Mount\MountPoint;
-use OC\Files\Mount\MoveableMount;
 use OC\Files\Storage\Storage;
+use OC\Files\Storage\StorageFactory;
 use OCA\Files_Sharing\ISharedMountPoint;
+use OCP\Files\Mount\IMovableMount;
+use Override;
 
-class Mount extends MountPoint implements MoveableMount, ISharedMountPoint {
-
-	/**
-	 * @param string|Storage $storage
-	 * @param string $mountpoint
-	 * @param array $options
-	 * @param \OCA\Files_Sharing\External\Manager $manager
-	 * @param \OC\Files\Storage\StorageFactory $loader
-	 */
+class Mount extends MountPoint implements IMovableMount, ISharedMountPoint {
 	public function __construct(
-		$storage,
-		$mountpoint,
-		$options,
-		protected $manager,
-		$loader = null,
+		string|Storage $storage,
+		string $mountpoint,
+		array $options,
+		protected Manager $manager,
+		?StorageFactory $loader = null,
 	) {
 		parent::__construct($storage, $mountpoint, $options, $loader, null, null, MountProvider::class);
 	}
 
-	/**
-	 * Move the mount point to $target
-	 *
-	 * @param string $target the target mount point
-	 * @return bool
-	 */
-	public function moveMount($target) {
+	#[Override]
+	public function moveMount(string $target): bool {
 		$result = $this->manager->setMountPoint($this->mountPoint, $target);
 		$this->setMountPoint($target);
 
 		return $result;
 	}
 
-	/**
-	 * Remove the mount points
-	 */
+	#[Override]
 	public function removeMount(): bool {
 		return $this->manager->removeShare($this->mountPoint);
 	}
 
-	/**
-	 * Get the type of mount point, used to distinguish things like shares and external storage
-	 * in the web interface
-	 *
-	 * @return string
-	 */
-	public function getMountType() {
+	#[Override]
+	public function getMountType(): string {
 		return 'shared';
 	}
 }

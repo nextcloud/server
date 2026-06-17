@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV\Activity\Filter;
 
 use OCA\DAV\CalDAV\Activity\Filter\Todo;
@@ -60,7 +61,7 @@ class TodoTest extends TestCase {
 	 * @param string[] $types
 	 * @param string[] $expected
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataFilterTypes')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataFilterTypes')]
 	public function testFilterTypes(array $types, array $expected): void {
 		$this->assertEquals($expected, $this->filter->filterTypes($types));
 	}

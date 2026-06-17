@@ -31,7 +31,7 @@ jobs:
       src: ${{ steps.changes.outputs.src }}
 
     steps:
-      - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
+      - uses: dorny/paths-filter@fbd0ab8f3e69293af611ebaee6363fc25e6d187d # v4.0.1
         id: changes
         continue-on-error: true
         with:
@@ -60,17 +60,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - oracle-versions: '11'
-            php-versions: '8.1'
           - oracle-versions: '18'
-            php-versions: '8.1'
-            coverage: ${{ github.event_name != 'pull_request' }}
-          - oracle-versions: '21'
-            php-versions: '8.2'
-          - oracle-versions: '23'
             php-versions: '8.3'
           - oracle-versions: '23'
-            php-versions: '8.4'
+            php-versions: '8.5'
 
     name: Oracle ${{ matrix.oracle-versions }} (PHP ${{ matrix.php-versions }}) - database tests
 
@@ -101,20 +94,23 @@ jobs:
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
           submodules: true
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@ec406be512d7077f68eed36e63f4d91bc006edc4 # v2.35.4
+        uses: shivammathur/setup-php@7c071dfe9dc99bdf297fa79cb49ea005b9fcadbc # v2.37.1
+        timeout-minutes: 5
         with:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
           extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, oci8
-          coverage: ${{ matrix.coverage && 'xdebug' || 'none' }}
+          coverage: none
           ini-file: development
+          ini-values: disable_functions=""
         env:
+          fail-fast: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up dependencies
@@ -129,20 +125,7 @@ jobs:
           php -f tests/enable_all.php
 
       - name: PHPUnit
-        run: composer run test:db -- --log-junit junit.xml ${{ matrix.coverage && '--coverage-clover ./clover.db.xml' || '' }}
-
-      - name: Upload db code coverage
-        if: ${{ !cancelled() && matrix.coverage }}
-        uses: codecov/codecov-action@fdcc8476540edceab3de004e990f80d881c6cc00 # v5.5.0
-        with:
-          files: ./clover.db.xml
-          flags: phpunit-oci
-
-      - name: Upload test results
-        if: ${{ !cancelled() }}
-        uses: codecov/test-results-action@47f89e9acb64b76debcd5ea40642d25a4adced9f # v1.1.1
-        with:
-          flags: phpunit-oci
+        run: composer run test:db -- --log-junit junit.xml
 
       - name: Run repair steps
         run: |

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Tests\Service;
 
 use OC\User\User;
@@ -20,9 +21,7 @@ use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\Traits\UserTrait;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 	use UserTrait;
 
@@ -73,7 +72,6 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 			$this->dbConfig,
 			$userSession,
 			$this->groupManager,
-			$this->mountCache,
 			$this->eventDispatcher,
 			$this->appConfig,
 		);
@@ -99,7 +97,7 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('applicableStorageProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'applicableStorageProvider')]
 	public function testGetStorageWithApplicable($applicableUsers, $applicableGroups, $isVisible): void {
 		$backend = $this->backendService->getBackend('identifier:\OCA\Files_External\Lib\Backend\SMB');
 		$authMechanism = $this->backendService->getAuthMechanism('identifier:\Auth\Mechanism');
@@ -111,6 +109,7 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 		$storage->setBackendOptions(['password' => 'testPassword']);
 		$storage->setApplicableUsers($applicableUsers);
 		$storage->setApplicableGroups($applicableGroups);
+		$storage->setPriority(0);
 
 		$newStorage = $this->globalStoragesService->addStorage($storage);
 
@@ -130,7 +129,6 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 		}
 	}
 
-
 	public function testAddStorage($storageParams = null): void {
 		$this->expectException(\DomainException::class);
 
@@ -145,7 +143,6 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 
 		$this->service->addStorage($storage);
 	}
-
 
 	public function testUpdateStorage($storageParams = null): void {
 		$this->expectException(\DomainException::class);
@@ -166,14 +163,13 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 		$this->service->updateStorage($retrievedStorage);
 	}
 
-
 	public function testNonExistingStorage(): void {
 		$this->expectException(\DomainException::class);
 
 		$this->ActualNonExistingStorageTest();
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('deleteStorageDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'deleteStorageDataProvider')]
 	public function testDeleteStorage($backendOptions, $rustyStorageId): void {
 		$this->expectException(\DomainException::class);
 
@@ -191,7 +187,6 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 
 		$this->service->removeStorage($id);
 	}
-
 
 	public function testDeleteUnexistingStorage(): void {
 		$this->expectException(\DomainException::class);
@@ -227,7 +222,7 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('getUniqueStoragesProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'getUniqueStoragesProvider')]
 	public function testGetUniqueStorages(
 		$priority1, $applicableUsers1, $applicableGroups1,
 		$priority2, $applicableUsers2, $applicableGroups2,

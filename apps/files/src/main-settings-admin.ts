@@ -8,7 +8,6 @@ import { t } from '@nextcloud/l10n'
 import Vue from 'vue'
 import PersonalSettings from './views/SettingsAdmin.vue'
 
-// eslint-disable-next-line camelcase
 __webpack_nonce__ = getCSPNonce()
 
 Vue.prototype.t = t

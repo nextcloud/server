@@ -2,19 +2,19 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { translate as t } from '@nextcloud/l10n'
-import { View, getNavigation } from '@nextcloud/files'
-import { ShareType } from '@nextcloud/sharing'
+
 import AccountClockSvg from '@mdi/svg/svg/account-clock-outline.svg?raw'
 import AccountGroupSvg from '@mdi/svg/svg/account-group-outline.svg?raw'
-import AccountPlusSvg from '@mdi/svg/svg/account-plus-outline.svg?raw'
 import AccountSvg from '@mdi/svg/svg/account-outline.svg?raw'
-import DeleteSvg from '@mdi/svg/svg/trash-can-outline.svg?raw'
+import AccountPlusSvg from '@mdi/svg/svg/account-plus-outline.svg?raw'
 import FileUploadSvg from '@mdi/svg/svg/file-upload-outline.svg?raw'
 import LinkSvg from '@mdi/svg/svg/link.svg?raw'
-
-import { getContents, isFileRequest } from '../services/SharingService'
+import DeleteSvg from '@mdi/svg/svg/trash-can-outline.svg?raw'
+import { getNavigation, View } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
+import { t } from '@nextcloud/l10n'
+import { ShareType } from '@nextcloud/sharing'
+import { getContents, isFileRequest } from '../services/SharingService.ts'
 
 export const sharesViewId = 'shareoverview'
 export const sharedWithYouViewId = 'sharingin'

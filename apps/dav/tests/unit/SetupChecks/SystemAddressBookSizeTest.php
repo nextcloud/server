@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\DAV\Tests\SetupChecks;
 
 use OCA\DAV\AppInfo\Application;
+use OCA\DAV\ConfigLexicon;
 use OCA\DAV\SetupChecks\SystemAddressBookSize;
 use OCP\IAppConfig;
 use OCP\IL10N;
@@ -30,7 +31,7 @@ class SystemAddressBookSizeTest extends TestCase {
 
 	public function testSystemAddressBookDisabled() {
 		$this->appConfig->method('getValueBool')
-			->with(Application::APP_ID, 'system_addressbook_exposed', true)
+			->with(Application::APP_ID, ConfigLexicon::SYSTEM_ADDRESSBOOK_EXPOSED)
 			->willReturn(false);
 
 		$check = new SystemAddressBookSize($this->appConfig, $this->userManager, $this->l10n);

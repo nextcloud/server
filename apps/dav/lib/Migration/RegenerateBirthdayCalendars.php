@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Migration;
 
 use OCA\DAV\BackgroundJob\RegisterRegenerateBirthdayCalendars;
@@ -27,6 +30,7 @@ class RegenerateBirthdayCalendars implements IRepairStep {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getName() {
 		return 'Regenerating birthday calendars to use new icons and fix old birthday events without year';
 	}
@@ -34,6 +38,7 @@ class RegenerateBirthdayCalendars implements IRepairStep {
 	/**
 	 * @param IOutput $output
 	 */
+	#[\Override]
 	public function run(IOutput $output) {
 		// only run once
 		if ($this->config->getAppValue('dav', 'regeneratedBirthdayCalendarsForYearFix') === 'yes') {

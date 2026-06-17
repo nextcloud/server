@@ -11,6 +11,7 @@ namespace OCA\encryption\tests;
 use OC\Files\Storage\Temporary;
 use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\View;
+use OCA\Encryption\KeyManager;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Storage\IDisableEncryptionStorage;
 use OCP\Server;
@@ -23,15 +24,15 @@ class TemporaryNoEncrypted extends Temporary implements IDisableEncryptionStorag
 
 }
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class EncryptedStorageTest extends TestCase {
 	use MountProviderTrait;
 	use EncryptionTrait;
 	use UserTrait;
 
 	public function testMoveFromEncrypted(): void {
+		Server::get(KeyManager::class)->validateMasterKey();
+		Server::get(KeyManager::class)->validateShareKey();
 		$this->createUser('test1', 'test2');
 		$this->setupForUser('test1', 'test2');
 

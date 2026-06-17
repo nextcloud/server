@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Search;
 
 use Generator;
@@ -27,20 +28,24 @@ class FilterCollection implements IFilterCollection {
 		$this->filters = $filters;
 	}
 
+	#[\Override]
 	public function has(string $name): bool {
 		return isset($this->filters[$name]);
 	}
 
+	#[\Override]
 	public function get(string $name): ?IFilter {
 		return $this->filters[$name] ?? null;
 	}
 
+	#[\Override]
 	public function getIterator(): Generator {
 		foreach ($this->filters as $k => $v) {
 			yield $k => $v;
 		}
 	}
 
+	#[\Override]
 	public function count(): int {
 		return count($this->filters);
 	}

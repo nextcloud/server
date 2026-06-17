@@ -40,6 +40,7 @@ class RestoreBackgroundImageColor extends QueuedJob {
 		parent::__construct($time);
 	}
 
+	#[\Override]
 	protected function run(mixed $argument): void {
 		if (!is_array($argument) || !isset($argument['stage'])) {
 			throw new \Exception('Job ' . self::class . ' called with wrong argument');
@@ -75,7 +76,7 @@ class RestoreBackgroundImageColor extends QueuedJob {
 				->andWhere($qb2->expr()->isNull('b.userid'))
 				->executeQuery();
 
-			$userIds = $result->fetchAll(\PDO::FETCH_COLUMN);
+			$userIds = $result->fetchFirstColumn();
 			$this->logger->info('Prepare to restore background information for {users} users', ['users' => count($userIds)]);
 			$this->storeUserIdsToProcess($userIds);
 		} catch (\Throwable $t) {

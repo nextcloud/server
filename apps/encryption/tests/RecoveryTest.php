@@ -164,8 +164,8 @@ class RecoveryTest extends TestCase {
 		$this->viewMock->expects($this->exactly(2))
 			->method('getDirectoryContent')
 			->willReturn([]);
-		$this->assertTrue($this->instance->setRecoveryForUser(0));
-		$this->assertTrue($this->instance->setRecoveryForUser('1'));
+		$this->assertTrue($this->instance->setRecoveryForUser(false));
+		$this->assertTrue($this->instance->setRecoveryForUser(true));
 	}
 
 	public function testRecoverUserFiles(): void {
@@ -205,7 +205,6 @@ class RecoveryTest extends TestCase {
 			->method('addSystemKeys')
 			->with($this->anything(), $this->anything(), $this->equalTo('admin'))
 			->willReturn(['admin' => 'publicKey']);
-
 
 		$this->cryptMock->expects($this->once())
 			->method('multiKeyEncrypt')
@@ -258,7 +257,6 @@ class RecoveryTest extends TestCase {
 			$this->fileMock,
 			$this->viewMock);
 	}
-
 
 	/**
 	 * @param $app

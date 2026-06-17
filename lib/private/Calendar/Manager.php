@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Calendar;
 
 use DateTimeInterface;
@@ -76,6 +77,7 @@ class Manager implements IManager {
 	 * @return array an array of events/journals/todos which are arrays of arrays of key-value-pairs
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	public function search(
 		$pattern,
 		array $searchProperties = [],
@@ -102,6 +104,7 @@ class Manager implements IManager {
 	 * @return bool true if enabled, false if not
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	public function isEnabled(): bool {
 		return !empty($this->calendars) || !empty($this->calendarLoaders);
 	}
@@ -111,6 +114,7 @@ class Manager implements IManager {
 	 *
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	public function registerCalendar(ICalendar $calendar): void {
 		$this->calendars[$calendar->getKey()] = $calendar;
 	}
@@ -120,6 +124,7 @@ class Manager implements IManager {
 	 *
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	public function unregisterCalendar(ICalendar $calendar): void {
 		unset($this->calendars[$calendar->getKey()]);
 	}
@@ -130,6 +135,7 @@ class Manager implements IManager {
 	 *
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	public function register(\Closure $callable): void {
 		$this->calendarLoaders[] = $callable;
 	}
@@ -139,6 +145,7 @@ class Manager implements IManager {
 	 *
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	public function getCalendars(): array {
 		$this->loadCalendars();
 
@@ -150,6 +157,7 @@ class Manager implements IManager {
 	 *
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	public function clear(): void {
 		$this->calendars = [];
 		$this->calendarLoaders = [];
@@ -168,6 +176,7 @@ class Manager implements IManager {
 	/**
 	 * @return ICreateFromString[]
 	 */
+	#[\Override]
 	public function getCalendarsForPrincipal(string $principalUri, array $calendarUris = []): array {
 		$context = $this->coordinator->getRegistrationContext();
 		if ($context === null) {
@@ -191,6 +200,7 @@ class Manager implements IManager {
 		);
 	}
 
+	#[\Override]
 	public function searchForPrincipal(ICalendarQuery $query): array {
 		/** @var CalendarQuery $query */
 		$calendars = $this->getCalendarsForPrincipal(
@@ -217,6 +227,7 @@ class Manager implements IManager {
 		return $results;
 	}
 
+	#[\Override]
 	public function newQuery(string $principalUri): ICalendarQuery {
 		return new CalendarQuery($principalUri);
 	}
@@ -226,6 +237,7 @@ class Manager implements IManager {
 	 *
 	 * @throws \OCP\DB\Exception
 	 */
+	#[\Override]
 	public function handleIMip(
 		string $userId,
 		string $message,
@@ -261,8 +273,13 @@ class Manager implements IManager {
 		}
 
 		if (!isset($vEvent->ORGANIZER)) {
-			$this->logger->warning('iMip message event dose not contains an organizer');
-			return false;
+			// quirks mode: for Microsoft Exchange Servers use recipient as organizer if no organizer is set
+			if (isset($options['recipient']) && $options['recipient'] !== '') {
+				$vEvent->add('ORGANIZER', 'mailto:' . $options['recipient']);
+			} else {
+				$this->logger->warning('iMip message event does not contain an organizer and no recipient was provided');
+				return false;
+			}
 		}
 
 		if (!isset($vEvent->ATTENDEE)) {
@@ -311,7 +328,29 @@ class Manager implements IManager {
 				$this->logger->warning('iMip message could not be processed because no writable calendar was found');
 				return false;
 			}
-			$calendar->handleIMipMessage($userId, $vObject->serialize());
+			if (!empty($options['absentCreateStatus'])) {
+				$status = strtoupper($options['absentCreateStatus']);
+
+				if (in_array($status, ['TENTATIVE', 'CONFIRMED', 'CANCELLED'], true) === false) {
+					$this->logger->warning('iMip message could not be processed because an invalid status was provided for the event');
+					return false;
+				}
+
+				if (isset($vObject->VEVENT->STATUS)) {
+					$vObject->VEVENT->STATUS->setValue($status);
+				} else {
+					$vObject->VEVENT->add('STATUS', $status);
+				}
+			}
+
+			try {
+				$calendar->handleIMipMessage($userId, $vObject->serialize());
+			} catch (CalendarException $e) {
+				$this->logger->error('iMip message could not be processed because an error occurred', ['exception' => $e]);
+				return false;
+			}
+
+			return true;
 		}
 
 		$this->logger->warning('iMip message could not be processed because no corresponding event was found in any calendar');
@@ -324,6 +363,7 @@ class Manager implements IManager {
 	 *
 	 * @throws \OCP\DB\Exception
 	 */
+	#[\Override]
 	public function handleIMipRequest(
 		string $principalUri,
 		string $sender,
@@ -335,7 +375,8 @@ class Manager implements IManager {
 			return false;
 		}
 		$userId = substr($principalUri, 17);
-		return $this->handleIMip($userId, $calendarData);
+		$options = ['recipient' => $recipient];
+		return $this->handleIMip($userId, $calendarData, $options);
 	}
 
 	/**
@@ -343,6 +384,7 @@ class Manager implements IManager {
 	 *
 	 * @throws \OCP\DB\Exception
 	 */
+	#[\Override]
 	public function handleIMipReply(
 		string $principalUri,
 		string $sender,
@@ -354,7 +396,8 @@ class Manager implements IManager {
 			return false;
 		}
 		$userId = substr($principalUri, 17);
-		return $this->handleIMip($userId, $calendarData);
+		$options = ['recipient' => $recipient];
+		return $this->handleIMip($userId, $calendarData, $options);
 	}
 
 	/**
@@ -362,6 +405,7 @@ class Manager implements IManager {
 	 *
 	 * @throws \OCP\DB\Exception
 	 */
+	#[\Override]
 	public function handleIMipCancel(
 		string $principalUri,
 		string $sender,
@@ -374,14 +418,17 @@ class Manager implements IManager {
 			return false;
 		}
 		$userId = substr($principalUri, 17);
-		return $this->handleIMip($userId, $calendarData);
+		$options = ['recipient' => $recipient];
+		return $this->handleIMip($userId, $calendarData, $options);
 	}
 
+	#[\Override]
 	public function createEventBuilder(): ICalendarEventBuilder {
 		$uid = $this->random->generate(32, ISecureRandom::CHAR_ALPHANUMERIC);
 		return new CalendarEventBuilder($uid, $this->timeFactory);
 	}
 
+	#[\Override]
 	public function checkAvailability(
 		DateTimeInterface $start,
 		DateTimeInterface $end,

@@ -10,10 +10,12 @@ declare(strict_types=1);
 
 namespace OC\Session;
 
+use OCP\IConfig;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
+use OCP\Server;
 
 /**
  * Class CryptoWrapper provides some rough basic level of additional security by
@@ -59,7 +61,7 @@ class CryptoWrapper {
 					[
 						'expires' => 0,
 						'path' => $webRoot,
-						'domain' => \OCP\Server::get(\OCP\IConfig::class)->getSystemValueString('cookie_domain'),
+						'domain' => Server::get(IConfig::class)->getSystemValueString('cookie_domain'),
 						'secure' => $secureCookie,
 						'httponly' => true,
 						'samesite' => 'Lax',

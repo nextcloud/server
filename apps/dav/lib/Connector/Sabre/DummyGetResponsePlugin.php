@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Connector\Sabre;
 
 use OCP\AppFramework\Http;
@@ -32,6 +33,7 @@ class DummyGetResponsePlugin extends \Sabre\DAV\ServerPlugin {
 	 * @param \Sabre\DAV\Server $server
 	 * @return void
 	 */
+	#[\Override]
 	public function initialize(\Sabre\DAV\Server $server) {
 		$this->server = $server;
 		$this->server->on('method:GET', [$this, 'httpGet'], 200);

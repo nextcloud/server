@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\WorkflowEngine\Settings;
 
 use OCA\WorkflowEngine\AppInfo\Application;
@@ -36,12 +37,8 @@ abstract class ASettings implements ISettings {
 
 	abstract public function getScope(): int;
 
+	#[\Override]
 	public function getForm(): TemplateResponse {
-		// @deprecated in 20.0.0: retire this one in favor of the typed event
-		$this->eventDispatcher->dispatch(
-			'OCP\WorkflowEngine::loadAdditionalSettingScripts',
-			new LoadSettingsScriptsEvent()
-		);
 		$this->eventDispatcher->dispatchTyped(new LoadSettingsScriptsEvent());
 
 		$entities = $this->manager->getEntitiesList();
@@ -77,12 +74,13 @@ abstract class ASettings implements ISettings {
 			$this->urlGenerator->linkToDocs('admin-workflowengine')
 		);
 
-		return new TemplateResponse(Application::APP_ID, 'settings', [], 'blank');
+		return new TemplateResponse(Application::APP_ID, 'settings', [], TemplateResponse::RENDER_AS_BLANK);
 	}
 
 	/**
 	 * @return string|null the section ID, e.g. 'sharing'
 	 */
+	#[\Override]
 	public function getSection(): ?string {
 		return 'workflow';
 	}
@@ -94,6 +92,7 @@ abstract class ASettings implements ISettings {
 	 *
 	 * E.g.: 70
 	 */
+	#[\Override]
 	public function getPriority(): int {
 		return 0;
 	}

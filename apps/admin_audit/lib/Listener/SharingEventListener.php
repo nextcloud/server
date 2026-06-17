@@ -20,6 +20,7 @@ use OCP\Share\IShare;
  * @template-implements IEventListener<ShareCreatedEvent|ShareDeletedEvent>
  */
 class SharingEventListener extends Action implements IEventListener {
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof ShareCreatedEvent) {
 			$this->shareCreated($event);
@@ -148,18 +149,6 @@ class SharingEventListener extends Action implements IEventListener {
 					'id',
 				]
 			),
-			IShare::TYPE_SCIENCEMESH => $this->log(
-				'The %s "%s" with ID "%s" has been shared to the sciencemesh user "%s" with permissions "%s" (Share ID: %s)',
-				$params,
-				[
-					'itemType',
-					'path',
-					'itemSource',
-					'shareWith',
-					'permissions',
-					'id',
-				]
-			),
 			default => null
 		};
 	}
@@ -265,17 +254,6 @@ class SharingEventListener extends Action implements IEventListener {
 			),
 			IShare::TYPE_DECK => $this->log(
 				'The %s "%s" with ID "%s" has been unshared from the deck card "%s" (Share ID: %s)',
-				$params,
-				[
-					'itemType',
-					'fileTarget',
-					'itemSource',
-					'shareWith',
-					'id',
-				]
-			),
-			IShare::TYPE_SCIENCEMESH => $this->log(
-				'The %s "%s" with ID "%s" has been unshared from the sciencemesh user "%s" (Share ID: %s)',
 				$params,
 				[
 					'itemType',

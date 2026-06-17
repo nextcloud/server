@@ -87,7 +87,7 @@ class CleanupOrphanedChildrenJobTest extends TestCase {
 			->method('executeQuery')
 			->willReturn($result);
 		$result->expects(self::once())
-			->method('fetchAll')
+			->method('fetchAllAssociative')
 			->willReturn([]);
 		$result->expects(self::once())
 			->method('closeCursor');
@@ -115,7 +115,7 @@ class CleanupOrphanedChildrenJobTest extends TestCase {
 			->method('executeQuery')
 			->willReturn($result);
 		$result->expects(self::once())
-			->method('fetchAll')
+			->method('fetchAllAssociative')
 			->willReturn([
 				['id' => 42],
 				['id' => 43],
@@ -152,7 +152,7 @@ class CleanupOrphanedChildrenJobTest extends TestCase {
 			->method('executeQuery')
 			->willReturn($result);
 		$result->expects(self::once())
-			->method('fetchAll')
+			->method('fetchAllAssociative')
 			->willReturn(array_map(static fn ($i) => ['id' => 42 + $i], range(0, 999)));
 		$result->expects(self::once())
 			->method('closeCursor');

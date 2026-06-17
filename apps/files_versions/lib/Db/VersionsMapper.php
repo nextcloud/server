@@ -95,7 +95,7 @@ class VersionsMapper extends QBMapper {
 
 			$filesIdsSelect->setParameter('offset', $offset, IQueryBuilder::PARAM_INT);
 			$result = $filesIdsSelect->executeQuery();
-			$fileIds = $result->fetchAll(\PDO::FETCH_COLUMN);
+			$fileIds = $result->fetchFirstColumn();
 			$offset = end($fileIds);
 
 			yield $fileIds;

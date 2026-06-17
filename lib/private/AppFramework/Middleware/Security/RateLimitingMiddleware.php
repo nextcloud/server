@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Utility\ControllerMethodReflector;
@@ -22,9 +23,11 @@ use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Middleware;
 use OCP\IAppConfig;
+use OCP\IConfig;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 use ReflectionMethod;
 
 /**
@@ -56,7 +59,9 @@ class RateLimitingMiddleware extends Middleware {
 		protected Limiter $limiter,
 		protected ISession $session,
 		protected IAppConfig $appConfig,
+		protected IConfig $serverConfig,
 		protected BruteforceAllowList $bruteForceAllowList,
+		protected LoggerInterface $logger,
 	) {
 	}
 
@@ -64,6 +69,7 @@ class RateLimitingMiddleware extends Middleware {
 	 * {@inheritDoc}
 	 * @throws RateLimitExceededException
 	 */
+	#[\Override]
 	public function beforeController(Controller $controller, string $methodName): void {
 		parent::beforeController($controller, $methodName);
 		$rateLimitIdentifier = get_class($controller) . '::' . $methodName;
@@ -74,7 +80,13 @@ class RateLimitingMiddleware extends Middleware {
 		}
 
 		if ($this->userSession->isLoggedIn()) {
-			$rateLimit = $this->readLimitFromAnnotationOrAttribute($controller, $methodName, 'UserRateThrottle', UserRateLimit::class);
+			$rateLimit = $this->readLimitFromAnnotationOrAttribute(
+				$controller,
+				$methodName,
+				'UserRateThrottle',
+				UserRateLimit::class,
+				'user',
+			);
 
 			if ($rateLimit !== null) {
 				if ($this->appConfig->getValueBool('bruteforcesettings', 'apply_allowlist_to_ratelimit')
@@ -94,7 +106,13 @@ class RateLimitingMiddleware extends Middleware {
 			// If not user specific rate limit is found the Anon rate limit applies!
 		}
 
-		$rateLimit = $this->readLimitFromAnnotationOrAttribute($controller, $methodName, 'AnonRateThrottle', AnonRateLimit::class);
+		$rateLimit = $this->readLimitFromAnnotationOrAttribute(
+			$controller,
+			$methodName,
+			'AnonRateThrottle',
+			AnonRateLimit::class,
+			'anon',
+		);
 
 		if ($rateLimit !== null) {
 			$this->limiter->registerAnonRequest(
@@ -115,7 +133,35 @@ class RateLimitingMiddleware extends Middleware {
 	 * @param class-string<T> $attributeClass
 	 * @return ?ARateLimit
 	 */
-	protected function readLimitFromAnnotationOrAttribute(Controller $controller, string $methodName, string $annotationName, string $attributeClass): ?ARateLimit {
+	protected function readLimitFromAnnotationOrAttribute(Controller $controller, string $methodName, string $annotationName, string $attributeClass, string $overwriteKey): ?ARateLimit {
+		$rateLimitOverwrite = $this->serverConfig->getSystemValue('ratelimit_overwrite', []);
+		if (!empty($rateLimitOverwrite)) {
+			$controllerRef = new \ReflectionClass($controller);
+			$appName = $controllerRef->getProperty('appName')->getValue($controller);
+			$controllerName = substr($controller::class, strrpos($controller::class, '\\') + 1);
+			$controllerName = substr($controllerName, 0, 0 - strlen('Controller'));
+
+			$overwriteConfig = strtolower($appName . '.' . $controllerName . '.' . $methodName);
+			$rateLimitOverwriteForActionAndType = $rateLimitOverwrite[$overwriteConfig][$overwriteKey] ?? null;
+			if ($rateLimitOverwriteForActionAndType !== null) {
+				$isValid = isset($rateLimitOverwriteForActionAndType['limit'], $rateLimitOverwriteForActionAndType['period'])
+					&& $rateLimitOverwriteForActionAndType['limit'] > 0
+					&& $rateLimitOverwriteForActionAndType['period'] > 0;
+
+				if ($isValid) {
+					return new $attributeClass(
+						(int)$rateLimitOverwriteForActionAndType['limit'],
+						(int)$rateLimitOverwriteForActionAndType['period'],
+					);
+				}
+
+				$this->logger->warning('Rate limit overwrite on controller "{overwriteConfig}" for "{overwriteKey}" is invalid', [
+					'overwriteConfig' => $overwriteConfig,
+					'overwriteKey' => $overwriteKey,
+				]);
+			}
+		}
+
 		$annotationLimit = $this->reflector->getAnnotationParameter($annotationName, 'limit');
 		$annotationPeriod = $this->reflector->getAnnotationParameter($annotationName, 'period');
 
@@ -140,6 +186,7 @@ class RateLimitingMiddleware extends Middleware {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function afterException(Controller $controller, string $methodName, \Exception $exception): Response {
 		if ($exception instanceof RateLimitExceededException) {
 			if (stripos($this->request->getHeader('Accept'), 'html') === false) {

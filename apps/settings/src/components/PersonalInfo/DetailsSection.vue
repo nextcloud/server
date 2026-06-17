@@ -13,7 +13,7 @@
 				<div class="details__groups-info">
 					<p>{{ t('settings', 'You are a member of the following groups:') }}</p>
 					<p class="details__groups-list">
-						{{ groups.join(', ') }}
+						{{ [...groups, ...teams].join(', ') }}
 					</p>
 				</div>
 			</div>
@@ -22,7 +22,8 @@
 				<div class="details__quota-info">
 					<!-- eslint-disable-next-line vue/no-v-html -->
 					<p class="details__quota-text" v-html="quotaText" />
-					<NcProgressBar size="medium"
+					<NcProgressBar
+						size="medium"
 						:value="usageRelative"
 						:error="usageRelative > 80" />
 				</div>
@@ -34,17 +35,15 @@
 <script>
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
-
 import NcProgressBar from '@nextcloud/vue/components/NcProgressBar'
 import Account from 'vue-material-design-icons/AccountOutline.vue'
 import CircleSlice from 'vue-material-design-icons/CircleSlice3.vue'
-
 import HeaderBar from './shared/HeaderBar.vue'
 
 /** SYNC to be kept in sync with `lib/public/Files/FileInfo.php` */
 const SPACE_UNLIMITED = -3
 
-const { groups, quota, totalSpace, usage, usageRelative } = loadState('settings', 'personalInfoParameters', {})
+const { groups, teams, quota, totalSpace, usage, usageRelative } = loadState('settings', 'personalInfoParameters', {})
 
 export default {
 	name: 'DetailsSection',
@@ -59,6 +58,7 @@ export default {
 	data() {
 		return {
 			groups,
+			teams,
 			usageRelative,
 		}
 	},

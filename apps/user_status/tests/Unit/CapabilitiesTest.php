@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\UserStatus\Tests;
 
 use OCA\UserStatus\Capabilities;
@@ -24,7 +25,7 @@ class CapabilitiesTest extends TestCase {
 		$this->capabilities = new Capabilities($this->emojiHelper);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('getCapabilitiesDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'getCapabilitiesDataProvider')]
 	public function testGetCapabilities(bool $supportsEmojis): void {
 		$this->emojiHelper->expects($this->once())
 			->method('doesPlatformSupportEmoji')

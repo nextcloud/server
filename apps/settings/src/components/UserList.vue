@@ -5,25 +5,34 @@
 
 <template>
 	<Fragment>
-		<NewUserDialog v-if="showConfig.showNewUserForm"
+		<NewUserDialog
+			v-if="showConfig.showNewUserForm"
 			:loading="loading"
 			:new-user="newUser"
 			:quota-options="quotaOptions"
-			@reset="resetForm"
 			@closing="closeDialog" />
 
-		<NcEmptyContent v-if="filteredUsers.length === 0"
+		<EditUserDialog
+			v-if="editingUser"
+			:user="editingUser"
+			:quota-options="quotaOptions"
+			@closing="editingUser = null" />
+
+		<NcEmptyContent
+			v-if="filteredUsers.length === 0"
 			class="empty"
-			:name="isInitialLoad && loading.users ? null : t('settings', 'No accounts')">
+			:name="loading.users ? null : t('settings', 'No accounts')">
 			<template #icon>
-				<NcLoadingIcon v-if="isInitialLoad && loading.users"
-					:name="t('settings', 'Loading accounts …')"
+				<NcLoadingIcon
+					v-if="loading.users"
+					:name="t('settings', 'Loading accounts …')"
 					:size="64" />
 				<NcIconSvgWrapper v-else :path="mdiAccountGroupOutline" :size="64" />
 			</template>
 		</NcEmptyContent>
 
-		<VirtualList v-else
+		<VirtualList
+			v-else
 			:data-component="UserRow"
 			:data-sources="filteredUsers"
 			data-key="id"
@@ -33,10 +42,10 @@
 			:extra-props="{
 				users,
 				settings,
-				hasObfuscated,
 				quotaOptions,
 				languages,
 				externalActions,
+				onEditUser: openEditDialog,
 			}"
 			@scroll-end="handleScrollEnd">
 			<template #before>
@@ -46,11 +55,12 @@
 			</template>
 
 			<template #header>
-				<UserListHeader :has-obfuscated="hasObfuscated" />
+				<UserListHeader />
 			</template>
 
 			<template #footer>
-				<UserListFooter :loading="loading.users"
+				<UserListFooter
+					:loading="loading.users"
 					:filtered-users="filteredUsers" />
 			</template>
 		</VirtualList>
@@ -60,31 +70,27 @@
 <script>
 import { mdiAccountGroupOutline } from '@mdi/js'
 import { showError } from '@nextcloud/dialogs'
-import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { Fragment } from 'vue-frag'
-
-import Vue from 'vue'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
-
-import VirtualList from './Users/VirtualList.vue'
+import EditUserDialog from './Users/EditUserDialog.vue'
 import NewUserDialog from './Users/NewUserDialog.vue'
 import UserListFooter from './Users/UserListFooter.vue'
 import UserListHeader from './Users/UserListHeader.vue'
 import UserRow from './Users/UserRow.vue'
-
-import { defaultQuota, isObfuscated, unlimitedQuota } from '../utils/userUtils.ts'
+import VirtualList from './Users/VirtualList.vue'
 import logger from '../logger.ts'
+import { defaultQuota, unlimitedQuota } from '../utils/userUtils.ts'
 
 const newUser = Object.freeze({
-	id: '',
+	username: '',
 	displayName: '',
 	password: '',
-	mailAddress: '',
+	email: '',
 	groups: [],
 	manager: '',
-	subAdminsGroups: [],
+	subadminGroups: [],
 	quota: defaultQuota,
 	language: {
 		code: 'en',
@@ -96,6 +102,7 @@ export default {
 	name: 'UserList',
 
 	components: {
+		EditUserDialog,
 		Fragment,
 		NcEmptyContent,
 		NcIconSvgWrapper,
@@ -111,6 +118,7 @@ export default {
 			type: String,
 			default: null,
 		},
+
 		externalActions: {
 			type: Array,
 			default: () => [],
@@ -134,13 +142,17 @@ export default {
 				groups: false,
 				users: false,
 			},
+
 			newUser: { ...newUser },
-			isInitialLoad: true,
-			searchQuery: '',
+			editingUser: null,
 		}
 	},
 
 	computed: {
+		searchQuery() {
+			return this.$store.getters.getSearchQuery
+		},
+
 		showConfig() {
 			return this.$store.getters.getShowConfig
 		},
@@ -155,24 +167,20 @@ export default {
 			}
 		},
 
-		hasObfuscated() {
-			return this.filteredUsers.some(user => isObfuscated(user))
-		},
-
 		users() {
 			return this.$store.getters.getUsers
 		},
 
 		filteredUsers() {
 			if (this.selectedGroup === 'disabled') {
-				return this.users.filter(user => user.enabled === false)
+				return this.users.filter((user) => user.enabled === false)
 			}
-			return this.users.filter(user => user.enabled !== false)
+			return this.users.filter((user) => user.enabled !== false)
 		},
 
 		groups() {
 			return this.$store.getters.getSortedGroups
-				.filter(group => group.id !== '__nc_internal_recent' && group.id !== 'disabled')
+				.filter((group) => group.id !== '__nc_internal_recent' && group.id !== 'disabled')
 		},
 
 		quotaOptions() {
@@ -225,9 +233,13 @@ export default {
 	},
 
 	watch: {
+		async searchQuery() {
+			this.$store.commit('resetUsers')
+			await this.loadUsers()
+		},
+
 		// watch url change and group select
 		async selectedGroup(val) {
-			this.isInitialLoad = true
 			// if selected is the disabled group but it's empty
 			await this.redirectIfDisabled()
 			this.$store.commit('resetUsers')
@@ -252,13 +264,7 @@ export default {
 		/**
 		 * Reset and init new user form
 		 */
-		this.resetForm()
-
-		/**
-		 * Register search
-		 */
-		subscribe('nextcloud:unified-search.search', this.search)
-		subscribe('nextcloud:unified-search.reset', this.resetSearch)
+		this.initForm()
 
 		/**
 		 * If disabled group but empty, redirect
@@ -266,12 +272,11 @@ export default {
 		await this.redirectIfDisabled()
 	},
 
-	beforeDestroy() {
-		unsubscribe('nextcloud:unified-search.search', this.search)
-		unsubscribe('nextcloud:unified-search.reset', this.resetSearch)
-	},
-
 	methods: {
+		openEditDialog(user) {
+			this.editingUser = user
+		},
+
 		async handleScrollEnd() {
 			await this.loadUsers()
 		},
@@ -305,45 +310,42 @@ export default {
 				showError('Failed to load accounts')
 			}
 			this.loading.users = false
-			this.isInitialLoad = false
 		},
 
 		closeDialog() {
-			this.$store.commit('setShowConfig', {
+			this.$store.dispatch('setShowConfig', {
 				key: 'showNewUserForm',
 				value: false,
 			})
+			this.resetForm()
 		},
 
-		async search({ query }) {
-			this.searchQuery = query
-			this.$store.commit('resetUsers')
-			await this.loadUsers()
-		},
-
-		resetSearch() {
-			this.search({ query: '' })
-		},
-
+		/**
+		 * Reset the new user form to its initial state.
+		 * Uses in-place mutation (Object.assign + splice) so the
+		 * provide/inject reference stays intact.
+		 */
 		resetForm() {
-			// revert form to original state
-			this.newUser = Object.assign({}, newUser)
+			Object.assign(this.newUser, {
+				...newUser,
+				groups: [],
+				subadminGroups: [],
+			})
+			this.newUser.groups.splice(0)
+			this.newUser.subadminGroups.splice(0)
+			this.initForm()
+		},
 
+		initForm() {
 			/**
 			 * Init default language from server data. The use of this.settings
 			 * requires a computed variable, which break the v-model binding of the form,
 			 * this is a much easier solution than getter and setter on a computed var
 			 */
 			if (this.settings.defaultLanguage) {
-				Vue.set(this.newUser.language, 'code', this.settings.defaultLanguage)
+				this.newUser.language.code = this.settings.defaultLanguage
 			}
-
-			/**
-			 * In case the user directly loaded the user list within a group
-			 * the watch won't be triggered. We need to initialize it.
-			 */
 			this.setNewUserDefaultGroup(this.selectedGroup)
-
 			this.loading.all = false
 		},
 
@@ -361,7 +363,7 @@ export default {
 
 			if (value) {
 				// setting new account default group to the current selected one
-				const currentGroup = this.groups.find(group => group.id === value)
+				const currentGroup = this.groups.find((group) => group.id === value)
 				if (currentGroup) {
 					this.newUser.groups = [currentGroup]
 					return
@@ -380,7 +382,7 @@ export default {
 		async redirectIfDisabled() {
 			const allGroups = this.$store.getters.getGroups
 			if (this.selectedGroup === 'disabled'
-						&& allGroups.findIndex(group => group.id === 'disabled' && group.usercount === 0) > -1) {
+				&& allGroups.findIndex((group) => group.id === 'disabled' && group.usercount === 0) > -1) {
 				// disabled group is empty, redirection to all users
 				this.$router.push({ name: 'users' })
 				await this.loadUsers()
@@ -391,7 +393,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@use './Users/shared/styles' as *;
+@use './Users/shared/styles.scss' as *;
 
 .empty {
 	:deep {

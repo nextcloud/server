@@ -20,6 +20,7 @@ use OCA\AdminAudit\AuditLogger;
 use OCA\AdminAudit\IAuditLogger;
 use OCA\AdminAudit\Listener\AppManagementEventListener;
 use OCA\AdminAudit\Listener\AuthEventListener;
+use OCA\AdminAudit\Listener\CacheEventListener;
 use OCA\AdminAudit\Listener\ConsoleEventListener;
 use OCA\AdminAudit\Listener\CriticalActionPerformedEventListener;
 use OCA\AdminAudit\Listener\FileEventListener;
@@ -40,6 +41,8 @@ use OCP\Authentication\TwoFactorAuth\TwoFactorProviderChallengeFailed;
 use OCP\Authentication\TwoFactorAuth\TwoFactorProviderChallengePassed;
 use OCP\Console\ConsoleEvent;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Cache\CacheEntryInsertedEvent;
+use OCP\Files\Cache\CacheEntryRemovedEvent;
 use OCP\Files\Events\Node\BeforeNodeDeletedEvent;
 use OCP\Files\Events\Node\BeforeNodeReadEvent;
 use OCP\Files\Events\Node\NodeCopiedEvent;
@@ -50,9 +53,7 @@ use OCP\Group\Events\GroupCreatedEvent;
 use OCP\Group\Events\GroupDeletedEvent;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
-use OCP\IConfig;
 use OCP\Log\Audit\CriticalActionPerformedEvent;
-use OCP\Log\ILogFactory;
 use OCP\Preview\BeforePreviewFetchedEvent;
 use OCP\Share;
 use OCP\Share\Events\ShareCreatedEvent;
@@ -76,10 +77,9 @@ class Application extends App implements IBootstrap {
 		parent::__construct('admin_audit');
 	}
 
+	#[\Override]
 	public function register(IRegistrationContext $context): void {
-		$context->registerService(IAuditLogger::class, function (ContainerInterface $c) {
-			return new AuditLogger($c->get(ILogFactory::class), $c->get(IConfig::class));
-		});
+		$context->registerServiceAlias(IAuditLogger::class, AuditLogger::class);
 
 		$context->registerEventListener(CriticalActionPerformedEvent::class, CriticalActionPerformedEventListener::class);
 
@@ -123,8 +123,13 @@ class Application extends App implements IBootstrap {
 
 		// Console events
 		$context->registerEventListener(ConsoleEvent::class, ConsoleEventListener::class);
+
+		// Cache events
+		$context->registerEventListener(CacheEntryInsertedEvent::class, CacheEventListener::class);
+		$context->registerEventListener(CacheEntryRemovedEvent::class, CacheEventListener::class);
 	}
 
+	#[\Override]
 	public function boot(IBootContext $context): void {
 		/** @var IAuditLogger $logger */
 		$logger = $context->getAppContainer()->get(IAuditLogger::class);

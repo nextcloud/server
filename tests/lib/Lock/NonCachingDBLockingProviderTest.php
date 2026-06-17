@@ -13,19 +13,20 @@ use OCP\Lock\ILockingProvider;
 use OCP\Server;
 
 /**
- * @group DB
- *
  * @package Test\Lock
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class NonCachingDBLockingProviderTest extends DBLockingProviderTest {
 	/**
 	 * @return ILockingProvider
 	 */
+	#[\Override]
 	protected function getInstance() {
 		$this->connection = Server::get(IDBConnection::class);
 		return new DBLockingProvider($this->connection, $this->timeFactory, 3600, false);
 	}
 
+	#[\Override]
 	public function testDoubleShared(): void {
 		$this->instance->acquireLock('foo', ILockingProvider::LOCK_SHARED);
 		$this->instance->acquireLock('foo', ILockingProvider::LOCK_SHARED);

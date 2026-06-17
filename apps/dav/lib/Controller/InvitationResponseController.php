@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Controller;
 
 use OCA\DAV\CalDAV\InvitationResponse\InvitationResponseServer;
@@ -140,7 +141,7 @@ class InvitationResponseController extends Controller {
 			->from('calendar_invitations')
 			->where($query->expr()->eq('token', $query->createNamedParameter($token)));
 		$stmt = $query->executeQuery();
-		$row = $stmt->fetch(\PDO::FETCH_ASSOC);
+		$row = $stmt->fetchAssociative();
 		$stmt->closeCursor();
 
 		if (!$row) {

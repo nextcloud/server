@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/autoload.php';
 
 use Behat\Behat\Context\Context;
 use GuzzleHttp\BodySummarizer;
@@ -16,13 +16,12 @@ use GuzzleHttp\Utils;
 use Psr\Http\Message\ResponseInterface;
 
 class PrincipalPropertySearchContext implements Context {
-	private string $baseUrl;
 	private Client $client;
 	private ResponseInterface $response;
 
-	public function __construct(string $baseUrl) {
-		$this->baseUrl = $baseUrl;
-
+	public function __construct(
+		private string $baseUrl,
+	) {
 		// in case of ci deployment we take the server url from the environment
 		$testServerUrl = getenv('TEST_SERVER_URL');
 		if ($testServerUrl !== false) {

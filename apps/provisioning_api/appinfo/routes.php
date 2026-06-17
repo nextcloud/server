@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -37,6 +39,7 @@ return [
 		['root' => '/cloud', 'name' => 'Users#getEditableFieldsForUser', 'url' => '/user/fields/{userId}', 'verb' => 'GET'],
 		['root' => '/cloud', 'name' => 'Users#getEnabledApps', 'url' => '/user/apps', 'verb' => 'GET'],
 		['root' => '/cloud', 'name' => 'Users#editUser', 'url' => '/users/{userId}', 'verb' => 'PUT'],
+		['root' => '/cloud', 'name' => 'Users#editUserMultiField', 'url' => '/users/{userId}', 'verb' => 'PATCH'],
 		['root' => '/cloud', 'name' => 'Users#editUserMultiValue', 'url' => '/users/{userId}/{collectionName}', 'verb' => 'PUT', 'requirements' => ['collectionName' => '^(?!enable$|disable$)[a-zA-Z0-9_]*$']],
 		['root' => '/cloud', 'name' => 'Users#wipeUserDevices', 'url' => '/users/{userId}/wipe', 'verb' => 'POST'],
 		['root' => '/cloud', 'name' => 'Users#deleteUser', 'url' => '/users/{userId}', 'verb' => 'DELETE'],

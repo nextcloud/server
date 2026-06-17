@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud GmbH
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Testing\AppInfo;
 
 use OCA\Testing\AlternativeHomeUserBackend;
@@ -19,7 +20,9 @@ use OCA\Testing\Provider\FakeTextProcessingProviderSync;
 use OCA\Testing\Provider\FakeTranslationProvider;
 use OCA\Testing\Settings\DeclarativeSettingsForm;
 use OCA\Testing\TaskProcessing\FakeContextWriteProvider;
+use OCA\Testing\TaskProcessing\FakeOcrProvider;
 use OCA\Testing\TaskProcessing\FakeTextToImageProvider;
+use OCA\Testing\TaskProcessing\FakeTextToTextChatProvider;
 use OCA\Testing\TaskProcessing\FakeTextToTextProvider;
 use OCA\Testing\TaskProcessing\FakeTextToTextSummaryProvider;
 use OCA\Testing\TaskProcessing\FakeTranscribeProvider;
@@ -28,7 +31,9 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\IAppConfig;
 use OCP\IGroupManager;
+use OCP\IUserManager;
 use OCP\Settings\Events\DeclarativeSettingsGetValueEvent;
 use OCP\Settings\Events\DeclarativeSettingsRegisterFormEvent;
 use OCP\Settings\Events\DeclarativeSettingsSetValueEvent;
@@ -40,6 +45,7 @@ class Application extends App implements IBootstrap {
 		parent::__construct(self::APP_ID, $urlParams);
 	}
 
+	#[\Override]
 	public function register(IRegistrationContext $context): void {
 		$context->registerTranslationProvider(FakeTranslationProvider::class);
 		$context->registerTextProcessingProvider(FakeTextProcessingProvider::class);
@@ -47,11 +53,13 @@ class Application extends App implements IBootstrap {
 		$context->registerTextToImageProvider(FakeText2ImageProvider::class);
 
 		$context->registerTaskProcessingProvider(FakeTextToTextProvider::class);
+		$context->registerTaskProcessingProvider(FakeTextToTextChatProvider::class);
 		$context->registerTaskProcessingProvider(FakeTextToTextSummaryProvider::class);
 		$context->registerTaskProcessingProvider(FakeTextToImageProvider::class);
 		$context->registerTaskProcessingProvider(FakeTranslateProvider::class);
 		$context->registerTaskProcessingProvider(FakeTranscribeProvider::class);
 		$context->registerTaskProcessingProvider(FakeContextWriteProvider::class);
+		$context->registerTaskProcessingProvider(FakeOcrProvider::class);
 
 		$context->registerFileConversionProvider(ConversionProvider::class);
 
@@ -61,11 +69,12 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(DeclarativeSettingsSetValueEvent::class, SetDeclarativeSettingsValueListener::class);
 	}
 
+	#[\Override]
 	public function boot(IBootContext $context): void {
 		$server = $context->getServerContainer();
-		$config = $server->getConfig();
-		if ($config->getAppValue(self::APP_ID, 'enable_alt_user_backend', 'no') === 'yes') {
-			$userManager = $server->getUserManager();
+		$config = $server->get(IAppConfig::class);
+		if ($config->getValueBool(self::APP_ID, 'enable_alt_user_backend')) {
+			$userManager = $server->get(IUserManager::class);
 
 			// replace all user backends with this one
 			$userManager->clearBackends();

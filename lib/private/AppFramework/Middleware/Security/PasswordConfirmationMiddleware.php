@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Middleware\Security\Exceptions\NotConfirmedException;
@@ -24,6 +25,7 @@ use OCP\IUserSession;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use OCP\User\Backend\IPasswordConfirmationBackend;
 use Psr\Log\LoggerInterface;
+use ReflectionAttribute;
 use ReflectionMethod;
 
 class PasswordConfirmationMiddleware extends Middleware {
@@ -44,10 +46,9 @@ class PasswordConfirmationMiddleware extends Middleware {
 	/**
 	 * @throws NotConfirmedException
 	 */
+	#[\Override]
 	public function beforeController(Controller $controller, string $methodName) {
-		$reflectionMethod = new ReflectionMethod($controller, $methodName);
-
-		if (!$this->needsPasswordConfirmation($reflectionMethod)) {
+		if (!$this->needsPasswordConfirmation()) {
 			return;
 		}
 
@@ -67,17 +68,16 @@ class PasswordConfirmationMiddleware extends Middleware {
 		try {
 			$sessionId = $this->session->getId();
 			$token = $this->tokenProvider->getToken($sessionId);
+			$scope = $token->getScopeAsArray();
+			if (isset($scope[IToken::SCOPE_SKIP_PASSWORD_VALIDATION]) && $scope[IToken::SCOPE_SKIP_PASSWORD_VALIDATION] === true) {
+				// Users logging in from SSO backends cannot confirm their password by design
+				return;
+			}
 		} catch (SessionNotAvailableException|InvalidTokenException|WipeTokenException|ExpiredTokenException) {
-			// States we do not deal with here.
-			return;
+			// No scope to test
 		}
 
-		$scope = $token->getScopeAsArray();
-		if (isset($scope[IToken::SCOPE_SKIP_PASSWORD_VALIDATION]) && $scope[IToken::SCOPE_SKIP_PASSWORD_VALIDATION] === true) {
-			// Users logging in from SSO backends cannot confirm their password by design
-			return;
-		}
-
+		$reflectionMethod = new ReflectionMethod($controller, $methodName);
 		if ($this->isPasswordConfirmationStrict($reflectionMethod)) {
 			$authHeader = $this->request->getHeader('Authorization');
 			if (!str_starts_with(strtolower($authHeader), 'basic ')) {
@@ -100,21 +100,12 @@ class PasswordConfirmationMiddleware extends Middleware {
 		}
 	}
 
-	private function needsPasswordConfirmation(ReflectionMethod $reflectionMethod): bool {
-		$attributes = $reflectionMethod->getAttributes(PasswordConfirmationRequired::class);
-		if (!empty($attributes)) {
-			return true;
-		}
-
-		if ($this->reflector->hasAnnotation('PasswordConfirmationRequired')) {
-			$this->logger->debug($reflectionMethod->getDeclaringClass()->getName() . '::' . $reflectionMethod->getName() . ' uses the @' . 'PasswordConfirmationRequired' . ' annotation and should use the #[PasswordConfirmationRequired] attribute instead');
-			return true;
-		}
-
-		return false;
+	private function needsPasswordConfirmation(): bool {
+		return $this->reflector->hasAnnotationOrAttribute('PasswordConfirmationRequired', PasswordConfirmationRequired::class);
 	}
 
 	private function isPasswordConfirmationStrict(ReflectionMethod $reflectionMethod): bool {
+		/** @var ReflectionAttribute<PasswordConfirmationRequired>[] $attributes */
 		$attributes = $reflectionMethod->getAttributes(PasswordConfirmationRequired::class);
 		return !empty($attributes) && ($attributes[0]->newInstance()->getStrict());
 	}

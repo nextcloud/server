@@ -25,10 +25,6 @@
     "File already exists" : "Lo fichièr existís ja",
     "Templates" : "Modèls",
     "__language_name__" : "Occitan",
-    "Apps" : "Aplicacions",
-    "Settings" : "Paramètres",
-    "Log out" : "Desconnexion",
-    "Accounts" : "Accounts",
     "Email" : "Corrièl",
     "Mail %s" : "Mail %s",
     "Phone" : "Telefòn",
@@ -65,13 +61,17 @@
     "December" : "Decembre",
     "May." : "Mai.",
     "a safe home for all your data" : "un ostal segur per vòstras donadas",
-    "Authentication error" : "Error d’autentificacion",
     "Storage is temporarily not available" : "Emmagazinatge temporàriament indisponible",
     "Images" : "Imatges",
     "Question" : "Question",
+    "Optical character recognition" : "Reconeissença optica de caractèrs",
     "Chat" : "Messatjariá",
     "Text" : "Tèxt",
     "Translate" : "Tradurre",
-    "Organisation" : "Organizacion"
+    "Apps" : "Aplicacions",
+    "Settings" : "Paramètres",
+    "Log out" : "Desconnexion",
+    "Accounts" : "Accounts",
+    "Authentication error" : "Error d’autentificacion"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

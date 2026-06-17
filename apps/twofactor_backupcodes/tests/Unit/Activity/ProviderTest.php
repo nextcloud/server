@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\TwoFactorBackupCodes\Test\Unit\Activity;
 
 use OCA\TwoFactorBackupCodes\Activity\Provider;
@@ -51,7 +52,7 @@ class ProviderTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('subjectData')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'subjectData')]
 	public function testParse(string $subject): void {
 		$lang = 'ru';
 		$event = $this->createMock(IEvent::class);

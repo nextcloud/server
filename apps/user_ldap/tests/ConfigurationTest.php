@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP\Tests;
 
 use OCA\User_LDAP\Configuration;
@@ -86,7 +87,7 @@ class ConfigurationTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('configurationDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'configurationDataProvider')]
 	public function testSetValue(string $key, string|array $input, string|array $expected): void {
 		$this->configuration->setConfiguration([$key => $input]);
 		$this->assertSame($this->configuration->$key, $expected);
@@ -103,13 +104,13 @@ class ConfigurationTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('avatarRuleValueProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'avatarRuleValueProvider')]
 	public function testGetAvatarAttributes(string $setting, array $expected): void {
 		$this->configuration->setConfiguration(['ldapUserAvatarRule' => $setting]);
 		$this->assertSame($expected, $this->configuration->getAvatarAttributes());
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('avatarRuleValueProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'avatarRuleValueProvider')]
 	public function testResolveRule(string $setting, array $expected): void {
 		$this->configuration->setConfiguration(['ldapUserAvatarRule' => $setting]);
 		// so far the only thing that can get resolved :)

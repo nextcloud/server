@@ -3,13 +3,15 @@
  - SPDX-License-Identifier: AGPL-3.0-or-later
  -->
 <template>
-	<NcHeaderMenu id="public-page-user-menu"
+	<NcHeaderMenu
+		id="public-page-user-menu"
 		class="public-page-user-menu"
 		is-nav
 		:aria-label="t('core', 'User menu')"
 		:description="avatarDescription">
 		<template #trigger>
-			<NcAvatar class="public-page-user-menu__avatar"
+			<NcAvatar
+				class="public-page-user-menu__avatar"
 				disable-menu
 				disable-tooltip
 				is-guest
@@ -17,13 +19,15 @@
 		</template>
 
 		<!-- Privacy notice -->
-		<NcNoteCard class="public-page-user-menu__list-note"
+		<NcNoteCard
+			class="public-page-user-menu__list-note"
 			:text="privacyNotice"
 			type="info" />
 
 		<ul class="public-page-user-menu__list">
 			<!-- Nickname dialog -->
-			<AccountMenuEntry id="set-nickname"
+			<AccountMenuEntry
+				id="set-nickname"
 				:name="!displayName ? t('core', 'Set public name') : t('core', 'Change public name')"
 				href="#"
 				@click.prevent.stop="setNickname">
@@ -38,19 +42,18 @@
 <script lang="ts">
 import type { NextcloudUser } from '@nextcloud/auth'
 
-import '@nextcloud/dialogs/style.css'
-import { defineComponent } from 'vue'
 import { getGuestUser } from '@nextcloud/auth'
 import { showGuestUserPrompt } from '@nextcloud/dialogs'
 import { subscribe } from '@nextcloud/event-bus'
 import { t } from '@nextcloud/l10n'
-
+import { defineComponent } from 'vue'
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcHeaderMenu from '@nextcloud/vue/components/NcHeaderMenu'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import IconAccount from 'vue-material-design-icons/AccountOutline.vue'
-
 import AccountMenuEntry from '../components/AccountMenu/AccountMenuEntry.vue'
+
+import '@nextcloud/dialogs/style.css'
 
 export default defineComponent({
 	name: 'PublicPageUserMenu',

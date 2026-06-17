@@ -5,20 +5,30 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Cache;
 
 use Doctrine\DBAL\Exception;
+use OC\Files\Filesystem;
+use OC\Files\Storage\Storage;
 use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\Storage\Wrapper\Jail;
 use OC\Hooks\BasicEmitter;
-use OC\SystemConfig;
+use OCP\Files\Cache\ICache;
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Cache\IScanner;
 use OCP\Files\ForbiddenException;
+use OCP\Files\IMimeTypeLoader;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\ILockingStorage;
 use OCP\Files\Storage\IReliableEtagStorage;
+use OCP\Files\StorageInvalidException;
+use OCP\Files\StorageNotAvailableException;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Lock\ILockingProvider;
+use OCP\Lock\LockedException;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -33,48 +43,24 @@ use Psr\Log\LoggerInterface;
  * @package OC\Files\Cache
  */
 class Scanner extends BasicEmitter implements IScanner {
-	/**
-	 * @var \OC\Files\Storage\Storage $storage
-	 */
-	protected $storage;
-
-	/**
-	 * @var string $storageId
-	 */
-	protected $storageId;
-
-	/**
-	 * @var \OC\Files\Cache\Cache $cache
-	 */
-	protected $cache;
-
-	/**
-	 * @var boolean $cacheActive If true, perform cache operations, if false, do not affect cache
-	 */
-	protected $cacheActive;
-
-	/**
-	 * @var bool $useTransactions whether to use transactions
-	 */
-	protected $useTransactions = true;
-
-	/**
-	 * @var \OCP\Lock\ILockingProvider
-	 */
-	protected $lockingProvider;
-
+	protected string $storageId;
+	protected ICache $cache;
+	/** @var bool $cacheActive Whether to perform cache operations */
+	protected bool $cacheActive;
+	protected bool $useTransactions = true;
+	protected ILockingProvider $lockingProvider;
 	protected IDBConnection $connection;
 
-	public function __construct(\OC\Files\Storage\Storage $storage) {
-		$this->storage = $storage;
+	public function __construct(
+		protected Storage $storage,
+	) {
 		$this->storageId = $this->storage->getId();
-		$this->cache = $storage->getCache();
-		/** @var SystemConfig $config */
-		$config = \OC::$server->get(SystemConfig::class);
-		$this->cacheActive = !$config->getValue('filesystem_cache_readonly', false);
-		$this->useTransactions = !$config->getValue('filescanner_no_transactions', false);
-		$this->lockingProvider = \OC::$server->get(ILockingProvider::class);
-		$this->connection = \OC::$server->get(IDBConnection::class);
+		$this->cache = $this->storage->getCache();
+		$config = Server::get(IConfig::class);
+		$this->cacheActive = !$config->getSystemValueBool('filesystem_cache_readonly', false);
+		$this->useTransactions = !$config->getSystemValueBool('filescanner_no_transactions', false);
+		$this->lockingProvider = Server::get(ILockingProvider::class);
+		$this->connection = Server::get(IDBConnection::class);
 	}
 
 	/**
@@ -97,7 +83,7 @@ class Scanner extends BasicEmitter implements IScanner {
 	protected function getData($path) {
 		$data = $this->storage->getMetaData($path);
 		if (is_null($data)) {
-			\OC::$server->get(LoggerInterface::class)->debug("!!! Path '$path' is not accessible or present !!!", ['app' => 'core']);
+			Server::get(LoggerInterface::class)->debug("!!! Path '$path' is not accessible or present !!!", ['app' => 'core']);
 		}
 		return $data;
 	}
@@ -112,8 +98,9 @@ class Scanner extends BasicEmitter implements IScanner {
 	 * @param bool $lock set to false to disable getting an additional read lock during scanning
 	 * @param array|null $data the metadata for the file, as returned by the storage
 	 * @return array|null an array of metadata of the scanned file
-	 * @throws \OCP\Lock\LockedException
+	 * @throws LockedException
 	 */
+	#[\Override]
 	public function scanFile($file, $reuseExisting = 0, $parentId = -1, $cacheData = null, $lock = true, $data = null) {
 		if ($file !== '') {
 			try {
@@ -207,7 +194,7 @@ class Scanner extends BasicEmitter implements IScanner {
 					 * i.e. get all the values in $data that are not present in the cache already
 					 *
 					 * We need the OC implementation for usage of "getData" method below.
-					 * @var \OC\Files\Cache\CacheEntry $cacheData
+					 * @var CacheEntry $cacheData
 					 */
 					$newData = $this->array_diff_assoc_multi($data, $cacheData->getData());
 
@@ -306,6 +293,7 @@ class Scanner extends BasicEmitter implements IScanner {
 	 * @param bool $lock set to false to disable getting an additional read lock during scanning
 	 * @return array|null an array of the meta data of the scanned file or folder
 	 */
+	#[\Override]
 	public function scan($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1, $lock = true) {
 		if ($reuse === -1) {
 			$reuse = ($recursive === self::SCAN_SHALLOW) ? self::REUSE_ETAG | self::REUSE_SIZE : self::REUSE_ETAG;
@@ -318,7 +306,6 @@ class Scanner extends BasicEmitter implements IScanner {
 
 		try {
 			$data = $this->scanFile($path, $reuse, -1, lock: $lock);
-
 			if ($data !== null && $data['mimetype'] === 'httpd/unix-directory') {
 				$size = $this->scanChildren($path, $recursive, $reuse, $data['fileid'], $lock, $data['size']);
 				$data['size'] = $size;
@@ -383,7 +370,7 @@ class Scanner extends BasicEmitter implements IScanner {
 	 * Get the children currently in the cache
 	 *
 	 * @param int $folderId
-	 * @return array<string, \OCP\Files\Cache\ICacheEntry>
+	 * @return array<string, ICacheEntry>
 	 */
 	protected function getExistingChildren($folderId): array {
 		$existingChildren = [];
@@ -429,7 +416,9 @@ class Scanner extends BasicEmitter implements IScanner {
 		// for encrypted storages, we trigger a regular folder size calculation instead of using the calculated size
 		// to make sure we also updated the unencrypted-size where applicable
 		if ($this->storage->instanceOfStorage(Encryption::class)) {
-			$this->cache->calculateFolderSize($path);
+			/** @var Cache $cache */
+			$cache = $this->cache;
+			$cache->calculateFolderSize($path);
 		} else {
 			if ($this->cacheActive) {
 				$updatedData = [];
@@ -452,7 +441,7 @@ class Scanner extends BasicEmitter implements IScanner {
 	 * @param bool|IScanner::SCAN_RECURSIVE_INCOMPLETE $recursive
 	 */
 	private function handleChildren(string $path, $recursive, int $reuse, int $folderId, bool $lock, int|float &$size, bool &$etagChanged): array {
-		// we put this in it's own function so it cleans up the memory before we start recursing
+		// we put this in its own function so it cleans up the memory before we start recursing
 		$existingChildren = $this->getExistingChildren($folderId);
 		$newChildren = iterator_to_array($this->storage->getDirectoryContent($path));
 
@@ -474,10 +463,10 @@ class Scanner extends BasicEmitter implements IScanner {
 				continue;
 			}
 			$originalFile = $fileMeta['name'];
-			$file = trim(\OC\Files\Filesystem::normalizePath($originalFile), '/');
+			$file = trim(Filesystem::normalizePath($originalFile), '/');
 			if (trim($originalFile, '/') !== $file) {
 				// encoding mismatch, might require compatibility wrapper
-				\OC::$server->get(LoggerInterface::class)->debug('Scanner: Skipping non-normalized file name "' . $originalFile . '" in path "' . $path . '".', ['app' => 'core']);
+				Server::get(LoggerInterface::class)->debug('Scanner: Skipping non-normalized file name "' . $originalFile . '" in path "' . $path . '".', ['app' => 'core']);
 				$this->emit('\OC\Files\Cache\Scanner', 'normalizedNameMismatch', [$path ? $path . '/' . $originalFile : $originalFile]);
 				// skip this entry
 				continue;
@@ -512,12 +501,12 @@ class Scanner extends BasicEmitter implements IScanner {
 					$this->connection->rollback();
 					$this->connection->beginTransaction();
 				}
-				\OC::$server->get(LoggerInterface::class)->debug('Exception while scanning file "' . $child . '"', [
+				Server::get(LoggerInterface::class)->debug('Exception while scanning file "' . $child . '"', [
 					'app' => 'core',
 					'exception' => $ex,
 				]);
 				$exceptionOccurred = true;
-			} catch (\OCP\Lock\LockedException $e) {
+			} catch (LockedException $e) {
 				if ($this->useTransactions) {
 					$this->connection->rollback();
 				}
@@ -527,7 +516,7 @@ class Scanner extends BasicEmitter implements IScanner {
 		$removedChildren = \array_diff(array_keys($existingChildren), $newChildNames);
 		foreach ($removedChildren as $childName) {
 			$child = $path ? $path . '/' . $childName : $childName;
-			$this->removeFromCache($child);
+			$this->removeFromCache((string)$child);
 		}
 		if ($this->useTransactions) {
 			$this->connection->commit();
@@ -537,7 +526,7 @@ class Scanner extends BasicEmitter implements IScanner {
 			// inserted mimetypes but those weren't available yet inside the transaction
 			// To make sure to have the updated mime types in such cases,
 			// we reload them here
-			\OC::$server->getMimeTypeLoader()->reset();
+			Server::get(IMimeTypeLoader::class)->reset();
 		}
 		return $childQueue;
 	}
@@ -550,6 +539,7 @@ class Scanner extends BasicEmitter implements IScanner {
 	 * @param string $file
 	 * @return boolean
 	 */
+	#[\Override]
 	public static function isPartialFile($file) {
 		if (pathinfo($file, PATHINFO_EXTENSION) === 'part') {
 			return true;
@@ -564,6 +554,7 @@ class Scanner extends BasicEmitter implements IScanner {
 	/**
 	 * walk over any folders that are not fully scanned yet and scan them
 	 */
+	#[\Override]
 	public function backgroundScan() {
 		if ($this->storage->instanceOfStorage(Jail::class)) {
 			// for jail storage wrappers (shares, groupfolders) we run the background scan on the source storage
@@ -576,14 +567,14 @@ class Scanner extends BasicEmitter implements IScanner {
 		} else {
 			if (!$this->cache->inCache('')) {
 				// if the storage isn't in the cache yet, just scan the root completely
-				$this->runBackgroundScanJob(function () {
+				$this->runBackgroundScanJob(function (): void {
 					$this->scan('', self::SCAN_RECURSIVE, self::REUSE_ETAG);
 				}, '');
 			} else {
 				$lastPath = null;
 				// find any path marked as unscanned and run the scanner until no more paths are unscanned (or we get stuck)
 				while (($path = $this->cache->getIncomplete()) !== false && $path !== $lastPath) {
-					$this->runBackgroundScanJob(function () use ($path) {
+					$this->runBackgroundScanJob(function () use ($path): void {
 						$this->scan($path, self::SCAN_RECURSIVE_INCOMPLETE, self::REUSE_ETAG | self::REUSE_SIZE);
 					}, $path);
 					// FIXME: this won't proceed with the next item, needs revamping of getIncomplete()
@@ -601,14 +592,8 @@ class Scanner extends BasicEmitter implements IScanner {
 			if ($this->cacheActive && $this->cache instanceof Cache) {
 				$this->cache->correctFolderSize($path, null, true);
 			}
-		} catch (\OCP\Files\StorageInvalidException $e) {
-			// skip unavailable storages
-		} catch (\OCP\Files\StorageNotAvailableException $e) {
-			// skip unavailable storages
-		} catch (\OCP\Files\ForbiddenException $e) {
-			// skip forbidden storages
-		} catch (\OCP\Lock\LockedException $e) {
-			// skip unavailable storages
+		} catch (StorageInvalidException|StorageNotAvailableException|ForbiddenException|LockedException) {
+			// skip unavailable and forbidden storages
 		}
 	}
 

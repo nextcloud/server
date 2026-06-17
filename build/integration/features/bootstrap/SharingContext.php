@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -7,8 +9,7 @@
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 
-require __DIR__ . '/../../vendor/autoload.php';
-
+require __DIR__ . '/autoload.php';
 
 /**
  * Features context.
@@ -32,6 +33,7 @@ class SharingContext implements Context, SnippetAcceptingContext {
 		$this->deleteServerConfig('core', 'shareapi_allow_federation_on_public_shares');
 		$this->deleteServerConfig('files_sharing', 'outgoing_server2server_share_enabled');
 		$this->deleteServerConfig('core', 'shareapi_allow_view_without_download');
+		$this->deleteServerConfig('files_sharing', 'update_cutoff_time');
 
 		$this->runOcc(['config:system:delete', 'share_folder']);
 	}

@@ -5,9 +5,10 @@
 
 import { fetchAllPredefinedStatuses } from '../services/predefinedStatusService.js'
 
-const state = {
+// eslint-disable-next-line antfu/top-level-function
+const state = () => ({
 	predefinedStatuses: [],
-}
+})
 
 const mutations = {
 

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Comments;
 
 use OCA\DAV\Comments\CommentNode;
@@ -48,19 +49,20 @@ class EntityCollectionTest extends \Test\TestCase {
 	}
 
 	public function testGetChild(): void {
+		$comment = $this->createMock(IComment::class);
+		$comment->method('getObjectType')
+			->willReturn('files');
+		$comment->method('getObjectId')
+			->willReturn('19');
+
 		$this->commentsManager->expects($this->once())
 			->method('get')
 			->with('55')
-			->willReturn(
-				$this->getMockBuilder(IComment::class)
-					->disableOriginalConstructor()
-					->getMock()
-			);
+			->willReturn($comment);
 
 		$node = $this->collection->getChild('55');
 		$this->assertInstanceOf(CommentNode::class, $node);
 	}
-
 
 	public function testGetChildException(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
@@ -107,6 +109,17 @@ class EntityCollectionTest extends \Test\TestCase {
 	}
 
 	public function testChildExistsTrue(): void {
+		$comment = $this->createMock(IComment::class);
+		$comment->method('getObjectType')
+			->willReturn('files');
+		$comment->method('getObjectId')
+			->willReturn('19');
+
+		$this->commentsManager->expects($this->once())
+			->method('get')
+			->with('44')
+			->willReturn($comment);
+
 		$this->assertTrue($this->collection->childExists('44'));
 	}
 

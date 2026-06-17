@@ -25,9 +25,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class UserStatusAutomationTest extends TestCase {
 	protected ITimeFactory&MockObject $time;
 	protected IJobList&MockObject $jobList;
@@ -88,7 +86,7 @@ class UserStatusAutomationTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataRun')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataRun')]
 	public function testRunNoOOO(string $ruleDay, string $currentTime, bool $isAvailable): void {
 		$user = $this->createConfiguredMock(IUser::class, [
 			'getUID' => 'user'

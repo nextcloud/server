@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\UpdateNotification\Controller;
 
 use OC\App\AppStore\Fetcher\AppFetcher;
@@ -41,6 +42,8 @@ class APIController extends OCSController {
 		'files_downloadlimit' => 29,
 		'twofactor_nextcloud_notification' => 30,
 		'app_api' => 30,
+		'files_lock' => 34,
+		'office' => 34,
 	];
 
 	public function __construct(
@@ -135,7 +138,7 @@ class APIController extends OCSController {
 	 * @return UpdateNotificationApp
 	 */
 	protected function getAppDetails(string $appId): array {
-		$app = $this->appManager->getAppInfo($appId, false, $this->language);
+		$app = $this->appManager->getAppInfo($appId, lang: $this->language ?? 'en');
 		$name = $app['name'] ?? $appId;
 		return [
 			'appId' => $appId,

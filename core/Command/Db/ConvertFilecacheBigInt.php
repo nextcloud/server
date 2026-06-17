@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Command\Db;
 
 use Doctrine\DBAL\Types\Type;
@@ -24,6 +25,7 @@ class ConvertFilecacheBigInt extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('db:convert-filecache-bigint')
@@ -53,6 +55,7 @@ class ConvertFilecacheBigInt extends Command {
 		];
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$schema = new SchemaWrapper($this->connection);
 		$isSqlite = $this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_SQLITE;
@@ -70,7 +73,7 @@ class ConvertFilecacheBigInt extends Command {
 				$column = $table->getColumn($columnName);
 				$isAutoIncrement = $column->getAutoincrement();
 				$isAutoIncrementOnSqlite = $isSqlite && $isAutoIncrement;
-				if ($column->getType()->getName() !== Types::BIGINT && !$isAutoIncrementOnSqlite) {
+				if (Type::lookupName($column->getType()) !== Types::BIGINT && !$isAutoIncrementOnSqlite) {
 					$column->setType(Type::getType(Types::BIGINT));
 					$column->setOptions(['length' => 20]);
 

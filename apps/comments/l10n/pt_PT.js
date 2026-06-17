@@ -15,13 +15,13 @@ OC.L10N.register(
     "Delete comment" : "Eliminar comentário",
     "Cancel edit" : "Cancelar edição",
     "New comment" : "Novo comentário",
-    "Write a comment …" : "Escreva um comentário...",
     "Post comment" : "Publicar comentário",
     "No comments yet, start the conversation!" : "Ainda sem comentários, inicie uma conversação!",
     "No more messages" : "Sem mais mensagens",
     "Retry" : "Repetir",
     "_1 new comment_::_{unread} new comments_" : ["1 novo comentário","{unread} novos comentários","{unread} novos comentários"],
     "Comment" : "Comentário",
-    "Comment deleted" : "Comentário eliminado"
+    "Comment deleted" : "Comentário eliminado",
+    "Write a comment …" : "Escreva um comentário..."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

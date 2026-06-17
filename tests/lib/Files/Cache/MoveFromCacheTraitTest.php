@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -19,10 +21,10 @@ class FallBackCrossCacheMoveCache extends Cache {
 
 /**
  * Class MoveFromCacheTraitTest
- *
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class MoveFromCacheTraitTest extends CacheTest {
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

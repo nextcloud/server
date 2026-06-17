@@ -23,16 +23,17 @@ use Test\Files\Cache\CacheTest;
 /**
  * Class CacheJail
  *
- * @group DB
  *
  * @package Test\Files\Cache\Wrapper
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class CacheJailTest extends CacheTest {
 	/**
 	 * @var Cache $sourceCache
 	 */
 	protected $sourceCache;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->storage->mkdir('jail');
@@ -88,7 +89,6 @@ class CacheJailTest extends CacheTest {
 		$file2 = 'folder/foobar';
 		$data1 = ['size' => 100, 'mtime' => 50, 'mimetype' => 'foo/folder'];
 
-
 		$this->sourceCache->insert('folder', ['size' => 0, 'mtime' => 0, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE]);
 		$this->sourceCache->put($file1, $data1);
 		$this->sourceCache->put($file2, $data1);
@@ -123,6 +123,7 @@ class CacheJailTest extends CacheTest {
 		$this->assertTrue($this->sourceCache->inCache('folder/foobar'));
 	}
 
+	#[\Override]
 	public function testGetById(): void {
 		$data1 = ['size' => 100, 'mtime' => 50, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE];
 		$id = $this->sourceCache->put('jail/bar', $data1);
@@ -137,6 +138,7 @@ class CacheJailTest extends CacheTest {
 		$this->assertEquals('jail/bar', $path);
 	}
 
+	#[\Override]
 	public function testGetIncomplete(): void {
 		//not supported
 		$this->addToAssertionCount(1);

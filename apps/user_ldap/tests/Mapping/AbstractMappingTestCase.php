@@ -6,21 +6,35 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP\Tests\Mapping;
 
 use OCA\User_LDAP\Mapping\AbstractMapping;
+use OCP\IAppConfig;
+use OCP\ICacheFactory;
 use OCP\IDBConnection;
 use OCP\Server;
+use PHPUnit\Framework\MockObject\MockObject;
 
 abstract class AbstractMappingTestCase extends \Test\TestCase {
-	abstract public function getMapper(IDBConnection $dbMock);
+
+	private ICacheFactory&MockObject $cacheFactoryMock;
+
+	private IAppConfig&MockObject $configMock;
+
+	abstract public function getMapper(IDBConnection $dbMock, ICacheFactory $cacheFactory, IAppConfig $appConfig): AbstractMapping;
+
+	protected function setUp(): void {
+		$this->cacheFactoryMock = $this->createMock(ICacheFactory::class);
+		$this->configMock = $this->createMock(IAppConfig::class);
+	}
 
 	/**
 	 * kiss test on isColNameValid
 	 */
 	public function testIsColNameValid(): void {
 		$dbMock = $this->createMock(IDBConnection::class);
-		$mapper = $this->getMapper($dbMock);
+		$mapper = $this->getMapper($dbMock, $this->cacheFactoryMock, $this->configMock);
 
 		$this->assertTrue($mapper->isColNameValid('ldap_dn'));
 		$this->assertFalse($mapper->isColNameValid('foobar'));
@@ -71,7 +85,7 @@ abstract class AbstractMappingTestCase extends \Test\TestCase {
 	 */
 	private function initTest(): array {
 		$dbc = Server::get(IDBConnection::class);
-		$mapper = $this->getMapper($dbc);
+		$mapper = $this->getMapper($dbc, $this->cacheFactoryMock, $this->configMock);
 		$data = $this->getTestData();
 		// make sure DB is pristine, then fill it with test entries
 		$mapper->clear();
@@ -270,17 +284,17 @@ abstract class AbstractMappingTestCase extends \Test\TestCase {
 		[$mapper,] = $this->initTest();
 
 		$listOfDNs = [];
+		// List size exceeds any single-query chunk limit (65k for most DBs, 9k for SQLite, 5k for Oracle), forcing multiple chunked queries
 		for ($i = 0; $i < 66640; $i++) {
-			// Postgres has a limit of 65535 values in a single IN list
 			$name = 'as_' . $i;
 			$dn = 'uid=' . $name . ',dc=example,dc=org';
 			$listOfDNs[] = $dn;
-			if ($i % 20 === 0) {
+			if ($i % 5000 === 0) {
 				$mapper->map($dn, $name, 'fake-uuid-' . $i);
 			}
 		}
 
 		$result = $mapper->getListOfIdsByDn($listOfDNs);
-		$this->assertCount(66640 / 20, $result);
+		$this->assertCount(14, $result);
 	}
 }

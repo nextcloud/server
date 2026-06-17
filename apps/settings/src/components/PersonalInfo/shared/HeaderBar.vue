@@ -15,14 +15,16 @@
 		</label>
 
 		<template v-if="scope">
-			<FederationControl class="federation-control"
+			<FederationControl
+				class="federation-control"
 				:readable="readable"
 				:scope.sync="localScope"
 				@update:scope="onScopeChange" />
 		</template>
 
 		<template v-if="isEditable && isMultiValueSupported">
-			<NcButton type="tertiary"
+			<NcButton
+				variant="tertiary"
 				:disabled="!isValidSection"
 				:aria-label="t('settings', 'Add additional email')"
 				@click.stop.prevent="onAddAdditional">
@@ -38,9 +40,7 @@
 <script>
 import NcButton from '@nextcloud/vue/components/NcButton'
 import Plus from 'vue-material-design-icons/Plus.vue'
-
 import FederationControl from './FederationControl.vue'
-
 import {
 	ACCOUNT_PROPERTY_READABLE_ENUM,
 	PROFILE_READABLE_ENUM,
@@ -60,26 +60,32 @@ export default {
 			type: String,
 			default: null,
 		},
+
 		readable: {
 			type: String,
 			required: true,
 		},
+
 		inputId: {
 			type: String,
 			default: null,
 		},
+
 		isEditable: {
 			type: Boolean,
 			default: true,
 		},
+
 		isMultiValueSupported: {
 			type: Boolean,
 			default: false,
 		},
+
 		isValidSection: {
 			type: Boolean,
 			default: true,
 		},
+
 		isHeading: {
 			type: Boolean,
 			default: false,

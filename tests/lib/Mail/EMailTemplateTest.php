@@ -24,6 +24,7 @@ class EMailTemplateTest extends TestCase {
 	/** @var EMailTemplate */
 	private $emailTemplate;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -172,8 +173,6 @@ class EMailTemplateTest extends TestCase {
 		$expectedTXT = file_get_contents(\OC::$SERVERROOT . '/tests/data/emails/new-account-email-single-button.txt');
 		$this->assertSame($expectedTXT, $this->emailTemplate->renderText());
 	}
-
-
 
 	public function testEMailTemplateAlternativePlainTexts(): void {
 		$this->defaults

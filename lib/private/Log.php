@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use Exception;
@@ -20,6 +21,7 @@ use OCP\Log\BeforeMessageLoggedEvent;
 use OCP\Log\IDataLogger;
 use OCP\Log\IFileBased;
 use OCP\Log\IWriter;
+use OCP\Server;
 use OCP\Support\CrashReport\IRegistry;
 use Throwable;
 use function array_merge;
@@ -142,7 +144,6 @@ class Log implements ILogger, IDataLogger {
 		$this->log(ILogger::DEBUG, $message, $context);
 	}
 
-
 	/**
 	 * Logs with an arbitrary level.
 	 *
@@ -158,7 +159,7 @@ class Log implements ILogger, IDataLogger {
 			return; // no crash reporter, no listeners, we can stop for lower log level
 		}
 
-		array_walk($context, [$this->normalizer, 'format']);
+		$context = array_map($this->normalizer->format(...), $context);
 
 		$app = $context['app'] ?? 'no app in context';
 		$entry = $this->interpolateMessage($context, $message);
@@ -231,7 +232,7 @@ class Log implements ILogger, IDataLogger {
 
 				// check for user
 				if (isset($logCondition['users'])) {
-					$user = \OCP\Server::get(IUserSession::class)->getUser();
+					$user = Server::get(IUserSession::class)->getUser();
 
 					if ($user === null) {
 						// User is not known for this request yet
@@ -253,7 +254,7 @@ class Log implements ILogger, IDataLogger {
 		}
 
 		if ($userId === false && isset($logCondition['matches'])) {
-			$user = \OCP\Server::get(IUserSession::class)->getUser();
+			$user = Server::get(IUserSession::class)->getUser();
 			$userId = $user === null ? false : $user->getUID();
 		}
 
@@ -268,20 +269,9 @@ class Log implements ILogger, IDataLogger {
 			}
 		}
 
-		if (!isset($logCondition['matches'])) {
-			$configLogLevel = $this->config->getValue('loglevel', ILogger::WARN);
-			if (is_numeric($configLogLevel)) {
-				$this->nestingLevel--;
-				return min((int)$configLogLevel, ILogger::FATAL);
-			}
+		$logConditionMatches = $logCondition['matches'] ?? [];
 
-			// Invalid configuration, warn the user and fall back to default level of WARN
-			error_log('Nextcloud configuration: "loglevel" is not a valid integer');
-			$this->nestingLevel--;
-			return ILogger::WARN;
-		}
-
-		foreach ($logCondition['matches'] as $option) {
+		foreach ($logConditionMatches as $option) {
 			if (
 				(!isset($option['shared_secret']) || $this->checkLogSecret($option['shared_secret']))
 				&& (!isset($option['users']) || in_array($userId, $option['users'], true))
@@ -299,12 +289,20 @@ class Log implements ILogger, IDataLogger {
 			}
 		}
 
+		$configLogLevel = $this->config->getValue('loglevel', ILogger::WARN);
+		if (is_numeric($configLogLevel)) {
+			$this->nestingLevel--;
+			return min((int)$configLogLevel, ILogger::FATAL);
+		}
+
+		// Invalid configuration, warn the user and fall back to default level of WARN
+		error_log('Nextcloud configuration: "loglevel" is not a valid integer');
 		$this->nestingLevel--;
 		return ILogger::WARN;
 	}
 
 	protected function checkLogSecret(string $conditionSecret): bool {
-		$request = \OCP\Server::get(IRequest::class);
+		$request = Server::get(IRequest::class);
 
 		if ($request->getMethod() === 'PUT'
 			&& !str_contains($request->getHeader('Content-Type'), 'application/x-www-form-urlencoded')
@@ -342,13 +340,13 @@ class Log implements ILogger, IDataLogger {
 			$this->error('Failed to load ExceptionSerializer serializer while trying to log ' . $exception->getMessage());
 			return;
 		}
+
+		$context = array_map($this->normalizer->format(...), $context);
 		$data = $context;
-		unset($data['app']);
-		unset($data['level']);
+		unset($data['app'], $data['level']);
+
 		$data = array_merge($serializer->serializeException($exception), $data);
 		$data = $this->interpolateMessage($data, isset($context['message']) && $context['message'] !== '' ? $context['message'] : ('Exception thrown: ' . get_class($exception)), 'CustomMessage');
-
-		array_walk($context, [$this->normalizer, 'format']);
 
 		$this->eventDispatcher?->dispatchTyped(new BeforeMessageLoggedEvent($app, $level, $data));
 
@@ -369,13 +367,13 @@ class Log implements ILogger, IDataLogger {
 		}
 	}
 
+	#[\Override]
 	public function logData(string $message, array $data, array $context = []): void {
 		$app = $context['app'] ?? 'no app in context';
 		$level = $context['level'] ?? ILogger::ERROR;
 
 		$minLevel = $this->getLogLevel($context, $message);
-
-		array_walk($context, [$this->normalizer, 'format']);
+		$data = array_map($this->normalizer->format(...), $data);
 
 		try {
 			if ($level >= $minLevel) {
@@ -385,8 +383,6 @@ class Log implements ILogger, IDataLogger {
 				}
 				$this->writeLog($app, $data, $level);
 			}
-
-			$context['level'] = $level;
 		} catch (Throwable $e) {
 			// make sure we dont hard crash if logging fails
 			error_log('Error when trying to log exception: ' . $e->getMessage() . ' ' . $e->getTraceAsString());
@@ -436,7 +432,7 @@ class Log implements ILogger, IDataLogger {
 		$serializer = new ExceptionSerializer($this->config);
 		try {
 			/** @var Coordinator $coordinator */
-			$coordinator = \OCP\Server::get(Coordinator::class);
+			$coordinator = Server::get(Coordinator::class);
 			foreach ($coordinator->getRegistrationContext()->getSensitiveMethods() as $registration) {
 				$serializer->enlistSensitiveMethods($registration->getName(), $registration->getValue());
 			}

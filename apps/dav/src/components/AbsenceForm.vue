@@ -4,46 +4,52 @@
 -->
 
 <template>
-	<form class="absence" @submit.prevent="saveForm">
-		<div class="absence__dates">
-			<NcDateTimePickerNative id="absence-first-day"
+	<form :class="$style.absenceForm" @submit.prevent="saveForm">
+		<div :class="$style.absenceForm__pickerContainer">
+			<NcDateTimePickerNative
+				id="absence-first-day"
 				v-model="firstDay"
-				:label="$t('dav', 'First day')"
-				class="absence__dates__picker"
-				:required="true" />
-			<NcDateTimePickerNative id="absence-last-day"
+				:class="$style.absenceForm__picker"
+				:label="t('dav', 'First day')"
+				required />
+			<NcDateTimePickerNative
+				id="absence-last-day"
 				v-model="lastDay"
-				:label="$t('dav', 'Last day (inclusive)')"
-				class="absence__dates__picker"
-				:required="true" />
+				:class="$style.absenceForm__picker"
+				:label="t('dav', 'Last day (inclusive)')"
+				required />
 		</div>
-		<label for="replacement-search-input">{{ $t('dav', 'Out of office replacement (optional)') }}</label>
-		<NcSelect ref="select"
+		<label for="replacement-search-input">{{ t('dav', 'Out of office replacement (optional)') }}</label>
+		<NcSelectUsers
 			v-model="replacementUser"
-			input-id="replacement-search-input"
+			inputId="replacement-search-input"
 			:loading="searchLoading"
-			:placeholder="$t('dav', 'Name of the replacement')"
-			:clear-search-on-blur="() => false"
-			:user-select="true"
+			:placeholder="t('dav', 'Name of the replacement')"
 			:options="options"
-			@search="asyncFind">
-			<template #no-options="{ search }">
-				{{ search ?$t('dav', 'No results.') : $t('dav', 'Start typing.') }}
-			</template>
-		</NcSelect>
-		<NcTextField :value.sync="status" :label="$t('dav', 'Short absence status')" :required="true" />
-		<NcTextArea :value.sync="message" :label="$t('dav', 'Long absence Message')" :required="true" />
+			@search="asyncFind" />
+		<NcTextField v-model="status" :label="t('dav', 'Short absence status')" :required="true" />
+		<div :class="$style.absenceForm__longMessageContainer">
+			<NcTextArea
+				v-model="message"
+				:inputClass="$style.absenceForm__longMessage"
+				:label="t('dav', 'Long absence Message')"
+				required
+				resize="none"
+				rows="6" />
+		</div>
 
-		<div class="absence__buttons">
-			<NcButton :disabled="loading || !valid"
-				type="primary"
-				native-type="submit">
-				{{ $t('dav', 'Save') }}
+		<div :class="$style.absenceForm__actions">
+			<NcButton
+				:disabled="loading || !valid"
+				variant="primary"
+				type="submit">
+				{{ t('dav', 'Save') }}
 			</NcButton>
-			<NcButton :disabled="loading || !valid"
-				type="error"
+			<NcButton
+				:disabled="loading || !valid"
+				variant="error"
 				@click="clearAbsence">
-				{{ $t('dav', 'Disable absence') }}
+				{{ t('dav', 'Disable absence') }}
 			</NcButton>
 		</div>
 	</form>
@@ -51,20 +57,20 @@
 
 <script>
 import { getCurrentUser } from '@nextcloud/auth'
+import axios from '@nextcloud/axios'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
+import { t } from '@nextcloud/l10n'
 import { generateOcsUrl } from '@nextcloud/router'
 import { ShareType } from '@nextcloud/sharing'
-import { formatDateAsYMD } from '../utils/date.js'
-import axios from '@nextcloud/axios'
 import debounce from 'debounce'
-import logger from '../service/logger.js'
-
 import NcButton from '@nextcloud/vue/components/NcButton'
-import NcTextField from '@nextcloud/vue/components/NcTextField'
-import NcTextArea from '@nextcloud/vue/components/NcTextArea'
-import NcSelect from '@nextcloud/vue/components/NcSelect'
 import NcDateTimePickerNative from '@nextcloud/vue/components/NcDateTimePickerNative'
+import NcSelectUsers from '@nextcloud/vue/components/NcSelectUsers'
+import NcTextArea from '@nextcloud/vue/components/NcTextArea'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
+import { logger } from '../service/logger.ts'
+import { formatDateAsYMD } from '../utils/date.ts'
 
 export default {
 	name: 'AbsenceForm',
@@ -73,8 +79,13 @@ export default {
 		NcTextField,
 		NcTextArea,
 		NcDateTimePickerNative,
-		NcSelect,
+		NcSelectUsers,
 	},
+
+	setup() {
+		return { t }
+	},
+
 	data() {
 		const { firstDay, lastDay, status, message, replacementUserId, replacementUserDisplayName } = loadState('dav', 'absence', {})
 		return {
@@ -89,6 +100,7 @@ export default {
 			options: [],
 		}
 	},
+
 	computed: {
 		/**
 		 * @return {boolean}
@@ -107,6 +119,7 @@ export default {
 				&& lastDay >= firstDay
 		},
 	},
+
 	methods: {
 		resetForm() {
 			this.status = ''
@@ -121,7 +134,7 @@ export default {
 		 * @param {object} result select entry item
 		 * @return {object}
 		 */
-		 formatForMultiselect(result) {
+		formatForMultiselect(result) {
 			return {
 				user: result.uuid || result.value.shareWith,
 				displayName: result.name || result.label,
@@ -133,18 +146,18 @@ export default {
 			this.searchLoading = true
 			await this.debounceGetSuggestions(query.trim())
 		},
+
 		/**
 		 * Get suggestions
 		 *
 		 * @param {string} search the search query
 		 */
-		 async getSuggestions(search) {
-
+		async getSuggestions(search) {
 			const shareType = [
 				ShareType.User,
 			]
 
-			let request = null
+			let request
 			try {
 				request = await axios.get(generateOcsUrl('apps/files_sharing/api/v1/sharees'), {
 					params: {
@@ -155,7 +168,7 @@ export default {
 					},
 				})
 			} catch (error) {
-				console.error('Error fetching suggestions', error)
+				logger.error('Error fetching suggestions', { error })
 				return
 			}
 
@@ -164,13 +177,12 @@ export default {
 			data.exact = [] // removing exact from general results
 			const rawExactSuggestions = exact.users
 			const rawSuggestions = data.users
-			console.info('rawExactSuggestions', rawExactSuggestions)
-			console.info('rawSuggestions', rawSuggestions)
+			logger.info('AbsenceForm raw suggestions', { rawExactSuggestions, rawSuggestions })
 			// remove invalid data and format to user-select layout
 			const exactSuggestions = rawExactSuggestions
-				.map(share => this.formatForMultiselect(share))
+				.map((share) => this.formatForMultiselect(share))
 			const suggestions = rawSuggestions
-				.map(share => this.formatForMultiselect(share))
+				.map((share) => this.formatForMultiselect(share))
 
 			const allSuggestions = exactSuggestions.concat(suggestions)
 
@@ -186,7 +198,7 @@ export default {
 				return nameCounts
 			}, {})
 
-			this.options = allSuggestions.map(item => {
+			this.options = allSuggestions.map((item) => {
 				// Make sure that items with duplicate displayName get the shareWith applied as a description
 				if (nameCounts[item.displayName] > 1 && !item.desc) {
 					return { ...item, desc: item.shareWithDisplayNameUnique }
@@ -195,15 +207,15 @@ export default {
 			})
 
 			this.searchLoading = false
-			console.info('suggestions', this.options)
+			logger.info('AbsenseForm suggestions', { options: this.options })
 		},
 
 		/**
 		 * Debounce getSuggestions
 		 *
-		 * @param {...*} args the arguments
+		 * @param {[string]} args - The arguments
 		 */
-		 debounceGetSuggestions: debounce(function(...args) {
+		debounceGetSuggestions: debounce(function(...args) {
 			this.getSuggestions(...args)
 		}, 300),
 
@@ -221,22 +233,23 @@ export default {
 					message: this.message,
 					replacementUserId: this.replacementUser?.user ?? null,
 				})
-				showSuccess(this.$t('dav', 'Absence saved'))
+				showSuccess(t('dav', 'Absence saved'))
 			} catch (error) {
-				showError(this.$t('dav', 'Failed to save your absence settings'))
+				showError(t('dav', 'Failed to save your absence settings'))
 				logger.error('Could not save absence', { error })
 			} finally {
 				this.loading = false
 			}
 		},
+
 		async clearAbsence() {
 			this.loading = true
 			try {
 				await axios.delete(generateOcsUrl('/apps/dav/api/v1/outOfOffice/{userId}', { userId: getCurrentUser().uid }))
 				this.resetForm()
-				showSuccess(this.$t('dav', 'Absence cleared'))
+				showSuccess(t('dav', 'Absence cleared'))
 			} catch (error) {
-				showError(this.$t('dav', 'Failed to clear your absence settings'))
+				showError(t('dav', 'Failed to clear your absence settings'))
 				logger.error('Could not clear absence', { error })
 			} finally {
 				this.loading = false
@@ -246,29 +259,40 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.absence {
+<style module>
+.absenceForm {
 	display: flex;
 	flex-direction: column;
 	gap: 5px;
+}
 
-	&__dates {
-		display: flex;
-		gap: 10px;
-		width: 100%;
+.absenceForm__pickerContainer {
+	display: flex;
+	gap: 10px;
+	width: 100%;
+}
 
-		&__picker {
-			flex: 1 auto;
+.absenceForm__picker {
+	flex: 1 auto;
 
-			:deep(.native-datetime-picker--input) {
-				margin-bottom: 0;
-			}
-		}
+	:global(.native-datetime-picker--input) {
+		margin-bottom: 0;
 	}
+}
 
-	&__buttons {
-		display: flex;
-		gap: 5px;
-	}
+.absenceForm__longMessage {
+	height: calc(var(--default-line-height) * 6 * var(--font-size-small));
+}
+
+.absenceForm__longMessageContainer {
+	height: calc(var(--default-line-height) * 6 * var(--font-size-small) + var(--default-grid-baseline) * 2);
+	display: flex;
+	flex-direction: column;
+	justify-content: start;
+}
+
+.absenceForm__actions {
+	display: flex;
+	gap: 5px;
 }
 </style>

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Provisioning_API\Tests\Controller;
 
 use OC\Installer;
@@ -22,10 +23,10 @@ use PHPUnit\Framework\MockObject\MockObject;
 /**
  * Class AppsTest
  *
- * @group DB
  *
  * @package OCA\Provisioning_API\Tests
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class AppsControllerTest extends TestCase {
 	private IAppManager $appManager;
 	private IAppConfig&MockObject $appConfig;
@@ -63,7 +64,6 @@ class AppsControllerTest extends TestCase {
 		$this->assertEquals($expected, $result->getData());
 	}
 
-
 	public function testGetAppInfoOnBadAppID(): void {
 		$this->expectException(OCSException::class);
 		$this->expectExceptionCode(998);
@@ -99,7 +99,6 @@ class AppsControllerTest extends TestCase {
 		$disabled = array_diff($list, \OC_App::getEnabledApps());
 		$this->assertEquals(count($disabled), count($data['apps']));
 	}
-
 
 	public function testGetAppsInvalidFilter(): void {
 		$this->expectException(OCSException::class);

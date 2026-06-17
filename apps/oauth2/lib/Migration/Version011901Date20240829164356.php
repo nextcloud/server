@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\OAuth2\Migration;
 
 use Closure;
@@ -23,6 +24,7 @@ class Version011901Date20240829164356 extends SimpleMigrationStep {
 	) {
 	}
 
+	#[\Override]
 	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options): void {
 		$qbUpdate = $this->connection->getQueryBuilder();
 		$qbUpdate->update('oauth2_clients')
@@ -35,7 +37,7 @@ class Version011901Date20240829164356 extends SimpleMigrationStep {
 		$qbSelect->select('id', 'secret')
 			->from('oauth2_clients');
 		$req = $qbSelect->executeQuery();
-		while ($row = $req->fetch()) {
+		while ($row = $req->fetchAssociative()) {
 			$id = $row['id'];
 			$storedEncryptedSecret = $row['secret'];
 			$secret = $this->crypto->decrypt($storedEncryptedSecret);

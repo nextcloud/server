@@ -68,7 +68,7 @@ interface IRegistrationContext {
 	 *
 	 * @param string $name
 	 * @param callable $factory
-	 * @psalm-param callable(\Psr\Container\ContainerInterface): mixed $factory
+	 * @psalm-param callable(IContainer): mixed $factory
 	 * @param bool $shared If set to true the factory result will be cached otherwise every query will call the factory again
 	 *
 	 * @return void
@@ -161,8 +161,20 @@ interface IRegistrationContext {
 	 * @return void
 	 *
 	 * @since 20.0.0
+	 * @deprecated 34.0.0 Use registerAlternativeLoginProvider instead.
 	 */
 	public function registerAlternativeLogin(string $class): void;
+
+	/**
+	 * Register an alternative login options provider
+	 *
+	 * It is allowed to register more than one option per app.
+	 *
+	 * @param class-string<\OCP\Authentication\IAlternativeLoginProvider> $class
+	 *
+	 * @since 34.0.0
+	 */
+	public function registerAlternativeLoginProvider(string $class): void;
 
 	/**
 	 * Register an initialstate provider
@@ -435,7 +447,6 @@ interface IRegistrationContext {
 	 * @since 30.0.0
 	 */
 	public function registerMailProvider(string $class): void;
-
 
 	/**
 	 * Register an implementation of \OCP\Config\Lexicon\IConfigLexicon that

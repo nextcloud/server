@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\AppFramework\Http;
 
 use OCP\AppFramework\Http;
@@ -14,13 +15,12 @@ use OCP\Files\SimpleFS\ISimpleFile;
  * Class FileDisplayResponse
  *
  * @since 11.0.0
- * @template S of Http::STATUS_*
- * @template H of array<string, mixed>
+ * @template-covariant S of Http::STATUS_*
+ * @template-covariant H of array<string, mixed>
  * @template-extends Response<Http::STATUS_*, array<string, mixed>>
  */
 class FileDisplayResponse extends Response implements ICallbackResponse {
-	/** @var File|ISimpleFile */
-	private $file;
+	private File|ISimpleFile $file;
 
 	/**
 	 * FileDisplayResponse constructor.
@@ -46,10 +46,21 @@ class FileDisplayResponse extends Response implements ICallbackResponse {
 	 * @param IOutput $output
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function callback(IOutput $output) {
 		if ($output->getHttpResponseCode() !== Http::STATUS_NOT_MODIFIED) {
+			$file = $this->file instanceof File
+				? $this->file->fopen('rb')
+				: $this->file->read();
+
+			if ($file === false) {
+				$output->setHttpResponseCode(Http::STATUS_NOT_FOUND);
+				$output->setOutput('');
+				return;
+			}
+
 			$output->setHeader('Content-Length: ' . $this->file->getSize());
-			$output->setOutput($this->file->getContent());
+			$output->setReadfile($file);
 		}
 	}
 }

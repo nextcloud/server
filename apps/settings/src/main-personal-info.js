@@ -3,14 +3,14 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import Vue from 'vue'
 import { getCSPNonce } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
-
+import Vue from 'vue'
 import AvatarSection from './components/PersonalInfo/AvatarSection.vue'
 import BiographySection from './components/PersonalInfo/BiographySection.vue'
 import BirthdaySection from './components/PersonalInfo/BirthdaySection.vue'
+import BlueskySection from './components/PersonalInfo/BlueskySection.vue'
 import DetailsSection from './components/PersonalInfo/DetailsSection.vue'
 import DisplayNameSection from './components/PersonalInfo/DisplayNameSection.vue'
 import EmailSection from './components/PersonalInfo/EmailSection/EmailSection.vue'
@@ -28,7 +28,6 @@ import PronounsSection from './components/PersonalInfo/PronounsSection.vue'
 import RoleSection from './components/PersonalInfo/RoleSection.vue'
 import TimezoneSection from './components/PersonalInfo/TimezoneSection.vue'
 import TwitterSection from './components/PersonalInfo/TwitterSection.vue'
-import BlueskySection from './components/PersonalInfo/BlueskySection.vue'
 import WebsiteSection from './components/PersonalInfo/WebsiteSection.vue'
 
 __webpack_nonce__ = getCSPNonce()

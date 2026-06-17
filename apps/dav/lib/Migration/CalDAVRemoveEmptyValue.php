@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Migration;
 
 use OCA\DAV\CalDAV\CalDavBackend;
@@ -23,10 +24,12 @@ class CalDAVRemoveEmptyValue implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName() {
 		return 'Fix broken values of calendar objects';
 	}
 
+	#[\Override]
 	public function run(IOutput $output) {
 		$pattern = ';VALUE=:';
 		$count = $warnings = 0;
@@ -88,7 +91,7 @@ class CalDAVRemoveEmptyValue implements IRepairStep {
 				$query->setFirstResult($chunk * $chunkSize);
 				$result = $query->executeQuery();
 
-				while ($row = $result->fetch()) {
+				while ($row = $result->fetchAssociative()) {
 					if (mb_strpos($row['calendardata'], $pattern) !== false) {
 						unset($row['calendardata']);
 						$rows[] = $row;
@@ -112,7 +115,7 @@ class CalDAVRemoveEmptyValue implements IRepairStep {
 			));
 
 		$result = $query->executeQuery();
-		$rows = $result->fetchAll();
+		$rows = $result->fetchAllAssociative();
 		$result->closeCursor();
 
 		return $rows;

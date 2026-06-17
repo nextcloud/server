@@ -94,8 +94,23 @@ class TeamResource implements \JsonSerializable {
 	}
 
 	/**
+	 * @return array{
+	 *     id: string,
+	 *     label: string,
+	 *     url: string,
+	 *     iconSvg: ?string,
+	 *     iconURL: ?string,
+	 *     iconEmoji: ?string,
+	 *     provider: array{
+	 *         id: string,
+	 *         name: string,
+	 *         icon: string,
+	 *     },
+	 * }
+	 *
 	 * @since 29.0.0
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'id' => $this->resourceId,

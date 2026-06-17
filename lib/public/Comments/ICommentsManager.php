@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\Comments;
 
 use OCP\IUser;
@@ -218,7 +219,6 @@ interface ICommentsManager {
 	 * @deprecated 24.0.0 - Use getNumberOfCommentsWithVerbsForObjectSinceComment instead
 	 */
 	public function getNumberOfCommentsForObjectSinceComment(string $objectType, string $objectId, int $lastRead, string $verb = ''): int;
-
 
 	/**
 	 * @param string $objectType
@@ -438,6 +438,7 @@ interface ICommentsManager {
 	 * to consumers of the comments infrastructure
 	 *
 	 * @param \Closure $closure
+	 * @return void
 	 * @since 11.0.0
 	 */
 	public function registerEventHandler(\Closure $closure);
@@ -447,6 +448,7 @@ interface ICommentsManager {
 	 *
 	 * @param string $type
 	 * @param \Closure $closure
+	 * @return void
 	 * @throws \OutOfBoundsException
 	 * @since 11.0.0
 	 *

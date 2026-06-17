@@ -5,16 +5,18 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Service;
 
 use OC\Files\Filesystem;
+use OCA\Files_External\Event\StorageCreatedEvent;
+use OCA\Files_External\Event\StorageDeletedEvent;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\MountConfig;
-use OCA\Files_External\NotFoundException;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\Config\IUserMountCache;
 use OCP\IAppConfig;
 use OCP\IUserSession;
+use Override;
 
 /**
  * Service class to manage user external storage
@@ -30,15 +32,15 @@ class UserStoragesService extends StoragesService {
 		BackendService $backendService,
 		DBConfigService $dbConfig,
 		IUserSession $userSession,
-		IUserMountCache $userMountCache,
 		IEventDispatcher $eventDispatcher,
 		IAppConfig $appConfig,
 	) {
 		$this->userSession = $userSession;
-		parent::__construct($backendService, $dbConfig, $userMountCache, $eventDispatcher, $appConfig);
+		parent::__construct($backendService, $dbConfig, $eventDispatcher, $appConfig);
 	}
 
-	protected function readDBConfig() {
+	#[Override]
+	protected function readDBConfig(): array {
 		return $this->dbConfig->getUserMountsFor(DBConfigService::APPLICABLE_TYPE_USER, $this->getUser()->getUID());
 	}
 
@@ -49,7 +51,8 @@ class UserStoragesService extends StoragesService {
 	 * @param StorageConfig $storage storage data
 	 * @param string $signal signal to trigger
 	 */
-	protected function triggerHooks(StorageConfig $storage, $signal) {
+	#[\Override]
+	protected function triggerHooks(StorageConfig $storage, string $signal): void {
 		$user = $this->getUser()->getUID();
 
 		// trigger hook for the current user
@@ -69,39 +72,30 @@ class UserStoragesService extends StoragesService {
 	 * @param StorageConfig $oldStorage old storage data
 	 * @param StorageConfig $newStorage new storage data
 	 */
-	protected function triggerChangeHooks(StorageConfig $oldStorage, StorageConfig $newStorage) {
+	#[\Override]
+	protected function triggerChangeHooks(StorageConfig $oldStorage, StorageConfig $newStorage): void {
 		// if mount point changed, it's like a deletion + creation
 		if ($oldStorage->getMountPoint() !== $newStorage->getMountPoint()) {
+			$this->eventDispatcher->dispatchTyped(new StorageDeletedEvent($oldStorage));
+			$this->eventDispatcher->dispatchTyped(new StorageCreatedEvent($newStorage));
 			$this->triggerHooks($oldStorage, Filesystem::signal_delete_mount);
 			$this->triggerHooks($newStorage, Filesystem::signal_create_mount);
 		}
 	}
 
-	protected function getType() {
+	#[Override]
+	protected function getType(): int {
 		return DBConfigService::MOUNT_TYPE_PERSONAL;
 	}
 
-	/**
-	 * Add new storage to the configuration
-	 *
-	 * @param StorageConfig $newStorage storage attributes
-	 *
-	 * @return StorageConfig storage config, with added id
-	 */
-	public function addStorage(StorageConfig $newStorage) {
+	#[Override]
+	public function addStorage(StorageConfig $newStorage): StorageConfig {
 		$newStorage->setApplicableUsers([$this->getUser()->getUID()]);
 		return parent::addStorage($newStorage);
 	}
 
-	/**
-	 * Update storage to the configuration
-	 *
-	 * @param StorageConfig $updatedStorage storage attributes
-	 *
-	 * @return StorageConfig storage config
-	 * @throws NotFoundException if the given storage does not exist in the config
-	 */
-	public function updateStorage(StorageConfig $updatedStorage) {
+	#[Override]
+	public function updateStorage(StorageConfig $updatedStorage): StorageConfig {
 		// verify ownership through $this->isApplicable() and otherwise throws an exception
 		$this->getStorage($updatedStorage->getId());
 
@@ -109,20 +103,18 @@ class UserStoragesService extends StoragesService {
 		return parent::updateStorage($updatedStorage);
 	}
 
-	/**
-	 * Get the visibility type for this controller, used in validation
-	 *
-	 * @return int BackendService::VISIBILITY_* constants
-	 */
-	public function getVisibilityType() {
+	#[Override]
+	public function getVisibilityType(): int {
 		return BackendService::VISIBILITY_PERSONAL;
 	}
 
-	protected function isApplicable(StorageConfig $config) {
+	#[Override]
+	protected function isApplicable(StorageConfig $config): bool {
 		return ($config->getApplicableUsers() === [$this->getUser()->getUID()]) && $config->getType() === StorageConfig::MOUNT_TYPE_PERSONAL;
 	}
 
-	public function removeStorage($id) {
+	#[Override]
+	public function removeStorage(int $id): void {
 		// verify ownership through $this->isApplicable() and otherwise throws an exception
 		$this->getStorage($id);
 		parent::removeStorage($id);

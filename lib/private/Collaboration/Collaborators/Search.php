@@ -4,8 +4,10 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Collaboration\Collaborators;
 
+use OCP\AppFramework\QueryException;
 use OCP\Collaboration\Collaborators\ISearch;
 use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\ISearchResult;
@@ -26,8 +28,9 @@ class Search implements ISearch {
 	 * @param bool $lookup
 	 * @param int|null $limit
 	 * @param int|null $offset
-	 * @throws \OCP\AppFramework\QueryException
+	 * @throws QueryException
 	 */
+	#[\Override]
 	public function search($search, array $shareTypes, $lookup, $limit, $offset): array {
 		$hasMoreResults = false;
 
@@ -80,6 +83,7 @@ class Search implements ISearch {
 		return [$searchResult->asArray(), $hasMoreResults];
 	}
 
+	#[\Override]
 	public function registerPlugin(array $pluginInfo): void {
 		$shareType = constant(IShare::class . '::' . substr($pluginInfo['shareType'], strlen('SHARE_')));
 		if ($shareType === null) {
@@ -94,13 +98,17 @@ class Search implements ISearch {
 		$emailType = new SearchResultType('emails');
 		$remoteType = new SearchResultType('remotes');
 
-		if (!isset($allResults[$remoteType->getLabel()])
-			|| !isset($allResults[$emailType->getLabel()])) {
+		$emailLabel = $emailType->getLabel();
+		$emailEntries = array_merge(
+			$allResults['exact'][$emailLabel] ?? [],
+			$allResults[$emailLabel] ?? []
+		);
+		if ($emailEntries === []) {
 			return;
 		}
 
 		$mailIdMap = [];
-		foreach ($allResults[$emailType->getLabel()] as $mailRow) {
+		foreach ($emailEntries as $mailRow) {
 			// sure, array_reduce looks nicer, but foreach needs less resources and is faster
 			if (!isset($mailRow['uuid'])) {
 				continue;
@@ -114,6 +122,18 @@ class Search implements ISearch {
 			}
 			if (isset($mailIdMap[$resultRow['uuid']])) {
 				$searchResult->removeCollaboratorResult($emailType, $mailIdMap[$resultRow['uuid']]);
+			}
+		}
+		$lookupType = new SearchResultType('lookup');
+		if (isset($allResults[$lookupType->getLabel()])) {
+			foreach ($allResults[$lookupType->getLabel()] as $resultRow) {
+				$userid = $resultRow['extra']['userid']['value'] ?? null;
+				if ($userid === null) {
+					continue;
+				}
+				if (isset($mailIdMap[$userid])) {
+					$searchResult->removeCollaboratorResult($emailType, $mailIdMap[$userid]);
+				}
 			}
 		}
 	}

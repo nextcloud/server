@@ -8,7 +8,8 @@
 			<FolderOpenIcon v-if="dragover" v-once />
 			<template v-else>
 				<FolderIcon v-once />
-				<OverlayIcon :is="folderOverlay"
+				<component
+					:is="folderOverlay"
 					v-if="folderOverlay"
 					class="files-list__row-icon-overlay" />
 			</template>
@@ -16,16 +17,18 @@
 
 		<!-- Decorative images, should not be aria documented -->
 		<span v-else-if="previewUrl" class="files-list__row-icon-preview-container">
-			<canvas v-if="hasBlurhash && (backgroundFailed === true || !backgroundLoaded)"
+			<canvas
+				v-if="hasBlurhash && (backgroundFailed === true || !backgroundLoaded)"
 				ref="canvas"
 				class="files-list__row-icon-blurhash"
 				aria-hidden="true" />
-			<img v-if="backgroundFailed !== true"
+			<img
+				v-if="backgroundFailed !== true"
 				:key="source.fileid"
 				ref="previewImg"
 				alt=""
 				class="files-list__row-icon-preview"
-				:class="{'files-list__row-icon-preview--loaded': backgroundFailed === false}"
+				:class="{ 'files-list__row-icon-preview--loaded': backgroundFailed === false }"
 				loading="lazy"
 				:src="previewUrl"
 				@error="onBackgroundError"
@@ -39,24 +42,28 @@
 			<FavoriteIcon v-once />
 		</span>
 
-		<OverlayIcon :is="fileOverlay"
+		<!-- Recently created icon -->
+		<span v-else-if="isRecentView && isRecentlyCreated" class="files-list__row-icon-recently-created">
+			<RecentlyCreatedIcon v-once />
+		</span>
+
+		<component
+			:is="fileOverlay"
 			v-if="fileOverlay"
 			class="files-list__row-icon-overlay files-list__row-icon-overlay--file" />
 	</span>
 </template>
 
 <script lang="ts">
+import type { Node } from '@nextcloud/files'
 import type { PropType } from 'vue'
 import type { UserConfig } from '../../types.ts'
 
-import { Node, FileType } from '@nextcloud/files'
+import { FileType } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
-import { generateUrl } from '@nextcloud/router'
 import { ShareType } from '@nextcloud/sharing'
-import { getSharingToken, isPublicShare } from '@nextcloud/sharing/public'
 import { decode } from 'blurhash'
-import { defineComponent } from 'vue'
-
+import { computed, defineComponent, toRef } from 'vue'
 import AccountGroupIcon from 'vue-material-design-icons/AccountGroup.vue'
 import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue'
 import FileIcon from 'vue-material-design-icons/File.vue'
@@ -65,15 +72,15 @@ import FolderOpenIcon from 'vue-material-design-icons/FolderOpen.vue'
 import KeyIcon from 'vue-material-design-icons/Key.vue'
 import LinkIcon from 'vue-material-design-icons/Link.vue'
 import NetworkIcon from 'vue-material-design-icons/NetworkOutline.vue'
-import TagIcon from 'vue-material-design-icons/Tag.vue'
 import PlayCircleIcon from 'vue-material-design-icons/PlayCircle.vue'
-
+import TagIcon from 'vue-material-design-icons/Tag.vue'
 import CollectivesIcon from './CollectivesIcon.vue'
 import FavoriteIcon from './FavoriteIcon.vue'
-
-import { isLivePhoto } from '../../services/LivePhotos'
+import RecentlyCreatedIcon from './RecentlyCreatedIcon.vue'
+import { usePreviewImage } from '../../composables/usePreviewImage.ts'
+import { isLivePhoto } from '../../services/LivePhotos.ts'
 import { useUserConfigStore } from '../../store/userconfig.ts'
-import logger from '../../logger.ts'
+import { logger } from '../../utils/logger.ts'
 
 export default defineComponent({
 	name: 'FileEntryPreview',
@@ -90,6 +97,7 @@ export default defineComponent({
 		LinkIcon,
 		NetworkIcon,
 		TagIcon,
+		RecentlyCreatedIcon,
 	},
 
 	props: {
@@ -97,26 +105,31 @@ export default defineComponent({
 			type: Object as PropType<Node>,
 			required: true,
 		},
+
 		dragover: {
 			type: Boolean,
 			default: false,
 		},
+
 		gridMode: {
 			type: Boolean,
 			default: false,
 		},
 	},
 
-	setup() {
+	setup(props) {
 		const userConfigStore = useUserConfigStore()
-		const isPublic = isPublicShare()
-		const publicSharingToken = getSharingToken()
+		const previewUrl = usePreviewImage(
+			toRef(props, 'source'),
+			computed(() => ({
+				crop: userConfigStore.userConfig.crop_image_previews === true,
+				size: props.gridMode ? 128 : 32,
+			})),
+		)
 
 		return {
 			userConfigStore,
-
-			isPublic,
-			publicSharingToken,
+			previewUrl,
 		}
 	},
 
@@ -132,61 +145,23 @@ export default defineComponent({
 			return this.source.attributes.favorite === 1
 		},
 
+		isRecentlyCreated(): boolean {
+			if (!this.source.crtime) {
+				return false
+			}
+
+			const oneDayAgo = new Date()
+			oneDayAgo.setDate(oneDayAgo.getDate() - 1)
+
+			return this.source.crtime > oneDayAgo
+		},
+
+		isRecentView(): boolean {
+			return this.$route?.params?.view === 'recent'
+		},
+
 		userConfig(): UserConfig {
 			return this.userConfigStore.userConfig
-		},
-		cropPreviews(): boolean {
-			return this.userConfig.crop_image_previews === true
-		},
-
-		previewUrl() {
-			if (this.source.type === FileType.Folder) {
-				return null
-			}
-
-			if (this.backgroundFailed === true) {
-				return null
-			}
-
-			if (this.source.attributes['has-preview'] !== true
-				&& this.source.mime !== undefined
-				&& this.source.mime !== 'application/octet-stream'
-			) {
-				const previewUrl = generateUrl('/core/mimeicon?mime={mime}', {
-					mime: this.source.mime,
-				})
-				const url = new URL(window.location.origin + previewUrl)
-				return url.href
-			}
-
-			try {
-				const previewUrl = this.source.attributes.previewUrl
-					|| (this.isPublic
-						? generateUrl('/apps/files_sharing/publicpreview/{token}?file={file}', {
-							token: this.publicSharingToken,
-							file: this.source.path,
-						})
-						: generateUrl('/core/preview?fileId={fileid}', {
-							fileid: String(this.source.fileid),
-						})
-					)
-				const url = new URL(window.location.origin + previewUrl)
-
-				// Request tiny previews
-				url.searchParams.set('x', this.gridMode ? '128' : '32')
-				url.searchParams.set('y', this.gridMode ? '128' : '32')
-				url.searchParams.set('mimeFallback', 'true')
-
-				// Etag to force refresh preview on change
-				const etag = this.source?.attributes?.etag || ''
-				url.searchParams.set('v', etag.slice(0, 6))
-
-				// Handle cropping
-				url.searchParams.set('a', this.cropPreviews === true ? '0' : '1')
-				return url.href
-			} catch (e) {
-				return null
-			}
 		},
 
 		fileOverlay() {
@@ -214,7 +189,7 @@ export default defineComponent({
 
 			// Link and mail shared folders
 			const shareTypes = Object.values(this.source?.attributes?.['share-types'] || {}).flat() as number[]
-			if (shareTypes.some(type => type === ShareType.Link || type === ShareType.Email)) {
+			if (shareTypes.some((type) => type === ShareType.Link || type === ShareType.Email)) {
 				return LinkIcon
 			}
 
@@ -224,15 +199,15 @@ export default defineComponent({
 			}
 
 			switch (this.source?.attributes?.['mount-type']) {
-			case 'external':
-			case 'external-session':
-				return NetworkIcon
-			case 'group':
-				return AccountGroupIcon
-			case 'collective':
-				return CollectivesIcon
-			case 'shared':
-				return AccountPlusIcon
+				case 'external':
+				case 'external-session':
+					return NetworkIcon
+				case 'group':
+					return AccountGroupIcon
+				case 'collective':
+					return CollectivesIcon
+				case 'shared':
+					return AccountPlusIcon
 			}
 
 			return null

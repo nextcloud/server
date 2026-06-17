@@ -10,6 +10,7 @@ return array(
     'OCA\\CloudFederationAPI\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
     'OCA\\CloudFederationAPI\\Capabilities' => $baseDir . '/../lib/Capabilities.php',
     'OCA\\CloudFederationAPI\\Config' => $baseDir . '/../lib/Config.php',
+    'OCA\\CloudFederationAPI\\Controller\\OCMRequestController' => $baseDir . '/../lib/Controller/OCMRequestController.php',
     'OCA\\CloudFederationAPI\\Controller\\RequestHandlerController' => $baseDir . '/../lib/Controller/RequestHandlerController.php',
     'OCA\\CloudFederationAPI\\Db\\FederatedInvite' => $baseDir . '/../lib/Db/FederatedInvite.php',
     'OCA\\CloudFederationAPI\\Db\\FederatedInviteMapper' => $baseDir . '/../lib/Db/FederatedInviteMapper.php',

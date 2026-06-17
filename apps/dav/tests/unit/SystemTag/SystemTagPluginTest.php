@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\SystemTag;
 
 use OC\SystemTag\SystemTag;
@@ -142,7 +143,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('getPropertiesDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'getPropertiesDataProvider')]
 	public function testGetProperties(ISystemTag $systemTag, array $groups, array $requestedProperties, array $expectedProperties): void {
 		$this->user->expects($this->any())
 			->method('getUID')
@@ -189,7 +190,6 @@ class SystemTagPluginTest extends \Test\TestCase {
 		$this->assertEmpty($result[404]);
 		$this->assertEquals($expectedProperties, $result[200]);
 	}
-
 
 	public function testGetPropertiesForbidden(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
@@ -287,7 +287,6 @@ class SystemTagPluginTest extends \Test\TestCase {
 		$this->assertEquals(200, $result[self::USERVISIBLE_PROPERTYNAME]);
 	}
 
-
 	public function testUpdatePropertiesForbidden(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -339,7 +338,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 			[true, true, 'group1|group2'],
 		];
 	}
-	#[\PHPUnit\Framework\Attributes\DataProvider('createTagInsufficientPermissionsProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'createTagInsufficientPermissionsProvider')]
 	public function testCreateNotAssignableTagAsRegularUser(bool $userVisible, bool $userAssignable, string $groups): void {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
 		$this->expectExceptionMessage('Not sufficient permissions');
@@ -448,7 +447,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('createTagProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'createTagProvider')]
 	public function testCreateTagInByIdCollection(bool $userVisible, bool $userAssignable, string $groups): void {
 		$this->user->expects($this->once())
 			->method('getUID')
@@ -587,7 +586,6 @@ class SystemTagPluginTest extends \Test\TestCase {
 		$this->plugin->httpPost($request, $response);
 	}
 
-
 	public function testCreateTagToUnknownNode(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
@@ -613,7 +611,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 		$this->plugin->httpPost($request, $response);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('nodeClassProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'nodeClassProvider')]
 	public function testCreateTagConflict(string $nodeClass): void {
 		$this->expectException(\Sabre\DAV\Exception\Conflict::class);
 

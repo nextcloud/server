@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\UpdateNotification\AppInfo;
 
 use OCA\UpdateNotification\Listener\AppUpdateEventListener;
@@ -36,6 +37,7 @@ class Application extends App implements IBootstrap {
 		parent::__construct(self::APP_NAME, []);
 	}
 
+	#[\Override]
 	public function register(IRegistrationContext $context): void {
 		$context->registerNotifierService(Notifier::class);
 		$context->registerNotifierService(AppUpdateNotifier::class);
@@ -44,6 +46,7 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(BeforeTemplateRenderedEvent::class, BeforeTemplateRenderedEventListener::class);
 	}
 
+	#[\Override]
 	public function boot(IBootContext $context): void {
 		$context->injectFn(function (IConfig $config,
 			IUserSession $userSession,

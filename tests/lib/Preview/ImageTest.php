@@ -13,11 +13,12 @@ use OC\Preview\JPEG;
 /**
  * Class ImageTest
  *
- * @group DB
  *
  * @package Test\Preview
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ImageTest extends Provider {
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

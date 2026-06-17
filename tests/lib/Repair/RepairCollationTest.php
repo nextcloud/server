@@ -20,10 +20,10 @@ use Test\TestCase;
 
 class TestCollationRepair extends Collation {
 	/**
-	 * @param IDBConnection $connection
 	 * @return string[]
 	 */
-	public function getAllNonUTF8BinTables(IDBConnection $connection) {
+	#[\Override]
+	public function getAllNonUTF8BinTables(IDBConnection $connection): array {
 		return parent::getAllNonUTF8BinTables($connection);
 	}
 }
@@ -31,10 +31,9 @@ class TestCollationRepair extends Collation {
 /**
  * Tests for the converting of MySQL tables to InnoDB engine
  *
- * @group DB
- *
  * @see \OC\Repair\RepairMimeTypes
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class RepairCollationTest extends TestCase {
 
 	private TestCollationRepair $repair;
@@ -44,17 +43,17 @@ class RepairCollationTest extends TestCase {
 
 	private LoggerInterface&MockObject $logger;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->connection = Server::get(ConnectionAdapter::class);
-		$this->config = Server::get(IConfig::class);
 		if ($this->connection->getDatabaseProvider() !== IDBConnection::PLATFORM_MYSQL) {
 			$this->markTestSkipped('Test only relevant on MySql');
 		}
 
 		$this->logger = $this->createMock(LoggerInterface::class);
-
+		$this->config = Server::get(IConfig::class);
 		$dbPrefix = $this->config->getSystemValueString('dbtableprefix');
 		$this->tableName = $this->getUniqueID($dbPrefix . '_collation_test');
 		$this->connection->prepare("CREATE TABLE $this->tableName(text VARCHAR(16)) COLLATE utf8_unicode_ci")->execute();
@@ -62,8 +61,13 @@ class RepairCollationTest extends TestCase {
 		$this->repair = new TestCollationRepair($this->config, $this->logger, $this->connection, false);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
-		$this->connection->getInner()->createSchemaManager()->dropTable($this->tableName);
+		$this->connection = Server::get(ConnectionAdapter::class);
+		if ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_MYSQL) {
+			// tear down only needed on MySQL
+			$this->connection->getInner()->createSchemaManager()->dropTable($this->tableName);
+		}
 		parent::tearDown();
 	}
 

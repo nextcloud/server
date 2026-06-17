@@ -8,64 +8,75 @@
 		<template v-if="!hideLoginForm || directLogin">
 			<transition name="fade" mode="out-in">
 				<div v-if="!passwordlessLogin && !resetPassword && resetPasswordTarget === ''" class="login-box__wrapper">
-					<LoginForm :username.sync="user"
+					<LoginForm
+						:username.sync="user"
 						:redirect-url="redirectUrl"
 						:direct-login="directLogin"
 						:messages="messages"
 						:errors="errors"
 						:throttle-delay="throttleDelay"
 						:auto-complete-allowed="autoCompleteAllowed"
+						:rememberme-allowed="remembermeAllowed"
 						:email-states="emailStates"
 						@submit="loading = true" />
-					<NcButton v-if="hasPasswordless"
-						type="tertiary"
+					<NcButton
+						v-if="hasPasswordless"
+						variant="tertiary"
 						wide
 						@click.prevent="passwordlessLogin = true">
 						{{ t('core', 'Log in with a device') }}
 					</NcButton>
-					<NcButton v-if="canResetPassword && resetPasswordLink !== ''"
+					<NcButton
+						v-if="canResetPassword && resetPasswordLink !== ''"
 						id="lost-password"
 						:href="resetPasswordLink"
-						type="tertiary-no-background"
+						variant="tertiary-no-background"
 						wide>
 						{{ t('core', 'Forgot password?') }}
 					</NcButton>
-					<NcButton v-else-if="canResetPassword && !resetPassword"
+					<NcButton
+						v-else-if="canResetPassword && !resetPassword"
 						id="lost-password"
-						type="tertiary"
+						variant="tertiary"
 						wide
 						@click.prevent="resetPassword = true">
 						{{ t('core', 'Forgot password?') }}
 					</NcButton>
 				</div>
-				<div v-else-if="!loading && passwordlessLogin"
+				<div
+					v-else-if="!loading && passwordlessLogin"
 					key="reset-pw-less"
 					class="login-additional login-box__wrapper">
-					<PasswordLessLoginForm :username.sync="user"
+					<PasswordLessLoginForm
+						:username.sync="user"
 						:redirect-url="redirectUrl"
 						:auto-complete-allowed="autoCompleteAllowed"
 						:is-https="isHttps"
 						:is-localhost="isLocalhost"
 						@submit="loading = true" />
-					<NcButton type="tertiary"
+					<NcButton
+						variant="tertiary"
 						:aria-label="t('core', 'Back to login form')"
 						:wide="true"
 						@click="passwordlessLogin = false">
 						{{ t('core', 'Back') }}
 					</NcButton>
 				</div>
-				<div v-else-if="!loading && canResetPassword"
+				<div
+					v-else-if="!loading && canResetPassword"
 					key="reset-can-reset"
 					class="login-additional">
 					<div class="lost-password-container">
-						<ResetPassword v-if="resetPassword"
+						<ResetPassword
+							v-if="resetPassword"
 							:username.sync="user"
 							:reset-password-link="resetPasswordLink"
 							@abort="resetPassword = false" />
 					</div>
 				</div>
 				<div v-else-if="resetPasswordTarget !== ''">
-					<UpdatePassword :username.sync="user"
+					<UpdatePassword
+						:username.sync="user"
 						:reset-password-target="resetPasswordTarget"
 						@done="passwordResetFinished" />
 				</div>
@@ -80,9 +91,10 @@
 		</template>
 
 		<div id="alternative-logins" class="login-box__alternative-logins">
-			<NcButton v-for="(alternativeLogin, index) in alternativeLogins"
+			<NcButton
+				v-for="(alternativeLogin, index) in alternativeLogins"
 				:key="index"
-				type="secondary"
+				variant="secondary"
 				:wide="true"
 				:class="[alternativeLogin.class]"
 				role="link"
@@ -96,15 +108,13 @@
 <script>
 import { loadState } from '@nextcloud/initial-state'
 import { generateUrl } from '@nextcloud/router'
-
 import queryString from 'query-string'
-
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import LoginForm from '../components/login/LoginForm.vue'
 import PasswordLessLoginForm from '../components/login/PasswordLessLoginForm.vue'
 import ResetPassword from '../components/login/ResetPassword.vue'
 import UpdatePassword from '../components/login/UpdatePassword.vue'
-import NcButton from '@nextcloud/vue/components/NcButton'
-import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import { wipeBrowserStorages } from '../utils/xhr-request.js'
 
 const query = queryString.parse(location.search)
@@ -139,6 +149,7 @@ export default {
 			canResetPassword: loadState('core', 'loginCanResetPassword', false),
 			resetPasswordLink: loadState('core', 'loginResetPasswordLink', ''),
 			autoCompleteAllowed: loadState('core', 'loginAutocomplete', true),
+			remembermeAllowed: loadState('core', 'loginCanRememberme', true),
 			resetPasswordTarget: loadState('core', 'resetPasswordTarget', ''),
 			resetPasswordUser: loadState('core', 'resetPasswordUser', ''),
 			directLogin: query.direct === '1',
@@ -154,7 +165,7 @@ export default {
 
 	methods: {
 		passwordResetFinished() {
-			window.location.href = generateUrl('login')
+			window.location.href = generateUrl('login') + '?direct=1'
 		},
 	},
 }

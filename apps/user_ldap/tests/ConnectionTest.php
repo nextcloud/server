@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP\Tests;
 
 use OC\ServerNotAvailableException;
@@ -16,10 +17,10 @@ use PHPUnit\Framework\MockObject\MockObject;
 /**
  * Class Test_Connection
  *
- * @group DB
  *
  * @package OCA\User_LDAP\Tests
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ConnectionTest extends \Test\TestCase {
 	protected ILDAPWrapper&MockObject $ldap;
 	protected Connection $connection;

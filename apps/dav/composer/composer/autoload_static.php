@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitDAV
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\DAV\\' => 8,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\DAV\\' => 
+        'OCA\\DAV\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),
@@ -92,6 +92,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\CalDAV\\Federation\\FederatedCalendarFactory' => __DIR__ . '/..' . '/../lib/CalDAV/Federation/FederatedCalendarFactory.php',
         'OCA\\DAV\\CalDAV\\Federation\\FederatedCalendarImpl' => __DIR__ . '/..' . '/../lib/CalDAV/Federation/FederatedCalendarImpl.php',
         'OCA\\DAV\\CalDAV\\Federation\\FederatedCalendarMapper' => __DIR__ . '/..' . '/../lib/CalDAV/Federation/FederatedCalendarMapper.php',
+        'OCA\\DAV\\CalDAV\\Federation\\FederatedCalendarObject' => __DIR__ . '/..' . '/../lib/CalDAV/Federation/FederatedCalendarObject.php',
         'OCA\\DAV\\CalDAV\\Federation\\FederatedCalendarSyncService' => __DIR__ . '/..' . '/../lib/CalDAV/Federation/FederatedCalendarSyncService.php',
         'OCA\\DAV\\CalDAV\\Federation\\FederationSharingService' => __DIR__ . '/..' . '/../lib/CalDAV/Federation/FederationSharingService.php',
         'OCA\\DAV\\CalDAV\\Federation\\Protocol\\CalendarFederationProtocolV1' => __DIR__ . '/..' . '/../lib/CalDAV/Federation/Protocol/CalendarFederationProtocolV1.php',
@@ -110,6 +111,8 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\CalDAV\\Outbox' => __DIR__ . '/..' . '/../lib/CalDAV/Outbox.php',
         'OCA\\DAV\\CalDAV\\Plugin' => __DIR__ . '/..' . '/../lib/CalDAV/Plugin.php',
         'OCA\\DAV\\CalDAV\\Principal\\Collection' => __DIR__ . '/..' . '/../lib/CalDAV/Principal/Collection.php',
+        'OCA\\DAV\\CalDAV\\Principal\\ProxyRead' => __DIR__ . '/..' . '/../lib/CalDAV/Principal/ProxyRead.php',
+        'OCA\\DAV\\CalDAV\\Principal\\ProxyWrite' => __DIR__ . '/..' . '/../lib/CalDAV/Principal/ProxyWrite.php',
         'OCA\\DAV\\CalDAV\\Principal\\User' => __DIR__ . '/..' . '/../lib/CalDAV/Principal/User.php',
         'OCA\\DAV\\CalDAV\\Proxy\\Proxy' => __DIR__ . '/..' . '/../lib/CalDAV/Proxy/Proxy.php',
         'OCA\\DAV\\CalDAV\\Proxy\\ProxyMapper' => __DIR__ . '/..' . '/../lib/CalDAV/Proxy/ProxyMapper.php',
@@ -221,8 +224,10 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Comments\\EntityCollection' => __DIR__ . '/..' . '/../lib/Comments/EntityCollection.php',
         'OCA\\DAV\\Comments\\EntityTypeCollection' => __DIR__ . '/..' . '/../lib/Comments/EntityTypeCollection.php',
         'OCA\\DAV\\Comments\\RootCollection' => __DIR__ . '/..' . '/../lib/Comments/RootCollection.php',
+        'OCA\\DAV\\ConfigLexicon' => __DIR__ . '/..' . '/../lib/ConfigLexicon.php',
         'OCA\\DAV\\Connector\\LegacyDAVACL' => __DIR__ . '/..' . '/../lib/Connector/LegacyDAVACL.php',
         'OCA\\DAV\\Connector\\LegacyPublicAuth' => __DIR__ . '/..' . '/../lib/Connector/LegacyPublicAuth.php',
+        'OCA\\DAV\\Connector\\Sabre\\AddExtraHeadersPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/AddExtraHeadersPlugin.php',
         'OCA\\DAV\\Connector\\Sabre\\AnonymousOptionsPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/AnonymousOptionsPlugin.php',
         'OCA\\DAV\\Connector\\Sabre\\AppleQuirksPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/AppleQuirksPlugin.php',
         'OCA\\DAV\\Connector\\Sabre\\Auth' => __DIR__ . '/..' . '/../lib/Connector/Sabre/Auth.php',
@@ -268,6 +273,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Connector\\Sabre\\SharesPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/SharesPlugin.php',
         'OCA\\DAV\\Connector\\Sabre\\TagList' => __DIR__ . '/..' . '/../lib/Connector/Sabre/TagList.php',
         'OCA\\DAV\\Connector\\Sabre\\TagsPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/TagsPlugin.php',
+        'OCA\\DAV\\Connector\\Sabre\\UserIdHeaderPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/UserIdHeaderPlugin.php',
         'OCA\\DAV\\Connector\\Sabre\\ZipFolderPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/ZipFolderPlugin.php',
         'OCA\\DAV\\Controller\\BirthdayCalendarController' => __DIR__ . '/..' . '/../lib/Controller/BirthdayCalendarController.php',
         'OCA\\DAV\\Controller\\DirectController' => __DIR__ . '/..' . '/../lib/Controller/DirectController.php',
@@ -279,6 +285,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\DAV\\GroupPrincipalBackend' => __DIR__ . '/..' . '/../lib/DAV/GroupPrincipalBackend.php',
         'OCA\\DAV\\DAV\\PublicAuth' => __DIR__ . '/..' . '/../lib/DAV/PublicAuth.php',
         'OCA\\DAV\\DAV\\RemoteUserPrincipalBackend' => __DIR__ . '/..' . '/../lib/DAV/RemoteUserPrincipalBackend.php',
+        'OCA\\DAV\\DAV\\Security\\RateLimiting' => __DIR__ . '/..' . '/../lib/DAV/Security/RateLimiting.php',
         'OCA\\DAV\\DAV\\Sharing\\Backend' => __DIR__ . '/..' . '/../lib/DAV/Sharing/Backend.php',
         'OCA\\DAV\\DAV\\Sharing\\IShareable' => __DIR__ . '/..' . '/../lib/DAV/Sharing/IShareable.php',
         'OCA\\DAV\\DAV\\Sharing\\Plugin' => __DIR__ . '/..' . '/../lib/DAV/Sharing/Plugin.php',
@@ -339,6 +346,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Listener\\AddressbookListener' => __DIR__ . '/..' . '/../lib/Listener/AddressbookListener.php',
         'OCA\\DAV\\Listener\\BirthdayListener' => __DIR__ . '/..' . '/../lib/Listener/BirthdayListener.php',
         'OCA\\DAV\\Listener\\CalendarContactInteractionListener' => __DIR__ . '/..' . '/../lib/Listener/CalendarContactInteractionListener.php',
+        'OCA\\DAV\\Listener\\CalendarDelegateActionListener' => __DIR__ . '/..' . '/../lib/Listener/CalendarDelegateActionListener.php',
         'OCA\\DAV\\Listener\\CalendarDeletionDefaultUpdaterListener' => __DIR__ . '/..' . '/../lib/Listener/CalendarDeletionDefaultUpdaterListener.php',
         'OCA\\DAV\\Listener\\CalendarFederationNotificationListener' => __DIR__ . '/..' . '/../lib/Listener/CalendarFederationNotificationListener.php',
         'OCA\\DAV\\Listener\\CalendarObjectReminderUpdaterListener' => __DIR__ . '/..' . '/../lib/Listener/CalendarObjectReminderUpdaterListener.php',
@@ -400,6 +408,9 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Migration\\Version1031Date20240610134258' => __DIR__ . '/..' . '/../lib/Migration/Version1031Date20240610134258.php',
         'OCA\\DAV\\Migration\\Version1034Date20250605132605' => __DIR__ . '/..' . '/../lib/Migration/Version1034Date20250605132605.php',
         'OCA\\DAV\\Migration\\Version1034Date20250813093701' => __DIR__ . '/..' . '/../lib/Migration/Version1034Date20250813093701.php',
+        'OCA\\DAV\\Migration\\Version1036Date20251202000000' => __DIR__ . '/..' . '/../lib/Migration/Version1036Date20251202000000.php',
+        'OCA\\DAV\\Migration\\Version1038Date20260302000000' => __DIR__ . '/..' . '/../lib/Migration/Version1038Date20260302000000.php',
+        'OCA\\DAV\\Migration\\Version1039Date20260408000000' => __DIR__ . '/..' . '/../lib/Migration/Version1039Date20260408000000.php',
         'OCA\\DAV\\Model\\ExampleEvent' => __DIR__ . '/..' . '/../lib/Model/ExampleEvent.php',
         'OCA\\DAV\\Paginate\\LimitedCopyIterator' => __DIR__ . '/..' . '/../lib/Paginate/LimitedCopyIterator.php',
         'OCA\\DAV\\Paginate\\PaginateCache' => __DIR__ . '/..' . '/../lib/Paginate/PaginateCache.php',

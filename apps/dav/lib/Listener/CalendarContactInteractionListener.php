@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Listener;
 
 use OCA\DAV\Connector\Sabre\Principal;
@@ -18,7 +19,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\EventDispatcher\IEventListener;
 use OCP\IUser;
 use OCP\IUserSession;
-use OCP\Mail\IMailer;
+use OCP\Mail\IEmailValidator;
 use Psr\Log\LoggerInterface;
 use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\Parameter;
@@ -36,11 +37,12 @@ class CalendarContactInteractionListener implements IEventListener {
 		private IEventDispatcher $dispatcher,
 		private IUserSession $userSession,
 		private Principal $principalConnector,
-		private IMailer $mailer,
+		private IEmailValidator $emailValidator,
 		private LoggerInterface $logger,
 	) {
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if (($user = $this->userSession->getUser()) === null) {
 			// Without user context we can't do anything
@@ -129,7 +131,7 @@ class CalendarContactInteractionListener implements IEventListener {
 				continue;
 			}
 			$email = substr($mailTo, strlen('mailto:'));
-			if (!$this->mailer->validateMailAddress($email)) {
+			if (!$this->emailValidator->isValid($email)) {
 				// This really isn't a valid email
 				continue;
 			}

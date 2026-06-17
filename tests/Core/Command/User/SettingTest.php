@@ -25,6 +25,7 @@ class SettingTest extends TestCase {
 	protected InputInterface&MockObject $consoleInput;
 	protected MockObject&OutputInterface $consoleOutput;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -445,7 +446,6 @@ class SettingTest extends TestCase {
 		$command->expects($this->once())
 			->method('writeArrayInOutputFormat')
 			->with($this->consoleInput, $this->consoleOutput, ['settings']);
-
 
 		$this->assertEquals(0, $this->invokePrivate($command, 'execute', [$this->consoleInput, $this->consoleOutput]));
 	}

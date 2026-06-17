@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace Test\Updater;
 
 use OC\Updater\ReleaseMetadata;
@@ -15,6 +16,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 class ReleaseMetadataTest extends \Test\TestCase {
 	private IClientService|MockObject $clientService;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->clientService = $this->createMock(IClientService::class);
@@ -34,7 +36,6 @@ class ReleaseMetadataTest extends \Test\TestCase {
 			->method('getBody')
 			->with()
 			->willReturn($this->resultRequest());
-
 
 		$releaseMetadata = new ReleaseMetadata($this->clientService);
 		$this->assertSame(self::resultRequestArray(), $releaseMetadata->downloadMetadata('ouila'));

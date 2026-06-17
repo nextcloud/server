@@ -4,7 +4,8 @@
 -->
 
 <template>
-	<component :is="data.is"
+	<component
+		:is="data.is"
 		v-bind="data"
 		v-on="action.handlers">
 		{{ data.text }}
@@ -22,15 +23,17 @@ export default {
 			type: String,
 			required: true,
 		},
+
 		action: {
 			type: Object,
 			default: () => ({}),
 		},
+
 		fileInfo: {
 			type: Object,
-			default: () => {},
 			required: true,
 		},
+
 		share: {
 			type: Share,
 			default: null,

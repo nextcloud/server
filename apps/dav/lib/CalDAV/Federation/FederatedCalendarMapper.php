@@ -148,7 +148,7 @@ class FederatedCalendarMapper extends QBMapper {
 			->from(self::TABLE_NAME);
 
 		$result = $qb->executeQuery();
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			yield $this->mapRowToEntity($row);
 		}
 		$result->closeCursor();

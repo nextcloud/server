@@ -7,9 +7,9 @@
 import type { IDialogButton } from '@nextcloud/dialogs'
 
 import { t } from '@nextcloud/l10n'
-import { textExistingFilesNotEncrypted } from './sharedTexts.ts'
 import NcDialog from '@nextcloud/vue/components/NcDialog'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
+import { textExistingFilesNotEncrypted } from './sharedTexts.ts'
 
 const emit = defineEmits<{
 	(e: 'close', encrypt: boolean): void
@@ -31,6 +31,7 @@ const buttons: IDialogButton[] = [
 
 /**
  * When closed we need to emit the close event
+ *
  * @param isOpen open state of the dialog
  */
 function onUpdateOpen(isOpen: boolean) {
@@ -41,7 +42,8 @@ function onUpdateOpen(isOpen: boolean) {
 </script>
 
 <template>
-	<NcDialog :buttons="buttons"
+	<NcDialog
+		:buttons="buttons"
 		:name="t('settings', 'Confirm enabling encryption')"
 		size="normal"
 		@update:open="onUpdateOpen">

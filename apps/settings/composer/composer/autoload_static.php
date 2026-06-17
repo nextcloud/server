@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitSettings
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\Settings\\' => 13,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\Settings\\' => 
+        'OCA\\Settings\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),
@@ -37,7 +37,6 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\ConfigLexicon' => __DIR__ . '/..' . '/../lib/ConfigLexicon.php',
         'OCA\\Settings\\Controller\\AISettingsController' => __DIR__ . '/..' . '/../lib/Controller/AISettingsController.php',
         'OCA\\Settings\\Controller\\AdminSettingsController' => __DIR__ . '/..' . '/../lib/Controller/AdminSettingsController.php',
-        'OCA\\Settings\\Controller\\AppSettingsController' => __DIR__ . '/..' . '/../lib/Controller/AppSettingsController.php',
         'OCA\\Settings\\Controller\\AuthSettingsController' => __DIR__ . '/..' . '/../lib/Controller/AuthSettingsController.php',
         'OCA\\Settings\\Controller\\AuthorizedGroupController' => __DIR__ . '/..' . '/../lib/Controller/AuthorizedGroupController.php',
         'OCA\\Settings\\Controller\\ChangePasswordController' => __DIR__ . '/..' . '/../lib/Controller/ChangePasswordController.php',
@@ -63,13 +62,13 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\Mailer\\NewUserMailHelper' => __DIR__ . '/..' . '/../lib/Mailer/NewUserMailHelper.php',
         'OCA\\Settings\\Middleware\\SubadminMiddleware' => __DIR__ . '/..' . '/../lib/Middleware/SubadminMiddleware.php',
         'OCA\\Settings\\ResponseDefinitions' => __DIR__ . '/..' . '/../lib/ResponseDefinitions.php',
-        'OCA\\Settings\\Search\\AppSearch' => __DIR__ . '/..' . '/../lib/Search/AppSearch.php',
         'OCA\\Settings\\Search\\SectionSearch' => __DIR__ . '/..' . '/../lib/Search/SectionSearch.php',
         'OCA\\Settings\\Search\\UserSearch' => __DIR__ . '/..' . '/../lib/Search/UserSearch.php',
         'OCA\\Settings\\Sections\\Admin\\Additional' => __DIR__ . '/..' . '/../lib/Sections/Admin/Additional.php',
         'OCA\\Settings\\Sections\\Admin\\ArtificialIntelligence' => __DIR__ . '/..' . '/../lib/Sections/Admin/ArtificialIntelligence.php',
         'OCA\\Settings\\Sections\\Admin\\Delegation' => __DIR__ . '/..' . '/../lib/Sections/Admin/Delegation.php',
         'OCA\\Settings\\Sections\\Admin\\Groupware' => __DIR__ . '/..' . '/../lib/Sections/Admin/Groupware.php',
+        'OCA\\Settings\\Sections\\Admin\\Office' => __DIR__ . '/..' . '/../lib/Sections/Admin/Office.php',
         'OCA\\Settings\\Sections\\Admin\\Overview' => __DIR__ . '/..' . '/../lib/Sections/Admin/Overview.php',
         'OCA\\Settings\\Sections\\Admin\\Presets' => __DIR__ . '/..' . '/../lib/Sections/Admin/Presets.php',
         'OCA\\Settings\\Sections\\Admin\\Security' => __DIR__ . '/..' . '/../lib/Sections/Admin/Security.php',
@@ -82,6 +81,7 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\Sections\\Personal\\Security' => __DIR__ . '/..' . '/../lib/Sections/Personal/Security.php',
         'OCA\\Settings\\Sections\\Personal\\SyncClients' => __DIR__ . '/..' . '/../lib/Sections/Personal/SyncClients.php',
         'OCA\\Settings\\Service\\AuthorizedGroupService' => __DIR__ . '/..' . '/../lib/Service/AuthorizedGroupService.php',
+        'OCA\\Settings\\Service\\ConflictException' => __DIR__ . '/..' . '/../lib/Service/ConflictException.php',
         'OCA\\Settings\\Service\\NotFoundException' => __DIR__ . '/..' . '/../lib/Service/NotFoundException.php',
         'OCA\\Settings\\Service\\ServiceException' => __DIR__ . '/..' . '/../lib/Service/ServiceException.php',
         'OCA\\Settings\\Settings\\Admin\\ArtificialIntelligence' => __DIR__ . '/..' . '/../lib/Settings/Admin/ArtificialIntelligence.php',
@@ -147,11 +147,15 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\SetupChecks\\ReadOnlyConfig' => __DIR__ . '/..' . '/../lib/SetupChecks/ReadOnlyConfig.php',
         'OCA\\Settings\\SetupChecks\\SchedulingTableSize' => __DIR__ . '/..' . '/../lib/SetupChecks/SchedulingTableSize.php',
         'OCA\\Settings\\SetupChecks\\SecurityHeaders' => __DIR__ . '/..' . '/../lib/SetupChecks/SecurityHeaders.php',
+        'OCA\\Settings\\SetupChecks\\ServerIdConfig' => __DIR__ . '/..' . '/../lib/SetupChecks/ServerIdConfig.php',
         'OCA\\Settings\\SetupChecks\\SupportedDatabase' => __DIR__ . '/..' . '/../lib/SetupChecks/SupportedDatabase.php',
         'OCA\\Settings\\SetupChecks\\SystemIs64bit' => __DIR__ . '/..' . '/../lib/SetupChecks/SystemIs64bit.php',
         'OCA\\Settings\\SetupChecks\\TaskProcessingPickupSpeed' => __DIR__ . '/..' . '/../lib/SetupChecks/TaskProcessingPickupSpeed.php',
+        'OCA\\Settings\\SetupChecks\\TaskProcessingSuccessRate' => __DIR__ . '/..' . '/../lib/SetupChecks/TaskProcessingSuccessRate.php',
+        'OCA\\Settings\\SetupChecks\\TaskProcessingWorkerIsRunning' => __DIR__ . '/..' . '/../lib/SetupChecks/TaskProcessingWorkerIsRunning.php',
         'OCA\\Settings\\SetupChecks\\TempSpaceAvailable' => __DIR__ . '/..' . '/../lib/SetupChecks/TempSpaceAvailable.php',
         'OCA\\Settings\\SetupChecks\\TransactionIsolation' => __DIR__ . '/..' . '/../lib/SetupChecks/TransactionIsolation.php',
+        'OCA\\Settings\\SetupChecks\\TwoFactorConfiguration' => __DIR__ . '/..' . '/../lib/SetupChecks/TwoFactorConfiguration.php',
         'OCA\\Settings\\SetupChecks\\WellKnownUrls' => __DIR__ . '/..' . '/../lib/SetupChecks/WellKnownUrls.php',
         'OCA\\Settings\\SetupChecks\\Woff2Loading' => __DIR__ . '/..' . '/../lib/SetupChecks/Woff2Loading.php',
         'OCA\\Settings\\UserMigration\\AccountMigrator' => __DIR__ . '/..' . '/../lib/UserMigration/AccountMigrator.php',

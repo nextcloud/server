@@ -2,9 +2,10 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 import { File, Folder, Permission } from '@nextcloud/files'
 import { describe, expect, test } from 'vitest'
-import { isNodeExternalStorage } from './externalStorageUtils'
+import { isNodeExternalStorage } from './externalStorageUtils.ts'
 
 describe('Is node an external storage', () => {
 	test('A Folder with a backend and a valid scope is an external storage', () => {
@@ -17,6 +18,7 @@ describe('Is node an external storage', () => {
 				scope: 'personal',
 				backend: 'SFTP',
 			},
+			root: '/files/admin',
 		})
 		expect(isNodeExternalStorage(folder)).toBe(true)
 	})
@@ -28,6 +30,7 @@ describe('Is node an external storage', () => {
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.ALL,
+			root: '/files/admin',
 		})
 		expect(isNodeExternalStorage(file)).toBe(false)
 	})
@@ -41,6 +44,7 @@ describe('Is node an external storage', () => {
 			attributes: {
 				scope: 'personal',
 			},
+			root: '/files/admin',
 		})
 		expect(isNodeExternalStorage(folder)).toBe(false)
 	})
@@ -54,6 +58,7 @@ describe('Is node an external storage', () => {
 			attributes: {
 				backend: 'SFTP',
 			},
+			root: '/files/admin',
 		})
 		expect(isNodeExternalStorage(folder)).toBe(false)
 	})
@@ -68,6 +73,7 @@ describe('Is node an external storage', () => {
 				scope: 'null',
 				backend: 'SFTP',
 			},
+			root: '/files/admin',
 		})
 		expect(isNodeExternalStorage(folder)).toBe(false)
 	})

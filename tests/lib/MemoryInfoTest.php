@@ -18,21 +18,15 @@ use PHPUnit\Framework\MockObject\MockObject;
 class MemoryInfoTest extends TestCase {
 	/**
 	 * The "memory_limit" value before tests.
-	 *
-	 * @var string
 	 */
-	private $iniSettingBeforeTest;
+	private string $iniSettingBeforeTest;
 
-	/**
-	 * @beforeClass
-	 */
+	#[\PHPUnit\Framework\Attributes\BeforeClass()]
 	public function backupMemoryInfoIniSetting() {
 		$this->iniSettingBeforeTest = ini_get('memory_limit');
 	}
 
-	/**
-	 * @afterClass
-	 */
+	#[\PHPUnit\Framework\Attributes\AfterClass()]
 	public function restoreMemoryInfoIniSetting() {
 		ini_set('memory_limit', $this->iniSettingBeforeTest);
 	}

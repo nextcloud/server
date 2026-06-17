@@ -14,31 +14,20 @@ use OCA\User_LDAP\ConnectionFactory;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\Mapping\UserMapping;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
-use OCP\EventDispatcher\IEventDispatcher;
-use OCP\IAvatarManager;
 use OCP\IConfig;
-use OCP\IDBConnection;
-use OCP\IUserManager;
-use OCP\Notification\IManager;
-use Psr\Log\LoggerInterface;
 
 class Sync extends TimedJob {
 	public const MAX_INTERVAL = 12 * 60 * 60; // 12h
 	public const MIN_INTERVAL = 30 * 60; // 30min
 
-	protected LDAP $ldap;
-
 	public function __construct(
 		ITimeFactory $timeFactory,
-		private IEventDispatcher $dispatcher,
 		private IConfig $config,
-		private IDBConnection $dbc,
-		private IAvatarManager $avatarManager,
-		private IUserManager $ncUserManager,
-		private LoggerInterface $logger,
-		private IManager $notificationManager,
+		private IAppConfig $appConfig,
+		private \OCP\IAppConfig $globalAppConfig,
 		private UserMapping $mapper,
 		private Helper $ldapHelper,
 		private ConnectionFactory $connectionFactory,
@@ -46,13 +35,11 @@ class Sync extends TimedJob {
 	) {
 		parent::__construct($timeFactory);
 		$this->setInterval(
-			(int)$this->config->getAppValue(
-				'user_ldap',
+			$this->appConfig->getAppValueInt(
 				'background_sync_interval',
-				(string)self::MIN_INTERVAL
+				self::MIN_INTERVAL
 			)
 		);
-		$this->ldap = new LDAP($this->config->getSystemValueString('ldap_log_file'));
 	}
 
 	/**
@@ -71,31 +58,32 @@ class Sync extends TimedJob {
 		$interval = floor(24 * 60 * 60 / $runsPerDay);
 		$interval = min(max($interval, self::MIN_INTERVAL), self::MAX_INTERVAL);
 
-		$this->config->setAppValue('user_ldap', 'background_sync_interval', (string)$interval);
+		$this->appConfig->setAppValueInt('background_sync_interval', (int)$interval);
 	}
 
 	/**
 	 * returns the smallest configured paging size
 	 */
 	protected function getMinPagingSize(): int {
-		$configKeys = $this->config->getAppKeys('user_ldap');
+		$configKeys = $this->appConfig->getAppKeys();
 		$configKeys = array_filter($configKeys, function ($key) {
 			return str_contains($key, 'ldap_paging_size');
 		});
-		$minPagingSize = null;
+		$minPagingSize = 0;
 		foreach ($configKeys as $configKey) {
-			$pagingSize = $this->config->getAppValue('user_ldap', $configKey, $minPagingSize);
-			$minPagingSize = $minPagingSize === null ? $pagingSize : min($minPagingSize, $pagingSize);
+			$pagingSize = $this->appConfig->getAppValueInt($configKey, $minPagingSize);
+			$minPagingSize = $minPagingSize === 0 ? $pagingSize : min($minPagingSize, $pagingSize);
 		}
-		return (int)$minPagingSize;
+		return $minPagingSize;
 	}
 
 	/**
 	 * @param array $argument
 	 */
+	#[\Override]
 	public function run($argument) {
-		$isBackgroundJobModeAjax = $this->config
-			->getAppValue('core', 'backgroundjobs_mode', 'ajax') === 'ajax';
+		$isBackgroundJobModeAjax = $this->globalAppConfig
+			->getValueString('core', 'backgroundjobs_mode', 'ajax') === 'ajax';
 		if ($isBackgroundJobModeAjax) {
 			return;
 		}
@@ -158,6 +146,7 @@ class Sync extends TimedJob {
 	/**
 	 * Returns the info about the current cycle that should be run, if any,
 	 * otherwise null
+	 * @return ?array{prefix: string, offset: int}
 	 */
 	public function getCycle(): ?array {
 		$prefixes = $this->ldapHelper->getServerConfigurationPrefixes(true);
@@ -166,8 +155,8 @@ class Sync extends TimedJob {
 		}
 
 		$cycleData = [
-			'prefix' => $this->config->getAppValue('user_ldap', 'background_sync_prefix', 'none'),
-			'offset' => (int)$this->config->getAppValue('user_ldap', 'background_sync_offset', '0'),
+			'prefix' => $this->appConfig->getAppValueString('background_sync_prefix', 'none'),
+			'offset' => $this->appConfig->getAppValueInt('background_sync_offset'),
 		];
 
 		if (
@@ -186,8 +175,8 @@ class Sync extends TimedJob {
 	 * @param array{prefix: ?string, offset: int} $cycleData
 	 */
 	public function setCycle(array $cycleData): void {
-		$this->config->setAppValue('user_ldap', 'background_sync_prefix', $cycleData['prefix']);
-		$this->config->setAppValue('user_ldap', 'background_sync_offset', (string)$cycleData['offset']);
+		$this->appConfig->setAppValueString('background_sync_prefix', $cycleData['prefix'] ?? '');
+		$this->appConfig->setAppValueInt('background_sync_offset', $cycleData['offset']);
 	}
 
 	/**
@@ -220,10 +209,10 @@ class Sync extends TimedJob {
 	 * Checks whether the provided cycle should be run. Currently, only the
 	 * last configuration change goes into account (at least one hour).
 	 *
-	 * @param array{prefix: string} $cycleData
+	 * @param array{prefix: string, offset: int} $cycleData
 	 */
 	public function qualifiesToRun(array $cycleData): bool {
-		$lastChange = (int)$this->config->getAppValue('user_ldap', $cycleData['prefix'] . '_lastChange', '0');
+		$lastChange = $this->appConfig->getAppValueInt($cycleData['prefix'] . '_lastChange');
 		if ((time() - $lastChange) > 60 * 30) {
 			return true;
 		}
@@ -261,12 +250,5 @@ class Sync extends TimedJob {
 			$i = 0;
 		}
 		return $prefixes[$i];
-	}
-
-	/**
-	 * Only used in tests
-	 */
-	public function overwritePropertiesForTest(LDAP $ldapWrapper): void {
-		$this->ldap = $ldapWrapper;
 	}
 }

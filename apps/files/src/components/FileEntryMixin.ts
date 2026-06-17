@@ -3,28 +3,25 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import type { IFileAction } from '@nextcloud/files'
 import type { PropType } from 'vue'
 import type { FileSource } from '../types.ts'
 
-import { extname } from 'path'
-import { FileType, Permission, Folder, File as NcFile, NodeStatus, Node, getFileActions } from '@nextcloud/files'
+import { FileType, Folder, File as NcFile, Node, NodeStatus, Permission } from '@nextcloud/files'
+import { t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import { isPublicShare } from '@nextcloud/sharing/public'
-import { showError } from '@nextcloud/dialogs'
-import { t } from '@nextcloud/l10n'
 import { vOnClickOutside } from '@vueuse/components'
+import { extname } from 'path'
 import Vue, { computed, defineComponent } from 'vue'
-
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import { dataTransferToFileTree, onDropExternalFiles, onDropInternalFiles } from '../services/DropService.ts'
 import { getDragAndDropPreview } from '../utils/dragUtils.ts'
 import { hashCode } from '../utils/hashUtils.ts'
+import { logger } from '../utils/logger.ts'
 import { isDownloadable } from '../utils/permissions.ts'
-import logger from '../logger.ts'
 
 Vue.directive('onClickOutside', vOnClickOutside)
-
-const actions = getFileActions()
 
 export default defineComponent({
 	props: {
@@ -35,10 +32,6 @@ export default defineComponent({
 		nodes: {
 			type: Array as PropType<Node[]>,
 			required: true,
-		},
-		filesListWidth: {
-			type: Number,
-			default: 0,
 		},
 		isMtimeAvailable: {
 			type: Boolean,
@@ -119,11 +112,13 @@ export default defineComponent({
 			return this.renamingStore.renamingNode === this.source
 		},
 		isRenamingSmallScreen() {
-			return this.isRenaming && this.filesListWidth < 512
+			return this.isRenaming && this.isNarrow
 		},
 
 		isActive() {
-			return String(this.fileid) === String(this.currentFileId)
+			// Not using activeNode here because we want to
+			// be reactive to the url change directly
+			return String(this.fileid) === String(this.currentRouteFileId)
 		},
 
 		/**
@@ -149,7 +144,7 @@ export default defineComponent({
 
 			// If we're dragging a selection, we need to check all files
 			if (this.selectedFiles.length > 0) {
-				const nodes = this.selectedFiles.map(source => this.filesStore.getNode(source)) as Node[]
+				const nodes = this.selectedFiles.map((source) => this.filesStore.getNode(source)) as Node[]
 				return nodes.every(canDrag)
 			}
 			return canDrag(this.source)
@@ -235,8 +230,8 @@ export default defineComponent({
 				return []
 			}
 
-			return actions
-				.filter(action => {
+			return this.actions
+				.filter((action: IFileAction) => {
 					if (!action.enabled) {
 						return true
 					}
@@ -244,7 +239,12 @@ export default defineComponent({
 					// In case something goes wrong, since we don't want to break
 					// the entire list, we filter out actions that throw an error.
 					try {
-						return action.enabled([this.source], this.currentView)
+						return action.enabled({
+							nodes: [this.source],
+							view: this.activeView,
+							folder: this.activeFolder!,
+							contents: this.nodes,
+						})
 					} catch (error) {
 						logger.error('Error while checking action', { action, error })
 						return false
@@ -254,7 +254,7 @@ export default defineComponent({
 		},
 
 		defaultFileAction() {
-			return this.enabledFileActions.find((action) => action.default !== undefined)
+			return this.enabledFileActions.find((action: IFileAction) => action.default !== undefined)
 		},
 	},
 
@@ -262,6 +262,7 @@ export default defineComponent({
 		/**
 		 * When the source changes, reset the preview
 		 * and fetch the new one.
+		 *
 		 * @param newSource The new value of the source prop
 		 * @param oldSource The previous value
 		 */
@@ -359,7 +360,7 @@ export default defineComponent({
 			const metaKeyPressed = event.ctrlKey || event.metaKey || event.button === 1
 			if (metaKeyPressed || !this.defaultFileAction) {
 				// If no download permission, then we can not allow to download (direct link) the files
-				if (isPublicShare() && !isDownloadable(this.source)) {
+				if (!isDownloadable(this.source)) {
 					return
 				}
 
@@ -378,14 +379,29 @@ export default defineComponent({
 			event.preventDefault()
 			event.stopPropagation()
 			// Execute the first default action if any
-			this.defaultFileAction.exec(this.source, this.currentView, this.currentDir)
+			this.defaultFileAction.exec({
+				nodes: [this.source],
+				folder: this.activeFolder!,
+				contents: this.nodes,
+				view: this.activeView!,
+			})
 		},
 
 		openDetailsIfAvailable(event) {
 			event.preventDefault()
 			event.stopPropagation()
-			if (sidebarAction?.enabled?.([this.source], this.currentView)) {
-				sidebarAction.exec(this.source, this.currentView, this.currentDir)
+			if (sidebarAction?.enabled?.({
+				nodes: [this.source],
+				folder: this.activeFolder!,
+				contents: this.nodes,
+				view: this.activeView!,
+			})) {
+				sidebarAction.exec({
+					nodes: [this.source],
+					folder: this.activeFolder!,
+					contents: this.nodes,
+					view: this.activeView!,
+				})
 			}
 		},
 
@@ -439,7 +455,7 @@ export default defineComponent({
 			}
 
 			const nodes = this.draggingStore.dragging
-				.map(source => this.filesStore.getNode(source)) as Node[]
+				.map((source) => this.filesStore.getNode(source)) as Node[]
 
 			const image = await getDragAndDropPreview(nodes)
 			event.dataTransfer?.setDragImage(image, -10, -10)
@@ -459,46 +475,66 @@ export default defineComponent({
 			event.preventDefault()
 			event.stopPropagation()
 
-			// Caching the selection
-			const selection = this.draggingFiles
-			const items = [...event.dataTransfer?.items || []] as DataTransferItem[]
-
-			// We need to process the dataTransfer ASAP before the
-			// browser clears it. This is why we cache the items too.
-			const fileTree = await dataTransferToFileTree(items)
-
-			// We might not have the target directory fetched yet
-			const contents = await this.currentView?.getContents(this.source.path)
-			const folder = contents?.folder
-			if (!folder) {
-				showError(this.t('files', 'Target folder does not exist any more'))
-				return
-			}
-
 			// If another button is pressed, cancel it. This
 			// allows cancelling the drag with the right click.
 			if (!this.canDrop || event.button) {
 				return
 			}
 
-			const isCopy = event.ctrlKey
-			this.dragover = false
+			// Caching the selection
+			const selection = this.draggingFiles
+			const items = Array.from(event.dataTransfer?.items || [])
 
-			logger.debug('Dropped', { event, folder, selection, fileTree })
+			if (selection.length === 0 && items.some((item) => item.kind === 'file')) {
+				// Snapshot DataTransfer items immediately so Blink clears data.items
+				// after the first async yield. Then convert FileSystemEntry to File
+				// inside dataTransferToFileTree (duck-typed via entry.isFile) rather
+				// than deferring to @nextcloud/upload's batchUpload, whose
+				// instanceof-based conversion silently no-ops on some Chromium builds.
+				// See https://github.com/nextcloud/server/issues/60139
+				const fileTree = await dataTransferToFileTree(items)
 
-			// Check whether we're uploading files
-			if (selection.length === 0 && fileTree.contents.length > 0) {
-				await onDropExternalFiles(fileTree, folder, contents.contents)
+				// canDrop already gates this branch on FileType.Folder, but the
+				// type system can't see that — narrow defensively so a future
+				// loosening of canDrop can't silently lie via the cast below.
+				// Use the `type` field rather than `instanceof Folder`: apps
+				// bundle their own copy of @nextcloud/files, so a Folder from
+				// an app would not be `instanceof` the server's Folder class.
+				if (this.source.type !== FileType.Folder) {
+					logger.error('onDrop: external drop target is not a Folder', { source: this.source })
+					this.dragover = false
+					return
+				}
+
+				// Fetch destination contents for conflict resolution
+				const cachedContents = this.filesStore.getNodesByPath(this.activeView.id, this.source.path)
+				const contents = cachedContents.length === 0
+					? (await this.activeView!.getContents(this.source.path)).contents
+					: cachedContents
+
+				logger.debug('Start uploading dropped files', { target: this.source.path, fileTree })
+				await onDropExternalFiles(fileTree, this.source as Folder, contents)
+				this.dragover = false
 				return
 			}
 
-			// Else we're moving/copying files
-			const nodes = selection.map(source => this.filesStore.getNode(source)) as Node[]
-			await onDropInternalFiles(nodes, folder, contents.contents, isCopy)
+			// We might not have the target directory fetched yet
+			const cachedContents = this.filesStore.getNodesByPath(this.activeView.id, this.source.path)
+			const contents = cachedContents.length === 0
+				? (await this.activeView!.getContents(this.source.path)).contents
+				: cachedContents
+
+			const isCopy = event.ctrlKey
+			this.dragover = false
+
+			logger.debug('Dropped', { event, folder: this.source, selection })
+
+			const nodes = selection.map((source) => this.filesStore.getNode(source)) as Node[]
+			await onDropInternalFiles(nodes, this.source, contents, isCopy)
 
 			// Reset selection after we dropped the files
 			// if the dropped files are within the selection
-			if (selection.some(source => this.selectedFiles.includes(source))) {
+			if (selection.some((source) => this.selectedFiles.includes(source))) {
 				logger.debug('Dropped selection, resetting select store...')
 				this.selectionStore.reset()
 			}

@@ -17,17 +17,18 @@ use OC\Security\RateLimiting\Limiter;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IAppConfig;
+use OCP\IConfig;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Test\AppFramework\Middleware\Security\Mock\RateLimitingMiddlewareController;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class RateLimitingMiddlewareTest extends TestCase {
 	private IRequest|MockObject $request;
 	private IUserSession|MockObject $userSession;
@@ -35,19 +36,24 @@ class RateLimitingMiddlewareTest extends TestCase {
 	private Limiter|MockObject $limiter;
 	private ISession|MockObject $session;
 	private IAppConfig|MockObject $appConfig;
+	private IConfig|MockObject $serverConfig;
 	private BruteforceAllowList|MockObject $bruteForceAllowList;
+	private LoggerInterface|MockObject $logger;
 	private RateLimitingMiddleware $rateLimitingMiddleware;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->createMock(IRequest::class);
 		$this->userSession = $this->createMock(IUserSession::class);
-		$this->reflector = new ControllerMethodReflector();
+		$this->reflector = new ControllerMethodReflector(Server::get(LoggerInterface::class));
 		$this->limiter = $this->createMock(Limiter::class);
 		$this->session = $this->createMock(ISession::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
+		$this->serverConfig = $this->createMock(IConfig::class);
 		$this->bruteForceAllowList = $this->createMock(BruteforceAllowList::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->rateLimitingMiddleware = new RateLimitingMiddleware(
 			$this->request,
@@ -56,7 +62,9 @@ class RateLimitingMiddlewareTest extends TestCase {
 			$this->limiter,
 			$this->session,
 			$this->appConfig,
+			$this->serverConfig,
 			$this->bruteForceAllowList,
+			$this->logger
 		);
 	}
 
@@ -142,7 +150,6 @@ class RateLimitingMiddlewareTest extends TestCase {
 			->method('registerUserRequest')
 			->with(get_class($controller) . '::testMethodWithAnnotation', '20', '200', $user);
 
-
 		$this->reflector->reflect($controller, 'testMethodWithAnnotation');
 		$this->rateLimitingMiddleware->beforeController($controller, 'testMethodWithAnnotation');
 	}
@@ -158,7 +165,6 @@ class RateLimitingMiddlewareTest extends TestCase {
 			->expects($this->once())
 			->method('isLoggedIn')
 			->willReturn(true);
-
 
 		$this->limiter
 			->expects($this->never())
@@ -218,7 +224,6 @@ class RateLimitingMiddlewareTest extends TestCase {
 			->method('registerUserRequest')
 			->with(get_class($controller) . '::testMethodWithAttributes', '20', '200', $user);
 
-
 		$this->reflector->reflect($controller, 'testMethodWithAttributes');
 		$this->rateLimitingMiddleware->beforeController($controller, 'testMethodWithAttributes');
 	}
@@ -234,7 +239,6 @@ class RateLimitingMiddlewareTest extends TestCase {
 			->expects($this->once())
 			->method('isLoggedIn')
 			->willReturn(true);
-
 
 		$this->limiter
 			->expects($this->never())

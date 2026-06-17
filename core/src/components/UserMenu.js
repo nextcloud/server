@@ -4,17 +4,19 @@
  */
 
 import Vue from 'vue'
-
 import AccountMenu from '../views/AccountMenu.vue'
 
-export const setUp = () => {
+/**
+ * Set up the user menu component ("AccountMenu")
+ * This is the top right menu where users can access their settings, profile, logout, etc.
+ */
+export function setUp() {
 	const mountPoint = document.getElementById('user-menu')
 	if (mountPoint) {
-		// eslint-disable-next-line no-new
 		new Vue({
 			name: 'AccountMenuRoot',
 			el: mountPoint,
-			render: h => h(AccountMenu),
+			render: (h) => h(AccountMenu),
 		})
 	}
 }

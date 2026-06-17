@@ -6,10 +6,19 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Tests;
 
 use OCA\Files_External\Lib\LegacyDependencyCheckPolyfill;
 use OCA\Files_External\Lib\MissingDependency;
+
+class MockLegacyDependencyCheckPolyfillClass {
+	use LegacyDependencyCheckPolyfill;
+
+	public function getStorageClass(): string {
+		return LegacyDependencyCheckPolyfillTest::class;
+	}
+}
 
 class LegacyDependencyCheckPolyfillTest extends \Test\TestCase {
 
@@ -24,10 +33,7 @@ class LegacyDependencyCheckPolyfillTest extends \Test\TestCase {
 	}
 
 	public function testCheckDependencies(): void {
-		$trait = $this->getMockForTrait(LegacyDependencyCheckPolyfill::class);
-		$trait->expects($this->once())
-			->method('getStorageClass')
-			->willReturn(self::class);
+		$trait = new MockLegacyDependencyCheckPolyfillClass();
 
 		$dependencies = $trait->checkDependencies();
 		$this->assertCount(2, $dependencies);

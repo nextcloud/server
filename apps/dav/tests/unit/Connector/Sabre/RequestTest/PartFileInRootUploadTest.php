@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Connector\Sabre\RequestTest;
 
 use OC\AllConfig;
@@ -14,10 +15,10 @@ use OCP\Server;
 /**
  * Class PartFileInRootUploadTest
  *
- * @group DB
  *
  * @package OCA\DAV\Tests\unit\Connector\Sabre\RequestTest
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class PartFileInRootUploadTest extends UploadTest {
 	protected function setUp(): void {
 		$config = Server::get(IConfig::class);

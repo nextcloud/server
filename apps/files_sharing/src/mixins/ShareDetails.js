@@ -3,15 +3,15 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { ATOMIC_PERMISSIONS } from '../lib/SharePermissionsToolBox.js'
 import Share from '../models/Share.ts'
 import Config from '../services/ConfigService.ts'
-import { ATOMIC_PERMISSIONS } from '../lib/SharePermissionsToolBox.js'
 import logger from '../services/logger.ts'
 
 export default {
 	methods: {
 		async openSharingDetails(shareRequestObject) {
-			let share = {}
+			let share
 			// handle externalResults from OCA.Sharing.ShareSearch
 			// TODO : Better name/interface for handler required
 			// For example `externalAppCreateShareHook` with proper documentation
@@ -52,7 +52,6 @@ export default {
 			this.openSharingDetails(share)
 		},
 		mapShareRequestToShareObject(shareRequestObject) {
-
 			if (shareRequestObject.id) {
 				return shareRequestObject
 			}

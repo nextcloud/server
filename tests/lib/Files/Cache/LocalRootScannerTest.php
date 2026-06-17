@@ -13,13 +13,12 @@ use OCP\ITempManager;
 use OCP\Server;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class LocalRootScannerTest extends TestCase {
 	/** @var LocalRootStorage */
 	private $storage;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

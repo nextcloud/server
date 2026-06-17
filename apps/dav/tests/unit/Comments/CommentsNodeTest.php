@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Comments;
 
 use OCA\DAV\Comments\CommentNode;
@@ -74,7 +75,6 @@ class CommentsNodeTest extends \Test\TestCase {
 		$this->node->delete();
 	}
 
-
 	public function testDeleteForbidden(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -112,7 +112,6 @@ class CommentsNodeTest extends \Test\TestCase {
 
 		$this->assertSame($this->node->getName(), $id);
 	}
-
 
 	public function testSetName(): void {
 		$this->expectException(\Sabre\DAV\Exception\MethodNotAllowed::class);
@@ -155,7 +154,6 @@ class CommentsNodeTest extends \Test\TestCase {
 		$this->assertTrue($this->node->updateComment($msg));
 	}
 
-
 	public function testUpdateCommentLogException(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('buh!');
@@ -193,7 +191,6 @@ class CommentsNodeTest extends \Test\TestCase {
 		$this->node->updateComment($msg);
 	}
 
-
 	public function testUpdateCommentMessageTooLongException(): void {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
 		$this->expectExceptionMessage('Message exceeds allowed character limit of');
@@ -229,7 +226,6 @@ class CommentsNodeTest extends \Test\TestCase {
 		$this->node->updateComment('foo');
 	}
 
-
 	public function testUpdateForbiddenByUser(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -261,7 +257,6 @@ class CommentsNodeTest extends \Test\TestCase {
 		$this->node->updateComment($msg);
 	}
 
-
 	public function testUpdateForbiddenByType(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -287,7 +282,6 @@ class CommentsNodeTest extends \Test\TestCase {
 
 		$this->node->updateComment($msg);
 	}
-
 
 	public function testUpdateForbiddenByNotLoggedIn(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
@@ -469,7 +463,7 @@ class CommentsNodeTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('readCommentProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'readCommentProvider')]
 	public function testGetPropertiesUnreadProperty(\DateTime $creationDT, ?\DateTime $readDT, string $expected): void {
 		$this->comment->expects($this->any())
 			->method('getCreationDateTime')

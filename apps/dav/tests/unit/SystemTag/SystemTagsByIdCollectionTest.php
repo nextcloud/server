@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\SystemTag;
 
 use OC\SystemTag\SystemTag;
@@ -61,13 +62,11 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 		return [[true], [false]];
 	}
 
-
 	public function testForbiddenCreateFile(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		$this->getNode()->createFile('555');
 	}
-
 
 	public function testForbiddenCreateDirectory(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
@@ -94,7 +93,6 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 		$this->assertEquals($tag, $childNode->getSystemTag());
 	}
 
-
 	public function testGetChildInvalidName(): void {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
 
@@ -106,7 +104,6 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 		$this->getNode()->getChild('invalid');
 	}
 
-
 	public function testGetChildNotFound(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
@@ -117,7 +114,6 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 
 		$this->getNode()->getChild('444');
 	}
-
 
 	public function testGetChildUserNotVisible(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
@@ -185,7 +181,7 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('childExistsProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'childExistsProvider')]
 	public function testChildExists(bool $userVisible, bool $expectedResult): void {
 		$tag = new SystemTag('123', 'One', $userVisible, false);
 		$this->tagManager->expects($this->once())
@@ -209,7 +205,6 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 
 		$this->assertFalse($this->getNode()->childExists('123'));
 	}
-
 
 	public function testChildExistsBadRequest(): void {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);

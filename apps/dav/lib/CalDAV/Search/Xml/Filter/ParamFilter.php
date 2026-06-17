@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CalDAV\Search\Xml\Filter;
 
 use OCA\DAV\CalDAV\Search\SearchPlugin;
@@ -18,6 +21,7 @@ class ParamFilter implements XmlDeserializable {
 	 * @throws BadRequest
 	 * @return string
 	 */
+	#[\Override]
 	public static function xmlDeserialize(Reader $reader) {
 		$att = $reader->parseAttributes();
 		$property = $att['property'];

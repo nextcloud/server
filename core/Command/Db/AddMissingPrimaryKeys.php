@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Command\Db;
 
 use OC\DB\Connection;
@@ -33,6 +34,7 @@ class AddMissingPrimaryKeys extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('db:add-missing-primary-keys')
@@ -40,6 +42,7 @@ class AddMissingPrimaryKeys extends Command {
 			->addOption('dry-run', null, InputOption::VALUE_NONE, 'Output the SQL queries instead of running them.');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$dryRun = $input->getOption('dry-run');
 
@@ -55,7 +58,7 @@ class AddMissingPrimaryKeys extends Command {
 			foreach ($missingKeys as $missingKey) {
 				if ($schema->hasTable($missingKey['tableName'])) {
 					$table = $schema->getTable($missingKey['tableName']);
-					if (!$table->hasPrimaryKey()) {
+					if ($table->getPrimaryKey() === null) {
 						$output->writeln('<info>Adding primary key to the ' . $missingKey['tableName'] . ' table, this can take some time...</info>');
 						$table->setPrimaryKey($missingKey['columns'], $missingKey['primaryKeyName']);
 

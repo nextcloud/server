@@ -3,23 +3,24 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { User } from '@nextcloud/cypress'
+import type { User } from '@nextcloud/e2e-test-server/cypress'
 
 /**
  * Assert that `element` does not exist or is not visible
  * Useful in cases such as when NcModal is opened/closed rapidly
+ *
  * @param element Element that is inspected
  */
 export function assertNotExistOrNotVisible(element: JQuery<HTMLElement>) {
 	const doesNotExist = element.length === 0
 	const isNotVisible = !element.is(':visible')
 
-	// eslint-disable-next-line no-unused-expressions
 	expect(doesNotExist || isNotVisible, 'does not exist or is not visible').to.be.true
 }
 
 /**
  * Get the settings users list
+ *
  * @return Cypress chainable object
  */
 export function getUserList() {
@@ -36,6 +37,10 @@ export function getUserListRow(userId: string) {
 	return getUserList().find(`[data-cy-user-row="${userId}"]`)
 }
 
+/**
+ *
+ * @param selector
+ */
 export function waitLoading(selector: string) {
 	// We need to make sure the element is loading, otherwise the "done loading" will succeed even if we did not start loading.
 	// But Cypress might also be simply too slow to catch the loading phase. Thats why we need to wait in this case.
@@ -46,45 +51,24 @@ export function waitLoading(selector: string) {
 }
 
 /**
- * Toggle the edit button of the user row
- * @param user The user row to edit
- * @param toEdit True if it should be switch to edit mode, false to switch to read-only
+ * Open the edit dialog for a user by clicking the Edit action on their row
+ *
+ * @param user The user whose edit dialog to open
  */
-export function toggleEditButton(user: User, toEdit = true) {
-	// see that the list of users contains the user
+export function openEditDialog(user: User) {
 	getUserListRow(user.userId).should('exist')
-		// toggle the edit mode for the user
-		.find('[data-cy-user-list-cell-actions]')
-		.find(`[data-cy-user-list-action-toggle-edit="${!toEdit}"]`)
-		.if()
+		.find('[data-cy-user-list-action-edit]')
 		.click({ force: true })
-		.else()
-		// otherwise ensure the button is already in edit mode
-		.then(() => getUserListRow(user.userId)
-			.find(`[data-cy-user-list-action-toggle-edit="${toEdit}"]`)
-			.should('exist'),
-		)
+	// Wait for the dialog to appear
+	cy.get('.edit-dialog [data-test="form"]').should('be.visible')
 }
 
 /**
- * Handle the confirm password dialog (if needed)
- * @param adminPassword The admin password for the dialog
+ * Save the currently open edit dialog by clicking the Save button
+ * and wait for the dialog to close
  */
-export function handlePasswordConfirmation(adminPassword = 'admin') {
-	const handleModal = (context: Cypress.Chainable) => {
-		return context.contains('.modal-container', 'Confirm your password')
-			.if()
-			.within(() => {
-				cy.get('input[type="password"]').type(adminPassword)
-				cy.get('button').contains('Confirm').click()
-			})
-	}
-
-	return cy.get('body')
-		.if()
-		.then(() => handleModal(cy.get('body')))
-		.else()
-		// Handle if inside a cy.within
-		.root().closest('body')
-		.then(($body) => handleModal(cy.wrap($body)))
+export function saveEditDialog() {
+	cy.get('[data-test="submit"]').click()
+	// Wait for dialog to close
+	cy.get('.edit-dialog').should('not.exist')
 }

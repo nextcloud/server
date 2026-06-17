@@ -5,12 +5,16 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\AppFramework\Http;
 
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Constants;
 use OCP\IConfig;
 use OCP\IRequest;
+use OCP\IUserSession;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -18,8 +22,8 @@ use Psr\Log\LoggerInterface;
  *
  * It handles headers, HTTP status code, last modified and ETag.
  * @since 6.0.0
- * @template S of Http::STATUS_*
- * @template H of array<string, mixed>
+ * @template-covariant S of Http::STATUS_*
+ * @template-covariant H of array<string, mixed>
  */
 class Response {
 	/**
@@ -28,13 +32,11 @@ class Response {
 	 */
 	private $headers;
 
-
 	/**
 	 * Cookies that will be need to be constructed as header
 	 * @var array
 	 */
 	private $cookies = [];
-
 
 	/**
 	 * HTTP status code - defaults to STATUS OK
@@ -42,13 +44,11 @@ class Response {
 	 */
 	private $status;
 
-
 	/**
 	 * Last modified date
 	 * @var \DateTime
 	 */
 	private $lastModified;
-
 
 	/**
 	 * ETag
@@ -96,7 +96,7 @@ class Response {
 			$time = \OCP\Server::get(ITimeFactory::class);
 			$expires->setTimestamp($time->getTime());
 			$expires->add(new \DateInterval('PT' . $cacheSeconds . 'S'));
-			$this->addHeader('Expires', $expires->format(\DateTimeInterface::RFC7231));
+			$this->addHeader('Expires', $expires->format(Constants::DATE_RFC7231));
 		} else {
 			$this->addHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
 			unset($this->headers['Expires']);
@@ -121,7 +121,6 @@ class Response {
 		return $this;
 	}
 
-
 	/**
 	 * Set the specified cookies
 	 * @param array $cookies array('foo' => array('value' => 'bar', 'expire' => null))
@@ -132,7 +131,6 @@ class Response {
 		$this->cookies = $cookies;
 		return $this;
 	}
-
 
 	/**
 	 * Invalidates the specified cookie
@@ -201,7 +199,6 @@ class Response {
 		return $this;
 	}
 
-
 	/**
 	 * Set the headers
 	 * @template NewH as array<string, mixed>
@@ -217,7 +214,6 @@ class Response {
 		return $this;
 	}
 
-
 	/**
 	 * Returns the set headers
 	 * @return array{X-Request-Id: string, Cache-Control: string, Content-Security-Policy: string, Feature-Policy: string, X-Robots-Tag: string, Last-Modified?: string, ETag?: string, ...H} the headers
@@ -228,7 +224,7 @@ class Response {
 		/**
 		 * @psalm-suppress UndefinedClass
 		 */
-		$request = \OCP\Server::get(IRequest::class);
+		$request = Server::get(IRequest::class);
 		$mergeWith = [
 			'X-Request-Id' => $request->getId(),
 			'Cache-Control' => 'no-cache, no-store, must-revalidate',
@@ -238,16 +234,20 @@ class Response {
 		];
 
 		if ($this->lastModified) {
-			$mergeWith['Last-Modified'] = $this->lastModified->format(\DateTimeInterface::RFC7231);
+			$mergeWith['Last-Modified'] = $this->lastModified->format(Constants::DATE_RFC7231);
 		}
 
 		if ($this->ETag) {
 			$mergeWith['ETag'] = '"' . $this->ETag . '"';
 		}
 
+		$userSession = Server::get(IUserSession::class);
+		if ($user = $userSession->getUser()) {
+			$mergeWith['X-User-Id'] = $user->getUID();
+		}
+
 		return array_merge($mergeWith, $this->headers);
 	}
-
 
 	/**
 	 * By default renders no output
@@ -257,7 +257,6 @@ class Response {
 	public function render() {
 		return '';
 	}
-
 
 	/**
 	 * Set response status
@@ -298,7 +297,6 @@ class Response {
 		return $this->contentSecurityPolicy;
 	}
 
-
 	/**
 	 * @since 17.0.0
 	 */
@@ -318,8 +316,6 @@ class Response {
 		return $this;
 	}
 
-
-
 	/**
 	 * Get response status
 	 * @since 6.0.0
@@ -328,7 +324,6 @@ class Response {
 	public function getStatus() {
 		return $this->status;
 	}
-
 
 	/**
 	 * Get the ETag
@@ -339,7 +334,6 @@ class Response {
 		return $this->ETag;
 	}
 
-
 	/**
 	 * Get "last modified" date
 	 * @return \DateTime RFC2822 formatted last modified date
@@ -348,7 +342,6 @@ class Response {
 	public function getLastModified() {
 		return $this->lastModified;
 	}
-
 
 	/**
 	 * Set the ETag
@@ -361,7 +354,6 @@ class Response {
 
 		return $this;
 	}
-
 
 	/**
 	 * Set "last modified" date

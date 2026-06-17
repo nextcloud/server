@@ -54,7 +54,7 @@ namespace OCA\Files_Sharing;
  *     token: ?string,
  *     uid_file_owner: string,
  *     uid_owner: string,
- *     url?: string,
+ *     url?: string|null,
  * }
  *
  * @psalm-type Files_SharingDeletedShare = array{
@@ -81,15 +81,15 @@ namespace OCA\Files_Sharing;
  * }
  *
  * @psalm-type Files_SharingRemoteShare = array{
- *     accepted: bool,
+ *     accepted: int,
  *     file_id: int|null,
- *     id: int,
+ *     id: string,
  *     mimetype: string|null,
  *     mountpoint: string,
  *     mtime: int|null,
  *     name: string,
  *     owner: string,
- *     parent: int|null,
+ *     parent: string|null,
  *     permissions: int|null,
  *     remote: string,
  *     remote_id: string,
@@ -97,6 +97,7 @@ namespace OCA\Files_Sharing;
  *     share_type: int,
  *     type: string|null,
  *     user: string,
+ *     item_size: int|float|null,
  * }
  *
  * @psalm-type Files_SharingSharee = array{

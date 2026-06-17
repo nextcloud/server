@@ -46,13 +46,14 @@ interface Folder extends Node {
 	public function isSubNode($node);
 
 	/**
-	 * get the content of this directory
+	 * Get the content of this directory.
 	 *
+	 * @param ?non-empty-string $mimetypeFilter Limit the returned content to this mimetype or mimepart
 	 * @throws \OCP\Files\NotFoundException
 	 * @return \OCP\Files\Node[]
 	 * @since 6.0.0
 	 */
-	public function getDirectoryListing();
+	public function getDirectoryListing(?string $mimetypeFilter = null): array;
 
 	/**
 	 * Get the node at $path
@@ -64,6 +65,15 @@ interface Folder extends Node {
 	 * @since 6.0.0
 	 */
 	public function get($path);
+
+	/**
+	 * Get or create new folder if the folder does not already exist.
+	 *
+	 * @param string $path relative path of the file or folder
+	 * @throw \OCP\Files\NotPermittedException
+	 * @since 33.0.0
+	 */
+	public function getOrCreateFolder(string $path, int $maxRetries = 5): Folder;
 
 	/**
 	 * Check if a file or folder exists in the folder
@@ -180,17 +190,18 @@ interface Folder extends Node {
 	 * @return bool
 	 * @since 6.0.0
 	 */
+	#[\Override]
 	public function isCreatable();
 
 	/**
 	 * Add a suffix to the name in case the file exists
 	 *
-	 * @param string $name
+	 * @param string $filename
 	 * @return string
 	 * @throws NotPermittedException
 	 * @since 8.1.0
 	 */
-	public function getNonExistingName($name);
+	public function getNonExistingName($filename);
 
 	/**
 	 * @param int $limit

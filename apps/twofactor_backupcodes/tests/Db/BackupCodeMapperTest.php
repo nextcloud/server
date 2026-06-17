@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\TwoFactorBackupCodes\Tests\Db;
 
 use OCA\TwoFactorBackupCodes\Db\BackupCode;
@@ -15,9 +16,7 @@ use OCP\IUser;
 use OCP\Server;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class BackupCodeMapperTest extends TestCase {
 	private IDBConnection $db;
 	private BackupCodeMapper $mapper;
@@ -27,7 +26,7 @@ class BackupCodeMapperTest extends TestCase {
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete($this->mapper->getTableName())
 			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($this->testUID)));
-		$qb->execute();
+		$qb->executeStatement();
 	}
 
 	protected function setUp(): void {

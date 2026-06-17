@@ -6,8 +6,11 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Files\Cache;
 
+use OC\Files\Mount\LocalHomeMountProvider;
+use OC\Files\Mount\ObjectHomeMountProvider;
 use OC\FilesMetadata\FilesMetadataManager;
 use OC\SystemConfig;
 use OCP\DB\Exception;
@@ -37,11 +40,13 @@ class FileAccess implements IFileAccess {
 		);
 	}
 
+	#[\Override]
 	public function getByFileIdInStorage(int $fileId, int $storageId): ?CacheEntry {
 		$items = array_values($this->getByFileIdsInStorage([$fileId], $storageId));
 		return $items[0] ?? null;
 	}
 
+	#[\Override]
 	public function getByPathInStorage(string $path, int $storageId): ?CacheEntry {
 		$query = $this->getQuery()->selectFileCache();
 		$query->andWhere($query->expr()->eq('filecache.path_hash', $query->createNamedParameter(md5($path))));
@@ -51,6 +56,7 @@ class FileAccess implements IFileAccess {
 		return $row ? Cache::cacheEntryFromData($row, $this->mimeTypeLoader) : null;
 	}
 
+	#[\Override]
 	public function getByFileId(int $fileId): ?CacheEntry {
 		$items = array_values($this->getByFileIds([$fileId]));
 		return $items[0] ?? null;
@@ -73,6 +79,7 @@ class FileAccess implements IFileAccess {
 	 * @param int[] $fileIds
 	 * @return array<int, CacheEntry>
 	 */
+	#[\Override]
 	public function getByFileIds(array $fileIds): array {
 		$query = $this->getQuery()->selectFileCache();
 		$query->andWhere($query->expr()->in('filecache.fileid', $query->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)));
@@ -86,6 +93,7 @@ class FileAccess implements IFileAccess {
 	 * @param int $storageId
 	 * @return array<int, CacheEntry>
 	 */
+	#[\Override]
 	public function getByFileIdsInStorage(array $fileIds, int $storageId): array {
 		$fileIds = array_values($fileIds);
 		$query = $this->getQuery()->selectFileCache();
@@ -96,6 +104,7 @@ class FileAccess implements IFileAccess {
 		return $this->rowsToEntries($rows);
 	}
 
+	#[\Override]
 	public function getByAncestorInStorage(int $storageId, int $folderId, int $fileIdCursor = 0, int $maxResults = 100, array $mimeTypeIds = [], bool $endToEndEncrypted = true, bool $serverSideEncrypted = true): \Generator {
 		$qb = $this->getQuery();
 		$qb->select('path')
@@ -114,22 +123,20 @@ class FileAccess implements IFileAccess {
 
 		$path = $root['path'] === '' ? '' : $root['path'] . '/';
 
-		$qb->selectDistinct('*')
+		$qb->selectDistinct('f.*')
 			->from('filecache', 'f')
 			->where($qb->expr()->like('f.path', $qb->createNamedParameter($this->connection->escapeLikeParameter($path) . '%')))
 			->andWhere($qb->expr()->eq('f.storage', $qb->createNamedParameter($storageId)))
-			->andWhere($qb->expr()->gt('f.fileid', $qb->createNamedParameter($fileIdCursor, IQueryBuilder::PARAM_INT)));
+			->andWhere($qb->expr()->gt('f.fileid', $qb->createNamedParameter($fileIdCursor, IQueryBuilder::PARAM_INT)))
+			->hintShardKey('storage', $storageId);
 
-		if (!$endToEndEncrypted) {
+		if (!$endToEndEncrypted && $this->connection->getShardDefinition('filecache') === null) {
 			// End to end encrypted files are descendants of a folder with encrypted=1
-			// Use a subquery to check the `encrypted` status of the parent folder
-			$subQuery = $this->getQuery()->select('p.encrypted')
-				->from('filecache', 'p')
-				->andWhere($qb->expr()->eq('p.fileid', 'f.parent'))
-				->getSQL();
+			// We can only do this inner join if the filecache table is not sharded
+			$qb->innerJoin('f', 'filecache', 'f2', $qb->expr()->eq('f2.fileid', 'f.parent'));
 
 			$qb->andWhere(
-				$qb->expr()->eq($qb->createFunction(sprintf('(%s)', $subQuery)), $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
+				$qb->expr()->eq('f2.encrypted', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
 			);
 		}
 
@@ -148,16 +155,48 @@ class FileAccess implements IFileAccess {
 		$qb->orderBy('f.fileid', 'ASC');
 		$files = $qb->executeQuery();
 
-		while (
-			/** @var array */
-			$row = $files->fetch()
-		) {
-			yield Cache::cacheEntryFromData($row, $this->mimeTypeLoader);
+		if (!$endToEndEncrypted && $this->connection->getShardDefinition('filecache') !== null) {
+			// End to end encrypted files are descendants of a folder with encrypted=1
+			// If the filecache table is sharded we need to check with a separate query if the parent is encrypted
+			$rows = [];
+			do {
+				while (count($rows) < 1000 && ($row = $files->fetch())) {
+					$rows[] = $row;
+				}
+				$parents = array_map(function ($row) {
+					return $row['parent'];
+				}, $rows);
+
+				$parentQuery = $this->getQuery();
+				$parentQuery->select('fileid', 'encrypted')->from('filecache');
+				$parentQuery->where($parentQuery->expr()->in('fileid', $parentQuery->createNamedParameter($parents, IQueryBuilder::PARAM_INT_ARRAY)));
+				$parentQuery->hintShardKey('storage', $storageId);
+				$result = $parentQuery->executeQuery();
+				$parentRows = $result->fetchAll();
+				$result->closeCursor();
+
+				$encryptedByFileId = array_column($parentRows, 'encrypted', 'fileid');
+				foreach ($rows as $row) {
+					if ($encryptedByFileId[$row['parent']]) {
+						continue;
+					}
+					yield Cache::cacheEntryFromData($row, $this->mimeTypeLoader);
+				}
+				$rows = [];
+			} while ($rows[] = $files->fetch());
+		} else {
+			while (
+				/** @var array */
+				$row = $files->fetch()
+			) {
+				yield Cache::cacheEntryFromData($row, $this->mimeTypeLoader);
+			}
 		}
 
 		$files->closeCursor();
 	}
 
+	#[\Override]
 	public function getDistinctMounts(array $mountProviders = [], bool $onlyUserFilesMounts = true): \Generator {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->selectDistinct(['root_id', 'storage_id', 'mount_provider_class'])
@@ -167,8 +206,8 @@ class FileAccess implements IFileAccess {
 				$qb->expr()->orX(
 					$qb->expr()->like('mount_point', $qb->createNamedParameter('/%/files/%')),
 					$qb->expr()->in('mount_provider_class', $qb->createNamedParameter([
-						\OC\Files\Mount\LocalHomeMountProvider::class,
-						\OC\Files\Mount\ObjectHomeMountProvider::class,
+						LocalHomeMountProvider::class,
+						ObjectHomeMountProvider::class,
 					], IQueryBuilder::PARAM_STR_ARRAY))
 				)
 			);
@@ -189,8 +228,8 @@ class FileAccess implements IFileAccess {
 			// LocalHomeMountProvider is the default provider for user home directories
 			// ObjectHomeMountProvider is the home directory provider for when S3 primary storage is used
 			if ($onlyUserFilesMounts && in_array($row['mount_provider_class'], [
-				\OC\Files\Mount\LocalHomeMountProvider::class,
-				\OC\Files\Mount\ObjectHomeMountProvider::class,
+				LocalHomeMountProvider::class,
+				ObjectHomeMountProvider::class,
 			], true)) {
 				// Only crawl files, not cache or trashbin
 				$qb = $this->getQuery();

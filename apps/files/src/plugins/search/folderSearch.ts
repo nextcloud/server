@@ -4,11 +4,12 @@
  */
 
 import type { Node } from '@nextcloud/files'
-import { emit } from '@nextcloud/event-bus'
+
 import { getFilePickerBuilder } from '@nextcloud/dialogs'
-import { imagePath } from '@nextcloud/router'
+import { emit } from '@nextcloud/event-bus'
 import { translate as t } from '@nextcloud/l10n'
-import logger from '../../logger'
+import { imagePath } from '@nextcloud/router'
+import { logger } from '../../utils/logger.ts'
 
 /**
  * Initialize the unified search plugin.
@@ -28,7 +29,8 @@ function init() {
 		icon: imagePath('files', 'app.svg'),
 		callback: (showFilePicker: boolean = true) => {
 			if (showFilePicker) {
-				const filepicker = getFilePickerBuilder('Pick plain text files')
+				const filepicker = getFilePickerBuilder(t('files', 'Pick folder to search in'))
+					.setNoMenu(true)
 					.addMimeTypeFilter('httpd/unix-directory')
 					.allowDirectories(true)
 					.addButton({

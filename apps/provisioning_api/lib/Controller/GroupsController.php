@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Provisioning_API\Controller;
 
 use OCA\Provisioning_API\ResponseDefinitions;
@@ -78,10 +79,10 @@ class GroupsController extends AUserDataOCSController {
 	#[NoAdminRequired]
 	public function getGroups(string $search = '', ?int $limit = null, int $offset = 0): DataResponse {
 		$groups = $this->groupManager->search($search, $limit, $offset);
-		$groups = array_values(array_map(function ($group) {
+		$groups = array_map(function ($group) {
 			/** @var IGroup $group */
 			return $group->getGID();
-		}, $groups));
+		}, $groups);
 
 		return new DataResponse(['groups' => $groups]);
 	}
@@ -101,7 +102,7 @@ class GroupsController extends AUserDataOCSController {
 	#[AuthorizedAdminSetting(settings: Users::class)]
 	public function getGroupsDetails(string $search = '', ?int $limit = null, int $offset = 0): DataResponse {
 		$groups = $this->groupManager->search($search, $limit, $offset);
-		$groups = array_values(array_map(function ($group) {
+		$groups = array_map(function ($group) {
 			/** @var IGroup $group */
 			return [
 				'id' => $group->getGID(),
@@ -111,7 +112,7 @@ class GroupsController extends AUserDataOCSController {
 				'canAdd' => $group->canAddUser(),
 				'canRemove' => $group->canRemoveUser(),
 			];
-		}, $groups));
+		}, $groups);
 
 		return new DataResponse(['groups' => $groups]);
 	}
@@ -215,7 +216,7 @@ class GroupsController extends AUserDataOCSController {
 			foreach ($users as $user) {
 				try {
 					/** @var IUser $user */
-					$userId = (string)$user->getUID();
+					$userId = $user->getUID();
 					$userData = $this->getUserData($userId);
 					// Do not insert empty entry
 					if ($userData !== null) {

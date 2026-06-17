@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Comments\Collaboration;
 
 use OCP\Collaboration\AutoComplete\ISorter;
@@ -15,6 +16,7 @@ class CommentersSorter implements ISorter {
 	) {
 	}
 
+	#[\Override]
 	public function getId(): string {
 		return 'commenters';
 	}
@@ -26,7 +28,12 @@ class CommentersSorter implements ISorter {
 	 * @param array &$sortArray
 	 * @param array $context
 	 */
+	#[\Override]
 	public function sort(array &$sortArray, array $context): void {
+		if (!isset($context['itemType'], $context['itemId'])) {
+			return;
+		}
+
 		$commenters = $this->retrieveCommentsInformation($context['itemType'], $context['itemId']);
 		if (count($commenters) === 0) {
 			return;

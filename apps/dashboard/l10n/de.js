@@ -7,11 +7,11 @@ OC.L10N.register(
     "Weather" : "Wetter",
     "Status" : "Status",
     "Good morning" : "Guten Morgen",
-    "Good morning, {name}" : "Guten Morgen {name}",
+    "Good morning, {name}" : "Guten Morgen, {name}",
     "Good afternoon" : "Guten Tag",
-    "Good afternoon, {name}" : "Guten Tag {name}",
+    "Good afternoon, {name}" : "Guten Tag, {name}",
     "Good evening" : "Guten Abend",
-    "Good evening, {name}" : "Guten Abend {name}",
+    "Good evening, {name}" : "Guten Abend, {name}",
     "Hello" : "Hallo",
     "Hello, {name}" : "Hallo, {name}",
     "Happy birthday 🥳🤩🎂🎉" : "Alles Gute zum Geburtstag 🥳🤩🎂🎉",
@@ -23,7 +23,6 @@ OC.L10N.register(
     "For your privacy, the weather data is requested by your {productName} server on your behalf so the weather service receives no personal information." : "Zu deinem Datenschutz werden die Wetterdaten von deinem {productName}-Server für dich angefordert, so dass der Wetterdienst keine persönlichen Informationen erhält.",
     "Weather data from Met.no" : "Wetterdaten von Met.no",
     "geocoding with Nominatim" : "Geokodierung mit Nominatim",
-    "elevation data from OpenTopoData" : "Höhendaten von OpenTopoData",
-    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Zu deinem Datenschutz werden die Wetterdaten von deinem Nextcloud-Server für dich angefordert, so dass der Wetterdienst keine persönlichen Informationen erhält."
+    "elevation data from OpenTopoData" : "Höhendaten von OpenTopoData"
 },
 "nplurals=2; plural=(n != 1);");

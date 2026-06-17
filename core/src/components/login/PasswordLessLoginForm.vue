@@ -3,7 +3,8 @@
  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<form v-if="(isHttps || isLocalhost) && supportsWebauthn"
+	<form
+		v-if="(isHttps || isLocalhost) && supportsWebauthn"
 		ref="loginForm"
 		aria-labelledby="password-less-login-form-title"
 		class="password-less-login-form"
@@ -14,8 +15,9 @@
 			{{ t('core', 'Log in with a device') }}
 		</h2>
 
-		<NcTextField required
-			:value="user"
+		<NcTextField
+			required
+			:model-value="user"
 			:autocomplete="autoCompleteAllowed ? 'on' : 'off'"
 			:error="!validCredentials"
 			:label="t('core', 'Login or email')"
@@ -23,12 +25,14 @@
 			:helper-text="!validCredentials ? t('core', 'Your account is not setup for passwordless login.') : ''"
 			@update:value="changeUsername" />
 
-		<LoginButton v-if="validCredentials"
+		<LoginButton
+			v-if="validCredentials"
 			:loading="loading"
 			@click="authenticate" />
 	</form>
 
-	<NcEmptyContent v-else-if="!isHttps && !isLocalhost"
+	<NcEmptyContent
+		v-else-if="!isHttps && !isLocalhost"
 		:name="t('core', 'Your connection is not secure')"
 		:description="t('core', 'Passwordless authentication is only available over a secure connection.')">
 		<template #icon>
@@ -36,7 +40,8 @@
 		</template>
 	</NcEmptyContent>
 
-	<NcEmptyContent v-else
+	<NcEmptyContent
+		v-else
 		:name="t('core', 'Browser not supported')"
 		:description="t('core', 'Passwordless authentication is not supported in your browser.')">
 		<template #icon>
@@ -46,21 +51,20 @@
 </template>
 
 <script type="ts">
+import { getBaseUrl } from '@nextcloud/router'
 import { browserSupportsWebAuthn } from '@simplewebauthn/browser'
 import { defineComponent } from 'vue'
-import {
-	NoValidCredentials,
-	startAuthentication,
-	finishAuthentication,
-} from '../../services/WebAuthnAuthenticationService.ts'
-
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
-
 import InformationIcon from 'vue-material-design-icons/InformationOutline.vue'
-import LoginButton from './LoginButton.vue'
 import LockOpenIcon from 'vue-material-design-icons/LockOpen.vue'
-import logger from '../../logger'
+import LoginButton from './LoginButton.vue'
+import logger from '../../logger.js'
+import {
+	finishAuthentication,
+	NoValidCredentials,
+	startAuthentication,
+} from '../../services/WebAuthnAuthenticationService.ts'
 
 export default defineComponent({
 	name: 'PasswordLessLoginForm',
@@ -71,23 +75,28 @@ export default defineComponent({
 		NcEmptyContent,
 		NcTextField,
 	},
+
 	props: {
 		username: {
 			type: String,
 			default: '',
 		},
+
 		redirectUrl: {
-			type: [String, Boolean],
+			type: [Boolean, String],
 			default: false,
 		},
+
 		autoCompleteAllowed: {
 			type: Boolean,
 			default: true,
 		},
+
 		isHttps: {
 			type: Boolean,
 			default: false,
 		},
+
 		isLocalhost: {
 			type: Boolean,
 			default: false,
@@ -107,6 +116,7 @@ export default defineComponent({
 			validCredentials: true,
 		}
 	},
+
 	methods: {
 		async authenticate() {
 			// check required fields
@@ -114,7 +124,7 @@ export default defineComponent({
 				return
 			}
 
-			console.debug('passwordless login initiated')
+			logger.debug('passwordless login initiated')
 
 			try {
 				const params = await startAuthentication(this.user)
@@ -127,24 +137,32 @@ export default defineComponent({
 				logger.debug(error)
 			}
 		},
+
 		changeUsername(username) {
 			this.user = username
 			this.$emit('update:username', this.user)
 		},
+
 		completeAuthentication(challenge) {
-			const redirectUrl = this.redirectUrl
+			let redirectUrl = this.redirectUrl
 
 			return finishAuthentication(challenge)
 				.then(({ defaultRedirectUrl }) => {
-					console.debug('Logged in redirecting')
-					// Redirect url might be false so || should be used instead of ??.
-					window.location.href = redirectUrl || defaultRedirectUrl
+					logger.debug('Logged in redirecting')
+					if (redirectUrl) {
+						if (redirectUrl.charAt(0) !== '/') {
+							redirectUrl = '/' + redirectUrl
+						}
+						window.location.href = getBaseUrl() + redirectUrl
+					} else {
+						window.location.href = defaultRedirectUrl
+					}
 				})
-				.catch(error => {
-					console.debug('GOT AN ERROR WHILE SUBMITTING CHALLENGE!')
-					console.debug(error) // Example: timeout, interaction refused...
+				.catch((error) => {
+					logger.debug('GOT AN ERROR WHILE SUBMITTING CHALLENGE!', { error }) // Example: timeout, interaction refused...
 				})
 		},
+
 		submit() {
 			// noop
 		},

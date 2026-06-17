@@ -8,6 +8,7 @@ import { t } from '@nextcloud/l10n'
 /**
  * Get the validity of a filename (empty if valid).
  * This can be used for `setCustomValidity` on input elements
+ *
  * @param name The filename
  * @param escape Escape the matched string in the error (only set when used in HTML)
  */
@@ -29,17 +30,17 @@ export function getGuestNameValidity(name: string, escape = false): string {
 		}
 
 		switch (error.reason) {
-		case InvalidFilenameErrorReason.Character:
-			return t('files', '"{char}" is not allowed inside a name.', { char: error.segment }, undefined, { escape })
-		case InvalidFilenameErrorReason.ReservedName:
-			return t('files', '"{segment}" is a reserved name and not allowed.', { segment: error.segment }, undefined, { escape: false })
-		case InvalidFilenameErrorReason.Extension:
-			if (error.segment.match(/\.[a-z]/i)) {
-				return t('files', '"{extension}" is not an allowed name.', { extension: error.segment }, undefined, { escape: false })
-			}
-			return t('files', 'Names must not end with "{extension}".', { extension: error.segment }, undefined, { escape: false })
-		default:
-			return t('files', 'Invalid name.')
+			case InvalidFilenameErrorReason.Character:
+				return t('files', '"{char}" is not allowed inside a name.', { char: error.segment }, undefined, { escape })
+			case InvalidFilenameErrorReason.ReservedName:
+				return t('files', '"{segment}" is a reserved name and not allowed.', { segment: error.segment }, undefined, { escape: false })
+			case InvalidFilenameErrorReason.Extension:
+				if (error.segment.match(/\.[a-z]/i)) {
+					return t('files', '"{extension}" is not an allowed name.', { extension: error.segment }, undefined, { escape: false })
+				}
+				return t('files', 'Names must not end with "{extension}".', { extension: error.segment }, undefined, { escape: false })
+			default:
+				return t('files', 'Invalid name.')
 		}
 	}
 }

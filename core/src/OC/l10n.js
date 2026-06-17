@@ -5,12 +5,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import Handlebars from 'handlebars'
 import {
 	loadTranslations,
+	register,
 	translate,
 	translatePlural,
-	register,
 	unregister,
 } from '@nextcloud/l10n'
 
@@ -84,7 +83,3 @@ const L10n = {
 }
 
 export default L10n
-
-Handlebars.registerHelper('t', function(app, text) {
-	return translate(app, text)
-})

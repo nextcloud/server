@@ -3,10 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { User } from '@nextcloud/cypress'
-import { getRowForFile, navigateToFolder } from './FilesUtils'
-import { FilesNavigationPage } from '../../pages/FilesNavigation'
-import { FilesFilterPage } from '../../pages/FilesFilters'
+import type { User } from '@nextcloud/e2e-test-server/cypress'
+
+import { FilesFilterPage } from '../../pages/FilesFilters.ts'
+import { FilesNavigationPage } from '../../pages/FilesNavigation.ts'
+import { getRowForFile, navigateToFolder } from './FilesUtils.ts'
 
 describe('files: Filter in files list', { testIsolation: true }, () => {
 	const appNavigation = new FilesNavigationPage()
@@ -68,17 +69,17 @@ describe('files: Filter in files list', { testIsolation: true }, () => {
 		getRowForFile('file.txt').should('be.visible')
 		getRowForFile('spreadsheet.csv').should('be.visible')
 
-		filesFilters.filterContainter()
-			.findByRole('button', { name: 'Type' })
+		filesFilters.triggerFilter('Type')
+
+		cy.findByRole('button', { name: 'Spreadsheets' })
 			.should('be.visible')
+			.and('have.attr', 'aria-pressed', 'false')
+			.as('spreadsheetsFilterButton')
 			.click()
-		cy.findByRole('menuitemcheckbox', { name: 'Spreadsheets' })
-			.should('be.visible')
-			.click()
-		filesFilters.filterContainter()
-			.findByRole('button', { name: 'Type' })
-			.should('be.visible')
-			.click()
+		cy.get('@spreadsheetsFilterButton')
+			.should('have.attr', 'aria-pressed', 'true')
+
+		filesFilters.closeFilterMenu()
 
 		// See that only the spreadsheet is visible
 		getRowForFile('spreadsheet.csv').should('be.visible')
@@ -90,33 +91,32 @@ describe('files: Filter in files list', { testIsolation: true }, () => {
 		// All are visible by default
 		getRowForFile('folder').should('be.visible')
 
-		filesFilters.filterContainter()
-			.findByRole('button', { name: 'Type' })
+		filesFilters.triggerFilter('Type')
+
+		cy.findByRole('button', { name: 'Spreadsheets' })
 			.should('be.visible')
+			.as('spreadsheetsFilterButton')
 			.click()
-		cy.findByRole('menuitemcheckbox', { name: 'Spreadsheets' })
-			.should('be.visible')
-			.click()
-		filesFilters.filterContainter()
-			.findByRole('button', { name: 'Type' })
-			.should('be.visible')
-			.click()
+		cy.get('@spreadsheetsFilterButton')
+			.should('have.attr', 'aria-pressed', 'true')
+
+		filesFilters.closeFilterMenu()
 
 		// See folder is not visible
 		getRowForFile('folder').should('not.exist')
 
 		// clear filter
-		filesFilters.filterContainter()
-			.findByRole('button', { name: 'Type' })
+		filesFilters.triggerFilter('Type')
+
+		cy.findByRole('button', { name: 'Spreadsheets' })
 			.should('be.visible')
+			.and('have.attr', 'aria-pressed', 'true')
+			.as('spreadsheetsFilterButton')
 			.click()
-		cy.findByRole('menuitem', { name: /clear filter/i })
-			.should('be.visible')
-			.click()
-		filesFilters.filterContainter()
-			.findByRole('button', { name: 'Type' })
-			.should('be.visible')
-			.click()
+		cy.get('@spreadsheetsFilterButton')
+			.should('have.attr', 'aria-pressed', 'false')
+
+		filesFilters.closeFilterMenu()
 
 		// See folder is visible again
 		getRowForFile('folder').should('be.visible')
@@ -126,17 +126,16 @@ describe('files: Filter in files list', { testIsolation: true }, () => {
 		// All are visible by default
 		getRowForFile('folder').should('be.visible')
 
-		filesFilters.filterContainter()
-			.findByRole('button', { name: 'Type' })
+		filesFilters.triggerFilter('Type')
+
+		cy.findByRole('button', { name: 'Spreadsheets' })
 			.should('be.visible')
+			.as('spreadsheetsFilterButton')
 			.click()
-		cy.findByRole('menuitemcheckbox', { name: 'Spreadsheets' })
-			.should('be.visible')
-			.click()
-		filesFilters.filterContainter()
-			.findByRole('button', { name: 'Type' })
-			.should('be.visible')
-			.click()
+		cy.get('@spreadsheetsFilterButton')
+			.should('have.attr', 'aria-pressed', 'true')
+
+		filesFilters.closeFilterMenu()
 
 		// See folder is not visible
 		getRowForFile('folder').should('not.exist')
@@ -148,41 +147,21 @@ describe('files: Filter in files list', { testIsolation: true }, () => {
 		getRowForFile('folder').should('be.visible')
 	})
 
-	it('keeps name filter when changing the directory', () => {
-		// All are visible by default
-		getRowForFile('folder').should('be.visible')
-		getRowForFile('file.txt').should('be.visible')
-
-		// Set up a search query
-		appNavigation.searchInput()
-			.type('folder')
-
-		// See that only the folder is visible
-		getRowForFile('folder').should('be.visible')
-		getRowForFile('file.txt').should('not.exist')
-
-		// go to that folder
-		navigateToFolder('folder')
-
-		// see that the folder is also filtered
-		getRowForFile('text.txt').should('not.exist')
-	})
-
 	it('keeps type filter when changing the directory', () => {
 		// All are visible by default
 		getRowForFile('folder').should('be.visible')
 		getRowForFile('file.txt').should('be.visible')
 
-		filesFilters.filterContainter()
-			.findByRole('button', { name: 'Type' })
+		filesFilters.triggerFilter('Type')
+
+		cy.findByRole('button', { name: 'Folders' })
 			.should('be.visible')
+			.as('spreadsheetsFilterButton')
 			.click()
-		cy.findByRole('menuitemcheckbox', { name: 'Folders' })
-			.should('be.visible')
-			.click()
-		filesFilters.filterContainter()
-			.findByRole('button', { name: 'Type' })
-			.click()
+		cy.get('@spreadsheetsFilterButton')
+			.should('have.attr', 'aria-pressed', 'true')
+
+		filesFilters.closeFilterMenu()
 
 		// See that only the folder is visible
 		getRowForFile('folder').should('be.visible')
@@ -208,20 +187,16 @@ describe('files: Filter in files list', { testIsolation: true }, () => {
 		getRowForFile('file.txt').should('be.visible')
 
 		// enable type filter for folders
-		filesFilters.filterContainter()
-			.findByRole('button', { name: 'Type' })
+		filesFilters.triggerFilter('Type')
+
+		cy.findByRole('button', { name: 'Folders' })
 			.should('be.visible')
+			.as('spreadsheetsFilterButton')
 			.click()
-		cy.findByRole('menuitemcheckbox', { name: 'Folders' })
-			.should('be.visible')
-			.click()
-		// assert the button is checked
-		cy.findByRole('menuitemcheckbox', { name: 'Folders' })
-			.should('have.attr', 'aria-checked', 'true')
-		// close the menu
-		filesFilters.filterContainter()
-			.findByRole('button', { name: 'Type' })
-			.click()
+		cy.get('@spreadsheetsFilterButton')
+			.should('have.attr', 'aria-pressed', 'true')
+
+		filesFilters.closeFilterMenu()
 
 		// See the chips are active
 		filesFilters.activeFilters()
@@ -241,13 +216,38 @@ describe('files: Filter in files list', { testIsolation: true }, () => {
 			.should('have.length', 1)
 			.contains(/Folder/).should('be.visible')
 		// And also the button should be active
-		filesFilters.filterContainter()
-			.findByRole('button', { name: 'Type' })
+		filesFilters.triggerFilter('Type')
+
+		cy.findByRole('button', { name: 'Folders' })
 			.should('be.visible')
-			.click()
-		cy.findByRole('menuitemcheckbox', { name: 'Folders' })
-			.should('be.visible')
-			.and('have.attr', 'aria-checked', 'true')
+			.should('have.attr', 'aria-pressed', 'true')
+
+		filesFilters.closeFilterMenu()
+	})
+
+	/** Regression test of https://github.com/nextcloud/server/issues/53038 */
+	it('resets name filter when changing the directory', () => {
+		// All are visible by default
+		getRowForFile('folder').should('be.visible')
+		getRowForFile('file.txt').should('be.visible')
+
+		// Set up a search query
+		appNavigation.searchInput()
+			.type('folder')
+
+		// See that only the folder is visible
+		getRowForFile('folder').should('be.visible')
+		getRowForFile('file.txt').should('not.exist')
+
+		// go to that folder
+		navigateToFolder('folder')
+
+		// see the search is cleared
+		appNavigation.searchInput()
+			.should('have.value', '')
+
+		// see that the folder content is showed
+		getRowForFile('text.txt').should('be.visible')
 	})
 
 	it('resets filter when changing the view', () => {

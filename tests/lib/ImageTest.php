@@ -14,6 +14,7 @@ use OCP\IAppConfig;
 use OCP\IConfig;
 
 class ImageTest extends \Test\TestCase {
+	#[\Override]
 	public static function tearDownAfterClass(): void {
 		@unlink(OC::$SERVERROOT . '/tests/data/testimage2.png');
 		@unlink(OC::$SERVERROOT . '/tests/data/testimage2.jpg');
@@ -172,9 +173,7 @@ class ImageTest extends \Test\TestCase {
 		$this->assertNull($img->data());
 	}
 
-	/**
-	 * @depends testData
-	 */
+	#[\PHPUnit\Framework\Attributes\Depends('testData')]
 	public function testToString(): void {
 		$img = new Image();
 		$img->loadFromFile(OC::$SERVERROOT . '/tests/data/testimage.png');

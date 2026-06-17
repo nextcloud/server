@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\UpdateNotification\Tests\Controller;
 
 use OCA\UpdateNotification\BackgroundJob\ResetToken;
@@ -18,19 +19,22 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\Security\ISecureRandom;
+use OCP\ServerVersion;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class AdminControllerTest extends TestCase {
-	private IRequest&MockObject $request;
-	private IJobList&MockObject $jobList;
-	private ISecureRandom&MockObject $secureRandom;
-	private IConfig&MockObject $config;
-	private ITimeFactory&MockObject $timeFactory;
-	private IL10N&MockObject $l10n;
-	private IAppConfig&MockObject $appConfig;
+	protected IRequest&MockObject $request;
+	protected IJobList&MockObject $jobList;
+	protected ISecureRandom&MockObject $secureRandom;
+	protected IConfig&MockObject $config;
+	protected ITimeFactory&MockObject $timeFactory;
+	protected IL10N&MockObject $l10n;
+	protected IAppConfig&MockObject $appConfig;
+	protected LoggerInterface&MockObject $logger;
 
-	private AdminController $adminController;
+	protected AdminController $adminController;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -42,6 +46,7 @@ class AdminControllerTest extends TestCase {
 		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->l10n = $this->createMock(IL10N::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->adminController = new AdminController(
 			'updatenotification',
@@ -51,7 +56,9 @@ class AdminControllerTest extends TestCase {
 			$this->config,
 			$this->appConfig,
 			$this->timeFactory,
-			$this->l10n
+			$this->l10n,
+			$this->logger,
+			$this->createMock(ServerVersion::class),
 		);
 	}
 
@@ -80,5 +87,30 @@ class AdminControllerTest extends TestCase {
 
 		$expected = new DataResponse('MyGeneratedToken');
 		$this->assertEquals($expected, $this->adminController->createCredentials());
+	}
+
+	public function testCreateCredentialsAndWebUpdaterDisabled(): void {
+		$this->config
+			->expects($this->once())
+			->method('getSystemValueBool')
+			->with('upgrade.disable-web')
+			->willReturn(true);
+		$this->jobList
+			->expects($this->never())
+			->method('add');
+		$this->secureRandom
+			->expects($this->never())
+			->method('generate');
+		$this->config
+			->expects($this->never())
+			->method('setSystemValue');
+		$this->timeFactory
+			->expects($this->never())
+			->method('getTime');
+		$this->appConfig
+			->expects($this->never())
+			->method('setValueInt');
+
+		$this->adminController->createCredentials();
 	}
 }

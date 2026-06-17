@@ -58,6 +58,7 @@ class EncryptionTest extends Storage {
 	/** dummy unencrypted size */
 	private int $dummySize = -1;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -321,7 +322,6 @@ class EncryptionTest extends Storage {
 		$this->instance->expects($this->any())->method('verifyUnencryptedSize')
 			->willReturn(42);
 
-
 		$this->assertSame(42,
 			$this->instance->filesize('/test.txt')
 		);
@@ -486,7 +486,6 @@ class EncryptionTest extends Storage {
 			$this->mountManager,
 			$this->arrayCache,
 		);
-
 
 		if ($rmdirResult === true && $isExcluded === false && $encryptionEnabled === true) {
 			$this->keyStore->expects($this->once())->method('deleteAllFileKeys')->with('/mountPoint' . $path);
@@ -910,7 +909,6 @@ class EncryptionTest extends Storage {
 			['/files_versions/foo.txt.6487634', '/files/foo.txt', true, false],
 			['/files_versions/foo.txt.6487634', '/files/foo.txt', false, true],
 			['/files_versions/foo.txt.6487634', '/files/foo.txt', false, false],
-
 		];
 	}
 
@@ -958,7 +956,7 @@ class EncryptionTest extends Storage {
 		$wrapper = $this->getMockBuilder(Encryption::class)
 			->setConstructorArgs(
 				[
-					['mountPoint' => '', 'mount' => $mount, 'storage' => ''],
+					['mountPoint' => '', 'mount' => $mount, 'storage' => null],
 					$encryptionManager,
 					$util,
 					$this->logger,

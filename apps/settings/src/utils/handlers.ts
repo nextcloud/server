@@ -4,9 +4,9 @@
  */
 
 import type { AxiosError } from '@nextcloud/axios'
+
 import { showError } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
-
 import logger from '../logger.ts'
 
 /**

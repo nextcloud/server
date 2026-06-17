@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import api from './api.js'
 import { generateOcsUrl } from '@nextcloud/router'
+import api from './api.js'
 
 const state = {}
 const mutations = {}
@@ -21,7 +21,7 @@ const actions = {
 	 * @return {Promise}
 	 */
 	setAppConfig(context, { app, key, value }) {
-		return api.requireAdmin().then((response) => {
+		return api.requireAdmin().then(() => {
 			return api.post(generateOcsUrl('apps/provisioning_api/api/v1/config/apps/{app}/{key}', { app, key }), { value })
 				.catch((error) => { throw error })
 		}).catch((error) => context.commit('API_FAILURE', { app, key, value, error }))

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Comments\Listener;
 
 use OCP\Comments\CommentsEntityEvent;
@@ -21,15 +22,20 @@ class CommentsEntityEventListener implements IEventListener {
 	) {
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!($event instanceof CommentsEntityEvent)) {
 			// Unrelated
 			return;
 		}
 
+		if ($this->userId === null) {
+			return;
+		}
+
 		$event->addEntityCollection('files', function ($name): bool {
-			$nodes = $this->rootFolder->getUserFolder($this->userId)->getById((int)$name);
-			return !empty($nodes);
+			$node = $this->rootFolder->getUserFolder($this->userId)->getFirstNodeById((int)$name);
+			return $node !== null;
 		});
 	}
 }

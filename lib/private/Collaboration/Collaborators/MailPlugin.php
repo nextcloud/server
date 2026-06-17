@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Collaboration\Collaborators;
 
 use OC\KnownUser\KnownUserService;
@@ -16,9 +17,11 @@ use OCP\Federation\ICloudIdManager;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\IUserSession;
-use OCP\Mail\IMailer;
+use OCP\Mail\IEmailValidator;
 use OCP\Share\IShare;
+use RuntimeException;
 
 class MailPlugin implements ISearchPlugin {
 	protected bool $shareWithGroupOnly;
@@ -40,8 +43,10 @@ class MailPlugin implements ISearchPlugin {
 		private IGroupManager $groupManager,
 		private KnownUserService $knownUserService,
 		private IUserSession $userSession,
-		private IMailer $mailer,
-		private mixed $shareWithGroupOnlyExcludeGroupsList = [],
+		private IEmailValidator $emailValidator,
+		private IUserManager $userManager,
+		private mixed $shareWithGroupOnlyExcludeGroupsList,
+		private int $shareType,
 	) {
 		$this->shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
 		$this->shareWithGroupOnly = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
@@ -58,29 +63,36 @@ class MailPlugin implements ISearchPlugin {
 	/**
 	 * {@inheritdoc}
 	 */
+	#[\Override]
 	public function search($search, $limit, $offset, ISearchResult $searchResult): bool {
 		if ($this->shareeEnumerationFullMatch && !$this->shareeEnumerationFullMatchEmail) {
 			return false;
 		}
 
 		// Extract the email address from "Foo Bar <foo.bar@example.tld>" and then search with "foo.bar@example.tld" instead
-		$result = preg_match('/<([^@]+@.+)>$/', $search, $matches);
-		if ($result && filter_var($matches[1], FILTER_VALIDATE_EMAIL)) {
-			return $this->search($matches[1], $limit, $offset, $searchResult);
+		if (preg_match('/<([^@]+@.+)>$/', $search, $matches) && filter_var($matches[1], FILTER_VALIDATE_EMAIL)) {
+			$search = $matches[1];
 		}
 
 		$currentUserId = $this->userSession->getUser()->getUID();
+		$userGroups = null;
 
-		$result = $userResults = ['wide' => [], 'exact' => []];
-		$userType = new SearchResultType('users');
-		$emailType = new SearchResultType('emails');
+		$hasMore = false;
+		$count = 0;
+		$results = ['wide' => [], 'exact' => []];
+		$type = match ($this->shareType) {
+			IShare::TYPE_USER => new SearchResultType('users'),
+			IShare::TYPE_EMAIL => new SearchResultType('emails'),
+			default => throw new RuntimeException(),
+		};
 
 		// Search in contacts
 		$addressBookContacts = $this->contactsManager->search(
 			$search,
 			['EMAIL', 'FN'],
 			[
-				'limit' => $limit,
+				// We request one more, so we can check if there are more results available
+				'limit' => $limit + 1,
 				'offset' => $offset,
 				'enumeration' => $this->shareeEnumeration,
 				'fullmatch' => $this->shareeEnumerationFullMatch,
@@ -88,99 +100,95 @@ class MailPlugin implements ISearchPlugin {
 		);
 		$lowerSearch = strtolower($search);
 		foreach ($addressBookContacts as $contact) {
-			if (isset($contact['EMAIL'])) {
-				$emailAddresses = $contact['EMAIL'];
-				if (\is_string($emailAddresses)) {
-					$emailAddresses = [$emailAddresses];
-				}
-				foreach ($emailAddresses as $type => $emailAddress) {
-					$displayName = $emailAddress;
-					$emailAddressType = null;
-					if (\is_array($emailAddress)) {
-						$emailAddressData = $emailAddress;
-						$emailAddress = $emailAddressData['value'];
-						$emailAddressType = $emailAddressData['type'];
-					}
+			if (!isset($contact['EMAIL'])) {
+				continue;
+			}
 
-					if (!filter_var($emailAddress, FILTER_VALIDATE_EMAIL)) {
+			$emailAddresses = $contact['EMAIL'];
+			if (\is_string($emailAddresses)) {
+				$emailAddresses = [$emailAddresses];
+			}
+			foreach ($emailAddresses as $emailAddress) {
+				$displayName = $emailAddress;
+				$emailAddressType = null;
+				if (\is_array($emailAddress)) {
+					$emailAddressData = $emailAddress;
+					$emailAddress = $emailAddressData['value'];
+					$emailAddressType = $emailAddressData['type'];
+				}
+
+				if (!filter_var($emailAddress, FILTER_VALIDATE_EMAIL)) {
+					continue;
+				}
+
+				if (isset($contact['FN'])) {
+					$displayName = $contact['FN'] . ' (' . $emailAddress . ')';
+				}
+				$exactEmailMatch = strtolower($emailAddress) === $lowerSearch;
+
+				if (isset($contact['isLocalSystemBook'])) {
+					$contactUser = $this->userManager->get($contact['UID']);
+					if ($contactUser === null) {
 						continue;
 					}
 
-					if (isset($contact['FN'])) {
-						$displayName = $contact['FN'] . ' (' . $emailAddress . ')';
+					$contactGroups = $this->groupManager->getUserGroupIds($contactUser);
+					if ($this->shareWithGroupOnly) {
+						$userGroups ??= $this->groupManager->getUserGroupIds($this->userSession->getUser());
+						if (array_intersect($contactGroups, array_diff($userGroups, $this->shareWithGroupOnlyExcludeGroupsList)) === []) {
+							continue;
+						}
 					}
-					$exactEmailMatch = strtolower($emailAddress) === $lowerSearch;
 
-					if (isset($contact['isLocalSystemBook'])) {
-						if ($this->shareWithGroupOnly) {
-							/*
-							 * Check if the user may share with the user associated with the e-mail of the just found contact
-							 */
-							$userGroups = $this->groupManager->getUserGroupIds($this->userSession->getUser());
-
-							// ShareWithGroupOnly filtering
-							$userGroups = array_diff($userGroups, $this->shareWithGroupOnlyExcludeGroupsList);
-
-							$found = false;
-							foreach ($userGroups as $userGroup) {
-								if ($this->groupManager->isInGroup($contact['UID'], $userGroup)) {
-									$found = true;
-									break;
-								}
-							}
-							if (!$found) {
-								continue;
-							}
-						}
-						if ($exactEmailMatch && $this->shareeEnumerationFullMatch) {
-							try {
-								$cloud = $this->cloudIdManager->resolveCloudId($contact['CLOUD'][0] ?? '');
-							} catch (\InvalidArgumentException $e) {
-								continue;
-							}
-
-							if (!$this->isCurrentUser($cloud) && !$searchResult->hasResult($userType, $cloud->getUser())) {
-								$singleResult = [[
-									'label' => $displayName,
-									'uuid' => $contact['UID'] ?? $emailAddress,
-									'name' => $contact['FN'] ?? $displayName,
-									'value' => [
-										'shareType' => IShare::TYPE_USER,
-										'shareWith' => $cloud->getUser(),
-									],
-									'shareWithDisplayNameUnique' => !empty($emailAddress) ? $emailAddress : $cloud->getUser()
-
-								]];
-								$searchResult->addResultSet($userType, [], $singleResult);
-								$searchResult->markExactIdMatch($emailType);
-							}
-							return false;
+					if ($exactEmailMatch && $this->shareeEnumerationFullMatch) {
+						try {
+							$cloud = $this->cloudIdManager->resolveCloudId($contact['CLOUD'][0] ?? '');
+						} catch (\InvalidArgumentException $e) {
+							continue;
 						}
 
-						if ($this->shareeEnumeration) {
-							try {
-								$cloud = $this->cloudIdManager->resolveCloudId($contact['CLOUD'][0] ?? '');
-							} catch (\InvalidArgumentException $e) {
+						if ($this->shareType === IShare::TYPE_USER && !$this->isCurrentUser($cloud) && !$searchResult->hasResult($type, $cloud->getUser())) {
+							$singleResult = [[
+								'label' => $displayName,
+								'uuid' => $contact['UID'] ?? $emailAddress,
+								'name' => $contact['FN'] ?? $displayName,
+								'value' => [
+									'shareType' => IShare::TYPE_USER,
+									'shareWith' => $cloud->getUser(),
+								],
+								'shareWithDisplayNameUnique' => !empty($emailAddress) ? $emailAddress : $cloud->getUser()
+							]];
+							$searchResult->addResultSet($type, [], $singleResult);
+							$searchResult->markExactIdMatch($type);
+						}
+						return false;
+					}
+
+					if ($this->shareeEnumeration && $this->shareType === IShare::TYPE_USER) {
+						try {
+							if (!isset($contact['CLOUD'])) {
 								continue;
 							}
+							$cloud = $this->cloudIdManager->resolveCloudId($contact['CLOUD'][0] ?? '');
+						} catch (\InvalidArgumentException $e) {
+							continue;
+						}
+						$addToWide = !($this->shareeEnumerationInGroupOnly || $this->shareeEnumerationPhone);
 
-							$addToWide = !($this->shareeEnumerationInGroupOnly || $this->shareeEnumerationPhone);
-							if (!$addToWide && $this->shareeEnumerationPhone && $this->knownUserService->isKnownToUser($currentUserId, $contact['UID'])) {
-								$addToWide = true;
-							}
+						if (!$addToWide && $this->shareeEnumerationPhone && $this->knownUserService->isKnownToUser($currentUserId, $contact['UID'])) {
+							$addToWide = true;
+						}
 
-							if (!$addToWide && $this->shareeEnumerationInGroupOnly) {
-								$addToWide = false;
-								$userGroups = $this->groupManager->getUserGroupIds($this->userSession->getUser());
-								foreach ($userGroups as $userGroup) {
-									if ($this->groupManager->isInGroup($contact['UID'], $userGroup)) {
-										$addToWide = true;
-										break;
-									}
-								}
-							}
-							if ($addToWide && !$this->isCurrentUser($cloud) && !$searchResult->hasResult($userType, $cloud->getUser())) {
-								$userResults['wide'][] = [
+						if (!$addToWide && $this->shareeEnumerationInGroupOnly) {
+							$userGroups ??= $this->groupManager->getUserGroupIds($this->userSession->getUser());
+							$addToWide = array_intersect($contactGroups, $userGroups) !== [];
+						}
+
+						if ($addToWide && !$this->isCurrentUser($cloud) && !$searchResult->hasResult($type, $cloud->getUser())) {
+							if ($count++ >= $limit) {
+								$hasMore = true;
+							} else {
+								$results['wide'][] = [
 									'label' => $displayName,
 									'uuid' => $contact['UID'] ?? $emailAddress,
 									'name' => $contact['FN'] ?? $displayName,
@@ -190,69 +198,68 @@ class MailPlugin implements ISearchPlugin {
 									],
 									'shareWithDisplayNameUnique' => !empty($emailAddress) ? $emailAddress : $cloud->getUser()
 								];
-								continue;
 							}
 						}
-						continue;
 					}
 
-					if ($exactEmailMatch
-						|| (isset($contact['FN']) && strtolower($contact['FN']) === $lowerSearch)) {
-						if ($exactEmailMatch) {
-							$searchResult->markExactIdMatch($emailType);
-						}
-						$result['exact'][] = [
-							'label' => $displayName,
-							'uuid' => $contact['UID'] ?? $emailAddress,
-							'name' => $contact['FN'] ?? $displayName,
-							'type' => $emailAddressType ?? '',
-							'value' => [
-								'shareType' => IShare::TYPE_EMAIL,
-								'shareWith' => $emailAddress,
-							],
-						];
-					} else {
-						$result['wide'][] = [
-							'label' => $displayName,
-							'uuid' => $contact['UID'] ?? $emailAddress,
-							'name' => $contact['FN'] ?? $displayName,
-							'type' => $emailAddressType ?? '',
-							'value' => [
-								'shareType' => IShare::TYPE_EMAIL,
-								'shareWith' => $emailAddress,
-							],
-						];
+					continue;
+				}
+
+				if ($this->shareType !== IShare::TYPE_EMAIL) {
+					continue;
+				}
+
+				if ($count++ >= $limit) {
+					$hasMore = true;
+				} elseif ($exactEmailMatch || (isset($contact['FN']) && strtolower($contact['FN']) === $lowerSearch)) {
+					if ($exactEmailMatch) {
+						$searchResult->markExactIdMatch($type);
 					}
+
+					$results['exact'][] = [
+						'label' => $displayName,
+						'uuid' => $contact['UID'] ?? $emailAddress,
+						'name' => $contact['FN'] ?? $displayName,
+						'type' => $emailAddressType ?? '',
+						'value' => [
+							'shareType' => IShare::TYPE_EMAIL,
+							'shareWith' => $emailAddress,
+						],
+					];
+				} else {
+					$results['wide'][] = [
+						'label' => $displayName,
+						'uuid' => $contact['UID'] ?? $emailAddress,
+						'name' => $contact['FN'] ?? $displayName,
+						'type' => $emailAddressType ?? '',
+						'value' => [
+							'shareType' => IShare::TYPE_EMAIL,
+							'shareWith' => $emailAddress,
+						],
+					];
 				}
 			}
 		}
 
-		$reachedEnd = true;
-		if ($this->shareeEnumeration) {
-			$reachedEnd = (count($result['wide']) < $offset + $limit)
-				&& (count($userResults['wide']) < $offset + $limit);
-
-			$result['wide'] = array_slice($result['wide'], $offset, $limit);
-			$userResults['wide'] = array_slice($userResults['wide'], $offset, $limit);
+		if ($this->shareType === IShare::TYPE_EMAIL
+			&& !$searchResult->hasExactIdMatch($type) && $this->emailValidator->isValid($search)) {
+			if ($count++ >= $limit) {
+				$hasMore = true;
+			} else {
+				$results['exact'][] = [
+					'label' => $search,
+					'uuid' => $search,
+					'value' => [
+						'shareType' => IShare::TYPE_EMAIL,
+						'shareWith' => $search,
+					],
+				];
+			}
 		}
 
-		if (!$searchResult->hasExactIdMatch($emailType) && $this->mailer->validateMailAddress($search)) {
-			$result['exact'][] = [
-				'label' => $search,
-				'uuid' => $search,
-				'value' => [
-					'shareType' => IShare::TYPE_EMAIL,
-					'shareWith' => $search,
-				],
-			];
-		}
+		$searchResult->addResultSet($type, $results['wide'], $results['exact']);
 
-		if (!empty($userResults['wide'])) {
-			$searchResult->addResultSet($userType, $userResults['wide'], []);
-		}
-		$searchResult->addResultSet($emailType, $result['wide'], $result['exact']);
-
-		return !$reachedEnd;
+		return $hasMore;
 	}
 
 	public function isCurrentUser(ICloudId $cloud): bool {

@@ -3,7 +3,6 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { translate, translatePlural } from '@nextcloud/l10n'
-
 import Vue from 'vue'
 import Root from './components/UpdateNotification.vue'
 
@@ -18,8 +17,7 @@ Vue.mixin({
 	},
 })
 
-// eslint-disable-next-line no-new
 new Vue({
 	el: '#updatenotification',
-	render: h => h(Root),
+	render: (h) => h(Root),
 })

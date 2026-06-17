@@ -6,7 +6,6 @@ import { getCSPNonce } from '@nextcloud/auth'
 
 import './collaborationresourceshandler.js'
 
-// eslint-disable-next-line camelcase
 __webpack_nonce__ = getCSPNonce()
 
 window.OCA.Sharing = OCA.Sharing

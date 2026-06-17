@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\Preview;
 
 use OCP\Files\Node;
@@ -21,6 +22,7 @@ use OCP\IPreview;
  */
 class BeforePreviewFetchedEvent extends \OCP\EventDispatcher\Event {
 	/**
+	 * @param null|IPreview::MODE_FILL|IPreview::MODE_COVER $mode
 	 * @since 25.0.1
 	 */
 	public function __construct(

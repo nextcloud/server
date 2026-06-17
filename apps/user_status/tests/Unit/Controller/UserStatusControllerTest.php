@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\UserStatus\Tests\Controller;
 
 use OCA\DAV\CalDAV\Status\StatusService as CalendarStatusService;
@@ -87,7 +88,7 @@ class UserStatusControllerTest extends TestCase {
 		$this->controller->getStatus();
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('setStatusDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'setStatusDataProvider')]
 	public function testSetStatus(
 		string $statusType,
 		?string $statusIcon,
@@ -147,7 +148,7 @@ class UserStatusControllerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('setPredefinedMessageDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'setPredefinedMessageDataProvider')]
 	public function testSetPredefinedMessage(
 		string $messageId,
 		?int $clearAt,
@@ -207,7 +208,7 @@ class UserStatusControllerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('setCustomMessageDataProvider')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'setCustomMessageDataProvider')]
 	public function testSetCustomMessage(
 		?string $statusIcon,
 		string $message,

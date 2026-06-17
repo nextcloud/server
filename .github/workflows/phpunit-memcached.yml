@@ -28,7 +28,7 @@ jobs:
       src: ${{ steps.changes.outputs.src}}
 
     steps:
-      - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
+      - uses: dorny/paths-filter@fbd0ab8f3e69293af611ebaee6363fc25e6d187d # v4.0.1
         id: changes
         continue-on-error: true
         with:
@@ -56,36 +56,35 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.1', '8.3', '8.4']
-        include:
-          - php-versions: '8.2'
-            coverage: ${{ github.event_name != 'pull_request' }}
+        php-versions: ["8.3", "8.5"]
 
     name: Memcached (PHP ${{ matrix.php-versions }})
 
     services:
       memcached:
-        image: ghcr.io/nextcloud/continuous-integration-redis:latest # zizmor: ignore[unpinned-images]
+        image: ghcr.io/nextcloud/continuous-integration-memcached:latest # zizmor: ignore[unpinned-images]
         ports:
-          - 11212:11212/tcp
-          - 11212:11212/udp
+          - 11211:11211/tcp
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
           submodules: true
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@ec406be512d7077f68eed36e63f4d91bc006edc4 #v2.35.4
+        uses: shivammathur/setup-php@7c071dfe9dc99bdf297fa79cb49ea005b9fcadbc #v2.37.1
+        timeout-minutes: 5
         with:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
-          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, memcached, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
-          coverage: ${{ matrix.coverage && 'xdebug' || 'none' }}
+          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, memcached, openssl, pcntl, pdo_sqlite, posix, session, simplexml, sqlite, xmlreader, xmlwriter, zip, zlib
+          coverage: none
           ini-file: development
+          ini-values: disable_functions=""
         env:
+          fail-fast: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up dependencies
@@ -94,25 +93,13 @@ jobs:
       - name: Set up Nextcloud
         run: |
           mkdir data
+          cp tests/memcached.config.php config/
           cp tests/preseed-config.php config/config.php
           ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass admin
           php -f tests/enable_all.php
 
       - name: PHPUnit memcached tests
-        run: composer run test -- --group Memcache,Memcached --log-junit junit.xml ${{ matrix.coverage && '--coverage-clover ./clover.xml' || '' }}
-
-      - name: Upload code coverage
-        if: ${{ !cancelled() && matrix.coverage }}
-        uses: codecov/codecov-action@fdcc8476540edceab3de004e990f80d881c6cc00 # v5.5.0
-        with:
-          files: ./clover.xml
-          flags: phpunit-memcached
-
-      - name: Upload test results
-        if: ${{ !cancelled() }}
-        uses: codecov/test-results-action@47f89e9acb64b76debcd5ea40642d25a4adced9f # v1.1.1
-        with:
-          flags: phpunit-memcached
+        run: composer run test -- --group Memcached --log-junit junit.xml
 
       - name: Print logs
         if: always()

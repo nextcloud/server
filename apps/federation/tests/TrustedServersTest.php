@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Federation\Tests;
 
 use OCA\Federation\BackgroundJob\RequestSharedSecret;
@@ -174,7 +175,7 @@ class TrustedServersTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestGetServer')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestGetServer')]
 	public function testGetServer(int $id, ?array $expectedServer): void {
 		$servers = [
 			[
@@ -228,7 +229,7 @@ class TrustedServersTest extends TestCase {
 		);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestIsNextcloudServer')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestIsNextcloudServer')]
 	public function testIsNextcloudServer(int $statusCode, bool $isValidNextcloudVersion, bool $expected): void {
 		$server = 'server1';
 
@@ -295,7 +296,7 @@ class TrustedServersTest extends TestCase {
 		$this->assertFalse($this->trustedServers->isNextcloudServer($server));
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestCheckNextcloudVersion')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestCheckNextcloudVersion')]
 	public function testCheckNextcloudVersion(string $status): void {
 		$this->assertTrue(self::invokePrivate($this->trustedServers, 'checkNextcloudVersion', [$status]));
 	}
@@ -307,7 +308,7 @@ class TrustedServersTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestCheckNextcloudVersionTooLow')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestCheckNextcloudVersionTooLow')]
 	public function testCheckNextcloudVersionTooLow(string $status): void {
 		$this->expectException(HintException::class);
 		$this->expectExceptionMessage('Remote server version is too low. 9.0 is required.');
@@ -321,7 +322,7 @@ class TrustedServersTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestUpdateProtocol')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestUpdateProtocol')]
 	public function testUpdateProtocol(string $url, string $expected): void {
 		$this->assertSame($expected,
 			self::invokePrivate($this->trustedServers, 'updateProtocol', [$url])

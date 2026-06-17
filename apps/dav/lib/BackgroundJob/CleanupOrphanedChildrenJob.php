@@ -34,6 +34,7 @@ class CleanupOrphanedChildrenJob extends QueuedJob {
 		parent::__construct($time);
 	}
 
+	#[\Override]
 	protected function run($argument): void {
 		$childTable = $argument[self::ARGUMENT_CHILD_TABLE];
 		$parentTable = $argument[self::ARGUMENT_PARENT_TABLE];
@@ -72,7 +73,7 @@ class CleanupOrphanedChildrenJob extends QueuedJob {
 		}
 
 		$result = $selectQb->executeQuery();
-		$rows = $result->fetchAll();
+		$rows = $result->fetchAllAssociative();
 		$result->closeCursor();
 		if (empty($rows)) {
 			return 0;

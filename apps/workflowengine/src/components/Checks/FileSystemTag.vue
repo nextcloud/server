@@ -3,7 +3,8 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcSelectTags v-model="newValue"
+	<NcSelectTags
+		v-model="newValue"
 		:multiple="false"
 		@input="update" />
 </template>
@@ -16,6 +17,7 @@ export default {
 	components: {
 		NcSelectTags,
 	},
+
 	props: {
 		modelValue: {
 			type: String,
@@ -30,14 +32,17 @@ export default {
 			newValue: [],
 		}
 	},
+
 	watch: {
 		modelValue() {
 			this.updateValue()
 		},
 	},
+
 	beforeMount() {
 		this.updateValue()
 	},
+
 	methods: {
 		updateValue() {
 			if (this.modelValue !== '') {
@@ -46,6 +51,7 @@ export default {
 				this.newValue = null
 			}
 		},
+
 		update() {
 			this.$emit('update:model-value', this.newValue || '')
 		},

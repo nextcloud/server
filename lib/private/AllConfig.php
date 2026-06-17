@@ -5,68 +5,24 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use OC\Config\UserConfig;
-use OCP\Cache\CappedMemoryCache;
 use OCP\Config\Exceptions\TypeConflictException;
 use OCP\Config\IUserConfig;
 use OCP\Config\ValueType;
 use OCP\IConfig;
-use OCP\IDBConnection;
 use OCP\PreConditionNotMetException;
+use OCP\Server;
 
 /**
- * Class to combine all the configuration options ownCloud offers
+ * Class to combine all the configuration options Nextcloud offers
  */
 class AllConfig implements IConfig {
-	private ?IDBConnection $connection = null;
-
-	/**
-	 * 3 dimensional array with the following structure:
-	 * [ $userId =>
-	 *     [ $appId =>
-	 *         [ $key => $value ]
-	 *     ]
-	 * ]
-	 *
-	 * database table: preferences
-	 *
-	 * methods that use this:
-	 *   - setUserValue
-	 *   - getUserValue
-	 *   - getUserKeys
-	 *   - deleteUserValue
-	 *   - deleteAllUserValues
-	 *   - deleteAppFromAllUsers
-	 *
-	 * @var CappedMemoryCache $userCache
-	 */
-	private CappedMemoryCache $userCache;
-
 	public function __construct(
 		private SystemConfig $systemConfig,
 	) {
-		$this->userCache = new CappedMemoryCache();
-	}
-
-	/**
-	 * TODO - FIXME This fixes an issue with base.php that cause cyclic
-	 * dependencies, especially with autoconfig setup
-	 *
-	 * Replace this by properly injected database connection. Currently the
-	 * base.php triggers the getDatabaseConnection too early which causes in
-	 * autoconfig setup case a too early distributed database connection and
-	 * the autoconfig then needs to reinit all already initialized dependencies
-	 * that use the database connection.
-	 *
-	 * otherwise a SQLite database is created in the wrong directory
-	 * because the database connection was created with an uninitialized config
-	 */
-	private function fixDIInit() {
-		if ($this->connection === null) {
-			$this->connection = \OC::$server->get(IDBConnection::class);
-		}
 	}
 
 	/**
@@ -75,16 +31,18 @@ class AllConfig implements IConfig {
 	 * @param array $configs Associative array with `key => value` pairs
 	 *                       If value is null, the config key will be deleted
 	 */
+	#[\Override]
 	public function setSystemValues(array $configs) {
 		$this->systemConfig->setValues($configs);
 	}
 
 	/**
-	 * Sets a new system wide value
+	 * Sets a new system-wide value
 	 *
 	 * @param string $key the key of the value, under which will be saved
 	 * @param mixed $value the value that should be stored
 	 */
+	#[\Override]
 	public function setSystemValue($key, $value) {
 		$this->systemConfig->setValue($key, $value);
 	}
@@ -96,6 +54,7 @@ class AllConfig implements IConfig {
 	 * @param mixed $default the default value to be returned if the value isn't set
 	 * @return mixed the value or $default
 	 */
+	#[\Override]
 	public function getSystemValue($key, $default = '') {
 		return $this->systemConfig->getValue($key, $default);
 	}
@@ -110,6 +69,7 @@ class AllConfig implements IConfig {
 	 *
 	 * @since 16.0.0
 	 */
+	#[\Override]
 	public function getSystemValueBool(string $key, bool $default = false): bool {
 		return (bool)$this->getSystemValue($key, $default);
 	}
@@ -124,6 +84,7 @@ class AllConfig implements IConfig {
 	 *
 	 * @since 16.0.0
 	 */
+	#[\Override]
 	public function getSystemValueInt(string $key, int $default = 0): int {
 		return (int)$this->getSystemValue($key, $default);
 	}
@@ -138,6 +99,7 @@ class AllConfig implements IConfig {
 	 *
 	 * @since 16.0.0
 	 */
+	#[\Override]
 	public function getSystemValueString(string $key, string $default = ''): string {
 		return (string)$this->getSystemValue($key, $default);
 	}
@@ -149,6 +111,7 @@ class AllConfig implements IConfig {
 	 * @param mixed $default the default value to be returned if the value isn't set
 	 * @return mixed the value or $default
 	 */
+	#[\Override]
 	public function getFilteredSystemValue($key, $default = '') {
 		return $this->systemConfig->getFilteredValue($key, $default);
 	}
@@ -158,6 +121,7 @@ class AllConfig implements IConfig {
 	 *
 	 * @param string $key the key of the value, under which it was saved
 	 */
+	#[\Override]
 	public function deleteSystemValue($key) {
 		$this->systemConfig->deleteValue($key);
 	}
@@ -169,8 +133,9 @@ class AllConfig implements IConfig {
 	 * @return string[] the keys stored for the app
 	 * @deprecated 29.0.0 Use {@see IAppConfig} directly
 	 */
+	#[\Override]
 	public function getAppKeys($appName) {
-		return \OC::$server->get(AppConfig::class)->getKeys($appName);
+		return Server::get(AppConfig::class)->getKeys($appName);
 	}
 
 	/**
@@ -181,8 +146,9 @@ class AllConfig implements IConfig {
 	 * @param string|float|int $value the value that should be stored
 	 * @deprecated 29.0.0 Use {@see IAppConfig} directly
 	 */
+	#[\Override]
 	public function setAppValue($appName, $key, $value) {
-		\OC::$server->get(AppConfig::class)->setValue($appName, $key, $value);
+		Server::get(AppConfig::class)->setValue($appName, $key, $value);
 	}
 
 	/**
@@ -194,8 +160,9 @@ class AllConfig implements IConfig {
 	 * @return string the saved value
 	 * @deprecated 29.0.0 Use {@see IAppConfig} directly
 	 */
+	#[\Override]
 	public function getAppValue($appName, $key, $default = '') {
-		return \OC::$server->get(AppConfig::class)->getValue($appName, $key, $default) ?? $default;
+		return Server::get(AppConfig::class)->getValue($appName, $key, $default) ?? $default;
 	}
 
 	/**
@@ -205,8 +172,9 @@ class AllConfig implements IConfig {
 	 * @param string $key the key of the value, under which it was saved
 	 * @deprecated 29.0.0 Use {@see IAppConfig} directly
 	 */
+	#[\Override]
 	public function deleteAppValue($appName, $key) {
-		\OC::$server->get(AppConfig::class)->deleteKey($appName, $key);
+		Server::get(AppConfig::class)->deleteKey($appName, $key);
 	}
 
 	/**
@@ -215,10 +183,10 @@ class AllConfig implements IConfig {
 	 * @param string $appName the appName the configs are stored under
 	 * @deprecated 29.0.0 Use {@see IAppConfig} directly
 	 */
+	#[\Override]
 	public function deleteAppValues($appName) {
-		\OC::$server->get(AppConfig::class)->deleteApp($appName);
+		Server::get(AppConfig::class)->deleteApp($appName);
 	}
-
 
 	/**
 	 * Set a user defined value
@@ -229,7 +197,7 @@ class AllConfig implements IConfig {
 	 * @param string|float|int $value the value that you want to store
 	 * @param string $preCondition only update if the config value was previously the value passed as $preCondition
 	 *
-	 * @throws \OCP\PreConditionNotMetException if a precondition is specified and is not met
+	 * @throws PreConditionNotMetException if a precondition is specified and is not met
 	 * @throws \UnexpectedValueException when trying to store an unexpected value
 	 * @deprecated 31.0.0 - use {@see IUserConfig} directly
 	 * @see IUserConfig::getValueString
@@ -238,13 +206,14 @@ class AllConfig implements IConfig {
 	 * @see IUserConfig::getValueArray
 	 * @see IUserConfig::getValueBool
 	 */
+	#[\Override]
 	public function setUserValue($userId, $appName, $key, $value, $preCondition = null) {
 		if (!is_int($value) && !is_float($value) && !is_string($value)) {
 			throw new \UnexpectedValueException('Only integers, floats and strings are allowed as value');
 		}
 
 		/** @var UserConfig $userPreferences */
-		$userPreferences = \OCP\Server::get(IUserConfig::class);
+		$userPreferences = Server::get(IUserConfig::class);
 		if ($preCondition !== null) {
 			try {
 				if ($userPreferences->hasKey($userId, $appName, $key) && $userPreferences->getValueMixed($userId, $appName, $key) !== (string)$preCondition) {
@@ -273,12 +242,13 @@ class AllConfig implements IConfig {
 	 * @see IUserConfig::getValueArray
 	 * @see IUserConfig::getValueBool
 	 */
+	#[\Override]
 	public function getUserValue($userId, $appName, $key, $default = '') {
 		if ($userId === null || $userId === '') {
 			return $default;
 		}
 		/** @var UserConfig $userPreferences */
-		$userPreferences = \OCP\Server::get(IUserConfig::class);
+		$userPreferences = Server::get(IUserConfig::class);
 		// because $default can be null ...
 		if (!$userPreferences->hasKey($userId, $appName, $key)) {
 			return $default;
@@ -295,8 +265,9 @@ class AllConfig implements IConfig {
 	 * @return string[]
 	 * @deprecated 31.0.0 - use {@see IUserConfig::getKeys} directly
 	 */
+	#[\Override]
 	public function getUserKeys($userId, $appName) {
-		return \OCP\Server::get(IUserConfig::class)->getKeys($userId, $appName);
+		return Server::get(IUserConfig::class)->getKeys($userId, $appName);
 	}
 
 	/**
@@ -308,8 +279,9 @@ class AllConfig implements IConfig {
 	 *
 	 * @deprecated 31.0.0 - use {@see IUserConfig::deleteUserConfig} directly
 	 */
+	#[\Override]
 	public function deleteUserValue($userId, $appName, $key) {
-		\OCP\Server::get(IUserConfig::class)->deleteUserConfig($userId, $appName, $key);
+		Server::get(IUserConfig::class)->deleteUserConfig($userId, $appName, $key);
 	}
 
 	/**
@@ -319,11 +291,12 @@ class AllConfig implements IConfig {
 	 *
 	 * @deprecated 31.0.0 - use {@see IUserConfig::deleteAllUserConfig} directly
 	 */
+	#[\Override]
 	public function deleteAllUserValues($userId) {
 		if ($userId === null) {
 			return;
 		}
-		\OCP\Server::get(IUserConfig::class)->deleteAllUserConfig($userId);
+		Server::get(IUserConfig::class)->deleteAllUserConfig($userId);
 	}
 
 	/**
@@ -333,8 +306,9 @@ class AllConfig implements IConfig {
 	 *
 	 * @deprecated 31.0.0 - use {@see IUserConfig::deleteApp} directly
 	 */
+	#[\Override]
 	public function deleteAppFromAllUsers($appName) {
-		\OCP\Server::get(IUserConfig::class)->deleteApp($appName);
+		Server::get(IUserConfig::class)->deleteApp($appName);
 	}
 
 	/**
@@ -349,12 +323,13 @@ class AllConfig implements IConfig {
 	 *                 ]
 	 * @deprecated 31.0.0 - use {@see IUserConfig::getAllValues} directly
 	 */
+	#[\Override]
 	public function getAllUserValues(?string $userId): array {
 		if ($userId === null || $userId === '') {
 			return [];
 		}
 
-		$values = \OCP\Server::get(IUserConfig::class)->getAllValues($userId);
+		$values = Server::get(IUserConfig::class)->getAllValues($userId);
 		$result = [];
 		foreach ($values as $app => $list) {
 			foreach ($list as $key => $value) {
@@ -374,8 +349,9 @@ class AllConfig implements IConfig {
 	 * @return array Mapped values: userId => value
 	 * @deprecated 31.0.0 - use {@see IUserConfig::getValuesByUsers} directly
 	 */
+	#[\Override]
 	public function getUserValueForUsers($appName, $key, $userIds) {
-		return \OCP\Server::get(IUserConfig::class)->getValuesByUsers($appName, $key, ValueType::MIXED, $userIds);
+		return Server::get(IUserConfig::class)->getValuesByUsers($appName, $key, ValueType::MIXED, $userIds);
 	}
 
 	/**
@@ -388,29 +364,10 @@ class AllConfig implements IConfig {
 	 * @return list<string> of user IDs
 	 * @deprecated 31.0.0 - use {@see IUserConfig::searchUsersByValueString} directly
 	 */
+	#[\Override]
 	public function getUsersForUserValue($appName, $key, $value) {
 		/** @var list<string> $result */
-		$result = iterator_to_array(\OCP\Server::get(IUserConfig::class)->searchUsersByValueString($appName, $key, $value));
-		return $result;
-	}
-
-	/**
-	 * Determines the users that have the given value set for a specific app-key-pair
-	 *
-	 * @param string $appName the app to get the user for
-	 * @param string $key the key to get the user for
-	 * @param string $value the value to get the user for
-	 *
-	 * @return list<string> of user IDs
-	 * @deprecated 31.0.0 - use {@see IUserConfig::searchUsersByValueString} directly
-	 */
-	public function getUsersForUserValueCaseInsensitive($appName, $key, $value) {
-		if ($appName === 'settings' && $key === 'email') {
-			return $this->getUsersForUserValue($appName, $key, strtolower($value));
-		}
-
-		/** @var list<string> $result */
-		$result = iterator_to_array(\OCP\Server::get(IUserConfig::class)->searchUsersByValueString($appName, $key, $value, true));
+		$result = iterator_to_array(Server::get(IUserConfig::class)->searchUsersByValueString($appName, $key, $value));
 		return $result;
 	}
 

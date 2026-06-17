@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CalDAV\Import;
 
 use Exception;
@@ -22,9 +23,6 @@ use Sabre\VObject\UUIDUtil;
  * Calendar Import Service
  */
 class ImportService {
-
-	/** @var resource */
-	private $source;
 
 	public function __construct(
 		private CalDavBackend $backend,
@@ -44,18 +42,15 @@ class ImportService {
 		if (!is_resource($source)) {
 			throw new InvalidArgumentException('Invalid import source must be a file resource');
 		}
-
-		$this->source = $source;
-
 		switch ($options->getFormat()) {
 			case 'ical':
-				return $this->importProcess($calendar, $options, $this->importText(...));
+				return $this->importProcess($source, $calendar, $options, $this->importText(...));
 				break;
 			case 'jcal':
-				return $this->importProcess($calendar, $options, $this->importJson(...));
+				return $this->importProcess($source, $calendar, $options, $this->importJson(...));
 				break;
 			case 'xcal':
-				return $this->importProcess($calendar, $options, $this->importXml(...));
+				return $this->importProcess($source, $calendar, $options, $this->importXml(...));
 				break;
 			default:
 				throw new InvalidArgumentException('Invalid import format');
@@ -65,10 +60,15 @@ class ImportService {
 	/**
 	 * Generates object stream from a text formatted source (ical)
 	 *
+	 * @param resource $source
+	 *
 	 * @return Generator<\Sabre\VObject\Component\VCalendar>
 	 */
-	private function importText(): Generator {
-		$importer = new TextImporter($this->source);
+	public function importText($source): Generator {
+		if (!is_resource($source)) {
+			throw new InvalidArgumentException('Invalid import source must be a file resource');
+		}
+		$importer = new TextImporter($source);
 		$structure = $importer->structure();
 		$sObjectPrefix = $importer::OBJECT_PREFIX;
 		$sObjectSuffix = $importer::OBJECT_SUFFIX;
@@ -113,10 +113,15 @@ class ImportService {
 	/**
 	 * Generates object stream from a xml formatted source (xcal)
 	 *
+	 * @param resource $source
+	 *
 	 * @return Generator<\Sabre\VObject\Component\VCalendar>
 	 */
-	private function importXml(): Generator {
-		$importer = new XmlImporter($this->source);
+	public function importXml($source): Generator {
+		if (!is_resource($source)) {
+			throw new InvalidArgumentException('Invalid import source must be a file resource');
+		}
+		$importer = new XmlImporter($source);
 		$structure = $importer->structure();
 		$sObjectPrefix = $importer::OBJECT_PREFIX;
 		$sObjectSuffix = $importer::OBJECT_SUFFIX;
@@ -155,11 +160,16 @@ class ImportService {
 	/**
 	 * Generates object stream from a json formatted source (jcal)
 	 *
+	 * @param resource $source
+	 *
 	 * @return Generator<\Sabre\VObject\Component\VCalendar>
 	 */
-	private function importJson(): Generator {
+	public function importJson($source): Generator {
+		if (!is_resource($source)) {
+			throw new InvalidArgumentException('Invalid import source must be a file resource');
+		}
 		/** @var VCALENDAR $importer */
-		$importer = Reader::readJson($this->source);
+		$importer = Reader::readJson($source);
 		// calendar time zones
 		$timezones = [];
 		foreach ($importer->VTIMEZONE as $timezone) {
@@ -212,17 +222,18 @@ class ImportService {
 	 *
 	 * @since 32.0.0
 	 *
+	 * @param resource $source
 	 * @param CalendarImportOptions $options
 	 * @param callable $generator<CalendarImportOptions>: Generator<\Sabre\VObject\Component\VCalendar>
 	 *
 	 * @return array<string,array<string,string|array<string>>>
 	 */
-	public function importProcess(CalendarImpl $calendar, CalendarImportOptions $options, callable $generator): array {
+	public function importProcess($source, CalendarImpl $calendar, CalendarImportOptions $options, callable $generator): array {
 		$calendarId = $calendar->getKey();
 		$calendarUri = $calendar->getUri();
 		$principalUri = $calendar->getPrincipalUri();
 		$outcome = [];
-		foreach ($generator() as $vObject) {
+		foreach ($generator($source) as $vObject) {
 			$components = $vObject->getBaseComponents();
 			// determine if the object has no base component types
 			if (count($components) === 0) {

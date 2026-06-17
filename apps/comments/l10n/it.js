@@ -12,12 +12,13 @@ OC.L10N.register(
     "Files" : "File",
     "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "Sei stato menzionato su \"{file}\", in un commento di un account che è stato eliminato",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} ti ha menzionato in un commento su \"{file}\"",
+    "Go to file" : "Vai al file",
     "Files app plugin to add comments to files" : "Estensione dell'applicazione File per aggiungere commenti ai file",
     "Edit comment" : "Modifica commento",
     "Delete comment" : "Elimina commento",
     "Cancel edit" : "Annulla modifica",
     "New comment" : "Nuovo commento",
-    "Write a comment …" : "Scrivi un commento...",
+    "Write a comment …" : "Scrivi un commento ...",
     "Post comment" : "Pubblica commento",
     "@ for mentions, : for emoji, / for smart picker" : "@ per menzioni, : per emoji, / per selettore intelligente",
     "Could not reload comments" : "Impossibile ricaricare i commenti",
@@ -31,6 +32,7 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Si è verificato un errore durante il tentativo di modificare il commento",
     "Comment deleted" : "Commento eliminato",
     "An error occurred while trying to delete the comment" : "Si è verificato un errore durante il tentativo di eliminare il commento",
-    "An error occurred while trying to create the comment" : "Si è verificato un errore durante il tentativo di creare il commento"
+    "An error occurred while trying to create the comment" : "Si è verificato un errore durante il tentativo di creare il commento",
+    "Write a comment …" : "Scrivi un commento..."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

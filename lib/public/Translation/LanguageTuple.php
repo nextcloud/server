@@ -7,7 +7,6 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-
 namespace OCP\Translation;
 
 use JsonSerializable;
@@ -32,6 +31,7 @@ class LanguageTuple implements JsonSerializable {
 	 * @since 26.0.0
 	 * @return array{from: string, fromLabel: string, to: string, toLabel: string}
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'from' => $this->from,

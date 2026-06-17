@@ -5,19 +5,23 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Preview;
 
 use OCP\Files\File;
 use OCP\IImage;
+use OCP\Image;
 
 class MarkDown extends TXT {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getMimeType(): string {
 		return '/text\/(x-)?markdown/';
 	}
 
+	#[\Override]
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
 		$content = $file->fopen('r');
 
@@ -119,7 +123,7 @@ class MarkDown extends TXT {
 			}
 		}
 
-		$imageObject = new \OCP\Image();
+		$imageObject = new Image();
 		$imageObject->setResource($image);
 
 		return $imageObject->valid() ? $imageObject : null;

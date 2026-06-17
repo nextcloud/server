@@ -23,7 +23,6 @@ OC.L10N.register(
     "For your privacy, the weather data is requested by your {productName} server on your behalf so the weather service receives no personal information." : "Para su privacidad, los datos meteorológicos son solicitados por su servidor {productName} en su nombre, de tal forma que el servicio no reciba información personal.",
     "Weather data from Met.no" : "Datos meteorológicos de Met.no",
     "geocoding with Nominatim" : "geocoding con Nominatim",
-    "elevation data from OpenTopoData" : "datos de elevación de OpenTopoData",
-    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Para su privacidad, los datos meteorológicos son solicitados por su servidor Nextcloud en su nombre, de tal forma que el servicio no reciba información personal."
+    "elevation data from OpenTopoData" : "datos de elevación de OpenTopoData"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

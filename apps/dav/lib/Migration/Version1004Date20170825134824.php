@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Migration;
 
 use OCP\DB\ISchemaWrapper;
@@ -18,6 +19,7 @@ class Version1004Date20170825134824 extends SimpleMigrationStep {
 	 * @return null|ISchemaWrapper
 	 * @since 13.0.0
 	 */
+	#[\Override]
 	public function changeSchema(IOutput $output, \Closure $schemaClosure, array $options) {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();

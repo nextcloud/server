@@ -18,32 +18,38 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class DatabaseTest
- *
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class DatabaseTest extends Backend {
 	/** @var array */
 	private $users;
 	/** @var IEventDispatcher|MockObject */
 	private $eventDispatcher;
 
-	/** @var \OC\User\Database */
+	/** @var Database */
 	protected $backend;
 
+	#[\Override]
 	public function getUser() {
 		$user = parent::getUser();
 		$this->users[] = $user;
 		return $user;
 	}
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 
 		$this->backend = new Database($this->eventDispatcher);
+
+		foreach ($this->backend->getUsers() as $user) {
+			$this->backend->deleteUser($user);
+		}
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		if (!isset($this->users)) {
 			return;
@@ -70,7 +76,6 @@ class DatabaseTest extends Backend {
 		$this->backend->setPassword($user, 'newpass');
 		$this->assertSame($user, $this->backend->checkPassword($user, 'newpass'));
 	}
-
 
 	public function testVerifyPasswordEventFail(): void {
 		$this->expectException(HintException::class);
@@ -110,6 +115,7 @@ class DatabaseTest extends Backend {
 		$this->assertTrue($this->backend->userExists($user1));
 	}
 
+	#[\Override]
 	public function testSearch(): void {
 		parent::testSearch();
 

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\Search;
 
 use OCA\DAV\CalDAV\CalDavBackend;
@@ -404,10 +405,11 @@ class EventsSearchProviderTest extends TestCase {
 		return [
 			['principals/users/john.doe', 'bGluay10by1yZW1vdGUucGhwL2Rhdi9jYWxlbmRhcnMvam9obi5kb2UvZm9vL2Jhci5pY3M='],
 			['principals/users/John Doe', 'bGluay10by1yZW1vdGUucGhwL2Rhdi9jYWxlbmRhcnMvSm9obiUyMERvZS9mb28vYmFyLmljcw=='],
+			['principals/users/john@doe', 'bGluay10by1yZW1vdGUucGhwL2Rhdi9jYWxlbmRhcnMvam9obkBkb2UvZm9vL2Jhci5pY3M='],
 		];
 	}
 
-	#[DataProvider('provideDeepLinkData')]
+	#[DataProvider(methodName: 'provideDeepLinkData')]
 	public function testGetDeepLinkToCalendarApp(
 		string $principalUri,
 		string $expectedBase64DavUrl,
@@ -434,8 +436,8 @@ class EventsSearchProviderTest extends TestCase {
 		$this->assertEquals('absolute-url-to-route', $actual);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('generateSublineDataProvider')]
-	public function testGenerateSubline(string $ics, string $expectedSubline): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'generateSublineDataProvider')]
+	public function testGenerateSubline(string $ics, string $expectedSubline, array $calendarInfo = []): void {
 		$vCalendar = Reader::read($ics, Reader::OPTION_FORGIVING);
 		$eventComponent = $vCalendar->VEVENT;
 
@@ -448,19 +450,23 @@ class EventsSearchProviderTest extends TestCase {
 				return $date->format('m-d');
 			});
 
-		$actual = self::invokePrivate($this->provider, 'generateSubline', [$eventComponent]);
+		$actual = self::invokePrivate($this->provider, 'generateSubline', [$eventComponent, $calendarInfo]);
 		$this->assertEquals($expectedSubline, $actual);
 	}
 
 	public static function generateSublineDataProvider(): array {
 		return [
-			[self::$vEvent1, '08-16 09:00 - 10:00'],
-			[self::$vEvent2, '08-16 09:00 - 08-17 10:00'],
-			[self::$vEvent3, '10-05'],
-			[self::$vEvent4, '10-05 - 10-07'],
-			[self::$vEvent5, '10-05 - 10-09'],
-			[self::$vEvent6, '10-05'],
-			[self::$vEvent7, '08-16 09:00 - 09:00'],
+			[self::$vEvent1, '08-16 09:00 - 10:00', []],
+			[self::$vEvent2, '08-16 09:00 - 08-17 10:00', []],
+			[self::$vEvent3, '10-05', []],
+			[self::$vEvent4, '10-05 - 10-07', []],
+			[self::$vEvent5, '10-05 - 10-09', []],
+			[self::$vEvent6, '10-05', []],
+			[self::$vEvent7, '08-16 09:00 - 09:00', []],
+			[self::$vEvent1, '08-16 09:00 - 10:00 (My Calendar)', ['{DAV:}displayname' => 'My Calendar']],
+			[self::$vEvent3, '10-05 (My Calendar)', ['{DAV:}displayname' => 'My Calendar']],
+			[self::$vEvent2, '08-16 09:00 - 08-17 10:00 (My Calendar)', ['{DAV:}displayname' => 'My Calendar']],
+			[self::$vEvent1, '08-16 09:00 - 10:00', ['{DAV:}displayname' => '']],
 		];
 	}
 }

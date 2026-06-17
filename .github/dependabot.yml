@@ -21,7 +21,7 @@ updates:
 - package-ecosystem: composer
   directories:
     - "/"
-    - "/build/integration"
+    - "/vendor-bin/behat"
     - "/vendor-bin/cs-fixer"
     - "/vendor-bin/openapi-extractor"
     - "/vendor-bin/phpunit"
@@ -38,7 +38,10 @@ updates:
 
 # Main master npm frontend dependencies
 - package-ecosystem: npm
-  directory: "/"
+  directories:
+    - "/"
+    - "/build/frontend"
+    - "/build/frontend-legacy"
   schedule:
     interval: weekly
     day: saturday
@@ -50,18 +53,36 @@ updates:
     - "feature: dependencies"
   # Disable automatic rebasing because without a build CI will likely fail anyway
   rebase-strategy: "disabled"
+  cooldown:
+    default-days: 4
+    semver-major-days: 8
+  groups:
+    eslint:
+      patterns:
+        - "eslint*"
+        - "@nextcloud/eslint-config"
+    vite:
+      patterns:
+        - "vite"
+        - "@nextcloud/vite-config"
+    vitest:
+      patterns:
+        - "vitest"
+        - "@vitest/*"
 
 # Latest stable release
+
 # Composer dependencies for linting and testing
 - package-ecosystem: composer
-  target-branch: stable32
+  target-branch: stable34
   directories:
     - "/"
-    - "/build/integration"
+    - "/vendor-bin/behat"
     - "/vendor-bin/cs-fixer"
     - "/vendor-bin/openapi-extractor"
     - "/vendor-bin/phpunit"
     - "/vendor-bin/psalm"
+    - "/vendor-bin/rector"
   schedule:
     interval: weekly
     day: saturday
@@ -75,22 +96,36 @@ updates:
     - dependency-name: "*"
       update-types: ["version-update:semver-major", "version-update:semver-minor"]
 
-# Latest stable branch
 # frontend dependencies
 - package-ecosystem: npm
-  target-branch: stable32
-  directory: "/"
+  target-branch: stable34
+  directories:
+    - "/"
+    - "/build/frontend"
+    - "/build/frontend-legacy"
   schedule:
     interval: weekly
     day: saturday
     time: "03:30"
     timezone: Europe/Paris
+  cooldown:
+    default-days: 4
+    semver-major-days: 8
   open-pull-requests-limit: 20
   labels:
     - "3. to review"
     - "feature: dependencies"
   # Disable automatic rebasing because without a build CI will likely fail anyway
   rebase-strategy: "disabled"
+  groups:
+    vite:
+      patterns:
+        - "vite"
+        - "@nextcloud/vite-config"
+    vitest:
+      patterns:
+        - "vitest"
+        - "@vitest/*"
   ignore:
     # no major updates on stable branches
     - dependency-name: "*"
@@ -100,10 +135,10 @@ updates:
 
 # Composer dependencies for linting and testing
 - package-ecosystem: composer
-  target-branch: stable31
+  target-branch: stable33
   directories:
     - "/"
-    - "/build/integration"
+    - "/vendor-bin/behat"
     - "/vendor-bin/cs-fixer"
     - "/vendor-bin/openapi-extractor"
     - "/vendor-bin/phpunit"
@@ -111,29 +146,7 @@ updates:
   schedule:
     interval: weekly
     day: saturday
-    time: "04:00"
-    timezone: Europe/Paris
-  labels:
-    - "3. to review"
-    - "feature: dependencies"
-  ignore:
-    # only patch updates on stable branches
-    - dependency-name: "*"
-      update-types: ["version-update:semver-major", "version-update:semver-minor"]
-
-- package-ecosystem: composer
-  target-branch: stable30
-  directories:
-    - "/"
-    - "/build/integration"
-    - "/vendor-bin/cs-fixer"
-    - "/vendor-bin/openapi-extractor"
-    - "/vendor-bin/phpunit"
-    - "/vendor-bin/psalm"
-  schedule:
-    interval: weekly
-    day: saturday
-    time: "04:00"
+    time: "04:30"
     timezone: Europe/Paris
   labels:
     - "3. to review"
@@ -145,13 +158,16 @@ updates:
 
 # frontend dependencies
 - package-ecosystem: npm
-  target-branch: stable31
+  target-branch: stable33
   directory: "/"
   schedule:
     interval: weekly
     day: saturday
-    time: "04:00"
+    time: "04:30"
     timezone: Europe/Paris
+  cooldown:
+    default-days: 4
+    semver-major-days: 8
   open-pull-requests-limit: 20
   labels:
     - "3. to review"
@@ -163,14 +179,41 @@ updates:
     - dependency-name: "*"
       update-types: ["version-update:semver-major"]
 
+# Composer dependencies for linting and testing
+- package-ecosystem: composer
+  target-branch: stable32
+  directories:
+    - "/"
+    - "/vendor-bin/behat"
+    - "/vendor-bin/cs-fixer"
+    - "/vendor-bin/openapi-extractor"
+    - "/vendor-bin/phpunit"
+    - "/vendor-bin/psalm"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "04:30"
+    timezone: Europe/Paris
+  labels:
+    - "3. to review"
+    - "feature: dependencies"
+  ignore:
+    # only patch updates on stable branches
+    - dependency-name: "*"
+      update-types: ["version-update:semver-major", "version-update:semver-minor"]
+
+# frontend dependencies
 - package-ecosystem: npm
-  target-branch: stable30
+  target-branch: stable32
   directory: "/"
   schedule:
     interval: weekly
     day: saturday
-    time: "04:00"
+    time: "04:30"
     timezone: Europe/Paris
+  cooldown:
+    default-days: 4
+    semver-major-days: 8
   open-pull-requests-limit: 20
   labels:
     - "3. to review"

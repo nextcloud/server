@@ -19,9 +19,7 @@ use OCP\IURLGenerator;
 use OCP\IUserManager;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class CloudIdManagerTest extends TestCase {
 	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $contactsManager;
@@ -34,7 +32,7 @@ class CloudIdManagerTest extends TestCase {
 	/** @var ICacheFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $cacheFactory;
 
-
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

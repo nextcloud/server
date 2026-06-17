@@ -4,10 +4,12 @@
 -->
 
 <template>
-	<a :class="{ disabled }"
+	<a
+		:class="{ disabled }"
 		href="#profile-visibility"
 		v-on="$listeners">
-		<ChevronDownIcon class="anchor-icon"
+		<ChevronDownIcon
+			class="anchor-icon"
 			:size="22" />
 		{{ t('settings', 'Edit your Profile visibility') }}
 	</a>

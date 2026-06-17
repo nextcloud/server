@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Comments\Listener;
 
 use OCA\Comments\AppInfo\Application;
@@ -26,6 +27,7 @@ class LoadSidebarScripts implements IEventListener {
 	) {
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!($event instanceof LoadSidebar)) {
 			return;
@@ -34,7 +36,8 @@ class LoadSidebarScripts implements IEventListener {
 		$this->commentsManager->load();
 
 		$this->initialState->provideInitialState('activityEnabled', $this->appManager->isEnabledForUser('activity'));
-		// Add comments sidebar tab script
+		// Add comments sidebar tab script/style
+		Util::addStyle(Application::APP_ID, 'comments-tab');
 		Util::addScript(Application::APP_ID, 'comments-tab', 'files');
 	}
 }

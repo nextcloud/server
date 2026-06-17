@@ -5,4 +5,4 @@
  */
 ?>
 
-<div id="admin-theming"></div>
+<div id="settings-admin-theming"></div>

@@ -22,21 +22,25 @@
 		<td class="files-list__row-actions" />
 
 		<!-- Mime -->
-		<td v-if="isMimeAvailable"
+		<td
+			v-if="isMimeAvailable"
 			class="files-list__column files-list__row-mime" />
 
 		<!-- Size -->
-		<td v-if="isSizeAvailable"
+		<td
+			v-if="isSizeAvailable"
 			class="files-list__column files-list__row-size">
 			<span>{{ totalSize }}</span>
 		</td>
 
 		<!-- Mtime -->
-		<td v-if="isMtimeAvailable"
+		<td
+			v-if="isMtimeAvailable"
 			class="files-list__column files-list__row-mtime" />
 
 		<!-- Custom views columns -->
-		<th v-for="column in columns"
+		<th
+			v-for="column in columns"
 			:key="column.id"
 			:class="classForColumn(column)">
 			<span>{{ column.summary?.(nodes, currentView) }}</span>
@@ -44,106 +48,69 @@
 	</tr>
 </template>
 
-<script lang="ts">
-import type { Node } from '@nextcloud/files'
-import type { PropType } from 'vue'
+<script setup lang="ts">
+import type { IColumn, INode, IView } from '@nextcloud/files'
 
-import { View, formatFileSize } from '@nextcloud/files'
-import { translate } from '@nextcloud/l10n'
-import { defineComponent } from 'vue'
+import { formatFileSize } from '@nextcloud/files'
+import { t } from '@nextcloud/l10n'
+import { computed } from 'vue'
+import { useFileListWidth } from '../composables/useFileListWidth.ts'
+import { useActiveStore } from '../store/active.ts'
 
-import { useFilesStore } from '../store/files.ts'
-import { usePathsStore } from '../store/paths.ts'
-import { useRouteParameters } from '../composables/useRouteParameters.ts'
+const props = defineProps<{
+	/** The current view */
+	currentView: IView
 
-export default defineComponent({
-	name: 'FilesListTableFooter',
+	/** Whether the mime column is available */
+	isMimeAvailable: boolean
 
-	props: {
-		currentView: {
-			type: View,
-			required: true,
-		},
-		isMimeAvailable: {
-			type: Boolean,
-			default: false,
-		},
-		isMtimeAvailable: {
-			type: Boolean,
-			default: false,
-		},
-		isSizeAvailable: {
-			type: Boolean,
-			default: false,
-		},
-		nodes: {
-			type: Array as PropType<Node[]>,
-			required: true,
-		},
-		summary: {
-			type: String,
-			default: '',
-		},
-		filesListWidth: {
-			type: Number,
-			default: 0,
-		},
-	},
+	/** Whether the mtime column is available */
+	isMtimeAvailable: boolean
 
-	setup() {
-		const pathsStore = usePathsStore()
-		const filesStore = useFilesStore()
-		const { directory } = useRouteParameters()
-		return {
-			filesStore,
-			pathsStore,
-			directory,
-		}
-	},
+	/** Whether the size column is available */
+	isSizeAvailable: boolean
 
-	computed: {
-		currentFolder() {
-			if (!this.currentView?.id) {
-				return
-			}
+	/** The nodes to summarize */
+	nodes: INode[]
 
-			if (this.directory === '/') {
-				return this.filesStore.getRoot(this.currentView.id)
-			}
-			const fileId = this.pathsStore.getPath(this.currentView.id, this.directory)!
-			return this.filesStore.getNode(fileId)
-		},
+	/** Summary text */
+	summary: string
+}>()
 
-		columns() {
-			// Hide columns if the list is too small
-			if (this.filesListWidth < 512) {
-				return []
-			}
-			return this.currentView?.columns || []
-		},
+const activeStore = useActiveStore()
+const { isNarrow } = useFileListWidth()
 
-		totalSize() {
-			// If we have the size already, let's use it
-			if (this.currentFolder?.size) {
-				return formatFileSize(this.currentFolder.size, true)
-			}
+const currentFolder = computed(() => activeStore.activeFolder)
 
-			// Otherwise let's compute it
-			return formatFileSize(this.nodes.reduce((total, node) => total + (node.size ?? 0), 0), true)
-		},
-	},
-
-	methods: {
-		classForColumn(column) {
-			return {
-				'files-list__row-column-custom': true,
-				[`files-list__row-${this.currentView.id}-${column.id}`]: true,
-			}
-		},
-
-		t: translate,
-	},
+const columns = computed(() => {
+	// Hide columns if the list is too small
+	if (isNarrow.value) {
+		return []
+	}
+	return props.currentView?.columns || []
 })
+
+const totalSize = computed(() => {
+	// If we have the size already, let's use it
+	if (currentFolder.value?.size) {
+		return formatFileSize(currentFolder.value.size, true)
+	}
+
+	// Otherwise let's compute it
+	return formatFileSize(props.nodes.reduce((total, node) => total + (node.size ?? 0), 0), true)
+})
+
+/**
+ * Get the CSS classes for a custom column
+ *
+ * @param column - The column
+ */
+function classForColumn(column: IColumn) {
+	return {
+		'files-list__row-column-custom': true,
+		[`files-list__row-${props.currentView.id}-${column.id}`]: true,
+	}
+}
 </script>
 
 <style scoped lang="scss">

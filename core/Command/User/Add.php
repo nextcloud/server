@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Command\User;
 
 use OC\Files\Filesystem;
@@ -15,7 +16,7 @@ use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
-use OCP\Mail\IMailer;
+use OCP\Mail\IEmailValidator;
 use OCP\Security\Events\GenerateSecurePasswordEvent;
 use OCP\Security\ISecureRandom;
 use Symfony\Component\Console\Command\Command;
@@ -30,7 +31,7 @@ class Add extends Command {
 	public function __construct(
 		protected IUserManager $userManager,
 		protected IGroupManager $groupManager,
-		protected IMailer $mailer,
+		private IEmailValidator $emailValidator,
 		private IAppConfig $appConfig,
 		private NewUserMailHelper $mailHelper,
 		private IEventDispatcher $eventDispatcher,
@@ -39,6 +40,7 @@ class Add extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('user:add')
@@ -80,6 +82,7 @@ class Add extends Command {
 			);
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$uid = $input->getArgument('uid');
 		if ($this->userManager->userExists($uid)) {
@@ -169,7 +172,7 @@ class Add extends Command {
 
 		$email = $input->getOption('email');
 		if (!empty($email)) {
-			if (!$this->mailer->validateMailAddress($email)) {
+			if (!$this->emailValidator->isValid($email)) {
 				$output->writeln(\sprintf(
 					'<error>The given email address "%s" is invalid. Email not set for the user.</error>',
 					$email,

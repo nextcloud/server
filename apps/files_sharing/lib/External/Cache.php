@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\External;
 
 use OCP\Federation\ICloudId;
@@ -27,6 +28,7 @@ class Cache extends \OC\Files\Cache\Cache {
 		parent::__construct($this->storage);
 	}
 
+	#[\Override]
 	public function get($file) {
 		$result = parent::get($file);
 		if (!$result) {
@@ -41,8 +43,9 @@ class Cache extends \OC\Files\Cache\Cache {
 		return $result;
 	}
 
-	public function getFolderContentsById($fileId) {
-		$results = parent::getFolderContentsById($fileId);
+	#[\Override]
+	public function getFolderContentsById($fileId, ?string $mimeTypeFilter = null): array {
+		$results = parent::getFolderContentsById($fileId, $mimeTypeFilter);
 		foreach ($results as &$file) {
 			$file['displayname_owner'] = $this->cloudId->getDisplayId();
 		}

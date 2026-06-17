@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\Mail;
 
 /**
@@ -80,7 +81,7 @@ interface IMailer {
 	 * @param string $email Email address to be validated
 	 * @return bool True if the mail address is valid, false otherwise
 	 * @since 8.1.0
-	 * @deprecated 26.0.0 use IEmailValidator.isValid instead
+	 * @deprecated 32.0.0 use {@see IEmailValidator::isValid()} instead
 	 */
 	public function validateMailAddress(string $email): bool;
 }

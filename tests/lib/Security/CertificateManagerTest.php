@@ -25,9 +25,8 @@ use Psr\Log\LoggerInterface;
 
 /**
  * Class CertificateManagerTest
- *
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class CertificateManagerTest extends \Test\TestCase {
 	use \Test\Traits\UserTrait;
 	use \Test\Traits\MountProviderTrait;
@@ -36,6 +35,7 @@ class CertificateManagerTest extends \Test\TestCase {
 	private string $username;
 	private ISecureRandom&MockObject $random;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -53,6 +53,11 @@ class CertificateManagerTest extends \Test\TestCase {
 		$config = $this->createMock(IConfig::class);
 		$config->expects($this->any())->method('getSystemValueBool')
 			->with('installed', false)->willReturn(true);
+		$config
+			->expects($this->any())
+			->method('getSystemValueString')
+			->with('default_certificates_bundle_path', \OC::$SERVERROOT . '/resources/config/ca-bundle.crt')
+			->willReturn(\OC::$SERVERROOT . '/resources/config/ca-bundle.crt');
 
 		$this->random = $this->createMock(ISecureRandom::class);
 		$this->random->method('generate')
@@ -66,6 +71,7 @@ class CertificateManagerTest extends \Test\TestCase {
 		);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$user = Server::get(IUserManager::class)->get($this->username);
 		if ($user !== null) {
@@ -96,7 +102,6 @@ class CertificateManagerTest extends \Test\TestCase {
 		$certificateStore[] = new Certificate(file_get_contents(__DIR__ . '/../../data/certificates/expiredCertificate.crt'), 'ExpiredCertificate');
 		$this->assertEqualsArrays($certificateStore, $this->certificateManager->listCertificates());
 	}
-
 
 	public function testAddInvalidCertificate(): void {
 		$this->expectException(\Exception::class);
@@ -168,7 +173,6 @@ class CertificateManagerTest extends \Test\TestCase {
 			->with('targetBundlePath')
 			->willReturn($targetBundleExists);
 
-
 		$view->expects($this->any())->method('filemtime')
 			->willReturnCallback(function ($path) use ($targetBundleMtime) {
 				if ($path === 'targetBundlePath') {
@@ -176,7 +180,6 @@ class CertificateManagerTest extends \Test\TestCase {
 				}
 				throw new \Exception('unexpected path');
 			});
-
 
 		$this->assertSame($expected,
 			$this->invokePrivate($certificateManager, 'needsRebundling')

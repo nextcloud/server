@@ -12,14 +12,14 @@ namespace OCP\TaskProcessing\TaskTypes;
 use OCP\IL10N;
 use OCP\L10N\IFactory;
 use OCP\TaskProcessing\EShapeType;
-use OCP\TaskProcessing\ITaskType;
+use OCP\TaskProcessing\IInternalTaskType;
 use OCP\TaskProcessing\ShapeDescriptor;
 
 /**
  * This is the task processing task type for audio chat
  * @since 32.0.0
  */
-class AudioToAudioChat implements ITaskType {
+class AudioToAudioChat implements IInternalTaskType {
 	/**
 	 * @since 32.0.0
 	 */
@@ -37,11 +37,11 @@ class AudioToAudioChat implements ITaskType {
 		$this->l = $l10nFactory->get('lib');
 	}
 
-
 	/**
 	 * @inheritDoc
 	 * @since 32.0.0
 	 */
+	#[\Override]
 	public function getName(): string {
 		return $this->l->t('Audio chat');
 	}
@@ -50,6 +50,7 @@ class AudioToAudioChat implements ITaskType {
 	 * @inheritDoc
 	 * @since 32.0.0
 	 */
+	#[\Override]
 	public function getDescription(): string {
 		return $this->l->t('Voice chat with the assistant');
 	}
@@ -58,6 +59,7 @@ class AudioToAudioChat implements ITaskType {
 	 * @return string
 	 * @since 32.0.0
 	 */
+	#[\Override]
 	public function getId(): string {
 		return self::ID;
 	}
@@ -66,6 +68,7 @@ class AudioToAudioChat implements ITaskType {
 	 * @return ShapeDescriptor[]
 	 * @since 32.0.0
 	 */
+	#[\Override]
 	public function getInputShape(): array {
 		return [
 			'system_prompt' => new ShapeDescriptor(
@@ -90,6 +93,7 @@ class AudioToAudioChat implements ITaskType {
 	 * @return ShapeDescriptor[]
 	 * @since 32.0.0
 	 */
+	#[\Override]
 	public function getOutputShape(): array {
 		return [
 			'input_transcript' => new ShapeDescriptor(

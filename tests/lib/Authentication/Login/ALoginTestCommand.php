@@ -39,6 +39,7 @@ abstract class ALoginTestCommand extends TestCase {
 	/** @var ALoginTestCommand */
 	protected $cmd;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -83,6 +84,7 @@ abstract class ALoginTestCommand extends TestCase {
 			$this->request,
 			$this->username,
 			$this->password,
+			true,
 			$this->redirectUrl
 		);
 		$data->setUser($this->user);
@@ -94,6 +96,7 @@ abstract class ALoginTestCommand extends TestCase {
 			$this->request,
 			$this->username,
 			$this->password,
+			true,
 			null,
 			$this->timezone,
 			$this->timeZoneOffset

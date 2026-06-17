@@ -16,11 +16,12 @@ use Psr\Log\LoggerInterface;
  * Class AppScriptSortTest
  *
  * @package Test
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class AppScriptSortTest extends \Test\TestCase {
 	private $logger;
 
+	#[\Override]
 	protected function setUp(): void {
 		$this->logger = $this->getMockBuilder(LoggerInterface::class)
 			->disableOriginalConstructor()

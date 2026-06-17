@@ -2,9 +2,10 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { User } from '@nextcloud/cypress'
+import type { User } from '@nextcloud/e2e-test-server/cypress'
+
+import { closeSidebar, enableGridMode, getActionButtonForFile, getActionsForFile, getInlineActionEntryForFile, getRowForFile } from '../files/FilesUtils.ts'
 import { createShare } from './FilesSharingUtils.ts'
-import { closeSidebar, enableGridMode, getActionButtonForFile, getInlineActionEntryForFile, getRowForFile } from '../files/FilesUtils.ts'
 
 describe('files_sharing: Sharing status action', { testIsolation: true }, () => {
 	/**
@@ -22,9 +23,8 @@ describe('files_sharing: Sharing status action', { testIsolation: true }, () => 
 
 		cy.visit('/apps/files')
 
-		getRowForFile('folder')
-			.should('be.visible')
-			.find('[data-cy-files-list-row-actions]')
+		getRowForFile('folder').should('be.visible')
+		getActionsForFile('folder')
 			.findByRole('button', { name: 'Shared' })
 			.should('not.exist')
 	})
@@ -37,12 +37,11 @@ describe('files_sharing: Sharing status action', { testIsolation: true }, () => 
 			cy.visit('/apps/files')
 		})
 
-		getRowForFile('folder')
-			.should('be.visible')
-			.find('[data-cy-files-list-row-actions]')
+		getRowForFile('folder').should('be.visible')
+		getActionsForFile('folder')
 			.findByRole('button', { name: /Sharing options/ })
 			.should('be.visible')
-			.click()
+			.click({ force: true })
 
 		// check the click opened the sidebar
 		cy.get('[data-cy-sidebar]')

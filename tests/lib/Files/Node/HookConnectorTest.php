@@ -45,10 +45,10 @@ use Test\Traits\UserTrait;
 /**
  * Class HookConnectorTest
  *
- * @group DB
  *
  * @package Test\Files\Node
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class HookConnectorTest extends TestCase {
 	use UserTrait;
 	use MountProviderTrait;
@@ -67,6 +67,7 @@ class HookConnectorTest extends TestCase {
 	/** @var string */
 	private $userId;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->userId = $this->getUniqueID();
@@ -95,6 +96,7 @@ class HookConnectorTest extends TestCase {
 		$this->logger = Server::get(LoggerInterface::class);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		parent::tearDown();
 		\OC_Hook::clear('OC_Filesystem');

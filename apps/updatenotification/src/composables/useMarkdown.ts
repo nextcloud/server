@@ -4,11 +4,16 @@
  */
 import type { Ref } from 'vue'
 
+import dompurify from 'dompurify'
 import { marked } from 'marked'
 import { computed } from 'vue'
-import dompurify from 'dompurify'
 
-export const useMarkdown = (text: Ref<string|undefined|null>, minHeadingLevel: Ref<number|undefined>) => {
+/**
+ *
+ * @param text
+ * @param minHeadingLevel
+ */
+export function useMarkdown(text: Ref<string | undefined | null>, minHeadingLevel: Ref<number | undefined>) {
 	const minHeading = computed(() => Math.min(Math.max(minHeadingLevel.value ?? 1, 1), 6))
 	const renderer = new marked.Renderer()
 

@@ -4,23 +4,23 @@
  */
 
 import Vue from 'vue'
-
 import ContactsMenu from '../views/ContactsMenu.vue'
 import ContactsMenuService from '../services/ContactsMenuService.ts'
 
 /**
- * @todo move to contacts menu code https://github.com/orgs/nextcloud/projects/31#card-21213129
+ * Set up the contacts menu component ("ContactsMenu")
+ * This is the menu where users can access their contacts or other users on this instance.
  */
-export const setUp = () => {
+export function setUp() {
 	const mountPoint = document.getElementById('contactsmenu')
 
 	if (mountPoint) {
 		window.OC.ContactsMenu = new ContactsMenuService()
-		// eslint-disable-next-line no-new
+
 		new Vue({
 			name: 'ContactsMenuRoot',
 			el: mountPoint,
-			render: h => h(ContactsMenu),
+			render: (h) => h(ContactsMenu),
 		})
 	}
 }

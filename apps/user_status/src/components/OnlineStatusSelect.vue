@@ -4,16 +4,20 @@
 -->
 <template>
 	<div class="user-status-online-select">
-		<input :id="id"
+		<input
+			:id="id"
 			:checked="checked"
 			class="hidden-visually user-status-online-select__input"
 			type="radio"
 			name="user-status-online"
 			@change="onChange">
 		<label :for="id" class="user-status-online-select__label">
-			<NcUserStatusIcon :status="type"
-				class="user-status-online-select__icon"
-				aria-hidden="true" />
+			<span class="user-status-online-select__icon-wrapper">
+				<NcUserStatusIcon
+					:status="type"
+					class="user-status-online-select__icon"
+					aria-hidden="true" />
+			</span>
 			{{ label }}
 			<em class="user-status-online-select__subline">{{ subline }}</em>
 		</label>
@@ -35,19 +39,24 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+
 		type: {
 			type: String,
 			required: true,
 		},
+
 		label: {
 			type: String,
 			required: true,
 		},
+
 		subline: {
 			type: String,
 			default: null,
 		},
 	},
+
+	emits: ['select'],
 
 	computed: {
 		id() {
@@ -85,10 +94,17 @@ export default {
 		}
 	}
 
+	&__icon-wrapper {
+		height: var(--default-clickable-area);
+		width: var(--default-clickable-area);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
 	&__icon {
 		height: 20px;
 		width: 20px;
-		padding: calc((var(--default-clickable-area) - 20px) / 2);
 	}
 
 	&__input:checked + &__label {

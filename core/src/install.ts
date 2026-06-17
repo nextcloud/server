@@ -30,7 +30,7 @@ export type SetupConfig = {
 	htaccessWorking: boolean
 	serverRoot: string
 
-	errors: string[]|Error[]
+	errors: string[] | Error[]
 }
 
 export type SetupLinks = {

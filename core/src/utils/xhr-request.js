@@ -12,7 +12,7 @@ import logger from '../logger.js'
  * @param {string} url the URL to check
  * @return {boolean}
  */
-const isRelativeUrl = (url) => {
+function isRelativeUrl(url) {
 	return !url.startsWith('https://') && !url.startsWith('http://')
 }
 
@@ -20,7 +20,7 @@ const isRelativeUrl = (url) => {
  * @param {string} url The URL to check
  * @return {boolean} true if the URL points to this nextcloud instance
  */
-const isNextcloudUrl = (url) => {
+function isNextcloudUrl(url) {
 	const nextcloudBaseUrl = window.location.protocol + '//' + window.location.host + getRootUrl()
 	// if the URL is absolute and starts with the baseUrl+rootUrl
 	// OR if the URL is relative and starts with rootUrl
@@ -31,6 +31,7 @@ const isNextcloudUrl = (url) => {
 /**
  * Check if a user was logged in but is now logged-out.
  * If this is the case then the user will be forwarded to the login page.
+ *
  * @return {Promise<void>}
  */
 async function checkLoginStatus() {
@@ -51,14 +52,14 @@ async function checkLoginStatus() {
 		// We need to check this as a 401 in the first place could also come from other reasons
 		const { status } = await window.fetch(generateUrl('/apps/files'))
 		if (status === 401) {
-			console.warn('User session was terminated, forwarding to login page.')
+			logger.warn('User session was terminated, forwarding to login page.')
 			await wipeBrowserStorages()
 			window.location = generateUrl('/login?redirect_url={url}', {
 				url: window.location.pathname + window.location.search + window.location.hash,
 			})
 		}
 	} catch (error) {
-		console.warn('Could not check login-state')
+		logger.warn('Could not check login-state', { error })
 	} finally {
 		delete checkLoginStatus.running
 	}
@@ -66,6 +67,7 @@ async function checkLoginStatus() {
 
 /**
  * Clear all Browser storages connected to current origin.
+ *
  * @return {Promise<void>}
  */
 export async function wipeBrowserStorages() {
@@ -87,9 +89,9 @@ export async function wipeBrowserStorages() {
  *
  * This is also done in @nextcloud/axios but not all requests pass through that
  */
-export const interceptRequests = () => {
+export function interceptRequests() {
 	XMLHttpRequest.prototype.open = (function(open) {
-		return function(method, url, async) {
+		return function(method, url) {
 			open.apply(this, arguments)
 			if (isNextcloudUrl(url)) {
 				if (!this.getResponseHeader('X-Requested-With')) {

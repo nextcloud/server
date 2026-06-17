@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Lock;
 
 use OCP\Lock\ILockingProvider;
@@ -19,6 +20,7 @@ class NoopLockingProvider implements ILockingProvider {
 	/**
 	 * {@inheritdoc}
 	 */
+	#[\Override]
 	public function isLocked(string $path, int $type): bool {
 		return false;
 	}
@@ -26,6 +28,7 @@ class NoopLockingProvider implements ILockingProvider {
 	/**
 	 * {@inheritdoc}
 	 */
+	#[\Override]
 	public function acquireLock(string $path, int $type, ?string $readablePath = null): void {
 		// do nothing
 	}
@@ -33,6 +36,7 @@ class NoopLockingProvider implements ILockingProvider {
 	/**
 	 * {@inheritdoc}
 	 */
+	#[\Override]
 	public function releaseLock(string $path, int $type): void {
 		// do nothing
 	}
@@ -40,6 +44,7 @@ class NoopLockingProvider implements ILockingProvider {
 	/**1
 	 * {@inheritdoc}
 	 */
+	#[\Override]
 	public function releaseAll(): void {
 		// do nothing
 	}
@@ -47,6 +52,7 @@ class NoopLockingProvider implements ILockingProvider {
 	/**
 	 * {@inheritdoc}
 	 */
+	#[\Override]
 	public function changeLock(string $path, int $targetType): void {
 		// do nothing
 	}

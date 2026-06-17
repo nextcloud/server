@@ -53,7 +53,6 @@ use function json_last_error;
  */
 class AccountManager implements IAccountManager {
 	use TAccountsHelper;
-
 	use TProfileHelper;
 
 	private string $table = 'accounts';
@@ -216,6 +215,7 @@ class AccountManager implements IAccountManager {
 		return $this->addMissingDefaultValues($userDataArray, $this->buildDefaultUserRecord($user));
 	}
 
+	#[\Override]
 	public function searchUsers(string $property, array $values): array {
 		// the value col is limited to 255 bytes. It is used for searches only.
 		$values = array_map(function (string $value) {
@@ -354,7 +354,7 @@ class AccountManager implements IAccountManager {
 	protected function addMissingDefaultValues(array $userData, array $defaultUserData): array {
 		foreach ($defaultUserData as $defaultDataItem) {
 			// If property does not exist, initialize it
-			$userDataIndex = array_search($defaultDataItem['name'], array_column($userData, 'name'));
+			$userDataIndex = array_search($defaultDataItem['name'], array_column($userData, 'name'), true);
 			if ($userDataIndex === false) {
 				$userData[] = $defaultDataItem;
 				continue;
@@ -368,7 +368,7 @@ class AccountManager implements IAccountManager {
 	}
 
 	protected function updateVerificationStatus(IAccount $updatedAccount, array $oldData): void {
-		static $propertiesVerifiableByLookupServer = [
+		$propertiesVerifiableByLookupServer = [
 			self::PROPERTY_TWITTER,
 			self::PROPERTY_FEDIVERSE,
 			self::PROPERTY_WEBSITE,
@@ -655,6 +655,7 @@ class AccountManager implements IAccountManager {
 		return $account;
 	}
 
+	#[\Override]
 	public function getAccount(IUser $user): IAccount {
 		$cached = $this->internalCache->get($user->getUID());
 		if ($cached !== null) {
@@ -753,7 +754,6 @@ class AccountManager implements IAccountManager {
 		return filter_var($text, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME) !== false;
 	}
 
-
 	private function sanitizePropertyBluesky(IAccountProperty $property): void {
 		if ($property->getName() === self::PROPERTY_BLUESKY) {
 			if (!$this->validateBlueSkyHandle($property->getValue())) {
@@ -826,6 +826,7 @@ class AccountManager implements IAccountManager {
 		}
 	}
 
+	#[\Override]
 	public function updateAccount(IAccount $account): void {
 		$this->testValueLengths(iterator_to_array($account->getAllProperties()), true);
 		try {

@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Share20;
 
 use Exception;
@@ -13,15 +14,19 @@ use OCA\Files_Sharing\DefaultPublicShareTemplateProvider;
 use OCP\Server;
 use OCP\Share\IPublicShareTemplateFactory;
 use OCP\Share\IPublicShareTemplateProvider;
+use OCP\Share\IPublicShareTemplateProviderWithPriority;
 use OCP\Share\IShare;
 
 class PublicShareTemplateFactory implements IPublicShareTemplateFactory {
+	public const DEFAULT_PRIORITY = 10;
+
 	public function __construct(
 		private Coordinator $coordinator,
 		private DefaultPublicShareTemplateProvider $defaultProvider,
 	) {
 	}
 
+	#[\Override]
 	public function getProvider(IShare $share): IPublicShareTemplateProvider {
 		$context = $this->coordinator->getRegistrationContext();
 		if ($context === null) {
@@ -41,6 +46,13 @@ class PublicShareTemplateFactory implements IPublicShareTemplateFactory {
 		if (count($filteredProviders) === 0) {
 			return $this->defaultProvider;
 		} else {
+			usort($filteredProviders, function (IPublicShareTemplateProvider $a, IPublicShareTemplateProvider $b) {
+				$aPriority = $a instanceof IPublicShareTemplateProviderWithPriority ? $a->getPriority() : self::DEFAULT_PRIORITY;
+				$bPriority = $b instanceof IPublicShareTemplateProviderWithPriority ? $b->getPriority() : self::DEFAULT_PRIORITY;
+
+				return $aPriority <=> $bPriority;
+			});
+
 			return array_shift($filteredProviders);
 		}
 	}

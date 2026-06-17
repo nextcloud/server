@@ -5,16 +5,20 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP\User;
 
 use InvalidArgumentException;
 use OC\Accounts\AccountManager;
+use OC\ServerNotAvailableException;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\Exceptions\AttributeNotSet;
 use OCA\User_LDAP\Service\BirthdateParserService;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\PropertyDoesNotExistException;
+use OCP\AppFramework\Services\IAppConfig;
+use OCP\Config\IUserConfig;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\Image;
@@ -56,6 +60,8 @@ class User {
 		protected string $dn,
 		protected Access $access,
 		protected IConfig $config,
+		protected IUserConfig $userConfig,
+		protected IAppConfig $appConfig,
 		protected Image $image,
 		protected LoggerInterface $logger,
 		protected IAvatarManager $avatarManager,
@@ -78,13 +84,13 @@ class User {
 	 * @throws PreConditionNotMetException
 	 */
 	public function markUser(): void {
-		$curValue = $this->config->getUserValue($this->getUsername(), 'user_ldap', 'isDeleted', '0');
-		if ($curValue === '1') {
+		$curValue = $this->userConfig->getValueBool($this->getUsername(), 'user_ldap', 'isDeleted');
+		if ($curValue) {
 			// the user is already marked, do not write to DB again
 			return;
 		}
-		$this->config->setUserValue($this->getUsername(), 'user_ldap', 'isDeleted', '1');
-		$this->config->setUserValue($this->getUsername(), 'user_ldap', 'foundDeleted', (string)time());
+		$this->userConfig->setValueBool($this->getUsername(), 'user_ldap', 'isDeleted', true);
+		$this->userConfig->setValueInt($this->getUsername(), 'user_ldap', 'foundDeleted', time());
 	}
 
 	/**
@@ -114,12 +120,8 @@ class User {
 			$displayName2 = (string)$ldapEntry[$attr][0];
 		}
 		if ($displayName !== '') {
-			$this->composeAndStoreDisplayName($displayName, $displayName2);
-			$this->access->cacheUserDisplayName(
-				$this->getUsername(),
-				$displayName,
-				$displayName2
-			);
+			$composedDisplayName = $this->composeAndStoreDisplayName($displayName, $displayName2);
+			$this->access->cacheUserDisplayName($this->getUsername(), $composedDisplayName);
 		}
 		unset($attr);
 
@@ -129,7 +131,8 @@ class User {
 		$attr = strtolower($this->connection->ldapEmailAttribute);
 		if (isset($ldapEntry[$attr])) {
 			$mailValue = 0;
-			for ($x = 0; $x < count($ldapEntry[$attr]); $x++) {
+			$emailValues = count($ldapEntry[$attr]);
+			for ($x = 0; $x < $emailValues; $x++) {
 				if (filter_var($ldapEntry[$attr][$x], FILTER_VALIDATE_EMAIL)) {
 					$mailValue = $x;
 					break;
@@ -286,8 +289,8 @@ class User {
 			$this->connection->writeToCache($cacheKey, $checksum // write array to cache. is waste of cache space
 				, null); // use ldapCacheTTL from configuration
 			// Update user profile
-			if ($this->config->getUserValue($username, 'user_ldap', 'lastProfileChecksum', null) !== $checksum) {
-				$this->config->setUserValue($username, 'user_ldap', 'lastProfileChecksum', $checksum);
+			if ($this->userConfig->getValueString($username, 'user_ldap', 'lastProfileChecksum') !== $checksum) {
+				$this->userConfig->setValueString($username, 'user_ldap', 'lastProfileChecksum', $checksum);
 				$this->updateProfile($profileValues);
 				$this->logger->info("updated profile uid=$username", ['app' => 'user_ldap']);
 			} else {
@@ -361,21 +364,21 @@ class User {
 			}
 			//we need it to store it in the DB as well in case a user gets
 			//deleted so we can clean up afterwards
-			$this->config->setUserValue(
+			$this->userConfig->setValueString(
 				$this->getUsername(), 'user_ldap', 'homePath', $path
 			);
 			return $path;
 		}
 
 		if (!is_null($attr)
-			&& $this->config->getAppValue('user_ldap', 'enforce_home_folder_naming_rule', 'true')
+			&& $this->appConfig->getAppValueBool('enforce_home_folder_naming_rule', true)
 		) {
 			// a naming rule attribute is defined, but it doesn't exist for that LDAP user
 			throw new \Exception('Home dir attribute can\'t be read from LDAP for uid: ' . $this->getUsername());
 		}
 
-		//false will apply default behaviour as defined and done by OC_User
-		$this->config->setUserValue($this->getUsername(), 'user_ldap', 'homePath', '');
+		// false will apply default behaviour as defined and done by OC_User
+		$this->userConfig->setValueString($this->getUsername(), 'user_ldap', 'homePath', '');
 		return false;
 	}
 
@@ -418,15 +421,15 @@ class User {
 	 * @brief marks the user as having logged in at least once
 	 */
 	public function markLogin(): void {
-		$this->config->setUserValue(
-			$this->uid, 'user_ldap', self::USER_PREFKEY_FIRSTLOGIN, '1');
+		$this->userConfig->setValueBool(
+			$this->uid, 'user_ldap', self::USER_PREFKEY_FIRSTLOGIN, true);
 	}
 
 	/**
 	 * Stores a key-value pair in relation to this user
 	 */
 	private function store(string $key, string $value): void {
-		$this->config->setUserValue($this->uid, 'user_ldap', $key, $value);
+		$this->userConfig->setValueString($this->uid, 'user_ldap', $key, $value);
 	}
 
 	/**
@@ -439,7 +442,7 @@ class User {
 		if ($displayName2 !== '') {
 			$displayName .= ' (' . $displayName2 . ')';
 		}
-		$oldName = $this->config->getUserValue($this->uid, 'user_ldap', 'displayName', null);
+		$oldName = $this->userConfig->getValueString($this->uid, 'user_ldap', 'displayName', '');
 		if ($oldName !== $displayName) {
 			$this->store('displayName', $displayName);
 			$user = $this->userManager->get($this->getUsername());
@@ -450,6 +453,10 @@ class User {
 			}
 		}
 		return $displayName;
+	}
+
+	public function fetchStoredDisplayName(): string {
+		return $this->userConfig->getValueString($this->uid, 'user_ldap', 'displayName', '');
 	}
 
 	/**
@@ -637,7 +644,7 @@ class User {
 		// use the checksum before modifications
 		$checksum = md5($this->image->data());
 
-		if ($checksum === $this->config->getUserValue($this->uid, 'user_ldap', 'lastAvatarChecksum', '') && $this->avatarExists()) {
+		if ($checksum === $this->userConfig->getValueString($this->uid, 'user_ldap', 'lastAvatarChecksum', '') && $this->avatarExists()) {
 			return true;
 		}
 
@@ -645,7 +652,7 @@ class User {
 
 		if ($isSet) {
 			// save checksum only after successful setting
-			$this->config->setUserValue($this->uid, 'user_ldap', 'lastAvatarChecksum', $checksum);
+			$this->userConfig->setValueString($this->uid, 'user_ldap', 'lastAvatarChecksum', $checksum);
 		}
 
 		return $isSet;
@@ -669,7 +676,6 @@ class User {
 			return false;
 		}
 
-
 		//make sure it is a square and not bigger than 512x512
 		$size = min([$this->image->width(), $this->image->height(), 512]);
 		if (!$this->image->centerCrop($size)) {
@@ -689,11 +695,11 @@ class User {
 
 	/**
 	 * @throws AttributeNotSet
-	 * @throws \OC\ServerNotAvailableException
+	 * @throws ServerNotAvailableException
 	 * @throws PreConditionNotMetException
 	 */
 	public function getExtStorageHome():string {
-		$value = $this->config->getUserValue($this->getUsername(), 'user_ldap', 'extStorageHome', '');
+		$value = $this->userConfig->getValueString($this->getUsername(), 'user_ldap', 'extStorageHome', '');
 		if ($value !== '') {
 			return $value;
 		}
@@ -710,7 +716,7 @@ class User {
 
 	/**
 	 * @throws PreConditionNotMetException
-	 * @throws \OC\ServerNotAvailableException
+	 * @throws ServerNotAvailableException
 	 */
 	public function updateExtStorageHome(?string $valueFromLDAP = null):string {
 		if ($valueFromLDAP === null) {
@@ -720,10 +726,10 @@ class User {
 		}
 		if ($extHomeValues !== false && isset($extHomeValues[0])) {
 			$extHome = $extHomeValues[0];
-			$this->config->setUserValue($this->getUsername(), 'user_ldap', 'extStorageHome', $extHome);
+			$this->userConfig->setValueString($this->getUsername(), 'user_ldap', 'extStorageHome', $extHome);
 			return $extHome;
 		} else {
-			$this->config->deleteUserValue($this->getUsername(), 'user_ldap', 'extStorageHome');
+			$this->userConfig->deleteUserConfig($this->getUsername(), 'user_ldap', 'extStorageHome');
 			return '';
 		}
 	}
@@ -771,7 +777,7 @@ class User {
 			if (!empty($pwdGraceUseTime)) { //was this a grace login?
 				if (!empty($pwdGraceAuthNLimit)
 					&& count($pwdGraceUseTime) < (int)$pwdGraceAuthNLimit[0]) { //at least one more grace login available?
-					$this->config->setUserValue($uid, 'user_ldap', 'needsPasswordReset', 'true');
+					$this->userConfig->setValueBool($uid, 'user_ldap', 'needsPasswordReset', true);
 					header('Location: ' . Server::get(IURLGenerator::class)->linkToRouteAbsolute(
 						'user_ldap.renewPassword.showRenewPasswordForm', ['user' => $uid]));
 				} else { //no more grace login available
@@ -782,7 +788,7 @@ class User {
 			}
 			//handle pwdReset attribute
 			if (!empty($pwdReset) && $pwdReset[0] === 'TRUE') { //user must change their password
-				$this->config->setUserValue($uid, 'user_ldap', 'needsPasswordReset', 'true');
+				$this->userConfig->setValueBool($uid, 'user_ldap', 'needsPasswordReset', true);
 				header('Location: ' . Server::get(IURLGenerator::class)->linkToRouteAbsolute(
 					'user_ldap.renewPassword.showRenewPasswordForm', ['user' => $uid]));
 				exit();

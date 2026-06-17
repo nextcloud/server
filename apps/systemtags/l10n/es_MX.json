@@ -53,7 +53,6 @@
     "Failed to delete tag" : "No se pudo eliminar la etiqueta",
     "Create or edit tags" : "Crear o editar etiquetas",
     "Search for a tag to edit" : "Buscar la etiqueta a editar",
-    "Collaborative tags …" : "Etiquetas colaborativas ...",
     "No tags to select" : "No hay etiquetas para seleccionar",
     "Tag name" : "Nombre de la etiqueta",
     "Tag level" : "Nivel de la etiqueta",
@@ -61,14 +60,12 @@
     "Update" : "Actualizar",
     "Delete" : "Borrar",
     "Reset" : "Restaurar",
-    "Loading …" : "Cargando …",
     "Manage tags" : "Administrar etiquetas",
     "Cancel" : "Cancelar",
     "Apply" : "Aplicar",
-    "Failed to load tags" : "No se pudieron cargar las etiquetas",
     "Failed to load selected tags" : "No se pudieron cargar las etiquetas seleccionadas",
+    "Failed to load tags" : "No se pudieron cargar las etiquetas",
     "Failed to select tag" : "No se pudieron seleccionar las etiquetas",
-    "Loading collaborative tags …" : "Cargando las etiquetas colaborativas …",
     "Search or create collaborative tags" : "Buscar o crear etiquetas colaborativas",
     "No tags to select, type to create a new tag" : "No hay etiquetas para seleccionar, escriba para crear una nueva etiqueta",
     "Assigned collaborative tags" : "Etiquetas colaborativas asignadas",
@@ -80,6 +77,9 @@
     "Missing \"Content-Location\" header" : "Falta el encabezado \"Contenido-Ubicación\"",
     "Failed to load tags for file" : "No se pudieron cargar las etiquetas del archivo",
     "Failed to set tag for file" : "No se pudo establecer la etiqueta del archivo",
-    "Failed to delete tag for file" : "No se pudo eliminar la etiqueta del archivo"
+    "Failed to delete tag for file" : "No se pudo eliminar la etiqueta del archivo",
+    "Collaborative tags …" : "Etiquetas colaborativas ...",
+    "Loading …" : "Cargando …",
+    "Loading collaborative tags …" : "Cargando las etiquetas colaborativas …"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

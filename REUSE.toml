@@ -10,7 +10,7 @@ SPDX-FileCopyrightText = "2016 ownCloud, Inc., 2016-2024 Nextcloud translators"
 SPDX-License-Identifier = "AGPL-3.0-only OR AGPL-3.0-or-later"
 
 [[annotations]]
-path = ["apps/cloud_federation_api/l10n/**.js", "apps/cloud_federation_api/l10n/**.json", "apps/contactsinteraction/l10n/**.js", "apps/contactsinteraction/l10n/**.json", "apps/dashboard/l10n/**.js", "apps/dashboard/l10n/**.json", "apps/files_reminders/l10n/**.js", "apps/files_reminders/l10n/**.json", "apps/lookup_server_connector/l10n/**.js", "apps/lookup_server_connector/l10n/**.json", "apps/profile/l10n/**.js", "apps/profile/l10n/**.json", "apps/sharebymail/l10n/**.js", "apps/oauth2/l10n/**.js", "apps/oauth2/l10n/**.json", "apps/sharebymail/l10n/**.json", "apps/theming/l10n/**.js", "apps/theming/l10n/**.json", "apps/twofactor_backupcodes/l10n/**.js", "apps/twofactor_backupcodes/l10n/**.json", "apps/user_status/l10n/**.js", "apps/user_status/l10n/**.json", "apps/weather_status/l10n/**.js", "apps/weather_status/l10n/**.json", "apps/webhook_listeners/l10n/**.js", "apps/webhook_listeners/l10n/**.json", "apps/workflowengine/l10n/**.js", "apps/workflowengine/l10n/**.json"]
+path = ["apps/appstore/l10n/**.js", "apps/appstore/l10n/**.json", "apps/cloud_federation_api/l10n/**.js", "apps/cloud_federation_api/l10n/**.json", "apps/contactsinteraction/l10n/**.js", "apps/contactsinteraction/l10n/**.json", "apps/dashboard/l10n/**.js", "apps/dashboard/l10n/**.json", "apps/files_reminders/l10n/**.js", "apps/files_reminders/l10n/**.json", "apps/lookup_server_connector/l10n/**.js", "apps/lookup_server_connector/l10n/**.json", "apps/profile/l10n/**.js", "apps/profile/l10n/**.json", "apps/sharebymail/l10n/**.js", "apps/oauth2/l10n/**.js", "apps/oauth2/l10n/**.json", "apps/sharebymail/l10n/**.json", "apps/theming/l10n/**.js", "apps/theming/l10n/**.json", "apps/twofactor_backupcodes/l10n/**.js", "apps/twofactor_backupcodes/l10n/**.json", "apps/user_status/l10n/**.js", "apps/user_status/l10n/**.json", "apps/weather_status/l10n/**.js", "apps/weather_status/l10n/**.json", "apps/webhook_listeners/l10n/**.js", "apps/webhook_listeners/l10n/**.json", "apps/workflowengine/l10n/**.js", "apps/workflowengine/l10n/**.json"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2016-2024 Nextcloud translators"
 SPDX-License-Identifier = "AGPL-3.0-or-later"
@@ -130,6 +130,12 @@ SPDX-FileCopyrightText = "2016 ownCloud, Inc."
 SPDX-License-Identifier = "AGPL-3.0-only"
 
 [[annotations]]
+path = ["CLAUDE.md"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
 path = ["core/img/loading-dark.gif", "core/img/loading-small-dark.gif", "core/img/loading-small.gif", "core/img/loading.gif"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2016 ownCloud, Inc., 2016 Nextcloud GmbH and Nextcloud contributors"
@@ -178,7 +184,7 @@ SPDX-FileCopyrightText = "2020 Nextcloud GmbH and Nextcloud contributors"
 SPDX-License-Identifier = "AGPL-3.0-or-later"
 
 [[annotations]]
-path = ["cypress/tsconfig.json", "cypress/fixtures/appstore/apps.json", "dist/icons.css"]
+path = ["cypress/tsconfig.json", "cypress/fixtures/appstore/apps.json", "dist/*.css"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2022 Nextcloud GmbH and Nextcloud contributors"
 SPDX-License-Identifier = "AGPL-3.0-or-later"
@@ -256,7 +262,7 @@ SPDX-FileCopyrightText = "2025 Nextcloud GmbH and Nextcloud contributors"
 SPDX-License-Identifier = "AGPL-3.0-or-later"
 
 [[annotations]]
-path = ["composer.json", "composer.lock", ".github/CODEOWNERS", "__tests__/tsconfig.json", "tsconfig.json", "build/integration/composer.**", "vendor-bin/**/composer.json", "vendor-bin/**/composer.lock", "apps/**/composer/composer.json", "apps/**/composer/composer.lock", "apps/**/composer/composer/installed.json"]
+path = ["composer.json", "composer.lock", ".github/CODEOWNERS", "__tests__/tsconfig.json", "tsconfig.json", "apps/**/composer/composer.json", "apps/**/composer/composer.lock", "apps/**/composer/composer/installed.json"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2011-2016 ownCloud, Inc., 2016-2024 Nextcloud GmbH and Nextcloud contributors"
 SPDX-License-Identifier = "AGPL-3.0-only OR AGPL-3.0-or-later"
@@ -400,7 +406,7 @@ SPDX-FileCopyrightText = "2019 Fabian Wiktor <https://www.pexels.com/photo/green
 SPDX-License-Identifier = "CC0-1.0"
 
 [[annotations]]
-path = ["openapi.json", ".envrc", "flake.nix", "flake.lock"]
+path = ["openapi.json", ".envrc", "flake.nix", "flake.lock", "build/eslint-baseline.json", "build/eslint-baseline-legacy.json"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2025 Nextcloud GmbH and Nextcloud contributors"
 SPDX-License-Identifier = "AGPL-3.0-or-later"

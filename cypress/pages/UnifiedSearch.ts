@@ -7,7 +7,6 @@
  * Page object model for the UnifiedSearch
  */
 export class UnifiedSearchPage {
-
 	toggleButton() {
 		return cy.findByRole('button', { name: 'Unified search' })
 	}
@@ -71,5 +70,4 @@ export class UnifiedSearchPage {
 			.findByRole('list', { name: category })
 			.findAllByRole('listitem')
 	}
-
 }

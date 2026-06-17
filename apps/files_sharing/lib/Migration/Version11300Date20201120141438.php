@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Sharing\Migration;
 
 use Closure;
@@ -23,6 +24,7 @@ class Version11300Date20201120141438 extends SimpleMigrationStep {
 	) {
 	}
 
+	#[\Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
@@ -85,10 +87,11 @@ class Version11300Date20201120141438 extends SimpleMigrationStep {
 			]);
 			$table->setPrimaryKey(['id']);
 			$table->addUniqueIndex(['user', 'mountpoint_hash'], 'sh_external_mp');
+			$table->addIndex(['user', 'mountpoint'], 'user_mountpoint_index', [], ['lengths' => [null, 128]]);
 		} else {
 			$table = $schema->getTable('share_external');
 			$remoteIdColumn = $table->getColumn('remote_id');
-			if ($remoteIdColumn && $remoteIdColumn->getType()->getName() !== Types::STRING) {
+			if ($remoteIdColumn && Type::lookupName($remoteIdColumn->getType()) !== Types::STRING) {
 				$remoteIdColumn->setNotnull(false);
 				$remoteIdColumn->setType(Type::getType(Types::STRING));
 				$remoteIdColumn->setOptions(['length' => 255]);
@@ -114,6 +117,7 @@ class Version11300Date20201120141438 extends SimpleMigrationStep {
 		return $schema;
 	}
 
+	#[\Override]
 	public function postSchemaChange(IOutput $output, \Closure $schemaClosure, array $options): void {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->update('share_external')

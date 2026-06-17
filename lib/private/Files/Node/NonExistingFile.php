@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Node;
 
 use OCP\Files\NotFoundException;
@@ -18,18 +19,22 @@ class NonExistingFile extends File {
 		throw new NotFoundException();
 	}
 
+	#[\Override]
 	public function delete() {
 		throw new NotFoundException();
 	}
 
+	#[\Override]
 	public function copy($targetPath) {
 		throw new NotFoundException();
 	}
 
+	#[\Override]
 	public function touch($mtime = null) {
 		throw new NotFoundException();
 	}
 
+	#[\Override]
 	public function getId() {
 		if ($this->fileInfo) {
 			return parent::getId();
@@ -38,6 +43,7 @@ class NonExistingFile extends File {
 		}
 	}
 
+	#[\Override]
 	public function getInternalPath() {
 		if ($this->fileInfo) {
 			return parent::getInternalPath();
@@ -46,10 +52,12 @@ class NonExistingFile extends File {
 		}
 	}
 
+	#[\Override]
 	public function stat() {
 		throw new NotFoundException();
 	}
 
+	#[\Override]
 	public function getMTime() {
 		if ($this->fileInfo) {
 			return parent::getMTime();
@@ -58,6 +66,7 @@ class NonExistingFile extends File {
 		}
 	}
 
+	#[\Override]
 	public function getSize($includeMounts = true): int|float {
 		if ($this->fileInfo) {
 			return parent::getSize($includeMounts);
@@ -66,6 +75,7 @@ class NonExistingFile extends File {
 		}
 	}
 
+	#[\Override]
 	public function getEtag() {
 		if ($this->fileInfo) {
 			return parent::getEtag();
@@ -74,6 +84,7 @@ class NonExistingFile extends File {
 		}
 	}
 
+	#[\Override]
 	public function getPermissions() {
 		if ($this->fileInfo) {
 			return parent::getPermissions();
@@ -82,6 +93,7 @@ class NonExistingFile extends File {
 		}
 	}
 
+	#[\Override]
 	public function isReadable() {
 		if ($this->fileInfo) {
 			return parent::isReadable();
@@ -90,6 +102,7 @@ class NonExistingFile extends File {
 		}
 	}
 
+	#[\Override]
 	public function isUpdateable() {
 		if ($this->fileInfo) {
 			return parent::isUpdateable();
@@ -98,6 +111,7 @@ class NonExistingFile extends File {
 		}
 	}
 
+	#[\Override]
 	public function isDeletable() {
 		if ($this->fileInfo) {
 			return parent::isDeletable();
@@ -106,6 +120,7 @@ class NonExistingFile extends File {
 		}
 	}
 
+	#[\Override]
 	public function isShareable() {
 		if ($this->fileInfo) {
 			return parent::isShareable();
@@ -114,15 +129,18 @@ class NonExistingFile extends File {
 		}
 	}
 
+	#[\Override]
 	public function getContent() {
 		throw new NotFoundException();
 	}
 
+	#[\Override]
 	public function putContent($data) {
 		throw new NotFoundException();
 	}
 
-	public function getMimeType() {
+	#[\Override]
+	public function getMimeType(): string {
 		if ($this->fileInfo) {
 			return parent::getMimeType();
 		} else {
@@ -130,6 +148,7 @@ class NonExistingFile extends File {
 		}
 	}
 
+	#[\Override]
 	public function fopen($mode) {
 		throw new NotFoundException();
 	}

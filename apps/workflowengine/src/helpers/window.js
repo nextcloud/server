@@ -5,6 +5,7 @@
 
 import wrap from '@vue/web-component-wrapper'
 import Vue from 'vue'
+import { logger } from '../logger.ts'
 
 /**
  *
@@ -14,15 +15,23 @@ import Vue from 'vue'
 function registerCustomElement(VueComponent, customElementId) {
 	const WrappedComponent = wrap(Vue, VueComponent)
 	if (window.customElements.get(customElementId)) {
-		console.error('Custom element with ID ' + customElementId + ' is already defined!')
+		logger.error('Custom element with ID ' + customElementId + ' is already defined!')
 		throw new Error('Custom element with ID ' + customElementId + ' is already defined!')
 	}
 	window.customElements.define(customElementId, WrappedComponent)
 
 	// In Vue 2, wrap doesn't support disabling shadow :(
 	// Disable with a hack
-	Object.defineProperty(WrappedComponent.prototype, 'attachShadow', { value() { return this } })
-	Object.defineProperty(WrappedComponent.prototype, 'shadowRoot', { get() { return this } })
+	Object.defineProperty(WrappedComponent.prototype, 'attachShadow', {
+		value() {
+			return this
+		},
+	})
+	Object.defineProperty(WrappedComponent.prototype, 'shadowRoot', {
+		get() {
+			return this
+		},
+	})
 
 	return customElementId
 }

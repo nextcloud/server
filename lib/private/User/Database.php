@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\User;
 
 use InvalidArgumentException;
@@ -17,6 +18,7 @@ use OCP\IDBConnection;
 use OCP\IUserManager;
 use OCP\Security\Events\ValidatePasswordPolicyEvent;
 use OCP\Security\IHasher;
+use OCP\Server;
 use OCP\User\Backend\ABackend;
 use OCP\User\Backend\ICheckPasswordBackend;
 use OCP\User\Backend\ICreateUserBackend;
@@ -48,21 +50,16 @@ class Database extends ABackend implements
 	private IConfig $config;
 	private ?IDBConnection $dbConnection;
 	private IEventDispatcher $eventDispatcher;
-	private string $table;
 
 	use TTransactional;
 
-	/**
-	 * \OC\User\Database constructor.
-	 *
-	 * @param IEventDispatcher $eventDispatcher
-	 * @param string $table
-	 */
-	public function __construct($eventDispatcher = null, $table = 'users') {
+	public function __construct(
+		?IEventDispatcher $eventDispatcher = null,
+		private string $table = 'users',
+	) {
 		$this->cache = new CappedMemoryCache();
-		$this->table = $table;
-		$this->eventDispatcher = $eventDispatcher ?? \OCP\Server::get(IEventDispatcher::class);
-		$this->config = \OCP\Server::get(IConfig::class);
+		$this->eventDispatcher = $eventDispatcher ?? Server::get(IEventDispatcher::class);
+		$this->config = Server::get(IConfig::class);
 		$this->dbConnection = null;
 	}
 
@@ -71,7 +68,7 @@ class Database extends ABackend implements
 	 */
 	private function getDbConnection() {
 		if ($this->dbConnection === null) {
-			$this->dbConnection = \OCP\Server::get(IDBConnection::class);
+			$this->dbConnection = Server::get(IDBConnection::class);
 		}
 		return $this->dbConnection;
 	}
@@ -86,6 +83,7 @@ class Database extends ABackend implements
 	 * Creates a new user. Basic checking of username is done in OC_User
 	 * itself, not in its subclasses.
 	 */
+	#[\Override]
 	public function createUser(string $uid, string $password): bool {
 		if ($this->userExists($uid)) {
 			return false;
@@ -99,7 +97,7 @@ class Database extends ABackend implements
 			$qb->insert($this->table)
 				->values([
 					'uid' => $qb->createNamedParameter($uid),
-					'password' => $qb->createNamedParameter(\OCP\Server::get(IHasher::class)->hash($password)),
+					'password' => $qb->createNamedParameter(Server::get(IHasher::class)->hash($password)),
 					'uid_lower' => $qb->createNamedParameter(mb_strtolower($uid)),
 				]);
 
@@ -120,6 +118,7 @@ class Database extends ABackend implements
 	 * @param string $uid The username of the user to delete
 	 * @return bool
 	 */
+	#[\Override]
 	public function deleteUser($uid) {
 		// Delete user-group-relation
 		$dbConn = $this->getDbConnection();
@@ -161,6 +160,7 @@ class Database extends ABackend implements
 	 *
 	 * Change the password of a user
 	 */
+	#[\Override]
 	public function setPassword(string $uid, string $password): bool {
 		if (!$this->userExists($uid)) {
 			return false;
@@ -168,7 +168,7 @@ class Database extends ABackend implements
 
 		$this->eventDispatcher->dispatchTyped(new ValidatePasswordPolicyEvent($password));
 
-		$hasher = \OCP\Server::get(IHasher::class);
+		$hasher = Server::get(IHasher::class);
 		$hashedPassword = $hasher->hash($password);
 
 		$return = $this->updatePassword($uid, $hashedPassword);
@@ -180,6 +180,7 @@ class Database extends ABackend implements
 		return $return;
 	}
 
+	#[\Override]
 	public function getPasswordHash(string $userId): ?string {
 		if (!$this->userExists($userId)) {
 			return null;
@@ -203,8 +204,9 @@ class Database extends ABackend implements
 		return $hash;
 	}
 
+	#[\Override]
 	public function setPasswordHash(string $userId, string $passwordHash): bool {
-		if (!\OCP\Server::get(IHasher::class)->validate($passwordHash)) {
+		if (!Server::get(IHasher::class)->validate($passwordHash)) {
 			throw new InvalidArgumentException();
 		}
 
@@ -228,6 +230,7 @@ class Database extends ABackend implements
 	 *
 	 * Change the display name of a user
 	 */
+	#[\Override]
 	public function setDisplayName(string $uid, string $displayName): bool {
 		if (mb_strlen($displayName) > 64) {
 			throw new \InvalidArgumentException('Invalid displayname');
@@ -255,6 +258,7 @@ class Database extends ABackend implements
 	 * @param string $uid user ID of the user
 	 * @return string display name
 	 */
+	#[\Override]
 	public function getDisplayName($uid): string {
 		$uid = (string)$uid;
 		$this->loadUser($uid);
@@ -269,6 +273,7 @@ class Database extends ABackend implements
 	 * @param int|null $offset
 	 * @return array an array of all displayNames (value) and the corresponding uids (key)
 	 */
+	#[\Override]
 	public function getDisplayNames($search = '', $limit = null, $offset = null) {
 		$limit = $this->fixLimit($limit);
 
@@ -308,6 +313,7 @@ class Database extends ABackend implements
 	 * @return array
 	 * @since 21.0.1
 	 */
+	#[\Override]
 	public function searchKnownUsersByDisplayName(string $searcher, string $pattern, ?int $limit = null, ?int $offset = null): array {
 		$limit = $this->fixLimit($limit);
 
@@ -349,13 +355,14 @@ class Database extends ABackend implements
 	 * Check if the password is correct without logging in the user
 	 * returns the user id or false
 	 */
+	#[\Override]
 	public function checkPassword(string $loginName, string $password) {
 		$found = $this->loadUser($loginName);
 
 		if ($found && is_array($this->cache[$loginName])) {
 			$storedHash = $this->cache[$loginName]['password'];
 			$newHash = '';
-			if (\OCP\Server::get(IHasher::class)->verify($password, $storedHash, $newHash)) {
+			if (Server::get(IHasher::class)->verify($password, $storedHash, $newHash)) {
 				if (!empty($newHash)) {
 					$this->updatePassword($loginName, $newHash);
 				}
@@ -437,6 +444,7 @@ class Database extends ABackend implements
 	 * @param null|int $offset
 	 * @return string[] an array of all uids
 	 */
+	#[\Override]
 	public function getUsers($search = '', $limit = null, $offset = null) {
 		$limit = $this->fixLimit($limit);
 
@@ -454,6 +462,7 @@ class Database extends ABackend implements
 	 * @param string $uid the username
 	 * @return boolean
 	 */
+	#[\Override]
 	public function userExists($uid) {
 		return $this->loadUser($uid);
 	}
@@ -464,6 +473,7 @@ class Database extends ABackend implements
 	 * @param string $uid the username
 	 * @return string|false
 	 */
+	#[\Override]
 	public function getHome(string $uid) {
 		if ($this->userExists($uid)) {
 			return $this->config->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/' . $uid;
@@ -475,6 +485,7 @@ class Database extends ABackend implements
 	/**
 	 * @return bool
 	 */
+	#[\Override]
 	public function hasUserListings() {
 		return true;
 	}
@@ -482,6 +493,7 @@ class Database extends ABackend implements
 	/**
 	 * counts the users in the database
 	 */
+	#[\Override]
 	public function countUsers(int $limit = 0): int|false {
 		$dbConn = $this->getDbConnection();
 		$query = $dbConn->getQueryBuilder();
@@ -514,6 +526,7 @@ class Database extends ABackend implements
 	 *
 	 * @return string the name of the backend to be shown
 	 */
+	#[\Override]
 	public function getBackendName() {
 		return 'Database';
 	}
@@ -523,10 +536,10 @@ class Database extends ABackend implements
 			throw new \Exception('key uid is expected to be set in $param');
 		}
 
-		$backends = \OCP\Server::get(IUserManager::class)->getBackends();
+		$backends = Server::get(IUserManager::class)->getBackends();
 		foreach ($backends as $backend) {
 			if ($backend instanceof Database) {
-				/** @var \OC\User\Database $backend */
+				/** @var Database $backend */
 				$uid = $backend->loginName2UserName($param['uid']);
 				if ($uid !== false) {
 					$param['uid'] = $uid;
@@ -536,6 +549,7 @@ class Database extends ABackend implements
 		}
 	}
 
+	#[\Override]
 	public function getRealUID(string $uid): string {
 		if (!$this->userExists($uid)) {
 			throw new \RuntimeException($uid . ' does not exist');

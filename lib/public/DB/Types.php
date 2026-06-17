@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\DB;
 
 /**
@@ -87,7 +88,6 @@ final class Types {
 	 * @since 31.0.0
 	 */
 	public const DATETIME_IMMUTABLE = 'datetime_immutable';
-
 
 	/**
 	 * A datetime instance with timezone support
@@ -174,6 +174,8 @@ final class Types {
 	/**
 	 * @var string
 	 * @since 24.0.0
+	 * @deprecated 33.0.0 JSON fields can not properly be used in WHERE statements of Oracle and MySQL.
+	 *                    It is recommended to use a simple STRING field and handle JSON within PHP
 	 */
 	public const JSON = 'json';
 }

@@ -20,6 +20,7 @@ class ResourceLocatorTest extends \Test\TestCase {
 	private LoggerInterface&MockObject $logger;
 	private IConfig&MockObject $config;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->logger = $this->createMock(LoggerInterface::class);
@@ -32,9 +33,13 @@ class ResourceLocatorTest extends \Test\TestCase {
 			->method('getSystemValueString')
 			->with('theme', '')
 			->willReturn($theme);
-		return $this->getMockForAbstractClass(ResourceLocator::class,
-			[$this->logger, $this->config],
-			'', true, true, true, []);
+		return $this->getMockBuilder(ResourceLocator::class)
+			->onlyMethods(['doFind', 'doFindTheme'])
+			->setConstructorArgs(
+				[$this->logger, $this->config],
+				'', true, true, true, []
+			)
+			->getMock();
 	}
 
 	public function testFind(): void {
@@ -68,7 +73,6 @@ class ResourceLocatorTest extends \Test\TestCase {
 	public function testAppendIfExist(): void {
 		$locator = $this->getResourceLocator('theme');
 		$method = new \ReflectionMethod($locator, 'appendIfExist');
-		$method->setAccessible(true);
 
 		$method->invoke($locator, __DIR__, basename(__FILE__), 'webroot');
 		$resource1 = [__DIR__, 'webroot', basename(__FILE__)];

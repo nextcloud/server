@@ -4,10 +4,12 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Sharing\Controller;
 
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\NoSameSiteCookieRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataResponse;
@@ -41,10 +43,12 @@ class PublicPreviewController extends PublicShareController {
 		parent::__construct($appName, $request, $session);
 	}
 
+	#[\Override]
 	protected function getPasswordHash(): ?string {
 		return $this->share->getPassword();
 	}
 
+	#[\Override]
 	public function isValidToken(): bool {
 		try {
 			$this->share = $this->shareManager->getShareByToken($this->getToken());
@@ -54,10 +58,10 @@ class PublicPreviewController extends PublicShareController {
 		}
 	}
 
+	#[\Override]
 	protected function isPasswordProtected(): bool {
 		return $this->share->getPassword() !== null;
 	}
-
 
 	/**
 	 * Get a preview for a shared file
@@ -144,8 +148,6 @@ class PublicPreviewController extends PublicShareController {
 	}
 
 	/**
-	 * @NoSameSiteCookieRequired
-	 *
 	 * Get a direct link preview for a shared file
 	 *
 	 * @param string $token Token of the share
@@ -159,6 +161,7 @@ class PublicPreviewController extends PublicShareController {
 	#[PublicPage]
 	#[NoCSRFRequired]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
+	#[NoSameSiteCookieRequired]
 	public function directLink(string $token) {
 		// No token no image
 		if ($token === '') {

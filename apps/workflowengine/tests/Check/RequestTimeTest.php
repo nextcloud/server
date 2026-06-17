@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\WorkflowEngine\Tests\Check;
 
 use OCA\WorkflowEngine\Check\RequestTime;
@@ -63,7 +64,7 @@ class RequestTimeTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataExecuteCheck')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataExecuteCheck')]
 	public function testExecuteCheckIn(string $value, int $timestamp, bool $expected): void {
 		$check = new RequestTime($this->getL10NMock(), $this->timeFactory);
 
@@ -74,7 +75,7 @@ class RequestTimeTest extends \Test\TestCase {
 		$this->assertEquals($expected, $check->executeCheck('in', $value));
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataExecuteCheck')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataExecuteCheck')]
 	public function testExecuteCheckNotIn(string $value, int $timestamp, bool $expected): void {
 		$check = new RequestTime($this->getL10NMock(), $this->timeFactory);
 
@@ -93,7 +94,7 @@ class RequestTimeTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataValidateCheck')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataValidateCheck')]
 	public function testValidateCheck(string $operator, string $value): void {
 		$check = new RequestTime($this->getL10NMock(), $this->timeFactory);
 		$check->validateCheck($operator, $value);
@@ -112,7 +113,7 @@ class RequestTimeTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataValidateCheckInvalid')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataValidateCheckInvalid')]
 	public function testValidateCheckInvalid(string $operator, string $value, int $exceptionCode, string $exceptionMessage): void {
 		$check = new RequestTime($this->getL10NMock(), $this->timeFactory);
 

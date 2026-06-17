@@ -21,6 +21,7 @@ class PsrLoggerAdapterTest extends TestCase {
 	protected Log&MockObject $logger;
 	protected PsrLoggerAdapter $loggerAdapter;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

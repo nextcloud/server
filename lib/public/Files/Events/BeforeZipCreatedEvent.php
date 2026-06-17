@@ -21,12 +21,13 @@ use OCP\Files\Folder;
  * @since 25.0.0
  */
 class BeforeZipCreatedEvent extends Event {
-	private string $directory;
+	private string $directory = '';
 	private bool $successful = true;
 	private ?string $errorMessage = null;
 	private ?Folder $folder = null;
 
 	/**
+	 * @param string|Folder $directory Folder instance, or (deprecated) string path relative to user folder
 	 * @param list<string> $files
 	 * @since 25.0.0
 	 * @since 31.0.0 support `OCP\Files\Folder` as `$directory` parameter - passing a string is deprecated now
@@ -37,7 +38,6 @@ class BeforeZipCreatedEvent extends Event {
 	) {
 		parent::__construct();
 		if ($directory instanceof Folder) {
-			$this->directory = $directory->getPath();
 			$this->folder = $directory;
 		} else {
 			$this->directory = $directory;
@@ -52,9 +52,19 @@ class BeforeZipCreatedEvent extends Event {
 	}
 
 	/**
+	 * Returns folder path relative to user folder
+	 *
 	 * @since 25.0.0
+	 * @deprecated 33.0.0 Use getFolder instead and use node API
 	 */
 	public function getDirectory(): string {
+		if ($this->folder instanceof Folder) {
+			$path = preg_replace('|^/[^/]+/files/|', '/', $this->folder->getPath());
+			if ($path === null) {
+				throw new \UnexpectedValueException('Could not determine path from folder');
+			}
+			return $path;
+		}
 		return $this->directory;
 	}
 

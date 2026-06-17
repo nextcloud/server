@@ -4,14 +4,16 @@
 -->
 <template>
 	<div v-click-outside="hideDelete" class="check" @click="showDelete">
-		<NcSelect ref="checkSelector"
+		<NcSelect
+			ref="checkSelector"
 			v-model="currentOption"
 			:options="options"
 			label="name"
 			:clearable="false"
 			:placeholder="t('workflowengine', 'Select a filter')"
 			@input="updateCheck" />
-		<NcSelect v-model="currentOperator"
+		<NcSelect
+			v-model="currentOperator"
 			:disabled="!currentOption"
 			:options="operators"
 			class="comparator"
@@ -19,7 +21,8 @@
 			:clearable="false"
 			:placeholder="t('workflowengine', 'Select a comparator')"
 			@input="updateCheck" />
-		<component :is="currentElement"
+		<component
+			:is="currentElement"
 			v-if="currentElement"
 			ref="checkComponent"
 			:disabled="!currentOption"
@@ -27,18 +30,20 @@
 			:model-value="check.value"
 			class="option"
 			@update:model-value="updateCheck"
-			@valid="(valid=true) && validate()"
-			@invalid="!(valid=false) && validate()" />
-		<component :is="currentOption.component"
+			@valid="(valid = true) && validate()"
+			@invalid="!(valid = false) && validate()" />
+		<component
+			:is="currentOption.component"
 			v-else-if="currentOperator && currentComponent"
 			v-model="check.value"
 			:disabled="!currentOption"
 			:check="check"
 			class="option"
 			@input="updateCheck"
-			@valid="(valid=true) && validate()"
-			@invalid="!(valid=false) && validate()" />
-		<input v-else
+			@valid="(valid = true) && validate()"
+			@invalid="!(valid = false) && validate()" />
+		<input
+			v-else
 			v-model="check.value"
 			type="text"
 			:class="{ invalid: !valid }"
@@ -57,14 +62,15 @@
 </template>
 
 <script>
-import NcActions from '@nextcloud/vue/components/NcActions'
-import NcActionButton from '@nextcloud/vue/components/NcActionButton'
-import NcSelect from '@nextcloud/vue/components/NcSelect'
-
-import CloseIcon from 'vue-material-design-icons/Close.vue'
 import ClickOutside from 'vue-click-outside'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActions from '@nextcloud/vue/components/NcActions'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
+import CloseIcon from 'vue-material-design-icons/Close.vue'
+import { logger } from '../logger.ts'
 
 export default {
+	/* eslint vue/multi-word-component-names: "warn" */
 	name: 'Check',
 	components: {
 		NcActionButton,
@@ -74,19 +80,23 @@ export default {
 		// Icons
 		CloseIcon,
 	},
+
 	directives: {
 		ClickOutside,
 	},
+
 	props: {
 		check: {
 			type: Object,
 			required: true,
 		},
+
 		rule: {
 			type: Object,
 			required: true,
 		},
 	},
+
 	data() {
 		return {
 			deleteVisible: false,
@@ -96,28 +106,37 @@ export default {
 			valid: false,
 		}
 	},
+
 	computed: {
 		checks() {
 			return this.$store.getters.getChecksForEntity(this.rule.entity)
 		},
+
 		operators() {
-			if (!this.currentOption) { return [] }
+			if (!this.currentOption) {
+				return []
+			}
 			const operators = this.checks[this.currentOption.class].operators
 			if (typeof operators === 'function') {
 				return operators(this.check)
 			}
 			return operators
 		},
+
 		currentElement() {
 			if (!this.check.class) {
 				return false
 			}
 			return this.checks[this.check.class].element
 		},
+
 		currentComponent() {
-			if (!this.currentOption) { return [] }
+			if (!this.currentOption) {
+				return []
+			}
 			return this.checks[this.currentOption.class].component
 		},
+
 		valuePlaceholder() {
 			if (this.currentOption && this.currentOption.placeholder) {
 				return this.currentOption.placeholder(this.check)
@@ -125,11 +144,13 @@ export default {
 			return ''
 		},
 	},
+
 	watch: {
-		'check.operator'() {
+		'check.operator': function() {
 			this.validate()
 		},
 	},
+
 	mounted() {
 		this.options = Object.values(this.checks)
 		this.currentOption = this.checks[this.check.class]
@@ -141,7 +162,7 @@ export default {
 		} else if (this.currentOption?.component) {
 			// keeping this in an else for apps that try to be backwards compatible and may ship both
 			// to be removed in 03/2028
-			console.warn('Developer warning: `CheckPlugin.options` is deprecated. Use `CheckPlugin.element` instead.')
+			logger.warn('Developer warning: `CheckPlugin.options` is deprecated. Use `CheckPlugin.element` instead.')
 		}
 
 		if (this.check.class === null) {
@@ -149,13 +170,16 @@ export default {
 		}
 		this.validate()
 	},
+
 	methods: {
 		showDelete() {
 			this.deleteVisible = true
 		},
+
 		hideDelete() {
 			this.deleteVisible = false
 		},
+
 		validate() {
 			this.valid = true
 			if (this.currentOption && this.currentOption.validate) {
@@ -165,6 +189,7 @@ export default {
 			this.check.invalid = !this.valid
 			this.$emit('validate', this.valid)
 		},
+
 		updateCheck(event) {
 			const selectedOperator = event?.operator || this.currentOperator?.operator || this.check.operator
 			const matchingOperator = this.operators.findIndex((operator) => selectedOperator === operator.operator)

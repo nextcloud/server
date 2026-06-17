@@ -5,12 +5,12 @@
 
 import type { ComponentPublicInstanceConstructor } from 'vue/types/v3-component-public-instance'
 
-import { View, getNavigation } from '@nextcloud/files'
+import MagnifySvg from '@mdi/svg/svg/magnify.svg?raw'
+import { getNavigation, View } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
+import Vue from 'vue'
 import { getContents } from '../services/Search.ts'
 import { VIEW_ID as FILES_VIEW_ID } from './files.ts'
-import MagnifySvg from '@mdi/svg/svg/magnify.svg?raw'
-import Vue from 'vue'
 
 export const VIEW_ID = 'search'
 

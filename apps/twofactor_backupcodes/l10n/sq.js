@@ -8,9 +8,9 @@ OC.L10N.register(
     "Use backup code" : "Përdorni kodin e kopjimit",
     "Two factor backup codes" : "Dy kopje rezervë të faktorëve",
     "An error occurred while generating your backup codes" : "Ndodhi një problem ndërsa ishin duke u prodhuar kodet tuaja rezervë",
-    "Save backup codes" : "Ruaj kodet e kopjuara",
-    "Print backup codes" : "Printo kodet rezervë ",
     "Regenerate backup codes" : "Gjenero kodet e kopjuara",
+    "Print backup codes" : "Printo kodet rezervë ",
+    "Save backup codes" : "Ruaj kodet e kopjuara",
     "If you regenerate backup codes, you automatically invalidate old codes." : "Nëse gjeneroni kode rezervë, automaktikisht ju çaktivizoni kodet e vjetra.",
     "Submit" : "Dërgo"
 },

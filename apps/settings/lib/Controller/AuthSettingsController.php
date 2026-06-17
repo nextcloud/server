@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Settings\Controller;
 
 use BadMethodCallException;
@@ -14,16 +15,20 @@ use OC\Authentication\Token\INamedToken;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\RemoteWipe;
 use OCA\Settings\Activity\Provider;
+use OCA\Settings\ConfigLexicon;
 use OCP\Activity\IManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\Authentication\Exceptions\ExpiredTokenException;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\Exceptions\WipeTokenException;
 use OCP\Authentication\Token\IToken;
+use OCP\IConfig;
+use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
@@ -32,60 +37,46 @@ use OCP\Session\Exceptions\SessionNotAvailableException;
 use Psr\Log\LoggerInterface;
 
 class AuthSettingsController extends Controller {
-	/** @var IProvider */
-	private $tokenProvider;
-
-	/** @var RemoteWipe */
-	private $remoteWipe;
-
-	/**
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IProvider $tokenProvider
-	 * @param ISession $session
-	 * @param ISecureRandom $random
-	 * @param string|null $userId
-	 * @param IUserSession $userSession
-	 * @param IManager $activityManager
-	 * @param RemoteWipe $remoteWipe
-	 * @param LoggerInterface $logger
-	 */
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		IProvider $tokenProvider,
+		private IProvider $tokenProvider,
 		private ISession $session,
 		private ISecureRandom $random,
 		private ?string $userId,
 		private IUserSession $userSession,
 		private IManager $activityManager,
-		RemoteWipe $remoteWipe,
+		private IAppConfig $appConfig,
+		private RemoteWipe $remoteWipe,
 		private LoggerInterface $logger,
+		private IConfig $serverConfig,
+		private IL10N $l,
 	) {
 		parent::__construct($appName, $request);
-		$this->tokenProvider = $tokenProvider;
-		$this->remoteWipe = $remoteWipe;
 	}
 
 	/**
 	 * @NoSubAdminRequired
 	 *
-	 * @param string $name
-	 * @return JSONResponse
+	 * @param bool $qrcodeLogin If set to true, the returned token could be (depending on server settings) a onetime password, that can only be used to get the actual app password a single time
 	 */
 	#[NoAdminRequired]
-	#[PasswordConfirmationRequired]
-	public function create($name) {
+	#[PasswordConfirmationRequired(strict: true)]
+	public function create(string $name = '', bool $qrcodeLogin = false): JSONResponse {
 		if ($this->checkAppToken()) {
 			return $this->getServiceNotAvailableResponse();
 		}
 
 		try {
 			$sessionId = $this->session->getId();
-		} catch (SessionNotAvailableException $ex) {
+		} catch (SessionNotAvailableException) {
 			return $this->getServiceNotAvailableResponse();
 		}
 		if ($this->userSession->getImpersonatingUserID() !== null) {
+			return $this->getServiceNotAvailableResponse();
+		}
+
+		if (!$this->serverConfig->getSystemValueBool('auth_can_create_app_token', true)) {
 			return $this->getServiceNotAvailableResponse();
 		}
 
@@ -94,11 +85,31 @@ class AuthSettingsController extends Controller {
 			$loginName = $sessionToken->getLoginName();
 			try {
 				$password = $this->tokenProvider->getPassword($sessionToken, $sessionId);
-			} catch (PasswordlessTokenException $ex) {
+			} catch (PasswordlessTokenException) {
 				$password = null;
 			}
-		} catch (InvalidTokenException $ex) {
+		} catch (InvalidTokenException) {
 			return $this->getServiceNotAvailableResponse();
+		}
+
+		if ($qrcodeLogin) {
+			if ($this->appConfig->getAppValueBool(ConfigLexicon::LOGIN_QRCODE_ONETIME)) {
+				// TRANSLATORS Fallback name for the temporary app password when using the QR code login
+				$name = $this->l->t('One time login');
+				$type = IToken::ONETIME_TOKEN;
+				$scope = [];
+			} else {
+				// TRANSLATORS Fallback name for the app password when using the QR code login
+				$name = $this->l->t('QR Code login');
+				$type = IToken::PERMANENT_TOKEN;
+				$scope = null;
+			}
+		} elseif ($name === '') {
+			// No name is only allowed for one time logins
+			return $this->getServiceNotAvailableResponse();
+		} else {
+			$type = IToken::PERMANENT_TOKEN;
+			$scope = null;
 		}
 
 		if (mb_strlen($name) > 128) {
@@ -106,7 +117,15 @@ class AuthSettingsController extends Controller {
 		}
 
 		$token = $this->generateRandomDeviceToken();
-		$deviceToken = $this->tokenProvider->generateToken($token, $this->userId, $loginName, $password, $name, IToken::PERMANENT_TOKEN);
+		$deviceToken = $this->tokenProvider->generateToken(
+			$token,
+			$this->userId,
+			$loginName,
+			$password,
+			$name,
+			$type,
+			scope: $scope,
+		);
 		$tokenData = $deviceToken->jsonSerialize();
 		$tokenData['canDelete'] = true;
 		$tokenData['canRename'] = true;
@@ -155,22 +174,27 @@ class AuthSettingsController extends Controller {
 	 * @return array|JSONResponse
 	 */
 	#[NoAdminRequired]
+	#[PasswordConfirmationRequired(strict: true)]
 	public function destroy($id) {
 		if ($this->checkAppToken()) {
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}
 
+		$subject = Provider::APP_TOKEN_DELETED;
 		try {
 			$token = $this->findTokenByIdAndUser($id);
 		} catch (WipeTokenException $e) {
-			//continue as we can destroy tokens in wipe
+			// Deleting a wipe-pending token cancels the pending wipe; the device
+			// may already be uninstalled so we allow it, but record it under a
+			// distinct subject so the audit trail captures the consequence.
 			$token = $e->getToken();
+			$subject = Provider::APP_TOKEN_DELETED_WIPE_CANCELLED;
 		} catch (InvalidTokenException $e) {
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		}
 
 		$this->tokenProvider->invalidateTokenById($this->userId, $token->getId());
-		$this->publishActivity(Provider::APP_TOKEN_DELETED, $token->getId(), ['name' => $token->getName()]);
+		$this->publishActivity($subject, $token->getId(), ['name' => $token->getName()]);
 		return [];
 	}
 
@@ -183,6 +207,7 @@ class AuthSettingsController extends Controller {
 	 * @return array|JSONResponse
 	 */
 	#[NoAdminRequired]
+	#[PasswordConfirmationRequired(strict: true)]
 	public function update($id, array $scope, string $name) {
 		if ($this->checkAppToken()) {
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);

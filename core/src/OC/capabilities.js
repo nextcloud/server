@@ -4,6 +4,7 @@
  */
 
 import { getCapabilities as realGetCapabilities } from '@nextcloud/capabilities'
+import logger from '../logger.js'
 
 /**
  * Returns the capabilities
@@ -12,7 +13,9 @@ import { getCapabilities as realGetCapabilities } from '@nextcloud/capabilities'
  *
  * @since 14.0.0
  */
-export const getCapabilities = () => {
-	OC.debug && console.warn('OC.getCapabilities is deprecated and will be removed in Nextcloud 21. See @nextcloud/capabilities')
+export function getCapabilities() {
+	if (OC.debug) {
+		logger.warn('OC.getCapabilities is deprecated and will be removed in Nextcloud 21. See @nextcloud/capabilities')
+	}
 	return realGetCapabilities()
 }

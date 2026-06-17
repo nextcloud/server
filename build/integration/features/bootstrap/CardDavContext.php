@@ -5,15 +5,13 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/autoload.php';
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Message\ResponseInterface;
 
 class CardDavContext implements \Behat\Behat\Context\Context {
-	/** @var string */
-	private $baseUrl;
 	/** @var Client */
 	private $client;
 	/** @var ResponseInterface */
@@ -21,12 +19,9 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 	/** @var string */
 	private $responseXml = '';
 
-	/**
-	 * @param string $baseUrl
-	 */
-	public function __construct($baseUrl) {
-		$this->baseUrl = $baseUrl;
-
+	public function __construct(
+		private string $baseUrl,
+	) {
 		// in case of ci deployment we take the server url from the environment
 		$testServerUrl = getenv('TEST_SERVER_URL');
 		if ($testServerUrl !== false) {
@@ -39,7 +34,6 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 		$this->client = new Client();
 		$this->responseXml = '';
 	}
-
 
 	/** @AfterScenario */
 	public function afterScenario() {

@@ -14,6 +14,8 @@ use OC\Files\FileInfo;
 use OC\Files\View;
 use OCA\Encryption\KeyManager;
 use OCP\Encryption\Exceptions\GenericEncryptionException;
+use OCP\Files\ISetupManager;
+use OCP\IUser;
 use OCP\IUserManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,37 +25,32 @@ class DropLegacyFileKey extends Command {
 	private View $rootView;
 
 	public function __construct(
-		private IUserManager $userManager,
-		private KeyManager $keyManager,
+		private readonly IUserManager $userManager,
+		private readonly KeyManager $keyManager,
+		private readonly ISetupManager $setupManager,
 	) {
 		parent::__construct();
 
 		$this->rootView = new View();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('encryption:drop-legacy-filekey')
 			->setDescription('Scan the files for the legacy filekey format using RC4 and get rid of it (if master key is enabled)');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$result = true;
 
 		$output->writeln('<info>Scanning all files for legacy filekey</info>');
 
-		foreach ($this->userManager->getBackends() as $backend) {
-			$limit = 500;
-			$offset = 0;
-			do {
-				$users = $backend->getUsers('', $limit, $offset);
-				foreach ($users as $user) {
-					$output->writeln('Scanning all files for ' . $user);
-					$this->setupUserFS($user);
-					$result = $result && $this->scanFolder($output, '/' . $user);
-				}
-				$offset += $limit;
-			} while (count($users) >= $limit);
+		foreach ($this->userManager->getSeenUsers() as $user) {
+			$output->writeln('Scanning all files for ' . $user->getUID());
+			$this->setupUserFileSystem($user);
+			$result = $result && $this->scanFolder($output, '/' . $user->getUID());
 		}
 
 		if ($result) {
@@ -143,8 +140,8 @@ class DropLegacyFileKey extends Command {
 	/**
 	 * setup user file system
 	 */
-	protected function setupUserFS(string $uid): void {
-		\OC_Util::tearDownFS();
-		\OC_Util::setupFS($uid);
+	protected function setupUserFileSystem(IUser $user): void {
+		$this->setupManager->tearDown();
+		$this->setupManager->setupForUser($user);
 	}
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Sharing;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -34,7 +35,6 @@ use Psr\Log\LoggerInterface;
  */
 class SharesReminderJob extends TimedJob {
 	private const SECONDS_BEFORE_REMINDER = 24 * 60 * 60;
-	private const CHUNK_SIZE = 1000;
 	private int $folderMimeTypeId;
 
 	public function __construct(
@@ -54,13 +54,13 @@ class SharesReminderJob extends TimedJob {
 		$this->folderMimeTypeId = $mimeTypeLoader->getId(ICacheEntry::DIRECTORY_MIMETYPE);
 	}
 
-
 	/**
 	 * Makes the background job do its work
 	 *
 	 * @param array $argument unused argument
 	 * @throws Exception if a database error occurs
 	 */
+	#[\Override]
 	public function run(mixed $argument): void {
 		foreach ($this->getShares() as $share) {
 			$reminderInfo = $this->prepareReminder($share);
@@ -130,13 +130,13 @@ class SharesReminderJob extends TimedJob {
 					$qb->expr()->isNull('f.fileid')
 				)
 			)
-			->setMaxResults(SharesReminderJob::CHUNK_SIZE);
+			->setMaxResults(IQueryBuilder::MAX_IN_PARAMETERS);
 
-		$shares = $qb->executeQuery()->fetchAll();
-		return array_values(array_map(fn ($share): array => [
+		$shares = $qb->executeQuery()->fetchAllAssociative();
+		return array_map(fn ($share): array => [
 			'id' => (int)$share['id'],
 			'share_type' => (int)$share['share_type'],
-		], $shares));
+		], $shares);
 	}
 
 	/**
@@ -171,13 +171,13 @@ class SharesReminderJob extends TimedJob {
 				)
 			);
 
-		$shares = $qb->executeQuery()->fetchAll();
-		$shares = array_values(array_map(fn ($share): array => [
+		$shares = $qb->executeQuery()->fetchAllAssociative();
+		$shares = array_map(fn ($share): array => [
 			'id' => (int)$share['id'],
 			'share_type' => (int)$share['share_type'],
 			'file_source' => (int)$share['file_source'],
-		], $shares));
-		return $this->filterSharesWithEmptyFolders($shares, self::CHUNK_SIZE);
+		], $shares);
+		return $this->filterSharesWithEmptyFolders($shares, IQueryBuilder::MAX_IN_PARAMETERS);
 	}
 
 	/**
@@ -192,13 +192,13 @@ class SharesReminderJob extends TimedJob {
 			->where($query->expr()->eq('size', $query->createNamedParameter(0), IQueryBuilder::PARAM_INT_ARRAY))
 			->andWhere($query->expr()->eq('mimetype', $query->createNamedParameter($this->folderMimeTypeId, IQueryBuilder::PARAM_INT)))
 			->andWhere($query->expr()->in('fileid', $query->createParameter('fileids')));
-		$chunks = array_chunk($shares, SharesReminderJob::CHUNK_SIZE);
+		$chunks = array_chunk($shares, IQueryBuilder::MAX_IN_PARAMETERS);
 		$results = [];
 		foreach ($chunks as $chunk) {
 			$chunkFileIds = array_map(fn ($share): int => $share['file_source'], $chunk);
 			$chunkByFileId = array_combine($chunkFileIds, $chunk);
 			$query->setParameter('fileids', $chunkFileIds, IQueryBuilder::PARAM_INT_ARRAY);
-			$chunkResults = $query->executeQuery()->fetchAll(\PDO::FETCH_COLUMN);
+			$chunkResults = $query->executeQuery()->fetchFirstColumn();
 			foreach ($chunkResults as $folderId) {
 				$results[] = $chunkByFileId[$folderId];
 			}

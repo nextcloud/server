@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 ownCloud GmbH
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Upload;
 
 use OCA\DAV\Connector\Sabre\Directory;
@@ -153,7 +154,6 @@ class ChunkingPluginTest extends TestCase {
 
 		$this->assertFalse($this->plugin->beforeMove('source', 'target'));
 	}
-
 
 	public function testBeforeMoveSizeIsWrong(): void {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);

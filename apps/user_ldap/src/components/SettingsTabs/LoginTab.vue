@@ -8,26 +8,43 @@
 			{{ t('user_ldap', 'When logging in, {instanceName} will find the user based on the following attributes:', { instanceName }) }}
 		</legend>
 
+		<NcCheckboxRadioSwitch
+			:modelValue="ldapConfigProxy.ldapLoginFilterUsername === '1'"
+			:description="t('user_ldap', 'Allows login against the LDAP/AD username, which is either \'uid\' or \'sAMAccountName\' and will be detected.')"
+			@update:modelValue="ldapConfigProxy.ldapLoginFilterUsername = $event ? '1' : '0'">
+			{{ t('user_ldap', 'LDAP/AD Username:') }}
+		</NcCheckboxRadioSwitch>
+
+		<NcCheckboxRadioSwitch
+			:modelValue="ldapConfigProxy.ldapLoginFilterEmail === '1'"
+			:description="t('user_ldap', 'Allows login against an email attribute. \'mail\' and \'mailPrimaryAddress\' allowed.')"
+			@update:modelValue="ldapConfigProxy.ldapLoginFilterEmail = $event ? '1' : '0'">
+			{{ t('user_ldap', 'LDAP/AD Email Address:') }}
+		</NcCheckboxRadioSwitch>
+
 		<div class="ldap-wizard__login__line ldap-wizard__login__login-attributes">
-			<NcSelect v-model="ldapLoginFilterAttributes"
-				:close-on-select="false"
+			<NcSelect
+				v-model="ldapLoginFilterAttributes"
+				keepOpen
 				:disabled="ldapLoginFilterMode"
 				:options="filteredLoginFilterOptions"
-				:input-label="t('user_ldap', 'Other Attributes:')"
+				:inputLabel="t('user_ldap', 'Other Attributes:')"
 				:multiple="true" />
 		</div>
 
 		<div class="ldap-wizard__login__line ldap-wizard__login__user-login-filter">
-			<NcCheckboxRadioSwitch :model-value="ldapLoginFilterMode"
-				@update:checked="toggleFilterMode">
+			<NcCheckboxRadioSwitch
+				:modelValue="ldapLoginFilterMode"
+				@update:modelValue="toggleFilterMode">
 				{{ t('user_ldap', 'Edit LDAP Query') }}
 			</NcCheckboxRadioSwitch>
 
-			<NcTextArea v-if="ldapLoginFilterMode"
-				:value="ldapConfigProxy.ldapLoginFilter"
+			<NcTextArea
+				v-if="ldapLoginFilterMode"
+				:modelValue="ldapConfigProxy.ldapLoginFilter"
 				:placeholder="t('user_ldap', 'Edit LDAP Query')"
-				:helper-text="t('user_ldap', 'Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`')"
-				@change.native="(event) => ldapConfigProxy.ldapLoginFilter = event.target.value" />
+				:helperText="t('user_ldap', 'Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`')"
+				@change="(event) => ldapConfigProxy.ldapLoginFilter = event.target.value" />
 			<div v-else>
 				<span>{{ t('user_ldap', 'LDAP Filter:') }}</span>
 				<code>{{ ldapConfigProxy.ldapLoginFilter }}</code>
@@ -35,12 +52,14 @@
 		</div>
 
 		<div class="ldap-wizard__login__line">
-			<NcTextField v-model="testUsername"
-				:helper-text="t('user_ldap', 'Attempts to receive a DN for the given login name and the current login filter')"
-				:placeholder="t('user_ldap', 'Test Login name')"
+			<NcTextField
+				v-model="testUsername"
+				:helperText="t('user_ldap', 'Attempts to receive a DN for the given login name and the current login filter')"
+				:label="t('user_ldap', 'Test Login name')"
 				autocomplete="off" />
 
-			<NcButton :disabled="testUsername.length === 0"
+			<NcButton
+				:disabled="testUsername.length === 0"
 				@click="verifyLoginName">
 				{{ t('user_ldap', 'Verify settings') }}
 			</NcButton>
@@ -49,18 +68,16 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
-import { storeToRefs } from 'pinia'
-
-import { t } from '@nextcloud/l10n'
-import { NcButton, NcTextField, NcTextArea, NcCheckboxRadioSwitch, NcSelect } from '@nextcloud/vue'
 import { getCapabilities } from '@nextcloud/capabilities'
 import { showError, showSuccess, showWarning } from '@nextcloud/dialogs'
+import { t } from '@nextcloud/l10n'
+import { NcButton, NcCheckboxRadioSwitch, NcSelect, NcTextArea, NcTextField } from '@nextcloud/vue'
+import { storeToRefs } from 'pinia'
+import { computed, onBeforeMount, ref } from 'vue'
+import { callWizard, showEnableAutomaticFilterInfo } from '../../services/ldapConfigService.ts'
+import { useLDAPConfigsStore } from '../../store/configs.ts'
 
-import { useLDAPConfigsStore } from '../../store/configs'
-import { callWizard, showEnableAutomaticFilterInfo } from '../../services/ldapConfigService'
-
-const props = defineProps<{configId: string}>()
+const props = defineProps<{ configId: string }>()
 
 const ldapConfigsStore = useLDAPConfigsStore()
 const { ldapConfigs } = storeToRefs(ldapConfigsStore)
@@ -70,7 +87,7 @@ const ldapConfigProxy = computed(() => ldapConfigsStore.getConfigProxy(props.con
 	ldapLoginFilterEmail: getUserLoginFilter,
 }))
 
-const instanceName = (getCapabilities() as { theming: { name:string } }).theming.name
+const instanceName = (getCapabilities() as { theming: { name: string } }).theming.name
 const testUsername = ref('')
 const loginFilterOptions = ref<string[]>([])
 
@@ -82,24 +99,33 @@ const ldapLoginFilterAttributes = computed({
 const ldapLoginFilterMode = computed(() => ldapConfigProxy.value.ldapLoginFilterMode === '1')
 const filteredLoginFilterOptions = computed(() => loginFilterOptions.value.filter((option) => !ldapLoginFilterAttributes.value.includes(option)))
 
+onBeforeMount(init)
+
+/**
+ * Initialize login filter options
+ */
 async function init() {
 	const response = await callWizard('determineAttributes', props.configId)
-	loginFilterOptions.value = response.options!.ldap_loginfilter_attributes
+	loginFilterOptions.value = response.options?.ldap_loginfilter_attributes ?? []
 }
 
-init()
-
+/**
+ * Get user login filter
+ */
 async function getUserLoginFilter() {
 	if (ldapConfigProxy.value.ldapLoginFilterMode === '0') {
 		const response = await callWizard('getUserLoginFilter', props.configId)
 		// Not using ldapConfig to avoid triggering the save logic.
-		ldapConfigs.value[props.configId].ldapLoginFilter = response.changes!.ldap_login_filter as string
+		ldapConfigs.value[props.configId]!.ldapLoginFilter = (response.changes?.ldap_login_filter as string | undefined) ?? ''
 	}
 }
 
+/**
+ * Verify login name
+ */
 async function verifyLoginName() {
 	try {
-		const response = await callWizard('testLoginName', props.configId, { ldap_test_loginname: testUsername.value })
+		const response = await callWizard('testLoginName', props.configId, { loginName: testUsername.value })
 
 		const testLoginName = response.changes!.ldap_test_loginname as number
 		const testEffectiveFilter = response.changes!.ldap_test_effective_filter as string
@@ -115,19 +141,24 @@ async function verifyLoginName() {
 		const message = error ?? t('user_ldap', 'An unspecified error occurred. Please check log and settings.')
 
 		switch (message) {
-		case 'Bad search filter':
-			showError(t('user_ldap', 'The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise.'))
-			break
-		case 'connection error':
-			showError(t('user_ldap', 'A connection error to LDAP/AD occurred. Please check host, port and credentials.'))
-			break
-		case 'missing placeholder':
-			showError(t('user_ldap', 'The "%uid" placeholder is missing. It will be replaced with the login name when querying LDAP/AD.'))
-			break
+			case 'Bad search filter':
+				showError(t('user_ldap', 'The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise.'))
+				break
+			case 'connection error':
+				showError(t('user_ldap', 'A connection error to LDAP/AD occurred. Please check host, port and credentials.'))
+				break
+			case 'missing placeholder':
+				showError(t('user_ldap', 'The "%uid" placeholder is missing. It will be replaced with the login name when querying LDAP/AD.'))
+				break
 		}
 	}
 }
 
+/**
+ * Toggle filter mode
+ *
+ * @param value - new value
+ */
 async function toggleFilterMode(value: boolean) {
 	if (value) {
 		ldapConfigProxy.value.ldapLoginFilterMode = '1'
@@ -136,6 +167,7 @@ async function toggleFilterMode(value: boolean) {
 	}
 }
 </script>
+
 <style lang="scss" scoped>
 .ldap-wizard__login {
 	display: flex;

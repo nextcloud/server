@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP\Tests;
 
 use OCA\User_LDAP\Access;
@@ -18,8 +19,8 @@ use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\User\User;
 use OCA\User_LDAP\User_Proxy;
+use OCP\Config\IUserConfig;
 use OCP\GroupInterface;
-use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
@@ -30,14 +31,14 @@ use Test\TestCase;
 /**
  * Class GroupLDAPTest
  *
- * @group DB
  *
  * @package OCA\User_LDAP\Tests
  */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class Group_LDAPTest extends TestCase {
 	private Access&MockObject $access;
 	private GroupPluginManager&MockObject $pluginManager;
-	private IConfig&MockObject $config;
+	private IUserConfig&MockObject $userConfig;
 	private IUserManager&MockObject $ncUserManager;
 	private GroupLDAP $groupBackend;
 
@@ -46,12 +47,12 @@ class Group_LDAPTest extends TestCase {
 
 		$this->access = $this->getAccessMock();
 		$this->pluginManager = $this->createMock(GroupPluginManager::class);
-		$this->config = $this->createMock(IConfig::class);
+		$this->userConfig = $this->createMock(IUserConfig::class);
 		$this->ncUserManager = $this->createMock(IUserManager::class);
 	}
 
 	public function initBackend(): void {
-		$this->groupBackend = new GroupLDAP($this->access, $this->pluginManager, $this->config, $this->ncUserManager);
+		$this->groupBackend = new GroupLDAP($this->access, $this->pluginManager, $this->userConfig, $this->ncUserManager);
 	}
 
 	public function testCountEmptySearchString(): void {
@@ -772,9 +773,9 @@ class Group_LDAPTest extends TestCase {
 			->method('isDNPartOfBase')
 			->willReturn(true);
 
-		$this->config->expects($this->once())
-			->method('setUserValue')
-			->with('userX', 'user_ldap', 'cached-group-memberships-', \json_encode($expectedGroups));
+		$this->userConfig->expects($this->once())
+			->method('setValueArray')
+			->with('userX', 'user_ldap', 'cached-group-memberships-', $expectedGroups);
 
 		$this->initBackend();
 		$groups = $this->groupBackend->getUserGroups('userX');
@@ -810,9 +811,9 @@ class Group_LDAPTest extends TestCase {
 			->willReturn([]);
 
 		// empty group result should not be oer
-		$this->config->expects($this->once())
-			->method('setUserValue')
-			->with('userX', 'user_ldap', 'cached-group-memberships-', '[]');
+		$this->userConfig->expects($this->once())
+			->method('setValueArray')
+			->with('userX', 'user_ldap', 'cached-group-memberships-', []);
 
 		$ldapUser = $this->createMock(User::class);
 
@@ -846,10 +847,10 @@ class Group_LDAPTest extends TestCase {
 
 		$offlineUser = $this->createMock(OfflineUser::class);
 
-		$this->config->expects($this->any())
-			->method('getUserValue')
+		$this->userConfig->expects($this->any())
+			->method('getValueArray')
 			->with('userX', 'user_ldap', 'cached-group-memberships-', $this->anything())
-			->willReturn(\json_encode(['groupB', 'groupF']));
+			->willReturn(['groupB', 'groupF']);
 
 		$this->access->userManager->expects($this->any())
 			->method('get')
@@ -872,11 +873,11 @@ class Group_LDAPTest extends TestCase {
 
 		$offlineUser = $this->createMock(OfflineUser::class);
 
-		$this->config->expects($this->any())
-			->method('getUserValue')
+		$this->userConfig->expects($this->any())
+			->method('getValueArray')
 			->with('userX', 'user_ldap', 'cached-group-memberships-', $this->anything())
 			// results in a json object: {"0":"groupB","2":"groupF"}
-			->willReturn(\json_encode([0 => 'groupB', 2 => 'groupF']));
+			->willReturn([0 => 'groupB', 2 => 'groupF']);
 
 		$this->access->userManager->expects($this->any())
 			->method('get')
@@ -907,10 +908,10 @@ class Group_LDAPTest extends TestCase {
 			->method('getBackend')
 			->willReturn($userBackend);
 
-		$this->config->expects($this->atLeastOnce())
-			->method('getUserValue')
+		$this->userConfig->expects($this->atLeastOnce())
+			->method('getValueArray')
 			->with('userX', 'user_ldap', 'cached-group-memberships-', $this->anything())
-			->willReturn(\json_encode(['groupB', 'groupF']));
+			->willReturn(['groupB', 'groupF']);
 
 		$this->access->expects($this->any())
 			->method('username2dn')
@@ -1074,7 +1075,6 @@ class Group_LDAPTest extends TestCase {
 		$this->assertTrue($this->groupBackend->createGroup('gid'));
 	}
 
-
 	public function testCreateGroupFailing(): void {
 		$this->expectException(\Exception::class);
 
@@ -1119,7 +1119,6 @@ class Group_LDAPTest extends TestCase {
 		$this->assertTrue($this->groupBackend->deleteGroup('gid'));
 	}
 
-
 	public function testDeleteGroupFailing(): void {
 		$this->expectException(\Exception::class);
 
@@ -1155,7 +1154,6 @@ class Group_LDAPTest extends TestCase {
 		$this->assertEquals('result', $this->groupBackend->addToGroup('uid', 'gid'));
 	}
 
-
 	public function testAddToGroupFailing(): void {
 		$this->expectException(\Exception::class);
 
@@ -1190,7 +1188,6 @@ class Group_LDAPTest extends TestCase {
 		$this->initBackend();
 		$this->assertEquals('result', $this->groupBackend->removeFromGroup('uid', 'gid'));
 	}
-
 
 	public function testRemoveFromGroupFailing(): void {
 		$this->expectException(\Exception::class);

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\BackgroundJob;
 
 use OC\User\NoUserException;
@@ -16,6 +17,8 @@ use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
+use OCP\IConfig;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class UploadCleanup extends TimedJob {
@@ -32,6 +35,7 @@ class UploadCleanup extends TimedJob {
 		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
+	#[\Override]
 	protected function run($argument) {
 		$uid = $argument['uid'];
 		$folder = $argument['folder'];
@@ -47,8 +51,9 @@ class UploadCleanup extends TimedJob {
 			return;
 		}
 
-		// Remove if all files have an mtime of more than a day
-		$time = $this->time->getTime() - 60 * 60 * 24;
+		// Remove if all files have an mtime of more than a day or configured TTL
+		$ttl = Server::get(IConfig::class)->getSystemValueInt('cache_chunk_gc_ttl', 60 * 60 * 24);
+		$time = $this->time->getTime() - $ttl;
 
 		if (!($uploadFolder instanceof Folder)) {
 			$this->logger->error('Found a file inside the uploads folder. Uid: ' . $uid . ' folder: ' . $folder);
@@ -61,8 +66,6 @@ class UploadCleanup extends TimedJob {
 
 		/** @var File[] $files */
 		$files = $uploadFolder->getDirectoryListing();
-
-		// The folder has to be more than a day old
 		$initial = $uploadFolder->getMTime() < $time;
 
 		$expire = array_reduce($files, function (bool $carry, File $file) use ($time) {

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\Cache\Cache;
@@ -15,9 +16,8 @@ use OCP\Share\IShare;
 
 /**
  * Class WatcherTest
- *
- * @group DB
  */
+#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class WatcherTest extends TestCase {
 
 	/** @var Storage */

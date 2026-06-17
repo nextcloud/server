@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Theming\Tests\Service;
 
 use OCA\Theming\AppInfo\Application;
@@ -130,7 +131,7 @@ class ThemesServiceTest extends TestCase {
 	 * @param string[] $enabledThemes
 	 * @param string[] $expectedEnabled
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestEnableTheme')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestEnableTheme')]
 	public function testEnableTheme(string $toEnable, array $enabledThemes, array $expectedEnabled): void {
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->any())
@@ -148,7 +149,6 @@ class ThemesServiceTest extends TestCase {
 		$this->assertEquals($expectedEnabled, $this->themesService->enableTheme($this->themes[$toEnable]));
 	}
 
-
 	public static function dataTestDisableTheme(): array {
 		return [
 			['dark', ['default'], ['default']],
@@ -163,7 +163,7 @@ class ThemesServiceTest extends TestCase {
 	 * @param string[] $enabledThemes
 	 * @param string[] $expectedEnabled
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestDisableTheme')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestDisableTheme')]
 	public function testDisableTheme(string $toDisable, array $enabledThemes, array $expectedEnabled): void {
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->any())
@@ -178,10 +178,8 @@ class ThemesServiceTest extends TestCase {
 			->with('user', Application::APP_ID, 'enabled-themes', '["default"]')
 			->willReturn(json_encode($enabledThemes));
 
-
 		$this->assertEquals($expectedEnabled, $this->themesService->disableTheme($this->themes[$toDisable]));
 	}
-
 
 	public static function dataTestIsEnabled(): array {
 		return [
@@ -195,7 +193,7 @@ class ThemesServiceTest extends TestCase {
 	/**
 	 * @param string[] $enabledThemes
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestIsEnabled')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestIsEnabled')]
 	public function testIsEnabled(string $themeId, array $enabledThemes, bool $expected): void {
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->any())
@@ -210,7 +208,6 @@ class ThemesServiceTest extends TestCase {
 			->with('user', Application::APP_ID, 'enabled-themes', '["default"]')
 			->willReturn(json_encode($enabledThemes));
 
-
 		$this->assertEquals($expected, $this->themesService->isEnabled($this->themes[$themeId]));
 	}
 
@@ -222,7 +219,6 @@ class ThemesServiceTest extends TestCase {
 		$user->expects($this->any())
 			->method('getUID')
 			->willReturn('user');
-
 
 		$this->config->expects($this->once())
 			->method('getUserValue')
@@ -245,7 +241,6 @@ class ThemesServiceTest extends TestCase {
 			->method('getUID')
 			->willReturn('user');
 
-
 		$this->config->expects($this->once())
 			->method('getUserValue')
 			->with('user', Application::APP_ID, 'enabled-themes', '["default"]')
@@ -257,7 +252,6 @@ class ThemesServiceTest extends TestCase {
 
 		$this->assertEquals(['light'], $this->themesService->getEnabledThemes());
 	}
-
 
 	public static function dataTestSetEnabledThemes(): array {
 		return [
@@ -273,7 +267,7 @@ class ThemesServiceTest extends TestCase {
 	 * @param string[] $enabledThemes
 	 * @param string[] $expected
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestSetEnabledThemes')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestSetEnabledThemes')]
 	public function testSetEnabledThemes(array $enabledThemes, array $expected): void {
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->any())

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Federation\Controller;
 
 use OCA\Federation\DbHandler;
@@ -64,7 +65,6 @@ class OCSAuthAPIController extends OCSController {
 		return $this->requestSharedSecret($url, $token);
 	}
 
-
 	/**
 	 * Create shared secret and return it, for legacy end-points
 	 *
@@ -109,7 +109,7 @@ class OCSAuthAPIController extends OCSController {
 			$this->logger->info(
 				'remote server (' . $url . ') presented lower token. We will initiate the exchange of the shared secret.'
 			);
-			throw new OCSForbiddenException();
+			return new DataResponse();
 		}
 
 		$this->jobList->add(
@@ -163,7 +163,10 @@ class OCSAuthAPIController extends OCSController {
 	}
 
 	protected function isValidToken(string $url, string $token): bool {
+		if ($url === '' || $token === '') {
+			return false;
+		}
 		$storedToken = $this->dbHandler->getToken($url);
-		return hash_equals($storedToken, $token);
+		return $storedToken !== '' && hash_equals($storedToken, $token);
 	}
 }

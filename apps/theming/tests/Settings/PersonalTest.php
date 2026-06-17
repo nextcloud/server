@@ -5,9 +5,9 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Theming\Tests\Settings;
 
-use OCA\Theming\AppInfo\Application;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ITheme;
 use OCA\Theming\Service\BackgroundService;
@@ -60,7 +60,6 @@ class PersonalTest extends TestCase {
 			->willReturn($this->themes);
 
 		$this->admin = new Personal(
-			Application::APP_ID,
 			'admin',
 			$this->config,
 			$this->themesService,
@@ -87,7 +86,7 @@ class PersonalTest extends TestCase {
 		];
 	}
 
-	#[DataProvider('dataTestGetForm')]
+	#[DataProvider(methodName: 'dataTestGetForm')]
 	public function testGetForm(string $enforcedTheme, array $themesState): void {
 		$themesState = array_map(
 			$this->formatThemeForm(...),

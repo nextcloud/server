@@ -6,14 +6,15 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Security\Signature\Model;
 
 use JsonSerializable;
-use NCU\Security\Signature\Enum\DigestAlgorithm;
-use NCU\Security\Signature\Exceptions\SignatoryNotFoundException;
-use NCU\Security\Signature\Exceptions\SignatureElementNotFoundException;
-use NCU\Security\Signature\ISignedRequest;
-use NCU\Security\Signature\Model\Signatory;
+use OCP\Security\Signature\Enum\DigestAlgorithm;
+use OCP\Security\Signature\Exceptions\SignatoryNotFoundException;
+use OCP\Security\Signature\Exceptions\SignatureElementNotFoundException;
+use OCP\Security\Signature\ISignedRequest;
+use OCP\Security\Signature\Model\Signatory;
 
 /**
  * @inheritDoc
@@ -39,6 +40,7 @@ class SignedRequest implements ISignedRequest, JsonSerializable {
 	 * @return string
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getBody(): string {
 		return $this->body;
 	}
@@ -62,6 +64,7 @@ class SignedRequest implements ISignedRequest, JsonSerializable {
 	 * @return DigestAlgorithm
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getDigestAlgorithm(): DigestAlgorithm {
 		return $this->digestAlgorithm;
 	}
@@ -72,6 +75,7 @@ class SignedRequest implements ISignedRequest, JsonSerializable {
 	 * @return string
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getDigest(): string {
 		if ($this->digest === '') {
 			$this->digest = $this->digestAlgorithm->value . '='
@@ -88,6 +92,7 @@ class SignedRequest implements ISignedRequest, JsonSerializable {
 	 * @return self
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function setSigningElements(array $elements): self {
 		$this->signingElements = $elements;
 		return $this;
@@ -99,6 +104,7 @@ class SignedRequest implements ISignedRequest, JsonSerializable {
 	 * @return array
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getSigningElements(): array {
 		return $this->signingElements;
 	}
@@ -111,6 +117,7 @@ class SignedRequest implements ISignedRequest, JsonSerializable {
 	 * @since 31.0.0
 	 *
 	 */
+	#[\Override]
 	public function getSigningElement(string $key): string { // getSignatureDetail / getSignatureEntry() ?
 		if (!array_key_exists($key, $this->signingElements)) {
 			throw new SignatureElementNotFoundException('missing element ' . $key . ' in Signature header');
@@ -138,6 +145,7 @@ class SignedRequest implements ISignedRequest, JsonSerializable {
 	 * @return array
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getSignatureData(): array {
 		return $this->signatureData;
 	}
@@ -150,7 +158,7 @@ class SignedRequest implements ISignedRequest, JsonSerializable {
 	 * @return self
 	 * @since 31.0.0
 	 */
-	protected function setSignature(string $signature): self {
+	public function setSignature(string $signature): self {
 		$this->signature = $signature;
 		return $this;
 	}
@@ -161,6 +169,7 @@ class SignedRequest implements ISignedRequest, JsonSerializable {
 	 * @return string
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getSignature(): string {
 		return $this->signature;
 	}
@@ -172,6 +181,7 @@ class SignedRequest implements ISignedRequest, JsonSerializable {
 	 * @return self
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function setSignatory(Signatory $signatory): self {
 		$this->signatory = $signatory;
 		return $this;
@@ -184,6 +194,7 @@ class SignedRequest implements ISignedRequest, JsonSerializable {
 	 * @throws SignatoryNotFoundException
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function getSignatory(): Signatory {
 		if ($this->signatory === null) {
 			throw new SignatoryNotFoundException();
@@ -198,10 +209,12 @@ class SignedRequest implements ISignedRequest, JsonSerializable {
 	 * @return bool
 	 * @since 31.0.0
 	 */
+	#[\Override]
 	public function hasSignatory(): bool {
 		return ($this->signatory !== null);
 	}
 
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'body' => $this->body,

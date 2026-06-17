@@ -1,8 +1,9 @@
-/**
+/*!
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { FileAction, Folder, Node, View } from '@nextcloud/files'
+
+import type { IFileAction, IFolder, INode, IView } from '@nextcloud/files'
 import type { Upload } from '@nextcloud/upload'
 
 // Global definitions
@@ -12,20 +13,20 @@ export type ViewId = string
 
 // Files store
 export type FilesStore = {
-	[source: FileSource]: Node
+	[source: FileSource]: INode
 }
 
 export type RootsStore = {
-	[service: Service]: Folder
+	[service: Service]: IFolder
 }
 
 export type FilesState = {
-	files: FilesStore,
-	roots: RootsStore,
+	files: FilesStore
+	roots: RootsStore
 }
 
 export interface RootOptions {
-	root: Folder
+	root: IFolder
 	service: Service
 }
 
@@ -54,15 +55,16 @@ export interface UserConfig {
 
 	crop_image_previews: boolean
 	default_view: 'files' | 'personal'
+	folder_tree: boolean
 	grid_view: boolean
-	show_files_extensions: boolean
-	show_hidden: boolean
-	show_mime_column: boolean
 	sort_favorites_first: boolean
 	sort_folders_first: boolean
 
+	show_files_extensions: boolean
+	show_hidden: boolean
+	show_mime_column: boolean
 	show_dialog_deletion: boolean
-	show_dialog_file_extension: boolean,
+	show_dialog_file_extension: boolean
 }
 
 export interface UserConfigStore {
@@ -78,12 +80,12 @@ export interface SelectionStore {
 // Actions menu store
 export type GlobalActions = 'global'
 export interface ActionsMenuStore {
-	opened: GlobalActions|string|null
+	opened: GlobalActions | string | null
 }
 
 // View config store
 export interface ViewConfig {
-	[key: string]: string|boolean
+	[key: string]: string | boolean
 }
 export interface ViewConfigs {
 	[viewId: ViewId]: ViewConfig
@@ -94,7 +96,7 @@ export interface ViewConfigStore {
 
 // Renaming store
 export interface RenamingStore {
-	renamingNode?: Node
+	renamingNode?: INode
 	newName: string
 }
 
@@ -110,16 +112,16 @@ export interface DragAndDropStore {
 
 // Active node store
 export interface ActiveStore {
-	activeAction: FileAction|null
-	activeFolder: Folder|null
-	activeNode: Node|null
-	activeView: View|null
+	activeAction: IFileAction | null
+	activeFolder: IFolder | null
+	activeNode: INode | null
+	activeView: IView | null
 }
 
 /**
  * Search scope for the in-files-search
  */
-export type SearchScope = 'filter'|'globally'
+export type SearchScope = 'filter' | 'globally'
 
 export interface TemplateFile {
 	app: string

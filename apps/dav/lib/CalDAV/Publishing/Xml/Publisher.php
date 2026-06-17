@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CalDAV\Publishing\Xml;
 
 use Sabre\Xml\Writer;
@@ -47,6 +48,7 @@ class Publisher implements XmlSerializable {
 	 * @param Writer $writer
 	 * @return void
 	 */
+	#[\Override]
 	public function xmlSerialize(Writer $writer) {
 		if (!$this->isPublished) {
 			// for pre-publish-url

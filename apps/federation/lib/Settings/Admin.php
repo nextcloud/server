@@ -1,19 +1,28 @@
 <?php
 
-/**
+declare(strict_types=1);
+
+/*!
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Federation\Settings;
 
+use OCA\Federation\AppInfo\Application;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\IL10N;
+use OCP\IURLGenerator;
 use OCP\Settings\IDelegatedSettings;
+use OCP\Util;
 
 class Admin implements IDelegatedSettings {
 	public function __construct(
 		private TrustedServers $trustedServers,
+		private IInitialState $initialState,
+		private IURLGenerator $urlGenerator,
 		private IL10N $l,
 	) {
 	}
@@ -21,17 +30,24 @@ class Admin implements IDelegatedSettings {
 	/**
 	 * @return TemplateResponse
 	 */
+	#[\Override]
 	public function getForm() {
 		$parameters = [
 			'trustedServers' => $this->trustedServers->getServers(),
+			'docUrl' => $this->urlGenerator->linkToDocs('admin-sharing-federated') . '#configuring-trusted-nextcloud-servers',
 		];
 
-		return new TemplateResponse('federation', 'settings-admin', $parameters, '');
+		$this->initialState->provideInitialState('adminSettings', $parameters);
+
+		Util::addStyle(Application::APP_ID, 'settings-admin');
+		Util::addScript(Application::APP_ID, 'settings-admin');
+		return new TemplateResponse(Application::APP_ID, 'settings-admin', renderAs: '');
 	}
 
 	/**
 	 * @return string the section ID, e.g. 'sharing'
 	 */
+	#[\Override]
 	public function getSection() {
 		return 'sharing';
 	}
@@ -43,14 +59,17 @@ class Admin implements IDelegatedSettings {
 	 *
 	 * E.g.: 70
 	 */
+	#[\Override]
 	public function getPriority() {
 		return 30;
 	}
 
+	#[\Override]
 	public function getName(): ?string {
 		return $this->l->t('Trusted servers');
 	}
 
+	#[\Override]
 	public function getAuthorizedAppConfig(): array {
 		return []; // Handled by custom controller
 	}

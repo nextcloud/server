@@ -3,7 +3,8 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<form ref="form"
+	<form
+		ref="form"
 		class="setup-form"
 		:class="{ 'setup-form--loading': loading }"
 		action=""
@@ -11,7 +12,8 @@
 		method="POST"
 		@submit="onSubmit">
 		<!-- Autoconfig info -->
-		<NcNoteCard v-if="config.hasAutoconfig"
+		<NcNoteCard
+			v-if="config.hasAutoconfig"
 			:heading="t('core', 'Autoconfig file detected')"
 			data-cy-setup-form-note="autoconfig"
 			type="success">
@@ -19,7 +21,8 @@
 		</NcNoteCard>
 
 		<!-- Htaccess warning -->
-		<NcNoteCard v-if="config.htaccessWorking === false"
+		<NcNoteCard
+			v-if="config.htaccessWorking === false"
 			:heading="t('core', 'Security warning')"
 			data-cy-setup-form-note="htaccess"
 			type="warning">
@@ -27,7 +30,8 @@
 		</NcNoteCard>
 
 		<!-- Various errors -->
-		<NcNoteCard v-for="(error, index) in errors"
+		<NcNoteCard
+			v-for="(error, index) in errors"
 			:key="index"
 			:heading="error.heading"
 			data-cy-setup-form-note="error"
@@ -40,14 +44,16 @@
 			<legend>{{ t('core', 'Create administration account') }}</legend>
 
 			<!-- Username -->
-			<NcTextField v-model="config.adminlogin"
+			<NcTextField
+				v-model="config.adminlogin"
 				:label="t('core', 'Administration account name')"
 				data-cy-setup-form-field="adminlogin"
 				name="adminlogin"
 				required />
 
 			<!-- Password -->
-			<NcPasswordField v-model="config.adminpass"
+			<NcPasswordField
+				v-model="config.adminpass"
 				:label="t('core', 'Administration account password')"
 				data-cy-setup-form-field="adminpass"
 				name="adminpass"
@@ -65,7 +71,8 @@
 
 			<!-- Data folder -->
 			<fieldset class="setup-form__data-folder">
-				<NcTextField v-model="config.directory"
+				<NcTextField
+					v-model="config.directory"
 					:label="t('core', 'Data folder')"
 					:placeholder="config.serverRoot + '/data'"
 					required
@@ -82,8 +89,14 @@
 
 				<!-- Database type select -->
 				<fieldset class="setup-form__database-type">
-					<p v-if="!firstAndOnlyDatabase" :class="`setup-form__database-type-select--${DBTypeGroupDirection}`" class="setup-form__database-type-select">
-						<NcCheckboxRadioSwitch v-for="(name, db) in config.databases"
+					<legend class="hidden-visually">
+						{{ t('core', 'Database type') }}
+					</legend>
+
+					<!-- Using v-show instead of v-if ensures that the input dbtype remains set even when only one database engine is available -->
+					<p v-show="!firstAndOnlyDatabase" :class="`setup-form__database-type-select--${DBTypeGroupDirection}`" class="setup-form__database-type-select">
+						<NcCheckboxRadioSwitch
+							v-for="(name, db) in config.databases"
 							:key="db"
 							v-model="config.dbtype"
 							:button-variant="true"
@@ -96,7 +109,7 @@
 						</NcCheckboxRadioSwitch>
 					</p>
 
-					<NcNoteCard v-else data-cy-setup-form-db-note="single-db" type="warning">
+					<NcNoteCard v-if="firstAndOnlyDatabase" data-cy-setup-form-db-note="single-db" type="warning">
 						{{ t('core', 'Only {firstAndOnlyDatabase} is available.', { firstAndOnlyDatabase }) }}<br>
 						{{ t('core', 'Install and activate additional PHP modules to choose other database types.') }}<br>
 						<a :href="links.adminSourceInstall" target="_blank" rel="noreferrer noopener">
@@ -104,7 +117,8 @@
 						</a>
 					</NcNoteCard>
 
-					<NcNoteCard v-if="config.dbtype === 'sqlite'"
+					<NcNoteCard
+						v-if="config.dbtype === 'sqlite'"
 						:heading="t('core', 'Performance warning')"
 						data-cy-setup-form-db-note="sqlite"
 						type="warning">
@@ -116,7 +130,12 @@
 
 				<!-- Database configuration -->
 				<fieldset v-if="config.dbtype !== 'sqlite'">
-					<NcTextField v-model="config.dbuser"
+					<legend class="hidden-visually">
+						{{ t('core', 'Database connection') }}
+					</legend>
+
+					<NcTextField
+						v-model="config.dbuser"
 						:label="t('core', 'Database user')"
 						autocapitalize="none"
 						autocomplete="off"
@@ -125,7 +144,8 @@
 						spellcheck="false"
 						required />
 
-					<NcPasswordField v-model="config.dbpass"
+					<NcPasswordField
+						v-model="config.dbpass"
 						:label="t('core', 'Database password')"
 						autocapitalize="none"
 						autocomplete="off"
@@ -134,7 +154,8 @@
 						spellcheck="false"
 						required />
 
-					<NcTextField v-model="config.dbname"
+					<NcTextField
+						v-model="config.dbname"
 						:label="t('core', 'Database name')"
 						autocapitalize="none"
 						autocomplete="off"
@@ -144,7 +165,8 @@
 						spellcheck="false"
 						required />
 
-					<NcTextField v-if="config.dbtype === 'oci'"
+					<NcTextField
+						v-if="config.dbtype === 'oci'"
 						v-model="config.dbtablespace"
 						:label="t('core', 'Database tablespace')"
 						autocapitalize="none"
@@ -153,7 +175,8 @@
 						name="dbtablespace"
 						spellcheck="false" />
 
-					<NcTextField v-model="config.dbhost"
+					<NcTextField
+						v-model="config.dbhost"
 						:helper-text="t('core', 'Please specify the port number along with the host name (e.g., localhost:5432).')"
 						:label="t('core', 'Database host')"
 						:placeholder="t('core', 'localhost')"
@@ -167,20 +190,21 @@
 		</details>
 
 		<!-- Submit -->
-		<NcButton class="setup-form__button"
+		<NcButton
+			class="setup-form__button"
 			:class="{ 'setup-form__button--loading': loading }"
 			:disabled="loading"
 			:loading="loading"
 			:wide="true"
 			alignment="center-reverse"
 			data-cy-setup-form-submit
-			native-type="submit"
-			type="primary">
+			type="submit"
+			variant="primary">
 			<template #icon>
 				<NcLoadingIcon v-if="loading" />
 				<IconArrowRight v-else />
 			</template>
-			{{ loading ? t('core', 'Installing …') : t('core', 'Install') }}
+			{{ loading ? t('core', 'Installing …') : t('core', 'Install') }}
 		</NcButton>
 
 		<!-- Help note -->
@@ -190,21 +214,20 @@
 		</NcNoteCard>
 	</form>
 </template>
-<script lang="ts">
-import type { DbType, SetupConfig, SetupLinks } from '../install'
 
-import { defineComponent } from 'vue'
+<script lang="ts">
+import type { DbType, SetupConfig, SetupLinks } from '../install.ts'
+
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import DomPurify from 'dompurify'
-
+import { defineComponent } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcPasswordField from '@nextcloud/vue/components/NcPasswordField'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
-
 import IconArrowRight from 'vue-material-design-icons/ArrowRight.vue'
 
 enum PasswordStrength {
@@ -216,7 +239,11 @@ enum PasswordStrength {
 	ExtremelyStrong,
 }
 
-const checkPasswordEntropy = (password: string = ''): PasswordStrength => {
+/**
+ *
+ * @param password
+ */
+function checkPasswordEntropy(password: string = ''): PasswordStrength {
 	const uniqueCharacters = new Set(password)
 	const entropy = parseInt(Math.log2(Math.pow(parseInt(uniqueCharacters.size.toString()), password.length)).toFixed(2))
 	if (entropy < 16) {
@@ -270,22 +297,23 @@ export default defineComponent({
 
 			const passwordStrength = checkPasswordEntropy(this.config?.adminpass)
 			switch (passwordStrength) {
-			case PasswordStrength.VeryWeak:
-				return t('core', 'Password is too weak')
-			case PasswordStrength.Weak:
-				return t('core', 'Password is weak')
-			case PasswordStrength.Moderate:
-				return t('core', 'Password is average')
-			case PasswordStrength.Strong:
-				return t('core', 'Password is strong')
-			case PasswordStrength.VeryStrong:
-				return t('core', 'Password is very strong')
-			case PasswordStrength.ExtremelyStrong:
-				return t('core', 'Password is extremely strong')
+				case PasswordStrength.VeryWeak:
+					return t('core', 'Password is too weak')
+				case PasswordStrength.Weak:
+					return t('core', 'Password is weak')
+				case PasswordStrength.Moderate:
+					return t('core', 'Password is average')
+				case PasswordStrength.Strong:
+					return t('core', 'Password is strong')
+				case PasswordStrength.VeryStrong:
+					return t('core', 'Password is very strong')
+				case PasswordStrength.ExtremelyStrong:
+					return t('core', 'Password is extremely strong')
 			}
 
 			return t('core', 'Unknown password strength')
 		},
+
 		passwordHelperType() {
 			if (checkPasswordEntropy(this.config?.adminpass) < PasswordStrength.Moderate) {
 				return 'error'
@@ -296,7 +324,7 @@ export default defineComponent({
 			return 'success'
 		},
 
-		firstAndOnlyDatabase(): string|null {
+		firstAndOnlyDatabase(): string | null {
 			const dbNames = Object.values(this.config?.databases || {})
 			if (dbNames.length === 1) {
 				return dbNames[0]
@@ -327,7 +355,7 @@ export default defineComponent({
 		},
 
 		errors() {
-			return (this.config?.errors || []).map(error => {
+			return (this.config?.errors || []).map((error) => {
 				if (typeof error === 'string') {
 					return {
 						heading: '',
@@ -356,7 +384,6 @@ export default defineComponent({
 		// for Cypress to be properly initialized.
 		this.config = loadState<SetupConfig>('core', 'config')
 		this.links = loadState<SetupLinks>('core', 'links')
-
 	},
 
 	mounted() {
@@ -370,7 +397,7 @@ export default defineComponent({
 			const form = this.$refs.form as HTMLFormElement
 
 			// Check the form without the administration account fields
-			form.querySelectorAll('input[name="adminlogin"], input[name="adminpass"]').forEach(input => {
+			form.querySelectorAll('input[name="adminlogin"], input[name="adminpass"]').forEach((input) => {
 				input.removeAttribute('required')
 			})
 
@@ -382,7 +409,7 @@ export default defineComponent({
 
 			// Restore the required attribute
 			// Check the form without the administration account fields
-			form.querySelectorAll('input[name="adminlogin"], input[name="adminpass"]').forEach(input => {
+			form.querySelectorAll('input[name="adminlogin"], input[name="adminpass"]').forEach((input) => {
 				input.setAttribute('required', 'true')
 			})
 		}
@@ -395,6 +422,7 @@ export default defineComponent({
 	},
 })
 </script>
+
 <style lang="scss">
 form {
 	padding: calc(3 * var(--default-grid-baseline));

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\AppFramework\Http;
 
 use OCP\AppFramework\Http;
@@ -13,8 +14,8 @@ use OCP\AppFramework\Http;
  * Class DataDisplayResponse
  *
  * @since 8.1.0
- * @template S of Http::STATUS_*
- * @template H of array<string, mixed>
+ * @template-covariant S of Http::STATUS_*
+ * @template-covariant H of array<string, mixed>
  * @template-extends Response<Http::STATUS_*, array<string, mixed>>
  */
 class DataDisplayResponse extends Response {
@@ -23,7 +24,6 @@ class DataDisplayResponse extends Response {
 	 * @var string
 	 */
 	protected $data;
-
 
 	/**
 	 * @param string $data the data to display
@@ -43,10 +43,10 @@ class DataDisplayResponse extends Response {
 	 * @return string
 	 * @since 8.1.0
 	 */
+	#[\Override]
 	public function render() {
 		return $this->data;
 	}
-
 
 	/**
 	 * Sets values in the data
@@ -59,7 +59,6 @@ class DataDisplayResponse extends Response {
 
 		return $this;
 	}
-
 
 	/**
 	 * Used to get the set parameters

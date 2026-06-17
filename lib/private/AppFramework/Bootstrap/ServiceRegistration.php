@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\AppFramework\Bootstrap;
 
 /**
@@ -14,17 +15,13 @@ namespace OC\AppFramework\Bootstrap;
  */
 class ServiceRegistration extends ARegistration {
 	/**
-	 * @var string
-	 * @psalm-var class-string<T>
-	 */
-	private $service;
-
-	/**
 	 * @psalm-param class-string<T> $service
 	 */
-	public function __construct(string $appId, string $service) {
+	public function __construct(
+		string $appId,
+		private string $service,
+	) {
 		parent::__construct($appId);
-		$this->service = $service;
 	}
 
 	/**

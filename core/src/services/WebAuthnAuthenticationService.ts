@@ -5,11 +5,10 @@
 
 import type { AuthenticationResponseJSON, PublicKeyCredentialRequestOptionsJSON } from '@simplewebauthn/browser'
 
-import { startAuthentication as startWebauthnAuthentication } from '@simplewebauthn/browser'
-import { generateUrl } from '@nextcloud/router'
-
 import Axios from '@nextcloud/axios'
-import logger from '../logger'
+import { generateUrl } from '@nextcloud/router'
+import { startAuthentication as startWebauthnAuthentication } from '@simplewebauthn/browser'
+import logger from '../logger.js'
 
 export class NoValidCredentials extends Error {}
 
@@ -32,6 +31,7 @@ export async function startAuthentication(loginName: string) {
 
 /**
  * Verify webauthn authentication
+ *
  * @param authData The authentication data to sent to the server
  */
 export async function finishAuthentication(authData: AuthenticationResponseJSON) {

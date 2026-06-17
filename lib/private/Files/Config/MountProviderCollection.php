@@ -5,20 +5,26 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Config;
 
 use OC\Hooks\Emitter;
 use OC\Hooks\EmitterTrait;
+use OCA\Files_Sharing\MountProvider;
 use OCP\Diagnostics\IEventLogger;
 use OCP\Files\Config\IHomeMountProvider;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Config\IMountProviderCollection;
+use OCP\Files\Config\IPartialMountProvider;
 use OCP\Files\Config\IRootMountProvider;
 use OCP\Files\Config\IUserMountCache;
+use OCP\Files\Config\MountProviderArgs;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IUser;
+use function get_class;
+use function in_array;
 
 class MountProviderCollection implements IMountProviderCollection, Emitter {
 	use EmitterTrait;
@@ -29,7 +35,7 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	private array $homeProviders = [];
 
 	/**
-	 * @var list<IMountProvider>
+	 * @var array<class-string<IMountProvider>, IMountProvider>
 	 */
 	private array $providers = [];
 
@@ -67,28 +73,81 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 		$mounts = array_map(function (IMountProvider $provider) use ($user, $loader) {
 			return $this->getMountsFromProvider($provider, $user, $loader);
 		}, $providers);
-		$mounts = array_reduce($mounts, function (array $mounts, array $providerMounts) {
-			return array_merge($mounts, $providerMounts);
-		}, []);
+		$mounts = array_merge(...$mounts);
 		return $this->filterMounts($user, $mounts);
 	}
 
 	/**
 	 * @return list<IMountPoint>
 	 */
+	#[\Override]
 	public function getMountsForUser(IUser $user): array {
-		return $this->getUserMountsForProviders($user, $this->providers);
+		return $this->getUserMountsForProviders($user, array_values($this->providers));
 	}
 
 	/**
+	 * The caller is responsible to ensure that all provided MountProviderArgs
+	 * are for the same user.
+	 * And that the `$providerClass` implements IPartialMountProvider.
+	 *
+	 * @param list<MountProviderArgs> $mountProviderArgs
+	 * @return array<string, IMountPoint> IMountPoint array indexed by mount point.
+	 */
+	public function getUserMountsFromProviderByPath(
+		string $providerClass,
+		string $path,
+		bool $forChildren,
+		array $mountProviderArgs,
+	): array {
+		$provider = $this->providers[$providerClass] ?? null;
+		if ($provider === null) {
+			return [];
+		}
+		if (count($mountProviderArgs) === 0) {
+			return [];
+		}
+
+		if (!$provider instanceof IPartialMountProvider) {
+			throw new \LogicException(
+				'Mount provider does not support partial mounts'
+			);
+		}
+
+		$userId = null;
+		$user = null;
+		foreach ($mountProviderArgs as $mountProviderArg) {
+			if ($userId === null) {
+				$user = $mountProviderArg->mountInfo->getUser();
+				$userId = $user->getUID();
+			} elseif ($userId !== $mountProviderArg->mountInfo->getUser()->getUID()) {
+				throw new \LogicException('Mounts must belong to the same user!');
+			}
+		}
+
+		return $provider->getMountsForPath(
+			$path,
+			$forChildren,
+			$mountProviderArgs,
+			$this->loader,
+		);
+	}
+
+	/**
+	 * Returns the mounts for the user from the specified provider classes.
+	 * Providers not registered in the MountProviderCollection will be skipped.
+	 *
+	 * @inheritdoc
+	 *
 	 * @return list<IMountPoint>
 	 */
+	#[\Override]
 	public function getUserMountsForProviderClasses(IUser $user, array $mountProviderClasses): array {
 		$providers = array_filter(
 			$this->providers,
-			fn (IMountProvider $mountProvider) => (in_array(get_class($mountProvider), $mountProviderClasses))
+			fn (string $providerClass) => in_array($providerClass, $mountProviderClasses),
+			ARRAY_FILTER_USE_KEY
 		);
-		return $this->getUserMountsForProviders($user, $providers);
+		return $this->getUserMountsForProviders($user, array_values($providers));
 	}
 
 	/**
@@ -99,16 +158,21 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 		// to check for name collisions
 		$firstMounts = [];
 		if ($providerFilter) {
-			$providers = array_filter($this->providers, $providerFilter);
+			$providers = array_filter($this->providers, $providerFilter, ARRAY_FILTER_USE_KEY);
 		} else {
 			$providers = $this->providers;
 		}
-		$firstProviders = array_filter($providers, function (IMountProvider $provider) {
-			return (get_class($provider) !== 'OCA\Files_Sharing\MountProvider');
-		});
-		$lastProviders = array_filter($providers, function (IMountProvider $provider) {
-			return (get_class($provider) === 'OCA\Files_Sharing\MountProvider');
-		});
+		$firstProviders
+			= array_filter(
+				$providers,
+				fn (string $providerClass) => ($providerClass !== MountProvider::class),
+				ARRAY_FILTER_USE_KEY
+			);
+		$lastProviders = array_filter(
+			$providers,
+			fn (string $providerClass) => $providerClass === MountProvider::class,
+			ARRAY_FILTER_USE_KEY
+		);
 		foreach ($firstProviders as $provider) {
 			$mounts = $this->getMountsFromProvider($provider, $user, $this->loader);
 			$firstMounts = array_merge($firstMounts, $mounts);
@@ -135,6 +199,7 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	 *
 	 * @since 9.1.0
 	 */
+	#[\Override]
 	public function getHomeMountForUser(IUser $user): IMountPoint {
 		$providers = array_reverse($this->homeProviders); // call the latest registered provider first to give apps an opportunity to overwrite builtin
 		foreach ($providers as $homeProvider) {
@@ -149,12 +214,14 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	/**
 	 * Add a provider for mount points
 	 */
+	#[\Override]
 	public function registerProvider(IMountProvider $provider): void {
-		$this->providers[] = $provider;
+		$this->providers[get_class($provider)] = $provider;
 
 		$this->emit('\OC\Files\Config', 'registerMountProvider', [$provider]);
 	}
 
+	#[\Override]
 	public function registerMountFilter(callable $filter): void {
 		$this->mountFilters[] = $filter;
 	}
@@ -180,6 +247,7 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	 * @param IHomeMountProvider $provider
 	 * @since 9.1.0
 	 */
+	#[\Override]
 	public function registerHomeProvider(IHomeMountProvider $provider) {
 		$this->homeProviders[] = $provider;
 		$this->emit('\OC\Files\Config', 'registerHomeMountProvider', [$provider]);
@@ -188,6 +256,7 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	/**
 	 * Get the mount cache which can be used to search for mounts without setting up the filesystem
 	 */
+	#[\Override]
 	public function getMountCache(): IUserMountCache {
 		return $this->mountCache;
 	}
@@ -202,6 +271,7 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	 * @return list<IMountPoint>
 	 * @since 20.0.0
 	 */
+	#[\Override]
 	public function getRootMounts(): array {
 		$loader = $this->loader;
 		$mounts = array_map(function (IRootMountProvider $provider) use ($loader) {
@@ -228,7 +298,7 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	 * @return list<IMountProvider>
 	 */
 	public function getProviders(): array {
-		return $this->providers;
+		return array_values($this->providers);
 	}
 
 	/**

@@ -14,21 +14,39 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: none
+      pull-requests: read
 
     # On pull requests and if the comment starts with `/update-3rdparty`
     if: github.event.issue.pull_request != '' && startsWith(github.event.comment.body, '/update-3rdparty')
 
     steps:
       - name: Add reaction on start
-        uses: peter-evans/create-or-update-comment@71345be0265236311c031f5c7866368bd1eff043 # v3.0.1
+        uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v3.0.1
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           repository: ${{ github.event.repository.full_name }}
           comment-id: ${{ github.event.comment.id }}
           reactions: '+1'
 
+      # issue_comment events carry no pull_request context in their payload, so we
+      # must fetch the PR via the API. This also gives us base.ref for free, avoiding
+      # a second API call. The GITHUB_TOKEN needs pull-requests:read (granted above).
+      - name: Get pull request metadata
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        id: get-pr
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const pull = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+            });
+            core.setOutput('head_repo', pull.data.head.repo?.full_name ?? '');
+            core.setOutput('base_ref',  pull.data.base.ref);
+
       - name: Disabled on forks
-        if: ${{ github.event.pull_request.head.repo.full_name != github.repository }}
+        if: steps.get-pr.outputs.head_repo != github.repository
         run: |
           echo 'Can not execute /update-3rdparty on forks'
           exit 1
@@ -38,7 +56,7 @@ jobs:
         id: comment-branch
 
       - name: Checkout ${{ steps.comment-branch.outputs.head_ref }}
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
           fetch-depth: 0
@@ -46,24 +64,17 @@ jobs:
           ref: ${{ steps.comment-branch.outputs.head_ref }}
 
       - name: Register server reference to fallback to master branch
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
-        with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          script: |
-            const baseRef = context.payload.pull_request.base.ref
-            if (baseRef === 'main' || baseRef === 'master') {
-              core.exportVariable('server_ref', 'master');
-              console.log('Setting server_ref to master');
-            } else {
-              const regex = /^stable(\d+)$/
-              const match = baseRef.match(regex)
-              if (match) {
-                core.exportVariable('server_ref', match[0]);
-                console.log('Setting server_ref to ' + match[0]);
-              } else {
-                console.log('Not based on master/main/stable*, so skipping pull 3rdparty command');
-              }
-            }
+        run: |
+          base_ref="${{ steps.get-pr.outputs.base_ref }}"
+          if [[ "$base_ref" == "main" || "$base_ref" == "master" ]]; then
+            echo "server_ref=master" >> "$GITHUB_ENV"
+            echo "Setting server_ref to master"
+          elif [[ "$base_ref" =~ ^stable[0-9]+$ ]]; then
+            echo "server_ref=$base_ref" >> "$GITHUB_ENV"
+            echo "Setting server_ref to $base_ref"
+          else
+            echo "Not based on master/main/stable*, so skipping pull 3rdparty command"
+          fi
 
       - name: Setup git
         run: |
@@ -71,7 +82,7 @@ jobs:
           git config --local user.name 'nextcloud-command'
 
       - name: Add reaction on failure
-        uses: peter-evans/create-or-update-comment@71345be0265236311c031f5c7866368bd1eff043 # v3.0.1
+        uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v3.0.1
         if: ${{ env.server_ref == '' }}
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
@@ -91,7 +102,7 @@ jobs:
           git push
 
       - name: Add reaction on failure
-        uses: peter-evans/create-or-update-comment@71345be0265236311c031f5c7866368bd1eff043 # v3.0.1
+        uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v3.0.1
         if: failure()
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}

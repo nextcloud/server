@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\DAV\Sharing;
 
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -31,7 +32,7 @@ class SharingMapper {
 		}
 
 		$result = $query->executeQuery();
-		$rows = $result->fetchAll();
+		$rows = $result->fetchAllAssociative();
 		$result->closeCursor();
 		return $rows;
 	}
@@ -54,7 +55,7 @@ class SharingMapper {
 			->groupBy(['principaluri', 'access', 'resourceid'])
 			->executeQuery();
 
-		$rows = $result->fetchAll();
+		$rows = $result->fetchAllAssociative();
 		$result->closeCursor();
 		return $rows;
 	}
@@ -133,7 +134,7 @@ class SharingMapper {
 			->orderBy('id')
 			->executeQuery();
 
-		$rows = $result->fetchAll();
+		$rows = $result->fetchAllAssociative();
 		$result->closeCursor();
 
 		return $rows;
@@ -149,7 +150,7 @@ class SharingMapper {
 	}
 
 	/**
-	 * @return array{principaluri: string}[]
+	 * @return list<array{principaluri: string}>
 	 * @throws \OCP\DB\Exception
 	 */
 	public function getPrincipalUrisByPrefix(string $resourceType, string $prefix): array {
@@ -168,14 +169,15 @@ class SharingMapper {
 			)
 			->executeQuery();
 
-		$rows = $result->fetchAll();
+		/** @var list<array{principaluri: string}> $rows */
+		$rows = $result->fetchAllAssociative();
 		$result->closeCursor();
 
 		return $rows;
 	}
 
 	/**
-	 * @psalm-return array{uri: string, principaluri: string}[]
+	 * @psalm-return list<array{uri: string, principaluri: string}>
 	 * @throws \OCP\DB\Exception
 	 */
 	public function getSharedCalendarsForRemoteUser(
@@ -206,7 +208,8 @@ class SharingMapper {
 				IQueryBuilder::PARAM_STR,
 			));
 		$result = $qb->executeQuery();
-		$rows = $result->fetchAll();
+		/** @var list<array{uri: string, principaluri: string}> $rows */
+		$rows = $result->fetchAllAssociative();
 		$result->closeCursor();
 
 		return $rows;
@@ -241,7 +244,7 @@ class SharingMapper {
 				IQueryBuilder::PARAM_STR,
 			));
 		$result = $qb->executeQuery();
-		$rows = $result->fetchAll();
+		$rows = $result->fetchAllAssociative();
 		$result->closeCursor();
 
 		return $rows;

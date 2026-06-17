@@ -5,28 +5,28 @@
 
 <script setup lang="ts">
 import type { OCSResponse } from '@nextcloud/typings/ocs'
-import { showError, spawnDialog } from '@nextcloud/dialogs'
+
+import axios from '@nextcloud/axios'
+import { showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import { confirmPassword } from '@nextcloud/password-confirmation'
 import { generateOcsUrl } from '@nextcloud/router'
+import { spawnDialog } from '@nextcloud/vue/functions/dialog'
 import { ref } from 'vue'
-import { textExistingFilesNotEncrypted } from './sharedTexts.ts'
-
-import axios from '@nextcloud/axios'
-import logger from '../../logger.ts'
-
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import EncryptionWarningDialog from './EncryptionWarningDialog.vue'
+import logger from '../../logger.ts'
+import { textExistingFilesNotEncrypted } from './sharedTexts.ts'
 
 interface EncryptionModule {
 	default?: boolean
 	displayName: string
 }
 
-const allEncryptionModules = loadState<never[]|Record<string, EncryptionModule>>('settings', 'encryption-modules')
+const allEncryptionModules = loadState<never[] | Record<string, EncryptionModule>>('settings', 'encryption-modules')
 /** Available encryption modules on the backend */
 const encryptionModules = Array.isArray(allEncryptionModules) ? [] : Object.entries(allEncryptionModules).map(([id, module]) => ({ ...module, id }))
 /** ID of the default encryption module */
@@ -47,6 +47,7 @@ const loadingEncryptionState = ref(false)
 
 /**
  * Open the encryption-enabling warning (spawns a dialog)
+ *
  * @param enabled The enabled state of encryption
  */
 function displayWarning(enabled: boolean) {
@@ -68,6 +69,7 @@ function displayWarning(enabled: boolean) {
 
 /**
  * Update an encryption setting on the backend
+ *
  * @param key The setting to update
  * @param value The new value
  */
@@ -112,7 +114,8 @@ async function enableEncryption(): Promise<void> {
 </script>
 
 <template>
-	<NcSettingsSection :name="t('settings', 'Server-side encryption')"
+	<NcSettingsSection
+		:name="t('settings', 'Server-side encryption')"
 		:description="t('settings', 'Server-side encryption makes it possible to encrypt files which are uploaded to this server. This comes with limitations like a performance penalty, so enable this only if needed.')"
 		:doc-url="encryptionAdminDoc">
 		<NcNoteCard v-if="encryptionEnabled" type="info">
@@ -125,20 +128,22 @@ async function enableEncryption(): Promise<void> {
 			</code>
 		</NcNoteCard>
 
-		<NcCheckboxRadioSwitch :class="{ disabled: encryptionEnabled }"
-			:checked="encryptionEnabled"
+		<NcCheckboxRadioSwitch
+			:class="{ disabled: encryptionEnabled }"
+			:model-value="encryptionEnabled"
 			:aria-disabled="encryptionEnabled ? 'true' : undefined"
 			:aria-describedby="encryptionEnabled ? 'server-side-encryption-disable-hint' : undefined"
 			:loading="loadingEncryptionState"
 			type="switch"
-			@update:checked="displayWarning">
+			@update:modelValue="displayWarning">
 			{{ t('settings', 'Enable server-side encryption') }}
 		</NcCheckboxRadioSwitch>
 		<p v-if="encryptionEnabled" id="server-side-encryption-disable-hint" class="disable-hint">
 			{{ t('settings', 'Disabling server side encryption is only possible using OCC, please refer to the documentation.') }}
 		</p>
 
-		<NcNoteCard v-if="encryptionModules.length === 0"
+		<NcNoteCard
+			v-if="encryptionModules.length === 0"
 			type="warning"
 			:text="t('settings', 'No encryption module loaded, please enable an encryption module in the app menu.')" />
 
@@ -146,13 +151,14 @@ async function enableEncryption(): Promise<void> {
 			<div v-if="encryptionReady && encryptionModules.length > 0">
 				<h3>{{ t('settings', 'Select default encryption module:') }}</h3>
 				<fieldset>
-					<NcCheckboxRadioSwitch v-for="module in encryptionModules"
+					<NcCheckboxRadioSwitch
+						v-for="module in encryptionModules"
 						:key="module.id"
-						:checked.sync="defaultCheckedModule"
+						v-model="defaultCheckedModule"
 						:value="module.id"
 						type="radio"
 						name="default_encryption_module"
-						@update:checked="checkDefaultModule">
+						@update:modelValue="checkDefaultModule">
 						{{ module.displayName }}
 					</NcCheckboxRadioSwitch>
 				</fieldset>
