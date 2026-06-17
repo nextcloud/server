@@ -279,6 +279,7 @@
     "Cannot create \"data\" directory." : "无法创建 “data” 目录",
     "This can usually be fixed by giving the web server write access to the root directory. See %s" : "通常可以为 Web 服务器授予对根目录的写入权限来修复这个问题。查看：%s",
     "Permissions can usually be fixed by giving the web server write access to the root directory. See %s." : "通常可以为 Web 服务器授予对根目录的写入权限来修复权限问题。查看：%s。",
+    "Your data directory is not readable." : "无法读取你的数据目录。",
     "Your data directory is not writable." : "您的数据目录无法写入。",
     "Setting locale to %s failed." : "设置语言为%s失败。",
     "Please install one of these locales on your system and restart your web server." : "请在您的系统中安装下述一种语言并重启 Web 服务器。",

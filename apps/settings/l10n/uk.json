@@ -298,7 +298,7 @@
     "Could not check that your web server serves security headers correctly, unable to query `%s`" : "Не вдалося перевірити, чи правильно ваш веб-сервер обслуговує заголовки безпеки, не вдалося виконати запит `%s`.",
     "Your server is correctly configured to send security headers." : "Ваш сервер правильно налаштовано для надсилання заголовків безпеки.",
     "Configuration server ID" : "Налаштування ідентифікатора сервера",
-    "Server identifier isn’t configured. It is recommended if your Nextcloud instance is running on several PHP servers. Add a server ID in your configuration." : "Ідентифікатор сервера не налагтовано. Рекомендується додати ID сервера до конфігурації, якщо ваш примірник хмари Nextcloud розгорнуто на кількох серверах PHP.",
+    "Server identifier isn’t configured. It is recommended if your Nextcloud instance is running on several PHP servers. Add a server ID in your configuration." : "Ідентифікатор сервера не налаштовано. Рекомендується додати ідентифікатор сервера у конфігурації, якщо ваш примірник хмари Nextcloud розгорнуто на кількох серверах PHP.",
     "\"%d\" is not a valid server identifier. It must be between 0 and 511." : "\"%d\" не є дійсним ідентифікаторм сервера. Значення має бути між 0 та 511.",
     "Server identifier is configured and valid." : "Ідентифікатор сервера налаштовано, є дійсним.",
     "Database version" : "Версія бази даних",

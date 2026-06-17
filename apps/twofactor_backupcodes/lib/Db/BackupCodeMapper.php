@@ -55,4 +55,17 @@ class BackupCodeMapper extends QBMapper {
 			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($uid)));
 		$qb->executeStatement();
 	}
+
+	/**
+	 * Marks the backup code as used, if not already marked as used in DB.
+	 * @return int number of affected rows
+	 */
+	public function markUsedIfUnused(BackupCode $code): int {
+		$qb = $this->db->getQueryBuilder();
+		$qb->update($this->getTableName())
+			->set('used', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT))
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($code->getId(), IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->eq('used', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT)));
+		return $qb->executeStatement();
+	}
 }

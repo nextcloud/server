@@ -1,6 +1,7 @@
 OC.L10N.register(
     "appstore",
     {
+    "App store" : "Magasin d'applications",
     "Apps" : "Applications",
     "App name" : "Nom de l’application",
     "Version" : "Version",

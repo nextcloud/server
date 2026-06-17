@@ -4,6 +4,7 @@
  */
 
 import type { Locator, Page } from '@playwright/test'
+import { escapeAttributeValue } from '../utils/css.ts'
 
 export class FilesListPage {
 	constructor(protected readonly page: Page) {}
@@ -18,7 +19,7 @@ export class FilesListPage {
 	}
 
 	getRowForFile(filename: string): Locator {
-		return this.page.locator(`[data-cy-files-list-row-name="${filename}"]`)
+		return this.page.locator(`[data-cy-files-list-row-name="${escapeAttributeValue(filename)}"]`)
 	}
 
 	getRowForFileId(fileid: number): Locator {
@@ -64,6 +65,13 @@ export class FilesListPage {
 
 	getFavoriteIconForFile(filename: string): Locator {
 		return this.getRowForFile(filename).getByRole('img', { name: 'Favorite' })
+	}
+
+	/**
+	 * The inline "Download" button rendered on a row for the default download action.
+	 */
+	getDownloadButtonForFile(filename: string): Locator {
+		return this.getRowForFile(filename).getByRole('button', { name: 'Download' })
 	}
 
 	async selectAll(): Promise<void> {

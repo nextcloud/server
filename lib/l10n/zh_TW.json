@@ -279,6 +279,7 @@
     "Cannot create \"data\" directory." : "無法建立「data」目錄。",
     "This can usually be fixed by giving the web server write access to the root directory. See %s" : "開通網頁伺服器寫入根目錄的存取權，通常可以修正這個問題。請見 %s",
     "Permissions can usually be fixed by giving the web server write access to the root directory. See %s." : "開通網頁伺服器可寫入根目錄的存取權，通常可以修正權限問題。請見 %s。",
+    "Your data directory is not readable." : "無法讀取您的資料目錄。",
     "Your data directory is not writable." : "您的 data 目錄無法寫入。",
     "Setting locale to %s failed." : "將地區設定為 %s 時失敗。",
     "Please install one of these locales on your system and restart your web server." : "請在您的系統上安裝這些地區設定中的其中一個，然後重新啟動網頁伺服器。",
