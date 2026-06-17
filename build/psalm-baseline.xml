@@ -1449,9 +1449,6 @@
     </DeprecatedMethod>
   </file>
   <file src="apps/files/lib/Controller/DirectEditingController.php">
-    <InvalidArgument>
-      <code><![CDATA[$templateId]]></code>
-    </InvalidArgument>
     <UndefinedInterfaceMethod>
       <code><![CDATA[getTemplates]]></code>
     </UndefinedInterfaceMethod>
