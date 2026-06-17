@@ -10,6 +10,7 @@ namespace OCA\DAV\CalDAV\Trashbin;
 
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\IRestorable;
+use OCA\DAV\DAV\Sharing\Backend;
 use Sabre\CalDAV\ICalendarObject;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAVACL\ACLTrait;
@@ -28,12 +29,28 @@ class DeletedCalendarObject implements IACL, ICalendarObject, IRestorable {
 	}
 
 	public function delete() {
+		if (!$this->canModify()) {
+			throw new Forbidden('Read-only sharees cannot permanently delete trashbin entries');
+		}
 		$this->calDavBackend->deleteCalendarObject(
 			$this->objectData['calendarid'],
 			$this->objectData['uri'],
 			CalDavBackend::CALENDAR_TYPE_CALENDAR,
 			true
 		);
+	}
+
+	private function isShared(): bool {
+		$calendarOwner = $this->objectData['calendarprincipaluri'] ?? null;
+		return $calendarOwner !== null && $calendarOwner !== $this->principalUri;
+	}
+
+	private function canModify(): bool {
+		if (!$this->isShared()) {
+			return true;
+		}
+		// For shared entries, only write sharees may delete/restore.
+		return ($this->objectData['shared_access'] ?? null) === Backend::ACCESS_READ_WRITE;
 	}
 
 	public function getName() {
@@ -74,6 +91,9 @@ class DeletedCalendarObject implements IACL, ICalendarObject, IRestorable {
 	}
 
 	public function restore(): void {
+		if (!$this->canModify()) {
+			throw new Forbidden('Read-only sharees cannot restore trashbin entries');
+		}
 		$this->calDavBackend->restoreCalendarObject($this->objectData);
 	}
 
@@ -85,20 +105,27 @@ class DeletedCalendarObject implements IACL, ICalendarObject, IRestorable {
 		return $this->objectData['calendaruri'];
 	}
 
+	public function getSourceCalendarUri(): string {
+		return $this->objectData['sourcecalendaruri'] ?? $this->objectData['calendaruri'];
+	}
+
+	public function getCalendarPrincipalUri(): ?string {
+		return $this->objectData['calendarprincipaluri'] ?? null;
+	}
+
+	public function getDelegator(): ?string {
+		return $this->objectData['delegator'] ?? null;
+	}
+
 	public function getACL(): array {
-		return [
+		$acl = [
 			[
 				'privilege' => '{DAV:}read', // For queries
 				'principal' => $this->getOwner(),
 				'protected' => true,
 			],
 			[
-				'privilege' => '{DAV:}unbind', // For moving and deletion
-				'principal' => $this->getOwner(),
-				'protected' => true,
-			],
-			[
-				'privilege' => '{DAV:}all',
+				'privilege' => '{DAV:}read',
 				'principal' => $this->getOwner() . '/calendar-proxy-write',
 				'protected' => true,
 			],
@@ -108,6 +135,23 @@ class DeletedCalendarObject implements IACL, ICalendarObject, IRestorable {
 				'protected' => true,
 			],
 		];
+
+		if ($this->canModify()) {
+			$acl[] = [
+				'privilege' => '{DAV:}unbind',
+				'principal' => $this->getOwner(),
+				'protected' => true,
+			];
+
+			$acl[] = [
+				'privilege' => '{DAV:}unbind',
+				'principal' => $this->getOwner() . '/calendar-proxy-write',
+				'protected' => true,
+			];
+
+		}
+
+		return $acl;
 	}
 
 	public function getOwner() {
