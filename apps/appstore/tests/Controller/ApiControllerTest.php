@@ -16,13 +16,13 @@ use OC\App\DependencyAnalyzer;
 use OC\Installer;
 use OCA\Appstore\Controller\ApiController;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\L10N\IFactory;
 use OCP\Support\Subscription\IRegistry;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
+use Test\FakeAppConfig;
 use Test\TestCase;
 
 #[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
@@ -30,8 +30,6 @@ final class ApiControllerTest extends TestCase {
 	private IRequest&MockObject $request;
 
 	private IConfig&MockObject $config;
-
-	private IAppConfig&MockObject $appConfig;
 
 	private AppManager&MockObject $appManager;
 
@@ -59,7 +57,6 @@ final class ApiControllerTest extends TestCase {
 
 		$this->request = $this->createMock(IRequest::class);
 		$this->config = $this->createMock(IConfig::class);
-		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->appManager = $this->createMock(AppManager::class);
 		$this->dependencyAnalyzer = $this->createMock(DependencyAnalyzer::class);
 		$this->categoryFetcher = $this->createMock(CategoryFetcher::class);
@@ -73,7 +70,7 @@ final class ApiControllerTest extends TestCase {
 		$this->apiController = new ApiController(
 			$this->request,
 			$this->config,
-			$this->appConfig,
+			new FakeAppConfig(),
 			$this->appManager,
 			$this->dependencyAnalyzer,
 			$this->categoryFetcher,

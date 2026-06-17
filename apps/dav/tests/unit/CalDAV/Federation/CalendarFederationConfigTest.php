@@ -12,22 +12,19 @@ namespace OCA\DAV\Tests\unit\CalDAV\Federation;
 use OCA\DAV\CalDAV\Federation\CalendarFederationConfig;
 use OCP\AppFramework\Services\IAppConfig;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\MockObject\MockObject;
+use Test\FakeFrameworkAppConfig;
 use Test\TestCase;
 
 class CalendarFederationConfigTest extends TestCase {
 	private CalendarFederationConfig $config;
 
-	private IAppConfig&MockObject $appConfig;
+	private IAppConfig $appConfig;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->appConfig = $this->createMock(IAppConfig::class);
-
-		$this->config = new CalendarFederationConfig(
-			$this->appConfig,
-		);
+		$this->appConfig = new FakeFrameworkAppConfig('dav');
+		$this->config = new CalendarFederationConfig($this->appConfig);
 	}
 
 	public static function provideIsFederationEnabledData(): array {
@@ -39,11 +36,7 @@ class CalendarFederationConfigTest extends TestCase {
 
 	#[DataProvider(methodName: 'provideIsFederationEnabledData')]
 	public function testIsFederationEnabled(bool $configValue): void {
-		$this->appConfig->expects(self::once())
-			->method('getAppValueBool')
-			->with('enableCalendarFederation', true)
-			->willReturn($configValue);
-
+		$this->appConfig->setAppValueBool('enableCalendarFederation', $configValue);
 		$this->assertEquals($configValue, $this->config->isFederationEnabled());
 	}
 }

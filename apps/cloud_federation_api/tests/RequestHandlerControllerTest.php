@@ -22,7 +22,6 @@ use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProvider;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudIdManager;
-use OCP\IAppConfig;
 use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
@@ -32,6 +31,7 @@ use OCP\OCM\Events\OCMNotificationReceivedEvent;
 use OCP\OCM\IOCMDiscoveryService;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
+use Test\FakeAppConfig;
 use Test\TestCase;
 
 class RequestHandlerControllerTest extends TestCase {
@@ -44,7 +44,6 @@ class RequestHandlerControllerTest extends TestCase {
 	private Config&MockObject $config;
 	private IEventDispatcher&MockObject $eventDispatcher;
 	private FederatedInviteMapper&MockObject $federatedInviteMapper;
-	private IAppConfig&MockObject $appConfig;
 
 	private ICloudFederationFactory&MockObject $cloudFederationFactory;
 	private ICloudIdManager&MockObject $cloudIdManager;
@@ -65,7 +64,6 @@ class RequestHandlerControllerTest extends TestCase {
 		$this->config = $this->createMock(Config::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->federatedInviteMapper = $this->createMock(FederatedInviteMapper::class);
-		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->cloudFederationFactory = $this->createMock(ICloudFederationFactory::class);
 		$this->cloudIdManager = $this->createMock(ICloudIdManager::class);
 		$this->discoveryService = $this->createMock(IOCMDiscoveryService::class);
@@ -82,7 +80,7 @@ class RequestHandlerControllerTest extends TestCase {
 			$this->config,
 			$this->eventDispatcher,
 			$this->federatedInviteMapper,
-			$this->appConfig,
+			new FakeAppConfig(),
 			$this->cloudFederationFactory,
 			$this->cloudIdManager,
 			$this->discoveryService,
