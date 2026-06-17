@@ -97,6 +97,7 @@ class Version30000Date20240429122720 extends SimpleMigrationStep {
 			$table->addIndex(['status', 'type'], 'taskp_tasks_status_type');
 			$table->addIndex(['last_updated'], 'taskp_tasks_updated');
 			$table->addIndex(['user_id', 'app_id', 'custom_id'], 'taskp_tasks_uid_appid_cid');
+			$table->addIndex(['status', 'type', 'last_updated'], 'taskp_status_type_upd');
 
 			return $schema;
 		}
