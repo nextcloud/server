@@ -47,11 +47,12 @@ class Notifications {
 	 * @param string $sharedBy
 	 * @param string $sharedByFederatedId
 	 * @param int $shareType (can be a remote user or group share)
+	 * @param int $permissions
 	 * @return bool
 	 * @throws HintException
 	 * @throws ServerNotAvailableException
 	 */
-	public function sendRemoteShare($token, $shareWith, $name, $remoteId, $owner, $ownerFederatedId, $sharedBy, $sharedByFederatedId, $shareType) {
+	public function sendRemoteShare($token, $shareWith, $name, $remoteId, $owner, $ownerFederatedId, $sharedBy, $sharedByFederatedId, $shareType, $permissions) {
 		[$user, $remote] = $this->addressHandler->splitUserRemote($shareWith);
 
 		if ($user && $remote) {
@@ -67,7 +68,8 @@ class Notifications {
 				'sharedBy' => $sharedBy,
 				'sharedByFederatedId' => $sharedByFederatedId,
 				'remote' => $local,
-				'shareType' => $shareType
+				'shareType' => $shareType,
+				'permissions' => $permissions
 			];
 
 			$result = $this->tryHttpPostToShareEndpoint($remote, '', $fields);
@@ -242,6 +244,7 @@ class Notifications {
 		}
 
 		$result = $this->tryHttpPostToShareEndpoint(rtrim($remote, '/'), '/' . $remoteId . '/' . $action, $fields, $action);
+
 		$status = json_decode($result['result'], true);
 
 		if ($result['success']
@@ -373,7 +376,8 @@ class Notifications {
 					$fields['sharedBy'],
 					$fields['token'],
 					$fields['shareType'],
-					'file'
+					'file',
+					$fields['permissions']
 				);
 				return $this->federationProviderManager->sendShare($share);
 			case 'reshare':
@@ -412,6 +416,18 @@ class Notifications {
 					[
 						'sharedSecret' => $fields['token'],
 						'message' => 'reshare was revoked'
+					]
+				);
+				return $this->federationProviderManager->sendNotification($remoteDomain, $notification);
+			case 'permissions':
+				$notification = $this->cloudFederationFactory->getCloudFederationNotification();
+				$notification->setMessage('SHAREE_CHANGE_PERMISSION',
+					'file',
+					$fields['remoteId'],
+					[
+						'sharedSecret' => $fields['token'],
+						'permissions' => $fields['permissions'],
+						'message' => 'permissions updated'
 					]
 				);
 				return $this->federationProviderManager->sendNotification($remoteDomain, $notification);

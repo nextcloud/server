@@ -21,6 +21,7 @@ use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMovableMount;
 use OCP\Files\NotFoundException;
+use OCP\Files\Storage\IExternalShareStorage;
 use OCP\Files\Storage\ISharedStorage;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IUser;
@@ -253,7 +254,7 @@ abstract class Node implements INode {
 			$storage = null;
 		}
 
-		if ($storage && $storage->instanceOfStorage(ISharedStorage::class)) {
+		if ($storage && ($storage->instanceOfStorage(ISharedStorage::class) || $storage->instanceOfStorage(IExternalShareStorage::class))) {
 			$permissions = $storage->getShare()->getPermissions();
 		} else {
 			$permissions = $this->info->getPermissions();

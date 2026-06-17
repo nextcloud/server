@@ -26,13 +26,14 @@ class CloudFederationFactory implements ICloudFederationFactory {
 	 * @param string $sharedSecret used to authenticate requests across servers
 	 * @param string $shareType ('group' or 'user' share)
 	 * @param $resourceType ('file', 'calendar',...)
+	 * @param int $permissions permissions granted to the sharee
 	 * @return ICloudFederationShare
 	 *
 	 * @since 14.0.0
 	 */
 	#[\Override]
-	public function getCloudFederationShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, $sharedSecret, $shareType, $resourceType) {
-		return new CloudFederationShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, $shareType, $resourceType, $sharedSecret);
+	public function getCloudFederationShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, $sharedSecret, $shareType, $resourceType, $permissions) {
+		return new CloudFederationShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, $shareType, $resourceType, $sharedSecret, $permissions);
 	}
 
 	/**

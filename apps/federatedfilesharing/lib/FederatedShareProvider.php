@@ -201,7 +201,8 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 				$ownerCloudId->getId(),
 				$share->getSharedBy(),
 				$sharedByFederatedId,
-				$share->getShareType()
+				$share->getShareType(),
+				$share->getPermissions()
 			);
 
 			if ($send === false) {
@@ -322,7 +323,7 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 	protected function shouldNotifyRemote(IShare $share): bool {
 		$ownerOrSharerIsRemoteUser = !$this->userManager->userExists($share->getShareOwner())
 			|| !$this->userManager->userExists($share->getSharedBy());
-		return $ownerOrSharerIsRemoteUser && $share->getShareOwner() !== $share->getSharedBy();
+		return $ownerOrSharerIsRemoteUser && $share->getShareOwner() !== $share->getSharedBy() || !$this->userManager->userExists($share->getSharedWith());
 	}
 
 	/**
@@ -332,6 +333,13 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 	 * @throws HintException
 	 */
 	protected function sendPermissionUpdate(IShare $share): void {
+		if (!$this->userManager->userExists($share->getSharedWith())) {
+			$remoteId = $share->getId();
+			[, $remote] = $this->addressHandler->splitUserRemote($share->getSharedWith());
+			$this->notifications->sendPermissionChange($remote, $remoteId, $share->getToken(), $share->getPermissions());
+			return;
+		}
+
 		$remoteId = $this->getRemoteId($share);
 		// if the local user is the owner we send the permission change to the initiator
 		if ($this->userManager->userExists($share->getShareOwner())) {

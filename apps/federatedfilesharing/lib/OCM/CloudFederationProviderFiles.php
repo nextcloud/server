@@ -106,6 +106,7 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 		$sharedByFederatedId = $share->getSharedBy();
 		$ownerFederatedId = $share->getOwner();
 		$shareType = $this->mapShareTypeToNextcloud($share->getShareType());
+		$permissions = $share->getPermissions();
 
 		// if no explicit information about the person who created the share was sent
 		// we assume that the share comes from the owner
@@ -153,6 +154,7 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 			$externalShare->setOwner($owner);
 			$externalShare->setShareType($shareType);
 			$externalShare->setAccepted(IShare::STATUS_PENDING);
+			$externalShare->setPermissions($permissions);
 
 			try {
 				$this->externalShareManager->addShare($externalShare, $user ?: $group);
@@ -225,6 +227,7 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 			'REQUEST_RESHARE' => $this->reshareRequested($providerId, $notification),
 			'RESHARE_UNDO' => $this->undoReshare($providerId, $notification),
 			'RESHARE_CHANGE_PERMISSION' => $this->updateResharePermissions($providerId, $notification),
+			'SHAREE_CHANGE_PERMISSION' => $this->updateShareePermissions($providerId, $notification),
 			default => throw new BadRequestException([$notificationType]),
 		};
 	}
@@ -684,5 +687,21 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 		} else {
 			return $share->getShareOwner();
 		}
+	}
+
+	private function updateShareePermissions(string $id, array $notification): array {
+		if (!$this->isS2SEnabled()) {
+			throw new ActionNotSupportedException('Server does not support federated cloud sharing');
+		}
+
+		if (!isset($notification['sharedSecret'])) {
+			throw new BadRequestException(['sharedSecret']);
+		}
+
+		$share = $this->externalShareManager->getShareByToken($notification['sharedSecret']);
+		$share->setPermissions($notification['permissions']);
+		$share = $this->externalShareMapper->update($share);
+
+		return [];
 	}
 }

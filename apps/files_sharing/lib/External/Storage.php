@@ -12,11 +12,12 @@ namespace OCA\Files_Sharing\External;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\RequestException;
+use OCP\Share\External\IExternalShare;
 use OC\Files\Storage\DAV;
 use OC\ForbiddenException;
+use OCP\Files\ForbiddenException as FilesForbiddenException;
 use OC\Share\Share;
 use OCA\Files_Sharing\External\Manager as ExternalShareManager;
-use OCA\Files_Sharing\ISharedStorage;
 use OCP\AppFramework\Http;
 use OCP\Constants;
 use OCP\Federation\ICloudId;
@@ -26,6 +27,7 @@ use OCP\Files\Cache\IWatcher;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IDisableEncryptionStorage;
 use OCP\Files\Storage\IReliableEtagStorage;
+use OCP\Files\Storage\IExternalShareStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
@@ -42,7 +44,7 @@ use OCP\Server;
 use OCP\Share\IManager as IShareManager;
 use Psr\Log\LoggerInterface;
 
-class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, IReliableEtagStorage {
+class Storage extends DAV implements IExternalShareStorage, IDisableEncryptionStorage, IReliableEtagStorage {
 	private ICloudId $cloudId;
 	private string $mountPoint;
 	private string $token;
@@ -350,11 +352,18 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 			|| !$this->appConfig->getValueBool('core', 'shareapi_allow_resharing', true)) {
 			return false;
 		}
-		return (bool)($this->getPermissions($path) & Constants::PERMISSION_SHARE);
+		return (bool)($this->getPermissions($path, true) & Constants::PERMISSION_SHARE);
 	}
 
 	#[\Override]
-	public function getPermissions(string $path): int {
+	public function getPermissions(string $path, bool $ignoreCache = false): int {
+		if (!$ignoreCache) {
+			$share = $this->getShare();
+			if ($share !== false && $share->getPermissions() !== null) {
+				return $share->getPermissions();
+			}
+		}
+
 		$response = $this->propfind($path);
 		if ($response === false) {
 			return 0;
@@ -370,13 +379,114 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 			// permissions provided by the OCM API
 			$permissions = $this->ocmPermissions2ncPermissions($ocmPermissions, $path);
 		} elseif ($ocPermissions !== null) {
-			return $this->parsePermissions($ocPermissions);
+			$permissions = $this->parsePermissions($ocPermissions);
 		} else {
 			// use default permission if remote server doesn't provide the share permissions
 			$permissions = $this->getDefaultPermissions($path);
 		}
 
+		$this->manager->updateSharePermissions($this->token, $permissions);
 		return $permissions;
+	}
+
+	#[\Override]
+	public function mkdir(string $path): bool {
+		$permissions = $this->getPermissions('');
+		if (!($permissions & Constants::PERMISSION_CREATE)) {
+			throw new FilesForbiddenException('Permission denied: cannot create in this share', false);
+		}
+		try {
+			$canCreate = parent::mkdir($path);
+		} catch (FilesForbiddenException) {
+			$canCreate = false;
+		}
+
+		if (!$canCreate) {
+			$permissions &= ~Constants::PERMISSION_CREATE;
+			$this->manager->updateSharePermissions($this->token, $permissions);
+		}
+
+		return $canCreate;
+	}
+
+	#[\Override]
+	public function rmdir(string $path): bool {
+		$permissions = $this->getPermissions('');
+		if (!($permissions & Constants::PERMISSION_DELETE)) {
+			throw new FilesForbiddenException('Permission denied: cannot delete in this share', false);
+		}
+		try {
+			$canDelete = parent::rmdir($path);
+		} catch (FilesForbiddenException) {
+			$canDelete = false;
+		}
+
+		if (!$canDelete) {
+			$permissions &= ~Constants::PERMISSION_DELETE;
+			$this->manager->updateSharePermissions($this->token, $permissions);
+		}
+
+		return $canDelete;
+	}
+
+	#[\Override]
+	public function unlink(string $path): bool {
+		$permissions = $this->getPermissions('');
+		if (!($permissions & Constants::PERMISSION_DELETE)) {
+			throw new FilesForbiddenException('Permission denied: cannot delete in this share', false);
+		}
+		try {
+			$canDelete = parent::unlink($path);
+		} catch (FilesForbiddenException) {
+			$canDelete = false;
+		}
+
+		if (!$canDelete) {
+			$permissions &= ~Constants::PERMISSION_DELETE;
+			$this->manager->updateSharePermissions($this->token, $permissions);
+		}
+
+		return $canDelete;
+	}
+
+	#[\Override]
+	public function rename(string $source, string $target): bool {
+		$permissions = $this->getPermissions('');
+		if (!($permissions & Constants::PERMISSION_UPDATE)) {
+			throw new FilesForbiddenException('Permission denied: cannot rename/move in this share', false);
+		}
+		try {
+			$canUpdate = parent::rename($source, $target);
+		} catch (FilesForbiddenException) {
+			$canUpdate = false;
+		}
+
+		if (!$canUpdate) {
+			$permissions &= ~Constants::PERMISSION_UPDATE;
+			$this->manager->updateSharePermissions($this->token, $permissions);
+		}
+
+		return $canUpdate;
+	}
+
+	#[\Override]
+	public function copy(string $source, string $target): bool {
+		$permissions = $this->getPermissions('');
+		if (!($permissions & Constants::PERMISSION_CREATE)) {
+			throw new FilesForbiddenException('Permission denied: cannot copy in this share', false);
+		}
+		try {
+			$canCreate = parent::copy($source, $target);
+		} catch (FilesForbiddenException) {
+			$canCreate = false;
+		}
+
+		if (!$canCreate) {
+			$permissions &= ~Constants::PERMISSION_CREATE;
+			$this->manager->updateSharePermissions($this->token, $permissions);
+		}
+
+		return $canCreate;
 	}
 
 	#[\Override]
@@ -444,5 +554,84 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 			$options['verify'] = false;
 		}
 		return $options;
+	}
+
+	#[\Override]
+	public function fopen(string $path, string $mode) {
+		$fileExists = false;
+		if ($mode !== 'r' && $mode !== 'rb') {
+			$permissions = $this->getPermissions('');
+			$fileExists = $this->file_exists($path);
+			if ($fileExists) {
+				if (!($permissions & Constants::PERMISSION_UPDATE)) {
+					return false;
+				}
+			} else {
+				if (!($permissions & Constants::PERMISSION_CREATE)) {
+					return false;
+				}
+			}
+		}
+
+		$canOpen = parent::fopen($path, $mode);
+		if (!$canOpen) {
+			if ($fileExists) {
+				$permissions &= ~Constants::PERMISSION_UPDATE;
+			} else {
+				$permissions &= ~Constants::PERMISSION_CREATE;
+			}
+
+			$this->manager->updateSharePermissions($this->token, $permissions);
+		}
+
+		return $canOpen;
+	}
+
+	#[\Override]
+	public function touch(string $path, ?int $mtime = null): bool {
+		$permissions = $this->getPermissions('');
+		$fileExists = $this->file_exists($path);
+		if ($fileExists) {
+			if (!($permissions & Constants::PERMISSION_UPDATE)) {
+				return false;
+			}
+		} else {
+			if (!($permissions & Constants::PERMISSION_CREATE)) {
+				return false;
+			}
+		}
+
+		$canTouch = parent::touch($path, $mtime);
+		if (!$canTouch) {
+			if ($fileExists) {
+				$permissions &= ~Constants::PERMISSION_UPDATE;
+			} else {
+				$permissions &= ~Constants::PERMISSION_CREATE;
+			}
+
+			$this->manager->updateSharePermissions($this->token, $permissions);
+		}
+
+		return $canTouch;
+	}
+
+	#[\Override]
+	public function getMetaData(string $path): ?array {
+		$metadata = parent::getMetaData($path);
+
+		if (isset($metadata['permissions'])) {
+			try {
+				$share = $this->getShare();
+			} catch (NotFoundException) {
+				return $metadata;
+			}
+			$metadata['permissions'] = $share->getPermissions();
+		}
+
+		return $metadata;
+	}
+
+	public function getShare(): IExternalShare {
+		return $this->manager->getShareByToken($this->token);
 	}
 }

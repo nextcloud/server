@@ -24,7 +24,8 @@ class CloudFederationShare implements ICloudFederationShare {
 		'sharedByDisplayName' => '',
 		'sender' => '',
 		'senderDisplayName' => '',
-		'protocol' => []
+		'protocol' => [],
+		'permissions' => 0
 	];
 
 	/**
@@ -41,6 +42,7 @@ class CloudFederationShare implements ICloudFederationShare {
 	 * @param string $shareType ('group' or 'user' share)
 	 * @param string $resourceType ('file', 'calendar',...)
 	 * @param string $sharedSecret
+	 * @param int $permissions permissions granted to the sharee
 	 */
 	public function __construct($shareWith = '',
 		$name = '',
@@ -53,6 +55,7 @@ class CloudFederationShare implements ICloudFederationShare {
 		$shareType = '',
 		$resourceType = '',
 		$sharedSecret = '',
+		$permissions = 0
 	) {
 		$this->setShareWith($shareWith);
 		$this->setResourceName($name);
@@ -71,6 +74,7 @@ class CloudFederationShare implements ICloudFederationShare {
 		]);
 		$this->setShareType($shareType);
 		$this->setResourceType($resourceType);
+		$this->setPermissions($permissions);
 	}
 
 	/**
@@ -209,6 +213,16 @@ class CloudFederationShare implements ICloudFederationShare {
 		} else {
 			$this->share['shareType'] = 'user';
 		}
+	}
+
+	/**
+	 * permissions granted to the sharee
+	 *
+	 * @since 35.0.0
+	 */
+	#[\Override]
+	public function setPermissions(int $permissions): void {
+		$this->share['permissions'] = $permissions;
 	}
 
 	/**
@@ -365,5 +379,14 @@ class CloudFederationShare implements ICloudFederationShare {
 	#[\Override]
 	public function getProtocol() {
 		return $this->share['protocol'];
+	}
+
+	/**
+	 * get permissions granted to the sharee
+	 *
+	 * @since 35.0.0
+	 */
+	public function getPermissions(): int {
+		return $this->share['permissions'];
 	}
 }

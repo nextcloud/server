@@ -116,6 +116,7 @@ class Manager {
 			'mountpoint' => $externalShare->getMountpoint(),
 			'owner' => $externalShare->getOwner(),
 			'verify' => !$this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates'),
+			'permissions' => $externalShare->getPermissions(),
 		];
 		return $this->mountShare($options, $user);
 	}
@@ -199,6 +200,7 @@ class Manager {
 				$subShare->setParent((string)$externalShare->getId());
 				$subShare->setShareType($externalShare->getShareType());
 				$subShare->setShareToken($externalShare->getShareToken());
+				$subShare->setPermissions($externalShare->getPermissions());
 				$this->externalShareMapper->insert($subShare);
 			}
 		}
@@ -564,5 +566,14 @@ class Manager {
 			$this->logger->emergency('Error when retrieving shares', ['exception' => $e]);
 			return [];
 		}
+
+	}
+
+	public function updateSharePermissions(string $token, int $permissions): void {
+		try {
+			$share = $this->externalShareMapper->getShareByToken($token);
+			$share->setPermissions($permissions);
+			$this->externalShareMapper->update($share);
+		} catch (DoesNotExistException) {}
 	}
 }
