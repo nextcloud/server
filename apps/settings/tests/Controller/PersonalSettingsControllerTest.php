@@ -1,12 +1,13 @@
 <?php
 
 /**
- * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Tests\Controller;
 
-use OCA\Settings\Controller\AdminSettingsController;
+use OCA\Settings\Controller\PersonalSettingsController;
 use OCA\Settings\Settings\Personal\ServerDevNotice;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
@@ -24,13 +25,10 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 /**
- * Class AdminSettingsControllerTest
- *
- *
  * @package Tests\Settings\Controller
  */
 #[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
-class AdminSettingsControllerTest extends TestCase {
+class PersonalSettingsControllerTest extends TestCase {
 
 	private IRequest&MockObject $request;
 	private INavigationManager&MockObject $navigationManager;
@@ -41,8 +39,8 @@ class AdminSettingsControllerTest extends TestCase {
 	private IDeclarativeManager&MockObject $declarativeSettingsManager;
 	private IInitialState&MockObject $initialState;
 
-	private string $adminUid = 'lololo';
-	private AdminSettingsController $adminSettingsController;
+	private string $uid = 'personalsettingsuser';
+	private PersonalSettingsController $personalSettingsController;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -56,7 +54,7 @@ class AdminSettingsControllerTest extends TestCase {
 		$this->declarativeSettingsManager = $this->createMock(IDeclarativeManager::class);
 		$this->initialState = $this->createMock(IInitialState::class);
 
-		$this->adminSettingsController = new AdminSettingsController(
+		$this->personalSettingsController = new PersonalSettingsController(
 			'settings',
 			$this->request,
 			$this->navigationManager,
@@ -68,14 +66,13 @@ class AdminSettingsControllerTest extends TestCase {
 			$this->initialState,
 		);
 
-		$user = Server::get(IUserManager::class)->createUser($this->adminUid, 'mylongrandompassword');
+		$user = Server::get(IUserManager::class)->createUser($this->uid, 'mylongrandompassword');
 		\OC_User::setUserId($user->getUID());
-		Server::get(IGroupManager::class)->createGroup('admin')->addUser($user);
 	}
 
 	protected function tearDown(): void {
 		Server::get(IUserManager::class)
-			->get($this->adminUid)
+			->get($this->uid)
 			->delete();
 		\OC_User::setUserId(null);
 		Server::get(IUserSession::class)->setUser(null);
@@ -83,69 +80,52 @@ class AdminSettingsControllerTest extends TestCase {
 		parent::tearDown();
 	}
 
-	public function testIndex(): void {
+	/**
+	 * Marks the section we are about to render so the rest of getIndexResponse()
+	 * has something to format. The actual content is irrelevant to these tests.
+	 */
+	private function stubSettingsFor(string $section): void {
 		$user = $this->createMock(IUser::class);
-		$this->userSession
-			->method('getUser')
-			->willReturn($user);
 		$user->method('getUID')->willReturn('user123');
-		$this->groupManager
-			->method('isAdmin')
-			->with('user123')
-			->willReturn(true);
-		$this->subAdmin
-			->method('isSubAdmin')
-			->with($user)
-			->willReturn(false);
+		$this->userSession->method('getUser')->willReturn($user);
 
 		$form = new TemplateResponse('settings', 'settings/empty');
 		$setting = $this->createMock(ServerDevNotice::class);
-		$setting->expects(self::any())
-			->method('getForm')
-			->willReturn($form);
-		$this->settingsManager
-			->expects($this->once())
-			->method('getAdminSections')
-			->willReturn([]);
-		$this->settingsManager
-			->expects($this->once())
-			->method('getPersonalSections')
-			->willReturn([]);
-		$this->settingsManager
-			->expects($this->once())
-			->method('getAllowedAdminSettings')
-			->with('test')
-			->willReturn([5 => [$setting]]);
-		$this->declarativeSettingsManager
-			->expects($this->any())
-			->method('getFormIDs')
-			->with($user, 'admin', 'test')
-			->willReturn([]);
+		$setting->method('getForm')->willReturn($form);
 
-		// The active entry must match the id the admin nav entry is registered
-		// under in Application.php, otherwise the header current-app button is hidden.
+		$this->settingsManager
+			->method('getPersonalSettings')
+			->with($section)
+			->willReturn([5 => [$setting]]);
+		$this->settingsManager->method('getPersonalSections')->willReturn([]);
+		$this->settingsManager->method('getAdminSections')->willReturn([]);
+		$this->declarativeSettingsManager->method('getFormIDs')->willReturn([]);
+		$this->declarativeSettingsManager->method('getFormsWithValues')->willReturn([]);
+	}
+
+	public function testIndexActivatesPersonalNavEntry(): void {
+		$this->stubSettingsFor('additional');
+
+		// Must match the id the personal nav entry is registered under in
+		// Application.php ('settings_personal'), otherwise the header
+		// current-app button is hidden on personal settings pages.
 		$this->navigationManager
 			->expects($this->once())
 			->method('setActiveEntry')
-			->with('settings_administration');
+			->with('settings_personal');
 
-		$initialState = [];
-		$this->initialState->expects(self::atLeastOnce())
-			->method('provideInitialState')
-			->willReturnCallback(function () use (&$initialState): void {
-				$initialState[] = func_get_args();
-			});
+		$this->personalSettingsController->index('additional');
+	}
 
-		$expected = new TemplateResponse(
-			'settings',
-			'settings/frame',
-			[
-				'content' => ''
-			],
-		);
-		$this->assertEquals($expected, $this->adminSettingsController->index('test'));
-		$this->assertEquals([
-			['sections', ['admin' => [], 'personal' => []]],
-		], $initialState);
+	public function testThemingSectionActivatesAccessibilityNavEntry(): void {
+		$this->stubSettingsFor('theming');
+
+		// The appearance/accessibility section keeps its own nav entry.
+		$this->navigationManager
+			->expects($this->once())
+			->method('setActiveEntry')
+			->with('accessibility_settings');
+
+		$this->personalSettingsController->index('theming');
 	}
 }
