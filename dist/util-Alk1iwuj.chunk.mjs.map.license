@@ -64,7 +64,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.2
 	- license: MIT
 - hasown
-	- version: 2.0.2
+	- version: 2.0.4
 	- license: MIT
 - inherits
 	- version: 2.0.4
