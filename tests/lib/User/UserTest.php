@@ -14,6 +14,7 @@ use OC\Hooks\PublicEmitter;
 use OC\User\Database;
 use OC\User\User;
 use OCP\Comments\ICommentsManager;
+use OCP\Config\IUserConfig;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\FileInfo;
 use OCP\Files\Storage\IStorageFactory;
@@ -251,14 +252,16 @@ class UserTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$allConfig->expects($this->any())
-			->method('getUserValue')
-			->willReturn(true);
-		$allConfig->expects($this->any())
 			->method('getSystemValueString')
 			->with($this->equalTo('datadirectory'))
 			->willReturn('arbitrary/path');
 
-		$user = new User('foo', $backend, $this->dispatcher, null, $allConfig);
+		$userConfig = $this->createMock(IUserConfig::class);
+		$userConfig->expects($this->any())
+			->method('getValueBool')
+			->willReturn(true);
+
+		$user = new User('foo', $backend, $this->dispatcher, null, $allConfig, $userConfig);
 		$this->assertEquals('arbitrary/path/foo', $user->getHome());
 	}
 
@@ -416,8 +419,10 @@ class UserTest extends TestCase {
 		$config->method('getSystemValueInt')
 			->willReturnArgument(1);
 
+		$userConfig = $this->createMock(IUserConfig::class);
+
 		$emitter = new PublicEmitter();
-		$user = new User('foo', $backend, $this->dispatcher, $emitter, $config);
+		$user = new User('foo', $backend, $this->dispatcher, $emitter, $config, $userConfig);
 
 		$hook = function (IUser $user) use ($test, &$hooksCalled): void {
 			$hooksCalled++;
@@ -431,8 +436,8 @@ class UserTest extends TestCase {
 		$notificationManager = $this->createMock(INotificationManager::class);
 
 		if ($result) {
-			$config->expects($this->atLeastOnce())
-				->method('deleteAllUserValues')
+			$userConfig->expects($this->atLeastOnce())
+				->method('deleteAllUserConfig')
 				->with('foo');
 
 			$commentsManager->expects($this->once())
@@ -454,8 +459,8 @@ class UserTest extends TestCase {
 				->method('markProcessed')
 				->with($notification);
 		} else {
-			$config->expects($this->never())
-				->method('deleteAllUserValues');
+			$userConfig->expects($this->never())
+				->method('deleteAllUserConfig');
 
 			$commentsManager->expects($this->never())
 				->method('deleteReferencesOfActor');
@@ -497,12 +502,17 @@ class UserTest extends TestCase {
 		$config->method('getSystemValueInt')
 			->willReturnArgument(1);
 
-		$userConfig = [];
-		$config->expects(self::atLeast(2))
-			->method('setUserValue')
-			->willReturnCallback(function (): void {
-				$userConfig[] = func_get_args();
-			});
+		$userConfig = $this->createMock(IUserConfig::class);
+		$userConfig->expects(self::once())
+			->method('setValueBool')
+			->with(
+				'foo', 'core', 'deleted', true
+			);
+		$userConfig->expects(self::once())
+			->method('setValueString')
+			->with(
+				'foo', 'core', 'deleted.home-path', '/home/path'
+			);
 
 		$commentsManager = $this->createMock(ICommentsManager::class);
 		$commentsManager->expects($this->once())
@@ -514,7 +524,7 @@ class UserTest extends TestCase {
 
 		$user = $this->getMockBuilder(User::class)
 			->onlyMethods(['getHome'])
-			->setConstructorArgs(['foo', $backend, $this->dispatcher, null, $config])
+			->setConstructorArgs(['foo', $backend, $this->dispatcher, null, $config, $userConfig])
 			->getMock();
 
 		$user->expects(self::atLeastOnce())
@@ -522,14 +532,6 @@ class UserTest extends TestCase {
 			->willReturn('/home/path');
 
 		$user->delete();
-
-		$this->assertEqualsCanonicalizing(
-			[
-				['foo', 'core', 'deleted', 'true', null],
-				['foo', 'core', 'deleted.backup-home', '/home/path', null],
-			],
-			$userConfig,
-		);
 
 		$this->restoreService(ICommentsManager::class);
 	}
@@ -548,7 +550,7 @@ class UserTest extends TestCase {
 		$urlGenerator->method('getAbsoluteURL')
 			->withAnyParameters()
 			->willReturn($absoluteUrl);
-		$user = new User('foo', $backend, $this->dispatcher, null, null, $urlGenerator);
+		$user = new User('foo', $backend, $this->dispatcher, null, null, null, $urlGenerator);
 		$this->assertEquals($cloudId, $user->getCloudId());
 	}
 
@@ -568,16 +570,16 @@ class UserTest extends TestCase {
 		$emitter = new PublicEmitter();
 		$emitter->listen('\OC\User', 'changeUser', $hook);
 
-		$config = $this->createMock(IConfig::class);
-		$config->expects($this->once())
-			->method('deleteUserValue')
+		$userConfig = $this->createMock(IUserConfig::class);
+		$userConfig->expects($this->once())
+			->method('deleteUserConfig')
 			->with(
 				'foo',
 				'settings',
 				'email'
 			);
 
-		$user = new User('foo', $backend, $this->dispatcher, $emitter, $config);
+		$user = new User('foo', $backend, $this->dispatcher, $emitter, null, $userConfig);
 		$user->setSystemEMailAddress('');
 	}
 
@@ -597,9 +599,9 @@ class UserTest extends TestCase {
 		$emitter = new PublicEmitter();
 		$emitter->listen('\OC\User', 'changeUser', $hook);
 
-		$config = $this->createMock(IConfig::class);
-		$config->expects($this->once())
-			->method('setUserValue')
+		$userConfig = $this->createMock(IUserConfig::class);
+		$userConfig->expects($this->once())
+			->method('setValueString')
 			->with(
 				'foo',
 				'settings',
@@ -607,7 +609,7 @@ class UserTest extends TestCase {
 				'foo@bar.com'
 			);
 
-		$user = new User('foo', $backend, $this->dispatcher, $emitter, $config);
+		$user = new User('foo', $backend, $this->dispatcher, $emitter, null, $userConfig);
 		$user->setSystemEMailAddress('foo@bar.com');
 	}
 
@@ -623,14 +625,14 @@ class UserTest extends TestCase {
 		$dispatcher->expects($this->never())
 			->method('dispatch');
 
-		$config = $this->createMock(IConfig::class);
-		$config->expects($this->any())
-			->method('getUserValue')
+		$userConfig = $this->createMock(IUserConfig::class);
+		$userConfig->expects($this->any())
+			->method('getValueString')
 			->willReturn('foo@bar.com');
-		$config->expects($this->any())
-			->method('setUserValue');
+		$userConfig->expects($this->any())
+			->method('setValueString');
 
-		$user = new User('foo', $backend, $dispatcher, $emitter, $config);
+		$user = new User('foo', $backend, $dispatcher, $emitter, null, $userConfig);
 		$user->setSystemEMailAddress('foo@bar.com');
 	}
 
@@ -650,9 +652,9 @@ class UserTest extends TestCase {
 		$emitter = new PublicEmitter();
 		$emitter->listen('\OC\User', 'changeUser', $hook);
 
-		$config = $this->createMock(IConfig::class);
-		$config->expects($this->once())
-			->method('setUserValue')
+		$userConfig = $this->createMock(IUserConfig::class);
+		$userConfig->expects($this->once())
+			->method('setValueString')
 			->with(
 				'foo',
 				'files',
@@ -660,7 +662,7 @@ class UserTest extends TestCase {
 				'23 TB'
 			);
 
-		$user = new User('foo', $backend, $this->dispatcher, $emitter, $config);
+		$user = new User('foo', $backend, $this->dispatcher, $emitter, null, $userConfig);
 		$user->setQuota('23 TB');
 	}
 
@@ -674,7 +676,8 @@ class UserTest extends TestCase {
 			->method('emit');
 
 		$config = $this->createMock(IConfig::class);
-		$user = new User('foo', $backend, $this->dispatcher, $emitter, $config);
+		$userConfig = $this->createMock(IUserConfig::class);
+		$user = new User('foo', $backend, $this->dispatcher, $emitter, $config, $userConfig);
 
 		$userValueMap = [
 			['foo', 'files', 'quota', 'default', 'default'],
@@ -684,7 +687,7 @@ class UserTest extends TestCase {
 			// allow unlimited quota
 			['files', 'allow_unlimited_quota', '1', '1'],
 		];
-		$config->method('getUserValue')
+		$userConfig->method('getValueString')
 			->willReturnMap($userValueMap);
 		$config->method('getAppValue')
 			->willReturnMap($appValueMap);
@@ -702,7 +705,8 @@ class UserTest extends TestCase {
 			->method('emit');
 
 		$config = $this->createMock(IConfig::class);
-		$user = new User('foo', $backend, $this->dispatcher, $emitter, $config);
+		$userConfig = $this->createMock(IUserConfig::class);
+		$user = new User('foo', $backend, $this->dispatcher, $emitter, $config, $userConfig);
 
 		$userValueMap = [
 			['foo', 'files', 'quota', 'default', 'default'],
@@ -715,7 +719,7 @@ class UserTest extends TestCase {
 			// expect seeing 1 GB used as fallback value
 			['files', 'default_quota', '1 GB', '1 GB'],
 		];
-		$config->method('getUserValue')
+		$userConfig->method('getValueString')
 			->willReturnMap($userValueMap);
 		$config->method('getAppValue')
 			->willReturnMap($appValueMap);
@@ -732,22 +736,22 @@ class UserTest extends TestCase {
 		$emitter->expects($this->never())
 			->method('emit');
 
-		$config = $this->createMock(IConfig::class);
-		$config->expects($this->any())
-			->method('getUserValue')
+		$userConfig = $this->createMock(IUserConfig::class);
+		$userConfig->expects($this->any())
+			->method('getValueString')
 			->willReturn('23 TB');
-		$config->expects($this->never())
-			->method('setUserValue');
+		$userConfig->expects($this->never())
+			->method('setValueString');
 
-		$user = new User('foo', $backend, $this->dispatcher, $emitter, $config);
+		$user = new User('foo', $backend, $this->dispatcher, $emitter, null, $userConfig);
 		$user->setQuota('23 TB');
 	}
 
 	public function testGetLastLogin(): void {
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 
-		$config = $this->createMock(IConfig::class);
-		$config->method('getUserValue')
+		$userConfig = $this->createMock(IUserConfig::class);
+		$userConfig->method('getValueInt')
 			->willReturnCallback(function ($uid, $app, $key, $default) {
 				if ($uid === 'foo' && $app === 'login' && $key === 'lastLogin') {
 					return 42;
@@ -756,7 +760,7 @@ class UserTest extends TestCase {
 				}
 			});
 
-		$user = new User('foo', $backend, $this->dispatcher, null, $config);
+		$user = new User('foo', $backend, $this->dispatcher, null, null, $userConfig);
 		$this->assertSame(42, $user->getLastLogin());
 	}
 
@@ -764,37 +768,37 @@ class UserTest extends TestCase {
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->method('getBackendName')->willReturn('foo');
 
-		$config = $this->createMock(IConfig::class);
-		$config->expects($this->once())
-			->method('setUserValue')
+		$userConfig = $this->createMock(IUserConfig::class);
+		$userConfig->expects($this->once())
+			->method('setValueBool')
 			->with(
 				$this->equalTo('foo'),
 				$this->equalTo('core'),
 				$this->equalTo('enabled'),
-				'true'
+				true
 			);
 		/* dav event listener gets the manager list from config */
-		$config->expects(self::any())
-			->method('getUserValue')
+		$userConfig->expects(self::any())
+			->method('getValueBool')
 			->willReturnCallback(
-				fn ($user, $app, $key, $default) => ($key === 'enabled' ? 'false' : $default)
+				fn ($user, $app, $key, $default) => ($key === 'enabled' ? false : $default)
 			);
 
-		$user = new User('foo', $backend, $this->dispatcher, null, $config);
+		$user = new User('foo', $backend, $this->dispatcher, null, null, $userConfig);
 		$user->setEnabled(true);
 	}
 
 	public function testSetDisabled(): void {
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 
-		$config = $this->createMock(IConfig::class);
-		$config->expects($this->once())
-			->method('setUserValue')
+		$userConfig = $this->createMock(IUserConfig::class);
+		$userConfig->expects($this->once())
+			->method('setValueBool')
 			->with(
 				$this->equalTo('foo'),
 				$this->equalTo('core'),
 				$this->equalTo('enabled'),
-				'false'
+				false
 			);
 
 		$user = $this->getMockBuilder(User::class)
@@ -803,7 +807,8 @@ class UserTest extends TestCase {
 				$backend,
 				$this->dispatcher,
 				null,
-				$config,
+				null,
+				$userConfig,
 			])
 			->onlyMethods(['isEnabled', 'triggerChange'])
 			->getMock();
@@ -824,9 +829,9 @@ class UserTest extends TestCase {
 	public function testSetDisabledAlreadyDisabled(): void {
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 
-		$config = $this->createMock(IConfig::class);
-		$config->expects($this->never())
-			->method('setUserValue');
+		$userConfig = $this->createMock(IUserConfig::class);
+		$userConfig->expects($this->never())
+			->method('setValueBool');
 
 		$user = $this->getMockBuilder(User::class)
 			->setConstructorArgs([
@@ -834,7 +839,8 @@ class UserTest extends TestCase {
 				$backend,
 				$this->dispatcher,
 				null,
-				$config,
+				null,
+				$userConfig,
 			])
 			->onlyMethods(['isEnabled', 'triggerChange'])
 			->getMock();
@@ -851,8 +857,8 @@ class UserTest extends TestCase {
 	public function testGetEMailAddress(): void {
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 
-		$config = $this->createMock(IConfig::class);
-		$config->method('getUserValue')
+		$userConfig = $this->createMock(IUserConfig::class);
+		$userConfig->method('getValueString')
 			->willReturnCallback(function ($uid, $app, $key, $default) {
 				if ($uid === 'foo' && $app === 'settings' && $key === 'email') {
 					return 'foo@bar.com';
@@ -861,7 +867,7 @@ class UserTest extends TestCase {
 				}
 			});
 
-		$user = new User('foo', $backend, $this->dispatcher, null, $config);
+		$user = new User('foo', $backend, $this->dispatcher, null, null, $userConfig);
 		$this->assertSame('foo@bar.com', $user->getEMailAddress());
 	}
 }
