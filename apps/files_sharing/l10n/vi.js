@@ -125,6 +125,7 @@ OC.L10N.register(
     "Via “{folder}”" : "Thông qua “{folder}”",
     "Unshare" : "Bỏ chia sẽ",
     "Cannot copy, please copy the link manually" : "Không thể sao chép, vui lòng sao chép liên kết bằng tay",
+    "Copy internal link" : "Copy internal link",
     "Internal link" : "Liên kết nội bộ",
     "{shareWith} by {initiator}" : "{shareWith} bởi {initiator}",
     "Shared via link by {initiator}" : "Được chia sẻ qua liên kết bởi {initiator}",
