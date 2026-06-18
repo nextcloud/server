@@ -61,7 +61,7 @@ defineEmits<{
 }>()
 
 const isSmallMobile = useIsSmallMobile()
-const placeholderText = t('core', 'Search apps, files, tags, messages …')
+const placeholderText = t('core', 'Search apps, files, tags, messages')
 </script>
 
 <style lang="scss" scoped>
