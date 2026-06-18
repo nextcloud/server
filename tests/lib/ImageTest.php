@@ -381,4 +381,102 @@ class ImageTest extends \Test\TestCase {
 		$img->loadFromData($data);
 		$this->assertFalse($img->valid());
 	}
+
+	/**
+	 * Returns the reassembled ICC profile from the APP2 segments of a JPEG,
+	 * or null if there is none.
+	 */
+	private static function iccProfileOfJpeg(string $data): ?string {
+		$chunks = [];
+		$offset = 0;
+		while (($pos = strpos($data, "ICC_PROFILE\x00", $offset)) !== false) {
+			$length = (ord($data[$pos - 2]) << 8) | ord($data[$pos - 1]);
+			$sequence = ord($data[$pos + 12]);
+			$chunks[$sequence] = substr($data, $pos + 14, $length - 2 - 12 - 2);
+			$offset = $pos + 14;
+		}
+		if ($chunks === []) {
+			return null;
+		}
+		ksort($chunks);
+		return implode('', $chunks);
+	}
+
+	/**
+	 * Returns the ICC profile from the iCCP chunk of a PNG, or null if there is none.
+	 */
+	private static function iccProfileOfPng(string $data): ?string {
+		$pos = strpos($data, 'iCCP');
+		if ($pos === false) {
+			return null;
+		}
+		$length = unpack('N', substr($data, $pos - 4, 4))[1];
+		$chunk = substr($data, $pos + 4, $length);
+		$separator = strpos($chunk, "\x00");
+		return gzuncompress(substr($chunk, $separator + 2)) ?: null;
+	}
+
+	public function testIccProfilePreservedInJpeg(): void {
+		$source = file_get_contents(OC::$SERVERROOT . '/tests/data/testimage-icc-p3.jpg');
+		$sourceProfile = self::iccProfileOfJpeg($source);
+		$this->assertNotNull($sourceProfile);
+
+		$img = new Image();
+		$img->loadFromFile(OC::$SERVERROOT . '/tests/data/testimage-icc-p3.jpg');
+		$this->assertTrue($img->valid());
+		$this->assertEquals($sourceProfile, self::iccProfileOfJpeg($img->data()));
+
+		$img = new Image();
+		$img->loadFromData($source);
+		$this->assertTrue($img->valid());
+		$this->assertEquals($sourceProfile, self::iccProfileOfJpeg($img->data()));
+
+		$img = new Image();
+		$img->loadFromBase64(base64_encode($source));
+		$this->assertTrue($img->valid());
+		$this->assertEquals($sourceProfile, self::iccProfileOfJpeg($img->data()));
+	}
+
+	public function testIccProfilePreservedAcrossResizeAndCrop(): void {
+		$source = file_get_contents(OC::$SERVERROOT . '/tests/data/testimage-icc-p3.jpg');
+		$sourceProfile = self::iccProfileOfJpeg($source);
+
+		$img = new Image();
+		$img->loadFromFile(OC::$SERVERROOT . '/tests/data/testimage-icc-p3.jpg');
+		$img->resize(32);
+		$this->assertEquals($sourceProfile, self::iccProfileOfJpeg($img->data()));
+
+		$img = new Image();
+		$img->loadFromFile(OC::$SERVERROOT . '/tests/data/testimage-icc-p3.jpg');
+		$this->assertEquals($sourceProfile, self::iccProfileOfJpeg($img->resizeCopy(32)->data()));
+		$this->assertEquals($sourceProfile, self::iccProfileOfJpeg($img->preciseResizeCopy(32, 16)->data()));
+		$this->assertEquals($sourceProfile, self::iccProfileOfJpeg($img->cropCopy(0, 0, 16, 16)->data()));
+	}
+
+	public function testIccProfilePreservedInPngOutput(): void {
+		$source = file_get_contents(OC::$SERVERROOT . '/tests/data/testimage-icc-p3.jpg');
+		$sourceProfile = self::iccProfileOfJpeg($source);
+
+		$img = new Image();
+		$img->loadFromFile(OC::$SERVERROOT . '/tests/data/testimage-icc-p3.jpg');
+		$tempFile = tempnam(sys_get_temp_dir(), 'img-test');
+		$img->save($tempFile, 'image/png');
+		$this->assertEquals($sourceProfile, self::iccProfileOfPng(file_get_contents($tempFile)));
+		unlink($tempFile);
+	}
+
+	public function testIccProfileNotInventedForUntaggedImage(): void {
+		$img = new Image();
+		$img->loadFromFile(OC::$SERVERROOT . '/tests/data/testimage.jpg');
+		$this->assertTrue($img->valid());
+		$this->assertNull(self::iccProfileOfJpeg($img->data()));
+	}
+
+	public function testNonRgbIccProfileNotPreserved(): void {
+		// GD converts CMYK pixel data to RGB on load, the source profile no longer applies
+		$img = new Image();
+		$img->loadFromFile(OC::$SERVERROOT . '/tests/data/testimage-icc-cmyk.jpg');
+		$this->assertTrue($img->valid());
+		$this->assertNull(self::iccProfileOfJpeg($img->data()));
+	}
 }
