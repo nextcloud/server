@@ -295,7 +295,7 @@ class Manager extends PublicEmitter implements IUserManager {
 			$backendUsers = $backend->getDisplayNames($pattern, $limit, $offset);
 			if (is_array($backendUsers)) {
 				foreach ($backendUsers as $uid => $displayName) {
-					$users[] = new LazyUser($uid, $this, $displayName, $backend);
+					$users[$uid] = new LazyUser($uid, $this, $displayName, $backend);
 				}
 			}
 		}
