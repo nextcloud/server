@@ -106,6 +106,7 @@ OC.L10N.register(
     "All files" : "Tất cả tệp tin",
     "Additional settings" : "Cài đặt bổ sung",
     "Actions" : "Hành động",
+    "File actions" : "File actions",
     "Selection" : "Lựa chọn",
     "Deselect all" : "Bỏ chọn tất cả",
     "Navigation" : "Điều hướng",

@@ -113,6 +113,7 @@ OC.L10N.register(
     "Personal files" : "Archivos personales",
     "Additional settings" : "Configuraciones adicionales",
     "Actions" : "Acciones",
+    "File actions" : "File actions",
     "Selection" : "Selección",
     "Deselect all" : "Deseleccionar todo",
     "Navigation" : "Navegación",

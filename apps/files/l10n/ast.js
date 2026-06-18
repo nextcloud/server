@@ -97,6 +97,7 @@ OC.L10N.register(
     "Personal files" : "Ficheros personales",
     "Additional settings" : "Configuración adicional",
     "Actions" : "Aiciones",
+    "File actions" : "File actions",
     "Selection" : "Seleición",
     "Navigation" : "Navegación",
     "View" : "Ver",
