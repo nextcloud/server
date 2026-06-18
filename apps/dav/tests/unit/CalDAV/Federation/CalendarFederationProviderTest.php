@@ -222,7 +222,7 @@ class CalendarFederationProviderTest extends TestCase {
 			->method('add');
 
 		$this->expectException(ProviderCouldNotAddShareException::class);
-		$this->expectExceptionMessage('Unknown protocol version');
+		$this->expectExceptionMessage('Invalid or unsupported protocol payload');
 		$this->expectExceptionCode(400);
 		$this->assertEquals(10, $this->calendarFederationProvider->shareReceived($share));
 	}
@@ -254,7 +254,7 @@ class CalendarFederationProviderTest extends TestCase {
 			->method('add');
 
 		$this->expectException(ProviderCouldNotAddShareException::class);
-		$this->expectExceptionMessage('No protocol version');
+		$this->expectExceptionMessage('Invalid or unsupported protocol payload');
 		$this->expectExceptionCode(400);
 		$this->assertEquals(10, $this->calendarFederationProvider->shareReceived($share));
 	}

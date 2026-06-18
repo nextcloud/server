@@ -21,6 +21,8 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProvider;
 use OCP\Federation\ICloudFederationProviderManager;
+use OCP\Federation\ICloudFederationShare;
+use OCP\Federation\ICloudId;
 use OCP\Federation\ICloudIdManager;
 use OCP\IAppConfig;
 use OCP\IGroupManager;
@@ -167,5 +169,96 @@ class RequestHandlerControllerTest extends TestCase {
 			'notification' => $notification,
 		], $notificationObject->getMessage());
 
+	}
+
+	public function testAddShareRejectsProtocolWithoutSharedSecret(): void {
+		// Disable signature verification so we reach the protocol validation.
+		$this->appConfig->method('getValueBool')->willReturn(true);
+
+		$protocol = [
+			'name' => 'multi',
+			'webdav' => ['requirements' => ['must-exchange-token']],
+		];
+
+		$result = $this->requestHandlerController->addShare(
+			'bob@https://bob.example.com', 'Jupyter', '', '8',
+			'alice@alice.example.com', 'alice', 'alice@alice.example.com', 'alice',
+			$protocol, 'user', 'file',
+		);
+
+		$this->assertInstanceOf(JSONResponse::class, $result);
+		$this->assertEquals(Http::STATUS_BAD_REQUEST, $result->getStatus());
+		$this->assertSame('Missing sharedSecret in protocol', $result->getData()['message']);
+	}
+
+	public function testAddShareAcceptsMultiProtocolSharedSecret(): void {
+		// Disable signature verification so we reach the protocol validation.
+		$this->appConfig->method('getValueBool')->willReturn(true);
+		// No supported share types: the share passes the sharedSecret gate and is
+		// rejected later with 501, proving the multi envelope validated.
+		$this->config->method('getSupportedShareTypes')->willReturn([]);
+
+		$protocol = [
+			'name' => 'multi',
+			'webdav' => ['sharedSecret' => 'XHRcgrx1X8uZELY8kxApldZtzoreH8Wj', 'requirements' => ['must-exchange-token']],
+			'webapp' => ['sharedSecret' => 'XHRcgrx1X8uZELY8kxApldZtzoreH8Wj', 'uri' => 'https://app.example/open'],
+		];
+
+		$result = $this->requestHandlerController->addShare(
+			'bob@https://bob.example.com', 'Jupyter', '', '8',
+			'alice@alice.example.com', 'alice', 'alice@alice.example.com', 'alice',
+			$protocol, 'user', 'file',
+		);
+
+		$this->assertInstanceOf(JSONResponse::class, $result);
+		$this->assertEquals(Http::STATUS_NOT_IMPLEMENTED, $result->getStatus());
+		$this->assertNotSame('Missing sharedSecret in protocol', $result->getData()['message'] ?? '');
+	}
+
+	public function testAddShareRoutesFolderResourceTypeMultiProtocol(): void {
+		// Disable signature verification so we reach the share handling.
+		$this->appConfig->method('getValueBool')->willReturn(true);
+		// The files provider is registered for both 'file' and 'folder'.
+		$this->config->method('getSupportedShareTypes')->with('folder')->willReturn(['user']);
+
+		$cloudId = $this->createMock(ICloudId::class);
+		$cloudId->method('getUser')->willReturn('bob');
+		$this->cloudIdManager->method('resolveCloudId')->willReturn($cloudId);
+
+		$this->userManager->method('userExists')->with('bob')->willReturn(true);
+
+		$share = $this->createMock(ICloudFederationShare::class);
+		$this->cloudFederationFactory->method('getCloudFederationShare')->willReturn($share);
+
+		$provider = $this->createMock(ICloudFederationProvider::class);
+		$provider->expects($this->once())
+			->method('shareReceived')
+			->with($share)
+			->willReturn('share-id-1');
+		$this->cloudFederationProviderManager->expects($this->once())
+			->method('getCloudFederationProvider')
+			->with('folder')
+			->willReturn($provider);
+
+		$recipient = $this->createMock(IUser::class);
+		$recipient->method('getDisplayName')->willReturn('Bob');
+		$recipient->method('getUID')->willReturn('bob');
+		$this->userManager->method('get')->with('bob')->willReturn($recipient);
+
+		$protocol = [
+			'name' => 'multi',
+			'webdav' => ['sharedSecret' => 'XHRcgrx1X8uZELY8kxApldZtzoreH8Wj', 'requirements' => ['must-exchange-token']],
+			'webapp' => ['sharedSecret' => 'XHRcgrx1X8uZELY8kxApldZtzoreH8Wj', 'uri' => 'https://app.example/open'],
+		];
+
+		$result = $this->requestHandlerController->addShare(
+			'bob@https://bob.example.com', 'Jupyter', '', '8',
+			'alice@alice.example.com', 'alice', 'alice@alice.example.com', 'alice',
+			$protocol, 'user', 'folder',
+		);
+
+		$this->assertInstanceOf(JSONResponse::class, $result);
+		$this->assertEquals(Http::STATUS_CREATED, $result->getStatus());
+		$this->assertSame('Bob', $result->getData()['recipientDisplayName']);
 	}
 }

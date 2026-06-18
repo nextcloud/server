@@ -9,6 +9,7 @@ use OC\Files\Filesystem;
 use OC\Files\Storage\Wrapper\DirPermissionsMask;
 use OC\Files\Storage\Wrapper\PermissionsMask;
 use OC\Files\View;
+use OCA\DAV\Connector\Sabre\BearerAuth;
 use OCA\DAV\Connector\Sabre\PublicAuth;
 use OCA\DAV\Connector\Sabre\ServerFactory;
 use OCA\DAV\Files\Sharing\FilesDropPlugin;
@@ -67,7 +68,14 @@ $authBackend = new PublicAuth(
 	Server::get(LoggerInterface::class),
 	Server::get(IURLGenerator::class),
 );
+$bearerAuthBackend = new BearerAuth(
+	Server::get(IUserSession::class),
+	$session,
+	$request,
+	Server::get(IConfig::class),
+);
 $authPlugin = new \Sabre\DAV\Auth\Plugin($authBackend);
+$authPlugin->addBackend($bearerAuthBackend);
 
 $l10nFactory = Server::get(IFactory::class);
 $serverFactory = new ServerFactory(
@@ -87,7 +95,7 @@ $linkCheckPlugin = new PublicLinkCheckPlugin();
 $filesDropPlugin = new FilesDropPlugin();
 
 /** @var string $baseuri defined in public.php */
-$server = $serverFactory->createServer(true, $baseuri, $requestUri, $authPlugin, function (\Sabre\DAV\Server $server) use ($baseuri, $requestUri, $authBackend, $linkCheckPlugin, $filesDropPlugin) {
+$server = $serverFactory->createServer(true, $baseuri, $requestUri, $authPlugin, function (\Sabre\DAV\Server $server) use ($baseuri, $requestUri, $authBackend, $bearerAuthBackend, $linkCheckPlugin, $filesDropPlugin) {
 	// GET must be allowed for e.g. showing images and allowing Zip downloads
 	if ($server->httpRequest->getMethod() !== 'GET') {
 		// If this is *not* a GET request we only allow access to public DAV from AJAX or when Server2Server is allowed
@@ -99,7 +107,11 @@ $server = $serverFactory->createServer(true, $baseuri, $requestUri, $authPlugin,
 		}
 	}
 
-	$share = $authBackend->getShare();
+	try {
+		$share = $authBackend->getShare();
+	} catch (NotFound $e) {
+		$share = $bearerAuthBackend->getShare();
+	}
 	$isReadable = $share->getPermissions() & Constants::PERMISSION_READ;
 	$fileId = $share->getNodeId();
 

@@ -42,6 +42,10 @@
             "description": "Open-Cloud-Mesh-API"
         },
         {
+            "name": "cloud_federation_api/token",
+            "description": "Controller for the /token endpoint Exchanges long-lived refresh tokens for short-lived access tokens"
+        },
+        {
             "name": "federatedfilesharing/mount_public_link",
             "description": "Class MountPublicLinkController convert public links to federated shares"
         },
@@ -2544,7 +2548,7 @@
                     "permissions",
                     "remote",
                     "remote_id",
-                    "share_token",
+                    "refresh_token",
                     "share_type",
                     "type",
                     "user",
@@ -2596,7 +2600,7 @@
                     "remote_id": {
                         "type": "string"
                     },
-                    "share_token": {
+                    "refresh_token": {
                         "type": "string"
                     },
                     "share_type": {
@@ -18375,19 +18379,21 @@
                                     },
                                     "protocol": {
                                         "type": "object",
-                                        "description": "e,.g. ['name' => 'webdav', 'options' => ['username' => 'john', 'permissions' => 31]]",
+                                        "description": "Legacy format: ['name' => 'webdav', 'options' => ['sharedSecret' => '...', 'permissions' => '...']], new single-protocol format: ['name' => 'webdav', 'webdav' => ['uri' => '...', 'sharedSecret' => '...', 'permissions' => [...]]], or multi-protocol envelope per OCM spec: ['name' => 'multi', 'webdav' => ['sharedSecret' => '...', ...], 'webapp' => [...]]",
                                         "required": [
-                                            "name",
-                                            "options"
+                                            "name"
                                         ],
                                         "properties": {
                                             "name": {
-                                                "type": "array",
-                                                "items": {
-                                                    "type": "string"
-                                                }
+                                                "type": "string"
                                             },
                                             "options": {
+                                                "type": "object",
+                                                "additionalProperties": {
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "webdav": {
                                                 "type": "object",
                                                 "additionalProperties": {
                                                     "type": "object"

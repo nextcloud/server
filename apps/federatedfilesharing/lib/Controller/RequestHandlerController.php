@@ -398,7 +398,7 @@ class RequestHandlerController extends OCSController {
 			->set('owner', $qb->createNamedParameter($cloudId->getUser()))
 			->set('remote_id', $qb->createNamedParameter($newRemoteId))
 			->where($qb->expr()->eq('remote_id', $qb->createNamedParameter($id)))
-			->andWhere($qb->expr()->eq('share_token', $qb->createNamedParameter($token)));
+			->andWhere($qb->expr()->eq('refresh_token', $qb->createNamedParameter($token)));
 		$affected = $query->executeStatement();
 
 		if ($affected > 0) {
