@@ -124,6 +124,7 @@ OC.L10N.register(
     "Personal files" : "Osebne datoteke",
     "Additional settings" : "Dodatne nastavitve",
     "Actions" : "Dejanja",
+    "File actions" : "File actions",
     "Selection" : "Izbor",
     "Select all files" : "Izberi vse datoteke",
     "Deselect all" : "Odstrani celoten izbor",
