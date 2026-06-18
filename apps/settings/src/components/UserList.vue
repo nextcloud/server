@@ -47,7 +47,7 @@
 				externalActions,
 				onEditUser: openEditDialog,
 			}"
-			@scrollEnd="handleScrollEnd">
+			@scroll-end="handleScrollEnd">
 			<template #before>
 				<caption class="hidden-visually">
 					{{ t('settings', 'List of accounts. This list is not fully rendered for performance reasons. The accounts will be rendered as you navigate through the list.') }}
