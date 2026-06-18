@@ -57,12 +57,10 @@ class UserConfig implements IUserConfig {
 	private const ENCRYPTION_PREFIX = '$UserConfigEncryption$';
 	private const ENCRYPTION_PREFIX_LENGTH = 22; // strlen(self::ENCRYPTION_PREFIX)
 
-	/** @var CappedMemoryCache<array<string, array<string, mixed>>> [ass'user_id' => ['app_id' => ['key' => 'value']]] cache for normal config keys */
+	/** @var CappedMemoryCache<array<string, array<string, array{type: ValueType, flags: int, value: string}>>>  cache for normal config keys */
 	private CappedMemoryCache $fastCache;
-	/** @var CappedMemoryCache<array<string, array<string, mixed>>> ['user_id' => ['app_id' => ['key' => 'value']]] cache for lazy config keys */
+	/** @var CappedMemoryCache<array<string, array<string, array{type: ValueType, flags: int, value: string}>>> cache for lazy config keys */
 	private CappedMemoryCache $lazyCache;
-	/** @var array<string, array<string, array<string, array<string, mixed>>>> ['user_id' => ['app_id' => ['key' => ['type' => ValueType, 'flags' => bitflag]]]] */
-	private array $valueDetails = [];  // type for all config values
 	/** @var array<string, array{entries: array<string, Entry>, aliases: array<string, string>, strictness: Strictness}> ['app_id' => ['strictness' => ConfigLexiconStrictness, 'entries' => ['config_key' => ConfigLexiconEntry[]]] */
 	private array $configLexiconDetails = [];
 	private bool $ignoreLexiconAliases = false;
@@ -204,11 +202,13 @@ class UserConfig implements IUserConfig {
 		$this->loadConfig($userId, $lazy);
 		$this->matchAndApplyLexiconDefinition($userId, $app, $key);
 
-		if (!isset($this->valueDetails[$userId][$app][$key])) {
-			throw new UnknownKeyException('unknown config key');
+		if (isset($this->fastCache[$userId][$app][$key])) {
+			return $this->isFlagged(self::FLAG_SENSITIVE, $this->fastCache[$userId][$app][$key]['flags']);
+		} elseif (isset($this->lazyCache[$userId][$app][$key])) {
+			return $this->isFlagged(self::FLAG_SENSITIVE, $this->lazyCache[$userId][$app][$key]['flags']);
+		} else {
+			throw new UnknownKeyException('Unknown config key ' . $app . '/' . $key);
 		}
-
-		return $this->isFlagged(self::FLAG_SENSITIVE, $this->valueDetails[$userId][$app][$key]['flags']);
 	}
 
 	/**
@@ -229,11 +229,13 @@ class UserConfig implements IUserConfig {
 		$this->loadConfig($userId, $lazy);
 		$this->matchAndApplyLexiconDefinition($userId, $app, $key);
 
-		if (!isset($this->valueDetails[$userId][$app][$key])) {
-			throw new UnknownKeyException('unknown config key');
+		if (isset($this->fastCache[$userId][$app][$key])) {
+			return $this->isFlagged(self::FLAG_INDEXED, $this->fastCache[$userId][$app][$key]['flags']);
+		} elseif (isset($this->lazyCache[$userId][$app][$key])) {
+			return $this->isFlagged(self::FLAG_INDEXED, $this->lazyCache[$userId][$app][$key]['flags']);
+		} else {
+			throw new UnknownKeyException('Unknown config key ' . $app . '/' . $key);
 		}
-
-		return $this->isFlagged(self::FLAG_INDEXED, $this->valueDetails[$userId][$app][$key]['flags']);
 	}
 
 	/**
@@ -350,11 +352,12 @@ class UserConfig implements IUserConfig {
 		$values = [];
 		foreach (array_keys($cache) as $app) {
 			if (isset($cache[$app][$key])) {
-				$value = $cache[$app][$key];
+				$valueDetail = $cache[$app][$key];
 				try {
-					$this->decryptSensitiveValue($userId, $app, $key, $value);
-					$value = $this->convertTypedValue($value, $typedAs ?? $this->getValueType($userId, $app, $key, $lazy));
+					$this->decryptSensitiveValue($userId, $app, $key, $valueDetail);
+					$value = $this->convertTypedValue($valueDetail['value'], $typedAs ?? $this->getValueType($userId, $app, $key, $lazy));
 				} catch (IncorrectTypeException|UnknownKeyException) {
+					$value = $valueDetail['value'];
 				}
 				$values[$app] = $value;
 			}
@@ -793,11 +796,26 @@ class UserConfig implements IUserConfig {
 		$this->loadConfig($userId, $lazy);
 
 		/**
+		 * - the pair $app/$key cannot exist in both array,
+		 * - we should still return an existing non-lazy value even if current method
+		 *   is called with $lazy is true
+		 *
+		 * This way, lazyCache will be empty until the load for lazy config value is requested.
+		 */
+		if (isset($this->lazyCache[$userId][$app][$key])) {
+			$valueDetail = $this->lazyCache[$userId][$app][$key];
+		} elseif (isset($this->fastCache[$userId][$app][$key])) {
+			$valueDetail = $this->fastCache[$userId][$app][$key];
+		} else {
+			return $default;
+		}
+
+		/**
 		 * We ignore check if mixed type is requested.
 		 * If type of stored value is set as mixed, we don't filter.
 		 * If type of stored value is defined, we compare with the one requested.
 		 */
-		$knownType = $this->valueDetails[$userId][$app][$key]['type'] ?? null;
+		$knownType = $valueDetail['type'] ?? null;
 		if ($type !== ValueType::MIXED
 			&& $knownType !== null
 			&& $knownType !== ValueType::MIXED
@@ -806,22 +824,9 @@ class UserConfig implements IUserConfig {
 			throw new TypeConflictException('conflict with value type from database');
 		}
 
-		/**
-		 * - the pair $app/$key cannot exist in both array,
-		 * - we should still return an existing non-lazy value even if current method
-		 *   is called with $lazy is true
-		 *
-		 * This way, lazyCache will be empty until the load for lazy config value is requested.
-		 */
-		if (isset($this->lazyCache[$userId][$app][$key])) {
-			$value = $this->lazyCache[$userId][$app][$key];
-		} elseif (isset($this->fastCache[$userId][$app][$key])) {
-			$value = $this->fastCache[$userId][$app][$key];
-		} else {
-			return $default;
-		}
+		$this->decryptSensitiveValue($userId, $app, $key, $valueDetail);
 
-		$this->decryptSensitiveValue($userId, $app, $key, $value);
+		$value = $valueDetail['value'];
 
 		// in case the key was modified while running matchAndApplyLexiconDefinition() we are
 		// interested to check options in case a modification of the value is needed
@@ -851,11 +856,13 @@ class UserConfig implements IUserConfig {
 		$this->loadConfig($userId, $lazy);
 		$this->matchAndApplyLexiconDefinition($userId, $app, $key);
 
-		if (!isset($this->valueDetails[$userId][$app][$key]['type'])) {
-			throw new UnknownKeyException('unknown config key');
+		if (isset($this->fastCache[$userId][$app][$key])) {
+			return $this->fastCache[$userId][$app][$key]['type'];
+		} elseif (isset($this->lazyCache[$userId][$app][$key])) {
+			return $this->lazyCache[$userId][$app][$key]['type'];
+		} else {
+			throw new UnknownKeyException('Unknown config key ' . $app . '/' . $key);
 		}
-
-		return $this->valueDetails[$userId][$app][$key]['type'];
 	}
 
 	/**
@@ -877,11 +884,13 @@ class UserConfig implements IUserConfig {
 		$this->loadConfig($userId, $lazy);
 		$this->matchAndApplyLexiconDefinition($userId, $app, $key);
 
-		if (!isset($this->valueDetails[$userId][$app][$key])) {
-			throw new UnknownKeyException('unknown config key');
+		if (isset($this->fastCache[$userId][$app][$key])) {
+			return $this->fastCache[$userId][$app][$key]['flags'];
+		} elseif (isset($this->lazyCache[$userId][$app][$key])) {
+			return $this->lazyCache[$userId][$app][$key]['flags'];
+		} else {
+			throw new UnknownKeyException('Unknown config key ' . $app . '/' . $key);
 		}
-
-		return $this->valueDetails[$userId][$app][$key]['flags'];
 	}
 
 	/**
@@ -1212,10 +1221,10 @@ class UserConfig implements IUserConfig {
 		 * We cannot insert a new row, meaning we need to update an already existing one
 		 */
 		if (!$inserted) {
-			$currType = $this->valueDetails[$userId][$app][$key]['type'] ?? null;
+			$currType = $this->fastCache[$userId][$app][$key]['type'] ?? $this->lazyCache[$userId][$app][$key]['type'] ?? null;
 			if ($currType === null) { // this might happen when switching lazy loading status
 				$this->loadConfigAll($userId);
-				$currType = $this->valueDetails[$userId][$app][$key]['type'];
+				$currType = $this->fastCache[$userId][$app][$key]['type'] ?? $this->lazyCache[$userId][$app][$key]['type'] ?? null;
 			}
 
 			/**
@@ -1270,15 +1279,16 @@ class UserConfig implements IUserConfig {
 		}
 
 		// update local cache
-		if ($lazy) {
-			$this->lazyCache[$userId][$app][$key] = $value;
-		} else {
-			$this->fastCache[$userId][$app][$key] = $value;
-		}
-		$this->valueDetails[$userId][$app][$key] = [
+		$valueDetail = [
+			'value' => $value,
 			'type' => $type,
 			'flags' => $flags
 		];
+		if ($lazy) {
+			$this->lazyCache[$userId][$app][$key] = $valueDetail;
+		} else {
+			$this->fastCache[$userId][$app][$key] = $valueDetail;
+		}
 
 		return true;
 	}
@@ -1303,7 +1313,7 @@ class UserConfig implements IUserConfig {
 		$this->assertParams($userId, $app, $key);
 		$this->loadConfigAll($userId);
 		$this->matchAndApplyLexiconDefinition($userId, $app, $key);
-		$this->isLazy($userId, $app, $key); // confirm key exists
+		$lazy = $this->isLazy($userId, $app, $key); // confirm key exists
 
 		$update = $this->connection->getQueryBuilder();
 		$update->update('preferences')
@@ -1313,7 +1323,11 @@ class UserConfig implements IUserConfig {
 			->andWhere($update->expr()->eq('configkey', $update->createNamedParameter($key)));
 		$update->executeStatement();
 
-		$this->valueDetails[$userId][$app][$key]['type'] = $type;
+		if ($lazy) {
+			$this->lazyCache[$userId][$app][$key]['type'] = $type;
+		} else {
+			$this->fastCache[$userId][$app][$key]['type'] = $type;
+		}
 
 		return true;
 	}
@@ -1354,14 +1368,15 @@ class UserConfig implements IUserConfig {
 			throw new UnknownKeyException('unknown config key');
 		}
 
-		$value = $cache[$userId][$app][$key];
+		$valueDetail = $cache[$userId][$app][$key];
 		$flags = $this->getValueFlags($userId, $app, $key);
 		if ($sensitive) {
 			$flags |= self::FLAG_SENSITIVE;
-			$value = self::ENCRYPTION_PREFIX . $this->crypto->encrypt($value);
+			$value = self::ENCRYPTION_PREFIX . $this->crypto->encrypt($valueDetail['value']);
 		} else {
 			$flags &= ~self::FLAG_SENSITIVE;
-			$this->decryptSensitiveValue($userId, $app, $key, $value);
+			$this->decryptSensitiveValue($userId, $app, $key, $valueDetail);
+			$value = $valueDetail['value'];
 		}
 
 		$update = $this->connection->getQueryBuilder();
@@ -1373,7 +1388,7 @@ class UserConfig implements IUserConfig {
 			->andWhere($update->expr()->eq('configkey', $update->createNamedParameter($key)));
 		$update->executeStatement();
 
-		$this->valueDetails[$userId][$app][$key]['flags'] = $flags;
+		$cache[$userId][$app][$key]['flags'] = $flags;
 
 		return true;
 	}
@@ -1443,7 +1458,7 @@ class UserConfig implements IUserConfig {
 			throw new UnknownKeyException('unknown config key');
 		}
 
-		$value = $cache[$userId][$app][$key];
+		$value = $cache[$userId][$app][$key]['value'];
 		$flags = $this->getValueFlags($userId, $app, $key);
 		if ($indexed) {
 			$indexed = $value;
@@ -1461,7 +1476,7 @@ class UserConfig implements IUserConfig {
 			->andWhere($update->expr()->eq('configkey', $update->createNamedParameter($key)));
 		$update->executeStatement();
 
-		$this->valueDetails[$userId][$app][$key]['flags'] = $flags;
+		$cache[$userId][$app][$key]['flags'] = $flags;
 
 		return true;
 	}
@@ -1611,15 +1626,15 @@ class UserConfig implements IUserConfig {
 			throw new UnknownKeyException('unknown config key');
 		}
 
-		$value = $cache[$app][$key];
+		$valueDetail = $cache[$app][$key];
 		$sensitive = $this->isSensitive($userId, $app, $key, null);
-		$this->decryptSensitiveValue($userId, $app, $key, $value);
+		$this->decryptSensitiveValue($userId, $app, $key, $valueDetail);
 
 		return [
 			'userId' => $userId,
 			'app' => $app,
 			'key' => $key,
-			'value' => $value,
+			'value' => $valueDetail['value'],
 			'type' => $type->value,
 			'lazy' => $lazy,
 			'typeString' => $typeString,
@@ -1650,7 +1665,6 @@ class UserConfig implements IUserConfig {
 
 		unset($this->lazyCache[$userId][$app][$key]);
 		unset($this->fastCache[$userId][$app][$key]);
-		unset($this->valueDetails[$userId][$app][$key]);
 	}
 
 	/**
@@ -1718,7 +1732,6 @@ class UserConfig implements IUserConfig {
 		$this->assertParams($userId, allowEmptyApp: true);
 		unset($this->lazyCache[$userId]);
 		unset($this->fastCache[$userId]);
-		$this->valueDetails[$userId] = [];
 
 		if (!$reload) {
 			return;
@@ -1736,7 +1749,7 @@ class UserConfig implements IUserConfig {
 	public function clearCacheAll(): void {
 		$this->lazyCache = new CappedMemoryCache();
 		$this->fastCache = new CappedMemoryCache();
-		$this->valueDetails = $this->configLexiconDetails = [];
+		$this->configLexiconDetails = [];
 	}
 
 	/**
@@ -1751,7 +1764,6 @@ class UserConfig implements IUserConfig {
 		return [
 			'fastCache' => $this->fastCache->getData(),
 			'lazyCache' => $this->lazyCache->getData(),
-			'valueDetails' => $this->valueDetails,
 		];
 	}
 
@@ -1849,12 +1861,16 @@ class UserConfig implements IUserConfig {
 
 		$rows = $result->fetchAll();
 		foreach ($rows as $row) {
+			$valueDetail = [
+				'value' => $row['configvalue'] ?? '',
+				'type' => ValueType::from((int)($row['type'] ?? 0)),
+				'flags' => (int)($row['flags'] ?? 0),
+			];
 			if ($this->migrationCompleted && (($row['lazy'] ?? ($lazy ?? 0) ? 1 : 0) === 1)) {
-				$this->lazyCache[$userId][$row['appid']][$row['configkey']] = $row['configvalue'] ?? '';
+				$this->lazyCache[$userId][$row['appid']][$row['configkey']] = $valueDetail;
 			} else {
-				$this->fastCache[$userId][$row['appid']][$row['configkey']] = $row['configvalue'] ?? '';
+				$this->fastCache[$userId][$row['appid']][$row['configkey']] = $valueDetail;
 			}
-			$this->valueDetails[$userId][$row['appid']][$row['configkey']] = ['type' => ValueType::from((int)($row['type'] ?? 0)), 'flags' => (int)($row['flags'] ?? 0)];
 		}
 		$result->closeCursor();
 	}
@@ -1888,7 +1904,8 @@ class UserConfig implements IUserConfig {
 	 * @return array<string, string|int|float|bool|array>
 	 */
 	private function formatAppValues(string $userId, string $app, array $values, bool $filtered = false): array {
-		foreach ($values as $key => $value) {
+		foreach ($values as $key => $valueDetail) {
+			$value = $valueDetail['value'];
 			//$key = (string)$key;
 			try {
 				$type = $this->getValueType($userId, $app, (string)$key);
@@ -1896,12 +1913,13 @@ class UserConfig implements IUserConfig {
 				continue;
 			}
 
-			if ($this->isFlagged(self::FLAG_SENSITIVE, $this->valueDetails[$userId][$app][$key]['flags'] ?? 0)) {
+			if ($this->isFlagged(self::FLAG_SENSITIVE, $valueDetail['flags'] ?? 0)) {
 				if ($filtered) {
 					$value = IConfig::SENSITIVE_VALUE;
 					$type = ValueType::STRING;
 				} else {
-					$this->decryptSensitiveValue($userId, $app, (string)$key, $value);
+					$this->decryptSensitiveValue($userId, $app, (string)$key, $valueDetail);
+					$value = $valueDetail['value'];
 				}
 			}
 
@@ -1941,28 +1959,25 @@ class UserConfig implements IUserConfig {
 	/**
 	 * will change referenced $value with the decrypted value in case of encrypted (sensitive value)
 	 *
-	 * @param string $userId
-	 * @param string $app
-	 * @param string $key
-	 * @param string $value
+	 * @param array{type: ValueType, flags: int, value: string} $valueDetail
 	 */
-	private function decryptSensitiveValue(string $userId, string $app, string $key, string &$value): void {
-		if (!$this->isFlagged(self::FLAG_SENSITIVE, $this->valueDetails[$userId][$app][$key]['flags'] ?? 0)) {
+	private function decryptSensitiveValue(string $userId, string $app, string $key, array &$valueDetail): void {
+		if (!$this->isFlagged(self::FLAG_SENSITIVE, $valueDetail['flags'] ?? 0)) {
 			return;
 		}
 
-		if (!str_starts_with($value, self::ENCRYPTION_PREFIX)) {
+		if (!str_starts_with($valueDetail['value'], self::ENCRYPTION_PREFIX)) {
 			return;
 		}
 
 		try {
-			$value = $this->crypto->decrypt(substr($value, self::ENCRYPTION_PREFIX_LENGTH));
+			$valueDetail['value'] = $this->crypto->decrypt(substr($valueDetail['value'], self::ENCRYPTION_PREFIX_LENGTH));
 		} catch (\Exception $e) {
 			$this->logger->warning('could not decrypt sensitive value', [
 				'userId' => $userId,
 				'app' => $app,
 				'key' => $key,
-				'value' => $value,
+				'value' => $valueDetail['value'],
 				'exception' => $e
 			]);
 		}

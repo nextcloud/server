@@ -1423,8 +1423,8 @@ class UserConfigTest extends TestCase {
 			$this->assertEquals($sensitive, $userConfig->isSensitive($userId, $app, $key));
 			if ($sensitive) {
 				$this->assertEquals(true, str_starts_with(
-					$userConfig->statusCache()['fastCache'][$userId][$app][$key]
-					?? $userConfig->statusCache()['lazyCache'][$userId][$app][$key],
+					$userConfig->statusCache()['fastCache'][$userId][$app][$key]['value']
+					?? $userConfig->statusCache()['lazyCache'][$userId][$app][$key]['value'],
 					'$UserConfigEncryption$')
 				);
 			}
@@ -1452,8 +1452,8 @@ class UserConfigTest extends TestCase {
 			$userConfig->getValueString($userId, $app, $key); // cache loading for userId
 			$this->assertEquals(
 				!$sensitive, str_starts_with(
-					$userConfig->statusCache()['fastCache'][$userId][$app][$key]
-					?? $userConfig->statusCache()['lazyCache'][$userId][$app][$key],
+					$userConfig->statusCache()['fastCache'][$userId][$app][$key]['value']
+					?? $userConfig->statusCache()['lazyCache'][$userId][$app][$key]['value'],
 					'$UserConfigEncryption$'
 				)
 			);
@@ -1466,8 +1466,8 @@ class UserConfigTest extends TestCase {
 			$this->assertEquals($sensitive, $userConfig->isSensitive($userId, $app, $key));
 			// should only work if updateGlobalSensitive drop cache
 			$this->assertEquals($sensitive, str_starts_with(
-				$userConfig->statusCache()['fastCache'][$userId][$app][$key]
-				?? $userConfig->statusCache()['lazyCache'][$userId][$app][$key],
+				$userConfig->statusCache()['fastCache'][$userId][$app][$key]['value']
+				?? $userConfig->statusCache()['lazyCache'][$userId][$app][$key]['value'],
 				'$UserConfigEncryption$')
 			);
 		}
@@ -1683,7 +1683,6 @@ class UserConfigTest extends TestCase {
 			[
 				'fastCache' => [],
 				'lazyCache' => [],
-				'valueDetails' => [],
 			],
 			$userConfig->statusCache()
 		);
