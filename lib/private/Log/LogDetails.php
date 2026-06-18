@@ -95,17 +95,10 @@ abstract class LogDetails {
 
 	public function logDetailsAsJSON(string $app, string|array $message, int $level): string {
 		$entry = $this->logDetails($app, $message, $level);
-		// PHP's json_encode only accept proper UTF-8 strings, loop over all
-		// elements to ensure that they are properly UTF-8 compliant or convert
-		// them manually.
-		foreach ($entry as $key => $value) {
-			if (is_string($value)) {
-				$testEncode = json_encode($value, JSON_UNESCAPED_SLASHES);
-				if ($testEncode === false) {
-					$entry[$key] = mb_convert_encoding($value, 'UTF-8', mb_detect_encoding($value));
-				}
-			}
-		}
-		return json_encode($entry, JSON_PARTIAL_OUTPUT_ON_ERROR | JSON_UNESCAPED_SLASHES);
+
+		// Log output should remain valid JSON even if some values contain invalid UTF-8.
+		// Substitute malformed byte sequences instead of trying to guess the original encoding,
+		// which can't be relied upon anyway.
+		return json_encode($entry, JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_SUBSTITUTE | JSON_PARTIAL_OUTPUT_ON_ERROR);
 	}
 }
