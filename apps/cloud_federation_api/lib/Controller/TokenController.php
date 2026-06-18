@@ -38,8 +38,6 @@ use Psr\Log\LoggerInterface;
 /**
  * Controller for the /token endpoint
  * Exchanges long-lived refresh tokens for short-lived access tokens
- *
- * @since 32.0.0
  */
 class TokenController extends ApiController {
 	public function __construct(
