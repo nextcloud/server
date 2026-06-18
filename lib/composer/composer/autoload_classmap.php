@@ -1523,6 +1523,7 @@ return array(
     'OC\\Core\\Listener\\BeforeMessageLoggedEventListener' => $baseDir . '/core/Listener/BeforeMessageLoggedEventListener.php',
     'OC\\Core\\Listener\\BeforeTemplateRenderedListener' => $baseDir . '/core/Listener/BeforeTemplateRenderedListener.php',
     'OC\\Core\\Listener\\FeedBackHandler' => $baseDir . '/core/Listener/FeedBackHandler.php',
+    'OC\\Core\\Listener\\LoadAdditionalEntriesListener' => $baseDir . '/core/Listener/LoadAdditionalEntriesListener.php',
     'OC\\Core\\Listener\\PasswordUpdatedListener' => $baseDir . '/core/Listener/PasswordUpdatedListener.php',
     'OC\\Core\\Middleware\\TwoFactorMiddleware' => $baseDir . '/core/Middleware/TwoFactorMiddleware.php',
     'OC\\Core\\Migrations\\Version13000Date20170705121758' => $baseDir . '/core/Migrations/Version13000Date20170705121758.php',

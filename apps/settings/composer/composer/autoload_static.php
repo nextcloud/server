@@ -56,6 +56,7 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\Hooks' => __DIR__ . '/..' . '/../lib/Hooks.php',
         'OCA\\Settings\\Listener\\AppPasswordCreatedActivityListener' => __DIR__ . '/..' . '/../lib/Listener/AppPasswordCreatedActivityListener.php',
         'OCA\\Settings\\Listener\\GroupRemovedListener' => __DIR__ . '/..' . '/../lib/Listener/GroupRemovedListener.php',
+        'OCA\\Settings\\Listener\\LoadAdditionalEntriesListener' => __DIR__ . '/..' . '/../lib/Listener/LoadAdditionalEntriesListener.php',
         'OCA\\Settings\\Listener\\MailProviderListener' => __DIR__ . '/..' . '/../lib/Listener/MailProviderListener.php',
         'OCA\\Settings\\Listener\\UserAddedToGroupActivityListener' => __DIR__ . '/..' . '/../lib/Listener/UserAddedToGroupActivityListener.php',
         'OCA\\Settings\\Listener\\UserRemovedFromGroupActivityListener' => __DIR__ . '/..' . '/../lib/Listener/UserRemovedFromGroupActivityListener.php',
