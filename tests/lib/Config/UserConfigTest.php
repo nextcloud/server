@@ -308,8 +308,6 @@ class UserConfigTest extends TestCase {
 
 		// confirm cache status
 		$status = $userConfig->statusCache();
-		$this->assertSame([], $status['fastLoaded'], $msg);
-		$this->assertSame([], $status['lazyLoaded'], $msg);
 		$this->assertSame([], $status['fastCache'], $msg);
 		$this->assertSame([], $status['lazyCache'], $msg);
 		foreach ($preLoading as $preLoadUser) {
@@ -318,12 +316,12 @@ class UserConfigTest extends TestCase {
 
 			// confirm cache status
 			$status = $userConfig->statusCache();
-			$this->assertSame(true, $status['fastLoaded'][$preLoadUser], $msg);
-			$this->assertSame(false, $status['lazyLoaded'][$preLoadUser], $msg);
+			$this->assertTrue(isset($status['fastCache'][$preLoadUser]), $msg);
+			$this->assertFalse(isset($status['lazyCache'][$preLoadUser]), $msg);
 
 			$apps = array_values(array_diff(array_keys($this->basePreferences[$preLoadUser]), ['only-lazy']));
 			$this->assertEqualsCanonicalizing($apps, array_keys($status['fastCache'][$preLoadUser]), $msg);
-			$this->assertSame([], array_keys($status['lazyCache'][$preLoadUser]), $msg);
+			$this->assertSame([], $status['lazyCache'][$preLoadUser] ?? [], $msg);
 		}
 
 		return $userConfig;
@@ -1669,12 +1667,13 @@ class UserConfigTest extends TestCase {
 	public function testClearCache(): void {
 		$userConfig = $this->generateUserConfig(['user1', 'user2']);
 		$userConfig->clearCache('user1');
-
-		$this->assertEquals(true, $userConfig->statusCache()['fastLoaded']['user2']);
-		$this->assertEquals(false, $userConfig->statusCache()['fastLoaded']['user1']);
+		$status = $userConfig->statusCache();
+		$this->assertTrue(isset($status['fastCache']['user2']));
+		$this->assertFalse(isset($status['fastCache']['user1']));
 		$this->assertEquals('value2a', $userConfig->getValueString('user1', 'app2', 'key2'));
-		$this->assertEquals(false, $userConfig->statusCache()['lazyLoaded']['user1']);
-		$this->assertEquals(true, $userConfig->statusCache()['fastLoaded']['user1']);
+		$status = $userConfig->statusCache();
+		$this->assertFalse(isset($status['lazyCache']['user1']));
+		$this->assertTrue(isset($status['fastCache']['user1']));
 	}
 
 	public function testClearCacheAll(): void {
@@ -1682,9 +1681,7 @@ class UserConfigTest extends TestCase {
 		$userConfig->clearCacheAll();
 		$this->assertEqualsCanonicalizing(
 			[
-				'fastLoaded' => [],
 				'fastCache' => [],
-				'lazyLoaded' => [],
 				'lazyCache' => [],
 				'valueDetails' => [],
 			],

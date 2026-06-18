@@ -12,6 +12,7 @@ use Generator;
 use InvalidArgumentException;
 use JsonException;
 use OC\AppFramework\Bootstrap\Coordinator;
+use OCP\Cache\CappedMemoryCache;
 use OCP\Config\Exceptions\IncorrectTypeException;
 use OCP\Config\Exceptions\TypeConflictException;
 use OCP\Config\Exceptions\UnknownKeyException;
@@ -56,16 +57,12 @@ class UserConfig implements IUserConfig {
 	private const ENCRYPTION_PREFIX = '$UserConfigEncryption$';
 	private const ENCRYPTION_PREFIX_LENGTH = 22; // strlen(self::ENCRYPTION_PREFIX)
 
-	/** @var array<string, array<string, array<string, mixed>>> [ass'user_id' => ['app_id' => ['key' => 'value']]] */
-	private array $fastCache = [];   // cache for normal config keys
-	/** @var array<string, array<string, array<string, mixed>>> ['user_id' => ['app_id' => ['key' => 'value']]] */
-	private array $lazyCache = [];   // cache for lazy config keys
+	/** @var CappedMemoryCache<array<string, array<string, mixed>>> [ass'user_id' => ['app_id' => ['key' => 'value']]] cache for normal config keys */
+	private CappedMemoryCache $fastCache;
+	/** @var CappedMemoryCache<array<string, array<string, mixed>>> ['user_id' => ['app_id' => ['key' => 'value']]] cache for lazy config keys */
+	private CappedMemoryCache $lazyCache;
 	/** @var array<string, array<string, array<string, array<string, mixed>>>> ['user_id' => ['app_id' => ['key' => ['type' => ValueType, 'flags' => bitflag]]]] */
 	private array $valueDetails = [];  // type for all config values
-	/** @var array<string, boolean> ['user_id' => bool] */
-	private array $fastLoaded = [];
-	/** @var array<string, boolean> ['user_id' => bool] */
-	private array $lazyLoaded = [];
 	/** @var array<string, array{entries: array<string, Entry>, aliases: array<string, string>, strictness: Strictness}> ['app_id' => ['strictness' => ConfigLexiconStrictness, 'entries' => ['config_key' => ConfigLexiconEntry[]]] */
 	private array $configLexiconDetails = [];
 	private bool $ignoreLexiconAliases = false;
@@ -90,6 +87,8 @@ class UserConfig implements IUserConfig {
 		protected ICrypto $crypto,
 		protected IEventDispatcher $dispatcher,
 	) {
+		$this->fastCache = new CappedMemoryCache();
+		$this->lazyCache = new CappedMemoryCache();
 	}
 
 	/**
@@ -1717,8 +1716,9 @@ class UserConfig implements IUserConfig {
 	#[\Override]
 	public function clearCache(string $userId, bool $reload = false): void {
 		$this->assertParams($userId, allowEmptyApp: true);
-		$this->lazyLoaded[$userId] = $this->fastLoaded[$userId] = false;
-		$this->lazyCache[$userId] = $this->fastCache[$userId] = $this->valueDetails[$userId] = [];
+		unset($this->lazyCache[$userId]);
+		unset($this->fastCache[$userId]);
+		$this->valueDetails[$userId] = [];
 
 		if (!$reload) {
 			return;
@@ -1734,8 +1734,9 @@ class UserConfig implements IUserConfig {
 	 */
 	#[\Override]
 	public function clearCacheAll(): void {
-		$this->lazyLoaded = $this->fastLoaded = [];
-		$this->lazyCache = $this->fastCache = $this->valueDetails = $this->configLexiconDetails = [];
+		$this->lazyCache = new CappedMemoryCache();
+		$this->fastCache = new CappedMemoryCache();
+		$this->valueDetails = $this->configLexiconDetails = [];
 	}
 
 	/**
@@ -1748,10 +1749,8 @@ class UserConfig implements IUserConfig {
 	 */
 	public function statusCache(): array {
 		return [
-			'fastLoaded' => $this->fastLoaded,
-			'fastCache' => $this->fastCache,
-			'lazyLoaded' => $this->lazyLoaded,
-			'lazyCache' => $this->lazyCache,
+			'fastCache' => $this->fastCache->getData(),
+			'lazyCache' => $this->lazyCache->getData(),
 			'valueDetails' => $this->valueDetails,
 		];
 	}
@@ -1858,7 +1857,6 @@ class UserConfig implements IUserConfig {
 			$this->valueDetails[$userId][$row['appid']][$row['configkey']] = ['type' => ValueType::from((int)($row['type'] ?? 0)), 'flags' => (int)($row['flags'] ?? 0)];
 		}
 		$result->closeCursor();
-		$this->setAsLoaded($userId, $lazy);
 	}
 
 	/**
@@ -1874,37 +1872,10 @@ class UserConfig implements IUserConfig {
 	 */
 	private function isLoaded(string $userId, ?bool $lazy): bool {
 		if ($lazy === null) {
-			return ($this->lazyLoaded[$userId] ?? false) && ($this->fastLoaded[$userId] ?? false);
+			return isset($this->lazyCache[$userId]) && isset($this->fastCache[$userId]);
 		}
 
-		return $lazy ? $this->lazyLoaded[$userId] ?? false : $this->fastLoaded[$userId] ?? false;
-	}
-
-	/**
-	 * if $lazy is:
-	 * - false: set fast config as loaded
-	 * - true : set lazy config as loaded
-	 * - null : set both config as loaded
-	 *
-	 * @param string $userId
-	 * @param bool $lazy
-	 */
-	private function setAsLoaded(string $userId, ?bool $lazy): void {
-		if ($lazy === null) {
-			$this->fastLoaded[$userId] = $this->lazyLoaded[$userId] = true;
-			return;
-		}
-
-		// We also create empty entry to keep both fastLoaded/lazyLoaded synced
-		if ($lazy) {
-			$this->lazyLoaded[$userId] = true;
-			$this->fastLoaded[$userId] = $this->fastLoaded[$userId] ?? false;
-			$this->fastCache[$userId] = $this->fastCache[$userId] ?? [];
-		} else {
-			$this->fastLoaded[$userId] = true;
-			$this->lazyLoaded[$userId] = $this->lazyLoaded[$userId] ?? false;
-			$this->lazyCache[$userId] = $this->lazyCache[$userId] ?? [];
-		}
+		return $lazy ? isset($this->lazyCache[$userId]) : isset($this->fastCache[$userId]);
 	}
 
 	/**
