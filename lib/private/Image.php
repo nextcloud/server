@@ -31,6 +31,15 @@ class Image implements IImage {
 	// Default quality for webp images
 	protected const DEFAULT_WEBP_QUALITY = 80;
 
+	// ICC profile marker in JPEG APP2 segments
+	private const JPEG_ICC_IDENTIFIER = "ICC_PROFILE\x00";
+
+	// Max ICC bytes per APP2 segment: 0xFFFF - 2 (length) - 12 (marker) - 2 (index and count)
+	private const JPEG_ICC_MAX_CHUNK_SIZE = 65519;
+
+	// ICC profiles precede the image data, so the scan can stop early
+	private const ICC_SCAN_BYTE_LIMIT = 8 * 1024 * 1024;
+
 	// tmp resource.
 	protected GdImage|false $resource = false;
 	// Default to png if file type isn't evident.
@@ -43,6 +52,8 @@ class Image implements IImage {
 	private IAppConfig $appConfig;
 	private IConfig $config;
 	private ?array $exif = null;
+	// Colour profile carried from the source into generated output
+	private ?string $iccProfile = null;
 
 	/**
 	 * @throws \InvalidArgumentException in case the $imageRef parameter is not null
@@ -258,11 +269,19 @@ class Image implements IImage {
 				$retVal = imagegif($this->resource, $filePath);
 				break;
 			case IMAGETYPE_JPEG:
-				imageinterlace($this->resource, true);
-				$retVal = imagejpeg($this->resource, $filePath, $this->getJpegQuality());
+				if ($this->iccProfile !== null) {
+					$retVal = $this->outputWithIccProfile(IMAGETYPE_JPEG, $filePath);
+				} else {
+					imageinterlace($this->resource, true);
+					$retVal = imagejpeg($this->resource, $filePath, $this->getJpegQuality());
+				}
 				break;
 			case IMAGETYPE_PNG:
-				$retVal = imagepng($this->resource, $filePath);
+				if ($this->iccProfile !== null) {
+					$retVal = $this->outputWithIccProfile(IMAGETYPE_PNG, $filePath);
+				} else {
+					$retVal = imagepng($this->resource, $filePath);
+				}
 				break;
 			case IMAGETYPE_XBM:
 				if (function_exists('imagexbm')) {
@@ -361,7 +380,197 @@ class Image implements IImage {
 		if (!$res) {
 			$this->logger->error('Image->data. Error getting image data.', ['app' => 'core']);
 		}
-		return ob_get_clean();
+		$data = ob_get_clean();
+		if ($data === false) {
+			return null;
+		}
+		return $this->embedIccProfile($data);
+	}
+
+	/**
+	 * Re-embeds the ICC profile into a freshly encoded image, then writes it to
+	 * $filePath or outputs it directly when no path is given.
+	 */
+	private function outputWithIccProfile(int $imageType, ?string $filePath): bool {
+		ob_start();
+		if ($imageType === IMAGETYPE_PNG) {
+			$res = imagepng($this->resource);
+		} else {
+			imageinterlace($this->resource, true);
+			$res = imagejpeg($this->resource, null, $this->getJpegQuality());
+		}
+		$data = ob_get_clean();
+		if (!$res || $data === false) {
+			return false;
+		}
+		$data = $this->embedIccProfile($data);
+		if ($filePath === null || $filePath === '') {
+			echo $data;
+			return true;
+		}
+		return file_put_contents($filePath, $data) !== false;
+	}
+
+	/**
+	 * Remembers the source ICC profile for re-embedding into generated output.
+	 *
+	 * Only RGB profiles are kept: GD converts CMYK and grayscale sources to RGB
+	 * pixel data on load, so their source profiles no longer describe the image.
+	 */
+	private function rememberIccProfile(string $data): void {
+		$this->iccProfile = null;
+		if (str_starts_with($data, "\xFF\xD8")) {
+			$profile = self::extractIccProfileFromJpeg($data);
+		} elseif (str_starts_with($data, "\x89PNG\r\n\x1a\n")) {
+			$profile = self::extractIccProfileFromPng($data);
+		} else {
+			return;
+		}
+		if ($profile !== null && self::isUsableRgbProfile($profile)) {
+			$this->iccProfile = $profile;
+		}
+	}
+
+	private static function isUsableRgbProfile(string $profile): bool {
+		return strlen($profile) >= 132 // ICC header plus tag count
+			&& substr($profile, 36, 4) === 'acsp' // ICC profile signature
+			&& substr($profile, 16, 4) === 'RGB '; // data colour space
+	}
+
+	private static function extractIccProfileFromJpeg(string $data): ?string {
+		$len = strlen($data);
+		$identifierLength = strlen(self::JPEG_ICC_IDENTIFIER);
+		$pos = 2;
+		$chunks = [];
+		$chunkCount = null;
+		while ($pos + 4 <= $len) {
+			if ($data[$pos] !== "\xFF") {
+				return null;
+			}
+			$marker = ord($data[$pos + 1]);
+			if ($marker === 0xFF) {
+				// fill byte before a marker
+				$pos++;
+				continue;
+			}
+			if ($marker === 0x01 || ($marker >= 0xD0 && $marker <= 0xD8)) {
+				// standalone marker without a length field
+				$pos += 2;
+				continue;
+			}
+			if ($marker === 0xDA || $marker === 0xD9) {
+				// start of scan or end of image: no more metadata segments
+				break;
+			}
+			$segmentLength = (ord($data[$pos + 2]) << 8) | ord($data[$pos + 3]);
+			if ($segmentLength < 2 || $pos + 2 + $segmentLength > $len) {
+				return null;
+			}
+			if ($marker === 0xE2 && $segmentLength >= 2 + $identifierLength + 2) {
+				$payload = substr($data, $pos + 4, $segmentLength - 2);
+				if (str_starts_with($payload, self::JPEG_ICC_IDENTIFIER)) {
+					$sequence = ord($payload[$identifierLength]);
+					$total = ord($payload[$identifierLength + 1]);
+					if ($total === 0 || ($chunkCount !== null && $total !== $chunkCount)) {
+						return null;
+					}
+					$chunkCount = $total;
+					$chunks[$sequence] = substr($payload, $identifierLength + 2);
+				}
+			}
+			$pos += 2 + $segmentLength;
+		}
+		if ($chunkCount === null || count($chunks) !== $chunkCount) {
+			return null;
+		}
+		ksort($chunks);
+		return implode('', $chunks);
+	}
+
+	private static function extractIccProfileFromPng(string $data): ?string {
+		$len = strlen($data);
+		$pos = 8;
+		while ($pos + 8 <= $len) {
+			$header = unpack('NchunkLength', $data, $pos);
+			if ($header === false) {
+				return null;
+			}
+			$chunkLength = $header['chunkLength'];
+			$type = substr($data, $pos + 4, 4);
+			if ($type === 'IDAT' || $type === 'IEND') {
+				break;
+			}
+			if ($type === 'iCCP') {
+				if ($pos + 8 + $chunkLength > $len) {
+					return null;
+				}
+				$chunk = substr($data, $pos + 8, $chunkLength);
+				$separator = strpos($chunk, "\x00");
+				if ($separator === false || $separator < 1 || $separator > 79 || strlen($chunk) < $separator + 2) {
+					return null;
+				}
+				if (ord($chunk[$separator + 1]) !== 0) {
+					// unknown compression method
+					return null;
+				}
+				$profile = @gzuncompress(substr($chunk, $separator + 2));
+				return $profile === false ? null : $profile;
+			}
+			$pos += 12 + $chunkLength;
+		}
+		return null;
+	}
+
+	private function embedIccProfile(string $data): string {
+		if ($this->iccProfile === null) {
+			return $data;
+		}
+		if (str_starts_with($data, "\xFF\xD8")) {
+			return $this->embedIccProfileInJpeg($data);
+		}
+		if (str_starts_with($data, "\x89PNG\r\n\x1a\n")) {
+			return $this->embedIccProfileInPng($data);
+		}
+		return $data;
+	}
+
+	private function embedIccProfileInJpeg(string $data): string {
+		$chunks = str_split($this->iccProfile, self::JPEG_ICC_MAX_CHUNK_SIZE);
+		$total = count($chunks);
+		if ($total > 255) {
+			return $data;
+		}
+		// APP2 segments belong before the image data, after the APP0/APP1
+		// (JFIF/EXIF) segments the encoder may have written
+		$len = strlen($data);
+		$pos = 2;
+		while ($pos + 4 <= $len
+			&& $data[$pos] === "\xFF"
+			&& (ord($data[$pos + 1]) === 0xE0 || ord($data[$pos + 1]) === 0xE1)) {
+			$segmentLength = (ord($data[$pos + 2]) << 8) | ord($data[$pos + 3]);
+			if ($segmentLength < 2 || $pos + 2 + $segmentLength > $len) {
+				return $data;
+			}
+			$pos += 2 + $segmentLength;
+		}
+		$segments = '';
+		foreach ($chunks as $index => $chunk) {
+			$payload = self::JPEG_ICC_IDENTIFIER . chr($index + 1) . chr($total) . $chunk;
+			$segments .= "\xFF\xE2" . pack('n', strlen($payload) + 2) . $payload;
+		}
+		return substr($data, 0, $pos) . $segments . substr($data, $pos);
+	}
+
+	private function embedIccProfileInPng(string $data): string {
+		// IHDR is required to be first and has a fixed size; iCCP belongs before PLTE and IDAT
+		$ihdrEnd = 8 + 8 + 13 + 4;
+		if (strlen($data) < $ihdrEnd || substr($data, 12, 4) !== 'IHDR') {
+			return $data;
+		}
+		$chunkData = "ICC profile\x00\x00" . gzcompress($this->iccProfile);
+		$payload = 'iCCP' . $chunkData;
+		$chunk = pack('N', strlen($chunkData)) . $payload . pack('N', crc32($payload));
+		return substr($data, 0, $ihdrEnd) . $chunk . substr($data, $ihdrEnd);
 	}
 
 	/**
@@ -787,6 +996,12 @@ class Image implements IImage {
 			$this->imageType = $iType;
 			$this->mimeType = image_type_to_mime_type($iType);
 			$this->filePath = $imagePath;
+			if ($iType === IMAGETYPE_JPEG || $iType === IMAGETYPE_PNG) {
+				$header = @file_get_contents($imagePath, false, null, 0, self::ICC_SCAN_BYTE_LIMIT);
+				if ($header !== false) {
+					$this->rememberIccProfile($header);
+				}
+			}
 		}
 		return $this->resource;
 	}
@@ -806,6 +1021,7 @@ class Image implements IImage {
 		if ($this->valid()) {
 			imagealphablending($this->resource, false);
 			imagesavealpha($this->resource, true);
+			$this->rememberIccProfile($str);
 		}
 
 		if (!$this->resource) {
@@ -835,6 +1051,7 @@ class Image implements IImage {
 				$this->logger->debug('Image->loadFromBase64, could not load', ['app' => 'core']);
 				return false;
 			}
+			$this->rememberIccProfile($data);
 			return $this->resource;
 		} else {
 			return false;
@@ -1120,6 +1337,7 @@ class Image implements IImage {
 			$this->width(),
 			$this->height()
 		);
+		$image->iccProfile = $this->iccProfile;
 
 		return $image;
 	}
@@ -1129,6 +1347,7 @@ class Image implements IImage {
 		$image = new self($this->logger, $this->appConfig, $this->config);
 		$image->imageType = $this->imageType;
 		$image->mimeType = $this->mimeType;
+		$image->iccProfile = $this->iccProfile;
 		$image->resource = $this->cropNew($x, $y, $w, $h);
 
 		return $image;
@@ -1139,6 +1358,7 @@ class Image implements IImage {
 		$image = new self($this->logger, $this->appConfig, $this->config);
 		$image->imageType = $this->imageType;
 		$image->mimeType = $this->mimeType;
+		$image->iccProfile = $this->iccProfile;
 		$image->resource = $this->preciseResizeNew($width, $height);
 
 		return $image;
@@ -1149,6 +1369,7 @@ class Image implements IImage {
 		$image = new self($this->logger, $this->appConfig, $this->config);
 		$image->imageType = $this->imageType;
 		$image->mimeType = $this->mimeType;
+		$image->iccProfile = $this->iccProfile;
 		$image->resource = $this->resizeNew($maxSize);
 
 		return $image;

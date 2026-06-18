@@ -140,8 +140,13 @@ class HEIC extends ProviderV2 {
 		if ($previewWidth > $maxX || $previewHeight > $maxY) {
 			// If we want a small image (thumbnail) let's be most space- and time-efficient
 			if ($maxX <= 500 && $maxY <= 500) {
+				$profiles = $bp->getImageProfiles('icc', true);
 				$bp->thumbnailImage($maxY, $maxX, true);
 				$bp->stripImage();
+				// keep the colour profile that stripImage() also removed
+				if (isset($profiles['icc'])) {
+					$bp->profileImage('icc', $profiles['icc']);
+				}
 			} else {
 				// A bigger image calls for some better resizing algorithm
 				// According to http://www.imagemagick.org/Usage/filter/#lanczos
