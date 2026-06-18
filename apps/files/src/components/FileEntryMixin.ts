@@ -6,15 +6,12 @@
 import type { PropType } from 'vue'
 import type { FileSource } from '../types.ts'
 
-import { openConflictPicker } from '@nextcloud/dialogs'
 import { FileType, Folder, getFileActions, File as NcFile, Node, NodeStatus, Permission } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { extname } from '@nextcloud/paths'
 import { isPublicShare } from '@nextcloud/sharing/public'
 import { generateUrl } from '@nextcloud/router'
-import { getConflicts, getUploader } from '@nextcloud/upload'
 import { vOnClickOutside } from '@vueuse/components'
-import { relative } from 'path'
 import Vue, { computed, defineComponent } from 'vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
@@ -442,16 +439,17 @@ export default defineComponent({
 				// See https://github.com/nextcloud/server/issues/60139
 				const fileTree = await dataTransferToFileTree(items)
 
-				await uploader.batchUpload(
-					relativePath,
-					files,
-					async (nodes, path) => {
-						try {
-							const { contents, folder } = await this.currentView!.getContents(path)
-							const conflicts = getConflicts(nodes, contents)
-							if (conflicts.length === 0) {
-								return nodes
-							}
+				// canDrop already gates this branch on FileType.Folder, but the
+				// type system can't see that — narrow defensively so a future
+				// loosening of canDrop can't silently lie via the cast below.
+				// Use the `type` field rather than `instanceof Folder`: apps
+				// bundle their own copy of @nextcloud/files, so a Folder from
+				// an app would not be `instanceof` the server's Folder class.
+				if (this.source.type !== FileType.Folder) {
+					logger.error('onDrop: external drop target is not a Folder', { source: this.source })
+					this.dragover = false
+					return
+				}
 
 				// Fetch destination contents for conflict resolution
 				const cachedContents = this.filesStore.getNodesByPath(this.activeView.id, this.source.path)
