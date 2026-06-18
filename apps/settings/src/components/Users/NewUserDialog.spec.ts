@@ -5,9 +5,27 @@
 
 import { mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+
+// `<script setup>` children and `useStore()` are invisible to VTU stubs/mocks,
+// so swap them via `vi.mock` (see dialogTestHelpers).
+const { dispatch } = vi.hoisted(() => ({ dispatch: vi.fn() }))
+
+vi.mock('../../store/index.js', () => ({
+	useStore: () => ({
+		dispatch,
+		getters: {
+			getServerData: { newUserGenerateUserID: false, newUserRequireEmail: false },
+			getPasswordPolicyMinLength: 8,
+		},
+	}),
+}))
+vi.mock('@nextcloud/vue/components/NcDialog', async () => ({ default: (await import('./dialogTestHelpers.ts')).NcDialogStub }))
+vi.mock('@nextcloud/vue/components/NcButton', async () => ({ default: (await import('./dialogTestHelpers.ts')).NcButtonStub }))
+vi.mock('./UserFormFields.vue', async () => ({ default: (await import('./dialogTestHelpers.ts')).UserFormFieldsStub }))
+
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NewUserDialog from './NewUserDialog.vue'
-import { flushPromises, NcButtonStub, NcDialogStub, UserFormFieldsStub } from './dialogTestHelpers.ts'
+import { flushPromises, NcDialogStub } from './dialogTestHelpers.ts'
 
 function makeNewUser(overrides = {}) {
 	return {
@@ -24,27 +42,12 @@ function makeNewUser(overrides = {}) {
 	}
 }
 
-function mountDialog({ dispatch = vi.fn(), loading = { all: false } } = {}) {
+function mountDialog({ loading = { all: false } } = {}) {
 	return mount(NewUserDialog, {
 		propsData: {
 			loading,
 			newUser: makeNewUser(),
 			quotaOptions: [],
-		},
-		mocks: {
-			t: (_app: string, text: string) => text,
-			$store: {
-				dispatch,
-				getters: {
-					getServerData: { newUserGenerateUserID: false, newUserRequireEmail: false },
-					getPasswordPolicyMinLength: 8,
-				},
-			},
-		},
-		stubs: {
-			NcDialog: NcDialogStub,
-			NcButton: NcButtonStub,
-			UserFormFields: UserFormFieldsStub,
 		},
 	})
 }
@@ -55,8 +58,8 @@ describe('NewUserDialog loading feedback', () => {
 	})
 
 	it('does not dispatch a second create request while one is in flight', async () => {
-		const dispatch = vi.fn().mockReturnValue(new Promise(() => {}))
-		const wrapper = mountDialog({ dispatch })
+		dispatch.mockReturnValue(new Promise(() => {}))
+		const wrapper = mountDialog()
 
 		await wrapper.find('form').trigger('submit')
 		await wrapper.find('form').trigger('submit')
@@ -66,8 +69,8 @@ describe('NewUserDialog loading feedback', () => {
 	})
 
 	it('marks the form as busy and inert while creating', async () => {
-		const dispatch = vi.fn().mockReturnValue(new Promise(() => {}))
-		const wrapper = mountDialog({ dispatch })
+		dispatch.mockReturnValue(new Promise(() => {}))
+		const wrapper = mountDialog()
 
 		await wrapper.find('form').trigger('submit')
 
@@ -77,8 +80,8 @@ describe('NewUserDialog loading feedback', () => {
 	})
 
 	it('shows a spinner and busy label on the submit button while creating', async () => {
-		const dispatch = vi.fn().mockReturnValue(new Promise(() => {}))
-		const wrapper = mountDialog({ dispatch })
+		dispatch.mockReturnValue(new Promise(() => {}))
+		const wrapper = mountDialog()
 
 		await wrapper.find('form').trigger('submit')
 
@@ -87,8 +90,8 @@ describe('NewUserDialog loading feedback', () => {
 	})
 
 	it('sets aria-disabled (not disabled) on the submit button while creating', async () => {
-		const dispatch = vi.fn().mockReturnValue(new Promise(() => {}))
-		const wrapper = mountDialog({ dispatch })
+		dispatch.mockReturnValue(new Promise(() => {}))
+		const wrapper = mountDialog()
 		const submit = wrapper.find('[data-test="submit"]')
 
 		expect(submit.attributes('aria-disabled')).toBe('false')
@@ -101,8 +104,8 @@ describe('NewUserDialog loading feedback', () => {
 	})
 
 	it('prevents closing the dialog while creating', async () => {
-		const dispatch = vi.fn().mockReturnValue(new Promise(() => {}))
-		const wrapper = mountDialog({ dispatch })
+		dispatch.mockReturnValue(new Promise(() => {}))
+		const wrapper = mountDialog()
 		const dialog = wrapper.findComponent(NcDialogStub)
 
 		expect(dialog.props('noClose')).toBe(false)
@@ -114,9 +117,9 @@ describe('NewUserDialog loading feedback', () => {
 
 	it('re-enables the form when the request fails', async () => {
 		const error = { response: { data: { ocs: { meta: { statuscode: 0 } } } } }
-		const dispatch = vi.fn().mockRejectedValue(error)
+		dispatch.mockRejectedValue(error)
 		const loading = { all: false }
-		const wrapper = mountDialog({ dispatch, loading })
+		const wrapper = mountDialog({ loading })
 
 		await wrapper.find('form').trigger('submit')
 		await flushPromises()

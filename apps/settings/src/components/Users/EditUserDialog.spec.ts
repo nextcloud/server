@@ -6,9 +6,25 @@
 import { mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-const confirmPassword = vi.hoisted(() => vi.fn())
+// `<script setup>` children and `useStore()` are invisible to VTU stubs/mocks,
+// so swap them via `vi.mock` (see dialogTestHelpers).
+const { confirmPassword, dispatch } = vi.hoisted(() => ({ confirmPassword: vi.fn(), dispatch: vi.fn() }))
+
 vi.mock('@nextcloud/password-confirmation', () => ({ confirmPassword }))
 vi.mock('@nextcloud/dialogs', () => ({ showError: vi.fn(), showSuccess: vi.fn() }))
+vi.mock('../../store/index.js', () => ({
+	useStore: () => ({
+		dispatch,
+		getters: {
+			getGroups: [],
+			getServerData: { languages: [], canChangePassword: true },
+			getPasswordPolicyMinLength: 8,
+		},
+	}),
+}))
+vi.mock('@nextcloud/vue/components/NcDialog', async () => ({ default: (await import('./dialogTestHelpers.ts')).NcDialogStub }))
+vi.mock('@nextcloud/vue/components/NcButton', async () => ({ default: (await import('./dialogTestHelpers.ts')).NcButtonStub }))
+vi.mock('./UserFormFields.vue', async () => ({ default: (await import('./dialogTestHelpers.ts')).UserFormFieldsStub }))
 
 // Decouple the dialog test from form-data diffing internals: always report a
 // non-empty change set so save() proceeds past its early return. Other exports
@@ -31,29 +47,13 @@ vi.mock('./userFormUtils.ts', async (importActual) => ({
 
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import EditUserDialog from './EditUserDialog.vue'
-import { flushPromises, NcButtonStub, NcDialogStub, UserFormFieldsStub } from './dialogTestHelpers.ts'
+import { flushPromises, NcDialogStub } from './dialogTestHelpers.ts'
 
-function mountDialog({ dispatch = vi.fn() } = {}) {
+function mountDialog() {
 	return mount(EditUserDialog, {
 		propsData: {
 			user: { id: 'bob', backendCapabilities: { setPassword: true } },
 			quotaOptions: [],
-		},
-		mocks: {
-			t: (_app: string, text: string) => text,
-			$store: {
-				dispatch,
-				getters: {
-					getGroups: [],
-					getServerData: { languages: [], canChangePassword: true },
-					getPasswordPolicyMinLength: 8,
-				},
-			},
-		},
-		stubs: {
-			NcDialog: NcDialogStub,
-			NcButton: NcButtonStub,
-			UserFormFields: UserFormFieldsStub,
 		},
 	})
 }
@@ -65,8 +65,8 @@ describe('EditUserDialog loading feedback', () => {
 	})
 
 	it('does not dispatch a second save request while one is in flight', async () => {
-		const dispatch = vi.fn().mockReturnValue(new Promise(() => {}))
-		const wrapper = mountDialog({ dispatch })
+		dispatch.mockReturnValue(new Promise(() => {}))
+		const wrapper = mountDialog()
 
 		await wrapper.find('form').trigger('submit')
 		await flushPromises()
