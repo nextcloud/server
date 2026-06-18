@@ -38,7 +38,7 @@ export class FilesListPage {
 
 	/** The per-row selection checkboxes that are currently checked (i.e. selected rows). */
 	getSelectedRowCheckboxes(): Locator {
-		return this.getRowCheckboxes().locator('input:checked')
+		return this.getRowCheckboxes().getByRole('checkbox', { checked: true })
 	}
 
 	private getActionsButtonForFile(filename: string): Locator {
