@@ -246,7 +246,7 @@ OC.L10N.register(
     "Email" : "ایمیل",
     "Team" : "تیم",
     "Talk conversation" : "مکالمه Talk",
-    "Deck board" : "برد Deck",
+    "Deck board" : "تابلو کارتابل",
     "ScienceMesh" : "ScienceMesh",
     "on {server}" : "در {server}",
     "Enter external recipients" : "وارد کردن گیرندگان خارجی",
