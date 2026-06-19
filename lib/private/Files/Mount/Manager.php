@@ -111,11 +111,6 @@ class Manager implements IMountManager {
 		throw new NotFoundException('No mount for path ' . $path . ' existing mounts (' . count($this->mounts) . '): ' . implode(',', array_keys($this->mounts)));
 	}
 
-	/**
-	 * Find all mounts in $path
-	 *
-	 * @return IMountPoint[]
-	 */
 	#[\Override]
 	public function findIn(string $path): array {
 		$this->setupManager->setupForPath($path, true);
