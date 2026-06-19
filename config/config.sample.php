@@ -341,10 +341,9 @@ $CONFIG = [
 	 *
 	 * To avoid unexpected expiry, set this higher than ``session_lifetime``.
 	 *
-	 * Despite the key name, this value applies to the full remember-me mechanism:
-	 * persisted login state in the browser (remember-login cookies) and server-side
-	 * expiration of remembered login tokens. Therefore, changing or clearing cookies
-	 * alone may not fully reset remembered login state.
+	 * Despite the key name, this also affects server-side expiration of remembered
+	 * login tokens. Clearing browser cookies removes remembered login on that
+	 * browser, but does not itself revoke server-side remember tokens.
 	 *
 	 * Defaults to ``60*60*24*15`` seconds (15 days).
 	 */
