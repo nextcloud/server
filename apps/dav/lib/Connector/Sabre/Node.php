@@ -40,7 +40,9 @@ abstract class Node implements INode {
 
 	// The path to the current node
 	protected string $path;
+
 	protected IManager $shareManager;
+
 	protected \OCP\Files\Node $node;
 
 	/**
