@@ -56,6 +56,8 @@ class Version33000Date20260306120000 extends SimpleMigrationStep {
 			$table->addColumn('access_token_expires', Types::INTEGER, [
 				'notnull' => false,
 				'default' => null,
+				'length' => 11,
+				'unsigned' => true,
 			]);
 			$changed = true;
 		}
