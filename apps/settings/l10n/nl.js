@@ -189,6 +189,7 @@ OC.L10N.register(
     "The old server-side-encryption format is enabled. We recommend disabling this." : "Het oude server-side-encryptie formaat is ingeschakeld. We raden aan om dit uit te schakelen.",
     "Logging level" : "Logging level",
     "The logging level is set to debug level. Use debug level only when you have a problem to diagnose, and then reset your log level to a less-verbose level as it outputs a lot of information, and can affect your server performance." : "Het logniveau is ingesteld op foutopsporingsniveau. Gebruik het foutopsporingsniveau alleen om een probleem te diagnosticeren, en reset vervolgens uw log-niveau naar een niveau met minder informatie, omdat het veel informatie oplevert en de prestaties van uw server kan beïnvloeden.",
+    "Maintenance window start" : "Onderhoudsvenster start",
     "Server has no maintenance window start time configured. This means resource intensive daily background jobs will also be executed during your main usage time. We recommend to set it to a time of low usage, so users are less impacted by the load caused from these heavy tasks." : "De server heeft geen onderhoudsvenster starttijd geconfigureerd. Dit betekent dat bron intensieve dagelijkse achtergrond taken ook worden uitgevoerd tijdens normaal gebruik. We adviseren om een tijdstip te kiezen met beperkt gebruik, zodat gebruikers minder worden beïnvloedt door de belasting gegenereerd door deze zware taken.",
     "Memcache" : "Memcache",
     "Configured" : "Geconfigureerd",
