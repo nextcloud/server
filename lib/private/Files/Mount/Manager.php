@@ -27,7 +27,7 @@ class Manager implements IMountManager {
 	private ?array $mountKeys = null;
 	/** @var CappedMemoryCache<IMountPoint> */
 	private CappedMemoryCache $pathCache;
-	/** @var CappedMemoryCache<IMountPoint[]> */
+	/** @var CappedMemoryCache<list<IMountPoint>> */
 	private CappedMemoryCache $inPathCache;
 	private SetupManager $setupManager;
 
@@ -111,11 +111,6 @@ class Manager implements IMountManager {
 		throw new NotFoundException('No mount for path ' . $path . ' existing mounts (' . count($this->mounts) . '): ' . implode(',', array_keys($this->mounts)));
 	}
 
-	/**
-	 * Find all mounts in $path
-	 *
-	 * @return IMountPoint[]
-	 */
 	#[\Override]
 	public function findIn(string $path): array {
 		$this->setupManager->setupForPath($path, true);
