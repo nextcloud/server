@@ -57,6 +57,7 @@ export const useSidebarStore = defineStore('sidebar', () => {
 				logger.debug('sidebar: already open for current node - switching tab', { tabId })
 				setActiveTab(tabId)
 			}
+			updateOpenRoute(node)
 			return
 		}
 
@@ -75,6 +76,7 @@ export const useSidebarStore = defineStore('sidebar', () => {
 		logger.debug(`sidebar: opening for ${node.displayname}`, { node })
 		activeStore.activeNode = node
 		isOpen.value = true
+		updateOpenRoute(node)
 	}
 
 	/**
@@ -124,6 +126,28 @@ export const useSidebarStore = defineStore('sidebar', () => {
 		activeTab.value = tabId
 	}
 
+	function updateOpenRoute(node: INode) {
+		const params = { ...(window.OCP?.Files?.Router?.params ?? {}) }
+		const query = { ...(window.OCP?.Files?.Router?.query ?? {}) }
+		const nextParams = typeof node.fileid === 'number'
+			? { ...params, fileid: String(node.fileid) }
+			: params
+
+		if (('opendetails' in query) && nextParams.fileid === params.fileid) {
+			return
+		}
+
+		window.OCP.Files.Router.goToRoute(
+			null,
+			nextParams,
+			{
+				...query,
+				opendetails: 'true',
+			},
+			true,
+		)
+	}
+
 	// update the current node if updated
 	subscribe('files:node:updated', (node: INode) => {
 		if (node.source === currentNode.value?.source) {
@@ -164,7 +188,7 @@ export const useSidebarStore = defineStore('sidebar', () => {
 		}
 	})
 
-	// watch open state and update URL query parameters
+	// watch close state and update URL query parameters
 	watch(isOpen, (isOpen) => {
 		const params = { ...(window.OCP?.Files?.Router?.params ?? {}) }
 		const query = { ...(window.OCP?.Files?.Router?.query ?? {}) }
@@ -176,18 +200,6 @@ export const useSidebarStore = defineStore('sidebar', () => {
 				null,
 				params,
 				query,
-				true,
-			)
-		}
-
-		if (isOpen && !('opendetails' in query)) {
-			window.OCP.Files.Router.goToRoute(
-				null,
-				params,
-				{
-					...query,
-					opendetails: 'true',
-				},
 				true,
 			)
 		}
