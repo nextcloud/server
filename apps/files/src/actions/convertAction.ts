@@ -41,6 +41,11 @@ export const registerConvertActions = () => {
 					}
 				}
 
+				// Conversion reads the source file, so it requires read permission
+				if (nodes.some((node) => (node.permissions & Permission.READ) === 0)) {
+					return false
+				}
+
 				// Check that all nodes have the same mime type
 				return nodes.every(node => from === node.mime)
 			},
