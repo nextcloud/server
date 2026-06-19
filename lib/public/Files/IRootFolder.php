@@ -61,7 +61,7 @@ interface IRootFolder extends Folder, Emitter {
 	public function getFirstNodeByIdInPath(int $id, string $path): ?Node;
 
 	/**
-	 * @return IMountPoint[]
+	 * @return list<IMountPoint>
 	 *
 	 * @since 28.0.0
 	 */
