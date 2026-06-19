@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace OC\Repair;
 
-use OCP\AppFramework\Services\IAppConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IAppConfig;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
@@ -30,7 +30,7 @@ class RemoveBrokenProperties implements IRepairStep {
 
 	#[Override]
 	public function run(IOutput $output): void {
-		if ($this->appConfig->getAppValueBool('repair_removed_broken_properties')) {
+		if ($this->appConfig->getValueBool('core', 'repair_removed_broken_properties', lazy: true)) {
 			return;
 		}
 
@@ -63,7 +63,7 @@ class RemoveBrokenProperties implements IRepairStep {
 		}
 		$total = count($brokenIds);
 
-		$this->appConfig->setAppValueBool('repair_removed_broken_properties', true);
+		$this->appConfig->setValueBool('core', 'repair_removed_broken_properties', true, lazy: true);
 		$output->info("$total broken object properties removed");
 	}
 }
