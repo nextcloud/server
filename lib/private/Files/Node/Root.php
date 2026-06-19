@@ -136,10 +136,6 @@ class Root extends Folder implements IRootFolder {
 		return $this->mountManager->find($mountPoint);
 	}
 
-	/**
-	 * @param string $mountPoint
-	 * @return IMountPoint[]
-	 */
 	#[\Override]
 	public function getMountsIn(string $mountPoint): array {
 		return $this->mountManager->findIn($mountPoint);

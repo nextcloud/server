@@ -54,12 +54,11 @@ class Scanner extends PublicEmitter {
 	}
 
 	/**
-	 * get all storages for $dir
+	 * Get all storages for a specific directory.
 	 *
-	 * @param string $dir
 	 * @return array<string, IMountPoint>
 	 */
-	protected function getMounts($dir) {
+	protected function getMounts(string $dir): array {
 		//TODO: move to the node based fileapi once that's done
 		$this->setupManager->tearDown();
 
@@ -79,7 +78,7 @@ class Scanner extends PublicEmitter {
 	/**
 	 * attach listeners to the scanner
 	 */
-	protected function attachListener(MountPoint $mount) {
+	protected function attachListener(IMountPoint $mount): void {
 		/** @var \OC\Files\Cache\Scanner $scanner */
 		$scanner = $mount->getStorage()->getScanner();
 		$scanner->listen('\OC\Files\Cache\Scanner', 'scanFile', function ($path) use ($mount): void {
@@ -103,7 +102,7 @@ class Scanner extends PublicEmitter {
 		});
 	}
 
-	public function backgroundScan(string $dir) {
+	public function backgroundScan(string $dir): void {
 		$mounts = $this->getMounts($dir);
 		foreach ($mounts as $mount) {
 			try {
@@ -244,7 +243,7 @@ class Scanner extends PublicEmitter {
 		}
 	}
 
-	private function triggerPropagator(IStorage $storage, $internalPath) {
+	private function triggerPropagator(IStorage $storage, $internalPath): void {
 		$storage->getPropagator()->propagateChange($internalPath, time());
 	}
 }
