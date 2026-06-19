@@ -342,11 +342,14 @@ $CONFIG = [
 	'remember_login_cookie_lifetime' => 60 * 60 * 24 * 15,
 
 	/**
-	 * Lifetime of sessions created without selecting "Remember me", after
-	 * inactivity, in seconds.
+	 * Lifetime of authenticated sessions after inactivity, in seconds.
 	 *
-	 * If "Remember me" is used, set ``remember_login_cookie_lifetime`` higher
-	 * than this value to avoid earlier-than-expected remembered-login expiry.
+	 * When "Remember me" is enabled, users may be transparently
+	 * re-authenticated after session expiry/logout while the remember-login
+	 * cookie remains valid.
+	 *
+	 * To avoid earlier-than-expected remembered-login expiry, set
+	 * ``remember_login_cookie_lifetime`` higher than this value.
 	 *
 	 * Effective behavior also depends on related settings:
 	 * - ``session_keepalive`` can extend active Web UI sessions via heartbeat requests.
