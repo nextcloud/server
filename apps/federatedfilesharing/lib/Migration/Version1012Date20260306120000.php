@@ -19,7 +19,6 @@ use OCP\IDBConnection;
 use OCP\IUserManager;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
-use OCP\Server;
 use OCP\Share\IShare;
 
 /**
@@ -36,6 +35,13 @@ use OCP\Share\IShare;
  * oc_authtoken are silently repaired.
  */
 class Version1012Date20260306120000 extends SimpleMigrationStep {
+	public function __construct(
+		private readonly IDBConnection $db,
+		private readonly PublicKeyTokenProvider $tokenProvider,
+		private readonly IUserManager $userManager,
+	) {
+	}
+
 	#[\Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		return null;
@@ -43,11 +49,7 @@ class Version1012Date20260306120000 extends SimpleMigrationStep {
 
 	#[\Override]
 	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options): void {
-		$db = Server::get(IDBConnection::class);
-		$tokenProvider = Server::get(PublicKeyTokenProvider::class);
-		$userManager = Server::get(IUserManager::class);
-
-		$qb = $db->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 		$result = $qb->select('id', 'token', 'uid_initiator')
 			->from('share')
 			->where($qb->expr()->in(
@@ -78,18 +80,18 @@ class Version1012Date20260306120000 extends SimpleMigrationStep {
 
 			// Long token — check if it's already in oc_authtoken.
 			try {
-				$tokenProvider->getToken($token);
+				$this->tokenProvider->getToken($token);
 				$skipped++;
 				continue;
 			} catch (InvalidTokenException) {
 				// Not registered yet — fall through to create it.
 			}
 
-			$user = $userManager->get($uid);
+			$user = $this->userManager->get($uid);
 			$name = $user?->getDisplayName() ?? $uid;
 
 			try {
-				$tokenProvider->generateToken(
+				$this->tokenProvider->generateToken(
 					$token,
 					$uid,
 					$uid,
