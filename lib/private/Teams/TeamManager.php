@@ -142,11 +142,6 @@ class TeamManager implements ITeamManager {
 		}
 	}
 
-	/**
-	 * Returns a mapping of user id to display name for all members of a given team.
-	 *
-	 * @return array<string, string> userId => displayName
-	 */
 	#[\Override]
 	public function getMembersOfTeam(string $teamId, string $userId): array {
 		$team = $this->getTeam($teamId, $userId);
