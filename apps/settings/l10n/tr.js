@@ -664,6 +664,7 @@ OC.L10N.register(
     "Email (required)" : "E-posta adresi (zorunlu)",
     "Email" : "E-posta",
     "New account" : "Yeni hesap",
+    "Adding new account …" : "Yeni hesap ekleniyor…",
     "Add new account" : "Yeni hesap ekle",
     "Display name" : "Görüntülenecek ad",
     "Either password or email is required" : "Parola ya da e-posta adresi zorunludur",

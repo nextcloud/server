@@ -664,6 +664,7 @@ OC.L10N.register(
     "Email (required)" : "Eメール (必須)",
     "Email" : "メール",
     "New account" : "新規アカウント",
+    "Adding new account …" : "新しいアカウントを追加中…",
     "Add new account" : "新しいアカウントを追加する",
     "Display name" : "表示名",
     "Either password or email is required" : "パスワードまたはEメールのいずれかが必要",
