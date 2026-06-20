@@ -44,6 +44,7 @@ interface ITeamManager {
 	/**
 	 * Returns all team resources for the given teams, user and resource
 	 *
+	 * @param list<string> $teams Team IDs
 	 * @return array<string, list<TeamResource>>
 	 * @since 33.0.0
 	 * @since 34.0.0 Added $resourceId param
