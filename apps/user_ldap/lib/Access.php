@@ -1846,7 +1846,7 @@ class Access extends LDAPUtility {
 		if ($domainDN === '') {
 			return false;
 		}
-		
+
 		$cacheKey = 'getSID-' . $domainDN;
 		$sid = $this->connection->getFromCache($cacheKey);
 		if (!is_null($sid)) {
