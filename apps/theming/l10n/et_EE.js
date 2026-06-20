@@ -107,7 +107,7 @@ OC.L10N.register(
     "Could not set primary color" : "Põhivärvi ei õnnestunud määrata",
     "Set a primary color to highlight important elements. The color used for elements such as primary buttons might differ a bit as it gets adjusted to fulfill accessibility requirements." : "Määra oluliste kujunduselementide põhivärv. Sama värv kuulub mõnedes rollides, sealhulgas põhinuppudel, kohendamisele vastavalt hõlbustuse nõuetele.",
     "Reset primary color" : "Lähtesta põhivärv",
-    "Reset to default" : "Taasta vaikeseaded",
+    "Reset to default" : "Taasta vaikimisi seadistused",
     "Non image file selected" : "Ühtegi pildifaili pole valitud",
     "Failed to upload image" : "Pildi üleslaadimine ei õnnestunud",
     "Preview of the selected image" : "Valitud pildi eelvaade",
