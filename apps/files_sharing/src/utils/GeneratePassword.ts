@@ -18,7 +18,7 @@ const passwordSet = 'abcdefgijkmnopqrstwxyzABCDEFGHJKLMNPQRSTWXYZ23456789'
  * otherwise fall back to a locally generated password.
  *
  * @param verbose - If enabled the status is shown to the user via toast.
- * @returns A generated password.
+ * @return A generated password.
  */
 export default async function(verbose = false): Promise<string> {
 	const generateUrl = config.passwordPolicy.api?.generate
@@ -51,7 +51,7 @@ export default async function(verbose = false): Promise<string> {
  * Uses cryptographically secure random values when available.
  *
  * @param length - The password length.
- * @returns A random password string.
+ * @return A random password string.
  */
 function generateLocalPassword(length = 10): string {
 	const bytes = new Uint8Array(length)
