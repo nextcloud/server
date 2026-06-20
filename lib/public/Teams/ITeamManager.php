@@ -56,7 +56,6 @@ interface ITeamManager {
 	 * @param list<string> $teams Team IDs
 	 * @param string $userId User ID
 	 * @param string $resourceId Unique ID of the resource to filter shares for, if supported by the provider
-	 * @param list<string> $teams Team IDs
 	 * @return array<string, list<TeamResource>>
 	 * @since 33.0.0
 	 * @since 34.0.0 Added $resourceId param
