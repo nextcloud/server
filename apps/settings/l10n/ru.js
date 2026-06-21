@@ -664,6 +664,7 @@ OC.L10N.register(
     "Email (required)" : "Эл. почта (обязательно)",
     "Email" : "Адрес эл. почты",
     "New account" : "Новая учётная запись",
+    "Adding new account …" : "Добавление нового аккаунта ...",
     "Add new account" : "Создать учётную запись",
     "Display name" : "Отображаемое имя",
     "Either password or email is required" : "Также обязательны к заполнению пароль или эл.почта",

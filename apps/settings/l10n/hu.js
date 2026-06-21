@@ -341,6 +341,7 @@ OC.L10N.register(
     "Confirm" : "Megerősítés",
     "Submit" : "Beküldés",
     "Rename group" : "Csoport átnevezése",
+    "Delete group" : "Csoport törlése",
     "Current password" : "Jelenlegi jelszó",
     "New password" : "Új jelszó",
     "Change password" : "Jelszó módosítása",
