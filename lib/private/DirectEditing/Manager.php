@@ -125,6 +125,7 @@ class Manager implements IManager {
 		throw new \RuntimeException('No creator found');
 	}
 
+	#[\Override]
 	public function open(string $filePath, ?string $editorId = null, ?int $fileId = null): string {
 		$userFolder = $this->rootFolder->getUserFolder($this->userId);
 		$file = $userFolder->get($filePath);
