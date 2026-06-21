@@ -664,6 +664,7 @@ OC.L10N.register(
     "Email (required)" : "Ríomhphost (riachtanach)",
     "Email" : "Ríomhphost",
     "New account" : "Cuntas nua",
+    "Adding new account …" : "Cuntas nua á chur leis …",
     "Add new account" : "Cuir cuntas nua leis",
     "Display name" : "Ainm taispeána",
     "Either password or email is required" : "Tá pasfhocal nó ríomhphost ag teastáil",

@@ -658,6 +658,7 @@ OC.L10N.register(
     "Email (required)" : "Ел. пошта (обов'язково)",
     "Email" : "E-mail",
     "New account" : "Новий обліковий запис",
+    "Adding new account …" : "Додавання нового облікового запису ...",
     "Add new account" : "Створити нового користувача",
     "Display name" : "Ім'я для показу",
     "Either password or email is required" : "Потрібно зазначити або пароль, або адресу ел.пошти",
