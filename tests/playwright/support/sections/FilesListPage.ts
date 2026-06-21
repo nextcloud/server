@@ -26,6 +26,21 @@ export class FilesListPage {
 		return this.page.locator(`[data-cy-files-list-row-fileid="${fileid}"]`)
 	}
 
+	/** All file rows currently rendered in the list (e.g. for count assertions). */
+	getRows(): Locator {
+		return this.page.locator('[data-cy-files-list-row-fileid]')
+	}
+
+	/** The per-row selection checkboxes. */
+	getRowCheckboxes(): Locator {
+		return this.page.locator('[data-cy-files-list-row-checkbox]')
+	}
+
+	/** The per-row selection checkboxes that are currently checked (i.e. selected rows). */
+	getSelectedRowCheckboxes(): Locator {
+		return this.getRowCheckboxes().getByRole('checkbox', { checked: true })
+	}
+
 	private getActionsButtonForFile(filename: string): Locator {
 		return this.getRowForFile(filename)
 			.getByRole('button', { name: 'Actions' })
@@ -74,17 +89,42 @@ export class FilesListPage {
 		return this.getRowForFile(filename).getByRole('button', { name: 'Download' })
 	}
 
-	async selectAll(): Promise<void> {
-		await this.page.locator('[data-cy-files-list-selection-checkbox]')
+	private getSelectAllCheckbox(): Locator {
+		return this.page.locator('[data-cy-files-list-selection-checkbox]')
 			.getByRole('checkbox')
-			.click({ force: true })
 	}
 
-	async selectRowForFile(filename: string): Promise<void> {
-		// The checkbox is visually hidden inside NcCheckboxRadioSwitch, so force the check
-		await this.getRowForFile(filename)
+	async selectAll(): Promise<void> {
+		await this.getSelectAllCheckbox().click({ force: true })
+	}
+
+	/**
+	 * Clear the current selection via the master checkbox. It is a toggle, so it
+	 * clicks the same control as {@link selectAll}; call it while rows are
+	 * selected to deselect them all.
+	 */
+	async deselectAll(): Promise<void> {
+		await this.getSelectAllCheckbox().click({ force: true })
+	}
+
+	/**
+	 * Select a single row's checkbox. Pass `{ shift: true }` to extend the
+	 * selection as a range from the previously selected row. Range selection
+	 * reads the global keyboard store, so Shift is held with real keyboard
+	 * events rather than a click modifier.
+	 */
+	async selectRowForFile(filename: string, { shift = false }: { shift?: boolean } = {}): Promise<void> {
+		// The checkbox is visually hidden inside NcCheckboxRadioSwitch, so force the interaction
+		const checkbox = this.getRowForFile(filename)
 			.getByRole('checkbox', { name: /Toggle selection/ })
-			.check({ force: true })
+
+		if (shift) {
+			await this.page.keyboard.down('Shift')
+			await checkbox.click({ force: true })
+			await this.page.keyboard.up('Shift')
+		} else {
+			await checkbox.check({ force: true })
+		}
 	}
 
 	/**
