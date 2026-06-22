@@ -11,6 +11,7 @@ namespace Test\lib\Config;
 use OC\Config\ConfigManager;
 use OC\Config\PresetManager;
 use OC\Config\UserConfig;
+use OC\Config\UserConfigEntry;
 use OCP\Config\Exceptions\TypeConflictException;
 use OCP\Config\Exceptions\UnknownKeyException;
 use OCP\Config\IUserConfig;
@@ -230,7 +231,7 @@ class UserConfigTest extends TestCase {
 					$flags = $row[4] ?? 0;
 					if ((UserConfig::FLAG_SENSITIVE & $flags) !== 0) {
 						if (!isset($this->basePreferences[$userId][$appId][$key]['encrypted'])) {
-							$value = self::invokePrivate(UserConfig::class, 'ENCRYPTION_PREFIX')
+							$value = self::invokePrivate(UserConfigEntry::class, 'ENCRYPTION_PREFIX')
 								. $this->crypto->encrypt((string)$value);
 							$this->basePreferences[$userId][$appId][$key]['encrypted'] = $value;
 						} else {
@@ -1422,10 +1423,13 @@ class UserConfigTest extends TestCase {
 			$userConfig = $this->generateUserConfig($preload ?? []);
 			$this->assertEquals($sensitive, $userConfig->isSensitive($userId, $app, $key));
 			if ($sensitive) {
-				$this->assertEquals(true, str_starts_with(
-					$userConfig->statusCache()['fastCache'][$userId][$app][$key]['value']
-					?? $userConfig->statusCache()['lazyCache'][$userId][$app][$key]['value'],
-					'$UserConfigEncryption$')
+				$statusCache = $userConfig->statusCache();
+				$this->assertEquals(
+					true,
+					str_starts_with(
+						($statusCache['fastCache'][$userId][$app][$key]
+						?? $statusCache['lazyCache'][$userId][$app][$key])->getRawValue(),
+						'$UserConfigEncryption$')
 				);
 			}
 		}
@@ -1450,10 +1454,11 @@ class UserConfigTest extends TestCase {
 		$this->assertEquals($value, $userConfig->getValueString('user1', $app, $key));
 		foreach (['user1', 'user2', 'user3', 'user4'] as $userId) {
 			$userConfig->getValueString($userId, $app, $key); // cache loading for userId
+			$statusCache = $userConfig->statusCache();
 			$this->assertEquals(
 				!$sensitive, str_starts_with(
-					$userConfig->statusCache()['fastCache'][$userId][$app][$key]['value']
-					?? $userConfig->statusCache()['lazyCache'][$userId][$app][$key]['value'],
+					($statusCache['fastCache'][$userId][$app][$key]
+					?? $statusCache['lazyCache'][$userId][$app][$key])->getRawValue(),
 					'$UserConfigEncryption$'
 				)
 			);
@@ -1464,10 +1469,11 @@ class UserConfigTest extends TestCase {
 		$this->assertEquals($value, $userConfig->getValueString('user1', $app, $key));
 		foreach (['user1', 'user2', 'user3', 'user4'] as $userId) {
 			$this->assertEquals($sensitive, $userConfig->isSensitive($userId, $app, $key));
+			$statusCache = $userConfig->statusCache();
 			// should only work if updateGlobalSensitive drop cache
 			$this->assertEquals($sensitive, str_starts_with(
-				$userConfig->statusCache()['fastCache'][$userId][$app][$key]['value']
-				?? $userConfig->statusCache()['lazyCache'][$userId][$app][$key]['value'],
+				($statusCache['fastCache'][$userId][$app][$key]
+				?? $statusCache['lazyCache'][$userId][$app][$key])->getRawValue(),
 				'$UserConfigEncryption$')
 			);
 		}
