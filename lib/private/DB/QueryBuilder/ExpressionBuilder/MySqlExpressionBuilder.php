@@ -10,6 +10,8 @@ namespace OC\DB\QueryBuilder\ExpressionBuilder;
 
 use OC\DB\ConnectionAdapter;
 use OC\DB\QueryBuilder\QueryFunction;
+use OCP\DB\QueryBuilder\ILiteral;
+use OCP\DB\QueryBuilder\IParameter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
 use Psr\Log\LoggerInterface;
@@ -32,6 +34,17 @@ class MySqlExpressionBuilder extends ExpressionBuilder {
 		$x = $this->helper->quoteColumnName($x);
 		$y = $this->helper->quoteColumnName($y);
 		return $this->expressionBuilder->comparison($x, ' COLLATE ' . $this->collation . ' LIKE', $y);
+	}
+
+	#[\Override]
+	public function notILike(
+		string|IParameter|ILiteral|IQueryFunction $x,
+		string|IParameter|ILiteral|IQueryFunction $y,
+		int|string|null $type = null,
+	): string {
+		$x = $this->helper->quoteColumnName($x);
+		$y = $this->helper->quoteColumnName($y);
+		return $this->expressionBuilder->comparison($x, ' COLLATE ' . $this->collation . ' NOT LIKE', $y);
 	}
 
 	/**
