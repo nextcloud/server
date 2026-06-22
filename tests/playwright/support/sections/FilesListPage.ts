@@ -47,15 +47,13 @@ export class FilesListPage {
 	}
 
 	/**
-	 * Open the row actions menu for a file and return the menu popover locator.
-	 * Use this when a test needs to inspect a menu entry (e.g. its label) before
-	 * clicking; for a plain "open and click" use {@link triggerActionForFile}.
+	 * Open a row's actions menu and return the menu popover locator. Keyed on a
+	 * row Locator so it serves both name- and fileid-addressed rows.
 	 */
-	async openActionsMenuForFile(filename: string): Promise<Locator> {
-		const row = this.getRowForFile(filename)
+	private async openActionsMenuForRow(row: Locator): Promise<Locator> {
 		await row.hover()
 
-		const actionsButton = this.getActionsButtonForFile(filename)
+		const actionsButton = row.getByRole('button', { name: 'Actions' })
 		await actionsButton.scrollIntoViewIfNeeded()
 		// force: true to avoid issues with the sticky file list header
 		await actionsButton.click({ force: true })
@@ -66,16 +64,52 @@ export class FilesListPage {
 		return menu
 	}
 
+	private async triggerActionForRow(row: Locator, actionId: string): Promise<void> {
+		const menu = await this.openActionsMenuForRow(row)
+		const actionEntry = this.getActionButtonInMenu(menu, actionId)
+		await actionEntry.waitFor({ state: 'visible' })
+		await actionEntry.click()
+	}
+
+	/**
+	 * Open the row actions menu for a file and return the menu popover locator.
+	 * Use this when a test needs to inspect a menu entry (e.g. its label) before
+	 * clicking; for a plain "open and click" use {@link triggerActionForFile}.
+	 */
+	async openActionsMenuForFile(filename: string): Promise<Locator> {
+		return this.openActionsMenuForRow(this.getRowForFile(filename))
+	}
+
 	getActionButtonInMenu(menu: Locator, actionId: string): Locator {
 		// The action button has role="menuitem", so use tag selector not getByRole
 		return menu.locator(`[data-cy-files-list-row-action="${actionId}"] button`)
 	}
 
 	async triggerActionForFile(filename: string, actionId: string): Promise<void> {
-		const menu = await this.openActionsMenuForFile(filename)
-		const actionEntry = this.getActionButtonInMenu(menu, actionId)
-		await actionEntry.waitFor({ state: 'visible' })
-		await actionEntry.click()
+		await this.triggerActionForRow(this.getRowForFile(filename), actionId)
+	}
+
+	/**
+	 * Like {@link triggerActionForFile} but addresses the row by file id. Trashbin
+	 * rows are keyed by id because a deleted file's name is no longer unique (the
+	 * same name can be trashed several times).
+	 */
+	async triggerActionForFileId(fileid: number, actionId: string): Promise<void> {
+		await this.triggerActionForRow(this.getRowForFileId(fileid), actionId)
+	}
+
+	/**
+	 * A file-list-level action button rendered in the list header (e.g.
+	 * "empty-trash"), as opposed to a per-row or selection action.
+	 */
+	getListActionButton(actionId: string): Locator {
+		return this.page.locator(`[data-cy-files-list-action="${actionId}"]`)
+	}
+
+	async triggerListAction(actionId: string): Promise<void> {
+		// .last(): the action can render both inline and inside the overflow menu;
+		// the last match is the actionable one
+		await this.getListActionButton(actionId).last().click({ force: true })
 	}
 
 	getFavoriteIconForFile(filename: string): Locator {

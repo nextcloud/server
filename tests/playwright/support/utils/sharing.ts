@@ -23,27 +23,35 @@ export const ALL_PERMISSIONS = SharePermission.READ
 	| SharePermission.DELETE
 	| SharePermission.SHARE
 
+/** OCS Share API share types (subset we seed in tests). */
+export const ShareType = {
+	USER: 0,
+	GROUP: 1,
+} as const
+
 /**
- * Create a user-to-user share via the OCS Share API. Seeding shares through the
- * API avoids driving the (flaky) share-editor sidebar.
+ * Create a share via the OCS Share API. Seeding shares through the API avoids
+ * driving the (flaky) share-editor sidebar.
  *
  * @param request - A request context authenticated as the share owner (e.g. the
  *   `ownerRequest` fixture)
  * @param path - The path to share, relative to the owner's root
- * @param shareWith - The user id of the share recipient
+ * @param shareWith - The recipient: a user id for a user share, a group id for a group share
  * @param permissions - The permission bitmask to grant (defaults to all)
+ * @param shareType - The OCS share type (defaults to a user share)
  */
 export async function createShare(
 	request: APIRequestContext,
 	path: string,
 	shareWith: string,
 	permissions: number = ALL_PERMISSIONS,
+	shareType: number = ShareType.USER,
 ): Promise<void> {
 	const response = await request.post('/ocs/v2.php/apps/files_sharing/api/v1/shares?format=json', {
 		headers: { 'OCS-APIRequest': 'true' },
 		form: {
 			path,
-			shareType: 0, // user share
+			shareType,
 			shareWith,
 			permissions,
 		},
