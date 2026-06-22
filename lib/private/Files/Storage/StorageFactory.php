@@ -19,7 +19,14 @@ class StorageFactory implements IStorageFactory {
 	/**
 	 * @var array[] [$name=>['priority'=>$priority, 'wrapper'=>$callable] $storageWrappers
 	 */
-	private $storageWrappers = [];
+	private array $storageWrappers = [];
+
+	private bool $wrappersSorted = false;
+
+	/**
+	 * @var IStorage[]
+	 */
+	private array $wrappersList = [];
 
 	#[\Override]
 	public function addStorageWrapper(string $wrapperName, callable $callback, int $priority = 50, array $existingMounts = []): bool {
@@ -33,6 +40,7 @@ class StorageFactory implements IStorageFactory {
 		}
 
 		$this->storageWrappers[$wrapperName] = ['wrapper' => $callback, 'priority' => $priority];
+		$this->wrappersSorted = false;
 		return true;
 	}
 
@@ -44,6 +52,7 @@ class StorageFactory implements IStorageFactory {
 	 */
 	public function removeStorageWrapper(string $wrapperName): void {
 		unset($this->storageWrappers[$wrapperName]);
+		$this->wrappersSorted = false;
 	}
 
 	/**
@@ -58,15 +67,16 @@ class StorageFactory implements IStorageFactory {
 	}
 
 	public function wrap(IMountPoint $mountPoint, IStorage $storage): IStorage {
-		$wrappers = array_values($this->storageWrappers);
-		usort($wrappers, function ($a, $b) {
-			return $b['priority'] - $a['priority'];
-		});
-		/** @var callable[] $wrappers */
-		$wrappers = array_map(function ($wrapper) {
-			return $wrapper['wrapper'];
-		}, $wrappers);
-		foreach ($wrappers as $wrapper) {
+		if (!$this->wrappersSorted) {
+			uasort($this->storageWrappers, function ($a, $b) {
+				return $b['priority'] - $a['priority'];
+			});
+
+			$this->wrappersSorted = true;
+			$this->wrappersList = array_column($this->storageWrappers, 'wrapper');
+		}
+
+		foreach ($this->wrappersList as $wrapper) {
 			$storage = $wrapper($mountPoint->getMountPoint(), $storage, $mountPoint);
 			if (!($storage instanceof IStorage)) {
 				throw new \Exception('Invalid result from storage wrapper');
