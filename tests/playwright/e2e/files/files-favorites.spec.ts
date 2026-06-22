@@ -4,7 +4,8 @@
  */
 
 import type { Page } from '@playwright/test'
-import { test, expect } from '../../support/fixtures/files-page.ts'
+
+import { expect, test } from '../../support/fixtures/files-page.ts'
 import { mkdir, rm, uploadContent } from '../../support/utils/dav.ts'
 
 /**
@@ -14,10 +15,8 @@ import { mkdir, rm, uploadContent } from '../../support/utils/dav.ts'
  */
 async function toggleFavorite(page: Page, path: string, action: () => Promise<void>): Promise<void> {
 	const encoded = path.split('/').map(encodeURIComponent).join('/')
-	const response = page.waitForResponse(
-		(r) => r.url().includes(`/apps/files/api/v1/files/${encoded}`)
-			&& r.request().method() === 'POST',
-	)
+	const response = page.waitForResponse((r) => r.url().includes(`/apps/files/api/v1/files/${encoded}`)
+		&& r.request().method() === 'POST')
 	await action()
 	await response
 }

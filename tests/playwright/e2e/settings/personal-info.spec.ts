@@ -3,11 +3,12 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { Page, Response } from '@playwright/test'
-import { expect, test as baseTest } from '@playwright/test'
 import type { User } from '@nextcloud/e2e-test-server'
-import { createRandomUser, login } from '@nextcloud/e2e-test-server/playwright'
+import type { Page, Response } from '@playwright/test'
+
 import { runOcc } from '@nextcloud/e2e-test-server/docker'
+import { createRandomUser, login } from '@nextcloud/e2e-test-server/playwright'
+import { test as baseTest, expect } from '@playwright/test'
 import { handlePasswordConfirmation } from '../../support/utils/password-confirmation.ts'
 
 // ── Visibility scope labels exactly as rendered in the UI ─────────────────────
@@ -26,9 +27,7 @@ type Visibility = typeof Visibility[keyof typeof Visibility]
  * the save action; await the result after the action and any password dialog.
  */
 function waitForSave(page: Page): Promise<Response> {
-	return page.waitForResponse(
-		(r) => r.request().method() === 'PUT' && r.url().includes('/ocs/v2.php/cloud/users/'),
-	)
+	return page.waitForResponse((r) => r.request().method() === 'PUT' && r.url().includes('/ocs/v2.php/cloud/users/'))
 }
 
 /**
@@ -47,15 +46,22 @@ async function changeVisibility(page: Page, property: string, scope: Visibility,
 // ── Fixture ───────────────────────────────────────────────────────────────────
 
 const test = baseTest.extend<{ user: User }>({
-	user: async ({ context }, use) => {
+	user: async ({}, use) => {
 		const user = await createRandomUser()
 		// Ensure English UI language and locale so string assertions are stable
 		await runOcc(['user:setting', user.userId, 'core', 'lang', 'en'])
 		await runOcc(['user:setting', user.userId, 'core', 'locale', 'en_US'])
-		await login(context.request, user)
 		await use(user)
 		await runOcc(['user:delete', user.userId])
 	},
+
+	page: async ({ browser, user }, use) => {
+		const page = await browser.newPage()
+		await login(page.request, user)
+		await use(page)
+		await page.close()
+	},
+
 })
 
 // ── Spec ──────────────────────────────────────────────────────────────────────
@@ -96,7 +102,7 @@ test.describe('Settings: Change personal information', () => {
 		// Re-enable the profile
 		await page.goto('/settings/user')
 		const saved2 = waitForSave(page)
-		await page.getByRole('checkbox', { name: 'Enable profile' }).check({ force: true }	)
+		await page.getByRole('checkbox', { name: 'Enable profile' }).check({ force: true })
 		await handlePasswordConfirmation(page, user.password)
 		await saved2
 
@@ -106,7 +112,8 @@ test.describe('Settings: Change personal information', () => {
 
 	// ── Language ──────────────────────────────────────────────────────────────
 
-	test('can change language', async ({ page, user: _ }) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars -- we need the user fixture to ensure the test user is created and cleaned up
+	test('can change language', async ({ page, user }) => {
 		await page.goto('/settings/user')
 
 		// NcSelect: type to filter, click the option (teleported to <body>)
@@ -121,7 +128,7 @@ test.describe('Settings: Change personal information', () => {
 
 	// ── Locale ────────────────────────────────────────────────────────────────
 
-	test('can change locale', async ({ page, user: _ }) => {
+	test('can change locale', async ({ page }) => {
 		await page.goto('/settings/user')
 
 		await page.getByRole('combobox', { name: 'Locale' }).fill('German')
@@ -392,25 +399,17 @@ test.describe('Settings: Change personal information', () => {
 			await saved
 
 			await expect(page.getByRole('textbox', { name: label })).toHaveValue(value)
-			await expect(
-				page.getByRole('button', { name: new RegExp(`change scope level of ${scopeProperty}.*local`, 'i') }),
-			).toHaveCount(1)
+			await expect(page.getByRole('button', { name: new RegExp(`change scope level of ${scopeProperty}.*local`, 'i') })).toHaveCount(1)
 
 			// Cycle Private → Local and verify the final state persists
 			await changeVisibility(page, scopeProperty, Visibility.Federated, user.password)
-			await expect(
-				page.getByRole('button', { name: new RegExp(`change scope level of ${scopeProperty}.*federated`, 'i') }),
-			).toBeVisible()
+			await expect(page.getByRole('button', { name: new RegExp(`change scope level of ${scopeProperty}.*federated`, 'i') })).toBeVisible()
 
 			await page.reload()
-			await expect(
-				page.getByRole('button', { name: new RegExp(`change scope level of ${scopeProperty}.*federated`, 'i') }),
-			).toBeVisible()
+			await expect(page.getByRole('button', { name: new RegExp(`change scope level of ${scopeProperty}.*federated`, 'i') })).toBeVisible()
 
 			await changeVisibility(page, scopeProperty, Visibility.Private, user.password)
-			await expect(
-				page.getByRole('button', { name: new RegExp(`change scope level of ${scopeProperty}.*private`, 'i') }),
-			).toBeVisible()
+			await expect(page.getByRole('button', { name: new RegExp(`change scope level of ${scopeProperty}.*private`, 'i') })).toBeVisible()
 
 			// With Local visibility the value appears on the public profile
 			await page.goto(`/u/${user.userId}`)
@@ -446,9 +445,7 @@ test.describe('Settings: Change personal information', () => {
 			// Toggle Private → Local (the two supported scopes for these properties)
 			await changeVisibility(page, scopeProperty, Visibility.Private, user.password)
 			await page.reload()
-			await expect(
-				page.getByRole('button', { name: new RegExp(`change scope level of ${scopeProperty}.*private`, 'i') }),
-			).toBeVisible()
+			await expect(page.getByRole('button', { name: new RegExp(`change scope level of ${scopeProperty}.*private`, 'i') })).toBeVisible()
 
 			await changeVisibility(page, scopeProperty, Visibility.Local, user.password)
 

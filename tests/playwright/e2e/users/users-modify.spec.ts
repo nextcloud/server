@@ -3,13 +3,13 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { expect } from '@playwright/test'
 import { type User } from '@nextcloud/e2e-test-server'
-import { createRandomUser, login } from '@nextcloud/e2e-test-server/playwright'
 import { runOcc } from '@nextcloud/e2e-test-server/docker'
+import { createRandomUser, login } from '@nextcloud/e2e-test-server/playwright'
+import { expect } from '@playwright/test'
 import { test as adminTest } from '../../support/fixtures/admin-session.ts'
-import { handlePasswordConfirmation } from '../../support/utils/password-confirmation.ts'
 import { SettingsUsersPage } from '../../support/sections/SettingsUsersPage.ts'
+import { handlePasswordConfirmation } from '../../support/utils/password-confirmation.ts'
 
 const test = adminTest.extend<{ user: User }>({
 	user: async ({}, use) => {

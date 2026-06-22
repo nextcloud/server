@@ -4,11 +4,12 @@
  */
 
 import type { Download, Page } from '@playwright/test'
-import { readFile } from 'node:fs/promises'
+
+import { User } from '@nextcloud/e2e-test-server'
 import { addUser, runOcc } from '@nextcloud/e2e-test-server/docker'
 import { login } from '@nextcloud/e2e-test-server/playwright'
-import { User } from '@nextcloud/e2e-test-server'
-import { test, expect } from '../../support/fixtures/files-page.ts'
+import { readFile } from 'node:fs/promises'
+import { expect, test } from '../../support/fixtures/files-page.ts'
 import { mkdir, uploadContent } from '../../support/utils/dav.ts'
 import { getZipEntries } from '../../support/utils/zip.ts'
 

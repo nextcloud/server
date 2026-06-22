@@ -4,8 +4,8 @@
  */
 
 import { expect } from '@playwright/test'
-import { test as userTest } from '../../support/fixtures/random-user-session.ts'
 import { test as adminTest } from '../../support/fixtures/admin-session.ts'
+import { test as userTest } from '../../support/fixtures/random-user-session.ts'
 import { AccountMenuPage } from '../../support/sections/AccountMenuPage.ts'
 
 userTest.describe('Settings: Access levels – regular user', () => {

@@ -4,6 +4,7 @@
  */
 
 import type { User } from '@nextcloud/e2e-test-server'
+
 import { runOcc } from '@nextcloud/e2e-test-server/docker'
 import { createRandomUser } from '@nextcloud/e2e-test-server/playwright'
 import { expect } from '@playwright/test'

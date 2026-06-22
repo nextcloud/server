@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { expect } from '@playwright/test'
 import { runOcc } from '@nextcloud/e2e-test-server/docker'
+import { expect } from '@playwright/test'
 import { test } from '../../support/fixtures/admin-theming-page.ts'
 import { NavigationHeaderPage } from '../../support/sections/NavigationHeaderPage.ts'
 
@@ -14,7 +14,7 @@ test.describe('Admin theming set default apps', () => {
 	// Otherwise, the tests would influence each other and lead to random failures (race condition when run in parallel).
 	test.describe.configure({ mode: 'serial' })
 
-	test.beforeEach(async ({ adminThemingPage, page, context }) => {
+	test.beforeEach(async ({ adminThemingPage, page }) => {
 		await runOcc(['config:system:set', 'defaultapp', '--value', 'dashboard'])
 		await adminThemingPage.reset()
 		await page.goto('')

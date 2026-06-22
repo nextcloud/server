@@ -3,15 +3,15 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { expect } from '@playwright/test'
 import { type User } from '@nextcloud/e2e-test-server'
-import { createRandomUser } from '@nextcloud/e2e-test-server/playwright'
 import { runOcc } from '@nextcloud/e2e-test-server/docker'
+import { createRandomUser } from '@nextcloud/e2e-test-server/playwright'
+import { expect } from '@playwright/test'
 import { test as adminTest } from '../../support/fixtures/admin-session.ts'
-import { handlePasswordConfirmation } from '../../support/utils/password-confirmation.ts'
 import { SettingsUsersPage } from '../../support/sections/SettingsUsersPage.ts'
+import { handlePasswordConfirmation } from '../../support/utils/password-confirmation.ts'
 
-const test = adminTest.extend<{ user: User; manager: User }>({
+const test = adminTest.extend<{ user: User, manager: User }>({
 	user: async ({}, use) => {
 		const u = await createRandomUser()
 		await use(u)
@@ -53,7 +53,10 @@ test.describe('Settings: User Manager Management', () => {
 	test('can remove a manager through the edit dialog', async ({ page, user, manager }) => {
 		// Set manager via OCC first
 		await runOcc([
-			'user:setting', user.userId, 'settings', 'manager',
+			'user:setting',
+			user.userId,
+			'settings',
+			'manager',
 			`["${manager.userId}"]`,
 		])
 

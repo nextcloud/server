@@ -3,10 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { expect, test } from '@playwright/test'
-import { User } from '@nextcloud/e2e-test-server'
-import { createRandomUser, login } from '@nextcloud/e2e-test-server/playwright'
+import type { User } from '@nextcloud/e2e-test-server'
+
 import { runOcc } from '@nextcloud/e2e-test-server/docker'
+import { createRandomUser, login } from '@nextcloud/e2e-test-server/playwright'
+import { expect, test } from '@playwright/test'
 import { LoginPage } from '../../support/sections/LoginPage.ts'
 
 test.describe('Login: Redirect', () => {
@@ -40,7 +41,7 @@ test.describe('Login: Redirect', () => {
 	test('redirect_url parameter redirects to the original page after login', async ({ page }) => {
 		const redirectTarget = 'settings/user#profile'
 		await page.goto(redirectTarget)
-		await expect(page).toHaveURL(new RegExp(`/login\\?redirect_url=(\/index.php\/)?${redirectTarget}`))
+		await expect(page).toHaveURL(new RegExp(`/login\\?redirect_url=(/index.php/)?${redirectTarget}`))
 
 		const loginPage = new LoginPage(page)
 		await expect(loginPage.usernameInput()).toBeVisible()

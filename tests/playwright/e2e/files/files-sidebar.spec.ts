@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { test, expect } from '../../support/fixtures/files-page.ts'
+import { expect, test } from '../../support/fixtures/files-page.ts'
 import { mkdir, uploadContent } from '../../support/utils/dav.ts'
 
 test.describe('Files: Sidebar', () => {
@@ -70,8 +70,7 @@ test.describe('Files: Sidebar', () => {
 		await expect(filesSidebar.heading('file')).toBeVisible()
 
 		const deleteResponse = page.waitForResponse(
-			(response) =>
-				response.url().includes(`/remote.php/dav/files/${user.userId}/file`)
+			(response) => response.url().includes(`/remote.php/dav/files/${user.userId}/file`)
 				&& response.request().method() === 'DELETE',
 			{ timeout: 10000 },
 		)
@@ -97,8 +96,7 @@ test.describe('Files: Sidebar', () => {
 		await expect(filesSidebar.heading('other')).toBeVisible()
 
 		const deleteResponse = page.waitForResponse(
-			(response) =>
-				response.url().includes(`/remote.php/dav/files/${user.userId}/folder/other`)
+			(response) => response.url().includes(`/remote.php/dav/files/${user.userId}/folder/other`)
 				&& response.request().method() === 'DELETE',
 			{ timeout: 10000 },
 		)

@@ -23,7 +23,7 @@
     "postinstall": "build/demi.sh ci",
     "lint": "eslint --suppressions-location build/eslint-baseline.json --no-error-on-unmatched-pattern ./cypress ./tests/playwright",
     "postlint": "build/demi.sh lint",
-    "lint:fix": "build/demi.sh lint:fix",
+    "lint:fix": "concurrently 'npm run lint -- --fix' 'build/demi.sh lint:fix'",
     "playwright": "playwright test",
     "playwright:install": "playwright install chromium-headless-shell",
     "sass": "sass --style compressed --load-path core/css core/css/ $(for cssdir in $(find apps -mindepth 2 -maxdepth 2 -name \"css\"); do if ! $(git check-ignore -q $cssdir); then printf \"$cssdir \"; fi; done)",

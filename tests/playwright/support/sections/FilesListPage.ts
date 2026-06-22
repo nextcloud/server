@@ -4,6 +4,7 @@
  */
 
 import type { Locator, Page } from '@playwright/test'
+
 import { escapeAttributeValue } from '../utils/css.ts'
 
 export class FilesListPage {
@@ -220,9 +221,7 @@ export class FilesListPage {
 	 * data-cy attributes (no stable accessible name to target by role).
 	 */
 	async createFolder(folderName: string): Promise<void> {
-		const created = this.page.waitForResponse(
-			(r) => r.request().method() === 'MKCOL' && r.url().includes('/remote.php/dav/files/'),
-		)
+		const created = this.page.waitForResponse((r) => r.request().method() === 'MKCOL' && r.url().includes('/remote.php/dav/files/'))
 
 		await this.page.locator('[data-cy-upload-picker]')
 			.getByRole('button', { name: 'New' })

@@ -5,13 +5,13 @@
 
 import type { User } from '@nextcloud/e2e-test-server'
 
-import { expect, test as baseTest } from '@playwright/test'
-import { createRandomUser, login } from '@nextcloud/e2e-test-server/playwright'
 import { runOcc } from '@nextcloud/e2e-test-server/docker'
-import { handlePasswordConfirmation } from '../../support/utils/password-confirmation.ts'
+import { createRandomUser, login } from '@nextcloud/e2e-test-server/playwright'
+import { test as baseTest, expect } from '@playwright/test'
 import { SettingsUsersPage } from '../../support/sections/SettingsUsersPage.ts'
+import { handlePasswordConfirmation } from '../../support/utils/password-confirmation.ts'
 
-const test = baseTest.extend<{ subadmin: User; group: string }>({
+const test = baseTest.extend<{ subadmin: User, group: string }>({
 	group: async ({}, use) => {
 		const groupName = crypto.randomUUID()
 		await runOcc(['group:add', groupName])
