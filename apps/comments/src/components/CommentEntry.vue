@@ -134,8 +134,7 @@ const NcRichContenteditable = defineAsyncComponent(() => import('@nextcloud/vue/
 const NcRichText = defineAsyncComponent(() => import('@nextcloud/vue/components/NcRichText'))
 
 export default {
-	/* eslint vue/multi-word-component-names: "warn" */
-	name: 'Comment',
+	name: 'CommentEntry',
 
 	components: {
 		IconArrowRight,
