@@ -39,116 +39,241 @@ use OCP\Share\IManager as IShareManager;
 use OCP\User\Backend\IPasswordConfirmationBackend;
 use OCP\Util;
 
+/**
+ * Builds frontend bootstrap configuration for the web UI.
+ *
+ * This class collects server, user, sharing, localization, and theme settings,
+ * provides selected values through the initial state service, and renders the
+ * JavaScript configuration payload used during page initialization.
+ */
 class JSConfigHelper {
 
-	/** @var array user back-ends excluded from password verification */
-	private $excludedUserBackEnds = ['user_saml' => true, 'user_globalsiteselector' => true];
+	/**
+	 * Backend class names for which password confirmation should be treated as unavailable.
+	 *
+	 * @var array<string, bool>
+	 */
+	private $passwordConfirmationExcludedBackends = [
+		'user_saml' => true,
+		'user_globalsiteselector' => true,
+	];
 
 	public function __construct(
-		protected ServerVersion $serverVersion,
-		protected IL10N $l,
-		protected Defaults $defaults,
-		protected IAppManager $appManager,
-		protected ISession $session,
-		protected ?IUser $currentUser,
-		protected IConfig $config,
-		protected readonly IAppConfig $appConfig,
-		protected IGroupManager $groupManager,
-		protected IniGetWrapper $iniWrapper,
-		protected IURLGenerator $urlGenerator,
-		protected CapabilitiesManager $capabilitiesManager,
-		protected IInitialStateService $initialStateService,
-		protected IProvider $tokenProvider,
-		protected FilenameValidator $filenameValidator,
+		private readonly ServerVersion $serverVersion,
+		private readonly IL10N $l,
+		private readonly Defaults $defaults,
+		private readonly IAppManager $appManager,
+		private readonly ISession $session,
+		private readonly ?IUser $currentUser,
+		private readonly IConfig $config,
+		private readonly IAppConfig $appConfig,
+		private readonly IGroupManager $groupManager,
+		private readonly IniGetWrapper $iniWrapper,
+		private readonly IURLGenerator $urlGenerator,
+		private readonly CapabilitiesManager $capabilitiesManager,
+		private readonly IInitialStateService $initialStateService,
+		private readonly IProvider $tokenProvider,
+		private readonly FilenameValidator $filenameValidator,
 	) {
 	}
 
+	/**
+	 * Builds the JavaScript configuration payload for page initialization.
+	 *
+	 * @return string JavaScript source containing global variable assignments.
+	 */
 	public function getConfig(): string {
-		$userBackendAllowsPasswordConfirmation = true;
-		if ($this->currentUser !== null) {
-			$uid = $this->currentUser->getUID();
+		[
+			'uid' => $uid,
+			'canValidatePassword' => $canValidatePassword,
+			'backendAllowsPasswordConfirmation' => $userBackendAllowsPasswordConfirmation,
+		] = $this->buildPasswordConfirmationContext();
 
-			$backend = $this->currentUser->getBackend();
-			if ($backend instanceof IPasswordConfirmationBackend) {
-				$userBackendAllowsPasswordConfirmation = $backend->canConfirmPassword($uid) && $this->canUserValidatePassword();
-			} elseif (isset($this->excludedUserBackEnds[$this->currentUser->getBackendClassName()])) {
-				$userBackendAllowsPasswordConfirmation = false;
-			} else {
-				$userBackendAllowsPasswordConfirmation = $this->canUserValidatePassword();
-			}
-		} else {
-			$uid = null;
+		[
+			'isAdmin' => $isAdmin,
+			'relativeDataDirectory' => $relativeDataDirectory,
+			'lastConfirmTimestamp' => $lastConfirmTimestamp,
+		] = $this->buildRequestUserContext($uid, $canValidatePassword);
+
+		/** @var array<string, string|false> $appWebPaths */
+		$appWebPaths = $this->getEnabledAppWebPaths();
+		$coreConfig = $this->buildCoreConfig();
+		$capabilities = $this->capabilitiesManager->getCapabilities(false, true);
+		$shareManager = Server::get(IShareManager::class);
+
+		// Values in this map must already be serialized as JavaScript literals because
+		// they are concatenated directly into `var <name> = <value>;` statements below.
+		/** @var array<string, int|string> $legacyJsGlobals */
+		$legacyJsGlobals = [
+			'_oc_debug' => $this->config->getSystemValue('debug', false) ? 'true' : 'false',
+			'_oc_isadmin' => $isAdmin ? 'true' : 'false',
+			'backendAllowsPasswordConfirmation' => $userBackendAllowsPasswordConfirmation ? 'true' : 'false',
+			'oc_dataURL' => is_string($relativeDataDirectory) ? '"' . $relativeDataDirectory . '"' : 'false',
+			'_oc_webroot' => '"' . \OC::$WEBROOT . '"',
+			'_oc_appswebroots' => json_encode($appWebPaths, JSON_UNESCAPED_SLASHES),
+			'datepickerFormatDate' => json_encode($this->l->l('jsdate', null)),
+			'nc_lastLogin' => $lastConfirmTimestamp,
+			'nc_pageLoad' => time(),
+		];
+
+		foreach ($this->buildLocaleConfig($uid) as $key => $value) {
+			$legacyJsGlobals[$key] = $value;
 		}
 
-		// Get the config
-		$apps_paths = [];
+		$legacyJsGlobals['_oc_config'] = json_encode($coreConfig);
+		$legacyJsGlobals['oc_appconfig'] = json_encode([
+			'core' => $this->buildSharingAppConfig($uid, $shareManager),
+		]);
+		$legacyJsGlobals['_theme'] = json_encode($this->buildThemeConfig());
+
+		if ($this->currentUser !== null) {
+			$legacyJsGlobals['oc_userconfig'] = json_encode([
+				'avatar' => [
+					'version' => (int)$this->config->getUserValue($uid, 'avatar', 'version', 0),
+					'generated' => $this->config->getUserValue($uid, 'avatar', 'generated', 'true') === 'true',
+				]
+			]);
+		}
+
+		// Provide structured initial state for modern consumers in addition to the legacy JS globals below.
+		$this->publishInitialState($coreConfig, $capabilities);
+
+		// Allow legacy hooks to amend the generated JavaScript globals before rendering.
+		\OC_Hook::emit('\OCP\Config', 'js', ['array' => &$legacyJsGlobals]);
+
+		return $this->renderLegacyJsGlobals($legacyJsGlobals);
+	}
+
+	/**
+	 * Builds password-confirmation-related context for the current user/session.
+	 *
+	 * @return array{
+	 *   uid: ?string,
+	 *   canValidatePassword: bool,
+	 *   backendAllowsPasswordConfirmation: bool
+	 * }
+	 */
+	private function buildPasswordConfirmationContext(): array {
+		if ($this->currentUser === null) {
+			return [
+				'uid' => null,
+				'canValidatePassword' => true,
+				'backendAllowsPasswordConfirmation' => true,
+			];
+		}
+
+		$uid = $this->currentUser->getUID();
+		$canValidatePassword = $this->canUserValidatePassword();
+		$userBackend = $this->currentUser->getBackend();
+		$userBackendClassName = $this->currentUser->getBackendClassName();
+
+		if ($userBackend instanceof IPasswordConfirmationBackend) {
+			$backendAllowsPasswordConfirmation = $userBackend->canConfirmPassword($uid) && $canValidatePassword;
+		} elseif (isset($this->passwordConfirmationExcludedBackends[$userBackendClassName])) {
+			$backendAllowsPasswordConfirmation = false;
+		} else {
+			$backendAllowsPasswordConfirmation = $canValidatePassword;
+		}
+
+		return [
+			'uid' => $uid,
+			'canValidatePassword' => $canValidatePassword,
+			'backendAllowsPasswordConfirmation' => $backendAllowsPasswordConfirmation,
+		];
+	}
+
+	/**
+	 * Builds request-scoped user context needed for frontend bootstrapping.
+	 *
+	 * @return array{
+	 *   isAdmin: bool,
+	 *   relativeDataDirectory: string|false,
+	 *   lastConfirmTimestamp: int
+	 * }
+	 */
+	private function buildRequestUserContext(?string $uid, bool $canValidatePassword): array {
+		$isAdmin = $uid !== null && $this->groupManager->isAdmin($uid);
+
+		return [
+			'isAdmin' => $isAdmin,
+			'relativeDataDirectory' => $this->getRelativeDataDirectoryForAdmin($uid, $isAdmin),
+			'lastConfirmTimestamp' => $this->getLastConfirmTimestamp($canValidatePassword),
+		];
+	}
+
+	/**
+	 * Returns enabled app IDs mapped to their public web paths.
+	 *
+	 * @return array<string, string|false>
+	 */
+	private function getEnabledAppWebPaths(): array {
+		/** @var array<string, string|false> $appWebPaths */
+		$appWebPaths = [];
 
 		if ($this->currentUser === null) {
-			$apps = $this->appManager->getEnabledApps();
+			$enabledApps = $this->appManager->getEnabledApps();
 		} else {
-			$apps = $this->appManager->getEnabledAppsForUser($this->currentUser);
+			$enabledApps = $this->appManager->getEnabledAppsForUser($this->currentUser);
 		}
 
-		foreach ($apps as $app) {
+		// Resolve enabled app web paths for frontend bootstrapping.
+		foreach ($enabledApps as $app) {
 			try {
-				$apps_paths[$app] = $this->appManager->getAppWebPath($app);
+				$appWebPaths[$app] = $this->appManager->getAppWebPath($app);
 			} catch (AppPathNotFoundException $e) {
-				$apps_paths[$app] = false;
+				// If an app's filesystem path cannot be resolved, mark it as unavailable
+				// instead of aborting JS config generation for all apps.
+				$appWebPaths[$app] = false;
 			}
 		}
 
-		$enableLinkPasswordByDefault = $this->appConfig->getValueBool('core', ConfigLexicon::SHARE_LINK_PASSWORD_DEFAULT);
-		$defaultExpireDateEnabled = $this->appConfig->getValueBool('core', ConfigLexicon::SHARE_LINK_EXPIRE_DATE_DEFAULT);
-		$defaultExpireDate = $enforceDefaultExpireDate = null;
-		if ($defaultExpireDateEnabled) {
-			$defaultExpireDate = (int)$this->config->getAppValue('core', 'shareapi_expire_after_n_days', '7');
-			$enforceDefaultExpireDate = $this->appConfig->getValueBool('core', ConfigLexicon::SHARE_LINK_EXPIRE_DATE_ENFORCED);
-		}
-		$outgoingServer2serverShareEnabled = $this->config->getAppValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes') === 'yes';
+		return $appWebPaths;
+	}
 
-		$defaultInternalExpireDateEnabled = $this->config->getAppValue('core', 'shareapi_default_internal_expire_date', 'no') === 'yes';
-		$defaultInternalExpireDate = $defaultInternalExpireDateEnforced = null;
-		if ($defaultInternalExpireDateEnabled) {
-			$defaultInternalExpireDate = (int)$this->config->getAppValue('core', 'shareapi_internal_expire_after_n_days', '7');
-			$defaultInternalExpireDateEnforced = $this->config->getAppValue('core', 'shareapi_enforce_internal_expire_date', 'no') === 'yes';
-		}
+	/**
+	 * Exposes the data directory only when it is below the server root and the current user is an admin.
+	 */
+	private function getRelativeDataDirectoryForAdmin(?string $uid, bool $isAdmin): string|false {
+		$dataDirectoryPrefixReplacementCount = 0;
+		$relativeDataDirectory = str_replace(
+			\OC::$SERVERROOT . '/',
+			'',
+			$this->config->getSystemValue('datadirectory', ''),
+			$dataDirectoryPrefixReplacementCount,
+		);
 
-		$defaultRemoteExpireDateEnabled = $this->config->getAppValue('core', 'shareapi_default_remote_expire_date', 'no') === 'yes';
-		$defaultRemoteExpireDate = $defaultRemoteExpireDateEnforced = null;
-		if ($defaultRemoteExpireDateEnabled) {
-			$defaultRemoteExpireDate = (int)$this->config->getAppValue('core', 'shareapi_remote_expire_after_n_days', '7');
-			$defaultRemoteExpireDateEnforced = $this->config->getAppValue('core', 'shareapi_enforce_remote_expire_date', 'no') === 'yes';
+		if ($dataDirectoryPrefixReplacementCount !== 1 || $uid === null || !$isAdmin) {
+			return false;
 		}
 
-		$countOfDataLocation = 0;
-		$dataLocation = str_replace(\OC::$SERVERROOT . '/', '', $this->config->getSystemValue('datadirectory', ''), $countOfDataLocation);
-		if ($countOfDataLocation !== 1 || $uid === null || !$this->groupManager->isAdmin($uid)) {
-			$dataLocation = false;
+		return $relativeDataDirectory;
+	}
+
+	/**
+	 * Returns the timestamp of the last successful password confirmation.
+	 */
+	private function getLastConfirmTimestamp(bool $canValidatePassword): int {
+		if (!($this->currentUser instanceof IUser)) {
+			return 0;
 		}
 
-		if ($this->currentUser instanceof IUser) {
-			if ($this->canUserValidatePassword()) {
-				$lastConfirmTimestamp = $this->session->get('last-password-confirm');
-				if (!is_int($lastConfirmTimestamp)) {
-					$lastConfirmTimestamp = 0;
-				}
-			} else {
-				$lastConfirmTimestamp = PHP_INT_MAX;
-			}
-		} else {
-			$lastConfirmTimestamp = 0;
+		if (!$canValidatePassword) {
+			// Use a sentinel value so the frontend treats password confirmation as already satisfied
+			// when this user/session cannot perform password validation.
+			return PHP_INT_MAX;
 		}
 
-		$capabilities = $this->capabilitiesManager->getCapabilities(false, true);
+		$lastConfirmTimestamp = $this->session->get('last-password-confirm');
+		return is_int($lastConfirmTimestamp) ? $lastConfirmTimestamp : 0;
+	}
 
-		$firstDay = $this->config->getUserValue($uid, 'core', AUserDataOCSController::USER_FIELD_FIRST_DAY_OF_WEEK, '');
-		if ($firstDay === '') {
-			$firstDay = (int)$this->l->l('firstday', null);
-		} else {
-			$firstDay = (int)$firstDay;
-		}
-
-		$config = [
+	/**
+	 * Builds core configuration exposed to the frontend.
+	 *
+	 * @return array<string, mixed>
+	 */
+	private function buildCoreConfig(): array {
+		return [
 			/** @deprecated 30.0.0 - use files capabilities instead */
 			'blacklist_files_regex' => FileInfo::BLACKLIST_FILES_REGEX,
 			/** @deprecated 30.0.0 - use files capabilities instead */
@@ -169,19 +294,22 @@ class JSConfigHelper {
 			'versionstring' => $this->serverVersion->getVersionString(),
 			'enable_non-accessible_features' => $this->config->getSystemValueBool('enable_non-accessible_features', true),
 		];
+	}
 
-		$shareManager = Server::get(IShareManager::class);
+	/**
+	 * Builds locale-related legacy JS globals.
+	 *
+	 * @return array<string, string>
+	 */
+	private function buildLocaleConfig(?string $uid): array {
+		$firstDayOfWeek = $this->config->getUserValue($uid, 'core', AUserDataOCSController::USER_FIELD_FIRST_DAY_OF_WEEK, '');
+		if ($firstDayOfWeek === '') {
+			$firstDayOfWeek = (int)$this->l->l('firstday', null);
+		} else {
+			$firstDayOfWeek = (int)$firstDayOfWeek;
+		}
 
-		$array = [
-			'_oc_debug' => $this->config->getSystemValue('debug', false) ? 'true' : 'false',
-			'_oc_isadmin' => $uid !== null && $this->groupManager->isAdmin($uid) ? 'true' : 'false',
-			'backendAllowsPasswordConfirmation' => $userBackendAllowsPasswordConfirmation ? 'true' : 'false',
-			'oc_dataURL' => is_string($dataLocation) ? '"' . $dataLocation . '"' : 'false',
-			'_oc_webroot' => '"' . \OC::$WEBROOT . '"',
-			'_oc_appswebroots' => str_replace('\\/', '/', json_encode($apps_paths)), // Ugly unescape slashes waiting for better solution
-			'datepickerFormatDate' => json_encode($this->l->l('jsdate', null)),
-			'nc_lastLogin' => $lastConfirmTimestamp,
-			'nc_pageLoad' => time(),
+		return [
 			'dayNames' => json_encode([
 				$this->l->t('Sunday'),
 				$this->l->t('Monday'),
@@ -189,7 +317,7 @@ class JSConfigHelper {
 				$this->l->t('Wednesday'),
 				$this->l->t('Thursday'),
 				$this->l->t('Friday'),
-				$this->l->t('Saturday')
+				$this->l->t('Saturday'),
 			]),
 			'dayNamesShort' => json_encode([
 				$this->l->t('Sun.'),
@@ -198,7 +326,7 @@ class JSConfigHelper {
 				$this->l->t('Wed.'),
 				$this->l->t('Thu.'),
 				$this->l->t('Fri.'),
-				$this->l->t('Sat.')
+				$this->l->t('Sat.'),
 			]),
 			'dayNamesMin' => json_encode([
 				$this->l->t('Su'),
@@ -207,7 +335,7 @@ class JSConfigHelper {
 				$this->l->t('We'),
 				$this->l->t('Th'),
 				$this->l->t('Fr'),
-				$this->l->t('Sa')
+				$this->l->t('Sa'),
 			]),
 			'monthNames' => json_encode([
 				$this->l->t('January'),
@@ -221,7 +349,7 @@ class JSConfigHelper {
 				$this->l->t('September'),
 				$this->l->t('October'),
 				$this->l->t('November'),
-				$this->l->t('December')
+				$this->l->t('December'),
 			]),
 			'monthNamesShort' => json_encode([
 				$this->l->t('Jan.'),
@@ -235,77 +363,127 @@ class JSConfigHelper {
 				$this->l->t('Sep.'),
 				$this->l->t('Oct.'),
 				$this->l->t('Nov.'),
-				$this->l->t('Dec.')
+				$this->l->t('Dec.'),
 			]),
-			'firstDay' => json_encode($firstDay),
-			'_oc_config' => json_encode($config),
-			'oc_appconfig' => json_encode([
-				'core' => [
-					'defaultExpireDateEnabled' => $defaultExpireDateEnabled,
-					'defaultExpireDate' => $defaultExpireDate,
-					'defaultExpireDateEnforced' => $enforceDefaultExpireDate,
-					'enforcePasswordForPublicLink' => Util::isPublicLinkPasswordRequired(),
-					'enableLinkPasswordByDefault' => $enableLinkPasswordByDefault,
-					'sharingDisabledForUser' => $shareManager->sharingDisabledForUser($uid),
-					'resharingAllowed' => $this->appConfig->getValueBool('core', 'shareapi_allow_resharing', true),
-					'remoteShareAllowed' => $outgoingServer2serverShareEnabled,
-					'federatedCloudShareDoc' => $this->urlGenerator->linkToDocs('user-sharing-federated'),
-					'allowGroupSharing' => $shareManager->allowGroupSharing(),
-					'defaultInternalExpireDateEnabled' => $defaultInternalExpireDateEnabled,
-					'defaultInternalExpireDate' => $defaultInternalExpireDate,
-					'defaultInternalExpireDateEnforced' => $defaultInternalExpireDateEnforced,
-					'defaultRemoteExpireDateEnabled' => $defaultRemoteExpireDateEnabled,
-					'defaultRemoteExpireDate' => $defaultRemoteExpireDate,
-					'defaultRemoteExpireDateEnforced' => $defaultRemoteExpireDateEnforced,
-				]
-			]),
-			'_theme' => json_encode([
-				'entity' => $this->defaults->getEntity(),
-				'name' => $this->defaults->getName(),
-				'productName' => $this->defaults->getProductName(),
-				'title' => $this->defaults->getTitle(),
-				'baseUrl' => $this->defaults->getBaseUrl(),
-				'syncClientUrl' => $this->defaults->getSyncClientUrl(),
-				'docBaseUrl' => $this->defaults->getDocBaseUrl(),
-				'docPlaceholderUrl' => $this->defaults->buildDocLinkToKey('PLACEHOLDER'),
-				'slogan' => $this->defaults->getSlogan(),
-				'logoClaim' => '',
-				'folder' => \OC_Util::getTheme(),
-			]),
+			'firstDay' => json_encode($firstDayOfWeek),
 		];
-
-		if ($this->currentUser !== null) {
-			$array['oc_userconfig'] = json_encode([
-				'avatar' => [
-					'version' => (int)$this->config->getUserValue($uid, 'avatar', 'version', 0),
-					'generated' => $this->config->getUserValue($uid, 'avatar', 'generated', 'true') === 'true',
-				]
-			]);
-		}
-
-		$this->initialStateService->provideInitialState('core', 'projects_enabled', $this->config->getSystemValueBool('projects.enabled', false));
-
-		$this->initialStateService->provideInitialState('core', 'config', $config);
-		$this->initialStateService->provideInitialState('core', 'capabilities', $capabilities);
-
-		// Allow hooks to modify the output values
-		\OC_Hook::emit('\OCP\Config', 'js', ['array' => &$array]);
-
-		$result = '';
-
-		// Echo it
-		foreach ($array as $setting => $value) {
-			$result .= 'var ' . $setting . '=' . $value . ';' . PHP_EOL;
-		}
-
-		return $result;
 	}
 
+	/**
+	 * Builds sharing-related frontend app config.
+	 *
+	 * @return array<string, mixed>
+	 */
+	private function buildSharingAppConfig(?string $uid, IShareManager $shareManager): array {
+		// Public (link) sharing
+		$enableLinkPasswordByDefault = $this->appConfig->getValueBool('core', ConfigLexicon::SHARE_LINK_PASSWORD_DEFAULT);
+		$defaultExpireDateEnabled = $this->appConfig->getValueBool('core', ConfigLexicon::SHARE_LINK_EXPIRE_DATE_DEFAULT);
+		$defaultExpireDate = $defaultExpireDateEnforced = null;
+		if ($defaultExpireDateEnabled) {
+			$defaultExpireDate = (int)$this->config->getAppValue('core', 'shareapi_expire_after_n_days', '7');
+			$defaultExpireDateEnforced = $this->appConfig->getValueBool('core', ConfigLexicon::SHARE_LINK_EXPIRE_DATE_ENFORCED);
+		}
+
+		$outgoingServer2serverShareEnabled = $this->config->getAppValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes') === 'yes';
+
+		// Internal sharing
+		$defaultInternalExpireDateEnabled = $this->config->getAppValue('core', 'shareapi_default_internal_expire_date', 'no') === 'yes';
+		$defaultInternalExpireDate = $defaultInternalExpireDateEnforced = null;
+		if ($defaultInternalExpireDateEnabled) {
+			$defaultInternalExpireDate = (int)$this->config->getAppValue('core', 'shareapi_internal_expire_after_n_days', '7');
+			$defaultInternalExpireDateEnforced = $this->config->getAppValue('core', 'shareapi_enforce_internal_expire_date', 'no') === 'yes';
+		}
+
+		// Remote sharing
+		$defaultRemoteExpireDateEnabled = $this->config->getAppValue('core', 'shareapi_default_remote_expire_date', 'no') === 'yes';
+		$defaultRemoteExpireDate = $defaultRemoteExpireDateEnforced = null;
+		if ($defaultRemoteExpireDateEnabled) {
+			$defaultRemoteExpireDate = (int)$this->config->getAppValue('core', 'shareapi_remote_expire_after_n_days', '7');
+			$defaultRemoteExpireDateEnforced = $this->config->getAppValue('core', 'shareapi_enforce_remote_expire_date', 'no') === 'yes';
+		}
+
+		return [
+			'defaultExpireDateEnabled' => $defaultExpireDateEnabled,
+			'defaultExpireDate' => $defaultExpireDate,
+			'defaultExpireDateEnforced' => $defaultExpireDateEnforced,
+			'enforcePasswordForPublicLink' => Util::isPublicLinkPasswordRequired(),
+			'enableLinkPasswordByDefault' => $enableLinkPasswordByDefault,
+			'sharingDisabledForUser' => $shareManager->sharingDisabledForUser($uid),
+			'resharingAllowed' => $this->appConfig->getValueBool('core', 'shareapi_allow_resharing', true),
+			'remoteShareAllowed' => $outgoingServer2serverShareEnabled,
+			'federatedCloudShareDoc' => $this->urlGenerator->linkToDocs('user-sharing-federated'),
+			'allowGroupSharing' => $shareManager->allowGroupSharing(),
+			'defaultInternalExpireDateEnabled' => $defaultInternalExpireDateEnabled,
+			'defaultInternalExpireDate' => $defaultInternalExpireDate,
+			'defaultInternalExpireDateEnforced' => $defaultInternalExpireDateEnforced,
+			'defaultRemoteExpireDateEnabled' => $defaultRemoteExpireDateEnabled,
+			'defaultRemoteExpireDate' => $defaultRemoteExpireDate,
+			'defaultRemoteExpireDateEnforced' => $defaultRemoteExpireDateEnforced,
+		];
+	}
+
+	/**
+	 * Builds theme config exposed to the frontend.
+	 *
+	 * @return array<string, string>
+	 */
+	private function buildThemeConfig(): array {
+		return [
+			'entity' => $this->defaults->getEntity(),
+			'name' => $this->defaults->getName(),
+			'productName' => $this->defaults->getProductName(),
+			'title' => $this->defaults->getTitle(),
+			'baseUrl' => $this->defaults->getBaseUrl(),
+			'syncClientUrl' => $this->defaults->getSyncClientUrl(),
+			'docBaseUrl' => $this->defaults->getDocBaseUrl(),
+			'docPlaceholderUrl' => $this->defaults->buildDocLinkToKey('PLACEHOLDER'),
+			'slogan' => $this->defaults->getSlogan(),
+			'logoClaim' => '',
+			'folder' => \OC_Util::getTheme(),
+		];
+	}
+
+	/**
+	 * Provides structured initial state for modern consumers.
+	 *
+	 * @param array<string, mixed> $coreConfig
+	 * @param array<string, mixed> $capabilities
+	 */
+	private function publishInitialState(array $coreConfig, array $capabilities): void {
+		$this->initialStateService->provideInitialState('core', 'projects_enabled', $this->config->getSystemValueBool('projects.enabled', false));
+		$this->initialStateService->provideInitialState('core', 'config', $coreConfig);
+		$this->initialStateService->provideInitialState('core', 'capabilities', $capabilities);
+	}
+
+	/**
+	 * Renders serialized globals as legacy JavaScript var assignments.
+	 *
+	 * @param array<string, int|string> $legacyJsGlobals
+	 */
+	private function renderLegacyJsGlobals(array $legacyJsGlobals): string {
+		$jsBootstrap = '';
+
+		foreach ($legacyJsGlobals as $globalName => $serializedValue) {
+			$jsBootstrap .= 'var ' . $globalName . '=' . $serializedValue . ';' . PHP_EOL;
+		}
+
+		return $jsBootstrap;
+	}
+
+	/**
+	 * Returns whether the current session token allows password validation.
+	 *
+	 * If the token cannot be resolved from the current session, this method falls
+	 * back to `true` to avoid incorrectly disabling password confirmation flows.
+	 *
+	 * FIXME: make private / declare @internal?
+	 */
 	protected function canUserValidatePassword(): bool {
 		try {
-			$token = $this->tokenProvider->getToken($this->session->getId());
+			$sessionId = $this->session->getId();
+			$token = $this->tokenProvider->getToken($sessionId);
 		} catch (ExpiredTokenException|WipeTokenException|InvalidTokenException|SessionNotAvailableException) {
-			// actually we do not know, so we fall back to this statement
+			// If the session token cannot be inspected, keep password validation enabled by default.
 			return true;
 		}
 		$scope = $token->getScopeAsArray();
