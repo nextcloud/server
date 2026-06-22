@@ -10,6 +10,7 @@
 		</p>
 		<NcAppNavigationList
 			class="account-management__group-list"
+			:aria-label="t('settings', 'Groups')"
 			aria-describedby="group-list-desc"
 			data-cy-users-settings-navigation-groups="custom">
 			<NcAppNavigationCaption

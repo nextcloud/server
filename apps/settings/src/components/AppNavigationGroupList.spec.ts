@@ -4,8 +4,8 @@
  */
 
 import { mount } from '@vue/test-utils'
-import { ref } from 'vue'
 import { describe, expect, it, vi } from 'vitest'
+import { ref } from 'vue'
 import NcAppNavigationCaption from '@nextcloud/vue/components/NcAppNavigationCaption'
 
 // The component builds a real Vuex store via useStore(); mock it so this stays
