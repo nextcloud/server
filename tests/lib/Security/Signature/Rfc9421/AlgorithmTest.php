@@ -88,6 +88,8 @@ class AlgorithmTest extends TestCase {
 	public function testEcdsaP256RoundTrip(): void {
 		[$priv, $key] = $this->ecKeyPair('prime256v1', 'P-256', 'ES256');
 		$sig = Algorithm::sign('payload', $priv, 'ecdsa-p256-sha256');
+		echo "sig:$sig\n";
+		echo "key:$key\n";
 		$this->assertSame(64, strlen($sig));
 		$this->assertTrue(Algorithm::verify('payload', $sig, $key, 'ecdsa-p256-sha256'));
 		$this->assertTrue(Algorithm::verify('payload', $sig, $key, 'ES256'));

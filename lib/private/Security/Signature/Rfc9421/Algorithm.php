@@ -87,13 +87,16 @@ final class Algorithm {
 				throw new SignatureException('verifying Ed25519 signatures requires ext-sodium');
 			}
 			if (strlen($signature) !== SODIUM_CRYPTO_SIGN_BYTES) {
+				echo __LINE__ . " return false\n";
 				return false;
 			}
 			// parseKey hands OKP material as plain base64 of the 32 raw bytes.
 			$rawPublic = base64_decode((string)$material, true);
 			if ($rawPublic === false || strlen($rawPublic) !== SODIUM_CRYPTO_SIGN_PUBLICKEYBYTES) {
+				echo __LINE__ . " return false\n";
 				return false;
 			}
+			echo __LINE__ . " return ?\n";
 			return sodium_crypto_sign_verify_detached($signature, $signatureBase, $rawPublic);
 		}
 
@@ -102,10 +105,12 @@ final class Algorithm {
 		if ($encoding === 'ecdsa') {
 			$signature = self::ecdsaRawToDer($signature, self::ecdsaCoordinateSize($resolved));
 			if ($signature === null) {
+				echo __LINE__ . " return false\n";
 				return false;
 			}
 		}
 
+		echo __LINE__ . " return ?\n";
 		return openssl_verify($signatureBase, $signature, $material, $opensslAlgo) === 1;
 	}
 
