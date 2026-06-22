@@ -8,6 +8,7 @@
 
 namespace OCA\DAV\DAV;
 
+use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 use OCA\DAV\Connector\Sabre\File as DavFile;
 use OCA\Files_Versions\Sabre\VersionFile;
@@ -102,6 +103,13 @@ class ViewOnlyPlugin extends ServerPlugin {
 					break;
 				case 'COPY':
 				case 'MOVE':
+					$destination = $this->server->getCopyAndMoveInfo($request)['destination'];
+					$destinationParent = $this->server->tree->getNodeForPath(dirname($destination));
+					// Copy and move operations within the same storage are allowed, because the destination has the same restrictions.
+					if (($destinationParent instanceof Directory) && $destinationParent->getNode()->getStorage()->getId() === $storage->getId()) {
+						break;
+					}
+
 					// If download is disabled, we disable the COPY and MOVE methods even if the shareapi_allow_view_without_download is set to true.
 					if (!$share->canDownload()) {
 						throw new Forbidden('Access to this shared resource has been denied because its download permission is disabled.');
