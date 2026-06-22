@@ -96,6 +96,8 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 	private CacheDependencies $cacheDependencies;
 	private IRootFolder $rootFolder;
 
+	private ?\OCP\ICache $storagesCache;
+
 	public function __construct(array $parameters) {
 		$this->ownerView = $parameters['ownerView'];
 		$this->logger = $parameters['logger'] ?? Server::get(LoggerInterface::class);
@@ -103,6 +105,7 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 		$this->shareManager = $parameters['shareManager'] ?? Server::get(IShareManager::class);
 		$this->cacheDependencies = $parameters['cacheDependencies'] ?? Server::get(CacheDependencies::class);
 		$this->rootFolder = $parameters['rootFolder'] ?? Server::get(IRootFolder::class);
+		$this->storagesCache = $parameters['storagesCache'] ?? null;
 
 		$this->superShare = $parameters['superShare'];
 		$this->groupedShares = $parameters['groupedShares'];
@@ -162,6 +165,27 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 				throw new \Exception('Maximum share depth reached');
 			}
 
+			$nodeCacheEntry = $this->superShare->getNodeCacheEntry();
+			if ($nodeCacheEntry !== null) {
+				$storageId = $nodeCacheEntry->getStorageId();
+				$cached = $this->storagesCache?->get((string)$storageId);
+				if (is_array($cached)) {
+					/** @var IStorage $cachedStorage */
+					$cachedStorage = $cached['storage'];
+					$prefix = $cached['prefix'];
+					$this->nonMaskedStorage = $cachedStorage;
+					$this->sourcePath = $prefix . $nodeCacheEntry->getPath();
+					$this->rootPath = $nodeCacheEntry->getPath();
+					$this->cache = null;
+					$this->storage = new PermissionsMask([
+						'storage' => $cachedStorage,
+						'mask' => $this->superShare->getPermissions(),
+					]);
+					self::$initDepth--;
+					return;
+				}
+			}
+
 			$this->ownerUserFolder = $this->rootFolder->getUserFolder($this->superShare->getShareOwner());
 			$sourceId = $this->superShare->getNodeId();
 			$ownerNodes = $this->ownerUserFolder->getById($sourceId);
@@ -192,6 +216,12 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 					'storage' => $this->nonMaskedStorage,
 					'mask' => $this->superShare->getPermissions(),
 				]);
+
+				$prefix = substr($this->sourcePath, 0, strlen($this->sourcePath) - strlen($this->rootPath));
+				$this->storagesCache?->set(
+					(string)$this->nonMaskedStorage->getCache()->getNumericStorageId(),
+					['storage' => $this->nonMaskedStorage, 'prefix' => $prefix],
+				);
 			}
 		} catch (NotFoundException $e) {
 			// original file not accessible or deleted, set FailedStorage
