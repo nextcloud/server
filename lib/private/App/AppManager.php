@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\App;
 
 use OC\AppConfig;
@@ -36,6 +37,7 @@ use OCP\INavigationManager;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Server;
 use OCP\ServerVersion;
 use OCP\Settings\IManager as ISettingsManager;
@@ -635,11 +637,6 @@ class AppManager implements IAppManager {
 	}
 
 	/**
-	 * Enable an app only for specific groups
-	 *
-	 * @param string $appId
-	 * @param IGroup[] $groups
-	 * @param bool $forceEnable
 	 * @throws \InvalidArgumentException if app can't be enabled for groups
 	 * @throws AppPathNotFoundException
 	 */
@@ -661,9 +658,8 @@ class AppManager implements IAppManager {
 			$this->overwriteNextcloudRequirement($appId);
 		}
 
-		/** @var string[] $groupIds */
-		$groupIds = array_map(function ($group) {
-			/** @var IGroup $group */
+		/** @var list<string> $groupIds */
+		$groupIds = array_map(function (IGroup|string $group): string {
 			return ($group instanceof IGroup)
 				? $group->getGID()
 				: $group;
@@ -1187,8 +1183,11 @@ class AppManager implements IAppManager {
 
 	#[\Override]
 	public function getAppNamespace(string $appId): string {
-		$topNamespace = 'OCA\\';
+		if ($appId === 'core') {
+			return 'OC\\Core';
+		}
 
+		$topNamespace = 'OCA\\';
 		// Hit the cache!
 		if (isset($this->namespaceCache[$appId])) {
 			return $topNamespace . $this->namespaceCache[$appId];
@@ -1240,7 +1239,7 @@ class AppManager implements IAppManager {
 
 		$missing = $this->dependencyAnalyzer->analyze($info, $ignoreMax);
 		if ($missing !== []) {
-			$l = \OCP\Server::get(\OCP\L10N\IFactory::class)->get('core');
+			$l = Server::get(IFactory::class)->get('core');
 			$missingMsg = implode(PHP_EOL, $missing);
 			throw new \Exception(
 				$l->t('App "%1$s" cannot be installed because the following dependencies are not fulfilled: %2$s',

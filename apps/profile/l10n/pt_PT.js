@@ -1,6 +1,7 @@
 OC.L10N.register(
     "profile",
     {
+    "View profile" : "Visualizar perfil",
     "Searching …" : "A procurar…",
     "Not found" : "Não  encontrado",
     "You have not added any info yet" : "Ainda não adicionou qualquer informação ",

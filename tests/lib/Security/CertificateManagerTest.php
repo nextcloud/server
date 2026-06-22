@@ -103,7 +103,6 @@ class CertificateManagerTest extends \Test\TestCase {
 		$this->assertEqualsArrays($certificateStore, $this->certificateManager->listCertificates());
 	}
 
-
 	public function testAddInvalidCertificate(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Certificate could not get parsed.');
@@ -174,7 +173,6 @@ class CertificateManagerTest extends \Test\TestCase {
 			->with('targetBundlePath')
 			->willReturn($targetBundleExists);
 
-
 		$view->expects($this->any())->method('filemtime')
 			->willReturnCallback(function ($path) use ($targetBundleMtime) {
 				if ($path === 'targetBundlePath') {
@@ -182,7 +180,6 @@ class CertificateManagerTest extends \Test\TestCase {
 				}
 				throw new \Exception('unexpected path');
 			});
-
 
 		$this->assertSame($expected,
 			$this->invokePrivate($certificateManager, 'needsRebundling')

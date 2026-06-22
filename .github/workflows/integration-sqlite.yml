@@ -4,11 +4,6 @@ name: Integration sqlite
 
 on:
   pull_request:
-  push:
-    branches:
-      - main
-      - master
-      - stable*
 
 permissions:
   contents: read
@@ -66,7 +61,6 @@ jobs:
           - 'openldap_features'
           - 'openldap_numerical_features'
           - 'ldap_features'
-          - 'remoteapi_features'
           - 'routing_features'
           - 'setup_features'
           - 'sharees_features'
@@ -75,7 +69,7 @@ jobs:
           - 'videoverification_features'
           - 'guests_features'
 
-        php-versions: ['8.4']
+        php-versions: ['8.3', '8.5']
         guests-versions: ['main']
         spreed-versions: ['main']
         activity-versions: ['master']

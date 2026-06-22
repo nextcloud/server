@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\DB\QueryBuilder;
 
 /**
@@ -19,6 +20,7 @@ interface IFunctionBuilder {
 	 *
 	 * @return IQueryFunction
 	 * @since 12.0.0
+	 * @deprecated 35.0.0 - MD5 is not considered secure anymore, thus most databases have or will drop support for this function
 	 */
 	public function md5($input): IQueryFunction;
 

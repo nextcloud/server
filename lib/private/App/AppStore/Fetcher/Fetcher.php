@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\App\AppStore\Fetcher;
 
 use GuzzleHttp\Exception\ClientException;
@@ -12,6 +13,7 @@ use GuzzleHttp\Exception\ServerException;
 use OC\Files\AppData\Factory;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Files\GenericFileException;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Http\Client\IClientService;
@@ -167,7 +169,16 @@ abstract class Fetcher {
 				}
 			}
 		} catch (NotFoundException $e) {
-			// File does not already exists
+			// File does not already exist
+			$file = $rootFolder->newFile($this->fileName);
+		} catch (GenericFileException $e) {
+			try {
+				$file->delete();
+			} catch (\Exception) {
+				$this->logger->error('Could not read appstore cache file', ['app' => 'appstoreFetcher', 'exception' => $e]);
+				return [];
+			}
+			$this->logger->warning('Could not read appstore cache file, it will be refreshed', ['app' => 'appstoreFetcher', 'exception' => $e]);
 			$file = $rootFolder->newFile($this->fileName);
 		}
 

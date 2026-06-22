@@ -438,7 +438,9 @@ class IMipService {
 		$startTime = null;
 		$conclusion = null;
 		// days of the week
-		$days = implode(', ', array_map(function ($value) { return $this->localizeDayName($value); }, $er->recurringDaysOfWeekNamed()));
+		$days = implode(', ', array_map(function ($value) {
+			return $this->localizeDayName($value);
+		}, $er->recurringDaysOfWeekNamed()));
 		// time of the day
 		if (!$er->entireDay()) {
 			$startTime = $this->l10n->l('time', $er->startDateTime(), ['width' => 'short']);
@@ -492,8 +494,12 @@ class IMipService {
 		$conclusion = null;
 		// days of month
 		if ($er->recurringPattern() === 'R') {
-			$days = implode(', ', array_map(function ($value) { return $this->localizeRelativePositionName($value); }, $er->recurringRelativePositionNamed())) . ' '
-				. implode(', ', array_map(function ($value) { return $this->localizeDayName($value); }, $er->recurringDaysOfWeekNamed()));
+			$days = implode(', ', array_map(function ($value) {
+				return $this->localizeRelativePositionName($value);
+			}, $er->recurringRelativePositionNamed())) . ' '
+				. implode(', ', array_map(function ($value) {
+					return $this->localizeDayName($value);
+				}, $er->recurringDaysOfWeekNamed()));
 		} else {
 			$days = implode(', ', $er->recurringDaysOfMonth());
 		}
@@ -556,11 +562,17 @@ class IMipService {
 		$startTime = null;
 		$conclusion = null;
 		// months of year
-		$months = implode(', ', array_map(function ($value) { return $this->localizeMonthName($value); }, $er->recurringMonthsOfYearNamed()));
+		$months = implode(', ', array_map(function ($value) {
+			return $this->localizeMonthName($value);
+		}, $er->recurringMonthsOfYearNamed()));
 		// days of month
 		if ($er->recurringPattern() === 'R') {
-			$days = implode(', ', array_map(function ($value) { return $this->localizeRelativePositionName($value); }, $er->recurringRelativePositionNamed())) . ' '
-				. implode(', ', array_map(function ($value) { return $this->localizeDayName($value); }, $er->recurringDaysOfWeekNamed()));
+			$days = implode(', ', array_map(function ($value) {
+				return $this->localizeRelativePositionName($value);
+			}, $er->recurringRelativePositionNamed())) . ' '
+				. implode(', ', array_map(function ($value) {
+					return $this->localizeDayName($value);
+				}, $er->recurringDaysOfWeekNamed()));
 		} else {
 			$days = $er->startDateTime()->format('jS');
 		}

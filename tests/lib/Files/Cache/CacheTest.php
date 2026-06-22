@@ -495,7 +495,6 @@ class CacheTest extends \Test\TestCase {
 
 		$this->cache->move($sourceFolder, $targetFolder);
 
-
 		$this->assertFalse($this->cache->inCache($sourceFolder));
 		$this->assertTrue($this->cache2->inCache($sourceFolder));
 		$this->assertTrue($this->cache->inCache($targetFolder));
@@ -514,7 +513,6 @@ class CacheTest extends \Test\TestCase {
 
 		$this->cache2->put('folder', $folderData);
 		$this->cache2->put('folder/sub', $data);
-
 
 		$this->cache->moveFromCache($this->cache2, 'folder', 'targetfolder');
 
@@ -801,26 +799,31 @@ class CacheTest extends \Test\TestCase {
 		$entries = $this->cache->getFolderContents('');
 		$this->assertCount(4, $entries);
 
-		$this->assertEquals('foo1', $entries[0]->getName());
-		$this->assertEquals('foo2', $entries[1]->getName());
-		$this->assertEquals('foo3', $entries[2]->getName());
-		$this->assertEquals('foo4', $entries[3]->getName());
+		$entriesByName = [];
+		foreach ($entries as $entry) {
+			$entriesByName[$entry->getName()] = $entry;
+		}
 
-		$this->assertEquals(20, $entries[0]->getCreationTime());
-		$this->assertEquals(0, $entries[0]->getUploadTime());
-		$this->assertEquals(null, $entries[0]->getMetadataEtag());
+		$this->assertArrayHasKey('foo1', $entriesByName);
+		$this->assertArrayHasKey('foo2', $entriesByName);
+		$this->assertArrayHasKey('foo3', $entriesByName);
+		$this->assertArrayHasKey('foo4', $entriesByName);
 
-		$this->assertEquals(0, $entries[1]->getCreationTime());
-		$this->assertEquals(30, $entries[1]->getUploadTime());
-		$this->assertEquals(null, $entries[1]->getMetadataEtag());
+		$this->assertEquals(20, $entriesByName['foo1']->getCreationTime());
+		$this->assertEquals(0, $entriesByName['foo1']->getUploadTime());
+		$this->assertEquals(null, $entriesByName['foo1']->getMetadataEtag());
 
-		$this->assertEquals(0, $entries[2]->getCreationTime());
-		$this->assertEquals(0, $entries[2]->getUploadTime());
-		$this->assertEquals('foo', $entries[2]->getMetadataEtag());
+		$this->assertEquals(0, $entriesByName['foo2']->getCreationTime());
+		$this->assertEquals(30, $entriesByName['foo2']->getUploadTime());
+		$this->assertEquals(null, $entriesByName['foo2']->getMetadataEtag());
 
-		$this->assertEquals(0, $entries[3]->getCreationTime());
-		$this->assertEquals(0, $entries[3]->getUploadTime());
-		$this->assertEquals(null, $entries[3]->getMetadataEtag());
+		$this->assertEquals(0, $entriesByName['foo3']->getCreationTime());
+		$this->assertEquals(0, $entriesByName['foo3']->getUploadTime());
+		$this->assertEquals('foo', $entriesByName['foo3']->getMetadataEtag());
+
+		$this->assertEquals(0, $entriesByName['foo4']->getCreationTime());
+		$this->assertEquals(0, $entriesByName['foo4']->getUploadTime());
+		$this->assertEquals(null, $entriesByName['foo4']->getMetadataEtag());
 
 		$this->cache->update($id1, ['upload_time' => 25]);
 
@@ -836,6 +839,7 @@ class CacheTest extends \Test\TestCase {
 		$entries = $this->cache->getFolderContents('sub');
 		$this->assertCount(1, $entries);
 
+		$this->assertEquals('foo1', $entries[0]->getName());
 		$this->assertEquals(20, $entries[0]->getCreationTime());
 		$this->assertEquals(25, $entries[0]->getUploadTime());
 		$this->assertEquals(null, $entries[0]->getMetadataEtag());

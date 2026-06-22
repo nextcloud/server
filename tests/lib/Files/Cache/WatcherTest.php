@@ -86,7 +86,6 @@ class WatcherTest extends TestCase {
 		$this->assertFalse($cache->inCache('folder/bar2.txt'));
 	}
 
-
 	public function testFileToFolder(): void {
 		$storage = $this->getTestStorage();
 		$cache = $storage->getCache();

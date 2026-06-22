@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Middleware\Security\Exceptions\NotConfirmedException;
@@ -67,15 +68,13 @@ class PasswordConfirmationMiddleware extends Middleware {
 		try {
 			$sessionId = $this->session->getId();
 			$token = $this->tokenProvider->getToken($sessionId);
+			$scope = $token->getScopeAsArray();
+			if (isset($scope[IToken::SCOPE_SKIP_PASSWORD_VALIDATION]) && $scope[IToken::SCOPE_SKIP_PASSWORD_VALIDATION] === true) {
+				// Users logging in from SSO backends cannot confirm their password by design
+				return;
+			}
 		} catch (SessionNotAvailableException|InvalidTokenException|WipeTokenException|ExpiredTokenException) {
-			// States we do not deal with here.
-			return;
-		}
-
-		$scope = $token->getScopeAsArray();
-		if (isset($scope[IToken::SCOPE_SKIP_PASSWORD_VALIDATION]) && $scope[IToken::SCOPE_SKIP_PASSWORD_VALIDATION] === true) {
-			// Users logging in from SSO backends cannot confirm their password by design
-			return;
+			// No scope to test
 		}
 
 		$reflectionMethod = new ReflectionMethod($controller, $methodName);

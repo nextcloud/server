@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Authentication\Token;
 
 use OCP\AppFramework\Db\Entity;
@@ -202,6 +203,15 @@ class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 	#[\Override]
 	public function getRemember(): int {
 		return parent::getRemember();
+	}
+
+	public function getToken(): string {
+		return parent::getToken();
+	}
+
+	#[\Override]
+	public function getType(): int {
+		return $this->getter('type');
 	}
 
 	#[\Override]

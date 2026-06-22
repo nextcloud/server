@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "Log out",
     "Please select a file." : "Please select a file.",
     "File is too big" : "File is too big",
     "The selected file is not an image." : "The selected file is not an image.",
@@ -206,6 +207,10 @@ OC.L10N.register(
     "Code will expire {timeCountdown} or after use" : "Code will expire {timeCountdown} or after use",
     "_{count} notification_::_{count} notifications_" : ["{count} notification","{count} notifications"],
     "More apps" : "More apps",
+    "App store" : "App store",
+    "Settings" : "Settings",
+    "Open apps menu, currently in {app}" : "Open apps menu, currently in {app}",
+    "Open apps menu" : "Open apps menu",
     "Applications" : "Applications",
     "Apps" : "Apps",
     "No" : "No",
@@ -224,6 +229,7 @@ OC.L10N.register(
     "Pick start date" : "Pick start date",
     "Pick end date" : "Pick end date",
     "Search in date range" : "Search in date range",
+    "Search apps, files, tags, messages …" : "Search apps, files, tags, messages …",
     "Search in current app" : "Search in current app",
     "Clear search" : "Clear search",
     "Search everywhere" : "Search everywhere",

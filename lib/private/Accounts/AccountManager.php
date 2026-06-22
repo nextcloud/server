@@ -53,7 +53,6 @@ use function json_last_error;
  */
 class AccountManager implements IAccountManager {
 	use TAccountsHelper;
-
 	use TProfileHelper;
 
 	private string $table = 'accounts';
@@ -754,7 +753,6 @@ class AccountManager implements IAccountManager {
 		// Allow custom domains (Bluesky handle via personal domain)
 		return filter_var($text, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME) !== false;
 	}
-
 
 	private function sanitizePropertyBluesky(IAccountProperty $property): void {
 		if ($property->getName() === self::PROPERTY_BLUESKY) {

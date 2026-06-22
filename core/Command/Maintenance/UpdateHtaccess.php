@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Command\Maintenance;
 
 use OC\Setup;
@@ -28,7 +29,7 @@ class UpdateHtaccess extends Command {
 			$output->writeln('.htaccess has been updated');
 			return 0;
 		} else {
-			$output->writeln('<error>Error updating .htaccess file, not enough permissions, not enough free space or "overwrite.cli.url" set to an invalid URL?</error>');
+			$output->writeln('<error>Error updating (or creating) .htaccess file, not enough permissions, not enough free space or "overwrite.cli.url" set to an invalid URL?</error>');
 			return 1;
 		}
 	}

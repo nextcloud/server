@@ -159,7 +159,8 @@ function openStatusModal() {
 								class="user-actions__primary"
 								:href="primaryAction.target"
 								:icon="primaryAction.icon"
-								:target="primaryAction.id === 'phone' ? '_self' : '_blank'">
+								:target="primaryAction.id === 'phone' ? '_self' : '_blank'"
+								:rel="primaryAction.id === 'fediverse' ? 'me' : undefined">
 								<template #icon>
 									<!-- Fix for https://github.com/nextcloud-libraries/nextcloud-vue/issues/2315 -->
 									<img :src="primaryAction.icon" alt="" class="user-actions__primary__icon">
@@ -172,7 +173,8 @@ function openStatusModal() {
 									:key="action.id"
 									:closeAfterClick="true"
 									:href="action.target"
-									:target="action.id === 'phone' ? '_self' : '_blank'">
+									:target="action.id === 'phone' ? '_self' : '_blank'"
+									:rel="primaryAction.id === 'fediverse' ? 'me' : undefined">
 									<template #icon>
 										<!-- Fix for https://github.com/nextcloud-libraries/nextcloud-vue/issues/2315 -->
 										<img :src="action.icon" alt="" class="user-actions__other__icon">

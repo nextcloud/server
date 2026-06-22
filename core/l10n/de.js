@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "Abmelden",
     "Please select a file." : "Bitte eine Datei wählen.",
     "File is too big" : "Datei ist zu groß",
     "The selected file is not an image." : "Die ausgewählte Datei ist kein Bild.",
@@ -207,8 +208,10 @@ OC.L10N.register(
     "_{count} notification_::_{count} notifications_" : ["{count} Benachrichtigung","{count} Benachrichtigungen"],
     "More apps" : "Weitere Apps",
     "App store" : "App Store",
-    "Applications" : "Anwendungen",
+    "Settings" : "Einstellungen",
+    "Open apps menu, currently in {app}" : "Apps-Menü öffnen, aktuell in {app}",
     "Open apps menu" : "App-Menü öffnen",
+    "Applications" : "Anwendungen",
     "Apps" : "Apps",
     "No" : "Nein",
     "Yes" : "Ja",
@@ -226,6 +229,7 @@ OC.L10N.register(
     "Pick start date" : "Startdatum wählen",
     "Pick end date" : "Enddatum wählen",
     "Search in date range" : "Im Datumsbereich suchen",
+    "Search apps, files, tags, messages …" : "Nach Apps, Dateien, Schlagworten, Nachrichten suchen …",
     "Search in current app" : "In aktueller App suchen ",
     "Clear search" : "Suche löschen",
     "Search everywhere" : "Überall suchen",

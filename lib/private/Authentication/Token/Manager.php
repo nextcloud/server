@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Authentication\Token;
 
 use OC\Authentication\Exceptions\InvalidTokenException as OcInvalidTokenException;
@@ -43,6 +44,7 @@ class Manager implements IProvider, OCPIProvider {
 		int $type = OCPIToken::TEMPORARY_TOKEN,
 		int $remember = OCPIToken::DO_NOT_REMEMBER,
 		?array $scope = null,
+		?int $expires = null,
 	): OCPIToken {
 		if (mb_strlen($name) > 128) {
 			$name = mb_substr($name, 0, 120) . '…';
@@ -58,6 +60,7 @@ class Manager implements IProvider, OCPIProvider {
 				$type,
 				$remember,
 				$scope,
+				$expires,
 			);
 		} catch (Exception $e) {
 			if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
@@ -237,7 +240,6 @@ class Manager implements IProvider, OCPIProvider {
 		/** @psalm-suppress DeprecatedClass We have to throw the OC version so both OC and OCP catches catch it */
 		throw new OcInvalidTokenException();
 	}
-
 
 	#[\Override]
 	public function markPasswordInvalid(OCPIToken $token, string $tokenId) {

@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Encryption\Tests\Controller;
 
 use OCA\Encryption\Controller\RecoveryController;
@@ -58,7 +59,6 @@ class RecoveryControllerTest extends TestCase {
 			$passConfirm,
 			$enableRecovery);
 
-
 		$this->assertEquals($expectedMessage, $response->getData()['data']['message']);
 		$this->assertEquals($expectedStatus, $response->getStatus());
 	}
@@ -100,26 +100,20 @@ class RecoveryControllerTest extends TestCase {
 
 	public static function userSetRecoveryProvider(): array {
 		return [
-			['1', 'Recovery Key enabled', Http::STATUS_OK],
-			['0', 'Could not enable the recovery key, please try again or contact your administrator', Http::STATUS_BAD_REQUEST]
+			[true, 'Recovery Key enabled', Http::STATUS_OK],
+			[false, 'Could not enable the recovery key, please try again or contact your administrator', Http::STATUS_BAD_REQUEST]
 		];
 	}
 
-	/**
-	 * @param $enableRecovery
-	 * @param $expectedMessage
-	 * @param $expectedStatus
-	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'userSetRecoveryProvider')]
-	public function testUserSetRecovery($enableRecovery, $expectedMessage, $expectedStatus): void {
+	public function testUserSetRecovery(bool $enableRecovery, string $expectedMessage, int $expectedStatus): void {
 		$this->recoveryMock->expects($this->any())
 			->method('setRecoveryForUser')
 			->with($enableRecovery)
 			->willReturnMap([
-				['1', true],
-				['0', false]
+				[true, true],
+				[false, false]
 			]);
-
 
 		$response = $this->controller->userSetRecovery($enableRecovery);
 

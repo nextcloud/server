@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Connector\Sabre;
 
 use Psr\Log\LoggerInterface;
@@ -55,8 +56,6 @@ class AddExtraHeadersPlugin extends \Sabre\DAV\ServerPlugin {
 		}
 
 		if (!$node instanceof Node) {
-			$nodeType = get_debug_type($node);
-			$this->logger->error("Cannot set extra headers for node of type {$nodeType} for file '{$request->getPath()}'");
 			return;
 		}
 

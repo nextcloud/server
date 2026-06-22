@@ -409,7 +409,7 @@
                     "permissions",
                     "remote",
                     "remote_id",
-                    "share_token",
+                    "refresh_token",
                     "share_type",
                     "type",
                     "user",
@@ -461,7 +461,7 @@
                     "remote_id": {
                         "type": "string"
                     },
-                    "share_token": {
+                    "refresh_token": {
                         "type": "string"
                     },
                     "share_type": {

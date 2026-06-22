@@ -138,7 +138,7 @@ OC.L10N.register(
     "Personal files" : "Fichiers personnels",
     "Additional settings" : "Paramètres supplémentaires",
     "Actions" : "Actions",
-    "File actions" : "Actions sur les fichiers",
+    "File actions" : "Actions sur le fichier",
     "Selection" : "Choix",
     "Select all files" : "Sélectionner tous les fichiers",
     "Deselect all" : "Tout désélectionner",
@@ -325,9 +325,9 @@ OC.L10N.register(
     "The files are locked" : "Les fichiers sont verrouillés",
     "The file does not exist anymore" : "Le fichier n'existe plus",
     "Moving \"{source}\" to \"{destination}\" …" : "Déplacement de \"{source}\" vers \"{destination}\" …",
-    "Moving {count} files to \"{destination}\" …" : "Déplacement de {count} fichiers vers \"{destination}\" …",
+    "_Moving %n file to \"{destination}\" …_::_Moving %n files to \"{destination}\" …_" : ["Déplacement de %n fichier dans \"{destination}\" ...","Déplacement de %n fichiers dans \"{destination}\" ...","Déplacement de %n fichiers dans \"{destination}\" ..."],
     "Copying \"{source}\" to \"{destination}\" …" : "Copie de \"{source}\" vers \"{destination}\" …",
-    "Copying {count} files to \"{destination}\" …" : "Copie de {count} fichiers vers \"{destination}\" …",
+    "_Copying %n file to \"{destination}\" …_::_Copying %n files to \"{destination}\" …_" : ["Copie de %n fichier dans \"{destination}\" ...","Copie de %n fichiers dans \"{destination}\" ...","Copie de %n fichiers dans \"{destination}\" ..."],
     "Choose destination" : "Choisir la destination",
     "Copy to {target}" : "Copier vers {target}",
     "Move to {target}" : "Déplacer vers {target}",
@@ -421,6 +421,8 @@ OC.L10N.register(
     "Tags" : "Étiquettes",
     "Save as …" : "Enregistrer sous...",
     "Converting files …" : "Conversion des fichiers...",
-    "Converting file …" : "Conversion du fichier..."
+    "Converting file …" : "Conversion du fichier...",
+    "Moving {count} files to \"{destination}\" …" : "Déplacement de {count} fichiers vers \"{destination}\" …",
+    "Copying {count} files to \"{destination}\" …" : "Copie de {count} fichiers vers \"{destination}\" …"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

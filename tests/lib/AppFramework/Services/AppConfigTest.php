@@ -42,7 +42,6 @@ class AppConfigTest extends TestCase {
 		$this->assertSame($expected, $this->appConfig->getAppKeys());
 	}
 
-
 	/**
 	 * @return array
 	 * @see testHasAppKey
@@ -71,7 +70,6 @@ class AppConfigTest extends TestCase {
 			->willReturn($expected);
 		$this->assertSame($expected, $this->appConfig->hasAppKey($key, $lazy));
 	}
-
 
 	/**
 	 * @return array

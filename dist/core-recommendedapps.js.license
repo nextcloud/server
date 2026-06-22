@@ -36,7 +36,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.6.0
 	- license: GPL-3.0-or-later
 - @nextcloud/axios
-	- version: 2.5.2
+	- version: 2.6.0
 	- license: GPL-3.0-or-later
 - @nextcloud/browser-storage
 	- version: 0.5.0
@@ -108,7 +108,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 8.39.0
 	- license: AGPL-3.0-or-later
 - axios
-	- version: 1.15.0
+	- version: 1.16.1
 	- license: MIT
 - base64-js
 	- version: 1.5.1
@@ -127,9 +127,6 @@ This file is generated from multiple sources. Included packages:
 	- license: (MPL-2.0 OR Apache-2.0)
 - escape-html
 	- version: 1.0.3
-	- license: MIT
-- focus-trap
-	- version: 8.0.1
 	- license: MIT
 - hookable
 	- version: 5.5.3
@@ -156,7 +153,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.7.16
 	- license: MIT
 - webpack
-	- version: 5.105.3
+	- version: 5.106.2
 	- license: MIT
 - nextcloud
 	- version: 1.0.0

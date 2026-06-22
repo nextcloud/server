@@ -317,9 +317,7 @@ OC.L10N.register(
     "The files are locked" : "Soubory jsou zamknuty",
     "The file does not exist anymore" : "Soubor už neexistuje",
     "Moving \"{source}\" to \"{destination}\" …" : "Přesouvání „{source}“ do „{destination}“ …",
-    "Moving {count} files to \"{destination}\" …" : "Přesouvání {count} souborů do „{destination}“ …",
     "Copying \"{source}\" to \"{destination}\" …" : "Kopírování „{source}“ do „{destination}“ …",
-    "Copying {count} files to \"{destination}\" …" : "Kopírování {count} souborů do „{destination}“ …",
     "Choose destination" : "Vyberte cíl",
     "Copy to {target}" : "Zkopírovat do {target}",
     "Move to {target}" : "Přesunout do {target}",
@@ -413,6 +411,8 @@ OC.L10N.register(
     "Tags" : "Štítky",
     "Save as …" : "Uložit jako …",
     "Converting files …" : "Převádění souborů …",
-    "Converting file …" : "Převádění souboru …"
+    "Converting file …" : "Převádění souboru …",
+    "Moving {count} files to \"{destination}\" …" : "Přesouvání {count} souborů do „{destination}“ …",
+    "Copying {count} files to \"{destination}\" …" : "Kopírování {count} souborů do „{destination}“ …"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

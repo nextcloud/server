@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Theming\Tests\Service;
 
 use OCA\Theming\AppInfo\Application;
@@ -148,7 +149,6 @@ class ThemesServiceTest extends TestCase {
 		$this->assertEquals($expectedEnabled, $this->themesService->enableTheme($this->themes[$toEnable]));
 	}
 
-
 	public static function dataTestDisableTheme(): array {
 		return [
 			['dark', ['default'], ['default']],
@@ -178,10 +178,8 @@ class ThemesServiceTest extends TestCase {
 			->with('user', Application::APP_ID, 'enabled-themes', '["default"]')
 			->willReturn(json_encode($enabledThemes));
 
-
 		$this->assertEquals($expectedEnabled, $this->themesService->disableTheme($this->themes[$toDisable]));
 	}
-
 
 	public static function dataTestIsEnabled(): array {
 		return [
@@ -210,7 +208,6 @@ class ThemesServiceTest extends TestCase {
 			->with('user', Application::APP_ID, 'enabled-themes', '["default"]')
 			->willReturn(json_encode($enabledThemes));
 
-
 		$this->assertEquals($expected, $this->themesService->isEnabled($this->themes[$themeId]));
 	}
 
@@ -222,7 +219,6 @@ class ThemesServiceTest extends TestCase {
 		$user->expects($this->any())
 			->method('getUID')
 			->willReturn('user');
-
 
 		$this->config->expects($this->once())
 			->method('getUserValue')
@@ -245,7 +241,6 @@ class ThemesServiceTest extends TestCase {
 			->method('getUID')
 			->willReturn('user');
 
-
 		$this->config->expects($this->once())
 			->method('getUserValue')
 			->with('user', Application::APP_ID, 'enabled-themes', '["default"]')
@@ -257,7 +252,6 @@ class ThemesServiceTest extends TestCase {
 
 		$this->assertEquals(['light'], $this->themesService->getEnabledThemes());
 	}
-
 
 	public static function dataTestSetEnabledThemes(): array {
 		return [

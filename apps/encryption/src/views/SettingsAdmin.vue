@@ -33,8 +33,8 @@ const recoveryEnabled = ref(adminSettings.recoveryEnabled!)
 		<template v-else>
 			<SettingsAdminHomeStorage v-model="encryptHomeStorage" />
 			<br>
-			<SettingsAdminRecoveryKey v-if="adminSettings.masterKeyEnabled" v-model="recoveryEnabled" />
-			<SettingsAdminRecoveryKeyChange v-if="adminSettings.masterKeyEnabled && recoveryEnabled" />
+			<SettingsAdminRecoveryKey v-if="!adminSettings.masterKeyEnabled" v-model="recoveryEnabled" />
+			<SettingsAdminRecoveryKeyChange v-if="!adminSettings.masterKeyEnabled && recoveryEnabled" />
 		</template>
 	</NcSettingsSection>
 </template>

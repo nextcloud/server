@@ -52,7 +52,7 @@ use Psr\Log\LoggerInterface;
  *   logout()
  */
 class OC_User {
-	private static $_setupedBackends = [];
+	public static $_setupedBackends = [];
 
 	// bool, stores if a user want to access a resource anonymously, e.g if they open a public link
 	private static $incognitoMode = false;
@@ -247,7 +247,6 @@ class OC_User {
 		return null;
 	}
 
-
 	/**
 	 * Sets user id for session and triggers emit
 	 */
@@ -308,7 +307,6 @@ class OC_User {
 		$isAdmin = $user && Server::get(IGroupManager::class)->isAdmin($user->getUID());
 		return $isAdmin && self::$incognitoMode === false;
 	}
-
 
 	/**
 	 * get the user id of the user currently logged in.

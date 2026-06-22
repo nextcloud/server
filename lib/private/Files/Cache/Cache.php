@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Cache;
 
 use OC\DatabaseException;
@@ -24,8 +25,6 @@ use OCP\Files\Cache\CacheEntriesRemovedEvent;
 use OCP\Files\Cache\CacheEntryInsertedEvent;
 use OCP\Files\Cache\CacheEntryRemovedEvent;
 use OCP\Files\Cache\CacheEntryUpdatedEvent;
-use OCP\Files\Cache\CacheInsertEvent;
-use OCP\Files\Cache\CacheUpdateEvent;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Config\IUserMountCache;
@@ -62,7 +61,7 @@ class Cache implements ICache {
 	 */
 	protected array $partial = [];
 	protected string $storageId;
-	protected Storage $storageCache;
+	protected ?Storage $storageCache = null;
 	protected IMimeTypeLoader $mimetypeLoader;
 	protected IDBConnection $connection;
 	protected SystemConfig $systemConfig;
@@ -70,6 +69,7 @@ class Cache implements ICache {
 	protected QuerySearchHelper $querySearchHelper;
 	protected IEventDispatcher $eventDispatcher;
 	protected IFilesMetadataManager $metadataManager;
+	private CacheDependencies $cacheDependencies;
 
 	public function __construct(
 		private IStorage $storage,
@@ -84,7 +84,7 @@ class Cache implements ICache {
 		if (!$dependencies) {
 			$dependencies = Server::get(CacheDependencies::class);
 		}
-		$this->storageCache = new Storage($this->storage, true, $dependencies->getConnection());
+		$this->cacheDependencies = $dependencies;
 		$this->mimetypeLoader = $dependencies->getMimeTypeLoader();
 		$this->connection = $dependencies->getConnection();
 		$this->systemConfig = $dependencies->getSystemConfig();
@@ -102,6 +102,9 @@ class Cache implements ICache {
 	}
 
 	public function getStorageCache(): Storage {
+		if (!$this->storageCache) {
+			$this->storageCache = new Storage($this->storage, true, $this->cacheDependencies->getConnection());
+		}
 		return $this->storageCache;
 	}
 
@@ -112,7 +115,7 @@ class Cache implements ICache {
 	 */
 	#[\Override]
 	public function getNumericStorageId() {
-		return $this->storageCache->getNumericId();
+		return $this->getStorageCache()->getNumericId();
 	}
 
 	/**
@@ -332,7 +335,7 @@ class Cache implements ICache {
 				}
 
 				$event = new CacheEntryInsertedEvent($this->storage, $file, $fileId, $storageId);
-				$this->eventDispatcher->dispatch(CacheInsertEvent::class, $event);
+				$this->eventDispatcher->dispatch(CacheEntryInsertedEvent::class, $event);
 				$this->eventDispatcher->dispatchTyped($event);
 				return $fileId;
 			}
@@ -436,7 +439,6 @@ class Cache implements ICache {
 		// path can still be null if the file doesn't exist
 		if ($path !== null) {
 			$event = new CacheEntryUpdatedEvent($this->storage, $path, $id, $this->getNumericStorageId());
-			$this->eventDispatcher->dispatch(CacheUpdateEvent::class, $event);
 			$this->eventDispatcher->dispatchTyped($event);
 		}
 	}
@@ -621,7 +623,7 @@ class Cache implements ICache {
 				->where($query->expr()->in('fileid', $query->createParameter('childIds')))
 				->hintShardKey('storage', $this->getNumericStorageId());
 
-			foreach (array_chunk($childIds, 1000) as $childIdChunk) {
+			foreach (array_chunk($childIds, IQueryBuilder::MAX_IN_PARAMETERS) as $childIdChunk) {
 				$query->setParameter('childIds', $childIdChunk, IQueryBuilder::PARAM_INT_ARRAY);
 				$query->executeStatement();
 			}
@@ -647,13 +649,13 @@ class Cache implements ICache {
 		// Sorting before chunking allows the db to find the entries close to each
 		// other in the index
 		sort($parentIds, SORT_NUMERIC);
-		foreach (array_chunk($parentIds, 1000) as $parentIdChunk) {
+		foreach (array_chunk($parentIds, IQueryBuilder::MAX_IN_PARAMETERS) as $parentIdChunk) {
 			$query->setParameter('parentIds', $parentIdChunk, IQueryBuilder::PARAM_INT_ARRAY);
 			$query->executeStatement();
 		}
 
 		$cacheEntryRemovedEvents = [];
-		foreach (array_chunk(array_combine($deletedIds, $deletedPaths), 1000) as $chunk) {
+		foreach (array_chunk(array_combine($deletedIds, $deletedPaths), IQueryBuilder::MAX_IN_PARAMETERS) as $chunk) {
 			/** @var array<int, string> $chunk */
 			foreach ($chunk as $fileId => $filePath) {
 				$cacheEntryRemovedEvents[] = new CacheEntryRemovedEvent(
@@ -762,7 +764,7 @@ class Cache implements ICache {
 
 				$childIds = $this->getChildIds($sourceStorageId, $sourcePath);
 
-				$childChunks = array_chunk($childIds, 1000);
+				$childChunks = array_chunk($childIds, IQueryBuilder::MAX_IN_PARAMETERS);
 
 				$query = $this->getQueryBuilder();
 
@@ -850,11 +852,9 @@ class Cache implements ICache {
 				$this->eventDispatcher->dispatchTyped(new CacheEntriesRemovedEvent([$event]));
 
 				$event = new CacheEntryInsertedEvent($this->storage, $targetPath, $sourceId, $this->getNumericStorageId());
-				$this->eventDispatcher->dispatch(CacheInsertEvent::class, $event);
 				$this->eventDispatcher->dispatchTyped($event);
 			} else {
 				$event = new CacheEntryUpdatedEvent($this->storage, $targetPath, $sourceId, $this->getNumericStorageId());
-				$this->eventDispatcher->dispatch(CacheUpdateEvent::class, $event);
 				$this->eventDispatcher->dispatchTyped($event);
 			}
 		} else {
@@ -1024,7 +1024,6 @@ class Cache implements ICache {
 	public function calculateFolderSize($path, $entry = null) {
 		return $this->calculateFolderSizeInner($path, $entry);
 	}
-
 
 	/**
 	 * inner function because we can't add new params to the public function without breaking any child classes

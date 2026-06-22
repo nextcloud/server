@@ -5,10 +5,10 @@ SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
 
 This file is generated from multiple sources. Included packages:
 - @nextcloud/vue
-	- version: 9.6.0
+	- version: 9.8.1
 	- license: AGPL-3.0-or-later
 - marked
-	- version: 17.0.6
+	- version: 18.0.5
 	- license: MIT
 - nextcloud-ui
 	- version: 1.0.0

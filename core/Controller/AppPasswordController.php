@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Controller;
 
 use OC\Authentication\Events\AppPasswordCreatedEvent;
@@ -204,7 +205,6 @@ class AppPasswordController extends OCSController {
 	 * 200: App password returned
 	 */
 	#[NoAdminRequired]
-	#[PasswordConfirmationRequired]
 	#[ApiRoute(verb: 'GET', url: '/getapppassword-onetime', root: '/core')]
 	public function getAppPasswordWithOneTimePassword(): DataResponse {
 		// Only allow with one-time app passwords

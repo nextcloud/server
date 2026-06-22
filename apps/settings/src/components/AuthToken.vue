@@ -59,7 +59,7 @@
 
 				<!-- revoke & wipe -->
 				<template v-if="token.canDelete">
-					<template v-if="token.type !== 2">
+					<template v-if="token.type !== TokenType.WIPING_TOKEN">
 						<NcActionButton
 							icon="icon-delete"
 							@click.stop.prevent="revoke">
@@ -73,7 +73,7 @@
 						</NcActionButton>
 					</template>
 					<NcActionButton
-						v-else-if="token.type === 2"
+						v-else
 						icon="icon-delete"
 						:name="t('settings', 'Revoke')"
 						@click.stop.prevent="revoke">
@@ -82,6 +82,11 @@
 				</template>
 			</NcActions>
 		</td>
+		<AuthTokenDeleteDialog
+			v-if="deleteDialogOpen"
+			:token="token"
+			:open.sync="deleteDialogOpen"
+			@confirm="confirmDelete" />
 	</tr>
 </template>
 
@@ -90,6 +95,7 @@ import type { PropType } from 'vue'
 import type { IToken } from '../store/authtoken.ts'
 
 import { mdiAndroid, mdiAppleIos, mdiAppleSafari, mdiCellphone, mdiCheck, mdiFirefox, mdiGoogleChrome, mdiKeyOutline, mdiMicrosoftEdge, mdiMonitor, mdiTablet, mdiWeb } from '@mdi/js'
+import { showConfirmation } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
@@ -99,6 +105,7 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import NcDateTime from '@nextcloud/vue/components/NcDateTime'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
+import AuthTokenDeleteDialog from './AuthTokenDeleteDialog.vue'
 import { TokenType, useAuthTokenStore } from '../store/authtoken.ts'
 import { detect } from '../utils/userAgentDetect.ts'
 
@@ -124,6 +131,7 @@ const nameMap = {
 export default defineComponent({
 	name: 'AuthToken',
 	components: {
+		AuthTokenDeleteDialog,
 		NcActions,
 		NcActionButton,
 		NcActionCheckbox,
@@ -151,7 +159,9 @@ export default defineComponent({
 			renaming: false,
 			newName: '',
 			oldName: '',
+			deleteDialogOpen: false,
 			mdiCheck,
+			TokenType,
 		}
 	},
 
@@ -277,6 +287,10 @@ export default defineComponent({
 
 		revoke() {
 			this.actionOpen = false
+			this.deleteDialogOpen = true
+		},
+
+		confirmDelete() {
 			this.authTokenStore.deleteToken(this.token)
 		},
 
@@ -285,9 +299,18 @@ export default defineComponent({
 			this.authTokenStore.renameToken(this.token, this.newName)
 		},
 
-		wipe() {
+		async wipe() {
 			this.actionOpen = false
-			this.authTokenStore.wipeToken(this.token)
+			const confirmed = await showConfirmation({
+				name: t('settings', 'Confirm wipe'),
+				text: t('settings', 'Do you really want to wipe your data from this device?'),
+				labelConfirm: t('settings', 'Wipe device'),
+				labelReject: t('settings', 'Cancel'),
+				severity: 'warning',
+			})
+			if (confirmed) {
+				this.authTokenStore.wipeToken(this.token)
+			}
 		},
 	},
 })

@@ -16,7 +16,9 @@ import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import BadgeAppDaemon from '../BadgeAppDaemon.vue'
 import BadgeAppLevel from '../BadgeAppLevel.vue'
 import BadgeAppScore from '../BadgeAppScore.vue'
+import { useLimitedGroups } from '../../composables/useLimitedGroups.ts'
 import { useAppsStore } from '../../store/apps.ts'
+import { canLimitToGroups } from '../../utils/appStatus.ts'
 
 const { app } = defineProps<{ app: IAppstoreApp | IAppstoreExApp }>()
 
@@ -43,15 +45,8 @@ const appAuthors = computed(() => {
 		.join(', ')
 })
 
-const groupsAppIsLimitedto = computed(() => {
-	if (!app.groups) {
-		return []
-	}
-
-	return app.groups.map((group) => ({ id: group, name: group }))
-})
-
 const appstoreUrl = computed(() => `https://apps.nextcloud.com/apps/${app.id}`)
+const groupsAppIsLimitedTo = useLimitedGroups(() => app)
 
 /**
  * Further external resources (e.g. website)
@@ -104,6 +99,10 @@ const appCategories = computed(() => {
 		.join(', ')
 })
 
+const cannotLimitToGroups = computed(() => {
+	return app.active && !canLimitToGroups(app)
+})
+
 /**
  * Get the author name from the XML node
  *
@@ -144,16 +143,20 @@ function authorName(xmlNode): string {
 				</ul>
 			</NcNoteCard>
 
-			<div v-if="groupsAppIsLimitedto.length" :class="$style.appstoreDetailsTab__section">
+			<NcNoteCard v-if="cannotLimitToGroups" type="info">
+				{{ t('appstore', 'This app cannot be limited to groups because it provides functionality that is executed before group membership is determined.') }}
+			</NcNoteCard>
+
+			<div v-if="groupsAppIsLimitedTo.length" :class="$style.appstoreDetailsTab__section">
 				<h4 :id="idLimitedToGroups">
 					{{ t('appstore', 'Limited to groups') }}
 				</h4>
 				<ul :aria-labelledby="idLimitedToGroups" :class="$style.appstoreDetailsTab__sectionDetails">
 					<li
-						v-for="group of groupsAppIsLimitedto"
+						v-for="group of groupsAppIsLimitedTo"
 						:key="group.id"
 						:title="group.id">
-						{{ group.name }}
+						{{ group.displayName }}
 					</li>
 				</ul>
 			</div>

@@ -665,7 +665,6 @@ interface IUserConfig {
 	 */
 	public function updateGlobalSensitive(string $app, string $key, bool $sensitive): void;
 
-
 	/**
 	 * switch indexed status of a config value
 	 *

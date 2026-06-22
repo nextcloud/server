@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Theming;
 
 use OCA\Theming\AppInfo\Application;
@@ -264,12 +265,7 @@ class ImageManager {
 						}
 					}
 					$tmpFile = $newTmpFile;
-					imagedestroy($outputImage);
 				} catch (\Exception $e) {
-					if (isset($outputImage) && is_resource($outputImage) || $outputImage instanceof \GdImage) {
-						imagedestroy($outputImage);
-					}
-
 					$this->logger->debug($e->getMessage());
 				}
 			}

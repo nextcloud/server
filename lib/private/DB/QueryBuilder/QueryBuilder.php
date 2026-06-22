@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\DB\QueryBuilder;
 
 use Doctrine\DBAL\Query\QueryException;
@@ -282,7 +283,6 @@ class QueryBuilder extends TypedQueryBuilder {
 			$this->getParameterTypes(),
 		);
 	}
-
 
 	/**
 	 * Gets the complete SQL string formed by the current specifications of this QueryBuilder.

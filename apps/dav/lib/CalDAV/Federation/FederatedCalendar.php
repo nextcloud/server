@@ -180,7 +180,6 @@ class FederatedCalendar implements ICalendar, IProperties, IMultiGet {
 		}
 	}
 
-
 	public function getChildACL(): array {
 		return $this->getACL();
 	}

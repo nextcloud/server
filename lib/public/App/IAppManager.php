@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\App;
 
 use OCP\IGroup;
@@ -151,7 +152,7 @@ interface IAppManager {
 	 * Enable an app only for specific groups
 	 *
 	 * @param string $appId
-	 * @param \OCP\IGroup[] $groups
+	 * @param list<\OCP\IGroup|string> $groups
 	 * @param bool $forceEnable
 	 * @throws \Exception
 	 * @since 8.0.0

@@ -98,7 +98,7 @@
 			<CustomElementRender
 				:active-folder="activeFolder"
 				:active-view="activeView"
-				:render="column.render"
+				:render="adaptColumnRenderToCustomElementRender(column)"
 				:source="source" />
 		</td>
 	</tr>
@@ -298,6 +298,12 @@ export default defineComponent({
 				contents: this.nodes,
 				view: this.activeView!,
 			})
+		},
+
+		adaptColumnRenderToCustomElementRender(column) {
+			return ({ nodes, view }) => {
+				return column.render(nodes[0], view)
+			}
 		},
 	},
 })

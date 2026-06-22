@@ -24,8 +24,9 @@ const headers = {
 /**
  *
  * @param ocsEntry
+ * @param unmounted whether the share is not mounted into the filesystem (pending or deleted)
  */
-async function ocsEntryToNode(ocsEntry: any): Promise<Folder | File | null> {
+async function ocsEntryToNode(ocsEntry: any, unmounted = false): Promise<Folder | File | null> {
 	try {
 		// Federated share handling
 		if (ocsEntry?.remote_id !== undefined) {
@@ -55,6 +56,13 @@ async function ocsEntryToNode(ocsEntry: any): Promise<Folder | File | null> {
 			ocsEntry.uid_owner = ocsEntry.owner
 			// TODO: have the real display name stored somewhere
 			ocsEntry.displayname_owner = ocsEntry.owner
+		}
+
+		// Pending and deleted shares are not mounted into the user's filesystem,
+		// so no file operation can act on them until they are accepted or restored.
+		if (unmounted) {
+			ocsEntry.item_permissions = Permission.NONE
+			ocsEntry.permissions = Permission.NONE
 		}
 
 		const isFolder = ocsEntry?.item_type === 'folder'
@@ -238,24 +246,25 @@ function groupBy(nodes: (Folder | File)[], key: string) {
  * @param filterTypes
  */
 export async function getContents(sharedWithYou = true, sharedWithOthers = true, pendingShares = false, deletedshares = false, filterTypes: number[] = []): Promise<ContentsWithRoot> {
-	const promises = [] as AxiosPromise<OCSResponse<any>>[]
+	const requests = [] as { promise: AxiosPromise<OCSResponse<any>>, unmounted: boolean }[]
 
 	if (sharedWithYou) {
-		promises.push(getSharedWithYou(), getRemoteShares())
+		requests.push({ promise: getSharedWithYou(), unmounted: false }, { promise: getRemoteShares(), unmounted: false })
 	}
 	if (sharedWithOthers) {
-		promises.push(getSharedWithOthers())
+		requests.push({ promise: getSharedWithOthers(), unmounted: false })
 	}
 	if (pendingShares) {
-		promises.push(getPendingShares(), getRemotePendingShares())
+		requests.push({ promise: getPendingShares(), unmounted: true }, { promise: getRemotePendingShares(), unmounted: true })
 	}
 	if (deletedshares) {
-		promises.push(getDeletedShares())
+		requests.push({ promise: getDeletedShares(), unmounted: true })
 	}
 
-	const responses = await Promise.all(promises)
-	const data = responses.map((response) => response.data.ocs.data).flat()
-	let contents = (await Promise.all(data.map(ocsEntryToNode)))
+	const responses = await Promise.all(requests.map(({ promise }) => promise))
+	const data = responses.flatMap((response, index) => response.data.ocs.data
+		.map((entry) => ({ entry, unmounted: requests[index].unmounted })))
+	let contents = (await Promise.all(data.map(({ entry, unmounted }) => ocsEntryToNode(entry, unmounted))))
 		.filter((node) => node !== null) as (Folder | File)[]
 
 	if (filterTypes.length > 0) {

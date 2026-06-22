@@ -100,6 +100,7 @@ class SubAdminTest extends \Test\TestCase {
 			->where($qb->expr()->eq('uid', $qb->createNamedParameter('orphanedUser')))
 			->orWhere($qb->expr()->eq('gid', $qb->createNamedParameter('orphanedGroup')))
 			->executeStatement();
+		parent::tearDown();
 	}
 
 	public function testCreateSubAdmin(): void {

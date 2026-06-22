@@ -5,13 +5,14 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Command;
 
 use OC\Core\Command\Base;
 use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 use OCA\Files_External\Lib\StorageConfig;
-use OCA\Files_External\MountConfig;
 use OCA\Files_External\NotFoundException;
+use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCP\AppFramework\Http;
 use OCP\Files\StorageNotAvailableException;
@@ -23,6 +24,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Verify extends Base {
 	public function __construct(
 		protected GlobalStoragesService $globalService,
+		protected BackendService $backendService,
 	) {
 		parent::__construct();
 	}
@@ -96,7 +98,7 @@ class Verify extends Base {
 			$backend = $storage->getBackend();
 			// update status (can be time-consuming)
 			$storage->setStatus(
-				MountConfig::getBackendStatus(
+				$this->backendService->getBackendStatus(
 					$backend->getStorageClass(),
 					$storage->getBackendOptions(),
 				)

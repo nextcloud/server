@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "Вийти",
     "Please select a file." : "Будь ласка, виберіть файл.",
     "File is too big" : "Файл занадто великий",
     "The selected file is not an image." : "Вибраний файл не є зображенням.",
@@ -206,6 +207,10 @@ OC.L10N.register(
     "Code will expire {timeCountdown} or after use" : "Термін дії коду завершиться через {timeCountdown} або після використання",
     "_{count} notification_::_{count} notifications_" : ["{count} сповіщень","{count} сповіщень","{count} сповіщень","{count} сповіщень"],
     "More apps" : "Більше застосунків",
+    "App store" : "Крамниця застосунків",
+    "Settings" : "Налаштування",
+    "Open apps menu, currently in {app}" : "Відкрити меню застосунків, зараз {app}",
+    "Open apps menu" : "Відкрити меню із застосунками",
     "Applications" : "Застосунки",
     "Apps" : "Застосунки",
     "No" : "Ні",
@@ -224,6 +229,7 @@ OC.L10N.register(
     "Pick start date" : "Виберіть початкову дату",
     "Pick end date" : "Виберіть кінцеву дату",
     "Search in date range" : "Шукати в часовому проміжку",
+    "Search apps, files, tags, messages …" : "Шукати застосунки, файли, мітки, повідомлення ...",
     "Search in current app" : "Шукати в поточному застосунку",
     "Clear search" : "Очистити пошук",
     "Search everywhere" : "Шукати всюди",

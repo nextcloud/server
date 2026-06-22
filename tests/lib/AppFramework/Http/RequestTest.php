@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace Test\AppFramework\Http;
 
 use OC\AppFramework\Http\Request;
@@ -101,8 +102,6 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame('Johnny Weissmüller', $request->{'name'});
 	}
 
-
-
 	public function testImmutableArrayAccess(): void {
 		$this->expectException(\RuntimeException::class);
 
@@ -122,7 +121,6 @@ class RequestTest extends \Test\TestCase {
 		$request['nickname'] = 'Janey';
 	}
 
-
 	public function testImmutableMagicAccess(): void {
 		$this->expectException(\RuntimeException::class);
 
@@ -141,7 +139,6 @@ class RequestTest extends \Test\TestCase {
 
 		$request->{'nickname'} = 'Janey';
 	}
-
 
 	public function testGetTheMethodRight(): void {
 		$this->expectException(\LogicException::class);
@@ -522,7 +519,6 @@ class RequestTest extends \Test\TestCase {
 		$this->fail('Expected LogicException.');
 	}
 
-
 	public function testSetUrlParameters(): void {
 		$vars = [
 			'post' => [],
@@ -753,7 +749,6 @@ class RequestTest extends \Test\TestCase {
 			['InvalidProvider/1.1', 'HTTP/1.1'],
 			[null, 'HTTP/1.1'],
 			['', 'HTTP/1.1'],
-
 		];
 	}
 
@@ -854,7 +849,6 @@ class RequestTest extends \Test\TestCase {
 			$this->csrfTokenManager,
 			$this->stream
 		);
-
 
 		$this->assertSame('https', $requestHttps->getServerProtocol());
 		$this->assertSame('http', $requestHttp->getServerProtocol());
@@ -1458,7 +1452,6 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame('www.owncloud.org', self::invokePrivate($request, 'getOverwriteHost'));
 	}
 
-
 	public function testGetPathInfoNotProcessible(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('The requested uri(/foo.php) cannot be processed by the script \'/var/www/index.php\')');
@@ -1478,7 +1471,6 @@ class RequestTest extends \Test\TestCase {
 
 		$request->getPathInfo();
 	}
-
 
 	public function testGetRawPathInfoNotProcessible(): void {
 		$this->expectException(\Exception::class);

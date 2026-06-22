@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\DB\QueryBuilder;
 
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder;
@@ -369,7 +370,6 @@ interface IExpressionBuilder {
 	 * @psalm-taint-sink sql $x
 	 */
 	public function nonEmptyString($x): string;
-
 
 	/**
 	 * Creates a bitwise AND comparison

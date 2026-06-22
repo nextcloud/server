@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Mail\Provider;
 
 use OC\AppFramework\Bootstrap\Coordinator;
@@ -39,7 +40,6 @@ class Manager implements IManager {
 
 		// return true if collection has any providers
 		return !empty($this->providers());
-
 	}
 
 	/**
@@ -54,7 +54,6 @@ class Manager implements IManager {
 
 		// return count of providers in collection
 		return count($this->providers());
-
 	}
 
 	/**
@@ -75,7 +74,6 @@ class Manager implements IManager {
 		}
 		// return types collection
 		return $types;
-
 	}
 
 	/**
@@ -117,7 +115,6 @@ class Manager implements IManager {
 		}
 		// return mail provider collection
 		return $this->providersCollection;
-
 	}
 
 	/**
@@ -142,7 +139,6 @@ class Manager implements IManager {
 		}
 		// return null if provider was not found
 		return null;
-
 	}
 
 	/**
@@ -170,7 +166,6 @@ class Manager implements IManager {
 		}
 		// return collection
 		return $services;
-
 	}
 
 	/**
@@ -214,7 +209,6 @@ class Manager implements IManager {
 
 		// return null if no match was found
 		return null;
-
 	}
 
 	/**
@@ -258,6 +252,5 @@ class Manager implements IManager {
 		}
 		// return null if no match was found
 		return null;
-
 	}
 }

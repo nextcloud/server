@@ -26,6 +26,8 @@ class PartitionedQueryBuilderTest extends TestCase {
 
 	#[\Override]
 	protected function setUp(): void {
+		parent::setUp();
+
 		if (PHP_INT_SIZE < 8) {
 			$this->markTestSkipped('Test requires 64bit');
 			return;
@@ -46,7 +48,6 @@ class PartitionedQueryBuilderTest extends TestCase {
 		}
 		parent::tearDown();
 	}
-
 
 	private function getQueryBuilder(): PartitionedQueryBuilder {
 		$builder = $this->connection->getQueryBuilder();

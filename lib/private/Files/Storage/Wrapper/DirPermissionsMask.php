@@ -10,8 +10,8 @@ declare(strict_types=1);
 namespace OC\Files\Storage\Wrapper;
 
 use OC\Files\Cache\Wrapper\CacheDirPermissionsMask;
-use OC\Files\Storage\Storage;
 use OCP\Files\Cache\ICache;
+use OCP\Files\Storage\IStorage;
 
 /**
  * While PermissionMask can mask a whole storage this  can
@@ -30,7 +30,7 @@ class DirPermissionsMask extends PermissionsMask {
 	private readonly int $pathLength;
 
 	/**
-	 * @param array{storage: Storage, mask: int, path: string, ...} $parameters
+	 * @param array{storage: IStorage, mask: int, path: string, ...} $parameters
 	 * @psalm-suppress MoreSpecificImplementedParamType
 	 *
 	 * $storage: The storage the permissions mask should be applied on

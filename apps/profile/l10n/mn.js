@@ -1,6 +1,7 @@
 OC.L10N.register(
     "profile",
     {
+    "View profile" : "Профайл үзэх",
     "Profile picker" : "Профайл сонгогч",
     "Profile" : "Профайл",
     "This application provides the profile" : "Энэ програм нь профайлыг хангадаг",

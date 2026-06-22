@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Encryption;
 
 use OC\Encryption\Exceptions\ModuleAlreadyExistsException;
@@ -214,7 +215,6 @@ class Manager implements IManager {
 		$encryptionWrapper = new EncryptionWrapper($this->arrayCache, $this, $this->logger);
 		return $encryptionWrapper->wrapStorage($mountPoint->getMountPoint(), $storage, $mountPoint, true);
 	}
-
 
 	/**
 	 * check if key storage is ready

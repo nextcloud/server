@@ -21,6 +21,7 @@
 		<plugin filename="build/psalm/AttributeNamedParameters.php" />
 		<plugin filename="build/psalm/LogicalOperatorChecker.php" />
 		<pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
+		<plugin filename="build/psalm/StaticVarsChecker.php" />
 	</plugins>
 	<projectFiles>
 		<directory name="apps/admin_audit"/>
@@ -116,9 +117,11 @@
 		<file name="build/stubs/SensitiveParameter.phpstub"/>
 		<file name="build/stubs/ldap.php"/>
 		<file name="build/stubs/memcached.php"/>
+		<file name="build/stubs/openssl.php"/>
 		<file name="build/stubs/redis.php"/>
 		<file name="build/stubs/redis_cluster.php"/>
 		<file name="build/stubs/sftp.php"/>
+		<file name="build/stubs/sodium.php"/>
 		<file name="build/stubs/ssh2.php"/>
 		<file name="build/stubs/xsl.php"/>
 		<file name="build/stubs/ftp.php"/>
@@ -130,6 +133,9 @@
 		<file name="build/stubs/php-polyfill.php" />
 		<file name="build/stubs/oca_talk_share_helper_shareapicontroller.php" />
 	</stubs>
+	<forbiddenFunctions>
+		<function name="iconv"/>
+	</forbiddenFunctions>
 	<issueHandlers>
 		<LessSpecificReturnStatement errorLevel="error"/>
 		<LessSpecificReturnType errorLevel="error"/>
@@ -141,6 +147,7 @@
 				<referencedClass name="OCA\Circles\Exceptions\CircleNotFoundException"/>
 				<referencedClass name="OCA\Circles\Model\Circle"/>
 				<referencedClass name="OCA\Circles\Model\Member"/>
+				<referencedClass name="OCA\Circles\Model\Probes\CircleProbe"/>
 				<referencedClass name="OCA\ContextChat\Public\ContentManager"/>
 				<referencedClass name="OCA\GroupFolders\Mount\GroupFolderStorage"/>
 				<referencedClass name="OCA\TwoFactorNextcloudNotification\Controller\APIController"/>
@@ -236,5 +243,10 @@
 				<directory name="apps/*/tests" />
 			</errorLevel>
 		</DeprecatedTrait>
+		<PluginIssue name="ImpureStaticProperty">
+			<errorLevel type="suppress">
+				<directory name="lib/private/legacy" />
+			</errorLevel>
+		</PluginIssue>
 	</issueHandlers>
 </psalm>

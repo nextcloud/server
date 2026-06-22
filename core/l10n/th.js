@@ -92,6 +92,7 @@ OC.L10N.register(
     "Unknown" : "ไม่ทราบ",
     "_{count} notification_::_{count} notifications_" : ["{count} การแจ้งเตือน"],
     "More apps" : "แอปเพิ่มเติม",
+    "Settings" : "การตั้งค่า",
     "Apps" : "แอป",
     "No" : "ไม่",
     "Yes" : "ใช่",

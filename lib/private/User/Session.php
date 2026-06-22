@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\User;
 
 use OC;
@@ -216,6 +217,11 @@ class Session implements IUserSession, Emitter {
 		if (!$this->validateToken($token)) {
 			// Session was invalidated
 			$this->logout();
+		}
+
+		// Update last seen timestamp
+		if ($this->isLoggedIn()) {
+			$this->getUser()->updateLastLoginTimestamp();
 		}
 	}
 
@@ -454,9 +460,12 @@ class Session implements IUserSession, Emitter {
 			} else {
 				$this->session->set('app_password', $password);
 			}
-		} elseif ($this->supportsCookies($request)) {
-			// Password login, but cookies supported -> create (browser) session token
-			$this->createSessionToken($request, $this->getUser()->getUID(), $user, $password);
+		} else {
+			$this->session->set('last-password-confirm', $this->timeFactory->getTime());
+			if ($this->supportsCookies($request)) {
+				// Password login, but cookies supported -> create (browser) session token
+				$this->createSessionToken($request, $this->getUser()->getUID(), $user, $password);
+			}
 		}
 
 		return true;
@@ -562,9 +571,6 @@ class Session implements IUserSession, Emitter {
 						Auth::DAV_AUTHENTICATED, $this->getUser()->getUID()
 					);
 
-					// Set the last-password-confirm session to make the sudo mode work
-					$this->session->set('last-password-confirm', $this->timeFactory->getTime());
-
 					return true;
 				}
 				// If credentials were provided, they need to be valid, otherwise we do boom
@@ -637,15 +643,15 @@ class Session implements IUserSession, Emitter {
 
 	/**
 	 * Create a new session token for the given user credentials
-	 *
-	 * @param IRequest $request
-	 * @param string $uid user UID
-	 * @param string $loginName login name
-	 * @param string $password
-	 * @param int $remember
-	 * @return boolean
 	 */
-	public function createSessionToken(IRequest $request, $uid, $loginName, $password = null, $remember = IToken::DO_NOT_REMEMBER) {
+	public function createSessionToken(
+		IRequest $request,
+		string $uid,
+		string $loginName,
+		?string $password = null,
+		int $remember = IToken::DO_NOT_REMEMBER,
+		?int $expires = null,
+	): bool {
 		if (is_null($this->manager->get($uid))) {
 			// User does not exist
 			return false;
@@ -655,9 +661,9 @@ class Session implements IUserSession, Emitter {
 			$sessionId = $this->session->getId();
 			$pwd = $this->getPassword($password);
 			// Make sure the current sessionId has no leftover tokens
-			$this->atomic(function () use ($sessionId, $uid, $loginName, $pwd, $name, $remember): void {
+			$this->atomic(function () use ($sessionId, $uid, $loginName, $pwd, $name, $remember, $expires): void {
 				$this->tokenProvider->invalidateToken($sessionId);
-				$this->tokenProvider->generateToken($sessionId, $uid, $loginName, $pwd, $name, IToken::TEMPORARY_TOKEN, $remember);
+				$this->tokenProvider->generateToken($sessionId, $uid, $loginName, $pwd, $name, IToken::TEMPORARY_TOKEN, $remember, expires:$expires);
 			}, Server::get(IDBConnection::class));
 			return true;
 		} catch (SessionNotAvailableException $ex) {
@@ -838,7 +844,10 @@ class Session implements IUserSession, Emitter {
 			return false;
 		}
 
-		if ($dbToken instanceof PublicKeyToken && $dbToken->getType() === IToken::TEMPORARY_TOKEN && !$tokenFromCookie) {
+		if ($dbToken instanceof PublicKeyToken
+			&& $dbToken->getType() === IToken::TEMPORARY_TOKEN
+			&& !$tokenFromCookie
+			&& $dbToken->getName() !== IToken::OCM_ACCESS_TOKEN_NAME) {
 			// Session token but from Bearer header, not allowed
 			return false;
 		}

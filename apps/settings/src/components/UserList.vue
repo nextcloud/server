@@ -21,10 +21,10 @@
 		<NcEmptyContent
 			v-if="filteredUsers.length === 0"
 			class="empty"
-			:name="isInitialLoad && loading.users ? null : t('settings', 'No accounts')">
+			:name="loading.users ? null : t('settings', 'No accounts')">
 			<template #icon>
 				<NcLoadingIcon
-					v-if="isInitialLoad && loading.users"
+					v-if="loading.users"
 					:name="t('settings', 'Loading accounts …')"
 					:size="64" />
 				<NcIconSvgWrapper v-else :path="mdiAccountGroupOutline" :size="64" />
@@ -145,7 +145,6 @@ export default {
 
 			newUser: { ...newUser },
 			editingUser: null,
-			isInitialLoad: true,
 		}
 	},
 
@@ -241,7 +240,6 @@ export default {
 
 		// watch url change and group select
 		async selectedGroup(val) {
-			this.isInitialLoad = true
 			// if selected is the disabled group but it's empty
 			await this.redirectIfDisabled()
 			this.$store.commit('resetUsers')
@@ -312,7 +310,6 @@ export default {
 				showError('Failed to load accounts')
 			}
 			this.loading.users = false
-			this.isInitialLoad = false
 		},
 
 		closeDialog() {

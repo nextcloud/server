@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP\User;
 
 use InvalidArgumentException;
@@ -674,7 +675,6 @@ class User {
 			$this->logger->error('avatar image data from LDAP invalid for ' . $this->dn, ['app' => 'user_ldap']);
 			return false;
 		}
-
 
 		//make sure it is a square and not bigger than 512x512
 		$size = min([$this->image->width(), $this->image->height(), 512]);

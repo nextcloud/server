@@ -3,8 +3,8 @@ OC.L10N.register(
     {
     "You are not logged in" : "Vous n'êtes pas connecté",
     "Permission denied" : "Autorisation refusée",
-    "Forbidden to manage local mounts" : "Interdiction de gérer les montages locaux",
     "Storage with ID \"%d\" not found" : "Stockage avec l'ID \"%d\" non trouvé",
+    "Forbidden to manage local mounts" : "Interdiction de gérer les montages locaux",
     "Invalid backend or authentication mechanism class" : "Service ou méthode d'authentification non valide",
     "Invalid mount point" : "Point de montage non valide",
     "Objectstore forbidden" : "« Objectstore » interdit",
@@ -15,6 +15,7 @@ OC.L10N.register(
     "Unsatisfied authentication mechanism parameters" : "Paramètres pour la méthode d'authentification incorrects",
     "Insufficient data: %s" : "Données insuffisantes : %s",
     "Storage with ID \"%d\" is not editable by non-admins" : "Le support de stockage avec l'ID \"%d\" n'est pas modifiable par les non-administrateurs.",
+    "Static credentials" : "Identifiants statiques",
     "Builtin" : "Intégré",
     "None" : "Aucun",
     "OpenStack v2" : "OpenStack v2",

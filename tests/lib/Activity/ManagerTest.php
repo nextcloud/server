@@ -72,7 +72,6 @@ class ManagerTest extends TestCase {
 		$this->assertNotEmpty($consumers);
 	}
 
-
 	public function testGetConsumersInvalidConsumer(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -161,14 +160,12 @@ class ManagerTest extends TestCase {
 			->willReturn($mockUser);
 	}
 
-
 	public function testPublishExceptionNoApp(): void {
 		$this->expectException(IncompleteActivityException::class);
 
 		$event = $this->activityManager->generateEvent();
 		$this->activityManager->publish($event);
 	}
-
 
 	public function testPublishExceptionNoType(): void {
 		$this->expectException(IncompleteActivityException::class);
@@ -178,7 +175,6 @@ class ManagerTest extends TestCase {
 		$this->activityManager->publish($event);
 	}
 
-
 	public function testPublishExceptionNoAffectedUser(): void {
 		$this->expectException(IncompleteActivityException::class);
 
@@ -187,7 +183,6 @@ class ManagerTest extends TestCase {
 			->setType('test_type');
 		$this->activityManager->publish($event);
 	}
-
 
 	public function testPublishExceptionNoSubject(): void {
 		$this->expectException(IncompleteActivityException::class);

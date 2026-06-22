@@ -4,10 +4,12 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Files\Search\QueryOptimizer;
 
 use OC\Files\Search\SearchBinaryOperator;
 use OC\Files\Search\SearchComparison;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOperator;
@@ -21,9 +23,9 @@ class SplitLargeIn extends ReplacingOptimizerStep {
 		if (
 			$operator instanceof ISearchComparison
 			&& $operator->getType() === ISearchComparison::COMPARE_IN
-			&& count($operator->getValue()) > 1000
+			&& count($operator->getValue()) > IQueryBuilder::MAX_IN_PARAMETERS
 		) {
-			$chunks = array_chunk($operator->getValue(), 1000);
+			$chunks = array_chunk($operator->getValue(), IQueryBuilder::MAX_IN_PARAMETERS);
 			$chunkComparisons = array_map(function (array $values) use ($operator) {
 				return new SearchComparison(ISearchComparison::COMPARE_IN, $operator->getField(), $values, $operator->getExtra());
 			}, $chunks);

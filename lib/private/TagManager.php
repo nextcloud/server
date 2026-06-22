@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use OC\Tagging\TagMapper;
@@ -127,7 +128,7 @@ class TagManager implements ITagManager, IEventListener {
 		$qb1 = $qb1->delete('vcategory')
 			->where($qb1->expr()->in('uid', $qb1->createParameter('chunk')));
 
-		foreach (array_chunk($tagsIds, 1000) as $tagChunk) {
+		foreach (array_chunk($tagsIds, IQueryBuilder::MAX_IN_PARAMETERS) as $tagChunk) {
 			$qb->setParameter('chunk', $tagChunk, IQueryBuilder::PARAM_INT_ARRAY);
 			$qb1->setParameter('chunk', $tagChunk, IQueryBuilder::PARAM_INT_ARRAY);
 			try {

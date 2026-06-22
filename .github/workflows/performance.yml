@@ -26,12 +26,7 @@ jobs:
     permissions:
       pull-requests: write
 
-    strategy:
-      fail-fast: false
-      matrix:
-        php-versions: ['8.2']
-
-    name: performance-${{ matrix.php-versions }}
+    name: performance
 
     steps:
 
@@ -42,11 +37,11 @@ jobs:
           submodules: true
           ref: ${{ github.event.pull_request.base.ref }}
 
-      - name: Set up php ${{ matrix.php-versions }}
+      - name: Set up php
         uses: shivammathur/setup-php@7c071dfe9dc99bdf297fa79cb49ea005b9fcadbc # v2.37.1
         timeout-minutes: 5
         with:
-          php-version: ${{ matrix.php-versions }}
+          php-version: '8.3'
           extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

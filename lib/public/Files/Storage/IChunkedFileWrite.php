@@ -7,7 +7,6 @@
 
 declare(strict_types=1);
 
-
 namespace OCP\Files\Storage;
 
 use OCP\Files\GenericFileException;

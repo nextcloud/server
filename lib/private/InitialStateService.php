@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC;
 
 use Closure;
@@ -23,7 +24,6 @@ class InitialStateService implements IInitialStateService {
 
 	/** @var Closure[][] */
 	private array $lazyStates = [];
-
 
 	public function __construct(
 		private LoggerInterface $logger,

@@ -289,8 +289,10 @@ class Movie extends ProviderV2 {
 		if ($test_hdr_proc === false) {
 			return false;
 		}
-		$test_hdr_stdout = trim(stream_get_contents($test_hdr_pipes[1]));
+		// Read stderr before stdout: ffprobe's stderr can exceed 64KB (OS pipe buffer) for certain
+		// files, causing a deadlock if stdout is read first. stdout is always a short string.
 		$test_hdr_stderr = trim(stream_get_contents($test_hdr_pipes[2]));
+		$test_hdr_stdout = trim(stream_get_contents($test_hdr_pipes[1]));
 		proc_close($test_hdr_proc);
 		// search build options for libzimg (provides zscale filter)
 		$ffmpeg_libzimg_installed = strpos($test_hdr_stderr, '--enable-libzimg');
@@ -341,6 +343,10 @@ class Movie extends ProviderV2 {
 		$returnCode = -1;
 		$output = '';
 		if (is_resource($proc)) {
+			stream_set_blocking($pipes[1], false);
+			stream_set_blocking($pipes[2], false);
+			// Read stderr before stdout: ffmpeg's stderr can exceed 64KB (OS pipe buffer) for certain
+			// files, causing a deadlock if stdout is read first. stdout is always empty.
 			$stderr = trim(stream_get_contents($pipes[2]));
 			$stdout = trim(stream_get_contents($pipes[1]));
 			$returnCode = proc_close($proc);

@@ -549,7 +549,6 @@ class SetupManagerTest extends TestCase {
 			->willReturnCallback($this->getAddMountCheckCallback($invokedCount,
 				$addMountExpectations));
 
-
 		// setting up for $path but then for user should remove the setup path
 		$this->setupManager->setupForPath($this->path, false);
 

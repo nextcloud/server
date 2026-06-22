@@ -82,7 +82,6 @@ class NotificationTest extends TestCase {
 		$this->notification->setApp($app);
 	}
 
-
 	public static function dataSetUser(): array {
 		return self::dataValidString(64);
 	}
@@ -416,7 +415,6 @@ class NotificationTest extends TestCase {
 		$this->assertEquals([], $this->notification->getParsedActions());
 	}
 
-
 	public function testAddActionInvalid(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -461,7 +459,6 @@ class NotificationTest extends TestCase {
 		$this->assertEquals([$action], $this->notification->getParsedActions());
 		$this->assertEquals([], $this->notification->getActions());
 	}
-
 
 	public function testAddParsedActionInvalid(): void {
 		$this->expectException(\InvalidArgumentException::class);

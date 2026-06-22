@@ -437,5 +437,4 @@ class ShardedQueryBuilder extends ExtendedQueryBuilder {
 		}
 	}
 
-
 }

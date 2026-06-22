@@ -385,10 +385,10 @@ function execute_tests {
 	fi
 
 	COVER=''
-	if [ -z "$NOCOVERAGE" ]; then
-		COVER="--coverage-clover autotest-clover-$DB.xml --coverage-html coverage-html-$DB"
+	if [ -z "$COVERAGE" ]; then
+		echo "No coverage. Set COVERAGE=1 to enable it."
 	else
-		echo "No coverage"
+		COVER="--coverage-clover autotest-clover-$DB.xml --coverage-html coverage-html-$DB"
 	fi
 
 	echo "$PHPUNIT" --fail-on-warning --fail-on-risky --display-warnings --display-deprecations --display-phpunit-deprecations --colors=always --configuration phpunit-autotest.xml $GROUP $COVER --log-junit "autotest-results-$DB.xml" "$2" "$3"

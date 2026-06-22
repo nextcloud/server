@@ -307,7 +307,7 @@ OC.L10N.register(
     "Delete folder" : "Map verwijderen",
     "Delete folders" : "Verwijder mappen",
     "_You are about to permanently delete {count} item_::_You are about to permanently delete {count} items_" : ["Je staat op het punt om {count} item permanent te verwijderen","Je staat op het punt om {count} items permanent te verwijderen"],
-    "_You are about to delete {count} item_::_You are about to delete {count} items_" : ["Je staat op het punt om {count} item te verwijderen","Je staat op het punt om {count}items te verwijderen"],
+    "_You are about to delete {count} item_::_You are about to delete {count} items_" : ["Je staat op het punt om {count} item te verwijderen","Je staat op het punt om {count} items te verwijderen"],
     "Confirm deletion" : "Bevestig verwijderen",
     "Download" : "Downloaden",
     "The requested file is not available." : "Het gevraagde bestand is niet beschikbaar.",
@@ -325,9 +325,9 @@ OC.L10N.register(
     "The files are locked" : "De bestanden zijn vergrendeld",
     "The file does not exist anymore" : "Dit bestand bestaat niet meer",
     "Moving \"{source}\" to \"{destination}\" …" : "Verplaatsen \"{source}\" naar \"{destination}\" …",
-    "Moving {count} files to \"{destination}\" …" : "{count} bestanden aan het verplaatsen naar \"{destination}\" …",
+    "_Moving %n file to \"{destination}\" …_::_Moving %n files to \"{destination}\" …_" : ["%n bestand verplaatsen naar \"{destination}\" …","%n bestanden verplaatsen naar \"{destination}\" …"],
     "Copying \"{source}\" to \"{destination}\" …" : "Kopieren \"{source}\" naar \"{destination}\" …",
-    "Copying {count} files to \"{destination}\" …" : "{count}bestanden aan het kopiëren naar \"{destination}\" …",
+    "_Copying %n file to \"{destination}\" …_::_Copying %n files to \"{destination}\" …_" : ["%n bestand kopiëren naar \"{destination}\" …","%n bestanden kopiëren naar \"{destination}\" …"],
     "Choose destination" : "Kies bestemming",
     "Copy to {target}" : "Kopieer naar {target}",
     "Move to {target}" : "Verplaats naar {target}",
@@ -421,6 +421,8 @@ OC.L10N.register(
     "Tags" : "Tags",
     "Save as …" : "Opslaan als...",
     "Converting files …" : "Bestanden converteren ...",
-    "Converting file …" : "Bestand converteren ..."
+    "Converting file …" : "Bestand converteren ...",
+    "Moving {count} files to \"{destination}\" …" : "{count} bestanden aan het verplaatsen naar \"{destination}\" …",
+    "Copying {count} files to \"{destination}\" …" : "{count} bestanden kopiëren naar \"{destination}\" …"
 },
 "nplurals=2; plural=(n != 1);");

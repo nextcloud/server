@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Sharing\Controller;
 
 use OCP\AppFramework\Http;
@@ -61,7 +62,6 @@ class PublicPreviewController extends PublicShareController {
 	protected function isPasswordProtected(): bool {
 		return $this->share->getPassword() !== null;
 	}
-
 
 	/**
 	 * Get a preview for a shared file

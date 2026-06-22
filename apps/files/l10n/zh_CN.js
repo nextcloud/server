@@ -325,9 +325,9 @@ OC.L10N.register(
     "The files are locked" : "文件已锁定",
     "The file does not exist anymore" : "文件不存在",
     "Moving \"{source}\" to \"{destination}\" …" : "正在将“{source}”移动到“{destination}” …",
-    "Moving {count} files to \"{destination}\" …" : "正在将 {count} 个文件移动到“{destination}” …",
+    "_Moving %n file to \"{destination}\" …_::_Moving %n files to \"{destination}\" …_" : ["正在将 %n 个文件移动到“{destination}”？ …"],
     "Copying \"{source}\" to \"{destination}\" …" : "正在将“{source}”复制到“{destination}” …",
-    "Copying {count} files to \"{destination}\" …" : "正在将 {count} 个文件复制到“{destination}” …",
+    "_Copying %n file to \"{destination}\" …_::_Copying %n files to \"{destination}\" …_" : ["正在将 %n 个文件复制到“{destination}” …"],
     "Choose destination" : "选择目标路径",
     "Copy to {target}" : "复制到 {target}",
     "Move to {target}" : "移动到 {target}",
@@ -421,6 +421,8 @@ OC.L10N.register(
     "Tags" : "标签",
     "Save as …" : "另存为…",
     "Converting files …" : "正在转换文件…",
-    "Converting file …" : "正在转换文件…"
+    "Converting file …" : "正在转换文件…",
+    "Moving {count} files to \"{destination}\" …" : "正在将 {count} 个文件移动到“{destination}” …",
+    "Copying {count} files to \"{destination}\" …" : "正在将 {count} 个文件复制到“{destination}” …"
 },
 "nplurals=1; plural=0;");

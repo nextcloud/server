@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Tests\Controller;
 
 use OCA\FederatedFileSharing\FederatedShareProvider;
@@ -199,7 +200,6 @@ class ShareesAPIControllerTest extends TestCase {
 			[[
 				'itemType' => 'folder',
 			], 'no', 'no', false, true, true, true, $allTypes, false, false, true],
-
 		];
 	}
 
@@ -283,7 +283,6 @@ class ShareesAPIControllerTest extends TestCase {
 		$sharees->expects($this->any())
 			->method('isRemoteSharingAllowed')
 			->willReturn($remoteSharingEnabled);
-
 
 		$sharees->expects($this->any())
 			->method('isRemoteGroupSharingAllowed')

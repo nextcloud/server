@@ -85,6 +85,7 @@ OC.L10N.register(
     "Done" : "Hoàn tất",
     "_{count} notification_::_{count} notifications_" : ["{count} thông báo"],
     "More apps" : "Thêm ứng dụng",
+    "Settings" : "Thiết lập",
     "Apps" : "Ứng dụng",
     "No" : "Không",
     "Yes" : "Có",

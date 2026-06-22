@@ -68,6 +68,7 @@ class ResourcesRoomsUpdaterTest extends TestCase {
 		$query->delete('calendar_resources_md')->executeStatement();
 		$query->delete('calendar_rooms')->executeStatement();
 		$query->delete('calendar_rooms_md')->executeStatement();
+		parent::tearDown();
 	}
 
 	/**
@@ -149,10 +150,8 @@ class ResourcesRoomsUpdaterTest extends TestCase {
 			switch ($key) {
 				case 'meta99':
 					return 'value99-new';
-
 				case 'meta123':
 					return 'meta456';
-
 				default:
 					return null;
 			}
@@ -168,7 +167,6 @@ class ResourcesRoomsUpdaterTest extends TestCase {
 			switch ($key) {
 				case 'meta1':
 					return 'value1';
-
 				default:
 					return null;
 			}
@@ -184,7 +182,6 @@ class ResourcesRoomsUpdaterTest extends TestCase {
 			switch ($key) {
 				case 'meta2':
 					return 'value2';
-
 				default:
 					return null;
 			}

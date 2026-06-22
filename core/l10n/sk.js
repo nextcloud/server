@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "Odhlásiť sa",
     "Please select a file." : "Prosím, vyberte súbor.",
     "File is too big" : "Súbor je príliš veľký",
     "The selected file is not an image." : "Vybraný súbor nie je obrázok.",
@@ -206,6 +207,7 @@ OC.L10N.register(
     "Code will expire {timeCountdown} or after use" : "Kód vyprší {timeCountdown} alebo po použití",
     "_{count} notification_::_{count} notifications_" : ["{count} upozornenie","{count} upozornenia","{count} upozornení","{count} upozornenia"],
     "More apps" : "Viac aplikácií",
+    "Settings" : "Nastavenia",
     "Applications" : "Aplikácie",
     "Apps" : "Aplikácie",
     "No" : "Nie",

@@ -37,7 +37,6 @@ class LimiterTest extends TestCase {
 		);
 	}
 
-
 	public function testRegisterAnonRequestExceeded(): void {
 		$this->expectException(RateLimitExceededException::class);
 		$this->expectExceptionMessage('Rate limit exceeded');
@@ -78,7 +77,6 @@ class LimiterTest extends TestCase {
 
 		$this->limiter->registerAnonRequest('MyIdentifier', 100, 100, '127.0.0.1');
 	}
-
 
 	public function testRegisterUserRequestExceeded(): void {
 		$this->expectException(RateLimitExceededException::class);

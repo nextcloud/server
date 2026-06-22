@@ -24,14 +24,12 @@ class TemplateResponseTest extends \Test\TestCase {
 		$this->tpl = new TemplateResponse('app', 'home');
 	}
 
-
 	public function testSetParamsConstructor(): void {
 		$params = ['hi' => 'yo'];
 		$this->tpl = new TemplateResponse('app', 'home', $params);
 
 		$this->assertEquals(['hi' => 'yo'], $this->tpl->getParams());
 	}
-
 
 	public function testSetRenderAsConstructor(): void {
 		$renderAs = 'myrender';
@@ -40,14 +38,12 @@ class TemplateResponseTest extends \Test\TestCase {
 		$this->assertEquals($renderAs, $this->tpl->getRenderAs());
 	}
 
-
 	public function testSetParams(): void {
 		$params = ['hi' => 'yo'];
 		$this->tpl->setParams($params);
 
 		$this->assertEquals(['hi' => 'yo'], $this->tpl->getParams());
 	}
-
 
 	public function testGetTemplateName(): void {
 		$this->assertEquals('home', $this->tpl->getTemplateName());

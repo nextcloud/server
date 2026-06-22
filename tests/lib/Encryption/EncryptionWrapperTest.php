@@ -42,7 +42,6 @@ class EncryptionWrapperTest extends TestCase {
 		$this->instance = new EncryptionWrapper($this->arrayCache, $this->manager, $this->logger);
 	}
 
-
 	#[\PHPUnit\Framework\Attributes\DataProvider('provideWrapStorage')]
 	public function testWrapStorage($expectedWrapped, $wrappedStorages): void {
 		$storage = $this->getMockBuilder(Storage::class)

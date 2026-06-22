@@ -219,7 +219,6 @@ class PreviewMapper extends QBMapper {
 		}
 
 		return $this->yieldEntities($qb);
-
 	}
 
 	/**

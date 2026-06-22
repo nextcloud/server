@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files\Command;
 
 use OC\Core\Command\Base;
@@ -137,7 +138,6 @@ class ScanAppData extends Base {
 		return self::SUCCESS;
 	}
 
-
 	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		# restrict the verbosity level to VERBOSITY_VERBOSE
@@ -230,7 +230,6 @@ class ScanAppData extends Base {
 			->setRows([$rows]);
 		$table->render();
 	}
-
 
 	/**
 	 * Formats microtime into a human-readable format

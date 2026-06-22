@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Tests\Controllers;
 
 use OC\Files\Filesystem;
@@ -49,12 +50,14 @@ use OCP\Share\IAttributes;
 use OCP\Share\IPublicShareTemplateFactory;
 use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
+use Test\Traits\UserTrait;
 
 /**
  * @package OCA\Files_Sharing\Controllers
  */
 #[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ShareControllerTest extends \Test\TestCase {
+	use UserTrait;
 
 	private string $user;
 	private string $oldUser;
@@ -143,14 +146,13 @@ class ShareControllerTest extends \Test\TestCase {
 			$this->publicShareTemplateFactory,
 		);
 
-
 		// Store current user
 		$this->oldUser = \OC_User::getUser();
 
 		// Create a dummy user
 		$this->user = Server::get(ISecureRandom::class)->generate(12, ISecureRandom::CHAR_LOWER);
 
-		Server::get(IUserManager::class)->createUser($this->user, $this->user);
+		$this->createUser($this->user, $this->user);
 		\OC_Util::tearDownFS();
 		$this->loginAsUser($this->user);
 	}
@@ -205,7 +207,6 @@ class ShareControllerTest extends \Test\TestCase {
 		// Test without a not existing token
 		$this->shareController->showShare();
 	}
-
 
 	public function testShowShare(): void {
 		$note = 'personal note';
@@ -645,7 +646,6 @@ class ShareControllerTest extends \Test\TestCase {
 
 		$this->assertEquals($expectedResponse, $response);
 	}
-
 
 	public function testShowShareInvalid(): void {
 		$this->expectException(NotFoundException::class);

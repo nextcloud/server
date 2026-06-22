@@ -35,7 +35,6 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 	public function tearDownScenario() {
 	}
 
-
 	/**
 	 * @param string $userName
 	 * @return string

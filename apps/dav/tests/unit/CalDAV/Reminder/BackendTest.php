@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV\Reminder;
 
 use OCA\DAV\CalDAV\Reminder\Backend as ReminderBackend;
@@ -39,7 +40,6 @@ class BackendTest extends TestCase {
 
 		parent::tearDown();
 	}
-
 
 	public function testCleanRemindersForEvent(): void {
 		$query = self::$realDatabase->getQueryBuilder();
@@ -251,7 +251,6 @@ class BackendTest extends TestCase {
 
 		$this->assertEquals((int)$row['notification_date'], 123700);
 	}
-
 
 	private function createRemindersTestSet(): void {
 		$query = self::$realDatabase->getQueryBuilder();

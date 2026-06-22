@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\DB\QueryBuilder;
 
 use Doctrine\DBAL\ArrayParameterType;
@@ -118,6 +119,14 @@ interface IQueryBuilder {
 	 * database server.
 	 */
 	public const MAX_ROW_DELETION = 100000;
+
+	/**
+	 * @since 35.0.0 Indicates how many parameters can be passed to a IN query
+	 * with Oracle database server.
+	 *
+	 * Mostly useful as magic value to give to array_chunk
+	 */
+	public const MAX_IN_PARAMETERS = 1000;
 
 	/**
 	 * Enable/disable automatic prefixing of table names with the oc_ prefix

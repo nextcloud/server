@@ -205,7 +205,6 @@ class ShareAPIControllerTest extends TestCase {
 		return Server::get(IManager::class)->newShare();
 	}
 
-
 	private function mockShareAttributes() {
 		$formattedShareAttributes = [
 			[
@@ -269,7 +268,6 @@ class ShareAPIControllerTest extends TestCase {
 		$this->assertInstanceOf(get_class($expected), $result);
 		$this->assertEquals($expected->getData(), $result->getData());
 	}
-
 
 	public function testDeleteShareLocked(): void {
 		$this->expectException(OCSNotFoundException::class);
@@ -807,8 +805,8 @@ class ShareAPIControllerTest extends TestCase {
 		$expected = [
 			'id' => '101',
 			'share_type' => IShare::TYPE_LINK,
-			'password' => 'password',
-			'share_with' => 'password',
+			'password' => 'redacted',
+			'share_with' => 'redacted',
 			'share_with_displayname' => '(Shared link)',
 			'send_password_by_talk' => false,
 			'uid_owner' => 'initiatorId',
@@ -973,7 +971,6 @@ class ShareAPIControllerTest extends TestCase {
 		$data = $ocs->getShare((string)$share->getId())->getData()[0];
 		$this->assertEquals($result, $data);
 	}
-
 
 	public function testGetShareInvalidNode(): void {
 		$this->expectException(OCSNotFoundException::class);
@@ -1859,7 +1856,6 @@ class ShareAPIControllerTest extends TestCase {
 		$this->ocs->createShare();
 	}
 
-
 	public function testCreateShareInvalidPath(): void {
 		$this->expectException(OCSNotFoundException::class);
 		$this->expectExceptionMessage('Wrong path, file/folder does not exist');
@@ -1930,7 +1926,6 @@ class ShareAPIControllerTest extends TestCase {
 
 		$this->ocs->createShare('valid-path', Constants::PERMISSION_ALL, IShare::TYPE_USER);
 	}
-
 
 	public function testCreateShareUserNoValidShareWith(): void {
 		$this->expectException(OCSNotFoundException::class);
@@ -2031,7 +2026,6 @@ class ShareAPIControllerTest extends TestCase {
 		$this->assertInstanceOf(get_class($expected), $result);
 		$this->assertEquals($expected->getData(), $result->getData());
 	}
-
 
 	public function testCreateShareGroupNoValidShareWith(): void {
 		$this->expectException(OCSNotFoundException::class);
@@ -2142,7 +2136,6 @@ class ShareAPIControllerTest extends TestCase {
 		$this->assertEquals($expected->getData(), $result->getData());
 	}
 
-
 	public function testCreateShareGroupNotAllowed(): void {
 		$this->expectException(OCSNotFoundException::class);
 		$this->expectExceptionMessage('Group sharing is disabled by the administrator');
@@ -2170,7 +2163,6 @@ class ShareAPIControllerTest extends TestCase {
 
 		$this->ocs->createShare('valid-path', Constants::PERMISSION_ALL, IShare::TYPE_GROUP, 'invalidGroup');
 	}
-
 
 	public function testCreateShareLinkNoLinksAllowed(): void {
 		$this->expectException(OCSNotFoundException::class);
@@ -2204,7 +2196,6 @@ class ShareAPIControllerTest extends TestCase {
 		$this->ocs->createShare('valid-path', Constants::PERMISSION_ALL, IShare::TYPE_LINK);
 	}
 
-
 	public function testCreateShareLinkNoPublicUpload(): void {
 		$this->expectException(OCSForbiddenException::class);
 		$this->expectExceptionMessage('Public upload disabled by the administrator');
@@ -2228,7 +2219,6 @@ class ShareAPIControllerTest extends TestCase {
 
 		$this->ocs->createShare('valid-path', Constants::PERMISSION_ALL, IShare::TYPE_LINK, null, 'true');
 	}
-
 
 	public function testCreateShareLinkPublicUploadFile(): void {
 		$this->expectException(OCSBadRequestException::class);
@@ -2377,7 +2367,6 @@ class ShareAPIControllerTest extends TestCase {
 		$this->assertEquals($expected->getData(), $result->getData());
 	}
 
-
 	public function testCreateShareLinkSendPasswordByTalkWithTalkDisabled(): void {
 		$this->expectException(OCSForbiddenException::class);
 		$this->expectExceptionMessage('Sharing valid-path sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled');
@@ -2461,7 +2450,6 @@ class ShareAPIControllerTest extends TestCase {
 		$this->assertInstanceOf(get_class($expected), $result);
 		$this->assertEquals($expected->getData(), $result->getData());
 	}
-
 
 	public function testCreateShareInvalidExpireDate(): void {
 		$this->expectException(OCSNotFoundException::class);
@@ -2698,7 +2686,6 @@ class ShareAPIControllerTest extends TestCase {
 		$this->assertEquals($expected->getData(), $result->getData());
 	}
 
-
 	public function testCreateShareRoomHelperNotAvailable(): void {
 		$this->expectException(OCSForbiddenException::class);
 		$this->expectExceptionMessage('Sharing valid-path failed because the back end does not support room shares');
@@ -2733,7 +2720,6 @@ class ShareAPIControllerTest extends TestCase {
 
 		$ocs->createShare('valid-path', Constants::PERMISSION_ALL, IShare::TYPE_ROOM, 'recipientRoom');
 	}
-
 
 	public function testCreateShareRoomHelperThrowException(): void {
 		$this->expectException(OCSNotFoundException::class);
@@ -2858,7 +2844,6 @@ class ShareAPIControllerTest extends TestCase {
 		$ocs->createShare('valid-path', Constants::PERMISSION_ALL, IShare::TYPE_USER, 'validUser');
 	}
 
-
 	public function testUpdateShareCantAccess(): void {
 		$this->expectException(OCSNotFoundException::class);
 		$this->expectExceptionMessage('Wrong share ID, share does not exist');
@@ -2884,7 +2869,6 @@ class ShareAPIControllerTest extends TestCase {
 		$this->ocs->updateShare(42);
 	}
 
-
 	public function testUpdateNoParametersLink(): void {
 		$this->expectException(OCSBadRequestException::class);
 		$this->expectExceptionMessage('Wrong or no update parameter given');
@@ -2904,7 +2888,6 @@ class ShareAPIControllerTest extends TestCase {
 
 		$this->ocs->updateShare(42);
 	}
-
 
 	public function testUpdateNoParametersOther(): void {
 		$this->expectException(OCSBadRequestException::class);
@@ -3092,7 +3075,6 @@ class ShareAPIControllerTest extends TestCase {
 		$this->assertEquals($expected->getData(), $result->getData());
 	}
 
-
 	public static function publicLinkValidPermissionsProvider() {
 		return [
 			[Constants::PERMISSION_CREATE],
@@ -3251,7 +3233,6 @@ class ShareAPIControllerTest extends TestCase {
 		$ocs->updateShare(42, $permissions, $password, null, $publicUpload, $expireDate);
 	}
 
-
 	public function testUpdateLinkSharePublicUploadOnFile(): void {
 		$this->expectException(OCSBadRequestException::class);
 		$this->expectExceptionMessage('Public upload is only possible for publicly shared folders');
@@ -3395,7 +3376,6 @@ class ShareAPIControllerTest extends TestCase {
 		$this->assertInstanceOf(get_class($expected), $result);
 		$this->assertEquals($expected->getData(), $result->getData());
 	}
-
 
 	public function testUpdateLinkShareSendPasswordByTalkWithTalkDisabledDoesNotChangeOther(): void {
 		$this->expectException(OCSForbiddenException::class);
@@ -4405,8 +4385,8 @@ class ShareAPIControllerTest extends TestCase {
 				'file_source' => 3,
 				'file_parent' => 1,
 				'file_target' => 'myTarget',
-				'password' => 'mypassword',
-				'share_with' => 'mypassword',
+				'password' => 'redacted',
+				'share_with' => 'redacted',
 				'share_with_displayname' => '(Shared link)',
 				'send_password_by_talk' => false,
 				'mail_send' => 0,
@@ -4450,8 +4430,8 @@ class ShareAPIControllerTest extends TestCase {
 				'file_source' => 3,
 				'file_parent' => 1,
 				'file_target' => 'myTarget',
-				'password' => 'mypassword',
-				'share_with' => 'mypassword',
+				'password' => 'redacted',
+				'share_with' => 'redacted',
 				'share_with_displayname' => '(Shared link)',
 				'send_password_by_talk' => true,
 				'mail_send' => 0,
@@ -4768,7 +4748,7 @@ class ShareAPIControllerTest extends TestCase {
 				'mail_send' => 0,
 				'mimetype' => 'myFolderMimeType',
 				'has_preview' => false,
-				'password' => 'password',
+				'password' => 'redacted',
 				'send_password_by_talk' => false,
 				'hide_download' => 0,
 				'can_edit' => false,
@@ -4813,7 +4793,7 @@ class ShareAPIControllerTest extends TestCase {
 				'mail_send' => 0,
 				'mimetype' => 'myFolderMimeType',
 				'has_preview' => false,
-				'password' => 'password',
+				'password' => 'redacted',
 				'send_password_by_talk' => true,
 				'hide_download' => 0,
 				'can_edit' => false,

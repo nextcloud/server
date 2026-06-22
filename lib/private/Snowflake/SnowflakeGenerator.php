@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace OC\Snowflake;
 
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\IConfig;
+use OCP\IServerInfo;
 use OCP\Snowflake\ISnowflakeGenerator;
 use Override;
 
@@ -24,8 +24,8 @@ use Override;
 final readonly class SnowflakeGenerator implements ISnowflakeGenerator {
 	public function __construct(
 		private ITimeFactory $timeFactory,
-		private IConfig $config,
 		private ISequence $sequenceGenerator,
+		private IServerInfo $serverInfo,
 	) {
 	}
 
@@ -34,7 +34,7 @@ final readonly class SnowflakeGenerator implements ISnowflakeGenerator {
 		// Relative time
 		[$seconds, $milliseconds] = $this->getCurrentTime();
 
-		$serverId = $this->getServerId() & 0x1FF; // Keep 9 bits
+		$serverId = $this->serverInfo->getServerId();
 		$isCli = (int)$this->isCli(); // 1 bit
 		$sequenceId = $this->sequenceGenerator->nextId($seconds, $milliseconds, $serverId); //  12 bits
 		if ($sequenceId > 0xFFF || $sequenceId === false) {
@@ -43,6 +43,23 @@ final readonly class SnowflakeGenerator implements ISnowflakeGenerator {
 			return $this->nextId();
 		}
 
+		return $this->packSnowflakeId($seconds, $milliseconds, $serverId, $isCli, $sequenceId);
+	}
+
+	/**
+	 * Return minimal snowflake ID for a given timestamp
+	 *
+	 * Not a real snowflake ID!
+	 * Only use it for comparisons. For example get all snowflake IDs generated before $timestamp
+	 *
+	 * @since 34.0.1
+	 */
+	#[Override]
+	public function minForTimeId(int $timestamp): string {
+		return $this->packSnowflakeId($timestamp - self::TS_OFFSET, 0, 0, 0, 0);
+	}
+
+	private function packSnowflakeId($seconds, $milliseconds, $serverId, $isCli, $sequenceId): string {
 		if (PHP_INT_SIZE === 8) {
 			$firstHalf = $seconds & 0x7FFFFFFF;
 			$secondHalf = (($milliseconds & 0x3FF) << 22) | ($serverId << 13) | ($isCli << 12) | $sequenceId;
@@ -100,16 +117,6 @@ final readonly class SnowflakeGenerator implements ISnowflakeGenerator {
 			$time->getTimestamp() - self::TS_OFFSET,
 			(int)$time->format('v'),
 		];
-	}
-
-	/**
-	 * Return configured serverid or generate one if not set
-	 */
-	private function getServerId(): int {
-		$serverid = $this->config->getSystemValueInt('serverid', -1);
-		return $serverid > 0
-			? $serverid
-			: crc32(gethostname() ?: random_bytes(8));
 	}
 
 	private function isCli(): bool {

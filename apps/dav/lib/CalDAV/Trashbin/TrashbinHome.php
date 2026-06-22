@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CalDAV\Trashbin;
 
 use OCA\DAV\CalDAV\CalDavBackend;
@@ -35,6 +36,28 @@ class TrashbinHome implements IACL, ICollection, IProperties {
 	#[\Override]
 	public function getOwner(): string {
 		return $this->principalInfo['uri'];
+	}
+
+	#[\Override]
+	public function getACL(): array {
+		$ownerPrincipal = $this->principalInfo['uri'];
+		return [
+			[
+				'privilege' => '{DAV:}all',
+				'principal' => $ownerPrincipal,
+				'protected' => true,
+			],
+			[
+				'privilege' => '{DAV:}all',
+				'principal' => $ownerPrincipal . '/calendar-proxy-write',
+				'protected' => true,
+			],
+			[
+				'privilege' => '{DAV:}read',
+				'principal' => $ownerPrincipal . '/calendar-proxy-read',
+				'protected' => true,
+			],
+		];
 	}
 
 	#[\Override]

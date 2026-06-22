@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\AppFramework\Http\Request;
@@ -453,7 +454,7 @@ class FilesPlugin extends ServerPlugin {
 			});
 
 			foreach ($node->getFileInfo()->getMetadata() as $metadataKey => $metadataValue) {
-				$propFind->handle(self::FILE_METADATA_PREFIX . $metadataKey, $metadataValue);
+				$propFind->handle(self::FILE_METADATA_PREFIX . $metadataKey, fn () => $metadataValue);
 			}
 
 			$propFind->handle(self::HIDDEN_PROPERTYNAME, function () use ($node) {
@@ -621,7 +622,6 @@ class FilesPlugin extends ServerPlugin {
 			return 403;
 		});
 	}
-
 
 	/**
 	 * handle the update of metadata from PROPPATCH requests

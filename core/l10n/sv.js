@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "Logga ut",
     "Please select a file." : "Välj en fil.",
     "File is too big" : "Filen är för stor",
     "The selected file is not an image." : "Den valda filen är ingen bild.",
@@ -207,8 +208,10 @@ OC.L10N.register(
     "_{count} notification_::_{count} notifications_" : ["{count} meddelande","{count} meddelanden"],
     "More apps" : "Fler appar",
     "App store" : "App store",
-    "Applications" : "Appar",
+    "Settings" : "Inställningar",
+    "Open apps menu, currently in {app}" : "Öppna appmenyn, för närvarande i {app}",
     "Open apps menu" : "Öppna appmenyn",
+    "Applications" : "Appar",
     "Apps" : "Appar",
     "No" : "Nej",
     "Yes" : "Ja",
@@ -226,6 +229,7 @@ OC.L10N.register(
     "Pick start date" : "Välj startdatum",
     "Pick end date" : "Välj slutdatum",
     "Search in date range" : "Sök i datumintervall",
+    "Search apps, files, tags, messages …" : "Sök efter appar, filer, taggar, meddelanden …",
     "Search in current app" : "Sök i nuvarande app",
     "Clear search" : "Rensa sökning",
     "Search everywhere" : "Sök överallt",

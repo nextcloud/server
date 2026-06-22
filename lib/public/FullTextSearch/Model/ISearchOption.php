@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\FullTextSearch\Model;
 
 /**
@@ -28,7 +29,6 @@ interface ISearchOption {
 	 * @since 16.0.0
 	 */
 	public const INPUT_SMALL = 'small';
-
 
 	/**
 	 * Set the name/key of the option.
@@ -54,7 +54,6 @@ interface ISearchOption {
 	 */
 	public function getName(): string;
 
-
 	/**
 	 * Set the title/display name of the option.
 	 *
@@ -74,7 +73,6 @@ interface ISearchOption {
 	 * @return string
 	 */
 	public function getTitle(): string;
-
 
 	/**
 	 * Set the type of the option.
@@ -97,7 +95,6 @@ interface ISearchOption {
 	 */
 	public function getType(): string;
 
-
 	/**
 	 * In case of Type is INPUT, set the size of the input field.
 	 * Value can be ISearchOption::INPUT_SMALL or not defined.
@@ -118,7 +115,6 @@ interface ISearchOption {
 	 * @return string
 	 */
 	public function getSize(): string;
-
 
 	/**
 	 * In case of Type is , set the placeholder to be displayed in the input

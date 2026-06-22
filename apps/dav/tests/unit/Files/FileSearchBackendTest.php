@@ -229,7 +229,6 @@ class FileSearchBackendTest extends TestCase {
 		$this->assertEquals('/files/test/test/path', $result[0]->href);
 	}
 
-
 	public function testSearchInvalidProp(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -265,7 +264,6 @@ class FileSearchBackendTest extends TestCase {
 
 		return new Query($select, $from, $where, $orderBy, $limit);
 	}
-
 
 	public function testSearchNonFolder(): void {
 		$this->expectException(\InvalidArgumentException::class);

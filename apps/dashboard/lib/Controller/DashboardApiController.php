@@ -29,7 +29,6 @@ use OCP\Dashboard\IReloadableWidget;
 use OCP\Dashboard\IWidget;
 use OCP\Dashboard\Model\WidgetButton;
 use OCP\Dashboard\Model\WidgetItem;
-
 use OCP\Dashboard\Model\WidgetOptions;
 use OCP\IRequest;
 

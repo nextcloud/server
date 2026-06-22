@@ -331,7 +331,6 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 		$this->versionsMapper->update($versionEntity);
 	}
 
-
 	/**
 	 * @inheritdoc
 	 */

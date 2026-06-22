@@ -31,53 +31,30 @@ use Test\TestCase;
 use function reset;
 
 class ManagerTest extends TestCase {
-	/** @var IUser|MockObject */
-	private $user;
+	private IUser&MockObject $user;
+	private ProviderLoader&MockObject $providerLoader;
+	private IRegistry&MockObject $providerRegistry;
+	private MandatoryTwoFactor&MockObject $mandatoryTwoFactor;
+	private ISession&MockObject $session;
+	private IConfig&MockObject $config;
+	private IManager&MockObject $activityManager;
+	private LoggerInterface&MockObject $logger;
+	private IProvider&MockObject $fakeProvider;
+	private IProvider&MockObject $backupProvider;
+	private TokenProvider&MockObject $tokenProvider;
+	private ITimeFactory&MockObject $timeFactory;
+	private IEventDispatcher&MockObject $dispatcher;
 
-	/** @var ProviderLoader|MockObject */
-	private $providerLoader;
-
-	/** @var IRegistry|MockObject */
-	private $providerRegistry;
-
-	/** @var MandatoryTwoFactor|MockObject */
-	private $mandatoryTwoFactor;
-
-	/** @var ISession|MockObject */
-	private $session;
-
-	/** @var Manager */
-	private $manager;
-
-	/** @var IConfig|MockObject */
-	private $config;
-
-	/** @var IManager|MockObject */
-	private $activityManager;
-
-	/** @var LoggerInterface|MockObject */
-	private $logger;
-
-	/** @var IProvider|MockObject */
-	private $fakeProvider;
-
-	/** @var IProvider|MockObject */
-	private $backupProvider;
-
-	/** @var TokenProvider|MockObject */
-	private $tokenProvider;
-
-	/** @var ITimeFactory|MockObject */
-	private $timeFactory;
-
-	/** @var IEventDispatcher|MockObject */
-	private $dispatcher;
+	private Manager $manager;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->user = $this->createMock(IUser::class);
+		$this->user->expects($this->any())
+			->method('getUID')
+			->willReturn('user-uid');
 		$this->providerLoader = $this->createMock(ProviderLoader::class);
 		$this->providerRegistry = $this->createMock(IRegistry::class);
 		$this->mandatoryTwoFactor = $this->createMock(MandatoryTwoFactor::class);
@@ -371,15 +348,12 @@ class ManagerTest extends TestCase {
 
 		$this->session->expects($this->once())
 			->method('set')
-			->with(Manager::SESSION_UID_DONE, 'jos');
+			->with(Manager::SESSION_UID_DONE, $this->user->getUID());
 		$this->session->method('getId')
 			->willReturn('mysessionid');
 		$this->activityManager->expects($this->once())
 			->method('generateEvent')
 			->willReturn($event);
-		$this->user->expects($this->any())
-			->method('getUID')
-			->willReturn('jos');
 		$event->expects($this->once())
 			->method('setApp')
 			->with($this->equalTo('core'))
@@ -390,11 +364,11 @@ class ManagerTest extends TestCase {
 			->willReturnSelf();
 		$event->expects($this->once())
 			->method('setAuthor')
-			->with($this->equalTo('jos'))
+			->with($this->equalTo($this->user->getUID()))
 			->willReturnSelf();
 		$event->expects($this->once())
 			->method('setAffectedUser')
-			->with($this->equalTo('jos'))
+			->with($this->equalTo($this->user->getUID()))
 			->willReturnSelf();
 		$this->fakeProvider
 			->method('getDisplayName')
@@ -413,7 +387,7 @@ class ManagerTest extends TestCase {
 			->willReturn(42);
 		$this->config->expects($this->once())
 			->method('deleteUserValue')
-			->with('jos', 'login_token_2fa', '42');
+			->with($this->user->getUID(), 'login_token_2fa', '42');
 
 		$result = $this->manager->verifyChallenge('email', $this->user, $challenge);
 
@@ -447,9 +421,6 @@ class ManagerTest extends TestCase {
 		$this->activityManager->expects($this->once())
 			->method('generateEvent')
 			->willReturn($event);
-		$this->user->expects($this->any())
-			->method('getUID')
-			->willReturn('jos');
 		$event->expects($this->once())
 			->method('setApp')
 			->with($this->equalTo('core'))
@@ -460,11 +431,11 @@ class ManagerTest extends TestCase {
 			->willReturnSelf();
 		$event->expects($this->once())
 			->method('setAuthor')
-			->with($this->equalTo('jos'))
+			->with($this->equalTo($this->user->getUID()))
 			->willReturnSelf();
 		$event->expects($this->once())
 			->method('setAffectedUser')
-			->with($this->equalTo('jos'))
+			->with($this->equalTo($this->user->getUID()))
 			->willReturnSelf();
 		$this->fakeProvider
 			->method('getDisplayName')
@@ -559,11 +530,8 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testPrepareTwoFactorLogin(): void {
-		$this->user->method('getUID')
-			->willReturn('ferdinand');
-
 		$calls = [
-			['two_factor_auth_uid', 'ferdinand'],
+			['two_factor_auth_uid', $this->user->getUID()],
 			['two_factor_remember_login', true],
 		];
 		$this->session->expects($this->exactly(2))
@@ -586,18 +554,14 @@ class ManagerTest extends TestCase {
 			->willReturn(1337);
 
 		$this->config->method('setUserValue')
-			->with('ferdinand', 'login_token_2fa', '42', '1337');
-
+			->with($this->user->getUID(), 'login_token_2fa', '42', '1337');
 
 		$this->manager->prepareTwoFactorLogin($this->user, true);
 	}
 
 	public function testPrepareTwoFactorLoginDontRemember(): void {
-		$this->user->method('getUID')
-			->willReturn('ferdinand');
-
 		$calls = [
-			['two_factor_auth_uid', 'ferdinand'],
+			['two_factor_auth_uid', $this->user->getUID()],
 			['two_factor_remember_login', false],
 		];
 		$this->session->expects($this->exactly(2))
@@ -620,7 +584,7 @@ class ManagerTest extends TestCase {
 			->willReturn(1337);
 
 		$this->config->method('setUserValue')
-			->with('ferdinand', 'login_token_2fa', '42', '1337');
+			->with($this->user->getUID(), 'login_token_2fa', '42', '1337');
 
 		$this->manager->prepareTwoFactorLogin($this->user, false);
 	}

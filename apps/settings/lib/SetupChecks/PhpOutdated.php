@@ -14,10 +14,10 @@ use OCP\SetupCheck\ISetupCheck;
 use OCP\SetupCheck\SetupResult;
 
 class PhpOutdated implements ISetupCheck {
-	public const DEPRECATED_PHP_VERSION = '8.2';
-	public const DEPRECATED_SINCE = '33';
-	public const FUTURE_REQUIRED_PHP_VERSION = '8.3';
-	public const FUTURE_REQUIRED_STARTING = '34';
+	public const DEPRECATED_PHP_VERSION = '8.3';
+	public const DEPRECATED_SINCE = '35';
+	public const FUTURE_REQUIRED_PHP_VERSION = '8.4';
+	public const FUTURE_REQUIRED_STARTING = '37';
 
 	public function __construct(
 		private IL10N $l10n,
@@ -36,7 +36,7 @@ class PhpOutdated implements ISetupCheck {
 
 	#[\Override]
 	public function run(): SetupResult {
-		if (PHP_VERSION_ID < 80300) {
+		if (PHP_VERSION_ID < 80400) {
 			return SetupResult::warning($this->l10n->t('You are currently running PHP %1$s. PHP %2$s is deprecated since Nextcloud %3$s. Nextcloud %4$s may require at least PHP %5$s. Please upgrade to one of the officially supported PHP versions provided by the PHP Group as soon as possible.', [
 				PHP_VERSION,
 				self::DEPRECATED_PHP_VERSION,

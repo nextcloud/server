@@ -32,7 +32,7 @@ function getInitialSuite() {
 			return suite.id
 		}
 	}
-	return null
+	return OFFICE_SUITES.find((s) => s.isPrimary)?.id ?? null
 }
 
 /**
@@ -91,7 +91,7 @@ async function onSuiteChanged(newSuiteId: string | null, oldSuiteId: string | nu
 			})
 
 			if (result) {
-				await store.forceEnableApp(suite.appId)
+				await store.enableApp(suite.appId, true)
 			} else {
 				// Revert selection
 				selectedSuiteId.value = oldSuiteId

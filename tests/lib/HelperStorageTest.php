@@ -187,7 +187,6 @@ class HelperStorageTest extends \Test\TestCase {
 		$this->assertEquals(34, $storageInfo['total'], '5 bytes used and 12 bytes free in home storage as well as 17 bytes used in temporary storage');
 	}
 
-
 	/**
 	 * Test getting the storage info with quota enabled
 	 */

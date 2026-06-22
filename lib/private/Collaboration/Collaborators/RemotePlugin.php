@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Collaboration\Collaborators;
 
 use OCA\Federation\TrustedServers;
@@ -35,7 +36,6 @@ class RemotePlugin implements ISearchPlugin {
 		$this->userId = $userSession->getUser()?->getUID() ?? '';
 		$this->shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
 	}
-
 
 	#[\Override]
 	public function search($search, $limit, $offset, ISearchResult $searchResult): bool {

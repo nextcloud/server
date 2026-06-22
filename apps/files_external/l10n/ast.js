@@ -1,8 +1,8 @@
 OC.L10N.register(
     "files_external",
     {
-    "Forbidden to manage local mounts" : "Prohíbese xestionar montaxes llocales",
     "Storage with ID \"%d\" not found" : "Nun s'atopó l'almacenamientu cola ID «%d»",
+    "Forbidden to manage local mounts" : "Prohíbese xestionar montaxes llocales",
     "Invalid backend or authentication mechanism class" : "El backend o la clas del mecanismu d'autienticación son inválidos",
     "Invalid mount point" : "El puntu de montaxe ye inválidu",
     "Objectstore forbidden" : "Prohíbese l'Objectstore",

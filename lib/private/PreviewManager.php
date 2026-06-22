@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use Closure;
@@ -59,7 +60,6 @@ use OCP\Preview\IProviderV2;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
-
 use function array_key_exists;
 
 /**
@@ -107,8 +107,7 @@ class PreviewManager implements IPreview {
 	 * @param string $mimeTypeRegex Regex with the mime types that are supported by this provider
 	 * @param ProviderClosure $callable
 	 */
-	#[\Override]
-	public function registerProvider(string $mimeTypeRegex, Closure $callable): void {
+	private function registerProviderClosure(string $mimeTypeRegex, Closure $callable): void {
 		if (!$this->enablePreviews) {
 			return;
 		}
@@ -300,7 +299,8 @@ class PreviewManager implements IPreview {
 	 */
 	protected function registerCoreProvider(string $class, string $mimeType, array $options = []): void {
 		if (in_array(trim($class, '\\'), $this->getEnabledDefaultProvider())) {
-			$this->registerProvider($mimeType, function () use ($class, $options) {
+			$this->registerProviderClosure($mimeType, function () use ($class, $options): IProviderV2 {
+				/** @var IProviderV2 $class */
 				return new $class($options);
 			});
 		}
@@ -365,7 +365,6 @@ class PreviewManager implements IPreview {
 				$movieBinary = $this->binaryFinder->findBinaryPath('ffmpeg');
 			}
 
-
 			if (is_string($movieBinary)) {
 				$this->registerCoreProvider(Movie::class, '/video\/.*/', ['movieBinary' => $movieBinary]);
 			}
@@ -426,7 +425,7 @@ class PreviewManager implements IPreview {
 			}
 			$this->loadedBootstrapProviders[$key] = null;
 
-			$this->registerProvider($provider->getMimeTypeRegex(), function () use ($provider): IProviderV2|false {
+			$this->registerProviderClosure($provider->getMimeTypeRegex(), function () use ($provider): IProviderV2|false {
 				try {
 					return $this->container->get($provider->getService());
 				} catch (NotFoundExceptionInterface) {

@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "Kijelentkezés",
     "Please select a file." : "Válasszon egy fájlt.",
     "File is too big" : "A fájl túl nagy",
     "The selected file is not an image." : "A kiválasztott fájl nem kép.",
@@ -207,8 +208,10 @@ OC.L10N.register(
     "_{count} notification_::_{count} notifications_" : ["{count} értesítés","{count} értesítés"],
     "More apps" : "További alkalmazások",
     "App store" : "Alkalmazástár",
-    "Applications" : "Alkalmazások",
+    "Settings" : "Beállítások",
+    "Open apps menu, currently in {app}" : "Alkalmazásmenü megnyitása, jelenleg itt: {app}",
     "Open apps menu" : "Alkalmazásmenü megnyitása",
+    "Applications" : "Alkalmazások",
     "Apps" : "Alkalmazások",
     "No" : "Nem",
     "Yes" : "Igen",
@@ -226,6 +229,7 @@ OC.L10N.register(
     "Pick start date" : "Válasszon kezdési dátumot",
     "Pick end date" : "Válasszon befejezési dátumot",
     "Search in date range" : "Keresés a dátumtartományban",
+    "Search apps, files, tags, messages …" : "Alkalmazások, fájlok, címkék és üzenetek keresése…",
     "Search in current app" : "Keresés a jelenlegi alkalmazásban",
     "Clear search" : "Keresés törlése",
     "Search everywhere" : "Keresés mindenhol",

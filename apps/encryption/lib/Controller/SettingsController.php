@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Encryption\Controller;
 
 use OCA\Encryption\Crypto\Crypt;
@@ -50,7 +51,6 @@ class SettingsController extends Controller {
 	) {
 		parent::__construct($appName, $request);
 	}
-
 
 	/**
 	 * @param string $oldPassword

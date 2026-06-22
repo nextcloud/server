@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\CardDAV;
 
 use OCA\DAV\Db\PropertyMapper;
@@ -40,9 +41,10 @@ class AddressBookImpl implements IAddressBookEnabled, ICreateContactFromString {
 	/**
 	 * @return string defining the technical unique key
 	 * @since 5.0.0
+	 * @since 35.0.0 Typed return type
 	 */
 	#[\Override]
-	public function getKey() {
+	public function getKey(): string {
 		return (string)$this->addressBookInfo['id'];
 	}
 

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Federation\CloudId;
@@ -14,6 +15,8 @@ use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 use OCP\ICertificateManager;
+use OCP\OCM\IOCMDiscoveryService;
+use OCP\OCM\IOCMProvider;
 use OCP\Server;
 
 /**
@@ -61,6 +64,9 @@ class ExternalStorageTest extends \Test\TestCase {
 		$manager = $this->createMock(ExternalShareManager::class);
 		$client = $this->createMock(IClient::class);
 		$response = $this->createMock(IResponse::class);
+		$discoveryService = $this->createMock(IOCMDiscoveryService::class);
+		$ocmProvider = $this->createMock(IOCMProvider::class);
+
 		$client
 			->expects($this->any())
 			->method('get')
@@ -73,6 +79,12 @@ class ExternalStorageTest extends \Test\TestCase {
 			->expects($this->any())
 			->method('newClient')
 			->willReturn($client);
+		$discoveryService->method('discover')
+			->willReturn($ocmProvider);
+		$ocmProvider->method('extractProtocolEntry')
+			->willReturn('/public.php/webdav');
+		$ocmProvider->method('getEndPoint')
+			->willReturn($uri);
 
 		return new TestSharingExternalStorage(
 			[
@@ -85,6 +97,7 @@ class ExternalStorageTest extends \Test\TestCase {
 				'manager' => $manager,
 				'certificateManager' => $certificateManager,
 				'HttpClientService' => $httpClientService,
+				'discoveryService' => $discoveryService,
 			]
 		);
 	}

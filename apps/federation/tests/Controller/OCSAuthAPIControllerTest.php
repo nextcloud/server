@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Federation\Tests\Controller;
 
 use OC\BackgroundJob\JobList;
@@ -87,12 +88,11 @@ class OCSAuthAPIControllerTest extends TestCase {
 			}
 		}
 
-
 		try {
 			$this->ocsAuthApi->requestSharedSecret($url, $token);
-			$this->assertTrue($ok);
+			$this->assertTrue($isTrustedServer);
 		} catch (OCSForbiddenException $e) {
-			$this->assertFalse($ok);
+			$this->assertFalse($isTrustedServer);
 		}
 	}
 
@@ -144,7 +144,6 @@ class OCSAuthAPIControllerTest extends TestCase {
 
 		try {
 			$result = $ocsAuthApi->getSharedSecret($url, $token);
-			$this->assertTrue($ok);
 			$data = $result->getData();
 			$this->assertSame('secret', $data['sharedSecret']);
 		} catch (OCSForbiddenException $e) {

@@ -11,9 +11,9 @@
 			:triggers="[]"
 			placement="bottom-start"
 			:skidding="popoverSkidding"
-			:setReturnFocus="returnFocusTarget"
-			popoverBaseClass="app-menu__popover-base"
-			popupRole="menu"
+			:set-return-focus="returnFocusTarget"
+			popover-base-class="app-menu__popover-base"
+			popup-role="menu"
 			@update:shown="opened = $event">
 			<template #trigger>
 				<NcButton
@@ -33,14 +33,14 @@
 				class="app-menu__popover"
 				role="menu"
 				:aria-label="t('core', 'Apps')">
-				<div class="app-menu__grid" @keydown="onGridKeydown">
+				<div ref="grid" class="app-menu__grid" @keydown="onGridKeydown">
 					<AppItem
 						v-for="(item, i) in gridItems"
 						:key="item.id"
 						ref="items"
 						:app="item"
 						:outlined="item.id === 'more-apps' || item.id === 'app-store'"
-						:newTab="item.id === 'app-store'"
+						:new-tab="item.id === 'app-store'"
 						:tabindex="i === focusedIndex ? 0 : -1" />
 				</div>
 			</div>
@@ -49,19 +49,27 @@
 			v-if="currentApp"
 			class="app-menu__current-app"
 			variant="tertiary-no-background"
-			:aria-label="t('core', 'Open apps menu')"
+			:aria-label="currentAppLabel"
 			aria-haspopup="menu"
 			:aria-expanded="opened ? 'true' : 'false'"
 			@click="onTriggerClick('currentApp')">
 			<template #icon>
+				<!-- Settings sub-sections share one generic cog. An inline MDI icon
+					inherits the button's currentColor (--color-background-plain-text),
+					so it stays legible on both bright and dark headers without a filter. -->
+				<IconCog
+					v-if="currentApp.type === 'settings'"
+					class="app-menu__current-app-cog"
+					:size="20" />
 				<img
+					v-else
 					class="app-menu__current-app-icon"
 					:src="currentApp.icon"
 					alt=""
 					aria-hidden="true">
 			</template>
 			<span class="app-menu__current-app-name">
-				{{ currentApp.name }}
+				{{ displayName }}
 			</span>
 		</NcButton>
 	</nav>
@@ -78,15 +86,20 @@ import { generateUrl, imagePath } from '@nextcloud/router'
 import { defineComponent, ref } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcPopover from '@nextcloud/vue/components/NcPopover'
+import IconCog from 'vue-material-design-icons/Cog.vue'
 import IconDotsGrid from 'vue-material-design-icons/DotsGrid.vue'
 import AppItem from './AppItem.vue'
 import logger from '../logger.js'
+
+// Settings IDs that represent actions, not navigable pages.
+const SETTINGS_ACTION_IDS = new Set(['logout'])
 
 export default defineComponent({
 	name: 'AppMenu',
 
 	components: {
 		AppItem,
+		IconCog,
 		IconDotsGrid,
 		NcButton,
 		NcPopover,
@@ -103,8 +116,12 @@ export default defineComponent({
 
 	data() {
 		const appList = loadState<INavigationEntry[]>('core', 'apps', [])
+		// Record<id, entry>, not an array: PHP ships getAll('settings') without
+		// array_values(). Matches AccountMenu.vue's usage.
+		const settingsList = loadState<Record<string, INavigationEntry>>('core', 'settingsNavEntries', {})
 		return {
 			appList,
+			settingsList,
 			isAdmin: getCurrentUser()?.isAdmin ?? false,
 			// Roving tabindex: only this tile has tabindex=0; arrow keys move it.
 			focusedIndex: 0,
@@ -146,7 +163,30 @@ export default defineComponent({
 
 	computed: {
 		currentApp(): INavigationEntry | undefined {
+			// Fall back to the active settings entry on admin pages where no
+			// app is active.
 			return this.appList.find((app) => app.active)
+				?? Object.values(this.settingsList).find((entry) => entry.active && !SETTINGS_ACTION_IDS.has(entry.id))
+		},
+
+		// Trigger label. Settings sub-section names ("Personal info",
+		// "Appearance and accessibility", ...) are too long and varied to
+		// surface in the header; collapse them all to a single "Settings".
+		displayName(): string {
+			if (!this.currentApp) {
+				return ''
+			}
+			return this.currentApp.type === 'settings'
+				? t('core', 'Settings')
+				: this.currentApp.name
+		},
+
+		// aria-label overrides the inner span text, so the displayed name
+		// has to be duplicated here for screen readers.
+		currentAppLabel(): string {
+			return this.currentApp
+				? t('core', 'Open apps menu, currently in {app}', { app: this.displayName })
+				: t('core', 'Open apps menu')
 		},
 
 		// Stable-ordered list that focusedIndex indexes into. The trailing
@@ -159,10 +199,13 @@ export default defineComponent({
 	},
 
 	watch: {
-		// On open, land the roving stop on the active app rather than index 0.
+		// On open, land the roving stop on the active app rather than index 0
+		// and measure the grid as soon as it mounts (before the open
+		// transition finishes, so the cap is set without a flash).
 		opened(isOpen: boolean) {
 			if (isOpen) {
 				this.focusedIndex = this.activeGridIndex()
+				this.tryRecomputeGridMaxHeight(5)
 			}
 		},
 	},
@@ -216,6 +259,43 @@ export default defineComponent({
 			if (this.focusedIndex >= this.gridItems.length) {
 				this.focusedIndex = this.activeGridIndex()
 			}
+		},
+
+		// Poll briefly for the grid ref (NcPopover renders the slot async)
+		// then measure once. Bounded so a missing ref can never leak frames.
+		tryRecomputeGridMaxHeight(retries: number) {
+			if (!this.opened || retries <= 0) {
+				return
+			}
+			if (!this.$refs.grid) {
+				requestAnimationFrame(() => this.tryRecomputeGridMaxHeight(retries - 1))
+				return
+			}
+			this.recomputeGridMaxHeight()
+		},
+
+		// Cap = sum of first 6 row heights + baseline × 6, so the peek of
+		// row 7 stays constant when wraps grow rows.
+		recomputeGridMaxHeight() {
+			const grid = this.$refs.grid as HTMLElement | undefined
+			if (!grid) {
+				return
+			}
+			const VISIBLE_CELLS = 24 // 4 cols × 6 visible rows
+			const cells = grid.children
+			if (cells.length <= VISIBLE_CELLS) {
+				grid.style.maxHeight = ''
+				return
+			}
+			const firstHidden = cells[VISIBLE_CELLS] as HTMLElement | undefined
+			const firstCell = cells[0] as HTMLElement | undefined
+			if (!firstHidden || !firstCell) {
+				return
+			}
+			const sumOfFirstRows = firstHidden.getBoundingClientRect().top
+				- firstCell.getBoundingClientRect().top
+			const baseline = parseFloat(getComputedStyle(grid).getPropertyValue('--default-grid-baseline')) || 4
+			grid.style.maxHeight = `${sumOfFirstRows + baseline * 6}px`
 		},
 
 		// Index of the active app within `gridItems`, or 0 if none is active.
@@ -366,6 +446,16 @@ export default defineComponent({
 			outline: none !important;
 			box-shadow: inset 0 0 0 2px var(--color-background-plain-text) !important;
 		}
+
+		// Lets the inner label shrink to its max-width and ellipsize instead of
+		// pushing the button wider than the inline-flex text slot.
+		:deep(.button-vue__text) {
+			min-width: 0;
+		}
+
+		@media only screen and (max-width: 1024px) {
+			display: none !important;
+		}
 	}
 
 	&__current-app-icon {
@@ -376,11 +466,23 @@ export default defineComponent({
 		mask: var(--header-menu-icon-mask);
 	}
 
+	&__current-app-cog {
+		mask: var(--header-menu-icon-mask);
+	}
+
 	&__current-app-name {
+		// inline-block: inline elements ignore max-width + overflow.
+		display: inline-block;
+		vertical-align: middle;
 		font-size: var(--default-font-size);
 		font-weight: 500;
 		white-space: nowrap;
 		letter-spacing: -0.5px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		// Cap width so long localized labels ellipsize instead of pushing
+		// the header icons off-screen (.header-start doesn't shrink).
+		max-width: clamp(80px, 22vw, 320px);
 	}
 
 	&__popover {
@@ -391,13 +493,22 @@ export default defineComponent({
 	&__grid {
 		--app-item-col-width: 69px;
 		--app-item-row-height: 64px;
-		--app-menu-rows-visible: 6;
-		padding: calc(var(--default-grid-baseline) * 3) calc(var(--default-grid-baseline) * 2);
+		// border-box: the JS-set max-height (see recomputeGridMaxHeight)
+		// needs to include padding for the peek math to hold.
+		box-sizing: border-box;
+		padding: calc(var(--default-grid-baseline) * 2);
 		display: grid;
 		grid-template-columns: repeat(4, var(--app-item-col-width));
 		grid-auto-rows: minmax(var(--app-item-row-height), max-content);
-		max-height: calc(var(--app-item-row-height) * var(--app-menu-rows-visible) + var(--default-grid-baseline) * 5);
+		// max-height set inline by recomputeGridMaxHeight(); CSS just owns the scroll.
 		overflow-y: auto;
+
+		// Extra top padding on first-row tiles so the hover bg reads
+		// concentric with the popover's rounded top corner. !important
+		// because AppItem's scoped rule has the same specificity.
+		> :nth-child(-n+4) {
+			padding-block-start: calc(var(--default-grid-baseline) * 2) !important;
+		}
 
 		// WebKit equivalents are in the unscoped block below: scoped CSS
 		// data-attrs don't reach ::-webkit-scrollbar pseudo-elements in Chrome.

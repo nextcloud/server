@@ -57,7 +57,6 @@ class RegistryTest extends TestCase {
 		$this->addToAssertionCount(1);
 	}
 
-
 	public function testDoubleRegistration(): void {
 		$this->expectException(AlreadyRegisteredException::class);
 
@@ -105,7 +104,6 @@ class RegistryTest extends TestCase {
 
 		$this->assertSame(true, $this->registry->delegateHasExtendedSupport());
 	}
-
 
 	public function testDelegateGetSupportedApps(): void {
 		/* @var ISupportedApps|\PHPUnit\Framework\MockObject\MockObject $subscription */

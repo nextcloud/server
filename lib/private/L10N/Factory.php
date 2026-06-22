@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\L10N;
 
 use OCP\App\AppPathNotFoundException;
@@ -286,7 +287,7 @@ class Factory implements IFactory {
 
 		// Default : use system default locale
 		$defaultLocale = $this->config->getSystemValue('default_locale', false);
-		if ($defaultLocale !== false && $this->localeExists($defaultLocale)) {
+		if (is_string($defaultLocale) && $this->localeExists($defaultLocale)) {
 			return $defaultLocale;
 		}
 
@@ -462,12 +463,8 @@ class Factory implements IFactory {
 		return $this->cleanLanguage($this->request->getParam('forceLanguage')) ?? $this->config->getSystemValueString('default_language', 'en');
 	}
 
-	/**
-	 * @param string $locale
-	 * @return bool
-	 */
 	#[\Override]
-	public function localeExists($locale) {
+	public function localeExists(string $locale): bool {
 		if ($locale === 'en') { //english is always available
 			return true;
 		}

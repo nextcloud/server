@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Http\Client;
 
 use GuzzleHttp\Client as GuzzleClient;
@@ -40,9 +41,9 @@ class ClientService implements IClientService {
 	}
 
 	#[\Override]
-	public function newClient(): IClient {
-		$handler = new CurlHandler();
-		$stack = HandlerStack::create($handler);
+	public function newClient(?callable $handler = null): IClient {
+		$clientHandler = $handler ?? new CurlHandler();
+		$stack = HandlerStack::create($clientHandler);
 		if ($this->config->getSystemValueBool('dns_pinning', true)) {
 			$stack->push($this->dnsPinMiddleware->addDnsPinning());
 		}

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Connector\Sabre;
 
 use Exception;
@@ -81,6 +82,9 @@ class Auth extends AbstractBasic {
 			$this->session->close();
 			return true;
 		} else {
+			if ($username === '' || $password === '') {
+				return false;
+			}
 			try {
 				if ($this->userSession->logClientIn($username, $password, $this->request, $this->throttler)) {
 					$this->session->set(self::DAV_AUTHENTICATED, $this->userSession->getUser()->getUID());

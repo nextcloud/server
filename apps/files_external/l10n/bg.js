@@ -1,8 +1,8 @@
 OC.L10N.register(
     "files_external",
     {
-    "Forbidden to manage local mounts" : "Забрана за управление на локални монтажи",
     "Storage with ID \"%d\" not found" : "Хранилище с идентификатор \"%d\" не е намерено",
+    "Forbidden to manage local mounts" : "Забрана за управление на локални монтажи",
     "Invalid backend or authentication mechanism class" : "Невалиден сървър или клас на механизма за удостоверяване",
     "Invalid mount point" : "Невалиден път за монтиране на файлова система",
     "Objectstore forbidden" : "Objectstore е забранен",

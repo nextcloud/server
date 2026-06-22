@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Group;
 
 use OC\User\LazyUser;
@@ -341,7 +342,7 @@ class Database extends ABackend implements
 		$qb->select('gid', 'displayname')
 			->from('groups')
 			->where($qb->expr()->in('gid', $qb->createParameter('ids')));
-		foreach (array_chunk($notFoundGids, 1000) as $chunk) {
+		foreach (array_chunk($notFoundGids, IQueryBuilder::MAX_IN_PARAMETERS) as $chunk) {
 			$qb->setParameter('ids', $chunk, IQueryBuilder::PARAM_STR_ARRAY);
 			$result = $qb->executeQuery();
 			while ($row = $result->fetch()) {
@@ -411,7 +412,6 @@ class Database extends ABackend implements
 			)
 				->orderBy('g.uid', 'ASC');
 		}
-
 
 		if ($limit !== -1) {
 			$query->setMaxResults($limit);
@@ -553,7 +553,7 @@ class Database extends ABackend implements
 			}
 		}
 
-		foreach (array_chunk($notFoundGids, 1000) as $chunk) {
+		foreach (array_chunk($notFoundGids, IQueryBuilder::MAX_IN_PARAMETERS) as $chunk) {
 			$query = $this->dbConn->getQueryBuilder();
 			$query->select('gid', 'displayname')
 				->from('groups')

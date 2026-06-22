@@ -337,7 +337,6 @@ class FilesystemTest extends \Test\TestCase {
 		Filesystem::initMountPoints($userId);
 	}
 
-
 	public function testNullUserThrows(): void {
 		$this->expectException(NoUserException::class);
 

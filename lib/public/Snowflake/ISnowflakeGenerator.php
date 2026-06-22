@@ -42,4 +42,18 @@ interface ISnowflakeGenerator {
 	 * @since 33.0
 	 */
 	public function nextId(): string;
+
+	/**
+	 * Return the smallest possible Snowflake ID for a given timestamp
+	 *
+	 * Not a real snowflake ID!
+	 * Only use it for comparisons. Examples:
+	 * - find all Snowflake IDs generated from a given $timestamp
+	 *   Look for `>= minForTimeId($timestamp)`
+	 * - delete all Snowflake IDs generated before a given $timestamp
+	 *   Delete where `id < minForTimeId($timestamp)`
+	 *
+	 * @since 34.0.1
+	 */
+	public function minForTimeId(int $timestamp): string;
 }

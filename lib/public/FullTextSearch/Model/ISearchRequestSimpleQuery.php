@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\FullTextSearch\Model;
 
 /**
@@ -74,7 +75,6 @@ interface ISearchRequestSimpleQuery {
 	 */
 	public const COMPARE_TYPE_WILDCARD = 11;
 
-
 	/**
 	 * Get the compare type of the query
 	 *
@@ -82,7 +82,6 @@ interface ISearchRequestSimpleQuery {
 	 * @since 17.0.0
 	 */
 	public function getType(): int;
-
 
 	/**
 	 * Get the field to apply query
@@ -101,7 +100,6 @@ interface ISearchRequestSimpleQuery {
 	 * @since 17.0.0
 	 */
 	public function setField(string $field): ISearchRequestSimpleQuery;
-
 
 	/**
 	 * Get the all values to compare
