@@ -284,6 +284,9 @@ class CustomPropertiesBackend implements BackendInterface {
 		if (in_array($property, self::IGNORED_PROPERTIES)) {
 			return false;
 		}
+		if (str_starts_with($property, '{http://open-collaboration-services.org/ns}')) {
+			return false;
+		}
 		if (str_starts_with($property, '{DAV:}')) {
 			return in_array($property, self::ALLOWED_DAV_PROPERTIES);
 		}
