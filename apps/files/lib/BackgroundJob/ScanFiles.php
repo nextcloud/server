@@ -47,7 +47,7 @@ class ScanFiles extends TimedJob {
 				$this->dispatcher,
 				$this->logger
 			);
-			$scanner->backgroundScan('');
+			$scanner->backgroundScan('/' . $user);
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e, 'app' => 'files']);
 		}
