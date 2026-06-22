@@ -19,7 +19,7 @@ use OCP\IUser;
  * @since 31.0.0
  */
 class BeforeFileSystemSetupEvent extends Event {
-	/** @var array<string, array{wrapper: callable(string $mountPoint, IStorage $storage): IStorage, priority: int}> $storageWrappers */
+	/** @var array<class-string<IStorage>, array{callable: callable(string $mountPoint, IStorage $storage): IStorage, priority: int<0, 100>}> $storageWrappers */
 	private array $storageWrappers = [];
 
 	/**
@@ -42,18 +42,20 @@ class BeforeFileSystemSetupEvent extends Event {
 	 * Add a storage wrapper to the file system. This allows apps to inject storage wrappers
 	 * for every mount.
 	 *
+	 * @param class-string<IStorage> $name The identifier of the wrapper.
 	 * @param callable(string $mountPoint, IStorage $storage): IStorage $wrapper
+	 * @param int<0, 100> $priority
 	 * @since 35.0.0
 	 */
 	public function addStorageWrapper(string $name, callable $wrapper, int $priority = 50): void {
-		$this->storageWrappers[$name] = ['wrapper' => $wrapper, 'priority' => $priority];
+		$this->storageWrappers[$name] = ['callable' => $wrapper, 'priority' => $priority];
 	}
 
 	/**
 	 * Get the storage wrappers.
 	 *
+	 * @return array<class-string<IStorage>, array{callable: callable(string $mountPoint, IStorage $storage): IStorage, priority: int<0, 100>}>
 	 * @since 35.0.0
-	 * @return array<string, array{wrapper: callable(string $mountPoint, IStorage $storage): IStorage, priority: int}>
 	 */
 	public function getStorageWrappers(): array {
 		return $this->storageWrappers;

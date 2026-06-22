@@ -8,27 +8,36 @@
 
 namespace OCP\Files\Storage;
 
+use OCP\AppFramework\Attribute\Consumable;
+use OCP\Files\Events\BeforeFileSystemSetupEvent;
 use OCP\Files\Mount\IMountPoint;
 
 /**
  * Creates storage instances and manages and applies storage wrappers
  * @since 8.0.0
  */
+#[Consumable(since: '8.0.0')]
 interface IStorageFactory {
 	/**
-	 * allow modifier storage behaviour by adding wrappers around storages
+	 * Allow modifier storage behaviour by adding wrappers around storages.
 	 *
-	 * $callback should be a function of type (string $mountPoint, Storage $storage) => Storage
+	 * The BeforeFileSystemSetupEvent should be used in most cases instead to add storage wrappers.
+	 *
+	 * @param non-empty-string $wrapperName
+	 * @param callable(string $mountPoint, IStorage $storage, IMountPoint $mountPoint): IStorage $callback
+	 * @param int<0, 100> $priority
+	 * @param IMountPoint[] $existingMounts
 	 *
 	 * @return bool true if the wrapper was added, false if there was already a wrapper with this
 	 *              name registered
 	 * @since 8.0.0
+	 * @see BeforeFileSystemSetupEvent
 	 */
-	public function addStorageWrapper(string $wrapperName, callable $callback);
+	public function addStorageWrapper(string $wrapperName, callable $callback, int $priority = 50, array $existingMounts = []): bool;
 
 	/**
 	 * @return IStorage
 	 * @since 8.0.0
 	 */
-	public function getInstance(IMountPoint $mountPoint, string $class, array $arguments);
+	public function getInstance(IMountPoint $mountPoint, string $class, array $arguments): IStorage;
 }

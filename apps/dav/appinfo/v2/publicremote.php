@@ -26,6 +26,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IHomeStorage;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
+use OCP\Files\Storage\IStorage;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -120,7 +121,7 @@ $server = $serverFactory->createServer(true, $baseuri, $requestUri, $authPlugin,
 	$previousLog = Filesystem::logWarningWhenAddingStorageWrapper(false);
 
 	/** @psalm-suppress MissingClosureParamType */
-	Filesystem::addStorageWrapper('sharePermissions', function ($mountPoint, $storage) use ($requestUri, $baseuri, $share) {
+	Filesystem::addStorageWrapper('sharePermissions', function (string $mountPoint, IStorage $storage) use ($requestUri, $baseuri, $share) {
 		$mask = $share->getPermissions() | Constants::PERMISSION_SHARE;
 
 		// For chunked uploads it is necessary to have read and delete permission,
@@ -141,13 +142,13 @@ $server = $serverFactory->createServer(true, $baseuri, $requestUri, $authPlugin,
 	});
 
 	/** @psalm-suppress MissingClosureParamType */
-	Filesystem::addStorageWrapper('shareOwner', function ($mountPoint, $storage) use ($share) {
+	Filesystem::addStorageWrapper('shareOwner', function (string $mountPoint, IStorage $storage) use ($share) {
 		return new PublicOwnerWrapper(['storage' => $storage, 'owner' => $share->getShareOwner()]);
 	});
 
 	// Ensure that also private shares have the `getShare` method
 	/** @psalm-suppress MissingClosureParamType */
-	Filesystem::addStorageWrapper('getShare', function ($mountPoint, $storage) use ($share) {
+	Filesystem::addStorageWrapper('getShare', function (string $mountPoint, IStorage $storage) use ($share) {
 		return new PublicShareWrapper(['storage' => $storage, 'share' => $share]);
 	}, 0);
 

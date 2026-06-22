@@ -96,7 +96,7 @@ class StorageTest extends \Test\TestCase {
 	}
 
 	protected function tearDown(): void {
-		Filesystem::getLoader()->removeStorageWrapper('oc_trashbin');
+		Filesystem::getLoader()->removeStorageWrapper(Storage::class);
 		$this->logout();
 		$user = Server::get(IUserManager::class)->get($this->user);
 		if ($user !== null) {
@@ -502,7 +502,7 @@ class StorageTest extends \Test\TestCase {
 		$storage2 = new Temporary([]);
 		Filesystem::mount($storage2, [], $this->user . '/files/substorage');
 
-		// trigger a version (multiple would not work because of the expire logic)
+		// trigger a version (multiple would not work because of the expiration logic)
 		$this->userView->file_put_contents('test.txt', 'v1');
 
 		$results = $this->rootView->getDirectoryContent($this->user . '/files_trashbin/files');

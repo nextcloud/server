@@ -11,6 +11,7 @@ namespace OCA\Files_Sharing\Tests;
 use OC\Files\Filesystem;
 use OC\SystemConfig;
 use OCA\Files_Sharing\DeleteOrphanedSharesJob;
+use OCA\Files_Trashbin\Storage;
 use OCP\App\IAppManager;
 use OCP\Constants;
 use OCP\IDBConnection;
@@ -60,7 +61,7 @@ class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 		$appManager->disableApp('files_trashbin');
 
 		// just in case...
-		Filesystem::getLoader()->removeStorageWrapper('oc_trashbin');
+		Filesystem::getLoader()->removeStorageWrapper(Storage::class);
 	}
 
 	public static function tearDownAfterClass(): void {
