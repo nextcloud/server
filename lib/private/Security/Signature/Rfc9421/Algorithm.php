@@ -110,7 +110,7 @@ final class Algorithm {
 			}
 		}
 
-		echo __LINE__ . " return ?\n";
+		echo __LINE__ . ' return ' . openssl_verify($signatureBase, $signature, $material, $opensslAlgo) . "\n";
 		return openssl_verify($signatureBase, $signature, $material, $opensslAlgo) === 1;
 	}
 

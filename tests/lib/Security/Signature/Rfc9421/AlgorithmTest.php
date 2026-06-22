@@ -90,6 +90,7 @@ class AlgorithmTest extends TestCase {
 		$sig = Algorithm::sign('payload', $priv, 'ecdsa-p256-sha256');
 		echo "sig:$sig\n";
 		// echo "key:$key\n";
+		echo 'key:' . serialize($key) . "\n";
 		$this->assertSame(64, strlen($sig));
 		$this->assertTrue(Algorithm::verify('payload', $sig, $key, 'ecdsa-p256-sha256'));
 		$this->assertTrue(Algorithm::verify('payload', $sig, $key, 'ES256'));
@@ -98,6 +99,8 @@ class AlgorithmTest extends TestCase {
 	public function testEcdsaP384RoundTrip(): void {
 		[$priv, $key] = $this->ecKeyPair('secp384r1', 'P-384', 'ES384');
 		$sig = Algorithm::sign('payload', $priv, 'ecdsa-p384-sha384');
+		echo "sig:$sig\n";
+		echo 'key:' . serialize($key) . "\n";
 		$this->assertSame(96, strlen($sig));
 		$this->assertTrue(Algorithm::verify('payload', $sig, $key, 'ecdsa-p384-sha384'));
 	}
