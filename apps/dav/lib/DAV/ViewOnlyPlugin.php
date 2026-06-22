@@ -80,30 +80,26 @@ class ViewOnlyPlugin extends ServerPlugin {
 			}
 
 			$storage = $node->getStorage();
-
 			if (!$storage->instanceOfStorage(ISharedStorage::class)) {
 				return true;
 			}
 
-			// Extract extra permissions
 			/** @var ISharedStorage $storage */
 			$share = $storage->getShare();
-			$attributes = $share->getAttributes();
-			if ($attributes === null) {
-				return true;
-			}
-
-			// We have two options here, if download is disabled, but viewing is allowed,
-			// we still allow the GET request to return the file content.
-			$canDownload = $attributes->getAttribute('permissions', 'download');
-			if (!$share->canSeeContent()) {
-				throw new Forbidden('Access to this shared resource has been denied because its download permission is disabled.');
-			}
-
-			// If download is disabled, we disable the COPY and MOVE methods even if the
-			// shareapi_allow_view_without_download is set to true.
-			if ($request->getMethod() !== 'GET' && ($canDownload !== null && !$canDownload)) {
-				throw new Forbidden('Access to this shared resource has been denied because its download permission is disabled.');
+			switch ($request->getMethod()) {
+				case 'GET':
+					// If download is disabled, but viewing is allowed, we still allow the GET method to return the file content.
+					if (!$share->canSeeContent()) {
+						throw new Forbidden('Access to this shared resource has been denied because its download permission is disabled.');
+					}
+					break;
+				case 'COPY':
+				case 'MOVE':
+					// If download is disabled, we disable the COPY and MOVE methods even if the shareapi_allow_view_without_download is set to true.
+					if (!$share->canDownload()) {
+						throw new Forbidden('Access to this shared resource has been denied because its download permission is disabled.');
+					}
+					break;
 			}
 		} catch (NotFound $e) {
 			// File not found
