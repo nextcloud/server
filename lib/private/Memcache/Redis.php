@@ -210,7 +210,7 @@ class Redis extends Cache implements IMemcacheTTL {
 
 	#[\Override]
 	public static function isAvailable(): bool {
-		return Server::get('RedisFactory')->isAvailable();
+		return Server::get(RedisFactory::class)->isAvailable();
 	}
 
 	protected function evalLua(string $scriptName, array $keys, array $args) {
