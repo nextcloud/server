@@ -664,6 +664,7 @@ OC.L10N.register(
     "Email (required)" : "Correo electrónico (requerido)",
     "Email" : "Correo electrónico",
     "New account" : "Cuenta nueva",
+    "Adding new account …" : "Añadiendo cuenta nueva …",
     "Add new account" : "Añadir cuenta nueva",
     "Display name" : "Nombre mostrado",
     "Either password or email is required" : "Se requiere contraseña o correo electrónico",
