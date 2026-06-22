@@ -3,10 +3,12 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import type { User } from '@nextcloud/e2e-test-server'
+import type { APIRequestContext, PlaywrightWorkerArgs } from '@playwright/test'
+
 import { runOcc } from '@nextcloud/e2e-test-server/docker'
 import { createRandomUser } from '@nextcloud/e2e-test-server/playwright'
-import type { APIRequestContext, PlaywrightWorkerArgs } from '@playwright/test'
-import type { User } from '@nextcloud/e2e-test-server'
+import { TrashbinListPage } from '../sections/TrashbinListPage.ts'
 import { test as filesTest } from './files-page.ts'
 
 /**
@@ -42,6 +44,8 @@ type TrashbinFixtures = {
 	bobRequest: APIRequestContext
 	/** A group containing `bob`, used to share a folder with him. */
 	group: string
+	/** FilesListPage extended with trashbin-specific column accessors. */
+	filesListPage: TrashbinListPage
 }
 
 /**
@@ -51,6 +55,10 @@ type TrashbinFixtures = {
  * trashbin tests pull none of this setup.
  */
 export const test = filesTest.extend<TrashbinFixtures>({
+	filesListPage: async ({ page }, use) => {
+		await use(new TrashbinListPage(page))
+	},
+
 	aliceRequest: async ({ playwright, user, baseURL }, use) => {
 		const context = await basicAuthContext(playwright, baseURL, user)
 		await use(context)

@@ -26,9 +26,7 @@ test.describe('files_trashbin: empty trashbin action', () => {
 		await filesListPage.open('trashbin')
 		await expect(filesListPage.getRows()).toHaveCount(FILE_COUNT)
 
-		const emptied = page.waitForResponse(
-			(r) => r.request().method() === 'DELETE' && r.url().includes('/remote.php/dav/trashbin/'),
-		)
+		const emptied = page.waitForResponse((r) => r.request().method() === 'DELETE' && r.url().includes('/remote.php/dav/trashbin/'))
 		await filesListPage.triggerListAction('empty-trash')
 
 		// Confirm in the dialog

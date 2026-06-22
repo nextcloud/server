@@ -3,36 +3,14 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { Locator, Page } from '@playwright/test'
+import type { Page } from '@playwright/test'
+import type { TrashbinListPage } from '../../support/sections/TrashbinListPage.ts'
+
 import { readFile } from 'node:fs/promises'
 import { expect, test } from '../../support/fixtures/files-trashbin-page.ts'
 import { mkdir, rm, uploadContent } from '../../support/utils/dav.ts'
-import { ALL_PERMISSIONS, ShareType, createShare } from '../../support/utils/sharing.ts'
+import { ALL_PERMISSIONS, createShare, ShareType } from '../../support/utils/sharing.ts'
 import { setUserDisplayName } from '../../support/utils/users.ts'
-
-// Trashbin custom columns, keyed by their product-owned column ids
-const ORIGINAL_LOCATION = '[data-cy-files-list-row-column-custom="files_trashbin--original-location"]'
-const DELETED_BY = '[data-cy-files-list-row-column-custom="files_trashbin--deleted-by"]'
-const DELETED_AT = '[data-cy-files-list-row-column-custom="files_trashbin--deleted"]'
-
-/** Run `trigger`, then assert it downloaded `file.txt` with the expected content. */
-async function expectFileDownload(page: Page, trigger: () => Promise<void>) {
-	const downloadPromise = page.waitForEvent('download')
-	await trigger()
-	const download = await downloadPromise
-	expect(download.suggestedFilename()).toBe('file.txt')
-	expect(await readFile(await download.path(), 'utf-8')).toBe('<content>')
-}
-
-/** Assert a trashbin row's name and custom columns (the deleted time is always recent). */
-async function expectTrashbinRow(row: Locator, name: string, location: string, deletedBy: string) {
-	await expect(row).toBeVisible()
-	// Name and extension render as separate spans, so the composed text has a space
-	await expect(row.locator('[data-cy-files-list-row-name]')).toHaveText(name)
-	await expect(row.locator(ORIGINAL_LOCATION)).toHaveText(location)
-	await expect(row.locator(DELETED_BY)).toHaveText(deletedBy)
-	await expect(row.locator(DELETED_AT)).toHaveText('few seconds ago')
-}
 
 test.describe('files_trashbin: download files', () => {
 	let fileIds: [number, number]
@@ -55,12 +33,12 @@ test.describe('files_trashbin: download files', () => {
 	})
 
 	test('can download a file using the default action', async ({ page, filesListPage }) => {
-		await expectFileDownload(page, () =>
+		await expectFileDownload(page, () => {
 			// The inline "Download" button is the row's default action; force past the sticky header
-			filesListPage.getRowForFileId(fileIds[0])
+			return filesListPage.getRowForFileId(fileIds[0])
 				.getByRole('button', { name: 'Download' })
-				.click({ force: true }),
-		)
+				.click({ force: true })
+		})
 	})
 
 	// Trashbin has no bulk download: the webdav zip-folder plugin does not work for
@@ -83,7 +61,7 @@ test.describe('files_trashbin: file row', () => {
 		await filesListPage.open('trashbin')
 
 		// The owner's own deletions render as "You" regardless of display name
-		await expectTrashbinRow(filesListPage.getRowForFileId(fileId), 'test-file .txt', 'All files', 'You')
+		await expectTrashbinRow(filesListPage, fileId, 'test-file .txt', 'All files', 'You')
 	})
 
 	test('shows data for a file deleted by a sharee in a group share', async ({ user, aliceRequest, bob, bobRequest, group, filesListPage }) => {
@@ -97,6 +75,28 @@ test.describe('files_trashbin: file row', () => {
 
 		await filesListPage.open('trashbin')
 
-		await expectTrashbinRow(filesListPage.getRowForFileId(fileId), 'test-file .txt', 'Shared', 'Bob')
+		await expectTrashbinRow(filesListPage, fileId, 'test-file .txt', 'Shared', 'Bob')
 	})
 })
+
+/** Run `trigger`, then assert it downloaded `file.txt` with the expected content. */
+async function expectFileDownload(page: Page, trigger: () => Promise<void>) {
+	const downloadPromise = page.waitForEvent('download')
+	await trigger()
+	const download = await downloadPromise
+	expect(download.suggestedFilename()).toBe('file.txt')
+	expect(await readFile(await download.path(), 'utf-8')).toBe('<content>')
+}
+
+/** Assert a trashbin row's name and custom columns (the deleted time is always recent). */
+async function expectTrashbinRow(filesListPage: TrashbinListPage, rowId: number, name: string, location: string, deletedBy: string) {
+	const row = filesListPage.getRowForFileId(rowId)
+	await expect(row).toBeVisible()
+	// Name and extension render as separate spans, so the composed text has a space
+	await expect(filesListPage.fileNameCell(row)).toHaveText(name)
+	await expect(filesListPage.originalLocationCell(row)).toHaveText(location)
+	await expect(filesListPage.deletedByCell(row)).toHaveText(deletedBy)
+	// Match any relative-time string ("a few seconds ago", "a minute ago", …)
+	// rather than a fixed string that breaks when setup is slow.
+	await expect(filesListPage.deletedAtCell(row)).toHaveText(/ago/)
+}
