@@ -205,7 +205,6 @@ class AppPasswordController extends OCSController {
 	 * 200: App password returned
 	 */
 	#[NoAdminRequired]
-	#[PasswordConfirmationRequired]
 	#[ApiRoute(verb: 'GET', url: '/getapppassword-onetime', root: '/core')]
 	public function getAppPasswordWithOneTimePassword(): DataResponse {
 		// Only allow with one-time app passwords
