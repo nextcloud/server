@@ -60,9 +60,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - mysql-versions: '8.0'
-            php-versions: '8.3'
           - mysql-versions: '8.4'
+            php-versions: '8.3'
+          - mysql-versions: '9.7'
             php-versions: '8.5'
 
     name: MySQL ${{ matrix.mysql-versions }} (PHP ${{ matrix.php-versions }}) - database tests
@@ -75,7 +75,7 @@ jobs:
         options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
       mysql:
-        image: ghcr.io/nextcloud/continuous-integration-mysql-${{ matrix.mysql-versions }}:latest # zizmor: ignore[unpinned-images]
+        image: mysql:${{ matrix.mysql-versions }} # zizmor: ignore[unpinned-images]
         ports:
           - 4444:3306/tcp
         env:

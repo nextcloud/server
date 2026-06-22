@@ -20,6 +20,7 @@ interface IFunctionBuilder {
 	 *
 	 * @return IQueryFunction
 	 * @since 12.0.0
+	 * @deprecated 35.0.0 - MD5 is not considered secure anymore, thus most databases have or will drop support for this function
 	 */
 	public function md5($input): IQueryFunction;
 
