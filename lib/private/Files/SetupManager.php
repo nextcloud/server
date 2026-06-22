@@ -319,6 +319,10 @@ class SetupManager implements ISetupManager {
 		$event = new BeforeFileSystemSetupEvent($user);
 		$this->eventDispatcher->dispatchTyped($event);
 
+		foreach ($event->getStorageWrappers() as $name => $wrapper) {
+			Filesystem::addStorageWrapper($name, $wrapper['wrapper'], $wrapper['priority']);
+		}
+
 		Filesystem::logWarningWhenAddingStorageWrapper($prevLogging);
 
 		$userDir = '/' . $user->getUID() . '/files';
