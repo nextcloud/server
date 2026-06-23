@@ -93,8 +93,9 @@ class PreviewMigrationService {
 			->where($qb->expr()->eq('fileid', $qb->createNamedParameter($fileId)))
 			->setMaxResults(1);
 
-		$result = $qb->executeQuery();
-		$result = $result->fetchAssociative();
+		$cursor = $qb->executeQuery();
+		$result = $cursor->fetchAssociative();
+		$cursor->closeCursor();
 
 		if ($result !== false) {
 			foreach ($previewFiles as $previewFile) {
@@ -108,10 +109,15 @@ class PreviewMigrationService {
 				$preview->generateId();
 				try {
 					$preview = $this->previewMapper->insert($preview);
-				} catch (Exception) {
+				} catch (Exception $e) {
+					if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+						throw $e;
+					}
+
+					$delete = $this->connection->getQueryBuilder();
 					// We already have this preview in the preview table, skip
-					$qb->delete('filecache')
-						->where($qb->expr()->eq('fileid', $qb->createNamedParameter($file->getId())))
+					$delete->delete('filecache')
+						->where($delete->expr()->eq('fileid', $delete->createNamedParameter($file->getId())))
 						->hintShardKey('storage', $this->rootFolder->getMountPoint()->getNumericStorageId())
 						->executeStatement();
 					continue;
@@ -179,7 +185,11 @@ class PreviewMigrationService {
 				break;
 			}
 
-			$folder = $this->appData->getFolder($current);
+			try {
+				$folder = $this->appData->getFolder($current);
+			} catch (NotFoundException) {
+				break;
+			}
 			if (count($folder->getDirectoryListing()) !== 0) {
 				break;
 			}
