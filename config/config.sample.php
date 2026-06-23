@@ -409,7 +409,7 @@ $CONFIG = [
 	 * when the browser is used to authorize a client. To restrict password-based
 	 * browser logins, use an SSO or external identity provider.
 	 *
-	 * This setting does not automatically revoke existing sessions. To fully 
+	 * This setting does not automatically revoke existing sessions. To fully
 	 * enforce this policy for users with existing sessions, invalidate those
 	 * sessions or wait for them to expire.
 	 *
