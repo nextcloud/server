@@ -5,36 +5,6 @@
 
 <template>
 	<Fragment>
-		<NcAppNavigationCaption
-			:name="t('settings', 'Groups')"
-			:disabled="loadingAddGroup"
-			:aria-label="loadingAddGroup ? t('settings', 'Creating group…') : t('settings', 'Create group')"
-			force-menu
-			is-heading
-			:open.sync="isAddGroupOpen">
-			<template v-if="isAdminOrDelegatedAdmin" #actionsTriggerIcon>
-				<NcLoadingIcon v-if="loadingAddGroup" />
-				<NcIconSvgWrapper v-else :path="mdiPlus" />
-			</template>
-			<template v-if="isAdminOrDelegatedAdmin" #actions>
-				<NcActionText>
-					<template #icon>
-						<NcIconSvgWrapper :path="mdiAccountGroupOutline" />
-					</template>
-					{{ t('settings', 'Create group') }}
-				</NcActionText>
-				<NcActionInput
-					v-model="newGroupName"
-					:label="t('settings', 'Group name')"
-					data-cy-users-settings-new-group-name
-					:label-outside="false"
-					:disabled="loadingAddGroup"
-					:error="hasAddGroupError"
-					:helper-text="hasAddGroupError ? t('settings', 'Please enter a valid group name') : ''"
-					@submit="createGroup" />
-			</template>
-		</NcAppNavigationCaption>
-
 		<NcAppNavigationSearch
 			v-model="groupsSearchQuery"
 			:label="t('settings', 'Search groups…')" />
@@ -44,6 +14,7 @@
 		</p>
 		<NcAppNavigationList
 			class="account-management__group-list"
+			:aria-label="t('settings', 'Groups')"
 			aria-describedby="group-list-desc"
 			data-cy-users-settings-navigation-groups="custom">
 			<NcAppNavigationCaption
