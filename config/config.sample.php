@@ -400,13 +400,18 @@ $CONFIG = [
 	 * client authentication flows that would otherwise accept either form of
 	 * credential directly.
 	 *
-	 * When enabled, these flows must use an app password/token generated in
-	 * Personal settings rather than the user's main login password.
+	 * When enabled, new authentication attempts through these flows must use an
+	 * app password/token generated in Personal settings rather than the user's
+	 * main login password.
 	 *
 	 * This applies to client-style authentication such as DAV and HTTP Basic
 	 * auth. It does not affect the standard interactive browser login, even
 	 * when the browser is used to authorize a client. To restrict password-based
 	 * browser logins, use an SSO or external identity provider.
+	 *
+	 * This setting does not automatically revoke existing sessions. To fully 
+	 * enforce this policy for users with existing sessions, invalidate those
+	 * sessions or wait for them to expire.
 	 *
 	 * Defaults to ``false``
 	 */
