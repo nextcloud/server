@@ -7,6 +7,7 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
 import { ref } from 'vue'
 import NcAppNavigationCaption from '@nextcloud/vue/components/NcAppNavigationCaption'
+import AppNavigationGroupList from './AppNavigationGroupList.vue'
 
 // The component builds a real Vuex store via useStore(); mock it so this stays
 // a focused component test that controls its own data.
@@ -37,8 +38,6 @@ vi.mock('@vueuse/core', async (importActual) => ({
 	...(await importActual<object>()),
 	useElementVisibility: () => ref(false),
 }))
-
-import AppNavigationGroupList from './AppNavigationGroupList.vue'
 
 describe('AppNavigationGroupList', () => {
 	it('does not expose the group list as a heading (BITV 9.1.3.1a)', () => {
