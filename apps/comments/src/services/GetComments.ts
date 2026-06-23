@@ -52,8 +52,8 @@ export async function getComments({ resourceType, resourceId }, options: { offse
 /**
  * https://github.com/perry-mitchell/webdav-client/blob/8d9694613c978ce7404e26a401c39a41f125f87f/source/operations/directoryContents.ts
  *
- * @param result
- * @param isDetailed
+ * @param result - the DAV response result
+ * @param isDetailed - whether to return detailed file information
  */
 function getDirectoryFiles(
 	result: DAVResult,
