@@ -854,6 +854,7 @@ return array(
     'OCP\\Share\\Events\\ShareDeletedEvent' => $baseDir . '/lib/public/Share/Events/ShareDeletedEvent.php',
     'OCP\\Share\\Events\\ShareDeletedFromSelfEvent' => $baseDir . '/lib/public/Share/Events/ShareDeletedFromSelfEvent.php',
     'OCP\\Share\\Events\\ShareMovedEvent' => $baseDir . '/lib/public/Share/Events/ShareMovedEvent.php',
+    'OCP\\Share\\Events\\ShareReviewAccessCheckEvent' => $baseDir . '/lib/public/Share/Events/ShareReviewAccessCheckEvent.php',
     'OCP\\Share\\Events\\ShareTransferredEvent' => $baseDir . '/lib/public/Share/Events/ShareTransferredEvent.php',
     'OCP\\Share\\Events\\VerifyMountPointEvent' => $baseDir . '/lib/public/Share/Events/VerifyMountPointEvent.php',
     'OCP\\Share\\Exceptions\\AlreadySharedException' => $baseDir . '/lib/public/Share/Exceptions/AlreadySharedException.php',
