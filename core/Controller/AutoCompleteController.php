@@ -15,7 +15,6 @@ use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
-use OCP\Collaboration\AutoComplete\AutoCompleteEvent;
 use OCP\Collaboration\AutoComplete\AutoCompleteFilterEvent;
 use OCP\Collaboration\AutoComplete\IManager;
 use OCP\Collaboration\Collaborators\ISearch;
@@ -43,7 +42,7 @@ class AutoCompleteController extends OCSController {
 	 * @param string $search Text to search for
 	 * @param string|null $itemType Type of the items to search for
 	 * @param string|null $itemId ID of the items to search for
-	 * @param string|null $sorter can be piped, top prio first, e.g.: "commenters|share-recipients"
+	 * @param string|null $sorter can be piped, top priority first, e.g.: "commenters|share-recipients"
 	 * @param list<int> $shareTypes Types of shares to search for
 	 * @param int $limit Maximum number of results to return
 	 *
@@ -57,18 +56,6 @@ class AutoCompleteController extends OCSController {
 		// if enumeration/user listings are disabled, we'll receive an empty
 		// result from search() – thus nothing else to do here.
 		[$results,] = $this->collaboratorSearch->search($search, $shareTypes, false, $limit, 0);
-
-		$event = new AutoCompleteEvent([
-			'search' => $search,
-			'results' => $results,
-			'itemType' => $itemType,
-			'itemId' => $itemId,
-			'sorter' => $sorter,
-			'shareTypes' => $shareTypes,
-			'limit' => $limit,
-		]);
-		$this->dispatcher->dispatch(IManager::class . '::filterResults', $event);
-		$results = $event->getResults();
 
 		$event = new AutoCompleteFilterEvent(
 			$results,

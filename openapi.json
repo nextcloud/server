@@ -5601,7 +5601,7 @@
                     {
                         "name": "sorter",
                         "in": "query",
-                        "description": "can be piped, top prio first, e.g.: \"commenters|share-recipients\"",
+                        "description": "can be piped, top priority first, e.g.: \"commenters|share-recipients\"",
                         "schema": {
                             "type": "string",
                             "nullable": true,
