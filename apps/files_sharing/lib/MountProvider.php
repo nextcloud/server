@@ -17,6 +17,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IAuthoritativeMountProvider;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Config\IPartialMountProvider;
+use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorageFactory;
@@ -262,6 +263,7 @@ class MountProvider implements IMountProvider, IAuthoritativeMountProvider, IPar
 		$newMaxValidatedShare = $maxValidatedShare;
 		$appConfig = Server::get(IAppConfig::class);
 		$cacheDependencies = Server::get(CacheDependencies::class);
+		$rootFolder = Server::get(IRootFolder::class);
 
 		foreach ($superShares as $share) {
 			[$parentShare, $groupedShares] = $share;
@@ -293,6 +295,7 @@ class MountProvider implements IMountProvider, IAuthoritativeMountProvider, IPar
 						'shareManager' => $this->shareManager,
 						'appConfig' => $appConfig,
 						'cacheDependencies' => $cacheDependencies,
+						'rootFolder' => $rootFolder,
 					],
 					$loader,
 					$this->eventDispatcher,
