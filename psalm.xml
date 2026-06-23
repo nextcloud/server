@@ -71,7 +71,6 @@
 		<file name="tests/lib/Files/Template/*.php"/>
 		<ignoreFiles>
 			<directory name="apps/admin_audit/tests"/>
-			<directory name="apps/cloud_federation_api/tests"/>
 			<directory name="apps/contactsinteraction/tests"/>
 			<directory name="apps/dashboard/tests"/>
 			<directory name="apps/dav/tests"/>

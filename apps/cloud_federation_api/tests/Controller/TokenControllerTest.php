@@ -53,6 +53,7 @@ class TokenControllerTest extends TestCase {
 	/** Public key matching the signatory private key configured by configureHappyPath(). */
 	private string $publicKeyPem = '';
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -81,6 +82,7 @@ class TokenControllerTest extends TestCase {
 		);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		JWT::$timestamp = null;
 		parent::tearDown();
