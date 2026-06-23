@@ -94,6 +94,7 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 	 */
 	private static int $initDepth = 0;
 	private CacheDependencies $cacheDependencies;
+	private IRootFolder $rootFolder;
 
 	public function __construct(array $parameters) {
 		$this->ownerView = $parameters['ownerView'];
@@ -101,6 +102,7 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 		$this->appConfig = $parameters['appConfig'] ?? Server::get(IAppConfig::class);
 		$this->shareManager = $parameters['shareManager'] ?? Server::get(IShareManager::class);
 		$this->cacheDependencies = $parameters['cacheDependencies'] ?? Server::get(CacheDependencies::class);
+		$this->rootFolder = $parameters['rootFolder'] ?? Server::get(IRootFolder::class);
 
 		$this->superShare = $parameters['superShare'];
 		$this->groupedShares = $parameters['groupedShares'];
@@ -160,9 +162,7 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 				throw new \Exception('Maximum share depth reached');
 			}
 
-			/** @var IRootFolder $rootFolder */
-			$rootFolder = Server::get(IRootFolder::class);
-			$this->ownerUserFolder = $rootFolder->getUserFolder($this->superShare->getShareOwner());
+			$this->ownerUserFolder = $this->rootFolder->getUserFolder($this->superShare->getShareOwner());
 			$sourceId = $this->superShare->getNodeId();
 			$ownerNodes = $this->ownerUserFolder->getById($sourceId);
 
