@@ -396,9 +396,17 @@ $CONFIG = [
 	'auto_logout' => false,
 
 	/**
-	 * Enforce token authentication for clients, which blocks requests using the user
-	 * password for enhanced security. Users need to generate tokens in personal settings
-	 * which can be used as passwords on their clients.
+	 * Require app passwords/tokens instead of users' regular passwords for
+	 * client authentication flows that would otherwise accept either form of
+	 * credential directly.
+	 *
+	 * When enabled, these flows must use an app password/token generated in
+	 * Personal settings rather than the user's main login password.
+	 *
+	 * This applies to client-style authentication such as DAV and HTTP Basic
+	 * auth. It does not affect the standard interactive browser login, even
+	 * when the browser is used to authorize a client. To restrict password-based
+	 * browser logins, use an SSO or external identity provider.
 	 *
 	 * Defaults to ``false``
 	 */
