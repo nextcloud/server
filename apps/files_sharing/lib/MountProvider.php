@@ -10,6 +10,7 @@ namespace OCA\Files_Sharing;
 
 use Exception;
 use InvalidArgumentException;
+use OC\Files\Cache\CacheDependencies;
 use OC\Files\View;
 use OCA\Files_Sharing\Event\ShareMountedEvent;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -19,9 +20,11 @@ use OCP\Files\Config\IPartialMountProvider;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorageFactory;
+use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IUser;
+use OCP\Server;
 use OCP\Share\IAttributes;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
@@ -257,6 +260,8 @@ class MountProvider implements IMountProvider, IAuthoritativeMountProvider, IPar
 		$validShareCache = $this->cacheFactory->createLocal('share-valid-mountpoint-max');
 		$maxValidatedShare = $validShareCache->get($userId) ?? 0;
 		$newMaxValidatedShare = $maxValidatedShare;
+		$appConfig = Server::get(IAppConfig::class);
+		$cacheDependencies = Server::get(CacheDependencies::class);
 
 		foreach ($superShares as $share) {
 			[$parentShare, $groupedShares] = $share;
@@ -283,7 +288,11 @@ class MountProvider implements IMountProvider, IAuthoritativeMountProvider, IPar
 						// children/component of the superShare
 						'groupedShares' => $groupedShares,
 						'ownerView' => $ownerViews[$owner],
-						'sharingDisabledForUser' => $sharingDisabledForUser
+						'sharingDisabledForUser' => $sharingDisabledForUser,
+						'logger' => $this->logger,
+						'shareManager' => $this->shareManager,
+						'appConfig' => $appConfig,
+						'cacheDependencies' => $cacheDependencies,
 					],
 					$loader,
 					$this->eventDispatcher,
