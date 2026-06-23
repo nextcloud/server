@@ -22,7 +22,6 @@ use OC\Files\Storage\Wrapper\PermissionsMask;
 use OC\Files\Storage\Wrapper\Wrapper;
 use OC\Files\View;
 use OC\Share\Share;
-use OC\User\NoUserException;
 use OCA\Files_Sharing\ISharedStorage as LegacyISharedStorage;
 use OCP\Constants;
 use OCP\Files\Cache\ICache;
@@ -43,6 +42,7 @@ use OCP\Lock\ILockingProvider;
 use OCP\Server;
 use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
+use OCP\User\Exceptions\UserNotFoundException;
 use OCP\Util;
 use Override;
 use Psr\Log\LoggerInterface;
@@ -193,13 +193,8 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 					'mask' => $this->superShare->getPermissions(),
 				]);
 			}
-		} catch (NotFoundException $e) {
-			// original file not accessible or deleted, set FailedStorage
-			$this->storage = new FailedStorage(['exception' => $e]);
-			$this->cache = new FailedCache();
-			$this->rootPath = '';
-		} catch (NoUserException $e) {
-			// sharer user deleted, set FailedStorage
+		} catch (NotFoundException|UserNotFoundException $e) {
+			// original file not accessible or deleted or sharer user deleted, set FailedStorage
 			$this->storage = new FailedStorage(['exception' => $e]);
 			$this->cache = new FailedCache();
 			$this->rootPath = '';

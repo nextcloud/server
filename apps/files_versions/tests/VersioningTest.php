@@ -15,7 +15,6 @@ use OC\Files\Filesystem;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
 use OC\SystemConfig;
-use OC\User\NoUserException;
 use OCA\Files_Sharing\AppInfo\Application;
 use OCA\Files_Versions\Db\VersionEntity;
 use OCA\Files_Versions\Db\VersionsMapper;
@@ -30,6 +29,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
 use OCP\Share\IShare;
+use OCP\User\Exceptions\UserNotFoundException;
 use OCP\Util;
 
 /**
@@ -634,7 +634,7 @@ class VersioningTest extends \Test\TestCase {
 	}
 
 	public function testExpireNonexistingUser(): void {
-		$this->expectException(NoUserException::class);
+		$this->expectException(UserNotFoundException::class);
 
 		$this->logout();
 		// needed to have a FS setup (the background job does this)

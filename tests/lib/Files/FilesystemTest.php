@@ -12,7 +12,6 @@ use OC\Files\Filesystem;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
-use OC\User\NoUserException;
 use OCP\Files;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Config\IMountProviderCollection;
@@ -24,6 +23,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Server;
+use OCP\User\Exceptions\UserNotFoundException;
 
 class DummyMountProvider implements IMountProvider {
 	/**
@@ -330,7 +330,7 @@ class FilesystemTest extends \Test\TestCase {
 	 *
 	 */
 	public function testLocalMountWhenUserDoesNotExist(): void {
-		$this->expectException(NoUserException::class);
+		$this->expectException(UserNotFoundException::class);
 
 		$userId = $this->getUniqueID('user_');
 
@@ -338,7 +338,7 @@ class FilesystemTest extends \Test\TestCase {
 	}
 
 	public function testNullUserThrows(): void {
-		$this->expectException(NoUserException::class);
+		$this->expectException(UserNotFoundException::class);
 
 		Filesystem::initMountPoints(null);
 	}
@@ -347,12 +347,12 @@ class FilesystemTest extends \Test\TestCase {
 		$thrown = 0;
 		try {
 			Filesystem::initMountPoints(null);
-		} catch (NoUserException $e) {
+		} catch (UserNotFoundException $e) {
 			$thrown++;
 		}
 		try {
 			Filesystem::initMountPoints(null);
-		} catch (NoUserException $e) {
+		} catch (UserNotFoundException $e) {
 			$thrown++;
 		}
 		$this->assertEquals(2, $thrown);
@@ -367,13 +367,13 @@ class FilesystemTest extends \Test\TestCase {
 
 		try {
 			Filesystem::initMountPoints($userId);
-		} catch (NoUserException $e) {
+		} catch (UserNotFoundException $e) {
 			$thrown++;
 		}
 
 		try {
 			Filesystem::initMountPoints($userId);
-		} catch (NoUserException $e) {
+		} catch (UserNotFoundException $e) {
 			$thrown++;
 		}
 

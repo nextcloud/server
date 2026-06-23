@@ -13,7 +13,6 @@ use Closure;
 use Exception;
 use OC\Files\Filesystem;
 use OC\Files\View;
-use OC\User\NoUserException;
 use OCA\Encryption\Util;
 use OCA\Files\Exception\TransferOwnershipException;
 use OCA\Files_External\Config\ConfigAdapter;
@@ -35,6 +34,7 @@ use OCP\Server;
 use OCP\Share\Events\ShareTransferredEvent;
 use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
+use OCP\User\Exceptions\UserNotFoundException;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -67,7 +67,7 @@ class OwnershipTransferService {
 	 * @param OutputInterface|null $output
 	 * @param bool $move
 	 * @throws TransferOwnershipException
-	 * @throws NoUserException
+	 * @throws UserNotFoundException
 	 */
 	public function transfer(
 		IUser $sourceUser,

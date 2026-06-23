@@ -315,19 +315,13 @@ class Root extends Folder implements IRootFolder, Emitter {
 		return '';
 	}
 
-	/**
-	 * Returns a view to user's files folder
-	 *
-	 * @param string $userId user ID
-	 * @return \OCP\Files\Folder
-	 * @throws NoUserException
-	 * @throws NotPermittedException
-	 */
 	#[\Override]
 	public function getUserFolder($userId) {
 		$userObject = $this->userManager->get($userId);
 
 		if (is_null($userObject)) {
+			// Change this to UserNotFoundException in the future when all consumers
+			// are ported to the new exception
 			$e = new NoUserException('Backends provided no user object');
 			$this->logger->error(
 				sprintf(

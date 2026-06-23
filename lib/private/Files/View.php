@@ -19,7 +19,6 @@ use OC\Lock\NoopLockingProvider;
 use OC\Share\Share;
 use OC\User\LazyUser;
 use OC\User\Manager as UserManager;
-use OC\User\NoUserException;
 use OC\User\User;
 use OCA\Files_Sharing\SharedMount;
 use OCP\Constants;
@@ -52,6 +51,7 @@ use OCP\Lock\LockedException;
 use OCP\Server;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use OCP\User\Exceptions\UserNotFoundException;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
@@ -2270,7 +2270,7 @@ class View {
 	/**
 	 * @param string $filename
 	 * @return array
-	 * @throws NoUserException
+	 * @throws UserNotFoundException
 	 * @throws NotFoundException
 	 */
 	public function getUidAndFilename($filename) {
