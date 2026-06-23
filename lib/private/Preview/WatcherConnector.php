@@ -37,6 +37,7 @@ class WatcherConnector {
 	public function connectWatcher(): void {
 		// Do not connect if we are not setup yet!
 		if ($this->config->getValue('instanceid', null) !== null) {
+			/** @psalm-suppress UndefinedInterfaceMethod both Root and LazyRoot have listen */
 			$this->root->listen('\OC\Files', 'postWrite', function (Node $node): void {
 				$this->getWatcher()->postWrite($node);
 			});
