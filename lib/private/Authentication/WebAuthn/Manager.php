@@ -141,7 +141,7 @@ class Manager {
 	}
 
 	private function stripPort(string $serverHost): string {
-		return preg_replace('/(:\d+$)/', '', $serverHost);
+		return preg_replace('/(:\d+$)/', '', $serverHost) ?? '';
 	}
 
 	public function startAuthentication(string $uid, string $serverHost): PublicKeyCredentialRequestOptions {
