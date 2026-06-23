@@ -14,15 +14,15 @@
 				:size="32" />
 			<NcAvatar
 				v-else-if="visible"
-				disable-menu
-				hide-status
+				disableMenu
+				hideStatus
 				:user="user.id" />
 		</td>
 
 		<td class="row__cell row__cell--displayname" data-cy-user-list-cell-displayname>
 			<strong
 				v-if="!isObfuscated"
-				:title="user.displayname?.length > 20 ? user.displayname : null">
+				:title="user.displayname?.length > 20 ? user.displayname : undefined">
 				{{ user.displayname }}
 			</strong>
 		</td>
@@ -34,7 +34,7 @@
 		<td class="row__cell" data-cy-user-list-cell-email>
 			<span
 				v-if="!isObfuscated"
-				:title="user.email?.length > 20 ? user.email : null">
+				:title="user.email && user.email.length > 20 ? user.email : undefined">
 				{{ user.email }}
 			</span>
 		</td>
@@ -42,7 +42,7 @@
 		<td class="row__cell row__cell--groups row__cell--multiline" data-cy-user-list-cell-groups>
 			<span
 				v-if="!isObfuscated"
-				:title="userGroupsLabels?.length > 40 ? userGroupsLabels : null">
+				:title="userGroupsLabels?.length > 40 ? userGroupsLabels : undefined">
 				{{ userGroupsLabels }}
 			</span>
 		</td>
@@ -53,7 +53,7 @@
 			class="row__cell row__cell--large row__cell--multiline">
 			<span
 				v-if="!isObfuscated"
-				:title="userSubAdminGroupsLabels?.length > 40 ? userSubAdminGroupsLabels : null">
+				:title="userSubAdminGroupsLabels?.length > 40 ? userSubAdminGroupsLabels : undefined">
 				{{ userSubAdminGroupsLabels }}
 			</span>
 		</td>
@@ -127,337 +127,292 @@
 	</tr>
 </template>
 
-<script>
+<script setup lang="ts">
+import type { IUser } from '../../views/user-types.d.ts'
+import type { LanguageOption, QuotaOption } from './userFormUtils.ts'
+
 import { getCurrentUser } from '@nextcloud/auth'
 import { showSuccess } from '@nextcloud/dialogs'
 import { formatFileSize, parseFileSize } from '@nextcloud/files'
+import { translate as t } from '@nextcloud/l10n'
 import { confirmPassword } from '@nextcloud/password-confirmation'
-import { useFormatDateTime } from '@nextcloud/vue'
+import { useFormatTime } from '@nextcloud/vue'
+import { computed, reactive } from 'vue'
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcProgressBar from '@nextcloud/vue/components/NcProgressBar'
 import UserRowActions from './UserRowActions.vue'
-import { isObfuscated } from '../../utils/userUtils.ts'
+import { useStore } from '../../store/index.js'
+import { isObfuscated as isObfuscatedUser } from '../../utils/userUtils.ts'
 
-const productName = window.OC.theme.productName
+const props = withDefaults(defineProps<{
+	user: IUser
+	visible: boolean
+	users: IUser[]
+	quotaOptions: QuotaOption[]
+	languages: { languages: LanguageOption[] }[]
+	// settings is loose until the store is typed.
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	settings: Record<string, any>
+	externalActions?: { icon: string, text: string, action: (...args: unknown[]) => void }[]
+	onEditUser?: ((user: IUser) => void) | null
+}>(), {
+	externalActions: () => [],
+	onEditUser: null,
+})
+const OC = window.OC
+const productName = OC.theme.productName
 
-export default {
-	name: 'UserRow',
+const store = useStore()
 
-	components: {
-		NcAvatar,
-		NcLoadingIcon,
-		NcProgressBar,
-		UserRowActions,
+const formattedFullTime = useFormatTime(props.user.firstLoginTimestamp * 1000, {
+	format: {
+		timeStyle: 'short',
+		dateStyle: 'short',
 	},
+})
 
-	props: {
-		user: {
-			type: Object,
-			required: true,
-		},
+const rand = Math.random().toString(36).substring(2)
+const loading = reactive({
+	all: false,
+	delete: false,
+	disable: false,
+	wipe: false,
+})
 
-		visible: {
-			type: Boolean,
-			required: true,
-		},
+const isObfuscated = computed(() => isObfuscatedUser(props.user))
 
-		users: {
-			type: Array,
-			required: true,
-		},
+const usedQuota = computed(() => {
+	let quota = props.user.quota.quota
+	if (quota > 0) {
+		quota = Math.min(100, Math.round(props.user.quota.used / quota * 100))
+	} else {
+		const usedInGB = props.user.quota.used / (10 * Math.pow(2, 30))
+		// asymptotic curve approaching 50% at 10GB to visualize used space with infinite quota
+		quota = 95 * (1 - (1 / (usedInGB + 1)))
+	}
+	return isNaN(quota) ? 0 : quota
+})
 
-		quotaOptions: {
-			type: Array,
-			required: true,
-		},
+const userLanguage = computed(() => {
+	const availableLanguages = props.languages[0].languages.concat(props.languages[1].languages)
+	const userLang = availableLanguages.find((lang) => lang.code === props.user.language)
+	if (userLang) {
+		return userLang
+	}
+	// Unknown or unset language: fall back to the raw code (empty string renders nothing)
+	return { code: props.user.language, name: props.user.language }
+})
 
-		languages: {
-			type: Array,
-			required: true,
-		},
+const userFirstLogin = computed(() => {
+	if (props.user.firstLoginTimestamp > 0) {
+		return formattedFullTime.value
+	}
+	if (props.user.firstLoginTimestamp < 0) {
+		return t('settings', 'Unknown')
+	}
+	return t('settings', 'Never')
+})
 
-		settings: {
-			type: Object,
-			required: true,
-		},
+const userLastLoginTooltip = computed(() => {
+	if (props.user.lastLoginTimestamp > 0) {
+		return OC.Util.formatDate(props.user.lastLoginTimestamp * 1000)
+	}
+	return ''
+})
 
-		externalActions: {
-			type: Array,
-			default: () => [],
-		},
+const userLastLogin = computed(() => {
+	if (props.user.lastLoginTimestamp > 0) {
+		return OC.Util.relativeModifiedDate(props.user.lastLoginTimestamp * 1000)
+	}
+	return t('settings', 'Never')
+})
 
-		/** Callback from UserList to open the edit dialog */
-		onEditUser: {
-			type: Function,
-			default: null,
-		},
-	},
+const showConfig = computed(() => store.getters.getShowConfig)
 
-	setup(props) {
-		const { formattedFullTime } = useFormatDateTime(props.user.firstLoginTimestamp * 1000, {
-			relativeTime: false,
-			format: {
-				timeStyle: 'short',
-				dateStyle: 'short',
-			},
+const isLoadingUser = computed(() => loading.delete || loading.disable || loading.wipe)
+
+const isLoadingField = computed(() => loading.delete || loading.disable || loading.all)
+
+const uniqueId = computed(() => encodeURIComponent(props.user.id + rand))
+
+const userGroupsLabels = computed(() => {
+	const allGroups = store.getters.getGroups
+	return props.user.groups
+		.map((id) => {
+			const group = allGroups.find((g) => g.id === id)
+			return group?.name ?? id
 		})
-		return {
-			formattedFullTime,
+		.join(', ')
+})
+
+const userSubAdminGroupsLabels = computed(() => {
+	const allGroups = store.getters.getGroups
+	return (props.user.subadmin ?? [])
+		.map((id) => {
+			const group = allGroups.find((g) => g.id === id)
+			return group?.name ?? id
+		})
+		.join(', ')
+})
+
+const usedSpace = computed(() => {
+	if (props.user.quota?.used) {
+		return t('settings', '{size} used', { size: formatFileSize(props.user.quota?.used) })
+	}
+	return t('settings', '{size} used', { size: formatFileSize(0) })
+})
+
+const canEdit = computed(() => getCurrentUser()?.uid !== props.user.id || props.settings.isAdmin || props.settings.isDelegatedAdmin)
+
+const userQuota = computed(() => {
+	let quota = props.user.quota?.quota
+
+	if (quota === 'default') {
+		quota = props.settings.defaultQuota
+		if (quota !== 'none') {
+			quota = parseFileSize(quota, true)
 		}
-	},
+	}
 
-	data() {
-		return {
-			rand: Math.random().toString(36).substring(2),
-			loading: {
-				all: false,
-				delete: false,
-				disable: false,
-				wipe: false,
-			},
-		}
-	},
+	if (quota === 'none' || quota === -3) {
+		return t('settings', 'Unlimited')
+	} else if (quota >= 0) {
+		return formatFileSize(quota)
+	}
+	return formatFileSize(0)
+})
 
-	computed: {
-		isObfuscated() {
-			return isObfuscated(this.user)
+const userActions = computed(() => {
+	const actions = [
+		{
+			icon: 'icon-delete',
+			text: t('settings', 'Delete account'),
+			action: deleteUser,
 		},
-
-		usedQuota() {
-			let quota = this.user.quota.quota
-			if (quota > 0) {
-				quota = Math.min(100, Math.round(this.user.quota.used / quota * 100))
-			} else {
-				const usedInGB = this.user.quota.used / (10 * Math.pow(2, 30))
-				// asymptotic curve approaching 50% at 10GB to visualize used space with infinite quota
-				quota = 95 * (1 - (1 / (usedInGB + 1)))
-			}
-			return isNaN(quota) ? 0 : quota
+		{
+			icon: 'icon-delete',
+			text: t('settings', 'Disconnect all devices and delete local data'),
+			action: wipeUserDevices,
 		},
-
-		userLanguage() {
-			const availableLanguages = this.languages[0].languages.concat(this.languages[1].languages)
-			const userLang = availableLanguages.find((lang) => lang.code === this.user.language)
-			if (typeof userLang !== 'object' && this.user.language !== '') {
-				return {
-					code: this.user.language,
-					name: this.user.language,
-				}
-			} else if (this.user.language === '') {
-				return false
-			}
-			return userLang
+		{
+			icon: props.user.enabled ? 'icon-close' : 'icon-add',
+			text: props.user.enabled ? t('settings', 'Disable account') : t('settings', 'Enable account'),
+			action: enableDisableUser,
 		},
+	]
+	if (props.user.email !== null && props.user.email !== '') {
+		actions.push({
+			icon: 'icon-mail',
+			text: t('settings', 'Resend welcome email'),
+			action: sendWelcomeMail,
+		})
+	}
+	return actions.concat(props.externalActions)
+})
 
-		userFirstLogin() {
-			if (this.user.firstLoginTimestamp > 0) {
-				return this.formattedFullTime
-			}
-			if (this.user.firstLoginTimestamp < 0) {
-				return t('settings', 'Unknown')
-			}
-			return t('settings', 'Never')
+/**
+ * Open the edit dialog via the list-provided callback.
+ */
+function toggleEdit() {
+	if (props.onEditUser) {
+		props.onEditUser(props.user)
+	}
+}
+
+/**
+ * Confirm and remotely wipe the account's devices.
+ */
+async function wipeUserDevices() {
+	const userid = props.user.id
+	await confirmPassword()
+	OC.dialogs.confirmDestructive(
+		t(
+			'settings',
+			'In case of lost device or exiting the organization, this can remotely wipe the {productName} data from all devices associated with {userid}. Only works if the devices are connected to the internet.',
+			{ userid, productName },
+		),
+		t('settings', 'Remote wipe of devices'),
+		{
+			type: OC.dialogs.YES_NO_BUTTONS,
+			confirm: t('settings', 'Wipe {userid}\'s devices', { userid }),
+			confirmClasses: 'error',
+			cancel: t('settings', 'Cancel'),
 		},
-
-		userLastLoginTooltip() {
-			if (this.user.lastLoginTimestamp > 0) {
-				return OC.Util.formatDate(this.user.lastLoginTimestamp * 1000)
-			}
-			return ''
-		},
-
-		userLastLogin() {
-			if (this.user.lastLoginTimestamp > 0) {
-				return OC.Util.relativeModifiedDate(this.user.lastLoginTimestamp * 1000)
-			}
-			return t('settings', 'Never')
-		},
-
-		showConfig() {
-			return this.$store.getters.getShowConfig
-		},
-
-		isLoadingUser() {
-			return this.loading.delete || this.loading.disable || this.loading.wipe
-		},
-
-		isLoadingField() {
-			return this.loading.delete || this.loading.disable || this.loading.all
-		},
-
-		uniqueId() {
-			return encodeURIComponent(this.user.id + this.rand)
-		},
-
-		userGroupsLabels() {
-			const allGroups = this.$store.getters.getGroups
-			return this.user.groups
-				.map((id) => {
-					const group = allGroups.find((g) => g.id === id)
-					return group?.name ?? id
-				})
-				.join(', ')
-		},
-
-		userSubAdminGroupsLabels() {
-			const allGroups = this.$store.getters.getGroups
-			return (this.user.subadmin ?? [])
-				.map((id) => {
-					const group = allGroups.find((g) => g.id === id)
-					return group?.name ?? id
-				})
-				.join(', ')
-		},
-
-		usedSpace() {
-			if (this.user.quota?.used) {
-				return t('settings', '{size} used', { size: formatFileSize(this.user.quota?.used) })
-			}
-			return t('settings', '{size} used', { size: formatFileSize(0) })
-		},
-
-		canEdit() {
-			return getCurrentUser().uid !== this.user.id || this.settings.isAdmin || this.settings.isDelegatedAdmin
-		},
-
-		userQuota() {
-			let quota = this.user.quota?.quota
-
-			if (quota === 'default') {
-				quota = this.settings.defaultQuota
-				if (quota !== 'none') {
-					quota = parseFileSize(quota, true)
-				}
-			}
-
-			if (quota === 'none' || quota === -3) {
-				return t('settings', 'Unlimited')
-			} else if (quota >= 0) {
-				return formatFileSize(quota)
-			}
-			return formatFileSize(0)
-		},
-
-		userActions() {
-			const actions = [
-				{
-					icon: 'icon-delete',
-					text: t('settings', 'Delete account'),
-					action: this.deleteUser,
-				},
-				{
-					icon: 'icon-delete',
-					text: t('settings', 'Disconnect all devices and delete local data'),
-					action: this.wipeUserDevices,
-				},
-				{
-					icon: this.user.enabled ? 'icon-close' : 'icon-add',
-					text: this.user.enabled ? t('settings', 'Disable account') : t('settings', 'Enable account'),
-					action: this.enableDisableUser,
-				},
-			]
-			if (this.user.email !== null && this.user.email !== '') {
-				actions.push({
-					icon: 'icon-mail',
-					text: t('settings', 'Resend welcome email'),
-					action: this.sendWelcomeMail,
-				})
-			}
-			return actions.concat(this.externalActions)
-		},
-	},
-
-	methods: {
-		toggleEdit() {
-			if (this.onEditUser) {
-				this.onEditUser(this.user)
+		(result) => {
+			if (result) {
+				loading.wipe = true
+				loading.all = true
+				store.dispatch('wipeUserDevices', userid)
+					.then(() => showSuccess(t('settings', 'Wiped {userid}\'s devices', { userid })), { timeout: 2000 })
+					.finally(() => {
+						loading.wipe = false
+						loading.all = false
+					})
 			}
 		},
+		true,
+	)
+}
 
-		async wipeUserDevices() {
-			const userid = this.user.id
-			await confirmPassword()
-			OC.dialogs.confirmDestructive(
-				t(
-					'settings',
-					'In case of lost device or exiting the organization, this can remotely wipe the {productName} data from all devices associated with {userid}. Only works if the devices are connected to the internet.',
-					{ userid, productName },
-				),
-				t('settings', 'Remote wipe of devices'),
-				{
-					type: OC.dialogs.YES_NO_BUTTONS,
-					confirm: t('settings', 'Wipe {userid}\'s devices', { userid }),
-					confirmClasses: 'error',
-					cancel: t('settings', 'Cancel'),
-				},
-				(result) => {
-					if (result) {
-						this.loading.wipe = true
-						this.loading.all = true
-						this.$store.dispatch('wipeUserDevices', userid)
-							.then(() => showSuccess(t('settings', 'Wiped {userid}\'s devices', { userid })), { timeout: 2000 })
-							.finally(() => {
-								this.loading.wipe = false
-								this.loading.all = false
-							})
-					}
-				},
-				true,
-			)
+/**
+ * Confirm and fully delete the account and its data.
+ */
+async function deleteUser() {
+	const userid = props.user.id
+	await confirmPassword()
+	OC.dialogs.confirmDestructive(
+		t('settings', 'Fully delete {userid}\'s account including all their personal files, app data, etc.', { userid }),
+		t('settings', 'Account deletion'),
+		{
+			type: OC.dialogs.YES_NO_BUTTONS,
+			confirm: t('settings', 'Delete {userid}\'s account', { userid }),
+			confirmClasses: 'error',
+			cancel: t('settings', 'Cancel'),
 		},
+		(result) => {
+			if (result) {
+				loading.delete = true
+				loading.all = true
+				return store.dispatch('deleteUser', userid)
+					.then(() => {
+						loading.delete = false
+						loading.all = false
+					})
+			}
+		},
+		true,
+	)
+}
 
-		async deleteUser() {
-			const userid = this.user.id
-			await confirmPassword()
-			OC.dialogs.confirmDestructive(
-				t('settings', 'Fully delete {userid}\'s account including all their personal files, app data, etc.', { userid }),
-				t('settings', 'Account deletion'),
-				{
-					type: OC.dialogs.YES_NO_BUTTONS,
-					confirm: t('settings', 'Delete {userid}\'s account', { userid }),
-					confirmClasses: 'error',
-					cancel: t('settings', 'Cancel'),
-				},
-				(result) => {
-					if (result) {
-						this.loading.delete = true
-						this.loading.all = true
-						return this.$store.dispatch('deleteUser', userid)
-							.then(() => {
-								this.loading.delete = false
-								this.loading.all = false
-							})
-					}
-				},
-				true,
-			)
-		},
+/**
+ * Toggle the account's enabled state.
+ */
+function enableDisableUser() {
+	loading.delete = true
+	loading.all = true
+	const userid = props.user.id
+	const enabled = !props.user.enabled
+	return store.dispatch('enableDisableUser', {
+		userid,
+		enabled,
+	})
+		.then(() => {
+			loading.delete = false
+			loading.all = false
+		})
+}
 
-		enableDisableUser() {
-			this.loading.delete = true
-			this.loading.all = true
-			const userid = this.user.id
-			const enabled = !this.user.enabled
-			return this.$store.dispatch('enableDisableUser', {
-				userid,
-				enabled,
-			})
-				.then(() => {
-					this.loading.delete = false
-					this.loading.all = false
-				})
-		},
-
-		sendWelcomeMail() {
-			this.loading.all = true
-			this.$store.dispatch('sendWelcomeMail', this.user.id)
-				.then(() => showSuccess(t('settings', 'Welcome mail sent!'), { timeout: 2000 }))
-				.finally(() => {
-					this.loading.all = false
-				})
-		},
-	},
+/**
+ * Resend the welcome email to the account.
+ */
+function sendWelcomeMail() {
+	loading.all = true
+	store.dispatch('sendWelcomeMail', props.user.id)
+		.then(() => showSuccess(t('settings', 'Welcome mail sent!'), { timeout: 2000 }))
+		.finally(() => {
+			loading.all = false
+		})
 }
 </script>
 
