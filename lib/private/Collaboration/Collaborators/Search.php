@@ -95,8 +95,6 @@ class Search implements ISearch {
 		$allResults = $searchResult->asArray();
 
 		$emailType = new SearchResultType('emails');
-		$remoteType = new SearchResultType('remotes');
-
 		$emailLabel = $emailType->getLabel();
 		$emailEntries = array_merge(
 			$allResults['exact'][$emailLabel] ?? [],
@@ -115,14 +113,18 @@ class Search implements ISearch {
 			$mailIdMap[$mailRow['uuid']] = $mailRow['value']['shareWith'];
 		}
 
-		foreach ($allResults[$remoteType->getLabel()] as $resultRow) {
-			if (!isset($resultRow['uuid'])) {
-				continue;
-			}
-			if (isset($mailIdMap[$resultRow['uuid']])) {
-				$searchResult->removeCollaboratorResult($emailType, $mailIdMap[$resultRow['uuid']]);
+		$remoteType = new SearchResultType('remotes');
+		if (isset($allResults[$remoteType->getLabel()])) {
+			foreach ($allResults[$remoteType->getLabel()] as $resultRow) {
+				if (!isset($resultRow['uuid'])) {
+					continue;
+				}
+				if (isset($mailIdMap[$resultRow['uuid']])) {
+					$searchResult->removeCollaboratorResult($emailType, $mailIdMap[$resultRow['uuid']]);
+				}
 			}
 		}
+
 		$lookupType = new SearchResultType('lookup');
 		if (isset($allResults[$lookupType->getLabel()])) {
 			foreach ($allResults[$lookupType->getLabel()] as $resultRow) {
