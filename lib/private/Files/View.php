@@ -1570,10 +1570,6 @@ class View {
 		//add a folder for any mountpoint in this directory and add the sizes of other mountpoints to the folders
 		$mounts = Filesystem::getMountManager()->findIn($path);
 
-		// make sure nested mounts are sorted after their parent mounts
-		// otherwise doesn't propagate the etag across storage boundaries correctly
-		usort($mounts, static fn (IMountPoint $a, IMountPoint $b): int => $a->getMountPoint() <=> $b->getMountPoint());
-
 		$dirLength = strlen($path);
 		foreach ($mounts as $mount) {
 			$mountPoint = $mount->getMountPoint();
