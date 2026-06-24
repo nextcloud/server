@@ -178,7 +178,7 @@ class BackendService {
 	 * @return Backend[]
 	 */
 	public function getAvailableBackends() {
-		$backends = array_filter($this->getBackends(), fn (Backend $backend) => $backend->checkRequiredDependencies() === []);
+		$backends = array_filter($this->getBackends(), fn (Backend $backend) => $backend->checkRequiredDependencies() === [] && $backend->getDeprecateTo() === null);
 		uasort($backends, [Backend::class, 'lexicalCompare']);
 		return $backends;
 	}
