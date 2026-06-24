@@ -26,6 +26,7 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCSController;
+use OCP\Config\IUserConfig;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
 use OCP\Group\ISubAdmin;
@@ -41,6 +42,7 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Mail\IEMailTemplate;
+use OCP\Mail\IEmailValidator;
 use OCP\Security\Events\GenerateSecurePasswordEvent;
 use OCP\Security\ISecureRandom;
 use OCP\UserInterface;
@@ -70,6 +72,10 @@ class UsersControllerTest extends TestCase {
 	private IPhoneNumberUtil $phoneNumberUtil;
 	private IAppManager $appManager;
 	private IAppConfig&MockObject $appConfig;
+	private IUserConfig&MockObject $userConfig;
+	private IEmailValidator&MockObject $emailValidator;
+	/** @var \Closure(string): bool Swappable isValid() behavior; defaults to filter_var parity. */
+	private \Closure $emailValidatorIsValid;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -92,6 +98,14 @@ class UsersControllerTest extends TestCase {
 		$this->phoneNumberUtil = new PhoneNumberUtil();
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
+		$this->userConfig = $this->createMock(IUserConfig::class);
+		$this->emailValidator = $this->createMock(IEmailValidator::class);
+		// Default to filter_var parity so existing tests are unaffected; individual tests may
+		// swap $this->emailValidatorIsValid to exercise IEmailValidator-specific accept/reject.
+		$this->emailValidatorIsValid = fn (string $email): bool => $email !== '' && filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
+		$this->emailValidator->method('isValid')->willReturnCallback(
+			fn (string $email): bool => ($this->emailValidatorIsValid)($email),
+		);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 
 		$l10n = $this->createMock(IL10N::class);
@@ -120,6 +134,8 @@ class UsersControllerTest extends TestCase {
 				$this->phoneNumberUtil,
 				$this->appManager,
 				$this->appConfig,
+				$this->userConfig,
+				$this->emailValidator,
 			])
 			->onlyMethods(['fillStorageInfo'])
 			->getMock();
@@ -506,6 +522,8 @@ class UsersControllerTest extends TestCase {
 				$this->phoneNumberUtil,
 				$this->appManager,
 				$this->appConfig,
+				$this->userConfig,
+				$this->emailValidator,
 			])
 			->onlyMethods(['editUser'])
 			->getMock();
@@ -2143,7 +2161,7 @@ class UsersControllerTest extends TestCase {
 			->with('UserToEdit')
 			->willReturn($targetUser);
 		$this->groupManager
-			->expects($this->exactly(3))
+			->expects($this->any())
 			->method('isAdmin')
 			->with('UID')
 			->willReturn(true);
@@ -2182,7 +2200,7 @@ class UsersControllerTest extends TestCase {
 			->with('UserToEdit')
 			->willReturn($targetUser);
 		$this->groupManager
-			->expects($this->exactly(3))
+			->expects($this->any())
 			->method('isAdmin')
 			->with('UID')
 			->willReturn(true);
@@ -2267,8 +2285,8 @@ class UsersControllerTest extends TestCase {
 			->method('getUID')
 			->willReturn('UserToEdit');
 		$targetUser = $this->createMock(IUser::class);
-		$this->config->expects($this->once())
-			->method('setUserValue')
+		$this->userConfig->expects($this->once())
+			->method('setValueString')
 			->with('UserToEdit', 'core', 'lang', 'de');
 		$this->userSession
 			->expects($this->once())
@@ -2322,8 +2340,8 @@ class UsersControllerTest extends TestCase {
 			->method('getUID')
 			->willReturn('UserToEdit');
 		$targetUser = $this->createMock(IUser::class);
-		$this->config->expects($this->never())
-			->method('setUserValue');
+		$this->userConfig->expects($this->never())
+			->method('setValueString');
 		$this->userSession
 			->expects($this->once())
 			->method('getUser')
@@ -2363,8 +2381,8 @@ class UsersControllerTest extends TestCase {
 			->method('getUID')
 			->willReturn('admin');
 		$targetUser = $this->createMock(IUser::class);
-		$this->config->expects($this->once())
-			->method('setUserValue')
+		$this->userConfig->expects($this->once())
+			->method('setValueString')
 			->with('UserToEdit', 'core', 'lang', 'de');
 		$this->userSession
 			->expects($this->once())
@@ -2413,8 +2431,8 @@ class UsersControllerTest extends TestCase {
 			->method('getUID')
 			->willReturn('admin');
 		$targetUser = $this->createMock(IUser::class);
-		$this->config->expects($this->never())
-			->method('setUserValue');
+		$this->userConfig->expects($this->never())
+			->method('setValueString');
 		$this->userSession
 			->expects($this->once())
 			->method('getUser')
@@ -2813,10 +2831,13 @@ class UsersControllerTest extends TestCase {
 		$subAdmin->method('isUserAccessible')->willReturn(false);
 		$this->groupManager->method('getSubAdmin')->willReturn($subAdmin);
 
-		// force_language is set — regular users cannot change language
+		// force_language is set — regular users cannot change language.
+		// force_locale is unset so the locale gate stays open (irrelevant to this test).
 		$this->config->method('getSystemValue')
-			->with('force_language', false)
-			->willReturn('en');
+			->willReturnMap([
+				['force_language', false, 'en'],
+				['force_locale', false, false],
+			]);
 
 		$result = $this->api->editUserMultiField('regularuser', language: 'de');
 		$this->assertSame(Http::STATUS_UNPROCESSABLE_ENTITY, $result->getStatus());
@@ -2846,6 +2867,265 @@ class UsersControllerTest extends TestCase {
 
 		$result = $this->api->editUserMultiField('targetuser', displayName: '');
 		$this->assertSame(Http::STATUS_OK, $result->getStatus());
+	}
+
+	public function testValidateDisplayNameChangeReturnsErrorWhenBackendLacksSupport(): void {
+		// Non-self path: backend must implement SET_DISPLAYNAME (or ISetDisplayNameBackend).
+		// When neither is true, the helper must return a non-null l10n error string.
+		$targetUser = $this->createMock(IUser::class);
+		$backend = $this->createMock(UserInterface::class);
+		$backend->method('implementsActions')->willReturn(false);
+		$targetUser->method('getBackend')->willReturn($backend);
+
+		$result = $this->invokePrivate($this->api, 'validateDisplayNameChange', [$targetUser, false]);
+
+		$this->assertNotNull($result);
+		$this->assertIsString($result);
+	}
+
+	public function testApplyDisplayNameResetsToUserIdWhenEmptyAndAllowed(): void {
+		// Multi-field PATCH semantics: empty string resets to userId.
+		$targetUser = $this->createMock(IUser::class);
+		$targetUser->expects($this->once())->method('setDisplayName')->with('targetuser');
+
+		$this->invokePrivate($this->api, 'applyDisplayName', [$targetUser, '', 'targetuser', true]);
+	}
+
+	public function testApplyDisplayNameForwardsEmptyWhenResetDisallowed(): void {
+		// Single-field PUT semantics: empty string is forwarded so OC\User\User::setDisplayName()
+		// can throw InvalidArgumentException → OCS 101 (legacy editUser contract).
+		$targetUser = $this->createMock(IUser::class);
+		$targetUser->expects($this->once())->method('setDisplayName')->with('');
+
+		$this->invokePrivate($this->api, 'applyDisplayName', [$targetUser, '', 'targetuser', false]);
+	}
+
+	public function testValidateAndNormalizeEmailLowercasesAndTrims(): void {
+		$result = $this->invokePrivate($this->api, 'validateAndNormalizeEmail', ['  Foo@Example.COM  ', false]);
+		$this->assertSame('foo@example.com', $result);
+	}
+
+	public function testValidateAndNormalizeEmailRejectsMalformed(): void {
+		$this->expectException(\InvalidArgumentException::class);
+		$this->invokePrivate($this->api, 'validateAndNormalizeEmail', ['not-an-email', false]);
+	}
+
+	public function testValidateAndNormalizeEmailAcceptsEmptyWhenAllowed(): void {
+		$result = $this->invokePrivate($this->api, 'validateAndNormalizeEmail', ['', true]);
+		$this->assertSame('', $result);
+	}
+
+	public function testValidateLanguagePolicyBlocksNonAdminWhenForceLanguageSet(): void {
+		// force_language set + non-admin caller → must short-circuit with an l10n error
+		// before language-exists check is reached.
+		$this->config->method('getSystemValue')
+			->with('force_language', false)
+			->willReturn('en');
+
+		$result = $this->invokePrivate($this->api, 'validateLanguagePolicy', ['de', false, false]);
+
+		$this->assertNotNull($result);
+		$this->assertIsString($result);
+	}
+
+	public function testApplyGroupMembershipDelegatedAdminCannotPromoteToAdminGroup(): void {
+		// Caller is a delegated admin (callerIsFullAdmin=false). Desired GIDs include 'admin'.
+		// Helper must skip the 'admin' add and still apply the other group.
+		$targetUser = $this->createMock(IUser::class);
+		$this->groupManager->method('getUserGroups')->with($targetUser)->willReturn([]);
+
+		$adminGroup = $this->createMock(IGroup::class);
+		$adminGroup->expects($this->never())->method('addUser');
+
+		$staffGroup = $this->createMock(IGroup::class);
+		$staffGroup->expects($this->once())->method('addUser')->with($targetUser);
+
+		$this->groupManager->method('get')->willReturnMap([
+			['admin', $adminGroup],
+			['staff', $staffGroup],
+		]);
+
+		$this->invokePrivate($this->api, 'applyGroupMembership', [$targetUser, ['admin', 'staff'], false]);
+	}
+
+	public function testGetPermittedFieldsReturnsEmptyForNonSelfWithoutAccess(): void {
+		// A regular user trying to edit another user with no admin / sub-admin
+		// rights gets back an empty set; callers translate that to OCS NOT_FOUND
+		// or 403 depending on endpoint contract.
+		$targetUser = $this->createMock(IUser::class);
+		$targetUser->method('getUID')->willReturn('targetuser');
+		$caller = $this->createMock(IUser::class);
+		$caller->method('getUID')->willReturn('caller');
+
+		$result = $this->invokePrivate(
+			$this->api,
+			'getPermittedFields',
+			[$targetUser, $caller, false, false, false],
+		);
+		$this->assertSame([], $result);
+	}
+
+	public function testApplySubAdminMembershipCannotPromoteToAdminGroup(): void {
+		// Helper must skip 'admin' unconditionally and still apply other groups.
+		$targetUser = $this->createMock(IUser::class);
+		$subAdminManager = $this->createMock(ISubAdmin::class);
+		$subAdminManager->method('getSubAdminsGroups')->willReturn([]);
+		$subAdminManager->method('isSubAdminOfGroup')->willReturn(false);
+		$this->groupManager->method('getSubAdmin')->willReturn($subAdminManager);
+
+		$adminGroup = $this->createMock(IGroup::class);
+		$staffGroup = $this->createMock(IGroup::class);
+		$this->groupManager->method('get')->willReturnMap([
+			['admin', $adminGroup],
+			['staff', $staffGroup],
+		]);
+
+		// 'admin' must never be promoted, 'staff' must be promoted exactly once.
+		$subAdminManager->expects($this->once())
+			->method('createSubAdmin')
+			->with($targetUser, $staffGroup);
+
+		$this->invokePrivate($this->api, 'applySubAdminMembership', [$targetUser, ['admin', 'staff']]);
+	}
+
+	public function testApplySubAdminMembershipRemovesStaleGroups(): void {
+		// Demotion branch: a current sub-admin group missing from the desired set
+		// must be removed via deleteSubAdmin(), and groups that stay are left alone.
+		$targetUser = $this->createMock(IUser::class);
+
+		$staleGroup = $this->createMock(IGroup::class);
+		$staleGroup->method('getGID')->willReturn('stale');
+		$keepGroup = $this->createMock(IGroup::class);
+		$keepGroup->method('getGID')->willReturn('keep');
+
+		$subAdminManager = $this->createMock(ISubAdmin::class);
+		$subAdminManager->method('getSubAdminsGroups')->willReturn([$staleGroup, $keepGroup]);
+		$this->groupManager->method('getSubAdmin')->willReturn($subAdminManager);
+		$this->groupManager->method('get')->willReturnMap([
+			['stale', $staleGroup],
+			['keep', $keepGroup],
+		]);
+
+		// 'stale' is dropped → demoted exactly once; 'keep' stays → no add, no remove.
+		$subAdminManager->expects($this->once())
+			->method('deleteSubAdmin')
+			->with($targetUser, $staleGroup);
+		$subAdminManager->expects($this->never())->method('createSubAdmin');
+
+		$this->invokePrivate($this->api, 'applySubAdminMembership', [$targetUser, ['keep']]);
+	}
+
+	public function testEditUserMultiFieldSelfCannotChangeEmailWhenPropertyLocked(): void {
+		// Behavior change: the multi-field endpoint now gates the primary email on
+		// canEditProperty('email'). A self user whose backend locks that property
+		// (e.g. an LDAP-mapped account) can no longer change their email here. On the
+		// pre-refactor multi-field endpoint this was a format-only check, so the change
+		// previously went through. This now matches the single-field editUser endpoint.
+		$currentUser = $this->createMock(IUser::class);
+		$currentUser->method('getUID')->willReturn('regularuser');
+		$this->userSession->method('getUser')->willReturn($currentUser);
+
+		$targetUser = $this->createMock(IUser::class);
+		$targetUser->method('getUID')->willReturn('regularuser');
+		// Only the email property is locked; everything else stays editable.
+		$targetUser->method('canEditProperty')
+			->willReturnCallback(fn (string $property): bool => $property !== IAccountManager::PROPERTY_EMAIL);
+		$this->userManager->method('get')->with('regularuser')->willReturn($targetUser);
+
+		// Regular, non-admin self caller. Sub-admin accessibility is not consulted on the
+		// self path (the controller short-circuits getSubAdmin() when caller === target).
+		$this->groupManager->method('isAdmin')->willReturn(false);
+		$this->groupManager->method('isDelegatedAdmin')->willReturn(false);
+
+		// force_language / force_locale unset: those unrelated gates stay open.
+		$this->config->method('getSystemValue')->willReturnCallback(fn (string $key, mixed $default) => $default);
+
+		// The permission gate must fire before any write happens.
+		$targetUser->expects($this->never())->method('setSystemEMailAddress');
+
+		$result = $this->api->editUserMultiField('regularuser', email: 'new@example.com');
+		$this->assertSame(Http::STATUS_UNPROCESSABLE_ENTITY, $result->getStatus());
+		$this->assertArrayHasKey('email', $result->getData()['errors']);
+	}
+
+	public function testEditUserSubAdminCannotChangeLanguageWhenForced(): void {
+		// Behavior change: the single-field editUser LANGUAGE case now enforces the
+		// force_language policy (previously it only checked languageExists()). A sub-admin
+		// editing another user is neither admin nor delegated admin, so force_language now
+		// blocks them, matching what the multi-field endpoint already did.
+		$this->expectException(OCSException::class);
+		$this->expectExceptionCode(101);
+		$this->expectExceptionMessage('Language change is not allowed on this instance');
+
+		$loggedInUser = $this->createMock(IUser::class);
+		$loggedInUser->method('getUID')->willReturn('subadmin');
+		$targetUser = $this->createMock(IUser::class);
+		$targetUser->method('getUID')->willReturn('UserToEdit');
+		$targetUser->method('getBackend')->willReturn($this->createMock(UserInterface::class));
+
+		$this->userSession->method('getUser')->willReturn($loggedInUser);
+		$this->userManager->method('get')->with('UserToEdit')->willReturn($targetUser);
+
+		$this->groupManager->method('isAdmin')->willReturn(false);
+		$this->groupManager->method('isDelegatedAdmin')->willReturn(false);
+		// Sub-admin has access over the target → canEditOther, so language is a permitted field.
+		$subAdmin = $this->createMock(ISubAdmin::class);
+		$subAdmin->method('isUserAccessible')->willReturn(true);
+		$this->groupManager->method('getSubAdmin')->willReturn($subAdmin);
+
+		$this->config->method('getSystemValue')
+			->willReturnCallback(fn (string $key, mixed $default) => $key === 'force_language' ? 'en' : $default);
+
+		// Language must never be persisted.
+		$this->userConfig->expects($this->never())->method('setValueString');
+
+		$this->api->editUser('UserToEdit', 'language', 'de');
+	}
+
+	public function testEditUserEmailRejectedWhenEmailValidatorRejects(): void {
+		// Behavior change: email format is decided by IEmailValidator (Egulias), not filter_var.
+		// When the validator rejects, the edit fails with OCS 101 and nothing is written —
+		// even for an address filter_var would have accepted.
+		$this->expectException(OCSException::class);
+		$this->expectExceptionCode(101);
+
+		$this->emailValidatorIsValid = fn (string $email): bool => false;
+
+		$loggedInUser = $this->createMock(IUser::class);
+		$loggedInUser->method('getUID')->willReturn('UID');
+		$targetUser = $this->createMock(IUser::class);
+		$targetUser->method('getUID')->willReturn('UID');
+		$targetUser->method('canEditProperty')
+			->willReturnCallback(fn (string $property): bool => $property === IAccountManager::PROPERTY_EMAIL);
+		$targetUser->expects($this->never())->method('setSystemEMailAddress');
+
+		$this->userSession->method('getUser')->willReturn($loggedInUser);
+		$this->userManager->method('get')->with('UserToEdit')->willReturn($targetUser);
+		$this->config->method('getSystemValue')->willReturnCallback(fn (string $key, mixed $default) => $default);
+
+		$this->api->editUser('UserToEdit', 'email', 'looks-valid@example.com');
+	}
+
+	public function testEditUserEmailAcceptsAddressApprovedByValidator(): void {
+		// IEmailValidator (RFC mode) accepts forms filter_var rejects, e.g. a bare hostname.
+		// The controller must defer to the validator and persist the normalized address.
+		$this->emailValidatorIsValid = fn (string $email): bool => true;
+
+		$loggedInUser = $this->createMock(IUser::class);
+		$loggedInUser->method('getUID')->willReturn('UID');
+		$targetUser = $this->createMock(IUser::class);
+		$targetUser->method('getUID')->willReturn('UID');
+		$targetUser->method('canEditProperty')
+			->willReturnCallback(fn (string $property): bool => $property === IAccountManager::PROPERTY_EMAIL);
+		// 'user@localhost' is rejected by filter_var but accepted by RFC validation; it must be
+		// lower-cased, trimmed, and stored.
+		$targetUser->expects($this->once())->method('setSystemEMailAddress')->with('user@localhost');
+
+		$this->userSession->method('getUser')->willReturn($loggedInUser);
+		$this->userManager->method('get')->with('UserToEdit')->willReturn($targetUser);
+		$this->config->method('getSystemValue')->willReturnCallback(fn (string $key, mixed $default) => $default);
+
+		$this->assertEquals([], $this->api->editUser('UserToEdit', 'email', '  User@LocalHost  ')->getData());
 	}
 
 	public function testDeleteUserNotExistingUser(): void {
@@ -4101,6 +4381,8 @@ class UsersControllerTest extends TestCase {
 				$this->phoneNumberUtil,
 				$this->appManager,
 				$this->appConfig,
+				$this->userConfig,
+				$this->emailValidator,
 			])
 			->onlyMethods(['getUserData'])
 			->getMock();
@@ -4194,6 +4476,8 @@ class UsersControllerTest extends TestCase {
 				$this->phoneNumberUtil,
 				$this->appManager,
 				$this->appConfig,
+				$this->userConfig,
+				$this->emailValidator,
 			])
 			->onlyMethods(['getUserData'])
 			->getMock();

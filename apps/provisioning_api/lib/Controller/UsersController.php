@@ -32,6 +32,7 @@ use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
+use OCP\Config\IUserConfig;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
 use OCP\Group\ISubAdmin;
@@ -48,6 +49,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\Mail\IEmailValidator;
 use OCP\Security\Events\GenerateSecurePasswordEvent;
 use OCP\Security\ISecureRandom;
 use OCP\User\Backend\ISetDisplayNameBackend;
@@ -59,6 +61,15 @@ use Psr\Log\LoggerInterface;
  * @psalm-import-type Provisioning_APIUserDetails from ResponseDefinitions
  */
 class UsersController extends AUserDataOCSController {
+
+	/**
+	 * Virtual permitted-field keys for editUserMultiField's groups /
+	 * subadminGroups parameters. These have no editUser equivalent — editUser
+	 * is single-field and group membership lives on dedicated endpoints — but
+	 * they participate in the shared getPermittedFields gate.
+	 */
+	private const FIELD_GROUPS = 'groups';
+	private const FIELD_SUBADMIN_GROUPS = 'subadminGroups';
 
 	private IL10N $l10n;
 
@@ -83,6 +94,8 @@ class UsersController extends AUserDataOCSController {
 		private IPhoneNumberUtil $phoneNumberUtil,
 		private IAppManager $appManager,
 		private IAppConfig $appConfig,
+		private IUserConfig $userConfig,
+		private IEmailValidator $emailValidator,
 	) {
 		parent::__construct(
 			$appName,
@@ -944,16 +957,14 @@ class UsersController extends AUserDataOCSController {
 		}
 
 		$isSelf = $targetUser->getUID() === $currentLoggedInUser->getUID();
-		$isAdmin = $this->groupManager->isAdmin($currentLoggedInUser->getUID());
+		$isAdmin = (bool)$this->groupManager->isAdmin($currentLoggedInUser->getUID());
 		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID());
-		$subAdminManager = $this->groupManager->getSubAdmin();
-		$isSubAdminAccessible = !$isSelf && $subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser);
+		$isSubAdminAccessible = !$isSelf
+			&& $this->groupManager->getSubAdmin()->isUserAccessible($currentLoggedInUser, $targetUser);
 
-		$canEditOther = $isAdmin
-			|| ($isDelegatedAdmin && !$this->groupManager->isAdmin($targetUser->getUID()))
-			|| $isSubAdminAccessible;
+		$permittedFields = $this->getPermittedFields($targetUser, $currentLoggedInUser, $isAdmin, $isDelegatedAdmin, $isSubAdminAccessible);
 
-		if (!$isSelf && !$canEditOther) {
+		if (!$isSelf && empty($permittedFields)) {
 			// OCSForbiddenException used here (rather than the older OCSException pattern in editUser)
 			// because it is semantically correct: the caller is authenticated but lacks permission.
 			throw new OCSForbiddenException('Insufficient permissions to edit this user');
@@ -962,40 +973,40 @@ class UsersController extends AUserDataOCSController {
 		// Validate all submitted fields — collect errors before applying anything
 		$errors = [];
 
-		if ($displayName !== null) {
-			$backend = $targetUser->getBackend();
-			if (!$isSelf) {
-				$canSetDisplayName = $backend instanceof ISetDisplayNameBackend
-					|| ($backend !== null && $backend->implementsActions(Backend::SET_DISPLAYNAME));
-			} else {
-				$canSetDisplayName = $targetUser->canChangeDisplayName();
-			}
-			if (!$canSetDisplayName) {
-				$errors['displayName'] = $this->l10n->t('Cannot change display name for this user');
-			}
+		if ($displayName !== null && !in_array(self::USER_FIELD_DISPLAYNAME, $permittedFields)) {
+			$errors['displayName'] = $this->l10n->t('Cannot change display name for this user');
 		}
 
 		if ($password !== null) {
-			if (($error = $this->validatePasswordChange($targetUser, $password)) !== null) {
+			if (!in_array(self::USER_FIELD_PASSWORD, $permittedFields)) {
+				$errors['password'] = $this->l10n->t('Insufficient permissions to change password');
+			} elseif (($error = $this->validatePasswordChange($targetUser, $password)) !== null) {
 				$errors['password'] = $error[0];
 			}
 		}
 
-		if ($email !== null && $email !== '' && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-			$errors['email'] = $this->l10n->t('Invalid email address');
+		if ($email !== null) {
+			if (!in_array(IAccountManager::PROPERTY_EMAIL, $permittedFields)) {
+				$errors['email'] = $this->l10n->t('Insufficient permissions to change email address');
+			} else {
+				try {
+					$email = $this->validateAndNormalizeEmail($email, allowEmpty: true);
+				} catch (\InvalidArgumentException $e) {
+					$errors['email'] = $e->getMessage();
+				}
+			}
 		}
 
 		if ($language !== null) {
-			$forceLanguage = $this->config->getSystemValue('force_language', false);
-			if ($forceLanguage !== false && !$isAdmin && !$isDelegatedAdmin) {
+			if (!in_array(self::USER_FIELD_LANGUAGE, $permittedFields)) {
 				$errors['language'] = $this->l10n->t('Language change is not allowed on this instance');
-			} elseif (!$this->l10nFactory->languageExists(null, $language)) {
-				$errors['language'] = $this->l10n->t('Invalid language');
+			} elseif (($error = $this->validateLanguagePolicy($language, $isAdmin, $isDelegatedAdmin)) !== null) {
+				$errors['language'] = $error;
 			}
 		}
 
 		if ($quota !== null) {
-			if (!$canEditOther) {
+			if (!in_array(self::USER_FIELD_QUOTA, $permittedFields)) {
 				$errors['quota'] = $this->l10n->t('Insufficient permissions to change quota');
 			} else {
 				try {
@@ -1007,7 +1018,7 @@ class UsersController extends AUserDataOCSController {
 		}
 
 		if ($groups !== null) {
-			if (!$isAdmin && !$isDelegatedAdmin) {
+			if (!in_array(self::FIELD_GROUPS, $permittedFields)) {
 				$errors['groups'] = $this->l10n->t('Insufficient permissions to change groups');
 			} else {
 				foreach ($groups as $gid) {
@@ -1020,7 +1031,7 @@ class UsersController extends AUserDataOCSController {
 		}
 
 		if ($subadminGroups !== null) {
-			if (!$isAdmin && !$isDelegatedAdmin) {
+			if (!in_array(self::FIELD_SUBADMIN_GROUPS, $permittedFields)) {
 				$errors['subadminGroups'] = $this->l10n->t('Insufficient permissions to change sub-admin groups');
 			} else {
 				foreach ($subadminGroups as $gid) {
@@ -1032,7 +1043,7 @@ class UsersController extends AUserDataOCSController {
 			}
 		}
 
-		if ($manager !== null && !$canEditOther) {
+		if ($manager !== null && !in_array(self::USER_FIELD_MANAGER, $permittedFields)) {
 			$errors['manager'] = $this->l10n->t('Insufficient permissions to change manager');
 		}
 
@@ -1053,13 +1064,11 @@ class UsersController extends AUserDataOCSController {
 
 		// Apply remaining changes — all fully validated, setters won't throw
 		if ($displayName !== null) {
-			// OC\User\User::setDisplayName() rejects empty strings (!empty check),
-			// so "clear display name" means "reset to userId" — the default.
-			$targetUser->setDisplayName($displayName !== '' ? $displayName : $userId);
+			$this->applyDisplayName($targetUser, $displayName, $userId, allowEmptyAsReset: true);
 		}
 
 		if ($email !== null) {
-			$targetUser->setSystemEMailAddress(mb_strtolower(trim($email)));
+			$targetUser->setSystemEMailAddress($email);
 		}
 
 		if ($quota !== null) {
@@ -1067,7 +1076,7 @@ class UsersController extends AUserDataOCSController {
 		}
 
 		if ($language !== null) {
-			$this->config->setUserValue($targetUser->getUID(), 'core', 'lang', $language);
+			$this->applyLanguage($targetUser, $language);
 		}
 
 		if ($manager !== null) {
@@ -1075,44 +1084,252 @@ class UsersController extends AUserDataOCSController {
 		}
 
 		if ($groups !== null) {
-			$currentGroups = $this->groupManager->getUserGroups($targetUser);
-			$currentGroupIds = array_map(fn (IGroup $g) => $g->getGID(), $currentGroups);
-			foreach (array_diff($currentGroupIds, $groups) as $gid) {
-				$this->groupManager->get($gid)?->removeUser($targetUser);
-			}
-			foreach (array_diff($groups, $currentGroupIds) as $gid) {
-				// Only full admins can add users to the admin group
-				if (!$isAdmin && $gid === 'admin') {
-					continue;
-				}
-				$this->groupManager->get($gid)?->addUser($targetUser);
-			}
+			$this->applyGroupMembership($targetUser, $groups, callerIsFullAdmin: $isAdmin);
 		}
 
 		if ($subadminGroups !== null) {
-			$currentSubAdminGroups = $subAdminManager->getSubAdminsGroups($targetUser);
-			$currentSubAdminGroupIds = array_map(fn (IGroup $g) => $g->getGID(), $currentSubAdminGroups);
-			foreach (array_diff($currentSubAdminGroupIds, $subadminGroups) as $gid) {
-				$group = $this->groupManager->get($gid);
-				if ($group !== null) {
-					$subAdminManager->deleteSubAdmin($targetUser, $group);
-				}
-			}
-			foreach (array_diff($subadminGroups, $currentSubAdminGroupIds) as $gid) {
-				// Cannot create sub-admins for the admin group
-				if ($gid === 'admin') {
-					continue;
-				}
-				$group = $this->groupManager->get($gid);
-				if ($group !== null && !$subAdminManager->isSubAdminOfGroup($targetUser, $group)) {
-					$subAdminManager->createSubAdmin($targetUser, $group);
-				}
-			}
+			$this->applySubAdminMembership($targetUser, $subadminGroups);
 		}
 
 		/** @var Provisioning_APIUserDetails $data */
 		$data = $this->getUserData($userId);
 		return new DataResponse($data);
+	}
+
+	/**
+	 * Single source of truth for the editUser permittedFields allow-list and
+	 * the editUserMultiField per-field permission gates.
+	 *
+	 * @return string[] Field keys; empty when a non-self caller has no rights.
+	 */
+	private function getPermittedFields(
+		IUser $targetUser,
+		IUser $caller,
+		bool $isAdmin,
+		bool $isDelegatedAdmin,
+		bool $isSubAdminAccessible,
+	): array {
+		$isSelf = $targetUser->getUID() === $caller->getUID();
+		$permittedFields = [];
+
+		if ($isSelf) {
+			if ($targetUser->canChangeDisplayName()) {
+				$permittedFields[] = self::USER_FIELD_DISPLAYNAME;
+			}
+
+			$permittedFields[] = IAccountManager::COLLECTION_EMAIL;
+			$permittedFields[] = self::USER_FIELD_PASSWORD;
+			$permittedFields[] = self::USER_FIELD_NOTIFICATION_EMAIL;
+			$permittedFields[] = self::USER_FIELD_TIMEZONE;
+
+			if (
+				$this->config->getSystemValue('force_language', false) === false
+				|| $isAdmin
+				|| $isDelegatedAdmin
+			) {
+				$permittedFields[] = self::USER_FIELD_LANGUAGE;
+			}
+
+			if (
+				$this->config->getSystemValue('force_locale', false) === false
+				|| $isAdmin
+				|| $isDelegatedAdmin
+			) {
+				$permittedFields[] = self::USER_FIELD_LOCALE;
+				$permittedFields[] = self::USER_FIELD_FIRST_DAY_OF_WEEK;
+			}
+
+			foreach (IAccountManager::ALLOWED_PROPERTIES as $property) {
+				$permittedFields[] = $property . self::SCOPE_SUFFIX;
+				if ($property === IAccountManager::PROPERTY_AVATAR) {
+					continue;
+				}
+				if (!$targetUser->canEditProperty($property)) {
+					continue;
+				}
+				$permittedFields[] = $property;
+			}
+
+			// If admin they can edit their own quota and manager
+			if ($isAdmin || $isDelegatedAdmin) {
+				$permittedFields[] = self::USER_FIELD_QUOTA;
+				$permittedFields[] = self::USER_FIELD_MANAGER;
+				$permittedFields[] = self::FIELD_GROUPS;
+				$permittedFields[] = self::FIELD_SUBADMIN_GROUPS;
+			}
+
+			return $permittedFields;
+		}
+
+		// Check if admin / subadmin
+		$canEditOther = $isAdmin
+			|| ($isDelegatedAdmin && !$this->groupManager->isAdmin($targetUser->getUID()))
+			|| $isSubAdminAccessible;
+
+		if (!$canEditOther) {
+			// No rights
+			return [];
+		}
+
+		// They have permissions over the user
+		if ($this->validateDisplayNameChange($targetUser, isSelf: false) === null) {
+			$permittedFields[] = self::USER_FIELD_DISPLAYNAME;
+			$permittedFields[] = IAccountManager::PROPERTY_DISPLAYNAME;
+		}
+		$permittedFields[] = IAccountManager::PROPERTY_EMAIL;
+		$permittedFields[] = IAccountManager::COLLECTION_EMAIL;
+		$permittedFields[] = self::USER_FIELD_PASSWORD;
+		$permittedFields[] = self::USER_FIELD_LANGUAGE;
+		$permittedFields[] = self::USER_FIELD_LOCALE;
+		$permittedFields[] = self::USER_FIELD_TIMEZONE;
+		$permittedFields[] = self::USER_FIELD_FIRST_DAY_OF_WEEK;
+		$permittedFields[] = IAccountManager::PROPERTY_PHONE;
+		$permittedFields[] = IAccountManager::PROPERTY_ADDRESS;
+		$permittedFields[] = IAccountManager::PROPERTY_WEBSITE;
+		$permittedFields[] = IAccountManager::PROPERTY_TWITTER;
+		$permittedFields[] = IAccountManager::PROPERTY_BLUESKY;
+		$permittedFields[] = IAccountManager::PROPERTY_FEDIVERSE;
+		$permittedFields[] = IAccountManager::PROPERTY_ORGANISATION;
+		$permittedFields[] = IAccountManager::PROPERTY_ROLE;
+		$permittedFields[] = IAccountManager::PROPERTY_HEADLINE;
+		$permittedFields[] = IAccountManager::PROPERTY_BIOGRAPHY;
+		$permittedFields[] = IAccountManager::PROPERTY_PROFILE_ENABLED;
+		$permittedFields[] = IAccountManager::PROPERTY_PRONOUNS;
+		$permittedFields[] = self::USER_FIELD_QUOTA;
+		$permittedFields[] = self::USER_FIELD_NOTIFICATION_EMAIL;
+		$permittedFields[] = self::USER_FIELD_MANAGER;
+		if ($isAdmin || $isDelegatedAdmin) {
+			$permittedFields[] = self::FIELD_GROUPS;
+			$permittedFields[] = self::FIELD_SUBADMIN_GROUPS;
+		}
+
+		return $permittedFields;
+	}
+
+	/**
+	 * Check whether the caller may change the display name on the target user.
+	 * Self-edit goes through canChangeDisplayName(); non-self requires the
+	 * backend's SET_DISPLAYNAME capability.
+	 *
+	 * @return string|null l10n'd error message, or null when permitted.
+	 */
+	private function validateDisplayNameChange(IUser $targetUser, bool $isSelf): ?string {
+		$backend = $targetUser->getBackend();
+		if (!$isSelf) {
+			$canSetDisplayName = $backend instanceof ISetDisplayNameBackend
+				|| ($backend !== null && $backend->implementsActions(Backend::SET_DISPLAYNAME));
+		} else {
+			$canSetDisplayName = $targetUser->canChangeDisplayName();
+		}
+		if (!$canSetDisplayName) {
+			return $this->l10n->t('Cannot change display name for this user');
+		}
+		return null;
+	}
+
+	/**
+	 * Trim, lower-case, and validate an email address. When $allowEmpty is true,
+	 * empty input returns ''; otherwise empty input throws.
+	 *
+	 * @return string Normalized email, or '' when $allowEmpty and $value is ''.
+	 * @throws \InvalidArgumentException With l10n'd message when malformed or
+	 *                                   when empty input is not permitted.
+	 */
+	private function validateAndNormalizeEmail(string $value, bool $allowEmpty): string {
+		$normalized = mb_strtolower(trim($value));
+		if ($normalized === '') {
+			if ($allowEmpty) {
+				return '';
+			}
+			throw new \InvalidArgumentException($this->l10n->t('Invalid email address'));
+		}
+		if (!$this->emailValidator->isValid($normalized)) {
+			throw new \InvalidArgumentException($this->l10n->t('Invalid email address'));
+		}
+		return $normalized;
+	}
+
+	/**
+	 * Enforce the `force_language` system config (admins / delegated admins are
+	 * exempt) and validate the language exists.
+	 *
+	 * @return string|null l10n'd error message, or null when permitted.
+	 */
+	private function validateLanguagePolicy(string $language, bool $isAdmin, bool $isDelegatedAdmin): ?string {
+		$forceLanguage = $this->config->getSystemValue('force_language', false);
+		if ($forceLanguage !== false && !$isAdmin && !$isDelegatedAdmin) {
+			return $this->l10n->t('Language change is not allowed on this instance');
+		}
+		if (!$this->l10nFactory->languageExists(null, $language)) {
+			return $this->l10n->t('Invalid language');
+		}
+		return null;
+	}
+
+	/**
+	 * Persist a language preference for the target user.
+	 */
+	private function applyLanguage(IUser $targetUser, string $language): void {
+		$this->userConfig->setValueString($targetUser->getUID(), 'core', 'lang', $language);
+	}
+
+	/**
+	 * Reconcile group membership against a desired set of GIDs (group existence
+	 * validated upstream). Non-full-admin callers cannot add the target to the
+	 * literal 'admin' group, matching the convention in addToGroup().
+	 */
+	private function applyGroupMembership(IUser $targetUser, array $desiredGids, bool $callerIsFullAdmin): void {
+		$currentGroups = $this->groupManager->getUserGroups($targetUser);
+		$currentGroupIds = array_map(fn (IGroup $g) => $g->getGID(), $currentGroups);
+		foreach (array_diff($currentGroupIds, $desiredGids) as $gid) {
+			$this->groupManager->get($gid)?->removeUser($targetUser);
+		}
+		foreach (array_diff($desiredGids, $currentGroupIds) as $gid) {
+			if (!$callerIsFullAdmin && $gid === 'admin') {
+				continue;
+			}
+			$this->groupManager->get($gid)?->addUser($targetUser);
+		}
+	}
+
+	/**
+	 * Reconcile sub-admin membership against a desired set of GIDs (group
+	 * existence validated upstream). 'admin' is always skipped, matching
+	 * the convention in addSubAdmin().
+	 */
+	private function applySubAdminMembership(IUser $targetUser, array $desiredGids): void {
+		$subAdminManager = $this->groupManager->getSubAdmin();
+		$currentGroups = $subAdminManager->getSubAdminsGroups($targetUser);
+		$currentGroupIds = array_map(fn (IGroup $g) => $g->getGID(), $currentGroups);
+		foreach (array_diff($currentGroupIds, $desiredGids) as $gid) {
+			$group = $this->groupManager->get($gid);
+			if ($group !== null) {
+				$subAdminManager->deleteSubAdmin($targetUser, $group);
+			}
+		}
+		foreach (array_diff($desiredGids, $currentGroupIds) as $gid) {
+			if ($gid === 'admin') {
+				continue;
+			}
+			$group = $this->groupManager->get($gid);
+			if ($group !== null && !$subAdminManager->isSubAdminOfGroup($targetUser, $group)) {
+				$subAdminManager->createSubAdmin($targetUser, $group);
+			}
+		}
+	}
+
+	/**
+	 * Apply a new display name. When $allowEmptyAsReset is true an empty value
+	 * resets to $userId (PATCH semantics); otherwise the empty value is
+	 * forwarded so setDisplayName() throws InvalidArgumentException (legacy
+	 * editUser semantics — caller catches and translates to OCS 101).
+	 */
+	private function applyDisplayName(IUser $targetUser, string $value, string $userId, bool $allowEmptyAsReset): void {
+		if ($allowEmptyAsReset && $value === '') {
+			$targetUser->setDisplayName($userId);
+			return;
+		}
+		$targetUser->setDisplayName($value);
 	}
 
 	/**
@@ -1192,94 +1409,16 @@ class UsersController extends AUserDataOCSController {
 			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
 		}
 
-		$permittedFields = [];
-		if ($targetUser->getUID() === $currentLoggedInUser->getUID()) {
-			if ($targetUser->canChangeDisplayName()) {
-				$permittedFields[] = self::USER_FIELD_DISPLAYNAME;
-			}
+		$isAdmin = (bool)$this->groupManager->isAdmin($currentLoggedInUser->getUID());
+		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID());
+		$isSelf = $targetUser->getUID() === $currentLoggedInUser->getUID();
+		$isSubAdminAccessible = !$isSelf
+			&& $this->groupManager->getSubAdmin()->isUserAccessible($currentLoggedInUser, $targetUser);
 
-			$permittedFields[] = IAccountManager::COLLECTION_EMAIL;
+		$permittedFields = $this->getPermittedFields($targetUser, $currentLoggedInUser, $isAdmin, $isDelegatedAdmin, $isSubAdminAccessible);
 
-			$permittedFields[] = self::USER_FIELD_PASSWORD;
-			$permittedFields[] = self::USER_FIELD_NOTIFICATION_EMAIL;
-			$permittedFields[] = self::USER_FIELD_TIMEZONE;
-			if (
-				$this->config->getSystemValue('force_language', false) === false
-				|| $this->groupManager->isAdmin($currentLoggedInUser->getUID())
-				|| $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID())
-			) {
-				$permittedFields[] = self::USER_FIELD_LANGUAGE;
-			}
-
-			if (
-				$this->config->getSystemValue('force_locale', false) === false
-				|| $this->groupManager->isAdmin($currentLoggedInUser->getUID())
-				|| $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID())
-			) {
-				$permittedFields[] = self::USER_FIELD_LOCALE;
-				$permittedFields[] = self::USER_FIELD_FIRST_DAY_OF_WEEK;
-			}
-
-			foreach (IAccountManager::ALLOWED_PROPERTIES as $property) {
-				$permittedFields[] = $property . self::SCOPE_SUFFIX;
-				if ($property === IAccountManager::PROPERTY_AVATAR) {
-					continue;
-				}
-				if (!$targetUser->canEditProperty($property)) {
-					continue;
-				}
-				$permittedFields[] = $property;
-			}
-
-			// If admin they can edit their own quota and manager
-			$isAdmin = $this->groupManager->isAdmin($currentLoggedInUser->getUID());
-			$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID());
-			if ($isAdmin || $isDelegatedAdmin) {
-				$permittedFields[] = self::USER_FIELD_QUOTA;
-				$permittedFields[] = self::USER_FIELD_MANAGER;
-			}
-		} else {
-			// Check if admin / subadmin
-			$subAdminManager = $this->groupManager->getSubAdmin();
-			if (
-				$this->groupManager->isAdmin($currentLoggedInUser->getUID())
-				|| $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID()) && !$this->groupManager->isInGroup($targetUser->getUID(), 'admin')
-				|| $subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)
-			) {
-				// They have permissions over the user
-				if (
-					$targetUser->getBackend() instanceof ISetDisplayNameBackend
-					|| $targetUser->getBackend()->implementsActions(Backend::SET_DISPLAYNAME)
-				) {
-					$permittedFields[] = self::USER_FIELD_DISPLAYNAME;
-					$permittedFields[] = IAccountManager::PROPERTY_DISPLAYNAME;
-				}
-				$permittedFields[] = IAccountManager::PROPERTY_EMAIL;
-				$permittedFields[] = IAccountManager::COLLECTION_EMAIL;
-				$permittedFields[] = self::USER_FIELD_PASSWORD;
-				$permittedFields[] = self::USER_FIELD_LANGUAGE;
-				$permittedFields[] = self::USER_FIELD_LOCALE;
-				$permittedFields[] = self::USER_FIELD_TIMEZONE;
-				$permittedFields[] = self::USER_FIELD_FIRST_DAY_OF_WEEK;
-				$permittedFields[] = IAccountManager::PROPERTY_PHONE;
-				$permittedFields[] = IAccountManager::PROPERTY_ADDRESS;
-				$permittedFields[] = IAccountManager::PROPERTY_WEBSITE;
-				$permittedFields[] = IAccountManager::PROPERTY_TWITTER;
-				$permittedFields[] = IAccountManager::PROPERTY_BLUESKY;
-				$permittedFields[] = IAccountManager::PROPERTY_FEDIVERSE;
-				$permittedFields[] = IAccountManager::PROPERTY_ORGANISATION;
-				$permittedFields[] = IAccountManager::PROPERTY_ROLE;
-				$permittedFields[] = IAccountManager::PROPERTY_HEADLINE;
-				$permittedFields[] = IAccountManager::PROPERTY_BIOGRAPHY;
-				$permittedFields[] = IAccountManager::PROPERTY_PROFILE_ENABLED;
-				$permittedFields[] = IAccountManager::PROPERTY_PRONOUNS;
-				$permittedFields[] = self::USER_FIELD_QUOTA;
-				$permittedFields[] = self::USER_FIELD_NOTIFICATION_EMAIL;
-				$permittedFields[] = self::USER_FIELD_MANAGER;
-			} else {
-				// No rights
-				throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
-			}
+		if (!$isSelf && empty($permittedFields)) {
+			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
 		}
 		// Check if permitted to edit this field
 		if (!in_array($key, $permittedFields)) {
@@ -1290,7 +1429,7 @@ class UsersController extends AUserDataOCSController {
 			case self::USER_FIELD_DISPLAYNAME:
 			case IAccountManager::PROPERTY_DISPLAYNAME:
 				try {
-					$targetUser->setDisplayName($value);
+					$this->applyDisplayName($targetUser, $value, $userId, allowEmptyAsReset: false);
 				} catch (InvalidArgumentException $e) {
 					throw new OCSException($e->getMessage(), 101);
 				}
@@ -1317,22 +1456,22 @@ class UsersController extends AUserDataOCSController {
 				}
 				break;
 			case self::USER_FIELD_LANGUAGE:
-				if (!$this->l10nFactory->languageExists(null, $value)) {
-					throw new OCSException($this->l10n->t('Invalid language'), 101);
+				if (($error = $this->validateLanguagePolicy($value, $isAdmin, $isDelegatedAdmin)) !== null) {
+					throw new OCSException($error, 101);
 				}
-				$this->config->setUserValue($targetUser->getUID(), 'core', 'lang', $value);
+				$this->applyLanguage($targetUser, $value);
 				break;
 			case self::USER_FIELD_LOCALE:
 				if (!$this->l10nFactory->localeExists($value)) {
 					throw new OCSException($this->l10n->t('Invalid locale'), 101);
 				}
-				$this->config->setUserValue($targetUser->getUID(), 'core', 'locale', $value);
+				$this->userConfig->setValueString($targetUser->getUID(), 'core', 'locale', $value);
 				break;
 			case self::USER_FIELD_TIMEZONE:
 				if (!in_array($value, \DateTimeZone::listIdentifiers())) {
 					throw new OCSException($this->l10n->t('Invalid timezone'), 101);
 				}
-				$this->config->setUserValue($targetUser->getUID(), 'core', 'timezone', $value);
+				$this->userConfig->setValueString($targetUser->getUID(), 'core', 'timezone', $value);
 				break;
 			case self::USER_FIELD_FIRST_DAY_OF_WEEK:
 				$intValue = (int)$value;
@@ -1340,9 +1479,9 @@ class UsersController extends AUserDataOCSController {
 					throw new OCSException($this->l10n->t('Invalid first day of week'), 101);
 				}
 				if ($intValue === -1) {
-					$this->config->deleteUserValue($targetUser->getUID(), 'core', AUserDataOCSController::USER_FIELD_FIRST_DAY_OF_WEEK);
+					$this->userConfig->deleteUserConfig($targetUser->getUID(), 'core', AUserDataOCSController::USER_FIELD_FIRST_DAY_OF_WEEK);
 				} else {
-					$this->config->setUserValue($targetUser->getUID(), 'core', AUserDataOCSController::USER_FIELD_FIRST_DAY_OF_WEEK, $value);
+					$this->userConfig->setValueString($targetUser->getUID(), 'core', AUserDataOCSController::USER_FIELD_FIRST_DAY_OF_WEEK, $value);
 				}
 				break;
 			case self::USER_FIELD_NOTIFICATION_EMAIL:
@@ -1366,28 +1505,29 @@ class UsersController extends AUserDataOCSController {
 				}
 				break;
 			case IAccountManager::PROPERTY_EMAIL:
-				$value = mb_strtolower(trim($value));
-				if (filter_var($value, FILTER_VALIDATE_EMAIL) || $value === '') {
-					$targetUser->setSystemEMailAddress($value);
-				} else {
+				try {
+					$value = $this->validateAndNormalizeEmail($value, allowEmpty: true);
+				} catch (\InvalidArgumentException $e) {
 					throw new OCSException('', 101);
 				}
+				$targetUser->setSystemEMailAddress($value);
 				break;
 			case IAccountManager::COLLECTION_EMAIL:
-				$value = mb_strtolower(trim($value));
-				if (filter_var($value, FILTER_VALIDATE_EMAIL) && $value !== $targetUser->getSystemEMailAddress()) {
-					$userAccount = $this->accountManager->getAccount($targetUser);
-					$mailCollection = $userAccount->getPropertyCollection(IAccountManager::COLLECTION_EMAIL);
-
-					if ($mailCollection->getPropertyByValue($value)) {
-						throw new OCSException('', 101);
-					}
-
-					$mailCollection->addPropertyWithDefaults($value);
-					$this->accountManager->updateAccount($userAccount);
-				} else {
+				try {
+					$value = $this->validateAndNormalizeEmail($value, allowEmpty: false);
+				} catch (\InvalidArgumentException $e) {
 					throw new OCSException('', 101);
 				}
+				if ($value === $targetUser->getSystemEMailAddress()) {
+					throw new OCSException('', 101);
+				}
+				$userAccount = $this->accountManager->getAccount($targetUser);
+				$mailCollection = $userAccount->getPropertyCollection(IAccountManager::COLLECTION_EMAIL);
+				if ($mailCollection->getPropertyByValue($value)) {
+					throw new OCSException('', 101);
+				}
+				$mailCollection->addPropertyWithDefaults($value);
+				$this->accountManager->updateAccount($userAccount);
 				break;
 			case IAccountManager::PROPERTY_PHONE:
 			case IAccountManager::PROPERTY_ADDRESS:
@@ -2006,7 +2146,7 @@ class UsersController extends AUserDataOCSController {
 		}
 
 		try {
-			if ($this->config->getUserValue($targetUser->getUID(), 'core', 'lostpassword')) {
+			if ($this->userConfig->getValueString($targetUser->getUID(), 'core', 'lostpassword') !== '') {
 				$emailTemplate = $this->newUserMailHelper->generateTemplate($targetUser, true);
 			} else {
 				$emailTemplate = $this->newUserMailHelper->generateTemplate($targetUser, false);
