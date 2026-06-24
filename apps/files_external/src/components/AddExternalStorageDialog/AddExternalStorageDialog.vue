@@ -27,12 +27,13 @@ import ApplicableEntities from './ApplicableEntities.vue'
 import AuthMechanismConfiguration from './AuthMechanismConfiguration.vue'
 import BackendConfiguration from './BackendConfiguration.vue'
 import MountOptions from './MountOptions.vue'
+import { DEFAULT_MOUNT_OPTIONS } from '../../store/storages.ts'
 import { pruneUnusedAuthMechanismOptions } from '../../utils/externalStorageUtils.ts'
 
 const open = defineModel<boolean>('open', { default: true })
 
 const {
-	storage = { backendOptions: {}, mountOptions: {}, type: isAdmin ? 'system' : 'personal' },
+	storage = { backendOptions: {}, mountOptions: { ...DEFAULT_MOUNT_OPTIONS }, type: isAdmin ? 'system' : 'personal' },
 } = defineProps<{
 	storage?: Partial<IStorage>
 }>()
