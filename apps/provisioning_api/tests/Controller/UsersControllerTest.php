@@ -2132,7 +2132,7 @@ class UsersControllerTest extends TestCase {
 		$targetUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$targetUser->expects($this->once())
 			->method('setQuota')
-			->with('2.9 MB');
+			->with('2.9 MiB');
 		$this->userSession
 			->expects($this->once())
 			->method('getUser')
@@ -2214,7 +2214,7 @@ class UsersControllerTest extends TestCase {
 		$targetUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$targetUser->expects($this->once())
 			->method('setQuota')
-			->with('2.9 MB');
+			->with('2.9 MiB');
 		$this->userSession
 			->expects($this->once())
 			->method('getUser')
@@ -2462,7 +2462,7 @@ class UsersControllerTest extends TestCase {
 		$targetUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$targetUser->expects($this->once())
 			->method('setQuota')
-			->with('2.9 MB');
+			->with('2.9 MiB');
 		$this->userSession
 			->expects($this->once())
 			->method('getUser')

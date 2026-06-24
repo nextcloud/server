@@ -115,7 +115,8 @@ describe('Settings: Change user properties', function() {
 		cy.runOccCommand(`user:info --output=json '${user.userId}'`).then(($result) => {
 			expect($result.exitCode).to.equal(0)
 			const info = JSON.parse($result.stdout)
-			expect(info?.quota).to.equal('5 GB')
+			// TODO Frontend actually send 5 GiB (not 5 GB) and it's correctly reported by backend
+			expect(info?.quota).to.equal('5 GiB')
 		})
 	})
 
