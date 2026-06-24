@@ -577,6 +577,9 @@ export default defineComponent({
 
 					this.updateResults(newResults)
 					this.searching = false
+				}).catch((error) => {
+					unifiedSearchLogger.error('Unified search error', { message: error.response.data.ocs.data })
+					this.searching = false
 				})
 			}
 
