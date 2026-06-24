@@ -84,7 +84,8 @@ const store = new Store({
 				class: rule.id,
 				entity: entity ? entity.id : rule.fixedEntity,
 				events,
-				name: '', // unused in the new ui, there for legacy reasons
+				name: '',
+				description: '',
 				checks: [
 					{ class: null, operator: null, value: '' },
 				],
@@ -103,7 +104,7 @@ const store = new Store({
 		async pushUpdateRule(context, rule) {
 			await confirmPassword()
 			let result
-			if (rule.id < 0) {
+			if (rule.id < 1) {
 				result = await axios.post(getApiUrl(''), rule)
 			} else {
 				result = await axios.put(getApiUrl(`/${rule.id}`), rule)

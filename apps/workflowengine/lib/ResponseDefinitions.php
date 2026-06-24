@@ -27,6 +27,7 @@ use OCP\WorkflowEngine\IOperation;
  *   id: int,
  *   class: class-string<IOperation>,
  *   name: string,
+ *   description: string,
  *   checks: list<WorkflowEngineCheck>,
  *   operation: string,
  *   entity: class-string<IEntity>,

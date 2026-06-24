@@ -83,6 +83,7 @@ class UserWorkflowsController extends AWorkflowOCSController {
 	 * @param string $operation Operation class to execute on match
 	 * @param string $entity The matched entity
 	 * @param list<class-string<IEntityEvent>> $events The list of events on which the rule should be validated
+	 * @param string $description Optional free-text description of the workflow rule
 	 * @return DataResponse<Http::STATUS_OK, WorkflowEngineRule, array{}>
 	 *
 	 * 200: Workflow created
@@ -93,8 +94,8 @@ class UserWorkflowsController extends AWorkflowOCSController {
 	#[NoAdminRequired]
 	#[PasswordConfirmationRequired]
 	#[ApiRoute(verb: 'POST', url: '/api/v1/workflows/user')]
-	public function create(string $class, string $name, array $checks, string $operation, string $entity, array $events): DataResponse {
-		return parent::create($class, $name, $checks, $operation, $entity, $events);
+	public function create(string $class, string $name, array $checks, string $operation, string $entity, array $events, string $description = ''): DataResponse {
+		return parent::create($class, $name, $checks, $operation, $entity, $events, $description);
 	}
 
 	/**
@@ -106,6 +107,7 @@ class UserWorkflowsController extends AWorkflowOCSController {
 	 * @param string $operation Operation action to execute on match
 	 * @param string $entity The matched entity
 	 * @param list<class-string<IEntityEvent>> $events The list of events on which the rule should be validated
+	 * @param string $description Optional free-text description of the workflow rule
 	 * @return DataResponse<Http::STATUS_OK, WorkflowEngineRule, array{}>
 	 *
 	 * 200: Workflow updated
@@ -117,8 +119,8 @@ class UserWorkflowsController extends AWorkflowOCSController {
 	#[NoAdminRequired]
 	#[PasswordConfirmationRequired]
 	#[ApiRoute(verb: 'PUT', url: '/api/v1/workflows/user/{id}')]
-	public function update(int $id, string $name, array $checks, string $operation, string $entity, array $events): DataResponse {
-		return parent::update($id, $name, $checks, $operation, $entity, $events);
+	public function update(int $id, string $name, array $checks, string $operation, string $entity, array $events, string $description = ''): DataResponse {
+		return parent::update($id, $name, $checks, $operation, $entity, $events, $description);
 	}
 
 	/**
