@@ -11,6 +11,7 @@ namespace OCA\DAV\CardDAV;
 use OCA\DAV\Db\PropertyMapper;
 use OCP\Constants;
 use OCP\IAddressBookEnabled;
+use OCP\IAddressBookWritable;
 use OCP\ICreateContactFromString;
 use OCP\IURLGenerator;
 use Sabre\VObject\Component\VCard;
@@ -18,7 +19,7 @@ use Sabre\VObject\Property;
 use Sabre\VObject\Reader;
 use Sabre\VObject\UUIDUtil;
 
-class AddressBookImpl implements IAddressBookEnabled, ICreateContactFromString {
+class AddressBookImpl implements ICreateContactFromString, IAddressBookEnabled, IAddressBookWritable {
 
 	/**
 	 * AddressBookImpl constructor.
@@ -55,6 +56,14 @@ class AddressBookImpl implements IAddressBookEnabled, ICreateContactFromString {
 	#[\Override]
 	public function getUri(): string {
 		return $this->addressBookInfo['uri'];
+	}
+
+	/**
+	 * @return string the principal URI of the address book owner
+	 * @since 35.0.0
+	 */
+	public function getPrincipalUri(): string {
+		return $this->addressBookInfo['principaluri'];
 	}
 
 	/**
@@ -348,6 +357,18 @@ class AddressBookImpl implements IAddressBookEnabled, ICreateContactFromString {
 			return (bool)$properties[0]->getPropertyvalue();
 		}
 		return true;
+	}
+
+	public function isWritable(): bool {
+		if (!$this->userId) {
+			return true;
+		}
+
+		if ($this->isSystemAddressBook()) {
+			return false;
+		}
+
+		return $this->getPermissions() & Constants::PERMISSION_UPDATE;
 	}
 
 	#[\Override]

@@ -154,6 +154,21 @@ class ContactsManager implements IManager {
 		return $this->addressBooks;
 	}
 
+	public function getAddressBooksForPrincipal(string $principalUri, array $addressBookUris = []): array {
+		$this->loadAddressBooks();
+		$result = [];
+		foreach ($this->addressBooks as $addressBook) {
+			if (!method_exists($addressBook, 'getPrincipalUri')) {
+				continue;
+			}
+
+			if ($addressBook->getPrincipalUri() === $principalUri && in_array($addressBook->getUri(), $addressBookUris, true)) {
+				$result[] = $addressBook;
+			}
+		}
+		return $result;
+	}
+
 	/**
 	 * removes all registered address book instances
 	 */
