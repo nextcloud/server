@@ -43,7 +43,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	private QueueBus $commandBus;
 
 	/** @psalm-suppress ImpureStaticProperty For tests it's not an issue */
-	protected static ?IDBConnection $realDatabase = null;
+	private static ?IDBConnection $realDatabase = null;
 	/** @psalm-suppress ImpureStaticProperty */
 	private static bool $wasDatabaseAllowed = false;
 	protected array $services = [];
