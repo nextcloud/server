@@ -538,8 +538,8 @@ export default defineComponent({
 					switch (filter.type) {
 						case 'date':
 							if (baseProvider.filters?.since && baseProvider.filters?.until) {
-								params.since = this.dateFilter.startFrom
-								params.until = this.dateFilter.endAt
+								params.since = this.dateFilter.startFrom?.toISOString()
+								params.until = this.dateFilter.endAt?.toISOString()
 							}
 							break
 						case 'person':
