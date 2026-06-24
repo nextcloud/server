@@ -3,12 +3,12 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { expect } from '@playwright/test'
-import { createRandomUser } from '@nextcloud/e2e-test-server/playwright'
 import { runOcc } from '@nextcloud/e2e-test-server/docker'
+import { createRandomUser } from '@nextcloud/e2e-test-server/playwright'
+import { expect } from '@playwright/test'
 import { test } from '../../support/fixtures/admin-session.ts'
-import { handlePasswordConfirmation } from '../../support/utils/password-confirmation.ts'
 import { SettingsUsersPage } from '../../support/sections/SettingsUsersPage.ts'
+import { handlePasswordConfirmation } from '../../support/utils/password-confirmation.ts'
 
 test.describe('Settings: Create and delete accounts', () => {
 	test('can create a user with username and password', async ({ page }) => {

@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { APIRequestContext } from '@playwright/test'
 import type { User } from '@nextcloud/e2e-test-server'
+import type { APIRequestContext } from '@playwright/test'
 
 /**
  * Make a MKCOL request to create a directory at the given path for the given user.

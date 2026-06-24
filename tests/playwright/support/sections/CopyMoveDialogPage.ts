@@ -4,6 +4,7 @@
  */
 
 import type { Locator, Page } from '@playwright/test'
+
 import { escapeAttributeValue } from '../utils/css.ts'
 
 /**
@@ -64,10 +65,8 @@ export class CopyMoveDialogPage {
 	}
 
 	private async confirm(label: string, method: 'COPY' | 'MOVE'): Promise<void> {
-		const done = this.page.waitForResponse(
-			(r) => r.request().method() === method
-				&& /\/(remote|public)\.php\/dav\/files\//.test(r.url()),
-		)
+		const done = this.page.waitForResponse((r) => r.request().method() === method
+			&& /\/(remote|public)\.php\/dav\/files\//.test(r.url()))
 		await this.confirmButton(label).click()
 		await done
 	}

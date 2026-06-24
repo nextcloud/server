@@ -5,12 +5,12 @@
 
 import type { User } from '@nextcloud/e2e-test-server'
 
-import { expect } from '@playwright/test'
-import { createRandomUser } from '@nextcloud/e2e-test-server/playwright'
 import { runOcc } from '@nextcloud/e2e-test-server/docker'
+import { createRandomUser } from '@nextcloud/e2e-test-server/playwright'
+import { expect } from '@playwright/test'
 import { test } from '../../support/fixtures/admin-session.ts'
-import { handlePasswordConfirmation } from '../../support/utils/password-confirmation.ts'
 import { SettingsUsersPage } from '../../support/sections/SettingsUsersPage.ts'
+import { handlePasswordConfirmation } from '../../support/utils/password-confirmation.ts'
 
 // ── Create group ──────────────────────────────────────────────────────────────
 
@@ -145,7 +145,7 @@ test.describe('Settings: Delete a non-empty group', () => {
 
 		const groupItem = settingsPage.groupListItem(groupName)
 		await expect(groupItem).toBeVisible()
-		
+
 		// Open the group's actions menu
 		await groupItem.hover()
 		expect(groupItem.getByRole('button', { name: /Actions/i })).toBeVisible()

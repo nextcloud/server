@@ -3,11 +3,12 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { APIRequestContext } from '@playwright/test'
 import type { User } from '@nextcloud/e2e-test-server'
-import { test, expect } from '../../support/fixtures/files-sharing-page.ts'
+import type { APIRequestContext } from '@playwright/test'
+
+import { expect, test } from '../../support/fixtures/files-sharing-page.ts'
 import { getChildPermissions, mkdir, uploadContent } from '../../support/utils/dav.ts'
-import { ALL_PERMISSIONS, SharePermission, createShare } from '../../support/utils/sharing.ts'
+import { ALL_PERMISSIONS, createShare, SharePermission } from '../../support/utils/sharing.ts'
 
 const EMPTY = Buffer.alloc(0)
 

@@ -3,8 +3,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { expect, type Locator, type Page } from '@playwright/test'
-import { handlePasswordConfirmation } from '../utils/password-confirmation'
+import type { Locator, Page } from '@playwright/test'
+
+import { expect } from '@playwright/test'
+import { handlePasswordConfirmation } from '../utils/password-confirmation.ts'
 
 /**
  * Page object for the Admin Users Management page (/settings/users).

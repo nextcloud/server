@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import type { Permission } from '@nextcloud/files'
 import type { APIRequestContext } from '@playwright/test'
 
 // we cannot import the enum directly from the files app.
@@ -14,7 +15,7 @@ export const SharePermission = {
 	CREATE: 4,
 	DELETE: 8,
 	SHARE: 16,
-} as const satisfies Partial<typeof import('@nextcloud/files').Permission>
+} as const satisfies Partial<typeof Permission>
 
 /** All permissions a user share can grant. */
 export const ALL_PERMISSIONS = SharePermission.READ

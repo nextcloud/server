@@ -3,11 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { createRandomUser, login } from '@nextcloud/e2e-test-server/playwright'
 import { runOcc } from '@nextcloud/e2e-test-server/docker'
+import { createRandomUser, login } from '@nextcloud/e2e-test-server/playwright'
 import { expect } from '@playwright/test'
-import { test } from '../../support/fixtures/admin-theming-page.ts'
 import { resolve } from 'node:path'
+import { test } from '../../support/fixtures/admin-theming-page.ts'
 import { getBodyThemingSnapshot, pickColor } from '../../support/utils/theming.ts'
 
 test.describe('Admin theming background settings', () => {
@@ -64,7 +64,7 @@ test.describe('Admin theming background settings', () => {
 		}
 	})
 
-	test('Remove default background with custom color', async ({ adminThemingPage, page, context }) => {
+	test('Remove default background with custom color', async ({ adminThemingPage, page }) => {
 		await expect(adminThemingPage.backgroundAndColorHeading()).toBeVisible()
 		const backgroundColorButton = page.getByRole('button', { name: /Background color/ })
 		const selectedColor = await pickColor(page, backgroundColorButton, 2)
@@ -80,7 +80,7 @@ test.describe('Admin theming background settings', () => {
 		await expect.poll(async () => (await getBodyThemingSnapshot(page)).backgroundImage).toBe('none')
 	})
 
-	test('User default background reflects admin custom background and color', async ({ adminThemingPage, page, context }) => {
+	test('User default background reflects admin custom background and color', async ({ page, context }) => {
 		const imagePath = resolve(process.cwd(), 'cypress/fixtures/image.jpg')
 
 		await page.locator('input[type="file"][name="background"]').setInputFiles(imagePath)

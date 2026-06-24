@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { resolve } from 'node:path'
 import { runOcc } from '@nextcloud/e2e-test-server/docker'
 import { createRandomUser, login } from '@nextcloud/e2e-test-server/playwright'
 import { expect, test } from '@playwright/test'
+import { resolve } from 'node:path'
 
 const themesToTest = ['light', 'dark', 'light-highcontrast', 'dark-highcontrast']
 

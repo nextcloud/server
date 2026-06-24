@@ -3,10 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import type { User } from '@nextcloud/e2e-test-server'
+
 import { runOcc } from '@nextcloud/e2e-test-server/docker'
 import { createRandomUser, login } from '@nextcloud/e2e-test-server/playwright'
 import { test as baseTest } from '@playwright/test'
-import type { User } from '@nextcloud/e2e-test-server'
 import { CopyMoveDialogPage } from '../sections/CopyMoveDialogPage.ts'
 import { FilesListPage } from '../sections/FilesListPage.ts'
 import { FilesNavigationPage } from '../sections/FilesNavigationPage.ts'

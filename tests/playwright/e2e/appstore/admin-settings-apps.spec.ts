@@ -3,13 +3,13 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { runOcc } from '@nextcloud/e2e-test-server'
 import { expect } from '@playwright/test'
 import { test } from '../../support/fixtures/admin-appstore-page.ts'
 import { handlePasswordConfirmation } from '../../support/utils/password-confirmation.ts'
-import { runOcc } from '@nextcloud/e2e-test-server'
 
 test.describe('Settings: App management', () => {
-	test.beforeEach(async ({ page, appstorePage }) => {
+	test.beforeEach(async ({ appstorePage }) => {
 		// Disable QA testing app if already enabled
 		expect(await runOcc(['app:disable', 'testing']))
 			.toMatch(/(No such app enabled|testing .+ disabled)/)
@@ -19,22 +19,20 @@ test.describe('Settings: App management', () => {
 
 		// Open the installed apps page
 		await appstorePage.openInstalledApps()
-		
+
 		// Wait for the apps table to load
 		await appstorePage.appsTable().waitFor({ state: 'visible', timeout: 10000 })
 	})
 
 	test('Can enable an installed app', async ({ page, appstorePage }) => {
 		// Intercept the enable app request
-		const enableRequest = page.waitForResponse(
-			(response) => response.url().includes('/ocs/v2.php/apps/appstore/api/v1/apps/enable'),
-		)
+		const enableRequest = page.waitForResponse((response) => response.url().includes('/ocs/v2.php/apps/appstore/api/v1/apps/enable'))
 
 		// Find and click the enable button for the QA testing app
 		await expect(appstorePage.appsTable()).toBeVisible()
 		const qaTestingRow = appstorePage.appRow('QA testing')
 		await expect(qaTestingRow).toBeVisible({ timeout: 10000 })
-		
+
 		await appstorePage.enableButton('QA testing').click({ force: true })
 
 		// Handle password confirmation if needed
@@ -57,15 +55,13 @@ test.describe('Settings: App management', () => {
 
 	test('Can disable an installed app', async ({ page, appstorePage }) => {
 		// Intercept the disable app request
-		const disableRequest = page.waitForResponse(
-			(response) => response.url().includes('/ocs/v2.php/apps/appstore/api/v1/apps/disable'),
-		)
+		const disableRequest = page.waitForResponse((response) => response.url().includes('/ocs/v2.php/apps/appstore/api/v1/apps/disable'))
 
 		// Find and click the disable button for the Update notification app
 		await expect(appstorePage.appsTable()).toBeVisible()
 		const updateRow = appstorePage.appRow('Update notification')
 		await expect(updateRow).toBeVisible({ timeout: 10000 })
-		
+
 		await appstorePage.disableButton('Update notification').click({ force: true })
 
 		// Handle password confirmation if needed
@@ -95,15 +91,15 @@ test.describe('Settings: App management', () => {
 
 		// Verify that there are only enabled apps (all have "Disable" button, no "Enable" button)
 		await expect(appstorePage.appsTable()).toBeVisible()
-		
+
 		// Get all rows and verify each has a disable button and no enable button
 		const rows = appstorePage.appsTable().locator('tr')
 		const rowCount = await rows.count()
-		
-		for (let i = 1; i < rowCount; i++) {  // Skip header row
+
+		for (let i = 1; i < rowCount; i++) { // Skip header row
 			const row = rows.nth(i)
 			const enableButton = row.getByRole('button', { name: 'Enable' })
-			
+
 			// Enabled apps should not have an "Enable" button
 			await expect(enableButton).not.toBeVisible()
 		}
@@ -118,15 +114,15 @@ test.describe('Settings: App management', () => {
 
 		// Verify that there are only disabled apps (all have "Enable" button, no "Disable" button)
 		await expect(appstorePage.appsTable()).toBeVisible()
-		
+
 		// Get all rows and verify each has an enable button and no disable button
 		const rows = appstorePage.appsTable().locator('tr')
 		const rowCount = await rows.count()
-		
-		for (let i = 1; i < rowCount; i++) {  // Skip header row
+
+		for (let i = 1; i < rowCount; i++) { // Skip header row
 			const row = rows.nth(i)
 			const disableButton = row.getByRole('button', { name: 'Disable' })
-			
+
 			// Disabled apps should not have a "Disable" button
 			await expect(disableButton).not.toBeVisible()
 		}
@@ -152,12 +148,12 @@ test.describe('Settings: App management', () => {
 		const sidebar = appstorePage.appSidebar()
 		await expect(sidebar).toBeVisible()
 		await expect(appstorePage.appSidebarHeader()).toContainText('QA testing')
-		
+
 		// Verify the sidebar contains expected elements
 		await expect(appstorePage.viewInStoreLink()).toBeVisible()
 		await expect(appstorePage.appSidebarEnableButton()).toBeVisible()
 		await expect(appstorePage.removeButton()).toBeVisible()
-		
+
 		// Verify version information is displayed
 		await expect(appstorePage.versionText()).toBeVisible()
 	})
