@@ -31,7 +31,7 @@ import MountOptions from './MountOptions.vue'
 const open = defineModel<boolean>('open', { default: true })
 
 const {
-	storage = { backendOptions: {}, mountOptions: {}, type: isAdmin ? 'system' : 'personal' },
+	storage = { backendOptions: {}, mountOptions: { ...DEFAULT_MOUNT_OPTIONS }, type: isAdmin ? 'system' : 'personal' },
 } = defineProps<{
 	storage?: Partial<IStorage>
 }>()
