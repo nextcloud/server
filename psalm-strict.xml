@@ -45,8 +45,8 @@
 			<directory name="lib/composer"/>
 			<directory name="lib/l10n"/>
 			<directory name="3rdparty"/>
-			<directory name="lib/public"/>
-			<directory name="lib/private"/>
+			<file name="lib/public/AppFramework/Controller.php"/>
+			<file name="lib/public/AppFramework/OCSController.php"/>
 			<directory name="build"/>
 		</ignoreFiles>
 	</projectFiles>
