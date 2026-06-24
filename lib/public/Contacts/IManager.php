@@ -147,6 +147,15 @@ interface IManager {
 	public function getUserAddressBooks();
 
 	/**
+	 * @param string $principalUri URI of the principal
+	 * @param string[] $addressBookUris optionally specify which address books to load, or all if this array is empty
+	 *
+	 * @return \OCP\IAddressBook[]
+	 * @since 23.0.0
+	 */
+	public function getAddressBooksForPrincipal(string $principalUri, array $addressBookUris = []): array;
+
+	/**
 	 * removes all registered address book instances
 	 *
 	 * @return void
