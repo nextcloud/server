@@ -592,6 +592,30 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		return $cards;
 	}
 
+	public function getCardByUID(int $addressBookId, string $uid) {
+		$query = $this->db->getQueryBuilder();
+		$query->select('*')
+			->from($this->dbCardsTable)
+			->where($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)))
+			->andWhere($query->expr()->eq('uid', $query->createNamedParameter($uid)))
+			->setMaxResults(1);
+
+		$result = $query->executeQuery();
+		$row = $result->fetchAssociative();
+		if (!$row) {
+			return false;
+		}
+		$row['etag'] = '"' . $row['etag'] . '"';
+
+		$modified = false;
+		$row['carddata'] = $this->readBlob($row['carddata'], $modified);
+		if ($modified) {
+			$row['size'] = strlen($row['carddata']);
+		}
+
+		return $row;
+	}
+
 	/**
 	 * Creates a new card.
 	 *
