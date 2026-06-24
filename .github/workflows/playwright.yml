@@ -82,8 +82,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shardIndex: [1, 2, 3, 4]
-        shardTotal: [4]
+        shardIndex: [1, 2, 3, 4, 5]
+        shardTotal: [5]
     outputs:
       node-version: ${{ steps.versions.outputs.node-version }}
       package-manager-version: ${{ steps.versions.outputs.package-manager-version }}
