@@ -66,8 +66,8 @@ class PublicAuthTest extends \Test\TestCase {
 		\OC_User::setIncognitoMode(false);
 
 		// Set old user
-		\OC_User::setUserId($this->oldUser);
 		if ($this->oldUser !== false) {
+			\OC_User::setUserId($this->oldUser);
 			\OC_Util::setupFS($this->oldUser);
 		}
 
