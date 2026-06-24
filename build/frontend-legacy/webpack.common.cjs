@@ -17,8 +17,7 @@ const appVersion = readFileSync(path.join(__dirname, '../../version.php')).toStr
 const isDev = process.env.NODE_ENV === 'development'
 
 /**
- *
- * @param modules
+ * @param {Record<string, Record<string, string>>} modules - The modules object from webpack.modules.cjs
  */
 function formatOutputFromModules(modules) {
 	// merge all configs into one object, and use AppID to generate the fileNames
@@ -255,6 +254,8 @@ const config = {
 		alias: {
 			// make sure to use the handlebar runtime when importing
 			handlebars: 'handlebars/runtime',
+			// allow to import from root (cross reference already migrated apps)
+			'~*': path.resolve(__dirname, '../../*'),
 		},
 		extensions: ['*', '.ts', '.js', '.vue'],
 		extensionAlias: {

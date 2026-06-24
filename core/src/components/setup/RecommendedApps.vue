@@ -59,14 +59,13 @@
 </template>
 
 <script>
-import axios from '@nextcloud/axios'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
-import { PwdConfirmationMode } from '@nextcloud/password-confirmation'
-import { generateUrl, imagePath } from '@nextcloud/router'
+import { imagePath } from '@nextcloud/router'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import logger from '../../logger.js'
+import * as appstoreApi from '~/apps/appstore/src/service/api.ts'
 
 const recommended = {
 	calendar: {
@@ -130,11 +129,11 @@ export default {
 
 	async mounted() {
 		try {
-			const { data } = await axios.get(generateUrl('settings/apps/list'))
-			logger.info(`${data.apps.length} apps fetched`)
+			const apps = await appstoreApi.getApps()
+			logger.info(`${apps.length} apps fetched`)
 
-			this.apps = data.apps.map((app) => Object.assign(app, { loading: false, installationError: false, isSelected: app.isCompatible }))
-			logger.debug(`${this.recommendedApps.length} recommended apps found`, { apps: this.recommendedApps })
+			this.apps = apps.map((app) => Object.assign(app, { loading: false, installationError: false, isSelected: app.isCompatible }))
+			this.$nextTick(() => logger.debug(`${this.recommendedApps.length} recommended apps found`, { apps: this.recommendedApps }))
 
 			this.showInstallButton = true
 		} catch (error) {
@@ -161,27 +160,25 @@ export default {
 			const appIds = apps.map((app) => app.id)
 			logger.debug(`installing ${apps.length} recommended apps`, { appIds })
 
-			try {
-				await axios.post(
-					generateUrl('settings/apps/enable'),
-					{ appIds, groups: [] },
-					{ confirmPassword: PwdConfirmationMode.Strict },
-				)
-				apps.forEach((app) => {
-					app.loading = false
-					app.active = true
-				})
-				logger.info('all recommended apps installed, redirecting …')
-				window.location = this.defaultPageUrl
-			} catch (error) {
-				logger.error('could not install recommended apps', { error })
-				apps.forEach((app) => {
+			const promises = Promise.allSettled(appIds.map((appId) => appstoreApi.enableApp(appId)))
+			for (const app of apps) {
+				app.loading = true
+			}
+
+			const results = await promises
+			for (let i = 0; i < results.length; i++) {
+				const result = results[i]
+				const app = apps[i]
+				if (result.status === 'rejected') {
+					logger.error(`could not install recommended app ${app.id}`, { error: result.reason })
 					app.loading = false
 					app.isSelected = false
 					app.installationError = true
-				})
-				this.installingApps = false
+				} else {
+					app.active = true
+				}
 			}
+			this.installingApps = false
 		},
 
 		customIcon(appId) {
