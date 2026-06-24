@@ -19,7 +19,7 @@ use OCP\SystemTag\ISystemTag;
  * @since 35.0.0
  */
 #[Consumable(since: '35.0.0')]
-class TagUpdatedEvent extends AbstractTagEvent {
+final class TagUpdatedEvent extends AbstractTagEvent {
 	/**
 	 * TagUpdatedEvent constructor
 	 * @since 35.0.0

@@ -17,5 +17,5 @@ use OCP\AppFramework\Attribute\Consumable;
  * @since 35.0.0
  */
 #[Consumable(since: '35.0.0')]
-class TagCreatedEvent extends AbstractTagEvent {
+final class TagCreatedEvent extends AbstractTagEvent {
 }
