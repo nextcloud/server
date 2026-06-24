@@ -374,6 +374,17 @@ class Storage {
 		$version = 'files_versions' . $filename . '.v' . $users_view->filemtime('files' . $filename);
 		if (!$users_view->file_exists($version)) {
 			$users_view->copy('files' . $filename, 'files_versions' . $filename . '.v' . $users_view->filemtime('files' . $filename));
+
+			$encryptedVersion = $fileInfo->getEncryptedVersion();
+			$versionFileInfo = $users_view->getFileInfo($version);
+			$versionCache = $versionFileInfo->getStorage()->getCache();
+			$versionCache->update(
+				$versionFileInfo->getId(), [
+					'encrypted' => $encryptedVersion,
+					'encryptedVersion' => $encryptedVersion,
+				]
+			);
+
 			$versionCreated = true;
 		}
 
