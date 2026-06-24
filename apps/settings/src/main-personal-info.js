@@ -21,7 +21,7 @@ import LanguageSection from './components/PersonalInfo/LanguageSection/LanguageS
 import LocaleSection from './components/PersonalInfo/LocaleSection/LocaleSection.vue'
 import LocationSection from './components/PersonalInfo/LocationSection.vue'
 import OrganisationSection from './components/PersonalInfo/OrganisationSection.vue'
-import PhoneSection from './components/PersonalInfo/PhoneSection.vue'
+import PhoneSection from './components/PersonalInfo/PhoneSection/PhoneSection.vue'
 import ProfileSection from './components/PersonalInfo/ProfileSection/ProfileSection.vue'
 import ProfileVisibilitySection from './components/PersonalInfo/ProfileVisibilitySection/ProfileVisibilitySection.vue'
 import PronounsSection from './components/PersonalInfo/PronounsSection.vue'

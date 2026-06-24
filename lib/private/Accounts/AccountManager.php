@@ -247,6 +247,7 @@ class AccountManager implements IAccountManager {
 	protected function searchUsersForRelatedCollection(string $property, array $values): array {
 		return match ($property) {
 			IAccountManager::PROPERTY_EMAIL => array_flip($this->searchUsers(IAccountManager::COLLECTION_EMAIL, $values)),
+			IAccountManager::PROPERTY_PHONE => array_flip($this->searchUsers(IAccountManager::COLLECTION_PHONE, $values)),
 			default => [],
 		};
 	}
@@ -836,6 +837,13 @@ class AccountManager implements IAccountManager {
 			}
 		} catch (PropertyDoesNotExistException $e) {
 			//  valid case, nothing to do
+		}
+
+		$phoneCollection = $account->getPropertyCollection(self::COLLECTION_PHONE);
+		foreach ($phoneCollection->getProperties() as $property) {
+			if ($property->getValue() !== '') {
+				$this->sanitizePropertyPhoneNumber($property);
+			}
 		}
 
 		try {

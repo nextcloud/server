@@ -23,6 +23,8 @@ namespace OCA\Provisioning_API;
  * @psalm-type Provisioning_APIUserDetails = array{
  *     additional_mail: list<string>,
  *     additional_mailScope?: list<Provisioning_APIUserDetailsScope>,
+ *     additional_phone: list<string>,
+ *     additional_phoneScope?: list<Provisioning_APIUserDetailsScope>,
  *     address: string,
  *     addressScope?: Provisioning_APIUserDetailsScope,
  *     avatarScope?: Provisioning_APIUserDetailsScope,

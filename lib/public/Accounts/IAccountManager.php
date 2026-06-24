@@ -176,6 +176,11 @@ interface IAccountManager {
 	public const COLLECTION_EMAIL = 'additional_mail';
 
 	/**
+	 * @since 35.0.0
+	 */
+	public const COLLECTION_PHONE = 'additional_phone';
+
+	/**
 	 * @since 15.0.0
 	 */
 	public const NOT_VERIFIED = '0';

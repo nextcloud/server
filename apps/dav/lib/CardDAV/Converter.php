@@ -86,6 +86,7 @@ class Converter {
 						);
 					}
 					break;
+				case IAccountManager::COLLECTION_PHONE:
 				case IAccountManager::PROPERTY_PHONE:
 					$vCard->add(new Text($vCard, 'TEL', $property->getValue(), ['TYPE' => 'VOICE', 'X-NC-SCOPE' => $scope]));
 					break;
