@@ -12,6 +12,7 @@ namespace Test\Collaboration\Collaborators;
 use OC\Collaboration\Collaborators\GroupPlugin;
 use OC\Collaboration\Collaborators\SearchResult;
 use OCP\Collaboration\Collaborators\ISearchResult;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -30,6 +31,9 @@ class GroupPluginTest extends TestCase {
 
 	protected ISearchResult $searchResult;
 
+	/** @var IAppConfig|\PHPUnit\Framework\MockObject\MockObject */
+	protected $appConfig;
+
 	/** @var GroupPlugin */
 	protected $plugin;
 
@@ -41,6 +45,8 @@ class GroupPluginTest extends TestCase {
 		parent::setUp();
 
 		$this->config = $this->createMock(IConfig::class);
+
+		$this->appConfig = $this->createMock(IAppConfig::class);
 
 		$this->groupManager = $this->createMock(IGroupManager::class);
 
@@ -402,6 +408,24 @@ class GroupPluginTest extends TestCase {
 				true,
 				false,
 			],
+			[
+				'test', true, true, false,
+				[
+					['test0', 'test0', true],
+					['test1'],
+				],
+				[
+					['test0'],
+					['test1']
+				],
+				[],
+				[
+					['label' => 'test1', 'value' => ['shareType' => IShare::TYPE_GROUP, 'shareWith' => 'test1']],
+				],
+				false,
+				false,
+				['test0'],
+			],
 		];
 	}
 
@@ -417,6 +441,7 @@ class GroupPluginTest extends TestCase {
 		array $expected,
 		bool $reachedEnd,
 		array|false $singleGroup,
+		array $groupsBlockList = [],
 	): void {
 		$groupResponse = array_map(
 			fn ($args) => $this->getGroupMock(...$args),
@@ -448,6 +473,15 @@ class GroupPluginTest extends TestCase {
 					}
 				}
 			);
+
+		if ($groupsBlockList != []) {
+			/** setup blocked groups list */
+			$appConfig = $this->createMock(IAppConfig::class);
+			$appConfig->method('getValueArray')
+				->with('core', 'shareapi_groups_block_list')
+				->willReturn($groupsBlockList);
+			$this->appConfig = $appConfig;
+		}
 
 		$this->instantiatePlugin();
 

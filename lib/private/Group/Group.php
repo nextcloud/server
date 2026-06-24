@@ -31,6 +31,7 @@ use OCP\Group\Events\GroupDeletedEvent;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\GroupInterface;
+use OCP\IAppConfig;
 use OCP\IGroup;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -45,6 +46,7 @@ class Group implements IGroup {
 		private string $gid,
 		/** @var list<GroupInterface> */
 		private array $backends,
+		private IAppConfig $appConfig,
 		private IEventDispatcher $dispatcher,
 		private IUserManager $userManager,
 		private ?PublicEmitter $emitter = null,
@@ -389,6 +391,10 @@ class Group implements IGroup {
 	 */
 	#[\Override]
 	public function hideFromCollaboration(): bool {
+		if (in_array($this->gid, $this->appConfig->getValueArray('core', 'shareapi_groups_block_list', []))) {
+			return true;
+		}
+		
 		return array_reduce($this->backends, function (bool $hide, GroupInterface $backend) {
 			return $hide || ($backend instanceof IHideFromCollaborationBackend && $backend->hideGroup($this->gid));
 		}, false);
