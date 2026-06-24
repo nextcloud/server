@@ -28,6 +28,11 @@
       <code><![CDATA[getFederationIdFromSharedSecret]]></code>
     </DeprecatedMethod>
   </file>
+  <file src="apps/cloud_federation_api/lib/Controller/TokenController.php">
+    <DeprecatedMethod>
+      <code><![CDATA[generate]]></code>
+    </DeprecatedMethod>
+  </file>
   <file src="apps/comments/lib/Activity/Listener.php">
     <DeprecatedConstant>
       <code><![CDATA[CommentsEvent::EVENT_ADD]]></code>
@@ -185,6 +190,7 @@
   </file>
   <file src="apps/dav/lib/CalDAV/CalDavBackend.php">
     <DeprecatedMethod>
+      <code><![CDATA[generate]]></code>
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getAppValue]]></code>
     </DeprecatedMethod>
@@ -242,6 +248,11 @@
     <UndefinedMagicPropertyFetch>
       <code><![CDATA[$this->baseEvent->DTSTART]]></code>
     </UndefinedMagicPropertyFetch>
+  </file>
+  <file src="apps/dav/lib/CalDAV/Federation/FederationSharingService.php">
+    <DeprecatedMethod>
+      <code><![CDATA[generate]]></code>
+    </DeprecatedMethod>
   </file>
   <file src="apps/dav/lib/CalDAV/ICSExportPlugin/ICSExportPlugin.php">
     <DeprecatedMethod>
@@ -422,6 +433,9 @@
     </RedundantCondition>
   </file>
   <file src="apps/dav/lib/CalDAV/Schedule/IMipService.php">
+    <DeprecatedMethod>
+      <code><![CDATA[generate]]></code>
+    </DeprecatedMethod>
     <UndefinedMagicPropertyFetch>
       <code><![CDATA[$component->DTSTART]]></code>
       <code><![CDATA[$component->UID]]></code>
@@ -848,6 +862,11 @@
       <code><![CDATA[setAppValue]]></code>
     </DeprecatedMethod>
   </file>
+  <file src="apps/dav/lib/Controller/DirectController.php">
+    <DeprecatedMethod>
+      <code><![CDATA[generate]]></code>
+    </DeprecatedMethod>
+  </file>
   <file src="apps/dav/lib/Controller/InvitationResponseController.php">
     <UndefinedMagicPropertyFetch>
       <code><![CDATA[$vObject->{'VEVENT'}]]></code>
@@ -981,6 +1000,11 @@
       <code><![CDATA[setAppValue]]></code>
     </DeprecatedMethod>
   </file>
+  <file src="apps/dav/lib/Paginate/PaginateCache.php">
+    <DeprecatedMethod>
+      <code><![CDATA[generate]]></code>
+    </DeprecatedMethod>
+  </file>
   <file src="apps/dav/lib/RootCollection.php">
     <DeprecatedMethod>
       <code><![CDATA[getL10N]]></code>
@@ -1046,6 +1070,9 @@
     </UndefinedMagicPropertyFetch>
   </file>
   <file src="apps/dav/lib/Service/ExampleEventService.php">
+    <DeprecatedMethod>
+      <code><![CDATA[generate]]></code>
+    </DeprecatedMethod>
     <UndefinedMagicPropertyAssignment>
       <code><![CDATA[$vEvent->DTEND]]></code>
       <code><![CDATA[$vEvent->DTSTART]]></code>
@@ -1226,6 +1253,9 @@
     </TypeDoesNotContainType>
   </file>
   <file src="apps/encryption/lib/Crypto/EncryptAll.php">
+    <DeprecatedMethod>
+      <code><![CDATA[generate]]></code>
+    </DeprecatedMethod>
     <InternalMethod>
       <code><![CDATA[copy]]></code>
       <code><![CDATA[file_exists]]></code>
@@ -1326,6 +1356,7 @@
   </file>
   <file src="apps/federatedfilesharing/lib/FederatedShareProvider.php">
     <DeprecatedMethod>
+      <code><![CDATA[generate]]></code>
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getAppValue]]></code>
@@ -1360,6 +1391,16 @@
       <code><![CDATA[sendNotification]]></code>
     </DeprecatedMethod>
   </file>
+  <file src="apps/federatedfilesharing/lib/TokenHandler.php">
+    <DeprecatedMethod>
+      <code><![CDATA[generate]]></code>
+    </DeprecatedMethod>
+  </file>
+  <file src="apps/federation/lib/Controller/OCSAuthAPIController.php">
+    <DeprecatedMethod>
+      <code><![CDATA[generate]]></code>
+    </DeprecatedMethod>
+  </file>
   <file src="apps/federation/lib/DbHandler.php">
     <LessSpecificReturnStatement>
       <code><![CDATA[$result]]></code>
@@ -1367,6 +1408,11 @@
     <MoreSpecificReturnType>
       <code><![CDATA[list<array{id: int, url: string, url_hash: string, shared_secret: ?string, status: int, sync_token: ?string}>]]></code>
     </MoreSpecificReturnType>
+  </file>
+  <file src="apps/federation/lib/TrustedServers.php">
+    <DeprecatedMethod>
+      <code><![CDATA[generate]]></code>
+    </DeprecatedMethod>
   </file>
   <file src="apps/files/lib/Activity/Provider.php">
     <FalsableReturnStatement>
@@ -1454,6 +1500,11 @@
     <UndefinedInterfaceMethod>
       <code><![CDATA[getTemplates]]></code>
     </UndefinedInterfaceMethod>
+  </file>
+  <file src="apps/files/lib/Controller/OpenLocalEditorController.php">
+    <DeprecatedMethod>
+      <code><![CDATA[generate]]></code>
+    </DeprecatedMethod>
   </file>
   <file src="apps/files/lib/Controller/ViewController.php">
     <DeprecatedMethod>
@@ -1596,6 +1647,9 @@
     </DeprecatedMethod>
   </file>
   <file src="apps/files_external/lib/Service/EncryptionService.php">
+    <DeprecatedMethod>
+      <code><![CDATA[generate]]></code>
+    </DeprecatedMethod>
     <InternalMethod>
       <code><![CDATA[decrypt]]></code>
       <code><![CDATA[encrypt]]></code>
@@ -1685,6 +1739,7 @@
       <code><![CDATA[emitAccessShareHook]]></code>
       <code><![CDATA[emitAccessShareHook]]></code>
       <code><![CDATA[emitAccessShareHook]]></code>
+      <code><![CDATA[generate]]></code>
     </DeprecatedMethod>
   </file>
   <file src="apps/files_sharing/lib/External/Manager.php">
@@ -2218,10 +2273,25 @@
       <code><![CDATA[deleteUserValue]]></code>
     </DeprecatedMethod>
   </file>
+  <file src="apps/oauth2/lib/Controller/LoginRedirectorController.php">
+    <DeprecatedMethod>
+      <code><![CDATA[generate]]></code>
+    </DeprecatedMethod>
+  </file>
   <file src="apps/oauth2/lib/Controller/OauthApiController.php">
+    <DeprecatedMethod>
+      <code><![CDATA[generate]]></code>
+      <code><![CDATA[generate]]></code>
+    </DeprecatedMethod>
     <NoInterfaceProperties>
       <code><![CDATA[$this->request->server]]></code>
     </NoInterfaceProperties>
+  </file>
+  <file src="apps/oauth2/lib/Service/ClientService.php">
+    <DeprecatedMethod>
+      <code><![CDATA[generate]]></code>
+      <code><![CDATA[generate]]></code>
+    </DeprecatedMethod>
   </file>
   <file src="apps/provisioning_api/lib/Controller/AUserDataOCSController.php">
     <DeprecatedClass>
@@ -2257,6 +2327,12 @@
     </DeprecatedConstant>
     <DeprecatedMethod>
       <code><![CDATA[deleteUserValue]]></code>
+      <code><![CDATA[generate]]></code>
+      <code><![CDATA[generate]]></code>
+      <code><![CDATA[generate]]></code>
+      <code><![CDATA[generate]]></code>
+      <code><![CDATA[generate]]></code>
+      <code><![CDATA[generate]]></code>
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getAppValue]]></code>
@@ -2288,6 +2364,11 @@
     <DeprecatedConstant>
       <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
     </DeprecatedConstant>
+  </file>
+  <file src="apps/settings/lib/Controller/AuthSettingsController.php">
+    <DeprecatedMethod>
+      <code><![CDATA[generate]]></code>
+    </DeprecatedMethod>
   </file>
   <file src="apps/settings/lib/Controller/MailSettingsController.php">
     <DeprecatedMethod>
@@ -2328,6 +2409,7 @@
   </file>
   <file src="apps/settings/lib/Mailer/NewUserMailHelper.php">
     <DeprecatedMethod>
+      <code><![CDATA[generate]]></code>
       <code><![CDATA[setUserValue]]></code>
     </DeprecatedMethod>
   </file>
@@ -2431,10 +2513,21 @@
       <code><![CDATA[getAppValue]]></code>
     </DeprecatedMethod>
   </file>
+  <file src="apps/settings/lib/SetupChecks/RandomnessSecure.php">
+    <DeprecatedMethod>
+      <code><![CDATA[generate]]></code>
+    </DeprecatedMethod>
+  </file>
   <file src="apps/sharebymail/lib/Settings/SettingsManager.php">
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getAppValue]]></code>
+    </DeprecatedMethod>
+  </file>
+  <file src="apps/sharebymail/lib/ShareByMailProvider.php">
+    <DeprecatedMethod>
+      <code><![CDATA[generate]]></code>
+      <code><![CDATA[generate]]></code>
     </DeprecatedMethod>
   </file>
   <file src="apps/testing/lib/AlternativeHomeUserBackend.php">
@@ -2629,6 +2722,16 @@
       <code><![CDATA[getName]]></code>
     </DeprecatedMethod>
   </file>
+  <file src="apps/twofactor_backupcodes/lib/Service/BackupCodeStorage.php">
+    <DeprecatedMethod>
+      <code><![CDATA[generate]]></code>
+    </DeprecatedMethod>
+  </file>
+  <file src="apps/updatenotification/lib/Controller/AdminController.php">
+    <DeprecatedMethod>
+      <code><![CDATA[generate]]></code>
+    </DeprecatedMethod>
+  </file>
   <file src="apps/user_ldap/lib/Access.php">
     <DeprecatedMethod>
       <code><![CDATA[emit]]></code>
@@ -2819,6 +2922,11 @@
       <code><![CDATA[is_array($value) ? json_encode($value) : $value]]></code>
     </FalsableReturnStatement>
   </file>
+  <file src="apps/webhook_listeners/lib/Service/TokenService.php">
+    <DeprecatedMethod>
+      <code><![CDATA[generate]]></code>
+    </DeprecatedMethod>
+  </file>
   <file src="apps/workflowengine/lib/AppInfo/Application.php">
     <RedundantCondition>
       <code><![CDATA[$event instanceof Event]]></code>
@@ -3000,11 +3108,19 @@
       <code><![CDATA[listen]]></code>
     </DeprecatedMethod>
   </file>
+  <file src="core/Command/User/Add.php">
+    <DeprecatedMethod>
+      <code><![CDATA[generate]]></code>
+    </DeprecatedMethod>
+  </file>
   <file src="core/Command/User/AuthTokens/Add.php">
     <DeprecatedClass>
       <code><![CDATA[IToken::DO_NOT_REMEMBER]]></code>
       <code><![CDATA[IToken::PERMANENT_TOKEN]]></code>
     </DeprecatedClass>
+    <DeprecatedMethod>
+      <code><![CDATA[generate]]></code>
+    </DeprecatedMethod>
   </file>
   <file src="core/Command/User/AuthTokens/ListCommand.php">
     <DeprecatedClass>
@@ -3041,8 +3157,23 @@
       <code><![CDATA[IToken::DO_NOT_REMEMBER]]></code>
       <code><![CDATA[IToken::PERMANENT_TOKEN]]></code>
     </DeprecatedClass>
+    <DeprecatedMethod>
+      <code><![CDATA[generate]]></code>
+      <code><![CDATA[generate]]></code>
+      <code><![CDATA[generate]]></code>
+    </DeprecatedMethod>
+  </file>
+  <file src="core/Controller/ClientFlowLoginController.php">
+    <DeprecatedMethod>
+      <code><![CDATA[generate]]></code>
+      <code><![CDATA[generate]]></code>
+      <code><![CDATA[generate]]></code>
+    </DeprecatedMethod>
   </file>
   <file src="core/Controller/ClientFlowLoginV2Controller.php">
+    <DeprecatedMethod>
+      <code><![CDATA[generate]]></code>
+    </DeprecatedMethod>
     <TypeDoesNotContainType>
       <code><![CDATA[!is_string($stateToken)]]></code>
     </TypeDoesNotContainType>
@@ -3191,6 +3322,11 @@
       <code><![CDATA[IToken::DO_NOT_REMEMBER]]></code>
       <code><![CDATA[IToken::PERMANENT_TOKEN]]></code>
     </DeprecatedClass>
+    <DeprecatedMethod>
+      <code><![CDATA[generate]]></code>
+      <code><![CDATA[generate]]></code>
+      <code><![CDATA[generate]]></code>
+    </DeprecatedMethod>
   </file>
   <file src="core/templates/publicshareauth.php">
     <DeprecatedMethod>
@@ -4180,6 +4316,7 @@
   <file src="tests/lib/TestCase.php">
     <DeprecatedMethod>
       <code><![CDATA[$container]]></code>
+      <code><![CDATA[generate]]></code>
     </DeprecatedMethod>
     <InternalMethod>
       <code><![CDATA[lockFile]]></code>

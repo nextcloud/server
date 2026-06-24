@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace OCP\Security;
 
+use Random\Randomizer;
+
 /**
  * Class SecureRandom provides a wrapper around the random_int function to generate
  * secure random strings. For PHP 7 the native CSPRNG is used, older versions do
@@ -62,6 +64,7 @@ interface ISecureRandom {
 	 *                           specified all valid base64 characters are used.
 	 * @return string
 	 * @since 8.0.0
+	 * @deprecated 35.0.0 Use {@see Randomizer::getBytesFromString()} available in PHP 8.3+ instead.
 	 */
 	public function generate(int $length,
 		string $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'): string;
