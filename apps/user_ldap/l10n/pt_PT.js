@@ -40,6 +40,7 @@ OC.L10N.register(
     "Quota Default" : "Quota padrão",
     "Email Field" : "Campo de email",
     "User Home Folder Naming Rule" : "Regra da pasta inicial do utilizador",
+    "User profile Date of birth will be set from the specified attribute" : "A Data de Nascimento no perfil do usuário será definida a partir do atributo especificado",
     "Internal Username" : "Nome de utilizador interno",
     "Internal Username Attribute:" : "Atributo do nome de utilizador interno",
     "Override UUID detection" : "Passar a deteção do UUID",
