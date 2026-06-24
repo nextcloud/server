@@ -272,11 +272,11 @@ function execute_tests {
 			echo "Fire up the mariadb docker"
 			DOCKER_CONTAINER_ID=$(docker run \
 				-v $BASEDIR/tests/docker/mariadb:/etc/mysql/conf.d \
-				-e MYSQL_ROOT_PASSWORD=owncloud \
-				-e MYSQL_USER="$DATABASEUSER" \
-				-e MYSQL_PASSWORD=owncloud \
-				-e MYSQL_DATABASE="$DATABASENAME" \
-				-d mariadb)
+				-e MARIADB_ROOT_PASSWORD=owncloud \
+				-e MARIADB_USER="$DATABASEUSER" \
+				-e MARIADB_PASSWORD=owncloud \
+				-e MARIADB_DATABASE="$DATABASENAME" \
+				-d mariadb:lts)
 			DATABASEHOST=$(docker_get_ip "$DOCKER_CONTAINER_ID")
 
 			echo "Waiting for MariaDB initialisation ..."
@@ -288,12 +288,13 @@ function execute_tests {
 			echo "MariaDB is up."
 
 		else
-			if [ "MariaDB" != "$(mysql --version | grep -o MariaDB)" ] ; then
-				echo "Your mysql binary is not provided by MariaDB"
+			MARIADB_EXECUTABLE=$(command -v mariadb && echo "mariadb" || echo "mysql")
+			if [ "MariaDB" != "$($MARIADB_EXECUTABLE --version | grep -o MariaDB)" ] ; then
+				echo "Your $MARIADB_EXECUTABLE binary is not provided by MariaDB"
 				echo "To use the docker container set the USEDOCKER environment variable"
 				exit -1
 			fi
-			mysql -u "$DATABASEUSER" -powncloud -e "DROP DATABASE IF EXISTS $DATABASENAME" -h $DATABASEHOST || true
+			$MARIADB_EXECUTABLE -u "$DATABASEUSER" -powncloud -e "DROP DATABASE IF EXISTS $DATABASENAME" -h $DATABASEHOST || true
 		fi
 
 		echo "Waiting for MariaDB initialisation ..."
