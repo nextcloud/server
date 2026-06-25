@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { INavigationEntry } from '../../types/navigation.d.ts'
+import type { INavigationEntry } from '../../../types/navigation.d.ts'
 
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
@@ -17,7 +17,7 @@ vi.mock('@nextcloud/l10n', () => ({
 	},
 }))
 
-import AppItem from '../../components/AppItem.vue'
+import AppMenuItem from '../../../components/AppMenu/AppMenuItem.vue'
 
 function makeApp(overrides: Partial<INavigationEntry> = {}): INavigationEntry {
 	return {
@@ -33,14 +33,14 @@ function makeApp(overrides: Partial<INavigationEntry> = {}): INavigationEntry {
 	}
 }
 
-describe('core: AppItem', () => {
+describe('core: AppMenuItem', () => {
 	it('renders the label', () => {
-		const wrapper = mount(AppItem, { propsData: { app: makeApp({ name: 'Files' }) } })
+		const wrapper = mount(AppMenuItem, { propsData: { app: makeApp({ name: 'Files' }) } })
 		expect(wrapper.text()).toContain('Files')
 	})
 
 	it('active app has aria-current="page"', () => {
-		const wrapper = mount(AppItem, { propsData: { app: makeApp({ active: true }) } })
+		const wrapper = mount(AppMenuItem, { propsData: { app: makeApp({ active: true }) } })
 		expect(wrapper.attributes('aria-current')).toBe('page')
 	})
 })

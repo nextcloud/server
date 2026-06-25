@@ -11,6 +11,7 @@ module.exports = {
 		login: path.join(__dirname, 'core/src', 'login.js'),
 		login_flow: path.join(__dirname, 'core/src', 'login-flow.ts'),
 		main: path.join(__dirname, 'core/src', 'main.js'),
+		appmenu: path.join(__dirname, 'core/src', 'appmenu.ts'),
 		maintenance: path.join(__dirname, 'core/src', 'maintenance.js'),
 		'public-page-menu': path.resolve(__dirname, 'core/src', 'public-page-menu.ts'),
 		'public-page-user-menu': path.resolve(__dirname, 'core/src', 'public-page-user-menu.ts'),
