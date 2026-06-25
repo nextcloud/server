@@ -398,10 +398,6 @@ OC.L10N.register(
     "Files and folders you recently modified will show up here." : "Тут показуватимуться файли та каталоги, які було нещодавно змінено.",
     "Search" : "Пошук",
     "Search results within your files." : "Шукати результати серед ваших файлів.",
-    "No entries found in this folder" : "В цьому каталозі нічого не знайдено",
-    "Select all" : "Вибрати все",
-    "Upload too large" : "Файл занадто великий",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Файли, які ви намагаєтеся завантажити, перевищують максимально дозволений розмір завантаження файлів на сервер.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Перейменовано \"{oldName}\" на \"{newName}\"",
     "Clear filter" : "Очистити фільтр",
     "Open file sidebar" : "Відкрити бічну панель файлів",
@@ -423,6 +419,10 @@ OC.L10N.register(
     "Converting files …" : "Конвертування файлів ...",
     "Converting file …" : "Конвертування файлу ...",
     "Moving {count} files to \"{destination}\" …" : "Переміщення {count} файлів до \"{destination}\" ...",
-    "Copying {count} files to \"{destination}\" …" : "Копіювання {count} файлів до \"{destination}\" ..."
+    "Copying {count} files to \"{destination}\" …" : "Копіювання {count} файлів до \"{destination}\" ...",
+    "No entries found in this folder" : "В цьому каталозі нічого не знайдено",
+    "Select all" : "Вибрати все",
+    "Upload too large" : "Файл занадто великий",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Файли, які ви намагаєтеся завантажити, перевищують максимально дозволений розмір завантаження файлів на сервер."
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

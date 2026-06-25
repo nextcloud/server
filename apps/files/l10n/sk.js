@@ -388,10 +388,6 @@ OC.L10N.register(
     "Files and folders you recently modified will show up here." : "Súbory a priečinky, ktoré ste nedávno upravili sa zobrazia tu",
     "Search" : "Hľadať",
     "Search results within your files." : "Výsledky vyhľadávania vo vašich súboroch.",
-    "No entries found in this folder" : "V tomto priečinku nebolo nič nájdené",
-    "Select all" : "Vybrať všetko",
-    "Upload too large" : "Nahrávanie je príliš veľké",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Súbory, ktoré sa snažíte nahrať, presahujú maximálnu veľkosť pre nahratie súborov na tento server.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Premenované z \"{oldName}\" na \"{newName}\"",
     "Clear filter" : "Vyčistiť filter",
     "Open file sidebar" : "Otvoriť bočný panel súboru",
@@ -413,6 +409,10 @@ OC.L10N.register(
     "Converting files …" : "Konverzia súborov ...",
     "Converting file …" : "Konverzia súborov ...",
     "Moving {count} files to \"{destination}\" …" : "Presúvanie {count} súborov do \"{destination}\" …",
-    "Copying {count} files to \"{destination}\" …" : "Kopírovanie {count} súborov do \"{destination}\" …"
+    "Copying {count} files to \"{destination}\" …" : "Kopírovanie {count} súborov do \"{destination}\" …",
+    "No entries found in this folder" : "V tomto priečinku nebolo nič nájdené",
+    "Select all" : "Vybrať všetko",
+    "Upload too large" : "Nahrávanie je príliš veľké",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Súbory, ktoré sa snažíte nahrať, presahujú maximálnu veľkosť pre nahratie súborov na tento server."
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

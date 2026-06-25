@@ -396,10 +396,6 @@ OC.L10N.register(
     "Files and folders you recently modified will show up here." : "I file e le cartelle che hai modificato di recente saranno mostrati qui.",
     "Search" : "Cerca",
     "Search results within your files." : "Cerca i risultati all'interno dei tuoi file.",
-    "No entries found in this folder" : "Nessuna voce trovata in questa cartella",
-    "Select all" : "Seleziona tutto",
-    "Upload too large" : "Caricamento troppo grande",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "I file che stai provando a caricare superano la dimensione massima consentita su questo server.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Rinominato \"{oldName}\" in \"{newName}\"",
     "Clear filter" : "Pulisci il filtro",
     "Open file sidebar" : "Apri la barra laterale del file",
@@ -421,6 +417,10 @@ OC.L10N.register(
     "Converting files …" : "Conversione dei file …",
     "Converting file …" : "Conversione del file …",
     "Moving {count} files to \"{destination}\" …" : "Spostamento di {count} file in \"{destination}\" …",
-    "Copying {count} files to \"{destination}\" …" : "Copiatura di {count} file in \"{destination}\" …"
+    "Copying {count} files to \"{destination}\" …" : "Copiatura di {count} file in \"{destination}\" …",
+    "No entries found in this folder" : "Nessuna voce trovata in questa cartella",
+    "Select all" : "Seleziona tutto",
+    "Upload too large" : "Caricamento troppo grande",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "I file che stai provando a caricare superano la dimensione massima consentita su questo server."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

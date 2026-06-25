@@ -310,10 +310,6 @@ OC.L10N.register(
     "No recently modified files" : "Ni nedavno spremenjenih datotek",
     "Files and folders you recently modified will show up here." : "Nedavno spremenjene datoteke ali mape, bodo zbrane na tem mestu.",
     "Search" : "Poišči",
-    "No entries found in this folder" : "V tej mapi ni najdenih predmetov.",
-    "Select all" : "izberi vse",
-    "Upload too large" : "Prekoračena je omejitev dovoljene velikosti",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Datoteke, ki jih želite poslati, presegajo največjo dovoljeno velikost na strežniku.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Preimenuj »{oldName}« to »{newName}«",
     "Clear filter" : "Počisti filter",
     "Submitting fields …" : "Pošiljanje polj ...",
@@ -328,6 +324,10 @@ OC.L10N.register(
     "Tags" : "Oznake",
     "Save as …" : "Shrani kot ...",
     "Converting files …" : "Poteka pretvarjanje datotek ...",
-    "Converting file …" : "Poteka pretvarjanje datoteke ..."
+    "Converting file …" : "Poteka pretvarjanje datoteke ...",
+    "No entries found in this folder" : "V tej mapi ni najdenih predmetov.",
+    "Select all" : "izberi vse",
+    "Upload too large" : "Prekoračena je omejitev dovoljene velikosti",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Datoteke, ki jih želite poslati, presegajo največjo dovoljeno velikost na strežniku."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");
