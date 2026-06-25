@@ -1,12 +1,17 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 use PhpParser\Node\Stmt;
+use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassLike;
+use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\EnumCase;
 use Psalm\CodeLocation;
 use Psalm\DocComment;
 use Psalm\Exception\DocblockParseException;
@@ -27,7 +32,7 @@ class OcpSinceChecker implements Psalm\Plugin\EventHandler\AfterClassLikeVisitIn
 				self::checkStatementComment($stmt, $statementsSource, 'constant');
 			}
 
-			if ($stmt instanceof ClassMethod) {
+			if ($stmt instanceof ClassMethod && ($stmt->isPublic() || $stmt->isProtected())) {
 				self::checkStatementComment($stmt, $statementsSource, 'method');
 			}
 
