@@ -189,6 +189,7 @@ OC.L10N.register(
     "Your database does not run with \"READ COMMITTED\" transaction isolation level. This can cause problems when multiple actions are executed in parallel." : "La base de datos nun s'executa col nivel d'aislamientu de transaiciones «READ COMMITTED». Esta transaición pue causar problemes cuando s'executen múltiples aiciones en paralelo.",
     "Profile information" : "Información del perfil",
     "Nextcloud settings" : "Configuración de Nextcloud",
+    "Generate text" : "Xenerar el testu",
     "Enable" : "Activar",
     "Task:" : "Xera:",
     "Here you can decide which group can access certain sections of the administration settings." : "Equí pues decidir qué grupu pue acceder a ciertes seiciones de la configuración d'alministración.",

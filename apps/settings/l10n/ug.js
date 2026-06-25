@@ -338,6 +338,7 @@ OC.L10N.register(
     "Profile information" : "ئارخىپ ئۇچۇرى",
     "Profile picture, full name, email, phone number, address, website, Twitter, organisation, role, headline, biography, and whether your profile is enabled" : "ئارخىپ رەسىمى ، تولۇق ئىسمى ، ئېلېكترونلۇق خەت ، تېلېفون نومۇرى ، ئادرېسى ، تور بېكىتى ، Twitter ، تەشكىلات ، رولى ، ماۋزۇسى ، تەرجىمىھالى ۋە ئارخىپىڭىزنىڭ قوزغىتىلغان-ئىشلىتىلمىگەنلىكى",
     "Nextcloud settings" : "Nextcloud تەڭشىكى",
+    "Generate text" : "تېكىست ھاسىل قىلىڭ",
     "Unified task processing" : "بىر تۇتاش ۋەزىپە بىر تەرەپ قىلىش",
     "AI tasks can be implemented by different apps. Here you can set which app should be used for which task." : "سۈنئىي ئەقىل ۋەزىپىلىرىنى ئوخشىمىغان ئەپلەر ئارقىلىق ئەمەلگە ئاشۇرغىلى بولىدۇ. بۇ يەردە قايسى ئەپنى قايسى ۋەزىپە ئۈچۈن ئىشلىتىش كېرەكلىكىنى بەلگىلىيەلەيسىز.",
     "Allow AI usage for guest users" : "مىھمان ئىشلەتكۈچىنىڭ سۈنئىي ئەقىلنى ئىشلىتىشىگە يول قوي",

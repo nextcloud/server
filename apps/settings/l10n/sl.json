@@ -270,6 +270,7 @@
     "Profile information" : "Podrobnosti profila",
     "Profile picture, full name, email, phone number, address, website, Twitter, organisation, role, headline, biography, and whether your profile is enabled" : "Slika profila, polno ime, elektronski naslov, telefonska številka, naslov, spletna stran, račun Twitter, ustanova, vloga, naslov, biografija in ali je profil omogočen.",
     "Nextcloud settings" : "Nastavitve Nextcloud",
+    "Generate text" : "Ustvari besedilo",
     "Enable" : "Omogoči",
     "Machine translation can be implemented by different apps. Here you can define the precedence of the machine translation apps you have installed at the moment." : "Strojno prevajanje lahko izvajajo različni programi. Na tem mestu je mogoče določiti prednost uporabe programov za strojno prevajanje, ki so trenutno nameščeni v sistem.",
     "Text processing tasks can be implemented by different apps. Here you can set which app should be used for which task." : "Obdelavo besedila lahko urejajo različni programi. Na tem mestu je mogoče določiti program za uporabo.",
