@@ -398,10 +398,6 @@ OC.L10N.register(
     "Files and folders you recently modified will show up here." : "你最近修改的文件与文件夹将会显示在此处。",
     "Search" : "搜索",
     "Search results within your files." : "在您的文件中搜索结果。",
-    "No entries found in this folder" : "在此文件夹中找不到项目",
-    "Select all" : "全部选择",
-    "Upload too large" : "上传文件过大",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "您尝试上传的文件大小超过了服务器的限制。",
     "Renamed \"{oldName}\" to \"{newName}\"" : "已将“{oldName}”重命名为“{newName}”",
     "Clear filter" : "清除筛选",
     "Open file sidebar" : "打开文件侧边栏",
@@ -423,6 +419,10 @@ OC.L10N.register(
     "Converting files …" : "正在转换文件…",
     "Converting file …" : "正在转换文件…",
     "Moving {count} files to \"{destination}\" …" : "正在将 {count} 个文件移动到“{destination}” …",
-    "Copying {count} files to \"{destination}\" …" : "正在将 {count} 个文件复制到“{destination}” …"
+    "Copying {count} files to \"{destination}\" …" : "正在将 {count} 个文件复制到“{destination}” …",
+    "No entries found in this folder" : "在此文件夹中找不到项目",
+    "Select all" : "全部选择",
+    "Upload too large" : "上传文件过大",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "您尝试上传的文件大小超过了服务器的限制。"
 },
 "nplurals=1; plural=0;");

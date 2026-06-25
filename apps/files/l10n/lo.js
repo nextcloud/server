@@ -377,10 +377,6 @@ OC.L10N.register(
     "Files and folders you recently modified will show up here." : "Files and folders you recently modified will show up here.",
     "Search" : "ຄົ້ນຫາ",
     "Search results within your files." : "Search results within your files.",
-    "No entries found in this folder" : "No entries found in this folder",
-    "Select all" : "ເລືອກທັງໝົດ",
-    "Upload too large" : "Upload too large",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "The files you are trying to upload exceed the maximum size for file uploads on this server.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Renamed \"{oldName}\" to \"{newName}\"",
     "Clear filter" : "Clear filter",
     "Open file sidebar" : "Open file sidebar",
@@ -400,6 +396,10 @@ OC.L10N.register(
     "Tags" : "ປ້າຍກຳກັບ",
     "Save as …" : "Save as …",
     "Converting files …" : "Converting files …",
-    "Converting file …" : "Converting file …"
+    "Converting file …" : "Converting file …",
+    "No entries found in this folder" : "No entries found in this folder",
+    "Select all" : "ເລືອກທັງໝົດ",
+    "Upload too large" : "Upload too large",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "The files you are trying to upload exceed the maximum size for file uploads on this server."
 },
 "nplurals=1; plural=0;");

@@ -388,10 +388,6 @@ OC.L10N.register(
     "Files and folders you recently modified will show up here." : "Zde budou zobrazeny soubory a složky, které jste nedávno změnili.",
     "Search" : "Hledat",
     "Search results within your files." : "Výsledky hledání ve vašich souborech.",
-    "No entries found in this folder" : "V této složce nebylo nic nalezeno",
-    "Select all" : "Vybrat vše",
-    "Upload too large" : "Nahrávaná data jsou příliš objemná",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Soubory, které se snažíte nahrát, překračují limit velikosti nahrávání na tomto serveru.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Přejmenováno „{oldName}“ na „{newName}",
     "Clear filter" : "Vyčistit filtr",
     "Open file sidebar" : "Otevřít postranní panel souboru",
@@ -413,6 +409,10 @@ OC.L10N.register(
     "Converting files …" : "Převádění souborů …",
     "Converting file …" : "Převádění souboru …",
     "Moving {count} files to \"{destination}\" …" : "Přesouvání {count} souborů do „{destination}“ …",
-    "Copying {count} files to \"{destination}\" …" : "Kopírování {count} souborů do „{destination}“ …"
+    "Copying {count} files to \"{destination}\" …" : "Kopírování {count} souborů do „{destination}“ …",
+    "No entries found in this folder" : "V této složce nebylo nic nalezeno",
+    "Select all" : "Vybrat vše",
+    "Upload too large" : "Nahrávaná data jsou příliš objemná",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Soubory, které se snažíte nahrát, překračují limit velikosti nahrávání na tomto serveru."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

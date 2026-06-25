@@ -398,10 +398,6 @@ OC.L10N.register(
     "Files and folders you recently modified will show up here." : "Failid ja kaustad, mida oled hiljuti muutnud, ilmuvad siia.",
     "Search" : "Otsi",
     "Search results within your files." : "Otsingutulemused sinu failide seast.",
-    "No entries found in this folder" : "Selles kaustast ei leidunud kirjeid",
-    "Select all" : "Vali kõik",
-    "Upload too large" : "Üleslaaditu on liiga suur",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Failid, mida sa proovid üles laadida, ületavad serveri poolt üleslaaditavatele failidele määratud maksimaalse suuruse.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Failinimi on muutunud „{oldName}“ ⇨ „{newName}“",
     "Clear filter" : "Tühjenda filter",
     "Open file sidebar" : "Ava failide külgriba",
@@ -423,6 +419,10 @@ OC.L10N.register(
     "Converting files …" : "Teisendan faile…",
     "Converting file …" : "Teisendan faili…",
     "Moving {count} files to \"{destination}\" …" : "Tõstan {count} faili „{destination}“ kausta…",
-    "Copying {count} files to \"{destination}\" …" : "Kopeerin {count} faili „{destination}“ kausta…"
+    "Copying {count} files to \"{destination}\" …" : "Kopeerin {count} faili „{destination}“ kausta…",
+    "No entries found in this folder" : "Selles kaustast ei leidunud kirjeid",
+    "Select all" : "Vali kõik",
+    "Upload too large" : "Üleslaaditu on liiga suur",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Failid, mida sa proovid üles laadida, ületavad serveri poolt üleslaaditavatele failidele määratud maksimaalse suuruse."
 },
 "nplurals=2; plural=(n != 1);");

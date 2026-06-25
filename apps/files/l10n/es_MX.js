@@ -275,10 +275,6 @@ OC.L10N.register(
     "No recently modified files" : "No hay archivos modificados recientemente",
     "Files and folders you recently modified will show up here." : "Los archivos y carpetas que ha modificado recientemente aparecerán aquí.",
     "Search" : "Buscar",
-    "No entries found in this folder" : "No se encontraron elementos en esta carpeta",
-    "Select all" : "Seleccionar todo",
-    "Upload too large" : "La carga es demasido grande",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Los archivos que estás intentando cargar sobrepasan el tamaño máximo permitido para la carga de archivos en este servidor.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Renombrado \"{oldName}\" a \"{newName}\"",
     "Clear filter" : "Limpiar filtro",
     "Invalid path selected" : "Ruta seleccionada no válida.",
@@ -289,6 +285,10 @@ OC.L10N.register(
     "You" : "Usted",
     "Shared multiple times with different people" : "Compartido múltiples veces con diferentes personas",
     "Error while loading the file data" : "Error al cargar los datos del archivo",
-    "Tags" : "Etiquetas"
+    "Tags" : "Etiquetas",
+    "No entries found in this folder" : "No se encontraron elementos en esta carpeta",
+    "Select all" : "Seleccionar todo",
+    "Upload too large" : "La carga es demasido grande",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Los archivos que estás intentando cargar sobrepasan el tamaño máximo permitido para la carga de archivos en este servidor."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
