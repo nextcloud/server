@@ -341,6 +341,7 @@ OC.L10N.register(
     "Profile information" : "Informasi profil",
     "Profile picture, full name, email, phone number, address, website, Twitter, organisation, role, headline, biography, and whether your profile is enabled" : "Gambar profil, nama lengkap, email, nomor telepon, alamat, situs web, Twitter, organisasi, peran, judul, biografi, dan apakah profilmu diaktifkan",
     "Nextcloud settings" : "Pengaturan Nextcloud",
+    "Generate text" : "Hasilkan teks",
     "Unified task processing" : "Pemrosesan tugas terpadu",
     "AI tasks can be implemented by different apps. Here you can set which app should be used for which task." : "Tugas AI dapat diimplementasikan oleh berbagai aplikasi. Di sini Anda dapat mengatur aplikasi mana yang harus digunakan untuk tugas tertentu.",
     "Allow AI usage for guest users" : "Izinkan penggunaan AI untuk pengguna tamu",

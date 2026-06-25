@@ -348,6 +348,7 @@
     "Profile information" : "Information du profil",
     "Profile picture, full name, email, phone number, address, website, Twitter, organisation, role, headline, biography, and whether your profile is enabled" : "Photo de profil, nom complet, adresse e-mail, numéro de téléphone, adresse, site web, Twitter, organisation, fonction, titre, à propos, et si votre profil est activé",
     "Nextcloud settings" : "Paramètres Nextcloud",
+    "Generate text" : "Générer du texte",
     "Unified task processing" : "Traitement unifié des tâches",
     "AI tasks can be implemented by different apps. Here you can set which app should be used for which task." : "Les tâches d'IA peuvent être mises en œuvre par différentes applications. Ici, vous pouvez définir quelle application doit être utilisée pour quelle tâche.",
     "Allow AI usage for guest users" : "Autoriser l'utilisation de l'IA pour les utilisateurs invités",

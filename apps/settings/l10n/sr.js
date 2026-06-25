@@ -334,6 +334,7 @@ OC.L10N.register(
     "Profile information" : "Информације о профилу",
     "Profile picture, full name, email, phone number, address, website, Twitter, organisation, role, headline, biography, and whether your profile is enabled" : "Слика профила, пуно име, и-мејл, број телефона, адреса, веб сајт, Tweeter, организација, улога, насловна линија, биографија и то да ли је ваш профил укључен",
     "Nextcloud settings" : "Nextcloud подешавања",
+    "Generate text" : "Генериши текст",
     "Unified task processing" : "Обједињена обрада задатака",
     "AI tasks can be implemented by different apps. Here you can set which app should be used for which task." : "AI  задатке могу да имплементирају разне апликације. Овде можете да подесите која ће се користити за који задатак.",
     "Allow AI usage for guest users" : "Дозволи да корисници гости користе AI",

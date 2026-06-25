@@ -351,6 +351,7 @@
     "Profile information" : "اطلاعات پروفایل",
     "Profile picture, full name, email, phone number, address, website, Twitter, organisation, role, headline, biography, and whether your profile is enabled" : "تصویر پروفایل، نام کامل، ایمیل، شماره تلفن، آدرس، وب‌سایت، توییتر، سازمان، نقش، عنوان، بیوگرافی و فعال بودن پروفایل شما",
     "Nextcloud settings" : "تنظیمات نکست‌کلود",
+    "Generate text" : "تولید متن",
     "Unified task processing" : "پردازش یکپارچه وظایف",
     "AI tasks can be implemented by different apps. Here you can set which app should be used for which task." : "وظایف هوش مصنوعی می‌توانند توسط برنامه‌های مختلف پیاده‌سازی شوند. در اینجا می‌توانید تعیین کنید کدام برنامه برای کدام وظیفه استفاده شود.",
     "Allow AI usage for guest users" : "اجازه استفاده از هوش مصنوعی برای کاربران مهمان",

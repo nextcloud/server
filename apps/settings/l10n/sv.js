@@ -336,6 +336,7 @@ OC.L10N.register(
     "Profile information" : "Profilinformation",
     "Profile picture, full name, email, phone number, address, website, Twitter, organisation, role, headline, biography, and whether your profile is enabled" : "Profilbild, fullständigt namn, e-post, telefonnummer, adress, webbplats, Twitter, organisation, roll, rubrik, biografi och om din profil är aktiverad",
     "Nextcloud settings" : "Nextcloud-inställningar",
+    "Generate text" : "Skapa text",
     "Allow AI usage for guest users" : "Tillåt AI-användning för gästanvändare",
     "Enable" : "Aktivera",
     "Machine translation can be implemented by different apps. Here you can define the precedence of the machine translation apps you have installed at the moment." : "Maskinöversättning kan implementeras av olika appar. Här kan du definiera prioritet för de maskinöversättningsappar som du har installerade.",
