@@ -398,10 +398,6 @@ OC.L10N.register(
     "Files and folders you recently modified will show up here." : "Bestanden en mappen die je recent gewijzigd hebt, worden hier getoond.",
     "Search" : "Zoeken",
     "Search results within your files." : "Zoekresultaten binnen jouw bestanden.",
-    "No entries found in this folder" : "Niets gevonden in deze map",
-    "Select all" : "Alles selecteren",
-    "Upload too large" : "Upload is te groot",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "De bestanden die je probeert te uploaden zijn groter dan de maximaal toegestane  bestandsgrootte voor deze server.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "\"{oldName}\" hernoemd naar \"{newName}\"",
     "Clear filter" : "Filter leegmaken",
     "Open file sidebar" : "Open bestands zijbalk",
@@ -423,6 +419,10 @@ OC.L10N.register(
     "Converting files …" : "Bestanden converteren ...",
     "Converting file …" : "Bestand converteren ...",
     "Moving {count} files to \"{destination}\" …" : "{count} bestanden aan het verplaatsen naar \"{destination}\" …",
-    "Copying {count} files to \"{destination}\" …" : "{count} bestanden kopiëren naar \"{destination}\" …"
+    "Copying {count} files to \"{destination}\" …" : "{count} bestanden kopiëren naar \"{destination}\" …",
+    "No entries found in this folder" : "Niets gevonden in deze map",
+    "Select all" : "Alles selecteren",
+    "Upload too large" : "Upload is te groot",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "De bestanden die je probeert te uploaden zijn groter dan de maximaal toegestane  bestandsgrootte voor deze server."
 },
 "nplurals=2; plural=(n != 1);");

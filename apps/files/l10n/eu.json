@@ -381,10 +381,6 @@
     "Files and folders you recently modified will show up here." : "Azkenaldian aldatu dituzun fitxategi eta karpetak hemen agertuko dira.",
     "Search" : "Bilatu",
     "Search results within your files." : "Bilatu emaitzak zure fitxategien barruan.",
-    "No entries found in this folder" : "Ez da sarrerarik aurkitu karpeta honetan",
-    "Select all" : "Hautatu dena",
-    "Upload too large" : "Igotzekoa handiegia da",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Igotzen saiatzen ari zaren fitxategiek zerbitzari honek onartzen duen gehienezko tamaina gainditzen dute.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "\"{oldName}\" \"{newName}\"(e)ra berrizendatu da.",
     "Clear filter" : "Garbitu iragazkia",
     "Open file sidebar" : "Ireki alboko barra",
@@ -404,6 +400,10 @@
     "Tags" : "Etiketak",
     "Save as …" : "Gorde honela...",
     "Converting files …" : "Fitxategiak bihurtzen...",
-    "Converting file …" : "Fitxategia bihurtzen..."
+    "Converting file …" : "Fitxategia bihurtzen...",
+    "No entries found in this folder" : "Ez da sarrerarik aurkitu karpeta honetan",
+    "Select all" : "Hautatu dena",
+    "Upload too large" : "Igotzekoa handiegia da",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Igotzen saiatzen ari zaren fitxategiek zerbitzari honek onartzen duen gehienezko tamaina gainditzen dute."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

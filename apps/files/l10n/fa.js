@@ -398,10 +398,6 @@ OC.L10N.register(
     "Files and folders you recently modified will show up here." : "فایل‌ها و پوشه‌هایی که اخیراً تغییر داده‌اید در اینجا نمایش داده می‌شوند",
     "Search" : "جستجو",
     "Search results within your files." : "نتایج جستجو در فایل‌های شما",
-    "No entries found in this folder" : "هیچ ورودی در این پوشه یافت نشد",
-    "Select all" : "انتخاب همه",
-    "Upload too large" : "آپلود بیش از حد بزرگ است",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "فایل‌هایی که قصد آپلود آن‌ها را دارید، از حداکثر اندازه مجاز برای آپلود فایل در این سرور بیشتر است.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "تغییر نام \"{oldName}\" به \"{newName}\"",
     "Clear filter" : "پاک کردن فیلتر",
     "Open file sidebar" : "باز کردن نوار کناری فایل",
@@ -423,6 +419,10 @@ OC.L10N.register(
     "Converting files …" : "در حال تبدیل فایل‌ها …",
     "Converting file …" : "در حال تبدیل فایل …",
     "Moving {count} files to \"{destination}\" …" : "در حال انتقال {count} فایل به \"{destination}\" …",
-    "Copying {count} files to \"{destination}\" …" : "در حال کپی {count} فایل به \"{destination}\" …"
+    "Copying {count} files to \"{destination}\" …" : "در حال کپی {count} فایل به \"{destination}\" …",
+    "No entries found in this folder" : "هیچ ورودی در این پوشه یافت نشد",
+    "Select all" : "انتخاب همه",
+    "Upload too large" : "آپلود بیش از حد بزرگ است",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "فایل‌هایی که قصد آپلود آن‌ها را دارید، از حداکثر اندازه مجاز برای آپلود فایل در این سرور بیشتر است."
 },
 "nplurals=2; plural=(n > 1);");
