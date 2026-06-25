@@ -23,6 +23,7 @@ use OCP\IUser;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Notification\INotification;
 use OCP\Server;
+use OCP\User\Backend\ABackend;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -344,14 +345,11 @@ class UserTest extends TestCase {
 	}
 
 	public function testSetDisplayNameNotSupported(): void {
-		$backend = $this->createMock(Database::class);
+		$backend = $this->createMock(ABackend::class);
 
 		$backend->expects($this->any())
 			->method('implementsActions')
 			->willReturn(false);
-
-		$backend->expects($this->never())
-			->method('setDisplayName');
 
 		$user = new User('foo', $backend, $this->dispatcher);
 		$this->assertFalse($user->setDisplayName('Foo'));
