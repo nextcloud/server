@@ -398,10 +398,6 @@ OC.L10N.register(
     "Files and folders you recently modified will show up here." : "Os ficheiros e cartafoles que modificou recentemente amosaranse aquí.",
     "Search" : "Buscar",
     "Search results within your files." : "Buscar resultados nos seus ficheiros.",
-    "No entries found in this folder" : "Non se atopou ningunha entrada neste cartafol",
-    "Select all" : "Seleccionar todo",
-    "Upload too large" : "Envío grande de máis",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Os ficheiros que tenta enviar exceden do tamaño máximo permitido neste servidor",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Cambiouse o nome de «{oldName}» a «{newName}»",
     "Clear filter" : "Limpar o filtro",
     "Open file sidebar" : "Abrir a barra lateral do ficheiro",
@@ -423,6 +419,10 @@ OC.L10N.register(
     "Converting files …" : "Convertendo ficheiros…",
     "Converting file …" : "Convertendo o ficheiro…",
     "Moving {count} files to \"{destination}\" …" : "Movendo {count} ficheiros a «{destination}»…",
-    "Copying {count} files to \"{destination}\" …" : "Copiando {count} ficheiros en «{destination}»…"
+    "Copying {count} files to \"{destination}\" …" : "Copiando {count} ficheiros en «{destination}»…",
+    "No entries found in this folder" : "Non se atopou ningunha entrada neste cartafol",
+    "Select all" : "Seleccionar todo",
+    "Upload too large" : "Envío grande de máis",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Os ficheiros que tenta enviar exceden do tamaño máximo permitido neste servidor"
 },
 "nplurals=2; plural=(n != 1);");

@@ -396,10 +396,6 @@
     "Files and folders you recently modified will show up here." : "Files and folders you recently modified will show up here.",
     "Search" : "Search",
     "Search results within your files." : "Search results within your files.",
-    "No entries found in this folder" : "No entries found in this folder",
-    "Select all" : "Select all",
-    "Upload too large" : "Upload too large",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "The files you are trying to upload exceed the maximum size for file uploads on this server.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Renamed \"{oldName}\" to \"{newName}\"",
     "Clear filter" : "Clear filter",
     "Open file sidebar" : "Open file sidebar",
@@ -421,6 +417,10 @@
     "Converting files …" : "Converting files …",
     "Converting file …" : "Converting file …",
     "Moving {count} files to \"{destination}\" …" : "Moving {count} files to \"{destination}\" …",
-    "Copying {count} files to \"{destination}\" …" : "Copying {count} files to \"{destination}\" …"
+    "Copying {count} files to \"{destination}\" …" : "Copying {count} files to \"{destination}\" …",
+    "No entries found in this folder" : "No entries found in this folder",
+    "Select all" : "Select all",
+    "Upload too large" : "Upload too large",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "The files you are trying to upload exceed the maximum size for file uploads on this server."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

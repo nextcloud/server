@@ -385,10 +385,6 @@ OC.L10N.register(
     "Files and folders you recently modified will show up here." : "Датотеките и папките кои скоро ќе ги измените ќе се појават тука.",
     "Search" : "Барај",
     "Search results within your files." : "Резултати од пребарување во рамките на твоите датотеки.",
-    "No entries found in this folder" : "Нема ништо во оваа папка",
-    "Select all" : "Избери се",
-    "Upload too large" : "Фајлот кој се вчитува е преголем",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Датотеките кои се обидувате да ги подигнете ја надминуваат максималната големина за подигнување датотеки на овој сервер.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Преименувано \"{oldName}\" во \"{newName}\"",
     "Clear filter" : "Исчисти филтри",
     "Open file sidebar" : "Отвори странична лента на датотеката",
@@ -408,6 +404,10 @@ OC.L10N.register(
     "Tags" : "Ознаки",
     "Save as …" : "Зачувај како ...",
     "Converting files …" : "Конвертирање датотеки …",
-    "Converting file …" : "Се конвертира датотека …"
+    "Converting file …" : "Се конвертира датотека …",
+    "No entries found in this folder" : "Нема ништо во оваа папка",
+    "Select all" : "Избери се",
+    "Upload too large" : "Фајлот кој се вчитува е преголем",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Датотеките кои се обидувате да ги подигнете ја надминуваат максималната големина за подигнување датотеки на овој сервер."
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

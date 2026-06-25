@@ -373,10 +373,6 @@ OC.L10N.register(
     "Files and folders you recently modified will show up here." : "Filer og mapper som du har ændret for nyligt, vil blive vist her.",
     "Search" : "Søg",
     "Search results within your files." : "Søgeresultater i dine filer.",
-    "No entries found in this folder" : "Der blev ikke fundet poster i denne mappe",
-    "Select all" : "Vælg alle",
-    "Upload too large" : "Upload er for stor",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Filerne, du prøver at uploade, er større end den maksimale størrelse for fil-upload på denne server.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Omdøbte \"{oldName}\" til \"{newName}\"",
     "Clear filter" : "Ryd filter",
     "Open file sidebar" : "Åbn fil sidebjælke",
@@ -396,6 +392,10 @@ OC.L10N.register(
     "Tags" : "Tags",
     "Save as …" : "Gem som ...",
     "Converting files …" : "Konverterer filer ...",
-    "Converting file …" : "Konverterer fil ..."
+    "Converting file …" : "Konverterer fil ...",
+    "No entries found in this folder" : "Der blev ikke fundet poster i denne mappe",
+    "Select all" : "Vælg alle",
+    "Upload too large" : "Upload er for stor",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Filerne, du prøver at uploade, er større end den maksimale størrelse for fil-upload på denne server."
 },
 "nplurals=2; plural=(n != 1);");

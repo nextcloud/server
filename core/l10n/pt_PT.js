@@ -341,6 +341,7 @@ OC.L10N.register(
     "Please log in before granting \"{client}\" access to your {instanceName} account." : "Faça login antes de conceder acesso a \"{client}\" à sua conta {instanceName}.",
     "Security warning" : "Aviso de segurança",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Se não está a tentar configurar um novo dispositivo ou aplicação, alguém pode estar a tentar aceder à sua conta. Não prossiga e contacte o administrador do sistema.",
+    "Log in using password" : "Faça login com senha",
     "Alternative log in using app password" : "Início de sessão alternativo usando palavra‑passe de aplicação",
     "Account connected" : "Conta ligada",
     "Your client should now be connected!" : "O seu cliente deveria agora estar ligado!",

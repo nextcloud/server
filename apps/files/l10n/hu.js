@@ -398,10 +398,6 @@ OC.L10N.register(
     "Files and folders you recently modified will show up here." : "Az Ön által módosított fájlok és mappák itt jelennek meg.",
     "Search" : "Keresés",
     "Search results within your files." : "Keresési találatok a fájljaiban.",
-    "No entries found in this folder" : "Nincsenek bejegyzések ebben a mappában",
-    "Select all" : "Összes kijelölése",
-    "Upload too large" : "A feltöltés túl nagy",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "A feltölteni próbált fájlok mérete meghaladja a kiszolgálón megengedett legnagyobb méretet.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "A(z) „{oldName}” átnevezve erre: „{newName}”",
     "Clear filter" : "Szűrő törlése",
     "Open file sidebar" : "Fájl oldalsáv megnyitása",
@@ -423,6 +419,10 @@ OC.L10N.register(
     "Converting files …" : "Fájlok átalakítása…",
     "Converting file …" : "Fájl átalakítása…",
     "Moving {count} files to \"{destination}\" …" : "{count} fájl áthelyezési ide: „{destination}”…",
-    "Copying {count} files to \"{destination}\" …" : "{count} fájl másolása ide: „{destination}”…"
+    "Copying {count} files to \"{destination}\" …" : "{count} fájl másolása ide: „{destination}”…",
+    "No entries found in this folder" : "Nincsenek bejegyzések ebben a mappában",
+    "Select all" : "Összes kijelölése",
+    "Upload too large" : "A feltöltés túl nagy",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "A feltölteni próbált fájlok mérete meghaladja a kiszolgálón megengedett legnagyobb méretet."
 },
 "nplurals=2; plural=(n != 1);");

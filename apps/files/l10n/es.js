@@ -398,10 +398,6 @@ OC.L10N.register(
     "Files and folders you recently modified will show up here." : "Los archivos y carpetas que ha modificado recientemente aparecerán aquí.",
     "Search" : "Buscar",
     "Search results within your files." : "Resultados de búsqueda dentro de sus archivos.",
-    "No entries found in this folder" : "No hay entradas en esta carpeta",
-    "Select all" : "Seleccionar todo",
-    "Upload too large" : "Subida demasido grande",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Los archivos que estás intentando subir sobrepasan el tamaño máximo permitido en este servidor.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Renombrado \"{oldName}\" a \"{newName}\"",
     "Clear filter" : "Borrar filtro",
     "Open file sidebar" : "Abrir la barra lateral de archivo",
@@ -423,6 +419,10 @@ OC.L10N.register(
     "Converting files …" : "Convirtiendo archivos …",
     "Converting file …" : "Convirtiendo archivo …",
     "Moving {count} files to \"{destination}\" …" : "Moviendo{count} archivos a \"{destination}\" …",
-    "Copying {count} files to \"{destination}\" …" : "Copiando {count} archivos a \"{destination}\" …"
+    "Copying {count} files to \"{destination}\" …" : "Copiando {count} archivos a \"{destination}\" …",
+    "No entries found in this folder" : "No hay entradas en esta carpeta",
+    "Select all" : "Seleccionar todo",
+    "Upload too large" : "Subida demasido grande",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Los archivos que estás intentando subir sobrepasan el tamaño máximo permitido en este servidor."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
