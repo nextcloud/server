@@ -344,11 +344,23 @@ class CustomPropertiesBackend implements BackendInterface {
 
 				// $path is the principal here as this prop is only set on principals
 				$node = $this->tree->getNodeForPath($href);
-				if (!($node instanceof Calendar) || $node->getOwner() !== $path) {
+				if ((!($node instanceof Calendar) && !($node instanceof ExternalCalendar)) || $node->getOwner() !== $path) {
 					throw new DavException('No such calendar');
 				}
 
-				$this->defaultCalendarValidator->validateScheduleDefaultCalendar($node);
+				if ($node instanceof Calendar) {
+					$this->defaultCalendarValidator->validateScheduleDefaultCalendar($node);
+				} else {
+					// ExternalCalendar: verify VEVENT support; these calendars are always writable and not subscriptions/shared/deleted
+					$sCCS = '{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set';
+					$calendarProperties = $node->getProperties([$sCCS]);
+					if (isset($calendarProperties[$sCCS])) {
+						$supportedComponents = $calendarProperties[$sCCS]->getValue();
+						if (!in_array('VEVENT', $supportedComponents, true)) {
+							throw new DavException('Calendar does not support VEVENT components');
+						}
+					}
+				}
 				break;
 		}
 	}
