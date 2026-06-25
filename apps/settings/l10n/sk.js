@@ -345,6 +345,7 @@ OC.L10N.register(
     "Profile information" : "Informácie o profile",
     "Profile picture, full name, email, phone number, address, website, Twitter, organisation, role, headline, biography, and whether your profile is enabled" : "Profilový obrázok, celé meno, e-mail, telefónne číslo, adresa, webová stránka, Twitter, organizácia, rola, titul, životopis a či je váš profil povolený",
     "Nextcloud settings" : "Nastavenia Nextcloud",
+    "Generate text" : "Vygenerovať text",
     "Unified task processing" : "Jednotné spracovanie úloh",
     "AI tasks can be implemented by different apps. Here you can set which app should be used for which task." : "Úlohy AI môžu byť implementované rôznymi aplikáciami. Tu môžete nastaviť, ktorá aplikácia sa má použiť pre akú úlohu.",
     "Allow AI usage for guest users" : "Povoliť používanie AI pre hostí",

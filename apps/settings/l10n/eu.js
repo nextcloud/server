@@ -338,6 +338,7 @@ OC.L10N.register(
     "Profile information" : "Profilaren informazioa",
     "Profile picture, full name, email, phone number, address, website, Twitter, organisation, role, headline, biography, and whether your profile is enabled" : "Profileko argazkia, izen osoa, helbide elektronikoa, telefono zenbakia, helbidea, webgunea, Twitter, erakundea, rola, izenburua, biografia eta zure profila gaituta dagoen ala ez",
     "Nextcloud settings" : "Nextcloud ezarpenak",
+    "Generate text" : "Sortu testua",
     "Unified task processing" : "Zereginen prozesamendu bateratua",
     "AI tasks can be implemented by different apps. Here you can set which app should be used for which task." : "AI zereginak aplikazio ezberdinek inplementa ditzakete. Hemen zein aplikazio zein zereginetarako erabili behar den ezar dezakezu.",
     "Allow AI usage for guest users" : "Baimendu gonbidatuei erabiltzailearen interfazea",

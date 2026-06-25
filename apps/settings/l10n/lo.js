@@ -334,6 +334,7 @@ OC.L10N.register(
     "Profile information" : "Profile information",
     "Profile picture, full name, email, phone number, address, website, Twitter, organisation, role, headline, biography, and whether your profile is enabled" : "Profile picture, full name, email, phone number, address, website, Twitter, organisation, role, headline, biography, and whether your profile is enabled",
     "Nextcloud settings" : "Nextcloud settings",
+    "Generate text" : "ສ້າງຂໍ້ຄວາມ",
     "Unified task processing" : "Unified task processing",
     "AI tasks can be implemented by different apps. Here you can set which app should be used for which task." : "AI tasks can be implemented by different apps. Here you can set which app should be used for which task.",
     "Allow AI usage for guest users" : "Allow AI usage for guest users",

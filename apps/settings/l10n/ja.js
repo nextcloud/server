@@ -353,6 +353,7 @@ OC.L10N.register(
     "Profile information" : "プロフィール情報",
     "Profile picture, full name, email, phone number, address, website, Twitter, organisation, role, headline, biography, and whether your profile is enabled" : "プロフィール写真、氏名、メールアドレス、電話番号、住所、Webサイト、Twitter、組織、役職、ヘッドライン、自己紹介が有効かどうか",
     "Nextcloud settings" : "Nextcloud の設定",
+    "Generate text" : "テキスト生成",
     "Unified task processing" : "統合タスク処理",
     "AI tasks can be implemented by different apps. Here you can set which app should be used for which task." : "AIタスクは、さまざまなアプリで実装できます。ここでは、どのタスクにどのアプリを使用するかを設定します。",
     "Allow AI usage for guest users" : "ゲストユーザーにAIの利用を許可する",

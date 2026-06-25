@@ -347,6 +347,7 @@ OC.L10N.register(
     "Profile information" : "Інформація профілю",
     "Profile picture, full name, email, phone number, address, website, Twitter, organisation, role, headline, biography, and whether your profile is enabled" : "Зображення профілю, повне ім’я, електронна адреса, номер телефону, адреса, веб-сайт, Twitter, організація, роль, заголовок, біографія та чи активовано ваш профіль",
     "Nextcloud settings" : "Налаштування Nextcloud",
+    "Generate text" : "Зґенерувати текст",
     "Unified task processing" : "Централізована обробка завдань ",
     "AI tasks can be implemented by different apps. Here you can set which app should be used for which task." : "Завдання штучного інтелекту можуть виконуватися різними програмами. Тут ви можете вказати, яку програму слід використовувати для виконання того чи іншого завдання.",
     "Allow AI usage for guest users" : "Дозволити використання ШІ для гостьових користувачів",

@@ -327,6 +327,7 @@
     "Profile information" : "Profil information",
     "Profile picture, full name, email, phone number, address, website, Twitter, organisation, role, headline, biography, and whether your profile is enabled" : "Profilbillede, fulde navn, e-mail, telefonnummer, adresse, hjemmeside, X (Twitter), organisation, rolle, overskrift, biografi og om din profil er aktiveret",
     "Nextcloud settings" : "Nextcloud indstillinger",
+    "Generate text" : "Generer tekst",
     "Unified task processing" : "Samlet opgavebehandling",
     "AI tasks can be implemented by different apps. Here you can set which app should be used for which task." : "AI opgaver kan implementeres af forskellige apps. Her kan du indstille hvilken app der skal bruges til hvilken opgave.",
     "Allow AI usage for guest users" : "Tillad AI anvendelse for gæstebrugere ",
