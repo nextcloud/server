@@ -35,7 +35,8 @@ window.OCA.Sharing.showAddExternalDialog = function(share, passwordProtected, ca
 		.replace(/\/$/, '') // remove trailing slash
 
 	showRemoteShareDialog(name, owner, remote, passwordProtected)
-		.then((result, password) => callback(result, { ...share, password }))
+		// eslint-disable-next-line n/no-callback-literal
+		.then((password) => callback(true, { ...share, password }))
 		// eslint-disable-next-line n/no-callback-literal
 		.catch(() => callback(false, share))
 }
