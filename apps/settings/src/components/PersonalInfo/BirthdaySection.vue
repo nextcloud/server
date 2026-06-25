@@ -88,7 +88,7 @@ export default {
 			try {
 				const responseData = await savePrimaryAccountProperty(
 					this.birthdate.name,
-					value,
+					value.toISOString(),
 				)
 				this.handleResponse({
 					value,
