@@ -251,7 +251,7 @@ OC.MimeTypeList={
 'text/calendar': t('core', "VCS\/ICS calendar"),
 'text/css': t('core', "CSS stylesheet"),
 'text/csv': t('core', "CSV document"),
-'text/tab-separated-values': t('core', "TSV document'),
+'text/tab-separated-values': t('core', 'TSV document'),
 'text/html': t('core', "HTML document"),
 'text/markdown': t('core', "Markdown document"),
 'text/org': t('core', "Org-mode file"),
