@@ -13,6 +13,7 @@
 	findUnusedBaselineEntry="false"
 	findUnusedCode="false"
 	strictBinaryOperands="false"
+	phpVersion="8.3"
 >
 	<plugins>
 		<plugin filename="build/psalm/AppFrameworkTainter.php" />
