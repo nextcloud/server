@@ -300,6 +300,7 @@
     "Profile information" : "Profil-informasjon",
     "Profile picture, full name, email, phone number, address, website, Twitter, organisation, role, headline, biography, and whether your profile is enabled" : "Profilbilde, fullt navn, e-post, telefonnummer, adresse, nettsted, Twitter, organisasjon, rolle, overskrift, biografi og om profilen din er aktivert",
     "Nextcloud settings" : "Nextcloud innstillinger",
+    "Generate text" : "Generer tekst",
     "Unified task processing" : "Enhetlig oppgavebehandling",
     "AI tasks can be implemented by different apps. Here you can set which app should be used for which task." : "AI-oppgaver kan implementeres av forskjellige apper. Her kan du angi hvilken app som skal brukes til hvilken oppgave.",
     "Enable" : "Aktiver",

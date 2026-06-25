@@ -351,6 +351,7 @@
     "Profile information" : "个人信息",
     "Profile picture, full name, email, phone number, address, website, Twitter, organisation, role, headline, biography, and whether your profile is enabled" : "个人资料图片、全名、电子邮件、电话号码、地址、网站、Twitter、组织、角色、标题、个人简介以及您的个人资料是否启用",
     "Nextcloud settings" : "Nextcloud 设置",
+    "Generate text" : "生成文字",
     "Unified task processing" : "统一任务处理",
     "AI tasks can be implemented by different apps. Here you can set which app should be used for which task." : "AI 任务可以由不同的应用程序执行。在这里您可以设置哪个应用程序应该用于哪个任务。",
     "Allow AI usage for guest users" : "允许访客用户使用 AI",

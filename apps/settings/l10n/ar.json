@@ -321,6 +321,7 @@
     "Profile information" : "معلومات الملف الشخصي",
     "Profile picture, full name, email, phone number, address, website, Twitter, organisation, role, headline, biography, and whether your profile is enabled" : "صورة الملف الشخصي، و الاسم الكامل، والبريد الإلكتروني، و رقم الهاتف، و صفحة الويب، و حساب تويتر، و المؤسسة، و الوظيفة، و العنوان، و السيرة الذاتية، و هل أن ملفك الشخصي مُفعّل",
     "Nextcloud settings" : "إعدادات نكست كلاود",
+    "Generate text" : "توليد نص",
     "Unified task processing" : "المعالجة الموحدة للمهام",
     "AI tasks can be implemented by different apps. Here you can set which app should be used for which task." : "يمكن تنفيذ مهام الذكاء الاصطناعي من خلال تطبيقات مختلفة. هنا يمكنك تعيين التطبيق الذي يجب استخدامه لأي مهمة.",
     "Enable" : "تمكين",

@@ -353,6 +353,7 @@ OC.L10N.register(
     "Profile information" : "Profil bilgileri",
     "Profile picture, full name, email, phone number, address, website, Twitter, organisation, role, headline, biography, and whether your profile is enabled" : "Profil görseli, tam ad, e-posta adresi, telefon numarası, adres, site, Twitter, kuruluş, rol, başlık, özgeçmiş ve profilde kullanılan diğer bilgiler",
     "Nextcloud settings" : "Nextcloud ayarları",
+    "Generate text" : "Yazıyı oluştur",
     "Unified task processing" : "Birleştirilmiş görev işleme",
     "AI tasks can be implemented by different apps. Here you can set which app should be used for which task." : "Yapay zeka görevleri farklı uygulamalardan sağlanabilir. Buradan, bu görev için hangi uygulamanın kullanılacağını ayarlayabilirsiniz.",
     "Allow AI usage for guest users" : "Konuk kullanıcılar YZ kullanabilsin",

@@ -353,6 +353,7 @@ OC.L10N.register(
     "Profile information" : "簡介資訊",
     "Profile picture, full name, email, phone number, address, website, Twitter, organisation, role, headline, biography, and whether your profile is enabled" : "個人資料圖片、全名、電郵地址、電話號碼、地址、網站、Twitter、組織、角色、標題、傳記以及您的個人資料是否已啟用",
     "Nextcloud settings" : "Nextcloud 設定",
+    "Generate text" : "生成文字",
     "Unified task processing" : "統一任務處理",
     "AI tasks can be implemented by different apps. Here you can set which app should be used for which task." : "人工智能任務可以由不同的應用程式來實現。 您可以在此處設置哪個應用程式應用於哪個任務。",
     "Allow AI usage for guest users" : "允許訪客使用者使用 AI",

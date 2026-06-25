@@ -353,6 +353,7 @@ OC.L10N.register(
     "Profile information" : "Información del perfil",
     "Profile picture, full name, email, phone number, address, website, Twitter, organisation, role, headline, biography, and whether your profile is enabled" : "Foto del perfil, nombre completo, correo electrónico, número de teléfono, dirección, sitio web, Twitter, organización, función, título, biografía y si su perfil está habilitado",
     "Nextcloud settings" : "Ajustes de Nextcloud",
+    "Generate text" : "Generar texto",
     "Unified task processing" : "Procesamiento unificado de tareas",
     "AI tasks can be implemented by different apps. Here you can set which app should be used for which task." : "Las tareas de IA pueden ser implementadas por diferentes aplicaciones. Aquí puede definir que app se debería utilizar para cada tarea.",
     "Allow AI usage for guest users" : "Permitir el uso de la IA para los usuarios invitados",

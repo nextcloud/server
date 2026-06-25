@@ -345,6 +345,7 @@ OC.L10N.register(
     "Profile information" : "Профайлын мэдээлэл",
     "Profile picture, full name, email, phone number, address, website, Twitter, organisation, role, headline, biography, and whether your profile is enabled" : "Профайлын зураг, бүтэн нэр, и-мэйл, утасны дугаар, хаяг, вэбсайт, Twitter, байгууллага, үүрэг, гарчиг, намтар, болон профайл идэвхтэй эсэх",
     "Nextcloud settings" : "Nextcloud тохиргоо",
+    "Generate text" : "Текст үүсгэх",
     "Unified task processing" : "Нэгдсэн даалгавар боловсруулалт",
     "AI tasks can be implemented by different apps. Here you can set which app should be used for which task." : "AI даалгавруудыг өөр өөр аппууд хэрэгжүүлж болно. Энд аль аппыг аль даалгаварт ашиглахаа тохируулж болно.",
     "Allow AI usage for guest users" : "Зочин хэрэглэгчдэд AI ашиглахыг зөвшөөрөх",

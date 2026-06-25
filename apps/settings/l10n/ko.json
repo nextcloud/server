@@ -289,6 +289,7 @@
     "Profile information" : "프로필 정보",
     "Profile picture, full name, email, phone number, address, website, Twitter, organisation, role, headline, biography, and whether your profile is enabled" : "프로필 사진, 전체 이름, 이메일, 전화번호, 주소, 웹사이트, 트위터, 조직, 직책, 표제, 소개문구 및 프로필 활성화 여부",
     "Nextcloud settings" : "Nextcloud 환경설정",
+    "Generate text" : "텍스트 생성",
     "AI tasks can be implemented by different apps. Here you can set which app should be used for which task." : "AI 작업을 다양한 앱들을 통해 구현할 수 있습니다. 이곳에서 어떤 작업에 어떤 앱을 사용할지 설정할 수 있습니다.",
     "Enable" : "사용함",
     "None of your currently installed apps provide Task processing functionality" : "설치된 앱들 중 작업 처리 기능을 제공하는 것이 없습니다.",
