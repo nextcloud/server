@@ -13,7 +13,7 @@
 	findUnusedCode="false"
 	findUnusedPsalmSuppress="true"
 	findUnusedVariablesAndParams="true"
-	phpVersion="8.2"
+	phpVersion="8.3"
 >
 	<plugins>
 		<pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>

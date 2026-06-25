@@ -37,13 +37,13 @@ interface IUserConfig {
 	 * @deprecated 32.0.0  use \OCP\Config\IUserConfig
 	 * @see \OCP\Config\IUserConfig
 	 */
-	public const FLAG_SENSITIVE = 1;   // value is sensitive
+	public const int FLAG_SENSITIVE = 1;   // value is sensitive
 	/**
 	 * @experimental 31.0.0
 	 * @deprecated 32.0.0  use \OCP\Config\IUserConfig
 	 * @see \OCP\Config\IUserConfig
 	 */
-	public const FLAG_INDEXED = 2;    // value should be indexed
+	public const int FLAG_INDEXED = 2;    // value should be indexed
 
 	/**
 	 * Get list of all userIds with config stored in database.

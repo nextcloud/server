@@ -14,7 +14,7 @@
 	findUnusedCode="false"
 	findUnusedIssueHandlerSuppression="false"
 	strictBinaryOperands="false"
-	phpVersion="8.2"
+	phpVersion="8.3"
 >
 	<plugins>
 		<plugin filename="build/psalm/AppFrameworkTainter.php" />
