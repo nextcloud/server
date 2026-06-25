@@ -1,0 +1,84 @@
+# SPDX-FileCopyrightText: 2023-2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+name: Update Node dist
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      # implemented since 35, once branched off, add your stable branch here
+      - master
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-node-dist-${{ github.head_ref || github.ref || github.run_id }}
+
+jobs:
+  update-node-dist:
+    runs-on: ubuntu-latest
+    environment: update-node-dist
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          # Needed to allow force push later
+          persist-credentials: true
+          token: ${{ secrets.BOT_GITHUB_TOKEN }}
+
+      - name: Read package.json node and npm engines version
+        uses: skjnldsv/read-package-engines-version-actions@8205673bab74a63eb9b8093402fd9e0e018663a1 # v2.1
+        id: versions
+        with:
+          fallbackNode: '^20'
+          fallbackNpm: '^9'
+
+      - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
+        uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
+        with:
+          node-version: ${{ steps.versions.outputs.nodeVersion }}
+
+      - name: Set up npm ${{ steps.versions.outputs.npmVersion }}
+        run: npm i -g npm@"${{ steps.versions.outputs.npmVersion }}"
+
+      - name: Setup git
+        run: |
+          git config --local user.email "nextcloud-command@users.noreply.github.com"
+          git config --local user.name "nextcloud-command"
+
+      - name: Get last commit message if it was not a recompile
+        id: last_commit
+        run: |
+          {
+            echo 'MESSAGE<<EOF'
+            git log -1 --pretty=%s | grep -v '^chore(assets): recompile assets$' || test $? -eq 1
+            echo 'EOF'
+          } >> $GITHUB_OUTPUT
+
+      - name: Install dependencies & build
+        if: steps.last_commit.outputs.MESSAGE != ''
+        env:
+          CYPRESS_INSTALL_BINARY: 0
+        run: |
+          npm ci
+          npm run build --if-present
+
+      - name: Check webpack build changes
+        id: changes
+        continue-on-error: true
+        run: |
+          {
+            echo 'CHANGED<<EOF'
+            git status --porcelain
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Add and commit
+        if: steps.changes.outputs.CHANGED != ''
+        run: |
+          git add --force dist/ core/css/
+          git commit --signoff -m 'chore(assets): recompile assets'
+          git push origin ${{ github.head_ref }}
