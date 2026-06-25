@@ -330,7 +330,14 @@ class ApiController extends OCSController {
 
 		$apps = $this->getAppsForCategory('');
 		$supportedApps = $this->subscriptionRegistry->delegateGetSupportedApps();
+		$shippedApps = $this->appManager->getAlwaysEnabledApps();
 		foreach ($apps as $app) {
+			if (in_array($app['id'], $shippedApps)) {
+				// shipped apps are no longer published on the appstore
+				// so skip them to avoid confusion with outdated data
+				continue;
+			}
+
 			$app['appstore'] = true;
 			if (!array_key_exists($app['id'], $this->allApps)) {
 				$this->allApps[$app['id']] = $app;
