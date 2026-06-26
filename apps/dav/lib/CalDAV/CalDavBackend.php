@@ -13,6 +13,7 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use Generator;
 use OCA\DAV\AppInfo\Application;
+use OCA\DAV\CalDAV\Exception\UidConflict;
 use OCA\DAV\CalDAV\Federation\FederatedCalendarEntity;
 use OCA\DAV\CalDAV\Federation\FederatedCalendarMapper;
 use OCA\DAV\CalDAV\Sharing\Backend;
@@ -1525,18 +1526,20 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		return $this->atomic(function () use ($calendarId, $objectUri, $calendarData, $extraData, $calendarType) {
 			// Try to detect duplicates
 			$qb = $this->db->getQueryBuilder();
-			$qb->select($qb->func()->count('*'))
+			$qb->select('uri')
 				->from('calendarobjects')
 				->where($qb->expr()->eq('calendarid', $qb->createNamedParameter($calendarId)))
 				->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($extraData['uid'])))
 				->andWhere($qb->expr()->eq('calendartype', $qb->createNamedParameter($calendarType)))
-				->andWhere($qb->expr()->isNull('deleted_at'));
+				->andWhere($qb->expr()->isNull('deleted_at'))
+				->setMaxResults(1);
 			$result = $qb->executeQuery();
-			$count = (int)$result->fetchOne();
+			$existingUri = $result->fetchOne();
 			$result->closeCursor();
 
-			if ($count !== 0) {
-				throw new BadRequest('Calendar object with uid already exists in this calendar collection.');
+			if ($existingUri !== false) {
+				// RFC 4791 no-uid-conflict (409) reporting the existing object's href.
+				throw new UidConflict((string)$existingUri);
 			}
 			// For a more specific error message we also try to explicitly look up the UID but as a deleted entry
 			$qbDel = $this->db->getQueryBuilder();

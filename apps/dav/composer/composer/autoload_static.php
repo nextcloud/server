@@ -82,6 +82,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\CalDAV\\EventReader' => __DIR__ . '/..' . '/../lib/CalDAV/EventReader.php',
         'OCA\\DAV\\CalDAV\\EventReaderRDate' => __DIR__ . '/..' . '/../lib/CalDAV/EventReaderRDate.php',
         'OCA\\DAV\\CalDAV\\EventReaderRRule' => __DIR__ . '/..' . '/../lib/CalDAV/EventReaderRRule.php',
+        'OCA\\DAV\\CalDAV\\Exception\\UidConflict' => __DIR__ . '/..' . '/../lib/CalDAV/Exception/UidConflict.php',
         'OCA\\DAV\\CalDAV\\Export\\ExportService' => __DIR__ . '/..' . '/../lib/CalDAV/Export/ExportService.php',
         'OCA\\DAV\\CalDAV\\Federation\\CalendarFederationConfig' => __DIR__ . '/..' . '/../lib/CalDAV/Federation/CalendarFederationConfig.php',
         'OCA\\DAV\\CalDAV\\Federation\\CalendarFederationNotifier' => __DIR__ . '/..' . '/../lib/CalDAV/Federation/CalendarFederationNotifier.php',

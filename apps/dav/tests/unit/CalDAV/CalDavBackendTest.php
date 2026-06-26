@@ -264,7 +264,7 @@ EOD;
 	}
 
 	public function testMultipleCalendarObjectsWithSameUID(): void {
-		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
+		$this->expectException(\OCA\DAV\CalDAV\Exception\UidConflict::class);
 		$this->expectExceptionMessage('Calendar object with uid already exists in this calendar collection.');
 
 		$calendarId = $this->createTestCalendar();

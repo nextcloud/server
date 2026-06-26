@@ -67,6 +67,7 @@ return array(
     'OCA\\DAV\\CalDAV\\EventReader' => $baseDir . '/../lib/CalDAV/EventReader.php',
     'OCA\\DAV\\CalDAV\\EventReaderRDate' => $baseDir . '/../lib/CalDAV/EventReaderRDate.php',
     'OCA\\DAV\\CalDAV\\EventReaderRRule' => $baseDir . '/../lib/CalDAV/EventReaderRRule.php',
+    'OCA\\DAV\\CalDAV\\Exception\\UidConflict' => $baseDir . '/../lib/CalDAV/Exception/UidConflict.php',
     'OCA\\DAV\\CalDAV\\Export\\ExportService' => $baseDir . '/../lib/CalDAV/Export/ExportService.php',
     'OCA\\DAV\\CalDAV\\Federation\\CalendarFederationConfig' => $baseDir . '/../lib/CalDAV/Federation/CalendarFederationConfig.php',
     'OCA\\DAV\\CalDAV\\Federation\\CalendarFederationNotifier' => $baseDir . '/../lib/CalDAV/Federation/CalendarFederationNotifier.php',
