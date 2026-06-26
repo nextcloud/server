@@ -1091,8 +1091,17 @@ class OC {
 		if ($requestPath === '/heartbeat') {
 			return;
 		}
+		$serveAppApiDuringMaintenance = false;
 		if (substr($requestPath, -3) !== '.js') { // we need these files during the upgrade
-			self::checkMaintenanceMode($systemConfig);
+			if (((bool)$systemConfig->getValue('maintenance', false)) && !\OCP\Util::needUpgrade()
+				&& ($requestPath === '/apps/app_api' || str_starts_with($requestPath, '/apps/app_api/'))
+				&& Server::get(\OCP\App\IAppManager::class)->isEnabledForAnyone('app_api')) {
+				// Keep serving ExApp traffic (HaRP metadata) while the instance is in maintenance mode
+				$serveAppApiDuringMaintenance = true;
+			}
+			if (!$serveAppApiDuringMaintenance) {
+				self::checkMaintenanceMode($systemConfig);
+			}
 
 			if (\OCP\Util::needUpgrade()) {
 				if (function_exists('opcache_reset')) {
@@ -1155,6 +1164,10 @@ class OC {
 				if (!\OCP\Util::needUpgrade()) {
 					$appManager->loadApps(['filesystem', 'logging']);
 					$appManager->loadApps();
+				}
+				if ($serveAppApiDuringMaintenance) {
+					// loadApps() above is a no-op during maintenance, load app_api explicitly
+					$appManager->loadApp('app_api');
 				}
 				Server::get(\OC\Route\Router::class)->match($request->getRawPathInfo());
 				return;
