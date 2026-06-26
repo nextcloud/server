@@ -415,9 +415,17 @@ class ThemingController extends Controller {
 			$variables .= "$variable:$value; ";
 		};
 
+		// Collapse the animation timing variables for users who requested reduced
+		// motion. Emitted right after the variables on the same selector so it
+		// overrides them in the cascade. We use 1ms rather than 0 so values read
+		// via `parseInt(...) || fallback` in JavaScript stay truthy and transition
+		// events still fire.
+		$reducedMotion = static fn (string $selector): string
+			=> "@media (prefers-reduced-motion: reduce) { $selector { --animation-quick: 1ms; --animation-slow: 1ms; } } ";
+
 		// If plain is set, the browser decides of the css priority
 		if ($plain) {
-			$css = ":root { $variables } " . $customCss;
+			$css = ":root { $variables } " . $reducedMotion(':root') . $customCss;
 		} else {
 			// If not set, we'll rely on the body class
 			// We need to separate @-rules from normal selectors, as they can't be nested
@@ -430,7 +438,7 @@ class ThemingController extends Controller {
 			$atRulesCss = implode('', $atRules[0]);
 			$scopedCss = preg_replace('/(@[^{]+{(?:[^{}]*|(?R))*})/', '', $customCssWithoutComments);
 
-			$css = "$atRulesCss [data-theme-$themeId] { $variables $scopedCss }";
+			$css = "$atRulesCss [data-theme-$themeId] { $variables $scopedCss } " . $reducedMotion("[data-theme-$themeId]");
 		}
 
 		try {

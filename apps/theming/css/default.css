@@ -142,3 +142,9 @@
   --color-background-plain-text: #ffffff;
   --image-background: url('/apps/theming/img/background/jo-myoung-hee-fluid.webp');
 }
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --animation-quick: 1ms;
+    --animation-slow: 1ms;
+  }
+}

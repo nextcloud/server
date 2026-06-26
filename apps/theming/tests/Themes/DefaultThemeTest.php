@@ -149,9 +149,13 @@ class DefaultThemeTest extends AccessibleThemeTestCase {
 		$fallbackCss = file_get_contents(__DIR__ . '/../../css/default.css');
 		// Remove comments
 		$fallbackCss = preg_replace('/\s*\/\*[\s\S]*?\*\//m', '', $fallbackCss);
+		// The fallback also carries a prefers-reduced-motion override that zeroes
+		// the animation variables; it is not part of the theme variables, so drop
+		// any @media at-rules before comparing.
+		$fallbackCss = preg_replace('/@media[^{]*\{(?:[^{}]|\{[^{}]*\})*\}/', '', $fallbackCss);
 		// Remove blank lines
 		$fallbackCss = preg_replace('/\s*\n\n/', "\n", $fallbackCss);
 
-		$this->assertEquals($css, $fallbackCss);
+		$this->assertEquals(rtrim($css), rtrim($fallbackCss));
 	}
 }

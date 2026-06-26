@@ -212,7 +212,9 @@ class DefaultTheme implements ITheme {
 			// 1.5 * font-size for accessibility
 			'--default-line-height' => '1.5',
 
-			// TODO: support "(prefers-reduced-motion)"
+			// A "(prefers-reduced-motion)" media query collapses these to 1ms;
+			// see ThemingController::getThemeStylesheet() and the static fallback
+			// in apps/theming/css/default.css.
 			'--animation-quick' => '100ms',
 			'--animation-slow' => '300ms',
 
