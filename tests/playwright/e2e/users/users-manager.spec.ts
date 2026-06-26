@@ -7,20 +7,15 @@ import { type User } from '@nextcloud/e2e-test-server'
 import { runOcc } from '@nextcloud/e2e-test-server/docker'
 import { createRandomUser } from '@nextcloud/e2e-test-server/playwright'
 import { expect } from '@playwright/test'
-import { test as adminTest } from '../../support/fixtures/admin-session.ts'
+import { test as adminUserTest } from '../../support/fixtures/admin-with-user.ts'
 import { SettingsUsersPage } from '../../support/sections/SettingsUsersPage.ts'
 import { handlePasswordConfirmation } from '../../support/utils/password-confirmation.ts'
 
-const test = adminTest.extend<{ user: User, manager: User }>({
-	user: async ({}, use) => {
-		const u = await createRandomUser()
-		await use(u)
-		await runOcc(['user:delete', u.userId])
-	},
+const test = adminUserTest.extend<{ manager: User }>({
 	manager: async ({}, use) => {
-		const u = await createRandomUser()
-		await use(u)
-		await runOcc(['user:delete', u.userId])
+		const manager = await createRandomUser()
+		await use(manager)
+		await runOcc(['user:delete', manager.userId]).catch(() => {})
 	},
 })
 

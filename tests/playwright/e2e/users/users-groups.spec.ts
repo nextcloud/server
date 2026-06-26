@@ -8,7 +8,7 @@ import type { User } from '@nextcloud/e2e-test-server'
 import { runOcc } from '@nextcloud/e2e-test-server/docker'
 import { createRandomUser } from '@nextcloud/e2e-test-server/playwright'
 import { expect } from '@playwright/test'
-import { test } from '../../support/fixtures/admin-session.ts'
+import { test } from '../../support/fixtures/admin-with-user.ts'
 import { SettingsUsersPage } from '../../support/sections/SettingsUsersPage.ts'
 import { handlePasswordConfirmation } from '../../support/utils/password-confirmation.ts'
 
@@ -37,12 +37,7 @@ test('Account Management: Can create a group', async ({ page }) => {
 
 // ── Assign user to group ──────────────────────────────────────────────────────
 
-const userGroupTest = test.extend<{ testUser: User, testGroup: string }>({
-	async testUser({}, use) {
-		const testUser = await createRandomUser()
-		await use(testUser)
-		await runOcc(['user:delete', testUser.userId])
-	},
+const userGroupTest = test.extend<{ testGroup: string }>({
 	async testGroup({}, use) {
 		const testGroup = crypto.randomUUID()
 		await runOcc(['group:add', testGroup])
@@ -51,19 +46,19 @@ const userGroupTest = test.extend<{ testUser: User, testGroup: string }>({
 	},
 })
 
-userGroupTest('Account Management: Assign user to a group', async ({ page, testGroup, testUser }) => {
+userGroupTest('Account Management: Assign user to a group', async ({ page, testGroup, user }) => {
 	const settingsPage = new SettingsUsersPage(page)
 	await settingsPage.open()
 
 	// group is in the list with no members
 	await expect(settingsPage.groupListItem(testGroup)).toBeVisible()
 	// Counter bubble is absent when member count is 0
-	await expect(settingsPage.groupListItem(testGroup).locator('.counter-bubble__counter')).toHaveCount(0)
+	await expect(settingsPage.groupMemberCount(testGroup)).toHaveCount(0)
 	// user is in the list
-	await expect(settingsPage.userRow(testUser.userId)).toBeVisible()
+	await expect(settingsPage.userRow(user.userId)).toBeVisible()
 
 	// can assign the group via the edit dialog
-	await settingsPage.openEditDialog(testUser.userId)
+	await settingsPage.openEditDialog(user.userId)
 	const dialog = settingsPage.editUserDialog()
 	const groupsCombobox = dialog.getByRole('combobox', { name: /Member of the following groups/i })
 	const searchRequest = page.waitForResponse((r) => r.request().url().match(new RegExp('/ocs/v2\\.php/cloud/groups/details\\?(.+&|)search=' + testGroup.slice(0, 5))) !== null)
@@ -77,9 +72,9 @@ userGroupTest('Account Management: Assign user to a group', async ({ page, testG
 	await expect(page.getByText(/Account updated/i)).toBeVisible()
 
 	// user is now group now shows 1 member
-	await expect(settingsPage.groupListItem(testGroup).locator('.counter-bubble__counter')).toHaveText('1')
+	await expect(settingsPage.groupMemberCount(testGroup)).toHaveText('1')
 	// backend confirms the user is in the group
-	const info = JSON.parse(await runOcc(['user:info', '--output=json', testUser.userId]))
+	const info = JSON.parse(await runOcc(['user:info', '--output=json', user.userId]))
 	expect(info?.groups).toContain(testGroup)
 })
 
@@ -100,13 +95,9 @@ test.describe('Settings: Delete an empty group', () => {
 		const settingsPage = new SettingsUsersPage(page)
 		await settingsPage.open()
 
-		const groupItem = settingsPage.groupListItem(groupName)
-		await expect(groupItem).toBeVisible()
+		await expect(settingsPage.groupListItem(groupName)).toBeVisible()
 
-		// Open the group's actions menu
-		await groupItem.hover()
-		await expect(groupItem.getByRole('button', { name: /Actions/i })).toBeVisible()
-		await groupItem.getByRole('button', { name: /Actions/i }).click()
+		await settingsPage.openGroupActionsMenu(groupName)
 
 		// and delete the group
 		await page.getByRole('button', { name: 'Delete group' }).click()
@@ -143,13 +134,9 @@ test.describe('Settings: Delete a non-empty group', () => {
 		const settingsPage = new SettingsUsersPage(page)
 		await settingsPage.open()
 
-		const groupItem = settingsPage.groupListItem(groupName)
-		await expect(groupItem).toBeVisible()
+		await expect(settingsPage.groupListItem(groupName)).toBeVisible()
 
-		// Open the group's actions menu
-		await groupItem.hover()
-		expect(groupItem.getByRole('button', { name: /Actions/i })).toBeVisible()
-		await groupItem.getByRole('button', { name: /Actions/i }).click()
+		await settingsPage.openGroupActionsMenu(groupName)
 
 		// and delete the group
 		await page.getByRole('button', { name: 'Delete group' }).click()
@@ -164,23 +151,18 @@ test.describe('Settings: Delete a non-empty group', () => {
 })
 
 // ── Sort groups ───────────────────────────────────────────────────────────────
-const sortGroupsTest = test.extend<{ testUser: User, testGroups: [string, string] }>({
-	async testGroups({ testUser }, use) {
+const sortGroupsTest = test.extend<{ testGroups: [string, string] }>({
+	async testGroups({ user }, use) {
 		const suffix = crypto.randomUUID().slice(0, 8)
 		const groupA = `A-${suffix}`
 		const groupB = `B-${suffix}`
 
 		await runOcc(['group:add', groupA])
 		await runOcc(['group:add', groupB])
-		await runOcc(['group:adduser', groupB, testUser.userId])
+		await runOcc(['group:adduser', groupB, user.userId])
 		await use([groupA, groupB])
 		await runOcc(['group:delete', groupA]).catch(() => {})
 		await runOcc(['group:delete', groupB]).catch(() => {})
-	},
-	testUser: async ({}, use) => {
-		const testUser = await createRandomUser()
-		await use(testUser)
-		await runOcc(['user:delete', testUser.userId])
 	},
 })
 

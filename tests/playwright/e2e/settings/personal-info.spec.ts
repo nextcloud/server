@@ -3,12 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { User } from '@nextcloud/e2e-test-server'
 import type { Page, Response } from '@playwright/test'
 
 import { runOcc } from '@nextcloud/e2e-test-server/docker'
-import { createRandomUser, login } from '@nextcloud/e2e-test-server/playwright'
-import { test as baseTest, expect } from '@playwright/test'
+import { expect } from '@playwright/test'
+import { test as userSessionTest } from '../../support/fixtures/random-user-session.ts'
 import { handlePasswordConfirmation } from '../../support/utils/password-confirmation.ts'
 
 // ── Visibility scope labels exactly as rendered in the UI ─────────────────────
@@ -45,23 +44,13 @@ async function changeVisibility(page: Page, property: string, scope: Visibility,
 
 // ── Fixture ───────────────────────────────────────────────────────────────────
 
-const test = baseTest.extend<{ user: User }>({
-	user: async ({}, use) => {
-		const user = await createRandomUser()
-		// Ensure English UI language and locale so string assertions are stable
-		await runOcc(['user:setting', user.userId, 'core', 'lang', 'en'])
-		await runOcc(['user:setting', user.userId, 'core', 'locale', 'en_US'])
-		await use(user)
-		await runOcc(['user:delete', user.userId])
+// Ensure English UI language and locale so string assertions are stable
+const test = userSessionTest.extend({
+	user: async ({ user: baseUser }, use) => {
+		await runOcc(['user:setting', baseUser.userId, 'core', 'lang', 'en'])
+		await runOcc(['user:setting', baseUser.userId, 'core', 'locale', 'en_US'])
+		await use(baseUser)
 	},
-
-	page: async ({ browser, user }, use) => {
-		const page = await browser.newPage()
-		await login(page.request, user)
-		await use(page)
-		await page.close()
-	},
-
 })
 
 // ── Spec ──────────────────────────────────────────────────────────────────────

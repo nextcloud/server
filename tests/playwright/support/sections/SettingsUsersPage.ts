@@ -91,6 +91,24 @@ export class SettingsUsersPage {
 		await dialog.waitFor({ state: 'hidden' })
 	}
 
+	/**
+	 * Open the NcActions flyout for a custom group nav item.
+	 * NcActions inside NcAppNavigationItem falls back to the default `t('Actions')` label.
+	 */
+	async openGroupActionsMenu(groupName: string): Promise<void> {
+		const item = this.groupListItem(groupName)
+		await item.hover()
+		await item.getByRole('button', { name: /Actions/i }).click()
+	}
+
+	/**
+	 * Locator for the member count inside a group list item.
+	 * NcCounterBubble has no accessible role — CSS class is a last resort.
+	 */
+	groupMemberCount(groupName: string): Locator {
+		return this.groupListItem(groupName).locator('.counter-bubble__counter')
+	}
+
 	/** Open the actions dropdown for `userId`. */
 	async openActionsMenu(userId: string): Promise<void> {
 		const button = this.userRow(userId).getByRole('button', { name: 'Toggle account actions menu' })

@@ -3,21 +3,12 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { type User } from '@nextcloud/e2e-test-server'
 import { runOcc } from '@nextcloud/e2e-test-server/docker'
-import { createRandomUser, login } from '@nextcloud/e2e-test-server/playwright'
+import { login } from '@nextcloud/e2e-test-server/playwright'
 import { expect } from '@playwright/test'
-import { test as adminTest } from '../../support/fixtures/admin-session.ts'
+import { test } from '../../support/fixtures/admin-with-user.ts'
 import { SettingsUsersPage } from '../../support/sections/SettingsUsersPage.ts'
 import { handlePasswordConfirmation } from '../../support/utils/password-confirmation.ts'
-
-const test = adminTest.extend<{ user: User }>({
-	user: async ({}, use) => {
-		const user = await createRandomUser()
-		await use(user)
-		await runOcc(['user:delete', user.userId])
-	},
-})
 
 test.describe('Settings: Change user properties', () => {
 	test('can change the display name', async ({ page, user }) => {

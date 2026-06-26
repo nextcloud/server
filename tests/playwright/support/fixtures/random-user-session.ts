@@ -3,17 +3,18 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { runOcc } from '@nextcloud/e2e-test-server/docker'
-import { createRandomUser, login } from '@nextcloud/e2e-test-server/playwright'
-import { test as baseTest } from '@playwright/test'
+import { login } from '@nextcloud/e2e-test-server/playwright'
+import { test as randomUserTest } from './random-user.ts'
 
-export const test = baseTest.extend({
-	page: async ({ page, context }, use) => {
-		const user = await createRandomUser()
-		await login(context.request, user)
-
+/**
+ * Extends the random-user fixture with a `page` logged in as that user.
+ * The page runs in an isolated browser context — no admin session leaks in.
+ */
+export const test = randomUserTest.extend({
+	page: async ({ browser, user }, use) => {
+		const page = await browser.newPage()
+		await login(page.request, user)
 		await use(page)
-
-		await runOcc(['user:delete', user.userId])
+		await page.close()
 	},
 })

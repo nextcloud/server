@@ -10,6 +10,7 @@ import { createRandomUser, login } from '@nextcloud/e2e-test-server/playwright'
 import { test as baseTest, expect } from '@playwright/test'
 import { SettingsUsersPage } from '../../support/sections/SettingsUsersPage.ts'
 import { handlePasswordConfirmation } from '../../support/utils/password-confirmation.ts'
+import { makeSubAdmin } from '../../support/utils/users.ts'
 
 const test = baseTest.extend<{ subadmin: User, group: string }>({
 	group: async ({}, use) => {
@@ -21,14 +22,7 @@ const test = baseTest.extend<{ subadmin: User, group: string }>({
 	subadmin: async ({ group, request }, use) => {
 		const user = await createRandomUser()
 		await runOcc(['group:adduser', group, user.userId])
-		// Grant subadmin rights via OCS API authenticated as admin
-		await request.post(`/ocs/v2.php/cloud/users/${user.userId}/subadmins`, {
-			headers: {
-				'OCS-APIRequest': 'true',
-				Authorization: 'Basic ' + Buffer.from('admin:admin').toString('base64'),
-			},
-			form: { groupid: group },
-		})
+		await makeSubAdmin(request, user.userId, group)
 		await use(user)
 		await runOcc(['user:delete', user.userId])
 	},
