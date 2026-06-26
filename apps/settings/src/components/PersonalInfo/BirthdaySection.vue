@@ -11,7 +11,7 @@
 		<NcDateTimePickerNative :id="inputId"
 			type="date"
 			label=""
-			:value="value"
+			:value="timezoneAdjustedValue"
 			@input="onInput" />
 
 		<p class="property__helper-text-message">
@@ -33,6 +33,16 @@ import HeaderBar from './shared/HeaderBar.vue'
 
 const { birthdate } = loadState('settings', 'personalInfoParameters', {})
 
+/**
+ * Convert a birthdate string value into a Date.
+ *
+ * @param {string } birthdateValue - e.g. "1987-12-01" or "1987-12-01T00:00:00.000Z"
+ * @return {Date}
+ */
+function birthdateValueToDate(birthdateValue) {
+	return new Date(birthdateValue)
+}
+
 export default {
 	name: 'BirthdaySection',
 
@@ -44,7 +54,7 @@ export default {
 	data() {
 		let initialValue = null
 		if (birthdate.value) {
-			initialValue = new Date(birthdate.value)
+			initialValue = birthdateValueToDate(birthdate.value)
 		}
 
 		return {
@@ -60,23 +70,35 @@ export default {
 		inputId() {
 			return `account-property-${birthdate.name}`
 		},
-		value: {
-			get() {
-				return new Date(this.birthdate.value)
-			},
-			/** @param {Date} value The date to set */
-			set(value) {
-				const day = value.getDate().toString().padStart(2, '0')
-				const month = (value.getMonth() + 1).toString().padStart(2, '0')
-				const year = value.getFullYear()
-				this.birthdate.value = `${year}-${month}-${day}`
-			},
+		value() {
+			return birthdateValueToDate(this.birthdate.value)
+		},
+		/**
+		 * Adjusted value for usage with `NcDateTimePickerNative` (internally `<input="date">`)
+		 * The saved value is is UTC and we want to show it the same regardless of the browsers/OSs timezone.
+		 * When the adjusted value is displayed and the users timezone is applied, this adjusted value then looks like the UTC value.
+		 */
+		timezoneAdjustedValue() {
+			// example: this.birthdate.value === '1987-12-01T00:00:00.000Z' or '1987-12-01'
+
+			// example: Mon Nov 30 1987 16:00:00 GMT-0800 (Pacific Standard Time)
+			// `NcDateTimePickerNative` would show this as 11/30/1987
+			const date = this.value
+			const timezoneOffsetMilliseconds = date.getTimezoneOffset() * 60 * 1000
+			const adjustedDate = new Date(date.getTime() + timezoneOffsetMilliseconds)
+
+			// example: Tue Dec 01 1987 00:00:00 GMT-0800 (Pacific Standard Time)
+			// `NcDateTimePickerNative` will show this as 12/01/1987
+			return adjustedDate
 		},
 	},
 
 	methods: {
 		onInput(e) {
-			this.value = e
+			const day = e.getDate().toString().padStart(2, '0')
+			const month = (e.getMonth() + 1).toString().padStart(2, '0')
+			const year = e.getFullYear()
+			this.birthdate.value = `${year}-${month}-${day}`
 			this.debouncePropertyChange(this.value)
 		},
 
