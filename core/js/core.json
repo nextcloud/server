@@ -1,0 +1,9 @@
+{
+	"libraries": [
+		"core-common.js"
+	],
+	"modules": [
+		"../core/js/mimetype.js",
+		"../core/js/mimetypelist.js"
+	]
+}

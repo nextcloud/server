@@ -1,0 +1,183 @@
+<?php
+
+/**
+ * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+namespace OCA\Files_External\Service;
+
+use OC\Files\Filesystem;
+use OCA\Files_External\Event\StorageCreatedEvent;
+use OCA\Files_External\Event\StorageDeletedEvent;
+use OCA\Files_External\Event\StorageUpdatedEvent;
+use OCA\Files_External\Lib\StorageConfig;
+use OCA\Files_External\MountConfig;
+use OCP\IGroup;
+use Override;
+
+/**
+ * Service class to manage global external storage
+ */
+class GlobalStoragesService extends StoragesService {
+	#[Override]
+	protected function triggerHooks(StorageConfig $storage, $signal): void {
+		// FIXME: Use as expression in empty once PHP 5.4 support is dropped
+		$applicableUsers = $storage->getApplicableUsers();
+		$applicableGroups = $storage->getApplicableGroups();
+		if (empty($applicableUsers) && empty($applicableGroups)) {
+			// raise for user "all"
+			$this->triggerApplicableHooks(
+				$signal,
+				$storage->getMountPoint(),
+				MountConfig::MOUNT_TYPE_USER,
+				['all']
+			);
+			return;
+		}
+
+		$this->triggerApplicableHooks(
+			$signal,
+			$storage->getMountPoint(),
+			MountConfig::MOUNT_TYPE_USER,
+			$applicableUsers
+		);
+		$this->triggerApplicableHooks(
+			$signal,
+			$storage->getMountPoint(),
+			MountConfig::MOUNT_TYPE_GROUP,
+			$applicableGroups
+		);
+	}
+
+	#[Override]
+	protected function triggerChangeHooks(StorageConfig $oldStorage, StorageConfig $newStorage): void {
+		// if mount point changed, it's like a deletion + creation
+		if ($oldStorage->getMountPoint() !== $newStorage->getMountPoint()) {
+			$this->eventDispatcher->dispatchTyped(new StorageDeletedEvent($oldStorage));
+			$this->eventDispatcher->dispatchTyped(new StorageCreatedEvent($newStorage));
+			$this->triggerHooks($oldStorage, Filesystem::signal_delete_mount);
+			$this->triggerHooks($newStorage, Filesystem::signal_create_mount);
+			return;
+		} else {
+			$this->eventDispatcher->dispatchTyped(new StorageUpdatedEvent($oldStorage, $newStorage));
+		}
+
+		$userAdditions = array_diff($newStorage->getApplicableUsers(), $oldStorage->getApplicableUsers());
+		$userDeletions = array_diff($oldStorage->getApplicableUsers(), $newStorage->getApplicableUsers());
+		$groupAdditions = array_diff($newStorage->getApplicableGroups(), $oldStorage->getApplicableGroups());
+		$groupDeletions = array_diff($oldStorage->getApplicableGroups(), $newStorage->getApplicableGroups());
+
+		// FIXME: Use as expression in empty once PHP 5.4 support is dropped
+		// if no applicable were set, raise a signal for "all"
+		$oldApplicableUsers = $oldStorage->getApplicableUsers();
+		$oldApplicableGroups = $oldStorage->getApplicableGroups();
+		if (empty($oldApplicableUsers) && empty($oldApplicableGroups)) {
+			$this->triggerApplicableHooks(
+				Filesystem::signal_delete_mount,
+				$oldStorage->getMountPoint(),
+				MountConfig::MOUNT_TYPE_USER,
+				['all']
+			);
+		}
+
+		// trigger delete for removed users
+		$this->triggerApplicableHooks(
+			Filesystem::signal_delete_mount,
+			$oldStorage->getMountPoint(),
+			MountConfig::MOUNT_TYPE_USER,
+			$userDeletions
+		);
+
+		// trigger delete for removed groups
+		$this->triggerApplicableHooks(
+			Filesystem::signal_delete_mount,
+			$oldStorage->getMountPoint(),
+			MountConfig::MOUNT_TYPE_GROUP,
+			$groupDeletions
+		);
+
+		// and now add the new users
+		$this->triggerApplicableHooks(
+			Filesystem::signal_create_mount,
+			$newStorage->getMountPoint(),
+			MountConfig::MOUNT_TYPE_USER,
+			$userAdditions
+		);
+
+		// and now add the new groups
+		$this->triggerApplicableHooks(
+			Filesystem::signal_create_mount,
+			$newStorage->getMountPoint(),
+			MountConfig::MOUNT_TYPE_GROUP,
+			$groupAdditions
+		);
+
+		// FIXME: Use as expression in empty once PHP 5.4 support is dropped
+		// if no applicable, raise a signal for "all"
+		$newApplicableUsers = $newStorage->getApplicableUsers();
+		$newApplicableGroups = $newStorage->getApplicableGroups();
+		if (empty($newApplicableUsers) && empty($newApplicableGroups)) {
+			$this->triggerApplicableHooks(
+				Filesystem::signal_create_mount,
+				$newStorage->getMountPoint(),
+				MountConfig::MOUNT_TYPE_USER,
+				['all']
+			);
+		}
+	}
+
+	#[Override]
+	public function getVisibilityType(): int {
+		return BackendService::VISIBILITY_ADMIN;
+	}
+
+	#[Override]
+	protected function isApplicable(StorageConfig $config): bool {
+		return true;
+	}
+
+	/**
+	 * Get all configured admin and personal mounts
+	 *
+	 * @return StorageConfig[] map of storage id to storage config
+	 */
+	public function getStorageForAllUsers(): array {
+		$mounts = $this->dbConfig->getAllMounts();
+		$configs = array_map([$this, 'getStorageConfigFromDBMount'], $mounts);
+		$configs = array_filter($configs, function ($config) {
+			return $config instanceof StorageConfig;
+		});
+
+		$keys = array_map(static fn (StorageConfig $config) => $config->getId(), $configs);
+
+		return array_combine($keys, $configs);
+	}
+
+	/**
+	 * Gets all storages for the group, not including any global storages
+	 * @return StorageConfig[]
+	 */
+	public function getAllStoragesForGroup(IGroup $group): array {
+		$mounts = $this->dbConfig->getMountsForGroups([$group->getGID()]);
+		$configs = array_map($this->getStorageConfigFromDBMount(...), $mounts);
+		$configs = array_filter($configs, static fn (?StorageConfig $config): bool => $config instanceof StorageConfig);
+		$keys = array_map(static fn (StorageConfig $config) => $config->getId(), $configs);
+
+		$storages = array_combine($keys, $configs);
+		return array_filter($storages, $this->validateStorage(...));
+	}
+
+	/**
+	 * @return StorageConfig[]
+	 */
+	public function getAllGlobalStorages(): array {
+		$mounts = $this->dbConfig->getGlobalMounts();
+
+		$configs = array_map($this->getStorageConfigFromDBMount(...), $mounts);
+		$configs = array_filter($configs, static fn (?StorageConfig $config): bool => $config instanceof StorageConfig);
+		$keys = array_map(static fn (StorageConfig $config) => $config->getId(), $configs);
+		$storages = array_combine($keys, $configs);
+		return array_filter($storages, $this->validateStorage(...));
+	}
+}

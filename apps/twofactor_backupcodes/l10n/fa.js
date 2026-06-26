@@ -1,0 +1,25 @@
+OC.L10N.register(
+    "twofactor_backupcodes",
+    {
+    "You created two-factor backup codes for your account" : "کدهای پشتیبان دو مرحله‌ای برای حساب شما ایجاد شد  ",
+    "Second-factor backup codes" : "کدهای پشتیبان مرحله دوم  ",
+    "Generate backup codes" : "تولید کدهای پشتیبان  ",
+    "You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor." : "احراز هویت دو مرحله‌ای را فعال کرده‌اید اما هنوز کدهای پشتیبان تولید نکرده‌اید. این کدها برای بازیابی دسترسی به حساب شما در صورت از دست دادن عامل دوم ضروری هستند.  ",
+    "Backup code" : "کد پشتیبان  ",
+    "Use backup code" : "استفاده از کد پشتیبان  ",
+    "Two factor backup codes" : "کدهای پشتیبان احراز هویت دو مرحله‌ای  ",
+    "A two-factor auth backup codes provider" : "یک ارائه‌دهنده کدهای پشتیبان احراز هویت دو مرحله‌ای  ",
+    "An error occurred while generating your backup codes" : "هنگام تولید کدهای پشتیبان خطایی رخ داد  ",
+    "Backup codes have been generated. {used} of {total} codes have been used." : "کدهای پشتیبان تولید شدند. {used} از {total} کد استفاده شده است.  ",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "اینها کدهای پشتیبان شما هستند. لطفاً آن‌ها را ذخیره و/یا چاپ کنید، زیرا بعداً نمی‌توانید دوباره کدها را بخوانید.  ",
+    "List of backup codes" : "فهرست کدهای پشتیبان  ",
+    "Regenerate backup codes" : "بازتولید کدهای پشتیبان  ",
+    "Print backup codes" : "چاپ کدهای پشتیبان  ",
+    "Save backup codes" : "ذخیره کدهای پشتیبان  ",
+    "If you regenerate backup codes, you automatically invalidate old codes." : "اگر کدهای پشتیبان را بازتولید کنید، به‌طور خودکار کدهای قدیمی را باطل می‌کنید.  ",
+    "{name} backup codes" : "کدهای پشتیبان {name}  ",
+    "Unable to open a new tab for printing" : "امکان باز کردن برگه جدید برای چاپ وجود ندارد  ",
+    "Use one of the backup codes you saved when setting up two-factor authentication." : "از یکی از کدهای پشتیبانی که هنگام تنظیم احراز هویت دو مرحله‌ای ذخیره کرده‌اید استفاده کنید.  ",
+    "Submit" : "ارسال"
+},
+"nplurals=2; plural=(n > 1);");

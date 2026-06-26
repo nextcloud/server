@@ -1,0 +1,29 @@
+SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-License-Identifier: Apache-2.0
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: Austin Andrews
+SPDX-FileCopyrightText: Dmitry Iv <dfcreative@gmail.com>
+SPDX-FileCopyrightText: Josh Junon (https://github.com/qix-)
+SPDX-FileCopyrightText: Josh Junon <josh@junon.me>
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: color developers
+
+This file is generated from multiple sources. Included packages:
+- @mdi/svg
+	- version: 7.4.47
+	- license: Apache-2.0
+- color
+	- version: 5.0.3
+	- license: MIT
+- color-convert
+	- version: 3.1.3
+	- license: MIT
+- color-name
+	- version: 2.1.0
+	- license: MIT
+- color-string
+	- version: 2.1.4
+	- license: MIT
+- nextcloud-ui
+	- version: 1.0.0
+	- license: AGPL-3.0-or-later

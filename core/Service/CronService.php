@@ -1,0 +1,286 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-FileContributor: Carl Schwan
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
+namespace OC\Core\Service;
+
+use OC;
+use OC\Authentication\LoginCredentials\Store;
+use OC\BackgroundJob\JobClassesRegistry;
+use OC\BackgroundJob\JobRuns;
+use OC\DB\Connection;
+use OC\Security\CSRF\TokenStorage\SessionStorage;
+use OC\Session\CryptoWrapper;
+use OC\Session\Memory;
+use OC\User\Session;
+use OCP\App\IAppManager;
+use OCP\BackgroundJob\IJob;
+use OCP\BackgroundJob\IJobList;
+use OCP\Files\ISetupManager;
+use OCP\IAppConfig;
+use OCP\IConfig;
+use OCP\ILogger;
+use OCP\ISession;
+use OCP\ITempManager;
+use OCP\Util;
+use Psr\Log\LoggerInterface;
+
+class CronService {
+	private ?IJob $currentJob = null;
+
+	/** * @var ?callable $verboseCallback */
+	private $verboseCallback = null;
+
+	public function __construct(
+		private readonly LoggerInterface $logger,
+		private readonly IConfig $config,
+		private readonly IAppManager $appManager,
+		private readonly ISession $session,
+		private readonly Session $userSession,
+		private readonly Connection $connection,
+		private readonly CryptoWrapper $cryptoWrapper,
+		private readonly Store $store,
+		private readonly SessionStorage $sessionStorage,
+		private readonly ITempManager $tempManager,
+		private readonly IAppConfig $appConfig,
+		private readonly IJobList $jobList,
+		private readonly JobRuns $jobRuns,
+		private readonly JobClassesRegistry $jobClassesRegistry,
+		private readonly ISetupManager $setupManager,
+		private readonly bool $isCLI,
+	) {
+	}
+
+	/**
+	 * @param callable(string):void $callback
+	 */
+	public function registerVerboseCallback(callable $callback): void {
+		$this->verboseCallback = $callback;
+	}
+
+	/**
+	 * @throws \RuntimeException
+	 */
+	public function run(?array $jobClasses): void {
+		if (Util::needUpgrade()) {
+			$this->logger->debug('Update required, skipping cron', ['app' => 'core']);
+			return;
+		}
+
+		if ($this->config->getSystemValueBool('maintenance', false)) {
+			$this->logger->debug('We are in maintenance mode, skipping cron', ['app' => 'core']);
+			return;
+		}
+
+		// Don't do anything if Nextcloud has not been installed
+		if (!$this->config->getSystemValueBool('installed', false)) {
+			return;
+		}
+
+		// load all apps to get all api routes properly setup
+		$this->appManager->loadApps();
+		$this->session->close();
+
+		// initialize a dummy memory session
+		$session = new Memory();
+		$session = $this->cryptoWrapper->wrapSession($session);
+		$this->sessionStorage->setSession($session);
+		$this->userSession->setSession($session);
+		$this->store->setSession($session);
+
+		$this->tempManager->cleanOld();
+
+		// Exit if background jobs are disabled!
+		$appMode = $this->appConfig->getValueString('core', 'backgroundjobs_mode', 'ajax');
+		if ($appMode === 'none') {
+			throw new \RuntimeException('Background Jobs are disabled!');
+		}
+
+		if ($this->isCLI) {
+			$this->runCli($appMode, $jobClasses);
+		} else {
+			$this->runWeb($appMode);
+		}
+
+		// Log the successful cron execution
+		$this->appConfig->setValueInt('core', 'lastcron', time());
+	}
+
+	/**
+	 * @throws \RuntimeException
+	 */
+	private function runCli(string $appMode, ?array $jobClasses): void {
+		// set to run indefinitely if needed
+		if (!str_contains(@ini_get('disable_functions'), 'set_time_limit')) {
+			@set_time_limit(0);
+		}
+
+		// the cron job must be executed with the right user
+		if (!function_exists('posix_getuid')) {
+			throw new \RuntimeException('The posix extensions are required - see https://www.php.net/manual/en/book.posix.php');
+		}
+
+		$user = posix_getuid();
+		$configUser = fileowner(OC::$configDir . 'config.php');
+		if ($user !== $configUser) {
+			throw new \RuntimeException('Console has to be executed with the user that owns the file config/config.php.' . PHP_EOL . 'Current user id: ' . $user . PHP_EOL . 'Owner id of config.php: ' . $configUser . PHP_EOL);
+		}
+
+		// We call Nextcloud from the CLI (aka cron)
+		if ($appMode !== 'cron') {
+			$this->appConfig->setValueString('core', 'backgroundjobs_mode', 'cron');
+		}
+
+		// Low-load hours
+		$onlyTimeSensitive = false;
+		$startHour = $this->config->getSystemValueInt('maintenance_window_start', 100);
+		if ($jobClasses === null && $startHour <= 23) {
+			$date = new \DateTime('now', new \DateTimeZone('UTC'));
+			$currentHour = (int)$date->format('G');
+			$endHour = $startHour + 4;
+
+			if ($startHour <= 20) {
+				// Start time: 01:00
+				// End time: 05:00
+				// Only run sensitive tasks when it's before the start or after the end
+				$onlyTimeSensitive = $currentHour < $startHour || $currentHour > $endHour;
+			} else {
+				// Start time: 23:00
+				// End time: 03:00
+				$endHour -= 24; // Correct the end time from 27:00 to 03:00
+				// Only run sensitive tasks when it's after the end and before the start
+				$onlyTimeSensitive = $currentHour > $endHour && $currentHour < $startHour;
+			}
+		}
+
+		// Try to log and unlock job in case of failure (eg. Allowed memory size exhausted)
+		register_shutdown_function(function () {
+			$error = error_get_last();
+			if ($error === null) {
+				return;
+			}
+
+			$message = 'Uncaught error when running job ' . $this->currentJob->getId() . ': ' . $error['message'];
+			$this->logger->error($message);
+			$this->verboseOutput($message);
+			if ($this->currentJob instanceof IJob) {
+				$this->jobList->unlockJob($this->currentJob);
+			}
+		});
+
+		// We only ask for jobs for 14 minutes, because after 5 minutes the next
+		// system cron task should spawn and we want to have at most three
+		// cron jobs running in parallel.
+		$endTime = time() + 14 * 60;
+
+		$executedJobs = [];
+
+		while ($job = $this->jobList->getNext($onlyTimeSensitive, $jobClasses)) {
+			$this->currentJob = $job;
+			if (isset($executedJobs[$job->getId()])) {
+				$this->jobList->unlockJob($job);
+				break;
+			}
+
+			$jobClass = get_class($job);
+			$jobDetails = $jobClass . ' (id: ' . $job->getId() . ', arguments: ' . json_encode($job->getArgument()) . ')';
+			$this->logger->debug('CLI cron call has selected job ' . $jobDetails, ['app' => 'cron']);
+
+			$this->verboseOutput('Starting job ' . $jobDetails);
+
+			$referenceMemory = memory_get_usage();
+			memory_reset_peak_usage();
+
+			$jobClassId = $this->jobClassesRegistry->getId($jobClass);
+			$jobRunId = $this->jobRuns->started($jobClassId);
+			$startTime = microtime(true);
+			$job->start($this->jobList);
+
+			$memoryIncrease = memory_get_usage() - $referenceMemory;
+			$timeSpent = microtime(true) - $startTime;
+			$jobMemoryPeak = memory_get_peak_usage();
+			// TODO Job failure will never be caught here because exceptions are caught within $job->start method
+			// The error will only be visible in server logs.
+			// It should be a temporary state until a proper job runner is implemented.
+			$this->jobRuns->finished($jobRunId, (int)($timeSpent * 1000), (int)($jobMemoryPeak / 1024));
+
+			$cronInterval = 5 * 60;
+			if ($timeSpent > $cronInterval) {
+				$logLevel = match (true) {
+					$timeSpent > $cronInterval * 128 => ILogger::FATAL,
+					$timeSpent > $cronInterval * 64 => ILogger::ERROR,
+					$timeSpent > $cronInterval * 16 => ILogger::WARN,
+					$timeSpent > $cronInterval * 8 => ILogger::INFO,
+					default => ILogger::DEBUG,
+				};
+				$this->logger->log(
+					$logLevel,
+					'Background job ' . $jobDetails . ' ran for ' . $timeSpent . ' seconds',
+					['app' => 'cron']
+				);
+			}
+
+			if ($memoryIncrease > 50 * 1024 * 1024) {
+				$message = 'Memory leak detected after executing job ' . $jobDetails . '. Memory usage grew by ' . Util::humanFileSize($memoryIncrease) . '.';
+				$this->logger->warning($message, ['app' => 'cron']);
+				$this->verboseOutput($message);
+			}
+			if ($jobMemoryPeak > 300 * 1024 * 1024) {
+				$message = 'Cron job used more than 300 MiB of RAM after executing job ' . $jobDetails . ': ' . Util::humanFileSize($jobMemoryPeak) . ')';
+				$this->logger->warning($message, ['app' => 'cron']);
+				$this->verboseOutput($message);
+			}
+
+			// clean up after unclean jobs
+			$this->setupManager->tearDown();
+			$this->tempManager->clean();
+			if ($this->connection->inTransaction()) {
+				$this->connection->rollBack();
+				$message = 'Cron job left a transaction opened after executing job ' . $jobDetails . '. The transaction was rolled back.';
+				$this->logger->warning($message, ['app' => 'cron']);
+				$this->verboseOutput($message);
+			}
+
+			$this->verboseOutput('Job ' . $jobDetails . ' done in ' . number_format($timeSpent, 2) . ' seconds');
+
+			$this->jobList->setLastJob($job);
+			$executedJobs[$job->getId()] = true;
+			unset($job);
+
+			if (time() > $endTime) {
+				break;
+			}
+		}
+
+		// Makes sure last error isn't caught by shutdown function
+		error_clear_last();
+	}
+
+	private function runWeb(string $appMode): void {
+		if ($appMode === 'cron') {
+			// Cron is cron :-P
+			$this->logger->info('WebCron accessed even though backgroundjobs_mode is set to use system cron.', ['app' => 'cron']);
+		} else {
+			// Work and success :-)
+			$job = $this->jobList->getNext();
+			if ($job != null) {
+				$this->logger->debug('WebCron call has selected job with ID ' . strval($job->getId()), ['app' => 'cron']);
+				$job->start($this->jobList);
+				$this->jobList->setLastJob($job);
+			}
+		}
+	}
+
+	private function verboseOutput(string $message): void {
+		if ($this->verboseCallback !== null) {
+			call_user_func($this->verboseCallback, $message);
+		}
+	}
+}

@@ -1,0 +1,499 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "cloud_federation_api",
+        "version": "0.0.1",
+        "description": "Enable clouds to communicate with each other and exchange data",
+        "license": {
+            "name": "agpl"
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "basic_auth": {
+                "type": "http",
+                "scheme": "basic"
+            },
+            "bearer_auth": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        },
+        "schemas": {
+            "AddShare": {
+                "type": "object",
+                "required": [
+                    "recipientDisplayName"
+                ],
+                "properties": {
+                    "recipientDisplayName": {
+                        "type": "string"
+                    },
+                    "recipientUserId": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Capabilities": {
+                "type": "object",
+                "additionalProperties": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "object"
+                    }
+                }
+            },
+            "Error": {
+                "type": "object",
+                "required": [
+                    "message"
+                ],
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    }
+                }
+            },
+            "ValidationError": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Error"
+                    },
+                    {
+                        "type": "object",
+                        "required": [
+                            "validationErrors"
+                        ],
+                        "properties": {
+                            "validationErrors": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "required": [
+                                        "name",
+                                        "message"
+                                    ],
+                                    "properties": {
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "nullable": true
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "paths": {
+        "/index.php/ocm/shares": {
+            "post": {
+                "operationId": "request_handler-add-share",
+                "summary": "Add share",
+                "tags": [
+                    "request_handler"
+                ],
+                "security": [
+                    {},
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "shareWith",
+                                    "name",
+                                    "providerId",
+                                    "owner",
+                                    "protocol",
+                                    "shareType",
+                                    "resourceType"
+                                ],
+                                "properties": {
+                                    "shareWith": {
+                                        "type": "string",
+                                        "description": "The user who the share will be shared with"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "description": "The resource name (e.g. document.odt)"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "Share description"
+                                    },
+                                    "providerId": {
+                                        "type": "string",
+                                        "description": "Resource UID on the provider side"
+                                    },
+                                    "owner": {
+                                        "type": "string",
+                                        "description": "Provider specific UID of the user who owns the resource"
+                                    },
+                                    "ownerDisplayName": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "Display name of the user who shared the item"
+                                    },
+                                    "sharedBy": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "Provider specific UID of the user who shared the resource"
+                                    },
+                                    "sharedByDisplayName": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "Display name of the user who shared the resource"
+                                    },
+                                    "protocol": {
+                                        "type": "object",
+                                        "description": "e,.g. ['name' => 'webdav', 'options' => ['username' => 'john', 'permissions' => 31]]",
+                                        "required": [
+                                            "name",
+                                            "options"
+                                        ],
+                                        "properties": {
+                                            "name": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "options": {
+                                                "type": "object",
+                                                "additionalProperties": {
+                                                    "type": "object"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "shareType": {
+                                        "type": "string",
+                                        "description": "'group' or 'user' share"
+                                    },
+                                    "resourceType": {
+                                        "type": "string",
+                                        "description": "'file', 'calendar',..."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "The notification was successfully received. The display name of the recipient might be returned in the body",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AddShare"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request due to invalid parameters, e.g. when `shareWith` is not found or required properties are missing",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "501": {
+                        "description": "Share type or the resource type is not supported",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/index.php/ocm/notifications": {
+            "post": {
+                "operationId": "request_handler-receive-notification",
+                "summary": "Send a notification about an existing share",
+                "tags": [
+                    "request_handler"
+                ],
+                "security": [
+                    {},
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "notificationType",
+                                    "resourceType"
+                                ],
+                                "properties": {
+                                    "notificationType": {
+                                        "type": "string",
+                                        "description": "Notification type, e.g. SHARE_ACCEPTED"
+                                    },
+                                    "resourceType": {
+                                        "type": "string",
+                                        "description": "calendar, file, contact,..."
+                                    },
+                                    "providerId": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "ID of the share"
+                                    },
+                                    "notification": {
+                                        "type": "object",
+                                        "nullable": true,
+                                        "description": "The actual payload of the notification",
+                                        "additionalProperties": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "The notification was successfully received",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": {
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request due to invalid parameters, e.g. when `type` is invalid or missing",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Getting resource is not allowed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    },
+                    "501": {
+                        "description": "The resource type is not supported",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/index.php/ocm/invite-accepted": {
+            "post": {
+                "operationId": "request_handler-invite-accepted",
+                "summary": "Inform the sender that an invitation was accepted to start sharing",
+                "description": "Inform about an accepted invitation so the user on the sender provider's side can initiate the OCM share creation. To protect the identity of the parties, for shares created following an OCM invitation, the user id MAY be hashed, and recipients implementing the OCM invitation workflow MAY refuse to process shares coming from unknown parties.\nhttps://cs3org.github.io/OCM-API/docs.html?branch=v1.1.0&repo=OCM-API&user=cs3org#/paths/~1invite-accepted/post\nNote: Not implementing 404 Invitation token does not exist, instead using 400",
+                "tags": [
+                    "request_handler"
+                ],
+                "security": [
+                    {},
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "recipientProvider",
+                                    "token",
+                                    "userID",
+                                    "email",
+                                    "name"
+                                ],
+                                "properties": {
+                                    "recipientProvider": {
+                                        "type": "string",
+                                        "description": "The address of the recipent's provider"
+                                    },
+                                    "token": {
+                                        "type": "string",
+                                        "description": "The token used for the invitation"
+                                    },
+                                    "userID": {
+                                        "type": "string",
+                                        "description": "The userID of the recipient at the recipient's provider"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "description": "The email address of the recipient"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "description": "The display name of the recipient"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Invitation accepted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "userID",
+                                        "email",
+                                        "name"
+                                    ],
+                                    "properties": {
+                                        "userID": {
+                                            "type": "string"
+                                        },
+                                        "email": {
+                                            "type": "string"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Invitation token does not exist",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "message",
+                                        "error"
+                                    ],
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "error": {
+                                            "type": "boolean",
+                                            "enum": [
+                                                true
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "message",
+                                        "error"
+                                    ],
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "error": {
+                                            "type": "boolean",
+                                            "enum": [
+                                                true
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "User is already known by the OCM provider",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "message",
+                                        "error"
+                                    ],
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "error": {
+                                            "type": "boolean",
+                                            "enum": [
+                                                true
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "request_handler",
+            "description": "Open-Cloud-Mesh-API"
+        }
+    ]
+}

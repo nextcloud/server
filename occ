@@ -1,0 +1,33 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+/**
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+/**
+ * Drop privileges when run as root
+ */
+function dropPrivileges(): void {
+	if (posix_getuid() !== 0) {
+		return;
+	}
+
+	$configPath = __DIR__ . '/config/config.php';
+	$uid = @fileowner($configPath);
+	if ($uid === false) {
+		return;
+	}
+	$info = posix_getpwuid($uid);
+	if ($info === false) {
+		return;
+	}
+	posix_setuid($uid);
+	posix_setgid($info['gid']);
+}
+
+dropPrivileges();
+require_once __DIR__ . '/console.php';

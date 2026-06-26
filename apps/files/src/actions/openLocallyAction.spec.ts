@@ -1,0 +1,223 @@
+/*!
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+import type { IFolder, IView } from '@nextcloud/files'
+
+import axios from '@nextcloud/axios'
+import * as nextcloudDialogs from '@nextcloud/dialogs'
+import { File, Permission } from '@nextcloud/files'
+import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
+import { action } from './openLocallyAction.ts'
+
+vi.mock('@nextcloud/auth')
+vi.mock('@nextcloud/axios')
+
+const view = {
+	id: 'files',
+	name: 'Files',
+} as IView
+
+// Mock web root variable
+beforeAll(() => {
+	(window as any)._oc_webroot = '';
+
+	(window as any).OCA = { Viewer: { open: vi.fn() } }
+})
+
+describe('Open locally action conditions tests', () => {
+	test('Default values', () => {
+		expect(action.id).toBe('edit-locally')
+		expect(action.displayName({
+			nodes: [],
+			view,
+			folder: {} as IFolder,
+			contents: [],
+		})).toBe('Open locally')
+		expect(action.iconSvgInline({
+			nodes: [],
+			view,
+			folder: {} as IFolder,
+			contents: [],
+		})).toMatch(/<svg.+<\/svg>/)
+		expect(action.default).toBeUndefined()
+		expect(action.order).toBe(25)
+	})
+})
+
+describe('Open locally action enabled tests', () => {
+	test('Enabled for file with WRITE permission', () => {
+		const file = new File({
+			id: 1,
+			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
+			owner: 'admin',
+			mime: 'text/plain',
+			permissions: Permission.ALL,
+			root: '/files/admin',
+		})
+
+		expect(action.enabled).toBeDefined()
+		expect(action.enabled!({
+			nodes: [file],
+			view,
+			folder: {} as IFolder,
+			contents: [],
+		})).toBe(true)
+	})
+
+	test('Disabled for non-dav resources', () => {
+		const file = new File({
+			id: 1,
+			source: 'https://domain.com/data/foobar.txt',
+			owner: 'admin',
+			mime: 'text/plain',
+			root: '/',
+		})
+
+		expect(action.enabled).toBeDefined()
+		expect(action.enabled!({
+			nodes: [file],
+			view,
+			folder: {} as IFolder,
+			contents: [],
+		})).toBe(false)
+	})
+
+	test('Disabled if more than one node', () => {
+		const file1 = new File({
+			id: 1,
+			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foo.txt',
+			owner: 'admin',
+			mime: 'text/plain',
+			permissions: Permission.ALL,
+			root: '/files/admin',
+		})
+		const file2 = new File({
+			id: 1,
+			source: 'https://cloud.domain.com/remote.php/dav/files/admin/bar.txt',
+			owner: 'admin',
+			mime: 'text/plain',
+			permissions: Permission.ALL,
+			root: '/files/admin',
+		})
+
+		expect(action.enabled).toBeDefined()
+		expect(action.enabled!({
+			nodes: [file1, file2],
+			view,
+			folder: {} as IFolder,
+			contents: [],
+		})).toBe(false)
+	})
+
+	test('Disabled for files', () => {
+		const file = new File({
+			id: 1,
+			source: 'https://cloud.domain.com/remote.php/dav/files/admin/Foo/',
+			owner: 'admin',
+			mime: 'text/plain',
+			root: '/files/admin',
+		})
+
+		expect(action.enabled).toBeDefined()
+		expect(action.enabled!({
+			nodes: [file],
+			view,
+			folder: {} as IFolder,
+			contents: [],
+		})).toBe(false)
+	})
+
+	test('Disabled without WRITE permissions', () => {
+		const file = new File({
+			id: 1,
+			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
+			owner: 'admin',
+			mime: 'text/plain',
+			permissions: Permission.READ,
+			root: '/files/admin',
+		})
+
+		expect(action.enabled).toBeDefined()
+		expect(action.enabled!({
+			nodes: [file],
+			view,
+			folder: {} as IFolder,
+			contents: [],
+		})).toBe(false)
+	})
+})
+
+describe('Open locally action execute tests', () => {
+	let spyShowDialog
+	beforeEach(() => {
+		vi.resetAllMocks()
+		spyShowDialog = vi.spyOn(nextcloudDialogs.Dialog.prototype, 'show')
+			.mockImplementation(() => Promise.resolve())
+	})
+
+	test('Open locally opens proper URL', async () => {
+		vi.spyOn(axios, 'post').mockImplementation(async () => ({
+			data: { ocs: { data: { token: 'foobar' } } },
+		}))
+		const showError = vi.spyOn(nextcloudDialogs, 'showError')
+		const windowOpenSpy = vi.spyOn(window, 'open').mockImplementation(() => null)
+
+		const file = new File({
+			id: 1,
+			source: 'http://nextcloud.local/remote.php/dav/files/admin/foobar.txt',
+			owner: 'admin',
+			mime: 'text/plain',
+			permissions: Permission.UPDATE,
+			root: '/files/admin',
+		})
+
+		const exec = await action.exec({
+			nodes: [file],
+			view,
+			folder: {} as IFolder,
+			contents: [],
+		})
+
+		expect(spyShowDialog).toBeCalled()
+
+		// Silent action
+		expect(exec).toBe(null)
+		expect(axios.post).toBeCalledTimes(1)
+		expect(axios.post).toBeCalledWith('http://nextcloud.local/ocs/v2.php/apps/files/api/v1/openlocaleditor?format=json', { path: '/foobar.txt' })
+		expect(showError).toBeCalledTimes(0)
+		expect(windowOpenSpy).toBeCalledWith('nc://open/test@nextcloud.local/foobar.txt?token=foobar', '_self')
+	})
+
+	test('Open locally fails and shows error', async () => {
+		vi.spyOn(axios, 'post').mockImplementation(async () => ({}))
+		const showError = vi.spyOn(nextcloudDialogs, 'showError')
+
+		const file = new File({
+			id: 1,
+			source: 'http://nextcloud.local/remote.php/dav/files/admin/foobar.txt',
+			owner: 'admin',
+			mime: 'text/plain',
+			permissions: Permission.UPDATE,
+			root: '/files/admin',
+		})
+
+		const exec = await action.exec({
+			nodes: [file],
+			view,
+			folder: {} as IFolder,
+			contents: [],
+		})
+
+		expect(spyShowDialog).toBeCalled()
+
+		// Silent action
+		expect(exec).toBe(null)
+		expect(axios.post).toBeCalledTimes(1)
+		expect(axios.post).toBeCalledWith('http://nextcloud.local/ocs/v2.php/apps/files/api/v1/openlocaleditor?format=json', { path: '/foobar.txt' })
+		expect(showError).toBeCalledTimes(1)
+		expect(showError).toBeCalledWith('Failed to redirect to client')
+		expect(window.location.href).toBe('http://nextcloud.local/')
+	})
+})

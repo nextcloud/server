@@ -1,0 +1,148 @@
+version = 1
+SPDX-PackageName = "nextcloud-theming"
+SPDX-PackageSupplier = "Nextcloud <info@nextcloud.com>"
+SPDX-PackageDownloadLocation = "https://github.com/nextcloud/server"
+
+[[annotations]]
+path = ["tests/data/favicon-original.ico", "tests/data/touch-comments.png", "tests/data/touch-core-red.png", "tests/data/touch-original-png.png", "tests/data/touch-original.png", "tests/data/touch-testing-red.png"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2016 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["fonts/OpenDyslexic-Bold.otf", "fonts/OpenDyslexic-Regular.otf"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2012-2019 Abbie Gonzalez <https://abbiecod.es|support@abbiecod.es>, with Reserved Font Name OpenDyslexic."
+SPDX-License-Identifier = "OFL-1.1-RFN"
+
+[[annotations]]
+path = ["img/dark-highcontrast.jpg", "img/dark.jpg", "img/default-source.svg", "img/default.jpg", "img/light-highcontrast.jpg", "img/light.jpg", "img/opendyslexic.jpg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2022 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["img/background/jo-myoung-hee-fluid.webp", "img/background/jo-myoung-hee-fluid-dark.webp", "img/background/preview/jo-myoung-hee-fluid.webp"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2025 Nextcloud GmbH"
+SPDX-License-Identifier = "CC-BY-SA-4.0"
+
+[[annotations]]
+path = ["img/background/jenna-kim-the-globe.webp", "img/background/jenna-kim-the-globe-dark.webp", "img/background/preview/jenna-kim-the-globe.webp"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2024 Nextcloud GmbH"
+SPDX-License-Identifier = "CC-BY-SA-4.0"
+
+[[annotations]]
+path = ["img/background/anatoly-mikhaltsov-butterfly-wing-scale.jpg", "img/background/preview/anatoly-mikhaltsov-butterfly-wing-scale.jpg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2015 Anatoly Mikhaltsov <https://commons.wikimedia.org/wiki/File:%D0%A7%D0%B5%D1%88%D1%83%D0%B9%D0%BA%D0%B8_%D0%BA%D1%80%D1%8B%D0%BB%D0%B0_%D0%B1%D0%B0%D0%B1%D0%BE%D1%87%D0%BA%D0%B8.jpg>"
+SPDX-License-Identifier = "CC-BY-SA-4.0"
+
+[[annotations]]
+path = ["img/background/bernard-spragg-new-zealand-fern.jpg", "img/background/preview/bernard-spragg-new-zealand-fern.jpg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2013 Bernard Spragg <https://commons.wikimedia.org/wiki/File:NZ_Fern.(Blechnum_chambersii)_(11263534936).jpg>"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = ["img/background/bernie-cetonia-aurata-take-off-composition.jpg", "img/background/preview/bernie-cetonia-aurata-take-off-composition.jpg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Bernie Kohl <https://commons.wikimedia.org/wiki/File:Cetonia_aurata_take_off_composition_05172009.jpg>"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = ["img/background/dejan-krsmanovic-ribbed-red-metal.jpg", "img/background/preview/dejan-krsmanovic-ribbed-red-metal.jpg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2018 Dejan Krsmanovic <https://www.flickr.com/photos/dejankrsmanovic/42971456774/>"
+SPDX-License-Identifier = "CC-BY-2.0"
+
+[[annotations]]
+path = ["img/background/eduardo-neves-pedra-azul.jpg", "img/background/preview/eduardo-neves-pedra-azul.jpg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2017 Eduardo Menezes dos Santos Neves <https://commons.wikimedia.org/wiki/File:Pedra_Azul_Milky_Way.jpg>"
+SPDX-License-Identifier = "CC-BY-SA-4.0"
+
+[[annotations]]
+path = ["img/background/european-space-agency-barents-bloom.jpg", "img/background/preview/european-space-agency-barents-bloom.jpg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2016 Contains modified Copernicus Sentinel data (2016), processed by ESA <https://www.esa.int/ESA_Multimedia/Images/2016/08/Barents_bloom>"
+SPDX-License-Identifier = "CC-BY-SA-3.0-IGO"
+
+[[annotations]]
+path = ["img/background/hannah-maclean-soft-floral.jpg", "img/background/preview/hannah-maclean-soft-floral.jpg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Hannah MacLean <https://stocksnap.io/photo/soft-floral-XOYWCCW5PA>"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = ["img/background/hannes-fritz-flippity-floppity.jpg", "img/background/preview/hannes-fritz-flippity-floppity.jpg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2015 Hannes Fritz <http://hannes.photos/flippity-floppity>"
+SPDX-License-Identifier = "CC-BY-SA-4.0"
+
+[[annotations]]
+path = ["img/background/hannes-fritz-roulette.jpg", "img/background/preview/hannes-fritz-roulette.jpg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2015 Hannes Fritz <http://hannes.photos/roulette>"
+SPDX-License-Identifier = "CC-BY-SA-4.0"
+
+[[annotations]]
+path = ["img/background/hannes-fritz-sea-spray.jpg", "img/background/preview/hannes-fritz-sea-spray.jpg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2015 Hannes Fritz <http://hannes.photos/sea-spray>"
+SPDX-License-Identifier = "CC-BY-SA-4.0"
+
+[[annotations]]
+path = ["img/background/kamil-porembinski-clouds.jpg", "img/background/preview/kamil-porembinski-clouds.jpg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2013 Kamil Porembiński <https://www.flickr.com/photos/paszczak000>"
+SPDX-License-Identifier = "CC-BY-SA-2.0"
+
+[[annotations]]
+path = ["img/background/lali-masriera-yellow-bricks.jpg", "img/background/preview/lali-masriera-yellow-bricks.jpg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2009 Lali Masriera <https://www.flickr.com/photos/visualpanic/3982464447>"
+SPDX-License-Identifier = "CC-BY-2.0"
+
+[[annotations]]
+path = ["img/background/nasa-waxing-crescent-moon.jpg", "img/background/preview/nasa-waxing-crescent-moon.jpg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2020 Nasa <https://www.nasa.gov/image-article/waxing-crescent-moon-2/>"
+SPDX-License-Identifier = "LicenseRef-Nasa"
+
+[[annotations]]
+path = ["img/background/rawpixel-pink-tapioca-bubbles.jpg", "img/background/preview/rawpixel-pink-tapioca-bubbles.jpg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2018 Rawpixel Ltd <https://www.flickr.com/photos/byrawpixel/27665140298/in/photostream/>"
+SPDX-License-Identifier = "CC-BY-2.0"
+
+[[annotations]]
+path = ["img/background/stefanus-martanto-setyo-husodo-underwater-ocean.jpg", "img/background/preview/stefanus-martanto-setyo-husodo-underwater-ocean.jpg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Stefanus Martanto Setyo Husodo <https://stocksnap.io/photo/underwater-ocean-TJA9LBH4WS>"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = ["img/background/ted-moravec-morning-fog.jpg", "img/background/preview/ted-moravec-morning-fog.jpg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2022 Ted Moravec <https://flickr.com/photos/tmoravec/52392410261>"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = ["img/background/tommy-chau-already.jpg", "img/background/preview/tommy-chau-already.jpg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2015 tommy@chau <https://www.flickr.com/photos/90975693@N05/16910999368>"
+SPDX-License-Identifier = "CC-BY-2.0"
+
+[[annotations]]
+path = ["img/background/tommy-chau-lion-rock-hill.jpg", "img/background/preview/tommy-chau-lion-rock-hill.jpg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2015 tommy@chau <https://www.flickr.com/photos/90975693@N05/17136440246>"
+SPDX-License-Identifier = "CC-BY-2.0"
+
+[[annotations]]
+path = ["img/background/zoltan-voros-rhythm-and-blues.jpg", "img/background/preview/zoltan-voros-rhythm-and-blues.jpg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2021 Zoltán Vörös <https://flickr.com/photos/v923z/51634409289/>"
+SPDX-License-Identifier = "CC-BY-2.0"

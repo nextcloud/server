@@ -1,0 +1,28 @@
+OC.L10N.register(
+    "dashboard",
+    {
+    "Dashboard" : "Майстерня",
+    "Dashboard app" : "Застосунок з панеллю віджетів ",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! People can add the widgets they like and change the background to their liking." : "Почніть свій день з інформацією\n\nПанель управління Nextcloud — це ваша відправна точка на початку дня, яка надає огляд ваших майбутніх зустрічей, термінових електронних листів, повідомлень у чаті, вхідних квитків, останніх твітів та багато іншого! Користувачі можуть додавати вподобані віджети та змінювати фон на свій смак.",
+    "Weather" : "Погода",
+    "Status" : "Статус",
+    "Good morning" : "Доброго ранку",
+    "Good morning, {name}" : "Доброго ранку, {name}",
+    "Good afternoon" : "Добрий день",
+    "Good afternoon, {name}" : "Добрий день, {name}",
+    "Good evening" : "Добрий вечір",
+    "Good evening, {name}" : "Добрий вечір, {name}",
+    "Hello" : "Вітання",
+    "Hello, {name}" : "Вітання, {name}",
+    "Happy birthday 🥳🤩🎂🎉" : "З Днем народження 🥳🤩🎂🎉",
+    "Happy birthday, {name} 🥳🤩🎂🎉" : "З Днем народження, {name} 🥳🤩🎂🎉",
+    "Customize" : "Редагувати",
+    "Edit widgets" : "Редагувати віджети",
+    "Get more widgets from the App Store" : "Більше віджетів у каталозі застосунків",
+    "Weather service" : "Погода",
+    "For your privacy, the weather data is requested by your {productName} server on your behalf so the weather service receives no personal information." : "Для вашої конфіденційності дані погоди буде запитано вашим сервером {productName} від вашого імени, таким чином сервіс надання погоди не отримуватиме ваших приватних даних. ",
+    "Weather data from Met.no" : "Дані про погоду з Met.no",
+    "geocoding with Nominatim" : "геокодування за допомогою Nominatim",
+    "elevation data from OpenTopoData" : "дані про висоту з OpenTopoData"
+},
+"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

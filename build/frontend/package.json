@@ -1,0 +1,27 @@
+{
+  "name": "nextcloud-ui",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Nextcloud Server Vue 3 UI",
+  "license": "AGPL-3.0-or-later",
+  "author": "Nextcloud GmbH and Nextcloud contributors",
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "dev": "NODE_ENV=development vite build --mode development",
+    "lint": "eslint --suppressions-location ../eslint-baseline.json --no-error-on-unmatched-pattern ./apps/*/ ./core/",
+    "lint:fix": "eslint --suppressions-location ../eslint-baseline.json --fix --no-error-on-unmatched-pattern ./apps/*/ ./core/",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage --reporter=default",
+    "test:update-snapshots": "vitest run --update",
+    "test:watch": "vitest watch",
+    "watch": "NODE_ENV=development vite build --mode development --watch"
+  },
+  "browserslist": [
+    "extends @nextcloud/browserslist-config"
+  ],
+  "engines": {
+    "node": "^24.0.0",
+    "npm": "^11.3.0"
+  }
+}

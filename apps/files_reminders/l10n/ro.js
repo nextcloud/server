@@ -1,0 +1,27 @@
+OC.L10N.register(
+    "files_reminders",
+    {
+    "File reminders" : "Memo fișier",
+    "Reminder for {name}" : "Memo pentru {name}",
+    "View file" : "Vezi fișierul",
+    "View folder" : "Vezi dosarul",
+    "Set file reminders" : "Setează memo pentru fișier",
+    "Please choose a valid date & time" : "Selectați o dată și o oră valide",
+    "Reminder set for \"{fileName}\"" : "Memento setat pentru \"{fileName}\"",
+    "Failed to set reminder" : "Eroare la setarea mementoului",
+    "Failed to clear reminder" : "Eroare la ștergerea mementoului",
+    "We will remind you of this file" : "Vă vom reaminti despre acest fișier",
+    "Cancel" : "Anulare",
+    "Clear reminder" : "Șterge memento",
+    "Set reminder" : "Setează memo",
+    "Later today" : "Mai târziu în cursul zilei",
+    "Set reminder for later today" : "Setează memo pentru azi, mai târziu",
+    "Tomorrow" : "Mâine",
+    "Set reminder for tomorrow" : "Setează memo pentru mâine",
+    "This weekend" : "În acest weekend",
+    "Set reminder for this weekend" : "Setează memo pentru acest weekend",
+    "Next week" : "Saptămâna următoare",
+    "Set reminder for next week" : "Setează memo pentru săptămâna viitoare",
+    "Set reminder for \"{fileName}\"" : "Setează memento pentru \"{fileName}\""
+},
+"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

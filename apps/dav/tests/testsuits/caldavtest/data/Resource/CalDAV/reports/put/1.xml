@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  - SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+  - SPDX-License-Identifier: AGPL-3.0-only
+-->
+<D:mkcol xmlns:D="DAV:"
+		 xmlns:E="urn:ietf:params:xml:ns:caldav">
+	<D:set>
+		<D:prop>
+			<D:resourcetype>
+				<D:collection/>
+				<E:calendar/>
+			</D:resourcetype>
+			<D:displayname>Special Resource</D:displayname>
+		</D:prop>
+	</D:set>
+</D:mkcol>

@@ -1,0 +1,387 @@
+<!--
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+<template>
+	<div class="files-list__column files-list__row-actions-batch" data-cy-files-list-selection-actions>
+		<NcActions
+			ref="actionsMenu"
+			:open.sync="openedMenu"
+			container="#app-content-vue"
+			:boundaries-element="boundariesElement"
+			:disabled="!!loading || areSomeNodesLoading"
+			:force-name="true"
+			:inline="enabledInlineActions.length"
+			:menu-name="enabledInlineActions.length <= 1 ? t('files', 'Actions') : undefined"
+			@close="openedSubmenu = null">
+			<!-- Default actions list-->
+			<NcActionButton
+				v-for="(action, idx) in enabledMenuActions"
+				:id="idx === 0 ? FILE_LIST_HEAD_FIRST_BATCH_ACTION_ID : undefined"
+				:key="action.id"
+				:ref="`action-batch-${action.id}`"
+				:class="{
+					[`files-list__row-actions-batch-${action.id}`]: true,
+					[`files-list__row-actions-batch--menu`]: isValidMenu(action),
+				}"
+				:close-after-click="!isValidMenu(action)"
+				:data-cy-files-list-selection-action="action.id"
+				:is-menu="isValidMenu(action)"
+				:aria-label="action.displayName(actionContext) + ' ' + t('files', '(selected)') /** TRANSLATORS: Selected like 'selected files and folders' */"
+				:title="action.title?.(actionContext)"
+				@click="onActionClick(action)">
+				<template #icon>
+					<NcLoadingIcon v-if="loading === action.id" :size="18" />
+					<NcIconSvgWrapper v-else :svg="action.iconSvgInline(actionContext)" />
+				</template>
+				{{ action.displayName(actionContext) }}
+			</NcActionButton>
+
+			<!-- Submenu actions list-->
+			<template v-if="openedSubmenu && enabledSubmenuActions[openedSubmenu?.id]">
+				<!-- Back to top-level button -->
+				<NcActionButton class="files-list__row-actions-batch-back" data-cy-files-list-selection-action="menu-back" @click="onBackToMenuClick(openedSubmenu)">
+					<template #icon>
+						<ArrowLeftIcon />
+					</template>
+					{{ t('files', 'Back') }}
+				</NcActionButton>
+				<NcActionSeparator />
+
+				<!-- Submenu actions -->
+				<NcActionButton
+					v-for="action in enabledSubmenuActions[openedSubmenu?.id]"
+					:key="action.id"
+					:class="`files-list__row-actions-batch-${action.id}`"
+					class="files-list__row-actions-batch--submenu"
+					close-after-click
+					:data-cy-files-list-selection-action="action.id"
+					:aria-label="action.displayName(actionContext) + ' ' + t('files', '(selected)') /** TRANSLATORS: Selected like 'selected files and folders' */"
+					:title="action.title?.(actionContext)"
+					@click="onActionClick(action)">
+					<template #icon>
+						<NcLoadingIcon v-if="loading === action.id" :size="18" />
+						<NcIconSvgWrapper v-else :svg="action.iconSvgInline(actionContext)" />
+					</template>
+					{{ action.displayName(actionContext) }}
+				</NcActionButton>
+			</template>
+		</NcActions>
+	</div>
+</template>
+
+<script lang="ts">
+import type { ActionContext, IFileAction, Node, View } from '@nextcloud/files'
+import type { PropType } from 'vue'
+import type { FileSource } from '../types.ts'
+
+import { showError, showSuccess } from '@nextcloud/dialogs'
+import { DefaultType, NodeStatus } from '@nextcloud/files'
+import { translate } from '@nextcloud/l10n'
+import { computed, defineComponent } from 'vue'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActions from '@nextcloud/vue/components/NcActions'
+import NcActionSeparator from '@nextcloud/vue/components/NcActionSeparator'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue'
+import { FILES_LIST_HEADER_SELECT_ALL_CHECKBOX_ID } from './FilesListTableHeader.vue'
+import { useFileActions } from '../composables/useFileActions.ts'
+import { useFileListWidth } from '../composables/useFileListWidth.ts'
+import actionsMixins from '../mixins/actionsMixin.ts'
+import { useActionsMenuStore } from '../store/actionsmenu.ts'
+import { useActiveStore } from '../store/active.ts'
+import { useFilesStore } from '../store/files.ts'
+import { useSelectionStore } from '../store/selection.ts'
+import { logger } from '../utils/logger.ts'
+
+export const FILE_LIST_HEAD_FIRST_BATCH_ACTION_ID = 'files-list-head-first-batch-action'
+
+export default defineComponent({
+	name: 'FilesListTableHeaderActions',
+
+	components: {
+		ArrowLeftIcon,
+		NcActions,
+		NcActionButton,
+		NcActionSeparator,
+		NcIconSvgWrapper,
+		NcLoadingIcon,
+	},
+
+	mixins: [actionsMixins],
+
+	props: {
+		currentView: {
+			type: Object as PropType<View>,
+			required: true,
+		},
+
+		selectedNodes: {
+			type: Array as PropType<FileSource[]>,
+			default: () => ([]),
+		},
+	},
+
+	setup() {
+		const { activeFolder } = useActiveStore()
+		const actionsMenuStore = useActionsMenuStore()
+		const filesStore = useFilesStore()
+		const selectionStore = useSelectionStore()
+		const { isMedium, isNarrow } = useFileListWidth()
+
+		const boundariesElement = document.getElementById('app-content-vue') as HTMLElement
+
+		const inlineActions = computed(() => {
+			if (isNarrow.value) {
+				return 0
+			}
+			if (isMedium.value) {
+				return 1
+			}
+			return 3
+		})
+
+		const actions = useFileActions()
+
+		return {
+			actions,
+			actionsMenuStore,
+			activeFolder,
+			filesStore,
+			selectionStore,
+
+			boundariesElement,
+			inlineActions,
+
+			FILE_LIST_HEAD_FIRST_BATCH_ACTION_ID,
+		}
+	},
+
+	data() {
+		return {
+			loading: null,
+		}
+	},
+
+	computed: {
+		enabledFileActions(): IFileAction[] {
+			return this.actions
+				// We don't handle renderInline actions in this component
+				.filter((action) => !action.renderInline)
+				// We don't handle actions that are not visible
+				.filter((action) => action.default !== DefaultType.HIDDEN)
+				// We allow top-level actions that have no execBatch method
+				// but children actions always need to have it
+				.filter((action) => action.execBatch || !action.parent)
+				// We filter out actions that are not enabled for the current selection
+				.filter((action) => !action.enabled || action.enabled(this.actionContext))
+				.sort((a, b) => (a.order || 0) - (b.order || 0))
+		},
+
+		/**
+		 * Return the list of enabled actions that are
+		 * allowed to be rendered inlined.
+		 * This means that they are not within a menu, nor
+		 * being the parent of submenu actions.
+		 */
+		enabledInlineActions(): IFileAction[] {
+			return this.enabledFileActions
+				// Remove all actions that are not top-level actions
+				.filter((action) => action.parent === undefined)
+				// Remove all actions that are not batch actions
+				.filter((action) => action.execBatch !== undefined)
+				// Remove all top-menu entries
+				.filter((action) => !this.isValidMenu(action))
+				// Return a maximum actions to fit the screen
+				.slice(0, this.inlineActions)
+		},
+
+		/**
+		 * Return the rest of enabled actions that are not
+		 * rendered inlined.
+		 */
+		enabledMenuActions(): IFileAction[] {
+			// If we're in a submenu, only render the inline
+			// actions before the filtered submenu
+			if (this.openedSubmenu) {
+				return this.enabledInlineActions
+			}
+
+			// We filter duplicates to prevent inline actions to be shown twice
+			const actions = this.enabledFileActions.filter((value, index, self) => {
+				return index === self.findIndex((action) => action.id === value.id)
+			})
+
+			// Generate list of all top-level actions ids
+			const childrenActionsIds = actions
+				.filter((action) => action.parent)
+				// Filter out all actions that are not batch actions
+				.filter((action) => action.execBatch)
+				.map((action) => action.parent) as string[]
+
+			const menuActions = actions
+				.filter((action) => {
+					// If the action is not a batch action, we need
+					// to make sure it's a top-level parent entry
+					// and that we have some children actions bound to it
+					if (!action.execBatch) {
+						return childrenActionsIds.includes(action.id)
+					}
+
+					// Rendering second-level actions is done in the template
+					// when openedSubmenu is set.
+					if (action.parent) {
+						return false
+					}
+
+					return true
+				})
+				.filter((action) => !this.enabledInlineActions.includes(action))
+
+			// Make sure we render the inline actions first
+			// and then the rest of the actions.
+			// We do NOT want nested actions to be rendered inlined
+			return [...this.enabledInlineActions, ...menuActions]
+		},
+
+		actionContext(): ActionContext {
+			return {
+				nodes: this.nodes,
+				view: this.currentView,
+				folder: this.activeFolder!,
+				contents: this.nodes,
+			}
+		},
+
+		nodes() {
+			return this.selectedNodes
+				.map((source) => this.getNode(source))
+				.filter(Boolean) as Node[]
+		},
+
+		areSomeNodesLoading() {
+			return this.nodes.some((node) => node.status === NodeStatus.LOADING)
+		},
+
+		openedMenu: {
+			get() {
+				return this.actionsMenuStore.opened === 'global'
+			},
+
+			set(opened) {
+				this.actionsMenuStore.opened = opened ? 'global' : null
+			},
+		},
+	},
+
+	mounted() {
+		const firstActionId = this.enabledMenuActions.at(0)?.id
+		const firstButton = this.$refs.actionsMenu?.$refs?.[`action-batch-${firstActionId}`]
+		if (firstButton) {
+			firstButton.$el.focus()
+			logger.debug('Focusing first batch action button')
+
+			firstButton.$el.addEventListener('focusout', this.onFirstButtonFocusOut)
+		}
+	},
+
+	methods: {
+		/**
+		 * Get a cached note from the store
+		 *
+		 * @param source The source of the node to get
+		 */
+		getNode(source: string): Node | undefined {
+			return this.filesStore.getNode(source)
+		},
+
+		async onActionClick(action) {
+			// If the action is a submenu, we open it
+			if (this.enabledSubmenuActions[action.id]) {
+				this.openedSubmenu = action
+				return
+			}
+
+			let displayName = action.id
+			try {
+				displayName = action.displayName(this.actionContext)
+			} catch (error) {
+				logger.error('Error while getting action display name', { action, error })
+			}
+
+			const selectionSources = this.selectedNodes
+			try {
+				// Set loading markers
+				this.loading = action.id
+				this.nodes.forEach((node) => {
+					this.$set(node, 'status', NodeStatus.LOADING)
+				})
+
+				// Dispatch action execution
+				const results = await action.execBatch(this.actionContext)
+
+				// Check if all actions returned null
+				if (!results.some((result) => result !== null)) {
+					// If the actions returned null, we stay silent
+					this.selectionStore.reset()
+					return
+				}
+
+				// Handle potential failures
+				if (results.some((result) => result === false)) {
+					// Remove the failed ids from the selection
+					const failedSources = selectionSources
+						.filter((source, index) => results[index] === false)
+					this.selectionStore.set(failedSources)
+
+					if (results.some((result) => result === null)) {
+						// If some actions returned null, we assume that the dev
+						// is handling the error messages and we stay silent
+						return
+					}
+
+					showError(this.t('files', '{displayName}: failed on some elements', { displayName }))
+					return
+				}
+
+				// Show success message and clear selection
+				showSuccess(this.t('files', '{displayName}: done', { displayName }))
+				this.selectionStore.reset()
+			} catch (e) {
+				logger.error('Error while executing action', { action, e })
+				showError(this.t('files', '{displayName}: failed', { displayName }))
+			} finally {
+				// Remove loading markers
+				this.loading = null
+				this.nodes.forEach((node) => {
+					this.$set(node, 'status', undefined)
+				})
+			}
+		},
+
+		// When focusing out the first button outside the header actions
+		// we can return back to the select all checkbox
+		onFirstButtonFocusOut(event: FocusEvent) {
+			// If the focus is still within this component, do nothing
+			if (this.$el.contains(event.relatedTarget)) {
+				return
+			}
+
+			event.preventDefault()
+			event.stopPropagation()
+			document.getElementById(FILES_LIST_HEADER_SELECT_ALL_CHECKBOX_ID)?.focus()
+			logger.debug('Focusing select all checkbox again')
+		},
+
+		t: translate,
+	},
+})
+</script>
+
+<style scoped lang="scss">
+.files-list__row-actions-batch {
+	flex: 1 1 100% !important;
+	max-width: 100%;
+}
+</style>

@@ -1,0 +1,173 @@
+<?php
+
+/**
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+namespace Test\Core\Command\Group;
+
+use OC\Core\Command\Group\RemoveUser;
+use OCP\IGroup;
+use OCP\IGroupManager;
+use OCP\IUser;
+use OCP\IUserManager;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Test\TestCase;
+
+class RemoveUserTest extends TestCase {
+	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
+	private $groupManager;
+
+	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
+	private $userManager;
+
+	/** @var RemoveUser */
+	private $command;
+
+	/** @var InputInterface|\PHPUnit\Framework\MockObject\MockObject */
+	private $input;
+
+	/** @var OutputInterface|\PHPUnit\Framework\MockObject\MockObject */
+	private $output;
+
+	#[\Override]
+	protected function setUp(): void {
+		parent::setUp();
+
+		$this->groupManager = $this->createMock(IGroupManager::class);
+		$this->userManager = $this->createMock(IUserManager::class);
+		$this->command = new RemoveUser($this->userManager, $this->groupManager);
+		$this->output = $this->createMock(OutputInterface::class);
+	}
+
+	protected function configureInput(array|string $returnGroup, array|string $returnUser): void {
+		$this->input = $this->createMock(InputInterface::class);
+		$this->input->method('getArgument')
+			->willReturnCallback(function ($arg) use ($returnGroup, $returnUser) {
+				if ($arg === 'group') {
+					return $returnGroup;
+				}
+				if ($arg === 'user') {
+					return $returnUser;
+				}
+				throw new \Exception();
+			});
+	}
+
+	public function testNoGroup(): void {
+		$this->configureInput('myGroup', 'myUser');
+
+		$this->groupManager->method('get')
+			->with('myGroup')
+			->willReturn(null);
+
+		$this->output->expects($this->once())
+			->method('writeln')
+			->with('<error>group not found</error>');
+
+		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
+	}
+
+	public function testNoUser(): void {
+		$this->configureInput('myGroup', 'myUser');
+
+		$group = $this->createMock(IGroup::class);
+		$this->groupManager->method('get')
+			->with('myGroup')
+			->willReturn($group);
+
+		$this->userManager->method('get')
+			->with('myUser')
+			->willReturn(null);
+
+		$this->output->expects($this->once())
+			->method('writeln')
+			->with('<error>user myUser not found</error>');
+
+		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
+	}
+
+	public function testRemove(): void {
+		$this->configureInput('myGroup', 'myUser');
+
+		$group = $this->createMock(IGroup::class);
+		$this->groupManager->method('get')
+			->with('myGroup')
+			->willReturn($group);
+
+		$user = $this->createMock(IUser::class);
+		$this->userManager->method('get')
+			->with('myUser')
+			->willReturn($user);
+
+		$group->expects($this->once())
+			->method('removeUser')
+			->with($user);
+
+		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
+	}
+
+	public function testRemoveMultiple(): void {
+		$this->configureInput('myGroup', ['myUser', 'myOtherUser']);
+
+		$group = $this->createMock(IGroup::class);
+		$this->groupManager->method('get')
+			->with('myGroup')
+			->willReturn($group);
+
+		$user1 = $this->createMock(IUser::class);
+		$user2 = $this->createMock(IUser::class);
+		$this->userManager->method('get')
+			->willReturnMap([
+				['myUser', $user1],
+				['myOtherUser', $user2],
+			]);
+
+		$group->expects($this->exactly(2))
+			->method('removeUser')
+			->with($this->callback(static fn (IUser $user): bool => in_array($user, [$user1, $user2], true)));
+
+		$this->output->expects($this->exactly(2))
+			->method('writeln')
+			->with($this->callback(static fn (string $message): bool => in_array($message,
+				[
+					'<info>user myUser removed</info>',
+					'<info>user myOtherUser removed</info>',
+				], true)));
+
+		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
+	}
+
+	public function testRemoveMultiplePartialSuccess(): void {
+		$this->configureInput('myGroup', ['myUser', 'myOtherUser']);
+
+		$group = $this->createMock(IGroup::class);
+		$this->groupManager->method('get')
+			->with('myGroup')
+			->willReturn($group);
+
+		$user = $this->createMock(IUser::class);
+		$this->userManager->method('get')
+			->willReturnMap([
+				['myUser', $user],
+				['myOtherUser', null],
+			]);
+
+		$group->expects($this->once())
+			->method('removeUser')
+			->with($user);
+
+		$this->output->expects($this->exactly(3))
+			->method('writeln')
+			->with($this->callback(static fn (string $message): bool => in_array($message,
+				[
+					'<info>user myUser removed</info>',
+					'<error>user myOtherUser not found</error>',
+					'<error>Some users were not found, all others where removed from the group.</error>',
+				], true)));
+
+		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
+	}
+}

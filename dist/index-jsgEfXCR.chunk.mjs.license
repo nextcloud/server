@@ -1,0 +1,53 @@
+SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-License-Identifier: ISC
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: Borewit
+SPDX-FileCopyrightText: David Myers <hello@davidmyers.dev>
+SPDX-FileCopyrightText: Feross Aboukhadijeh
+SPDX-FileCopyrightText: Irakli Gozalishvili <rfobic@gmail.com> (http://jeditoolkit.com)
+SPDX-FileCopyrightText: Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me/)
+SPDX-FileCopyrightText: James Halliday
+SPDX-FileCopyrightText: Jonas Schade <derzade@gmail.com>
+SPDX-FileCopyrightText: Nathan Rajlich <nathan@tootallnate.net> (http://n8.io/)
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: Sindre Sorhus
+SPDX-FileCopyrightText: readable-stream developers
+SPDX-FileCopyrightText: string_decoder developers
+
+This file is generated from multiple sources. Included packages:
+- @file-type/xml
+	- version: 0.4.4
+	- license: MIT
+- @nextcloud/files
+	- version: 4.0.0
+	- license: AGPL-3.0-or-later
+- events
+	- version: 3.3.0
+	- license: MIT
+- is-svg
+	- version: 6.1.0
+	- license: MIT
+- readable-stream
+	- version: 3.6.2
+	- license: MIT
+- safe-buffer
+	- version: 5.1.2
+	- license: MIT
+- sax
+	- version: 1.4.1
+	- license: ISC
+- stream-browserify
+	- version: 3.0.0
+	- license: MIT
+- string_decoder
+	- version: 1.1.1
+	- license: MIT
+- typescript-event-target
+	- version: 1.1.2
+	- license: MIT
+- util-deprecate
+	- version: 1.0.2
+	- license: MIT
+- vite-plugin-node-polyfills
+	- version: 0.24.0
+	- license: MIT

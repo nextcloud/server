@@ -1,0 +1,15 @@
+/**
+ * SPDX-FileCopyrightText: 2013 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+#body-login .error-broken-link{
+ text-align:start;color:#fff;
+}
+
+#body-login .error-broken-link ul{
+	margin:10px 0 10px 0;
+}
+
+#body-login .error-broken-link ul li{
+	list-style: disc;list-style-position:inside;cursor:default;	
+}

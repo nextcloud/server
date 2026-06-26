@@ -1,0 +1,16 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+namespace OC\Preview;
+
+class ImaginaryPDF extends Imaginary {
+	#[\Override]
+	public static function supportedMimeTypes(): string {
+		return '/application\/pdf/';
+	}
+}

@@ -1,0 +1,26 @@
+Branding
+
+'''diaspora*''' (and some alternate spellings, see below) is a registered trademark to avoid abuse by using the name for similar projects that may create confusion. The exact terms cannot be provided here since this is a complex legal topic, but here are some guidelines.
+
+You are free to use the diaspora* logo and its wordmarks...
+
+* ... if you are describing the software. That may be, for example, in your pods assets ("this is based on diaspora*"), in your terms of service, etc.
+* ... in any publication related to the project. This can, for example, be a blog article, a social media post, a YouTube video, etc.
+* ... for creating and publishing marketing materials for promoting the project or your instance, as long as you do not benefit financially in any way.
+
+In any case, you are '''not allowed''' to use the logo and the wordmark for...
+
+* ... ''"anything that involves money"'', with the exclusion of donation campaigns raised for running and maintaining a pod. This includes the public sale of t-shirts or stickers (you are, however, fine if you want to print some stickers for yourself). If you want to raise donations for the project, please get in touch with the project team first.
+* ... for any distributed social network project that is not based on our software. If you fork diaspora* into a different project, you are fine to do so (in respect with the license terms), but you have to choose a different name.
+
+If in doubt, please write an email to [mailto:team@diasporafoundation.org team@diasporafoundation.org] and we will help you figure things out.
+
+===Using the diaspora* brand===
+
+* We use the Roboto font in bold or Helvetica font.
+* diaspora* can be used lower-cased or upper-cased but '''all the letters should be the same''': diaspora* is preferred, DIASPORA* is valid, Diaspora* or DiAsPoRa* are not.
+* You are encouraged to systematically add the * after diaspora*. * can be used itself as the brand.
+	
+You can find many more images by the community on the logos, icons and visual_art page at https://wiki.diasporafoundation.org/Logos,_icons_and_visual_art. 
+
+A copy can be found at https://wiki.diasporafoundation.org/Branding
