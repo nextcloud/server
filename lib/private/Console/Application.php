@@ -86,6 +86,22 @@ class Application {
 				if (Util::needUpgrade()) {
 					throw new NeedsUpdateException();
 				} elseif ($this->config->getSystemValueBool('maintenance')) {
+					if ($this->appManager->isEnabledForAnyone('app_api')) {
+						// AppAPI must stay usable during maintenance mode;
+						// loading commands from register_command.php is intentionally skipped.
+						$this->appManager->loadApp('app_api');
+						$info = $this->appManager->getAppInfo('app_api');
+						if (isset($info['commands'])) {
+							try {
+								$this->loadCommandsFromInfoXml($info['commands']);
+							} catch (\Throwable $e) {
+								$output->writeln('<error>' . $e->getMessage() . '</error>');
+								$this->logger->error($e->getMessage(), [
+									'exception' => $e,
+								]);
+							}
+						}
+					}
 					$this->writeMaintenanceModeInfo($input, $output);
 				} else {
 					$this->appManager->loadApps();
@@ -160,8 +176,13 @@ class Application {
 			&& $input->getArgument('command') !== 'maintenance:mode'
 			&& $input->getArgument('command') !== 'status') {
 			$errOutput = $output->getErrorOutput();
-			$errOutput->writeln('<comment>Nextcloud is in maintenance mode, no apps are loaded.</comment>');
-			$errOutput->writeln('<comment>Commands provided by apps are unavailable.</comment>');
+			if ($this->appManager->isEnabledForAnyone('app_api')) {
+				$errOutput->writeln('<comment>Nextcloud is in maintenance mode, only AppAPI commands are loaded.</comment>');
+				$errOutput->writeln('<comment>Commands provided by other apps are unavailable.</comment>');
+			} else {
+				$errOutput->writeln('<comment>Nextcloud is in maintenance mode, no apps are loaded.</comment>');
+				$errOutput->writeln('<comment>Commands provided by apps are unavailable.</comment>');
+			}
 		}
 	}
 
