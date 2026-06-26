@@ -12,14 +12,15 @@ namespace OCP\TaskProcessing\TaskTypes;
 use OCP\IL10N;
 use OCP\L10N\IFactory;
 use OCP\TaskProcessing\EShapeType;
-use OCP\TaskProcessing\ITaskType;
+use OCP\TaskProcessing\IInternalTaskType;
 use OCP\TaskProcessing\ShapeDescriptor;
 
 /**
  * This is the task processing task type for text formalization
  * @since 30.0.0
+ * @deprecated 35.0.0
  */
-class TextToTextFormalization implements ITaskType {
+class TextToTextFormalization implements IInternalTaskType {
 	/**
 	 * @since 30.0.0
 	 */

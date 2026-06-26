@@ -12,14 +12,14 @@ namespace OCP\TaskProcessing\TaskTypes;
 use OCP\IL10N;
 use OCP\L10N\IFactory;
 use OCP\TaskProcessing\EShapeType;
-use OCP\TaskProcessing\ITaskType;
+use OCP\TaskProcessing\IInternalTaskType;
 use OCP\TaskProcessing\ShapeDescriptor;
 
 /**
  * This is the task processing task type for text reformulation
  * @since 31.0.0
  */
-class TextToTextChangeTone implements ITaskType {
+class TextToTextChangeTone implements IInternalTaskType {
 	/**
 	 * @since 31.0.0
 	 */
