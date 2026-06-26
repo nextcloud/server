@@ -10,6 +10,8 @@ OC.L10N.register(
     "The given privacy policy address is not a valid URL" : "L'adresse de la politique de confidentialité n'est pas une URL valide",
     "The given slogan is too long" : "Le slogan donné est trop long",
     "The given color is invalid" : "La couleur donnée est invalide",
+    "%1$s should be true or false" : "%1$s doit être défini sur vrai ou faux",
+    "%1$s can only be set to %2$s through the API" : "%1$s ne peut être défini sur %2$s que via l’API",
     "Invalid setting key" : "Clé de paramétrage non valide",
     "Saved" : "Enregistré",
     "Invalid app given" : "Application fournie non valide",
