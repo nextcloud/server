@@ -9,6 +9,7 @@ OC.L10N.register(
     "Restore" : "Restaurar",
     "Empty deleted files" : "Esvaziar ficheiros eliminados",
     "Cancel" : "Cancelar",
+    "Original location" : "Localização original",
     "Deleted" : "Eliminado",
     "Unknown" : "Desconhecido",
     "All files" : "Todos os ficheiros",
