@@ -33,6 +33,16 @@ import HeaderBar from './shared/HeaderBar.vue'
 
 const { birthdate } = loadState('settings', 'personalInfoParameters', {})
 
+/**
+ * Convert a birthdate string value into a Date.
+ *
+ * @param {string } birthdateValue - e.g. "1987-12-01" or "1987-12-01T00:00:00.000Z"
+ * @return {Date}
+ */
+function birthdateValueToDate(birthdateValue) {
+	return new Date(birthdateValue)
+}
+
 export default {
 	name: 'BirthdaySection',
 
@@ -44,7 +54,7 @@ export default {
 	data() {
 		let initialValue = null
 		if (birthdate.value) {
-			initialValue = new Date(birthdate.value)
+			initialValue = birthdateValueToDate(birthdate.value)
 		}
 
 		return {
@@ -76,7 +86,10 @@ export default {
 
 	methods: {
 		onInput(e) {
-			this.value = e
+			const day = e.getDate().toString().padStart(2, '0')
+			const month = (e.getMonth() + 1).toString().padStart(2, '0')
+			const year = e.getFullYear()
+			this.birthdate.value = `${year}-${month}-${day}`
 			this.debouncePropertyChange(this.value)
 		},
 
