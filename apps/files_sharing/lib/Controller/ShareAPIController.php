@@ -77,6 +77,9 @@ use Psr\Log\LoggerInterface;
  */
 class ShareAPIController extends OCSController {
 
+	/** Maximum length of a custom share token, matching the oc_share.token database column. */
+	private const TOKEN_MAX_LENGTH = 32;
+
 	private ?Node $lockedNode = null;
 	/** @var array<bool> $trustedServerCache */
 	private array $trustedServerCache = [];
@@ -1363,7 +1366,7 @@ class ShareAPIController extends OCSController {
 					throw new OCSForbiddenException($this->l->t('Custom share link tokens have been disabled by the administrator'));
 				}
 				if (!$this->validateToken($token)) {
-					throw new OCSBadRequestException($this->l->t('Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen'));
+					throw new OCSBadRequestException($this->l->t('Tokens must be between 1 and %s characters long and may only contain letters, numbers, or a hyphen', [self::TOKEN_MAX_LENGTH]));
 				}
 				$share->setToken($token);
 			}
@@ -1402,7 +1405,7 @@ class ShareAPIController extends OCSController {
 	}
 
 	private function validateToken(string $token): bool {
-		if (mb_strlen($token) === 0) {
+		if (mb_strlen($token) === 0 || mb_strlen($token) > self::TOKEN_MAX_LENGTH) {
 			return false;
 		}
 		if (!preg_match('/^[a-z0-9-]+$/i', $token)) {
