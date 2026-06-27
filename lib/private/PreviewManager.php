@@ -33,6 +33,7 @@ use OC\Preview\MSOffice2007;
 use OC\Preview\MSOfficeDoc;
 use OC\Preview\OpenDocument;
 use OC\Preview\PDF;
+use OC\Preview\CDR;
 use OC\Preview\Photoshop;
 use OC\Preview\PNG;
 use OC\Preview\Postscript;
@@ -278,6 +279,7 @@ class PreviewManager implements IPreview {
 			XBitmap::class,
 			Krita::class,
 			WebP::class,
+			CDR::class,
 		];
 
 		$this->defaultProviders = $this->config->getSystemValue('enabledPreviewProviders', array_merge([
@@ -323,6 +325,7 @@ class PreviewManager implements IPreview {
 		$this->registerCoreProvider(BMP::class, '/image\/bmp/');
 		$this->registerCoreProvider(XBitmap::class, '/image\/x-xbitmap/');
 		$this->registerCoreProvider(WebP::class, '/image\/webp/');
+		$this->registerCoreProvider(CDR::class, '/application\/coreldraw/');
 		$this->registerCoreProvider(Krita::class, '/application\/x-krita/');
 		$this->registerCoreProvider(MP3::class, '/audio\/mpeg$/');
 		$this->registerCoreProvider(OpenDocument::class, '/application\/vnd.oasis.opendocument.*/');
