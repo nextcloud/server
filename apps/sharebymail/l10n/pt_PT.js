@@ -14,8 +14,10 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "Palavra-chave de acesso a {file} enviada para {email}",
     "Password to access {file} was sent to you" : "Palavra-chave de acesso a {file} enviada para si",
     "Share by mail" : "Partilhado por e-mail",
+    "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Não conseguimos lhe enviar a senha gerada automaticamente. Defina um endereço de e-mail válido em sua configuração e tente novamente.",
     "Failed to send share by email" : "Falhou o envio da partilha por email.",
     "%1$s shared %2$s with you" : "%1$s partilhou %2$s consigo",
+    "Open shared item" : "Abrir item compartilhado",
     "%1$s via %2$s" : "%1$s via %2$s",
     "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "%1$s partilhou »%2$s« consigo. Já deveria ter recebido um e-mail separado com um link para aceder ao conteúdo.",
     "It is protected with the following password:" : "Está protegido com a seguinte palavra-chave:",
@@ -27,6 +29,7 @@ OC.L10N.register(
     "This is the password:" : "Esta é a palavra passe: ",
     "You can choose a different password at any time in the share dialog." : "Pode escolher uma palavra-chave diferente a qualquer altura utilizando a caixa de diálogo \"partilha\".",
     "Could not find share" : "Não foi possível encontrar a partilha",
+    "Unable to update share by mail config" : "Não foi possível atualizar a configuração do aplicativo compartilhamento por e-mail",
     "Send password by mail" : "Enviar palavra-chave por e-mail"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
