@@ -22,9 +22,8 @@ use OCP\IImage;
  */
 interface IProviderV2 {
 	/**
-	 * Returns the mime-type regex supported by this provider.
+	 * Returns a regex matching the MIME types supported by this provider.
 	 *
-	 * @return string Regex matching the mime types supported by this provider
 	 * @since 17.0.0
 	 */
 	public function getMimeType(): string;
@@ -32,7 +31,6 @@ interface IProviderV2 {
 	/**
 	 * Returns whether this provider can currently generate a thumbnail for the given file.
 	 *
-	 * @param FileInfo $file
 	 * @since 17.0.0
 	 */
 	public function isAvailable(FileInfo $file): bool;
