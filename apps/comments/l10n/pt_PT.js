@@ -22,6 +22,7 @@ OC.L10N.register(
     "_1 new comment_::_{unread} new comments_" : ["1 novo comentário","{unread} novos comentários","{unread} novos comentários"],
     "Comment" : "Comentário",
     "Comment deleted" : "Comentário eliminado",
+    "An error occurred while trying to delete the comment" : "Ocorreu um erro ao tentar excluir o comentário",
     "Write a comment …" : "Escreva um comentário..."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

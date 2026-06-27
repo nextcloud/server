@@ -216,6 +216,7 @@ OC.L10N.register(
     "Submitting fields …" : "Odesílání kolonek …",
     "Submit" : "Odeslat",
     "Choose a file or folder to transfer" : "Zvolte soubor nebo složku k převedení",
+    "Transfer \"{path}\"" : "Přenést „{path}“",
     "Transfer" : "Převést",
     "Transfer {path} to {userid}" : "Převést {path} na {userid}",
     "Error while searching for users" : "Chyba při hledání v uživatelích",
