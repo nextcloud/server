@@ -55,7 +55,7 @@ class CodeIntegrity implements ISetupCheck {
 				$formattedTextResponse .= "\n";
 				foreach ($completeResults as $context => $contextResult) {
 					$formattedTextResponse .= "- $context\n";
-	
+
 					foreach ($contextResult as $category => $result) {
 						$categoryName = match($category) {
 							'EXCEPTION' => $this->l10n->t('Exception'),
@@ -67,11 +67,11 @@ class CodeIntegrity implements ISetupCheck {
 						$formattedTextResponse .= "\t- $categoryName\n";
 						if ($category !== 'EXCEPTION') {
 							foreach ($result as $key => $results) {
-								$formattedTextResponse .= "\t\t- $key\n";
+								$formattedTextResponse .= "\t\t- '" . $this->escapeMarkdown($key) . "'\n";
 							}
 						} else {
 							foreach ($result as $key => $results) {
-								$formattedTextResponse .= "\t\t- $results\n";
+								$formattedTextResponse .= "\t\t- " . $this->escapeMarkdown($results) . "\n";
 							}
 						}
 					}
@@ -97,5 +97,17 @@ class CodeIntegrity implements ISetupCheck {
 				],
 			);
 		}
+	}
+
+	/**
+	 * Escape markdown text
+	 *
+	 * @param string $text The markdown text to escape
+	 */
+	private function escapeMarkdown(string $text): string {
+		$pattern = '/[-#*+`._[\]()!&<>_{}|]/';
+		$replacement = fn ($matches): string => '\\' . $matches[0];
+
+		return preg_replace_callback($pattern, $replacement, $text) ?? $text;
 	}
 }
