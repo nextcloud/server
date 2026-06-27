@@ -4,16 +4,22 @@
 -->
 
 <script setup lang="ts">
-import type { IRichObjectParameters, ISetupCheck } from '../../settings-types.ts'
+import type { ISetupCheck } from '../../settings-types.ts'
 
 import { mdiAlert, mdiClose, mdiInformation } from '@mdi/js'
-import escapeHTML from 'escape-html'
-import { computed } from 'vue'
+import { t } from '@nextcloud/l10n'
+import { computed, ref } from 'vue'
+import NcButton from '@nextcloud/vue/components/NcButton'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcRichText from '@nextcloud/vue/components/NcRichText'
+import { useRichArguments } from '../../composables/useRichArguments.ts'
 
 const props = defineProps<{
 	setupCheck: ISetupCheck
 }>()
+
+const showDetails = ref(false)
+const hasDetails = computed(() => props.setupCheck.description.includes('\n\n'))
 
 const leadingIcon = computed(() => {
 	if (props.setupCheck.severity === 'error') {
@@ -24,39 +30,16 @@ const leadingIcon = computed(() => {
 	return mdiInformation
 })
 
-const descriptionHtml = computed(() => parseRichObject(props.setupCheck.description, props.setupCheck.descriptionParameters))
+const richObjects = computed(() => props.setupCheck.descriptionParameters ?? {})
+const richArguments = useRichArguments(richObjects)
 
-/**
- * Simplified RichObject parsing and replacing.
- *
- * @param message - The message that may contain rich objects
- * @param parameters - The rich object parameters
- */
-function parseRichObject(message: string, parameters?: IRichObjectParameters): string {
-	if (!parameters) {
-		return message
+const richText = computed(() => {
+	if (showDetails.value) {
+		return props.setupCheck.description
 	}
-
-	for (const [placeholder, parameter] of Object.entries(parameters)) {
-		let replacement: string
-		if (parameter.type === 'user') {
-			replacement = `@${escapeHTML(parameter.name)}`
-		} else if (parameter.type === 'file') {
-			replacement = escapeHTML(parameter.path || parameter.name)
-		} else if (parameter.type === 'highlight') {
-			if (parameter.link) {
-				replacement = '<a href="' + encodeURI(parameter.link) + '">' + escapeHTML(parameter.name) + '</a>'
-			} else {
-				replacement = '<em>' + escapeHTML(parameter.name) + '</em>'
-			}
-		} else {
-			replacement = escapeHTML(parameter.name)
-		}
-		message = message.replaceAll('{' + placeholder + '}', replacement)
-	}
-
-	return message
-}
+	const firstParagraph = props.setupCheck.description.split('\n\n')[0]
+	return firstParagraph
+})
 </script>
 
 <template>
@@ -67,11 +50,19 @@ function parseRichObject(message: string, parameters?: IRichObjectParameters): s
 		}">
 		<NcIconSvgWrapper class="settings-setup-checks-item__icon" :path="leadingIcon" />
 		<div class="settings-setup-checks-item__wrapper">
-			<div class="settings-setup-checks-item__name">
-				{{ setupCheck.name }}
+			<div class="settings-setup-checks-item__header">
+				<div class="settings-setup-checks-item__name">
+					{{ setupCheck.name }}
+				</div>
+				<NcButton v-if="hasDetails" @click="showDetails = !showDetails">
+					{{ showDetails ? t('settings', 'Hide details') : t('settings', 'Show details') }}
+				</NcButton>
 			</div>
-			<!-- eslint-disable-next-line vue/no-v-html -->
-			<div class="settings-setup-checks-item__description" v-html="descriptionHtml" />
+			<NcRichText
+				class="settings-setup-checks-item__description"
+				:arguments="richArguments"
+				:text="richText"
+				use-markdown />
 		</div>
 	</li>
 </template>
@@ -82,7 +73,6 @@ function parseRichObject(message: string, parameters?: IRichObjectParameters): s
 	display: flex;
 	align-items: start;
 	flex-direction: row;
-	white-space: pre-wrap;
 
 	&:hover {
 		background-color: var(--color-background-hover);
@@ -93,6 +83,14 @@ function parseRichObject(message: string, parameters?: IRichObjectParameters): s
 		flex-direction: column;
 		// align with icon
 		padding-top: calc((var(--default-clickable-area) - 1lh) / 2);
+		width: 100%;
+	}
+
+	&__header {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		gap: var(--default-grid-baseline);
 	}
 
 	&__description {
