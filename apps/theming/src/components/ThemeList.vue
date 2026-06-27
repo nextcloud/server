@@ -27,6 +27,11 @@ const props = defineProps<{
 	multiple?: boolean
 
 	/**
+	 * The default theme if multiple is false
+	 */
+	default?: ITheme
+
+	/**
 	 * The list of available themes
 	 */
 	themes: ITheme[]
@@ -60,18 +65,13 @@ async function toggleTheme(theme: ITheme, state: boolean) {
 		return
 	}
 
-	if (!props.multiple && state === false) {
-		// handled by the radio logic below for the enabled element
-		return
-	}
-
 	try {
 		loading.value = true
 		if (state === false) {
 			await axios.delete(generateOcsUrl('apps/theming/api/v1/theme/{themeId}', { themeId: theme.id }))
-			if (!props.multiple) {
+			if (!props.multiple && props.default) {
 				// If the theme was disabled, we need to enable the default theme
-				const defaultTheme = props.themes.find((t) => t.id === 'default')
+				const defaultTheme = props.themes.find((t) => t.id === props.default!.id)
 				if (defaultTheme && !defaultTheme.enabled) {
 					await axios.put(generateOcsUrl('apps/theming/api/v1/theme/{themeId}/enable', { themeId: defaultTheme.id }))
 					defaultTheme.enabled = true
@@ -112,7 +112,7 @@ async function toggleTheme(theme: ITheme, state: boolean) {
 			:enforced="theme.id === enforcedTheme"
 			:loading
 			:theme
-			:unique="!multiple"
+			:type="multiple ? 'checkbox' : ($props.default ? 'radio' : 'switch')"
 			:name
 			@update:modelValue="toggleTheme(theme, $event)" />
 	</ul>
