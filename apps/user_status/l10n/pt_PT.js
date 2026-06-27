@@ -17,6 +17,7 @@ OC.L10N.register(
     "There was an error clearing the status" : "Ocorreu um erro ao apagar o estado",
     "Online status" : "Estado online",
     "Status message" : "Mensagem de estado",
+    "Your status was set automatically" : "Seu status foi definido automaticamente",
     "Clear status message" : "Limpar mensagem de estado",
     "Set status message" : "Definir mensagem de estado",
     "Online" : "Online",

@@ -109,6 +109,13 @@ async function openPopover(wrapper: ReturnType<typeof mount>) {
 }
 
 describe('core: AppMenu', () => {
+	it('labels the app menu trigger buttons for assistive technologies', () => {
+		const wrapper = mount(AppMenu, { attachTo: document.body })
+
+		expect(wrapper.get('.app-menu__waffle').attributes('aria-label')).toBe('Open apps menu')
+		expect(wrapper.get('.app-menu__current-app').attributes('aria-label')).toBe('Open apps menu, currently in Files')
+	})
+
 	it('renders one AppItem per app in the list, plus the "App store" tile for non-admins', async () => {
 		const wrapper = mount(AppMenu, { attachTo: document.body })
 		await openPopover(wrapper)

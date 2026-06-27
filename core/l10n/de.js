@@ -201,6 +201,7 @@ OC.L10N.register(
     "Matroska video" : "Matroska-Video",
     "Windows Media video" : "Windows Media-Video",
     "AVI video" : "AVI-Video",
+    "Show QR code for mobile app login" : "QR-Code für die Anmeldung bei der mobilen App anzeigen",
     "Done" : "Erledigt",
     "Scan QR code to log in" : "QR-Code zum Anmelden scannen",
     "Use {productName} mobile client you want to connect to scan the code" : "Den mobilen {productName}-Client wählen, der zum Scannen des Codes verwendet werden soll",
