@@ -11,6 +11,7 @@ OC.L10N.register(
     "Print backup codes" : "Imprimir códigos de segurança",
     "Save backup codes" : "Guardar códigos de segurança",
     "If you regenerate backup codes, you automatically invalidate old codes." : "Se voltar a gerar os códigos de segurança os seus códigos antigos serão automaticamente invalidados.",
+    "Use one of the backup codes you saved when setting up two-factor authentication." : "Use um dos códigos de backup que você salvou ao configurar a autenticação de dois fatores.",
     "Submit" : "Submeter"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
