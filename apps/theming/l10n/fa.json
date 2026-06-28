@@ -111,8 +111,9 @@
     "Preview of the selected image" : "پیش‌نمایش تصویر انتخاب‌شده",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {linkstart}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "دسترسی همگانی برای ما بسیار مهم است. ما از استانداردهای وب پیروی می‌کنیم و بررسی می‌کنیم که همه چیز بدون ماوس و با نرم‌افزارهای کمکی مانند صفحه‌خوان‌ها قابل استفاده باشد. هدف ما رعایت {linkstart}دستورالعمل‌های دسترسی به محتوای وب{linkend} نسخه ۲.۱ در سطح AA و با تم کنتراست بالا حتی در سطح AAA است.",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "اگر مشکلی پیدا کردید، در گزارش آن در {issuetracker}سیستم پیگیری مشکلات ما{linkend} تردید نکنید. و اگر می‌خواهید مشارکت کنید، به {designteam}تیم طراحی ما{linkend} بپیوندید!",
-    "Unable to apply the setting." : "اعمال تنظیمات ممکن نیست.",
     "Appearance and accessibility settings" : "تنظیمات ظاهری و دسترسی‌پذیری",
+    "Themes" : "تم",
+    "Fonts" : "فونت",
     "Misc accessibility options" : "تنظیمات متفرقه دسترسی‌پذیری",
     "Enable blur background filter (may increase GPU load)" : "فعال‌سازی فیلتر محو پس‌زمینه (ممکن است بار پردازنده گرافیکی را افزایش دهد)",
     "Customization has been disabled by your administrator" : "شخصی‌سازی توسط مدیر شما غیرفعال شده است",
@@ -128,6 +129,7 @@
     "Background and login image" : "تصویر پس‌زمینه و ورود",
     "Advanced options" : "گزینه‌های پیشرفته",
     "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "افزونه ImageMagick PHP را با پشتیبانی از تصاویر SVG نصب کنید تا به طور خودکار فاوآیکون‌ها بر اساس لوگو و رنگ بارگذاری‌شده تولید شوند.",
+    "Unable to apply the setting." : "اعمال تنظیمات ممکن نیست.",
     "No background has been selected" : "هیچ پس‌زمینه‌ای انتخاب نشده است",
     "Select a custom color" : "انتخاب یک رنگ سفارشی",
     "Upload" : "بارگذاری"

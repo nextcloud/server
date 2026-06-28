@@ -15,6 +15,7 @@ OC.L10N.register(
     "What is your status?" : "Qual é o seu estado?",
     "There was an error saving the status" : "Ocorreu um erro ao guardar o estado",
     "There was an error clearing the status" : "Ocorreu um erro ao apagar o estado",
+    "There was an error reverting the status" : "Ocorreu um erro ao reverter o status",
     "Online status" : "Estado online",
     "Status message" : "Mensagem de estado",
     "Your status was set automatically" : "Seu status foi definido automaticamente",
