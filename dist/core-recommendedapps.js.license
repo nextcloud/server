@@ -160,7 +160,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.107.2
 	- license: MIT
 - @nextcloud/vue
-	- version: 9.8.1
+	- version: 9.8.2
 	- license: AGPL-3.0-or-later
 - @vue/reactivity
 	- version: 3.5.38
