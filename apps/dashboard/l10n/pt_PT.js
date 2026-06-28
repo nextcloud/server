@@ -13,6 +13,7 @@ OC.L10N.register(
     "Good evening, {name}" : "Boa noite, {name}",
     "Hello" : "Olá",
     "Hello, {name}" : "Olá, {name}",
+    "Happy birthday 🥳🤩🎂🎉" : "Feliz Aniversário 🥳🤩🎂🎉",
     "Customize" : "Personalizar",
     "Edit widgets" : "Editar aplicação",
     "Weather service" : "Metereologia",

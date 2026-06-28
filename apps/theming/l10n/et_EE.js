@@ -113,7 +113,6 @@ OC.L10N.register(
     "Preview of the selected image" : "Valitud pildi eelvaade",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {linkstart}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Universaalne juurdepääs on meie jaoks väga oluline. Me järgime veebistandardeid ja kontrollime, et kõik oleks kasutatav ka ilma hiireta ja abitarkvara, näiteks ekraani lugejateta. Meie eesmärk on olla vastavuses {linkstart}Web Content Accessibility Guidelines{linkend} 2.1 AA-tasemega, suure kontrastsusega kujunduse puhul isegi AAA-tasemega. ",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Kui leiad mingeid probleeme, siis teata neist {issuetracker}meie veahalduse süsteemis{linkend}. Ja kui soovid kaasa lüüa, siis tule liitu {designteam}meie disainimeeskonnaga{linkend}!",
-    "Unable to apply the setting." : "Seadistuse rakendamine ei õnnestu.",
     "Appearance and accessibility settings" : "Välimuse ja hõlpsuse seadistused",
     "Misc accessibility options" : "Varia hõlpsuse seadistused",
     "Enable blur background filter (may increase GPU load)" : "Kasuta tausta hägustamise filtrit (suurendab graafikaprotsessori koormust)",
@@ -130,6 +129,7 @@ OC.L10N.register(
     "Background and login image" : "Taustapilt ja sisselogimise pilt",
     "Advanced options" : "Täpsemad valikud",
     "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Paigalda PHP Imagemagicku lsiamoodul SVG piltide toega, et üleslaaditud logo ja värvi põhjal luua automaatselt favikone. ",
+    "Unable to apply the setting." : "Seadistuse rakendamine ei õnnestu.",
     "No background has been selected" : "Ühtegi tausta pole valitud",
     "Select a custom color" : "Vali oma eelistatud värv",
     "Upload" : "Laadi üles"
