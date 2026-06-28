@@ -12,6 +12,7 @@ OC.L10N.register(
     "Cancel" : "Cancelar",
     "Original location" : "Localização original",
     "Deleted" : "Eliminado",
+    "few seconds ago" : "há alguns segundos",
     "Unknown" : "Desconhecido",
     "All files" : "Todos os ficheiros",
     "You" : "Você",

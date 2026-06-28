@@ -113,8 +113,9 @@ OC.L10N.register(
     "Preview of the selected image" : "Förhandsgranskning av den valda bilden",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {linkstart}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Tillgänglighet är mycket viktig för oss. Vi följer webbstandarder och kontrollerar att allt är användbart även utan mus och hjälpmedel som skärmläsare. Vi strävar efter att följa {linkstart}Web Content Accessibility Guidelines{linkend} 2.1 på AA-nivå, med högkontrast-temat även på AAA-nivå.",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Om du hittar några problem, tveka inte att rapportera dem på {issuetracker}vår problemhanterare{linkend}. Och om du vill engagera dig, gå med i {designteam}vårt designteam{linkend}!",
-    "Unable to apply the setting." : "Det gick inte att tillämpa inställningen.",
     "Appearance and accessibility settings" : "Utseende och tillgänglighetsinställningar",
+    "Themes" : "Teman",
+    "Fonts" : "Typsnitt",
     "Misc accessibility options" : "Diverse tillgänglighetsalternativ",
     "Enable blur background filter (may increase GPU load)" : "Aktivera filter för oskärpa i bakgrunden (kan öka GPU-belastningen).",
     "Customization has been disabled by your administrator" : "Anpassning har inaktiverats av din administratör",
@@ -130,6 +131,7 @@ OC.L10N.register(
     "Background and login image" : "Bakgrund och inloggningsbild",
     "Advanced options" : "Avancerade inställningar",
     "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installera Imagemagick PHP-tillägget med stöd för SVG-bilder för att automatiskt generera favicons baserat på den uppladdade logotypen och färgen.",
+    "Unable to apply the setting." : "Det gick inte att tillämpa inställningen.",
     "No background has been selected" : "Ingen bakgrund har valts",
     "Select a custom color" : "Välj en anpassad färg",
     "Upload" : "Ladda upp"

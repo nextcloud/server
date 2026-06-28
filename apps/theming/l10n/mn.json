@@ -111,7 +111,6 @@
     "Preview of the selected image" : "Сонгосон зургийн урьдчилсан харагдац",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {linkstart}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Бүх нийтийн хүртээмж бидэнд маш чухал. Бид вэбийн стандартыг дагаж, хулгана болон дэлгэц уншигч зэрэг туслах програм хангамжгүйгээр бүх зүйлийг ашиглах боломжтой эсэхийг шалгадаг. Бид {linkstart}Вэб Агуулгын Хүртээмжийн Удирдамж{linkend} 2.1-ийн AA түвшинд, өндөр тодрол загвартай бол AAA түвшинд нийцтэй байхыг зорьж байна.",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Хэрэв та ямар нэг асуудал олвол {issuetracker}манай асуудлын хянагч{linkend}-т мэдэгдэхэд бүү эргэлзээрэй. Хэрэв та оролцохыг хүсвэл {designteam}манай дизайны багт{linkend} нэгдэж ирээрэй!",
-    "Unable to apply the setting." : "Тохиргоог хэрэглэх боломжгүй.",
     "Appearance and accessibility settings" : "Гадаад төрх болон хүртээмжийн тохиргоо",
     "Misc accessibility options" : "Бусад хүртээмжийн сонголтууд",
     "Enable blur background filter (may increase GPU load)" : "Бүдгэрүүлсэн дэвсгэр шүүлтүүр идэвхжүүлэх (GPU ачааллыг нэмэгдүүлж болно)",
@@ -128,6 +127,7 @@
     "Background and login image" : "Дэвсгэр болон нэвтрэх зураг",
     "Advanced options" : "Бусад сонголтууд",
     "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Байршуулсан лого болон өнгөд тулгуурлан favicon-ыг автоматаар үүсгэхийн тулд SVG зургийг дэмждэг ImageMagick PHP өргөтгөлийг суулгана уу.",
+    "Unable to apply the setting." : "Тохиргоог хэрэглэх боломжгүй.",
     "No background has been selected" : "Дэвсгэр сонгогдоогүй",
     "Select a custom color" : "Тохируулсан өнгө сонгох",
     "Upload" : "байршуулах"
