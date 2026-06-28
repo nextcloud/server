@@ -16,7 +16,6 @@ use OC\FilesMetadata\Model\FilesMetadata;
 use OC\FilesMetadata\Service\IndexRequestService;
 use OC\FilesMetadata\Service\MetadataRequestService;
 use OCP\BackgroundJob\IJobList;
-use OCP\DB\Exception;
 use OCP\DB\Exception as DBException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;

@@ -35,7 +35,6 @@ use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\Component\VFreeBusy;
 use Sabre\VObject\ParseException;
-use Sabre\VObject\Property\VCard\DateTime;
 use Sabre\VObject\Reader;
 use Throwable;
 use function array_map;

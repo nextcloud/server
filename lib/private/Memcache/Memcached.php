@@ -9,6 +9,7 @@
 namespace OC\Memcache;
 
 use OCP\IMemcache;
+use OCP\Server;
 
 class Memcached extends Cache implements IMemcache {
 	use CASTrait;
@@ -19,7 +20,7 @@ class Memcached extends Cache implements IMemcache {
 
 	public function __construct($prefix = '') {
 		parent::__construct($prefix);
-		$this->cache = \OCP\Server::get(MemcachedFactory::class)->getInstance();
+		$this->cache = Server::get(MemcachedFactory::class)->getInstance();
 	}
 
 	/**

@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Test\OCM;
 
+use OC\Memcache\ArrayCache;
 use OC\OCM\OCMSignatoryManager;
 use OC\Security\IdentityProof\Manager as IdentityProofManager;
 use OCP\Http\Client\IClient;
@@ -54,7 +55,7 @@ class OCMSignatoryManagerJwksTest extends TestCase {
 		$this->clientService->method('newClient')->willReturn($this->client);
 
 		$cacheFactory = $this->createMock(ICacheFactory::class);
-		$cacheFactory->method('createDistributed')->willReturn(new \OC\Memcache\ArrayCache(''));
+		$cacheFactory->method('createDistributed')->willReturn(new ArrayCache(''));
 
 		$this->signatoryManager = new OCMSignatoryManager(
 			$this->appConfig,

@@ -21,6 +21,7 @@ use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\User\User;
 use OCA\User_LDAP\User_LDAP;
 use OCA\User_LDAP\UserPluginManager;
+use OCP\Accounts\IAccountManager;
 use OCP\HintException;
 use OCP\IConfig;
 use OCP\IGroupManager;
@@ -1464,24 +1465,24 @@ class User_LDAPTest extends TestCase {
 	public static function canEditPropertyProvider(): array {
 		return [
 			// Display name is always managed by LDAP
-			[\OCP\Accounts\IAccountManager::PROPERTY_DISPLAYNAME, '', false],
-			[\OCP\Accounts\IAccountManager::PROPERTY_DISPLAYNAME, 'cn', false],
+			[IAccountManager::PROPERTY_DISPLAYNAME, '', false],
+			[IAccountManager::PROPERTY_DISPLAYNAME, 'cn', false],
 			// Fields with no LDAP attribute configured are user-editable
-			[\OCP\Accounts\IAccountManager::PROPERTY_EMAIL, '', true],
-			[\OCP\Accounts\IAccountManager::PROPERTY_PHONE, '', true],
-			[\OCP\Accounts\IAccountManager::PROPERTY_WEBSITE, '', true],
-			[\OCP\Accounts\IAccountManager::PROPERTY_ADDRESS, '', true],
-			[\OCP\Accounts\IAccountManager::PROPERTY_FEDIVERSE, '', true],
-			[\OCP\Accounts\IAccountManager::PROPERTY_ORGANISATION, '', true],
-			[\OCP\Accounts\IAccountManager::PROPERTY_ROLE, '', true],
-			[\OCP\Accounts\IAccountManager::PROPERTY_HEADLINE, '', true],
-			[\OCP\Accounts\IAccountManager::PROPERTY_BIOGRAPHY, '', true],
-			[\OCP\Accounts\IAccountManager::PROPERTY_BIRTHDATE, '', true],
-			[\OCP\Accounts\IAccountManager::PROPERTY_PRONOUNS, '', true],
+			[IAccountManager::PROPERTY_EMAIL, '', true],
+			[IAccountManager::PROPERTY_PHONE, '', true],
+			[IAccountManager::PROPERTY_WEBSITE, '', true],
+			[IAccountManager::PROPERTY_ADDRESS, '', true],
+			[IAccountManager::PROPERTY_FEDIVERSE, '', true],
+			[IAccountManager::PROPERTY_ORGANISATION, '', true],
+			[IAccountManager::PROPERTY_ROLE, '', true],
+			[IAccountManager::PROPERTY_HEADLINE, '', true],
+			[IAccountManager::PROPERTY_BIOGRAPHY, '', true],
+			[IAccountManager::PROPERTY_BIRTHDATE, '', true],
+			[IAccountManager::PROPERTY_PRONOUNS, '', true],
 			// Fields with an LDAP attribute configured are managed by LDAP, not user-editable
-			[\OCP\Accounts\IAccountManager::PROPERTY_EMAIL, 'mail', false],
-			[\OCP\Accounts\IAccountManager::PROPERTY_PHONE, 'telephoneNumber', false],
-			[\OCP\Accounts\IAccountManager::PROPERTY_WEBSITE, 'labeledURI', false],
+			[IAccountManager::PROPERTY_EMAIL, 'mail', false],
+			[IAccountManager::PROPERTY_PHONE, 'telephoneNumber', false],
+			[IAccountManager::PROPERTY_WEBSITE, 'labeledURI', false],
 		];
 	}
 

@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace OC\Authentication\Login;
 
 use OC\User\Manager;
-use OCP\IUser;
 
 class UidLoginCommand extends ALoginCommand {
 	public function __construct(

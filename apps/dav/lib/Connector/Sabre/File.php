@@ -9,7 +9,6 @@
 namespace OCA\DAV\Connector\Sabre;
 
 use Icewind\Streams\CallbackWrapper;
-use OC\AppFramework\Http\Request;
 use OC\Files\Filesystem;
 use OC\Files\Stream\HashWrapper;
 use OC\Files\View;

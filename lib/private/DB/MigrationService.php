@@ -17,7 +17,6 @@ use Doctrine\DBAL\Types\Type;
 use OC\App\InfoParser;
 use OC\Migration\SimpleOutput;
 use OCP\App\IAppManager;
-use OCP\AppFramework\App;
 use OCP\DB\ISchemaWrapper;
 use OCP\DB\Types;
 use OCP\IConfig;

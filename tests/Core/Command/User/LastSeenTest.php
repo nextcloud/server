@@ -129,7 +129,7 @@ class LastSeenTest extends TestCase {
 
 		$this->userManager->expects($this->once())
 			->method('callForAllUsers')
-			->willReturnCallback(function ($callback) use ($enabledUser, $disabledUser) {
+			->willReturnCallback(function ($callback) use ($enabledUser, $disabledUser): void {
 				$callback($enabledUser);
 				$callback($disabledUser);
 			});
@@ -176,7 +176,7 @@ class LastSeenTest extends TestCase {
 
 		$this->userManager->expects($this->once())
 			->method('callForAllUsers')
-			->willReturnCallback(function ($callback) use ($enabledUser, $disabledUser) {
+			->willReturnCallback(function ($callback) use ($enabledUser, $disabledUser): void {
 				$callback($enabledUser);
 				$callback($disabledUser);
 			});

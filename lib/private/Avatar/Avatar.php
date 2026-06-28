@@ -11,7 +11,6 @@ declare(strict_types=1);
 namespace OC\Avatar;
 
 use Imagick;
-use OC\User\User;
 use OCP\Color;
 use OCP\Files\NotFoundException;
 use OCP\IAvatar;

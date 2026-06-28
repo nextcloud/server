@@ -22,7 +22,6 @@ use OC\AppFramework\Utility\TimeFactory;
 use OC\Core\Controller\AvatarController;
 use OC\Core\Controller\GuestAvatarController;
 use OCP\AppFramework\Http;
-use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
