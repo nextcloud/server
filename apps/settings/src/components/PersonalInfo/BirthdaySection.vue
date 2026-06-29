@@ -138,7 +138,7 @@ export default {
 	}
 
 	&__scope {
-		flex: 0 0 44px;
+		flex: 0 0 var(--default-clickable-area);
 		display: flex;
 		justify-content: center;
 	}
