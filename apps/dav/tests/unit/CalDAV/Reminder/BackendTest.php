@@ -11,6 +11,7 @@ namespace OCA\DAV\Tests\unit\CalDAV\Reminder;
 
 use OCA\DAV\CalDAV\Reminder\Backend as ReminderBackend;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\Server;
 use PHPUnit\Framework\Attributes\Group;
@@ -114,8 +115,12 @@ class BackendTest extends TestCase {
 		$rows = $this->reminderBackend->getRemindersToProcess();
 
 		$this->assertCount(2, $rows);
-		unset($rows[0]['id']);
-		unset($rows[1]['id']);
+		foreach ($rows as &$row) {
+			unset($row['id']);
+			if (is_resource($row['calendardata'])) {
+				$row['calendardata'] = stream_get_contents($row['calendardata']);
+			}
+		}
 
 		$expected1 = [
 			'calendar_id' => 1,
@@ -279,7 +284,7 @@ class BackendTest extends TestCase {
 		$query->insert('calendarobjects')
 			->values([
 				'id' => $query->createNamedParameter(1),
-				'calendardata' => $query->createNamedParameter('Calendar data 123'),
+				'calendardata' => $query->createNamedParameter('Calendar data 123', IQueryBuilder::PARAM_LOB),
 				'calendarid' => $query->createNamedParameter(1),
 				'size' => $query->createNamedParameter(42),
 			])
@@ -289,7 +294,7 @@ class BackendTest extends TestCase {
 		$query->insert('calendarobjects')
 			->values([
 				'id' => $query->createNamedParameter(2),
-				'calendardata' => $query->createNamedParameter('Calendar data 456'),
+				'calendardata' => $query->createNamedParameter('Calendar data 456', IQueryBuilder::PARAM_LOB),
 				'calendarid' => $query->createNamedParameter(1),
 				'size' => $query->createNamedParameter(42),
 			])
@@ -299,7 +304,7 @@ class BackendTest extends TestCase {
 		$query->insert('calendarobjects')
 			->values([
 				'id' => $query->createNamedParameter(10),
-				'calendardata' => $query->createNamedParameter('Calendar data 789'),
+				'calendardata' => $query->createNamedParameter('Calendar data 789', IQueryBuilder::PARAM_LOB),
 				'calendarid' => $query->createNamedParameter(99),
 				'size' => $query->createNamedParameter(42),
 			])
