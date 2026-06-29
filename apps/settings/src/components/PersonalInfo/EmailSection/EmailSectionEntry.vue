@@ -425,20 +425,21 @@ export default {
 }
 
 .property {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	gap: 8px;
+	position: relative;
 
 	&__field {
-		flex: 1 1 auto;
-		min-width: 0;
+		width: 100%;
 	}
 
 	&__scope {
-		flex: 0 0 var(--default-clickable-area);
+		position: absolute;
+		inset-block-start: 0;
+		inset-inline-start: calc(100% + 8px);
 		display: flex;
+		align-items: center;
 		justify-content: center;
+		width: var(--default-clickable-area);
+		height: var(--default-clickable-area);
 	}
 }
 </style>

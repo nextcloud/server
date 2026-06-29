@@ -7,7 +7,6 @@
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
-
 import AvatarSection from '../components/PersonalInfo/AvatarSection.vue'
 import BiographySection from '../components/PersonalInfo/BiographySection.vue'
 import BirthdaySection from '../components/PersonalInfo/BirthdaySection.vue'
@@ -29,12 +28,13 @@ import RoleSection from '../components/PersonalInfo/RoleSection.vue'
 import TimezoneSection from '../components/PersonalInfo/TimezoneSection.vue'
 import TwitterSection from '../components/PersonalInfo/TwitterSection.vue'
 import WebsiteSection from '../components/PersonalInfo/WebsiteSection.vue'
+import SettingsColumn from '../components/SettingsColumn.vue'
 
 const profileEnabledGlobally = loadState('settings', 'profileEnabledGlobally', true)
 </script>
 
 <template>
-	<div class="personal-info-settings">
+	<SettingsColumn class="personal-info-settings">
 		<NcSettingsSection :name="t('settings', 'Profile & contact')">
 			<ProfileSection v-if="profileEnabledGlobally" />
 			<AvatarSection />
@@ -45,13 +45,19 @@ const profileEnabledGlobally = loadState('settings', 'profileEnabledGlobally', t
 			<template v-if="profileEnabledGlobally">
 				<HeadlineSection />
 				<BiographySection />
-				<h3 class="personal-info-settings__subheading">{{ t('settings', 'Organization') }}</h3>
+				<h3 class="personal-info-settings__subheading">
+					{{ t('settings', 'Organization') }}
+				</h3>
 				<OrganisationSection />
 				<RoleSection />
 			</template>
 
-			<h3 class="personal-info-settings__subheading">{{ t('settings', 'Contact') }}</h3>
-			<p class="personal-info-settings__hint">{{ t('settings', 'Notifications will be sent to your primary email') }}</p>
+			<h3 class="personal-info-settings__subheading">
+				{{ t('settings', 'Contact') }}
+			</h3>
+			<p class="personal-info-settings__hint">
+				{{ t('settings', 'Notifications will be sent to your primary email') }}
+			</p>
 			<EmailSection />
 			<PhoneSection />
 			<WebsiteSection />
@@ -67,7 +73,7 @@ const profileEnabledGlobally = loadState('settings', 'profileEnabledGlobally', t
 			<FirstDayOfWeekSection />
 			<TimezoneSection />
 		</NcSettingsSection>
-	</div>
+	</SettingsColumn>
 </template>
 
 <style lang="scss" scoped>
