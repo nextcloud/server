@@ -70,7 +70,7 @@ class ManagerTest extends TestCase {
 	protected ICloudFederationFactory&MockObject $cloudFederationFactory;
 	protected IGroupManager&MockObject $groupManager;
 	protected IUserManager&MockObject $userManager;
-	protected ISetupManager&MockObject $setupManager;
+	protected ISetupManager&MockObject $setupManagerEncTrait;
 	protected ICertificateManager&MockObject $certificateManager;
 	private ExternalShareMapper $externalShareMapper;
 	private IConfig $config;
@@ -88,7 +88,7 @@ class ManagerTest extends TestCase {
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
-		$this->setupManager = $this->createMock(ISetupManager::class);
+		$this->setupManagerEncTrait = $this->createMock(ISetupManager::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 		$this->rootFolder->method('getUserFolder')
 			->willReturnCallback(function (string $userId): Folder {
@@ -170,7 +170,7 @@ class ManagerTest extends TestCase {
 					$this->eventDispatcher,
 					$this->logger,
 					$this->rootFolder,
-					$this->setupManager,
+					$this->setupManagerEncTrait,
 					$this->certificateManager,
 					$this->externalShareMapper,
 					$this->config,
@@ -195,7 +195,7 @@ class ManagerTest extends TestCase {
 		$userShare = new ExternalShare();
 		$userShare->generateId();
 		$userShare->setRemote('http://localhost');
-		$userShare->setShareToken('token1');
+		$userShare->setRefreshToken('token1');
 		$userShare->setPassword('');
 		$userShare->setName('/SharedFolder');
 		$userShare->setOwner('foobar');
@@ -214,7 +214,7 @@ class ManagerTest extends TestCase {
 		$groupShare->setShareType(IShare::TYPE_GROUP);
 		$groupShare->setAccepted(IShare::STATUS_PENDING);
 		$groupShare->setRemoteId('2342');
-		$groupShare->setShareToken('token1');
+		$groupShare->setRefreshToken('token1');
 		$groupShare->setPassword('');
 		$groupShare->setName('/SharedFolder');
 		$this->doTestAddShare($groupShare, $this->group1, isGroup: true);
@@ -239,10 +239,10 @@ class ManagerTest extends TestCase {
 		$this->assertExternalShareEntry($shareData1, $openShares[0], 1, '{{TemporaryMountPointName#' . $shareData1->getName() . '}}', $userOrGroup);
 
 		$shareData2 = $shareData1->clone();
-		$shareData2->setShareToken('token2');
+		$shareData2->setRefreshToken('token2');
 		$shareData2->generateId();
 		$shareData3 = $shareData1->clone();
-		$shareData3->setShareToken('token3');
+		$shareData3->setRefreshToken('token3');
 		$shareData3->generateId();
 
 		$this->setupMounts();
@@ -445,7 +445,7 @@ class ManagerTest extends TestCase {
 		$share = new ExternalShare();
 		$share->generateId();
 		$share->setRemote('http://localhost');
-		$share->setShareToken('token1');
+		$share->setRefreshToken('token1');
 		$share->setPassword('');
 		$share->setName('/SharedFolder');
 		$share->setOwner('foobar');
@@ -465,7 +465,7 @@ class ManagerTest extends TestCase {
 		$share = new ExternalShare();
 		$share->generateId();
 		$share->setRemote('http://localhost');
-		$share->setShareToken('token1');
+		$share->setRefreshToken('token1');
 		$share->setPassword('');
 		$share->setName('/SharedFolder');
 		$share->setOwner('foobar');
@@ -651,7 +651,7 @@ class ManagerTest extends TestCase {
 		$share = new ExternalShare();
 		$share->generateId();
 		$share->setRemote('http://localhost');
-		$share->setShareToken('token1');
+		$share->setRefreshToken('token1');
 		$share->setPassword('');
 		$share->setName('/SharedFolder');
 		$share->setOwner('foobar');
@@ -701,7 +701,7 @@ class ManagerTest extends TestCase {
 		$share = new ExternalShare();
 		$share->generateId();
 		$share->setRemote('http://localhost');
-		$share->setShareToken('token1');
+		$share->setRefreshToken('token1');
 		$share->setPassword('');
 		$share->setName('/SharedFolder');
 		$share->setOwner('foobar');
@@ -730,7 +730,7 @@ class ManagerTest extends TestCase {
 
 	protected function assertExternalShareEntry(ExternalShare $expected, ExternalShare $actual, int $share, string $mountPoint, IUser|IGroup $targetEntity): void {
 		$this->assertEquals($expected->getRemote(), $actual->getRemote(), 'Asserting remote of a share #' . $share);
-		$this->assertEquals($expected->getShareToken(), $actual->getShareToken(), 'Asserting token of a share #' . $share);
+		$this->assertEquals($expected->getRefreshToken(), $actual->getRefreshToken(), 'Asserting token of a share #' . $share);
 		$this->assertEquals($expected->getName(), $actual->getName(), 'Asserting name of a share #' . $share);
 		$this->assertEquals($expected->getOwner(), $actual->getOwner(), 'Asserting owner of a share #' . $share);
 		$this->assertEquals($expected->getAccepted(), $actual->getAccepted(), 'Asserting accept of a share #' . $share);

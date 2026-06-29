@@ -78,6 +78,7 @@ OC.L10N.register(
     "Users" : "משתמשים",
     "Additional settings" : "הגדרות נוספות",
     "Groupware" : "קבוצתי",
+    "Office" : "משרד",
     "Overview" : "סקירה",
     "Basic settings" : "הגדרות בסיסיות",
     "Sharing" : "שיתוף",

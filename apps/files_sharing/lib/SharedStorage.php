@@ -93,12 +93,16 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 	 * @psalm-suppress ImpureStaticProperty
 	 */
 	private static int $initDepth = 0;
+	private CacheDependencies $cacheDependencies;
+	private IRootFolder $rootFolder;
 
 	public function __construct(array $parameters) {
 		$this->ownerView = $parameters['ownerView'];
-		$this->logger = Server::get(LoggerInterface::class);
-		$this->appConfig = Server::get(IAppConfig::class);
-		$this->shareManager = Server::get(IShareManager::class);
+		$this->logger = $parameters['logger'] ?? Server::get(LoggerInterface::class);
+		$this->appConfig = $parameters['appConfig'] ?? Server::get(IAppConfig::class);
+		$this->shareManager = $parameters['shareManager'] ?? Server::get(IShareManager::class);
+		$this->cacheDependencies = $parameters['cacheDependencies'] ?? Server::get(CacheDependencies::class);
+		$this->rootFolder = $parameters['rootFolder'] ?? Server::get(IRootFolder::class);
 
 		$this->superShare = $parameters['superShare'];
 		$this->groupedShares = $parameters['groupedShares'];
@@ -158,9 +162,7 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 				throw new \Exception('Maximum share depth reached');
 			}
 
-			/** @var IRootFolder $rootFolder */
-			$rootFolder = Server::get(IRootFolder::class);
-			$this->ownerUserFolder = $rootFolder->getUserFolder($this->superShare->getShareOwner());
+			$this->ownerUserFolder = $this->rootFolder->getUserFolder($this->superShare->getShareOwner());
 			$sourceId = $this->superShare->getNodeId();
 			$ownerNodes = $this->ownerUserFolder->getById($sourceId);
 
@@ -434,7 +436,7 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 		$this->cache = new Cache(
 			$storage,
 			$sourceRoot,
-			Server::get(CacheDependencies::class),
+			$this->cacheDependencies,
 			$this->getShare()
 		);
 		return $this->cache;
@@ -487,7 +489,7 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 	 */
 	public function unshareStorage(): bool {
 		foreach ($this->groupedShares as $share) {
-			Server::get(IShareManager::class)->deleteFromSelf($share, $this->user);
+			$this->shareManager->deleteFromSelf($share, $this->user);
 		}
 		return true;
 	}

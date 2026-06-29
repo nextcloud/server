@@ -12,7 +12,7 @@ namespace OCP\Migration\Attributes;
 use OCP\AppFramework\Attribute\Consumable;
 
 /**
- * generic class related to migration attribute about index changes
+ * Generic class related to migration attribute about index changes
  */
 #[Consumable(since: '30.0.0')]
 class IndexMigrationAttribute extends MigrationAttribute {
@@ -20,7 +20,7 @@ class IndexMigrationAttribute extends MigrationAttribute {
 	 * @param string $table name of the database table
 	 * @param IndexType|null $type type of the index
 	 * @param string $description description of the migration
-	 * @param array $notes notes abour the migration/index
+	 * @param array $notes notes about the migration/index
 	 * @since 30.0.0
 	 */
 	public function __construct(

@@ -98,8 +98,9 @@
     "Reset to default" : "Vovler a configuración por defecto",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {linkstart}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "El acceso universal es muy importante para nosotros. Seguimos los estándares web y verificamos para asegurarnos de que todo sea utilizable incluso sin ratón y con software de asistencia tales como lectores de pantalla. Nuestro objetivo es cumplir con las {linkstart}Directrices de Accesibilidad para el Contenido Web{linkend} 2.1 en el nivel AA, incluso con el tema de alto contraste en el nivel AAA.",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Si encuentra cualquier problema, no dude en reportarlo en {issuetracker}nuestra herramienta de rastreo de problemas{linkend}. Y, si desea involucrarse, ¡venga y únase a {designteam},nuestro equipo de diseño{linkend}!",
-    "Unable to apply the setting." : "No fue posible aplicar el ajuste.",
     "Appearance and accessibility settings" : "Ajustes de apariencia y accesibilidad",
+    "Themes" : "Temas",
+    "Fonts" : "Fuentes",
     "Misc accessibility options" : "Opciones de accesibilidad misceláneas",
     "Enable blur background filter (may increase GPU load)" : "Activar el desenfoque del fondo (puede aumentar el uso de GPU)",
     "Customization has been disabled by your administrator" : "La personalización ha sido deshabilitada por su administrador",
@@ -115,6 +116,7 @@
     "Background and login image" : "Imágen de fondo y de inicio de sesión",
     "Advanced options" : "Opciones avanzadas",
     "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instale la extensión PHP ImageMagick con soporte a imágenes SVG para generar automáticamente favicons basados en el logo cargado y el color.",
+    "Unable to apply the setting." : "No fue posible aplicar el ajuste.",
     "No background has been selected" : "No se ha seleccionado un fondo",
     "Select a custom color" : "Seleccionar un color personalizado",
     "Upload" : "Subir"

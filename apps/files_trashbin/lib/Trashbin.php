@@ -850,7 +850,7 @@ class Trashbin implements IEventListener {
 
 		$softQuota = true;
 		$quota = $user->getQuota();
-		if ($quota === null || $quota === 'none') {
+		if ($quota === 'none') {
 			$quota = Filesystem::free_space('/');
 			$softQuota = false;
 			// inf or unknown free space

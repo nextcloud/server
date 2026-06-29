@@ -71,6 +71,7 @@ OC.L10N.register(
     "{index} of {total}" : "{index} of {total}",
     "Limit to groups" : "گۇرۇپپىلارغا چەك قويۇڭ",
     "Save" : "ساقلا",
+    "Update all" : "ھەممىنى يېڭىلا",
     "Loading app list" : "ئەپ تىزىملىكى",
     "Search everywhere" : "ھەممە يەردىن ئىزدەڭ",
     "Download and enable all" : "ھەممىنى چۈشۈرۈپ قوزغىتىڭ",

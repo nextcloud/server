@@ -8,7 +8,6 @@
 
 namespace OCP\Files;
 
-use OC\Hooks\Emitter;
 use OC\User\NoUserException;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Mount\IMountPoint;
@@ -19,7 +18,7 @@ use OCP\Files\Node as INode;
  *
  * @since 8.0.0
  */
-interface IRootFolder extends Folder, Emitter {
+interface IRootFolder extends Folder {
 	/**
 	 * Returns a view to user's files folder
 	 *
@@ -62,7 +61,7 @@ interface IRootFolder extends Folder, Emitter {
 	public function getFirstNodeByIdInPath(int $id, string $path): ?Node;
 
 	/**
-	 * @return IMountPoint[]
+	 * @return list<IMountPoint>
 	 *
 	 * @since 28.0.0
 	 */

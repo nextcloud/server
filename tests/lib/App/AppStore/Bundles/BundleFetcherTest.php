@@ -17,6 +17,7 @@ use OC\App\AppStore\Bundles\HubBundle;
 use OC\App\AppStore\Bundles\PublicSectorBundle;
 use OC\App\AppStore\Bundles\SocialSharingBundle;
 use OCP\IL10N;
+use OCP\L10N\IFactory;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -29,10 +30,10 @@ class BundleFetcherTest extends TestCase {
 		parent::setUp();
 
 		$this->l10n = $this->createMock(IL10N::class);
+		$factory = $this->createMock(IFactory::class);
+		$factory->method('get')->willReturn($this->l10n);
 
-		$this->bundleFetcher = new BundleFetcher(
-			$this->l10n
-		);
+		$this->bundleFetcher = new BundleFetcher($factory);
 	}
 
 	public function testGetBundles(): void {

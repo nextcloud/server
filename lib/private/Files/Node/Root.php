@@ -14,6 +14,7 @@ use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\Storage;
 use OC\Files\Utils\PathHelper;
 use OC\Files\View;
+use OC\Hooks\Emitter;
 use OC\Hooks\PublicEmitter;
 use OC\User\NoUserException;
 use OCA\Files\AppInfo\Application;
@@ -58,7 +59,7 @@ use Psr\Log\LoggerInterface;
  *
  * @package OC\Files\Node
  */
-class Root extends Folder implements IRootFolder {
+class Root extends Folder implements IRootFolder, Emitter {
 	private PublicEmitter $emitter;
 	private CappedMemoryCache $userFolderCache;
 	private ICache $pathByIdCache;
@@ -136,10 +137,6 @@ class Root extends Folder implements IRootFolder {
 		return $this->mountManager->find($mountPoint);
 	}
 
-	/**
-	 * @param string $mountPoint
-	 * @return IMountPoint[]
-	 */
 	#[\Override]
 	public function getMountsIn(string $mountPoint): array {
 		return $this->mountManager->findIn($mountPoint);

@@ -14,7 +14,7 @@
 	findUnusedCode="false"
 	findUnusedIssueHandlerSuppression="false"
 	strictBinaryOperands="false"
-	phpVersion="8.2"
+	phpVersion="8.3"
 >
 	<plugins>
 		<plugin filename="build/psalm/AppFrameworkTainter.php" />
@@ -133,6 +133,9 @@
 		<file name="build/stubs/php-polyfill.php" />
 		<file name="build/stubs/oca_talk_share_helper_shareapicontroller.php" />
 	</stubs>
+	<forbiddenFunctions>
+		<function name="iconv"/>
+	</forbiddenFunctions>
 	<issueHandlers>
 		<LessSpecificReturnStatement errorLevel="error"/>
 		<LessSpecificReturnType errorLevel="error"/>
@@ -144,6 +147,7 @@
 				<referencedClass name="OCA\Circles\Exceptions\CircleNotFoundException"/>
 				<referencedClass name="OCA\Circles\Model\Circle"/>
 				<referencedClass name="OCA\Circles\Model\Member"/>
+				<referencedClass name="OCA\Circles\Model\Probes\CircleProbe"/>
 				<referencedClass name="OCA\ContextChat\Public\ContentManager"/>
 				<referencedClass name="OCA\GroupFolders\Mount\GroupFolderStorage"/>
 				<referencedClass name="OCA\TwoFactorNextcloudNotification\Controller\APIController"/>

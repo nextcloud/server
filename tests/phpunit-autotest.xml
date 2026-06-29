@@ -18,6 +18,8 @@
 		<directory>Core/</directory>
 		<directory>../apps/</directory>
 		<exclude>../apps/user_ldap/tests/Integration</exclude>
+		<!-- exclude files_external as it is tested separately -->
+		<exclude>../apps/files_external</exclude>
 	</testsuite>
 	<source>
 		<include>
@@ -27,7 +29,7 @@
 			<directory>../3rdparty</directory>
 			<directory>../apps/*/composer</directory>
 			<directory>../apps/*/tests</directory>
-			<directory>../apps/files_external/3rdparty</directory>
+			<directory>../apps/files_external</directory>
 			<directory>../build</directory>
 			<directory>../lib/composer</directory>
 			<directory>../tests</directory>

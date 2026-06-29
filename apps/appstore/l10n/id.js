@@ -71,6 +71,7 @@ OC.L10N.register(
     "{index} of {total}" : "{index} dari {total}",
     "Limit to groups" : "Batasi ke grup",
     "Save" : "Simpan",
+    "Update all" : "Perbarui semua",
     "Loading app list" : "Memuat daftar aplikasi",
     "Search everywhere" : "Cari di mana saja",
     "Download and enable all" : "Unduh dan aktifkan semua",

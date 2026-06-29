@@ -63,6 +63,8 @@ class SimpleContainerTest extends \Test\TestCase {
 
 	#[\Override]
 	protected function setUp(): void {
+		parent::setUp();
+
 		$this->container = new SimpleContainer();
 	}
 

@@ -1017,23 +1017,23 @@ class OC {
 					$request = Server::get(IRequest::class);
 					$throttler = Server::get(IThrottler::class);
 					$throttler->resetDelay($request->getRemoteAddress(), 'login', ['user' => $uid]);
-				}
 
-				try {
-					$cache = new \OC\Cache\File();
-					$cache->gc();
-				} catch (\OC\ServerNotAvailableException $e) {
-					// not a GC exception, pass it on
-					throw $e;
-				} catch (\OC\ForbiddenException $e) {
-					// filesystem blocked for this request, ignore
-				} catch (\Exception $e) {
-					// a GC exception should not prevent users from using OC,
-					// so log the exception
-					Server::get(LoggerInterface::class)->warning('Exception when running cache gc.', [
-						'app' => 'core',
-						'exception' => $e,
-					]);
+					try {
+						$cache = new \OC\Cache\File();
+						$cache->gc();
+					} catch (\OC\ServerNotAvailableException $e) {
+						// not a GC exception, pass it on
+						throw $e;
+					} catch (\OC\ForbiddenException $e) {
+						// filesystem blocked for this request, ignore
+					} catch (\Exception $e) {
+						// a GC exception should not prevent users from using OC,
+						// so log the exception
+						Server::get(LoggerInterface::class)->warning('Exception when running cache gc.', [
+							'app' => 'core',
+							'exception' => $e,
+						]);
+					}
 				}
 			});
 		}
@@ -1128,8 +1128,17 @@ class OC {
 		if ($requestPath === '/heartbeat') {
 			return;
 		}
+		$serveAppApiDuringMaintenance = false;
 		if (substr($requestPath, -3) !== '.js') { // we need these files during the upgrade
-			self::checkMaintenanceMode($systemConfig);
+			if (((bool)$systemConfig->getValue('maintenance', false)) && !\OCP\Util::needUpgrade()
+				&& ($requestPath === '/apps/app_api' || str_starts_with($requestPath, '/apps/app_api/'))
+				&& Server::get(\OCP\App\IAppManager::class)->isEnabledForAnyone('app_api')) {
+				// Keep serving ExApp traffic (HaRP metadata) while the instance is in maintenance mode
+				$serveAppApiDuringMaintenance = true;
+			}
+			if (!$serveAppApiDuringMaintenance) {
+				self::checkMaintenanceMode($systemConfig);
+			}
 
 			if (\OCP\Util::needUpgrade()) {
 				if (function_exists('opcache_reset')) {
@@ -1148,16 +1157,11 @@ class OC {
 		$appManager->loadApps(['authentication']);
 		$appManager->loadApps(['extended_authentication']);
 
-		// Load minimum set of apps
-		if (!\OCP\Util::needUpgrade()
-			&& !((bool)$systemConfig->getValue('maintenance', false))) {
-			// For logged-in users: Load everything
-			if (Server::get(IUserSession::class)->isLoggedIn()) {
-				$appManager->loadApps();
-			} else {
-				// For guests: Load only filesystem and logging
-				$appManager->loadApps(['filesystem', 'logging']);
-
+		// Try to login the user if not in maintenance mode and not logged in
+		$needsUpdate = \OCP\Util::needUpgrade();
+		$isMaintenanceMode = (bool)$systemConfig->getValue('maintenance', false);
+		if (!$needsUpdate && !$isMaintenanceMode) {
+			if (!Server::get(IUserSession::class)->isLoggedIn()) {
 				// Don't try to login when a client is trying to get a OAuth token.
 				// OAuth needs to support basic auth too, so the login is not valid
 				// inside Nextcloud and the Login exception would ruin it.
@@ -1185,21 +1189,31 @@ class OC {
 					}
 				}
 			}
+
+			// After logging in the user load the minimum required apps
+			$appManager->loadApps(['filesystem', 'logging']);
+
+			// when not on CLI load all apps
+			if (!self::$CLI) {
+				$appManager->loadApps();
+			}
+		} elseif (!$needsUpdate && $serveAppApiDuringMaintenance) {
+			// In case we are in maintenance mode and the request is for app_api, we need to load the app_api app
+			$appManager->loadApp('app_api');
 		}
 
+		// All apps are now loaded to handle the request
+		// if we are not on CLI, try to match the request to a route and handle it
 		if (!self::$CLI) {
 			try {
-				if (!\OCP\Util::needUpgrade()) {
-					$appManager->loadApps(['filesystem', 'logging']);
-					$appManager->loadApps();
-				}
 				Server::get(\OC\Route\Router::class)->match($request->getRawPathInfo());
 				return;
-			} catch (Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
-				//header('HTTP/1.0 404 Not Found');
 			} catch (Symfony\Component\Routing\Exception\MethodNotAllowedException $e) {
 				http_response_code(405);
 				return;
+			} catch (Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
+				// we fall through here as the following code will check for special cases
+				// in case nothing matched we will at the end of this function try to display the 404-page.
 			}
 		}
 

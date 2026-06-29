@@ -377,10 +377,6 @@ OC.L10N.register(
     "Files and folders you recently modified will show up here." : "Faili na vikasha ulivyoboresha hivi karibuni vitaonekana hapa",
     "Search" : "Tafuta",
     "Search results within your files." : "Tafuta matokeo katika faili zako",
-    "No entries found in this folder" : "Hakuna maingizo yaliyopatikana katika kasha hili",
-    "Select all" : "Chagua zote",
-    "Upload too large" : "Upakiaji mkubwa mno",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Faili unazojaribu kupakia zinazidi ukubwa wa juu zaidi wa upakiaji wa faili kwenye seva hii.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Imebadili jina \"{oldName}\" mpaka \"{newName}\"",
     "Clear filter" : "Futa kichujio",
     "Open file sidebar" : "Fungua upau wa pembeni wa faili",
@@ -400,6 +396,10 @@ OC.L10N.register(
     "Tags" : "Maoni",
     "Save as …" : "Hifadhi kama",
     "Converting files …" : "Inageuza mafaili",
-    "Converting file …" : "Inageuza faili"
+    "Converting file …" : "Inageuza faili",
+    "No entries found in this folder" : "Hakuna maingizo yaliyopatikana katika kasha hili",
+    "Select all" : "Chagua zote",
+    "Upload too large" : "Upakiaji mkubwa mno",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Faili unazojaribu kupakia zinazidi ukubwa wa juu zaidi wa upakiaji wa faili kwenye seva hii."
 },
 "nplurals=2; plural=(n != 1);");

@@ -9,6 +9,7 @@
 namespace OC\Comments;
 
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Cache\CappedMemoryCache;
 use OCP\Comments\CommentsEvent;
 use OCP\Comments\Events\BeforeCommentUpdatedEvent;
 use OCP\Comments\Events\CommentAddedEvent;
@@ -34,8 +35,7 @@ use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 class Manager implements ICommentsManager {
-	/** @var IComment[] */
-	protected array $commentsCache = [];
+	protected CappedMemoryCache $commentsCache;
 
 	/** @var \Closure[] */
 	protected array $eventHandlerClosures = [];
@@ -45,6 +45,9 @@ class Manager implements ICommentsManager {
 
 	/** @var \Closure[] */
 	protected array $displayNameResolvers = [];
+
+	// Modified by tests
+	protected int $chunkSize = 500;
 
 	public function __construct(
 		protected IDBConnection $dbConn,
@@ -56,6 +59,7 @@ class Manager implements ICommentsManager {
 		protected IRootFolder $rootFolder,
 		protected IEventDispatcher $eventDispatcher,
 	) {
+		$this->commentsCache = new CappedMemoryCache(256);
 	}
 
 	/**
@@ -76,7 +80,6 @@ class Manager implements ICommentsManager {
 			$data['expire_date'] = new \DateTime($data['expire_date']);
 		}
 		$data['children_count'] = (int)$data['children_count'];
-		$data['reference_id'] = $data['reference_id'];
 		$data['meta_data'] = json_decode($data['meta_data'], true);
 		if ($this->supportReactions()) {
 			if ($data['reactions'] !== null) {
@@ -703,7 +706,7 @@ class Manager implements ICommentsManager {
 		}
 
 		$unreadComments = array_fill_keys($objectIds, 0);
-		foreach (array_chunk($objectIds, 1000) as $chunk) {
+		foreach (array_chunk($objectIds, IQueryBuilder::MAX_IN_PARAMETERS) as $chunk) {
 			$query->setParameter('ids', $chunk, IQueryBuilder::PARAM_STR_ARRAY);
 
 			$result = $query->executeQuery();
@@ -1070,7 +1073,7 @@ class Manager implements ICommentsManager {
 			return [];
 		}
 
-		$chunks = array_chunk($commentIds, 500);
+		$chunks = array_chunk($commentIds, $this->chunkSize);
 
 		$query = $this->dbConn->getQueryBuilder();
 		$query->select('*')
@@ -1322,7 +1325,7 @@ class Manager implements ICommentsManager {
 			->setParameter('id', $actorId);
 
 		$affectedRows = $qb->executeStatement();
-		$this->commentsCache = [];
+		$this->commentsCache->clear();
 		return true;
 	}
 
@@ -1342,7 +1345,7 @@ class Manager implements ICommentsManager {
 			->setParameter('id', $objectId);
 
 		$affectedRows = $qb->executeStatement();
-		$this->commentsCache = [];
+		$this->commentsCache->clear();
 		return true;
 	}
 
@@ -1602,7 +1605,7 @@ class Manager implements ICommentsManager {
 
 		$affectedRows = $qb->executeStatement();
 
-		$this->commentsCache = [];
+		$this->commentsCache->clear();
 
 		return $affectedRows > 0;
 	}

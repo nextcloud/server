@@ -8,6 +8,7 @@
 
 namespace OC\Diagnostics;
 
+use OC\SystemConfig;
 use OCP\Cache\CappedMemoryCache;
 use OCP\Diagnostics\IQueryLogger;
 
@@ -20,7 +21,11 @@ class QueryLogger implements IQueryLogger {
 	/**
 	 * QueryLogger constructor.
 	 */
-	public function __construct() {
+	public function __construct(SystemConfig $config) {
+		if ($config->getValue('debug', false)) {
+			// In debug mode, module is being activated by default
+			$this->activate();
+		}
 		$this->queries = new CappedMemoryCache(1024);
 	}
 

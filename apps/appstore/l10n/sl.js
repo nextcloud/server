@@ -59,6 +59,7 @@ OC.L10N.register(
     "{index} of {total}" : "{index} od {total}",
     "Limit to groups" : "Omeji na skupine",
     "Save" : "Shrani",
+    "Update all" : "Posodobi vse",
     "Loading app list" : "Poteka nalaganje seznama programov ...",
     "Search everywhere" : "Išči povsod",
     "Download and enable all" : "Prejmi in omogoči vse",

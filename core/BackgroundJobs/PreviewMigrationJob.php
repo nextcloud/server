@@ -19,6 +19,7 @@ use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use Override;
+use Psr\Log\LoggerInterface;
 
 class PreviewMigrationJob extends TimedJob {
 	private string $previewRootPath;
@@ -30,6 +31,7 @@ class PreviewMigrationJob extends TimedJob {
 		private readonly IDBConnection $connection,
 		private readonly IRootFolder $rootFolder,
 		private readonly PreviewMigrationService $migrationService,
+		private readonly LoggerInterface $logger,
 	) {
 		parent::__construct($time);
 
@@ -49,10 +51,14 @@ class PreviewMigrationJob extends TimedJob {
 			$qb = $this->connection->getQueryBuilder();
 			$qb->select('path')
 				->from('filecache')
-				// Hierarchical preview folder structure
-				->where($qb->expr()->like('path', $qb->createNamedParameter($this->previewRootPath . '%/%/%/%/%/%/%/%/%')))
-				// Legacy flat preview folder structure
-				->orWhere($qb->expr()->like('path', $qb->createNamedParameter($this->previewRootPath . '%/%.%')))
+				->where($qb->expr()->orX(
+					// Hierarchical preview folder structure
+					$qb->expr()->like('path', $qb->createNamedParameter($this->previewRootPath . '%/%/%/%/%/%/%/%/%')),
+					// Legacy flat preview folder structure
+					$qb->expr()->like('path', $qb->createNamedParameter($this->previewRootPath . '%/%.%'))
+				))->andWhere(
+					$qb->expr()->eq('storage', $qb->createNamedParameter($this->rootFolder->getMountPoint()->getNumericStorageId()))
+				)
 				->hintShardKey('storage', $this->rootFolder->getMountPoint()->getNumericStorageId())
 				->setMaxResults(100);
 
@@ -95,11 +101,23 @@ class PreviewMigrationJob extends TimedJob {
 		}
 
 		foreach ($fileIds as $fileId) {
-			$this->migrationService->migrateFileId($fileId, flatPath: false);
+			try {
+				$this->migrationService->migrateFileId($fileId, flatPath: false);
+			} catch (\Exception $e) {
+				$this->logger->error('Failed to migrate preview with fileId: ' . $fileId . ' (hierarchical file structure)', [
+					'exception' => $e,
+				]);
+			}
 		}
 
 		foreach ($flatFileIds as $fileId) {
-			$this->migrationService->migrateFileId($fileId, flatPath: true);
+			try {
+				$this->migrationService->migrateFileId($fileId, flatPath: true);
+			} catch (\Exception $e) {
+				$this->logger->error('Failed to migrate preview with fileId: ' . $fileId . ' (legacy file structure)', [
+					'exception' => $e,
+				]);
+			}
 		}
 		return $foundPreview;
 	}

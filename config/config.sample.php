@@ -1602,20 +1602,27 @@ $CONFIG = [
 	],
 
 	/**
-	 * Maximum file size for metadata generation.
-	 * If a file exceeds this size, metadata generation will be skipped.
+	 * Maximum file size for file metadata generation.
 	 *
-	 * NOTE: memory equivalent to this size will be used for metadata generation.
+	 * Files larger than this limit will be skipped.
 	 *
-	 * Default: 256 megabytes.
+	 * This limit helps bound resource usage during metadata generation. Actual
+	 * resource usage depends on the active metadata providers and how they
+	 * process files. As a rough guide, memory usage may scale with file size.
+	 *
+	 * Default: 256 MiB.
 	 */
 	'metadata_max_filesize' => 256,
 
 	/**
 	 * Maximum file size for file conversion.
-	 * If a file exceeds this size, the file will not be converted.
 	 *
-	 * Default: 100 MiB
+	 * Files larger than this limit will be skipped.
+	 *
+	 * Raising this limit may increase conversion time, resource usage, and the
+	 * risk of timeouts or conversion failures depending on the provider.
+	 *
+	 * Default: 100 MiB.
 	 */
 	'max_file_conversion_filesize' => 100,
 
@@ -1658,15 +1665,6 @@ $CONFIG = [
 	 * Defaults to ``\OC\Comments\ManagerFactory``
 	 */
 	'comments.managerFactory' => '\OC\Comments\ManagerFactory',
-
-	/**
-	 * Replaces the default System Tags Manager Factory. This can be utilized if an
-	 * own or 3rd-party SystemTagsManager should be used that – for instance – uses the
-	 * filesystem instead of the database to keep the tags.
-	 *
-	 * Defaults to ``\OC\SystemTag\ManagerFactory``
-	 */
-	'systemtags.managerFactory' => '\OC\SystemTag\ManagerFactory',
 
 	/**
 	 * Maintenance
@@ -3011,4 +3009,12 @@ $CONFIG = [
 	 * Defaults to ``0``.
 	 */
 	'preview_expiration_days' => 0,
+
+	/**
+	 * Delete job runs older than a certain number of days.
+	 * Less than one day is not allowed.
+	 *
+	 * Defaults to ``60``.
+	 */
+	'background_jobs_expiration_days' => 60,
 ];

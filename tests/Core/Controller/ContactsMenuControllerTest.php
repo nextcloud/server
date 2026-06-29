@@ -72,7 +72,7 @@ class ContactsMenuControllerTest extends TestCase {
 		$entries[0]->method('getProperty')
 			->with('UID')
 			->willReturn('member1');
-		$entries[0]->method('getProperty')
+		$entries[1]->method('getProperty')
 			->with('UID')
 			->willReturn('member2');
 

@@ -20,16 +20,20 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\IpUtils;
 
 /**
- * Class for accessing variables in the request.
- * This class provides an immutable object with request variables.
+ * Default immutable IRequest implementation.
  *
- * @property mixed[] $cookies
- * @property mixed[] $env
- * @property mixed[] $files
- * @property string $method
- * @property mixed[] $parameters
- * @property mixed[] $server
- * @template-implements \ArrayAccess<string,mixed>
+ * @property-read array<string, mixed> $get
+ * @property-read array<string, mixed> $post
+ * @property-read array<string, mixed>|resource $put
+ * @property-read array<string, mixed> $patch
+ * @property-read string $method
+ * @property-read array<string, mixed> $server
+ * @property-read array<string, mixed> $urlParams
+ * @property-read array<string, mixed> $cookies
+ * @property-read array<string, mixed> $env
+ * @property-read array<string, mixed> $files
+ * @property-read array<string, mixed> $parameters
+ * @template-implements \ArrayAccess<string, mixed>
  */
 class Request implements \ArrayAccess, \Countable, IRequest {
 	public const USER_AGENT_IE = '/(MSIE)|(Trident)/';
@@ -45,9 +49,24 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	// Android Chrome user agent: https://developers.google.com/chrome/mobile/docs/user-agent
 	public const USER_AGENT_ANDROID_MOBILE_CHROME = '#Android.*Chrome/[.0-9]*#';
 	public const USER_AGENT_FREEBOX = '#^Mozilla/5\.0$#';
+
 	public const REGEX_LOCALHOST = '/^(127\.0\.0\.1|localhost|\[::1\])$/';
+
+	/**
+	 * Whether the raw PUT body stream has already been returned.
+	 */
 	private bool $isPutStreamContentAlreadySent = false;
+
+	/**
+	 * Internal request data store.
+	 */
 	protected array $items = [];
+
+	/**
+	 * Magic properties that are exposed directly from $items.
+	 *
+	 * @var list<string>
+	 */
 	protected array $allowedKeys = [
 		'get',
 		'post',
@@ -61,24 +80,27 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		'requesttoken',
 	];
 
+	/**
+	 * Whether request-body decoding has already been attempted.
+	 */
 	protected bool $contentDecoded = false;
+
+	/**
+	 * Deferred decoding error from the request body, if any.
+	 */
 	private ?\JsonException $decodingException = null;
 
 	/**
-	 * @param array $vars An associative array with the following optional values:
-	 *                    - array 'urlParams' the parameters which were matched from the URL
+	 * @param array $vars Associative request data with the following optional keys:
+	 *                    - array 'urlParams' route parameters extracted from the URL
 	 *                    - array 'get' the $_GET array
-	 *                    - array|string 'post' the $_POST array or JSON string
+	 *                    - array 'post' the $_POST array
 	 *                    - array 'files' the $_FILES array
 	 *                    - array 'server' the $_SERVER array
 	 *                    - array 'env' the $_ENV array
 	 *                    - array 'cookies' the $_COOKIE array
-	 *                    - string 'method' the request method (GET, POST etc)
-	 *                    - string|false 'requesttoken' the requesttoken or false when not available
-	 * @param IRequestId $requestId
-	 * @param IConfig $config
-	 * @param CsrfTokenManager|null $csrfTokenManager
-	 * @param string $inputStream
+	 *                    - string 'method' the HTTP request method, for example GET or POST
+	 *                    - string|false 'requesttoken' the request token, or false if unavailable
 	 * @see https://www.php.net/manual/en/reserved.variables.php
 	 */
 	public function __construct(
@@ -105,8 +127,16 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			$this->items['params']
 		);
 	}
+
 	/**
+	 * Replaces the current URL parameters and merges them into the parameter set.
+	 *
+	 * URL parameters take precedence over previously merged values with the same
+	 * key.
+	 *
 	 * @param array $parameters
+	 *
+	 * @internal public only so it can be consumed by OC\AppFramework\App
 	 */
 	public function setUrlParameters(array $parameters) {
 		$this->items['urlParams'] = $parameters;
@@ -117,8 +147,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	}
 
 	/**
-	 * Countable method
-	 * @return int
+	 * Returns the number of merged request parameters.
 	 */
 	#[\Override]
 	public function count(): int {
@@ -126,24 +155,12 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	}
 
 	/**
-	 * ArrayAccess methods
+	 * Whether a merged request parameter exists.
 	 *
-	 * Gives access to the combined GET, POST and urlParams arrays
+	 * ArrayAccess operates on the merged parameter set.
 	 *
-	 * Examples:
-	 *
-	 * $var = $request['myvar'];
-	 *
-	 * or
-	 *
-	 * if(!isset($request['myvar']) {
-	 * 	// Do something
-	 * }
-	 *
-	 * $request['myvar'] = 'something'; // This throws an exception.
-	 *
-	 * @param string $offset The key to lookup
-	 * @return boolean
+	 * @param string $offset Parameter name
+	 * @return bool
 	 */
 	#[\Override]
 	public function offsetExists($offset): bool {
@@ -151,8 +168,9 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	}
 
 	/**
-	 * @see offsetExists
-	 * @param string $offset
+	 * Returns a merged request parameter value, or null if it is missing.
+	 *
+	 * @param string $offset Parameter name
 	 * @return mixed
 	 */
 	#[\Override]
@@ -162,7 +180,8 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	}
 
 	/**
-	 * @see offsetExists
+	 * Request objects are immutable.
+	 *
 	 * @param string $offset
 	 * @param mixed $value
 	 */
@@ -172,7 +191,8 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	}
 
 	/**
-	 * @see offsetExists
+	 * Request objects are immutable.
+	 *
 	 * @param string $offset
 	 */
 	#[\Override]
@@ -181,7 +201,8 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	}
 
 	/**
-	 * Magic property accessors
+	 * Request objects are immutable.
+	 *
 	 * @param string $name
 	 * @param mixed $value
 	 */
@@ -190,17 +211,16 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	}
 
 	/**
-	 * Access request variables by method and name.
-	 * Examples:
+	 * Returns request data through magic property access.
 	 *
-	 * $request->post['myvar']; // Only look for POST variables
-	 * $request->myvar; or $request->{'myvar'}; or $request->{$myvar}
-	 * Looks in the combined GET, POST and urlParams array.
+	 * Named properties read from the merged parameter set. Method-specific
+	 * properties (`get`, `post`, `put`, `patch`) are only available for the
+	 * matching HTTP method and throw a \LogicException otherwise.
 	 *
-	 * If you access e.g. ->post but the current HTTP request method
-	 * is GET a \LogicException will be thrown.
+	 * Depending on the method and content type, `put` may return either parsed
+	 * parameters or a readable stream for the raw request body.
 	 *
-	 * @param string $name The key to look for.
+	 * @param string $name Property name
 	 * @throws \LogicException
 	 * @return mixed|null
 	 */
@@ -235,6 +255,8 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	}
 
 	/**
+	 * Whether a magic property is available.
+	 *
 	 * @param string $name
 	 * @return bool
 	 */
@@ -246,55 +268,38 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	}
 
 	/**
+	 * Request objects are immutable.
+	 *
 	 * @param string $id
 	 */
 	public function __unset($id) {
 		throw new \RuntimeException('You cannot change the contents of the request object');
 	}
 
-	/**
-	 * Returns the value for a specific http header.
-	 *
-	 * This method returns an empty string if the header did not exist.
-	 *
-	 * @param string $name
-	 * @return string
-	 */
 	#[\Override]
 	public function getHeader(string $name): string {
-		$name = strtoupper(str_replace('-', '_', $name));
-		if (isset($this->server['HTTP_' . $name])) {
-			return $this->server['HTTP_' . $name];
+		$elementName = strtoupper(str_replace('-', '_', $name));
+
+		// Check if standard HTTP header
+		$clientHeaderKey = 'HTTP_' . $elementName;
+		if (isset($this->server[$clientHeaderKey])) {
+			return $this->server[$clientHeaderKey];
 		}
 
-		// There's a few headers that seem to end up in the top-level
-		// server array.
-		switch ($name) {
-			case 'CONTENT_TYPE':
-			case 'CONTENT_LENGTH':
-			case 'REMOTE_ADDR':
-				if (isset($this->server[$name])) {
-					return $this->server[$name];
-				}
-				break;
+		// Check if special request-related element
+		$specialKeys = [
+			'CONTENT_TYPE' => true,
+			'CONTENT_LENGTH' => true,
+			'REMOTE_ADDR' => true,
+		];
+
+		if (isset($specialKeys[$elementName]) && isset($this->server[$elementName])) {
+			return $this->server[$elementName];
 		}
 
 		return '';
 	}
 
-	/**
-	 * Lets you access post and get parameters by the index
-	 * In case of json requests the encoded json body is accessed
-	 *
-	 * @param string $key the key which you want to access in the URL Parameter
-	 *                    placeholder, $_POST or $_GET array.
-	 *                    The priority how they're returned is the following:
-	 *                    1. URL parameters
-	 *                    2. POST parameters
-	 *                    3. GET parameters
-	 * @param mixed $default If the key is not found, this value will be returned
-	 * @return mixed the content of the array
-	 */
 	#[\Override]
 	public function getParam(string $key, $default = null) {
 		return isset($this->parameters[$key])
@@ -302,68 +307,43 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			: $default;
 	}
 
-	/**
-	 * Returns all params that were received, be it from the request
-	 * (as GET or POST) or through the URL by the route
-	 * @return array the array with all parameters
-	 */
 	#[\Override]
 	public function getParams(): array {
 		return is_array($this->parameters) ? $this->parameters : [];
 	}
 
-	/**
-	 * Returns the method of the request
-	 * @return string the method of the request (POST, GET, etc)
-	 */
 	#[\Override]
 	public function getMethod(): string {
 		return $this->method;
 	}
 
-	/**
-	 * Shortcut for accessing an uploaded file through the $_FILES array
-	 * @param string $key the key that will be taken from the $_FILES array
-	 * @return array the file in the $_FILES element
-	 */
 	#[\Override]
 	public function getUploadedFile(string $key) {
 		return isset($this->files[$key]) ? $this->files[$key] : null;
 	}
 
-	/**
-	 * Shortcut for getting env variables
-	 * @param string $key the key that will be taken from the $_ENV array
-	 * @return array the value in the $_ENV element
-	 */
 	#[\Override]
 	public function getEnv(string $key) {
 		return isset($this->env[$key]) ? $this->env[$key] : null;
 	}
 
-	/**
-	 * Shortcut for getting cookie variables
-	 * @param string $key the key that will be taken from the $_COOKIE array
-	 * @return string the value in the $_COOKIE element
-	 */
 	#[\Override]
 	public function getCookie(string $key) {
 		return isset($this->cookies[$key]) ? $this->cookies[$key] : null;
 	}
 
 	/**
-	 * Returns the request body content.
+	 * Returns request body content for method-specific magic accessors.
 	 *
-	 * If the HTTP request method is PUT and the body
-	 * not application/x-www-form-urlencoded or application/json a stream
-	 * resource is returned, otherwise an array.
+	 * For PUT requests with a non-empty body that is neither JSON nor
+	 * form-encoded, a readable stream resource for the raw body is returned.
+	 * Otherwise, parsed parameters are returned as an array.
 	 *
-	 * @return array|string|resource The request body content or a resource to read the body stream.
-	 *
+	 * @return array|string|resource The request body content or a resource for the raw body stream
 	 * @throws \LogicException
 	 */
 	protected function getContent() {
-		// If the content can't be parsed into an array then return a stream resource.
+		// If the content cannot be parsed into parameters, return a raw body stream.
 		if ($this->isPutStreamContent()) {
 			if ($this->isPutStreamContentAlreadySent) {
 				throw new \LogicException(
@@ -388,7 +368,13 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	}
 
 	/**
-	 * Attempt to decode the content and populate parameters
+	 * Decodes the request body, if applicable, and merges decoded parameters
+	 * into the parameter set.
+	 *
+	 * JSON-compatible content types are decoded from the input stream. For
+	 * non-GET and non-POST form-encoded requests, the input stream is parsed
+	 * into parameters. Decoding errors are stored and can later be rethrown via
+	 * throwDecodingExceptionIfAny().
 	 */
 	protected function decodeContent() {
 		if ($this->contentDecoded) {
@@ -396,7 +382,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		}
 		$params = [];
 
-		// 'application/json' and other JSON-related content types must be decoded manually.
+		// JSON-compatible content types must be decoded manually.
 		if (preg_match(self::JSON_CONTENT_TYPE_REGEX, $this->getHeader('Content-Type')) === 1) {
 			$content = file_get_contents($this->inputStream);
 			if ($content !== '') {
@@ -412,8 +398,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 					$this->items['post'] = $params;
 				}
 			}
-			// Handle application/x-www-form-urlencoded for methods other than GET
-			// or post correctly
+			// Handle form-encoded request bodies for methods other than GET and POST.
 		} elseif ($this->method !== 'GET'
 				&& $this->method !== 'POST'
 				&& str_contains($this->getHeader('Content-Type'), 'application/x-www-form-urlencoded')) {
@@ -436,10 +421,6 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		}
 	}
 
-	/**
-	 * Checks if the CSRF check was correct
-	 * @return bool true if CSRF check passed
-	 */
 	#[\Override]
 	public function passesCSRFCheck(): bool {
 		if ($this->csrfTokenManager === null) {
@@ -470,9 +451,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	}
 
 	/**
-	 * Whether the cookie checks are required
-	 *
-	 * @return bool
+	 * Whether cookie-based same-site checks are required for this request.
 	 */
 	private function cookieCheckRequired(): bool {
 		if ($this->getHeader('OCS-APIREQUEST')) {
@@ -486,19 +465,14 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	}
 
 	/**
-	 * Wrapper around session_get_cookie_params
-	 *
-	 * @return array
+	 * Wrapper around session_get_cookie_params().
 	 */
 	public function getCookieParams(): array {
 		return session_get_cookie_params();
 	}
 
 	/**
-	 * Appends the __Host- prefix to the cookie if applicable
-	 *
-	 * @param string $name
-	 * @return string
+	 * Returns the cookie name with the __Host- prefix applied when appropriate.
 	 */
 	protected function getProtectedCookieName(string $name): string {
 		$cookieParams = $this->getCookieParams();
@@ -510,13 +484,6 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		return $prefix . $name;
 	}
 
-	/**
-	 * Checks if the strict cookie has been sent with the request if the request
-	 * is including any cookies.
-	 *
-	 * @return bool
-	 * @since 9.1.0
-	 */
 	#[\Override]
 	public function passesStrictCookieCheck(): bool {
 		if (!$this->cookieCheckRequired()) {
@@ -531,13 +498,6 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		return false;
 	}
 
-	/**
-	 * Checks if the lax cookie has been sent with the request if the request
-	 * is including any cookies.
-	 *
-	 * @return bool
-	 * @since 9.1.0
-	 */
 	#[\Override]
 	public function passesLaxCookieCheck(): bool {
 		if (!$this->cookieCheckRequired()) {
@@ -551,39 +511,30 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		return false;
 	}
 
-	/**
-	 * Returns an ID for the request, value is not guaranteed to be unique and is mostly meant for logging
-	 * If `mod_unique_id` is installed this value will be taken.
-	 * @return string
-	 */
 	#[\Override]
 	public function getId(): string {
 		return $this->requestId->getId();
 	}
 
 	/**
-	 * Checks if given $remoteAddress matches any entry in the given array $trustedProxies.
-	 * For details regarding what "match" means, refer to `matchesTrustedProxy`.
-	 * @return boolean true if $remoteAddress matches any entry in $trustedProxies, false otherwise
+	 * Checks whether the given remote address matches one of the configured
+	 * trusted proxies.
+	 *
+	 * Invalid trusted proxy configuration is treated as non-matching.
+	 *
+	 * @return bool true if $remoteAddress matches a trusted proxy, false otherwise
 	 */
 	protected function isTrustedProxy($trustedProxies, $remoteAddress) {
 		try {
 			return IpUtils::checkIp($remoteAddress, $trustedProxies);
 		} catch (\Throwable) {
-			// We can not log to our log here as the logger is using `getRemoteAddress` which uses the function, so we would have a cyclic dependency
-			// Reaching this line means `trustedProxies` is in invalid format.
+			// Cannot log through the regular logger here because it may depend on
+			// getRemoteAddress(), which would create a cyclic dependency.
 			error_log('Nextcloud trustedProxies has malformed entries');
 			return false;
 		}
 	}
 
-	/**
-	 * Returns the remote address, if the connection came from a trusted proxy
-	 * and `forwarded_for_headers` has been configured then the IP address
-	 * specified in this header will be returned instead.
-	 * Do always use this instead of $_SERVER['REMOTE_ADDR']
-	 * @return string IP address
-	 */
 	#[\Override]
 	public function getRemoteAddress(): string {
 		$remoteAddress = isset($this->server['REMOTE_ADDR']) ? $this->server['REMOTE_ADDR'] : '';
@@ -627,26 +578,12 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		return $remoteAddress;
 	}
 
-	/**
-	 * Check overwrite condition
-	 * @return bool
-	 */
 	private function isOverwriteCondition(): bool {
 		$regex = '/' . $this->config->getSystemValueString('overwritecondaddr', '') . '/';
 		$remoteAddr = isset($this->server['REMOTE_ADDR']) ? $this->server['REMOTE_ADDR'] : '';
 		return $regex === '//' || preg_match($regex, $remoteAddr) === 1;
 	}
 
-	/**
-	 * Returns the server protocol. It respects one or more reverse proxies servers
-	 * and load balancers. Precedence:
-	 *   1. `overwriteprotocol` config value
-	 *   2. `X-Forwarded-Proto` header value
-	 *   3. $_SERVER['HTTPS'] value
-	 * If an invalid protocol is provided, defaults to http, continues, but logs as an error.
-	 *
-	 * @return string Server protocol (http or https)
-	 */
 	#[\Override]
 	public function getServerProtocol(): string {
 		$proto = 'http';
@@ -682,11 +619,6 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		return $proto === 'https' ? 'https' : 'http';
 	}
 
-	/**
-	 * Returns the used HTTP protocol.
-	 *
-	 * @return string HTTP protocol. HTTP/2, HTTP/1.1 or HTTP/1.0.
-	 */
 	#[\Override]
 	public function getHttpProtocol(): string {
 		$claimedProtocol = $this->server['SERVER_PROTOCOL'] ?? '';
@@ -708,11 +640,6 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		return 'HTTP/1.1';
 	}
 
-	/**
-	 * Returns the request uri, even if the website uses one or more
-	 * reverse proxies
-	 * @return string
-	 */
 	#[\Override]
 	public function getRequestUri(): string {
 		$uri = isset($this->server['REQUEST_URI']) ? $this->server['REQUEST_URI'] : '';
@@ -722,11 +649,6 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		return $uri;
 	}
 
-	/**
-	 * Get raw PathInfo from request (not urldecoded)
-	 * @throws \Exception
-	 * @return string Path info
-	 */
 	#[\Override]
 	public function getRawPathInfo(): string {
 		$requestUri = isset($this->server['REQUEST_URI']) ? $this->server['REQUEST_URI'] : '';
@@ -768,22 +690,12 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		}
 	}
 
-	/**
-	 * Get PathInfo from request (rawurldecoded)
-	 * @throws \Exception
-	 * @return string|false Path info or false when not found
-	 */
 	#[\Override]
 	public function getPathInfo(): string|false {
 		$pathInfo = $this->getRawPathInfo();
 		return \Sabre\HTTP\decodePath($pathInfo);
 	}
 
-	/**
-	 * Returns the script name, even if the website uses one or more
-	 * reverse proxies
-	 * @return string the script name
-	 */
 	#[\Override]
 	public function getScriptName(): string {
 		$name = $this->server['SCRIPT_NAME'] ?? '';
@@ -797,11 +709,6 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		return $name;
 	}
 
-	/**
-	 * Checks whether the user agent matches a given regex
-	 * @param array $agent array of agent names
-	 * @return bool true if at least one of the given agent matches, false otherwise
-	 */
 	#[\Override]
 	public function isUserAgent(array $agent): bool {
 		if (!isset($this->server['HTTP_USER_AGENT'])) {
@@ -815,11 +722,6 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		return false;
 	}
 
-	/**
-	 * Returns the unverified server host from the headers without checking
-	 * whether it is a trusted domain
-	 * @return string Server host
-	 */
 	#[\Override]
 	public function getInsecureServerHost(): string {
 		if ($this->fromTrustedProxy() && $this->getOverwriteHost() !== null) {
@@ -845,11 +747,6 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		return $host;
 	}
 
-	/**
-	 * Returns the server host from the headers, or the first configured
-	 * trusted domain if the host isn't in the trusted list
-	 * @return string Server host
-	 */
 	#[\Override]
 	public function getServerHost(): string {
 		// overwritehost is always trusted
@@ -878,10 +775,9 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	}
 
 	/**
-	 * Returns the overwritehost setting from the config if set and
-	 * if the overwrite condition is met
-	 * @return string|null overwritehost value or null if not defined or the defined condition
-	 *                     isn't met
+	 * Returns the overwritehost config value if configured and applicable.
+	 *
+	 * @return string|null
 	 */
 	private function getOverwriteHost() {
 		if ($this->config->getSystemValueString('overwritehost') !== '' && $this->isOverwriteCondition()) {

@@ -173,6 +173,8 @@ export default defineConfig({
 			await configureNextcloud()
 			// additionally we do not want to DoS the app store
 			runOcc(['config:system:set', 'appstoreenabled', '--value', 'false', '--type', 'boolean'])
+			console.log('Running cron to finish setup and avoid first-run effects during tests 🕒')
+			runExec(['php', 'cron.php'])
 
 			// for later use in tests save the container name
 			// @ts-expect-error we are adding a custom property

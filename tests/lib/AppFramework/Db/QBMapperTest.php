@@ -81,6 +81,8 @@ class QBMapperTest extends \Test\TestCase {
 	 */
 	#[\Override]
 	protected function setUp(): void {
+		parent::setUp();
+
 		$this->db = $this->getMockBuilder(IDBConnection::class)
 			->disableOriginalConstructor()
 			->getMock();

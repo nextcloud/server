@@ -95,6 +95,7 @@
     "Restrict the usage of {app} to members of the following groups." : "将 {app} 的使用限制为以下组的成员。",
     "Reset limitation" : "重置限制",
     "Save" : "保存",
+    "Update all" : "全部更新",
     "Loading app list" : "正在加载应用程序列表",
     "No matching apps found" : "未找到匹配应用",
     "Search everywhere" : "全局搜索",

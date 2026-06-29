@@ -66,6 +66,7 @@ class PublicKeyTokenProvider implements IProvider {
 		int $type = OCPIToken::TEMPORARY_TOKEN,
 		int $remember = OCPIToken::DO_NOT_REMEMBER,
 		?array $scope = null,
+		?int $expires = null,
 	): OCPIToken {
 		if (strlen($token) < self::TOKEN_MIN_LENGTH) {
 			$exception = new InvalidTokenException('Token is too short, minimum of ' . self::TOKEN_MIN_LENGTH . ' characters is required, ' . strlen($token) . ' characters given');
@@ -82,7 +83,7 @@ class PublicKeyTokenProvider implements IProvider {
 		$randomOldToken = $this->mapper->getFirstTokenForUser($uid);
 		$oldTokenMatches = $randomOldToken && $randomOldToken->getPasswordHash() && $password !== null && $this->hasher->verify(sha1($password) . $password, $randomOldToken->getPasswordHash());
 
-		$dbToken = $this->newToken($token, $uid, $loginName, $password, $name, $type, $remember);
+		$dbToken = $this->newToken($token, $uid, $loginName, $password, $name, $type, $remember, $expires);
 
 		if ($oldTokenMatches) {
 			$dbToken->setPasswordHash($randomOldToken->getPasswordHash());
@@ -233,6 +234,7 @@ class PublicKeyTokenProvider implements IProvider {
 				OCPIToken::TEMPORARY_TOKEN,
 				$token->getRemember(),
 				$scope,
+				$token->getExpires(),
 			);
 			$this->cacheToken($newToken);
 
@@ -445,7 +447,9 @@ class PublicKeyTokenProvider implements IProvider {
 		$password,
 		string $name,
 		int $type,
-		int $remember): PublicKeyToken {
+		int $remember,
+		?int $expires,
+	): PublicKeyToken {
 		$dbToken = new PublicKeyToken();
 		$dbToken->setUid($uid);
 		$dbToken->setLoginName($loginName);
@@ -490,7 +494,9 @@ class PublicKeyTokenProvider implements IProvider {
 		$dbToken->setLastCheck($this->time->getTime());
 		$dbToken->setVersion(PublicKeyToken::VERSION);
 
-		if ($type === OCPIToken::ONETIME_TOKEN) {
+		if ($expires !== null) {
+			$dbToken->setExpires($expires);
+		} elseif ($type === OCPIToken::ONETIME_TOKEN) {
 			// Minimum duration is 2 minutes as shown in the UI
 			$expirationDuration = max(120, $this->config->getSystemValueInt('auth_onetime_token_validity', 120));
 			$dbToken->setExpires($this->time->getTime() + $expirationDuration);
@@ -531,16 +537,18 @@ class PublicKeyTokenProvider implements IProvider {
 			$hashNeedsUpdate = [];
 
 			foreach ($tokens as $t) {
-				if (!isset($hashNeedsUpdate[$t->getPasswordHash()])) {
-					if ($t->getPasswordHash() === null) {
-						$hashNeedsUpdate[$t->getPasswordHash() ?: ''] = true;
-					} elseif (!$this->hasher->verify(sha1($password) . $password, $t->getPasswordHash())) {
-						$hashNeedsUpdate[$t->getPasswordHash() ?: ''] = true;
+				$passwordHash = $t->getPasswordHash();
+				if ($passwordHash === null) {
+					$hashNeedsUpdate[''] = true;
+					$needsUpdating = true;
+				} elseif (!isset($hashNeedsUpdate[$passwordHash])) {
+					if (!$this->hasher->verify(sha1($password) . $password, $passwordHash)) {
+						$hashNeedsUpdate[$passwordHash] = true;
 					} else {
-						$hashNeedsUpdate[$t->getPasswordHash() ?: ''] = false;
+						$hashNeedsUpdate[$passwordHash] = false;
 					}
+					$needsUpdating = $hashNeedsUpdate[$passwordHash] ?? true;
 				}
-				$needsUpdating = $hashNeedsUpdate[$t->getPasswordHash() ?: ''] ?? true;
 
 				if ($needsUpdating) {
 					if ($newPasswordHash === null) {

@@ -396,10 +396,6 @@
     "Files and folders you recently modified will show up here." : "Čia bus rodomi neseniai modifikuoti failai ir aplankai.",
     "Search" : "Paieška",
     "Search results within your files." : "Paieškos rezultatai jūsų failuose.",
-    "No entries found in this folder" : "Nerasta įrašų šiame aplanke",
-    "Select all" : "Pažymėti viską",
-    "Upload too large" : "Įkeltis per didelė",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Bandomų įkelti failų dydis viršija maksimalų, šiame serveryje leidžiamų įkelti failų dydį.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "„{oldName}“ pervadintas į „{newName}“",
     "Clear filter" : "Išvalyti filtrą",
     "Open file sidebar" : "Atverti failų šoninę juostą",
@@ -420,7 +416,9 @@
     "Save as …" : "Įrašyti kaip…",
     "Converting files …" : "Failų konvertavimas…",
     "Converting file …" : "Failo konvertavimas…",
-    "Moving {count} files to \"{destination}\" …" : "{count} failai perkeliami į \"{destination}\"  ...",
-    "Copying {count} files to \"{destination}\" …" : "{count} failai kopijuojami į \"{destination}\"  ..."
+    "No entries found in this folder" : "Nerasta įrašų šiame aplanke",
+    "Select all" : "Pažymėti viską",
+    "Upload too large" : "Įkeltis per didelė",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Bandomų įkelti failų dydis viršija maksimalų, šiame serveryje leidžiamų įkelti failų dydį."
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

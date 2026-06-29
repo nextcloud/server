@@ -100,7 +100,6 @@ OC.L10N.register(
     "Reset to default" : "Weka upya chaguo msingi",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {linkstart}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Ufikiaji wa wote ni muhimu sana kwetu. Tunafuata viwango vya wavuti na kuhakikisha kila kitu kinatumika hata bila kipanya, pamoja na programu saidizi kama wasomaji skrini. Tunakusudia kuzingatia kiwango cha AA cha 1 {linkstart}Web Content Accessibility Guidelines 2{linkend} 2.1, na kwa mandhari ya kontrasti ya juu kufikia hata kiwango cha AAA.",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Ukipata matatizo yoyote, usisite kuyaripoti kwenye {issuetracker}kifuatilia tatizo letu{linkend}. Na kama ungependa kujihusisha, njoo ujiunge na {designteam}timu yetu ya wabunifu{linkend}!",
-    "Unable to apply the setting." : "Haiwezi kutumia mpangilio.",
     "Appearance and accessibility settings" : "Mipangilio ya kuonekana na ufikiaji",
     "Misc accessibility options" : "Chaguo mbalimbali za ufikivu",
     "Enable blur background filter (may increase GPU load)" : "Washa kichujio cha mandharinyuma ya ukungu (kinaweza kuongeza upakiaji wa GPU)",
@@ -117,6 +116,7 @@ OC.L10N.register(
     "Background and login image" : "Picha ya mandharinyuma na kuingia",
     "Advanced options" : "Chaguzi za juu",
     "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Sakinisha kiendelezi cha PHP cha ImageMagick kwa usaidizi wa picha za SVG ili kutengeneza favikoni kiotomatiki kulingana na nembo na rangi iliyopakiwa.",
+    "Unable to apply the setting." : "Haiwezi kutumia mpangilio.",
     "No background has been selected" : "Hakuna mandharinyuma ambayo imechaguliwa",
     "Select a custom color" : "Chagua rangi maalum",
     "Upload" : "Pakia"

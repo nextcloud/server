@@ -6,35 +6,40 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-// use OCP namespace for all classes that are considered public.
-// This means that they should be used by apps instead of the internal Nextcloud classes
 
 namespace OCP;
 
 /**
- * This interface provides an immutable object with with accessors to
- * request variables and headers.
+ * Immutable request wrapper with accessors for request variables and other
+ * request-related data.
  *
- * Access request variables by method and name.
+ * Request data should be retrieved through this interface whenever possible.
  *
- * Examples:
+ * Parameters can be accessed through dedicated methods or via magic property
+ * access, for example:
  *
- * $request->post['myvar']; // Only look for POST variables
- * $request->myvar; or $request->{'myvar'}; or $request->{$myvar}
- * Looks in the combined GET, POST and urlParams array.
+ * $request->post['myvar']; // POST body parameters on POST requests
+ * $request->myvar;         // merged request parameters
  *
- * If you access e.g. ->post but the current HTTP request method
- * is GET a \LogicException will be thrown.
+ * Magic access to a named parameter reads from the merged request parameter
+ * set. Method-specific properties such as `get`, `post`, `put`, and `patch`
+ * are only available for the matching HTTP method and may throw a
+ * \LogicException otherwise.
  *
- * NOTE:
- * - When accessing ->put a stream resource is returned and the accessor
- *   will return false on subsequent access to ->put or ->patch.
- * - When accessing ->patch and the Content-Type is either application/json
- *   or application/x-www-form-urlencoded (most cases) it will act like ->get
- *   and ->post and return an array. Otherwise the raw data will be returned.
+ * In PUT requests, if the body is JSON or form-encoded, `->put` behaves like
+ * the other method-specific accessors and returns parsed request parameters.
+ * Otherwise, for non-empty request bodies, it returns a readable stream
+ * resource for the raw request body. Such streamed PUT bodies can only be
+ * accessed once; repeated access throws a \LogicException.
  *
- * @property-read string[] $server
+ * @property-read array<string, mixed> $get
+ * @property-read array<string, mixed> $post
+ * @property-read array<string, mixed>|resource $put
+ * @property-read array<string, mixed> $patch
+ * @property-read string $method
+ * @property-read array<string, mixed> $server
  * @property-read string[] $urlParams
+ *
  * @since 6.0.0
  */
 interface IRequest {
@@ -92,111 +97,121 @@ interface IRequest {
 	public const JSON_CONTENT_TYPE_REGEX = '/^application\/(?:[a-z0-9.-]+\+)?json\b/';
 
 	/**
-	 * @param string $name
+	 * Returns the value of a request header, or an empty string if missing.
+	 *
+	 * Header names are matched case-insensitively.
+	 *
+	 * Besides normal HTTP headers, also supports selected request-related
+	 * server values such as `REMOTE_ADDR`.
 	 *
 	 * @psalm-taint-source input
 	 *
-	 * @return string
 	 * @since 6.0.0
 	 */
 	public function getHeader(string $name): string;
 
 	/**
-	 * Lets you access post and get parameters by the index
-	 * In case of json requests the encoded json body is accessed
+	 * Returns a parameter value from the merged parameter set.
+	 *
+	 * The merged parameter set is primarily composed from route URL parameters,
+	 * POST parameters and GET parameters. Depending on request content type and
+	 * prior access, lazily decoded request-body parameters may also be present.
 	 *
 	 * @psalm-taint-source input
 	 *
-	 * @param string $key the key which you want to access in the URL Parameter
-	 *                    placeholder, $_POST or $_GET array.
-	 *                    The priority how they're returned is the following:
-	 *                    1. URL parameters
-	 *                    2. POST parameters
-	 *                    3. GET parameters
-	 * @param mixed $default If the key is not found, this value will be returned
-	 * @return mixed the content of the array
+	 * @param string $key the key to look up
+	 * @param mixed $default the value to return if the key is not found
+	 * @return mixed the parameter value, or $default if the key is not present
 	 * @since 6.0.0
 	 */
 	public function getParam(string $key, $default = null);
 
 	/**
-	 * Returns all params that were received, be it from the request
+	 * Returns the merged parameter set currently available on the request.
 	 *
-	 * (as GET or POST) or through the URL by the route
+	 * This includes request parameters from GET, POST and route URL parameters,
+	 * and may also include decoded request-body parameters.
 	 *
 	 * @psalm-taint-source input
 	 *
-	 * @return array the array with all parameters
+	 * @return array the merged parameters
 	 * @since 6.0.0
 	 */
 	public function getParams(): array;
 
 	/**
-	 * Returns the method of the request
+	 * Returns the request method.
 	 *
-	 * @return string the method of the request (POST, GET, etc)
+	 * @return string the HTTP method, for example GET, POST, PUT, or PATCH
 	 * @since 6.0.0
 	 */
 	public function getMethod(): string;
 
 	/**
-	 * Shortcut for accessing an uploaded file through the $_FILES array
+	 * Returns an uploaded file entry from the `$_FILES` data, if present.
 	 *
-	 * @param string $key the key that will be taken from the $_FILES array
-	 * @return array the file in the $_FILES element
+	 * @param string $key the file field name
+	 * @return array|null the matching uploaded file entry, or null if missing
 	 * @since 6.0.0
 	 */
 	public function getUploadedFile(string $key);
 
 	/**
-	 * Shortcut for getting env variables
+	 * Returns an environment value from the request environment, if present.
 	 *
-	 * @param string $key the key that will be taken from the $_ENV array
-	 * @return array the value in the $_ENV element
+	 * @param string $key the environment variable name
+	 * @return mixed|null the environment value, or null if missing
 	 * @since 6.0.0
 	 */
 	public function getEnv(string $key);
 
 	/**
-	 * Shortcut for getting cookie variables
+	 * Returns a cookie value, if present.
 	 *
 	 * @psalm-taint-source input
 	 *
-	 * @param string $key the key that will be taken from the $_COOKIE array
-	 * @return string|null the value in the $_COOKIE element
+	 * @param string $key the cookie name
+	 * @return string|null the cookie value, or null if missing
 	 * @since 6.0.0
 	 */
 	public function getCookie(string $key);
 
 	/**
-	 * Checks if the CSRF check was correct
+	 * Checks whether the request passes CSRF validation.
 	 *
-	 * @return bool true if CSRF check passed
+	 * Depending on the request, this may include same-site cookie checks and
+	 * token validation from request parameters or headers. OCS API requests are
+	 * handled specially by the implementation (if the OCS-APIRequest header is
+	 * included in the request).
+	 *
+	 * @return bool true if the request passes CSRF validation
 	 * @since 6.0.0
 	 */
 	public function passesCSRFCheck(): bool;
 
 	/**
-	 * Checks if the strict cookie has been sent with the request if the request
-	 * is including any cookies.
+	 * Checks whether the strict same-site cookie requirement is satisfied when
+	 * session or authentication cookies are part of the request.
 	 *
-	 * @return bool
+	 * @return bool true if the strict cookie check passes
 	 * @since 9.0.0
 	 */
 	public function passesStrictCookieCheck(): bool;
 
 	/**
-	 * Checks if the lax cookie has been sent with the request if the request
-	 * is including any cookies.
+	 * Checks whether the lax same-site cookie requirement is satisfied when
+	 * session or authentication cookies are part of the request.
 	 *
-	 * @return bool
+	 * @return bool true if the lax cookie check passes
 	 * @since 9.0.0
 	 */
 	public function passesLaxCookieCheck(): bool;
 
 	/**
-	 * Returns an ID for the request, value is not guaranteed to be unique and is mostly meant for logging
-	 * If `mod_unique_id` is installed this value will be taken.
+	 * Returns a request identifier intended primarily for logging and tracing.
+	 *
+	 * The value is not guaranteed to be globally unique. If `mod_unique_id` is
+	 * installed, that value may be used by the implementation.
 	 *
 	 * @return string
 	 * @since 8.1.0
@@ -204,10 +219,14 @@ interface IRequest {
 	public function getId(): string;
 
 	/**
-	 * Returns the remote address, if the connection came from a trusted proxy
-	 * and `forwarded_for_headers` has been configured then the IP address
-	 * specified in this header will be returned instead.
-	 * Do always use this instead of $_SERVER['REMOTE_ADDR']
+	 * Returns the effective remote IP address.
+	 *
+	 * If the connection comes from a trusted proxy and `forwarded_for_headers`
+	 * is configured, the client IP from those forwarded headers is used
+	 * instead.
+	 *
+	 * Do not use `$_SERVER['REMOTE_ADDR']` directly when this method is
+	 * available.
 	 *
 	 * @return string IP address
 	 * @since 8.1.0
@@ -215,25 +234,31 @@ interface IRequest {
 	public function getRemoteAddress(): string;
 
 	/**
-	 * Returns the server protocol. It respects reverse proxy servers and load
-	 * balancers.
+	 * Returns the effective server protocol.
 	 *
-	 * @return string Server protocol (http or https)
+	 * Respects reverse proxies and load balancers. Precedence:
+	 *   1. `overwriteprotocol` config value
+	 *   2. `X-Forwarded-Proto` header value
+	 *   3. `$_SERVER['HTTPS']` value
+	 *
+	 *  Invalid values fall back to `http`.
+	 *
+	 * @return string Server protocol: `http` or `https`
 	 * @since 8.1.0
 	 */
 	public function getServerProtocol(): string;
 
 	/**
-	 * Returns the used HTTP protocol.
+	 * Returns the HTTP protocol version used for the request.
 	 *
-	 * @return string HTTP protocol. HTTP/2, HTTP/1.1 or HTTP/1.0.
+	 * @return string HTTP protocol, for example HTTP/2, HTTP/1.1, or HTTP/1.0
 	 * @since 8.2.0
 	 */
 	public function getHttpProtocol(): string;
 
 	/**
-	 * Returns the request uri, even if the website uses one or more
-	 * reverse proxies
+	 * Returns the request URI, taking reverse-proxy and overwrite settings into
+	 * account.
 	 *
 	 * @psalm-taint-source input
 	 *
@@ -243,30 +268,30 @@ interface IRequest {
 	public function getRequestUri(): string;
 
 	/**
-	 * Get raw PathInfo from request (not urldecoded)
+	 * Returns raw path info from the request without URL decoding.
 	 *
 	 * @psalm-taint-source input
 	 *
 	 * @throws \Exception
-	 * @return string Path info
+	 * @return string path info
 	 * @since 8.1.0
 	 */
 	public function getRawPathInfo(): string;
 
 	/**
-	 * Get PathInfo from request
+	 * Returns decoded path info from the request.
 	 *
 	 * @psalm-taint-source input
 	 *
 	 * @throws \Exception
-	 * @return string|false Path info or false when not found
+	 * @return string|false path info, or false when it cannot be determined
 	 * @since 8.1.0
 	 */
 	public function getPathInfo();
 
 	/**
-	 * Returns the script name, even if the website uses one or more
-	 * reverse proxies
+	 * Returns the effective script name, taking reverse-proxy and overwrite
+	 * settings into account.
 	 *
 	 * @return string the script name
 	 * @since 8.1.0
@@ -274,38 +299,46 @@ interface IRequest {
 	public function getScriptName(): string;
 
 	/**
-	 * Checks whether the user agent matches a given regex
+	 * Checks whether the current user agent matches at least one of the given
+	 * regular expressions.
 	 *
-	 * @param array $agent array of agent names
-	 * @return bool true if at least one of the given agent matches, false otherwise
+	 * @param array $agent array of user-agent regex patterns
+	 * @return bool true if at least one pattern matches, false otherwise
 	 * @since 8.1.0
 	 */
 	public function isUserAgent(array $agent): bool;
 
 	/**
-	 * Returns the unverified server host from the headers without checking
-	 * whether it is a trusted domain
+	 * Returns the effective host value without validating it against the trusted
+	 * domains configuration.
+	 *
+	 * This may be derived from request headers, proxy headers, or server
+	 * variables, depending on the deployment setup.
 	 *
 	 * @psalm-taint-source input
 	 *
-	 * @return string Server host
+	 * @return string server host
 	 * @since 8.1.0
 	 */
 	public function getInsecureServerHost(): string;
 
 	/**
-	 * Returns the server host from the headers, or the first configured
-	 * trusted domain if the host isn't in the trusted list
+	 * Returns the validated effective server host.
 	 *
-	 * @return string Server host
+	 * The implementation may use overwrite host configuration first. Otherwise
+	 * it derives the host from the request and returns it only if it is trusted;
+	 * if not, it falls back to the first configured trusted domain.
+	 *
+	 * @return string server host
 	 * @since 8.1.0
 	 */
 	public function getServerHost(): string;
 
 	/**
-	 * If decoding the request content failed, throw an exception.
-	 * Currently only \JsonException for json decoding errors,
-	 * but in the future may throw other exceptions for other decoding issues.
+	 * Throws any stored request-content decoding exception.
+	 *
+	 * Currently this is used for JSON decoding errors, but implementations may
+	 * throw other decoding-related exceptions in the future.
 	 *
 	 * @throws \Exception
 	 * @since 32.0.0
@@ -313,9 +346,10 @@ interface IRequest {
 	public function throwDecodingExceptionIfAny(): void;
 
 	/**
-	 * Returns the format of the response to this request.
+	 * Returns the requested response format, if it can be determined.
 	 *
-	 * The `Accept` header and the `format` query parameter control the format.
+	 * The `format` request parameter takes precedence. Otherwise the format may
+	 * be inferred from the `Accept` header.
 	 *
 	 * @return string|null
 	 * @since 33.0.0

@@ -40,6 +40,11 @@ interface IGroupManager {
 	public function addBackend($backend);
 
 	/**
+	 * @since 34.0.0
+	 */
+	public function removeBackend(GroupInterface $backend): void;
+
+	/**
 	 * @since 8.0.0
 	 */
 	public function clearBackends();

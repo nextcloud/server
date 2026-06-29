@@ -61,7 +61,7 @@ class Cache implements ICache {
 	 */
 	protected array $partial = [];
 	protected string $storageId;
-	protected Storage $storageCache;
+	protected ?Storage $storageCache = null;
 	protected IMimeTypeLoader $mimetypeLoader;
 	protected IDBConnection $connection;
 	protected SystemConfig $systemConfig;
@@ -69,6 +69,7 @@ class Cache implements ICache {
 	protected QuerySearchHelper $querySearchHelper;
 	protected IEventDispatcher $eventDispatcher;
 	protected IFilesMetadataManager $metadataManager;
+	private CacheDependencies $cacheDependencies;
 
 	public function __construct(
 		private IStorage $storage,
@@ -83,7 +84,7 @@ class Cache implements ICache {
 		if (!$dependencies) {
 			$dependencies = Server::get(CacheDependencies::class);
 		}
-		$this->storageCache = new Storage($this->storage, true, $dependencies->getConnection());
+		$this->cacheDependencies = $dependencies;
 		$this->mimetypeLoader = $dependencies->getMimeTypeLoader();
 		$this->connection = $dependencies->getConnection();
 		$this->systemConfig = $dependencies->getSystemConfig();
@@ -101,6 +102,9 @@ class Cache implements ICache {
 	}
 
 	public function getStorageCache(): Storage {
+		if (!$this->storageCache) {
+			$this->storageCache = new Storage($this->storage, true, $this->cacheDependencies->getConnection());
+		}
 		return $this->storageCache;
 	}
 
@@ -111,7 +115,7 @@ class Cache implements ICache {
 	 */
 	#[\Override]
 	public function getNumericStorageId() {
-		return $this->storageCache->getNumericId();
+		return $this->getStorageCache()->getNumericId();
 	}
 
 	/**
@@ -619,7 +623,7 @@ class Cache implements ICache {
 				->where($query->expr()->in('fileid', $query->createParameter('childIds')))
 				->hintShardKey('storage', $this->getNumericStorageId());
 
-			foreach (array_chunk($childIds, 1000) as $childIdChunk) {
+			foreach (array_chunk($childIds, IQueryBuilder::MAX_IN_PARAMETERS) as $childIdChunk) {
 				$query->setParameter('childIds', $childIdChunk, IQueryBuilder::PARAM_INT_ARRAY);
 				$query->executeStatement();
 			}
@@ -645,13 +649,13 @@ class Cache implements ICache {
 		// Sorting before chunking allows the db to find the entries close to each
 		// other in the index
 		sort($parentIds, SORT_NUMERIC);
-		foreach (array_chunk($parentIds, 1000) as $parentIdChunk) {
+		foreach (array_chunk($parentIds, IQueryBuilder::MAX_IN_PARAMETERS) as $parentIdChunk) {
 			$query->setParameter('parentIds', $parentIdChunk, IQueryBuilder::PARAM_INT_ARRAY);
 			$query->executeStatement();
 		}
 
 		$cacheEntryRemovedEvents = [];
-		foreach (array_chunk(array_combine($deletedIds, $deletedPaths), 1000) as $chunk) {
+		foreach (array_chunk(array_combine($deletedIds, $deletedPaths), IQueryBuilder::MAX_IN_PARAMETERS) as $chunk) {
 			/** @var array<int, string> $chunk */
 			foreach ($chunk as $fileId => $filePath) {
 				$cacheEntryRemovedEvents[] = new CacheEntryRemovedEvent(
@@ -760,7 +764,7 @@ class Cache implements ICache {
 
 				$childIds = $this->getChildIds($sourceStorageId, $sourcePath);
 
-				$childChunks = array_chunk($childIds, 1000);
+				$childChunks = array_chunk($childIds, IQueryBuilder::MAX_IN_PARAMETERS);
 
 				$query = $this->getQueryBuilder();
 

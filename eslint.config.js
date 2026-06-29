@@ -73,10 +73,19 @@ export default defineConfig([
 		},
 	},
 
+	// Playwright tests setup
+	{
+		name: 'server/playwright',
+		files: ['tests/playwright/**'],
+		rules: {
+			'no-empty-pattern': 'off', // PW needs the destructuring syntax {} for fixtures!
+		},
+	},
+
 	// Forbid commiting .only in test files (skipping tests is very unexpected)
 	{
 		name: 'server/no-only-in-tests',
-		files: ['cypress/**', 'apps/**/*.spec.*', 'core/**/*.spec.*'],
+		files: ['cypress/**', 'tests/playwright/**', 'apps/**/*.spec.*', 'core/**/*.spec.*'],
 		plugins: {
 			'no-only-tests': noOnlyTests,
 		},
@@ -96,7 +105,7 @@ export default defineConfig([
 			'composer.json',
 			'**/*.php',
 			'3rdparty/',
-			'tests/', // PHP tests
+			'tests/!(playwright)/', // PHP tests, but not Playwright tests
 			'**/js/',
 			'**/l10n/', // all translations (config only ignored in root)
 			'**/vendor/', // different vendors

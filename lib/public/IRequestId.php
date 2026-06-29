@@ -12,9 +12,12 @@ namespace OCP;
  * @since 24.0.0
  */
 interface IRequestId {
+
 	/**
-	 * Returns an ID for the request, value is not guaranteed to be unique and is mostly meant for logging
-	 * If `mod_unique_id` is installed this value will be taken.
+	 * Returns a request identifier intended primarily for logging and tracing.
+	 *
+	 * The value is not guaranteed to be globally unique. If `mod_unique_id` is
+	 * installed, that value may be used by the implementation.
 	 *
 	 * @return string
 	 * @since 24.0.0

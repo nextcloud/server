@@ -78,6 +78,7 @@ OC.L10N.register(
     "Assistant" : "Asistent",
     "Administration privileges" : "Privilegii de administrare",
     "Groupware" : "Articole de grup",
+    "Office" : "Birou",
     "Overview" : "Prezentare generală",
     "Basic settings" : "Setări de bază",
     "Sharing" : "Partajare",

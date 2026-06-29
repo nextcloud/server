@@ -186,10 +186,6 @@ class LocalTimeProviderTest extends TestCase {
 			->with('UID')
 			->willReturn('user1');
 
-		$user = $this->createMock(IUser::class);
-		$user->method('getUID')
-			->willReturn(null);
-
 		$entry->expects($this->never())
 			->method('addAction');
 

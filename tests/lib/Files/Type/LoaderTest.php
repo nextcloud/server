@@ -11,14 +11,18 @@ namespace Test\Files\Type;
 use OC\Files\Type\Loader;
 use OCP\IDBConnection;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\Group;
 use Test\TestCase;
 
+#[Group('DB')]
 class LoaderTest extends TestCase {
 	protected IDBConnection $db;
 	protected Loader $loader;
 
 	#[\Override]
 	protected function setUp(): void {
+		parent::setUp();
+
 		$this->db = Server::get(IDBConnection::class);
 		$this->loader = new Loader($this->db);
 	}

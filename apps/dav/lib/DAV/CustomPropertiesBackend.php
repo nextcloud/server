@@ -73,6 +73,10 @@ class CustomPropertiesBackend implements BackendInterface {
 		'{DAV:}getetag',
 		'{DAV:}quota-used-bytes',
 		'{DAV:}quota-available-bytes',
+		'{DAV:}getlastmodified',
+		'{DAV:}creationdate',
+		'{DAV:}displayname',
+		'{http://open-collaboration-services.org/ns}share-permissions',
 	];
 
 	/**
@@ -497,7 +501,7 @@ class CustomPropertiesBackend implements BackendInterface {
 		if (!empty($requestedProperties)) {
 			// request only a subset
 			$qb->andWhere($qb->expr()->in('propertyname', $qb->createParameter('requestedProperties')));
-			$chunks = array_chunk($requestedProperties, 1000);
+			$chunks = array_chunk($requestedProperties, IQueryBuilder::MAX_IN_PARAMETERS);
 			foreach ($chunks as $chunk) {
 				$qb->setParameter('requestedProperties', $chunk, IQueryBuilder::PARAM_STR_ARRAY);
 				$result = $qb->executeQuery();

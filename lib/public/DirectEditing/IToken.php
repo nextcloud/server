@@ -32,7 +32,6 @@ interface IToken {
 	 * Check if the token has already been used
 	 *
 	 * @since 18.0.0
-	 * @return bool
 	 */
 	public function hasBeenAccessed(): bool;
 
@@ -47,20 +46,22 @@ interface IToken {
 	 * Get the file that is related to the token
 	 *
 	 * @since 18.0.0
-	 * @return File
 	 * @throws NotFoundException
 	 */
 	public function getFile(): File;
 
 	/**
 	 * @since 18.0.0
-	 * @return string
 	 */
 	public function getEditor(): string;
 
 	/**
 	 * @since 18.0.0
-	 * @return string
 	 */
 	public function getUser(): string;
+
+	/**
+	 * @since 35.0.0
+	 */
+	public function getToken(): string;
 }

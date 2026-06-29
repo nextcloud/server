@@ -111,12 +111,11 @@ interface IOCMProvider extends JsonSerializable {
 	public function getResourceTypes(): array;
 
 	/**
-	 * get the capabilities
+	 * get the capabilities advertised by this provider
 	 *
-	 * @return array
 	 * @since 33.0.0
 	 */
-	public function getCapabilities(): array;
+	public function getCapabilities(): OCMCapabilities;
 
 	/**
 	 * return if provider supports $capability
@@ -159,8 +158,25 @@ interface IOCMProvider extends JsonSerializable {
 	 * @return $this
 	 * @since 33.0.0
 	 */
-
 	public function setInviteAcceptDialog(string $inviteAcceptDialog): static;
+
+	/**
+	 * get the token endpoint URL
+	 *
+	 * @return string
+	 * @since 33.0.0
+	 */
+	public function getTokenEndPoint(): string;
+
+	/**
+	 * set the token endpoint URL
+	 *
+	 * @param string $endPoint
+	 *
+	 * @return $this
+	 * @since 33.0.0
+	 */
+	public function setTokenEndPoint(string $endPoint): static;
 	/**
 	 * extract a specific string value from the listing of protocols, based on resource-name and protocol-name
 	 *

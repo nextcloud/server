@@ -121,6 +121,14 @@ interface IQueryBuilder {
 	public const MAX_ROW_DELETION = 100000;
 
 	/**
+	 * @since 35.0.0 Indicates how many parameters can be passed to a IN query
+	 * with Oracle database server.
+	 *
+	 * Mostly useful as magic value to give to array_chunk
+	 */
+	public const MAX_IN_PARAMETERS = 1000;
+
+	/**
 	 * Enable/disable automatic prefixing of table names with the oc_ prefix
 	 *
 	 * @param bool $enabled If set to true table names will be prefixed with the

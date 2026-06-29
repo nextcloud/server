@@ -1268,7 +1268,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->from($this->dbCardsTable, 'c')
 			->where($query->expr()->in('c.id', $query->createParameter('matches')));
 
-		foreach (array_chunk($matches, 1000) as $matchesChunk) {
+		foreach (array_chunk($matches, IQueryBuilder::MAX_IN_PARAMETERS) as $matchesChunk) {
 			$query->setParameter('matches', $matchesChunk, IQueryBuilder::PARAM_INT_ARRAY);
 			$result = $query->executeQuery();
 			$cardResults[] = $result->fetchAllAssociative();

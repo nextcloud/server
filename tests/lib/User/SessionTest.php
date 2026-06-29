@@ -331,11 +331,17 @@ class SessionTest extends \Test\TestCase {
 			->getMock();
 		$userSession = new Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher);
 
-		$session->expects($this->never())
-			->method('set');
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('foo');
+		$user->method('isEnabled')->willReturn(true);
+		$manager->method('get')
+			->with('foo')
+			->willReturn($user);
+
 		$session->expects($this->once())
 			->method('regenerateId');
 		$token = new PublicKeyToken();
+		$token->setId(1);
 		$token->setLoginName('foo');
 		$token->setLastCheck(0); // Never
 		$token->setUid('foo');
@@ -369,11 +375,17 @@ class SessionTest extends \Test\TestCase {
 			->getMock();
 		$userSession = new Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher);
 
-		$session->expects($this->never())
-			->method('set');
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('foo');
+		$user->method('isEnabled')->willReturn(true);
+		$manager->method('get')
+			->with('foo')
+			->willReturn($user);
+
 		$session->expects($this->once())
 			->method('regenerateId');
 		$token = new PublicKeyToken();
+		$token->setId(1);
 		$token->setLoginName('foo');
 		$token->setLastCheck(0); // Never
 		$token->setUid('foo');
@@ -1125,7 +1137,6 @@ class SessionTest extends \Test\TestCase {
 			->willReturn(true);
 
 		$davAuthenticatedSet = false;
-		$lastPasswordConfirmSet = false;
 
 		$this->session
 			->method('set')
@@ -1133,9 +1144,6 @@ class SessionTest extends \Test\TestCase {
 				switch ($k) {
 					case Auth::DAV_AUTHENTICATED:
 						$davAuthenticatedSet = $v;
-						return;
-					case 'last-password-confirm':
-						$lastPasswordConfirmSet = 1000;
 						return;
 					default:
 						throw new \Exception();
@@ -1180,7 +1188,6 @@ class SessionTest extends \Test\TestCase {
 		$this->assertTrue($userSession->tryBasicAuthLogin($request, $this->throttler));
 
 		$this->assertSame('username', $davAuthenticatedSet);
-		$this->assertSame(1000, $lastPasswordConfirmSet);
 	}
 
 	public function testTryBasicAuthLoginNoLogin(): void {
@@ -1323,4 +1330,5 @@ class SessionTest extends \Test\TestCase {
 
 		$this->assertFalse($userSession->logClientIn('john@foo.bar', 'I-AM-A-PASSWORD', $request, $this->throttler));
 	}
+
 }

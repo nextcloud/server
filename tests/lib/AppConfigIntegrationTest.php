@@ -142,8 +142,12 @@ class AppConfigIntegrationTest extends TestCase {
 				$type = $row[2] ?? IAppConfig::VALUE_MIXED;
 				if (($row[4] ?? false) === true) {
 					$type |= IAppConfig::VALUE_SENSITIVE;
-					$value = self::invokePrivate(AppConfig::class, 'ENCRYPTION_PREFIX') . $this->crypto->encrypt($value);
-					self::$baseStruct[$appId][$key]['encrypted'] = $value;
+					if (!isset(self::$baseStruct[$appId][$key]['encrypted'])) {
+						$value = self::invokePrivate(AppConfig::class, 'ENCRYPTION_PREFIX') . $this->crypto->encrypt($value);
+						self::$baseStruct[$appId][$key]['encrypted'] = $value;
+					} else {
+						$value = self::$baseStruct[$appId][$key]['encrypted'];
+					}
 				}
 
 				$sql->setParameters(
@@ -270,55 +274,16 @@ class AppConfigIntegrationTest extends TestCase {
 		return $appKeys;
 	}
 
-	/**
-	 * returns list of config keys
-	 *
-	 * @return array<string, string, string, int, bool, bool> [appId, key, value, type, lazy, sensitive]
-	 * @see testIsSensitive
-	 * @see testIsLazy
-	 * @see testGetKeys
-	 */
-	public static function providerGetKeys(): array {
-		$appKeys = [];
-		foreach (self::$baseStruct as $appId => $appData) {
-			foreach ($appData as $row) {
-				$appKeys[] = [
-					(string)$appId, $row[0], $row[1], $row[2] ?? IAppConfig::VALUE_MIXED, $row[3] ?? false,
-					$row[4] ?? false
-				];
-			}
-		}
-
-		return $appKeys;
-	}
-
-	/**
-	 *
-	 * @param string $appId
-	 * @param array $expectedKeys
-	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('providerGetAppKeys')]
 	public function testGetKeys(string $appId, array $expectedKeys): void {
 		$config = $this->generateAppConfig();
 		$this->assertEqualsCanonicalizing($expectedKeys, $config->getKeys($appId));
+		$this->assertEqualsCanonicalizing($expectedKeys, array_keys($config->getAllValues($appId, '')));
 	}
 
 	public function testGetKeysOnUnknownAppShouldReturnsEmptyArray(): void {
 		$config = $this->generateAppConfig();
 		$this->assertEqualsCanonicalizing([], $config->getKeys('unknown-app'));
-	}
-
-	/**
-	 *
-	 * @param string $appId
-	 * @param string $configKey
-	 * @param string $value
-	 * @param bool $lazy
-	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('providerGetKeys')]
-	public function testHasKey(string $appId, string $configKey, string $value, int $type, bool $lazy): void {
-		$config = $this->generateAppConfig();
-		$this->assertEquals(true, $config->hasKey($appId, $configKey, $lazy));
 	}
 
 	public function testHasKeyOnNonExistentKeyReturnsFalse(): void {
@@ -346,12 +311,37 @@ class AppConfigIntegrationTest extends TestCase {
 		$this->assertSame(true, $config->hasKey('non-sensitive-app', 'lazy-key', null));
 	}
 
+	/**
+	 * returns list of config keys
+	 *
+	 * @return array<string, string, string, int, bool, bool> [appId, key, value, type, lazy, sensitive]
+	 * @see testIsSensitiveLazyHasKey
+	 */
+	public static function providerGetKeys(): array {
+		$appKeys = [];
+		foreach (self::$baseStruct as $appId => $appData) {
+			foreach ($appData as $row) {
+				$appKeys[] = [
+					(string)$appId, $row[0], $row[1], $row[2] ?? IAppConfig::VALUE_MIXED, $row[3] ?? false,
+					$row[4] ?? false
+				];
+			}
+		}
+
+		return $appKeys;
+	}
+
 	#[\PHPUnit\Framework\Attributes\DataProvider('providerGetKeys')]
-	public function testIsSensitive(
+	public function testIsSensitiveLazyHasKey(
 		string $appId, string $configKey, string $configValue, int $type, bool $lazy, bool $sensitive,
 	): void {
 		$config = $this->generateAppConfig();
+
 		$this->assertEquals($sensitive, $config->isSensitive($appId, $configKey, $lazy));
+
+		$this->assertEquals($lazy, $config->isLazy($appId, $configKey));
+
+		$this->assertEquals(true, $config->hasKey($appId, $configKey, $lazy));
 	}
 
 	public function testIsSensitiveOnNonExistentKeyThrowsException(): void {
@@ -388,13 +378,6 @@ class AppConfigIntegrationTest extends TestCase {
 		$config->isSensitive('non-sensitive-app', 'lazy-key', false);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providerGetKeys')]
-	public function testIsLazy(string $appId, string $configKey, string $configValue, int $type, bool $lazy,
-	): void {
-		$config = $this->generateAppConfig();
-		$this->assertEquals($lazy, $config->isLazy($appId, $configKey));
-	}
-
 	public function testIsLazyOnNonExistentKeyThrowsException(): void {
 		$config = $this->generateAppConfig();
 		$this->expectException(AppConfigUnknownKeyException::class);
@@ -426,17 +409,6 @@ class AppConfigIntegrationTest extends TestCase {
 		$config = $this->generateAppConfig();
 		$this->expectException(InvalidArgumentException::class);
 		$config->getAllValues('');
-	}
-
-	/**
-	 *
-	 * @param string $appId
-	 * @param array $keys
-	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('providerGetAppKeys')]
-	public function testGetAllValuesWithEmptyKey(string $appId, array $keys): void {
-		$config = $this->generateAppConfig();
-		$this->assertEqualsCanonicalizing($keys, array_keys($config->getAllValues($appId, '')));
 	}
 
 	public function testGetAllValuesWithPrefix(): void {
