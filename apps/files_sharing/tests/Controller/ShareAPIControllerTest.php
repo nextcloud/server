@@ -5631,6 +5631,7 @@ class ShareAPIControllerTest extends TestCase {
 			'letters numbers and hyphen' => ['abc-123', true],
 			'invalid character' => ['abc_123', false],
 			'32 characters (oc_share.token column limit)' => [str_repeat('a', 32), true],
+			'32 non-ascii characters' => [str_repeat('é', 32), false],
 			'33 characters (exceeds oc_share.token column limit)' => [str_repeat('a', 33), false],
 		];
 	}
