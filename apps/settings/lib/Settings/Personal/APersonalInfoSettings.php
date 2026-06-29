@@ -34,7 +34,12 @@ use OCP\Teams\Team;
 use OCP\UserStatus\IManager as IUserStatusManager;
 use OCP\Util;
 
-class PersonalInfo implements ISettings {
+/**
+ * Shared base for the personal settings pages that render the account
+ * properties. The account data is provided as initial state on every such page
+ * so the shared Vue components can read it regardless of which page is open.
+ */
+abstract class APersonalInfoSettings implements ISettings {
 
 	public function __construct(
 		private IConfig $config,
@@ -51,6 +56,11 @@ class PersonalInfo implements ISettings {
 		private IUserStatusManager $userStatusManager,
 	) {
 	}
+
+	/**
+	 * The template that mounts this page's Vue app.
+	 */
+	abstract protected function getTemplate(): string;
 
 	#[\Override]
 	public function getForm(): TemplateResponse {
@@ -81,8 +91,8 @@ class PersonalInfo implements ISettings {
 
 		$statusMessage = '';
 		if ($this->appManager->isEnabledForUser('user_status')) {
-			$statuses = $this->userStatusManager->getUserStatuses([$uid]);
-			$statusMessage = ($statuses[$uid] ?? null)?->getMessage() ?? '';
+			$statuses = $this->userStatusManager->getUserStatuses([$user->getUID()]);
+			$statusMessage = ($statuses[$user->getUID()] ?? null)?->getMessage() ?? '';
 		}
 
 		$parameters = [
@@ -141,7 +151,7 @@ class PersonalInfo implements ISettings {
 		$this->initialStateService->provideInitialState('accountParameters', $accountParameters);
 		$this->initialStateService->provideInitialState('profileParameters', $profileParameters);
 
-		return new TemplateResponse('settings', 'settings/personal/personal.info', $parameters, '');
+		return new TemplateResponse('settings', $this->getTemplate(), $parameters, '');
 	}
 
 	/**
@@ -165,15 +175,6 @@ class PersonalInfo implements ISettings {
 		];
 
 		return $property;
-	}
-
-	/**
-	 * returns the section ID string, e.g. 'sharing'
-	 * @since 9.1
-	 */
-	#[\Override]
-	public function getSection(): string {
-		return 'personal-info';
 	}
 
 	/**

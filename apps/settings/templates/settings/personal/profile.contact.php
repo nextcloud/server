@@ -1,14 +1,14 @@
 <?php
 
 /**
- * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 /** @var \OCP\IL10N $l */
 /** @var array $_ */
 
-\OCP\Util::addScript('settings', 'vue-settings-personal-info');
+\OCP\Util::addScript('settings', 'vue-settings-profile-contact');
 ?>
 <?php if (!$_['isFairUseOfFreePushService']) : ?>
 	<div class="section">
@@ -18,4 +18,4 @@
 	</div>
 <?php endif; ?>
 
-<div id="personal-settings"></div>
+<div id="profile-contact-settings"></div>
