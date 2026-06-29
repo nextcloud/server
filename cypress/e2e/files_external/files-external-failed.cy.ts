@@ -48,7 +48,7 @@ describe('Files user credentials', { testIsolation: true }, () => {
 		// Ensure the row is visible and marked as unavailable
 		getRowForFile('Storage1').as('row').should('be.visible')
 		cy.get('@row').find('[data-cy-files-list-row-name-link]')
-			.should('have.attr', 'title', 'This node is unavailable')
+			.should('have.attr', 'title', / \(unavailable\)$/)
 
 		// Ensure clicking on the location does not open the folder
 		cy.location().then((loc) => {
@@ -74,7 +74,7 @@ describe('Files user credentials', { testIsolation: true }, () => {
 		// Ensure the row is visible and marked as unavailable
 		getRowForFile('Storage2').as('row').should('be.visible')
 		cy.get('@row').find('[data-cy-files-list-row-name-link]')
-			.should('have.attr', 'title', 'This node is unavailable')
+			.should('have.attr', 'title', / \(unavailable\)$/)
 
 		// Ensure clicking on the location does not open the folder
 		cy.location().then((loc) => {
