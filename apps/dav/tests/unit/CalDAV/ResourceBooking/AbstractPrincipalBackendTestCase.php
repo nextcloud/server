@@ -17,7 +17,6 @@ use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Server;
-use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\PropPatch;
@@ -55,8 +54,7 @@ abstract class AbstractPrincipalBackendTestCase extends TestCase {
 
 	public function testGetPrincipalsByPrefix(): void {
 		$actual = $this->principalBackend->getPrincipalsByPrefix($this->principalPrefix);
-
-		$this->assertEquals([
+		$this->assertEqualsCanonicalizing([
 			[
 				'uri' => $this->principalPrefix . '/backend1-res1',
 				'{DAV:}displayname' => 'Beamer1',
@@ -267,7 +265,7 @@ abstract class AbstractPrincipalBackendTestCase extends TestCase {
 			'{DAV:}displayname' => 'Beamer',
 		], $test);
 
-		$this->assertEquals(
+		$this->assertEqualsCanonicalizing(
 			str_replace('%prefix%', $this->principalPrefix, $expected),
 			$actual);
 	}

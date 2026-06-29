@@ -225,7 +225,7 @@ class ResourcesRoomsUpdaterTest extends TestCase {
 			$rows[] = $row;
 		}
 
-		$this->assertEquals([
+		$this->assertEqualsCanonicalizing([
 			[
 				'backend_id' => 'backend1',
 				'resource_id' => 'res1',
@@ -294,7 +294,7 @@ class ResourcesRoomsUpdaterTest extends TestCase {
 			$rows2[] = $row;
 		}
 
-		$this->assertEquals([
+		$this->assertEqualsCanonicalizing([
 			[
 				'resource_id' => $ids['backend2::res3'],
 				'key' => 'meta1',
@@ -403,6 +403,7 @@ class ResourcesRoomsUpdaterTest extends TestCase {
 			->executeStatement();
 		$id6 = $query->getLastInsertId();
 
+		$query = Server::get(IDBConnection::class)->getQueryBuilder();
 		$query->insert('calendar_resources_md')
 			->values([
 				'resource_id' => $query->createNamedParameter($id3),
