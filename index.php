@@ -8,8 +8,6 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-require_once __DIR__ . '/lib/versioncheck.php';
-
 use OC\ServiceUnavailableException;
 use OC\User\LoginException;
 use OCP\HintException;
@@ -19,6 +17,7 @@ use OCP\Server;
 use OCP\Template\ITemplateManager;
 use Psr\Log\LoggerInterface;
 
+require_once __DIR__ . '/lib/versioncheck.php';
 require_once __DIR__ . '/lib/OC.php';
 
 \OC::boot();
