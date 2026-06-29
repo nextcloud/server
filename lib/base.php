@@ -892,7 +892,7 @@ class OC {
 				if (empty($restrictions)) {
 					continue;
 				}
-				$key = array_search($group->getGID(), $restrictions);
+				$key = array_search($group->getGID(), $restrictions, true);
 				unset($restrictions[$key]);
 				$restrictions = array_values($restrictions);
 				if (empty($restrictions)) {

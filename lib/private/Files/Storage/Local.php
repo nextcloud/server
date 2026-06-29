@@ -252,7 +252,7 @@ class Local extends \OC\Files\Storage\Common {
 				return false;
 			}
 			$content = scandir($parentPath, SCANDIR_SORT_NONE);
-			return is_array($content) && array_search(basename($fullPath), $content) !== false;
+			return is_array($content) && array_search(basename($fullPath), $content, true) !== false;
 		} else {
 			return file_exists($this->getSourcePath($path));
 		}
