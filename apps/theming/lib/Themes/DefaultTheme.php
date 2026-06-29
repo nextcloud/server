@@ -240,7 +240,7 @@ class DefaultTheme implements ITheme {
 			'--default-grid-baseline' => '4px',
 
 			// header / navigation bar
-			'--header-height' => '42px',
+			'--header-height' => '44px',
 			'--header-menu-item-height' => '34px',
 			/* An alpha mask to be applied to all icons on the navigation bar (header menu).
 			 * Icons are have a size of 20px but usually we use MDI which have a content of 16px so 2px padding top bottom,
