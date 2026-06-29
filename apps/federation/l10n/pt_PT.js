@@ -14,6 +14,7 @@ OC.L10N.register(
     "Server failure" : "Falha no servidor",
     "Connection to the remote server failed or the remote server is misconfigured." : "Falha na conexão com o servidor remoto ou o servidor remoto está mal configurado.",
     "Delete" : "Eliminar",
+    "External documentation for Federated Cloud Sharing" : "Documentação externa para Compartilhamento de Nuvem Federada",
     "+ Add trusted server" : "+ Adicionar servidor confiável",
     "Trusted server" : "Servidor confiável"
 },

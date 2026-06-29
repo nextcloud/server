@@ -13,6 +13,8 @@ OC.L10N.register(
     "User status" : "Estado do utilizador",
     "Clear status after" : "Limpar mensagem de estado após",
     "What is your status?" : "Qual é o seu estado?",
+    "Reset status to \"{message}\"" : "Redefinir status para \"{message}\"",
+    "Reset status to \"{icon}\"" : "Redefinir status para \"{icon}\"",
     "There was an error saving the status" : "Ocorreu um erro ao guardar o estado",
     "There was an error clearing the status" : "Ocorreu um erro ao apagar o estado",
     "There was an error reverting the status" : "Ocorreu um erro ao reverter o status",

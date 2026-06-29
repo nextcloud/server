@@ -414,8 +414,6 @@
     "Save as …" : "... 으로 저장하기",
     "Converting files …" : "파일 변환하기 ...",
     "Converting file …" : "파일 변환중…",
-    "Moving {count} files to \"{destination}\" …" : "{count}개 파일을 \"{destination}\"(으)로 이동중 …",
-    "Copying {count} files to \"{destination}\" …" : "{count}개 파일을 \"{destination}\"(으)로 복사중 …",
     "No entries found in this folder" : "이 폴더에 항목 없음",
     "Select all" : "모두 선택",
     "Upload too large" : "업로드한 파일이 너무 큼",

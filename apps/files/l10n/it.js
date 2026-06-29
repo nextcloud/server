@@ -416,8 +416,6 @@ OC.L10N.register(
     "Save as …" : "Salva come …",
     "Converting files …" : "Conversione dei file …",
     "Converting file …" : "Conversione del file …",
-    "Moving {count} files to \"{destination}\" …" : "Spostamento di {count} file in \"{destination}\" …",
-    "Copying {count} files to \"{destination}\" …" : "Copiatura di {count} file in \"{destination}\" …",
     "No entries found in this folder" : "Nessuna voce trovata in questa cartella",
     "Select all" : "Seleziona tutto",
     "Upload too large" : "Caricamento troppo grande",
