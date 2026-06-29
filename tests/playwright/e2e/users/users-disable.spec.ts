@@ -3,36 +3,26 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { type User } from '@nextcloud/e2e-test-server'
 import { runOcc } from '@nextcloud/e2e-test-server/docker'
-import { createRandomUser } from '@nextcloud/e2e-test-server/playwright'
 import { expect } from '@playwright/test'
-import { test as adminTest } from '../../support/fixtures/admin-session.ts'
+import { test } from '../../support/fixtures/admin-with-user.ts'
 import { SettingsUsersPage } from '../../support/sections/SettingsUsersPage.ts'
 
-const test = adminTest.extend<{ testUser: User }>({
-	testUser: async ({}, use) => {
-		const user = await createRandomUser()
-		await use(user)
-		await runOcc(['user:delete', user.userId])
-	},
-})
-
 test.describe('Settings: Disable and enable users', () => {
-	test('can disable a user', async ({ page, testUser }) => {
+	test('can disable a user', async ({ page, user }) => {
 		// Ensure user is enabled
-		await runOcc(['user:enable', testUser.userId])
+		await runOcc(['user:enable', user.userId])
 
 		const settingsPage = new SettingsUsersPage(page)
 		await settingsPage.open()
 
-		await expect(settingsPage.userRow(testUser.userId)).toBeVisible()
+		await expect(settingsPage.userRow(user.userId)).toBeVisible()
 
-		await settingsPage.openActionsMenu(testUser.userId)
+		await settingsPage.openActionsMenu(user.userId)
 		await page.getByRole('menuitem', { name: 'Disable account' }).click()
 
 		// User should no longer be in the main list
-		await expect(settingsPage.userRow(testUser.userId)).toHaveCount(0)
+		await expect(settingsPage.userRow(user.userId)).toHaveCount(0)
 
 		// Disabled accounts nav link should now appear
 		const disabledLink = settingsPage.navigation().getByRole('link', { name: /Disabled accounts/i })
@@ -44,12 +34,12 @@ test.describe('Settings: Disable and enable users', () => {
 
 		// The disabled user should be in the list
 		await settingsPage.userList().waitFor({ state: 'visible' })
-		await expect(settingsPage.userRow(testUser.userId)).toBeVisible()
+		await expect(settingsPage.userRow(user.userId)).toBeVisible()
 	})
 
-	test('can enable a user', async ({ page, testUser }) => {
+	test('can enable a user', async ({ page, user }) => {
 		// Ensure user is disabled
-		await runOcc(['user:disable', testUser.userId])
+		await runOcc(['user:disable', user.userId])
 
 		const settingsPage = new SettingsUsersPage(page)
 		await settingsPage.open()
@@ -62,7 +52,7 @@ test.describe('Settings: Disable and enable users', () => {
 		await settingsPage.userList().waitFor({ state: 'visible' })
 
 		const waitForEnableRequest = page.waitForResponse((r) => r.request().url().match(/\/ocs\/v2\.php\/cloud\/users\/[^/]+\/enable/) !== null)
-		await settingsPage.openActionsMenu(testUser.userId)
+		await settingsPage.openActionsMenu(user.userId)
 		await page.getByRole('menuitem', { name: 'Enable account' }).click()
 		await waitForEnableRequest
 
