@@ -1412,7 +1412,8 @@ class ShareAPIController extends OCSController {
 	}
 
 	private function validateToken(string $token): bool {
-		if (mb_strlen($token) === 0 || mb_strlen($token) > self::TOKEN_MAX_LENGTH) {
+		$length = mb_strlen($token);
+		if ($length === 0 || $length > self::TOKEN_MAX_LENGTH) {
 			return false;
 		}
 		if (!preg_match('/^[a-z0-9-]+$/i', $token)) {
