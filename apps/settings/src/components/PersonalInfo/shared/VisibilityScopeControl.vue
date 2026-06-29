@@ -12,7 +12,7 @@
 		:additional-value="additionalValue"
 		:disabled="disabled"
 		:handle-additional-scope-change="handleAdditionalScopeChange"
-		@update:scope="(value) => $emit('update:scope', value)" />
+		@update:scope="(value) => emit('update:scope', value)" />
 
 	<NcPopover v-else :shown.sync="open">
 		<template #trigger="{ attrs }">
@@ -29,7 +29,9 @@
 		</template>
 
 		<div class="visibility-scope">
-			<h3 class="visibility-scope__heading">{{ t('settings', 'Visibility & Scope') }}</h3>
+			<h3 class="visibility-scope__heading">
+				{{ t('settings', 'Visibility & Scope') }}
+			</h3>
 			<p class="visibility-scope__description">
 				{{ t('settings', 'The more restrictive setting of either visibility or scope is respected on your Profile. For example, if visibility is set to "Show to everyone" and scope is set to "Private", "Private" is respected.') }}
 			</p>
@@ -94,10 +96,11 @@
 	</NcPopover>
 </template>
 
-<script>
+<script setup lang="ts">
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcPopover from '@nextcloud/vue/components/NcPopover'
@@ -115,174 +118,143 @@ import { savePrimaryAccountPropertyScope } from '../../../service/PersonalInfo/P
 import { saveProfileParameterVisibility } from '../../../service/ProfileService.js'
 import { handleError } from '../../../utils/handlers.ts'
 
+const props = defineProps({
+	readable: {
+		type: String,
+		required: true,
+	},
+
+	name: {
+		type: String,
+		required: true,
+	},
+
+	scope: {
+		type: String,
+		required: true,
+	},
+
+	additional: {
+		type: Boolean,
+		default: false,
+	},
+
+	additionalValue: {
+		type: String,
+		default: '',
+	},
+
+	handleAdditionalScopeChange: {
+		type: Function,
+		default: null,
+	},
+
+	disabled: {
+		type: Boolean,
+		default: false,
+	},
+})
+
+const emit = defineEmits<{
+	(e: 'update:scope', scope: string): void
+}>()
+
 const { profileConfig } = loadState('settings', 'profileParameters', { profileConfig: {} })
-const { profileEnabled, profileEnabledGlobally } = loadState('settings', 'personalInfoParameters', {})
+const { profileEnabled: initialProfileEnabled, profileEnabledGlobally } = loadState('settings', 'personalInfoParameters', {})
 const { federationEnabled, lookupServerUploadEnabled } = loadState('settings', 'accountParameters', {})
 
-export default {
-	name: 'VisibilityScopeControl',
+const open = ref(false)
+const profileEnabled = ref(initialProfileEnabled)
+const localScope = ref(props.scope)
+const visibility = ref(profileConfig[props.name]?.visibility ?? null)
 
-	components: {
-		FederationControl,
-		NcButton,
-		NcIconSvgWrapper,
-		NcPopover,
-		NcSelect,
-	},
+const showCombined = computed(() => Boolean(profileEnabledGlobally)
+	&& profileEnabled.value
+	&& visibility.value !== null
+	&& !props.additional)
 
-	props: {
-		readable: {
-			type: String,
-			required: true,
-		},
+const ariaLabel = computed(() => t('settings', 'Change visibility and scope of {property}', { property: props.readable.toLocaleLowerCase() }))
 
-		name: {
-			type: String,
-			required: true,
-		},
+const scopeIcon = computed(() => SCOPE_PROPERTY_ENUM[localScope.value].icon)
 
-		scope: {
-			type: String,
-			required: true,
-		},
+const visibilityOptions = computed(() => Object.values(VISIBILITY_PROPERTY_ENUM))
 
-		additional: {
-			type: Boolean,
-			default: false,
-		},
+const visibilityOption = computed(() => VISIBILITY_PROPERTY_ENUM[visibility.value])
 
-		additionalValue: {
-			type: String,
-			default: '',
-		},
+const supportedScopes = computed(() => {
+	// copy to avoid mutating the shared constant
+	const scopes = [...PROPERTY_READABLE_SUPPORTED_SCOPES_ENUM[props.readable]]
+	if (UNPUBLISHED_READABLE_PROPERTIES.includes(props.readable)) {
+		return scopes
+	}
+	if (federationEnabled) {
+		scopes.push(SCOPE_ENUM.FEDERATED)
+	}
+	if (lookupServerUploadEnabled) {
+		scopes.push(SCOPE_ENUM.PUBLISHED)
+	}
+	return scopes
+})
 
-		handleAdditionalScopeChange: {
-			type: Function,
-			default: null,
-		},
+const scopeOptions = computed(() => supportedScopes.value.map((scope) => SCOPE_PROPERTY_ENUM[scope]))
 
-		disabled: {
-			type: Boolean,
-			default: false,
-		},
-	},
+const scopeOption = computed(() => SCOPE_PROPERTY_ENUM[localScope.value])
 
-	emits: ['update:scope'],
+watch(() => props.scope, (value) => {
+	localScope.value = value
+})
 
-	data() {
-		return {
-			open: false,
-			profileEnabled,
-			localScope: this.scope,
-			visibility: profileConfig[this.name]?.visibility ?? null,
+function handleProfileEnabledUpdate(value) {
+	profileEnabled.value = value
+}
+
+onMounted(() => {
+	subscribe('settings:profile-enabled:updated', handleProfileEnabledUpdate)
+})
+
+onBeforeUnmount(() => {
+	unsubscribe('settings:profile-enabled:updated', handleProfileEnabledUpdate)
+})
+
+async function onVisibilityChange(option) {
+	if (!option) {
+		return
+	}
+	const previous = visibility.value
+	visibility.value = option.name
+	try {
+		const responseData = await saveProfileParameterVisibility(props.name, option.name)
+		if (responseData.ocs?.meta?.status !== 'ok') {
+			throw new Error('Unexpected response')
 		}
-	},
+	} catch (e) {
+		visibility.value = previous
+		handleError(e, t('settings', 'Unable to update visibility of {property}', { property: props.readable.toLocaleLowerCase() }))
+	}
+}
 
-	computed: {
-		showCombined() {
-			return Boolean(profileEnabledGlobally)
-				&& this.profileEnabled
-				&& this.visibility !== null
-				&& !this.additional
-		},
-
-		ariaLabel() {
-			return t('settings', 'Change visibility and scope of {property}', { property: this.readable.toLocaleLowerCase() })
-		},
-
-		scopeIcon() {
-			return SCOPE_PROPERTY_ENUM[this.localScope].icon
-		},
-
-		visibilityOptions() {
-			return Object.values(VISIBILITY_PROPERTY_ENUM)
-		},
-
-		visibilityOption() {
-			return VISIBILITY_PROPERTY_ENUM[this.visibility]
-		},
-
-		supportedScopes() {
-			// copy to avoid mutating the shared constant
-			const scopes = [...PROPERTY_READABLE_SUPPORTED_SCOPES_ENUM[this.readable]]
-			if (UNPUBLISHED_READABLE_PROPERTIES.includes(this.readable)) {
-				return scopes
-			}
-			if (federationEnabled) {
-				scopes.push(SCOPE_ENUM.FEDERATED)
-			}
-			if (lookupServerUploadEnabled) {
-				scopes.push(SCOPE_ENUM.PUBLISHED)
-			}
-			return scopes
-		},
-
-		scopeOptions() {
-			return this.supportedScopes.map((scope) => SCOPE_PROPERTY_ENUM[scope])
-		},
-
-		scopeOption() {
-			return SCOPE_PROPERTY_ENUM[this.localScope]
-		},
-	},
-
-	watch: {
-		scope(value) {
-			this.localScope = value
-		},
-	},
-
-	mounted() {
-		subscribe('settings:profile-enabled:updated', this.handleProfileEnabledUpdate)
-	},
-
-	beforeDestroy() {
-		unsubscribe('settings:profile-enabled:updated', this.handleProfileEnabledUpdate)
-	},
-
-	methods: {
-		handleProfileEnabledUpdate(profileEnabled) {
-			this.profileEnabled = profileEnabled
-		},
-
-		async onVisibilityChange(option) {
-			if (!option) {
-				return
-			}
-			const previous = this.visibility
-			this.visibility = option.name
-			try {
-				const responseData = await saveProfileParameterVisibility(this.name, option.name)
-				if (responseData.ocs?.meta?.status !== 'ok') {
-					throw new Error('Unexpected response')
-				}
-			} catch (e) {
-				this.visibility = previous
-				handleError(e, t('settings', 'Unable to update visibility of {property}', { property: this.readable.toLocaleLowerCase() }))
-			}
-		},
-
-		async onScopeChange(option) {
-			if (!option) {
-				return
-			}
-			const previous = this.localScope
-			this.localScope = option.name
-			this.$emit('update:scope', option.name)
-			try {
-				const responseData = this.additional
-					? await this.handleAdditionalScopeChange(this.additionalValue, option.name)
-					: await savePrimaryAccountPropertyScope(PROPERTY_READABLE_KEYS_ENUM[this.readable], option.name)
-				if (responseData.ocs?.meta?.status !== 'ok') {
-					throw new Error('Unexpected response')
-				}
-			} catch (e) {
-				this.localScope = previous
-				this.$emit('update:scope', previous)
-				handleError(e, t('settings', 'Unable to update scope of {property}', { property: this.readable.toLocaleLowerCase() }))
-			}
-		},
-	},
+async function onScopeChange(option) {
+	if (!option) {
+		return
+	}
+	const previous = localScope.value
+	localScope.value = option.name
+	emit('update:scope', option.name)
+	try {
+		let responseData
+		if (props.additional && typeof props.handleAdditionalScopeChange === 'function') {
+			responseData = await props.handleAdditionalScopeChange(props.additionalValue, option.name)
+		} else {
+			responseData = await savePrimaryAccountPropertyScope(PROPERTY_READABLE_KEYS_ENUM[props.readable], option.name)
+		}
+		if (responseData.ocs?.meta?.status !== 'ok') {
+			throw new Error('Unexpected response')
+		}
+	} catch (e) {
+		localScope.value = previous
+		emit('update:scope', previous)
+		handleError(e, t('settings', 'Unable to update scope of {property}', { property: props.readable.toLocaleLowerCase() }))
+	}
 }
 </script>
 
