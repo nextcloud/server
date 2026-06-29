@@ -66,7 +66,7 @@ class ServerDevNotice implements ISettings {
 			return null;
 		}
 
-		return 'personal-info';
+		return 'profile-contact';
 	}
 
 	/**

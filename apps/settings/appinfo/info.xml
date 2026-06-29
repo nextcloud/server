@@ -48,7 +48,8 @@
 		<admin-delegation>OCA\Settings\Settings\Admin\Users</admin-delegation>
 		<admin-delegation-section>OCA\Settings\Sections\Admin\Users</admin-delegation-section>
 		<personal>OCA\Settings\Settings\Personal\Additional</personal>
-		<personal>OCA\Settings\Settings\Personal\PersonalInfo</personal>
+		<personal>OCA\Settings\Settings\Personal\ProfileContact</personal>
+		<personal>OCA\Settings\Settings\Personal\LanguageLocale</personal>
 		<personal>OCA\Settings\Settings\Personal\ServerDevNotice</personal>
 		<personal>OCA\Settings\Settings\Personal\Security\Authtokens</personal>
 		<personal>OCA\Settings\Settings\Personal\Security\Password</personal>
@@ -56,7 +57,8 @@
 		<personal>OCA\Settings\Settings\Personal\Security\WebAuthn</personal>
 		<personal-section>OCA\Settings\Sections\Personal\Availability</personal-section>
 		<personal-section>OCA\Settings\Sections\Personal\Calendar</personal-section>
-		<personal-section>OCA\Settings\Sections\Personal\PersonalInfo</personal-section>
+		<personal-section>OCA\Settings\Sections\Personal\ProfileContact</personal-section>
+		<personal-section>OCA\Settings\Sections\Personal\LanguageLocale</personal-section>
 		<personal-section>OCA\Settings\Sections\Personal\Security</personal-section>
 		<personal-section>OCA\Settings\Sections\Personal\SyncClients</personal-section>
 	</settings>
