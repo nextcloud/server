@@ -148,7 +148,9 @@ class Server {
 		$this->server->httpRequest->setUrl($this->request->getRequestUri());
 		$this->server->setBaseUri($this->baseUri);
 
-		$this->server->addPlugin(new ProfilerPlugin($this->request));
+		if ($this->profiler->isEnabled()) {
+			$this->server->addPlugin(new ProfilerPlugin($this->request));
+		}
 		$this->server->addPlugin(new BlockLegacyClientPlugin(
 			\OCP\Server::get(IConfig::class),
 			\OCP\Server::get(ThemingDefaults::class),
