@@ -418,8 +418,6 @@ OC.L10N.register(
     "Save as …" : "Salvar como …",
     "Converting files …" : "Convertendo arquivos …",
     "Converting file …" : "Convertendo arquivo …",
-    "Moving {count} files to \"{destination}\" …" : "Movendo {count} arquivos para \"{destination}\" …",
-    "Copying {count} files to \"{destination}\" …" : "Copiando {count} arquivos para \"{destination}\" …",
     "No entries found in this folder" : "Nenhuma entrada foi encontrada nesta pasta",
     "Select all" : "Selecionar tudo",
     "Upload too large" : "Arquivo muito grande para fazer upload",

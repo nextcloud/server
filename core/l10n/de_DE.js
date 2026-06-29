@@ -237,6 +237,7 @@ OC.L10N.register(
     "Search everywhere" : "Überall suchen",
     "Searching …" : "Suche …",
     "Start typing to search" : "Beginnen Sie mit der Eingabe, um zu suchen",
+    "_Minimum search length is %n character_::_Minimum search length is %n characters_" : ["Die Mindestsuchlänge beträgt %n Zeichen","Die Mindestsuchlänge beträgt %n Zeichen"],
     "No matching results" : "Keine passenden Suchergebnisse",
     "Today" : "Heute",
     "Last 7 days" : "Die letzten 7 Tage",

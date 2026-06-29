@@ -10,6 +10,7 @@ OC.L10N.register(
     "{author} commented on {file}" : "{author} comentou em {file}",
     "<strong>Comments</strong> for files" : "<strong>Comentários</strong> aos ficheiros",
     "Files" : "Ficheiros",
+    "Go to file" : "Ir para o arquivo",
     "Files app plugin to add comments to files" : "Plug-in da aplicação de ficheiros para adicionar comentários aos ficheiros",
     "Edit comment" : "Editar comentário",
     "Delete comment" : "Eliminar comentário",

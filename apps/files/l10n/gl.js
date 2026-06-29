@@ -418,8 +418,6 @@ OC.L10N.register(
     "Save as …" : "Gardar como…",
     "Converting files …" : "Convertendo ficheiros…",
     "Converting file …" : "Convertendo o ficheiro…",
-    "Moving {count} files to \"{destination}\" …" : "Movendo {count} ficheiros a «{destination}»…",
-    "Copying {count} files to \"{destination}\" …" : "Copiando {count} ficheiros en «{destination}»…",
     "No entries found in this folder" : "Non se atopou ningunha entrada neste cartafol",
     "Select all" : "Seleccionar todo",
     "Upload too large" : "Envío grande de máis",

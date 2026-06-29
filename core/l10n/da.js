@@ -201,7 +201,7 @@ OC.L10N.register(
     "_{count} notification_::_{count} notifications_" : ["{count} underretning","{count} underretninger"],
     "More apps" : "Flere apps",
     "Settings" : "Indstillinger",
-    "Applications" : "ApplikationerApplikationer",
+    "Applications" : "Applikationer",
     "Apps" : "Apps",
     "No" : "Nej",
     "Yes" : "Ja",

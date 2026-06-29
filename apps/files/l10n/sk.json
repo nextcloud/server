@@ -406,8 +406,6 @@
     "Save as …" : "Uložiť ako ...",
     "Converting files …" : "Konverzia súborov ...",
     "Converting file …" : "Konverzia súborov ...",
-    "Moving {count} files to \"{destination}\" …" : "Presúvanie {count} súborov do \"{destination}\" …",
-    "Copying {count} files to \"{destination}\" …" : "Kopírovanie {count} súborov do \"{destination}\" …",
     "No entries found in this folder" : "V tomto priečinku nebolo nič nájdené",
     "Select all" : "Vybrať všetko",
     "Upload too large" : "Nahrávanie je príliš veľké",

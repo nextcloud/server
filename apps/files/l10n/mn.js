@@ -406,8 +406,6 @@ OC.L10N.register(
     "Save as …" : "Хадгалах …",
     "Converting files …" : "Файлуудыг хөрвүүлж байна …",
     "Converting file …" : "Файл хөрвүүлж байна …",
-    "Moving {count} files to \"{destination}\" …" : "{count} файлыг \"{destination}\" руу зөөж байна …",
-    "Copying {count} files to \"{destination}\" …" : "{count} файлыг \"{destination}\" руу хуулж байна …",
     "No entries found in this folder" : "энэ хавтсан олдсон ч ямарч мэдээлэл олдохгүй байна",
     "Select all" : "бүгдийг сонгох",
     "Upload too large" : "маш том байршуулалт",

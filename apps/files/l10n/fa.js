@@ -418,8 +418,6 @@ OC.L10N.register(
     "Save as …" : "ذخیره به عنوان …",
     "Converting files …" : "در حال تبدیل فایل‌ها …",
     "Converting file …" : "در حال تبدیل فایل …",
-    "Moving {count} files to \"{destination}\" …" : "در حال انتقال {count} فایل به \"{destination}\" …",
-    "Copying {count} files to \"{destination}\" …" : "در حال کپی {count} فایل به \"{destination}\" …",
     "No entries found in this folder" : "هیچ ورودی در این پوشه یافت نشد",
     "Select all" : "انتخاب همه",
     "Upload too large" : "آپلود بیش از حد بزرگ است",

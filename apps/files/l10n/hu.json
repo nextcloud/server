@@ -416,8 +416,6 @@
     "Save as …" : "Mentés másként…",
     "Converting files …" : "Fájlok átalakítása…",
     "Converting file …" : "Fájl átalakítása…",
-    "Moving {count} files to \"{destination}\" …" : "{count} fájl áthelyezési ide: „{destination}”…",
-    "Copying {count} files to \"{destination}\" …" : "{count} fájl másolása ide: „{destination}”…",
     "No entries found in this folder" : "Nincsenek bejegyzések ebben a mappában",
     "Select all" : "Összes kijelölése",
     "Upload too large" : "A feltöltés túl nagy",

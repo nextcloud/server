@@ -418,8 +418,6 @@ OC.L10N.register(
     "Save as …" : "Įrašyti kaip…",
     "Converting files …" : "Failų konvertavimas…",
     "Converting file …" : "Failo konvertavimas…",
-    "Moving {count} files to \"{destination}\" …" : "{count} failai perkeliami į \"{destination}\"  ...",
-    "Copying {count} files to \"{destination}\" …" : "{count} failai kopijuojami į \"{destination}\"  ...",
     "No entries found in this folder" : "Nerasta įrašų šiame aplanke",
     "Select all" : "Pažymėti viską",
     "Upload too large" : "Įkeltis per didelė",
