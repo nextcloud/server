@@ -80,7 +80,6 @@ class Manager implements ICommentsManager {
 			$data['expire_date'] = new \DateTime($data['expire_date']);
 		}
 		$data['children_count'] = (int)$data['children_count'];
-		$data['reference_id'] = $data['reference_id'];
 		$data['meta_data'] = json_decode($data['meta_data'], true);
 		if ($this->supportReactions()) {
 			if ($data['reactions'] !== null) {
