@@ -381,7 +381,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.1.0
 	- license: MIT
 - dompurify
-	- version: 3.4.10
+	- version: 3.4.11
 	- license: (MPL-2.0 OR Apache-2.0)
 - dunder-proto
 	- version: 1.0.1
@@ -444,7 +444,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.0
 	- license: MIT
 - handlebars
-	- version: 4.7.8
+	- version: 4.7.9
 	- license: MIT
 - has-property-descriptors
 	- version: 1.0.2
@@ -456,7 +456,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.2
 	- license: MIT
 - hasown
-	- version: 2.0.2
+	- version: 2.0.4
 	- license: MIT
 - hast-to-hyperscript
 	- version: 10.0.3
@@ -660,7 +660,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.4.1
 	- license: MIT
 - qs
-	- version: 6.14.1
+	- version: 6.14.2
 	- license: BSD-3-Clause
 - query-string
 	- version: 9.4.0
@@ -702,7 +702,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.2
 	- license: MIT
 - side-channel-list
-	- version: 1.0.0
+	- version: 1.0.1
 	- license: MIT
 - side-channel-map
 	- version: 1.0.1
@@ -711,7 +711,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.2
 	- license: MIT
 - side-channel
-	- version: 1.1.0
+	- version: 1.1.1
 	- license: MIT
 - space-separated-tokens
 	- version: 2.0.2
