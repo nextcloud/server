@@ -97,8 +97,6 @@ function resolveService($service) {
 	return \OCP\Server::get(IConfig::class)->getAppValue('core', 'remote_' . $service);
 }
 
-require_once __DIR__ . '/lib/OC.php';
-
 \OC::boot();
 
 \OC::handleRequests(static function () {
@@ -157,7 +155,7 @@ require_once __DIR__ . '/lib/OC.php';
 				break;
 		}
 		$baseuri = OC::$WEBROOT . '/remote.php/' . $service . '/';
-		require_once $file;
+		require $file;
 	} catch (Exception $ex) {
 		handleException($ex);
 	} catch (Error $e) {
