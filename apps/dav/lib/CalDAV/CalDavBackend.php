@@ -32,6 +32,7 @@ use OCA\DAV\Events\CalendarUpdatedEvent;
 use OCA\DAV\Events\SubscriptionCreatedEvent;
 use OCA\DAV\Events\SubscriptionDeletedEvent;
 use OCA\DAV\Events\SubscriptionUpdatedEvent;
+use OCA\DAV\Exception\UidConflict;
 use OCP\AppFramework\Db\TTransactional;
 use OCP\Calendar\CalendarExportOptions;
 use OCP\Calendar\Events\CalendarObjectCreatedEvent;
@@ -1499,6 +1500,35 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	}
 
 	/**
+	 * Find an existing calendar object that already carries the given UID in a calendar collection
+	 *
+	 * @param int $calendarId
+	 * @param string $uid
+	 * @param int $calendarType
+	 * @param bool|null $deleted Whether to match trashed objects: false for live objects only, true for trashed only, null for any
+	 * @return array|null The existing object, or null when no match is found
+	 */
+	public function findCalendarObjectByUid(int $calendarId, string $uid, int $calendarType = self::CALENDAR_TYPE_CALENDAR, ?bool $deleted = false): ?array {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('*')
+			->from('calendarobjects')
+			->where($qb->expr()->eq('calendarid', $qb->createNamedParameter($calendarId, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($uid, IQueryBuilder::PARAM_STR)))
+			->andWhere($qb->expr()->eq('calendartype', $qb->createNamedParameter($calendarType, IQueryBuilder::PARAM_INT)))
+			->setMaxResults(1);
+		if ($deleted === false) {
+			$qb->andWhere($qb->expr()->isNull('deleted_at'));
+		} elseif ($deleted === true) {
+			$qb->andWhere($qb->expr()->isNotNull('deleted_at'));
+		}
+		$result = $qb->executeQuery();
+		$row = $result->fetchAssociative();
+		$result->closeCursor();
+
+		return $row === false ? null : $this->rowToCalendarObject($row);
+	}
+
+	/**
 	 * Creates a new calendar object.
 	 *
 	 * The object uri is only the basename, or filename and not a full path.
@@ -1523,36 +1553,16 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$extraData = $this->getDenormalizedData($calendarData);
 
 		return $this->atomic(function () use ($calendarId, $objectUri, $calendarData, $extraData, $calendarType) {
-			// Try to detect duplicates
-			$qb = $this->db->getQueryBuilder();
-			$qb->select($qb->func()->count('*'))
-				->from('calendarobjects')
-				->where($qb->expr()->eq('calendarid', $qb->createNamedParameter($calendarId)))
-				->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($extraData['uid'])))
-				->andWhere($qb->expr()->eq('calendartype', $qb->createNamedParameter($calendarType)))
-				->andWhere($qb->expr()->isNull('deleted_at'));
-			$result = $qb->executeQuery();
-			$count = (int)$result->fetchOne();
-			$result->closeCursor();
-
-			if ($count !== 0) {
-				throw new BadRequest('Calendar object with uid already exists in this calendar collection.');
+			// Try to detect duplicate uids in the target collection
+			$existing = $this->findCalendarObjectByUid($calendarId, $extraData['uid'], $calendarType);
+			if ($existing !== null) {
+				// RFC 4791 no-uid-conflict (409) reporting the existing object's href.
+				throw UidConflict::forCalendar($existing['uri']);
 			}
-			// For a more specific error message we also try to explicitly look up the UID but as a deleted entry
-			$qbDel = $this->db->getQueryBuilder();
-			$qbDel->select('*')
-				->from('calendarobjects')
-				->where($qbDel->expr()->eq('calendarid', $qbDel->createNamedParameter($calendarId)))
-				->andWhere($qbDel->expr()->eq('uid', $qbDel->createNamedParameter($extraData['uid'])))
-				->andWhere($qbDel->expr()->eq('calendartype', $qbDel->createNamedParameter($calendarType)))
-				->andWhere($qbDel->expr()->isNotNull('deleted_at'));
-			$result = $qbDel->executeQuery();
-			$found = $result->fetchAssociative();
-			$result->closeCursor();
-			if ($found !== false) {
-				// the object existed previously but has been deleted
-				// remove the trashbin entry and continue as if it was a new object
-				$this->deleteCalendarObject($calendarId, $found['uri']);
+			// The UID may still belong to a trashed object; delete it and replace it with the new object.
+			$found = $this->findCalendarObjectByUid($calendarId, $extraData['uid'], $calendarType, true);
+			if ($found !== null) {
+				$this->deleteCalendarObject($calendarId, $found['uri'], $calendarType, true);
 			}
 
 			$query = $this->db->getQueryBuilder();
@@ -1702,6 +1712,13 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 			$sourceCalendarId = $object['calendarid'];
 			$sourceObjectUri = $object['uri'];
+			$sourceObjectUid = $object['uid'];
+
+			// Try to detect duplicate uids in the target collection
+			$existing = $this->findCalendarObjectByUid($targetCalendarId, $sourceObjectUid, $calendarType);
+			if ($existing !== null) {
+				throw UidConflict::forCalendar($existing['uri']);
+			}
 
 			$query = $this->db->getQueryBuilder();
 			$query->update('calendarobjects')
@@ -2659,7 +2676,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 	public function getCalendarObjectById(string $principalUri, int $id): ?array {
 		$query = $this->db->getQueryBuilder();
-		$query->select(['co.id', 'co.uri', 'co.lastmodified', 'co.etag', 'co.calendarid', 'co.size', 'co.calendardata', 'co.componenttype', 'co.classification', 'co.deleted_at'])
+		$query->select(['co.id', 'co.uri', 'co.uid', 'co.lastmodified', 'co.etag', 'co.calendarid', 'co.size', 'co.calendardata', 'co.componenttype', 'co.classification', 'co.deleted_at'])
 			->selectAlias('c.uri', 'calendaruri')
 			->from('calendarobjects', 'co')
 			->join('co', 'calendars', 'c', $query->expr()->eq('c.id', 'co.calendarid', IQueryBuilder::PARAM_INT))
@@ -2676,6 +2693,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		return [
 			'id' => $row['id'],
 			'uri' => $row['uri'],
+			'uid' => $row['uid'],
 			'lastmodified' => $row['lastmodified'],
 			'etag' => '"' . $row['etag'] . '"',
 			'calendarid' => $row['calendarid'],
