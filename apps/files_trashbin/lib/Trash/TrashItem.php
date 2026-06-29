@@ -46,7 +46,7 @@ class TrashItem implements ITrashItem {
 
 	#[\Override]
 	public function isRootItem(): bool {
-		return substr_count($this->getTrashPath(), '/') === 1;
+		return substr_count($this->getTrashPath(), '/') === 1 || str_ends_with($this->trashPath, strval($this->deletedTime));
 	}
 
 	#[\Override]
