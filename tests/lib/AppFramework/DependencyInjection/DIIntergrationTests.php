@@ -33,6 +33,14 @@ class ClassB {
 	}
 }
 
+class ClassC {
+	public function __construct(
+		// Intentional wrong casing to check that DI works in this case
+		public interface1 $interface1,
+	) {
+	}
+}
+
 class DIIntergrationTests extends TestCase {
 	public function __construct() {
 		parent::__construct(static::class);
@@ -59,8 +67,10 @@ class DIIntergrationTests extends TestCase {
 			);
 		});
 
-		/** @var ClassB $res */
 		$res = $this->container->query(ClassB::class);
+		$this->assertSame(ClassA1::class, get_class($res->interface1));
+
+		$res = $this->container->query(ClassC::class);
 		$this->assertSame(ClassA1::class, get_class($res->interface1));
 	}
 
@@ -75,8 +85,10 @@ class DIIntergrationTests extends TestCase {
 			);
 		});
 
-		/** @var ClassB $res */
 		$res = $this->container->query(ClassB::class);
+		$this->assertSame(ClassA1::class, get_class($res->interface1));
+
+		$res = $this->container->query(ClassC::class);
 		$this->assertSame(ClassA1::class, get_class($res->interface1));
 	}
 
@@ -95,8 +107,10 @@ class DIIntergrationTests extends TestCase {
 			);
 		});
 
-		/** @var ClassB $res */
 		$res = $this->container->query(ClassB::class);
+		$this->assertSame(ClassA2::class, get_class($res->interface1));
+
+		$res = $this->container->query(ClassC::class);
 		$this->assertSame(ClassA2::class, get_class($res->interface1));
 	}
 
@@ -115,8 +129,10 @@ class DIIntergrationTests extends TestCase {
 			);
 		});
 
-		/** @var ClassB $res */
 		$res = $this->container->query(ClassB::class);
+		$this->assertSame(ClassA1::class, get_class($res->interface1));
+
+		$res = $this->container->query(ClassC::class);
 		$this->assertSame(ClassA1::class, get_class($res->interface1));
 	}
 }
