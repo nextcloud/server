@@ -10,8 +10,12 @@ import Config from '../services/ConfigService.ts'
 import logger from '../services/logger.ts'
 
 const config = new Config()
-// note: some chars removed on purpose to make them human friendly when read out
-const passwordSet = 'abcdefgijkmnopqrstwxyzABCDEFGHJKLMNPQRSTWXYZ23456789'
+// Character sets for password generation
+const CHARS_LOWER = 'abcdefgijkmnopqrstwxyz'
+const CHARS_UPPER = 'ABCDEFGHJKLMNPQRSTWXYZ'
+const CHARS_DIGITS = '23456789'
+const CHARS_SPECIAL = '!@#$%^&*'
+const CHARS_HUMAN_READABLE = CHARS_LOWER + CHARS_UPPER + CHARS_DIGITS
 
 /**
  * Generate a valid policy password or request a valid password if password_policy is enabled
@@ -22,7 +26,9 @@ export default async function(verbose = false): Promise<string> {
 	// password policy is enabled, let's request a pass
 	if (config.passwordPolicy.api && config.passwordPolicy.api.generate) {
 		try {
-			const request = await axios.get(config.passwordPolicy.api.generate)
+			const request = await axios.get(config.passwordPolicy.api.generate, {
+				params: { context: 'sharing' },
+			})
 			if (request.data.ocs.data.password) {
 				if (verbose) {
 					showSuccess(t('files_sharing', 'Password created successfully'))
@@ -37,14 +43,39 @@ export default async function(verbose = false): Promise<string> {
 		}
 	}
 
-	const array = new Uint8Array(10)
-	const ratio = passwordSet.length / 255
-	getRandomValues(array)
+	// Fallback: generate password based on sharing policy from capabilities
+	const sharingPolicy = config.passwordPolicy?.policies?.sharing
+	const minLength = Math.max(sharingPolicy?.minLength ?? config.passwordPolicy?.minLength ?? 10, 8)
+	const needsSpecialChars = sharingPolicy?.enforceSpecialCharacters ?? config.passwordPolicy?.enforceSpecialCharacters ?? false
+	const needsUpperLower = sharingPolicy?.enforceUpperLowerCase ?? config.passwordPolicy?.enforceUpperLowerCase ?? false
+	const needsNumeric = sharingPolicy?.enforceNumericCharacters ?? config.passwordPolicy?.enforceNumericCharacters ?? false
+
 	let password = ''
-	for (let i = 0; i < array.length; i++) {
-		password += passwordSet.charAt(array[i] * ratio)
+	let chars = CHARS_HUMAN_READABLE
+
+	// Add required character types
+	if (needsUpperLower) {
+		password += getRandomChar(CHARS_UPPER)
+		password += getRandomChar(CHARS_LOWER)
 	}
-	return password
+	if (needsNumeric) {
+		password += getRandomChar(CHARS_DIGITS)
+	}
+	if (needsSpecialChars) {
+		password += getRandomChar(CHARS_SPECIAL)
+		chars += CHARS_SPECIAL
+	}
+
+	// Fill remaining length
+	const remainingLength = Math.max(minLength - password.length, 0)
+	const array = new Uint8Array(remainingLength)
+	getRandomValues(array)
+	for (let i = 0; i < array.length; i++) {
+		password += chars.charAt(Math.floor(array[i] / 256 * chars.length))
+	}
+
+	// Shuffle to randomize character positions
+	return shuffleString(password)
 }
 
 /**
@@ -64,4 +95,33 @@ function getRandomValues(array: Uint8Array): void {
 	while (len--) {
 		array[len] = Math.floor(Math.random() * 256)
 	}
+}
+
+/**
+ * Get a random character from the given character set.
+ *
+ * @param chars - The character set to choose from.
+ */
+function getRandomChar(chars: string): string {
+	const array = new Uint8Array(1)
+	getRandomValues(array)
+	return chars.charAt(Math.floor(array[0] / 256 * chars.length))
+}
+
+/**
+ * Shuffle a string randomly using Fisher-Yates algorithm.
+ *
+ * @param str - The string to shuffle.
+ */
+function shuffleString(str: string): string {
+	const arr = str.split('')
+	for (let i = arr.length - 1; i > 0; i--) {
+		const array = new Uint8Array(1)
+		getRandomValues(array)
+		const j = Math.floor(array[0] / 256 * (i + 1))
+		const temp = arr[i]
+		arr[i] = arr[j]
+		arr[j] = temp
+	}
+	return arr.join('')
 }

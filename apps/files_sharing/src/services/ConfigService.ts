@@ -5,12 +5,23 @@
 import { getCapabilities } from '@nextcloud/capabilities'
 import { loadState } from '@nextcloud/initial-state'
 
-type PasswordPolicyCapabilities = {
+type PasswordPolicySettings = {
 	enforceNonCommonPassword: boolean
 	enforceNumericCharacters: boolean
 	enforceSpecialCharacters: boolean
 	enforceUpperLowerCase: boolean
 	minLength: number
+}
+
+type PasswordPolicyCapabilities = PasswordPolicySettings & {
+	api?: {
+		generate: string
+		validate: string
+	}
+	policies?: {
+		account?: PasswordPolicySettings
+		sharing?: PasswordPolicySettings
+	}
 }
 
 type FileSharingCapabilities = {
