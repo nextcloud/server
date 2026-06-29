@@ -10,6 +10,7 @@ import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { getNavigation } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
 import RouterService from '../../files/src/services/RouterService.ts'
+import registerUploadBeforeUnload from '../../files/src/services/UploadBeforeUnload.ts'
 import registerFileDropView from './files_views/publicFileDrop.ts'
 import registerPublicFileShareView from './files_views/publicFileShare.ts'
 import registerPublicShareView from './files_views/publicShare.ts'
@@ -19,6 +20,7 @@ import logger from './services/logger.ts'
 registerFileDropView()
 registerPublicShareView()
 registerPublicFileShareView()
+registerUploadBeforeUnload()
 
 // Get the current view from state and set it active
 const view = loadState<string>('files_sharing', 'view')
