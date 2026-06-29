@@ -136,7 +136,7 @@ export default defineComponent({
 				return {
 					is: 'span',
 					params: {
-						title: t('files', 'This node is unavailable'),
+						title: this.source.displayname + ` (${t('files', 'unavailable')})`,
 					},
 				}
 			}
@@ -148,11 +148,12 @@ export default defineComponent({
 					folder: this.activeFolder!,
 					contents: [],
 				})
+				const accessibleName = `${displayName}: ${this.source.displayname}`
 				return {
 					is: 'button',
 					params: {
-						'aria-label': displayName,
-						title: displayName,
+						'aria-label': accessibleName,
+						title: accessibleName,
 						tabindex: '0',
 					},
 				}
