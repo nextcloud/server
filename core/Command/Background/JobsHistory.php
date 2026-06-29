@@ -33,10 +33,11 @@ final class JobsHistory extends Base {
 		parent::configure();
 
 		$help = <<<EOF
-			Display all currently running background jobs.
+			List historical job executions
 
-			You can find the following informations:
+			The output includes:
 			  - <info>Run ID:</info> job identifier as found in database (Snowflake ID)
+			  - <info>Status:</info> result of the job (Succeeded, Failed, Crashed)
 			  - <info>Class:</info> class of the job
 			  - <info>Started at:</info> start time of the job
 			  - <info>Server ID:</info> server ID as defined in <options=bold>config.php</> (see `serverid`). Highlighted if it’s running on current server.
@@ -48,7 +49,7 @@ final class JobsHistory extends Base {
 
 		$this
 			->setName('background-job:history')
-			->setDescription('Show currently running jobs')
+			->setDescription('List historical job executions')
 			->setHelp($help)
 			->addOption('limit', 'l', InputOption::VALUE_REQUIRED, 'Maximum number of results returned by the command', 200)
 			->addOption('class', 'c', InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED, 'Filter by class name', [])
