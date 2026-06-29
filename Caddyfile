@@ -18,21 +18,20 @@ localhost {
 			file index.php
 			num 32
 			watch
+			match /index.php/*
 		}
 		worker {
 			file remote.php
 			num 32
 			watch
+			match /remote.php/*
 		}
 		worker {
 			file ocs/v1.php
 			num 32
 			watch
-		}
-		worker {
-			file ocs/v2.php
-			num 32
-			watch
+			match /ocs/v1.php/*
+			match /ocs/v2.php/*
 		}
 	}
 
