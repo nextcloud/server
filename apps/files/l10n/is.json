@@ -405,8 +405,6 @@
     "Save as …" : "Vista sem …",
     "Converting files …" : "Umbreyti skrám …",
     "Converting file …" : "Umbreyti skrá…",
-    "Moving {count} files to \"{destination}\" …" : "Færi {count} skrár í \"{destination}\" …",
-    "Copying {count} files to \"{destination}\" …" : "Afrita {count} skrár í \"{destination}\" …",
     "No entries found in this folder" : "Engar skrár fundust í þessari möppu",
     "Select all" : "Velja allt",
     "Upload too large" : "Innsend skrá er of stór",

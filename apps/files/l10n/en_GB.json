@@ -416,8 +416,6 @@
     "Save as …" : "Save as …",
     "Converting files …" : "Converting files …",
     "Converting file …" : "Converting file …",
-    "Moving {count} files to \"{destination}\" …" : "Moving {count} files to \"{destination}\" …",
-    "Copying {count} files to \"{destination}\" …" : "Copying {count} files to \"{destination}\" …",
     "No entries found in this folder" : "No entries found in this folder",
     "Select all" : "Select all",
     "Upload too large" : "Upload too large",

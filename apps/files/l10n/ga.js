@@ -418,8 +418,6 @@ OC.L10N.register(
     "Save as …" : "Sábháil mar…",
     "Converting files …" : "Comhaid á thiontú…",
     "Converting file …" : "Comhad á thiontú…",
-    "Moving {count} files to \"{destination}\" …" : "Ag bogadh {count} comhad go \"{destination}\" …",
-    "Copying {count} files to \"{destination}\" …" : "Ag cóipeáil {count} comhad chuig \"{destination}\" …",
     "No entries found in this folder" : "Níor aimsíodh aon iontrálacha san fhillteán seo",
     "Select all" : "Roghnú go léir",
     "Upload too large" : "Íoslódáil ró-mhór",

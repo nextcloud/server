@@ -418,8 +418,6 @@ OC.L10N.register(
     "Save as …" : "Spara som …",
     "Converting files …" : "Konverterar filer ...",
     "Converting file …" : "Konverterar fil ...",
-    "Moving {count} files to \"{destination}\" …" : "Flyttar {count}filer till \"{destination}\" …",
-    "Copying {count} files to \"{destination}\" …" : "Kopierar {count} filer till \"{destination}\" …",
     "No entries found in this folder" : "Inget innehåll hittades i denna mapp",
     "Select all" : "Välj allt",
     "Upload too large" : "För stor uppladdning",

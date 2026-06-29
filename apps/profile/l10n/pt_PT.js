@@ -4,6 +4,7 @@ OC.L10N.register(
     "View profile" : "Visualizar perfil",
     "Searching …" : "A procurar…",
     "Not found" : "Não  encontrado",
+    "Insert" : "Colar",
     "You have not added any info yet" : "Ainda não adicionou qualquer informação ",
     "{user} has not added any info yet" : "{user} ainda não adicionou qualquer informação",
     "Error opening the user status modal, try hard refreshing the page" : "Erro ao abrir o modal de estado do utilizador; tente atualizar a página forçadamente",

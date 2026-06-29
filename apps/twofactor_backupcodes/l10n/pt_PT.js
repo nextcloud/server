@@ -6,6 +6,7 @@ OC.L10N.register(
     "You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor." : "Você ativou a autenticação de dois fatores, mas ainda não gerou códigos de backup. Eles são necessários para restaurar o acesso à sua conta caso você perca seu segundo fator.",
     "Backup code" : "Código de segurança",
     "Use backup code" : "Usar código de cópia de segurança",
+    "A two-factor auth backup codes provider" : "Um provedor de códigos de backup de autenticação de dois fatores",
     "An error occurred while generating your backup codes" : "Ocorreu um erro enquanto os códigos de segurança eram gerados",
     "Regenerate backup codes" : "Voltar a gerar os códigos de segurança",
     "Print backup codes" : "Imprimir códigos de segurança",

@@ -418,8 +418,6 @@ OC.L10N.register(
     "Save as …" : "Сохранить как…",
     "Converting files …" : "Преобразование файлов…",
     "Converting file …" : "Преобразование файла…",
-    "Moving {count} files to \"{destination}\" …" : "Перемещение {count} файлов в \"{destination}\" …",
-    "Copying {count} files to \"{destination}\" …" : "Копирование {count} файлов в \"{destination}\" …",
     "No entries found in this folder" : "В этом каталоге ничего не найдено",
     "Select all" : "Выбрать всё",
     "Upload too large" : "Файл слишком велик",

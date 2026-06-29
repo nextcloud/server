@@ -418,8 +418,6 @@ OC.L10N.register(
     "Save as …" : "Opslaan als...",
     "Converting files …" : "Bestanden converteren ...",
     "Converting file …" : "Bestand converteren ...",
-    "Moving {count} files to \"{destination}\" …" : "{count} bestanden aan het verplaatsen naar \"{destination}\" …",
-    "Copying {count} files to \"{destination}\" …" : "{count} bestanden kopiëren naar \"{destination}\" …",
     "No entries found in this folder" : "Niets gevonden in deze map",
     "Select all" : "Alles selecteren",
     "Upload too large" : "Upload is te groot",

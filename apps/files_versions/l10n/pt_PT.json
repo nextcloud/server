@@ -1,0 +1,19 @@
+{ "translations": {
+    "Automatic tag based blocking of file version creation." : "Bloqueio automático da criação de versões de arquivos com base em etiquetas.",
+    "No rule given" : "Nenhuma regra definida",
+    "A new version is created" : "É criada uma nova versão",
+    "Versions" : "Versões",
+    "This application automatically maintains older versions of files that are changed." : "Este aplicativo mantém automaticamente versões mais antigas de arquivos que são alterados.",
+    "Current version" : "Versão atual",
+    "Initial version" : "Versão inicial",
+    "You" : "Você",
+    "Edit version name" : "Editar nome da versão",
+    "Download version" : "Transferir versão",
+    "Cancel" : "Cancelar",
+    "Remove version name" : "Remover nome da versão",
+    "Save version name" : "Salvar nome da versão",
+    "Initial version restored" : "Versão inicial restaurada",
+    "Version restored" : "Versão restaurada",
+    "Could not restore version" : "Não foi possível restaurar esta versão"
+},"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
+}
