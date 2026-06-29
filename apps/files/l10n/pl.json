@@ -416,8 +416,6 @@
     "Save as …" : "Zapisz jako…",
     "Converting files …" : "Konwertowanie plików…",
     "Converting file …" : "Konwertowanie plików…",
-    "Moving {count} files to \"{destination}\" …" : "Przenoszenie {count} plików do \"{destination}\" …",
-    "Copying {count} files to \"{destination}\" …" : "Kopiowanie {count} plików \"{destination}\" …",
     "No entries found in this folder" : "Brak wpisów w tym katalogu",
     "Select all" : "Wybierz wszystko",
     "Upload too large" : "Wysyłany plik jest za duży",

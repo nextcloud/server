@@ -418,8 +418,6 @@ OC.L10N.register(
     "Save as …" : "另存為 ...",
     "Converting files …" : "正在轉換檔案 …",
     "Converting file …" : "正在轉換檔案 …",
-    "Moving {count} files to \"{destination}\" …" : "正在將 {count} 個檔案移動到「{destination}」 …",
-    "Copying {count} files to \"{destination}\" …" : "正在將 {count} 個檔案複製到「{destination}」 …",
     "No entries found in this folder" : "在此資料夾中沒有任何項目",
     "Select all" : "全選",
     "Upload too large" : "上傳過大",

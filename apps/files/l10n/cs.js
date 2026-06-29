@@ -409,8 +409,6 @@ OC.L10N.register(
     "Save as …" : "Uložit jako …",
     "Converting files …" : "Převádění souborů …",
     "Converting file …" : "Převádění souboru …",
-    "Moving {count} files to \"{destination}\" …" : "Přesouvání {count} souborů do „{destination}“ …",
-    "Copying {count} files to \"{destination}\" …" : "Kopírování {count} souborů do „{destination}“ …",
     "No entries found in this folder" : "V této složce nebylo nic nalezeno",
     "Select all" : "Vybrat vše",
     "Upload too large" : "Nahrávaná data jsou příliš objemná",

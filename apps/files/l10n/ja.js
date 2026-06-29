@@ -418,8 +418,6 @@ OC.L10N.register(
     "Save as …" : "保存…",
     "Converting files …" : "ファイルの変換…",
     "Converting file …" : "ファイルの変換…",
-    "Moving {count} files to \"{destination}\" …" : "{count} 個のファイルを \"{destination}\" に移動中…",
-    "Copying {count} files to \"{destination}\" …" : "{count}個のファイルを \"{destination}\" にコピー中…",
     "No entries found in this folder" : "このフォルダーにはエントリーがありません",
     "Select all" : "すべて選択",
     "Upload too large" : "アップロードには大きすぎます。",

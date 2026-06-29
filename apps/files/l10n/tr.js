@@ -418,8 +418,6 @@ OC.L10N.register(
     "Save as …" : "Farklı kaydet…",
     "Converting files …" : "Dosyalar dönüştürülüyor…",
     "Converting file …" : "Dosya dönüştürülüyor…",
-    "Moving {count} files to \"{destination}\" …" : "{count} dosya \"{destination}\" konumuna taşınıyor…",
-    "Copying {count} files to \"{destination}\" …" : "{count} dosya \"{destination}\" konumuna kopyalanıyor…",
     "No entries found in this folder" : "Bu klasörde herhangi bir kayıt bulunamadı",
     "Select all" : "Tümünü seç",
     "Upload too large" : "Yükleme boyutu çok büyük",

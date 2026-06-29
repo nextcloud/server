@@ -406,8 +406,6 @@
     "Save as …" : "Spremi kao …",
     "Converting files …" : "Pretvaranje datoteka …",
     "Converting file …" : "Pretvaranje datoteke …",
-    "Moving {count} files to \"{destination}\" …" : "Premještanje {count} datoteka u \"{destination}\" …",
-    "Copying {count} files to \"{destination}\" …" : "Kopiranje {count} datoteka u \"{destination}\" …",
     "No entries found in this folder" : "U ovoj mapi nisu pronađeni nikakvi zapisi",
     "Select all" : "Odaberi sve",
     "Upload too large" : "Otprema je prevelika",
