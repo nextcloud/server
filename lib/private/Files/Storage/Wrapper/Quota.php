@@ -11,6 +11,8 @@ use OC\Files\Filesystem;
 use OC\SystemConfig;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\FileInfo;
+use OCP\Files\GenericFileException;
+use OCP\Files\NotEnoughSpaceException;
 use OCP\Files\Storage\IStorage;
 
 class Quota extends Wrapper {
@@ -121,14 +123,16 @@ class Quota extends Wrapper {
 		}
 		$source = $this->storage->fopen($path, $mode);
 
-		// don't apply quota for part files
-		if (!$this->isPartFile($path)) {
-			$free = $this->free_space($path);
-			if ($source && (is_int($free) || is_float($free)) && $free >= 0 && $mode !== 'r' && $mode !== 'rb') {
-				// only apply quota for files, not metadata, trash or others
-				if ($this->shouldApplyQuota($path)) {
-					return \OC\Files\Stream\Quota::wrap($source, $free);
-				}
+		$free = $this->free_space($path);
+		if ($this->shouldApplyQuota($path) && $free == 0) {
+			return false;
+		}
+
+		$source = $this->getWrapperStorage()->fopen($path, $mode);
+		if ($source && (is_int($free) || is_float($free)) && $free >= 0 && $mode !== 'r' && $mode !== 'rb') {
+			// only apply quota for files, not metadata, trash or others
+			if ($this->shouldApplyQuota($path)) {
+				return \OC\Files\Stream\Quota::wrap($source, $free);
 			}
 		}
 
@@ -204,5 +208,32 @@ class Quota extends Wrapper {
 
 	public function enableQuota(bool $enabled): void {
 		$this->enabled = $enabled;
+	}
+
+	#[\Override]
+	public function writeStream(string $path, $stream, ?int $size = null): int {
+		if (!$this->hasQuota()) {
+			return parent::writeStream($path, $stream, $size);
+		}
+
+		$free = $this->free_space($path);
+		if ($this->shouldApplyQuota($path) && $free == 0) {
+			throw new NotEnoughSpaceException();
+		}
+
+		if ($size !== null) {
+			if ($size < $free) {
+				return parent::writeStream($path, $stream, $size);
+			} else {
+				throw new NotEnoughSpaceException();
+			}
+		} else {
+			// force fallback through `fopen` to handle the quota
+			try {
+				return parent::writeStreamFallback($path, $stream);
+			} catch (GenericFileException) {
+				throw new NotEnoughSpaceException();
+			}
+		}
 	}
 }
