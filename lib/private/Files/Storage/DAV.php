@@ -822,7 +822,7 @@ class DAV extends Common {
 		$target = $this->cleanPath($target);
 		$this->statCache->remove($target);
 
-		$this->withAuthRetry(function () use ($path, $target) {
+		$this->withAuthRetry(function () use ($path, $target): void {
 			$source = fopen($path, 'r');
 			$auth = [$this->user, $this->password];
 			$headers = [];

@@ -22,7 +22,6 @@ use OCP\Encryption\IManager as IEncryptionManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IHomeMountProvider;
 use OCP\Files\Config\IUserMountCache;
-use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;

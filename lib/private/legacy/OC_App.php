@@ -8,7 +8,6 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 use OC\App\AppManager;
-use OC\AppFramework\App;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Installer;
 use OC\NeedsUpdateException;

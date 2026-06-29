@@ -19,7 +19,6 @@ use OCA\Files_Sharing\External\ExternalShare;
 use OCA\Files_Sharing\External\ExternalShareMapper;
 use OCA\Files_Sharing\External\Manager;
 use OCA\GlobalSiteSelector\Service\SlaveService;
-use OCA\Polls\Db\Share;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\App\IAppManager;
 use OCP\Constants;

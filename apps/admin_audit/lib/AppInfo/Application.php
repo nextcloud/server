@@ -9,8 +9,6 @@ declare(strict_types=1);
 
 namespace OCA\AdminAudit\AppInfo;
 
-use OCA\AdminAudit\Actions\Auth;
-use OCA\AdminAudit\Actions\Console;
 use OCA\AdminAudit\Actions\Files;
 use OCA\AdminAudit\Actions\Sharing;
 use OCA\AdminAudit\Actions\Trashbin;

@@ -14,7 +14,6 @@ use OC\Net\IpAddressClassifier;
 use OC\Security\RemoteHostValidator;
 use OCP\IConfig;
 use OCP\Server;
-use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\NullLogger;
 use Test\TestCase;
 

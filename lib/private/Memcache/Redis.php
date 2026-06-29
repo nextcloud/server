@@ -50,7 +50,7 @@ class Redis extends Cache implements IMemcacheTTL {
 	 */
 	public function getCache(): \Redis|\RedisCluster {
 		if ($this->cache === null) {
-			$this->cache = \OCP\Server::get(RedisFactory::class)->getInstance();
+			$this->cache = Server::get(RedisFactory::class)->getInstance();
 		}
 		return $this->cache;
 	}

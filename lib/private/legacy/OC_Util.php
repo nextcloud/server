@@ -13,7 +13,6 @@ use OC\Files\Template\TemplateManager;
 use OC\Setup;
 use OC\SystemConfig;
 use OCP\App\IAppManager;
-use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
@@ -261,7 +260,7 @@ class OC_Util {
 	 * @return array arrays with error messages and hints
 	 */
 	public static function checkServer(SystemConfig $config) {
-		$l = \OCP\Server::get(IFactory::class)->get('lib');
+		$l = Server::get(IFactory::class)->get('lib');
 		$errors = [];
 		$CONFIG_DATADIRECTORY = $config->getValue('datadirectory', OC::$SERVERROOT . '/data');
 

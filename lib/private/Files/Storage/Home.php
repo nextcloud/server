@@ -10,7 +10,6 @@ namespace OC\Files\Storage;
 
 use OC\Files\Cache\HomeCache;
 use OC\Files\Cache\HomePropagator;
-use OC\User\User;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\IPropagator;
 use OCP\Files\IHomeStorage;

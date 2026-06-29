@@ -10,7 +10,6 @@ namespace OC\Files\Utils;
 
 use OC\Files\Cache\Cache;
 use OC\Files\Filesystem;
-use OC\Files\Mount\MountPoint;
 use OC\Files\SetupManager;
 use OC\Files\Storage\FailedStorage;
 use OC\Files\Storage\Home;

@@ -11,7 +11,6 @@ namespace OC\Authentication\Login;
 
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Authentication\TwoFactorAuth\MandatoryTwoFactor;
-use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\IURLGenerator;
 use function array_pop;
 use function count;

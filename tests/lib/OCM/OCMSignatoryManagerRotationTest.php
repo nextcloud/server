@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Test\OCM;
 
+use OC\Memcache\ArrayCache;
 use OC\OCM\OCMSignatoryManager;
 use OC\Security\IdentityProof\Key;
 use OC\Security\IdentityProof\Manager as IdentityProofManager;
@@ -50,7 +51,7 @@ class OCMSignatoryManagerRotationTest extends TestCase {
 			->willReturnCallback(static fn (string $suffix): string => 'https://alice.example/' . ltrim($suffix, '/'));
 
 		$cacheFactory = $this->createMock(ICacheFactory::class);
-		$cacheFactory->method('createDistributed')->willReturn(new \OC\Memcache\ArrayCache(''));
+		$cacheFactory->method('createDistributed')->willReturn(new ArrayCache(''));
 
 		$this->signatoryManager = new OCMSignatoryManager(
 			$this->appConfig,
@@ -194,7 +195,7 @@ class OCMSignatoryManagerRotationTest extends TestCase {
 			->willThrowException(new IdentityNotFoundException('no url either'));
 
 		$cacheFactory = $this->createMock(ICacheFactory::class);
-		$cacheFactory->method('createDistributed')->willReturn(new \OC\Memcache\ArrayCache(''));
+		$cacheFactory->method('createDistributed')->willReturn(new ArrayCache(''));
 
 		$manager = new OCMSignatoryManager(
 			$this->appConfig,

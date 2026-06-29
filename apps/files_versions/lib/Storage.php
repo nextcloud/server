@@ -25,7 +25,6 @@ use OCA\Files_Versions\Versions\IVersionManager;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\Command\IBus;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\IMimeTypeDetector;

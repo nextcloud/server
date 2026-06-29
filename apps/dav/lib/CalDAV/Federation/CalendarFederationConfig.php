@@ -9,12 +9,13 @@ declare(strict_types=1);
 
 namespace OCA\DAV\CalDAV\Federation;
 
+use OCP\GlobalScale\IConfig;
 use OCP\IAppConfig;
 
 class CalendarFederationConfig {
 	public function __construct(
 		private readonly IAppConfig $appConfig,
-		private \OCP\GlobalScale\IConfig $gsConfig,
+		private IConfig $gsConfig,
 	) {
 	}
 

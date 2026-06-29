@@ -14,7 +14,6 @@ use OCA\User_LDAP\Exceptions\ConstraintViolationException;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\Profiler\IProfiler;
-use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class LDAP implements ILDAPWrapper {
