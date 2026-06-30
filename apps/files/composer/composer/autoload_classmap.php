@@ -78,6 +78,7 @@ return array(
     'OCA\\Files\\Listener\\NodeAddedToFavoriteListener' => $baseDir . '/../lib/Listener/NodeAddedToFavoriteListener.php',
     'OCA\\Files\\Listener\\NodeRemovedFromFavoriteListener' => $baseDir . '/../lib/Listener/NodeRemovedFromFavoriteListener.php',
     'OCA\\Files\\Listener\\RenderReferenceEventListener' => $baseDir . '/../lib/Listener/RenderReferenceEventListener.php',
+    'OCA\\Files\\Listener\\RestrictInteractionListener' => $baseDir . '/../lib/Listener/RestrictInteractionListener.php',
     'OCA\\Files\\Listener\\SyncLivePhotosListener' => $baseDir . '/../lib/Listener/SyncLivePhotosListener.php',
     'OCA\\Files\\Listener\\UserFirstTimeLoggedInListener' => $baseDir . '/../lib/Listener/UserFirstTimeLoggedInListener.php',
     'OCA\\Files\\Migration\\Version11301Date20191205150729' => $baseDir . '/../lib/Migration/Version11301Date20191205150729.php',

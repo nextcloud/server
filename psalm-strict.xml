@@ -39,6 +39,12 @@
 		<directory name="apps/appstore/lib" />
 		<directory name="lib/public/Interaction"/>
 		<directory name="tests/lib/Interaction"/>
+		<file name="apps/files/lib/Listener/RestrictInteractionListener.php"/>
+		<file name="apps/files/tests/Listener/RestrictInteractionListenerTest.php"/>
+		<file name="apps/files_sharing/lib/Listener/RestrictInteractionListener.php"/>
+		<file name="apps/files_sharing/tests/Listener/RestrictInteractionListenerTest.php"/>
+		<file name="core/Listener/RestrictInteractionListener.php"/>
+		<file name="tests/Core/Listener/RestrictInteractionListenerTest.php"/>
 		<ignoreFiles>
 			<!-- Missing types of the AppFetcher and the OC_Apps class for return types -->
 			<file name="apps/appstore/lib/Controller/ApiController.php" />

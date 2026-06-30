@@ -24,6 +24,7 @@ use OCA\Files_Sharing\Listener\BeforeZipCreatedListener;
 use OCA\Files_Sharing\Listener\LoadAdditionalListener;
 use OCA\Files_Sharing\Listener\LoadPublicFileRequestAuthListener;
 use OCA\Files_Sharing\Listener\LoadSidebarListener;
+use OCA\Files_Sharing\Listener\RestrictInteractionListener;
 use OCA\Files_Sharing\Listener\ShareInteractionListener;
 use OCA\Files_Sharing\Listener\SharesUpdatedListener;
 use OCA\Files_Sharing\Listener\UserAddedToGroupListener;
@@ -56,6 +57,7 @@ use OCP\Group\Events\UserRemovedEvent;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroup;
+use OCP\Interaction\RestrictInteractionEvent;
 use OCP\Share\Events\BeforeShareDeletedEvent;
 use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\Events\ShareMovedEvent;
@@ -132,6 +134,8 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(UserHomeSetupEvent::class, UserHomeSetupListener::class);
 
 		$context->registerConfigLexicon(ConfigLexicon::class);
+
+		$context->registerEventListener(RestrictInteractionEvent::class, RestrictInteractionListener::class);
 	}
 
 	#[\Override]
