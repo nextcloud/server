@@ -250,7 +250,6 @@ OC.L10N.register(
     "Log in to {productName}" : "{productName} to غا كىرىڭ",
     "Wrong login or password." : "كىرىش ياكى پارول خاتا.",
     "This account is disabled" : "بۇ ھېسابات چەكلەنگەن",
-    "Too many incorrect login attempts. Please try again in 30 seconds." : "مەغلۇب بولغان سىناقلار بەك كۆپ ، 30 سىكۇنتتىن كىيىن قايتا سىناڭ.",
     "Account name or email" : "ھېسابات ئىسمى ياكى ئېلېكترونلۇق خەت",
     "Account name" : "ھېسابات ئىسمى",
     "Server side authentication failed!" : "مۇلازىمېتىر تەرەپ دەلىللەش مەغلۇپ بولدى!",
@@ -533,6 +532,7 @@ OC.L10N.register(
     "The theme %s has been disabled." : "باشتېما %s چەكلەنگەن.",
     "Detailed logs" : "تەپسىلىي خاتىرىلەر",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "ياردەم ئۈچۈن <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\"> ھۆججەت </a> نى كۆرۈڭ.",
+    "Too many incorrect login attempts. Please try again in 30 seconds." : "مەغلۇب بولغان سىناقلار بەك كۆپ ، 30 سىكۇنتتىن كىيىن قايتا سىناڭ.",
     "Groups" : "گۇرۇپپىلار",
     "Group list is empty" : "گۇرۇپپا تىزىملىكى قۇرۇق",
     "Unable to retrieve the group list" : "گۇرۇپپا تىزىملىكىنى ئەسلىگە كەلتۈرگىلى بولمىدى"

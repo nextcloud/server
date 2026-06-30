@@ -255,7 +255,6 @@ OC.L10N.register(
     "Log in to {productName}" : "Συνδεθείτε στο {productName}",
     "Wrong login or password." : "Εσφαλμένο όνομα χρήστη ή συνθηματικό.",
     "This account is disabled" : "Αυτός ο λογαριασμός είναι απενεργοποιημένος",
-    "Too many incorrect login attempts. Please try again in 30 seconds." : "Πολλές λανθασμένες προσπάθειες σύνδεσης. Παρακαλούμε δοκιμάστε ξανά σε 30 δευτερόλεπτα.",
     "Account name or email" : "Όνομα λογαριασμού ή email",
     "Account name" : "Όνομα λογαριασμού",
     "Server side authentication failed!" : "Αποτυχημένη πιστοποίηση από πλευράς διακομιστή!",
@@ -558,6 +557,7 @@ OC.L10N.register(
     "The theme %s has been disabled." : "Το θέμα %s έχει απενεργοποιηθεί.",
     "Detailed logs" : "Λεπτομερές ιστορικό",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Για βοήθεια, δείτε στην  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">τεκμηρίωση</a>.",
+    "Too many incorrect login attempts. Please try again in 30 seconds." : "Πολλές λανθασμένες προσπάθειες σύνδεσης. Παρακαλούμε δοκιμάστε ξανά σε 30 δευτερόλεπτα.",
     "Groups" : "Ομάδες",
     "Group list is empty" : "Η λίστα της ομάδας είναι κενή",
     "Unable to retrieve the group list" : "Αδύνατη η ανάκτηση λίστας της ομάδας"

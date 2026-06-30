@@ -254,7 +254,6 @@ OC.L10N.register(
     "Log in to {productName}" : "{productName}-д нэвтрэх",
     "Wrong login or password." : "Нэвтрэх нэр эсвэл нууц үг буруу.",
     "This account is disabled" : "Энэ бүртгэл идэвхгүй болсон",
-    "Too many incorrect login attempts. Please try again in 30 seconds." : "Нэвтрэх оролдлого хэт олон удаа амжилтгүй болсон. 30 секундын дараа дахин оролдоно уу.",
     "Account name or email" : "Бүртгэлийн нэр эсвэл имэйл",
     "Account name" : "Бүртгэлийн нэр",
     "Server side authentication failed!" : "Серверийн нэвтрэлт амжилтгүй боллоо!",
@@ -557,6 +556,7 @@ OC.L10N.register(
     "The theme %s has been disabled." : "%s загвар идэвхгүй болсон.",
     "Detailed logs" : "Дэлгэрэнгүй бүртгэл",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Тусламжийн хүсэлтэй <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">баримт бичгийг</a> үзнэ үү.",
+    "Too many incorrect login attempts. Please try again in 30 seconds." : "Нэвтрэх оролдлого хэт олон удаа амжилтгүй болсон. 30 секундын дараа дахин оролдоно уу.",
     "Groups" : "бүлэгүүд",
     "Group list is empty" : "Бүлгийн жагсаалт хоосон",
     "Unable to retrieve the group list" : "Бүлгийн жагсаалтыг авч чадсангүй"

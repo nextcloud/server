@@ -1,7 +1,11 @@
 { "translations": {
     "View profile" : "Visualizar perfil",
+    "Profile picker" : "Seletor de perfis",
+    "Provides a customisable user profile interface." : "Fornece uma interface customizável para o perfil do usuário",
     "Searching …" : "A procurar…",
     "Not found" : "Não  encontrado",
+    "Search for a user profile" : "Pesquisar um perfil de usuário",
+    "Insert selected user profile link" : "Insira o link do perfil do usuário selecionado",
     "Insert" : "Colar",
     "You have not added any info yet" : "Ainda não adicionou qualquer informação ",
     "{user} has not added any info yet" : "{user} ainda não adicionou qualquer informação",

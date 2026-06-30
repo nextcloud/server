@@ -70,6 +70,7 @@ OC.L10N.register(
     "Primary color" : "Primær farve",
     "Background color" : "Baggrundsfarve",
     "Remove background image" : "Fjern baggrundsbillede",
+    "Background image" : "Baggrundsbillede",
     "Favicon" : "Favicon",
     "Logo" : "Logo",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Selvom du kan vælge og brugerdefinere din instans, så kan brugere ændre deres baggrund og farver. Hvis du ønsker at gennemtvinge din brugerdefinering, så kan du skifte dette til aktiveret.",

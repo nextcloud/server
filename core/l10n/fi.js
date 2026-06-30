@@ -214,7 +214,6 @@ OC.L10N.register(
     "Log in to {productName}" : "Kirjaudu palveluun {productName}",
     "Wrong login or password." : "Väärä käyttäjätunnus tai salasana.",
     "This account is disabled" : "Tämä tili on poistettu käytöstä",
-    "Too many incorrect login attempts. Please try again in 30 seconds." : "Liian monta virheellistä sisäänkirjautumisyritystä. Yritä uudelleen 30 sekunnin kuluttua.",
     "Account name or email" : "Tilin nimi tai sähköpostiosoite",
     "Account name" : "Tilin nimi",
     "Server side authentication failed!" : "Palvelimen puoleinen tunnistautuminen epäonnistui!",
@@ -499,6 +498,7 @@ OC.L10N.register(
     "The theme %s has been disabled." : "Teema %s on poistettu käytöstä.",
     "Detailed logs" : "Yksityiskohtainen loki",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Jos tarvitset apua, katso <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">ohjeista</a>.",
+    "Too many incorrect login attempts. Please try again in 30 seconds." : "Liian monta virheellistä sisäänkirjautumisyritystä. Yritä uudelleen 30 sekunnin kuluttua.",
     "Groups" : "Ryhmät",
     "Group list is empty" : "Ryhmälista on tyhjä",
     "Unable to retrieve the group list" : "Ryhmälistaa ei voitu noutaa"
