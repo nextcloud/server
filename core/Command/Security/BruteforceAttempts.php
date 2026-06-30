@@ -12,6 +12,7 @@ use OC\Core\Command\Base;
 use OCP\Security\Bruteforce\IThrottler;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class BruteforceAttempts extends Base {
@@ -37,12 +38,20 @@ class BruteforceAttempts extends Base {
 				InputArgument::OPTIONAL,
 				'Only count attempts for the given action',
 			)
+			->addOption(
+				'interval',
+				null,
+				InputOption::VALUE_REQUIRED,
+				'Interval in hours to count attempts for (max 48)',
+				12,
+			)
 		;
 	}
 
 	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$ip = $input->getArgument('ipaddress');
+		$interval = (float)$input->getOption('interval');
 
 		if (!filter_var($ip, FILTER_VALIDATE_IP)) {
 			$output->writeln('<error>"' . $ip . '" is not a valid IP address</error>');
@@ -54,6 +63,7 @@ class BruteforceAttempts extends Base {
 			'attempts' => $this->throttler->getAttempts(
 				$ip,
 				(string)$input->getArgument('action'),
+				$interval,
 			),
 			'delay' => $this->throttler->getDelay(
 				$ip,
