@@ -254,7 +254,6 @@ OC.L10N.register(
     "Log in to {productName}" : "Prijava u {productName}",
     "Wrong login or password." : "Pogrešno korisničko ime ili zaporka.",
     "This account is disabled" : "Ovaj račun je onemogućen",
-    "Too many incorrect login attempts. Please try again in 30 seconds." : "Previše neuspješnih pokušaja prijave. Pokušajte ponovno za 30 sekundi.",
     "Account name or email" : "Korisničko ime ili adresa e-pošte",
     "Account name" : "Korisničko ime",
     "Server side authentication failed!" : "Autentifikacija na poslužitelju nije uspjela!",
@@ -557,6 +556,7 @@ OC.L10N.register(
     "The theme %s has been disabled." : "Tema %s je onemogućena.",
     "Detailed logs" : "Detaljni zapisnik",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Pomoć potražite u <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">dokumentaciji</a>.",
+    "Too many incorrect login attempts. Please try again in 30 seconds." : "Previše neuspješnih pokušaja prijave. Pokušajte ponovno za 30 sekundi.",
     "Groups" : "Grupe",
     "Group list is empty" : "Popis grupa je prazan",
     "Unable to retrieve the group list" : "Nije moguće preuzeti popis grupa"

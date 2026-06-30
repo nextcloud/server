@@ -262,7 +262,6 @@ OC.L10N.register(
     "Log in to {productName}" : "Logi sisse: {productName}",
     "Wrong login or password." : "Vale kasutajanimi või salasõna.",
     "This account is disabled" : "See konto pole kasutusel",
-    "Too many incorrect login attempts. Please try again in 30 seconds." : "Liiga palju vigaseid sisselogimiskatseid. Palun proovi uuesti 30 sekundi pärast.",
     "Account name or email" : "Konto nimi või e-posti aadress",
     "Account name" : "Kasutajakonto nimi",
     "Server side authentication failed!" : "Serveripoolne autentimine ei õnnestunud!",
@@ -566,6 +565,7 @@ OC.L10N.register(
     "The theme %s has been disabled." : "Teema %s on keelatud.",
     "Detailed logs" : "Üksikasjalikud logid",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Abi saamiseks vaata <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">dokumentatsiooni</a>.",
+    "Too many incorrect login attempts. Please try again in 30 seconds." : "Liiga palju vigaseid sisselogimiskatseid. Palun proovi uuesti 30 sekundi pärast.",
     "Groups" : "Grupid",
     "Group list is empty" : "Gruppide loend on tühi",
     "Unable to retrieve the group list" : "Gruppide loendi pärimine ebaõnnestus"

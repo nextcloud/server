@@ -237,6 +237,7 @@ OC.L10N.register(
     "Search everywhere" : "到處搜尋",
     "Searching …" : "正在搜尋 ……",
     "Start typing to search" : "開始輸入以搜尋",
+    "_Minimum search length is %n character_::_Minimum search length is %n characters_" : ["最小搜尋長度為 %n 個字元"],
     "No matching results" : "無相符結果",
     "Today" : "今天",
     "Last 7 days" : "過去 7 天",
@@ -261,7 +262,6 @@ OC.L10N.register(
     "Log in to {productName}" : "登入 {productName}",
     "Wrong login or password." : "錯誤的帳號或密碼。",
     "This account is disabled" : "此帳號已停用",
-    "Too many incorrect login attempts. Please try again in 30 seconds." : "不正確的登入嘗試次數太多。請於 30 秒後再試一次。",
     "Account name or email" : "帳號名稱或電子郵件",
     "Account name" : "帳號名稱",
     "Server side authentication failed!" : "伺服器端認證失敗！",
@@ -565,6 +565,7 @@ OC.L10N.register(
     "The theme %s has been disabled." : "佈景主題 %s 已被停用。",
     "Detailed logs" : "詳細記錄檔",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "若需要協助，請參閱<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">說明文件</a>。",
+    "Too many incorrect login attempts. Please try again in 30 seconds." : "不正確的登入嘗試次數太多。請於 30 秒後再試一次。",
     "Groups" : "群組",
     "Group list is empty" : "群組列表空白",
     "Unable to retrieve the group list" : "無法擷取群組列表"

@@ -259,7 +259,6 @@ OC.L10N.register(
     "Log in to {productName}" : "{productName} へログイン",
     "Wrong login or password." : "ログイン名またはパスワードが間違っています。",
     "This account is disabled" : "アカウントが無効化されています",
-    "Too many incorrect login attempts. Please try again in 30 seconds." : "ログイン試行の回数が多すぎます。30秒後にもう一度お試しください。",
     "Account name or email" : "アカウント名またはメールアドレス",
     "Account name" : "アカウント名",
     "Server side authentication failed!" : "サーバーサイドの認証に失敗しました！",
@@ -563,6 +562,7 @@ OC.L10N.register(
     "The theme %s has been disabled." : "テーマ %s が無効になっています。",
     "Detailed logs" : "詳細ログ",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "不明な場合、  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">ドキュメント</a>を参照してください。",
+    "Too many incorrect login attempts. Please try again in 30 seconds." : "ログイン試行の回数が多すぎます。30秒後にもう一度お試しください。",
     "Groups" : "グループ",
     "Group list is empty" : "グループリストが空です",
     "Unable to retrieve the group list" : "グループリストを取得できません"

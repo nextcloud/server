@@ -259,7 +259,6 @@ OC.L10N.register(
     "Log in to {productName}" : "{productName} oturumu aç",
     "Wrong login or password." : "Hatalı kullanıcı adı ya da parolası.",
     "This account is disabled" : "Bu hesap kullanımdan kaldırılmış",
-    "Too many incorrect login attempts. Please try again in 30 seconds." : "Çok sayıda başarısız oturum açma denemesi yapıldı. Lütfen 30 saniye sonra yeniden deneyin.",
     "Account name or email" : "Hesap adı ya da e-posta adresi",
     "Account name" : "Hesap adı",
     "Server side authentication failed!" : "Kimlik sunucu tarafında doğrulanamadı!",
@@ -563,6 +562,7 @@ OC.L10N.register(
     "The theme %s has been disabled." : "%s teması kullanımdan kaldırıldı.",
     "Detailed logs" : "Ayrıntılı günlükler",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Yardım almak için, <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">belgelere</a> bakın.",
+    "Too many incorrect login attempts. Please try again in 30 seconds." : "Çok sayıda başarısız oturum açma denemesi yapıldı. Lütfen 30 saniye sonra yeniden deneyin.",
     "Groups" : "Gruplar",
     "Group list is empty" : "Grup listesi boş",
     "Unable to retrieve the group list" : "Grup listesi alınamadı"

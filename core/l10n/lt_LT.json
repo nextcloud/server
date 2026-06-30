@@ -235,6 +235,7 @@
     "Search everywhere" : "Ieškoti visur",
     "Searching …" : "Ieškoma…",
     "Start typing to search" : "Rašykite norėdami atlikti paiešką",
+    "_Minimum search length is %n character_::_Minimum search length is %n characters_" : ["Minimalus paieškos simbolių skaičius yra %n","Minimalus paieškos simbolių skaičius yra %n","Minimalus paieškos simbolių skaičius yra %n","Minimalus paieškos simbolių skaičius yra %n"],
     "No matching results" : "Nėra atitinkančių rezultatų",
     "Today" : "Šiandien",
     "Last 7 days" : "Paskutinės 7 dienos",
@@ -259,7 +260,6 @@
     "Log in to {productName}" : "Prisijunkite prie {productName}",
     "Wrong login or password." : "Neteisingas prisijungimas ar slaptažodis.",
     "This account is disabled" : "Ši paskyra yra išjungta",
-    "Too many incorrect login attempts. Please try again in 30 seconds." : "Per daug neteisingų prisijungimo bandymų. Bandykite dar kartą po 30 sekundžių.",
     "Account name or email" : "Paskyros vardas ar el. paštas",
     "Account name" : "Paskyros vardas",
     "Server side authentication failed!" : "Autentikacija serveryje nepavyko!",
@@ -563,6 +563,7 @@
     "The theme %s has been disabled." : "Apipavidalinimas %s buvo išjungtas.",
     "Detailed logs" : "Išsamūs žurnalai",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Prireikus pagalbos, žiūrėkite <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">dokumentaciją</a>.",
+    "Too many incorrect login attempts. Please try again in 30 seconds." : "Per daug neteisingų prisijungimo bandymų. Bandykite dar kartą po 30 sekundžių.",
     "Groups" : "Grupės",
     "Group list is empty" : "Grupės sąrašas yra tuščias",
     "Unable to retrieve the group list" : "Nepavyko atgauti grupių sąrašo"

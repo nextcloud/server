@@ -255,7 +255,6 @@ OC.L10N.register(
     "Log in to {productName}" : "Přihlásit se do {productName}",
     "Wrong login or password." : "Nesprávné přihlašovací jméno nebo heslo",
     "This account is disabled" : "Účet je znepřístupněn",
-    "Too many incorrect login attempts. Please try again in 30 seconds." : "Příliš mnoho nesprávných pokusů o přihlášení. Zkuste to znovu za 30 sekund.",
     "Account name or email" : "Název účtu nebo e-mail",
     "Account name" : "Název účtu",
     "Server side authentication failed!" : "Ověření se na straně serveru se nezdařilo!",
@@ -558,6 +557,7 @@ OC.L10N.register(
     "The theme %s has been disabled." : "Motiv vzhledu %s byl vypnut.",
     "Detailed logs" : "Podrobné záznamy událostí",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Pro pomoc, nahlédněte do <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">dokumentace</a>.",
+    "Too many incorrect login attempts. Please try again in 30 seconds." : "Příliš mnoho nesprávných pokusů o přihlášení. Zkuste to znovu za 30 sekund.",
     "Groups" : "Skupiny",
     "Group list is empty" : "Seznam skupin je prázdný.",
     "Unable to retrieve the group list" : "Nedaří se získat seznam skupiny"

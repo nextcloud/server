@@ -252,7 +252,6 @@ OC.L10N.register(
     "Log in to {productName}" : "Masuk ke {productName}",
     "Wrong login or password." : "Login atau kata sandi salah.",
     "This account is disabled" : "Akun ini dinonaktifkan",
-    "Too many incorrect login attempts. Please try again in 30 seconds." : "Terlalu banyak percobaan login yang salah. Silakan coba lagi dalam 30 detik.",
     "Account name or email" : "Nama akun atau email",
     "Account name" : "Nama akun",
     "Server side authentication failed!" : "Otentikasi dari sisi server gagal!",
@@ -551,6 +550,7 @@ OC.L10N.register(
     "The theme %s has been disabled." : "Tema %s telah dinonaktfkan.",
     "Detailed logs" : "Log detail",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Lihat <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">dokumentasi</a> untuk panduan.",
+    "Too many incorrect login attempts. Please try again in 30 seconds." : "Terlalu banyak percobaan login yang salah. Silakan coba lagi dalam 30 detik.",
     "Groups" : "Grup",
     "Group list is empty" : "Daftar grup kosong",
     "Unable to retrieve the group list" : "Tidak dapat mengambil daftar grup"

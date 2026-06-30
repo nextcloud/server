@@ -257,7 +257,6 @@
     "Log in to {productName}" : "登录到 {productName}",
     "Wrong login or password." : "账号或密码错误",
     "This account is disabled" : "此账号已停用",
-    "Too many incorrect login attempts. Please try again in 30 seconds." : "错误登录尝试次数过多，请在 30 秒后重试。",
     "Account name or email" : "账号名称或电子邮箱",
     "Account name" : "账号名称",
     "Server side authentication failed!" : "服务端身份验证失败！",
@@ -561,6 +560,7 @@
     "The theme %s has been disabled." : "%s 主题已被禁用。",
     "Detailed logs" : "详细日志",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "获取更多帮助，请查看<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">文档</a>。",
+    "Too many incorrect login attempts. Please try again in 30 seconds." : "错误登录尝试次数过多，请在 30 秒后重试。",
     "Groups" : "群组",
     "Group list is empty" : "群组列表为空",
     "Unable to retrieve the group list" : "无法检索群组列表"

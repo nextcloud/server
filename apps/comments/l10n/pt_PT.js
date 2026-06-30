@@ -16,6 +16,7 @@ OC.L10N.register(
     "Delete comment" : "Eliminar comentário",
     "Cancel edit" : "Cancelar edição",
     "New comment" : "Novo comentário",
+    "Write a comment …" : "Escreva um comentário …",
     "Post comment" : "Publicar comentário",
     "No comments yet, start the conversation!" : "Ainda sem comentários, inicie uma conversação!",
     "No more messages" : "Sem mais mensagens",
