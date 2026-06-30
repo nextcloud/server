@@ -44,7 +44,7 @@ class SystemIs64bit implements ISetupCheck {
 		if ($this->is64bit()) {
 			return SetupResult::success($this->l10n->t('64-bit'));
 		} else {
-			return SetupResult::warning(
+			return SetupResult::error(
 				$this->l10n->t('It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! The support for 32-bit system will be removed in Nextcloud Hub 27 Spring (Nextcloud 36).'),
 				$this->urlGenerator->linkToDocs('admin-system-requirements')
 			);
