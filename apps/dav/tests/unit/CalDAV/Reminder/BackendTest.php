@@ -285,6 +285,7 @@ class BackendTest extends TestCase {
 			->values([
 				'id' => $query->createNamedParameter(1),
 				'uri' => $query->createNamedParameter('obj1.ics'),
+				'uid' => $query->createNamedParameter('obj1'),
 				'calendardata' => $query->createNamedParameter('Calendar data 123', IQueryBuilder::PARAM_LOB),
 				'calendarid' => $query->createNamedParameter(1),
 				'size' => $query->createNamedParameter(42),
@@ -296,6 +297,7 @@ class BackendTest extends TestCase {
 			->values([
 				'id' => $query->createNamedParameter(2),
 				'uri' => $query->createNamedParameter('obj2.ics'),
+				'uid' => $query->createNamedParameter('obj2'),
 				'calendardata' => $query->createNamedParameter('Calendar data 456', IQueryBuilder::PARAM_LOB),
 				'calendarid' => $query->createNamedParameter(1),
 				'size' => $query->createNamedParameter(42),
@@ -307,6 +309,7 @@ class BackendTest extends TestCase {
 			->values([
 				'id' => $query->createNamedParameter(10),
 				'uri' => $query->createNamedParameter('obj10.ics'),
+				'uid' => $query->createNamedParameter('obj10'),
 				'calendardata' => $query->createNamedParameter('Calendar data 789', IQueryBuilder::PARAM_LOB),
 				'calendarid' => $query->createNamedParameter(99),
 				'size' => $query->createNamedParameter(42),
