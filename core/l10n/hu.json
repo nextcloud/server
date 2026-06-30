@@ -257,7 +257,6 @@
     "Log in to {productName}" : "Bejelentkezés ebbe: {productName}",
     "Wrong login or password." : "Hibás bejelentkezés vagy jelszó.",
     "This account is disabled" : "Ez a fiók le van tiltva",
-    "Too many incorrect login attempts. Please try again in 30 seconds." : "Túl sok helytelen bejelentkezési kísérlet. Próbálja újra 30 másodperc múlva.",
     "Account name or email" : "Fióknév vagy e-mail-cím",
     "Account name" : "Fiók neve",
     "Server side authentication failed!" : "A kiszolgálóoldali hitelesítés sikertelen.",
@@ -561,6 +560,7 @@
     "The theme %s has been disabled." : "A(z) %s téma letiltásra került.",
     "Detailed logs" : "Részletes naplók",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Segítségért tekintse meg a <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">dokumentációt</a>.",
+    "Too many incorrect login attempts. Please try again in 30 seconds." : "Túl sok helytelen bejelentkezési kísérlet. Próbálja újra 30 másodperc múlva.",
     "Groups" : "Csoportok",
     "Group list is empty" : "A csoportlista üres",
     "Unable to retrieve the group list" : "A csoportlista betöltése sikertelen"

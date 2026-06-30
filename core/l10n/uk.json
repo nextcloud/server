@@ -257,7 +257,6 @@
     "Log in to {productName}" : "Увійдіть до {productName}",
     "Wrong login or password." : "Неправильне ім'я облікового запису або пароль.",
     "This account is disabled" : "Цей обліковий запис вимкнено.",
-    "Too many incorrect login attempts. Please try again in 30 seconds." : "Забагато спроб неправильного входу. Спробуйте ще раз за 30 секунд.",
     "Account name or email" : "Ім'я користувача або електронна пошта",
     "Account name" : "Назва облікового запису",
     "Server side authentication failed!" : "Невдала автентифікація на стороні сервера!",
@@ -561,6 +560,7 @@
     "The theme %s has been disabled." : "Тему %s було вимкнено.",
     "Detailed logs" : "Деталізований журнал",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Щоб отримати допомогу, перегляньте  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">документацію</a>.",
+    "Too many incorrect login attempts. Please try again in 30 seconds." : "Забагато спроб неправильного входу. Спробуйте ще раз за 30 секунд.",
     "Groups" : "Групи",
     "Group list is empty" : "Список груп порожній",
     "Unable to retrieve the group list" : "Неможливо отримати список груп"

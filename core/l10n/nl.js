@@ -259,7 +259,6 @@ OC.L10N.register(
     "Log in to {productName}" : "Inloggen bij {productName}",
     "Wrong login or password." : "Verkeerde login of wachtwoord.",
     "This account is disabled" : "Dit account is uitgeschakeld",
-    "Too many incorrect login attempts. Please try again in 30 seconds." : "Te veel onjuiste inlogpogingen. Probeer het over 30 seconden opnieuw.",
     "Account name or email" : "Gebruikersnaam of email",
     "Account name" : "Accountnaam",
     "Server side authentication failed!" : "Authenticatie bij de server mislukt!",
@@ -563,6 +562,7 @@ OC.L10N.register(
     "The theme %s has been disabled." : "Het thema %s is uitgeschakeld.",
     "Detailed logs" : "Gedetailleerde logs",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Bekijk de <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentatie</a> voor hulp.",
+    "Too many incorrect login attempts. Please try again in 30 seconds." : "Te veel onjuiste inlogpogingen. Probeer het over 30 seconden opnieuw.",
     "Groups" : "Groepen",
     "Group list is empty" : "Groepenlijst is leeg",
     "Unable to retrieve the group list" : "Kan groepenoverzicht niet ophalen"

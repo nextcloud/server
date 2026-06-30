@@ -253,7 +253,6 @@ OC.L10N.register(
     "Log in to {productName}" : "Hasi saioa {productName}-(e)n",
     "Wrong login or password." : "Erabiltzaile edo pasahitz okerra.",
     "This account is disabled" : "Kontu hau desgaituta dago",
-    "Too many incorrect login attempts. Please try again in 30 seconds." : "Saioa hasteko saiakera oker gehiegi. Mesedez, saiatu berriro 30 segundo barru.",
     "Account name or email" : "Kontu izena edo posta elektronikoa",
     "Account name" : "Kontuaren izena",
     "Server side authentication failed!" : "Zerbitzari aldeko autentifikazioak huts egin du!",
@@ -554,6 +553,7 @@ OC.L10N.register(
     "The theme %s has been disabled." : "%s gaia desgaitu da.",
     "Detailed logs" : "Egunkari xehea",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Laguntzarako, ikusi <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">dokumentazioa</a>.",
+    "Too many incorrect login attempts. Please try again in 30 seconds." : "Saioa hasteko saiakera oker gehiegi. Mesedez, saiatu berriro 30 segundo barru.",
     "Groups" : "Taldeak",
     "Group list is empty" : "Talde zerrenda hutsik dago",
     "Unable to retrieve the group list" : "Ezin izan da talde zerrenda eskuratu"

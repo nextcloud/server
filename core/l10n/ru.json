@@ -257,7 +257,6 @@
     "Log in to {productName}" : "Вход в {productName}",
     "Wrong login or password." : "Неверное имя пользователя или пароль.",
     "This account is disabled" : "Эта учётная запись отключена",
-    "Too many incorrect login attempts. Please try again in 30 seconds." : "Достигнуто максимально допустимое количество попыток входа. Попробуйте снова через 30 секунд.",
     "Account name or email" : "Учётная запись или адрес эл. почты",
     "Account name" : "Имя учётной записи",
     "Server side authentication failed!" : "Ошибка аутентификации на стороне сервера!",
@@ -561,6 +560,7 @@
     "The theme %s has been disabled." : "Тема %s была отключена.",
     "Detailed logs" : "Подробные журналы",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Для получения помощи обратитесь к <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">документации</a>.",
+    "Too many incorrect login attempts. Please try again in 30 seconds." : "Достигнуто максимально допустимое количество попыток входа. Попробуйте снова через 30 секунд.",
     "Groups" : "Группы",
     "Group list is empty" : "Список групп пуст",
     "Unable to retrieve the group list" : "Не удалось получить список групп"

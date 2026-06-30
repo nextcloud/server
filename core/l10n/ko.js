@@ -254,7 +254,6 @@ OC.L10N.register(
     "Log in to {productName}" : "{productName}에 로그인",
     "Wrong login or password." : "로그인 또는 암호가 잘못되었습니다.",
     "This account is disabled" : "이 계정은 비활성화 되었습니다.",
-    "Too many incorrect login attempts. Please try again in 30 seconds." : "잘못된 로그인 시도가 너무 많습니다. 30초 후 다시 시도해주세요.",
     "Account name or email" : "아이디 또는 이메일",
     "Account name" : "계정 아이디",
     "Server side authentication failed!" : "서버 인증 실패!",
@@ -558,6 +557,7 @@ OC.L10N.register(
     "The theme %s has been disabled." : "%s 테마가 비활성화되었습니다.",
     "Detailed logs" : "자세한 로그",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "도움말을 보려면 <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">문서</a>를 참조하십시오.",
+    "Too many incorrect login attempts. Please try again in 30 seconds." : "잘못된 로그인 시도가 너무 많습니다. 30초 후 다시 시도해주세요.",
     "Groups" : "그룹",
     "Group list is empty" : "그룹 목록이 비었음",
     "Unable to retrieve the group list" : "그룹 목록을 받아올 수 없음"
