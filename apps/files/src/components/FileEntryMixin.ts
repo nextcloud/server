@@ -6,16 +6,20 @@
 import type { PropType } from 'vue'
 import type { FileSource } from '../types.ts'
 
-import { FileType, Folder, getFileActions, File as NcFile, Node, NodeStatus, Permission } from '@nextcloud/files'
+import { openConflictPicker } from '@nextcloud/dialogs'
+import { FileType, Folder, getFileActions, File as NcFile, Node, NodeStatus, Permission, type View } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { extname } from '@nextcloud/paths'
 import { isPublicShare } from '@nextcloud/sharing/public'
 import { generateUrl } from '@nextcloud/router'
 import { vOnClickOutside } from '@vueuse/components'
-import Vue, { computed, defineComponent } from 'vue'
-
-import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import { dataTransferToFileTree, onDropExternalFiles, onDropInternalFiles } from '../services/DropService.ts'
+import { relative } from 'path'
+import { storeToRefs } from 'pinia'
+import Vue, { computed, defineComponent } from 'vue'
+import { action as sidebarAction } from '../actions/sidebarAction.ts'
+import { onDropInternalFiles } from '../services/DropService.ts'
+import { useActiveStore } from '../store/active.ts'
 import { getDragAndDropPreview } from '../utils/dragUtils.ts'
 import { hashCode } from '../utils/hashUtils.ts'
 import { isDownloadable } from '../utils/permissions.ts'
@@ -53,6 +57,14 @@ export default defineComponent({
 		return {
 			defaultFileAction: computed(() => this.defaultFileAction),
 			enabledFileActions: computed(() => this.enabledFileActions),
+		}
+	},
+
+	setup() {
+		const { activeView } = storeToRefs(useActiveStore())
+
+		return {
+			activeView,
 		}
 	},
 
@@ -123,6 +135,12 @@ export default defineComponent({
 
 		isActive() {
 			return String(this.fileid) === String(this.currentFileId)
+		},
+
+		isSourceFolder(): boolean {
+			return this.source.type === FileType.Folder
+				|| this.source.type === 'folder'
+				|| this.source.mime === 'httpd/unix-directory'
 		},
 
 		/**
@@ -226,6 +244,10 @@ export default defineComponent({
 			}
 		},
 
+		fileActionView(): View {
+			return this.activeView ?? this.currentView
+		},
+
 		/**
 		 * Sorted actions that are enabled for this node
 		 */
@@ -243,7 +265,7 @@ export default defineComponent({
 					// In case something goes wrong, since we don't want to break
 					// the entire list, we filter out actions that throw an error.
 					try {
-						return action.enabled([this.source], this.currentView)
+						return action.enabled([this.source], this.fileActionView)
 					} catch (error) {
 						logger.error('Error while checking action', { action, error })
 						return false
@@ -253,7 +275,14 @@ export default defineComponent({
 		},
 
 		defaultFileAction() {
-			return this.enabledFileActions.find((action) => action.default !== undefined)
+			const defaultAction = this.enabledFileActions.find((action) => action.default !== undefined)
+
+			// Folders must open, not download
+			if (this.isSourceFolder && defaultAction?.id === 'download') {
+				return this.enabledFileActions.find((action) => action.id === 'open-folder') ?? defaultAction
+			}
+
+			return defaultAction
 		},
 	},
 
@@ -296,6 +325,21 @@ export default defineComponent({
 
 			// Close menu
 			this.openedMenu = false
+		},
+
+		openFolderNode(): boolean {
+			const view = this.fileActionView
+			if (!view?.id || !this.source.fileid) {
+				logger.warn('Cannot open folder, missing view or fileid', { view, source: this.source })
+				return false
+			}
+
+			window.OCP.Files.Router.goToRoute(
+				null,
+				{ view: view.id, fileid: String(this.source.fileid) },
+				{ dir: this.source.path },
+			)
+			return true
 		},
 
 		// Open the actions menu on right click
@@ -356,6 +400,15 @@ export default defineComponent({
 			// if ctrl+click / cmd+click (MacOS uses the meta key) or middle mouse button (button & 4), open in new tab
 			// also if there is no default action use this as a fallback
 			const metaKeyPressed = event.ctrlKey || event.metaKey || event.button === 1
+
+			// Folders must navigate in the files app, never download
+			if (!metaKeyPressed && this.isSourceFolder) {
+				event.preventDefault()
+				event.stopPropagation()
+				this.openFolderNode()
+				return
+			}
+
 			if (metaKeyPressed || !this.defaultFileAction) {
 				// If no download permission, then we can not allow to download (direct link) the files
 				if (!isDownloadable(this.source)) {
@@ -377,14 +430,14 @@ export default defineComponent({
 			event.preventDefault()
 			event.stopPropagation()
 			// Execute the first default action if any
-			this.defaultFileAction.exec(this.source, this.currentView, this.currentDir)
+			this.defaultFileAction.exec(this.source, this.fileActionView, this.currentDir)
 		},
 
 		openDetailsIfAvailable(event) {
 			event.preventDefault()
 			event.stopPropagation()
-			if (sidebarAction?.enabled?.([this.source], this.currentView)) {
-				sidebarAction.exec(this.source, this.currentView, this.currentDir)
+			if (sidebarAction?.enabled?.([this.source], this.fileActionView)) {
+				sidebarAction.exec(this.source, this.fileActionView, this.currentDir)
 			}
 		},
 
