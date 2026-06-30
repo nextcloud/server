@@ -7,7 +7,7 @@ import type { PropType } from 'vue'
 import type { FileSource } from '../types.ts'
 
 import { openConflictPicker } from '@nextcloud/dialogs'
-import { FileType, Folder, getFileActions, File as NcFile, Node, NodeStatus, Permission } from '@nextcloud/files'
+import { FileType, Folder, getFileActions, File as NcFile, Node, NodeStatus, Permission, type View } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { extname } from '@nextcloud/paths'
 import { isPublicShare } from '@nextcloud/sharing/public'
@@ -15,16 +15,25 @@ import { generateUrl } from '@nextcloud/router'
 import { getConflicts, getUploader } from '@nextcloud/upload'
 import { vOnClickOutside } from '@vueuse/components'
 import { relative } from 'path'
+import { storeToRefs } from 'pinia'
 import Vue, { computed, defineComponent } from 'vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import { onDropInternalFiles } from '../services/DropService.ts'
+import { useActiveStore } from '../store/active.ts'
 import { getDragAndDropPreview } from '../utils/dragUtils.ts'
 import { hashCode } from '../utils/hashUtils.ts'
 import { isDownloadable } from '../utils/permissions.ts'
 import logger from '../logger.ts'
 
 Vue.directive('onClickOutside', vOnClickOutside)
+
+type FileActionContext = {
+	nodes: Node[]
+	view: View
+	folder: Folder
+	contents: Node[]
+}
 
 const actions = getFileActions()
 
@@ -56,6 +65,15 @@ export default defineComponent({
 		return {
 			defaultFileAction: computed(() => this.defaultFileAction),
 			enabledFileActions: computed(() => this.enabledFileActions),
+		}
+	},
+
+	setup() {
+		const { activeFolder, activeView } = storeToRefs(useActiveStore())
+
+		return {
+			activeFolder,
+			activeView,
 		}
 	},
 
@@ -229,6 +247,19 @@ export default defineComponent({
 			}
 		},
 
+		fileActionView(): View {
+			return this.activeView ?? this.currentView
+		},
+
+		fileActionContext(): FileActionContext {
+			return {
+				nodes: [this.source],
+				view: this.fileActionView,
+				folder: this.activeFolder!,
+				contents: this.nodes,
+			}
+		},
+
 		/**
 		 * Sorted actions that are enabled for this node
 		 */
@@ -246,7 +277,7 @@ export default defineComponent({
 					// In case something goes wrong, since we don't want to break
 					// the entire list, we filter out actions that throw an error.
 					try {
-						return action.enabled([this.source], this.currentView)
+						return (action.enabled as (context: FileActionContext) => boolean)(this.fileActionContext)
 					} catch (error) {
 						logger.error('Error while checking action', { action, error })
 						return false
