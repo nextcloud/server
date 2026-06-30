@@ -968,12 +968,16 @@ class Image implements IImage {
 	}
 
 	/**
-	 * Crops the image from point $x$y with dimension $wx$h.
+	 * Creates and returns a new raw GD image containing the cropped region
+	 * from the currently loaded image.
 	 *
-	 * @param int $x Horizontal position
-	 * @param int $y Vertical position
-	 * @param int $w Width
-	 * @param int $h Height
+	 * Does not mutate the current image.
+	 *
+	 * @param int $x Horizontal position of the top-left corner of the crop area within the current image
+	 * @param int $y Vertical position of the top-left corner of the crop area within the current image
+	 * @param int $w Width of the cropped area
+	 * @param int $h Height of the cropped area
+	 * @return GdImage|false A new cropped image, or false on failure
 	 *
 	 * @internal
 	 */
