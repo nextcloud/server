@@ -501,13 +501,11 @@ class UserTest extends TestCase {
 			->willReturnArgument(1);
 		$config->method('getSystemValueInt')
 			->willReturnArgument(1);
+		$config->expects(self::once())
+			->method('setUserValue')
+			->with('foo', 'core', 'deleted', 'true');
 
 		$userConfig = $this->createMock(IUserConfig::class);
-		$userConfig->expects(self::once())
-			->method('setValueBool')
-			->with(
-				'foo', 'core', 'deleted', true
-			);
 		$userConfig->expects(self::once())
 			->method('setValueString')
 			->with(
@@ -768,37 +766,38 @@ class UserTest extends TestCase {
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->method('getBackendName')->willReturn('foo');
 
-		$userConfig = $this->createMock(IUserConfig::class);
-		$userConfig->expects($this->once())
-			->method('setValueBool')
+		$config = $this->createMock(IConfig::class);
+		$config->expects($this->once())
+			->method('setUserValue')
 			->with(
 				$this->equalTo('foo'),
 				$this->equalTo('core'),
 				$this->equalTo('enabled'),
-				true
+				'true'
 			);
 		/* dav event listener gets the manager list from config */
+		$userConfig = $this->createMock(IUserConfig::class);
 		$userConfig->expects(self::any())
 			->method('getValueBool')
 			->willReturnCallback(
 				fn ($user, $app, $key, $default) => ($key === 'enabled' ? false : $default)
 			);
 
-		$user = new User('foo', $backend, $this->dispatcher, null, null, $userConfig);
+		$user = new User('foo', $backend, $this->dispatcher, null, $config, $userConfig);
 		$user->setEnabled(true);
 	}
 
 	public function testSetDisabled(): void {
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 
-		$userConfig = $this->createMock(IUserConfig::class);
-		$userConfig->expects($this->once())
-			->method('setValueBool')
+		$config = $this->createMock(IConfig::class);
+		$config->expects($this->once())
+			->method('setUserValue')
 			->with(
 				$this->equalTo('foo'),
 				$this->equalTo('core'),
 				$this->equalTo('enabled'),
-				false
+				'false'
 			);
 
 		$user = $this->getMockBuilder(User::class)
@@ -807,8 +806,7 @@ class UserTest extends TestCase {
 				$backend,
 				$this->dispatcher,
 				null,
-				null,
-				$userConfig,
+				$config,
 			])
 			->onlyMethods(['isEnabled', 'triggerChange'])
 			->getMock();
@@ -829,6 +827,9 @@ class UserTest extends TestCase {
 	public function testSetDisabledAlreadyDisabled(): void {
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 
+		$config = $this->createMock(IConfig::class);
+		$config->expects($this->never())
+			->method('setUserValue');
 		$userConfig = $this->createMock(IUserConfig::class);
 		$userConfig->expects($this->never())
 			->method('setValueBool');
@@ -839,7 +840,7 @@ class UserTest extends TestCase {
 				$backend,
 				$this->dispatcher,
 				null,
-				null,
+				$config,
 				$userConfig,
 			])
 			->onlyMethods(['isEnabled', 'triggerChange'])

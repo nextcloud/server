@@ -265,7 +265,7 @@ class User implements IUser {
 
 		// Set delete flag on the user - this is needed to ensure that the user data is removed if there happen any exception in the backend
 		// because we can not restore the user meaning we could not rollback to any stable state otherwise.
-		$this->userConfig->setValueBool($this->uid, 'core', 'deleted', true);
+		$this->config->setUserValue($this->uid, 'core', 'deleted', 'true');
 		// We also need to backup the home path as this can not be reconstructed later if the original backend uses custom home paths
 		$this->userConfig->setValueString($this->uid, 'core', 'deleted.home-path', $this->getHome());
 
@@ -312,7 +312,7 @@ class User implements IUser {
 			// Remove all user settings
 			$this->userConfig->deleteAllUserConfig($this->uid);
 			// But again set flag that this user is about to be deleted
-			$this->userConfig->setValueBool($this->uid, 'core', 'deleted', true);
+			$this->config->setUserValue($this->uid, 'core', 'deleted', 'true');
 			$this->userConfig->setValueString($this->uid, 'core', 'deleted.home-path', $this->getHome());
 			// Commit the transaction so we are in a defined state: either the preferences are removed or an exception occurred but the delete flag is still present
 			$database->commit();
@@ -488,7 +488,7 @@ class User implements IUser {
 	public function setEnabled(bool $enabled = true): void {
 		$oldStatus = $this->isEnabled();
 		$setDatabaseValue = function (bool $enabled): void {
-			$this->userConfig->setValueBool($this->uid, 'core', 'enabled', $enabled);
+			$this->config->setUserValue($this->uid, 'core', 'enabled', $enabled ? 'true' : 'false');
 			$this->enabled = $enabled;
 		};
 
