@@ -32,7 +32,7 @@ jobs:
       - name: Collect PR commit messages
         id: collect
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.COMMAND_BOT_PAT }}
           COMMITS_URL: ${{ github.event.pull_request.commits_url }}
         run: |
           set -euo pipefail
@@ -125,7 +125,7 @@ jobs:
       - name: Create 'AI assisted' label if absent
         if: steps.ai_trailers.outputs.ai_assisted == 'true' || steps.agent_signoff.outputs.agent_signoff == 'true' || steps.co_authored.outputs.co_authored == 'true'
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.COMMAND_BOT_PAT }}
         run: |
           gh api "repos/${{ github.repository }}/labels" \
             --method POST \
@@ -137,7 +137,7 @@ jobs:
       - name: Label PR as AI assisted
         if: steps.ai_trailers.outputs.ai_assisted == 'true' || steps.agent_signoff.outputs.agent_signoff == 'true' || steps.co_authored.outputs.co_authored == 'true'
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.COMMAND_BOT_PAT }}
         run: |
           gh pr edit "${{ github.event.pull_request.number }}" \
             --repo "${{ github.repository }}" \
