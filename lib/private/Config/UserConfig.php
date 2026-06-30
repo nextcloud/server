@@ -1297,8 +1297,10 @@ class UserConfig implements IUserConfig {
 			crypto:$this->crypto,
 		);
 		if ($lazy) {
+			/** @psalm-suppress InvalidArgument https://github.com/vimeo/psalm/issues/6350 */
 			$this->lazyCache[$userId][$app][$key] = $entry;
 		} else {
+			/** @psalm-suppress InvalidArgument https://github.com/vimeo/psalm/issues/6350 */
 			$this->fastCache[$userId][$app][$key] = $entry;
 		}
 
@@ -1856,8 +1858,10 @@ class UserConfig implements IUserConfig {
 				crypto:$this->crypto,
 			);
 			if ($this->migrationCompleted && (($row['lazy'] ?? ($lazy ?? 0) ? 1 : 0) === 1)) {
+				/** @psalm-suppress InvalidArgument https://github.com/vimeo/psalm/issues/6350 */
 				$this->lazyCache[$userId][$row['appid']][$row['configkey']] = $valueDetail;
 			} else {
+				/** @psalm-suppress InvalidArgument https://github.com/vimeo/psalm/issues/6350 */
 				$this->fastCache[$userId][$row['appid']][$row['configkey']] = $valueDetail;
 			}
 		}
