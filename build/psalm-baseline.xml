@@ -2920,11 +2920,7 @@
     <DeprecatedMethod>
       <code><![CDATA[\OC_App::getAllApps()]]></code>
       <code><![CDATA[getFilteredValues]]></code>
-      <code><![CDATA[getValues]]></code>
     </DeprecatedMethod>
-    <FalsableReturnStatement>
-      <code><![CDATA[$this->appConfig->getValues($app, false)]]></code>
-    </FalsableReturnStatement>
   </file>
   <file src="core/Command/Db/ConvertType.php">
     <DeprecatedMethod>
