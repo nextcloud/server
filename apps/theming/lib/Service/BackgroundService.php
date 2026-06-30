@@ -21,6 +21,7 @@ use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IAppConfig;
 use OCP\IConfig;
+use OCP\Image;
 use OCP\IImage;
 use OCP\Lock\LockedException;
 use OCP\PreConditionNotMetException;
