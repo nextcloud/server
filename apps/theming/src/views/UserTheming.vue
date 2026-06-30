@@ -15,6 +15,7 @@
 		<ThemeList
 			:label="t('theming', 'Themes')"
 			:themes="mainThemes"
+			:default="defaultTheme"
 			@updated="updateBodyAttributes" />
 
 		<ThemeList
@@ -58,7 +59,7 @@ import axios from '@nextcloud/axios'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import { generateOcsUrl } from '@nextcloud/router'
-import { computed, nextTick, ref, useTemplateRef } from 'vue'
+import { computed, nextTick, onBeforeMount, ref, useTemplateRef } from 'vue'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
@@ -77,16 +78,18 @@ const availableThemes = ref(loadState<ITheme[]>('theming', 'themes', []))
 for (const theme of availableThemes.value) {
 	theme.enabled = theme.enabled || false
 }
-if (availableThemes.value.every(({ type, enabled }) => type !== 1 || !enabled)) {
-	const theme = availableThemes.value.find(({ id, type }) => id === 'default' && type === 1)
-	if (theme) {
-		theme.enabled = true
-	}
-}
 
 const mainThemes = computed(() => availableThemes.value.filter((theme) => theme.type === 1))
 const fontThemes = computed(() => availableThemes.value.filter((theme) => theme.type === 2))
 const supplementaryThemes = computed(() => availableThemes.value.filter((theme) => theme.type === 3))
+const defaultTheme = computed(() => mainThemes.value.find((theme) => theme.id === 'default'))
+onBeforeMount(() => {
+	if (availableThemes.value.every(({ type, enabled }) => type !== 1 || !enabled)) {
+		if (defaultTheme.value) {
+			defaultTheme.value.enabled = true
+		}
+	}
+})
 
 const primaryColorSection = useTemplateRef('primaryColor')
 

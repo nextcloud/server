@@ -31,18 +31,30 @@ const props = defineProps<{
 	/** The theme */
 	theme: ITheme
 	/**
-	 * If true, the theme can be selected exclusively (radio button),
-	 * otherwise it can be selected in addition to other themes (switch)
+	 * The type of the switch.
 	 */
-	unique: boolean
+	type: 'checkbox' | 'radio' | 'switch'
 	/**
 	 * When multiple themes are allowed, this is the name of the input group.
 	 */
 	name?: string
 }>()
 
-const switchType = computed(() => props.unique ? 'radio' : 'checkbox')
 const imageUrl = computed(() => generateFilePath('theming', 'img', props.theme.id + '.jpg'))
+const checkboxValue = computed({
+	get() {
+		if (props.type === 'switch') {
+			return isSelected.value
+		} else if (props.type === 'radio') {
+			return isSelected.value ? props.theme.id : false
+		} else {
+			return isSelected.value ? [props.theme.id] : []
+		}
+	},
+	set() {
+		isSelected.value = !isSelected.value
+	},
+})
 </script>
 
 <template>
@@ -64,13 +76,13 @@ const imageUrl = computed(() => generateFilePath('theming', 'img', props.theme.i
 			<!-- Only show checkbox if we can change themes -->
 			<NcCheckboxRadioSwitch
 				v-show="!enforced"
+				v-model="checkboxValue"
 				class="theming__preview-toggle"
 				:disabled="enforced"
 				:loading
-				:name
-				:type="switchType"
-				:modelValue="isSelected"
-				@update:modelValue="isSelected = !isSelected">
+				:name="type !== 'switch' ? name : undefined"
+				:type
+				:value="type !== 'switch' ? theme.id : undefined">
 				{{ theme.enableLabel }}
 			</NcCheckboxRadioSwitch>
 		</div>
