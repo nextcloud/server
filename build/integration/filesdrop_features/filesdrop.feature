@@ -214,9 +214,8 @@ Feature: FilesDrop
     Then the HTTP status code should be "405"
     And Downloading public folder "Mallory/folder"
     Then the HTTP status code should be "405"
-    # Individual files are not exposed at all (404 Not Found)
     And Downloading public file "Mallory/folder/a.txt"
-    Then the HTTP status code should be "404"
+    Then the HTTP status code should be "405"
 
   Scenario: Files drop requires nickname if file request is enabled
     Given user "user0" exists
