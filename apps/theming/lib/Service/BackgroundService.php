@@ -252,8 +252,8 @@ class BackgroundService {
 		$userId = $userId ?? $this->getUserId();
 
 		$image = new Image();
-		$handle = $this->getAppDataFolder($userId)->getFile('background.jpg')->read();
-		if ($handle === false || $image->loadFromFileHandle($handle) === false) {
+		$data = $this->getAppDataFolder($userId)->getFile('background.jpg')->getContent();
+		if ($image->loadFromData($data) === false) {
 			throw new InvalidArgumentException('Invalid image file');
 		}
 
@@ -322,15 +322,19 @@ class BackgroundService {
 	 */
 	public function setGlobalBackground($path): ?string {
 		$image = new Image();
-		$handle = is_resource($path) ? $path : fopen($path, 'rb');
 
-		if ($handle && $image->loadFromFileHandle($handle) !== false) {
+		$rawImageData = is_resource($path)
+			? stream_get_contents($path)
+			: file_get_contents($path);
+
+		if ($rawImageData !== false && $image->loadFromData($rawImageData) !== false) {
 			$meanColor = $this->calculateMeanColor($image);
 			if ($meanColor !== false) {
 				$this->appConfig->setValueString(Application::APP_ID, 'background_color', $meanColor);
 				return $meanColor;
 			}
 		}
+
 		return null;
 	}
 
