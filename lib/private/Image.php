@@ -691,7 +691,7 @@ class Image implements IImage {
 				break;
 
 			case IMAGETYPE_WEBP:
-				if (!imagetypes() & IMG_WEBP) {
+				if (!(imagetypes() & IMG_WEBP)) {
 					$this->logger->debug('Image->loadFromFile, WEBP images not supported: ' . $imagePath, ['app' => 'core']);
 					return false;
 				}
