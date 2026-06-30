@@ -145,7 +145,7 @@ class AccountMigrator implements IMigrator, ISizeEstimationMigrator {
 			$output->writeln('Importing avatar from ' . $importPath . '…');
 			$data = $importSource->getFileContents($importPath);
 			$image = new Image();
-			if ($data === false || $image->loadFromData($data) === false) {
+			if ($image->loadFromData($data) === false) {
 				throw new AccountMigratorException('Failed to load avatar');
 			}
 
