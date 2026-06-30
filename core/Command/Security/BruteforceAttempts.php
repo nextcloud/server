@@ -60,6 +60,9 @@ class BruteforceAttempts extends Base {
 				(string)$input->getArgument('action'),
 			),
 		];
+		if ($input->getOption('output') === 'plain') {
+			$data['delay'] = $data['delay'] . ' ms';
+		}
 
 		$this->writeArrayInOutputFormat($input, $output, $data);
 
