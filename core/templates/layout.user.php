@@ -72,9 +72,10 @@ p($theme->getTitle());
 
 				<nav id="header-start__appmenu"></nav>
 			</div>
-
-			<div class="header-end">
+			<div class="header-center">
 				<div id="unified-search"></div>
+			</div>
+			<div class="header-end">
 				<div id="notifications"></div>
 				<div id="contactsmenu"></div>
 				<div id="user-menu"></div>
