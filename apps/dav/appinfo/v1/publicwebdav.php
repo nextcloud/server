@@ -21,6 +21,7 @@ use OCP\Constants;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
+use OCP\Files\Storage\IStorage;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IPreview;
@@ -109,14 +110,14 @@ $server = $serverFactory->createServer(
 
 		// FIXME: should not add storage wrappers outside of preSetup, need to find a better way
 		$previousLog = Filesystem::logWarningWhenAddingStorageWrapper(false);
-		Filesystem::addStorageWrapper('sharePermissions', function ($mountPoint, $storage) use ($share) {
+		Filesystem::addStorageWrapper('sharePermissions', function (string $mountPoint, IStorage $storage) use ($share) {
 			return new DirPermissionsMask([
 				'storage' => $storage,
 				'mask' => $share->getPermissions() | Constants::PERMISSION_SHARE,
 				'path' => 'files'
 			]);
 		});
-		Filesystem::addStorageWrapper('shareOwner', function ($mountPoint, $storage) use ($share) {
+		Filesystem::addStorageWrapper('shareOwner', function (string $mountPoint, IStorage $storage) use ($share) {
 			return new PublicOwnerWrapper(['storage' => $storage, 'owner' => $share->getShareOwner()]);
 		});
 		Filesystem::logWarningWhenAddingStorageWrapper($previousLog);

@@ -202,9 +202,6 @@ class Manager implements IMountManager {
 		return $result;
 	}
 
-	/**
-	 * @return IMountPoint[]
-	 */
 	#[\Override]
 	public function getAll(): array {
 		return $this->mounts;

@@ -114,6 +114,7 @@ class SetupManagerTest extends TestCase {
 			$appManager,
 			$this->fileAccess,
 			$this->createMock(IAppConfig::class),
+			$this->createMock(IStorageFactory::class),
 		);
 	}
 
@@ -614,7 +615,7 @@ class SetupManagerTest extends TestCase {
 			->method('addMount')
 			->willReturnCallback($this->getAddMountCheckCallback($invokedCount,
 				$addMountExpectations));
-		$this->mountManager->expects($this->once())->method('getAll')
+		$this->mountManager->method('getAll')
 			->willReturn([$this->mountPoint => $partialMount]);
 
 		// setting up for $path but then for user should remove the setup path

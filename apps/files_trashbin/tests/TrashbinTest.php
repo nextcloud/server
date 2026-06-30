@@ -19,6 +19,7 @@ use OCA\Files_Sharing\AppInfo\Application;
 use OCA\Files_Trashbin\AppInfo\Application as TrashbinApplication;
 use OCA\Files_Trashbin\Expiration;
 use OCA\Files_Trashbin\Helper;
+use OCA\Files_Trashbin\Storage;
 use OCA\Files_Trashbin\Trashbin;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -96,7 +97,7 @@ class TrashbinTest extends \Test\TestCase {
 
 		\OC_Hook::clear();
 
-		Filesystem::getLoader()->removeStorageWrapper('oc_trashbin');
+		Filesystem::getLoader()->removeStorageWrapper(Storage::class);
 
 		if (self::$trashBinStatus) {
 			Server::get(IAppManager::class)->enableApp('files_trashbin');

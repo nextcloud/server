@@ -16,10 +16,8 @@ use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class StorageFactory implements IStorageFactory {
-	/**
-	 * @var array[] [$name=>['priority'=>$priority, 'wrapper'=>$callable] $storageWrappers
-	 */
-	private $storageWrappers = [];
+	/** @var array<string, array{wrapper: callable(string $mountPoint, IStorage $storage): IStorage, priority: int}> $storageWrappers */
+	private array $storageWrappers = [];
 
 	#[\Override]
 	public function addStorageWrapper(string $wrapperName, callable $callback, int $priority = 50, array $existingMounts = []): bool {
