@@ -14,6 +14,7 @@ use OCA\Files_Sharing\Exceptions\BrokenPath;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\InvalidateMountCacheEvent;
 use OCP\Files\Mount\IMovableMount;
+use OCP\Files\Mount\ISharedMountPoint;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IDBConnection;
 use OCP\IUser;
