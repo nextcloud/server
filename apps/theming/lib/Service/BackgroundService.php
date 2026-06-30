@@ -21,7 +21,7 @@ use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IAppConfig;
 use OCP\IConfig;
-use OCP\Image;
+use OCP\IImage;
 use OCP\Lock\LockedException;
 use OCP\PreConditionNotMetException;
 use RuntimeException;
@@ -335,10 +335,10 @@ class BackgroundService {
 	}
 
 	/**
-	 * Calculate mean color of an given image
+	 * Calculate mean color of a given image
 	 * It only takes the upper part into account so that a matching text color can be derived for the app menu
 	 */
-	private function calculateMeanColor(Image $image): false|string {
+	private function calculateMeanColor(IImage $image): false|string {
 		/**
 		 * Small helper to ensure one channel is returned as 8byte hex
 		 */
@@ -352,15 +352,18 @@ class BackgroundService {
 			};
 		}
 
-		$tempImage = new Image();
-
 		// Crop to only analyze top bar
-		$resource = $image->cropNew(0, 0, $image->width(), min(max(50, (int)($image->height() * 0.125)), $image->height()));
-		if ($resource === false) {
+		$tempImage = $image->cropCopy(
+			0,
+			0,
+			$image->width(),
+			min(max(50, (int)($image->height() * 0.125)), $image->height()),
+		);
+
+		if (!$tempImage->valid()) {
 			return false;
 		}
 
-		$tempImage->setResource($resource);
 		if (!$tempImage->preciseResize(100, 7)) {
 			return false;
 		}
