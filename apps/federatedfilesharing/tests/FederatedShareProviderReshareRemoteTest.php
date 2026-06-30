@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OCA\FederatedFileSharing\Tests;
 
 use LogicException;
+use OC\DB\QueryBuilder\Parameter;
 use OC\Federation\CloudId;
 use OC\Share20\Share;
 use OCA\FederatedFileSharing\AddressHandler;
@@ -115,7 +116,7 @@ class FederatedShareProviderReshareRemoteTest extends \Test\TestCase {
 		$qb1->method('from')->willReturnSelf();
 		$qb1->method('where')->willReturnSelf();
 		$qb1->method('expr')->willReturn($expr1);
-		$qb1->method('createNamedParameter')->willReturn('');
+		$qb1->method('createNamedParameter')->willReturn(new Parameter(''));
 		$qb1->method('executeQuery')->willReturn($result1);
 
 		/*
@@ -149,7 +150,7 @@ class FederatedShareProviderReshareRemoteTest extends \Test\TestCase {
 		$qb2->method('from')->willReturnSelf();
 		$qb2->method('where')->willReturnSelf();
 		$qb2->method('expr')->willReturn($expr2);
-		$qb2->method('createNamedParameter')->willReturn('');
+		$qb2->method('createNamedParameter')->willReturn(new Parameter(''));
 		$qb2->method('executeQuery')->willReturn($result2);
 
 		/*
@@ -194,7 +195,7 @@ class FederatedShareProviderReshareRemoteTest extends \Test\TestCase {
 		$qb4->method('where')->willReturnSelf();
 		$qb4->method('expr')->willReturn($expr4);
 		$qb4->method('set')->willReturnSelf();
-		$qb4->method('createNamedParameter')->willReturn('');
+		$qb4->method('createNamedParameter')->willReturn(new Parameter(''));
 
 		/*
 		 * Mocks for storeRemoteId.
@@ -244,7 +245,7 @@ class FederatedShareProviderReshareRemoteTest extends \Test\TestCase {
 		$qb6->method('from')->willReturnSelf();
 		$qb6->method('where')->willReturnSelf();
 		$qb6->method('expr')->willReturn($expr6);
-		$qb6->method('createNamedParameter')->willReturn('');
+		$qb6->method('createNamedParameter')->willReturn(new Parameter(''));
 		$qb6->method('executeQuery')->willReturn($result6);
 
 		$queryBuilderMatcher = $this->exactly(7);
@@ -345,7 +346,7 @@ class FederatedShareProviderReshareRemoteTest extends \Test\TestCase {
 		$qb1->method('update')->willReturnSelf();
 		$qb1->method('where')->willReturnSelf();
 		$qb1->method('expr')->willReturn($expr1);
-		$qb1->method('createNamedParameter')->willReturn('');
+		$qb1->method('createNamedParameter')->willReturn(new Parameter(''));
 		$qb1->method('set')->willReturnSelf();
 
 		/*
@@ -365,7 +366,7 @@ class FederatedShareProviderReshareRemoteTest extends \Test\TestCase {
 		$qb2->method('from')->willReturnSelf();
 		$qb2->method('where')->willReturnSelf();
 		$qb2->method('expr')->willReturn($expr2);
-		$qb2->method('createNamedParameter')->willReturn('');
+		$qb2->method('createNamedParameter')->willReturn(new Parameter(''));
 		$qb2->method('executeQuery')->willReturn($result2);
 
 		$queryBuilderMatcher = $this->exactly(2);

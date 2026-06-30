@@ -5,6 +5,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+use Rector\Php81\Rector\Property\ReadOnlyPropertyRector;
+
 $nextcloudDir = dirname(__DIR__);
 
 return (require __DIR__ . '/rector-shared.php')
@@ -23,8 +25,15 @@ return (require __DIR__ . '/rector-shared.php')
 		$nextcloudDir . '/lib/private/Files/Cache/StorageGlobal.php',
 		$nextcloudDir . '/lib/private/Files/Storage/Wrapper/Wrapper.php',
 		$nextcloudDir . '/build/psalm/ITypedQueryBuilderTest.php',
-		$nextcloudDir . '/lib/private/DB/QueryBuilder/TypedQueryBuilder.php',
-		$nextcloudDir . '/lib/public/DB/QueryBuilder/ITypedQueryBuilder.php',
+		$nextcloudDir . '/lib/private/DB/QueryBuilder/',
+		$nextcloudDir . '/lib/public/DB/QueryBuilder/',
+		$nextcloudDir . '/tests/lib/DB/QueryBuilder/',
+	])
+	->withSkip([
+		$nextcloudDir . '/lib/private/DB/QueryBuilder/Sharded/ShardedQueryBuilder.php', // rector crashes with this file
+		ReadOnlyPropertyRector::class => [
+			$nextcloudDir . '/lib/private/DB/QueryBuilder/QueryBuilder.php', // Readonly properties are overwritten in tests
+		]
 	])
 	->withAutoloadPaths([
 		// ensure rector properly autoload the public interfaces

@@ -34,7 +34,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @since 34.0.0
 	 */
 	#[Override]
-	public function select(...$selects);
+	public function select(...$selects): self;
 
 	/**
 	 * @template NewS of string
@@ -52,7 +52,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @since 34.0.0
 	 */
 	#[Override]
-	public function selectDistinct($select);
+	public function selectDistinct(string|array $select): self;
 
 	/**
 	 * @template NewS of string
@@ -70,11 +70,10 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @since 34.0.0
 	 */
 	#[Override]
-	public function addSelect(...$select);
+	public function addSelect(...$select): self;
 
 	/**
 	 * @inheritDoc
-	 * @param mixed $select
 	 * @template NewS of string
 	 * @param NewS $alias
 	 * @psalm-this-out self<S|NewS>
@@ -83,7 +82,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @since 34.0.0
 	 */
 	#[Override]
-	public function selectAlias($select, $alias): self;
+	public function selectAlias(string|IParameter|IQueryFunction|ILiteral $select, string $alias): self;
 
 	/**
 	 * @inheritDoc
@@ -92,7 +91,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @since 34.0.0
 	 */
 	#[Override]
-	public function setParameter($key, $value, $type = null);
+	public function setParameter(string|int $key, mixed $value, string|null|int $type = null): self;
 
 	/**
 	 * @inheritDoc
@@ -100,34 +99,23 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @since 34.0.0
 	 */
 	#[Override]
-	public function setParameters(array $params, array $types = []);
+	public function setParameters(array $params, array $types = []): self;
 
 	/**
 	 * @inheritDoc
 	 * @return $this
-	 * @psalm-suppress MissingParamType
 	 * @since 34.0.0
 	 */
 	#[Override]
-	public function setFirstResult($firstResult);
+	public function setFirstResult(int $firstResult): self;
 
 	/**
 	 * @inheritDoc
 	 * @return $this
-	 * @psalm-suppress MissingParamType
 	 * @since 34.0.0
 	 */
 	#[Override]
-	public function setMaxResults($maxResults);
-
-	/**
-	 * @inheritDoc
-	 * @return $this
-	 * @psalm-suppress MissingParamType
-	 * @since 34.0.0
-	 */
-	#[Override]
-	public function delete($delete = null, $alias = null);
+	public function setMaxResults(?int $maxResults): self;
 
 	/**
 	 * @inheritDoc
@@ -136,7 +124,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @since 34.0.0
 	 */
 	#[Override]
-	public function update($update = null, $alias = null);
+	public function delete(string $delete, ?string $alias = null): self;
 
 	/**
 	 * @inheritDoc
@@ -145,7 +133,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @since 34.0.0
 	 */
 	#[Override]
-	public function insert($insert = null);
+	public function update(string $update, ?string $alias = null): self;
 
 	/**
 	 * @inheritDoc
@@ -154,7 +142,119 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @since 34.0.0
 	 */
 	#[Override]
-	public function from($from, $alias = null);
+	public function insert(string $insert): self;
+
+	/**
+	 * @inheritDoc
+	 * @return $this
+	 * @since 34.0.0
+	 */
+	#[Override]
+	public function from(string|IQueryFunction $from, ?string $alias = null): self;
+
+	/**
+	 * @inheritDoc
+	 * @return $this
+	 * @since 34.0.0
+	 */
+	#[Override]
+	public function join(string $fromAlias, string|IQueryFunction $join, ?string $alias, string|ICompositeExpression|null $condition = null): self;
+
+	/**
+	 * @inheritDoc
+	 * @return $this
+	 * @since 34.0.0
+	 */
+	#[Override]
+	public function innerJoin(string $fromAlias, string|IQueryFunction $join, ?string $alias, string|ICompositeExpression|null $condition = null): self;
+
+	/**
+	 * @inheritDoc
+	 * @return $this
+	 * @since 34.0.0
+	 */
+	#[Override]
+	public function leftJoin(string $fromAlias, string|IQueryFunction $join, ?string $alias, string|ICompositeExpression|null $condition = null): self;
+
+	/**
+	 * @inheritDoc
+	 * @return $this
+	 * @since 34.0.0
+	 */
+	#[Override]
+	public function rightJoin(string $fromAlias, string|IQueryFunction $join, ?string $alias, string|ICompositeExpression|null $condition = null): self;
+
+	/**
+	 * @inheritDoc
+	 * @return $this
+	 * @since 34.0.0
+	 */
+	#[Override]
+	public function set(string $key, ILiteral|IParameter|IQueryFunction|string $value): self;
+
+	/**
+	 * @inheritDoc
+	 * @return $this
+	 * @since 34.0.0
+	 */
+	#[Override]
+	public function where(mixed ...$predicates): self;
+
+	/**
+	 * @inheritDoc
+	 * @return $this
+	 * @since 34.0.0
+	 */
+	#[Override]
+	public function andWhere(mixed ...$where): self;
+
+	/**
+	 * @inheritDoc
+	 * @return $this
+	 * @since 34.0.0
+	 */
+	#[Override]
+	public function orWhere(mixed ...$where): self;
+
+	/**
+	 * @inheritDoc
+	 * @return $this
+	 * @since 34.0.0
+	 */
+	#[Override]
+	public function groupBy(mixed ...$groupBys): self;
+
+	/**
+	 * @inheritDoc
+	 * @return $this
+	 * @since 34.0.0
+	 */
+	#[Override]
+	public function addGroupBy(mixed ...$groupBy): self;
+
+	/**
+	 * @inheritDoc
+	 * @return $this
+	 * @since 34.0.0
+	 */
+	#[Override]
+	public function setValue(string $column, ILiteral|IParameter|IQueryFunction|string|int|float $value): self;
+
+	/**
+	 * @inheritDoc
+	 * @return $this
+	 * @since 34.0.0
+	 */
+	#[Override]
+	public function values(array $values): self;
+
+	/**
+	 * @inheritDoc
+	 * @return $this
+	 * @since 34.0.0
+	 */
+	#[Override]
+	public function having(mixed ...$having): self;
 
 	/**
 	 * @inheritDoc
@@ -163,97 +263,7 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @since 34.0.0
 	 */
 	#[Override]
-	public function join($fromAlias, $join, $alias, $condition = null);
-
-	/**
-	 * @inheritDoc
-	 * @return $this
-	 * @psalm-suppress MissingParamType
-	 * @since 34.0.0
-	 */
-	#[Override]
-	public function innerJoin($fromAlias, $join, $alias, $condition = null);
-
-	/**
-	 * @inheritDoc
-	 * @return $this
-	 * @psalm-suppress MissingParamType
-	 * @since 34.0.0
-	 */
-	#[Override]
-	public function leftJoin($fromAlias, $join, $alias, $condition = null);
-
-	/**
-	 * @inheritDoc
-	 * @return $this
-	 * @psalm-suppress MissingParamType
-	 * @since 34.0.0
-	 */
-	#[Override]
-	public function rightJoin($fromAlias, $join, $alias, $condition = null);
-
-	/**
-	 * @inheritDoc
-	 * @return $this
-	 * @psalm-suppress MissingParamType
-	 * @since 34.0.0
-	 */
-	#[Override]
-	public function set($key, $value);
-
-	/**
-	 * @inheritDoc
-	 * @return $this
-	 * @psalm-suppress MissingParamType
-	 * @since 34.0.0
-	 */
-	#[Override]
-	public function where(...$predicates);
-
-	/**
-	 * @inheritDoc
-	 * @return $this
-	 * @psalm-suppress MissingParamType
-	 * @since 34.0.0
-	 */
-	#[Override]
-	public function andWhere(...$where);
-
-	/**
-	 * @inheritDoc
-	 * @return $this
-	 * @psalm-suppress MissingParamType
-	 * @since 34.0.0
-	 */
-	#[Override]
-	public function orWhere(...$where);
-
-	/**
-	 * @inheritDoc
-	 * @return $this
-	 * @psalm-suppress MissingParamType
-	 * @since 34.0.0
-	 */
-	#[Override]
-	public function groupBy(...$groupBys);
-
-	/**
-	 * @inheritDoc
-	 * @return $this
-	 * @psalm-suppress MissingParamType
-	 * @since 34.0.0
-	 */
-	#[Override]
-	public function addGroupBy(...$groupBy);
-
-	/**
-	 * @inheritDoc
-	 * @return $this
-	 * @psalm-suppress MissingParamType
-	 * @since 34.0.0
-	 */
-	#[Override]
-	public function setValue($column, $value);
+	public function andHaving(mixed ...$having): self;
 
 	/**
 	 * @inheritDoc
@@ -261,70 +271,31 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 * @since 34.0.0
 	 */
 	#[Override]
-	public function values(array $values);
+	public function orHaving(mixed ...$having): self;
 
 	/**
 	 * @inheritDoc
 	 * @return $this
-	 * @psalm-suppress MissingParamType
 	 * @since 34.0.0
 	 */
 	#[Override]
-	public function having(...$having);
+	public function orderBy(string|IQueryFunction|ILiteral|IParameter $sort, ?string $order = null): self;
 
 	/**
 	 * @inheritDoc
 	 * @return $this
-	 * @psalm-suppress MissingParamType
 	 * @since 34.0.0
 	 */
 	#[Override]
-	public function andHaving(...$having);
+	public function resetQueryParts(?array $queryPartNames = null): self;
 
 	/**
 	 * @inheritDoc
 	 * @return $this
-	 * @psalm-suppress MissingParamType
 	 * @since 34.0.0
 	 */
 	#[Override]
-	public function orHaving(...$having);
-
-	/**
-	 * @inheritDoc
-	 * @return $this
-	 * @psalm-suppress MissingParamType
-	 * @since 34.0.0
-	 */
-	#[Override]
-	public function orderBy($sort, $order = null);
-
-	/**
-	 * @inheritDoc
-	 * @return $this
-	 * @psalm-suppress MissingParamType
-	 * @since 34.0.0
-	 */
-	#[Override]
-	public function addOrderBy($sort, $order = null);
-
-	/**
-	 * @inheritDoc
-	 * @return $this
-	 * @psalm-suppress MissingParamType
-	 * @since 34.0.0
-	 */
-	#[Override]
-	public function resetQueryParts($queryPartNames = null);
-
-	/**
-	 * @inheritDoc
-	 * @return $this
-	 * @psalm-suppress MissingParamType
-	 * @since 34.0.0
-	 */
-	#[Override]
-	public function resetQueryPart($queryPartName);
+	public function resetQueryPart(string $queryPartName): self;
 
 	/**
 	 * @inheritDoc

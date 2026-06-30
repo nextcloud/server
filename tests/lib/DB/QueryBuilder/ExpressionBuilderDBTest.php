@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -14,13 +16,15 @@ use OCP\DB\Types;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use Test\TestCase;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[Group(name: 'DB')]
 class ExpressionBuilderDBTest extends TestCase {
-	/** @var \Doctrine\DBAL\Connection|IDBConnection */
-	protected $connection;
-	protected $schemaSetup = false;
+	protected IDBConnection $connection;
+
+	protected bool $schemaSetup = false;
 
 	#[\Override]
 	protected function setUp(): void {
@@ -46,14 +50,8 @@ class ExpressionBuilderDBTest extends TestCase {
 		];
 	}
 
-	/**
-	 *
-	 * @param string $param1
-	 * @param string $param2
-	 * @param boolean $match
-	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('likeProvider')]
-	public function testLike($param1, $param2, $match): void {
+	#[DataProvider(methodName: 'likeProvider')]
+	public function testLike(string $param1, string $param2, bool $match): void {
 		$query = $this->connection->getQueryBuilder();
 
 		$query->select(new Literal('1'))
@@ -83,14 +81,8 @@ class ExpressionBuilderDBTest extends TestCase {
 		];
 	}
 
-	/**
-	 *
-	 * @param string $param1
-	 * @param string $param2
-	 * @param boolean $match
-	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('ilikeProvider')]
-	public function testILike($param1, $param2, $match): void {
+	#[DataProvider(methodName: 'ilikeProvider')]
+	public function testILike(string $param1, string $param2, bool $match): void {
 		$query = $this->connection->getQueryBuilder();
 
 		$query->select(new Literal('1'))
@@ -167,6 +159,7 @@ class ExpressionBuilderDBTest extends TestCase {
 		} else {
 			$query->where($query->expr()->eq('attributes', $query->createNamedParameter('[["permissions","before"]]'), IQueryBuilder::PARAM_JSON));
 		}
+
 		$query->executeStatement();
 
 		$query = $this->connection->getQueryBuilder();
@@ -178,7 +171,7 @@ class ExpressionBuilderDBTest extends TestCase {
 		$entries = $result->fetchAll();
 		$result->closeCursor();
 		self::assertCount(1, $entries);
-		self::assertEquals([['permissions','after']], json_decode($entries[0]['attributes'], true));
+		self::assertEquals([['permissions','after']], json_decode((string)$entries[0]['attributes'], true));
 	}
 
 	public function testDateTimeEquals(): void {
@@ -234,13 +227,17 @@ class ExpressionBuilderDBTest extends TestCase {
 		self::assertCount(1, $entries);
 	}
 
-	protected function createConfig($appId, $key, $value) {
+	/**
+	 * @psalm-param '1'|'mykey' $key
+	 * @psalm-param '4'|'myvalue' $value
+	 */
+	protected function createConfig(string $appId, string $key, string $value) {
 		$query = $this->connection->getQueryBuilder();
 		$query->insert('appconfig')
 			->values([
 				'appid' => $query->createNamedParameter($appId),
-				'configkey' => $query->createNamedParameter((string)$key),
-				'configvalue' => $query->createNamedParameter((string)$value),
+				'configkey' => $query->createNamedParameter($key),
+				'configvalue' => $query->createNamedParameter($value),
 			])
 			->executeStatement();
 	}
@@ -255,7 +252,7 @@ class ExpressionBuilderDBTest extends TestCase {
 		try {
 			$schema->getTable($prefix . 'testing');
 			$this->connection->getQueryBuilder()->delete('testing')->executeStatement();
-		} catch (SchemaException $e) {
+		} catch (SchemaException) {
 			$this->schemaSetup = true;
 			$table = $schema->createTable($prefix . 'testing');
 			$table->addColumn('id', Types::BIGINT, [

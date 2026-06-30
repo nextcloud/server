@@ -31,8 +31,8 @@
 		<file name="lib/private/Files/Cache/StorageGlobal.php"/>
 		<file name="lib/private/Files/Storage/Wrapper/Wrapper.php"/>
 		<file name="build/psalm/ITypedQueryBuilderTest.php"/>
-		<file name="lib/private/DB/QueryBuilder/TypedQueryBuilder.php"/>
-		<file name="lib/public/DB/QueryBuilder/ITypedQueryBuilder.php"/>
+		<directory name="lib/public/DB/QueryBuilder" />
+		<directory name="lib/private/DB/QueryBuilder" />
 		<file name="lib/private/Share20/ShareHelper.php"/>
 		<file name="lib/public/Share/IShareHelper.php"/>
 		<file name="lib/public/SystemTag/Events/*.php"/>

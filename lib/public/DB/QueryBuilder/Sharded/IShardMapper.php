@@ -16,9 +16,6 @@ interface IShardMapper {
 	/**
 	 * Get the shard number for a given shard key and total shard count
 	 *
-	 * @param int $key
-	 * @param int $count
-	 * @return int
 	 * @since 30.0.0
 	 */
 	public function getShardForKey(int $key, int $count): int;

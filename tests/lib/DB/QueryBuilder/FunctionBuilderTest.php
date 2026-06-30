@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
@@ -11,18 +13,13 @@ use OC\DB\QueryBuilder\Literal;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use Test\TestCase;
 
-/**
- * Class FunctionBuilderTest
- *
- *
- * @package Test\DB\QueryBuilder
- */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[Group(name: 'DB')]
 class FunctionBuilderTest extends TestCase {
-	/** @var \Doctrine\DBAL\Connection|IDBConnection */
-	protected $connection;
+	protected IDBConnection $connection;
 
 	#[\Override]
 	protected function setUp(): void {
@@ -31,8 +28,8 @@ class FunctionBuilderTest extends TestCase {
 		$this->connection = Server::get(IDBConnection::class);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('providerTestConcatString')]
-	public function testConcatString($closure): void {
+	#[DataProvider(methodName: 'providerTestConcatString')]
+	public function testConcatString(callable $closure): void {
 		$query = $this->connection->getQueryBuilder();
 		[$real, $arguments, $return] = $closure($query);
 		if ($real) {
@@ -54,37 +51,21 @@ class FunctionBuilderTest extends TestCase {
 	public static function providerTestConcatString(): array {
 		return [
 			'1 column: string param unicode'
-				=> [function ($q) {
-					return [false, [$q->createNamedParameter('👍')], '👍'];
-				}],
+				=> [fn (IQueryBuilder $q): array => [false, [$q->createNamedParameter('👍')], '👍']],
 			'2 columns: string param and string param'
-				=> [function ($q) {
-					return [false, [$q->createNamedParameter('foo'), $q->createNamedParameter('bar')], 'foobar'];
-				}],
+				=> [fn (IQueryBuilder $q): array => [false, [$q->createNamedParameter('foo'), $q->createNamedParameter('bar')], 'foobar']],
 			'2 columns: string param and int literal'
-				=> [function ($q) {
-					return [false, [$q->createNamedParameter('foo'), $q->expr()->literal(1)], 'foo1'];
-				}],
+				=> [fn (IQueryBuilder $q): array => [false, [$q->createNamedParameter('foo'), $q->expr()->literal(1)], 'foo1']],
 			'2 columns: string param and string literal'
-				=> [function ($q) {
-					return [false, [$q->createNamedParameter('foo'), $q->expr()->literal('bar')], 'foobar'];
-				}],
+				=> [fn (IQueryBuilder $q): array => [false, [$q->createNamedParameter('foo'), $q->expr()->literal('bar')], 'foobar']],
 			'2 columns: string real and int literal'
-				=> [function ($q) {
-					return [true, ['configkey', $q->expr()->literal(2)], '12'];
-				}],
+				=> [fn (IQueryBuilder $q): array => [true, ['configkey', $q->expr()->literal(2)], '12']],
 			'4 columns: string literal'
-				=> [function ($q) {
-					return [false, [$q->expr()->literal('foo'), $q->expr()->literal('bar'), $q->expr()->literal('foo'), $q->expr()->literal('bar')], 'foobarfoobar'];
-				}],
+				=> [fn (IQueryBuilder $q): array => [false, [$q->expr()->literal('foo'), $q->expr()->literal('bar'), $q->expr()->literal('foo'), $q->expr()->literal('bar')], 'foobarfoobar']],
 			'4 columns: int literal'
-				=> [function ($q) {
-					return [false, [$q->expr()->literal(1), $q->expr()->literal(2), $q->expr()->literal(3), $q->expr()->literal(4)], '1234'];
-				}],
+				=> [fn (IQueryBuilder $q): array => [false, [$q->expr()->literal(1), $q->expr()->literal(2), $q->expr()->literal(3), $q->expr()->literal(4)], '1234']],
 			'5 columns: string param with special chars used in the function'
-				=> [function ($q) {
-					return [false, [$q->createNamedParameter('b'), $q->createNamedParameter("'"), $q->createNamedParameter('||'), $q->createNamedParameter(','), $q->createNamedParameter('a')], "b'||,a"];
-				}],
+				=> [fn (IQueryBuilder $q): array => [false, [$q->createNamedParameter('b'), $q->createNamedParameter("'"), $q->createNamedParameter('||'), $q->createNamedParameter(','), $q->createNamedParameter('a')], "b'||,a"]],
 		];
 	}
 
@@ -125,7 +106,7 @@ class FunctionBuilderTest extends TestCase {
 		$column = $result->fetchOne();
 		$result->closeCursor();
 		$this->assertStringContainsString(',', $column);
-		$actual = explode(',', $column);
+		$actual = explode(',', (string)$column);
 		$this->assertEqualsCanonicalizing([1,2,3], $actual);
 	}
 
@@ -141,7 +122,7 @@ class FunctionBuilderTest extends TestCase {
 		$column = $result->fetchOne();
 		$result->closeCursor();
 		$this->assertStringContainsString('#', $column);
-		$actual = explode('#', $column);
+		$actual = explode('#', (string)$column);
 		$this->assertEqualsCanonicalizing([1,2,3], $actual);
 	}
 
@@ -149,7 +130,7 @@ class FunctionBuilderTest extends TestCase {
 		$this->addDummyData();
 		$query = $this->connection->getQueryBuilder();
 
-		$query->select($query->func()->groupConcat('configkey', '\''))
+		$query->select($query->func()->groupConcat('configkey', "'"))
 			->from('appconfig')
 			->where($query->expr()->eq('appid', $query->createNamedParameter('group_concat')));
 
@@ -157,7 +138,7 @@ class FunctionBuilderTest extends TestCase {
 		$column = $result->fetchOne();
 		$result->closeCursor();
 		$this->assertStringContainsString("'", $column);
-		$actual = explode("'", $column);
+		$actual = explode("'", (string)$column);
 		$this->assertEqualsCanonicalizing([1,2,3], $actual);
 	}
 
@@ -173,7 +154,7 @@ class FunctionBuilderTest extends TestCase {
 		$column = $result->fetchOne();
 		$result->closeCursor();
 		$this->assertStringContainsString('"', $column);
-		$actual = explode('"', $column);
+		$actual = explode('"', (string)$column);
 		$this->assertEqualsCanonicalizing([1,2,3], $actual);
 	}
 
@@ -214,7 +195,7 @@ class FunctionBuilderTest extends TestCase {
 		$column = $result->fetchOne();
 		$result->closeCursor();
 		$this->assertStringContainsString(',', $column);
-		$actual = explode(',', $column);
+		$actual = explode(',', (string)$column);
 		$this->assertEqualsCanonicalizing([1,2,3], $actual);
 	}
 
@@ -230,7 +211,7 @@ class FunctionBuilderTest extends TestCase {
 		$column = $result->fetchOne();
 		$result->closeCursor();
 		$this->assertStringContainsString('#', $column);
-		$actual = explode('#', $column);
+		$actual = explode('#', (string)$column);
 		$this->assertEqualsCanonicalizing([1,2,3], $actual);
 	}
 
@@ -334,7 +315,7 @@ class FunctionBuilderTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('octetLengthProvider')]
+	#[DataProvider(methodName: 'octetLengthProvider')]
 	public function testOctetLength(string $str, int $bytes): void {
 		$query = $this->connection->getQueryBuilder();
 
@@ -357,7 +338,7 @@ class FunctionBuilderTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('charLengthProvider')]
+	#[DataProvider(methodName: 'charLengthProvider')]
 	public function testCharLength(string $str, int $bytes): void {
 		$query = $this->connection->getQueryBuilder();
 
@@ -372,7 +353,10 @@ class FunctionBuilderTest extends TestCase {
 		$this->assertEquals($bytes, $column);
 	}
 
-	private function setUpMinMax($value) {
+	/**
+	 * @psalm-param 10|11|20 $value
+	 */
+	private function setUpMinMax(int $value): void {
 		$query = $this->connection->getQueryBuilder();
 
 		$query->insert('appconfig')
@@ -384,7 +368,7 @@ class FunctionBuilderTest extends TestCase {
 		$query->executeStatement();
 	}
 
-	private function clearMinMax() {
+	private function clearMinMax(): void {
 		$query = $this->connection->getQueryBuilder();
 
 		$query->delete('appconfig')

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -7,22 +9,24 @@
 
 namespace OCP\DB\QueryBuilder;
 
+use OCP\AppFramework\Attribute\Consumable;
+
 /**
  * This class provides a builder for sql some functions
  *
  * @since 12.0.0
  */
+#[Consumable(since: '12.0.0')]
 interface IFunctionBuilder {
 	/**
 	 * Calculates the MD5 hash of a given input
 	 *
 	 * @param string|ILiteral|IParameter|IQueryFunction $input The input to be hashed
 	 *
-	 * @return IQueryFunction
 	 * @since 12.0.0
 	 * @deprecated 35.0.0 - MD5 is not considered secure anymore, thus most databases have or will drop support for this function
 	 */
-	public function md5($input): IQueryFunction;
+	public function md5(string|ILiteral|IParameter|IQueryFunction $input): IQueryFunction;
 
 	/**
 	 * Combines two input strings
@@ -30,10 +34,9 @@ interface IFunctionBuilder {
 	 * @param string|ILiteral|IParameter|IQueryFunction $x Expressions or literal strings
 	 * @param string|ILiteral|IParameter|IQueryFunction ...$exprs Expressions or literal strings
 	 *
-	 * @return IQueryFunction
 	 * @since 12.0.0
 	 */
-	public function concat($x, ...$expr): IQueryFunction;
+	public function concat(string|ILiteral|IParameter|IQueryFunction $x, string|ILiteral|IParameter|IQueryFunction ...$expr): IQueryFunction;
 
 	/**
 	 * Returns a string which is the concatenation of all non-NULL values of X
@@ -46,10 +49,9 @@ interface IFunctionBuilder {
 	 *
 	 * @param string|IQueryFunction $expr The expression to group
 	 * @param string|null $separator The separator
-	 * @return IQueryFunction
 	 * @since 24.0.0
 	 */
-	public function groupConcat($expr, ?string $separator = ','): IQueryFunction;
+	public function groupConcat(string|IQueryFunction $expr, ?string $separator = ','): IQueryFunction;
 
 	/**
 	 * Takes a substring from the input string
@@ -58,72 +60,73 @@ interface IFunctionBuilder {
 	 * @param string|ILiteral|IParameter|IQueryFunction $start The start of the substring, note that counting starts at 1
 	 * @param null|ILiteral|IParameter|IQueryFunction $length The length of the substring
 	 *
-	 * @return IQueryFunction
 	 * @since 12.0.0
 	 */
-	public function substring($input, $start, $length = null): IQueryFunction;
+	public function substring(
+		string|ILiteral|IParameter|IQueryFunction $input,
+		string|ILiteral|IParameter|IQueryFunction $start,
+		null|ILiteral|IParameter|IQueryFunction $length = null,
+	): IQueryFunction;
 
 	/**
 	 * Takes the sum of all rows in a column
 	 *
 	 * @param string|ILiteral|IParameter|IQueryFunction $field the column to sum
 	 *
-	 * @return IQueryFunction
 	 * @since 12.0.0
 	 */
-	public function sum($field): IQueryFunction;
+	public function sum(string|ILiteral|IParameter|IQueryFunction $field): IQueryFunction;
 
 	/**
 	 * Transforms a string field or value to lower case
 	 *
-	 * @param string|ILiteral|IParameter|IQueryFunction $field
-	 * @return IQueryFunction
 	 * @since 14.0.0
 	 */
-	public function lower($field): IQueryFunction;
+	public function lower(string|ILiteral|IParameter|IQueryFunction $field): IQueryFunction;
 
 	/**
 	 * @param string|ILiteral|IParameter|IQueryFunction $x The first input field or number
 	 * @param string|ILiteral|IParameter|IQueryFunction $y The second input field or number
-	 * @return IQueryFunction
 	 * @since 14.0.0
 	 */
-	public function add($x, $y): IQueryFunction;
+	public function add(
+		string|ILiteral|IParameter|IQueryFunction $x,
+		string|ILiteral|IParameter|IQueryFunction $y,
+	): IQueryFunction;
 
 	/**
 	 * @param string|ILiteral|IParameter|IQueryFunction $x The first input field or number
 	 * @param string|ILiteral|IParameter|IQueryFunction $y The second input field or number
-	 * @return IQueryFunction
 	 * @since 14.0.0
 	 */
-	public function subtract($x, $y): IQueryFunction;
+	public function subtract(
+		string|ILiteral|IParameter|IQueryFunction $x,
+		string|ILiteral|IParameter|IQueryFunction $y,
+	): IQueryFunction;
 
 	/**
 	 * @param string|ILiteral|IParameter|IQueryFunction $count The input to be counted
 	 * @param string $alias Alias for the counter
 	 *
-	 * @return IQueryFunction
 	 * @since 14.0.0
 	 */
-	public function count($count = '', $alias = ''): IQueryFunction;
+	public function count(string|ILiteral|IParameter|IQueryFunction $count = '', string $alias = ''): IQueryFunction;
 
 	/**
 	 * @param string|ILiteral|IParameter|IQueryFunction $field The input to be measured
 	 * @param string $alias Alias for the length
 	 *
-	 * @return IQueryFunction
 	 * @since 24.0.0
 	 */
-	public function octetLength($field, $alias = ''): IQueryFunction;
+	public function octetLength(string|ILiteral|IParameter|IQueryFunction $field, string $alias = ''): IQueryFunction;
 
 	/**
 	 * @param string|ILiteral|IParameter|IQueryFunction $field The input to be measured
 	 * @param string $alias Alias for the length
 	 *
-	 * @return IQueryFunction
 	 * @since 24.0.0
 	 */
-	public function charLength($field, $alias = ''): IQueryFunction;
+	public function charLength(string|ILiteral|IParameter|IQueryFunction $field, string $alias = ''): IQueryFunction;
 
 	/**
 	 * Takes the maximum of all rows in a column
@@ -132,10 +135,9 @@ interface IFunctionBuilder {
 	 *
 	 * @param string|ILiteral|IParameter|IQueryFunction $field the column to maximum
 	 *
-	 * @return IQueryFunction
 	 * @since 18.0.0
 	 */
-	public function max($field): IQueryFunction;
+	public function max(string|ILiteral|IParameter|IQueryFunction $field): IQueryFunction;
 
 	/**
 	 * Takes the minimum of all rows in a column
@@ -144,34 +146,33 @@ interface IFunctionBuilder {
 	 *
 	 * @param string|ILiteral|IParameter|IQueryFunction $field the column to minimum
 	 *
-	 * @return IQueryFunction
 	 * @since 18.0.0
 	 */
-	public function min($field): IQueryFunction;
+	public function min(string|ILiteral|IParameter|IQueryFunction $field): IQueryFunction;
 
 	/**
 	 * Takes the maximum of multiple values
 	 *
 	 * If you want to get the maximum value of all rows in a column, use `max` instead
 	 *
-	 * @param string|ILiteral|IParameter|IQueryFunction $x
-	 * @param string|ILiteral|IParameter|IQueryFunction $y
-	 * @return IQueryFunction
 	 * @since 18.0.0
 	 */
-	public function greatest($x, $y): IQueryFunction;
+	public function greatest(
+		string|ILiteral|IParameter|IQueryFunction $x,
+		string|ILiteral|IParameter|IQueryFunction $y,
+	): IQueryFunction;
 
 	/**
 	 * Takes the minimum of multiple values
 	 *
 	 * If you want to get the minimum value of all rows in a column, use `min` instead
 	 *
-	 * @param string|ILiteral|IParameter|IQueryFunction $x
-	 * @param string|ILiteral|IParameter|IQueryFunction $y
-	 * @return IQueryFunction
 	 * @since 18.0.0
 	 */
-	public function least($x, $y): IQueryFunction;
+	public function least(
+		string|ILiteral|IParameter|IQueryFunction $x,
+		string|ILiteral|IParameter|IQueryFunction $y,
+	): IQueryFunction;
 
 	/**
 	 * Get the current date and time as a UNIX timestamp.

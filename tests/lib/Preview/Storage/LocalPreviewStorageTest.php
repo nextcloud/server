@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Test\Preview\Storage;
 
+use OC\DB\QueryBuilder\Parameter;
 use OC\Preview\Db\PreviewMapper;
 use OC\Preview\Storage\LocalPreviewStorage;
 use OCP\DB\Exception as DBException;
@@ -134,7 +135,7 @@ class LocalPreviewStorageTest extends TestCase {
 		$qbMock->method('runAcrossAllShards')->willReturnSelf();
 		$qbMock->method('executeQuery')->willReturn($resultMock);
 		$qbMock->method('expr')->willReturn($exprMock);
-		$qbMock->method('createNamedParameter')->willReturn(':param');
+		$qbMock->method('createNamedParameter')->willReturn(new Parameter(':param'));
 
 		return $qbMock;
 	}

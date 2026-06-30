@@ -13,6 +13,7 @@ use OC\Config\ConfigManager;
 use OC\Config\PresetManager;
 use OC\Config\UserConfig;
 use OC\DB\Exceptions\DbalException;
+use OC\DB\QueryBuilder\Parameter;
 use OCP\DB\Exception as DBException;
 use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IExpressionBuilder;
@@ -84,7 +85,7 @@ class UserConfigMigrationFallbackTest extends TestCase {
 		$qb->method('expr')->willReturn($expression);
 		$qb->method('insert')->willReturn($qb);
 		$qb->method('setValue')->willReturn($qb);
-		$qb->method('createNamedParameter')->willReturn('?');
+		$qb->method('createNamedParameter')->willReturn(new Parameter('?'));
 		return $qb;
 	}
 

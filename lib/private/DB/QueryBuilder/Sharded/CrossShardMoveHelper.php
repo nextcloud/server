@@ -16,7 +16,7 @@ use OCP\IDBConnection;
  */
 class CrossShardMoveHelper {
 	public function __construct(
-		private ShardConnectionManager $connectionManager,
+		private readonly ShardConnectionManager $connectionManager,
 	) {
 	}
 
@@ -27,14 +27,7 @@ class CrossShardMoveHelper {
 	/**
 	 * Update the shard key of a set of rows, moving them to a different shard if needed
 	 *
-	 * @param ShardDefinition $shardDefinition
-	 * @param string $table
-	 * @param string $shardColumn
-	 * @param int $sourceShardKey
-	 * @param int $targetShardKey
-	 * @param string $primaryColumn
 	 * @param int[] $primaryKeys
-	 * @return void
 	 */
 	public function moveCrossShards(ShardDefinition $shardDefinition, string $table, string $shardColumn, int $sourceShardKey, int $targetShardKey, string $primaryColumn, array $primaryKeys): void {
 		$sourceShard = $shardDefinition->getShardForKey($sourceShardKey);
@@ -45,13 +38,15 @@ class CrossShardMoveHelper {
 
 			return;
 		}
+
 		$targetConnection = $this->connectionManager->getConnection($shardDefinition, $targetShard);
 
 		$sourceItems = $this->loadItems($sourceConnection, $table, $primaryColumn, $primaryKeys);
 		foreach ($sourceItems as &$sourceItem) {
 			$sourceItem[$shardColumn] = $targetShardKey;
 		}
-		if (!$sourceItems) {
+
+		if ($sourceItems === []) {
 			return;
 		}
 
@@ -63,19 +58,16 @@ class CrossShardMoveHelper {
 
 			$targetConnection->commit();
 			$sourceConnection->commit();
-		} catch (\Exception $e) {
+		} catch (\Exception $exception) {
 			$sourceConnection->rollback();
 			$targetConnection->rollback();
-			throw $e;
+			throw $exception;
 		}
 	}
 
 	/**
 	 * Load rows from a table to move
 	 *
-	 * @param IDBConnection $connection
-	 * @param string $table
-	 * @param string $primaryColumn
 	 * @param int[] $primaryKeys
 	 * @return array[]
 	 */
@@ -99,15 +91,13 @@ class CrossShardMoveHelper {
 	/**
 	 * Save modified rows
 	 *
-	 * @param IDBConnection $connection
-	 * @param string $table
 	 * @param array[] $items
-	 * @return void
 	 */
 	public function saveItems(IDBConnection $connection, string $table, array $items): void {
-		if (count($items) === 0) {
+		if ($items === []) {
 			return;
 		}
+
 		$query = $connection->getQueryBuilder();
 		$query->insert($table);
 		foreach ($items[0] as $column => $value) {
@@ -122,16 +112,13 @@ class CrossShardMoveHelper {
 					$query->setParameter($column, $value);
 				}
 			}
+
 			$query->executeStatement();
 		}
 	}
 
 	/**
-	 * @param IDBConnection $connection
-	 * @param string $table
-	 * @param string $primaryColumn
 	 * @param int[] $primaryKeys
-	 * @return void
 	 */
 	public function updateItems(IDBConnection $connection, string $table, string $shardColumn, int $targetShardKey, string $primaryColumn, array $primaryKeys): void {
 		$query = $connection->getQueryBuilder();
@@ -142,11 +129,7 @@ class CrossShardMoveHelper {
 	}
 
 	/**
-	 * @param IDBConnection $connection
-	 * @param string $table
-	 * @param string $primaryColumn
 	 * @param int[] $primaryKeys
-	 * @return void
 	 */
 	public function deleteItems(IDBConnection $connection, string $table, string $primaryColumn, array $primaryKeys): void {
 		$query = $connection->getQueryBuilder();

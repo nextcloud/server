@@ -20,13 +20,14 @@ use OCP\IMemcacheTTL;
  */
 class AutoIncrementHandler {
 	public const MIN_VALID_KEY = 1000;
+
 	public const TTL = 365 * 24 * 60 * 60;
 
 	private ?IMemcache $cache = null;
 
 	public function __construct(
-		private ICacheFactory $cacheFactory,
-		private ShardConnectionManager $shardConnectionManager,
+		private readonly ICacheFactory $cacheFactory,
+		private readonly ShardConnectionManager $shardConnectionManager,
 	) {
 		if (PHP_INT_SIZE < 8) {
 			throw new \Exception('sharding is only supported with 64bit php');
@@ -39,9 +40,10 @@ class AutoIncrementHandler {
 			if ($cache instanceof IMemcache) {
 				$this->cache = $cache;
 			} else {
-				throw new \Exception('Distributed cache ' . get_class($cache) . ' is not suitable');
+				throw new \Exception('Distributed cache ' . $cache::class . ' is not suitable');
 			}
 		}
+
 		return $this->cache;
 	}
 
@@ -51,8 +53,6 @@ class AutoIncrementHandler {
 	 * The returned key is unique and incrementing, but not sequential.
 	 * The shard id is encoded in the first byte of the returned value
 	 *
-	 * @param ShardDefinition $shardDefinition
-	 * @return int
 	 * @throws \Exception
 	 */
 	public function getNextPrimaryKey(ShardDefinition $shardDefinition, int $shard): int {
@@ -63,19 +63,20 @@ class AutoIncrementHandler {
 				if ($next > ShardDefinition::MAX_PRIMARY_KEY) {
 					throw new \Exception('Max primary key of ' . ShardDefinition::MAX_PRIMARY_KEY . ' exceeded');
 				}
+
 				// we encode the shard the primary key was originally inserted into to allow guessing the shard by primary key later on
 				return ($next << 8) | $shard;
-			} else {
-				$retries++;
 			}
+
+			++$retries;
 		}
+
 		throw new \Exception('Failed to get next primary key');
 	}
 
 	/**
 	 * auto increment logic without retry
 	 *
-	 * @param ShardDefinition $shardDefinition
 	 * @return int|null either the next primary key or null if the call needs to be retried
 	 */
 	private function getNextInner(ShardDefinition $shardDefinition): ?int {
@@ -89,6 +90,7 @@ class AutoIncrementHandler {
 
 		// prevent inc from returning `1` if the key doesn't exist by setting it to a non-numeric value
 		$cache->add($shardDefinition->table, 'empty-placeholder', self::TTL);
+
 		$next = $cache->inc($shardDefinition->table);
 
 		if ($cache instanceof IMemcacheTTL) {
@@ -99,12 +101,14 @@ class AutoIncrementHandler {
 		// to handle the edge case of the stored value disappearing between the add and inc
 		if (is_int($next) && $next >= self::MIN_VALID_KEY) {
 			return $next;
-		} elseif (is_int($next)) {
-			// we hit the edge case, so invalidate the cached value
-			if (!$cache->cas($shardDefinition->table, $next, 'empty-placeholder')) {
-				// someone else is changing the value concurrently, give up and retry
-				return null;
-			}
+		}
+
+		// the "add + inc" trick above isn't strictly atomic, so as a safety we reject any result that to small
+		// to handle the edge case of the stored value disappearing between the add and inc
+		// we hit the edge case, so invalidate the cached value
+		if (is_int($next) && !$cache->cas($shardDefinition->table, $next, 'empty-placeholder')) {
+			// someone else is changing the value concurrently, give up and retry
+			return null;
 		}
 
 		// discard the encoded initial shard
@@ -118,16 +122,18 @@ class AutoIncrementHandler {
 		$next = $cache->inc($shardDefinition->table);
 		if (is_int($next) && $next >= self::MIN_VALID_KEY) {
 			return $next;
-		} elseif (is_int($next)) {
+		}
+
+		if (is_int($next)) {
 			// key got cleared, invalidate and retry
 			$cache->cas($shardDefinition->table, $next, 'empty-placeholder');
 			return null;
-		} else {
-			// cleanup any non-numeric value other than the placeholder if that got stored somehow
-			$cache->ncad($shardDefinition->table, 'empty-placeholder');
-			// retry
-			return null;
 		}
+
+		// cleanup any non-numeric value other than the placeholder if that got stored somehow
+		$cache->ncad($shardDefinition->table, 'empty-placeholder');
+		// retry
+		return null;
 	}
 
 	/**
@@ -145,11 +151,13 @@ class AutoIncrementHandler {
 			$result = $query->executeQuery($connection)->fetchOne();
 			if ($result) {
 				if ($result > $shardDefinition->fromFileId) {
-					$result = $result >> 8;
+					$result >>= 8;
 				}
+
 				$max = max($max, $result);
 			}
 		}
+
 		return $max;
 	}
 }

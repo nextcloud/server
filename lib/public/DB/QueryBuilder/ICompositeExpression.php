@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -16,9 +18,7 @@ interface ICompositeExpression {
 	/**
 	 * Adds multiple parts to composite expression.
 	 *
-	 * @param array $parts
 	 *
-	 * @return ICompositeExpression
 	 * @since 8.2.0
 	 */
 	public function addMultiple(array $parts = []): ICompositeExpression;
@@ -28,7 +28,6 @@ interface ICompositeExpression {
 	 *
 	 * @param mixed $part
 	 *
-	 * @return ICompositeExpression
 	 * @since 8.2.0
 	 */
 	public function add($part): ICompositeExpression;
@@ -36,7 +35,6 @@ interface ICompositeExpression {
 	/**
 	 * Retrieves the amount of expressions on composite expression.
 	 *
-	 * @return integer
 	 * @since 8.2.0
 	 */
 	public function count(): int;
@@ -44,8 +42,13 @@ interface ICompositeExpression {
 	/**
 	 * Returns the type of this composite expression (AND/OR).
 	 *
-	 * @return string
 	 * @since 8.2.0
 	 */
 	public function getType(): string;
+
+	/**
+	 * Case the composite expression to string.
+	 * @since 34.0.0
+	 */
+	public function __toString(): string;
 }
