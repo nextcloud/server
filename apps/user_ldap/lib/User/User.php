@@ -637,7 +637,7 @@ class User {
 			return false;
 		}
 
-		if (!$this->image->loadFromBase64(base64_encode($avatarImage))) {
+		if (!$this->image->loadFromData($avatarImage)) {
 			return false;
 		}
 
