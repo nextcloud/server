@@ -3,7 +3,7 @@
     "info": {
         "title": "federatedfilesharing",
         "version": "0.0.1",
-        "description": "Provide federated file sharing across servers",
+        "description": "Enables federated file sharing across compatible servers",
         "license": {
             "name": "agpl"
         }

@@ -8,8 +8,8 @@
 	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
 	<id>federatedfilesharing</id>
 	<name>Federated file sharing</name>
-	<summary>Provide federated file sharing across servers</summary>
-	<description>Provide federated file sharing across servers</description>
+	<summary>Enables federated file sharing across compatible servers</summary>
+	<description>Provides federated file and folder sharing across compatible servers, including remote share invitations and notifications.</description>
 	<version>2.0.0-dev.1</version>
 	<licence>agpl</licence>
 	<author>Bjoern Schiessle</author>

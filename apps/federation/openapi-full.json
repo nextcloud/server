@@ -3,7 +3,7 @@
     "info": {
         "title": "federation-full",
         "version": "0.0.1",
-        "description": "Federation allows you to connect with other trusted servers to exchange the account directory.",
+        "description": "Connects trusted servers to support optional account discovery",
         "license": {
             "name": "agpl"
         }
