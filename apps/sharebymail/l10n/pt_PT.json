@@ -19,6 +19,7 @@
     "Open shared item" : "Abrir item compartilhado",
     "%1$s via %2$s" : "%1$s via %2$s",
     "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "%1$s partilhou »%2$s« consigo. Já deveria ter recebido um e-mail separado com um link para aceder ao conteúdo.",
+    "Password to access %1$s shared to you by %2$s" : "Senha para acessar %1$s compartilhado com você por %2$s",
     "It is protected with the following password:" : "Está protegido com a seguinte palavra-chave:",
     "This password will expire at %s" : "Essa senha expirará em %s",
     "%1$s shared %2$s with you and wants to add:" : "%1$s partilhado »%2$s« consigo e quer adicionar:",

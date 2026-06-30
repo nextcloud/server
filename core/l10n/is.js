@@ -253,7 +253,6 @@ OC.L10N.register(
     "Log in to {productName}" : "Skrá inn í {productName}",
     "Wrong login or password." : "Rangur notandi eða lykilorð.",
     "This account is disabled" : "Þessi notandaaðgangur er óvirkur",
-    "Too many incorrect login attempts. Please try again in 30 seconds." : "Of margar tilraunir við innskráningu. Reyndu aftur eftir 30 sekúndur.",
     "Account name or email" : "Heiti aðgangs eða tölvupóstfang",
     "Account name" : "Heiti notandaaðgangs",
     "Server side authentication failed!" : "Auðkenning af hálfu þjóns tókst ekki!",
@@ -556,6 +555,7 @@ OC.L10N.register(
     "The theme %s has been disabled." : "Þema %s hefur verið gert óvirkt.",
     "Detailed logs" : "Ítarlegar atvikaskrár",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Til að fá hjálp er best að skoða fyrst  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">hjálparskjölin</a>.",
+    "Too many incorrect login attempts. Please try again in 30 seconds." : "Of margar tilraunir við innskráningu. Reyndu aftur eftir 30 sekúndur.",
     "Groups" : "Hópar",
     "Group list is empty" : "Listi yfir hópa er tómur",
     "Unable to retrieve the group list" : "Tókst ekki að ná í lista yfir hópinn"

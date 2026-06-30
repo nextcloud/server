@@ -262,7 +262,6 @@ OC.L10N.register(
     "Log in to {productName}" : "Log in to {productName}",
     "Wrong login or password." : "Wrong login or password.",
     "This account is disabled" : "This account is disabled",
-    "Too many incorrect login attempts. Please try again in 30 seconds." : "Too many incorrect login attempts. Please try again in 30 seconds.",
     "Account name or email" : "Account name or email",
     "Account name" : "Account name",
     "Server side authentication failed!" : "Server side authentication failed!",
@@ -566,6 +565,7 @@ OC.L10N.register(
     "The theme %s has been disabled." : "The theme %s has been disabled.",
     "Detailed logs" : "Detailed logs",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>.",
+    "Too many incorrect login attempts. Please try again in 30 seconds." : "Too many incorrect login attempts. Please try again in 30 seconds.",
     "Groups" : "Groups",
     "Group list is empty" : "Group list is empty",
     "Unable to retrieve the group list" : "Unable to retrieve the group list"

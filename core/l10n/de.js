@@ -262,7 +262,6 @@ OC.L10N.register(
     "Log in to {productName}" : "Anmelden bei {productName}",
     "Wrong login or password." : "Kontoname oder Passwort falsch",
     "This account is disabled" : "Dieses Konto ist deaktiviert",
-    "Too many incorrect login attempts. Please try again in 30 seconds." : "Zu viele falsche Anmeldeversuche. Bitte in 30 Sekunden erneut versuchen.",
     "Account name or email" : "Kontoname oder E-Mail-Adresse",
     "Account name" : "Name des Kontos",
     "Server side authentication failed!" : "Serverseitige Authentifizierung fehlgeschlagen!",
@@ -566,6 +565,7 @@ OC.L10N.register(
     "The theme %s has been disabled." : "Das Design %s wurde deaktiviert.",
     "Detailed logs" : "Detaillierte Protokollmeldungen",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Für weitere Hilfen, schaue bitte in die <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">Dokumentation</a>.",
+    "Too many incorrect login attempts. Please try again in 30 seconds." : "Zu viele falsche Anmeldeversuche. Bitte in 30 Sekunden erneut versuchen.",
     "Groups" : "Gruppen",
     "Group list is empty" : "Gruppenliste ist leer",
     "Unable to retrieve the group list" : "Gruppenliste konnte nicht abgerufen werden"

@@ -257,7 +257,6 @@
     "Log in to {productName}" : "登入至 {productName}",
     "Wrong login or password." : "登入名稱或密碼錯誤。",
     "This account is disabled" : "此帳戶已停用",
-    "Too many incorrect login attempts. Please try again in 30 seconds." : "登入嘗試錯誤次數過多，請於 30 秒後再試。",
     "Account name or email" : "帳戶名稱或電郵地址",
     "Account name" : "帳戶名稱",
     "Server side authentication failed!" : "伺服器端認證失敗！",
@@ -561,6 +560,7 @@
     "The theme %s has been disabled." : "主題 %s 已經被停用。",
     "Detailed logs" : "詳細記錄檔",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "若需要協助，請參閱<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">說明文件</a>",
+    "Too many incorrect login attempts. Please try again in 30 seconds." : "登入嘗試錯誤次數過多，請於 30 秒後再試。",
     "Groups" : "群組",
     "Group list is empty" : "群組列表為空",
     "Unable to retrieve the group list" : "無法擷取群組列表"

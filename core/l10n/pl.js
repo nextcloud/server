@@ -258,7 +258,6 @@ OC.L10N.register(
     "Log in to {productName}" : "Zaloguj się do {productName}",
     "Wrong login or password." : "Błędny login lub hasło.",
     "This account is disabled" : "To konto jest wyłączone",
-    "Too many incorrect login attempts. Please try again in 30 seconds." : "Zbyt wiele nieprawidłowych prób logowania. Spróbuj ponownie za 30 sekund.",
     "Account name or email" : "Nazwa konta lub e-mail",
     "Account name" : "Nazwa konta",
     "Server side authentication failed!" : "Uwierzytelnianie po stronie serwera nie powiodło się!",
@@ -562,6 +561,7 @@ OC.L10N.register(
     "The theme %s has been disabled." : "Motyw %s został wyłączony.",
     "Detailed logs" : "Szczegółowe logi",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Aby uzyskać pomoc, zajrzyj do <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">dokumentacji</a>.",
+    "Too many incorrect login attempts. Please try again in 30 seconds." : "Zbyt wiele nieprawidłowych prób logowania. Spróbuj ponownie za 30 sekund.",
     "Groups" : "Grupy",
     "Group list is empty" : "Lista grup jest pusta",
     "Unable to retrieve the group list" : "Nie można pobrać listy grup"

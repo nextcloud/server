@@ -261,7 +261,6 @@ OC.L10N.register(
     "Log in to {productName}" : "Iniciar sesión en {productName}",
     "Wrong login or password." : "Nombre de usuario o contraseña incorrecto.",
     "This account is disabled" : "Esta cuenta está deshabilitada",
-    "Too many incorrect login attempts. Please try again in 30 seconds." : "Demasiados intentos de inicio de sesión fallidos. Inténtalo de nuevo en 30 segundos.",
     "Account name or email" : "Nombre de cuenta o correo electrónico",
     "Account name" : "Nombre de la cuenta",
     "Server side authentication failed!" : "La autenticación ha fallado en el servidor.",
@@ -565,6 +564,7 @@ OC.L10N.register(
     "The theme %s has been disabled." : "El tema %s ha sido desactivado.",
     "Detailed logs" : "Registros detallados",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Para obtener ayuda, consulta la <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentación</a>.",
+    "Too many incorrect login attempts. Please try again in 30 seconds." : "Demasiados intentos de inicio de sesión fallidos. Inténtalo de nuevo en 30 segundos.",
     "Groups" : "Grupos",
     "Group list is empty" : "La lista de grupos está vacía",
     "Unable to retrieve the group list" : "No se ha podido recuperar la lista de grupos."
