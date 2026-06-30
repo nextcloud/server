@@ -212,7 +212,7 @@ class Image implements IImage {
 
 		return match ($imageType) {
 			IMAGETYPE_GIF => imagegif($this->resource, $filePath),
-			IMAGETYPE_JPEG => (function (): bool {
+			IMAGETYPE_JPEG => (function () use ($filePath): bool {
 				imageinterlace($this->resource, true);
 				return imagejpeg($this->resource, $filePath, $this->getJpegQuality());
 			})(),
@@ -563,7 +563,7 @@ class Image implements IImage {
 	 * Loads an image from a local file.
 	 *
 	 * @param bool|string $imagePath The path to a local file.
-	 * @return bool|\GdImage An image resource or false on error
+	 * @return \GdImage|false An image resource or false on error
 	 *
 	 * @internal
 	 */
