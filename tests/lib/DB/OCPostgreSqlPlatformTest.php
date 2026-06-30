@@ -22,7 +22,6 @@ use Doctrine\DBAL\Types\Types;
  *
  * @package Test\DB
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
 class OCPostgreSqlPlatformTest extends \Test\TestCase {
 	public function testAlterBigint(): void {
 		$platform = new PostgreSQLPlatform();

@@ -17,7 +17,6 @@ use OCP\Server;
 use OCP\SetupCheck\SetupResult;
 use Test\TestCase;
 
-#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class SupportedDatabaseTest extends TestCase {
 	private IL10N $l10n;
 	private IUrlGenerator $urlGenerator;

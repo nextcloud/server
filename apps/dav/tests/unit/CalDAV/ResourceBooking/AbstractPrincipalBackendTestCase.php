@@ -12,9 +12,11 @@ use OCA\DAV\CalDAV\Proxy\Proxy;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\CalDAV\ResourceBooking\ResourcePrincipalBackend;
 use OCA\DAV\CalDAV\ResourceBooking\RoomPrincipalBackend;
+use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\PropPatch;
@@ -42,12 +44,14 @@ abstract class AbstractPrincipalBackendTestCase extends TestCase {
 	}
 
 	protected function tearDown(): void {
-		$query = self::$realDatabase->getQueryBuilder();
+		$query = Server::get(IDBConnection::class)->getQueryBuilder();
 
 		$query->delete('calendar_resources')->executeStatement();
 		$query->delete('calendar_resources_md')->executeStatement();
 		$query->delete('calendar_rooms')->executeStatement();
 		$query->delete('calendar_rooms_md')->executeStatement();
+
+		parent::tearDown();
 	}
 
 	public function testGetPrincipalsByPrefix(): void {
@@ -454,7 +458,7 @@ abstract class AbstractPrincipalBackendTestCase extends TestCase {
 	}
 
 	protected function createTestDatasetInDb() {
-		$query = self::$realDatabase->getQueryBuilder();
+		$query = Server::get(IDBConnection::class)->getQueryBuilder();
 		$query->insert($this->mainDbTable)
 			->values([
 				'backend_id' => $query->createNamedParameter('backend1'),

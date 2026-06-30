@@ -15,7 +15,6 @@ use OCP\Federation\ICloudIdManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
 class CloudIdTest extends TestCase {
 	protected CloudIdManager&MockObject $cloudIdManager;
 

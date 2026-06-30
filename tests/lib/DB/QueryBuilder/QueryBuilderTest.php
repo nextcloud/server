@@ -22,6 +22,7 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\Server;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
@@ -31,7 +32,6 @@ use Psr\Log\LoggerInterface;
  *
  * @package Test\DB\QueryBuilder
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
 class QueryBuilderTest extends \Test\TestCase {
 	private SystemConfig&MockObject $config;
 	private LoggerInterface&MockObject $logger;
@@ -103,6 +103,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	 * @param int|null $firstResult
 	 * @param array $expectedSet
 	 */
+	#[Group('DB')]
 	#[DataProvider('dataFirstResult')]
 	public function testFirstResult($firstResult, $expectedSet): void {
 		$this->deleteTestingRows();
@@ -140,6 +141,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	 * @param int $maxResult
 	 * @param array $expectedSet
 	 */
+	#[Group('DB')]
 	#[DataProvider('dataMaxResults')]
 	public function testMaxResults($maxResult, $expectedSet): void {
 		$this->deleteTestingRows();
@@ -184,6 +186,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		];
 	}
 
+	#[Group('DB')]
 	#[DataProvider('dataSelect')]
 	public function testSelect(array $selectArguments, array $expected, string $expectedLiteral = ''): void {
 		$this->deleteTestingRows();
@@ -233,6 +236,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		];
 	}
 
+	#[Group('DB')]
 	#[DataProvider('dataSelectAlias')]
 	public function testSelectAlias(string $select, string $alias, array $expected): void {
 		if (str_starts_with($select, 'l::')) {
@@ -264,6 +268,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		$this->deleteTestingRows();
 	}
 
+	#[Group('DB')]
 	public function testSelectDistinct(): void {
 		$this->deleteTestingRows('testFirstResult1');
 		$this->deleteTestingRows('testFirstResult2');
@@ -292,6 +297,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		$this->deleteTestingRows('testFirstResult2');
 	}
 
+	#[Group('DB')]
 	public function testSelectDistinctMultiple(): void {
 		$this->deleteTestingRows('testFirstResult1');
 		$this->deleteTestingRows('testFirstResult2');
@@ -352,6 +358,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		];
 	}
 
+	#[Group('DB')]
 	#[DataProvider('dataAddSelect')]
 	public function testAddSelect(array $selectArguments, array $expected, string $expectedLiteral = ''): void {
 		$this->deleteTestingRows();
@@ -1144,6 +1151,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		);
 	}
 
+	#[Group('DB')]
 	public function testGetLastInsertId(): void {
 		$qB = $this->connection->getQueryBuilder();
 

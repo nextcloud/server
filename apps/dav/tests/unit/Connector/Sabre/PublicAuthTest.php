@@ -26,7 +26,6 @@ use Psr\Log\LoggerInterface;
  *
  * @package OCA\DAV\Tests\unit\Connector
  */
-#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class PublicAuthTest extends \Test\TestCase {
 
 	private ISession&MockObject $session;
@@ -66,8 +65,8 @@ class PublicAuthTest extends \Test\TestCase {
 		\OC_User::setIncognitoMode(false);
 
 		// Set old user
-		\OC_User::setUserId($this->oldUser);
 		if ($this->oldUser !== false) {
+			\OC_User::setUserId($this->oldUser);
 			\OC_Util::setupFS($this->oldUser);
 		}
 

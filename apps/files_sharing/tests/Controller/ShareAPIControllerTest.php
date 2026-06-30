@@ -55,6 +55,7 @@ use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
 use OCP\UserStatus\IManager as IUserStatusManager;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -76,7 +77,6 @@ interface InternalTalkShareAPIController {
  *
  * @package OCA\Files_Sharing\Tests\Controller
  */
-#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ShareAPIControllerTest extends TestCase {
 	use EmailValidatorTrait;
 
@@ -106,6 +106,8 @@ class ShareAPIControllerTest extends TestCase {
 	private TrustedServers&MockObject $trustedServers;
 
 	protected function setUp(): void {
+		parent::setUp();
+
 		$this->shareManager = $this->createMock(IManager::class);
 		$this->shareManager
 			->expects($this->any())
@@ -2478,6 +2480,7 @@ class ShareAPIControllerTest extends TestCase {
 		$ocs->createShare('valid-path', Constants::PERMISSION_ALL, IShare::TYPE_LINK, null, 'false', '', null, 'a1b2d3');
 	}
 
+	#[Group('DB')]
 	public function testCreateShareRemote(): void {
 		$share = $this->newShare();
 		$this->shareManager->method('newShare')->willReturn($share);
@@ -5264,6 +5267,7 @@ class ShareAPIControllerTest extends TestCase {
 		];
 	}
 
+	#[Group('DB')]
 	#[DataProvider(methodName: 'trustedServerProvider')]
 	public function testFormatShareWithFederatedShare(bool $isKnownServer, bool $isTrusted): void {
 		$nodeId = 12;
@@ -5328,6 +5332,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->assertSame($isTrusted, $result['is_trusted_server']);
 	}
 
+	#[Group('DB')]
 	public function testFormatShareWithFederatedShareWithAtInUsername(): void {
 		$nodeId = 12;
 		$nodePath = '/test.txt';

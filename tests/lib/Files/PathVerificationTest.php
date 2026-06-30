@@ -20,7 +20,6 @@ use OCP\Server;
  *
  * @package Test\Files
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
 class PathVerificationTest extends \Test\TestCase {
 	/**
 	 * @var View

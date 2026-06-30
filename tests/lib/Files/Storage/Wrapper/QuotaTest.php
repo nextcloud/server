@@ -16,6 +16,7 @@ use OCP\Files;
 use OCP\Files\NotEnoughSpaceException;
 use OCP\ITempManager;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Class QuotaTest
@@ -23,7 +24,6 @@ use OCP\Server;
  *
  * @package Test\Files\Storage\Wrapper
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
 class QuotaTest extends \Test\Files\Storage\Storage {
 	/**
 	 * @var string tmpDir
@@ -55,11 +55,13 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		return new Quota(['storage' => $storage, 'quota' => $limit]);
 	}
 
+	#[Group('DB')]
 	public function testFilePutContentsNotEnoughSpace(): void {
 		$instance = $this->getLimitedStorage(3);
 		$this->assertFalse($instance->file_put_contents('files/foo', 'foobar'));
 	}
 
+	#[Group('DB')]
 	public function testCopyNotEnoughSpace(): void {
 		$instance = $this->getLimitedStorage(9);
 		$this->assertEquals(6, $instance->file_put_contents('files/foo', 'foobar'));
@@ -67,11 +69,13 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		$this->assertFalse($instance->copy('files/foo', 'files/bar'));
 	}
 
+	#[Group('DB')]
 	public function testFreeSpace(): void {
 		$instance = $this->getLimitedStorage(9);
 		$this->assertEquals(9, $instance->free_space(''));
 	}
 
+	#[Group('DB')]
 	public function testFreeSpaceWithUsedSpace(): void {
 		$instance = $this->getLimitedStorage(9);
 		$instance->getCache()->put(
@@ -80,6 +84,7 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		$this->assertEquals(6, $instance->free_space(''));
 	}
 
+	#[Group('DB')]
 	public function testFreeSpaceWithUnknownDiskSpace(): void {
 		$storage = $this->getMockBuilder(Local::class)
 			->onlyMethods(['free_space'])
@@ -97,6 +102,7 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		$this->assertEquals(6, $instance->free_space(''));
 	}
 
+	#[Group('DB')]
 	public function testFreeSpaceWithUsedSpaceAndEncryption(): void {
 		$instance = $this->getLimitedStorage(9);
 		$instance->getCache()->put(
@@ -105,6 +111,7 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		$this->assertEquals(2, $instance->free_space(''));
 	}
 
+	#[Group('DB')]
 	public function testFWriteNotEnoughSpace(): void {
 		$instance = $this->getLimitedStorage(9);
 		$stream = $instance->fopen('files/foo', 'w+');
@@ -114,6 +121,7 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		$this->assertEquals('foobarqwe', $instance->file_get_contents('files/foo'));
 	}
 
+	#[Group('DB')]
 	public function testStreamCopyWithEnoughSpace(): void {
 		$instance = $this->getLimitedStorage(16);
 		$inputStream = fopen('data://text/plain,foobarqwerty', 'r');
@@ -124,6 +132,7 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		fclose($outputStream);
 	}
 
+	#[Group('DB')]
 	public function testStreamCopyNotEnoughSpace(): void {
 		$instance = $this->getLimitedStorage(9);
 		$inputStream = fopen('data://text/plain,foobarqwerty', 'r');
@@ -134,6 +143,7 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		fclose($outputStream);
 	}
 
+	#[Group('DB')]
 	public function testReturnFalseWhenFopenFailed(): void {
 		$failStorage = $this->getMockBuilder(Local::class)
 			->onlyMethods(['fopen'])
@@ -148,6 +158,7 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		$this->assertFalse($instance->fopen('failedfopen', 'r'));
 	}
 
+	#[Group('DB')]
 	public function testReturnRegularStreamOnRead(): void {
 		$instance = $this->getLimitedStorage(9);
 
@@ -167,6 +178,7 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		fclose($stream);
 	}
 
+	#[Group('DB')]
 	public function testReturnRegularStreamWhenOutsideFiles(): void {
 		$instance = $this->getLimitedStorage(9);
 		$instance->mkdir('files_other');
@@ -178,6 +190,7 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		fclose($stream);
 	}
 
+	#[Group('DB')]
 	public function testReturnQuotaStreamOnWrite(): void {
 		$instance = $this->getLimitedStorage(9);
 		$stream = $instance->fopen('files/foo', 'w+');
@@ -212,12 +225,14 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		$this->assertTrue($this->instance->instanceOfStorage('\OC\Files\Storage\Wrapper\Quota'));
 	}
 
+	#[Group('DB')]
 	public function testNoMkdirQuotaZero(): void {
 		$instance = $this->getLimitedStorage(0.0);
 		$this->assertFalse($instance->mkdir('files'));
 		$this->assertFalse($instance->mkdir('files/foobar'));
 	}
 
+	#[Group('DB')]
 	public function testMkdirQuotaZeroTrashbin(): void {
 		$instance = $this->getLimitedStorage(0.0);
 		$this->assertTrue($instance->mkdir('files_trashbin'));
@@ -226,17 +241,20 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		$this->assertTrue($instance->mkdir('cache'));
 	}
 
+	#[Group('DB')]
 	public function testNoTouchQuotaZero(): void {
 		$instance = $this->getLimitedStorage(0.0);
 		$this->assertFalse($instance->touch('foobar'));
 	}
 
+	#[Group('DB')]
 	public function testNoFopenQuotaZero(): void {
 		$instance = $this->getLimitedStorage(0.0);
 		$fh = $instance->fopen('files/test.txt', 'w');
 		$this->assertFalse($fh);
 	}
 
+	#[Group('DB')]
 	public function testNoWriteStreamQuota(): void {
 		$instance = $this->getLimitedStorage(5.0);
 		$stream = fopen('php://temp', 'w+');
@@ -251,10 +269,195 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		$instance->writeStream('files/test.txt', $stream);
 	}
 
+	#[Group('DB')]
 	public function testNoWriteStreamQuotaZero(): void {
 		$instance = $this->getLimitedStorage(0.0);
 		$stream = fopen('php://temp', 'w+');
 		$this->expectException(NotEnoughSpaceException::class);
 		$instance->writeStream('files/test.txt', $stream);
+	}
+
+	#[Group('DB')]
+	#[\PHPUnit\Framework\Attributes\DataProvider('directoryProvider')]
+	public function testDirectories($directory): void {
+		parent::testDirectories($directory);
+	}
+
+	#[Group('DB')]
+	#[\PHPUnit\Framework\Attributes\DataProvider('loremFileProvider')]
+	public function testGetPutContents($sourceFile): void {
+		parent::testGetPutContents($sourceFile);
+	}
+
+	#[Group('DB')]
+	public function testMimeType(): void {
+		parent::testMimeType();
+	}
+
+	#[Group('DB')]
+	#[\PHPUnit\Framework\Attributes\DataProvider('copyAndMoveProvider')]
+	public function testCopy($source, $target): void {
+		parent::testCopy($source, $target);
+	}
+
+	#[Group('DB')]
+	#[\PHPUnit\Framework\Attributes\DataProvider('copyAndMoveProvider')]
+	public function testMove($source, $target): void {
+		parent::testMove($source, $target);
+	}
+
+	#[Group('DB')]
+	#[\PHPUnit\Framework\Attributes\DataProvider('copyAndMoveProvider')]
+	public function testCopyOverwrite($source, $target): void {
+		parent::testCopyOverwrite($source, $target);
+	}
+
+	#[Group('DB')]
+	#[\PHPUnit\Framework\Attributes\DataProvider('copyAndMoveProvider')]
+	public function testMoveOverwrite($source, $target): void {
+		parent::testMoveOverwrite($source, $target);
+	}
+
+	#[Group('DB')]
+	public function testLocal(): void {
+		parent::testLocal();
+	}
+
+	#[Group('DB')]
+	public function testStat(): void {
+		parent::testStat();
+	}
+
+	#[Group('DB')]
+	public function testUnlink(): void {
+		parent::testUnlink();
+	}
+
+	#[Group('DB')]
+	#[\PHPUnit\Framework\Attributes\DataProvider('fileNameProvider')]
+	public function testFOpen($fileName): void {
+		parent::testFOpen($fileName);
+	}
+
+	#[Group('DB')]
+	public function testTouchCreateFile(): void {
+		parent::testTouchCreateFile();
+	}
+
+	#[Group('DB')]
+	public function testRecursiveRmdir(): void {
+		parent::testRecursiveRmdir();
+	}
+
+	#[Group('DB')]
+	public function testRmdirEmptyFolder(): void {
+		parent::testRmdirEmptyFolder();
+	}
+
+	#[Group('DB')]
+	public function testRecursiveUnlink(): void {
+		parent::testRecursiveUnlink();
+	}
+
+	#[Group('DB')]
+	#[\PHPUnit\Framework\Attributes\DataProvider('hashProvider')]
+	public function testHash($data, $type): void {
+		parent::testHash($data, $type);
+	}
+
+	#[Group('DB')]
+	public function testHashInFileName(): void {
+		parent::testHashInFileName();
+	}
+
+	#[Group('DB')]
+	public function testCopyOverWriteFile(): void {
+		parent::testCopyOverWriteFile();
+	}
+
+	#[Group('DB')]
+	public function testRenameOverWriteFile(): void {
+		parent::testRenameOverWriteFile();
+	}
+
+	#[Group('DB')]
+	public function testRenameDirectory(): void {
+		parent::testRenameDirectory();
+	}
+
+	#[Group('DB')]
+	public function testRenameOverWriteDirectory(): void {
+		parent::testRenameOverWriteDirectory();
+	}
+
+	#[Group('DB')]
+	public function testRenameOverWriteDirectoryOverFile(): void {
+		parent::testRenameOverWriteDirectoryOverFile();
+	}
+
+	#[Group('DB')]
+	public function testCopyDirectory(): void {
+		parent::testCopyDirectory();
+	}
+
+	#[Group('DB')]
+	public function testCopyOverWriteDirectory(): void {
+		parent::testCopyOverWriteDirectory();
+	}
+
+	#[Group('DB')]
+	public function testCopyOverWriteDirectoryOverFile(): void {
+		parent::testCopyOverWriteDirectoryOverFile();
+	}
+
+	#[Group('DB')]
+	#[\PHPUnit\Framework\Attributes\DataProvider('copyAndMoveProvider')]
+	public function testCopyFromSameStorage($source, $target): void {
+		parent::testCopyFromSameStorage($source, $target);
+	}
+
+	#[Group('DB')]
+	public function testIsCreatable(): void {
+		parent::testIsCreatable();
+	}
+
+	#[Group('DB')]
+	public function testIsReadable(): void {
+		parent::testIsReadable();
+	}
+
+	#[Group('DB')]
+	public function testIsUpdatable(): void {
+		parent::testIsUpdatable();
+	}
+
+	#[Group('DB')]
+	public function testIsDeletable(): void {
+		parent::testIsDeletable();
+	}
+
+	#[Group('DB')]
+	public function testIsShareable(): void {
+		parent::testIsShareable();
+	}
+
+	#[Group('DB')]
+	public function testStatAfterWrite(): void {
+		parent::testStatAfterWrite();
+	}
+
+	#[Group('DB')]
+	public function testPartFile(): void {
+		parent::testPartFile();
+	}
+
+	#[Group('DB')]
+	public function testWriteStream(): void {
+		parent::testWriteStream();
+	}
+
+	#[Group('DB')]
+	public function testFseekSize(): void {
+		parent::testFseekSize();
 	}
 }

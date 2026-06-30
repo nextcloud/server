@@ -18,6 +18,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
 use OCP\UserInterface;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputInterface;
@@ -31,7 +32,6 @@ use Test\TestCase;
  *
  * @package OCA\Files_Trashbin\Tests\Command
  */
-#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class CleanUpTest extends TestCase {
 	protected IUserManager&MockObject $userManager;
 	protected IRootFolder&MockObject $rootFolder;
@@ -79,6 +79,7 @@ class CleanUpTest extends TestCase {
 		$this->assertCount(10, $result);
 	}
 
+	#[Group('DB')]
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestRemoveDeletedFiles')]
 	public function testRemoveDeletedFiles(bool $nodeExists): void {
 		$this->initTable();

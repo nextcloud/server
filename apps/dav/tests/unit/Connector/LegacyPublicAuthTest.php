@@ -16,11 +16,9 @@ use OCP\Security\Bruteforce\IThrottler;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
-use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
-#[Group(name: 'DB')]
 class LegacyPublicAuthTest extends TestCase {
 	private ISession&MockObject $session;
 	private IRequest&MockObject $request;

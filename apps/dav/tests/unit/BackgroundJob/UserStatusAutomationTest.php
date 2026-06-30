@@ -21,11 +21,11 @@ use OCP\Server;
 use OCP\User\IAvailabilityCoordinator;
 use OCP\UserStatus\IManager;
 use OCP\UserStatus\IUserStatus;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
-#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class UserStatusAutomationTest extends TestCase {
 	protected ITimeFactory&MockObject $time;
 	protected IJobList&MockObject $jobList;
@@ -86,6 +86,7 @@ class UserStatusAutomationTest extends TestCase {
 		];
 	}
 
+	#[Group('DB')]
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataRun')]
 	public function testRunNoOOO(string $ruleDay, string $currentTime, bool $isAvailable): void {
 		$user = $this->createConfiguredMock(IUser::class, [
@@ -182,6 +183,7 @@ END:VCALENDAR');
 		self::invokePrivate($automation, 'run', [['userId' => 'user']]);
 	}
 
+	#[Group('DB')]
 	public function testRunNoAvailabilityWithOOO(): void {
 		$user = $this->createConfiguredMock(IUser::class, [
 			'getUID' => 'user'

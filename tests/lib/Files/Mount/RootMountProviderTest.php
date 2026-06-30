@@ -18,7 +18,6 @@ use OCP\App\IAppManager;
 use OCP\IConfig;
 use Test\TestCase;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
 class RootMountProviderTest extends TestCase {
 	private StorageFactory $loader;
 

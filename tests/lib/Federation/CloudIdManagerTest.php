@@ -19,7 +19,6 @@ use OCP\IURLGenerator;
 use OCP\IUserManager;
 use Test\TestCase;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
 class CloudIdManagerTest extends TestCase {
 	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $contactsManager;

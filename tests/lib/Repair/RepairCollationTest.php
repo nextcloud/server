@@ -33,7 +33,6 @@ class TestCollationRepair extends Collation {
  *
  * @see \OC\Repair\RepairMimeTypes
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
 class RepairCollationTest extends TestCase {
 
 	private TestCollationRepair $repair;

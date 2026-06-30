@@ -15,13 +15,13 @@ use OCP\AppFramework\Services\IInitialState;
 use OCP\IL10N;
 use OCP\Server;
 use OCP\Template\ITemplateManager;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 /**
  * @package OCA\User_LDAP\Tests\Settings
  */
-#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class AdminTest extends TestCase {
 	private IL10N&MockObject $l10n;
 	private ITemplateManager $templateManager;
@@ -41,6 +41,7 @@ class AdminTest extends TestCase {
 		);
 	}
 
+	#[Group('DB')]
 	public function testGetForm(): void {
 		$parameters = [];
 

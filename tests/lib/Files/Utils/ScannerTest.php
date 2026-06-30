@@ -43,7 +43,6 @@ class TestScanner extends Scanner {
 	}
 }
 
-#[Group('DB')]
 class ScannerTest extends TestCase {
 	private Dummy $userBackend;
 
@@ -63,6 +62,7 @@ class ScannerTest extends TestCase {
 		parent::tearDown();
 	}
 
+	#[Group('DB')]
 	public function testReuseExistingRoot(): void {
 		$storage = new Temporary([]);
 		$mount = new MountPoint($storage, '');
@@ -91,6 +91,7 @@ class ScannerTest extends TestCase {
 		$this->assertEquals($oldRoot, $newRoot);
 	}
 
+	#[Group('DB')]
 	public function testReuseExistingFile(): void {
 		$storage = new Temporary([]);
 		$mount = new MountPoint($storage, '');
@@ -119,6 +120,7 @@ class ScannerTest extends TestCase {
 		$this->assertEquals($old, $new);
 	}
 
+	#[Group('DB')]
 	public function testScanSubMount(): void {
 		$uid = $this->getUniqueID();
 		$this->userBackend->createUser($uid, 'test');
@@ -179,6 +181,7 @@ class ScannerTest extends TestCase {
 		$scanner->scan($invalidPath);
 	}
 
+	#[Group('DB')]
 	public function testPropagateEtag(): void {
 		$storage = new Temporary([]);
 		$mount = new MountPoint($storage, '');
@@ -209,6 +212,7 @@ class ScannerTest extends TestCase {
 		$this->assertNotEquals($oldRoot->getEtag(), $newRoot->getEtag());
 	}
 
+	#[Group('DB')]
 	public function testShallow(): void {
 		$storage = new Temporary([]);
 		$mount = new MountPoint($storage, '');

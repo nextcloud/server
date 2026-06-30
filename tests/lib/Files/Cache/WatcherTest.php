@@ -22,7 +22,6 @@ use PHPUnit\Framework\Attributes\Medium;
 use Test\TestCase;
 
 #[Medium]
-#[Group(name: 'DB')]
 class WatcherTest extends TestCase {
 	/**
 	 * @var Storage[] $storages
@@ -48,6 +47,7 @@ class WatcherTest extends TestCase {
 		parent::tearDown();
 	}
 
+	#[Group('DB')]
 	public function testWatcher(): void {
 		$storage = $this->getTestStorage();
 		$cache = $storage->getCache();
@@ -86,6 +86,7 @@ class WatcherTest extends TestCase {
 		$this->assertFalse($cache->inCache('folder/bar2.txt'));
 	}
 
+	#[Group('DB')]
 	public function testFileToFolder(): void {
 		$storage = $this->getTestStorage();
 		$cache = $storage->getCache();
@@ -121,6 +122,7 @@ class WatcherTest extends TestCase {
 		$this->assertTrue($cache->inCache('foo.txt/bar.txt'));
 	}
 
+	#[Group('DB')]
 	public function testPolicyNever(): void {
 		$storage = $this->getTestStorage();
 		$cache = $storage->getCache();
@@ -139,6 +141,7 @@ class WatcherTest extends TestCase {
 		$this->assertFalse($updater->checkUpdate('foo.txt'));
 	}
 
+	#[Group('DB')]
 	public function testPolicyOnce(): void {
 		$storage = $this->getTestStorage();
 		$cache = $storage->getCache();
@@ -157,6 +160,7 @@ class WatcherTest extends TestCase {
 		$this->assertFalse($updater->checkUpdate('foo.txt'));
 	}
 
+	#[Group('DB')]
 	public function testPolicyAlways(): void {
 		$storage = $this->getTestStorage();
 		$cache = $storage->getCache();

@@ -40,6 +40,7 @@ use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOrder;
 use OCP\Files\Storage\IStorage;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -48,7 +49,6 @@ use PHPUnit\Framework\MockObject\MockObject;
  *
  * @package Test\Files\Node
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
 class FolderTest extends NodeTestCase {
 	#[\Override]
 	protected function createTestNode(IRootFolder $root, View&MockObject $view, string $path, array $data = [], string $internalPath = '', ?IStorage $storage = null): Folder {
@@ -293,6 +293,7 @@ class FolderTest extends NodeTestCase {
 		$this->assertEquals(100, $node->getFreeSpace());
 	}
 
+	#[Group('DB')]
 	public function testSearch(): void {
 		$manager = $this->createMock(Manager::class);
 		$view = $this->getRootViewMock();
@@ -340,6 +341,7 @@ class FolderTest extends NodeTestCase {
 		$this->assertEquals('/bar/foo/qwerty', $result[0]->getPath());
 	}
 
+	#[Group('DB')]
 	public function testSearchInRoot(): void {
 		$manager = $this->createMock(Manager::class);
 		$view = $this->getRootViewMock();
@@ -383,6 +385,7 @@ class FolderTest extends NodeTestCase {
 		$this->assertEquals('/foo', $result[0]->getPath());
 	}
 
+	#[Group('DB')]
 	public function testSearchInStorageRoot(): void {
 		$manager = $this->createMock(Manager::class);
 		$view = $this->getRootViewMock();
@@ -425,6 +428,7 @@ class FolderTest extends NodeTestCase {
 		$this->assertEquals('/bar/foo/qwerty', $result[0]->getPath());
 	}
 
+	#[Group('DB')]
 	public function testSearchSubStorages(): void {
 		$manager = $this->createMock(Manager::class);
 		$view = $this->getRootViewMock();
@@ -498,6 +502,7 @@ class FolderTest extends NodeTestCase {
 		$this->assertFalse($folder->isSubNode($file));
 	}
 
+	#[Group('DB')]
 	public function testGetById(): void {
 		$manager = $this->createMock(Manager::class);
 		$view = $this->getRootViewMock();
@@ -743,6 +748,7 @@ class FolderTest extends NodeTestCase {
 		$this->assertEquals($expected, $node->getNonExistingName($name));
 	}
 
+	#[Group('DB')]
 	public function testRecent(): void {
 		$manager = $this->createMock(Manager::class);
 		$folderPath = '/bar/foo';
@@ -811,6 +817,7 @@ class FolderTest extends NodeTestCase {
 		$this->assertEquals([$id1, $id2, $id3], $ids);
 	}
 
+	#[Group('DB')]
 	public function testRecentFolder(): void {
 		$manager = $this->createMock(Manager::class);
 		$folderPath = '/bar/foo';
@@ -877,6 +884,7 @@ class FolderTest extends NodeTestCase {
 		$this->assertEquals($baseTime - 100, $nodes[1]->getMTime());
 	}
 
+	#[Group('DB')]
 	public function testRecentJail(): void {
 		$manager = $this->createMock(Manager::class);
 		$folderPath = '/bar/foo';
@@ -962,6 +970,7 @@ class FolderTest extends NodeTestCase {
 	 * @throws NotFoundException
 	 * @throws InvalidPathException
 	 */
+	#[Group('DB')]
 	#[\PHPUnit\Framework\Attributes\DataProvider('offsetLimitProvider')]
 	public function testSearchSubStoragesLimitOffset(int $offset, int $limit, array $expectedPaths, array $ordering): void {
 		if (!$ordering) {

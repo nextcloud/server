@@ -43,7 +43,6 @@ use Test\TestCase;
  *
  * @package OCA\User_LDAP\Tests
  */
-#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class AccessTest extends TestCase {
 	protected UserMapping&MockObject $userMapper;
 	protected IManager&MockObject $shareManager;
@@ -59,6 +58,8 @@ class AccessTest extends TestCase {
 	private Access $access;
 
 	protected function setUp(): void {
+		parent::setUp();
+
 		$this->ldap = $this->createMock(LDAP::class);
 		$this->connection = $this->getMockBuilder(Connection::class)
 			->setConstructorArgs([$this->ldap])

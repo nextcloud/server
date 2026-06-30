@@ -25,6 +25,7 @@ use OCP\Files\InvalidPathException;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\StorageNotAvailableException;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\Exception\NotFound;
 use Test\Traits\UserTrait;
@@ -58,7 +59,6 @@ class TestViewDirectory extends View {
 	}
 }
 
-#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class DirectoryTest extends \Test\TestCase {
 	use UserTrait;
 
@@ -421,6 +421,7 @@ class DirectoryTest extends \Test\TestCase {
 		$dir->getNodeForPath('/my/deep/folder/');
 	}
 
+	#[Group('DB')]
 	public function testGetQuotaInfoUnlimited(): void {
 		$this->createUser('user', 'password');
 		self::loginAsUser('user');
@@ -475,6 +476,7 @@ class DirectoryTest extends \Test\TestCase {
 		$this->assertEquals([200, -3], $dir->getQuotaInfo()); //200 used, unlimited
 	}
 
+	#[Group('DB')]
 	public function testGetQuotaInfoSpecific(): void {
 		$this->createUser('user', 'password');
 		self::loginAsUser('user');
@@ -526,6 +528,7 @@ class DirectoryTest extends \Test\TestCase {
 		$this->assertEquals([200, 800], $dir->getQuotaInfo()); //200 used, 800 free
 	}
 
+	#[Group('DB')]
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'moveFailedProvider')]
 	public function testMoveFailed(string $source, string $destination, array $updatables, array $deletables): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);

@@ -22,7 +22,6 @@ use OCP\Server;
 /**
  * Tests for the external Storage class for remote shares.
  */
-#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class ExternalStorageTest extends \Test\TestCase {
 	public static function optionsProvider(): array {
 		return [

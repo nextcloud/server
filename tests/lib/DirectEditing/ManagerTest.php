@@ -25,6 +25,7 @@ use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -94,7 +95,6 @@ class Editor implements IEditor {
  *
  * @package Test\DirectEditing
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
 class ManagerTest extends TestCase {
 	private $manager;
 	/**
@@ -172,6 +172,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals($this->manager->getEditors(), ['testeditor' => $this->editor]);
 	}
 
+	#[Group('DB')]
 	public function testCreateToken(): void {
 		$expectedToken = 'TOKEN' . time();
 		$file = $this->createMock(File::class);
@@ -199,6 +200,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals($token, $expectedToken);
 	}
 
+	#[Group('DB')]
 	public function testCreateTokenAccess(): void {
 		$expectedToken = 'TOKEN' . time();
 		$file = $this->createMock(File::class);
@@ -229,6 +231,7 @@ class ManagerTest extends TestCase {
 		$this->assertInstanceOf(NotFoundResponse::class, $secondResult);
 	}
 
+	#[Group('DB')]
 	public function testOpenByPath(): void {
 		$expectedToken = 'TOKEN' . time();
 		$file = $this->createMock(File::class);
@@ -261,6 +264,7 @@ class ManagerTest extends TestCase {
 		$this->assertInstanceOf(NotFoundResponse::class, $secondResult);
 	}
 
+	#[Group('DB')]
 	public function testOpenById(): void {
 		$expectedToken = 'TOKEN' . time();
 		$fileRead = $this->createMock(File::class);

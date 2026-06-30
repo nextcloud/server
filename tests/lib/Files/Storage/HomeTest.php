@@ -13,6 +13,7 @@ use OC\User\User;
 use OCP\Files;
 use OCP\ITempManager;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\Group;
 
 class DummyUser extends User {
 	public function __construct(
@@ -38,7 +39,6 @@ class DummyUser extends User {
  *
  * @package Test\Files\Storage
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
 class HomeTest extends Storage {
 	/**
 	 * @var string tmpDir
@@ -84,5 +84,10 @@ class HomeTest extends Storage {
 
 	public function testGetOwner(): void {
 		$this->assertEquals($this->userId, $this->instance->getOwner(''));
+	}
+
+	#[Group('DB')]
+	public function testCheckUpdate(): void {
+		parent::testCheckUpdate();
 	}
 }

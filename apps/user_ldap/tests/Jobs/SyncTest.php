@@ -28,7 +28,6 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
-#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class SyncTest extends TestCase {
 	protected Helper&MockObject $helper;
 	protected LDAP&MockObject $ldapWrapper;

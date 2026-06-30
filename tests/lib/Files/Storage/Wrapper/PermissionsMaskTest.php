@@ -13,8 +13,8 @@ use OC\Files\Storage\Wrapper\PermissionsMask;
 use OC\Files\Storage\Wrapper\Wrapper;
 use OCP\Constants;
 use OCP\Files\Cache\IScanner;
+use PHPUnit\Framework\Attributes\Group;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
 class PermissionsMaskTest extends \Test\Files\Storage\Storage {
 	/**
 	 * @var Temporary
@@ -109,6 +109,7 @@ class PermissionsMaskTest extends \Test\Files\Storage\Storage {
 		$this->assertFalse($storage->fopen('foo', 'w'));
 	}
 
+	#[Group('DB')]
 	public function testScanNewFiles(): void {
 		$storage = $this->getMaskedStorage(Constants::PERMISSION_READ + Constants::PERMISSION_CREATE);
 		$storage->file_put_contents('foo', 'bar');
@@ -118,6 +119,7 @@ class PermissionsMaskTest extends \Test\Files\Storage\Storage {
 		$this->assertEquals(Constants::PERMISSION_READ, $storage->getCache()->get('foo')->getPermissions());
 	}
 
+	#[Group('DB')]
 	public function testScanNewWrappedFiles(): void {
 		$storage = $this->getMaskedStorage(Constants::PERMISSION_READ + Constants::PERMISSION_CREATE);
 		$wrappedStorage = new Wrapper(['storage' => $storage]);
@@ -128,6 +130,7 @@ class PermissionsMaskTest extends \Test\Files\Storage\Storage {
 		$this->assertEquals(Constants::PERMISSION_READ, $storage->getCache()->get('foo')->getPermissions());
 	}
 
+	#[Group('DB')]
 	public function testScanNewFilesNested(): void {
 		$storage = $this->getMaskedStorage(Constants::PERMISSION_READ + Constants::PERMISSION_CREATE + Constants::PERMISSION_UPDATE);
 		$nestedStorage = new PermissionsMask([
@@ -143,6 +146,7 @@ class PermissionsMaskTest extends \Test\Files\Storage\Storage {
 		$this->assertEquals(Constants::PERMISSION_READ, $wrappedStorage->getCache()->get('foo')->getPermissions());
 	}
 
+	#[Group('DB')]
 	public function testScanUnchanged(): void {
 		$this->sourceStorage->mkdir('foo');
 		$this->sourceStorage->file_put_contents('foo/bar.txt', 'bar');
@@ -160,6 +164,7 @@ class PermissionsMaskTest extends \Test\Files\Storage\Storage {
 		$this->assertFalse($called);
 	}
 
+	#[Group('DB')]
 	public function testScanUnchangedWrapped(): void {
 		$this->sourceStorage->mkdir('foo');
 		$this->sourceStorage->file_put_contents('foo/bar.txt', 'bar');

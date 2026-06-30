@@ -40,6 +40,8 @@ class CacheMountProviderTest extends TestCase {
 
 	#[\Override]
 	protected function setUp(): void {
+		parent::setUp();
+
 		$this->config = $this->createMock(IConfig::class);
 		$this->user = $this->createMock(IUser::class);
 		$this->storageFactory = new StorageFactory();
@@ -49,6 +51,8 @@ class CacheMountProviderTest extends TestCase {
 	#[\Override]
 	protected function tearDown(): void {
 		stream_wrapper_unregister('cachemountprovidertest');
+
+		parent::tearDown();
 	}
 
 	public function testGetMountsForUser(): void {

@@ -43,7 +43,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 /**
  * @package Tests\Settings\Controller
  */
-#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class UsersControllerTest extends \Test\TestCase {
 	private IGroupManager&MockObject $groupManager;
 	private UserManager&MockObject $userManager;

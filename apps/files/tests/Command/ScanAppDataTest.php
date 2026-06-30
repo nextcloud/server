@@ -49,6 +49,8 @@ class ScanAppDataTest extends TestCase {
 	private string $user;
 
 	public function setUp(): void {
+		parent::setUp();
+
 		$this->config = Server::get(IConfig::class);
 		$this->rootFolder = Server::get(IRootFolder::class);
 		$this->storageFactory = Server::get(StorageFactory::class);

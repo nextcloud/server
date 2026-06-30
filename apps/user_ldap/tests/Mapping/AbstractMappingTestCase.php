@@ -14,6 +14,7 @@ use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IDBConnection;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 
 abstract class AbstractMappingTestCase extends \Test\TestCase {
@@ -25,6 +26,8 @@ abstract class AbstractMappingTestCase extends \Test\TestCase {
 	abstract public function getMapper(IDBConnection $dbMock, ICacheFactory $cacheFactory, IAppConfig $appConfig): AbstractMapping;
 
 	protected function setUp(): void {
+		parent::setUp();
+
 		$this->cacheFactoryMock = $this->createMock(ICacheFactory::class);
 		$this->configMock = $this->createMock(IAppConfig::class);
 	}
@@ -98,6 +101,7 @@ abstract class AbstractMappingTestCase extends \Test\TestCase {
 	 * tests map() method with input that should result in not-mapping.
 	 * Hint: successful mapping is tested inherently with mapEntries().
 	 */
+	#[Group('DB')]
 	public function testMap(): void {
 		[$mapper, $data] = $this->initTest();
 
@@ -118,6 +122,7 @@ abstract class AbstractMappingTestCase extends \Test\TestCase {
 	 * tests unmap() for both successful and unsuccessful removing of
 	 * mapping entries
 	 */
+	#[Group('DB')]
 	public function testUnmap(): void {
 		[$mapper, $data] = $this->initTest();
 
@@ -138,6 +143,7 @@ abstract class AbstractMappingTestCase extends \Test\TestCase {
 	 * tests getDNByName(), getNameByDN() and getNameByUUID() for successful
 	 * and unsuccessful requests.
 	 */
+	#[Group('DB')]
 	public function testGetMethods(): void {
 		[$mapper, $data] = $this->initTest();
 
@@ -166,6 +172,7 @@ abstract class AbstractMappingTestCase extends \Test\TestCase {
 	/**
 	 * tests getNamesBySearch() for successful and unsuccessful requests.
 	 */
+	#[Group('DB')]
 	public function testSearch(): void {
 		[$mapper,] = $this->initTest();
 
@@ -182,6 +189,7 @@ abstract class AbstractMappingTestCase extends \Test\TestCase {
 	/**
 	 * tests setDNbyUUID() for successful and unsuccessful update.
 	 */
+	#[Group('DB')]
 	public function testSetDNMethod(): void {
 		[$mapper, $data] = $this->initTest();
 
@@ -201,6 +209,7 @@ abstract class AbstractMappingTestCase extends \Test\TestCase {
 	/**
 	 * tests setUUIDbyDN() for successful and unsuccessful update.
 	 */
+	#[Group('DB')]
 	public function testSetUUIDMethod(): void {
 		/** @var AbstractMapping $mapper */
 		[$mapper, $data] = $this->initTest();
@@ -221,6 +230,7 @@ abstract class AbstractMappingTestCase extends \Test\TestCase {
 	/**
 	 * tests clear() for successful update.
 	 */
+	#[Group('DB')]
 	public function testClear(): void {
 		[$mapper, $data] = $this->initTest();
 
@@ -235,6 +245,7 @@ abstract class AbstractMappingTestCase extends \Test\TestCase {
 	/**
 	 * tests clear() for successful update.
 	 */
+	#[Group('DB')]
 	public function testClearCb(): void {
 		[$mapper, $data] = $this->initTest();
 
@@ -258,6 +269,7 @@ abstract class AbstractMappingTestCase extends \Test\TestCase {
 	/**
 	 * tests getList() method
 	 */
+	#[Group('DB')]
 	public function testList(): void {
 		[$mapper, $data] = $this->initTest();
 
@@ -279,6 +291,7 @@ abstract class AbstractMappingTestCase extends \Test\TestCase {
 		$this->assertCount(1, $results);
 	}
 
+	#[Group('DB')]
 	public function testGetListOfIdsByDn(): void {
 		/** @var AbstractMapping $mapper */
 		[$mapper,] = $this->initTest();

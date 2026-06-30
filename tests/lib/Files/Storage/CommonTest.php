@@ -16,6 +16,7 @@ use OCP\Files\InvalidCharacterInPathException;
 use OCP\Files\InvalidPathException;
 use OCP\ITempManager;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -24,7 +25,6 @@ use PHPUnit\Framework\MockObject\MockObject;
  *
  * @package Test\Files\Storage
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
 class CommonTest extends Storage {
 
 	private string $tmpDir;
@@ -137,5 +137,10 @@ class CommonTest extends Storage {
 		$instance->file_put_contents('foo/bar/foo.txt', 'bar');
 		$instance->moveFromStorage($source, 'foo.txt', 'bar.txt');
 		$this->assertTrue($instance->file_exists('bar.txt'));
+	}
+
+	#[Group('DB')]
+	public function testCheckUpdate(): void {
+		parent::testCheckUpdate();
 	}
 }

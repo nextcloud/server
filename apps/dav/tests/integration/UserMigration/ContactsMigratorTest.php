@@ -34,6 +34,8 @@ class ContactsMigratorTest extends TestCase {
 	private const ASSETS_DIR = __DIR__ . '/assets/address_books/';
 
 	protected function setUp(): void {
+		parent::setUp();
+
 		$app = new App(Application::APP_ID);
 		$container = $app->getContainer();
 

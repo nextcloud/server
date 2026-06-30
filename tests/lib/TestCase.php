@@ -10,6 +10,7 @@ namespace Test;
 
 use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\Command\QueueBus;
+use OC\DB\Connection;
 use OC\Files\AppData\Factory;
 use OC\Files\Cache\Storage;
 use OC\Files\Config\MountProviderCollection;
@@ -42,22 +43,11 @@ use Psr\Container\ContainerExceptionInterface;
 abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	private QueueBus $commandBus;
 
-	/** @psalm-suppress ImpureStaticProperty For tests it's not an issue */
-	protected static ?IDBConnection $realDatabase = null;
-	/** @psalm-suppress ImpureStaticProperty */
-	private static bool $wasDatabaseAllowed = false;
 	protected array $services = [];
 
 	#[\Override]
 	protected function onNotSuccessfulTest(\Throwable $t): never {
 		$this->restoreAllServices();
-
-		// restore database connection
-		if (!$this->IsDatabaseAccessAllowed()) {
-			\OC::$server->registerService(IDBConnection::class, function () {
-				return self::$realDatabase;
-			});
-		}
 
 		parent::onNotSuccessfulTest($t);
 	}
@@ -134,19 +124,6 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		$this->overwriteService('AsyncCommandBus', $this->commandBus);
 		$this->overwriteService(IBus::class, $this->commandBus);
 
-		// detect database access
-		self::$wasDatabaseAllowed = true;
-		if (!$this->IsDatabaseAccessAllowed()) {
-			self::$wasDatabaseAllowed = false;
-			if (is_null(self::$realDatabase)) {
-				self::$realDatabase = Server::get(IDBConnection::class);
-			}
-			/** @psalm-suppress InternalMethod */
-			\OC::$server->registerService(IDBConnection::class, function (): void {
-				$this->fail('Your test case is not allowed to access the database.');
-			});
-		}
-
 		$traits = $this->getTestTraits();
 		foreach ($traits as $trait) {
 			$methodName = 'setUp' . basename(str_replace('\\', '/', $trait));
@@ -154,18 +131,30 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 				call_user_func([$this, $methodName]);
 			}
 		}
+
+		// Something outside of our test might have done something with the database already, but we ignore it.
+		$this->resetDatabaseStats();
 	}
 
 	#[\Override]
 	protected function tearDown(): void {
 		$this->restoreAllServices();
 
-		// restore database connection
-		if (!$this->IsDatabaseAccessAllowed()) {
-			/** @psalm-suppress InternalMethod */
-			\OC::$server->registerService(IDBConnection::class, function () {
-				return self::$realDatabase;
-			});
+		$databaseAllowed = $this->IsDatabaseAccessAllowed();
+		$databaseUsed = $this->wasDatabaseUsed();
+		$this->resetDatabaseStats();
+		if ($databaseUsed && !$databaseAllowed) {
+			$this->fail('The database was used, but it was not allowed');
+		}
+		// Some test methods using a data provider generate cases that both use and not use the DB
+		// Therefore we can't enable this check all the time.
+		// It's useful for manually checking if all tests are using the correct group though.
+		// 1. DB_UNUSED=1 ./autotest.sh sqlite | grep -B 1 "The database was not used, but it was allowed" | grep "::" | cut -d ":" -f 1 | cut -d " " -f 2 | sort -u
+		// 2. Remove the Group attribute from all classes from the output
+		// 3. ./autotest.sh sqlite | grep -B 1 "The database was used, but it was not allowed" | grep "::" | cut -d " " -f 2 | sort -u
+		// 4. Add the Group attribute to all methods from the output
+		if (!$databaseUsed && $databaseAllowed && getenv('DB_UNUSED') !== false) {
+			$this->fail('The database was not used, but it was allowed');
 		}
 
 		// further cleanup
@@ -298,26 +287,17 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 
 	#[\Override]
 	public static function tearDownAfterClass(): void {
-		if (!self::$wasDatabaseAllowed && self::$realDatabase !== null) {
-			// in case an error is thrown in a test, PHPUnit jumps straight to tearDownAfterClass,
-			// so we need the database again
-			\OC::$server->registerService(IDBConnection::class, function () {
-				return self::$realDatabase;
-			});
-		}
 		$dataDir = Server::get(IConfig::class)->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data-autotest');
-		if (self::$wasDatabaseAllowed && Server::get(IDBConnection::class)) {
-			$db = Server::get(IDBConnection::class);
-			if ($db->inTransaction()) {
-				$db->rollBack();
-				throw new \Exception('There was a transaction still in progress and needed to be rolled back. Please fix this in your test.');
-			}
-			$queryBuilder = $db->getQueryBuilder();
-
-			self::tearDownAfterClassCleanShares($queryBuilder);
-			self::tearDownAfterClassCleanStorages($queryBuilder);
-			self::tearDownAfterClassCleanFileCache($queryBuilder);
+		$db = Server::get(IDBConnection::class);
+		if ($db->inTransaction()) {
+			$db->rollBack();
+			self::fail('There was a transaction still in progress and needed to be rolled back. Please fix this in your test.');
 		}
+
+		$queryBuilder = $db->getQueryBuilder();
+		self::tearDownAfterClassCleanShares($queryBuilder);
+		self::tearDownAfterClassCleanStorages($queryBuilder);
+		self::tearDownAfterClassCleanFileCache($queryBuilder);
 		self::tearDownAfterClassCleanStrayDataFiles($dataDir);
 		self::tearDownAfterClassCleanStrayHooks();
 		self::tearDownAfterClassCleanStrayLocks();
@@ -534,15 +514,17 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 			return $annotations['class']['group'] ?? [];
 		}
 
-		$r = new \ReflectionClass($this);
-		$doc = $r->getDocComment();
+		$reflectionClass = new \ReflectionClass($this);
+		/** @psalm-suppress InternalMethod */
+		$reflectionMethod = $reflectionClass->getMethod($this->name());
+		$doc = $reflectionClass->getDocComment() . '\n' . $reflectionMethod->getDocComment();
 
 		if (class_exists(Group::class)) {
 			$attributes = array_map(function (\ReflectionAttribute $attribute): string {
 				/** @var Group $group */
 				$group = $attribute->newInstance();
 				return $group->name();
-			}, $r->getAttributes(Group::class));
+			}, array_merge($reflectionClass->getAttributes(Group::class), $reflectionMethod->getAttributes(Group::class)));
 			if (count($attributes) > 0) {
 				return $attributes;
 			}
@@ -554,5 +536,17 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	protected function IsDatabaseAccessAllowed(): bool {
 		$annotations = $this->getGroupAnnotations();
 		return in_array('DB', $annotations) || in_array('SLOWDB', $annotations);
+	}
+
+	private function wasDatabaseUsed(): bool {
+		$connection = Server::get(Connection::class);
+		$databaseStats = $connection->getStats();
+		return $databaseStats['built'] > 0 || $databaseStats['executed'] > 0;
+	}
+
+	private function resetDatabaseStats(): void {
+		$connection = Server::get(Connection::class);
+		self::invokePrivate($connection, 'queriesBuilt', [0]);
+		self::invokePrivate($connection, 'queriesExecuted', [0]);
 	}
 }

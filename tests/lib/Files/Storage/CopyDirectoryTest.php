@@ -12,6 +12,7 @@ namespace Test\Files\Storage;
 
 use OC\Files\Storage\PolyFill\CopyDirectory;
 use OC\Files\Storage\Temporary;
+use PHPUnit\Framework\Attributes\Group;
 
 class StorageNoRecursiveCopy extends Temporary {
 	#[\Override]
@@ -33,11 +34,15 @@ class CopyDirectoryStorage extends StorageNoRecursiveCopy {
  *
  * @package Test\Files\Storage
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
 class CopyDirectoryTest extends Storage {
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->instance = new CopyDirectoryStorage([]);
+	}
+
+	#[Group('DB')]
+	public function testCheckUpdate(): void {
+		parent::testCheckUpdate();
 	}
 }

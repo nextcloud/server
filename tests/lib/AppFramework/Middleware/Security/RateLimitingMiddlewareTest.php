@@ -23,12 +23,12 @@ use OCP\ISession;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\AppFramework\Middleware\Security\Mock\RateLimitingMiddlewareController;
 use Test\TestCase;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
 class RateLimitingMiddlewareTest extends TestCase {
 	private IRequest|MockObject $request;
 	private IUserSession|MockObject $userSession;
@@ -275,6 +275,7 @@ class RateLimitingMiddlewareTest extends TestCase {
 		$this->assertEquals($expected, $result);
 	}
 
+	#[Group('DB')]
 	public function testAfterExceptionWithHtmlBody(): void {
 		$controller = new RateLimitingMiddlewareController('test', $this->request);
 		$this->request

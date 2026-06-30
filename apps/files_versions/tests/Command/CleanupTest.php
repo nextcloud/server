@@ -17,6 +17,7 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Storage\IStorage;
 use OCP\UserInterface;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -26,7 +27,6 @@ use Test\TestCase;
  *
  * @package OCA\Files_Versions\Tests\Command
  */
-#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class CleanupTest extends TestCase {
 	protected Manager&MockObject $userManager;
 	protected IRootFolder&MockObject $rootFolder;
@@ -46,6 +46,7 @@ class CleanupTest extends TestCase {
 	/**
 	 * @param boolean $nodeExists
 	 */
+	#[Group('DB')]
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestDeleteVersions')]
 	public function testDeleteVersions(bool $nodeExists): void {
 		$this->rootFolder->expects($this->once())

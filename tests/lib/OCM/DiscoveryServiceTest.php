@@ -17,13 +17,13 @@ use OCP\IConfig;
 use OCP\OCM\Events\LocalOCMDiscoveryEvent;
 use OCP\OCM\Events\OCMEndpointRequestEvent;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\Group;
 use Psr\Log\LoggerInterface;
 use ReflectionClass;
 use Test\OCM\Listeners\LocalOCMDiscoveryTestEvent;
 use Test\OCM\Listeners\OCMEndpointRequestTestEvent;
 use Test\TestCase;
 
-#[\PHPUnit\Framework\Attributes\Group('DB')]
 class DiscoveryServiceTest extends TestCase {
 	private LoggerInterface $logger;
 	private RegistrationContext $context;
@@ -111,6 +111,7 @@ class DiscoveryServiceTest extends TestCase {
 		];
 	}
 
+	#[Group('DB')]
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestOCMRequest')]
 	public function testOCMRequest(string $path, int $expectedStatus, ?array $expectedResult): void {
 		$this->context->for('ocm-request-app')->registerEventListener(OCMEndpointRequestEvent::class, OCMEndpointRequestTestEvent::class);
@@ -123,11 +124,13 @@ class DiscoveryServiceTest extends TestCase {
 		}
 	}
 
+	#[Group('DB')]
 	public function testLocalBaseCapability(): void {
 		$local = $this->discoveryService->getLocalOCMProvider();
 		$this->assertEmpty(array_diff(['notifications', 'shares'], $local->getCapabilities()->toArray()));
 	}
 
+	#[Group('DB')]
 	public function testLocalCapabilitiesAdvertiseHttpSigByDefault(): void {
 		// `http-sig` is the OCM-spec flag signalling RFC 9421 support backed
 		// by /.well-known/jwks.json. Advertised whenever signing is not
@@ -136,6 +139,7 @@ class DiscoveryServiceTest extends TestCase {
 		$this->assertTrue($local->hasCapability('http-sig'));
 	}
 
+	#[Group('DB')]
 	public function testLocalAddedCapability(): void {
 		$this->context->for('ocm-capability-app')->registerEventListener(LocalOCMDiscoveryEvent::class, LocalOCMDiscoveryTestEvent::class);
 		$this->context->delegateEventListenerRegistrations($this->dispatcher);

@@ -24,6 +24,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\Group;
 
 class DummyMountProvider implements IMountProvider {
 	/**
@@ -53,7 +54,6 @@ class DummyMountProvider implements IMountProvider {
  *
  * @package Test\Files
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
 class FilesystemTest extends \Test\TestCase {
 	public const TEST_FILESYSTEM_USER1 = 'test-filesystem-user1';
 	public const TEST_FILESYSTEM_USER2 = 'test-filesystem-user1';
@@ -93,6 +93,7 @@ class FilesystemTest extends \Test\TestCase {
 		parent::tearDown();
 	}
 
+	#[Group('DB')]
 	public function testMount(): void {
 		Filesystem::mount('\OC\Files\Storage\Local', self::getStorageData(), '/');
 		$this->assertEquals('/', Filesystem::getMountPoint('/'));
@@ -294,6 +295,7 @@ class FilesystemTest extends \Test\TestCase {
 		$this->assertEquals("/foo/bar\xC3\xBC", Filesystem::normalizePath("\\foo\\baru\xCC\x88"));
 	}
 
+	#[Group('DB')]
 	public function testHooks(): void {
 		if (Filesystem::getView()) {
 			$user = \OC_User::getUser();
@@ -329,6 +331,7 @@ class FilesystemTest extends \Test\TestCase {
 	 * Tests that an exception is thrown when passed user does not exist.
 	 *
 	 */
+	#[Group('DB')]
 	public function testLocalMountWhenUserDoesNotExist(): void {
 		$this->expectException(NoUserException::class);
 
@@ -361,6 +364,7 @@ class FilesystemTest extends \Test\TestCase {
 	/**
 	 * Tests that an exception is thrown when passed user does not exist.
 	 */
+	#[Group('DB')]
 	public function testLocalMountWhenUserDoesNotExistTwice(): void {
 		$thrown = 0;
 		$userId = $this->getUniqueID('user_');
@@ -383,6 +387,7 @@ class FilesystemTest extends \Test\TestCase {
 	/**
 	 * Tests that the home storage is used for the user's mount point
 	 */
+	#[Group('DB')]
 	public function testHomeMount(): void {
 		$userId = $this->getUniqueID('user_');
 
@@ -413,6 +418,7 @@ class FilesystemTest extends \Test\TestCase {
 	/**
 	 * Test that the default cache dir is part of the user's home
 	 */
+	#[Group('DB')]
 	public function testMountDefaultCacheDir(): void {
 		$userId = $this->getUniqueID('user_');
 		$config = Server::get(IConfig::class);
@@ -442,6 +448,7 @@ class FilesystemTest extends \Test\TestCase {
 	 * Test that an external cache is mounted into
 	 * the user's home
 	 */
+	#[Group('DB')]
 	public function testMountExternalCacheDir(): void {
 		$userId = $this->getUniqueID('user_');
 
@@ -469,6 +476,7 @@ class FilesystemTest extends \Test\TestCase {
 		$config->setSystemValue('cache_path', $oldCachePath);
 	}
 
+	#[Group('DB')]
 	public function testRegisterMountProviderAfterSetup(): void {
 		Filesystem::initMountPoints(self::TEST_FILESYSTEM_USER2);
 		$this->assertEquals('/', Filesystem::getMountPoint('/foo/bar'));

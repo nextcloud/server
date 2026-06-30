@@ -15,13 +15,13 @@ use OCP\ISession;
 use OCP\ITempManager;
 use OCP\Server;
 use OCP\Util;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Class UtilTest
  *
  * @package Test
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
 class UtilTest extends \Test\TestCase {
 	public function testGetVersion(): void {
 		$version = Util::getVersion();
@@ -94,6 +94,7 @@ class UtilTest extends \Test\TestCase {
 	/**
 	 * If no strict email check is enabled "localhost" should validate as a valid email domain
 	 */
+	#[Group('DB')]
 	public function testGetDefaultEmailAddress(): void {
 		$config = Server::get(IConfig::class);
 		$config->setAppValue('core', 'enforce_strict_email_check', 'no');

@@ -55,6 +55,8 @@ class SetupManagerTest extends TestCase {
 
 	#[\Override]
 	protected function setUp(): void {
+		parent::setUp();
+
 		$eventLogger = $this->createMock(IEventLogger::class);
 		$eventLogger->method('start');
 		$eventLogger->method('end');

@@ -24,6 +24,7 @@ use OCP\Files\Storage\IStorage;
 use OCP\ICache;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -31,7 +32,6 @@ use PHPUnit\Framework\MockObject\MockObject;
  *
  * @package OCA\DAV\Tests\unit\Connector\Sabre
  */
-#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class NodeTest extends \Test\TestCase {
 	public static function davPermissionsProvider(): array {
 		return [
@@ -51,6 +51,7 @@ class NodeTest extends \Test\TestCase {
 		];
 	}
 
+	#[Group('DB')]
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'davPermissionsProvider')]
 	public function testDavPermissions(int $permissions, string $type, bool $shared, int $shareRootPermissions, bool $mounted, string $internalPath, string $expected): void {
 		$info = $this->getMockBuilder(FileInfo::class)

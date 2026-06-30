@@ -12,8 +12,8 @@ namespace OCA\Files_External\Tests\Service;
 use OC\Files\Filesystem;
 use OCA\Files_External\MountConfig;
 use OCA\Files_External\Service\GlobalStoragesService;
+use PHPUnit\Framework\Attributes\Group;
 
-#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class GlobalStoragesServiceTest extends StoragesServiceTestCase {
 	protected function setUp(): void {
 		parent::setUp();
@@ -113,6 +113,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTestCase {
 		];
 	}
 
+	#[Group('DB')]
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'storageDataProvider')]
 	public function testAddStorage($storageParams): void {
 		$storage = $this->makeStorageConfig($storageParams);
@@ -135,6 +136,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTestCase {
 		$this->assertEquals($baseId + 1, $nextStorage->getId());
 	}
 
+	#[Group('DB')]
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'storageDataProvider')]
 	public function testUpdateStorage($updatedStorageParams): void {
 		$updatedStorage = $this->makeStorageConfig($updatedStorageParams);
@@ -275,6 +277,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTestCase {
 		];
 	}
 
+	#[Group('DB')]
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'hooksAddStorageDataProvider')]
 	public function testHooksAddStorage($applicableUsers, $applicableGroups, $expectedCalls): void {
 		$storage = $this->makeTestStorageData();
@@ -411,6 +414,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTestCase {
 		];
 	}
 
+	#[Group('DB')]
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'hooksUpdateStorageDataProvider')]
 	public function testHooksUpdateStorage(
 		array $sourceApplicableUsers,
@@ -445,6 +449,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTestCase {
 		}
 	}
 
+	#[Group('DB')]
 	public function testHooksRenameMountPoint(): void {
 		$storage = $this->makeTestStorageData();
 		$storage->setApplicableUsers(['user1', 'user2']);
@@ -568,6 +573,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTestCase {
 		];
 	}
 
+	#[Group('DB')]
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'hooksDeleteStorageDataProvider')]
 	public function testHooksDeleteStorage(
 		array $sourceApplicableUsers,

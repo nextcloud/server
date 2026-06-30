@@ -17,6 +17,8 @@ class EventComparisonServiceTest extends TestCase {
 	private EventComparisonService $eventComparisonService;
 
 	protected function setUp(): void {
+		parent::setUp();
+
 		$this->eventComparisonService = new EventComparisonService();
 	}
 

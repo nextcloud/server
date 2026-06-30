@@ -11,9 +11,13 @@ namespace OCA\DAV\Tests\unit\CalDAV\Reminder;
 
 use OCA\DAV\CalDAV\Reminder\Backend as ReminderBackend;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\IDBConnection;
+use OCP\Server;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
+#[Group('DB')]
 class BackendTest extends TestCase {
 	private ReminderBackend $reminderBackend;
 	private ITimeFactory&MockObject $timeFactory;
@@ -21,19 +25,19 @@ class BackendTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$query = self::$realDatabase->getQueryBuilder();
+		$query = Server::get(IDBConnection::class)->getQueryBuilder();
 		$query->delete('calendar_reminders')->executeStatement();
 		$query->delete('calendarobjects')->executeStatement();
 		$query->delete('calendars')->executeStatement();
 
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
-		$this->reminderBackend = new ReminderBackend(self::$realDatabase, $this->timeFactory);
+		$this->reminderBackend = new ReminderBackend(Server::get(IDBConnection::class), $this->timeFactory);
 
 		$this->createRemindersTestSet();
 	}
 
 	protected function tearDown(): void {
-		$query = self::$realDatabase->getQueryBuilder();
+		$query = Server::get(IDBConnection::class)->getQueryBuilder();
 		$query->delete('calendar_reminders')->executeStatement();
 		$query->delete('calendarobjects')->executeStatement();
 		$query->delete('calendars')->executeStatement();
@@ -42,7 +46,7 @@ class BackendTest extends TestCase {
 	}
 
 	public function testCleanRemindersForEvent(): void {
-		$query = self::$realDatabase->getQueryBuilder();
+		$query = Server::get(IDBConnection::class)->getQueryBuilder();
 		$rows = $query->select('*')
 			->from('calendar_reminders')
 			->executeQuery()
@@ -52,7 +56,7 @@ class BackendTest extends TestCase {
 
 		$this->reminderBackend->cleanRemindersForEvent(1);
 
-		$query = self::$realDatabase->getQueryBuilder();
+		$query = Server::get(IDBConnection::class)->getQueryBuilder();
 		$rows = $query->select('*')
 			->from('calendar_reminders')
 			->executeQuery()
@@ -62,7 +66,7 @@ class BackendTest extends TestCase {
 	}
 
 	public function testCleanRemindersForCalendar(): void {
-		$query = self::$realDatabase->getQueryBuilder();
+		$query = Server::get(IDBConnection::class)->getQueryBuilder();
 		$rows = $query->select('*')
 			->from('calendar_reminders')
 			->executeQuery()
@@ -72,7 +76,7 @@ class BackendTest extends TestCase {
 
 		$this->reminderBackend->cleanRemindersForCalendar(1);
 
-		$query = self::$realDatabase->getQueryBuilder();
+		$query = Server::get(IDBConnection::class)->getQueryBuilder();
 		$rows = $query->select('*')
 			->from('calendar_reminders')
 			->executeQuery()
@@ -82,7 +86,7 @@ class BackendTest extends TestCase {
 	}
 
 	public function testRemoveReminder(): void {
-		$query = self::$realDatabase->getQueryBuilder();
+		$query = Server::get(IDBConnection::class)->getQueryBuilder();
 		$rows = $query->select('*')
 			->from('calendar_reminders')
 			->executeQuery()
@@ -92,7 +96,7 @@ class BackendTest extends TestCase {
 
 		$this->reminderBackend->removeReminder((int)$rows[3]['id']);
 
-		$query = self::$realDatabase->getQueryBuilder();
+		$query = Server::get(IDBConnection::class)->getQueryBuilder();
 		$rows = $query->select('*')
 			->from('calendar_reminders')
 			->executeQuery()
@@ -189,7 +193,7 @@ class BackendTest extends TestCase {
 	}
 
 	public function testInsertReminder(): void {
-		$query = self::$realDatabase->getQueryBuilder();
+		$query = Server::get(IDBConnection::class)->getQueryBuilder();
 		$rows = $query->select('*')
 			->from('calendar_reminders')
 			->executeQuery()
@@ -200,7 +204,7 @@ class BackendTest extends TestCase {
 		$this->reminderBackend->insertReminder(42, 1337, 'uid99', true, 12345678,
 			true, 'hash99', 'hash42', 'AUDIO', false, 12345670, false);
 
-		$query = self::$realDatabase->getQueryBuilder();
+		$query = Server::get(IDBConnection::class)->getQueryBuilder();
 		$rows = $query->select('*')
 			->from('calendar_reminders')
 			->executeQuery()
@@ -227,7 +231,7 @@ class BackendTest extends TestCase {
 	}
 
 	public function testUpdateReminder(): void {
-		$query = self::$realDatabase->getQueryBuilder();
+		$query = Server::get(IDBConnection::class)->getQueryBuilder();
 		$rows = $query->select('*')
 			->from('calendar_reminders')
 			->executeQuery()
@@ -242,7 +246,7 @@ class BackendTest extends TestCase {
 
 		$this->reminderBackend->updateReminder($reminderId, $newNotificationDate);
 
-		$query = self::$realDatabase->getQueryBuilder();
+		$query = Server::get(IDBConnection::class)->getQueryBuilder();
 		$row = $query->select('notification_date')
 			->from('calendar_reminders')
 			->where($query->expr()->eq('id', $query->createNamedParameter($reminderId)))
@@ -253,7 +257,7 @@ class BackendTest extends TestCase {
 	}
 
 	private function createRemindersTestSet(): void {
-		$query = self::$realDatabase->getQueryBuilder();
+		$query = Server::get(IDBConnection::class)->getQueryBuilder();
 		$query->insert('calendars')
 			->values([
 				'id' => $query->createNamedParameter(1),
@@ -262,7 +266,7 @@ class BackendTest extends TestCase {
 			])
 			->executeStatement();
 
-		$query = self::$realDatabase->getQueryBuilder();
+		$query = Server::get(IDBConnection::class)->getQueryBuilder();
 		$query->insert('calendars')
 			->values([
 				'id' => $query->createNamedParameter(99),
@@ -271,7 +275,7 @@ class BackendTest extends TestCase {
 			])
 			->executeStatement();
 
-		$query = self::$realDatabase->getQueryBuilder();
+		$query = Server::get(IDBConnection::class)->getQueryBuilder();
 		$query->insert('calendarobjects')
 			->values([
 				'id' => $query->createNamedParameter(1),
@@ -281,7 +285,7 @@ class BackendTest extends TestCase {
 			])
 			->executeStatement();
 
-		$query = self::$realDatabase->getQueryBuilder();
+		$query = Server::get(IDBConnection::class)->getQueryBuilder();
 		$query->insert('calendarobjects')
 			->values([
 				'id' => $query->createNamedParameter(2),
@@ -291,7 +295,7 @@ class BackendTest extends TestCase {
 			])
 			->executeStatement();
 
-		$query = self::$realDatabase->getQueryBuilder();
+		$query = Server::get(IDBConnection::class)->getQueryBuilder();
 		$query->insert('calendarobjects')
 			->values([
 				'id' => $query->createNamedParameter(10),
@@ -301,7 +305,7 @@ class BackendTest extends TestCase {
 			])
 			->executeStatement();
 
-		$query = self::$realDatabase->getQueryBuilder();
+		$query = Server::get(IDBConnection::class)->getQueryBuilder();
 		$query->insert('calendar_reminders')
 			->values([
 				'calendar_id' => $query->createNamedParameter(1),
@@ -319,7 +323,7 @@ class BackendTest extends TestCase {
 			])
 			->executeStatement();
 
-		$query = self::$realDatabase->getQueryBuilder();
+		$query = Server::get(IDBConnection::class)->getQueryBuilder();
 		$query->insert('calendar_reminders')
 			->values([
 				'calendar_id' => $query->createNamedParameter(1),
@@ -337,7 +341,7 @@ class BackendTest extends TestCase {
 			])
 			->executeStatement();
 
-		$query = self::$realDatabase->getQueryBuilder();
+		$query = Server::get(IDBConnection::class)->getQueryBuilder();
 		$query->insert('calendar_reminders')
 			->values([
 				'calendar_id' => $query->createNamedParameter(1),
@@ -355,7 +359,7 @@ class BackendTest extends TestCase {
 			])
 			->executeStatement();
 
-		$query = self::$realDatabase->getQueryBuilder();
+		$query = Server::get(IDBConnection::class)->getQueryBuilder();
 		$query->insert('calendar_reminders')
 			->values([
 				'calendar_id' => $query->createNamedParameter(99),

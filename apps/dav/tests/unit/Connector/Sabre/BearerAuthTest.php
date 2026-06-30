@@ -15,12 +15,12 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUser;
 use OCP\IUserSession;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 use Test\TestCase;
 
-#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class BearerAuthTest extends TestCase {
 	private IUserSession&MockObject $userSession;
 	private ISession&MockObject $session;
@@ -49,6 +49,7 @@ class BearerAuthTest extends TestCase {
 		$this->assertFalse($this->bearerAuth->validateBearerToken('Token'));
 	}
 
+	#[Group('DB')]
 	public function testValidateBearerToken(): void {
 		$this->userSession
 			->expects($this->exactly(2))

@@ -17,7 +17,6 @@ use OCA\Files_External\Lib\Storage\AmazonS3;
  *
  * @package OCA\Files_External\Tests\Storage
  */
-#[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 #[\PHPUnit\Framework\Attributes\Group('S3')]
 class Amazons3Test extends \Test\Files\Storage\Storage {
 	use ConfigurableStorageTrait;

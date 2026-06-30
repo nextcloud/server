@@ -19,6 +19,7 @@ use OCP\Exceptions\AppConfigTypeConflictException;
 use OCP\Exceptions\AppConfigUnknownKeyException;
 use OCP\IAppConfig;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\Group;
 use Test\TestCase;
 
 /**
@@ -27,7 +28,6 @@ use Test\TestCase;
  *
  * @package Test
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
 class LexiconTest extends TestCase {
 	/** @var AppConfig */
 	private IAppConfig $appConfig;
@@ -70,6 +70,7 @@ class LexiconTest extends TestCase {
 		$this->userConfig->deleteApp(TestLexicon_UserIndexedRemove::APPID);
 	}
 
+	#[Group('DB')]
 	public function testAppLexiconSetCorrect() {
 		$this->assertSame(true, $this->appConfig->setValueString(TestLexicon_E::APPID, 'key1', 'new_value'));
 		$this->assertSame(true, $this->appConfig->isLazy(TestLexicon_E::APPID, 'key1'));
@@ -77,6 +78,7 @@ class LexiconTest extends TestCase {
 		$this->appConfig->deleteKey(TestLexicon_E::APPID, 'key1');
 	}
 
+	#[Group('DB')]
 	public function testAppLexiconGetCorrect() {
 		$this->assertSame('abcde', $this->appConfig->getValueString(TestLexicon_E::APPID, 'key1', 'default'));
 	}
@@ -91,11 +93,13 @@ class LexiconTest extends TestCase {
 		$this->appConfig->getValueInt(TestLexicon_E::APPID, 'key1');
 	}
 
+	#[Group('DB')]
 	public function testAppLexiconIgnore() {
 		$this->appConfig->setValueString(TestConfigLexicon_I::APPID, 'key_ignore', 'new_value');
 		$this->assertSame('new_value', $this->appConfig->getValueString(TestConfigLexicon_I::APPID, 'key_ignore', ''));
 	}
 
+	#[Group('DB')]
 	public function testAppLexiconNotice() {
 		$this->appConfig->setValueString(TestLexicon_N::APPID, 'key_notice', 'new_value');
 		$this->assertSame('new_value', $this->appConfig->getValueString(TestLexicon_N::APPID, 'key_notice', ''));
@@ -117,6 +121,7 @@ class LexiconTest extends TestCase {
 		$this->appConfig->getValueString(TestLexicon_E::APPID, 'key_exception');
 	}
 
+	#[Group('DB')]
 	public function testUserLexiconSetCorrect() {
 		$this->assertSame(true, $this->userConfig->setValueString('user1', TestLexicon_E::APPID, 'key1', 'new_value'));
 		$this->assertSame(true, $this->userConfig->isLazy('user1', TestLexicon_E::APPID, 'key1'));
@@ -124,6 +129,7 @@ class LexiconTest extends TestCase {
 		$this->userConfig->deleteKey(TestLexicon_E::APPID, 'key1');
 	}
 
+	#[Group('DB')]
 	public function testUserLexiconGetCorrect() {
 		$this->assertSame('abcde', $this->userConfig->getValueString('user1', TestLexicon_E::APPID, 'key1', 'default'));
 	}
@@ -138,11 +144,13 @@ class LexiconTest extends TestCase {
 		$this->userConfig->getValueInt('user1', TestLexicon_E::APPID, 'key1');
 	}
 
+	#[Group('DB')]
 	public function testUserLexiconIgnore() {
 		$this->userConfig->setValueString('user1', TestConfigLexicon_I::APPID, 'key_ignore', 'new_value');
 		$this->assertSame('new_value', $this->userConfig->getValueString('user1', TestConfigLexicon_I::APPID, 'key_ignore', ''));
 	}
 
+	#[Group('DB')]
 	public function testUserLexiconNotice() {
 		$this->userConfig->setValueString('user1', TestLexicon_N::APPID, 'key_notice', 'new_value');
 		$this->assertSame('new_value', $this->userConfig->getValueString('user1', TestLexicon_N::APPID, 'key_notice', ''));
@@ -164,12 +172,14 @@ class LexiconTest extends TestCase {
 		$this->userConfig->getValueString('user1', TestLexicon_E::APPID, 'key_exception');
 	}
 
+	#[Group('DB')]
 	public function testAppConfigLexiconRenameSetNewValue() {
 		$this->assertSame(12345, $this->appConfig->getValueInt(TestConfigLexicon_I::APPID, 'key3', 123));
 		$this->appConfig->setValueInt(TestConfigLexicon_I::APPID, 'old_key3', 994);
 		$this->assertSame(994, $this->appConfig->getValueInt(TestConfigLexicon_I::APPID, 'key3', 123));
 	}
 
+	#[Group('DB')]
 	public function testAppConfigLexiconRenameSetOldValuePreMigration() {
 		$this->appConfig->ignoreLexiconAliases(true);
 		$this->appConfig->setValueInt(TestConfigLexicon_I::APPID, 'old_key3', 993);
@@ -177,6 +187,7 @@ class LexiconTest extends TestCase {
 		$this->assertSame(12345, $this->appConfig->getValueInt(TestConfigLexicon_I::APPID, 'key3', 123));
 	}
 
+	#[Group('DB')]
 	public function testAppConfigLexiconRenameSetOldValuePostMigration() {
 		$this->appConfig->ignoreLexiconAliases(true);
 		$this->appConfig->setValueInt(TestConfigLexicon_I::APPID, 'old_key3', 994);
@@ -185,11 +196,13 @@ class LexiconTest extends TestCase {
 		$this->assertSame(994, $this->appConfig->getValueInt(TestConfigLexicon_I::APPID, 'key3', 123));
 	}
 
+	#[Group('DB')]
 	public function testAppConfigLexiconRenameGetNewValue() {
 		$this->appConfig->setValueInt(TestConfigLexicon_I::APPID, 'key3', 981);
 		$this->assertSame(981, $this->appConfig->getValueInt(TestConfigLexicon_I::APPID, 'old_key3', 123));
 	}
 
+	#[Group('DB')]
 	public function testAppConfigLexiconRenameGetOldValuePreMigration() {
 		$this->appConfig->ignoreLexiconAliases(true);
 		$this->appConfig->setValueInt(TestConfigLexicon_I::APPID, 'key3', 984);
@@ -197,6 +210,7 @@ class LexiconTest extends TestCase {
 		$this->appConfig->ignoreLexiconAliases(false);
 	}
 
+	#[Group('DB')]
 	public function testAppConfigLexiconRenameGetOldValuePostMigration() {
 		$this->appConfig->ignoreLexiconAliases(true);
 		$this->appConfig->setValueInt(TestConfigLexicon_I::APPID, 'key3', 987);
@@ -205,6 +219,7 @@ class LexiconTest extends TestCase {
 		$this->assertSame(987, $this->appConfig->getValueInt(TestConfigLexicon_I::APPID, 'old_key3', 123));
 	}
 
+	#[Group('DB')]
 	public function testAppConfigLexiconRenameInvertBoolean() {
 		$this->appConfig->ignoreLexiconAliases(true);
 		$this->appConfig->setValueBool(TestConfigLexicon_I::APPID, 'old_key4', true);
@@ -214,6 +229,7 @@ class LexiconTest extends TestCase {
 		$this->assertSame(false, $this->appConfig->getValueBool(TestConfigLexicon_I::APPID, 'key4'));
 	}
 
+	#[Group('DB')]
 	public function testLexiconIndexedUpdate() {
 		$this->userConfig->setValueString('user1', TestLexicon_UserIndexed::APPID, 'key1', 'abcd');
 		$this->userConfig->setValueString('user2', TestLexicon_UserIndexed::APPID, 'key1', '1234', flags: 64);
@@ -237,6 +253,7 @@ class LexiconTest extends TestCase {
 		$this->assertSame(66, $this->userConfig->getValueFlags('user4', TestLexicon_UserIndexed::APPID, 'key1'));
 	}
 
+	#[Group('DB')]
 	public function testLexiconIndexedUpdateRemove() {
 		$this->userConfig->setValueString('user1', TestLexicon_UserIndexedRemove::APPID, 'key1', 'abcd');
 		$this->userConfig->setValueString('user2', TestLexicon_UserIndexedRemove::APPID, 'key1', '1234', flags: 64);

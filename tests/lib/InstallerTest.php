@@ -19,6 +19,7 @@ use OCP\IConfig;
 use OCP\ITempManager;
 use OCP\L10N\IFactory;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
@@ -27,7 +28,6 @@ use Psr\Log\LoggerInterface;
  *
  * @package Test
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
 class InstallerTest extends TestCase {
 	private static $appid = 'testapp';
 	private $appstore;
@@ -80,6 +80,7 @@ class InstallerTest extends TestCase {
 		parent::tearDown();
 	}
 
+	#[Group('DB')]
 	public function testInstallApp(): void {
 		// Read the current version of the app to check for bug #2572
 		Server::get(IAppManager::class)->getAppVersion('testapp', true);
