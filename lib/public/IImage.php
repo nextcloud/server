@@ -130,19 +130,22 @@ interface IImage {
 	 * Crops the image to the middle square. If the image is already square it just returns.
 	 *
 	 * @param int $size maximum size for the result (optional)
-	 * @return bool for success or failure
+	 * @return bool True if the image was cropped successfully, false otherwise
 	 * @since 8.1.0
 	 */
 	public function centerCrop(int $size = 0): bool;
 
 	/**
-	 * Crops the image from point $x$y with dimension $wx$h.
+	 * Crops the currently loaded image in place.
 	 *
-	 * @param int $x Horizontal position
-	 * @param int $y Vertical position
-	 * @param int $w Width
-	 * @param int $h Height
-	 * @return bool for success or failure
+	 * Replaces the current image with the cropped region. Callers that want a
+	 * new cropped image instannce instead should use {@see cropCopy()}.
+	 *
+	 * @param int $x Horizontal position of the top-left corner of the crop area within the current image
+	 * @param int $y Vertical position of the top-left corner of the crop area within the current image
+	 * @param int $w Width of the cropped area
+	 * @param int $h Height of the cropped area
+	 * @return bool True if the image was cropped successfully, false otherwise
 	 * @since 8.1.0
 	 */
 	public function crop(int $x, int $y, int $w, int $h): bool;
@@ -176,13 +179,17 @@ interface IImage {
 	public function copy(): IImage;
 
 	/**
-	 * create a new cropped copy of this image
+	 * Creates and returns a cropped copy of the currently loaded image.
 	 *
-	 * @param int $x Horizontal position
-	 * @param int $y Vertical position
-	 * @param int $w Width
-	 * @param int $h Height
-	 * @return IImage
+	 * Does not mutate the current image. Instead, it creates a new image
+	 * instance containing the cropped region and returns it. Callers that want
+	 * in-place behavior should use {@see crop()}.
+	 *
+	 * @param int $x Horizontal position of the top-left corner of the crop area within the current image
+	 * @param int $y Vertical position of the top-left corner of the crop area within the current image
+	 * @param int $w Width of the cropped area
+	 * @param int $h Height of the cropped area
+	 * @return IImage A new image instance containing the cropped area
 	 * @since 19.0.0
 	 */
 	public function cropCopy(int $x, int $y, int $w, int $h): IImage;
