@@ -67,11 +67,6 @@ const placeholderText = t('core', 'Search apps, files, tags, messages …')
 <style lang="scss" scoped>
 .unified-search-input {
 	&:not(.unified-search-input--mobile) {
-		position: absolute;
-		top: 0;
-		bottom: 0;
-		inset-inline: 0;
-		margin-inline: auto;
 		display: flex;
 		align-items: center;
 		width: clamp(200px, 35vw, 600px);
