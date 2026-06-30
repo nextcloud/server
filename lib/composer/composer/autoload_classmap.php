@@ -958,6 +958,7 @@ return array(
     'OCP\\TaskProcessing\\TaskTypes\\TextToTextChatWithTools' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/TextToTextChatWithTools.php',
     'OCP\\TaskProcessing\\TaskTypes\\TextToTextFormalization' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/TextToTextFormalization.php',
     'OCP\\TaskProcessing\\TaskTypes\\TextToTextHeadline' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/TextToTextHeadline.php',
+    'OCP\\TaskProcessing\\TaskTypes\\TextToTextImprove' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/TextToTextImprove.php',
     'OCP\\TaskProcessing\\TaskTypes\\TextToTextProofread' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/TextToTextProofread.php',
     'OCP\\TaskProcessing\\TaskTypes\\TextToTextReformatParagraphs' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/TextToTextReformatParagraphs.php',
     'OCP\\TaskProcessing\\TaskTypes\\TextToTextReformulation' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/TextToTextReformulation.php',

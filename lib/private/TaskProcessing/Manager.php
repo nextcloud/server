@@ -87,6 +87,7 @@ use OCP\TaskProcessing\TaskTypes\TextToTextChat;
 use OCP\TaskProcessing\TaskTypes\TextToTextChatWithTools;
 use OCP\TaskProcessing\TaskTypes\TextToTextFormalization;
 use OCP\TaskProcessing\TaskTypes\TextToTextHeadline;
+use OCP\TaskProcessing\TaskTypes\TextToTextImprove;
 use OCP\TaskProcessing\TaskTypes\TextToTextProofread;
 use OCP\TaskProcessing\TaskTypes\TextToTextReformatParagraphs;
 use OCP\TaskProcessing\TaskTypes\TextToTextReformulation;
@@ -687,6 +688,7 @@ class Manager implements IManager {
 			TextToTextChat::ID => Server::get(TextToTextChat::class),
 			TextToTextTranslate::ID => Server::get(TextToTextTranslate::class),
 			TextToTextReformulation::ID => Server::get(TextToTextReformulation::class),
+			TextToTextImprove::ID => Server::get(TextToTextImprove::class),
 			TextToImage::ID => Server::get(TextToImage::class),
 			AudioToText::ID => Server::get(AudioToText::class),
 			AudioToTextSubtitles::ID => Server::get(AudioToTextSubtitles::class),
