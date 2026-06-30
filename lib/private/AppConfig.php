@@ -258,6 +258,13 @@ class AppConfig implements IAppConfig {
 		);
 
 		if (!$filtered) {
+			foreach ($values as $key => $value) {
+				$sensitive = $this->isSensitive($app, $key, null);
+				if ($sensitive && is_string($value) && str_starts_with($value, self::ENCRYPTION_PREFIX)) {
+					$values[$key] = $this->crypto->decrypt(substr($value, self::ENCRYPTION_PREFIX_LENGTH));
+				}
+			}
+
 			return $values;
 		}
 
