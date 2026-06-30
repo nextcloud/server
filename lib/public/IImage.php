@@ -214,9 +214,13 @@ interface IImage {
 	public function resizeCopy(int $maxSize): IImage;
 
 	/**
-	 * Loads an image from a string of data.
+	 * Loads raw image data into this image object.
 	 *
-	 * @param string $str A string of image data as read from a file.
+	 * Decodes the given image data and uses it as the current image resource.
+	 *
+	 * @param string $str Raw encoded image data.
+	 * @return GdImage|false The loaded GD image resource, or false if the data 
+	 * is invalid, exceeds the memory limit, or cannot be decoded.
 	 *
 	 * @since 31.0.0
 	 */
