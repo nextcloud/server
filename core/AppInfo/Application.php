@@ -21,6 +21,7 @@ use OC\Core\Listener\AddMissingIndicesListener;
 use OC\Core\Listener\AddMissingPrimaryKeyListener;
 use OC\Core\Listener\BeforeTemplateRenderedListener;
 use OC\Core\Listener\PasswordUpdatedListener;
+use OC\Core\Listener\RestrictInteractionListener;
 use OC\Core\Notification\CoreNotifier;
 use OC\OCM\OCMDiscoveryHandler;
 use OC\TagManager;
@@ -32,6 +33,7 @@ use OCP\AppFramework\Http\Events\BeforeLoginTemplateRenderedEvent;
 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\DB\Events\AddMissingIndicesEvent;
 use OCP\DB\Events\AddMissingPrimaryKeyEvent;
+use OCP\Interaction\RestrictInteractionEvent;
 use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\User\Events\PasswordUpdatedEvent;
 use OCP\User\Events\UserDeletedEvent;
@@ -89,6 +91,8 @@ class Application extends App implements IBootstrap {
 
 		$context->registerWellKnownHandler(OCMDiscoveryHandler::class);
 		$context->registerCapability(Capabilities::class);
+
+		$context->registerEventListener(RestrictInteractionEvent::class, RestrictInteractionListener::class);
 	}
 
 	#[\Override]

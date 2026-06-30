@@ -5,6 +5,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+use Rector\Php81\Rector\Property\ReadOnlyPropertyRector;
+use Rector\Php82\Rector\Class_\ReadOnlyClassRector;
+
 $nextcloudDir = dirname(__DIR__);
 
 return (require __DIR__ . '/rector-shared.php')
@@ -27,6 +30,12 @@ return (require __DIR__ . '/rector-shared.php')
 		$nextcloudDir . '/lib/public/DB/QueryBuilder/ITypedQueryBuilder.php',
 		$nextcloudDir . '/lib/public/Interaction',
 		$nextcloudDir . '/tests/lib/Interaction',
+		$nextcloudDir . '/apps/files/lib/Listener/RestrictInteractionListener.php',
+		$nextcloudDir . '/apps/files/tests/Listener/RestrictInteractionListenerTest.php',
+		$nextcloudDir . '/apps/files_sharing/lib/Listener/RestrictInteractionListener.php',
+		$nextcloudDir . '/apps/files_sharing/tests/Listener/RestrictInteractionListenerTest.php',
+		$nextcloudDir . '/core/Listener/RestrictInteractionListener.php',
+		$nextcloudDir . '/tests/Core/Listener/RestrictInteractionListenerTest.php',
 	])
 	->withAutoloadPaths([
 		// ensure rector properly autoload the public interfaces
@@ -48,4 +57,13 @@ return (require __DIR__ . '/rector-shared.php')
 		symfonyConfigs: true,
 	)->withPhpSets(
 		php82: true,
-	);
+	)->withSkip([
+		ReadOnlyPropertyRector::class => [
+			$nextcloudDir . '/core/Listener/RestrictInteractionListener.php',
+			$nextcloudDir . '/apps/files_sharing/lib/Listener/RestrictInteractionListener.php',
+		],
+		ReadOnlyClassRector::class => [
+			$nextcloudDir . '/core/Listener/RestrictInteractionListener.php',
+			$nextcloudDir . '/apps/files_sharing/lib/Listener/RestrictInteractionListener.php',
+		],
+	]);

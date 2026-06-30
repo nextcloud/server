@@ -93,6 +93,7 @@ class ComposerStaticInitFiles
         'OCA\\Files\\Listener\\NodeAddedToFavoriteListener' => __DIR__ . '/..' . '/../lib/Listener/NodeAddedToFavoriteListener.php',
         'OCA\\Files\\Listener\\NodeRemovedFromFavoriteListener' => __DIR__ . '/..' . '/../lib/Listener/NodeRemovedFromFavoriteListener.php',
         'OCA\\Files\\Listener\\RenderReferenceEventListener' => __DIR__ . '/..' . '/../lib/Listener/RenderReferenceEventListener.php',
+        'OCA\\Files\\Listener\\RestrictInteractionListener' => __DIR__ . '/..' . '/../lib/Listener/RestrictInteractionListener.php',
         'OCA\\Files\\Listener\\SyncLivePhotosListener' => __DIR__ . '/..' . '/../lib/Listener/SyncLivePhotosListener.php',
         'OCA\\Files\\Listener\\UserFirstTimeLoggedInListener' => __DIR__ . '/..' . '/../lib/Listener/UserFirstTimeLoggedInListener.php',
         'OCA\\Files\\Migration\\Version11301Date20191205150729' => __DIR__ . '/..' . '/../lib/Migration/Version11301Date20191205150729.php',
