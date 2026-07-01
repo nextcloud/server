@@ -262,6 +262,7 @@ OC.L10N.register(
     "Log in to {productName}" : "登入 {productName}",
     "Wrong login or password." : "錯誤的帳號或密碼。",
     "This account is disabled" : "此帳號已停用",
+    "Too many failed login attempts from your location. Try again in 30 seconds." : "您所在的位置登入失敗次數過多。請於 30 秒後重試。",
     "Account name or email" : "帳號名稱或電子郵件",
     "Account name" : "帳號名稱",
     "Server side authentication failed!" : "伺服器端認證失敗！",

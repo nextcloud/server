@@ -88,7 +88,6 @@
     "Wrong or no update parameter given" : "Zadán nesprávný nebo stejný jako původní parametr",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "„Zaslání hesla prostřednictvím Nextcloud Talk“ pro sdílení souboru či složky se nezdařilo protože Nextcloud Talk není zapnuté.",
     "Custom share link tokens have been disabled by the administrator" : "Uživatelsky určené tokeny sdílení odkazy byly správcem zakázány",
-    "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Je třeba, aby tokeny obsahovaly alespoň jeden znak a mohou se skládat pouze z písmen, číslic a ještě pomlčky",
     "Invalid date. Format must be YYYY-MM-DD" : "Neplatný formát data. Je třeba, aby bylo RRRR-MM-DD",
     "No sharing rights on this item" : "Nemáte oprávnění ke sdílení této položky",
     "Invalid share attributes provided: \"%s\"" : "Zadány neplatné atributy sdílení: „%s“",
@@ -401,6 +400,7 @@
     "Back to %s" : "Zpět na %s",
     "Add to your Nextcloud" : "Přidat do Nextcloud",
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Sdílení %s se nezdařilo protože podpůrná vrstva nepodporuje ScienceMesh sdílení",
+    "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Je třeba, aby tokeny obsahovaly alespoň jeden znak a mohou se skládat pouze z písmen, číslic a ještě pomlčky",
     "Name or email …" : "Jméno nebo e-mail …",
     "Name, email, or Federated Cloud ID …" : "Jméno, e-mail nebo identifikátor ve federovaném cloudu …",
     "Searching …" : "Hledání …"

@@ -90,7 +90,6 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "Wrong or no update parameter given",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled.",
     "Custom share link tokens have been disabled by the administrator" : "Custom share link tokens have been disabled by the administrator",
-    "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen",
     "Invalid date. Format must be YYYY-MM-DD" : "Invalid date. Format must be YYYY-MM-DD",
     "No sharing rights on this item" : "No sharing rights on this item",
     "Invalid share attributes provided: \"%s\"" : "Invalid share attributes provided: \"%s\"",
@@ -403,6 +402,7 @@ OC.L10N.register(
     "Back to %s" : "Back to %s",
     "Add to your Nextcloud" : "Add to your Nextcloud",
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Sharing %s failed because the back end does not support ScienceMesh shares",
+    "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen",
     "Name or email …" : "Name or email …",
     "Name, email, or Federated Cloud ID …" : "Name, email, or Federated Cloud ID …",
     "Searching …" : "Searching …"
