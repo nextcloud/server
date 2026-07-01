@@ -90,7 +90,6 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "間違っているか、またはパラメータが更新されていません",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "Nextcloud Talkが有効になっていないため、ファイルまたはフォルダーを共有するための「NextcloudTalkによるパスワードの送信」ができませんでした。",
     "Custom share link tokens have been disabled by the administrator" : "カスタム共有リンクのトークンが管理者によって無効化されました。",
-    "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "トークンは少なくとも1文字を含む必要があり、文字、数字、またはハイフンのみを含むことができます",
     "Invalid date. Format must be YYYY-MM-DD" : "日付が無効です。日付形式はYYYY-MM-DDである必要があります",
     "No sharing rights on this item" : "この項目には共有権限はありません",
     "Invalid share attributes provided: \"%s\"" : "無効な共有属性が指定されました \"%s\"",
@@ -403,6 +402,7 @@ OC.L10N.register(
     "Back to %s" : "%s に戻る",
     "Add to your Nextcloud" : "あなたのNextcloudに追加",
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "バックエンドが ScienceMesh 共有をサポートしていないため %s の共有に失敗しました。",
+    "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "トークンは少なくとも1文字を含む必要があり、文字、数字、またはハイフンのみを含むことができます",
     "Name or email …" : "名前またはメールアドレス…",
     "Name, email, or Federated Cloud ID …" : "名前、メールアドレス、またはクラウド連携ID…",
     "Searching …" : "検索しています…"

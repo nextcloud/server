@@ -90,7 +90,6 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "Neperduoti atnaujinimo parametrai",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "„Siųsti slaptažodį per „Nextcloud Talk““, norint pasidalinti failu ar aplanku, nepavyko, nes „Nextcloud Talk“ nėra įjungta.",
     "Custom share link tokens have been disabled by the administrator" : "Administratorius išjungė pasirinktinius nuorodų dalijimosi žymenis",
-    "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Žymuo turi būti sudarytas iš ne mažiau kaip 1 simbolio ir gali būti sudarytas tik iš raidžių, skaičių arba brūkšnelio",
     "Invalid date. Format must be YYYY-MM-DD" : "Neteisinga data. Formatas turi būti YYYY-MM-DD",
     "No sharing rights on this item" : "Šio elemento dalijimosi teisės nesuteiktos",
     "Invalid share attributes provided: \"%s\"" : "Nurodyti neteisingi dalijimosi parametrai: „%s“",
@@ -403,6 +402,7 @@ OC.L10N.register(
     "Back to %s" : "Atgal į %s",
     "Add to your Nextcloud" : "Pridėti į savo Nextcloud",
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Dalijimasis %s nepavyko, nes serveris nepalaiko „ScienceMesh“ dalijimosi",
+    "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Žymuo turi būti sudarytas iš ne mažiau kaip 1 simbolio ir gali būti sudarytas tik iš raidžių, skaičių arba brūkšnelio",
     "Name or email …" : "Vardas ar el. paštas…",
     "Name, email, or Federated Cloud ID …" : "Vardas, el. paštas ar federacinės debesijos ID…",
     "Searching …" : "Ieškoma…"

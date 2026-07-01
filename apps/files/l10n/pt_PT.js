@@ -355,6 +355,7 @@ OC.L10N.register(
     "Files copied successfully" : "Arquivos copiados com sucesso",
     "Some files could not be moved" : "Não foi possível mover alguns ficheiros",
     "Conflicts resolution skipped" : "Resolução de conflitos pulada",
+    "Upload cancelled" : "Upload cancelado",
     "Could not rename \"{oldName}\", it does not exist any more" : "Não foi possível renomear “{oldName}”, já não existe",
     "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "O nome “{newName}” já está a ser utilizado na pasta “{dir}”. Por favor, escolha um nome diferente.",
     "Could not rename \"{oldName}\"" : "Não foi possível renomear \"{oldName}\"",

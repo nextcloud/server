@@ -3,10 +3,12 @@ OC.L10N.register(
     {
     "View profile" : "Visualizar perfil",
     "Profile picker" : "Seletor de perfis",
+    "This application provides the profile" : "Esse aplicativo fornece o perfil",
     "Provides a customisable user profile interface." : "Fornece uma interface customizável para o perfil do usuário",
     "Searching …" : "A procurar…",
     "Not found" : "Não  encontrado",
     "Search for a user profile" : "Pesquisar um perfil de usuário",
+    "Search for a user profile. Start typing" : "Pesquisar um perfil de usuário. Comece a digitar",
     "Insert selected user profile link" : "Insira o link do perfil do usuário selecionado",
     "Insert" : "Colar",
     "You have not added any info yet" : "Ainda não adicionou qualquer informação ",
