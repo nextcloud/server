@@ -31,9 +31,15 @@ use OCP\Server;
 use OCP\Settings\ISettings;
 use OCP\Teams\ITeamManager;
 use OCP\Teams\Team;
+use OCP\UserStatus\IManager as IUserStatusManager;
 use OCP\Util;
 
-class PersonalInfo implements ISettings {
+/**
+ * Shared base for the personal settings pages that render the account
+ * properties. The account data is provided as initial state on every such page
+ * so the shared Vue components can read it regardless of which page is open.
+ */
+abstract class APersonalInfoSettings implements ISettings {
 
 	public function __construct(
 		private IConfig $config,
@@ -47,8 +53,14 @@ class PersonalInfo implements ISettings {
 		private IL10N $l,
 		private IInitialState $initialStateService,
 		private IManager $manager,
+		private IUserStatusManager $userStatusManager,
 	) {
 	}
+
+	/**
+	 * The template that mounts this page's Vue app.
+	 */
+	abstract protected function getTemplate(): string;
 
 	#[\Override]
 	public function getForm(): TemplateResponse {
@@ -77,6 +89,12 @@ class PersonalInfo implements ISettings {
 
 		$messageParameters = $this->getMessageParameters($account);
 
+		$statusMessage = '';
+		if ($this->appManager->isEnabledForUser('user_status')) {
+			$statuses = $this->userStatusManager->getUserStatuses([$user->getUID()]);
+			$statusMessage = ($statuses[$user->getUID()] ?? null)?->getMessage() ?? '';
+		}
+
 		$parameters = [
 			'lookupServerUploadEnabled' => $lookupServerUploadEnabled,
 			'isFairUseOfFreePushService' => $this->isFairUseOfFreePushService(),
@@ -93,6 +111,7 @@ class PersonalInfo implements ISettings {
 			'usage' => Util::humanFileSize($storageInfo['used']),
 			'usageRelative' => round($storageInfo['relative']),
 			'displayName' => $this->getProperty($account, IAccountManager::PROPERTY_DISPLAYNAME),
+			'statusMessage' => $statusMessage,
 			'emailMap' => $this->getEmailMap($account),
 			'phone' => $this->getProperty($account, IAccountManager::PROPERTY_PHONE),
 			'defaultPhoneRegion' => $this->config->getSystemValueString('default_phone_region'),
@@ -132,7 +151,7 @@ class PersonalInfo implements ISettings {
 		$this->initialStateService->provideInitialState('accountParameters', $accountParameters);
 		$this->initialStateService->provideInitialState('profileParameters', $profileParameters);
 
-		return new TemplateResponse('settings', 'settings/personal/personal.info', $parameters, '');
+		return new TemplateResponse('settings', $this->getTemplate(), $parameters, '');
 	}
 
 	/**
@@ -156,15 +175,6 @@ class PersonalInfo implements ISettings {
 		];
 
 		return $property;
-	}
-
-	/**
-	 * returns the section ID string, e.g. 'sharing'
-	 * @since 9.1
-	 */
-	#[\Override]
-	public function getSection(): string {
-		return 'personal-info';
 	}
 
 	/**
@@ -196,15 +206,19 @@ class PersonalInfo implements ISettings {
 	}
 
 	/**
-	 * returns a list of the user's team memberships, sorted alphabetically
-	 * @return list<string> team names
+	 * returns a list of the user's team memberships, sorted alphabetically by display name
+	 * @return list<array{id: string, displayName: string, link: ?string}>
 	 */
 	private function getTeamMemberships(IUser $user): array {
 		$teams = array_map(
-			static fn (Team $team): string => $team->getDisplayName(),
+			static fn (Team $team): array => [
+				'id' => $team->getId(),
+				'displayName' => $team->getDisplayName(),
+				'link' => $team->getLink(),
+			],
 			$this->teamManager->getTeamsForUser($user->getUID())
 		);
-		sort($teams);
+		usort($teams, static fn (array $a, array $b): int => strcasecmp($a['displayName'], $b['displayName']));
 
 		return $teams;
 	}

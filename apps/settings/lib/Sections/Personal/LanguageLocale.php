@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
@@ -13,7 +13,7 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\Settings\IIconSection;
 
-class PersonalInfo implements IIconSection {
+class LanguageLocale implements IIconSection {
 
 	public function __construct(
 		private IL10N $l,
@@ -23,21 +23,21 @@ class PersonalInfo implements IIconSection {
 
 	#[\Override]
 	public function getIcon() {
-		return $this->urlGenerator->imagePath('core', 'actions/user.svg');
+		return $this->urlGenerator->imagePath('core', 'actions/timezone.svg');
 	}
 
 	#[\Override]
 	public function getID(): string {
-		return 'personal-info';
+		return 'language-locale';
 	}
 
 	#[\Override]
 	public function getName(): string {
-		return $this->l->t('Personal info');
+		return $this->l->t('Language & locale');
 	}
 
 	#[\Override]
 	public function getPriority(): int {
-		return 0;
+		return 5;
 	}
 }

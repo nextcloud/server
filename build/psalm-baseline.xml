@@ -2455,7 +2455,7 @@
       <code><![CDATA[getAppValue]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="apps/settings/lib/Settings/Personal/PersonalInfo.php">
+  <file src="apps/settings/lib/Settings/Personal/APersonalInfoSettings.php">
     <DeprecatedClass>
       <code><![CDATA[\OC_Util::setupFS($user->getUID())]]></code>
     </DeprecatedClass>

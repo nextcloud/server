@@ -3,22 +3,22 @@
  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<section>
-		<HeaderBar
-			:scope="birthdate.scope"
-			:input-id="inputId"
-			:readable="birthdate.readable" />
-
-		<NcDateTimePickerNative
-			:id="inputId"
-			type="date"
-			label=""
-			:model-value="value"
-			@input="onInput" />
-
-		<p class="property__helper-text-message">
-			{{ t('settings', 'Enter your date of birth') }}
-		</p>
+	<section class="property-section">
+		<div class="property">
+			<NcDateTimePickerNative
+				:id="inputId"
+				class="property__field"
+				type="date"
+				:label="birthdate.readable"
+				:model-value="value"
+				@input="onInput" />
+			<VisibilityScopeControl
+				class="property__scope"
+				:readable="birthdate.readable"
+				:name="birthdate.name"
+				:scope="birthdate.scope"
+				@update:scope="onScopeChange" />
+		</div>
 	</section>
 </template>
 
@@ -26,7 +26,7 @@
 import { loadState } from '@nextcloud/initial-state'
 import debounce from 'debounce'
 import NcDateTimePickerNative from '@nextcloud/vue/components/NcDateTimePickerNative'
-import HeaderBar from './shared/HeaderBar.vue'
+import VisibilityScopeControl from './shared/VisibilityScopeControl.vue'
 import { NAME_READABLE_ENUM } from '../../constants/AccountPropertyConstants.js'
 import { savePrimaryAccountProperty } from '../../service/PersonalInfo/PersonalInfoService.js'
 import { handleError } from '../../utils/handlers.js'
@@ -38,7 +38,7 @@ export default {
 
 	components: {
 		NcDateTimePickerNative,
-		HeaderBar,
+		VisibilityScopeControl,
 	},
 
 	data() {
@@ -78,6 +78,10 @@ export default {
 	},
 
 	methods: {
+		onScopeChange(scope) {
+			this.birthdate.scope = scope
+		},
+
 		onInput(e) {
 			this.value = e
 			this.debouncePropertyChange(this.value)
@@ -118,18 +122,26 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-section {
-	padding: 10px 10px;
+.property-section {
+	padding: 6px 0;
+}
 
-	:deep(button:disabled) {
-		cursor: default;
+.property {
+	position: relative;
+
+	&__field {
+		width: 100%;
 	}
 
-	.property__helper-text-message {
-		color: var(--color-text-maxcontrast);
-		padding: 4px 0;
+	&__scope {
+		position: absolute;
+		inset-block-start: 0;
+		inset-inline-start: calc(100% + 8px);
 		display: flex;
 		align-items: center;
+		justify-content: center;
+		width: var(--default-clickable-area);
+		height: var(--default-clickable-area);
 	}
 }
 </style>
