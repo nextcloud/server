@@ -102,13 +102,15 @@ watch(authMechanisms, () => {
 		<ApplicableEntities
 			v-if="isAdmin"
 			v-model:groups="internalStorage.applicableGroups"
-			v-model:users="internalStorage.applicableUsers" />
+			v-model:users="internalStorage.applicableUsers"
+			:class="$style.externalStorageDialog__dropdown" />
 
 		<NcSelect
 			v-model="backend"
 			:options="backends"
 			:disabled="!!(internalStorage.id && internalStorage.backend)"
 			:inputLabel="t('files_external', 'External storage')"
+			:class="$style.externalStorageDialog__dropdown"
 			label="name"
 			required />
 
@@ -117,6 +119,7 @@ watch(authMechanisms, () => {
 			:options="authMechanisms"
 			:disabled="!internalStorage.backend || authMechanisms.length <= 1"
 			:inputLabel="t('files_external', 'Authentication')"
+			:class="$style.externalStorageDialog__dropdown"
 			label="name"
 			required />
 
@@ -154,5 +157,9 @@ watch(authMechanisms, () => {
 
 .externalStorageDialog__configuration {
 	margin-block: 0.5rem;
+}
+
+.externalStorageDialog__dropdown {
+	flex: 0 0 auto;
 }
 </style>
