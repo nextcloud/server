@@ -230,7 +230,7 @@ class Quota extends Wrapper {
 		}
 
 		if ($size !== null) {
-			if ($size < $free) {
+			if ($free < 0 || $size < $free) {
 				return parent::writeStream($path, $stream, $size);
 			} else {
 				throw new NotEnoughSpaceException();
