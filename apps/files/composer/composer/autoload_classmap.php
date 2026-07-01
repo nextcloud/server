@@ -17,7 +17,6 @@ return array(
     'OCA\\Files\\Activity\\Settings\\FileChanged' => $baseDir . '/../lib/Activity/Settings/FileChanged.php',
     'OCA\\Files\\Activity\\Settings\\FileFavoriteChanged' => $baseDir . '/../lib/Activity/Settings/FileFavoriteChanged.php',
     'OCA\\Files\\AdvancedCapabilities' => $baseDir . '/../lib/AdvancedCapabilities.php',
-    'OCA\\Files\\App' => $baseDir . '/../lib/App.php',
     'OCA\\Files\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
     'OCA\\Files\\BackgroundJob\\CleanupDirectEditingTokens' => $baseDir . '/../lib/BackgroundJob/CleanupDirectEditingTokens.php',
     'OCA\\Files\\BackgroundJob\\CleanupFileLocks' => $baseDir . '/../lib/BackgroundJob/CleanupFileLocks.php',
