@@ -1231,6 +1231,17 @@ class Manager implements IManager {
 			return [];
 		}
 
+		if ($onlyValid && $this->config->getAppValue('files_sharing', 'hide_disabled_user_shares', 'no') === 'yes') {
+			/*
+			 * If shares from disabled users are hidden, check user status first to avoid useless work.
+			 * Otherwise all shares would’ve been filtered out by checkShare anyway.
+			 */
+			$user = $this->userManager->get($userId);
+			if ($user?->isEnabled() === false) {
+				return [];
+			}
+		}
+
 		if ($path?->getMountPoint() instanceof IShareOwnerlessMount) {
 			$shares = array_filter($provider->getSharesByPath($path), static fn (IShare $share) => $share->getShareType() === $shareType);
 		} else {
