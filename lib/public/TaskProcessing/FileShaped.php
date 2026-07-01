@@ -19,7 +19,6 @@ class FileShaped {
 	/**
 	 * @param EShapeType $shapeType
 	 * @param string $data
-	 * @param string $mimeType (optional)
 	 * @param string $extension (optional)
 	 *
 	 * @since 35.0.0
@@ -27,7 +26,6 @@ class FileShaped {
 	public function __construct(
 		private EShapeType $shapeType,
 		private string $data,
-		private string $mimeType = 'application/octet-stream',
 		private string $extension = 'bin',
 	) {
 	}
@@ -50,14 +48,15 @@ class FileShaped {
 	/**
 	 * @since 35.0.0
 	 */
-	public function getMimeType(): string {
-		return $this->mimeType;
-	}
-
-	/**
-	 * @since 35.0.0
-	 */
 	public function getExtension(): string {
 		return $this->extension;
+	}
+
+	public static function sanitizeExtension(string $ext): string {
+		if ($ext === '') {
+			return '';
+		}
+		$ext = str_replace(array('.', '/'), '', $ext);
+		return $ext;
 	}
 }

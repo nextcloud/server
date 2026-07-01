@@ -33,6 +33,7 @@ use OCP\TaskProcessing\Exception\NotFoundException;
 use OCP\TaskProcessing\Exception\PreConditionNotMetException;
 use OCP\TaskProcessing\Exception\UnauthorizedException;
 use OCP\TaskProcessing\Exception\ValidationException;
+use OCP\TaskProcessing\FileShaped;
 use OCP\TaskProcessing\IManager;
 use OCP\TaskProcessing\ShapeEnumValue;
 use OCP\TaskProcessing\Task;
@@ -861,6 +862,7 @@ class TaskProcessingApiController extends OCSController {
 		} catch (\OCP\Files\NotFoundException) {
 			$folder = $this->appData->newFolder('TaskProcessing');
 		}
+		$ext = FileShaped::sanitizeExtension($ext);
 		/** @var SimpleFile $file */
 		$file = $folder->newFile(time() . '-' . rand(1, 100000) . ($ext ? '.' . $ext : ''), $data);
 		return $file->getId();

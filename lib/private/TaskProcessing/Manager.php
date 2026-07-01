@@ -1604,7 +1604,7 @@ class Manager implements IManager {
 			if (EShapeType::getScalarType($type) === $type) {
 				if ($output[$key] instanceof FileShaped) {
 					$data = $output[$key]->getData();
-					$ext = $output[$key]->getExtension();
+					$ext = FileShaped::sanitizeExtension($output[$key]->getExtension());
 				} else {
 					$data = $output[$key];
 					$ext = '';
@@ -1617,7 +1617,7 @@ class Manager implements IManager {
 				foreach ($output[$key] as $item) {
 					if ($item instanceof FileShaped) {
 						$data = $item->getData();
-						$ext = $item->getExtension();
+						$ext = FileShaped::sanitizeExtension($item->getExtension());
 					} else {
 						$data = $item;
 						$ext = '';
