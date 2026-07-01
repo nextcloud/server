@@ -1613,7 +1613,7 @@ class Manager implements IManager {
 				$file = $folder->newFile(time() . '-' . rand(1, 100000) . ($ext ? '.' . $ext : ''), $data);
 				$newOutput[$key] = $file->getId(); // polymorphic call to SimpleFile
 			} else {
-				$newOutput = [];
+				$newOutput[$key] = [];
 				foreach ($output[$key] as $item) {
 					if ($item instanceof FileShaped) {
 						$data = $item->getData();
@@ -1770,7 +1770,7 @@ class Manager implements IManager {
 				$newOutput[$key] = $this->validateFileId($output[$key]);
 			} else {
 				// Is list of file IDs
-				$newOutput = [];
+				$newOutput[$key] = [];
 				foreach ($output[$key] as $item) {
 					$newOutput[$key][] = $this->validateFileId($item);
 				}
