@@ -176,10 +176,10 @@ enum EShapeType: int {
 		if ($this === EShapeType::ListOfVideos && (!is_array($value) || count(array_filter($value, fn ($item) => !is_string($item) && !($item instanceof FileShaped && $item->getShapeType() === EShapeType::Video))) > 0)) {
 			throw new ValidationException('Non-video list item provided for ListOfVideos slot');
 		}
-		if ($this === EShapeType::File && !is_string($value)) {
+		if ($this === EShapeType::File && !is_string($value) && !($value instanceof FileShaped && $value->getShapeType() === EShapeType::File)) {
 			throw new ValidationException('Non-file item provided for File slot');
 		}
-		if ($this === EShapeType::ListOfFiles && (!is_array($value) || count(array_filter($value, fn ($item) => !is_string($item) && !($value instanceof FileShaped && $value->getShapeType() === EShapeType::File))) > 0)) {
+		if ($this === EShapeType::ListOfFiles && (!is_array($value) || count(array_filter($value, fn ($item) => !is_string($item) && !($item instanceof FileShaped && $item->getShapeType() === EShapeType::File))) > 0)) {
 			throw new ValidationException('Non-audio list item provided for ListOfFiles slot');
 		}
 	}
