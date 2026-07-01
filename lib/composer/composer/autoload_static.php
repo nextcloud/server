@@ -999,6 +999,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\TaskProcessing\\TaskTypes\\TextToTextChatWithTools' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/TextToTextChatWithTools.php',
         'OCP\\TaskProcessing\\TaskTypes\\TextToTextFormalization' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/TextToTextFormalization.php',
         'OCP\\TaskProcessing\\TaskTypes\\TextToTextHeadline' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/TextToTextHeadline.php',
+        'OCP\\TaskProcessing\\TaskTypes\\TextToTextImprove' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/TextToTextImprove.php',
         'OCP\\TaskProcessing\\TaskTypes\\TextToTextProofread' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/TextToTextProofread.php',
         'OCP\\TaskProcessing\\TaskTypes\\TextToTextReformatParagraphs' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/TextToTextReformatParagraphs.php',
         'OCP\\TaskProcessing\\TaskTypes\\TextToTextReformulation' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/TextToTextReformulation.php',
