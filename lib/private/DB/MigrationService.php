@@ -170,14 +170,13 @@ class MigrationService {
 	 * @return list<string>
 	 * @codeCoverageIgnore - no need to test this
 	 */
-	public function getMigratedVersions() {
+	public function getMigratedVersions(): array {
 		$this->createMigrationTable();
 		$qb = $this->connection->getQueryBuilder();
 
 		$qb->select('version')
 			->from('migrations')
-			->where($qb->expr()->eq('app', $qb->createNamedParameter($this->getApp())))
-			->orderBy('version');
+			->where($qb->expr()->eq('app', $qb->createNamedParameter($this->getApp())));
 
 		$result = $qb->executeQuery();
 		$rows = $result->fetchAll(\PDO::FETCH_COLUMN);
