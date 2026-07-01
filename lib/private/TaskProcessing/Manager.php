@@ -57,6 +57,7 @@ use OCP\TaskProcessing\Exception\ProcessingException;
 use OCP\TaskProcessing\Exception\UnauthorizedException;
 use OCP\TaskProcessing\Exception\UserFacingProcessingException;
 use OCP\TaskProcessing\Exception\ValidationException;
+use OCP\TaskProcessing\FileShaped;
 use OCP\TaskProcessing\IInternalTaskType;
 use OCP\TaskProcessing\IManager;
 use OCP\TaskProcessing\IProvider;
@@ -1601,14 +1602,28 @@ class Manager implements IManager {
 				continue;
 			}
 			if (EShapeType::getScalarType($type) === $type) {
+				if ($output[$key] instanceof FileShaped) {
+					$data = $output[$key]->getData();
+					$ext = $output[$key]->getExtension();
+				} else {
+					$data = $output[$key];
+					$ext = '';
+				}
 				/** @var SimpleFile $file */
-				$file = $folder->newFile(time() . '-' . rand(1, 100000), $output[$key]);
+				$file = $folder->newFile(time() . '-' . rand(1, 100000) . $ext, $data);
 				$newOutput[$key] = $file->getId(); // polymorphic call to SimpleFile
 			} else {
 				$newOutput = [];
 				foreach ($output[$key] as $item) {
+					if ($item instanceof FileShaped) {
+						$data = $item->getData();
+						$ext = $item->getExtension();
+					} else {
+						$data = $item;
+						$ext = '';
+					}
 					/** @var SimpleFile $file */
-					$file = $folder->newFile(time() . '-' . rand(1, 100000), $item);
+					$file = $folder->newFile(time() . '-' . rand(1, 100000) . $ext, $data);
 					$newOutput[$key][] = $file->getId();
 				}
 			}

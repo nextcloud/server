@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCP\TaskProcessing;
 
+use OCP\AppFramework\Attribute\Implementable;
 use OCP\Files\File;
 use OCP\TaskProcessing\Exception\ProcessingException;
 
@@ -17,6 +18,7 @@ use OCP\TaskProcessing\Exception\ProcessingException;
  * implement a task processing provider
  * @since 35.0.0
  */
+#[Implementable(since: '35.0.0')]
 interface ISynchronousOptionsAwareProvider extends ISynchronousProvider {
 
 	/**
@@ -26,7 +28,7 @@ interface ISynchronousOptionsAwareProvider extends ISynchronousProvider {
 	 * @param array<string, list<numeric|string|File>|numeric|string|File> $input The task input
 	 * @param callable(float):bool $reportProgress Report the task progress. If this returns false, that means the task was cancelled and processing should be stopped.
 	 * @param SynchronousProviderOptions $options The task options
-	 * @psalm-return array<string, list<numeric|string>|numeric|string>
+	 * @psalm-return array<string, list<numeric|string|FileShaped>|numeric|string|FileShaped>
 	 * @throws ProcessingException
 	 * @since 35.0.0
 	 */
