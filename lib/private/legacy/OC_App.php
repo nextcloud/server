@@ -445,22 +445,9 @@ class OC_App {
 					$info['level'] = self::supportedApp;
 				}
 
-				try {
-					$appPath = $appManager->getAppPath($app);
-				} catch (AppPathNotFoundException) {
-					$appPath = false;
-				}
-				if ($appPath !== false) {
-					$appIcon = $appPath . '/img/' . $app . '.svg';
-					if (file_exists($appIcon)) {
-						$info['icon'] = $urlGenerator->imagePath($app, $app . '.svg');
-					} else {
-						$appIcon = $appPath . '/img/app.svg';
-						if (file_exists($appIcon)) {
-							$info['icon'] = $urlGenerator->imagePath($app, 'app.svg');
-						}
-					}
-				}
+				$info['icon'] = $appManager->getAppIcon($app, dark: true)
+					?? $appManager->getAppIcon($app);
+
 				// fix documentation
 				if (isset($info['documentation']) && is_array($info['documentation'])) {
 					foreach ($info['documentation'] as $key => $url) {
