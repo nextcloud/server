@@ -2625,7 +2625,7 @@ class ManagerTest extends \Test\TestCase {
 			->method('canShare')
 			->with($share);
 		$manager->expects($this->once())
-			->method('generalCreateChecks')
+			->method('generalChecks')
 			->with($share);
 		;
 		$manager->expects($this->once())

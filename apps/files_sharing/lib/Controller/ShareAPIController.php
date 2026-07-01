@@ -718,10 +718,6 @@ class ShareAPIController extends OCSController {
 			$share->setSharedWith($shareWith);
 			$share->setPermissions($permissions);
 		} elseif ($shareType === IShare::TYPE_GROUP) {
-			if (!$this->shareManager->allowGroupSharing()) {
-				throw new OCSNotFoundException($this->l->t('Group sharing is disabled by the administrator'));
-			}
-
 			// Valid group is required to share
 			if ($shareWith === null || !$this->groupManager->groupExists($shareWith)) {
 				throw new OCSNotFoundException($this->l->t('Please specify a valid group'));
@@ -730,11 +726,6 @@ class ShareAPIController extends OCSController {
 			$share->setPermissions($permissions);
 		} elseif ($shareType === IShare::TYPE_LINK
 			|| $shareType === IShare::TYPE_EMAIL) {
-
-			// Can we even share links?
-			if (!$this->shareManager->shareApiAllowLinks()) {
-				throw new OCSNotFoundException($this->l->t('Public link sharing is disabled by the administrator'));
-			}
 
 			$this->validateLinkSharePermissions($node, $permissions, $hasPublicUpload);
 			$share->setPermissions($permissions);
@@ -769,10 +760,6 @@ class ShareAPIController extends OCSController {
 				$share->setSendPasswordByTalk(true);
 			}
 		} elseif ($shareType === IShare::TYPE_REMOTE) {
-			if (!$this->shareManager->outgoingServer2ServerSharesAllowed()) {
-				throw new OCSForbiddenException($this->l->t('Sharing %1$s failed because the back end does not allow shares from type %2$s', [$node->getPath(), $shareType]));
-			}
-
 			if ($shareWith === null) {
 				throw new OCSNotFoundException($this->l->t('Please specify a valid federated account ID'));
 			}
@@ -781,10 +768,6 @@ class ShareAPIController extends OCSController {
 			$share->setPermissions($permissions);
 			$share->setSharedWithDisplayName($this->getCachedFederatedDisplayName($shareWith, false));
 		} elseif ($shareType === IShare::TYPE_REMOTE_GROUP) {
-			if (!$this->shareManager->outgoingServer2ServerGroupSharesAllowed()) {
-				throw new OCSForbiddenException($this->l->t('Sharing %1$s failed because the back end does not allow shares from type %2$s', [$node->getPath(), $shareType]));
-			}
-
 			if ($shareWith === null) {
 				throw new OCSNotFoundException($this->l->t('Please specify a valid federated group ID'));
 			}
@@ -1042,12 +1025,6 @@ class ShareAPIController extends OCSController {
 		if (!$this->hasPermission($permissions, Constants::PERMISSION_READ)
 			&& ($this->hasPermission($permissions, Constants::PERMISSION_UPDATE) || $this->hasPermission($permissions, Constants::PERMISSION_DELETE))) {
 			throw new OCSBadRequestException($this->l->t('Share must have READ permission if UPDATE or DELETE permission is set'));
-		}
-
-		// Check if public uploading was disabled
-		if ($this->hasPermission($permissions, Constants::PERMISSION_CREATE)
-			&& !$this->shareManager->shareApiLinkAllowPublicUpload()) {
-			throw new OCSForbiddenException($this->l->t('Public upload disabled by the administrator'));
 		}
 	}
 
