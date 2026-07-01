@@ -6,6 +6,7 @@ OC.L10N.register(
     "OAuth 2.0" : "OAuth 2.0",
     "Allows OAuth2 compatible authentication from other web applications." : "වෙනත් වියමන යෙදුම් වලින් OAuth2 අනුකූල සත්‍යාපනය සඳහා ඉඩ ලබා දේ.",
     "Secret key" : "රහස්‍ය යතුර",
+    "Delete" : "Delete",
     "OAuth 2.0 clients" : "OAuth 2.0 අනුග්‍රාහකයින්",
     "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth 2.0 බාහිර සේවාවන්ට {instanceName} වෙත ප්‍රවේශය ඉල්ලීමට ඉඩ දෙයි.",
     "Name" : "නම",

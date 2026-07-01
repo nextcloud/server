@@ -229,13 +229,16 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.2.0
 	- license: MIT
 - dompurify
-	- version: 3.4.2
+	- version: 3.4.10
 	- license: (MPL-2.0 OR Apache-2.0)
 - escape-html
 	- version: 1.0.3
 	- license: MIT
 - filter-obj
 	- version: 5.1.0
+	- license: MIT
+- @floating-ui/core
+	- version: 0.3.1
 	- license: MIT
 - floating-vue
 	- version: 1.0.0-beta.19
@@ -286,7 +289,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.11.10
 	- license: MIT
 - query-string
-	- version: 9.3.1
+	- version: 9.4.0
 	- license: MIT
 - safe-buffer
 	- version: 5.2.1
@@ -343,7 +346,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.10.0
 	- license: MIT
 - webpack
-	- version: 5.106.2
+	- version: 5.107.2
 	- license: MIT
 - nextcloud
 	- version: 1.0.0

@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "خروج",
     "Please select a file." : "من فضلك حدد الملف",
     "File is too big" : "حجم الملف أكبر من المسموح",
     "The selected file is not an image." : "الملف المحدد ليس صورة ",
@@ -80,6 +81,7 @@ OC.L10N.register(
     "Done" : "تمّ",
     "_{count} notification_::_{count} notifications_" : ["{count} إخطارات","{count} إخطارات","{count} إخطارات","{count} إخطارات","{count} إخطارات","{count} إخطارات"],
     "More apps" : "المزيد من التطبيقات",
+    "Settings" : "الإعدادات",
     "Applications" : "التطبيقات",
     "Apps" : "التطبيقات",
     "No" : "لا",

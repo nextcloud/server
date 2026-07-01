@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "Log out",
     "Please select a file." : "Seleziona un file.",
     "File is too big" : "Il file è troppo grande",
     "The selected file is not an image." : "Il file selezionato non è un'immagine.",
@@ -207,6 +208,7 @@ OC.L10N.register(
     "_{count} notification_::_{count} notifications_" : ["{count} notifica","{count} notifiche","{count} notifiche"],
     "More apps" : "Altre applicazioni",
     "App store" : "Store delle app",
+    "Settings" : "Impostazioni",
     "Open apps menu, currently in {app}" : "Apri il menu delle app, attualmente in {app}",
     "Open apps menu" : "Apri menu delle app",
     "Applications" : "Applicazioni",
@@ -233,7 +235,6 @@ OC.L10N.register(
     "Search everywhere" : "Cerca ovunque",
     "Searching …" : "Ricerca in corso …",
     "Start typing to search" : "Inizia a digitare per cercare",
-    "Minimum search length is {minSearchLength} characters" : "La lunghezza minima della ricerca è {minSearchLength} caratteri",
     "No matching results" : "Nessun risultato corrispondente",
     "Today" : "Oggi",
     "Last 7 days" : "Ultimi 7 giorni",
@@ -258,7 +259,6 @@ OC.L10N.register(
     "Log in to {productName}" : "Accedi a {productName}",
     "Wrong login or password." : "Nome utente o password errati.",
     "This account is disabled" : "Questo account è disabilitato",
-    "Too many incorrect login attempts. Please try again in 30 seconds." : "Troppi tentativi di accesso errati. Riprova tra 30 secondi.",
     "Account name or email" : "Nome utente o email",
     "Account name" : "Nome account",
     "Server side authentication failed!" : "Autenticazione lato server non riuscita!",
@@ -515,6 +515,7 @@ OC.L10N.register(
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["L'aggiornamento è stato effettuato correttamente. Reindirizzamento a {productName} in %n secondo.","L'aggiornamento è stato effettuato correttamente. Reindirizzamento a {productName} %n secondi.","L'aggiornamento è stato effettuato correttamente. Reindirizzamento a {productName} %n secondi."],
     "Applications menu" : "Menu applicazioni",
     "Searching …" : "Ricerca in corso…",
+    "Minimum search length is {minSearchLength} characters" : "La lunghezza minima della ricerca è {minSearchLength} caratteri",
     "Logging in …" : "Accesso in corso...",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Abbiamo rilevato molti tentativi di autenticazione non riusciti dal tuo indirizzo IP. Di conseguenza, il prossimo tentativo è ritardato di 30 secondi.",
     "Loading apps …" : "Caricamento applicazioni…",
@@ -561,6 +562,7 @@ OC.L10N.register(
     "The theme %s has been disabled." : "Il tema %s è stato disabilitato.",
     "Detailed logs" : "Registri dettagliati",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Per la guida, vedi la <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentazione</a>.",
+    "Too many incorrect login attempts. Please try again in 30 seconds." : "Troppi tentativi di accesso errati. Riprova tra 30 secondi.",
     "Groups" : "Gruppi",
     "Group list is empty" : "L'elenco dei gruppi è vuoto",
     "Unable to retrieve the group list" : "Impossibile recuperare l'elenco dei gruppi"

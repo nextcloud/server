@@ -8,9 +8,6 @@
     "last month" : "last month",
     "seconds ago" : "seconds ago",
     "Templates" : "Shablonlar",
-    "Apps" : "Apps",
-    "Settings" : "Sozlamalar",
-    "Accounts" : "Akkaunt",
     "Email" : "Email",
     "Website" : "Veb-sayt",
     "Address" : "Address",
@@ -36,6 +33,9 @@
     "Prompt" : "Tezkor",
     "Text" : "Matn",
     "Translate" : "Tarjima",
+    "Apps" : "Apps",
+    "Settings" : "Sozlamalar",
+    "Accounts" : "Akkaunt",
     "Authentication error" : "Authentication error"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -1,6 +1,7 @@
 OC.L10N.register(
     "profile",
     {
+    "View profile" : "Προβολή προφίλ",
     "Profile picker" : "Επιλογέας προφίλ",
     "Profile" : "Προφίλ",
     "This application provides the profile" : "Αυτή η εφαρμογή παρέχει το προφίλ",

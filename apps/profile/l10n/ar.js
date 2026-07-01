@@ -1,6 +1,7 @@
 OC.L10N.register(
     "profile",
     {
+    "View profile" : "عرض الملف الشخصي",
     "Profile" : "لمحة تعريفية",
     "This application provides the profile" : "هذا التطبيق يوفر اللمحة التعريفية",
     "Provides a customisable user profile interface." : "يُوفِّر واجهة مخصصة للمحة التعريفية عن المستخدِم",

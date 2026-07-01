@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "Keluar",
     "Please select a file." : "Mohon pilih berkas.",
     "File is too big" : "Berkas terlalu besar",
     "The selected file is not an image." : "Berkas terpilih bukan suatu gambar.",
@@ -204,6 +205,7 @@ OC.L10N.register(
     "Code will expire {timeCountdown} or after use" : "Kode akan kedaluwarsa {timeCountdown} atau setelah digunakan",
     "_{count} notification_::_{count} notifications_" : ["{count} notifikasi"],
     "More apps" : "Aplikasi lainnya",
+    "Settings" : "Pengaturan",
     "Apps" : "Aplikasi",
     "No" : "Tidak",
     "Yes" : "Ya",
@@ -226,7 +228,6 @@ OC.L10N.register(
     "Search everywhere" : "Cari di mana saja",
     "Searching …" : "Mencari …",
     "Start typing to search" : "Mulai mengetik untuk mencari",
-    "Minimum search length is {minSearchLength} characters" : "Panjang minimal pencarian adalah {minSearchLength} karakter",
     "No matching results" : "Tidak ada hasil yang cocok",
     "Today" : "Hari ini",
     "Last 7 days" : "7 hari terakhir",
@@ -251,7 +252,6 @@ OC.L10N.register(
     "Log in to {productName}" : "Masuk ke {productName}",
     "Wrong login or password." : "Login atau kata sandi salah.",
     "This account is disabled" : "Akun ini dinonaktifkan",
-    "Too many incorrect login attempts. Please try again in 30 seconds." : "Terlalu banyak percobaan login yang salah. Silakan coba lagi dalam 30 detik.",
     "Account name or email" : "Nama akun atau email",
     "Account name" : "Nama akun",
     "Server side authentication failed!" : "Otentikasi dari sisi server gagal!",
@@ -503,6 +503,7 @@ OC.L10N.register(
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["Pembaruan berhasil. Mengarahkan Anda ke {productName} dalam hitungan detik."],
     "Applications menu" : "Menu aplikasi",
     "Searching …" : "Mencari …",
+    "Minimum search length is {minSearchLength} characters" : "Panjang minimal pencarian adalah {minSearchLength} karakter",
     "Logging in …" : "Log masuk …",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Terdeteksi multipel percobaan log masuk tidak valid dari IP Anda. Pencekalan log masuk berikutnya dilakukan hingga 30 detik.",
     "Loading apps …" : "Memuat aplikasi …",
@@ -549,6 +550,7 @@ OC.L10N.register(
     "The theme %s has been disabled." : "Tema %s telah dinonaktfkan.",
     "Detailed logs" : "Log detail",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Lihat <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">dokumentasi</a> untuk panduan.",
+    "Too many incorrect login attempts. Please try again in 30 seconds." : "Terlalu banyak percobaan login yang salah. Silakan coba lagi dalam 30 detik.",
     "Groups" : "Grup",
     "Group list is empty" : "Daftar grup kosong",
     "Unable to retrieve the group list" : "Tidak dapat mengambil daftar grup"

@@ -1,6 +1,7 @@
 OC.L10N.register(
     "profile",
     {
+    "View profile" : "Visualitza el perfil",
     "Searching …" : "Cercant …",
     "Not found" : "No s'ha trobat",
     "Insert" : "Insereix",

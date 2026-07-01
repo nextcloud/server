@@ -5,10 +5,6 @@
     "seconds ago" : "sekondes gelede",
     "File already exists" : "Lêer bestaan reeds",
     "__language_name__" : "Afrikaans",
-    "Apps" : "Toeps",
-    "Settings" : "Instellings",
-    "Log out" : "Meld af",
-    "Accounts" : "Accounts",
     "Email" : "E-pos",
     "Phone" : "Foon",
     "Twitter" : "Twitter",
@@ -27,6 +23,10 @@
     "Storage is temporarily not available" : "Berging is tydelik nie beskikbaar nie",
     "Images" : "Beelde",
     "Text" : "Teks",
-    "Summary" : "Opsomming"
+    "Summary" : "Opsomming",
+    "Apps" : "Toeps",
+    "Settings" : "Instellings",
+    "Log out" : "Meld af",
+    "Accounts" : "Accounts"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

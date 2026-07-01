@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "Έξοδος",
     "Please select a file." : "Παρακαλούμε επιλέξτε αρχείο.",
     "File is too big" : "Το αρχείο είναι πολύ μεγάλο",
     "The selected file is not an image." : "Το επιλεγμένο αρχείο δεν είναι εικόνα.",
@@ -206,6 +207,7 @@ OC.L10N.register(
     "Code will expire {timeCountdown} or after use" : "Ο κωδικός θα λήξει {timeCountdown} ή μετά τη χρήση",
     "_{count} notification_::_{count} notifications_" : ["{count} ειδοποίηση","{count} ειδοποιήσεις"],
     "More apps" : "Περισσότερες εφαρμογές",
+    "Settings" : "Ρυθμίσεις",
     "Applications" : "Εφαρμογές",
     "Apps" : "Εφαρμογές",
     "No" : "Όχι",
@@ -229,7 +231,6 @@ OC.L10N.register(
     "Search everywhere" : "Αναζητήστε παντού",
     "Searching …" : "Γίνεται αναζήτηση ...",
     "Start typing to search" : "Ξεκινήστε την πληκτρολόγηση για αναζήτηση",
-    "Minimum search length is {minSearchLength} characters" : "Ελάχιστο μήκος {minSearchLength}χαρακτήρες",
     "No matching results" : "Δεν υπάρχουν αποτελέσματα που να ταιριάζουν",
     "Today" : "Σήμερα",
     "Last 7 days" : "Τελευταίες 7 ημέρες",
@@ -254,7 +255,6 @@ OC.L10N.register(
     "Log in to {productName}" : "Συνδεθείτε στο {productName}",
     "Wrong login or password." : "Εσφαλμένο όνομα χρήστη ή συνθηματικό.",
     "This account is disabled" : "Αυτός ο λογαριασμός είναι απενεργοποιημένος",
-    "Too many incorrect login attempts. Please try again in 30 seconds." : "Πολλές λανθασμένες προσπάθειες σύνδεσης. Παρακαλούμε δοκιμάστε ξανά σε 30 δευτερόλεπτα.",
     "Account name or email" : "Όνομα λογαριασμού ή email",
     "Account name" : "Όνομα λογαριασμού",
     "Server side authentication failed!" : "Αποτυχημένη πιστοποίηση από πλευράς διακομιστή!",
@@ -510,6 +510,7 @@ OC.L10N.register(
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["Η ενημέρωση ήταν επιτυχής. Ανακατεύθυνσή σας στο {productName} σε %n δευτερόλεπτο.","Η ενημέρωση ήταν επιτυχής. Θα ανακατευθυνθείτε στο {productName} σε %n δευτερόλεπτα."],
     "Applications menu" : "Μενού εφαρμογών",
     "Searching …" : "Γίνεται αναζήτηση ...",
+    "Minimum search length is {minSearchLength} characters" : "Ελάχιστο μήκος {minSearchLength}χαρακτήρες",
     "Logging in …" : "Πραγματοποιείται είσοδος …",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Εντοπίστηκαν πολλές λανθασμένες προσπάθειες εισόδου από την ΙΡ σας. Η επόμενη προσπάθεια εισόδου σας μπορεί να γίνει σε 30 δεύτερα.",
     "Loading apps …" : "Γίνεται φόρτωση εφαρμογών …",
@@ -556,6 +557,7 @@ OC.L10N.register(
     "The theme %s has been disabled." : "Το θέμα %s έχει απενεργοποιηθεί.",
     "Detailed logs" : "Λεπτομερές ιστορικό",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Για βοήθεια, δείτε στην  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">τεκμηρίωση</a>.",
+    "Too many incorrect login attempts. Please try again in 30 seconds." : "Πολλές λανθασμένες προσπάθειες σύνδεσης. Παρακαλούμε δοκιμάστε ξανά σε 30 δευτερόλεπτα.",
     "Groups" : "Ομάδες",
     "Group list is empty" : "Η λίστα της ομάδας είναι κενή",
     "Unable to retrieve the group list" : "Αδύνατη η ανάκτηση λίστας της ομάδας"

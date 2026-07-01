@@ -85,6 +85,7 @@ OC.L10N.register(
     "Done" : "Hoàn tất",
     "_{count} notification_::_{count} notifications_" : ["{count} thông báo"],
     "More apps" : "Thêm ứng dụng",
+    "Settings" : "Thiết lập",
     "Apps" : "Ứng dụng",
     "No" : "Không",
     "Yes" : "Có",
@@ -119,7 +120,6 @@ OC.L10N.register(
     "Log in to {productName}" : "Đăng nhập vào {productName}",
     "Wrong login or password." : "Tên người dùng hoặc mật khẩu sai.",
     "This account is disabled" : "Tài khoản này không còn khả dụng",
-    "Too many incorrect login attempts. Please try again in 30 seconds." : "Quá nhiều lần đăng nhập thất bại. Vui lòng thử lại sau 30 giây.",
     "Account name or email" : "Tên tài khoản hoặc email",
     "Account name" : "Tên tài khoản",
     "Server side authentication failed!" : "Xác thực phía máy chủ không thành công!",
@@ -379,6 +379,7 @@ OC.L10N.register(
     "The theme %s has been disabled." : "Giao diện %s đã bị tắt.",
     "Detailed logs" : "Nhật ký chi tiết",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Trợ giúp, xem <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>.",
+    "Too many incorrect login attempts. Please try again in 30 seconds." : "Quá nhiều lần đăng nhập thất bại. Vui lòng thử lại sau 30 giây.",
     "Groups" : "Nhóm",
     "Group list is empty" : "Danh sách nhóm trống",
     "Unable to retrieve the group list" : "Không thể truy xuất danh sách nhóm"

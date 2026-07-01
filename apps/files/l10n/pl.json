@@ -396,10 +396,6 @@
     "Files and folders you recently modified will show up here." : "Tutaj pojawią się pliki i katalogi, które ostatnio zmodyfikowałeś.",
     "Search" : "Szukaj",
     "Search results within your files." : "Wyniki wyszukiwania w Twoich plikach.",
-    "No entries found in this folder" : "Brak wpisów w tym katalogu",
-    "Select all" : "Wybierz wszystko",
-    "Upload too large" : "Wysyłany plik jest za duży",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Pliki, które próbujesz wysłać, przekraczają maksymalną dopuszczalną wielkość.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Zmieniono nazwę \"{oldName}\" na \"{newName}\"",
     "Clear filter" : "Wyczyść filtr",
     "Open file sidebar" : "Otwórz panel boczny pliku",
@@ -420,7 +416,9 @@
     "Save as …" : "Zapisz jako…",
     "Converting files …" : "Konwertowanie plików…",
     "Converting file …" : "Konwertowanie plików…",
-    "Moving {count} files to \"{destination}\" …" : "Przenoszenie {count} plików do \"{destination}\" …",
-    "Copying {count} files to \"{destination}\" …" : "Kopiowanie {count} plików \"{destination}\" …"
+    "No entries found in this folder" : "Brak wpisów w tym katalogu",
+    "Select all" : "Wybierz wszystko",
+    "Upload too large" : "Wysyłany plik jest za duży",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Pliki, które próbujesz wysłać, przekraczają maksymalną dopuszczalną wielkość."
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

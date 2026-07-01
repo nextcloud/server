@@ -9,7 +9,6 @@
 			:disabled="loadingAddGroup"
 			:aria-label="loadingAddGroup ? t('settings', 'Creating group…') : t('settings', 'Create group')"
 			force-menu
-			is-heading
 			:open.sync="isAddGroupOpen">
 			<template v-if="isAdminOrDelegatedAdmin" #actionsTriggerIcon>
 				<NcLoadingIcon v-if="loadingAddGroup" />
@@ -40,6 +39,7 @@
 			{{ t('settings', 'List of groups. This list is not fully populated for performance reasons. The groups will be loaded as you navigate or search through the list.') }}
 		</p>
 		<NcAppNavigationList class="account-management__group-list"
+			:aria-label="t('settings', 'Groups')"
 			aria-describedby="group-list-desc"
 			data-cy-users-settings-navigation-groups="custom">
 			<GroupListItem v-for="group in filteredGroups"

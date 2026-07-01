@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "Wyloguj się",
     "Please select a file." : "Wybierz plik.",
     "File is too big" : "Plik jest za duży",
     "The selected file is not an image." : "Wybrany plik nie jest obrazem.",
@@ -207,6 +208,7 @@ OC.L10N.register(
     "_{count} notification_::_{count} notifications_" : ["{count} powiadomienie","{count} powiadomienia","{count} powiadomień","{count} powiadomień"],
     "More apps" : "Więcej aplikacji",
     "App store" : "Sklep aplikacji",
+    "Settings" : "Ustawienia",
     "Open apps menu, currently in {app}" : "Otwórz menu aplikacji, obecnie w {app}",
     "Open apps menu" : "Otwórz menu aplikacji",
     "Applications" : "Aplikacje",
@@ -232,7 +234,6 @@ OC.L10N.register(
     "Search everywhere" : "Szukaj wszędzie",
     "Searching …" : "Wyszukiwanie …",
     "Start typing to search" : "Zacznij pisać, aby wyszukać",
-    "Minimum search length is {minSearchLength} characters" : "Minimalna długość wyszukiwania to {minSearchLength} znaków",
     "No matching results" : "Brak pasujących wyników",
     "Today" : "Dzisiaj",
     "Last 7 days" : "Ostatnie 7 dni",
@@ -257,7 +258,6 @@ OC.L10N.register(
     "Log in to {productName}" : "Zaloguj się do {productName}",
     "Wrong login or password." : "Błędny login lub hasło.",
     "This account is disabled" : "To konto jest wyłączone",
-    "Too many incorrect login attempts. Please try again in 30 seconds." : "Zbyt wiele nieprawidłowych prób logowania. Spróbuj ponownie za 30 sekund.",
     "Account name or email" : "Nazwa konta lub e-mail",
     "Account name" : "Nazwa konta",
     "Server side authentication failed!" : "Uwierzytelnianie po stronie serwera nie powiodło się!",
@@ -514,6 +514,7 @@ OC.L10N.register(
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["Aktualizacja przebiegła pomyślnie. Przekierowanie do {productName} za %n sekundę.","Aktualizacja przebiegła pomyślnie. Przekierowanie do {productName} za %n sekundy.","Aktualizacja przebiegła pomyślnie. Przekierowanie do {productName} za %n sekund.","Aktualizacja przebiegła pomyślnie. Przekierowanie do {productName} za %n sekund."],
     "Applications menu" : "Menu aplikacji",
     "Searching …" : "Wyszukiwanie…",
+    "Minimum search length is {minSearchLength} characters" : "Minimalna długość wyszukiwania to {minSearchLength} znaków",
     "Logging in …" : "Logowanie…",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Wykryliśmy wiele nieudanych prób logowania z Twojego adresu IP. Dlatego następne logowanie będzie możliwe dopiero za 30 sekund.",
     "Loading apps …" : "Wczytywanie aplikacji…",
@@ -560,6 +561,7 @@ OC.L10N.register(
     "The theme %s has been disabled." : "Motyw %s został wyłączony.",
     "Detailed logs" : "Szczegółowe logi",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Aby uzyskać pomoc, zajrzyj do <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">dokumentacji</a>.",
+    "Too many incorrect login attempts. Please try again in 30 seconds." : "Zbyt wiele nieprawidłowych prób logowania. Spróbuj ponownie za 30 sekund.",
     "Groups" : "Grupy",
     "Group list is empty" : "Lista grup jest pusta",
     "Unable to retrieve the group list" : "Nie można pobrać listy grup"

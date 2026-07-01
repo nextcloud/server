@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "Saioa itxi",
     "Please select a file." : "Aukeratu fitxategi bat.",
     "File is too big" : "Fitxategia handiegia da",
     "The selected file is not an image." : "Aukeratutako fitxategia ez da irudi bat.",
@@ -204,6 +205,7 @@ OC.L10N.register(
     "Scan QR code to log in" : "Eskaneatu QRa saioa hasteko",
     "_{count} notification_::_{count} notifications_" : ["Jakinarazpen {count}","{count} jakinarazpenak"],
     "More apps" : "Aplikazio gehiago",
+    "Settings" : "Ezarpenak",
     "Applications" : "Aplikazioak",
     "Apps" : "Aplikazioak",
     "No" : "Ez",
@@ -227,7 +229,6 @@ OC.L10N.register(
     "Search everywhere" : "Bilatu nonahi",
     "Searching …" : "Bilatzen …",
     "Start typing to search" : "Hasi idazten bilatzeko",
-    "Minimum search length is {minSearchLength} characters" : "Gutxieneko bilaketa-luzera {minSearchLength} karakterekoa da",
     "No matching results" : "Ez dago bilaketaren emaitzarik",
     "Today" : "Gaur",
     "Last 7 days" : "Azken 7 egunetan",
@@ -252,7 +253,6 @@ OC.L10N.register(
     "Log in to {productName}" : "Hasi saioa {productName}-(e)n",
     "Wrong login or password." : "Erabiltzaile edo pasahitz okerra.",
     "This account is disabled" : "Kontu hau desgaituta dago",
-    "Too many incorrect login attempts. Please try again in 30 seconds." : "Saioa hasteko saiakera oker gehiegi. Mesedez, saiatu berriro 30 segundo barru.",
     "Account name or email" : "Kontu izena edo posta elektronikoa",
     "Account name" : "Kontuaren izena",
     "Server side authentication failed!" : "Zerbitzari aldeko autentifikazioak huts egin du!",
@@ -506,6 +506,7 @@ OC.L10N.register(
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["Eguneraketa behar bezala egin da. {productName} ra birbideratuko zaitugu %nsegundotan.","Eguneraketa behar bezala egin da. {productName} (e)ra birbideratuko zaitugu %n segundotan."],
     "Applications menu" : "Aplikazio-menua",
     "Searching …" : "Bilatzen…",
+    "Minimum search length is {minSearchLength} characters" : "Gutxieneko bilaketa-luzera {minSearchLength} karakterekoa da",
     "Logging in …" : "Saioa hasten...",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Saioa hasteko hainbat saiakera baliogabe jaso ditugu zure IPtik. Ondorioz, zure hurrengo saio hasiera 30 segundo atzeratuko da.",
     "Loading apps …" : "Aplikazioak kargatzen...",
@@ -552,6 +553,7 @@ OC.L10N.register(
     "The theme %s has been disabled." : "%s gaia desgaitu da.",
     "Detailed logs" : "Egunkari xehea",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Laguntzarako, ikusi <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">dokumentazioa</a>.",
+    "Too many incorrect login attempts. Please try again in 30 seconds." : "Saioa hasteko saiakera oker gehiegi. Mesedez, saiatu berriro 30 segundo barru.",
     "Groups" : "Taldeak",
     "Group list is empty" : "Talde zerrenda hutsik dago",
     "Unable to retrieve the group list" : "Ezin izan da talde zerrenda eskuratu"

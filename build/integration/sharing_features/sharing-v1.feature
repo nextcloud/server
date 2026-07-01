@@ -556,7 +556,28 @@ Feature: sharing
     And Share fields of last share match with
       | expiration | +3 days |
 
-  Scenario: getting all shares of a user using that user
+Scenario: Writing to a read-only link share of an external storage
+	Given user "user0" exists
+	Then As an "user0"
+	When creating a share with
+		| path | local_storage |
+		| shareType | 3 |
+	And the OCS status code should be "100"
+	And the HTTP status code should be "200"
+	Then Uploading public file "foo.txt" with content "bar"
+	And the HTTP status code should be "403"
+
+Scenario: Writing to a read-write link share of an external storage
+	Given user "user0" exists
+	Then As an "user0"
+	When creating a share with
+		| path | local_storage |
+		| shareType | 3 |
+		| permissions | 7 |
+	Then Uploading public file "foo.txt" with content "bar"
+	And the HTTP status code should be "201"
+
+Scenario: getting all shares of a user using that user
     Given user "user0" exists
     And user "user1" exists
     And file "textfile0.txt" of user "user0" is shared with user "user1"

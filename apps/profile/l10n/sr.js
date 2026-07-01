@@ -1,6 +1,7 @@
 OC.L10N.register(
     "profile",
     {
+    "View profile" : "Погледај профил",
     "Profile" : "Профил",
     "This application provides the profile" : "Ова апликација обезбеђује профил",
     "Provides a customisable user profile interface." : "Обезбеђује интерфејс корисничког профила који може да се прилагоди.",

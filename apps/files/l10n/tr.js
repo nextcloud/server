@@ -398,10 +398,6 @@ OC.L10N.register(
     "Files and folders you recently modified will show up here." : "Son zamanlarda değiştirdiğiniz dosya ve klasörler burada görüntülenir.",
     "Search" : "Ara",
     "Search results within your files." : "Dosyalarınızda arama sonuçları.",
-    "No entries found in this folder" : "Bu klasörde herhangi bir kayıt bulunamadı",
-    "Select all" : "Tümünü seç",
-    "Upload too large" : "Yükleme boyutu çok büyük",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Yüklemeye çalıştığınız dosyalar bu sunucuya yüklenmesine izin verilen en büyük dosya boyutunu aşıyor.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "\"{oldName}\" adı \"{newName}\" olarak değiştirildi",
     "Clear filter" : "Süzgeci temizle",
     "Open file sidebar" : "Dosya kenar çubuğunu aç",
@@ -422,7 +418,9 @@ OC.L10N.register(
     "Save as …" : "Farklı kaydet…",
     "Converting files …" : "Dosyalar dönüştürülüyor…",
     "Converting file …" : "Dosya dönüştürülüyor…",
-    "Moving {count} files to \"{destination}\" …" : "{count} dosya \"{destination}\" konumuna taşınıyor…",
-    "Copying {count} files to \"{destination}\" …" : "{count} dosya \"{destination}\" konumuna kopyalanıyor…"
+    "No entries found in this folder" : "Bu klasörde herhangi bir kayıt bulunamadı",
+    "Select all" : "Tümünü seç",
+    "Upload too large" : "Yükleme boyutu çok büyük",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Yüklemeye çalıştığınız dosyalar bu sunucuya yüklenmesine izin verilen en büyük dosya boyutunu aşıyor."
 },
 "nplurals=2; plural=(n > 1);");

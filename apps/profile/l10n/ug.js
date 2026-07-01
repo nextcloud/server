@@ -1,6 +1,7 @@
 OC.L10N.register(
     "profile",
     {
+    "View profile" : "ئارخىپنى كۆرۈڭ",
     "Profile" : "ئارخىپ",
     "This application provides the profile" : "بۇ ئەپ تەرجىمال بىلەن تەمىنلەيدۇ",
     "Provides a customisable user profile interface." : "خاسلاشتۇرغىلى بولىدىغان ئىشلەتكۈچى تەرجىمال كۆرۈنۈشى بىلەن تەمىنلەيدۇ.",

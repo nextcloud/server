@@ -117,7 +117,7 @@ OC.L10N.register(
     "Documents" : "Doiciméid",
     "Spreadsheets" : "Scarbhileoga",
     "Presentations" : "Cur i láthair",
-    "PDFs" : "PDFs",
+    "PDFs" : "PDFanna",
     "Folders" : "Fillteáin",
     "Audio" : "Fuaime",
     "Images" : "Íomhánna",
@@ -398,10 +398,6 @@ OC.L10N.register(
     "Files and folders you recently modified will show up here." : "Taispeánfar comhaid agus fillteáin a d'athraigh tú le déanaí anseo.",
     "Search" : "Cuardach",
     "Search results within your files." : "Torthaí cuardaigh laistigh de do chuid comhad.",
-    "No entries found in this folder" : "Níor aimsíodh aon iontrálacha san fhillteán seo",
-    "Select all" : "Roghnú go léir",
-    "Upload too large" : "Íoslódáil ró-mhór",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Sáraíonn na comhaid atá tú ag iarraidh a uaslódáil an t-uasmhéid le haghaidh uaslódáil comhad ar an bhfreastalaí seo.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Athainmnithe \"{oldName}\" go \"{newName}\"",
     "Clear filter" : "Glan an scagaire",
     "Open file sidebar" : "Oscail barra taoibh an chomhaid",
@@ -422,7 +418,9 @@ OC.L10N.register(
     "Save as …" : "Sábháil mar…",
     "Converting files …" : "Comhaid á thiontú…",
     "Converting file …" : "Comhad á thiontú…",
-    "Moving {count} files to \"{destination}\" …" : "Ag bogadh {count} comhad go \"{destination}\" …",
-    "Copying {count} files to \"{destination}\" …" : "Ag cóipeáil {count} comhad chuig \"{destination}\" …"
+    "No entries found in this folder" : "Níor aimsíodh aon iontrálacha san fhillteán seo",
+    "Select all" : "Roghnú go léir",
+    "Upload too large" : "Íoslódáil ró-mhór",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Sáraíonn na comhaid atá tú ag iarraidh a uaslódáil an t-uasmhéid le haghaidh uaslódáil comhad ar an bhfreastalaí seo."
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "Выйти из системы",
     "Please select a file." : "Выберите файл.",
     "File is too big" : "Файл слишком велик",
     "The selected file is not an image." : "Выбранный файл не является изображением.",
@@ -207,6 +208,7 @@ OC.L10N.register(
     "_{count} notification_::_{count} notifications_" : ["{count} уведомление","{count} уведомления","{count} уведомлений","{count} уведомлений"],
     "More apps" : "Ещё приложения",
     "App store" : "Магазин приложений",
+    "Settings" : "Настройки",
     "Open apps menu, currently in {app}" : "Открыть меню приложений, сейчас открыто {app}",
     "Open apps menu" : "Открыть меню приложений",
     "Applications" : "Приложения",
@@ -233,7 +235,6 @@ OC.L10N.register(
     "Search everywhere" : "Искать везде",
     "Searching …" : "Поиск…",
     "Start typing to search" : "Начните вводить символы для поиска",
-    "Minimum search length is {minSearchLength} characters" : "Минимальная длина поиска - {minSearchLength} символов",
     "No matching results" : "Нет совпадающих результатов",
     "Today" : "Сегодня",
     "Last 7 days" : "Последние 7 дней",
@@ -258,7 +259,6 @@ OC.L10N.register(
     "Log in to {productName}" : "Вход в {productName}",
     "Wrong login or password." : "Неверное имя пользователя или пароль.",
     "This account is disabled" : "Эта учётная запись отключена",
-    "Too many incorrect login attempts. Please try again in 30 seconds." : "Достигнуто максимально допустимое количество попыток входа. Попробуйте снова через 30 секунд.",
     "Account name or email" : "Учётная запись или адрес эл. почты",
     "Account name" : "Имя учётной записи",
     "Server side authentication failed!" : "Ошибка аутентификации на стороне сервера!",
@@ -515,6 +515,7 @@ OC.L10N.register(
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["Обновление выполнено успешно. Перенаправление в {productName} через %n секунду.","Обновление выполнено успешно. Перенаправление в {productName} через %n секунды.","Обновление выполнено успешно. Перенаправление в {productName} через %n секунд.","Обновление выполнено успешно. Перенаправление в {productName} через %n секунд."],
     "Applications menu" : "Меню приложений",
     "Searching …" : "Поиск…",
+    "Minimum search length is {minSearchLength} characters" : "Минимальная длина поиска - {minSearchLength} символов",
     "Logging in …" : "Вход в систему…",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "С вашего IP-адреса было выполнено множество неудачных попыток входа в систему. Следующую попытку можно будет выполнить через 30 секунд.",
     "Loading apps …" : "Получение списка приложений…",
@@ -561,6 +562,7 @@ OC.L10N.register(
     "The theme %s has been disabled." : "Тема %s была отключена.",
     "Detailed logs" : "Подробные журналы",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Для получения помощи обратитесь к <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">документации</a>.",
+    "Too many incorrect login attempts. Please try again in 30 seconds." : "Достигнуто максимально допустимое количество попыток входа. Попробуйте снова через 30 секунд.",
     "Groups" : "Группы",
     "Group list is empty" : "Список групп пуст",
     "Unable to retrieve the group list" : "Не удалось получить список групп"

@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "ອອກຈາກລະບົບ",
     "Please select a file." : "ກະລຸນາເລືອກຟາຍ",
     "File is too big" : "ຟາຍໃຫຍ່ໂພດ",
     "The selected file is not an image." : "ຟາຍທີ່ເລືອກບໍ່ແມ່ນຮູບ",
@@ -201,6 +202,7 @@ OC.L10N.register(
     "Done" : "ສະຖານະ",
     "_{count} notification_::_{count} notifications_" : ["{count} notifications"],
     "More apps" : "ແອັບພລິເຄຊັນເພີ່ມເຕີມ",
+    "Settings" : "ການຕັ້ງຄ່າ",
     "Applications" : "ແອັບພລິເຄຊັນ",
     "Apps" : "ແອັບພລິເຄຊັນ",
     "No" : "ບໍ່",
@@ -224,7 +226,6 @@ OC.L10N.register(
     "Search everywhere" : "ຄົ້ນຫາທຸກບ່ອນ",
     "Searching …" : "ກຳລັງຄົ້ນຫາ…",
     "Start typing to search" : "ເລີ່ມພິມເພື່ອຄົ້ນຫາ",
-    "Minimum search length is {minSearchLength} characters" : "Minimum search length is {minSearchLength} characters",
     "No matching results" : "No matching results",
     "Today" : "ມື້ນີ້",
     "Last 7 days" : "Last 7 days",
@@ -484,6 +485,7 @@ OC.L10N.register(
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["The update was successful. Redirecting you to {productName} in %n seconds."],
     "Applications menu" : "Applications menu",
     "Searching …" : "ກຳລັງຄົ້ນຫາ...",
+    "Minimum search length is {minSearchLength} characters" : "Minimum search length is {minSearchLength} characters",
     "Logging in …" : "ກຳລັງໂຫຼດ",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "ພວກເຮົາກວດພົບຄວາມພະຍາຍາມ login ທີ່ ບໍ່ຖືກຕ້ອງຈາກ IP ຂອງ ທ່ານ . ດັ່ງນັ້ນການເຄື່ອນໄຫວຕໍ່ໄປຂອງທ່ານແມ່ນ throttled ເຖິງ 30 ວິນາທີ.",
     "Loading apps …" : "ກຳລັງໂຫຼດເເອັບ",

@@ -8,11 +8,13 @@
     "{author} commented on {file}" : "{author} comentou em {file}",
     "<strong>Comments</strong> for files" : "<strong>Comentários</strong> aos ficheiros",
     "Files" : "Ficheiros",
+    "Go to file" : "Ir para o arquivo",
     "Files app plugin to add comments to files" : "Plug-in da aplicação de ficheiros para adicionar comentários aos ficheiros",
     "Edit comment" : "Editar comentário",
     "Delete comment" : "Eliminar comentário",
     "Cancel edit" : "Cancelar edição",
     "New comment" : "Novo comentário",
+    "Write a comment …" : "Escreva um comentário …",
     "Post comment" : "Publicar comentário",
     "No comments yet, start the conversation!" : "Ainda sem comentários, inicie uma conversação!",
     "No more messages" : "Sem mais mensagens",
@@ -20,6 +22,8 @@
     "_1 new comment_::_{unread} new comments_" : ["1 novo comentário","{unread} novos comentários","{unread} novos comentários"],
     "Comment" : "Comentário",
     "Comment deleted" : "Comentário eliminado",
+    "An error occurred while trying to delete the comment" : "Ocorreu um erro ao tentar excluir o comentário",
+    "An error occurred while trying to create the comment" : "Ocorreu um erro ao tentar criar o comentário",
     "Write a comment …" : "Escreva um comentário..."
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

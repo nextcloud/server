@@ -861,7 +861,13 @@ class Manager implements IManager {
 		if ($this->availableTaskTypes === null) {
 			$cachedValue = $this->distributedCache->get($cacheKey);
 			if ($cachedValue !== null) {
-				$this->availableTaskTypes = unserialize($cachedValue);
+				$this->availableTaskTypes = unserialize($cachedValue, [
+					'allowed_classes' => [
+						ShapeDescriptor::class,
+						ShapeEnumValue::class,
+						EShapeType::class,
+					],
+				]);
 			}
 		}
 		// Either we have no cache or showDisabled is turned on, which we don't want to cache, ever.

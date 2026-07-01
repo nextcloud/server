@@ -248,16 +248,16 @@ describe('Settings: Sort groups in the UI', () => {
 
 	it('See that the groups are sorted by the member count', () => {
 		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').within(() => {
-			cy.get('li').eq(0).should('contain', 'B') // 1 member
-			cy.get('li').eq(1).should('contain', 'A') // 0 members
+			cy.get('li').not('.app-navigation-caption').eq(0).should('contain', 'B') // 1 member
+			cy.get('li').not('.app-navigation-caption').eq(1).should('contain', 'A') // 0 members
 		})
 	})
 
 	it('See that the order is preserved after a reload', () => {
 		cy.reload()
 		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').within(() => {
-			cy.get('li').eq(0).should('contain', 'B') // 1 member
-			cy.get('li').eq(1).should('contain', 'A') // 0 members
+			cy.get('li').not('.app-navigation-caption').eq(0).should('contain', 'B') // 1 member
+			cy.get('li').not('.app-navigation-caption').eq(1).should('contain', 'A') // 0 members
 		})
 	})
 
@@ -276,16 +276,16 @@ describe('Settings: Sort groups in the UI', () => {
 
 	it('See that the groups are sorted by the user count', () => {
 		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').within(() => {
-			cy.get('li').eq(0).should('contain', 'A')
-			cy.get('li').eq(1).should('contain', 'B')
+			cy.get('li').not('.app-navigation-caption').eq(0).should('contain', 'A')
+			cy.get('li').not('.app-navigation-caption').eq(1).should('contain', 'B')
 		})
 	})
 
 	it('See that the order is preserved after a reload', () => {
 		cy.reload()
 		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').within(() => {
-			cy.get('li').eq(0).should('contain', 'A')
-			cy.get('li').eq(1).should('contain', 'B')
+			cy.get('li').not('.app-navigation-caption').eq(0).should('contain', 'A')
+			cy.get('li').not('.app-navigation-caption').eq(1).should('contain', 'B')
 		})
 	})
 })

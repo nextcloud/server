@@ -16,7 +16,7 @@
     "Server ok" : "Serveris tvarkoje",
     "User list was exchanged at least once successfully with the remote server." : "Vartotojų sąrašas buvo bent kartą sėkmingai pakeistas su nuotoliniu serveriu.",
     "Server pending" : "Laukiama serverio",
-    "Waiting for shared secret or initial user list exchange." : "Laukiama bendrinamo slapto rakto arba pradinio naudotojų sąrašo pasikeitimo.",
+    "Waiting for shared secret or initial user list exchange." : "Laukiama bendrinamo slapto rakto arba pradinio vartotojų sąrašo pasikeitimo.",
     "Server access revoked" : "Prieiga prie serverio atšaukta",
     "Server failure" : "Serverio gedimas",
     "Connection to the remote server failed or the remote server is misconfigured." : "Ryšys su nuotoliniu serveriu nepavyko arba nuotolinis serveris yra neteisingai sukonfigūruotas.",

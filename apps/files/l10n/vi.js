@@ -106,6 +106,7 @@ OC.L10N.register(
     "All files" : "Tất cả tệp tin",
     "Additional settings" : "Cài đặt bổ sung",
     "Actions" : "Hành động",
+    "File actions" : "File actions",
     "Selection" : "Lựa chọn",
     "Deselect all" : "Bỏ chọn tất cả",
     "Navigation" : "Điều hướng",
@@ -256,10 +257,6 @@ OC.L10N.register(
     "No recently modified files" : "Không có tập tin được sửa đổi gần đây",
     "Files and folders you recently modified will show up here." : "Các tập tin và thư mục bạn sửa đổi gần đây sẽ hiển thị ở đây.",
     "Search" : "Tìm kiếm",
-    "No entries found in this folder" : "Chưa có mục nào trong thư mục",
-    "Select all" : "Chọn tất cả",
-    "Upload too large" : "Tập tin tải lên quá lớn",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Các tập tin bạn đang tải lên vượt quá kích thước tối đa cho phép trên máy chủ .",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Đã đổi tên \"{oldName}\" thành \"{newName}\"",
     "Clear filter" : "Xóa bộ lọc",
     "Invalid path selected" : "Đường dẫn không hợp lệ",
@@ -270,6 +267,10 @@ OC.L10N.register(
     "You" : "Bạn",
     "Shared multiple times with different people" : "Được chia sẻ nhiều lần với những người khác nhau",
     "Error while loading the file data" : "Lỗi xảy ra trong khi tải dữ liệu tệp",
-    "Tags" : "Nhãn"
+    "Tags" : "Nhãn",
+    "No entries found in this folder" : "Chưa có mục nào trong thư mục",
+    "Select all" : "Chọn tất cả",
+    "Upload too large" : "Tập tin tải lên quá lớn",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Các tập tin bạn đang tải lên vượt quá kích thước tối đa cho phép trên máy chủ ."
 },
 "nplurals=1; plural=0;");

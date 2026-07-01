@@ -90,7 +90,6 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "يېڭىلاش پارامېتىرى خاتا ياكى يوق",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "Nextcloud Talk قوزغىتىلمىغانلىقتىن ھۆججەت ياكى ھۆججەت قىسقۇچنى ئورتاقلىشىش ئۈچۈن «Nextcloud Talk ئارقىلىق پارول ئەۋەتىش» مەغلۇپ بولدى.",
     "Custom share link tokens have been disabled by the administrator" : "باشقۇرغۇچى تەرىپىدىن خاسلاشتۇرۇلغان ئورتاقلىشىش ئۇلىنىشى بەلگىلىرى چەكلەندى",
-    "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "بەلگىلەر كەم دېگەندە 1 ھەرپتىن تەركىب تاپقان بولۇشى كېرەك، پەقەت ھەرپلەر، سانلار ياكى سىزىقچە بولۇشى مۇمكىن.",
     "Invalid date. Format must be YYYY-MM-DD" : "ئىناۋەتسىز ۋاقىت. فورماتى چوقۇم YYYY-MM-DD بولۇشى كېرەك",
     "No sharing rights on this item" : "بۇ تۈردە ئورتاقلىشىش ھوقۇقى يوق",
     "Invalid share attributes provided: \"%s\"" : "تەمىنلەنگەن ئىناۋەتسىز ئورتاقلىشىش خاسلىقى: \"%s\"",
@@ -403,6 +402,7 @@ OC.L10N.register(
     "Back to %s" : "%s گە قايتىش",
     "Add to your Nextcloud" : "Nextcloud غا قوشۇڭ",
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "%s نى ئورتاقلىشىش مەغلۇب بولدى ، چۈنكى ئارقا تەرىپى ScienceMesh نىڭ پاي چېكىنى قوللىمايدۇ",
+    "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "بەلگىلەر كەم دېگەندە 1 ھەرپتىن تەركىب تاپقان بولۇشى كېرەك، پەقەت ھەرپلەر، سانلار ياكى سىزىقچە بولۇشى مۇمكىن.",
     "Name or email …" : "ئىسىم ياكى ئېلخەت…",
     "Name, email, or Federated Cloud ID …" : "ئىسمى ، ئېلېكترونلۇق خەت ياكى فېدېراتسىيە بۇلۇت كىملىكى…",
     "Searching …" : "ئىزدەش…"

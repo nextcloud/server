@@ -89,6 +89,8 @@
     "Reset primary color" : "Endursetja aðallit",
     "Reset to default" : "Endurstilla á sjálfgefið",
     "Appearance and accessibility settings" : "Stillingar útlits og aðgengis",
+    "Themes" : "Þemu",
+    "Fonts" : "Letur",
     "Misc accessibility options" : "Ýmsir valkostir fyrir auðveldað aðgengi",
     "Customization has been disabled by your administrator" : "Sérsníðing hefur verið gerð óvirk af kerfisstjóra",
     "Disable-user-theming should be true or false" : "Gera-þemu-notanda-óvirk ætti að vera satt eða ósatt",

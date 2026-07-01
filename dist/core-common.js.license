@@ -69,6 +69,7 @@ SPDX-FileCopyrightText: Guillaume Chau <guillaume.b.chau@gmail.com>
 SPDX-FileCopyrightText: Guillaume Chau
 SPDX-FileCopyrightText: GitHub Inc.
 SPDX-FileCopyrightText: Feross Aboukhadijeh
+SPDX-FileCopyrightText: Felix Boehm <me@feedic.com>
 SPDX-FileCopyrightText: Evan You
 SPDX-FileCopyrightText: Eugene Sharygin <eush77@gmail.com>
 SPDX-FileCopyrightText: Eric Norris (https://github.com/ericnorris)
@@ -87,6 +88,7 @@ SPDX-FileCopyrightText: Antoni Andre <antoniandre.web@gmail.com>
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
 SPDX-FileCopyrightText: Anthony Fu <anthonyfu117@hotmail.com>
 SPDX-FileCopyrightText: Andrea Giammarchi
+SPDX-FileCopyrightText: Amit Gupta (https://solothought.work/)
 SPDX-FileCopyrightText: Amit Gupta (https://solothought.com)
 SPDX-FileCopyrightText: Alkemics
 SPDX-FileCopyrightText: @nextcloud/dialogs developers
@@ -212,6 +214,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - @vueuse/shared
 	- version: 14.3.0
+	- license: MIT
+- focus-trap
+	- version: 8.2.1
 	- license: MIT
 - perfect-debounce
 	- version: 2.1.0
@@ -376,7 +381,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.1.0
 	- license: MIT
 - dompurify
-	- version: 3.4.2
+	- version: 3.4.10
 	- license: (MPL-2.0 OR Apache-2.0)
 - dunder-proto
 	- version: 1.0.1
@@ -384,6 +389,9 @@ This file is generated from multiple sources. Included packages:
 - emoji-mart-vue-fast
 	- version: 15.0.5
 	- license: BSD-3-Clause
+- entities
+	- version: 6.0.1
+	- license: BSD-2-Clause
 - es-define-property
 	- version: 1.0.1
 	- license: MIT
@@ -410,6 +418,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - filter-obj
 	- version: 5.1.0
+	- license: MIT
+- @floating-ui/core
+	- version: 0.3.1
 	- license: MIT
 - floating-vue
 	- version: 1.0.0-beta.19
@@ -652,7 +663,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 6.14.1
 	- license: BSD-3-Clause
 - query-string
-	- version: 9.3.1
+	- version: 9.4.0
 	- license: MIT
 - querystringify
 	- version: 2.2.0
@@ -731,6 +742,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - striptags
 	- version: 3.2.0
+	- license: MIT
+- strnum
+	- version: 2.3.0
 	- license: MIT
 - style-loader
 	- version: 4.0.0

@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "Выйсці",
     "Please select a file." : "Выберыце файл.",
     "File is too big" : "Файл занадта вялікі",
     "The selected file is not an image." : "Выбраны файл не з'яўляецца відарысам.",
@@ -187,6 +188,7 @@ OC.L10N.register(
     "Done" : "Гатова",
     "_{count} notification_::_{count} notifications_" : ["{count} апавяшчэнне","{count} апавяшчэнні","{count} апавяшчэнняў","{count} апавяшчэнняў"],
     "More apps" : "Болей праграм",
+    "Settings" : "Налады",
     "Applications" : "Праграмы",
     "Apps" : "Праграмы",
     "No" : "Не",
@@ -209,7 +211,6 @@ OC.L10N.register(
     "Search everywhere" : "Шукаць усюды",
     "Searching …" : "Пошук …",
     "Start typing to search" : "Пачніце ўводзіць тэкст для пошуку",
-    "Minimum search length is {minSearchLength} characters" : "Мінімальная даўжыня радка для пошуку складае {minSearchLength} сімвалаў",
     "No matching results" : "Няма адпаведных вынікаў",
     "Today" : "Сёння",
     "Last 7 days" : "Апошнія 7 дзён",
@@ -427,6 +428,7 @@ OC.L10N.register(
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "Абнаўленне было няўдалым. Паведаміце пра гэту праблему <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">супольнасці Nextcloud</a>.",
     "Applications menu" : "Меню праграм",
     "Searching …" : "Пошук …",
+    "Minimum search length is {minSearchLength} characters" : "Мінімальная даўжыня радка для пошуку складае {minSearchLength} сімвалаў",
     "Logging in …" : "Уваход …",
     "Loading apps …" : "Загрузка праграм …",
     "Installing apps …" : "Усталяванне праграм …",
