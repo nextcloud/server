@@ -5,73 +5,79 @@
 
 <template>
 	<nav class="app-menu" :aria-label="t('core', 'Applications')">
-		<NcPopover
-			ref="popover"
-			:shown="opened"
-			:triggers="[]"
-			placement="bottom-start"
-			:skidding="popoverSkidding"
-			:set-return-focus="returnFocusTarget"
-			popover-base-class="app-menu__popover-base"
-			popup-role="menu"
-			@update:shown="opened = $event">
-			<template #trigger>
-				<NcButton
-					class="app-menu__waffle"
-					variant="tertiary-no-background"
-					:aria-label="t('core', 'Open apps menu')"
-					aria-haspopup="menu"
-					:aria-expanded="opened ? 'true' : 'false'"
-					@click="onTriggerClick('waffle')">
-					<template #icon>
-						<IconDotsGrid :size="20" />
-					</template>
-				</NcButton>
-			</template>
+		<!-- One wrapper so both triggers act as a single control, sharing one
+			highlight. On narrow screens only the waffle shows. -->
+		<div
+			class="app-menu__trigger"
+			:class="{ 'app-menu__trigger--open': opened }">
+			<NcPopover
+				ref="popover"
+				:shown="opened"
+				:triggers="[]"
+				placement="bottom-start"
+				:skidding="popoverSkidding"
+				:set-return-focus="returnFocusTarget"
+				popover-base-class="app-menu__popover-base"
+				popup-role="menu"
+				@update:shown="opened = $event">
+				<template #trigger>
+					<NcButton
+						class="app-menu__waffle"
+						variant="tertiary-no-background"
+						:aria-label="t('core', 'Open apps menu')"
+						aria-haspopup="menu"
+						:aria-expanded="opened ? 'true' : 'false'"
+						@click="onTriggerClick('waffle')">
+						<template #icon>
+							<IconDotsGrid :size="20" />
+						</template>
+					</NcButton>
+				</template>
 
-			<div
-				class="app-menu__popover"
-				role="menu"
-				:aria-label="t('core', 'Apps')">
-				<div ref="grid" class="app-menu__grid" @keydown="onGridKeydown">
-					<AppItem
-						v-for="(item, i) in gridItems"
-						:key="item.id"
-						ref="items"
-						:app="item"
-						:outlined="item.id === 'more-apps' || item.id === 'app-store'"
-						:new-tab="item.id === 'app-store'"
-						:tabindex="i === focusedIndex ? 0 : -1" />
+				<div
+					class="app-menu__popover"
+					role="menu"
+					:aria-label="t('core', 'Apps')">
+					<div ref="grid" class="app-menu__grid" @keydown="onGridKeydown">
+						<AppItem
+							v-for="(item, i) in gridItems"
+							:key="item.id"
+							ref="items"
+							:app="item"
+							:outlined="item.id === 'more-apps' || item.id === 'app-store'"
+							:new-tab="item.id === 'app-store'"
+							:tabindex="i === focusedIndex ? 0 : -1" />
+					</div>
 				</div>
-			</div>
-		</NcPopover>
-		<NcButton
-			v-if="currentApp"
-			class="app-menu__current-app"
-			variant="tertiary-no-background"
-			:aria-label="currentAppLabel"
-			aria-haspopup="menu"
-			:aria-expanded="opened ? 'true' : 'false'"
-			@click="onTriggerClick('currentApp')">
-			<template #icon>
-				<!-- Settings sub-sections share one generic cog. An inline MDI icon
-					inherits the button's currentColor (--color-background-plain-text),
-					so it stays legible on both bright and dark headers without a filter. -->
-				<IconCog
-					v-if="currentApp.type === 'settings'"
-					class="app-menu__current-app-cog"
-					:size="20" />
-				<img
-					v-else
-					class="app-menu__current-app-icon"
-					:src="currentApp.icon"
-					alt=""
-					aria-hidden="true">
-			</template>
-			<span class="app-menu__current-app-name">
-				{{ displayName }}
-			</span>
-		</NcButton>
+			</NcPopover>
+			<NcButton
+				v-if="currentApp"
+				class="app-menu__current-app"
+				variant="tertiary-no-background"
+				:aria-label="currentAppLabel"
+				aria-haspopup="menu"
+				:aria-expanded="opened ? 'true' : 'false'"
+				@click="onTriggerClick('currentApp')">
+				<template #icon>
+					<!-- Settings sub-sections share one generic cog. An inline MDI icon
+						inherits the button's currentColor (--color-background-plain-text),
+						so it stays legible on both bright and dark headers without a filter. -->
+					<IconCog
+						v-if="currentApp.type === 'settings'"
+						class="app-menu__current-app-cog"
+						:size="20" />
+					<img
+						v-else
+						class="app-menu__current-app-icon"
+						:src="currentApp.icon"
+						alt=""
+						aria-hidden="true">
+				</template>
+				<span class="app-menu__current-app-name">
+					{{ displayName }}
+				</span>
+			</NcButton>
+		</div>
 	</nav>
 </template>
 
@@ -397,56 +403,83 @@ export default defineComponent({
 	display: flex;
 	align-items: center;
 
-	&__waffle {
+	// Wrapper for both triggers: full header height for the click area, with one
+	// shared highlight spanning the waffle and the current app.
+	&__trigger {
+		position: relative;
+		display: flex;
+		align-items: center;
+		height: var(--header-height);
+		// Own stacking context so the highlight can sit behind the buttons.
+		isolation: isolate;
+
+		// The shared highlight, inset from top/bottom so it stays smaller than the
+		// header. inset-inline: 0 spans both triggers; collapses to the waffle when
+		// the current-app button is hidden.
+		&::before {
+			content: '';
+			position: absolute;
+			inset-block: calc((var(--header-height) - var(--default-clickable-area)) / 2);
+			inset-inline: 0;
+			border-radius: var(--border-radius-element);
+			// Behind the buttons (whose backgrounds stay transparent).
+			z-index: -1;
+			pointer-events: none;
+		}
+
+		// Translucent black: --color-background-hover has too little contrast on the
+		// header tint. Keep the highlight while the menu is open.
+		&:hover::before,
+		&--open::before {
+			background-color: rgba(0, 0, 0, 0.1);
+		}
+
+		&:active::before {
+			background-color: rgba(0, 0, 0, 0.15);
+		}
+	}
+
+	&__waffle,
+	&__current-app {
+		// Full header height for the click area; the highlight is on __trigger, so
+		// the buttons stay transparent. !important beats NcButton's scoped rules.
+		height: var(--header-height) !important;
+		// Anchor the per-button focus ring below to the button, not __trigger.
+		position: relative;
+
 		// NcButton's tertiary-no-background variant uses --color-main-text,
 		// which is dark on light themes. The header sits on the theme primary
 		// background, so override to use the matching plain-text color.
 		--color-main-text: var(--color-background-plain-text);
 		color: var(--color-background-plain-text);
 
-		// Class merges onto NcButton's root <button>; style directly, no :deep().
-		// !important: v8 NcButton's legacy bundle sets focus-visible
-		// outline/box-shadow with !important, same as the current-app :active rule.
-		&:hover:not(:disabled) {
-			background-color: rgba(0, 0, 0, 0.1) !important;
+		// Hide NcButton's own hover/active fill so only the __trigger highlight
+		// shows. The extra .button-vue makes this win over NcButton's rule.
+		&.button-vue:hover:not(:disabled),
+		&.button-vue:active:not(:disabled) {
+			background-color: transparent !important;
 		}
 
-		&:active:not(:disabled) {
-			background-color: rgba(0, 0, 0, 0.15) !important;
-		}
-
-		&:focus-visible {
-			background-color: rgba(0, 0, 0, 0.1) !important;
+		// Per-button keyboard focus ring, matched to the highlight pill. Hide
+		// NcButton's own ring (outline + halo); the extra .button-vue makes our
+		// override win over it.
+		&.button-vue:focus-visible {
 			outline: none !important;
-			box-shadow: inset 0 0 0 2px var(--color-background-plain-text) !important;
+			box-shadow: none !important;
+		}
+
+		&.button-vue:focus-visible::before {
+			content: '';
+			position: absolute;
+			inset-block: calc((var(--header-height) - var(--default-clickable-area)) / 2);
+			inset-inline: 0;
+			border-radius: var(--border-radius-element);
+			box-shadow: inset 0 0 0 2px var(--color-background-plain-text);
+			pointer-events: none;
 		}
 	}
 
 	&__current-app {
-		// NcButton's tertiary-no-background variant uses --color-main-text,
-		// which is dark on light themes. The header sits on the theme primary
-		// background, so override to use the matching plain-text color.
-		--color-main-text: var(--color-background-plain-text);
-		color: var(--color-background-plain-text);
-
-		// !important: v8 NcButton's legacy bundle sets focus-visible
-		// outline/box-shadow with !important. Same translucent-black hover/
-		// active overlays as the waffle: --color-background-hover collapses
-		// contrast against the theme-primary header tint.
-		&:hover:not(:disabled) {
-			background-color: rgba(0, 0, 0, 0.1) !important;
-		}
-
-		&:active:not(:disabled) {
-			background-color: rgba(0, 0, 0, 0.15) !important;
-		}
-
-		&:focus-visible {
-			background-color: rgba(0, 0, 0, 0.1) !important;
-			outline: none !important;
-			box-shadow: inset 0 0 0 2px var(--color-background-plain-text) !important;
-		}
-
 		// Lets the inner label shrink to its max-width and ellipsize instead of
 		// pushing the button wider than the inline-flex text slot.
 		:deep(.button-vue__text) {
