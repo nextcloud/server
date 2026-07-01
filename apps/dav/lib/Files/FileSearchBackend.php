@@ -13,10 +13,13 @@ use OC\Files\Search\SearchOrder;
 use OC\Files\Search\SearchQuery;
 use OC\Files\Storage\Wrapper\Jail;
 use OC\Files\View;
+use OCA\Files\AppInfo\Application;
+use OCA\Files\ConfigLexicon;
 use OCA\DAV\Connector\Sabre\CachingTree;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\File;
 use OCA\DAV\Connector\Sabre\FilesPlugin;
+use OCA\DAV\Connector\Sabre\GroupableFile;
 use OCA\DAV\Connector\Sabre\Server;
 use OCA\DAV\Connector\Sabre\TagsPlugin;
 use OCP\Files\Cache\ICacheEntry;
@@ -31,6 +34,7 @@ use OCP\Files\Search\ISearchQuery;
 use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\FilesMetadata\IMetadataQuery;
 use OCP\FilesMetadata\Model\IMetadataValueWrapper;
+use OCP\IAppConfig;
 use OCP\IUser;
 use OCP\Share\IManager;
 use Sabre\DAV\Exception\NotFound;
@@ -54,6 +58,7 @@ class FileSearchBackend implements ISearchBackend {
 		private IManager $shareManager,
 		private View $view,
 		private IFilesMetadataManager $filesMetadataManager,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -216,10 +221,14 @@ class FileSearchBackend implements ISearchBackend {
 				$results = $userFolder->search($query);
 		}
 
+		$groupRecentFilesEnabled = $this->appConfig->getValueBool(Application::APP_ID, ConfigLexicon::GROUP_RECENT_FILES, false);
+
 		/** @var SearchResult[] $nodes */
-		$nodes = array_map(function (Node $node) {
+		$nodes = array_map(function (Node $node) use ($groupRecentFilesEnabled) {
 			if ($node instanceof Folder) {
 				$davNode = new Directory($this->view, $node, $this->tree, $this->shareManager);
+			} elseif ($groupRecentFilesEnabled) {
+				$davNode = new GroupableFile($this->view, $node, $this->shareManager);
 			} else {
 				$davNode = new File($this->view, $node, $this->shareManager);
 			}
@@ -227,6 +236,10 @@ class FileSearchBackend implements ISearchBackend {
 			$this->tree->cacheNode($davNode, $path);
 			return new SearchResult($davNode, $path);
 		}, $results);
+
+		if ($groupRecentFilesEnabled) {
+			$nodes = $this->setGroupOnNodes($nodes);
+		}
 
 		if (!$query->limitToHome()) {
 			// Sort again, since the result from multiple storages is appended and not sorted
@@ -571,5 +584,104 @@ class FileSearchBackend implements ISearchBackend {
 			default:
 				return null;
 		}
+	}
+
+	/**
+	 * @param SearchResult[] $searchResults
+	 * @return SearchResult[] $searchResults
+	 */
+	private function setGroupOnNodes(array $searchResults): array {
+		$mimeTypes = $this->appConfig->getValueArray(Application::APP_ID, ConfigLexicon::RECENT_FILES_GROUP_MIME_TYPES, []);
+		if (count($mimeTypes) === 0) {
+			return $searchResults;
+		}
+		$timespanMinutes = $this->appConfig->getValueInt(Application::APP_ID, ConfigLexicon::RECENT_FILES_GROUP_TIMESPAN_MINUTES, 2);
+		$timespan = $timespanMinutes * 60;
+
+		// sort by oldest action to the most recent
+		usort($searchResults, fn($a, $b) => $this->getNodeTime($a) <=> $this->getNodeTime($b));
+
+		$count = count($searchResults);
+		$result = [];
+		$groupNumber = 1;
+		$i = 0;
+
+		while ($i < $count) {
+			$current = $searchResults[$i];
+
+			if (!$this->isNodeGroupable($current, $mimeTypes)) {
+				$result[] = $current;
+				$i++;
+				continue;
+			}
+
+			$groupStartTime = $this->getNodeTime($current);
+			$isContaminated = false;
+
+			// look ahead to check if the time window is contaminated by a non-groupable node
+			for ($j = $i + 1; $j < $count; $j++) {
+				$nextTime = $this->getNodeTime($searchResults[$j]);
+				if (abs($nextTime - $groupStartTime) > $timespan) {
+					break;
+				}
+				if (!$this->isNodeGroupable($searchResults[$j], $mimeTypes)) {
+					$isContaminated = true;
+					break;
+				}
+			}
+
+			if ($isContaminated) {
+				$result[] = $current;
+				$i++;
+				continue;
+			}
+
+			$groupIndexes = [$i];
+			$i++;
+
+			// add nodes to group until time window limit is reached
+			while ($i < $count) {
+				$next = $searchResults[$i];
+				$nextTime = $this->getNodeTime($next);
+
+				if (abs($nextTime - $groupStartTime) > $timespan) {
+					break;
+				}
+
+				$groupIndexes[] = $i;
+				$i++;
+			}
+
+			if (count($groupIndexes) === 1) {
+				$result[] = $searchResults[$groupIndexes[0]];
+				continue;
+			}
+
+			foreach ($groupIndexes as $idx) {
+				/** @var GroupableFile $node */
+				$node = $searchResults[$idx]->node;
+				$node->setGroup($groupNumber);
+				$result[] = $searchResults[$idx];
+			}
+			$groupNumber++;
+		}
+
+		return $result;
+	}
+
+	private function getNodeTime(SearchResult $result): int {
+		$node = $result->node;
+		if (!$node instanceof GroupableFile) {
+			return 0;
+		}
+		$uploadTime = $node->getNode()->getUploadTime();
+		$creationTime = $node->getNode()->getCreationTime();
+		$lastModified = $node->getLastModified();
+		return max($uploadTime, $creationTime, $lastModified);
+	}
+
+	private function isNodeGroupable(SearchResult $result, array $mimeTypes): bool {
+		$node = $result->node;
+		return $node instanceof GroupableFile && in_array($node->getNode()->getMimetype(), $mimeTypes, true);
 	}
 }

@@ -17,6 +17,7 @@ use OCA\DAV\Connector\Sabre\FilesPlugin;
 use OCA\DAV\Connector\Sabre\ObjectTree;
 use OCA\DAV\Connector\Sabre\Server;
 use OCA\DAV\Files\FileSearchBackend;
+use OCP\IAppConfig;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
@@ -80,8 +81,9 @@ class FileSearchBackendTest extends TestCase {
 			->willReturn($this->searchFolder);
 
 		$filesMetadataManager = $this->createMock(IFilesMetadataManager::class);
+		$appConfig = $this->createMock(IAppConfig::class);
 
-		$this->search = new FileSearchBackend($this->server, $this->tree, $this->user, $this->rootFolder, $this->shareManager, $this->view, $filesMetadataManager);
+		$this->search = new FileSearchBackend($this->server, $this->tree, $this->user, $this->rootFolder, $this->shareManager, $this->view, $filesMetadataManager, $appConfig);
 	}
 
 	public function testSearchFilename(): void {
