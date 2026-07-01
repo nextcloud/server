@@ -2039,7 +2039,6 @@ class ShareAPIControllerTest extends TestCase {
 		$share = $this->newShare();
 		$this->shareManager->method('newShare')->willReturn($share);
 		$this->shareManager->method('createShare')->willReturnArgument(0);
-		$this->shareManager->method('allowGroupSharing')->willReturn(true);
 
 		[$userFolder, $path] = $this->getNonSharedUserFile();
 		$this->rootFolder->method('getUserFolder')
@@ -2313,8 +2312,6 @@ class ShareAPIControllerTest extends TestCase {
 			->willReturn([]);
 
 		$this->shareManager->method('newShare')->willReturn(Server::get(IManager::class)->newShare());
-		$this->shareManager->method('shareApiAllowLinks')->willReturn(true);
-		$this->shareManager->method('shareApiLinkAllowPublicUpload')->willReturn(true);
 
 		$this->shareManager->expects($this->once())->method('createShare')->with(
 			$this->callback(function (IShare $share) use ($path) {
@@ -2352,8 +2349,6 @@ class ShareAPIControllerTest extends TestCase {
 			->willReturn([]);
 
 		$this->shareManager->method('newShare')->willReturn(Server::get(IManager::class)->newShare());
-		$this->shareManager->method('shareApiAllowLinks')->willReturn(true);
-		$this->shareManager->method('shareApiLinkAllowPublicUpload')->willReturn(true);
 
 		$this->appManager->method('isEnabledForUser')->with('spreed')->willReturn(true);
 
@@ -2399,8 +2394,6 @@ class ShareAPIControllerTest extends TestCase {
 			->willReturn([]);
 
 		$this->shareManager->method('newShare')->willReturn(Server::get(IManager::class)->newShare());
-		$this->shareManager->method('shareApiAllowLinks')->willReturn(true);
-		$this->shareManager->method('shareApiLinkAllowPublicUpload')->willReturn(true);
 
 		$this->appManager->method('isEnabledForUser')->with('spreed')->willReturn(false);
 
@@ -2437,8 +2430,6 @@ class ShareAPIControllerTest extends TestCase {
 			->willReturn([]);
 
 		$this->shareManager->method('newShare')->willReturn(Server::get(IManager::class)->newShare());
-		$this->shareManager->method('shareApiAllowLinks')->willReturn(true);
-		$this->shareManager->method('shareApiLinkAllowPublicUpload')->willReturn(true);
 
 		$this->shareManager->expects($this->once())->method('createShare')->with(
 			$this->callback(function (IShare $share) use ($path) {
@@ -2483,8 +2474,6 @@ class ShareAPIControllerTest extends TestCase {
 			->willReturn([]);
 
 		$this->shareManager->method('newShare')->willReturn(Server::get(IManager::class)->newShare());
-		$this->shareManager->method('shareApiAllowLinks')->willReturn(true);
-		$this->shareManager->method('shareApiLinkAllowPublicUpload')->willReturn(true);
 
 		$ocs->createShare('valid-path', Constants::PERMISSION_ALL, IShare::TYPE_LINK, null, 'false', '', null, 'a1b2d3');
 	}
@@ -2553,8 +2542,6 @@ class ShareAPIControllerTest extends TestCase {
 					&& $share->getSharedBy() === 'currentUser';
 			}))
 			->willReturnArgument(0);
-
-		$this->shareManager->method('outgoingServer2ServerSharesAllowed')->willReturn(true);
 
 		$expected = new DataResponse([]);
 		$result = $ocs->createShare('valid-path', Constants::PERMISSION_ALL, IShare::TYPE_REMOTE, 'user@example.org');
@@ -2627,8 +2614,6 @@ class ShareAPIControllerTest extends TestCase {
 					&& $share->getSharedBy() === 'currentUser';
 			}))
 			->willReturnArgument(0);
-
-		$this->shareManager->method('outgoingServer2ServerGroupSharesAllowed')->willReturn(true);
 
 		$expected = new DataResponse([]);
 		$result = $ocs->createShare('valid-path', Constants::PERMISSION_ALL, IShare::TYPE_REMOTE_GROUP, 'group@example.org');
@@ -3021,7 +3006,6 @@ class ShareAPIControllerTest extends TestCase {
 			->setNode($folder);
 
 		$this->shareManager->method('getShareById')->with('ocinternal:42')->willReturn($share);
-		$this->shareManager->method('shareApiLinkAllowPublicUpload')->willReturn(true);
 
 		$this->shareManager->expects($this->once())->method('updateShare')->with(
 			$this->callback(function (IShare $share) {
@@ -3136,7 +3120,6 @@ class ShareAPIControllerTest extends TestCase {
 			->setNode($folder);
 
 		$this->shareManager->method('getShareById')->with('ocinternal:42')->willReturn($share);
-		$this->shareManager->method('shareApiLinkAllowPublicUpload')->willReturn(true);
 		$this->shareManager->method('getSharedWith')->willReturn([]);
 
 		$this->shareManager
@@ -3219,7 +3202,6 @@ class ShareAPIControllerTest extends TestCase {
 			->setNode($folder);
 
 		$this->shareManager->method('getShareById')->with('ocinternal:42')->willReturn($share);
-		$this->shareManager->method('shareApiLinkAllowPublicUpload')->willReturn(true);
 
 		$ocs->updateShare(42, null, 'password', null, 'true', '2000-01-a');
 	}
@@ -3296,9 +3278,6 @@ class ShareAPIControllerTest extends TestCase {
 			->method('getShareById')
 			->with('ocinternal:42')
 			->willReturn($share);
-		$this->shareManager
-			->method('shareApiLinkAllowPublicUpload')
-			->willReturn(true);
 		$this->shareManager
 			->method('updateShare')
 			->with($share)
@@ -3666,7 +3645,6 @@ class ShareAPIControllerTest extends TestCase {
 			->setNode($folder);
 
 		$this->shareManager->method('getShareById')->with('ocinternal:42')->willReturn($share);
-		$this->shareManager->method('shareApiLinkAllowPublicUpload')->willReturn(true);
 
 		$this->shareManager->expects($this->once())->method('updateShare')->with(
 			$this->callback(function (IShare $share) use ($date) {
@@ -3727,7 +3705,6 @@ class ShareAPIControllerTest extends TestCase {
 			->setNode($folder);
 
 		$this->shareManager->method('getShareById')->with('ocinternal:42')->willReturn($share);
-		$this->shareManager->method('shareApiLinkAllowPublicUpload')->willReturn(true);
 
 		$this->shareManager->expects($this->once())->method('updateShare')->with(
 			$this->callback(function (IShare $share) use ($date): bool {
@@ -3787,7 +3764,6 @@ class ShareAPIControllerTest extends TestCase {
 			->setNode($folder);
 
 		$this->shareManager->method('getShareById')->with('ocinternal:42')->willReturn($share);
-		$this->shareManager->method('shareApiLinkAllowPublicUpload')->willReturn(true);
 
 		$this->shareManager->expects($this->once())
 			->method('updateShare')
@@ -3840,7 +3816,6 @@ class ShareAPIControllerTest extends TestCase {
 			->setNode($file);
 
 		$this->shareManager->method('getShareById')->with('ocinternal:42')->willReturn($share);
-		$this->shareManager->method('shareApiLinkAllowPublicUpload')->willReturn(true);
 
 		$this->shareManager->expects($this->once())->method('updateShare')->with(
 			$this->callback(function (IShare $share) {

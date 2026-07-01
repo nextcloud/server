@@ -33,6 +33,18 @@ use OCP\IDateTimeZone;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IL10N;
+use OCP\Interaction\Actions\ShareAction;
+use OCP\Interaction\Receivers\CircleReceiver;
+use OCP\Interaction\Receivers\DeckReceiver;
+use OCP\Interaction\Receivers\EmailReceiver;
+use OCP\Interaction\Receivers\GroupReceiver;
+use OCP\Interaction\Receivers\LinkReceiver;
+use OCP\Interaction\Receivers\RemoteGroupReceiver;
+use OCP\Interaction\Receivers\RemoteUserReceiver;
+use OCP\Interaction\Receivers\RoomReceiver;
+use OCP\Interaction\Receivers\UserReceiver;
+use OCP\Interaction\Resources\NodeResource;
+use OCP\Interaction\RestrictInteractionEvent;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -197,21 +209,6 @@ class Manager implements IManager {
 		if (!($share->getNode() instanceof \OCP\Files\File)
 			&& !($share->getNode() instanceof \OCP\Files\Folder)) {
 			throw new \InvalidArgumentException($this->l->t('Shared path must be either a file or a folder'));
-		}
-
-		// And you cannot share your rootfolder
-		if ($this->userManager->userExists($share->getSharedBy())) {
-			$userFolder = $this->rootFolder->getUserFolder($share->getSharedBy());
-		} else {
-			$userFolder = $this->rootFolder->getUserFolder($share->getShareOwner());
-		}
-		if ($userFolder->getId() === $share->getNode()->getId()) {
-			throw new \InvalidArgumentException($this->l->t('You cannot share your root folder'));
-		}
-
-		// Check if we actually have share permissions
-		if (!$share->getNode()->isShareable()) {
-			throw new GenericShareException($this->l->t('You are not allowed to share %s', [$share->getNode()->getName()]), code: 404);
 		}
 
 		// Permissions should be set
@@ -447,25 +444,6 @@ class Manager implements IManager {
 	 * @throws \Exception
 	 */
 	protected function userCreateChecks(IShare $share): void {
-		// Check if we can share with group members only
-		if ($this->shareWithGroupMembersOnly()) {
-			$sharedBy = $this->userManager->get($share->getSharedBy());
-			$sharedWith = $this->userManager->get($share->getSharedWith());
-			// Verify we can share with this user
-			$groups = array_intersect(
-				$this->groupManager->getUserGroupIds($sharedBy),
-				$this->groupManager->getUserGroupIds($sharedWith)
-			);
-
-			// optional excluded groups
-			$excludedGroups = $this->shareWithGroupMembersOnlyExcludeGroupsList();
-			$groups = array_diff($groups, $excludedGroups);
-
-			if (empty($groups)) {
-				throw new \Exception($this->l->t('Sharing is only allowed with group members'));
-			}
-		}
-
 		/*
 		 * TODO: Could be costly, fix
 		 *
@@ -508,23 +486,6 @@ class Manager implements IManager {
 	 * @throws \Exception
 	 */
 	protected function groupCreateChecks(IShare $share): void {
-		// Verify group shares are allowed
-		if (!$this->allowGroupSharing()) {
-			throw new \Exception($this->l->t('Group sharing is now allowed'));
-		}
-
-		// Verify if the user can share with this group
-		if ($this->shareWithGroupMembersOnly()) {
-			$sharedBy = $this->userManager->get($share->getSharedBy());
-			$sharedWith = $this->groupManager->get($share->getSharedWith());
-
-			// optional excluded groups
-			$excludedGroups = $this->shareWithGroupMembersOnlyExcludeGroupsList();
-			if (is_null($sharedWith) || in_array($share->getSharedWith(), $excludedGroups) || !$sharedWith->inGroup($sharedBy)) {
-				throw new \Exception($this->l->t('Sharing is only allowed within your own groups'));
-			}
-		}
-
 		/*
 		 * TODO: Could be costly, fix
 		 *
@@ -598,26 +559,8 @@ class Manager implements IManager {
 		}
 	}
 
-	/**
-	 * Check if the user that is sharing can actually share
-	 *
-	 * @throws \Exception
-	 */
-	protected function canShare(IShare $share): void {
-		if (!$this->shareApiEnabled()) {
-			throw new \Exception($this->l->t('Sharing is disabled'));
-		}
-
-		if ($this->sharingDisabledForUser($share->getSharedBy())) {
-			throw new \Exception($this->l->t('Sharing is disabled for you'));
-		}
-	}
-
 	#[Override]
 	public function createShare(IShare $share): IShare {
-		// TODO: handle link share permissions or check them
-		$this->canShare($share);
-
 		$this->generalChecks($share);
 
 		// Verify if there are any issues with the path
@@ -659,7 +602,6 @@ class Manager implements IManager {
 				$share = $this->validateExpirationDateInternal($share);
 			} elseif ($share->getShareType() === IShare::TYPE_LINK
 				|| $share->getShareType() === IShare::TYPE_EMAIL) {
-				$this->linkCreateChecks($share);
 				$this->setLinkParent($share);
 
 				$token = $this->generateToken();
@@ -763,8 +705,6 @@ class Manager implements IManager {
 	public function updateShare(IShare $share, bool $onlyValid = true): IShare {
 		$expirationDateUpdated = false;
 
-		$this->canShare($share);
-
 		try {
 			$originalShare = $this->getShareById($share->getFullId(), onlyValid: $onlyValid);
 		} catch (\UnexpectedValueException $e) {
@@ -808,7 +748,6 @@ class Manager implements IManager {
 			}
 		} elseif ($share->getShareType() === IShare::TYPE_LINK
 			|| $share->getShareType() === IShare::TYPE_EMAIL) {
-			$this->linkCreateChecks($share);
 
 			// The new password is not set again if it is the same as the old
 			// one, unless when switching from sending by Talk to sending by

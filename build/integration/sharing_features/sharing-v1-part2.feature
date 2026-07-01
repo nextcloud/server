@@ -657,7 +657,7 @@ Scenario: getting all shares of a file with a received share after revoking the 
       | shareType | 0 |
       | shareWith | user2 |
       | permissions | 31 |
-    Then the OCS status code should be "404"
+    Then the OCS status code should be "403"
     And the HTTP status code should be "200"
 
   Scenario: User is allowed to reshare file with more permissions if shares of same file to same user have them
@@ -708,7 +708,7 @@ Scenario: getting all shares of a file with a received share after revoking the 
       | shareType | 0 |
       | shareWith | user2 |
       | permissions | 31 |
-    Then the OCS status code should be "404"
+    Then the OCS status code should be "403"
     And the HTTP status code should be "200"
 
   Scenario: User is not allowed to reshare file with more permissions even if shares of same file to other users have them
@@ -737,7 +737,7 @@ Scenario: getting all shares of a file with a received share after revoking the 
       | shareType | 0 |
       | shareWith | user2 |
       | permissions | 19 |
-    Then the OCS status code should be "404"
+    Then the OCS status code should be "403"
     And the HTTP status code should be "200"
 
   Scenario: User is not allowed to reshare file with more permissions even if shares of other files from same user have them
@@ -765,7 +765,7 @@ Scenario: getting all shares of a file with a received share after revoking the 
       | shareType | 0 |
       | shareWith | user2 |
       | permissions | 19 |
-    Then the OCS status code should be "404"
+    Then the OCS status code should be "403"
     And the HTTP status code should be "200"
 
   Scenario: User is not allowed to reshare file with more permissions even if shares of other files from other users have them
@@ -794,7 +794,7 @@ Scenario: getting all shares of a file with a received share after revoking the 
       | shareType | 0 |
       | shareWith | user2 |
       | permissions | 19 |
-    Then the OCS status code should be "404"
+    Then the OCS status code should be "403"
     And the HTTP status code should be "200"
 
   Scenario: download restrictions can not be dropped
@@ -888,7 +888,7 @@ Scenario: getting all shares of a file with a received share after revoking the 
       | shareType | 0 |
       | shareWith | user2 |
       | permissions | 25 |
-    Then the OCS status code should be "404"
+    Then the OCS status code should be "403"
     And the HTTP status code should be "200"
 
   Scenario: User is not allowed to reshare file with additional delete permissions for files
@@ -1197,7 +1197,7 @@ Scenario: getting all shares of a file with a received share after revoking the 
       | permissions | 21 |
     When Updating last share with
       | permissions | 31 |
-    Then the OCS status code should be "404"
+    Then the OCS status code should be "403"
     And the HTTP status code should be "200"
 
   Scenario: Do not allow reshare to exceed permissions even if shares of same file to other users have them
@@ -1229,7 +1229,7 @@ Scenario: getting all shares of a file with a received share after revoking the 
       | permissions | 21 |
     When Updating last share with
       | permissions | 31 |
-    Then the OCS status code should be "404"
+    Then the OCS status code should be "403"
     And the HTTP status code should be "200"
 
   Scenario: Do not allow reshare to exceed permissions even if shares of other files from same user have them
@@ -1260,7 +1260,7 @@ Scenario: getting all shares of a file with a received share after revoking the 
       | permissions | 21 |
     When Updating last share with
       | permissions | 31 |
-    Then the OCS status code should be "404"
+    Then the OCS status code should be "403"
     And the HTTP status code should be "200"
 
   Scenario: Do not allow reshare to exceed permissions even if shares of other files from other users have them
@@ -1292,7 +1292,7 @@ Scenario: getting all shares of a file with a received share after revoking the 
       | permissions | 21 |
     When Updating last share with
       | permissions | 31 |
-    Then the OCS status code should be "404"
+    Then the OCS status code should be "403"
     And the HTTP status code should be "200"
 
   Scenario: Do not allow sub reshare to exceed permissions
@@ -1316,7 +1316,7 @@ Scenario: getting all shares of a file with a received share after revoking the 
       | permissions | 21 |
     When Updating last share with
       | permissions | 31 |
-    Then the OCS status code should be "404"
+    Then the OCS status code should be "403"
     And the HTTP status code should be "200"
 
   Scenario: Only allow 1 link share per file/folder
