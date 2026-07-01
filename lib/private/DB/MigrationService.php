@@ -252,7 +252,7 @@ class MigrationService {
 	 * @param string $to
 	 * @return string[]
 	 */
-	private function getMigrationsToExecute($to) {
+	private function getMigrationsToExecute($to): array {
 		$knownMigrations = $this->getMigratedVersions();
 		$availableMigrations = $this->getAvailableVersions();
 
@@ -274,7 +274,7 @@ class MigrationService {
 	 * @param string[] $knownMigrations
 	 * @return bool
 	 */
-	private function shallBeExecuted($m, $knownMigrations) {
+	private function shallBeExecuted($m, $knownMigrations): bool {
 		if (in_array($m, $knownMigrations)) {
 			return false;
 		}
@@ -294,28 +294,22 @@ class MigrationService {
 
 	/**
 	 * Returns the name of the table which holds the already applied versions
-	 *
-	 * @return string
 	 */
-	public function getMigrationsTableName() {
+	public function getMigrationsTableName(): string {
 		return $this->connection->getPrefix() . 'migrations';
 	}
 
 	/**
 	 * Returns the namespace of the version classes
-	 *
-	 * @return string
 	 */
-	public function getMigrationsNamespace() {
+	public function getMigrationsNamespace(): string {
 		return $this->migrationsNamespace;
 	}
 
 	/**
 	 * Returns the directory which holds the versions
-	 *
-	 * @return string
 	 */
-	public function getMigrationsDirectory() {
+	public function getMigrationsDirectory(): string {
 		return $this->migrationsPath;
 	}
 
@@ -457,7 +451,7 @@ class MigrationService {
 	 * @param string $to
 	 * @return string[] [$name => $description]
 	 */
-	public function describeMigrationStep($to = 'latest') {
+	public function describeMigrationStep(string $to = 'latest'): array {
 		$toBeExecuted = $this->getMigrationsToExecute($to);
 		$description = [];
 		foreach ($toBeExecuted as $version) {
@@ -470,11 +464,9 @@ class MigrationService {
 	}
 
 	/**
-	 * @param string $version
-	 * @return IMigrationStep
 	 * @throws \InvalidArgumentException
 	 */
-	public function createInstance($version) {
+	public function createInstance(string $version): IMigrationStep {
 		/** @psalm-var class-string<IMigrationStep> $class */
 		$class = $this->getClass($version);
 		try {
@@ -496,11 +488,9 @@ class MigrationService {
 	/**
 	 * Executes one explicit version
 	 *
-	 * @param string $version
-	 * @param bool $schemaOnly
 	 * @throws \InvalidArgumentException
 	 */
-	public function executeStep($version, $schemaOnly = false): void {
+	public function executeStep(string $version, bool $schemaOnly = false): void {
 		$instance = $this->createInstance($version);
 
 		if (!$schemaOnly) {
