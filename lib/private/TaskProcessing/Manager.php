@@ -1610,7 +1610,7 @@ class Manager implements IManager {
 					$ext = '';
 				}
 				/** @var SimpleFile $file */
-				$file = $folder->newFile(time() . '-' . rand(1, 100000) . $ext, $data);
+				$file = $folder->newFile(time() . '-' . rand(1, 100000) . ($ext ? '.' . $ext : ''), $data);
 				$newOutput[$key] = $file->getId(); // polymorphic call to SimpleFile
 			} else {
 				$newOutput = [];
@@ -1623,7 +1623,7 @@ class Manager implements IManager {
 						$ext = '';
 					}
 					/** @var SimpleFile $file */
-					$file = $folder->newFile(time() . '-' . rand(1, 100000) . $ext, $data);
+					$file = $folder->newFile(time() . '-' . rand(1, 100000) . ($ext ? '.' . $ext : ''), $data);
 					$newOutput[$key][] = $file->getId();
 				}
 			}
