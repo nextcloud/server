@@ -127,7 +127,7 @@ if ($debugging) {
 
 $server->addPlugin(new \Sabre\DAV\Sync\Plugin());
 $server->addPlugin(new \Sabre\CalDAV\ICSExportPlugin());
-$server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin(Server::get(IConfig::class), Server::get(LoggerInterface::class), Server::get(DefaultCalendarValidator::class)));
+$server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin(Server::get(IConfig::class), Server::get(LoggerInterface::class), Server::get(DefaultCalendarValidator::class), $calDavBackend, Server::get(\OCP\Config\IUserConfig::class), Server::get(\OCP\IAppConfig::class)));
 
 if ($sendInvitations) {
 	$server->addPlugin(Server::get(IMipPlugin::class));
