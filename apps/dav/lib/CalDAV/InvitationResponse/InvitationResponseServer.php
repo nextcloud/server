@@ -12,6 +12,7 @@ use OCA\DAV\CalDAV\Auth\CustomPrincipalPlugin;
 use OCA\DAV\CalDAV\Auth\PublicPrincipalPlugin;
 use OCA\DAV\CalDAV\DefaultCalendarValidator;
 use OCA\DAV\CalDAV\Publishing\PublishPlugin;
+use OCA\DAV\CalDAV\Schedule\IMipPlugin;
 use OCA\DAV\Connector\Sabre\AnonymousOptionsPlugin;
 use OCA\DAV\Connector\Sabre\BlockLegacyClientPlugin;
 use OCA\DAV\Connector\Sabre\CachingTree;
@@ -113,6 +114,11 @@ class InvitationResponseServer {
 	 * @return void
 	 */
 	public function handleITipMessage(Message $iTipMessage) {
+		// Register the iMIP plugin only for the invitation-link flow, it must stay absent for createFromStringMinimal() and CalendarImpl
+		if ($this->server->getPlugin('imip') === null) {
+			$this->server->addPlugin(Server::get(IMipPlugin::class));
+		}
+
 		/** @var \OCA\DAV\CalDAV\Schedule\Plugin $schedulingPlugin */
 		$schedulingPlugin = $this->server->getPlugin('caldav-schedule');
 		$schedulingPlugin->scheduleLocalDelivery($iTipMessage);
