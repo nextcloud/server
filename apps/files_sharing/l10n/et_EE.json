@@ -88,7 +88,6 @@
     "Wrong or no update parameter given" : "Antud vale või aegunud parameeter",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "Kuna Nextcloud Talk pole serverisse paigaldatud, siis ei saanud selle teenuse abil ka jaosmeedia salasõna jagada",
     "Custom share link tokens have been disabled by the administrator" : "Jaosmeediale oma tunnuslubade loomine pole peakasutaja poolt lubatud",
-    "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Tunnuslubades peab olema vähemalt 1 tähemärk ning võib olla vaid tähti, numbreid ja sisekriipse",
     "Invalid date. Format must be YYYY-MM-DD" : "Vigane kuupäev, vorming peab olema YYYY-MM-DD",
     "No sharing rights on this item" : "Selle objekti kontekstis pole jagamisõigusi",
     "Invalid share attributes provided: \"%s\"" : "Vigased jagamisatribuudid: „%s“",
@@ -401,6 +400,7 @@
     "Back to %s" : "Tagasi siia: %s",
     "Add to your Nextcloud" : "Lisa oma Nextcloudi",
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "„%s“ jagamine ei õnnestunud, sest taustateenus ei toeta ScienceMeshi meedia jagamist",
+    "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Tunnuslubades peab olema vähemalt 1 tähemärk ning võib olla vaid tähti, numbreid ja sisekriipse",
     "Name or email …" : "Nimi või e-posti aadress…",
     "Name, email, or Federated Cloud ID …" : "Nimi, e-posti aadress või liitpilve kasutajatunnus…",
     "Searching …" : "Otsin..."

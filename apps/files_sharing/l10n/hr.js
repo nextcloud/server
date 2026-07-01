@@ -90,7 +90,6 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "Pogrešan parametar ili nije dodan parametar ažuriranja",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "„Slanje zaporke putem aplikacije Nextcloud Talk“ radi dijeljenja datoteke ili mape nije uspjelo jer Nextcloud Talk nije omogućen.",
     "Custom share link tokens have been disabled by the administrator" : "Administrator je onemogućio prilagođene tokene poveznica za dijeljenje",
-    "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Tokeni moraju sadržavati najmanje 1 znak i smiju sadržavati samo slova, brojeve ili crticu",
     "Invalid date. Format must be YYYY-MM-DD" : "Nevažeći datum. Oblik mora biti GGGG-MM-DD",
     "No sharing rights on this item" : "Nema dopuštenja za dijeljenje ove stavke",
     "Invalid share attributes provided: \"%s\"" : "Navedeni su nevažeći atributi dijeljenja: „%s”",
@@ -403,6 +402,7 @@ OC.L10N.register(
     "Back to %s" : "Natrag na %s",
     "Add to your Nextcloud" : "Dodaj u svoj Nextcloud",
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Neuspješno dijeljenje %s jer pozadinski servis ne podržava ScienceMesh dijeljenje ",
+    "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Tokeni moraju sadržavati najmanje 1 znak i smiju sadržavati samo slova, brojeve ili crticu",
     "Name or email …" : "Ime ili adresa e-pošte…",
     "Name, email, or Federated Cloud ID …" : "Naziv, adresa e-pošte ili ID udruženog oblaka…",
     "Searching …" : "Traženje…"

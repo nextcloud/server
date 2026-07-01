@@ -90,7 +90,6 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "پارامتر به‌روزرسانی اشتباه یا داده نشده است",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "«ارسال رمز عبور از طریق نکست‌کلود تاک» برای اشتراک‌گذاری یک فایل یا پوشه به دلیل فعال نبودن نکست‌کلود تاک انجام نشد",
     "Custom share link tokens have been disabled by the administrator" : "توکن‌های لینک اشتراک‌گذاری سفارشی توسط مدیر غیرفعال شده است",
-    "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "توکن‌ها باید حداقل ۱ کاراکتر داشته باشند و فقط می‌توانند شامل حروف، اعداد یا خط تیره باشند",
     "Invalid date. Format must be YYYY-MM-DD" : "تاریخ نامعتبر است. قالب باید YYYY-MM-DD باشد",
     "No sharing rights on this item" : "هیچ حق اشتراک‌گذاری روی این آیتم وجود ندارد",
     "Invalid share attributes provided: \"%s\"" : "ویژگی‌های اشتراک‌گذاری نامعتبر ارائه شده است: «%s»",
@@ -403,6 +402,7 @@ OC.L10N.register(
     "Back to %s" : "بازگشت به %s",
     "Add to your Nextcloud" : "افزودن به نکست‌کلود شما",
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "اشتراک‌گذاری %s به دلیل عدم پشتیبانی سرور پشتیبان از اشتراک‌های ScienceMesh انجام نشد",
+    "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "توکن‌ها باید حداقل ۱ کاراکتر داشته باشند و فقط می‌توانند شامل حروف، اعداد یا خط تیره باشند",
     "Name or email …" : "نام یا ایمیل …",
     "Name, email, or Federated Cloud ID …" : "نام، ایمیل، یا شناسه ابر فدرال …",
     "Searching …" : "در حال جستجو …"
