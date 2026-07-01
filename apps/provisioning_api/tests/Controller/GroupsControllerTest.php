@@ -9,7 +9,6 @@
 namespace OCA\Provisioning_API\Tests\Controller;
 
 use OC\Group\Manager;
-use OC\User\NoUserException;
 use OCA\Provisioning_API\Controller\GroupsController;
 use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\OCS\OCSException;
@@ -22,6 +21,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\User\Exceptions\UserNotFoundException;
 use OCP\UserInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -460,7 +460,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		];
 		$users['ncu2']->expects($this->atLeastOnce())
 			->method('getHome')
-			->willThrowException(new NoUserException());
+			->willThrowException(new UserNotFoundException());
 
 		$this->userManager->expects($this->any())
 			->method('get')
@@ -504,7 +504,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		];
 		$users['ncu2']->expects($this->atLeastOnce())
 			->method('getHome')
-			->willThrowException(new NoUserException());
+			->willThrowException(new UserNotFoundException());
 
 		$this->userManager->expects($this->any())
 			->method('get')

@@ -8,10 +8,10 @@
 
 namespace OCP\Files;
 
-use OC\User\NoUserException;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Node as INode;
+use OCP\User\Exceptions\UserNotFoundException;
 
 /**
  * Interface IRootFolder
@@ -24,7 +24,7 @@ interface IRootFolder extends Folder {
 	 *
 	 * @param string $userId user ID
 	 * @return Folder
-	 * @throws NoUserException
+	 * @throws UserNotFoundException
 	 * @throws NotPermittedException
 	 *
 	 * @since 8.2.0

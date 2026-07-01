@@ -1099,6 +1099,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\User\\Events\\UserLoggedInEvent' => __DIR__ . '/../../..' . '/lib/public/User/Events/UserLoggedInEvent.php',
         'OCP\\User\\Events\\UserLoggedInWithCookieEvent' => __DIR__ . '/../../..' . '/lib/public/User/Events/UserLoggedInWithCookieEvent.php',
         'OCP\\User\\Events\\UserLoggedOutEvent' => __DIR__ . '/../../..' . '/lib/public/User/Events/UserLoggedOutEvent.php',
+        'OCP\\User\\Exceptions\\UserNotFoundException' => __DIR__ . '/../../..' . '/lib/public/User/Exceptions/UserNotFoundException.php',
         'OCP\\User\\GetQuotaEvent' => __DIR__ . '/../../..' . '/lib/public/User/GetQuotaEvent.php',
         'OCP\\User\\IAvailabilityCoordinator' => __DIR__ . '/../../..' . '/lib/public/User/IAvailabilityCoordinator.php',
         'OCP\\User\\IOutOfOfficeData' => __DIR__ . '/../../..' . '/lib/public/User/IOutOfOfficeData.php',

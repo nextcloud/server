@@ -12,7 +12,6 @@ namespace OC\Files\Template;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Files\Cache\Scanner;
 use OC\Files\Filesystem;
-use OC\User\NoUserException;
 use OCA\Files\ResponseDefinitions;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
@@ -36,6 +35,7 @@ use OCP\IPreview;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\User\Exceptions\UserNotFoundException;
 use Override;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -185,7 +185,7 @@ class TemplateManager implements ITemplateManager {
 	/**
 	 * @throws NotFoundException
 	 * @throws NotPermittedException
-	 * @throws NoUserException
+	 * @throws UserNotFoundException
 	 */
 	private function getTemplateFolder(): Folder {
 		if ($this->getTemplatePath() !== '') {

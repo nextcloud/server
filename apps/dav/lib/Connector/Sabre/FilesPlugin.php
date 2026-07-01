@@ -10,7 +10,6 @@ namespace OCA\DAV\Connector\Sabre;
 
 use OC\AppFramework\Http\Request;
 use OC\FilesMetadata\Model\FilesMetadata;
-use OC\User\NoUserException;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCA\Files_Sharing\External\Mount as SharingExternalMount;
 use OCP\Accounts\IAccountManager;
@@ -29,6 +28,7 @@ use OCP\IPreview;
 use OCP\IRequest;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\User\Exceptions\UserNotFoundException;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\IFile;
@@ -382,7 +382,7 @@ class FilesPlugin extends ServerPlugin {
 				// Check if the user published their display name
 				try {
 					$ownerAccount = $this->accountManager->getAccount($owner);
-				} catch (NoUserException) {
+				} catch (UserNotFoundException) {
 					// do not lock process if owner is not local
 					return null;
 				}

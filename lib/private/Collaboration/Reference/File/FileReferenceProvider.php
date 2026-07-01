@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace OC\Collaboration\Reference\File;
 
-use OC\User\NoUserException;
 use OCP\Collaboration\Reference\ADiscoverableReferenceProvider;
 use OCP\Collaboration\Reference\IReference;
 use OCP\Collaboration\Reference\Reference;
@@ -22,6 +21,7 @@ use OCP\IPreview;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\User\Exceptions\UserNotFoundException;
 
 class FileReferenceProvider extends ADiscoverableReferenceProvider {
 	private ?string $userId;
@@ -132,7 +132,7 @@ class FileReferenceProvider extends ADiscoverableReferenceProvider {
 				'mtime' => $file->getMTime(),
 				'preview-available' => $this->previewManager->isAvailable($file)
 			]);
-		} catch (InvalidPathException|NotFoundException|NotPermittedException|NoUserException $e) {
+		} catch (InvalidPathException|NotFoundException|NotPermittedException|UserNotFoundException $e) {
 			throw new NotFoundException();
 		}
 	}

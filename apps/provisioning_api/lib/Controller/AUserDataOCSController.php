@@ -11,7 +11,6 @@ namespace OCA\Provisioning_API\Controller;
 
 use OC\Group\Manager as GroupManager;
 use OC\User\Backend;
-use OC\User\NoUserException;
 use OCA\Provisioning_API\ResponseDefinitions;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\PropertyDoesNotExistException;
@@ -32,6 +31,7 @@ use OCP\L10N\IFactory;
 use OCP\Server;
 use OCP\User\Backend\ISetDisplayNameBackend;
 use OCP\User\Backend\ISetPasswordBackend;
+use OCP\User\Exceptions\UserNotFoundException;
 use OCP\Util;
 
 /**
@@ -115,7 +115,7 @@ abstract class AUserDataOCSController extends OCSController {
 				# from the external source (reasons unknown to us)
 				# cf. https://github.com/nextcloud/server/issues/12991
 				$data['storageLocation'] = $targetUserObject->getHome();
-			} catch (NoUserException $e) {
+			} catch (UserNotFoundException $e) {
 				throw new OCSNotFoundException($e->getMessage(), $e);
 			}
 		}
