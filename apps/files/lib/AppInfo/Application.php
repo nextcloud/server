@@ -24,6 +24,7 @@ use OCA\Files\Listener\LoadSidebarListener;
 use OCA\Files\Listener\NodeAddedToFavoriteListener;
 use OCA\Files\Listener\NodeRemovedFromFavoriteListener;
 use OCA\Files\Listener\RenderReferenceEventListener;
+use OCA\Files\Listener\RestrictInteractionListener;
 use OCA\Files\Listener\SyncLivePhotosListener;
 use OCA\Files\Listener\UserFirstTimeLoggedInListener;
 use OCA\Files\Notification\Notifier;
@@ -41,6 +42,7 @@ use OCP\Files\Events\Node\BeforeNodeRenamedEvent;
 use OCP\Files\Events\Node\NodeCopiedEvent;
 use OCP\Files\Events\NodeAddedToFavorite;
 use OCP\Files\Events\NodeRemovedFromFavorite;
+use OCP\Interaction\RestrictInteractionEvent;
 use OCP\User\Events\UserFirstTimeLoggedInEvent;
 use OCP\Util;
 
@@ -79,6 +81,7 @@ class Application extends App implements IBootstrap {
 
 		$context->registerConfigLexicon(ConfigLexicon::class);
 
+		$context->registerEventListener(RestrictInteractionEvent::class, RestrictInteractionListener::class);
 	}
 
 	#[\Override]

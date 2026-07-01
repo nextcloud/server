@@ -27,6 +27,14 @@ return (require __DIR__ . '/rector-shared.php')
 		$nextcloudDir . '/build/psalm/ITypedQueryBuilderTest.php',
 		$nextcloudDir . '/lib/private/DB/QueryBuilder/TypedQueryBuilder.php',
 		$nextcloudDir . '/lib/public/DB/QueryBuilder/ITypedQueryBuilder.php',
+		$nextcloudDir . '/lib/public/Interaction',
+		$nextcloudDir . '/tests/lib/Interaction',
+		$nextcloudDir . '/apps/files/lib/Listener/RestrictInteractionListener.php',
+		$nextcloudDir . '/apps/files/tests/Listener/RestrictInteractionListenerTest.php',
+		$nextcloudDir . '/apps/files_sharing/lib/Listener/RestrictInteractionListener.php',
+		$nextcloudDir . '/apps/files_sharing/tests/Listener/RestrictInteractionListenerTest.php',
+		$nextcloudDir . '/core/Listener/RestrictInteractionListener.php',
+		$nextcloudDir . '/tests/Core/Listener/RestrictInteractionListenerTest.php',
 	])
 	->withAutoloadPaths([
 		// ensure rector properly autoload the public interfaces

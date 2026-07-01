@@ -85,6 +85,7 @@ class ComposerStaticInitFiles_Sharing
         'OCA\\Files_Sharing\\Listener\\LoadAdditionalListener' => __DIR__ . '/..' . '/../lib/Listener/LoadAdditionalListener.php',
         'OCA\\Files_Sharing\\Listener\\LoadPublicFileRequestAuthListener' => __DIR__ . '/..' . '/../lib/Listener/LoadPublicFileRequestAuthListener.php',
         'OCA\\Files_Sharing\\Listener\\LoadSidebarListener' => __DIR__ . '/..' . '/../lib/Listener/LoadSidebarListener.php',
+        'OCA\\Files_Sharing\\Listener\\RestrictInteractionListener' => __DIR__ . '/..' . '/../lib/Listener/RestrictInteractionListener.php',
         'OCA\\Files_Sharing\\Listener\\ShareInteractionListener' => __DIR__ . '/..' . '/../lib/Listener/ShareInteractionListener.php',
         'OCA\\Files_Sharing\\Listener\\SharesUpdatedListener' => __DIR__ . '/..' . '/../lib/Listener/SharesUpdatedListener.php',
         'OCA\\Files_Sharing\\Listener\\UserAddedToGroupListener' => __DIR__ . '/..' . '/../lib/Listener/UserAddedToGroupListener.php',

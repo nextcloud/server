@@ -70,6 +70,7 @@ return array(
     'OCA\\Files_Sharing\\Listener\\LoadAdditionalListener' => $baseDir . '/../lib/Listener/LoadAdditionalListener.php',
     'OCA\\Files_Sharing\\Listener\\LoadPublicFileRequestAuthListener' => $baseDir . '/../lib/Listener/LoadPublicFileRequestAuthListener.php',
     'OCA\\Files_Sharing\\Listener\\LoadSidebarListener' => $baseDir . '/../lib/Listener/LoadSidebarListener.php',
+    'OCA\\Files_Sharing\\Listener\\RestrictInteractionListener' => $baseDir . '/../lib/Listener/RestrictInteractionListener.php',
     'OCA\\Files_Sharing\\Listener\\ShareInteractionListener' => $baseDir . '/../lib/Listener/ShareInteractionListener.php',
     'OCA\\Files_Sharing\\Listener\\SharesUpdatedListener' => $baseDir . '/../lib/Listener/SharesUpdatedListener.php',
     'OCA\\Files_Sharing\\Listener\\UserAddedToGroupListener' => $baseDir . '/../lib/Listener/UserAddedToGroupListener.php',
