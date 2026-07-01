@@ -90,7 +90,6 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "Parametre yanlış ya da herhangi bir parametre belirtilmemiş",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "Nextcloud Konuş uygulaması kullanıma alınmamış. Paylaşım parolası Nextcloud Konuş uygulaması ile gönderilemedi.",
     "Custom share link tokens have been disabled by the administrator" : "Özel bağlantı paylaşımı kodları yöneticiniz tarafından kapatılmış",
-    "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Kodlar en az 1 karakter uzunluğunda olmalı ve yalnızca harf, sayı veya tire karakterlerini içermelidir",
     "Invalid date. Format must be YYYY-MM-DD" : "Tarih geçersiz. Tarih biçimi YYYY-AA-GG olmalıdır",
     "No sharing rights on this item" : "Bu ögenin herhangi bir paylaşım izni yok",
     "Invalid share attributes provided: \"%s\"" : "Belirtilen paylaşım öznitelikleri geçersiz: \"%s\"",
@@ -403,6 +402,7 @@ OC.L10N.register(
     "Back to %s" : "%s sayfasına dön",
     "Add to your Nextcloud" : "Nextcloud hesabınıza ekleyin",
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Arka yüz ScienceMesh paylaşımlarına izin vermediğinden %s paylaşılamadı",
+    "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Kodlar en az 1 karakter uzunluğunda olmalı ve yalnızca harf, sayı veya tire karakterlerini içermelidir",
     "Name or email …" : "Ad ya da e-posta adresi …",
     "Name, email, or Federated Cloud ID …" : "Ad, e-posta ya da birleşik bulut kimliği…",
     "Searching …" : "Aranıyor …"

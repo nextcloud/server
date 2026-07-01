@@ -260,6 +260,7 @@
     "Log in to {productName}" : "Faça login em {productName}",
     "Wrong login or password." : "Login ou senha incorretos.",
     "This account is disabled" : "Esta conta está desativada",
+    "Too many failed login attempts from your location. Try again in 30 seconds." : "Houve muitas tentativas de login malsucedidas a partir do seu local. Tente novamente em 30 segundos.",
     "Account name or email" : "Nome da conta ou e-mail",
     "Account name" : "Nome da conta",
     "Server side authentication failed!" : "Autenticação do servidor falhou!",

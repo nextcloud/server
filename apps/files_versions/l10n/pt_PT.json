@@ -8,10 +8,13 @@
     "Initial version" : "Versão inicial",
     "You" : "Você",
     "Edit version name" : "Editar nome da versão",
+    "Restore version" : "Restaurar versão",
     "Download version" : "Transferir versão",
     "Cancel" : "Cancelar",
     "Remove version name" : "Remover nome da versão",
     "Save version name" : "Salvar nome da versão",
+    "Version name" : "Nome da versão",
+    "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "As versões nomeadas são mantidas e excluídas das limpezas automáticas quando sua cota de armazenamento está cheia.",
     "Initial version restored" : "Versão inicial restaurada",
     "Version restored" : "Versão restaurada",
     "Could not restore version" : "Não foi possível restaurar esta versão"

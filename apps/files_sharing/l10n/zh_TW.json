@@ -88,7 +88,6 @@
     "Wrong or no update parameter given" : "更新參數不正確或未提供",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "「透過 Nextcloud Talk 傳送密碼」分享檔案或資料夾失敗，因為未啟用 Nextcloud Talk。",
     "Custom share link tokens have been disabled by the administrator" : "自訂分享連結權杖已被管理員停用",
-    "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "權杖必須至少包含 1 個字元，且只能包含字母、數字或連字符。",
     "Invalid date. Format must be YYYY-MM-DD" : "無效的日期。格式必須為 YYYY-MM-DD",
     "No sharing rights on this item" : "沒有此項目的分享權限",
     "Invalid share attributes provided: \"%s\"" : "提供的分享屬性無效：「%s」",
@@ -401,6 +400,7 @@
     "Back to %s" : "回到 %s",
     "Add to your Nextcloud" : "新增到您的 Nextcloud",
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "後端不支援 ScienceMesh 分享，%s 分享失敗",
+    "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "權杖必須至少包含 1 個字元，且只能包含字母、數字或連字符。",
     "Name or email …" : "名稱或電子郵件…",
     "Name, email, or Federated Cloud ID …" : "名稱、電子郵件或雲端聯邦 ID…",
     "Searching …" : "正在搜尋…"
