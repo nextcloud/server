@@ -5,15 +5,19 @@
 
 <template>
 	<nav class="app-menu" :aria-label="t('core', 'Applications')">
-		<!-- One wrapper so both triggers act as a single control, sharing one
-			highlight. On narrow screens only the waffle shows. -->
+		<!-- One wrapper so both triggers act as a single control: a shared
+			highlight and hover-to-open across the whole area. On narrow screens
+			only the waffle shows. -->
 		<div
 			class="app-menu__trigger"
-			:class="{ 'app-menu__trigger--open': opened }">
+			:class="{ 'app-menu__trigger--open': opened }"
+			@mouseenter="onTriggerPointerEnter"
+			@mouseleave="onPointerLeave">
 			<NcPopover
 				ref="popover"
 				:shown="opened"
 				:triggers="[]"
+				v-bind="{ autoHide: autoHideCheck }"
 				placement="bottom-start"
 				:skidding="popoverSkidding"
 				:set-return-focus="returnFocusTarget"
@@ -27,7 +31,7 @@
 						:aria-label="t('core', 'Open apps menu')"
 						aria-haspopup="menu"
 						:aria-expanded="opened ? 'true' : 'false'"
-						@click="onTriggerClick('waffle')">
+						@click="onTriggerClick('waffle', $event)">
 						<template #icon>
 							<IconDotsGrid :size="20" />
 						</template>
@@ -37,8 +41,14 @@
 				<div
 					class="app-menu__popover"
 					role="menu"
-					:aria-label="t('core', 'Apps')">
-					<div ref="grid" class="app-menu__grid" @keydown="onGridKeydown">
+					:aria-label="t('core', 'Apps')"
+					@mouseenter="onPopoverPointerEnter"
+					@mouseleave="onPointerLeave">
+					<div
+						ref="grid"
+						class="app-menu__grid"
+						:class="{ 'app-menu__grid--suppress-focus-ring': suppressGridFocusRing }"
+						@keydown="onGridKeydown">
 						<AppItem
 							v-for="(item, i) in gridItems"
 							:key="item.id"
@@ -57,7 +67,7 @@
 				:aria-label="currentAppLabel"
 				aria-haspopup="menu"
 				:aria-expanded="opened ? 'true' : 'false'"
-				@click="onTriggerClick('currentApp')">
+				@click="onTriggerClick('currentApp', $event)">
 				<template #icon>
 					<!-- Settings sub-sections share one generic cog. An inline MDI icon
 						inherits the button's currentColor (--color-background-plain-text),
@@ -100,6 +110,15 @@ import logger from '../logger.js'
 // Settings IDs that represent actions, not navigable pages.
 const SETTINGS_ACTION_IDS = new Set(['logout'])
 
+// Delay before a hover opens the menu, long enough to ignore a passing cursor.
+const HOVER_OPEN_DELAY = 150
+// Delay before closing after the cursor leaves, so moving onto the popover
+// doesn't dismiss it.
+const HOVER_CLOSE_DELAY = 300
+// After a hover-open, briefly ignore a trigger click so a habitual click-to-open
+// doesn't immediately close the menu.
+const HOVER_CLICK_GRACE = 500
+
 export default defineComponent({
 	name: 'AppMenu',
 
@@ -135,6 +154,19 @@ export default defineComponent({
 			// The current-app button lives outside the slot, so we track the
 			// source and restore focus manually via setReturnFocus.
 			openedFrom: null as 'waffle' | 'currentApp' | null,
+			// Hover intent timers (see HOVER_OPEN_DELAY / HOVER_CLOSE_DELAY).
+			openTimer: null as ReturnType<typeof setTimeout> | null,
+			closeTimer: null as ReturnType<typeof setTimeout> | null,
+			// Menu closed by a pointer (hover-out or mouse click). returnFocusTarget()
+			// then skips restoring focus, so no focus ring flashes on the trigger.
+			closedByPointer: false,
+			// Grace window after a hover-open where a trigger click is ignored
+			// instead of closing the menu.
+			suppressCloseClick: false,
+			suppressClickTimer: null as ReturnType<typeof setTimeout> | null,
+			// Hide the active tile's focus ring on pointer opens (set here, cleared
+			// on keyboard grid navigation). Keyboard opens still show it, like master.
+			suppressGridFocusRing: false,
 			// Synthetic tile appended to the grid: admins jump to the local
 			// app management page; everyone else lands on apps.nextcloud.com
 			// (external, opens in a new tab via the per-tile newTab flag).
@@ -212,6 +244,10 @@ export default defineComponent({
 			if (isOpen) {
 				this.focusedIndex = this.activeGridIndex()
 				this.tryRecomputeGridMaxHeight(5)
+			} else {
+				// Closed again: end any pending click-grace window.
+				this.clearSuppressClickTimer()
+				this.suppressCloseClick = false
 			}
 		},
 	},
@@ -227,6 +263,9 @@ export default defineComponent({
 	},
 
 	beforeUnmount() {
+		this.clearOpenTimer()
+		this.clearCloseTimer()
+		this.clearSuppressClickTimer()
 		unsubscribe('nextcloud:app-menu.refresh', this.setApps)
 		;(this.$refs.popover as { $off: (e: string, fn: () => void) => void } | undefined)?.$off('after-hide', this.onPopoverAfterHide)
 	},
@@ -236,19 +275,120 @@ export default defineComponent({
 		// slot trigger (waffle); we override so current-app opens return
 		// there instead. Waffle is the fallback since current-app only
 		// renders when an app is active.
-		returnFocusTarget(): HTMLElement | null {
+		returnFocusTarget(): HTMLElement | false | null {
+			// Pointer close: return false so the focus-trap leaves focus alone.
+			// Restoring it to the trigger would flash the focus ring. Keyboard
+			// closes still restore focus and show the ring.
+			if (this.closedByPointer) {
+				return false
+			}
 			return this.openedFrom === 'currentApp'
 				? this.$el.querySelector('.app-menu__current-app')
 				: this.$el.querySelector('.app-menu__waffle')
 		},
 
+		// autoHide for the floating-ui popover. It closes on any click outside the
+		// teleported content, including the trigger. Return false during the grace
+		// window so a habitual trigger click doesn't close the menu.
+		autoHideCheck(): boolean {
+			return !this.suppressCloseClick
+		},
+
 		onPopoverAfterHide() {
+			// Drop focus left on a trigger after a pointer close, so no ring lingers.
+			if (this.closedByPointer && this.$el.contains(document.activeElement)) {
+				(document.activeElement as HTMLElement).blur()
+			}
+			this.closedByPointer = false
 			this.openedFrom = null
 		},
 
-		onTriggerClick(source: 'waffle' | 'currentApp') {
+		onTriggerClick(source: 'waffle' | 'currentApp', event?: MouseEvent) {
+			// Drop pending hover timers so they don't undo this toggle.
+			this.clearOpenTimer()
+			this.clearCloseTimer()
+			// During the grace window, ignore a click that would close a menu that
+			// hover just opened.
+			if (this.opened && this.suppressCloseClick) {
+				return
+			}
 			this.openedFrom = source
 			this.opened = !this.opened
+			if (this.opened) {
+				// Mouse click (detail > 0) is a pointer open: hide the tile focus
+				// ring. Keyboard (detail 0) shows it.
+				this.suppressGridFocusRing = (event?.detail ?? 0) > 0
+			} else if ((event?.detail ?? 0) > 0) {
+				// Mouse click that closed the menu: don't leave a focus ring behind.
+				this.closedByPointer = true
+			}
+		},
+
+		// Hover-to-open (mouse only, never focus) after a short delay. Bound on the
+		// wrapper, so it has no specific source; the waffle is the return target.
+		onTriggerPointerEnter(source: 'waffle' | 'currentApp' = 'waffle') {
+			this.clearCloseTimer()
+			if (this.opened) {
+				return
+			}
+			this.clearOpenTimer()
+			this.openTimer = setTimeout(() => {
+				this.openTimer = null
+				this.openedFrom = source
+				this.opened = true
+				// Hover is a pointer open: don't flash the active tile's focus ring.
+				this.suppressGridFocusRing = true
+				// Start the grace window in which a habitual click won't close it.
+				this.suppressCloseClick = true
+				this.clearSuppressClickTimer()
+				this.suppressClickTimer = setTimeout(() => {
+					this.suppressClickTimer = null
+					this.suppressCloseClick = false
+				}, HOVER_CLICK_GRACE)
+			}, HOVER_OPEN_DELAY)
+		},
+
+		// Cursor left a trigger or the popover: cancel a pending open and start
+		// the close grace period.
+		onPointerLeave() {
+			this.clearOpenTimer()
+			this.scheduleClose()
+		},
+
+		// Cursor moved into the open popover: keep it open.
+		onPopoverPointerEnter() {
+			this.clearCloseTimer()
+		},
+
+		scheduleClose() {
+			this.clearCloseTimer()
+			this.closeTimer = setTimeout(() => {
+				this.closeTimer = null
+				// Hover-out is a pointer close: suppress the returned-focus ring.
+				this.closedByPointer = true
+				this.opened = false
+			}, HOVER_CLOSE_DELAY)
+		},
+
+		clearOpenTimer() {
+			if (this.openTimer !== null) {
+				clearTimeout(this.openTimer)
+				this.openTimer = null
+			}
+		},
+
+		clearCloseTimer() {
+			if (this.closeTimer !== null) {
+				clearTimeout(this.closeTimer)
+				this.closeTimer = null
+			}
+		},
+
+		clearSuppressClickTimer() {
+			if (this.suppressClickTimer !== null) {
+				clearTimeout(this.suppressClickTimer)
+				this.suppressClickTimer = null
+			}
 		},
 
 		setNavigationCounter(id: string, counter: number) {
@@ -325,6 +465,9 @@ export default defineComponent({
 			if (this.gridItems.length === 0) {
 				return
 			}
+
+			// Keyboard navigation: reveal the tile focus ring a pointer open hid.
+			this.suppressGridFocusRing = false
 
 			const cols = 4
 			const total = this.gridItems.length
@@ -547,6 +690,17 @@ export default defineComponent({
 		// data-attrs don't reach ::-webkit-scrollbar pseudo-elements in Chrome.
 		scrollbar-width: thin;
 		scrollbar-color: var(--color-scrollbar) transparent;
+
+		// On a pointer open the active tile is focused but shouldn't flash its ring
+		// — the bold label already marks it. Removed once the user navigates by
+		// keyboard. :deep reaches into the AppItem child.
+		&--suppress-focus-ring :deep(.app-item:focus-visible) {
+			box-shadow: none;
+
+			&:not(:hover) {
+				background-color: transparent;
+			}
+		}
 	}
 }
 </style>

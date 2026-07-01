@@ -233,4 +233,175 @@ describe('core: AppMenu', () => {
 		const wrapper = mount(AppMenu, { attachTo: document.body })
 		expect(wrapper.find('.app-menu__current-app').exists()).toBe(false)
 	})
+
+	// Hover-to-open behaviour. Uses fake timers to drive the open/close delays
+	// without real waits. We assert on the reactive `opened` flag rather than the
+	// teleported DOM so the tests stay independent of NcPopover's portal timing.
+	describe('hover-to-open', () => {
+		beforeEach(() => vi.useFakeTimers())
+		afterEach(() => vi.useRealTimers())
+
+		it('opens after a short delay when hovering the trigger, not immediately', async () => {
+			const wrapper = mount(AppMenu, { attachTo: document.body })
+			await wrapper.get('.app-menu__trigger').trigger('mouseenter')
+
+			// The intent-pause means it must not open on the same tick.
+			expect(wrapper.vm.opened).toBe(false)
+			vi.advanceTimersByTime(150)
+			expect(wrapper.vm.opened).toBe(true)
+		})
+
+		it('cancels opening when the cursor leaves before the delay elapses', async () => {
+			const wrapper = mount(AppMenu, { attachTo: document.body })
+			await wrapper.get('.app-menu__trigger').trigger('mouseenter')
+			vi.advanceTimersByTime(100)
+			await wrapper.get('.app-menu__trigger').trigger('mouseleave')
+			vi.advanceTimersByTime(500)
+
+			expect(wrapper.vm.opened).toBe(false)
+		})
+
+		it('stays open when the cursor moves from the trigger into the popover', async () => {
+			const wrapper = mount(AppMenu, { attachTo: document.body })
+			await wrapper.get('.app-menu__trigger').trigger('mouseenter')
+			vi.advanceTimersByTime(150)
+			expect(wrapper.vm.opened).toBe(true)
+
+			// Leaving the trigger schedules a close; entering the popover within the
+			// grace period must cancel it.
+			await wrapper.get('.app-menu__trigger').trigger('mouseleave')
+			wrapper.vm.onPopoverPointerEnter()
+			vi.advanceTimersByTime(500)
+
+			expect(wrapper.vm.opened).toBe(true)
+		})
+
+		it('closes shortly after the cursor leaves the popover', async () => {
+			const wrapper = mount(AppMenu, { attachTo: document.body })
+			await wrapper.get('.app-menu__trigger').trigger('mouseenter')
+			vi.advanceTimersByTime(150)
+			wrapper.vm.onPopoverPointerEnter()
+			expect(wrapper.vm.opened).toBe(true)
+
+			wrapper.vm.onPointerLeave()
+			vi.advanceTimersByTime(300)
+
+			expect(wrapper.vm.opened).toBe(false)
+		})
+
+		it('does not open on focus, only on hover', async () => {
+			const wrapper = mount(AppMenu, { attachTo: document.body })
+			await wrapper.get('.app-menu__waffle').trigger('focus')
+			vi.advanceTimersByTime(500)
+
+			expect(wrapper.vm.opened).toBe(false)
+		})
+
+		it('drops the focus ring after a hover-out close (blurs the returned trigger)', async () => {
+			const wrapper = mount(AppMenu, { attachTo: document.body })
+			await wrapper.get('.app-menu__trigger').trigger('mouseenter')
+			vi.advanceTimersByTime(150)
+
+			// Simulate the focus-trap returning focus to the waffle on close.
+			const waffle = wrapper.get('.app-menu__waffle').element as HTMLElement
+			waffle.focus()
+			expect(document.activeElement).toBe(waffle)
+
+			// Hover-out closes via pointer; after-hide should blur the trigger.
+			await wrapper.get('.app-menu__trigger').trigger('mouseleave')
+			vi.advanceTimersByTime(300)
+			wrapper.vm.onPopoverAfterHide()
+
+			expect(document.activeElement).not.toBe(waffle)
+		})
+
+		it('keeps focus on the trigger after a keyboard close (ring stays)', () => {
+			const wrapper = mount(AppMenu, { attachTo: document.body })
+			const waffle = wrapper.get('.app-menu__waffle').element as HTMLElement
+			waffle.focus()
+
+			// Keyboard-style close: no pointer flag set, so focus must be retained.
+			wrapper.vm.opened = true
+			wrapper.vm.opened = false
+			wrapper.vm.onPopoverAfterHide()
+
+			expect(document.activeElement).toBe(waffle)
+		})
+
+		it('tells the focus-trap not to restore focus on a pointer close', async () => {
+			const wrapper = mount(AppMenu, { attachTo: document.body })
+			await wrapper.get('.app-menu__trigger').trigger('mouseenter')
+			vi.advanceTimersByTime(150)
+			await wrapper.get('.app-menu__trigger').trigger('mouseleave')
+			vi.advanceTimersByTime(300)
+
+			// The focus-trap consults returnFocusTarget() on deactivation; false
+			// means "leave focus where it is", so no ring flashes on the trigger.
+			expect(wrapper.vm.returnFocusTarget()).toBe(false)
+		})
+
+		it('ignores a trigger click right after a hover-open (habitual click-to-open)', async () => {
+			const wrapper = mount(AppMenu, { attachTo: document.body })
+			await wrapper.get('.app-menu__trigger').trigger('mouseenter')
+			vi.advanceTimersByTime(150)
+			expect(wrapper.vm.opened).toBe(true)
+
+			// A click within the grace window must not toggle the menu shut.
+			await wrapper.get('.app-menu__waffle').trigger('click')
+			expect(wrapper.vm.opened).toBe(true)
+		})
+
+		it('allows closing by click once the grace window elapses', async () => {
+			const wrapper = mount(AppMenu, { attachTo: document.body })
+			await wrapper.get('.app-menu__trigger').trigger('mouseenter')
+			vi.advanceTimersByTime(150)
+			vi.advanceTimersByTime(500) // grace window elapses
+
+			await wrapper.get('.app-menu__waffle').trigger('click')
+			expect(wrapper.vm.opened).toBe(false)
+		})
+
+		it('blocks the popover auto-hide during the grace window, allows it after', async () => {
+			const wrapper = mount(AppMenu, { attachTo: document.body })
+			await wrapper.get('.app-menu__trigger').trigger('mouseenter')
+			vi.advanceTimersByTime(150)
+
+			// autoHideCheck() feeds floating-ui: false = don't close on outside
+			// click (e.g. a habitual click on the trigger) during the grace window.
+			expect(wrapper.vm.autoHideCheck()).toBe(false)
+
+			vi.advanceTimersByTime(500)
+			expect(wrapper.vm.autoHideCheck()).toBe(true)
+		})
+
+		it('suppresses the tile focus ring on a hover-open and reveals it on keyboard nav', async () => {
+			const wrapper = mount(AppMenu, { attachTo: document.body })
+			await wrapper.get('.app-menu__trigger').trigger('mouseenter')
+			vi.advanceTimersByTime(150)
+
+			// Pointer (hover) open: the active tile is focused but its ring is hidden.
+			expect(wrapper.vm.suppressGridFocusRing).toBe(true)
+
+			// Any keyboard navigation of the grid reveals the ring again.
+			wrapper.vm.onGridKeydown({ key: 'ArrowRight', preventDefault() {}, stopPropagation() {} } as unknown as KeyboardEvent)
+			await wrapper.vm.$nextTick()
+			expect(wrapper.vm.suppressGridFocusRing).toBe(false)
+		})
+
+		it('shows the tile focus ring on a keyboard open but not a mouse-click open', () => {
+			const wrapper = mount(AppMenu, { attachTo: document.body })
+
+			// Keyboard activation reports detail 0 → ring shown (matches master).
+			wrapper.vm.onTriggerClick('waffle', { detail: 0 } as MouseEvent)
+			expect(wrapper.vm.opened).toBe(true)
+			expect(wrapper.vm.suppressGridFocusRing).toBe(false)
+
+			// Close, then a real mouse click (detail > 0) → ring suppressed.
+			wrapper.vm.onTriggerClick('waffle', { detail: 1 } as MouseEvent)
+			expect(wrapper.vm.opened).toBe(false)
+			wrapper.vm.onTriggerClick('waffle', { detail: 1 } as MouseEvent)
+			expect(wrapper.vm.opened).toBe(true)
+			expect(wrapper.vm.suppressGridFocusRing).toBe(true)
+		})
+	})
 })
