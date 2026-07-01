@@ -94,7 +94,12 @@ class MigrationService {
 	}
 
 	/**
-	 * @codeCoverageIgnore - this will implicitly tested on installation
+	 * Ensures the `migrations` table exists with the expected schema.
+	 *
+	 * Creates the table if missing, or recreates it if the existing one is incompatible.
+	 *
+	 * @return bool True if the table was created or recreated; false otherwise.
+	 * @codeCoverageIgnore This is exercised implicitly during installation.
 	 */
 	private function createMigrationTable(): bool {
 		if ($this->migrationTableCreated) {
@@ -109,8 +114,9 @@ class MigrationService {
 		$schema = new SchemaWrapper($this->connection);
 
 		/**
-		 * We drop the table when it has different columns or the definition does not
-		 * match. E.g. ownCloud uses a length of 177 for app and 14 for version.
+		 * Recreate the `migrations` table when the existing schema is incompatible.
+		 * For example, older ownCloud installations used shorter column lengths
+		 * for `app` (177) and `version` (14).
 		 */
 		try {
 			$table = $schema->getTable('migrations');
@@ -131,19 +137,19 @@ class MigrationService {
 				}
 
 				if (!$schemaMismatch) {
-					// Table exists and schema matches: return back!
+					// The existing table matches the expected schema; nothing to do.
 					$this->migrationTableCreated = true;
 					return false;
 				}
 			}
 
-			// Drop the table, when it didn't match our expectations.
+			// Drop the table because it does not match the expected schema.
 			$this->connection->dropTable('migrations');
 
-			// Recreate the schema after the table was dropped.
+			// Recreate the schema wrapper after dropping the table.
 			$schema = new SchemaWrapper($this->connection);
 		} catch (SchemaException $e) {
-			// Table not found, no need to panic, we will create it.
+			// The table does not exist; it will be created below.
 		}
 
 		$table = $schema->createTable('migrations');
