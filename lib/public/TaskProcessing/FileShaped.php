@@ -12,7 +12,7 @@ use OCP\AppFramework\Attribute\Consumable;
 /**
  * Data object for file-shaped output entries
  *
- * @since 50.0.0
+ * @since 35.0.0
  */
 #[Consumable(since: '35.0.0')]
 class FileShaped {
@@ -22,13 +22,13 @@ class FileShaped {
 	 * @param string $mimeType (optional)
 	 * @param string $extension (optional)
 	 *
-	 * @since 30.0.0
+	 * @since 35.0.0
 	 */
 	public function __construct(
 		private EShapeType $shapeType,
 		private string $data,
 		private string $mimeType = 'application/octet-stream',
-		private string $extension = '.bin',
+		private string $extension = 'bin',
 	) {
 	}
 

@@ -17,7 +17,7 @@ use OCP\AppFramework\Attribute\Implementable;
  *
  * @since 33.0.0
  */
-#[Implementable(since: '30.0.0')]
+#[Implementable(since: '33.0.0')]
 interface ITriggerableProvider extends IProvider {
 
 	/**
