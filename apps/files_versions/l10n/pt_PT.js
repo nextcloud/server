@@ -10,6 +10,7 @@ OC.L10N.register(
     "Initial version" : "Versão inicial",
     "You" : "Você",
     "Edit version name" : "Editar nome da versão",
+    "Compare to current version" : "Comparar com a versão atual",
     "Restore version" : "Restaurar versão",
     "Download version" : "Transferir versão",
     "Cancel" : "Cancelar",

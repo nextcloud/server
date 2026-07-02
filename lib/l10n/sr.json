@@ -413,6 +413,7 @@
     "Original text" : "Оригинални текст",
     "The original text to generate a headline for" : "Оригинални текст за који се генерише наслов",
     "The generated headline" : "Генерисани наслов",
+    "Instructions" : "Упутства",
     "Proofread" : "Лектура",
     "Proofreads a text and lists corrections" : "Лекторише текст и исписује листу исправки",
     "Text" : "Текст",

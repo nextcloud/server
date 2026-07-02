@@ -90,6 +90,7 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "O parâmetro da atualização fornecido está errado ou não existe",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "O \"envio da senha pelo Nextcloud Talk\" para compartilhar um arquivo ou pasta falhou porque o Nextcloud Talk não está ativado. ",
     "Custom share link tokens have been disabled by the administrator" : "Tokens personalizados para links de compartilhamento foram desativados pelo administrador",
+    "Tokens must be between 1 and %s characters long and may only contain letters, numbers, or a hyphen" : "Os tokens devem ter entre 1 e %s caracteres e só podem conter letras, números ou um hífen",
     "Invalid date. Format must be YYYY-MM-DD" : "Data inválida. O formato deve ser AAAA-MM-DD",
     "No sharing rights on this item" : "Sem permissões de compartilhamento para este item",
     "Invalid share attributes provided: \"%s\"" : "Atributos de compartilhamento inválidos fornecidos: \"%s\"",

@@ -422,6 +422,7 @@
     "Original text" : "原始文字",
     "The original text to generate a headline for" : "用來產生標題的原始文字",
     "The generated headline" : "產生的標題",
+    "Instructions" : "烹飪方法",
     "Proofread" : "校對",
     "Proofreads a text and lists corrections" : "請提供您想要校對的文本，我會幫您檢查並列出更正意見。",
     "Text" : "文本 ",

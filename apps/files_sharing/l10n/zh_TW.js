@@ -90,6 +90,7 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "更新參數不正確或未提供",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "「透過 Nextcloud Talk 傳送密碼」分享檔案或資料夾失敗，因為未啟用 Nextcloud Talk。",
     "Custom share link tokens have been disabled by the administrator" : "自訂分享連結權杖已被管理員停用",
+    "Tokens must be between 1 and %s characters long and may only contain letters, numbers, or a hyphen" : "權杖必須介於 1 到 %s 個字元長，且僅能包含字母、數字或連字號",
     "Invalid date. Format must be YYYY-MM-DD" : "無效的日期。格式必須為 YYYY-MM-DD",
     "No sharing rights on this item" : "沒有此項目的分享權限",
     "Invalid share attributes provided: \"%s\"" : "提供的分享屬性無效：「%s」",
