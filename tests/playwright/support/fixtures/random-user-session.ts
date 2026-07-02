@@ -13,8 +13,13 @@ import { test as randomUserTest } from './random-user.ts'
 export const test = randomUserTest.extend({
 	page: async ({ browser, user }, use) => {
 		const page = await browser.newPage()
-		await login(page.request, user)
+		try {
+			await login(page.request, user)
+		} catch (error) {
+			console.info('Failed to authenticate as random user, retrying', error)
+			await new Promise((resolve) => setTimeout(resolve, 800))
+			await login(page.request, user)
+		}
 		await use(page)
-		await page.close()
 	},
 })

@@ -5,6 +5,7 @@
 
 import type { Locator, Page } from '@playwright/test'
 
+import { expect } from '@playwright/test'
 import { escapeAttributeValue } from '../utils/css.ts'
 
 export class FilesListPage {
@@ -113,6 +114,36 @@ export class FilesListPage {
 		await this.getListActionButton(actionId).last().click({ force: true })
 	}
 
+	/**
+	 * The clickable name link of a row. Clicking it opens a folder or previews a
+	 * file; for an unavailable external storage it is inert (and carries the
+	 * "This node is unavailable" title).
+	 */
+	getRowNameLinkForFile(filename: string): Locator {
+		return this.getRowForFile(filename).locator('[data-cy-files-list-row-name-link]')
+	}
+
+	/**
+	 * An inline row action rendered directly in the row's action area (an action
+	 * declared `inline: () => true`, e.g. the external-storage credentials action),
+	 * as opposed to one nested in the overflow menu.
+	 */
+	getInlineActionEntryForFile(filename: string, actionId: string): Locator {
+		return this.getRowForFile(filename)
+			.locator(`[data-cy-files-list-row-action="${actionId}"]`)
+	}
+
+	/**
+	 * Hover a row and click one of its inline actions. The action area only
+	 * renders on hover, so the row must be hovered first.
+	 */
+	async triggerInlineActionForFile(filename: string, actionId: string): Promise<void> {
+		const row = this.getRowForFile(filename)
+		await row.hover()
+		const button = row.locator(`button[data-cy-files-list-row-action="${actionId}"]`)
+		await button.click()
+	}
+
 	getFavoriteIconForFile(filename: string): Locator {
 		return this.getRowForFile(filename).getByRole('img', { name: 'Favorite' })
 	}
@@ -212,6 +243,17 @@ export class FilesListPage {
 				.getByRole('button')
 				.filter({ hasText: directory })
 				.click()
+
+			// Assert the deepest segment of the `dir` query param matches the folder
+			// we just opened. Comparing the decoded value (URLSearchParams decodes
+			// percent-encoding) rather than building a regex from the raw name avoids
+			// two pitfalls with special characters: the app encodes some chars that
+			// encodeURIComponent leaves alone (e.g. "'" → "%27"), and regex
+			// metacharacters in the name (e.g. "foo.bar (1)") would corrupt the pattern.
+			await expect.poll(() => {
+				const dir = new URL(this.page.url()).searchParams.get('dir') ?? ''
+				return dir.split('/').pop()
+			}).toBe(directory)
 		}
 	}
 

@@ -15,8 +15,15 @@ import { test as baseTest } from '@playwright/test'
  */
 export const test = baseTest.extend<{ user: User }>({
 	user: async ({}, use) => {
-		const user = await createRandomUser()
+		let user: User
+		try {
+			user = await createRandomUser()
+		} catch {
+			// Retry once on transient failure
+			await new Promise((resolve) => setTimeout(resolve, 800))
+			user = await createRandomUser()
+		}
 		await use(user)
-		await runOcc(['user:delete', user.userId]).catch(() => {})
+		await runOcc(['user:delete', user.userId], { failOnError: false })
 	},
 })

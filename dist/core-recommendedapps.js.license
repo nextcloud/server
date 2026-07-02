@@ -172,7 +172,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.5.38
 	- license: MIT
 - birpc
-	- version: 2.6.1
+	- version: 2.9.0
 	- license: MIT
 - escape-html
 	- version: 1.0.3
@@ -184,16 +184,16 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.5.3
 	- license: MIT
 - semver
-	- version: 7.7.4
+	- version: 7.8.5
 	- license: ISC
 - @vue/devtools-api
-	- version: 8.1.2
+	- version: 8.1.5
 	- license: MIT
 - @vue/devtools-kit
-	- version: 8.1.2
+	- version: 8.1.5
 	- license: MIT
 - @vue/devtools-shared
-	- version: 8.1.2
+	- version: 8.1.5
 	- license: MIT
 - perfect-debounce
 	- version: 2.1.0
