@@ -4,17 +4,17 @@
  */
 
 import type { View } from '@nextcloud/files'
-import type { Location } from 'vue-router'
+import type { RouteLocation } from 'vue-router'
 
 import axios from '@nextcloud/axios'
 import { File, Folder, Permission, registerFileAction } from '@nextcloud/files'
-import { enableAutoDestroy, mount } from '@vue/test-utils'
+import { enableAutoUnmount, mount } from '@vue/test-utils'
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 import { defineComponent, nextTick } from 'vue'
 import { action as deleteAction } from '../actions/deleteAction.ts'
 import { useActiveStore } from '../store/active.ts'
 import { useFilesStore } from '../store/files.ts'
-import { getPinia } from '../store/index.ts'
+import { pinia } from '../store/index.ts'
 import { useUserConfigStore } from '../store/userconfig.ts'
 import { useHotKeys } from './useHotKeys.ts'
 
@@ -32,7 +32,7 @@ const route = vi.hoisted(() => ({
 
 // mocked router
 const router = vi.hoisted(() => ({
-	push: vi.fn<(route: Location) => void>(),
+	push: vi.fn<(route: RouteLocation) => void>(),
 }))
 
 vi.mock('../actions/sidebarAction.ts', { spy: true })
@@ -40,7 +40,7 @@ vi.mock('../actions/deleteAction.ts', { spy: true })
 vi.mock('../actions/favoriteAction.ts', { spy: true })
 vi.mock('../actions/renameAction.ts', { spy: true })
 
-vi.mock('vue-router/composables', () => ({
+vi.mock('vue-router', () => ({
 	useRoute: vi.fn(() => route),
 	useRouter: vi.fn(() => router),
 }))
@@ -72,12 +72,12 @@ beforeAll(() => {
 })
 
 describe('HotKeysService testing', () => {
-	const activeStore = useActiveStore(getPinia())
+	const activeStore = useActiveStore(pinia)
 
 	let initialState: HTMLInputElement
 	let component: ReturnType<typeof mount>
 
-	enableAutoDestroy(afterEach)
+	enableAutoUnmount(afterEach)
 
 	afterEach(() => {
 		document.body.removeChild(initialState)
@@ -105,7 +105,7 @@ describe('HotKeysService testing', () => {
 			permissions: Permission.CREATE,
 		})
 
-		const files = useFilesStore(getPinia())
+		const files = useFilesStore(pinia)
 		files.setRoot({ service: 'files', root })
 
 		// Setting the view first as it reset the active node
@@ -129,7 +129,7 @@ describe('HotKeysService testing', () => {
 	// tests for register action handling
 
 	it('registeres actions', () => {
-		component.destroy()
+		component.unmount()
 		registerFileAction(deleteAction)
 		component = mount(TestComponent)
 
@@ -158,7 +158,7 @@ describe('HotKeysService testing', () => {
 	it('Pressing v should toggle grid view', async () => {
 		vi.spyOn(axios, 'put').mockImplementationOnce(() => Promise.resolve())
 
-		const userConfigStore = useUserConfigStore(getPinia())
+		const userConfigStore = useUserConfigStore(pinia)
 		userConfigStore.userConfig.grid_view = false
 		expect(userConfigStore.userConfig.grid_view).toBe(false)
 
@@ -174,7 +174,7 @@ describe('HotKeysService testing', () => {
 	])('Pressing v with modifier key %s should not toggle grid view', async (modifier: string) => {
 		vi.spyOn(axios, 'put').mockImplementationOnce(() => Promise.resolve())
 
-		const userConfigStore = useUserConfigStore(getPinia())
+		const userConfigStore = useUserConfigStore(pinia)
 		userConfigStore.userConfig.grid_view = false
 		expect(userConfigStore.userConfig.grid_view).toBe(false)
 

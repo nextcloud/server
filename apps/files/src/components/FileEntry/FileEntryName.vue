@@ -40,12 +40,13 @@
 
 <script lang="ts">
 import type { IFileAction, Node, TFileType } from '@nextcloud/files'
-import type { PropType } from 'vue'
+import type { ComponentPublicInstance, PropType } from 'vue'
 
 import { showError } from '@nextcloud/dialogs'
 import { FileType, NodeStatus } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import { basename } from '@nextcloud/paths'
+import { vOnClickOutside } from '@vueuse/components'
 import { defineComponent, inject } from 'vue'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 import { useFileListWidth } from '../../composables/useFileListWidth.ts'
@@ -60,6 +61,10 @@ export default defineComponent({
 
 	components: {
 		NcTextField,
+	},
+
+	directives: {
+		onClickOutside: vOnClickOutside,
 	},
 
 	props: {
@@ -185,7 +190,7 @@ export default defineComponent({
 		newName() {
 			// Check validity of the new name
 			const newName = this.newName.trim?.() || ''
-			const input = (this.$refs.renameInput as Vue | undefined)?.$el.querySelector('input')
+			const input = (this.$refs.renameInput as ComponentPublicInstance | undefined)?.$el.querySelector('input')
 			if (!input) {
 				return
 			}
@@ -213,7 +218,7 @@ export default defineComponent({
 		startRenaming() {
 			this.$nextTick(() => {
 				// Using split to get the true string length
-				const input = (this.$refs.renameInput as Vue | undefined)?.$el.querySelector('input')
+				const input = (this.$refs.renameInput as ComponentPublicInstance | undefined)?.$el.querySelector('input')
 				if (!input) {
 					logger.error('Could not find the rename input')
 					return

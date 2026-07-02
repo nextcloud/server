@@ -33,16 +33,16 @@
 				ref="preview"
 				:source="source"
 				:dragover="dragover"
-				@auxclick.native="execDefaultAction"
-				@click.native="execDefaultAction" />
+				@auxclick="execDefaultAction"
+				@click="execDefaultAction" />
 
 			<FileEntryName
 				ref="name"
 				:basename="basename"
 				:extension="extension"
 				:source="source"
-				@auxclick.native="execDefaultAction"
-				@click.native="execDefaultAction" />
+				@auxclick="execDefaultAction"
+				@click="execDefaultAction" />
 		</td>
 
 		<!-- Actions -->
@@ -50,7 +50,7 @@
 			v-show="!isRenamingSmallScreen"
 			ref="actions"
 			:class="`files-list__row-actions-${uniqueId}`"
-			:opened.sync="openedMenu"
+			v-model:opened="openedMenu"
 			:source="source" />
 
 		<!-- Mime -->

@@ -3,12 +3,12 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { ComponentPublicInstanceConstructor } from 'vue/types/v3-component-public-instance'
+import type { App } from 'vue'
 
 import MagnifySvg from '@mdi/svg/svg/magnify.svg?raw'
 import { getNavigation, View } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
-import Vue from 'vue'
+import { createApp, defineAsyncComponent } from 'vue'
 import { getContents } from '../services/Search.ts'
 import { VIEW_ID as FILES_VIEW_ID } from './files.ts'
 
@@ -18,8 +18,8 @@ export const VIEW_ID = 'search'
  * Register the search-in-files view
  */
 export function registerSearchView() {
-	let instance: Vue
-	let view: ComponentPublicInstanceConstructor
+	const EmptyView = defineAsyncComponent(() => import('./SearchEmptyView.vue'))
+	let instance: App
 
 	const Navigation = getNavigation()
 	Navigation.register(new View({
@@ -28,13 +28,11 @@ export function registerSearchView() {
 		caption: t('files', 'Search results within your files.'),
 
 		async emptyView(el) {
-			if (!view) {
-				view = (await import('./SearchEmptyView.vue')).default
-			} else {
-				instance.$destroy()
+			if (instance) {
+				instance.unmount()
 			}
-			instance = new Vue(view)
-			instance.$mount(el)
+			instance = createApp(EmptyView)
+			instance.mount(el)
 		},
 
 		icon: MagnifySvg,

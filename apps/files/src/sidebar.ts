@@ -5,9 +5,9 @@
 
 import type { ISidebar } from '@nextcloud/files'
 
-import { getPinia } from './store/index.ts'
+import { pinia } from './store/index.ts'
 import { useSidebarStore } from './store/sidebar.ts'
 
 // Provide sidebar implementation which is proxied by the `@nextcloud/files` library for app usage.
 window.OCA.Files ??= {}
-window.OCA.Files._sidebar = () => useSidebarStore(getPinia()) satisfies Omit<ISidebar, 'available' | 'registerAction' | 'registerTab' | 'registerAction'>
+window.OCA.Files._sidebar = () => useSidebarStore(pinia) satisfies Omit<ISidebar, 'available' | 'registerAction' | 'registerTab' | 'registerAction'>

@@ -11,7 +11,7 @@ import { getCapabilities } from '@nextcloud/capabilities'
 import { emit } from '@nextcloud/event-bus'
 import { FileType } from '@nextcloud/files'
 import { n, t } from '@nextcloud/l10n'
-import { getPinia } from '../store/index.ts'
+import { pinia } from '../store/index.ts'
 import { useUserConfigStore } from '../store/userconfig.ts'
 
 export const isTrashbinEnabled = () => (getCapabilities() as Capabilities)?.files?.undelete === true
@@ -134,7 +134,7 @@ export function displayName({ nodes, view }: { nodes: INode[], view: IView }) {
  *
  */
 export function shouldAskForConfirmation() {
-	const userConfig = useUserConfigStore(getPinia())
+	const userConfig = useUserConfigStore(pinia)
 	return userConfig.userConfig.show_dialog_deletion !== false
 }
 

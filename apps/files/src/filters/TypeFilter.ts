@@ -8,8 +8,7 @@ import type { IFileListFilterChip, IFileListFilterWithUi, INode } from '@nextclo
 import svgFileOutline from '@mdi/svg/svg/file-outline.svg?raw'
 import { FileListFilter, registerFileListFilter } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
-import wrap from '@vue/web-component-wrapper'
-import Vue from 'vue'
+import { defineCustomElement } from 'vue'
 import FileListFilterType from '../components/FileListFilter/FileListFilterType.vue'
 import { logger } from '../utils/logger.ts'
 
@@ -23,7 +22,6 @@ export interface ITypePreset {
 const tagName = 'files-file-list-filter-type'
 
 class TypeFilter extends FileListFilter implements IFileListFilterWithUi {
-	private currentInstance?: Vue
 	private currentPresets: ITypePreset[]
 
 	public readonly displayName = t('files', 'Type')
@@ -71,12 +69,6 @@ class TypeFilter extends FileListFilter implements IFileListFilterWithUi {
 		logger.debug('TypeFilter: setting presets', { presets })
 
 		this.currentPresets = presets ?? []
-		if (this.currentInstance !== undefined) {
-			// could be called before the instance was created
-			// (meaning the files list is not mounted yet)
-			this.currentInstance.$props.presets = presets
-		}
-
 		this.filterUpdated()
 
 		const chips: IFileListFilterChip[] = []
@@ -89,7 +81,7 @@ class TypeFilter extends FileListFilter implements IFileListFilterWithUi {
 				})
 			}
 		} else {
-			(this.currentInstance as { resetFilter: () => void } | undefined)?.resetFilter()
+			this.reset()
 		}
 		this.updateChips(chips)
 	}
@@ -113,20 +105,7 @@ export type { TypeFilter }
  * Register the file list filter by file type
  */
 export function registerTypeFilter() {
-	const WrappedComponent = wrap(Vue, FileListFilterType)
-	// In Vue 2, wrap doesn't support disabling shadow :(
-	// Disable with a hack
-	Object.defineProperty(WrappedComponent.prototype, 'attachShadow', {
-		value() {
-			return this
-		},
-	})
-	Object.defineProperty(WrappedComponent.prototype, 'shadowRoot', {
-		get() {
-			return this
-		},
-	})
-
+	const WrappedComponent = defineCustomElement(FileListFilterType, { shadowRoot: false })
 	window.customElements.define(tagName, WrappedComponent)
 	registerFileListFilter(new TypeFilter())
 }

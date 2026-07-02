@@ -3,7 +3,6 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { defineStore } from 'pinia'
-import Vue from 'vue'
 
 /**
  * Observe various events and save the current
@@ -26,10 +25,10 @@ export function useKeyboardStore(...args) {
 				if (!event) {
 					event = window.event as MouseEvent | KeyboardEvent
 				}
-				Vue.set(this, 'altKey', !!event.altKey)
-				Vue.set(this, 'ctrlKey', !!event.ctrlKey)
-				Vue.set(this, 'metaKey', !!event.metaKey)
-				Vue.set(this, 'shiftKey', !!event.shiftKey)
+				this.altKey = !!event.altKey
+				this.ctrlKey = !!event.ctrlKey
+				this.metaKey = !!event.metaKey
+				this.shiftKey = !!event.shiftKey
 			},
 		},
 	})

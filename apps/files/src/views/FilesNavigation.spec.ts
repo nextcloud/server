@@ -11,7 +11,7 @@ import { createTestingPinia } from '@pinia/testing'
 import { cleanup, fireEvent, getAllByRole, render } from '@testing-library/vue'
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 import NavigationView from './FilesNavigation.vue'
-import router from '../router/router.ts'
+import { router } from '../router/router.ts'
 import RouterService from '../services/RouterService.ts'
 import { useViewConfigStore } from '../store/viewConfig.ts'
 

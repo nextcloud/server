@@ -3,21 +3,19 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcAppContent :page-heading="pageHeading" data-cy-files-content>
+	<NcAppContent :pageHeading="pageHeading" data-cy-files-content>
 		<div class="files-list__header" :class="{ 'files-list__header--public': isPublic }">
 			<!-- Uploader -->
 			<component :is="isNarrow ? 'Teleport' : 'div'" :to="isNarrow ? 'body' : undefined">
-				<UploadPicker
+				<NcUploadPicker
 					v-if="canUpload && !isQuotaExceeded && currentFolder"
-					allow-folders
-					:no-label="isNarrow"
+					directory
+					:iconOnly="isNarrow"
 					class="files-list__header-upload-button"
 					:class="{ 'files-list__header-upload-button--narrow': isNarrow }"
-					:content="getContent"
-					:destination="currentFolder"
-					:forbidden-characters="forbiddenCharacters"
+					:context="getContent"
+					:folder="currentFolder"
 					multiple
-					primary
 					@failed="onUploadFail"
 					@uploaded="onUpload" />
 			</component>
@@ -36,13 +34,13 @@
 				class="files-list__header-actions"
 				:inline="1"
 				variant="tertiary"
-				force-name>
+				forceName>
 				<NcActionButton
 					v-for="action in enabledFileListActions"
 					:key="action.id"
 					:disabled="!!loadingAction"
 					:data-cy-files-list-action="action.id"
-					close-after-click
+					closeAfterClick
 					@click="execFileListAction(action)">
 					<template #icon>
 						<NcLoadingIcon v-if="loadingAction === action.id" :size="18" />
@@ -90,7 +88,7 @@
 		<FilesListVirtual
 			v-else
 			ref="filesListVirtual"
-			:current-folder="currentFolder"
+			:currentFolder="currentFolder"
 			:current-view="currentView"
 			:nodes="dirContentsSorted"
 			:summary="summary">
@@ -130,13 +128,12 @@
 					data-cy-files-content-empty>
 					<template v-if="directory !== '/'" #action>
 						<!-- Uploader -->
-						<UploadPicker
+						<NcUploadPicker
 							v-if="canUpload && !isQuotaExceeded"
-							allow-folders
+							directory
 							class="files-list__header-upload-button"
-							:content="getContent"
-							:destination="currentFolder"
-							:forbidden-characters="forbiddenCharacters"
+							:context="getContent"
+							:folder="currentFolder"
 							multiple
 							@failed="onUploadFail"
 							@uploaded="onUpload" />
@@ -154,10 +151,9 @@
 </template>
 
 <script lang="ts">
-import type { ContentsWithRoot, FileListAction, INode, Node } from '@nextcloud/files'
-import type { Upload } from '@nextcloud/upload'
+import type { ContentsWithRoot, IFileListAction, INode, Node } from '@nextcloud/files'
 import type { ComponentPublicInstance } from 'vue'
-import type { Route } from 'vue-router'
+import type { RouteLocationRaw } from 'vue-router'
 import type { UserConfig } from '../types.ts'
 
 import { showError, showSuccess, showWarning } from '@nextcloud/dialogs'
@@ -167,11 +163,9 @@ import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 import { dirname, join } from '@nextcloud/paths'
 import { ShareType } from '@nextcloud/sharing'
-import { UploadPicker, UploadStatus } from '@nextcloud/upload'
 import { useThrottleFn } from '@vueuse/core'
 import { normalize, relative } from 'path'
 import { computed, defineComponent, nextTick, watch } from 'vue'
-import Teleport from 'vue2-teleport' // TODO: replace with native Vue Teleport when we switch to Vue 3
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActions from '@nextcloud/vue/components/NcActions'
 import NcAppContent from '@nextcloud/vue/components/NcAppContent'
@@ -187,10 +181,11 @@ import BreadCrumbs from '../components/BreadCrumbs.vue'
 import DragAndDropNotice from '../components/DragAndDropNotice.vue'
 import FileListFilters from '../components/FileListFilter/FileListFilters.vue'
 import FilesListVirtual from '../components/FilesListVirtual.vue'
+import NcUploadPicker from '../components/NcUploadPicker.vue'
+import { useFilesSorting } from '../composables/filesSorting.ts'
 import { useEnabledFileListActions } from '../composables/useFileListActions.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
-import filesSortingMixin from '../mixins/filesSorting.ts'
 import { useActiveStore } from '../store/active.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useFiltersStore } from '../store/filters.ts'
@@ -221,16 +216,11 @@ export default defineComponent({
 		NcEmptyContent,
 		NcIconSvgWrapper,
 		NcLoadingIcon,
-		Teleport,
-		UploadPicker,
+		NcUploadPicker,
 		ViewGridIcon,
 		IconAlertCircleOutline,
 		IconReload,
 	},
-
-	mixins: [
-		filesSortingMixin,
-	],
 
 	props: {
 		isPublic: {
@@ -296,6 +286,8 @@ export default defineComponent({
 			uploaderStore,
 			userConfigStore,
 			viewConfigStore,
+
+			...useFilesSorting(),
 
 			// non reactive data
 			enableGridView,
@@ -415,7 +407,7 @@ export default defineComponent({
 		/**
 		 * Route to the previous directory.
 		 */
-		toPreviousDir(): Route {
+		toPreviousDir(): RouteLocationRaw {
 			const dir = this.directory.split('/').slice(0, -1).join('/') || '/'
 			return { ...this.$route, query: { dir } }
 		},
@@ -554,7 +546,7 @@ export default defineComponent({
 				window.addEventListener('DOMContentLoaded', () => {
 					if (!this.currentView) {
 						logger.warn('No current view after DOMContentLoaded, redirecting to the default view')
-						window.OCP.Files.Router.goToRoute(null, { view: defaultView() })
+						window.OCP.Files.Router.goToRoute(null, { view: defaultView()! })
 					}
 				}, { once: true })
 				return
@@ -580,7 +572,7 @@ export default defineComponent({
 
 				// Define current directory children
 				// TODO: make it more official
-				this.$set(folder, '_children', contents.map((node) => node.source))
+				folder._children = contents.map((node) => node.source)
 
 				// If we're in the root dir, define the root
 				if (dir === '/') {
@@ -697,7 +689,7 @@ export default defineComponent({
 			this.dirContentsFiltered = nodes
 		},
 
-		actionDisplayName(action: FileListAction): string {
+		actionDisplayName(action: IFileListAction): string {
 			let displayName = action.id
 			try {
 				displayName = action.displayName(this.currentView!)
@@ -707,13 +699,12 @@ export default defineComponent({
 			return displayName
 		},
 
-		async execFileListAction(action: FileListAction) {
+		async execFileListAction(action: IFileListAction) {
 			this.loadingAction = action.id
 
 			const displayName = this.actionDisplayName(action)
 			try {
 				const success = await action.exec({
-					nodes: [this.source],
 					view: this.currentView,
 					folder: this.currentFolder,
 					contents: this.dirContents,

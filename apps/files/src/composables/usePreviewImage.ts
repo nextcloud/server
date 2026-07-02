@@ -4,13 +4,12 @@
  */
 
 import type { INode } from '@nextcloud/files'
-import type { MaybeRefOrGetter } from '@vueuse/core'
+import type { MaybeRefOrGetter } from 'vue'
 
 import { FileType } from '@nextcloud/files'
 import { generateUrl } from '@nextcloud/router'
 import { getSharingToken, isPublicShare } from '@nextcloud/sharing/public'
-import { toValue } from '@vueuse/core'
-import { computed } from 'vue'
+import { computed, toValue } from 'vue'
 
 /**
  * Get the preview URL for a given node.

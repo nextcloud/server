@@ -16,9 +16,8 @@ import { FileType, getUniqueName, NodeStatus, Permission } from '@nextcloud/file
 import { defaultRootPath, getClient, getDefaultPropfind, resultToNode } from '@nextcloud/files/dav'
 import { n, t } from '@nextcloud/l10n'
 import { basename, join } from '@nextcloud/paths'
-import { getConflicts } from '@nextcloud/upload'
-import Vue from 'vue'
 import { getContents } from '../services/Files.ts'
+import { getConflicts } from '../utils/conflicts.ts'
 import { logger } from '../utils/logger.ts'
 import { canCopy, canMove, getQueue, MoveCopyAction } from './moveOrCopyActionUtils.ts'
 
@@ -165,7 +164,7 @@ export async function* handleCopyMoveNodesTo(nodes: INode[], destination: IFolde
 	try {
 		for (const node of nodes) {
 			// Set loading state
-			Vue.set(node, 'status', NodeStatus.LOADING)
+			node.status = NodeStatus.LOADING
 			yield queue.add(async () => {
 				try {
 					const client = getClient()
@@ -211,7 +210,7 @@ export async function* handleCopyMoveNodesTo(nodes: INode[], destination: IFolde
 					}
 					throw error
 				} finally {
-					Vue.set(node, 'status', undefined)
+					node.status = undefined
 				}
 			})
 		}
