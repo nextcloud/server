@@ -100,4 +100,67 @@ class CachePermissionsMaskTest extends CacheTest {
 			$this->assertEquals($mask & ~Constants::PERMISSION_CREATE, $file['permissions']);
 		}
 	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('maskProvider')]
+	public function testGetScannedFileMasked($mask): void {
+		$this->storage->mkdir('foo');
+		$this->storage->file_put_contents('foo/bar', 'asd');
+		$this->storage->getScanner()->scan('');
+
+		$cache = $this->getMaskedCached($mask);
+		$file = $cache->get('foo/bar');
+
+		$this->assertNotFalse($file);
+		$this->assertEquals($mask & ~Constants::PERMISSION_CREATE, $file['permissions']);
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('maskProvider')]
+	public function testGetScannedFolderMasked($mask): void {
+		$this->storage->mkdir('foo');
+		$this->storage->file_put_contents('foo/bar', 'asd');
+		$this->storage->getScanner()->scan('');
+
+		$cache = $this->getMaskedCached($mask);
+		$folder = $cache->get('foo');
+
+		$this->assertNotFalse($folder);
+		$this->assertEquals($mask, $folder['permissions']);
+	}
+
+	public function testGetSetsScanPermissionsFromOriginalPermissions(): void {
+		$mask = Constants::PERMISSION_READ;
+		$cache = $this->getMaskedCached($mask);
+
+		$data = [
+			'size' => 100,
+			'mtime' => 50,
+			'mimetype' => 'text/plain',
+			'permissions' => Constants::PERMISSION_ALL,
+		];
+		$this->sourceCache->put('foo', $data);
+
+		$result = $cache->get('foo');
+
+		$this->assertEquals(Constants::PERMISSION_ALL, $result['scan_permissions']);
+		$this->assertEquals(Constants::PERMISSION_ALL & $mask, $result['permissions']);
+	}
+
+	public function testGetDoesNotOverwriteExistingScanPermissions(): void {
+		$mask = Constants::PERMISSION_READ;
+		$cache = $this->getMaskedCached($mask);
+
+		$data = [
+			'size' => 100,
+			'mtime' => 50,
+			'mimetype' => 'text/plain',
+			'permissions' => Constants::PERMISSION_ALL,
+			'scan_permissions' => Constants::PERMISSION_READ,
+		];
+		$this->sourceCache->put('foo', $data);
+
+		$result = $cache->get('foo');
+
+		$this->assertEquals(Constants::PERMISSION_READ, $result['scan_permissions']);
+		$this->assertEquals(Constants::PERMISSION_ALL & $mask, $result['permissions']);
+	}
 }
