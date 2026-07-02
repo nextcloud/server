@@ -1,2 +1,2 @@
-import{l as s}from"./logger-D6wJPO9M.chunk.mjs";import"./index-C6ey-Mhx.chunk.mjs";class t{#e=new Map;registerHandler(e){this.#e.has(e.id)&&s.warn(`Auth mechanism handler with id '${e.id}' is already registered`),this.#e.set(e.id,e)}getHandler(e){return this.#e.values().find(i=>i.enabled(e))}}window.OCA.FilesExternal??={},window.OCA.FilesExternal.AuthMechanism=new t;
+import{t as e}from"./logger-DSduoM-e.chunk.mjs";var t=class{#e=new Map;registerHandler(t){this.#e.has(t.id)&&e.warn(`Auth mechanism handler with id '${t.id}' is already registered`),this.#e.set(t.id,t)}getHandler(e){return this.#e.values().find(t=>t.enabled(e))}};window.OCA.FilesExternal??={},window.OCA.FilesExternal.AuthMechanism=new t;
 //# sourceMappingURL=files_external-init_settings.mjs.map

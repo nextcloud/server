@@ -1,0 +1,7 @@
+SPDX-License-Identifier: GPL-3.0-or-later
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+
+This file is generated from multiple sources. Included packages:
+- @nextcloud/initial-state
+	- version: 3.0.0
+	- license: GPL-3.0-or-later

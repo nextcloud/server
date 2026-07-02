@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-/** @var array{share: \OCP\Share\IShare, identityOk?: bool, wrongpw?: bool} $_ */
+/** @var array{share: \OCP\Share\IShare, identityOk?: bool, wrongpw?: bool, otpInfo: array{ name: string, description: string, recipientPattern: string, maskedRecipient: string} } $_ */
 
 \OCP\Util::addStyle('core', 'guest');
 \OCP\Util::addScript('core', 'public_share_auth');
@@ -18,6 +18,7 @@ $initialState->provideInitialState('core', 'publicShareAuth', [
 	'shareType' => $_['share']->getShareType(),
 	'invalidPassword' => $_['wrongpw'] ?? null,
 	'canResendPassword' => $_['share']->getShareType() === \OCP\Share\IShare::TYPE_EMAIL && !$_['share']->getSendPasswordByTalk(),
+	'otpInfo' => $_['otpInfo'],
 ]);
 ?>
 

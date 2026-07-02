@@ -1,2 +1,2 @@
-import{l as o}from"./public-C1mLBHT3.chunk.mjs";window.OCA.Theming=o("theming","data");
+import{t as e}from"./dist-B1dKxqkS.chunk.mjs";window.OCA.Theming=e(`theming`,`data`);
 //# sourceMappingURL=theming-theming.mjs.map

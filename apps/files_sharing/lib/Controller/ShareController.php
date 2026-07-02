@@ -40,7 +40,9 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
+use OCP\OneTimePassword\IManager as IOTPManager;
 use OCP\Security\Events\GenerateSecurePasswordEvent;
+use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 use OCP\Security\PasswordContext;
 use OCP\Share;
@@ -48,6 +50,7 @@ use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager as ShareManager;
 use OCP\Share\IPublicShareTemplateFactory;
 use OCP\Share\IShare;
+use Psr\Log\LoggerInterface;
 
 /**
  * @package OCA\Files_Sharing\Controllers
@@ -78,8 +81,28 @@ class ShareController extends AuthPublicShareController {
 		protected ISecureRandom $secureRandom,
 		protected Defaults $defaults,
 		private IPublicShareTemplateFactory $publicShareTemplateFactory,
+		private LoggerInterface $logger,
+		private IHasher $hasher,
+		private IOTPManager $otpManager,
 	) {
 		parent::__construct($appName, $request, $session, $urlGenerator);
+	}
+
+	private function getOtpProviderInfo(): array {
+		$otpProvider = null;
+		$otpProviderInfo = null;
+		if ($this->share->getOneTimePassword() !== null) {
+			$otpProvider = $this->otpManager->getOTPProviderById($this->share->getOneTimePassword()->getProviderId());
+		}
+		if ($otpProvider !== null) {
+			$otpProviderInfo = [
+				'name' => $otpProvider->getName(),
+				'description' => $otpProvider->getDescription(),
+				'recipientPattern' => $otpProvider->getRecipientPattern(),
+				'maskedRecipient' => $otpProvider->maskRecipient($this->share->getOneTimePassword()->getRecipient()),
+			];
+		}
+		return $otpProviderInfo;
 	}
 
 	/**
@@ -90,7 +113,7 @@ class ShareController extends AuthPublicShareController {
 	#[PublicPage]
 	#[NoCSRFRequired]
 	public function showAuthenticate(): TemplateResponse {
-		$templateParameters = ['share' => $this->share];
+		$templateParameters = ['share' => $this->share, 'otpInfo' => $this->getOtpProviderInfo()];
 
 		$this->eventDispatcher->dispatchTyped(new BeforeTemplateRenderedEvent($this->share, BeforeTemplateRenderedEvent::SCOPE_PUBLIC_SHARE_AUTH));
 
@@ -102,7 +125,7 @@ class ShareController extends AuthPublicShareController {
 	 */
 	#[\Override]
 	protected function showAuthFailed(): TemplateResponse {
-		$templateParameters = ['share' => $this->share, 'wrongpw' => true];
+		$templateParameters = ['share' => $this->share, 'wrongpw' => true, 'otpInfo' => $this->getOtpProviderInfo()];
 
 		$this->eventDispatcher->dispatchTyped(new BeforeTemplateRenderedEvent($this->share, BeforeTemplateRenderedEvent::SCOPE_PUBLIC_SHARE_AUTH));
 
@@ -114,7 +137,7 @@ class ShareController extends AuthPublicShareController {
 	 */
 	#[\Override]
 	protected function showIdentificationResult(bool $success = false): TemplateResponse {
-		$templateParameters = ['share' => $this->share, 'identityOk' => $success];
+		$templateParameters = ['share' => $this->share, 'identityOk' => $success, 'otpInfo' => $this->getOtpProviderInfo()];
 
 		$this->eventDispatcher->dispatchTyped(new BeforeTemplateRenderedEvent($this->share, BeforeTemplateRenderedEvent::SCOPE_PUBLIC_SHARE_AUTH));
 
@@ -176,7 +199,7 @@ class ShareController extends AuthPublicShareController {
 
 	#[\Override]
 	protected function isPasswordProtected(): bool {
-		return $this->share->getPassword() !== null;
+		return $this->share->isPasswordProtected();
 	}
 
 	#[\Override]
@@ -189,6 +212,12 @@ class ShareController extends AuthPublicShareController {
 		$allowedShareIds = $this->session->get(PublicAuth::DAV_AUTHENTICATED);
 		if (!is_array($allowedShareIds)) {
 			$allowedShareIds = [];
+		}
+
+		$otp = $this->share->getOneTimePassword();
+		if($otp !== null) {
+			$otp->setPassword(null);
+			$this->otpManager->updateOTP($otp);
 		}
 
 		$this->session->set(PublicAuth::DAV_AUTHENTICATED, array_merge($allowedShareIds, [$this->share->getId()]));

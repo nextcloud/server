@@ -1,0 +1,2 @@
+import{S as e,U as t}from"./vue.runtime.esm-bundler-R-TRboFG.chunk.mjs";import{r as n}from"./createElementId-DhjFt1I9-nqaih5Pu.chunk.mjs";var r={name:`NcActionSeparator`},i={class:`action action-separator action--disabled`,role:`separator`};function a(n,r,a,o,s,c){return t(),e(`li`,i)}var o=n(r,[[`render`,a],[`__scopeId`,`data-v-3e2324b7`]]);export{o as t};
+//# sourceMappingURL=NcActionSeparator-B9pNQaji-p7rBCM1G.chunk.mjs.map

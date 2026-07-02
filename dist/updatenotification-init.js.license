@@ -36,7 +36,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.1.0
 	- license: GPL-3.0-or-later
 - axios
-	- version: 1.16.1
+	- version: 1.15.0
 	- license: MIT
 - base64-js
 	- version: 1.5.1
@@ -54,7 +54,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.7.16
 	- license: MIT
 - webpack
-	- version: 5.106.2
+	- version: 5.107.2
 	- license: MIT
 - nextcloud
 	- version: 1.0.0

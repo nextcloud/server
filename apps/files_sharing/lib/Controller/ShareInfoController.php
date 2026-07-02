@@ -70,7 +70,7 @@ class ShareInfoController extends ApiController {
 			return $response;
 		}
 
-		if ($share->getPassword() && !$this->shareManager->checkPassword($share, $password)) {
+		if ($share->isPasswordProtected() && !$this->shareManager->checkPassword($share, $password)) {
 			$response = new JSONResponse([], Http::STATUS_FORBIDDEN);
 			$response->throttle(['token' => $t]);
 			return $response;
