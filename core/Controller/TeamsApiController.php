@@ -68,11 +68,12 @@ class TeamsApiController extends OCSController {
 		$teams = $this->teamManager->getTeamsForResource($providerId, $resourceId, $this->userId);
 		$teamIds = array_map(static fn (Team $team): string => $team->getId(), $teams);
 		$sharesPerTeams = $this->teamManager->getSharedWithList($teamIds, $this->userId, $resourceId);
-		$listTeams = array_values(array_map(static function (Team $team) use ($sharesPerTeams) {
+
+		$listTeams = array_map(static function (Team $team) use ($sharesPerTeams) {
 			$response = $team->jsonSerialize();
 			$response['resources'] = array_map(static fn (TeamResource $resource) => $resource->jsonSerialize(), $sharesPerTeams[$team->getId()] ?? []);
 			return $response;
-		}, $teams));
+		}, $teams);
 
 		return new DataResponse([
 			'teams' => $listTeams,
