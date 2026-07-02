@@ -15,6 +15,7 @@ use OCA\Files_External\Service\GlobalStoragesService;
 use OCP\AppFramework\Http;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Config extends Base {
@@ -41,6 +42,11 @@ class Config extends Base {
 				'value',
 				InputArgument::OPTIONAL,
 				'value to set the config option to, when no value is provided the existing value will be printed'
+			)->addOption(
+				'value-from-file',
+				null,
+				InputOption::VALUE_NONE,
+				'read the value from the file provided'
 			);
 		parent::configure();
 	}
@@ -58,6 +64,14 @@ class Config extends Base {
 
 		$value = $input->getArgument('value');
 		if ($value !== null) {
+			if ($input->getOption('value-from-file')) {
+				$file = $value;
+				$value = file_get_contents($file);
+				if ($value === false) {
+					$output->writeln('<error>Failed to load value from ' . $file . '</error>');
+					return 1;
+				}
+			}
 			$this->setOption($mount, $key, $value, $output);
 		} else {
 			$this->getOption($mount, $key, $output);
