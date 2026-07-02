@@ -1986,6 +1986,8 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Memcache\\CASTrait' => __DIR__ . '/../../..' . '/lib/private/Memcache/CASTrait.php',
         'OC\\Memcache\\Cache' => __DIR__ . '/../../..' . '/lib/private/Memcache/Cache.php',
         'OC\\Memcache\\Factory' => __DIR__ . '/../../..' . '/lib/private/Memcache/Factory.php',
+        'OC\\Memcache\\KeyValueCache' => __DIR__ . '/../../..' . '/lib/private/Memcache/KeyValueCache.php',
+        'OC\\Memcache\\KeyValueCacheFactory' => __DIR__ . '/../../..' . '/lib/private/Memcache/KeyValueCacheFactory.php',
         'OC\\Memcache\\LoggerWrapperCache' => __DIR__ . '/../../..' . '/lib/private/Memcache/LoggerWrapperCache.php',
         'OC\\Memcache\\Memcached' => __DIR__ . '/../../..' . '/lib/private/Memcache/Memcached.php',
         'OC\\Memcache\\MemcachedFactory' => __DIR__ . '/../../..' . '/lib/private/Memcache/MemcachedFactory.php',
