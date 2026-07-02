@@ -464,7 +464,7 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testPromoteReshareFile(): void {
 		$manager = $this->createManagerMock()
-			->onlyMethods(['updateShare', 'getSharesInFolder', 'generalCreateChecks'])
+			->onlyMethods(['updateShare', 'getSharesInFolder', 'generalChecks'])
 			->getMock();
 
 		$file = $this->createMock(File::class);
@@ -493,7 +493,7 @@ class ManagerTest extends \Test\TestCase {
 					return [];
 				}
 			});
-		$manager->method('generalCreateChecks')->willThrowException(new GenericShareException());
+		$manager->method('generalChecks')->willThrowException(new GenericShareException());
 
 		$manager->expects($this->exactly(1))->method('updateShare')->with($reShare)->willReturn($reShare);
 
@@ -529,7 +529,7 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testPromoteReshare(): void {
 		$manager = $this->createManagerMock()
-			->onlyMethods(['updateShare', 'getSharesInFolder', 'generalCreateChecks'])
+			->onlyMethods(['updateShare', 'getSharesInFolder', 'generalChecks'])
 			->getMock();
 
 		$folder = $this->createFolderMock('/path/to/folder');
@@ -574,7 +574,7 @@ class ManagerTest extends \Test\TestCase {
 				}
 				$this->fail();
 			});
-		$manager->method('generalCreateChecks')->willThrowException(new GenericShareException());
+		$manager->method('generalChecks')->willThrowException(new GenericShareException());
 
 		$calls = [
 			$reShare,
@@ -627,7 +627,7 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testPromoteReshareWhenUserHasAnotherShare(): void {
 		$manager = $this->createManagerMock()
-			->onlyMethods(['updateShare', 'getSharesInFolder', 'getSharedWith', 'generalCreateChecks'])
+			->onlyMethods(['updateShare', 'getSharesInFolder', 'getSharedWith', 'generalChecks'])
 			->getMock();
 
 		$folder = $this->createFolderMock('/path/to/folder');
@@ -645,9 +645,9 @@ class ManagerTest extends \Test\TestCase {
 		$reShare->method('getNode')->willReturn($folder);
 
 		$this->defaultProvider->method('getSharesBy')->willReturn([$reShare]);
-		$manager->method('generalCreateChecks');
+		$manager->method('generalChecks');
 
-		/* No share is promoted because generalCreateChecks does not throw */
+		/* No share is promoted because generalChecks does not throw */
 		$manager->expects($this->never())->method('updateShare');
 
 		$this->userManager->method('userExists')->willReturn(true);
@@ -682,7 +682,7 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testPromoteReshareOfUsersInGroupShare(): void {
 		$manager = $this->createManagerMock()
-			->onlyMethods(['updateShare', 'getSharesInFolder', 'getSharedWith', 'generalCreateChecks'])
+			->onlyMethods(['updateShare', 'getSharesInFolder', 'getSharedWith', 'generalChecks'])
 			->getMock();
 
 		$folder = $this->createFolderMock('/path/to/folder');
@@ -728,7 +728,7 @@ class ManagerTest extends \Test\TestCase {
 					return [];
 				}
 			});
-		$manager->method('generalCreateChecks')->willThrowException(new GenericShareException());
+		$manager->method('generalChecks')->willThrowException(new GenericShareException());
 
 		$manager->method('getSharedWith')->willReturn([]);
 
@@ -1201,7 +1201,7 @@ class ManagerTest extends \Test\TestCase {
 
 
 		try {
-			self::invokePrivate($this->manager, 'generalCreateChecks', [$share]);
+			self::invokePrivate($this->manager, 'generalChecks', [$share]);
 			$thrown = false;
 		} catch (GenericShareException $e) {
 			$this->assertEquals($exceptionMessage, $e->getHint());
@@ -1235,7 +1235,7 @@ class ManagerTest extends \Test\TestCase {
 			->setSharedBy('user1')
 			->setNode($userFolder);
 
-		self::invokePrivate($this->manager, 'generalCreateChecks', [$share]);
+		self::invokePrivate($this->manager, 'generalChecks', [$share]);
 	}
 
 	public static function validateExpirationDateInternalProvider() {
@@ -2612,7 +2612,7 @@ class ManagerTest extends \Test\TestCase {
 	public function testCreateShareUser(): void {
 		/** @var Manager&MockObject $manager */
 		$manager = $this->createManagerMock()
-			->onlyMethods(['canShare', 'generalCreateChecks', 'userCreateChecks', 'pathCreateChecks', 'validateExpirationDateInternal'])
+			->onlyMethods(['canShare', 'generalChecks', 'userCreateChecks', 'pathCreateChecks', 'validateExpirationDateInternal'])
 			->getMock();
 
 		$shareOwner = $this->createMock(IUser::class);
@@ -2637,7 +2637,7 @@ class ManagerTest extends \Test\TestCase {
 			->method('canShare')
 			->with($share);
 		$manager->expects($this->once())
-			->method('generalCreateChecks')
+			->method('generalChecks')
 			->with($share);
 		;
 		$manager->expects($this->once())
@@ -2670,7 +2670,7 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testCreateShareGroup(): void {
 		$manager = $this->createManagerMock()
-			->onlyMethods(['canShare', 'generalCreateChecks', 'groupCreateChecks', 'pathCreateChecks', 'validateExpirationDateInternal'])
+			->onlyMethods(['canShare', 'generalChecks', 'groupCreateChecks', 'pathCreateChecks', 'validateExpirationDateInternal'])
 			->getMock();
 
 		$shareOwner = $this->createMock(IUser::class);
@@ -2695,7 +2695,7 @@ class ManagerTest extends \Test\TestCase {
 			->method('canShare')
 			->with($share);
 		$manager->expects($this->once())
-			->method('generalCreateChecks')
+			->method('generalChecks')
 			->with($share);
 		;
 		$manager->expects($this->once())
@@ -2730,7 +2730,7 @@ class ManagerTest extends \Test\TestCase {
 		$manager = $this->createManagerMock()
 			->onlyMethods([
 				'canShare',
-				'generalCreateChecks',
+				'generalChecks',
 				'linkCreateChecks',
 				'pathCreateChecks',
 				'validateExpirationDateLink',
@@ -2763,7 +2763,7 @@ class ManagerTest extends \Test\TestCase {
 			->method('canShare')
 			->with($share);
 		$manager->expects($this->once())
-			->method('generalCreateChecks')
+			->method('generalChecks')
 			->with($share);
 		;
 		$manager->expects($this->once())
@@ -2839,7 +2839,7 @@ class ManagerTest extends \Test\TestCase {
 		$manager = $this->createManagerMock()
 			->onlyMethods([
 				'canShare',
-				'generalCreateChecks',
+				'generalChecks',
 				'linkCreateChecks',
 				'pathCreateChecks',
 				'validateExpirationDateLink',
@@ -2868,7 +2868,7 @@ class ManagerTest extends \Test\TestCase {
 			->method('canShare')
 			->with($share);
 		$manager->expects($this->once())
-			->method('generalCreateChecks')
+			->method('generalChecks')
 			->with($share);
 
 		$manager->expects($this->once())
@@ -2937,7 +2937,7 @@ class ManagerTest extends \Test\TestCase {
 		$manager = $this->createManagerMock()
 			->onlyMethods([
 				'canShare',
-				'generalCreateChecks',
+				'generalChecks',
 				'userCreateChecks',
 				'pathCreateChecks',
 				'validateExpirationDateInternal',
@@ -2966,7 +2966,7 @@ class ManagerTest extends \Test\TestCase {
 			->method('canShare')
 			->with($share);
 		$manager->expects($this->once())
-			->method('generalCreateChecks')
+			->method('generalChecks')
 			->with($share);
 		;
 		$manager->expects($this->once())
@@ -3004,7 +3004,7 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testCreateShareOfIncomingFederatedShare(): void {
 		$manager = $this->createManagerMock()
-			->onlyMethods(['canShare', 'generalCreateChecks', 'userCreateChecks', 'pathCreateChecks', 'validateExpirationDateInternal'])
+			->onlyMethods(['canShare', 'generalChecks', 'userCreateChecks', 'pathCreateChecks', 'validateExpirationDateInternal'])
 			->getMock();
 
 		$shareOwner = $this->createMock(IUser::class);
@@ -3048,7 +3048,7 @@ class ManagerTest extends \Test\TestCase {
 			->method('canShare')
 			->with($share);
 		$manager->expects($this->once())
-			->method('generalCreateChecks')
+			->method('generalChecks')
 			->with($share);
 		;
 		$manager->expects($this->once())
@@ -3703,7 +3703,7 @@ class ManagerTest extends \Test\TestCase {
 			->onlyMethods([
 				'canShare',
 				'getShareById',
-				'generalCreateChecks',
+				'generalChecks',
 				'userCreateChecks',
 				'pathCreateChecks',
 			])
@@ -3767,7 +3767,7 @@ class ManagerTest extends \Test\TestCase {
 			->onlyMethods([
 				'canShare',
 				'getShareById',
-				'generalCreateChecks',
+				'generalChecks',
 				'groupCreateChecks',
 				'pathCreateChecks',
 			])
@@ -3813,7 +3813,7 @@ class ManagerTest extends \Test\TestCase {
 			->onlyMethods([
 				'canShare',
 				'getShareById',
-				'generalCreateChecks',
+				'generalChecks',
 				'linkCreateChecks',
 				'pathCreateChecks',
 				'verifyPassword',
@@ -3894,7 +3894,7 @@ class ManagerTest extends \Test\TestCase {
 			->onlyMethods([
 				'canShare',
 				'getShareById',
-				'generalCreateChecks',
+				'generalChecks',
 				'linkCreateChecks',
 				'pathCreateChecks',
 				'verifyPassword',
@@ -3928,7 +3928,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$manager->expects($this->once())->method('canShare');
 		$manager->expects($this->once())->method('getShareById')->with('foo:42')->willReturn($originalShare);
-		$manager->expects($this->once())->method('generalCreateChecks')->with($share);
+		$manager->expects($this->once())->method('generalChecks')->with($share);
 		$manager->expects($this->once())->method('linkCreateChecks')->with($share);
 		$manager->expects($this->never())->method('verifyPassword');
 		$manager->expects($this->never())->method('pathCreateChecks');
@@ -3960,7 +3960,7 @@ class ManagerTest extends \Test\TestCase {
 			->onlyMethods([
 				'canShare',
 				'getShareById',
-				'generalCreateChecks',
+				'generalChecks',
 				'verifyPassword',
 				'pathCreateChecks',
 				'linkCreateChecks',
@@ -3993,7 +3993,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$manager->expects($this->once())->method('canShare');
 		$manager->expects($this->once())->method('getShareById')->with('foo:42')->willReturn($originalShare);
-		$manager->expects($this->once())->method('generalCreateChecks')->with($share);
+		$manager->expects($this->once())->method('generalChecks')->with($share);
 		$manager->expects($this->once())->method('verifyPassword')->with('password');
 		$manager->expects($this->once())->method('pathCreateChecks')->with($file);
 		$manager->expects($this->once())->method('linkCreateChecks');
@@ -4040,7 +4040,7 @@ class ManagerTest extends \Test\TestCase {
 			->onlyMethods([
 				'canShare',
 				'getShareById',
-				'generalCreateChecks',
+				'generalChecks',
 				'verifyPassword',
 				'pathCreateChecks',
 				'linkCreateChecks',
@@ -4076,7 +4076,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$manager->expects($this->once())->method('canShare');
 		$manager->expects($this->once())->method('getShareById')->with('foo:42')->willReturn($originalShare);
-		$manager->expects($this->once())->method('generalCreateChecks')->with($share);
+		$manager->expects($this->once())->method('generalChecks')->with($share);
 		$manager->expects($this->once())->method('verifyPassword')->with('password');
 		$manager->expects($this->once())->method('pathCreateChecks')->with($file);
 		$manager->expects($this->once())->method('linkCreateChecks');
@@ -4123,7 +4123,7 @@ class ManagerTest extends \Test\TestCase {
 			->onlyMethods([
 				'canShare',
 				'getShareById',
-				'generalCreateChecks',
+				'generalChecks',
 				'verifyPassword',
 				'pathCreateChecks',
 				'linkCreateChecks',
@@ -4159,7 +4159,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$manager->expects($this->once())->method('canShare');
 		$manager->expects($this->once())->method('getShareById')->with('foo:42')->willReturn($originalShare);
-		$manager->expects($this->once())->method('generalCreateChecks')->with($share);
+		$manager->expects($this->once())->method('generalChecks')->with($share);
 		$manager->expects($this->once())->method('verifyPassword')->with('password');
 		$manager->expects($this->once())->method('pathCreateChecks')->with($file);
 		$manager->expects($this->once())->method('linkCreateChecks');
@@ -4214,7 +4214,7 @@ class ManagerTest extends \Test\TestCase {
 			->onlyMethods([
 				'canShare',
 				'getShareById',
-				'generalCreateChecks',
+				'generalChecks',
 				'verifyPassword',
 				'pathCreateChecks',
 				'linkCreateChecks',
@@ -4250,7 +4250,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$manager->expects($this->once())->method('canShare');
 		$manager->expects($this->once())->method('getShareById')->with('foo:42')->willReturn($originalShare);
-		$manager->expects($this->once())->method('generalCreateChecks')->with($share);
+		$manager->expects($this->once())->method('generalChecks')->with($share);
 		$manager->expects($this->never())->method('verifyPassword');
 		$manager->expects($this->never())->method('pathCreateChecks');
 		$manager->expects($this->once())->method('linkCreateChecks');
@@ -4287,7 +4287,7 @@ class ManagerTest extends \Test\TestCase {
 			->onlyMethods([
 				'canShare',
 				'getShareById',
-				'generalCreateChecks',
+				'generalChecks',
 				'verifyPassword',
 				'pathCreateChecks',
 				'linkCreateChecks',
@@ -4323,7 +4323,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$manager->expects($this->once())->method('canShare');
 		$manager->expects($this->once())->method('getShareById')->with('foo:42')->willReturn($originalShare);
-		$manager->expects($this->once())->method('generalCreateChecks')->with($share);
+		$manager->expects($this->once())->method('generalChecks')->with($share);
 		$manager->expects($this->once())->method('verifyPassword');
 		$manager->expects($this->never())->method('pathCreateChecks');
 		$manager->expects($this->once())->method('linkCreateChecks');
@@ -4360,7 +4360,7 @@ class ManagerTest extends \Test\TestCase {
 			->onlyMethods([
 				'canShare',
 				'getShareById',
-				'generalCreateChecks',
+				'generalChecks',
 				'verifyPassword',
 				'pathCreateChecks',
 				'linkCreateChecks',
@@ -4396,7 +4396,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$manager->expects($this->once())->method('canShare');
 		$manager->expects($this->once())->method('getShareById')->with('foo:42')->willReturn($originalShare);
-		$manager->expects($this->once())->method('generalCreateChecks')->with($share);
+		$manager->expects($this->once())->method('generalChecks')->with($share);
 		$manager->expects($this->once())->method('verifyPassword');
 		$manager->expects($this->never())->method('pathCreateChecks');
 		$manager->expects($this->once())->method('linkCreateChecks');
@@ -4433,7 +4433,7 @@ class ManagerTest extends \Test\TestCase {
 			->onlyMethods([
 				'canShare',
 				'getShareById',
-				'generalCreateChecks',
+				'generalChecks',
 				'verifyPassword',
 				'pathCreateChecks',
 				'linkCreateChecks',
@@ -4469,7 +4469,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$manager->expects($this->once())->method('canShare');
 		$manager->expects($this->once())->method('getShareById')->with('foo:42')->willReturn($originalShare);
-		$manager->expects($this->once())->method('generalCreateChecks')->with($share);
+		$manager->expects($this->once())->method('generalChecks')->with($share);
 		$manager->expects($this->never())->method('verifyPassword');
 		$manager->expects($this->never())->method('pathCreateChecks');
 		$manager->expects($this->once())->method('linkCreateChecks');
@@ -4507,7 +4507,7 @@ class ManagerTest extends \Test\TestCase {
 			->onlyMethods([
 				'canShare',
 				'getShareById',
-				'generalCreateChecks',
+				'generalChecks',
 				'verifyPassword',
 				'pathCreateChecks',
 				'linkCreateChecks',
@@ -4543,7 +4543,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$manager->expects($this->once())->method('canShare');
 		$manager->expects($this->once())->method('getShareById')->with('foo:42')->willReturn($originalShare);
-		$manager->expects($this->once())->method('generalCreateChecks')->with($share);
+		$manager->expects($this->once())->method('generalChecks')->with($share);
 		$manager->expects($this->never())->method('verifyPassword');
 		$manager->expects($this->never())->method('pathCreateChecks');
 		$manager->expects($this->once())->method('linkCreateChecks');
@@ -4581,7 +4581,7 @@ class ManagerTest extends \Test\TestCase {
 			->onlyMethods([
 				'canShare',
 				'getShareById',
-				'generalCreateChecks',
+				'generalChecks',
 				'verifyPassword',
 				'pathCreateChecks',
 				'linkCreateChecks',
@@ -4617,7 +4617,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$manager->expects($this->once())->method('canShare');
 		$manager->expects($this->once())->method('getShareById')->with('foo:42')->willReturn($originalShare);
-		$manager->expects($this->once())->method('generalCreateChecks')->with($share);
+		$manager->expects($this->once())->method('generalChecks')->with($share);
 		$manager->expects($this->never())->method('verifyPassword');
 		$manager->expects($this->never())->method('pathCreateChecks');
 		$manager->expects($this->once())->method('linkCreateChecks');

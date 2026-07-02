@@ -145,7 +145,7 @@ class Manager implements IManager {
 	 *
 	 * @suppress PhanUndeclaredClassMethod
 	 */
-	protected function generalCreateChecks(IShare $share, bool $isUpdate = false): void {
+	protected function generalChecks(IShare $share): void {
 		if ($share->getShareType() === IShare::TYPE_USER) {
 			// We expect a valid user as sharedWith for user shares
 			if (!$this->userManager->userExists($share->getSharedWith())) {
@@ -627,7 +627,7 @@ class Manager implements IManager {
 		// TODO: handle link share permissions or check them
 		$this->canShare($share);
 
-		$this->generalCreateChecks($share);
+		$this->generalChecks($share);
 
 		// Verify if there are any issues with the path
 		$this->pathCreateChecks($share->getNode());
@@ -786,7 +786,7 @@ class Manager implements IManager {
 			throw new \InvalidArgumentException($this->l->t('Cannot share with the share owner'));
 		}
 
-		$this->generalCreateChecks($share, true);
+		$this->generalChecks($share);
 
 		if ($share->getShareType() === IShare::TYPE_USER) {
 			$this->userCreateChecks($share);
@@ -1121,7 +1121,7 @@ class Manager implements IManager {
 		foreach ($reshareRecords as $child) {
 			try {
 				/* Check if the share is still valid (means the resharer still has access to the file through another mean) */
-				$this->generalCreateChecks($child);
+				$this->generalChecks($child);
 			} catch (GenericShareException $e) {
 				/* The check is invalid, promote it to a direct share from the sharer of parent share */
 				$this->logger->debug('Promote reshare because of exception ' . $e->getMessage(), ['exception' => $e, 'fullId' => $child->getFullId()]);
