@@ -22,6 +22,7 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Cache\IScanner;
+use OCP\Files\EntityTooLargeException;
 use OCP\Files\FileInfo;
 use OCP\Files\GenericFileException;
 use OCP\Files\IMimeTypeDetector;
@@ -548,6 +549,11 @@ class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 			}
 
 			$stat['size'] = $totalWritten;
+		} catch (EntityTooLargeException $ex) {
+			if (!$exists) {
+				$this->getCache()->remove($uploadPath);
+			}
+			throw $ex;
 		} catch (\Exception $ex) {
 			if (!$exists) {
 				/*
