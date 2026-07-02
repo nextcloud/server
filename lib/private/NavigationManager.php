@@ -39,6 +39,7 @@ class NavigationManager implements INavigationManager {
 	private ?array $customAppOrder = null;
 	/** List of loaded app info */
 	private array $loadedAppInfo = [];
+	private bool $additionalEntriesLoaded = false;
 
 	public function __construct(
 		protected IAppManager $appManager,
@@ -166,10 +167,15 @@ class NavigationManager implements INavigationManager {
 	/**
 	 * removes all the entries
 	 */
-	public function clear(bool $loadDefaultLinks = true): void {
+	public function clear(bool $resetInit = true): void {
 		$this->entries = [];
 		$this->closureEntries = [];
-		$this->init = !$loadDefaultLinks;
+
+		if ($resetInit) {
+			$this->loadedAppInfo = [];
+			$this->additionalEntriesLoaded = false;
+			$this->init = false;
+		}
 	}
 
 	#[Override]
@@ -206,17 +212,28 @@ class NavigationManager implements INavigationManager {
 	 * Resolve the app navigation entries from closures and info.xml files.
 	 */
 	private function resolveAppNavigationEntries(): void {
-		// Resolve app navigation closures
-		while ($c = array_pop($this->closureEntries)) {
-			$this->add($c());
-		}
+		$this->resolveAppInfoEntries();
 
-		// Resolve dynamically added navigation entries via event listeners
-		if ($this->loadedAppInfo === []) {
-			$this->eventDispatcher->dispatchTyped(new LoadAdditionalEntriesEvent());
-		}
+		// we do not really know the current bootstrapping state
+		// but we know that the files app is always enabled and loaded when "filesystem" is loaded thus the server is ready or close-to-ready.
+		if ($this->appManager->isAppLoaded('files')) {
+			// Resolve app navigation closures
+			while ($c = array_pop($this->closureEntries)) {
+				$this->add($c());
+			}
 
-		// Resolve classic info.xml based navigation entries
+			// Resolve dynamically added navigation entries via event listeners
+			if (!$this->additionalEntriesLoaded) {
+				$this->additionalEntriesLoaded = true;
+				$this->eventDispatcher->dispatchTyped(new LoadAdditionalEntriesEvent());
+			}
+		}
+	}
+
+	/**
+	 * Resolve classic info.xml based navigation entires
+	 */
+	private function resolveAppInfoEntries(): void {
 		if ($this->userSession->isLoggedIn()) {
 			$user = $this->userSession->getUser();
 			$apps = $this->appManager->getEnabledAppsForUser($user);
@@ -224,17 +241,21 @@ class NavigationManager implements INavigationManager {
 			$apps = $this->appManager->getEnabledApps();
 		}
 
-		foreach ($apps as $app) {
-			// skip already loaded apps
-			if (in_array($app, $this->loadedAppInfo)) {
-				continue;
-			}
+		$appsToLoad = array_diff($apps, $this->loadedAppInfo);
+		$appsToLoad = array_filter($appsToLoad, $this->appManager->isAppLoaded(...));
+		if ($appsToLoad === []) {
+			return;
+		}
 
+		foreach ($appsToLoad as $app) {
 			// load plugins and collections from info.xml
 			$info = $this->appManager->getAppInfo($app);
 			if (!isset($info['navigations']['navigation'])) {
+				// this app does not have any navigation entries, skip it
+				$this->loadedAppInfo[] = $app;
 				continue;
 			}
+
 			foreach ($info['navigations']['navigation'] as $key => $nav) {
 				$nav['type'] = $nav['type'] ?? 'link';
 				if (!isset($nav['name'])) {
@@ -250,8 +271,11 @@ class NavigationManager implements INavigationManager {
 				}
 				$id = $nav['id'] ?? $app . ($key === 0 ? '' : $key);
 				$order = $nav['order'] ?? 100;
-				$type = $nav['type'];
-				$route = !empty($nav['route']) ? $this->urlGenerator->linkToRoute($nav['route']) : '';
+				$type = $nav['type'] ?? 'link';
+				$route = $nav['route'] ?? '';
+				if ($route !== '') {
+					$route = $this->urlGenerator->linkToRoute($route);
+				}
 				$icon = $nav['icon'] ?? null;
 				if ($icon !== null) {
 					try {

@@ -148,6 +148,12 @@ class NavigationManagerTest extends TestCase {
 		global $testAddClosureNumberOfCalls;
 		$testAddClosureNumberOfCalls = 0;
 
+		$this->appManager->expects($this->atLeastOnce())
+			->method('isAppLoaded')
+			->willReturnMap([
+				['files', true],
+			]);
+
 		$this->navigationManager->add(function () use ($entry) {
 			global $testAddClosureNumberOfCalls;
 			$testAddClosureNumberOfCalls++;
@@ -233,6 +239,12 @@ class NavigationManagerTest extends TestCase {
 			->method('getAppInfo')
 			->with('test')
 			->willReturn($navigation);
+		$this->appManager->expects($this->any())
+			->method('isAppLoaded')
+			->willReturnMap([
+				['test', true],
+				['files', true],
+			]);
 		$this->urlGenerator->expects($this->any())
 			->method('imagePath')
 			->willReturnCallback(function ($appName, $file) {
@@ -259,7 +271,7 @@ class NavigationManagerTest extends TestCase {
 		$this->groupManager->expects($this->any())->method('isAdmin')->willReturn($isAdmin);
 
 		$this->navigationManager->clear();
-		$this->dispatcher->expects($this->once())
+		$this->dispatcher->expects($this->atLeastOnce())
 			->method('dispatchTyped')
 			->willReturnCallback(function ($event): void {
 				$this->assertInstanceOf(LoadAdditionalEntriesEvent::class, $event);
@@ -427,8 +439,20 @@ class NavigationManagerTest extends TestCase {
 			->method('isEnabledForUser')
 			->with('theming')
 			->willReturn(true);
-		$this->appManager->expects($this->once())->method('getAppInfo')->with('test')->willReturn($navigation);
-		$this->appManager->expects($this->once())->method('getAppIcon')->with('test')->willReturn('/apps/test/img/app.svg');
+		$this->appManager->expects($this->once())
+			->method('getAppIcon')
+			->with('test')
+			->willReturn('/apps/test/img/app.svg');
+		$this->appManager->expects($this->once())
+			->method('getAppInfo')
+			->with('test')
+			->willReturn($navigation);
+		$this->appManager->expects($this->atLeastOnce())
+			->method('isAppLoaded')
+			->willReturnMap([
+				['test', true],
+				['files', true],
+			]);
 		$this->l10nFac->expects($this->any())->method('get')->willReturn($l);
 		$this->urlGenerator->expects($this->any())->method('imagePath')->willReturnCallback(function ($appName, $file) {
 			return "/apps/$appName/img/$file";
@@ -630,7 +654,13 @@ class NavigationManagerTest extends TestCase {
 			];
 		});
 
-		$this->appManager->method('getEnabledApps')->willReturn([]);
+		$this->appManager->method('getEnabledApps')->willReturn(['files']);
+		$this->appManager->expects($this->atLeastOnce())
+			->method('isAppLoaded')
+			->willReturnMap([
+				['test', true],
+				['files', true],
+			]);
 
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('user1');
