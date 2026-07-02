@@ -62,6 +62,8 @@ class Version35000Date20260624163500 extends SimpleMigrationStep {
 			$table = $schema->getTable('share');
 			if (!$table->hasColumn('one_time_password')) {
 				$table->addColumn('one_time_password', Types::BIGINT, [
+					'notnull' => false,
+					'default' => null,
 					'unsigned' => true,
 					'length' => 20,
 				]);
