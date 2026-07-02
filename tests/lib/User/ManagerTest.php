@@ -33,6 +33,7 @@ class ManagerTest extends TestCase {
 	private ICacheFactory&MockObject $cacheFactory;
 	private ICache&MockObject $cache;
 	private LoggerInterface&MockObject $logger;
+	private IUserManager $manager;
 
 	#[\Override]
 	protected function setUp(): void {
@@ -46,16 +47,17 @@ class ManagerTest extends TestCase {
 
 		$this->cacheFactory->method('createDistributed')
 			->willReturn($this->cache);
+
+		$this->manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
 	}
 
 	public function testGetBackends(): void {
 		$userDummyBackend = $this->createMock(\Test\Util\User\Dummy::class);
-		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
-		$manager->registerBackend($userDummyBackend);
-		$this->assertEquals([$userDummyBackend], $manager->getBackends());
+		$this->manager->registerBackend($userDummyBackend);
+		$this->assertEquals([$userDummyBackend], $this->manager->getBackends());
 		$dummyDatabaseBackend = $this->createMock(Database::class);
-		$manager->registerBackend($dummyDatabaseBackend);
-		$this->assertEquals([$userDummyBackend, $dummyDatabaseBackend], $manager->getBackends());
+		$this->manager->registerBackend($dummyDatabaseBackend);
+		$this->assertEquals([$userDummyBackend, $dummyDatabaseBackend], $this->manager->getBackends());
 	}
 
 
@@ -66,10 +68,9 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('foo'))
 			->willReturn(true);
 
-		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
-		$manager->registerBackend($backend);
+		$this->manager->registerBackend($backend);
 
-		$this->assertTrue($manager->userExists('foo'));
+		$this->assertTrue($this->manager->userExists('foo'));
 	}
 
 	public function testUserExistsTooLong(): void {
@@ -79,10 +80,9 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('foo'))
 			->willReturn(true);
 
-		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
-		$manager->registerBackend($backend);
+		$this->manager->registerBackend($backend);
 
-		$this->assertFalse($manager->userExists('foo' . str_repeat('a', 62)));
+		$this->assertFalse($this->manager->userExists('foo' . str_repeat('a', 62)));
 	}
 
 	public function testUserExistsSingleBackendNotExists(): void {
@@ -92,16 +92,13 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('foo'))
 			->willReturn(false);
 
-		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
-		$manager->registerBackend($backend);
+		$this->manager->registerBackend($backend);
 
-		$this->assertFalse($manager->userExists('foo'));
+		$this->assertFalse($this->manager->userExists('foo'));
 	}
 
 	public function testUserExistsNoBackends(): void {
-		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
-
-		$this->assertFalse($manager->userExists('foo'));
+		$this->assertFalse($this->manager->userExists('foo'));
 	}
 
 	public function testUserExistsTwoBackendsSecondExists(): void {
@@ -117,11 +114,10 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('foo'))
 			->willReturn(true);
 
-		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
-		$manager->registerBackend($backend1);
-		$manager->registerBackend($backend2);
+		$this->manager->registerBackend($backend1);
+		$this->manager->registerBackend($backend2);
 
-		$this->assertTrue($manager->userExists('foo'));
+		$this->assertTrue($this->manager->userExists('foo'));
 	}
 
 	public function testUserExistsTwoBackendsFirstExists(): void {
@@ -135,11 +131,10 @@ class ManagerTest extends TestCase {
 		$backend2->expects($this->never())
 			->method('userExists');
 
-		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
-		$manager->registerBackend($backend1);
-		$manager->registerBackend($backend2);
+		$this->manager->registerBackend($backend1);
+		$this->manager->registerBackend($backend2);
 
-		$this->assertTrue($manager->userExists('foo'));
+		$this->assertTrue($this->manager->userExists('foo'));
 	}
 
 	public function testCheckPassword(): void {
@@ -159,10 +154,9 @@ class ManagerTest extends TestCase {
 				}
 			});
 
-		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
-		$manager->registerBackend($backend);
+		$this->manager->registerBackend($backend);
 
-		$user = $manager->checkPassword('foo', 'bar');
+		$user = $this->manager->checkPassword('foo', 'bar');
 		$this->assertTrue($user instanceof User);
 	}
 
@@ -175,10 +169,9 @@ class ManagerTest extends TestCase {
 			->method('implementsActions')
 			->willReturn(false);
 
-		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
-		$manager->registerBackend($backend);
+		$this->manager->registerBackend($backend);
 
-		$this->assertFalse($manager->checkPassword('foo', 'bar'));
+		$this->assertFalse($this->manager->checkPassword('foo', 'bar'));
 	}
 
 	public function testGetOneBackendExists(): void {
@@ -190,10 +183,9 @@ class ManagerTest extends TestCase {
 		$backend->expects($this->never())
 			->method('loginName2UserName');
 
-		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
-		$manager->registerBackend($backend);
+		$this->manager->registerBackend($backend);
 
-		$this->assertEquals('foo', $manager->get('foo')->getUID());
+		$this->assertEquals('foo', $this->manager->get('foo')->getUID());
 	}
 
 	public function testGetOneBackendNotExists(): void {
@@ -203,10 +195,9 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('foo'))
 			->willReturn(false);
 
-		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
-		$manager->registerBackend($backend);
+		$this->manager->registerBackend($backend);
 
-		$this->assertEquals(null, $manager->get('foo'));
+		$this->assertEquals(null, $this->manager->get('foo'));
 	}
 
 	public function testGetTooLong(): void {
@@ -216,10 +207,9 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('foo'))
 			->willReturn(false);
 
-		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
-		$manager->registerBackend($backend);
+		$this->manager->registerBackend($backend);
 
-		$this->assertEquals(null, $manager->get('foo' . str_repeat('a', 62)));
+		$this->assertEquals(null, $this->manager->get('foo' . str_repeat('a', 62)));
 	}
 
 	public function testGetOneBackendDoNotTranslateLoginNames(): void {
@@ -231,10 +221,9 @@ class ManagerTest extends TestCase {
 		$backend->expects($this->never())
 			->method('loginName2UserName');
 
-		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
-		$manager->registerBackend($backend);
+		$this->manager->registerBackend($backend);
 
-		$this->assertEquals('bLeNdEr', $manager->get('bLeNdEr')->getUID());
+		$this->assertEquals('bLeNdEr', $this->manager->get('bLeNdEr')->getUID());
 	}
 
 	public function testSearchOneBackend(): void {
@@ -246,10 +235,9 @@ class ManagerTest extends TestCase {
 		$backend->expects($this->never())
 			->method('loginName2UserName');
 
-		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
-		$manager->registerBackend($backend);
+		$this->manager->registerBackend($backend);
 
-		$result = $manager->search('fo');
+		$result = $this->manager->search('fo');
 		$this->assertEquals(4, count($result));
 		$this->assertEquals('afoo', array_shift($result)->getUID());
 		$this->assertEquals('Afoo1', array_shift($result)->getUID());
@@ -274,11 +262,10 @@ class ManagerTest extends TestCase {
 		$backend2->expects($this->never())
 			->method('loginName2UserName');
 
-		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
-		$manager->registerBackend($backend1);
-		$manager->registerBackend($backend2);
+		$this->manager->registerBackend($backend1);
+		$this->manager->registerBackend($backend2);
 
-		$result = $manager->search('fo', 3, 1);
+		$result = $this->manager->search('fo', 3, 1);
 		$this->assertEquals(3, count($result));
 		$this->assertEquals('foo1', array_shift($result)->getUID());
 		$this->assertEquals('foo2', array_shift($result)->getUID());
@@ -326,11 +313,10 @@ class ManagerTest extends TestCase {
 			->willReturn(true);
 
 
-		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
-		$manager->registerBackend($backend);
+		$this->manager->registerBackend($backend);
 
 		$this->expectException(\InvalidArgumentException::class, $exception);
-		$manager->createUser($uid, $password);
+		$this->manager->createUser($uid, $password);
 	}
 
 	public function testCreateUserSingleBackendNotExists(): void {
@@ -351,10 +337,9 @@ class ManagerTest extends TestCase {
 		$backend->expects($this->never())
 			->method('loginName2UserName');
 
-		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
-		$manager->registerBackend($backend);
+		$this->manager->registerBackend($backend);
 
-		$user = $manager->createUser('foo', 'bar');
+		$user = $this->manager->createUser('foo', 'bar');
 		$this->assertEquals('foo', $user->getUID());
 	}
 
@@ -375,10 +360,9 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('foo'))
 			->willReturn(true);
 
-		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
-		$manager->registerBackend($backend);
+		$this->manager->registerBackend($backend);
 
-		$manager->createUser('foo', 'bar');
+		$this->manager->createUser('foo', 'bar');
 	}
 
 	public function testCreateUserSingleBackendNotSupported(): void {
@@ -393,16 +377,13 @@ class ManagerTest extends TestCase {
 		$backend->expects($this->never())
 			->method('userExists');
 
-		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
-		$manager->registerBackend($backend);
+		$this->manager->registerBackend($backend);
 
-		$this->assertFalse($manager->createUser('foo', 'bar'));
+		$this->assertFalse($this->manager->createUser('foo', 'bar'));
 	}
 
 	public function testCreateUserNoBackends(): void {
-		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
-
-		$this->assertFalse($manager->createUser('foo', 'bar'));
+		$this->assertFalse($this->manager->createUser('foo', 'bar'));
 	}
 
 
@@ -418,8 +399,7 @@ class ManagerTest extends TestCase {
 			->with('MyUid', 'MyPassword')
 			->willReturn(false);
 
-		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
-		$manager->createUserFromBackend('MyUid', 'MyPassword', $backend);
+		$this->manager->createUserFromBackend('MyUid', 'MyPassword', $backend);
 	}
 
 
@@ -452,17 +432,14 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('foo'))
 			->willReturn(true);
 
-		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
-		$manager->registerBackend($backend1);
-		$manager->registerBackend($backend2);
+		$this->manager->registerBackend($backend1);
+		$this->manager->registerBackend($backend2);
 
-		$manager->createUser('foo', 'bar');
+		$this->manager->createUser('foo', 'bar');
 	}
 
 	public function testCountUsersNoBackend(): void {
-		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
-
-		$result = $manager->countUsers();
+		$result = $this->manager->countUsers();
 		$this->assertTrue(is_array($result));
 		$this->assertTrue(empty($result));
 	}
@@ -482,10 +459,9 @@ class ManagerTest extends TestCase {
 			->method('getBackendName')
 			->willReturn('Mock_Test_Util_User_Dummy');
 
-		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
-		$manager->registerBackend($backend);
+		$this->manager->registerBackend($backend);
 
-		$result = $manager->countUsers();
+		$result = $this->manager->countUsers();
 		$keys = array_keys($result);
 		$this->assertTrue(strpos($keys[0], 'Mock_Test_Util_User_Dummy') !== false);
 
@@ -523,11 +499,10 @@ class ManagerTest extends TestCase {
 			->method('getBackendName')
 			->willReturn('Mock_Test_Util_User_Dummy');
 
-		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
-		$manager->registerBackend($backend1);
-		$manager->registerBackend($backend2);
+		$this->manager->registerBackend($backend1);
+		$this->manager->registerBackend($backend2);
 
-		$result = $manager->countUsers();
+		$result = $this->manager->countUsers();
 		//because the backends have the same class name, only one value expected
 		$this->assertEquals(1, count($result));
 		$keys = array_keys($result);
@@ -539,22 +514,22 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testCountUsersOnlyDisabled(): void {
-		$manager = Server::get(IUserManager::class);
+		$this->manager = Server::get(IUserManager::class);
 		// count other users in the db before adding our own
-		$countBefore = $manager->countDisabledUsers();
+		$countBefore = $this->manager->countDisabledUsers();
 
 		//Add test users
-		$user1 = $manager->createUser('testdisabledcount1', 'testdisabledcount1');
+		$user1 = $this->manager->createUser('testdisabledcount1', 'testdisabledcount1');
 
-		$user2 = $manager->createUser('testdisabledcount2', 'testdisabledcount2');
+		$user2 = $this->manager->createUser('testdisabledcount2', 'testdisabledcount2');
 		$user2->setEnabled(false);
 
-		$user3 = $manager->createUser('testdisabledcount3', 'testdisabledcount3');
+		$user3 = $this->manager->createUser('testdisabledcount3', 'testdisabledcount3');
 
-		$user4 = $manager->createUser('testdisabledcount4', 'testdisabledcount4');
+		$user4 = $this->manager->createUser('testdisabledcount4', 'testdisabledcount4');
 		$user4->setEnabled(false);
 
-		$this->assertEquals($countBefore + 2, $manager->countDisabledUsers());
+		$this->assertEquals($countBefore + 2, $this->manager->countDisabledUsers());
 
 		//cleanup
 		$user1->delete();
@@ -564,23 +539,23 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testCountUsersOnlySeen(): void {
-		$manager = Server::get(IUserManager::class);
+		$this->manager = Server::get(IUserManager::class);
 		// count other users in the db before adding our own
-		$countBefore = $manager->countSeenUsers();
+		$countBefore = $this->manager->countSeenUsers();
 
 		//Add test users
-		$user1 = $manager->createUser('testseencount1', 'testseencount1');
+		$user1 = $this->manager->createUser('testseencount1', 'testseencount1');
 		$user1->updateLastLoginTimestamp();
 
-		$user2 = $manager->createUser('testseencount2', 'testseencount2');
+		$user2 = $this->manager->createUser('testseencount2', 'testseencount2');
 		$user2->updateLastLoginTimestamp();
 
-		$user3 = $manager->createUser('testseencount3', 'testseencount3');
+		$user3 = $this->manager->createUser('testseencount3', 'testseencount3');
 
-		$user4 = $manager->createUser('testseencount4', 'testseencount4');
+		$user4 = $this->manager->createUser('testseencount4', 'testseencount4');
 		$user4->updateLastLoginTimestamp();
 
-		$this->assertEquals($countBefore + 3, $manager->countSeenUsers());
+		$this->assertEquals($countBefore + 3, $this->manager->countSeenUsers());
 
 		//cleanup
 		$user1->delete();
@@ -590,29 +565,29 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testCallForSeenUsers(): void {
-		$manager = Server::get(IUserManager::class);
+		$this->manager = Server::get(IUserManager::class);
 		// count other users in the db before adding our own
 		$count = 0;
 		$function = function (IUser $user) use (&$count): void {
 			$count++;
 		};
-		$manager->callForAllUsers($function, '', true);
+		$this->manager->callForAllUsers($function, '', true);
 		$countBefore = $count;
 
 		//Add test users
-		$user1 = $manager->createUser('testseen1', 'testseen10');
+		$user1 = $this->manager->createUser('testseen1', 'testseen10');
 		$user1->updateLastLoginTimestamp();
 
-		$user2 = $manager->createUser('testseen2', 'testseen20');
+		$user2 = $this->manager->createUser('testseen2', 'testseen20');
 		$user2->updateLastLoginTimestamp();
 
-		$user3 = $manager->createUser('testseen3', 'testseen30');
+		$user3 = $this->manager->createUser('testseen3', 'testseen30');
 
-		$user4 = $manager->createUser('testseen4', 'testseen40');
+		$user4 = $this->manager->createUser('testseen4', 'testseen40');
 		$user4->updateLastLoginTimestamp();
 
 		$count = 0;
-		$manager->callForAllUsers($function, '', true);
+		$this->manager->callForAllUsers($function, '', true);
 
 		$this->assertEquals($countBefore + 3, $count);
 
@@ -627,50 +602,50 @@ class ManagerTest extends TestCase {
 	#[\PHPUnit\Framework\Attributes\PreserveGlobalState(enabled: false)]
 	public function testRecentlyActive(): void {
 		$config = Server::get(IConfig::class);
-		$manager = Server::get(IUserManager::class);
+		$this->manager = Server::get(IUserManager::class);
 
 		// Create some users
 		$now = (string)time();
-		$user1 = $manager->createUser('test_active_1', 'test_active_1');
+		$user1 = $this->manager->createUser('test_active_1', 'test_active_1');
 		$config->setUserValue('test_active_1', 'login', 'lastLogin', $now);
 		$user1->setDisplayName('test active 1');
 		$user1->setSystemEMailAddress('roger@active.com');
 
-		$user2 = $manager->createUser('TEST_ACTIVE_2_FRED', 'TEST_ACTIVE_2');
+		$user2 = $this->manager->createUser('TEST_ACTIVE_2_FRED', 'TEST_ACTIVE_2');
 		$config->setUserValue('TEST_ACTIVE_2_FRED', 'login', 'lastLogin', $now);
 		$user2->setDisplayName('TEST ACTIVE 2 UPPER');
 		$user2->setSystemEMailAddress('Fred@Active.Com');
 
-		$user3 = $manager->createUser('test_active_3', 'test_active_3');
+		$user3 = $this->manager->createUser('test_active_3', 'test_active_3');
 		$config->setUserValue('test_active_3', 'login', 'lastLogin', $now + 1);
 		$user3->setDisplayName('test active 3');
 
-		$user4 = $manager->createUser('test_active_4', 'test_active_4');
+		$user4 = $this->manager->createUser('test_active_4', 'test_active_4');
 		$config->setUserValue('test_active_4', 'login', 'lastLogin', $now);
 		$user4->setDisplayName('Test Active 4');
 
-		$user5 = $manager->createUser('test_inactive_1', 'test_inactive_1');
+		$user5 = $this->manager->createUser('test_inactive_1', 'test_inactive_1');
 		$user5->setDisplayName('Test Inactive 1');
 		$user2->setSystemEMailAddress('jeanne@Active.Com');
 
 		// Search recently active
 		//  - No search, case-insensitive order
-		$users = $manager->getLastLoggedInUsers(4);
+		$users = $this->manager->getLastLoggedInUsers(4);
 		$this->assertEquals(['test_active_3', 'test_active_1', 'TEST_ACTIVE_2_FRED', 'test_active_4'], $users);
 		//  - Search, case-insensitive order
-		$users = $manager->getLastLoggedInUsers(search: 'act');
+		$users = $this->manager->getLastLoggedInUsers(search: 'act');
 		$this->assertEquals(['test_active_3', 'test_active_1', 'TEST_ACTIVE_2_FRED', 'test_active_4'], $users);
 		//  - No search with offset
-		$users = $manager->getLastLoggedInUsers(2, 2);
+		$users = $this->manager->getLastLoggedInUsers(2, 2);
 		$this->assertEquals(['TEST_ACTIVE_2_FRED', 'test_active_4'], $users);
 		//  - Case insensitive search (email)
-		$users = $manager->getLastLoggedInUsers(search: 'active.com');
+		$users = $this->manager->getLastLoggedInUsers(search: 'active.com');
 		$this->assertEquals(['test_active_1', 'TEST_ACTIVE_2_FRED'], $users);
 		//  - Case insensitive search (display name)
-		$users = $manager->getLastLoggedInUsers(search: 'upper');
+		$users = $this->manager->getLastLoggedInUsers(search: 'upper');
 		$this->assertEquals(['TEST_ACTIVE_2_FRED'], $users);
 		//  - Case insensitive search (uid)
-		$users = $manager->getLastLoggedInUsers(search: 'fred');
+		$users = $this->manager->getLastLoggedInUsers(search: 'fred');
 		$this->assertEquals(['TEST_ACTIVE_2_FRED'], $users);
 
 		// Delete users and config keys
@@ -695,14 +670,14 @@ class ManagerTest extends TestCase {
 			->method('getAppValue')
 			->willReturnArgument(2);
 
-		$manager = new Manager($config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
+		$this->manager = new Manager($config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
 		$backend = new \Test\Util\User\Dummy();
 
-		$manager->registerBackend($backend);
+		$this->manager->registerBackend($backend);
 		$backend->createUser('foo', 'bar');
-		$this->assertTrue($manager->userExists('foo'));
-		$manager->get('foo')->delete();
-		$this->assertFalse($manager->userExists('foo'));
+		$this->assertTrue($this->manager->userExists('foo'));
+		$this->manager->get('foo')->delete();
+		$this->assertFalse($this->manager->userExists('foo'));
 	}
 
 	public function testGetByEmail(): void {
@@ -716,12 +691,12 @@ class ManagerTest extends TestCase {
 				yield 'uid2';
 			});
 
-		$manager = $this->getMockBuilder(Manager::class)
+		$this->manager = $this->getMockBuilder(Manager::class)
 			->setConstructorArgs([$this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger])
 			->onlyMethods(['getUserConfig', 'get'])
 			->getMock();
-		$manager->method('getUserConfig')->willReturn($userConfig);
-		$manager->expects($this->exactly(3))
+		$this->manager->method('getUserConfig')->willReturn($userConfig);
+		$this->manager->expects($this->exactly(3))
 			->method('get')
 			->willReturnCallback(function (string $uid): ?IUser {
 				if ($uid === 'uid99') {
@@ -732,7 +707,7 @@ class ManagerTest extends TestCase {
 				return $user;
 			});
 
-		$users = $manager->getByEmail('test@example.com');
+		$users = $this->manager->getByEmail('test@example.com');
 		$this->assertCount(2, $users);
 		$this->assertEquals('uid1', $users[0]->getUID());
 		$this->assertEquals('uid2', $users[1]->getUID());
@@ -748,15 +723,22 @@ class ManagerTest extends TestCase {
 		$backend->method('implementsActions')
 			->willReturnCallback(fn (int $action) => $action === Backend::GET_DISPLAYNAME);
 
-		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
-		$manager->registerBackend($backend);
+		$this->manager->registerBackend($backend);
 
-		$user = $manager->getExistingUser('foobar');
+		$user = $this->manager->getExistingUser('foobar');
 		$this->assertEquals('foobar', $user->getUID());
 		$this->assertEquals('Foo Bar', $user->getDisplayName());
 
-		$user = $manager->getExistingUser('nobody', 'None');
+		$user = $this->manager->getExistingUser('nobody', 'None');
 		$this->assertEquals('nobody', $user->getUID());
 		$this->assertEquals('None', $user->getDisplayName());
+	}
+
+	public function testGetAvatarUrlLight(): void {
+		$this->assertEquals('http://localhost/index.php/avatar/userid/64', $this->manager->getAvatarUrlLight('userid', 64));
+	}
+
+	public function testGetAvatarUrlDark(): void {
+		$this->assertEquals('http://localhost/index.php/avatar/userid/64/dark', $this->manager->getAvatarUrlDark('userid', 64));
 	}
 }
