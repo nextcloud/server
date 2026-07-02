@@ -9,6 +9,7 @@
 namespace Test\Share20;
 
 use DateTimeZone;
+use Hoa\Iterator\Mock;
 use OC\Files\Utils\PathHelper;
 use OC\KnownUser\KnownUserService;
 use OC\Share20\DefaultShareProvider;
@@ -60,6 +61,7 @@ use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
 use OCP\Share\IShareProvider;
 use OCP\Share\IShareProviderSupportsAllSharesInFolder;
+use OCP\OneTimePassword\IManager as IOTPManager;
 use OCP\Util;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
@@ -81,6 +83,7 @@ class DummyShareManagerListener {
  * @package Test\Share20
  */
 #[Group(name: 'DB')]
+#[Group(name: 'OTP')]
 class ManagerTest extends \Test\TestCase {
 	protected Manager $manager;
 	protected LoggerInterface&MockObject $logger;
@@ -103,6 +106,7 @@ class ManagerTest extends \Test\TestCase {
 	protected IDateTimeZone&MockObject $dateTimeZone;
 	protected IAppConfig&MockObject $appConfig;
 	protected IDBConnection&MockObject $connection;
+	protected IOTPManager&MockObject $otpManager;
 
 	#[\Override]
 	protected function setUp(): void {
@@ -120,6 +124,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->knownUserService = $this->createMock(KnownUserService::class);
 		$this->connection = $this->createMock(IDBConnection::class);
+		$this->otpManager = $this->createMock(IOTPManager::class);
 
 		$this->shareDisabledChecker = new ShareDisableChecker($this->config, $this->userManager, $this->groupManager);
 		$this->dateTimeZone = $this->createMock(IDateTimeZone::class);
@@ -168,6 +173,7 @@ class ManagerTest extends \Test\TestCase {
 			$this->dateTimeZone,
 			$this->appConfig,
 			$this->connection,
+			$this->otpManager,
 		);
 	}
 
@@ -194,6 +200,7 @@ class ManagerTest extends \Test\TestCase {
 				$this->dateTimeZone,
 				$this->appConfig,
 				$this->connection,
+				$this->otpManager,
 			]);
 	}
 
@@ -827,7 +834,7 @@ class ManagerTest extends \Test\TestCase {
 			['core', 'shareapi_enforce_links_password', true],
 		]);
 
-		self::invokePrivate($this->manager, 'verifyPassword', [null]);
+		self::invokePrivate($this->manager, 'verifyPassword', [null, null]);
 	}
 
 	public function testVerifyPasswordNotEnforcedGroup(): void {
@@ -841,7 +848,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->userSession->method('getUser')->willReturn($user);
 		$this->groupManager->method('getUserGroupIds')->with($user)->willReturn(['admin']);
 
-		$result = self::invokePrivate($this->manager, 'verifyPassword', [null]);
+		$result = self::invokePrivate($this->manager, 'verifyPassword', [null, null]);
 		$this->assertNull($result);
 	}
 
@@ -856,7 +863,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->userSession->method('getUser')->willReturn($user);
 		$this->groupManager->method('getUserGroupIds')->with($user)->willReturn(['special']);
 
-		$result = self::invokePrivate($this->manager, 'verifyPassword', [null]);
+		$result = self::invokePrivate($this->manager, 'verifyPassword', [null, null]);
 		$this->assertNull($result);
 	}
 
@@ -866,7 +873,7 @@ class ManagerTest extends \Test\TestCase {
 			['core', 'shareapi_enforce_links_password', 'no', 'no'],
 		]);
 
-		$result = self::invokePrivate($this->manager, 'verifyPassword', [null]);
+		$result = self::invokePrivate($this->manager, 'verifyPassword', [null, null]);
 		$this->assertNull($result);
 	}
 
@@ -884,7 +891,7 @@ class ManagerTest extends \Test\TestCase {
 			}
 			);
 
-		$result = self::invokePrivate($this->manager, 'verifyPassword', ['password']);
+		$result = self::invokePrivate($this->manager, 'verifyPassword', ['password', null]);
 		$this->assertNull($result);
 	}
 
@@ -906,7 +913,7 @@ class ManagerTest extends \Test\TestCase {
 			}
 			);
 
-		self::invokePrivate($this->manager, 'verifyPassword', ['password']);
+		self::invokePrivate($this->manager, 'verifyPassword', ['password', null]);
 	}
 
 	public function createShare($id, int $type, ?Node $node, $sharedWith, $sharedBy, $shareOwner,
@@ -2767,7 +2774,7 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn($share);
 		$manager->expects($this->once())
 			->method('verifyPassword')
-			->with('password');
+			->with('password', null);
 		$manager->expects($this->once())
 			->method('setLinkParent')
 			->with($share);
@@ -3568,6 +3575,7 @@ class ManagerTest extends \Test\TestCase {
 		$share = $this->createMock(IShare::class);
 		$share->method('getShareType')->willReturn(IShare::TYPE_LINK);
 		$share->method('getPassword')->willReturn('passwordHash');
+		$share->method('isPasswordProtected')->willReturn(true);
 
 		$this->hasher->method('verify')->with('password', 'passwordHash', '')->willReturn(true);
 
@@ -3828,7 +3836,7 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->once())->method('canShare');
 		$manager->expects($this->once())->method('getShareById')->with('foo:42')->willReturn($originalShare);
 		$manager->expects($this->once())->method('validateExpirationDateLink')->with($share);
-		$manager->expects($this->once())->method('verifyPassword')->with('password');
+		$manager->expects($this->once())->method('verifyPassword')->with('password', null);
 
 		$this->hasher->expects($this->once())
 			->method('hash')
@@ -3974,7 +3982,7 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->once())->method('canShare');
 		$manager->expects($this->once())->method('getShareById')->with('foo:42')->willReturn($originalShare);
 		$manager->expects($this->once())->method('generalCreateChecks')->with($share);
-		$manager->expects($this->once())->method('verifyPassword')->with('password');
+		$manager->expects($this->once())->method('verifyPassword')->with('password', null);
 		$manager->expects($this->once())->method('pathCreateChecks')->with($file);
 		$manager->expects($this->once())->method('linkCreateChecks');
 		$manager->expects($this->once())->method('validateExpirationDateLink');
@@ -4057,7 +4065,7 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->once())->method('canShare');
 		$manager->expects($this->once())->method('getShareById')->with('foo:42')->willReturn($originalShare);
 		$manager->expects($this->once())->method('generalCreateChecks')->with($share);
-		$manager->expects($this->once())->method('verifyPassword')->with('password');
+		$manager->expects($this->once())->method('verifyPassword')->with('password', null);
 		$manager->expects($this->once())->method('pathCreateChecks')->with($file);
 		$manager->expects($this->once())->method('linkCreateChecks');
 		$manager->expects($this->once())->method('validateExpirationDateLink');
@@ -4140,7 +4148,7 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->once())->method('canShare');
 		$manager->expects($this->once())->method('getShareById')->with('foo:42')->willReturn($originalShare);
 		$manager->expects($this->once())->method('generalCreateChecks')->with($share);
-		$manager->expects($this->once())->method('verifyPassword')->with('password');
+		$manager->expects($this->once())->method('verifyPassword')->with('password', null);
 		$manager->expects($this->once())->method('pathCreateChecks')->with($file);
 		$manager->expects($this->once())->method('linkCreateChecks');
 		$manager->expects($this->once())->method('validateExpirationDateLink');
