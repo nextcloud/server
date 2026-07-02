@@ -1302,6 +1302,7 @@ return array(
     'OC\\Config\\ConfigManager' => $baseDir . '/lib/private/Config/ConfigManager.php',
     'OC\\Config\\PresetManager' => $baseDir . '/lib/private/Config/PresetManager.php',
     'OC\\Config\\UserConfig' => $baseDir . '/lib/private/Config/UserConfig.php',
+    'OC\\Config\\UserConfigEntry' => $baseDir . '/lib/private/Config/UserConfigEntry.php',
     'OC\\Console\\Application' => $baseDir . '/lib/private/Console/Application.php',
     'OC\\Console\\TimestampFormatter' => $baseDir . '/lib/private/Console/TimestampFormatter.php',
     'OC\\ContactsManager' => $baseDir . '/lib/private/ContactsManager.php',
