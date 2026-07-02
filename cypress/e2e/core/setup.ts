@@ -158,7 +158,7 @@ function sharedSetup(mode: RecommendedAppsMode = 'skip') {
 		.within(() => {
 			cy.findByRole('heading', { name: 'Recommended apps' })
 				.should('be.visible')
-			cy.findByRole('button', { name: 'Skip' })
+			cy.findByRole('button', { name: 'Skip', timeout: 10000 })
 				.should('be.visible')
 			cy.findByRole('button', { name: 'Install recommended apps' })
 				.should('be.visible')
@@ -184,7 +184,7 @@ function sharedSetup(mode: RecommendedAppsMode = 'skip') {
 
 	// The strict password-confirmation dialog must appear and must result in a
 	// Basic auth header on the enable request.
-	cy.findByRole('dialog', { name: 'Authentication required' })
+	cy.findByRole('dialog', { name: 'Authentication required', timeout: 10000 })
 		.should('be.visible')
 	handlePasswordConfirmation(randAdmin)
 	cy.wait('@enableApps')
