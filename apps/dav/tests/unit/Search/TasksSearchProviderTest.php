@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Tests\unit\Search;
 
+use OC\Search\Filter\StringFilter;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\Search\TasksSearchProvider;
 use OCP\App\IAppManager;
@@ -152,7 +153,12 @@ class TasksSearchProviderTest extends TestCase {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('john.doe');
 		$query = $this->createMock(ISearchQuery::class);
-		$query->method('getTerm')->willReturn('search term');
+		$query->method('getFilter')->willReturnCallback(static function (string $name) {
+			return match ($name) {
+				'term' => new StringFilter('search term'),
+				default => null,
+			};
+		});
 		$query->method('getLimit')->willReturn(5);
 		$query->method('getCursor')->willReturn(20);
 		$this->appManager->expects($this->once())
@@ -187,7 +193,7 @@ class TasksSearchProviderTest extends TestCase {
 			]);
 		$this->backend->expects($this->once())
 			->method('searchPrincipalUri')
-			->with('principals/users/john.doe', '', ['VTODO'],
+			->with('principals/users/john.doe', 'search term', ['VTODO'],
 				['SUMMARY', 'DESCRIPTION', 'CATEGORIES'],
 				[],
 				['limit' => 5, 'offset' => 20, 'since' => null, 'until' => null])

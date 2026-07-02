@@ -1336,14 +1336,14 @@ EOD;
 		$this->assertCount(4, $mySearchResults);
 		$this->assertCount(3, $sharerSearchResults);
 
-		$this->assertEquals($myPublic, $mySearchResults[0]['calendardata']);
-		$this->assertEquals($myPrivate, $mySearchResults[1]['calendardata']);
-		$this->assertEquals($myConfidential, $mySearchResults[2]['calendardata']);
-		$this->assertEquals($sharerPublic, $mySearchResults[3]['calendardata']);
+		$this->assertStringEqualsStringIgnoringLineEndingsWithTrim($myPublic, $mySearchResults[0]['calendardata']);
+		$this->assertStringEqualsStringIgnoringLineEndingsWithTrim($myPrivate, $mySearchResults[1]['calendardata']);
+		$this->assertStringEqualsStringIgnoringLineEndingsWithTrim($myConfidential, $mySearchResults[2]['calendardata']);
+		$this->assertStringEqualsStringIgnoringLineEndingsWithTrim($sharerPublic, $mySearchResults[3]['calendardata']);
 
-		$this->assertEquals($sharerPublic, $sharerSearchResults[0]['calendardata']);
-		$this->assertEquals($sharerPrivate, $sharerSearchResults[1]['calendardata']);
-		$this->assertEquals($sharerConfidential, $sharerSearchResults[2]['calendardata']);
+		$this->assertStringEqualsStringIgnoringLineEndingsWithTrim($sharerPublic, $sharerSearchResults[0]['calendardata']);
+		$this->assertStringEqualsStringIgnoringLineEndingsWithTrim($sharerPrivate, $sharerSearchResults[1]['calendardata']);
+		$this->assertStringEqualsStringIgnoringLineEndingsWithTrim($sharerConfidential, $sharerSearchResults[2]['calendardata']);
 	}
 
 	/**
@@ -1987,5 +1987,311 @@ EOD;
 
 		// Clean up
 		$this->backend->deleteCalendar($calendars[0]['id'], true);
+	}
+
+	public function testSearchPrincipalWithTimeRange(): void {
+		$myPublic = <<<EOD
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//dmfs.org//mimedir.icalendar//EN
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+X-LIC-LOCATION:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+DTSTART;TZID=Europe/Berlin:20131027T130000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+SUMMARY:My Test (public)
+CLASS:PUBLIC
+TRANSP:OPAQUE
+STATUS:CONFIRMED
+DTEND;TZID=Europe/Berlin:20131027T140000
+LAST-MODIFIED:20160419T074202Z
+DTSTAMP:20160419T074202Z
+CREATED:20160419T074202Z
+UID:2e468c48-7860-492e-bc52-92fa0daeeccf.1461051722310-1
+END:VEVENT
+END:VCALENDAR
+EOD;
+		$myPrivate = <<<EOD
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//dmfs.org//mimedir.icalendar//EN
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+X-LIC-LOCATION:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+DTSTART;TZID=Europe/Berlin:20131027T130000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+SUMMARY:My Test (private)
+CLASS:PRIVATE
+TRANSP:OPAQUE
+STATUS:CONFIRMED
+DTEND;TZID=Europe/Berlin:20131027T140000
+LAST-MODIFIED:20160419T074202Z
+DTSTAMP:20160419T074202Z
+CREATED:20160419T074202Z
+UID:2e468c48-7860-492e-bc52-92fa0daeeccf.1461051722310-2
+END:VEVENT
+END:VCALENDAR
+EOD;
+		$myConfidential = <<<EOD
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//dmfs.org//mimedir.icalendar//EN
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+X-LIC-LOCATION:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+DTSTART;TZID=Europe/Berlin:20131027T130000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+SUMMARY:My Test (confidential)
+CLASS:CONFIDENTIAL
+TRANSP:OPAQUE
+STATUS:CONFIRMED
+DTEND;TZID=Europe/Berlin:20131027T140000
+LAST-MODIFIED:20160419T074202Z
+DTSTAMP:20160419T074202Z
+CREATED:20160419T074202Z
+UID:2e468c48-7860-492e-bc52-92fa0daeeccf.1461051722310-3
+END:VEVENT
+END:VCALENDAR
+EOD;
+
+		$sharerPublic = <<<EOD
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//dmfs.org//mimedir.icalendar//EN
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+X-LIC-LOCATION:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+DTSTART;TZID=Europe/Berlin:20131027T130000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+SUMMARY:Sharer Test (public)
+CLASS:PUBLIC
+TRANSP:OPAQUE
+STATUS:CONFIRMED
+DTEND;TZID=Europe/Berlin:20131027T140000
+LAST-MODIFIED:20160419T074202Z
+DTSTAMP:20160419T074202Z
+CREATED:20160419T074202Z
+UID:2e468c48-7860-492e-bc52-92fa0daeeccf.1461051722310-4
+END:VEVENT
+END:VCALENDAR
+EOD;
+		$sharerPrivate = <<<EOD
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//dmfs.org//mimedir.icalendar//EN
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+X-LIC-LOCATION:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+DTSTART;TZID=Europe/Berlin:20131027T130000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+SUMMARY:Sharer Test (private)
+CLASS:PRIVATE
+TRANSP:OPAQUE
+STATUS:CONFIRMED
+DTEND;TZID=Europe/Berlin:20131027T140000
+LAST-MODIFIED:20160419T074202Z
+DTSTAMP:20160419T074202Z
+CREATED:20160419T074202Z
+UID:2e468c48-7860-492e-bc52-92fa0daeeccf.1461051722310-5
+END:VEVENT
+END:VCALENDAR
+EOD;
+		$sharerConfidential = <<<EOD
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//dmfs.org//mimedir.icalendar//EN
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+X-LIC-LOCATION:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+DTSTART;TZID=Europe/Berlin:20131027T130000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+SUMMARY:Sharer Test (confidential)
+CLASS:CONFIDENTIAL
+TRANSP:OPAQUE
+STATUS:CONFIRMED
+DTEND;TZID=Europe/Berlin:20131027T140000
+LAST-MODIFIED:20160419T074202Z
+DTSTAMP:20160419T074202Z
+CREATED:20160419T074202Z
+UID:2e468c48-7860-492e-bc52-92fa0daeeccf.1461051722310-6
+END:VEVENT
+END:VCALENDAR
+EOD;
+
+		$l10n = $this->createMock(IL10N::class);
+		$l10n
+			->expects($this->any())
+			->method('t')
+			->willReturnCallback(function ($text, $parameters = []) {
+				return vsprintf($text, $parameters);
+			});
+		$config = $this->createMock(IConfig::class);
+		$this->userManager->expects($this->any())
+			->method('userExists')
+			->willReturn(true);
+		$this->groupManager->expects($this->any())
+			->method('groupExists')
+			->willReturn(true);
+		$this->principal->expects(self::atLeastOnce())
+			->method('findByUri')
+			->willReturn(self::UNIT_TEST_USER);
+
+		$me = self::UNIT_TEST_USER;
+		$sharer = self::UNIT_TEST_USER1;
+		$this->backend->createCalendar($me, 'calendar-uri-me', []);
+		$this->backend->createCalendar($sharer, 'calendar-uri-sharer', []);
+		$myCalendars = $this->backend->getCalendarsForUser($me);
+		$this->assertCount(1, $myCalendars);
+		$sharerCalendars = $this->backend->getCalendarsForUser($sharer);
+		$this->assertCount(1, $sharerCalendars);
+		$logger = $this->createMock(\Psr\Log\LoggerInterface::class);
+		$sharerCalendar = new Calendar($this->backend, $sharerCalendars[0], $l10n, $config, $logger);
+		$this->backend->updateShares($sharerCalendar, [
+			[
+				'href' => 'principal:' . $me,
+				'readOnly' => false,
+			],
+		], []);
+		$this->assertCount(2, $this->backend->getCalendarsForUser($me));
+		$this->backend->createCalendarObject($myCalendars[0]['id'], 'event0.ics', $myPublic);
+		$this->backend->createCalendarObject($myCalendars[0]['id'], 'event1.ics', $myPrivate);
+		$this->backend->createCalendarObject($myCalendars[0]['id'], 'event2.ics', $myConfidential);
+		$this->backend->createCalendarObject($sharerCalendars[0]['id'], 'event3.ics', $sharerPublic);
+		$this->backend->createCalendarObject($sharerCalendars[0]['id'], 'event4.ics', $sharerPrivate);
+		$this->backend->createCalendarObject($sharerCalendars[0]['id'], 'event5.ics', $sharerConfidential);
+
+		$mySearchResults = $this->backend->searchPrincipalUri(
+			$me,
+			'Test',
+			['VEVENT'],
+			['SUMMARY'],
+			[],
+			[
+				'timerange' => [
+					'start' => new DateTimeImmutable('2013-10-27 11:00:00', new DateTimeZone('UTC')),
+					'end' => new DateTimeImmutable('2013-10-27 14:00:00', new DateTimeZone('UTC')),
+				],
+			]
+		);
+		$sharerSearchResults = $this->backend->searchPrincipalUri($sharer, 'Test', ['VEVENT'], ['SUMMARY'], []);
+
+		// Results with a time range are filtered but not expanded: the original
+		// DTSTART and RRULE are preserved (callers expand the occurrence themselves).
+		// Results without a time range are likewise not expanded.
+		$this->assertCount(4, $mySearchResults);
+		$this->assertCount(3, $sharerSearchResults);
+		$this->assertStringContainsString('SUMMARY:My Test (public)', $mySearchResults[0]['calendardata']);
+		$this->assertStringContainsString('DTSTART;TZID=Europe/Berlin:20131027T130000', $mySearchResults[0]['calendardata']);
+		$this->assertStringContainsString('RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU', $mySearchResults[0]['calendardata']);
+		$this->assertStringContainsString('SUMMARY:My Test (private)', $mySearchResults[1]['calendardata']);
+		$this->assertStringContainsString('DTSTART;TZID=Europe/Berlin:20131027T130000', $mySearchResults[1]['calendardata']);
+		$this->assertStringContainsString('SUMMARY:My Test (confidential)', $mySearchResults[2]['calendardata']);
+		$this->assertStringContainsString('DTSTART;TZID=Europe/Berlin:20131027T130000', $mySearchResults[2]['calendardata']);
+		$this->assertStringContainsString('SUMMARY:Sharer Test (public)', $mySearchResults[3]['calendardata']);
+		$this->assertStringContainsString('DTSTART;TZID=Europe/Berlin:20131027T130000', $mySearchResults[3]['calendardata']);
+		$this->assertStringContainsString('SUMMARY:Sharer Test (public)', $sharerSearchResults[0]['calendardata']);
+		$this->assertStringContainsString('RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU', $sharerSearchResults[0]['calendardata']);
+		$this->assertStringContainsString('SUMMARY:Sharer Test (private)', $sharerSearchResults[1]['calendardata']);
+		$this->assertStringContainsString('SUMMARY:Sharer Test (confidential)', $sharerSearchResults[2]['calendardata']);
+	}
+
+	private function assertStringEqualsStringIgnoringLineEndingsWithTrim(string $expected, string $actual, string $message = ''): void {
+		$this->assertStringEqualsStringIgnoringLineEndings(trim($expected), trim($actual), $message);
 	}
 }
