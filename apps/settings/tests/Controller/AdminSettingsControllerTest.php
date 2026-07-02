@@ -122,6 +122,13 @@ class AdminSettingsControllerTest extends TestCase {
 			->with($user, 'admin', 'test')
 			->willReturn([]);
 
+		// The active entry must match the id the admin nav entry is registered
+		// under in Application.php, otherwise the header current-app button is hidden.
+		$this->navigationManager
+			->expects($this->once())
+			->method('setActiveEntry')
+			->with('settings_administration');
+
 		$initialState = [];
 		$this->initialState->expects(self::atLeastOnce())
 			->method('provideInitialState')

@@ -90,7 +90,6 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "خطأ أو لم يتم تقديم مدخلات التحديث update paramete",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"عملية إرسال كلمة المرور بواسطة تطبيق نكست كلاود للمحادثة Talk\" من أجل مشاركة ملف أو مُجلّد لم تُنفّذ بسبب أن التطبيق غير مُفعّل",
     "Custom share link tokens have been disabled by the administrator" : "أَمَارَات روابط المشاركة المخصصة تمّ تعطيلها من قِبَل المشرف",
-    "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "الأَمَارَات يجب أن تحوي حرفاً واحداً 1 على الأقل ويجب أن تحوي فقط حروفاً أو أرقاماً أو شَرْطَات.",
     "Invalid date. Format must be YYYY-MM-DD" : "التاريخ غير صحيح. يجب أن يكون على الصيغة YYYY-MM-DD",
     "No sharing rights on this item" : "لا توجد حقوق مشاركة في هذا العنصر",
     "Invalid share attributes provided: \"%s\"" : "خصائص المشاركة المعطاة غير صحيحة: \"%s\"",
@@ -373,6 +372,7 @@ OC.L10N.register(
     "Back to %s" : "عودة إلى %s",
     "Add to your Nextcloud" : "إضافة إلى حسابك على نكست كلاود",
     "Sharing %s failed because the back end does not support ScienceMesh shares" : " المشاركة %s فشلت بسبب أن الخادم لا يدعم مشاركات ScienceMesh",
+    "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "الأَمَارَات يجب أن تحوي حرفاً واحداً 1 على الأقل ويجب أن تحوي فقط حروفاً أو أرقاماً أو شَرْطَات.",
     "Name or email …" : "الاسم أو الإيميل …",
     "Name, email, or Federated Cloud ID …" : "الاسم أو البريد أو المعرف السحابي الموحد",
     "Searching …" : "البحث جارٍ …"

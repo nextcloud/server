@@ -456,7 +456,7 @@ class ThemingController extends Controller {
 	#[BruteForceProtection(action: 'manifest')]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	public function getManifest(string $app): JSONResponse {
-		$cacheBusterValue = $this->appConfig->getAppValueString('cachebuster', '0');
+		$cacheBusterValue = (string)$this->appConfig->getAppValueInt('cachebuster');
 		if ($app === 'core' || $app === 'settings') {
 			$name = $this->themingDefaults->getName();
 			$shortName = $this->themingDefaults->getName();

@@ -396,10 +396,6 @@
     "Files and folders you recently modified will show up here." : "Les fichiers et dossiers que vous avez récemment modifiés apparaîtront ici",
     "Search" : "Rechercher",
     "Search results within your files." : "Résultats de recherche dans vos fichiers.",
-    "No entries found in this folder" : "Aucune entrée trouvée dans ce dossier",
-    "Select all" : "Tout sélectionner",
-    "Upload too large" : "Données envoyées trop volumineuses",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Les fichiers que vous essayez d’envoyer dépassent la taille maximale d’envoi permise par ce serveur.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "\"{oldName}\" renommé en \"{newName}\"",
     "Clear filter" : "Supprimer le filtre",
     "Open file sidebar" : "Ouvrir le panneau latéral du fichier",
@@ -420,7 +416,9 @@
     "Save as …" : "Enregistrer sous...",
     "Converting files …" : "Conversion des fichiers...",
     "Converting file …" : "Conversion du fichier...",
-    "Moving {count} files to \"{destination}\" …" : "Déplacement de {count} fichiers vers \"{destination}\" …",
-    "Copying {count} files to \"{destination}\" …" : "Copie de {count} fichiers vers \"{destination}\" …"
+    "No entries found in this folder" : "Aucune entrée trouvée dans ce dossier",
+    "Select all" : "Tout sélectionner",
+    "Upload too large" : "Données envoyées trop volumineuses",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Les fichiers que vous essayez d’envoyer dépassent la taille maximale d’envoi permise par ce serveur."
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

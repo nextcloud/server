@@ -939,7 +939,13 @@ class Manager implements IManager {
 		if ($this->availableTaskTypes === null) {
 			$cachedValue = $this->distributedCache->get($cacheKey);
 			if ($cachedValue !== null) {
-				$this->availableTaskTypes = unserialize($cachedValue);
+				$this->availableTaskTypes = unserialize($cachedValue, [
+					'allowed_classes' => [
+						ShapeDescriptor::class,
+						ShapeEnumValue::class,
+						EShapeType::class,
+					],
+				]);
 			}
 		}
 		// Either we have no cache or showDisabled is turned on, which we don't want to cache, ever.
@@ -1335,6 +1341,21 @@ class Manager implements IManager {
 			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem finding the task', previous: $e);
 		} catch (\JsonException $e) {
 			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem parsing JSON after finding the task', previous: $e);
+		}
+	}
+
+	#[\Override]
+	public function claimNextScheduledTask(array $taskTypeIds = []): ?Task {
+		try {
+			$taskEntity = $this->taskMapper->claimOldestScheduledTask($taskTypeIds);
+			if ($taskEntity === null) {
+				return null;
+			}
+			return $taskEntity->toPublicTask();
+		} catch (\OCP\DB\Exception $e) {
+			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem claiming the task', previous: $e);
+		} catch (\JsonException $e) {
+			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem parsing JSON after claiming the task', previous: $e);
 		}
 	}
 

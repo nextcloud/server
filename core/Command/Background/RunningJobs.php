@@ -11,7 +11,7 @@ namespace OC\Core\Command\Background;
 
 use OC\BackgroundJob\JobRuns;
 use OC\Core\Command\Base;
-use OCP\IConfig;
+use OCP\IServerInfo;
 use Override;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -20,7 +20,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 final class RunningJobs extends Base {
 	public function __construct(
 		private readonly JobRuns $jobRuns,
-		private IConfig $config,
+		private readonly IServerInfo $serverInfo,
 	) {
 		parent::__construct();
 	}
@@ -60,7 +60,7 @@ final class RunningJobs extends Base {
 
 	private function formatLine(iterable $jobs): \Generator {
 		$now = time();
-		$currentServerId = $this->config->getSystemValueInt('serverid', -1);
+		$currentServerId = $this->serverInfo->getServerId();
 		foreach ($jobs as $job) {
 			yield [
 				'Run ID' => $job->runId,

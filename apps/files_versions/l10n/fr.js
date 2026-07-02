@@ -2,6 +2,7 @@ OC.L10N.register(
     "files_versions",
     {
     "Block file versioning" : "Bloquer la gestion des version de fichier",
+    "Automatic tag based blocking of file version creation." : "Blocage automatique de la création de versions de fichiers en fonction des étiquettes.",
     "No rule given" : "Aucune règle donnée",
     "A new version is created" : "Une nouvelle version est créée",
     "Versions" : "Versions",

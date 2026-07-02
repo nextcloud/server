@@ -1,6 +1,7 @@
 OC.L10N.register(
     "appstore",
     {
+    "App store" : "App Store",
     "Apps" : "Apps",
     "App name" : "App naam",
     "Version" : "Versie",

@@ -17,7 +17,7 @@ class PhpOutdated implements ISetupCheck {
 	public const DEPRECATED_PHP_VERSION = '8.2';
 	public const DEPRECATED_SINCE = '33';
 	public const FUTURE_REQUIRED_PHP_VERSION = '8.3';
-	public const FUTURE_REQUIRED_STARTING = '34';
+	public const FUTURE_REQUIRED_STARTING = '35';
 
 	public function __construct(
 		private IL10N $l10n,

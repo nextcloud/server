@@ -10,6 +10,10 @@ const admin = new User('admin', 'admin')
 const tagName = 'foo'
 const updatedTagName = 'bar'
 
+function openTagSelector() {
+	cy.findByRole('combobox', { name: 'Search for a tag to edit' }).click()
+}
+
 describe('Create system tags', () => {
 	before(() => {
 		// delete any existing tags
@@ -36,12 +40,8 @@ describe('Create system tags', () => {
 		cy.wait('@createTag').its('response.statusCode').should('eq', 201)
 
 		// see that the created tag is in the list
-		cy.get('input#system-tags-input').focus()
-		cy.get('input#system-tags-input').invoke('attr', 'aria-controls').then((id) => {
-			cy.get(`ul#${id} li span[title="${tagName}"]`)
-				.should('exist')
-				.should('have.length', 1)
-		})
+		openTagSelector()
+		cy.findByRole('option', { name: tagName }).should('be.visible')
 	})
 })
 
@@ -52,15 +52,13 @@ describe('Update system tags', { testIsolation: false }, () => {
 	})
 
 	it('select the tag', () => {
-		cy.get('input#system-tags-input').focus()
-		cy.get('input#system-tags-input').invoke('attr', 'aria-controls').then((id) => {
-			cy.get(`ul#${id} li span[title="${tagName}"]`).should('exist').click()
-		})
+		openTagSelector()
+		cy.findByRole('option', { name: tagName }).click()
 		// see that the tag name matches the selected tag
 		cy.get('input#system-tag-name').should('exist').and('have.value', tagName)
 		// see that the tag level matches the selected tag
-		cy.get('input#system-tag-level').click()
-		cy.get('input#system-tag-level').siblings('.vs__selected').contains('Public').should('exist')
+		cy.get('.system-tag-form__group:has(#system-tag-level) .vs__selected')
+			.should('contain.text', 'Public')
 	})
 
 	it('update the tag name and level', () => {
@@ -69,10 +67,8 @@ describe('Update system tags', { testIsolation: false }, () => {
 		cy.get('input#system-tag-name').type(updatedTagName)
 		cy.get('input#system-tag-name').should('have.value', updatedTagName)
 		// select the new tag level
-		cy.get('input#system-tag-level').focus()
-		cy.get('input#system-tag-level').invoke('attr', 'aria-controls').then((id) => {
-			cy.get(`ul#${id} li span[title="Invisible"]`).should('exist').click()
-		})
+		cy.get('#system-tag-level').click()
+		cy.findByRole('option', { name: 'Invisible' }).click()
 		// submit the form
 		cy.get('input#system-tag-name').type('{enter}')
 		// wait for the tag to be updated
@@ -80,12 +76,10 @@ describe('Update system tags', { testIsolation: false }, () => {
 	})
 
 	it('see the tag was successfully updated', () => {
-		cy.get('input#system-tags-input').focus()
-		cy.get('input#system-tags-input').invoke('attr', 'aria-controls').then((id) => {
-			cy.get(`ul#${id} li span[title="${updatedTagName} (invisible)"]`)
-				.should('exist')
-				.should('have.length', 1)
-		})
+		openTagSelector()
+		// NcEllipsisedOption splits long names across spans, breaking the accessible name,
+		// so match on the rendered text content instead of the option's accessible name.
+		cy.contains('[role="option"]', `${updatedTagName} (invisible)`).should('be.visible')
 	})
 })
 
@@ -97,15 +91,13 @@ describe('Delete system tags', { testIsolation: false }, () => {
 
 	it('select the tag', () => {
 		// select the tag to edit
-		cy.get('input#system-tags-input').focus()
-		cy.get('input#system-tags-input').invoke('attr', 'aria-controls').then((id) => {
-			cy.get(`ul#${id} li span[title="${updatedTagName} (invisible)"]`).should('exist').click()
-		})
+		openTagSelector()
+		cy.contains('[role="option"]', `${updatedTagName} (invisible)`).click()
 		// see that the tag name matches the selected tag
 		cy.get('input#system-tag-name').should('exist').and('have.value', updatedTagName)
 		// see that the tag level matches the selected tag
-		cy.get('input#system-tag-level').focus()
-		cy.get('input#system-tag-level').siblings('.vs__selected').contains('Invisible').should('exist')
+		cy.get('.system-tag-form__group:has(#system-tag-level) .vs__selected')
+			.should('contain.text', 'Invisible')
 	})
 
 	it('can delete the tag', () => {
@@ -118,9 +110,7 @@ describe('Delete system tags', { testIsolation: false }, () => {
 	})
 
 	it('see that the deleted tag is not present', () => {
-		cy.get('input#system-tags-input').focus()
-		cy.get('input#system-tags-input').invoke('attr', 'aria-controls').then((id) => {
-			cy.get(`ul#${id} li span[title="${updatedTagName}"]`).should('not.exist')
-		})
+		openTagSelector()
+		cy.findByRole('option', { name: updatedTagName }).should('not.exist')
 	})
 })

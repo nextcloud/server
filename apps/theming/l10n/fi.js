@@ -83,6 +83,8 @@ OC.L10N.register(
     "Failed to upload image" : "Kuvan lähettäminen epäonnistui",
     "Preview of the selected image" : "Valitun kuvan esikatselu",
     "Appearance and accessibility settings" : "Ulkoasun ja saavutettavuuden asetukset",
+    "Themes" : "Teemat",
+    "Fonts" : "Fontit",
     "Customization has been disabled by your administrator" : "Mukauttaminen on poistettu käytöstä ylläpitäjän toimesta",
     "Header logo" : "Otsakelogo",
     "Upload new header logo" : "Lähetä uusi otsakelogo",

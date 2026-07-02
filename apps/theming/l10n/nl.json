@@ -69,6 +69,8 @@
     "Disable all keyboard shortcuts" : "Schakel alle sneltoetsen uit",
     "Reset to default" : "Herstellen naar standaard",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Als je problemen tegenkomt, aarzel dan niet om deze te rapporteren op {issuetracker}onze issue tracker{linkend}. En als je betrokken wilt raken, word dan lid van {designteam}ons designteam{linkend}!",
+    "Themes" : "Thema's",
+    "Fonts" : "Lettertypen",
     "Customization has been disabled by your administrator" : "Maatwerk is uitgeschakeld door uw beheerder",
     "Disable-user-theming should be true or false" : "Uitschakelen-gebruiker-thema's moet waar of onwaar zijn",
     "Header logo" : "Top logo",

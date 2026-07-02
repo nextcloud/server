@@ -398,10 +398,6 @@ OC.L10N.register(
     "Files and folders you recently modified will show up here." : "您最近修改的檔案與資料夾將會顯示在此處。",
     "Search" : "搜尋",
     "Search results within your files." : "在您的檔案中搜尋結果",
-    "No entries found in this folder" : "此資料夾中沒有任何項目",
-    "Select all" : "全選",
-    "Upload too large" : "上傳檔案過大",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "您試圖上傳的檔案大小超過伺服器的限制。",
     "Renamed \"{oldName}\" to \"{newName}\"" : "已將「{oldName}」重新命名為「{newName}」",
     "Clear filter" : "清除過濾條件",
     "Open file sidebar" : "開啟檔案側邊欄",
@@ -422,7 +418,9 @@ OC.L10N.register(
     "Save as …" : "另存為……",
     "Converting files …" : "正在轉換檔案……",
     "Converting file …" : "正在轉換檔案……",
-    "Moving {count} files to \"{destination}\" …" : "正在將 {count} 個檔案移動到「{destination}」……",
-    "Copying {count} files to \"{destination}\" …" : "正在將 {count} 個檔案複製到「{destination}」……"
+    "No entries found in this folder" : "此資料夾中沒有任何項目",
+    "Select all" : "全選",
+    "Upload too large" : "上傳檔案過大",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "您試圖上傳的檔案大小超過伺服器的限制。"
 },
 "nplurals=1; plural=0;");

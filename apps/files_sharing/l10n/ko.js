@@ -90,7 +90,6 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "업데이트 인자가 잘못되었거나 지정되지 않았음",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "Nextcloud 토크가 활성화되어 있지 않기 때문에, 파일 및 폴더 공유를 위한 \"Nextcloud 토크에 암호 보내기\"가 실패했습니다.",
     "Custom share link tokens have been disabled by the administrator" : "맞춤 공유 링크 토큰이 관리자에 의해 비활성화 되었습니다.",
-    "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "토큰은 1 자 이상이어야 하며 문자, 숫자, 하이픈만 포함할 수 있습니다.",
     "Invalid date. Format must be YYYY-MM-DD" : "잘못된 날짜입니다. 형식은 YYYY-MM-DD이어야 합니다.",
     "No sharing rights on this item" : "이 항목에 공유 권한 없음",
     "Invalid share attributes provided: \"%s\"" : "잘못된 공유 속성이 지정됨: \"%s\"",
@@ -403,6 +402,7 @@ OC.L10N.register(
     "Back to %s" : "%s(으)로 돌아가기",
     "Add to your Nextcloud" : "내 Nextcloud에 추가",
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "백엔드가 ScienceMesh 공유를 지원하지 않기 때문에 %s의 공유가 실패했습니다.",
+    "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "토큰은 1 자 이상이어야 하며 문자, 숫자, 하이픈만 포함할 수 있습니다.",
     "Name or email …" : "이름 또는 이메일 …",
     "Name, email, or Federated Cloud ID …" : "이름, 이메일, 또는 연합 클라우드 ID …",
     "Searching …" : "검색 ..."

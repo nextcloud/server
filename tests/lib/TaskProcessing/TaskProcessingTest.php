@@ -1623,4 +1623,166 @@ class TaskProcessingTest extends \Test\TestCase {
 				}
 			});
 	}
+
+	/**
+	 * Register a single synchronous provider for TextToText so tasks can be scheduled.
+	 *
+	 * The integration suite shares one database across tests and does not truncate
+	 * between them, so we clear the tasks table first to make the oldest-scheduled
+	 * ordering of the claim deterministic for these focused tests.
+	 */
+	private function registerTextToTextProvider(): void {
+		$db = Server::get(IDBConnection::class);
+		$db->getQueryBuilder()->delete('taskprocessing_tasks')->executeStatement();
+
+		$this->appConfig->setValueString('core', 'ai.taskprocessing_type_preferences', '', lazy: true);
+		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([
+			new ServiceRegistration('test', SuccessfulSyncProvider::class)
+		]);
+		self::assertTrue($this->manager->hasProviders());
+	}
+
+	public function testClaimReturnsNullWhenNoScheduledTask(): void {
+		$this->registerTextToTextProvider();
+
+		// No task scheduled => nothing to claim.
+		self::assertNull($this->manager->claimNextScheduledTask([TextToText::ID]));
+		self::assertNull($this->manager->claimNextScheduledTask());
+	}
+
+	public function testClaimReturnsTaskAndSetsItRunning(): void {
+		$this->registerTextToTextProvider();
+
+		$task = new Task(TextToText::ID, ['input' => 'Hello'], 'test', null);
+		$this->manager->scheduleTask($task);
+		self::assertEquals(Task::STATUS_SCHEDULED, $task->getStatus());
+		$scheduledId = $task->getId();
+
+		$claimed = $this->manager->claimNextScheduledTask([TextToText::ID]);
+		self::assertNotNull($claimed);
+		self::assertEquals($scheduledId, $claimed->getId());
+		// The returned task object reports RUNNING ...
+		self::assertEquals(Task::STATUS_RUNNING, $claimed->getStatus());
+		// ... and the change is persisted in the database.
+		$persisted = $this->manager->getTask($scheduledId);
+		self::assertEquals(Task::STATUS_RUNNING, $persisted->getStatus());
+	}
+
+	public function testClaimNeverReturnsTheSameTaskTwice(): void {
+		// No-duplicate invariant. We cannot run two truly concurrent DB transactions
+		// inside one PHPUnit process, but the structural guarantee is the same: once a
+		// task is claimed it is RUNNING (no longer SCHEDULED), so a second claim can
+		// never return it again. Under real concurrency, FOR UPDATE SKIP LOCKED enforces
+		// the same property by skipping rows another transaction has locked; that path
+		// is additionally validated live on nc-ai.
+		$this->registerTextToTextProvider();
+
+		$taskA = new Task(TextToText::ID, ['input' => 'A'], 'test', null);
+		$this->manager->scheduleTask($taskA);
+		$taskB = new Task(TextToText::ID, ['input' => 'B'], 'test', null);
+		$this->manager->scheduleTask($taskB);
+
+		$firstClaim = $this->manager->claimNextScheduledTask([TextToText::ID]);
+		$secondClaim = $this->manager->claimNextScheduledTask([TextToText::ID]);
+
+		self::assertNotNull($firstClaim);
+		self::assertNotNull($secondClaim);
+		// Two distinct tasks were handed out, never the same one twice.
+		self::assertNotEquals($firstClaim->getId(), $secondClaim->getId());
+		self::assertEqualsCanonicalizing(
+			[$taskA->getId(), $taskB->getId()],
+			[$firstClaim->getId(), $secondClaim->getId()],
+		);
+
+		// Both are now RUNNING and the queue is drained.
+		self::assertEquals(Task::STATUS_RUNNING, $this->manager->getTask($taskA->getId())->getStatus());
+		self::assertEquals(Task::STATUS_RUNNING, $this->manager->getTask($taskB->getId())->getStatus());
+		self::assertNull($this->manager->claimNextScheduledTask([TextToText::ID]));
+	}
+
+	public function testClaimNeverMarksTaskFailed(): void {
+		$this->registerTextToTextProvider();
+
+		$task = new Task(TextToText::ID, ['input' => 'Hello'], 'test', null);
+		$this->manager->scheduleTask($task);
+		$id = $task->getId();
+
+		$claimed = $this->manager->claimNextScheduledTask([TextToText::ID]);
+		self::assertNotNull($claimed);
+
+		// Claiming only ever transitions SCHEDULED -> RUNNING, never to FAILED/CANCELLED.
+		self::assertNotEquals(Task::STATUS_FAILED, $claimed->getStatus());
+		self::assertNotEquals(Task::STATUS_CANCELLED, $claimed->getStatus());
+		$persisted = $this->manager->getTask($id);
+		self::assertNotEquals(Task::STATUS_FAILED, $persisted->getStatus());
+		self::assertNotEquals(Task::STATUS_CANCELLED, $persisted->getStatus());
+		self::assertEquals(Task::STATUS_RUNNING, $persisted->getStatus());
+		self::assertNull($persisted->getErrorMessage());
+	}
+
+	public function testClaimRespectsTaskTypeFilter(): void {
+		$this->registerTextToTextProvider();
+
+		$task = new Task(TextToText::ID, ['input' => 'Hello'], 'test', null);
+		$this->manager->scheduleTask($task);
+
+		// A type that does not match the only scheduled task must not be claimed.
+		self::assertNull($this->manager->claimNextScheduledTask(['some:other:tasktype']));
+		// The task is still SCHEDULED and claimable without a filter.
+		self::assertEquals(Task::STATUS_SCHEDULED, $this->manager->getTask($task->getId())->getStatus());
+		$claimed = $this->manager->claimNextScheduledTask();
+		self::assertNotNull($claimed);
+		self::assertEquals($task->getId(), $claimed->getId());
+	}
+
+	public function testClaimRecordsStartedAt(): void {
+		$this->registerTextToTextProvider();
+
+		$task = new Task(TextToText::ID, ['input' => 'Hello'], 'test', null);
+		$this->manager->scheduleTask($task);
+		// A scheduled task has not started yet.
+		self::assertNull($this->manager->getTask($task->getId())->getStartedAt());
+
+		$before = time();
+		$claimed = $this->manager->claimNextScheduledTask([TextToText::ID]);
+		$after = time();
+
+		self::assertNotNull($claimed);
+		// started_at is recorded at claim time on the returned task ...
+		self::assertNotNull($claimed->getStartedAt());
+		self::assertGreaterThanOrEqual($before, $claimed->getStartedAt());
+		self::assertLessThanOrEqual($after, $claimed->getStartedAt());
+		// ... and persisted in the database (since the worker receives the task already
+		// RUNNING, the later setTaskStatus SCHEDULED -> RUNNING edge is skipped and would
+		// otherwise never write started_at).
+		$persisted = $this->manager->getTask($task->getId());
+		self::assertNotNull($persisted->getStartedAt());
+		self::assertGreaterThanOrEqual($before, $persisted->getStartedAt());
+		self::assertLessThanOrEqual($after, $persisted->getStartedAt());
+	}
+
+	public function testLockTaskDoesNotResurrectFinishedTask(): void {
+		// Regression guard for the lockTask claim path (used by the SQLite fallback and the
+		// external-provider API claim). lockTask must only ever transition SCHEDULED -> RUNNING.
+		// If another worker finished a task (SUCCESSFUL/FAILED) between the SELECT and this
+		// UPDATE, lockTask must NOT flip it back to RUNNING -- otherwise a completed task is
+		// resurrected and processed twice. (The previous `status != RUNNING` guard let a
+		// SUCCESSFUL/FAILED row be re-locked.)
+		$this->registerTextToTextProvider();
+
+		$task = new Task(TextToText::ID, ['input' => 'Hello'], 'test', null);
+		$this->manager->scheduleTask($task);
+		$id = $task->getId();
+
+		// Simulate another worker having already finished the task.
+		$entity = $this->taskMapper->find($id);
+		$entity->setStatus(Task::STATUS_SUCCESSFUL);
+		$this->taskMapper->update($entity);
+
+		// Attempting to claim the (now SUCCESSFUL) task must be a no-op.
+		$affected = $this->taskMapper->lockTask($this->taskMapper->find($id));
+
+		self::assertSame(0, $affected, 'lockTask must not claim a task that is no longer SCHEDULED');
+		self::assertEquals(Task::STATUS_SUCCESSFUL, $this->manager->getTask($id)->getStatus());
+	}
 }

@@ -107,10 +107,10 @@ class ListConfigsTest extends TestCase {
 				],
 				// app config
 				[
-					['files', false, [
+					['files', [
 						'enabled' => 'yes',
 					]],
-					['core', false, [
+					['core', [
 						'global_cache_gc_lastrun' => '1430388388',
 					]],
 				],
@@ -243,10 +243,10 @@ class ListConfigsTest extends TestCase {
 				],
 				// app config
 				[
-					['files', false, [
+					['files', [
 						'enabled' => 'yes',
 					]],
-					['core', false, [
+					['core', [
 						'global_cache_gc_lastrun' => '1430388388',
 					]],
 				],
@@ -281,7 +281,7 @@ class ListConfigsTest extends TestCase {
 				->method('getValue')
 				->willReturnMap($systemConfigMap);
 			$this->appConfig->expects($this->any())
-				->method('getValues')
+				->method('getAllValues')
 				->willReturnMap($appConfig);
 		} else {
 			$this->systemConfig->expects($this->any())
@@ -296,7 +296,7 @@ class ListConfigsTest extends TestCase {
 			->method('getApps')
 			->willReturn(['core', 'files']);
 		$this->appConfig->expects($this->any())
-			->method('getValues')
+			->method('getAllValues')
 			->willReturnMap($appConfig);
 
 		$this->consoleInput->expects($this->once())

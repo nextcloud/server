@@ -88,7 +88,6 @@
     "Wrong or no update parameter given" : "ໃຫ້ພາຣາມິເຕີອັບເດດບໍ່ຖືກຕ້ອງ ຫຼື ບໍ່ມີ",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"ການສົ່ງລະຫັດຜ່ານທາງ Nextcloud Talk\" ສຳລັບການແບ່ງປັນໄຟລ໌ ຫຼື ໂຟເດີລົ້ມເຫຼວ ເນື່ອງຈາກ Nextcloud Talk ບໍ່ໄດ້ເປີດໃຊ້ງານ.",
     "Custom share link tokens have been disabled by the administrator" : "ໂທເຄັນລິງແບ່ງປັນແບບກຳນົດເອງຖືກປິດການໃຊ້ງານໂດຍຜູ້ເບິ່ງແຍງລະບົບ",
-    "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "ໂທເຄັນຕ້ອງມີຢ່າງໜ້ອຍ 1 ຕົວອັກສອນ ແລະ ສາມາດປະກອບດ້ວຍຕົວໜັງສື, ຕົວເລກ ຫຼື ຂີດຕໍ່ເທົ່ານັ້ນ",
     "Invalid date. Format must be YYYY-MM-DD" : "ວັນທີບໍ່ຖືກຕ້ອງ. ຮູບແບບຕ້ອງເປັນ ປີ-ເດືອນ-ວັນ (YYYY-MM-DD)",
     "No sharing rights on this item" : "ບໍ່ມີສິດໃນການແບ່ງປັນລາຍການນີ້",
     "Invalid share attributes provided: \"%s\"" : "ຄຸນສົມບັດການແບ່ງປັນທີ່ໃຫ້ມາບໍ່ຖືກຕ້ອງ: \"%s\"",
@@ -401,6 +400,7 @@
     "Back to %s" : "ກັບໄປທີ່ %s",
     "Add to your Nextcloud" : "ເພີ່ມໃສ່ Nextcloud ຂອງທ່ານ",
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "ການແບ່ງປັນ %s ລົ້ມເຫຼວ ເນື່ອງຈາກລະບົບຫຼັງບ້ານບໍ່ຮອງຮັບການແບ່ງປັນ ScienceMesh",
+    "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "ໂທເຄັນຕ້ອງມີຢ່າງໜ້ອຍ 1 ຕົວອັກສອນ ແລະ ສາມາດປະກອບດ້ວຍຕົວໜັງສື, ຕົວເລກ ຫຼື ຂີດຕໍ່ເທົ່ານັ້ນ",
     "Name or email …" : "ຊື່ ຫຼື ອິເມວ...",
     "Name, email, or Federated Cloud ID …" : "ຊື່, ອິເມວ, ຫຼື ໄອດີຄລາວແບບລວມສູນ...",
     "Searching …" : "ກຳລັງຄົ້ນຫາ..."

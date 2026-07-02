@@ -62,11 +62,6 @@ jobs:
         php-versions: ['8.2']
         mysql-versions: ['8.0']
         include:
-          - mysql-versions: '8.0'
-            php-versions: '8.3'
-            coverage: ${{ github.event_name != 'pull_request' }}
-          - mysql-versions: '8.4'
-            php-versions: '8.4'
           - mysql-versions: '8.4'
             php-versions: '8.5'
 
@@ -104,7 +99,7 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
           extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, mysql, pdo_mysql
-          coverage: ${{ matrix.coverage && 'xdebug' || 'none' }}
+          coverage: 'none'
           ini-file: development
           ini-values: disable_functions=""
         env:
@@ -129,17 +124,10 @@ jobs:
           php -f tests/enable_all.php
 
       - name: PHPUnit
-        run: composer run test:db -- --log-junit junit.xml ${{ matrix.coverage && '--coverage-clover ./clover.db.xml' || '' }}
+        run: composer run test:db -- --log-junit junit.xml
         env:
           DB_ROOT_USER: root
           DB_ROOT_PASS: rootpassword
-
-      - name: Upload db code coverage
-        if: ${{ !cancelled() && matrix.coverage }}
-        uses: codecov/codecov-action@57e3a136b779b570ffcdbf80b3bdc90e7fab3de2 # v6.0.0
-        with:
-          files: ./clover.db.xml
-          flags: phpunit-mysql
 
       - name: Upload test results
         if: ${{ !cancelled() }}

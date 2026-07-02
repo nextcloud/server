@@ -131,7 +131,7 @@ class ListConfigs extends Base {
 		if ($noSensitiveValues) {
 			return $this->appConfig->getFilteredValues($app);
 		} else {
-			return $this->appConfig->getValues($app, false);
+			return $this->appConfig->getAllValues($app);
 		}
 	}
 

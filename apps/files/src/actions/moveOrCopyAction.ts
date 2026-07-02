@@ -134,7 +134,7 @@ export async function* handleCopyMoveNodesTo(nodes: INode[], destination: IFolde
 			if (method === MoveCopyAction.MOVE) {
 				// Let the user choose what to do with the conflicting files
 				const content = otherNodes.filter((n) => conflicts.some((c) => c.basename === n.basename))
-				const result = await openConflictPicker(destination.path, conflicts, content)
+				const result = await openConflictPicker(destination.path, conflicts, content, { overwriting: true })
 				if (!result) {
 					// User cancelled
 					return

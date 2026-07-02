@@ -736,9 +736,9 @@ class ThemingControllerTest extends TestCase {
 	public function testGetManifest(bool $standalone): void {
 		$this->appConfig
 			->expects($this->once())
-			->method('getAppValueString')
-			->with('cachebuster', '0')
-			->willReturn('0');
+			->method('getAppValueInt')
+			->with('cachebuster')
+			->willReturn(0);
 		$this->themingDefaults
 			->expects($this->any())
 			->method('getName')

@@ -113,8 +113,9 @@ OC.L10N.register(
     "Preview of the selected image" : "Предпросмотр выбранного изображения",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {linkstart}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Универсальный доступ очень важен для нас. Мы следуем веб-стандартам и проверяем, чтобы всё было пригодно для использования без мыши и вспомогательного программного обеспечения, такого как программы чтения с экрана. Мы стремимся соответствовать {linkstart}Руководству по обеспечению доступности веб-контента{linkend} 2.1 на уровне AA, а с темой высокой контрастности — даже на уровне AAA.",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Если вы обнаружите проблемы, сообщите о них в {issuetracker}нашем трекере задач{linkend}. А если хотите принять участие, присоединяйтесь к {designteam}нашей команде дизайнеров{linkend}!",
-    "Unable to apply the setting." : "Невозможно применить настройку.",
     "Appearance and accessibility settings" : "Внешний вид и доступность",
+    "Themes" : "Оформления",
+    "Fonts" : "Шрифты",
     "Misc accessibility options" : "Различные параметры специальных возможностей",
     "Enable blur background filter (may increase GPU load)" : "Включить фильтр размытия фона (может увеличить нагрузку на графический процессор)",
     "Customization has been disabled by your administrator" : "Настройка внешнего вида отключена вашим администратором",
@@ -130,6 +131,7 @@ OC.L10N.register(
     "Background and login image" : "Фоновое изображение и изображение входа в систему",
     "Advanced options" : "Дополнительные параметры",
     "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Для автоматической генерации favicon на основе загруженного логотипа и цвета нужно установить расширение PHP ImageMagick с поддержкой изображений SVG.",
+    "Unable to apply the setting." : "Невозможно применить настройку.",
     "No background has been selected" : "Фон не выбран",
     "Select a custom color" : "Выбрать пользовательский цвет",
     "Upload" : "Отправить"

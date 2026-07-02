@@ -52,14 +52,13 @@ describe('Admin theming set default apps', () => {
 		cy.findByRole('region', { name: 'Global default app' })
 			.should('exist')
 			.findByRole('combobox')
-			.as('defaultAppSelect')
 			.scrollIntoView()
 
-		cy.get('@defaultAppSelect')
-			.findByText('Dashboard')
+		cy.findByRole('region', { name: 'Global default app' })
+			.findByRole('button', { name: 'Deselect Dashboard' })
 			.should('be.visible')
-		cy.get('@defaultAppSelect')
-			.findByText('Files')
+		cy.findByRole('region', { name: 'Global default app' })
+			.findByRole('button', { name: 'Deselect Files' })
 			.should('be.visible')
 	})
 

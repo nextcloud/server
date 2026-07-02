@@ -515,7 +515,7 @@ class Scanner extends BasicEmitter implements IScanner {
 		$removedChildren = \array_diff(array_keys($existingChildren), $newChildNames);
 		foreach ($removedChildren as $childName) {
 			$child = $path ? $path . '/' . $childName : $childName;
-			$this->removeFromCache($child);
+			$this->removeFromCache((string)$child);
 		}
 		if ($this->useTransactions) {
 			$this->connection->commit();
