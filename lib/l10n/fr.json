@@ -429,6 +429,7 @@
     "Original text" : "Texte original",
     "The original text to generate a headline for" : "Texte original pour lequel générer un titre",
     "The generated headline" : "Titre généré",
+    "Instructions" : "Instructions",
     "Proofread" : "Relire",
     "Proofreads a text and lists corrections" : "Relit un texte et liste les corrections",
     "Text" : "Texte",

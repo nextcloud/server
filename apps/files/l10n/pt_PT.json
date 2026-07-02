@@ -365,6 +365,7 @@
     "_%n file_::_%n files_" : ["%n ficheiro","%n ficheiros","%n ficheiros"],
     "_%n folder_::_%n folders_" : ["%n pasta","%n pastas","%n pastas"],
     "Filename must not be empty." : "O nome do arquivo não pode estar vazio.",
+    "\"{char}\" is not allowed inside a filename." : "\"{char}\" não é permitido dentro de um nome de arquivo.",
     "\"{segment}\" is a reserved name and not allowed for filenames." : "\"{segment}\" é um nome reservado e não é permitido para nomes de arquivos.",
     "Filenames must not end with \"{extension}\"." : "Os nomes de arquivos não podem terminar com \"{extension}\".",
     "No favorites yet" : "Sem favoritos",

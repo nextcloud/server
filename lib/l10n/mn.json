@@ -421,6 +421,7 @@
     "Original text" : "Эх текст",
     "The original text to generate a headline for" : "Гарчиг үүсгэх эх текст",
     "The generated headline" : "Үүсгэсэн гарчиг",
+    "Instructions" : "Заавар",
     "Proofread" : "Хянах",
     "Proofreads a text and lists corrections" : "Текстийг хянаж засваруудыг жагсаах",
     "Text" : "Текст",

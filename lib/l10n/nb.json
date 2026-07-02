@@ -321,6 +321,7 @@
     "Original text" : "Opprinnelig tekst",
     "The original text to generate a headline for" : "Den opprinnelige teksten som skal genereres en overskrift for",
     "The generated headline" : "Den genererte overskriften",
+    "Instructions" : "Instruksjoner",
     "Text" : "Tekst",
     "Reformulate text" : "Omformulere tekst",
     "Takes a text and reformulates it" : "Tar en tekst og omformulerer den",

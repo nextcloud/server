@@ -421,6 +421,7 @@
     "Original text" : "Jatorrizko testua",
     "The original text to generate a headline for" : "Izenburu bat sortzeko jatorrizko testua",
     "The generated headline" : "Sortutako izenburua",
+    "Instructions" : "Jarraibideak",
     "Proofread" : "Testu-azterketa",
     "Proofreads a text and lists corrections" : "Testu bat aztertzen du eta zuzenketak zerrendatzen ditu",
     "Text" : "Testua",

@@ -35,6 +35,7 @@ OC.L10N.register(
     "Federated Cloud" : "Nuvem Federada",
     "Share it so your friends can share files with you:" : "Partilhe para que os seus amigos possam partilhar ficheiros consigo:",
     "Bluesky" : "Bluesky",
+    "Mastodon" : "Mastodon",
     "Add to your website" : "Adicione ao seu site da Web",
     "HTML Code:" : "Código HTML:",
     "Cancel" : "Cancelar",

@@ -233,6 +233,7 @@
     "The rewritten text in the desired tone, written by the assistant:" : "The rewritten text in the desired tone, written by the assistant:",
     "Chat" : "Chat",
     "The history of chat messages before the current message, starting with a message by the user" : "The history of chat messages before the current message, starting with a message by the user",
+    "Instructions" : "Maelekezo",
     "Text" : "Maandishi",
     "Summarize" : "Summarize",
     "Summary" : "Muhtasari",
