@@ -479,7 +479,7 @@ class UserTest extends \Test\TestCase {
 
 		$this->image->expects($this->once())
 			->method('loadFromBase64')
-			->willReturn('imageResource');
+			->willReturn(imagecreatetruecolor(1, 1));
 		$this->image->expects($this->once())
 			->method('valid')
 			->willReturn(true);
@@ -531,7 +531,7 @@ class UserTest extends \Test\TestCase {
 
 		$this->image->expects($this->once())
 			->method('loadFromBase64')
-			->willReturn('imageResource');
+			->willReturn(imagecreatetruecolor(1, 1));
 		$this->image->expects($this->never())
 			->method('valid');
 		$this->image->expects($this->never())
@@ -590,7 +590,7 @@ class UserTest extends \Test\TestCase {
 
 		$this->image->expects($this->once())
 			->method('loadFromBase64')
-			->willReturn('imageResource');
+			->willReturn(imagecreatetruecolor(1, 1));
 		$this->image->expects($this->once())
 			->method('valid')
 			->willReturn(true);
@@ -697,7 +697,7 @@ class UserTest extends \Test\TestCase {
 
 		$this->image->expects($this->once())
 			->method('loadFromBase64')
-			->willReturn('imageResource');
+			->willReturn(imagecreatetruecolor(1, 1));
 		$this->image->expects($this->once())
 			->method('valid')
 			->willReturn(true);

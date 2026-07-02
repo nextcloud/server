@@ -19,10 +19,13 @@ use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
- * Class for basic image manipulation
+ * GD-backed image helper for loading, transforming, and exporting images.
+ *
+ * Supports file, stream, raw-data, and base64 inputs, along with common operations
+ * such as resizing, cropping, and EXIF-based orientation handling.
  */
 class Image implements IImage {
-	// Default memory limit for images to load (256 MBytes).
+	// Default memory limit for images to load (256 MB).
 	protected const DEFAULT_MEMORY_LIMIT = 256;
 
 	// Default quality for jpeg images
@@ -31,41 +34,43 @@ class Image implements IImage {
 	// Default quality for webp images
 	protected const DEFAULT_WEBP_QUALITY = 80;
 
-	// tmp resource.
+	// Loaded image resource; false until an image is loaded.
 	protected GdImage|false $resource = false;
-	// Default to png if file type isn't evident.
-	protected int $imageType = IMAGETYPE_PNG;
-	// Default to png
-	protected ?string $mimeType = 'image/png';
-	protected ?string $filePath = null;
-	private ?finfo $fileInfo = null;
-	private LoggerInterface $logger;
-	private IAppConfig $appConfig;
-	private IConfig $config;
-	private ?array $exif = null;
 
-	/**
-	 * @throws \InvalidArgumentException in case the $imageRef parameter is not null
-	 */
+	// Output/input type defaults to PNG when no specific type is known.
+	protected int $imageType = IMAGETYPE_PNG;
+	protected ?string $mimeType = 'image/png';
+
+	// Source file path for loaded images, if available.
+	protected ?string $filePath = null;
+
+	// Cached metadata.
+	private ?array $exif = null;
+	private ?finfo $fileInfo = null;
+
+	private readonly LoggerInterface $logger;
+	private readonly IAppConfig $appConfig;
+	private readonly IConfig $config;
+
 	public function __construct(
 		?LoggerInterface $logger = null,
 		?IAppConfig $appConfig = null,
 		?IConfig $config = null,
 	) {
+		// This class is typically instantiated directly as a short-lived utility object
+		// without any constructor arguments.
 		$this->logger = $logger ?? Server::get(LoggerInterface::class);
 		$this->appConfig = $appConfig ?? Server::get(IAppConfig::class);
 		$this->config = $config ?? Server::get(IConfig::class);
 
+		// Optional MIME detection support for image data loaded from strings.
 		if (class_exists(finfo::class)) {
 			$this->fileInfo = new finfo(FILEINFO_MIME_TYPE);
 		}
 	}
 
 	/**
-	 * Determine whether the object contains an image resource.
-	 *
 	 * @psalm-assert-if-true \GdImage $this->resource
-	 * @return bool
 	 */
 	#[\Override]
 	public function valid(): bool {
@@ -76,52 +81,26 @@ class Image implements IImage {
 		return false;
 	}
 
-	/**
-	 * Returns the MIME type of the image or null if no image is loaded.
-	 *
-	 * @return string
-	 */
 	#[\Override]
 	public function mimeType(): ?string {
 		return $this->valid() ? $this->mimeType : null;
 	}
 
-	/**
-	 * Returns the width of the image or -1 if no image is loaded.
-	 *
-	 * @return int
-	 */
 	#[\Override]
 	public function width(): int {
-		if ($this->valid()) {
-			return imagesx($this->resource);
-		}
-		return -1;
+		return $this->valid() ? imagesx($this->resource) : -1;
 	}
 
-	/**
-	 * Returns the height of the image or -1 if no image is loaded.
-	 *
-	 * @return int
-	 */
 	#[\Override]
 	public function height(): int {
-		if ($this->valid()) {
-			return imagesy($this->resource);
-		}
-		return -1;
+		return $this->valid() ? imagesy($this->resource) : -1;
 	}
 
-	/**
-	 * Returns the width when the image orientation is top-left.
-	 *
-	 * @return int
-	 */
 	#[\Override]
 	public function widthTopLeft(): int {
-		$o = $this->getOrientation();
-		$this->logger->debug('Image->widthTopLeft() Orientation: ' . $o, ['app' => 'core']);
-		switch ($o) {
+		$orientation = $this->getOrientation();
+		$this->logger->debug('Image->widthTopLeft() Orientation: ' . $orientation, ['app' => 'core']);
+		switch ($orientation) {
 			case -1:
 			case 1:
 			case 2: // Not tested
@@ -134,19 +113,15 @@ class Image implements IImage {
 			case 8:
 				return $this->height();
 		}
+
 		return $this->width();
 	}
 
-	/**
-	 * Returns the height when the image orientation is top-left.
-	 *
-	 * @return int
-	 */
 	#[\Override]
 	public function heightTopLeft(): int {
-		$o = $this->getOrientation();
-		$this->logger->debug('Image->heightTopLeft() Orientation: ' . $o, ['app' => 'core']);
-		switch ($o) {
+		$orientation = $this->getOrientation();
+		$this->logger->debug('Image->heightTopLeft() Orientation: ' . $orientation, ['app' => 'core']);
+		switch ($orientation) {
 			case -1:
 			case 1:
 			case 2: // Not tested
@@ -159,132 +134,97 @@ class Image implements IImage {
 			case 8:
 				return $this->width();
 		}
+
 		return $this->height();
 	}
 
-	/**
-	 * Outputs the image.
-	 *
-	 * @param string $mimeType
-	 * @return bool
-	 */
 	#[\Override]
 	public function show(?string $mimeType = null): bool {
-		if ($mimeType === null) {
-			$mimeType = $this->mimeType();
-		}
+		$mimeType ??= $this->mimeType();
+
 		if ($mimeType !== null) {
 			header('Content-Type: ' . $mimeType);
 		}
+
 		return $this->_output(null, $mimeType);
 	}
 
-	/**
-	 * Saves the image.
-	 *
-	 * @param string $filePath
-	 * @param string $mimeType
-	 * @return bool
-	 */
-
 	#[\Override]
 	public function save(?string $filePath = null, ?string $mimeType = null): bool {
-		if ($mimeType === null) {
-			$mimeType = $this->mimeType();
-		}
+		$mimeType ??= $this->mimeType();
+		$filePath ??= $this->filePath;
+
 		if ($filePath === null) {
-			if ($this->filePath === null) {
-				$this->logger->error(__METHOD__ . '(): called with no path.', ['app' => 'core']);
-				return false;
-			} else {
-				$filePath = $this->filePath;
-			}
+			$this->logger->error(__METHOD__ . '(): called with no path.', ['app' => 'core']);
+			return false;
 		}
+
 		return $this->_output($filePath, $mimeType);
 	}
 
 	/**
-	 * Outputs/saves the image.
+	 * Writes the current image to a file or directly to output.
 	 *
-	 * @throws \Exception
+	 * Encodes the image using the provided MIME type, or falls back to the current
+	 * image type. If the resolved image type is unsupported, PNG encoding is used.
+	 * If $filePath is null or empty, the encoded image is written directly to output.
+	 *
+	 * @param string|null $filePath Destination file path, or null/empty to write directly to output.
+	 * @param string|null $mimeType MIME type to force for encoding, or null to use the current image type.
+	 * @return bool True on success, false if no valid image is loaded or the destination is not writable.
+	 * @throws \Exception If a forced MIME type is unsupported or the required GD output function is unavailable.
 	 */
 	private function _output(?string $filePath = null, ?string $mimeType = null): bool {
 		if ($filePath !== null && $filePath !== '') {
-			if (!file_exists(dirname($filePath))) {
+			$directory = dirname($filePath);
+
+			if (!file_exists($directory)) {
 				mkdir(dirname($filePath), 0777, true);
 			}
-			$isWritable = is_writable(dirname($filePath));
-			if (!$isWritable) {
-				$this->logger->error(__METHOD__ . '(): Directory \'' . dirname($filePath) . '\' is not writable.', ['app' => 'core']);
+
+			if (!is_writable($directory)) {
+				$this->logger->error(__METHOD__ . '(): Directory \'' . $directory . '\' is not writable.', ['app' => 'core']);
 				return false;
-			} elseif (file_exists($filePath) && !is_writable($filePath)) {
+			}
+
+			if (file_exists($filePath) && !is_writable($filePath)) {
 				$this->logger->error(__METHOD__ . '(): File \'' . $filePath . '\' is not writable.', ['app' => 'core']);
 				return false;
 			}
 		}
+
 		if (!$this->valid()) {
 			return false;
 		}
 
 		$imageType = $this->imageType;
 		if ($mimeType !== null) {
-			switch ($mimeType) {
-				case 'image/gif':
-					$imageType = IMAGETYPE_GIF;
-					break;
-				case 'image/jpeg':
-					$imageType = IMAGETYPE_JPEG;
-					break;
-				case 'image/png':
-					$imageType = IMAGETYPE_PNG;
-					break;
-				case 'image/x-xbitmap':
-					$imageType = IMAGETYPE_XBM;
-					break;
-				case 'image/bmp':
-				case 'image/x-ms-bmp':
-					$imageType = IMAGETYPE_BMP;
-					break;
-				case 'image/webp':
-					$imageType = IMAGETYPE_WEBP;
-					break;
-				default:
-					throw new \Exception('Image::_output(): "' . $mimeType . '" is not supported when forcing a specific output format');
-			}
+			$imageType = match ($mimeType) {
+				'image/gif' => IMAGETYPE_GIF,
+				'image/jpeg' => IMAGETYPE_JPEG,
+				'image/png' => IMAGETYPE_PNG,
+				'image/x-xbitmap' => IMAGETYPE_XBM,
+				'image/bmp', 'image/x-ms-bmp' => IMAGETYPE_BMP,
+				'image/webp' => IMAGETYPE_WEBP,
+				default => throw new \Exception('Image::_output(): "' . $mimeType . '" is not supported when forcing a specific output format'),
+			};
 		}
 
-		switch ($imageType) {
-			case IMAGETYPE_GIF:
-				$retVal = imagegif($this->resource, $filePath);
-				break;
-			case IMAGETYPE_JPEG:
+		return match ($imageType) {
+			IMAGETYPE_GIF => imagegif($this->resource, $filePath),
+			IMAGETYPE_JPEG => (function () use ($filePath): bool {
 				imageinterlace($this->resource, true);
-				$retVal = imagejpeg($this->resource, $filePath, $this->getJpegQuality());
-				break;
-			case IMAGETYPE_PNG:
-				$retVal = imagepng($this->resource, $filePath);
-				break;
-			case IMAGETYPE_XBM:
-				if (function_exists('imagexbm')) {
-					$retVal = imagexbm($this->resource, $filePath);
-				} else {
-					throw new \Exception('Image::_output(): imagexbm() is not supported.');
-				}
-
-				break;
-			case IMAGETYPE_WBMP:
-				$retVal = imagewbmp($this->resource, $filePath);
-				break;
-			case IMAGETYPE_BMP:
-				$retVal = imagebmp($this->resource, $filePath);
-				break;
-			case IMAGETYPE_WEBP:
-				$retVal = imagewebp($this->resource, null, $this->getWebpQuality());
-				break;
-			default:
-				$retVal = imagepng($this->resource, $filePath);
-		}
-		return $retVal;
+				return imagejpeg($this->resource, $filePath, $this->getJpegQuality());
+			})(),
+			IMAGETYPE_PNG => imagepng($this->resource, $filePath),
+			IMAGETYPE_XBM => function_exists('imagexbm')
+				? imagexbm($this->resource, $filePath)
+				: throw new \Exception('Image::_output(): imagexbm() is not supported.'),
+			IMAGETYPE_WBMP => imagewbmp($this->resource, $filePath),
+			IMAGETYPE_BMP => imagebmp($this->resource, $filePath),
+			IMAGETYPE_WEBP => imagewebp($this->resource, $filePath, $this->getWebpQuality()),
+			default => imagepng($this->resource, $filePath),
+		};
 	}
 
 	/**
@@ -294,9 +234,6 @@ class Image implements IImage {
 		return $this->show();
 	}
 
-	/**
-	 * @param \GdImage $resource
-	 */
 	public function setResource(\GdImage $resource): void {
 		$this->resource = $resource;
 	}
@@ -309,9 +246,6 @@ class Image implements IImage {
 		return $this->resource;
 	}
 
-	/**
-	 * @return string Returns the mimetype of the data. Returns null if the data is not valid.
-	 */
 	#[\Override]
 	public function dataMimeType(): ?string {
 		if (!$this->valid()) {
@@ -329,51 +263,51 @@ class Image implements IImage {
 		}
 	}
 
-	/**
-	 * @return null|string Returns the raw image data.
-	 */
 	#[\Override]
 	public function data(): ?string {
 		if (!$this->valid()) {
 			return null;
 		}
+
 		ob_start();
+
 		switch ($this->mimeType) {
 			case 'image/png':
-				$res = imagepng($this->resource);
+				$result = imagepng($this->resource);
 				break;
+
 			case 'image/jpeg':
 				imageinterlace($this->resource, true);
-				$quality = $this->getJpegQuality();
-				$res = imagejpeg($this->resource, null, $quality);
+				$result = imagejpeg($this->resource, null, $this->getJpegQuality());
 				break;
+
 			case 'image/gif':
-				$res = imagegif($this->resource);
+				$result = imagegif($this->resource);
 				break;
+
 			case 'image/webp':
-				$res = imagewebp($this->resource, null, $this->getWebpQuality());
+				$result = imagewebp($this->resource, null, $this->getWebpQuality());
 				break;
+
 			default:
-				$res = imagepng($this->resource);
 				$this->logger->info('Image->data. Could not guess mime-type, defaulting to png', ['app' => 'core']);
+				$result = imagepng($this->resource);
 				break;
 		}
-		if (!$res) {
+
+		if (!$result) {
 			$this->logger->error('Image->data. Error getting image data.', ['app' => 'core']);
 		}
+
 		return ob_get_clean();
 	}
 
 	/**
-	 * @return string - base64 encoded, which is suitable for embedding in a VCard.
+	 * @return string Base64 encoded image data suitable for VCard embedding, or an empty string on failure.
 	 */
 	public function __toString(): string {
 		$data = $this->data();
-		if ($data === null) {
-			return '';
-		} else {
-			return base64_encode($data);
-		}
+		return $data !== null ? base64_encode($data) : '';
 	}
 
 	protected function getJpegQuality(): int {
@@ -387,61 +321,53 @@ class Image implements IImage {
 	}
 
 	private function isValidExifData(array $exif): bool {
-		if (!isset($exif['Orientation'])) {
-			return false;
-		}
-
-		if (!is_numeric($exif['Orientation'])) {
-			return false;
-		}
-
-		return true;
+		return isset($exif['Orientation']) && is_numeric($exif['Orientation']);
 	}
 
-	/**
-	 * (I'm open for suggestions on better method name ;)
-	 * Get the orientation based on EXIF data.
-	 *
-	 * @return int The orientation or -1 if no EXIF data is available.
-	 */
 	#[\Override]
 	public function getOrientation(): int {
 		if ($this->exif !== null) {
-			return $this->exif['Orientation'];
+			return (int)$this->exif['Orientation'];
 		}
 
 		if ($this->imageType !== IMAGETYPE_JPEG) {
-			$this->logger->debug('Image->fixOrientation() Image is not a JPEG.', ['app' => 'core']);
+			$this->logger->debug('Image->getOrientation() Image is not a JPEG.', ['app' => 'core']);
 			return -1;
 		}
+
 		if (!is_callable('exif_read_data')) {
-			$this->logger->debug('Image->fixOrientation() Exif module not enabled.', ['app' => 'core']);
+			$this->logger->debug('Image->getOrientation() Exif module not enabled.', ['app' => 'core']);
 			return -1;
 		}
+
 		if (!$this->valid()) {
-			$this->logger->debug('Image->fixOrientation() No image loaded.', ['app' => 'core']);
+			$this->logger->debug('Image->getOrientation() No image loaded.', ['app' => 'core']);
 			return -1;
 		}
+
 		if (is_null($this->filePath) || !is_readable($this->filePath)) {
-			$this->logger->debug('Image->fixOrientation() No readable file path set.', ['app' => 'core']);
+			$this->logger->debug('Image->getOrientation() No readable file path set.', ['app' => 'core']);
 			return -1;
 		}
+
 		$exif = @exif_read_data($this->filePath, 'IFD0');
 		if ($exif === false || !$this->isValidExifData($exif)) {
 			return -1;
 		}
 		$this->exif = $exif;
+
 		return (int)$exif['Orientation'];
 	}
 
 	#[\Override]
 	public function readExif(string $data): void {
 		if (!is_callable('exif_read_data')) {
-			$this->logger->debug('Image->fixOrientation() Exif module not enabled.', ['app' => 'core']);
+			$this->logger->debug('Image->readExif() Exif module not enabled.', ['app' => 'core']);
 			return;
 		}
+
 		if (!$this->valid()) {
-			$this->logger->debug('Image->fixOrientation() No image loaded.', ['app' => 'core']);
+			$this->logger->debug('Image->readExif() No image loaded.', ['app' => 'core']);
 			return;
 		}
 
@@ -449,106 +375,89 @@ class Image implements IImage {
 		if ($exif === false || !$this->isValidExifData($exif)) {
 			return;
 		}
+
 		$this->exif = $exif;
 	}
 
-	/**
-	 * (I'm open for suggestions on better method name ;)
-	 * Fixes orientation based on EXIF data.
-	 *
-	 * @return bool
-	 */
 	#[\Override]
 	public function fixOrientation(): bool {
 		if (!$this->valid()) {
 			$this->logger->debug(__METHOD__ . '(): No image loaded', ['app' => 'core']);
 			return false;
 		}
-		$o = $this->getOrientation();
-		$this->logger->debug('Image->fixOrientation() Orientation: ' . $o, ['app' => 'core']);
-		$rotate = 0;
-		$flip = false;
-		switch ($o) {
-			case -1:
-				return false; //Nothing to fix
-			case 1:
-				$rotate = 0;
-				break;
-			case 2:
-				$rotate = 0;
-				$flip = true;
-				break;
-			case 3:
-				$rotate = 180;
-				break;
-			case 4:
-				$rotate = 180;
-				$flip = true;
-				break;
-			case 5:
-				$rotate = 90;
-				$flip = true;
-				break;
-			case 6:
-				$rotate = 270;
-				break;
-			case 7:
-				$rotate = 270;
-				$flip = true;
-				break;
-			case 8:
-				$rotate = 90;
-				break;
+
+		$orientation = $this->getOrientation();
+		$this->logger->debug(__METHOD__ . '() Orientation: ' . $orientation, ['app' => 'core']);
+
+		[$rotate, $flip] = match ($orientation) {
+			-1, 1 => [0, false],
+			2 => [0, true],
+			3 => [180, false],
+			4 => [180, true],
+			5 => [90, true],
+			6 => [270, false],
+			7 => [270, true],
+			8 => [90, false],
+			default => [0, false],
+		};
+
+		// Nothing to fix
+		if ($rotate === 0 && !$flip) {
+			return false;
 		}
+
 		if ($flip && function_exists('imageflip')) {
 			imageflip($this->resource, IMG_FLIP_HORIZONTAL);
 		}
-		if ($rotate) {
-			$res = imagerotate($this->resource, $rotate, 0);
-			if ($res) {
-				if (imagealphablending($res, true)) {
-					if (imagesavealpha($res, true)) {
-						$this->resource = $res;
-						return true;
-					} else {
-						$this->logger->debug('Image->fixOrientation() Error during alpha-saving', ['app' => 'core']);
-						return false;
-					}
-				} else {
-					$this->logger->debug('Image->fixOrientation() Error during alpha-blending', ['app' => 'core']);
-					return false;
-				}
-			} else {
-				$this->logger->debug('Image->fixOrientation() Error during orientation fixing', ['app' => 'core']);
-				return false;
-			}
+
+		// Nothing else left to do
+		if ($rotate === 0) {
+			return true;
 		}
-		return false;
+
+		$rotated = imagerotate($this->resource, $rotate, 0);
+		if ($rotated === false) {
+			$this->logger->debug(__METHOD__ . '() Error during orientation fixing', ['app' => 'core']);
+			return false;
+		}
+
+		if (!imagealphablending($rotated, true)) {
+			$this->logger->debug(__METHOD__ . '() Error during alpha-blending', ['app' => 'core']);
+			return false;
+		}
+
+		if (!imagesavealpha($rotated, true)) {
+			$this->logger->debug(__METHOD__ . '() Error during alpha-saving', ['app' => 'core']);
+			return false;
+		}
+
+		$this->resource = $rotated;
+		return true;
 	}
 
 	/**
 	 * Loads an image from an open file handle.
+	 *
 	 * It is the responsibility of the caller to position the pointer at the correct place and to close the handle again.
 	 *
 	 * @param resource $handle
 	 * @return \GdImage|false An image resource or false on error
+	 *
+	 * @internal
 	 */
 	public function loadFromFileHandle($handle) {
 		$contents = stream_get_contents($handle);
 		if ($this->loadFromData($contents)) {
 			return $this->resource;
 		}
+
 		return false;
 	}
 
 	/**
 	 * Check if allocating an image with the given size is allowed.
-	 *
-	 * @param int $width The image width.
-	 * @param int $height The image height.
-	 * @return bool true if allocating is allowed, false otherwise
 	 */
-	private function checkImageMemory($width, $height) {
+	private function checkImageMemory(int $width, int $height): bool {
 		$memory_limit = $this->config->getSystemValueInt('preview_max_memory', self::DEFAULT_MEMORY_LIMIT);
 		if ($memory_limit < 0) {
 			// Not limited.
@@ -566,11 +475,8 @@ class Image implements IImage {
 
 	/**
 	 * Check if loading an image file from the given path is allowed.
-	 *
-	 * @param string $path The path to a local file.
-	 * @return bool true if allocating is allowed, false otherwise
 	 */
-	private function checkImageSize($path) {
+	private function checkImageSize(string $path): bool {
 		$size = @getimagesize($path);
 		if (!$size) {
 			return false;
@@ -586,12 +492,11 @@ class Image implements IImage {
 	}
 
 	/**
-	 * Check if loading an image from the given data is allowed.
+	 * Check if loading an image from the given string is allowed.
 	 *
 	 * @param string $data A string of image data as read from a file.
-	 * @return bool true if allocating is allowed, false otherwise
 	 */
-	private function checkImageDataSize($data) {
+	private function checkImageDataSize(string $data): bool {
 		$size = @getimagesizefromstring($data);
 		if (!$size) {
 			return false;
@@ -607,254 +512,312 @@ class Image implements IImage {
 	}
 
 	/**
-	 * Loads an image from a local file.
+	 * Checks if specified image is an animated WebP image.
 	 *
-	 * @param bool|string $imagePath The path to a local file.
-	 * @return bool|\GdImage An image resource or false on error
+	 * Check for animated header before generating preview since libgd does not handle them well
+	 * Adapted from here: https://stackoverflow.com/a/68491679/4085517 (stripped to only to check for animations + added additional error checking)
+	 * Header format details here: https://developers.google.com/speed/webp/docs/riff_container
 	 */
-	public function loadFromFile($imagePath = false) {
-		// exif_imagetype throws "read error!" if file is less than 12 byte
-		if (is_bool($imagePath) || !@is_file($imagePath) || !file_exists($imagePath) || filesize($imagePath) < 12 || !is_readable($imagePath)) {
-			return false;
+	private function isAnimatedWebp(string $imagePath): bool {
+		$fp = fopen($imagePath, 'rb');
+		if (!$fp) {
+			return true;
 		}
-		$iType = exif_imagetype($imagePath);
-		switch ($iType) {
-			case IMAGETYPE_GIF:
-				if (imagetypes() & IMG_GIF) {
-					if (!$this->checkImageSize($imagePath)) {
-						return false;
-					}
-					$this->resource = imagecreatefromgif($imagePath);
-					if ($this->resource) {
-						// Preserve transparency
-						imagealphablending($this->resource, true);
-						imagesavealpha($this->resource, true);
-					} else {
-						$this->logger->debug('Image->loadFromFile, GIF image not valid: ' . $imagePath, ['app' => 'core']);
-					}
-				} else {
-					$this->logger->debug('Image->loadFromFile, GIF images not supported: ' . $imagePath, ['app' => 'core']);
-				}
-				break;
-			case IMAGETYPE_JPEG:
-				if (imagetypes() & IMG_JPG) {
-					if (!$this->checkImageSize($imagePath)) {
-						return false;
-					}
-					if (@getimagesize($imagePath) !== false) {
-						$this->resource = @imagecreatefromjpeg($imagePath);
-					} else {
-						$this->logger->debug('Image->loadFromFile, JPG image not valid: ' . $imagePath, ['app' => 'core']);
-					}
-				} else {
-					$this->logger->debug('Image->loadFromFile, JPG images not supported: ' . $imagePath, ['app' => 'core']);
-				}
-				break;
-			case IMAGETYPE_PNG:
-				if (imagetypes() & IMG_PNG) {
-					if (!$this->checkImageSize($imagePath)) {
-						return false;
-					}
-					$this->resource = @imagecreatefrompng($imagePath);
-					if ($this->resource) {
-						// Preserve transparency
-						imagealphablending($this->resource, true);
-						imagesavealpha($this->resource, true);
-					} else {
-						$this->logger->debug('Image->loadFromFile, PNG image not valid: ' . $imagePath, ['app' => 'core']);
-					}
-				} else {
-					$this->logger->debug('Image->loadFromFile, PNG images not supported: ' . $imagePath, ['app' => 'core']);
-				}
-				break;
-			case IMAGETYPE_XBM:
-				if (imagetypes() & IMG_XPM) {
-					if (!$this->checkImageSize($imagePath)) {
-						return false;
-					}
-					$this->resource = @imagecreatefromxbm($imagePath);
-				} else {
-					$this->logger->debug('Image->loadFromFile, XBM/XPM images not supported: ' . $imagePath, ['app' => 'core']);
-				}
-				break;
-			case IMAGETYPE_WBMP:
-				if (imagetypes() & IMG_WBMP) {
-					if (!$this->checkImageSize($imagePath)) {
-						return false;
-					}
-					$this->resource = @imagecreatefromwbmp($imagePath);
-				} else {
-					$this->logger->debug('Image->loadFromFile, WBMP images not supported: ' . $imagePath, ['app' => 'core']);
-				}
-				break;
-			case IMAGETYPE_BMP:
-				$this->resource = imagecreatefrombmp($imagePath);
-				break;
-			case IMAGETYPE_WEBP:
-				if (imagetypes() & IMG_WEBP) {
-					if (!$this->checkImageSize($imagePath)) {
-						return false;
-					}
 
-					// Check for animated header before generating preview since libgd does not handle them well
-					// Adapted from here: https://stackoverflow.com/a/68491679/4085517 (stripped to only to check for animations + added additional error checking)
-					// Header format details here: https://developers.google.com/speed/webp/docs/riff_container
+		$data = fread($fp, 90);
+		fclose($fp);
 
-					// Load up the header data, if any
-					$fp = fopen($imagePath, 'rb');
-					if (!$fp) {
-						return false;
-					}
-					$data = fread($fp, 90);
-					if ($data === false) {
-						return false;
-					}
-					fclose($fp);
-					unset($fp);
-
-					$headerFormat = 'A4Riff/' // get n string
-						. 'I1Filesize/' // get integer (file size but not actual size)
-						. 'A4Webp/' // get n string
-						. 'A4Vp/' // get n string
-						. 'A74Chunk';
-
-					$header = unpack($headerFormat, $data);
-					unset($data, $headerFormat);
-					if ($header === false) {
-						return false;
-					}
-
-					// Check if we're really dealing with a valid WEBP header rather than just one suffixed ".webp"
-					if (!isset($header['Riff']) || strtoupper($header['Riff']) !== 'RIFF') {
-						return false;
-					}
-					if (!isset($header['Webp']) || strtoupper($header['Webp']) !== 'WEBP') {
-						return false;
-					}
-					if (!isset($header['Vp']) || strpos(strtoupper($header['Vp']), 'VP8') === false) {
-						return false;
-					}
-
-					// Check for animation indicators
-					if (strpos(strtoupper($header['Chunk']), 'ANIM') !== false || strpos(strtoupper($header['Chunk']), 'ANMF') !== false) {
-						// Animated so don't let it reach libgd
-						$this->logger->debug('Image->loadFromFile, animated WEBP images not supported: ' . $imagePath, ['app' => 'core']);
-					} else {
-						// We're safe so give it to libgd
-						$this->resource = @imagecreatefromwebp($imagePath);
-					}
-				} else {
-					$this->logger->debug('Image->loadFromFile, WEBP images not supported: ' . $imagePath, ['app' => 'core']);
-				}
-				break;
-				/*
-				case IMAGETYPE_TIFF_II: // (intel byte order)
-					break;
-				case IMAGETYPE_TIFF_MM: // (motorola byte order)
-					break;
-				case IMAGETYPE_JPC:
-					break;
-				case IMAGETYPE_JP2:
-					break;
-				case IMAGETYPE_JPX:
-					break;
-				case IMAGETYPE_JB2:
-					break;
-				case IMAGETYPE_SWC:
-					break;
-				case IMAGETYPE_IFF:
-					break;
-				case IMAGETYPE_ICO:
-					break;
-				case IMAGETYPE_SWF:
-					break;
-				case IMAGETYPE_PSD:
-					break;
-				*/
-			default:
-
-				// this is mostly file created from encrypted file
-				$data = file_get_contents($imagePath);
-				if (!$this->checkImageDataSize($data)) {
-					return false;
-				}
-				$this->resource = @imagecreatefromstring($data);
-				$iType = IMAGETYPE_PNG;
-				$this->logger->debug('Image->loadFromFile, Default', ['app' => 'core']);
-				break;
+		if ($data === false) {
+			return true;
 		}
-		if ($this->valid()) {
-			$this->imageType = $iType;
-			$this->mimeType = image_type_to_mime_type($iType);
-			$this->filePath = $imagePath;
+
+		// Load up the header data, if any
+		$header = unpack(
+			'A4Riff/I1Filesize/A4Webp/A4Vp/A74Chunk',
+			$data
+		);
+
+		if ($header === false) {
+			return true;
 		}
-		return $this->resource;
+
+		// Check if we're really dealing with a valid WEBP header rather than just one suffixed ".webp"
+		if (!isset($header['Riff']) || strtoupper($header['Riff']) !== 'RIFF') {
+			return true;
+		}
+
+		if (!isset($header['Webp']) || strtoupper($header['Webp']) !== 'WEBP') {
+			return true;
+		}
+
+		if (!isset($header['Vp']) || strpos(strtoupper($header['Vp']), 'VP8') === false) {
+			return true;
+		}
+
+		// Check for animation indicators
+		return strpos(strtoupper($header['Chunk']), 'ANIM') !== false
+			|| strpos(strtoupper($header['Chunk']), 'ANMF') !== false;
 	}
 
 	/**
-	 * @inheritDoc
+	 * Loads an image from a local file.
+	 *
+	 * @param bool|string $imagePath The path to a local file.
+	 * @return \GdImage|false An image resource or false on error
+	 *
+	 * @internal
 	 */
+	public function loadFromFile(string|bool $imagePath = false): GdImage|false {
+		if (
+			is_bool($imagePath) // FIXME: drop this?
+			|| !@is_file($imagePath)
+			|| !file_exists($imagePath)
+			|| filesize($imagePath) < 12 // exif_imagetype throws "read error!" if file is less than 12 byte
+			|| !is_readable($imagePath)
+		) {
+			return false;
+		}
+
+		$imageType = exif_imagetype($imagePath);
+		switch ($imageType) {
+			case IMAGETYPE_GIF:
+				if (!(imagetypes() & IMG_GIF)) {
+					$this->logger->debug('Image->loadFromFile, GIF images not supported: ' . $imagePath, ['app' => 'core']);
+					return false;
+				}
+
+				if (!$this->checkImageSize($imagePath)) {
+					return false;
+				}
+
+				$this->resource = imagecreatefromgif($imagePath);
+				if (!$this->resource) {
+					$this->logger->debug('Image->loadFromFile, GIF image not valid: ' . $imagePath, ['app' => 'core']);
+					return false;
+				}
+
+				// Preserve transparency
+				imagealphablending($this->resource, true);
+				imagesavealpha($this->resource, true);
+				break;
+
+			case IMAGETYPE_JPEG:
+				if (!(imagetypes() & IMG_JPG)) {
+					$this->logger->debug('Image->loadFromFile, JPG images not supported: ' . $imagePath, ['app' => 'core']);
+					return false;
+				}
+					
+				if (!$this->checkImageSize($imagePath)) {
+					return false;
+				}
+
+				$this->resource = @imagecreatefromjpeg($imagePath);
+				if (!$this->resource) {
+					$this->logger->debug('Image->loadFromFile, JPG image not valid: ' . $imagePath, ['app' => 'core']);
+					return false;
+				}
+				break;
+
+			case IMAGETYPE_PNG:
+				if (!(imagetypes() & IMG_PNG)) {
+					$this->logger->debug('Image->loadFromFile, PNG images not supported: ' . $imagePath, ['app' => 'core']);
+					return false;
+				}
+
+				if (!$this->checkImageSize($imagePath)) {
+					return false;
+				}
+
+				$this->resource = @imagecreatefrompng($imagePath);
+				if (!$this->resource) {
+					$this->logger->debug('Image->loadFromFile, PNG image not valid: ' . $imagePath, ['app' => 'core']);
+					return false;
+				}
+
+				// Preserve transparency
+				imagealphablending($this->resource, true);
+				imagesavealpha($this->resource, true);
+				break;
+
+			case IMAGETYPE_XBM:
+				if (!(imagetypes() & IMG_XPM)) {
+					$this->logger->debug('Image->loadFromFile, XBM/XPM images not supported: ' . $imagePath, ['app' => 'core']);
+					return false;
+				}
+				
+				if (!$this->checkImageSize($imagePath)) {
+					return false;
+				}
+
+				$this->resource = @imagecreatefromxbm($imagePath);
+				if (!$this->resource) {
+					$this->logger->debug('Image->loadFromFile, XBM/XPM image not valid: ' . $imagePath, ['app' => 'core']);
+					return false;
+				}
+				break;
+
+			case IMAGETYPE_WBMP:
+				if (!(imagetypes() & IMG_WBMP)) {
+					$this->logger->debug('Image->loadFromFile, WBMP images not supported: ' . $imagePath, ['app' => 'core']);
+					return false;
+				}
+
+				if (!$this->checkImageSize($imagePath)) {
+					return false;
+				}
+
+				$this->resource = @imagecreatefromwbmp($imagePath);
+				if (!$this->resource) {
+					$this->logger->debug('Image->loadFromFile, WBMP image not valid: ' . $imagePath, ['app' => 'core']);
+					return false;
+				}
+				break;
+
+			case IMAGETYPE_BMP:
+				if (!(imagetypes() & IMG_BMP)) {
+					$this->logger->debug('Image->loadFromFile, BMP images not supported: ' . $imagePath, ['app' => 'core']);
+					return false;
+				}
+
+				if (!$this->checkImageSize($imagePath)) {
+					return false;
+				}
+
+				$this->resource = imagecreatefrombmp($imagePath);
+				if (!$this->resource) {
+					$this->logger->debug('Image->loadFromFile, BMP image not valid: ' . $imagePath, ['app' => 'core']);
+					return false;
+				}
+				break;
+
+			case IMAGETYPE_WEBP:
+				if (!(imagetypes() & IMG_WEBP)) {
+					$this->logger->debug('Image->loadFromFile, WEBP images not supported: ' . $imagePath, ['app' => 'core']);
+					return false;
+				}
+
+				if (!$this->checkImageSize($imagePath)) {
+					return false;
+				}
+
+				// Animated (or not really WebP) so don't let it reach libgd
+				if ($this->isAnimatedWebp($imagePath)) {
+					$this->logger->debug('Image->loadFromFile, animated WEBP images not supported: ' . $imagePath, ['app' => 'core']);
+					return false;
+				}
+
+				// We're safe so give it to libgd
+				$this->resource = @imagecreatefromwebp($imagePath);
+				if (!$this->resource) {
+					$this->logger->debug('Image->loadFromFile, WEBP image not valid: ' . $imagePath, ['app' => 'core']);
+					return false;
+				}
+				break;
+
+			/*
+			case IMAGETYPE_TIFF_II: // (intel byte order)
+				break;
+			case IMAGETYPE_TIFF_MM: // (motorola byte order)
+				break;
+			case IMAGETYPE_JPC:
+				break;
+			case IMAGETYPE_JP2:
+				break;
+			case IMAGETYPE_JPX:
+				break;
+			case IMAGETYPE_JB2:
+				break;
+			case IMAGETYPE_SWC:
+				break;
+			case IMAGETYPE_IFF:
+				break;
+			case IMAGETYPE_ICO:
+				break;
+			case IMAGETYPE_SWF:
+				break;
+			case IMAGETYPE_PSD:
+				break;
+			*/
+
+			default:
+				// this is mostly file created from encrypted file
+				$data = file_get_contents($imagePath);
+
+				if (!$this->checkImageDataSize($data)) {
+					return false;
+				}
+
+				$this->resource = @imagecreatefromstring($data);
+				if (!$this->resource) {
+					$this->logger->debug('Image->loadFromFile, (Default/unknown) image not valid: ' . $imagePath, ['app' => 'core']);
+					return false;
+				}
+				$imageType = IMAGETYPE_PNG;
+				$this->logger->debug('Image->loadFromFile, Default', ['app' => 'core']);
+				break;
+		}
+
+		if (!($this->valid())) {
+			return false;
+		}
+		
+		$this->imageType = $imageType;
+		$this->mimeType = image_type_to_mime_type($imageType);
+		$this->filePath = $imagePath;
+
+		return $this->resource;
+	}
+
 	#[\Override]
 	public function loadFromData(string $str): GdImage|false {
 		if (!$this->checkImageDataSize($str)) {
 			return false;
 		}
+
 		$this->resource = @imagecreatefromstring($str);
+		if (!$this->resource || !$this->valid()) {
+			$this->logger->debug('Image->loadFromData, could not load', ['app' => 'core']);
+			return false;
+		}
+
 		if ($this->fileInfo) {
 			$this->mimeType = $this->fileInfo->buffer($str);
 		}
-		if ($this->valid()) {
-			imagealphablending($this->resource, false);
-			imagesavealpha($this->resource, true);
-		}
 
-		if (!$this->resource) {
-			$this->logger->debug('Image->loadFromFile, could not load', ['app' => 'core']);
-			return false;
-		}
+		imagealphablending($this->resource, false);
+		imagesavealpha($this->resource, true);
+
 		return $this->resource;
 	}
 
 	/**
 	 * Loads an image from a base64 encoded string.
 	 *
-	 * @param string $str A string base64 encoded string of image data.
-	 * @return bool|\GdImage An image resource or false on error
+	 * @param string $str A base64 encoded string of image data
+	 * @return \GdImage|false An image resource or false on error
+	 *
+	 * @internal
 	 */
-	public function loadFromBase64(string $str) {
-		$data = base64_decode($str);
-		if ($data) { // try to load from string data
-			if (!$this->checkImageDataSize($data)) {
-				return false;
-			}
-			$this->resource = @imagecreatefromstring($data);
-			if ($this->fileInfo) {
-				$this->mimeType = $this->fileInfo->buffer($data);
-			}
-			if (!$this->resource) {
-				$this->logger->debug('Image->loadFromBase64, could not load', ['app' => 'core']);
-				return false;
-			}
-			return $this->resource;
-		} else {
+	public function loadFromBase64(string $str): GdImage|false {
+		$data = base64_decode($str, true);
+		if ($data === false) {
 			return false;
 		}
+
+		// try to load from string data
+		return $this->loadFromData($data);
 	}
 
-	/**
-	 * Resizes the image preserving ratio.
-	 *
-	 * @param int $maxSize The maximum size of either the width or height.
-	 * @return bool
-	 */
 	#[\Override]
 	public function resize(int $maxSize): bool {
 		if (!$this->valid()) {
 			$this->logger->debug(__METHOD__ . '(): No image loaded', ['app' => 'core']);
 			return false;
 		}
+
 		$result = $this->resizeNew($maxSize);
 		$this->resource = $result;
+
 		return $this->valid();
 	}
 
@@ -863,6 +826,7 @@ class Image implements IImage {
 			$this->logger->debug(__METHOD__ . '(): No image loaded', ['app' => 'core']);
 			return false;
 		}
+
 		$widthOrig = imagesx($this->resource);
 		$heightOrig = imagesy($this->resource);
 		$ratioOrig = $widthOrig / $heightOrig;
@@ -878,31 +842,33 @@ class Image implements IImage {
 		return $this->preciseResizeNew((int)round($newWidth), (int)round($newHeight));
 	}
 
-	/**
-	 * @param int $width
-	 * @param int $height
-	 * @return bool
-	 */
 	#[\Override]
 	public function preciseResize(int $width, int $height): bool {
 		if (!$this->valid()) {
 			$this->logger->debug(__METHOD__ . '(): No image loaded', ['app' => 'core']);
 			return false;
 		}
+
 		$result = $this->preciseResizeNew($width, $height);
 		$this->resource = $result;
+
 		return $this->valid();
 	}
 
+	/**
+	 * @internal
+	 */
 	public function preciseResizeNew(int $width, int $height): \GdImage|false {
 		if (!($width > 0) || !($height > 0)) {
 			$this->logger->info(__METHOD__ . '(): Requested image size not bigger than 0', ['app' => 'core']);
 			return false;
 		}
+
 		if (!$this->valid()) {
 			$this->logger->debug(__METHOD__ . '(): No image loaded', ['app' => 'core']);
 			return false;
 		}
+
 		$widthOrig = imagesx($this->resource);
 		$heightOrig = imagesy($this->resource);
 		$process = imagecreatetruecolor($width, $height);
@@ -927,29 +893,25 @@ class Image implements IImage {
 			$this->logger->debug(__METHOD__ . '(): Error re-sampling process image', ['app' => 'core']);
 			return false;
 		}
+
 		return $process;
 	}
 
-	/**
-	 * Crops the image to the middle square. If the image is already square it just returns.
-	 *
-	 * @param int $size maximum size for the result (optional)
-	 * @return bool for success or failure
-	 */
 	#[\Override]
 	public function centerCrop(int $size = 0): bool {
 		if (!$this->valid()) {
 			$this->logger->debug('Image->centerCrop, No image loaded', ['app' => 'core']);
 			return false;
 		}
+
 		$widthOrig = imagesx($this->resource);
 		$heightOrig = imagesy($this->resource);
 		if ($widthOrig === $heightOrig && $size == 0) {
 			return true;
 		}
+
 		$ratioOrig = $widthOrig / $heightOrig;
 		$width = $height = min($widthOrig, $heightOrig);
-
 		if ($ratioOrig > 1) {
 			$x = (int)(($widthOrig / 2) - ($width / 2));
 			$y = 0;
@@ -957,6 +919,7 @@ class Image implements IImage {
 			$y = (int)(($heightOrig / 2) - ($height / 2));
 			$x = 0;
 		}
+
 		if ($size > 0) {
 			$targetWidth = $size;
 			$targetHeight = $size;
@@ -987,43 +950,43 @@ class Image implements IImage {
 			return false;
 		}
 		$this->resource = $process;
+
 		return true;
 	}
 
-	/**
-	 * Crops the image from point $x$y with dimension $wx$h.
-	 *
-	 * @param int $x Horizontal position
-	 * @param int $y Vertical position
-	 * @param int $w Width
-	 * @param int $h Height
-	 * @return bool for success or failure
-	 */
 	#[\Override]
 	public function crop(int $x, int $y, int $w, int $h): bool {
 		if (!$this->valid()) {
 			$this->logger->debug(__METHOD__ . '(): No image loaded', ['app' => 'core']);
 			return false;
 		}
+
 		$result = $this->cropNew($x, $y, $w, $h);
 		$this->resource = $result;
+
 		return $this->valid();
 	}
 
 	/**
-	 * Crops the image from point $x$y with dimension $wx$h.
+	 * Creates and returns a new raw GD image containing the cropped region
+	 * from the currently loaded image.
 	 *
-	 * @param int $x Horizontal position
-	 * @param int $y Vertical position
-	 * @param int $w Width
-	 * @param int $h Height
-	 * @return \GdImage|false
+	 * Does not mutate the current image.
+	 *
+	 * @param int $x Horizontal position of the top-left corner of the crop area within the current image
+	 * @param int $y Vertical position of the top-left corner of the crop area within the current image
+	 * @param int $w Width of the cropped area
+	 * @param int $h Height of the cropped area
+	 * @return GdImage|false A new cropped image, or false on failure
+	 *
+	 * @internal
 	 */
-	public function cropNew(int $x, int $y, int $w, int $h) {
+	public function cropNew(int $x, int $y, int $w, int $h): GdImage|false {
 		if (!$this->valid()) {
 			$this->logger->debug(__METHOD__ . '(): No image loaded', ['app' => 'core']);
 			return false;
 		}
+
 		$process = imagecreatetruecolor($w, $h);
 		if ($process === false) {
 			$this->logger->debug(__METHOD__ . '(): Error creating true color image', ['app' => 'core']);
@@ -1046,24 +1009,17 @@ class Image implements IImage {
 			$this->logger->debug(__METHOD__ . '(): Error re-sampling process image ' . $w . 'x' . $h, ['app' => 'core']);
 			return false;
 		}
+
 		return $process;
 	}
 
-	/**
-	 * Resizes the image to fit within a boundary while preserving ratio.
-	 *
-	 * Warning: Images smaller than $maxWidth x $maxHeight will end up being scaled up
-	 *
-	 * @param int $maxWidth
-	 * @param int $maxHeight
-	 * @return bool
-	 */
 	#[\Override]
 	public function fitIn(int $maxWidth, int $maxHeight): bool {
 		if (!$this->valid()) {
 			$this->logger->debug(__METHOD__ . '(): No image loaded', ['app' => 'core']);
 			return false;
 		}
+
 		$widthOrig = imagesx($this->resource);
 		$heightOrig = imagesy($this->resource);
 		$ratio = $widthOrig / $heightOrig;
@@ -1072,22 +1028,17 @@ class Image implements IImage {
 		$newHeight = min($maxHeight, $maxWidth / $ratio);
 
 		$this->preciseResize((int)round($newWidth), (int)round($newHeight));
+
 		return true;
 	}
 
-	/**
-	 * Shrinks larger images to fit within specified boundaries while preserving ratio.
-	 *
-	 * @param int $maxWidth
-	 * @param int $maxHeight
-	 * @return bool
-	 */
 	#[\Override]
 	public function scaleDownToFit(int $maxWidth, int $maxHeight): bool {
 		if (!$this->valid()) {
 			$this->logger->debug(__METHOD__ . '(): No image loaded', ['app' => 'core']);
 			return false;
 		}
+
 		$widthOrig = imagesx($this->resource);
 		$heightOrig = imagesy($this->resource);
 
@@ -1101,15 +1052,18 @@ class Image implements IImage {
 	#[\Override]
 	public function copy(): IImage {
 		$image = new self($this->logger, $this->appConfig, $this->config);
+
 		if (!$this->valid()) {
 			/* image is invalid, return an empty one */
 			return $image;
 		}
+
 		$image->resource = imagecreatetruecolor($this->width(), $this->height());
 		if (!$image->valid()) {
 			/* image creation failed, cannot copy in it */
 			return $image;
 		}
+
 		imagecopy(
 			$image->resource,
 			$this->resource,
@@ -1174,10 +1128,11 @@ if (!function_exists('exif_imagetype')) {
 	 * @param string $fileName
 	 * @return int|false
 	 */
-	function exif_imagetype(string $fileName) {
+	function exif_imagetype(string $fileName): int|false {
 		if (($info = getimagesize($fileName)) !== false) {
 			return $info[2];
 		}
+
 		return false;
 	}
 }
