@@ -8,6 +8,7 @@
 
 namespace OCA\Provisioning_API\Tests\Controller;
 
+use OC\Group\DisplayNameCache as GroupDisplayNameCache;
 use OC\Group\Manager;
 use OCA\Provisioning_API\Controller\GroupsController;
 use OCP\Accounts\IAccountManager;
@@ -37,6 +38,7 @@ class GroupsControllerTest extends \Test\TestCase {
 	protected IFactory&MockObject $l10nFactory;
 	protected LoggerInterface&MockObject $logger;
 	protected GroupsController&MockObject $api;
+	private GroupDisplayNameCache&MockObject $groupDisplayNameCache;
 
 	private IRootFolder $rootFolder;
 
@@ -53,6 +55,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
+		$this->groupDisplayNameCache = $this->createMock(GroupDisplayNameCache::class);
 
 		$this->groupManager
 			->method('getSubAdmin')
@@ -70,7 +73,8 @@ class GroupsControllerTest extends \Test\TestCase {
 				$this->subAdminManager,
 				$this->l10nFactory,
 				$this->rootFolder,
-				$this->logger
+				$this->logger,
+				$this->groupDisplayNameCache,
 			])
 			->onlyMethods(['fillStorageInfo'])
 			->getMock();
@@ -490,7 +494,18 @@ class GroupsControllerTest extends \Test\TestCase {
 			->method('getSubAdminsGroups')
 			->willReturn([]);
 
-		$this->api->getGroupUsersDetails($gid);
+		$this->groupDisplayNameCache
+			->method('getDisplayName')
+			->with('ncg1')
+			->willReturn('Group One');
+
+		$result = $this->api->getGroupUsersDetails($gid);
+
+		$data = $result->getData();
+		$this->assertSame(['ncu1'], array_keys($data['users']));
+		$this->assertEquals([
+			['id' => 'ncg1', 'displayname' => 'Group One'],
+		], $data['groups']);
 	}
 
 	public function testGetGroupUsersDetailsEncoded(): void {
@@ -534,6 +549,17 @@ class GroupsControllerTest extends \Test\TestCase {
 			->method('getSubAdminsGroups')
 			->willReturn([]);
 
-		$this->api->getGroupUsersDetails(urlencode($gid));
+		$this->groupDisplayNameCache
+			->method('getDisplayName')
+			->with('Department A/B C/D')
+			->willReturn('Department A/B C/D-name');
+
+		$result = $this->api->getGroupUsersDetails(urlencode($gid));
+
+		$data = $result->getData();
+		$this->assertSame(['ncu1'], array_keys($data['users']));
+		$this->assertEquals([
+			['id' => 'Department A/B C/D', 'displayname' => 'Department A/B C/D-name'],
+		], $data['groups']);
 	}
 }

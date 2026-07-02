@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\Provisioning_API\Controller;
 
+use OC\Group\DisplayNameCache as GroupDisplayNameCache;
 use OC\Group\Manager as GroupManager;
 use OC\User\Backend;
 use OCA\Provisioning_API\ResponseDefinitions;
@@ -36,6 +37,7 @@ use OCP\Util;
 
 /**
  * @psalm-import-type Provisioning_APIUserDetails from ResponseDefinitions
+ * @psalm-import-type Provisioning_APIUserDetailsGroupDisplayname from ResponseDefinitions
  * @psalm-import-type Provisioning_APIUserDetailsQuota from ResponseDefinitions
  */
 abstract class AUserDataOCSController extends OCSController {
@@ -62,6 +64,7 @@ abstract class AUserDataOCSController extends OCSController {
 		protected ISubAdmin $subAdminManager,
 		protected IFactory $l10nFactory,
 		protected IRootFolder $rootFolder,
+		private GroupDisplayNameCache $groupDisplayNameCache,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -251,6 +254,35 @@ abstract class AUserDataOCSController extends OCSController {
 		}
 
 		return $groups;
+	}
+
+	/**
+	 * A full group has id, name, usercount, disabled, canAdd and canRemove. Only
+	 * the displayname is cached; usercount/disabled are not cached. So this only
+	 * returns an {id, displayname} skeleton instead of the full group.
+	 *
+	 * @param array<string, Provisioning_APIUserDetails|array{id: string}> $userDetails
+	 * @return list<Provisioning_APIUserDetailsGroupDisplayname>
+	 */
+	protected function findGroupsWithDisplayname(array $userDetails): array {
+		$groupIds = [];
+
+		foreach ($userDetails as $userDetail) {
+			if (isset($userDetail['groups'])) {
+				array_push($groupIds, ...array_values($userDetail['groups']));
+			}
+			if (isset($userDetail['subadmin'])) {
+				array_push($groupIds, ...array_values($userDetail['subadmin']));
+			}
+		}
+
+		$groupIds = array_unique($groupIds);
+		sort($groupIds);
+
+		return array_map(function ($groupId) {
+			$displayname = $this->groupDisplayNameCache->getDisplayName($groupId) ?? $groupId;
+			return ['id' => $groupId, 'displayname' => $displayname];
+		}, $groupIds);
 	}
 
 	/**

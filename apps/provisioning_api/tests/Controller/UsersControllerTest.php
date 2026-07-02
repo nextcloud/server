@@ -10,6 +10,7 @@ namespace OCA\Provisioning_API\Tests\Controller;
 
 use Exception;
 use OC\Authentication\Token\RemoteWipe;
+use OC\Group\DisplayNameCache as GroupDisplayNameCache;
 use OC\Group\Manager;
 use OC\KnownUser\KnownUserService;
 use OC\PhoneNumberUtil;
@@ -70,6 +71,7 @@ class UsersControllerTest extends TestCase {
 	private IPhoneNumberUtil $phoneNumberUtil;
 	private IAppManager $appManager;
 	private IAppConfig&MockObject $appConfig;
+	private GroupDisplayNameCache&MockObject $groupDisplayNameCache;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -93,6 +95,7 @@ class UsersControllerTest extends TestCase {
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
+		$this->groupDisplayNameCache = $this->createMock(GroupDisplayNameCache::class);
 
 		$l10n = $this->createMock(IL10N::class);
 		$l10n->method('t')->willReturnCallback(fn (string $txt, array $replacement = []) => sprintf($txt, ...$replacement));
@@ -120,6 +123,7 @@ class UsersControllerTest extends TestCase {
 				$this->phoneNumberUtil,
 				$this->appManager,
 				$this->appConfig,
+				$this->groupDisplayNameCache,
 			])
 			->onlyMethods(['fillStorageInfo'])
 			->getMock();
@@ -214,6 +218,87 @@ class UsersControllerTest extends TestCase {
 			],
 		];
 		$this->assertEquals($expected, $this->api->getUsers('MyCustomSearch')->getData());
+	}
+
+	public function testGetUsersDetailsReturnsEmptyGroupsList(): void {
+		$loggedInUser = $this->getMockBuilder(IUser::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$loggedInUser
+			->expects($this->once())
+			->method('getUID')
+			->willReturn('admin');
+
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->willReturn($loggedInUser);
+
+		$this->groupManager
+			->expects($this->once())
+			->method('getSubAdmin')
+			->willReturn($this->subAdminManager);
+		$this->groupManager
+			->expects($this->once())
+			->method('isAdmin')
+			->with('admin')
+			->willReturn(true);
+		$this->groupManager
+			->expects($this->once())
+			->method('isDelegatedAdmin')
+			->with('admin')
+			->willReturn(false);
+
+		$this->userManager
+			->expects($this->once())
+			->method('search')
+			->with('MyCustomSearch', 3, 0)
+			->willReturn(['UID' => []]);
+
+		$api = $this->getMockBuilder(UsersController::class)
+			->setConstructorArgs([
+				'provisioning_api',
+				$this->request,
+				$this->userManager,
+				$this->config,
+				$this->groupManager,
+				$this->userSession,
+				$this->accountManager,
+				$this->subAdminManager,
+				$this->l10nFactory,
+				$this->rootFolder,
+				$this->urlGenerator,
+				$this->logger,
+				$this->newUserMailHelper,
+				$this->secureRandom,
+				$this->remoteWipe,
+				$this->knownUserService,
+				$this->eventDispatcher,
+				$this->phoneNumberUtil,
+				$this->appManager,
+				$this->appConfig,
+				$this->groupDisplayNameCache,
+			])
+			->onlyMethods(['getUserData'])
+			->getMock();
+
+		$api->expects($this->once())
+			->method('getUserData')
+			->with('UID')
+			->willReturn([
+				'id' => 'UID',
+				'groups' => [],
+			]);
+
+		$this->assertEquals([
+			'users' => [
+				'UID' => [
+					'id' => 'UID',
+					'groups' => [],
+				],
+			],
+			'groups' => [],
+		], $api->getUsersDetails('MyCustomSearch', 3)->getData());
 	}
 
 	private function createUserMock(string $uid, bool $enabled): MockObject&IUser {
@@ -506,6 +591,7 @@ class UsersControllerTest extends TestCase {
 				$this->phoneNumberUtil,
 				$this->appManager,
 				$this->appConfig,
+				$this->groupDisplayNameCache,
 			])
 			->onlyMethods(['editUser'])
 			->getMock();
@@ -1120,18 +1206,23 @@ class UsersControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getSubAdminsGroups')
 			->willReturn([$group3]);
-		$group0->expects($this->once())
+		$group0->expects($this->exactly(1))
 			->method('getGID')
 			->willReturn('group0');
-		$group1->expects($this->once())
+		$group1->expects($this->exactly(1))
 			->method('getGID')
 			->willReturn('group1');
-		$group2->expects($this->once())
+		$group2->expects($this->exactly(1))
 			->method('getGID')
 			->willReturn('group2');
 		$group3->expects($this->once())
 			->method('getGID')
 			->willReturn('group3');
+		$this->groupDisplayNameCache
+			->method('getDisplayName')
+			->willReturnCallback(function (string $gid): string {
+				return ucfirst($gid);
+			});
 
 		$this->mockAccount($targetUser, [
 			IAccountManager::PROPERTY_ADDRESS => ['value' => 'address'],
@@ -4101,6 +4192,7 @@ class UsersControllerTest extends TestCase {
 				$this->phoneNumberUtil,
 				$this->appManager,
 				$this->appConfig,
+				$this->groupDisplayNameCache,
 			])
 			->onlyMethods(['getUserData'])
 			->getMock();
@@ -4194,6 +4286,7 @@ class UsersControllerTest extends TestCase {
 				$this->phoneNumberUtil,
 				$this->appManager,
 				$this->appConfig,
+				$this->groupDisplayNameCache,
 			])
 			->onlyMethods(['getUserData'])
 			->getMock();
