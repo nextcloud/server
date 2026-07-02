@@ -86,10 +86,10 @@ abstract class Backend extends \Test\TestCase {
 	}
 
 	public function testSearch(): void {
-		$name1 = 'foobarbaz';
-		$name2 = 'bazbarfoo';
-		$name3 = 'notme';
-		$name4 = 'under_score';
+		$name1 = $this->getUser() . 'foobarbaz';
+		$name2 = $this->getUser() . 'bazbarfoo';
+		$name3 = $this->getUser() . 'notme';
+		$name4 = $this->getUser() . 'under_score';
 
 		$this->backend->createUser($name1, 'pass1');
 		$this->backend->createUser($name2, 'pass2');
