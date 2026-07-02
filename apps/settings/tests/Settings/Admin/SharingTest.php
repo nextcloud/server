@@ -72,6 +72,7 @@ class SharingTest extends TestCase {
 				['core', 'shareapi_exclude_groups_list', '', ''],
 				['core', 'shareapi_allow_links_exclude_groups', '', ''],
 				['core', 'shareapi_allow_group_sharing', 'yes', 'yes'],
+				['core', 'shareapi_groups_block_list', '[]', '[]'],
 				['core', 'shareapi_allow_links', 'yes', 'yes'],
 				['core', 'shareapi_allow_public_upload', 'yes', 'yes'],
 				['core', 'shareapi_allow_resharing', 'yes', 'yes'],
@@ -115,6 +116,7 @@ class SharingTest extends TestCase {
 			'sharingDocumentation' => '',
 			'sharingSettings' => [
 				'allowGroupSharing' => true,
+				'groupsBlockList' => [],
 				'allowLinks' => true,
 				'allowPublicUpload' => true,
 				'allowResharing' => true,
@@ -169,6 +171,7 @@ class SharingTest extends TestCase {
 				['core', 'shareapi_exclude_groups_list', '', '["NoSharers","OtherNoSharers"]'],
 				['core', 'shareapi_allow_links_exclude_groups', '', ''],
 				['core', 'shareapi_allow_group_sharing', 'yes', 'yes'],
+				['core', 'shareapi_groups_block_list', '[]', '[]'],
 				['core', 'shareapi_allow_links', 'yes', 'yes'],
 				['core', 'shareapi_allow_public_upload', 'yes', 'yes'],
 				['core', 'shareapi_allow_resharing', 'yes', 'yes'],
@@ -215,6 +218,7 @@ class SharingTest extends TestCase {
 			'sharingDocumentation' => '',
 			'sharingSettings' => [
 				'allowGroupSharing' => true,
+				'groupsBlockList' => [],
 				'allowLinks' => true,
 				'allowPublicUpload' => true,
 				'allowResharing' => true,
