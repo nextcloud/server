@@ -37,6 +37,7 @@ class ConfigLexicon implements ILexicon {
 				defaultRaw: true,
 				definition: 'Whether to not expose the system address book to users',
 				lazy: true,
+				options: Entry::ENFORCE_VALUE_TYPE
 			),
 		];
 	}
