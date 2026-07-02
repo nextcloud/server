@@ -98,8 +98,7 @@ class MountPublicLinkController extends Controller {
 		$authenticated = in_array($share->getId(), $allowedShareIds)
 			|| $this->shareManager->checkPassword($share, $password);
 
-		$storedPassword = $share->getPassword();
-		if (!empty($storedPassword) && !$authenticated) {
+		if ($share->isPasswordProtected() && !$authenticated) {
 			$response = new JSONResponse(
 				['message' => 'No permission to access the share'],
 				Http::STATUS_BAD_REQUEST
