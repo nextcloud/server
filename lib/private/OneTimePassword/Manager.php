@@ -179,4 +179,15 @@ class Manager implements IManager {
 		}
 		return $valid;
 	}
+
+	/**
+	 * @inheritdoc
+	 * @throws Exception
+	 */
+	public function deleteOTP(int $otpId): void {
+		$qb = $this->connection->getQueryBuilder();
+		$qb->delete('one_time_password')
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($otpId)))
+			->executeStatement();
+	}
 }

@@ -81,4 +81,12 @@ interface IManager {
 	 * @return IOneTimePassword
 	 */
 	public function getOTP(int $otpId): IOneTimePassword;
+
+	/**
+	 * delete OTP from DB
+	 *
+	 * @param int $otpId
+	 * @return void
+	 */
+	public function deleteOTP(int $otpId): void;
 }

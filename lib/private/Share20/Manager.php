@@ -842,6 +842,13 @@ class Manager implements IManager {
 			$share = $provider->update($share);
 		}
 
+		$originalOTP = $originalShare->getOneTimePassword();
+		if ($originalOTP !== null
+			&& ($share->getOneTimePassword() === null
+				|| $originalOTP->getId() !== $share->getOneTimePassword()->getId())) {
+			$this->otpManager->deleteOTP($originalOTP->getId());
+		}
+
 		if ($expirationDateUpdated === true) {
 			\OC_Hook::emit(Share::class, 'post_set_expiration_date', [
 				'itemType' => $share->getNode() instanceof File ? 'file' : 'folder',
@@ -980,7 +987,11 @@ class Manager implements IManager {
 			$deletedChildren = $this->deleteChildren($child);
 			$deletedShares = array_merge($deletedShares, $deletedChildren);
 
+			$deleteOtpId = $child->getOneTimePassword()?->getId();
 			$provider->delete($child);
+			if ($deleteOtpId !== null) {
+				$this->otpManager->deleteOTP($deleteOtpId);
+			}
 			$this->dispatchEvent(new ShareDeletedEvent($child), 'share deleted');
 			$deletedShares[] = $child;
 		}
@@ -1132,7 +1143,11 @@ class Manager implements IManager {
 
 		// Do the actual delete
 		$provider = $this->factory->getProviderForType($share->getShareType());
+		$deleteOtpId = $share->getOneTimePassword()?->getId();
 		$provider->delete($share);
+		if ($deleteOtpId !== null) {
+			$this->otpManager->deleteOTP($deleteOtpId);
+		}
 
 		$this->dispatchEvent(new ShareDeletedEvent($share), 'share deleted');
 
