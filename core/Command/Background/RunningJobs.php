@@ -32,7 +32,7 @@ final class RunningJobs extends Base {
 		$help = <<<EOF
 			Display all currently running background jobs.
 
-			You can find the following informations:
+			The output includes:
 			  - <info>Run ID:</info> job identifier a found in database (Snowflake ID)
 			  - <info>Class:</info> class of the job
 			  - <info>Started at:</info> start time of the job
