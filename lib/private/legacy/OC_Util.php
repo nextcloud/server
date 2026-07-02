@@ -21,7 +21,6 @@ use OCP\HintException;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IRequest;
-use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -260,8 +259,9 @@ class OC_Util {
 	 *
 	 * @return array arrays with error messages and hints
 	 */
-	public static function checkServer(SystemConfig $config) {
-		$l = \OCP\Server::get(IFactory::class)->get('lib');
+	public static function checkServer(SystemConfig $config): array {
+		$l = Server::get(IFactory::class)->get('lib');
+		$localCache = Server::get(\OCP\ICacheFactory::class)->createLocal('system');
 		$errors = [];
 		$CONFIG_DATADIRECTORY = $config->getValue('datadirectory', OC::$SERVERROOT . '/data');
 
@@ -270,8 +270,8 @@ class OC_Util {
 			$errors = self::checkDataDirectoryValidity($CONFIG_DATADIRECTORY);
 		}
 
-		// Assume that if checkServer() succeeded before in this session, then all is fine.
-		if (Server::get(ISession::class)->exists('checkServer_succeeded') && Server::get(ISession::class)->get('checkServer_succeeded')) {
+		// Skip re-evaluation if everything is fine
+		if ($localCache->get('checkServer_succeeded') === true) {
 			return $errors;
 		}
 
@@ -447,8 +447,8 @@ class OC_Util {
 			}
 		}
 
-		// Cache the result of this function
-		Server::get(ISession::class)->set('checkServer_succeeded', count($errors) == 0);
+		// Cache the result of this function for an hour
+		$localCache->set('checkServer_succeeded', $errors === [], 3600);
 
 		return $errors;
 	}
