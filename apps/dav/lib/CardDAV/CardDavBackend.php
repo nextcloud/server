@@ -20,6 +20,7 @@ use OCA\DAV\Events\CardCreatedEvent;
 use OCA\DAV\Events\CardDeletedEvent;
 use OCA\DAV\Events\CardMovedEvent;
 use OCA\DAV\Events\CardUpdatedEvent;
+use OCA\DAV\Exception\UidConflict;
 use OCP\AppFramework\Db\TTransactional;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -546,6 +547,37 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	}
 
 	/**
+	 * Returns a card that already has a given UID in an address book collection.
+	 *
+	 * @param int $addressBookId
+	 * @param string $uid
+	 * @return array|null The existing card, or null when the UID is free
+	 */
+	public function getCardByUid(int $addressBookId, string $uid): ?array {
+		$q = $this->db->getQueryBuilder();
+		$q->select('*')
+			->from($this->dbCardsTable)
+			->where($q->expr()->eq('addressbookid', $q->createNamedParameter($addressBookId, IQueryBuilder::PARAM_INT)))
+			->andWhere($q->expr()->eq('uid', $q->createNamedParameter($uid, IQueryBuilder::PARAM_STR)))
+			->setMaxResults(1);
+		$result = $q->executeQuery();
+		$row = $result->fetchAssociative();
+		$result->closeCursor();
+		if ($row === false) {
+			return null;
+		}
+
+		$row['etag'] = '"' . $row['etag'] . '"';
+		$modified = false;
+		$row['carddata'] = $this->readBlob($row['carddata'], $modified);
+		if ($modified) {
+			$row['size'] = strlen($row['carddata']);
+		}
+
+		return $row;
+	}
+
+	/**
 	 * Returns a list of cards.
 	 *
 	 * This method should work identical to getCard, but instead return all the
@@ -615,26 +647,20 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param mixed $addressBookId
 	 * @param string $cardUri
 	 * @param string $cardData
-	 * @param bool $checkAlreadyExists
+	 * @param bool $checkUidConflict
 	 * @return string
 	 */
 	#[\Override]
-	public function createCard($addressBookId, $cardUri, $cardData, bool $checkAlreadyExists = true) {
+	public function createCard($addressBookId, $cardUri, $cardData, bool $checkUidConflict = true) {
 		$etag = md5($cardData);
 		$uid = $this->getUID($cardData);
-		return $this->atomic(function () use ($addressBookId, $cardUri, $cardData, $checkAlreadyExists, $etag, $uid) {
-			if ($checkAlreadyExists) {
-				$q = $this->db->getQueryBuilder();
-				$q->select('uid')
-					->from($this->dbCardsTable)
-					->where($q->expr()->eq('addressbookid', $q->createNamedParameter($addressBookId)))
-					->andWhere($q->expr()->eq('uid', $q->createNamedParameter($uid)))
-					->setMaxResults(1);
-				$result = $q->executeQuery();
-				$count = (bool)$result->fetchOne();
-				$result->closeCursor();
-				if ($count) {
-					throw new \Sabre\DAV\Exception\BadRequest('VCard object with uid already exists in this addressbook collection.');
+		return $this->atomic(function () use ($addressBookId, $cardUri, $cardData, $checkUidConflict, $etag, $uid) {
+			// Try to detect duplicate uids in the target collection
+			if ($checkUidConflict) {
+				$existing = $this->getCardByUid($addressBookId, $uid);
+				if ($existing !== null) {
+					// RFC 6352 no-uid-conflict (409) reporting the existing object's href.
+					throw UidConflict::forAddressBook($existing['uri']);
 				}
 			}
 
@@ -738,6 +764,12 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				return false;
 			}
 			$sourceObjectId = (int)$card['id'];
+
+			// Try to detect duplicate uids in the target collection
+			$existing = $this->getCardByUid($targetAddressBookId, $card['uid']);
+			if ($existing !== null) {
+				throw UidConflict::forAddressBook($existing['uri']);
+			}
 
 			$query = $this->db->getQueryBuilder();
 			$query->update('cards')
