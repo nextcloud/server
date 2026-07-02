@@ -151,7 +151,7 @@ class Manager implements IManager {
 	 * @inheritdoc
 	 */
 	public function getOTPProviderById(string $providerId): IOneTimePasswordProvider {
-		$event = new GetOneTimePasswordProvidersEvent($this->logger, $providerId);
+		$event = new GetOneTimePasswordProvidersEvent($providerId);
 		$this->dispatcher->dispatchTyped($event);
 		$providers = $event->getProviders();
 		if (sizeof($providers) == 0) {
