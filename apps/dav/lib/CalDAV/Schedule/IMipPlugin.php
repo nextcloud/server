@@ -151,7 +151,14 @@ class IMipPlugin extends SabreIMipPlugin {
 		$vEvent = array_pop($modified['new']);
 		/** @var VEvent $oldVevent */
 		$oldVevent = !empty($modified['old']) && is_array($modified['old']) ? array_pop($modified['old']) : null;
-		$isModified = isset($oldVevent);
+		// Treat as a modification (use "updated" wording) if either:
+		// - the EventComparisonService matched an old VEvent, or
+		// - the old VCalendar already contains a VEvent with the same UID (e.g. a
+		//   single-occurrence move adds a brand-new override with no old counterpart,
+		//   but the series itself is not new to the attendee).
+		$isExistingSeries = $oldEvents !== null && isset($vEvent->UID)
+			&& $this->imipService->findMasterEvent($oldEvents, (string)$vEvent->UID) !== null;
+		$isModified = isset($oldVevent) || $isExistingSeries;
 
 		// No changed events after all - this shouldn't happen if there is significant change yet here we are
 		// The scheduling status is debatable
@@ -212,7 +219,7 @@ class IMipPlugin extends SabreIMipPlugin {
 				break;
 			default:
 				$method = self::METHOD_REQUEST;
-				$data = $this->imipService->buildBodyData($vEvent, $oldVevent);
+				$data = $this->imipService->buildBodyData($vEvent, $oldVevent, $newEvents, $oldEvents);
 				break;
 		}
 

@@ -152,9 +152,11 @@ class IMipService {
 	/**
 	 * @param VEvent $vEvent
 	 * @param VEvent|null $oldVEvent
+	 * @param VCalendar|null $newVCalendar full new VCalendar, used to find sibling overrides/EXDATEs
+	 * @param VCalendar|null $oldVCalendar full old VCalendar, used to diff EXDATEs and overrides
 	 * @return array
 	 */
-	public function buildBodyData(VEvent $vEvent, ?VEvent $oldVEvent): array {
+	public function buildBodyData(VEvent $vEvent, ?VEvent $oldVEvent, ?VCalendar $newVCalendar = null, ?VCalendar $oldVCalendar = null): array {
 		// construct event reader
 		$eventReaderCurrent = new EventReader($vEvent);
 		$eventReaderPrevious = !empty($oldVEvent) ? new EventReader($oldVEvent) : null;
@@ -191,7 +193,193 @@ class IMipService {
 		if ($eventReaderCurrent->recurs()) {
 			$data['meeting_occurring'] = $this->generateOccurringString($eventReaderCurrent);
 		}
+		// detect canceled / moved occurrences using full VCalendar context
+		if ($newVCalendar !== null && isset($vEvent->UID)) {
+			$changes = $this->detectRecurrenceChanges((string)$vEvent->UID, $newVCalendar, $oldVCalendar);
+			if (!empty($changes['canceled'])) {
+				$data['meeting_canceled_occurrences'] = $changes['canceled'];
+			}
+			if (!empty($changes['moved'])) {
+				$data['meeting_moved_occurrences'] = $changes['moved'];
+			}
+		}
 		return $data;
+	}
+
+	/**
+	 * Find the master VEvent (the one without RECURRENCE-ID) for the given UID.
+	 */
+	public function findMasterEvent(VCalendar $vCalendar, string $uid): ?VEvent {
+		foreach ($vCalendar->getComponents() as $component) {
+			if (!$component instanceof VEvent) {
+				continue;
+			}
+			if (!isset($component->UID) || (string)$component->UID !== $uid) {
+				continue;
+			}
+			if (!isset($component->{'RECURRENCE-ID'})) {
+				return $component;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Find all override VEvents (those with RECURRENCE-ID) for the given UID,
+	 * keyed by the RECURRENCE-ID timestamp.
+	 *
+	 * @return array<int, VEvent>
+	 */
+	private function findOverrideEvents(VCalendar $vCalendar, string $uid): array {
+		$result = [];
+		foreach ($vCalendar->getComponents() as $component) {
+			if (!$component instanceof VEvent) {
+				continue;
+			}
+			if (!isset($component->UID) || (string)$component->UID !== $uid) {
+				continue;
+			}
+			if (!isset($component->{'RECURRENCE-ID'})) {
+				continue;
+			}
+			/** @var Property\ICalendar\DateTime $recId */
+			$recId = $component->{'RECURRENCE-ID'};
+			$ts = $recId->getDateTime()->getTimestamp();
+			$result[$ts] = $component;
+		}
+		return $result;
+	}
+
+	/**
+	 * Collect EXDATE values from a master VEvent, keyed by timestamp.
+	 *
+	 * @return array<int, \DateTimeInterface>
+	 */
+	private function collectExdates(VEvent $master): array {
+		$result = [];
+		if (!isset($master->EXDATE)) {
+			return $result;
+		}
+		foreach ($master->EXDATE as $property) {
+			/** @var Property\ICalendar\DateTime $property */
+			foreach ($property->getDateTimes() as $dt) {
+				$result[$dt->getTimestamp()] = $dt;
+			}
+		}
+		return $result;
+	}
+
+	/**
+	 * Build human-readable strings for newly-canceled and newly-moved occurrences
+	 * by diffing the new VCalendar against the old one.
+	 *
+	 * @return array{canceled: string[], moved: string[]}
+	 */
+	private function detectRecurrenceChanges(string $uid, VCalendar $newVCal, ?VCalendar $oldVCal): array {
+		$newMaster = $this->findMasterEvent($newVCal, $uid);
+		$oldMaster = $oldVCal !== null ? $this->findMasterEvent($oldVCal, $uid) : null;
+		$newOverrides = $this->findOverrideEvents($newVCal, $uid);
+		$oldOverrides = $oldVCal !== null ? $this->findOverrideEvents($oldVCal, $uid) : [];
+
+		// entire-day-ness comes from the master (or, as a fallback, the first new override)
+		$entireDay = false;
+		if ($newMaster !== null && isset($newMaster->DTSTART)) {
+			/** @var Property\ICalendar\DateTime $masterStart */
+			$masterStart = $newMaster->DTSTART;
+			$entireDay = !$masterStart->hasTime();
+		} elseif (!empty($newOverrides)) {
+			$firstOverride = reset($newOverrides);
+			if (isset($firstOverride->DTSTART)) {
+				/** @var Property\ICalendar\DateTime $firstStart */
+				$firstStart = $firstOverride->DTSTART;
+				$entireDay = !$firstStart->hasTime();
+			}
+		}
+
+		$newExdates = $newMaster !== null ? $this->collectExdates($newMaster) : [];
+		$oldExdates = $oldMaster !== null ? $this->collectExdates($oldMaster) : [];
+
+		$canceled = [];
+		foreach ($newExdates as $ts => $dt) {
+			if (isset($oldExdates[$ts])) {
+				continue; // already excluded previously
+			}
+			if (isset($newOverrides[$ts])) {
+				continue; // matched by an override -> treated as a move below
+			}
+			$canceled[] = $this->formatCanceledOccurrence($dt, $entireDay);
+		}
+
+		$moved = [];
+		foreach ($newOverrides as $ts => $override) {
+			if (!isset($override->DTSTART) || !isset($override->{'RECURRENCE-ID'})) {
+				continue;
+			}
+			/** @var Property\ICalendar\DateTime $overrideStart */
+			$overrideStart = $override->DTSTART;
+			/** @var Property\ICalendar\DateTime $overrideRecId */
+			$overrideRecId = $override->{'RECURRENCE-ID'};
+			$newStart = $overrideStart->getDateTime();
+			$originalStart = $overrideRecId->getDateTime();
+			if (isset($oldOverrides[$ts]) && isset($oldOverrides[$ts]->DTSTART)) {
+				/** @var Property\ICalendar\DateTime $oldOverrideStart */
+				$oldOverrideStart = $oldOverrides[$ts]->DTSTART;
+				$oldStart = $oldOverrideStart->getDateTime();
+			} else {
+				$oldStart = $originalStart;
+			}
+			if ($newStart->getTimestamp() === $oldStart->getTimestamp()) {
+				continue; // override exists but DTSTART unchanged
+			}
+			$moved[] = $this->formatMovedOccurrence($oldStart, $newStart, $entireDay);
+		}
+
+		return ['canceled' => $canceled, 'moved' => $moved];
+	}
+
+	private function formatCanceledOccurrence(\DateTimeInterface $dt, bool $entireDay): string {
+		$dt = $this->toMutableDateTime($dt);
+		$date = (string)$this->l10n->l('date', $dt, ['width' => 'full']);
+		if ($entireDay) {
+			return $date;
+		}
+		$time = (string)$this->l10n->l('time', $dt, ['width' => 'short']);
+		// TRANSLATORS: Date and time of a canceled occurrence of a recurring event. Example: "Friday, April 24, 2026 at 15:00"
+		return $this->l10n->t('%1$s at %2$s', [$date, $time]);
+	}
+
+	private function formatMovedOccurrence(\DateTimeInterface $oldDt, \DateTimeInterface $newDt, bool $entireDay): string {
+		$oldDt = $this->toMutableDateTime($oldDt);
+		$newDt = $this->toMutableDateTime($newDt);
+		$oldDate = (string)$this->l10n->l('date', $oldDt, ['width' => 'full']);
+		$newDate = (string)$this->l10n->l('date', $newDt, ['width' => 'full']);
+		if ($entireDay) {
+			if ($oldDate === $newDate) {
+				return $newDate;
+			}
+			// TRANSLATORS: A moved all-day occurrence of a recurring event. Example: "from Friday, April 24, 2026 to Saturday, April 25, 2026"
+			return $this->l10n->t('from %1$s to %2$s', [$oldDate, $newDate]);
+		}
+		$oldTime = (string)$this->l10n->l('time', $oldDt, ['width' => 'short']);
+		$newTime = (string)$this->l10n->l('time', $newDt, ['width' => 'short']);
+		if ($oldDate === $newDate) {
+			// TRANSLATORS: A moved occurrence of a recurring event, same date. Example: "Saturday, April 25, 2026 from 15:00 to 16:00"
+			return $this->l10n->t('%1$s from %2$s to %3$s', [$newDate, $oldTime, $newTime]);
+		}
+		// TRANSLATORS: A moved occurrence of a recurring event across dates. Example: "from Friday, April 24, 2026 15:00 to Saturday, April 25, 2026 16:00"
+		return $this->l10n->t('from %1$s %2$s to %3$s %4$s', [$oldDate, $oldTime, $newDate, $newTime]);
+	}
+
+	/**
+	 * Nextcloud's IL10N::l() only matches \DateTime via instanceof; a \DateTimeImmutable
+	 * (which is what Sabre's getDateTime()/getDateTimes() returns) falls through to the
+	 * numeric branch and gets cast via (int), producing timestamp 1 → epoch 0 dates.
+	 */
+	private function toMutableDateTime(\DateTimeInterface $dt): \DateTime {
+		if ($dt instanceof \DateTime) {
+			return $dt;
+		}
+		return \DateTime::createFromImmutable($dt);
 	}
 
 	/**
@@ -1138,6 +1326,20 @@ class IMipService {
 		if (isset($data['meeting_occurring'])) {
 			$template->addBodyListItem($data['meeting_occurring_html'] ?? htmlspecialchars($data['meeting_occurring']), $this->l10n->t('Occurring:'),
 				$this->getAbsoluteImagePath('caldav/time.png'), $data['meeting_occurring'], '', IMipPlugin::IMIP_INDENT);
+		}
+		if (!empty($data['meeting_canceled_occurrences'])) {
+			$values = $data['meeting_canceled_occurrences'];
+			$html = implode('<br />', array_map('htmlspecialchars', $values));
+			$plain = implode("\n", $values);
+			$template->addBodyListItem($html, $this->l10n->t('Cancelled:'),
+				$this->getAbsoluteImagePath('caldav/time.png'), $plain, '', IMipPlugin::IMIP_INDENT);
+		}
+		if (!empty($data['meeting_moved_occurrences'])) {
+			$values = $data['meeting_moved_occurrences'];
+			$html = implode('<br />', array_map('htmlspecialchars', $values));
+			$plain = implode("\n", $values);
+			$template->addBodyListItem($html, $this->l10n->t('Moved:'),
+				$this->getAbsoluteImagePath('caldav/time.png'), $plain, '', IMipPlugin::IMIP_INDENT);
 		}
 
 		$this->addAttendees($template, $vevent);
