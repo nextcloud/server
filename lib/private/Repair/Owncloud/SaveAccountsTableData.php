@@ -113,7 +113,7 @@ class SaveAccountsTableData implements IRepairStep {
 			->where($update->expr()->eq('uid', $update->createParameter('userid')));
 
 		$updatedUsers = 0;
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			try {
 				$this->migrateUserInfo($update, $row);
 			} catch (PreConditionNotMetException|\UnexpectedValueException) {

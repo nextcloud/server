@@ -69,7 +69,7 @@ class CleanTags implements IRepairStep {
 
 		$users = [];
 		$hadResults = false;
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$hadResults = true;
 			if (!$this->userManager->userExists($row['uid'])) {
 				$users[] = $row['uid'];
@@ -152,7 +152,7 @@ class CleanTags implements IRepairStep {
 		$result = $qb->executeQuery();
 
 		$orphanItems = [];
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$orphanItems[] = (int)$row[$deleteId];
 		}
 

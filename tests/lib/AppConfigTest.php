@@ -149,7 +149,7 @@ class AppConfigTest extends TestCase {
 			]);
 
 		$result = $this->createMock(IResult::class);
-		$result->method('fetchAll')->willReturn([
+		$result->method('fetchAllAssociative')->willReturn([
 			['lazy' => 1, 'appid' => 'appid', 'configkey' => 'lazy-key', 'configvalue' => 'lazy value'],
 		]);
 		$expression = $this->createMock(IExpressionBuilder::class);
