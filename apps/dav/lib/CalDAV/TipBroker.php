@@ -263,6 +263,23 @@ class TipBroker extends Broker {
 	}
 
 	/**
+	 * parseEventInfo() aggregates STATUS with the last parsed component winning,
+	 * so a kept cancelled override would mark the whole event as cancelled and
+	 * suppress the attendee's replies for the remaining occurrences; judge the
+	 * event status by the master instance instead.
+	 *
+	 * @return array<int,Message>
+	 */
+	#[\Override]
+	protected function parseEventForAttendee(VCalendar $calendar, array $eventInfo, array $oldEventInfo, $attendee) {
+		if (isset($eventInfo['instances']['master'])) {
+			$status = $eventInfo['instances']['master']->STATUS?->getValue();
+			$eventInfo['status'] = $status === null ? null : strtoupper($status);
+		}
+		return parent::parseEventForAttendee($calendar, $eventInfo, $oldEventInfo, $attendee);
+	}
+
+	/**
 	 * This method is used in cases where an event got updated, and we
 	 * potentially need to send emails to attendees to let them know of updates
 	 * in the events.
@@ -319,13 +336,11 @@ class TipBroker extends Broker {
 			}
 			return $messages;
 		}
-		// detect if a new cancelled instance was created
-		$cancelledNewInstances = [];
+		// detect if a new cancelled instance was created and send a CANCEL for it
 		if (isset($oldEventInfo['instances'])) {
 			$instancesDelta = array_diff_key($eventInfo['instances'], $oldEventInfo['instances']);
 			foreach ($instancesDelta as $id => $instance) {
 				if ($instance->STATUS?->getValue() === 'CANCELLED') {
-					$cancelledNewInstances[] = $id;
 					foreach ($eventInfo['attendees'] as $attendee) {
 						$messages[] = $this->generateMessage(
 							[$id => $instance], $organizerHref, $organizerName, $attendee, $objectId, $objectType, $objectSequence, 'CANCEL', $template
@@ -366,10 +381,10 @@ class TipBroker extends Broker {
 			// otherwise any created or modified instances will be sent as REQUEST
 			$instances = array_intersect_key($eventInfo['instances'], array_flip(array_keys($eventInfo['attendees'][$attendee]['instances'])));
 
-			// Remove already-cancelled new instances from REQUEST
-			if (!empty($cancelledNewInstances)) {
-				$instances = array_diff_key($instances, array_flip($cancelledNewInstances));
-			}
+			// Keep newly cancelled instances IN the REQUEST. processMessageRequest replaces all
+			// components of the attendee's stored object with the ones from the message, so a
+			// REQUEST that omitted the cancelled instance would drop the CANCELLED override that
+			// the accompanying CANCEL added and the occurrence would reappear as a normal event.
 
 			// Skip if no instances left to send
 			if (empty($instances)) {
