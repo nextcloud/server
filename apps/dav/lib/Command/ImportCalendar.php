@@ -10,6 +10,9 @@ namespace OCA\DAV\Command;
 
 use InvalidArgumentException;
 use OCA\DAV\CalDAV\CalendarImpl;
+use OCA\DAV\CalDAV\Import\ImportCountEvent;
+use OCA\DAV\CalDAV\Import\ImportDisposition;
+use OCA\DAV\CalDAV\Import\ImportObjectEvent;
 use OCA\DAV\CalDAV\Import\ImportService;
 use OCP\Calendar\CalendarImportOptions;
 use OCP\Calendar\IManager;
@@ -101,80 +104,76 @@ class ImportCalendar extends Command {
 			$options->setValidate($validation);
 		}
 		$options->setFormat($format);
+		$options->setCounts(true);
 		// evaluate if a valid location was given and is usable otherwise default to stdin
-		$timeStarted = microtime(true);
 		if ($location !== null) {
-			$input = fopen($location, 'r');
-			if ($input === false) {
+			$stream = fopen($location, 'r');
+			if ($stream === false) {
 				throw new InvalidArgumentException("Location <$location> is not valid. Cannot open location for read operation.");
 			}
-			try {
-				$outcome = $this->importService->import($input, $calendar, $options);
-			} finally {
-				fclose($input);
-			}
 		} else {
-			$input = fopen('php://stdin', 'r');
-			if ($input === false) {
+			$stdin = fopen('php://stdin', 'r');
+			if ($stdin === false) {
 				throw new InvalidArgumentException('Cannot open stdin for read operation.');
 			}
-			try {
-				$tempPath = $this->tempManager->getTemporaryFile();
-				$tempFile = fopen($tempPath, 'w+');
-				while (!feof($input)) {
-					fwrite($tempFile, fread($input, 8192));
-				}
-				fseek($tempFile, 0);
-				$outcome = $this->importService->import($tempFile, $calendar, $options);
-			} finally {
-				fclose($input);
-				fclose($tempFile);
+			$tempPath = $this->tempManager->getTemporaryFile();
+			$stream = fopen($tempPath, 'w+');
+			while (!feof($stdin)) {
+				fwrite($stream, fread($stdin, 8192));
 			}
+			fclose($stdin);
+			fseek($stream, 0);
 		}
-		$timeFinished = microtime(true);
-
-		// summarize the outcome
+		$timeStarted = microtime(true);
 		$totalCreated = 0;
 		$totalUpdated = 0;
 		$totalSkipped = 0;
 		$totalErrors = 0;
-
-		if ($outcome !== []) {
-			if ($showCreated || $showUpdated || $showSkipped || $showErrors) {
-				$output->writeln('');
-			}
-			foreach ($outcome as $id => $result) {
-				if (isset($result['outcome'])) {
-					switch ($result['outcome']) {
-						case 'created':
-							$totalCreated++;
-							if ($showCreated) {
-								$output->writeln(['created: ' . $id]);
-							}
-							break;
-						case 'updated':
-							$totalUpdated++;
-							if ($showUpdated) {
-								$output->writeln(['updated: ' . $id]);
-							}
-							break;
-						case 'exists':
-							$totalSkipped++;
-							if ($showSkipped) {
-								$output->writeln(['skipped: ' . $id]);
-							}
-							break;
-						case 'error':
-							$totalErrors++;
-							if ($showErrors) {
-								$output->writeln(['errors: ' . $id]);
-								$output->writeln($result['errors']);
-							}
-							break;
+		try {
+			foreach ($this->importService->import($stream, $calendar, $options) as $event) {
+				if ($event instanceof ImportCountEvent) {
+					$output->writeln('Total objects to import: ' . $event->total());
+					if ($showCreated || $showUpdated || $showSkipped || $showErrors) {
+						$output->writeln('');
 					}
+					continue;
+				}
+				if (!$event instanceof ImportObjectEvent) {
+					continue;
+				}
+
+				switch ($event->disposition) {
+					case ImportDisposition::Created:
+						$totalCreated++;
+						if ($showCreated) {
+							$output->writeln(['created: ' . ($event->identifier ?? 'unknown')]);
+						}
+						break;
+					case ImportDisposition::Updated:
+						$totalUpdated++;
+						if ($showUpdated) {
+							$output->writeln(['updated: ' . ($event->identifier ?? 'unknown')]);
+						}
+						break;
+					case ImportDisposition::Exists:
+						$totalSkipped++;
+						if ($showSkipped) {
+							$output->writeln(['skipped: ' . ($event->identifier ?? 'unknown')]);
+						}
+						break;
+					case ImportDisposition::Error:
+						$totalErrors++;
+						if ($showErrors) {
+							$output->writeln(['errors: ' . ($event->identifier ?? 'unknown')]);
+							$output->writeln($event->errors);
+						}
+						break;
 				}
 			}
+		} finally {
+			fclose($stream);
 		}
+		$timeFinished = microtime(true);
 		$output->writeln([
 			'',
 			'Import Completed',
