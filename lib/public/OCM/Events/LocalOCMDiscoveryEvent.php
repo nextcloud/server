@@ -54,4 +54,34 @@ class LocalOCMDiscoveryEvent extends Event {
 			->setProtocols($protocols);
 		$this->provider->addResourceType($resourceType);
 	}
+
+	/**
+	 * Remove the non-standard publicKey field from OCM discovery
+	 *
+	 * @since 35.0.0
+	 */
+	public function removePublicKey(): void {
+		$this->provider->removePublicKey();
+	}
+
+	/**
+	 * Remove the non-standard version field from OCM discovery
+	 *
+	 * @since 35.0.0
+	 */
+	public function removeVersion(): void {
+		$this->provider->removeVersion();
+	}
+
+	/**
+	 * Set the apiVersion
+	 *
+	 * @param string $version
+	 *
+	 * @since 35.0.0
+	 */
+	public function setApiVersion(string $version): void {
+		$this->provider->setApiVersion($version);
+	}
+
 }

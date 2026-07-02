@@ -21,6 +21,8 @@ use OCP\Security\Signature\Model\Signatory;
  */
 class OCMProvider implements IOCMProvider {
 	private bool $enabled = false;
+	private bool $removePublicKey = false;
+	private bool $removeVersion = false;
 	private string $apiVersion = '';
 	private string $inviteAcceptDialog = '';
 	private array $capabilities = [];
@@ -327,6 +329,22 @@ class OCMProvider implements IOCMProvider {
 	}
 
 	/**
+	 * @since 35.0.0
+	 */
+	#[\Override]
+	public function removePublicKey(): void {
+		$this->removePublicKey = true;
+	}
+
+	/**
+	 * @since 35.0.0
+	 */
+	#[\Override]
+	public function removeVersion(): void {
+		$this->removeVersion = true;
+	}
+
+	/**
 	 * @since 28.0.0
 	 */
 	#[\Override]
@@ -345,6 +363,15 @@ class OCMProvider implements IOCMProvider {
 			'provider' => $this->getProvider(),
 			'resourceTypes' => $resourceTypes
 		];
+
+		if ($this->removeVersion) {
+			$response['apiVersion'] = $this->getApiVersion();
+			unset($response['version']);
+		}
+
+		if ($this->removePublicKey) {
+			unset($response['publicKey']);
+		}
 
 		if ($this->capabilities !== []) {
 			$response['capabilities'] = $this->capabilities;
