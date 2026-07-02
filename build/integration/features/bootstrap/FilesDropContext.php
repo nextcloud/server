@@ -25,8 +25,8 @@ class FilesDropContext implements Context, SnippetAcceptingContext {
 			$token = $this->lastShareData->data[0]->token;
 		}
 
-		$base = substr($this->baseUrl, 0, -4);
-		$fullUrl = str_replace('//', '/', $base . "/public.php/dav/files/$token/$path");
+		$base = rtrim(substr($this->baseUrl, 0, -4), '/');
+		$fullUrl = $base . str_replace('//', '/', "/public.php/dav/files/$token/$path");
 
 		$options['headers'] = [
 			'X-REQUESTED-WITH' => 'XMLHttpRequest',
@@ -66,8 +66,8 @@ class FilesDropContext implements Context, SnippetAcceptingContext {
 			$token = $this->lastShareData->data[0]->token;
 		}
 
-		$base = substr($this->baseUrl, 0, -4);
-		$fullUrl = str_replace('//', '/', $base . "/public.php/dav/files/$token/$folder");
+		$base = rtrim(substr($this->baseUrl, 0, -4), '/');
+		$fullUrl = $base . str_replace('//', '/', "/public.php/dav/files/$token/$folder");
 
 		$options['headers'] = [
 			'X-REQUESTED-WITH' => 'XMLHttpRequest',
