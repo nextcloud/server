@@ -61,7 +61,7 @@ jobs:
             if (hasForceLabel || hasToReviewLabel || hasToReleaseLabel || cypressTouched) {
               return
             } else {
-              core.setFailed('Skipping Cypress: draft state, missing labels or no cypress path changes.')
+              core.setFailed('Skipping Cypress: draft state, missing required labels (force-e2e-tests, 3. to review, or 4. to release), or no cypress path changes.')
             }
 
   init:

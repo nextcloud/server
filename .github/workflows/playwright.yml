@@ -42,7 +42,7 @@ jobs:
             if (hasForceLabel || hasToReviewLabel || hasToReleaseLabel || playwrightTouched) {
               return
             } else {
-              core.setFailed('Skipping Playwright: draft state, missing labels or no playwright path changes.')
+              core.setFailed('Skipping Playwright: draft state, missing required labels (force-e2e-tests, 3. to review, or 4. to release), or no playwright path changes.')
             }
 
   playwright-setup:
