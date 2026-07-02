@@ -191,7 +191,7 @@ abstract class Avatar implements IAvatar {
 		$data = ob_get_contents();
 		ob_end_clean();
 
-		return $data;
+		return $data ?: '';
 	}
 
 	/**

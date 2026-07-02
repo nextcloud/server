@@ -8,6 +8,7 @@
 
 namespace OCA\Files_Sharing\Tests;
 
+use OC\Files\Filesystem;
 use OC\Files\View;
 use OC\SystemConfig;
 use OC\User\DisplayNameCache;
@@ -145,6 +146,7 @@ abstract class TestCase extends \Test\TestCase {
 		$this->userSession->completeLogin($user, ['loginName' => $uid, 'password' => $uid], false);
 
 		$this->rootFolder->newFolder('/' . $uid . '/files');
+		Filesystem::initMountPoints($user);
 	}
 
 	/**
