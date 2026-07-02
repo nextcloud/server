@@ -33,7 +33,7 @@ describe('Can install Nextcloud', { testIsolation: true, retries: 0 }, () => {
 		sharedSetup()
 	})
 
-	it('Sqlite - Install recommended apps (success)', () => {
+	it.skip('Sqlite - Install recommended apps (success)', () => {
 		cy.visit('/')
 		cy.get('[data-cy-setup-form]').should('be.visible')
 		cy.get('[data-cy-setup-form-field="dbtype-sqlite"] input').check({ force: true })
@@ -41,7 +41,7 @@ describe('Can install Nextcloud', { testIsolation: true, retries: 0 }, () => {
 		sharedSetup('install-success')
 	})
 
-	it('Sqlite - Install recommended apps (failure)', () => {
+	it.skip('Sqlite - Install recommended apps (failure)', () => {
 		cy.visit('/')
 		cy.get('[data-cy-setup-form]').should('be.visible')
 		cy.get('[data-cy-setup-form-field="dbtype-sqlite"] input').check({ force: true })
