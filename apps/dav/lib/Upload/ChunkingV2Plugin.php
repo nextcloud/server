@@ -79,10 +79,21 @@ class ChunkingV2Plugin extends ServerPlugin {
 		$this->server = $server;
 	}
 
-	protected function beforeGet(RequestInterface $request) {
-		$sourceNode = $this->server->tree->getNodeForPath($request->getPath());
-		if (($sourceNode instanceof FutureFile) || ($sourceNode instanceof UploadFile)) {
-			throw new MethodNotAllowed('Reading intermediate uploads is not allowed');
+	/**
+	 * @throws MethodNotAllowed
+	 */
+	public function beforeGet(RequestInterface $request) {
+		try {
+			$sourceNode = $this->server->tree->getNodeForPath($request->getPath());
+
+			if ($sourceNode instanceof FutureFile || $sourceNode instanceof UploadFile) {
+				throw new MethodNotAllowed('Reading intermediate uploads is not allowed');
+			}
+		} catch (NotFound) {
+			// The node could not be resolved (yet), e.g. because the targeted
+			// collection is provided by another app and not registered on the
+			// tree at this point. This is no intermediate upload, so let the
+			// regular request handling deal with it (and report any 404).
 		}
 
 		return true;
