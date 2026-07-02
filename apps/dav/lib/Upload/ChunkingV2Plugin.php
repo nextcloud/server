@@ -51,6 +51,7 @@ class ChunkingV2Plugin extends ServerPlugin {
 
 	private ?string $uploadId = null;
 	private ?string $uploadPath = null;
+	private ?int $uploadTargetId = null;
 
 	private const TEMP_TARGET = '.target';
 
@@ -60,6 +61,17 @@ class ChunkingV2Plugin extends ServerPlugin {
 	public const UPLOAD_ID = 'upload-id';
 
 	private const DESTINATION_HEADER = 'Destination';
+
+	/**
+	 * Lifetime of the chunked upload session metadata in the distributed cache.
+	 *
+	 * The TTL is refreshed on every successful chunk upload (sliding
+	 * expiration), so it acts as an inactivity timeout rather than a hard
+	 * wall-clock limit. Without the refresh an upload whose total duration
+	 * exceeds this value would fail with "Missing metadata for chunked upload"
+	 * even while chunks are still actively being uploaded.
+	 */
+	private const UPLOAD_SESSION_TTL = 24 * 60 * 60;
 
 	public function __construct(ICacheFactory $cacheFactory) {
 		$this->cache = $cacheFactory->createDistributed(self::CACHE_KEY);
@@ -130,12 +142,9 @@ class ChunkingV2Plugin extends ServerPlugin {
 		[$storage, $storagePath] = $this->getUploadStorage($this->uploadPath);
 
 		$this->uploadId = $storage->startChunkedWrite($storagePath);
+		$this->uploadTargetId = $targetFile->getId();
 
-		$this->cache->set($this->uploadFolder->getName(), [
-			self::UPLOAD_ID => $this->uploadId,
-			self::UPLOAD_TARGET_PATH => $this->uploadPath,
-			self::UPLOAD_TARGET_ID => $targetFile->getId(),
-		], 86400);
+		$this->storeUploadSession();
 
 		$response->setStatus(Http::STATUS_CREATED);
 		return true;
@@ -176,6 +185,12 @@ class ChunkingV2Plugin extends ServerPlugin {
 
 		$stream = $request->getBodyAsStream();
 		$storage->putChunkedWritePart($storagePath, $this->uploadId, (string)$partId, $stream, $additionalSize);
+
+		// Refresh the session metadata TTL on every successful chunk so an
+		// actively progressing upload is not garbage-collected purely on
+		// wall-clock age (sliding expiration). See afterMkcol() for the
+		// initial write.
+		$this->storeUploadSession();
 
 		$storage->getCache()->update($uploadFile->getId(), ['size' => $uploadFile->getSize() + $additionalSize]);
 		if ($tempTargetFile) {
@@ -317,6 +332,25 @@ class ChunkingV2Plugin extends ServerPlugin {
 		$uploadMetadata = $this->cache->get($this->uploadFolder->getName());
 		$this->uploadId = $uploadMetadata[self::UPLOAD_ID] ?? null;
 		$this->uploadPath = $uploadMetadata[self::UPLOAD_TARGET_PATH] ?? null;
+		$this->uploadTargetId = $uploadMetadata[self::UPLOAD_TARGET_ID] ?? null;
+	}
+
+	/**
+	 * Persist the chunked upload session metadata in the distributed cache and
+	 * (re)set its TTL. Called once when the session is created in afterMkcol()
+	 * and again after every successful chunk in beforePut() to provide a
+	 * sliding expiration based on activity rather than a fixed lifetime.
+	 */
+	private function storeUploadSession(): void {
+		if ($this->uploadId === null || $this->uploadPath === null || $this->uploadTargetId === null) {
+			return;
+		}
+
+		$this->cache->set($this->uploadFolder->getName(), [
+			self::UPLOAD_ID => $this->uploadId,
+			self::UPLOAD_TARGET_PATH => $this->uploadPath,
+			self::UPLOAD_TARGET_ID => $this->uploadTargetId,
+		], self::UPLOAD_SESSION_TTL);
 	}
 
 	private function completeChunkedWrite(string $targetAbsolutePath): void {
