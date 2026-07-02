@@ -7,10 +7,14 @@
 
 namespace OCP\TaskProcessing;
 
+use OCP\AppFramework\Attribute\Consumable;
+
 /**
  * Data object for input output shape entries
+ *
  * @since 30.0.0
  */
+#[Consumable(since: '30.0.0')]
 class ShapeDescriptor implements \JsonSerializable {
 	/**
 	 * @param string $name

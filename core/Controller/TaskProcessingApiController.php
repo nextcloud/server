@@ -33,6 +33,7 @@ use OCP\TaskProcessing\Exception\NotFoundException;
 use OCP\TaskProcessing\Exception\PreConditionNotMetException;
 use OCP\TaskProcessing\Exception\UnauthorizedException;
 use OCP\TaskProcessing\Exception\ValidationException;
+use OCP\TaskProcessing\FileShaped;
 use OCP\TaskProcessing\IManager;
 use OCP\TaskProcessing\ShapeEnumValue;
 use OCP\TaskProcessing\Task;
@@ -534,7 +535,8 @@ class TaskProcessingApiController extends OCSController {
 			if (!$handle) {
 				return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
 			}
-			$fileId = $this->setFileContentsInternal($handle);
+			$ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+			$fileId = $this->setFileContentsInternal($handle, $ext);
 			return new DataResponse(['fileId' => $fileId], Http::STATUS_CREATED);
 		} catch (NotFoundException) {
 			return new DataResponse(['message' => $this->l->t('Not found')], Http::STATUS_NOT_FOUND);
@@ -854,14 +856,15 @@ class TaskProcessingApiController extends OCSController {
 	 * @return int
 	 * @throws NotPermittedException
 	 */
-	private function setFileContentsInternal($data): int {
+	private function setFileContentsInternal($data, string $ext = ''): int {
 		try {
 			$folder = $this->appData->getFolder('TaskProcessing');
 		} catch (\OCP\Files\NotFoundException) {
 			$folder = $this->appData->newFolder('TaskProcessing');
 		}
+		$ext = FileShaped::sanitizeExtension($ext);
 		/** @var SimpleFile $file */
-		$file = $folder->newFile(time() . '-' . rand(1, 100000), $data);
+		$file = $folder->newFile(time() . '-' . rand(1, 100000) . ($ext ? '.' . $ext : ''), $data);
 		return $file->getId();
 	}
 

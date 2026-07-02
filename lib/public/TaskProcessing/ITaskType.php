@@ -9,11 +9,15 @@ declare(strict_types=1);
 
 namespace OCP\TaskProcessing;
 
+use OCP\AppFramework\Attribute\Implementable;
+
 /**
  * This is a task type interface that is implemented by task processing
  * task types
+ *
  * @since 30.0.0
  */
+#[Implementable(since: '30.0.0')]
 interface ITaskType {
 	/**
 	 * Returns the unique id of this task type
