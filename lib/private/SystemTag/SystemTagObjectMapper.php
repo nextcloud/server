@@ -302,8 +302,8 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	#[\Override]
 	public function setObjectIdsForTag(string $tagId, string $objectType, array $objectIds): void {
 		$currentObjectIds = $this->getObjectIdsForTags($tagId, $objectType);
-		$removedObjectIds = array_diff($currentObjectIds, $objectIds);
-		$addedObjectIds = array_diff($objectIds, $currentObjectIds);
+		$removedObjectIds = array_values(array_diff($currentObjectIds, $objectIds));
+		$addedObjectIds = array_values(array_diff($objectIds, $currentObjectIds));
 
 		$this->connection->beginTransaction();
 		$query = $this->connection->getQueryBuilder();
