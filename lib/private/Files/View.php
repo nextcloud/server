@@ -1551,7 +1551,9 @@ class View {
 			if ($sharingDisabled) {
 				$content['permissions'] = $content->getPermissions() & $permissionsMask;
 			}
-
+			if (is_null($content['path'])) {
+				throw new \Exception('Directory listing of "' . $path . '" contains item with null path');
+			}
 			$ownerId = $storage->getOwner($contentPath);
 			$owner = $ownerId !== false
 				? $this->getUserObjectForOwner($ownerId)
