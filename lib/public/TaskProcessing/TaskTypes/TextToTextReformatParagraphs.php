@@ -12,14 +12,14 @@ namespace OCP\TaskProcessing\TaskTypes;
 use OCP\IL10N;
 use OCP\L10N\IFactory;
 use OCP\TaskProcessing\EShapeType;
-use OCP\TaskProcessing\ITaskType;
+use OCP\TaskProcessing\IInternalTaskType;
 use OCP\TaskProcessing\ShapeDescriptor;
 
 /**
  * This is the task processing task type for reformatting text into paragraphs
  * @since 34.0.0
  */
-class TextToTextReformatParagraphs implements ITaskType {
+class TextToTextReformatParagraphs implements IInternalTaskType {
 	/**
 	 * @since 34.0.0
 	 */
