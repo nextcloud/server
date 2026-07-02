@@ -99,12 +99,11 @@ class SharesReminderJobTest extends \Test\TestCase {
 		$someMail = 'test@test.com';
 		$noExpirationDate = null;
 		$today = new \DateTime();
-		// For expiration dates, the time is always automatically set to zero by ShareAPIController
-		$today->setTime(0, 0);
-		$nearFuture = new \DateTime();
-		$nearFuture->setTimestamp($today->getTimestamp() + 86400 * 1);
+		// Expiration dates are set to end of day (23:59:59) by the Share Manager
+		$today->setTime(23, 59, 59);
+		$nearFuture = clone $today;
 		$farFuture = new \DateTime();
-		$farFuture->setTimestamp($today->getTimestamp() + 86400 * 2);
+		$farFuture->setTimestamp($today->getTimestamp() + 86400 * 1);
 		$permissionRead = Constants::PERMISSION_READ;
 		$permissionCreate = $permissionRead | Constants::PERMISSION_CREATE;
 		$permissionUpdate = $permissionRead | Constants::PERMISSION_UPDATE;
