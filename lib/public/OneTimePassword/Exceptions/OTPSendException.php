@@ -7,5 +7,8 @@
 
 namespace OCP\OneTimePassword\Exceptions;
 
+/**
+ * @since 35.0.0
+ */
 class OTPSendException extends \Exception {
 }

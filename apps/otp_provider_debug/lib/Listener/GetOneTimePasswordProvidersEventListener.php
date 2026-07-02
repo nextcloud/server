@@ -13,7 +13,6 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\OneTimePassword\Events\GetOneTimePasswordProvidersEvent;
 use OCP\OneTimePassword\IOneTimePasswordProvider;
-use Psr\Log\LoggerInterface;
 use OCP\L10N\IFactory;
 
 /**
@@ -22,12 +21,11 @@ use OCP\L10N\IFactory;
 readonly class GetOneTimePasswordProvidersEventListener implements IEventListener {
 	private IOneTimePasswordProvider $provider;
 
-	public function __construct(IFactory $l10nFactory, private LoggerInterface $logger) {
-		$this->provider = new OTPProvider($l10nFactory, $logger);
+	public function __construct(IFactory $l10nFactory) {
+		$this->provider = new OTPProvider($l10nFactory);
 	}
 
 	public function handle(Event $event): void {
-		$this->logger->warning('handling GetOneTimePasswordProvidersEvent');
 
 		if (!($event instanceof GetOneTimePasswordProvidersEvent)) {
 			return;

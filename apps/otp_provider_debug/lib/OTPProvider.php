@@ -19,8 +19,7 @@ class OTPProvider implements IOneTimePasswordProvider {
 
 
 	public function __construct(
-		IFactory $l10nFactory,
-		private readonly LoggerInterface $logger
+		IFactory $l10nFactory
 	) {
 		$this->l = $l10nFactory->get(Application::APP_ID);
 	}
@@ -39,10 +38,6 @@ class OTPProvider implements IOneTimePasswordProvider {
 
 	public function getRecipientPattern(): string {
 		return '.*';
-	}
-
-	public function sendOTP(string $recipient, string $password): void {
-		$this->logger->info("Debug OTP for '$recipient': $password");
 	}
 
 	public function maskRecipient(string $recipient): string {

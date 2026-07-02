@@ -39,10 +39,6 @@ class EmailProvider implements IOneTimePasswordProvider {
 		return '^[^@]+@[^@]+\.[^@]+$';
 	}
 
-	public function sendOTP(string $recipient, string $password): void {
-
-	}
-
 	public function maskRecipient(string $recipient): string {
 		$atPos = strrpos($recipient, "@");
 		if ($atPos < 5) {

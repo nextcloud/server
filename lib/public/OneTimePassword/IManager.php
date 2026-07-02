@@ -25,6 +25,7 @@ interface IManager {
 	 * @param IOneTimePassword $otp The configuration for generating the OTP
 	 * @return void
 	 * @throws OTPSendException
+	 * @since 35.0.0
 	 */
 	public function sendOTP(IOneTimePassword $otp): void;
 
@@ -34,6 +35,7 @@ interface IManager {
 	 * @param IOneTimePassword $otp
 	 * @param string|null $password
 	 * @return bool
+	 * @since 35.0.0
 	 */
 	public function validateOTP(IOneTimePassword $otp, ?string $password): bool;
 
@@ -41,6 +43,7 @@ interface IManager {
 	 * Returns a list of registered OTP providers
 	 *
 	 * @return IOneTimePasswordProvider[]
+	 * @since 35.0.0
 	 */
 	public function getOTPProviders(): array;
 
@@ -50,6 +53,7 @@ interface IManager {
 	 * @param string $providerId
 	 * @return IOneTimePasswordProvider
 	 * @throws OTPProviderNotFoundException
+	 * @since 35.0.0
 	 */
 	public function getOTPProviderById(string $providerId): IOneTimePasswordProvider;
 
@@ -63,6 +67,7 @@ interface IManager {
 	 * @param string|null $password
 	 * @param \DateTime|null $expirationTime
 	 * @return IOneTimePassword
+	 * @since 35.0.0
 	 */
 	public function createOTP(string $provider, string $recipient, ?string $password, ?\DateTime $expirationTime): IOneTimePassword;
 
@@ -71,6 +76,7 @@ interface IManager {
 	 *
 	 * @param IOneTimePassword $otp
 	 * @return void
+	 * @since 35.0.0
 	 */
 	public function updateOTP(IOneTimePassword $otp): void;
 
@@ -79,6 +85,7 @@ interface IManager {
 	 *
 	 * @param int $otpId
 	 * @return IOneTimePassword
+	 * @since 35.0.0
 	 */
 	public function getOTP(int $otpId): IOneTimePassword;
 
@@ -87,6 +94,7 @@ interface IManager {
 	 *
 	 * @param int $otpId
 	 * @return void
+	 * @since 35.0.0
 	 */
 	public function deleteOTP(int $otpId): void;
 }
