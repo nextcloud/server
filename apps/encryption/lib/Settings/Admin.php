@@ -16,6 +16,7 @@ use OCA\Encryption\Session;
 use OCA\Encryption\Util;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\Config\IUserConfig;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -35,6 +36,7 @@ class Admin implements ISettings {
 		private ISession $session,
 		private IInitialState $initialState,
 		private IAppConfig $appConfig,
+		private IUserConfig $userConfig,
 	) {
 	}
 
@@ -53,7 +55,8 @@ class Admin implements ISettings {
 			new View(),
 			$crypt,
 			$this->userSession,
-			$this->config,
+			$this->appConfig,
+			$this->userConfig,
 			$this->userManager);
 
 		// Check if an adminRecovery account is enabled for recovering files after lost pwd

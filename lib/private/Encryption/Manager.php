@@ -21,6 +21,7 @@ use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorage;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class Manager implements IManager {
@@ -49,8 +50,7 @@ class Manager implements IManager {
 			return false;
 		}
 
-		$enabled = $this->config->getAppValue('core', 'encryption_enabled', 'no');
-		return $enabled === 'yes';
+		return Server::get(\OCP\IAppConfig::class)->getValueBool('core', 'encryption_enabled');
 	}
 
 	/**
