@@ -19,7 +19,6 @@ class BearerAuthAwareSabreClientTest extends TestCase {
 	private function getCurlSetting(BearerAuthAwareSabreClient $client, int $key): mixed {
 		$reflection = new \ReflectionObject($client);
 		$property = $reflection->getProperty('curlSettings');
-		$property->setAccessible(true);
 		$settings = $property->getValue($client);
 		return $settings[$key] ?? null;
 	}
