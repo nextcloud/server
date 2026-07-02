@@ -7,9 +7,9 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace lib\Share20\Events;
+namespace lib\Share20\ShareReview\Events;
 
-use OCP\Share\Events\ShareReviewAccessCheckEvent;
+use OCP\Share\ShareReview\Events\ShareReviewAccessCheckEvent;
 use PHPUnit\Framework\TestCase;
 
 final class ShareReviewAccessCheckEventTest extends TestCase {
