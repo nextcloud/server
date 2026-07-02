@@ -10,6 +10,7 @@
 
 namespace OCP\Files\Storage;
 
+use OCP\Constants;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\IPropagator;
 use OCP\Files\Cache\IScanner;
@@ -147,7 +148,7 @@ interface IStorage {
 	 * get the full permissions of a path.
 	 * Should return a combination of the PERMISSION_ constants defined in lib/public/constants.php
 	 *
-	 * @return int
+	 * @return int-mask-of<Constants::PERMISSION_*>
 	 * @since 9.0.0
 	 */
 	public function getPermissions(string $path);

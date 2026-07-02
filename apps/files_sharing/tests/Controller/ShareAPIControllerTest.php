@@ -247,7 +247,8 @@ class ShareAPIControllerTest extends TestCase {
 
 		$share = $this->newShare();
 		$share->setSharedBy($this->currentUser)
-			->setNode($node);
+			->setNode($node)
+			->setPermissions(Constants::PERMISSION_ALL);
 		$this->shareManager
 			->expects($this->once())
 			->method('getShareById')
@@ -319,6 +320,7 @@ class ShareAPIControllerTest extends TestCase {
 		$share = $this->newShare();
 		$share->setSharedWith($this->currentUser)
 			->setShareType(IShare::TYPE_USER)
+			->setPermissions(Constants::PERMISSION_ALL)
 			->setNode($node);
 
 		$this->shareManager
@@ -350,6 +352,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		$share = $this->newShare();
 		$share->setSharedBy($this->currentUser)
+			->setPermissions(Constants::PERMISSION_ALL)
 			->setNode($node);
 
 		$this->shareManager
@@ -383,6 +386,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		$share = $this->newShare();
 		$share->setShareOwner($this->currentUser)
+			->setPermissions(Constants::PERMISSION_ALL)
 			->setNode($node);
 
 		$this->shareManager
@@ -417,6 +421,7 @@ class ShareAPIControllerTest extends TestCase {
 		$share = $this->newShare();
 		$share->setShareType(IShare::TYPE_GROUP)
 			->setSharedWith('group')
+			->setPermissions(Constants::PERMISSION_ALL)
 			->setNode($node);
 
 		$this->shareManager
@@ -480,6 +485,7 @@ class ShareAPIControllerTest extends TestCase {
 		$share = $this->newShare();
 		$share->setShareType(IShare::TYPE_GROUP)
 			->setSharedWith('group')
+			->setPermissions(Constants::PERMISSION_ALL)
 			->setNode($node);
 
 		$this->shareManager
@@ -1684,18 +1690,21 @@ class ShareAPIControllerTest extends TestCase {
 
 	public function testCanAccessShareAsOwner(): void {
 		$share = $this->createMock(IShare::class);
+		$share->method('getPermissions')->willReturn(Constants::PERMISSION_ALL);
 		$share->method('getShareOwner')->willReturn($this->currentUser);
 		$this->assertTrue($this->invokePrivate($this->ocs, 'canAccessShare', [$share]));
 	}
 
 	public function testCanAccessShareAsSharer(): void {
 		$share = $this->createMock(IShare::class);
+		$share->method('getPermissions')->willReturn(Constants::PERMISSION_ALL);
 		$share->method('getSharedBy')->willReturn($this->currentUser);
 		$this->assertTrue($this->invokePrivate($this->ocs, 'canAccessShare', [$share]));
 	}
 
 	public function testCanAccessShareAsSharee(): void {
 		$share = $this->createMock(IShare::class);
+		$share->method('getPermissions')->willReturn(Constants::PERMISSION_ALL);
 		$share->method('getShareType')->willReturn(IShare::TYPE_USER);
 		$share->method('getSharedWith')->willReturn($this->currentUser);
 		$this->assertTrue($this->invokePrivate($this->ocs, 'canAccessShare', [$share]));
@@ -1703,6 +1712,7 @@ class ShareAPIControllerTest extends TestCase {
 
 	public function testCannotAccessLinkShare(): void {
 		$share = $this->createMock(IShare::class);
+		$share->method('getPermissions')->willReturn(Constants::PERMISSION_ALL);
 		$share->method('getShareType')->willReturn(IShare::TYPE_LINK);
 		$share->method('getNodeId')->willReturn(42);
 
@@ -1719,6 +1729,7 @@ class ShareAPIControllerTest extends TestCase {
 		$share = $this->createMock(IShare::class);
 		$share->method('getShareType')->willReturn(IShare::TYPE_USER);
 		$share->method('getSharedWith')->willReturn($this->createMock(IUser::class));
+		$share->method('getPermissions')->willReturn(Constants::PERMISSION_ALL);
 		$share->method('getNodeId')->willReturn(42);
 
 		$file = $this->createMock(File::class);
@@ -1757,6 +1768,7 @@ class ShareAPIControllerTest extends TestCase {
 		$share = $this->createMock(IShare::class);
 		$share->method('getShareType')->willReturn(IShare::TYPE_GROUP);
 		$share->method('getSharedWith')->willReturn($group);
+		$share->method('getPermissions')->willReturn(Constants::PERMISSION_ALL);
 		$share->method('getNodeId')->willReturn(42);
 
 		$file = $this->createMock(File::class);
@@ -1821,6 +1833,7 @@ class ShareAPIControllerTest extends TestCase {
 		$share = $this->createMock(IShare::class);
 		$share->method('getShareType')->willReturn(IShare::TYPE_ROOM);
 		$share->method('getSharedWith')->willReturn('recipientRoom');
+		$share->method('getPermissions')->willReturn(Constants::PERMISSION_ALL);
 
 		$userFolder = $this->getMockBuilder(Folder::class)->getMock();
 		$this->rootFolder->method('getUserFolder')
