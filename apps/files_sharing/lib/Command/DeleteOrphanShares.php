@@ -52,7 +52,11 @@ class DeleteOrphanShares extends Base {
 				$exists = $this->orphanHelper->fileExists($share['fileid']);
 				$output->writeln("<info>{$share['target']}</info> owned by <info>{$share['owner']}</info>");
 				if ($exists) {
-					$output->writeln("  file still exists but the share owner lost access to it, run <info>occ info:file {$share['fileid']}</info> for more information about the file");
+					if ($this->orphanHelper->isInTrashbin($share['fileid'])) {
+						$output->writeln("  file is in the trashbin of the share owner, run <info>occ info:file {$share['fileid']}</info> for more information about the file");
+					} else {
+						$output->writeln("  file still exists but the share owner lost access to it, run <info>occ info:file {$share['fileid']}</info> for more information about the file");
+					}
 				} else {
 					$output->writeln('  file no longer exists');
 				}
