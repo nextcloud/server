@@ -12,6 +12,7 @@ use OCA\DAV\CalDAV\Auth\CustomPrincipalPlugin;
 use OCA\DAV\CalDAV\Auth\PublicPrincipalPlugin;
 use OCA\DAV\CalDAV\DefaultCalendarValidator;
 use OCA\DAV\CalDAV\Publishing\PublishPlugin;
+use OCA\DAV\CalDAV\SharingPlugin;
 use OCA\DAV\Connector\Sabre\AnonymousOptionsPlugin;
 use OCA\DAV\Connector\Sabre\BlockLegacyClientPlugin;
 use OCA\DAV\Connector\Sabre\CachingTree;
@@ -24,6 +25,7 @@ use OCA\DAV\RootCollection;
 use OCA\Theming\ThemingDefaults;
 use OCP\App\IAppManager;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IURLGenerator;
 use OCP\Server;
@@ -31,8 +33,7 @@ use Psr\Log\LoggerInterface;
 use Sabre\VObject\ITip\Message;
 
 class InvitationResponseServer {
-	/** @var \OCA\DAV\Connector\Sabre\Server */
-	public $server;
+	public \OCA\DAV\Connector\Sabre\Server $server;
 
 	/**
 	 * InvitationResponseServer constructor.
@@ -87,6 +88,7 @@ class InvitationResponseServer {
 		$this->server->addPlugin(new \Sabre\CalDAV\Subscriptions\Plugin());
 		$this->server->addPlugin(new \Sabre\CalDAV\Notifications\Plugin());
 		//$this->server->addPlugin(new \OCA\DAV\DAV\Sharing\Plugin($authBackend, \OC::$server->getRequest()));
+		$this->server->addPlugin(new SharingPlugin(Server::get(IAppConfig::class)));
 		$this->server->addPlugin(new PublishPlugin(
 			Server::get(IConfig::class),
 			Server::get(IURLGenerator::class)

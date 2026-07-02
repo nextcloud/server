@@ -87,6 +87,7 @@ use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IConfig;
+use OCP\IConfig;
 use OCP\IDateTimeZone;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
@@ -211,15 +212,18 @@ class Server {
 
 			$this->server->addPlugin(\OCP\Server::get(\OCA\DAV\CalDAV\Trashbin\Plugin::class));
 			$this->server->addPlugin(new \OCA\DAV\CalDAV\WebcalCaching\Plugin($this->request));
-			if (\OCP\Server::get(IConfig::class)->getAppValue('dav', 'allow_calendar_link_subscriptions', 'yes') === 'yes') {
+			if (\OCP\Server::get(IAppConfig::class)->getValueBool('dav', 'allow_calendar_link_subscriptions', true)) {
 				$this->server->addPlugin(new \Sabre\CalDAV\Subscriptions\Plugin());
 			}
 
 			$this->server->addPlugin(new \Sabre\CalDAV\Notifications\Plugin());
-			$this->server->addPlugin(new PublishPlugin(
-				\OCP\Server::get(IConfig::class),
-				\OCP\Server::get(IURLGenerator::class)
-			));
+			$this->server->addPlugin(new \OCA\DAV\CalDAV\SharingPlugin(\OCP\Server::get(IAppConfig::class)));
+			if (\OCP\Server::get(IAppConfig::class)->getValueBool('core', 'shareapi_allow_links', true)) {
+				$this->server->addPlugin(new PublishPlugin(
+					\OCP\Server::get(IConfig::class),
+					\OCP\Server::get(IURLGenerator::class)
+				));
+			}
 
 			$this->server->addPlugin(\OCP\Server::get(RateLimitingPlugin::class));
 			$this->server->addPlugin(\OCP\Server::get(CalDavValidatePlugin::class));
@@ -347,7 +351,7 @@ class Server {
 					\OCP\Server::get(ICommentsManager::class),
 					$userSession
 				));
-				if (\OCP\Server::get(IConfig::class)->getAppValue('dav', 'sendInvitations', 'yes') === 'yes') {
+				if (\OCP\Server::get(IAppConfig::class)->getValueBool('dav', 'sendInvitations', true)) {
 					$this->server->addPlugin(new IMipPlugin(
 						\OCP\Server::get(IAppConfig::class),
 						\OCP\Server::get(IMailer::class),
