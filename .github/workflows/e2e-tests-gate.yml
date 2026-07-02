@@ -1,0 +1,46 @@
+# SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+
+name: Check PR state
+
+on:
+  pull_request:
+    branches: [master]
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
+      - labeled
+
+permissions:
+  contents: read
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest-low
+    steps:
+      - name: Evaluate e2e tests execution conditions
+        id: gate-e2e
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v8.0.0
+        with:
+          script: |
+            const pr = context.payload.pull_request
+
+            const hasForceLabel = pr.labels.some((label) => label.name === 'force-e2e-tests')
+            const hasToReviewLabel = pr.labels.some((label) => label.name === '3. to review')
+            const hasToReleaseLabel = pr.labels.some((label) => label.name === '4. to release')
+
+            const files = await github.paginate(github.rest.pulls.listFiles, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pr.number,
+              per_page: 100,
+            })
+            const playwrightTouched = files.some((file) => file.filename.startsWith('tests/playwright'))
+
+            if (hasForceLabel || hasToReviewLabel || hasToReleaseLabel || playwrightTouched) {
+              return
+            } else {
+              core.setFailed('Skipping some CI tests: draft state, missing labels (force-e2e-tests, 3. to review, 4. to release) or no e2e tests path changes.')
+            }
