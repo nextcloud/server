@@ -90,6 +90,7 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "Antud vale või aegunud parameeter",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "Kuna Nextcloud Talk pole serverisse paigaldatud, siis ei saanud selle teenuse abil ka jaosmeedia salasõna jagada",
     "Custom share link tokens have been disabled by the administrator" : "Jaosmeediale oma tunnuslubade loomine pole peakasutaja poolt lubatud",
+    "Tokens must be between 1 and %s characters long and may only contain letters, numbers, or a hyphen" : "Tunnuslubade pikkus peab olema vähemalt 1 kuni %s tähemärki ning võib sisaldada vaid tähti, numbreid ja sisekriipse",
     "Invalid date. Format must be YYYY-MM-DD" : "Vigane kuupäev, vorming peab olema YYYY-MM-DD",
     "No sharing rights on this item" : "Selle objekti kontekstis pole jagamisõigusi",
     "Invalid share attributes provided: \"%s\"" : "Vigased jagamisatribuudid: „%s“",

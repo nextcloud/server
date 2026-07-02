@@ -423,6 +423,7 @@
     "Original text" : "原文",
     "The original text to generate a headline for" : "見出しを生成する元のテキスト",
     "The generated headline" : "生成された見出し",
+    "Instructions" : "手順",
     "Proofread" : "校正",
     "Proofreads a text and lists corrections" : "文章を校正し、訂正箇所をリストアップする",
     "Text" : "テキスト",

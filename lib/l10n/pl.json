@@ -422,6 +422,7 @@
     "Original text" : "Tekst oryginalny",
     "The original text to generate a headline for" : "Oryginalny tekst, do którego ma zostać wygenerowany nagłówek",
     "The generated headline" : "Wygenerowany nagłówek",
+    "Instructions" : "Instrukcje:",
     "Proofread" : "Korekta",
     "Proofreads a text and lists corrections" : "Sprawdza tekst i podaje poprawki",
     "Text" : "Tekst",

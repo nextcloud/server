@@ -90,6 +90,7 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "Погрешни или нема зададено параметри за ажурирање",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "„Испраќањето на лозинката преку Talk“ за споделување датотека или папка не успеа бидејќи Talk не е овозможен.",
     "Custom share link tokens have been disabled by the administrator" : "Администраторот ги оневозможи приспособените токени за линкови за споделување",
+    "Tokens must be between 1 and %s characters long and may only contain letters, numbers, or a hyphen" : "Токените мора да бидат долги помеѓу 1 и %s карактерии и може да содржат само букви, бројки или цртичка",
     "Invalid date. Format must be YYYY-MM-DD" : "Невалиден датум. Форматот мора да биде ГГГГ-ММ-ДД",
     "No sharing rights on this item" : "Немате право за споделување на оваа ставка",
     "Invalid share attributes provided: \"%s\"" : "Обезбедени неважечки атрибути за споделување: \"%s\"",

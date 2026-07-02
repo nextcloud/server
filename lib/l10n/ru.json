@@ -423,6 +423,7 @@
     "Original text" : "Оригинальный текст",
     "The original text to generate a headline for" : "Исходный текст для создания заголовка для",
     "The generated headline" : "Сгенерированный заголовок",
+    "Instructions" : "Инструкции",
     "Proofread" : "Проверка правописания",
     "Proofreads a text and lists corrections" : "Проверяет текст и показывает исправления",
     "Text" : "Текст",
