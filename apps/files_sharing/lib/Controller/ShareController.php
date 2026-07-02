@@ -88,7 +88,12 @@ class ShareController extends AuthPublicShareController {
 		parent::__construct($appName, $request, $session, $urlGenerator);
 	}
 
-	private function getOtpProviderInfo(): array {
+	/**
+	 * @return null|string[]
+	 *
+	 * @psalm-return array{name: string, description: string, recipientPattern: string, maskedRecipient: string}|null
+	 */
+	private function getOtpProviderInfo(): array|null {
 		$otpProvider = null;
 		$otpProviderInfo = null;
 		if ($this->share->getOneTimePassword() !== null) {

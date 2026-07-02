@@ -51,12 +51,10 @@ class ShareOTPController extends ApiController {
 	 * Request an OTP to be send to the configured recipient
 	 *
 	 * @param string $token Token of the share
-	 * @return JSONResponse<Http::STATUS_OK, Files_SharingOTPSendSuccess, array{}>|JSONResponse<Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, list<empty>, array{}>|JSONResponse<Http::STATUS_INTERNAL_SERVER_ERROR, Files_SharingOTPSendError>
 	 *
-	 * 201: OTP sent successfully
-	 * 403: OTP not configured for the share
-	 * 404: Share not found
-	 * 500: Sending OTP failed
+	 * @return JSONResponse 201: OTP sent successfully 403: OTP not configured for the share 404: Share not found 500: Sending OTP failed
+	 *
+	 * @psalm-return JSONResponse<int, array{error?: string}, array<never, never>>
 	 */
 	#[PublicPage]
 	#[NoCSRFRequired]
