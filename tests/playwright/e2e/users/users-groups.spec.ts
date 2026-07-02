@@ -74,8 +74,9 @@ userGroupTest('Account Management: Assign user to a group', async ({ page, testG
 	// user is now group now shows 1 member
 	await expect(settingsPage.groupMemberCount(testGroup)).toHaveText('1')
 	// backend confirms the user is in the group
-	const info = JSON.parse(await runOcc(['user:info', '--output=json', user.userId]))
-	expect(info?.groups).toContain(testGroup)
+	const { stdout: jsonList } = await runOcc(['user:info', '--output=json', user.userId])
+	const { groups } = JSON.parse(jsonList)
+	expect(groups).toContain(testGroup)
 })
 
 // ── Delete an empty group ─────────────────────────────────────────────────────
@@ -108,7 +109,10 @@ test.describe('Settings: Delete an empty group', () => {
 		await expect(settingsPage.groupListItem(groupName)).toHaveCount(0)
 
 		// Verify backend
-		const groups: Record<string, unknown> = JSON.parse(await runOcc(['group:list', '--output=json']))
+		// `group:list --output=json` returns the group map directly ({"name":[members]}),
+		// with no `groups` wrapper — unlike `user:info`.
+		const { stdout: jsonList } = await runOcc(['group:list', '--output=json'])
+		const groups = JSON.parse(jsonList)
 		expect(Object.keys(groups)).not.toContain(groupName)
 	})
 })
@@ -145,7 +149,10 @@ test.describe('Settings: Delete a non-empty group', () => {
 
 		await expect(settingsPage.groupListItem(groupName)).toHaveCount(0)
 
-		const groups: Record<string, unknown> = JSON.parse(await runOcc(['group:list', '--output=json']))
+		// `group:list --output=json` returns the group map directly ({"name":[members]}),
+		// with no `groups` wrapper — unlike `user:info`.
+		const { stdout: jsonList } = await runOcc(['group:list', '--output=json'])
+		const groups = JSON.parse(jsonList)
 		expect(Object.keys(groups)).not.toContain(groupName)
 	})
 })

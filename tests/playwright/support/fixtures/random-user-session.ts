@@ -15,8 +15,8 @@ export const test = randomUserTest.extend({
 		const page = await browser.newPage()
 		try {
 			await login(page.request, user)
-		} catch {
-			// Retry once on transient auth failure
+		} catch (error) {
+			console.info('Failed to authenticate as random user, retrying', error)
 			await new Promise((resolve) => setTimeout(resolve, 800))
 			await login(page.request, user)
 		}

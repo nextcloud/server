@@ -61,7 +61,7 @@ export async function createStorageWithConfig(
 		command.push('--user', user.userId)
 	}
 
-	const stdout = await runOcc(command)
+	const { stdout } = await runOcc(command)
 	// Plain output is "Storage created with id <id>"; keep only the trailing id
 	return stdout.replace('Storage created with id ', '').trim()
 }
@@ -83,7 +83,7 @@ export async function setStorageMountOptions(mountId: string, options: StorageMo
  * listed here, so this is safe to call without disturbing the per-user specs.
  */
 export async function deleteAllGlobalStorages(): Promise<void> {
-	const stdout = await runOcc(['files_external:list', '--output=json'])
+	const { stdout } = await runOcc(['files_external:list', '--output=json'])
 	const list = JSON.parse(stdout) as Array<{ mount_id: number }>
 	for (const { mount_id: mountId } of list) {
 		await runOcc(['files_external:delete', String(mountId), '--yes'])

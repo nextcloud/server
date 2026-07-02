@@ -44,6 +44,6 @@ test('Does not show write actions on read-only storage mounted at the root of th
 
 /** Read the `overwrites_home_folders` files app config as a trimmed string. */
 async function getOverwritesHomeFolders(): Promise<string> {
-	const result = await runOcc(['config:app:get', 'files', 'overwrites_home_folders', '--default-value=[]'])
-	return result.trim()
+	const { stdout } = await runOcc(['config:app:get', 'files', 'overwrites_home_folders', '--default-value=[]'])
+	return stdout.trim()
 }

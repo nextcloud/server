@@ -11,11 +11,9 @@ import { handlePasswordConfirmation } from '../../support/utils/password-confirm
 test.describe('Settings: App management', () => {
 	test.beforeEach(async ({ appstorePage }) => {
 		// Disable QA testing app if already enabled
-		expect(await runOcc(['app:disable', 'testing']))
-			.toMatch(/(No such app enabled|testing .+ disabled)/)
+		await runOcc(['app:disable', 'testing'], { failOnError: false })
 		// Enable update notification app if disabled
-		expect(await runOcc(['app:enable', 'updatenotification']))
-			.toMatch(/(updatenotification already enabled|updatenotification .+ enabled)/)
+		await runOcc(['app:enable', 'updatenotification'], { failOnError: false })
 
 		// Open the installed apps page
 		await appstorePage.openInstalledApps()

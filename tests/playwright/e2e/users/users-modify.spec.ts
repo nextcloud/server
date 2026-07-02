@@ -27,7 +27,8 @@ test.describe('Settings: Change user properties', () => {
 		await expect(page.getByText(/Account updated/i)).toBeVisible()
 
 		// Verify backend
-		const info = JSON.parse(await runOcc(['user:info', '--output=json', user.userId]))
+		const { stdout: jsonList } = await runOcc(['user:info', '--output=json', user.userId])
+		const info = JSON.parse(jsonList)
 		expect(info?.display_name).toBe('John Doe')
 	})
 
@@ -68,7 +69,8 @@ test.describe('Settings: Change user properties', () => {
 		await expect(page.getByText(/Account updated/i)).toBeVisible()
 
 		// Verify backend
-		const info = JSON.parse(await runOcc(['user:info', '--output=json', user.userId]))
+		const { stdout: jsonList } = await runOcc(['user:info', '--output=json', user.userId])
+		const info = JSON.parse(jsonList)
 		expect(info?.email).toBe('mymail@example.com')
 	})
 
@@ -90,7 +92,8 @@ test.describe('Settings: Change user properties', () => {
 		await expect(page.getByText(/Account updated/i)).toBeVisible()
 
 		// Verify backend
-		const info = JSON.parse(await runOcc(['user:info', '--output=json', user.userId]))
+		const { stdout: jsonList } = await runOcc(['user:info', '--output=json', user.userId])
+		const info = JSON.parse(jsonList)
 		expect(info?.quota).toBe('5 GB')
 	})
 
@@ -112,7 +115,8 @@ test.describe('Settings: Change user properties', () => {
 		await expect(page.getByText(/Account updated/i)).toBeVisible()
 
 		// Verify backend (stored as bytes)
-		const info = JSON.parse(await runOcc(['user:info', '--output=json', user.userId]))
+		const { stdout: jsonList } = await runOcc(['user:info', '--output=json', user.userId])
+		const info = JSON.parse(jsonList)
 		expect(info?.quota).not.toBe('none')
 	})
 
