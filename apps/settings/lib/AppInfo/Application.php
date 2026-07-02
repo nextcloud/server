@@ -49,6 +49,7 @@ use OCA\Settings\SetupChecks\JavaScriptSourceMaps;
 use OCA\Settings\SetupChecks\LegacySSEKeyFormat;
 use OCA\Settings\SetupChecks\MaintenanceWindowStart;
 use OCA\Settings\SetupChecks\MemcacheConfigured;
+use OCA\Settings\SetupChecks\MemcacheLegacy;
 use OCA\Settings\SetupChecks\MimeTypeMigrationAvailable;
 use OCA\Settings\SetupChecks\MysqlRowFormat;
 use OCA\Settings\SetupChecks\MysqlUnicodeSupport;
@@ -193,6 +194,7 @@ class Application extends App implements IBootstrap {
 		$context->registerSetupCheck(LegacySSEKeyFormat::class);
 		$context->registerSetupCheck(MaintenanceWindowStart::class);
 		$context->registerSetupCheck(MemcacheConfigured::class);
+		$context->registerSetupCheck(MemcacheLegacy::class);
 		$context->registerSetupCheck(MimeTypeMigrationAvailable::class);
 		$context->registerSetupCheck(MysqlRowFormat::class);
 		$context->registerSetupCheck(MysqlUnicodeSupport::class);
