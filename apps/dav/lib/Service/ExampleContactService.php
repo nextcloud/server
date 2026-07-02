@@ -36,7 +36,7 @@ class ExampleContactService {
 	}
 
 	public function isDefaultContactEnabled(): bool {
-		return $this->appConfig->getAppValueBool('enableDefaultContact', true);
+		return $this->appConfig->getAppValueBool('enableDefaultContact');
 	}
 
 	public function setDefaultContactEnabled(bool $value): void {

@@ -201,6 +201,6 @@ EOF);
 	}
 
 	public function shouldCreateExampleEvent(): bool {
-		return $this->appConfig->getValueBool(Application::APP_ID, self::ENABLE_CONFIG_KEY, true);
+		return $this->appConfig->getValueBool(Application::APP_ID, self::ENABLE_CONFIG_KEY);
 	}
 }
