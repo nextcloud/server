@@ -7,7 +7,10 @@ RUN apt-get update -y && \
     apt install -y apache2 vim software-properties-common sudo nano gnupg2 wget curl git \
     lsb-release ca-certificates apt-transport-https && \
     add-apt-repository ppa:ondrej/php -y && \
-    apt-get update -y
+    apt-get update -y && \
+    a2enmod headers rewrite env && \
+    bash -lc 'printf "\n<Directory /var/www/html>\n    AllowOverride All\n    Require all granted\n</Directory>\n" >> /etc/apache2/sites-available/000-default.conf' && \
+    apache2ctl configtest
 
 RUN apt-get install --no-install-recommends -y \
     php8.4 \
