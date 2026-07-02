@@ -2,6 +2,7 @@
 	"config": {
 		"vendor-dir": "lib/composer",
 		"optimize-autoloader": true,
+		"apcu-autoloader": true,
 		"sort-packages": true,
 		"platform": {
 			"php": "8.3"
