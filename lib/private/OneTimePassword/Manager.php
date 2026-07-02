@@ -67,6 +67,8 @@ class Manager implements IManager {
 	 * @throws Exception
 	 */
 	public function createOTP(string $provider, string $recipient, ?string $password = null, ?\DateTime $expirationTime = null): IOneTimePassword {
+		$expirationTime?->setTimezone(new \DateTimeZone(date_default_timezone_get()));
+
 		$qb = $this->connection->getQueryBuilder();
 		$qb->insert('one_time_password')
 			->setValue('provider', $qb->createNamedParameter($provider))
@@ -88,6 +90,8 @@ class Manager implements IManager {
 		if ($data['expiration'] !== null) {
 			$expiration = \DateTime::createFromFormat('Y-m-d H:i:s', $data['expiration']);
 			$otp->setExpirationTime($expiration);
+		} else {
+			$otp->setExpirationTime(null);
 		}
 		return $otp;
 	}
@@ -128,7 +132,11 @@ class Manager implements IManager {
 		$event = new SendOneTimePasswordEvent($password, $otp->getProviderId(), $otp->getRecipient());
 		$this->dispatcher->dispatchTyped($event);
 
-		if (!$event->getWasConsumed() || $event->getError() !== null) {
+		if (!$event->getWasConsumed()) {
+			throw new OTPProviderNotFoundException($otp->getProviderId());
+		}
+
+		if ($event->getError() !== null) {
 			// invalidate OTP
 			$otp->setExpirationTime(new \DateTime())->setPassword(null);
 			$this->updateOTP($otp);
@@ -142,7 +150,7 @@ class Manager implements IManager {
 	 * @inheritdoc
 	 */
 	public function getOTPProviders(): array {
-		$event = new GetOneTimePasswordProvidersEvent($this->logger);
+		$event = new GetOneTimePasswordProvidersEvent();
 		$this->dispatcher->dispatchTyped($event);
 		return $event->getProviders();
 	}
@@ -172,7 +180,6 @@ class Manager implements IManager {
 
 		$newHash = '';
 		$valid = $this->hasher->verify($password, $otp->getPassword(), $newHash);
-		$this->logger->warning("is '" . $otp->getPassword() . "' a valid hash? " . ($valid ? 'true' : 'false'));
 		if (!empty($newHash)) {
 			$otp->setPassword($newHash);
 			$this->updateOTP($otp);

@@ -533,7 +533,7 @@ class Share implements IShare {
 	 */
 	#[\Override]
 	public function isPasswordProtected(): bool {
-		return $this->password !== '' && $this->password !== null && $this->otp !== null;
+		return ($this->password !== '' && $this->password !== null) || $this->otp !== null;
 	}
 
 	/**

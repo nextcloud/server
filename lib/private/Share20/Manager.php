@@ -925,7 +925,7 @@ class Manager implements IManager {
 		// Password updated.
 		if ($passwordsAreDifferent) {
 			// Verify the password
-			$this->verifyPassword($share->getPassword());
+			$this->verifyPassword($share->getPassword(), null);
 
 			// If a password is set. Hash it!
 			if (!empty($share->getPassword())) {
