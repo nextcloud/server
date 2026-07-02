@@ -114,22 +114,33 @@ class AccountManager implements IAccountManager {
 		}
 	}
 
-	protected function testPropertyScope(IAccountProperty $property, array $allowedScopes, bool $throwOnData): void {
-		if ($throwOnData && !in_array($property->getScope(), $allowedScopes, true)) {
+	protected function testPropertyScope(IAccountProperty $property, array $allowedScopes): void {
+		if (!in_array($property->getScope(), $allowedScopes, true)) {
 			throw new InvalidArgumentException('scope');
+		}
+
+		// Properties that are local-only must not be set to FEDERATED or PUBLISHED scope.
+		if (
+			in_array($property->getName(), self::UNPUBLISHED_PROPERTIES, true)
+			&& in_array($property->getScope(), [self::SCOPE_FEDERATED, self::SCOPE_PUBLISHED], true)
+		) {
+			throw new InvalidArgumentException('scope');
+		}
+
+		// PUBLISHED scope requires the lookup server upload to be enabled by the admin.
+		if ($property->getScope() === self::SCOPE_PUBLISHED) {
+			$lookupServerUploadEnabled = $this->config->getAppValue('files_sharing', 'lookupServerUploadEnabled', 'no') === 'yes';
+			if (!$lookupServerUploadEnabled) {
+				throw new InvalidArgumentException('scope');
+			}
 		}
 
 		if (
 			$property->getScope() === self::SCOPE_PRIVATE
 			&& in_array($property->getName(), [self::PROPERTY_DISPLAYNAME, self::PROPERTY_EMAIL])
 		) {
-			if ($throwOnData) {
-				// v2-private is not available for these fields
-				throw new InvalidArgumentException('scope');
-			} else {
-				// default to local
-				$property->setScope(self::SCOPE_LOCAL);
-			}
+			// v2-private is not available for these fields
+			throw new InvalidArgumentException('scope');
 		} else {
 			// migrate scope values to the new format
 			// invalid scopes are mapped to a default value
@@ -875,7 +886,7 @@ class AccountManager implements IAccountManager {
 		}
 
 		foreach ($account->getAllProperties() as $property) {
-			$this->testPropertyScope($property, self::ALLOWED_SCOPES, true);
+			$this->testPropertyScope($property, self::ALLOWED_SCOPES);
 		}
 
 		$oldData = $this->getUser($account->getUser(), false);
