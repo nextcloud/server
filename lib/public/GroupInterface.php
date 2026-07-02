@@ -95,15 +95,15 @@ interface GroupInterface {
 	public function getUserGroups($uid);
 
 	/**
-	 * @brief Get a list of all groups
+	 * Get a list of groups matching the search criteria.
 	 *
-	 * @param string $search
-	 * @param int $limit
-	 * @param int $offset
-	 * @return array an array of group names
+	 * An empty search returns all groups.
+	 *
+	 * @param string $search Search term used to filter group names
+	 * @param int $limit Maximum number of results to return, or -1 for no limit
+	 * @param int $offset Offset for paginated results
+	 * @return list<string> An array of group names
 	 * @since 4.5.0
-	 *
-	 * Returns a list with all groups
 	 */
 	public function getGroups(string $search = '', int $limit = -1, int $offset = 0);
 
