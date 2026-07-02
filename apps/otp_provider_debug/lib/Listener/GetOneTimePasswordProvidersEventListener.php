@@ -11,9 +11,9 @@ namespace OCA\OTPProviderDebug\Listener;
 use OCA\OTPProviderDebug\OTPProvider;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
+use OCP\L10N\IFactory;
 use OCP\OneTimePassword\Events\GetOneTimePasswordProvidersEvent;
 use OCP\OneTimePassword\IOneTimePasswordProvider;
-use OCP\L10N\IFactory;
 
 /**
  * @template-implements IEventListener<GetOneTimePasswordProvidersEvent>

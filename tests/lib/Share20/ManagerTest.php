@@ -9,7 +9,6 @@
 namespace Test\Share20;
 
 use DateTimeZone;
-use Hoa\Iterator\Mock;
 use OC\Files\Utils\PathHelper;
 use OC\KnownUser\KnownUserService;
 use OC\Share20\DefaultShareProvider;
@@ -45,6 +44,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\OneTimePassword\IManager as IOTPManager;
 use OCP\Security\Events\ValidatePasswordPolicyEvent;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
@@ -61,7 +61,6 @@ use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
 use OCP\Share\IShareProvider;
 use OCP\Share\IShareProviderSupportsAllSharesInFolder;
-use OCP\OneTimePassword\IManager as IOTPManager;
 use OCP\Util;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;

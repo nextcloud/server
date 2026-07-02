@@ -8,8 +8,8 @@
 namespace OCP\OneTimePassword;
 
 use OCP\AppFramework\Attribute\Consumable;
-use OCP\OneTimePassword\Exceptions\OTPSendException;
 use OCP\OneTimePassword\Exceptions\OTPProviderNotFoundException;
+use OCP\OneTimePassword\Exceptions\OTPSendException;
 
 /**
  * This interface allows to manage one-time passwords.

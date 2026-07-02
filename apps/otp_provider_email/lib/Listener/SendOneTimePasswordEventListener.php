@@ -28,7 +28,8 @@ class SendOneTimePasswordEventListener implements IEventListener {
 		private readonly IL10N $l,
 		private readonly Defaults $defaults,
 		private readonly LoggerInterface $logger,
-	) { }
+	) {
+	}
 
 	#[\Override]
 	public function handle(Event $event): void {
@@ -76,7 +77,7 @@ class SendOneTimePasswordEventListener implements IEventListener {
 		$message->setFrom([Util::getDefaultEmailAddress($instanceName) => $instanceName]);
 		$emailTemplate->addFooter();
 
-		$message->setTo(array($recipient));
+		$message->setTo([$recipient]);
 		$message->useTemplate($emailTemplate);
 		return $this->mailer->send($message);
 	}

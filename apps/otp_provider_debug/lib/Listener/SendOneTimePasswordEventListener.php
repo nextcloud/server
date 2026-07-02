@@ -19,7 +19,10 @@ use Psr\Log\LoggerInterface;
  */
 readonly class SendOneTimePasswordEventListener implements IEventListener {
 
-	public function __construct(private LoggerInterface $logger) { }
+	public function __construct(
+		private LoggerInterface $logger,
+	) {
+	}
 
 	#[\Override]
 	public function handle(Event $event): void {

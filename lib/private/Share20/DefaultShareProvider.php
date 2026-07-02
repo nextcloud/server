@@ -305,10 +305,10 @@ class DefaultShareProvider implements
 				->set('note', $qb->createNamedParameter($share->getNote()))
 				->set('label', $qb->createNamedParameter($share->getLabel()))
 				->set('hide_download', $qb->createNamedParameter($share->getHideDownload() ? 1 : 0, IQueryBuilder::PARAM_INT));
-			if($share->getOneTimePassword() !== null) {
+			if ($share->getOneTimePassword() !== null) {
 				$qb->set('one_time_password', $qb->createNamedParameter($share->getOneTimePassword()->getId()));
 			}
-				$qb->executeStatement();
+			$qb->executeStatement();
 		}
 
 		if ($originalShare->getNote() !== $share->getNote() && $share->getNote() !== '') {

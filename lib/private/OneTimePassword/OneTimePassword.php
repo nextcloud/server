@@ -12,8 +12,9 @@ class OneTimePassword implements IOneTimePassword {
 
 	public function __construct(
 		private string $providerId,
-		private string $recipient
-	) { }
+		private string $recipient,
+	) {
+	}
 
 	#[Override]
 	public function setId(int $id): self {

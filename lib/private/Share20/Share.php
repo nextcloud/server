@@ -524,7 +524,7 @@ class Share implements IShare {
 	 * @inheritdoc
 	 */
 	#[\Override]
-	public function getOneTimePassword(): IOneTimePassword|null {
+	public function getOneTimePassword(): ?IOneTimePassword {
 		return $this->otp;
 	}
 

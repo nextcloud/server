@@ -93,7 +93,7 @@ class ShareController extends AuthPublicShareController {
 	 *
 	 * @psalm-return array{name: string, description: string, recipientPattern: string, maskedRecipient: string}|null
 	 */
-	private function getOtpProviderInfo(): array|null {
+	private function getOtpProviderInfo(): ?array {
 		$otpProvider = null;
 		$otpProviderInfo = null;
 		if ($this->share->getOneTimePassword() !== null) {
@@ -220,7 +220,7 @@ class ShareController extends AuthPublicShareController {
 		}
 
 		$otp = $this->share->getOneTimePassword();
-		if($otp !== null) {
+		if ($otp !== null) {
 			$otp->setPassword(null);
 			$this->otpManager->updateOTP($otp);
 		}

@@ -8,18 +8,16 @@ declare(strict_types=1);
 
 namespace OCA\OTPProviderDebug;
 
-use OCP\IL10N;
 use OCA\OTPProviderDebug\AppInfo\Application;
-use OCP\OneTimePassword\IOneTimePasswordProvider;
-use Psr\Log\LoggerInterface;
+use OCP\IL10N;
 use OCP\L10N\IFactory;
+use OCP\OneTimePassword\IOneTimePasswordProvider;
 
 class OTPProvider implements IOneTimePasswordProvider {
 	private IL10N $l;
 
-
 	public function __construct(
-		IFactory $l10nFactory
+		IFactory $l10nFactory,
 	) {
 		$this->l = $l10nFactory->get(Application::APP_ID);
 	}

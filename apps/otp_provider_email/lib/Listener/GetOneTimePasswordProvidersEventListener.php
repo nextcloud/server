@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace OCA\OTPProviderEmail\Listener;
 
-use OCA\OTPProviderEmail\AppInfo\Application;
 use OCA\OTPProviderEmail\EmailProvider;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
@@ -23,7 +22,10 @@ use Psr\Log\LoggerInterface;
 class GetOneTimePasswordProvidersEventListener implements IEventListener {
 	private IOneTimePasswordProvider $provider;
 
-	public function __construct(IFactory $l10nFactory, private LoggerInterface $logger) {
+	public function __construct(
+		IFactory $l10nFactory,
+		private LoggerInterface $logger,
+	) {
 		$this->provider = new EmailProvider($l10nFactory, $this->logger);
 	}
 

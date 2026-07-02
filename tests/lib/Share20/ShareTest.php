@@ -15,8 +15,8 @@ use OCP\IUserManager;
 use OCP\Share\Exceptions\IllegalIDChangeException;
 use OCP\Share\IShare;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class ShareTest

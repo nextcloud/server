@@ -30,13 +30,13 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
+use OCP\OneTimePassword\IManager as IOTPManager;
 use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
-use OCP\OneTimePassword\IManager as IOTPManager;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -153,8 +153,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	 * @return int
 	 */
 	private function addShareToDB($shareType, $sharedWith, $sharedBy, $shareOwner,
-								  $itemType, $fileSource, $fileTarget, $permissions, $token, $expiration,
-								  $parent = null, $otpId = null) {
+		$itemType, $fileSource, $fileTarget, $permissions, $token, $expiration,
+		$parent = null, $otpId = null) {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('share');
 

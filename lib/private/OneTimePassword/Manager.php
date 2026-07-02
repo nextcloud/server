@@ -16,8 +16,8 @@ use OCP\IL10N;
 use OCP\OneTimePassword\Events\GetOneTimePasswordProvidersEvent;
 use OCP\OneTimePassword\Events\SendOneTimePasswordEvent;
 use OCP\OneTimePassword\Exceptions\OTPNotFoundException;
-use OCP\OneTimePassword\Exceptions\OTPSendException;
 use OCP\OneTimePassword\Exceptions\OTPProviderNotFoundException;
+use OCP\OneTimePassword\Exceptions\OTPSendException;
 use OCP\OneTimePassword\IManager;
 use OCP\OneTimePassword\IOneTimePassword;
 use OCP\OneTimePassword\IOneTimePasswordProvider;
@@ -32,11 +32,11 @@ class Manager implements IManager {
 	private ?IL10N $l;
 
 	public function __construct(
-		private readonly LoggerInterface  $logger,
-		private readonly ISecureRandom    $secureRandom,
+		private readonly LoggerInterface $logger,
+		private readonly ISecureRandom $secureRandom,
 		private readonly IEventDispatcher $dispatcher,
-		private readonly IDBConnection    $connection,
-		private readonly IHasher          $hasher,
+		private readonly IDBConnection $connection,
+		private readonly IHasher $hasher,
 	) {
 	}
 

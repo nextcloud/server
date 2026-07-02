@@ -23,11 +23,11 @@ use OCP\OneTimePassword\IOneTimePasswordProvider;
 use OCP\Security\Events\GenerateSecurePasswordEvent;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
-use Psr\Log\LoggerInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockBuilder;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 /**
@@ -85,7 +85,9 @@ class ManagerTest extends TestCase {
 		$qb->method('setValue')->willReturn($qb);
 		$qb->method('set')->willReturn($qb);
 		$expr = $this->createMock(IExpressionBuilder::class);
-		$expr->method('eq')->willReturnCallback(function (string $arg1, int $arg2) { return $arg1 . "=" . $arg2; });
+		$expr->method('eq')->willReturnCallback(function (string $arg1, int $arg2) {
+			return $arg1 . '=' . $arg2;
+		});
 		$qb->method('expr')->willReturn($expr);
 		return $qb;
 	}
@@ -115,7 +117,7 @@ class ManagerTest extends TestCase {
 			->with('one_time_password');
 		$qb->expects($this->once())
 			->method('where')
-			->with("id=1");
+			->with('id=1');
 
 		$this->manager->deleteOTP($otp->getId());
 	}
@@ -130,13 +132,13 @@ class ManagerTest extends TestCase {
 
 	#[DataProvider('dataTestGet')]
 	public function testGet($otpId, $providerId, $recipient, $passwordHash, $expiration): void {
-		$otpData = array(
+		$otpData = [
 			'id' => $otpId,
 			'provider' => $providerId,
 			'recipient' => $recipient,
 			'password' => $passwordHash,
 			'expiration' => $expiration,
-		);
+		];
 
 		$expirationDT = $expiration === null ? null : self::parseDateTime($expiration);
 
@@ -159,8 +161,7 @@ class ManagerTest extends TestCase {
 	}
 
 	private static function parseDateTime(string $datetime) {
-		return \DateTime::createFromFormat("Y-m-d H:i:s", $datetime);
-
+		return \DateTime::createFromFormat('Y-m-d H:i:s', $datetime);
 	}
 
 	public static function dataTestCreate() {
@@ -185,21 +186,21 @@ class ManagerTest extends TestCase {
 
 		$this->connection->method('getQueryBuilder')->willReturn($qb);
 
-		$setValueCalls = array(
+		$setValueCalls = [
 			'provider' => false,
 			'recipient' => false,
 			'password' => false,
 			'expiration' => false
-		);
-		$setValueExpected = array(
+		];
+		$setValueExpected = [
 			'provider' => $providerId,
 			'recipient' => $recipient,
 			'password' => $passwordHash,
 			'expiration' => $expiration
-		);
+		];
 
 		$qb->method('setValue')
-			->willReturnCallback(function($name, $value, $type = null) use ($setValueExpected, &$setValueCalls): void {
+			->willReturnCallback(function ($name, $value, $type = null) use ($setValueExpected, &$setValueCalls): void {
 				$this->assertFalse($setValueCalls[$name], $name . ' was already set');
 				$setValueCalls[$name] = true;
 				$this->assertEquals($setValueExpected[$name], $value);
@@ -214,7 +215,6 @@ class ManagerTest extends TestCase {
 
 		$this->assertEquals($expected, $actual);
 	}
-
 
 	public static function dataTestUpdate() {
 		return [
@@ -239,21 +239,21 @@ class ManagerTest extends TestCase {
 
 		$this->connection->method('getQueryBuilder')->willReturn($qb);
 
-		$setValueCalls = array(
+		$setValueCalls = [
 			'provider' => false,
 			'recipient' => false,
 			'password' => false,
 			'expiration' => false
-		);
-		$setValueExpected = array(
+		];
+		$setValueExpected = [
 			'provider' => $providerId,
 			'recipient' => $recipient,
 			'password' => $passwordHash,
 			'expiration' => $expiration
-		);
+		];
 
 		$qb->method('set')
-			->willReturnCallback(function($name, $value, $type = null) use ($setValueExpected, &$setValueCalls): void {
+			->willReturnCallback(function ($name, $value, $type = null) use ($setValueExpected, &$setValueCalls): void {
 				$this->assertFalse($setValueCalls[$name], $name . ' was already set');
 				$setValueCalls[$name] = true;
 				$this->assertEquals($setValueExpected[$name], $value);
@@ -329,7 +329,7 @@ class ManagerTest extends TestCase {
 	public function testSendOTP(OneTimePassword $otp) {
 		if ($otp->getProviderId() === 'invalid') {
 			$this->expectException(OTPProviderNotFoundException::class);
-		} else if ($otp->getProviderId() === 'broken') {
+		} elseif ($otp->getProviderId() === 'broken') {
 			$this->expectException(OTPSendException::class);
 		}
 
@@ -358,7 +358,7 @@ class ManagerTest extends TestCase {
 						break;
 					default:
 						$event->markConsumed();
-						$event->setMessage($event->getProvider() . " processed");
+						$event->setMessage($event->getProvider() . ' processed');
 				}
 			});
 
@@ -386,12 +386,12 @@ class ManagerTest extends TestCase {
 	public static function dataTestValidateOTP() {
 		return [
 			// otp(provider, recipient, pw,           expires),  given pw, valid?, newHash?
-			[ 'test',        'reca',    null,         null,      "pw",     false,  false ], // empty otp password should fail
-			[ 'test',        'recb',    "hashed(pw)", null,      "pw",     true,   false ], // correct password should succeed
-			[ 'test',        'recc',    "hashed(pw)", null,      "xy",     false,  false ], // wrong password should fail
-			[ 'test',        'recd',    "hashed(pw)", null,      "pw",     true,   true  ], // hash should be regenerated if necessary
-			[ 'test',        'rece',    "hashed(pw)", self::parseDateTime('1990-01-01 00:00:00'), "pw", false, false ], // expired OTP should fail
-			[ 'test',        'rece',    "hashed(pw)", self::parseDateTime('3000-01-01 00:00:00'), "pw", true, false ], // non-expired OTP should succeed
+			[ 'test',        'reca',    null,         null,      'pw',     false,  false ], // empty otp password should fail
+			[ 'test',        'recb',    'hashed(pw)', null,      'pw',     true,   false ], // correct password should succeed
+			[ 'test',        'recc',    'hashed(pw)', null,      'xy',     false,  false ], // wrong password should fail
+			[ 'test',        'recd',    'hashed(pw)', null,      'pw',     true,   true  ], // hash should be regenerated if necessary
+			[ 'test',        'rece',    'hashed(pw)', self::parseDateTime('1990-01-01 00:00:00'), 'pw', false, false ], // expired OTP should fail
+			[ 'test',        'rece',    'hashed(pw)', self::parseDateTime('3000-01-01 00:00:00'), 'pw', true, false ], // non-expired OTP should succeed
 		];
 	}
 
@@ -404,7 +404,7 @@ class ManagerTest extends TestCase {
 			->onlyMethods(['updateOTP'])
 			->getMock();
 
-		$this->hasher->method('hash')->willReturnCallback(function(string $pw) {
+		$this->hasher->method('hash')->willReturnCallback(function (string $pw) {
 			return "hashed($pw)";
 		});
 		$this->hasher->method('verify')->willReturnCallback(function (string $pw, string $hashed, string &$newHash) use ($generateNewHash) {

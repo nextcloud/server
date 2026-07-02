@@ -14,8 +14,6 @@ use OC\Authentication\Token\PublicKeyTokenProvider;
 use OC\Core\AppInfo\ConfigLexicon;
 use OC\Files\Filesystem;
 use OC\KnownUser\KnownUserService;
-use OCP\DB\Exception;
-use OCP\OneTimePassword\IManager as IOTPManager;
 use OC\Share\Constants as ShareConstants;
 use OC\Share20\Exception\ProviderException;
 use OCA\Circles\Api\v1\Circles;
@@ -23,6 +21,7 @@ use OCA\Files_Sharing\AppInfo\Application;
 use OCA\Files_Sharing\SharedStorage;
 use OCA\ShareByMail\ShareByMailProvider;
 use OCP\Constants;
+use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -45,6 +44,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\OneTimePassword\IManager as IOTPManager;
 use OCP\OneTimePassword\IOneTimePassword;
 use OCP\Security\Events\ValidatePasswordPolicyEvent;
 use OCP\Security\IHasher;
@@ -137,7 +137,7 @@ class Manager implements IManager {
 		// Let others verify the password
 		try {
 			// An OTP password can't be verified at this time, because it is yet to be created
-			if($otp === null) {
+			if ($otp === null) {
 				$event = new ValidatePasswordPolicyEvent($password, PasswordContext::SHARING);
 				$this->dispatcher->dispatchTyped($event);
 			}
@@ -1528,7 +1528,6 @@ class Manager implements IManager {
 			}
 		}
 	}
-
 
 	/**
 	 * @throws \DateInvalidTimeZoneException
