@@ -319,6 +319,7 @@ class LoginController extends Controller {
 				// case when a user has already logged-in, in another tab.
 				return $this->generateRedirect($redirect_url);
 			}
+			$throttle = false;
 			$error = self::LOGIN_MSG_CSRFCHECKFAILED;
 		}
 
