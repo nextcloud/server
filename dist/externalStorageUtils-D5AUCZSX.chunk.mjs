@@ -1,0 +1,2 @@
+import{n as e}from"./folder-29HuacU_-CvTjKp0d.chunk.mjs";import"./dist-CEFgXNOt.chunk.mjs";function t(t){if(t.type===e.File)return!1;let n=t.attributes;return!n.scope||!n.backend?!1:n.scope===`personal`||n.scope===`system`}function n(e,t,n){let r=new Set(n.flatMap(e=>Object.keys(e??{})));for(let n of Object.keys(t??{}))r.has(n)||delete e[n]}export{n,t};
+//# sourceMappingURL=externalStorageUtils-D5AUCZSX.chunk.mjs.map

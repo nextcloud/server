@@ -1,0 +1,2 @@
+import{O as e,U as t,b as n,v as r,x as i}from"./vue.runtime.esm-bundler-R-TRboFG.chunk.mjs";import{t as a}from"./CommentsApp-CCl5UzGY.chunk.mjs";var o=e({__name:`FilesSidebarTab`,props:{node:{},active:{type:Boolean},folder:{},view:{}},setup(e){let o=e,s=r(()=>o.node?.fileid);return(e,r)=>s.value===void 0?i(``,!0):(t(),n(a,{key:s.value,resourceId:s.value,resourceType:`files`},null,8,[`resourceId`]))}});export{o as default};
+//# sourceMappingURL=FilesSidebarTab-mtWvMmux.chunk.mjs.map

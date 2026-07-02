@@ -1,0 +1,2 @@
+import{t as e}from"./dist-B1dKxqkS.chunk.mjs";function t(){return e(`comments`,`activityEnabled`,!1)&&window.OCA?.Activity?.registerSidebarAction!==void 0}export{t};
+//# sourceMappingURL=activity-MgE5OwEC.chunk.mjs.map

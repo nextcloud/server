@@ -1,0 +1,2 @@
+import{t as e}from"./dist-B1dKxqkS.chunk.mjs";function t(){try{return e(`core`,`capabilities`)}catch{return console.debug(`Could not find capabilities initial state fall back to _oc_capabilities`),`_oc_capabilities`in window?window._oc_capabilities:{}}}export{t};
+//# sourceMappingURL=dist-CjlPnIS8.chunk.mjs.map
