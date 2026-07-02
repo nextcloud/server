@@ -13,19 +13,54 @@ use OCP\AppFramework\Attribute\Consumable;
 use OCP\EventDispatcher\Event;
 
 /**
- * Authorization gate event dispatched by a ShareReview source before deleting
- * an app-managed share on behalf of a ShareReview operator.
+ * Authorization gate for deleting an app-managed share through a share-review app.
  *
- * Usage — dispatch and check:
+ * Background: Apps such as Deck or Tables manage their own shares outside of
+ * the regular sharing backend ({@see \OCP\Share\IManager}). They can expose
+ * those shares to a share-review app — a compliance tool that lets designated
+ * operators audit and revoke shares across all apps — by implementing
+ * {@see \OCP\Share\ShareReview\IShareReviewSource}. When a share-review
+ * operator requests the deletion of such a share, the deletion is executed by
+ * the app that owns the share, not by the share-review app. The owning app
+ * has no way of knowing whether the acting user is actually authorized to
+ * perform share reviews — only the share-review app knows that. This event
+ * closes that gap: it lets the owning app ask "may the current user delete
+ * this share on behalf of a share review?" before deleting anything.
  *
- *   $event = new ShareReviewAccessCheckEvent('MyApp', $shareId);
- *   $dispatcher->dispatchTyped($event);
- *   if (!$event->isHandled() || !$event->isGranted()) {
- *       return false; // default-deny: no listener means no access
+ * Dispatched by: the app that owns the share, i.e. the
+ * {@see \OCP\Share\ShareReview\IShareReviewSource} implementation, at the
+ * beginning of its deleteShare() method:
+ *
+ *   public function deleteShare(string $shareId): bool {
+ *       $event = new ShareReviewAccessCheckEvent('MyApp', $shareId);
+ *       $this->dispatcher->dispatchTyped($event);
+ *       if (!$event->isHandled() || !$event->isGranted()) {
+ *           return false; // default-deny: no listener means no access
+ *       }
+ *       // ... actually delete the share ...
  *   }
  *
+ * Listened to by: the share-review app. Its listener decides whether the
+ * current user is an authorized share-review operator (e.g. the app is
+ * enabled for the user) and answers with grantAccess() or denyAccess():
+ *
+ *   public function handle(Event $event): void {
+ *       if (!$event instanceof ShareReviewAccessCheckEvent) {
+ *           return;
+ *       }
+ *       if ($this->isShareReviewOperator()) {
+ *           $event->grantAccess();
+ *       } else {
+ *           $event->denyAccess('User is not a share-review operator.');
+ *       }
+ *   }
+ *
+ * Apps that merely expose shares must not listen to this event; answering it
+ * is the responsibility of the share-review app that triggered the deletion.
+ *
  * Semantics:
- *  - Default-deny: an unhandled event blocks the deletion.
+ *  - Default-deny: if no listener responds (isHandled() is false, e.g. no
+ *    share-review app is installed), the dispatcher must not delete the share.
  *  - Deny wins: once denyAccess() is called, further grantAccess() calls are
  *    ignored and propagation is stopped immediately.
  *  - Multiple grants are harmless; the last listener to deny is authoritative.
