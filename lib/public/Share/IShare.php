@@ -14,6 +14,7 @@ use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
+use OCP\OneTimePassword\IOneTimePassword;
 use OCP\Share\Exceptions\IllegalIDChangeException;
 
 /**
@@ -467,6 +468,28 @@ interface IShare {
 	 * @since 9.0.0
 	 */
 	public function getPassword();
+
+	/**
+	 * Get the associated one-time password (if set)
+	 * @return ?IOneTimePassword The one-time password
+	 * @since 35.0.0
+	 */
+	public function getOneTimePassword(): ?IOneTimePassword;
+
+	/**
+	 * Set the associated one-time password
+	 * @param ?IOneTimePassword $otp
+	 * @return self
+	 * @since 35.0.0
+	 */
+	public function setOneTimePassword(?IOneTimePassword $otp): self;
+
+	/**
+	 * Returns whether the share is password protected by any means (e.g. password or OTP)
+	 * @return bool
+	 * @since 35.0.0
+	 */
+	public function isPasswordProtected(): bool;
 
 	/**
 	 * Set the password's expiration time of this share.

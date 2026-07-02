@@ -27,4 +27,10 @@ enum PasswordContext {
 	 * @since 31.0.0
 	 */
 	case SHARING;
+
+	/**
+	 * Password used for short-lived one-time passwords
+	 * @since 35.0.0
+	 */
+	case OTP;
 }

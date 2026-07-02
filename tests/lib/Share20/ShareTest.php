@@ -8,11 +8,14 @@
 
 namespace Test\Share20;
 
+use OC\OneTimePassword\OneTimePassword;
 use OC\Share20\Share;
 use OCP\Files\IRootFolder;
 use OCP\IUserManager;
 use OCP\Share\Exceptions\IllegalIDChangeException;
 use OCP\Share\IShare;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -20,6 +23,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  *
  * @package Test\Share20
  */
+#[Group(name: 'OTP')]
 class ShareTest extends \Test\TestCase {
 	protected IRootFolder&MockObject $rootFolder;
 	protected IUserManager&MockObject $userManager;
@@ -64,5 +68,25 @@ class ShareTest extends \Test\TestCase {
 
 		$this->share->setProviderId('foo');
 		$this->share->setProviderId('bar');
+	}
+
+	public static function dataTestIsPasswordProtected() {
+		return [
+			[null, null, false],
+			['', null, false],
+			['pw', null, true],
+			[null, new OneTimePassword('mock', 'rec'), true],
+			['', new OneTimePassword('mock', 'rec'), true],
+			['pw', new OneTimePassword('mock', 'rec'), true],
+		];
+	}
+
+	#[DataProvider('dataTestIsPasswordProtected')]
+	public function testIsPasswordProtected(?string $password, ?OneTimePassword $otp, bool $expected): void {
+		$this->share
+			->setPassword($password)
+			->setOneTimePassword($otp);
+
+		$this->assertEquals($expected, $this->share->isPasswordProtected());
 	}
 }

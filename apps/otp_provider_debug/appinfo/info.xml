@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--
+  - SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+<info>
+	<id>otp_provider_debug</id>
+	<name>OneTimePassword debug provider</name>
+	<summary>Example implementation of an OTP provider for debug purposes only</summary>
+	<description>
+		Example implementation of an OTP provider for debug purposes only
+	</description>
+	<version>1.0.0</version>
+	<licence>agpl</licence>
+	<author>Tobias Knöppler</author>
+	<namespace>OTPProviderDebug</namespace>
+	<types>
+		<logging/>
+	</types>
+	<category>security</category>
+	<bugs>https://github.com/nextcloud/server/issues</bugs>
+	<dependencies>
+		<nextcloud min-version="34" max-version="35" />
+	</dependencies>
+
+</info>

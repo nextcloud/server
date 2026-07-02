@@ -38,6 +38,8 @@ namespace OCA\Files_Sharing;
  *     parent: null,
  *     password?: null|string,
  *     password_expiration_time?: ?string,
+ *     otp_provider?: null|string,
+ *     otp_recipient?: null|string,
  *     path: ?string,
  *     permissions: int,
  *     send_password_by_talk?: bool,
@@ -232,6 +234,11 @@ namespace OCA\Files_Sharing;
  *     type: string,
  *     etag: string,
  *     children?: list<array<string, mixed>>,
+ * }
+ *
+ * @psalm-type Files_SharingOTPSendSuccess = array{}
+ * @psalm-type Files_SharingOTPSendError = array{
+ *     error: string
  * }
  */
 class ResponseDefinitions {
