@@ -130,6 +130,11 @@ class LostController extends Controller {
 			$user = $this->userManager->get($userId);
 			$this->verificationToken->check($token, $user, 'lostpassword', $user ? $user->getEMailAddress() : '', true);
 		} catch (InvalidTokenException $e) {
+			$this->logger->warning('Password reset token check failed', [
+				'user' => $userId,
+				'code' => $e->getCode(),
+				'exception' => $e,
+			]);
 			$error = $e->getCode() === InvalidTokenException::TOKEN_EXPIRED
 				? $this->l10n->t('Could not reset password because the token is expired')
 				: $this->l10n->t('Could not reset password because the token is invalid');
