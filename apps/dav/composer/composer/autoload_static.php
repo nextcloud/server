@@ -271,6 +271,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Connector\\Sabre\\ShareTypeList' => __DIR__ . '/..' . '/../lib/Connector/Sabre/ShareTypeList.php',
         'OCA\\DAV\\Connector\\Sabre\\ShareeList' => __DIR__ . '/..' . '/../lib/Connector/Sabre/ShareeList.php',
         'OCA\\DAV\\Connector\\Sabre\\SharesPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/SharesPlugin.php',
+        'OCA\\DAV\\Connector\\Sabre\\StreamByteCounter' => __DIR__ . '/..' . '/../lib/Connector/Sabre/StreamByteCounter.php',
         'OCA\\DAV\\Connector\\Sabre\\TagList' => __DIR__ . '/..' . '/../lib/Connector/Sabre/TagList.php',
         'OCA\\DAV\\Connector\\Sabre\\TagsPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/TagsPlugin.php',
         'OCA\\DAV\\Connector\\Sabre\\UserIdHeaderPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/UserIdHeaderPlugin.php',

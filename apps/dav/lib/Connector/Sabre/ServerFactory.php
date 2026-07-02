@@ -111,6 +111,8 @@ class ServerFactory {
 			$this->logger,
 			$this->eventDispatcher,
 			\OCP\Server::get(IDateTimeZone::class),
+			$this->config,
+			$this->l10n,
 		));
 
 		// Some WebDAV clients do require Class 2 WebDAV support (locking), since

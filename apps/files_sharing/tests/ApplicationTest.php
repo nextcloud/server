@@ -13,6 +13,7 @@ use OCA\Files_Sharing\AppInfo\Application;
 use OCA\Files_Sharing\Listener\BeforeDirectFileDownloadListener;
 use OCA\Files_Sharing\Listener\BeforeZipCreatedListener;
 use OCA\Files_Sharing\SharedStorage;
+use OCA\Files_Sharing\ViewOnly;
 use OCP\Files\Events\BeforeDirectFileDownloadEvent;
 use OCP\Files\Events\BeforeZipCreatedEvent;
 use OCP\Files\File;
@@ -80,6 +81,7 @@ class ApplicationTest extends TestCase {
 
 		$userFolder = $this->createMock(Folder::class);
 		$userFolder->method('get')->willReturn($file);
+		$userFolder->method('getPath')->willReturn($path);
 
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('test');
@@ -91,7 +93,8 @@ class ApplicationTest extends TestCase {
 		$event = new BeforeDirectFileDownloadEvent($path);
 		$listener = new BeforeDirectFileDownloadListener(
 			$this->userSession,
-			$this->rootFolder
+			$this->rootFolder,
+			new ViewOnly($userFolder),
 		);
 		$listener->handle($event);
 
@@ -137,6 +140,7 @@ class ApplicationTest extends TestCase {
 		$secureSharedStorage->method('getShare')->willReturn($secureReceiverFileShare);
 
 		$folder = $this->createMock(Folder::class);
+		$folder->method('getPath')->willReturn($dir);
 		if ($folderStorage === 'nonSharedStorage') {
 			$folder->method('getStorage')->willReturn($nonSharedStorage);
 		} elseif ($folderStorage === 'secureSharedStorage') {
@@ -160,6 +164,21 @@ class ApplicationTest extends TestCase {
 				$directoryListing
 			);
 			$folder->method('getDirectoryListing')->willReturn($directoryListing);
+			$callCount = 0;
+			$folder->method('get')->willReturnCallback(function (string $path) use (&$callCount, $directoryListing) {
+				if (isset($directoryListing[$callCount])) {
+					return $directoryListing[$callCount++];
+				}
+
+				throw new \Exception('Unknown path ' . $path);
+			});
+		}
+
+		// If the folder contains any secure-shared files, make it appear as a secure-shared folder
+		// so that ViewOnly::isDownloadable() will return false
+		$containsSecureSharedFiles = in_array('secureSharedStorage', $directoryListing);
+		if ($containsSecureSharedFiles && $folderStorage === 'nonSharedStorage') {
+			$folder->method('getStorage')->willReturn($secureSharedStorage);
 		}
 
 		$rootFolder = $this->createMock(Folder::class);
@@ -167,7 +186,7 @@ class ApplicationTest extends TestCase {
 		$rootFolder->method('getDirectoryListing')->willReturn([$folder]);
 
 		$userFolder = $this->createMock(Folder::class);
-		$userFolder->method('get')->willReturn($rootFolder);
+		$userFolder->method('get')->willReturn($folder);
 
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('test');
@@ -176,11 +195,12 @@ class ApplicationTest extends TestCase {
 
 		$this->rootFolder->method('getUserFolder')->with('test')->willReturn($userFolder);
 
-		// Simulate zip download of folder folder
-		$event = new BeforeZipCreatedEvent($dir, $files);
+		// Simulate zip download of folder
+		$event = new BeforeZipCreatedEvent($folder, $files);
+
 		$listener = new BeforeZipCreatedListener(
 			$this->userSession,
-			$this->rootFolder
+			$this->rootFolder,
 		);
 		$listener->handle($event);
 
@@ -195,7 +215,7 @@ class ApplicationTest extends TestCase {
 		$event = new BeforeZipCreatedEvent('/test', ['test.txt']);
 		$listener = new BeforeZipCreatedListener(
 			$this->userSession,
-			$this->rootFolder
+			$this->rootFolder,
 		);
 		$listener->handle($event);
 

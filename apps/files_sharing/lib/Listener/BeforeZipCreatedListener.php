@@ -14,6 +14,7 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Files\Events\BeforeZipCreatedEvent;
 use OCP\Files\IRootFolder;
+use OCP\Files\Node;
 use OCP\IUserSession;
 
 /**
@@ -38,28 +39,53 @@ class BeforeZipCreatedListener implements IEventListener {
 		$files = $event->getFiles();
 
 		if (empty($files)) {
-			$pathsToCheck = [$dir];
+			$pathsToCheck = [];
 		} else {
 			$pathsToCheck = [];
 			foreach ($files as $file) {
-				$pathsToCheck[] = $dir . '/' . $file;
+				$pathsToCheck[] = $file;
 			}
 		}
 
-		// Check only for user/group shares. Don't restrict e.g. share links
 		$user = $this->userSession->getUser();
-		if ($user) {
-			$viewOnlyHandler = new ViewOnly(
-				$this->rootFolder->getUserFolder($user->getUID())
-			);
-			if (!$viewOnlyHandler->check($pathsToCheck)) {
-				$event->setErrorMessage('Access to this resource or one of its sub-items has been denied.');
-				$event->setSuccessful(false);
-			} else {
-				$event->setSuccessful(true);
-			}
-		} else {
+		$folder = $event->getFolder();
+		if ($user === null && $folder === null) {
+			// there is no way to know if the file is downloadable or not, allow it
 			$event->setSuccessful(true);
+			return;
+		}
+
+		// in link-shares there may be no user, in that case we check that the share folder is downloadable
+		$userFolder = $user ? $this->rootFolder->getUserFolder($user->getUID()) : null;
+
+		$folderToCheck = $folder;
+		if ($userFolder !== null) {
+			// if we have a user, use their user folder
+			$folderToCheck = $userFolder->getPath() === $dir ? $userFolder : $userFolder->get($dir);
+		}
+
+		$viewOnlyHandler = new ViewOnly($folderToCheck);
+		$isRootDownloadable = $viewOnlyHandler->isDownloadable($folderToCheck);
+
+		if (!$isRootDownloadable) {
+			$message = $event->allowPartialArchive ? 'Access to this resource and its children has been denied.' : 'Access to this resource or one of its sub-items has been denied.';
+			$event->setErrorMessage($message);
+			$event->setSuccessful(false);
+			return;
+		}
+
+		if ($event->allowPartialArchive) {
+			$event->setSuccessful(true);
+			$event->addNodeFilter(fn (Node $node): array => [
+				$viewOnlyHandler->isDownloadable($node),
+				'Download is disabled for this resource'
+			]);
+		} elseif ($viewOnlyHandler->check($pathsToCheck)) {
+			// keep the old behaviour
+			$event->setSuccessful(true);
+		} else {
+			$event->setErrorMessage('Access to this resource or one of its sub-items has been denied.');
+			$event->setSuccessful(false);
 		}
 	}
 }
