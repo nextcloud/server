@@ -13,6 +13,7 @@ OC.L10N.register(
     "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth2.0 permite que dispositivos externos peçam acesso a {instanceName}.",
     "Name" : "Nome",
     "Redirection URI" : "URI de redirecionamento",
+    "Delete client" : "Excluir cliente",
     "Add client" : "Adicionar cliente",
     "Add" : "Adicionar",
     "Client Identifier" : "Identificador de Cliente",

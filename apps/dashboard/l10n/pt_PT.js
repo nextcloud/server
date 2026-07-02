@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Dashboard" : "Painel de controlo",
     "Dashboard app" : "Aplicação Painel de Controlo ",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! People can add the widgets they like and change the background to their liking." : "Comece o dia informado \n\nO Painel do Nextcloud (Nextcloud Dashboard) é o seu ponto de partida do dia, oferecendo uma visão geral de seus próximos compromissos, e-mails urgentes, mensagens de bate-papo, tickets recebidos, tweets mais recentes e muito mais! As pessoas podem adicionar os widgets que desejarem e alterar o plano de fundo de acordo com sua preferência.",
     "Weather" : "Tempo",
     "Status" : "Estado",
     "Good morning" : "Bom dia",
@@ -16,6 +17,7 @@ OC.L10N.register(
     "Happy birthday 🥳🤩🎂🎉" : "Feliz Aniversário 🥳🤩🎂🎉",
     "Customize" : "Personalizar",
     "Edit widgets" : "Editar aplicação",
+    "Get more widgets from the App Store" : "Obtenha mais widgets na Loja de Aplicativos",
     "Weather service" : "Metereologia",
     "Weather data from Met.no" : "Dados Metereológicos de Met.no",
     "geocoding with Nominatim" : "geocodificação com Nominatim",
