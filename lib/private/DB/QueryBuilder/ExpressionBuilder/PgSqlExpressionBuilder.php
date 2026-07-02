@@ -57,4 +57,15 @@ class PgSqlExpressionBuilder extends ExpressionBuilder {
 		$y = $this->helper->quoteColumnName($y);
 		return $this->expressionBuilder->comparison($x, 'ILIKE', $y);
 	}
+
+	#[\Override]
+	public function notILike(
+		string|IParameter|ILiteral|IQueryFunction $x,
+		string|IParameter|ILiteral|IQueryFunction $y,
+		int|string|null $type = null,
+	): string {
+		$x = $this->helper->quoteColumnName($x);
+		$y = $this->helper->quoteColumnName($y);
+		return $this->expressionBuilder->comparison($x, 'NOT ILIKE', $y);
+	}
 }

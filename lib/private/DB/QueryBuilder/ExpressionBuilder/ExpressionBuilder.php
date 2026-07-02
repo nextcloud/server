@@ -316,6 +316,26 @@ class ExpressionBuilder implements IExpressionBuilder {
 	}
 
 	/**
+	 * Creates a NOT ILIKE() comparison expression with the given arguments.
+	 *
+	 * @param ILiteral|IParameter|IQueryFunction|string $x Field in string format to be inspected by NOT ILIKE() comparison.
+	 * @param ILiteral|IParameter|IQueryFunction|string $y Argument to be used in NOT ILIKE() comparison.
+	 * @param int|string|null $type one of the IQueryBuilder::PARAM_* constants
+	 *                              required when comparing text fields for oci compatibility
+	 *
+	 * @return string
+	 * @since 35.0.0
+	 */
+	#[\Override]
+	public function notILike(
+		string|IParameter|ILiteral|IQueryFunction $x,
+		string|IParameter|ILiteral|IQueryFunction $y,
+		int|string|null $type = null,
+	): string {
+		return $this->expressionBuilder->notLike((string)$this->functionBuilder->lower($x), (string)$this->functionBuilder->lower($y));
+	}
+
+	/**
 	 * Creates a IN () comparison expression with the given arguments.
 	 *
 	 * @param ILiteral|IParameter|IQueryFunction|string $x The field in string format to be inspected by IN() comparison.
