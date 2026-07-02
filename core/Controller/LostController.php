@@ -90,24 +90,19 @@ class LostController extends Controller {
 		try {
 			$this->checkPasswordResetToken($token, $userId);
 		} catch (Exception $e) {
-			if ($this->config->getSystemValue('lost_password_link', '') !== 'disabled'
-				|| ($e instanceof InvalidTokenException
-					&& !in_array($e->getCode(), [InvalidTokenException::TOKEN_NOT_FOUND, InvalidTokenException::USER_UNKNOWN]))
-			) {
-				$response = new TemplateResponse(
-					'core', 'error', [
-						'errors' => [['error' => $e->getMessage()]]
-					],
-					TemplateResponse::RENDER_AS_GUEST
-				);
-				$response->throttle();
-				return $response;
+			if ($this->config->getSystemValue('lost_password_link', '') === 'disabled') {
+				$message = $this->l10n->t('Password reset is disabled');
+			} else {
+				$message = $e->getMessage();
 			}
-			return new TemplateResponse('core', 'error', [
-				'errors' => [['error' => $this->l10n->t('Password reset is disabled')]]
-			],
+			$response = new TemplateResponse(
+				'core', 'error', [
+					'errors' => [['error' => $message]]
+				],
 				TemplateResponse::RENDER_AS_GUEST
 			);
+			$response->throttle();
+			return $response;
 		}
 		$this->initialState->provideInitialState('resetPasswordUser', $userId);
 		$this->initialState->provideInitialState('resetPasswordTarget',
