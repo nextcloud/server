@@ -103,8 +103,8 @@ class IconController extends Controller {
 			$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
 		} catch (NotFoundException $e) {
 		}
-		// retrieve or generate app specific favicon
-		if (($this->imageManager->canConvert('PNG') || $this->imageManager->canConvert('SVG')) && $this->imageManager->canConvert('ICO')) {
+		// retrieve or generate app specific favicon, but only if no custom favicon was uploaded
+		if ($iconFile === null && ($this->imageManager->canConvert('PNG') || $this->imageManager->canConvert('SVG')) && $this->imageManager->canConvert('ICO')) {
 			$color = $this->themingDefaults->getColorPrimary();
 			try {
 				$iconFile = $this->imageManager->getCachedImage('favIcon-' . $app . $color);
@@ -145,14 +145,15 @@ class IconController extends Controller {
 		}
 
 		$response = null;
+		$iconFile = null;
 		// retrieve instance favicon
 		try {
 			$iconFile = $this->imageManager->getImage('favicon');
 			$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => $iconFile->getMimeType()]);
 		} catch (NotFoundException $e) {
 		}
-		// retrieve or generate app specific touch icon
-		if ($this->imageManager->canConvert('PNG')) {
+		// retrieve or generate app specific touch icon, but only if no custom favicon was uploaded
+		if ($iconFile === null && $this->imageManager->canConvert('PNG')) {
 			$color = $this->themingDefaults->getColorPrimary();
 			try {
 				$iconFile = $this->imageManager->getCachedImage('touchIcon-' . $app . $color);

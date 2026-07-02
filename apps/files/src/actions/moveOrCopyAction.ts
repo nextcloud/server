@@ -12,9 +12,9 @@ import { FilePickerClosed, getFilePickerBuilder, openConflictPicker, showError, 
 import { emit } from '@nextcloud/event-bus'
 import { FileAction, FileType, getUniqueName, NodeStatus, Permission } from '@nextcloud/files'
 import { defaultRootPath, getClient, getDefaultPropfind, resultToNode } from '@nextcloud/files/dav'
-import { t } from '@nextcloud/l10n'
+import { n, t } from '@nextcloud/l10n'
+import { basename, join } from '@nextcloud/paths'
 import { getConflicts } from '@nextcloud/upload'
-import { basename, join } from 'path'
 import Vue from 'vue'
 
 import CopyIconSvg from '@mdi/svg/svg/folder-multiple-outline.svg?raw'
@@ -158,7 +158,11 @@ export async function * handleCopyMoveNodesTo(nodes: INode[], destination: IFold
 		}
 	}
 
-	const actionFinished = createLoadingNotification(method, nodes.map((node) => node.basename), destination.path)
+	const actionFinished = createLoadingNotification(
+		method,
+		nodes.map((node) => node.displayname),
+		join(destination.dirname, destination.displayname),
+	)
 	const queue = getQueue()
 	try {
 		for (const node of nodes) {
@@ -247,12 +251,12 @@ const getActionForNodes = (nodes: Node[]): MoveCopyAction => {
 function createLoadingNotification(mode: MoveCopyAction, sources: string[], destination: string): () => void {
 	const text = mode === MoveCopyAction.MOVE
 		? (sources.length === 1
-			? t('files', 'Moving "{source}" to "{destination}" …', { source: sources[0], destination })
-			: t('files', 'Moving {count} files to "{destination}" …', { count: sources.length, destination })
+			? t('files', 'Moving "{source}" to "{destination}" …', { source: sources[0]!, destination })
+			: n('files', 'Moving %n file to "{destination}" …', 'Moving %n files to "{destination}" …', sources.length, { destination })
 		)
 		: (sources.length === 1
-			? t('files', 'Copying "{source}" to "{destination}" …', { source: sources[0], destination })
-			: t('files', 'Copying {count} files to "{destination}" …', { count: sources.length, destination })
+			? t('files', 'Copying "{source}" to "{destination}" …', { source: sources[0]!, destination })
+			: n('files', 'Copying %n file to "{destination}" …', 'Copying %n files to "{destination}" …', sources.length, { destination })
 		)
 
 	const toast = showLoading(text)

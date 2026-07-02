@@ -1127,7 +1127,6 @@ class SessionTest extends \Test\TestCase {
 			->willReturn(true);
 
 		$davAuthenticatedSet = false;
-		$lastPasswordConfirmSet = false;
 
 		$this->session
 			->method('set')
@@ -1135,9 +1134,6 @@ class SessionTest extends \Test\TestCase {
 				switch ($k) {
 					case Auth::DAV_AUTHENTICATED:
 						$davAuthenticatedSet = $v;
-						return;
-					case 'last-password-confirm':
-						$lastPasswordConfirmSet = 1000;
 						return;
 					default:
 						throw new \Exception();
@@ -1182,7 +1178,6 @@ class SessionTest extends \Test\TestCase {
 		$this->assertTrue($userSession->tryBasicAuthLogin($request, $this->throttler));
 
 		$this->assertSame('username', $davAuthenticatedSet);
-		$this->assertSame(1000, $lastPasswordConfirmSet);
 	}
 
 	public function testTryBasicAuthLoginNoLogin(): void {

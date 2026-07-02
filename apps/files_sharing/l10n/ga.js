@@ -90,7 +90,6 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "Paraiméadar nuashonraithe mícheart nó gan aon tugtha",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "Theip ar \"an focal faire a sheoladh ag Nextcloud Talk\" chun comhad nó fillteán a roinnt toisc nach bhfuil Nextcloud Talk cumasaithe.",
     "Custom share link tokens have been disabled by the administrator" : "Dhíchumasaigh an riarthóir comharthaí nasc comhroinnte saincheaptha",
-    "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Ní mór carachtar 1 ar a laghad a bheith sna comharthaí agus ní fhéadfaidh ach litreacha, uimhreacha nó fleiscín a bheith iontu",
     "Invalid date. Format must be YYYY-MM-DD" : "Dáta neamhbhailí. Ní mór don fhormáid a bheith BBBB-MM-LL",
     "No sharing rights on this item" : "Níl aon chearta comhroinnte ar an mír seo",
     "Invalid share attributes provided: \"%s\"" : "Cuireadh tréithe comhroinnte neamhbhailí: \"%s\"",
@@ -403,6 +402,7 @@ OC.L10N.register(
     "Back to %s" : "Ar ais go dtí %s",
     "Add to your Nextcloud" : "Cuir le do Nextcloud",
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Theip ar chomhroinnt %s toisc nach dtacaíonn an cúlcheann le scaireanna ScienceMesh",
+    "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Ní mór carachtar 1 ar a laghad a bheith sna comharthaí agus ní fhéadfaidh ach litreacha, uimhreacha nó fleiscín a bheith iontu",
     "Name or email …" : "Ainm nó ríomhphost…",
     "Name, email, or Federated Cloud ID …" : "Ainm, ríomhphost, nó ID Néal Cónaidhme…",
     "Searching …" : "Ag cuardach…"

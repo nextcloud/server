@@ -12,7 +12,7 @@
     "Renamed by {user}" : "Renomeado por {user}",
     "Moved by {user}" : "Movido por {user}",
     "\"remote account\"" : "«conta remota»",
-    "You created {file}" : "{file} foi creado por Vde.",
+    "You created {file}" : "Vostede creou {file}",
     "You created an encrypted file in {file}" : "Vde. creo un ficheiro cifrado en {file}",
     "{user} created {file}" : "{user} creou {file}",
     "{user} created an encrypted file in {file}" : "{user} creou un ficheiro cifrado en {file}",
@@ -396,10 +396,6 @@
     "Files and folders you recently modified will show up here." : "Os ficheiros e cartafoles que modificou recentemente amosaranse aquí.",
     "Search" : "Buscar",
     "Search results within your files." : "Buscar resultados nos seus ficheiros.",
-    "No entries found in this folder" : "Non se atopou ningunha entrada neste cartafol",
-    "Select all" : "Seleccionar todo",
-    "Upload too large" : "Envío grande de máis",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Os ficheiros que tenta enviar exceden do tamaño máximo permitido neste servidor",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Cambiouse o nome de «{oldName}» a «{newName}»",
     "Clear filter" : "Limpar o filtro",
     "Open file sidebar" : "Abrir a barra lateral do ficheiro",
@@ -420,7 +416,9 @@
     "Save as …" : "Gardar como…",
     "Converting files …" : "Convertendo ficheiros…",
     "Converting file …" : "Convertendo o ficheiro…",
-    "Moving {count} files to \"{destination}\" …" : "Movendo {count} ficheiros a «{destination}»…",
-    "Copying {count} files to \"{destination}\" …" : "Copiando {count} ficheiros en «{destination}»…"
+    "No entries found in this folder" : "Non se atopou ningunha entrada neste cartafol",
+    "Select all" : "Seleccionar todo",
+    "Upload too large" : "Envío grande de máis",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Os ficheiros que tenta enviar exceden do tamaño máximo permitido neste servidor"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

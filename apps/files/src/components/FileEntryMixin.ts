@@ -490,9 +490,9 @@ export default defineComponent({
 				}
 
 				// Fetch destination contents for conflict resolution
-				const cachedContents = this.filesStore.getNodesByPath(this.activeView.id, this.source.path)
+				const cachedContents = this.filesStore.getNodesByPath(this.currentView.id, this.source.path)
 				const contents = cachedContents.length === 0
-					? (await this.activeView!.getContents(this.source.path)).contents
+					? (await this.currentView!.getContents(this.source.path)).contents
 					: cachedContents
 
 				logger.debug('Start uploading dropped files', { target: this.source.path, fileTree })

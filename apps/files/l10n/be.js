@@ -367,10 +367,6 @@ OC.L10N.register(
     "Files and folders you recently modified will show up here." : "Тут будуць адлюстроўвацца нядаўна змененыя вамі файлы і папкі.",
     "Search" : "Пошук",
     "Search results within your files." : "Вынікі пошуку ў вашых файлах.",
-    "No entries found in this folder" : "У гэтай папцы не знойдзена запісаў",
-    "Select all" : "Выбраць усе",
-    "Upload too large" : "Запампоўка занадта вялікая",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Памер файлаў, якія вы спрабуеце запампаваць, перавышае максімальны дазволены памер для запампоўвання на гэтым серверы.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "\"{oldName}\" перайменаваны ў \"{newName}\"",
     "Clear filter" : "Ачысціць фільтр",
     "Open file sidebar" : "Адкрыць бакавую панэль файла",
@@ -390,6 +386,10 @@ OC.L10N.register(
     "Tags" : "Тэгі",
     "Save as …" : "Захаваць як …",
     "Converting files …" : "Канвертацыя файлаў …",
-    "Converting file …" : "Канвертацыя файла …"
+    "Converting file …" : "Канвертацыя файла …",
+    "No entries found in this folder" : "У гэтай папцы не знойдзена запісаў",
+    "Select all" : "Выбраць усе",
+    "Upload too large" : "Запампоўка занадта вялікая",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Памер файлаў, якія вы спрабуеце запампаваць, перавышае максімальны дазволены памер для запампоўвання на гэтым серверы."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

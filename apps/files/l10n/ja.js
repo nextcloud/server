@@ -398,10 +398,6 @@ OC.L10N.register(
     "Files and folders you recently modified will show up here." : "最近変更したファイルやフォルダーがここに表示されます。",
     "Search" : "検索",
     "Search results within your files." : "ファイル内の検索結果",
-    "No entries found in this folder" : "このフォルダーにはエントリーがありません",
-    "Select all" : "すべて選択",
-    "Upload too large" : "アップロードには大きすぎます。",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "アップロードしようとしているファイルは、このサーバーのファイルアップロード時の最大サイズを超えています。",
     "Renamed \"{oldName}\" to \"{newName}\"" : "\"{oldName}\" から \"{newName}\" に名前を変更済み",
     "Clear filter" : "フィルターをクリア",
     "Open file sidebar" : "ファイルサイドバーを開く",
@@ -422,7 +418,9 @@ OC.L10N.register(
     "Save as …" : "保存…",
     "Converting files …" : "ファイルの変換…",
     "Converting file …" : "ファイルの変換…",
-    "Moving {count} files to \"{destination}\" …" : "{count} 個のファイルを \"{destination}\" に移動中…",
-    "Copying {count} files to \"{destination}\" …" : "{count}個のファイルを \"{destination}\" にコピー中…"
+    "No entries found in this folder" : "このフォルダーにはエントリーがありません",
+    "Select all" : "すべて選択",
+    "Upload too large" : "アップロードには大きすぎます。",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "アップロードしようとしているファイルは、このサーバーのファイルアップロード時の最大サイズを超えています。"
 },
 "nplurals=1; plural=0;");
