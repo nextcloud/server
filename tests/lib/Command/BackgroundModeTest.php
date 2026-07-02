@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2015 Christian Kampka <christian@kampka.net>
  * SPDX-License-Identifier: MIT
  */
+
 namespace Test\Command;
 
 use OC\Core\Command\Background\Mode;
@@ -24,6 +25,8 @@ class BackgroundModeTest extends TestCase {
 
 	#[\Override]
 	public function setUp(): void {
+		parent::setUp();
+
 		$this->appConfig = $this->createMock(IAppConfig::class);
 
 		$inputDefinition = new InputDefinition([

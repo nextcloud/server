@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Connector\Sabre;
 
 use OCA\DAV\Exception\ServerMaintenanceMode;
@@ -35,7 +36,6 @@ class MaintenancePlugin extends ServerPlugin {
 	) {
 		$this->l10n = \OC::$server->getL10N('dav');
 	}
-
 
 	/**
 	 * This initializes the plugin.

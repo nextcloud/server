@@ -43,6 +43,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Lock\ILockingProvider;
 use OCP\Server;
+use OCP\User\Exceptions\UserNotFoundException;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
@@ -56,11 +57,17 @@ class Storage {
 	public const DELETE_TRIGGER_QUOTA_EXCEEDED = 2;
 
 	// files for which we can remove the versions after the delete operation was successful
-	private static $deletedFiles = [];
+	/**
+	 * @psalm-suppress ImpureStaticProperty
+	 */
+	private static array $deletedFiles = [];
 
-	private static $sourcePathAndUser = [];
+	/**
+	 * @psalm-suppress ImpureStaticProperty
+	 */
+	private static array $sourcePathAndUser = [];
 
-	private static $max_versions_per_interval = [
+	private const MAX_VERSIONS_PER_INTERVAL = [
 		//first 10sec, one version every 2sec
 		1 => ['intervalEndsAfter' => 10,      'step' => 2],
 		//next minute, one version every 10sec
@@ -84,7 +91,7 @@ class Storage {
 	 *
 	 * @param string $filename
 	 * @return array
-	 * @throws NoUserException
+	 * @throws UserNotFoundException
 	 */
 	public static function getUidAndFilename($filename) {
 		$uid = Filesystem::getOwner($filename);
@@ -205,6 +212,7 @@ class Storage {
 		}
 
 		$event = new CreateVersionEvent($file);
+		$eventDispatcher->dispatchTyped($event);
 		$eventDispatcher->dispatch('OCA\Files_Versions::createVersion', $event);
 		if ($event->shouldCreateVersion() === false) {
 			return false;
@@ -215,7 +223,6 @@ class Storage {
 
 		$versionManager->createVersion($user, $file);
 	}
-
 
 	/**
 	 * mark file as deleted so that we can remove the versions if the file is gone
@@ -763,12 +770,8 @@ class Storage {
 		$toDelete = [];  // versions we want to delete
 
 		$interval = 1;
-		$step = Storage::$max_versions_per_interval[$interval]['step'];
-		if (Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'] === -1) {
-			$nextInterval = -1;
-		} else {
-			$nextInterval = $time - Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'];
-		}
+		$step = Storage::MAX_VERSIONS_PER_INTERVAL[$interval]['step'];
+		$nextInterval = $time - Storage::MAX_VERSIONS_PER_INTERVAL[$interval]['intervalEndsAfter'];
 
 		$firstVersion = reset($versions);
 
@@ -797,12 +800,16 @@ class Storage {
 					$newInterval = false; // version checked so we can move to the next one
 				} else { // time to move on to the next interval
 					$interval++;
-					$step = Storage::$max_versions_per_interval[$interval]['step'];
+					if ($interval > count(Storage::MAX_VERSIONS_PER_INTERVAL)) {
+						/* Should never happen, as last interval has -1 as nextInterval */
+						throw new \Exception('MAX_VERSIONS_PER_INTERVAL is malformed or there is a logic issue');
+					}
+					$step = Storage::MAX_VERSIONS_PER_INTERVAL[$interval]['step'];
 					$nextVersion = $prevTimestamp - $step;
-					if (Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'] === -1) {
+					if (Storage::MAX_VERSIONS_PER_INTERVAL[$interval]['intervalEndsAfter'] === -1) {
 						$nextInterval = -1;
 					} else {
-						$nextInterval = $time - Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'];
+						$nextInterval = $time - Storage::MAX_VERSIONS_PER_INTERVAL[$interval]['intervalEndsAfter'];
 					}
 					$newInterval = true; // we changed the interval -> check same version with new interval
 				}
@@ -838,6 +845,7 @@ class Storage {
 	 * @param string $filename path to file to expire
 	 * @param string $uid user for which to expire the version
 	 * @return bool|int|null
+	 * @throws UserNotFoundException
 	 */
 	public static function expire($filename, $uid) {
 		$expiration = self::getExpiration();
@@ -873,7 +881,7 @@ class Storage {
 
 			$softQuota = true;
 			$quota = $user->getQuota();
-			if ($quota === null || $quota === 'none') {
+			if ($quota === 'none') {
 				$quota = Filesystem::free_space('/');
 				$softQuota = false;
 			} else {

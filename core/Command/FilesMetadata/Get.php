@@ -9,12 +9,12 @@ declare(strict_types=1);
 
 namespace OC\Core\Command\FilesMetadata;
 
-use OC\User\NoUserException;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\FilesMetadata\Exceptions\FilesMetadataNotFoundException;
 use OCP\FilesMetadata\IFilesMetadataManager;
+use OCP\User\Exceptions\UserNotFoundException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -66,7 +66,7 @@ class Get extends Command {
 	/**
 	 * @throws NotPermittedException
 	 * @throws FilesMetadataNotFoundException
-	 * @throws NoUserException
+	 * @throws UserNotFoundException
 	 * @throws NotFoundException
 	 */
 	#[\Override]

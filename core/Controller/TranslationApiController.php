@@ -7,7 +7,6 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-
 namespace OC\Core\Controller;
 
 use InvalidArgumentException;
@@ -76,7 +75,6 @@ class TranslationApiController extends OCSController {
 			return new DataResponse([
 				'text' => $translation,
 				'from' => $fromLanguage,
-
 			]);
 		} catch (PreConditionNotMetException) {
 			return new DataResponse(['message' => $this->l10n->t('No translation provider available')], Http::STATUS_PRECONDITION_FAILED);

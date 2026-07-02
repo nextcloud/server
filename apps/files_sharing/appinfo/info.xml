@@ -14,7 +14,7 @@
 Turning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation.
 
 	</description>
-	<version>2.0.0-dev.0</version>
+	<version>2.0.0-dev.1</version>
 	<licence>agpl</licence>
 	<author>Michael Gapczynski</author>
 	<author>Bjoern Schiessle</author>
@@ -51,6 +51,7 @@ Turning the feature off removes shared files and folders on the server for all s
 		<command>OCA\Files_Sharing\Command\CleanupRemoteStorages</command>
 		<command>OCA\Files_Sharing\Command\ExiprationNotification</command>
 		<command>OCA\Files_Sharing\Command\DeleteOrphanShares</command>
+		<command>OCA\Files_Sharing\Command\FixOwncloudGroupSubshareStatus</command>
 		<command>OCA\Files_Sharing\Command\FixShareOwners</command>
 		<command>OCA\Files_Sharing\Command\ListShares</command>
 	</commands>

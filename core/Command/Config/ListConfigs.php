@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Command\Config;
 
 use OC\Config\ConfigManager;
@@ -131,7 +132,7 @@ class ListConfigs extends Base {
 		if ($noSensitiveValues) {
 			return $this->appConfig->getFilteredValues($app);
 		} else {
-			return $this->appConfig->getValues($app, false);
+			return $this->appConfig->getAllValues($app);
 		}
 	}
 

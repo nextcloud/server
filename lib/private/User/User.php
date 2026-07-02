@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\User;
 
 use InvalidArgumentException;
@@ -27,6 +28,7 @@ use OCP\IUser;
 use OCP\IUserBackend;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Server;
+use OCP\Support\Subscription\IAssertion;
 use OCP\User\Backend\IGetHomeBackend;
 use OCP\User\Backend\IPasswordHashBackend;
 use OCP\User\Backend\IPropertyPermissionBackend;
@@ -43,7 +45,6 @@ use OCP\User\GetQuotaEvent;
 use OCP\UserInterface;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
-
 use function json_decode;
 use function json_encode;
 
@@ -52,6 +53,7 @@ class User implements IUser {
 
 	private IConfig $config;
 	private IURLGenerator $urlGenerator;
+	private IAssertion $assertion;
 	protected ?IAccountManager $accountManager = null;
 
 	private ?string $displayName = null;
@@ -68,10 +70,12 @@ class User implements IUser {
 		private IEventDispatcher $dispatcher,
 		private Emitter|Manager|null $emitter = null,
 		?IConfig $config = null,
-		$urlGenerator = null,
+		?IURLGenerator $urlGenerator = null,
+		?IAssertion $assertion = null,
 	) {
 		$this->config = $config ?? Server::get(IConfig::class);
 		$this->urlGenerator = $urlGenerator ?? Server::get(IURLGenerator::class);
+		$this->assertion = $assertion ?? Server::get(IAssertion::class);
 	}
 
 	#[\Override]
@@ -477,16 +481,19 @@ class User implements IUser {
 
 	/**
 	 * set the enabled status for the user
-	 *
-	 * @return void
 	 */
 	#[\Override]
-	public function setEnabled(bool $enabled = true) {
+	public function setEnabled(bool $enabled = true): void {
 		$oldStatus = $this->isEnabled();
 		$setDatabaseValue = function (bool $enabled): void {
 			$this->config->setUserValue($this->uid, 'core', 'enabled', $enabled ? 'true' : 'false');
 			$this->enabled = $enabled;
 		};
+
+		if ($oldStatus === false && $enabled === true) {
+			$this->assertion->createUserIsLegit();
+		}
+
 		if ($this->backend instanceof IProvideEnabledStateBackend) {
 			$queryDatabaseValue = function (): bool {
 				if ($this->enabled === null) {
@@ -515,18 +522,12 @@ class User implements IUser {
 		return $this->getPrimaryEMailAddress() ?? $this->getSystemEMailAddress();
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	#[\Override]
 	public function getSystemEMailAddress(): ?string {
 		$email = $this->config->getUserValue($this->uid, 'settings', 'email', null);
 		return $email ? mb_strtolower(trim($email)) : null;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	#[\Override]
 	public function getPrimaryEMailAddress(): ?string {
 		$email = $this->config->getUserValue($this->uid, 'settings', 'primary_email', null);

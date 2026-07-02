@@ -19,6 +19,7 @@ use OCA\Files_Sharing\AppInfo\Application;
 use OCA\Files_Trashbin\AppInfo\Application as TrashbinApplication;
 use OCA\Files_Trashbin\Expiration;
 use OCA\Files_Trashbin\Helper;
+use OCA\Files_Trashbin\Storage;
 use OCA\Files_Trashbin\Trashbin;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -83,7 +84,6 @@ class TrashbinTest extends \Test\TestCase {
 		self::loginHelper(self::TEST_TRASHBIN_USER1, true);
 	}
 
-
 	public static function tearDownAfterClass(): void {
 		// cleanup test user
 		$user = Server::get(IUserManager::class)->get(self::TEST_TRASHBIN_USER1);
@@ -97,7 +97,7 @@ class TrashbinTest extends \Test\TestCase {
 
 		\OC_Hook::clear();
 
-		Filesystem::getLoader()->removeStorageWrapper('oc_trashbin');
+		Filesystem::getLoader()->removeStorageWrapper(Storage::class);
 
 		if (self::$trashBinStatus) {
 			Server::get(IAppManager::class)->enableApp('files_trashbin');
@@ -314,7 +314,6 @@ class TrashbinTest extends \Test\TestCase {
 		}
 		return \OCA\Files\Helper::sortFiles($files, 'mtime');
 	}
-
 
 	/**
 	 * test expiration of old files in the trash bin until the max size
@@ -708,7 +707,6 @@ class TrashbinTest extends \Test\TestCase {
 		Server::get(IRootFolder::class)->getUserFolder($user);
 	}
 }
-
 
 // just a dummy class to make protected methods available for testing
 class TrashbinForTesting extends Trashbin {

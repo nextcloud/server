@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Files\Lock;
 
 use OCP\Files\Lock\ILock;
@@ -22,7 +23,7 @@ class LockManager implements ILockManager {
 
 	#[\Override]
 	public function registerLockProvider(ILockProvider $lockProvider): void {
-		if ($this->lockProvider) {
+		if ($this->lockProvider || $this->lockProviderClass) {
 			throw new PreConditionNotMetException('There is already a registered lock provider');
 		}
 

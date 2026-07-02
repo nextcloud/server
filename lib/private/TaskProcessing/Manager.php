@@ -19,6 +19,7 @@ use OCA\Guests\UserBackend;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\DB\Exception;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -59,16 +60,20 @@ use OCP\TaskProcessing\Exception\ValidationException;
 use OCP\TaskProcessing\IInternalTaskType;
 use OCP\TaskProcessing\IManager;
 use OCP\TaskProcessing\IProvider;
+use OCP\TaskProcessing\ISynchronousOptionsAwareProvider;
 use OCP\TaskProcessing\ISynchronousProvider;
 use OCP\TaskProcessing\ISynchronousWatermarkingProvider;
 use OCP\TaskProcessing\ITaskType;
 use OCP\TaskProcessing\ITriggerableProvider;
 use OCP\TaskProcessing\ShapeDescriptor;
 use OCP\TaskProcessing\ShapeEnumValue;
+use OCP\TaskProcessing\SynchronousProviderOptions;
 use OCP\TaskProcessing\Task;
 use OCP\TaskProcessing\TaskTypes\AnalyzeImages;
 use OCP\TaskProcessing\TaskTypes\AudioToAudioChat;
+use OCP\TaskProcessing\TaskTypes\AudioToAudioTranslate;
 use OCP\TaskProcessing\TaskTypes\AudioToText;
+use OCP\TaskProcessing\TaskTypes\AudioToTextSubtitles;
 use OCP\TaskProcessing\TaskTypes\ContextAgentAudioInteraction;
 use OCP\TaskProcessing\TaskTypes\ContextAgentInteraction;
 use OCP\TaskProcessing\TaskTypes\ContextWrite;
@@ -82,6 +87,7 @@ use OCP\TaskProcessing\TaskTypes\TextToTextChat;
 use OCP\TaskProcessing\TaskTypes\TextToTextChatWithTools;
 use OCP\TaskProcessing\TaskTypes\TextToTextFormalization;
 use OCP\TaskProcessing\TaskTypes\TextToTextHeadline;
+use OCP\TaskProcessing\TaskTypes\TextToTextImprove;
 use OCP\TaskProcessing\TaskTypes\TextToTextProofread;
 use OCP\TaskProcessing\TaskTypes\TextToTextReformatParagraphs;
 use OCP\TaskProcessing\TaskTypes\TextToTextReformulation;
@@ -156,11 +162,11 @@ class Manager implements IManager {
 		private IUserSession $userSession,
 		ICacheFactory $cacheFactory,
 		private IFactory $l10nFactory,
+		private ITimeFactory $timeFactory,
 	) {
 		$this->appData = $appDataFactory->get('core');
 		$this->distributedCache = $cacheFactory->createDistributed('task_processing::');
 	}
-
 
 	/**
 	 * This is almost a copy of textProcessingManager->getProviders
@@ -682,8 +688,10 @@ class Manager implements IManager {
 			TextToTextChat::ID => Server::get(TextToTextChat::class),
 			TextToTextTranslate::ID => Server::get(TextToTextTranslate::class),
 			TextToTextReformulation::ID => Server::get(TextToTextReformulation::class),
+			TextToTextImprove::ID => Server::get(TextToTextImprove::class),
 			TextToImage::ID => Server::get(TextToImage::class),
 			AudioToText::ID => Server::get(AudioToText::class),
+			AudioToTextSubtitles::ID => Server::get(AudioToTextSubtitles::class),
 			ContextWrite::ID => Server::get(ContextWrite::class),
 			GenerateEmoji::ID => Server::get(GenerateEmoji::class),
 			TextToTextChangeTone::ID => Server::get(TextToTextChangeTone::class),
@@ -693,6 +701,7 @@ class Manager implements IManager {
 			TextToTextReformatParagraphs::ID => Server::get(TextToTextReformatParagraphs::class),
 			TextToSpeech::ID => Server::get(TextToSpeech::class),
 			AudioToAudioChat::ID => Server::get(AudioToAudioChat::class),
+			AudioToAudioTranslate::ID => Server::get(AudioToAudioTranslate::class),
 			ContextAgentAudioInteraction::ID => Server::get(ContextAgentAudioInteraction::class),
 			AnalyzeImages::ID => Server::get(AnalyzeImages::class),
 			ImageToTextOpticalCharacterRecognition::ID => Server::get(ImageToTextOpticalCharacterRecognition::class),
@@ -939,7 +948,13 @@ class Manager implements IManager {
 		if ($this->availableTaskTypes === null) {
 			$cachedValue = $this->distributedCache->get($cacheKey);
 			if ($cachedValue !== null) {
-				$this->availableTaskTypes = unserialize($cachedValue);
+				$this->availableTaskTypes = unserialize($cachedValue, [
+					'allowed_classes' => [
+						ShapeDescriptor::class,
+						ShapeEnumValue::class,
+						EShapeType::class,
+					],
+				]);
 			}
 		}
 		// Either we have no cache or showDisabled is turned on, which we don't want to cache, ever.
@@ -987,7 +1002,6 @@ class Manager implements IManager {
 			$this->distributedCache->set($cacheKey, serialize($this->availableTaskTypes), 60);
 		}
 
-
 		return $this->availableTaskTypes;
 	}
 	#[\Override]
@@ -1029,7 +1043,6 @@ class Manager implements IManager {
 			$this->distributedCache->set(self::TASK_TYPE_IDS_CACHE_KEY, $this->availableTaskTypeIds, 60);
 		}
 
-
 		return $this->availableTaskTypeIds;
 	}
 
@@ -1065,6 +1078,7 @@ class Manager implements IManager {
 		$this->prepareTask($task);
 		$task->setStatus(Task::STATUS_SCHEDULED);
 		$this->storeTask($task);
+		$this->notifyTaskStatus($task, Task::STATUS_SCHEDULED);
 		// schedule synchronous job if the provider is synchronous
 		$provider = $this->getPreferredProvider($task->getTaskTypeId());
 		if ($provider instanceof ISynchronousProvider) {
@@ -1108,6 +1122,7 @@ class Manager implements IManager {
 			$this->prepareTask($task);
 			$task->setStatus(Task::STATUS_SCHEDULED);
 			$this->storeTask($task);
+			$this->notifyTaskStatus($task, Task::STATUS_SCHEDULED);
 			$this->processTask($task, $provider);
 			$task = $this->getTask($task->getId());
 		} else {
@@ -1135,6 +1150,18 @@ class Manager implements IManager {
 				$this->setTaskStatus($task, Task::STATUS_RUNNING);
 				if ($provider instanceof ISynchronousWatermarkingProvider) {
 					$output = $provider->process($task->getUserId(), $input, fn (float $progress) => $this->setTaskProgress($task->getId(), $progress), $task->getIncludeWatermark());
+				} elseif ($provider instanceof ISynchronousOptionsAwareProvider) {
+					$options = new SynchronousProviderOptions(
+						$task->getIncludeWatermark(),
+						$task->getPreferStreaming(),
+						fn (array $output) => $this->setTaskIntermediateOutput($task->getId(), $output),
+					);
+					$output = $provider->process(
+						$task->getUserId(),
+						$input,
+						fn (float $progress) => $this->setTaskProgress($task->getId(), $progress),
+						$options,
+					);
 				} else {
 					$output = $provider->process($task->getUserId(), $input, fn (float $progress) => $this->setTaskProgress($task->getId(), $progress));
 				}
@@ -1163,6 +1190,31 @@ class Manager implements IManager {
 		$this->taskMapper->delete($taskEntity);
 	}
 
+	private function notifyTaskStatus(Task $task, int $status): void {
+		$userId = $task->getUserId();
+		if ($userId !== null
+			&& $userId !== ''
+			&& $this->appManager->isEnabledForAnyone('notify_push')
+			&& interface_exists('\OCA\NotifyPush\Queue\IQueue')
+		) {
+			try {
+				/** @psalm-suppress UndefinedClass */
+				$queue = Server::get(\OCA\NotifyPush\Queue\IQueue::class);
+				/** @psalm-suppress UndefinedClass */
+				$queue->push('notify_custom', [
+					'user' => $userId,
+					'message' => 'taskprocessing:task_update',
+					'body' => [
+						'task_id' => $task->getId(),
+						'new_status' => $status,
+					],
+				]);
+			} catch (ContainerExceptionInterface|NotFoundExceptionInterface $e) {
+				$this->logger->debug('OCA\NotifyPush\IQueue not found, not sending to queue');
+			}
+		}
+	}
+
 	#[\Override]
 	public function getTask(int $id): Task {
 		try {
@@ -1185,9 +1237,11 @@ class Manager implements IManager {
 		}
 		$task->setStatus(Task::STATUS_CANCELLED);
 		$task->setEndedAt(time());
+
 		$taskEntity = \OC\TaskProcessing\Db\Task::fromPublicTask($task);
 		try {
 			$this->taskMapper->update($taskEntity);
+			$this->notifyTaskStatus($task, Task::STATUS_CANCELLED);
 			$this->runWebhook($task);
 		} catch (\OCP\DB\Exception $e) {
 			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem finding the task', 0, $e);
@@ -1206,7 +1260,72 @@ class Manager implements IManager {
 			$task->setStartedAt(time());
 		}
 		$task->setStatus(Task::STATUS_RUNNING);
-		$task->setProgress($progress);
+		if ($progress >= 0 && $progress <= 1.0) {
+			$task->setProgress($progress);
+			// Refine the expected completion time from the actual progress reported so far.
+			// We need a positive elapsed time and a positive progress to avoid divide-by-zero
+			// and the wildly unstable estimates produced when progress is still near zero.
+			$startedAt = $task->getStartedAt();
+			if ($startedAt !== null && $progress > 0.0) {
+				$elapsed = time() - $startedAt;
+				if ($elapsed > 0) {
+					$remainingSeconds = (int)ceil($elapsed * (1.0 - $progress) / $progress);
+					$completionExpectedAt = new \DateTime('now');
+					$completionExpectedAt->add(new \DateInterval('PT' . $remainingSeconds . 'S'));
+					$task->setCompletionExpectedAt($completionExpectedAt);
+				}
+			}
+		}
+		$taskEntity = \OC\TaskProcessing\Db\Task::fromPublicTask($task);
+		try {
+			$this->taskMapper->update($taskEntity);
+			$this->notifyTaskStatus($task, Task::STATUS_RUNNING);
+		} catch (\OCP\DB\Exception $e) {
+			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem finding the task', 0, $e);
+		}
+		return true;
+	}
+
+	#[\Override]
+	public function setTaskIntermediateOutput(int $id, array $output): bool {
+		// TODO: Not sure if we should rather catch the exceptions of getTask here and fail silently
+		try {
+			$task = $this->getTask($id);
+		} catch (NotFoundException|\OCP\TaskProcessing\Exception\Exception $e) {
+			$this->logger->debug('Couldn\'t find task, not sending intermediate output', ['exception' => $e, 'task_id' => $id]);
+			return false;
+		}
+		if ($task->getStatus() !== Task::STATUS_RUNNING) {
+			return false;
+		}
+		$userId = $task->getUserId();
+		if ($userId !== null
+			&& $userId !== ''
+			&& $this->appManager->isEnabledForAnyone('notify_push')
+			&& interface_exists('\OCA\NotifyPush\Queue\IQueue')
+		) {
+			try {
+				/** @psalm-suppress UndefinedClass */
+				$queue = Server::get(\OCA\NotifyPush\Queue\IQueue::class);
+				/** @psalm-suppress UndefinedClass */
+				$queue->push('notify_custom', [
+					'user' => $userId,
+					'message' => 'taskprocessing:task_id_' . $task->getId(),
+					'body' => $output,
+				]);
+			} catch (ContainerExceptionInterface|NotFoundExceptionInterface $e) {
+				$this->logger->debug('OCA\NotifyPush\IQueue not found, not sending to queue');
+			}
+		}
+
+		// throttle DB update
+		$now = $this->timeFactory->now()->getTimestamp();
+		if ($now - $task->getLastUpdated() < 2) {
+			return true;
+		}
+
+		// no output shape validation for now
+		$task->setOutput($output);
 		$taskEntity = \OC\TaskProcessing\Db\Task::fromPublicTask($task);
 		try {
 			$this->taskMapper->update($taskEntity);
@@ -1299,6 +1418,7 @@ class Manager implements IManager {
 		}
 		try {
 			$this->taskMapper->update($taskEntity);
+			$this->notifyTaskStatus($task, $task->getStatus());
 			$this->runWebhook($task);
 		} catch (\OCP\DB\Exception $e) {
 			throw new \OCP\TaskProcessing\Exception\Exception($e->getMessage());
@@ -1335,6 +1455,21 @@ class Manager implements IManager {
 			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem finding the task', previous: $e);
 		} catch (\JsonException $e) {
 			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem parsing JSON after finding the task', previous: $e);
+		}
+	}
+
+	#[\Override]
+	public function claimNextScheduledTask(array $taskTypeIds = []): ?Task {
+		try {
+			$taskEntity = $this->taskMapper->claimOldestScheduledTask($taskTypeIds);
+			if ($taskEntity === null) {
+				return null;
+			}
+			return $taskEntity->toPublicTask();
+		} catch (\OCP\DB\Exception $e) {
+			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem claiming the task', previous: $e);
+		} catch (\JsonException $e) {
+			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem parsing JSON after claiming the task', previous: $e);
 		}
 	}
 
@@ -1509,6 +1644,7 @@ class Manager implements IManager {
 			return false;
 		}
 		$task->setStatus(Task::STATUS_RUNNING);
+		$this->notifyTaskStatus($task, Task::STATUS_RUNNING);
 		return true;
 	}
 
@@ -1529,6 +1665,7 @@ class Manager implements IManager {
 		$task->setStatus($status);
 		$taskEntity = \OC\TaskProcessing\Db\Task::fromPublicTask($task);
 		$this->taskMapper->update($taskEntity);
+		$this->notifyTaskStatus($task, $status);
 	}
 
 	/**

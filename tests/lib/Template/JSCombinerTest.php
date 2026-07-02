@@ -416,7 +416,6 @@ var b = \'world\';
 
 		$path = __DIR__ . '/data/';
 
-
 		$folder->method('getFile')->willReturnCallback(
 			function ($filename) use ($file, $depsFile, $gzFile) {
 				if ($filename === 'combine.js') {

@@ -1,6 +1,7 @@
 OC.L10N.register(
     "profile",
     {
+    "View profile" : "Vis profil",
     "Profile" : "Profil",
     "This application provides the profile" : "Denne applikation leverer profilen",
     "Provides a customisable user profile interface." : "Leverer en brugerdefinerbar brugerprofil grænseflade.",

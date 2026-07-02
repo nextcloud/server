@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Files\Cache;
 
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -44,7 +45,7 @@ class StorageGlobal {
 			->from('storages')
 			->where($builder->expr()->in('id', $builder->createParameter('ids'), IQueryBuilder::PARAM_STR_ARRAY));
 
-		foreach (array_chunk($storageIds, 1000) as $chunk) {
+		foreach (array_chunk($storageIds, IQueryBuilder::MAX_IN_PARAMETERS) as $chunk) {
 			$query->setParameter('ids', $chunk, IQueryBuilder::PARAM_STR_ARRAY);
 
 			$result = $query->executeQuery();

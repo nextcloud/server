@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\Files\Utils\PathHelper;
@@ -401,7 +402,6 @@ class Directory extends Node implements
 
 		$destinationPath = $this->getPath() . '/' . $targetName;
 
-
 		$targetNodeExists = $this->childExists($targetName);
 
 		// at getNodeForPath we also check the path for isForbiddenFileOrDir
@@ -465,7 +465,6 @@ class Directory extends Node implements
 
 		return true;
 	}
-
 
 	#[\Override]
 	public function copyInto($targetName, $sourcePath, INode $sourceNode) {

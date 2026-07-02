@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Comments\Activity;
 
 use OCP\Activity\Exceptions\UnknownActivityException;
@@ -62,7 +63,6 @@ class Provider implements IProvider {
 			return $this->parseLongVersion($event, $l);
 		}
 		throw new UnknownActivityException();
-
 	}
 
 	/**

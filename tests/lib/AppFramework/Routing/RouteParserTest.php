@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace Test\AppFramework\Routing;
 
 use OC\AppFramework\Routing\RouteParser;
@@ -18,6 +19,8 @@ class RouteParserTest extends \Test\TestCase {
 
 	#[\Override]
 	protected function setUp(): void {
+		parent::setUp();
+
 		$this->parser = new RouteParser();
 	}
 

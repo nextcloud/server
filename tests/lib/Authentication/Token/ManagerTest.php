@@ -104,7 +104,6 @@ class ManagerTest extends TestCase {
 		$token->method('getName')
 			->willReturn(str_repeat('a', 120) . '…');
 
-
 		$this->publicKeyTokenProvider->expects($this->once())
 			->method('generateToken')
 			->with(

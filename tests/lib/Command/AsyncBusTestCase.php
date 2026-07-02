@@ -75,6 +75,8 @@ abstract class AsyncBusTestCase extends TestCase {
 
 	#[\Override]
 	protected function setUp(): void {
+		parent::setUp();
+
 		self::$lastCommand = '';
 	}
 
@@ -107,7 +109,6 @@ abstract class AsyncBusTestCase extends TestCase {
 		$this->runJobs();
 		$this->assertEquals('', self::$lastCommand);
 	}
-
 
 	abstract protected function runJobs();
 }

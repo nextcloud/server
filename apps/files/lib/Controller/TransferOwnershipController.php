@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files\Controller;
 
 use OCA\Files\BackgroundJob\TransferOwnership;
@@ -39,7 +40,6 @@ class TransferOwnershipController extends OCSController {
 	) {
 		parent::__construct($appName, $request);
 	}
-
 
 	/**
 	 * Transfer the ownership to another user

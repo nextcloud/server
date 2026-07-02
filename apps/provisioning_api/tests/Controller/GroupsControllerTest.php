@@ -5,10 +5,10 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Provisioning_API\Tests\Controller;
 
 use OC\Group\Manager;
-use OC\User\NoUserException;
 use OCA\Provisioning_API\Controller\GroupsController;
 use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\OCS\OCSException;
@@ -21,6 +21,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\User\Exceptions\UserNotFoundException;
 use OCP\UserInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -38,7 +39,6 @@ class GroupsControllerTest extends \Test\TestCase {
 	protected GroupsController&MockObject $api;
 
 	private IRootFolder $rootFolder;
-
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -240,7 +240,6 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->assertEquals(['users' => ['user1', 'user2']], $result->getData());
 	}
 
-
 	public function testGetGroupAsIrrelevantSubadmin(): void {
 		$this->expectException(OCSException::class);
 		$this->expectExceptionCode(403);
@@ -285,7 +284,6 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->assertEquals(['users' => ['user1', 'user2']], $result->getData());
 	}
 
-
 	public function testGetGroupNonExisting(): void {
 		$this->expectException(OCSException::class);
 		$this->expectExceptionMessage('The requested group could not be found');
@@ -295,7 +293,6 @@ class GroupsControllerTest extends \Test\TestCase {
 
 		$this->api->getGroup($this->getUniqueID());
 	}
-
 
 	public function testGetSubAdminsOfGroupsNotExists(): void {
 		$this->expectException(OCSException::class);
@@ -343,7 +340,6 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->assertEquals([], $result->getData());
 	}
 
-
 	public function testAddGroupEmptyGroup(): void {
 		$this->expectException(OCSException::class);
 		$this->expectExceptionMessage('Invalid group name');
@@ -351,7 +347,6 @@ class GroupsControllerTest extends \Test\TestCase {
 
 		$this->api->addGroup('');
 	}
-
 
 	public function testAddGroupExistingGroup(): void {
 		$this->expectException(OCSException::class);
@@ -397,14 +392,12 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->api->addGroup('Iñtërnâtiônàlizætiøn');
 	}
 
-
 	public function testDeleteGroupNonExisting(): void {
 		$this->expectException(OCSException::class);
 		$this->expectExceptionCode(101);
 
 		$this->api->deleteGroup('NonExistingGroup');
 	}
-
 
 	public function testDeleteAdminGroup(): void {
 		$this->expectException(OCSException::class);
@@ -467,7 +460,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		];
 		$users['ncu2']->expects($this->atLeastOnce())
 			->method('getHome')
-			->willThrowException(new NoUserException());
+			->willThrowException(new UserNotFoundException());
 
 		$this->userManager->expects($this->any())
 			->method('get')
@@ -496,7 +489,6 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->subAdminManager->expects($this->any())
 			->method('getSubAdminsGroups')
 			->willReturn([]);
-
 
 		$this->api->getGroupUsersDetails($gid);
 	}
@@ -512,7 +504,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		];
 		$users['ncu2']->expects($this->atLeastOnce())
 			->method('getHome')
-			->willThrowException(new NoUserException());
+			->willThrowException(new UserNotFoundException());
 
 		$this->userManager->expects($this->any())
 			->method('get')
@@ -541,7 +533,6 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->subAdminManager->expects($this->any())
 			->method('getSubAdminsGroups')
 			->willReturn([]);
-
 
 		$this->api->getGroupUsersDetails(urlencode($gid));
 	}

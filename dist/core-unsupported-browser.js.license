@@ -101,7 +101,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.7.16
 	- license: MIT
 - webpack
-	- version: 5.105.3
+	- version: 5.106.2
 	- license: MIT
 - @nextcloud/browserslist-config
 	- version: 3.1.2

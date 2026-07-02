@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "چېكىنىش",
     "Please select a file." : "ھۆججەت تاللاڭ.",
     "File is too big" : "ھۆججەت بەك چوڭ",
     "The selected file is not an image." : "تاللانغان ھۆججەت رەسىم ئەمەس.",
@@ -201,6 +202,7 @@ OC.L10N.register(
     "Done" : "پۈتتى",
     "_{count} notification_::_{count} notifications_" : ["{count} ئۇقتۇرۇش","{count} ئۇقتۇرۇش"],
     "More apps" : "تېخىمۇ كۆپ ئەپلەر",
+    "Settings" : "تەڭشەكلەر",
     "Applications" : "قوللىنىشچان پروگراممىلار",
     "Apps" : "ئەپلەر",
     "No" : "ياق",
@@ -224,7 +226,6 @@ OC.L10N.register(
     "Search everywhere" : "ھەممە يەردىن ئىزدەڭ",
     "Searching …" : "ئىزدەۋاتىدۇ ...",
     "Start typing to search" : "ئىزدەشنى باشلاڭ",
-    "Minimum search length is {minSearchLength} characters" : "ئەڭ تۆۋەن ئىزدەش ھەرىپ سانى بولسا {minSearchLength}",
     "No matching results" : "ماس كېلىدىغان نەتىجە يوق",
     "Today" : "بۈگۈن",
     "Last 7 days" : "ئاخىرقى 7 كۈن",
@@ -249,7 +250,6 @@ OC.L10N.register(
     "Log in to {productName}" : "{productName} to غا كىرىڭ",
     "Wrong login or password." : "كىرىش ياكى پارول خاتا.",
     "This account is disabled" : "بۇ ھېسابات چەكلەنگەن",
-    "Too many incorrect login attempts. Please try again in 30 seconds." : "مەغلۇب بولغان سىناقلار بەك كۆپ ، 30 سىكۇنتتىن كىيىن قايتا سىناڭ.",
     "Account name or email" : "ھېسابات ئىسمى ياكى ئېلېكترونلۇق خەت",
     "Account name" : "ھېسابات ئىسمى",
     "Server side authentication failed!" : "مۇلازىمېتىر تەرەپ دەلىللەش مەغلۇپ بولدى!",
@@ -485,6 +485,7 @@ OC.L10N.register(
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["يېڭىلاش مۇۋەپپەقىيەتلىك بولدى. %n سېكۇنت ئىچىدە سىزنى {productName} غا يۆتكەيدۇ.","يېڭىلاش مۇۋەپپەقىيەتلىك بولدى. %n سېكۇنت ئىچىدە سىزنى {productName} غا يۆتكەيدۇ."],
     "Applications menu" : "قوللىنىشچان تىزىملىك",
     "Searching …" : "ئىزدەش…",
+    "Minimum search length is {minSearchLength} characters" : "ئەڭ تۆۋەن ئىزدەش ھەرىپ سانى بولسا {minSearchLength}",
     "Logging in …" : "تىزىمغا كىرىش…",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "بىز IP دىن نۇرغۇن ئىناۋەتسىز كىرىش سىنىقىنى بايقىدۇق. شۇڭلاشقا كېيىنكى كىرىش ۋاقتىڭىز 30 سېكۇنتقا يېتىدۇ.",
     "Loading apps …" : "ئەپلەرنى يۈكلەۋاتىدۇ…",
@@ -531,6 +532,7 @@ OC.L10N.register(
     "The theme %s has been disabled." : "باشتېما %s چەكلەنگەن.",
     "Detailed logs" : "تەپسىلىي خاتىرىلەر",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "ياردەم ئۈچۈن <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\"> ھۆججەت </a> نى كۆرۈڭ.",
+    "Too many incorrect login attempts. Please try again in 30 seconds." : "مەغلۇب بولغان سىناقلار بەك كۆپ ، 30 سىكۇنتتىن كىيىن قايتا سىناڭ.",
     "Groups" : "گۇرۇپپىلار",
     "Group list is empty" : "گۇرۇپپا تىزىملىكى قۇرۇق",
     "Unable to retrieve the group list" : "گۇرۇپپا تىزىملىكىنى ئەسلىگە كەلتۈرگىلى بولمىدى"

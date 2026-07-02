@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Cache;
 
 use Doctrine\DBAL\Exception;
@@ -515,7 +516,7 @@ class Scanner extends BasicEmitter implements IScanner {
 		$removedChildren = \array_diff(array_keys($existingChildren), $newChildNames);
 		foreach ($removedChildren as $childName) {
 			$child = $path ? $path . '/' . $childName : $childName;
-			$this->removeFromCache($child);
+			$this->removeFromCache((string)$child);
 		}
 		if ($this->useTransactions) {
 			$this->connection->commit();

@@ -323,9 +323,9 @@
     "The files are locked" : "Filerna är låsta",
     "The file does not exist anymore" : "Filen finns inte längre",
     "Moving \"{source}\" to \"{destination}\" …" : "Flyttar \"{source}\" till \"{destination}\" …",
-    "Moving {count} files to \"{destination}\" …" : "Flyttar {count}filer till \"{destination}\" …",
+    "_Moving %n file to \"{destination}\" …_::_Moving %n files to \"{destination}\" …_" : ["Flyttar %n fil till \"{destination}\" …","Flyttar %n filer till \"{destination}\" …"],
     "Copying \"{source}\" to \"{destination}\" …" : "Kopierar \"{source}\" till \"{destination}\" …",
-    "Copying {count} files to \"{destination}\" …" : "Kopierar {count} filer till \"{destination}\" …",
+    "_Copying %n file to \"{destination}\" …_::_Copying %n files to \"{destination}\" …_" : ["Kopierar %n fil till \"{destination}\" …","Kopierar %n filer till \"{destination}\" …"],
     "Choose destination" : "Välj destination",
     "Copy to {target}" : "Kopiera till {target}",
     "Move to {target}" : "Flytta till {target}",
@@ -396,10 +396,6 @@
     "Files and folders you recently modified will show up here." : "Filer och mappar som du nyligen ändrat kommer att visas här.",
     "Search" : "Sök",
     "Search results within your files." : "Sökresultat i dina filer.",
-    "No entries found in this folder" : "Inget innehåll hittades i denna mapp",
-    "Select all" : "Välj allt",
-    "Upload too large" : "För stor uppladdning",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Filerna du försöker ladda upp överstiger den maximala storleken för filöverföringar på servern.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Bytte namn på \"{oldName}\" till \"{newName}\"",
     "Clear filter" : "Rensa filter",
     "Open file sidebar" : "Öppna filens sidofält",
@@ -419,6 +415,10 @@
     "Tags" : "Taggar",
     "Save as …" : "Spara som …",
     "Converting files …" : "Konverterar filer ...",
-    "Converting file …" : "Konverterar fil ..."
+    "Converting file …" : "Konverterar fil ...",
+    "No entries found in this folder" : "Inget innehåll hittades i denna mapp",
+    "Select all" : "Välj allt",
+    "Upload too large" : "För stor uppladdning",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Filerna du försöker ladda upp överstiger den maximala storleken för filöverföringar på servern."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

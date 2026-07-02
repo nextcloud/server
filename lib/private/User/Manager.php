@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\User;
 
 use OC\Hooks\PublicEmitter;
@@ -19,6 +20,7 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserBackend;
 use OCP\IUserManager;
@@ -34,9 +36,11 @@ use OCP\User\Backend\IProvideEnabledStateBackend;
 use OCP\User\Backend\ISearchKnownUsersBackend;
 use OCP\User\Events\BeforeUserCreatedEvent;
 use OCP\User\Events\UserCreatedEvent;
+use OCP\User\Exceptions\UserNotFoundException;
 use OCP\UserInterface;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
+use RuntimeException;
 
 /**
  * Class Manager
@@ -69,6 +73,9 @@ class Manager extends PublicEmitter implements IUserManager {
 	private ICache $cache;
 
 	private DisplayNameCache $displayNameCache;
+
+	// IURLGenerator can't be injected through DI
+	private ?IURLGenerator $urlGenerator;
 
 	// This constructor can't autoload any class requiring a DB connection.
 	public function __construct(
@@ -321,7 +328,7 @@ class Manager extends PublicEmitter implements IUserManager {
 						return mb_stripos($user->getUID(), $search) !== false
 						|| mb_stripos($user->getDisplayName(), $search) !== false
 						|| mb_stripos($user->getEMailAddress() ?? '', $search) !== false;
-					} catch (NoUserException $ex) {
+					} catch (UserNotFoundException $ex) {
 						$this->logger->error('Error while filtering disabled users', ['exception' => $ex, 'userUID' => $user->getUID()]);
 						return false;
 					}
@@ -593,7 +600,6 @@ class Manager extends PublicEmitter implements IUserManager {
 			->andWhere($queryBuilder->expr()->eq('configkey', $queryBuilder->createNamedParameter('enabled')))
 			->andWhere($queryBuilder->expr()->eq('configvalue', $queryBuilder->createNamedParameter('false'), IQueryBuilder::PARAM_STR));
 
-
 		$result = $queryBuilder->executeQuery();
 		$count = $result->fetchOne();
 		$result->closeCursor();
@@ -861,5 +867,25 @@ class Manager extends PublicEmitter implements IUserManager {
 	#[\Override]
 	public function getExistingUser(string $userId, ?string $displayName = null): IUser {
 		return new LazyUser($userId, $this, $displayName);
+	}
+
+	#[\Override]
+	public function getAvatarUrlLight(string $userId, int $size): string {
+		$url = ($this->urlGenerator ??= Server::get(IURLGenerator::class))->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $userId, 'size' => $size]);
+		if ($url === '') {
+			throw new RuntimeException('The URL is empty.');
+		}
+
+		return $url;
+	}
+
+	#[\Override]
+	public function getAvatarUrlDark(string $userId, int $size): string {
+		$url = ($this->urlGenerator ??= Server::get(IURLGenerator::class))->linkToRouteAbsolute('core.avatar.getAvatarDark', ['userId' => $userId, 'size' => $size]);
+		if ($url === '') {
+			throw new RuntimeException('The URL is empty.');
+		}
+
+		return $url;
 	}
 }

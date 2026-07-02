@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace OCA\Files_Sharing\Repair;
 
+use OC\Files\Cache\CacheEntry;
 use OC\Files\SetupManager;
 use OCA\Files_Sharing\ShareTargetValidator;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -20,14 +21,14 @@ use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Migration\IOutput;
-use OCP\Migration\IRepairStep;
+use OCP\Migration\IRepairStepExpensive;
 use OCP\Share\IShare;
 use Psr\Log\LoggerInterface;
 
 /**
  * @psalm-type ShareInfo = array{id: string|int, share_type: string, share_with: string, file_source: string, file_target: string}
  */
-class CleanupShareTarget implements IRepairStep {
+class CleanupShareTarget implements IRepairStepExpensive {
 	/** we only care about shares with a user target,
 	 *  since the underling group/deck/talk share doesn't get moved
 	 */
@@ -111,12 +112,23 @@ class CleanupShareTarget implements IRepairStep {
 				);
 				$newTarget = $userFolder->getRelativePath($absoluteNewTarget);
 
-				$this->moveShare((string)$shareInfo['id'], $newTarget);
+				if ($newTarget !== $oldTarget) {
+					$this->moveShare((string)$shareInfo['id'], $newTarget);
 
-				$oldMountPoint = "/{$recipient->getUID()}/files$oldTarget/";
-				$newMountPoint = "/{$recipient->getUID()}/files$newTarget/";
-				$userMounts[$newMountPoint] = $userMounts[$oldMountPoint];
-				unset($userMounts[$oldMountPoint]);
+					$oldMountPoint = "/{$recipient->getUID()}/files$oldTarget/";
+					$newMountPoint = "/{$recipient->getUID()}/files$newTarget/";
+
+					/** @var ICachedMountInfo $mount */
+					$mount = $userMounts[$oldMountPoint];
+					$userMounts[$newMountPoint] = $mount;
+					unset($userMounts[$oldMountPoint]);
+
+					$this->userMountCache->removeMount($oldMountPoint);
+					$this->userMountCache->addMount($recipient, $newMountPoint, new CacheEntry([
+						'fileid' => $mount->getRootId(),
+						'storage' => $mount->getStorageId(),
+					]), $mount->getMountProvider(), $mount->getMountId());
+				}
 			} catch (\Exception $e) {
 				$msg = 'error cleaning up share target: ' . $e->getMessage();
 				$this->logger->error($msg, ['exception' => $e, 'app' => 'files_sharing']);

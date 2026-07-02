@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\AppFramework;
 
 use Exception;
@@ -31,7 +32,6 @@ abstract class Middleware {
 	public function beforeController(Controller $controller, string $methodName) {
 	}
 
-
 	/**
 	 * This is being run when either the beforeController method or the
 	 * controller method itself is throwing an exception. The middleware is
@@ -51,7 +51,6 @@ abstract class Middleware {
 		throw $exception;
 	}
 
-
 	/**
 	 * This is being run after a successful controllermethod call and allows
 	 * the manipulation of a Response object. The middleware is run in reverse order
@@ -66,7 +65,6 @@ abstract class Middleware {
 	public function afterController(Controller $controller, string $methodName, Response $response) {
 		return $response;
 	}
-
 
 	/**
 	 * This is being run after the response object has been rendered and

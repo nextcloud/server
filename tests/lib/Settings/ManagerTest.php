@@ -200,7 +200,6 @@ class ManagerTest extends TestCase {
 		$this->manager->registerSection('personal', Section::class);
 		$this->manager->registerSection('admin', Section::class);
 
-
 		$section = Server::get(Section::class);
 		$this->container->method('get')
 			->with(Section::class)

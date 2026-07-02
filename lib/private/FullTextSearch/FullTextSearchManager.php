@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\FullTextSearch;
 
 use OCP\FullTextSearch\Exceptions\FullTextSearchAppNotAvailableException;
@@ -66,7 +67,6 @@ class FullTextSearchManager implements IFullTextSearchManager {
 		return true;
 	}
 
-
 	/**
 	 * @throws FullTextSearchAppNotAvailableException
 	 */
@@ -77,7 +77,6 @@ class FullTextSearchManager implements IFullTextSearchManager {
 
 		return $this->providerService;
 	}
-
 
 	/**
 	 * @throws FullTextSearchAppNotAvailableException
@@ -90,7 +89,6 @@ class FullTextSearchManager implements IFullTextSearchManager {
 		return $this->indexService;
 	}
 
-
 	/**
 	 * @throws FullTextSearchAppNotAvailableException
 	 */
@@ -102,7 +100,6 @@ class FullTextSearchManager implements IFullTextSearchManager {
 		return $this->searchService;
 	}
 
-
 	/**
 	 * @throws FullTextSearchAppNotAvailableException
 	 */
@@ -111,7 +108,6 @@ class FullTextSearchManager implements IFullTextSearchManager {
 		$this->getProviderService()->addJavascriptAPI();
 	}
 
-
 	/**
 	 * @throws FullTextSearchAppNotAvailableException
 	 */
@@ -119,7 +115,6 @@ class FullTextSearchManager implements IFullTextSearchManager {
 	public function isProviderIndexed(string $providerId): bool {
 		return $this->getProviderService()->isProviderIndexed($providerId);
 	}
-
 
 	/**
 	 * @throws FullTextSearchAppNotAvailableException
@@ -143,7 +138,6 @@ class FullTextSearchManager implements IFullTextSearchManager {
 	): IIndex {
 		return $this->getIndexService()->createIndex($providerId, $documentId, $userId, $status);
 	}
-
 
 	/**
 	 * @see IIndex for available value for $status.
@@ -175,7 +169,6 @@ class FullTextSearchManager implements IFullTextSearchManager {
 		$this->getIndexService()->updateIndexesStatus($providerId, $documentIds, $status, $reset);
 	}
 
-
 	/**
 	 * @param IIndex[] $indexes
 	 *
@@ -185,7 +178,6 @@ class FullTextSearchManager implements IFullTextSearchManager {
 	public function updateIndexes(array $indexes): void {
 		$this->getIndexService()->updateIndexes($indexes);
 	}
-
 
 	/**
 	 * @return ISearchResult[]

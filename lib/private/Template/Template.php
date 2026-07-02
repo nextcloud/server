@@ -61,7 +61,6 @@ class Template extends Base implements ITemplate {
 		);
 	}
 
-
 	/**
 	 * find the template with the given name
 	 *

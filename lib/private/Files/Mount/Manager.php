@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\Mount;
 
 use OC\Files\Filesystem;
@@ -26,7 +27,7 @@ class Manager implements IMountManager {
 	private ?array $mountKeys = null;
 	/** @var CappedMemoryCache<IMountPoint> */
 	private CappedMemoryCache $pathCache;
-	/** @var CappedMemoryCache<IMountPoint[]> */
+	/** @var CappedMemoryCache<list<IMountPoint>> */
 	private CappedMemoryCache $inPathCache;
 	private SetupManager $setupManager;
 
@@ -110,11 +111,6 @@ class Manager implements IMountManager {
 		throw new NotFoundException('No mount for path ' . $path . ' existing mounts (' . count($this->mounts) . '): ' . implode(',', array_keys($this->mounts)));
 	}
 
-	/**
-	 * Find all mounts in $path
-	 *
-	 * @return IMountPoint[]
-	 */
 	#[\Override]
 	public function findIn(string $path): array {
 		$this->setupManager->setupForPath($path, true);
@@ -206,9 +202,6 @@ class Manager implements IMountManager {
 		return $result;
 	}
 
-	/**
-	 * @return IMountPoint[]
-	 */
 	#[\Override]
 	public function getAll(): array {
 		return $this->mounts;

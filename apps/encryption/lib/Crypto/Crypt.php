@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Encryption\Crypto;
 
 use OC\Encryption\Exceptions\DecryptionFailedException;
@@ -469,7 +470,6 @@ class Crypt {
 		return hash_hmac('sha256', $data, $passPhrase);
 	}
 
-
 	/**
 	 * @param bool $hasSignature did the block contain a signature, in this case we use a different padding
 	 */
@@ -532,7 +532,6 @@ class Crypt {
 
 		return ($signaturePosition !== false);
 	}
-
 
 	/**
 	 * @throws DecryptionFailedException

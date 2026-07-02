@@ -52,7 +52,6 @@ class MetaDataTest extends \Test\TestCase {
 		return $group;
 	}
 
-
 	public function testGet(): void {
 		$group = $this->getGroupMock();
 		$groups = array_fill(0, 3, $group);

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\CardDAV;
 
 use OCA\DAV\DAV\Sharing\IShareable;
@@ -35,7 +36,6 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMov
 	 */
 	public function __construct(BackendInterface $carddavBackend, array $addressBookInfo, IL10N $l10n) {
 		parent::__construct($carddavBackend, $addressBookInfo);
-
 
 		if ($this->addressBookInfo['{DAV:}displayname'] === CardDavBackend::PERSONAL_ADDRESSBOOK_NAME
 			&& $this->getName() === CardDavBackend::PERSONAL_ADDRESSBOOK_URI) {

@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "Одјави се",
     "Please select a file." : "Изаберите фајл.",
     "File is too big" : "Фајл је превелик",
     "The selected file is not an image." : "Изабрани фајл није слика.",
@@ -200,6 +201,7 @@ OC.L10N.register(
     "Done" : "Завршено",
     "_{count} notification_::_{count} notifications_" : ["{count} обавештење","{count} обавештења","{count} обавештења"],
     "More apps" : "Још апликација",
+    "Settings" : "Поставке",
     "Applications" : "Апликације",
     "Apps" : "Апликације",
     "No" : "Не",
@@ -223,7 +225,6 @@ OC.L10N.register(
     "Search everywhere" : "Претражи свуда",
     "Searching …" : "Тражи се …",
     "Start typing to search" : "Почните да куцате да бисте претраживали",
-    "Minimum search length is {minSearchLength} characters" : "Минимална дужина претраге је {minSearchLength} карактера",
     "No matching results" : "Претрага није дала резултате",
     "Today" : "Данас",
     "Last 7 days" : "Последњих 7 дана",
@@ -482,6 +483,7 @@ OC.L10N.register(
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["Ажурирање је било успешно. Преусмеравате се на {productName} за %n секунду.","Ажурирање је било успешно. Преусмеравате се на {productName} за %n секунде.","Ажурирање је било успешно. Преусмеравате се на {productName} за  %n секунди."],
     "Applications menu" : "Мени апликација",
     "Searching …" : "Тражим…",
+    "Minimum search length is {minSearchLength} characters" : "Минимална дужина претраге је {minSearchLength} карактера",
     "Logging in …" : "Пријављивање …",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Приметили смо више неисправних покушаја пријава са Ваше IP адресе. Следећа пријава ће бити могућа тек за 30 секунди.",
     "Loading apps …" : "Учитавам апликације…",

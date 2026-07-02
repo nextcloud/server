@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\FederatedFileSharing;
 
 use OCP\Contacts\IManager;
@@ -135,7 +136,6 @@ class Notifier implements INotifier {
 					$notification->addParsedAction($action);
 				}
 				return $notification;
-
 			default:
 				// Unknown subject => Unknown notification => throw
 				throw new UnknownNotificationException();

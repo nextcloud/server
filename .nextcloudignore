@@ -23,7 +23,9 @@
 .pre-commit-config.yaml
 .tag
 .tx
+AGENTS.md
 CHANGELOG.md
+CLAUDE.md
 CODE_OF_CONDUCT.md
 COPYING-README
 DESIGN.md

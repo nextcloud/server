@@ -64,7 +64,6 @@ class EphemeralTokenMapper extends QBMapper {
 		return $this->findEntities($qb);
 	}
 
-
 	/**
 	 * @param int $olderThan
 	 * @return EphemeralToken[]
@@ -105,7 +104,6 @@ class EphemeralTokenMapper extends QBMapper {
 			$this->logger->error('Webhook token deletion failed: ' . $e->getMessage(), ['exception' => $e]);
 			return;
 		}
-
 
 		$this->logger->debug('Invalidating ephemeral webhook tokens older than ' . date('c', $olderThan), ['app' => 'webhook_listeners']);
 		foreach ($tokensToDelete as $token) {

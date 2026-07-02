@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Command\User;
 
 use OC\Core\Command\Base;
@@ -115,7 +116,6 @@ class ResetPassword extends Base {
 			$output->writeln('<error>Interactive input or --password-from-env is needed for entering a new password!</error>');
 			return 1;
 		}
-
 
 		try {
 			$success = $user->setPassword($password);

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\AppFramework\Http\Request;
@@ -100,7 +101,6 @@ class FileTest extends TestCase {
 		fseek($stream, 0);
 		return $stream;
 	}
-
 
 	public static function fopenFailuresProvider(): array {
 		return [
@@ -238,7 +238,8 @@ class FileTest extends TestCase {
 			null,
 			[
 				'permissions' => Constants::PERMISSION_ALL,
-				'type' => FileInfo::TYPE_FOLDER,
+				'type' => FileInfo::TYPE_FILE,
+				'checksum' => '',
 			],
 			null
 		);
@@ -625,7 +626,6 @@ class FileTest extends TestCase {
 		$file->setName("/i\nvalid");
 	}
 
-
 	public function testUploadAbort(): void {
 		// setup
 		/** @var View&MockObject */
@@ -675,7 +675,6 @@ class FileTest extends TestCase {
 		$this->assertEmpty($this->listPartFiles($view, ''), 'No stray part files');
 	}
 
-
 	public function testDeleteWhenAllowed(): void {
 		// setup
 		/** @var View&MockObject */
@@ -701,7 +700,6 @@ class FileTest extends TestCase {
 		$file->delete();
 	}
 
-
 	public function testDeleteThrowsWhenDeletionNotAllowed(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -724,7 +722,6 @@ class FileTest extends TestCase {
 		// action
 		$file->delete();
 	}
-
 
 	public function testDeleteThrowsWhenDeletionFailed(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
@@ -753,7 +750,6 @@ class FileTest extends TestCase {
 		// action
 		$file->delete();
 	}
-
 
 	public function testDeleteThrowsWhenDeletionThrows(): void {
 		$this->expectException(Forbidden::class);
@@ -800,7 +796,13 @@ class FileTest extends TestCase {
 	}
 
 	/**
-	 * Test whether locks are set before and after the operation
+	 * Test that PUT keeps hook-time lock semantics compatible:
+	 * - pre-write hooks run while the file is shared-locked
+	 * - post-write hooks also run while the file is shared-locked
+	 *
+	 * Post-write hooks are expected to observe a fully finalized file state,
+	 * but should still be able to access the file without exclusive-lock
+	 * contention.
 	 */
 	public function testPutLocking(): void {
 		$view = new View('/' . $this->user . '/files/');
@@ -812,7 +814,8 @@ class FileTest extends TestCase {
 			null,
 			[
 				'permissions' => Constants::PERMISSION_ALL,
-				'type' => FileInfo::TYPE_FOLDER,
+				'type' => FileInfo::TYPE_FILE,
+				'checksum' => '',
 			],
 			null
 		);
@@ -832,8 +835,8 @@ class FileTest extends TestCase {
 		$wasLockedPost = false;
 		$eventHandler = $this->createMock(EventHandlerMock::class);
 
-		// both pre and post hooks might need access to the file,
-		// so only shared lock is acceptable
+		// Pre-write hooks should run under a shared lock so observers can safely
+		// inspect the target while the write is in progress.
 		$eventHandler->expects($this->once())
 			->method('writeCallback')
 			->willReturnCallback(
@@ -842,6 +845,10 @@ class FileTest extends TestCase {
 					$wasLockedPre = $wasLockedPre && !$this->isFileLocked($view, $path, ILockingProvider::LOCK_EXCLUSIVE);
 				}
 			);
+
+		// Post-write hooks should also run under a shared lock. They are expected to
+		// see fully finalized metadata/state, but still be able to access the file
+		// during the callback.
 		$eventHandler->expects($this->once())
 			->method('postWriteCallback')
 			->willReturnCallback(
@@ -872,8 +879,8 @@ class FileTest extends TestCase {
 		// afterMethod unlocks
 		$view->unlockFile($path, ILockingProvider::LOCK_SHARED);
 
-		$this->assertTrue($wasLockedPre, 'File was locked during pre-hooks');
-		$this->assertTrue($wasLockedPost, 'File was locked during post-hooks');
+		$this->assertTrue($wasLockedPre, 'File was shared-locked during pre-hooks');
+		$this->assertTrue($wasLockedPost, 'File was shared-locked during post-hooks');
 
 		$this->assertFalse(
 			$this->isFileLocked($view, $path, ILockingProvider::LOCK_SHARED),
@@ -931,7 +938,6 @@ class FileTest extends TestCase {
 		];
 	}
 
-
 	public function testGetFopenFails(): void {
 		$this->expectException(\Sabre\DAV\Exception\ServiceUnavailable::class);
 
@@ -953,7 +959,6 @@ class FileTest extends TestCase {
 		$file->get();
 	}
 
-
 	public function testGetFopenThrows(): void {
 		$this->expectException(Forbidden::class);
 
@@ -974,7 +979,6 @@ class FileTest extends TestCase {
 
 		$file->get();
 	}
-
 
 	public function testGetThrowsIfNoPermission(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
@@ -1037,7 +1041,8 @@ class FileTest extends TestCase {
 			null,
 			[
 				'permissions' => Constants::PERMISSION_ALL,
-				'type' => FileInfo::TYPE_FOLDER,
+				'type' => FileInfo::TYPE_FILE,
+				'checksum' => '',
 			],
 			null
 		);

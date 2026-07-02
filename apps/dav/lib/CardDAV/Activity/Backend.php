@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CardDAV\Activity;
 
 use OCA\DAV\CardDAV\Activity\Provider\Addressbook;
@@ -418,7 +419,6 @@ class Backend {
 					'name' => $card['name'],
 				],
 			];
-
 
 			$event->setAffectedUser($user)
 				->setSubject(

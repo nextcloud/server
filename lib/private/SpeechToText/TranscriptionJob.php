@@ -7,10 +7,8 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-
 namespace OC\SpeechToText;
 
-use OC\User\NoUserException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\QueuedJob;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -22,6 +20,7 @@ use OCP\PreConditionNotMetException;
 use OCP\SpeechToText\Events\TranscriptionFailedEvent;
 use OCP\SpeechToText\Events\TranscriptionSuccessfulEvent;
 use OCP\SpeechToText\ISpeechToTextManager;
+use OCP\User\Exceptions\UserNotFoundException;
 use Psr\Log\LoggerInterface;
 
 class TranscriptionJob extends QueuedJob {
@@ -35,7 +34,6 @@ class TranscriptionJob extends QueuedJob {
 		parent::__construct($timeFactory);
 		$this->setAllowParallelRuns(false);
 	}
-
 
 	/**
 	 * @inheritDoc
@@ -74,7 +72,7 @@ class TranscriptionJob extends QueuedJob {
 					$appId,
 				)
 			);
-		} catch (PreConditionNotMetException|\RuntimeException|\InvalidArgumentException|NotFoundException|NotPermittedException|NoUserException $e) {
+		} catch (PreConditionNotMetException|\RuntimeException|\InvalidArgumentException|NotFoundException|NotPermittedException|UserNotFoundException $e) {
 			$this->logger->warning('Transcription of file ' . $fileId . ' failed', ['exception' => $e]);
 			$this->eventDispatcher->dispatchTyped(
 				new TranscriptionFailedEvent(

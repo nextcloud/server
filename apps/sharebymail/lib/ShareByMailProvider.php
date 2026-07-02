@@ -4,12 +4,12 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\ShareByMail;
 
 use OC\Share20\DefaultShareProvider;
 use OC\Share20\Exception\InvalidShare;
 use OC\Share20\Share;
-use OC\User\NoUserException;
 use OCA\ShareByMail\Settings\SettingsManager;
 use OCP\Activity\IManager;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -37,6 +37,7 @@ use OCP\Share\IAttributes;
 use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
 use OCP\Share\IShareProviderWithNotification;
+use OCP\User\Exceptions\UserNotFoundException;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
@@ -205,7 +206,6 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 			);
 		}
 	}
-
 
 	/**
 	 * publish activity if a file/folder was shared by mail
@@ -511,7 +511,6 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 
 	protected function sendNote(IShare $share): void {
 		$recipient = $share->getSharedWith();
-
 
 		$filename = $share->getNode()->getName();
 		$initiator = $share->getSharedBy();
@@ -962,7 +961,6 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		}
 		$cursor->closeCursor();
 
-
 		return $shares;
 	}
 
@@ -1073,7 +1071,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	private function getNode(string $userId, int $id): Node {
 		try {
 			$userFolder = $this->rootFolder->getUserFolder($userId);
-		} catch (NoUserException $e) {
+		} catch (UserNotFoundException) {
 			throw new InvalidShare();
 		}
 

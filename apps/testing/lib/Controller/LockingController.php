@@ -5,10 +5,10 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Testing\Controller;
 
 use OC\Lock\DBLockingProvider;
-use OC\User\NoUserException;
 use OCA\Testing\Locking\FakeDBLockingProvider;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
@@ -21,6 +21,7 @@ use OCP\IDBConnection;
 use OCP\IRequest;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
+use OCP\User\Exceptions\UserNotFoundException;
 
 class LockingController extends OCSController {
 
@@ -56,7 +57,7 @@ class LockingController extends OCSController {
 	}
 
 	/**
-	 * @throws NotFoundException
+	 * @throws UserNotFoundException
 	 */
 	protected function getPath(string $user, string $path): string {
 		$node = $this->rootFolder->getUserFolder($user)->get($path);
@@ -81,7 +82,7 @@ class LockingController extends OCSController {
 	public function acquireLock(int $type, string $user, string $path): DataResponse {
 		try {
 			$path = $this->getPath($user, $path);
-		} catch (NoUserException $e) {
+		} catch (UserNotFoundException $e) {
 			throw new OCSException('User not found', Http::STATUS_NOT_FOUND, $e);
 		} catch (NotFoundException $e) {
 			throw new OCSException('Path not found', Http::STATUS_NOT_FOUND, $e);
@@ -104,7 +105,7 @@ class LockingController extends OCSController {
 	public function changeLock(int $type, string $user, string $path): DataResponse {
 		try {
 			$path = $this->getPath($user, $path);
-		} catch (NoUserException $e) {
+		} catch (UserNotFoundException $e) {
 			throw new OCSException('User not found', Http::STATUS_NOT_FOUND, $e);
 		} catch (NotFoundException $e) {
 			throw new OCSException('Path not found', Http::STATUS_NOT_FOUND, $e);
@@ -127,7 +128,7 @@ class LockingController extends OCSController {
 	public function releaseLock(int $type, string $user, string $path): DataResponse {
 		try {
 			$path = $this->getPath($user, $path);
-		} catch (NoUserException $e) {
+		} catch (UserNotFoundException $e) {
 			throw new OCSException('User not found', Http::STATUS_NOT_FOUND, $e);
 		} catch (NotFoundException $e) {
 			throw new OCSException('Path not found', Http::STATUS_NOT_FOUND, $e);
@@ -150,7 +151,7 @@ class LockingController extends OCSController {
 	public function isLocked(int $type, string $user, string $path): DataResponse {
 		try {
 			$path = $this->getPath($user, $path);
-		} catch (NoUserException $e) {
+		} catch (UserNotFoundException $e) {
 			throw new OCSException('User not found', Http::STATUS_NOT_FOUND, $e);
 		} catch (NotFoundException $e) {
 			throw new OCSException('Path not found', Http::STATUS_NOT_FOUND, $e);

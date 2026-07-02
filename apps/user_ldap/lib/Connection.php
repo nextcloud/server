@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP;
 
 use OC\ServerNotAvailableException;
@@ -137,6 +138,9 @@ class Connection extends LDAPUtility {
 
 	protected LoggerInterface $logger;
 	private IL10N $l10n;
+
+	/** @psalm-suppress ImpureStaticProperty This is a cache for whether php-ldap is installed, which cannot change mid-process */
+	private static bool $phpLDAPinstalled = true;
 
 	/**
 	 * Constructor
@@ -309,7 +313,7 @@ class Connection extends LDAPUtility {
 		$key = $this->getCacheKey($key);
 		$value = base64_encode(json_encode($value));
 		$ttl = $ttlOverride ?? $this->configuration->ldapCacheTTL;
-		$this->cache->set($key, $value, $ttl);
+		$this->cache->set($key, $value, (int)$ttl);
 	}
 
 	public function clearCache() {
@@ -346,7 +350,6 @@ class Connection extends LDAPUtility {
 		if (count($setParameters) > 0) {
 			$this->configured = $this->validateConfiguration($throw);
 		}
-
 
 		return $this->configured;
 	}
@@ -580,7 +583,6 @@ class Connection extends LDAPUtility {
 		}
 	}
 
-
 	/**
 	 * Connects and Binds to LDAP
 	 *
@@ -590,8 +592,7 @@ class Connection extends LDAPUtility {
 		if (!$this->configuration->ldapConfigurationActive) {
 			return null;
 		}
-		static $phpLDAPinstalled = true;
-		if (!$phpLDAPinstalled) {
+		if (!static::$phpLDAPinstalled) {
 			return false;
 		}
 		if (!$this->ignoreValidation && !$this->configured) {
@@ -603,7 +604,7 @@ class Connection extends LDAPUtility {
 		}
 		if (!$this->ldapConnectionRes) {
 			if (!$this->ldap->areLDAPFunctionsAvailable()) {
-				$phpLDAPinstalled = false;
+				static::$phpLDAPinstalled = false;
 				$this->logger->error(
 					'function ldap_connect is not available. Make sure that the PHP ldap module is installed.',
 					['app' => 'user_ldap']

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\KnownUser\KnownUserService;
@@ -399,7 +400,6 @@ class Principal implements BackendInterface {
 		switch ($test) {
 			case 'anyof':
 				return array_values(array_unique(array_merge(...$results)));
-
 			case 'allof':
 			default:
 				return array_values(array_intersect(...$results));
@@ -421,7 +421,6 @@ class Principal implements BackendInterface {
 		switch ($prefixPath) {
 			case 'principals/users':
 				return $this->searchUserPrincipals($searchProperties, $test);
-
 			default:
 				return [];
 		}
@@ -497,10 +496,9 @@ class Principal implements BackendInterface {
 		};
 
 		$userId = $user->getUID();
-		$displayName = $user->getDisplayName();
 		$principal = [
 			'uri' => $this->principalPrefix . '/' . $userId,
-			'{DAV:}displayname' => is_null($displayName) ? $userId : $displayName,
+			'{DAV:}displayname' => $user->getDisplayName(),
 			'{urn:ietf:params:xml:ns:caldav}calendar-user-type' => 'INDIVIDUAL',
 		];
 

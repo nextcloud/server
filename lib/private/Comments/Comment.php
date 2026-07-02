@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Comments;
 
 use OCP\Comments\IComment;
@@ -119,7 +120,6 @@ class Comment implements IComment {
 	public function getTopmostParentId(): string {
 		return $this->data['topmostParentId'];
 	}
-
 
 	/**
 	 * Sets the topmost parent ID and returns itself

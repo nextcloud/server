@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Encryption;
 
 use OC\Files\Storage\Storage;
@@ -82,11 +83,7 @@ class Util {
 		return ($userMasterKey === '1');
 	}
 
-	/**
-	 * @param $enabled
-	 * @return bool
-	 */
-	public function setRecoveryForUser($enabled) {
+	public function setRecoveryForUser(bool $enabled): bool {
 		$value = $enabled ? '1' : '0';
 
 		try {

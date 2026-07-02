@@ -77,7 +77,6 @@ class FileTest extends NodeTestCase {
 		$this->assertEquals('bar', $node->getContent());
 	}
 
-
 	public function testGetContentNotPermitted(): void {
 		$this->expectException(NotPermittedException::class);
 
@@ -122,7 +121,6 @@ class FileTest extends NodeTestCase {
 		$node = new File($root, $this->view, '/bar/foo');
 		$node->putContent('bar');
 	}
-
 
 	public function testPutContentNotPermitted(): void {
 		$this->expectException(NotPermittedException::class);
@@ -237,7 +235,6 @@ class FileTest extends NodeTestCase {
 		$this->assertEquals(2, $hooksCalled);
 	}
 
-
 	public function testFOpenReadNotPermitted(): void {
 		$this->expectException(NotPermittedException::class);
 
@@ -265,7 +262,6 @@ class FileTest extends NodeTestCase {
 		$node->fopen('r');
 	}
 
-
 	public function testFOpenReadWriteNoReadPermissions(): void {
 		$this->expectException(NotPermittedException::class);
 
@@ -292,7 +288,6 @@ class FileTest extends NodeTestCase {
 		$node = new File($root, $this->view, '/bar/foo');
 		$node->fopen('w');
 	}
-
 
 	public function testFOpenReadWriteNoWritePermissions(): void {
 		$this->expectException(NotPermittedException::class);

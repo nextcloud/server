@@ -379,10 +379,6 @@ OC.L10N.register(
     "Files and folders you recently modified will show up here." : "File dan folder yang baru-baru ini Anda modifikasi akan muncul di sini.",
     "Search" : "Cari",
     "Search results within your files." : "Hasil pencarian di dalam file Anda.",
-    "No entries found in this folder" : "Tidak ada entri yang ditemukan dalam folder ini",
-    "Select all" : "Pilih Semua",
-    "Upload too large" : "Yang diunggah terlalu besar",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Berkas yang dicoba untuk diunggah melebihi ukuran maksimum pengunggahan berkas di server ini.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Mengganti nama \"{oldName}\" menjadi \"{newName}\"",
     "Clear filter" : "Bersihkan filter",
     "Open file sidebar" : "Buka bilah samping file",
@@ -402,6 +398,10 @@ OC.L10N.register(
     "Tags" : "Tag",
     "Save as …" : "Simpan sebagai …",
     "Converting files …" : "Mengonversi file …",
-    "Converting file …" : "Mengonversi file …"
+    "Converting file …" : "Mengonversi file …",
+    "No entries found in this folder" : "Tidak ada entri yang ditemukan dalam folder ini",
+    "Select all" : "Pilih Semua",
+    "Upload too large" : "Yang diunggah terlalu besar",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Berkas yang dicoba untuk diunggah melebihi ukuran maksimum pengunggahan berkas di server ini."
 },
 "nplurals=1; plural=0;");

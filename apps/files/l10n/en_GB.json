@@ -323,9 +323,9 @@
     "The files are locked" : "The files are locked",
     "The file does not exist anymore" : "The file does not exist anymore",
     "Moving \"{source}\" to \"{destination}\" …" : "Moving \"{source}\" to \"{destination}\" …",
-    "Moving {count} files to \"{destination}\" …" : "Moving {count} files to \"{destination}\" …",
+    "_Moving %n file to \"{destination}\" …_::_Moving %n files to \"{destination}\" …_" : ["Moving %n file to \"{destination}\" …","Moving %n files to \"{destination}\" …"],
     "Copying \"{source}\" to \"{destination}\" …" : "Copying \"{source}\" to \"{destination}\" …",
-    "Copying {count} files to \"{destination}\" …" : "Copying {count} files to \"{destination}\" …",
+    "_Copying %n file to \"{destination}\" …_::_Copying %n files to \"{destination}\" …_" : ["Copying %n file to \"{destination}\" …","Copying %n files to \"{destination}\" …"],
     "Choose destination" : "Choose destination",
     "Copy to {target}" : "Copy to {target}",
     "Move to {target}" : "Move to {target}",
@@ -396,10 +396,6 @@
     "Files and folders you recently modified will show up here." : "Files and folders you recently modified will show up here.",
     "Search" : "Search",
     "Search results within your files." : "Search results within your files.",
-    "No entries found in this folder" : "No entries found in this folder",
-    "Select all" : "Select all",
-    "Upload too large" : "Upload too large",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "The files you are trying to upload exceed the maximum size for file uploads on this server.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Renamed \"{oldName}\" to \"{newName}\"",
     "Clear filter" : "Clear filter",
     "Open file sidebar" : "Open file sidebar",
@@ -419,6 +415,10 @@
     "Tags" : "Tags",
     "Save as …" : "Save as …",
     "Converting files …" : "Converting files …",
-    "Converting file …" : "Converting file …"
+    "Converting file …" : "Converting file …",
+    "No entries found in this folder" : "No entries found in this folder",
+    "Select all" : "Select all",
+    "Upload too large" : "Upload too large",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "The files you are trying to upload exceed the maximum size for file uploads on this server."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

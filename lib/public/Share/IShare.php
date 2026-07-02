@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\Share;
 
 use OCP\AppFramework\Attribute\Consumable;
@@ -353,7 +354,6 @@ interface IShare {
 	 */
 	public function getNote();
 
-
 	/**
 	 * Set the expiration date
 	 *
@@ -379,7 +379,6 @@ interface IShare {
 	 * @since 30.0.0
 	 */
 	public function setNoExpirationDate(bool $noExpirationDate);
-
 
 	/**
 	 * Get value of overwrite falsy expiry date flag

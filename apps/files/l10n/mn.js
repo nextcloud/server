@@ -315,9 +315,7 @@ OC.L10N.register(
     "The files are locked" : "Файлууд түгжигдсэн",
     "The file does not exist anymore" : "Файл байхгүй болсон",
     "Moving \"{source}\" to \"{destination}\" …" : "\"{source}\"-г \"{destination}\" руу зөөж байна …",
-    "Moving {count} files to \"{destination}\" …" : "{count} файлыг \"{destination}\" руу зөөж байна …",
     "Copying \"{source}\" to \"{destination}\" …" : "\"{source}\"-г \"{destination}\" руу хуулж байна …",
-    "Copying {count} files to \"{destination}\" …" : "{count} файлыг \"{destination}\" руу хуулж байна …",
     "Choose destination" : "Очих газар сонгох",
     "Copy to {target}" : "{target} руу хуулах",
     "Move to {target}" : "{target} руу зөөх",
@@ -388,10 +386,6 @@ OC.L10N.register(
     "Files and folders you recently modified will show up here." : "Таны саяхан өөрчилсөн файлууд болон хавтаснууд энд харагдана.",
     "Search" : "Хайх",
     "Search results within your files." : "Таны файлууд дотроос хайлтын үр дүн.",
-    "No entries found in this folder" : "энэ хавтсан олдсон ч ямарч мэдээлэл олдохгүй байна",
-    "Select all" : "бүгдийг сонгох",
-    "Upload too large" : "маш том байршуулалт",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Таны байршуулах гэж оролдсон файлууд нь энэ сервер дээр файл байршуулах дээд хэмжээнээс хэтэрч.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "\"{oldName}\"-г \"{newName}\" болгож нэр солисон",
     "Clear filter" : "Шүүлтүүр арилгах",
     "Open file sidebar" : "Файлын хажуугийн мөрийг нээх",
@@ -411,6 +405,10 @@ OC.L10N.register(
     "Tags" : "Тэгүүд",
     "Save as …" : "Хадгалах …",
     "Converting files …" : "Файлуудыг хөрвүүлж байна …",
-    "Converting file …" : "Файл хөрвүүлж байна …"
+    "Converting file …" : "Файл хөрвүүлж байна …",
+    "No entries found in this folder" : "энэ хавтсан олдсон ч ямарч мэдээлэл олдохгүй байна",
+    "Select all" : "бүгдийг сонгох",
+    "Upload too large" : "маш том байршуулалт",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Таны байршуулах гэж оролдсон файлууд нь энэ сервер дээр файл байршуулах дээд хэмжээнээс хэтэрч."
 },
 "nplurals=2; plural=(n != 1);");

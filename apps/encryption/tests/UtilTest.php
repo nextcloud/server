@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Encryption\Tests;
 
 use OC\Files\View;
@@ -32,7 +33,7 @@ class UtilTest extends TestCase {
 	protected IMountPoint&MockObject $mountMock;
 
 	public function testSetRecoveryForUser(): void {
-		$this->instance->setRecoveryForUser('1');
+		$this->instance->setRecoveryForUser(true);
 		$this->assertArrayHasKey('recoveryEnabled', self::$tempStorage);
 	}
 

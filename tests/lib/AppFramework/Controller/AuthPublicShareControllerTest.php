@@ -23,7 +23,6 @@ class AuthPublicShareControllerTest extends \Test\TestCase {
 	private IURLGenerator&MockObject $urlGenerator;
 	private AuthPublicShareController&MockObject $controller;
 
-
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();

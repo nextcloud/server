@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Repair\NC29;
 
 use OCP\BackgroundJob\IJobList;
@@ -20,6 +21,8 @@ class SanitizeAccountPropertiesTest extends TestCase {
 
 	#[\Override]
 	protected function setUp(): void {
+		parent::setUp();
+
 		$this->jobList = $this->createMock(IJobList::class);
 
 		$this->repairStep = new SanitizeAccountProperties($this->jobList);

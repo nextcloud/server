@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files\ObjectStore;
 
 use Aws\S3\Exception\S3Exception;
@@ -817,14 +818,24 @@ class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 				$this->getCache()->update($stat['fileid'], $stat);
 			}
 		} catch (S3MultipartUploadException|S3Exception $e) {
-			$this->objectStore->abortMultipartUpload($urn, $writeToken);
 			$this->logger->error(
-				'Could not complete multipart upload ' . $urn . ' with uploadId ' . $writeToken,
+				'Unable to complete multipart upload for "' . $urn . '" (uploadId: "' . $writeToken . '")',
 				[
 					'app' => 'objectstore',
 					'exception' => $e,
 				]
 			);
+			try {
+				$this->objectStore->abortMultipartUpload($urn, $writeToken);
+			} catch (S3Exception $e) {
+				$this->logger->error(
+					'Unable to abort multipart upload for "' . $urn . '" (uploadId: "' . $writeToken . '") after completion error',
+					[
+						'app' => 'objectstore',
+						'exception' => $e,
+					]
+				);
+			}
 			throw new GenericFileException('Could not write chunked file');
 		}
 		return $size;

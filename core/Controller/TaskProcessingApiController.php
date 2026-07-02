@@ -7,7 +7,6 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-
 namespace OC\Core\Controller;
 
 use OC\Core\ResponseDefinitions;
@@ -165,11 +164,13 @@ class TaskProcessingApiController extends OCSController {
 	private function handleScheduleTaskInternal(
 		array $input, string $type, string $appId, string $customId = '',
 		?string $webhookUri = null, ?string $webhookMethod = null, bool $includeWatermark = true,
+		bool $preferStreaming = false,
 	): DataResponse {
 		$task = new Task($type, $input, $appId, $this->userId, $customId);
 		$task->setWebhookUri($webhookUri);
 		$task->setWebhookMethod($webhookMethod);
 		$task->setIncludeWatermark($includeWatermark);
+		$task->setPreferStreaming($preferStreaming);
 		try {
 			$this->taskProcessingManager->scheduleTask($task);
 
@@ -203,6 +204,7 @@ class TaskProcessingApiController extends OCSController {
 	 * @param string|null $webhookUri URI to be requested when the task finishes
 	 * @param string|null $webhookMethod Method used for the webhook request (HTTP:GET, HTTP:POST, HTTP:PUT, HTTP:DELETE or AppAPI:APP_ID:GET, AppAPI:APP_ID:POST...)
 	 * @param bool $includeWatermark Whether to include a watermark in the output file or not
+	 * @param bool $preferStreaming Whether to prefer getting a progressive output from the provider or not
 	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTaskProcessingTask}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_BAD_REQUEST|Http::STATUS_PRECONDITION_FAILED|Http::STATUS_UNAUTHORIZED, array{message: string}, array{}>
 	 *
 	 * 200: Task scheduled successfully
@@ -216,6 +218,7 @@ class TaskProcessingApiController extends OCSController {
 	public function schedule(
 		array $input, string $type, string $appId, string $customId = '',
 		?string $webhookUri = null, ?string $webhookMethod = null, bool $includeWatermark = true,
+		bool $preferStreaming = false,
 	): DataResponse {
 		return $this->handleScheduleTaskInternal(
 			$input,
@@ -225,6 +228,7 @@ class TaskProcessingApiController extends OCSController {
 			$webhookUri,
 			$webhookMethod,
 			$includeWatermark,
+			$preferStreaming,
 		);
 	}
 
@@ -240,6 +244,7 @@ class TaskProcessingApiController extends OCSController {
 	 * @param string|null $webhookUri URI to be requested when the task finishes
 	 * @param string|null $webhookMethod Method used for the webhook request (HTTP:GET, HTTP:POST, HTTP:PUT, HTTP:DELETE or AppAPI:APP_ID:GET, AppAPI:APP_ID:POST...)
 	 * @param bool $includeWatermark Whether to include a watermark in the output file or not
+	 * @param bool $preferStreaming Whether to prefer getting a progressive output from the provider or not
 	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTaskProcessingTask}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_BAD_REQUEST|Http::STATUS_PRECONDITION_FAILED|Http::STATUS_UNAUTHORIZED, array{message: string}, array{}>
 	 *
 	 * 200: Task scheduled successfully
@@ -252,6 +257,7 @@ class TaskProcessingApiController extends OCSController {
 	public function scheduleExAppEndpoint(
 		array $input, string $type, string $appId, string $customId = '',
 		?string $webhookUri = null, ?string $webhookMethod = null, bool $includeWatermark = true,
+		bool $preferStreaming = false,
 	): DataResponse {
 		return $this->handleScheduleTaskInternal(
 			$input,
@@ -261,6 +267,7 @@ class TaskProcessingApiController extends OCSController {
 			$webhookUri,
 			$webhookMethod,
 			$includeWatermark,
+			$preferStreaming,
 		);
 	}
 
@@ -370,7 +377,6 @@ class TaskProcessingApiController extends OCSController {
 	public function deleteTaskExAppEndpoint(int $id): DataResponse {
 		return $this->handleDeleteTaskInternal($id);
 	}
-
 
 	/**
 	 * Returns tasks for the current user filtered by the appId and optional customId
@@ -630,6 +636,37 @@ class TaskProcessingApiController extends OCSController {
 		try {
 			// set result
 			$this->taskProcessingManager->setTaskResult($taskId, $errorMessage, $output, isUsingFileIds: true, userFacingError: $userFacingErrorMessage);
+			$task = $this->taskProcessingManager->getTask($taskId);
+
+			/** @var CoreTaskProcessingTask $json */
+			$json = $task->jsonSerialize();
+
+			return new DataResponse([
+				'task' => $json,
+			]);
+		} catch (NotFoundException) {
+			return new DataResponse(['message' => $this->l->t('Not found')], Http::STATUS_NOT_FOUND);
+		} catch (Exception) {
+			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	/**
+	 * Sets the task intermediate result while it is running
+	 *
+	 * @param int $taskId The id of the task
+	 * @param array<string,mixed> $output The intermediate task output, files are represented by their IDs
+	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTaskProcessingTask}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
+	 *
+	 * 200: Result updated successfully
+	 * 404: Task not found
+	 */
+	#[ExAppRequired]
+	#[ApiRoute(verb: 'POST', url: '/tasks_provider/{taskId}/stream-result', root: '/taskprocessing')]
+	public function setIntermediateResult(int $taskId, array $output): DataResponse {
+		try {
+			// set result
+			$this->taskProcessingManager->setTaskIntermediateOutput($taskId, $output);
 			$task = $this->taskProcessingManager->getTask($taskId);
 
 			/** @var CoreTaskProcessingTask $json */

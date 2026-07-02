@@ -20,6 +20,8 @@ class FileSequenceTest extends ISequenceBase {
 
 	#[\Override]
 	public function setUp():void {
+		parent::setUp();
+
 		$tempManager = $this->createMock(ITempManager::class);
 		$this->path = sys_get_temp_dir();
 		$tempManager->method('getTempBaseDir')->willReturn($this->path);
@@ -32,5 +34,7 @@ class FileSequenceTest extends ISequenceBase {
 		foreach (glob($lockDirectory . '/*') as $file) {
 			unlink($file);
 		}
+
+		parent::tearDown();
 	}
 }

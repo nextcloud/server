@@ -95,7 +95,6 @@ class UsersController extends Controller {
 		parent::__construct($appName, $request);
 	}
 
-
 	/**
 	 * Display users list template
 	 *

@@ -5,9 +5,11 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use OC\Repair\AddBruteForceCleanupJob;
+use OC\Repair\AddCleanupBackgroundJobsJob;
 use OC\Repair\AddCleanupDeletedUsersBackgroundJob;
 use OC\Repair\AddCleanupUpdaterBackupsJob;
 use OC\Repair\AddMetadataGenerationJob;
@@ -133,14 +135,14 @@ class Repair implements IOutput {
 				}
 			}
 
-			if (!($s instanceof IRepairStep)) {
+			if (!$s instanceof IRepairStep) {
 				throw new \Exception("Repair step '$repairStep' is not of type \\OCP\\Migration\\IRepairStep");
 			}
 
 			$repairStep = $s;
 		}
 
-		if (($repairStep instanceof IRepairStepExpensive) && !$includeExpensive) {
+		if ($repairStep instanceof IRepairStepExpensive && !$includeExpensive) {
 			$this->debug("Skipping expensive repair step '" . $repairStep::class . "'");
 		} else {
 			$this->repairSteps[] = $repairStep;
@@ -194,6 +196,7 @@ class Repair implements IOutput {
 			Server::get(SanitizeAccountProperties::class),
 			Server::get(AddMovePreviewJob::class),
 			Server::get(ConfigKeyMigration::class),
+			Server::get(AddCleanupBackgroundJobsJob::class),
 		];
 
 		if ($includeExpensive) {

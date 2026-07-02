@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Authentication\Token;
 
 use OC\Authentication\Exceptions\PasswordlessTokenException;
@@ -37,6 +38,7 @@ interface IProvider {
 		int $type = OCPIToken::TEMPORARY_TOKEN,
 		int $remember = OCPIToken::DO_NOT_REMEMBER,
 		?array $scope = null,
+		?int $expires = null,
 	): OCPIToken;
 
 	/**

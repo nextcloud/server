@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace Core\Command\Preview;
 
 use OC\Core\Command\Preview\Cleanup;
@@ -55,7 +56,6 @@ class CleanupTest extends TestCase {
 
 		$appDataFolder = $this->createMock(Folder::class);
 		$appDataFolder->expects($this->once())->method('get')->with('preview')->willReturn($previewFolder);
-		$appDataFolder->expects($this->once())->method('newFolder')->with('preview');
 
 		$this->rootFolder->expects($this->once())
 			->method('getAppDataDirectoryName')
@@ -66,13 +66,12 @@ class CleanupTest extends TestCase {
 			->with('appdata_some_id')
 			->willReturn($appDataFolder);
 
-		$this->output->expects($this->exactly(3))->method('writeln')
+		$this->output->expects($this->exactly(2))->method('writeln')
 			->with(self::callback(function (string $message): bool {
 				static $i = 0;
 				return match (++$i) {
 					1 => $message === 'Preview folder deleted',
-					2 => $message === 'Preview folder recreated',
-					3 => $message === 'Previews removed'
+					2 => $message === 'Previews removed'
 				};
 			}));
 
@@ -80,8 +79,6 @@ class CleanupTest extends TestCase {
 	}
 
 	public function testCleanupWhenNotDeletable(): void {
-		$this->previewService->expects($this->once())->method('deleteAll');
-
 		$previewFolder = $this->createMock(Folder::class);
 		$previewFolder->expects($this->once())
 			->method('isDeletable')
@@ -92,7 +89,6 @@ class CleanupTest extends TestCase {
 
 		$appDataFolder = $this->createMock(Folder::class);
 		$appDataFolder->expects($this->once())->method('get')->with('preview')->willReturn($previewFolder);
-		$appDataFolder->expects($this->never())->method('newFolder')->with('preview');
 
 		$this->rootFolder->expects($this->once())
 			->method('getAppDataDirectoryName')
@@ -111,8 +107,6 @@ class CleanupTest extends TestCase {
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataForTestCleanupWithDeleteException')]
 	public function testCleanupWithDeleteException(string $exceptionClass, string $errorMessage): void {
-		$this->previewService->expects($this->once())->method('deleteAll');
-
 		$previewFolder = $this->createMock(Folder::class);
 		$previewFolder->expects($this->once())
 			->method('isDeletable')
@@ -124,7 +118,6 @@ class CleanupTest extends TestCase {
 
 		$appDataFolder = $this->createMock(Folder::class);
 		$appDataFolder->expects($this->once())->method('get')->with('preview')->willReturn($previewFolder);
-		$appDataFolder->expects($this->never())->method('newFolder')->with('preview');
 
 		$this->rootFolder->expects($this->once())
 			->method('getAppDataDirectoryName')
@@ -148,52 +141,15 @@ class CleanupTest extends TestCase {
 		];
 	}
 
-	public function testCleanupWithCreateException(): void {
-		$this->previewService->expects($this->once())->method('deleteAll');
-
-		$previewFolder = $this->createMock(Folder::class);
-		$previewFolder->expects($this->once())
-			->method('isDeletable')
-			->willReturn(true);
-
-		$previewFolder->expects($this->once())
-			->method('delete');
-
-		$appDataFolder = $this->createMock(Folder::class);
-		$appDataFolder->expects($this->once())->method('get')->with('preview')->willReturn($previewFolder);
-		$appDataFolder->expects($this->once())->method('newFolder')->with('preview')->willThrowException(new NotPermittedException());
-
-		$this->rootFolder->expects($this->once())
-			->method('getAppDataDirectoryName')
-			->willReturn('appdata_some_id');
-
-		$this->rootFolder->expects($this->once())
-			->method('get')
-			->with('appdata_some_id')
-			->willReturn($appDataFolder);
-
-		$this->output->expects($this->exactly(2))->method('writeln')
-			->with(self::callback(function (string $message): bool {
-				static $i = 0;
-				return match (++$i) {
-					1 => $message === 'Preview folder deleted',
-					2 => $message === "Preview folder was deleted, but you don't have the permission to create preview folder",
-				};
-			}));
-
-		$this->logger->expects($this->once())->method('error')->with("Preview folder was deleted, but you don't have the permission to create preview folder");
-
-		$this->assertEquals(1, $this->repair->run($this->input, $this->output));
-	}
-
 	public function testCleanupWithPreviewServiceException(): void {
+		$this->rootFolder->method('getAppDataDirectoryName')
+			->willThrowException(new NotFoundException());
+
 		$this->previewService->expects($this->once())->method('deleteAll')
 			->willThrowException(new NotPermittedException('abc'));
 
+		$this->logger->expects($this->once())->method('info')->with("Legacy previews can't be removed: appdata folder can't be found");
 		$this->logger->expects($this->once())->method('error')->with("Previews can't be removed: exception occurred: abc");
-
-		$this->rootFolder->expects($this->never())
-			->method('get');
 
 		$this->assertEquals(1, $this->repair->run($this->input, $this->output));
 	}

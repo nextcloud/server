@@ -325,9 +325,7 @@ OC.L10N.register(
     "The files are locked" : "이 파일은 잠겼습니다",
     "The file does not exist anymore" : "파일이 더이상 존재하지 않습니다.",
     "Moving \"{source}\" to \"{destination}\" …" : "\"{source}\"에서 \"{destination}\"(으)로 이동중 …",
-    "Moving {count} files to \"{destination}\" …" : "{count}개 파일을 \"{destination}\"(으)로 이동중 …",
     "Copying \"{source}\" to \"{destination}\" …" : "\"{source}\"에서 \"{destination}\"(으)로 복사중 …",
-    "Copying {count} files to \"{destination}\" …" : "{count}개 파일을 \"{destination}\"(으)로 복사중 …",
     "Choose destination" : "목적지 선택",
     "Copy to {target}" : "{target}에 복사",
     "Move to {target}" : "{target}에 이동",
@@ -398,10 +396,6 @@ OC.L10N.register(
     "Files and folders you recently modified will show up here." : "최근에 수정한 파일과 폴더가 이곳에 표시됩니다.",
     "Search" : "검색",
     "Search results within your files." : "내 파일에서 검색한 결과",
-    "No entries found in this folder" : "이 폴더에 항목 없음",
-    "Select all" : "모두 선택",
-    "Upload too large" : "업로드한 파일이 너무 큼",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "이 파일이 서버에서 허용하는 최대 업로드 가능 용량보다 큽니다.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "\"{oldName}\" 에서 \"{newName}\"(으)로 이름 변경함",
     "Clear filter" : "필터 지우기",
     "Open file sidebar" : "파일 사이드바 열기",
@@ -421,6 +415,10 @@ OC.L10N.register(
     "Tags" : "태그",
     "Save as …" : "... 으로 저장하기",
     "Converting files …" : "파일 변환하기 ...",
-    "Converting file …" : "파일 변환중…"
+    "Converting file …" : "파일 변환중…",
+    "No entries found in this folder" : "이 폴더에 항목 없음",
+    "Select all" : "모두 선택",
+    "Upload too large" : "업로드한 파일이 너무 큼",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "이 파일이 서버에서 허용하는 최대 업로드 가능 용량보다 큽니다."
 },
 "nplurals=1; plural=0;");

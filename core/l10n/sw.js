@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "Ondoka",
     "Please select a file." : "Tafadhali teua faili",
     "File is too big" : "Faili ni kubwa mno",
     "The selected file is not an image." : "Faili lililoteuliwa si taswira",
@@ -201,6 +202,7 @@ OC.L10N.register(
     "Done" : "Imefanyika",
     "_{count} notification_::_{count} notifications_" : ["{count} notification","{count} taarifa"],
     "More apps" : "Apps zaidi",
+    "Settings" : "Mipangilio",
     "Applications" : "Maombi",
     "Apps" : "Maombi",
     "No" : "Hapana",
@@ -224,7 +226,6 @@ OC.L10N.register(
     "Search everywhere" : "Tafuta kila mahali",
     "Searching …" : "Inatafuta …",
     "Start typing to search" : "Anza kuandika ili kutafuta",
-    "Minimum search length is {minSearchLength} characters" : "Kima cha chini cha urefu wa utafutaji ni vibambo {minSearchLength}",
     "No matching results" : "Hakuna matokeo yanayolingana",
     "Today" : "Leo",
     "Last 7 days" : "Siku 7 zilizopita",
@@ -483,6 +484,7 @@ OC.L10N.register(
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["The update was successful. Redirecting you to {productName} in %n second."," Usasishaji umekamilika. Elekeza upya katika {productName} ndani ya %n sekunde."],
     "Applications menu" : "Mwongozo wa maombi",
     "Searching …" : "Inatafuta",
+    "Minimum search length is {minSearchLength} characters" : "Kima cha chini cha urefu wa utafutaji ni vibambo {minSearchLength}",
     "Logging in …" : "Inaingia",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Tumegundua majaribio mengi batili ya kuingia kutoka kwa IP yako. Kwa hivyo kuingia kwako kunakofuata kunasisitizwa hadi sekunde 30.",
     "Loading apps …" : "Inapakia program",

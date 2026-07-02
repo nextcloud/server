@@ -196,7 +196,6 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$this->middleware->beforeController($this->controller, $method);
 	}
 
-
 	/**
 	 * @param string $method
 	 * @param string $test
@@ -308,7 +307,6 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$this->reader->reflect($this->controller, $method);
 		$sec->beforeController($this->controller, $method);
 	}
-
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataPublicPage')]
 	public function testCsrfCheck(string $method): void {
@@ -470,21 +468,21 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataNoCSRFRequiredSubAdminRequired')]
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testIsSubAdminCheck(string $method): void {
 		$this->reader->reflect($this->controller, $method);
 		$sec = $this->getMiddleware(true, false, true);
 
 		$sec->beforeController($this->controller, $method);
-		$this->addToAssertionCount(1);
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataNoCSRFRequiredSubAdminRequired')]
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testIsSubAdminAndAdminCheck(string $method): void {
 		$this->reader->reflect($this->controller, $method);
 		$sec = $this->getMiddleware(true, true, true);
 
 		$sec->beforeController($this->controller, $method);
-		$this->addToAssertionCount(1);
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataNoCSRFRequired')]
@@ -506,7 +504,6 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			->willReturn(false);
 
 		$middleware->beforeController($this->controller, $method);
-		$this->addToAssertionCount(1);
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataNoAdminRequiredNoCSRFRequiredPublicPage')]
@@ -523,7 +520,6 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			->willReturn(false);
 
 		$middleware->beforeController($this->controller, $method);
-		$this->addToAssertionCount(1);
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataNoAdminRequiredNoCSRFRequired')]
@@ -538,7 +534,6 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$this->expectException(AppNotEnabledException::class);
 		$middleware->beforeController($this->controller, $method);
 	}
-
 
 	public function testAfterExceptionNotCaughtThrowsItAgain(): void {
 		$ex = new \Exception();
@@ -603,7 +598,6 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$expected = new RedirectResponse(\OC::$WEBROOT . '/');
 		$this->assertEquals($expected, $response);
 	}
-
 
 	/**
 	 * @return array

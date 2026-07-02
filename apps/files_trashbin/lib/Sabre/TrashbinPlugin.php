@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018-2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Trashbin\Sabre;
 
 use OC\Files\FileInfo;
@@ -54,7 +55,6 @@ class TrashbinPlugin extends ServerPlugin {
 		$this->server->on('afterMethod:GET', [$this,'httpGet']);
 		$this->server->on('beforeMove', [$this, 'beforeMove']);
 	}
-
 
 	public function propFind(PropFind $propFind, INode $node): void {
 		// Only act on trashbin nodes

@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\FullTextSearch\Model;
 
 /**
@@ -104,7 +105,6 @@ interface IIndex {
 	 */
 	public const ERROR_SEV_4 = 4;
 
-
 	/**
 	 * Get the Id of the Content Provider.
 	 *
@@ -113,7 +113,6 @@ interface IIndex {
 	 * @return string
 	 */
 	public function getProviderId(): string;
-
 
 	/**
 	 * Get the Id of the original document.
@@ -124,7 +123,6 @@ interface IIndex {
 	 */
 	public function getDocumentId(): string;
 
-
 	/**
 	 * Get the collection of the index.
 	 * If empty (''), means collection is the default one used by the internal framework
@@ -134,7 +132,6 @@ interface IIndex {
 	 * @return string
 	 */
 	public function getCollection(): string;
-
 
 	/**
 	 * Set the source of the original document.
@@ -156,7 +153,6 @@ interface IIndex {
 	 */
 	public function getSource(): string;
 
-
 	/**
 	 * Set the owner of the original document.
 	 *
@@ -176,7 +172,6 @@ interface IIndex {
 	 * @return string
 	 */
 	public function getOwnerId(): string;
-
 
 	/**
 	 * Set the current index status (bit flag) of the original document.
@@ -221,7 +216,6 @@ interface IIndex {
 	 * @return IIndex
 	 */
 	public function unsetStatus(int $status): IIndex;
-
 
 	/**
 	 * Add an option related to the original document (as string).
@@ -280,7 +274,6 @@ interface IIndex {
 	 */
 	public function getOptions(): array;
 
-
 	/**
 	 * Add an error log related to the Index.
 	 *
@@ -309,7 +302,6 @@ interface IIndex {
 	 * @since 15.0.0
 	 */
 	public function resetErrors(): IIndex;
-
 
 	/**
 	 * Set the date of the last index.

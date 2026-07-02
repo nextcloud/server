@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2014-2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace Test\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Http\Request;

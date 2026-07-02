@@ -9,14 +9,18 @@ namespace Test\DB;
 
 use OCP\IDBConnection;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\Group;
 use Test\TestCase;
 
+#[Group('DB')]
 class AdapterTest extends TestCase {
 	private string $appId;
 	private $connection;
 
 	#[\Override]
 	public function setUp(): void {
+		parent::setUp();
+
 		$this->connection = Server::get(IDBConnection::class);
 		$this->appId = substr(uniqid('test_db_adapter', true), 0, 32);
 	}
@@ -29,6 +33,7 @@ class AdapterTest extends TestCase {
 			->from('appconfig')
 			->where($qb->expr()->eq('appid', $qb->createNamedParameter($this->appId)))
 			->executeStatement();
+		parent::tearDown();
 	}
 
 	public function testInsertIgnoreOnConflictDuplicate(): void {
@@ -47,7 +52,6 @@ class AdapterTest extends TestCase {
 		$this->assertEquals(1, $result);
 		$rows = $this->getRows($configKey);
 		$this->assertSame($expected, $rows);
-
 
 		$result = $this->connection->insertIgnoreConflict('appconfig', [
 			'appid' => $this->appId,

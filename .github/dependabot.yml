@@ -35,6 +35,8 @@ updates:
   labels:
     - "3. to review"
     - "feature: dependencies"
+  open-pull-requests-limit: 20
+  versioning-strategy: increase
 
 # Main master npm frontend dependencies
 - package-ecosystem: npm
@@ -47,10 +49,11 @@ updates:
     day: saturday
     time: "03:00"
     timezone: Europe/Paris
-  open-pull-requests-limit: 20
   labels:
     - "3. to review"
     - "feature: dependencies"
+  open-pull-requests-limit: 20
+  versioning-strategy: increase
   # Disable automatic rebasing because without a build CI will likely fail anyway
   rebase-strategy: "disabled"
   cooldown:
@@ -111,10 +114,11 @@ updates:
   cooldown:
     default-days: 4
     semver-major-days: 8
-  open-pull-requests-limit: 20
   labels:
     - "3. to review"
     - "feature: dependencies"
+  open-pull-requests-limit: 20
+  versioning-strategy: increase
   # Disable automatic rebasing because without a build CI will likely fail anyway
   rebase-strategy: "disabled"
   groups:
@@ -168,10 +172,11 @@ updates:
   cooldown:
     default-days: 4
     semver-major-days: 8
-  open-pull-requests-limit: 20
   labels:
     - "3. to review"
     - "feature: dependencies"
+  open-pull-requests-limit: 20
+  versioning-strategy: increase
   # Disable automatic rebasing because without a build CI will likely fail anyway
   rebase-strategy: "disabled"
   ignore:

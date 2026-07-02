@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Trashbin;
 
 use OC\Files\Cache\Cache;
@@ -14,7 +15,6 @@ use OC\Files\Filesystem;
 use OC\Files\Node\NonExistingFile;
 use OC\Files\Node\NonExistingFolder;
 use OC\Files\View;
-use OC\User\NoUserException;
 use OC_User;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Trashbin\Command\Expire;
@@ -52,6 +52,7 @@ use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
+use OCP\User\Exceptions\UserNotFoundException;
 use OCP\Util;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -80,7 +81,7 @@ class Trashbin implements IEventListener {
 	 *
 	 * @param string $filename
 	 * @return array
-	 * @throws NoUserException
+	 * @throws UserNotFoundException
 	 */
 	public static function getUidAndFilename($filename) {
 		$uid = Filesystem::getOwner($filename);
@@ -175,7 +176,6 @@ class Trashbin implements IEventListener {
 		}
 	}
 
-
 	/**
 	 * copy file to owners trash
 	 *
@@ -204,7 +204,6 @@ class Trashbin implements IEventListener {
 			self::copy_recursive($source, $target, $view);
 		}
 
-
 		if ($view->file_exists($target)) {
 			$query = Server::get(IDBConnection::class)->getQueryBuilder();
 			$query->insert('files_trash')
@@ -219,7 +218,6 @@ class Trashbin implements IEventListener {
 			}
 		}
 	}
-
 
 	/**
 	 * move file to the trash bin
@@ -852,7 +850,7 @@ class Trashbin implements IEventListener {
 
 		$softQuota = true;
 		$quota = $user->getQuota();
-		if ($quota === null || $quota === 'none') {
+		if ($quota === 'none') {
 			$quota = Filesystem::free_space('/');
 			$softQuota = false;
 			// inf or unknown free space

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\SystemTag;
 
 use OCP\AppFramework\Attribute\Consumable;
@@ -126,7 +127,6 @@ interface ISystemTagObjectMapper {
 	 * @since 9.0.0
 	 */
 	public function haveTag($objIds, string $objectType, string $tagId, bool $all = true): bool;
-
 
 	/**
 	 * Get the list of object types that have objects assigned to them.

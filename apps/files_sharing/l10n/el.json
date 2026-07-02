@@ -88,7 +88,6 @@
     "Wrong or no update parameter given" : "Λάθος ή καμία παράμετρος αναβάθμισης δεν δόθηκε",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "Η \"Αποστολή του κωδικού πρόσβασης μέσω Nextcloud Talk\" για διαμοιρασμό ενός αρχείου ή φακέλου απέτυχε επειδή το Nextcloud Talk δεν είναι ενεργοποιημένο.",
     "Custom share link tokens have been disabled by the administrator" : "Τα προσαρμοσμένα tokens συνδέσμων διαμοιρασμού έχουν απενεργοποιηθεί από τον διαχειριστή",
-    "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Τα tokens πρέπει να περιέχουν τουλάχιστον 1 χαρακτήρα και μπορούν να περιέχουν μόνο γράμματα, αριθμούς ή παύλα",
     "Invalid date. Format must be YYYY-MM-DD" : "Μη έγκυρη ημερομηνία. Η μορφή πρέπει να είναι ΕΕΕΕ-ΜΜ-ΗΗ",
     "No sharing rights on this item" : "Καθόλου δικαιώματα διαμοιρασμού σε αυτό το αντικείμενο",
     "Invalid share attributes provided: \"%s\"" : "Παρέχονται μη έγκυρα χαρακτηριστικά διαμοιρασμού: \"%s\"",
@@ -401,6 +400,7 @@
     "Back to %s" : "Πίσω στο %s",
     "Add to your Nextcloud" : "Προσθήκη στο Nextcloud σου",
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Ο διαμοιρασμός %s απέτυχε επειδή το σύστημα υποστήριξης δεν υποστηρίζει μετοχές ScienceMesh",
+    "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Τα tokens πρέπει να περιέχουν τουλάχιστον 1 χαρακτήρα και μπορούν να περιέχουν μόνο γράμματα, αριθμούς ή παύλα",
     "Name or email …" : "Όνομα ή διεύθυνση ηλεκτρονικού ταχυδρομείου",
     "Name, email, or Federated Cloud ID …" : "Όνομα, διεύθυνση ηλεκτρονικού ταχυδρομείου ή Ομοσπονδιακό αναγνωριστικό Cloud…",
     "Searching …" : "Αναζήτηση ..."

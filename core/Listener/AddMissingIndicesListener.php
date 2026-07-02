@@ -157,7 +157,6 @@ class AddMissingIndicesListener implements IEventListener {
 			['propertyname', 'propertypath', 'userid']
 		);
 
-
 		$event->addMissingIndex(
 			'jobs',
 			'job_lastcheck_reserved',
@@ -223,6 +222,12 @@ class AddMissingIndicesListener implements IEventListener {
 			'user_mountpoint_index',
 			['user', 'mountpoint'],
 			['lengths' => [null, 128]]
+		);
+
+		$event->addMissingIndex(
+			'taskprocessing_tasks',
+			'taskp_status_type_upd',
+			['status', 'type', 'last_updated']
 		);
 	}
 }

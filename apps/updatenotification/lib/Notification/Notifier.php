@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\UpdateNotification\Notification;
 
 use OCA\UpdateNotification\AppInfo\Application;
@@ -125,7 +126,7 @@ class Notifier implements INotifier {
 				]);
 
 				if ($this->isAdmin()) {
-					$notification->setLink($this->url->linkToRouteAbsolute('settings.AppSettings.viewApps', ['category' => 'updates']) . '#app-' . $notification->getObjectType());
+					$notification->setLink($this->url->linkToRouteAbsolute('appstore.Page.viewApps', ['category' => 'updates', 'id' => $notification->getObjectType()]));
 				}
 			}
 		}

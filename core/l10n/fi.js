@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "Kirjaudu ulos",
     "Please select a file." : "Valitse tiedosto.",
     "File is too big" : "Tiedosto on liian suuri",
     "The selected file is not an image." : "Valittu tiedosto ei ole kuva.",
@@ -168,6 +169,7 @@ OC.L10N.register(
     "Code will expire {timeCountdown} or after use" : "Koodi vanhenee {timeCountdown} tai kun se on käytetty",
     "_{count} notification_::_{count} notifications_" : ["{count} ilmoitus","{count} ilmoitusta"],
     "More apps" : "Lisää sovelluksia",
+    "Settings" : "Asetukset",
     "Applications" : "Sovellukset",
     "Apps" : "Sovellukset",
     "No" : "Ei",
@@ -189,7 +191,6 @@ OC.L10N.register(
     "Search everywhere" : "Etsi kaikkialta",
     "Searching …" : "Haetaan …",
     "Start typing to search" : "Aloita kirjoittaminen hakeaksesi",
-    "Minimum search length is {minSearchLength} characters" : "Haun pituus tulee olla vähintään {minSearchLength} merkkiä",
     "No matching results" : "Ei tuloksia",
     "Today" : "Tänään",
     "Last 7 days" : "Edelliset 7 päivää",
@@ -213,7 +214,6 @@ OC.L10N.register(
     "Log in to {productName}" : "Kirjaudu palveluun {productName}",
     "Wrong login or password." : "Väärä käyttäjätunnus tai salasana.",
     "This account is disabled" : "Tämä tili on poistettu käytöstä",
-    "Too many incorrect login attempts. Please try again in 30 seconds." : "Liian monta virheellistä sisäänkirjautumisyritystä. Yritä uudelleen 30 sekunnin kuluttua.",
     "Account name or email" : "Tilin nimi tai sähköpostiosoite",
     "Account name" : "Tilin nimi",
     "Server side authentication failed!" : "Palvelimen puoleinen tunnistautuminen epäonnistui!",
@@ -453,6 +453,7 @@ OC.L10N.register(
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["Päivitys onnistui. Ohjataan {productName}iin %n sekunnin kuluttua.","Päivitys onnistui. Ohjataan {productName}iin %n sekunnin kuluttua."],
     "Applications menu" : "Sovellusten valikko",
     "Searching …" : "Haetaan…",
+    "Minimum search length is {minSearchLength} characters" : "Haun pituus tulee olla vähintään {minSearchLength} merkkiä",
     "Logging in …" : "Kirjaudutaan sisään...",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Useita virheellisiä kirjautumisyrityksiä havaittiin IP-osoitteestasi. Siksi seuraava yritys sallitaan vasta 30 sekunnin päästä.",
     "Loading apps …" : "Ladataan sovelluksia…",
@@ -497,6 +498,7 @@ OC.L10N.register(
     "The theme %s has been disabled." : "Teema %s on poistettu käytöstä.",
     "Detailed logs" : "Yksityiskohtainen loki",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "Jos tarvitset apua, katso <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">ohjeista</a>.",
+    "Too many incorrect login attempts. Please try again in 30 seconds." : "Liian monta virheellistä sisäänkirjautumisyritystä. Yritä uudelleen 30 sekunnin kuluttua.",
     "Groups" : "Ryhmät",
     "Group list is empty" : "Ryhmälista on tyhjä",
     "Unable to retrieve the group list" : "Ryhmälistaa ei voitu noutaa"

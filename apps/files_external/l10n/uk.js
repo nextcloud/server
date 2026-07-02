@@ -3,8 +3,8 @@ OC.L10N.register(
     {
     "You are not logged in" : "Ви не авторизувалися",
     "Permission denied" : "Доступ заборонено",
-    "Forbidden to manage local mounts" : "Заборонено керувати місцевими кріпленнями",
     "Storage with ID \"%d\" not found" : "Сховище з ідентифікатором \"%d\" не знайдено",
+    "Forbidden to manage local mounts" : "Заборонено керувати місцевими кріпленнями",
     "Invalid backend or authentication mechanism class" : "Недійсний бекенд сервера або клас методу автентифікації",
     "Invalid mount point" : "Невірна точка монтування",
     "Objectstore forbidden" : "Objectstore заборонено",

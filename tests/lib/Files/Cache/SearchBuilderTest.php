@@ -173,7 +173,6 @@ class SearchBuilderTest extends TestCase {
 			[new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_NOT, [
 				new SearchComparison(ISearchComparison::COMPARE_LIKE, 'name', '%bar'),
 			]), [1]],
-
 		];
 	}
 

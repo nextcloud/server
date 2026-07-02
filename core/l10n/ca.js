@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "Tanca la sessió",
     "Please select a file." : "Seleccioneu un fitxer.",
     "File is too big" : "El fitxer és massa gran",
     "The selected file is not an image." : "El fitxer seleccionat no és una imatge.",
@@ -201,6 +202,7 @@ OC.L10N.register(
     "Done" : "Fet",
     "_{count} notification_::_{count} notifications_" : ["{count} notificació","{count} notificacions"],
     "More apps" : "Més aplicacions",
+    "Settings" : "Paràmetres",
     "Apps" : "Aplicacions",
     "No" : "No",
     "Yes" : "Sí",
@@ -223,7 +225,6 @@ OC.L10N.register(
     "Search everywhere" : "Cerca a tot arreu",
     "Searching …" : "Cercant …",
     "Start typing to search" : "Escriviu per a cercar",
-    "Minimum search length is {minSearchLength} characters" : "La longitud mínima de cerca és de {minSearchLength} caràcters",
     "No matching results" : "No hi ha resultats coincidents",
     "Today" : "Avui",
     "Last 7 days" : "Últims 7 dies",
@@ -481,6 +482,7 @@ OC.L10N.register(
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["L'actualització ha finalitzat correctament. Se us redirigirà al {productName} d'aquí a %n segon.","L'actualització ha finalitzat correctament. Se us redirigirà al {productName} d'aquí a %n segons."],
     "Applications menu" : "Menú d'aplicacions",
     "Searching …" : "S'està cercant…",
+    "Minimum search length is {minSearchLength} characters" : "La longitud mínima de cerca és de {minSearchLength} caràcters",
     "Logging in …" : "S'està iniciant la sessió…",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Hem detectat diversos intents d'inici de sessió no vàlids des de la vostra IP. Per tant, el següent inici de sessió s'ha endarrerit fins a 30 segons.",
     "Loading apps …" : "S'estan carregant les aplicacions…",

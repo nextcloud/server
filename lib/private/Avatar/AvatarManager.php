@@ -6,11 +6,11 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Avatar;
 
 use OC\KnownUser\KnownUserService;
 use OC\User\Manager;
-use OC\User\NoUserException;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\Files\IAppData;
@@ -22,6 +22,7 @@ use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IUserSession;
+use OCP\User\Exceptions\UserNotFoundException;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -118,7 +119,7 @@ class AvatarManager implements IAvatarManager {
 			$this->logger->debug("No cache for the user $userId. Ignoring avatar deletion");
 		} catch (NotPermittedException|StorageNotAvailableException $e) {
 			$this->logger->error("Unable to delete user avatars for $userId. gnoring avatar deletion");
-		} catch (NoUserException $e) {
+		} catch (UserNotFoundException $e) {
 			$this->logger->debug("Account $userId not found. Ignoring avatar deletion");
 		}
 		$this->config->deleteUserValue($userId, 'avatar', 'generated');

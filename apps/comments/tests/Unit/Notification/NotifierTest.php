@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Comments\Tests\Unit\Notification;
 
 use OCA\Comments\Notification\Notifier;
@@ -296,7 +297,6 @@ class NotifierTest extends TestCase {
 		$this->notifier->prepare($this->notification, $this->lc);
 	}
 
-
 	public function testPrepareDifferentApp(): void {
 		$this->expectException(UnknownNotificationException::class);
 
@@ -332,7 +332,6 @@ class NotifierTest extends TestCase {
 
 		$this->notifier->prepare($this->notification, $this->lc);
 	}
-
 
 	public function testPrepareNotFound(): void {
 		$this->expectException(UnknownNotificationException::class);
@@ -370,7 +369,6 @@ class NotifierTest extends TestCase {
 
 		$this->notifier->prepare($this->notification, $this->lc);
 	}
-
 
 	public function testPrepareDifferentSubject(): void {
 		$this->expectException(UnknownNotificationException::class);
@@ -428,7 +426,6 @@ class NotifierTest extends TestCase {
 		$this->notifier->prepare($this->notification, $this->lc);
 	}
 
-
 	public function testPrepareNotFiles(): void {
 		$this->expectException(UnknownNotificationException::class);
 
@@ -485,7 +482,6 @@ class NotifierTest extends TestCase {
 
 		$this->notifier->prepare($this->notification, $this->lc);
 	}
-
 
 	public function testPrepareUnresolvableFileID(): void {
 		$this->expectException(AlreadyProcessedException::class);

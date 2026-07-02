@@ -6,9 +6,11 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Security;
 
 use OCP\Security\ISecureRandom;
+use Random\Randomizer;
 
 /**
  * Class SecureRandom provides a wrapper around the random_int function to generate
@@ -36,14 +38,6 @@ class SecureRandom implements ISecureRandom {
 			throw new \LengthException('Invalid length specified: ' . $length . ' must be bigger than 0');
 		}
 
-		$maxCharIndex = \strlen($characters) - 1;
-		$randomString = '';
-
-		while ($length > 0) {
-			$randomNumber = \random_int(0, $maxCharIndex);
-			$randomString .= $characters[$randomNumber];
-			$length--;
-		}
-		return $randomString;
+		return (new Randomizer())->getBytesFromString($characters, $length);
 	}
 }

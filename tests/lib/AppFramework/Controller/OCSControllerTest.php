@@ -20,7 +20,6 @@ use OCP\IRequestId;
 class ChildOCSController extends OCSController {
 }
 
-
 class OCSControllerTest extends \Test\TestCase {
 	public function testCors(): void {
 		$request = new Request(
@@ -45,7 +44,6 @@ class OCSControllerTest extends \Test\TestCase {
 		$this->assertEquals('false', $headers['Access-Control-Allow-Credentials']);
 		$this->assertEquals(100, $headers['Access-Control-Max-Age']);
 	}
-
 
 	public function testXML(): void {
 		$controller = new ChildOCSController('app', new Request(

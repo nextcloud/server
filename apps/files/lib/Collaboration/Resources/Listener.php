@@ -6,28 +6,35 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files\Collaboration\Resources;
 
 use OCP\Collaboration\Resources\IManager;
-use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Server;
+use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventListener;
 use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\Events\ShareDeletedEvent;
 use OCP\Share\Events\ShareDeletedFromSelfEvent;
+use Override;
 
-class Listener {
-	public static function register(IEventDispatcher $dispatcher): void {
-		$dispatcher->addListener(ShareCreatedEvent::class, [self::class, 'shareModification']);
-		$dispatcher->addListener(ShareDeletedEvent::class, [self::class, 'shareModification']);
-		$dispatcher->addListener(ShareDeletedFromSelfEvent::class, [self::class, 'shareModification']);
+/**
+ * @template-implements IEventListener<ShareCreatedEvent|ShareDeletedEvent|ShareDeletedFromSelfEvent>
+ */
+class Listener implements IEventListener {
+	public function __construct(
+		protected readonly IManager $resourceManager,
+		protected readonly ResourceProvider $resourceProvider,
+	) {
 	}
 
-	public static function shareModification(): void {
-		/** @var IManager $resourceManager */
-		$resourceManager = Server::get(IManager::class);
-		/** @var ResourceProvider $resourceProvider */
-		$resourceProvider = Server::get(ResourceProvider::class);
+	#[Override]
+	public function handle(Event $event): void {
+		if ($event instanceof ShareDeletedFromSelfEvent || $event instanceof ShareDeletedEvent || $event instanceof ShareCreatedEvent) {
+			$this->shareModification();
+		}
+	}
 
-		$resourceManager->invalidateAccessCacheForProvider($resourceProvider);
+	public function shareModification(): void {
+		$this->resourceManager->invalidateAccessCacheForProvider($this->resourceProvider);
 	}
 }

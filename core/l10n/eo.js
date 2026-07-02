@@ -74,6 +74,7 @@ OC.L10N.register(
     "Done" : "Farita",
     "_{count} notification_::_{count} notifications_" : ["{count} sciigoj","{count} sciigoj"],
     "More apps" : "Pli da aplikaĵoj",
+    "Settings" : "Agordoj",
     "Apps" : "Aplikaĵoj",
     "No" : "Ne",
     "Yes" : "Jes",

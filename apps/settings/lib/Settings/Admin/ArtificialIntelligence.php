@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Settings\Admin;
 
 use OCP\AppFramework\Http\TemplateResponse;
@@ -125,7 +126,6 @@ class ArtificialIntelligence implements IDelegatedSettings {
 			];
 			$taskProcessingTypeSettings[$taskTypeId] = true;
 		}
-
 
 		$this->initialState->provideInitialState('ai-stt-providers', $sttProviders);
 		$this->initialState->provideInitialState('ai-translation-providers', $translationProviders);

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Tests\Service;
 
 use OC\Files\Cache\Storage;
@@ -17,7 +18,6 @@ use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Lib\Backend\InvalidBackend;
 use OCA\Files_External\Lib\Backend\SMB;
 use OCA\Files_External\Lib\StorageConfig;
-use OCA\Files_External\MountConfig;
 use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\DBConfigService;
@@ -72,7 +72,6 @@ abstract class StoragesServiceTestCase extends \Test\TestCase {
 			'datadirectory',
 			\OC::$SERVERROOT . '/data/'
 		);
-		MountConfig::$skipTest = true;
 
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
@@ -140,7 +139,6 @@ abstract class StoragesServiceTestCase extends \Test\TestCase {
 	}
 
 	protected function tearDown(): void {
-		MountConfig::$skipTest = false;
 		self::$hookCalls = [];
 		if ($this->dbConfig) {
 			$this->dbConfig->clean();
@@ -208,7 +206,6 @@ abstract class StoragesServiceTestCase extends \Test\TestCase {
 		$storage->setPriority(100);
 		return $storage;
 	}
-
 
 	protected function ActualNonExistingStorageTest() {
 		$backend = $this->backendService->getBackend('identifier:\OCA\Files_External\Lib\Backend\SMB');

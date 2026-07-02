@@ -59,10 +59,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.3', '8.4', '8.5']
-        include:
-          - php-versions: '8.2'
-            coverage: ${{ github.event_name != 'pull_request' }}
+        php-versions: ['8.3', '8.5']
 
     name: No DB unit tests (PHP ${{ matrix.php-versions }})
 
@@ -75,23 +72,24 @@ jobs:
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           persist-credentials: false
           submodules: true
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@7c071dfe9dc99bdf297fa79cb49ea005b9fcadbc #v2.37.1
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 #v2.37.2
         timeout-minutes: 5
         with:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
-          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, imagick, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
-          coverage: ${{ matrix.coverage && 'xdebug' || 'none' }}
+          extensions: apcu, bz2, ctype, curl, dom, fileinfo, gd, iconv, imagick, intl, json, libxml, mbstring, openssl, pcntl, pdo_sqlite, posix, redis, session, simplexml, sqlite, xmlreader, xmlwriter, zip, zlib
+          coverage: none
           ini-file: development
           # Required for tests that use pcntl
           ini-values: disable_functions=""
         env:
+          fail-fast: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up dependencies
@@ -106,20 +104,7 @@ jobs:
           php -f tests/enable_all.php
 
       - name: PHPUnit nodb testsuite
-        run: composer run test -- --exclude-group DB --exclude-group SLOWDB --log-junit junit.xml ${{ matrix.coverage && '--coverage-clover ./clover.nodb.xml' || '' }}
-
-      - name: Upload nodb code coverage
-        if: ${{ !cancelled() && matrix.coverage }}
-        uses: codecov/codecov-action@57e3a136b779b570ffcdbf80b3bdc90e7fab3de2 # v6.0.0
-        with:
-          files: ./clover.nodb.xml
-          flags: phpunit-nodb
-
-      - name: Upload test results
-        if: ${{ !cancelled() }}
-        uses: codecov/test-results-action@0fa95f0e1eeaafde2c782583b36b28ad0d8c77d3 # v1.2.1
-        with:
-          flags: phpunit-nodb
+        run: composer run test -- --exclude-group DB --exclude-group SLOWDB --exclude-group Memcached --exclude-group PRIMARY-swift --exclude-group PRIMARY-s3 --exclude-group PRIMARY-azure --log-junit junit.xml
 
       - name: Print logs
         if: always()

@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Migrations;
 
 use OCP\DB\ISchemaWrapper;
@@ -32,7 +33,6 @@ class Version13000Date20170814074715 extends SimpleMigrationStep {
 	public function changeSchema(IOutput $output, \Closure $schemaClosure, array $options) {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
-
 
 		if (!$schema->hasTable('accounts')) {
 			$table = $schema->createTable('accounts');

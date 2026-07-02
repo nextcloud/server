@@ -16,6 +16,11 @@
 	<types>
 		<authentication/>
 	</types>
+
+	<commands>
+		<command>OCA\Testing\Command\StaticHunt</command>
+	</commands>
+
 	<category>monitoring</category>
 	<bugs>https://github.com/nextcloud/server/issues</bugs>
 	<dependencies>

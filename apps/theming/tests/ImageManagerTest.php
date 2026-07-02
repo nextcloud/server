@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Theming\Tests;
 
 use OCA\Theming\ImageManager;
@@ -210,7 +211,6 @@ class ImageManagerTest extends TestCase {
 		$this->assertEquals($pngFile, $this->imageManager->getImage('logo', false));
 	}
 
-
 	public function testGetImageUnset(): void {
 		$this->expectException(NotFoundException::class);
 
@@ -264,7 +264,6 @@ class ImageManagerTest extends TestCase {
 			->willReturn($expected);
 		$this->assertEquals($expected, $this->imageManager->getCachedImage('filename'));
 	}
-
 
 	public function testGetCachedImageNotFound(): void {
 		$this->expectException(NotFoundException::class);
@@ -351,7 +350,6 @@ class ImageManagerTest extends TestCase {
 			->willReturn($folders[2]);
 		$this->imageManager->cleanup();
 	}
-
 
 	public static function dataUpdateImage(): array {
 		return [

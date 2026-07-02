@@ -316,9 +316,7 @@ OC.L10N.register(
     "The files are locked" : "Skrárnar eru læstar",
     "The file does not exist anymore" : "Skráin  er ekki lengur til",
     "Moving \"{source}\" to \"{destination}\" …" : "Færi \"{source}\" í \"{destination}\" …",
-    "Moving {count} files to \"{destination}\" …" : "Færi {count} skrár í \"{destination}\" …",
     "Copying \"{source}\" to \"{destination}\" …" : "Afrita \"{source}\" í \"{destination}\" …",
-    "Copying {count} files to \"{destination}\" …" : "Afrita {count} skrár í \"{destination}\" …",
     "Choose destination" : "Veldu áfangastað",
     "Copy to {target}" : "Afrita í {target}",
     "Move to {target}" : "Færa í {target}",
@@ -389,10 +387,6 @@ OC.L10N.register(
     "Files and folders you recently modified will show up here." : "Skrár og möppur sem þú breyttir nýlega birtast hér.",
     "Search" : "Search",
     "Search results within your files." : "Leitarniðurstöður úr skránum þínum.",
-    "No entries found in this folder" : "Engar skrár fundust í þessari möppu",
-    "Select all" : "Velja allt",
-    "Upload too large" : "Innsend skrá er of stór",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Skrárnar sem þú ert að senda inn eru stærri en hámarks innsendingarstærð á þessum netþjóni.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Endurnefndi \"{oldName}\" sem \"{newName}\"",
     "Clear filter" : "Hreinsa síu",
     "Open file sidebar" : "Opna hliðarspjald skráa",
@@ -412,6 +406,10 @@ OC.L10N.register(
     "Tags" : "Merki",
     "Save as …" : "Vista sem …",
     "Converting files …" : "Umbreyti skrám …",
-    "Converting file …" : "Umbreyti skrá…"
+    "Converting file …" : "Umbreyti skrá…",
+    "No entries found in this folder" : "Engar skrár fundust í þessari möppu",
+    "Select all" : "Velja allt",
+    "Upload too large" : "Innsend skrá er of stór",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Skrárnar sem þú ert að senda inn eru stærri en hámarks innsendingarstærð á þessum netþjóni."
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use OC\Hooks\PublicEmitter;
@@ -253,6 +254,9 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 			return false;
 		}
 		if ($this->groupManager->isAdmin($user->getUID())) {
+			return false;
+		}
+		if ($this->groupManager->isDelegatedAdmin($user->getUID())) {
 			return false;
 		}
 

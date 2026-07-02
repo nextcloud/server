@@ -24,9 +24,14 @@ use Psr\Container\ContainerExceptionInterface;
  * @since 4.0.0
  */
 class Util {
+	/** @psalm-suppress ImpureStaticProperty legacy stuff, keep them for now */
 	private static array $scriptsInit = [];
+	/** @psalm-suppress ImpureStaticProperty */
 	private static array $scripts = [];
+	/** @psalm-suppress ImpureStaticProperty */
 	private static array $scriptDeps = [];
+	/** @psalm-suppress ImpureStaticProperty */
+	private static ?bool $needUpgradeCache = null;
 
 	/**
 	 * get the current installed version of Nextcloud
@@ -241,9 +246,7 @@ class Util {
 	 */
 	public static function linkToAbsolute($app, $file, $args = []) {
 		$urlGenerator = Server::get(IURLGenerator::class);
-		return $urlGenerator->getAbsoluteURL(
-			$urlGenerator->linkTo($app, $file, $args)
-		);
+		return $urlGenerator->getAbsoluteURL($urlGenerator->linkTo($app, $file, $args));
 	}
 
 	/**
@@ -478,7 +481,7 @@ class Util {
 	 * @since 4.5.0
 	 */
 	public static function mb_array_change_key_case($input, $case = MB_CASE_LOWER, $encoding = 'UTF-8') {
-		$case = ($case !== MB_CASE_UPPER) ? MB_CASE_LOWER : MB_CASE_UPPER;
+		$case = $case !== MB_CASE_UPPER ? MB_CASE_LOWER : MB_CASE_UPPER;
 		$ret = [];
 		foreach ($input as $k => $v) {
 			$ret[mb_convert_case($k, $case, $encoding)] = $v;
@@ -513,7 +516,7 @@ class Util {
 			$freeSpace = max($freeSpace, 0);
 			return $freeSpace;
 		} else {
-			return (INF > 0)? INF: PHP_INT_MAX; // work around https://bugs.php.net/bug.php?id=69188
+			return INF > 0 ? INF : PHP_INT_MAX; // work around https://bugs.php.net/bug.php?id=69188
 		}
 	}
 
@@ -571,8 +574,6 @@ class Util {
 		return \OC_Util::isDefaultExpireDateEnforced();
 	}
 
-	protected static $needUpgradeCache = null;
-
 	/**
 	 * Checks whether the current version needs upgrade.
 	 *
@@ -580,7 +581,7 @@ class Util {
 	 * @since 7.0.0
 	 */
 	public static function needUpgrade() {
-		if (!isset(self::$needUpgradeCache)) {
+		if (self::$needUpgradeCache === null) {
 			self::$needUpgradeCache = \OC_Util::needUpgrade(Server::get(\OC\SystemConfig::class));
 		}
 		return self::$needUpgradeCache;

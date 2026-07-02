@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files;
 
 use OC\Files\Cache\CacheEntry;
@@ -382,7 +383,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 */
 	#[\Override]
 	public function getChecksum() {
-		return $this->data['checksum'];
+		return $this->data['checksum'] ?? '';
 	}
 
 	#[\Override]

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\SystemTag;
 
 use OC\SystemTag\SystemTag;
@@ -56,7 +57,6 @@ class SystemTagNodeTest extends \Test\TestCase {
 		$this->assertEquals('1', $node->getName());
 		$this->assertEquals($tag, $node->getSystemTag());
 	}
-
 
 	public function testSetName(): void {
 		$this->expectException(\Sabre\DAV\Exception\MethodNotAllowed::class);
@@ -170,7 +170,6 @@ class SystemTagNodeTest extends \Test\TestCase {
 		$this->assertInstanceOf($expectedException, $thrown);
 	}
 
-
 	public function testUpdateTagAlreadyExists(): void {
 		$this->expectException(\Sabre\DAV\Exception\Conflict::class);
 
@@ -189,7 +188,6 @@ class SystemTagNodeTest extends \Test\TestCase {
 			->willThrowException(new TagAlreadyExistsException());
 		$this->getTagNode(false, $tag)->update('Renamed', true, true, null);
 	}
-
 
 	public function testUpdateTagNotFound(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
@@ -253,7 +251,6 @@ class SystemTagNodeTest extends \Test\TestCase {
 		$this->expectException($expectedException);
 		$this->getTagNode(false, $tag)->delete();
 	}
-
 
 	public function testDeleteTagNotFound(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);

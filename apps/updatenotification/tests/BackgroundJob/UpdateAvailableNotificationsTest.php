@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\UpdateNotification\Tests\BackgroundJob;
 
 use OC\Installer;
@@ -248,7 +249,6 @@ class UpdateAvailableNotificationsTest extends TestCase {
 				$this->assertEquals($notifications[$i], func_get_args());
 				$i++;
 			});
-
 
 		self::invokePrivate($job, 'checkAppUpdates');
 	}

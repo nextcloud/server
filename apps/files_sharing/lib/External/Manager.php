@@ -9,7 +9,6 @@
 namespace OCA\Files_Sharing\External;
 
 use OC\Files\Filesystem;
-use OC\User\NoUserException;
 use OCA\FederatedFileSharing\Events\FederatedShareAddedEvent;
 use OCA\Files_Sharing\Helper;
 use OCP\AppFramework\Db\DoesNotExistException;
@@ -35,6 +34,7 @@ use OCP\IUserSession;
 use OCP\Notification\IManager;
 use OCP\OCS\IDiscoveryService;
 use OCP\Share\IShare;
+use OCP\User\Exceptions\UserNotFoundException;
 use Psr\Log\LoggerInterface;
 
 class Manager {
@@ -67,7 +67,7 @@ class Manager {
 	 *
 	 * @throws Exception
 	 * @throws NotPermittedException
-	 * @throws NoUserException
+	 * @throws UserNotFoundException
 	 */
 	public function addShare(ExternalShare $externalShare, IUser|IGroup|null $shareWith = null): ?Mount {
 		$shareWith = $shareWith ?? $this->user;
@@ -111,8 +111,10 @@ class Manager {
 
 		$options = [
 			'remote' => $externalShare->getRemote(),
-			'token' => $externalShare->getShareToken(),
+			'token' => $externalShare->getRefreshToken(),
 			'password' => $externalShare->getPassword(),
+			'access_token' => $externalShare->getAccessToken(),
+			'access_token_expires' => $externalShare->getAccessTokenExpires(),
 			'mountpoint' => $externalShare->getMountpoint(),
 			'owner' => $externalShare->getOwner(),
 			'verify' => !$this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates'),
@@ -190,6 +192,7 @@ class Manager {
 				$subShare->generateId();
 				$subShare->setRemote($externalShare->getRemote());
 				$subShare->setPassword($externalShare->getPassword());
+				$subShare->setAccessToken($externalShare->getAccessToken());
 				$subShare->setName($externalShare->getName());
 				$subShare->setOwner($externalShare->getOwner());
 				$subShare->setUser($user->getUID());
@@ -198,7 +201,7 @@ class Manager {
 				$subShare->setRemoteId($externalShare->getRemoteId());
 				$subShare->setParent((string)$externalShare->getId());
 				$subShare->setShareType($externalShare->getShareType());
-				$subShare->setShareToken($externalShare->getShareToken());
+				$subShare->setRefreshToken($externalShare->getRefreshToken());
 				$this->externalShareMapper->insert($subShare);
 			}
 		}
@@ -337,7 +340,7 @@ class Manager {
 		$endpoint = $federationEndpoints['share'] ?? '/ocs/v2.php/cloud/shares';
 
 		$url = rtrim($externalShare->getRemote(), '/') . $endpoint . '/' . $externalShare->getRemoteId() . '/' . $feedback . '?format=json';
-		$fields = ['token' => $externalShare->getShareToken()];
+		$fields = ['token' => $externalShare->getRefreshToken()];
 
 		$client = $this->clientService->newClient();
 
@@ -373,10 +376,9 @@ class Manager {
 					'file',
 					$externalShare->getRemoteId(),
 					[
-						'sharedSecret' => $externalShare->getShareToken(),
+						'sharedSecret' => $externalShare->getRefreshToken(),
 						'message' => 'Recipient accept the share'
 					]
-
 				);
 				return $this->cloudFederationProviderManager->sendNotification($externalShare->getRemote(), $notification);
 			case 'decline':
@@ -386,7 +388,7 @@ class Manager {
 					'file',
 					$externalShare->getRemoteId(),
 					[
-						'sharedSecret' => $externalShare->getShareToken(),
+						'sharedSecret' => $externalShare->getRefreshToken(),
 						'message' => 'Recipient declined the share'
 					]
 				);
@@ -564,6 +566,26 @@ class Manager {
 		} catch (Exception $e) {
 			$this->logger->emergency('Error when retrieving shares', ['exception' => $e]);
 			return [];
+		}
+	}
+
+	/**
+	 * Update the access token for a share.
+	 *
+	 * @param string $refreshToken The refresh token to identify the share
+	 * @param string $accessToken The new access token to store
+	 */
+	public function updateAccessToken(string $refreshToken, string $accessToken, int $expiresAt): void {
+		try {
+			$share = $this->externalShareMapper->getShareByToken($refreshToken);
+			$share->setAccessToken($accessToken);
+			$share->setAccessTokenExpires($expiresAt);
+			$this->externalShareMapper->update($share);
+			$this->logger->debug('Updated access token for share', ['shareId' => $share->getId()]);
+		} catch (DoesNotExistException $e) {
+			$this->logger->warning('Could not find share to update access token', ['exception' => $e]);
+		} catch (Exception $e) {
+			$this->logger->error('Failed to update access token', ['exception' => $e]);
 		}
 	}
 }

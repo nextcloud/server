@@ -36,6 +36,10 @@ export function registerConvertActions() {
 				// cannot create the converted file in a public share if we don't have create permissions
 				return false
 			}
+			// Conversion reads the source file, so it requires read permission
+			if (nodes.some((node) => (node.permissions & Permission.READ) === 0)) {
+				return false
+			}
 			// Check that all nodes have the same mime type
 			return nodes.every((node) => from === node.mime)
 		},

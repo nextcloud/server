@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Federation\BackgroundJob;
 
 use GuzzleHttp\Exception\ClientException;
@@ -74,6 +75,10 @@ class GetSharedSecret extends Job {
 
 	#[\Override]
 	protected function run($argument) {
+		// The DI container caches this instance, so a prior invocation in the
+		// same cron pass can leave $retainJob = true and cause this row to be
+		// re-queued unconditionally after start() removes it.
+		$this->retainJob = false;
 		$target = $argument['url'];
 		$created = isset($argument['created']) ? (int)$argument['created'] : $this->time->getTime();
 		$currentTime = $this->time->getTime();
