@@ -1,46 +1,27 @@
 {
-	"apps": [
-		{
-			"id": "calendar",
-			"name": "Calendar",
-			"isCompatible": true,
-			"canInstall": true
+	"ocs": {
+		"meta": {
+			"status": "ok",
+			"statuscode": 200,
+			"message": "OK"
 		},
-		{
-			"id": "contacts",
-			"name": "Contacts",
-			"isCompatible": true,
-			"canInstall": true
-		},
-		{
-			"id": "mail",
-			"name": "Mail",
-			"isCompatible": true,
-			"canInstall": true
-		},
-		{
-			"id": "spreed",
-			"name": "Talk",
-			"isCompatible": true,
-			"canInstall": true
-		},
-		{
-			"id": "richdocuments",
-			"name": "Richdocuments",
-			"isCompatible": true,
-			"canInstall": true
-		},
-		{
-			"id": "notes",
-			"name": "Notes",
-			"isCompatible": true,
-			"canInstall": true
-		},
-		{
-			"id": "richdocumentscode",
-			"name": "Richdocuments Code",
-			"isCompatible": true,
-			"canInstall": true
-		}
-	]
+		"data": [
+			{
+				"id": "calendar",
+				"name": "Calendar",
+				"isCompatible": true,
+				"active": false,
+				"installed": false,
+				"internal": false
+			},
+			{
+				"id": "contacts",
+				"name": "Contacts",
+				"isCompatible": true,
+				"active": false,
+				"installed": false,
+				"internal": false
+			}
+		]
+	}
 }
