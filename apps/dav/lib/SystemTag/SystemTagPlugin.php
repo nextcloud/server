@@ -530,27 +530,40 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	}
 
 	/**
-	 * Check if the user can update the tag for the given file ids
+	 * Check if the current user can update the tag assignment for all given file IDs.
+	 *
+	 * A file ID is considered updateable if the user can access at least one visible
+	 * occurrence of that file with {@see Constants::PERMISSION_UPDATE}. All file IDs
+	 * in the input list must satisfy that condition.
 	 *
 	 * @param list<string> $fileIds
-	 * @return bool
 	 */
 	private function canUpdateTagForFileIds(array $fileIds): bool {
 		$user = $this->userSession->getUser();
 		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
 
+		// getFirstNodeById() is a cheap fast path, but it may return a read-only
+		// occurrence even when another visible occurrence of the same file ID is
+		// updateable. Fall back to getById() to preserve correct permission handling.
 		foreach ($fileIds as $fileId) {
 			try {
+				$node = $userFolder->getFirstNodeById((int)$fileId);
+				if ($node !== null && ($node->getPermissions() & Constants::PERMISSION_UPDATE) === Constants::PERMISSION_UPDATE) {
+					continue;
+				}
+				
 				$nodes = $userFolder->getById((int)$fileId);
 				if (empty($nodes)) {
 					return false;
 				}
 
 				foreach ($nodes as $node) {
-					if (($node->getPermissions() & Constants::PERMISSION_UPDATE) !== Constants::PERMISSION_UPDATE) {
-						return false;
+					if (($node->getPermissions() & Constants::PERMISSION_UPDATE) === Constants::PERMISSION_UPDATE) {
+						continue 2;
 					}
 				}
+
+				return false;
 			} catch (\Exception $e) {
 				return false;
 			}
