@@ -36,9 +36,6 @@ class ExtStorageConfigHandler extends UserContext implements IConfigHandler {
 		}
 
 		$access = $backend->getLDAPAccess($user->getUID());
-		if (!$access) {
-			return $optionValue;
-		}
 
 		$attribute = $access->connection->ldapExtStorageHomeAttribute;
 		if (empty($attribute)) {

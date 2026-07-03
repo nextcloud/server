@@ -11,31 +11,23 @@ namespace OCA\User_LDAP\Tests;
 use OCA\User_LDAP\ILDAPGroupPlugin;
 
 class LDAPGroupPluginDummy implements ILDAPGroupPlugin {
-	public function respondToActions() {
+	public function respondToActions(): int {
+		return 0;
+	}
+
+	public function createGroup(string $gid): ?string {
 		return null;
 	}
 
-	public function createGroup($gid) {
-		return null;
+	public function deleteGroup(string $gid): false {
+		return false;
 	}
 
-	public function deleteGroup($gid) {
-		return null;
+	public function addToGroup(string $uid, string $gid): false {
+		return false;
 	}
 
-	public function addToGroup($uid, $gid) {
-		return null;
-	}
-
-	public function removeFromGroup($uid, $gid) {
-		return null;
-	}
-
-	public function countUsersInGroup($gid, $search = '') {
-		return null;
-	}
-
-	public function getGroupDetails($gid) {
-		return null;
+	public function removeFromGroup(string $uid, string $gid): false {
+		return false;
 	}
 }

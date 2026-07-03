@@ -20,41 +20,30 @@ class GroupPluginManager {
 		GroupInterface::DELETE_GROUP => null,
 		GroupInterface::ADD_TO_GROUP => null,
 		GroupInterface::REMOVE_FROM_GROUP => null,
-		GroupInterface::COUNT_USERS => null,
-		GroupInterface::GROUP_DETAILS => null
 	];
 
 	private bool $suppressDeletion = false;
 
-	/**
-	 * @return int All implemented actions
-	 */
-	public function getImplementedActions() {
+	public function getImplementedActions(): int {
 		return $this->respondToActions;
 	}
 
 	/**
 	 * Registers a group plugin that may implement some actions, overriding User_LDAP's group actions.
-	 * @param ILDAPGroupPlugin $plugin
 	 */
-	public function register(ILDAPGroupPlugin $plugin) {
+	public function register(ILDAPGroupPlugin $plugin): void {
 		$respondToActions = $plugin->respondToActions();
 		$this->respondToActions |= $respondToActions;
 
 		foreach ($this->which as $action => $v) {
-			if ((bool)($respondToActions & $action)) {
+			if ($respondToActions & $action) {
 				$this->which[$action] = $plugin;
 				Server::get(LoggerInterface::class)->debug('Registered action ' . $action . ' to plugin ' . get_class($plugin), ['app' => 'user_ldap']);
 			}
 		}
 	}
 
-	/**
-	 * Signal if there is a registered plugin that implements some given actions
-	 * @param int $actions Actions defined in \OCP\GroupInterface, like GroupInterface::REMOVE_FROM_GROUP
-	 * @return bool
-	 */
-	public function implementsActions($actions) {
+	public function implementsActions(int $actions): bool {
 		return ($actions & $this->respondToActions) == $actions;
 	}
 
@@ -64,11 +53,11 @@ class GroupPluginManager {
 	 * @return string | null The group DN if group creation was successful.
 	 * @throws \Exception
 	 */
-	public function createGroup($gid) {
+	public function createGroup(string $name): ?string {
 		$plugin = $this->which[GroupInterface::CREATE_GROUP];
 
 		if ($plugin) {
-			return $plugin->createGroup($gid);
+			return $plugin->createGroup($name);
 		}
 		throw new \Exception('No plugin implements createGroup in this LDAP Backend.');
 	}
@@ -112,7 +101,7 @@ class GroupPluginManager {
 	 *
 	 * Adds a user to a group.
 	 */
-	public function addToGroup($uid, $gid) {
+	public function addToGroup(string $uid, string $gid): bool {
 		$plugin = $this->which[GroupInterface::ADD_TO_GROUP];
 
 		if ($plugin) {
@@ -130,43 +119,12 @@ class GroupPluginManager {
 	 *
 	 * removes the user from a group.
 	 */
-	public function removeFromGroup($uid, $gid) {
+	public function removeFromGroup(string $uid, string $gid): bool {
 		$plugin = $this->which[GroupInterface::REMOVE_FROM_GROUP];
 
 		if ($plugin) {
 			return $plugin->removeFromGroup($uid, $gid);
 		}
 		throw new \Exception('No plugin implements removeFromGroup in this LDAP Backend.');
-	}
-
-	/**
-	 * get the number of all users matching the search string in a group
-	 * @param string $gid ID of the group
-	 * @param string $search query string
-	 * @return int|false
-	 * @throws \Exception
-	 */
-	public function countUsersInGroup($gid, $search = '') {
-		$plugin = $this->which[GroupInterface::COUNT_USERS];
-
-		if ($plugin) {
-			return $plugin->countUsersInGroup($gid, $search);
-		}
-		throw new \Exception('No plugin implements countUsersInGroup in this LDAP Backend.');
-	}
-
-	/**
-	 * get an array with group details
-	 * @param string $gid
-	 * @return array|false
-	 * @throws \Exception
-	 */
-	public function getGroupDetails($gid) {
-		$plugin = $this->which[GroupInterface::GROUP_DETAILS];
-
-		if ($plugin) {
-			return $plugin->getGroupDetails($gid);
-		}
-		throw new \Exception('No plugin implements getGroupDetails in this LDAP Backend.');
 	}
 }

@@ -71,44 +71,28 @@ abstract class Proxy {
 		return $this->accessFactory->getAccessForPrefix($configPrefix);
 	}
 
-	/**
-	 * @param string $uid
-	 * @return string
-	 */
-	protected function getUserCacheKey($uid) {
+	protected function getUserCacheKey(string $uid): string {
 		return 'user-' . $uid . '-lastSeenOn';
 	}
 
-	/**
-	 * @param string $gid
-	 * @return string
-	 */
-	protected function getGroupCacheKey($gid) {
+	protected function getGroupCacheKey(string $gid): string {
 		return 'group-' . $gid . '-lastSeenOn';
 	}
 
 	/**
-	 * @param string $id
-	 * @param string $method
-	 * @param array $parameters
-	 * @param bool $passOnWhen
-	 * @return mixed
+	 * Asks the backend connected to the server that supposely takes care of the gid from the request.
+	 *
+	 * @param string $id the gid connected to the request
+	 * @param string $method the method of the group backend that shall be called
+	 * @param array $parameters an array of parameters to be passed
+	 * @param bool $passOnWhen the result matches this variable
+	 * @return mixed the result of the method or false
 	 */
-	abstract protected function callOnLastSeenOn($id, $method, $parameters, $passOnWhen);
+	abstract protected function callOnLastSeenOn(string $id, string $method, array $parameters, bool $passOnWhen): mixed;
 
-	/**
-	 * @param string $id
-	 * @param string $method
-	 * @param array $parameters
-	 * @return mixed
-	 */
-	abstract protected function walkBackends($id, $method, $parameters);
+	abstract protected function walkBackends(string $id, string $method, array $parameters): mixed;
 
-	/**
-	 * @param string $id
-	 * @return Access
-	 */
-	abstract public function getLDAPAccess($id);
+	abstract public function getLDAPAccess(string $name): Access;
 
 	abstract protected function activeBackends(): int;
 
@@ -122,13 +106,11 @@ abstract class Proxy {
 	/**
 	 * Takes care of the request to the User backend
 	 *
-	 * @param string $id
 	 * @param string $method string, the method of the user backend that shall be called
 	 * @param array $parameters an array of parameters to be passed
-	 * @param bool $passOnWhen
 	 * @return mixed the result of the specified method
 	 */
-	protected function handleRequest($id, $method, $parameters, $passOnWhen = false) {
+	protected function handleRequest(string $id, string $method, array $parameters, bool $passOnWhen = false): mixed {
 		if (!$this->isSingleBackend()) {
 			$result = $this->callOnLastSeenOn($id, $method, $parameters, $passOnWhen);
 		}
@@ -138,11 +120,7 @@ abstract class Proxy {
 		return $result;
 	}
 
-	/**
-	 * @param string|null $key
-	 * @return string
-	 */
-	private function getCacheKey($key) {
+	private function getCacheKey(?string $key): string {
 		$prefix = 'LDAP-Proxy-';
 		if ($key === null) {
 			return $prefix;
@@ -151,10 +129,9 @@ abstract class Proxy {
 	}
 
 	/**
-	 * @param string $key
 	 * @return mixed|null
 	 */
-	public function getFromCache($key) {
+	public function getFromCache(string $key) {
 		if ($this->cache === null) {
 			return null;
 		}
@@ -168,11 +145,7 @@ abstract class Proxy {
 		return json_decode(base64_decode($value));
 	}
 
-	/**
-	 * @param string $key
-	 * @param mixed $value
-	 */
-	public function writeToCache($key, $value) {
+	public function writeToCache(string $key, mixed $value): void {
 		if ($this->cache === null) {
 			return;
 		}
@@ -181,7 +154,7 @@ abstract class Proxy {
 		$this->cache->set($key, $value, 2592000);
 	}
 
-	public function clearCache() {
+	public function clearCache(): void {
 		if ($this->cache === null) {
 			return;
 		}

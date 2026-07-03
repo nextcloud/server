@@ -23,7 +23,7 @@ abstract class ABackend implements GroupInterface, IBatchMethodsBackend {
 	 * @return bool
 	 */
 	#[\Override]
-	public function implementsActions($actions): bool {
+	public function implementsActions(int $actions): bool {
 		$implements = 0;
 
 		if ($this instanceof IAddToGroupBackend) {

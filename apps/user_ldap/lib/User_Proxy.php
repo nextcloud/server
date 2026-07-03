@@ -387,15 +387,9 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 		return $users;
 	}
 
-	/**
-	 * Return access for LDAP interaction.
-	 *
-	 * @param string $uid
-	 * @return Access instance of Access for LDAP interaction
-	 */
 	#[\Override]
-	public function getLDAPAccess($uid) {
-		return $this->handleRequest($uid, 'getLDAPAccess', [$uid]);
+	public function getLDAPAccess(string $name): Access {
+		return $this->handleRequest($name, 'getLDAPAccess', [$name]);
 	}
 
 	/**

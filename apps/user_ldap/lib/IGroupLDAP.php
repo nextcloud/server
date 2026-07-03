@@ -9,21 +9,21 @@ declare(strict_types=1);
 
 namespace OCA\User_LDAP;
 
+/**
+ * Interface defining methods used by the LDAPProvider
+ */
 interface IGroupLDAP {
-
-	//Used by LDAPProvider
-
 	/**
 	 * Return access for LDAP interaction.
-	 * @param string $gid
+	 *
 	 * @return Access instance of Access for LDAP interaction
 	 */
-	public function getLDAPAccess($gid);
+	public function getLDAPAccess(string $name): Access;
 
 	/**
 	 * Return a new LDAP connection for the specified group.
-	 * @param string $gid
+	 *
 	 * @return \LDAP\Connection The LDAP connection
 	 */
-	public function getNewLDAPConnection($gid);
+	public function getNewLDAPConnection(string $name): \LDAP\Connection;
 }
