@@ -110,7 +110,7 @@ class TrashItem implements ITrashItem {
 	}
 
 	#[\Override]
-	public function getPermissions() {
+	public function getPermissions(): int {
 		return $this->fileInfo->getPermissions();
 	}
 
