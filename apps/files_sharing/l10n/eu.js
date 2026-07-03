@@ -90,6 +90,7 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "Eguneraketa parametrorik ez da eman edo okerra da",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"Nextcloud Talk-ek pasahitza bidaltzeak\" huts egin du ez dagoelako Nextcloud Talk gaituta fitxategi edo karpeta bat partekatzeko.",
     "Custom share link tokens have been disabled by the administrator" : "Administratzaileak esteka pertsonalizatuen tokenak sortzeko aukera ezgaitu du",
+    "Tokens must be between 1 and %s characters long and may only contain letters, numbers, or a hyphen" : "Tokenek 1 eta %s karaktere arteko luzera izan behar dute eta letrak, zenbakiak edo marratxoa soilik izan ditzakete",
     "Invalid date. Format must be YYYY-MM-DD" : "Data baliogabea. UUU-HH-EE gisako formatua izan behar du",
     "No sharing rights on this item" : "Ez dago baimenik fitxategi hau partekatzeko",
     "Invalid share attributes provided: \"%s\"" : "Baliogabeko partekatze atributuak eman dira: \"%s\"",

@@ -62,9 +62,7 @@
     "Delete" : "Διαγραφή",
     "Reset" : "Επαναφορά",
     "Loading …" : "Φόρτωση …",
-    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["Η ετικέτα {tag1} θα οριστεί και η ετικέτα {tag2} θα αφαιρεθεί από 1 αρχείο.","Η ετικέτα {tag1} θα οριστεί και η ετικέτα {tag2} θα αφαιρεθεί από {count} αρχεία."],
     "_{tag} will be set to 1 file._::_{tag} will be set to {count} files._" : ["Η ετικέτα {tag} θα οριστεί σε 1 αρχείο.","Η ετικέτα {tag} θα οριστεί σε {count} αρχεία."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["Η ετικέτα {tag} θα αφαιρεθεί από 1 αρχείο.","Η ετικέτα {tag} θα αφαιρεθεί από {count} αρχεία."],
     "_{tags} and {lastTag} will be set to 1 file._::_{tags} and {lastTag} will be set to {count} files._" : ["Οι ετικέτες {tags} και {lastTag} θα οριστούν σε 1 αρχείο.","Οι ετικέτες {tags} και {lastTag} θα οριστούν σε {count} αρχεία."],
     "_{tags} and {lastTag} will be removed from 1 file._::_{tags} and {lastTag} will be removed from {count} files._" : ["Οι ετικέτες {tags} και {lastTag} θα αφαιρεθούν από 1 αρχείο.","Οι ετικέτες {tags} και {lastTag} θα αφαιρεθούν από {count} αρχεία."],
     "{displayName} (hidden)" : "{displayName} (κρυφό)",
@@ -108,6 +106,8 @@
     "Failed to delete tag for file" : "Αποτυχία διαγραφής ετικέτας για το αρχείο",
     "Collaborative tags …" : "Συνεργατικές ετικέτες…",
     "Loading …" : "Γίνεται φόρτωση…",
+    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["Η ετικέτα {tag1} θα οριστεί και η ετικέτα {tag2} θα αφαιρεθεί από 1 αρχείο.","Η ετικέτα {tag1} θα οριστεί και η ετικέτα {tag2} θα αφαιρεθεί από {count} αρχεία."],
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["Η ετικέτα {tag} θα αφαιρεθεί από 1 αρχείο.","Η ετικέτα {tag} θα αφαιρεθεί από {count} αρχεία."],
     "Loading collaborative tags …" : "Φόρτωση συνεργατικών ετικετών…"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -7,6 +7,7 @@ OC.L10N.register(
     "Couldn't establish a federated share, maybe the password was wrong." : "Não foi possível estabelecer a partilha federada, a palavra-passe talvez esteja incorreta.",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Pedido de Partilha Federada enviado, irá receber o convite. Confira as suas notificações.",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Não foi possível estabelecer um compartilhamento federado, parece que o servidor a se federar é muito antigo (Nextcloud <= 9).",
+    "Sharing %1$s failed, because this item is already shared with the account %2$s" : "Falha ao compartilhar %1$s porque este item já está compartilhado com a conta %2$s",
     "Not allowed to create a federated share to the same account" : "Não é permitido criar um compartilhamento federado para a mesma conta",
     "File is already shared with %s" : "O ficheiro já foi partilhado com %s",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "O compartilhamento%1$s falhou, não pude encontrar %2$s, talvez o servidor esteja inacessível ou usa um certificado auto-assinado.",

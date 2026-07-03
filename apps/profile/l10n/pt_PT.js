@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "View profile" : "Visualizar perfil",
     "Profile picker" : "Seletor de perfis",
+    "Profile" : "Perfil",
     "This application provides the profile" : "Esse aplicativo fornece o perfil",
     "Provides a customisable user profile interface." : "Fornece uma interface customizável para o perfil do usuário",
     "Searching …" : "A procurar…",
@@ -17,6 +18,7 @@ OC.L10N.register(
     "Edit Profile" : "Editar perfil",
     "The headline and about sections will show up here" : "Os campos de título e sobre aparecerão aqui",
     "Profile not found" : "Perfil não encontrado",
+    "The profile does not exist or is unavailable." : "O perfil não existe ou não está disponível.",
     "Back to %s" : "Voltar para %s",
     "The profile does not exist." : "O perfil não existe."
 },
