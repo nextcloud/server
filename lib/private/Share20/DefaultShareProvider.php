@@ -957,6 +957,9 @@ class DefaultShareProvider implements
 		} elseif ($shareType === IShare::TYPE_GROUP) {
 			$user = new LazyUser($userId, $this->userManager);
 			$allGroups = $this->groupManager->getUserGroupIds($user);
+			if ($allGroups === []) {
+				return [];
+			}
 
 			/** @var Share[] $shares2 */
 			$shares2 = [];
@@ -987,7 +990,11 @@ class DefaultShareProvider implements
 				}
 
 				if ($limit !== -1) {
-					$qb->setMaxResults($limit - count($shares));
+					$remaining = $limit + $offset - count($shares2);
+					if ($remaining <= 0) {
+						break;
+					}
+					$qb->setMaxResults($remaining);
 				}
 
 				// Filter by node if provided
@@ -1046,6 +1053,10 @@ class DefaultShareProvider implements
 					if ($this->isAccessibleResult($data)) {
 						$share = $this->createShare($data);
 						$shares2[$share->getId()] = $share;
+						if ($limit !== -1 && count($shares2) >= $limit + $offset) {
+							$cursor->closeCursor();
+							break 2;
+						}
 					}
 				}
 				$cursor->closeCursor();
