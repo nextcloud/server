@@ -65,9 +65,7 @@ OC.L10N.register(
     "Delete" : "Sil",
     "Reset" : "Sıfırla",
     "Loading …" : "Yükleniyor…",
-    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["Bir dosyada {tag1} eklenecek ve {tag2} kaldırılacak.","{count} dosyada {tag1} eklenecek ve {tag2} kaldırılacak."],
     "_{tag} will be set to 1 file._::_{tag} will be set to {count} files._" : ["Bir dosyaya {tag} eklenecek.","{count} dosyaya {tag} eklenecek."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["Bir dosyadan {tag} kaldırılacak.","{count} dosyadan {tag} kaldırılacak."],
     "_{tags} and {lastTag} will be set to 1 file._::_{tags} and {lastTag} will be set to {count} files._" : ["Bir dosyaya {tags} ve {lastTag} eklenecek.","{count} dosyaya {tags} ve {lastTag} eklenecek."],
     "_{tags} and {lastTag} will be removed from 1 file._::_{tags} and {lastTag} will be removed from {count} files._" : ["Bir dosyadan {tags} ve {lastTag} kaldırılacak.","{count} dosyadan {tags} ve {lastTag} kaldırılacak."],
     "{displayName} (hidden)" : "{displayName} (gizli)",
@@ -112,6 +110,8 @@ OC.L10N.register(
     "Failed to delete tag for file" : "Dosyanın etiketi silinemedi",
     "Collaborative tags …" : "İş birlikli etiketler…",
     "Loading …" : "Yükleniyor…",
+    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["Bir dosyada {tag1} eklenecek ve {tag2} kaldırılacak.","{count} dosyada {tag1} eklenecek ve {tag2} kaldırılacak."],
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["Bir dosyadan {tag} kaldırılacak.","{count} dosyadan {tag} kaldırılacak."],
     "Loading collaborative tags …" : "İş birlikli etiketler yükleniyor…"
 },
 "nplurals=2; plural=(n > 1);");

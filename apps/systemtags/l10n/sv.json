@@ -63,9 +63,7 @@
     "Delete" : "Ta bort",
     "Reset" : "Återställ",
     "Loading …" : "Laddar …",
-    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} kommer att sättas och {tag2} kommer att tas bort från 1 fil.","{tag1} kommer att sättas och {tag2} kommer att tas bort från {count} filer."],
     "_{tag} will be set to 1 file._::_{tag} will be set to {count} files._" : ["{tag} kommer att sättas på 1 fil.","{tag} kommer att sättas på {count} filer."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} kommer att tas bort från 1 fil.","{tag} kommer att tas bort från {count} filer."],
     "_{tags} and {lastTag} will be set to 1 file._::_{tags} and {lastTag} will be set to {count} files._" : ["{tags} och {lastTag} kommer att sättas på 1 fil.","{tags} och {lastTag} kommer att sättas på {count} filer."],
     "_{tags} and {lastTag} will be removed from 1 file._::_{tags} and {lastTag} will be removed from {count} files._" : ["{tags} och {lastTag} kommer att tas bort från 1 fil.","{tags} och {lastTag} kommer att tas bort från {count} filer."],
     "{displayName} (hidden)" : "{displayName} (dold)",
@@ -110,6 +108,8 @@
     "Failed to delete tag for file" : "Kunde inte ta bort tagg för filen",
     "Collaborative tags …" : "Samarbetstaggar ...",
     "Loading …" : "Laddar ...",
+    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} kommer att sättas och {tag2} kommer att tas bort från 1 fil.","{tag1} kommer att sättas och {tag2} kommer att tas bort från {count} filer."],
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} kommer att tas bort från 1 fil.","{tag} kommer att tas bort från {count} filer."],
     "Loading collaborative tags …" : "Läser in samarbetstaggar …"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

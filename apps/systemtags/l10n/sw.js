@@ -64,9 +64,7 @@ OC.L10N.register(
     "Delete" : "Futa",
     "Reset" : "Pangilia upya",
     "Loading …" : "Inapakia  …",
-    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} will be set and {tag2} will be removed from 1 file.","{tag1} itawekwa na {tag2} itaondolewa kwenye faili za {count}."],
     "_{tag} will be set to 1 file._::_{tag} will be set to {count} files._" : ["{tag} will be set to 1 file.","{tag} itawekwa kuwa faili {count}."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} will be removed from 1 file.","{tag} itaondolewa kwenye faili {count}."],
     "_{tags} and {lastTag} will be set to 1 file._::_{tags} and {lastTag} will be set to {count} files._" : ["{tags} and {lastTag} will be set to 1 file.","{tags} na {lastTag} zitawekwa kuwa faili {count}."],
     "_{tags} and {lastTag} will be removed from 1 file._::_{tags} and {lastTag} will be removed from {count} files._" : ["{tags} and {lastTag} will be removed from 1 file.","{tags} na {lastTag} zitaondolewa kwenye faili {count}."],
     "{displayName} (hidden)" : "{displayName} (imefichwa)",
@@ -109,6 +107,8 @@ OC.L10N.register(
     "Failed to delete tag for file" : "Imeshindwa kufuta lebo ya faili",
     "Collaborative tags …" : "Lebo za ushirikiano …",
     "Loading …" : "Inapakia",
+    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} will be set and {tag2} will be removed from 1 file.","{tag1} itawekwa na {tag2} itaondolewa kwenye faili za {count}."],
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} will be removed from 1 file.","{tag} itaondolewa kwenye faili {count}."],
     "Loading collaborative tags …" : "Inapakia lebo za kushirikiana..."
 },
 "nplurals=2; plural=(n != 1);");

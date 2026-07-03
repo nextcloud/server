@@ -213,6 +213,7 @@ OC.L10N.register(
     "Upgrade needed" : "É necessária atualização",
     "Delegate:" : "Delegar:",
     "%1$s created \"%2$s\" on your behalf" : "%1$s criou \"%2$s\" em seu nome",
+    "%1$s created \"%2$s\" on your calendar \"%3$s\"" : "%1$s criou \"%2$s\" no seu calendário \"%3$s\"",
     "%1$s updated \"%2$s\" on your behalf" : "%1$s atualizou \"%2$s\" em seu nome",
     "%1$s deleted \"%2$s\" on your behalf" : "%1$s excluiu \"%2$s\" em seu nome",
     "%1$s moved \"%2$s\" to the trash on your behalf" : "%1$s moveu \"%2$s\" para a lixeira em seu nome",

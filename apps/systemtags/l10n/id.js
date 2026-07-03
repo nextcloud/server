@@ -65,9 +65,7 @@ OC.L10N.register(
     "Delete" : "Hapus",
     "Reset" : "Atur ulang",
     "Loading …" : "Memuat …",
-    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} akan ditetapkan dan {tag2} akan dihapus dari {count} berkas."],
     "_{tag} will be set to 1 file._::_{tag} will be set to {count} files._" : ["{tag} akan ditetapkan ke {count} berkas."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} akan dihapus dari {count} berkas."],
     "_{tags} and {lastTag} will be set to 1 file._::_{tags} and {lastTag} will be set to {count} files._" : ["{tags} dan {lastTag} akan ditetapkan ke {count} berkas."],
     "_{tags} and {lastTag} will be removed from 1 file._::_{tags} and {lastTag} will be removed from {count} files._" : ["{tags} dan {lastTag} akan dihapus dari {count} berkas."],
     "{displayName} (hidden)" : "{displayName} (tersembunyi)",
@@ -112,6 +110,8 @@ OC.L10N.register(
     "Failed to delete tag for file" : "Gagal menghapus tag untuk berkas",
     "Collaborative tags …" : "Tag kolaboratif …",
     "Loading …" : "Memuat …",
+    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} akan ditetapkan dan {tag2} akan dihapus dari {count} berkas."],
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} akan dihapus dari {count} berkas."],
     "Loading collaborative tags …" : "Memuat tag kolaboratif …"
 },
 "nplurals=1; plural=0;");
