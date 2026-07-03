@@ -10,11 +10,14 @@ declare(strict_types=1);
 
 namespace OCP;
 
+use OCP\AppFramework\Attribute\Implementable;
+
 /**
  * TODO actually this is a IGroupBackend
  *
  * @since 4.5.0
  */
+#[Implementable(since: '4.5.0')]
 interface GroupInterface {
 	/**
 	 * actions that user backends can define

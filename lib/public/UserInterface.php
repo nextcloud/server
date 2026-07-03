@@ -10,11 +10,12 @@
 
 namespace OCP;
 
+use OCP\AppFramework\Attribute\Implementable;
+
 /**
  * TODO actually this is a IUserBackend
- *
- * @since 4.5.0
  */
+#[Implementable(since: '4.5.0')]
 interface UserInterface {
 	/**
 	 * Check if backend implements actions
@@ -26,7 +27,7 @@ interface UserInterface {
 	 * @since 4.5.0
 	 * @deprecated 14.0.0 Switch to the interfaces from OCP\User\Backend
 	 */
-	public function implementsActions($actions);
+	public function implementsActions(int $actions);
 
 	/**
 	 * delete a user
@@ -34,7 +35,7 @@ interface UserInterface {
 	 * @return bool
 	 * @since 4.5.0
 	 */
-	public function deleteUser($uid);
+	public function deleteUser(string $uid);
 
 	/**
 	 * Get a list of all users
@@ -45,23 +46,25 @@ interface UserInterface {
 	 * @return string[] an array of all uids
 	 * @since 4.5.0
 	 */
-	public function getUsers($search = '', $limit = null, $offset = null);
+	public function getUsers(string $search = '', ?int $limit = null, ?int $offset = null);
 
 	/**
-	 * check if a user exists
+	 * Check if a user exists.
+	 *
 	 * @param string $uid the username
-	 * @return boolean
+	 * @return bool
 	 * @since 4.5.0
 	 */
-	public function userExists($uid);
+	public function userExists(string $uid);
 
 	/**
-	 * get display name of the user
+	 * Get display name of the user.
+	 *
 	 * @param string $uid user ID of the user
 	 * @return string display name
 	 * @since 4.5.0
 	 */
-	public function getDisplayName($uid);
+	public function getDisplayName(string $uid);
 
 	/**
 	 * Get a list of all display names and user ids.
@@ -72,7 +75,7 @@ interface UserInterface {
 	 * @return array an array of all displayNames (value) and the corresponding uids (key)
 	 * @since 4.5.0
 	 */
-	public function getDisplayNames($search = '', $limit = null, $offset = null);
+	public function getDisplayNames(string $search = '', ?int $limit = null, ?int $offset = null);
 
 	/**
 	 * Check if a user list is available or not

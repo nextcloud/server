@@ -27,13 +27,9 @@ class AlternativeHomeUserBackend extends Database {
 	public function __construct() {
 		parent::__construct();
 	}
-	/**
-	 * get the user's home directory
-	 * @param string $uid the username
-	 * @return string|false
-	 */
+
 	#[\Override]
-	public function getHome($uid) {
+	public function getHome(string $uid): string|false {
 		if ($this->userExists($uid)) {
 			// workaround to avoid killing the admin
 			if ($uid !== 'admin') {

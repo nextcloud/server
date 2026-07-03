@@ -456,25 +456,13 @@ class Database extends ABackend implements
 		return $userIds;
 	}
 
-	/**
-	 * check if a user exists
-	 *
-	 * @param string $uid the username
-	 * @return boolean
-	 */
 	#[\Override]
-	public function userExists($uid) {
+	public function userExists(string $uid): bool {
 		return $this->loadUser($uid);
 	}
 
-	/**
-	 * get the user's home directory
-	 *
-	 * @param string $uid the username
-	 * @return string|false
-	 */
 	#[\Override]
-	public function getHome(string $uid) {
+	public function getHome(string $uid): string|false {
 		if ($this->userExists($uid)) {
 			return $this->config->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/' . $uid;
 		}

@@ -103,14 +103,8 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 		}
 	}
 
-	/**
-	 * returns the username for the given LDAP DN, if available
-	 *
-	 * @param string $dn
-	 * @return string|false with the username
-	 */
 	#[\Override]
-	public function dn2UserName($dn) {
+	public function dn2UserName(string $dn): string|false {
 		return $this->access->dn2username($dn);
 	}
 
@@ -542,16 +536,8 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 		return $displayNames;
 	}
 
-	/**
-	 * Check if backend implements actions
-	 * @param int $actions bitwise-or'ed actions
-	 * @return boolean
-	 *
-	 * Returns the supported actions as int to be
-	 * compared with \OC\User\Backend::CREATE_USER etc.
-	 */
 	#[\Override]
-	public function implementsActions($actions) {
+	public function implementsActions(int $actions): bool {
 		return (bool)((Backend::CHECK_PASSWORD
 			| Backend::GET_HOME
 			| Backend::GET_DISPLAYNAME

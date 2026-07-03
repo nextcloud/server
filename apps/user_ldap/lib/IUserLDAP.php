@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\User_LDAP;
 
+use OCP\AppFramework\Attribute\Consumable;
 use OCP\LDAP\Exceptions\MultipleUsersReturnedException;
 
 interface IUserLDAP {
@@ -27,14 +28,14 @@ interface IUserLDAP {
 	 * @param string $name
 	 * @return \LDAP\Connection of the LDAP connection
 	 */
-	public function getNewLDAPConnection(string $name);
+	public function getNewLDAPConnection(string $name): \LDAP\Connection;
 
 	/**
 	 * Return the username for the given LDAP DN, if available.
 	 * @param string $dn
 	 * @return string|false with the username
 	 */
-	public function dn2UserName(string $dn);
+	public function dn2UserName(string $dn): string|false;
 
 	/**
 	 * Fetches one user from LDAP based on a filter or a custom attribute and search term.
