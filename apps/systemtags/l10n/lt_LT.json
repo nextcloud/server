@@ -63,9 +63,7 @@
     "Delete" : "Ištrinti",
     "Reset" : "Atstatyti",
     "Loading …" : "Įkeliama …",
-    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} bus priskirta, o {tag2} bus pašalinta iš 1 failo.","{tag1} bus priskirta, o {tag2} bus pašalinta iš {count} failų.","{tag1} bus priskirta, o {tag2} bus pašalinta iš {count} failų.","{tag1} bus priskirta, o {tag2} bus pašalinta iš {count} failų."],
     "_{tag} will be set to 1 file._::_{tag} will be set to {count} files._" : ["{tag} bus priskirta 1 failui.","{tag} bus priskirta {count} failams.","{tag} bus priskirta {count} failams.","{tag}  bus priskirta {count} failams."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} bus pašalinta iš 1 failo.","{tag} bus pašalinta iš {count} failų.","{tag} bus pašalinta iš {count} failų.","{tag} bus pašalinta iš {count} failų."],
     "_{tags} and {lastTag} will be set to 1 file._::_{tags} and {lastTag} will be set to {count} files._" : ["{tags} ir {lastTag} bus priskirta 1 failui.","{tags} ir {lastTag} bus priskirta {count} failams.","{tags} ir {lastTag} bus priskirta {count} failų.","{tags} ir {lastTag} bus priskirta {count} failų."],
     "_{tags} and {lastTag} will be removed from 1 file._::_{tags} and {lastTag} will be removed from {count} files._" : ["{tags} ir {lastTag} bus pašalintos iš 1 failo.","{tags} ir {lastTag} bus pašalintos iš {count} failų","{tags} ir {lastTag} bus pašalintos iš {count} failų","{tags} ir {lastTag} bus pašalintos iš {count} failų"],
     "{displayName} (hidden)" : "{displayName} (paslėptas)",
@@ -110,6 +108,8 @@
     "Failed to delete tag for file" : "Nepavyko ištrinti failo žymės",
     "Collaborative tags …" : "Bendradarbiavimo žymos…",
     "Loading …" : "Įkeliama…",
+    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} bus priskirta, o {tag2} bus pašalinta iš 1 failo.","{tag1} bus priskirta, o {tag2} bus pašalinta iš {count} failų.","{tag1} bus priskirta, o {tag2} bus pašalinta iš {count} failų.","{tag1} bus priskirta, o {tag2} bus pašalinta iš {count} failų."],
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} bus pašalinta iš 1 failo.","{tag} bus pašalinta iš {count} failų.","{tag} bus pašalinta iš {count} failų.","{tag} bus pašalinta iš {count} failų."],
     "Loading collaborative tags …" : "Įkeliamos bendradarbiavimo žymos…"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

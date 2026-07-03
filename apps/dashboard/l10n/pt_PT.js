@@ -19,6 +19,7 @@ OC.L10N.register(
     "Edit widgets" : "Editar aplicação",
     "Get more widgets from the App Store" : "Obtenha mais widgets na Loja de Aplicativos",
     "Weather service" : "Metereologia",
+    "For your privacy, the weather data is requested by your {productName} server on your behalf so the weather service receives no personal information." : "Para sua privacidade, os dados meteorológicos são solicitados pelo seu servidor {productName} em seu nome, para que o serviço meteorológico não receba nenhuma informação pessoal.",
     "Weather data from Met.no" : "Dados Metereológicos de Met.no",
     "geocoding with Nominatim" : "geocodificação com Nominatim",
     "elevation data from OpenTopoData" : "dados de elevação de OpenTopoData"

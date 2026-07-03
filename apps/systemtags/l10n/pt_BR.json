@@ -63,9 +63,7 @@
     "Delete" : "Excluir",
     "Reset" : "Redefinir",
     "Loading …" : "Carregando …",
-    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} será definido e {tag2} será removido de 1 arquivo","{tag1} será definido e {tag2} será removido de {count} arquivos","{tag1} será definido e {tag2} será removido de {count} arquivos"],
     "_{tag} will be set to 1 file._::_{tag} will be set to {count} files._" : ["{tag} será definido em 1 arquivo","{tag} será definido em {count} arquivos","{tag} será definido em {count} arquivos"],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} será removido de 1 arquivo.","{tag} será removido de {count} arquivos.","{tag} será removido de {count} arquivos."],
     "_{tags} and {lastTag} will be set to 1 file._::_{tags} and {lastTag} will be set to {count} files._" : ["{tags} e {lastTag} serão definidos em 1 arquivo.","{tags} e {lastTag} serão definidos em {count} arquivos.","{tags} e {lastTag} serão definidos em {count} arquivos."],
     "_{tags} and {lastTag} will be removed from 1 file._::_{tags} and {lastTag} will be removed from {count} files._" : ["{tags} e {lastTag} serão removidos de 1 arquivo.","{tags} e {lastTag} serão removidos de {count} arquivos.","{tags} e {lastTag} serão removidos de {count} arquivos."],
     "{displayName} (hidden)" : "{displayName} (escondido)",
@@ -110,6 +108,8 @@
     "Failed to delete tag for file" : "Falha ao excluir etiqueta do arquivo",
     "Collaborative tags …" : "Etiquetas colaborativas …",
     "Loading …" : "Carregando …",
+    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} será definido e {tag2} será removido de 1 arquivo","{tag1} será definido e {tag2} será removido de {count} arquivos","{tag1} será definido e {tag2} será removido de {count} arquivos"],
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} será removido de 1 arquivo.","{tag} será removido de {count} arquivos.","{tag} será removido de {count} arquivos."],
     "Loading collaborative tags …" : "Carregando etiquetas colaborativas …"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

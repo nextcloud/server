@@ -6,10 +6,12 @@
     "Use backup code" : "Usar código de cópia de segurança",
     "A two-factor auth backup codes provider" : "Um provedor de códigos de backup de autenticação de dois fatores",
     "An error occurred while generating your backup codes" : "Ocorreu um erro enquanto os códigos de segurança eram gerados",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "Estes são seus códigos de backup. Salve-os e/ou imprima-os, pois você não conseguirá ler os códigos novamente mais tarde.",
     "Regenerate backup codes" : "Voltar a gerar os códigos de segurança",
     "Print backup codes" : "Imprimir códigos de segurança",
     "Save backup codes" : "Guardar códigos de segurança",
     "If you regenerate backup codes, you automatically invalidate old codes." : "Se voltar a gerar os códigos de segurança os seus códigos antigos serão automaticamente invalidados.",
+    "Unable to open a new tab for printing" : "Não é possível abrir uma nova aba para impressão",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Use um dos códigos de backup que você salvou ao configurar a autenticação de dois fatores.",
     "Submit" : "Submeter"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"

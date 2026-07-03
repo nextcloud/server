@@ -65,9 +65,7 @@ OC.L10N.register(
     "Delete" : "削除",
     "Reset" : "リセット",
     "Loading …" : "読み込み中…",
-    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1}が設定され、{count}ファイルから{tag2}が削除されます。"],
     "_{tag} will be set to 1 file._::_{tag} will be set to {count} files._" : ["{tag}が{count}ファイルに設定されます。"],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag}は{count}ファイルから削除されます。"],
     "_{tags} and {lastTag} will be set to 1 file._::_{tags} and {lastTag} will be set to {count} files._" : ["{tags}と{lastTag}は{count}ファイルに設定されます。"],
     "_{tags} and {lastTag} will be removed from 1 file._::_{tags} and {lastTag} will be removed from {count} files._" : ["{tags}と{lastTag}は{count}ファイルから削除されます。"],
     "{displayName} (hidden)" : "{displayName} (非公開)",
@@ -112,6 +110,8 @@ OC.L10N.register(
     "Failed to delete tag for file" : "ファイルのタグを削除できませんでした",
     "Collaborative tags …" : "コラボレーションタグ ...",
     "Loading …" : "読み込み中…",
+    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1}が設定され、{count}ファイルから{tag2}が削除されます。"],
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag}は{count}ファイルから削除されます。"],
     "Loading collaborative tags …" : "コラボレーションタグを読み込み中 ..."
 },
 "nplurals=1; plural=0;");

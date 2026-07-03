@@ -14,6 +14,7 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "Palavra-chave de acesso a {file} enviada para {email}",
     "Password to access {file} was sent to you" : "Palavra-chave de acesso a {file} enviada para si",
     "Share by mail" : "Partilhado por e-mail",
+    "Sharing %1$s failed, because this item is already shared with the account %2$s" : "Falha ao compartilhar %1$s porque este item já está compartilhado com a conta %2$s",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Não conseguimos lhe enviar a senha gerada automaticamente. Defina um endereço de e-mail válido em sua configuração e tente novamente.",
     "Failed to send share by email" : "Falhou o envio da partilha por email.",
     "%1$s shared %2$s with you" : "%1$s partilhou %2$s consigo",
@@ -23,6 +24,7 @@ OC.L10N.register(
     "%1$s via %2$s" : "%1$s via %2$s",
     "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "%1$s partilhou »%2$s« consigo. Já deveria ter recebido um e-mail separado com um link para aceder ao conteúdo.",
     "Password to access %1$s shared to you by %2$s" : "Senha para acessar %1$s compartilhado com você por %2$s",
+    "Password to access %s" : "Senha para acessar %s",
     "It is protected with the following password:" : "Está protegido com a seguinte palavra-chave:",
     "This password will expire at %s" : "Essa senha expirará em %s",
     "%1$s shared %2$s with you and wants to add:" : "%1$s partilhado »%2$s« consigo e quer adicionar:",
@@ -35,6 +37,7 @@ OC.L10N.register(
     "Could not find share" : "Não foi possível encontrar a partilha",
     "Unable to update share by mail config" : "Não foi possível atualizar a configuração do aplicativo compartilhamento por e-mail",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "Permite que as pessoas compartilhem um link personalizado para um arquivo ou pasta inserindo um endereço de e-mail.",
-    "Send password by mail" : "Enviar palavra-chave por e-mail"
+    "Send password by mail" : "Enviar palavra-chave por e-mail",
+    "Reply to initiator" : "Responder ao iniciador"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
