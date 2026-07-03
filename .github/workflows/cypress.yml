@@ -38,6 +38,7 @@ permissions:
 jobs:
   gate:
     runs-on: ubuntu-latest-low
+    name: Fail Crypress tests if labels are missing (force-e2e-tests, 3. to review, or 4. to release)
     steps:
       - name: Evaluate e2e tests execution conditions
         id: gate-e2e
@@ -61,7 +62,7 @@ jobs:
             if (hasForceLabel || hasToReviewLabel || hasToReleaseLabel || cypressTouched) {
               return
             } else {
-              core.setFailed('Skipping Cypress: draft state, missing labels or no cypress path changes.')
+              core.setFailed('Skipping Cypress: missing required labels (force-e2e-tests, 3. to review, or 4. to release), or no cypress path changes.')
             }
 
   init:
