@@ -151,9 +151,8 @@ jobs:
 
   merge-reports:
     # Merge reports after playwright-tests, even if some shards have failed
-    if: ${{ !cancelled() }}
-    needs: [gate, playwright-tests]
-
+    if: ${{ !cancelled() && steps.gate.conclusion != 'failure' }}
+    needs: [playwright-tests]
     runs-on: ubuntu-latest-low
     steps:
       - name: Restore context
@@ -209,11 +208,7 @@ jobs:
       contents: none
     runs-on: ubuntu-latest-low
     needs: [gate, playwright-tests]
-
-    if: always()
-
     name: playwright-test-summary
-
     steps:
       - name: Summary status
         run: if ${{ needs.playwright-tests.result != 'success' }}; then exit 1; fi

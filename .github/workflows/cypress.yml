@@ -291,11 +291,7 @@ jobs:
   summary:
     runs-on: ubuntu-latest-low
     needs: [init, cypress]
-
-    if: always()
-
     name: cypress-summary
-
     steps:
       - name: Summary status
         run: if ${{ needs.init.result != 'success' || ( needs.cypress.result != 'success' && needs.cypress.result != 'skipped' ) }}; then exit 1; fi
