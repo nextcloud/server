@@ -2081,46 +2081,64 @@ EOD;
 
 	}
 
-	public function testDefaultAlarmProperties(): void {
+	public function testDefaultAlarmsProperties(): void {
 		$calendarId = $this->createTestCalendar();
 
-		// Test setting both default alarm properties
+		$partDayProperty = '{http://nextcloud.com/ns}default-alarms-part-day';
+		$fullDayProperty = '{http://nextcloud.com/ns}default-alarms-full-day';
+
+		$partDayJson = json_encode([
+			['trigger' => -86400, 'action' => 'EMAIL'],
+			['trigger' => -900, 'action' => 'DISPLAY'],
+		], JSON_THROW_ON_ERROR);
+		$fullDayJson = json_encode([
+			['trigger' => -3600, 'action' => 'EMAIL'],
+		], JSON_THROW_ON_ERROR);
+
+		// Set plural default-alarms properties
 		$patch = new PropPatch([
-			'{http://nextcloud.com/ns}default-alarm-part-day' => -900,
-			'{http://nextcloud.com/ns}default-alarm-full-day' => -3600,
+			$partDayProperty => $partDayJson,
+			$fullDayProperty => $fullDayJson,
 		]);
 		$this->backend->updateCalendar($calendarId, $patch);
 		$patch->commit();
 
-		// Verify the properties were set
 		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
 		$this->assertCount(1, $calendars);
-		$this->assertEquals(-900, $calendars[0]['{http://nextcloud.com/ns}default-alarm-part-day']);
-		$this->assertEquals(-3600, $calendars[0]['{http://nextcloud.com/ns}default-alarm-full-day']);
+		$this->assertEquals($partDayJson, $calendars[0][$partDayProperty]);
+		$this->assertEquals($fullDayJson, $calendars[0][$fullDayProperty]);
+		$this->assertArrayNotHasKey('{http://nextcloud.com/ns}default-alarm-part-day', $calendars[0]);
+		$this->assertArrayNotHasKey('{http://nextcloud.com/ns}default-alarm-full-day', $calendars[0]);
 
-		// Test updating to different values
+		// Update to different values
+		$updatedPartDayJson = json_encode([
+			['trigger' => -1800, 'action' => 'DISPLAY'],
+		], JSON_THROW_ON_ERROR);
+		$updatedFullDayJson = json_encode([
+			['trigger' => -43200, 'action' => 'DISPLAY'],
+		], JSON_THROW_ON_ERROR);
 		$patch = new PropPatch([
-			'{http://nextcloud.com/ns}default-alarm-part-day' => -86400,
-			'{http://nextcloud.com/ns}default-alarm-full-day' => -43200,
+			$partDayProperty => $updatedPartDayJson,
+			$fullDayProperty => $updatedFullDayJson,
 		]);
 		$this->backend->updateCalendar($calendarId, $patch);
 		$patch->commit();
 
 		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
-		$this->assertEquals(-86400, $calendars[0]['{http://nextcloud.com/ns}default-alarm-part-day']);
-		$this->assertEquals(-43200, $calendars[0]['{http://nextcloud.com/ns}default-alarm-full-day']);
+		$this->assertEquals($updatedPartDayJson, $calendars[0][$partDayProperty]);
+		$this->assertEquals($updatedFullDayJson, $calendars[0][$fullDayProperty]);
 
-		// Test setting to null
+		// Clear properties
 		$patch = new PropPatch([
-			'{http://nextcloud.com/ns}default-alarm-part-day' => null,
-			'{http://nextcloud.com/ns}default-alarm-full-day' => null,
+			$partDayProperty => null,
+			$fullDayProperty => null,
 		]);
 		$this->backend->updateCalendar($calendarId, $patch);
 		$patch->commit();
 
 		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
-		$this->assertNull($calendars[0]['{http://nextcloud.com/ns}default-alarm-part-day']);
-		$this->assertNull($calendars[0]['{http://nextcloud.com/ns}default-alarm-full-day']);
+		$this->assertNull($calendars[0][$partDayProperty]);
+		$this->assertNull($calendars[0][$fullDayProperty]);
 
 		// Clean up
 		$this->backend->deleteCalendar($calendars[0]['id'], true);

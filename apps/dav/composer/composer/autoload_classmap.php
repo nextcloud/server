@@ -401,6 +401,8 @@ return array(
     'OCA\\DAV\\Migration\\Version1038Date20260302000000' => $baseDir . '/../lib/Migration/Version1038Date20260302000000.php',
     'OCA\\DAV\\Migration\\Version1039Date20260408000000' => $baseDir . '/../lib/Migration/Version1039Date20260408000000.php',
     'OCA\\DAV\\Migration\\Version1040Date20260805000000' => $baseDir . '/../lib/Migration/Version1040Date20260805000000.php',
+    'OCA\\DAV\\Migration\\Version2000Date20260703100001' => $baseDir . '/../lib/Migration/Version2000Date20260703100001.php',
+    'OCA\\DAV\\Migration\\Version2000Date20260703100002' => $baseDir . '/../lib/Migration/Version2000Date20260703100002.php',
     'OCA\\DAV\\Model\\ExampleEvent' => $baseDir . '/../lib/Model/ExampleEvent.php',
     'OCA\\DAV\\Paginate\\LimitedCopyIterator' => $baseDir . '/../lib/Paginate/LimitedCopyIterator.php',
     'OCA\\DAV\\Paginate\\PaginateCache' => $baseDir . '/../lib/Paginate/PaginateCache.php',
