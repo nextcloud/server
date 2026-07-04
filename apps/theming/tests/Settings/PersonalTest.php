@@ -24,6 +24,7 @@ use OCA\Theming\Util;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\Config\IUserConfig;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\INavigationManager;
@@ -39,6 +40,7 @@ class PersonalTest extends TestCase {
 	private IInitialState&MockObject $initialStateService;
 	private ThemingDefaults&MockObject $themingDefaults;
 	private INavigationManager&MockObject $navigationManager;
+	private IUserConfig&MockObject $userConfig;
 	private Personal $admin;
 
 	/** @var ITheme[] */
@@ -51,6 +53,7 @@ class PersonalTest extends TestCase {
 		$this->initialStateService = $this->createMock(IInitialState::class);
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
 		$this->navigationManager = $this->createMock(INavigationManager::class);
+		$this->userConfig = $this->createMock(IUserConfig::class);
 
 		$this->initThemes();
 
@@ -66,6 +69,7 @@ class PersonalTest extends TestCase {
 			$this->initialStateService,
 			$this->themingDefaults,
 			$this->navigationManager,
+			$this->userConfig,
 		);
 	}
 
@@ -105,6 +109,11 @@ class PersonalTest extends TestCase {
 				['admin', 'theming', 'background_image', BackgroundService::BACKGROUND_DEFAULT],
 			]);
 
+		$this->userConfig->expects($this->once())
+			->method('getValueArray')
+			->with('admin', 'core', 'apps_pinned')
+			->willReturn(['files']);
+
 		$this->navigationManager->expects($this->once())
 			->method('getDefaultEntryIdForUser')
 			->willReturn('forced_id');
@@ -119,7 +128,7 @@ class PersonalTest extends TestCase {
 				['themes', $themesState],
 				['enforceTheme', $enforcedTheme],
 				['isUserThemingDisabled', false],
-				['navigationBar', ['userAppOrder' => [], 'enforcedDefaultApp' => 'forced_id']],
+				['navigationBar', ['userAppOrder' => [], 'userPinnedApps' => ['files'], 'enforcedDefaultApp' => 'forced_id']],
 			]);
 
 		$expected = new TemplateResponse('theming', 'settings-personal');
