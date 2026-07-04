@@ -2,6 +2,7 @@ OC.L10N.register(
     "files_reminders",
     {
     "File reminders" : "Lembretes de arquivos",
+    "Reminder for {name}" : "Lembrete para {name}",
     "View file" : "Ver arquivo",
     "View folder" : "Ver pasta",
     "Files reminder" : "Lembrete de arquivos",
@@ -14,6 +15,7 @@ OC.L10N.register(
     "Failed to set reminder" : "Falha ao definir lembrete",
     "Reminder cleared for \"{fileName}\"" : "Lembrete removido para \"{fileName}\"",
     "Failed to clear reminder" : "Falha ao remover lembrete",
+    "Reminder at custom date & time" : "Lembrete em data e hora personalizadas",
     "We will remind you of this file" : "Lembraremos você desse arquivo",
     "Cancel" : "Cancelar",
     "Clear reminder" : "Limpar lembrete",
