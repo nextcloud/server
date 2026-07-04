@@ -46,7 +46,7 @@
 			</div>
 		</NcPopover>
 		<NcButton
-			v-if="currentApp"
+			v-if="currentApp && showCurrentAppButton"
 			class="app-menu__current-app"
 			variant="tertiary-no-background"
 			:aria-label="currentAppLabel"
@@ -72,6 +72,16 @@
 				{{ displayName }}
 			</span>
 		</NcButton>
+		<ul
+			v-if="pinnedApps.length > 0"
+			ref="pinnedList"
+			class="app-menu__list"
+			:aria-label="t('core', 'Pinned apps')">
+			<AppMenuEntry
+				v-for="app in visiblePinnedApps"
+				:key="app.id"
+				:app="app" />
+		</ul>
 	</nav>
 </template>
 
@@ -83,12 +93,14 @@ import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { loadState } from '@nextcloud/initial-state'
 import { isRTL, n, t } from '@nextcloud/l10n'
 import { generateUrl, imagePath } from '@nextcloud/router'
+import { useElementSize } from '@vueuse/core'
 import { defineComponent, ref } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcPopover from '@nextcloud/vue/components/NcPopover'
 import IconCog from 'vue-material-design-icons/Cog.vue'
 import IconDotsGrid from 'vue-material-design-icons/DotsGrid.vue'
 import AppItem from './AppItem.vue'
+import AppMenuEntry from './AppMenuEntry.vue'
 import logger from '../logger.js'
 
 // Settings IDs that represent actions, not navigable pages.
@@ -99,6 +111,7 @@ export default defineComponent({
 
 	components: {
 		AppItem,
+		AppMenuEntry,
 		IconCog,
 		IconDotsGrid,
 		NcButton,
@@ -107,10 +120,17 @@ export default defineComponent({
 
 	setup() {
 		const opened = ref(false)
+		// The list of pinned entries; measured to only render as many
+		// entries as fit the space left between the menu triggers and
+		// the centered search.
+		const pinnedList = ref<HTMLElement>()
+		const { width: pinnedListWidth } = useElementSize(pinnedList)
 		return {
 			t,
 			n,
 			opened,
+			pinnedList,
+			pinnedListWidth,
 		}
 	},
 
@@ -119,9 +139,13 @@ export default defineComponent({
 		// Record<id, entry>, not an array: PHP ships getAll('settings') without
 		// array_values(). Matches AccountMenu.vue's usage.
 		const settingsList = loadState<Record<string, INavigationEntry>>('core', 'settingsNavEntries', {})
+		// Entry ids the user pinned to show inline in the top bar
+		// (user preference `core`/`apps_pinned`)
+		const pinnedAppIds = loadState<string[]>('core', 'apps-pinned', [])
 		return {
 			appList,
 			settingsList,
+			pinnedAppIds,
 			isAdmin: getCurrentUser()?.isAdmin ?? false,
 			// Roving tabindex: only this tile has tabindex=0; arrow keys move it.
 			focusedIndex: 0,
@@ -195,6 +219,30 @@ export default defineComponent({
 		gridItems(): INavigationEntry[] {
 			const tail = this.isAdmin ? this.moreAppsEntry : this.appStoreEntry
 			return [...this.appList, tail]
+		},
+
+		// Apps the user pinned to show inline in the top bar, following the
+		// (user-sortable) navigation order of `appList`.
+		pinnedApps(): INavigationEntry[] {
+			return this.appList.filter(({ id }) => this.pinnedAppIds.includes(id))
+		},
+
+		// Number of pinned entries fitting the measured list width.
+		// Entries are square with an edge length of --header-height (44px).
+		pinnedAppLimit(): number {
+			const entryWidth = 44
+			return Math.max(Math.floor(this.pinnedListWidth / entryWidth), 0)
+		},
+
+		visiblePinnedApps(): INavigationEntry[] {
+			return this.pinnedApps.slice(0, this.pinnedAppLimit)
+		},
+
+		// The current-app trigger only repeats what an inline pinned entry
+		// already shows (the active entry carries an indicator), so hide it
+		// while the active app is visible in the pinned list.
+		showCurrentAppButton(): boolean {
+			return !this.visiblePinnedApps.some(({ id }) => id === this.currentApp?.id)
 		},
 	},
 
@@ -396,6 +444,29 @@ export default defineComponent({
 .app-menu {
 	display: flex;
 	align-items: center;
+	// Fill the remaining header-start space so the pinned entries list can
+	// grow into it; min-width lets the menu yield before pushing the
+	// centered search around.
+	flex: 1 1;
+	min-width: 0;
+	// The size the currently focussed pinned entry will grow to show the full name
+	--app-menu-entry-growth: calc(var(--default-grid-baseline) * 4);
+
+	&__list {
+		display: flex;
+		flex-wrap: nowrap;
+		// Claim the free space (measured to cap the rendered entries),
+		// never intrinsic size, so the list cannot overflow the header.
+		flex: 1 1;
+		width: 0;
+		margin-inline: calc(var(--app-menu-entry-growth) / 2);
+
+		// App switching is covered by the waffle popover on small screens,
+		// same breakpoint as for the current-app button.
+		@media only screen and (max-width: 1024px) {
+			display: none !important;
+		}
+	}
 
 	&__waffle {
 		// NcButton's tertiary-no-background variant uses --color-main-text,

@@ -81,6 +81,7 @@ class Personal implements ISettings {
 		$this->initialStateService->provideInitialState('enableBlurFilter', $this->config->getUserValue($this->userId, 'theming', 'force_enable_blur_filter', ''));
 		$this->initialStateService->provideInitialState('navigationBar', [
 			'userAppOrder' => json_decode($this->config->getUserValue($this->userId, 'core', 'apporder', '[]'), true, flags:JSON_THROW_ON_ERROR),
+			'userPinnedApps' => json_decode($this->config->getUserValue($this->userId, 'core', 'apps_pinned', '[]'), true, flags:JSON_THROW_ON_ERROR),
 			'enforcedDefaultApp' => $forcedDefaultEntry
 		]);
 

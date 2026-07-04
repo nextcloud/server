@@ -25,6 +25,15 @@ defineProps<{
 	 * Details like status information that need to be forwarded to the interactive elements
 	 */
 	ariaDetails: string
+
+	/**
+	 * Show the toggle for pinning apps to the navigation bar
+	 */
+	showPin?: boolean
+}>()
+
+defineEmits<{
+	'toggle:pinned': [app: IApp]
 }>()
 
 /**
@@ -153,6 +162,8 @@ function updateStatusInfo(index: number) {
 			:aria-describedby="statusInfoId"
 			:isFirst="index === 0 || !!appList[index - 1]!.default"
 			:isLast="index === appList.length - 1"
+			:showPin="showPin"
+			@toggle:pinned="$emit('toggle:pinned', app)"
 			v-on="app.default
 				? {}
 				: {
