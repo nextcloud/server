@@ -48,7 +48,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.1
 	- license: GPL-3.0-or-later
 - semver
-	- version: 7.7.2
+	- version: 7.8.5
 	- license: ISC
 - @nextcloud/event-bus
 	- version: 3.3.3
@@ -135,7 +135,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.0.4
 	- license: MIT
 - p-queue
-	- version: 9.3.0
+	- version: 9.3.1
 	- license: MIT
 - inherits
 	- version: 2.0.3
@@ -159,7 +159,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 4.0.0
 	- license: MIT
 - tabbable
-	- version: 6.4.0
+	- version: 6.5.0
 	- license: MIT
 - toastify-js
 	- version: 1.12.0

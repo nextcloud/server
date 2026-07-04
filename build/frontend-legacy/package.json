@@ -138,5 +138,8 @@
   "engines": {
     "node": "^24.0.0",
     "npm": "^11.3.0"
+  },
+  "allowScripts": {
+    "@nextcloud/webpack-vue-config@7.0.2": true
   }
 }

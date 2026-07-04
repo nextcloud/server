@@ -46,7 +46,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.1
 	- license: GPL-3.0-or-later
 - semver
-	- version: 7.7.2
+	- version: 7.8.5
 	- license: ISC
 - @nextcloud/event-bus
 	- version: 3.3.3
