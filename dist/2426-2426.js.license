@@ -108,7 +108,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 8.39.0
 	- license: AGPL-3.0-or-later
 - axios
-	- version: 1.15.0
+	- version: 1.16.1
 	- license: MIT
 - base64-js
 	- version: 1.5.1
