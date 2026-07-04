@@ -219,7 +219,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.0-beta.19
 	- license: MIT
 - focus-trap
-	- version: 8.2.1
+	- version: 8.2.2
 	- license: MIT
 - hookable
 	- version: 5.5.3
@@ -249,7 +249,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 4.0.0
 	- license: MIT
 - tabbable
-	- version: 6.4.0
+	- version: 6.5.0
 	- license: MIT
 - toastify-js
 	- version: 1.12.0
