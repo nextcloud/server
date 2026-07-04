@@ -26,6 +26,7 @@ OC.L10N.register(
     "Online status" : "Estado online",
     "Status message" : "Mensagem de estado",
     "Set absence period" : "Definir período de ausência",
+    "Set absence period and replacement" : "Definir período de ausência e substituição",
     "Your status was set automatically" : "Seu status foi definido automaticamente",
     "Clear status message" : "Limpar mensagem de estado",
     "Set status message" : "Definir mensagem de estado",

@@ -88,6 +88,7 @@
     "Wrong or no update parameter given" : "Вказано неправильний або відсутній параметр оновлення",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "Не вдалося надіслати пароль для спільного доступу до файлу чи каталогу з використанням Nextcloud Talk, оскільки цей застосунок вимкнено.",
     "Custom share link tokens have been disabled by the administrator" : "Власні токени спільних ресурсів вимкнено адміністратором",
+    "Tokens must be between 1 and %s characters long and may only contain letters, numbers, or a hyphen" : "Токени мають мати довжину від 1 до %s символів та містити лише літери, цифри або дефіс.",
     "Invalid date. Format must be YYYY-MM-DD" : "Недійсна дата. Дата має бути у форматі рік-місяць-число",
     "No sharing rights on this item" : "Відсутні права на спільний доступ для цього ресурсу",
     "Invalid share attributes provided: \"%s\"" : "Отримано недійсні атрибути спільного доступу для \"%s\"",
