@@ -57,8 +57,8 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/vue
 	- version: 9.8.2
 	- license: AGPL-3.0-or-later
-- @vue/devtools-shared
-	- version: 8.1.2
+- @vue/devtools-api
+	- version: 8.1.5
 	- license: MIT
 - @vueuse/core
 	- version: 14.3.0
@@ -66,26 +66,17 @@ This file is generated from multiple sources. Included packages:
 - @vueuse/shared
 	- version: 14.3.0
 	- license: MIT
-- perfect-debounce
-	- version: 2.1.0
-	- license: MIT
-- @vue/devtools-api
-	- version: 8.1.2
-	- license: MIT
-- @vue/devtools-kit
-	- version: 8.1.2
-	- license: MIT
 - vue-router
 	- version: 5.1.0
 	- license: MIT
 - vue
-	- version: 3.5.35
+	- version: 3.5.39
 	- license: MIT
 - @nextcloud/dialogs
 	- version: 7.4.0
 	- license: AGPL-3.0-or-later
 - semver
-	- version: 7.7.2
+	- version: 7.8.5
 	- license: ISC
 - @nextcloud/event-bus
 	- version: 3.3.3
@@ -114,17 +105,23 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/vue
 	- version: 8.39.0
 	- license: AGPL-3.0-or-later
+- @vue/devtools-kit
+	- version: 8.1.5
+	- license: MIT
+- @vue/devtools-shared
+	- version: 8.1.5
+	- license: MIT
 - @vue/reactivity
-	- version: 3.5.35
+	- version: 3.5.39
 	- license: MIT
 - @vue/shared
-	- version: 3.5.35
+	- version: 3.5.39
 	- license: MIT
 - @vue/runtime-core
-	- version: 3.5.35
+	- version: 3.5.39
 	- license: MIT
 - @vue/runtime-dom
-	- version: 3.5.35
+	- version: 3.5.39
 	- license: MIT
 - @vueuse/components
 	- version: 11.3.0
@@ -166,7 +163,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.0-beta.19
 	- license: MIT
 - focus-trap
-	- version: 8.2.1
+	- version: 8.2.2
 	- license: MIT
 - hookable
 	- version: 5.5.3
@@ -183,6 +180,9 @@ This file is generated from multiple sources. Included packages:
 - buffer
 	- version: 6.0.3
 	- license: MIT
+- perfect-debounce
+	- version: 2.1.0
+	- license: MIT
 - process
 	- version: 0.11.10
 	- license: MIT
@@ -193,7 +193,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 4.0.0
 	- license: MIT
 - tabbable
-	- version: 6.4.0
+	- version: 6.5.0
 	- license: MIT
 - toastify-js
 	- version: 1.12.0
@@ -202,7 +202,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 4.0.0
 	- license: MIT
 - unist-util-is
-	- version: 6.0.0
+	- version: 6.0.1
 	- license: MIT
 - unist-util-visit-parents
 	- version: 6.0.2
