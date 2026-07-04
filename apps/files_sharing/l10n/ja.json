@@ -88,6 +88,7 @@
     "Wrong or no update parameter given" : "間違っているか、またはパラメータが更新されていません",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "Nextcloud Talkが有効になっていないため、ファイルまたはフォルダーを共有するための「NextcloudTalkによるパスワードの送信」ができませんでした。",
     "Custom share link tokens have been disabled by the administrator" : "カスタム共有リンクのトークンが管理者によって無効化されました。",
+    "Tokens must be between 1 and %s characters long and may only contain letters, numbers, or a hyphen" : "トークンの長さは1文字以上%s文字以下でなければならず、文字、数字、またはハイフンのみを含めることができます。",
     "Invalid date. Format must be YYYY-MM-DD" : "日付が無効です。日付形式はYYYY-MM-DDである必要があります",
     "No sharing rights on this item" : "この項目には共有権限はありません",
     "Invalid share attributes provided: \"%s\"" : "無効な共有属性が指定されました \"%s\"",

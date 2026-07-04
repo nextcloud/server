@@ -321,6 +321,8 @@ OC.L10N.register(
     "_The task pickup speed has been ok in the last day._::_The task pickup speed has been ok in the last %n days._" : ["最近%n天內的任務擷取速度正常。"],
     "_The task pickup speed has been slow in the last day. Many tasks took longer than 4 minutes to be picked up. Consider setting up a worker to process tasks in the background._::_The task pickup speed has been slow in the last %n days. Many tasks took longer than 4 minutes to be picked up. Consider setting up a worker to process tasks in the background._" : ["最近%n天內，任務擷取速度緩慢。許多任務的擷取時間超過4分鐘。請考慮設定 worker 在背景處理任務。"],
     "Task Processing success rate" : "任務處理成功率",
+    "_No scheduled tasks in the last %n day._::_No scheduled tasks in the last %n days._" : ["最近%n天內沒有排定的任務。"],
+    "_Most tasks were successful in the last %n day._::_Most tasks were successful in the last %n days._" : ["最近%n天內的大多數任務都成功完成。"],
     "_A lot of tasks failed in the last day. Consider checking the nextcloud log for errors and investigating whether the AI provider apps have been set up correctly._::_A lot of tasks failed in the last %n days. Consider checking the nextcloud log for errors and investigating whether the AI provider apps have been set up correctly._" : ["最近%n天內，有許多任務執行失敗。建議檢查 Nextcloud 紀錄檔中的錯誤訊息，並確認 AI 服務提供者應用程式是否已正確設定。"],
     "Task Processing worker status" : "任務處理 worker 的狀態",
     "_The Task Processing worker has run in the last %n minute._::_The Task Processing worker has run in the last %n minutes._" : ["任務處理 worker 已在過去 %n 分鐘內執行過。"],
