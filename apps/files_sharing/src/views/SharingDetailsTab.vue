@@ -122,7 +122,8 @@
 						v-model="share.token"
 						autocomplete="off"
 						:label="t('files_sharing', 'Share link token')"
-						:helper-text="t('files_sharing', 'Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information.')"
+						:helper-text="t('files_sharing', 'Set the public share link token to something easy to remember or generate a new token. Tokens can be up to {maxLength} characters long and may only contain letters, numbers, and hyphens. It is not recommended to use a guessable token for shares which contain sensitive information.', { maxLength: TOKEN_MAX_LENGTH })"
+						:maxlength="TOKEN_MAX_LENGTH"
 						show-trailing-button
 						:trailing-button-label="loadingToken ? t('files_sharing', 'Generating…') : t('files_sharing', 'Generate new token')"
 						@trailing-button-click="generateNewToken">
@@ -337,6 +338,12 @@ import {
 import ShareRequests from '../mixins/ShareRequests.js'
 import SharesMixin from '../mixins/SharesMixin.js'
 import logger from '../services/logger.ts'
+
+/**
+ * Maximum length of a custom share token, matching the oc_share.token
+ * database column (see ShareAPIController::TOKEN_MAX_LENGTH).
+ */
+const TOKEN_MAX_LENGTH = 32
 import { generateToken } from '../services/TokenService.ts'
 import GeneratePassword from '../utils/GeneratePassword.ts'
 
@@ -389,6 +396,7 @@ export default {
 
 	data() {
 		return {
+			TOKEN_MAX_LENGTH,
 			writeNoteToRecipientIsChecked: false,
 			sharingPermission: getBundledPermissions().ALL.toString(),
 			revertSharingPermission: getBundledPermissions().ALL.toString(),
