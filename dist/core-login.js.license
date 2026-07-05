@@ -176,7 +176,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.2.0
 	- license: MIT
 - @nextcloud/vue
-	- version: 8.38.0
+	- version: 8.39.0
 	- license: AGPL-3.0-or-later
 - @simplewebauthn/browser
 	- version: 13.3.0
@@ -221,7 +221,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.0
 	- license: MIT
 - dompurify
-	- version: 3.4.8
+	- version: 3.4.11
 	- license: (MPL-2.0 OR Apache-2.0)
 - escape-html
 	- version: 1.0.3
@@ -269,7 +269,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.11.10
 	- license: MIT
 - query-string
-	- version: 9.3.1
+	- version: 9.4.1
 	- license: MIT
 - safe-buffer
 	- version: 5.2.1
