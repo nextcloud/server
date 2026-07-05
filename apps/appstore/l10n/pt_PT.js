@@ -44,6 +44,7 @@ OC.L10N.register(
     "ExApp container environment variables" : "Variáveis de ambiente do contêiner ExApp",
     "No environment variables defined" : "Nenhuma variável de ambiente definida",
     "Mounts" : "Montagens",
+    "Define host folder mounts to bind to the ExApp container" : "Definir montagens de pastas no host para vincular ao contêiner do ExApp",
     "Must exist on the Deploy daemon host prior to installing the ExApp" : "Deve existir no host do Deploy daemon antes da instalação do ExApp",
     "Host path" : "Caminho no host",
     "Container path" : "Caminho no contêiner",
