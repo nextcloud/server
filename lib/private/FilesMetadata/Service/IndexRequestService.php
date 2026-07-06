@@ -192,7 +192,7 @@ class IndexRequestService {
 			$qb = $this->dbConnection->getQueryBuilder();
 			$expr = $qb->expr();
 			$qb->delete(self::TABLE_METADATA_INDEX)
-				->where($expr->in('file_id', $qb->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)));
+				->where($expr->in('file_id', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY)));
 
 			if ($key !== '') {
 				$qb->andWhere($expr->eq('meta_key', $qb->createNamedParameter($key)));
