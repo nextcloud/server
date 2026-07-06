@@ -94,7 +94,7 @@ describe('Calendar: Availability', { testIsolation: true }, () => {
 			.type('Happy holidays!')
 
 		cy.intercept('GET', '**/ocs/v2.php/apps/files_sharing/api/v1/sharees?*search=replacement*').as('userSearch')
-		cy.findByRole('searchbox')
+		cy.findByLabelText(/Out of office replacement/)
 			.should('be.visible')
 			.as('userSearchBox')
 			.click()
@@ -122,7 +122,8 @@ describe('Calendar: Availability', { testIsolation: true }, () => {
 			.should('have.value', 'Vacation')
 		cy.findByRole('textbox', { name: /Long absence/ })
 			.should('have.value', 'Happy holidays!')
-		cy.findByRole('combobox')
+		cy.findByLabelText(/Out of office replacement/)
+			.closest('.v-select')
 			.should('contain.text', 'replacement-user')
 	})
 })
