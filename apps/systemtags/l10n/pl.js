@@ -65,9 +65,7 @@ OC.L10N.register(
     "Delete" : "Usuń",
     "Reset" : "Reset",
     "Loading …" : "Ładowanie ...",
-    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} zostanie ustawiony, a {tag2} zostanie usunięty z jednego pliku","{tag1} zostanie ustawiony, a {tag2} zostanie usunięty z {count} plików ","{tag1} zostanie ustawiony, a {tag2} zostanie usunięty z {count} plików ","{tag1} zostanie ustawiony, a {tag2} zostanie usunięty z {count} plików "],
     "_{tag} will be set to 1 file._::_{tag} will be set to {count} files._" : ["{tag}  zostanie ustawiony dla 1 pliku.","{tag} zostanie ustawiony dla {count} plików.","{tag} zostanie ustawiony dla {count} plików.","{tag} zostanie ustawiony dla {count} plików."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} zostanie usunięty z 1 pliku.","{tag} zostanie usunięty z {count} plików."," {tag} zostanie usunięty z {count} plików.","{tag} zostanie usunięty z {count} plików."],
     "_{tags} and {lastTag} will be set to 1 file._::_{tags} and {lastTag} will be set to {count} files._" : ["{tags} i {lastTag} zostaną ustawione dla 1 pliku.","{tags} i {lastTag} zostaną ustawione dla {count} plików.","{tags} i {lastTag} zostaną ustawione dla {count} plików.","{tags} i {lastTag} zostaną ustawione dla {count} plików."],
     "_{tags} and {lastTag} will be removed from 1 file._::_{tags} and {lastTag} will be removed from {count} files._" : ["{tags} i {lastTag} zostaną usunięte z 1 pliku.","{tags} i {lastTag} zostaną usunięte z {count} plików.","{tags} i {lastTag} zostaną usunięte z {count} plików.","{tags} i {lastTag} zostaną usunięte z {count} plików."],
     "{displayName} (hidden)" : "{displayName} (ukryty)",
@@ -112,6 +110,8 @@ OC.L10N.register(
     "Failed to delete tag for file" : "Nie udało się usunąć tagu z pliku",
     "Collaborative tags …" : "Etykiety wspólne…",
     "Loading …" : "Wczytywanie…",
+    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} zostanie ustawiony, a {tag2} zostanie usunięty z jednego pliku","{tag1} zostanie ustawiony, a {tag2} zostanie usunięty z {count} plików ","{tag1} zostanie ustawiony, a {tag2} zostanie usunięty z {count} plików ","{tag1} zostanie ustawiony, a {tag2} zostanie usunięty z {count} plików "],
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} zostanie usunięty z 1 pliku.","{tag} zostanie usunięty z {count} plików."," {tag} zostanie usunięty z {count} plików.","{tag} zostanie usunięty z {count} plików."],
     "Loading collaborative tags …" : "Wczytywanie wspólnych etykiet…"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

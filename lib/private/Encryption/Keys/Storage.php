@@ -12,10 +12,10 @@ use OC\Encryption\Util;
 use OC\Files\Filesystem;
 use OC\Files\View;
 use OC\ServerNotAvailableException;
-use OC\User\NoUserException;
 use OCP\Encryption\Keys\IStorage;
 use OCP\IConfig;
 use OCP\Security\ICrypto;
+use OCP\User\Exceptions\UserNotFoundException;
 
 class Storage implements IStorage {
 	/** @var string hidden file which indicate that the folder is a valid key storage */
@@ -121,7 +121,7 @@ class Storage implements IStorage {
 		try {
 			$path = $this->constructUserKeyPath($encryptionModuleId, $keyId, $uid);
 			return !$this->view->file_exists($path) || $this->view->unlink($path);
-		} catch (NoUserException $e) {
+		} catch (UserNotFoundException $e) {
 			// this exception can come from initMountPoints() from setupUserMounts()
 			// for a deleted user.
 			//

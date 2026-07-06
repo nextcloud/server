@@ -125,7 +125,7 @@ class DiscoveryServiceTest extends TestCase {
 
 	public function testLocalBaseCapability(): void {
 		$local = $this->discoveryService->getLocalOCMProvider();
-		$this->assertEmpty(array_diff(['notifications', 'shares'], $local->getCapabilities()));
+		$this->assertEmpty(array_diff(['notifications', 'shares'], $local->getCapabilities()->toArray()));
 	}
 
 	public function testLocalCapabilitiesAdvertiseHttpSigByDefault(): void {
@@ -140,7 +140,7 @@ class DiscoveryServiceTest extends TestCase {
 		$this->context->for('ocm-capability-app')->registerEventListener(LocalOCMDiscoveryEvent::class, LocalOCMDiscoveryTestEvent::class);
 		$this->context->delegateEventListenerRegistrations($this->dispatcher);
 		$local = $this->discoveryService->getLocalOCMProvider();
-		$this->assertEmpty(array_diff(['notifications', 'shares', 'ocm-capability-test'], $local->getCapabilities()));
+		$this->assertEmpty(array_diff(['notifications', 'shares', 'ocm-capability-test'], $local->getCapabilities()->toArray()));
 	}
 
 }

@@ -3,11 +3,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { User } from '@nextcloud/e2e-test-server'
+import type { Locator, Page } from '@playwright/test'
+
 import { expect } from '@playwright/test'
 import { test } from '../../support/fixtures/admin-theming-page.ts'
-
-const admin = new User('admin', 'admin')
 
 test.describe('Admin theming branding settings', () => {
 	test.beforeEach(async ({ adminThemingPage }) => {
@@ -93,7 +92,7 @@ test.describe('Admin theming branding settings', () => {
 	})
 })
 
-async function setUrlFieldAndWait(page: import('@playwright/test').Page, locator: import('@playwright/test').Locator, value: string) {
+async function setUrlFieldAndWait(page: Page, locator: Locator, value: string) {
 	await locator.fill(value)
 	await Promise.all([
 		page.waitForResponse((response) => response.url().includes('/apps/theming/ajax/updateStylesheet') && response.request().method() === 'POST'),

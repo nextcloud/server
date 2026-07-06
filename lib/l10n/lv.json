@@ -122,6 +122,7 @@
     "Storage connection timeout. %s" : "Datu savienojuma taimauts. %s",
     "Images" : "Attēli",
     "Send this along with the next interaction." : "Nosūtīt šo kopā ar nākamo mijiedarbību.",
+    "Instructions" : "Norādes gatavošanai",
     "Text" : "Teksts",
     "Summary" : "Kopsavilkums",
     "Translate" : "Tulkot",

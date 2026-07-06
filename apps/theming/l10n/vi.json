@@ -86,6 +86,8 @@
     "Disable all keyboard shortcuts" : "Vô hiệu hóa tất cả các phím tắt",
     "Reset to default" : "Đặt lại về mặc định",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Nếu bạn phát hiện bất kỳ vấn đề nào, đừng ngần ngại báo cáo chúng trên {issuetracker}trình theo dõi vấn đề của chúng tôi{linkend}. Và nếu bạn muốn tham gia, hãy tham gia {designteam}nhóm thiết kế của chúng tôi{linkend}!",
+    "Themes" : "Chủ đề",
+    "Fonts" : "Phông chữ",
     "Customization has been disabled by your administrator" : "Tùy chỉnh đã bị quản trị viên của bạn vô hiệu hóa",
     "Disable-user-theming should be true or false" : "Vô hiệu hóa chủ đề người dùng phải đúng hoặc sai",
     "Header logo" : "Logo đầu trang",

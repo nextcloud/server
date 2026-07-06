@@ -64,9 +64,7 @@ OC.L10N.register(
     "Delete" : "Slet",
     "Reset" : "Reset",
     "Loading …" : "Indlæser …",
-    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} vil blive indstillet og {tag2} vil blive fjernet fra 1 fil.","{tag1} vil blive sat og {tag2} vil blive fjernet fra {count} filer."],
     "_{tag} will be set to 1 file._::_{tag} will be set to {count} files._" : ["{tag} vil blive sat til 1 fil.","{tag} vil blive sat til {count} filer."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} vil blive fjernet fra 1 fil.","{tag} vil blive fjernet fra {count} filer."],
     "_{tags} and {lastTag} will be set to 1 file._::_{tags} and {lastTag} will be set to {count} files._" : ["{tags} og {lastTag} vil blive sat til en fil.","{tags} og {lastTag} vil blive sat til {count} filer."],
     "_{tags} and {lastTag} will be removed from 1 file._::_{tags} and {lastTag} will be removed from {count} files._" : ["{tags} og {lastTag} vil blive fjernet fra en fil.","{tags} og {lastTag} vil blive fjernet fra {count} filer."],
     "{displayName} (hidden)" : "{displayName} (skjult)",
@@ -109,6 +107,8 @@ OC.L10N.register(
     "Failed to delete tag for file" : "Kunne ikke slette tag for fil",
     "Collaborative tags …" : "Samarbejds tags ...",
     "Loading …" : "Indlæser …",
+    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} vil blive indstillet og {tag2} vil blive fjernet fra 1 fil.","{tag1} vil blive sat og {tag2} vil blive fjernet fra {count} filer."],
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} vil blive fjernet fra 1 fil.","{tag} vil blive fjernet fra {count} filer."],
     "Loading collaborative tags …" : "Indlæser samarbejds tags ..."
 },
 "nplurals=2; plural=(n != 1);");

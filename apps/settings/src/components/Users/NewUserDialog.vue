@@ -8,18 +8,20 @@
 		class="dialog"
 		size="small"
 		:name="t('settings', 'New account')"
-		out-transition
+		outTransition
+		:noClose="loading.all"
 		v-on="$listeners">
 		<form
 			id="new-user-form"
 			class="dialog__form"
 			data-test="form"
-			:disabled="loading.all"
+			:inert="loading.all"
+			:aria-busy="loading.all ? 'true' : 'false'"
 			@submit.prevent="createUser">
 			<UserFormFields
 				ref="fields"
-				:field-config="fieldConfig"
-				:quota-options="quotaOptions" />
+				:fieldConfig="fieldConfig"
+				:quotaOptions="quotaOptions" />
 		</form>
 
 		<template #actions>
@@ -28,8 +30,12 @@
 				data-test="submit"
 				form="new-user-form"
 				variant="primary"
-				type="submit">
-				{{ t('settings', 'Add new account') }}
+				type="submit"
+				:aria-disabled="loading.all ? 'true' : 'false'">
+				<template v-if="loading.all" #icon>
+					<NcLoadingIcon />
+				</template>
+				{{ loading.all ? t('settings', 'Adding new account …') : t('settings', 'Add new account') }}
 			</NcButton>
 		</template>
 	</NcDialog>
@@ -38,6 +44,7 @@
 <script>
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcDialog from '@nextcloud/vue/components/NcDialog'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import UserFormFields from './UserFormFields.vue'
 
 export default {
@@ -46,6 +53,7 @@ export default {
 	components: {
 		NcButton,
 		NcDialog,
+		NcLoadingIcon,
 		UserFormFields,
 	},
 
@@ -129,6 +137,11 @@ export default {
 
 	methods: {
 		async createUser() {
+			// Guard against re-submit while a request is already running. The
+			// button is only aria-disabled (not disabled), so it can still fire.
+			if (this.loading.all) {
+				return
+			}
 			this.loading.all = true
 			try {
 				await this.$store.dispatch('addUser', {
@@ -165,5 +178,10 @@ export default {
 	:deep(.dialog__actions) {
 		margin-block-start: calc(var(--default-grid-baseline, 4px) * 3);
 	}
+}
+
+// Visually communicate the locked/busy form while the account is created.
+.dialog__form[aria-busy='true'] {
+	opacity: 0.5;
 }
 </style>

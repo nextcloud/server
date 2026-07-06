@@ -14,11 +14,14 @@ namespace OCP\User\Backend;
  */
 interface ICheckPasswordBackend {
 	/**
-	 * @since 14.0.0
+	 * Check if the password is correct without logging in the user
+	 * returns the user id or false.
 	 *
-	 * @param string $loginName The loginname
+	 * @param string $loginName The login name
 	 * @param string $password The password
 	 * @return string|false The uid on success false on failure
+	 * @since 14.0.0
+	 *
 	 */
 	public function checkPassword(string $loginName, string $password);
 }

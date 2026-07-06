@@ -123,7 +123,7 @@ OC.L10N.register(
     "Key size" : "Rakto dydis",
     "Generate keys" : "Generuoti raktus",
     "Confirm" : "Patvirtinti",
-    "Storage credentials" : "Saugyklos kredencialai",
+    "Storage credentials" : "Saugyklos prisijungimo duomenys",
     "To access the storage, you need to provide the authentication credentials." : "Norėdami pasiekti saugyklą, turite pateikti autentifikavimo duomenis.",
     "Enter the storage login" : "Įveskite saugyklos prisijungimo vardą",
     "Enter the storage password" : "Įveskite saugyklos slaptažodį",

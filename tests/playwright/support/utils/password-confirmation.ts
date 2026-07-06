@@ -13,22 +13,22 @@ import type { Page } from '@playwright/test'
  */
 export async function handlePasswordConfirmation(page: Page, password = 'admin') {
 	const dialog = page.locator('.modal-container:has-text("Authentication required")')
-	
+
 	try {
 		// Check if the dialog exists within a short timeout
 		const dialogVisible = await dialog.isVisible({ timeout: 500 }).catch(() => false)
-		
+
 		if (dialogVisible) {
 			// Fill the password field
 			await dialog.locator('input[type="password"]').fill(password)
-			
+
 			// Click the confirm button
 			await dialog.getByRole('button', { name: 'Confirm' }).click()
-			
+
 			// Wait for the dialog to disappear
 			await dialog.waitFor({ state: 'hidden' })
 		}
-	} catch (error) {
+	} catch {
 		// Dialog didn't appear, which is fine - some operations might not require confirmation
 	}
 }

@@ -7,7 +7,7 @@
     "Invalid configuration: Anonymous binding is not allowed." : "Vale seadistus: anonüümne sidumine pole lubatud.",
     "Valid configuration, connection established!" : "Korrektne seadistus, ühendus on loodud!",
     "Please login with the new password" : "Palun logi uue salasõnaga sisse",
-    "Failed to clear the mappings." : "Vastenduste puhastamine ebaõnnestus.",
+    "Failed to clear the mappings." : "Vastenduste eemaldamine ei õnnestunud.",
     "LDAP User backend" : "LPAD-i põhine tausteteenus kasutajate jaoks",
     "Your password will expire tomorrow." : "Su salasõna aegub homme.",
     "Your password will expire today." : "Su salasõna aegub täna.",

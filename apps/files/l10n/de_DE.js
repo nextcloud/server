@@ -398,10 +398,6 @@ OC.L10N.register(
     "Files and folders you recently modified will show up here." : "Die von Ihnen kürzlich geänderten Dateien und Ordner werden hier angezeigt.",
     "Search" : "Suche",
     "Search results within your files." : "Suchergebnisse innerhalb Ihrer Dateien.",
-    "No entries found in this folder" : "Keine Einträge in diesem Ordner gefunden",
-    "Select all" : "Alle auswählen",
-    "Upload too large" : "Der Upload ist zu groß",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Die Datei überschreitet die Maximalgröße für Uploads auf diesem Server.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "\"{oldName}\" in \"{newName}\" umbenannt",
     "Clear filter" : "Filter zurücksetzen",
     "Open file sidebar" : "Datei-Seitenleiste öffnen",
@@ -422,7 +418,9 @@ OC.L10N.register(
     "Save as …" : "Speichern als …",
     "Converting files …" : "Dateien werden konvertiert …",
     "Converting file …" : "Datei wird konvertiert …",
-    "Moving {count} files to \"{destination}\" …" : "Verschiebe {count} Dateien nach \"{destination}\" …",
-    "Copying {count} files to \"{destination}\" …" : "Kopiere {count} Dateien nach \"{destination}\" …"
+    "No entries found in this folder" : "Keine Einträge in diesem Ordner gefunden",
+    "Select all" : "Alle auswählen",
+    "Upload too large" : "Der Upload ist zu groß",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Die Datei überschreitet die Maximalgröße für Uploads auf diesem Server."
 },
 "nplurals=2; plural=(n != 1);");

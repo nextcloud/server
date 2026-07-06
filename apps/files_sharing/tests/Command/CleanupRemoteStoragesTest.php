@@ -30,13 +30,13 @@ class CleanupRemoteStoragesTest extends TestCase {
 	private ICloudIdManager&MockObject $cloudIdManager;
 
 	private $storages = [
-		['id' => 'shared::7b4a322b22f9d0047c38d77d471ce3cf', 'share_token' => 'f2c69dad1dc0649f26976fd210fc62e1', 'remote' => 'https://hostname.tld/owncloud1', 'user' => 'user1'],
-		['id' => 'shared::efe3b456112c3780da6155d3a9b9141c', 'share_token' => 'f2c69dad1dc0649f26976fd210fc62e2', 'remote' => 'https://hostname.tld/owncloud2', 'user' => 'user2'],
-		['notExistingId' => 'shared::33323d9f4ca416a9e3525b435354bc6f', 'share_token' => 'f2c69dad1dc0649f26976fd210fc62e3', 'remote' => 'https://hostname.tld/owncloud3', 'user' => 'user3'],
+		['id' => 'shared::7b4a322b22f9d0047c38d77d471ce3cf', 'refresh_token' => 'f2c69dad1dc0649f26976fd210fc62e1', 'remote' => 'https://hostname.tld/owncloud1', 'user' => 'user1'],
+		['id' => 'shared::efe3b456112c3780da6155d3a9b9141c', 'refresh_token' => 'f2c69dad1dc0649f26976fd210fc62e2', 'remote' => 'https://hostname.tld/owncloud2', 'user' => 'user2'],
+		['notExistingId' => 'shared::33323d9f4ca416a9e3525b435354bc6f', 'refresh_token' => 'f2c69dad1dc0649f26976fd210fc62e3', 'remote' => 'https://hostname.tld/owncloud3', 'user' => 'user3'],
 		['id' => 'shared::7fe41a07d3f517a923f4b2b599e72cbb', 'files_count' => 2],
-		['id' => 'shared::de4aeb2f378d222b6d2c5fd8f4e42f8e', 'share_token' => 'f2c69dad1dc0649f26976fd210fc62e5', 'remote' => 'https://hostname.tld/owncloud5', 'user' => 'user5'],
+		['id' => 'shared::de4aeb2f378d222b6d2c5fd8f4e42f8e', 'refresh_token' => 'f2c69dad1dc0649f26976fd210fc62e5', 'remote' => 'https://hostname.tld/owncloud5', 'user' => 'user5'],
 		['id' => 'shared::af712293ab5eb9e6a1745a13818b99fe', 'files_count' => 3],
-		['notExistingId' => 'shared::c34568c143cdac7d2f06e0800b5280f9', 'share_token' => 'f2c69dad1dc0649f26976fd210fc62e7', 'remote' => 'https://hostname.tld/owncloud7', 'user' => 'user7'],
+		['notExistingId' => 'shared::c34568c143cdac7d2f06e0800b5280f9', 'refresh_token' => 'f2c69dad1dc0649f26976fd210fc62e7', 'remote' => 'https://hostname.tld/owncloud7', 'user' => 'user7'],
 	];
 
 	protected function setUp(): void {
@@ -62,10 +62,10 @@ class CleanupRemoteStoragesTest extends TestCase {
 				$storage['numeric_id'] = $storageQuery->getLastInsertId();
 			}
 
-			if (isset($storage['share_token'])) {
+			if (isset($storage['refresh_token'])) {
 				$externalShare = new ExternalShare();
 				$externalShare->generateId();
-				$externalShare->setShareToken($storage['share_token']);
+				$externalShare->setRefreshToken($storage['refresh_token']);
 				$externalShare->setRemote($storage['remote']);
 				$externalShare->setName('irrelevant');
 				$externalShare->setOwner('irrelevant');
@@ -96,7 +96,7 @@ class CleanupRemoteStoragesTest extends TestCase {
 
 		$shareExternalQuery = Server::get(IDBConnection::class)->getQueryBuilder();
 		$shareExternalQuery->delete('share_external')
-			->where($shareExternalQuery->expr()->eq('share_token', $shareExternalQuery->createParameter('share_token')))
+			->where($shareExternalQuery->expr()->eq('refresh_token', $shareExternalQuery->createParameter('refresh_token')))
 			->andWhere($shareExternalQuery->expr()->eq('remote', $shareExternalQuery->createParameter('remote')));
 
 		foreach ($this->storages as $storage) {
@@ -105,8 +105,8 @@ class CleanupRemoteStoragesTest extends TestCase {
 				$storageQuery->executeStatement();
 			}
 
-			if (isset($storage['share_token'])) {
-				$shareExternalQuery->setParameter('share_token', $storage['share_token']);
+			if (isset($storage['refresh_token'])) {
+				$shareExternalQuery->setParameter('refresh_token', $storage['refresh_token']);
 				$shareExternalQuery->setParameter('remote', $storage['remote']);
 				$shareExternalQuery->executeStatement();
 			}

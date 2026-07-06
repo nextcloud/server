@@ -113,7 +113,7 @@ OC.L10N.register(
     "Loading categories" : "Wczytywanie kategorii",
     "Please enter more characters to search." : "Wprowadź więcej znaków, aby wyszukać",
     "Search apps" : "Wyszukaj aplikacje",
-    "Version {version}, {license}-licensed" : "Wersja {version}, {license}-licencjonowana",
+    "Version {version}, {license}-licensed" : "Wersja {version}, na licencji {license}",
     "Version {version}" : "Wersja {version}",
     "Disable" : "Wyłącz",
     "Enable" : "Włącz",

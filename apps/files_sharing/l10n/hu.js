@@ -133,6 +133,7 @@ OC.L10N.register(
     "Cancel the file request creation" : "Fájlkérés létrehozásának elvetése",
     "Continue" : "Folytatás",
     "Error while toggling options" : "Hiba a beállítások módosításakor",
+    "Accept shares from other accounts and groups by default" : "A többi fiókból és csoportokból származó megosztások elfogadása alapértelmezés szerint",
     "Choose a default folder for accepted shares" : "Válasszon egy mappát az elfogadott megosztásokhoz",
     "Invalid path selected" : "Érvénytelen útvonal választva",
     "Unknown error" : "Ismeretlen hiba",

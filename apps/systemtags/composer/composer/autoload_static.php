@@ -22,9 +22,9 @@ class ComposerStaticInitSystemTags
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
-        'OCA\\SystemTags\\Activity\\Listener' => __DIR__ . '/..' . '/../lib/Activity/Listener.php',
         'OCA\\SystemTags\\Activity\\Provider' => __DIR__ . '/..' . '/../lib/Activity/Provider.php',
         'OCA\\SystemTags\\Activity\\Setting' => __DIR__ . '/..' . '/../lib/Activity/Setting.php',
+        'OCA\\SystemTags\\Activity\\TagListener' => __DIR__ . '/..' . '/../lib/Activity/TagListener.php',
         'OCA\\SystemTags\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
         'OCA\\SystemTags\\Capabilities' => __DIR__ . '/..' . '/../lib/Capabilities.php',
         'OCA\\SystemTags\\Command\\Files\\Add' => __DIR__ . '/..' . '/../lib/Command/Files/Add.php',

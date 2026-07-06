@@ -65,9 +65,7 @@ OC.L10N.register(
     "Delete" : "Избриши",
     "Reset" : "Поништи",
     "Loading …" : "Се вчитува …",
-    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} ќе се постави а {tag2} ќе се острани од една датотека.","{tag1} ќе се постави а {tag2} ќе се отстрани од {count} датотеки."],
     "_{tag} will be set to 1 file._::_{tag} will be set to {count} files._" : ["{tag} ќе се постави на една датотека.","{tag} ќе се постави на {count} датотеки."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} ќе се острани од една датотека.","{tag} ќе се отстрани од {count} датотеки."],
     "_{tags} and {lastTag} will be set to 1 file._::_{tags} and {lastTag} will be set to {count} files._" : ["{tags} и {lastTag} ќе се постават на една датотека.","{tags} и {lastTag} ќе се постават на {count} датотеки."],
     "_{tags} and {lastTag} will be removed from 1 file._::_{tags} and {lastTag} will be removed from {count} files._" : ["{tags} и {lastTag} ќе се остранат од една датотека.","{tags} и {lastTag} ќе се остранат од {count} датотеки."],
     "{displayName} (hidden)" : "{displayName} (невидлив)",
@@ -112,6 +110,8 @@ OC.L10N.register(
     "Failed to delete tag for file" : "Неуспешно бришење ознака за датотека",
     "Collaborative tags …" : "Колаборативни ознаки ...",
     "Loading …" : "Се вчитува…",
+    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} ќе се постави а {tag2} ќе се острани од една датотека.","{tag1} ќе се постави а {tag2} ќе се отстрани од {count} датотеки."],
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} ќе се острани од една датотека.","{tag} ќе се отстрани од {count} датотеки."],
     "Loading collaborative tags …" : "Вчитување на колаборативни ознаки"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

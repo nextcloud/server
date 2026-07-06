@@ -372,10 +372,6 @@
     "Files and folders you recently modified will show up here." : "Овде ће се појавити фајлови и фолдери које сте недавно изменили.",
     "Search" : "Претрага",
     "Search results within your files." : "Претрага резултата у вашим фајловима.",
-    "No entries found in this folder" : "Нема ничега у овој фасцикли",
-    "Select all" : "Означи све",
-    "Upload too large" : "Отпремање је превелико",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Фајлови које желите да отпремите превазилазе ограничење отпремања на овом серверу.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "„{oldName}” је промењено на „{newName}”",
     "Clear filter" : "Очисти филтер",
     "Open file sidebar" : "Отвори бочну траку за фајл",
@@ -395,6 +391,10 @@
     "Tags" : "Ознаке",
     "Save as …" : "Сачувај као",
     "Converting files …" : "Фајлови се конвертују",
-    "Converting file …" : "Фајл се конвертује"
+    "Converting file …" : "Фајл се конвертује",
+    "No entries found in this folder" : "Нема ничега у овој фасцикли",
+    "Select all" : "Означи све",
+    "Upload too large" : "Отпремање је превелико",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Фајлови које желите да отпремите превазилазе ограничење отпремања на овом серверу."
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

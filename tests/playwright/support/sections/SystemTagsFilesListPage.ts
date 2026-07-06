@@ -3,8 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { expect } from '@playwright/test'
 import type { Locator } from '@playwright/test'
+
+import { expect } from '@playwright/test'
 import { FilesListPage } from './FilesListPage.ts'
 
 /**
@@ -13,7 +14,6 @@ import { FilesListPage } from './FilesListPage.ts'
  * and the inline collaborative-tags column.
  */
 export class SystemTagsFilesListPage extends FilesListPage {
-
 	/**
 	 * The "Manage tags" dialog (SystemTagPicker).
 	 */
@@ -36,9 +36,7 @@ export class SystemTagsFilesListPage extends FilesListPage {
 	 * for the tags PROPFIND to complete before returning the picker locator.
 	 */
 	async openTagPickerForFile(filename: string): Promise<Locator> {
-		const tagsListLoaded = this.page.waitForResponse(
-			(r) => r.url().includes('/remote.php/dav/systemtags/') && r.request().method() === 'PROPFIND' && !r.url().includes('/files'),
-		)
+		const tagsListLoaded = this.page.waitForResponse((r) => r.url().includes('/remote.php/dav/systemtags/') && r.request().method() === 'PROPFIND' && !r.url().includes('/files'))
 		await this.triggerActionForFile(filename, 'systemtags:bulk')
 		await tagsListLoaded
 		const picker = this.getTagPicker()
@@ -52,9 +50,7 @@ export class SystemTagsFilesListPage extends FilesListPage {
 	 * the picker locator.
 	 */
 	async openTagPickerForSelection(): Promise<Locator> {
-		const tagsListLoaded = this.page.waitForResponse(
-			(r) => r.url().includes('/remote.php/dav/systemtags/') && r.request().method() === 'PROPFIND' && !r.url().includes('/files'),
-		)
+		const tagsListLoaded = this.page.waitForResponse((r) => r.url().includes('/remote.php/dav/systemtags/') && r.request().method() === 'PROPFIND' && !r.url().includes('/files'))
 		await this.triggerSelectionAction('systemtags:bulk')
 		await tagsListLoaded
 		const picker = this.getTagPicker()
@@ -73,9 +69,7 @@ export class SystemTagsFilesListPage extends FilesListPage {
 		await picker.getByLabel(/Search.*tag/i).fill(tagName)
 		await expect(picker.getByRole('checkbox')).toHaveCount(0)
 
-		const createTagResponse = this.page.waitForResponse(
-			(r) => r.url().includes('/remote.php/dav/systemtags') && !r.url().includes('/files') && r.request().method() === 'POST',
-		)
+		const createTagResponse = this.page.waitForResponse((r) => r.url().includes('/remote.php/dav/systemtags') && !r.url().includes('/files') && r.request().method() === 'POST')
 		await picker.getByRole('button', { name: /Create new tag/i }).click()
 		await createTagResponse
 

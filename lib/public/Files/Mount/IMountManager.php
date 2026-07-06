@@ -56,7 +56,7 @@ interface IMountManager {
 	 * Find all mounts in $path
 	 *
 	 * @param string $path
-	 * @return IMountPoint[]
+	 * @return list<IMountPoint> Returns a sorted list of mount point
 	 * @since 8.2.0
 	 */
 	public function findIn(string $path): array;

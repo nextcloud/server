@@ -323,7 +323,9 @@
     "The files are locked" : "A fájlok zárolva vannak",
     "The file does not exist anymore" : "Ez a fájl már nem létezik",
     "Moving \"{source}\" to \"{destination}\" …" : "A(z) „{source}” áthelyezése ide: „{destination}”…",
+    "_Moving %n file to \"{destination}\" …_::_Moving %n files to \"{destination}\" …_" : ["%n fájl áthelyezése ide: „{destination}”…","%n fájl áthelyezése ide: „{destination}”…"],
     "Copying \"{source}\" to \"{destination}\" …" : "A(z) „{source}” másolása ide: „{destination}”…",
+    "_Copying %n file to \"{destination}\" …_::_Copying %n files to \"{destination}\" …_" : ["%n fájl másolása ide: „{destination}”…","%n fájl másolása ide: „{destination}”…"],
     "Choose destination" : "Válasszon célt",
     "Copy to {target}" : "Másolás ide: {target}",
     "Move to {target}" : "Áthelyezés ide: {target}",
@@ -394,10 +396,6 @@
     "Files and folders you recently modified will show up here." : "Az Ön által módosított fájlok és mappák itt jelennek meg.",
     "Search" : "Keresés",
     "Search results within your files." : "Keresési találatok a fájljaiban.",
-    "No entries found in this folder" : "Nincsenek bejegyzések ebben a mappában",
-    "Select all" : "Összes kijelölése",
-    "Upload too large" : "A feltöltés túl nagy",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "A feltölteni próbált fájlok mérete meghaladja a kiszolgálón megengedett legnagyobb méretet.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "A(z) „{oldName}” átnevezve erre: „{newName}”",
     "Clear filter" : "Szűrő törlése",
     "Open file sidebar" : "Fájl oldalsáv megnyitása",
@@ -418,7 +416,9 @@
     "Save as …" : "Mentés másként…",
     "Converting files …" : "Fájlok átalakítása…",
     "Converting file …" : "Fájl átalakítása…",
-    "Moving {count} files to \"{destination}\" …" : "{count} fájl áthelyezési ide: „{destination}”…",
-    "Copying {count} files to \"{destination}\" …" : "{count} fájl másolása ide: „{destination}”…"
+    "No entries found in this folder" : "Nincsenek bejegyzések ebben a mappában",
+    "Select all" : "Összes kijelölése",
+    "Upload too large" : "A feltöltés túl nagy",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "A feltölteni próbált fájlok mérete meghaladja a kiszolgálón megengedett legnagyobb méretet."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

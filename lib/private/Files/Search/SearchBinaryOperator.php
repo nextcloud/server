@@ -13,13 +13,13 @@ use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchOperator;
 
 class SearchBinaryOperator implements ISearchBinaryOperator {
-	private $hints = [];
+	private array $hints = [];
 
 	/**
 	 * SearchBinaryOperator constructor.
 	 *
 	 * @param string $type
-	 * @param (SearchBinaryOperator|SearchComparison)[] $arguments
+	 * @param ISearchOperator[] $arguments
 	 */
 	public function __construct(
 		private $type,
@@ -62,6 +62,7 @@ class SearchBinaryOperator implements ISearchBinaryOperator {
 	}
 
 	public function __toString(): string {
+		/** @var (SearchBinaryOperator|SearchComparison)[] $this->arguments */
 		if ($this->type === ISearchBinaryOperator::OPERATOR_NOT) {
 			return '(not ' . $this->arguments[0] . ')';
 		}

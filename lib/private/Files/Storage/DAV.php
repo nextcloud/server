@@ -13,6 +13,7 @@ use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\IteratorDirectory;
 use OC\Files\Filesystem;
 use OC\MemCache\ArrayCache;
+use OC\OCM\OCMSignatoryManager;
 use OCP\AppFramework\Http;
 use OCP\Constants;
 use OCP\Diagnostics\IEventLogger;
@@ -25,10 +26,16 @@ use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
+use OCP\IAppConfig;
 use OCP\ICertificateManager;
 use OCP\IConfig;
 use OCP\ITempManager;
+use OCP\IURLGenerator;
 use OCP\Lock\LockedException;
+use OCP\OCM\Exceptions\OCMArgumentException;
+use OCP\OCM\Exceptions\OCMProviderException;
+use OCP\OCM\IOCMDiscoveryService;
+use OCP\Security\Signature\ISignatureManager;
 use OCP\Server;
 use OCP\Util;
 use Psr\Http\Message\ResponseInterface;
@@ -38,6 +45,78 @@ use Sabre\DAV\Xml\Property\ResourceType;
 use Sabre\HTTP\ClientException;
 use Sabre\HTTP\ClientHttpException;
 use Sabre\HTTP\RequestInterface;
+use Sabre\HTTP\ResponseInterface as SabreResponseInterface;
+
+/**
+ * Sabre HTTP Client extended with Bearer-token authentication and transparent
+ * refresh-on-401: when a request fails with HTTP 401 the client invokes a
+ * registered refresh callback once, applies the new token, and replays the
+ * request. Callers can use the client normally without thinking about token
+ * expiry.
+ *
+ * @package OC\Files\Storage
+ */
+class BearerAuthAwareSabreClient extends Client {
+	/**
+	 * Bearer authentication.
+	 */
+	public const AUTH_BEARER = 8;
+
+	/** @var (\Closure(): ?string)|null returns a fresh bearer token, or null if it cannot be refreshed */
+	private ?\Closure $refreshTokenCallback = null;
+
+	/** Guard against re-entry if the replayed request also returns 401. */
+	private bool $retrying = false;
+
+	public function __construct(array $settings) {
+		parent::__construct($settings);
+
+		if (isset($settings['bearerToken']) && isset($settings['authType']) && ($settings['authType'] & self::AUTH_BEARER)) {
+			$this->applyBearerToken((string)$settings['bearerToken']);
+		}
+	}
+
+	/**
+	 * Register a callback invoked when a request comes back with HTTP 401. The
+	 * callback should return a fresh bearer token, or null to give up. When a
+	 * non-empty token is returned the failing request is replayed once.
+	 *
+	 * @param (callable(): ?string)|null $callback
+	 */
+	public function setRefreshTokenCallback(?callable $callback): void {
+		$this->refreshTokenCallback = $callback === null ? null : \Closure::fromCallable($callback);
+	}
+
+	#[\Override]
+	public function send(RequestInterface $request): SabreResponseInterface {
+		try {
+			return parent::send($request);
+		} catch (ClientHttpException $e) {
+			if ($e->getHttpStatus() !== 401 || $this->retrying || $this->refreshTokenCallback === null) {
+				throw $e;
+			}
+			$this->retrying = true;
+			try {
+				$newToken = ($this->refreshTokenCallback)();
+				if (!is_string($newToken) || $newToken === '') {
+					throw $e;
+				}
+				$this->applyBearerToken($newToken);
+				return parent::send($request);
+			} finally {
+				$this->retrying = false;
+			}
+		}
+	}
+
+	private function applyBearerToken(string $token): void {
+		/** @psalm-suppress InvalidArrayOffset */
+		$curlType = $this->curlSettings[CURLOPT_HTTPAUTH] ?? 0;
+		$curlType |= CURLAUTH_BEARER;
+		$this->addCurlSetting(CURLOPT_HTTPAUTH, $curlType);
+		$this->addCurlSetting(CURLOPT_XOAUTH2_BEARER, $token);
+	}
+}
 
 /**
  * Class DAV
@@ -49,8 +128,7 @@ class DAV extends Common {
 	protected $password;
 	/** @var string */
 	protected $user;
-	/** @var string|null */
-	protected $authType;
+	protected ?int $authType = null;
 	/** @var string */
 	protected $host;
 	/** @var bool */
@@ -62,6 +140,8 @@ class DAV extends Common {
 	protected $certPath;
 	/** @var bool */
 	protected $ready;
+	/** The resolved bearer token for AUTH_BEARER (access token or exchanged token) */
+	protected string $bearerToken = '';
 	/** @var Client */
 	protected $client;
 	/** @var ArrayCache */
@@ -73,6 +153,11 @@ class DAV extends Common {
 	protected LoggerInterface $logger;
 	protected IEventLogger $eventLogger;
 	protected IMimeTypeDetector $mimeTypeDetector;
+	protected IOCMDiscoveryService $discoveryService;
+	protected ISignatureManager $signatureManager;
+	protected OCMSignatoryManager $signatoryManager;
+	protected IAppConfig $appConfig;
+	protected IURLGenerator $urlGenerator;
 
 	/** @var int */
 	private $timeout;
@@ -83,6 +168,7 @@ class DAV extends Common {
 		'{DAV:}getcontenttype',
 		'{http://owncloud.org/ns}permissions',
 		'{http://open-collaboration-services.org/ns}share-permissions',
+		'{http://open-cloud-mesh.org/ns}share-permissions',
 		'{DAV:}resourcetype',
 		'{DAV:}getetag',
 		'{DAV:}quota-available-bytes',
@@ -95,6 +181,11 @@ class DAV extends Common {
 	public function __construct(array $parameters) {
 		$this->statCache = new ArrayCache();
 		$this->httpClientService = Server::get(IClientService::class);
+		if (isset($parameters['discoveryService'])) {
+			$this->discoveryService = $parameters['discoveryService'];
+		} else {
+			$this->discoveryService = Server::get(IOCMDiscoveryService::class);
+		}
 		if (isset($parameters['host']) && isset($parameters['user']) && isset($parameters['password'])) {
 			$host = $parameters['host'];
 			//remove leading http[s], will be generated in createBaseUri()
@@ -135,6 +226,10 @@ class DAV extends Common {
 		// This timeout value will be used for the download and upload of files
 		$this->timeout = Server::get(IConfig::class)->getSystemValueInt('davstorage.request_timeout', IClient::DEFAULT_REQUEST_TIMEOUT);
 		$this->mimeTypeDetector = Server::get(IMimeTypeDetector::class);
+		$this->signatureManager = Server::get(ISignatureManager::class);
+		$this->signatoryManager = Server::get(OCMSignatoryManager::class);
+		$this->appConfig = Server::get(IAppConfig::class);
+		$this->urlGenerator = Server::get(IURLGenerator::class);
 	}
 
 	protected function init(): void {
@@ -142,6 +237,19 @@ class DAV extends Common {
 			return;
 		}
 		$this->ready = true;
+
+		// For Basic auth, the share token is kept as the user name
+		$token = $this->user;
+		// If using Bearer auth, use stored access token or exchange refresh token for access token
+		if ($this->authType !== null && ($this->authType & BearerAuthAwareSabreClient::AUTH_BEARER)) {
+			// Check if we already have an access token stored (password field)
+			if (!empty($this->password)) {
+				$token = $this->password;
+			} else {
+				$token = $this->exchangeRefreshToken();
+			}
+			$this->bearerToken = $token;
+		}
 
 		$settings = [
 			'baseUri' => $this->createBaseUri(),
@@ -151,18 +259,27 @@ class DAV extends Common {
 		if ($this->authType !== null) {
 			$settings['authType'] = $this->authType;
 		}
+		if ($this->isBearerAuth()) {
+			// The Sabre client must authenticate with the resolved access token
+			// (JWT), not the share token kept in the user name field.
+			$settings['bearerToken'] = $this->bearerToken;
+		}
 
 		$proxy = Server::get(IConfig::class)->getSystemValueString('proxy', '');
 		if ($proxy !== '') {
 			$settings['proxy'] = $proxy;
 		}
 
-		$this->client = new Client($settings);
+		$this->client = new BearerAuthAwareSabreClient($settings);
 		$this->client->setThrowExceptions(true);
 
 		$proxyExclude = Server::get(IConfig::class)->getSystemValue('proxyexclude', []);
 		if ($proxyExclude !== []) {
 			$this->client->addCurlSetting(CURLOPT_NOPROXY, implode(',', $proxyExclude));
+		}
+
+		if ($this->isBearerAuth()) {
+			$this->client->setRefreshTokenCallback(fn (): ?string => $this->refreshAccessToken());
 		}
 
 		if ($this->secure === true) {
@@ -189,6 +306,172 @@ class DAV extends Common {
 			$this->logger->debug('dav ' . $request->getMethod() . ' request to external storage: ' . $request->getAbsoluteUrl() . ' took ' . round($elapsed * 1000, 1) . 'ms', ['app' => 'dav']);
 			$this->eventLogger->end('fs:storage:dav:request');
 		});
+	}
+
+	/**
+	 * Exchange refresh token for access token via the remote server's token endpoint
+	 *
+	 * @return string The access token
+	 * @throws StorageNotAvailableException If token exchange fails
+	 */
+	protected function exchangeRefreshToken(): string {
+		try {
+			$host = ($this->secure ? 'https://' : 'http://') . $this->host;
+			$ocmProvider = $this->discoveryService->discover($host);
+			$tokenEndpoint = $ocmProvider->getTokenEndPoint();
+
+			if ($tokenEndpoint === '') {
+				$this->logger->error('OCM provider response missing tokenEndPoint', ['app' => 'dav']);
+				throw new StorageNotAvailableException('Could not discover token endpoint');
+			}
+
+			$client = $this->httpClientService->newClient();
+			$clientId = parse_url($this->urlGenerator->getAbsoluteURL('/'), PHP_URL_HOST);
+			$payload = [
+				'grant_type' => 'authorization_code',
+				'client_id' => $clientId,
+				'code' => $this->user,  // refresh token is stored in user field
+			];
+
+			$options = [
+				'body' => http_build_query($payload),
+				'headers' => [
+					'Content-Type' => 'application/x-www-form-urlencoded',
+				],
+				'timeout' => 10,
+				'connect_timeout' => 10,
+			];
+
+			try {
+				$options = $this->signatureManager->signOutgoingRequestIClientPayload(
+					$this->signatoryManager,
+					$options,
+					'post',
+					$tokenEndpoint
+				);
+				$this->logger->debug('Token request signed successfully', ['app' => 'dav']);
+			} catch (\Exception $e) {
+				$this->logger->error('Failed to sign token request', [
+					'app' => 'dav',
+					'exception' => $e,
+					'endpoint' => $tokenEndpoint,
+				]);
+				throw new StorageNotAvailableException('Could not sign token request: ' . $e->getMessage());
+			}
+
+			$response = $client->post($tokenEndpoint, $options);
+
+			$statusCode = $response->getStatusCode();
+			if ($statusCode !== 200) {
+				$this->logger->error('Token exchange returned unexpected HTTP status', [
+					'app' => 'dav',
+					'status' => $statusCode,
+				]);
+				throw new StorageNotAvailableException('Could not obtain access token: unexpected HTTP status ' . $statusCode);
+			}
+
+			$data = json_decode($response->getBody(), true);
+
+			if (!is_array($data)) {
+				$this->logger->error('Token exchange response is not valid JSON', ['app' => 'dav']);
+				throw new StorageNotAvailableException('Could not obtain access token: invalid response format');
+			}
+
+			$accessToken = $data['access_token'] ?? null;
+			$tokenType = $data['token_type'] ?? null;
+
+			if (!is_string($accessToken) || $accessToken === '') {
+				$this->logger->error('Token exchange response missing or invalid access_token', ['app' => 'dav']);
+				throw new StorageNotAvailableException('Could not obtain access token: missing access_token field');
+			}
+
+			if (!is_string($tokenType) || strtolower($tokenType) !== 'bearer') {
+				$this->logger->error('Token exchange response has unexpected token_type', [
+					'app' => 'dav',
+					'token_type' => $tokenType,
+				]);
+				throw new StorageNotAvailableException('Could not obtain access token: unexpected token_type');
+			}
+
+			$this->logger->debug('Successfully exchanged refresh token for access token', ['app' => 'dav']);
+			return $accessToken;
+		} catch (OCMProviderException|OCMArgumentException $e) {
+			$this->logger->error('OCM provider response missing tokenEndPoint', ['app' => 'dav']);
+			throw new StorageNotAvailableException('Could not discover token endpoint');
+		} catch (StorageNotAvailableException $e) {
+			throw $e;
+		} catch (\Exception $e) {
+			$this->logger->error('Error exchanging refresh token for access token: ' . $e->getMessage(), [
+				'app' => 'dav',
+				'exception' => $e,
+			]);
+			throw new StorageNotAvailableException('Could not obtain access token: ' . $e->getMessage());
+		}
+	}
+
+	/**
+	 * Check if bearer authentication is being used
+	 */
+	protected function isBearerAuth(): bool {
+		return $this->authType !== null
+			&& ($this->authType & BearerAuthAwareSabreClient::AUTH_BEARER);
+	}
+
+	/** Guard against re-entry while a Guzzle-path 401 is being recovered. */
+	private bool $retryingAuth = false;
+
+	/**
+	 * Wrap a Guzzle-based operation with retry-on-401 using the bearer-token
+	 * refresh. Sabre-based operations don't need this — {@see BearerAuthAwareSabreClient}
+	 * handles 401 transparently on its own.
+	 *
+	 * @template T
+	 * @param callable(): T $operation
+	 * @return T
+	 * @throws \GuzzleHttp\Exception\ClientException
+	 */
+	protected function withAuthRetry(callable $operation): mixed {
+		try {
+			return $operation();
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			if (!$this->isBearerAuth()
+				|| $this->retryingAuth
+				|| !($e->getResponse() instanceof ResponseInterface)
+				|| $e->getResponse()->getStatusCode() !== 401) {
+				throw $e;
+			}
+			$this->retryingAuth = true;
+			try {
+				if ($this->refreshAccessToken() === null) {
+					throw $e;
+				}
+				return $operation();
+			} finally {
+				$this->retryingAuth = false;
+			}
+		}
+	}
+
+	/**
+	 * Exchange the long-lived refresh token for a new short-lived access token
+	 * and update {@see $bearerToken} (and the stored password so subsequent
+	 * init() calls reuse the same token). Used as the refresh callback for the
+	 * Sabre client and by {@see withAuthRetry} for the Guzzle paths.
+	 *
+	 * @return string|null new access token, or null if the exchange failed
+	 */
+	protected function refreshAccessToken(): ?string {
+		$this->logger->debug('Bearer token expired, exchanging for a fresh access token', ['app' => 'dav']);
+		try {
+			$this->password = '';  // force a fresh exchange instead of reusing the expired one
+			$newToken = $this->exchangeRefreshToken();
+		} catch (\Exception $e) {
+			$this->logger->warning('Failed to refresh bearer token: ' . $e->getMessage(), ['app' => 'dav', 'exception' => $e]);
+			return null;
+		}
+		$this->bearerToken = $newToken;
+		$this->password = $newToken;
+		return $newToken;
 	}
 
 	/**
@@ -377,22 +660,31 @@ class DAV extends Common {
 			case 'r':
 			case 'rb':
 				try {
-					$response = $this->httpClientService
-						->newClient()
-						->get($this->createBaseUri() . $this->encodePath($path), [
-							'auth' => [$this->user, $this->password],
-							'stream' => true,
-							// set download timeout for users with slow connections or large files
-							'timeout' => $this->timeout,
-							'verify' => $this->verify,
-						]);
+					$response = $this->withAuthRetry(function () use ($path) {
+						if ($this->authType === BearerAuthAwareSabreClient::AUTH_BEARER) {
+							$auth = [];
+							$headers = ['Authorization' => 'Bearer ' . $this->bearerToken];
+						} else {
+							$auth = [$this->user, $this->password];
+							$headers = [];
+						}
+						return $this->httpClientService
+							->newClient()
+							->get($this->createBaseUri() . $this->encodePath($path), [
+								'headers' => $headers,
+								'auth' => $auth,
+								'stream' => true,
+								// set download timeout for users with slow connections or large files
+								'timeout' => $this->timeout,
+								'verify' => $this->verify,
+							]);
+					});
 				} catch (\GuzzleHttp\Exception\ClientException $e) {
 					if ($e->getResponse() instanceof ResponseInterface
 						&& $e->getResponse()->getStatusCode() === 404) {
 						return false;
-					} else {
-						throw $e;
 					}
+					throw $e;
 				}
 
 				if ($response->getStatusCode() !== Http::STATUS_OK) {
@@ -529,17 +821,26 @@ class DAV extends Common {
 		// invalidate
 		$target = $this->cleanPath($target);
 		$this->statCache->remove($target);
-		$source = fopen($path, 'r');
 
-		$this->httpClientService
-			->newClient()
-			->put($this->createBaseUri() . $this->encodePath($target), [
-				'body' => $source,
-				'auth' => [$this->user, $this->password],
-				// set upload timeout for users with slow connections or large files
-				'timeout' => $this->timeout,
-				'verify' => $this->verify,
-			]);
+		$this->withAuthRetry(function () use ($path, $target) {
+			$source = fopen($path, 'r');
+			$auth = [$this->user, $this->password];
+			$headers = [];
+			if ($this->authType === BearerAuthAwareSabreClient::AUTH_BEARER) {
+				$auth = [];
+				$headers = ['Authorization' => 'Bearer ' . $this->bearerToken];
+			}
+			$this->httpClientService
+				->newClient()
+				->put($this->createBaseUri() . $this->encodePath($target), [
+					'body' => $source,
+					'headers' => $headers,
+					'auth' => $auth,
+					// set upload timeout for users with slow connections or large files
+					'timeout' => $this->timeout,
+					'verify' => $this->verify,
+				]);
+		});
 
 		$this->removeCachedFile($target);
 	}
@@ -570,6 +871,8 @@ class DAV extends Common {
 			$this->removeCachedFile($source);
 			$this->removeCachedFile($target);
 			return true;
+		} catch (ClientHttpException $e) {
+			$this->convertException($e);
 		} catch (\Exception $e) {
 			$this->convertException($e);
 		}
@@ -599,6 +902,8 @@ class DAV extends Common {
 			$this->statCache->set($target, true);
 			$this->removeCachedFile($target);
 			return true;
+		} catch (ClientHttpException $e) {
+			$this->convertException($e);
 		} catch (\Exception $e) {
 			$this->convertException($e);
 		}
@@ -904,6 +1209,8 @@ class DAV extends Common {
 				$this->statCache->set($file, $response);
 				yield $this->getMetaFromPropfind($file, $response);
 			}
+		} catch (ClientHttpException $e) {
+			$this->convertException($e, $directory);
 		} catch (\Exception $e) {
 			$this->convertException($e, $directory);
 		}

@@ -89,6 +89,8 @@
     "Reset to default" : "Reafitar los valores",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Si atopes dalgún problema, nun duldes n'informar d'él nel {issuetracker}rexistrador de problemes{linkend}. Y si quies andechar, ¡xúnite al {designteam}equipu de diseñu{linkend}!",
     "Appearance and accessibility settings" : "Configuración del aspeutu y l'accesibilidá",
+    "Themes" : "Estilos",
+    "Fonts" : "Fontes",
     "Customization has been disabled by your administrator" : "L'alministración desactivó la personalización",
     "Disable-user-theming should be true or false" : "«Disable-user-theming» ha ser «true» o «false»",
     "Header logo" : "Logotipu de la testera",

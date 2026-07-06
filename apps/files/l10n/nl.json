@@ -305,7 +305,7 @@
     "Delete folder" : "Map verwijderen",
     "Delete folders" : "Verwijder mappen",
     "_You are about to permanently delete {count} item_::_You are about to permanently delete {count} items_" : ["Je staat op het punt om {count} item permanent te verwijderen","Je staat op het punt om {count} items permanent te verwijderen"],
-    "_You are about to delete {count} item_::_You are about to delete {count} items_" : ["Je staat op het punt om {count} item te verwijderen","Je staat op het punt om {count}items te verwijderen"],
+    "_You are about to delete {count} item_::_You are about to delete {count} items_" : ["Je staat op het punt om {count} item te verwijderen","Je staat op het punt om {count} items te verwijderen"],
     "Confirm deletion" : "Bevestig verwijderen",
     "Download" : "Downloaden",
     "The requested file is not available." : "Het gevraagde bestand is niet beschikbaar.",
@@ -323,7 +323,9 @@
     "The files are locked" : "De bestanden zijn vergrendeld",
     "The file does not exist anymore" : "Dit bestand bestaat niet meer",
     "Moving \"{source}\" to \"{destination}\" …" : "Verplaatsen \"{source}\" naar \"{destination}\" …",
+    "_Moving %n file to \"{destination}\" …_::_Moving %n files to \"{destination}\" …_" : ["%n bestand verplaatsen naar \"{destination}\" …","%n bestanden verplaatsen naar \"{destination}\" …"],
     "Copying \"{source}\" to \"{destination}\" …" : "Kopieren \"{source}\" naar \"{destination}\" …",
+    "_Copying %n file to \"{destination}\" …_::_Copying %n files to \"{destination}\" …_" : ["%n bestand kopiëren naar \"{destination}\" …","%n bestanden kopiëren naar \"{destination}\" …"],
     "Choose destination" : "Kies bestemming",
     "Copy to {target}" : "Kopieer naar {target}",
     "Move to {target}" : "Verplaats naar {target}",
@@ -394,10 +396,6 @@
     "Files and folders you recently modified will show up here." : "Bestanden en mappen die je recent gewijzigd hebt, worden hier getoond.",
     "Search" : "Zoeken",
     "Search results within your files." : "Zoekresultaten binnen jouw bestanden.",
-    "No entries found in this folder" : "Niets gevonden in deze map",
-    "Select all" : "Alles selecteren",
-    "Upload too large" : "Upload is te groot",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "De bestanden die je probeert te uploaden zijn groter dan de maximaal toegestane  bestandsgrootte voor deze server.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "\"{oldName}\" hernoemd naar \"{newName}\"",
     "Clear filter" : "Filter leegmaken",
     "Open file sidebar" : "Open bestands zijbalk",
@@ -418,7 +416,9 @@
     "Save as …" : "Opslaan als...",
     "Converting files …" : "Bestanden converteren ...",
     "Converting file …" : "Bestand converteren ...",
-    "Moving {count} files to \"{destination}\" …" : "{count} bestanden aan het verplaatsen naar \"{destination}\" …",
-    "Copying {count} files to \"{destination}\" …" : "{count}bestanden aan het kopiëren naar \"{destination}\" …"
+    "No entries found in this folder" : "Niets gevonden in deze map",
+    "Select all" : "Alles selecteren",
+    "Upload too large" : "Upload is te groot",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "De bestanden die je probeert te uploaden zijn groter dan de maximaal toegestane  bestandsgrootte voor deze server."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

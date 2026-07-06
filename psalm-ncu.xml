@@ -11,7 +11,7 @@
 	xsi:schemaLocation="https://getpsalm.org/schema/config vendor-bin/psalm/vendor/vimeo/psalm/config.xsd"
 	findUnusedBaselineEntry="false"
 	findUnusedCode="false"
-	phpVersion="8.2"
+	phpVersion="8.3"
 >
 	<plugins>
 		<plugin filename="build/psalm/NcuExperimentalChecker.php"/>

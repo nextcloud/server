@@ -398,10 +398,6 @@ OC.L10N.register(
     "Files and folders you recently modified will show up here." : "Здесь будут показаны недавно изменённые файлы и папки",
     "Search" : "Поиск",
     "Search results within your files." : "Результаты поиска в ваших файлах.",
-    "No entries found in this folder" : "В этом каталоге ничего не найдено",
-    "Select all" : "Выбрать всё",
-    "Upload too large" : "Файл слишком велик",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Файлы, которые вы пытаетесь передать, превышают лимит максимального размера на этом сервере.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Переименовано «{oldName}» в \"{newName}\"",
     "Clear filter" : "Сбросить фильтр",
     "Open file sidebar" : "Открыть боковую панель файлов",
@@ -422,7 +418,9 @@ OC.L10N.register(
     "Save as …" : "Сохранить как…",
     "Converting files …" : "Преобразование файлов…",
     "Converting file …" : "Преобразование файла…",
-    "Moving {count} files to \"{destination}\" …" : "Перемещение {count} файлов в \"{destination}\" …",
-    "Copying {count} files to \"{destination}\" …" : "Копирование {count} файлов в \"{destination}\" …"
+    "No entries found in this folder" : "В этом каталоге ничего не найдено",
+    "Select all" : "Выбрать всё",
+    "Upload too large" : "Файл слишком велик",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Файлы, которые вы пытаетесь передать, превышают лимит максимального размера на этом сервере."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

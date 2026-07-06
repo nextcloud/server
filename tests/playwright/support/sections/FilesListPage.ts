@@ -5,6 +5,9 @@
 
 import type { Locator, Page } from '@playwright/test'
 
+import { expect } from '@playwright/test'
+import { escapeAttributeValue } from '../utils/css.ts'
+
 export class FilesListPage {
 	constructor(protected readonly page: Page) {}
 
@@ -18,11 +21,26 @@ export class FilesListPage {
 	}
 
 	getRowForFile(filename: string): Locator {
-		return this.page.locator(`[data-cy-files-list-row-name="${filename}"]`)
+		return this.page.locator(`[data-cy-files-list-row-name="${escapeAttributeValue(filename)}"]`)
 	}
 
 	getRowForFileId(fileid: number): Locator {
 		return this.page.locator(`[data-cy-files-list-row-fileid="${fileid}"]`)
+	}
+
+	/** All file rows currently rendered in the list (e.g. for count assertions). */
+	getRows(): Locator {
+		return this.page.locator('[data-cy-files-list-row-fileid]')
+	}
+
+	/** The per-row selection checkboxes. */
+	getRowCheckboxes(): Locator {
+		return this.page.locator('[data-cy-files-list-row-checkbox]')
+	}
+
+	/** The per-row selection checkboxes that are currently checked (i.e. selected rows). */
+	getSelectedRowCheckboxes(): Locator {
+		return this.getRowCheckboxes().getByRole('checkbox', { checked: true })
 	}
 
 	private getActionsButtonForFile(filename: string): Locator {
@@ -31,15 +49,13 @@ export class FilesListPage {
 	}
 
 	/**
-	 * Open the row actions menu for a file and return the menu popover locator.
-	 * Use this when a test needs to inspect a menu entry (e.g. its label) before
-	 * clicking; for a plain "open and click" use {@link triggerActionForFile}.
+	 * Open a row's actions menu and return the menu popover locator. Keyed on a
+	 * row Locator so it serves both name- and fileid-addressed rows.
 	 */
-	async openActionsMenuForFile(filename: string): Promise<Locator> {
-		const row = this.getRowForFile(filename)
+	private async openActionsMenuForRow(row: Locator): Promise<Locator> {
 		await row.hover()
 
-		const actionsButton = this.getActionsButtonForFile(filename)
+		const actionsButton = row.getByRole('button', { name: 'Actions' })
 		await actionsButton.scrollIntoViewIfNeeded()
 		// force: true to avoid issues with the sticky file list header
 		await actionsButton.click({ force: true })
@@ -50,33 +66,131 @@ export class FilesListPage {
 		return menu
 	}
 
+	private async triggerActionForRow(row: Locator, actionId: string): Promise<void> {
+		const menu = await this.openActionsMenuForRow(row)
+		const actionEntry = this.getActionButtonInMenu(menu, actionId)
+		await actionEntry.waitFor({ state: 'visible' })
+		await actionEntry.click()
+	}
+
+	/**
+	 * Open the row actions menu for a file and return the menu popover locator.
+	 * Use this when a test needs to inspect a menu entry (e.g. its label) before
+	 * clicking; for a plain "open and click" use {@link triggerActionForFile}.
+	 */
+	async openActionsMenuForFile(filename: string): Promise<Locator> {
+		return this.openActionsMenuForRow(this.getRowForFile(filename))
+	}
+
 	getActionButtonInMenu(menu: Locator, actionId: string): Locator {
 		// The action button has role="menuitem", so use tag selector not getByRole
 		return menu.locator(`[data-cy-files-list-row-action="${actionId}"] button`)
 	}
 
 	async triggerActionForFile(filename: string, actionId: string): Promise<void> {
-		const menu = await this.openActionsMenuForFile(filename)
-		const actionEntry = this.getActionButtonInMenu(menu, actionId)
-		await actionEntry.waitFor({ state: 'visible' })
-		await actionEntry.click()
+		await this.triggerActionForRow(this.getRowForFile(filename), actionId)
+	}
+
+	/**
+	 * Like {@link triggerActionForFile} but addresses the row by file id. Trashbin
+	 * rows are keyed by id because a deleted file's name is no longer unique (the
+	 * same name can be trashed several times).
+	 */
+	async triggerActionForFileId(fileid: number, actionId: string): Promise<void> {
+		await this.triggerActionForRow(this.getRowForFileId(fileid), actionId)
+	}
+
+	/**
+	 * A file-list-level action button rendered in the list header (e.g.
+	 * "empty-trash"), as opposed to a per-row or selection action.
+	 */
+	getListActionButton(actionId: string): Locator {
+		return this.page.locator(`[data-cy-files-list-action="${actionId}"]`)
+	}
+
+	async triggerListAction(actionId: string): Promise<void> {
+		// .last(): the action can render both inline and inside the overflow menu;
+		// the last match is the actionable one
+		await this.getListActionButton(actionId).last().click({ force: true })
+	}
+
+	/**
+	 * The clickable name link of a row. Clicking it opens a folder or previews a
+	 * file; for an unavailable external storage it is inert (and carries the
+	 * "This node is unavailable" title).
+	 */
+	getRowNameLinkForFile(filename: string): Locator {
+		return this.getRowForFile(filename).locator('[data-cy-files-list-row-name-link]')
+	}
+
+	/**
+	 * An inline row action rendered directly in the row's action area (an action
+	 * declared `inline: () => true`, e.g. the external-storage credentials action),
+	 * as opposed to one nested in the overflow menu.
+	 */
+	getInlineActionEntryForFile(filename: string, actionId: string): Locator {
+		return this.getRowForFile(filename)
+			.locator(`[data-cy-files-list-row-action="${actionId}"]`)
+	}
+
+	/**
+	 * Hover a row and click one of its inline actions. The action area only
+	 * renders on hover, so the row must be hovered first.
+	 */
+	async triggerInlineActionForFile(filename: string, actionId: string): Promise<void> {
+		const row = this.getRowForFile(filename)
+		await row.hover()
+		const button = row.locator(`button[data-cy-files-list-row-action="${actionId}"]`)
+		await button.click()
 	}
 
 	getFavoriteIconForFile(filename: string): Locator {
 		return this.getRowForFile(filename).getByRole('img', { name: 'Favorite' })
 	}
 
-	async selectAll(): Promise<void> {
-		await this.page.locator('[data-cy-files-list-selection-checkbox]')
-			.getByRole('checkbox')
-			.click({ force: true })
+	/**
+	 * The inline "Download" button rendered on a row for the default download action.
+	 */
+	getDownloadButtonForFile(filename: string): Locator {
+		return this.getRowForFile(filename).getByRole('button', { name: 'Download' })
 	}
 
-	async selectRowForFile(filename: string): Promise<void> {
-		// The checkbox is visually hidden inside NcCheckboxRadioSwitch, so force the check
-		await this.getRowForFile(filename)
+	private getSelectAllCheckbox(): Locator {
+		return this.page.locator('[data-cy-files-list-selection-checkbox]')
+			.getByRole('checkbox')
+	}
+
+	async selectAll(): Promise<void> {
+		await this.getSelectAllCheckbox().click({ force: true })
+	}
+
+	/**
+	 * Clear the current selection via the master checkbox. It is a toggle, so it
+	 * clicks the same control as {@link selectAll}; call it while rows are
+	 * selected to deselect them all.
+	 */
+	async deselectAll(): Promise<void> {
+		await this.getSelectAllCheckbox().click({ force: true })
+	}
+
+	/**
+	 * Select a single row's checkbox. Pass `{ shift: true }` to extend the
+	 * selection as a range from the previously selected row. Range selection
+	 * reads the global keyboard store, so Shift is held with real keyboard
+	 * events rather than a click modifier.
+	 */
+	async selectRowForFile(filename: string, { shift = false }: { shift?: boolean } = {}): Promise<void> {
+		// The checkbox is visually hidden inside NcCheckboxRadioSwitch, so force the interaction
+		const checkbox = this.getRowForFile(filename)
 			.getByRole('checkbox', { name: /Toggle selection/ })
-			.check({ force: true })
+
+		if (shift) {
+			await this.page.keyboard.down('Shift')
+			await checkbox.click({ force: true })
+			await this.page.keyboard.up('Shift')
+		} else {
+			await checkbox.check({ force: true })
+		}
 	}
 
 	/**
@@ -129,6 +243,17 @@ export class FilesListPage {
 				.getByRole('button')
 				.filter({ hasText: directory })
 				.click()
+
+			// Assert the deepest segment of the `dir` query param matches the folder
+			// we just opened. Comparing the decoded value (URLSearchParams decodes
+			// percent-encoding) rather than building a regex from the raw name avoids
+			// two pitfalls with special characters: the app encodes some chars that
+			// encodeURIComponent leaves alone (e.g. "'" → "%27"), and regex
+			// metacharacters in the name (e.g. "foo.bar (1)") would corrupt the pattern.
+			await expect.poll(() => {
+				const dir = new URL(this.page.url()).searchParams.get('dir') ?? ''
+				return dir.split('/').pop()
+			}).toBe(directory)
 		}
 	}
 
@@ -138,9 +263,7 @@ export class FilesListPage {
 	 * data-cy attributes (no stable accessible name to target by role).
 	 */
 	async createFolder(folderName: string): Promise<void> {
-		const created = this.page.waitForResponse(
-			(r) => r.request().method() === 'MKCOL' && r.url().includes('/remote.php/dav/files/'),
-		)
+		const created = this.page.waitForResponse((r) => r.request().method() === 'MKCOL' && r.url().includes('/remote.php/dav/files/'))
 
 		await this.page.locator('[data-cy-upload-picker]')
 			.getByRole('button', { name: 'New' })

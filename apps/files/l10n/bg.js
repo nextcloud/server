@@ -375,10 +375,6 @@ OC.L10N.register(
     "Files and folders you recently modified will show up here." : "Файловете и папките, които наскоро сте променили, ще се покажат тук.",
     "Search" : "Търсене",
     "Search results within your files." : "Резултати от търсенето във вашите файлове.",
-    "No entries found in this folder" : "Няма намерени записи в тази папка",
-    "Select all" : "Избери всички",
-    "Upload too large" : "Прекалено голям файл за качване",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Файловете, които се опитвате да качите са по-големи от позволеното на сървъра.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Преименуван \"{oldName}\" на \"{newName}\"",
     "Clear filter" : "Изчстиване на филтър",
     "Open file sidebar" : "Отворете страничната лента на файла",
@@ -398,6 +394,10 @@ OC.L10N.register(
     "Tags" : "Етикети",
     "Save as …" : "Запази като...",
     "Converting files …" : "Конвертиране на файлове...",
-    "Converting file …" : "Файлът се преобразува..."
+    "Converting file …" : "Файлът се преобразува...",
+    "No entries found in this folder" : "Няма намерени записи в тази папка",
+    "Select all" : "Избери всички",
+    "Upload too large" : "Прекалено голям файл за качване",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Файловете, които се опитвате да качите са по-големи от позволеното на сървъра."
 },
 "nplurals=2; plural=(n != 1);");

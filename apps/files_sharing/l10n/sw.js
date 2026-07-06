@@ -90,7 +90,6 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "Kigezo cha sasisho kibaya au hakuna",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "Kutuma nenosiri kupitia Nextcloud Talk kwa kushiriki faili au folda kumeharibika kwa sababu Nextcloud Talk haijawezeshwa.",
     "Custom share link tokens have been disabled by the administrator" : "Tokeni za kipekee za viungo vya kushiriki zimezimwa na msimamizi.",
-    "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Tokeni lazima ziwe na angalau herufi moja 1 na zinaweza kuwa na herufi, nambari, au alama ya mkato pekee.",
     "Invalid date. Format must be YYYY-MM-DD" : "Tarehe si sahihi. Muundo lazima uwe YYYY-MM-DD.",
     "No sharing rights on this item" : "Huna ruhusa ya kushiriki kipengee hiki.",
     "Invalid share attributes provided: \"%s\"" : " Sifa za kushiriki zilizotolewa si sahihi: \"%s\"",
@@ -403,6 +402,7 @@ OC.L10N.register(
     "Back to %s" : "Rudi kwenye %s",
     "Add to your Nextcloud" : "Ongeza kwenye Nextcloud yako",
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Ushirikishaji %s kumeshindwa kwa sababu sehemu ya nyuma haitumii hisa za ScienceMesh",
+    "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Tokeni lazima ziwe na angalau herufi moja 1 na zinaweza kuwa na herufi, nambari, au alama ya mkato pekee.",
     "Name or email …" : "Jina au barua pepe",
     "Name, email, or Federated Cloud ID …" : "Jina, barua pepe au kitambulisho cha Cloudi kilichoshirikishwa...",
     "Searching …" : "Inatafuta"

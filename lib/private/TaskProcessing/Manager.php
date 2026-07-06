@@ -71,7 +71,9 @@ use OCP\TaskProcessing\SynchronousProviderOptions;
 use OCP\TaskProcessing\Task;
 use OCP\TaskProcessing\TaskTypes\AnalyzeImages;
 use OCP\TaskProcessing\TaskTypes\AudioToAudioChat;
+use OCP\TaskProcessing\TaskTypes\AudioToAudioTranslate;
 use OCP\TaskProcessing\TaskTypes\AudioToText;
+use OCP\TaskProcessing\TaskTypes\AudioToTextSubtitles;
 use OCP\TaskProcessing\TaskTypes\ContextAgentAudioInteraction;
 use OCP\TaskProcessing\TaskTypes\ContextAgentInteraction;
 use OCP\TaskProcessing\TaskTypes\ContextWrite;
@@ -85,6 +87,7 @@ use OCP\TaskProcessing\TaskTypes\TextToTextChat;
 use OCP\TaskProcessing\TaskTypes\TextToTextChatWithTools;
 use OCP\TaskProcessing\TaskTypes\TextToTextFormalization;
 use OCP\TaskProcessing\TaskTypes\TextToTextHeadline;
+use OCP\TaskProcessing\TaskTypes\TextToTextImprove;
 use OCP\TaskProcessing\TaskTypes\TextToTextProofread;
 use OCP\TaskProcessing\TaskTypes\TextToTextReformatParagraphs;
 use OCP\TaskProcessing\TaskTypes\TextToTextReformulation;
@@ -685,8 +688,10 @@ class Manager implements IManager {
 			TextToTextChat::ID => Server::get(TextToTextChat::class),
 			TextToTextTranslate::ID => Server::get(TextToTextTranslate::class),
 			TextToTextReformulation::ID => Server::get(TextToTextReformulation::class),
+			TextToTextImprove::ID => Server::get(TextToTextImprove::class),
 			TextToImage::ID => Server::get(TextToImage::class),
 			AudioToText::ID => Server::get(AudioToText::class),
+			AudioToTextSubtitles::ID => Server::get(AudioToTextSubtitles::class),
 			ContextWrite::ID => Server::get(ContextWrite::class),
 			GenerateEmoji::ID => Server::get(GenerateEmoji::class),
 			TextToTextChangeTone::ID => Server::get(TextToTextChangeTone::class),
@@ -696,6 +701,7 @@ class Manager implements IManager {
 			TextToTextReformatParagraphs::ID => Server::get(TextToTextReformatParagraphs::class),
 			TextToSpeech::ID => Server::get(TextToSpeech::class),
 			AudioToAudioChat::ID => Server::get(AudioToAudioChat::class),
+			AudioToAudioTranslate::ID => Server::get(AudioToAudioTranslate::class),
 			ContextAgentAudioInteraction::ID => Server::get(ContextAgentAudioInteraction::class),
 			AnalyzeImages::ID => Server::get(AnalyzeImages::class),
 			ImageToTextOpticalCharacterRecognition::ID => Server::get(ImageToTextOpticalCharacterRecognition::class),
@@ -1254,7 +1260,22 @@ class Manager implements IManager {
 			$task->setStartedAt(time());
 		}
 		$task->setStatus(Task::STATUS_RUNNING);
-		$task->setProgress($progress);
+		if ($progress >= 0 && $progress <= 1.0) {
+			$task->setProgress($progress);
+			// Refine the expected completion time from the actual progress reported so far.
+			// We need a positive elapsed time and a positive progress to avoid divide-by-zero
+			// and the wildly unstable estimates produced when progress is still near zero.
+			$startedAt = $task->getStartedAt();
+			if ($startedAt !== null && $progress > 0.0) {
+				$elapsed = time() - $startedAt;
+				if ($elapsed > 0) {
+					$remainingSeconds = (int)ceil($elapsed * (1.0 - $progress) / $progress);
+					$completionExpectedAt = new \DateTime('now');
+					$completionExpectedAt->add(new \DateInterval('PT' . $remainingSeconds . 'S'));
+					$task->setCompletionExpectedAt($completionExpectedAt);
+				}
+			}
+		}
 		$taskEntity = \OC\TaskProcessing\Db\Task::fromPublicTask($task);
 		try {
 			$this->taskMapper->update($taskEntity);
@@ -1434,6 +1455,21 @@ class Manager implements IManager {
 			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem finding the task', previous: $e);
 		} catch (\JsonException $e) {
 			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem parsing JSON after finding the task', previous: $e);
+		}
+	}
+
+	#[\Override]
+	public function claimNextScheduledTask(array $taskTypeIds = []): ?Task {
+		try {
+			$taskEntity = $this->taskMapper->claimOldestScheduledTask($taskTypeIds);
+			if ($taskEntity === null) {
+				return null;
+			}
+			return $taskEntity->toPublicTask();
+		} catch (\OCP\DB\Exception $e) {
+			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem claiming the task', previous: $e);
+		} catch (\JsonException $e) {
+			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem parsing JSON after claiming the task', previous: $e);
 		}
 	}
 

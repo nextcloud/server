@@ -96,15 +96,17 @@ class Search implements ISearch {
 		$allResults = $searchResult->asArray();
 
 		$emailType = new SearchResultType('emails');
-		$remoteType = new SearchResultType('remotes');
-
-		if (!isset($allResults[$remoteType->getLabel()])
-			|| !isset($allResults[$emailType->getLabel()])) {
+		$emailLabel = $emailType->getLabel();
+		$emailEntries = array_merge(
+			$allResults['exact'][$emailLabel] ?? [],
+			$allResults[$emailLabel] ?? []
+		);
+		if ($emailEntries === []) {
 			return;
 		}
 
 		$mailIdMap = [];
-		foreach ($allResults[$emailType->getLabel()] as $mailRow) {
+		foreach ($emailEntries as $mailRow) {
 			// sure, array_reduce looks nicer, but foreach needs less resources and is faster
 			if (!isset($mailRow['uuid'])) {
 				continue;
@@ -112,12 +114,28 @@ class Search implements ISearch {
 			$mailIdMap[$mailRow['uuid']] = $mailRow['value']['shareWith'];
 		}
 
-		foreach ($allResults[$remoteType->getLabel()] as $resultRow) {
-			if (!isset($resultRow['uuid'])) {
-				continue;
+		$remoteType = new SearchResultType('remotes');
+		if (isset($allResults[$remoteType->getLabel()])) {
+			foreach ($allResults[$remoteType->getLabel()] as $resultRow) {
+				if (!isset($resultRow['uuid'])) {
+					continue;
+				}
+				if (isset($mailIdMap[$resultRow['uuid']])) {
+					$searchResult->removeCollaboratorResult($emailType, $mailIdMap[$resultRow['uuid']]);
+				}
 			}
-			if (isset($mailIdMap[$resultRow['uuid']])) {
-				$searchResult->removeCollaboratorResult($emailType, $mailIdMap[$resultRow['uuid']]);
+		}
+
+		$lookupType = new SearchResultType('lookup');
+		if (isset($allResults[$lookupType->getLabel()])) {
+			foreach ($allResults[$lookupType->getLabel()] as $resultRow) {
+				$userid = $resultRow['extra']['userid']['value'] ?? null;
+				if ($userid === null) {
+					continue;
+				}
+				if (isset($mailIdMap[$userid])) {
+					$searchResult->removeCollaboratorResult($emailType, $mailIdMap[$userid]);
+				}
 			}
 		}
 	}

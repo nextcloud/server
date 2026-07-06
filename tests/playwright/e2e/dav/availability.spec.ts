@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { expect } from '@playwright/test'
 import { User } from '@nextcloud/e2e-test-server'
 import { addUser, runOcc } from '@nextcloud/e2e-test-server/docker'
+import { expect } from '@playwright/test'
 import { test } from '../../support/fixtures/random-user-session.ts'
 
 test.describe('Calendar: Availability', () => {
@@ -35,9 +35,7 @@ test.describe('Calendar: Availability', () => {
 		await fridayItem.getByLabel('Pick a end time for Friday').fill('18:00')
 
 		// Wait for the PROPPATCH save request before clicking
-		const saveResponse = page.waitForResponse(
-			(r) => r.url().includes('/remote.php/dav/calendars/') && r.url().includes('/inbox') && r.request().method() === 'PROPPATCH',
-		)
+		const saveResponse = page.waitForResponse((r) => r.url().includes('/remote.php/dav/calendars/') && r.url().includes('/inbox') && r.request().method() === 'PROPPATCH')
 		await page.locator('#availability').getByRole('button', { name: 'Save' }).click()
 		await saveResponse
 
@@ -70,9 +68,7 @@ test.describe('Calendar: Availability', () => {
 
 			// Search for the replacement user via NcSelectUsers
 			const userSearchInput = absenceSection.getByLabel('Out of office replacement (optional)')
-			const searchResponse = page.waitForResponse(
-				(r) => r.url().includes('/apps/files_sharing/api/v1/sharees') && r.url().includes('search=replacement'),
-			)
+			const searchResponse = page.waitForResponse((r) => r.url().includes('/apps/files_sharing/api/v1/sharees') && r.url().includes('search=replacement'))
 			await userSearchInput.click()
 			await userSearchInput.fill('replacement')
 			await searchResponse
@@ -80,9 +76,7 @@ test.describe('Calendar: Availability', () => {
 			await page.getByRole('option', { name: 'replacement-user' }).click()
 
 			// Save and wait for the OCS POST
-			const saveResponse = page.waitForResponse(
-				(r) => r.url().includes('/apps/dav/api/v1/outOfOffice/') && r.request().method() === 'POST',
-			)
+			const saveResponse = page.waitForResponse((r) => r.url().includes('/apps/dav/api/v1/outOfOffice/') && r.request().method() === 'POST')
 			await absenceSection.getByRole('button', { name: 'Save' }).click()
 			await saveResponse
 

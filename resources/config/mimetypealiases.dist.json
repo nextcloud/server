@@ -119,6 +119,7 @@
 	"text/css": "text/code",
 	"text/csv": "x-office/spreadsheet",
 	"text/html": "text/code",
+	"text/tab-separated-values": "x-office/spreadsheet",
 	"text/x-c": "text/code",
 	"text/x-c++src": "text/code",
 	"text/x-h": "text/code",

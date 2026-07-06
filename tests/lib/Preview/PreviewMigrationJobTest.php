@@ -131,7 +131,8 @@ class PreviewMigrationJobTest extends TestCase {
 				$this->previewMapper,
 				$this->storageFactory,
 				Server::get(IAppDataFactory::class),
-			)
+			),
+			$this->logger,
 		);
 		$this->invokePrivate($job, 'run', [[]]);
 		$this->assertEquals(0, count($this->previewAppData->getDirectoryListing()));
@@ -168,7 +169,8 @@ class PreviewMigrationJobTest extends TestCase {
 				$this->previewMapper,
 				$this->storageFactory,
 				Server::get(IAppDataFactory::class),
-			)
+			),
+			$this->logger,
 		);
 		$this->invokePrivate($job, 'run', [[]]);
 		$this->assertEquals(0, count($this->previewAppData->getDirectoryListing()));
@@ -213,7 +215,8 @@ class PreviewMigrationJobTest extends TestCase {
 				$this->previewMapper,
 				$this->storageFactory,
 				Server::get(IAppDataFactory::class),
-			)
+			),
+			$this->logger,
 		);
 		$this->invokePrivate($job, 'run', [[]]);
 		$previews = iterator_to_array($this->previewMapper->getAvailablePreviewsForFile(5));

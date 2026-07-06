@@ -8,11 +8,14 @@
 
 namespace OCP;
 
+use OCP\User\Exceptions\UserNotFoundException;
+
 /**
  * Interface for managing and querying user session state.
  *
  * Provides methods for authenticating users, accessing the active user,
  * and handling login/logout functionality in a Nextcloud server session.
+ *
  * @since 6.0.0
  */
 interface IUserSession {
@@ -89,6 +92,7 @@ interface IUserSession {
 	 * If false, removes any impersonator information from the session.
 	 *
 	 * @param bool $useCurrentUser Whether to assign the current user as the impersonator or to clear it.
+	 * @throws UserNotFoundException When the user is not found
 	 * @since 18.0.0
 	 */
 	public function setImpersonatingUserID(bool $useCurrentUser = true): void;

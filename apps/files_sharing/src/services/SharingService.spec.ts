@@ -535,6 +535,34 @@ describe('SharingService share to Node mapping', () => {
 		expect(file.attributes.favorite).toBe(0)
 	})
 
+	test('Pending share has no permissions', async () => {
+		axios.get
+			.mockReturnValueOnce(Promise.resolve({
+				data: { ocs: { data: [shareFile] } },
+			}))
+			.mockReturnValueOnce(Promise.resolve({
+				data: { ocs: { data: [] } },
+			}))
+
+		const shares = await getContents(false, false, true, false)
+
+		expect(axios.get).toHaveBeenCalledTimes(2)
+		expect(shares.contents).toHaveLength(1)
+		expect(shares.contents[0].permissions).toBe(0)
+	})
+
+	test('Deleted share has no permissions', async () => {
+		axios.get.mockReturnValueOnce(Promise.resolve({
+			data: { ocs: { data: [shareFolder] } },
+		}))
+
+		const shares = await getContents(false, false, false, true)
+
+		expect(axios.get).toHaveBeenCalledTimes(1)
+		expect(shares.contents).toHaveLength(1)
+		expect(shares.contents[0].permissions).toBe(0)
+	})
+
 	test('Empty', async () => {
 		vi.spyOn(logger, 'error').mockImplementationOnce(() => {})
 		axios.get.mockReturnValueOnce(Promise.resolve({

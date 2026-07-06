@@ -10,8 +10,10 @@ declare(strict_types=1);
 namespace OCA\DAV\Tests\unit\Service;
 
 use OCA\DAV\CalDAV\CalDavBackend;
+use OCA\DAV\Exception\ExampleEventException;
 use OCA\DAV\Service\ExampleEventService;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Files\GenericFileException;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
@@ -171,6 +173,29 @@ class ExampleEventServiceTest extends TestCase {
 		$expectedIcs = file_get_contents(__DIR__ . '/../test_fixtures/example-event-expected.ics');
 		$actualIcs = $this->service->getExampleEvent()->getIcs();
 		$this->assertEquals($expectedIcs, $actualIcs);
+	}
+
+	public function testGetExampleEventThrowsOnReadError(): void {
+		$exampleEventFolder = $this->createMock(ISimpleFolder::class);
+		$this->appData->expects(self::once())
+			->method('getFolder')
+			->with('example_event')
+			->willReturn($exampleEventFolder);
+		$exampleEventFile = $this->createMock(ISimpleFile::class);
+		$exampleEventFolder->expects(self::once())
+			->method('getFile')
+			->with('example_event.ics')
+			->willReturn($exampleEventFile);
+		$exampleEventFile->expects(self::once())
+			->method('getContent')
+			->willThrowException(new GenericFileException());
+
+		$this->random->expects(self::once())
+			->method('generate')
+			->willReturn('RANDOM-UID');
+
+		$this->expectException(ExampleEventException::class);
+		$this->service->getExampleEvent();
 	}
 
 	public function testGetExampleEventWithDefault(): void {

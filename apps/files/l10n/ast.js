@@ -97,6 +97,7 @@ OC.L10N.register(
     "Personal files" : "Ficheros personales",
     "Additional settings" : "Configuración adicional",
     "Actions" : "Aiciones",
+    "File actions" : "File actions",
     "Selection" : "Seleición",
     "Navigation" : "Navegación",
     "View" : "Ver",
@@ -233,10 +234,6 @@ OC.L10N.register(
     "No recently modified files" : "Nun hai nengún ficheru modificáu de recién",
     "Files and folders you recently modified will show up here." : "Equí apaecen los ficheros y les carpetes modificaes de recién.",
     "Search" : "Buscar",
-    "No entries found in this folder" : "Nun s'atopó nenguna entrada nesta carpeta",
-    "Select all" : "Seleicionar too",
-    "Upload too large" : "La xuba ye mui grande",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Los ficheros que tentes de xubir superen el tamañu máximu qu'esti sirvidor permite.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Renomóse «{oldName}» a «{newName}»",
     "Invalid path selected" : "Seleicionóse un camín inválidu",
     "Choose file or folder to transfer" : "Escoyer el ficheru o carpeta a tresferir",
@@ -246,6 +243,10 @@ OC.L10N.register(
     "You" : "Tu",
     "Shared multiple times with different people" : "Compartióse múltiples vegaes con otres persones",
     "Error while loading the file data" : "Hebo un error mentanto de cargaben los datos de los ficheros",
-    "Tags" : "Etiquetes"
+    "Tags" : "Etiquetes",
+    "No entries found in this folder" : "Nun s'atopó nenguna entrada nesta carpeta",
+    "Select all" : "Seleicionar too",
+    "Upload too large" : "La xuba ye mui grande",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Los ficheros que tentes de xubir superen el tamañu máximu qu'esti sirvidor permite."
 },
 "nplurals=2; plural=(n != 1);");

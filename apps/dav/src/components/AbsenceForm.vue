@@ -72,6 +72,22 @@ import NcTextField from '@nextcloud/vue/components/NcTextField'
 import { logger } from '../service/logger.ts'
 import { formatDateAsYMD } from '../utils/date.ts'
 
+/**
+ * Adjusts a date so `NcDateTimePickerNative` shows the same date
+ * instead of shifting it to the browsers timezone.
+ *
+ * @param {Date} date - e.g., new Date("1987-12-01")
+ * @return {Date}
+ */
+function inputAdjustDate(date) {
+	// e.g., date === Mon Nov 30 1987 16:00:00 GMT-0800 (Pacific Standard Time)
+	const timezoneOffsetMilliseconds = date.getTimezoneOffset() * 60 * 1000
+	// e.g., Tue Dec 01 1987 00:00:00 GMT-0800 (Pacific Standard Time)
+	const adjustedDate = new Date(date.getTime() + timezoneOffsetMilliseconds)
+	// `NcDateTimePickerNative` will display this as 12/01/1987
+	return adjustedDate
+}
+
 export default {
 	name: 'AbsenceForm',
 	components: {
@@ -88,12 +104,15 @@ export default {
 
 	data() {
 		const { firstDay, lastDay, status, message, replacementUserId, replacementUserDisplayName } = loadState('dav', 'absence', {})
+		const firstDayDate = firstDay ? new Date(firstDay) : new Date()
+		const firstDayInputAdjusted = inputAdjustDate(firstDayDate)
+		const lastDayInputAdjusted = lastDay ? inputAdjustDate(new Date(lastDay)) : null
 		return {
 			loading: false,
 			status: status ?? '',
 			message: message ?? '',
-			firstDay: firstDay ? new Date(firstDay) : new Date(),
-			lastDay: lastDay ? new Date(lastDay) : null,
+			firstDay: firstDayInputAdjusted,
+			lastDay: lastDayInputAdjusted,
 			replacementUserId,
 			replacementUser: replacementUserId ? { user: replacementUserId, displayName: replacementUserDisplayName } : null,
 			searchLoading: false,

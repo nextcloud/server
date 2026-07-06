@@ -90,7 +90,6 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "Parameter salah atau tidak diperbarui",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"Mengirim kata sandi melalui Nextcloud Talk\" untuk berbagi file atau folder gagal karena Nextcloud Talk tidak diaktifkan.",
     "Custom share link tokens have been disabled by the administrator" : "Token tautan berbagi kustom telah dinonaktifkan oleh administrator",
-    "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Token harus berisi setidaknya 1 karakter dan hanya boleh berisi huruf, angka, atau tanda hubung",
     "Invalid date. Format must be YYYY-MM-DD" : "Tanggal tidak valid. Format harus YYYY-MM-DD",
     "No sharing rights on this item" : "Tidak ada hak berbagi pada item ini",
     "Invalid share attributes provided: \"%s\"" : "Atribut berbagi tidak valid yang diberikan: \"%s\"",
@@ -403,6 +402,7 @@ OC.L10N.register(
     "Back to %s" : "Kembali ke %s",
     "Add to your Nextcloud" : "Tambahkan ke Nextcloud Anda",
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Berbagi %s gagal karena back end tidak mendukung berbagi ScienceMesh",
+    "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Token harus berisi setidaknya 1 karakter dan hanya boleh berisi huruf, angka, atau tanda hubung",
     "Name or email …" : "Nama atau email …",
     "Name, email, or Federated Cloud ID …" : "Nama, email, atau ID Cloud Bersama …",
     "Searching …" : "Mencari …"

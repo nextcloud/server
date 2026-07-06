@@ -13,7 +13,7 @@
 	findUnusedCode="false"
 	findUnusedPsalmSuppress="true"
 	findUnusedVariablesAndParams="true"
-	phpVersion="8.2"
+	phpVersion="8.3"
 >
 	<plugins>
 		<pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
@@ -35,6 +35,7 @@
 		<file name="lib/public/DB/QueryBuilder/ITypedQueryBuilder.php"/>
 		<file name="lib/private/Share20/ShareHelper.php"/>
 		<file name="lib/public/Share/IShareHelper.php"/>
+		<file name="lib/public/SystemTag/Events/*.php"/>
 		<directory name="apps/appstore/lib" />
 		<ignoreFiles>
 			<!-- Missing types of the AppFetcher and the OC_Apps class for return types -->
@@ -44,8 +45,8 @@
 			<directory name="lib/composer"/>
 			<directory name="lib/l10n"/>
 			<directory name="3rdparty"/>
-			<directory name="lib/public"/>
-			<directory name="lib/private"/>
+			<file name="lib/public/AppFramework/Controller.php"/>
+			<file name="lib/public/AppFramework/OCSController.php"/>
 			<directory name="build"/>
 		</ignoreFiles>
 	</projectFiles>

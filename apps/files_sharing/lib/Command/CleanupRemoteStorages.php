@@ -161,7 +161,7 @@ class CleanupRemoteStorages extends Command {
 	 */
 	private function getRemoteShareIds(): array {
 		$queryBuilder = $this->connection->getQueryBuilder();
-		$queryBuilder->select(['id', 'share_token', 'owner', 'remote'])
+		$queryBuilder->select(['id', 'refresh_token', 'owner', 'remote'])
 			->from('share_external');
 		$result = $queryBuilder->executeQuery();
 
@@ -170,7 +170,7 @@ class CleanupRemoteStorages extends Command {
 		while ($row = $result->fetchAssociative()) {
 			$cloudId = $this->cloudIdManager->getCloudId($row['owner'], $row['remote']);
 			$remote = $cloudId->getRemote();
-			$remoteShareIds[$row['id']] = 'shared::' . md5($row['share_token'] . '@' . $remote);
+			$remoteShareIds[$row['id']] = 'shared::' . md5($row['refresh_token'] . '@' . $remote);
 		}
 		$result->closeCursor();
 

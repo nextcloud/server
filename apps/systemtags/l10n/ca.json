@@ -61,9 +61,7 @@
     "Update" : "Actualitza",
     "Delete" : "Suprimeix",
     "Reset" : "Reinicialitza",
-    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["S'establirà {tag1} i s'eliminarà {tag2} d'1 fitxer.","S'establirà {tag1} i s'eliminaran {tag2} de {count} fitxers."],
     "_{tag} will be set to 1 file._::_{tag} will be set to {count} files._" : ["{tag} s'establirà en 1 fitxer.","{tag} s'establirà en {count} fitxers."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} s'eliminarà d'1 fitxer.","{tag} s'eliminarà de {count} fitxers."],
     "_{tags} and {lastTag} will be set to 1 file._::_{tags} and {lastTag} will be set to {count} files._" : ["{tags} i {lastTag} s'establiran en 1 fitxer.","{tags} i {lastTag} s'establiran en {count} fitxers."],
     "_{tags} and {lastTag} will be removed from 1 file._::_{tags} and {lastTag} will be removed from {count} files._" : ["{tags} i {lastTag} s'eliminaran d'1 fitxer.","{tags} i {lastTag} s'eliminaran de {count} fitxers."],
     "{displayName} (hidden)" : "{displayName} (amagat)",
@@ -105,6 +103,8 @@
     "Failed to delete tag for file" : "No s'ha pogut suprimir l'etiqueta del fitxer",
     "Collaborative tags …" : "Etiquetes col·laboratives…",
     "Loading …" : "S'està carregant…",
+    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["S'establirà {tag1} i s'eliminarà {tag2} d'1 fitxer.","S'establirà {tag1} i s'eliminaran {tag2} de {count} fitxers."],
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} s'eliminarà d'1 fitxer.","{tag} s'eliminarà de {count} fitxers."],
     "Loading collaborative tags …" : "S'estan carregant les etiquetes col·laboratives…"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

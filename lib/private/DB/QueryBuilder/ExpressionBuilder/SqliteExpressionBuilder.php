@@ -27,6 +27,15 @@ class SqliteExpressionBuilder extends ExpressionBuilder {
 		return $this->like($this->functionBuilder->lower($x), $this->functionBuilder->lower($y), $type);
 	}
 
+	#[\Override]
+	public function notILike(
+		string|IParameter|ILiteral|IQueryFunction $x,
+		string|IParameter|ILiteral|IQueryFunction $y,
+		int|string|null $type = null,
+	): string {
+		return $this->notLike($this->functionBuilder->lower($x), $this->functionBuilder->lower($y), $type);
+	}
+
 	/**
 	 * @param mixed $column
 	 * @param mixed|null $type

@@ -18,25 +18,26 @@ export interface OccSystemTag {
  * @param access - The access level
  */
 export async function createTag(name: string, access: 'public' | 'restricted' | 'invisible' = 'public'): Promise<OccSystemTag> {
-	const result = await runOcc(['tag:add', '--output=json', '--', name, access])
-	return JSON.parse(result) as OccSystemTag
+	const { stdout: jsonResult } = await runOcc(['tag:add', '--output=json', '--', name, access])
+	return JSON.parse(jsonResult) as OccSystemTag
 }
 
 /**
  * Delete a system tag via OCC
  *
  * @param id - The id of the tag to delete
+ * @param force - Whether to force the deletion
  */
-export async function deleteTag(id: string): Promise<void> {
-	await runOcc(['tag:delete', id])
+export async function deleteTag(id: string, force = false): Promise<void> {
+	await runOcc(['tag:delete', id], { failOnError: !force })
 }
 
 /**
  * List all system tags via OCC
  */
 export async function listTags(): Promise<OccSystemTag[]> {
-	const output = await runOcc(['tag:list', '--output=json'])
-	const json = JSON.parse(output) as Record<string, Omit<OccSystemTag, 'id'>>
+	const { stdout: jsonList } = await runOcc(['tag:list', '--output=json'])
+	const json = JSON.parse(jsonList) as Record<string, Omit<OccSystemTag, 'id'>>
 	return Object.entries(json).map(([id, value]) => ({ ...value, id }))
 }
 
@@ -46,7 +47,7 @@ export async function listTags(): Promise<OccSystemTag[]> {
 export async function clearTags(): Promise<void> {
 	const tags = await listTags()
 	for (const tag of tags) {
-		await deleteTag(tag.id)
+		await deleteTag(tag.id, true)
 	}
 }
 

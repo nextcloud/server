@@ -90,7 +90,6 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "S'ha proporcionat un paràmetre d'actualització incorrecte o no s'ha proporcionat",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "No s'ha pogut enviar la contrasenya per Converses del Nextcloud per a compartir un fitxer o una carpeta perquè l'aplicació Converses del Nextcloud no està habilitada.",
     "Custom share link tokens have been disabled by the administrator" : "L'administrador ha desactivat els testimonis d'enllaços de compartició personalitzats",
-    "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Els testimonis han de contenir almenys 1 caràcter i només poden contenir lletres, números o un guió",
     "Invalid date. Format must be YYYY-MM-DD" : "Data no vàlida. El format ha de ser AAAA-MM-DD",
     "No sharing rights on this item" : "No hi ha drets per compartir aquest element",
     "Invalid share attributes provided: \"%s\"" : "S'han proporcionat atributs compartits no vàlids: \"%s\"",
@@ -375,6 +374,7 @@ OC.L10N.register(
     "Back to %s" : "Torna a %s",
     "Add to your Nextcloud" : "Afegeix al Nextcloud",
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "No s'ha pogut compartir %s perquè el rerefons no permet elements compartits de ScienceMesh",
+    "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Els testimonis han de contenir almenys 1 caràcter i només poden contenir lletres, números o un guió",
     "Name or email …" : "Nom o adreça electrònica…",
     "Name, email, or Federated Cloud ID …" : "Nom, adreça electrònica o ID de núvol federat…",
     "Searching …" : "S'està cercant…"

@@ -93,7 +93,7 @@ namespace OCA\Files_Sharing;
  *     permissions: int|null,
  *     remote: string,
  *     remote_id: string,
- *     share_token: string,
+ *     refresh_token: string,
  *     share_type: int,
  *     type: string|null,
  *     user: string,

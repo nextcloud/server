@@ -28,7 +28,7 @@ jobs:
       src: ${{ steps.changes.outputs.src}}
 
     steps:
-      - uses: dorny/paths-filter@fbd0ab8f3e69293af611ebaee6363fc25e6d187d # v4.0.1
+      - uses: dorny/paths-filter@7b450fff21473bca461d4b92ce414b9d0420d706 # v4.0.2
         id: changes
         continue-on-error: true
         with:
@@ -56,31 +56,30 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.3', '8.5']
+        php-versions: ["8.3", "8.5"]
 
     name: Memcached (PHP ${{ matrix.php-versions }})
 
     services:
       memcached:
-        image: ghcr.io/nextcloud/continuous-integration-redis:latest # zizmor: ignore[unpinned-images]
+        image: ghcr.io/nextcloud/continuous-integration-memcached:latest # zizmor: ignore[unpinned-images]
         ports:
-          - 11212:11212/tcp
-          - 11212:11212/udp
+          - 11211:11211/tcp
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           persist-credentials: false
           submodules: true
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@7c071dfe9dc99bdf297fa79cb49ea005b9fcadbc #v2.37.1
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 #v2.37.2
         timeout-minutes: 5
         with:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
-          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, memcached, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
+          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, memcached, openssl, pcntl, pdo_sqlite, posix, session, simplexml, sqlite, xmlreader, xmlwriter, zip, zlib
           coverage: none
           ini-file: development
           ini-values: disable_functions=""
@@ -94,12 +93,13 @@ jobs:
       - name: Set up Nextcloud
         run: |
           mkdir data
+          cp tests/memcached.config.php config/
           cp tests/preseed-config.php config/config.php
           ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass admin
           php -f tests/enable_all.php
 
       - name: PHPUnit memcached tests
-        run: composer run test -- --group Memcache --group Memcached --log-junit junit.xml
+        run: composer run test -- --group Memcached --log-junit junit.xml
 
       - name: Print logs
         if: always()

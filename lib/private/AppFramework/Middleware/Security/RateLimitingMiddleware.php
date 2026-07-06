@@ -131,6 +131,7 @@ class RateLimitingMiddleware extends Middleware {
 	 * @param string $methodName
 	 * @param string $annotationName
 	 * @param class-string<T> $attributeClass
+	 * @param string $overwriteKey
 	 * @return ?ARateLimit
 	 */
 	protected function readLimitFromAnnotationOrAttribute(Controller $controller, string $methodName, string $annotationName, string $attributeClass, string $overwriteKey): ?ARateLimit {

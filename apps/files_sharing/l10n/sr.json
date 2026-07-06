@@ -88,7 +88,6 @@
     "Wrong or no update parameter given" : "Погрешан или ненаведен параметер",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "„Slanje lozinke putem Nextcloud Talk-a“ za deljenje datoteke ili fascikle nije uspelo jer Nextcloud Talk nije omogućen.",
     "Custom share link tokens have been disabled by the administrator" : "Администратор је забранио произвољне жетоне линка дељења",
-    "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Жетони морају да садрже бар један карактер и смеју да садрже само слова, бројеве или цртицу",
     "Invalid date. Format must be YYYY-MM-DD" : "Неисправан датум. Формат датума мора да буде ГГГГ-ММ-ДД",
     "No sharing rights on this item" : "Нема права за дељење ове ставке",
     "Invalid share attributes provided: \"%s\"" : "Наведени су неисправни атрибути дељења: „%s”",
@@ -401,6 +400,7 @@
     "Back to %s" : "Назад на %s",
     "Add to your Nextcloud" : "Додајте у свој облак",
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Дељење %s није успело јер позадински механизам не подржава ScienceMesh дељења",
+    "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Жетони морају да садрже бар један карактер и смеју да садрже само слова, бројеве или цртицу",
     "Name or email …" : "Име или адреса е-поште…",
     "Name, email, or Federated Cloud ID …" : "Ime, imejl ili ID u federalnom oblaku…",
     "Searching …" : "Тражим…"

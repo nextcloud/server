@@ -3,10 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { expect, test as baseTest } from '@playwright/test'
-import { User } from '@nextcloud/e2e-test-server'
-import { createRandomUser, login } from '@nextcloud/e2e-test-server/playwright'
+import type { User } from '@nextcloud/e2e-test-server'
+
 import { runOcc } from '@nextcloud/e2e-test-server/docker'
+import { createRandomUser, login } from '@nextcloud/e2e-test-server/playwright'
+import { test as baseTest, expect } from '@playwright/test'
 import { AccountMenuPage } from '../../support/sections/AccountMenuPage.ts'
 import { LoginPage } from '../../support/sections/LoginPage.ts'
 

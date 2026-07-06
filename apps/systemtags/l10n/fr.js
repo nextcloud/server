@@ -65,9 +65,7 @@ OC.L10N.register(
     "Delete" : "Supprimer",
     "Reset" : "Réinitialiser",
     "Loading …" : "Chargement...",
-    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} sera attribuée et {tag2} sera retirée d'1 fichier.","{tag1} sera attribuée et {tag2} sera retirée de {count} fichiers.","{tag1} sera attribuée et {tag2} sera retirée de {count} fichiers."],
     "_{tag} will be set to 1 file._::_{tag} will be set to {count} files._" : ["{tag} sera attribuée à 1 fichier.","{tag} sera attribuée à {count} fichiers.","{tag} sera attribuée à {count} fichiers."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} sera retiré d'1 fichier.","{tag} sera retirée de {count} fichiers.","{tag} sera retirée de {count} fichiers."],
     "_{tags} and {lastTag} will be set to 1 file._::_{tags} and {lastTag} will be set to {count} files._" : ["{tags} et {lastTag} seront attribuées à 1 fichier.","{tags} et {lastTag} seront attribuées à {count} fichiers.","{tags} et {lastTag} seront attribuées à {count} fichiers."],
     "_{tags} and {lastTag} will be removed from 1 file._::_{tags} and {lastTag} will be removed from {count} files._" : ["{tags} et {lastTag} seront retirées d'1 fichier.","{tags} et {lastTag} seront retirées de {count} fichiers.","{tags} et {lastTag} seront retirées de {count} fichiers."],
     "{displayName} (hidden)" : "{displayName} (caché)",
@@ -112,6 +110,8 @@ OC.L10N.register(
     "Failed to delete tag for file" : "Impossible de supprimer l'étiquette au fichier",
     "Collaborative tags …" : "Étiquettes collaboratives…",
     "Loading …" : "Chargement…",
+    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} sera attribuée et {tag2} sera retirée d'1 fichier.","{tag1} sera attribuée et {tag2} sera retirée de {count} fichiers.","{tag1} sera attribuée et {tag2} sera retirée de {count} fichiers."],
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} sera retiré d'1 fichier.","{tag} sera retirée de {count} fichiers.","{tag} sera retirée de {count} fichiers."],
     "Loading collaborative tags …" : "Chargement des étiquettes collaboratives..."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

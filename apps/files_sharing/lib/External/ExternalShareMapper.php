@@ -55,7 +55,7 @@ class ExternalShareMapper extends QBMapper {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')
 			->from(self::TABLE_NAME)
-			->where($qb->expr()->eq('share_token', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR)))
+			->where($qb->expr()->eq('refresh_token', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR)))
 			->setMaxResults(1);
 		return $this->findEntity($qb);
 	}
@@ -238,7 +238,7 @@ class ExternalShareMapper extends QBMapper {
 			->where(
 				$qb->expr()->andX(
 					$qb->expr()->eq('remote_id', $qb->createNamedParameter($id)),
-					$qb->expr()->eq('share_token', $qb->createNamedParameter($token))
+					$qb->expr()->eq('refresh_token', $qb->createNamedParameter($token))
 				)
 			);
 

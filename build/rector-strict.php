@@ -5,6 +5,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+use Rector\PHPUnit\CodeQuality\Rector\Class_\AddSeeTestAnnotationRector;
+
 $nextcloudDir = dirname(__DIR__);
 
 return (require __DIR__ . '/rector-shared.php')
@@ -46,4 +48,6 @@ return (require __DIR__ . '/rector-shared.php')
 		symfonyConfigs: true,
 	)->withPhpSets(
 		php82: true,
-	);
+	)->withSkip([
+		AddSeeTestAnnotationRector::class,
+	]);

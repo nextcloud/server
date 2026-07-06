@@ -8,7 +8,6 @@
 
 namespace OC\Setup;
 
-use Doctrine\DBAL\Platforms\MySQL80Platform;
 use Doctrine\DBAL\Platforms\MySQL84Platform;
 use OC\DatabaseSetupException;
 use OC\DB\ConnectionAdapter;
@@ -38,6 +37,28 @@ class MySQL extends AbstractDatabase {
 			'dbuser' => $this->dbUser,
 			'dbpassword' => $this->dbPassword,
 		]);
+
+		// for MD5 support
+		// In MySQL 9+ MD5 has been deprecated and is only available as a component.
+		// Until we dropped the support for it on the function builder, we need to load the component.
+		if ($connection->getDatabasePlatform() instanceof MySQL84Platform) {
+			$statement = $connection->prepare("SHOW VARIABLES LIKE 'version';");
+			$result = $statement->executeQuery();
+			$row = $result->fetchAssociative();
+			$version = $row['Value'];
+			[$major, ] = explode('.', strtolower($version));
+			if ((int)$major >= 9) {
+				// check if the component is already loaded, if not load it
+				$statement = $connection->prepare("SELECT COUNT(*) FROM mysql.component WHERE component_urn = 'file://component_classic_hashing';");
+				$result = $statement->executeQuery();
+				$count = $result->fetchOne();
+				if ($count !== false && (int)$count === 0) {
+					// not yet loaded
+					$statement = $connection->prepare("INSTALL COMPONENT 'file://component_classic_hashing';");
+					$statement->executeStatement();
+				}
+			}
+		}
 
 		//create the database
 		$this->createDatabase($connection);
@@ -102,12 +123,6 @@ class MySQL extends AbstractDatabase {
 				$query = "CREATE USER ?@'localhost' IDENTIFIED WITH caching_sha2_password BY ?";
 				$connection->executeStatement($query, [$name,$password]);
 				$query = "CREATE USER ?@'%' IDENTIFIED WITH caching_sha2_password BY ?";
-				$connection->executeStatement($query, [$name,$password]);
-			} elseif ($connection->getDatabasePlatform() instanceof Mysql80Platform) {
-				// TODO: Remove this elseif section as soon as MySQL 8.0 is out-of-support (after April 2026)
-				$query = "CREATE USER ?@'localhost' IDENTIFIED WITH mysql_native_password BY ?";
-				$connection->executeStatement($query, [$name,$password]);
-				$query = "CREATE USER ?@'%' IDENTIFIED WITH mysql_native_password BY ?";
 				$connection->executeStatement($query, [$name,$password]);
 			} else {
 				$query = "CREATE USER ?@'localhost' IDENTIFIED BY ?";

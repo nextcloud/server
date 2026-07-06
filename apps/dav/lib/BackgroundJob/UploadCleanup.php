@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace OCA\DAV\BackgroundJob;
 
-use OC\User\NoUserException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\TimedJob;
@@ -19,6 +18,7 @@ use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\Server;
+use OCP\User\Exceptions\UserNotFoundException;
 use Psr\Log\LoggerInterface;
 
 class UploadCleanup extends TimedJob {
@@ -46,7 +46,7 @@ class UploadCleanup extends TimedJob {
 			/** @var Folder $uploads */
 			$uploads = $userRoot->get('uploads');
 			$uploadFolder = $uploads->get($folder);
-		} catch (NotFoundException|NoUserException $e) {
+		} catch (NotFoundException|UserNotFoundException $e) {
 			$this->jobList->remove(self::class, $argument);
 			return;
 		}

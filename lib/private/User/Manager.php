@@ -36,6 +36,7 @@ use OCP\User\Backend\IProvideEnabledStateBackend;
 use OCP\User\Backend\ISearchKnownUsersBackend;
 use OCP\User\Events\BeforeUserCreatedEvent;
 use OCP\User\Events\UserCreatedEvent;
+use OCP\User\Exceptions\UserNotFoundException;
 use OCP\UserInterface;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
@@ -327,7 +328,7 @@ class Manager extends PublicEmitter implements IUserManager {
 						return mb_stripos($user->getUID(), $search) !== false
 						|| mb_stripos($user->getDisplayName(), $search) !== false
 						|| mb_stripos($user->getEMailAddress() ?? '', $search) !== false;
-					} catch (NoUserException $ex) {
+					} catch (UserNotFoundException $ex) {
 						$this->logger->error('Error while filtering disabled users', ['exception' => $ex, 'userUID' => $user->getUID()]);
 						return false;
 					}

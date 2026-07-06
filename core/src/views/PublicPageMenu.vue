@@ -146,12 +146,12 @@ function openDialogIfNeeded() {
 }
 
 // Dark theme via Nextcloud setting (data-themes attribute, not media query)
-:global([data-themes*=dark]) .public-page-menu__primary-icon {
+:global([data-themes*=dark] .public-page-menu__primary-icon) {
 	filter: var(--primary-invert-if-bright);
 }
 
 // Light theme explicitly set (overrides dark media query if system is dark but user chose light)
-:global([data-themes*=light]) .public-page-menu__primary-icon {
+:global([data-themes*=light] .public-page-menu__primary-icon) {
 	filter: var(--primary-invert-if-dark);
 }
 </style>

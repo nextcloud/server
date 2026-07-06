@@ -5604,6 +5604,23 @@ class ShareAPIControllerTest extends TestCase {
 		$this->invokePrivate($ocs, 'checkInheritedAttributes', [$share]);
 	}
 
+	public static function dataValidateToken(): array {
+		return [
+			'empty token' => ['', false],
+			'single character' => ['a', true],
+			'letters numbers and hyphen' => ['abc-123', true],
+			'invalid character' => ['abc_123', false],
+			'32 characters (oc_share.token column limit)' => [str_repeat('a', 32), true],
+			'32 non-ascii characters' => [str_repeat('é', 32), false],
+			'33 characters (exceeds oc_share.token column limit)' => [str_repeat('a', 33), false],
+		];
+	}
+
+	#[DataProvider('dataValidateToken')]
+	public function testValidateToken(string $token, bool $expected): void {
+		$this->assertSame($expected, $this->invokePrivate($this->ocs, 'validateToken', [$token]));
+	}
+
 	/**
 	 * Helper to allow testing Talk integration even if Talk
 	 * is not available during tests.

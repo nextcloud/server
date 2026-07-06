@@ -80,6 +80,8 @@
     "Reset primary color" : "Ponastavi prvo barvo",
     "Reset to default" : "Ponastavi na privzeto",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Če naletite na težave, ne odlašajte in takoj pošljite poročilo na {issuetracker}sledilnik{linkend}, če želite sodelovati, pa se pridružite {designteam}skupini oblikovalcev{linkend}!",
+    "Themes" : "Teme",
+    "Fonts" : "Pisave",
     "Customization has been disabled by your administrator" : "Prilagajanje je skrbniško onemogočeno.",
     "Disable-user-theming should be true or false" : "Možnost za omogočanje uporabniške teme mora biti prav ali napak.",
     "Header logo" : "Logotip glave",

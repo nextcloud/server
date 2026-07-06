@@ -1,7 +1,7 @@
 <?php
 
 /**
- * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016-2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
@@ -330,20 +330,43 @@ $CONFIG = [
 	 */
 
 	/**
-	 * Lifetime of the remember login cookie. This should be larger than the
-	 * session_lifetime. If it is set to 0, remember me is disabled.
+	 * Lifetime of logins where the user selected "Remember me", in seconds.
 	 *
-	 * Defaults to ``60*60*24*15`` seconds (15 days)
+	 * A value > ``0`` means "Remember me" is available.
+	 * To make "Remember me" unavailable to users, set to ``0``.
+	 *
+	 * To avoid unexpected expiry, set this higher than ``session_lifetime``.
+	 *
+	 * Despite the key name, this also affects server-side expiration of remembered
+	 * login tokens. Clearing browser cookies removes remembered login on that
+	 * browser, but does not itself revoke server-side remember tokens.
+	 *
+	 * Defaults to ``60*60*24*15`` seconds (15 days).
 	 */
 	'remember_login_cookie_lifetime' => 60 * 60 * 24 * 15,
 
 	/**
-	 * The lifetime of a session after inactivity.
+	 * Lifetime of authenticated sessions after inactivity, in seconds.
 	 *
-	 * The maximum possible time is limited by the ``session.gc_maxlifetime`` php.ini setting
-	 * which would overwrite this option if it is less than the value in the ``config.php``
+	 * When "Remember me" is enabled, users may be transparently
+	 * re-authenticated after session expiry/logout while the remember-login
+	 * cookie remains valid.
 	 *
-	 * Defaults to ``60*60*24`` seconds (24 hours)
+	 * To avoid earlier-than-expected remembered-login expiry, set
+	 * ``remember_login_cookie_lifetime`` higher than this value.
+	 *
+	 * Effective behavior also depends on related settings:
+	 * - ``session_keepalive`` can extend active Web UI sessions via heartbeat requests.
+	 * - ``session_relaxed_expiry`` may allow sessions to persist longer than this value.
+	 * - ``auto_logout`` can enforce logout behavior in the Web UI.
+	 *
+	 * The effective maximum retention also depends on PHP settings and external
+	 * session-backend cleanup policies, including (but not limited to) PHP's
+	 * ``session.gc_maxlifetime`` and environment-specific cleanup behavior (e.g., distro
+	 * cron/tmpfiles policies and handler-specific GC behavior). These may override this
+	 * value.
+	 *
+	 * Defaults to ``60*60*24`` seconds (24 hours).
 	 */
 	'session_lifetime' => 60 * 60 * 24,
 
@@ -1602,20 +1625,27 @@ $CONFIG = [
 	],
 
 	/**
-	 * Maximum file size for metadata generation.
-	 * If a file exceeds this size, metadata generation will be skipped.
+	 * Maximum file size for file metadata generation.
 	 *
-	 * NOTE: memory equivalent to this size will be used for metadata generation.
+	 * Files larger than this limit will be skipped.
 	 *
-	 * Default: 256 megabytes.
+	 * This limit helps bound resource usage during metadata generation. Actual
+	 * resource usage depends on the active metadata providers and how they
+	 * process files. As a rough guide, memory usage may scale with file size.
+	 *
+	 * Default: 256 MiB.
 	 */
 	'metadata_max_filesize' => 256,
 
 	/**
 	 * Maximum file size for file conversion.
-	 * If a file exceeds this size, the file will not be converted.
 	 *
-	 * Default: 100 MiB
+	 * Files larger than this limit will be skipped.
+	 *
+	 * Raising this limit may increase conversion time, resource usage, and the
+	 * risk of timeouts or conversion failures depending on the provider.
+	 *
+	 * Default: 100 MiB.
 	 */
 	'max_file_conversion_filesize' => 100,
 

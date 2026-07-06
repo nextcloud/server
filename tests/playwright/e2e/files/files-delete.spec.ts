@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { test, expect } from '../../support/fixtures/files-page.ts'
+import { expect, test } from '../../support/fixtures/files-page.ts'
 import { mkdir, uploadContent } from '../../support/utils/dav.ts'
 
 test.describe('Files: Delete', () => {
@@ -36,14 +36,10 @@ test.describe('Files: Delete', () => {
 		await expect(page.locator('.files-list__row-icon-preview--loaded')).toHaveCount(5)
 
 		// Set up listeners for all 5 DELETE responses before triggering the action
-		const deleteResponses = Promise.all(
-			Array.from({ length: 5 }, () =>
-				page.waitForResponse(
-					(r) => r.url().includes(`/remote.php/dav/files/${user.userId}/root/`) && r.request().method() === 'DELETE',
-					{ timeout: 15000 },
-				),
-			),
-		)
+		const deleteResponses = Promise.all(Array.from({ length: 5 }, () => page.waitForResponse(
+			(r) => r.url().includes(`/remote.php/dav/files/${user.userId}/root/`) && r.request().method() === 'DELETE',
+			{ timeout: 15000 },
+		)))
 
 		await filesListPage.selectAll()
 		await filesListPage.triggerSelectionAction('delete')

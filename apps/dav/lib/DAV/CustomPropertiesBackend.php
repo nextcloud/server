@@ -73,6 +73,10 @@ class CustomPropertiesBackend implements BackendInterface {
 		'{DAV:}getetag',
 		'{DAV:}quota-used-bytes',
 		'{DAV:}quota-available-bytes',
+		'{DAV:}getlastmodified',
+		'{DAV:}creationdate',
+		'{DAV:}displayname',
+		'{http://open-collaboration-services.org/ns}share-permissions',
 	];
 
 	/**

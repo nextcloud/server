@@ -15,6 +15,7 @@ use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\Exception;
+use OCP\DB\QueryBuilder\ConflictResolutionMode;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
@@ -73,6 +74,155 @@ class TaskMapper extends QBMapper {
 		}
 
 		return $this->findEntity($qb);
+	}
+
+	/**
+	 * Atomically claim the oldest scheduled task of the given task types and mark it RUNNING.
+	 *
+	 * This is the structural fix for the worker "claim loop": instead of every worker
+	 * racing for the single oldest task (a thundering herd that grows a per-worker
+	 * `id NOT IN (...)` ignore list and slows the SELECT), each worker claims a
+	 * *distinct* task in a single claim attempt without a per-worker ignore-list.
+	 * On databases that support row-level locking with SKIP LOCKED
+	 * (MySQL/MariaDB/PostgreSQL) the claim is a single transaction:
+	 *   SELECT ... WHERE status = SCHEDULED [AND type IN (...)]
+	 *   ORDER BY last_updated ASC LIMIT 1 FOR UPDATE SKIP LOCKED
+	 * followed by a guarded UPDATE to RUNNING. Concurrent workers skip rows already
+	 * locked by another transaction, so no two workers ever claim the same task.
+	 *
+	 * Two databases cannot use the SKIP LOCKED path and fall back to a bounded
+	 * lock-and-retry claim instead:
+	 *   - SQLite has no SKIP LOCKED (Doctrine throws "Operation 'SKIP LOCKED' is not
+	 *     supported by platform").
+	 *   - Oracle cannot combine a row-limiting clause with FOR UPDATE: the LIMIT is
+	 *     emulated with a ROWNUM sub-select, and selecting FOR UPDATE from that derived
+	 *     view raises ORA-02014.
+	 * The fallback is still safe because the UPDATE ... WHERE status = SCHEDULED is itself
+	 * atomic (SQLite additionally serialises writers).
+	 *
+	 * A task is only ever transitioned SCHEDULED -> RUNNING here; it is never marked
+	 * FAILED by claiming. If the task cannot be claimed (none scheduled, or it was
+	 * taken by another worker between SELECT and UPDATE) this returns null.
+	 *
+	 * @param list<string> $taskTypes When non-empty, only tasks of these task type IDs are considered.
+	 * @return Task|null The claimed task (status RUNNING), or null if nothing could be claimed.
+	 * @throws Exception
+	 */
+	public function claimOldestScheduledTask(array $taskTypes): ?Task {
+		$provider = $this->db->getDatabaseProvider();
+		// SKIP LOCKED is unusable on SQLite (unsupported) and Oracle (LIMIT + FOR UPDATE =>
+		// ORA-02014): both fall back to the bounded lock-and-retry claim.
+		if ($provider === IDBConnection::PLATFORM_SQLITE || $provider === IDBConnection::PLATFORM_ORACLE) {
+			return $this->claimWithBoundedRetry($taskTypes);
+		}
+
+		return $this->claimWithSkipLocked($taskTypes);
+	}
+
+	/**
+	 * Atomic claim using FOR UPDATE SKIP LOCKED in a single transaction.
+	 *
+	 * @param list<string> $taskTypes
+	 * @return Task|null
+	 * @throws Exception
+	 */
+	private function claimWithSkipLocked(array $taskTypes): ?Task {
+		$this->db->beginTransaction();
+		try {
+			$qb = $this->db->getQueryBuilder();
+			$qb->select(Task::COLUMNS)
+				->from($this->tableName)
+				->where($qb->expr()->eq('status', $qb->createPositionalParameter(\OCP\TaskProcessing\Task::STATUS_SCHEDULED, IQueryBuilder::PARAM_INT)))
+				->orderBy('last_updated', 'ASC')
+				->setMaxResults(1)
+				->forUpdate(ConflictResolutionMode::SkipLocked);
+
+			if (!empty($taskTypes)) {
+				$filter = [];
+				foreach ($taskTypes as $taskType) {
+					$filter[] = $qb->expr()->eq('type', $qb->createPositionalParameter($taskType));
+				}
+				$qb->andWhere($qb->expr()->orX(...$filter));
+			}
+
+			$result = $qb->executeQuery();
+			$row = $result->fetch();
+			$result->closeCursor();
+
+			if ($row === false) {
+				// Nothing schedulable (or every candidate is locked by another worker).
+				$this->db->commit();
+				return null;
+			}
+
+			/** @var Task $task */
+			$task = $this->mapRowToEntity($row);
+
+			// Record the start time at claim time: because the worker receives the task
+			// already in status RUNNING, the later SCHEDULED -> RUNNING transition in
+			// Manager::setTaskStatus is skipped and would otherwise never persist started_at.
+			$startedAt = $this->timeFactory->now()->getTimestamp();
+
+			// Guarded transition SCHEDULED -> RUNNING. The row is locked for this
+			// transaction, so the guard is belt-and-braces rather than strictly required.
+			$update = $this->db->getQueryBuilder();
+			$update->update($this->tableName)
+				->set('status', $update->createPositionalParameter(\OCP\TaskProcessing\Task::STATUS_RUNNING, IQueryBuilder::PARAM_INT))
+				->set('started_at', $update->createPositionalParameter($startedAt, IQueryBuilder::PARAM_INT))
+				->where($update->expr()->eq('id', $update->createPositionalParameter($task->getId(), IQueryBuilder::PARAM_INT)))
+				->andWhere($update->expr()->eq('status', $update->createPositionalParameter(\OCP\TaskProcessing\Task::STATUS_SCHEDULED, IQueryBuilder::PARAM_INT)));
+			$affected = $update->executeStatement();
+
+			$this->db->commit();
+
+			if ($affected === 0) {
+				// Lost the race (should not happen under SKIP LOCKED); leave the task SCHEDULED.
+				return null;
+			}
+
+			$task->setStatus(\OCP\TaskProcessing\Task::STATUS_RUNNING);
+			$task->setStartedAt($startedAt);
+			return $task;
+		} catch (\Throwable $e) {
+			$this->db->rollBack();
+			throw $e;
+		}
+	}
+
+	/**
+	 * Fallback claim for databases that cannot use the SKIP LOCKED path (SQLite, Oracle).
+	 *
+	 * Repeatedly fetches the oldest scheduled task and attempts the atomic
+	 * UPDATE ... WHERE status = SCHEDULED. Tasks lost to another worker are added to a
+	 * short ignore list so the next iteration moves on. Bounded to avoid unbounded
+	 * looping under contention.
+	 *
+	 * @param list<string> $taskTypes
+	 * @return Task|null
+	 * @throws Exception
+	 */
+	private function claimWithBoundedRetry(array $taskTypes): ?Task {
+		$taskIdsToIgnore = [];
+		// A handful of attempts is plenty: on SQLite writers are serialised, so at most
+		// a few rows can be claimed out from under us before we either win or run dry.
+		for ($attempt = 0; $attempt < 10; $attempt++) {
+			try {
+				$task = $this->findOldestScheduledByType($taskTypes, $taskIdsToIgnore);
+			} catch (DoesNotExistException) {
+				return null;
+			}
+
+			if ($this->lockTask($task) !== 0) {
+				// lockTask atomically flipped SCHEDULED -> RUNNING and stamped started_at.
+				// Re-read so the returned task reflects the persisted status and started_at.
+				return $this->find($task->getId());
+			}
+
+			// Another worker took it; skip this id and try the next oldest.
+			$taskIdsToIgnore[] = $task->getId();
+		}
+
+		return null;
 	}
 
 	/**
@@ -222,12 +372,30 @@ class TaskMapper extends QBMapper {
 		return parent::update($entity);
 	}
 
+	/**
+	 * Atomically claim a task by transitioning it SCHEDULED -> RUNNING.
+	 *
+	 * The UPDATE is guarded on `status = SCHEDULED` so a task another worker has already
+	 * finished (SUCCESSFUL/FAILED) between a caller's SELECT and this UPDATE can never be
+	 * re-claimed and processed twice. started_at is stamped in the same statement: the
+	 * worker receives the task already RUNNING, so the later SCHEDULED -> RUNNING edge in
+	 * Manager::setTaskStatus (which used to set started_at) no longer fires.
+	 *
+	 * Semantic change: this previously guarded on `status != RUNNING`, which allowed an
+	 * already SUCCESSFUL/FAILED task to be re-locked back to RUNNING. Callers must now
+	 * treat a 0 return as "the task is no longer claimable" (it is no longer SCHEDULED)
+	 * and move on, rather than assuming the lock succeeded.
+	 *
+	 * @return int Number of rows updated: 1 if the task was claimed, 0 if it was no longer scheduled.
+	 */
 	public function lockTask(Entity $entity): int {
+		$startedAt = $this->timeFactory->now()->getTimestamp();
 		$qb = $this->db->getQueryBuilder();
 		$qb->update($this->tableName)
 			->set('status', $qb->createPositionalParameter(\OCP\TaskProcessing\Task::STATUS_RUNNING, IQueryBuilder::PARAM_INT))
+			->set('started_at', $qb->createPositionalParameter($startedAt, IQueryBuilder::PARAM_INT))
 			->where($qb->expr()->eq('id', $qb->createPositionalParameter($entity->getId(), IQueryBuilder::PARAM_INT)))
-			->andWhere($qb->expr()->neq('status', $qb->createPositionalParameter(2, IQueryBuilder::PARAM_INT)));
+			->andWhere($qb->expr()->eq('status', $qb->createPositionalParameter(\OCP\TaskProcessing\Task::STATUS_SCHEDULED, IQueryBuilder::PARAM_INT)));
 		try {
 			return $qb->executeStatement();
 		} catch (Exception) {

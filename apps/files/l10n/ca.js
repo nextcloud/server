@@ -308,10 +308,6 @@ OC.L10N.register(
     "No recently modified files" : "No hi ha cap fitxer modificat recentment",
     "Files and folders you recently modified will show up here." : "Els fitxers i les carpetes que heu modificat recentment es mostraran aquí.",
     "Search" : "Cercar",
-    "No entries found in this folder" : "No s'ha trobat cap entrada en aquesta carpeta",
-    "Select all" : "Selecciona-ho tot",
-    "Upload too large" : "La pujada és massa gran",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Els fitxers que intenteu pujar superen la mida màxima de pujada de fitxers del servidor.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "S'ha canviat el nom de «{oldName}» a «{newName}»",
     "Clear filter" : "Esborra el filtre",
     "Submitting fields …" : "S'estan enviant camps …",
@@ -327,6 +323,10 @@ OC.L10N.register(
     "Tags" : "Etiquetes",
     "Save as …" : "Anomena i desa …",
     "Converting files …" : "Convertint fitxers …",
-    "Converting file …" : "S'està convertint el fitxer …"
+    "Converting file …" : "S'està convertint el fitxer …",
+    "No entries found in this folder" : "No s'ha trobat cap entrada en aquesta carpeta",
+    "Select all" : "Selecciona-ho tot",
+    "Upload too large" : "La pujada és massa gran",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Els fitxers que intenteu pujar superen la mida màxima de pujada de fitxers del servidor."
 },
 "nplurals=2; plural=(n != 1);");

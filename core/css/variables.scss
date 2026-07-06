@@ -87,14 +87,13 @@ $animation-quick: 100ms;
 $animation-slow: 300ms;
 
 // various structure data
-$header-height: 50px;
+$header-height: 44px;
 $navigation-width: 300px;
 $sidebar-min-width: 300px;
 $sidebar-max-width: 500px;
 $list-min-width: 200px;
 $list-max-width: 300px;
-$header-menu-item-height: 44px;
-$header-menu-profile-item-height: 66px;
+$header-menu-item-height: 34px;
 
 // mobile. Keep in sync with core/js/js.js
 $breakpoint-mobile: 1024px;

@@ -274,6 +274,7 @@ OC.L10N.register(
     "Expires {relativetime}" : "Utløper {relativetime}",
     "this share just expired." : "denne delingen utløp akkurat.",
     "Shared with you by {owner}" : "Delt med deg av {owner}",
+    "Internal shares" : "Interne delinger",
     "Link to a file" : "Lenke til en fil",
     "_Accept share_::_Accept shares_" : ["Aksepter delt ressurs","Aksepter delte ressurser"],
     "Open in Files" : "Åpne i Filer",

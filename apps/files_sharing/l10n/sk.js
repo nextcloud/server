@@ -90,7 +90,6 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "Zlý alebo žiadny zadaný parameter aktualizácie",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"Odoslanie hesla cez Nextcloud Talk / Rozhovor/\" pre zdieľanie súboru alebo priečinka zlyhalo, pretože Nextcloud Talk /Rozhovor/ nie je zapnutý.",
     "Custom share link tokens have been disabled by the administrator" : "Správca zakázal vlastné tokeny zdieľania",
-    "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Tokeny musia obsahovať aspoň 1 znak a môžu obsahovať iba písmená, čísla alebo spojovník",
     "Invalid date. Format must be YYYY-MM-DD" : "Neplatný dátum. Formát musí byť YYYY-MM-DD",
     "No sharing rights on this item" : "Žiadne práva pre zdieľanie tejto položky",
     "Invalid share attributes provided: \"%s\"" : "Boli zadané neplatné atribúty zdieľania: \"%s\"",
@@ -403,6 +402,7 @@ OC.L10N.register(
     "Back to %s" : "Späť na %s",
     "Add to your Nextcloud" : "Pridať do svojho Nextcloud",
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Zdieľanie %s sa nepodarilo, pretože backend nepodporuje zdieľanie ScienceMesh miestností.",
+    "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Tokeny musia obsahovať aspoň 1 znak a môžu obsahovať iba písmená, čísla alebo spojovník",
     "Name or email …" : "Meno alebo e-mail …",
     "Name, email, or Federated Cloud ID …" : "Meno, e-mail alebo ID združeného cloudu …",
     "Searching …" : "Hľadá sa …"

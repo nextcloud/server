@@ -11,6 +11,7 @@ use OC\Authentication\Token\PublicKeyToken;
 use OC\Files\Filesystem;
 use OC\Lockdown\Filesystem\NullStorage;
 use OCP\Authentication\Token\IToken;
+use OCP\Lockdown\ILockdownManager;
 use OCP\Server;
 use Test\Traits\UserTrait;
 
@@ -24,7 +25,7 @@ class NoFSTest extends \Test\TestCase {
 		$token->setScope([
 			IToken::SCOPE_FILESYSTEM => true
 		]);
-		Server::get('LockdownManager')->setToken($token);
+		Server::get(ILockdownManager::class)->setToken($token);
 		parent::tearDown();
 	}
 
@@ -36,7 +37,7 @@ class NoFSTest extends \Test\TestCase {
 			IToken::SCOPE_FILESYSTEM => false
 		]);
 
-		Server::get('LockdownManager')->setToken($token);
+		Server::get(ILockdownManager::class)->setToken($token);
 		$this->createUser('foo', 'var');
 	}
 

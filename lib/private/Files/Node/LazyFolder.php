@@ -77,27 +77,6 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
-	public function listen($scope, $method, callable $callback) {
-		$this->__call(__FUNCTION__, func_get_args());
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function removeListener($scope = null, $method = null, ?callable $callback = null) {
-		$this->__call(__FUNCTION__, func_get_args());
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function emit($scope, $method, $arguments = []) {
-		$this->__call(__FUNCTION__, func_get_args());
-	}
-
-	/**
-	 * @inheritDoc
-	 */
 	public function mount($storage, $mountPoint, $arguments = []) {
 		$this->__call(__FUNCTION__, func_get_args());
 	}
@@ -110,7 +89,7 @@ class LazyFolder implements Folder {
 	}
 
 	/**
-	 * @return IMountPoint[]
+	 * @return list<IMountPoint>
 	 */
 	public function getMountsIn(string $mountPoint): array {
 		return $this->__call(__FUNCTION__, func_get_args());

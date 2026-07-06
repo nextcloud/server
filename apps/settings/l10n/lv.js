@@ -247,6 +247,7 @@ OC.L10N.register(
     "Admin documentation" : "Pārvaldītāja dokumentācija",
     "Developer documentation" : "Dokumentācija izstrādātājiem",
     "All" : "Visi",
+    "Limit app usage to groups" : "Ierobežot lietotņu izmantošanu kopām",
     "No results" : "Nav iznākuma",
     "Update to {version}" : "Atjaunināt uz {version}",
     "Latest updated" : "Pēdējoreiz atjaunināta",

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { test, expect } from '../../support/fixtures/files-page.ts'
+import { expect, test } from '../../support/fixtures/files-page.ts'
 import { mkdir } from '../../support/utils/dav.ts'
 
 test.describe('Files: Navigation', () => {

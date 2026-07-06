@@ -10,7 +10,6 @@ namespace OCA\Files_External\Command;
 
 use OC\Core\Command\Base;
 use OC\Files\Filesystem;
-use OC\User\NoUserException;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Lib\DefinitionParameter;
@@ -22,6 +21,7 @@ use OCA\Files_External\Service\UserStoragesService;
 use OCP\AppFramework\Http;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\User\Exceptions\UserNotFoundException;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -179,7 +179,7 @@ class Create extends Base {
 
 		$user = $this->userManager->get($userId);
 		if (is_null($user)) {
-			throw new NoUserException("user $userId not found");
+			throw UserNotFoundException::createForUser($userId);
 		}
 		$this->userSession->setUser($user);
 		return $this->userService;

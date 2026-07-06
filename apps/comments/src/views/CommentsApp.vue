@@ -9,7 +9,7 @@
 		class="comments"
 		:class="{ 'icon-loading': isFirstLoading }">
 		<!-- Editor -->
-		<Comment
+		<CommentEntry
 			v-bind="editorData"
 			editor
 			:autoComplete
@@ -30,7 +30,7 @@
 			</NcEmptyContent>
 			<ul v-else>
 				<!-- Comments -->
-				<Comment
+				<CommentEntry
 					v-for="comment in comments"
 					:key="comment.props.id"
 					v-model="comment.props.message"
@@ -78,7 +78,7 @@ import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import IconAlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
 import IconMessageReplyTextOutline from 'vue-material-design-icons/MessageReplyTextOutline.vue'
 import IconRefresh from 'vue-material-design-icons/Refresh.vue'
-import Comment from '../components/Comment.vue'
+import CommentEntry from '../components/CommentEntry.vue'
 import logger from '../logger.ts'
 import CommentView from '../mixins/CommentView.ts'
 import { DEFAULT_LIMIT, getComments } from '../services/GetComments.ts'
@@ -89,7 +89,7 @@ export default {
 	name: 'CommentsApp',
 
 	components: {
-		Comment,
+		CommentEntry,
 		NcEmptyContent,
 		NcButton,
 		IconRefresh,

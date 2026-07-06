@@ -388,10 +388,6 @@ OC.L10N.register(
     "Files and folders you recently modified will show up here." : "Ovdje će se prikazati datoteke i mape koje ste nedavno izmijenili.",
     "Search" : "Traži",
     "Search results within your files." : "Traži rezultate u vašim datotekama.",
-    "No entries found in this folder" : "U ovoj mapi nisu pronađeni nikakvi zapisi",
-    "Select all" : "Odaberi sve",
-    "Upload too large" : "Otprema je prevelika",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Datoteke koje pokušavate otpremiti premašuju maksimalnu veličinu za otpremu datoteka na ovom poslužitelju.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Preimenovali ste \"{oldName}\" u \"{newName}\"",
     "Clear filter" : "Ukloni filtar",
     "Open file sidebar" : "Otvori bočnu traku datoteke",
@@ -412,7 +408,9 @@ OC.L10N.register(
     "Save as …" : "Spremi kao …",
     "Converting files …" : "Pretvaranje datoteka …",
     "Converting file …" : "Pretvaranje datoteke …",
-    "Moving {count} files to \"{destination}\" …" : "Premještanje {count} datoteka u \"{destination}\" …",
-    "Copying {count} files to \"{destination}\" …" : "Kopiranje {count} datoteka u \"{destination}\" …"
+    "No entries found in this folder" : "U ovoj mapi nisu pronađeni nikakvi zapisi",
+    "Select all" : "Odaberi sve",
+    "Upload too large" : "Otprema je prevelika",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Datoteke koje pokušavate otpremiti premašuju maksimalnu veličinu za otpremu datoteka na ovom poslužitelju."
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

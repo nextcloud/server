@@ -398,10 +398,6 @@ OC.L10N.register(
     "Files and folders you recently modified will show up here." : "Filer och mappar som du nyligen ändrat kommer att visas här.",
     "Search" : "Sök",
     "Search results within your files." : "Sökresultat i dina filer.",
-    "No entries found in this folder" : "Inget innehåll hittades i denna mapp",
-    "Select all" : "Välj allt",
-    "Upload too large" : "För stor uppladdning",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Filerna du försöker ladda upp överstiger den maximala storleken för filöverföringar på servern.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Bytte namn på \"{oldName}\" till \"{newName}\"",
     "Clear filter" : "Rensa filter",
     "Open file sidebar" : "Öppna filens sidofält",
@@ -422,7 +418,9 @@ OC.L10N.register(
     "Save as …" : "Spara som …",
     "Converting files …" : "Konverterar filer ...",
     "Converting file …" : "Konverterar fil ...",
-    "Moving {count} files to \"{destination}\" …" : "Flyttar {count}filer till \"{destination}\" …",
-    "Copying {count} files to \"{destination}\" …" : "Kopierar {count} filer till \"{destination}\" …"
+    "No entries found in this folder" : "Inget innehåll hittades i denna mapp",
+    "Select all" : "Välj allt",
+    "Upload too large" : "För stor uppladdning",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Filerna du försöker ladda upp överstiger den maximala storleken för filöverföringar på servern."
 },
 "nplurals=2; plural=(n != 1);");

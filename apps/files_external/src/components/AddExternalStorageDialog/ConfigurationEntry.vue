@@ -27,12 +27,20 @@ defineProps<{
 		:name="configKey"
 		:required="!(configOption.flags & ConfigurationFlag.Optional)"
 		:label="configOption.value"
-		:title="configOption.tooltip" />
+		:title="configOption.tooltip"
+		:class="$style.configurationEntry" />
 	<NcCheckboxRadioSwitch
 		v-else
 		v-model="value"
 		type="switch"
-		:title="configOption.tooltip">
+		:title="configOption.tooltip"
+		:class="$style.configurationEntry">
 		{{ configOption.value }}
 	</NcCheckboxRadioSwitch>
 </template>
+
+<style module>
+.configurationEntry {
+	flex: 1 0 auto;
+}
+</style>

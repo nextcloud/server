@@ -20,10 +20,8 @@ const test = baseTest.extend<{ fileIds: [string, string] }>({
 
 test.describe('Systemtags: Files bulk action', () => {
 	test.afterAll(async () => await clearTags())
-	test.beforeEach(async ({ fileIds }) => {
-		console.debug('Created files with IDs', fileIds)
-	})
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars -- Needed to execute the upload by PlayWright
 	test('Can assign tag to selection', async ({ filesListPage, fileIds }) => {
 		const tag = crypto.randomUUID()
 

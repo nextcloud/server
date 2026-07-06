@@ -17,10 +17,10 @@ use OCP\SetupCheck\SetupResult;
 
 class SupportedDatabase implements ISetupCheck {
 
-	private const MIN_MARIADB = '10.6';
-	private const MAX_MARIADB = '11.8';
-	private const MIN_MYSQL = '8.0';
-	private const MAX_MYSQL = '8.4';
+	private const MIN_MARIADB = '10.11';
+	private const MAX_MARIADB = '12.3';
+	private const MIN_MYSQL = '8.4';
+	private const MAX_MYSQL = '9.7';
 	private const MIN_POSTGRES = '14';
 	private const MAX_POSTGRES = '18';
 	private const MIN_ORACLE = '12.2';
@@ -56,10 +56,10 @@ class SupportedDatabase implements ISetupCheck {
 			[$major, $minor, ] = explode('.', $versionlc);
 			$versionConcern = $major . '.' . $minor;
 			if (str_contains($versionlc, 'mariadb')) {
-				if (version_compare($versionConcern, '10.3', '=')) {
+				if (version_compare($versionConcern, '10.6', '=')) {
 					return SetupResult::info(
 						$this->l10n->t(
-							'MariaDB version 10.3 detected, this version is end-of-life and only supported as part of Ubuntu 20.04. MariaDB >=%1$s and <=%2$s is suggested for best performance, stability and functionality with this version of Nextcloud.',
+							'MariaDB version 10.6 detected, this version is end-of-life and only supported as part of Ubuntu 22.04. MariaDB >=%1$s and <=%2$s is suggested for best performance, stability and functionality with this version of Nextcloud.',
 							[
 								self::MIN_MARIADB,
 								self::MAX_MARIADB,

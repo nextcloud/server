@@ -13,6 +13,7 @@ use OC\Files\Filesystem;
 use OC\Files\View;
 use OCA\Files_Sharing\Helper;
 use OCA\Files_Trashbin\AppInfo\Application;
+use OCA\Files_Trashbin\Storage;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\Constants;
@@ -121,7 +122,7 @@ class UpdaterTest extends TestCase {
 			$appManager->disableApp('files_trashbin');
 		}
 
-		Filesystem::getLoader()->removeStorageWrapper('oc_trashbin');
+		Filesystem::getLoader()->removeStorageWrapper(Storage::class);
 	}
 
 	public static function shareFolderProvider() {

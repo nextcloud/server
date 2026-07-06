@@ -11,12 +11,12 @@ namespace OCA\DAV\SystemTag;
 
 use OC\SystemTag\SystemTag;
 use OC\SystemTag\SystemTagsInFilesDetector;
-use OC\User\NoUserException;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotPermittedException;
 use OCP\IUserSession;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
+use OCP\User\Exceptions\UserNotFoundException;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\SimpleCollection;
@@ -63,7 +63,7 @@ class SystemTagsInUseCollection extends SimpleCollection {
 			if ($user) {
 				$userFolder = $this->rootFolder->getUserFolder($user->getUID());
 			}
-		} catch (NoUserException) {
+		} catch (UserNotFoundException) {
 			// will throw a Sabre exception in the next step.
 		}
 		if ($user === null || $userFolder === null) {

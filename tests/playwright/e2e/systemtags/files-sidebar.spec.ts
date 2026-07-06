@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { test, expect } from '../../support/fixtures/systemtags-files-page.ts'
+import { expect, test } from '../../support/fixtures/systemtags-files-page.ts'
 import { uploadContent } from '../../support/utils/dav.ts'
 import { clearTags } from '../../support/utils/systemtags.ts'
 

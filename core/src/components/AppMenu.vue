@@ -157,7 +157,7 @@ export default defineComponent({
 			// `placement: bottom-start` swaps the anchor edge under RTL but the
 			// skidding sign isn't auto-mirrored, so we flip it here. Snapshot
 			// at init: Nextcloud's language doesn't change at runtime.
-			popoverSkidding: isRTL() ? 82 : -82,
+			popoverSkidding: isRTL() ? 82 : -82, // thats the width of the product logo + main container margin
 		}
 	},
 
@@ -531,7 +531,7 @@ export default defineComponent({
 // recomputed. Used instead of NcPopover's :distance prop, which isn't
 // exposed in the released @nextcloud/vue yet.
 .app-menu__popover-base .v-popper__wrapper {
-	margin-block-start: -1px;
+	margin-block-start: -5px;
 }
 
 // Without this reset the override above cascades into AppItem and inflates

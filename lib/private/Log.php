@@ -373,10 +373,10 @@ class Log implements ILogger, IDataLogger {
 		$level = $context['level'] ?? ILogger::ERROR;
 
 		$minLevel = $this->getLogLevel($context, $message);
-		$data = array_map($this->normalizer->format(...), $data);
 
 		try {
 			if ($level >= $minLevel) {
+				$data = array_map($this->normalizer->format(...), $data);
 				$data['message'] = $message;
 				if (!$this->logger instanceof IFileBased) {
 					$data = json_encode($data, JSON_PARTIAL_OUTPUT_ON_ERROR | JSON_UNESCAPED_SLASHES);

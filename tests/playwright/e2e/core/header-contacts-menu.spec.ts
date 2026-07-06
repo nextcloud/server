@@ -4,6 +4,7 @@
  */
 
 import type { User } from '@nextcloud/e2e-test-server'
+
 import { runOcc } from '@nextcloud/e2e-test-server/docker'
 import { createRandomUser } from '@nextcloud/e2e-test-server/playwright'
 import { expect } from '@playwright/test'
@@ -94,7 +95,6 @@ test.describe('Header: Contacts menu', () => {
 	test('users from other groups are not seen when user enumeration is restricted to the same group', async ({ page, contactUser }) => {
 		// Enable restriction first, then open the menu.
 		await runOcc(['config:app:set', '--value', 'yes', 'core', 'shareapi_restrict_user_enumeration_to_group'])
-		await new Promise((resolve) => globalThis.setTimeout(resolve, 3000)) // wait for app config cache to expire
 		try {
 			await page.goto('/')
 			const contactsMenu = new ContactsMenuPage(page)
@@ -106,9 +106,7 @@ test.describe('Header: Contacts menu', () => {
 
 			// Close, lift the restriction, reopen — the contact should reappear.
 			await runOcc(['config:app:set', '--value', 'no', 'core', 'shareapi_restrict_user_enumeration_to_group'])
-			const waitForAppConfigCacheTTL = new Promise((resolve) => globalThis.setTimeout(resolve, 3000)) // wait for app config cache to expire
 			await contactsMenu.close()
-			await waitForAppConfigCacheTTL
 
 			await page.reload()
 			await contactsMenu.open()

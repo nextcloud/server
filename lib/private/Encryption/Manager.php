@@ -203,11 +203,11 @@ class Manager implements IManager {
 	/**
 	 * Add storage wrapper
 	 */
-	public function setupStorage() {
+	public function setupStorage(): void {
 		// If encryption is disabled and there are no loaded modules it makes no sense to load the wrapper
 		if (!empty($this->encryptionModules) || $this->isEnabled()) {
 			$encryptionWrapper = new EncryptionWrapper($this->arrayCache, $this, $this->logger);
-			Filesystem::addStorageWrapper('oc_encryption', [$encryptionWrapper, 'wrapStorage'], 2);
+			Filesystem::addStorageWrapper('oc_encryption', $encryptionWrapper->wrapStorage(...), 2);
 		}
 	}
 

@@ -202,6 +202,7 @@
 	"tif": ["image/tiff"],
 	"tiff": ["image/tiff"],
 	"toml": ["application/toml", "text/code"],
+	"tsv": ["text/tab-separated-values", "text/plain"],
 	"ttf": ["application/font-sfnt"],
 	"txt": ["text/plain"],
 	"url": ["application/internet-shortcut"],

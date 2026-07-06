@@ -19,7 +19,6 @@ use OC\Lock\NoopLockingProvider;
 use OC\Share\Share;
 use OC\User\LazyUser;
 use OC\User\Manager as UserManager;
-use OC\User\NoUserException;
 use OC\User\User;
 use OCA\Files_Sharing\SharedMount;
 use OCP\Constants;
@@ -52,6 +51,7 @@ use OCP\Lock\LockedException;
 use OCP\Server;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use OCP\User\Exceptions\UserNotFoundException;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
@@ -1570,10 +1570,6 @@ class View {
 		//add a folder for any mountpoint in this directory and add the sizes of other mountpoints to the folders
 		$mounts = Filesystem::getMountManager()->findIn($path);
 
-		// make sure nested mounts are sorted after their parent mounts
-		// otherwise doesn't propagate the etag across storage boundaries correctly
-		usort($mounts, static fn (IMountPoint $a, IMountPoint $b): int => $a->getMountPoint() <=> $b->getMountPoint());
-
 		$dirLength = strlen($path);
 		foreach ($mounts as $mount) {
 			$mountPoint = $mount->getMountPoint();
@@ -2274,7 +2270,7 @@ class View {
 	/**
 	 * @param string $filename
 	 * @return array
-	 * @throws NoUserException
+	 * @throws UserNotFoundException
 	 * @throws NotFoundException
 	 */
 	public function getUidAndFilename($filename) {

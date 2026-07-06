@@ -140,4 +140,13 @@ class OCIExpressionBuilder extends ExpressionBuilder {
 	public function iLike($x, $y, $type = null): string {
 		return $this->like($this->functionBuilder->lower($x), $this->functionBuilder->lower($y));
 	}
+
+	#[\Override]
+	public function notILike(
+		string|IParameter|ILiteral|IQueryFunction $x,
+		string|IParameter|ILiteral|IQueryFunction $y,
+		int|string|null $type = null,
+	): string {
+		return $this->notLike($this->functionBuilder->lower($x), $this->functionBuilder->lower($y));
+	}
 }

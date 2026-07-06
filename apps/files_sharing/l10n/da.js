@@ -90,7 +90,6 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "Forkert eller manglende opdateringsparameter",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"Afsendelse af adgangskoden med Nextcloud Snak\" for at dele en fil eller en mappe fejlede fordi Nextcloud Snak ikke er aktiveret.",
     "Custom share link tokens have been disabled by the administrator" : "Brugerdefinerede delings link token er blevet deaktiverede af administratoren",
-    "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Tokens skal indeholde minimum 1 karakter og må kun indeholde bogstaver, tal, eller en bindestreg",
     "Invalid date. Format must be YYYY-MM-DD" : "Ugyldig dato. Formatet skal være ÅÅÅÅ-MM-DD",
     "No sharing rights on this item" : "Ingen delingsrettigheder på dette element",
     "Invalid share attributes provided: \"%s\"" : "Ugyldig delingsattribut angivet: \"%s\"",
@@ -403,6 +402,7 @@ OC.L10N.register(
     "Back to %s" : "Tilbage til %s",
     "Add to your Nextcloud" : "Tilføj til din Nextcloud",
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Kunne ikke dele %s fordi backenden ikke understøtter deling af ScienceMesh",
+    "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Tokens skal indeholde minimum 1 karakter og må kun indeholde bogstaver, tal, eller en bindestreg",
     "Name or email …" : "Navne eller e-mail ...",
     "Name, email, or Federated Cloud ID …" : "Navn, e-mail, eller sammenkoblings cloud ID …",
     "Searching …" : "Søger ..."

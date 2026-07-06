@@ -398,10 +398,6 @@ OC.L10N.register(
     "Files and folders you recently modified will show up here." : "Arquivos e pastas que você modificou recentemente aparecerão aqui.",
     "Search" : "Pesquisar",
     "Search results within your files." : "Resultados da pesquisa em seus arquivos.",
-    "No entries found in this folder" : "Nenhuma entrada foi encontrada nesta pasta",
-    "Select all" : "Selecionar tudo",
-    "Upload too large" : "Arquivo muito grande para fazer upload",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Os arquivos que você está tentando enviar excederam o tamanho máximo para arquivos no servidor.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "\"{oldName}\" foi renomeado para \"{newName}\"",
     "Clear filter" : "Limpar filtro",
     "Open file sidebar" : "Abrir barra lateral de arquivo",
@@ -422,7 +418,9 @@ OC.L10N.register(
     "Save as …" : "Salvar como …",
     "Converting files …" : "Convertendo arquivos …",
     "Converting file …" : "Convertendo arquivo …",
-    "Moving {count} files to \"{destination}\" …" : "Movendo {count} arquivos para \"{destination}\" …",
-    "Copying {count} files to \"{destination}\" …" : "Copiando {count} arquivos para \"{destination}\" …"
+    "No entries found in this folder" : "Nenhuma entrada foi encontrada nesta pasta",
+    "Select all" : "Selecionar tudo",
+    "Upload too large" : "Arquivo muito grande para fazer upload",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Os arquivos que você está tentando enviar excederam o tamanho máximo para arquivos no servidor."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -24,6 +24,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Server;
+use OCP\User\Exceptions\UserNotFoundException;
 use Psr\Log\LoggerInterface;
 
 class Filesystem {
@@ -342,7 +343,7 @@ class Filesystem {
 	/**
 	 * Initialize system and personal mount points for a user
 	 *
-	 * @throws NoUserException if the user is not available
+	 * @throws UserNotFoundException if the user is not available
 	 */
 	public static function initMountPoints(string|IUser|null $user = ''): void {
 		/** @var IUserManager $userManager */

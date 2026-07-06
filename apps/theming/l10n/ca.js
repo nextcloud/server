@@ -99,8 +99,9 @@ OC.L10N.register(
     "Reset to default" : "Reinicialitza els valors per defecte",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {linkstart}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "L'accés universal és molt important per a nosaltres. Seguim els estàndards web i comprovem que tot es pugui utilitzar també sense ratolí i programari d'assistència com ara lectors de pantalla. Pretenem complir les {linkstart}Directrius d'accessibilitat de contingut web{linkend} 2.1 a nivell AA, amb el tema d'alt contrast fins i tot a nivell AAA.",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Si trobeu cap problema, no dubteu a informar-ne en el {issuetracker}nostre seguiment de problemes{linkend}. A més, si voleu participar, uniu-vos al {designteam}nostre equip de disseny{linkend}!",
-    "Unable to apply the setting." : "No es pot aplicar el paràmetre.",
     "Appearance and accessibility settings" : "Paràmetres d'aparença i accessibilitat",
+    "Themes" : "Temes",
+    "Fonts" : "Tipus de lletra",
     "Misc accessibility options" : "Diverses opcions d'accessibilitat",
     "Enable blur background filter (may increase GPU load)" : "Habilita el filtre de fons borrós (pot augmentar la càrrega de la GPU)",
     "Customization has been disabled by your administrator" : "L'administrador ha inhabilitat la personalització",
@@ -116,6 +117,7 @@ OC.L10N.register(
     "Background and login image" : "Imatge de fons i d'inici de sessió",
     "Advanced options" : "Paràmetres avançats",
     "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instal·leu l'extensió del PHP d'ImageMagick compatible amb imatges SVG per a generar automàticament icones de web a partir del logotip i del color pujats.",
+    "Unable to apply the setting." : "No es pot aplicar el paràmetre.",
     "No background has been selected" : "No s'ha seleccionat cap fons",
     "Select a custom color" : "Selecciona un color personalitzat",
     "Upload" : "Puja"

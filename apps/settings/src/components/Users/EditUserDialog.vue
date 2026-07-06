@@ -9,12 +9,14 @@
 		size="small"
 		:name="t('settings', 'Edit account')"
 		outTransition
+		:noClose="saving"
 		@closing="$emit('closing')">
 		<form
 			id="edit-user-form"
 			class="edit-dialog__form"
 			data-test="form"
-			:disabled="saving"
+			:inert="saving"
+			:aria-busy="saving ? 'true' : 'false'"
 			@submit.prevent="save">
 			<UserFormFields
 				:fieldConfig="fieldConfig"
@@ -29,7 +31,10 @@
 				form="edit-user-form"
 				variant="primary"
 				type="submit"
-				:disabled="saving">
+				:aria-disabled="saving ? 'true' : 'false'">
+				<template v-if="saving" #icon>
+					<NcLoadingIcon />
+				</template>
 				{{ saving ? t('settings', 'Saving\u00A0…') : t('settings', 'Save') }}
 			</NcButton>
 		</template>
@@ -41,6 +46,7 @@ import { showError, showSuccess } from '@nextcloud/dialogs'
 import { confirmPassword } from '@nextcloud/password-confirmation'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcDialog from '@nextcloud/vue/components/NcDialog'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import UserFormFields from './UserFormFields.vue'
 import logger from '../../logger.ts'
 import { diffPayload, userToFormData } from './userFormUtils.ts'
@@ -51,6 +57,7 @@ export default {
 	components: {
 		NcButton,
 		NcDialog,
+		NcLoadingIcon,
 		UserFormFields,
 	},
 
@@ -113,6 +120,11 @@ export default {
 
 	methods: {
 		async save() {
+			// Guard against re-submit while a request is already running. The
+			// button is only aria-disabled (not disabled), so it can still fire.
+			if (this.saving) {
+				return
+			}
 			this.fieldErrors = {}
 
 			const payload = diffPayload(this.initialData, this.editedUser)
@@ -151,5 +163,10 @@ export default {
 	:deep(.dialog__actions) {
 		margin-block-start: calc(var(--default-grid-baseline, 4px) * 3);
 	}
+}
+
+// Visually communicate the locked/busy form while the account is saved.
+.edit-dialog__form[aria-busy='true'] {
+	opacity: 0.5;
 }
 </style>
