@@ -11,7 +11,6 @@ use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
-use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
 
@@ -31,16 +30,14 @@ class AuthorizedGroupMapper extends QBMapper {
 
 		/** @var IGroupManager $groupManager */
 		$groupManager = \OC::$server->get(IGroupManager::class);
-		$groups = $groupManager->getUserGroups($user);
-		if (count($groups) === 0) {
+		$groupIds = $groupManager->getUserGroupIds($user);
+		if (count($groupIds) === 0) {
 			return [];
 		}
 
 		$result = $qb->select('class')
 			->from($this->getTableName(), 'auth')
-			->where($qb->expr()->in('group_id', array_map(function (IGroup $group) use ($qb) {
-				return $qb->createNamedParameter($group->getGID());
-			}, $groups), IQueryBuilder::PARAM_STR))
+			->where($qb->expr()->in('group_id', $qb->createNamedParameter($groupIds, IQueryBuilder::PARAM_STR_ARRAY)))
 			->executeQuery();
 
 		$classes = [];
