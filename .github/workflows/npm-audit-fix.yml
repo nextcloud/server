@@ -69,8 +69,11 @@ jobs:
           npm run build --if-present
 
       - name: Workaround for github fail
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           if [ "$(gh api /repos/${{ github.repository }}/branches/automated/noid/${{ matrix.branches }}-fix-npm-audit | jq -r .message)" != "Branch not found" ]; then
+            echo "Branch already exists, skipping creation of new branch"
             exit 0
           fi
           SHA=$(gh api \
