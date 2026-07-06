@@ -57,6 +57,8 @@ OC.L10N.register(
     "Delete" : "Apagar",
     "Reset" : "Reiniciar",
     "Loading …" : "Carregando …",
+    "_{tag} will be set to 1 file._::_{tag} will be set to {count} files._" : ["{tag} será definido em 1 arquivo","{tag} será definido em {count} arquivos","{tag} será definido em {count} arquivos"],
+    "_{tag} will be removed from {count} file._::_{tag} will be removed from {count} files._" : ["{tag} será removido de {count} arquivo.","{tag} será removido de {count} de arquivos.","{tag} será removido de {count} arquivos."],
     "_{tags} and {lastTag} will be set to 1 file._::_{tags} and {lastTag} will be set to {count} files._" : ["{tags} e {lastTag} serão definidos em 1 ficheiro.","{tags} e {lastTag} serão definidos em {count} ficheiros.","{tags} e {lastTag} serão definidos em {count} ficheiros."],
     "_{tags} and {lastTag} will be removed from 1 file._::_{tags} and {lastTag} will be removed from {count} files._" : ["{tags} e {lastTag} serão removidos de 1 ficheiro.","{tags} e {lastTag} serão removidos de {count} ficheiros.","{tags} e {lastTag} serão removidos de {count} ficheiros."],
     "{displayName} (hidden)" : "{displayName} (escondido)",

@@ -81,6 +81,7 @@ OC.L10N.register(
     "App bundles" : "App bundels",
     "Featured apps" : "Aanbevolen apps",
     "Supported apps" : "Ondersteunde apps",
+    "Search results" : "Zoekresultaten",
     "Open source" : "Open source",
     "Best performance" : "Beste prestaties",
     "Limited ODF compatibility" : "Gelimiteerde ODF compatibiliteit",
