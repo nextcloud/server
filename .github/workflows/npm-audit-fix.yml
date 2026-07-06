@@ -16,8 +16,7 @@ on:
     - cron: '30 2 * * 0'
 
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
 
 jobs:
   build:
@@ -39,7 +38,6 @@ jobs:
         id: checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
-          token: ${{ secrets.COMMAND_BOT_PAT }}
           persist-credentials: false
           ref: ${{ matrix.branches }}
 
@@ -70,10 +68,26 @@ jobs:
           npm dedupe
           npm run build --if-present
 
+      - name: Workaround for github fail
+        run: |
+          if [ "$(gh api /repos/${{ github.repository }}/branches/automated/noid/${{ matrix.branches }}-fix-npm-audit | jq -r .message)" != "Branch not found" ]; then
+            exit 0
+          fi
+          SHA=$(gh api \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2026-03-10" \
+            /repos/${{ github.repository }}/branches/${{ matrix.branches }} | jq -r '.commit.sha')
+          gh api \
+            --method POST \
+            -H "Accept: application/vnd.github.v3+json" \
+            /repos/${{ github.repository }}/git/refs \
+            -f ref='refs/heads/automated/noid/${{ matrix.branches }}-fix-npm-audit' \
+            -f sha="$SHA"
+
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         with:
-          # token: ${{ secrets.COMMAND_BOT_PAT }}
+          token: ${{ secrets.COMMAND_BOT_PAT }}
           commit-message: 'fix(deps): Fix npm audit'
           committer: GitHub <noreply@github.com>
           author: nextcloud-command <nextcloud-command@users.noreply.github.com>
