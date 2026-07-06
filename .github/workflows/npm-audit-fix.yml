@@ -27,9 +27,9 @@ jobs:
       matrix:
         branches:
           # - ${{ github.event.repository.default_branch }}
-          - 'stable30'
+          # - 'stable34'
           # - 'stable33'
-          # - 'stable32'
+          - 'stable31'
 
     name: npm-audit-fix-${{ matrix.branches }}
 
@@ -66,6 +66,7 @@ jobs:
           CYPRESS_INSTALL_BINARY: 0
         run: |
           npm ci
+          npm dedupe
           npm run build --if-present
 
       - name: Create Pull Request
