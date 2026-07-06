@@ -402,6 +402,8 @@ class Tags implements ITags {
 				'type' => $qb->createParameter('type'),
 			]);
 
+		$qb->setParameter('type', $this->type, IQueryBuilder::PARAM_STR);
+
 		// Loop through temporarily cached objectid/tagname pairs
 		// and save relations.
 		foreach ($this->relations as $relation) {
@@ -410,7 +412,6 @@ class Tags implements ITags {
 			if ($tagId) {
 				$qb->setParameter('objid', $relation['objid'], IQueryBuilder::PARAM_INT);
 				$qb->setParameter('categoryid', $tagId, IQueryBuilder::PARAM_INT);
-				$qb->setParameter('type', $this->type, IQueryBuilder::PARAM_STR);
 
 				try {
 					$qb->executeStatement();
