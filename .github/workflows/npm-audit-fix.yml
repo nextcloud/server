@@ -10,6 +10,7 @@ name: Npm audit fix and compile
 
 on:
   workflow_dispatch:
+  pull_request:
   schedule:
     # At 2:30 on Sundays
     - cron: '30 2 * * 0'
@@ -25,10 +26,10 @@ jobs:
       fail-fast: false
       matrix:
         branches:
-          - ${{ github.event.repository.default_branch }}
+          # - ${{ github.event.repository.default_branch }}
           - 'stable34'
-          - 'stable33'
-          - 'stable32'
+          # - 'stable33'
+          # - 'stable32'
 
     name: npm-audit-fix-${{ matrix.branches }}
 
@@ -37,9 +38,9 @@ jobs:
         id: checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
+          token: ${{ secrets.COMMAND_BOT_PAT }}
           persist-credentials: false
           ref: ${{ matrix.branches }}
-        continue-on-error: true
 
       - name: Read package.json node and npm engines version
         uses: skjnldsv/read-package-engines-version-actions@06d6baf7d8f41934ab630e97d9e6c0bc9c9ac5e4 # v3
@@ -61,7 +62,6 @@ jobs:
         uses: nextcloud-libraries/npm-audit-action@1b1728b2b4a7a78d69de65608efcf4db0e3e42d0 # v0.2.0
 
       - name: Run npm ci and npm run build
-        if: steps.checkout.outcome == 'success'
         env:
           CYPRESS_INSTALL_BINARY: 0
         run: |
@@ -69,7 +69,6 @@ jobs:
           npm run build --if-present
 
       - name: Create Pull Request
-        if: steps.checkout.outcome == 'success'
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
