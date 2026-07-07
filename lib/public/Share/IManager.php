@@ -297,7 +297,7 @@ interface IManager {
 	 * @param ?IUser $user User to check against group exclusions, defaults to current session user
 	 * @return bool
 	 * @since 9.0.0
-	 * @since 33.0.0 Added optional $user parameter
+	 * @since 30.0.17 Added optional $user parameter
 	 */
 	public function shareApiAllowLinks(?IUser $user = null);
 
