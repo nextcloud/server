@@ -15,29 +15,6 @@ use PHPUnit\Framework\TestCase;
 
 final class RegisterShareReviewSourceEventTest extends TestCase {
 
-	/** @return class-string<IShareReviewSource> */
-	private function makeSourceClass(string $name): string {
-		$source = new class($name) implements IShareReviewSource {
-			public function __construct(
-				private readonly string $name = '',
-			) {
-			}
-
-			public function getName(): string {
-				return $this->name;
-			}
-
-			public function getShares(): array {
-				return [];
-			}
-
-			public function deleteShare(string $shareId): bool {
-				return false;
-			}
-		};
-		return $source::class;
-	}
-
 	public function testNoSourcesRegistered(): void {
 		$event = new RegisterShareReviewSourceEvent();
 
@@ -45,7 +22,7 @@ final class RegisterShareReviewSourceEventTest extends TestCase {
 	}
 
 	public function testRegisterSource(): void {
-		$sourceClass = $this->makeSourceClass('MyApp');
+		$sourceClass = $this->createMock(IShareReviewSource::class)::class;
 
 		$event = new RegisterShareReviewSourceEvent();
 		$event->registerSource($sourceClass);
@@ -54,7 +31,7 @@ final class RegisterShareReviewSourceEventTest extends TestCase {
 	}
 
 	public function testRegisterSourceKeepsDuplicates(): void {
-		$sourceClass = $this->makeSourceClass('MyApp');
+		$sourceClass = $this->createMock(IShareReviewSource::class)::class;
 
 		$event = new RegisterShareReviewSourceEvent();
 		$event->registerSource($sourceClass);
