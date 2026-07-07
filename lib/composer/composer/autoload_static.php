@@ -943,6 +943,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Share\\ShareReview\\Events\\ShareReviewAccessCheckEvent' => __DIR__ . '/../../..' . '/lib/public/Share/ShareReview/Events/ShareReviewAccessCheckEvent.php',
         'OCP\\Share\\ShareReview\\IShareReviewSource' => __DIR__ . '/../../..' . '/lib/public/Share/ShareReview/IShareReviewSource.php',
         'OCP\\Share\\ShareReview\\RegisterShareReviewSourceEvent' => __DIR__ . '/../../..' . '/lib/public/Share/ShareReview/RegisterShareReviewSourceEvent.php',
+        'OCP\\Share\\ShareReview\\ShareReviewEntry' => __DIR__ . '/../../..' . '/lib/public/Share/ShareReview/ShareReviewEntry.php',
         'OCP\\Snowflake\\ISnowflakeDecoder' => __DIR__ . '/../../..' . '/lib/public/Snowflake/ISnowflakeDecoder.php',
         'OCP\\Snowflake\\ISnowflakeGenerator' => __DIR__ . '/../../..' . '/lib/public/Snowflake/ISnowflakeGenerator.php',
         'OCP\\Snowflake\\Snowflake' => __DIR__ . '/../../..' . '/lib/public/Snowflake/Snowflake.php',
