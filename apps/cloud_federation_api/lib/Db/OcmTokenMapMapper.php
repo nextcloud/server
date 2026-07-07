@@ -50,6 +50,21 @@ class OcmTokenMapMapper extends QBMapper {
 	}
 
 	/**
+	 * All mappings for a refresh token. Unlike findByRefreshToken this
+	 * tolerates the duplicate rows a concurrent exchange can create.
+	 *
+	 * @return OcmTokenMap[]
+	 */
+	public function findAllByRefreshToken(string $refreshToken): array {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('*')
+			->from($this->getTableName())
+			->where($qb->expr()->eq('refresh_token', $qb->createNamedParameter($refreshToken)));
+
+		return $this->findEntities($qb);
+	}
+
+	/**
 	 * All mappings whose access token has expired before $time.
 	 *
 	 * @return OcmTokenMap[]
