@@ -1880,6 +1880,7 @@ return array(
     'OC\\Group\\Database' => $baseDir . '/lib/private/Group/Database.php',
     'OC\\Group\\DisplayNameCache' => $baseDir . '/lib/private/Group/DisplayNameCache.php',
     'OC\\Group\\Group' => $baseDir . '/lib/private/Group/Group.php',
+    'OC\\Group\\LazyGroup' => $baseDir . '/lib/private/Group/LazyGroup.php',
     'OC\\Group\\Manager' => $baseDir . '/lib/private/Group/Manager.php',
     'OC\\Group\\MetaData' => $baseDir . '/lib/private/Group/MetaData.php',
     'OC\\HintException' => $baseDir . '/lib/private/HintException.php',

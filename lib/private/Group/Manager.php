@@ -313,12 +313,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 		$groups = [];
 
 		foreach ($this->getUserIdGroupIds($uid) as $groupId) {
-			$aGroup = $this->get($groupId);
-			if ($aGroup instanceof IGroup) {
-				$groups[$groupId] = $aGroup;
-			} else {
-				$this->logger->debug('User "' . $uid . '" belongs to deleted group: "' . $groupId . '"', ['app' => 'core']);
-			}
+			$groups[$groupId] = new LazyGroup($groupId, $this);
 		}
 
 		return $groups;
@@ -399,18 +394,6 @@ class Manager extends PublicEmitter implements IGroupManager {
 	#[\Override]
 	public function getDisplayName(string $groupId): ?string {
 		return $this->displayNameCache->getDisplayName($groupId);
-	}
-
-	/**
-	 * get an array of groupid and displayName for a user
-	 *
-	 * @param IUser $user
-	 * @return array ['displayName' => displayname]
-	 */
-	public function getUserGroupNames(IUser $user) {
-		return array_map(function ($group) {
-			return ['displayName' => $this->displayNameCache->getDisplayName($group->getGID())];
-		}, $this->getUserGroups($user));
 	}
 
 	#[\Override]

@@ -1921,6 +1921,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Group\\Database' => __DIR__ . '/../../..' . '/lib/private/Group/Database.php',
         'OC\\Group\\DisplayNameCache' => __DIR__ . '/../../..' . '/lib/private/Group/DisplayNameCache.php',
         'OC\\Group\\Group' => __DIR__ . '/../../..' . '/lib/private/Group/Group.php',
+        'OC\\Group\\LazyGroup' => __DIR__ . '/../../..' . '/lib/private/Group/LazyGroup.php',
         'OC\\Group\\Manager' => __DIR__ . '/../../..' . '/lib/private/Group/Manager.php',
         'OC\\Group\\MetaData' => __DIR__ . '/../../..' . '/lib/private/Group/MetaData.php',
         'OC\\HintException' => __DIR__ . '/../../..' . '/lib/private/HintException.php',

@@ -31,16 +31,11 @@ abstract class TestBackend extends ABackend implements ISearchableGroupBackend, 
 }
 
 class ManagerTest extends TestCase {
-	/** @var Manager|MockObject */
-	protected $userManager;
-	/** @var IEventDispatcher|MockObject */
-	protected $dispatcher;
-	/** @var LoggerInterface|MockObject */
-	protected $logger;
-	/** @var ICacheFactory|MockObject */
-	private $cache;
-	/** @var IRemoteAddress|MockObject */
-	private $remoteIpAddress;
+	protected Manager&MockObject $userManager;
+	protected IEventDispatcher&MockObject $dispatcher;
+	protected LoggerInterface&MockObject $logger;
+	private ICacheFactory&MockObject $cache;
+	private IRemoteAddress&MockObject $remoteIpAddress;
 
 	#[\Override]
 	protected function setUp(): void {
@@ -55,7 +50,7 @@ class ManagerTest extends TestCase {
 		$this->remoteIpAddress->method('allowsAdminActions')->willReturn(true);
 	}
 
-	private function getTestUser($userId) {
+	private function getTestUser(string $userId): IUser&MockObject {
 		$mockUser = $this->createMock(IUser::class);
 		$mockUser->expects($this->any())
 			->method('getUID')
@@ -68,9 +63,8 @@ class ManagerTest extends TestCase {
 
 	/**
 	 * @param null|int $implementedActions
-	 * @return \PHPUnit\Framework\MockObject\MockObject
 	 */
-	private function getTestBackend($implementedActions = null) {
+	private function getTestBackend(?int $implementedActions = null): MockObject&TestBackend {
 		if ($implementedActions === null) {
 			$implementedActions
 				= GroupInterface::ADD_TO_GROUP
@@ -467,9 +461,6 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testGetUserGroupsWithDeletedGroup(): void {
-		/**
-		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend
-		 */
 		$backend = $this->createMock(Database::class);
 		$backend->expects($this->once())
 			->method('getUserGroups')
@@ -483,20 +474,17 @@ class ManagerTest extends TestCase {
 		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache, $this->remoteIpAddress);
 		$manager->addBackend($backend);
 
-		/** @var User|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->atLeastOnce())
 			->method('getUID')
 			->willReturn('user1');
 
 		$groups = $manager->getUserGroups($user);
-		$this->assertEmpty($groups);
+		$this->assertCount(1, $groups);
+		$this->assertTrue($groups['group1']->isDeleted());
 	}
 
 	public function testInGroup(): void {
-		/**
-		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend
-		 */
 		$backend = $this->getTestBackend();
 		$backend->expects($this->once())
 			->method('getUserGroups')

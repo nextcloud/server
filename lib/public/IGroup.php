@@ -148,4 +148,11 @@ interface IGroup {
 	 * @since 16.0.0
 	 */
 	public function hideFromCollaboration(): bool;
+
+	/**
+	 * Return whether the group is deleted.
+	 *
+	 * @since 35.0.0
+	 */
+	public function isDeleted(): bool;
 }
