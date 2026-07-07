@@ -9,20 +9,27 @@ declare(strict_types=1);
 
 namespace OCA\CloudFederationAPI\BackgroundJob;
 
+use OC\Authentication\Exceptions\ExpiredTokenException;
+use OC\Authentication\Exceptions\InvalidTokenException;
+use OC\Authentication\Exceptions\WipeTokenException;
+use OC\Authentication\Token\IProvider;
 use OCA\CloudFederationAPI\Db\OcmTokenMapMapper;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 
 /**
- * Periodically purge expired OCM access token mappings from ocm_token_map.
+ * Periodically purge expired OCM access tokens.
  *
- * The corresponding oc_authtoken entries (TEMPORARY_TOKEN with an expires
- * timestamp) are cleaned up by Nextcloud's own token expiry jobs.
+ * Each expired mapping is revoked in two steps: the access token is deleted
+ * from oc_authtoken and only then is the ocm_token_map row removed. Dropping
+ * the mapping first would orphan the access token, since nothing else records
+ * which oc_authtoken id belongs to a given refresh token.
  */
 class CleanupExpiredOcmTokensJob extends TimedJob {
 	public function __construct(
 		ITimeFactory $timeFactory,
 		private readonly OcmTokenMapMapper $mapper,
+		private readonly IProvider $tokenProvider,
 	) {
 		parent::__construct($timeFactory);
 
@@ -32,6 +39,27 @@ class CleanupExpiredOcmTokensJob extends TimedJob {
 
 	#[\Override]
 	protected function run($argument): void {
-		$this->mapper->deleteExpired($this->time->getTime());
+		$now = $this->time->getTime();
+		foreach ($this->mapper->findExpired($now) as $mapping) {
+			$this->revokeAccessToken($mapping->getAccessTokenId());
+			$this->mapper->delete($mapping);
+		}
+	}
+
+	/**
+	 * Delete the access token itself from oc_authtoken. getTokenById throws
+	 * for an already-expired token but still carries it, so we can recover the
+	 * owner uid required by invalidateTokenById.
+	 */
+	private function revokeAccessToken(int $accessTokenId): void {
+		try {
+			$token = $this->tokenProvider->getTokenById($accessTokenId);
+		} catch (ExpiredTokenException|WipeTokenException $e) {
+			$token = $e->getToken();
+		} catch (InvalidTokenException) {
+			// Access token already gone; nothing left to revoke.
+			return;
+		}
+		$this->tokenProvider->invalidateTokenById($token->getUID(), $accessTokenId);
 	}
 }

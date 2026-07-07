@@ -49,10 +49,17 @@ class OcmTokenMapMapper extends QBMapper {
 		}
 	}
 
-	public function deleteExpired(int $time): void {
+	/**
+	 * All mappings whose access token has expired before $time.
+	 *
+	 * @return OcmTokenMap[]
+	 */
+	public function findExpired(int $time): array {
 		$qb = $this->db->getQueryBuilder();
-		$qb->delete($this->getTableName())
+		$qb->select('*')
+			->from($this->getTableName())
 			->where($qb->expr()->lt('expires', $qb->createNamedParameter($time)));
-		$qb->executeStatement();
+
+		return $this->findEntities($qb);
 	}
 }
