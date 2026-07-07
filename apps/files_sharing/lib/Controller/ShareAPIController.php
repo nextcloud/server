@@ -1834,30 +1834,33 @@ class ShareAPIController extends OCSController {
 			IShare::TYPE_DECK,
 		];
 
-		// Should we assume that the (currentUser) viewer is the owner of the node !?
+		/** @var IShare[] $shares */
 		$shares = [];
+
 		foreach ($providers as $provider) {
 			if (!$this->shareManager->shareProviderExists($provider)) {
 				continue;
 			}
 
-			$providerShares
-				= $this->shareManager->getSharesBy($viewer, $provider, $node, $reShares, -1, 0);
-			$shares = array_merge($shares, $providerShares);
+			// Should we assume that the (currentUser) viewer is the owner of the node !?
+			$providerShares = $this->shareManager->getSharesBy($viewer, $provider, $node, $reShares, -1, 0);
+			if (!empty($providerShares)) {
+				array_push($shares, ...$providerShares);
+			}
 		}
 
 		if ($this->shareManager->outgoingServer2ServerSharesAllowed()) {
-			$federatedShares = $this->shareManager->getSharesBy(
-				$this->userId, IShare::TYPE_REMOTE, $node, $reShares, -1, 0
-			);
-			$shares = array_merge($shares, $federatedShares);
+			$providerShares = $this->shareManager->getSharesBy($this->userId, IShare::TYPE_REMOTE, $node, $reShares, -1, 0);
+			if (!empty($providerShares)) {
+				array_push($shares, ...$providerShares);
+			}
 		}
 
 		if ($this->shareManager->outgoingServer2ServerGroupSharesAllowed()) {
-			$federatedShares = $this->shareManager->getSharesBy(
-				$this->userId, IShare::TYPE_REMOTE_GROUP, $node, $reShares, -1, 0
-			);
-			$shares = array_merge($shares, $federatedShares);
+			$providerShares = $this->shareManager->getSharesBy($this->userId, IShare::TYPE_REMOTE_GROUP, $node, $reShares, -1, 0);
+			if (!empty($providerShares)) {
+				array_push($shares, ...$providerShares);
+			}
 		}
 
 		return $shares;
