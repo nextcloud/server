@@ -34,22 +34,6 @@ class OcmTokenMapMapper extends QBMapper {
 	}
 
 	/**
-	 * Find the current mapping for a given refresh token, if any.
-	 */
-	public function findByRefreshToken(string $refreshToken): ?OcmTokenMap {
-		$qb = $this->db->getQueryBuilder();
-		$qb->select('*')
-			->from($this->getTableName())
-			->where($qb->expr()->eq('refresh_token', $qb->createNamedParameter($refreshToken)));
-
-		try {
-			return $this->findEntity($qb);
-		} catch (DoesNotExistException) {
-			return null;
-		}
-	}
-
-	/**
 	 * All mappings for a refresh token. Unlike findByRefreshToken this
 	 * tolerates the duplicate rows a concurrent exchange can create.
 	 *

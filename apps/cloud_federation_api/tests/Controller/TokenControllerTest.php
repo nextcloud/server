@@ -118,10 +118,6 @@ class TokenControllerTest extends TestCase {
 			->with($refreshToken)
 			->willReturn($refreshTokenMock);
 
-		$this->ocmTokenMapMapper->method('findByRefreshToken')
-			->with($refreshToken)
-			->willReturn(null);
-
 		$share = $this->createMock(IShare::class);
 		$share->method('getShareOwner')->willReturn($shareOwner);
 		$share->method('getSharedWith')->willReturn($sharedWith);
@@ -182,6 +178,26 @@ class TokenControllerTest extends TestCase {
 		$this->assertSame('fixedjtivalue00', $decoded->jti);
 		$this->assertSame(1000000, $decoded->iat);
 		$this->assertSame(1000000 + 3600, $decoded->exp);
+	}
+
+	public function testAccessTokenDoesNotRevokeExistingTokens(): void {
+		$signedRequest = $this->createMock(IIncomingSignedRequest::class);
+		$signedRequest->method('getOrigin')->willReturn('remote.example.com');
+		$this->signatureManager->method('getIncomingSignedRequest')
+			->with($this->signatoryManager)
+			->willReturn($signedRequest);
+
+		$this->configureHappyPath('valid-refresh-token', 123, 'testuser', 'owner', 'sharee@remote.example.com', 'fixedjtivalue00');
+
+		// A refresh token may back multiple concurrent access tokens, so an
+		// exchange only adds one and never revokes or deletes an existing one.
+		$this->tokenProvider->expects($this->never())->method('invalidateTokenById');
+		$this->ocmTokenMapMapper->expects($this->never())->method('delete');
+		$this->ocmTokenMapMapper->expects($this->once())->method('insert');
+
+		$result = $this->controller->accessToken('authorization_code', 'valid-refresh-token');
+
+		$this->assertEquals(Http::STATUS_OK, $result->getStatus());
 	}
 
 	public function testAccessTokenLocksRefreshTokenToExchangeOnly(): void {
