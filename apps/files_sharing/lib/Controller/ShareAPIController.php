@@ -2224,7 +2224,7 @@ class ShareAPIController extends OCSController {
 	 *
 	 * @psalm-template T of array{tags?: list<string>, file_source: int, ...array<string, mixed>}
 	 * @param list<T> $fileList
-	 * @return list<T> file list populated with tags
+	 * @return list<T&array{tags: list<string>}> file list populated with tags
 	 */
 	private function populateTags(array $fileList): array {
 		if ($fileList === []) {
