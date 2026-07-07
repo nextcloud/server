@@ -11,7 +11,7 @@ namespace Test\Util\Group;
 use OCP\Group\Backend\ABackend;
 use OCP\Group\Backend\IAddToGroupBackend;
 use OCP\Group\Backend\ICountUsersBackend;
-use OCP\Group\Backend\ICreateGroupBackend;
+use OCP\Group\Backend\ICreateNamedGroupBackend;
 use OCP\Group\Backend\IDeleteGroupBackend;
 use OCP\Group\Backend\IRemoveFromGroupBackend;
 use Test\Util\User\Dummy as DummyUser;
@@ -19,23 +19,16 @@ use Test\Util\User\Dummy as DummyUser;
 /**
  * Dummy group backend, does not keep state, only for testing use
  */
-class Dummy extends ABackend implements ICreateGroupBackend, IDeleteGroupBackend, IAddToGroupBackend, IRemoveFromGroupBackend, ICountUsersBackend {
+class Dummy extends ABackend implements ICreateNamedGroupBackend, IDeleteGroupBackend, IAddToGroupBackend, IRemoveFromGroupBackend, ICountUsersBackend {
 	private $groups = [];
-	/**
-	 * Try to create a new group
-	 * @param string $gid The name of the group to create
-	 * @return bool
-	 *
-	 * Tries to create a new group. If the group name already exists, false will
-	 * be returned.
-	 */
+
 	#[\Override]
-	public function createGroup(string $gid): bool {
-		if (!isset($this->groups[$gid])) {
-			$this->groups[$gid] = [];
-			return true;
+	public function createGroup(string $name): ?string {
+		if (!isset($this->groups[$name])) {
+			$this->groups[$name] = [];
+			return $name;
 		} else {
-			return false;
+			return null;
 		}
 	}
 
