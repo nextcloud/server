@@ -178,7 +178,7 @@ OC.L10N.register(
     "_{count} selected_::_{count} selected_" : ["Вибрано {count}","Вибрано {count}","Вибрано {count} ","Вибрано {count} "],
     "Views" : "Подання",
     "Search everywhere …" : "Шукайте скрізь ...",
-    "Search here …" : "Шукайте тут ...",
+    "Search here …" : "Швидкий фільтр ...",
     "Search scope options" : "Визначити місце пошуку",
     "Search here" : "Швидкий пошук",
     "Owner" : "Власник",
