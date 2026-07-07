@@ -880,27 +880,30 @@ class ShareAPIController extends OCSController {
 		$nodes = $folder->getDirectoryListing();
 
 		/** @var IShare[] $shares */
-		$shares = array_reduce($nodes, function ($carry, $node) {
-			$carry = array_merge($carry, $this->getAllShares($node, true));
-			return $carry;
-		}, []);
-
-		// filter out duplicate shares
-		$known = [];
+		$shares = [];
+		foreach ($nodes as $node) {
+			foreach ($this->getAllShares($node, true) as $share) {
+				$shares[] = $share;
+			}
+		}
 
 		$formatted = $miniFormatted = [];
 		$resharingRight = false;
-		$known = [];
+		$knownIds = [];
+
 		foreach ($shares as $share) {
-			if (in_array($share->getId(), $known) || $share->getSharedWith() === $this->userId) {
+			$shareId = $share->getId();
+
+			if (isset($knownIds[$shareId]) || $share->getSharedWith() === $this->userId) {
 				continue;
 			}
 
 			try {
 				$format = $this->formatShare($share);
 
-				$known[] = $share->getId();
+				$knownIds[$shareId] = true; 
 				$formatted[] = $format;
+
 				if ($share->getSharedBy() === $this->userId) {
 					$miniFormatted[] = $format;
 				}
@@ -1058,8 +1061,10 @@ class ShareAPIController extends OCSController {
 
 		$shares = $this->getSharesFromNode($viewer, $node, $reShares);
 
-		$known = $formatted = $miniFormatted = [];
+		$formatted = $miniFormatted = [];
 		$resharingRight = false;
+		$knownIds = [];
+
 		foreach ($shares as $share) {
 			try {
 				$share->getNode();
@@ -1071,15 +1076,18 @@ class ShareAPIController extends OCSController {
 				continue;
 			}
 
-			if (in_array($share->getId(), $known)
+			$shareId = $share->getId();
+
+			if (isset($knownIds[$shareId])
 				|| ($share->getSharedWith() === $this->userId && $share->getShareType() === IShare::TYPE_USER)) {
 				continue;
 			}
 
-			$known[] = $share->getId();
 			try {
 				/** @var IShare $share */
 				$format = $this->formatShare($share, $node);
+
+				$knownIds[$shareId] = true;
 				$formatted[] = $format;
 
 				// let's also build a list of shares created
