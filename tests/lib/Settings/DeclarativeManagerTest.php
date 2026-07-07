@@ -556,8 +556,15 @@ class DeclarativeManagerTest extends TestCase {
 		$schema = self::validSchemaAllFields;
 		$this->declarativeManager->registerSchema($app, $schema);
 
+		// A non-admin user must not receive admin declarative forms, but this must not
+		// throw: it would abort rendering of a section a user can legitimately access
+		// through admin delegation (which only covers non-declarative settings).
+		$forms = $this->declarativeManager->getFormsWithValues($this->user, $schema['section_type'], $schema['section_id']);
+		$this->assertEmpty($forms);
+
+		// Writing to an admin declarative form is still forbidden for a non-admin user.
 		$this->expectException(\Exception::class);
-		$this->declarativeManager->getFormsWithValues($this->user, $schema['section_type'], $schema['section_id']);
+		$this->declarativeManager->setValue($this->user, $app, $schema['id'], 'some_real_setting', '120m');
 	}
 
 	/**
