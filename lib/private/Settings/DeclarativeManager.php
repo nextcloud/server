@@ -25,6 +25,7 @@ use OCP\Settings\Events\DeclarativeSettingsSetValueEvent;
 use OCP\Settings\IDeclarativeManager;
 use OCP\Settings\IDeclarativeSettingsForm;
 use OCP\Settings\IDeclarativeSettingsFormWithHandlers;
+use OCP\Settings\IManager as ISettingsManager;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -52,6 +53,7 @@ class DeclarativeManager implements IDeclarativeManager {
 		private IAppConfig $appConfig,
 		private LoggerInterface $logger,
 		private ICrypto $crypto,
+		private ISettingsManager $settingsManager,
 	) {
 	}
 
@@ -106,7 +108,6 @@ class DeclarativeManager implements IDeclarativeManager {
 	 */
 	#[\Override]
 	public function getFormIDs(IUser $user, string $type, string $section): array {
-		$isAdmin = $this->groupManager->isAdmin($user->getUID());
 		/** @var array<string, list<string>> $formIds */
 		$formIds = [];
 
@@ -114,12 +115,13 @@ class DeclarativeManager implements IDeclarativeManager {
 			$ids = [];
 			usort($schemas, [$this, 'sortSchemasByPriorityCallback']);
 			foreach ($schemas as $schema) {
-				if ($schema['section_type'] === DeclarativeSettingsTypes::SECTION_TYPE_ADMIN && !$isAdmin) {
+				if ($schema['section_type'] !== $type || $schema['section_id'] !== $section) {
 					continue;
 				}
-				if ($schema['section_type'] === $type && $schema['section_id'] === $section) {
-					$ids[] = $schema['id'];
+				if (!$this->canAccessSection($user, $schema['section_type'], $schema['section_id'])) {
+					continue;
 				}
+				$ids[] = $schema['id'];
 			}
 
 			if (!empty($ids)) {
@@ -136,7 +138,6 @@ class DeclarativeManager implements IDeclarativeManager {
 	 */
 	#[\Override]
 	public function getFormsWithValues(IUser $user, ?string $type, ?string $section): array {
-		$isAdmin = $this->groupManager->isAdmin($user->getUID());
 		$forms = [];
 
 		foreach ($this->appSchemas as $app => $schemas) {
@@ -147,8 +148,9 @@ class DeclarativeManager implements IDeclarativeManager {
 				if ($section !== null && $schema['section_id'] !== $section) {
 					continue;
 				}
-				// If listing all fields skip the admin fields which a non-admin user has no access to
-				if ($type === null && $schema['section_type'] === 'admin' && !$isAdmin) {
+				// Skip sections the user is not allowed to access. Admin sections require
+				// admin rights or an admin delegation covering the section.
+				if (!$this->canAccessSection($user, $schema['section_type'], $schema['section_id'])) {
 					continue;
 				}
 
@@ -219,13 +221,50 @@ class DeclarativeManager implements IDeclarativeManager {
 	}
 
 	/**
+	 * @throws Exception
+	 */
+	private function getSectionId(string $app, string $fieldId): string {
+		if (array_key_exists($app, $this->appSchemas)) {
+			foreach ($this->appSchemas[$app] as $schema) {
+				foreach ($schema['fields'] as $field) {
+					if ($field['id'] == $fieldId) {
+						return $schema['section_id'];
+					}
+				}
+			}
+		}
+
+		throw new Exception('Unknown fieldId "' . $fieldId . '"');
+	}
+
+	/**
 	 * @psalm-param DeclarativeSettingsSectionType $sectionType
 	 * @throws NotAdminException
 	 */
-	private function assertAuthorized(IUser $user, string $sectionType): void {
-		if ($sectionType === 'admin' && !$this->groupManager->isAdmin($user->getUID())) {
+	private function assertAuthorized(IUser $user, string $sectionType, string $sectionId): void {
+		if (!$this->canAccessSection($user, $sectionType, $sectionId)) {
 			throw new NotAdminException('Logged in user does not have permission to access these settings.');
 		}
+	}
+
+	/**
+	 * Whether the user may access the given settings section.
+	 *
+	 * Personal sections are always accessible. Admin sections require admin rights
+	 * or an admin delegation covering the section: delegation is section-based, so
+	 * being authorized for any (non-declarative) setting of the section also grants
+	 * access to the declarative forms of that same section.
+	 *
+	 * @psalm-param DeclarativeSettingsSectionType $sectionType
+	 */
+	private function canAccessSection(IUser $user, string $sectionType, string $sectionId): bool {
+		if ($sectionType !== DeclarativeSettingsTypes::SECTION_TYPE_ADMIN) {
+			return true;
+		}
+		if ($this->groupManager->isAdmin($user->getUID())) {
+			return true;
+		}
+		return $this->settingsManager->getAllowedAdminSettings($sectionId, $user) !== [];
 	}
 
 	/**
@@ -235,7 +274,7 @@ class DeclarativeManager implements IDeclarativeManager {
 	 */
 	private function getValue(IUser $user, string $app, string $formId, string $fieldId): mixed {
 		$sectionType = $this->getSectionType($app, $fieldId);
-		$this->assertAuthorized($user, $sectionType);
+		$this->assertAuthorized($user, $sectionType, $this->getSectionId($app, $fieldId));
 
 		$storageType = $this->getStorageType($app, $fieldId);
 		switch ($storageType) {
@@ -260,7 +299,7 @@ class DeclarativeManager implements IDeclarativeManager {
 	#[\Override]
 	public function setValue(IUser $user, string $app, string $formId, string $fieldId, mixed $value): void {
 		$sectionType = $this->getSectionType($app, $fieldId);
-		$this->assertAuthorized($user, $sectionType);
+		$this->assertAuthorized($user, $sectionType, $this->getSectionId($app, $fieldId));
 
 		$storageType = $this->getStorageType($app, $fieldId);
 		switch ($storageType) {
