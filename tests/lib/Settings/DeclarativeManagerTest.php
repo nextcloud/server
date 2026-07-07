@@ -24,6 +24,7 @@ use OCP\Settings\Events\DeclarativeSettingsSetValueEvent;
 use OCP\Settings\IDeclarativeManager;
 use OCP\Settings\IDeclarativeSettingsForm;
 use OCP\Settings\IDeclarativeSettingsFormWithHandlers;
+use OCP\Settings\IManager as ISettingsManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -53,6 +54,9 @@ class DeclarativeManagerTest extends TestCase {
 
 	/** @var ICrypto|MockObject */
 	private $crypto;
+
+	/** @var ISettingsManager|MockObject */
+	private $settingsManager;
 
 	/** @var IUser|MockObject */
 	private $user;
@@ -265,6 +269,7 @@ class DeclarativeManagerTest extends TestCase {
 		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->crypto = $this->createMock(ICrypto::class);
+		$this->settingsManager = $this->createMock(ISettingsManager::class);
 
 		$this->declarativeManager = new DeclarativeManager(
 			$this->eventDispatcher,
@@ -274,6 +279,7 @@ class DeclarativeManagerTest extends TestCase {
 			$this->appConfig,
 			$this->logger,
 			$this->crypto,
+			$this->settingsManager,
 		);
 
 		$this->user = $this->createMock(IUser::class);
@@ -556,8 +562,41 @@ class DeclarativeManagerTest extends TestCase {
 		$schema = self::validSchemaAllFields;
 		$this->declarativeManager->registerSchema($app, $schema);
 
+		// A non-admin user without delegation for the section must not receive the admin
+		// declarative form, but this must not throw: throwing would abort rendering of a
+		// whole section a user can otherwise legitimately access through admin delegation.
+		$this->settingsManager->method('getAllowedAdminSettings')->willReturn([]);
+		$forms = $this->declarativeManager->getFormsWithValues($this->user, $schema['section_type'], $schema['section_id']);
+		$this->assertEmpty($forms);
+
+		// Writing to an admin declarative form is still forbidden for such a user.
 		$this->expectException(\Exception::class);
-		$this->declarativeManager->getFormsWithValues($this->user, $schema['section_type'], $schema['section_id']);
+		$this->declarativeManager->setValue($this->user, $app, $schema['id'], 'some_real_setting', '120m');
+	}
+
+	public function testAdminFormDelegatedUserAuthorized(): void {
+		$app = 'testing';
+		$schema = self::validSchemaAllFields;
+		$this->declarativeManager->registerSchema($app, $schema);
+
+		// The user is not an admin but was granted access to the section through admin
+		// delegation (i.e. getAllowedAdminSettings returns settings for the section).
+		$this->settingsManager->method('getAllowedAdminSettings')
+			->with($schema['section_id'], $this->user)
+			->willReturn([['a delegated setting']]);
+		$this->config->method('getAppValue')
+			->willReturnCallback(fn ($app, $configkey, $default) => $default);
+
+		// The declarative form of the delegated section must be visible ...
+		$forms = $this->declarativeManager->getFormsWithValues($this->user, $schema['section_type'], $schema['section_id']);
+		$this->assertCount(1, $forms);
+		$this->assertSame($schema['id'], $forms[0]['id']);
+
+		// ... and writable.
+		$this->appConfig->expects($this->once())
+			->method('setValueString')
+			->with($app, 'some_real_setting', '120m');
+		$this->declarativeManager->setValue($this->user, $app, $schema['id'], 'some_real_setting', '120m');
 	}
 
 	/**
