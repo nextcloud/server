@@ -37,4 +37,12 @@ class SGI extends Bitmap {
 	protected function getAllowedMimeTypes(): string {
 		return '/image\/(x-)?sgi/';
 	}
+
+	protected function getMagicStrings(): array {
+		return ["\x01\xDA"];
+	}
+
+	protected function getImagickFormatHint(): string {
+		return 'sgi';
+	}
 }
