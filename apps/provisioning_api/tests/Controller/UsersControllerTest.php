@@ -1201,8 +1201,8 @@ class UsersControllerTest extends TestCase {
 			->willReturn(true);
 		$this->groupManager
 			->expects($this->any())
-			->method('getUserGroups')
-			->willReturn([$group0, $group1, $group2]);
+			->method('getUserGroupIds')
+			->willReturn(['group0', 'group1', 'group2']);
 		$this->groupManager
 			->expects($this->once())
 			->method('getSubAdmin')
@@ -1211,15 +1211,6 @@ class UsersControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getSubAdminsGroups')
 			->willReturn([$group3]);
-		$group0->expects($this->exactly(1))
-			->method('getGID')
-			->willReturn('group0');
-		$group1->expects($this->exactly(1))
-			->method('getGID')
-			->willReturn('group1');
-		$group2->expects($this->exactly(1))
-			->method('getGID')
-			->willReturn('group2');
 		$group3->expects($this->once())
 			->method('getGID')
 			->willReturn('group3');
