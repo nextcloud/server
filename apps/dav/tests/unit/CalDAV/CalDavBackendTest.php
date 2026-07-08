@@ -295,6 +295,46 @@ EOD;
 		$this->backend->createCalendarObject($calendarId, $uri1, $calData);
 	}
 
+	public function testCreateCalendarObjectWithSameUidAsObjectInTrashbin(): void {
+		$calendarId = $this->createTestCalendar();
+
+		$calData = <<<'EOD'
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:ownCloud Calendar
+BEGIN:VEVENT
+CREATED;VALUE=DATE-TIME:20130910T125139Z
+UID:47d15e3ec8
+LAST-MODIFIED;VALUE=DATE-TIME:20130910T125139Z
+DTSTAMP;VALUE=DATE-TIME:20130910T125139Z
+SUMMARY:Test Event
+DTSTART;VALUE=DATE-TIME:20130912T130000Z
+DTEND;VALUE=DATE-TIME:20130912T140000Z
+CLASS:PUBLIC
+END:VEVENT
+END:VCALENDAR
+EOD;
+
+		$uri = static::getUniqueID('event') . '.ics';
+		$this->backend->createCalendarObject($calendarId, $uri, $calData);
+
+		// Soft-delete the object so it is moved to the trashbin but keeps its UID
+		$this->backend->deleteCalendarObject($calendarId, $uri);
+		$trashbinUri = str_replace('.ics', '-deleted.ics', $uri);
+		$trashedObject = $this->backend->getCalendarObject($calendarId, $trashbinUri);
+		$this->assertNotNull($trashedObject);
+
+		// Recreating an object with the same UID must purge the trashbin entry
+		// instead of violating the unique index on (calendarid, calendartype, uid)
+		$newUri = static::getUniqueID('event') . '.ics';
+		$this->backend->createCalendarObject($calendarId, $newUri, $calData);
+
+		$this->assertNull($this->backend->getCalendarObject($calendarId, $trashbinUri));
+		$newObject = $this->backend->getCalendarObject($calendarId, $newUri);
+		$this->assertNotNull($newObject);
+		$this->assertEquals($calData, $newObject['calendardata']);
+	}
+
 	public function testMultiCalendarObjects(): void {
 		$calendarId = $this->createTestCalendar();
 
