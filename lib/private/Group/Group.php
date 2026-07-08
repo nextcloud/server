@@ -40,7 +40,6 @@ class Group implements IGroup {
 	/** @var User[] */
 	private array $users = [];
 	private bool $usersLoaded = false;
-	private bool $isDeleted = false;
 
 	public function __construct(
 		private string $gid,
@@ -337,7 +336,6 @@ class Group implements IGroup {
 				$this->emitter->emit('\OC\Group', 'postDelete', [$this]);
 			}
 		}
-		$this->isDeleted = $result;
 		return $result;
 	}
 
@@ -394,9 +392,5 @@ class Group implements IGroup {
 		return array_reduce($this->backends, function (bool $hide, GroupInterface $backend) {
 			return $hide || ($backend instanceof IHideFromCollaborationBackend && $backend->hideGroup($this->gid));
 		}, false);
-	}
-
-	public function isDeleted(): bool {
-		return $this->isDeleted;
 	}
 }

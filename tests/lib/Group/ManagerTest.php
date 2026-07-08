@@ -418,30 +418,6 @@ class ManagerTest extends TestCase {
 		}
 	}
 
-	public function testGetUserGroupsWithDeletedGroup(): void {
-		$backend = $this->createMock(Database::class);
-		$backend->expects($this->once())
-			->method('getUserGroups')
-			->with('user1')
-			->willReturn(['group1']);
-		$backend->expects($this->any())
-			->method('groupExists')
-			->with('group1')
-			->willReturn(false);
-
-		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache, $this->remoteIpAddress);
-		$manager->addBackend($backend);
-
-		$user = $this->createMock(IUser::class);
-		$user->expects($this->atLeastOnce())
-			->method('getUID')
-			->willReturn('user1');
-
-		$groups = $manager->getUserGroups($user);
-		$this->assertCount(1, $groups);
-		$this->assertTrue($groups['group1']->isDeleted());
-	}
-
 	public function testInGroup(): void {
 		$backend = $this->getTestBackend();
 		$backend->expects($this->once())

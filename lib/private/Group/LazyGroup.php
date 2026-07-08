@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -18,7 +20,6 @@ use Psr\Log\LoggerInterface;
 
 class LazyGroup implements IGroup {
 	private ?IGroup $group = null;
-	private ?bool $isDeleted = null;
 
 	public function __construct(
 		private string $gid,
@@ -34,14 +35,10 @@ class LazyGroup implements IGroup {
 	private function getGroup(): IGroup {
 		if ($this->group === null) {
 			$this->group = $this->groupManager->get($this->gid);
-			;
 		}
 		if ($this->group === null) {
-			Server::get(LoggerInterface::class)->debug('Trying to use the deleted group: "' . $this->gid . '"', ['app' => 'core']);
-			$this->isDeleted = true;
+			Server::get(LoggerInterface::class)->error('Trying to use the deleted group: "' . $this->gid . '"', ['app' => 'core']);
 			$this->group = new Group($this->gid, [], Server::get(IEventDispatcher::class), Server::get(IUserManager::class));
-		} else {
-			$this->isDeleted = false;
 		}
 		return $this->group;
 	}
@@ -49,12 +46,12 @@ class LazyGroup implements IGroup {
 	#[\Override]
 	public function getDisplayName(): string {
 		// Use display name cache from IGroupManager
-		return $this->groupManager->getDisplayName($this->gid);
+		return $this->groupManager->getDisplayName($this->gid) ?? $this->gid;
 	}
 
 	#[\Override]
 	public function setDisplayName(string $displayName): bool {
-		return $this->group->setDisplayName($displayName);
+		return $this->getGroup()->setDisplayName($displayName);
 	}
 
 	#[\Override]
@@ -120,13 +117,5 @@ class LazyGroup implements IGroup {
 	#[\Override]
 	public function hideFromCollaboration(): bool {
 		return $this->getGroup()->hideFromCollaboration();
-	}
-
-	#[\Override]
-	public function isDeleted(): bool {
-		if ($this->isDeleted === null) {
-			$this->getGroup();
-		}
-		return $this->isDeleted === true ? true : $this->getGroup()->isDeleted();
 	}
 }
