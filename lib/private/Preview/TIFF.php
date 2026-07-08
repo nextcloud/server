@@ -12,19 +12,28 @@ namespace OC\Preview;
 
 //.tiff
 class TIFF extends Bitmap {
-	/**
-	 * {@inheritDoc}
-	 */
 	#[\Override]
 	public function getMimeType(): string {
 		return '/image\/tiff/';
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	#[\Override]
 	protected function getAllowedMimeTypes(): string {
 		return '/image\/tiff/';
+	}
+
+	#[\Override]
+	protected function getMagicStrings(): array {
+		return [
+			"II*\x00",
+			"MM\x00*",
+			"II+\x00",
+			"MM\x00+",
+		];
+	}
+
+	#[\Override]
+	protected function getImagickFormatHint(): string {
+		return 'tiff';
 	}
 }
