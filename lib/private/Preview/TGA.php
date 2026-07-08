@@ -21,4 +21,14 @@ class TGA extends Bitmap {
 	protected function getAllowedMimeTypes(): string {
 		return '/image\/(x-)?t(ar)?ga/';
 	}
+
+	#[\Override]
+	protected function getMagicStrings(): array {
+		return [];
+	}
+
+	#[\Override]
+	protected function getImagickFormatHint(): string {
+		return 'tga';
+	}
 }
