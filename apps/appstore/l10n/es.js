@@ -105,6 +105,7 @@ OC.L10N.register(
     "App bundles" : "Lotes de apps",
     "Featured apps" : "Apps destacadas",
     "Supported apps" : "Apps soportadas",
+    "Search results" : "Resultados de búsqueda",
     "Good Nextcloud integration" : "Buena integración con Nextcloud",
     "Open source" : "Código abierto",
     "Best performance" : "Mejor rendimiento",

@@ -298,7 +298,7 @@ OC.L10N.register(
     "Cannot install this app because it is not compatible" : "Неможливо встановити цей застосунок, оскільки він не є сумісним",
     "Cannot install this app" : "Не вдається встановити цей застосунок",
     "Skip" : "Пропустити",
-    "Installing apps …" : "Встановлення додатків ...",
+    "Installing apps …" : "Встановлення застосунків ...",
     "Install recommended apps" : "Встановити рекомендовані застосунки",
     "Online" : "Доступний(-а)",
     "Away" : "Відсутній(-я)",
