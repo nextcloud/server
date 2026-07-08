@@ -12,6 +12,7 @@ use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaConfig;
+use Doctrine\DBAL\Types\Type;
 use OC\DB\Migrator;
 use OC\DB\OracleMigrator;
 use OC\DB\SQLiteMigrator;
@@ -242,6 +243,106 @@ class MigratorTest extends \Test\TestCase {
 		$migrator->migrate($endSchema);
 
 		$this->addToAssertionCount(1);
+	}
+
+	/**
+	 * Validates the manual workaround for the ORA-22858 upgrade failure:
+	 * converting a string column to text via add-copy-drop-rename in plain
+	 * SQL, after which the type guard of a migration like
+	 * Version34000Date20260318095645 (oc_jobs.argument) sees a text column
+	 * and no-ops.
+	 */
+	public function testStringToTextConversionWorkaroundOnOracle(): void {
+		if ($this->connection->getDatabaseProvider() !== IDBConnection::PLATFORM_ORACLE) {
+			$this->markTestSkipped('Validates Oracle-specific workaround SQL');
+		}
+
+		$startSchema = new Schema([], [], $this->getSchemaConfig());
+		$table = $startSchema->createTable($this->tableName);
+		$table->addColumn('id', Types::BIGINT);
+		$table->addColumn('argument', Types::STRING, [
+			'notnull' => true,
+			'length' => 4000,
+			'default' => '',
+		]);
+		$table->addIndex(['id'], $this->tableName . '_id');
+
+		$migrator = $this->getMigrator();
+		$migrator->migrate($startSchema);
+
+		$values = [
+			'{"foo":"bar"}',
+			json_encode(['data' => str_repeat('x', 3900)]),
+			json_encode(['emoji' => 'üñïçødé 🥘 "quoted" <tag> \\']),
+		];
+		foreach ($values as $i => $value) {
+			$this->connection->insert($this->tableName, ['id' => $i + 1, 'argument' => $value]);
+		}
+
+		$quotedTable = $this->connection->quoteIdentifier($this->tableName);
+		$this->connection->executeStatement('ALTER TABLE ' . $quotedTable . ' ADD ("argument2" CLOB)');
+		$this->connection->executeStatement('UPDATE ' . $quotedTable . ' SET "argument2" = "argument"');
+
+		// verification gate: must be 0 before the old column may be dropped
+		$mismatches = $this->connection->executeQuery(
+			'SELECT COUNT(*) FROM ' . $quotedTable
+			. ' WHERE ("argument" IS NOT NULL AND "argument2" IS NULL)'
+			. ' OR DBMS_LOB.COMPARE("argument2", TO_CLOB("argument")) <> 0'
+		)->fetchOne();
+		$this->assertSame(0, (int)$mismatches);
+
+		$this->connection->executeStatement('ALTER TABLE ' . $quotedTable . ' DROP COLUMN "argument"');
+		$this->connection->executeStatement('ALTER TABLE ' . $quotedTable . ' RENAME COLUMN "argument2" TO "argument"');
+		$this->connection->executeStatement('ALTER TABLE ' . $quotedTable . ' MODIFY ("argument" NOT NULL)');
+
+		$this->assertSame($values, $this->connection->executeQuery(
+			'SELECT ' . $this->connection->quoteIdentifier('argument')
+			. ' FROM ' . $quotedTable
+			. ' ORDER BY ' . $this->connection->quoteIdentifier('id') . ' ASC'
+		)->fetchFirstColumn());
+
+		$columns = $this->connection->createSchemaManager()->listTableColumns($this->tableName);
+		$this->assertSame(Type::getType(Types::TEXT), $columns['argument']->getType());
+		$this->assertTrue($columns['argument']->getNotnull());
+	}
+
+	/**
+	 * The string to text conversion fails on Oracle even with zero rows:
+	 * ORA-22858 does not depend on the column's contents, so emptying the
+	 * table is not a workaround.
+	 */
+	public function testChangeStringToTextEmptyTableFailsOnOracle(): void {
+		if ($this->connection->getDatabaseProvider() !== IDBConnection::PLATFORM_ORACLE) {
+			$this->markTestSkipped('Documents an Oracle-specific limitation');
+		}
+
+		$startSchema = new Schema([], [], $this->getSchemaConfig());
+		$table = $startSchema->createTable($this->tableName);
+		$table->addColumn('id', Types::BIGINT);
+		$table->addColumn('argument', Types::STRING, [
+			'notnull' => true,
+			'length' => 4000,
+		]);
+
+		$endSchema = new Schema([], [], $this->getSchemaConfig());
+		$table = $endSchema->createTable($this->tableName);
+		$table->addColumn('id', Types::BIGINT);
+		$table->addColumn('argument', Types::TEXT, [
+			'notnull' => true,
+		]);
+
+		$migrator = $this->getMigrator();
+		$migrator->migrate($startSchema);
+
+		try {
+			$migrator->migrate($endSchema);
+			$this->fail('Expected the conversion of an empty table to fail with ORA-22858');
+		} catch (\Doctrine\DBAL\Exception\DriverException $e) {
+			$this->assertStringContainsString('ORA-22858', $e->getMessage());
+		}
+		if ($this->connection->isTransactionActive()) {
+			$this->connection->rollBack();
+		}
 	}
 
 	public function testAddingForeignKey(): void {
