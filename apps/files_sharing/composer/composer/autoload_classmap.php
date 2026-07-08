@@ -20,6 +20,7 @@ return array(
     'OCA\\Files_Sharing\\Activity\\Settings\\ShareActivitySettings' => $baseDir . '/../lib/Activity/Settings/ShareActivitySettings.php',
     'OCA\\Files_Sharing\\Activity\\Settings\\Shared' => $baseDir . '/../lib/Activity/Settings/Shared.php',
     'OCA\\Files_Sharing\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
+    'OCA\\Files_Sharing\\BackgroundJob\\ExternalShareScanJob' => $baseDir . '/../lib/BackgroundJob/ExternalShareScanJob.php',
     'OCA\\Files_Sharing\\BackgroundJob\\FederatedSharesDiscoverJob' => $baseDir . '/../lib/BackgroundJob/FederatedSharesDiscoverJob.php',
     'OCA\\Files_Sharing\\Cache' => $baseDir . '/../lib/Cache.php',
     'OCA\\Files_Sharing\\Capabilities' => $baseDir . '/../lib/Capabilities.php',
