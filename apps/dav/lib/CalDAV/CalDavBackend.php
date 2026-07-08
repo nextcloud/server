@@ -1541,7 +1541,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			if ($found !== false) {
 				// the object existed previously but has been deleted
 				// remove the trashbin entry and continue as if it was a new object
-				$this->deleteCalendarObject($calendarId, $found['uri']);
+				$this->deleteCalendarObject($calendarId, $found['uri'], $calendarType, true);
 			}
 
 			$query = $this->db->getQueryBuilder();
