@@ -31,4 +31,19 @@ class PDF extends Bitmap {
 	public function getMimeType(): string {
 		return '/application\/pdf/';
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	protected function getAllowedMimeTypes(): string {
+		return '/application\/pdf/';
+	}
+
+	protected function getMagicStrings(): array {
+		return ['%PDF-'];
+	}
+
+	protected function getImagickFormatHint(): string {
+		return 'pdf';
+	}
 }
