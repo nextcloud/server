@@ -147,7 +147,7 @@ async function pickColor(color?: string) {
 async function pickFile() {
 	await getFilePickerBuilder(t('theming', 'Select a background from your files'))
 		.allowDirectories(false)
-		.setFilter((node) => node.mime.startsWith('image/'))
+		.setMimeTypeFilter(['image/*'])
 		.setMultiSelect(false)
 		.addButton({
 			label: t('theming', 'Select background'),
