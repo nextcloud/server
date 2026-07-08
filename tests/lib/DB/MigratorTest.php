@@ -15,6 +15,7 @@ use Doctrine\DBAL\Schema\SchemaConfig;
 use Doctrine\DBAL\Types\Type;
 use OC\DB\Migrator;
 use OC\DB\OracleMigrator;
+use OC\DB\SchemaWrapper;
 use OC\DB\SQLiteMigrator;
 use OCP\DB\Types;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -301,9 +302,12 @@ class MigratorTest extends \Test\TestCase {
 			. ' ORDER BY ' . $this->connection->quoteIdentifier('id') . ' ASC'
 		)->fetchFirstColumn());
 
-		$columns = $this->connection->createSchemaManager()->listTableColumns($this->tableName);
-		$this->assertSame(Type::getType(Types::TEXT), $columns['argument']->getType());
-		$this->assertTrue($columns['argument']->getNotnull());
+		// same code path as the migration's type guard (ISchemaWrapper)
+		$schema = new SchemaWrapper($this->connection);
+		$column = $schema->getTable(substr($this->tableName, strlen($this->connection->getPrefix())))
+			->getColumn('argument');
+		$this->assertSame(Type::getType(Types::TEXT), $column->getType());
+		$this->assertTrue($column->getNotnull());
 	}
 
 	/**
