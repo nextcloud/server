@@ -64,6 +64,14 @@ class LegacyTrashBackend implements ITrashBackend {
 		return $this->mapTrashItems($entries, $user);
 	}
 
+	public function getTrashRootItem(IUser $user, string $name): ?ITrashItem {
+		$entry = Helper::getTrashFile('/', $user->getUID(), $name);
+		if ($entry === null) {
+			return null;
+		}
+		return $this->mapTrashItems([$entry], $user)[0];
+	}
+
 	#[\Override]
 	public function listTrashFolder(ITrashItem $folder): array {
 		$user = $folder->getUser();

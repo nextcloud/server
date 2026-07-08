@@ -52,6 +52,30 @@ class Helper {
 		return $result;
 	}
 
+	public static function getTrashFile(string $dir, string $user, string $name): ?FileInfo {
+		$timestamp = null;
+
+		$view = new View('/' . $user . '/files_trashbin/files');
+
+		if (ltrim($dir, '/') !== '' && !$view->is_dir($dir)) {
+			throw new \Exception('Directory does not exists');
+		}
+
+		$mount = $view->getMount($dir);
+		$storage = $mount->getStorage();
+		$absoluteDir = $view->getAbsolutePath($dir);
+		$internalPath = $mount->getInternalPath($absoluteDir);
+
+		$extraData = Trashbin::getExtraData($user);
+		$entry = $storage->getCache()->get($mount->getInternalPath($view->getAbsolutePath($dir . '/' . $name)));
+		if ($entry === false) {
+			return null;
+		}
+
+		$timestamp = null;
+		return self::buildFileInfo($entry, $dir, $timestamp, $extraData, $storage, $absoluteDir, $internalPath, $mount);
+	}
+
 	private static function buildFileInfo(ICacheEntry $entry, string $dir, ?string &$timestamp, array $extraData, $storage, string $absoluteDir, string $internalPath, IMountPoint $mount): FileInfo {
 		$entryName = $entry->getName();
 		$name = $entryName;
