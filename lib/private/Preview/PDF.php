@@ -22,4 +22,14 @@ class PDF extends Bitmap {
 	protected function getAllowedMimeTypes(): string {
 		return '/application\/pdf/';
 	}
+
+	#[\Override]
+	protected function getMagicStrings(): array {
+		return ['%PDF-'];
+	}
+
+	#[\Override]
+	protected function getImagickFormatHint(): string {
+		return 'pdf';
+	}
 }
