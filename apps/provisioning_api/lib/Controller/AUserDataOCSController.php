@@ -105,11 +105,7 @@ abstract class AUserDataOCSController extends OCSController {
 
 		// Get groups data
 		$userAccount = $this->accountManager->getAccount($targetUserObject);
-		$groups = $this->groupManager->getUserGroups($targetUserObject);
-		$gids = [];
-		foreach ($groups as $group) {
-			$gids[] = $group->getGID();
-		}
+		$gids = $this->groupManager->getUserGroupIds($targetUserObject);
 
 		if ($isAdmin || $isDelegatedAdmin) {
 			try {
