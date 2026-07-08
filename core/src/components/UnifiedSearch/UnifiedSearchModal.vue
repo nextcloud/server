@@ -941,7 +941,7 @@ export default defineComponent({
 	}
 
 	&__results {
-		overflow: hidden scroll;
+		overflow: hidden auto;
 		// Adjust padding to match container but keep the scrollbar on the very end
 		padding-inline: 0 12px;
 		padding-block: 0 12px;
