@@ -164,7 +164,6 @@
     "%1$s shared %2$s with you and wants to add" : "%1$s shared %2$s with you and wants to add",
     "%s added a note to a file shared with you" : "%s added a note to a file shared with you",
     "Unknown share type" : "Unknown share type",
-    "You are not allowed to share %s" : "You are not allowed to share %s",
     "Sharing %s failed, because this item is already shared with the account %s" : "Sharing %s failed, because this item is already shared with the account %s",
     "Input text" : "Input text",
     "Sunday" : "Jumapili",
@@ -252,6 +251,7 @@
     "Sharing backend %s must implement the interface OCP\\Share_Backend" : "Sharing backend %s must implement the interface OCP\\Share_Backend",
     "Sharing backend %s not found" : "Sharing backend %s not found",
     "Sharing backend for %s not found" : "Sharing backend for %s not found",
+    "You are not allowed to share %s" : "You are not allowed to share %s",
     "Authentication error" : "Hitilafu ya uthibitishaji"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

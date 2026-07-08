@@ -861,6 +861,7 @@ OC.L10N.register(
     "Learn more" : "Läs mer",
     "Environment variables" : "Miljövariabler",
     "No environment variables defined" : "Inga miljövariabler är definierade",
+    "Mounts" : "Monteringar",
     "Read-only" : "Skrivskyddad",
     "Description" : "Beskrivning",
     "View in store" : "Visa i butik",
@@ -933,6 +934,7 @@ OC.L10N.register(
     "Credentials" : "Inloggningsuppgifter",
     "SMTP Login" : "SMTP-inloggning",
     "SMTP Password" : "SMTP-lösenord",
-    "Test and verify email settings" : "Testa och verifiera e-postinställningar"
+    "Test and verify email settings" : "Testa och verifiera e-postinställningar",
+    "installed" : "Installerad"
 },
 "nplurals=2; plural=(n != 1);");

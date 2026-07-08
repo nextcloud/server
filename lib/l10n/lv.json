@@ -60,7 +60,6 @@
     "Set an admin password." : "Iestatīt pārvaldītāja paroli.",
     "Open %s" : "Atvērt %s",
     "Unknown share type" : "Nezināms kopīgošanas veids",
-    "You are not allowed to share %s" : "Tev nav ļauts kopīgot %s",
     "Could not find category \"%s\"" : "Nevarēja atrast kategoriju “%s”",
     "Sunday" : "Svētdiena",
     "Monday" : "Pirmdiena",
@@ -134,6 +133,7 @@
     "Settings" : "Iestatījumi",
     "Log out" : "Izrakstīties",
     "Accounts" : "Konti",
+    "You are not allowed to share %s" : "Tev nav ļauts kopīgot %s",
     "Application is not enabled" : "Lietotne nav iespējota",
     "Authentication error" : "Autentificēšanās kļūda",
     "Token expired. Please reload page." : "Pilnvarai ir beidzies derīgums. Lūgums pārlādēt lapu."
