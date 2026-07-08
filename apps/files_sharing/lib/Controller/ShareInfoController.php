@@ -6,7 +6,6 @@
  */
 namespace OCA\Files_Sharing\Controller;
 
-use OCA\Files_External\NotFoundException;
 use OCA\Files_Sharing\ResponseDefinitions;
 use OCP\AppFramework\ApiController;
 use OCP\AppFramework\Http;
@@ -19,6 +18,7 @@ use OCP\Constants;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\Node;
+use OCP\Files\NotFoundException;
 use OCP\IRequest;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
