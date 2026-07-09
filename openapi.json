@@ -2700,9 +2700,6 @@
                     }
                 }
             },
-            "FilesSharingOTPSendSuccess": {
-                "type": "object"
-            },
             "FilesSharingRemoteShare": {
                 "type": "object",
                 "required": [
@@ -27858,7 +27855,7 @@
             }
         },
         "/index.php/s/{token}/requestotp": {
-            "get": {
+            "post": {
                 "operationId": "files_sharing-shareotp-request",
                 "summary": "Request an OTP to be send to the configured recipient",
                 "tags": [
@@ -27899,9 +27896,7 @@
                         "description": "OTP sent successfully",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/FilesSharingOTPSendSuccess"
-                                }
+                                "schema": {}
                             }
                         }
                     },
@@ -27918,6 +27913,26 @@
                         "content": {
                             "application/json": {
                                 "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid otp provider/recipient requested",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FilesSharingOTPSendError"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "An OTP was sent less than a minute ago",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FilesSharingOTPSendError"
+                                }
                             }
                         }
                     },

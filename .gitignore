@@ -36,6 +36,7 @@ node_modules/
 !/apps/lookup_server_connector
 !/apps/user_ldap
 !/apps/oauth2
+!/apps/otp_provider_email
 !/apps/profile
 !/apps/provisioning_api
 !/apps/settings
