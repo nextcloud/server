@@ -23,7 +23,7 @@ use Predis\Response\ServerException;
  */
 class KeyValueCache extends Cache implements IMemcacheTTL {
 	/** name => [script, sha1] */
-	private const LUA_SCRIPTS = [
+	private const array LUA_SCRIPTS = [
 		'dec' => [
 			'if redis.call("exists", KEYS[1]) == 1 then return redis.call("decrby", KEYS[1], ARGV[1]) else return "NEX" end',
 			'720b40cb66cef1579f2ef16ec69b3da8c85510e9',
@@ -46,7 +46,7 @@ class KeyValueCache extends Cache implements IMemcacheTTL {
 		],
 	];
 
-	private const MAX_TTL = 30 * 24 * 60 * 60; // 1 month
+	private const int MAX_TTL = 30 * 24 * 60 * 60; // 1 month
 
 	private ?Client $cache = null;
 
