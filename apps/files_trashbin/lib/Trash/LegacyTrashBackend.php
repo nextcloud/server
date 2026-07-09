@@ -29,39 +29,32 @@ class LegacyTrashBackend implements ITrashBackend {
 	) {
 	}
 
-	/**
-	 * @param array $items
-	 * @param IUser $user
-	 * @param ITrashItem $parent
-	 * @return ITrashItem[]
-	 */
-	private function mapTrashItems(array $items, IUser $user, ?ITrashItem $parent = null): array {
+	private function mapTrashItem(FileInfo $file, IUser $user, ?ITrashItem $parent = null): ITrashItem {
 		$parentTrashPath = ($parent instanceof ITrashItem) ? $parent->getTrashPath() : '';
 		$isRoot = $parent === null;
-		return array_map(function (FileInfo $file) use ($parent, $parentTrashPath, $isRoot, $user) {
-			$originalLocation = $isRoot ? $file['extraData'] : $parent->getOriginalLocation() . '/' . $file->getName();
-			if (!$originalLocation) {
-				$originalLocation = $file->getName();
-			}
-			/** @psalm-suppress UndefinedInterfaceMethod */
-			$deletedBy = $this->userManager->get($file['deletedBy']) ?? $parent?->getDeletedBy();
-			$trashFilename = Trashbin::getTrashFilename($file->getName(), $file->getMtime());
-			return new TrashItem(
-				$this,
-				$originalLocation,
-				$file->getMTime(),
-				$parentTrashPath . '/' . ($isRoot ? $trashFilename : $file->getName()),
-				$file,
-				$user,
-				$deletedBy,
-			);
-		}, $items);
+
+		$originalLocation = $isRoot ? $file['extraData'] : $parent->getOriginalLocation() . '/' . $file->getName();
+		if (!$originalLocation) {
+			$originalLocation = $file->getName();
+		}
+		/** @psalm-suppress UndefinedInterfaceMethod */
+		$deletedBy = $this->userManager->get($file['deletedBy']) ?? $parent?->getDeletedBy();
+		$trashFilename = Trashbin::getTrashFilename($file->getName(), $file->getMtime());
+		return new TrashItem(
+			$this,
+			$originalLocation,
+			$file->getMTime(),
+			$parentTrashPath . '/' . ($isRoot ? $trashFilename : $file->getName()),
+			$file,
+			$user,
+			$deletedBy,
+		);
 	}
 
 	#[\Override]
 	public function listTrashRoot(IUser $user): array {
 		$entries = Helper::getTrashFiles('/', $user->getUID());
-		return $this->mapTrashItems($entries, $user);
+		return array_map(fn (FileInfo $fileInfo): ITrashItem => $this->mapTrashItem($fileInfo, $user), $entries);
 	}
 
 	public function getTrashRootItem(IUser $user, string $name): ?ITrashItem {
@@ -69,14 +62,14 @@ class LegacyTrashBackend implements ITrashBackend {
 		if ($entry === null) {
 			return null;
 		}
-		return $this->mapTrashItems([$entry], $user)[0];
+		return $this->mapTrashItem($entry, $user);
 	}
 
 	#[\Override]
 	public function listTrashFolder(ITrashItem $folder): array {
 		$user = $folder->getUser();
 		$entries = Helper::getTrashFiles($folder->getTrashPath(), $user->getUID());
-		return $this->mapTrashItems($entries, $user, $folder);
+		return array_map(fn (FileInfo $fileInfo): ITrashItem => $this->mapTrashItem($fileInfo, $user, $folder), $entries);
 	}
 
 	#[\Override]

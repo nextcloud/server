@@ -92,7 +92,7 @@ class TrashRoot implements ICollection {
 		return match ($entry->getType()) {
 			FileInfo::TYPE_FOLDER => new TrashFolder($this->trashManager, $entry),
 			FileInfo::TYPE_FILE => new TrashFile($this->trashManager, $entry),
-			default => throw new RuntimeException("Invalid FileInfo object"),
+			default => throw new RuntimeException('Invalid FileInfo object'),
 		};
 	}
 }
