@@ -217,8 +217,10 @@ class PublicPreviewController extends PublicShareController {
 			$response = new FileDisplayResponse($f, Http::STATUS_OK, ['Content-Type' => $f->getMimeType()]);
 			$response->cacheFor(3600 * 24);
 			return $response;
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
+		} catch (NotPermittedException) {
+			return new DataResponse([], Http::STATUS_FORBIDDEN);
 		} catch (\InvalidArgumentException $e) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
