@@ -205,3 +205,9 @@ file_filter = translationfiles/<lang>/workflowengine.po
 source_file = translationfiles/templates/workflowengine.pot
 source_lang = en
 type        = PO
+
+[o:nextcloud:p:nextcloud:r:otp_provider_email]
+file_filter = translationfiles/<lang>/otp_provider_email.po
+source_file = translationfiles/templates/otp_provider_email.pot
+source_lang = en
+type        = PO
