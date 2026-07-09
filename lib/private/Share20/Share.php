@@ -16,6 +16,7 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IUserManager;
+use OCP\OneTimePassword\IOneTimePassword;
 use OCP\Server;
 use OCP\Share\Exceptions\IllegalIDChangeException;
 use OCP\Share\IAttributes;
@@ -55,8 +56,10 @@ class Share implements IShare {
 	private $note = '';
 	/** @var \DateTime */
 	private $expireDate;
-	/** @var string */
+	/** @var ?string */
 	private $password;
+	/** @var ?IOneTimePassword */
+	private $otp = null;
 	private ?\DateTimeInterface $passwordExpirationTime = null;
 	/** @var bool */
 	private $sendPasswordByTalk = false;
@@ -508,8 +511,26 @@ class Share implements IShare {
 	 * @inheritdoc
 	 */
 	#[\Override]
-	public function getPassword() {
+	public function getPassword(): ?string {
 		return $this->password;
+	}
+
+	/**
+	 * @param IOneTimePassword|null $otp
+	 * @inheritdoc
+	 */
+	#[\Override]
+	public function setOneTimePassword(?IOneTimePassword $otp): IShare {
+		$this->otp = $otp;
+		return $this;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	#[\Override]
+	public function getOneTimePassword(): ?IOneTimePassword {
+		return $this->otp;
 	}
 
 	/**
@@ -517,7 +538,7 @@ class Share implements IShare {
 	 */
 	#[\Override]
 	public function isPasswordProtected(): bool {
-		return $this->password !== '' && $this->password !== null;
+		return ($this->password !== '' && $this->password !== null) || $this->otp !== null;
 	}
 
 	/**

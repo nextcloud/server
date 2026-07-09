@@ -1,7 +1,7 @@
 <?php
 
 /**
- * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016-2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
@@ -34,10 +34,11 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
+use OCP\OneTimePassword\IManager as IOTPManager;
 use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IAttributes;
-use OCP\Share\IManager;
+use OCP\Share\IManager as IShareManager;
 use OCP\Share\IPartialShareProvider;
 use OCP\Share\IShare;
 use OCP\Share\IShareProviderGetUsers;
@@ -71,7 +72,8 @@ class DefaultShareProvider implements
 		private IURLGenerator $urlGenerator,
 		private ITimeFactory $timeFactory,
 		private LoggerInterface $logger,
-		private IManager $shareManager,
+		private IShareManager $shareManager,
+		private IOTPManager $otpManager,
 		private IConfig $config,
 	) {
 	}
@@ -100,6 +102,7 @@ class DefaultShareProvider implements
 
 		$qb->insert('share');
 		$qb->setValue('share_type', $qb->createNamedParameter($share->getShareType()));
+		$qb->setValue('one_time_password', $qb->createNamedParameter($share->getOneTimePassword() ? $share->getOneTimePassword()->getId() : null));
 
 		$expirationDate = $share->getExpirationDate();
 		if ($expirationDate !== null) {
@@ -298,10 +301,12 @@ class DefaultShareProvider implements
 				->set('file_source', $qb->createNamedParameter($share->getNode()->getId()))
 				->set('token', $qb->createNamedParameter($share->getToken()))
 				->set('expiration', $qb->createNamedParameter($expirationDate, IQueryBuilder::PARAM_DATETIME_MUTABLE))
+				->set('password_expiration_time', $qb->createNamedParameter($share->getPasswordExpirationTime(), IQueryBuilder::PARAM_DATETIME_MUTABLE))
 				->set('note', $qb->createNamedParameter($share->getNote()))
 				->set('label', $qb->createNamedParameter($share->getLabel()))
 				->set('hide_download', $qb->createNamedParameter($share->getHideDownload() ? 1 : 0, IQueryBuilder::PARAM_INT))
-				->executeStatement();
+				->set('one_time_password', $qb->createNamedParameter($share->getOneTimePassword()?->getId()));
+			$qb->executeStatement();
 		}
 
 		if ($originalShare->getNote() !== $share->getNote() && $share->getNote() !== '') {
@@ -1106,6 +1111,10 @@ class DefaultShareProvider implements
 	 * @throws InvalidShare
 	 */
 	private function createShare($data): IShare {
+		$otp = null;
+		if ($data['one_time_password'] !== null) {
+			$otp = $this->otpManager->getOTP($data['one_time_password']);
+		}
 		$share = new Share($this->rootFolder, $this->userManager);
 		$share->setId($data['id'])
 			->setShareType((int)$data['share_type'])
@@ -1114,7 +1123,8 @@ class DefaultShareProvider implements
 			->setNote((string)$data['note'])
 			->setMailSend((bool)$data['mail_send'])
 			->setStatus((int)$data['accepted'])
-			->setLabel($data['label'] ?? '');
+			->setLabel($data['label'] ?? '')
+			->setOneTimePassword($otp);
 
 		$shareTime = new \DateTime();
 		$shareTime->setTimestamp((int)$data['stime']);
