@@ -25590,7 +25590,7 @@
         "/index.php/apps/files_sharing/publicpreview/{token}": {
             "get": {
                 "operationId": "files_sharing-public_preview-get-preview",
-                "summary": "Get a preview for a shared file",
+                "summary": "Get a preview for a public share",
                 "tags": [
                     "files_sharing/public_preview"
                 ],
@@ -25616,7 +25616,7 @@
                     {
                         "name": "file",
                         "in": "query",
-                        "description": "File in the share",
+                        "description": "Relative path to a file inside a shared folder; ignored for single-file shares",
                         "schema": {
                             "type": "string",
                             "default": ""
