@@ -40,6 +40,7 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
+use OCP\OneTimePassword\Exceptions\OTPProviderNotFoundException;
 use OCP\OneTimePassword\IManager as IOTPManager;
 use OCP\Security\Events\GenerateSecurePasswordEvent;
 use OCP\Security\ISecureRandom;
@@ -86,24 +87,22 @@ class ShareController extends AuthPublicShareController {
 
 	/**
 	 * @return null|string[]
+	 * @throws OTPProviderNotFoundException
 	 *
 	 * @psalm-return array{name: string, description: string, recipientPattern: string, maskedRecipient: string}|null
 	 */
 	private function getOtpProviderInfo(): ?array {
-		$otpProvider = null;
-		$otpProviderInfo = null;
-		if ($this->share->getOneTimePassword() !== null) {
-			$otpProvider = $this->otpManager->getOTPProviderById($this->share->getOneTimePassword()->getProviderId());
+		if ($this->share->getOneTimePassword() === null) {
+			return null;
 		}
-		if ($otpProvider !== null) {
-			$otpProviderInfo = [
-				'name' => $otpProvider->getName(),
-				'description' => $otpProvider->getDescription(),
-				'recipientPattern' => $otpProvider->getRecipientPattern(),
-				'maskedRecipient' => $otpProvider->maskRecipient($this->share->getOneTimePassword()->getRecipient()),
-			];
-		}
-		return $otpProviderInfo;
+
+		$otpProvider = $this->otpManager->getOTPProviderById($this->share->getOneTimePassword()->getProviderId());
+		return [
+			'name' => $otpProvider->getName(),
+			'description' => $otpProvider->getDescription(),
+			'recipientPattern' => $otpProvider->getRecipientPattern(),
+			'maskedRecipient' => $otpProvider->maskRecipient($this->share->getOneTimePassword()->getRecipient()),
+		];
 	}
 
 	/**
@@ -114,7 +113,15 @@ class ShareController extends AuthPublicShareController {
 	#[PublicPage]
 	#[NoCSRFRequired]
 	public function showAuthenticate(): TemplateResponse {
-		$templateParameters = ['share' => $this->share, 'otpInfo' => $this->getOtpProviderInfo()];
+		try {
+			$otpInfo = $this->getOtpProviderInfo();
+		} catch (OTPProviderNotFoundException $e) {
+			return new TemplateResponse('core', 'error', ['errors' => [[
+				'error' => $this->l10n->t('This share requires a one-time password, but the configured one-time password provider \'%s\' could not be found (it might be disabled).', [$this->share->getOneTimePassword()->getProviderId()]),
+				'hint' => $this->l10n->t('Please request a new share link or contact your administrator.')
+			]]], 'guest');
+		}
+		$templateParameters = ['share' => $this->share, 'otpInfo' => $otpInfo];
 
 		$this->eventDispatcher->dispatchTyped(new BeforeTemplateRenderedEvent($this->share, BeforeTemplateRenderedEvent::SCOPE_PUBLIC_SHARE_AUTH));
 
@@ -126,7 +133,16 @@ class ShareController extends AuthPublicShareController {
 	 */
 	#[\Override]
 	protected function showAuthFailed(): TemplateResponse {
-		$templateParameters = ['share' => $this->share, 'wrongpw' => true, 'otpInfo' => $this->getOtpProviderInfo()];
+		try {
+			$otpInfo = $this->getOtpProviderInfo();
+		} catch (OTPProviderNotFoundException $e) {
+			return new TemplateResponse('core', 'error', ['errors' => [[
+				'error' => $this->l10n->t('This share requires a one-time password, but the configured one-time password provider \'%s\' could not be found (it might be disabled).', [$this->share->getOneTimePassword()->getProviderId()]),
+				'hint' => $this->l10n->t('Please request a new share link or contact your administrator.')
+			]]], 'guest');
+		}
+
+		$templateParameters = ['share' => $this->share, 'wrongpw' => true, 'otpInfo' => $otpInfo];
 
 		$this->eventDispatcher->dispatchTyped(new BeforeTemplateRenderedEvent($this->share, BeforeTemplateRenderedEvent::SCOPE_PUBLIC_SHARE_AUTH));
 
@@ -138,7 +154,16 @@ class ShareController extends AuthPublicShareController {
 	 */
 	#[\Override]
 	protected function showIdentificationResult(bool $success = false): TemplateResponse {
-		$templateParameters = ['share' => $this->share, 'identityOk' => $success, 'otpInfo' => $this->getOtpProviderInfo()];
+		try {
+			$otpInfo = $this->getOtpProviderInfo();
+		} catch (OTPProviderNotFoundException $e) {
+			return new TemplateResponse('core', 'error', ['errors' => [[
+				'error' => $this->l10n->t('This share requires a one-time password, but the configured one-time password provider \'%s\' could not be found (it might be disabled).', [$this->share->getOneTimePassword()->getProviderId()]),
+				'hint' => $this->l10n->t('Please request a new share link or contact your administrator.')
+			]]], 'guest');
+		}
+
+		$templateParameters = ['share' => $this->share, 'identityOk' => $success, 'otpInfo' => $otpInfo];
 
 		$this->eventDispatcher->dispatchTyped(new BeforeTemplateRenderedEvent($this->share, BeforeTemplateRenderedEvent::SCOPE_PUBLIC_SHARE_AUTH));
 
