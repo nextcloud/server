@@ -15,6 +15,8 @@ function buildContext(overrides: Partial<Ctx> = {}) {
 		writeNoteToRecipientIsChecked: true,
 		sharingPermission: '31',
 		setCustomPermissions: false,
+		otpProviders: [],
+		originalOTP: {},
 
 		fileInfo: { path: '/foo', name: 'foo' },
 		share: {
@@ -67,6 +69,7 @@ describe('SharingDetailsTab.saveShare — password guard', () => {
 				isNewShare: true,
 				isPasswordProtected: true,
 				hasUnsavedPassword: true,
+				authMethod: 'password',
 				share: { ...buildContext().share, newPassword: '' },
 			})
 
@@ -83,6 +86,7 @@ describe('SharingDetailsTab.saveShare — password guard', () => {
 				isNewShare: true,
 				isPasswordProtected: true,
 				hasUnsavedPassword: false,
+				authMethod: 'password',
 				share: { ...buildContext().share, newPassword: undefined },
 			})
 
@@ -101,6 +105,7 @@ describe('SharingDetailsTab.saveShare — password guard', () => {
 				isNewShare: true,
 				isPasswordProtected: true,
 				hasUnsavedPassword: true,
+				authMethod: 'password',
 				share: { ...buildContext().share, newPassword: 'myPass123' },
 			})
 
@@ -109,6 +114,25 @@ describe('SharingDetailsTab.saveShare — password guard', () => {
 			expect(ctx.passwordError).toBe(false)
 			expect(ctx.addShare).toHaveBeenCalledTimes(1)
 			expect(ctx.addShare).toHaveBeenCalledWith(expect.objectContaining({ password: 'myPass123' }))
+		})
+	})
+
+	describe('new public share with valid otp', () => {
+		it('creates the share with the otp in the payload', async () => {
+			const ctx = buildContext({
+				isPublicShare: true,
+				isNewShare: true,
+				isPasswordProtected: true,
+				hasUnsavedPassword: true,
+				authMethod: 'otp',
+				share: { ...buildContext().share, otpProvider: 'mock', otpRecipient: 'receiver' },
+			})
+
+			await callSaveShare(ctx)
+
+			expect(ctx.passwordError).toBe(false)
+			expect(ctx.addShare).toHaveBeenCalledTimes(1)
+			expect(ctx.addShare).toHaveBeenCalledWith(expect.objectContaining({ password: '', otpProvider: 'mock', otpRecipient: 'receiver' }))
 		})
 	})
 
