@@ -991,6 +991,7 @@ class Server extends ServerContainer {
 		});
 
 		$this->registerAlias(\OCP\Share\IManager::class, \OC\Share20\Manager::class);
+		$this->registerAlias(\OCP\OneTimePassword\IManager::class, \OC\OneTimePassword\Manager::class);
 
 		$this->registerService(ISearch::class, static function (Server $c): ISearch {
 			$instance = new Search($c, $c->get(IEventDispatcher::class), $c->get(IConfig::class));
