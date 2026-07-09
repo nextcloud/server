@@ -1,12 +1,12 @@
 /**
- * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2019-2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 import axios, { isAxiosError } from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
-import { generateOcsUrl } from '@nextcloud/router'
+import { generateOcsUrl, generateUrl } from '@nextcloud/router'
 import Share from '../models/Share.ts'
 import logger from '../services/logger.ts'
 
@@ -29,12 +29,14 @@ export default {
 		 * @param {string} [data.label] custom label
 		 * @param {string} [data.attributes] Share attributes encoded as json
 		 * @param {string} data.note custom note to recipient
+		 * @param {string} data.otpProvider The new otp provider
+		 * @param {string} data.otpRecipient The new otp recipient
 		 * @return {Share} the new share
 		 * @throws {Error}
 		 */
-		async createShare({ path, permissions, shareType, shareWith, publicUpload, password, sendPasswordByTalk, expireDate, label, note, attributes }) {
+		async createShare({ path, permissions, shareType, shareWith, publicUpload, password, sendPasswordByTalk, expireDate, label, note, attributes, otpProvider, otpRecipient }) {
 			try {
-				const request = await axios.post(shareUrl, { path, permissions, shareType, shareWith, publicUpload, password, sendPasswordByTalk, expireDate, label, note, attributes })
+				const request = await axios.post(shareUrl, { path, permissions, shareType, shareWith, publicUpload, password, sendPasswordByTalk, expireDate, label, note, attributes, otpProvider, otpRecipient })
 				if (!request?.data?.ocs) {
 					throw request
 				}
@@ -88,6 +90,22 @@ export default {
 				logger.error('Error while updating share', { error })
 				const errorMessage = getErrorMessage(error) ?? t('files_sharing', 'Error updating the share')
 				// the error will be shown in apps/files_sharing/src/mixins/SharesMixin.js
+				throw new Error(errorMessage, { cause: error })
+			}
+		},
+
+		async getOTPProviders() {
+			const url = generateUrl('apps/files_sharing/otp-providers')
+			try {
+				const response = await axios.get(url)
+				if (response.status !== 200) {
+					throw response
+				}
+				logger.debug('OTP providers received: ', response.data)
+				return response.data
+			} catch (error) {
+				logger.error('Error fetching OTP providers', { error })
+				const errorMessage = getErrorMessage(error) ?? t('files_sharing', 'Error fetching OTP providers')
 				throw new Error(errorMessage, { cause: error })
 			}
 		},

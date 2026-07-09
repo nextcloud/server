@@ -1,5 +1,5 @@
 /**
- * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2019-2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
@@ -329,6 +329,40 @@ export default class Share {
 	 */
 	set sendPasswordByTalk(sendPasswordByTalk: boolean) {
 		this._share.send_password_by_talk = sendPasswordByTalk
+	}
+
+	/**
+	 * OTP provider id
+	 *
+	 */
+	get otpProvider(): object {
+		return this._share.otp_provider
+	}
+
+	/**
+	 * OTP provider id
+	 *
+	 * @param otpProvider the otp provider id
+	 */
+	set otpProvider(otpProvider: string) {
+		this._share.otp_provider = otpProvider
+	}
+
+	/**
+	 * OTP recipient
+	 *
+	 */
+	get otpRecipient(): object {
+		return this._share.otp_recipient
+	}
+
+	/**
+	 * OTP recipient id
+	 *
+	 * @param otpRecipient the otp recipient
+	 */
+	set otpRecipient(otpRecipient: string) {
+		this._share.otp_recipient = otpRecipient
 	}
 
 	// SHARED ITEM DATA ---------------------------------------------

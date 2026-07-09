@@ -1,5 +1,5 @@
 /**
- * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2019-2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
@@ -53,8 +53,10 @@ export default {
 			saving: false,
 			open: false,
 
-			/** @type {boolean | undefined} */
-			passwordProtectedState: undefined,
+			/**
+			 * @type {string} one of: 'none', 'password', 'otp'
+			 */
+			authMethodInternal: 'none',
 
 			// concurrency management queue
 			// we want one queue per share
@@ -162,30 +164,30 @@ export default {
 			return null
 		},
 		/**
-		 * Is the current share password protected ?
+		 * Authentication method for the current share
 		 *
-		 * @return {boolean}
+		 * @return {'none'|'password'|'otp'}
 		 */
-		isPasswordProtected: {
+		authMethod: {
 			get() {
-				if (this.config.enforcePasswordForPublicLink) {
-					return true
+				if (this.config.enforcePasswordForPublicLink && this.authMethodInternal === 'none') {
+					this.authMethodInternal = 'password'
 				}
-				if (this.passwordProtectedState !== undefined) {
-					return this.passwordProtectedState
-				}
-				return typeof this.share.newPassword === 'string'
-					|| typeof this.share.password === 'string'
+				return this.authMethodInternal
 			},
-			async set(enabled) {
-				if (enabled) {
-					this.passwordProtectedState = true
-					const generatedPassword = await GeneratePassword(true)
+			async set(value) {
+				if (value === 'password') {
+					this.authMethodInternal = 'password'
 					if (!this.share.newPassword) {
+						const generatedPassword = await GeneratePassword(true)
 						this.$set(this.share, 'newPassword', generatedPassword)
 					}
+				} else if (value === 'otp') {
+					// TODO: Get actual providers from backend
+					this.authMethodInternal = 'otp'
+					this.$set(this.share, 'newPassword', undefined)
 				} else {
-					this.passwordProtectedState = false
+					this.authMethodInternal = 'none'
 					this.$set(this.share, 'newPassword', '')
 				}
 			},
@@ -349,6 +351,8 @@ export default {
 							// reset password state after sync
 							this.share.password = this.share.newPassword || undefined
 							this.$delete(this.share, 'newPassword')
+							this.$delete(this.share, 'otpProvider')
+							this.$delete(this.share, 'otpRecipient')
 
 							// updates password expiration time after sync
 							this.share.passwordExpirationTime = updatedShare.password_expiration_time
