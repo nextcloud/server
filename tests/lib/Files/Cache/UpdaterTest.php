@@ -253,6 +253,48 @@ class UpdaterTest extends \Test\TestCase {
 		$this->assertEquals($cached['fileid'], $cachedTarget['fileid']);
 	}
 
+	public function testMoveCrossStorageMissingTargetParent(): void {
+		$storage2 = new Temporary([]);
+		$cache2 = $storage2->getCache();
+		Filesystem::mount($storage2, [], '/bar');
+		$this->storage->file_put_contents('foo.txt', 'qwerty');
+		$this->updater->update('foo.txt');
+		$cached = $this->cache->get('foo.txt');
+
+		// the target parent exists on disk but is missing from the cache
+		$storage2->mkdir('sub');
+		$this->assertFalse($cache2->inCache('sub'));
+
+		$storage2->moveFromStorage($this->storage, 'foo.txt', 'sub/bar.txt');
+		$storage2->getUpdater()->renameFromStorage($this->storage, 'foo.txt', 'sub/bar.txt');
+
+		$this->assertFalse($this->cache->inCache('foo.txt'));
+		$this->assertTrue($cache2->inCache('sub'));
+		$this->assertTrue($cache2->inCache('sub/bar.txt'));
+
+		// the moved entry is attached to the scanned parent instead of being orphaned
+		$cachedTarget = $cache2->get('sub/bar.txt');
+		$this->assertEquals($cache2->getId('sub'), $cachedTarget['parent']);
+		$this->assertEquals($cached['fileid'], $cachedTarget['fileid']);
+	}
+
+	public function testMoveCrossStorageSourceNotInCache(): void {
+		$storage2 = new Temporary([]);
+		$cache2 = $storage2->getCache();
+		Filesystem::mount($storage2, [], '/bar');
+		$this->storage->file_put_contents('foo.txt', 'qwerty');
+		// the source was never scanned into the cache
+		$this->assertFalse($this->cache->inCache('foo.txt'));
+
+		$storage2->moveFromStorage($this->storage, 'foo.txt', 'bar.txt');
+		$storage2->getUpdater()->renameFromStorage($this->storage, 'foo.txt', 'bar.txt');
+
+		// the target still gets a cache entry
+		$this->assertTrue($cache2->inCache('bar.txt'));
+		$cachedTarget = $cache2->get('bar.txt');
+		$this->assertEquals(6, $cachedTarget['size']);
+	}
+
 	public function testMoveFolderCrossStorage(): void {
 		$storage2 = new Temporary([]);
 		$cache2 = $storage2->getCache();
