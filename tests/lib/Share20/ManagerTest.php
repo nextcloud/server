@@ -1,7 +1,7 @@
 <?php
 
 /**
- * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016-2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
@@ -11,6 +11,7 @@ namespace Test\Share20;
 use DateTimeZone;
 use OC\Files\Utils\PathHelper;
 use OC\KnownUser\KnownUserService;
+use OC\OneTimePassword\OneTimePassword;
 use OC\Share20\DefaultShareProvider;
 use OC\Share20\Exception\ProviderException;
 use OC\Share20\Manager;
@@ -46,6 +47,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\OneTimePassword\IManager as IOTPManager;
 use OCP\Security\Events\ValidatePasswordPolicyEvent;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
@@ -85,6 +87,7 @@ class DummyShareManagerListener {
  * @package Test\Share20
  */
 #[Group(name: 'DB')]
+#[Group(name: 'OTP')]
 class ManagerTest extends \Test\TestCase {
 	protected Manager $manager;
 	protected LoggerInterface&MockObject $logger;
@@ -106,6 +109,7 @@ class ManagerTest extends \Test\TestCase {
 	protected IDateTimeZone&MockObject $dateTimeZone;
 	protected IAppConfig&MockObject $appConfig;
 	protected IDBConnection&MockObject $connection;
+	protected IOTPManager&MockObject $otpManager;
 
 	#[\Override]
 	protected function setUp(): void {
@@ -122,6 +126,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->knownUserService = $this->createMock(KnownUserService::class);
 		$this->connection = $this->createMock(IDBConnection::class);
+		$this->otpManager = $this->createMock(IOTPManager::class);
 
 		$this->shareDisabledChecker = new ShareDisableChecker($this->config, $this->userManager, $this->groupManager);
 		$this->dateTimeZone = $this->createMock(IDateTimeZone::class);
@@ -191,6 +196,7 @@ class ManagerTest extends \Test\TestCase {
 			$this->dateTimeZone,
 			$this->appConfig,
 			$this->connection,
+			$this->otpManager,
 		);
 	}
 
@@ -217,6 +223,7 @@ class ManagerTest extends \Test\TestCase {
 				$this->dateTimeZone,
 				$this->appConfig,
 				$this->connection,
+				$this->otpManager,
 			]);
 	}
 
@@ -239,15 +246,15 @@ class ManagerTest extends \Test\TestCase {
 
 	public static function dataTestDelete(): array {
 		return [
-			[IShare::TYPE_USER, 'sharedWithUser'],
-			[IShare::TYPE_GROUP, 'sharedWithGroup'],
-			[IShare::TYPE_LINK, ''],
-			[IShare::TYPE_REMOTE, 'foo@bar.com'],
+			[IShare::TYPE_USER, 'sharedWithUser', 1],
+			[IShare::TYPE_GROUP, 'sharedWithGroup', 5],
+			[IShare::TYPE_LINK, '', 2],
+			[IShare::TYPE_REMOTE, 'foo@bar.com', 1],
 		];
 	}
 
 	#[DataProvider('dataTestDelete')]
-	public function testDelete($shareType, $sharedWith): void {
+	public function testDelete($shareType, $sharedWith, $otpId): void {
 		$manager = $this->createManagerMock()
 			->onlyMethods(['getShareById', 'deleteChildren', 'promoteReshares'])
 			->getMock();
@@ -257,17 +264,20 @@ class ManagerTest extends \Test\TestCase {
 		$path = $this->createMock(File::class);
 		$path->method('getId')->willReturn(1);
 
+		$otp = (new OneTimePassword('mock', 'rec'))->setId($otpId);
 		$share = $this->manager->newShare();
 		$share->setId(42)
 			->setProviderId('prov')
 			->setShareType($shareType)
 			->setSharedWith($sharedWith)
 			->setSharedBy('sharedBy')
+			->setOneTimePassword($otp)
 			->setNode($path)
 			->setTarget('myTarget');
 
 		$manager->expects($this->once())->method('deleteChildren')->with($share);
 		$manager->expects($this->once())->method('promoteReshares')->with($share);
+		$this->otpManager->expects($this->once())->method('deleteOTP')->with($otpId);
 
 		$this->defaultProvider
 			->expects($this->once())
@@ -906,7 +916,7 @@ class ManagerTest extends \Test\TestCase {
 			['core', 'shareapi_enforce_links_password', true],
 		]);
 
-		self::invokePrivate($this->manager, 'verifyPassword', [null]);
+		self::invokePrivate($this->manager, 'verifyPassword', [null, null]);
 	}
 
 	public function testVerifyPasswordEnforcedWithoutDefaultPrompt(): void {
@@ -919,7 +929,7 @@ class ManagerTest extends \Test\TestCase {
 			['core', 'shareapi_enforce_links_password', true],
 		]);
 
-		$result = self::invokePrivate($this->manager, 'verifyPassword', [null]);
+		$result = self::invokePrivate($this->manager, 'verifyPassword', [null, null]);
 		$this->assertNull($result);
 	}
 
@@ -939,7 +949,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->userSession->method('getUser')->willReturn($user);
 		$this->groupManager->method('getUserGroupIds')->with($user)->willReturn(['admin']);
 
-		$result = self::invokePrivate($this->manager, 'verifyPassword', [null]);
+		$result = self::invokePrivate($this->manager, 'verifyPassword', [null, null]);
 		$this->assertNull($result);
 	}
 
@@ -959,7 +969,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->userSession->method('getUser')->willReturn($user);
 		$this->groupManager->method('getUserGroupIds')->with($user)->willReturn(['special']);
 
-		$result = self::invokePrivate($this->manager, 'verifyPassword', [null]);
+		$result = self::invokePrivate($this->manager, 'verifyPassword', [null, null]);
 		$this->assertNull($result);
 	}
 
@@ -969,7 +979,7 @@ class ManagerTest extends \Test\TestCase {
 			['core', 'shareapi_enforce_links_password', 'no', 'no'],
 		]);
 
-		$result = self::invokePrivate($this->manager, 'verifyPassword', [null]);
+		$result = self::invokePrivate($this->manager, 'verifyPassword', [null, null]);
 		$this->assertNull($result);
 	}
 
@@ -987,7 +997,7 @@ class ManagerTest extends \Test\TestCase {
 			}
 			);
 
-		$result = self::invokePrivate($this->manager, 'verifyPassword', ['password']);
+		$result = self::invokePrivate($this->manager, 'verifyPassword', ['password', null]);
 		$this->assertNull($result);
 	}
 
@@ -1009,7 +1019,7 @@ class ManagerTest extends \Test\TestCase {
 			}
 			);
 
-		self::invokePrivate($this->manager, 'verifyPassword', ['password']);
+		self::invokePrivate($this->manager, 'verifyPassword', ['password', null]);
 	}
 
 	public function createShare($id, int $type, ?Node $node, $sharedWith, $sharedBy, $shareOwner,
@@ -3365,7 +3375,7 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn($share);
 		$manager->expects($this->once())
 			->method('verifyPassword')
-			->with('password');
+			->with('password', null);
 		$manager->expects($this->once())
 			->method('setLinkParent')
 			->with($share);
@@ -4314,6 +4324,33 @@ class ManagerTest extends \Test\TestCase {
 		$this->invokePrivate($hasher, 'forcedAlgorithm', [null]);
 	}
 
+	public static function dataTestCheckPasswordOTP() {
+		$hasher = Server::get(IHasher::class);
+		return [
+			[null, (new OneTimePassword('mock', 'rec'))->setPassword(null), 'password', false],
+			[null, (new OneTimePassword('mock', 'rec'))->setPassword($hasher->hash('password')), 'password', true],
+			[$hasher->hash('password'), (new OneTimePassword('mock', 'rec'))->setPassword(null), 'password', false], // OTP should take precedence
+		];
+	}
+
+	#[DataProvider('dataTestCheckPasswordOTP')]
+	public function testCheckPasswordOTP(?string $pwHash, ?OneTimePassword $otp, string $password, bool $expected): void {
+		$share = $this->manager->newShare()
+			->setShareType(IShare::TYPE_LINK)
+			->setPassword($pwHash)
+			->setOneTimePassword($otp);
+
+		$this->otpManager->method('validateOTP')->willReturnCallback(function (OneTimePassword $otp, ?string $password) use ($expected): bool {
+			if ($otp->getPassword() === null) {
+				return false;
+			}
+			return Server::get(IHasher::class)->verify($password, $otp->getPassword(), $newHash);
+		});
+
+		$actual = $this->manager->checkPassword($share, $password);
+		$this->assertEquals($expected, $actual, 'Password check ' . ($actual ? 'succeeded' : 'failed') . ' unexpectedly');
+	}
+
 	public function testUpdateShareCantChangeShareType(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Cannot change share type');
@@ -4535,7 +4572,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$manager->expects($this->once())->method('getShareById')->with('foo:42')->willReturn($originalShare);
 		$manager->expects($this->once())->method('validateExpirationDateLink')->with($share);
-		$manager->expects($this->once())->method('verifyPassword')->with('password');
+		$manager->expects($this->once())->method('verifyPassword')->with('password', null);
 
 		$this->defaultProvider->expects($this->once())
 			->method('update')
@@ -4666,7 +4703,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$manager->expects($this->once())->method('getShareById')->with('foo:42')->willReturn($originalShare);
 		$manager->expects($this->once())->method('generalChecks')->with($share);
-		$manager->expects($this->once())->method('verifyPassword')->with('password');
+		$manager->expects($this->once())->method('verifyPassword')->with('password', null);
 		$manager->expects($this->once())->method('pathCreateChecks')->with($file);
 		$manager->expects($this->once())->method('validateExpirationDateLink');
 
@@ -4740,7 +4777,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$manager->expects($this->once())->method('getShareById')->with('foo:42')->willReturn($originalShare);
 		$manager->expects($this->once())->method('generalChecks')->with($share);
-		$manager->expects($this->once())->method('verifyPassword')->with('password');
+		$manager->expects($this->once())->method('verifyPassword')->with('password', null);
 		$manager->expects($this->once())->method('pathCreateChecks')->with($file);
 		$manager->expects($this->once())->method('validateExpirationDateLink');
 
@@ -4814,7 +4851,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$manager->expects($this->once())->method('getShareById')->with('foo:42')->willReturn($originalShare);
 		$manager->expects($this->once())->method('generalChecks')->with($share);
-		$manager->expects($this->once())->method('verifyPassword')->with('password');
+		$manager->expects($this->once())->method('verifyPassword')->with('password', null);
 		$manager->expects($this->once())->method('pathCreateChecks')->with($file);
 		$manager->expects($this->once())->method('validateExpirationDateLink');
 
