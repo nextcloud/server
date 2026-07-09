@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2023-2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
@@ -38,6 +38,8 @@ namespace OCA\Files_Sharing;
  *     parent: null,
  *     password?: null|string,
  *     password_expiration_time?: ?string,
+ *     otp_provider?: null|string,
+ *     otp_recipient?: null|string,
  *     path: ?string,
  *     permissions: int,
  *     send_password_by_talk?: bool,
@@ -232,6 +234,18 @@ namespace OCA\Files_Sharing;
  *     type: string,
  *     etag: string,
  *     children?: list<array<string, mixed>>,
+ * }
+ *
+ * @psalm-type Files_SharingOTPSendSuccess = array{}
+ * @psalm-type Files_SharingOTPSendError = array{
+ *     error: string
+ * }
+ *
+ * @psalm-type Files_SharingOTPProvider = array{
+ *     id: string,
+ *     name: string,
+ *     description: string,
+ *     recipientPattern: string
  * }
  */
 class ResponseDefinitions {
