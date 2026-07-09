@@ -61,7 +61,7 @@ final class RestrictInteractionListenerTest extends TestCase {
 		$config = Server::get(IConfig::class);
 		$config->setAppValue('core', 'shareapi_enabled', 'no');
 
-		$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, null, new ShareAction(), null);
+		$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, [], new ShareAction(), []);
 		$this->assertEquals('Sharing is not allowed.', $event->isInteractionRestricted());
 
 		$config->deleteAppValue('core', 'shareapi_enabled');
@@ -77,7 +77,7 @@ final class RestrictInteractionListenerTest extends TestCase {
 		$config->setAppValue('core', 'shareapi_exclude_groups', 'yes');
 		$config->setAppValue('core', 'shareapi_exclude_groups_list', json_encode([$group->getGID()], JSON_THROW_ON_ERROR));
 
-		$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, null, new ShareAction(), null);
+		$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, [], new ShareAction(), []);
 		$this->assertEquals('Sharing is not allowed for you.', $event->isInteractionRestricted());
 
 		$config->deleteAppValue('core', 'shareapi_exclude_groups');
@@ -98,7 +98,7 @@ final class RestrictInteractionListenerTest extends TestCase {
 		$config = Server::get(IConfig::class);
 		$config->setAppValue('core', 'shareapi_only_share_with_group_members', 'yes');
 
-		$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, null, new ShareAction(), new UserReceiver($user2->getUID(), $user2));
+		$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, [], new ShareAction(), [new UserReceiver($user2->getUID(), $user2)]);
 		$this->assertEquals('Sharing is only allowed with group members.', $event->isInteractionRestricted());
 
 		$config->deleteAppValue('core', 'shareapi_only_share_with_group_members');
@@ -121,7 +121,7 @@ final class RestrictInteractionListenerTest extends TestCase {
 		$config->setAppValue('core', 'shareapi_only_share_with_group_members', 'yes');
 		$config->setAppValue('core', 'shareapi_only_share_with_group_members_exclude_group_list', json_encode([$group->getGID()], JSON_THROW_ON_ERROR));
 
-		$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, null, new ShareAction(), new UserReceiver($user2->getUID(), $user2));
+		$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, [], new ShareAction(), [new UserReceiver($user2->getUID(), $user2)]);
 		$this->assertEquals('Sharing is only allowed with group members.', $event->isInteractionRestricted());
 
 		$config->deleteAppValue('core', 'shareapi_only_share_with_group_members');
@@ -139,7 +139,7 @@ final class RestrictInteractionListenerTest extends TestCase {
 		$config = Server::get(IConfig::class);
 		$config->setAppValue('core', 'shareapi_only_share_with_group_members', 'yes');
 
-		$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, null, new ShareAction(), new GroupReceiver($group->getGID(), $group));
+		$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, [], new ShareAction(), [new GroupReceiver($group->getGID(), $group)]);
 		$this->assertEquals('Sharing is only allowed within your own groups.', $event->isInteractionRestricted());
 
 		$config->deleteAppValue('core', 'shareapi_only_share_with_group_members');
@@ -157,7 +157,7 @@ final class RestrictInteractionListenerTest extends TestCase {
 		$config->setAppValue('core', 'shareapi_only_share_with_group_members', 'yes');
 		$config->setAppValue('core', 'shareapi_only_share_with_group_members_exclude_group_list', json_encode([$group->getGID()], JSON_THROW_ON_ERROR));
 
-		$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, null, new ShareAction(), new GroupReceiver($group->getGID(), $group));
+		$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, [], new ShareAction(), [new GroupReceiver($group->getGID(), $group)]);
 		$this->assertEquals('Sharing is only allowed within your own groups.', $event->isInteractionRestricted());
 
 		$config->deleteAppValue('core', 'shareapi_only_share_with_group_members');
@@ -175,7 +175,7 @@ final class RestrictInteractionListenerTest extends TestCase {
 		$config = Server::get(IConfig::class);
 		$config->setAppValue('core', 'shareapi_allow_group_sharing', 'no');
 
-		$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, null, new ShareAction(), new GroupReceiver($group->getGID(), $group));
+		$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, [], new ShareAction(), [new GroupReceiver($group->getGID(), $group)]);
 		$this->assertEquals('Group sharing is not allowed.', $event->isInteractionRestricted());
 
 		$config->deleteAppValue('core', 'shareapi_allow_group_sharing');
@@ -192,7 +192,7 @@ final class RestrictInteractionListenerTest extends TestCase {
 			new LinkReceiver(),
 			new EmailReceiver(''),
 		] as $receiver) {
-			$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, null, new ShareAction(), $receiver);
+			$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, [], new ShareAction(), [$receiver]);
 			$this->assertEquals('Public link sharing is not allowed.', $event->isInteractionRestricted());
 		}
 
@@ -204,7 +204,7 @@ final class RestrictInteractionListenerTest extends TestCase {
 		$config = Server::get(IConfig::class);
 		$config->setAppValue('files_sharing', 'outgoing_server2server_share_enabled', 'no');
 
-		$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, null, new ShareAction(), new RemoteUserReceiver(''));
+		$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, [], new ShareAction(), [new RemoteUserReceiver('')]);
 		$this->assertEquals('Sharing to remote users is not allowed.', $event->isInteractionRestricted());
 
 		$config->deleteAppValue('files_sharing', 'outgoing_server2server_share_enabled');
@@ -215,7 +215,7 @@ final class RestrictInteractionListenerTest extends TestCase {
 		$config = Server::get(IConfig::class);
 		$config->setAppValue('files_sharing', 'outgoing_server2server_group_share_enabled', 'no');
 
-		$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, null, new ShareAction(), new RemoteGroupReceiver(''));
+		$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, [], new ShareAction(), [new RemoteGroupReceiver('')]);
 		$this->assertEquals('Sharing to remote groups is not allowed.', $event->isInteractionRestricted());
 
 		$config->deleteAppValue('files_sharing', 'outgoing_server2server_group_share_enabled');

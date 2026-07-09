@@ -36,8 +36,10 @@ final readonly class RestrictInteractionListener implements IEventListener {
 	 */
 	#[\Override]
 	public function handle(Event $event): void {
-		if ($event->resource instanceof NodeResource && ($event->resource->getNodePermissions() & Constants::PERMISSION_READ) !== Constants::PERMISSION_READ) {
-			throw new InteractionRestrictedException('No read permission on the node.', $this->l10n->t('No read permission on file.'));
+		foreach ($event->resources as $resource) {
+			if ($resource instanceof NodeResource && ($resource->getNodePermissions() & Constants::PERMISSION_READ) !== Constants::PERMISSION_READ) {
+				throw new InteractionRestrictedException('No read permission on the node.', $this->l10n->t('No read permission on file.'));
+			}
 		}
 	}
 }

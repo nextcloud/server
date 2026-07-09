@@ -54,39 +54,41 @@ final class RestrictInteractionListener implements IEventListener {
 				throw new InteractionRestrictedException('Sharing is not allowed for the user.', $this->l10n->t('Sharing is not allowed for you.'));
 			}
 
-			if ($this->manager->shareWithGroupMembersOnly()) {
-				if ($event->receiver instanceof UserReceiver) {
-					$groups = array_intersect(
-						$this->groupManager->getUserGroupIds($event->getUser()),
-						$this->groupManager->getUserGroupIds($event->receiver->getUser()),
-					);
+			foreach ($event->receivers as $receiver) {
+				if ($this->manager->shareWithGroupMembersOnly()) {
+					if ($receiver instanceof UserReceiver) {
+						$groups = array_intersect(
+							$this->groupManager->getUserGroupIds($event->getUser()),
+							$this->groupManager->getUserGroupIds($receiver->getUser()),
+						);
 
-					$groups = array_diff($groups, $this->manager->shareWithGroupMembersOnlyExcludeGroupsList());
+						$groups = array_diff($groups, $this->manager->shareWithGroupMembersOnlyExcludeGroupsList());
 
-					if ($groups === []) {
-						throw new InteractionRestrictedException('Sharing is only allowed with group members.', $this->l10n->t('Sharing is only allowed with group members.'));
+						if ($groups === []) {
+							throw new InteractionRestrictedException('Sharing is only allowed with group members.', $this->l10n->t('Sharing is only allowed with group members.'));
+						}
+					}
+
+					if ($receiver instanceof GroupReceiver && (!$receiver->getGroup()->inGroup($event->getUser()) || in_array($receiver->getGroup()->getGID(), $this->manager->shareWithGroupMembersOnlyExcludeGroupsList(), true))) {
+						throw new InteractionRestrictedException('Sharing is only allowed to the groups the user is a member of.', $this->l10n->t('Sharing is only allowed within your own groups.'));
 					}
 				}
 
-				if ($event->receiver instanceof GroupReceiver && (!$event->receiver->getGroup()->inGroup($event->getUser()) || in_array($event->receiver->getGroup()->getGID(), $this->manager->shareWithGroupMembersOnlyExcludeGroupsList(), true))) {
-					throw new InteractionRestrictedException('Sharing is only allowed to the groups the user is a member of.', $this->l10n->t('Sharing is only allowed within your own groups.'));
+				if ($receiver instanceof GroupReceiver && !$this->manager->allowGroupSharing()) {
+					throw new InteractionRestrictedException('Group sharing is not allowed.', $this->l10n->t('Group sharing is not allowed.'));
 				}
-			}
 
-			if ($event->receiver instanceof GroupReceiver && !$this->manager->allowGroupSharing()) {
-				throw new InteractionRestrictedException('Group sharing is not allowed.', $this->l10n->t('Group sharing is not allowed.'));
-			}
+				if (($receiver instanceof LinkReceiver || $receiver instanceof EmailReceiver) && !$this->manager->shareApiAllowLinks($event->getUser())) {
+					throw new InteractionRestrictedException('Public link sharing is not allowed.', $this->l10n->t('Public link sharing is not allowed.'));
+				}
 
-			if (($event->receiver instanceof LinkReceiver || $event->receiver instanceof EmailReceiver) && !$this->manager->shareApiAllowLinks($event->getUser())) {
-				throw new InteractionRestrictedException('Public link sharing is not allowed.', $this->l10n->t('Public link sharing is not allowed.'));
-			}
+				if ($receiver instanceof RemoteUserReceiver && !$this->manager->outgoingServer2ServerSharesAllowed()) {
+					throw new InteractionRestrictedException('Sharing to remote users is not allowed.', $this->l10n->t('Sharing to remote users is not allowed.'));
+				}
 
-			if ($event->receiver instanceof RemoteUserReceiver && !$this->manager->outgoingServer2ServerSharesAllowed()) {
-				throw new InteractionRestrictedException('Sharing to remote users is not allowed.', $this->l10n->t('Sharing to remote users is not allowed.'));
-			}
-
-			if ($event->receiver instanceof RemoteGroupReceiver && !$this->manager->outgoingServer2ServerGroupSharesAllowed()) {
-				throw new InteractionRestrictedException('Sharing to remote groups is not allowed.', $this->l10n->t('Sharing to remote groups is not allowed.'));
+				if ($receiver instanceof RemoteGroupReceiver && !$this->manager->outgoingServer2ServerGroupSharesAllowed()) {
+					throw new InteractionRestrictedException('Sharing to remote groups is not allowed.', $this->l10n->t('Sharing to remote groups is not allowed.'));
+				}
 			}
 		}
 	}

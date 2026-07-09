@@ -68,7 +68,7 @@ final class RestrictInteractionListenerTest extends TestCase {
 		$this->assertNotNull($folderNode);
 
 		foreach ([$fileNode, $folderNode] as $node) {
-			$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, new NodeResource($node->getId(), $this->user->getUID(), $node), new ShareAction(), null);
+			$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, [new NodeResource($node->getId(), $this->user->getUID(), $node)], new ShareAction(), []);
 			$this->assertEquals('You are not allowed to share "' . $node->getName() . '".', $event->isInteractionRestricted());
 		}
 	}
@@ -76,7 +76,7 @@ final class RestrictInteractionListenerTest extends TestCase {
 	public function testNodeResourceShareActionNotHomeFolder(): void {
 		$userFolder = Server::get(IRootFolder::class)->getUserFolder($this->user->getUID());
 
-		$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, new NodeResource($userFolder->getId(), $this->user->getUID(), $userFolder), new ShareAction(), null);
+		$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, [new NodeResource($userFolder->getId(), $this->user->getUID(), $userFolder)], new ShareAction(), []);
 		$this->assertEquals('You cannot share your home folder.', $event->isInteractionRestricted());
 	}
 
@@ -90,7 +90,7 @@ final class RestrictInteractionListenerTest extends TestCase {
 		$folderNode->getStorage()->getCache()->update($folderNode->getId(), ['permissions' => Constants::PERMISSION_READ | Constants::PERMISSION_SHARE]);
 
 		foreach ([$fileNode, $folderNode] as $node) {
-			$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, new NodeResource($node->getId(), $this->user->getUID(), $node), new ShareAction(Constants::PERMISSION_READ | Constants::PERMISSION_SHARE | Constants::PERMISSION_UPDATE), null);
+			$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, [new NodeResource($node->getId(), $this->user->getUID(), $node)], new ShareAction(Constants::PERMISSION_READ | Constants::PERMISSION_SHARE | Constants::PERMISSION_UPDATE), []);
 			$this->assertEquals('You cannot share "/' . $node->getName() . '" with more permission than you have yourself.', $event->isInteractionRestricted());
 		}
 	}
@@ -101,7 +101,7 @@ final class RestrictInteractionListenerTest extends TestCase {
 		$node = $userFolder->newFile('foo.txt', 'bar');
 		$node->getStorage()->getCache()->update($node->getId(), ['permissions' => Constants::PERMISSION_READ | Constants::PERMISSION_SHARE]);
 
-		$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, new NodeResource($node->getId(), $this->user->getUID(), $node), new ShareAction(Constants::PERMISSION_READ | Constants::PERMISSION_SHARE | Constants::PERMISSION_DELETE), null);
+		$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, [new NodeResource($node->getId(), $this->user->getUID(), $node)], new ShareAction(Constants::PERMISSION_READ | Constants::PERMISSION_SHARE | Constants::PERMISSION_DELETE), []);
 		$this->assertEquals('File cannot be shared with delete permission.', $event->isInteractionRestricted());
 	}
 
@@ -111,7 +111,7 @@ final class RestrictInteractionListenerTest extends TestCase {
 		$node = $userFolder->newFile('foo.txt', 'bar');
 		$node->getStorage()->getCache()->update($node->getId(), ['permissions' => Constants::PERMISSION_READ | Constants::PERMISSION_SHARE]);
 
-		$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, new NodeResource($node->getId(), $this->user->getUID(), $node), new ShareAction(Constants::PERMISSION_READ | Constants::PERMISSION_SHARE | Constants::PERMISSION_CREATE), null);
+		$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, [new NodeResource($node->getId(), $this->user->getUID(), $node)], new ShareAction(Constants::PERMISSION_READ | Constants::PERMISSION_SHARE | Constants::PERMISSION_CREATE), []);
 		$this->assertEquals('File cannot be shared with create permission.', $event->isInteractionRestricted());
 	}
 
@@ -121,7 +121,7 @@ final class RestrictInteractionListenerTest extends TestCase {
 		$node = $userFolder->newFile('foo.txt', 'bar');
 		$node->getStorage()->getCache()->update($node->getId(), ['permissions' => Constants::PERMISSION_ALL]);
 
-		$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, new NodeResource($node->getId(), $this->user->getUID(), $node), new ShareAction(Constants::PERMISSION_DELETE), null);
+		$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, [new NodeResource($node->getId(), $this->user->getUID(), $node)], new ShareAction(Constants::PERMISSION_DELETE), []);
 		$this->assertEquals('File cannot be shared with delete permission.', $event->isInteractionRestricted());
 	}
 
@@ -131,7 +131,7 @@ final class RestrictInteractionListenerTest extends TestCase {
 		$node = $userFolder->newFile('foo.txt', 'bar');
 		$node->getStorage()->getCache()->update($node->getId(), ['permissions' => Constants::PERMISSION_ALL]);
 
-		$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, new NodeResource($node->getId(), $this->user->getUID(), $node), new ShareAction(Constants::PERMISSION_CREATE), null);
+		$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, [new NodeResource($node->getId(), $this->user->getUID(), $node)], new ShareAction(Constants::PERMISSION_CREATE), []);
 		$this->assertEquals('File cannot be shared with create permission.', $event->isInteractionRestricted());
 	}
 
@@ -157,7 +157,7 @@ final class RestrictInteractionListenerTest extends TestCase {
 			new RoomReceiver(''),
 			new UserReceiver(''),
 		] as $receiver) {
-			$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, $resource, new ShareAction(Constants::PERMISSION_ALL & ~Constants::PERMISSION_READ), $receiver);
+			$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, [$resource], new ShareAction(Constants::PERMISSION_ALL & ~Constants::PERMISSION_READ), [$receiver]);
 			$this->assertEquals('File share needs at least read permission.', $event->isInteractionRestricted());
 		}
 
@@ -185,7 +185,7 @@ final class RestrictInteractionListenerTest extends TestCase {
 				Constants::PERMISSION_UPDATE,
 				Constants::PERMISSION_DELETE,
 			] as $permissions) {
-				$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, $resource, new ShareAction($permissions), $receiver);
+				$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, [$resource], new ShareAction($permissions), [$receiver]);
 				$this->assertEquals('Public upload is not allowed.', $event->isInteractionRestricted());
 			}
 		}
