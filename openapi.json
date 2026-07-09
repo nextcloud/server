@@ -2524,6 +2524,43 @@
                     }
                 }
             },
+            "FilesSharingOTPProvider": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "name",
+                    "description",
+                    "recipientPattern"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "recipientPattern": {
+                        "type": "string"
+                    }
+                }
+            },
+            "FilesSharingOTPSendError": {
+                "type": "object",
+                "required": [
+                    "error"
+                ],
+                "properties": {
+                    "error": {
+                        "type": "string"
+                    }
+                }
+            },
+            "FilesSharingOTPSendSuccess": {
+                "type": "object"
+            },
             "FilesSharingRemoteShare": {
                 "type": "object",
                 "required": [
@@ -2767,6 +2804,14 @@
                         "nullable": true
                     },
                     "password_expiration_time": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "otp_provider": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "otp_recipient": {
                         "type": "string",
                         "nullable": true
                     },
@@ -26199,6 +26244,145 @@
                 }
             }
         },
+        "/index.php/s/{token}/requestotp": {
+            "get": {
+                "operationId": "files_sharing-shareotp-request",
+                "summary": "Request an OTP to be send to the configured recipient",
+                "tags": [
+                    "files_sharing/shareotp"
+                ],
+                "security": [
+                    {},
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "description": "Token of the share",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "OTP sent successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FilesSharingOTPSendSuccess"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "OTP not configured for the share",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Share not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Sending OTP failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FilesSharingOTPSendError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/index.php/apps/files_sharing/otp-providers": {
+            "get": {
+                "operationId": "files_sharing-shareotp-list-providers",
+                "summary": "Return the list of available OTP providers",
+                "tags": [
+                    "files_sharing/shareotp"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OTP providers successfully returned",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/FilesSharingOTPProvider"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "message"
+                                    ],
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/ocs/v2.php/apps/files_sharing/api/v1/shares": {
             "get": {
                 "operationId": "files_sharing-shareapi-get-shares",
@@ -26461,6 +26645,18 @@
                                             "true"
                                         ],
                                         "description": "Send a mail to the recipient"
+                                    },
+                                    "otpProvider": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "default": null,
+                                        "description": "The id of an otp provider (e.g. 'email')"
+                                    },
+                                    "otpRecipient": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "default": null,
+                                        "description": "The identifier of an OTP recipient (e.g. an email address)"
                                     }
                                 }
                             }
@@ -26511,7 +26707,7 @@
                         }
                     },
                     "400": {
-                        "description": "Unknown share type",
+                        "description": "Unknown share type or invalid combination of arguments",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -27080,6 +27276,18 @@
                                         "nullable": true,
                                         "default": null,
                                         "description": "New token"
+                                    },
+                                    "otpProvider": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "default": null,
+                                        "description": "The id of an otp provider (e.g. 'email')"
+                                    },
+                                    "otpRecipient": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "default": null,
+                                        "description": "The identifier of an OTP recipient (e.g. an email address)"
                                     }
                                 }
                             }
