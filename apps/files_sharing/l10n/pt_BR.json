@@ -98,6 +98,7 @@
     "Download" : "Baixar",
     "Add to your %s" : "Adicione ao seu  %s",
     "Direct link" : "Link direto",
+    "You are not allowed to share \"%s\"." : "Você não tem permissão para compartilhar \"%s\".",
     "Share API is disabled" : "O compartilhamento de API está desabilitado.",
     "File sharing" : "Compartilhamento de arquivos",
     "Share will expire tomorrow" : "Compartilhamento irá expirar amanhã",
