@@ -331,6 +331,40 @@ export default class Share {
 		this._share.send_password_by_talk = sendPasswordByTalk
 	}
 
+	/**
+	 * OTP provider id
+	 *
+	 */
+	get otpProvider(): object {
+		return this._share.otp_provider
+	}
+
+	/**
+	 * OTP provider id
+	 *
+	 * @param otpProvider the otp provider id
+	 */
+	set otpProvider(otpProvider: string) {
+		this._share.otp_provider = otpProvider
+	}
+
+	/**
+	 * OTP recipient
+	 *
+	 */
+	get otpRecipient(): object {
+		return this._share.otp_recipient
+	}
+
+	/**
+	 * OTP recipient id
+	 *
+	 * @param otpRecipient the otp recipient
+	 */
+	set otpRecipient(otpRecipient: string) {
+		this._share.otp_recipient = otpRecipient
+	}
+
 	// SHARED ITEM DATA ---------------------------------------------
 	/**
 	 * Get the shared item absolute full path
