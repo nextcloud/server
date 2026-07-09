@@ -1,5 +1,5 @@
 <!--
-  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-FileCopyrightText: 2023-2026 Nextcloud GmbH and Nextcloud contributors
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
@@ -133,11 +133,18 @@
 						</template>
 					</NcInputField>
 					<template v-if="isPublicShare">
-						<NcCheckboxRadioSwitch v-model="isPasswordProtected" :disabled="isPasswordEnforced">
-							{{ t('files_sharing', 'Set password') }}
-						</NcCheckboxRadioSwitch>
+						<NcRadioGroup
+							v-model="authMethod"
+							:label="t('files_sharing', 'Authentication')"
+							:description="t('files_sharing', 'Optionally require a password or one-time password to access the share')">
+							<NcRadioGroupButton :label="t('files_sharing', 'No Password')" value="none" :disabled="isPasswordEnforced" />
+							<NcRadioGroupButton :label="t('files_sharing', 'Password')" value="password" />
+							<NcRadioGroupButton v-if="otpProviders.length > 0 && !isEmailShareType" :label="t('files_sharing', 'OTP')" value="otp" />
+						</NcRadioGroup>
+						<br>
+
 						<NcPasswordField
-							v-if="isPasswordProtected"
+							v-if="authMethod === 'password'"
 							autocomplete="new-password"
 							:model-value="share.newPassword ?? ''"
 							:error="passwordError"
@@ -145,6 +152,28 @@
 							:required="isPasswordEnforced && isNewShare"
 							:label="t('files_sharing', 'Password')"
 							@update:model-value="onPasswordChange" />
+						<NcFormGroup
+							v-if="authMethod === 'otp'"
+							:label="t('files_sharing', 'One-Time Password')"
+							:description="t('files_sharing', 'Recipient to receive a one-time password')">
+							<div class="otp-provider-select-wrapper">
+								<NcSelect
+									:options="otpProviders"
+									required
+									label="name"
+									:modelValue="currentOTPProvider"
+									:inputLabel="t('files_sharing', 'Method')"
+									@update:modelValue="onOtpProviderChange" />
+								<NcTextField
+									:modelValue="share.otpRecipient ?? ''"
+									:error="otpError || !otpRecipientIsValid"
+									required
+									:helperText="otpError || !otpRecipientIsValid ? t('files_sharing', 'Please enter a valid recipient for the selected method') : (currentOTPProvider?.description ?? '')"
+									:label="t('files_sharing', 'Recipient')"
+									@update:modelValue="onOtpRecipientChange" />
+							</div>
+						</NcFormGroup>
+						<br>
 
 						<!-- Migrate icons and remote -> icon="icon-info"-->
 						<span v-if="isEmailShareType && passwordExpirationTime" icon="icon-info">
@@ -309,10 +338,15 @@ import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcDateTimePickerNative from '@nextcloud/vue/components/NcDateTimePickerNative'
+import NcFormGroup from '@nextcloud/vue/components/NcFormGroup'
 import NcInputField from '@nextcloud/vue/components/NcInputField'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcPasswordField from '@nextcloud/vue/components/NcPasswordField'
+import NcRadioGroup from '@nextcloud/vue/components/NcRadioGroup'
+import NcRadioGroupButton from '@nextcloud/vue/components/NcRadioGroupButton'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
 import NcTextArea from '@nextcloud/vue/components/NcTextArea'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 import UserIcon from 'vue-material-design-icons/AccountCircleOutline.vue'
 import GroupIcon from 'vue-material-design-icons/AccountGroup.vue'
 import CircleIcon from 'vue-material-design-icons/CircleOutline.vue'
@@ -352,6 +386,11 @@ export default {
 	components: {
 		NcAvatar,
 		NcButton,
+		NcRadioGroup,
+		NcRadioGroupButton,
+		NcFormGroup,
+		NcSelect,
+		NcTextField,
 		NcCheckboxRadioSwitch,
 		NcDateTimePickerNative,
 		NcInputField,
@@ -414,6 +453,9 @@ export default {
 			initialHideDownload: undefined,
 			initialSendPasswordByTalk: undefined,
 			initialHasDownloadPermission: undefined,
+			otpProviders: [],
+			originalOTP: { },
+			otpError: false,
 
 			externalShareActions: getSidebarActions(),
 			// legacy
@@ -454,6 +496,18 @@ export default {
 					}
 				}
 			}
+		},
+
+		otpRecipientIsValid() {
+			const provider = this.currentOTPProvider
+			return !this.share.otpRecipient
+				|| !provider
+				|| !provider.recipientPattern
+				|| (new RegExp(provider.recipientPattern)).test(this.share.otpRecipient)
+		},
+
+		currentOTPProvider() {
+			return this.otpProviders.find((p) => p.id === this.share.otpProvider)
 		},
 
 		bundledPermissions() {
@@ -769,7 +823,7 @@ export default {
 		 * @return {boolean}
 		 */
 		isPasswordProtectedByTalkAvailable() {
-			return this.isPasswordProtected && this.isTalkEnabled
+			return this.authMethod === 'password' && this.isTalkEnabled
 		},
 
 		/**
@@ -799,7 +853,7 @@ export default {
 		},
 
 		canTogglePasswordProtectedByTalkAvailable() {
-			if (!this.isPublicShare || !this.isPasswordProtected) {
+			if (!this.isPublicShare || this.authMethod !== 'password') {
 				// Makes no sense
 				return false
 			} else if (this.isEmailShareType && !this.hasUnsavedPassword) {
@@ -895,9 +949,23 @@ export default {
 				this.sharingPermission = this.revertSharingPermission
 			}
 		},
+
+		authMethod(authMethod) {
+			if (authMethod === 'otp' && !this.share.otpProvider && this.otpProviders.length > 0) {
+				this.share.otpProvider = this.otpProviders[0].id
+			}
+		},
 	},
 
 	beforeMount() {
+		this.getOTPProviders().then((providers) => {
+			if (providers) {
+				this.otpProviders = providers
+				if (providers.length > 0 && !this.share.otpProvider && this.authMethod === 'otp') {
+					this.share.otpProvider = this.otpProviders[0].id
+				}
+			}
+		})
 		this.initialPermissions = this.share.permissions
 		this.initialExpireDate = this.share.expireDate
 		this.initialNote = this.share.note
@@ -1047,9 +1115,16 @@ export default {
 		},
 
 		async initializeAttributes() {
+			if (this.share.otpRecipient) {
+				this.authMethodInternal = 'otp'
+				this.originalOTP.recipient = this.share.otpRecipient
+				this.originalOTP.provider = this.share.otpProvider
+				this.share.password = ''
+			}
+
 			if (this.isNewShare) {
 				if ((this.config.enableLinkPasswordByDefault || this.isPasswordEnforced) && this.isPublicShare) {
-					this.passwordProtectedState = true
+					this.authMethod = 'password'
 					const generatedPassword = await GeneratePassword(true)
 					if (!this.share.newPassword) {
 						this.share.newPassword = generatedPassword
@@ -1155,9 +1230,32 @@ export default {
 		async saveShare() {
 			const permissionsAndAttributes = ['permissions', 'attributes', 'note', 'expireDate']
 			const publicShareAttributes = ['label', 'hideDownload', 'sendPasswordByTalk']
-			// Only include password if it's being actively changed
-			if (this.hasUnsavedPassword) {
-				publicShareAttributes.push('password')
+			// Clear password if using another (or no) auth method
+			if (this.authMethod === 'password') {
+				if (this.hasUnsavedPassword) {
+					// Only include password if it's being actively changed
+					publicShareAttributes.push('password')
+				}
+			} else {
+				if (this.share.password) {
+					this.share.newPassword = ''
+					publicShareAttributes.push('password')
+				}
+			}
+			if (this.authMethod === 'otp') {
+				if (this.originalOTP.recipient !== this.share.otpRecipient
+					|| this.originalOTP.provider !== this.share.otpProvider) {
+					publicShareAttributes.push('otpRecipient')
+					publicShareAttributes.push('otpProvider')
+				}
+			} else {
+				// Clear OTP if using another (or no) auth method
+				if (this.originalOTP.recipient || this.originalOTP.provider) {
+					this.share.otpProvider = ''
+					this.share.otpRecipient = ''
+					publicShareAttributes.push('otpProvider')
+					publicShareAttributes.push('otpRecipient')
+				}
 			}
 			if (this.config.allowCustomTokens) {
 				publicShareAttributes.push('token')
@@ -1179,9 +1277,18 @@ export default {
 			if (!this.writeNoteToRecipientIsChecked) {
 				this.share.note = ''
 			}
-			if (this.isPasswordProtected) {
+			if (this.authMethod === 'password') {
 				if (this.isPublicShare && this.isNewShare && !this.isValidShareAttribute(this.share.newPassword)) {
 					this.passwordError = true
+					return
+				}
+			} else if (this.authMethod === 'otp') {
+				if (!this.isPublicShare) {
+					this.passwordError = true
+					return
+				}
+				if (!this.share.otpProvider || !this.share.otpRecipient || !this.otpRecipientIsValid) {
+					this.otpError = true
 					return
 				}
 			} else {
@@ -1191,7 +1298,7 @@ export default {
 			// "Video verification" must be disabled if the password was
 			// disabled, as it does not make sense and would also prevent
 			// saving if it is still enabled.
-			if (this.isPasswordProtectedByTalk && !this.isPasswordProtected) {
+			if (this.isPasswordProtectedByTalk && this.authMethod !== 'password') {
 				this.isPasswordProtectedByTalk = false
 			}
 
@@ -1213,8 +1320,12 @@ export default {
 
 				incomingShare.expireDate = this.hasExpirationDate ? this.share.expireDate : ''
 
-				if (this.isPasswordProtected) {
+				if (this.authMethod === 'password') {
 					incomingShare.password = this.share.newPassword
+				} else if (this.authMethod === 'otp') {
+					incomingShare.password = ''
+					incomingShare.otpProvider = this.share.otpProvider
+					incomingShare.otpRecipient = this.share.otpRecipient
 				}
 
 				let share
@@ -1296,6 +1407,7 @@ export default {
 					attributes: JSON.stringify(share.attributes),
 					...(share.note ? { note: share.note } : {}),
 					...(share.password ? { password: share.password } : {}),
+					...(share.otpRecipient ? { otpProvider: share.otpProvider, otpRecipient: share.otpRecipient } : {}),
 				})
 				return resultingShare
 			} catch (error) {
@@ -1326,11 +1438,34 @@ export default {
 		onPasswordChange(password) {
 			if (password === '') {
 				this.share.newPassword = undefined
-				this.passwordError = this.isNewShare && this.isPasswordEnforced
+				this.passwordError = this.isNewShare && !this.share.otpRecipient && this.isPasswordEnforced
 				return
 			}
 			this.passwordError = !this.isValidShareAttribute(password)
 			this.share.newPassword = password
+		},
+
+		/**
+		 * Update otpProvider values of share.
+		 *
+		 * @param {string} provider the otp provider
+		 */
+		onOtpProviderChange(provider) {
+			if (!provider) {
+				this.share.otpProvider = null
+				return
+			}
+			this.share.otpProvider = provider.id
+		},
+
+		/**
+		 * Update otpRecipient values of share
+		 *
+		 * @param {string} recipient the recipient
+		 */
+		onOtpRecipientChange(recipient) {
+			this.otpError = false
+			this.share.otpRecipient = recipient
 		},
 
 		isValidShareAttribute(value) {
@@ -1373,6 +1508,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.otp-provider-select-wrapper {
+	display: flex;
+	flex-direction: column;
+}
+
 .sharingTabDetailsView {
 	display: flex;
 	flex-direction: column;
