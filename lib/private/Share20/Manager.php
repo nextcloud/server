@@ -22,6 +22,7 @@ use OCA\Files_Sharing\SharedStorage;
 use OCA\Files_Sharing\ViewOnly;
 use OCA\ShareByMail\ShareByMailProvider;
 use OCP\Constants;
+use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -56,6 +57,8 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Log\Audit\CriticalActionPerformedEvent;
+use OCP\OneTimePassword\IManager as IOTPManager;
+use OCP\OneTimePassword\IOneTimePassword;
 use OCP\Security\Events\ValidatePasswordPolicyEvent;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
@@ -111,6 +114,7 @@ class Manager implements IManager {
 		private IDateTimeZone $dateTimeZone,
 		private IAppConfig $appConfig,
 		private IDBConnection $connection,
+		private readonly IOTPManager $otpManager,
 	) {
 		$this->l = $this->l10nFactory->get('lib');
 	}
@@ -129,7 +133,11 @@ class Manager implements IManager {
 	 *
 	 * @throws HintException
 	 */
-	protected function verifyPassword(?string $password): void {
+	protected function verifyPassword(?string $password, ?IOneTimePassword $otp): void {
+		if ($otp !== null) {
+			return;
+		}
+
 		if ($password === null) {
 			// No password is set, check if this is allowed.
 			if ($this->shareApiLinkEnforcePassword()) {
@@ -563,8 +571,12 @@ class Manager implements IManager {
 				// Verify the expiration date
 				$share = $this->validateExpirationDateLink($share);
 
+				if ($share->getOneTimePassword() !== null && $share->getPassword() === null) {
+					$share->setPassword($this->secureRandom->generate(64));
+				}
+
 				// Verify the password
-				$this->verifyPassword($share->getPassword());
+				$this->verifyPassword($share->getPassword(), $share->getOneTimePassword());
 
 				// If a password is set. Hash it!
 				if (($share->getShareType() === IShare::TYPE_LINK || $share->getShareType() === IShare::TYPE_EMAIL) && $share->getPassword() !== null && !$share->isPasswordHashed()) {
@@ -709,6 +721,10 @@ class Manager implements IManager {
 		} elseif ($share->getShareType() === IShare::TYPE_LINK
 			|| $share->getShareType() === IShare::TYPE_EMAIL) {
 
+			if ($share->getOneTimePassword() !== null && $share->getPassword() === null) {
+				$share->setPassword($this->secureRandom->generate(64));
+			}
+
 			// The new password is not set again if it is the same as the old
 			// one, unless when switching from sending by Talk to sending by
 			// mail.
@@ -761,6 +777,14 @@ class Manager implements IManager {
 
 		$this->pathCreateChecks($share->getNode());
 
+		$originalOTP = $originalShare->getOneTimePassword();
+		$shouldDeleteOTP = (
+			$originalOTP !== null && (
+				$share->getOneTimePassword() === null
+				|| $originalOTP->getId() !== $share->getOneTimePassword()->getId()
+			)
+		);
+
 		// Now update the share!
 		$provider = $this->factory->getProviderForType($share->getShareType());
 		if ($share->getShareType() === IShare::TYPE_EMAIL) {
@@ -774,6 +798,11 @@ class Manager implements IManager {
 			&& $originalShare->getAttributes()?->getAttribute('permissions', 'download') !== false
 			&& $share->getAttributes()?->getAttribute('permissions', 'download') === false) {
 			$this->restrictDownloadOfReshares($share->getNode(), [$share->getFullId() => true]);
+		}
+
+		if ($shouldDeleteOTP) {
+			$this->logger->debug('Delete OTP after it has been removed from the share', ['app' => 'core/otp']);
+			$this->otpManager->deleteOTP($originalOTP->getId());
 		}
 
 		if ($expirationDateUpdated === true) {
@@ -791,7 +820,7 @@ class Manager implements IManager {
 				'itemSource' => $share->getNode()->getId(),
 				'uidOwner' => $share->getSharedBy(),
 				'token' => $share->getToken(),
-				'disabled' => is_null($share->getPassword()),
+				'disabled' => is_null($share->getPassword()) || !is_null($share->getOneTimePassword()),
 			]);
 		}
 
@@ -1002,7 +1031,7 @@ class Manager implements IManager {
 		// Password updated.
 		if ($passwordsAreDifferent) {
 			// Verify the password
-			$this->verifyPassword($share->getPassword());
+			$this->verifyPassword($share->getPassword(), $share->getOneTimePassword());
 
 			// If a password is set. Hash it!
 			if (!empty($share->getPassword())) {
@@ -1069,7 +1098,11 @@ class Manager implements IManager {
 			$deletedChildren = $this->deleteChildren($child);
 			$deletedShares = array_merge($deletedShares, $deletedChildren);
 
+			$deleteOtpId = $child->getOneTimePassword()?->getId();
 			$provider->delete($child);
+			if ($deleteOtpId !== null) {
+				$this->otpManager->deleteOTP($deleteOtpId);
+			}
 			$this->dispatchEvent(new ShareDeletedEvent($child), 'share deleted');
 			$deletedShares[] = $child;
 		}
@@ -1221,7 +1254,11 @@ class Manager implements IManager {
 
 		// Do the actual delete
 		$provider = $this->factory->getProviderForType($share->getShareType());
+		$deleteOtpId = $share->getOneTimePassword()?->getId();
 		$provider->delete($share);
+		if ($deleteOtpId !== null) {
+			$this->otpManager->deleteOTP($deleteOtpId);
+		}
 
 		$this->dispatchEvent(new ShareDeletedEvent($share), 'share deleted');
 
@@ -1638,6 +1675,11 @@ class Manager implements IManager {
 		}
 	}
 
+	/**
+	 * @throws \DateInvalidTimeZoneException
+	 * @throws Exception
+	 * @throws ProviderException
+	 */
 	#[Override]
 	public function checkPassword(IShare $share, ?string $password): bool {
 
@@ -1646,6 +1688,12 @@ class Manager implements IManager {
 			return false;
 		}
 
+		if ($share->getOneTimePassword() !== null) {
+			$this->logger->debug('validating one-time password for share', ['app' => 'core/share']);
+			return $this->otpManager->validateOTP($share->getOneTimePassword(), $password);
+		}
+
+		$this->logger->debug('validating password for share', ['app' => 'core/share']);
 		// Makes sure password hasn't expired
 		$expirationTime = $share->getPasswordExpirationTime();
 		if ($expirationTime !== null && $expirationTime < new \DateTime()) {
