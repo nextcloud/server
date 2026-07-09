@@ -59,7 +59,7 @@ OC.L10N.register(
     "Case sensitive file system" : "Файлова система, чутлива до регістру символів",
     "Disabling it will allow to use a case insensitive file system, but comes with a performance penalty" : "Вимкнення цього параметра дозволить використовувати файлову систему, нечутливу до регістру, але це також призведе до зниження продуктивності",
     "Verify ACL access when listing files" : "Перевірте доступ до ACL під час переліку файлів",
-    "Check the ACL's of each file or folder inside a directory to filter out items where the account has no read permissions, comes with a performance penalty" : "Перевірте ACL для кожного файлу або папки в каталозі, щоб відфільтрувати елементи, на які обліковий запис не має дозволів на читання, що призводить до зниження продуктивності",
+    "Check the ACL's of each file or folder inside a directory to filter out items where the account has no read permissions, comes with a performance penalty" : "Перевірте ACL для кожного файлу або підкаталогу у каталозі, щоб відфільтрувати елементи, на які обліковий запис не має дозволів на читання, оскільки це може призводити до зниження продуктивності",
     "Timeout" : "Час вичерпано",
     "Login as share" : "Увійти під спільним доступом",
     "Service name" : "Назва служби",

@@ -87,6 +87,7 @@ OC.L10N.register(
     "Folder is loading" : "Kansiota ladataan",
     "Filename" : "Tiedostonimi",
     "Folder name" : "Kansion nimi",
+    "unavailable" : "ei saatavilla",
     "Invalid filename." : "Epäkelpo tiedostonimi.",
     "Rename file" : "Nimeä tiedosto uudelleen",
     "Folder" : "Kansio",
