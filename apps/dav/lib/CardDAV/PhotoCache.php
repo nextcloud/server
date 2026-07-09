@@ -24,6 +24,9 @@ use Sabre\VObject\Reader;
 class PhotoCache {
 	private ?IAppData $photoCacheAppData = null;
 
+	/** Maximum edge length (in pixels) for photos */
+	private const MAX_SIZE = 2048;
+
 	/** @var array */
 	public const ALLOWED_CONTENT_TYPES = [
 		'image/png' => 'png',
@@ -98,6 +101,9 @@ class PhotoCache {
 	private function getFile(ISimpleFolder $folder, $size): ISimpleFile {
 		$ext = $this->getExtension($folder);
 
+		// cap the size
+		$size = (int)min($size, self::MAX_SIZE);
+
 		if ($size === -1) {
 			$path = 'photo.' . $ext;
 		} else {
@@ -122,9 +128,10 @@ class PhotoCache {
 			}
 
 			$size = (int)($size * $ratio);
-			if ($size !== -1) {
-				$photo->resize($size);
-			}
+			// cap the size
+			$size = min($size, self::MAX_SIZE);
+
+			$photo->resize($size);
 
 			try {
 				$file = $folder->newFile($path);
