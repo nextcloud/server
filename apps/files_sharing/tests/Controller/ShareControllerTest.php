@@ -1,7 +1,7 @@
 <?php
 
 /**
- * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2017-2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
@@ -44,6 +44,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\OneTimePassword\IManager as IOTPManager;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
@@ -57,6 +58,7 @@ use Test\Traits\UserTrait;
  * @package OCA\Files_Sharing\Controllers
  */
 #[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'OTP')]
 class ShareControllerTest extends \Test\TestCase {
 	use UserTrait;
 
@@ -82,12 +84,14 @@ class ShareControllerTest extends \Test\TestCase {
 	private FederatedShareProvider&MockObject $federatedShareProvider;
 	private IPublicShareTemplateFactory&MockObject $publicShareTemplateFactory;
 	private IUserSession&MockObject $userSession;
+	private IOTPManager $otpManager;
 
 	protected function setUp(): void {
 		parent::setUp();
 		$this->appName = 'files_sharing';
 
 		$this->shareManager = $this->createMock(Manager::class);
+		$this->otpManager = $this->createMock(IOTPManager::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->session = $this->createMock(ISession::class);
 		$this->previewManager = $this->createMock(IPreview::class);
@@ -148,6 +152,7 @@ class ShareControllerTest extends \Test\TestCase {
 			$this->defaults,
 			$this->publicShareTemplateFactory,
 			$this->userSession,
+			$this->otpManager,
 		);
 
 		// Store current user

@@ -41,6 +41,7 @@ return array(
     'OCA\\Files_Sharing\\Controller\\ShareAPIController' => $baseDir . '/../lib/Controller/ShareAPIController.php',
     'OCA\\Files_Sharing\\Controller\\ShareController' => $baseDir . '/../lib/Controller/ShareController.php',
     'OCA\\Files_Sharing\\Controller\\ShareInfoController' => $baseDir . '/../lib/Controller/ShareInfoController.php',
+    'OCA\\Files_Sharing\\Controller\\ShareOTPController' => $baseDir . '/../lib/Controller/ShareOTPController.php',
     'OCA\\Files_Sharing\\Controller\\ShareesAPIController' => $baseDir . '/../lib/Controller/ShareesAPIController.php',
     'OCA\\Files_Sharing\\DefaultPublicShareTemplateProvider' => $baseDir . '/../lib/DefaultPublicShareTemplateProvider.php',
     'OCA\\Files_Sharing\\DeleteOrphanedSharesJob' => $baseDir . '/../lib/DeleteOrphanedSharesJob.php',
