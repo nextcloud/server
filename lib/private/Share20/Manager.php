@@ -1510,8 +1510,8 @@ class Manager implements IManager {
 	#[Override]
 	public function checkPassword(IShare $share, ?string $password): bool {
 
-		// if there is no password on the share object / passsword is null, there is nothing to check
-		if ($password === null || $share->getPassword() === null) {
+		// if the share is not password protected, there is nothing to check
+		if (!$share->isPasswordProtected()) {
 			return false;
 		}
 

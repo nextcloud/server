@@ -511,6 +511,14 @@ class Share implements IShare {
 	 * @inheritdoc
 	 */
 	#[\Override]
+	public function isPasswordProtected(): bool {
+		return $this->password !== '' && $this->password !== null;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	#[\Override]
 	public function setPasswordExpirationTime(?\DateTimeInterface $passwordExpirationTime = null): IShare {
 		$this->passwordExpirationTime = $passwordExpirationTime;
 		return $this;

@@ -60,7 +60,7 @@ class PublicPreviewController extends PublicShareController {
 
 	#[\Override]
 	protected function isPasswordProtected(): bool {
-		return $this->share->getPassword() !== null;
+		return $this->share->isPasswordProtected();
 	}
 
 	/**
@@ -181,7 +181,7 @@ class PublicPreviewController extends PublicShareController {
 		}
 
 		// Password protected shares have no direct link!
-		if ($share->getPassword() !== null) {
+		if ($share->isPasswordProtected()) {
 			return new DataResponse([], Http::STATUS_FORBIDDEN);
 		}
 

@@ -3568,6 +3568,7 @@ class ManagerTest extends \Test\TestCase {
 		$share = $this->createMock(IShare::class);
 		$share->method('getShareType')->willReturn(IShare::TYPE_LINK);
 		$share->method('getPassword')->willReturn('passwordHash');
+		$share->method('isPasswordProtected')->willReturn(true);
 
 		$this->hasher->method('verify')->with('password', 'passwordHash', '')->willReturn(true);
 

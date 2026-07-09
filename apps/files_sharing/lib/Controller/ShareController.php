@@ -176,7 +176,7 @@ class ShareController extends AuthPublicShareController {
 
 	#[\Override]
 	protected function isPasswordProtected(): bool {
-		return $this->share->getPassword() !== null;
+		return $this->share->isPasswordProtected();
 	}
 
 	#[\Override]
