@@ -26679,7 +26679,7 @@
             }
         },
         "/index.php/s/{token}/requestotp": {
-            "get": {
+            "post": {
                 "operationId": "files_sharing-shareotp-request",
                 "summary": "Request an OTP to be send to the configured recipient",
                 "tags": [
@@ -26723,6 +26723,14 @@
                                 "schema": {
                                     "$ref": "#/components/schemas/FilesSharingOTPSendSuccess"
                                 }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid otp provider/recipient requested",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
                             }
                         }
                     },

@@ -83,12 +83,12 @@ class ShareOTPController extends ApiController {
 			$share = $this->shareManager->getShareByToken($token);
 		} catch (ShareNotFound $e) {
 			$response = new JSONResponse([], Http::STATUS_NOT_FOUND);
-			$response->throttle(['token' => $token]);
+			$response->throttle(['action' => 'sendotp']);
 			return $response;
 		}
 		if ($share->getOneTimePassword() === null) {
 			$response = new JSONResponse([], Http::STATUS_FORBIDDEN);
-			$response->throttle(['token' => $token]);
+			$response->throttle(['action' => 'sendotp']);
 			return $response;
 		}
 
