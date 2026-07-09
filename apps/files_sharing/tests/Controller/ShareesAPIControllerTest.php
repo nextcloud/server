@@ -1,7 +1,7 @@
 <?php
 
 /**
- * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016-2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
@@ -18,6 +18,7 @@ use OCP\GlobalScale\IConfig as GlobalScaleIConfig;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\OneTimePassword\IManager as IOTPManager;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -42,6 +43,9 @@ class ShareesAPIControllerTest extends TestCase {
 	/** @var IManager|MockObject */
 	protected $shareManager;
 
+	/** @var IOTPManager|MockObject */
+	protected $otpManager;
+
 	/** @var ISearch|MockObject */
 	protected $collaboratorSearch;
 
@@ -57,6 +61,7 @@ class ShareesAPIControllerTest extends TestCase {
 		$this->uid = 'test123';
 		$this->request = $this->createMock(IRequest::class);
 		$this->shareManager = $this->createMock(IManager::class);
+		$this->otpManager = $this->createMock(IOTPManager::class);
 		$this->config = $this->createMock(IConfig::class);
 
 		/** @var IURLGenerator|MockObject $urlGeneratorMock */
