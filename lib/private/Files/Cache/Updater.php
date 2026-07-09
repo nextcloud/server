@@ -123,6 +123,16 @@ class Updater implements IUpdater {
 	#[Override]
 	public function renameFromStorage(IStorage $sourceStorage, string $source, string $target): void {
 		$this->copyOrRenameFromStorage($sourceStorage, $source, $target, function (ICache $sourceCache) use ($sourceStorage, $source, $target): void {
+			$parent = dirname($target);
+			if ($parent === '.') {
+				$parent = '';
+			}
+			if (!$this->cache->inCache($parent)) {
+				// scan the parent first, moving the entry below a parent that is not in
+				// the cache would hide it from folder listings until the next scan
+				$this->scanner->scan($parent, Scanner::SCAN_SHALLOW, -1, false);
+			}
+
 			// Remove existing cache entry to no reuse the fileId.
 			if ($this->cache->inCache($target)) {
 				$this->cache->remove($target);
@@ -181,6 +191,12 @@ class Updater implements IUpdater {
 
 			$isDir = $sourceInfo->getMimeType() === FileInfo::MIMETYPE_FOLDER;
 		} else {
+			if (!$this->storage->instanceOfStorage(ObjectStoreStorage::class) && !$this->cache->inCache($target)) {
+				// the source was not in the cache, so the operation could not transfer
+				// an entry to the target. Scan the target to not leave it invisible
+				// until the next scan
+				$this->scanner->scan($target, Scanner::SCAN_SHALLOW, -1, false);
+			}
 			$isDir = $this->storage->is_dir($target);
 		}
 

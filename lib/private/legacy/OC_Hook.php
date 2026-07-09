@@ -85,7 +85,9 @@ class OC_Hook {
 		foreach (self::$registered[$signalClass][$signalName] as $i) {
 			try {
 				call_user_func([ $i['class'], $i['name'] ], $params);
-			} catch (Exception $e) {
+			} catch (Throwable $e) {
+				// a failing hook handler must not break the operation that emitted
+				// the signal, this includes Errors like TypeError
 				self::$thrownExceptions[] = $e;
 				Server::get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
 				if ($e instanceof HintException) {
