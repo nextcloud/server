@@ -34,16 +34,18 @@ interface IOCSResponse<T> {
 const {
 	/** The app order currently defined by the user */
 	userAppOrder,
+	/** The apps the user pinned to the navigation bar (if any) */
+	userPinnedApps,
 	/** The enforced default app set by the administrator (if any) */
 	enforcedDefaultApp,
-} = loadState<{ userAppOrder: IAppOrder, enforcedDefaultApp: string }>('theming', 'navigationBar')
+} = loadState<{ userAppOrder: IAppOrder, userPinnedApps: string[], enforcedDefaultApp: string }>('theming', 'navigationBar')
 
 /**
  * Array of all available apps, it is set by a core controller for the app menu, so it is always available
  */
 const initialAppOrder = loadState<INavigationEntry[]>('core', 'apps')
 	.filter(({ type }) => type === 'link')
-	.map((app) => ({ ...app, label: app.name, default: app.default && app.id === enforcedDefaultApp }))
+	.map((app) => ({ ...app, label: app.name, default: app.default && app.id === enforcedDefaultApp, pinned: userPinnedApps.includes(app.id) }))
 
 /**
  * The current apporder (sorted by user)
@@ -60,8 +62,16 @@ const hasCustomAppOrder = ref(!Array.isArray(userAppOrder) || Object.values(user
  */
 const hasAppOrderChanged = computed(() => initialAppOrder.some(({ id }, index) => id !== appOrder.value[index]?.id))
 
+/**
+ * Track if the pinned apps have changed, so the user can be informed to reload
+ */
+const hasPinnedAppsChanged = computed(() => initialAppOrder.some(({ id, pinned }) => pinned !== appOrder.value.find((app) => app.id === id)?.pinned))
+
 /** ID of the "app order has changed" NcNodeCard, used for the aria-details of the apporder */
 const elementIdAppOrderChanged = 'theming-apporder-changed-infocard'
+
+/** ID of the "pinned apps have changed" NcNodeCard, used for the aria-details of the apporder */
+const elementIdPinnedAppsChanged = 'theming-pinnedapps-changed-infocard'
 
 /** ID of the "you can not change the default app" NcNodeCard, used for the aria-details of the apporder */
 const elementIdEnforcedDefaultApp = 'theming-apporder-changed-infocard'
@@ -70,7 +80,7 @@ const elementIdEnforcedDefaultApp = 'theming-apporder-changed-infocard'
  * The aria-details value of the app order selector
  * contains the space separated list of element ids of NcNoteCards
  */
-const ariaDetailsAppOrder = computed(() => (hasAppOrderChanged.value ? `${elementIdAppOrderChanged} ` : '') + (enforcedDefaultApp ? elementIdEnforcedDefaultApp : ''))
+const ariaDetailsAppOrder = computed(() => (hasAppOrderChanged.value ? `${elementIdAppOrderChanged} ` : '') + (hasPinnedAppsChanged.value ? `${elementIdPinnedAppsChanged} ` : '') + (enforcedDefaultApp ? elementIdEnforcedDefaultApp : ''))
 
 /**
  * Update the app order, called when the user sorts entries
@@ -94,6 +104,25 @@ async function updateAppOrder(value: IApp[]) {
 }
 
 /**
+ * Update the pinned apps, called when the user toggles the pin of an entry
+ *
+ * @param app The app to toggle the pinned state of
+ */
+async function togglePinned(app: IApp) {
+	const pinned = appOrder.value
+		.filter(({ id, pinned }) => (id === app.id ? !pinned : pinned))
+		.map(({ id }) => id)
+
+	try {
+		await saveSetting('apps_pinned', pinned)
+		appOrder.value = appOrder.value.map((entry) => (entry.id === app.id ? { ...entry, pinned: !entry.pinned } : entry))
+	} catch (error) {
+		logger.error('Could not update the pinned apps', { error })
+		showError(t('theming', 'Could not update the pinned apps'))
+	}
+}
+
+/**
  * Reset the app order to the default
  */
 async function resetAppOrder() {
@@ -101,13 +130,14 @@ async function resetAppOrder() {
 		await saveSetting('apporder', [])
 		hasCustomAppOrder.value = false
 
-		// Reset our app order list
+		// Reset our app order list, keeping the pinned state of the entries
+		const pinnedIds = new Set(appOrder.value.filter(({ pinned }) => pinned).map(({ id }) => id))
 		const { data } = await axios.get<IOCSResponse<INavigationEntry[]>>(generateOcsUrl('/core/navigation/apps'), {
 			headers: {
 				'OCS-APIRequest': 'true',
 			},
 		})
-		appOrder.value = data.ocs.data.map((app) => ({ ...app, label: app.name, default: app.default && app.app === enforcedDefaultApp }))
+		appOrder.value = data.ocs.data.map((app) => ({ ...app, label: app.name, default: app.default && app.app === enforcedDefaultApp, pinned: pinnedIds.has(app.id) }))
 	} catch (error) {
 		logger.error('Could not reset the app order', { error })
 		showError(t('theming', 'Could not reset the app order'))
@@ -134,18 +164,26 @@ async function saveSetting(key: string, value: unknown) {
 		<p>
 			{{ t('theming', 'You can configure the app order used for the navigation bar. The first entry will be the default app, opened after login or when clicking on the logo.') }}
 		</p>
+		<p>
+			{{ t('theming', 'Pinned apps are shown directly in the navigation bar, while all other apps stay available in the apps menu.') }}
+		</p>
 		<NcNoteCard v-if="enforcedDefaultApp" :id="elementIdEnforcedDefaultApp" type="info">
 			{{ t('theming', 'The default app can not be changed because it was configured by the administrator.') }}
 		</NcNoteCard>
 		<NcNoteCard v-if="hasAppOrderChanged" :id="elementIdAppOrderChanged" type="info">
 			{{ t('theming', 'The app order was changed, to see it in action you have to reload the page.') }}
 		</NcNoteCard>
+		<NcNoteCard v-if="hasPinnedAppsChanged" :id="elementIdPinnedAppsChanged" type="info">
+			{{ t('theming', 'The pinned apps were changed, to see them in the navigation bar you have to reload the page.') }}
+		</NcNoteCard>
 
 		<AppOrderSelector
 			:class="$style.userSectionAppMenu__selector"
 			:aria-details="ariaDetailsAppOrder"
 			:modelValue="appOrder"
-			@update:modelValue="updateAppOrder" />
+			showPin
+			@update:modelValue="updateAppOrder"
+			@toggle:pinned="togglePinned" />
 
 		<NcButton
 			data-test-id="btn-apporder-reset"

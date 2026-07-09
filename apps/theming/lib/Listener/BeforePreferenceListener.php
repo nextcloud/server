@@ -24,6 +24,11 @@ class BeforePreferenceListener implements IEventListener {
 	 */
 	private const ALLOWED_KEYS = ['force_enable_blur_filter', 'shortcuts_disabled', 'primary_color'];
 
+	/**
+	 * @var string[]
+	 */
+	private const ALLOWED_CORE_KEYS = ['apporder', 'apps_pinned'];
+
 	public function __construct(
 		private IAppManager $appManager,
 	) {
@@ -72,7 +77,7 @@ class BeforePreferenceListener implements IEventListener {
 	}
 
 	private function handleCoreValues(BeforePreferenceSetEvent|BeforePreferenceDeletedEvent $event): void {
-		if ($event->getConfigKey() !== 'apporder') {
+		if (!in_array($event->getConfigKey(), self::ALLOWED_CORE_KEYS, true)) {
 			// Not allowed config key
 			return;
 		}
@@ -82,6 +87,17 @@ class BeforePreferenceListener implements IEventListener {
 			return;
 		}
 
+		switch ($event->getConfigKey()) {
+			case 'apporder':
+				$this->validateAppOrder($event);
+				break;
+			case 'apps_pinned':
+				$this->validatePinnedApps($event);
+				break;
+		}
+	}
+
+	private function validateAppOrder(BeforePreferenceSetEvent $event): void {
 		$value = json_decode($event->getConfigValue(), true, flags:JSON_THROW_ON_ERROR);
 		if (!is_array(($value))) {
 			// Must be an array
@@ -91,6 +107,23 @@ class BeforePreferenceListener implements IEventListener {
 		foreach ($value as $id => $info) {
 			// required format: [ navigation_id: string => [ order: int, app?: string ] ]
 			if (!is_string($id) || !is_array($info) || empty($info) || !isset($info['order']) || !is_numeric($info['order']) || (isset($info['app']) && !$this->appManager->isEnabledForUser($info['app']))) {
+				// Invalid config value, refuse the change
+				return;
+			}
+		}
+		$event->setValid(true);
+	}
+
+	private function validatePinnedApps(BeforePreferenceSetEvent $event): void {
+		$value = json_decode($event->getConfigValue(), true);
+		// required format: list of navigation entry ids [ id: string ]
+		if (!is_array($value) || $value !== array_values($value)) {
+			// Must be a list
+			return;
+		}
+
+		foreach ($value as $id) {
+			if (!is_string($id)) {
 				// Invalid config value, refuse the change
 				return;
 			}

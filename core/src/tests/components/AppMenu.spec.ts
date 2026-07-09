@@ -42,6 +42,17 @@ vi.mock('@nextcloud/router', () => ({
 	imagePath: (app: string, file: string) => `/${app}/img/${file}`,
 }))
 
+// jsdom has no layout, so useElementSize would report 0 and no pinned entry
+// would ever render. Expose the width ref so tests can set the available space.
+const elementSize = vi.hoisted(() => ({ width: { value: 0 } }))
+vi.mock('@vueuse/core', async () => {
+	const { ref } = await import('vue')
+	elementSize.width = ref(400)
+	return {
+		useElementSize: () => ({ width: elementSize.width }),
+	}
+})
+
 // Build a minimal nav entry that satisfies INavigationEntry.
 function makeApp(overrides: Partial<INavigationEntry> = {}): INavigationEntry {
 	return {
@@ -88,8 +99,22 @@ beforeEach(async () => {
 	}
 	initialState.loadState.mockImplementation((_app: string, key: string, fallback: unknown) => key === 'apps' ? fakeApps() : fallback)
 	auth.getCurrentUser.mockReturnValue({ isAdmin: false })
+	elementSize.width.value = 400
 	AppMenu = (await import('../../components/AppMenu.vue')).default
 })
+
+/** loadState mock shipping both the app list and a set of pinned entry ids */
+function mockAppsWithPinned(apps: INavigationEntry[], pinned: string[]) {
+	initialState.loadState.mockImplementation((_app: string, key: string, fallback: unknown) => {
+		if (key === 'apps') {
+			return apps
+		}
+		if (key === 'apps-pinned') {
+			return pinned
+		}
+		return fallback
+	})
+}
 
 afterEach(() => {
 	// NcPopover teleports to <body>; clear teleported nodes between tests.
@@ -214,6 +239,63 @@ describe('core: AppMenu', () => {
 		})
 		const wrapper = mount(AppMenu, { attachTo: document.body })
 		expect(wrapper.find('.app-menu__current-app-name').text()).toBe('Files')
+	})
+
+	it('renders pinned apps inline following the navigation order', () => {
+		// Pinned ids are stored unordered; the rendered order follows appList.
+		mockAppsWithPinned(fakeApps(), ['calendar', 'files'])
+		mount(AppMenu, { attachTo: document.body })
+
+		const labels = Array.from(document.querySelectorAll('.app-menu-entry__label')).map((el) => el.textContent?.trim())
+		expect(labels).toEqual(['Files', 'Calendar'])
+	})
+
+	it('ignores pinned ids without a matching navigation entry', () => {
+		mockAppsWithPinned(fakeApps(), ['mail', 'disabled-app'])
+		mount(AppMenu, { attachTo: document.body })
+
+		const labels = Array.from(document.querySelectorAll('.app-menu-entry__label')).map((el) => el.textContent?.trim())
+		expect(labels).toEqual(['Mail'])
+	})
+
+	it('renders no pinned list when nothing is pinned', () => {
+		const wrapper = mount(AppMenu, { attachTo: document.body })
+		expect(wrapper.find('.app-menu__list').exists()).toBe(false)
+	})
+
+	it('only renders as many pinned entries as fit the measured width', () => {
+		// 100px fits two 44px entries
+		elementSize.width.value = 100
+		mockAppsWithPinned(fakeApps(), ['files', 'mail', 'calendar'])
+		const wrapper = mount(AppMenu, { attachTo: document.body })
+
+		expect(wrapper.findAll('.app-menu-entry')).toHaveLength(2)
+	})
+
+	it('hides the current-app button while the active app is visible in the pinned list', () => {
+		mockAppsWithPinned(fakeApps(), ['files'])
+		const wrapper = mount(AppMenu, { attachTo: document.body })
+
+		expect(wrapper.find('.app-menu__current-app').exists()).toBe(false)
+		expect(wrapper.get('.app-menu-entry a').attributes('aria-current')).toBe('page')
+	})
+
+	it('keeps the current-app button when the active app is not pinned', () => {
+		mockAppsWithPinned(fakeApps(), ['mail'])
+		const wrapper = mount(AppMenu, { attachTo: document.body })
+
+		expect(wrapper.find('.app-menu__current-app').exists()).toBe(true)
+		expect(wrapper.get('.app-menu__current-app-name').text()).toBe('Files')
+	})
+
+	it('keeps the current-app button when the active app is pinned but truncated away', () => {
+		// One 44px slot: only Files renders, active Calendar is cut off
+		elementSize.width.value = 50
+		mockAppsWithPinned(eightApps(2).slice(0, 3), ['files', 'calendar'])
+		const wrapper = mount(AppMenu, { attachTo: document.body })
+
+		expect(wrapper.findAll('.app-menu-entry')).toHaveLength(1)
+		expect(wrapper.find('.app-menu__current-app').exists()).toBe(true)
 	})
 
 	it('does not render the current-app button when only the logout entry is active', () => {
