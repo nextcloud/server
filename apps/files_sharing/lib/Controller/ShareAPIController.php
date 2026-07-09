@@ -57,6 +57,9 @@ use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use OCP\Mail\IEmailValidator;
 use OCP\Mail\IMailer;
+use OCP\OneTimePassword\Exceptions\OTPProviderNotFoundException;
+use OCP\OneTimePassword\IManager as IOTPManager;
+use OCP\Security\ISecureRandom;
 use OCP\Server;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
@@ -91,6 +94,7 @@ class ShareAPIController extends OCSController {
 		string $appName,
 		IRequest $request,
 		private IManager $shareManager,
+		private IOTPManager $otpManager,
 		private IGroupManager $groupManager,
 		private IUserManager $userManager,
 		private IRootFolder $rootFolder,
@@ -109,6 +113,7 @@ class ShareAPIController extends OCSController {
 		private ITagManager $tagManager,
 		private IEmailValidator $emailValidator,
 		private ?TrustedServers $trustedServers,
+		protected ISecureRandom $secureRandom,
 		private ?string $userId = null,
 	) {
 		parent::__construct($appName, $request);
@@ -341,6 +346,9 @@ class ShareAPIController extends OCSController {
 			} catch (ContainerExceptionInterface $e) {
 			}
 		}
+
+		$result['otp_provider'] = $share->getOneTimePassword()?->getProviderId();
+		$result['otp_recipient'] = $share->getOneTimePassword()?->getRecipient();
 
 		$result['mail_send'] = $share->getMailSend() ? 1 : 0;
 		$result['hide_download'] = $share->getHideDownload() ? 1 : 0;
@@ -583,9 +591,11 @@ class ShareAPIController extends OCSController {
 	 * @param string $label Label for the share (only used in link and email)
 	 * @param string|null $attributes Additional attributes for the share
 	 * @param 'false'|'true'|null $sendMail Send a mail to the recipient
+	 * @param ?string $otpProvider The id of an otp provider (e.g. 'email')
+	 * @param ?string $otpRecipient The identifier of an OTP recipient (e.g. an email address)
 	 *
 	 * @return DataResponse<Http::STATUS_OK, Files_SharingShare, array{}>
-	 * @throws OCSBadRequestException Unknown share type
+	 * @throws OCSBadRequestException Unknown share type or invalid combination of arguments
 	 * @throws OCSException
 	 * @throws OCSForbiddenException Creating the share is not allowed
 	 * @throws OCSNotFoundException Creating the share failed
@@ -608,7 +618,16 @@ class ShareAPIController extends OCSController {
 		string $label = '',
 		?string $attributes = null,
 		?string $sendMail = null,
+		?string $otpProvider = null,
+		?string $otpRecipient = null,
 	): DataResponse {
+		if ($otpProvider === '') {
+			$otpProvider = null;
+		}
+		if ($otpRecipient === '') {
+			$otpRecipient = null;
+		}
+
 		assert($this->userId !== null);
 
 		$share = $this->shareManager->newShare();
@@ -736,11 +755,29 @@ class ShareAPIController extends OCSController {
 				throw new OCSNotFoundException($this->l->t('Public link sharing is disabled by the administrator'));
 			}
 
-			$this->validateLinkSharePermissions($node, $permissions, $hasPublicUpload);
+			$this->validateLinkSharePermissions($node, $permissions, $hasPublicUpload, $otpRecipient !== null);
 			$share->setPermissions($permissions);
 
-			// Set password
-			if ($password !== '') {
+			if ($otpRecipient !== null && $otpRecipient !== '') {
+				if ($otpProvider === null || $otpProvider === '') {
+					throw new OCSBadRequestException($this->l->t('otpProvider must not be null if otpRecipient is given'));
+				}
+				if ($password !== '') {
+					throw new OCSBadRequestException($this->l->t('otpRecipient and password are mutually exclusive (but both were given)'));
+				}
+				try {
+					$otp = $this->otpManager->createOTP($otpProvider, $otpRecipient);
+				} catch (OTPProviderNotFoundException $e) {
+					$this->logger->warning('Could not update share', ['exception' => $e]);
+					throw new OCSBadRequestException($this->l->t('No OTP provider found for id {provider}', ['provider' => $otpProvider]));
+				}
+				$share->setOneTimePassword($otp);
+
+				// When using OTPs we still use the password internally to
+				// store it in the session after successful authentication
+				$password = $this->secureRandom->generate(32);
+				$share->setPassword($password);
+			} elseif ($password !== '') {
 				$share->setPassword($password);
 			}
 
@@ -1246,6 +1283,8 @@ class ShareAPIController extends OCSController {
 	 *                              You will have to use the sendMail action to send the mail.
 	 * @param string|null $shareWith New recipient for email shares
 	 * @param string|null $token New token
+	 * @param ?string $otpProvider The id of an otp provider (e.g. 'email')
+	 * @param ?string $otpRecipient The identifier of an OTP recipient (e.g. an email address)
 	 * @return DataResponse<Http::STATUS_OK, Files_SharingShare, array{}>
 	 * @throws OCSBadRequestException Share could not be updated because the requested changes are invalid
 	 * @throws OCSForbiddenException Missing permissions to update the share
@@ -1267,6 +1306,8 @@ class ShareAPIController extends OCSController {
 		?string $attributes = null,
 		?string $sendMail = null,
 		?string $token = null,
+		?string $otpProvider = null,
+		?string $otpRecipient = null,
 	): DataResponse {
 		try {
 			$share = $this->getShareById($id);
@@ -1335,9 +1376,45 @@ class ShareAPIController extends OCSController {
 				$share->setPermissions($permissions);
 			}
 
-			$passwordParamSent = $password !== null;
-			if ($passwordParamSent) {
-				if ($password === '') {
+			// Reset otp and password if we used an otp previously and don't do anymore
+			if ($otpProvider === '' && $share->getOneTimePassword() !== null) {
+				$share->setOneTimePassword(null);
+				$share->setPassword(null);
+				$otpProvider = null;
+				$otpRecipient = null;
+			}
+
+			if ($otpRecipient !== null) {
+				$clearOTP = $otpRecipient === '';
+				if (!$clearOTP) {
+					if ($otpProvider === null || $otpProvider === '') {
+						throw new OCSBadRequestException($this->l->t('otpProvider must not be empty if otpRecipient is given'));
+					}
+					if ($password !== '' && $password !== null) {
+						throw new OCSBadRequestException($this->l->t('otpRecipient and password are mutually exclusive (but both were given)'));
+					}
+				}
+				$origOTP = $share->getOneTimePassword();
+				if ($origOTP?->getProviderId() !== $otpProvider || $origOTP?->getRecipient() !== $otpRecipient) {
+					try {
+						$otp = $this->otpManager->createOTP($otpProvider, $otpRecipient);
+					} catch (OTPProviderNotFoundException $e) {
+						$this->logger->warning('Could not update share', ['exception' => $e]);
+						throw new OCSBadRequestException($this->l->t('No OTP provider found for id {provider}', ['provider' => $otpProvider]));
+					}
+					$share->setOneTimePassword($otp);
+
+					// When using OTPs we still use the password internally to
+					// store it in the session after successful authentication
+					$password = $this->secureRandom->generate(32);
+					$share->setPassword($password);
+				}
+			} elseif ($password !== null) {
+				if ($share->getOneTimePassword() !== null) {
+					$deleteOtpId = $share->getOneTimePassword()->getId();
+					$share->setOneTimePassword(null);
+				}
+				if ($password === '' && $share->getOneTimePassword() !== null) {
 					$share->setPassword(null);
 				} else {
 					$share->setPassword($password);
@@ -2178,11 +2255,14 @@ class ShareAPIController extends OCSController {
 				// the password clear, it is just a temporary
 				// object manipulation. The password will stay
 				// encrypted in the database.
-				if ($share->getPassword() !== null && $share->getPassword() !== $password) {
+				if (($share->getPassword() !== null && $share->getPassword() !== $password) || ($share->getOneTimePassword() !== null)) {
 					if (!$this->shareManager->checkPassword($share, $password)) {
 						throw new OCSBadRequestException($this->l->t('Wrong password'));
 					}
-					$share = $share->setPassword($password);
+					$share->setPassword($password);
+					if ($password !== null && $password !== '') {
+						$share->setOneTimePassword(null);
+					}
 				}
 
 				$provider->sendMailNotification($share);

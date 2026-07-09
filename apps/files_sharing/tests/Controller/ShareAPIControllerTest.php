@@ -9,7 +9,7 @@
 namespace OCA\Files_Sharing\Tests\Controller;
 
 use OC\Files\Storage\Wrapper\Wrapper;
-use OC\Session\Internal;
+use OC\OneTimePassword\OneTimePassword;
 use OCA\Federation\TrustedServers;
 use OCA\Files_Sharing\Controller\ShareAPIController;
 use OCA\Files_Sharing\External\Storage;
@@ -46,6 +46,8 @@ use OCP\IUserManager;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use OCP\Mail\IMailer;
+use OCP\OneTimePassword\IManager as IOTPManager;
+use OCP\Security\ISecureRandom;
 use OCP\Server;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
@@ -86,6 +88,7 @@ class ShareAPIControllerTest extends TestCase {
 	private ShareAPIController $ocs;
 
 	private IManager&MockObject $shareManager;
+	private IOTPManager&MockObject $otpManager;
 	private IGroupManager&MockObject $groupManager;
 	private IUserManager&MockObject $userManager;
 	private IRequest&MockObject $request;
@@ -104,6 +107,7 @@ class ShareAPIControllerTest extends TestCase {
 	private IMailer&MockObject $mailer;
 	private ITagManager&MockObject $tagManager;
 	private TrustedServers&MockObject $trustedServers;
+	private ISecureRandom&MockObject $secureRandom;
 
 	protected function setUp(): void {
 		$this->shareManager = $this->createMock(IManager::class);
@@ -114,11 +118,13 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager
 			->expects($this->any())
 			->method('shareProviderExists')->willReturn(true);
+		$this->otpManager = $this->createMock(IOTPManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->request = $this->createMock(IRequest::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->secureRandom = $this->createMock(ISecureRandom::class);
 		$this->currentUser = 'currentUser';
 
 		$this->l = $this->createMock(IL10N::class);
@@ -149,6 +155,7 @@ class ShareAPIControllerTest extends TestCase {
 			$this->appName,
 			$this->request,
 			$this->shareManager,
+			$this->otpManager,
 			$this->groupManager,
 			$this->userManager,
 			$this->rootFolder,
@@ -167,6 +174,7 @@ class ShareAPIControllerTest extends TestCase {
 			$this->tagManager,
 			$this->getEmailValidatorWithStrictEmailCheck(),
 			$this->trustedServers,
+			$this->secureRandom,
 			$this->currentUser,
 		);
 
@@ -178,6 +186,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->appName,
 				$this->request,
 				$this->shareManager,
+				$this->otpManager,
 				$this->groupManager,
 				$this->userManager,
 				$this->rootFolder,
@@ -196,6 +205,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->tagManager,
 				$this->getEmailValidatorWithStrictEmailCheck(),
 				$this->trustedServers,
+				$this->secureRandom,
 				$this->currentUser,
 			])->onlyMethods(['formatShare'])
 			->getMock();
@@ -618,6 +628,7 @@ class ShareAPIControllerTest extends TestCase {
 		?string $password = null,
 		string $label = '',
 		?IShareAttributes $attributes = null,
+		?OneTimePassword $otp = null,
 	): MockObject {
 		$share = $this->createMock(IShare::class);
 		$share->method('getId')->willReturn($id);
@@ -638,6 +649,7 @@ class ShareAPIControllerTest extends TestCase {
 		$share->method('getMailSend')->willReturn($mail_send);
 		$share->method('getToken')->willReturn($token);
 		$share->method('getPassword')->willReturn($password);
+		$share->method('getOneTimePassword')->willReturn($otp);
 
 		if ($shareType === IShare::TYPE_USER
 			|| $shareType === IShare::TYPE_GROUP
@@ -721,6 +733,8 @@ class ShareAPIControllerTest extends TestCase {
 			'item_permissions' => 4,
 			'is-mount-root' => false,
 			'mount-type' => '',
+			'otp_provider' => null,
+			'otp_recipient' => null,
 		];
 		$data['File shared with user'] = [$share, $expected, true];
 
@@ -779,6 +793,8 @@ class ShareAPIControllerTest extends TestCase {
 			'item_permissions' => 4,
 			'is-mount-root' => false,
 			'mount-type' => '',
+			'otp_provider' => null,
+			'otp_recipient' => null,
 		];
 		$data['Folder shared with group'] = [$share, $expected, true];
 
@@ -800,7 +816,9 @@ class ShareAPIControllerTest extends TestCase {
 			'personal note',
 			'token',
 			'password',
-			'first link share'
+			'first link share',
+			null,
+			(new OneTimePassword('mock', 'recipient'))->setId(5)
 		];
 		$expected = [
 			'id' => '101',
@@ -841,12 +859,15 @@ class ShareAPIControllerTest extends TestCase {
 			'item_permissions' => 4,
 			'is-mount-root' => false,
 			'mount-type' => '',
+			'otp_provider' => 'mock',
+			'otp_recipient' => 'recipient',
 		];
 		$data['File shared by link with Expire'] = [$share, $expected, false];
 
 		return $data;
 	}
 
+	#[\PHPUnit\Framework\Attributes\Group(name: 'OTP')]
 	#[DataProvider(methodName: 'dataGetShare')]
 	public function testGetShare(array $shareParams, array $result, bool $attributes): void {
 
@@ -889,6 +910,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->appName,
 				$this->request,
 				$this->shareManager,
+				$this->otpManager,
 				$this->groupManager,
 				$this->userManager,
 				$this->rootFolder,
@@ -907,6 +929,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->tagManager,
 				$this->getEmailValidatorWithStrictEmailCheck(),
 				$this->trustedServers,
+				$this->secureRandom,
 				$this->currentUser,
 			])
 			->onlyMethods(['canAccessShare'])
@@ -1603,6 +1626,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->appName,
 				$this->request,
 				$this->shareManager,
+				$this->otpManager,
 				$this->groupManager,
 				$this->userManager,
 				$this->rootFolder,
@@ -1621,6 +1645,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->tagManager,
 				$this->getEmailValidatorWithStrictEmailCheck(),
 				$this->trustedServers,
+				$this->secureRandom,
 				$this->currentUser,
 			])
 			->onlyMethods(['formatShare'])
@@ -1965,6 +1990,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->appName,
 				$this->request,
 				$this->shareManager,
+				$this->otpManager,
 				$this->groupManager,
 				$this->userManager,
 				$this->rootFolder,
@@ -1983,6 +2009,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->tagManager,
 				$this->getEmailValidatorWithStrictEmailCheck(),
 				$this->trustedServers,
+				$this->secureRandom,
 				$this->currentUser,
 			])->onlyMethods(['formatShare'])
 			->getMock();
@@ -2065,6 +2092,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->appName,
 				$this->request,
 				$this->shareManager,
+				$this->otpManager,
 				$this->groupManager,
 				$this->userManager,
 				$this->rootFolder,
@@ -2083,6 +2111,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->tagManager,
 				$this->getEmailValidatorWithStrictEmailCheck(),
 				$this->trustedServers,
+				$this->secureRandom,
 				$this->currentUser,
 			])->onlyMethods(['formatShare'])
 			->getMock();
@@ -2314,12 +2343,63 @@ class ShareAPIControllerTest extends TestCase {
 				&& $share->getPermissions() === Constants::PERMISSION_READ // publicUpload was set to false
 				&& $share->getSharedBy() === 'currentUser'
 				&& $share->getPassword() === 'password'
+				&& $share->isPasswordProtected()
 				&& $share->getExpirationDate() === null;
 			})
 		)->willReturnArgument(0);
 
 		$expected = new DataResponse([]);
 		$result = $ocs->createShare('valid-path', Constants::PERMISSION_READ, IShare::TYPE_LINK, null, 'false', 'password', null, '');
+
+		$this->assertInstanceOf(get_class($expected), $result);
+		$this->assertEquals($expected->getData(), $result->getData());
+	}
+
+	#[\PHPUnit\Framework\Attributes\Group(name: 'OTP')]
+	public function testCreateShareLinkOTP(): void {
+		$ocs = $this->mockFormatShare();
+
+		$path = $this->getMockBuilder(Folder::class)->getMock();
+		$path->method('getId')->willReturn(42);
+		$storage = $this->createMock(IStorage::class);
+		$storage->method('instanceOfStorage')
+			->willReturnMap([
+				['OCA\Files_Sharing\External\Storage', false],
+				['OCA\Files_Sharing\SharedStorage', false],
+			]);
+		$path->method('getStorage')->willReturn($storage);
+		$this->rootFolder->method('getUserFolder')->with($this->currentUser)->willReturnSelf();
+		$this->rootFolder->method('get')->with('valid-path')->willReturn($path);
+		$this->rootFolder->method('getById')
+			->willReturn([]);
+
+		$this->shareManager->method('newShare')->willReturn(Server::get(IManager::class)->newShare());
+		$this->shareManager->method('shareApiAllowLinks')->willReturn(true);
+		$this->shareManager->method('shareApiLinkAllowPublicUpload')->willReturn(true);
+
+		$this->shareManager->expects($this->once())->method('createShare')->with(
+			$this->callback(function (IShare $share) use ($path) {
+				return $share->getNode() === $path
+					&& $share->getShareType() === IShare::TYPE_LINK
+					&& $share->getPermissions() === Constants::PERMISSION_READ // publicUpload was set to false
+					&& $share->getSharedBy() === 'currentUser'
+					&& $share->getPassword() === 'randomPassword' // is set to random value due to OTP
+					&& $share->getOneTimePassword()?->getProviderId() === 'mock'
+					&& $share->getOneTimePassword()?->getRecipient() === 'recipient'
+					&& $share->isPasswordProtected()
+					&& $share->getExpirationDate() === null;
+			})
+		)->willReturnCallback(function (IShare $share) {
+			return $share->setId(1)->setShareTime(new \DateTime());
+		});
+		$this->secureRandom->method('generate')->willReturn('randomPassword');
+		$this->otpManager->expects($this->once())
+			->method('createOTP')
+			->with('mock', 'recipient')
+			->willReturn((new OneTimePassword('mock', 'recipient'))->setId(5));
+
+		$expected = new DataResponse([]);
+		$result = $ocs->createShare('valid-path', Constants::PERMISSION_READ, IShare::TYPE_LINK, null, 'false', '', null, '', '', '', null, null, 'mock', 'recipient');
 
 		$this->assertInstanceOf(get_class($expected), $result);
 		$this->assertEquals($expected->getData(), $result->getData());
@@ -2488,6 +2568,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->appName,
 				$this->request,
 				$this->shareManager,
+				$this->otpManager,
 				$this->groupManager,
 				$this->userManager,
 				$this->rootFolder,
@@ -2506,6 +2587,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->tagManager,
 				$this->getEmailValidatorWithStrictEmailCheck(),
 				$this->trustedServers,
+				$this->secureRandom,
 				$this->currentUser,
 			])->onlyMethods(['formatShare'])
 			->getMock();
@@ -2562,6 +2644,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->appName,
 				$this->request,
 				$this->shareManager,
+				$this->otpManager,
 				$this->groupManager,
 				$this->userManager,
 				$this->rootFolder,
@@ -2580,6 +2663,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->tagManager,
 				$this->getEmailValidatorWithStrictEmailCheck(),
 				$this->trustedServers,
+				$this->secureRandom,
 				$this->currentUser,
 			])->onlyMethods(['formatShare'])
 			->getMock();
@@ -2783,6 +2867,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->appName,
 				$this->request,
 				$this->shareManager,
+				$this->otpManager,
 				$this->groupManager,
 				$this->userManager,
 				$this->rootFolder,
@@ -2801,6 +2886,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->tagManager,
 				$this->getEmailValidatorWithStrictEmailCheck(),
 				$this->trustedServers,
+				$this->secureRandom,
 				$this->currentUser,
 			])->onlyMethods(['formatShare'])
 			->getMock();
@@ -2936,7 +3022,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager->expects($this->once())->method('updateShare')->with(
 			$this->callback(function (IShare $share) {
 				return $share->getPermissions() === Constants::PERMISSION_READ
-				&& $share->getPassword() === null
+				&& !$share->isPasswordProtected()
 				&& $share->getExpirationDate() === null
 				// Once set a note or a label are never back to null, only to an
 				// empty string.
@@ -4110,6 +4196,8 @@ class ShareAPIControllerTest extends TestCase {
 				'mount-type' => '',
 				'attributes' => '[{"scope":"permissions","key":"download","value":true}]',
 				'item_permissions' => 1,
+				'otp_provider' => null,
+				'otp_recipient' => null
 			],
 			$share,
 			[], false
@@ -4153,6 +4241,8 @@ class ShareAPIControllerTest extends TestCase {
 				'mount-type' => '',
 				'attributes' => '[{"scope":"permissions","key":"download","value":true}]',
 				'item_permissions' => 1,
+				'otp_provider' => null,
+				'otp_recipient' => null
 			], $share, [
 				['owner', $owner],
 				['initiator', $initiator],
@@ -4209,6 +4299,8 @@ class ShareAPIControllerTest extends TestCase {
 				'mount-type' => '',
 				'attributes' => null,
 				'item_permissions' => 1,
+				'otp_provider' => null,
+				'otp_recipient' => null
 			], $share, [], false
 		];
 
@@ -4254,6 +4346,8 @@ class ShareAPIControllerTest extends TestCase {
 				'mount-type' => '',
 				'attributes' => null,
 				'item_permissions' => 11,
+				'otp_provider' => null,
+				'otp_recipient' => null
 			], $share, [], false
 		];
 
@@ -4304,6 +4398,8 @@ class ShareAPIControllerTest extends TestCase {
 				'mount-type' => '',
 				'attributes' => null,
 				'item_permissions' => 1,
+				'otp_provider' => null,
+				'otp_recipient' => null
 			], $share, [], false
 		];
 
@@ -4347,6 +4443,8 @@ class ShareAPIControllerTest extends TestCase {
 				'mount-type' => '',
 				'attributes' => null,
 				'item_permissions' => 1,
+				'otp_provider' => null,
+				'otp_recipient' => null
 			], $share, [], false
 		];
 
@@ -4359,6 +4457,7 @@ class ShareAPIControllerTest extends TestCase {
 			'expirationDate' => new \DateTime('2001-01-02T00:00:00'),
 			'token' => 'myToken',
 			'label' => 'new link share',
+			'otp' => new OneTimePassword('mock', 'recipient')
 		];
 
 		$result[] = [
@@ -4402,6 +4501,8 @@ class ShareAPIControllerTest extends TestCase {
 				'mount-type' => '',
 				'attributes' => null,
 				'item_permissions' => 1,
+				'otp_provider' => 'mock',
+				'otp_recipient' => 'recipient'
 			], $share, [], false
 		];
 
@@ -4447,6 +4548,8 @@ class ShareAPIControllerTest extends TestCase {
 				'mount-type' => '',
 				'attributes' => null,
 				'item_permissions' => 1,
+				'otp_provider' => 'mock',
+				'otp_recipient' => 'recipient'
 			], $share, [], false
 		];
 
@@ -4497,6 +4600,8 @@ class ShareAPIControllerTest extends TestCase {
 				'attributes' => null,
 				'item_permissions' => 1,
 				'is_trusted_server' => false,
+				'otp_provider' => null,
+				'otp_recipient' => null
 			], $share, [], false
 		];
 
@@ -4547,6 +4652,8 @@ class ShareAPIControllerTest extends TestCase {
 				'attributes' => null,
 				'item_permissions' => 1,
 				'is_trusted_server' => false,
+				'otp_provider' => null,
+				'otp_recipient' => null
 			], $share, [], false
 		];
 
@@ -4599,6 +4706,8 @@ class ShareAPIControllerTest extends TestCase {
 				'mount-type' => '',
 				'attributes' => null,
 				'item_permissions' => 1,
+				'otp_provider' => null,
+				'otp_recipient' => null
 			], $share, [], false
 		];
 
@@ -4648,6 +4757,8 @@ class ShareAPIControllerTest extends TestCase {
 				'mount-type' => '',
 				'attributes' => null,
 				'item_permissions' => 1,
+				'otp_provider' => null,
+				'otp_recipient' => null
 			], $share, [], false
 		];
 
@@ -4697,6 +4808,8 @@ class ShareAPIControllerTest extends TestCase {
 				'mount-type' => '',
 				'attributes' => null,
 				'item_permissions' => 1,
+				'otp_provider' => null,
+				'otp_recipient' => null
 			], $share, [], false
 		];
 
@@ -4760,6 +4873,8 @@ class ShareAPIControllerTest extends TestCase {
 				'mount-type' => '',
 				'attributes' => null,
 				'item_permissions' => 1,
+				'otp_provider' => null,
+				'otp_recipient' => null
 			], $share, [], false
 		];
 
@@ -4805,6 +4920,8 @@ class ShareAPIControllerTest extends TestCase {
 				'mount-type' => '',
 				'attributes' => null,
 				'item_permissions' => 1,
+				'otp_provider' => null,
+				'otp_recipient' => null
 			], $share, [], false
 		];
 
@@ -4855,6 +4972,8 @@ class ShareAPIControllerTest extends TestCase {
 				'mount-type' => '',
 				'attributes' => null,
 				'item_permissions' => 11,
+				'otp_provider' => null,
+				'otp_recipient' => null
 			], $share, [], false
 		];
 
@@ -4862,6 +4981,7 @@ class ShareAPIControllerTest extends TestCase {
 	}
 
 	#[DataProvider(methodName: 'dataFormatShare')]
+	#[\PHPUnit\Framework\Attributes\Group(name: 'OTP')]
 	public function testFormatShare(
 		array $expects,
 		array $shareParams,
@@ -4885,6 +5005,7 @@ class ShareAPIControllerTest extends TestCase {
 			->setShareOwner($shareParams['owner'])
 			->setPermissions(Constants::PERMISSION_READ)
 			->setShareTime(new \DateTime('2000-01-01T00:01:02'))
+			->setOneTimePassword($shareParams['otp'] ?? null)
 			->setTarget('myTarget')
 			->setId(42);
 		if (isset($shareParams['sharedWith'])) {
@@ -5064,6 +5185,8 @@ class ShareAPIControllerTest extends TestCase {
 				'mount-type' => '',
 				'attributes' => null,
 				'item_permissions' => 1,
+				'otp_provider' => null,
+				'otp_recipient' => null
 			], false, []
 		];
 
@@ -5104,6 +5227,8 @@ class ShareAPIControllerTest extends TestCase {
 				'mount-type' => '',
 				'attributes' => null,
 				'item_permissions' => 9,
+				'otp_provider' => null,
+				'otp_recipient' => null
 			], true, [
 				'share_with_displayname' => 'recipientRoomName'
 			]

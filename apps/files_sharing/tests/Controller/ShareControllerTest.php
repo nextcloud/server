@@ -43,6 +43,7 @@ use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\OneTimePassword\IManager as IOTPManager;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
@@ -80,12 +81,14 @@ class ShareControllerTest extends \Test\TestCase {
 	private IEventDispatcher&MockObject $eventDispatcher;
 	private FederatedShareProvider&MockObject $federatedShareProvider;
 	private IPublicShareTemplateFactory&MockObject $publicShareTemplateFactory;
+	private IOTPManager $otpManager;
 
 	protected function setUp(): void {
 		parent::setUp();
 		$this->appName = 'files_sharing';
 
 		$this->shareManager = $this->createMock(Manager::class);
+		$this->otpManager = $this->createMock(IOTPManager::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->session = $this->createMock(ISession::class);
 		$this->previewManager = $this->createMock(IPreview::class);
@@ -144,6 +147,7 @@ class ShareControllerTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->defaults,
 			$this->publicShareTemplateFactory,
+			$this->otpManager,
 		);
 
 		// Store current user

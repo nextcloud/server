@@ -54,6 +54,17 @@ return [
 			'verb' => 'POST',
 		],
 		[
+			'name' => 'ShareOTP#request',
+			'url' => '/s/{token}/requestotp',
+			'verb' => 'GET',
+			'root' => '',
+		],
+		[
+			'name' => 'ShareOTP#listProviders',
+			'url' => '/otp-providers',
+			'verb' => 'GET',
+		],
+		[
 			'name' => 'Settings#setDefaultAccept',
 			'url' => '/settings/defaultAccept',
 			'verb' => 'PUT',

@@ -24,6 +24,7 @@ use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\OneTimePassword\IManager as IOTPManager;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 use OCP\Share\IProviderFactory;
@@ -95,6 +96,7 @@ class CapabilitiesTest extends \Test\TestCase {
 			$this->createMock(IDateTimeZone::class),
 			$appConfig,
 			$this->createMock(IDBConnection::class),
+			$this->createMock(IOTPManager::class),
 		);
 
 		$cap = new Capabilities($config, $appConfig, $shareManager, $appManager);

@@ -35,6 +35,8 @@ use OCP\ITagManager;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Mail\IMailer;
+use OCP\OneTimePassword\IManager as IOTPManager;
+use OCP\Security\ISecureRandom;
 use OCP\Server;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
@@ -61,6 +63,8 @@ class ApiTest extends TestCase {
 	private Folder $userFolder;
 	private string $subsubfolder;
 	protected IAppConfig&MockObject $appConfig;
+	protected IOTPManager&MockObject $otpManager;
+	protected ISecureRandom&MockObject $secureRandom;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -89,6 +93,8 @@ class ApiTest extends TestCase {
 		$this->userFolder = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER1);
 
 		$this->appConfig = $this->createMock(IAppConfig::class);
+		$this->otpManager = $this->createMock(IOTPManager::class);
+		$this->secureRandom = $this->createMock(ISecureRandom::class);
 	}
 
 	protected function tearDown(): void {
@@ -129,6 +135,7 @@ class ApiTest extends TestCase {
 			self::APP_NAME,
 			$this->getMockBuilder(IRequest::class)->getMock(),
 			$this->shareManager,
+			$this->otpManager,
 			Server::get(IGroupManager::class),
 			Server::get(IUserManager::class),
 			Server::get(IRootFolder::class),
@@ -147,6 +154,7 @@ class ApiTest extends TestCase {
 			$tagManager,
 			$this->getEmailValidatorWithStrictEmailCheck(),
 			$trustedServers,
+			$this->secureRandom,
 			$userId,
 		);
 	}
