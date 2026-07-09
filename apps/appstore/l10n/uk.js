@@ -92,7 +92,7 @@ OC.L10N.register(
     "Disable" : "Вимкнути",
     "Enable" : "Увімкнути",
     "Download and enable" : "Звантажити та увімкнути",
-    "Rate the app" : "Оцініть додаток",
+    "Rate the app" : "Оцініть застосунок",
     "Report a bug" : "Повідомити про помилку",
     "Remove" : "Вилучити",
     "Update to {version}" : "Оновити до {version}",

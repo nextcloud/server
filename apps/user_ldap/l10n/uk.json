@@ -137,7 +137,7 @@
     "More than 1,000 directory entries available." : "Доступно понад 1000 записів каталогу.",
     "When unchecked, this configuration will be skipped." : "Якщо \"галочка\" знята, ця конфігурація буде пропущена.",
     "Copy current configuration into new directory binding" : "Скопіюйте поточну конфігурацію в новий каталог",
-    "Copy configuration" : "Скопіювати конфігурацію",
+    "Copy configuration" : "Копіювати конфігурацію",
     "Delete configuration" : "Видалити конфігурацію",
     "You can omit the protocol, unless you require SSL. If so, start with ldaps://" : "Ви можете не вказувати протокол, якщо вам не потрібен SSL. Якщо так, починайте з ldaps://",
     "Host" : "Хост",
