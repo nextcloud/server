@@ -56,11 +56,6 @@ final class RestrictInteractionListener implements IEventListener {
 			}
 
 			if ($event->action->filesSharingPermissions !== null) {
-				if (($event->action->filesSharingPermissions & ~$event->resource->getNodePermissions()) !== 0) {
-					$path = $userFolder->getRelativePath($event->resource->getNode()->getPath());
-					throw new InteractionRestrictedException('Cannot share node with more permissions than the node already has.', $this->l10n->t('You cannot share "%s" with more permission than you have yourself.', [$path]));
-				}
-
 				if ($event->resource->getNode() instanceof File) {
 					if (($event->action->filesSharingPermissions & Constants::PERMISSION_DELETE) === Constants::PERMISSION_DELETE) {
 						throw new InteractionRestrictedException('Cannot share file node with delete permission.', $this->l10n->t('File cannot be shared with delete permission.'));
@@ -82,6 +77,11 @@ final class RestrictInteractionListener implements IEventListener {
 					&& ($event->action->filesSharingPermissions & (Constants::PERMISSION_CREATE | Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE)) !== 0
 					&& !$this->manager->shareApiLinkAllowPublicUpload()) {
 					throw new InteractionRestrictedException('Public upload is not allowed.', $this->l10n->t('Public upload is not allowed.'));
+				}
+
+				if (($event->action->filesSharingPermissions & ~$event->resource->getNodePermissions()) !== 0) {
+					$path = $userFolder->getRelativePath($event->resource->getNode()->getPath());
+					throw new InteractionRestrictedException('Cannot share node with more permissions than the node already has.', $this->l10n->t('You cannot share "%s" with more permission than you have yourself.', [$path]));
 				}
 			}
 		}

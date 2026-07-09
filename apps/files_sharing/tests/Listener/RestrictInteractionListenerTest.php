@@ -95,6 +95,26 @@ final class RestrictInteractionListenerTest extends TestCase {
 		}
 	}
 
+	public function testNodeResourceShareActionIncreasePermissionFileDelete(): void {
+		$userFolder = Server::get(IRootFolder::class)->getUserFolder($this->user->getUID());
+
+		$node = $userFolder->newFile('foo.txt', 'bar');
+		$node->getStorage()->getCache()->update($node->getId(), ['permissions' => Constants::PERMISSION_READ | Constants::PERMISSION_SHARE]);
+
+		$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, new NodeResource($node->getId(), $this->user->getUID(), $node), new ShareAction(Constants::PERMISSION_READ | Constants::PERMISSION_SHARE | Constants::PERMISSION_DELETE), null);
+		$this->assertEquals('File cannot be shared with delete permission.', $event->isInteractionRestricted());
+	}
+
+	public function testNodeResourceShareActionIncreasePermissionFileCreate(): void {
+		$userFolder = Server::get(IRootFolder::class)->getUserFolder($this->user->getUID());
+
+		$node = $userFolder->newFile('foo.txt', 'bar');
+		$node->getStorage()->getCache()->update($node->getId(), ['permissions' => Constants::PERMISSION_READ | Constants::PERMISSION_SHARE]);
+
+		$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, new NodeResource($node->getId(), $this->user->getUID(), $node), new ShareAction(Constants::PERMISSION_READ | Constants::PERMISSION_SHARE | Constants::PERMISSION_CREATE), null);
+		$this->assertEquals('File cannot be shared with create permission.', $event->isInteractionRestricted());
+	}
+
 	public function testNodeResourceShareActionFileHasDeletePermission(): void {
 		$userFolder = Server::get(IRootFolder::class)->getUserFolder($this->user->getUID());
 
