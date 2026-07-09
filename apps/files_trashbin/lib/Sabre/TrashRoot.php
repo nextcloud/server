@@ -14,15 +14,17 @@ use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCA\Files_Trashbin\Trashbin;
 use OCP\Files\FileInfo;
 use OCP\IUser;
+use RuntimeException;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\ICollection;
+use Sabre\DAV\INode;
 
 class TrashRoot implements ICollection {
 
 	public function __construct(
-		private IUser $user,
-		private ITrashManager $trashManager,
+		private readonly IUser $user,
+		private readonly ITrashManager $trashManager,
 	) {
 	}
 
@@ -56,12 +58,7 @@ class TrashRoot implements ICollection {
 	public function getChildren(): array {
 		$entries = $this->trashManager->listTrashRoot($this->user);
 
-		return array_map(function (ITrashItem $entry): TrashFile|TrashFolder {
-			if ($entry->getType() === FileInfo::TYPE_FOLDER) {
-				return new TrashFolder($this->trashManager, $entry);
-			}
-			return new TrashFile($this->trashManager, $entry);
-		}, $entries);
+		return array_map($this->trashItemToTrashNode(...), $entries);
 	}
 
 	public function getChild($name): ITrash {
@@ -71,10 +68,7 @@ class TrashRoot implements ICollection {
 			throw new NotFound();
 		}
 
-		if ($entry->getType() === FileInfo::TYPE_FOLDER) {
-			return new TrashFolder($this->trashManager, $entry);
-		}
-		return new TrashFile($this->trashManager, $entry);
+		return $this->trashItemToTrashNode($entry);
 	}
 
 	public function childExists($name): bool {
@@ -83,5 +77,13 @@ class TrashRoot implements ICollection {
 
 	public function getLastModified(): int {
 		return 0;
+	}
+
+	private function trashItemToTrashNode(ITrashItem $entry): ITrash&INode {
+		return match ($entry->getType()) {
+			FileInfo::TYPE_FOLDER => new TrashFolder($this->trashManager, $entry),
+			FileInfo::TYPE_FILE => new TrashFile($this->trashManager, $entry),
+			default => throw new RuntimeException("Invalid FileInfo object"),
+		};
 	}
 }
