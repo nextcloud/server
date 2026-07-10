@@ -27,6 +27,7 @@ import ApplicableEntities from './ApplicableEntities.vue'
 import AuthMechanismConfiguration from './AuthMechanismConfiguration.vue'
 import BackendConfiguration from './BackendConfiguration.vue'
 import MountOptions from './MountOptions.vue'
+import { DEFAULT_MOUNT_OPTIONS } from '../../store/storages.ts'
 
 const open = defineModel<boolean>('open', { default: true })
 
