@@ -229,9 +229,8 @@ OC.L10N.register(
     "Pick start date" : "Escolla a data de inicio",
     "Pick end date" : "Escolla a data de finalización",
     "Search in date range" : "Buscar nun intervalo de datas",
-    "Search apps, files, tags, messages …" : "Buscar aplicacións, ficheiros, etiquetas, mensaxes …",
-    "Search in current app" : "Buscar na aplicación actual",
     "Clear search" : "Limpar a busca",
+    "Search in current app" : "Buscar na aplicación actual",
     "Search everywhere" : "Buscar en todos os sitios",
     "Searching …" : "Buscando…",
     "Start typing to search" : "Comece a escribir para buscar",
@@ -242,8 +241,6 @@ OC.L10N.register(
     "This year" : "Este ano",
     "Last year" : "Último ano",
     "Between {startDate} and {endDate}" : "Entre {startDate} e {endDate}",
-    "Unified search" : "Busca unificada",
-    "Search apps, files, tags, messages" : "Buscar aplicacións, ficheiros, etiquetas, mensaxes",
     "Places" : "Lugares",
     "Date" : "Data",
     "Search people" : "Buscar persoas",
@@ -516,6 +513,8 @@ OC.L10N.register(
     "Applications menu" : "Menú de aplicacións",
     "Searching …" : "Buscando…",
     "Minimum search length is {minSearchLength} characters" : "A lonxitude mínima da busca é de {minSearchLength} caracteres",
+    "Unified search" : "Busca unificada",
+    "Search apps, files, tags, messages" : "Buscar aplicacións, ficheiros, etiquetas, mensaxes",
     "Logging in …" : "Accedendo…",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Detectamos varias tentativas de acceso non válidas desde o seu IP. Por mor diso, o seu próximo acceso estará limitado a 30 segundos",
     "Loading apps …" : "Cargando aplicacións…",
@@ -565,6 +564,7 @@ OC.L10N.register(
     "Too many incorrect login attempts. Please try again in 30 seconds." : "Demasiados intentos de acceso incorrectos. Ténteo de novo en 30 segundos.",
     "Groups" : "Grupos",
     "Group list is empty" : "A lista de grupos está baleira",
-    "Unable to retrieve the group list" : "Non é posíbel recuperar a lista de grupos"
+    "Unable to retrieve the group list" : "Non é posíbel recuperar a lista de grupos",
+    "Search apps, files, tags, messages …" : "Buscar aplicacións, ficheiros, etiquetas, mensaxes …"
 },
 "nplurals=2; plural=(n != 1);");

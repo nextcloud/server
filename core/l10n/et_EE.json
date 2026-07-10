@@ -237,9 +237,8 @@
     "Pick start date" : "Vali algkuupäev",
     "Pick end date" : "Vali lõppkuupäev",
     "Search in date range" : "Otsi kuupäevavahemikust",
-    "Search apps, files, tags, messages …" : "Otsi rakendusi, faile, silte, sõnumeid…",
-    "Search in current app" : "Otsi sellest rakendusest",
     "Clear search" : "Tühjenda otsing",
+    "Search in current app" : "Otsi sellest rakendusest",
     "Search everywhere" : "Otsi kõikjalt",
     "Searching …" : "Otsin...",
     "Start typing to search" : "Otsimiseks alusta kirjutamist",
@@ -251,8 +250,6 @@
     "This year" : "Sel aastal",
     "Last year" : "Eelmisel aastal",
     "Between {startDate} and {endDate}" : "Ajavahemikus {startDate} kuni {endDate}",
-    "Unified search" : "Ühendatud otsing",
-    "Search apps, files, tags, messages" : "Otsi rakendusi, faile, silte, sõnumeid",
     "Places" : "Kohad",
     "Date" : "Kuupäev",
     "Search people" : "Otsi inimesi",
@@ -528,6 +525,8 @@
     "Applications menu" : "Rakenduste menüü",
     "Searching …" : "Otsin...",
     "Minimum search length is {minSearchLength} characters" : "Otsingusõna väikseim pikkus on {minSearchLength} tähemärki",
+    "Unified search" : "Ühendatud otsing",
+    "Search apps, files, tags, messages" : "Otsi rakendusi, faile, silte, sõnumeid",
     "Logging in …" : "Sisselogimisel...",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Me tuvastasime sinu IP-aadressilt palju ebaõnnestunud sisselogimiskatseid. Seetõttu on su järgmine sisselogimine ootel kuni 30 sekundit.",
     "Loading apps …" : "Laadin rakendusi…",
@@ -577,6 +576,7 @@
     "Too many incorrect login attempts. Please try again in 30 seconds." : "Liiga palju vigaseid sisselogimiskatseid. Palun proovi uuesti 30 sekundi pärast.",
     "Groups" : "Grupid",
     "Group list is empty" : "Gruppide loend on tühi",
-    "Unable to retrieve the group list" : "Gruppide loendi pärimine ebaõnnestus"
+    "Unable to retrieve the group list" : "Gruppide loendi pärimine ebaõnnestus",
+    "Search apps, files, tags, messages …" : "Otsi rakendusi, faile, silte, sõnumeid…"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

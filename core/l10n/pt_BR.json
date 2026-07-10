@@ -237,9 +237,8 @@
     "Pick start date" : "Escolha uma data de início",
     "Pick end date" : "Escolha uma data de fim",
     "Search in date range" : "Pesquisar neste intervalo",
-    "Search apps, files, tags, messages …" : "Pesquisar aplicativos, arquivos, etiquetas, mensagens …",
-    "Search in current app" : "Pesquisar no aplicativo atual",
     "Clear search" : "Limpar pesquisa",
+    "Search in current app" : "Pesquisar no aplicativo atual",
     "Search everywhere" : "Pesquisar em qualquer lugar",
     "Searching …" : "Pesquisando …",
     "Start typing to search" : "Comece a digitar para pesquisar",
@@ -251,8 +250,6 @@
     "This year" : "Este ano",
     "Last year" : "Último ano",
     "Between {startDate} and {endDate}" : "Entre {startDate} e {endDate}",
-    "Unified search" : "Pesquisa unificada",
-    "Search apps, files, tags, messages" : "Pesquise aplicativos, arquivos, etiquetas, mensagens",
     "Places" : "Lugares",
     "Date" : "Data",
     "Search people" : "Pesquise pessoas",
@@ -528,6 +525,8 @@
     "Applications menu" : "Menu de aplicativos",
     "Searching …" : "Pesquisando …",
     "Minimum search length is {minSearchLength} characters" : "O comprimento mínimo da pesquisa é de {minSearchLength} caracteres.",
+    "Unified search" : "Pesquisa unificada",
+    "Search apps, files, tags, messages" : "Pesquise aplicativos, arquivos, etiquetas, mensagens",
     "Logging in …" : "Entrando …",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Detectamos várias tentativas de login inválidas de seu IP. Portanto, seu próximo login será desacelerado em até 30 segundos.",
     "Loading apps …" : "Carregando aplicativos...",
@@ -577,6 +576,7 @@
     "Too many incorrect login attempts. Please try again in 30 seconds." : "Muitas tentativas de login incorretas. Por favor, tente novamente em 30 segundos.",
     "Groups" : "Grupos",
     "Group list is empty" : "A lista de grupos está vazia",
-    "Unable to retrieve the group list" : "Não é possível recuperar a lista de grupos"
+    "Unable to retrieve the group list" : "Não é possível recuperar a lista de grupos",
+    "Search apps, files, tags, messages …" : "Pesquisar aplicativos, arquivos, etiquetas, mensagens …"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

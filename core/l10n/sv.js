@@ -229,9 +229,8 @@ OC.L10N.register(
     "Pick start date" : "Välj startdatum",
     "Pick end date" : "Välj slutdatum",
     "Search in date range" : "Sök i datumintervall",
-    "Search apps, files, tags, messages …" : "Sök efter appar, filer, taggar, meddelanden …",
-    "Search in current app" : "Sök i nuvarande app",
     "Clear search" : "Rensa sökning",
+    "Search in current app" : "Sök i nuvarande app",
     "Search everywhere" : "Sök överallt",
     "Searching …" : "Söker …",
     "Start typing to search" : "Börja skriva för att söka",
@@ -242,8 +241,6 @@ OC.L10N.register(
     "This year" : "Det här året",
     "Last year" : "Förra året",
     "Between {startDate} and {endDate}" : "Mellan {startDate} och {endDate}",
-    "Unified search" : "Enhetlig sökning",
-    "Search apps, files, tags, messages" : "Sök efter appar, filer, taggar, meddelanden",
     "Places" : "Platser",
     "Date" : "Datum",
     "Search people" : "Sök efter användare",
@@ -516,6 +513,8 @@ OC.L10N.register(
     "Applications menu" : "Appmeny",
     "Searching …" : "Söker ...",
     "Minimum search length is {minSearchLength} characters" : "Minsta söklängd är {minSearchLength} tecken",
+    "Unified search" : "Enhetlig sökning",
+    "Search apps, files, tags, messages" : "Sök efter appar, filer, taggar, meddelanden",
     "Logging in …" : "Loggar in ...",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Vi har upptäckt flera felaktiga inloggningsförsök från din IP-adress. Ditt nästa inloggningsförsök kommer därför att fördröjas med upp till 30 sekunder.",
     "Loading apps …" : "Läser in appar …",
@@ -565,6 +564,7 @@ OC.L10N.register(
     "Too many incorrect login attempts. Please try again in 30 seconds." : "För många felaktiga inloggningsförsök. Försök igen om 30 sekunder.",
     "Groups" : "Grupper",
     "Group list is empty" : "Grupplistan är tom",
-    "Unable to retrieve the group list" : "Kan inte hämta grupplistan"
+    "Unable to retrieve the group list" : "Kan inte hämta grupplistan",
+    "Search apps, files, tags, messages …" : "Sök efter appar, filer, taggar, meddelanden …"
 },
 "nplurals=2; plural=(n != 1);");

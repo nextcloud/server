@@ -231,9 +231,8 @@ OC.L10N.register(
     "Pick start date" : "Vybrat datum začátku",
     "Pick end date" : "Vybrat datum konce",
     "Search in date range" : "Hledat v období",
-    "Search apps, files, tags, messages …" : "Hledat aplikace, soubory, štítky, zprávy …",
-    "Search in current app" : "Hledat ve stávající aplikaci",
     "Clear search" : "Vyčistit hledání",
+    "Search in current app" : "Hledat ve stávající aplikaci",
     "Search everywhere" : "Hledat všude",
     "Searching …" : "Hledání …",
     "Start typing to search" : "Hledejte psaním",
@@ -245,8 +244,6 @@ OC.L10N.register(
     "This year" : "Tento rok",
     "Last year" : "Uplynulý rok",
     "Between {startDate} and {endDate}" : "Mezi {startDate} a {endDate}",
-    "Unified search" : "Sjednocené vyhledávání",
-    "Search apps, files, tags, messages" : "Prohledat aplikace, soubory, štítky a zprávy",
     "Places" : "Místa",
     "Date" : "Datum",
     "Search people" : "Hledat osoby",
@@ -522,6 +519,8 @@ OC.L10N.register(
     "Applications menu" : "Nabídka aplikací",
     "Searching …" : "Hledání …",
     "Minimum search length is {minSearchLength} characters" : "Nejkratší možná délka vyhledávaného řetězce je {minSearchLength} znaků",
+    "Unified search" : "Sjednocené vyhledávání",
+    "Search apps, files, tags, messages" : "Prohledat aplikace, soubory, štítky a zprávy",
     "Logging in …" : "Přihlašování …",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Bylo rozpoznáno několik neplatných pokusů o přihlášeni z vaší IP adresy. Další přihlášení bude možné za 30 sekund.",
     "Loading apps …" : "Načítání aplikací …",
@@ -571,6 +570,7 @@ OC.L10N.register(
     "Too many incorrect login attempts. Please try again in 30 seconds." : "Příliš mnoho nesprávných pokusů o přihlášení. Zkuste to znovu za 30 sekund.",
     "Groups" : "Skupiny",
     "Group list is empty" : "Seznam skupin je prázdný.",
-    "Unable to retrieve the group list" : "Nedaří se získat seznam skupiny"
+    "Unable to retrieve the group list" : "Nedaří se získat seznam skupiny",
+    "Search apps, files, tags, messages …" : "Hledat aplikace, soubory, štítky, zprávy …"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

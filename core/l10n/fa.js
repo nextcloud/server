@@ -229,9 +229,8 @@ OC.L10N.register(
     "Pick start date" : "انتخاب تاریخ شروع",
     "Pick end date" : "انتخاب تاریخ پایان",
     "Search in date range" : "جستجو در بازه زمانی",
-    "Search apps, files, tags, messages …" : "جستجوی برنامه‌ها، فایل‌ها، برچسب‌ها، پیام‌ها...",
-    "Search in current app" : "جستجو در برنامه فعلی",
     "Clear search" : "پاک کردن جستجو",
+    "Search in current app" : "جستجو در برنامه فعلی",
     "Search everywhere" : "جستجو در همه جا",
     "Searching …" : "در حال جستجو...",
     "Start typing to search" : "برای جستجو تایپ کنید",
@@ -242,8 +241,6 @@ OC.L10N.register(
     "This year" : "امسال",
     "Last year" : "سال گذشته",
     "Between {startDate} and {endDate}" : "بین {startDate} و {endDate}",
-    "Unified search" : "جستجوی یکپارچه",
-    "Search apps, files, tags, messages" : "جستجوی برنامه‌ها، فایل‌ها، برچسب‌ها، پیام‌ها",
     "Places" : "مکان‌ها",
     "Date" : "تاریخ",
     "Search people" : "جستجوی افراد",
@@ -516,6 +513,8 @@ OC.L10N.register(
     "Applications menu" : "منوی برنامه‌ها",
     "Searching …" : "در حال جستجو …",
     "Minimum search length is {minSearchLength} characters" : "حداقل طول جستجو {minSearchLength} کاراکتر است",
+    "Unified search" : "جستجوی یکپارچه",
+    "Search apps, files, tags, messages" : "جستجوی برنامه‌ها، فایل‌ها، برچسب‌ها، پیام‌ها",
     "Logging in …" : "در حال ورود …",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "ما تلاش‌های ناموفق ورود متعددی از IP شما شناسایی کرده‌ایم. بنابراین ورود بعدی شما تا ۳۰ ثانیه محدود می‌شود.",
     "Loading apps …" : "در حال بارگذاری برنامه‌ها …",
@@ -565,6 +564,7 @@ OC.L10N.register(
     "Too many incorrect login attempts. Please try again in 30 seconds." : "تعداد تلاش‌های ناموفق برای ورود زیاد است. لطفاً ۳۰ ثانیه دیگر دوباره تلاش کنید.",
     "Groups" : "گروه‌ها",
     "Group list is empty" : "لیست گروه خالی است",
-    "Unable to retrieve the group list" : "امکان دریافت لیست گروه وجود ندارد"
+    "Unable to retrieve the group list" : "امکان دریافت لیست گروه وجود ندارد",
+    "Search apps, files, tags, messages …" : "جستجوی برنامه‌ها، فایل‌ها، برچسب‌ها، پیام‌ها..."
 },
 "nplurals=2; plural=(n > 1);");

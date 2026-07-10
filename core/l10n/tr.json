@@ -227,9 +227,8 @@
     "Pick start date" : "Başlangıç tarihini seçin",
     "Pick end date" : "Bitiş tarihini seçin",
     "Search in date range" : "Tarih aralığında ara",
-    "Search apps, files, tags, messages …" : "Uygulama, dosya, etiket, ileti ara…",
-    "Search in current app" : "Geçerli uygulamada ara",
     "Clear search" : "Aramayı temizle",
+    "Search in current app" : "Geçerli uygulamada ara",
     "Search everywhere" : "Her yerde ara",
     "Searching …" : "Aranıyor…",
     "Start typing to search" : "Aramak için yazmaya başlayın",
@@ -240,8 +239,6 @@
     "This year" : "Bu yıl",
     "Last year" : "Önceki yıl",
     "Between {startDate} and {endDate}" : "{startDate} ile {endDate} arasında",
-    "Unified search" : "Birleşik arama",
-    "Search apps, files, tags, messages" : "Uygulama, dosya, etiket, ileti ara",
     "Places" : "Yerler",
     "Date" : "Tarih",
     "Search people" : "Kişi ara",
@@ -514,6 +511,8 @@
     "Applications menu" : "Uygulamalar menüsü",
     "Searching …" : "Aranıyor…",
     "Minimum search length is {minSearchLength} characters" : "En az {minSearchLength} karakter ile arama yapılabilir ",
+    "Unified search" : "Birleşik arama",
+    "Search apps, files, tags, messages" : "Uygulama, dosya, etiket, ileti ara",
     "Logging in …" : "Oturum açılıyor …",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "IP adresinizden yapılan birden çok geçersiz oturum açma girişimi algılandı. Bu nedenle oturum açmanız 30 saniye süreyle engellendi.",
     "Loading apps …" : "Uygulamalar yükleniyor …",
@@ -563,6 +562,7 @@
     "Too many incorrect login attempts. Please try again in 30 seconds." : "Çok sayıda başarısız oturum açma denemesi yapıldı. Lütfen 30 saniye sonra yeniden deneyin.",
     "Groups" : "Gruplar",
     "Group list is empty" : "Grup listesi boş",
-    "Unable to retrieve the group list" : "Grup listesi alınamadı"
+    "Unable to retrieve the group list" : "Grup listesi alınamadı",
+    "Search apps, files, tags, messages …" : "Uygulama, dosya, etiket, ileti ara…"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
