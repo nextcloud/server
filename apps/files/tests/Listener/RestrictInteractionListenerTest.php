@@ -53,7 +53,7 @@ final class RestrictInteractionListenerTest extends TestCase {
 		$folderNode->getStorage()->getCache()->update($folderNode->getId(), ['permissions' => Constants::PERMISSION_ALL & ~Constants::PERMISSION_READ]);
 
 		foreach ([$fileNode, $folderNode] as $node) {
-			$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, new NodeResource($node->getId(), $this->user->getUID(), $node), null, null);
+			$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, [new NodeResource($node->getId(), $this->user->getUID(), $node)], null, []);
 			$this->assertEquals('No read permission on file.', $event->isInteractionRestricted());
 		}
 	}

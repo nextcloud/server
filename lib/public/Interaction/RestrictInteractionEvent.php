@@ -19,8 +19,8 @@ use OCP\Server;
 use RuntimeException;
 
 /**
- * This event can be emitted to check if a user is allowed to perform an action, such that the receiver would become aware of the resource.
- * If the resource has a distinction between an owner and a initiator, the event must be emitted for both.
+ * This event can be emitted to check if a user is allowed to perform an action, such that the receivers would become aware of the resources.
+ * If the resources have a distinction between an owner and a initiator, the event must be emitted for each separately.
  * Emitters may omit one or multiple properties, if they are not known.
  * Emitters must call {@see isInteractionRestricted} instead of dispatching the event manually, to ensure exception handling and audit logging is done correctly.
  * Listeners may ignore any of the properties and only check the ones that are relevant to them.
@@ -36,9 +36,11 @@ final class RestrictInteractionEvent extends Event {
 	public function __construct(
 		public readonly string $userId,
 		private ?IUser $user,
-		public readonly ?InteractionResource $resource,
+		/** @var list<InteractionResource> $resources */
+		public readonly array $resources,
 		public readonly ?InteractionAction $action,
-		public readonly ?InteractionReceiver $receiver,
+		/** @var list<InteractionReceiver> $receivers */
+		public readonly array $receivers,
 	) {
 		parent::__construct();
 	}
@@ -69,22 +71,22 @@ final class RestrictInteractionEvent extends Event {
 		$params = [
 			$this->action instanceof InteractionAction ? $this->action::class : '?',
 			$this->userId,
-			$this->resource?->getID() ?? '?',
-			$this->receiver?->getID() ?? '?',
+			$this->resources === [] ? '?' : implode(', ', array_map(static fn (InteractionResource $resource): string => $resource->getID(), $this->resources)),
+			$this->receivers === [] ? '?' : implode(', ', array_map(static fn (InteractionReceiver $receiver): string => $receiver->getID() ?? $receiver::class, $this->receivers)),
 		];
 
 		try {
 			$eventDispatcher->dispatchTyped($this);
 
 			$eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
-				'Interaction "%s" from user "%s" on "%s" to "%s" is allowed.',
+				'Interaction %s from user %s on %s to %s is allowed.',
 				$params,
 			));
 
 			return false;
 		} catch (InteractionRestrictedException $interactionRestrictedException) {
 			$eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
-				'Interaction "%s" from user "%s" on "%s" to "%s" is restricted: ' . $interactionRestrictedException->getMessage(),
+				'Interaction %s from user %s on %s to %s is restricted: ' . $interactionRestrictedException->getMessage(),
 				$params,
 			));
 

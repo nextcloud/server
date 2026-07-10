@@ -55,24 +55,34 @@ final class RestrictInteractionEventTest extends TestCase {
 			->method('getUID')
 			->willReturn('my-uid');
 
-		$resource = $this->createMock(InteractionResource::class);
-		$resource
+		$resource1 = $this->createMock(InteractionResource::class);
+		$resource1
 			->method('getID')
-			->willReturn('my-resource');
+			->willReturn('my-resource1');
+
+		$resource2 = $this->createMock(InteractionResource::class);
+		$resource2
+			->method('getID')
+			->willReturn('my-resource2');
 
 		$action = $this->createStub(InteractionAction::class);
 
-		$receiver = $this->createMock(InteractionReceiver::class);
-		$receiver
+		$receiver1 = $this->createMock(InteractionReceiver::class);
+		$receiver1
 			->method('getID')
-			->willReturn('my-receiver');
+			->willReturn('my-receiver1');
+
+		$receiver2 = $this->createMock(InteractionReceiver::class);
+		$receiver2
+			->method('getID')
+			->willReturn('my-receiver2');
 
 		$event = new RestrictInteractionEvent(
 			$user->getUID(),
 			$user,
-			$resource,
+			[$resource1, $resource2],
 			$action,
-			$receiver,
+			[$receiver1, $receiver2],
 		);
 
 		if ($isRestricted) {
@@ -84,13 +94,13 @@ final class RestrictInteractionEventTest extends TestCase {
 		$this->assertEquals([
 			new CriticalActionPerformedEvent(
 				$isRestricted
-					? 'Interaction "%s" from user "%s" on "%s" to "%s" is restricted: my restriction message'
-					: 'Interaction "%s" from user "%s" on "%s" to "%s" is allowed.',
+					? 'Interaction %s from user %s on %s to %s is restricted: my restriction message'
+					: 'Interaction %s from user %s on %s to %s is allowed.',
 				[
 					$action::class,
 					'my-uid',
-					'my-resource',
-					'my-receiver',
+					'my-resource1, my-resource2',
+					'my-receiver1, my-receiver2',
 				],
 			),
 		], $auditEvents);

@@ -257,7 +257,7 @@ class Manager implements IManager {
 
 		foreach ($users as $user) {
 			$resource = new NodeResource($share->getNodeId(), $user->getUID());
-			$event = new RestrictInteractionEvent($user->getUID(), $user, $resource, $action, $receiver);
+			$event = new RestrictInteractionEvent($user->getUID(), $user, [$resource], $action, [$receiver]);
 			try {
 				$isRestricted = $event->isInteractionRestricted();
 				if ($isRestricted !== false) {

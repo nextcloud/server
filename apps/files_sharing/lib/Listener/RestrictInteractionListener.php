@@ -45,43 +45,47 @@ final class RestrictInteractionListener implements IEventListener {
 	 */
 	#[\Override]
 	public function handle(Event $event): void {
-		if ($event->resource instanceof NodeResource && $event->action instanceof ShareAction) {
-			if (!$event->resource->getNode()->isShareable()) {
-				throw new InteractionRestrictedException('Node is not shareable.', $this->l10n->t('You are not allowed to share "%s".', [$event->resource->getNode()->getName()]));
-			}
+		foreach ($event->resources as $resource) {
+			if ($resource instanceof NodeResource && $event->action instanceof ShareAction) {
+				if (!$resource->getNode()->isShareable()) {
+					throw new InteractionRestrictedException('Node is not shareable.', $this->l10n->t('You are not allowed to share "%s".', [$resource->getNode()->getName()]));
+				}
 
-			$userFolder = $this->rootFolder->getUserFolder($event->userId);
-			if ($event->resource->nodeId === $userFolder->getId()) {
-				throw new InteractionRestrictedException('Cannot share home folder node.', $this->l10n->t('You cannot share your home folder.'));
-			}
+				$userFolder = $this->rootFolder->getUserFolder($event->userId);
+				if ($resource->nodeId === $userFolder->getId()) {
+					throw new InteractionRestrictedException('Cannot share home folder node.', $this->l10n->t('You cannot share your home folder.'));
+				}
 
-			if ($event->action->filesSharingPermissions !== null) {
-				if ($event->resource->getNode() instanceof File) {
-					if (($event->action->filesSharingPermissions & Constants::PERMISSION_DELETE) === Constants::PERMISSION_DELETE) {
-						throw new InteractionRestrictedException('Cannot share file node with delete permission.', $this->l10n->t('File cannot be shared with delete permission.'));
+				if ($event->action->filesSharingPermissions !== null) {
+					if ($resource->getNode() instanceof File) {
+						if (($event->action->filesSharingPermissions & Constants::PERMISSION_DELETE) === Constants::PERMISSION_DELETE) {
+							throw new InteractionRestrictedException('Cannot share file node with delete permission.', $this->l10n->t('File cannot be shared with delete permission.'));
+						}
+
+						if (($event->action->filesSharingPermissions & Constants::PERMISSION_CREATE) === Constants::PERMISSION_CREATE) {
+							throw new InteractionRestrictedException('Cannot share file node with create permission.', $this->l10n->t('File cannot be shared with create permission.'));
+						}
 					}
 
-					if (($event->action->filesSharingPermissions & Constants::PERMISSION_CREATE) === Constants::PERMISSION_CREATE) {
-						throw new InteractionRestrictedException('Cannot share file node with create permission.', $this->l10n->t('File cannot be shared with create permission.'));
+					foreach ($event->receivers as $receiver) {
+						if (!$receiver instanceof LinkReceiver
+							&& !$receiver instanceof EmailReceiver
+							&& ($event->action->filesSharingPermissions & Constants::PERMISSION_READ) !== Constants::PERMISSION_READ) {
+							throw new InteractionRestrictedException('No read permission on the share.', $this->l10n->t('File share needs at least read permission.'));
+						}
+
+						if (($receiver instanceof LinkReceiver || $receiver instanceof EmailReceiver)
+							&& $resource->getNode() instanceof Folder
+							&& ($event->action->filesSharingPermissions & (Constants::PERMISSION_CREATE | Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE)) !== 0
+							&& !$this->manager->shareApiLinkAllowPublicUpload()) {
+							throw new InteractionRestrictedException('Public upload is not allowed.', $this->l10n->t('Public upload is not allowed.'));
+						}
 					}
-				}
 
-				if (!$event->receiver instanceof LinkReceiver
-					&& !$event->receiver instanceof EmailReceiver
-					&& ($event->action->filesSharingPermissions & Constants::PERMISSION_READ) !== Constants::PERMISSION_READ) {
-					throw new InteractionRestrictedException('No read permission on the share.', $this->l10n->t('File share needs at least read permission.'));
-				}
-
-				if (($event->receiver instanceof LinkReceiver || $event->receiver instanceof EmailReceiver)
-					&& $event->resource->getNode() instanceof Folder
-					&& ($event->action->filesSharingPermissions & (Constants::PERMISSION_CREATE | Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE)) !== 0
-					&& !$this->manager->shareApiLinkAllowPublicUpload()) {
-					throw new InteractionRestrictedException('Public upload is not allowed.', $this->l10n->t('Public upload is not allowed.'));
-				}
-
-				if (($event->action->filesSharingPermissions & ~$event->resource->getNodePermissions()) !== 0) {
-					$path = $userFolder->getRelativePath($event->resource->getNode()->getPath());
-					throw new InteractionRestrictedException('Cannot share node with more permissions than the node already has.', $this->l10n->t('You cannot share "%s" with more permission than you have yourself.', [$path]));
+					if (($event->action->filesSharingPermissions & ~$resource->getNodePermissions()) !== 0) {
+						$path = $userFolder->getRelativePath($resource->getNode()->getPath());
+						throw new InteractionRestrictedException('Cannot share node with more permissions than the node already has.', $this->l10n->t('You cannot share "%s" with more permission than you have yourself.', [$path]));
+					}
 				}
 			}
 		}
