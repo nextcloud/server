@@ -426,6 +426,40 @@ Feature: sharees
     And "exact emails" sharees returned is empty
     And "emails" sharees returned is empty
 
+  Scenario: Search user by system e-mail address with e-mail full match disabled
+    Given As an "test"
+    And parameter "shareapi_restrict_user_enumeration_full_match_email" of app "core" is set to "no"
+    When getting sharees for
+      | search    | sharee2@system.com |
+      | itemType  | file |
+      | shareType | 0 |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And "exact users" sharees returned is empty
+    # With enumeration allowed the user is still found as non-exact match, as
+    # enumeration also searches in the e-mail address
+    And "users" sharees returned are
+      | Sharee2 | 0 | Sharee2 | sharee2@system.com |
+    And "exact emails" sharees returned is empty
+    And "emails" sharees returned is empty
+
+  Scenario: Search user by system e-mail address with e-mail full match and user enumeration disabled
+    Given As an "test"
+    And parameter "shareapi_restrict_user_enumeration_full_match_email" of app "core" is set to "no"
+    And parameter "shareapi_allow_share_dialog_user_enumeration" of app "core" is set to "no"
+    When getting sharees for
+      | search    | sharee2@system.com |
+      | itemType  | file |
+      | shareType | 0 |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    # The user id full match must not resolve e-mail addresses through the user
+    # backends (login via e-mail address)
+    And "exact users" sharees returned is empty
+    And "users" sharees returned is empty
+    And "exact emails" sharees returned is empty
+    And "emails" sharees returned is empty
+
   Scenario: Search e-mail
     Given As an "test"
     When getting sharees for
