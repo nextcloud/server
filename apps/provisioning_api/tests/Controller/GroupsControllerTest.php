@@ -495,9 +495,9 @@ class GroupsControllerTest extends \Test\TestCase {
 			->willReturn([]);
 
 		$this->groupDisplayNameCache
-			->method('getDisplayName')
-			->with('ncg1')
-			->willReturn('Group One');
+			->method('getDisplayNames')
+			->with(['ncg1'])
+			->willReturn(['ncg1' => 'Group One']);
 
 		$result = $this->api->getGroupUsersDetails($gid);
 
@@ -550,9 +550,9 @@ class GroupsControllerTest extends \Test\TestCase {
 			->willReturn([]);
 
 		$this->groupDisplayNameCache
-			->method('getDisplayName')
-			->with('Department A/B C/D')
-			->willReturn('Department A/B C/D-name');
+			->method('getDisplayNames')
+			->with(['Department A/B C/D'])
+			->willReturn(['Department A/B C/D' => 'Department A/B C/D-name']);
 
 		$result = $this->api->getGroupUsersDetails(urlencode($gid));
 
