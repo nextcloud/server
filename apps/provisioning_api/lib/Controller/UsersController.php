@@ -35,6 +35,7 @@ use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\Group\ISubAdmin;
 use OCP\HintException;
 use OCP\IAppConfig;
@@ -86,6 +87,7 @@ class UsersController extends AUserDataOCSController {
 		private IAppManager $appManager,
 		private IAppConfig $appConfig,
 		GroupDisplayNameCache $groupDisplayNameCache,
+		ISetupManager $setupManager,
 	) {
 		parent::__construct(
 			$appName,
@@ -99,6 +101,7 @@ class UsersController extends AUserDataOCSController {
 			$l10nFactory,
 			$rootFolder,
 			$groupDisplayNameCache,
+			$setupManager,
 		);
 
 		$this->l10n = $l10nFactory->get($appName);

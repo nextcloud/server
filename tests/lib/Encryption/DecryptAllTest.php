@@ -15,6 +15,7 @@ use OC\Encryption\Exceptions\DecryptionFailedException;
 use OC\Encryption\Manager;
 use OC\Files\FileInfo;
 use OC\Files\View;
+use OCP\Files\ISetupManager;
 use OCP\Files\Storage\IStorage;
 use OCP\IUserManager;
 use OCP\UserInterface;
@@ -36,6 +37,7 @@ class DecryptAllTest extends TestCase {
 	private IUserManager&MockObject $userManager;
 	private Manager&MockObject $encryptionManager;
 	private View&MockObject $view;
+	private ISetupManager&MockObject $setupManager;
 	private InputInterface&MockObject $inputInterface;
 	private OutputInterface&MockObject $outputInterface;
 	private UserInterface&MockObject $userInterface;
@@ -52,6 +54,7 @@ class DecryptAllTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()->getMock();
+		$this->setupManager = $this->createMock(ISetupManager::class);
 		$this->inputInterface = $this->getMockBuilder(InputInterface::class)
 			->disableOriginalConstructor()->getMock();
 		$this->outputInterface = $this->getMockBuilder(OutputInterface::class)
@@ -69,7 +72,7 @@ class DecryptAllTest extends TestCase {
 		$this->outputInterface->expects($this->any())->method('getFormatter')
 			->willReturn($outputFormatter);
 
-		$this->instance = new DecryptAll($this->encryptionManager, $this->userManager, $this->view);
+		$this->instance = new DecryptAll($this->encryptionManager, $this->userManager, $this->view, $this->setupManager);
 
 		$this->invokePrivate($this->instance, 'input', [$this->inputInterface]);
 		$this->invokePrivate($this->instance, 'output', [$this->outputInterface]);
@@ -98,7 +101,8 @@ class DecryptAllTest extends TestCase {
 				[
 					$this->encryptionManager,
 					$this->userManager,
-					$this->view
+					$this->view,
+					$this->setupManager,
 				]
 			)
 			->onlyMethods(['prepareEncryptionModules', 'decryptAllUsersFiles'])
@@ -181,7 +185,8 @@ class DecryptAllTest extends TestCase {
 				[
 					$this->encryptionManager,
 					$this->userManager,
-					$this->view
+					$this->view,
+					$this->setupManager,
 				]
 			)
 			->onlyMethods(['decryptUsersFiles'])
@@ -227,7 +232,8 @@ class DecryptAllTest extends TestCase {
 				[
 					$this->encryptionManager,
 					$this->userManager,
-					$this->view
+					$this->view,
+					$this->setupManager,
 				]
 			)
 			->onlyMethods(['decryptFile'])
@@ -309,7 +315,8 @@ class DecryptAllTest extends TestCase {
 				[
 					$this->encryptionManager,
 					$this->userManager,
-					$this->view
+					$this->view,
+					$this->setupManager,
 				]
 			)
 			->onlyMethods(['getTimestamp'])
@@ -349,7 +356,8 @@ class DecryptAllTest extends TestCase {
 				[
 					$this->encryptionManager,
 					$this->userManager,
-					$this->view
+					$this->view,
+					$this->setupManager,
 				]
 			)
 			->onlyMethods(['getTimestamp'])

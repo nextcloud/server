@@ -10,9 +10,12 @@ declare(strict_types=1);
 namespace OCA\DAV\Tests\unit\Connector;
 
 use OCA\DAV\Connector\LegacyPublicAuth;
+use OCP\Files\ISetupManager;
 use OCP\IRequest;
 use OCP\ISession;
+use OCP\IUserManager;
 use OCP\Security\Bruteforce\IThrottler;
+use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
@@ -54,7 +57,10 @@ class LegacyPublicAuthTest extends TestCase {
 		// Set old user
 		\OC_User::setUserId($this->oldUser ?: null);
 		if ($this->oldUser !== false) {
-			\OC_Util::setupFS($this->oldUser);
+			$userObj = Server::get(IUserManager::class)->get($this->oldUser);
+			if ($userObj !== null) {
+				Server::get(ISetupManager::class)->setupForUser($userObj);
+			}
 		}
 
 		parent::tearDown();

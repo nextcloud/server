@@ -8,7 +8,6 @@
 
 namespace OCA\Files_Sharing\Tests\Controllers;
 
-use OC\Files\Filesystem;
 use OC\Files\Node\Folder;
 use OC\Share20\Manager;
 use OCA\FederatedFileSharing\FederatedShareProvider;
@@ -32,6 +31,7 @@ use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\Files\NotFoundException;
 use OCP\Files\Template\ITemplateManager;
 use OCP\IAppConfig;
@@ -153,14 +153,14 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->user = Server::get(ISecureRandom::class)->generate(12, ISecureRandom::CHAR_LOWER);
 
 		$this->createUser($this->user, $this->user);
-		\OC_Util::tearDownFS();
+		Server::get(ISetupManager::class)->tearDown();
 		$this->loginAsUser($this->user);
 	}
 
 	protected function tearDown(): void {
-		\OC_Util::tearDownFS();
-		\OC_User::setUserId('');
-		Filesystem::tearDown();
+		Server::get(ISetupManager::class)->tearDown();
+		Server::get(ISession::class)->set('user_id', '');
+		Server::get(ISetupManager::class)->tearDown();
 		$user = Server::get(IUserManager::class)->get($this->user);
 		if ($user !== null) {
 			$user->delete();
@@ -171,7 +171,9 @@ class ShareControllerTest extends \Test\TestCase {
 
 		// Set old user
 		\OC_User::setUserId($this->oldUser);
-		\OC_Util::setupFS($this->oldUser);
+		if ($this->oldUser) {
+			Server::get(ISetupManager::class)->setupForUser(Server::get(IUserManager::class)->get($this->oldUser));
+		}
 		parent::tearDown();
 	}
 

@@ -18,6 +18,8 @@ use OCP\Authentication\IApacheBackend;
 use OCP\Authentication\IProvideUserSecretBackend;
 use OCP\Authentication\Token\IToken;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\ISession;
@@ -193,7 +195,11 @@ class OC_User {
 				}
 
 				// setup the filesystem
-				OC_Util::setupFS($uid);
+				$user = Server::get(IUserManager::class)->get($uid);
+				if ($user) {
+					Server::get(ISetupManager::class)->setupForUser($user);
+				}
+
 				// first call the post_login hooks, the login-process needs to be
 				// completed before we can safely create the users folder.
 				// For example encryption needs to initialize the users keys first
@@ -208,14 +214,14 @@ class OC_User {
 					]
 				);
 				$dispatcher->dispatchTyped(new UserLoggedInEvent(
-					Server::get(IUserManager::class)->get($uid),
+					$user,
 					$uid,
 					null,
 					false)
 				);
 
-				//trigger creation of user home and /files folder
-				\OC::$server->getUserFolder($uid);
+				// trigger creation of user home and /files folder
+				Server::get(IRootFolder::class)->getUserFolder($uid);
 			}
 			return true;
 		}

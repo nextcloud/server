@@ -8,9 +8,11 @@
 
 namespace OCA\Files_Versions\Command;
 
-use OC\Files\View;
 use OCA\Files_Versions\Expiration;
 use OCA\Files_Versions\Storage;
+use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
+use OCP\Files\NotFoundException;
 use OCP\IUser;
 use OCP\IUserManager;
 use Symfony\Component\Console\Command\Command;
@@ -21,8 +23,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ExpireVersions extends Command {
 	public function __construct(
-		private IUserManager $userManager,
-		private Expiration $expiration,
+		private readonly IUserManager $userManager,
+		private readonly Expiration $expiration,
+		private readonly ISetupManager $setupManager,
+		private readonly IRootFolder $rootFolder,
 	) {
 		parent::__construct();
 	}
@@ -75,7 +79,7 @@ class ExpireVersions extends Command {
 
 	public function expireVersionsForUser(IUser $user): void {
 		$uid = $user->getUID();
-		if (!$this->setupFS($uid)) {
+		if (!$this->setupFS($user)) {
 			return;
 		}
 		Storage::expireOlderThanMaxForUser($uid);
@@ -84,16 +88,16 @@ class ExpireVersions extends Command {
 	/**
 	 * Act on behalf on versions item owner
 	 */
-	protected function setupFS(string $user): bool {
-		\OC_Util::tearDownFS();
-		\OC_Util::setupFS($user);
+	protected function setupFS(IUser $user): bool {
+		$this->setupManager->tearDown();
+		$this->setupManager->setupForUser($user);
 
 		// Check if this user has a version directory
-		$view = new View('/' . $user);
-		if (!$view->is_dir('/files_versions')) {
+		try {
+			$this->rootFolder->get('/' . $user->getUID() . '/files_versions');
+			return true;
+		} catch (NotFoundException) {
 			return false;
 		}
-
-		return true;
 	}
 }

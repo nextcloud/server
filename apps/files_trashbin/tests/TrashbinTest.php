@@ -27,6 +27,7 @@ use OCP\Constants;
 use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUserManager;
@@ -699,11 +700,14 @@ class TrashbinTest extends \Test\TestCase {
 			}
 		}
 
-		\OC_Util::tearDownFS();
+		Server::get(ISetupManager::class)->tearDown();
 		\OC_User::setUserId('');
 		Filesystem::tearDown();
 		\OC_User::setUserId($user);
-		\OC_Util::setupFS($user);
+		$userObj = Server::get(IUserManager::class)->get($user);
+		if ($userObj !== null) {
+			Server::get(ISetupManager::class)->setupForUser($userObj);
+		}
 		Server::get(IRootFolder::class)->getUserFolder($user);
 	}
 }

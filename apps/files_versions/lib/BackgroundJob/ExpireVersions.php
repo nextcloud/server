@@ -8,23 +8,25 @@
 
 namespace OCA\Files_Versions\BackgroundJob;
 
-use OC\Files\View;
 use OCA\Files_Versions\Expiration;
 use OCA\Files_Versions\Storage;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
+use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
+use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 
 class ExpireVersions extends TimedJob {
-	public const ITEMS_PER_SESSION = 1000;
-
 	public function __construct(
-		private IConfig $config,
-		private IUserManager $userManager,
-		private Expiration $expiration,
+		private readonly IConfig $config,
+		private readonly IUserManager $userManager,
+		private readonly Expiration $expiration,
 		ITimeFactory $time,
+		private readonly ISetupManager $setupManager,
+		private readonly IRootFolder $rootFolder,
 	) {
 		parent::__construct($time);
 		// Run once per 30 minutes
@@ -45,7 +47,7 @@ class ExpireVersions extends TimedJob {
 
 		$this->userManager->callForSeenUsers(function (IUser $user): void {
 			$uid = $user->getUID();
-			if (!$this->setupFS($uid)) {
+			if (!$this->setupFS($user)) {
 				return;
 			}
 			Storage::expireOlderThanMaxForUser($uid);
@@ -55,16 +57,16 @@ class ExpireVersions extends TimedJob {
 	/**
 	 * Act on behalf on trash item owner
 	 */
-	protected function setupFS(string $user): bool {
-		\OC_Util::tearDownFS();
-		\OC_Util::setupFS($user);
+	protected function setupFS(IUser $user): bool {
+		$this->setupManager->tearDown();
+		$this->setupManager->setupForUser($user);
 
-		// Check if this user has a versions directory
-		$view = new View('/' . $user);
-		if (!$view->is_dir('/files_versions')) {
+		// Check if this user has a version directory
+		try {
+			$this->rootFolder->get('/' . $user->getUID() . '/files_versions');
+			return true;
+		} catch (NotFoundException) {
 			return false;
 		}
-
-		return true;
 	}
 }

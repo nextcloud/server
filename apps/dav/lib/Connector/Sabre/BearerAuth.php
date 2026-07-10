@@ -9,9 +9,11 @@ namespace OCA\DAV\Connector\Sabre;
 
 use OCP\AppFramework\Http;
 use OCP\Defaults;
+use OCP\Files\ISetupManager;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\ISession;
+use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Server;
 use OCP\Share\IManager;
@@ -26,6 +28,7 @@ class BearerAuth extends AbstractBearer {
 		private ISession $session,
 		private IRequest $request,
 		private IConfig $config,
+		private ISetupManager $setupManager,
 		private string $principalPrefix = 'principals/users/',
 		private string $token = '',
 		private bool $allowOcmAccessToken = false,
@@ -35,10 +38,10 @@ class BearerAuth extends AbstractBearer {
 		$this->realm = $defaults->getName() ?: 'Nextcloud';
 	}
 
-	private function setupUserFs($userId) {
-		\OC_Util::setupFS($userId);
+	private function setupUserFs(IUser $user) {
+		$this->setupManager->setupForUser($user);
 		$this->session->close();
-		return $this->principalPrefix . $userId;
+		return $this->principalPrefix . $user->getUID();
 	}
 
 	/**
@@ -46,7 +49,7 @@ class BearerAuth extends AbstractBearer {
 	 */
 	#[\Override]
 	public function validateBearerToken($bearerToken) {
-		\OC_Util::setupFS();
+		$this->setupManager->setupRoot();
 		$this->token = $bearerToken;
 
 		// public.php sets incognito mode for anonymous share access, which makes
@@ -61,7 +64,7 @@ class BearerAuth extends AbstractBearer {
 			$this->userSession->tryTokenLogin($this->request, $this->allowOcmAccessToken);
 		}
 		if ($this->userSession->isLoggedIn()) {
-			return $this->setupUserFs($this->userSession->getUser()->getUID());
+			return $this->setupUserFs($this->userSession->getUser());
 		}
 
 		return false;

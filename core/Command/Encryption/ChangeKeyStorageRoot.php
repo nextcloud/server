@@ -11,8 +11,12 @@ namespace OC\Core\Command\Encryption;
 use OC\Encryption\Keys\Storage;
 use OC\Encryption\Util;
 use OC\Files\Filesystem;
-use OC\Files\View;
-use OCP\IConfig;
+use OCP\Files\File;
+use OCP\Files\Folder;
+use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
+use OCP\Files\NotFoundException;
+use OCP\IUser;
 use OCP\IUserManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -24,17 +28,17 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class ChangeKeyStorageRoot extends Command {
 	public function __construct(
-		protected View $rootView,
-		protected IUserManager $userManager,
-		protected IConfig $config,
-		protected Util $util,
-		protected QuestionHelper $questionHelper,
+		private readonly IUserManager $userManager,
+		private readonly Util $util,
+		private readonly QuestionHelper $questionHelper,
+		private readonly ISetupManager $setupManager,
+		private readonly IRootFolder $rootFolder,
 	) {
 		parent::__construct();
 	}
 
 	#[\Override]
-	protected function configure() {
+	protected function configure(): void {
 		parent::configure();
 		$this
 			->setName('encryption:change-key-storage-root')
@@ -73,25 +77,28 @@ class ChangeKeyStorageRoot extends Command {
 	}
 
 	/**
-	 * move keys to new key storage root
+	 * Move keys to new key storage root.
 	 *
-	 * @param string $oldRoot
-	 * @param string $newRoot
-	 * @param OutputInterface $output
-	 * @return bool
 	 * @throws \Exception
 	 */
-	protected function moveAllKeys($oldRoot, $newRoot, OutputInterface $output) {
+	protected function moveAllKeys(string $oldRoot, string $newRoot, OutputInterface $output): bool {
 		$output->writeln('Start to move keys:');
 
-		if ($this->rootView->is_dir($oldRoot) === false) {
+		try {
+			$oldRootFolder = $this->rootFolder->get($oldRoot);
+		} catch (NotFoundException) {
 			$output->writeln('No old keys found: Nothing needs to be moved');
 			return false;
 		}
 
+		if (!$oldRootFolder instanceof Folder) {
+			$output->writeln('Old root is not a folder');
+			return false;
+		}
+
 		$this->prepareNewRoot($newRoot);
-		$this->moveSystemKeys($oldRoot, $newRoot);
-		$this->moveUserKeys($oldRoot, $newRoot, $output);
+		$this->moveSystemKeys($oldRootFolder, $newRoot);
+		$this->moveUserKeys($oldRootFolder, $newRoot, $output);
 
 		return true;
 	}
@@ -99,95 +106,76 @@ class ChangeKeyStorageRoot extends Command {
 	/**
 	 * prepare new key storage
 	 *
-	 * @param string $newRoot
 	 * @throws \Exception
 	 */
-	protected function prepareNewRoot($newRoot) {
-		if ($this->rootView->is_dir($newRoot) === false) {
+	protected function prepareNewRoot(string $newRoot): void {
+		if (!$this->rootFolder->nodeExists($newRoot)) {
 			throw new \Exception("New root folder doesn't exist. Please create the folder or check the permissions and try again.");
 		}
 
-		$result = $this->rootView->file_put_contents(
-			$newRoot . '/' . Storage::KEY_STORAGE_MARKER,
-			'Nextcloud will detect this folder as key storage root only if this file exists'
-		);
-
-		if (!$result) {
-			throw new \Exception("Can't access the new root folder. Please check the permissions and make sure that the folder is in your data folder");
+		/** @var File $node */
+		$node = $this->rootFolder->get($newRoot . '/' . Storage::KEY_STORAGE_MARKER);
+		try {
+			$node->putContent('Nextcloud will detect this folder as key storage root only if this file exists');
+		} catch (\Exception $e) {
+			throw new \Exception("Can't access the new root folder. Please check the permissions and make sure that the folder is in your data folder", previous: $e);
 		}
 	}
 
 	/**
-	 * move system key folder
-	 *
-	 * @param string $oldRoot
-	 * @param string $newRoot
+	 * Move system key folder
 	 */
-	protected function moveSystemKeys($oldRoot, $newRoot) {
-		if (
-			$this->rootView->is_dir($oldRoot . '/files_encryption')
-			&& $this->targetExists($newRoot . '/files_encryption') === false
-		) {
-			$this->rootView->rename($oldRoot . '/files_encryption', $newRoot . '/files_encryption');
+	protected function moveSystemKeys(Folder $oldRoot, string $newRoot): void {
+		try {
+			$fileEncryptionFolder = $oldRoot->get('files_encryption');
+		} catch (NotFoundException) {
+			return;
+		}
+
+		if (!$this->targetExists($newRoot . '/files_encryption')) {
+			$fileEncryptionFolder->move($newRoot . '/files_encryption');
 		}
 	}
 
 	/**
 	 * setup file system for the given user
-	 *
-	 * @param string $uid
 	 */
-	protected function setupUserFS($uid) {
-		\OC_Util::tearDownFS();
-		\OC_Util::setupFS($uid);
+	protected function setupUserFS(IUser $user): void {
+		$this->setupManager->tearDown();
+		$this->setupManager->setupForUser($user);
 	}
 
 	/**
 	 * iterate over each user and move the keys to the new storage
-	 *
-	 * @param string $oldRoot
-	 * @param string $newRoot
-	 * @param OutputInterface $output
 	 */
-	protected function moveUserKeys($oldRoot, $newRoot, OutputInterface $output) {
+	protected function moveUserKeys(Folder $oldRootFolder, string $newRoot, OutputInterface $output): void {
 		$progress = new ProgressBar($output);
 		$progress->start();
 
-		foreach ($this->userManager->getBackends() as $backend) {
-			$limit = 500;
-			$offset = 0;
-			do {
-				$users = $backend->getUsers('', $limit, $offset);
-				foreach ($users as $user) {
-					$progress->advance();
-					$this->setupUserFS($user);
-					$this->moveUserEncryptionFolder($user, $oldRoot, $newRoot);
-				}
-				$offset += $limit;
-			} while (count($users) >= $limit);
-		}
+		$this->userManager->callForAllUsers(function (IUser $user) use ($progress, $oldRootFolder, $newRoot, $output) {
+			$progress->advance();
+			$this->setupUserFS($user);
+			$this->moveUserEncryptionFolder($user, $oldRootFolder, $newRoot);
+		});
 		$progress->finish();
 	}
 
 	/**
 	 * move user encryption folder to new root folder
 	 *
-	 * @param string $user
-	 * @param string $oldRoot
-	 * @param string $newRoot
 	 * @throws \Exception
 	 */
-	protected function moveUserEncryptionFolder($user, $oldRoot, $newRoot) {
-		if ($this->userManager->userExists($user)) {
-			$source = $oldRoot . '/' . $user . '/files_encryption';
-			$target = $newRoot . '/' . $user . '/files_encryption';
-			if (
-				$this->rootView->is_dir($source)
-				&& $this->targetExists($target) === false
-			) {
-				$this->prepareParentFolder($newRoot . '/' . $user);
-				$this->rootView->rename($source, $target);
-			}
+	protected function moveUserEncryptionFolder(IUser $user, Folder $oldRootFolder, string $newRoot): void {
+		try {
+			$fileEncryptionFolder = $oldRootFolder->get($user->getUID() . '/files_encryption');
+		} catch (NotFoundException) {
+			return;
+		}
+
+		$target = $newRoot . '/' . $user->getUID() . '/files_encryption';
+		if (!$this->targetExists($target)) {
+			$this->prepareParentFolder($newRoot . '/' . $user->getUID());
+			$fileEncryptionFolder->move($target);
 		}
 	}
 
@@ -196,33 +184,32 @@ class ChangeKeyStorageRoot extends Command {
 	 *
 	 * @param string $path relative to data/
 	 */
-	protected function prepareParentFolder($path) {
+	protected function prepareParentFolder(string $path): void {
 		$path = Filesystem::normalizePath($path);
 		// If the file resides within a subdirectory, create it
-		if ($this->rootView->file_exists($path) === false) {
+		if ($this->rootFolder->nodeExists($path) === false) {
 			$sub_dirs = explode('/', ltrim($path, '/'));
 			$dir = '';
 			foreach ($sub_dirs as $sub_dir) {
 				$dir .= '/' . $sub_dir;
-				if ($this->rootView->file_exists($dir) === false) {
-					$this->rootView->mkdir($dir);
+				if ($this->rootFolder->nodeExists($dir) === false) {
+					$this->rootFolder->newFolder($dir);
 				}
 			}
 		}
 	}
 
 	/**
-	 * check if target already exists
+	 * Check if target already exists
 	 *
-	 * @param $path
-	 * @return bool
 	 * @throws \Exception
 	 */
-	protected function targetExists($path) {
-		if ($this->rootView->file_exists($path)) {
+	protected function targetExists(string $path): bool {
+		try {
+			$this->rootFolder->get($path);
 			throw new \Exception("new folder '$path' already exists");
+		} catch (NotFoundException) {
+			return false;
 		}
-
-		return false;
 	}
 }

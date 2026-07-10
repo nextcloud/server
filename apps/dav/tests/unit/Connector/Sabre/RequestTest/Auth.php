@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Tests\unit\Connector\Sabre\RequestTest;
 
+use OCP\Files\ISetupManager;
 use OCP\IUserSession;
 use OCP\Server;
 use Sabre\DAV\Auth\Backend\BackendInterface;
@@ -61,8 +62,9 @@ class Auth implements BackendInterface {
 		$result = $userSession->login($this->user, $this->password);
 		if ($result) {
 			//we need to pass the user name, which may differ from login name
-			$user = $userSession->getUser()->getUID();
-			\OC_Util::setupFS($user);
+			$userObj = $userSession->getUser();
+			$user = $userObj->getUID();
+			Server::get(ISetupManager::class)->setupForUser($userObj);
 			//trigger creation of user home and /files folder
 			\OC::$server->getUserFolder($user);
 			return [true, "principals/$user"];

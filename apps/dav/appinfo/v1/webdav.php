@@ -11,6 +11,7 @@ use OCA\DAV\Connector\Sabre\BearerAuth;
 use OCA\DAV\Connector\Sabre\ServerFactory;
 use OCA\DAV\Events\SabrePluginAddEvent;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\ISetupManager;
 use OCP\Files\Mount\IMountManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -66,6 +67,7 @@ $bearerAuthPlugin = new BearerAuth(
 	Server::get(ISession::class),
 	Server::get(IRequest::class),
 	Server::get(IConfig::class),
+	Server::get(ISetupManager::class),
 );
 $authPlugin->addBackend($bearerAuthPlugin);
 

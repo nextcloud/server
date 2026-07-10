@@ -20,6 +20,7 @@ use OCP\BeforeSabrePubliclyLoadedEvent;
 use OCP\Constants;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Storage\IStorage;
 use OCP\IConfig;
@@ -56,6 +57,7 @@ $bearerAuthBackend = new BearerAuth(
 	Server::get(ISession::class),
 	Server::get(IRequest::class),
 	Server::get(IConfig::class),
+	Server::get(ISetupManager::class),
 	allowOcmAccessToken: true,
 );
 $authPlugin = new \Sabre\DAV\Auth\Plugin($authBackend);

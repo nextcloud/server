@@ -424,9 +424,7 @@ class SetupManager implements ISetupManager {
 		$this->eventLogger->end('fs:setup:user:setup-hook');
 	}
 
-	/**
-	 * Set up the root filesystem
-	 */
+	#[Override]
 	public function setupRoot(): void {
 		//setting up the filesystem twice can only lead to trouble
 		if ($this->rootSetup) {

@@ -57,4 +57,11 @@ interface ISetupManager {
 	 * @since 34.0.0
 	 */
 	public function isSetupComplete(IUser $user): bool;
+
+	/**
+	 * Set up the root filesystem (without any user-specific mounts).
+	 *
+	 * @since 35.0.0
+	 */
+	public function setupRoot(): void;
 }

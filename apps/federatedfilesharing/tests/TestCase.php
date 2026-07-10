@@ -12,6 +12,7 @@ namespace OCA\FederatedFileSharing\Tests;
 use OC\Files\Filesystem;
 use OC\Group\Database;
 use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -57,7 +58,6 @@ abstract class TestCase extends \Test\TestCase {
 			$user->delete();
 		}
 
-		\OC_Util::tearDownFS();
 		\OC_User::setUserId('');
 		Filesystem::tearDown();
 
@@ -87,12 +87,15 @@ abstract class TestCase extends \Test\TestCase {
 			}
 		}
 
-		\OC_Util::tearDownFS();
+		Server::get(ISetupManager::class)->tearDown();
 		Server::get(IUserSession::class)->setUser(null);
 		Filesystem::tearDown();
 		Server::get(IUserSession::class)->login($user, $password);
 		Server::get(IRootFolder::class)->getUserFolder($user);
 
-		\OC_Util::setupFS($user);
+		$userObj = Server::get(IUserManager::class)->get($user);
+		if ($userObj !== null) {
+			Server::get(ISetupManager::class)->setupForUser($userObj);
+		}
 	}
 }

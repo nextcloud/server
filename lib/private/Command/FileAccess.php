@@ -8,15 +8,18 @@
 
 namespace OC\Command;
 
+use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\IUser;
+use OCP\Server;
 
 trait FileAccess {
-	protected function setupFS(IUser $user) {
-		\OC_Util::setupFS($user->getUID());
+	protected function setupFS(IUser $user): void {
+		Server::get(ISetupManager::class)->setupForUser($user);
 	}
 
-	protected function getUserFolder(IUser $user) {
+	protected function getUserFolder(IUser $user): void {
 		$this->setupFS($user);
-		return \OC::$server->getUserFolder($user->getUID());
+		Server::get(IRootFolder::class)->getUserFolder($user->getUID());
 	}
 }
