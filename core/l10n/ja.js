@@ -231,9 +231,8 @@ OC.L10N.register(
     "Pick start date" : "開始日を指定",
     "Pick end date" : "終了日を指定",
     "Search in date range" : "日付の範囲で検索",
-    "Search apps, files, tags, messages …" : "アプリ、ファイル、タグ、メッセージを検索 …",
-    "Search in current app" : "現在のアプリケーションで検索",
     "Clear search" : "検索をクリア",
+    "Search in current app" : "現在のアプリケーションで検索",
     "Search everywhere" : "あらゆる場所を検索",
     "Searching …" : "検索しています…",
     "Start typing to search" : "入力して検索を開始します",
@@ -245,8 +244,6 @@ OC.L10N.register(
     "This year" : "今年",
     "Last year" : "去年",
     "Between {startDate} and {endDate}" : "{startDate}から{endDate}まで",
-    "Unified search" : "統合検索",
-    "Search apps, files, tags, messages" : "アプリ、ファイル、タグ、メッセージを検索",
     "Places" : "場所",
     "Date" : "日付",
     "Search people" : "人物を検索",
@@ -520,6 +517,8 @@ OC.L10N.register(
     "Applications menu" : "アプリケーションメニュー",
     "Searching …" : "検索しています…",
     "Minimum search length is {minSearchLength} characters" : "検索の最小長は{minSearchLength}文字です",
+    "Unified search" : "統合検索",
+    "Search apps, files, tags, messages" : "アプリ、ファイル、タグ、メッセージを検索",
     "Logging in …" : "ログイン中...",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "あなたのIPから複数の無効なログイン試行が検出されました。 したがって、次回のログインは最大30秒間抑制されます。",
     "Loading apps …" : "アプリを読み込み中…",
@@ -569,6 +568,7 @@ OC.L10N.register(
     "Too many incorrect login attempts. Please try again in 30 seconds." : "ログイン試行の回数が多すぎます。30秒後にもう一度お試しください。",
     "Groups" : "グループ",
     "Group list is empty" : "グループリストが空です",
-    "Unable to retrieve the group list" : "グループリストを取得できません"
+    "Unable to retrieve the group list" : "グループリストを取得できません",
+    "Search apps, files, tags, messages …" : "アプリ、ファイル、タグ、メッセージを検索 …"
 },
 "nplurals=1; plural=0;");

@@ -229,9 +229,8 @@ OC.L10N.register(
     "Pick start date" : "Kies startdatum",
     "Pick end date" : "Kies einddatum",
     "Search in date range" : "In datumbereik zoeken",
-    "Search apps, files, tags, messages …" : "Zoek apps, bestanden, tags, berichten …",
-    "Search in current app" : "Zoek in huidige app",
     "Clear search" : "Wis zoekvak",
+    "Search in current app" : "Zoek in huidige app",
     "Search everywhere" : "Zoek in alles",
     "Searching …" : "Zoeken ...",
     "Start typing to search" : "Begin met typen om te zoeken",
@@ -242,8 +241,6 @@ OC.L10N.register(
     "This year" : "Dit jaar",
     "Last year" : "Vorig jaar",
     "Between {startDate} and {endDate}" : "Tussen {startDate} en {endDate}",
-    "Unified search" : "Geünificeerd zoeken",
-    "Search apps, files, tags, messages" : "Zoek apps, bestanden, berichten",
     "Places" : "Locaties",
     "Date" : "Datum",
     "Search people" : "Zoek mensen",
@@ -516,6 +513,8 @@ OC.L10N.register(
     "Applications menu" : "Applicatiemenu",
     "Searching …" : "Zoeken ...",
     "Minimum search length is {minSearchLength} characters" : "Minimale lengte voor zoeken is {minSearchLength} tekens",
+    "Unified search" : "Geünificeerd zoeken",
+    "Search apps, files, tags, messages" : "Zoek apps, bestanden, berichten",
     "Logging in …" : "Inloggen...",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "We hebben meerdere foutieve inlogverzoeken vanaf jouw IP-adres gedetecteerd. Hierdoor wordt je volgende inlogverzoek 30 seconden uitgesteld.",
     "Loading apps …" : "Laden apps ...",
@@ -565,6 +564,7 @@ OC.L10N.register(
     "Too many incorrect login attempts. Please try again in 30 seconds." : "Te veel onjuiste inlogpogingen. Probeer het over 30 seconden opnieuw.",
     "Groups" : "Groepen",
     "Group list is empty" : "Groepenlijst is leeg",
-    "Unable to retrieve the group list" : "Kan groepenoverzicht niet ophalen"
+    "Unable to retrieve the group list" : "Kan groepenoverzicht niet ophalen",
+    "Search apps, files, tags, messages …" : "Zoek apps, bestanden, tags, berichten …"
 },
 "nplurals=2; plural=(n != 1);");

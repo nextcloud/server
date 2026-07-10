@@ -229,9 +229,8 @@ OC.L10N.register(
     "Pick start date" : "Válasszon kezdési dátumot",
     "Pick end date" : "Válasszon befejezési dátumot",
     "Search in date range" : "Keresés a dátumtartományban",
-    "Search apps, files, tags, messages …" : "Alkalmazások, fájlok, címkék és üzenetek keresése…",
-    "Search in current app" : "Keresés a jelenlegi alkalmazásban",
     "Clear search" : "Keresés törlése",
+    "Search in current app" : "Keresés a jelenlegi alkalmazásban",
     "Search everywhere" : "Keresés mindenhol",
     "Searching …" : "Keresés…",
     "Start typing to search" : "Kezdjen el gépelni a kereséshez",
@@ -242,8 +241,6 @@ OC.L10N.register(
     "This year" : "Ezen az éven",
     "Last year" : "Előző év",
     "Between {startDate} and {endDate}" : "{startDate} és {endDate} között",
-    "Unified search" : "Egyesített keresés",
-    "Search apps, files, tags, messages" : "Alkalmazások, fájlok, címkék és üzenetek keresése",
     "Places" : "Helyek",
     "Date" : "Dátum",
     "Search people" : "Emberek keresése",
@@ -516,6 +513,8 @@ OC.L10N.register(
     "Applications menu" : "Alkalmazások menü",
     "Searching …" : "Keresés…",
     "Minimum search length is {minSearchLength} characters" : "A legkisebb keresési hossz {minSearchLength} karakteres",
+    "Unified search" : "Egyesített keresés",
+    "Search apps, files, tags, messages" : "Alkalmazások, fájlok, címkék és üzenetek keresése",
     "Logging in …" : "Bejelentkezés…",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Többszöri sikertelen bejelentkezési kísérletet észleltünk az IP-címéről. A legközelebbi kísérlete így 30 másodperccel késleltetve lesz.",
     "Loading apps …" : "Alkalmazások betöltése…",
@@ -565,6 +564,7 @@ OC.L10N.register(
     "Too many incorrect login attempts. Please try again in 30 seconds." : "Túl sok helytelen bejelentkezési kísérlet. Próbálja újra 30 másodperc múlva.",
     "Groups" : "Csoportok",
     "Group list is empty" : "A csoportlista üres",
-    "Unable to retrieve the group list" : "A csoportlista betöltése sikertelen"
+    "Unable to retrieve the group list" : "A csoportlista betöltése sikertelen",
+    "Search apps, files, tags, messages …" : "Alkalmazások, fájlok, címkék és üzenetek keresése…"
 },
 "nplurals=2; plural=(n != 1);");

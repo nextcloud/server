@@ -229,9 +229,8 @@ OC.L10N.register(
     "Pick start date" : "Scegli la data di inizio",
     "Pick end date" : "Scegli la data di fine",
     "Search in date range" : "Cerca nell'intervallo di date",
-    "Search apps, files, tags, messages …" : "Cerca app, file, tag, messaggi …",
-    "Search in current app" : "Cerca nell'applicazione attuale",
     "Clear search" : "Svuota ricerca",
+    "Search in current app" : "Cerca nell'applicazione attuale",
     "Search everywhere" : "Cerca ovunque",
     "Searching …" : "Ricerca in corso …",
     "Start typing to search" : "Inizia a digitare per cercare",
@@ -242,8 +241,6 @@ OC.L10N.register(
     "This year" : "Quest'anno",
     "Last year" : "Ultimo anno",
     "Between {startDate} and {endDate}" : "Tra {startDate} e {endDate}",
-    "Unified search" : "Ricerca unificata",
-    "Search apps, files, tags, messages" : "Cerca applicazioni. file, etichette, messaggi",
     "Places" : "Luoghi",
     "Date" : "Data",
     "Search people" : "Cerca le persone",
@@ -516,6 +513,8 @@ OC.L10N.register(
     "Applications menu" : "Menu applicazioni",
     "Searching …" : "Ricerca in corso…",
     "Minimum search length is {minSearchLength} characters" : "La lunghezza minima della ricerca è {minSearchLength} caratteri",
+    "Unified search" : "Ricerca unificata",
+    "Search apps, files, tags, messages" : "Cerca applicazioni. file, etichette, messaggi",
     "Logging in …" : "Accesso in corso...",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Abbiamo rilevato molti tentativi di autenticazione non riusciti dal tuo indirizzo IP. Di conseguenza, il prossimo tentativo è ritardato di 30 secondi.",
     "Loading apps …" : "Caricamento applicazioni…",
@@ -565,6 +564,7 @@ OC.L10N.register(
     "Too many incorrect login attempts. Please try again in 30 seconds." : "Troppi tentativi di accesso errati. Riprova tra 30 secondi.",
     "Groups" : "Gruppi",
     "Group list is empty" : "L'elenco dei gruppi è vuoto",
-    "Unable to retrieve the group list" : "Impossibile recuperare l'elenco dei gruppi"
+    "Unable to retrieve the group list" : "Impossibile recuperare l'elenco dei gruppi",
+    "Search apps, files, tags, messages …" : "Cerca app, file, tag, messaggi …"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

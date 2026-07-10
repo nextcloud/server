@@ -237,9 +237,8 @@
     "Pick start date" : "Pasirinkti pradžios datą",
     "Pick end date" : "Pasirinkti pabaigos datą",
     "Search in date range" : "Paieška datų rėžyje",
-    "Search apps, files, tags, messages …" : "Ieškokite programų, failų, žymų, pranešimų …",
-    "Search in current app" : "Ieškoti esamoje programėlėje",
     "Clear search" : "Išvalyti paiešką",
+    "Search in current app" : "Ieškoti esamoje programėlėje",
     "Search everywhere" : "Ieškoti visur",
     "Searching …" : "Ieškoma…",
     "Start typing to search" : "Rašykite norėdami atlikti paiešką",
@@ -251,8 +250,6 @@
     "This year" : "Šie metai",
     "Last year" : "Praėję metai",
     "Between {startDate} and {endDate}" : "Tarp {startDate} ir {endDate}",
-    "Unified search" : "Vieninga paieška",
-    "Search apps, files, tags, messages" : "Programėlių, failų, žymų, žinučių paieška",
     "Places" : "Vietos",
     "Date" : "Data",
     "Search people" : "Žmonių paieška",
@@ -528,6 +525,8 @@
     "Applications menu" : "Programų meniu",
     "Searching …" : "Ieškoma…",
     "Minimum search length is {minSearchLength} characters" : "Minimalus paieškos simbolių skaičius yra {minSearchLength}",
+    "Unified search" : "Vieninga paieška",
+    "Search apps, files, tags, messages" : "Programėlių, failų, žymų, žinučių paieška",
     "Logging in …" : "Prisijungiama …",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Dėl daugkartinių nesėkmingų bandymų prisijungti iš jūsų IP adreso, prisijungimai bus uždelsti iki 30 sekundžių.",
     "Loading apps …" : "Įkeliamos programėlės…",
@@ -577,6 +576,7 @@
     "Too many incorrect login attempts. Please try again in 30 seconds." : "Per daug neteisingų prisijungimo bandymų. Bandykite dar kartą po 30 sekundžių.",
     "Groups" : "Grupės",
     "Group list is empty" : "Grupės sąrašas yra tuščias",
-    "Unable to retrieve the group list" : "Nepavyko atgauti grupių sąrašo"
+    "Unable to retrieve the group list" : "Nepavyko atgauti grupių sąrašo",
+    "Search apps, files, tags, messages …" : "Ieškokite programų, failų, žymų, pranešimų …"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

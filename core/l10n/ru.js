@@ -229,9 +229,8 @@ OC.L10N.register(
     "Pick start date" : "Выберите дату начала",
     "Pick end date" : "Выберите дату окончания",
     "Search in date range" : "Поиск по диапазону дат",
-    "Search apps, files, tags, messages …" : "Поиск приложений, файлов, тегов, сообщений …",
-    "Search in current app" : "Поиск в текущем приложении",
     "Clear search" : "Очистить поиск",
+    "Search in current app" : "Поиск в текущем приложении",
     "Search everywhere" : "Искать везде",
     "Searching …" : "Поиск…",
     "Start typing to search" : "Начните вводить символы для поиска",
@@ -242,8 +241,6 @@ OC.L10N.register(
     "This year" : "Этот год",
     "Last year" : "Прошлый год",
     "Between {startDate} and {endDate}" : "Между {startDate} и {endDate}",
-    "Unified search" : "Объединённый поиск",
-    "Search apps, files, tags, messages" : "Поиск приложений, файлов, тегов, сообщений",
     "Places" : "Места",
     "Date" : "Дата",
     "Search people" : "Поиск людей",
@@ -516,6 +513,8 @@ OC.L10N.register(
     "Applications menu" : "Меню приложений",
     "Searching …" : "Поиск…",
     "Minimum search length is {minSearchLength} characters" : "Минимальная длина поиска - {minSearchLength} символов",
+    "Unified search" : "Объединённый поиск",
+    "Search apps, files, tags, messages" : "Поиск приложений, файлов, тегов, сообщений",
     "Logging in …" : "Вход в систему…",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "С вашего IP-адреса было выполнено множество неудачных попыток входа в систему. Следующую попытку можно будет выполнить через 30 секунд.",
     "Loading apps …" : "Получение списка приложений…",
@@ -565,6 +564,7 @@ OC.L10N.register(
     "Too many incorrect login attempts. Please try again in 30 seconds." : "Достигнуто максимально допустимое количество попыток входа. Попробуйте снова через 30 секунд.",
     "Groups" : "Группы",
     "Group list is empty" : "Список групп пуст",
-    "Unable to retrieve the group list" : "Не удалось получить список групп"
+    "Unable to retrieve the group list" : "Не удалось получить список групп",
+    "Search apps, files, tags, messages …" : "Поиск приложений, файлов, тегов, сообщений …"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

@@ -229,9 +229,8 @@ OC.L10N.register(
     "Pick start date" : "Виберіть початкову дату",
     "Pick end date" : "Виберіть кінцеву дату",
     "Search in date range" : "Шукати в часовому проміжку",
-    "Search apps, files, tags, messages …" : "Шукати застосунки, файли, мітки, повідомлення ...",
-    "Search in current app" : "Шукати в поточному застосунку",
     "Clear search" : "Очистити пошук",
+    "Search in current app" : "Шукати в поточному застосунку",
     "Search everywhere" : "Шукати всюди",
     "Searching …" : "Шукаю...",
     "Start typing to search" : "Що шукаємо?",
@@ -242,8 +241,6 @@ OC.L10N.register(
     "This year" : "Цього року",
     "Last year" : "Минулого року",
     "Between {startDate} and {endDate}" : "Між {startDate} та {endDate}",
-    "Unified search" : "Універсальний пошук",
-    "Search apps, files, tags, messages" : "Шукати застосунки, файли, мітки, повідомлення",
     "Places" : "Місця",
     "Date" : "Дата",
     "Search people" : "Пошук контактів",
@@ -516,6 +513,8 @@ OC.L10N.register(
     "Applications menu" : "Меню застосунків",
     "Searching …" : "Пошук ...",
     "Minimum search length is {minSearchLength} characters" : "Мінімальна довжина фрази пошуку складає {minSearchLength} символів",
+    "Unified search" : "Універсальний пошук",
+    "Search apps, files, tags, messages" : "Шукати застосунки, файли, мітки, повідомлення",
     "Logging in …" : "Вхід ...",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Ми виявили кілька недійсних спроб входу з вашого IP-адресу. Тому  наступну спробу входу можна буде здійснити через 30 секунд.",
     "Loading apps …" : "Завантаження застосунків ...",
@@ -565,6 +564,7 @@ OC.L10N.register(
     "Too many incorrect login attempts. Please try again in 30 seconds." : "Забагато спроб неправильного входу. Спробуйте ще раз за 30 секунд.",
     "Groups" : "Групи",
     "Group list is empty" : "Список груп порожній",
-    "Unable to retrieve the group list" : "Неможливо отримати список груп"
+    "Unable to retrieve the group list" : "Неможливо отримати список груп",
+    "Search apps, files, tags, messages …" : "Шукати застосунки, файли, мітки, повідомлення ..."
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");
