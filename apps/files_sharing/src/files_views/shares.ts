@@ -15,6 +15,7 @@ import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import { ShareType } from '@nextcloud/sharing'
 import { getContents, isFileRequest } from '../services/SharingService.ts'
+import { getCapabilities } from '@nextcloud/capabilities'
 
 export const sharesViewId = 'shareoverview'
 export const sharedWithYouViewId = 'sharingin'
@@ -81,7 +82,7 @@ export default () => {
 	}
 
 	// Don't show this view if sharing by link is disabled.
-	if (loadState('files', 'isLinkSharingEnabled', true)) {
+	if (getCapabilities().files_sharing.public.enabled) {
 		Navigation.register(new View({
 			id: sharingByLinksViewId,
 			name: t('files_sharing', 'Shared by link'),
