@@ -72,13 +72,13 @@ class Event extends Base {
 				$linkData = $eventData['link'];
 				$calendarUri = $this->urlencodeLowerHex($linkData['calendar_uri']);
 				if ($affectedUser === $linkData['owner']) {
-					$objectId = base64_encode($this->url->getWebroot() . '/remote.php/dav/calendars/' . $linkData['owner'] . '/' . $calendarUri . '/' . $linkData['object_uri']);
+					$objectId = base64_encode($this->url->getWebroot() . '/remote.php/dav/calendars/' . rawurlencode($linkData['owner']) . '/' . $calendarUri . '/' . $linkData['object_uri']);
 				} else {
 					// Can't use the "real" owner and calendar names here because we create a custom
 					// calendar for incoming shares with the name "<calendar>_shared_by_<sharer>".
 					// Hack: Fix the link by generating it for the incoming shared calendar instead,
 					//       as seen from the affected user.
-					$objectId = base64_encode($this->url->getWebroot() . '/remote.php/dav/calendars/' . $affectedUser . '/' . $calendarUri . '_shared_by_' . $linkData['owner'] . '/' . $linkData['object_uri']);
+					$objectId = base64_encode($this->url->getWebroot() . '/remote.php/dav/calendars/' . rawurlencode($affectedUser) . '/' . $calendarUri . '_shared_by_' . rawurlencode($linkData['owner']) . '/' . $linkData['object_uri']);
 				}
 				$params['link'] = $this->url->linkToRouteAbsolute('calendar.view.indexdirect.edit', [
 					'objectId' => $objectId,
