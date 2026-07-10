@@ -284,6 +284,8 @@
     "Configuration file access rights" : "組態設定檔存取權",
     "The read-only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "「唯讀組態設定檔」已啟用，這樣可以防止來自網頁端的設定操作，每次需要更改設定時，都需要手動將組態設定檔暫時改為可讀寫。",
     "Nextcloud configuration file is writable" : "Nextcloud 組態設定檔為可寫",
+    "Sanitize and merge duplicate system tags available" : "可對系統標籤進行清理並合併重複項目",
+    "One or more system tags need to be sanitized or merged. This can take a long time on larger instances so this is not done automatically during upgrades. Use the command `occ maintenance:repair --include-expensive` to perform the migrations." : "需要對一個或多個系統標籤進行清理或合併。在較大的站台上，此流程可能耗時甚久，因此升級過程中不會自動執行此操作。請使用指令 `occ maintenance:repair --include-expensive` 來執行遷移作業。",
     "Scheduling objects table size" : "調度物件資料表大小",
     "You have more than %s rows in the scheduling objects table. Please run the expensive repair jobs via occ maintenance:repair --include-expensive." : "調度物件資料表中超過 %s 列。請透過 occ maintenance:repair --include-expensive 執行昂貴的修復作業。",
     "Scheduling objects table size is within acceptable range." : "調度物件資料表大小在可接受的範圍內。",

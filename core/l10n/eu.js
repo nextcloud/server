@@ -231,9 +231,8 @@ OC.L10N.register(
     "Pick start date" : "Aukeratu hasiera-data",
     "Pick end date" : "Aukeratu amaiera-data",
     "Search in date range" : "Bilatu data-tartean",
-    "Search apps, files, tags, messages …" : "Bilatu aplikazioak, fitxategiak, etiketak, mezuak …",
-    "Search in current app" : "Bilatu aplikazio honetan",
     "Clear search" : "Garbitu bilaketa",
+    "Search in current app" : "Bilatu aplikazio honetan",
     "Search everywhere" : "Bilatu nonahi",
     "Searching …" : "Bilatzen …",
     "Start typing to search" : "Hasi idazten bilatzeko",
@@ -245,8 +244,6 @@ OC.L10N.register(
     "This year" : "Urte honetan",
     "Last year" : "Azken urtea",
     "Between {startDate} and {endDate}" : "{startDate} eta {endDate} bitartean",
-    "Unified search" : "Bilaketa bateratua",
-    "Search apps, files, tags, messages" : "Bilatu aplikazioak, fitxategiak, etiketak, mezuak",
     "Places" : "Lekuak",
     "Date" : "Data",
     "Search people" : "Bilatu pertsonak",
@@ -520,6 +517,8 @@ OC.L10N.register(
     "Applications menu" : "Aplikazio-menua",
     "Searching …" : "Bilatzen…",
     "Minimum search length is {minSearchLength} characters" : "Gutxieneko bilaketa-luzera {minSearchLength} karakterekoa da",
+    "Unified search" : "Bilaketa bateratua",
+    "Search apps, files, tags, messages" : "Bilatu aplikazioak, fitxategiak, etiketak, mezuak",
     "Logging in …" : "Saioa hasten...",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Saioa hasteko hainbat saiakera baliogabe jaso ditugu zure IPtik. Ondorioz, zure hurrengo saio hasiera 30 segundo atzeratuko da.",
     "Loading apps …" : "Aplikazioak kargatzen...",
@@ -569,6 +568,7 @@ OC.L10N.register(
     "Too many incorrect login attempts. Please try again in 30 seconds." : "Saioa hasteko saiakera oker gehiegi. Mesedez, saiatu berriro 30 segundo barru.",
     "Groups" : "Taldeak",
     "Group list is empty" : "Talde zerrenda hutsik dago",
-    "Unable to retrieve the group list" : "Ezin izan da talde zerrenda eskuratu"
+    "Unable to retrieve the group list" : "Ezin izan da talde zerrenda eskuratu",
+    "Search apps, files, tags, messages …" : "Bilatu aplikazioak, fitxategiak, etiketak, mezuak …"
 },
 "nplurals=2; plural=(n != 1);");

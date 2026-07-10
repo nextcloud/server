@@ -239,9 +239,8 @@ OC.L10N.register(
     "Pick start date" : "Startdatum wählen",
     "Pick end date" : "Enddatum wählen",
     "Search in date range" : "Im Datumsbereich suchen",
-    "Search apps, files, tags, messages …" : "Nach Apps, Dateien, Schlagworten, Nachrichten suchen …",
-    "Search in current app" : "In aktueller App suchen ",
     "Clear search" : "Suche löschen",
+    "Search in current app" : "In aktueller App suchen ",
     "Search everywhere" : "Überall suchen",
     "Searching …" : "Suche …",
     "Start typing to search" : "Beginnen Sie mit der Eingabe, um zu suchen",
@@ -253,8 +252,6 @@ OC.L10N.register(
     "This year" : "Dieses Jahr",
     "Last year" : "Letztes Jahr",
     "Between {startDate} and {endDate}" : "Von {startDate} bis {endDate}",
-    "Unified search" : "Einheitliche Suche",
-    "Search apps, files, tags, messages" : "Nach Apps, Dateien, Schlagworten und Nachrichten suchen",
     "Places" : "Orte",
     "Date" : "Datum",
     "Search people" : "Personen suchen",
@@ -530,6 +527,8 @@ OC.L10N.register(
     "Applications menu" : "Anwendungs-Menü",
     "Searching …" : "Suche …",
     "Minimum search length is {minSearchLength} characters" : "Die Mindestsuchlänge beträgt {minSearchLength} Zeichen",
+    "Unified search" : "Einheitliche Suche",
+    "Search apps, files, tags, messages" : "Nach Apps, Dateien, Schlagworten und Nachrichten suchen",
     "Logging in …" : "Anmelden …",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Es wurden mehrere ungültige Anmeldeversuche von Ihrer IP-Adresse festgestellt. Daher wird die nächste Anmeldung um 30 Sekunden verzögert.",
     "Loading apps …" : "Lade Apps …",
@@ -579,6 +578,7 @@ OC.L10N.register(
     "Too many incorrect login attempts. Please try again in 30 seconds." : "Zu viele falsche Anmeldeversuche. Bitte in 30 Sekunden erneut versuchen.",
     "Groups" : "Gruppen",
     "Group list is empty" : "Gruppenliste ist leer",
-    "Unable to retrieve the group list" : "Gruppenliste konnte nicht abgerufen werden"
+    "Unable to retrieve the group list" : "Gruppenliste konnte nicht abgerufen werden",
+    "Search apps, files, tags, messages …" : "Nach Apps, Dateien, Schlagworten, Nachrichten suchen …"
 },
 "nplurals=2; plural=(n != 1);");

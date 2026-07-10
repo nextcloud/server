@@ -231,9 +231,8 @@ OC.L10N.register(
     "Pick start date" : "Pick start date",
     "Pick end date" : "Pick end date",
     "Search in date range" : "Search in date range",
-    "Search apps, files, tags, messages …" : "Search apps, files, tags, messages …",
-    "Search in current app" : "Search in current app",
     "Clear search" : "Clear search",
+    "Search in current app" : "Search in current app",
     "Search everywhere" : "Search everywhere",
     "Searching …" : "Searching …",
     "Start typing to search" : "Start typing to search",
@@ -245,8 +244,6 @@ OC.L10N.register(
     "This year" : "This year",
     "Last year" : "Last year",
     "Between {startDate} and {endDate}" : "Between {startDate} and {endDate}",
-    "Unified search" : "Unified search",
-    "Search apps, files, tags, messages" : "Search apps, files, tags, messages",
     "Places" : "Places",
     "Date" : "Date",
     "Search people" : "Search people",
@@ -519,6 +516,8 @@ OC.L10N.register(
     "Applications menu" : "Applications menu",
     "Searching …" : "Searching …",
     "Minimum search length is {minSearchLength} characters" : "Minimum search length is {minSearchLength} characters",
+    "Unified search" : "Unified search",
+    "Search apps, files, tags, messages" : "Search apps, files, tags, messages",
     "Logging in …" : "Logging in …",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds.",
     "Loading apps …" : "Loading apps …",
@@ -568,6 +567,7 @@ OC.L10N.register(
     "Too many incorrect login attempts. Please try again in 30 seconds." : "Too many incorrect login attempts. Please try again in 30 seconds.",
     "Groups" : "Groups",
     "Group list is empty" : "Group list is empty",
-    "Unable to retrieve the group list" : "Unable to retrieve the group list"
+    "Unable to retrieve the group list" : "Unable to retrieve the group list",
+    "Search apps, files, tags, messages …" : "Search apps, files, tags, messages …"
 },
 "nplurals=2; plural=(n != 1);");

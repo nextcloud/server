@@ -231,9 +231,8 @@ OC.L10N.register(
     "Pick start date" : "Escoja una fecha de inicio",
     "Pick end date" : "Escoja una fecha fin",
     "Search in date range" : "Buscar en un rango de fechas",
-    "Search apps, files, tags, messages …" : "Busca aplicaciones, archivos, etiquetas, mensajes …",
-    "Search in current app" : "Buscar en la app actual",
     "Clear search" : "Limpiar búsqueda",
+    "Search in current app" : "Buscar en la app actual",
     "Search everywhere" : "Buscar en todas partes",
     "Searching …" : "Buscando …",
     "Start typing to search" : "Empieza a escribir para buscar",
@@ -244,8 +243,6 @@ OC.L10N.register(
     "This year" : "Este año",
     "Last year" : "El año pasado año",
     "Between {startDate} and {endDate}" : "Entre {startDate} y {endDate}",
-    "Unified search" : "Búsqueda unificada",
-    "Search apps, files, tags, messages" : "Buscar en apps, archivos, etiquetas, mensajes",
     "Places" : "Ubicaciones",
     "Date" : "Fecha",
     "Search people" : "Buscar personas",
@@ -518,6 +515,8 @@ OC.L10N.register(
     "Applications menu" : "Menú Aplicaciones",
     "Searching …" : "Buscando  …",
     "Minimum search length is {minSearchLength} characters" : "El tamaño mínimo para búsquedas es de {minSearchLength} caracteres",
+    "Unified search" : "Búsqueda unificada",
+    "Search apps, files, tags, messages" : "Buscar en apps, archivos, etiquetas, mensajes",
     "Logging in …" : "Iniciando sesión ...",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Hemos detectado múltiples intentos inválidos desde tu IP. Por tanto, tu próximo intento se retrasará 30 segundos.",
     "Loading apps …" : "Cargando apps ...",
@@ -567,6 +566,7 @@ OC.L10N.register(
     "Too many incorrect login attempts. Please try again in 30 seconds." : "Demasiados intentos de inicio de sesión fallidos. Inténtalo de nuevo en 30 segundos.",
     "Groups" : "Grupos",
     "Group list is empty" : "La lista de grupos está vacía",
-    "Unable to retrieve the group list" : "No se ha podido recuperar la lista de grupos."
+    "Unable to retrieve the group list" : "No se ha podido recuperar la lista de grupos.",
+    "Search apps, files, tags, messages …" : "Busca aplicaciones, archivos, etiquetas, mensajes …"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -229,9 +229,8 @@ OC.L10N.register(
     "Pick start date" : "选择起始日期",
     "Pick end date" : "选择结束日期",
     "Search in date range" : "在日期范围内进行搜索",
-    "Search apps, files, tags, messages …" : "搜索应用程序、文件、标签，消息",
-    "Search in current app" : "在当前应用程序中搜索",
     "Clear search" : "清除搜索",
+    "Search in current app" : "在当前应用程序中搜索",
     "Search everywhere" : "全局搜索",
     "Searching …" : "正在搜索 …",
     "Start typing to search" : "开始输入以搜索",
@@ -242,8 +241,6 @@ OC.L10N.register(
     "This year" : "今年",
     "Last year" : "去年",
     "Between {startDate} and {endDate}" : "{startDate} 和 {endDate} 之间",
-    "Unified search" : "统一搜索",
-    "Search apps, files, tags, messages" : "搜索应用程序、文件、标签，信息",
     "Places" : "位置",
     "Date" : "日期",
     "Search people" : "搜索用户",
@@ -516,6 +513,8 @@ OC.L10N.register(
     "Applications menu" : "应用程序菜单",
     "Searching …" : "正在搜索 ...",
     "Minimum search length is {minSearchLength} characters" : "最小搜索长度为 {minSearchLength} 个字符",
+    "Unified search" : "统一搜索",
+    "Search apps, files, tags, messages" : "搜索应用程序、文件、标签，信息",
     "Logging in …" : "正在登录……",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "我们检测到你的 IP 进行了多次无效登录尝试。因此，你的下一次登录将被延迟 30 秒。",
     "Loading apps …" : "正在加载应用…",
@@ -565,6 +564,7 @@ OC.L10N.register(
     "Too many incorrect login attempts. Please try again in 30 seconds." : "错误登录尝试次数过多，请在 30 秒后重试。",
     "Groups" : "群组",
     "Group list is empty" : "群组列表为空",
-    "Unable to retrieve the group list" : "无法检索群组列表"
+    "Unable to retrieve the group list" : "无法检索群组列表",
+    "Search apps, files, tags, messages …" : "搜索应用程序、文件、标签，消息"
 },
 "nplurals=1; plural=0;");

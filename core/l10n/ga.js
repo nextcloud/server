@@ -239,9 +239,8 @@ OC.L10N.register(
     "Pick start date" : "Roghnaigh dáta tosaithe",
     "Pick end date" : "Roghnaigh dáta deiridh",
     "Search in date range" : "Cuardaigh i raon dáta",
-    "Search apps, files, tags, messages …" : "Cuardaigh aipeanna, comhaid, clibeanna, teachtaireachtaí …",
-    "Search in current app" : "Cuardaigh san aip reatha",
     "Clear search" : "Glan cuardach",
+    "Search in current app" : "Cuardaigh san aip reatha",
     "Search everywhere" : "Cuardaigh i ngach áit",
     "Searching …" : "Ag cuardach …",
     "Start typing to search" : "Tosaigh ag clóscríobh chun cuardach a dhéanamh",
@@ -253,8 +252,6 @@ OC.L10N.register(
     "This year" : "An bhliain seo",
     "Last year" : "Anuraidh",
     "Between {startDate} and {endDate}" : "Idir {startDate} agus {endDate}",
-    "Unified search" : "Cuardach aontaithe",
-    "Search apps, files, tags, messages" : "Cuardaigh apps, comhaid, clibeanna, teachtaireachtaí",
     "Places" : "Áiteanna",
     "Date" : "Dáta",
     "Search people" : "Cuardaigh daoine",
@@ -530,6 +527,8 @@ OC.L10N.register(
     "Applications menu" : "Roghchlár feidhmchlár",
     "Searching …" : "Ag cuardach…",
     "Minimum search length is {minSearchLength} characters" : "Is é {minSearchLength} carachtar an fad cuardaigh íosta",
+    "Unified search" : "Cuardach aontaithe",
+    "Search apps, files, tags, messages" : "Cuardaigh apps, comhaid, clibeanna, teachtaireachtaí",
     "Logging in …" : "Ag logáil isteach…",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Bhraitheamar go leor iarrachtaí logáil isteach neamhbhailí ó do IP. Dá bhrí sin tá do logáil isteach eile throttled suas go dtí 30 soicind.",
     "Loading apps …" : "Aipeanna á lódáil…",
@@ -579,6 +578,7 @@ OC.L10N.register(
     "Too many incorrect login attempts. Please try again in 30 seconds." : "An iomarca iarrachtaí logála isteach míchearta. Déan iarracht arís i gceann 30 soicind.",
     "Groups" : "Grúpaí",
     "Group list is empty" : "Tá liosta an ghrúpa folamh",
-    "Unable to retrieve the group list" : "Ní féidir liosta na ngrúpaí a fháil"
+    "Unable to retrieve the group list" : "Ní féidir liosta na ngrúpaí a fháil",
+    "Search apps, files, tags, messages …" : "Cuardaigh aipeanna, comhaid, clibeanna, teachtaireachtaí …"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");
