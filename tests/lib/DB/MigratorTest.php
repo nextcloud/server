@@ -350,173 +350,18 @@ class MigratorTest extends \Test\TestCase {
 	}
 
 	/**
-	 * The PL/SQL block of the customer workaround script
-	 * (nc-ora22858-workaround.sql) with the sqlplus substitution variables
-	 * replaced. Must be kept identical to the block in the shipped script.
+	 * The PL/SQL block of the customer workaround script, read from the
+	 * shipped script file so CI validates the literal artifact, with the
+	 * sqlplus substitution variables replaced the way sqlplus would.
 	 */
 	private function getWorkaroundScriptBlock(string $tableName, string $backupConfirmed): string {
-		$block = <<<'SQL'
-DECLARE
-	l_table         CONSTANT VARCHAR2(128) := '&table_name';
-	l_table_exists  INTEGER;
-	l_old_type      user_tab_columns.data_type%TYPE;
-	l_old_nullable  user_tab_columns.nullable%TYPE;
-	l_new_type      user_tab_columns.data_type%TYPE;
-	l_rows          INTEGER;
-	l_nulls         INTEGER;
-	l_count         INTEGER;
-
-	PROCEDURE fail(p_msg IN VARCHAR2) IS
-	BEGIN
-		RAISE_APPLICATION_ERROR(-20001, p_msg);
-	END;
-
-	PROCEDURE say(p_msg IN VARCHAR2) IS
-	BEGIN
-		DBMS_OUTPUT.PUT_LINE(p_msg);
-	END;
-BEGIN
-	IF LOWER(TRIM('&backup_confirmed')) NOT IN ('yes', 'y') THEN
-		fail('Aborted: restorable backup not confirmed. Nothing was changed.');
-	END IF;
-
-	SELECT COUNT(*) INTO l_table_exists
-	  FROM user_tables WHERE table_name = l_table;
-	IF l_table_exists = 0 THEN
-		fail('Table "' || l_table || '" not found in this schema. Check the '
-			|| 'dbtableprefix in config.php and that you are connected as the '
-			|| 'Nextcloud database user. Nothing was changed.');
-	END IF;
-
-	BEGIN
-		SELECT data_type, nullable INTO l_old_type, l_old_nullable
-		  FROM user_tab_columns
-		 WHERE table_name = l_table AND column_name = 'argument';
-	EXCEPTION WHEN NO_DATA_FOUND THEN
-		l_old_type := NULL;
-	END;
-
-	BEGIN
-		SELECT data_type INTO l_new_type
-		  FROM user_tab_columns
-		 WHERE table_name = l_table AND column_name = 'argument2';
-	EXCEPTION WHEN NO_DATA_FOUND THEN
-		l_new_type := NULL;
-	END;
-
-	-- State: already converted (also the state after a successful run).
-	IF l_old_type = 'CLOB' AND l_new_type IS NULL THEN
-		say('Column "argument" is already CLOB - nothing to do.');
-		say('Re-run `occ upgrade` if it has not completed yet.');
-		RETURN;
-	END IF;
-
-	-- State: unexpected - do not guess.
-	IF l_old_type = 'CLOB' AND l_new_type IS NOT NULL THEN
-		fail('Unexpected state: "argument" is already CLOB but "argument2" '
-			|| 'also exists. Manual inspection required. Nothing was changed.');
-	END IF;
-
-	-- State: interrupted between DROP and RENAME (copy was verified and
-	-- committed before the drop, so finishing the rename is safe).
-	IF l_old_type IS NULL AND l_new_type = 'CLOB' THEN
-		say('Resuming interrupted run: renaming "argument2" to "argument".');
-		EXECUTE IMMEDIATE 'ALTER TABLE "' || l_table
-			|| '" RENAME COLUMN "argument2" TO "argument"';
-		EXECUTE IMMEDIATE 'SELECT COUNT(*) FROM "' || l_table
-			|| '" WHERE "argument" IS NULL' INTO l_nulls;
-		IF l_nulls = 0 THEN
-			EXECUTE IMMEDIATE 'ALTER TABLE "' || l_table
-				|| '" MODIFY ("argument" NOT NULL)';
-		ELSE
-			say('WARNING: ' || l_nulls || ' NULL values present, NOT NULL '
-				|| 'constraint not restored - report this in the ticket.');
-		END IF;
-		say('SUCCESS (resumed run completed). Re-run `occ upgrade` now.');
-		RETURN;
-	END IF;
-
-	IF l_old_type IS NULL THEN
-		fail('Column "argument" not found on "' || l_table || '" - '
-			|| 'unexpected schema. Nothing was changed.');
-	END IF;
-
-	IF l_old_type <> 'VARCHAR2' THEN
-		fail('Unexpected type for "argument": ' || l_old_type
-			|| ' (expected VARCHAR2). Nothing was changed.');
-	END IF;
-
-	-- State: interrupted after ADD/copy but before DROP - the temporary
-	-- column may hold a partial copy; remove it and redo from scratch.
-	IF l_new_type IS NOT NULL THEN
-		say('Previous interrupted run detected: dropping "argument2" and '
-			|| 'redoing the copy.');
-		EXECUTE IMMEDIATE 'ALTER TABLE "' || l_table
-			|| '" DROP COLUMN "argument2"';
-	END IF;
-
-	-- Fresh conversion.
-	EXECUTE IMMEDIATE 'SELECT COUNT(*) FROM "' || l_table || '"' INTO l_rows;
-	EXECUTE IMMEDIATE 'SELECT COUNT(*) FROM "' || l_table
-		|| '" WHERE "argument" IS NULL' INTO l_nulls;
-	say('Rows: ' || l_rows || ', NULL arguments: ' || l_nulls);
-	IF l_nulls > 0 THEN
-		fail(l_nulls || ' NULL values in "argument" - stop and report this '
-			|| 'in the ticket. Nothing was changed.');
-	END IF;
-
-	say('Adding temporary CLOB column and copying data...');
-	EXECUTE IMMEDIATE 'ALTER TABLE "' || l_table || '" ADD ("argument2" CLOB)';
-	EXECUTE IMMEDIATE 'UPDATE "' || l_table || '" SET "argument2" = "argument"';
-	say('Copied ' || SQL%ROWCOUNT || ' rows.');
-
-	-- Verification gate - runs BEFORE the copy is committed.
-	EXECUTE IMMEDIATE 'SELECT COUNT(*) FROM "' || l_table
-		|| '" WHERE ("argument" IS NOT NULL AND "argument2" IS NULL)'
-		|| ' OR DBMS_LOB.COMPARE("argument2", TO_CLOB("argument")) <> 0'
-		INTO l_count;
-	IF l_count <> 0 THEN
-		ROLLBACK;
-		EXECUTE IMMEDIATE 'ALTER TABLE "' || l_table
-			|| '" DROP COLUMN "argument2"';
-		fail('Verification failed: ' || l_count || ' rows did not copy '
-			|| 'identically. The copy was rolled back and the temporary '
-			|| 'column removed - the original column is untouched. Report '
-			|| 'this in the ticket.');
-	END IF;
-	COMMIT;
-	say('Copy verified: 0 mismatches. Swapping columns...');
-
-	EXECUTE IMMEDIATE 'ALTER TABLE "' || l_table || '" DROP COLUMN "argument"';
-	EXECUTE IMMEDIATE 'ALTER TABLE "' || l_table
-		|| '" RENAME COLUMN "argument2" TO "argument"';
-	IF l_old_nullable = 'N' THEN
-		EXECUTE IMMEDIATE 'ALTER TABLE "' || l_table
-			|| '" MODIFY ("argument" NOT NULL)';
-	END IF;
-
-	-- Final checks.
-	EXECUTE IMMEDIATE 'SELECT COUNT(*) FROM "' || l_table || '"' INTO l_count;
-	IF l_count <> l_rows THEN
-		fail('Row count changed during conversion: ' || l_rows || ' -> '
-			|| l_count || '. Restore from backup and report this.');
-	END IF;
-	SELECT data_type INTO l_old_type
-	  FROM user_tab_columns
-	 WHERE table_name = l_table AND column_name = 'argument';
-	IF l_old_type <> 'CLOB' THEN
-		fail('Post-check failed: "argument" is ' || l_old_type
-			|| ', expected CLOB.');
-	END IF;
-
-	say('SUCCESS: "argument" converted to CLOB, ' || l_rows
-		|| ' rows verified intact. Re-run `occ upgrade` now.');
-END;
-SQL;
+		$script = file_get_contents(\OC::$SERVERROOT . '/tests/data/nc-ora22858-workaround.sql');
+		$this->assertNotFalse($script, 'workaround script file not readable');
+		$this->assertSame(1, preg_match('/^DECLARE\R.*?^END;/ms', $script, $matches), 'PL/SQL block not found in workaround script');
 		return str_replace(
 			['&table_name', '&backup_confirmed'],
 			[$tableName, $backupConfirmed],
-			$block,
+			$matches[0],
 		);
 	}
 
@@ -569,12 +414,26 @@ SQL;
 
 		$values = $this->createWorkaroundTestTable();
 
-		try {
-			$this->connection->executeStatement($this->getWorkaroundScriptBlock($this->tableName, 'no'));
-			$this->fail('Expected the script to abort without backup confirmation');
-		} catch (\Doctrine\DBAL\Exception\DriverException $e) {
-			$this->assertStringContainsString('backup not confirmed', $e->getMessage());
+		// pressing enter at the prompt yields an empty value - must abort
+		foreach (['no', ''] as $notConfirmed) {
+			try {
+				$this->connection->executeStatement($this->getWorkaroundScriptBlock($this->tableName, $notConfirmed));
+				$this->fail('Expected the script to abort without backup confirmation');
+			} catch (\Doctrine\DBAL\Exception\DriverException $e) {
+				$this->assertStringContainsString('backup not confirmed', $e->getMessage());
+			}
 		}
+
+		// an argument2 column this script did not create must not be dropped
+		$quotedTable = $this->connection->quoteIdentifier($this->tableName);
+		$this->connection->executeStatement('ALTER TABLE ' . $quotedTable . ' ADD ("argument2" NUMBER)');
+		try {
+			$this->connection->executeStatement($this->getWorkaroundScriptBlock($this->tableName, 'yes'));
+			$this->fail('Expected the script to refuse a foreign argument2 column');
+		} catch (\Doctrine\DBAL\Exception\DriverException $e) {
+			$this->assertStringContainsString('argument2', $e->getMessage());
+		}
+		$this->connection->executeStatement('ALTER TABLE ' . $quotedTable . ' DROP COLUMN "argument2"');
 
 		$this->connection->executeStatement($this->getWorkaroundScriptBlock($this->tableName, 'yes'));
 		$this->assertWorkaroundResult($values);
@@ -600,6 +459,29 @@ SQL;
 		$this->connection->executeStatement('ALTER TABLE ' . $quotedTable . ' ADD ("argument2" CLOB)');
 		$this->connection->executeStatement('UPDATE ' . $quotedTable . ' SET "argument2" = "argument"');
 		$this->connection->executeStatement('ALTER TABLE ' . $quotedTable . ' DROP COLUMN "argument"');
+
+		$this->connection->executeStatement($this->getWorkaroundScriptBlock($this->tableName, 'yes'));
+		$this->assertWorkaroundResult($values);
+	}
+
+	/**
+	 * A run interrupted between the RENAME and the NOT NULL restore leaves
+	 * a nullable CLOB column - a re-run must repair the constraint instead
+	 * of declaring the state done.
+	 */
+	public function testWorkaroundScriptRestoresNotNullOnOracle(): void {
+		if ($this->connection->getDatabaseProvider() !== IDBConnection::PLATFORM_ORACLE) {
+			$this->markTestSkipped('Validates the Oracle-specific workaround script');
+		}
+
+		$values = $this->createWorkaroundTestTable();
+
+		// reproduce the state after RENAME but before the NOT NULL restore
+		$quotedTable = $this->connection->quoteIdentifier($this->tableName);
+		$this->connection->executeStatement('ALTER TABLE ' . $quotedTable . ' ADD ("argument2" CLOB)');
+		$this->connection->executeStatement('UPDATE ' . $quotedTable . ' SET "argument2" = "argument"');
+		$this->connection->executeStatement('ALTER TABLE ' . $quotedTable . ' DROP COLUMN "argument"');
+		$this->connection->executeStatement('ALTER TABLE ' . $quotedTable . ' RENAME COLUMN "argument2" TO "argument"');
 
 		$this->connection->executeStatement($this->getWorkaroundScriptBlock($this->tableName, 'yes'));
 		$this->assertWorkaroundResult($values);
