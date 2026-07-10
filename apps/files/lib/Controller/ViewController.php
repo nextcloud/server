@@ -175,7 +175,6 @@ class ViewController extends Controller {
 		}
 
 		$this->initialState->provideInitialState('storageStats', $storageInfo);
-		);
 		$this->initialState->provideInitialState('config', $this->userConfig->getConfigs());
 		$this->initialState->provideInitialState('viewConfigs', $this->viewConfig->getConfigs());
 		$this->initialState->provideInitialState('recent_limit', $this->appConfig->getAppValueInt(ConfigLexicon::RECENT_LIMIT, 100));
