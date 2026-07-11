@@ -14,6 +14,7 @@ use InvalidArgumentException;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarImpl;
 use OCP\Calendar\CalendarImportOptions;
+use OCP\IConfig;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Node;
 use Sabre\VObject\Reader;
@@ -26,6 +27,7 @@ class ImportService {
 
 	public function __construct(
 		private CalDavBackend $backend,
+		private IConfig $config,
 	) {
 	}
 
@@ -83,7 +85,7 @@ class ImportService {
 		foreach ($structure['VTIMEZONE'] as $tid => $collection) {
 			$instance = $collection[0];
 			$sObjectContents = $importer->extract((int)$instance[2], (int)$instance[3]);
-			$vObject = Reader::read($sObjectPrefix . $sObjectContents . $sObjectSuffix);
+			$vObject = Reader::read($sObjectPrefix . $sObjectContents . $sObjectSuffix, $this->getReaderOptions());
 			$timezones[$tid] = clone $vObject->VTIMEZONE;
 		}
 		// calendar components
@@ -98,7 +100,7 @@ class ImportService {
 					$sObjectContents .= $importer->extract($instance[2], $instance[3]);
 				}
 				/** @var VCalendar $vObject */
-				$vObject = Reader::read($sObjectPrefix . $sObjectContents . $sObjectSuffix);
+				$vObject = Reader::read($sObjectPrefix . $sObjectContents . $sObjectSuffix, $this->getReaderOptions());
 				// add time zones to object
 				foreach ($this->findTimeZones($vObject) as $zone) {
 					if (isset($timezones[$zone])) {
@@ -341,5 +343,11 @@ class ImportService {
 		}
 
 		return $result;
+	}
+
+	private function getReaderOptions(): int {
+		return $this->config->getSystemValueBool('dav.forgiving_ical_parser', false)
+			? Reader::OPTION_FORGIVING
+			: 0;
 	}
 }

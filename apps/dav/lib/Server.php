@@ -205,7 +205,7 @@ class Server {
 		// calendar plugins
 		if ($this->requestIsForSubtree(['calendars', 'public-calendars', 'system-calendars', 'principals'])) {
 			$this->server->addPlugin(new DAV\Sharing\Plugin($authBackend, \OCP\Server::get(IRequest::class), \OCP\Server::get(IConfig::class), \OCP\Server::get(RateLimiting::class)));
-			$this->server->addPlugin(new \OCA\DAV\CalDAV\Plugin());
+			$this->server->addPlugin(new \OCA\DAV\CalDAV\Plugin(\OCP\Server::get(IConfig::class)));
 			$this->server->addPlugin(new ICSExportPlugin(\OCP\Server::get(IConfig::class), $logger));
 			$this->server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin(\OCP\Server::get(IConfig::class), \OCP\Server::get(LoggerInterface::class), \OCP\Server::get(DefaultCalendarValidator::class)));
 
