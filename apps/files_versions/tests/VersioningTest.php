@@ -27,6 +27,8 @@ use OCP\Files\IMimeTypeLoader;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Lock\ILockingProvider;
+use OCP\Lock\LockedException;
 use OCP\Server;
 use OCP\Share\IShare;
 use OCP\User\Exceptions\UserNotFoundException;
@@ -761,6 +763,56 @@ class VersioningTest extends \Test\TestCase {
 			$eventHandler,
 			'callback'
 		);
+	}
+
+	/**
+	 * Restoring a version needs an exclusive lock on the live file. When another
+	 * request holds a shared (read) lock on that file at the same time — most
+	 * notably the versions sidebar generating a preview of the file via
+	 * OCA\Files_Versions\Controller\PreviewController — the exclusive lock cannot
+	 * be acquired and the restore throws a LockedException (surfacing as an HTTP
+	 * 500). This test reproduces that collision deterministically.
+	 */
+	public function testRestoreFailsWhileFileIsReadLocked(): void {
+		$filePath = self::TEST_VERSIONS_USER . '/files/sub/test.txt';
+		$this->rootView->mkdir(self::TEST_VERSIONS_USER . '/files/sub');
+		$this->rootView->file_put_contents($filePath, 'test file');
+		$fileInfo = $this->rootView->getFileInfo($filePath);
+
+		// Create a single older version to restore to.
+		$t2 = time() - 60 * 60 * 24 * 14;
+		$v2 = self::USERS_VERSIONS_ROOT . '/sub/test.txt.v' . $t2;
+		$this->rootView->mkdir(self::USERS_VERSIONS_ROOT . '/sub');
+		$this->rootView->file_put_contents($v2, 'version2');
+		$fileInfoV2 = $this->rootView->getFileInfo($v2);
+		$versionEntity = new VersionEntity();
+		$versionEntity->setFileId($fileInfo->getId());
+		$versionEntity->setTimestamp($t2);
+		$versionEntity->setSize($fileInfoV2->getSize());
+		$versionEntity->setMimetype($this->mimeTypeLoader->getId($fileInfoV2->getMimetype()));
+		$versionEntity->setMetadata([]);
+		$this->versionsMapper->insert($versionEntity);
+
+		// Simulate a concurrent version-preview read holding a shared lock.
+		$userView = new View('/' . self::TEST_VERSIONS_USER . '/files');
+		$userView->lockFile('/sub/test.txt', ILockingProvider::LOCK_SHARED);
+
+		// The low-level restore takes an exclusive lock on the live file, which
+		// must fail while the shared lock is held — this is the bug behind the 500.
+		$threw = false;
+		try {
+			Storage::rollback('/sub/test.txt', $t2, $this->user1);
+		} catch (LockedException $e) {
+			$threw = true;
+		}
+		$this->assertTrue($threw, 'Restore should fail with LockedException while the file is read-locked');
+		$this->assertEquals('test file', $this->rootView->file_get_contents($filePath), 'File must be unchanged after the failed restore');
+
+		// Once the read lock is released, the very same restore succeeds — proving
+		// the shared lock is the sole cause of the failure.
+		$userView->unlockFile('/sub/test.txt', ILockingProvider::LOCK_SHARED);
+		$this->assertTrue(Storage::rollback('/sub/test.txt', $t2, $this->user1));
+		$this->assertEquals('version2', $this->rootView->file_get_contents($filePath));
 	}
 
 	private function doTestRestore(): void {
