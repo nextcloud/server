@@ -126,7 +126,7 @@
     "regextras": "^0.8.0",
     "sass": "^1.101.0",
     "typescript": "^5.9.2",
-    "vite": "^7.3.6",
+    "vite": "^8.1.3",
     "vitest": "^4.1.9",
     "vue-loader": "^15.11.1",
     "vue-template-compiler": "^2.7.16",
