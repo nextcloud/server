@@ -77,6 +77,11 @@ export function getInlineActionEntryForFile(file: string, actionId: string) {
  * @param getActionButton query for the actions menu toggle of the row
  */
 function openActionsMenu(getActionButton: () => Cypress.Chainable<JQuery<HTMLElement>>): Cypress.Chainable<JQuery<HTMLElement>> {
+	// Total time we are willing to wait for the popover to become visible.
+	const ACTIONS_MENU_TIMEOUT = 20000
+	// Delay between two checks of the popover visibility.
+	const POLLING_INTERVAL = 250
+
 	// The menu open has two failure modes on slow runners, needing opposite
 	// responses:
 	//   - The click is lost because the row's handler is not attached yet, so
@@ -92,10 +97,10 @@ function openActionsMenu(getActionButton: () => Cypress.Chainable<JQuery<HTMLEle
 	const poll = (elapsed: number): Cypress.Chainable<JQuery<HTMLElement>> => {
 		return getActionButton().then(($toggle) => {
 			const menuId = $toggle.attr('aria-controls')
-			if (menuId && Cypress.$(`#${menuId}`).is(':visible')) {
+			if (menuId && Cypress.$(`#${CSS.escape(menuId)}`).is(':visible')) {
 				return cy.wrap($toggle)
 			}
-			if (elapsed >= 20000) {
+			if (elapsed >= ACTIONS_MENU_TIMEOUT) {
 				throw new Error(`Actions menu did not open (aria-expanded=${$toggle.attr('aria-expanded')})`)
 			}
 			// Only (re)open while collapsed; never click a menu that is mid-open.
@@ -103,8 +108,8 @@ function openActionsMenu(getActionButton: () => Cypress.Chainable<JQuery<HTMLEle
 				cy.wrap($toggle).click({ force: true }) // force to avoid issues with overlaying file list header
 			}
 			// eslint-disable-next-line cypress/no-unnecessary-waiting -- give the popover a moment to open/position before re-checking
-			cy.wait(250)
-			return poll(elapsed + 250)
+			cy.wait(POLLING_INTERVAL)
+			return poll(elapsed + POLLING_INTERVAL)
 		})
 	}
 	return poll(0)
