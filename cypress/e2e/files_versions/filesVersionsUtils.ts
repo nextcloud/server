@@ -7,7 +7,7 @@ import type { User } from '@nextcloud/e2e-test-server/cypress'
 import type { ShareSetting } from '../files_sharing/FilesSharingUtils.ts'
 
 import { basename } from '@nextcloud/paths'
-import { triggerActionForFile } from '../files/FilesUtils.ts'
+import { openActionsMenu, triggerActionForFile } from '../files/FilesUtils.ts'
 import { createShare } from '../files_sharing/FilesSharingUtils.ts'
 
 export function uploadThreeVersions(user: User, fileName: string) {
@@ -39,15 +39,40 @@ export function openVersionsPanel(fileName: string) {
 	cy.get('#tab-files_versions').should('be.visible', { timeout: 10000 })
 }
 
-export function toggleVersionMenu(index: number) {
-	cy.get('#tab-files_versions [data-files-versions-version]')
+function getVersionMenuToggle(index: number) {
+	return cy.get('#tab-files_versions [data-files-versions-version]')
 		.eq(index)
 		.find('button')
-		.click()
+}
+
+/**
+ * Open a version's actions menu. The version rows use the same NcActions menu
+ * as the file list, which on slow (CI) runners can drop the opening click or
+ * take several frames to display the popover — so open it with the shared
+ * robust helper instead of a single naive click.
+ *
+ * @param index the version row index
+ */
+export function openVersionMenu(index: number) {
+	openActionsMenu(() => getVersionMenuToggle(index))
+}
+
+/**
+ * Close a version's actions menu that was opened with openVersionMenu. Clicking
+ * the toggle while it is expanded collapses the popover.
+ *
+ * @param index the version row index
+ */
+export function closeVersionMenu(index: number) {
+	getVersionMenuToggle(index).then(($toggle) => {
+		if ($toggle.attr('aria-expanded') === 'true') {
+			cy.wrap($toggle).click({ force: true })
+		}
+	})
 }
 
 export function triggerVersionAction(index: number, actionName: string) {
-	toggleVersionMenu(index)
+	openVersionMenu(index)
 	cy.get(`[data-cy-files-versions-version-action="${actionName}"]`).filter(':visible').click()
 }
 
@@ -60,29 +85,8 @@ export function nameVersion(index: number, name: string) {
 
 export function restoreVersion(index: number) {
 	cy.intercept('MOVE', '**/dav/versions/*/versions/**').as('restoreVersion')
-	cy.intercept('PROPFIND', '**/dav/versions/*/versions/**').as('anyVersionsPropfind')
 	triggerVersionAction(index, 'restore')
-	cy.wait('@restoreVersion').then(({ request, response }) => {
-		cy.task('log', `[restore MOVE] status=${response?.statusCode} url=${(request?.url ?? '').split('/versions/').pop()} dest=${request?.headers?.destination ?? '-'}`, { log: false })
-	})
-	// DIAGNOSTIC: log the version-row labels over time after the restore, to see
-	// how long the client-side re-sort takes and whether any PROPFIND fires.
-	const poll = (elapsed: number) => {
-		cy.document({ log: false }).then((doc) => {
-			const rows = Array.from(doc.querySelectorAll('[data-files-versions-version]'))
-			const labels = rows
-				.map((el, i) => `${i}:'${(el.querySelector('[data-cy-files-version-label]')?.textContent ?? '').trim()}'`)
-				.join(' | ')
-			cy.task('log', `[restore+${elapsed}ms] rows=${rows.length} ${labels}`, { log: false })
-		})
-		if (elapsed >= 12000) {
-			return
-		}
-		// eslint-disable-next-line cypress/no-unnecessary-waiting
-		cy.wait(500)
-		poll(elapsed + 500)
-	}
-	poll(0)
+	cy.wait('@restoreVersion')
 }
 
 export function deleteVersion(index: number) {
@@ -92,9 +96,11 @@ export function deleteVersion(index: number) {
 }
 
 export function doesNotHaveAction(index: number, actionName: string) {
-	toggleVersionMenu(index)
+	openVersionMenu(index)
 	cy.get(`[data-cy-files-versions-version-action="${actionName}"]`).should('not.exist')
-	toggleVersionMenu(index)
+	// Close the menu again so its entries do not leak into the next assertion
+	// (the action query above is global).
+	closeVersionMenu(index)
 }
 
 export function assertVersionContent(index: number, expectedContent: string) {

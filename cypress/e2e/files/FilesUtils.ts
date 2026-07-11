@@ -76,7 +76,7 @@ export function getInlineActionEntryForFile(file: string, actionId: string) {
  *
  * @param getActionButton query for the actions menu toggle of the row
  */
-function openActionsMenu(getActionButton: () => Cypress.Chainable<JQuery<HTMLElement>>) {
+export function openActionsMenu(getActionButton: () => Cypress.Chainable<JQuery<HTMLElement>>) {
 	// The menu open has two failure modes on slow runners, needing opposite
 	// responses:
 	//   - The click is lost because the row's handler is not attached yet, so
