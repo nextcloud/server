@@ -82,9 +82,10 @@ function openActionsMenu(getActionButton: () => Cypress.Chainable<JQuery<HTMLEle
 			cy.wrap($toggle).click({ force: true }) // force to avoid issues with overlaying file list header
 		}
 	})
-	// DIAGNOSTIC: poll and record aria-expanded/visible so a hard failure reveals
-	// whether the menu was stuck positioning (expanded stays true) or was closed
-	// (expanded flips back to false). No recovery — we want the raw failure.
+	// DIAGNOSTIC: poll and record aria-expanded/visible. Emit the trace to the
+	// terminal via cy.task on every non-trivial open (and before any throw), so
+	// a single failed *attempt* is visible even when the test recovers on retry
+	// (Cypress hides recovered-attempt errors from the run output).
 	const transitions: string[] = []
 	const poll = (elapsed: number) => {
 		getActionButton().then(($toggle) => {
@@ -96,9 +97,13 @@ function openActionsMenu(getActionButton: () => Cypress.Chainable<JQuery<HTMLEle
 				transitions.push(`${elapsed}ms:${state}`)
 			}
 			if (visible) {
+				if (elapsed > 400) {
+					cy.task('log', `[menu-open] SLOW rowActions opened after ${elapsed}ms transitions=[${transitions.join(' -> ')}]`, { log: false })
+				}
 				return
 			}
 			if (elapsed >= 20000) {
+				cy.task('log', `[menu-open] FAILED rowActions transitions=[${transitions.join(' -> ')}]`, { log: false })
 				throw new Error(`Actions menu did not open. transitions=[${transitions.join(' -> ')}]`)
 			}
 			// eslint-disable-next-line cypress/no-unnecessary-waiting
