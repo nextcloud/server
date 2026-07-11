@@ -82,36 +82,12 @@ function openActionsMenu(getActionButton: () => Cypress.Chainable<JQuery<HTMLEle
 			cy.wrap($toggle).click({ force: true }) // force to avoid issues with overlaying file list header
 		}
 	})
-	// DIAGNOSTIC: poll and record aria-expanded/visible. Emit the trace to the
-	// terminal via cy.task on every non-trivial open (and before any throw), so
-	// a single failed *attempt* is visible even when the test recovers on retry
-	// (Cypress hides recovered-attempt errors from the run output).
-	const transitions: string[] = []
-	const poll = (elapsed: number) => {
-		getActionButton().then(($toggle) => {
-			const expanded = $toggle.attr('aria-expanded')
-			const menuId = $toggle.attr('aria-controls')
-			const visible = Boolean(menuId) && Cypress.$(`#${menuId}`).is(':visible')
-			const state = `expanded=${expanded},visible=${visible}`
-			if (state !== transitions[transitions.length - 1]) {
-				transitions.push(`${elapsed}ms:${state}`)
-			}
-			if (visible) {
-				if (elapsed > 400) {
-					cy.task('log', `[menu-open] SLOW rowActions opened after ${elapsed}ms transitions=[${transitions.join(' -> ')}]`, { log: false })
-				}
-				return
-			}
-			if (elapsed >= 20000) {
-				cy.task('log', `[menu-open] FAILED rowActions transitions=[${transitions.join(' -> ')}]`, { log: false })
-				throw new Error(`Actions menu did not open. transitions=[${transitions.join(' -> ')}]`)
-			}
-			// eslint-disable-next-line cypress/no-unnecessary-waiting
-			cy.wait(200)
-			poll(elapsed + 200)
+	getActionButton()
+		.should('have.attr', 'aria-controls')
+		.then((menuId) => {
+			// Generous timeout for the popover to finish positioning on slow runners
+			cy.get(`#${menuId}`, { timeout: 20000 }).should('be.visible')
 		})
-	}
-	poll(0)
 }
 
 /**

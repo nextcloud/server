@@ -48,28 +48,6 @@ export function toggleVersionMenu(index: number) {
 
 export function triggerVersionAction(index: number, actionName: string) {
 	toggleVersionMenu(index)
-	// DIAGNOSTIC: the version-item menu is a separate NcActions instance; record
-	// whether the requested action ever becomes visible after the toggle click.
-	const poll = (elapsed: number) => {
-		cy.get('#tab-files_versions [data-files-versions-version]').eq(index).find('button').then(($toggle) => {
-			const expanded = $toggle.attr('aria-expanded')
-			const visible = Cypress.$(`[data-cy-files-versions-version-action="${actionName}"]:visible`).length > 0
-			if (visible) {
-				if (elapsed > 400) {
-					cy.task('log', `[version-menu] SLOW action=${actionName} visible after ${elapsed}ms (lastExpanded=${expanded})`, { log: false })
-				}
-				return
-			}
-			if (elapsed >= 15000) {
-				cy.task('log', `[version-menu] FAILED action=${actionName} never visible (lastExpanded=${expanded})`, { log: false })
-				return
-			}
-			// eslint-disable-next-line cypress/no-unnecessary-waiting
-			cy.wait(200)
-			poll(elapsed + 200)
-		})
-	}
-	poll(0)
 	cy.get(`[data-cy-files-versions-version-action="${actionName}"]`).filter(':visible').click()
 }
 
@@ -84,6 +62,12 @@ export function restoreVersion(index: number) {
 	cy.intercept('MOVE', '**/dav/versions/*/versions/**').as('restoreVersion')
 	triggerVersionAction(index, 'restore')
 	cy.wait('@restoreVersion')
+	// After the restore, the sidebar re-fetches the versions list via a debounced
+	// watcher (see FilesVersionsSidebarTab.vue) and only then relabels the entries
+	// (e.g. drops the "Initial version" label). Waiting only for the MOVE above
+	// races that refresh on slow runners, so also wait for the versions reload
+	// (aliased in openVersionsPanel) before asserting on the updated list.
+	cy.wait('@getVersions')
 }
 
 export function deleteVersion(index: number) {
