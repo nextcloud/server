@@ -63,56 +63,76 @@ export function getInlineActionEntryForFile(file: string, actionId: string) {
 }
 
 /**
- * Open the actions menu of a file row and wait until it is actually displayed.
- *
- * Click exactly once, then wait: while the popover opens, the toggle
- * already reports aria-expanded="true" although the menu is still hidden —
- * the popover positions itself over several frames, which can take a while
- * on slow (CI) runners. Clicking again in that state toggles the menu
- * closed and tangles the popover's show and hide transitions into a stuck,
- * permanently invisible popover. Clicking is only safe while the toggle
- * reports "closed", e.g. after an auto-close caused by a stray outside
- * click.
- *
- * @param getActionButton query for the actions menu toggle of the row
+ * Total time we are willing to wait for an actions popover to settle
+ * (fully open or fully closed) after clicking its toggle.
  */
-function openActionsMenu(getActionButton: () => Cypress.Chainable<JQuery<HTMLElement>>): Cypress.Chainable<JQuery<HTMLElement>> {
-	// Total time we are willing to wait for the popover to become visible.
-	const ACTIONS_MENU_TIMEOUT = 20000
-	// Delay between two checks of the popover visibility.
-	const POLLING_INTERVAL = 250
+const ACTIONS_MENU_TIMEOUT = 20000
+/**
+ * Delay between two checks of an actions popover's visibility while
+ * polling for it to settle.
+ */
+const ACTIONS_MENU_POLLING_INTERVAL = 250
 
-	// The menu open has two failure modes on slow runners, needing opposite
-	// responses:
-	//   - The click is lost because the row's handler is not attached yet, so
-	//     the toggle stays collapsed (aria-expanded="false"). We must click
-	//     again.
-	//   - The menu is opening but the popover is still positioning over a few
-	//     frames (aria-expanded="true", not yet visible). Clicking again here
-	//     would toggle it closed and tangle the show/hide transitions, so we
-	//     must only wait.
-	// Poll accordingly until the menu is actually displayed, returning a
-	// chainable so callers can rely on the command queue ordering it before
-	// any subsequent commands.
-	const poll = (elapsed: number): Cypress.Chainable<JQuery<HTMLElement>> => {
+/**
+ * Click an actions menu toggle until it settles in the given state
+ * (`expanded: true` for open, `expanded: false` for closed).
+ *
+ * The popover's `aria-expanded` attribute flips to its target value before
+ * the popover itself has finished its show/hide transition and is actually
+ * visible/hidden — this can take a while on slow (CI) runners. Clicking
+ * again while a transition is still in progress toggles the popover back
+ * to its previous state and tangles the show/hide transitions into a
+ * stuck popover that never settles (and can keep covering other elements
+ * on the page, causing unrelated `cy.click()` calls elsewhere to fail with
+ * "is being covered by another element"). Clicking is only safe once the
+ * toggle's `aria-expanded` attribute matches the popover's actual
+ * visibility, i.e. once any previous transition has finished.
+ *
+ * @param getActionButton query for the actions menu toggle
+ * @param expanded whether the menu should end up open (`true`) or closed (`false`)
+ */
+function setActionsMenuState<E extends HTMLElement>(getActionButton: () => Cypress.Chainable<JQuery<E>>, expanded: boolean): Cypress.Chainable<JQuery<E>> {
+	const poll = (elapsed: number): Cypress.Chainable<JQuery<E>> => {
 		return getActionButton().then(($toggle) => {
 			const menuId = $toggle.attr('aria-controls')
-			if (menuId && Cypress.$(`#${CSS.escape(menuId)}`).is(':visible')) {
+			const isVisible = !!menuId && Cypress.$(`#${CSS.escape(menuId)}`).is(':visible')
+			if (isVisible === expanded) {
 				return cy.wrap($toggle)
 			}
 			if (elapsed >= ACTIONS_MENU_TIMEOUT) {
-				throw new Error(`Actions menu did not open (aria-expanded=${$toggle.attr('aria-expanded')})`)
+				throw new Error(`Actions menu did not ${expanded ? 'open' : 'close'} (aria-expanded=${$toggle.attr('aria-expanded')})`)
 			}
-			// Only (re)open while collapsed; never click a menu that is mid-open.
-			if ($toggle.attr('aria-expanded') !== 'true') {
+			// Only click while the toggle has settled in the *other* state;
+			// never click while a transition is still in progress.
+			const isSettledClosed = $toggle.attr('aria-expanded') !== 'true' && !isVisible
+			const isSettledOpen = $toggle.attr('aria-expanded') === 'true' && isVisible
+			if (isSettledClosed || isSettledOpen) {
 				cy.wrap($toggle).click({ force: true }) // force to avoid issues with overlaying file list header
 			}
-			// eslint-disable-next-line cypress/no-unnecessary-waiting -- give the popover a moment to open/position before re-checking
-			cy.wait(POLLING_INTERVAL)
-			return poll(elapsed + POLLING_INTERVAL)
+			// eslint-disable-next-line cypress/no-unnecessary-waiting -- give the popover a moment to open/close/position before re-checking
+			cy.wait(ACTIONS_MENU_POLLING_INTERVAL)
+			return poll(elapsed + ACTIONS_MENU_POLLING_INTERVAL)
 		})
 	}
 	return poll(0)
+}
+
+/**
+ * Open the actions menu of a row and wait until it is actually displayed.
+ *
+ * @param getActionButton query for the actions menu toggle of the row
+ */
+export function openActionsMenu<E extends HTMLElement>(getActionButton: () => Cypress.Chainable<JQuery<E>>): Cypress.Chainable<JQuery<E>> {
+	return setActionsMenuState(getActionButton, true)
+}
+
+/**
+ * Close the actions menu of a row and wait until it is actually hidden.
+ *
+ * @param getActionButton query for the actions menu toggle of the row
+ */
+export function closeActionsMenu<E extends HTMLElement>(getActionButton: () => Cypress.Chainable<JQuery<E>>): Cypress.Chainable<JQuery<E>> {
+	return setActionsMenuState(getActionButton, false)
 }
 
 /**
@@ -123,7 +143,7 @@ function openActionsMenu(getActionButton: () => Cypress.Chainable<JQuery<HTMLEle
 export function triggerActionForFileId(fileid: number, actionId: string) {
 	getActionButtonForFileId(fileid)
 		.scrollIntoView()
-	openActionsMenu(() => getActionButtonForFileId(fileid))
+		.then(() => openActionsMenu(() => getActionButtonForFileId(fileid)))
 	getActionEntryForFileId(fileid, actionId)
 		.find('button')
 		.should('be.visible')
@@ -138,7 +158,7 @@ export function triggerActionForFileId(fileid: number, actionId: string) {
 export function triggerActionForFile(filename: string, actionId: string) {
 	getActionButtonForFile(filename)
 		.scrollIntoView()
-	openActionsMenu(() => getActionButtonForFile(filename))
+		.then(() => openActionsMenu(() => getActionButtonForFile(filename)))
 	getActionEntryForFile(filename, actionId)
 		.find('button')
 		.should('be.visible')

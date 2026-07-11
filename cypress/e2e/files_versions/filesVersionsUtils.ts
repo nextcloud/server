@@ -7,7 +7,7 @@ import type { User } from '@nextcloud/e2e-test-server/cypress'
 import type { ShareSetting } from '../files_sharing/FilesSharingUtils.ts'
 
 import { basename } from '@nextcloud/paths'
-import { triggerActionForFile } from '../files/FilesUtils.ts'
+import { closeActionsMenu, openActionsMenu, triggerActionForFile } from '../files/FilesUtils.ts'
 import { createShare } from '../files_sharing/FilesSharingUtils.ts'
 
 export function uploadThreeVersions(user: User, fileName: string) {
@@ -39,11 +39,14 @@ export function openVersionsPanel(fileName: string) {
 	cy.get('#tab-files_versions').should('be.visible', { timeout: 10000 })
 }
 
-export function toggleVersionMenu(index: number) {
-	cy.get('#tab-files_versions [data-files-versions-version]')
+function getVersionMenuToggle(index: number) {
+	return cy.get('#tab-files_versions [data-files-versions-version]')
 		.eq(index)
 		.find('button')
-		.click()
+}
+
+export function toggleVersionMenu(index: number) {
+	openActionsMenu(() => getVersionMenuToggle(index))
 }
 
 export function triggerVersionAction(index: number, actionName: string) {
@@ -73,7 +76,7 @@ export function deleteVersion(index: number) {
 export function doesNotHaveAction(index: number, actionName: string) {
 	toggleVersionMenu(index)
 	cy.get(`[data-cy-files-versions-version-action="${actionName}"]`).should('not.exist')
-	toggleVersionMenu(index)
+	closeActionsMenu(() => getVersionMenuToggle(index))
 }
 
 export function assertVersionContent(index: number, expectedContent: string) {
