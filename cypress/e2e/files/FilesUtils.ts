@@ -91,7 +91,7 @@ const ACTIONS_MENU_POLLING_INTERVAL = 250
  * @param getActionButton query for the actions menu toggle
  * @param expanded whether the menu should end up open (`true`) or closed (`false`)
  */
-function setActionsMenuState<E extends HTMLElement>(getActionButton: () => Cypress.Chainable<JQuery<E>>, expanded: boolean): Cypress.Chainable<JQuery<E>> {
+function waitForActionsMenuState<E extends HTMLElement>(getActionButton: () => Cypress.Chainable<JQuery<E>>, expanded: boolean): Cypress.Chainable<JQuery<E>> {
 	const poll = (elapsed: number): Cypress.Chainable<JQuery<E>> => {
 		return getActionButton().then(($toggle) => {
 			const menuId = $toggle.attr('aria-controls')
@@ -123,7 +123,7 @@ function setActionsMenuState<E extends HTMLElement>(getActionButton: () => Cypre
  * @param getActionButton query for the actions menu toggle of the row
  */
 export function openActionsMenu<E extends HTMLElement>(getActionButton: () => Cypress.Chainable<JQuery<E>>): Cypress.Chainable<JQuery<E>> {
-	return setActionsMenuState(getActionButton, true)
+	return waitForActionsMenuState(getActionButton, true)
 }
 
 /**
@@ -132,7 +132,7 @@ export function openActionsMenu<E extends HTMLElement>(getActionButton: () => Cy
  * @param getActionButton query for the actions menu toggle of the row
  */
 export function closeActionsMenu<E extends HTMLElement>(getActionButton: () => Cypress.Chainable<JQuery<E>>): Cypress.Chainable<JQuery<E>> {
-	return setActionsMenuState(getActionButton, false)
+	return waitForActionsMenuState(getActionButton, false)
 }
 
 /**
