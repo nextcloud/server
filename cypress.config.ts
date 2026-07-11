@@ -71,6 +71,13 @@ export default defineConfig({
 			// because Cypress.env() and other options are local to the current spec file.
 			const data: Record<string, unknown> = {}
 			on('task', {
+				// Print a message to the Node/terminal stdout (browser console.log
+				// is not piped to the cypress run output in headless mode).
+				log(message) {
+					// eslint-disable-next-line no-console
+					console.log(message)
+					return null
+				},
 				setVariable({ key, value }) {
 					data[key] = value
 					return null
