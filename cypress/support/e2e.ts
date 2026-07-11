@@ -26,3 +26,15 @@ Cypress.on('window:before:load', (win) => {
 		}
 	}
 })
+
+// Optional CPU throttling to reproduce CI-like renderer slowness locally.
+// Usage: CYPRESS_CPU_THROTTLE=8 npx cypress run ...
+const cpuThrottle = Number(Cypress.env('CPU_THROTTLE'))
+if (cpuThrottle > 1) {
+	beforeEach(() => {
+		Cypress.automation('remote:debugger:protocol', {
+			command: 'Emulation.setCPUThrottlingRate',
+			params: { rate: cpuThrottle },
+		})
+	})
+}

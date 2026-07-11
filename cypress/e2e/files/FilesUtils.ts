@@ -63,6 +63,34 @@ export function getInlineActionEntryForFile(file: string, actionId: string) {
 }
 
 /**
+ * Open the actions menu of a file row and wait until it is displayed.
+ *
+ * Click exactly once, then wait: while the popover opens, the toggle
+ * already reports aria-expanded="true" although the menu is still hidden —
+ * the popover positions itself over several frames, which can take seconds
+ * on slow (CI) runners. Clicking again in that state toggles the menu
+ * closed and tangles the popover's show and hide transitions into a stuck,
+ * permanently invisible popover. Clicking is only safe while the toggle
+ * reports "closed", e.g. after an auto-close caused by a stray outside
+ * click.
+ *
+ * @param getActionButton query for the actions menu toggle of the row
+ */
+function openActionsMenu(getActionButton: () => Cypress.Chainable<JQuery<HTMLElement>>) {
+	getActionButton().then(($toggle) => {
+		if ($toggle.attr('aria-expanded') !== 'true') {
+			cy.wrap($toggle).click({ force: true }) // force to avoid issues with overlaying file list header
+		}
+	})
+	getActionButton()
+		.should('have.attr', 'aria-controls')
+		.then((menuId) => {
+			// Generous timeout for the popover to finish positioning on slow runners
+			cy.get(`#${menuId}`, { timeout: 20000 }).should('be.visible')
+		})
+}
+
+/**
  *
  * @param fileid
  * @param actionId
@@ -70,8 +98,7 @@ export function getInlineActionEntryForFile(file: string, actionId: string) {
 export function triggerActionForFileId(fileid: number, actionId: string) {
 	getActionButtonForFileId(fileid)
 		.scrollIntoView()
-	getActionButtonForFileId(fileid)
-		.click({ force: true }) // force to avoid issues with overlaying file list header
+	openActionsMenu(() => getActionButtonForFileId(fileid))
 	getActionEntryForFileId(fileid, actionId)
 		.find('button')
 		.should('be.visible')
@@ -86,8 +113,7 @@ export function triggerActionForFileId(fileid: number, actionId: string) {
 export function triggerActionForFile(filename: string, actionId: string) {
 	getActionButtonForFile(filename)
 		.scrollIntoView()
-	getActionButtonForFile(filename)
-		.click({ force: true }) // force to avoid issues with overlaying file list header
+	openActionsMenu(() => getActionButtonForFile(filename))
 	getActionEntryForFile(filename, actionId)
 		.find('button')
 		.should('be.visible')
