@@ -284,6 +284,8 @@
     "Configuration file access rights" : "設定ファイルのアクセス権",
     "The read-only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "\"config\"は読み取り専用になってます。そのためにWEBインターフェースで設定できません可能性があります。さらに、更新時に\"config\"ファイルを書き込み権限を与えることが必要",
     "Nextcloud configuration file is writable" : "Nextcloud の設定ファイルは書き込み可能",
+    "Sanitize and merge duplicate system tags available" : "利用可能なシステムタグの重複を削除・統合する",
+    "One or more system tags need to be sanitized or merged. This can take a long time on larger instances so this is not done automatically during upgrades. Use the command `occ maintenance:repair --include-expensive` to perform the migrations." : "1つ以上のシステムタグをサニタイズまたはマージする必要があります。大規模なインスタンスではこの処理に時間がかかるため、アップグレード中は自動的に実行されません。移行を実行するには、コマンド `occ maintenance:repair --include-expensive` を使用してください。",
     "Scheduling objects table size" : "スケジューリングオブジェクトのテーブルサイズ",
     "You have more than %s rows in the scheduling objects table. Please run the expensive repair jobs via occ maintenance:repair --include-expensive." : "スケジューリング・オブジェクト・テーブルに%s行以上あります。occ maintenance:repair --include-expensiveで大規模な修復ジョブを実行してください。",
     "Scheduling objects table size is within acceptable range." : "スケジューリングオブジェクトのテーブルサイズは許容範囲内です。",
