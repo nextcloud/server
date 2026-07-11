@@ -77,17 +77,35 @@ export function getInlineActionEntryForFile(file: string, actionId: string) {
  * @param getActionButton query for the actions menu toggle of the row
  */
 function openActionsMenu(getActionButton: () => Cypress.Chainable<JQuery<HTMLElement>>) {
-	getActionButton().then(($toggle) => {
-		if ($toggle.attr('aria-expanded') !== 'true') {
-			cy.wrap($toggle).click({ force: true }) // force to avoid issues with overlaying file list header
-		}
-	})
-	getActionButton()
-		.should('have.attr', 'aria-controls')
-		.then((menuId) => {
-			// Generous timeout for the popover to finish positioning on slow runners
-			cy.get(`#${menuId}`, { timeout: 20000 }).should('be.visible')
+	// The menu open has two failure modes on slow runners, needing opposite
+	// responses:
+	//   - The click is lost because the row's handler is not attached yet, so
+	//     the toggle stays collapsed (aria-expanded="false"). We must click
+	//     again.
+	//   - The menu is opening but the popover is still positioning over a few
+	//     frames (aria-expanded="true", not yet visible). Clicking again here
+	//     would toggle it closed and tangle the show/hide transitions, so we
+	//     must only wait.
+	// Poll accordingly until the menu is actually displayed.
+	const poll = (elapsed: number) => {
+		getActionButton().then(($toggle) => {
+			const menuId = $toggle.attr('aria-controls')
+			if (menuId && Cypress.$(`#${menuId}`).is(':visible')) {
+				return
+			}
+			if (elapsed >= 20000) {
+				throw new Error(`Actions menu did not open (aria-expanded=${$toggle.attr('aria-expanded')})`)
+			}
+			// Only (re)open while collapsed; never click a menu that is mid-open.
+			if ($toggle.attr('aria-expanded') !== 'true') {
+				cy.wrap($toggle).click({ force: true }) // force to avoid issues with overlaying file list header
+			}
+			// eslint-disable-next-line cypress/no-unnecessary-waiting -- give the popover a moment to open/position before re-checking
+			cy.wait(250)
+			poll(elapsed + 250)
 		})
+	}
+	poll(0)
 }
 
 /**

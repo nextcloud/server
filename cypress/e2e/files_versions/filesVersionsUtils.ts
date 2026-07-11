@@ -60,14 +60,29 @@ export function nameVersion(index: number, name: string) {
 
 export function restoreVersion(index: number) {
 	cy.intercept('MOVE', '**/dav/versions/*/versions/**').as('restoreVersion')
+	cy.intercept('PROPFIND', '**/dav/versions/*/versions/**').as('anyVersionsPropfind')
 	triggerVersionAction(index, 'restore')
-	cy.wait('@restoreVersion')
-	// After the restore, the sidebar re-fetches the versions list via a debounced
-	// watcher (see FilesVersionsSidebarTab.vue) and only then relabels the entries
-	// (e.g. drops the "Initial version" label). Waiting only for the MOVE above
-	// races that refresh on slow runners, so also wait for the versions reload
-	// (aliased in openVersionsPanel) before asserting on the updated list.
-	cy.wait('@getVersions')
+	cy.wait('@restoreVersion').then(({ request, response }) => {
+		cy.task('log', `[restore MOVE] status=${response?.statusCode} url=${(request?.url ?? '').split('/versions/').pop()} dest=${request?.headers?.destination ?? '-'}`, { log: false })
+	})
+	// DIAGNOSTIC: log the version-row labels over time after the restore, to see
+	// how long the client-side re-sort takes and whether any PROPFIND fires.
+	const poll = (elapsed: number) => {
+		cy.document({ log: false }).then((doc) => {
+			const rows = Array.from(doc.querySelectorAll('[data-files-versions-version]'))
+			const labels = rows
+				.map((el, i) => `${i}:'${(el.querySelector('[data-cy-files-version-label]')?.textContent ?? '').trim()}'`)
+				.join(' | ')
+			cy.task('log', `[restore+${elapsed}ms] rows=${rows.length} ${labels}`, { log: false })
+		})
+		if (elapsed >= 12000) {
+			return
+		}
+		// eslint-disable-next-line cypress/no-unnecessary-waiting
+		cy.wait(500)
+		poll(elapsed + 500)
+	}
+	poll(0)
 }
 
 export function deleteVersion(index: number) {
