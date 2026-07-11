@@ -63,6 +63,54 @@ export function getInlineActionEntryForFile(file: string, actionId: string) {
 }
 
 /**
+ * Open the actions menu of a file row and wait until it is actually displayed.
+ *
+ * Click exactly once, then wait: while the popover opens, the toggle
+ * already reports aria-expanded="true" although the menu is still hidden —
+ * the popover positions itself over several frames, which can take a while
+ * on slow (CI) runners. Clicking again in that state toggles the menu
+ * closed and tangles the popover's show and hide transitions into a stuck,
+ * permanently invisible popover. Clicking is only safe while the toggle
+ * reports "closed", e.g. after an auto-close caused by a stray outside
+ * click.
+ *
+ * @param getActionButton query for the actions menu toggle of the row
+ */
+function openActionsMenu(getActionButton: () => Cypress.Chainable<JQuery<HTMLElement>>): Cypress.Chainable<JQuery<HTMLElement>> {
+	// The menu open has two failure modes on slow runners, needing opposite
+	// responses:
+	//   - The click is lost because the row's handler is not attached yet, so
+	//     the toggle stays collapsed (aria-expanded="false"). We must click
+	//     again.
+	//   - The menu is opening but the popover is still positioning over a few
+	//     frames (aria-expanded="true", not yet visible). Clicking again here
+	//     would toggle it closed and tangle the show/hide transitions, so we
+	//     must only wait.
+	// Poll accordingly until the menu is actually displayed, returning a
+	// chainable so callers can rely on the command queue ordering it before
+	// any subsequent commands.
+	const poll = (elapsed: number): Cypress.Chainable<JQuery<HTMLElement>> => {
+		return getActionButton().then(($toggle) => {
+			const menuId = $toggle.attr('aria-controls')
+			if (menuId && Cypress.$(`#${menuId}`).is(':visible')) {
+				return cy.wrap($toggle)
+			}
+			if (elapsed >= 20000) {
+				throw new Error(`Actions menu did not open (aria-expanded=${$toggle.attr('aria-expanded')})`)
+			}
+			// Only (re)open while collapsed; never click a menu that is mid-open.
+			if ($toggle.attr('aria-expanded') !== 'true') {
+				cy.wrap($toggle).click({ force: true }) // force to avoid issues with overlaying file list header
+			}
+			// eslint-disable-next-line cypress/no-unnecessary-waiting -- give the popover a moment to open/position before re-checking
+			cy.wait(250)
+			return poll(elapsed + 250)
+		})
+	}
+	return poll(0)
+}
+
+/**
  *
  * @param fileid
  * @param actionId
@@ -70,8 +118,7 @@ export function getInlineActionEntryForFile(file: string, actionId: string) {
 export function triggerActionForFileId(fileid: number, actionId: string) {
 	getActionButtonForFileId(fileid)
 		.scrollIntoView()
-	getActionButtonForFileId(fileid)
-		.click({ force: true }) // force to avoid issues with overlaying file list header
+	openActionsMenu(() => getActionButtonForFileId(fileid))
 	getActionEntryForFileId(fileid, actionId)
 		.find('button')
 		.should('be.visible')
@@ -86,8 +133,7 @@ export function triggerActionForFileId(fileid: number, actionId: string) {
 export function triggerActionForFile(filename: string, actionId: string) {
 	getActionButtonForFile(filename)
 		.scrollIntoView()
-	getActionButtonForFile(filename)
-		.click({ force: true }) // force to avoid issues with overlaying file list header
+	openActionsMenu(() => getActionButtonForFile(filename))
 	getActionEntryForFile(filename, actionId)
 		.find('button')
 		.should('be.visible')
