@@ -283,3 +283,45 @@ Cypress.Commands.add('runOccCommand', (command: string, options?: Partial<Cypres
 				: 0).then(() => context)
 		})
 })
+
+// [login-diag] Throwaway instrumented reimplementation of the library `login`
+// command to trace the flaky session-validation 401. It mirrors
+// @nextcloud/e2e-test-server's login but logs, for each fresh session:
+//   - the /csrftoken status + whether a token came back
+//   - the /login POST status + Location header (the ONLY thing distinguishing a
+//     303-to-default-page success from a 303-back-to-login failure)
+//   - the validate GET /apps/files status
+// so the terminal output correlates 1:1 with the [login-diag] server log lines.
+Cypress.Commands.overwrite('login', (_originalFn, user: User) => {
+	const origin = (Cypress.config('baseUrl') ?? '').replace('index.php/', '')
+	cy.session(user, () => {
+		cy.request('/csrftoken').then(({ status, body }) => {
+			const token = body?.token
+			cy.task('log', `[login-diag] csrftoken user=${user.userId} status=${status} hasToken=${!!token}`)
+			cy.request({
+				method: 'POST',
+				url: '/login',
+				body: {
+					user: user.userId,
+					password: user.password,
+					requesttoken: token,
+				},
+				headers: {
+					'Content-Type': 'application/x-www-form-urlencoded',
+					Origin: origin,
+				},
+				followRedirect: false,
+				failOnStatusCode: false,
+			}).then((res) => {
+				cy.task('log', `[login-diag] POST /login user=${user.userId} status=${res.status} location=${res.headers?.location ?? '-'}`)
+			})
+		})
+	}, {
+		validate() {
+			cy.request({ url: '/apps/files', failOnStatusCode: false }).then((res) => {
+				cy.task('log', `[login-diag] validate /apps/files user=${user.userId} status=${res.status}`)
+				expect(res.status).to.eq(200)
+			})
+		},
+	})
+})

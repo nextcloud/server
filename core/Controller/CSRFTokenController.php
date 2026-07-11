@@ -44,6 +44,13 @@ class CSRFTokenController extends Controller {
 	#[NoTwoFactorRequired]
 	public function index(): JSONResponse {
 		if (!$this->request->passesStrictCookieCheck()) {
+			// [login-diag] A 403 here means cy.login receives no token, so its
+			// POST /login then fails the CSRF check -> validate 401. Record it.
+			\OCP\Server::get(\Psr\Log\LoggerInterface::class)->error(
+				'[login-diag] CSRFTOKEN 403 strictCookieCheck failed remote=' . $this->request->getRemoteAddress()
+				. ' cookies=' . implode(',', array_keys($_COOKIE ?? [])),
+				['app' => 'login-diag'],
+			);
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 

@@ -366,10 +366,44 @@ class LoginController extends Controller {
 			);
 		}
 
+		// [login-diag] Successful login: record so we can tell a login-logic
+		// failure apart from a session/cookie propagation failure on the
+		// subsequent validate request.
+		$this->logLoginDiag('LOGIN OK', $user);
+
 		if ($result->getRedirectUrl() !== null) {
 			return new RedirectResponse($result->getRedirectUrl());
 		}
 		return $this->generateRedirect($redirect_url);
+	}
+
+	/**
+	 * [login-diag] Throwaway diagnostic logger for the e2e login flake. Emits a
+	 * single correlatable line (session id hash, remote addr, throttle delay)
+	 * so we can trace a failed `cy.login` back to its server-side cause. Must
+	 * never break the login flow, hence the broad catch.
+	 */
+	private function logLoginDiag(string $what, string $user): void {
+		try {
+			$remote = $this->request->getRemoteAddress();
+			try {
+				$session = substr(md5((string)$this->session->getId()), 0, 8);
+			} catch (\Throwable) {
+				$session = 'n/a';
+			}
+			\OCP\Server::get(\Psr\Log\LoggerInterface::class)->error(
+				'[login-diag] ' . $what
+				. ' user=' . $user
+				. ' remote=' . $remote
+				. ' session=' . $session
+				. ' csrf=' . ($this->request->passesCSRFCheck() ? '1' : '0')
+				. ' origin=' . $this->request->getHeader('Origin')
+				. ' delay=' . $this->throttler->getDelay($remote, 'login'),
+				['app' => 'login-diag'],
+			);
+		} catch (\Throwable) {
+			// diagnostics must never affect the login path
+		}
 	}
 
 	/**
@@ -389,6 +423,11 @@ class LoginController extends Controller {
 		string $loginMessage,
 		bool $throttle = true,
 	) {
+		// [login-diag] Every login failure path funnels through here, so this is
+		// the single point that reveals *why* a login POST did not establish a
+		// session (invalidOrigin / csrfCheckFailed / invalidpassword / ...).
+		$this->logLoginDiag('LOGIN FAILED reason=' . $loginMessage . ' throttle=' . ($throttle ? '1' : '0'), (string)$originalUser);
+
 		// Read current user and append if possible we need to
 		// return the unmodified user otherwise we will leak the login name
 		$args = $user !== null ? ['user' => $originalUser, 'direct' => 1] : [];
