@@ -46,7 +46,9 @@ const previewDelay = Number(Cypress.env('PREVIEW_DELAY'))
 if (previewDelay > 0) {
 	beforeEach(() => {
 		cy.intercept('GET', '**/core/preview?**', (req) => {
-			req.on('response', (res) => { res.setDelay(previewDelay) })
+			req.on('response', (res) => {
+				res.setDelay(previewDelay)
+			})
 		}).as('delayedPreview')
 	})
 	// Report to the terminal how many preview requests were intercepted/delayed,
@@ -73,7 +75,9 @@ if (Cypress.env('FORCE_RERENDER')) {
 				const src = img.src
 				img.src = ''
 				// Reassign on the next frame so the browser refetches and re-fires @load
-				win.requestAnimationFrame(() => { img.src = src.includes('?') ? `${src}&_r=${Date.now()}` : `${src}?_r=${Date.now()}` })
+				win.requestAnimationFrame(() => {
+					img.src = src.includes('?') ? `${src}&_r=${Date.now()}` : `${src}?_r=${Date.now()}`
+				})
 			}
 		}
 		const observer = new win.MutationObserver((mutations) => {
