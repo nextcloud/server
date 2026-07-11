@@ -100,7 +100,7 @@ function setActionsMenuState<E extends HTMLElement>(getActionButton: () => Cypre
 				return cy.wrap($toggle)
 			}
 			if (elapsed >= ACTIONS_MENU_TIMEOUT) {
-				throw new Error(`Actions menu did not ${expanded ? 'open' : 'close'} (aria-expanded=${$toggle.attr('aria-expanded')})`)
+				throw new Error(`Actions menu did not ${expanded ? 'open' : 'close'} (aria-expanded=${$toggle.attr('aria-expanded')}, isVisible=${isVisible}, menuId=${menuId})`)
 			}
 			// Only click while the toggle has settled in the *other* state;
 			// never click while a transition is still in progress.

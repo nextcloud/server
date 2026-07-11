@@ -39,6 +39,11 @@ export function openVersionsPanel(fileName: string) {
 	cy.get('#tab-files_versions').should('be.visible', { timeout: 10000 })
 }
 
+/**
+ * Get the actions menu toggle button of a version row.
+ *
+ * @param index index of the version row
+ */
 function getVersionMenuToggle(index: number) {
 	return cy.get('#tab-files_versions [data-files-versions-version]')
 		.eq(index)
