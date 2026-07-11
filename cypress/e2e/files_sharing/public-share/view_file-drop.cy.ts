@@ -131,9 +131,19 @@ describe('files_sharing: Public share - File drop', { testIsolation: true }, () 
 
 		cy.wait('@uploadFile')
 
-		cy.findByRole('progressbar')
-			.should('be.visible')
-			.and((el) => { expect(Number.parseInt(el.attr('value') ?? '0')).be.gte(50) })
+		// More than one progressbar can exist (upload picker and file drop
+		// view) and some of them stay hidden, so assert that any visible
+		// one reports the expected progress.
+		cy.findAllByRole('progressbar')
+			.should(($bars) => {
+				const visible = $bars.toArray().filter((el) => Cypress.$(el).is(':visible'))
+				const summary = $bars.toArray()
+					.map((el) => `${el.tagName}[value=${el.getAttribute('value')} visible=${Cypress.$(el).is(':visible')}]`)
+					.join(', ')
+				expect(visible.length, `visible progressbar (${summary})`).to.be.gte(1)
+				const values = visible.map((el) => Number.parseInt(el.getAttribute('value') ?? '0'))
+				expect(Math.max(...values), `upload progress (${summary})`).to.be.gte(50)
+			})
 			// continue second request
 			.then(() => resolve(null))
 
