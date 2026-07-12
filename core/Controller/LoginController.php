@@ -391,11 +391,39 @@ class LoginController extends Controller {
 			} catch (\Throwable) {
 				$session = 'n/a';
 			}
+			// Break down passesCSRFCheck() so a csrfCheckFailed tells us WHICH
+			// sub-check failed: the strict same-site cookie check, or the token
+			// validation (a missing session 'requesttoken' means the /login
+			// request landed on a different session than /csrftoken issued into).
+			try {
+				$strictCookie = $this->request->passesStrictCookieCheck() ? '1' : '0';
+			} catch (\Throwable) {
+				$strictCookie = 'err';
+			}
+			try {
+				$sessHasReqToken = $this->session->exists('requesttoken') ? '1' : '0';
+			} catch (\Throwable) {
+				$sessHasReqToken = 'err';
+			}
+			// Hash of the session cookie the client actually sent, to compare the
+			// /csrftoken-issuing session against the /login session.
+			$sessCookie = 'none';
+			try {
+				$raw = $this->request->getCookie(session_name());
+				if ($raw !== null) {
+					$sessCookie = substr(md5($raw), 0, 8);
+				}
+			} catch (\Throwable) {
+				$sessCookie = 'err';
+			}
 			\OCP\Server::get(\Psr\Log\LoggerInterface::class)->error(
 				'[login-diag] ' . $what
 				. ' user=' . $user
 				. ' remote=' . $remote
 				. ' session=' . $session
+				. ' sessCookie=' . $sessCookie
+				. ' strictCookie=' . $strictCookie
+				. ' sessHasReqToken=' . $sessHasReqToken
 				. ' csrf=' . ($this->request->passesCSRFCheck() ? '1' : '0')
 				. ' origin=' . $this->request->getHeader('Origin')
 				. ' delay=' . $this->throttler->getDelay($remote, 'login'),

@@ -56,6 +56,23 @@ class CSRFTokenController extends Controller {
 
 		$requestToken = $this->tokenManager->getToken();
 
+		// [login-diag] Record the session this token was issued into, so a later
+		// csrfCheckFailed on /login can be matched against it: if the /login
+		// session/sessCookie differs from what /csrftoken issued into, the token
+		// legitimately isn't in /login's session (a session-mismatch race).
+		try {
+			$session = \OCP\Server::get(\OCP\ISession::class);
+			$raw = $this->request->getCookie(session_name());
+			\OCP\Server::get(\Psr\Log\LoggerInterface::class)->error(
+				'[login-diag] CSRFTOKEN issued remote=' . $this->request->getRemoteAddress()
+				. ' session=' . substr(md5((string)$session->getId()), 0, 8)
+				. ' sessCookie=' . ($raw !== null ? substr(md5($raw), 0, 8) : 'none'),
+				['app' => 'login-diag'],
+			);
+		} catch (\Throwable) {
+			// diagnostics must never affect the token endpoint
+		}
+
 		return new JSONResponse([
 			'token' => $requestToken->getEncryptedValue(),
 		]);
