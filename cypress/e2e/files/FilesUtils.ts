@@ -129,6 +129,14 @@ export function triggerActionForFileId(fileid: number, actionId: string) {
  * @param actionId
  */
 export function triggerActionForFile(filename: string, actionId: string) {
+	// [menu-diag] log the searched file vs. what the list actually shows, plus
+	// the current folder URL, so a "row-actions not found" failure reveals
+	// whether the view is in the wrong folder or the file is simply missing.
+	cy.url({ log: false }).then((url) => {
+		const names = Array.from(Cypress.$('[data-cy-files-list-row-name]'))
+			.map((e) => (e as HTMLElement).getAttribute('data-cy-files-list-row-name'))
+		cy.task('log', `[menu-diag] triggerActionForFile target="${filename}" action=${actionId} url=${url} rows=[${names.join(' | ')}]`, { log: false })
+	})
 	getActionButtonForFile(filename)
 		.scrollIntoView()
 	openActionsMenu(() => getActionButtonForFile(filename))
