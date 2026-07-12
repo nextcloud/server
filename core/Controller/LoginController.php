@@ -416,6 +416,29 @@ class LoginController extends Controller {
 			} catch (\Throwable) {
 				$sessCookie = 'err';
 			}
+			// Hash of the raw CSRF token value STORED in this session, and of the
+			// value the client PROVIDED. If the /login session is the same one
+			// /csrftoken issued into, storedTok here must equal the storedTok that
+			// CSRFTOKEN logged. A mismatch proves the two requests hit different
+			// sessions (or the token rotated) — the real csrfCheckFailed cause.
+			$storedTok = 'n/a';
+			try {
+				$t = $this->session->get('requesttoken');
+				if (is_string($t) && $t !== '') {
+					$storedTok = substr(md5($t), 0, 8);
+				}
+			} catch (\Throwable) {
+				$storedTok = 'err';
+			}
+			$providedTok = 'none';
+			try {
+				$p = $this->request->getParam('requesttoken');
+				if (is_string($p) && $p !== '') {
+					$providedTok = substr(md5($p), 0, 8);
+				}
+			} catch (\Throwable) {
+				$providedTok = 'err';
+			}
 			\OCP\Server::get(\Psr\Log\LoggerInterface::class)->error(
 				'[login-diag] ' . $what
 				. ' user=' . $user
@@ -424,6 +447,8 @@ class LoginController extends Controller {
 				. ' sessCookie=' . $sessCookie
 				. ' strictCookie=' . $strictCookie
 				. ' sessHasReqToken=' . $sessHasReqToken
+				. ' storedTok=' . $storedTok
+				. ' providedTok=' . $providedTok
 				. ' csrf=' . ($this->request->passesCSRFCheck() ? '1' : '0')
 				. ' origin=' . $this->request->getHeader('Origin')
 				. ' delay=' . $this->throttler->getDelay($remote, 'login'),
