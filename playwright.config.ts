@@ -9,12 +9,13 @@ export default defineConfig({
 	testDir: './tests/playwright/e2e',
 	fullyParallel: true,
 	forbidOnly: !!process.env.CI,
-	retries: process.env.CI ? 1 : 0,
 	workers: process.env.CI ? 1 : undefined,
 	reporter: process.env.CI ? [['blob'], ['dot'], ['github']] : 'html',
-	timeout: 90_000,
+	// Higher timeouts are necessary to avoid
+	// failures on CI runners with very high load
+	timeout: process.env.CI ? 90_000 : 30_000,
 	expect: {
-		timeout: 15_000,
+		timeout: process.env.CI ? 15_000 : 5_000,
 	},
 	use: {
 		baseURL: 'http://localhost:8042/index.php/',
