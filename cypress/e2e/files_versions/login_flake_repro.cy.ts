@@ -13,8 +13,8 @@
  *        --spec cypress/e2e/files_versions/login_flake_repro.cy.ts
  */
 
-import { setupTestSharedFileFromUser, uploadThreeVersions } from './filesVersionsUtils.ts'
 import { randomString } from '../../support/utils/randomString.ts'
+import { setupTestSharedFileFromUser, uploadThreeVersions } from './filesVersionsUtils.ts'
 
 describe('[login-diag] login flake repro', () => {
 	const folderName = 'shared_folder'
