@@ -119,13 +119,17 @@ class TeamManager implements ITeamManager {
 		}
 
 		$provider = $this->getProvider($providerId);
-		return array_map(function (Circle $team) {
-			return new Team(
+		$result = [];
+		foreach ($this->getTeams($provider->getTeamsForResource($resourceId), $userId) as $team) {
+			$result[] = new Team(
 				$team->getSingleId(),
 				$team->getDisplayName(),
 				$this->urlGenerator->linkToRouteAbsolute('contacts.contacts.directcircle', ['singleId' => $team->getSingleId()]),
 			);
-		}, $this->getTeams($provider->getTeamsForResource($resourceId), $userId));
+		}
+
+		/** @var list<Team> $result */
+		return $result;
 	}
 
 	private function getTeam(string $teamId, string $userId, ?CircleProbe $probe = null): ?Circle {
@@ -142,11 +146,6 @@ class TeamManager implements ITeamManager {
 		}
 	}
 
-	/**
-	 * Returns a mapping of user id to display name for all members of a given team.
-	 *
-	 * @return array<string, string> userId => displayName
-	 */
 	#[\Override]
 	public function getMembersOfTeam(string $teamId, string $userId): array {
 		$team = $this->getTeam($teamId, $userId);
