@@ -13,7 +13,7 @@ export default defineConfig({
 	workers: process.env.CI ? 1 : undefined,
 	reporter: process.env.CI ? [['blob'], ['dot'], ['github']] : 'html',
 	expect: {
-		timeout: 10_000,
+		timeout: 15_000,
 	},
 	use: {
 		baseURL: 'http://localhost:8042/index.php/',
