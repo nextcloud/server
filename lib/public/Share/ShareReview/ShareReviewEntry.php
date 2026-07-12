@@ -10,6 +10,8 @@ declare(strict_types=1);
 namespace OCP\Share\ShareReview;
 
 use OCP\AppFramework\Attribute\Consumable;
+use OCP\Constants;
+use OCP\Share\IShare;
 
 /**
  * Holds a single app-managed share as exposed to a share-review app through
@@ -25,16 +27,22 @@ final class ShareReviewEntry {
 	 * @param string $object Name or title of the shared object, such as a
 	 *                       file path or report name.
 	 * @param string $initiator User ID of the initiator.
-	 * @param int $type {@see \OCP\Share\IShare} type of the share.
+	 * @param IShare::TYPE_* $type {@see \OCP\Share\IShare} type of the share.
 	 * @param string $recipient User ID of the owner or the token of a link.
-	 * @param int $permissions Permissions level of the share.
-	 * @param string $time Creation time of the share.
+	 * @param int $lastModifiedTimestamp Unix timestamp of the share's creation
+	 *                                   or last modification, whichever is
+	 *                                   later; used for sorting and for the
+	 *                                   new-since-last-review filter. Pass 0
+	 *                                   if the app tracks neither.
+	 * @param int-mask-of<Constants::PERMISSION_*> $permissions Permissions level of the share.
 	 * @param string $action Optional deletion identifier override. An empty
 	 *                       string means $id is used.
-	 * @param int|null $timestamp Optional creation Unix timestamp, used for sorting.
-	 * @param bool $password Whether the share is password protected. Never
-	 *                       the password itself.
-	 * @param string|null $expiration Optional expiration date displayed for the share.
+	 * @param bool $hasPassword Whether the share is password protected. Never
+	 *                          the password itself.
+	 * @param bool $canManage Whether the recipient can administer the shared
+	 *                        object and its sharing.
+	 * @param int|null $expirationTimestamp Optional expiration Unix timestamp
+	 *                                      of the share.
 	 * @param string|null $parent Optional identifier of the parent share.
 	 *
 	 * @since 34.0.2
@@ -45,12 +53,12 @@ final class ShareReviewEntry {
 		public readonly string $initiator,
 		public readonly int $type,
 		public readonly string $recipient,
+		public readonly int $lastModifiedTimestamp,
 		public readonly int $permissions = 1,
-		public readonly string $time = '1970-01-01 01:00:00',
 		public readonly string $action = '',
-		public readonly ?int $timestamp = null,
-		public readonly bool $password = false,
-		public readonly ?string $expiration = null,
+		public readonly bool $hasPassword = false,
+		public readonly bool $canManage = false,
+		public readonly ?int $expirationTimestamp = null,
 		public readonly ?string $parent = null,
 	) {
 	}

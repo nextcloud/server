@@ -22,12 +22,12 @@ final class ShareReviewEntryTest extends TestCase {
 			initiator: 'alice',
 			type: IShare::TYPE_USER,
 			recipient: 'bob',
+			lastModifiedTimestamp: 1783764000,
 			permissions: 31,
-			time: '2026-07-07 12:00:00',
 			action: 'board-share-42',
-			timestamp: 1783764000,
-			password: true,
-			expiration: '2026-08-01',
+			hasPassword: true,
+			canManage: true,
+			expirationTimestamp: 1785837600,
 			parent: '23',
 		);
 
@@ -36,12 +36,12 @@ final class ShareReviewEntryTest extends TestCase {
 		$this->assertSame('alice', $entry->initiator);
 		$this->assertSame(IShare::TYPE_USER, $entry->type);
 		$this->assertSame('bob', $entry->recipient);
+		$this->assertSame(1783764000, $entry->lastModifiedTimestamp);
 		$this->assertSame(31, $entry->permissions);
-		$this->assertSame('2026-07-07 12:00:00', $entry->time);
 		$this->assertSame('board-share-42', $entry->action);
-		$this->assertSame(1783764000, $entry->timestamp);
-		$this->assertTrue($entry->password);
-		$this->assertSame('2026-08-01', $entry->expiration);
+		$this->assertTrue($entry->hasPassword);
+		$this->assertTrue($entry->canManage);
+		$this->assertSame(1785837600, $entry->expirationTimestamp);
 		$this->assertSame('23', $entry->parent);
 	}
 
@@ -52,14 +52,15 @@ final class ShareReviewEntryTest extends TestCase {
 			initiator: 'alice',
 			type: IShare::TYPE_LINK,
 			recipient: 'sToKeN',
+			lastModifiedTimestamp: 0,
 		);
 
+		$this->assertSame(0, $entry->lastModifiedTimestamp);
 		$this->assertSame(1, $entry->permissions);
-		$this->assertSame('1970-01-01 01:00:00', $entry->time);
 		$this->assertSame('', $entry->action);
-		$this->assertNull($entry->timestamp);
-		$this->assertFalse($entry->password);
-		$this->assertNull($entry->expiration);
+		$this->assertFalse($entry->hasPassword);
+		$this->assertFalse($entry->canManage);
+		$this->assertNull($entry->expirationTimestamp);
 		$this->assertNull($entry->parent);
 	}
 }
