@@ -129,14 +129,6 @@ export function triggerActionForFileId(fileid: number, actionId: string) {
  * @param actionId
  */
 export function triggerActionForFile(filename: string, actionId: string) {
-	// [menu-diag] log the searched file vs. what the list actually shows, plus
-	// the current folder URL, so a "row-actions not found" failure reveals
-	// whether the view is in the wrong folder or the file is simply missing.
-	cy.url({ log: false }).then((url) => {
-		const names = Array.from(Cypress.$('[data-cy-files-list-row-name]'))
-			.map((e) => (e as HTMLElement).getAttribute('data-cy-files-list-row-name'))
-		cy.task('log', `[menu-diag] triggerActionForFile target="${filename}" action=${actionId} url=${url} rows=[${names.join(' | ')}]`, { log: false })
-	})
 	getActionButtonForFile(filename)
 		.scrollIntoView()
 	openActionsMenu(() => getActionButtonForFile(filename))
@@ -238,8 +230,13 @@ export function moveFile(fileName: string, dirPath: string) {
 				.findByRole('button', { name: 'All files' })
 				.should('be.visible')
 				.click()
-			// click move
-			cy.contains('button', 'Move').should('be.visible').click()
+			// Click move. Match the confirm button EXACTLY as "Move": the picker
+			// labels it "Move to {folder}" while inside a folder and only "Move"
+			// once it has navigated to the home root. A loose `contains('Move')`
+			// would match the stale "Move to {folder}" button before the "All
+			// files" navigation above has landed, moving the file into the wrong
+			// folder. The exact match makes cypress wait for the root button.
+			cy.contains('button', /^Move$/).should('be.visible').click()
 		} else if (dirPath === '.') {
 			// click move
 			cy.contains('button', 'Copy').should('be.visible').click()
@@ -277,8 +274,14 @@ export function copyFile(fileName: string, dirPath: string) {
 				.findByRole('button', { name: 'All files' })
 				.should('be.visible')
 				.click()
-			// click copy
-			cy.contains('button', 'Copy').should('be.visible').click()
+			// Click copy. Match the confirm button EXACTLY as "Copy": the picker
+			// labels it "Copy to {folder}" while inside a folder and only "Copy"
+			// once it has navigated to the home root. A loose `contains('Copy')`
+			// would match the stale "Copy to {folder}" button before the "All
+			// files" navigation above has landed, copying the file into the wrong
+			// folder (deduplicated as "… (1)"). The exact match makes cypress
+			// wait for the root button.
+			cy.contains('button', /^Copy$/).should('be.visible').click()
 		} else if (dirPath === '.') {
 			// click copy
 			cy.contains('button', 'Copy').should('be.visible').click()
