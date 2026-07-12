@@ -13,9 +13,9 @@ export default defineConfig({
 	reporter: process.env.CI ? [['blob'], ['dot'], ['github']] : 'html',
 	// Higher timeouts are necessary to avoid
 	// failures on CI runners with very high load
-	timeout: process.env.CI ? 90_000 : 30_000,
+	timeout: process.env.CI ? 150_000 : 30_000,
 	expect: {
-		timeout: process.env.CI ? 15_000 : 5_000,
+		timeout: process.env.CI ? 25_000 : 5_000,
 	},
 	use: {
 		baseURL: 'http://localhost:8042/index.php/',
