@@ -230,13 +230,15 @@ export function moveFile(fileName: string, dirPath: string) {
 				.findByRole('button', { name: 'All files' })
 				.should('be.visible')
 				.click()
+			// [picker-diag] log the exact button texts to see the root label
+			cy.get('button').then(($b) => cy.task('log', '[picker-diag] move buttons=' + JSON.stringify(Array.from($b).map((x) => (x as HTMLElement).textContent)), { log: false }))
 			// Click move. Match the confirm button EXACTLY as "Move": the picker
 			// labels it "Move to {folder}" while inside a folder and only "Move"
 			// once it has navigated to the home root. A loose `contains('Move')`
 			// would match the stale "Move to {folder}" button before the "All
 			// files" navigation above has landed, moving the file into the wrong
 			// folder. The exact match makes cypress wait for the root button.
-			cy.contains('button', /^Move$/).should('be.visible').click()
+			cy.contains('button', /^\s*Move\s*$/).should('be.visible').click()
 		} else if (dirPath === '.') {
 			// click move
 			cy.contains('button', 'Copy').should('be.visible').click()
@@ -274,6 +276,8 @@ export function copyFile(fileName: string, dirPath: string) {
 				.findByRole('button', { name: 'All files' })
 				.should('be.visible')
 				.click()
+			// [picker-diag] log the exact button texts to see the root label
+			cy.get('button').then(($b) => cy.task('log', '[picker-diag] copy buttons=' + JSON.stringify(Array.from($b).map((x) => (x as HTMLElement).textContent)), { log: false }))
 			// Click copy. Match the confirm button EXACTLY as "Copy": the picker
 			// labels it "Copy to {folder}" while inside a folder and only "Copy"
 			// once it has navigated to the home root. A loose `contains('Copy')`
@@ -281,7 +285,7 @@ export function copyFile(fileName: string, dirPath: string) {
 			// files" navigation above has landed, copying the file into the wrong
 			// folder (deduplicated as "… (1)"). The exact match makes cypress
 			// wait for the root button.
-			cy.contains('button', /^Copy$/).should('be.visible').click()
+			cy.contains('button', /^\s*Copy\s*$/).should('be.visible').click()
 		} else if (dirPath === '.') {
 			// click copy
 			cy.contains('button', 'Copy').should('be.visible').click()
