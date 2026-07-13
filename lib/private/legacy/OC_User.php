@@ -294,7 +294,10 @@ class OC_User {
 		if ($user instanceof IUser) {
 			$backend = $user->getBackend();
 			if ($backend instanceof \OCP\User\Backend\ICustomLogout) {
-				return $backend->getLogoutUrl();
+				$logoutUrl = $backend->getLogoutUrl();
+				if ($logoutUrl !== '') {
+					return $logoutUrl;
+				}
 			}
 		}
 
