@@ -234,6 +234,10 @@ class Redis extends Cache implements IMemcacheTTL {
 			return $cache->eval($script[0], $args, count($keys));
 		}
 
+		if ($error !== null && str_starts_with($error, 'WRONGTYPE')) {
+			return false;
+		}
+
 		if ($error !== null) {
 			throw new \RuntimeException('Redis EVALSHA failed: ' . $error);
 		}
