@@ -54,6 +54,14 @@ export default defineConfig({
 		// Disable session isolation
 		testIsolation: false,
 
+		// The CI runners (and the local 0.2-CPU repro throttle) are slow enough
+		// that the default 4s command timeout is too short for e.g. a folder
+		// listing to re-fetch and render after a navigation. Raise it globally
+		// (to match requestTimeout) rather than sprinkling per-command timeouts.
+		// Retries do not help here: a retry re-runs the whole test on the same
+		// slow runner.
+		// defaultCommandTimeout: 30000,
+
 		requestTimeout: 30000,
 
 		// We've imported your old cypress plugins here.
