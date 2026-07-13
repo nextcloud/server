@@ -138,6 +138,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Print phpinfo
+        run: php -i
+
       - name: Set up dependencies
         run: |
           composer install

@@ -34,6 +34,8 @@ class VersionManager implements IVersionManager, IDeletableVersionBackend, INeed
 
 	public function __construct(
 		private IEventDispatcher $dispatcher,
+		private int $lockRetryBudgetMs = 10000,
+		private int $lockRetryInitialBackoffMs = 100,
 	) {
 	}
 
@@ -102,7 +104,7 @@ class VersionManager implements IVersionManager, IDeletableVersionBackend, INeed
 	#[\Override]
 	public function rollback(IVersion $version) {
 		$backend = $version->getBackend();
-		$result = self::handleAppLocks(fn (): ?bool => self::retryOnLock(fn (): ?bool => $backend->rollback($version)));
+		$result = self::handleAppLocks(fn (): ?bool => $this->retryOnLock(fn (): ?bool => $backend->rollback($version)));
 		// rollback doesn't have a return type yet and some implementations don't return anything
 		if ($result === null || $result === true) {
 			$this->dispatcher->dispatchTyped(new VersionRestoredEvent($version));
@@ -197,16 +199,14 @@ class VersionManager implements IVersionManager, IDeletableVersionBackend, INeed
 	 * @return bool|null
 	 * @throws LockedException if the file stays locked for the whole budget
 	 */
-	private static function retryOnLock(callable $callback): ?bool {
-		// Total time we are willing to wait for a concurrent lock to clear.
-		$budgetMs = 15000;
+	private function retryOnLock(callable $callback): ?bool {
 		$waitedMs = 0;
-		$backoffMs = 100;
+		$backoffMs = $this->lockRetryInitialBackoffMs;
 		for ($attempt = 1; ; $attempt++) {
 			try {
 				return $callback();
 			} catch (LockedException $e) {
-				if ($waitedMs >= $budgetMs) {
+				if ($waitedMs >= $this->lockRetryBudgetMs) {
 					throw $e;
 				}
 				Server::get(LoggerInterface::class)->debug(

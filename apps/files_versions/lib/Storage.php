@@ -426,20 +426,6 @@ class Storage {
 		try {
 			$view->lockFile($path2, ILockingProvider::LOCK_EXCLUSIVE);
 		} catch (\Throwable $e) {
-			// DIAGNOSTIC: dump all currently-held file locks to identify the
-			// concurrent holder blocking the restore (lock: -1 exclusive, >0 shared).
-			try {
-				$db = \OCP\Server::get(\OCP\IDBConnection::class);
-				$q = $db->getQueryBuilder();
-				$q->select('key', 'lock')->from('file_locks')
-					->where($q->expr()->neq('lock', $q->createNamedParameter(0, \OCP\DB\QueryBuilder\IQueryBuilder::PARAM_INT)));
-				$held = $q->executeQuery()->fetchAll();
-				\OCP\Server::get(\Psr\Log\LoggerInterface::class)->error(
-					'[restore-lock-diag] target=' . $internalPath2 . ' heldLocks=' . json_encode($held),
-					['app' => 'files_versions'],
-				);
-			} catch (\Throwable $ignore) {
-			}
 			// Acquiring the second lock can fail (e.g. the target file is
 			// transiently locked by a concurrent job under load). Release the
 			// first lock we already hold so a retry does not collide with a
