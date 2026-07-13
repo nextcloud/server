@@ -55,7 +55,10 @@
 			</template>
 
 			<template #header>
-				<UserListHeader />
+				<UserListHeader
+					@resize-column="onColumnResize"
+					@resize-column-end="onColumnResizeEnd"
+					@reset-column="onColumnReset" />
 			</template>
 
 			<template #footer>
@@ -81,6 +84,7 @@ import UserListHeader from './Users/UserListHeader.vue'
 import UserRow from './Users/UserRow.vue'
 import VirtualList from './Users/VirtualList.vue'
 import logger from '../logger.ts'
+import { loadColumnWidths, saveColumnWidths } from '../utils/userListColumns.ts'
 import { defaultQuota, unlimitedQuota } from '../utils/userUtils.ts'
 
 const newUser = Object.freeze({
@@ -145,6 +149,7 @@ export default {
 
 			newUser: { ...newUser },
 			editingUser: null,
+			columnWidths: loadColumnWidths(),
 		}
 	},
 
@@ -162,8 +167,11 @@ export default {
 		},
 
 		style() {
+			const columnWidths = Object.fromEntries(Object.entries(this.columnWidths)
+				.map(([column, width]) => [`--user-list-column-${column}`, `${width}px`]))
 			return {
 				'--row-height': `${this.rowHeight}px`,
+				...columnWidths,
 			}
 		},
 
@@ -275,6 +283,19 @@ export default {
 	methods: {
 		openEditDialog(user) {
 			this.editingUser = user
+		},
+
+		onColumnResize(column, width) {
+			this.$set(this.columnWidths, column, width)
+		},
+
+		onColumnResizeEnd() {
+			saveColumnWidths(this.columnWidths)
+		},
+
+		onColumnReset(column) {
+			this.$delete(this.columnWidths, column)
+			saveColumnWidths(this.columnWidths)
 		},
 
 		async handleScrollEnd() {

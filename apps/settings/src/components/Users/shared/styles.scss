@@ -84,6 +84,25 @@
 			width: var(--cell-width-groups);
 		}
 
+		// Columns whose width can be adjusted by the user, see UserColumnResizer
+		@each $column, $fallback in (
+			'displayname': '--cell-width',
+			'username': '--cell-width',
+			'email': '--cell-width',
+			'quota': '--cell-width',
+			'first-login': '--cell-width',
+			'last-login': '--cell-width',
+			'groups': '--cell-width-groups',
+			'subadmins': '--cell-width-large',
+			'languages': '--cell-width-large',
+			'storage': '--cell-width-large',
+		) {
+			&--#{$column} {
+				min-width: var(--user-list-column-#{$column}, var(#{$fallback}));
+				width: var(--user-list-column-#{$column}, var(#{$fallback}));
+			}
+		}
+
 		&--obfuscated {
 			min-width: 400px;
 			width: 400px;
