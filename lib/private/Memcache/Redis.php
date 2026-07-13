@@ -32,7 +32,7 @@ class Redis extends Cache implements IMemcacheTTL {
 			'75526f8048b13ce94a41b58eee59c664b4990ab2',
 		],
 		'caSetTtl' => [
-			'if redis.call("get", KEYS[1]) == ARGV[1] then return redis.call("expire", KEYS[1], ARGV[2]) else return 0 end'
+			'if redis.call("get", KEYS[1]) == ARGV[1] then return redis.call("expire", KEYS[1], ARGV[2]) else return 0 end',
 			'94eac401502554c02b811e3199baddde62d976d4',
 		],
 	];
