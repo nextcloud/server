@@ -6,16 +6,18 @@
 -- Run this BEFORE nc-ora22858-workaround.sql and send back the log file.
 -- It performs no changes of any kind - only data-dictionary and count
 -- queries - and is safe to run at any time, on any state of the table.
--- Sections that need privileges your database user does not have are
--- reported as "not visible to this user" instead of failing.
+-- Sections that cannot be read are reported with the reason instead of
+-- failing.
 --
 -- Run as the Nextcloud database user:
 --     sqlplus <nc_user>@<service> @nc-ora22858-preflight.sql
 --
 -- The transcript is written to nc_ora22858_preflight.log in the directory
--- you run sqlplus from.
+-- you run sqlplus from (a re-run overwrites it).
 
 SET SERVEROUTPUT ON SIZE UNLIMITED
+SET LINESIZE 200
+SET TRIMSPOOL ON
 SET VERIFY OFF
 SET FEEDBACK OFF
 WHENEVER SQLERROR CONTINUE
@@ -25,9 +27,12 @@ SPOOL nc_ora22858_preflight.log
 ACCEPT table_name CHAR DEFAULT 'oc_jobs' PROMPT 'Jobs table name (check dbtableprefix in config.php) [oc_jobs]: '
 
 DECLARE
-	l_table    CONSTANT VARCHAR2(128) := '&table_name';
+	l_table    VARCHAR2(4000);
+	l_exists   INTEGER;
 	l_count    INTEGER;
 	l_count2   INTEGER;
+	l_count3   INTEGER;
+	l_sysnc    INTEGER;
 	l_text     VARCHAR2(4000);
 
 	PROCEDURE say(p_msg IN VARCHAR2) IS
@@ -41,7 +46,9 @@ DECLARE
 		say('=== ' || p_title || ' ===');
 	END;
 BEGIN
-	say('NC-ORA22858 PREFLIGHT v1 - read-only, no changes are made');
+	l_table := TRIM('&table_name');
+
+	say('NC-ORA22858 PREFLIGHT v2 - read-only, no changes are made');
 
 	section('Context');
 	say('User: ' || USER);
@@ -51,25 +58,37 @@ BEGIN
 
 	section('Oracle server version');
 	BEGIN
-		SELECT version_full INTO l_text
-		  FROM product_component_version WHERE ROWNUM = 1;
+		-- version_full only exists since 18c, so this must be dynamic SQL
+		EXECUTE IMMEDIATE 'SELECT version_full FROM product_component_version'
+			|| ' WHERE product LIKE ''Oracle%'' AND ROWNUM = 1' INTO l_text;
 		say(l_text);
 	EXCEPTION WHEN OTHERS THEN
 		BEGIN
-			SELECT version INTO l_text
-			  FROM product_component_version WHERE ROWNUM = 1;
+			EXECUTE IMMEDIATE 'SELECT version FROM product_component_version'
+				|| ' WHERE product LIKE ''Oracle%'' AND ROWNUM = 1' INTO l_text;
 			say(l_text);
 		EXCEPTION WHEN OTHERS THEN
-			say('not visible to this user - please supply the output of: '
+			say('skipped: ' || SQLERRM || ' - please supply the output of: '
 				|| 'SELECT banner FROM v$version;');
 		END;
 	END;
 
 	section('Table and columns');
-	SELECT COUNT(*) INTO l_count FROM user_tables WHERE table_name = l_table;
-	IF l_count = 0 THEN
-		say('TABLE NOT FOUND in this schema - check dbtableprefix and the '
-			|| 'connected user. Remaining sections will be empty.');
+	SELECT COUNT(*) INTO l_exists FROM user_tables WHERE table_name = l_table;
+	IF l_exists = 0 THEN
+		say('TABLE NOT FOUND in this schema.');
+		SELECT COUNT(*) INTO l_count FROM user_tables
+		 WHERE table_name IN (UPPER(l_table), LOWER(l_table));
+		IF l_count > 0 THEN
+			say('note: a table with this name exists in different case - '
+				|| 'Nextcloud table names are case-sensitive (lowercase). '
+				|| 'Re-run and enter the name exactly as it appears in the schema.');
+		ELSE
+			say('Check dbtableprefix in config.php and that you are connected '
+				|| 'as the Nextcloud database user.');
+		END IF;
+		say('Row statistics and storage sections are skipped; the remaining '
+			|| 'sections will report "none".');
 	ELSE
 		say('Table found.');
 		FOR r IN (SELECT column_name, data_type, data_length, char_used, nullable
@@ -83,26 +102,37 @@ BEGIN
 	END IF;
 
 	section('Row statistics');
-	BEGIN
-		EXECUTE IMMEDIATE 'SELECT COUNT(*), COUNT(*) - COUNT("argument") FROM "'
-			|| l_table || '"' INTO l_count, l_count2;
-		say('Rows: ' || l_count || ', NULL arguments: ' || l_count2);
-		EXECUTE IMMEDIATE 'SELECT NVL(MAX(LENGTH("argument")), 0) FROM "'
-			|| l_table || '"' INTO l_count;
-		say('Longest argument value: ' || l_count || ' chars');
-	EXCEPTION WHEN OTHERS THEN
-		say('could not read rows: ' || SQLERRM);
-	END;
+	IF l_exists = 0 THEN
+		say('  skipped - table not found');
+	ELSE
+		BEGIN
+			EXECUTE IMMEDIATE 'SELECT COUNT(*), COUNT(*) - COUNT("argument"),'
+				|| ' NVL(MAX(LENGTH("argument")), 0) FROM "' || l_table || '"'
+				INTO l_count, l_count2, l_count3;
+			say('Rows: ' || l_count || ', NULL arguments: ' || l_count2
+				|| ', longest argument value: ' || l_count3 || ' chars');
+		EXCEPTION WHEN OTHERS THEN
+			say('could not read rows: ' || SQLERRM);
+		END;
+	END IF;
 
 	section('Indexes on the table (any on "argument" blocks the workaround)');
 	l_count := 0;
+	l_sysnc := 0;
 	FOR r IN (SELECT index_name, column_name FROM user_ind_columns
 	           WHERE table_name = l_table ORDER BY index_name, column_position) LOOP
 		l_count := l_count + 1;
+		IF r.column_name LIKE 'SYS_NC%' THEN
+			l_sysnc := l_sysnc + 1;
+		END IF;
 		say('  ' || r.index_name || ' (' || r.column_name || ')'
 			|| CASE WHEN r.column_name = 'argument' THEN '  <-- ON THE TARGET COLUMN' ELSE '' END);
 	END LOOP;
 	IF l_count = 0 THEN say('  none'); END IF;
+	IF l_sysnc > 0 THEN
+		say('  note: SYS_NC% entries indicate function-based indexes or '
+			|| 'virtual columns - these need review, tell us');
+	END IF;
 
 	section('Constraints referencing "argument" (named ones block the workaround)');
 	l_count := 0;
@@ -132,7 +162,7 @@ BEGIN
 		 WHERE master = l_table;
 		say(CASE WHEN l_count = 0 THEN '  none' ELSE '  ' || l_count || ' FOUND - tell us' END);
 	EXCEPTION WHEN OTHERS THEN
-		say('  not visible to this user');
+		say('  skipped: ' || SQLERRM);
 	END;
 
 	section('Flashback archive enrollment');
@@ -142,7 +172,7 @@ BEGIN
 			INTO l_count USING l_table;
 		say(CASE WHEN l_count = 0 THEN '  not enrolled' ELSE '  ENROLLED - tell us before running' END);
 	EXCEPTION WHEN OTHERS THEN
-		say('  not visible to this user');
+		say('  skipped: ' || SQLERRM);
 	END;
 
 	section('VPD / security policies on the table');
@@ -152,7 +182,7 @@ BEGIN
 			INTO l_count USING l_table;
 		say(CASE WHEN l_count = 0 THEN '  none' ELSE '  ' || l_count || ' FOUND - tell us' END);
 	EXCEPTION WHEN OTHERS THEN
-		say('  not visible to this user');
+		say('  skipped: ' || SQLERRM);
 	END;
 
 	section('Objects depending on the table (views etc. - briefly invalid during the swap)');
@@ -165,24 +195,34 @@ BEGIN
 	IF l_count = 0 THEN say('  none'); END IF;
 
 	section('Storage headroom (the copy briefly needs extra space)');
-	BEGIN
-		SELECT NVL(SUM(bytes), 0) INTO l_count
-		  FROM user_segments WHERE segment_name = l_table;
-		say('  Table segment size: ' || ROUND(l_count / 1024 / 1024) || ' MB');
-		SELECT tablespace_name INTO l_text
-		  FROM user_tables WHERE table_name = l_table;
-		say('  Tablespace: ' || NVL(l_text, '(default)'));
+	IF l_exists = 0 THEN
+		say('  skipped - table not found');
+	ELSE
 		BEGIN
-			SELECT NVL(SUM(bytes), 0) INTO l_count2
-			  FROM user_free_space WHERE tablespace_name = l_text;
-			say('  Free in tablespace: ' || ROUND(l_count2 / 1024 / 1024) || ' MB'
-				|| CASE WHEN l_count2 < l_count THEN '  <-- less than table size, tell us' ELSE '' END);
+			SELECT NVL(SUM(bytes), 0) INTO l_count
+			  FROM user_segments WHERE segment_name = l_table;
+			say('  Table segment size: ' || ROUND(l_count / 1024 / 1024) || ' MB');
+			SELECT tablespace_name INTO l_text
+			  FROM user_tables WHERE table_name = l_table;
+			IF l_text IS NULL THEN
+				say('  Tablespace: (none at table level - partitioned table? tell us)');
+			ELSE
+				say('  Tablespace: ' || l_text);
+				BEGIN
+					SELECT NVL(SUM(bytes), 0) INTO l_count2
+					  FROM user_free_space WHERE tablespace_name = l_text;
+					say('  Free in tablespace: ' || ROUND(l_count2 / 1024 / 1024) || ' MB'
+						|| CASE WHEN l_count2 < l_count THEN
+							'  <-- less than table size (may be fine with autoextend), tell us'
+						ELSE '' END);
+				EXCEPTION WHEN OTHERS THEN
+					say('  free space skipped: ' || SQLERRM);
+				END;
+			END IF;
 		EXCEPTION WHEN OTHERS THEN
-			say('  free space not visible to this user');
+			say('  skipped: ' || SQLERRM);
 		END;
-	EXCEPTION WHEN OTHERS THEN
-		say('  not visible to this user');
-	END;
+	END IF;
 
 	section('Replication indicators (best effort)');
 	BEGIN
@@ -202,6 +242,7 @@ EXCEPTION WHEN OTHERS THEN
 	say('');
 	say('PREFLIGHT INTERNAL ERROR (diagnostics incomplete, still no changes '
 		|| 'were made): ' || SQLERRM);
+	say(DBMS_UTILITY.FORMAT_ERROR_BACKTRACE);
 	say('Please send back nc_ora22858_preflight.log anyway.');
 END;
 /

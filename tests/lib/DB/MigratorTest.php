@@ -486,9 +486,34 @@ class MigratorTest extends \Test\TestCase {
 	}
 
 	/**
-	 * The read-only pre-flight diagnostics must complete without error on a
-	 * real table (validating every data-dictionary query) and on a missing
-	 * table (the not-found branch), and must never modify anything.
+	 * Fetch and clear the DBMS_OUTPUT buffer of the current session.
+	 */
+	private function fetchDbmsOutput(): string {
+		$oci = $this->connection->getNativeConnection();
+		$stmt = oci_parse($oci,
+			'DECLARE
+				l_lines DBMS_OUTPUT.CHARARR;
+				l_n INTEGER := 1000;
+				l_all VARCHAR2(32767) := \'\';
+			BEGIN
+				DBMS_OUTPUT.GET_LINES(l_lines, l_n);
+				FOR i IN 1 .. l_n LOOP
+					l_all := l_all || l_lines(i) || CHR(10);
+				END LOOP;
+				:output := l_all;
+			END;');
+		$output = '';
+		oci_bind_by_name($stmt, ':output', $output, 32767);
+		$this->assertTrue(oci_execute($stmt), 'fetching DBMS_OUTPUT failed');
+		return (string)$output;
+	}
+
+	/**
+	 * The read-only pre-flight diagnostics must produce a complete, honest
+	 * report on a real table without modifying it, and report (not throw on)
+	 * a missing table. Output markers are asserted via DBMS_OUTPUT because
+	 * the script's outer exception handler means "did not throw" proves
+	 * nothing by itself.
 	 */
 	public function testPreflightScriptOnOracle(): void {
 		if ($this->connection->getDatabaseProvider() !== IDBConnection::PLATFORM_ORACLE) {
@@ -496,8 +521,17 @@ class MigratorTest extends \Test\TestCase {
 		}
 
 		$values = $this->createWorkaroundTestTable();
+		$this->connection->executeStatement('BEGIN DBMS_OUTPUT.ENABLE(NULL); END;');
 
 		$this->connection->executeStatement($this->getPreflightScriptBlock($this->tableName));
+		$output = $this->fetchDbmsOutput();
+		$this->assertStringContainsString('PREFLIGHT COMPLETE', $output);
+		$this->assertStringContainsString('Table found.', $output);
+		$this->assertStringContainsString('Rows: 3, NULL arguments: 0', $output);
+		$this->assertStringNotContainsString('INTERNAL ERROR', $output);
+		$this->assertStringNotContainsString('could not read rows', $output);
+		// CI runs privileged, so no section may take a degradation path here
+		$this->assertStringNotContainsString('skipped', $output);
 
 		// table untouched: same rows, column still the original string type
 		$this->assertSame($values, $this->connection->executeQuery(
@@ -510,9 +544,14 @@ class MigratorTest extends \Test\TestCase {
 			->getColumn('argument');
 		$this->assertSame(Type::getType(Types::STRING), $column->getType());
 
-		// a nonexistent table must be reported, not thrown
+		// a nonexistent table must be reported cleanly, not thrown, and must
+		// not produce misleading storage output
 		$this->connection->executeStatement($this->getPreflightScriptBlock($this->tableNameTmp));
-		$this->addToAssertionCount(1);
+		$output = $this->fetchDbmsOutput();
+		$this->assertStringContainsString('TABLE NOT FOUND', $output);
+		$this->assertStringContainsString('PREFLIGHT COMPLETE', $output);
+		$this->assertStringNotContainsString('INTERNAL ERROR', $output);
+		$this->assertStringNotContainsString('Table segment size', $output);
 	}
 
 	/**
