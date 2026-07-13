@@ -212,6 +212,49 @@ export function triggerSelectionAction(actionId: string) {
 }
 
 /**
+ * Inside the file picker, navigate to the home root and confirm the copy/move.
+ *
+ * On a slow runner two things race and must be handled deterministically:
+ *  - The picker's current directory lags behind its confirm-button label: the
+ *    button already reads the plain "Copy"/"Move" (root) label while the picker
+ *    still shows the folder it opened in, so clicking it copies/moves into the
+ *    wrong folder (deduplicated as "… (1)"). We therefore wait for the picker
+ *    to actually reload its listing (its own PROPFIND) after clicking the
+ *    "All files" breadcrumb, so its current directory really is the root before
+ *    we confirm.
+ *  - The confirm click itself can be dropped (its handler is not attached yet),
+ *    so no request fires. We re-click until the resulting request is seen.
+ *
+ * @param verb the confirm action, 'Copy' or 'Move'
+ * @param requestAlias the intercept alias for the resulting DAV request
+ */
+function confirmPickerAtHomeRoot(verb: 'Copy' | 'Move', requestAlias: string) {
+	cy.intercept('PROPFIND', /\/(remote|public)\.php\/dav\/files\//).as('pickerNavigation')
+	cy.get('.breadcrumb')
+		.findByRole('button', { name: 'All files' })
+		.should('be.visible')
+		.click()
+	// Wait for the picker to actually fetch the root listing, so its current
+	// directory (the copy/move target) is the root and not the folder it opened
+	// in — otherwise the confirm below would target the wrong folder.
+	cy.wait('@pickerNavigation')
+
+	// The plain "Copy"/"Move" label only exists once the picker is at the root.
+	const confirmLabel = new RegExp(`^\\s*${verb}\\s*$`)
+	const clickUntilRequestFires = (attemptsLeft: number) => {
+		cy.contains('button', confirmLabel).should('be.visible').click()
+		// eslint-disable-next-line cypress/no-unnecessary-waiting -- give a dropped click a moment to be noticed
+		cy.wait(2000)
+		cy.get(`@${requestAlias}.all`).then((calls) => {
+			if (calls.length === 0 && attemptsLeft > 0) {
+				clickUntilRequestFires(attemptsLeft - 1)
+			}
+		})
+	}
+	clickUntilRequestFires(4)
+}
+
+/**
  *
  * @param fileName
  * @param dirPath
@@ -225,18 +268,7 @@ export function moveFile(fileName: string, dirPath: string) {
 		cy.intercept('MOVE', /\/(remote|public)\.php\/dav\/files\//).as('moveFile')
 
 		if (dirPath === '/') {
-			// select home folder
-			cy.get('.breadcrumb')
-				.findByRole('button', { name: 'All files' })
-				.should('be.visible')
-				.click()
-			// Click move. Match the confirm button EXACTLY as "Move": the picker
-			// labels it "Move to {folder}" while inside a folder and only "Move"
-			// once it has navigated to the home root. A loose `contains('Move')`
-			// would match the stale "Move to {folder}" button before the "All
-			// files" navigation above has landed, moving the file into the wrong
-			// folder. The exact match makes cypress wait for the root button.
-			cy.contains('button', /^Move\s*$/).should('be.visible').click()
+			confirmPickerAtHomeRoot('Move', 'moveFile')
 		} else if (dirPath === '.') {
 			// click move
 			cy.contains('button', 'Copy').should('be.visible').click()
@@ -269,19 +301,7 @@ export function copyFile(fileName: string, dirPath: string) {
 		cy.intercept('COPY', /\/(remote|public)\.php\/dav\/files\//).as('copyFile')
 
 		if (dirPath === '/') {
-			// select home folder
-			cy.get('.breadcrumb')
-				.findByRole('button', { name: 'All files' })
-				.should('be.visible')
-				.click()
-			// Click copy. Match the confirm button EXACTLY as "Copy": the picker
-			// labels it "Copy to {folder}" while inside a folder and only "Copy"
-			// once it has navigated to the home root. A loose `contains('Copy')`
-			// would match the stale "Copy to {folder}" button before the "All
-			// files" navigation above has landed, copying the file into the wrong
-			// folder (deduplicated as "… (1)"). The exact match makes cypress
-			// wait for the root button.
-			cy.contains('button', /^Copy\s*$/).should('be.visible').click()
+			confirmPickerAtHomeRoot('Copy', 'copyFile')
 		} else if (dirPath === '.') {
 			// click copy
 			cy.contains('button', 'Copy').should('be.visible').click()
