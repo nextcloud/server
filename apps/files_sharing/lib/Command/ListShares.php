@@ -72,11 +72,17 @@ class ListShares extends Base {
 		});
 		$shares = iterator_to_array($shares);
 		$data = array_map(function (IShare $share) {
+			try {
+				$sourcePath = $share->getNode()->getPath();
+			} catch (NotFoundException) {
+				// orphaned share, source file no longer exists
+				$sourcePath = null;
+			}
 			return [
 				'id' => $share->getId(),
 				'file' => $share->getNodeId(),
 				'target-path' => $share->getTarget(),
-				'source-path' => $share->getNode()->getPath(),
+				'source-path' => $sourcePath,
 				'owner' => $share->getShareOwner(),
 				'recipient' => $share->getSharedWith(),
 				'by' => $share->getSharedBy(),
@@ -140,19 +146,24 @@ class ListShares extends Base {
 				throw new \Exception("Parent {$parent->getPath()} is not a folder");
 			}
 			$recursive = $input->getOption('recursive');
-			if (!$recursive) {
-				$shareCacheEntry = $share->getNodeCacheEntry();
-				if (!$shareCacheEntry) {
-					$shareCacheEntry = $share->getNode();
+			try {
+				if (!$recursive) {
+					$shareCacheEntry = $share->getNodeCacheEntry();
+					if (!$shareCacheEntry) {
+						$shareCacheEntry = $share->getNode();
+					}
+					if ($shareCacheEntry->getParentId() !== $parent->getId()) {
+						return false;
+					}
+				} else {
+					$shareNode = $share->getNode();
+					if ($parent->getRelativePath($shareNode->getPath()) === null) {
+						return false;
+					}
 				}
-				if ($shareCacheEntry->getParentId() !== $parent->getId()) {
-					return false;
-				}
-			} else {
-				$shareNode = $share->getNode();
-				if ($parent->getRelativePath($shareNode->getPath()) === null) {
-					return false;
-				}
+			} catch (NotFoundException) {
+				// orphaned share, can't be inside the parent folder
+				return false;
 			}
 		}
 		if ($input->getOption('type') && $share->getShareType() !== $this->getShareType($input->getOption('type'))) {
