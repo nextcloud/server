@@ -7,6 +7,7 @@
 namespace OCA\WorkflowEngine\Check;
 
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Cache\CappedMemoryCache;
 use OCP\IL10N;
 use OCP\WorkflowEngine\ICheck;
 
@@ -14,8 +15,7 @@ class RequestTime implements ICheck {
 	public const REGEX_TIME = '([0-1][0-9]|2[0-3]):([0-5][0-9])';
 	public const REGEX_TIMEZONE = '([a-zA-Z]+(?:\\/[a-zA-Z\-\_]+)+)';
 
-	/** @var bool[] */
-	protected $cachedResults;
+	protected CappedMemoryCache $cachedResults;
 
 	/**
 	 * @param ITimeFactory $timeFactory
@@ -24,6 +24,7 @@ class RequestTime implements ICheck {
 		protected IL10N $l,
 		protected ITimeFactory $timeFactory,
 	) {
+		$this->cachedResults = new CappedMemoryCache();
 	}
 
 	/**
