@@ -11,14 +11,17 @@ import { openActionsMenu, triggerActionForFile } from '../files/FilesUtils.ts'
 import { createShare } from '../files_sharing/FilesSharingUtils.ts'
 
 export function uploadThreeVersions(user: User, fileName: string) {
-	// A new version will not be created if the changes occur
-	// within less than one second of each other.
-	// eslint-disable-next-line cypress/no-unnecessary-waiting
-	cy.uploadContent(user, new Blob(['v1'], { type: 'text/plain' }), 'text/plain', `/${fileName}`)
-		.wait(1100)
-		.uploadContent(user, new Blob(['v2'], { type: 'text/plain' }), 'text/plain', `/${fileName}`)
-		.wait(1100)
-		.uploadContent(user, new Blob(['v3'], { type: 'text/plain' }), 'text/plain', `/${fileName}`)
+	// A version is identified by the file's modification time at second
+	// resolution (files_versions/<path>.v<mtime>), so two uploads that resolve to
+	// the same second collapse into a single version. Wall-clock spacing (cy.wait)
+	// is racy on slow runners: the mtime is set server-side at write time, so
+	// jitter can still floor two uploads into the same second. Pin an explicit,
+	// distinct mtime per upload instead (via X-OC-MTime) so exactly three versions
+	// are always created regardless of runner speed.
+	const baseMtime = Math.floor(Date.now() / 1000) - 5
+	cy.uploadContent(user, new Blob(['v1'], { type: 'text/plain' }), 'text/plain', `/${fileName}`, baseMtime)
+	cy.uploadContent(user, new Blob(['v2'], { type: 'text/plain' }), 'text/plain', `/${fileName}`, baseMtime + 2)
+	cy.uploadContent(user, new Blob(['v3'], { type: 'text/plain' }), 'text/plain', `/${fileName}`, baseMtime + 4)
 	cy.login(user)
 }
 
