@@ -1,3 +1,6 @@
+-- SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+-- SPDX-License-Identifier: AGPL-3.0-or-later
+--
 -- Nextcloud ORA-22858 upgrade failure: manual conversion of the jobs
 -- "argument" column from VARCHAR2(4000) to CLOB.
 --
