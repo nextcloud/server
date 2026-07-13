@@ -44,43 +44,10 @@ class CSRFTokenController extends Controller {
 	#[NoTwoFactorRequired]
 	public function index(): JSONResponse {
 		if (!$this->request->passesStrictCookieCheck()) {
-			// [login-diag] A 403 here means cy.login receives no token, so its
-			// POST /login then fails the CSRF check -> validate 401. Record it.
-			\OCP\Server::get(\Psr\Log\LoggerInterface::class)->error(
-				'[login-diag] CSRFTOKEN 403 strictCookieCheck failed remote=' . $this->request->getRemoteAddress()
-				. ' cookies=' . implode(',', array_keys($_COOKIE ?? [])),
-				['app' => 'login-diag'],
-			);
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
 
 		$requestToken = $this->tokenManager->getToken();
-
-		// [login-diag] Record the session this token was issued into, so a later
-		// csrfCheckFailed on /login can be matched against it: if the /login
-		// session/sessCookie differs from what /csrftoken issued into, the token
-		// legitimately isn't in /login's session (a session-mismatch race).
-		try {
-			$session = \OCP\Server::get(\OCP\ISession::class);
-			$raw = $this->request->getCookie(session_name());
-			// Hash of the raw token value stored in this session. The matching
-			// /login line logs the same storedTok; if they differ (or /login has
-			// none) the two requests hit different sessions -> csrfCheckFailed.
-			$storedTok = 'n/a';
-			$t = $session->get('requesttoken');
-			if (is_string($t) && $t !== '') {
-				$storedTok = substr(md5($t), 0, 8);
-			}
-			\OCP\Server::get(\Psr\Log\LoggerInterface::class)->error(
-				'[login-diag] CSRFTOKEN issued remote=' . $this->request->getRemoteAddress()
-				. ' session=' . substr(md5((string)$session->getId()), 0, 8)
-				. ' sessCookie=' . ($raw !== null ? substr(md5($raw), 0, 8) : 'none')
-				. ' storedTok=' . $storedTok,
-				['app' => 'login-diag'],
-			);
-		} catch (\Throwable) {
-			// diagnostics must never affect the token endpoint
-		}
 
 		return new JSONResponse([
 			'token' => $requestToken->getEncryptedValue(),

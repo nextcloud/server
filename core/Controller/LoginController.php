@@ -366,97 +366,10 @@ class LoginController extends Controller {
 			);
 		}
 
-		// [login-diag] Successful login: record so we can tell a login-logic
-		// failure apart from a session/cookie propagation failure on the
-		// subsequent validate request.
-		$this->logLoginDiag('LOGIN OK', $user);
-
 		if ($result->getRedirectUrl() !== null) {
 			return new RedirectResponse($result->getRedirectUrl());
 		}
 		return $this->generateRedirect($redirect_url);
-	}
-
-	/**
-	 * [login-diag] Throwaway diagnostic logger for the e2e login flake. Emits a
-	 * single correlatable line (session id hash, remote addr, throttle delay)
-	 * so we can trace a failed `cy.login` back to its server-side cause. Must
-	 * never break the login flow, hence the broad catch.
-	 */
-	private function logLoginDiag(string $what, string $user): void {
-		try {
-			$remote = $this->request->getRemoteAddress();
-			try {
-				$session = substr(md5((string)$this->session->getId()), 0, 8);
-			} catch (\Throwable) {
-				$session = 'n/a';
-			}
-			// Break down passesCSRFCheck() so a csrfCheckFailed tells us WHICH
-			// sub-check failed: the strict same-site cookie check, or the token
-			// validation (a missing session 'requesttoken' means the /login
-			// request landed on a different session than /csrftoken issued into).
-			try {
-				$strictCookie = $this->request->passesStrictCookieCheck() ? '1' : '0';
-			} catch (\Throwable) {
-				$strictCookie = 'err';
-			}
-			try {
-				$sessHasReqToken = $this->session->exists('requesttoken') ? '1' : '0';
-			} catch (\Throwable) {
-				$sessHasReqToken = 'err';
-			}
-			// Hash of the session cookie the client actually sent, to compare the
-			// /csrftoken-issuing session against the /login session.
-			$sessCookie = 'none';
-			try {
-				$raw = $this->request->getCookie(session_name());
-				if ($raw !== null) {
-					$sessCookie = substr(md5($raw), 0, 8);
-				}
-			} catch (\Throwable) {
-				$sessCookie = 'err';
-			}
-			// Hash of the raw CSRF token value STORED in this session, and of the
-			// value the client PROVIDED. If the /login session is the same one
-			// /csrftoken issued into, storedTok here must equal the storedTok that
-			// CSRFTOKEN logged. A mismatch proves the two requests hit different
-			// sessions (or the token rotated) — the real csrfCheckFailed cause.
-			$storedTok = 'n/a';
-			try {
-				$t = $this->session->get('requesttoken');
-				if (is_string($t) && $t !== '') {
-					$storedTok = substr(md5($t), 0, 8);
-				}
-			} catch (\Throwable) {
-				$storedTok = 'err';
-			}
-			$providedTok = 'none';
-			try {
-				$p = $this->request->getParam('requesttoken');
-				if (is_string($p) && $p !== '') {
-					$providedTok = substr(md5($p), 0, 8);
-				}
-			} catch (\Throwable) {
-				$providedTok = 'err';
-			}
-			\OCP\Server::get(\Psr\Log\LoggerInterface::class)->error(
-				'[login-diag] ' . $what
-				. ' user=' . $user
-				. ' remote=' . $remote
-				. ' session=' . $session
-				. ' sessCookie=' . $sessCookie
-				. ' strictCookie=' . $strictCookie
-				. ' sessHasReqToken=' . $sessHasReqToken
-				. ' storedTok=' . $storedTok
-				. ' providedTok=' . $providedTok
-				. ' csrf=' . ($this->request->passesCSRFCheck() ? '1' : '0')
-				. ' origin=' . $this->request->getHeader('Origin')
-				. ' delay=' . $this->throttler->getDelay($remote, 'login'),
-				['app' => 'login-diag'],
-			);
-		} catch (\Throwable) {
-			// diagnostics must never affect the login path
-		}
 	}
 
 	/**
@@ -476,11 +389,6 @@ class LoginController extends Controller {
 		string $loginMessage,
 		bool $throttle = true,
 	) {
-		// [login-diag] Every login failure path funnels through here, so this is
-		// the single point that reveals *why* a login POST did not establish a
-		// session (invalidOrigin / csrfCheckFailed / invalidpassword / ...).
-		$this->logLoginDiag('LOGIN FAILED reason=' . $loginMessage . ' throttle=' . ($throttle ? '1' : '0'), (string)$originalUser);
-
 		// Read current user and append if possible we need to
 		// return the unmodified user otherwise we will leak the login name
 		$args = $user !== null ? ['user' => $originalUser, 'direct' => 1] : [];

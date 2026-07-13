@@ -119,6 +119,34 @@ export function setupTestSharedFileFromUser(owner: User, randomFileName: string,
 
 			cy.login(recipient)
 			cy.visit('/apps/files')
+			// On a slow backend the freshly created share can be missing from the
+			// recipient's first directory listing: the mount cache is updated a
+			// moment after the share is committed, and the file list does not
+			// refetch on its own. Reload until the shared file shows up so
+			// downstream steps start from a stable state.
+			reloadUntilFileVisible(basename(randomFileName))
 			return cy.wrap(recipient)
 		})
+}
+
+/**
+ * Reload the current file list until the given file appears in it.
+ *
+ * @param fileName Name of the file expected in the current directory
+ * @param attemptsLeft Remaining reloads before giving up
+ */
+function reloadUntilFileVisible(fileName: string, attemptsLeft = 5) {
+	// The list has rendered once at least one row is present (a new user always
+	// has welcome.txt), so we can reliably tell "file missing" from "still loading".
+	cy.get('[data-cy-files-list-row-name]').should('have.length.at.least', 1)
+	cy.get('body').then(($body) => {
+		if ($body.find(`[data-cy-files-list-row-name="${CSS.escape(fileName)}"]`).length > 0) {
+			return
+		}
+		if (attemptsLeft === 0) {
+			throw new Error(`Shared file "${fileName}" never appeared in the recipient's file list after reloading`)
+		}
+		cy.reload()
+		reloadUntilFileVisible(fileName, attemptsLeft - 1)
+	})
 }
