@@ -34,6 +34,7 @@ export const ALL_PERMISSIONS = SharePermission.READ
 export const ShareType = {
 	USER: 0,
 	GROUP: 1,
+	USERGROUP: 2,
 	LINK: 3,
 	EMAIL: 4,
 } as const
@@ -97,6 +98,10 @@ export interface UpdateShareOptions {
 	expireDate?: string
 	/** The public share password. */
 	password?: string
+	/** Optionally, protect the share with an OTP with the given provider */
+	otpProvider?: string
+	/** The OTP recipient to use for OTP protection */
+	otpRecipient?: string
 }
 
 /** Options for {@link createShare}. */
@@ -165,6 +170,12 @@ export async function updateShare(
 	}
 	if (options.password !== undefined) {
 		form.password = options.password
+	}
+	if (options.otpProvider !== undefined) {
+		form.otpProvider = options.otpProvider
+	}
+	if (options.otpRecipient !== undefined) {
+		form.otpRecipient = options.otpRecipient
 	}
 
 	const response = await request.put(`/ocs/v2.php/apps/files_sharing/api/v1/shares/${id}?format=json`, {
