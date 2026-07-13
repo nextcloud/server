@@ -24,6 +24,8 @@
 --     confirmed (empty input aborts).
 --   * Inspects the current column state first and handles a previously
 --     interrupted run: it is safe to run this script multiple times.
+--   * Refuses to proceed if any customer-added index or named constraint
+--     references the column (DROP COLUMN would silently remove them).
 --   * The data copy is verified (DBMS_LOB.COMPARE) BEFORE it is committed;
 --     on any mismatch everything is rolled back and the temporary column is
 --     removed - the schema is left exactly as it was found.
@@ -61,6 +63,7 @@ DECLARE
 	l_rows          INTEGER;
 	l_nulls         INTEGER;
 	l_count         INTEGER;
+	l_names         VARCHAR2(4000);
 
 	PROCEDURE fail(p_msg IN VARCHAR2) IS
 	BEGIN
@@ -100,6 +103,10 @@ BEGIN
 	IF NVL(LOWER(TRIM('&backup_confirmed')), 'no') NOT IN ('yes', 'y') THEN
 		fail('Aborted: restorable backup not confirmed. Nothing was changed.');
 	END IF;
+
+	-- Wait up to 60s for transient locks instead of failing immediately
+	-- with ORA-00054 (DDL default is NOWAIT).
+	EXECUTE IMMEDIATE 'ALTER SESSION SET DDL_LOCK_TIMEOUT = 60';
 
 	SELECT COUNT(*) INTO l_table_exists
 	  FROM user_tables WHERE table_name = l_table;
@@ -161,6 +168,30 @@ BEGIN
 	IF l_old_type <> 'VARCHAR2' THEN
 		fail('Unexpected type for "argument": ' || l_old_type
 			|| ' (expected VARCHAR2). Nothing was changed.');
+	END IF;
+
+	-- Pre-flight: DROP COLUMN silently removes indexes and constraints that
+	-- reference the column. The stock schema has none on "argument" (the
+	-- system NOT NULL constraint is recreated by this script); anything else
+	-- is a customisation that must be reviewed by a human first.
+	SELECT COUNT(*), LISTAGG(index_name, ', ') INTO l_count, l_names
+	  FROM user_ind_columns
+	 WHERE table_name = l_table AND column_name = 'argument';
+	IF l_count > 0 THEN
+		fail('Non-stock schema: index(es) reference "argument": ' || l_names
+			|| '. Dropping the column would silently remove them. Manual '
+			|| 'review required. Nothing was changed.');
+	END IF;
+	SELECT COUNT(*), LISTAGG(c.constraint_name, ', ') INTO l_count, l_names
+	  FROM user_cons_columns cc
+	  JOIN user_constraints c
+	    ON c.constraint_name = cc.constraint_name AND c.table_name = cc.table_name
+	 WHERE cc.table_name = l_table AND cc.column_name = 'argument'
+	   AND c.generated <> 'GENERATED NAME';
+	IF l_count > 0 THEN
+		fail('Non-stock schema: named constraint(s) reference "argument": '
+			|| l_names || '. Dropping the column would silently remove them. '
+			|| 'Manual review required. Nothing was changed.');
 	END IF;
 
 	-- State: interrupted after ADD/copy but before DROP - the temporary

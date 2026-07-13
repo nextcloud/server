@@ -424,8 +424,22 @@ class MigratorTest extends \Test\TestCase {
 			}
 		}
 
-		// an argument2 column this script did not create must not be dropped
+		// a customer-added constraint referencing the column must abort the
+		// run (DROP COLUMN would silently remove it); the system NOT NULL
+		// constraint must not trigger this
 		$quotedTable = $this->connection->quoteIdentifier($this->tableName);
+		$constraintName = strtoupper($this->tableName) . '_CX';
+		$this->connection->executeStatement('ALTER TABLE ' . $quotedTable
+			. ' ADD CONSTRAINT ' . $constraintName . ' CHECK ("argument" IS NOT NULL)');
+		try {
+			$this->connection->executeStatement($this->getWorkaroundScriptBlock($this->tableName, 'yes'));
+			$this->fail('Expected the script to refuse a customer-added constraint on the column');
+		} catch (\Doctrine\DBAL\Exception\DriverException $e) {
+			$this->assertStringContainsString($constraintName, $e->getMessage());
+		}
+		$this->connection->executeStatement('ALTER TABLE ' . $quotedTable . ' DROP CONSTRAINT ' . $constraintName);
+
+		// an argument2 column this script did not create must not be dropped
 		$this->connection->executeStatement('ALTER TABLE ' . $quotedTable . ' ADD ("argument2" NUMBER)');
 		try {
 			$this->connection->executeStatement($this->getWorkaroundScriptBlock($this->tableName, 'yes'));
