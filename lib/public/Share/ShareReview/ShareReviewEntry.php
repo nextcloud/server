@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace OCP\Share\ShareReview;
 
 use OCP\AppFramework\Attribute\Consumable;
-use OCP\Constants;
 use OCP\Share\IShare;
 
 /**
@@ -34,13 +33,14 @@ final class ShareReviewEntry {
 	 *                                   later; used for sorting and for the
 	 *                                   new-since-last-review filter. Pass 0
 	 *                                   if the app tracks neither.
-	 * @param int-mask-of<Constants::PERMISSION_*> $permissions Permissions level of the share.
+	 * @param list<ShareReviewPermission> $permissions Permissions granted by
+	 *                                                 the share. An empty list
+	 *                                                 means the share grants
+	 *                                                 nothing beyond existing.
 	 * @param string $action Optional deletion identifier override. An empty
 	 *                       string means $id is used.
 	 * @param bool $hasPassword Whether the share is password protected. Never
 	 *                          the password itself.
-	 * @param bool $canManage Whether the recipient can administer the shared
-	 *                        object and its sharing.
 	 * @param int|null $expirationTimestamp Optional expiration Unix timestamp
 	 *                                      of the share.
 	 * @param string|null $parent Optional identifier of the parent share.
@@ -54,10 +54,9 @@ final class ShareReviewEntry {
 		public readonly int $type,
 		public readonly string $recipient,
 		public readonly int $lastModifiedTimestamp,
-		public readonly int $permissions = 1,
+		public readonly array $permissions = [],
 		public readonly string $action = '',
 		public readonly bool $hasPassword = false,
-		public readonly bool $canManage = false,
 		public readonly ?int $expirationTimestamp = null,
 		public readonly ?string $parent = null,
 	) {
