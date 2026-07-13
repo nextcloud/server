@@ -478,6 +478,43 @@ class MigratorTest extends \Test\TestCase {
 		$this->assertWorkaroundResult($values);
 	}
 
+	private function getPreflightScriptBlock(string $tableName): string {
+		$script = file_get_contents(\OC::$SERVERROOT . '/tests/data/nc-ora22858-preflight.sql');
+		$this->assertNotFalse($script, 'preflight script file not readable');
+		$this->assertSame(1, preg_match('/^DECLARE\R.*?^END;/ms', $script, $matches), 'PL/SQL block not found in preflight script');
+		return str_replace('&table_name', $tableName, $matches[0]);
+	}
+
+	/**
+	 * The read-only pre-flight diagnostics must complete without error on a
+	 * real table (validating every data-dictionary query) and on a missing
+	 * table (the not-found branch), and must never modify anything.
+	 */
+	public function testPreflightScriptOnOracle(): void {
+		if ($this->connection->getDatabaseProvider() !== IDBConnection::PLATFORM_ORACLE) {
+			$this->markTestSkipped('Validates the Oracle-specific preflight script');
+		}
+
+		$values = $this->createWorkaroundTestTable();
+
+		$this->connection->executeStatement($this->getPreflightScriptBlock($this->tableName));
+
+		// table untouched: same rows, column still the original string type
+		$this->assertSame($values, $this->connection->executeQuery(
+			'SELECT ' . $this->connection->quoteIdentifier('argument')
+			. ' FROM ' . $this->connection->quoteIdentifier($this->tableName)
+			. ' ORDER BY ' . $this->connection->quoteIdentifier('id') . ' ASC'
+		)->fetchFirstColumn());
+		$schema = new SchemaWrapper($this->connection);
+		$column = $schema->getTable(substr($this->tableName, strlen($this->connection->getPrefix())))
+			->getColumn('argument');
+		$this->assertSame(Type::getType(Types::STRING), $column->getType());
+
+		// a nonexistent table must be reported, not thrown
+		$this->connection->executeStatement($this->getPreflightScriptBlock($this->tableNameTmp));
+		$this->addToAssertionCount(1);
+	}
+
 	/**
 	 * A run interrupted between the RENAME and the NOT NULL restore leaves
 	 * a nullable CLOB column - a re-run must repair the constraint instead
