@@ -8,10 +8,13 @@ declare(strict_types=1);
 
 namespace OCA\files_versions\tests;
 
+use OC\Files\View;
 use OCA\Files_Versions\Expiration;
 use OCA\Files_Versions\Storage;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
+use OCP\Lock\ILockingProvider;
+use OCP\Lock\LockedException;
 use OCP\Server;
 use Test\TestCase;
 use Test\Traits\UserTrait;
@@ -94,5 +97,43 @@ class StorageTest extends TestCase {
 		$this->assertCount(0, Storage::getVersions('version_test', 'folder1/file2'));
 		$this->assertCount(0, Storage::getVersions('version_test', 'folder1/sub1/file3'));
 		$this->assertCount(1, Storage::getVersions('version_test', 'folder2/file4'));
+	}
+
+	/**
+	 * Regression test: when copyFileContents() fails to acquire the lock on the
+	 * target file, the lock already held on the source file must be released
+	 * before the exception propagates. Otherwise the source lock leaks and a
+	 * retry (or any later access) collides with a lock nobody owns anymore.
+	 */
+	public function testCopyFileContentsReleasesSourceLockWhenTargetLockFails(): void {
+		$source = 'files/source.txt';
+		$target = 'files/target.txt';
+		$lockedException = new LockedException($target);
+
+		$storage = $this->createMock(\OC\Files\Storage\Storage::class);
+
+		$view = $this->createMock(View::class);
+		$view->method('resolvePath')->willReturn([$storage, 'internal']);
+
+		// The source lock is acquired first and succeeds; acquiring the target
+		// lock then throws (e.g. a concurrent holder under load).
+		$view->expects($this->exactly(2))
+			->method('lockFile')
+			->willReturnCallback(function (string $path) use ($target, $lockedException): void {
+				if ($path === $target) {
+					throw $lockedException;
+				}
+			});
+
+		// The already-held source lock must be released exactly once, and the
+		// never-acquired target lock must not be touched.
+		$view->expects($this->once())
+			->method('unlockFile')
+			->with($source, ILockingProvider::LOCK_EXCLUSIVE);
+
+		$this->expectExceptionObject($lockedException);
+
+		$method = new \ReflectionMethod(Storage::class, 'copyFileContents');
+		$method->invoke(null, $view, $source, $target);
 	}
 }

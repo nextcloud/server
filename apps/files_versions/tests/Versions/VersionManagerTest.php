@@ -16,6 +16,7 @@ use OCA\Files_Versions\Versions\IVersionBackend;
 use OCA\Files_Versions\Versions\VersionManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Storage\IStorage;
+use OCP\Lock\LockedException;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -140,5 +141,55 @@ class VersionManagerTest extends TestCase {
 		$manager = new VersionManager($dispatcherMock);
 
 		$this->assertFalse($manager->rollback($versionMock));
+	}
+
+	public function testRollbackRetriesWhileFileIsTransientlyLocked(): void {
+		$versionMock = $this->createMock(IVersion::class);
+		$backendMock = $this->createMock(IVersionBackend::class);
+		$versionMock->method('getBackend')->willReturn($backendMock);
+
+		// The live file is locked for the first two attempts (e.g. a concurrent
+		// read holds a shared lock) and then the lock clears.
+		$attempts = 0;
+		$backendMock->expects($this->exactly(3))
+			->method('rollback')
+			->with($versionMock)
+			->willReturnCallback(function () use (&$attempts): bool {
+				$attempts++;
+				if ($attempts < 3) {
+					throw new LockedException('files/foo.txt');
+				}
+				return true;
+			});
+
+		$dispatcherMock = $this->createMock(IEventDispatcher::class);
+		$dispatcherMock->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->isInstanceOf(VersionRestoredEvent::class));
+
+		// Tiny retry budget/backoff so the test exercises the retry without waiting.
+		$manager = new VersionManager($dispatcherMock, 1000, 1);
+
+		$this->assertTrue($manager->rollback($versionMock));
+		$this->assertSame(3, $attempts);
+	}
+
+	public function testRollbackGivesUpAfterRetryBudgetExhausted(): void {
+		$versionMock = $this->createMock(IVersion::class);
+		$backendMock = $this->createMock(IVersionBackend::class);
+		$versionMock->method('getBackend')->willReturn($backendMock);
+
+		// The live file stays locked for the whole retry budget.
+		$backendMock->method('rollback')
+			->with($versionMock)
+			->willThrowException(new LockedException('files/foo.txt'));
+
+		$dispatcherMock = $this->createMock(IEventDispatcher::class);
+		$dispatcherMock->expects($this->never())->method('dispatchTyped');
+
+		$manager = new VersionManager($dispatcherMock, 5, 1);
+
+		$this->expectException(LockedException::class);
+		$manager->rollback($versionMock);
 	}
 }
