@@ -32,7 +32,7 @@ class RequestTime implements ICheck {
 	 * @return bool
 	 */
 	public function executeCheck($operator, $value) {
-		$valueHash = md5($value);
+		$valueHash = sha1($operator . $value);
 
 		if (isset($this->cachedResults[$valueHash])) {
 			return $this->cachedResults[$valueHash];
@@ -50,7 +50,10 @@ class RequestTime implements ICheck {
 			$in = $timestamp1 <= $timestamp || $timestamp <= $timestamp2;
 		}
 
-		return ($operator === 'in') ? $in : !$in;
+		$result = ($operator === 'in') ? $in : !$in;
+
+		$this->cachedResults[$valueHash] = $result;
+		return $result;
 	}
 
 	/**
