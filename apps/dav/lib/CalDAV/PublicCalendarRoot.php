@@ -8,50 +8,39 @@
 
 namespace OCA\DAV\CalDAV;
 
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IL10N;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Collection;
 
 class PublicCalendarRoot extends Collection {
-
-	/**
-	 * PublicCalendarRoot constructor.
-	 *
-	 * @param CalDavBackend $caldavBackend
-	 * @param IL10N $l10n
-	 * @param IConfig $config
-	 */
 	public function __construct(
 		protected CalDavBackend $caldavBackend,
 		protected IL10N $l10n,
+		protected IAppConfig $appConfig,
 		protected IConfig $config,
 		private LoggerInterface $logger,
 	) {
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	#[\Override]
-	public function getName() {
+	public function getName(): string {
 		return 'public-calendars';
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	#[\Override]
-	public function getChild($name) {
+	public function getChild($name): PublicCalendar {
+		// Sharing via link is allowed by default, but if the option is set it should be checked.
+		if (!$this->appConfig->getValueBool('core', 'shareapi_allow_links', true)) {
+			throw new \Sabre\DAV\Exception\Forbidden();
+		}
 		$calendar = $this->caldavBackend->getPublicCalendar($name);
 		return new PublicCalendar($this->caldavBackend, $calendar, $this->l10n, $this->config, $this->logger);
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	#[\Override]
-	public function getChildren() {
+	public function getChildren(): array {
 		return [];
 	}
 }

@@ -141,6 +141,7 @@ return array(
     'OCA\\DAV\\CalDAV\\TimeZoneFactory' => $baseDir . '/../lib/CalDAV/TimeZoneFactory.php',
     'OCA\\DAV\\CalDAV\\TimezoneService' => $baseDir . '/../lib/CalDAV/TimezoneService.php',
     'OCA\\DAV\\CalDAV\\TipBroker' => $baseDir . '/../lib/CalDAV/TipBroker.php',
+    'OCA\\DAV\\CalDAV\\SharingPlugin' => $baseDir . '/../lib/CalDAV/SharingPlugin.php',
     'OCA\\DAV\\CalDAV\\Trashbin\\DeletedCalendarObject' => $baseDir . '/../lib/CalDAV/Trashbin/DeletedCalendarObject.php',
     'OCA\\DAV\\CalDAV\\Trashbin\\DeletedCalendarObjectsCollection' => $baseDir . '/../lib/CalDAV/Trashbin/DeletedCalendarObjectsCollection.php',
     'OCA\\DAV\\CalDAV\\Trashbin\\Plugin' => $baseDir . '/../lib/CalDAV/Trashbin/Plugin.php',

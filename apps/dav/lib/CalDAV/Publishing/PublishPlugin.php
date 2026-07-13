@@ -14,7 +14,6 @@ use OCA\DAV\CalDAV\Publishing\Xml\Publisher;
 use OCP\AppFramework\Http;
 use OCP\IConfig;
 use OCP\IURLGenerator;
-use Sabre\CalDAV\Xml\Property\AllowedSharingModes;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
@@ -26,12 +25,7 @@ use Sabre\HTTP\ResponseInterface;
 class PublishPlugin extends ServerPlugin {
 	public const NS_CALENDARSERVER = 'http://calendarserver.org/ns/';
 
-	/**
-	 * Reference to SabreDAV server object.
-	 *
-	 * @var \Sabre\DAV\Server
-	 */
-	protected $server;
+	protected Server $server;
 
 	/**
 	 * PublishPlugin constructor.
@@ -60,9 +54,9 @@ class PublishPlugin extends ServerPlugin {
 	 * @return string[]
 	 */
 	#[\Override]
-	public function getFeatures() {
+	public function getFeatures(): array {
 		// May have to be changed to be detected
-		return ['oc-calendar-publishing', 'calendarserver-sharing'];
+		return ['oc-calendar-publishing'];
 	}
 
 	/**
@@ -74,7 +68,7 @@ class PublishPlugin extends ServerPlugin {
 	 * @return string
 	 */
 	#[\Override]
-	public function getPluginName() {
+	public function getPluginName(): string {
 		return 'oc-calendar-publishing';
 	}
 
@@ -120,18 +114,6 @@ class PublishPlugin extends ServerPlugin {
 
 					return new Publisher($publishUrl, true);
 				}
-			});
-
-			$propFind->handle('{' . self::NS_CALENDARSERVER . '}allowed-sharing-modes', function () use ($node) {
-				$canShare = (!$node->isSubscription() && $node->canWrite());
-				$canPublish = (!$node->isSubscription() && $node->canWrite());
-
-				if ($this->config->getAppValue('dav', 'limitAddressBookAndCalendarSharingToOwner', 'no') === 'yes') {
-					$canShare = $canShare && ($node->getOwner() === $node->getPrincipalURI());
-					$canPublish = $canPublish && ($node->getOwner() === $node->getPrincipalURI());
-				}
-
-				return new AllowedSharingModes($canShare, $canPublish);
 			});
 		}
 	}
