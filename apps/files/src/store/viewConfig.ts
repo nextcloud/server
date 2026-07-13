@@ -49,6 +49,14 @@ export const useViewConfigStore = defineStore('viewconfig', () => {
 	 * @param value New value
 	 */
 	async function update(view: ViewId, key: string, value: string | number | boolean): Promise<void> {
+		// Update the local store synchronously first, in call order, so the UI
+		// reflects the change immediately. Emitting only after the awaited server
+		// round-trip means rapid updates (e.g. flipping the sort direction several
+		// times in a row) issue concurrent PUTs that may resolve out of order,
+		// leaving the local state on whichever request finished last rather than
+		// the user's most recent action.
+		emit('files:view-config:updated', { view, key, value })
+
 		if (getCurrentUser() !== null) {
 			await axios.put(generateUrl('/apps/files/api/v1/views'), {
 				value,
@@ -56,8 +64,6 @@ export const useViewConfigStore = defineStore('viewconfig', () => {
 				key,
 			})
 		}
-
-		emit('files:view-config:updated', { view, key, value })
 	}
 
 	/**
