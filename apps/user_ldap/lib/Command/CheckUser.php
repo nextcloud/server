@@ -8,10 +8,7 @@
 
 namespace OCA\User_LDAP\Command;
 
-use OCA\User_LDAP\Helper;
-use OCA\User_LDAP\Mapping\UserMapping;
-use OCA\User_LDAP\User\DeletedUsersIndex;
-use OCA\User_LDAP\User_Proxy;
+use OCA\User_LDAP\Service\CheckUserService;
 use OCP\IUserManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -21,11 +18,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class CheckUser extends Command {
 	public function __construct(
-		protected User_Proxy $backend,
-		protected Helper $helper,
-		protected DeletedUsersIndex $dui,
-		protected UserMapping $mapping,
-		protected IUserManager $userManager,
+		private readonly IUserManager $userManager,
+		private readonly CheckUserService $checkUserService,
 	) {
 		parent::__construct();
 	}
@@ -77,7 +71,11 @@ class CheckUser extends Command {
 	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		try {
-			$this->assertAllowed($input->getOption('force'));
+			if (!$this->checkUserService->assertAllowed($input->getOption('force'))) {
+				throw new \Exception('Cannot check user existence, because '
+					. 'disabled LDAP configurations are present.');
+			}
+
 			$uid = $input->getArgument('ocName');
 
 			if ($uid !== null) {
@@ -109,77 +107,18 @@ class CheckUser extends Command {
 	}
 
 	private function checkUser(InputInterface $input, OutputInterface $output, string $uid): int {
-		if ($this->backend->getLDAPAccess($uid)->stringResemblesDN($uid)) {
-			$username = $this->backend->dn2UserName($uid);
-			if ($username !== false) {
-				$uid = $username;
-			}
-		}
-		$wasMapped = $this->userWasMapped($uid);
-		$exists = $this->backend->userExistsOnLDAP($uid, true);
-		if ($exists === true) {
+		$result = $this->checkUserService->checkUser($uid, $input->getOption('update'));
+		if ($result['exists']) {
 			$output->writeln('The user is still available on LDAP.');
-			if ($input->getOption('update')) {
-				$this->updateUser($uid, $output);
-			}
-			return self::SUCCESS;
-		}
-
-		if ($wasMapped) {
-			$this->dui->markUser($uid);
+		} elseif ($result['wasMapped']) {
 			$output->writeln('The user does not exists on LDAP anymore.');
-			$output->writeln('Clean up the user\'s remnants by: ./occ user:delete "'
-				. $uid . '"');
-			return self::SUCCESS;
+			$output->writeln('Clean up the user\'s remnants by: ./occ user:delete "' . $uid . '"');
 		}
-
-		throw new \Exception('The given user is not a recognized LDAP user.');
-	}
-
-	/**
-	 * checks whether a user is actually mapped
-	 * @param string $ocName the username as used in Nextcloud
-	 */
-	protected function userWasMapped(string $ocName): bool {
-		$dn = $this->mapping->getDNByName($ocName);
-		return $dn !== false;
-	}
-
-	/**
-	 * checks whether the setup allows reliable checking of LDAP user existence
-	 * @throws \Exception
-	 */
-	protected function assertAllowed(bool $force): void {
-		if ($this->helper->haveDisabledConfigurations() && !$force) {
-			throw new \Exception('Cannot check user existence, because '
-				. 'disabled LDAP configurations are present.');
-		}
-
-		// we don't check ldapUserCleanupInterval from config.php because this
-		// action is triggered manually, while the setting only controls the
-		// background job.
-	}
-
-	private function updateUser(string $uid, OutputInterface $output): void {
-		try {
-			$access = $this->backend->getLDAPAccess($uid);
-			$attrs = $access->userManager->getAttributes();
-			$user = $access->userManager->get($uid);
-			$avatarAttributes = $access->getConnection()->resolveRule('avatar');
-			$baseDn = $this->helper->DNasBaseParameter($user->getDN());
-			$result = $access->search('objectclass=*', $baseDn, $attrs, 1, 0);
-			foreach ($result[0] as $attribute => $valueSet) {
-				$output->writeln('  ' . $attribute . ': ');
-				foreach ($valueSet as $value) {
-					if (in_array($attribute, $avatarAttributes)) {
-						$value = '{ImageData}';
-					}
-					$output->writeln('    ' . $value);
-				}
+		if (isset($result['attributes'])) {
+			foreach ($result['attributes'] as $attribute => $value) {
+				$output->writeln('  ' . $attribute . ':     ' . $value);
 			}
-			$access->batchApplyUserAttributes($result);
-		} catch (\Exception $e) {
-			$output->writeln('<error>Error while trying to lookup and update attributes from LDAP</error>');
 		}
+		return self::SUCCESS;
 	}
 }
