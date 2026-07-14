@@ -8,8 +8,6 @@
       <code><![CDATA[Share::class]]></code>
     </DeprecatedClass>
     <DeprecatedMethod>
-      <code><![CDATA[Util::connectHook('\OCA\Files_Trashbin\Trashbin', 'post_restore', $trashActions, 'restore')]]></code>
-      <code><![CDATA[Util::connectHook('\OCP\Trashbin', 'preDelete', $trashActions, 'delete')]]></code>
       <code><![CDATA[Util::connectHook('\OCP\Versions', 'delete', $versionsActions, 'delete')]]></code>
       <code><![CDATA[Util::connectHook(Share::class, 'post_set_expiration_date', $shareActions, 'updateExpirationDate')]]></code>
       <code><![CDATA[Util::connectHook(Share::class, 'post_update_password', $shareActions, 'updatePassword')]]></code>
@@ -1915,14 +1913,6 @@
       <code><![CDATA[INode]]></code>
     </MismatchingDocblockReturnType>
   </file>
-  <file src="apps/files_trashbin/lib/Sabre/TrashRoot.php">
-    <InvalidReturnStatement>
-      <code><![CDATA[$entry]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[ITrash]]></code>
-    </InvalidReturnType>
-  </file>
   <file src="apps/files_trashbin/lib/Sabre/TrashbinPlugin.php">
     <InternalMethod>
       <code><![CDATA[free_space]]></code>
@@ -1946,18 +1936,12 @@
       <code><![CDATA[Util::emitHook('\OCA\Files_Trashbin\Trashbin', 'post_moveToTrash', ['filePath' => Filesystem::normalizePath($file_path),
 				'trashPath' => Filesystem::normalizePath(static::getTrashFilename($filename, $timestamp))])]]></code>
       <code><![CDATA[Util::emitHook('\OCA\Files_Trashbin\Trashbin', 'post_restore', ['filePath' => $targetPath, 'trashPath' => $sourcePath])]]></code>
-      <code><![CDATA[getUserFolder]]></code>
-      <code><![CDATA[getUserFolder]]></code>
     </DeprecatedMethod>
     <InternalClass>
       <code><![CDATA[new View('/' . $owner)]]></code>
       <code><![CDATA[new View('/' . $uid . '/files')]]></code>
       <code><![CDATA[new View('/' . $user . '/files_trashbin')]]></code>
-      <code><![CDATA[new View('/' . $user . '/files_trashbin/files/' . $file)]]></code>
       <code><![CDATA[new View('/' . $user . '/files_trashbin/versions')]]></code>
-      <code><![CDATA[new View('/' . $user . '/files_trashbin/versions/' . $file)]]></code>
-      <code><![CDATA[new View('/' . $user)]]></code>
-      <code><![CDATA[new View('/' . $user)]]></code>
       <code><![CDATA[new View('/' . $user)]]></code>
       <code><![CDATA[new View('/' . $user)]]></code>
       <code><![CDATA[new View('/' . $user)]]></code>
@@ -1983,23 +1967,14 @@
       <code><![CDATA[filesize]]></code>
       <code><![CDATA[filesize]]></code>
       <code><![CDATA[filesize]]></code>
-      <code><![CDATA[filesize]]></code>
-      <code><![CDATA[filesize]]></code>
-      <code><![CDATA[filesize]]></code>
-      <code><![CDATA[filesize]]></code>
       <code><![CDATA[free_space]]></code>
-      <code><![CDATA[getAbsolutePath]]></code>
-      <code><![CDATA[getDirectoryContent]]></code>
       <code><![CDATA[getDirectoryContent]]></code>
       <code><![CDATA[getFileInfo]]></code>
       <code><![CDATA[getFileInfo]]></code>
       <code><![CDATA[getPath]]></code>
-      <code><![CDATA[getRelativePath]]></code>
       <code><![CDATA[getRoot]]></code>
       <code><![CDATA[isCreatable]]></code>
       <code><![CDATA[isCreatable]]></code>
-      <code><![CDATA[is_dir]]></code>
-      <code><![CDATA[is_dir]]></code>
       <code><![CDATA[is_dir]]></code>
       <code><![CDATA[is_dir]]></code>
       <code><![CDATA[is_dir]]></code>
@@ -2018,11 +1993,7 @@
       <code><![CDATA[new View('/' . $owner)]]></code>
       <code><![CDATA[new View('/' . $uid . '/files')]]></code>
       <code><![CDATA[new View('/' . $user . '/files_trashbin')]]></code>
-      <code><![CDATA[new View('/' . $user . '/files_trashbin/files/' . $file)]]></code>
       <code><![CDATA[new View('/' . $user . '/files_trashbin/versions')]]></code>
-      <code><![CDATA[new View('/' . $user . '/files_trashbin/versions/' . $file)]]></code>
-      <code><![CDATA[new View('/' . $user)]]></code>
-      <code><![CDATA[new View('/' . $user)]]></code>
       <code><![CDATA[new View('/' . $user)]]></code>
       <code><![CDATA[new View('/' . $user)]]></code>
       <code><![CDATA[new View('/' . $user)]]></code>
@@ -2045,9 +2016,6 @@
       <code><![CDATA[touch]]></code>
       <code><![CDATA[touch]]></code>
       <code><![CDATA[touch]]></code>
-      <code><![CDATA[unlink]]></code>
-      <code><![CDATA[unlink]]></code>
-      <code><![CDATA[unlink]]></code>
     </InternalMethod>
     <InvalidArgument>
       <code><![CDATA[$timestamp]]></code>

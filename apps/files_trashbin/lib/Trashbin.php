@@ -42,7 +42,6 @@ use OCP\Files\Storage\ILockingStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\IAppConfig;
-use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IRequest;
 use OCP\IURLGenerator;
@@ -615,7 +614,7 @@ class Trashbin implements IEventListener {
 	 * @param string $uniqueFilename new file name to restore the file without overwriting existing files
 	 * @param string $location location if file
 	 * @param int $timestamp deletion time
-	 * @return false|null
+	 * @return bool|null
 	 */
 	private static function restoreVersions(View $view, $file, $filename, $uniqueFilename, $location, $timestamp) {
 		if (Server::get(IAppManager::class)->isEnabledForUser('files_versions')) {
@@ -648,53 +647,50 @@ class Trashbin implements IEventListener {
 					}
 				}
 			}
+			return true;
 		}
+		return null;
 	}
 
 	/**
 	 * delete all files from the trash
 	 */
-	public static function deleteAll() {
-		$user = OC_User::getUser();
-		$userRoot = \OC::$server->getUserFolder($user)->getParent();
-		$view = new View('/' . $user);
-		$fileInfos = $view->getDirectoryContent('files_trashbin/files');
+	public static function deleteAll(IUser $user): bool {
+		$rootFolder = Server::get(IRootFolder::class);
+		$dispatcher = Server::get(IEventDispatcher::class);
+		$dbConnection = Server::get(IDBConnection::class);
+
+		$userRoot = $rootFolder->getUserFolder($user->getUID())->getParent();
 
 		try {
-			$trash = $userRoot->get('files_trashbin');
-		} catch (NotFoundException $e) {
+			/** @var Folder $trashRoot */
+			$trashRoot = $userRoot->get('files_trashbin');
+			/** @var Folder $trashFilesRoot */
+			$trashFilesRoot = $trashRoot->get('files');
+		} catch (NotFoundException|NotPermittedException) {
 			return false;
 		}
 
-		// Array to store the relative path in (after the file is deleted, the view won't be able to relativise the path anymore)
-		$filePaths = [];
-		foreach ($fileInfos as $fileInfo) {
-			$filePaths[] = $view->getRelativePath($fileInfo->getPath());
-		}
-		unset($fileInfos); // save memory
-
-		// Bulk PreDelete-Hook
-		\OC_Hook::emit('\OCP\Trashbin', 'preDeleteAll', ['paths' => $filePaths]);
+		$trashNodes = $trashFilesRoot->getDirectoryListing();
 
 		// Single-File Hooks
-		foreach ($filePaths as $path) {
-			self::emitTrashbinPreDelete($path);
+		foreach ($trashNodes as $trashNode) {
+			$event = new Events\BeforeNodeDeletedEvent($trashNode);
+			$dispatcher->dispatchTyped($event);
 		}
 
 		// actual file deletion
-		$trash->delete();
+		$trashRoot->delete();
 
-		$query = Server::get(IDBConnection::class)->getQueryBuilder();
+		$query = $dbConnection->getQueryBuilder();
 		$query->delete('files_trash')
-			->where($query->expr()->eq('user', $query->createNamedParameter($user)));
+			->where($query->expr()->eq('user', $query->createNamedParameter($user->getUID())));
 		$query->executeStatement();
 
-		// Bulk PostDelete-Hook
-		\OC_Hook::emit('\OCP\Trashbin', 'deleteAll', ['paths' => $filePaths]);
-
 		// Single-File Hooks
-		foreach ($filePaths as $path) {
-			self::emitTrashbinPostDelete($path);
+		foreach ($trashNodes as $trashNode) {
+			$event = new Events\NodeDeletedEvent($trashNode->getPath());
+			$dispatcher->dispatchTyped($event);
 		}
 
 		$trash = $userRoot->newFolder('files_trashbin');
@@ -704,35 +700,26 @@ class Trashbin implements IEventListener {
 	}
 
 	/**
-	 * wrapper function to emit the 'preDelete' hook of \OCP\Trashbin before a file is deleted
-	 *
-	 * @param string $path
-	 */
-	protected static function emitTrashbinPreDelete($path) {
-		\OC_Hook::emit('\OCP\Trashbin', 'preDelete', ['path' => $path]);
-	}
-
-	/**
-	 * wrapper function to emit the 'delete' hook of \OCP\Trashbin after a file has been deleted
-	 *
-	 * @param string $path
-	 */
-	protected static function emitTrashbinPostDelete($path) {
-		\OC_Hook::emit('\OCP\Trashbin', 'delete', ['path' => $path]);
-	}
-
-	/**
-	 * delete file from trash bin permanently
+	 * Delete file from trash bin permanently
 	 *
 	 * @param string $filename path to the file
-	 * @param string $user
-	 * @param int $timestamp of deletion time
-	 *
+	 * @param ?int $timestamp of deletion time
 	 * @return int|float size of deleted files
 	 */
-	public static function delete($filename, $user, $timestamp = null) {
-		$userRoot = \OC::$server->getUserFolder($user)->getParent();
-		$view = new View('/' . $user);
+	public static function delete(string $filename, string $user, ?int $timestamp = null): int|float {
+		$rootFolder = Server::get(IRootFolder::class);
+		$appManager = Server::get(IAppManager::class);
+		$dispatcher = Server::get(IEventDispatcher::class);
+
+		$userRoot = $rootFolder->getUserFolder($user)->getParent();
+
+		try {
+			/** @var Folder $trashRoot */
+			$trashRoot = $userRoot->get('files_trashbin');
+		} catch (NotFoundException|NotPermittedException) {
+			return 0;
+		}
+
 		$size = 0;
 
 		if ($timestamp) {
@@ -741,7 +728,9 @@ class Trashbin implements IEventListener {
 			$file = $filename;
 		}
 
-		$size += self::deleteVersions($view, $file, $filename, $timestamp, $user);
+		if ($appManager->isEnabledForUser('files_versions')) {
+			$size += Trashbin::deleteVersions($trashRoot, $file, $filename, $timestamp, $user);
+		}
 
 		try {
 			$node = $userRoot->get('/files_trashbin/files/' . $file);
@@ -752,15 +741,15 @@ class Trashbin implements IEventListener {
 			return $size;
 		}
 
-		if ($node instanceof Folder) {
-			$size += self::calculateSize(new View('/' . $user . '/files_trashbin/files/' . $file));
-		} elseif ($node instanceof File) {
-			$size += $view->filesize('/files_trashbin/files/' . $file);
-		}
+		$size += $node->getSize();
 
-		self::emitTrashbinPreDelete('/files_trashbin/files/' . $file);
+		$event = new Events\BeforeNodeDeletedEvent($node);
+		$dispatcher->dispatchTyped($event);
+
 		$node->delete();
-		self::emitTrashbinPostDelete('/files_trashbin/files/' . $file);
+
+		$event = new Events\NodeDeletedEvent($node->getPath());
+		$dispatcher->dispatchTyped($event);
 
 		if ($timestamp) {
 			self::deleteTrashRow($user, $filename, $timestamp);
@@ -779,26 +768,33 @@ class Trashbin implements IEventListener {
 	}
 
 	/**
-	 * @param string $file
-	 * @param string $filename
-	 * @param ?int $timestamp
+	 * Delete version files corresponding to a given file from trash bin permanently.
 	 */
-	private static function deleteVersions(View $view, $file, $filename, $timestamp, string $user): int|float {
+	private static function deleteVersions(Folder $trashRoot, string $file, string $filename, ?int $timestamp, string $user): int|float {
+		if (!Server::get(IAppManager::class)->isEnabledForUser('files_versions')) {
+			return 0;
+		}
+
 		$size = 0;
-		if (Server::get(IAppManager::class)->isEnabledForUser('files_versions')) {
-			if ($view->is_dir('files_trashbin/versions/' . $file)) {
-				$size += self::calculateSize(new View('/' . $user . '/files_trashbin/versions/' . $file));
-				$view->unlink('files_trashbin/versions/' . $file);
-			} elseif ($versions = self::getVersionsFromTrash($filename, $timestamp, $user)) {
-				foreach ($versions as $v) {
-					if ($timestamp) {
-						$size += $view->filesize('/files_trashbin/versions/' . static::getTrashFilename($filename . '.v' . $v, $timestamp));
-						$view->unlink('/files_trashbin/versions/' . static::getTrashFilename($filename . '.v' . $v, $timestamp));
-					} else {
-						$size += $view->filesize('/files_trashbin/versions/' . $filename . '.v' . $v);
-						$view->unlink('/files_trashbin/versions/' . $filename . '.v' . $v);
-					}
+		try {
+			$fileVersion = $trashRoot->get('versions/' . $file);
+		} catch (NotFoundException) {
+			$fileVersion = null;
+		}
+
+		if ($fileVersion) {
+			$size += $fileVersion->getSize();
+			$fileVersion->delete();
+		} elseif ($versions = self::getVersionsFromTrash($filename, $timestamp, $user)) {
+			foreach ($versions as $v) {
+				if ($timestamp) {
+					$node = $trashRoot->get('/files_trashbin/versions/' . static::getTrashFilename($filename . '.v' . $v, $timestamp));
+				} else {
+					$node = $trashRoot->get('/files_trashbin/versions/' . $filename . '.v' . $v);
 				}
+
+				$size += $node->getSize();
+				$node->delete();
 			}
 		}
 		return $size;
@@ -1131,37 +1127,6 @@ class Trashbin implements IEventListener {
 		}
 
 		return $filename;
-	}
-
-	/**
-	 * get the size from a given root folder
-	 *
-	 * @param View $view file view on the root folder
-	 * @return int|float size of the folder
-	 */
-	private static function calculateSize(View $view): int|float {
-		$root = Server::get(IConfig::class)->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . $view->getAbsolutePath('');
-		if (!file_exists($root)) {
-			return 0;
-		}
-		$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($root), \RecursiveIteratorIterator::CHILD_FIRST);
-		$size = 0;
-
-		/**
-		 * RecursiveDirectoryIterator on an NFS path isn't iterable with foreach
-		 * This bug is fixed in PHP 5.5.9 or before
-		 * See #8376
-		 */
-		$iterator->rewind();
-		while ($iterator->valid()) {
-			$path = $iterator->current();
-			$relpath = substr($path, strlen($root) - 1);
-			if (!$view->is_dir($relpath)) {
-				$size += $view->filesize($relpath);
-			}
-			$iterator->next();
-		}
-		return $size;
 	}
 
 	/**
