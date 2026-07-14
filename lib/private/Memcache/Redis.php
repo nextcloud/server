@@ -100,16 +100,29 @@ class Redis extends Cache implements IMemcacheTTL {
 
 	#[\Override]
 	public function clear($prefix = '') {
-		// TODO: this is slow and would fail with Redis cluster
-		$prefix = $this->getPrefix() . $prefix . '*';
-		/** @var list<string>|false -- we are not in MULTI mode, so we can cast the return value here */
-		$keys = $this->getCache()->keys($prefix);
-		if ($keys === false) {
-			return false;
-		}
+		$pattern = $this->getPrefix() . $prefix . '*';
+		$deletedTotal = 0;
+		$expectedTotal = 0;
+		$iterator = null;
+		while (true) {
+			$keys = $this->getCache()->scan($iterator, $pattern, 1000);
+			if ($keys === false) {
+				break;
+			}
 
-		$deleted = $this->getCache()->del($keys);
-		return count($keys) === $deleted;
+			if (!empty($keys)) {
+				$expectedTotal += count($keys);
+				$result = $this->getCache()->del($keys);
+				if (is_int($result)) {
+					$deletedTotal += $result;
+				}
+			}
+
+			if ($iterator === 0) {
+				break;
+			}
+		}
+		return $deletedTotal === $expectedTotal;
 	}
 
 	#[\Override]
