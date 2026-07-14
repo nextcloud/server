@@ -31,8 +31,10 @@ use OCA\Files_External\Controller\GlobalStoragesController;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Backend\Backend;
 
+use OCA\Files_External\Lib\Backend\Local;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\NotFoundException;
+use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\AppFramework\Http;
@@ -49,9 +51,23 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 	 * @var GlobalStoragesService|UserStoragesService|MockObject
 	 */
 	protected $service;
+	/**
+	 * @var BackendService|MockObject
+	 */
+	protected $backendService;
 
 	protected function setUp(): void {
 		\OCA\Files_External\MountConfig::$skipTest = true;
+
+		$this->backendService = $this->createMock(BackendService::class);
+		$this->backendService->method('getBackend')
+			->willReturnCallback(function ($identifier) {
+				if ($identifier === 'local') {
+					return $this->createMock(Local::class);
+				} else {
+					return $this->createMock(Backend::class);
+				}
+			});
 	}
 
 	protected function tearDown(): void {
