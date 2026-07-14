@@ -10,7 +10,7 @@ namespace OCA\DAV\CardDAV\Import;
 
 final readonly class ImportCountEvent implements ImportEvent {
 	public function __construct(
-		public int $vcard
+		public int $vcard,
 	) {
 	}
 

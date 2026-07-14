@@ -23,12 +23,12 @@ use OCP\AppFramework\Http\StreamGeneratorResponse;
 use OCP\AppFramework\OCSController;
 use OCP\Contacts\ContactsImportOptions;
 use OCP\Contacts\IManager;
+use OCP\IAddressBookWritable;
 use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\ITempManager;
 use OCP\IUserManager;
 use OCP\IUserSession;
-use OCP\IAddressBookWritable;
 
 class ContactsImportController extends OCSController {
 

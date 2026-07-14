@@ -132,7 +132,7 @@ class ImportService {
 			$objectEntry = $this->backend->getCardByUID($addressBookId, $uid);
 			$objectData = $vObject->serialize();
 			try {
-				if ($objectEntry === false) {
+				if ($objectEntry === null) {
 					$objectUri = UUIDUtil::getUUID();
 					$this->backend->createCard(
 						$addressBookId,
