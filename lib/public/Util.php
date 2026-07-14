@@ -625,4 +625,24 @@ class Util {
 		}
 		return true;
 	}
+
+	/**
+	 * Sanitize a name by removing unwanted characters
+	 *
+	 * This function removes any character that is not a letter, space, or symbol (including emojis).
+	 * It also normalizes spaces by replacing multiple consecutive spaces with a single space and trimming
+	 * leading and trailing spaces.
+	 *
+	 * @param string $input The input string to sanitize
+	 * @return string The sanitized string
+	 * @since 34.0.2
+	 */
+	public static function sanitizeWordsAndEmojis(string $input): string {
+		// Remove control characters and other invisible separators, but keep everything else.
+		// preg_replace returns null on a PCRE error (e.g. invalid UTF-8): keep the input untouched in that case.
+		$clean = preg_replace('/[\p{C}]+/u', '', $input) ?? $input;
+
+		// Normalize whitespace to single spaces
+		return preg_replace('/[[:space:]]+/u', ' ', trim($clean)) ?? $clean;
+	}
 }

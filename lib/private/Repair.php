@@ -58,6 +58,7 @@ use OC\Repair\RepairDavShares;
 use OC\Repair\RepairInvalidShares;
 use OC\Repair\RepairLogoDimension;
 use OC\Repair\RepairMimeTypes;
+use OC\Repair\RepairSanitizeSystemTags;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -205,6 +206,7 @@ class Repair implements IOutput {
 				Server::get(OldGroupMembershipShares::class),
 				Server::get(RemoveBrokenProperties::class),
 				Server::get(RepairMimeTypes::class),
+				Server::get(RepairSanitizeSystemTags::class),
 			];
 			$repairSteps = array_merge($repairSteps, $expensiveSteps);
 		}
