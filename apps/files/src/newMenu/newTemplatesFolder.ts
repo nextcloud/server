@@ -40,7 +40,7 @@ async function initTemplatesFolder(directory: IFolder, name: string) {
 		// Go to template directory
 		window.OCP.Files.Router.goToRoute(
 			null, // use default route
-			{ view: 'files', fileid: undefined },
+			{ view: 'files' },
 			{ dir: templatePath },
 		)
 
@@ -66,6 +66,10 @@ export const entry: NewMenuEntry = {
 		}
 		// Allow creation on your own folders only
 		if (context.owner !== getCurrentUser()?.uid) {
+			return false
+		}
+		// Do not allow template folders in encrypted folder
+		if (context.attributes['e2ee-is-encrypted']) {
 			return false
 		}
 		return (context.permissions & Permission.CREATE) !== 0
