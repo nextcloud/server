@@ -242,13 +242,13 @@ class KeyValueCache extends Cache implements IMemcacheTTL {
 	 * Serialize a value for storage in the key-value store.
 	 */
 	protected static function encodeValue(mixed $value): string {
-		return is_int($value) ? (string)$value : json_encode($value, JSON_THROW_ON_ERROR);
+		return is_int($value) ? (string)$value : json_encode($value, JSON_THROW_ON_ERROR | JSON_PRESERVE_ZERO_FRACTION);
 	}
 
 	/**
 	 * Unserialize a value from the key-value store.
 	 */
 	protected static function decodeValue(string $value): mixed {
-		return is_numeric($value) ? (int)$value : json_decode($value, true);
+		return json_decode($value, true, 512, JSON_THROW_ON_ERROR);
 	}
 }
