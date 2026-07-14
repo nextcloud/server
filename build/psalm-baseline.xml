@@ -4049,11 +4049,6 @@
       <code><![CDATA[mixed]]></code>
     </LessSpecificImplementedReturnType>
   </file>
-  <file src="lib/private/Memcache/Redis.php">
-    <FalsableReturnStatement>
-      <code><![CDATA[is_int($value) ? (string)$value : json_encode($value)]]></code>
-    </FalsableReturnStatement>
-  </file>
   <file src="lib/private/Preview/Storage/LocalPreviewStorage.php">
     <FalsableReturnStatement>
       <code><![CDATA[file_put_contents($previewPath, $stream)]]></code>
@@ -4071,11 +4066,6 @@
     <RedundantCondition>
       <code><![CDATA[$instance === '']]></code>
     </RedundantCondition>
-  </file>
-  <file src="lib/private/RedisFactory.php">
-    <InvalidArgument>
-      <code><![CDATA[\RedisCluster::OPT_SLAVE_FAILOVER]]></code>
-    </InvalidArgument>
   </file>
   <file src="lib/private/Repair/RemoveLinkShares.php">
     <InvalidPropertyAssignmentValue>
