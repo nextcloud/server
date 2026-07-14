@@ -105,14 +105,17 @@ readonly class UserPlugin implements ISearchPlugin {
 		$shareeEnumerationFullMatch = $this->appConfig->getValueString('core', 'shareapi_restrict_user_enumeration_full_match', 'yes') === 'yes';
 		if ($shareeEnumerationFullMatch && $search !== '') {
 			$shareeEnumerationFullMatchUserId = $this->appConfig->getValueString('core', 'shareapi_restrict_user_enumeration_full_match_user_id', 'yes') === 'yes';
+			$shareeEnumerationFullMatchDisplayName = $this->appConfig->getValueString('core', 'shareapi_restrict_user_enumeration_full_match_displayname', 'yes') === 'yes';
 			$shareeEnumerationFullMatchEmail = $this->appConfig->getValueString('core', 'shareapi_restrict_user_enumeration_full_match_email', 'yes') === 'yes';
 			$shareeEnumerationFullMatchIgnoreSecondDisplayName = $this->appConfig->getValueString('core', 'shareapi_restrict_user_enumeration_full_match_ignore_second_dn', 'no') === 'yes';
 
-			// Re-use the results from earlier if possible
-			$usersByDisplayName ??= $this->userManager->searchDisplayName($search, $limit, $offset);
-			foreach ($usersByDisplayName as $user) {
-				if ($user->isEnabled() && (mb_strtolower($user->getDisplayName()) === $lowerSearch || ($shareeEnumerationFullMatchIgnoreSecondDisplayName && trim(mb_strtolower(preg_replace('/ \(.*\)$/', '', $user->getDisplayName()))) === $lowerSearch))) {
-					$users[$user->getUID()] = ['exact', $user];
+			if ($shareeEnumerationFullMatchDisplayName) {
+				// Re-use the results from earlier if possible
+				$usersByDisplayName ??= $this->userManager->searchDisplayName($search, $limit, $offset);
+				foreach ($usersByDisplayName as $user) {
+					if ($user->isEnabled() && (mb_strtolower($user->getDisplayName()) === $lowerSearch || ($shareeEnumerationFullMatchIgnoreSecondDisplayName && trim(mb_strtolower(preg_replace('/ \(.*\)$/', '', $user->getDisplayName()))) === $lowerSearch))) {
+						$users[$user->getUID()] = ['exact', $user];
+					}
 				}
 			}
 
