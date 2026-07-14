@@ -19,6 +19,7 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserBackend;
 use OCP\IUserManager;
@@ -37,6 +38,7 @@ use OCP\User\Events\UserCreatedEvent;
 use OCP\UserInterface;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
+use RuntimeException;
 
 /**
  * Class Manager
@@ -69,6 +71,9 @@ class Manager extends PublicEmitter implements IUserManager {
 	private ICache $cache;
 
 	private DisplayNameCache $displayNameCache;
+
+	// IURLGenerator can't be injected through DI
+	private ?IURLGenerator $urlGenerator;
 
 	// This constructor can't autoload any class requiring a DB connection.
 	public function __construct(
@@ -861,5 +866,26 @@ class Manager extends PublicEmitter implements IUserManager {
 	#[\Override]
 	public function getExistingUser(string $userId, ?string $displayName = null): IUser {
 		return new LazyUser($userId, $this, $displayName);
+	}
+
+
+	#[\Override]
+	public function getAvatarUrlLight(string $userId, int $size): string {
+		$url = ($this->urlGenerator ??= Server::get(IURLGenerator::class))->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $userId, 'size' => $size]);
+		if ($url === '') {
+			throw new RuntimeException('The URL is empty.');
+		}
+
+		return $url;
+	}
+
+	#[\Override]
+	public function getAvatarUrlDark(string $userId, int $size): string {
+		$url = ($this->urlGenerator ??= Server::get(IURLGenerator::class))->linkToRouteAbsolute('core.avatar.getAvatarDark', ['userId' => $userId, 'size' => $size]);
+		if ($url === '') {
+			throw new RuntimeException('The URL is empty.');
+		}
+
+		return $url;
 	}
 }
