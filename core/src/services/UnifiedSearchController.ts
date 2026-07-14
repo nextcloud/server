@@ -37,7 +37,53 @@ export class UnifiedSearchController {
 	private revealTimer: ReturnType<typeof setTimeout> | null = null
 	private pendingCancels: (() => void)[] = []
 
+	// DEBUG (throwaway, ?searchDebug preview only): tunable reveal interval and
+	// per-category artificial request latency so the reveal/blocking behaviour is
+	// visible against dev providers that otherwise resolve instantly.
+	private revealInterval: number = REVEAL_INTERVAL_MS
+	private requestDelays: Record<string, number> = {}
+	private failCategories: Record<string, boolean> = {}
+
 	constructor(private onChange?: (states: Record<string, CategorySearchState>) => void) {}
+
+	/**
+	 * DEBUG: change the reveal interval; takes effect on the next timer reschedule.
+	 *
+	 * @param ms the new reveal interval in milliseconds
+	 */
+	setRevealInterval(ms: number): void {
+		this.revealInterval = ms
+	}
+
+	/**
+	 * DEBUG: inject artificial latency for one category; takes effect on its next request.
+	 *
+	 * @param category the category id to slow down
+	 * @param ms the artificial latency in milliseconds
+	 */
+	setRequestDelay(category: string, ms: number): void {
+		this.requestDelays[category] = ms
+	}
+
+	/**
+	 * DEBUG: force one category to fail; takes effect on its next request.
+	 *
+	 * @param category the category id to fail
+	 * @param fail whether the category should fail
+	 */
+	setFailCategory(category: string, fail: boolean): void {
+		this.failCategories[category] = fail
+	}
+
+	/**
+	 * DEBUG: resolve after the category's configured artificial latency, if any.
+	 *
+	 * @param category the category id whose delay to apply
+	 */
+	private applyDebugDelay(category: string): Promise<void> {
+		const ms = this.requestDelays[category]
+		return ms ? new Promise((resolve) => setTimeout(resolve, ms)) : Promise.resolve()
+	}
 
 	/**
 	 * Start a search. Cancels and replaces any search already in flight.
@@ -87,6 +133,7 @@ export class UnifiedSearchController {
 
 		try {
 			const response = await request()
+			await this.applyDebugDelay(category) // DEBUG: hold 'loading' to show blocking/reveal
 			if (this.searchGeneration !== generation) {
 				return
 			}
@@ -147,9 +194,13 @@ export class UnifiedSearchController {
 
 		try {
 			const response = await request()
+			await this.applyDebugDelay(category) // DEBUG: hold 'loading' to show blocking/reveal
 			if (this.searchGeneration !== generation) {
 				// A new search has been started, ignore this result
 				return
+			}
+			if (this.failCategories[category]) { // DEBUG: simulate a provider failure
+				throw new Error('debug: simulated failure')
 			}
 
 			const { entries, cursor, hasMore } = response.data.ocs.data
@@ -203,7 +254,7 @@ export class UnifiedSearchController {
 			if (hasPendingCategories) {
 				this.startRevealTimer()
 			}
-		}, REVEAL_INTERVAL_MS)
+		}, this.revealInterval)
 	}
 
 	private stopRevealTimer(): void {
