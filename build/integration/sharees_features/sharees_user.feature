@@ -394,6 +394,40 @@ Feature: sharees_user
 			| Test One (Second displayname for user 1) | 0 | test1 | test1 |
 		And "users" sharees returned is empty
 
+	Scenario: Search for displayname returns nothing without sharee enumeration and without full match displayname enumeration
+		Given user "test" with displayname "foo" exists
+		And user "test1" with displayname "Test One" exists
+		And user "test2" with displayname "Test Two" exists
+		And group "groupA" exists
+		And user "test" belongs to group "groupA"
+		And user "test1" belongs to group "groupA"
+		And user "test2" belongs to group "groupA"
+		And As an "test"
+		And parameter "shareapi_allow_share_dialog_user_enumeration" of app "core" is set to "no"
+		And parameter "shareapi_restrict_user_enumeration_full_match_displayname" of app "core" is set to "no"
+		When getting sharees for
+			| search   | Test One |
+			| itemType | file     |
+		Then the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		And "exact users" sharees returned is empty
+		And "users" sharees returned is empty
+
+	Scenario: Search for exact userid returns exact user without sharee enumeration and without full match displayname enumeration
+		Given user "test" with displayname "foo" exists
+		And user "test1" with displayname "Test One" exists
+		And As an "test"
+		And parameter "shareapi_allow_share_dialog_user_enumeration" of app "core" is set to "no"
+		And parameter "shareapi_restrict_user_enumeration_full_match_displayname" of app "core" is set to "no"
+		When getting sharees for
+			| search   | test1 |
+			| itemType | file  |
+		Then the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		And "exact users" sharees returned are
+			| Test One | 0 | test1 | test1 |
+		And "users" sharees returned is empty
+
 	Scenario: Search for exact userid with shared group returns exact user with sharee enumeration limited to group
 		Given user "test" with displayname "foo" exists
 		And user "test1" exists
