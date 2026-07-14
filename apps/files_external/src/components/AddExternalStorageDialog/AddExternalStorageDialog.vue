@@ -27,6 +27,7 @@ import ApplicableEntities from './ApplicableEntities.vue'
 import AuthMechanismConfiguration from './AuthMechanismConfiguration.vue'
 import BackendConfiguration from './BackendConfiguration.vue'
 import MountOptions from './MountOptions.vue'
+import { pruneUnusedAuthMechanismOptions } from '../../utils/externalStorageUtils.ts'
 
 const open = defineModel<boolean>('open', { default: true })
 
@@ -63,6 +64,14 @@ const authMechanism = computed({
 		return authMechanisms.value.find((a) => a.identifier === internalStorage.value.authMechanism)
 	},
 	set(value?: IAuthMechanism) {
+		const previous = authMechanisms.value.find((a) => a.identifier === internalStorage.value.authMechanism)
+		if (previous && previous.identifier !== value?.identifier && internalStorage.value.backendOptions) {
+			pruneUnusedAuthMechanismOptions(
+				internalStorage.value.backendOptions,
+				previous.configuration,
+				[value?.configuration, backend.value?.configuration],
+			)
+		}
 		internalStorage.value.authMechanism = value?.identifier
 	},
 })
@@ -106,7 +115,7 @@ watch(authMechanisms, () => {
 		<NcSelect
 			v-model="authMechanism"
 			:options="authMechanisms"
-			:disabled="!internalStorage.backend || authMechanisms.length <= 1 || !!(internalStorage.id && internalStorage.authMechanism)"
+			:disabled="!internalStorage.backend || authMechanisms.length <= 1"
 			:inputLabel="t('files_external', 'Authentication')"
 			label="name"
 			required />
