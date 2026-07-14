@@ -160,6 +160,14 @@ class Converter {
 		// Very basic western style parsing. I'm not gonna implement
 		// https://github.com/android/platform_packages_providers_contactsprovider/blob/master/src/com/android/providers/contacts/NameSplitter.java ;)
 
+		// Handle "Lastname, Firstname" format
+		if (str_contains($fullName, ',')) {
+			[$family, $given] = array_map('trim', explode(',', $fullName, 2));
+			if ($family !== '' && $given !== '') {
+				return [$family, $given, '', '', ''];
+			}
+		}
+
 		$elements = explode(' ', $fullName);
 		$result = ['', '', '', '', ''];
 		if (count($elements) > 2) {
