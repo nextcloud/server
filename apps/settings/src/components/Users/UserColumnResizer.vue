@@ -3,8 +3,101 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+<script setup lang="ts">
+import { translate as t } from '@nextcloud/l10n'
+import { ref } from 'vue'
+import { clampColumnWidth, COLUMN_RESIZE_STEP } from '../../utils/userListColumns.ts'
+
+defineProps<{
+	/** Column key, used as CSS variable suffix */
+	column: string
+	/** Human readable column label */
+	label: string
+}>()
+
+const emit = defineEmits<{
+	reset: []
+	resize: [width: number]
+	'resize-end': []
+}>()
+
+const handle = ref<HTMLElement>()
+
+const dragging = ref(false)
+const startX = ref(0)
+const startWidth = ref(0)
+
+/**
+ * Current width of the header cell containing the handle
+ */
+function cellWidth(): number {
+	const cell = handle.value?.closest('th')
+	return cell?.getBoundingClientRect().width ?? 0
+}
+
+/**
+ * Horizontal factor turning a pointer delta into a width delta (-1 in RTL)
+ */
+function resizeDirection(): number {
+	return document.dir === 'rtl' ? -1 : 1
+}
+
+/**
+ * Start dragging and remember the initial pointer position and column width
+ *
+ * @param event The pointerdown event
+ */
+function onPointerDown(event: PointerEvent) {
+	dragging.value = true
+	startX.value = event.clientX
+	startWidth.value = cellWidth()
+	handle.value?.setPointerCapture?.(event.pointerId)
+}
+
+/**
+ * Emit the new column width while dragging
+ *
+ * @param event The pointermove event
+ */
+function onPointerMove(event: PointerEvent) {
+	if (!dragging.value) {
+		return
+	}
+	const delta = (event.clientX - startX.value) * resizeDirection()
+	emit('resize', clampColumnWidth(startWidth.value + delta))
+}
+
+/**
+ * Stop dragging and notify that resizing ended
+ */
+function onPointerUp() {
+	if (!dragging.value) {
+		return
+	}
+	dragging.value = false
+	emit('resize-end')
+}
+
+/**
+ * Resize the column with the arrow keys
+ *
+ * @param event The keydown event
+ */
+function onKeydown(event: KeyboardEvent) {
+	const direction = { ArrowLeft: -1, ArrowRight: 1 }[event.key]
+	if (direction === undefined) {
+		return
+	}
+	event.preventDefault()
+	const step = direction * COLUMN_RESIZE_STEP * resizeDirection()
+	emit('resize', clampColumnWidth(cellWidth() + step))
+	emit('resize-end')
+}
+</script>
+
 <template>
 	<span
+		ref="handle"
 		class="column-resizer"
 		role="separator"
 		aria-orientation="vertical"
@@ -16,88 +109,8 @@
 		@pointerup="onPointerUp"
 		@pointercancel="onPointerUp"
 		@keydown="onKeydown"
-		@dblclick="$emit('reset')" />
+		@dblclick="emit('reset')" />
 </template>
-
-<script lang="ts">
-import { translate as t } from '@nextcloud/l10n'
-import Vue from 'vue'
-import { clampColumnWidth, COLUMN_RESIZE_STEP } from '../../utils/userListColumns.ts'
-
-export default Vue.extend({
-	name: 'UserColumnResizer',
-
-	props: {
-		/** Column key, used as CSS variable suffix */
-		column: {
-			type: String,
-			required: true,
-		},
-
-		/** Human readable column label */
-		label: {
-			type: String,
-			required: true,
-		},
-	},
-
-	data() {
-		return {
-			dragging: false,
-			startX: 0,
-			startWidth: 0,
-		}
-	},
-
-	methods: {
-		t,
-
-		cellWidth(): number {
-			const cell = (this.$el as HTMLElement).closest('th')
-			return cell?.getBoundingClientRect().width ?? 0
-		},
-
-		resizeDirection(): number {
-			return document.dir === 'rtl' ? -1 : 1
-		},
-
-		onPointerDown(event: PointerEvent) {
-			this.dragging = true
-			this.startX = event.clientX
-			this.startWidth = this.cellWidth()
-			const handle = event.target as HTMLElement
-			handle.setPointerCapture?.(event.pointerId)
-		},
-
-		onPointerMove(event: PointerEvent) {
-			if (!this.dragging) {
-				return
-			}
-			const delta = (event.clientX - this.startX) * this.resizeDirection()
-			this.$emit('resize', clampColumnWidth(this.startWidth + delta))
-		},
-
-		onPointerUp() {
-			if (!this.dragging) {
-				return
-			}
-			this.dragging = false
-			this.$emit('resize-end')
-		},
-
-		onKeydown(event: KeyboardEvent) {
-			const direction = { ArrowLeft: -1, ArrowRight: 1 }[event.key]
-			if (direction === undefined) {
-				return
-			}
-			event.preventDefault()
-			const step = direction * COLUMN_RESIZE_STEP * this.resizeDirection()
-			this.$emit('resize', clampColumnWidth(this.cellWidth() + step))
-			this.$emit('resize-end')
-		},
-	},
-})
-</script>
 
 <style lang="scss" scoped>
 .column-resizer {
