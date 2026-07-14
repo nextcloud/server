@@ -232,7 +232,7 @@ class KeyValueCache extends Cache implements IMemcacheTTL {
 	 * so fall back to the default and cap it to the maximum.
 	 */
 	private function normalizeTtl(int $ttl): int {
-		if ($ttl <= 0) {
+		if ($ttl === 0) { // we need to allow negative TTL for file locking
 			$ttl = self::DEFAULT_TTL;
 		}
 		return min($ttl, self::MAX_TTL);
