@@ -20,6 +20,7 @@ use OC\Log\Rotate;
 use OC\Preview\BackgroundCleanupJob;
 use OC\TextProcessing\RemoveOldTasksBackgroundJob;
 use OC\User\BackgroundJobs\CleanupDeletedUsers;
+use OC\User\BackgroundJobs\CleanupLoginTokens;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\Defaults;
@@ -518,6 +519,7 @@ class Setup {
 		$jobList->add(BackgroundCleanupJob::class);
 		$jobList->add(RemoveOldTasksBackgroundJob::class);
 		$jobList->add(CleanupDeletedUsers::class);
+		$jobList->add(CleanupLoginTokens::class);
 		$jobList->add(GenerateMetadataJob::class);
 		$jobList->add(PreviewMigrationJob::class);
 	}
