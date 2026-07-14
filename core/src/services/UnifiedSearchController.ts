@@ -76,13 +76,24 @@ export class UnifiedSearchController {
 	}
 
 	/**
-	 * DEBUG: resolve after the category's configured artificial latency, if any.
+	 * DEBUG: pad a category so its total time matches the configured value.
+	 *
+	 * The slider value is treated as a target TOTAL time, not extra time on top of
+	 * the real request latency. We subtract the elapsed real time and sleep only
+	 * the remainder, so the demo stays deterministic on a server with actual
+	 * latency: a category set to 2000ms lands at ~2000ms regardless of network
+	 * jitter, as long as the real request was faster than that.
 	 *
 	 * @param category the category id whose delay to apply
+	 * @param elapsedMs how long the real request already took
 	 */
-	private applyDebugDelay(category: string): Promise<void> {
-		const ms = this.requestDelays[category]
-		return ms ? new Promise((resolve) => setTimeout(resolve, ms)) : Promise.resolve()
+	private applyDebugDelay(category: string, elapsedMs: number): Promise<void> {
+		const target = this.requestDelays[category]
+		if (!target) {
+			return Promise.resolve()
+		}
+		const remaining = Math.max(0, target - elapsedMs)
+		return new Promise((resolve) => setTimeout(resolve, remaining))
 	}
 
 	/**
@@ -132,8 +143,9 @@ export class UnifiedSearchController {
 		this.pendingCancels.push(cancel)
 
 		try {
+			const started = Date.now()
 			const response = await request()
-			await this.applyDebugDelay(category) // DEBUG: hold 'loading' to show blocking/reveal
+			await this.applyDebugDelay(category, Date.now() - started) // DEBUG: pad to the configured total time
 			if (this.searchGeneration !== generation) {
 				return
 			}
@@ -193,8 +205,9 @@ export class UnifiedSearchController {
 		this.pendingCancels.push(cancel)
 
 		try {
+			const started = Date.now()
 			const response = await request()
-			await this.applyDebugDelay(category) // DEBUG: hold 'loading' to show blocking/reveal
+			await this.applyDebugDelay(category, Date.now() - started) // DEBUG: pad to the configured total time
 			if (this.searchGeneration !== generation) {
 				// A new search has been started, ignore this result
 				return
