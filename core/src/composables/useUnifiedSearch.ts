@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import type { CategorySearchState } from '../services/UnifiedSearchController.ts'
+
 import { onUnmounted, shallowRef } from 'vue'
 import { UnifiedSearchController } from '../services/UnifiedSearchController.ts'
 
@@ -10,7 +12,7 @@ import { UnifiedSearchController } from '../services/UnifiedSearchController.ts'
  * Reactive adapter over UnifiedSearchController for use in an SFC.
  */
 export function useUnifiedSearch() {
-	const searchStates = shallowRef({})
+	const searchStates = shallowRef<Record<string, CategorySearchState>>({})
 
 	const controller = new UnifiedSearchController((states) => {
 		searchStates.value = states

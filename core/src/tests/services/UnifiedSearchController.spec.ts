@@ -245,6 +245,29 @@ describe('UnifiedSearchController', () => {
 		})
 	})
 
+	describe('result ordering', () => {
+		it('keeps categories in the order passed to search, regardless of which resolve first', async () => {
+			const providers = mockProviders(['files', 'talk', 'deck'])
+
+			const searchController = new UnifiedSearchController()
+			searchController.search('query', ['files', 'talk', 'deck'])
+
+			// Resolve in reverse priority order: lowest-priority provider first,
+			// highest-priority one last. If order followed arrival, this would flip it.
+			providers.deck.resolve(['deck result'])
+			await vi.advanceTimersByTimeAsync(0)
+			providers.talk.resolve(['talk result'])
+			await vi.advanceTimersByTimeAsync(0)
+			providers.files.resolve(['files result'])
+			await vi.advanceTimersByTimeAsync(0)
+
+			// Keys still follow the categories array: each category's slot is inserted
+			// synchronously (the 'loading' patch) before any request resolves, so
+			// arrival order cannot reorder the snapshot.
+			expect(Object.keys(searchController.getSnapshot())).toEqual(['files', 'talk', 'deck'])
+		})
+	})
+
 	describe('resetting between searches', () => {
 		it('drops categories that are not part of a newer, narrower search', async () => {
 			mockProviders(['files', 'talk', 'deck'])
@@ -733,6 +756,29 @@ describe('UnifiedSearchController', () => {
 			await vi.advanceTimersByTimeAsync(REVEAL_INTERVAL_MS - 500)
 
 			expect(searchController.getSnapshot().deck.status).toBe('blocked')
+		})
+
+		it('does not re-block a revealed category when a later category settles behind a still-loading one', async () => {
+			const providers = mockProviders(['files', 'talk', 'deck'])
+
+			const searchController = new UnifiedSearchController()
+			searchController.search('query', ['files', 'talk', 'deck'])
+
+			// talk arrives out of order and is blocked behind files (still loading).
+			providers.talk.resolve(['Talk result'])
+			await vi.advanceTimersByTimeAsync(0)
+			expect(searchController.getSnapshot().talk.status).toBe('blocked')
+
+			// The reveal timer promotes talk to loaded.
+			await vi.advanceTimersByTimeAsync(REVEAL_INTERVAL_MS)
+			expect(searchController.getSnapshot().talk.status).toBe('loaded')
+
+			// deck now settles while files is still loading. Reconcile must not push the
+			// already-revealed talk back to blocked (that flip-flop is the on-screen flicker);
+			// talk stays loaded.
+			providers.deck.resolve(['Deck result'])
+			await vi.advanceTimersByTimeAsync(0)
+			expect(searchController.getSnapshot().talk.status).toBe('loaded')
 		})
 	})
 })

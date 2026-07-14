@@ -7,7 +7,7 @@ import { search as unifiedSearch } from './UnifiedSearchService.js'
 
 type CategorySearchStatus = 'loading' | 'loaded' | 'failed' | 'blocked'
 
-interface CategorySearchState {
+export interface CategorySearchState {
 	status: CategorySearchStatus
 	entries: unknown[]
 	cursor: string | null
@@ -15,7 +15,7 @@ interface CategorySearchState {
 	loadMoreFailed: boolean
 }
 
-interface CategorySearchParams {
+export interface CategorySearchParams {
 	type?: string
 	since?: string
 	until?: string
@@ -153,8 +153,11 @@ export class UnifiedSearchController {
 			}
 
 			const { entries, cursor, hasMore } = response.data.ocs.data
+			// Decide blocked-vs-loaded once, at settle time. From here reconcile only ever
+			// promotes (blocked -> loaded); it never re-blocks, so this is the single point
+			// where a category can enter the blocked state.
 			this.patchStates({ [category]: {
-				status: 'loaded',
+				status: this.shouldBlockCategory(category, categories) ? 'blocked' : 'loaded',
 				entries,
 				cursor,
 				hasMore,
@@ -178,10 +181,16 @@ export class UnifiedSearchController {
 
 	private reconcileCategoryStatuses(categories: string[]): void {
 		categories.forEach((category) => {
-			if (['loading', 'failed'].includes(this.searchStates[category].status)) {
+			// Promotion only: reveal a blocked category once no higher-priority category is
+			// still pending. Never demote a loaded/failed/loading category. Once a category is
+			// revealed it must stay revealed, otherwise it flickers when a slower, later
+			// category settles and momentarily re-blocks it.
+			if (this.searchStates[category].status !== 'blocked') {
 				return
 			}
-			this.patchStates({ [category]: { status: this.shouldBlockCategory(category, categories) ? 'blocked' : 'loaded' } })
+			if (!this.shouldBlockCategory(category, categories)) {
+				this.patchStates({ [category]: { status: 'loaded' } })
+			}
 		})
 	}
 

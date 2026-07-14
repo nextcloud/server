@@ -153,7 +153,7 @@
 								v-bind="result" />
 						</ul>
 						<div class="result-footer">
-							<NcButton v-if="providerResult.results.length === providerResult.limit" variant="tertiary-no-background" @click="loadMoreResultsForProvider(providerResult)">
+							<NcButton v-if="providerResult.hasMore" variant="tertiary-no-background" @click="loadMoreResultsForProvider(providerResult)">
 								{{ t('core', 'Load more results') }}
 								<template #icon>
 									<IconDotsHorizontal :size="20" />
@@ -183,7 +183,7 @@
 									v-bind="result" />
 							</ul>
 							<div class="result-footer">
-								<NcButton v-if="providerResult.results.length === providerResult.limit" variant="tertiary-no-background" @click="loadMoreResultsForProvider(providerResult)">
+								<NcButton v-if="providerResult.hasMore" variant="tertiary-no-background" @click="loadMoreResultsForProvider(providerResult)">
 									{{ t('core', 'Load more results') }}
 									<template #icon>
 										<IconDotsHorizontal :size="20" />
@@ -207,6 +207,7 @@
 
 <script lang="ts">
 import type { FocusTrap } from 'focus-trap'
+import type { CategorySearchParams } from '../../services/UnifiedSearchController.ts'
 
 import { subscribe } from '@nextcloud/event-bus'
 import { loadState } from '@nextcloud/initial-state'
@@ -235,8 +236,9 @@ import CustomDateRangeModal from './CustomDateRangeModal.vue'
 import SearchableList from './SearchableList.vue'
 import FilterChip from './SearchFilterChip.vue'
 import SearchResult from './SearchResult.vue'
+import { useUnifiedSearch } from '../../composables/useUnifiedSearch.ts'
 import { unifiedSearchLogger } from '../../logger.js'
-import { getContacts, getProviders, search as unifiedSearch } from '../../services/UnifiedSearchService.js'
+import { getContacts, getProviders } from '../../services/UnifiedSearchService.js'
 import { useSearchStore } from '../../store/unified-search-external-filters.js'
 
 export default defineComponent({
@@ -299,9 +301,14 @@ export default defineComponent({
 		const currentLocation = useBrowserLocation()
 		const searchStore = useSearchStore()
 		const isSmallMobile = useIsSmallMobile()
+
+		const { searchStates, search, loadMore } = useUnifiedSearch()
+
 		return {
 			t,
-
+			searchStates,
+			search,
+			loadMore,
 			currentLocation,
 			externalFilters: searchStore.externalFilters,
 			isSmallMobile,
@@ -313,7 +320,6 @@ export default defineComponent({
 			providers: [],
 			providerActionMenuIsOpen: false,
 			dateActionMenuIsOpen: false,
-			providerResultLimit: 5,
 			dateFilter: {
 				id: 'date',
 				type: 'date',
@@ -324,13 +330,10 @@ export default defineComponent({
 
 			personFilter: { id: 'person', type: 'person', name: '' },
 			filteredProviders: [],
-			searching: false,
 			searchQuery: '',
-			lastSearchQuery: '',
 			placessearchTerm: '',
 			dateTimeFilter: null,
 			filters: [],
-			results: [],
 			contacts: [],
 			showDateRangeModal: false,
 			initialized: false,
@@ -347,6 +350,12 @@ export default defineComponent({
 			return this.searchQuery.length === 0
 		},
 
+		// Coarse in-flight flag: true while any category is still fetching. Derived
+		// from the controller snapshot rather than tracked by hand, so it can't drift.
+		searching() {
+			return Object.values(this.searchStates).some((state) => state.status === 'loading')
+		},
+
 		hasNoResults() {
 			return !this.isEmptySearch && this.results.length === 0
 		},
@@ -356,14 +365,14 @@ export default defineComponent({
 		},
 
 		showEmptyContentInfo() {
-			return this.isEmptySearch || this.hasNoResults
+			// A too-short query never triggers a search, so any snapshot still held by
+			// the controller is stale for the current query: show the prompt, not results.
+			return this.isEmptySearch || this.isSearchQueryTooShort || this.hasNoResults
 		},
 
 		emptyContentMessage() {
-			if (this.searching && this.hasNoResults) {
-				return t('core', 'Searching …')
-			}
-
+			// Check "too short" before "searching": a search left in flight from a longer
+			// query must not surface the searching state once the query drops below the minimum.
 			if (this.isSearchQueryTooShort) {
 				switch (this.minSearchLength) {
 					case 1:
@@ -371,6 +380,12 @@ export default defineComponent({
 					default:
 						return n('core', 'Minimum search length is %n character', 'Minimum search length is %n characters', this.minSearchLength)
 				}
+			}
+
+			// `!initialized` covers the window before providers have loaded: a query is
+			// pending but no category is in flight yet, so treat it as searching too.
+			if ((this.searching || !this.initialized) && this.hasNoResults) {
+				return t('core', 'Searching …')
 			}
 
 			return t('core', 'No matching results')
@@ -400,6 +415,25 @@ export default defineComponent({
 		// outside the focus trap and needs it paused while open.
 		isOverlayOpen() {
 			return this.providerActionMenuIsOpen || this.dateActionMenuIsOpen || this.showDateRangeModal
+		},
+
+		results() {
+			const contentFilterTypes = this.filters
+				.filter((filter) => filter.type !== 'provider')
+				.map((filter) => filter.type)
+
+			return Object.entries(this.searchStates)
+				.filter(([, state]) => state.entries.length > 0 && (state.status === 'loaded' || state.status === 'loading'))
+				.map(([providerId, state]) => {
+					const provider = this.providers.find((p) => p.id === providerId)
+					const supportsActiveFilters = this.providerIsCompatibleWithFilters(provider, contentFilterTypes)
+					return {
+						...provider,
+						results: state.entries,
+						hasMore: state.hasMore,
+						supportsActiveFilters,
+					}
+				})
 		},
 
 		filteredResults() {
@@ -457,9 +491,17 @@ export default defineComponent({
 							this.contacts = this.mapContacts(contacts)
 							unifiedSearchLogger.debug('Search providers and contacts initialized:', { providers: this.providers, contacts: this.contacts })
 							this.initialized = true
+							// A query typed while providers were still loading was deferred by
+							// find(); run it now that we have a provider list to search.
+							if (this.open && this.searchQuery) {
+								this.find(this.searchQuery)
+							}
 						})
 						.catch((error) => {
 							unifiedSearchLogger.error(error)
+							// Mark init done even on failure so the empty state settles on
+							// "no results" instead of an indefinite "searching" message.
+							this.initialized = true
 						})
 				}
 				if (this.searchQuery) {
@@ -604,129 +646,68 @@ export default defineComponent({
 			this.$emit('update:open', false)
 		},
 
-		find(query: string, providersToSearchOverride = null) {
+		find(query: string) {
 			if (this.isSearchQueryTooShort) {
-				this.results = []
-				this.searching = false
 				return
 			}
 
-			// Reset the provider result limit when performing a new search
-			if (query !== this.lastSearchQuery) {
-				this.providerResultLimit = 5
-			}
-			this.lastSearchQuery = query
-
-			this.searching = true
-			const newResults = []
-			const providersToSearch = providersToSearchOverride || (this.filteredProviders.length > 0 ? this.filteredProviders : this.providers)
-			const searchProvider = (provider) => {
-				const params = {
-					type: provider.searchFrom ?? provider.id,
-					query,
-					cursor: null,
-					extraQueries: provider.extraParams,
-				}
-
-				// This block of filter checks should be dynamic somehow and should be handled in
-				// nextcloud/search lib
-				const contentFilterTypes = this.filters
-					.filter((f) => f.type !== 'provider')
-					.map((f) => f.type)
-				const supportsActiveFilters = contentFilterTypes.length === 0
-					|| contentFilterTypes.every((type) => this.providerIsCompatibleWithFilters(provider, [type]))
-
-				const baseProvider = provider.searchFrom
-					? this.providers.find((p) => p.id === provider.searchFrom) ?? provider
-					: provider
-
-				const activeFilters = this.filters.filter((filter) => {
-					return filter.type !== 'provider' && this.providerIsCompatibleWithFilters(provider, [filter.type])
-				})
-
-				activeFilters.forEach((filter) => {
-					switch (filter.type) {
-						case 'date':
-							if (baseProvider.filters?.since && baseProvider.filters?.until) {
-								params.since = this.dateFilter.startFrom
-								params.until = this.dateFilter.endAt
-							}
-							break
-						case 'person':
-							if (baseProvider.filters?.person) {
-								params.person = this.personFilter.user
-							}
-							break
-					}
-				})
-
-				if (this.providerResultLimit > 5) {
-					params.limit = this.providerResultLimit
-					unifiedSearchLogger.debug('Limiting search to', params.limit)
-				}
-
-				const shouldSkipSearch = !this.searchExternalResources && provider.isExternalProvider
-				const wasManuallySelected = this.filteredProviders.some((filteredProvider) => filteredProvider.id === provider.id)
-				// if the provider is an external resource and the user has not manually selected it, skip the search
-				if (shouldSkipSearch && !wasManuallySelected) {
-					this.searching = false
-					return
-				}
-
-				const request = unifiedSearch(params).request
-
-				request().then((response) => {
-					newResults.push({
-						...provider,
-						results: response.data.ocs.data.entries,
-						limit: params.limit ?? 5,
-						supportsActiveFilters,
-					})
-
-					unifiedSearchLogger.debug('Unified search results:', { results: this.results, newResults })
-
-					this.updateResults(newResults)
-					this.searching = false
-				})
+			// Providers are fetched asynchronously when the modal opens. Searching before
+			// they arrive would dispatch against an empty provider list and settle instantly
+			// into "no results"; defer instead. The init handler re-runs this query once ready.
+			if (!this.initialized) {
+				return
 			}
 
-			providersToSearch.forEach(searchProvider)
+			// Active provider filters narrow the search to exactly those providers
+			// (a selected provider is opted-in even if it's external). With no filters,
+			// search every provider except external ones the user hasn't switched on.
+			const searchable = this.filteredProviders.length > 0
+				? this.filteredProviders
+				: this.providers.filter((provider) => this.searchExternalResources || !provider.isExternalProvider)
+
+			// One param set per category, keyed by provider id, for the controller to
+			// dispatch. It reuses the same params on loadMore, so filters page correctly.
+			const params = {}
+			searchable.forEach((provider) => {
+				params[provider.id] = this.buildCategoryParams(provider)
+			})
+
+			this.search(query, searchable.map((provider) => provider.id), params)
 		},
 
-		updateResults(newResults) {
-			let updatedResults = [...this.results]
-			// If filters are applied, remove any previous results for providers that are not in current filters
-			if (this.filters.length > 0) {
-				updatedResults = updatedResults.filter((result) => {
-					return this.filters.some((filter) => filter.id === result.id)
-				})
+		/**
+		 * Translate a provider plus the active filters into controller search params.
+		 *
+		 * @param provider the provider to build params for
+		 */
+		buildCategoryParams(provider): CategorySearchParams {
+			const params: CategorySearchParams = {
+				extraQueries: provider.extraParams,
 			}
-			// Process the new results
-			newResults.forEach((newResult) => {
-				const existingResultIndex = updatedResults.findIndex((result) => result.id === newResult.id)
-				if (existingResultIndex !== -1) {
-					if (newResult.results.length === 0) {
-						// If the new results data has no matches for and existing result, remove the existing result
-						updatedResults.splice(existingResultIndex, 1)
-					} else {
-						// If input triggered a change in existing results, update existing result
-						updatedResults.splice(existingResultIndex, 1, newResult)
-					}
-				} else if (newResult.results.length > 0) {
-					// Push the new result to the array only if its results array is not empty
-					updatedResults.push(newResult)
+
+			// `searchFrom` aliases a provider onto another provider's backend. The
+			// controller dispatches on this `type` override; a plain provider sends none.
+			if (provider.searchFrom) {
+				params.type = provider.searchFrom
+			}
+
+			// Only attach a filter the provider actually supports. providerIsCompatibleWithFilters
+			// resolves the backing provider (via searchFrom) and checks its declared capabilities,
+			// so passing that guard is enough; no need to re-check the capability here.
+			this.filters.forEach((filter) => {
+				if (filter.type === 'provider' || !this.providerIsCompatibleWithFilters(provider, [filter.type])) {
+					return
+				}
+				if (filter.type === 'date') {
+					// The controller/API expect ISO strings, not Date objects.
+					params.since = this.dateFilter.startFrom?.toISOString()
+					params.until = this.dateFilter.endAt?.toISOString()
+				} else if (filter.type === 'person') {
+					params.person = this.personFilter.user
 				}
 			})
-			const sortedResults = updatedResults.slice(0)
-			// Order results according to provider preference
-			sortedResults.sort((a, b) => {
-				const aProvider = this.providers.find((provider) => provider.id === a.id)
-				const bProvider = this.providers.find((provider) => provider.id === b.id)
-				const aOrder = aProvider ? aProvider.order : 0
-				const bOrder = bProvider ? bProvider.order : 0
-				return aOrder - bOrder
-			})
-			this.results = sortedResults
+
+			return params
 		},
 
 		mapContacts(contacts) {
@@ -768,13 +749,14 @@ export default defineComponent({
 			unifiedSearchLogger.debug('Person filter applied', { person })
 		},
 
-		async loadMoreResultsForProvider(provider) {
-			this.providerResultLimit += 5
-			this.find(this.searchQuery, [provider])
+		loadMoreResultsForProvider(provider) {
+			// The controller pages from its stored cursor and reuses the original
+			// per-category params, so we only need to hand it the provider id.
+			this.loadMore(provider.id)
 		},
 
-		addProviderFilter(providerFilter, loadMoreResultsForProvider = false) {
-			unifiedSearchLogger.debug('Applying provider filter', { providerFilter, loadMoreResultsForProvider })
+		addProviderFilter(providerFilter) {
+			unifiedSearchLogger.debug('Applying provider filter', { providerFilter })
 			if (!providerFilter.id) {
 				return
 			}
@@ -786,7 +768,6 @@ export default defineComponent({
 				const isProviderFilterApplied = this.filteredProviders.some((provider) => provider.id === providerFilter.id)
 				providerFilter.callback(!isProviderFilterApplied)
 			}
-			this.providerResultLimit = loadMoreResultsForProvider ? this.providerResultLimit : 5
 			this.providerActionMenuIsOpen = false
 			// With the possibility for other apps to add new filters
 			// Resulting in a possible id/provider collision
