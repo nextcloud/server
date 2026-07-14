@@ -33,6 +33,7 @@ use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Server;
+use OCP\Share;
 use OCP\Share\Exceptions\ShareNotFound;
 use Psr\Log\LoggerInterface;
 
