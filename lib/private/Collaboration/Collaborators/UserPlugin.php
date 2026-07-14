@@ -121,7 +121,10 @@ readonly class UserPlugin implements ISearchPlugin {
 
 			if ($shareeEnumerationFullMatchUserId) {
 				$user = $this->userManager->get($search);
-				if ($user !== null) {
+				// User backends may also resolve email addresses or other login names here
+				// (e.g. for login via email). Only an actual user id match counts as user id
+				// full match, everything else is governed by the email setting below.
+				if ($user !== null && mb_strtolower($user->getUID()) === $lowerSearch) {
 					$users[$user->getUID()] = ['exact', $user];
 				}
 			}
