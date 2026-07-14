@@ -27,7 +27,7 @@ interface IApacheBackend {
 	/**
 	 * Gets the current logout URL
 	 *
-	 * @return string
+	 * @return non-empty-string
 	 * @since 12.0.3
 	 */
 	public function getLogoutUrl();
