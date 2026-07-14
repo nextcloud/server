@@ -14,8 +14,7 @@ use OCP\Diagnostics\IEventLogger;
  * @deprecated 34.0.2 - use {@see \OC\Memcache\KeyValueCacheFactory} instead
  */
 class RedisFactory {
-	public const REDIS_MINIMAL_VERSION = '4.0.0';
-	public const REDIS_EXTRA_PARAMETERS_MINIMAL_VERSION = '5.3.0';
+	public const REDIS_MINIMAL_VERSION = '5.3.0';
 
 	private \Redis|\RedisCluster|null $instance = null;
 
@@ -48,8 +47,7 @@ class RedisFactory {
 		}
 
 		// # TLS support
-		// # https://github.com/phpredis/phpredis/issues/1600
-		$connectionParameters = $this->getSslContext($config);
+		$connectionParameters = $config['ssl_context'] ?? null;
 		$persistent = $this->config->getValue('redis.persistent', true);
 
 		// cluster config
@@ -79,17 +77,9 @@ class RedisFactory {
 			if ($connectionParameters !== null) {
 				// Non-clustered redis requires connection parameters to be wrapped inside `stream`
 				$connectionParameters = [
-					'stream' => $this->getSslContext($config)
+					'stream' => $config['ssl_context'] ?? null
 				];
 				if ($persistent) {
-					/**
-					 * even though the stubs and documentation don't want you to know this,
-					 * pconnect does have the same $connectionParameters argument connect has
-					 *
-					 * https://github.com/phpredis/phpredis/blob/0264de1824b03fb2d0ad515b4d4ec019cd2dae70/redis.c#L710-L730
-					 *
-					 * @psalm-suppress TooManyArguments
-					 */
 					$this->instance->pconnect($host, $port, $timeout, null, 0, $readTimeout, $connectionParameters);
 				} else {
 					$this->instance->connect($host, $port, $timeout, null, 0, $readTimeout, $connectionParameters);
@@ -114,25 +104,6 @@ class RedisFactory {
 		}
 	}
 
-	/**
-	 * Get the ssl context config
-	 *
-	 * @param array $config the current config
-	 * @throws \UnexpectedValueException
-	 */
-	private function getSslContext(array $config): ?array {
-		if (isset($config['ssl_context'])) {
-			if (!$this->isConnectionParametersSupported()) {
-				throw new \UnexpectedValueException(\sprintf(
-					'php-redis extension must be version %s or higher to support ssl context',
-					self::REDIS_EXTRA_PARAMETERS_MINIMAL_VERSION
-				));
-			}
-			return $config['ssl_context'];
-		}
-		return null;
-	}
-
 	public function getInstance(): \Redis|\RedisCluster {
 		if ($this->instance === null) {
 			if (!$this->isAvailable()) {
@@ -150,16 +121,5 @@ class RedisFactory {
 	public function isAvailable(): bool {
 		return \extension_loaded('redis')
 			&& \version_compare(\phpversion('redis'), self::REDIS_MINIMAL_VERSION, '>=');
-	}
-
-	/**
-	 * Php redis does support configurable extra parameters since version 5.3.0, see: https://github.com/phpredis/phpredis#connect-open.
-	 * We need to check if the current version supports extra connection parameters, otherwise the connect method will throw an exception
-	 *
-	 * @return boolean
-	 */
-	private function isConnectionParametersSupported(): bool {
-		return \extension_loaded('redis')
-			&& \version_compare(\phpversion('redis'), self::REDIS_EXTRA_PARAMETERS_MINIMAL_VERSION, '>=');
 	}
 }

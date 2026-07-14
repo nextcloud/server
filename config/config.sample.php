@@ -1874,6 +1874,7 @@ $CONFIG = [
 
 	/**
 	 * Connection details for Redis to use for memory caching in a single server configuration.
+	 * This requires the ``php-redis`` extension to be installed and enabled.
 	 *
 	 * For enhanced security, it is recommended to configure Redis
 	 * to require a password. See http://redis.io/topics/security
@@ -1903,9 +1904,7 @@ $CONFIG = [
 
 	/**
 	 * Connection details for a Redis Cluster.
-	 *
-	 * Redis Cluster support requires the PHP module phpredis in version 3.0.0 or
-	 * higher.
+	 * This requires the ``php-redis`` extension to be installed and enabled.
 	 *
 	 * Available failover modes:
 	 *  - ``\RedisCluster::FAILOVER_NONE`` - only send commands to master nodes (default)
@@ -1918,10 +1917,7 @@ $CONFIG = [
 	 * scheduled to a slave that is not fully synchronized with the connected master
 	 * which then causes a FileLocked exception.
 	 *
-	 * See https://redis.io/topics/cluster-spec for details about the Redis cluster
-	 *
-	 * Authentication works with phpredis version 4.2.1+. See
-	 * https://github.com/phpredis/phpredis/commit/c5994f2a42b8a348af92d3acb4edff1328ad8ce1
+	 * See https://redis.io/topics/cluster-spec for details about the Redis cluster.
 	 *
 	 * @deprecated 34.0.0 use `memcache.kvstore` instead which supports also Valkey.
 	 */
