@@ -57,7 +57,7 @@ class LookupPlugin implements ISearchPlugin {
 		try {
 			$client = $this->clientService->newClient();
 			$response = $client->get(
-				$lookupServerUrl . '/users?search=' . urlencode($search),
+				$lookupServerUrl . '/users?limit=' . $limit . '&offset=' . $offset . '&search=' . urlencode($search),
 				[
 					'timeout' => 10,
 					'connect_timeout' => 3,
