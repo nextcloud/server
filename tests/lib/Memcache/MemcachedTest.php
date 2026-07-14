@@ -30,6 +30,13 @@ class MemcachedTest extends Cache {
 	protected function setUp(): void {
 		parent::setUp();
 		$this->instance = new Memcached($this->getUniqueID());
+		// Flush the shared \Memcached singleton so that its internal result
+		// code is reset to RES_SUCCESS before the first get() of each test.
+		// Without this, a prior test that ended with a successful set/get
+		// leaves RES_SUCCESS in the singleton, and if the underlying library
+		// then returns false+RES_SUCCESS for a missing key the get() wrapper
+		// cannot tell the difference from a stored false value.
+		$this->instance->clear();
 	}
 
 	#[\Override]

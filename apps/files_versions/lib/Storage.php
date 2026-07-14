@@ -423,7 +423,16 @@ class Storage {
 		[$storage2, $internalPath2] = $view->resolvePath($path2);
 
 		$view->lockFile($path1, ILockingProvider::LOCK_EXCLUSIVE);
-		$view->lockFile($path2, ILockingProvider::LOCK_EXCLUSIVE);
+		try {
+			$view->lockFile($path2, ILockingProvider::LOCK_EXCLUSIVE);
+		} catch (\Throwable $e) {
+			// Acquiring the second lock can fail (e.g. the target file is
+			// transiently locked by a concurrent job under load). Release the
+			// first lock we already hold so a retry does not collide with a
+			// leaked lock.
+			$view->unlockFile($path1, ILockingProvider::LOCK_EXCLUSIVE);
+			throw $e;
+		}
 
 		try {
 			// TODO add a proper way of overwriting a file while maintaining file ids

@@ -2209,6 +2209,7 @@
       <code><![CDATA[unlink]]></code>
       <code><![CDATA[unlockFile]]></code>
       <code><![CDATA[unlockFile]]></code>
+      <code><![CDATA[unlockFile]]></code>
     </InternalMethod>
   </file>
   <file src="apps/files_versions/lib/Versions/LegacyVersionsBackend.php">

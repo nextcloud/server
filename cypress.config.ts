@@ -26,11 +26,7 @@ export default defineConfig({
 	viewportHeight: 720,
 
 	// Tries again when in run mode (cypress run) e.g. on CI
-	retries: {
-		runMode: 5,
-		// do not retry in `cypress open`
-		openMode: 0,
-	},
+	retries: 0,
 
 	// Needed to trigger `after:run` events with cypress open
 	experimentalInteractiveRunEvents: true,
@@ -58,6 +54,14 @@ export default defineConfig({
 		// Disable session isolation
 		testIsolation: false,
 
+		// The CI runners (and the local 0.2-CPU repro throttle) are slow enough
+		// that the default 4s command timeout is too short for e.g. a folder
+		// listing to re-fetch and render after a navigation. Raise it globally
+		// (to match requestTimeout) rather than sprinkling per-command timeouts.
+		// Retries do not help here: a retry re-runs the whole test on the same
+		// slow runner.
+		// defaultCommandTimeout: 30000,
+
 		requestTimeout: 30000,
 
 		// We've imported your old cypress plugins here.
@@ -71,6 +75,13 @@ export default defineConfig({
 			// because Cypress.env() and other options are local to the current spec file.
 			const data: Record<string, unknown> = {}
 			on('task', {
+				// Print a message to the Node/terminal stdout (browser console.log
+				// is not piped to the cypress run output in headless mode).
+				log(message) {
+					// eslint-disable-next-line no-console
+					console.log(message)
+					return null
+				},
 				setVariable({ key, value }) {
 					data[key] = value
 					return null

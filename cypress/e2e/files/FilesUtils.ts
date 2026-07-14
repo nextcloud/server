@@ -63,6 +63,52 @@ export function getInlineActionEntryForFile(file: string, actionId: string) {
 }
 
 /**
+ * Open the actions menu of a file row and wait until it is displayed.
+ *
+ * Click exactly once, then wait: while the popover opens, the toggle
+ * already reports aria-expanded="true" although the menu is still hidden —
+ * the popover positions itself over several frames, which can take seconds
+ * on slow (CI) runners. Clicking again in that state toggles the menu
+ * closed and tangles the popover's show and hide transitions into a stuck,
+ * permanently invisible popover. Clicking is only safe while the toggle
+ * reports "closed", e.g. after an auto-close caused by a stray outside
+ * click.
+ *
+ * @param getActionButton query for the actions menu toggle of the row
+ */
+export function openActionsMenu(getActionButton: () => Cypress.Chainable<JQuery<HTMLElement>>) {
+	// The menu open has two failure modes on slow runners, needing opposite
+	// responses:
+	//   - The click is lost because the row's handler is not attached yet, so
+	//     the toggle stays collapsed (aria-expanded="false"). We must click
+	//     again.
+	//   - The menu is opening but the popover is still positioning over a few
+	//     frames (aria-expanded="true", not yet visible). Clicking again here
+	//     would toggle it closed and tangle the show/hide transitions, so we
+	//     must only wait.
+	// Poll accordingly until the menu is actually displayed.
+	const poll = (elapsed: number) => {
+		getActionButton().then(($toggle) => {
+			const menuId = $toggle.attr('aria-controls')
+			if (menuId && Cypress.$(`#${menuId}`).is(':visible')) {
+				return
+			}
+			if (elapsed >= 20000) {
+				throw new Error(`Actions menu did not open (aria-expanded=${$toggle.attr('aria-expanded')})`)
+			}
+			// Only (re)open while collapsed; never click a menu that is mid-open.
+			if ($toggle.attr('aria-expanded') !== 'true') {
+				cy.wrap($toggle).click({ force: true }) // force to avoid issues with overlaying file list header
+			}
+			// eslint-disable-next-line cypress/no-unnecessary-waiting -- give the popover a moment to open/position before re-checking
+			cy.wait(250)
+			poll(elapsed + 250)
+		})
+	}
+	poll(0)
+}
+
+/**
  *
  * @param fileid
  * @param actionId
@@ -70,8 +116,7 @@ export function getInlineActionEntryForFile(file: string, actionId: string) {
 export function triggerActionForFileId(fileid: number, actionId: string) {
 	getActionButtonForFileId(fileid)
 		.scrollIntoView()
-	getActionButtonForFileId(fileid)
-		.click({ force: true }) // force to avoid issues with overlaying file list header
+	openActionsMenu(() => getActionButtonForFileId(fileid))
 	getActionEntryForFileId(fileid, actionId)
 		.find('button')
 		.should('be.visible')
@@ -86,8 +131,7 @@ export function triggerActionForFileId(fileid: number, actionId: string) {
 export function triggerActionForFile(filename: string, actionId: string) {
 	getActionButtonForFile(filename)
 		.scrollIntoView()
-	getActionButtonForFile(filename)
-		.click({ force: true }) // force to avoid issues with overlaying file list header
+	openActionsMenu(() => getActionButtonForFile(filename))
 	getActionEntryForFile(filename, actionId)
 		.find('button')
 		.should('be.visible')
@@ -168,6 +212,49 @@ export function triggerSelectionAction(actionId: string) {
 }
 
 /**
+ * Inside the file picker, navigate to the home root and confirm the copy/move.
+ *
+ * On a slow runner two things race and must be handled deterministically:
+ *  - The picker's current directory lags behind its confirm-button label: the
+ *    button already reads the plain "Copy"/"Move" (root) label while the picker
+ *    still shows the folder it opened in, so clicking it copies/moves into the
+ *    wrong folder (deduplicated as "… (1)"). We therefore wait for the picker
+ *    to actually reload its listing (its own PROPFIND) after clicking the
+ *    "All files" breadcrumb, so its current directory really is the root before
+ *    we confirm.
+ *  - The confirm click itself can be dropped (its handler is not attached yet),
+ *    so no request fires. We re-click until the resulting request is seen.
+ *
+ * @param verb the confirm action, 'Copy' or 'Move'
+ * @param requestAlias the intercept alias for the resulting DAV request
+ */
+function confirmPickerAtHomeRoot(verb: 'Copy' | 'Move', requestAlias: string) {
+	cy.intercept('PROPFIND', /\/(remote|public)\.php\/dav\/files\//).as('pickerNavigation')
+	cy.get('.breadcrumb')
+		.findByRole('button', { name: 'All files' })
+		.should('be.visible')
+		.click()
+	// Wait for the picker to actually fetch the root listing, so its current
+	// directory (the copy/move target) is the root and not the folder it opened
+	// in — otherwise the confirm below would target the wrong folder.
+	cy.wait('@pickerNavigation')
+
+	// The plain "Copy"/"Move" label only exists once the picker is at the root.
+	const confirmLabel = new RegExp(`^\\s*${verb}\\s*$`)
+	const clickUntilRequestFires = (attemptsLeft: number) => {
+		cy.contains('button', confirmLabel).should('be.visible').click()
+		// eslint-disable-next-line cypress/no-unnecessary-waiting -- give a dropped click a moment to be noticed
+		cy.wait(2000)
+		cy.get(`@${requestAlias}.all`).then((calls) => {
+			if (calls.length === 0 && attemptsLeft > 0) {
+				clickUntilRequestFires(attemptsLeft - 1)
+			}
+		})
+	}
+	clickUntilRequestFires(4)
+}
+
+/**
  *
  * @param fileName
  * @param dirPath
@@ -181,13 +268,7 @@ export function moveFile(fileName: string, dirPath: string) {
 		cy.intercept('MOVE', /\/(remote|public)\.php\/dav\/files\//).as('moveFile')
 
 		if (dirPath === '/') {
-			// select home folder
-			cy.get('.breadcrumb')
-				.findByRole('button', { name: 'All files' })
-				.should('be.visible')
-				.click()
-			// click move
-			cy.contains('button', 'Move').should('be.visible').click()
+			confirmPickerAtHomeRoot('Move', 'moveFile')
 		} else if (dirPath === '.') {
 			// click move
 			cy.contains('button', 'Copy').should('be.visible').click()
@@ -220,13 +301,7 @@ export function copyFile(fileName: string, dirPath: string) {
 		cy.intercept('COPY', /\/(remote|public)\.php\/dav\/files\//).as('copyFile')
 
 		if (dirPath === '/') {
-			// select home folder
-			cy.get('.breadcrumb')
-				.findByRole('button', { name: 'All files' })
-				.should('be.visible')
-				.click()
-			// click copy
-			cy.contains('button', 'Copy').should('be.visible').click()
+			confirmPickerAtHomeRoot('Copy', 'copyFile')
 		} else if (dirPath === '.') {
 			// click copy
 			cy.contains('button', 'Copy').should('be.visible').click()
