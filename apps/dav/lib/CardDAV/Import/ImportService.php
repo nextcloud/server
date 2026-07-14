@@ -44,8 +44,6 @@ class ImportService {
 		}
 		return match ($options->getFormat()) {
 			'vcf' => $this->importProcess($source, $addressBook, $options, $this->importText(...)),
-			'jcf' => $this->importProcess($source, $addressBook, $options, $this->importJson(...)),
-			'xcf' => $this->importProcess($source, $addressBook, $options, $this->importXml(...)),
 			default => throw new InvalidArgumentException('Invalid import format'),
 		};
 	}
