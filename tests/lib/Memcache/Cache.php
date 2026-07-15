@@ -8,11 +8,12 @@
 
 namespace Test\Memcache;
 
+use OC\Memcache\Cache as MemcacheCache;
 use OCP\IMemcache;
 
 abstract class Cache extends \Test\Cache\TestCache {
 	/**
-	 * @var IMemcache cache;
+	 * @var IMemcache&MemcacheCache cache;
 	 */
 	protected $instance;
 
@@ -145,6 +146,16 @@ abstract class Cache extends \Test\Cache\TestCache {
 
 	public function testNcadNotSet(): void {
 		$this->assertFalse($this->instance->ncad('foo', 'bar'));
+	}
+
+	public function testClearWorks(): void {
+		$this->instance->set('foo', 'bar');
+		$this->instance->set('foo2', 'bar2');
+		$this->instance->set('fbar', 'stays');
+		self::assertTrue($this->instance->clear('fo'));
+		self::assertNull($this->instance->get('foo'));
+		self::assertNull($this->instance->get('foo2'));
+		self::assertEquals('stays', $this->instance->get('fbar'));
 	}
 
 	#[\Override]

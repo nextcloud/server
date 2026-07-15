@@ -28,7 +28,8 @@ class RedisTest extends Cache {
 			self::markTestSkipped('The redis extension is not available.');
 		}
 
-		if (Server::get(IConfig::class)->getSystemValue('redis', []) === []) {
+		$config = Server::get(IConfig::class);
+		if ($config->getSystemValue('redis', []) === [] && $config->getSystemValue('redis.cluster', []) === []) {
 			self::markTestSkipped('Redis not configured in config.php');
 		}
 

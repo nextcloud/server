@@ -47,7 +47,7 @@ class Redis extends Cache implements IMemcacheTTL {
 
 	private \Redis|\RedisCluster|null $cache = null;
 
-	public function __construct($prefix = '', string $logFile = '') {
+	public function __construct(string $prefix = '', string $logFile = '') {
 		parent::__construct($prefix);
 	}
 
@@ -88,11 +88,13 @@ class Redis extends Cache implements IMemcacheTTL {
 	}
 
 	#[\Override]
-	public function remove($key) {
-		if ($this->getCache()->unlink($this->getPrefix() . $key)) {
-			return true;
-		} else {
+	public function remove($key): bool {
+		/** @var int|false -- we are not in MULTI mode, so we can cast the return value here */
+		$deletedEntries = $this->getCache()->unlink($this->getPrefix() . $key);
+		if ($deletedEntries === false || $deletedEntries === 0) {
 			return false;
+		} else {
+			return true;
 		}
 	}
 
@@ -100,22 +102,18 @@ class Redis extends Cache implements IMemcacheTTL {
 	public function clear($prefix = '') {
 		// TODO: this is slow and would fail with Redis cluster
 		$prefix = $this->getPrefix() . $prefix . '*';
+		/** @var list<string>|false -- we are not in MULTI mode, so we can cast the return value here */
 		$keys = $this->getCache()->keys($prefix);
-		$deleted = $this->getCache()->del($keys);
+		if ($keys === false) {
+			return false;
+		}
 
-		return (is_array($keys) && (count($keys) === $deleted));
+		$deleted = $this->getCache()->del($keys);
+		return count($keys) === $deleted;
 	}
 
-	/**
-	 * Set a value in the cache if it's not already stored
-	 *
-	 * @param string $key
-	 * @param mixed $value
-	 * @param int $ttl Time To Live in seconds. Defaults to 60*60*24
-	 * @return bool
-	 */
 	#[\Override]
-	public function add($key, $value, $ttl = 0) {
+	public function add($key, $value, $ttl = 0): bool {
 		$value = self::encodeValue($value);
 		if ($ttl === 0) {
 			// having infinite TTL can lead to leaked keys as the prefix changes with version upgrades
@@ -126,59 +124,34 @@ class Redis extends Cache implements IMemcacheTTL {
 		$args = ['nx'];
 		$args['ex'] = $ttl;
 
-		return $this->getCache()->set($this->getPrefix() . $key, $value, $args);
+		/** @var bool|string -- we are not in MULTI mode, so we can cast the return value here */
+		$result = $this->getCache()->set($this->getPrefix() . $key, $value, $args);
+		return (bool)$result;
 	}
 
-	/**
-	 * Increase a stored number
-	 *
-	 * @param string $key
-	 * @param int $step
-	 * @return int | bool
-	 */
 	#[\Override]
-	public function inc($key, $step = 1) {
-		return $this->getCache()->incrBy($this->getPrefix() . $key, $step);
+	public function inc($key, $step = 1): int|false {
+		/** @var int|false -- we are not in MULTI mode, so we can cast the return value here */
+		$value = $this->getCache()->incrBy($this->getPrefix() . $key, $step);
+		return $value;
 	}
 
-	/**
-	 * Decrease a stored number
-	 *
-	 * @param string $key
-	 * @param int $step
-	 * @return int | bool
-	 */
 	#[\Override]
-	public function dec($key, $step = 1) {
+	public function dec($key, $step = 1): int|false {
 		$res = $this->evalLua('dec', [$key], [$step]);
 		return ($res === 'NEX') ? false : $res;
 	}
 
-	/**
-	 * Compare and set
-	 *
-	 * @param string $key
-	 * @param mixed $old
-	 * @param mixed $new
-	 * @return bool
-	 */
 	#[\Override]
-	public function cas($key, $old, $new) {
+	public function cas($key, $old, $new): bool {
 		$old = self::encodeValue($old);
 		$new = self::encodeValue($new);
 
 		return $this->evalLua('cas', [$key], [$old, $new]) > 0;
 	}
 
-	/**
-	 * Compare and delete
-	 *
-	 * @param string $key
-	 * @param mixed $old
-	 * @return bool
-	 */
 	#[\Override]
-	public function cad($key, $old) {
+	public function cad($key, $old): bool {
 		$old = self::encodeValue($old);
 
 		return $this->evalLua('cad', [$key], [$old]) > 0;
@@ -192,7 +165,7 @@ class Redis extends Cache implements IMemcacheTTL {
 	}
 
 	#[\Override]
-	public function setTTL($key, $ttl) {
+	public function setTTL($key, $ttl): void {
 		if ($ttl === 0) {
 			// having infinite TTL can lead to leaked keys as the prefix changes with version upgrades
 			$ttl = self::DEFAULT_TTL;
@@ -203,8 +176,12 @@ class Redis extends Cache implements IMemcacheTTL {
 
 	#[\Override]
 	public function getTTL(string $key): int|false {
+		/** @var int|false -- we are not in MULTI mode, so we can cast the return value here */
 		$ttl = $this->getCache()->ttl($this->getPrefix() . $key);
-		return $ttl > 0 ? (int)$ttl : false;
+		if ($ttl === false || $ttl <= 0) {
+			return false;
+		}
+		return $ttl;
 	}
 
 	#[\Override]
@@ -219,7 +196,7 @@ class Redis extends Cache implements IMemcacheTTL {
 		return Server::get(RedisFactory::class)->isAvailable();
 	}
 
-	protected function evalLua(string $scriptName, array $keys, array $args) {
+	protected function evalLua(string $scriptName, array $keys, array $args): mixed {
 		$keys = array_map(fn ($key) => $this->getPrefix() . $key, $keys);
 		$args = array_merge($keys, $args);
 		$script = self::LUA_SCRIPTS[$scriptName];
@@ -233,7 +210,7 @@ class Redis extends Cache implements IMemcacheTTL {
 	}
 
 	protected static function encodeValue(mixed $value): string {
-		return is_int($value) ? (string)$value : json_encode($value);
+		return is_int($value) ? (string)$value : json_encode($value, flags: JSON_THROW_ON_ERROR);
 	}
 
 	protected static function decodeValue(string $value): mixed {
