@@ -28,12 +28,15 @@ class UserDeletedListenerTest extends TestCase {
 
 	public function testHandleWithCorrectEvent(): void {
 		$user = $this->createMock(IUser::class);
-		$user->expects($this->once())
-			->method('getUID')
+		$user->method('getUID')
 			->willReturn('john.doe');
 
 		$this->service->expects($this->once())
 			->method('removeUserStatus')
+			->with('john.doe');
+
+		$this->service->expects($this->once())
+			->method('removeBackupUserStatus')
 			->with('john.doe');
 
 		$event = new UserDeletedEvent($user);
