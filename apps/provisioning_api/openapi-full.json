@@ -333,6 +333,21 @@
                     }
                 }
             },
+            "UserDetailsGroupDisplayname": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "displayname"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "displayname": {
+                        "type": "string"
+                    }
+                }
+            },
             "UserDetailsQuota": {
                 "type": "object",
                 "properties": {
@@ -3526,7 +3541,8 @@
                                                 "data": {
                                                     "type": "object",
                                                     "required": [
-                                                        "users"
+                                                        "users",
+                                                        "groups"
                                                     ],
                                                     "properties": {
                                                         "users": {
@@ -3548,6 +3564,12 @@
                                                                         }
                                                                     }
                                                                 ]
+                                                            }
+                                                        },
+                                                        "groups": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "$ref": "#/components/schemas/UserDetailsGroupDisplayname"
                                                             }
                                                         }
                                                     }
@@ -3991,7 +4013,8 @@
                                                 "data": {
                                                     "type": "object",
                                                     "required": [
-                                                        "users"
+                                                        "users",
+                                                        "groups"
                                                     ],
                                                     "properties": {
                                                         "users": {
@@ -4013,6 +4036,12 @@
                                                                         }
                                                                     }
                                                                 ]
+                                                            }
+                                                        },
+                                                        "groups": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "$ref": "#/components/schemas/UserDetailsGroupDisplayname"
                                                             }
                                                         }
                                                     }
