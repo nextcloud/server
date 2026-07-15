@@ -3107,7 +3107,7 @@ class ManagerTest extends \Test\TestCase {
 			->method('getAppValue')
 			->willReturnMap([
 				['core', 'shareapi_allow_links', 'yes', 'yes'],
-				['files_sharing', 'hide_disabled_user_shares', 'no', 'yes'],
+				['files_sharing', 'hide_disabled_user_shares', 'yes', 'yes'],
 			]);
 
 		$this->l->expects($this->once())
