@@ -32,6 +32,7 @@ use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\FederatedFileSharing\Notifications;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\AnonRateLimit;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSException;
@@ -122,6 +123,7 @@ class RequestHandlerController extends OCSController {
 	/**
 	 * @NoCSRFRequired
 	 * @PublicPage
+	 * @AnonRateLimit(limit=5,period=1200)]
 	 *
 	 * create a new share
 	 *
