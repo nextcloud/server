@@ -28,13 +28,14 @@
 					v-for="operation in mainOperations"
 					:key="operation.id"
 					:operation="operation"
+					colored
 					@click.native="createNewRule(operation)" />
 				<a
 					v-if="showAppStoreHint"
 					key="add"
 					:href="appstoreUrl"
 					class="actions__item colored more">
-					<div class="icon icon-add" />
+					<NcIconSvgWrapper class="actions__itemMore__icon" :path="mdiPlus" :size="50" />
 					<div class="actions__item__description">
 						<h3>{{ t('workflowengine', 'More flows') }}</h3>
 						<small>{{ t('workflowengine', 'Browse the App Store') }}</small>
@@ -69,6 +70,7 @@
 </template>
 
 <script>
+import { mdiPlus } from '@mdi/js'
 import { loadState } from '@nextcloud/initial-state'
 import { generateUrl } from '@nextcloud/router'
 import { mapGetters, mapState } from 'vuex'
@@ -98,6 +100,10 @@ export default {
 		NcSettingsSection,
 		Operation,
 		Rule,
+	},
+
+	setup() {
+		return { mdiPlus }
 	},
 
 	data() {
@@ -184,6 +190,10 @@ export default {
 
 	.actions__more {
 		margin-bottom: 10px;
+	}
+
+	.actions__itemMore__icon {
+		margin-block: 10px;
 	}
 
 	.slide-enter-active {

@@ -13,7 +13,12 @@ namespace OCA\Comments\Listener;
 use OCA\Comments\Activity\Listener as ActivityListener;
 use OCA\Comments\Notification\Listener as NotificationListener;
 use OCP\Comments\CommentsEvent;
+use OCP\Comments\Events\BeforeCommentUpdatedEvent;
+use OCP\Comments\Events\CommentAddedEvent;
+use OCP\Comments\Events\CommentDeletedEvent;
+use OCP\Comments\Events\CommentUpdatedEvent;
 use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\EventDispatcher\IEventListener;
 
 /** @template-implements IEventListener<CommentsEvent|Event> */
@@ -21,12 +26,21 @@ class CommentsEventListener implements IEventListener {
 	public function __construct(
 		private ActivityListener $activityListener,
 		private NotificationListener $notificationListener,
+		private IEventDispatcher $eventDispatcher,
 	) {
 	}
 
 	public function handle(Event $event): void {
 		if (!$event instanceof CommentsEvent) {
 			return;
+		}
+
+		if ($event instanceof CommentAddedEvent
+			|| $event instanceof CommentUpdatedEvent
+			|| $event instanceof CommentDeletedEvent
+			|| $event instanceof BeforeCommentUpdatedEvent) {
+			// Dispatch the deprecated event name for backward compatibility
+			$this->eventDispatcher->dispatchTyped(new CommentsEvent($event->getEvent(), $event->getComment()));
 		}
 
 		if ($event->getComment()->getObjectType() !== 'files') {

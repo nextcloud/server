@@ -62,7 +62,6 @@ jobs:
         php-versions: ['8.3', '8.4', '8.5']
         include:
           - php-versions: '8.2'
-            coverage: ${{ github.event_name != 'pull_request' }}
 
     name: No DB unit tests (PHP ${{ matrix.php-versions }})
 
@@ -87,7 +86,7 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
           extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, imagick, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
-          coverage: ${{ matrix.coverage && 'xdebug' || 'none' }}
+          coverage: 'none'
           ini-file: development
           # Required for tests that use pcntl
           ini-values: disable_functions=""
@@ -106,14 +105,7 @@ jobs:
           php -f tests/enable_all.php
 
       - name: PHPUnit nodb testsuite
-        run: composer run test -- --exclude-group DB --exclude-group SLOWDB --log-junit junit.xml ${{ matrix.coverage && '--coverage-clover ./clover.nodb.xml' || '' }}
-
-      - name: Upload nodb code coverage
-        if: ${{ !cancelled() && matrix.coverage }}
-        uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
-        with:
-          files: ./clover.nodb.xml
-          flags: phpunit-nodb
+        run: composer run test -- --exclude-group DB --exclude-group SLOWDB --log-junit junit.xml
 
       - name: Upload test results
         if: ${{ !cancelled() }}

@@ -1,6 +1,6 @@
 { "translations": {
-    "Forbidden to manage local mounts" : "로컬 마운트에 대한 관리가 금지됨",
     "Storage with ID \"%d\" not found" : "ID \"%d\"인 공유를 찾을 수 없음",
+    "Forbidden to manage local mounts" : "로컬 마운트에 대한 관리가 금지됨",
     "Invalid backend or authentication mechanism class" : "백엔드나 인증 방식 클래스가 잘못됨",
     "Invalid mount point" : "잘못된 마운트 지점",
     "Objectstore forbidden" : "Objectstore에 접근 금지됨",

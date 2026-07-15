@@ -3,8 +3,8 @@ OC.L10N.register(
     {
     "You are not logged in" : "سىز تېخى كىرمىدىڭىز",
     "Permission denied" : "ئىجازەت بېرىلمىدى",
-    "Forbidden to manage local mounts" : "يەرلىك تاغ تىزمىلىرىنى باشقۇرۇش چەكلەنگەن",
     "Storage with ID \"%d\" not found" : "ID \"%d\" بىلەن ساقلاش تېپىلمىدى",
+    "Forbidden to manage local mounts" : "يەرلىك تاغ تىزمىلىرىنى باشقۇرۇش چەكلەنگەن",
     "Invalid backend or authentication mechanism class" : "ئىناۋەتسىز ئارقا بەلگە ياكى دەلىللەش مېخانىزمى سىنىپى",
     "Invalid mount point" : "ئىناۋەتسىز ئورنىتىش نۇقتىسى",
     "Objectstore forbidden" : "ئوبيېكت دۇكىنى چەكلەنگەن",

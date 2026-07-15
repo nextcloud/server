@@ -42,7 +42,7 @@ class NodeTest extends \Test\TestCase {
 			[Constants::PERMISSION_ALL, 'file', true, Constants::PERMISSION_ALL, true, '' , 'SRMGDNVW'],
 			[Constants::PERMISSION_ALL, 'file', true, Constants::PERMISSION_ALL - Constants::PERMISSION_UPDATE, true, '' , 'SRMGDNV'],
 			[Constants::PERMISSION_ALL - Constants::PERMISSION_SHARE, 'file', true, Constants::PERMISSION_ALL, false, 'test', 'SGDNVW'],
-			[Constants::PERMISSION_ALL - Constants::PERMISSION_UPDATE, 'file', false, Constants::PERMISSION_ALL, false, 'test', 'RGD'],
+			[Constants::PERMISSION_ALL - Constants::PERMISSION_UPDATE, 'file', false, Constants::PERMISSION_ALL, false, 'test', 'RGDN'],
 			[Constants::PERMISSION_ALL - Constants::PERMISSION_DELETE, 'file', false, Constants::PERMISSION_ALL, false, 'test', 'RGNVW'],
 			[Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE, 'file', false, Constants::PERMISSION_ALL, false, 'test', 'RGDNVW'],
 			[Constants::PERMISSION_ALL - Constants::PERMISSION_READ, 'file', false, Constants::PERMISSION_ALL, false, 'test', 'RDNVW'],

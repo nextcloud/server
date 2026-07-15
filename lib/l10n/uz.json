@@ -8,9 +8,6 @@
     "last month" : "last month",
     "seconds ago" : "seconds ago",
     "Templates" : "Shablonlar",
-    "Apps" : "Apps",
-    "Settings" : "Sozlamalar",
-    "Accounts" : "Akkaunt",
     "Email" : "Email",
     "Website" : "Veb-sayt",
     "Address" : "Address",
@@ -34,8 +31,12 @@
     "Generated response" : "Yaratilgan javob",
     "Confirmation" : "Tasdiqlash",
     "Prompt" : "Tezkor",
+    "Instructions" : "Ko'rsatmalar",
     "Text" : "Matn",
     "Translate" : "Tarjima",
+    "Apps" : "Apps",
+    "Settings" : "Sozlamalar",
+    "Accounts" : "Akkaunt",
     "Authentication error" : "Authentication error"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

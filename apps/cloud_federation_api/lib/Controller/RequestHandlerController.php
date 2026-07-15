@@ -7,6 +7,7 @@
 
 namespace OCA\CloudFederationAPI\Controller;
 
+use OC\AppFramework\Http\Attributes\FederationRateLimit;
 use OC\OCM\OCMSignatoryManager;
 use OCA\CloudFederationAPI\Config;
 use OCA\CloudFederationAPI\Db\FederatedInviteMapper;
@@ -104,6 +105,7 @@ class RequestHandlerController extends Controller {
 	#[PublicPage]
 	#[NoCSRFRequired]
 	#[BruteForceProtection(action: 'receiveFederatedShare')]
+	#[FederationRateLimit(limit: 5, period: 1200)]
 	public function addShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, $protocol, $shareType, $resourceType) {
 		if (!$this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_DISABLED, lazy: true)) {
 			try {
@@ -188,6 +190,28 @@ class RequestHandlerController extends Controller {
 		if ($sharedBy === null) {
 			$sharedBy = $owner;
 			$sharedByDisplayName = $ownerDisplayName;
+		}
+
+		$ownerDomain = str_contains($owner, '@') ? substr(strrchr($owner, '@'), 1) : null;
+		$sharedByDomain = str_contains($sharedBy, '@') ? substr(strrchr($sharedBy, '@'), 1) : null;
+		$domainsToCheck = array_unique(array_filter([$ownerDomain, $sharedByDomain]));
+		if (count($domainsToCheck) !== 0) {
+			$spoofChecker = new \Spoofchecker();
+			foreach ($domainsToCheck as $domain) {
+				// detect suspicious chars (e.g. "pаypаl" spelled with Cyrillic "а" characters)
+				// see https://www.php.net/manual/en/spoofchecker.issuspicious.php
+				if ($spoofChecker->isSuspicious($domain)) {
+					$response = new JSONResponse(
+						[
+							'message' => 'Suspicious domain detected on owner or sharedBy field',
+							'validationErrors' => [],
+						],
+						Http::STATUS_BAD_REQUEST
+					);
+					$response->throttle();
+					return $response;
+				}
+			}
 		}
 
 		try {

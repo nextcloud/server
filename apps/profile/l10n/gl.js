@@ -1,6 +1,7 @@
 OC.L10N.register(
     "profile",
     {
+    "View profile" : "Ver o perfil",
     "Profile picker" : "Selector de perfís",
     "Profile" : "Perfil",
     "This application provides the profile" : "Esta aplicación fornece o perfil",
@@ -17,7 +18,7 @@ OC.L10N.register(
     "Edit Profile" : "Editar o perfil",
     "The headline and about sections will show up here" : "As seccións título e sobre aparecerán aquí",
     "Profile not found" : "Non se atopou o perfil",
-    "The profile does not exist." : "O perfil non existe.",
-    "Back to %s" : "Volver a %s"
+    "Back to %s" : "Volver a %s",
+    "The profile does not exist." : "O perfil non existe."
 },
 "nplurals=2; plural=(n != 1);");

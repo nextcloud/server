@@ -14,20 +14,6 @@ import logger from '../logger.ts'
 const BASE_URL = generateUrl('/settings/personal/authtokens')
 addPasswordConfirmationInterceptors(axios)
 
-/**
- *
- */
-function confirm() {
-	return new Promise((resolve) => {
-		window.OC.dialogs.confirm(
-			t('settings', 'Do you really want to wipe your data from this device?'),
-			t('settings', 'Confirm wipe'),
-			resolve,
-			true,
-		)
-	})
-}
-
 export enum TokenType {
 	TEMPORARY_TOKEN = 0,
 	PERMANENT_TOKEN = 1,
@@ -133,11 +119,6 @@ export const useAuthTokenStore = defineStore('auth-token', {
 
 			try {
 				await confirmPassword()
-
-				if (!(await confirm())) {
-					logger.debug('Wipe aborted by user')
-					return
-				}
 
 				await axios.post(`${BASE_URL}/wipe/${token.id}`)
 				logger.debug('App token marked for wipe', { token })

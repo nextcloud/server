@@ -13,10 +13,12 @@ use OCA\Files_External\Controller\UserStoragesController;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Auth\NullMechanism;
 use OCA\Files_External\Lib\Backend\Backend;
+use OCA\Files_External\Lib\Backend\Local;
 use OCA\Files_External\Lib\Backend\SMB;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\MountConfig;
 use OCA\Files_External\NotFoundException;
+use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\AppFramework\Http;
@@ -25,10 +27,21 @@ use PHPUnit\Framework\MockObject\MockObject;
 abstract class StoragesControllerTestCase extends \Test\TestCase {
 	protected GlobalStoragesController|UserStoragesController $controller;
 	protected GlobalStoragesService|UserStoragesService|MockObject $service;
+	protected BackendService|MockObject $backendService;
 
 	protected function setUp(): void {
 		parent::setUp();
 		MountConfig::$skipTest = true;
+
+		$this->backendService = $this->createMock(BackendService::class);
+		$this->backendService->method('getBackend')
+			->willReturnCallback(function ($identifier) {
+				if ($identifier === 'local') {
+					return $this->createMock(Local::class);
+				} else {
+					return $this->createMock(Backend::class);
+				}
+			});
 	}
 
 	protected function tearDown(): void {

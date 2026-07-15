@@ -295,18 +295,8 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * @return \OC\Group\Group[]
 	 */
 	public function getUserIdGroups(string $uid): array {
-		$groups = [];
-
-		foreach ($this->getUserIdGroupIds($uid) as $groupId) {
-			$aGroup = $this->get($groupId);
-			if ($aGroup instanceof IGroup) {
-				$groups[$groupId] = $aGroup;
-			} else {
-				$this->logger->debug('User "' . $uid . '" belongs to deleted group: "' . $groupId . '"', ['app' => 'core']);
-			}
-		}
-
-		return $groups;
+		$groupIds = $this->getUserIdGroupIds($uid);
+		return $this->getGroupsObjects($groupIds);
 	}
 
 	/**

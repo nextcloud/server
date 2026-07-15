@@ -765,7 +765,7 @@ EOF;
 
 		$addresses = $this->getAddressesForPrincipal($calendarNode->getOwner());
 		foreach ($vCal->VEVENT as $vevent) {
-			if (in_array($vevent->ORGANIZER->getNormalizedValue(), $addresses, true)) {
+			if (isset($vevent->ORGANIZER) && in_array($vevent->ORGANIZER->getNormalizedValue(), $addresses, true)) {
 				// User is an organizer => throw the exception
 				throw $e;
 			}

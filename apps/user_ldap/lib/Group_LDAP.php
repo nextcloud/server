@@ -118,7 +118,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 						$parts = explode('@', $mid); //making sure we get only the uid
 						$mid = $parts[0];
 					}
-					$filter = str_replace('%uid', $mid, $this->access->connection->ldapLoginFilter);
+					$filter = str_replace('%uid', $this->access->escapeFilterPart($mid), $this->access->connection->ldapLoginFilter);
 					$filterParts[] = $filter;
 					$bytes += strlen($filter);
 					if ($bytes >= 9000000) {
@@ -917,7 +917,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 				case 'memberuid':
 					//we got uids, need to get their DNs to 'translate' them to user names
 					$filter = $this->access->combineFilterWithAnd([
-						str_replace('%uid', trim($member), $this->access->connection->ldapLoginFilter),
+						str_replace('%uid', $this->access->escapeFilterPart($member), $this->access->connection->ldapLoginFilter),
 						$this->access->combineFilterWithAnd([
 							$this->access->getFilterPartForUserSearch($search),
 							$this->access->connection->ldapUserFilter
@@ -1040,7 +1040,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 				}
 				//we got uids, need to get their DNs to 'translate' them to user names
 				$filter = $this->access->combineFilterWithAnd([
-					str_replace('%uid', $member, $this->access->connection->ldapLoginFilter),
+					str_replace('%uid', $this->access->escapeFilterPart($member), $this->access->connection->ldapLoginFilter),
 					$this->access->getFilterPartForUserSearch($search)
 				]);
 				$ldap_users = $this->access->fetchListOfUsers($filter, ['dn'], 1);

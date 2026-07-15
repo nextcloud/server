@@ -53,6 +53,15 @@ class CalendarFederationProvider implements ICloudFederationProvider {
 			);
 		}
 
+		if (!$this->calendarFederationConfig->isIncomingServer2serverShareEnabled()) {
+			$this->logger->debug('Received a federated calendar share which is not allowed on this instance');
+			throw new ProviderCouldNotAddShareException(
+				'Instance does not support receiving federated calendar shares',
+				'',
+				Http::STATUS_SERVICE_UNAVAILABLE,
+			);
+		}
+
 		if (!in_array($share->getShareType(), $this->getSupportedShareTypes(), true)) {
 			$this->logger->debug('Received a federation invite for invalid share type');
 			throw new ProviderCouldNotAddShareException(

@@ -11,6 +11,7 @@ import { defineStore } from 'pinia'
 import Vue, { ref } from 'vue'
 import logger from '../logger.ts'
 import { fetchNode } from '../services/WebdavClient.ts'
+import { useActiveStore } from './active.ts'
 import { usePathsStore } from './paths.ts'
 
 /**
@@ -124,6 +125,12 @@ export const useFilesStore = defineStore('files', () => {
 		}, {} as FilesStore)
 
 		files.value = { ...files.value, ...newNodes }
+
+		// handle updating the active node
+		const activeStore = useActiveStore()
+		if (activeStore.activeNode && activeStore.activeNode.source in newNodes) {
+			activeStore.activeNode = files.value[activeStore.activeNode.source]
+		}
 	}
 
 	/**
@@ -232,7 +239,8 @@ export const useFilesStore = defineStore('files', () => {
 		}
 
 		// Otherwise, it means we receive an event for a node that is not in the store
-		fetchNode(node.path).then((n) => updateNodes([n]))
+		const newNode = await fetchNode(node.path)
+		updateNodes([newNode])
 	}
 
 	/**

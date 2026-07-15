@@ -249,18 +249,6 @@ class ShareController extends AuthPublicShareController {
 	 * @return bool
 	 */
 	private function validateShare(IShare $share) {
-		// If the owner is disabled no access to the link is granted
-		$owner = $this->userManager->get($share->getShareOwner());
-		if ($owner === null || !$owner->isEnabled()) {
-			return false;
-		}
-
-		// If the initiator of the share is disabled no access is granted
-		$initiator = $this->userManager->get($share->getSharedBy());
-		if ($initiator === null || !$initiator->isEnabled()) {
-			return false;
-		}
-
 		return $share->getNode()->isReadable() && $share->getNode()->isShareable();
 	}
 
@@ -405,7 +393,9 @@ class ShareController extends AuthPublicShareController {
 		}
 
 		$davUrl = '/public.php/dav/files/' . $token . $davPath;
-		$davUrl .= '?' . http_build_query($params);
+		if (!empty($params)) {
+			$davUrl .= '?' . http_build_query($params);
+		}
 		return new RedirectResponse($this->urlGenerator->getAbsoluteURL($davUrl));
 	}
 }

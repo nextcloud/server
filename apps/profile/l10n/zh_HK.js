@@ -1,6 +1,7 @@
 OC.L10N.register(
     "profile",
     {
+    "View profile" : "查看個人資料",
     "Profile picker" : "個人資料選擇器",
     "Profile" : "個人設定",
     "This application provides the profile" : "此應用提供個人資料",
@@ -17,7 +18,8 @@ OC.L10N.register(
     "Edit Profile" : "編輯個人設定",
     "The headline and about sections will show up here" : "標題與關於部份將在此顯示",
     "Profile not found" : "找不到個人資料",
-    "The profile does not exist." : "個人資料不存在",
-    "Back to %s" : "返回 %s"
+    "The profile does not exist or is unavailable." : "個人檔案不存在或無法使用。",
+    "Back to %s" : "返回 %s",
+    "The profile does not exist." : "個人資料不存在"
 },
 "nplurals=1; plural=0;");

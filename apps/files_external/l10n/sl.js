@@ -1,8 +1,8 @@
 OC.L10N.register(
     "files_external",
     {
-    "Forbidden to manage local mounts" : "Ni ustreznih dovoljenj za urejanje krajevnih priklopnih točk",
     "Storage with ID \"%d\" not found" : "Shrambe z ID »%d« ni mogoče najti.",
+    "Forbidden to manage local mounts" : "Ni ustreznih dovoljenj za urejanje krajevnih priklopnih točk",
     "Invalid backend or authentication mechanism class" : "Neveljaven ozadnji program oziroma razred mehanizma overitve",
     "Invalid mount point" : "Neveljavna priklopna točka",
     "Objectstore forbidden" : "Shranjevanje predmeta je prepovedano",

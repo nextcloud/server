@@ -86,7 +86,7 @@ OC.L10N.register(
     "Folder is loading" : "يتم تحميل المجلد...",
     "Filename" : "اسم الملف",
     "Folder name" : "اسم المجلد",
-    "This node is unavailable" : "هذه العُقْدَة node غير متوفرة ",
+    "unavailable" : "غير متاح",
     "Another entry with the same name already exists." : "توجد سلفاً إدخالية أخرى بنفس هذا الاسم.",
     "Invalid filename." : "اسم ملف غير صحيح.",
     "Rename file" : "إعادة تسمية الملف",
@@ -310,10 +310,7 @@ OC.L10N.register(
     "No recently modified files" : "لا توجد أي ملفات تمّ تعديلها مؤخراً",
     "Files and folders you recently modified will show up here." : "الملفات و المجلدات التي تمّ تعديلها مؤخراً ستظهر هنا.",
     "Search" : "بحث",
-    "No entries found in this folder" : "لا يوجد مدخلات في هذا المجلد ",
-    "Select all" : "تحديد الكل ",
-    "Upload too large" : "حجم الرفع أعلى من المسموح",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "حجم الملفات التي تريد رفعها أعلى من المسموح على الخادم.",
+    "This node is unavailable" : "هذه العُقْدَة node غير متوفرة ",
     "Renamed \"{oldName}\" to \"{newName}\"" : "تمت إعادة تسمية \"{oldName}\" إلى \"{newName}\"",
     "Clear filter" : "إزالة التصفية",
     "Submitting fields …" : "إرسال الحقول ...",
@@ -329,6 +326,10 @@ OC.L10N.register(
     "Tags" : "الوسوم",
     "Save as …" : "حفظ باسم ...",
     "Converting files …" : "تحويل الملفات ...",
-    "Converting file …" : "تحويل الملف ..."
+    "Converting file …" : "تحويل الملف ...",
+    "No entries found in this folder" : "لا يوجد مدخلات في هذا المجلد ",
+    "Select all" : "تحديد الكل ",
+    "Upload too large" : "حجم الرفع أعلى من المسموح",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "حجم الملفات التي تريد رفعها أعلى من المسموح على الخادم."
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

@@ -50,6 +50,7 @@ OC.L10N.register(
     "Thunderbird & Outlook addons" : "Thunderbird & Outlook tilføjelser",
     "Select groups" : "Vælg grupper",
     "Groups" : "Grupper",
+    "Active" : "Aktiv",
     "Save" : "Gem",
     "and" : "og",
     "Cancel" : "Annullér",

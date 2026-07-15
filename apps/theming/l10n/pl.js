@@ -113,8 +113,9 @@ OC.L10N.register(
     "Preview of the selected image" : "Podgląd wybranego obrazu",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {linkstart}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Uniwersalna dostępność jest dla nas bardzo ważna. Przestrzegamy standardów sieciowych i dbamy, aby wszystko było używalne także bez myszy, jak również z oprogramowaniem wspomagającym, takim jak czytniki ekranu. Dążymy do zgodności z Wytycznymi dotyczącymi {linkstart} dostępności treści internetowych (WCAG) {linkend} 2.1 na poziomie AA, a w przypadku motywów o wysokim kontraście nawet na poziomie AAA.",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Jeśli znajdziesz jakieś problemy, nie wahaj się zgłosić je na {issuetracker}listę błędów{linkend}. A jeśli chcesz się zaangażować, dołącz do {designteam}naszego zespołu projektowego{linkend}!",
-    "Unable to apply the setting." : "Nie można zastosować ustawienia.",
     "Appearance and accessibility settings" : "Ustawienia wyglądu i dostępności",
+    "Themes" : "Motyw",
+    "Fonts" : "Czcionki",
     "Misc accessibility options" : "Inne opcje dostępności",
     "Enable blur background filter (may increase GPU load)" : "Włącz filtr rozmycia tła (może zwiększyć obciążenie GPU)",
     "Customization has been disabled by your administrator" : "Dostosowanie zostało wyłączone przez administratora",
@@ -130,6 +131,7 @@ OC.L10N.register(
     "Background and login image" : "Obraz tła i logowania",
     "Advanced options" : "Opcje zaawansowane",
     "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Zainstaluj rozszerzenie ImageMagick PHP z obsługą obrazów SVG, aby automatycznie generować favikony na podstawie przesłanego logo i koloru.",
+    "Unable to apply the setting." : "Nie można zastosować ustawienia.",
     "No background has been selected" : "Nie wybrano tła",
     "Select a custom color" : "Wybierz kolor niestandardowy",
     "Upload" : "Wyślij"

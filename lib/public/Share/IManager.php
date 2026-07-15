@@ -290,7 +290,7 @@ interface IManager {
 	 * @since 9.0.0
 	 * @since 33.0.0 Added optional $user parameter
 	 */
-	public function shareApiAllowLinks(): bool;
+	public function shareApiAllowLinks(?IUser $user = null): bool;
 
 	/**
 	 * Is password on public link required

@@ -180,17 +180,21 @@ class AuthSettingsController extends Controller {
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}
 
+		$subject = Provider::APP_TOKEN_DELETED;
 		try {
 			$token = $this->findTokenByIdAndUser($id);
 		} catch (WipeTokenException $e) {
-			//continue as we can destroy tokens in wipe
+			// Deleting a wipe-pending token cancels the pending wipe; the device
+			// may already be uninstalled so we allow it, but record it under a
+			// distinct subject so the audit trail captures the consequence.
 			$token = $e->getToken();
+			$subject = Provider::APP_TOKEN_DELETED_WIPE_CANCELLED;
 		} catch (InvalidTokenException $e) {
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		}
 
 		$this->tokenProvider->invalidateTokenById($this->userId, $token->getId());
-		$this->publishActivity(Provider::APP_TOKEN_DELETED, $token->getId(), ['name' => $token->getName()]);
+		$this->publishActivity($subject, $token->getId(), ['name' => $token->getName()]);
 		return [];
 	}
 

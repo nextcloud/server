@@ -90,7 +90,7 @@ OC.L10N.register(
     "Folder is loading" : "Mappen lastes inn",
     "Filename" : "Filnavn",
     "Folder name" : "Mappenavn",
-    "This node is unavailable" : "Denne noden er utilgjengelig",
+    "unavailable" : "ikke ledig",
     "Another entry with the same name already exists." : "En annen oppføring med samme navnet finnes allerede.",
     "Invalid filename." : "Ugyldig filnavn.",
     "Rename file" : "Gi fil nytt navn",
@@ -358,10 +358,7 @@ OC.L10N.register(
     "Files and folders you recently modified will show up here." : "Filer og mapper du nylig har endret, vises her.",
     "Search" : "Søk",
     "Search results within your files." : "Søkeresultater innenfor dine filer.",
-    "No entries found in this folder" : "Ingen oppføringer funnet i denne mappen",
-    "Select all" : "Velg alle",
-    "Upload too large" : "Filen er for stor",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Filene du prøver å laste opp er for store til å laste opp til denne serveren.",
+    "This node is unavailable" : "Denne noden er utilgjengelig",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Omdøpte \"{oldName}\" tl \"{newName}\"",
     "Clear filter" : "Tøm filter",
     "Open file sidebar" : "Åpne sidepanelet for fil",
@@ -381,6 +378,10 @@ OC.L10N.register(
     "Tags" : "Merkelapper",
     "Save as …" : "Lagre som ...",
     "Converting files …" : "Konverter filer ...",
-    "Converting file …" : "Konverterer filer ..."
+    "Converting file …" : "Konverterer filer ...",
+    "No entries found in this folder" : "Ingen oppføringer funnet i denne mappen",
+    "Select all" : "Velg alle",
+    "Upload too large" : "Filen er for stor",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Filene du prøver å laste opp er for store til å laste opp til denne serveren."
 },
 "nplurals=2; plural=(n != 1);");

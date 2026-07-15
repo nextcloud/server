@@ -90,7 +90,7 @@ OC.L10N.register(
     "Folder is loading" : "ھۆججەت قىسقۇچ يۈكلىنىۋاتىدۇ",
     "Filename" : "ھۆججەت ئىسمى",
     "Folder name" : "قىسقۇچ ئاتى",
-    "This node is unavailable" : "بۇ تۈگۈننى ئىشلەتكىلى بولمايدۇ",
+    "unavailable" : "ئىشلەتكىلى بولمايدۇ",
     "Another entry with the same name already exists." : "ئوخشاش ئىسىمدىكى يەنە بىر تۈر بار.",
     "Invalid filename." : "ئىناۋەتسىز ھۆججەت ئىسمى.",
     "Rename file" : "ھۆججەتنىڭ نامىنى ئۆزگەرتىش",
@@ -378,10 +378,7 @@ OC.L10N.register(
     "Files and folders you recently modified will show up here." : "سىز يېقىندا ئۆزگەرتكەن ھۆججەت ۋە ھۆججەت قىسقۇچلار بۇ يەردە كۆرۈنىدۇ.",
     "Search" : "ئىزدەش",
     "Search results within your files." : "ھۆججەتلىرىڭىزدىكى ئىزدەش نەتىنجىسى",
-    "No entries found in this folder" : "بۇ ھۆججەت قىسقۇچتا ھېچقانداق مەزمۇن تېپىلمىدى",
-    "Select all" : "ھەممىنى تاللاڭ",
-    "Upload too large" : "يۈكلەندىغىنى بەك چوڭ",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "سىز يۈكلىمەكچى بولغان ھۆججەتلەر بۇ مۇلازىمېتىردا ھۆججەت يوللاشنىڭ ئەڭ چوڭ چوڭلۇقىدىن ئېشىپ كەتتى.",
+    "This node is unavailable" : "بۇ تۈگۈننى ئىشلەتكىلى بولمايدۇ",
     "Renamed \"{oldName}\" to \"{newName}\"" : "\"{oldName}\" غا \"{newName}\" غا ئۆزگەرتىلدى",
     "Clear filter" : "سۈزگۈچنى تازىلاش",
     "Open file sidebar" : "ھۆججەت يانبالداقنى ئاچ",
@@ -401,6 +398,10 @@ OC.L10N.register(
     "Tags" : "بەلگەلەر",
     "Save as …" : "سۈپىتىدە ساقلا ...",
     "Converting files …" : "ھۆججەتنى ئايلاندۇرۋاتىدۇ ...",
-    "Converting file …" : "ھۆججەتنى ئايلاندۇرۋاتىدۇ ..."
+    "Converting file …" : "ھۆججەتنى ئايلاندۇرۋاتىدۇ ...",
+    "No entries found in this folder" : "بۇ ھۆججەت قىسقۇچتا ھېچقانداق مەزمۇن تېپىلمىدى",
+    "Select all" : "ھەممىنى تاللاڭ",
+    "Upload too large" : "يۈكلەندىغىنى بەك چوڭ",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "سىز يۈكلىمەكچى بولغان ھۆججەتلەر بۇ مۇلازىمېتىردا ھۆججەت يوللاشنىڭ ئەڭ چوڭ چوڭلۇقىدىن ئېشىپ كەتتى."
 },
 "nplurals=2; plural=(n != 1);");

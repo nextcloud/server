@@ -98,8 +98,9 @@
     "Reset to default" : "Επαναφορά στα προεπιλεγμένα",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {linkstart}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Η καθολική πρόσβαση είναι πολύ σημαντική για εμάς. Ακολουθούμε τα πρότυπα του ιστού και ελέγχουμε ώστε όλα να είναι χρησιμοποιήσιμα και χωρίς ποντίκι, καθώς και με βοηθητικό λογισμικό όπως αναγνώστες οθόνης. Στόχος μας είναι να συμμορφωνόμαστε με τις {linkstart}Οδηγίες Προσβασιμότητας Περιεχομένου Ιστού{linkend} 2.1 σε επίπεδο AA, ενώ με το θέμα υψηλής αντίθεσης φτάνουμε ακόμα και σε επίπεδο AAA.",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Εάν εντοπίσετε οποιοδήποτε πρόβλημα, μη διστάσετε να το αναφέρετε στον {issuetracker}ιχνηλάτη ζητημάτων μας{linkend}. Και εάν θέλετε να συμμετέχετε, ελάτε στην {designteam}ομάδα σχεδιασμού μας{linkend}!",
-    "Unable to apply the setting." : "Αδυναμία εφαρμογής της ρύθμισης.",
     "Appearance and accessibility settings" : "Ρυθμίσεις εμφάνισης και προσβασιμότητας",
+    "Themes" : "Θέματα",
+    "Fonts" : "Γραμματοσειρές",
     "Misc accessibility options" : "Διάφορες επιλογές προσβασιμότητας",
     "Enable blur background filter (may increase GPU load)" : "Ενεργοποίηση φίλτρου θολής εμφάνισης παρασκηνίου (ενδέχεται να αυξήσει το φορτίο της GPU)",
     "Customization has been disabled by your administrator" : "Η προσαρμογή έχει απενεργοποιηθεί από τον διαχειριστή σας",
@@ -115,6 +116,7 @@
     "Background and login image" : "Παρασκήνιο και εικόνα εισόδου",
     "Advanced options" : "Επιλογές για προχωρημένους",
     "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Εγκαταστήστε την επέκταση ImageMagick για PHP με υποστήριξη για εικόνες SVG για να δημιουργούνται αυτόματα favicons βασισμένα στο λογότυπο και το χρώμα που ανεβάζετε.",
+    "Unable to apply the setting." : "Αδυναμία εφαρμογής της ρύθμισης.",
     "No background has been selected" : "Δεν έχει επιλεγεί παρασκήνιο",
     "Select a custom color" : "Επιλογή προσαρμοσμένου χρώματος",
     "Upload" : "Μεταφόρτωση"

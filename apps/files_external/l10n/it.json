@@ -1,8 +1,8 @@
 { "translations": {
     "You are not logged in" : "Non hai effettuato l'accesso",
     "Permission denied" : "Permesso negato",
-    "Forbidden to manage local mounts" : "Gestione dei mount locali proibita",
     "Storage with ID \"%d\" not found" : "Archiviazione con ID \"%d\" non trovata",
+    "Forbidden to manage local mounts" : "Gestione dei mount locali proibita",
     "Invalid backend or authentication mechanism class" : "Motore o classe del meccanismo di autenticazione non valido",
     "Invalid mount point" : "Punto di mount non valido",
     "Objectstore forbidden" : "Objectstore vietato",

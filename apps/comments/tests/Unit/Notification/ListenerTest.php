@@ -26,6 +26,7 @@ class ListenerTest extends TestCase {
 	protected IURLGenerator&MockObject $urlGenerator;
 	protected Listener $listener;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

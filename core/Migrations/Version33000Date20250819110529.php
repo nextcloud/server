@@ -18,8 +18,9 @@ use OCP\Migration\SimpleMigrationStep;
 /**
  *
  */
-#[CreateTable(table: 'preview', description: 'Holds the preview data')]
 #[CreateTable(table: 'preview_locations', description: 'Holds the preview location in an object store')]
+#[CreateTable(table: 'preview_versions', description: 'Holds the preview version data')]
+#[CreateTable(table: 'previews', description: 'Holds the preview data')]
 class Version33000Date20250819110529 extends SimpleMigrationStep {
 
 	/**

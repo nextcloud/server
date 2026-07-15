@@ -91,7 +91,7 @@ OC.L10N.register(
     "Folder is loading" : "Ο φάκελος φορτώνεται",
     "Filename" : "Όνομα αρχείου",
     "Folder name" : "Όνομα φακέλου",
-    "This node is unavailable" : "Αυτός ο κόμβος δεν είναι διαθέσιμος",
+    "unavailable" : "μη διαθέσιμο",
     "Another entry with the same name already exists." : "Μια άλλη καταχώρηση με το ίδιο όνομα υπάρχει ήδη.",
     "Invalid filename." : "Μη έγκυρο όνομα αρχείου",
     "Rename file" : "Μετονομασία αρχείου",
@@ -386,10 +386,7 @@ OC.L10N.register(
     "Files and folders you recently modified will show up here." : "Εδώ θα εμφανίζονται τα αρχεία και οι φάκελοι που τροποποιήσατε πρόσφατα.",
     "Search" : "Αναζήτηση",
     "Search results within your files." : "Αποτελέσματα αναζήτησης στα αρχεία σας.",
-    "No entries found in this folder" : "Δεν βρέθηκαν καταχωρήσεις σε αυτόν τον φάκελο",
-    "Select all" : "Επιλογή όλων",
-    "Upload too large" : "Πολύ μεγάλο αρχείο προς μεταφόρτωση",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Τα αρχεία που προσπαθείτε να μεταφορτώσετε υπερβαίνουν το μέγιστο μέγεθος μεταφόρτωσης αρχείων σε αυτόν τον διακομιστή.",
+    "This node is unavailable" : "Αυτός ο κόμβος δεν είναι διαθέσιμος",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Μετονομασία του \"{oldName}\" σε \"{newName}\"",
     "Clear filter" : "Εκκαθάριση φίλτρου",
     "Open file sidebar" : "Άνοιγμα πλευρικής μπάρας αρχείου",
@@ -409,6 +406,10 @@ OC.L10N.register(
     "Tags" : "Ετικέτες",
     "Save as …" : "Αποθήκευση ως …",
     "Converting files …" : "Μετατροπή αρχείων …",
-    "Converting file …" : "Μετατροπή αρχείου …"
+    "Converting file …" : "Μετατροπή αρχείου …",
+    "No entries found in this folder" : "Δεν βρέθηκαν καταχωρήσεις σε αυτόν τον φάκελο",
+    "Select all" : "Επιλογή όλων",
+    "Upload too large" : "Πολύ μεγάλο αρχείο προς μεταφόρτωση",
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Τα αρχεία που προσπαθείτε να μεταφορτώσετε υπερβαίνουν το μέγιστο μέγεθος μεταφόρτωσης αρχείων σε αυτόν τον διακομιστή."
 },
 "nplurals=2; plural=(n != 1);");

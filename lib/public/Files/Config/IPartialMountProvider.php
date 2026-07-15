@@ -50,6 +50,7 @@ interface IPartialMountProvider extends IMountProvider {
 	 *                                                             in the scope of the setup request.
 	 * @param IStorageFactory $loader
 	 * @return array<string, IMountPoint> IMountPoint instances, indexed by mount-point
+	 * @since 33.0.0
 	 */
 	public function getMountsForPath(
 		string $setupPathHint,

@@ -124,7 +124,11 @@ class Cache extends CacheJail {
 	protected function formatCacheEntry($entry, $path = null) {
 		if (is_null($path)) {
 			$path = $entry['path'] ?? '';
-			$entry['path'] = $this->getJailedPath($path);
+			$jailedPath = $this->getJailedPath($path);
+			if ($jailedPath === null) {
+				return false;
+			}
+			$entry['path'] = $jailedPath;
 		} else {
 			$entry['path'] = $path;
 		}

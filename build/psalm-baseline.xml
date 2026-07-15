@@ -44,6 +44,9 @@
     <DeprecatedConstant>
       <code><![CDATA[CommentsEvent::EVENT_ADD]]></code>
     </DeprecatedConstant>
+    <DeprecatedMethod>
+      <code><![CDATA[getEvent]]></code>
+    </DeprecatedMethod>
   </file>
   <file src="apps/comments/lib/Listener/CommentsEventListener.php">
     <DeprecatedConstant>
@@ -52,6 +55,10 @@
       <code><![CDATA[CommentsEvent::EVENT_PRE_UPDATE]]></code>
       <code><![CDATA[CommentsEvent::EVENT_UPDATE]]></code>
     </DeprecatedConstant>
+    <DeprecatedMethod>
+      <code><![CDATA[getEvent]]></code>
+      <code><![CDATA[getEvent]]></code>
+    </DeprecatedMethod>
   </file>
   <file src="apps/comments/lib/MaxAutoCompleteResultsInitialState.php">
     <DeprecatedMethod>
@@ -63,6 +70,10 @@
       <code><![CDATA[CommentsEvent::EVENT_DELETE]]></code>
       <code><![CDATA[CommentsEvent::EVENT_PRE_UPDATE]]></code>
     </DeprecatedConstant>
+    <DeprecatedMethod>
+      <code><![CDATA[getEvent]]></code>
+      <code><![CDATA[getEvent]]></code>
+    </DeprecatedMethod>
   </file>
   <file src="apps/dav/appinfo/v1/publicwebdav.php">
     <InternalMethod>
@@ -2222,7 +2233,6 @@
   <file src="apps/provisioning_api/lib/Middleware/ProvisioningApiMiddleware.php">
     <DeprecatedMethod>
       <code><![CDATA[hasAnnotation]]></code>
-      <code><![CDATA[hasAnnotation]]></code>
     </DeprecatedMethod>
     <InvalidReturnType>
       <code><![CDATA[Response]]></code>
@@ -2903,11 +2913,7 @@
     <DeprecatedMethod>
       <code><![CDATA[\OC_App::getAllApps()]]></code>
       <code><![CDATA[getFilteredValues]]></code>
-      <code><![CDATA[getValues]]></code>
     </DeprecatedMethod>
-    <FalsableReturnStatement>
-      <code><![CDATA[$this->appConfig->getValues($app, false)]]></code>
-    </FalsableReturnStatement>
   </file>
   <file src="core/Command/Db/ConvertType.php">
     <DeprecatedMethod>
@@ -3860,7 +3866,7 @@
   </file>
   <file src="lib/private/Group/Manager.php">
     <LessSpecificReturnStatement>
-      <code><![CDATA[$groups]]></code>
+      <code><![CDATA[$this->getGroupsObjects($groupIds)]]></code>
     </LessSpecificReturnStatement>
     <MoreSpecificReturnType>
       <code><![CDATA[\OC\Group\Group[]]]></code>
@@ -4186,9 +4192,6 @@
     <InternalMethod>
       <code><![CDATA[getAbsolutePath]]></code>
     </InternalMethod>
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[getQuota]]></code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/legacy/OC_User.php">
     <UndefinedClass>

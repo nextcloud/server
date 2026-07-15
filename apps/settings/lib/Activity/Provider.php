@@ -27,6 +27,7 @@ class Provider implements IProvider {
 	public const EMAIL_CHANGED = 'email_changed';
 	public const APP_TOKEN_CREATED = 'app_token_created';
 	public const APP_TOKEN_DELETED = 'app_token_deleted';
+	public const APP_TOKEN_DELETED_WIPE_CANCELLED = 'app_token_deleted_wipe_cancelled';
 	public const APP_TOKEN_RENAMED = 'app_token_renamed';
 	public const APP_TOKEN_FILESYSTEM_GRANTED = 'app_token_filesystem_granted';
 	public const APP_TOKEN_FILESYSTEM_REVOKED = 'app_token_filesystem_revoked';
@@ -85,6 +86,8 @@ class Provider implements IProvider {
 			}
 		} elseif ($event->getSubject() === self::APP_TOKEN_DELETED) {
 			$subject = $this->l->t('You deleted app password "{token}"');
+		} elseif ($event->getSubject() === self::APP_TOKEN_DELETED_WIPE_CANCELLED) {
+			$subject = $this->l->t('You deleted app password "{token}" and cancelled its pending remote wipe');
 		} elseif ($event->getSubject() === self::APP_TOKEN_RENAMED) {
 			$subject = $this->l->t('You renamed app password "{token}" to "{newToken}"');
 		} elseif ($event->getSubject() === self::APP_TOKEN_FILESYSTEM_GRANTED) {
@@ -124,6 +127,7 @@ class Provider implements IProvider {
 				];
 			case self::APP_TOKEN_CREATED:
 			case self::APP_TOKEN_DELETED:
+			case self::APP_TOKEN_DELETED_WIPE_CANCELLED:
 			case self::APP_TOKEN_FILESYSTEM_GRANTED:
 			case self::APP_TOKEN_FILESYSTEM_REVOKED:
 				return [

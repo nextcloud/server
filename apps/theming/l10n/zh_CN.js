@@ -113,8 +113,9 @@ OC.L10N.register(
     "Preview of the selected image" : "预览所选图片",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {linkstart}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "通用访问对我们非常重要。我们遵循网络标准，并进行检查以确保所有内容都可以在没有鼠标或辅助软件（例如屏幕阅读器）的情况下使用。我们的目标是达到 {linkstart}Web 内容可访问性指南 {linkend} 2.1 中的 AA 级别，并另外通过高对比度主题达到 AAA 级别。",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "如果你发现任何问题，请随时在{issuetracker}我们的问题跟踪器{linkend}上报告。 如果你想参与其中，请加入{designteam}我们的设计团队{linkend}！",
-    "Unable to apply the setting." : "无法应用设置。",
     "Appearance and accessibility settings" : "外观和辅助功能设置",
+    "Themes" : "主题",
+    "Fonts" : "字体",
     "Misc accessibility options" : "其他辅助功能选项",
     "Enable blur background filter (may increase GPU load)" : "启用模糊背景滤镜（可能会增加 GPU 负载）",
     "Customization has been disabled by your administrator" : "管理员已禁用自定义功能",
@@ -130,6 +131,7 @@ OC.L10N.register(
     "Background and login image" : "登录界面与背景图片",
     "Advanced options" : "高级选项",
     "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "安装支持 SVG 图像的 PHP 扩展 ImageMagick，以根据上传的 logo 和颜色自动生成图标。",
+    "Unable to apply the setting." : "无法应用设置。",
     "No background has been selected" : "未选择背景",
     "Select a custom color" : "自定义颜色",
     "Upload" : "上传"

@@ -1,6 +1,7 @@
 OC.L10N.register(
     "profile",
     {
+    "View profile" : "View profile",
     "Profile picker" : "Profile picker",
     "Profile" : "Profile",
     "This application provides the profile" : "This application provides the profile",
@@ -17,7 +18,7 @@ OC.L10N.register(
     "Edit Profile" : "Edit Profile",
     "The headline and about sections will show up here" : "The headline and about sections will show up here",
     "Profile not found" : "Profile not found",
-    "The profile does not exist." : "The profile does not exist.",
-    "Back to %s" : "Back to %s"
+    "Back to %s" : "Back to %s",
+    "The profile does not exist." : "The profile does not exist."
 },
 "nplurals=2; plural=(n != 1);");

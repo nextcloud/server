@@ -34,7 +34,7 @@ final readonly class SnowflakeGenerator implements ISnowflakeGenerator {
 		// Relative time
 		[$seconds, $milliseconds] = $this->getCurrentTime();
 
-		$serverId = $this->getServerId() & 0x1FF; // Keep 9 bits
+		$serverId = $this->getServerId(); // Already 9 bits
 		$isCli = (int)$this->isCli(); // 1 bit
 		$sequenceId = $this->sequenceGenerator->nextId($seconds, $milliseconds, $serverId); //  12 bits
 		if ($sequenceId > 0xFFF || $sequenceId === false) {
@@ -104,12 +104,20 @@ final readonly class SnowflakeGenerator implements ISnowflakeGenerator {
 
 	/**
 	 * Return configured serverid or generate one if not set
+	 *
+	 * @return int<0,511>
 	 */
 	private function getServerId(): int {
 		$serverid = $this->config->getSystemValueInt('serverid', -1);
-		return $serverid > 0
-			? $serverid
-			: crc32(gethostname() ?: random_bytes(8));
+		if ($serverid < 1) {
+			// Fallback: generates a server ID based on hostname
+			// or random bytes if hostname isn't available
+			/** @var int<0,max> */
+			$serverid = hexdec(hash('xxh32', gethostname() ?: random_bytes(8)));
+		}
+
+		/** @var int<0,511> */
+		return $serverid & 0x1FF;
 	}
 
 	private function isCli(): bool {

@@ -7,9 +7,9 @@
     "yesterday" : "Ayer",
     "last month" : "Zaguero mes",
     "last year" : "Zaguero anyo",
+    "Email" : "Correu electronico",
     "Apps" : "Aplicacions",
     "Settings" : "Configuración",
-    "Accounts" : "Accounts",
-    "Email" : "Correu electronico"
+    "Accounts" : "Accounts"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

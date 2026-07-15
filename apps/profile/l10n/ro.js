@@ -1,6 +1,7 @@
 OC.L10N.register(
     "profile",
     {
+    "View profile" : "Vezi profilul",
     "Not found" : "Nu a fost găsit",
     "You have not added any info yet" : "Nu ați adăugat nicio informație",
     "{user} has not added any info yet" : "{user} nu a adăugat nicio informație",
@@ -8,7 +9,7 @@ OC.L10N.register(
     "Edit Profile" : "Editare profil",
     "The headline and about sections will show up here" : "Secțiunile titlu și despre vor fi afișate aici",
     "Profile not found" : "Profil inexistent",
-    "The profile does not exist." : "Profilul nu există",
-    "Back to %s" : "Înapoi la %s"
+    "Back to %s" : "Înapoi la %s",
+    "The profile does not exist." : "Profilul nu există"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

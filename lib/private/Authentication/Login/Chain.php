@@ -21,7 +21,6 @@ class Chain {
 		private SetUserTimezoneCommand $setUserTimezoneCommand,
 		private TwoFactorCommand $twoFactorCommand,
 		private FinishRememberedLoginCommand $finishRememberedLoginCommand,
-		private FlowV2EphemeralSessionsCommand $flowV2EphemeralSessionsCommand,
 	) {
 	}
 
@@ -32,7 +31,6 @@ class Chain {
 			->setNext($this->uidLoginCommand)
 			->setNext($this->loggedInCheckCommand)
 			->setNext($this->completeLoginCommand)
-			->setNext($this->flowV2EphemeralSessionsCommand)
 			->setNext($this->createSessionTokenCommand)
 			->setNext($this->clearLostPasswordTokensCommand)
 			->setNext($this->updateLastPasswordConfirmCommand)

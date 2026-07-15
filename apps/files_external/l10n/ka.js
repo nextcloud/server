@@ -1,8 +1,8 @@
 OC.L10N.register(
     "files_external",
     {
-    "Forbidden to manage local mounts" : "Forbidden to manage local mounts",
     "Storage with ID \"%d\" not found" : "Storage with ID \"%d\" not found",
+    "Forbidden to manage local mounts" : "Forbidden to manage local mounts",
     "Invalid backend or authentication mechanism class" : "Invalid backend or authentication mechanism class",
     "Invalid mount point" : "Invalid mount point",
     "Objectstore forbidden" : "Objectstore forbidden",

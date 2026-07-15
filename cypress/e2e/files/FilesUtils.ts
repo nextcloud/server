@@ -10,8 +10,10 @@ const ACTION_COPY_MOVE = 'move-copy'
 export const getRowForFileId = (fileid: string | number) => cy.get(`[data-cy-files-list-row-fileid="${fileid}"]`)
 export const getRowForFile = (filename: string) => cy.get(`[data-cy-files-list-row-name="${CSS.escape(filename)}"]`)
 
-export const getActionsForFileId = (fileid: number) => getRowForFileId(fileid).find('[data-cy-files-list-row-actions]')
-export const getActionsForFile = (filename: string) => getRowForFile(filename).find('[data-cy-files-list-row-actions]')
+// Atomic query so the lookup is retried as a whole when rows re-render
+// (chained .find() can fail with "subject no longer attached" mid-render).
+export const getActionsForFileId = (fileid: number) => cy.get(`[data-cy-files-list-row-fileid="${fileid}"] [data-cy-files-list-row-actions]`)
+export const getActionsForFile = (filename: string) => cy.get(`[data-cy-files-list-row-name="${CSS.escape(filename)}"] [data-cy-files-list-row-actions]`)
 
 export const getActionButtonForFileId = (fileid: number) => getActionsForFileId(fileid).findByRole('button', { name: 'Actions' })
 export const getActionButtonForFile = (filename: string) => getActionsForFile(filename).findByRole('button', { name: 'Actions' })
@@ -48,8 +50,7 @@ export function getActionEntryForFile(file: string, actionId: string) {
  * @param actionId
  */
 export function getInlineActionEntryForFileId(fileid: number, actionId: string) {
-	return getActionsForFileId(fileid)
-		.find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
+	return cy.get(`[data-cy-files-list-row-fileid="${fileid}"] [data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
 }
 
 /**
@@ -58,8 +59,7 @@ export function getInlineActionEntryForFileId(fileid: number, actionId: string) 
  * @param actionId
  */
 export function getInlineActionEntryForFile(file: string, actionId: string) {
-	return getActionsForFile(file)
-		.find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
+	return cy.get(`[data-cy-files-list-row-name="${CSS.escape(file)}"] [data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
 }
 
 /**

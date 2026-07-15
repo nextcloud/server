@@ -1,6 +1,7 @@
 OC.L10N.register(
     "profile",
     {
+    "View profile" : "Visualitza el perfil",
     "Searching …" : "Cercant …",
     "Not found" : "No s'ha trobat",
     "Insert" : "Insereix",
@@ -10,7 +11,7 @@ OC.L10N.register(
     "Edit Profile" : "Edita el perfil",
     "The headline and about sections will show up here" : "La capçalera i les seccions d'informació es mostraran aquí",
     "Profile not found" : "No s'ha trobat el perfil",
-    "The profile does not exist." : "El perfil no existeix.",
-    "Back to %s" : "Torna a %s"
+    "Back to %s" : "Torna a %s",
+    "The profile does not exist." : "El perfil no existeix."
 },
 "nplurals=2; plural=(n != 1);");

@@ -3,8 +3,8 @@ OC.L10N.register(
     {
     "You are not logged in" : "Anda belum masuk",
     "Permission denied" : "Izin ditolak",
-    "Forbidden to manage local mounts" : "Dilarang mengelola mount lokal",
     "Storage with ID \"%d\" not found" : "Penyimpanan dengan ID \"%d\" tidak ditemukan",
+    "Forbidden to manage local mounts" : "Dilarang mengelola mount lokal",
     "Invalid backend or authentication mechanism class" : "Beckend atau kelas mekanisme otentikasi salah",
     "Invalid mount point" : "Mount point salah",
     "Objectstore forbidden" : "Objectstore terlarang",

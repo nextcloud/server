@@ -16,6 +16,7 @@ class CommentersSorterTest extends TestCase {
 	protected ICommentsManager&MockObject $commentsManager;
 	protected CommentersSorter $sorter;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

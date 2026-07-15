@@ -37,6 +37,7 @@ interface IProvider {
 		int $type = OCPIToken::TEMPORARY_TOKEN,
 		int $remember = OCPIToken::DO_NOT_REMEMBER,
 		?array $scope = null,
+		?int $expires = null,
 	): OCPIToken;
 
 	/**

@@ -77,6 +77,8 @@ OC.L10N.register(
     "Reset to default" : "기본값으로 초기화",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "사용 중 문제가 발생했을 경우, {issuetracker}이슈 트래커{linkend}에 보고해주시기 바랍니다. 또한 디자인 부분에 참여하고 싶다면, {designteam}저희 디자인 팀{linkend}과 함께해주세요!",
     "Appearance and accessibility settings" : "외형과 접근성 설정",
+    "Themes" : "테마",
+    "Fonts" : "글꼴",
     "Header logo" : "머리글 로고",
     "Upload new header logo" : "새 머리글 로고 업로드",
     "Upload new favicon" : "새 파비콘 업로드",

@@ -1,6 +1,7 @@
 OC.L10N.register(
     "profile",
     {
+    "View profile" : "Открыть профиль",
     "Profile picker" : "Выбор профиля",
     "Profile" : "Профиль",
     "This application provides the profile" : "Это приложение предоставляет профиль",
@@ -17,7 +18,8 @@ OC.L10N.register(
     "Edit Profile" : "Редактирование профиля",
     "The headline and about sections will show up here" : "Разделы \"Заголовок\" и \"О вас\" будут отображаться здесь",
     "Profile not found" : "Профиль не найден",
-    "The profile does not exist." : "Профиль не существует",
-    "Back to %s" : "Вернуться к %s"
+    "The profile does not exist or is unavailable." : "Профиль не существует или недоступен.",
+    "Back to %s" : "Вернуться к %s",
+    "The profile does not exist." : "Профиль не существует"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

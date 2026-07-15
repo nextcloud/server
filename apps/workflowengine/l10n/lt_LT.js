@@ -52,7 +52,7 @@ OC.L10N.register(
     "Audio" : "Garso įrašai",
     "Folder" : "Aplankas",
     "Images" : "Paveikslai",
-    "Office documents" : "Ofiso dokumentai",
+    "Office documents" : "„BIuro“ dokumentai",
     "PDF documents" : "PDF dokumentai",
     "Video" : "Vaizdo įrašas",
     "Custom MIME type" : "Tinkintas MIME tipas",

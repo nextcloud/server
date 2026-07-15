@@ -109,7 +109,7 @@ class OCSAuthAPIController extends OCSController {
 			$this->logger->info(
 				'remote server (' . $url . ') presented lower token. We will initiate the exchange of the shared secret.'
 			);
-			throw new OCSForbiddenException();
+			return new DataResponse();
 		}
 
 		$this->jobList->add(

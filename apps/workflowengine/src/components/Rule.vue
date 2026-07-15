@@ -30,7 +30,7 @@
 		</div>
 		<div class="flow-icon icon-confirm" />
 		<div class="action">
-			<Operation :operation="operation" :colored="false">
+			<Operation :operation="operation">
 				<component
 					:is="operation.element"
 					v-if="operation.element"

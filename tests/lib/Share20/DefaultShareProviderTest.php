@@ -660,6 +660,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share->method('getId')->willReturn($id);
 
 		$children = $this->provider->getChildren($share);
+		usort($children, fn (IShare $a, IShare $b) => $a->getId() <=> $b->getId());
 
 		$this->assertCount(2, $children);
 
@@ -2269,12 +2270,18 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$share = $this->provider->getShareById($id, 'user0');
 		$this->assertSame('/newTarget', $share->getTarget());
+		// The USERGROUP subshare created on first move must be STATUS_ACCEPTED so
+		// MountProvider does not skip it (default DB value is STATUS_PENDING=0).
+		$this->assertSame(IShare::STATUS_ACCEPTED, $share->getStatus());
 
 		$share->setTarget('/ultraNewTarget');
 		$this->provider->move($share, 'user0');
 
 		$share = $this->provider->getShareById($id, 'user0');
 		$this->assertSame('/ultraNewTarget', $share->getTarget());
+		// Second move hits the UPDATE branch (USERGROUP subshare already exists).
+		// STATUS_ACCEPTED must be preserved — the UPDATE only touches file_target.
+		$this->assertSame(IShare::STATUS_ACCEPTED, $share->getStatus());
 	}
 
 	public static function dataDeleteUser(): array {
@@ -2640,6 +2647,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertSame(IShare::TYPE_USER, $file_shares[0]->getShareType());
 
 		$folder_shares = $result[$folder2->getId()];
+		usort($folder_shares, fn (IShare $a, IShare $b) => $a->getId() <=> $b->getId());
 		$this->assertCount(2, $folder_shares);
 		$this->assertSame($folder2->getId(), $folder_shares[0]->getNodeId());
 		$this->assertSame($folder2->getId(), $folder_shares[1]->getNodeId());
@@ -3100,6 +3108,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->willReturn(1);
 
 		$shares = $this->provider->getSharesByPath($node);
+		usort($shares, fn (IShare $a, IShare $b) => $a->getId() <=> $b->getId());
 		$this->assertCount(3, $shares);
 
 		$this->assertEquals($id1, $shares[0]->getId());

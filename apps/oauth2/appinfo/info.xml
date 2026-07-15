@@ -35,6 +35,8 @@
 
 	<commands>
 		<command>OCA\OAuth2\Command\ImportLegacyOcClient</command>
+		<command>OCA\OAuth2\Command\AddClient</command>
+		<command>OCA\OAuth2\Command\DeleteClient</command>
 	</commands>
 
 	<settings>

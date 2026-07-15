@@ -1,6 +1,7 @@
 OC.L10N.register(
     "profile",
     {
+    "View profile" : "View profile",
     "Profile" : "Profil",
     "This application provides the profile" : "Ushbu ilova profilni taqdim etadi",
     "Provides a customisable user profile interface." : "Moslashtirilgan foydalanuvchi Profil interfeysini taqdim etadi.",
@@ -11,7 +12,7 @@ OC.L10N.register(
     "Edit Profile" : "Profilni Tahrirlash",
     "The headline and about sections will show up here" : "The headline and about sections will show up here",
     "Profile not found" : "Profil topilmadi",
-    "The profile does not exist." : "Profil mavjud emas.",
-    "Back to %s" : "%sga qaytish"
+    "Back to %s" : "%sga qaytish",
+    "The profile does not exist." : "Profil mavjud emas."
 },
 "nplurals=1; plural=0;");

@@ -1,6 +1,7 @@
 OC.L10N.register(
     "profile",
     {
+    "View profile" : "Näytä profiili",
     "Profile picker" : "Profiilivalitsin",
     "Profile" : "Profiili",
     "Searching …" : "Haetaan …",
@@ -14,7 +15,7 @@ OC.L10N.register(
     "Edit Profile" : "Muokkaa profiilia",
     "The headline and about sections will show up here" : "Otsikko ja listätieto-osiot näkyvät tässä",
     "Profile not found" : "Profiilia ei löytynyt",
-    "The profile does not exist." : "Profiilia ei ole olemassa",
-    "Back to %s" : "Takaisin kohtaan %s"
+    "Back to %s" : "Takaisin kohtaan %s",
+    "The profile does not exist." : "Profiilia ei ole olemassa"
 },
 "nplurals=2; plural=(n != 1);");

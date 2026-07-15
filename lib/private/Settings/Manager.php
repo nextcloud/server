@@ -328,6 +328,7 @@ class Manager implements IManager {
 	 */
 	public function getAdminDelegatedSettings(): array {
 		$sections = $this->getAdminSections();
+		$sections[self::SETTINGS_DELEGATION] = $this->getSections(self::SETTINGS_DELEGATION);
 		$settings = [];
 		foreach ($sections as $sectionPriority) {
 			foreach ($sectionPriority as $section) {

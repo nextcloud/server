@@ -190,7 +190,7 @@ export default defineComponent({
 				return
 			}
 
-			let validity = getFilenameValidity(newName)
+			let validity = getFilenameValidity(newName, false, this.source.type === FileType.Folder)
 			// Checking if already exists
 			if (validity === '' && this.checkIfNodeExists(newName)) {
 				validity = t('files', 'Another entry with the same name already exists.')

@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Log out" : "Cerrar sesión",
     "Please select a file." : "Por favor selecciona un archivo.",
     "File is too big" : "El archivo es demasiado grande.",
     "The selected file is not an image." : "El archivo seleccionado no es una imagen.",
@@ -69,6 +70,7 @@ OC.L10N.register(
     "Done" : "Hecho",
     "_{count} notification_::_{count} notifications_" : ["{count} notificación","{count} notificaciones","{count} notificaciones"],
     "More apps" : "Más aplicaciones",
+    "Settings" : "Ajustes",
     "Apps" : "Aplicaciones",
     "No" : "No",
     "Yes" : "Sí",
@@ -111,9 +113,9 @@ OC.L10N.register(
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Aplicación de correo electrónico simple integrada con Archivos, Contactos y Calendario.",
     "Collaborative documents, spreadsheets and presentations, built on Collabora Online." : "Documentos colaborativos, hojas de cálculo y presentaciones, basados en Collabora Online.",
     "Distraction free note taking app." : "Aplicación de toma de notas sin distracciones.",
+    "App download or installation failed" : "Error al descargar o instalar la aplicación",
     "Recommended apps" : "Aplicaciones recomendadas",
     "Could not fetch list of apps from the App Store." : "No se pudo obtener la lista de aplicaciones desde la Tienda de aplicaciones.",
-    "App download or installation failed" : "Error al descargar o instalar la aplicación",
     "Cannot install this app because it is not compatible" : "No se puede instalar esta aplicación porque no es compatible",
     "Cannot install this app" : "No se puede instalar esta aplicación",
     "Skip" : "Omitir",

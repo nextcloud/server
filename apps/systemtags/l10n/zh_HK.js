@@ -65,9 +65,7 @@ OC.L10N.register(
     "Delete" : "移除",
     "Reset" : "重設",
     "Loading …" : "正在載入 …",
-    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["將設定 {tag1} 並從 {count} 個檔案中刪除 {tag2}。"],
     "_{tag} will be set to 1 file._::_{tag} will be set to {count} files._" : ["{tag}將被設定為 {count} 個檔案。"],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["將從 {count} 個檔案中刪除 {tag}。"],
     "_{tags} and {lastTag} will be set to 1 file._::_{tags} and {lastTag} will be set to {count} files._" : ["{tags} 和 {lastTag} 將被設定為 {count} 個檔案。"],
     "_{tags} and {lastTag} will be removed from 1 file._::_{tags} and {lastTag} will be removed from {count} files._" : ["將從 {count} 個檔案中刪除 {tags} 和 {lastTag}。"],
     "{displayName} (hidden)" : "{displayName}（隱藏）",
@@ -112,6 +110,8 @@ OC.L10N.register(
     "Failed to delete tag for file" : "無法刪除檔案的標籤",
     "Collaborative tags …" : "協作的標籤 ...",
     "Loading …" : "加載中 …",
+    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["將設定 {tag1} 並從 {count} 個檔案中刪除 {tag2}。"],
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["將從 {count} 個檔案中刪除 {tag}。"],
     "Loading collaborative tags …" : "正在載入協作標籤 ..."
 },
 "nplurals=1; plural=0;");

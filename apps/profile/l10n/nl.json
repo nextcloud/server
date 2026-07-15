@@ -1,4 +1,5 @@
 { "translations": {
+    "View profile" : "Bekijk profiel",
     "Profile picker" : "Profielselector",
     "Profile" : "Profiel",
     "This application provides the profile" : "Deze applicatie biedt het profiel",
@@ -15,7 +16,7 @@
     "Edit Profile" : "Wijzig Profiel",
     "The headline and about sections will show up here" : "De koplijn- en oversectie zal hier verschijnen",
     "Profile not found" : "Profiel niet gevonden",
-    "The profile does not exist." : "Het profiel bestaat niet.",
-    "Back to %s" : "Terug naar %s"
+    "Back to %s" : "Terug naar %s",
+    "The profile does not exist." : "Het profiel bestaat niet."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

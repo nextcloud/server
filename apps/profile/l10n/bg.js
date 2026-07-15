@@ -1,6 +1,7 @@
 OC.L10N.register(
     "profile",
     {
+    "View profile" : "Преглед на профил",
     "Profile" : "Профил",
     "Not found" : "Не е намерен",
     "Insert" : "Вмъкване",
@@ -10,7 +11,7 @@ OC.L10N.register(
     "Edit Profile" : "Редактиране на профил",
     "The headline and about sections will show up here" : "Заглавието и секцията за информация ще се покажат тук",
     "Profile not found" : "Профилът не е намерен",
-    "The profile does not exist." : "Профилът не съществува.",
-    "Back to %s" : "Обратно към %s"
+    "Back to %s" : "Обратно към %s",
+    "The profile does not exist." : "Профилът не съществува."
 },
 "nplurals=2; plural=(n != 1);");

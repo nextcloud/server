@@ -9,6 +9,15 @@ import { handlePasswordConfirmation } from './usersUtils.ts'
 const admin = new User('admin', 'admin')
 
 describe('Settings: App management', { testIsolation: true }, () => {
+	after(() => {
+		// 'Limit app usage to group' deselects the admin group without untoggling
+		// the group-limit switch, leaving Dashboard with an empty allow-list and
+		// hiding it from non-admin users. Re-enabling rewrites the app's `enabled`
+		// flag back to `yes`, which restores the `/` redirect to dashboard for
+		// subsequent specs.
+		cy.runOccCommand('app:enable dashboard')
+	})
+
 	beforeEach(() => {
 		// disable QA if already enabled
 		cy.runOccCommand('app:disable -n testing')

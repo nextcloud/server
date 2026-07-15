@@ -336,6 +336,23 @@ trait WebDav {
 	}
 
 	/**
+	 * @When Uploading public file :filename with content :content
+	 */
+	public function uploadingPublicFile(string $filename, string $content) {
+		$token = $this->lastShareData->data->token;
+		$fullUrl = substr($this->baseUrl, 0, -4) . "public.php/dav/files/$token/$filename";
+
+		$client = new GClient();
+		try {
+			$this->response = $client->request('PUT', $fullUrl, [
+				'body' => $content
+			]);
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$this->response = $e->getResponse();
+		}
+	}
+
+	/**
 	 * @Then /^as "([^"]*)" gets properties of (file|folder|entry) "([^"]*)" with$/
 	 * @param string $user
 	 * @param string $elementType
@@ -719,6 +736,46 @@ trait WebDav {
 			$this->response = $e->getResponse();
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			// 4xx responses cause a client exception
+			$this->response = $e->getResponse();
+		}
+	}
+
+	/**
+	 * @When /^user "([^"]*)" uploads file with content "([^"]*)" and mtime "([^"]*)" to "([^"]*)"$/
+	 * @param string $user
+	 * @param string $content
+	 * @param string $mtime
+	 * @param string $destination
+	 */
+	public function userUploadsAFileWithContentAndMtimeTo($user, $content, $mtime, $destination) {
+		$file = \GuzzleHttp\Psr7\Utils::streamFor($content);
+		try {
+			$this->response = $this->makeDavRequest($user, 'PUT', $destination, ['X-OC-Mtime' => $mtime], $file);
+		} catch (\GuzzleHttp\Exception\ServerException $e) {
+			$this->response = $e->getResponse();
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$this->response = $e->getResponse();
+		}
+	}
+
+	/**
+	 * Downloads a specific version (identified by its revision/timestamp) of a
+	 * file through the versions DAV endpoint:
+	 *   GET remote.php/dav/versions/<user>/versions/<fileid>/<revision>
+	 *
+	 * @When /^user "([^"]*)" downloads version "([^"]*)" of file "([^"]*)"$/
+	 * @param string $user
+	 * @param string $revision
+	 * @param string $path
+	 */
+	public function userDownloadsVersionOfFile($user, $revision, $path) {
+		$fileId = $this->getFileIdForPath($user, $path);
+		$versionPath = '/' . $user . '/versions/' . $fileId . '/' . $revision;
+		try {
+			$this->response = $this->makeDavRequest($user, 'GET', $versionPath, [], null, 'versions');
+		} catch (\GuzzleHttp\Exception\ServerException $e) {
+			$this->response = $e->getResponse();
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			$this->response = $e->getResponse();
 		}
 	}

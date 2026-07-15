@@ -117,37 +117,31 @@ class RecoveryController extends Controller {
 		}
 	}
 
-	/**
-	 * @param string $userEnableRecovery
-	 * @return DataResponse
-	 */
 	#[NoAdminRequired]
-	public function userSetRecovery($userEnableRecovery) {
-		if ($userEnableRecovery === '0' || $userEnableRecovery === '1') {
-			$result = $this->recovery->setRecoveryForUser($userEnableRecovery);
+	public function userSetRecovery(bool $userEnableRecovery): DataResponse {
+		$result = $this->recovery->setRecoveryForUser($userEnableRecovery);
 
-			if ($result) {
-				if ($userEnableRecovery === '0') {
-					return new DataResponse(
-						[
-							'data' => [
-								'message' => $this->l->t('Recovery Key disabled')]
-						]
-					);
-				}
+		if ($result) {
+			if (!$userEnableRecovery) {
 				return new DataResponse(
 					[
 						'data' => [
-							'message' => $this->l->t('Recovery Key enabled')]
+							'message' => $this->l->t('Recovery Key disabled')]
 					]
 				);
 			}
+			return new DataResponse(
+				[
+					'data' => [
+						'message' => $this->l->t('Recovery Key enabled')]
+				]
+			);
 		}
+
 		return new DataResponse(
 			[
 				'data' => [
-					'message' => $this->l->t('Could not enable the recovery key, please try again or contact your administrator')
-				]
+					'message' => $this->l->t('Could not enable the recovery key, please try again or contact your administrator')]
 			], Http::STATUS_BAD_REQUEST);
 	}
 }

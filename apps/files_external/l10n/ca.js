@@ -3,8 +3,8 @@ OC.L10N.register(
     {
     "You are not logged in" : "No heu iniciat la sessió",
     "Permission denied" : "S'ha denegat el permís",
-    "Forbidden to manage local mounts" : "Està prohibit gestionar muntatges locals",
     "Storage with ID \"%d\" not found" : "No s'ha trobat l'emmagatzematge amb l'ID «%d»",
+    "Forbidden to manage local mounts" : "Està prohibit gestionar muntatges locals",
     "Invalid backend or authentication mechanism class" : "La classe de rerefons o de mecanisme d'autenticació no és vàlida",
     "Invalid mount point" : "El punt de muntatge no és vàlid",
     "Objectstore forbidden" : "ObjectStore prohibit",

@@ -24,6 +24,7 @@ final class CalendarExportOptions {
 	 * Gets the export format
 	 *
 	 * @return 'ical'|'jcal'|'xcal' (defaults to ical)
+	 * @since 32.0.0
 	 */
 	public function getFormat(): string {
 		return $this->format;
@@ -33,6 +34,7 @@ final class CalendarExportOptions {
 	 * Sets the export format
 	 *
 	 * @param 'ical'|'jcal'|'xcal' $format
+	 * @since 32.0.0
 	 */
 	public function setFormat(string $format): void {
 		$this->format = $format;
@@ -40,6 +42,8 @@ final class CalendarExportOptions {
 
 	/**
 	 * Gets the start of the range to export
+	 *
+	 * @since 32.0.0
 	 */
 	public function getRangeStart(): ?string {
 		return $this->rangeStart;
@@ -47,6 +51,8 @@ final class CalendarExportOptions {
 
 	/**
 	 * Sets the start of the range to export
+	 *
+	 * @since 32.0.0
 	 */
 	public function setRangeStart(?string $rangeStart): void {
 		$this->rangeStart = $rangeStart;
@@ -54,6 +60,8 @@ final class CalendarExportOptions {
 
 	/**
 	 * Gets the number of objects to export
+	 *
+	 * @since 32.0.0
 	 */
 	public function getRangeCount(): ?int {
 		return $this->rangeCount;
@@ -61,6 +69,8 @@ final class CalendarExportOptions {
 
 	/**
 	 * Sets the number of objects to export
+	 *
+	 * @since 32.0.0
 	 */
 	public function setRangeCount(?int $rangeCount): void {
 		$this->rangeCount = $rangeCount;

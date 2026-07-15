@@ -16,17 +16,16 @@ use OCP\AppFramework\Attribute\Consumable;
  *
  * Customized version of Snowflake IDs for Nextcloud:
  *   1 bit : Unused, always 0, avoid issue with PHP signed integers.
- *	31 bits: Timestamp from 2025-10-01. Allows to store a bit more than 68 years. Allows to find creation time.
- *	10 bits: Milliseconds (between 0 and 999)
- *	 9 bits: Server ID, identify server which generated the ID (between 0 and 1023)
- *	 1 bit : CLI or Web (0 or 1)
- *	12 bits: Sequence ID, usually a serial number of objects created in the same number on same server (between 0 and 4095)
+ *  31 bits: Timestamp from 2025-10-01. Allows to store a bit more than 68 years. Allows to find creation time.
+ *  10 bits: Milliseconds (between 0 and 999)
+ *   9 bits: Server ID, identify server which generated the ID (between 0 and 511)
+ *   1 bit : CLI or Web (0 or 1)
+ *  12 bits: Sequence ID, usually a serial number of objects created in the same number on same server (between 0 and 4095)
  *
  * @since 33.0.0
  */
 #[Consumable(since: '33.0.0')]
 interface ISnowflakeGenerator {
-
 	/**
 	 * Offset applied on timestamps to keep it short
 	 * Start from 2025-10-01 at 00:00:00

@@ -59,10 +59,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.3', '8.4', '8.5']
-        include:
-          - php-versions: '8.2'
-            coverage: ${{ github.event_name != 'pull_request' }}
+        php-versions: ['8.2', '8.3', '8.4', '8.5']
 
     name: SQLite (PHP ${{ matrix.php-versions }})
 
@@ -87,14 +84,28 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
           extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, imagick, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
-          coverage: ${{ matrix.coverage && 'xdebug' || 'none' }}
+          coverage: none
           ini-file: development
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Enable HEIC support in ImageMagick
+        run: |
+          # The HEIC preview tests need ImageMagick to actually decode HEIC files.
+          # GitHub-hosted runners register the HEIC coder (so the tests are not
+          # skipped) but decoding fails because the libheif delegate is missing
+          # and/or the coder is blocked by ImageMagick's security policy. Install
+          # the delegate and allow the HEIC/HEIF/AVIF coders so decoding succeeds.
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libheif1 libheif-dev
+          for policy in /etc/ImageMagick-{6,7}/policy.xml; do
+            if [ -f "$policy" ]; then
+              sudo sed -i -E 's/rights="none" pattern="(HEIC|HEIF|AVIF)"/rights="read|write" pattern="\1"/g' "$policy"
+            fi
+          done
+
       - name: Set up dependencies
         run: |
-          sudo apt-get update
           sudo apt-get install -y ghostscript
           composer i
 
@@ -110,14 +121,7 @@ jobs:
         run: ./occ app:list && echo "======= System config =======" && ./occ config:list system
 
       - name: PHPUnit database tests
-        run: composer run test:db -- --log-junit junit.xml ${{ matrix.coverage && '--coverage-clover ./clover.db.xml' || '' }} tests/lib/Preview/PostscriptTest.php
-
-      - name: Upload db code coverage
-        if: ${{ !cancelled() && matrix.coverage }}
-        uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
-        with:
-          files: ./clover.db.xml
-          flags: phpunit-sqlite
+        run: composer run test:db -- --log-junit junit.xml
 
       - name: Upload test results
         if: ${{ !cancelled() }}

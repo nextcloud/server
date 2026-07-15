@@ -113,8 +113,9 @@ OC.L10N.register(
     "Preview of the selected image" : "Náhľad vybraného obrázka",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {linkstart}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Univerzálny prístup je pre nás veľmi dôležitý. Dodržiavame webové štandardy a kontrolujeme, aby bolo všetko použiteľné aj bez myši a pomocného softvéru, ako sú čítačky obrazovky. Naším cieľom je byť v súlade s {linkstart}pokynmi pre prístup k webovému obsahu {linkend} 2.1 na úrovni AA,  v režime vysokého kontrastu dokonca na úrovni AAA.",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Ak nájdete nejaké problémy, neváhajte ich nahlásiť v {issuetracker}našom nástroji na sledovanie problémov{linkend}. A ak sa chcete zapojiť, pridajte sa k {designteam}nášmu tímu dizajnérov{linkend}!",
-    "Unable to apply the setting." : "Nepodarilo sa použiť nastavenia.",
     "Appearance and accessibility settings" : "Nastavenia vzhľadu a dostupnosti",
+    "Themes" : "Vzhľady tém",
+    "Fonts" : "Druhy písma",
     "Misc accessibility options" : "Rôzne možnosti dostupnosti",
     "Enable blur background filter (may increase GPU load)" : "Povoliť filter rozmazania pozadia (môže zvýšiť zaťaženie GPU)",
     "Customization has been disabled by your administrator" : "Prispôsobenie zakázal váš správca",
@@ -130,6 +131,7 @@ OC.L10N.register(
     "Background and login image" : "Obrázok pozadia a prihlasovacej obrazovky",
     "Advanced options" : "Pokročilé možnosti",
     "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Nainštalujte si rozšírenie ImageMagick PHP s podporou obrázkov SVG pre automatické generovanie favicon na základe nahraného loga a farby.",
+    "Unable to apply the setting." : "Nepodarilo sa použiť nastavenia.",
     "No background has been selected" : "Nebolo vybrané žiadne pozadie",
     "Select a custom color" : "Vyberte vlastnú farbu",
     "Upload" : "Nahrať"
