@@ -36,7 +36,7 @@
 				:model-value="expirationDate"
 				name="expirationDate"
 				type="date"
-				@input="$emit('update:expirationDate', $event)" />
+				@input="$emit('update:expirationDate', $event) /* eslint-disable-line vue/custom-event-name-casing */" />
 
 			<p v-if="defaultExpireDateEnforced" class="file-request-dialog__info">
 				<IconInfo :size="18" class="file-request-dialog__info-icon" />
@@ -87,12 +87,12 @@
 </template>
 
 <script lang="ts">
-import { t } from '@nextcloud/l10n'
-import {
-	type PropType,
+/* eslint-disable vue/custom-event-name-casing */
 
-	defineComponent,
-} from 'vue'
+import type { PropType } from 'vue'
+
+import { t } from '@nextcloud/l10n'
+import { defineComponent } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcDateTimePickerNative from '@nextcloud/vue/components/NcDateTimePickerNative'
