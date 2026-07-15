@@ -1990,10 +1990,10 @@ class ShareAPIControllerTest extends TestCase {
 				$this->logger,
 				$this->factory,
 				$this->mailer,
-			$this->tagManager,
-			$this->getEmailValidatorWithStrictEmailCheck(),
-			$this->publicShareUrlGenerator,
-			$this->trustedServers,
+				$this->tagManager,
+				$this->getEmailValidatorWithStrictEmailCheck(),
+				$this->publicShareUrlGenerator,
+				$this->trustedServers,
 				$this->currentUser,
 			])->onlyMethods(['formatShare'])
 			->getMock();
@@ -2272,10 +2272,10 @@ class ShareAPIControllerTest extends TestCase {
 				$this->logger,
 				$this->factory,
 				$this->mailer,
-			$this->tagManager,
-			$this->getEmailValidatorWithStrictEmailCheck(),
-			$this->publicShareUrlGenerator,
-			$this->trustedServers,
+				$this->tagManager,
+				$this->getEmailValidatorWithStrictEmailCheck(),
+				$this->publicShareUrlGenerator,
+				$this->trustedServers,
 				$this->currentUser,
 			])->onlyMethods(['formatShare'])
 			->getMock();
@@ -2345,10 +2345,10 @@ class ShareAPIControllerTest extends TestCase {
 				$this->logger,
 				$this->factory,
 				$this->mailer,
-			$this->tagManager,
-			$this->getEmailValidatorWithStrictEmailCheck(),
-			$this->publicShareUrlGenerator,
-			$this->trustedServers,
+				$this->tagManager,
+				$this->getEmailValidatorWithStrictEmailCheck(),
+				$this->publicShareUrlGenerator,
+				$this->trustedServers,
 				$this->currentUser,
 			])->onlyMethods(['formatShare'])
 			->getMock();
@@ -2565,10 +2565,10 @@ class ShareAPIControllerTest extends TestCase {
 				$this->logger,
 				$this->factory,
 				$this->mailer,
-			$this->tagManager,
-			$this->getEmailValidatorWithStrictEmailCheck(),
-			$this->publicShareUrlGenerator,
-			$this->trustedServers,
+				$this->tagManager,
+				$this->getEmailValidatorWithStrictEmailCheck(),
+				$this->publicShareUrlGenerator,
+				$this->trustedServers,
 				$this->currentUser,
 			])->onlyMethods(['formatShare'])
 			->getMock();

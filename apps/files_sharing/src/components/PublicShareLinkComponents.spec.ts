@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import type * as Router from '@nextcloud/router'
+
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import NewFileRequestDialogFinish from './NewFileRequestDialog/NewFileRequestDialogFinish.vue'
 import SharingEntryLink from './SharingEntryLink.vue'
@@ -10,7 +12,7 @@ import SharingEntryLink from './SharingEntryLink.vue'
 const generateUrl = vi.hoisted(() => vi.fn())
 const getBaseUrl = vi.hoisted(() => vi.fn())
 vi.mock('@nextcloud/router', async (importOriginal) => ({
-	...await importOriginal<typeof import('@nextcloud/router')>(),
+	...await importOriginal<typeof Router>(),
 	generateUrl,
 	getBaseUrl,
 }))
