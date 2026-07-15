@@ -59,10 +59,10 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.2
 	- license: MIT
 - @floating-ui/core
-	- version: 1.7.5
+	- version: 1.8.0
 	- license: MIT
 - @floating-ui/utils
-	- version: 0.2.11
+	- version: 0.2.12
 	- license: MIT
 - @mdi/js
 	- version: 7.4.47
@@ -83,7 +83,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.1
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 9.8.2
+	- version: 9.9.0
 	- license: AGPL-3.0-or-later
 - @vue/devtools-api
 	- version: 8.1.5
@@ -95,7 +95,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 14.3.0
 	- license: MIT
 - vue-router
-	- version: 5.1.0
+	- version: 5.2.0
 	- license: MIT
 - vue
 	- version: 3.5.39
@@ -122,19 +122,19 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.3
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 9.8.2
+	- version: 9.9.0
 	- license: AGPL-3.0-or-later
+- @vue/devtools-api
+	- version: 8.1.5
+	- license: MIT
 - @vueuse/core
 	- version: 14.3.0
 	- license: MIT
 - @vueuse/shared
 	- version: 14.3.0
 	- license: MIT
-- @vue/devtools-api
-	- version: 8.1.5
-	- license: MIT
 - vue-router
-	- version: 5.1.0
+	- version: 5.2.0
 	- license: MIT
 - vue
 	- version: 3.5.39
@@ -155,7 +155,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 7.8.0
 	- license: MIT
 - @nextcloud/vue
-	- version: 8.39.0
+	- version: 8.40.0
 	- license: AGPL-3.0-or-later
 - @vue/devtools-kit
 	- version: 8.1.5
@@ -166,13 +166,13 @@ This file is generated from multiple sources. Included packages:
 - @vue/reactivity
 	- version: 3.5.39
 	- license: MIT
-- @vue/shared
-	- version: 3.5.39
-	- license: MIT
 - @vue/runtime-core
 	- version: 3.5.39
 	- license: MIT
 - @vue/runtime-dom
+	- version: 3.5.39
+	- license: MIT
+- @vue/shared
 	- version: 3.5.39
 	- license: MIT
 - @vueuse/components
@@ -215,7 +215,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.0
 	- license: MIT
 - dompurify
-	- version: 3.4.11
+	- version: 3.4.12
 	- license: (MPL-2.0 OR Apache-2.0)
 - escape-html
 	- version: 1.0.3
@@ -255,6 +255,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - buffer
 	- version: 6.0.3
+	- license: MIT
+- nostics
+	- version: 1.1.4
 	- license: MIT
 - inherits
 	- version: 2.0.3
@@ -329,7 +332,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.7.16
 	- license: MIT
 - webpack
-	- version: 5.107.2
+	- version: 5.108.4
 	- license: MIT
 - base64-js
 	- version: 1.5.1
