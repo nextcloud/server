@@ -295,6 +295,7 @@ class ShareAPIController extends OCSController {
 			$result['share_with_displayname'] = $this->getDisplayNameFromAddressBook($share->getSharedWith(), 'CLOUD');
 			$result['token'] = $token;
 		} elseif ($share->getShareType() === IShare::TYPE_EMAIL) {
+			$result['url'] = $token ? $this->publicShareUrlGenerator->getUrl($token) : null;
 			$result['share_with'] = $share->getSharedWith();
 			$result['password'] = $this->formatPasswordField($share->getPassword());
 			$result['password_expiration_time'] = $share->getPasswordExpirationTime() !== null ? $share->getPasswordExpirationTime()->format(\DateTime::ATOM) : null;
