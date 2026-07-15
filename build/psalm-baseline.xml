@@ -3934,7 +3934,6 @@
   </file>
   <file src="lib/private/Group/Manager.php">
     <LessSpecificReturnStatement>
-      <code><![CDATA[$groups]]></code>
       <code><![CDATA[array_values($groups)]]></code>
       <code><![CDATA[array_values($groups)]]></code>
     </LessSpecificReturnStatement>
