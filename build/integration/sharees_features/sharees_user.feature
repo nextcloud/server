@@ -345,7 +345,7 @@ Feature: sharees_user
 		And user "test2" belongs to group "groupA"
 		And As an "test"
 		And parameter "shareapi_allow_share_dialog_user_enumeration" of app "core" is set to "no"
-		And parameter "shareapi_restrict_user_enumeration_full_match_userid" of app "core" is set to "no"
+		And parameter "shareapi_restrict_user_enumeration_full_match_user_id" of app "core" is set to "no"
 		When getting sharees for
 			| search   | test1 |
 			| itemType | file  |
