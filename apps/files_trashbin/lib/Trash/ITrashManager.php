@@ -31,6 +31,15 @@ interface ITrashManager extends ITrashBackend {
 	public function listTrashRoot(IUser $user): array;
 
 	/**
+	 * Get a specific item in the root of the trashbin
+	 *
+	 * @param IUser $user
+	 * @return ?ITrashItem
+	 * @since 33.0.7
+	 */
+	public function getTrashRootItem(IUser $user, string $name): ?ITrashItem;
+
+	/**
 	 * Temporally prevent files from being moved to the trash
 	 *
 	 * @since 15.0.0
