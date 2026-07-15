@@ -74,12 +74,14 @@ describe('files_external settings', () => {
 					.should('be.visible')
 					.click()
 
-				cy.findByRole('textbox', { name: 'Login' })
-					.should('be.visible')
+				cy.findByRole('textbox', { name: 'Login' }).as('login')
+				cy.get('@login').scrollIntoView()
+				cy.get('@login').should('be.visible')
 					.type('admin')
 
-				cy.get('input[type="password"]')
-					.should('be.visible')
+				cy.get('input[type="password"]').as('password')
+				cy.get('@password').scrollIntoView()
+				cy.get('@password').should('be.visible')
 					.type('admin')
 
 				cy.findByRole('button', { name: 'Create' })
