@@ -105,7 +105,7 @@ readonly class UserPlugin implements ISearchPlugin {
 				// User backends may also resolve email addresses or other login names here
 				// (e.g. for login via email). Only an actual user id match counts as user id
 				// full match, everything else is governed by the email setting below.
-				if ($user !== null && mb_strtolower($user->getUID()) === $lowerSearch) {
+				if ($user !== null && $user->isEnabled() && mb_strtolower($user->getUID()) === $lowerSearch) {
 					$users[$user->getUID()] = ['exact', $user];
 				}
 			}
@@ -122,7 +122,10 @@ readonly class UserPlugin implements ISearchPlugin {
 					$uid = $row['uid'];
 					$email = $row['value'];
 					$isAdditional = $row['name'] === 'additional_mail';
-					$users[$uid] = ['exact', $this->userManager->get($uid), $isAdditional ? $email : null];
+					$user = $this->userManager->get($uid);
+					if ($user !== null && $user->isEnabled()) {
+						$users[$uid] = ['exact', $user, $isAdditional ? $email : null];
+					}
 				}
 				$result->closeCursor();
 			}
