@@ -32,7 +32,7 @@ interface ITrashManager extends ITrashBackend {
 	 *
 	 * @param IUser $user
 	 * @return ?ITrashItem
-	 * @since 35.0.0
+	 * @since 32.0.13
 	 */
 	public function getTrashRootItem(IUser $user, string $name): ?ITrashItem;
 
