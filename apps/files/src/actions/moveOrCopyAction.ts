@@ -7,7 +7,6 @@ import type { IFilePickerButton } from '@nextcloud/dialogs'
 import type { FileStat, ResponseDataDetailed, WebDAVClientError } from 'webdav'
 import type { MoveCopyResult } from './moveOrCopyActionUtils'
 
-import { isAxiosError } from '@nextcloud/axios'
 import { FilePickerClosed, getFilePickerBuilder, openConflictPicker, showError, showLoading } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { FileAction, FileType, getUniqueName, NodeStatus, Permission } from '@nextcloud/files'
@@ -196,21 +195,19 @@ export async function * handleCopyMoveNodesTo(nodes: INode[], destination: IFold
 					}
 				} catch (error) {
 					logger.debug(`Error while trying to ${method === MoveCopyAction.COPY ? 'copy' : 'move'} node`, { node, error })
-					if (isAxiosError(error)) {
-						if (error.response?.status === 412) {
-							throw new HintException(t('files', 'A file or folder with that name already exists in this folder'))
-						} else if (error.response?.status === 423) {
-							throw new HintException(t('files', 'The files are locked'))
-						} else if (error.response?.status === 404) {
-							throw new HintException(t('files', 'The file does not exist anymore'))
-						} else if ('response' in error && error.response) {
-							const parser = new DOMParser()
-							const text = await (error as WebDAVClientError).response!.text()
-							const message = parser.parseFromString(text ?? '', 'text/xml')
-								.querySelector('message')?.textContent
-							if (message) {
-								throw new HintException(message)
-							}
+					if (error.response?.status === 412) {
+						throw new HintException(t('files', 'A file or folder with that name already exists in this folder'))
+					} else if (error.response?.status === 423) {
+						throw new HintException(t('files', 'The files are locked'))
+					} else if (error.response?.status === 404) {
+						throw new HintException(t('files', 'The file does not exist anymore'))
+					} else if ('response' in error && error.response) {
+						const parser = new DOMParser()
+						const text = await (error as WebDAVClientError).response!.text()
+						const message = parser.parseFromString(text ?? '', 'text/xml')
+							.querySelector('message')?.textContent
+						if (message) {
+							throw new HintException(message)
 						}
 					}
 					throw error
