@@ -173,6 +173,9 @@ export default defineConfig({
 			await configureNextcloud()
 			// additionally we do not want to DoS the app store
 			runOcc(['config:system:set', 'appstoreenabled', '--value', 'false', '--type', 'boolean'])
+			// Disable the unsupported-browser redirect so Cypress (Chrome 118 / Electron 27)
+			// does not hit the "Your browser is not supported" page on every visit.
+			runOcc(['config:system:set', 'no_unsupported_browser_warning', '--value', 'true', '--type', 'boolean'])
 
 			// for later use in tests save the container name
 			// @ts-expect-error we are adding a custom property
