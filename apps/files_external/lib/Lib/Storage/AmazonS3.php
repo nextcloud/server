@@ -72,6 +72,11 @@ class AmazonS3 extends Common {
 		return $path === '.';
 	}
 
+	private function getCachePath(string $path): string {
+		// normalizePath() converts '' to '.' for S3 object keys, but filecache stores the root as ''
+		return $this->isRoot($path) ? '' : $path;
+	}
+
 	private function cleanKey(string $path): string {
 		if ($this->isRoot($path)) {
 			return '/';
@@ -352,6 +357,27 @@ class AmazonS3 extends Common {
 		}
 
 		return 'now';
+	}
+
+	public function getMetaData(string $path): ?array {
+		$data = parent::getMetaData($path);
+		if ($data !== null && $data['mimetype'] === FileInfo::MIMETYPE_FOLDER) {
+			// Common::getMetaData sets storage_mtime = mtime, but for S3 virtual directories
+			// mtime may have been updated by mtime propagation while storage_mtime should
+			// reflect the actual last storage change. Without this override the scanner sees
+			// data['storage_mtime'] != cacheData['storage_mtime'] and re-writes the cache,
+			// causing View::getCacheEntry to trigger propagateChange on every read.
+			$path = $this->normalizePath($path);
+			$cacheEntry = $this->getCache()->get($this->getCachePath($path));
+			if ($cacheEntry instanceof CacheEntry) {
+				$data['storage_mtime'] = $cacheEntry->getStorageMTime();
+			} elseif (!$this->isRoot($path) && $directoryMarker = $this->headObject($path . '/')) {
+				if (isset($directoryMarker['LastModified'])) {
+					$data['storage_mtime'] = strtotime($directoryMarker['LastModified']);
+				}
+			}
+		}
+		return $data;
 	}
 
 	public function is_dir(string $path): bool {
@@ -670,12 +696,14 @@ class AmazonS3 extends Common {
 	}
 
 	private function objectToMetaData(array $object): array {
+		$mtime = isset($object['LastModified']) ? strtotime($object['LastModified']) : time();
+		$etag = isset($object['ETag']) ? trim($object['ETag'], '"') : '';
 		return [
 			'name' => basename($object['Key']),
 			'mimetype' => $this->mimeDetector->detectPath($object['Key']),
-			'mtime' => strtotime($object['LastModified']),
-			'storage_mtime' => strtotime($object['LastModified']),
-			'etag' => trim($object['ETag'], '"'),
+			'mtime' => $mtime,
+			'storage_mtime' => $mtime,
+			'etag' => $etag,
 			'permissions' => Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE,
 			'size' => (int)($object['Size'] ?? $object['ContentLength']),
 		];
@@ -688,7 +716,7 @@ class AmazonS3 extends Common {
 		if ($this->versioningEnabled() && !$this->doesDirectoryExist($path)) {
 			return null;
 		}
-		$cacheEntry = $this->getCache()->get($path);
+		$cacheEntry = $this->getCache()->get($this->getCachePath($path));
 		if ($cacheEntry instanceof CacheEntry) {
 			return $cacheEntry->getData();
 		} else {
