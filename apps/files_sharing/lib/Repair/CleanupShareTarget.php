@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace OCA\Files_Sharing\Repair;
 
+use OC\Files\Cache\CacheEntry;
 use OC\Files\SetupManager;
 use OCA\Files_Sharing\ShareTargetValidator;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -111,12 +112,23 @@ class CleanupShareTarget implements IRepairStep {
 				);
 				$newTarget = $userFolder->getRelativePath($absoluteNewTarget);
 
-				$this->moveShare((string)$shareInfo['id'], $newTarget);
+				if ($newTarget !== $oldTarget) {
+					$this->moveShare((string)$shareInfo['id'], $newTarget);
 
-				$oldMountPoint = "/{$recipient->getUID()}/files$oldTarget/";
-				$newMountPoint = "/{$recipient->getUID()}/files$newTarget/";
-				$userMounts[$newMountPoint] = $userMounts[$oldMountPoint];
-				unset($userMounts[$oldMountPoint]);
+					$oldMountPoint = "/{$recipient->getUID()}/files$oldTarget/";
+					$newMountPoint = "/{$recipient->getUID()}/files$newTarget/";
+
+					/** @var ICachedMountInfo $mount */
+					$mount = $userMounts[$oldMountPoint];
+					$userMounts[$newMountPoint] = $mount;
+					unset($userMounts[$oldMountPoint]);
+
+					$this->userMountCache->removeMount($oldMountPoint);
+					$this->userMountCache->addMount($recipient, $newMountPoint, new CacheEntry([
+						'fileid' => $mount->getRootId(),
+						'storage' => $mount->getStorageId(),
+					]), $mount->getMountProvider(), $mount->getMountId());
+				}
 			} catch (\Exception $e) {
 				$msg = 'error cleaning up share target: ' . $e->getMessage();
 				$this->logger->error($msg, ['exception' => $e, 'app' => 'files_sharing']);
