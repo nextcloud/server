@@ -109,7 +109,7 @@ class LazyFolder implements Folder {
 	}
 
 	/**
-	 * @return IMountPoint[]
+	 * @return list<IMountPoint>
 	 */
 	public function getMountsIn(string $mountPoint): array {
 		return $this->__call(__FUNCTION__, func_get_args());
