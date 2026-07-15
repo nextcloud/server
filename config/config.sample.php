@@ -300,28 +300,71 @@ $CONFIG = [
 	'allow_user_to_change_display_name' => true,
 
 	/**
-	 * The directory where the skeleton files are located. These files will be
-	 * copied to the data directory of new users. Set empty string to not copy any
-	 * skeleton files. If unset and templatedirectory is an empty string, shipped
-	 * templates will be used to create a template directory for the user.
-	 * ``{lang}`` can be used as a placeholder for the language of the user.
-	 * If the directory does not exist, it falls back to non-dialect (from ``de_DE``
-	 * to ``de``). If that does not exist either, it falls back to ``default``
+	 * The directory containing initial content copied to a user's personal files
+	 * during their first login. This content can include ordinary files and
+	 * folders, such as welcome documents, example files, or organization-wide
+	 * reusable documents and folder structures.
 	 *
-	 * Defaults to ``core/skeleton`` in the Nextcloud directory.
+	 * The path may include the optional ``{lang}`` placeholder to select
+	 * language-specific content. The placeholder is replaced with the user's
+	 * language code. For example, when this is set to
+	 * ``/path/to/skeleton/{lang}`` and a user's language is ``de_DE``, Nextcloud
+	 * first looks for ``/path/to/skeleton/de_DE``. If that directory does not
+	 * exist, Nextcloud falls back to the base language code (``de`` in this
+	 * example), looking for ``/path/to/skeleton/de``. If that directory also does
+	 * not exist, Nextcloud looks for ``/path/to/skeleton/default``.
+	 *
+	 * If the path does not include ``{lang}``, Nextcloud uses the configured
+	 * directory directly. Only one matching directory is used; content from
+	 * fallback directories is not merged. If no matching directory exists, no
+	 * content is copied.
+	 *
+	 * Set to an empty string (``''``) to disable copying skeleton content.
+	 *
+	 * NOTE: Copying skeleton content also triggers automatic initialization of the
+	 * user's template directory (see ``templatedirectory``). Setting this
+	 * parameter to an empty string therefore prevents template initialization on
+	 * first login. Users can still initialize a template directory later through
+	 * the Files UI, which uses the OCS API, but doing so does not copy skeleton
+	 * content. The template source directory itself is configured separately and is
+	 * not derived from this directory.
+	 *
+	 * Defaults to ``core/skeleton`` relative to the Nextcloud installation root.
 	 */
 	'skeletondirectory' => '/path/to/nextcloud/core/skeleton',
 
 	/**
-	 * The directory where the template files are located. These files will be
-	 * copied to the template directory of new users. Set empty string to not copy any
-	 * template files.
-	 * ``{lang}`` can be used as a placeholder for the language of the user.
-	 * If the directory does not exist, it falls back to non-dialect (from ``de_DE``
-	 * to ``de``). If that does not exist either, it falls back to ``default``
+	 * The directory containing template content that can be copied to a user's
+	 * template directory. Template files are ordinary files that users can select
+	 * as reusable templates when creating supported file types in the Files app.
 	 *
-	 * To disable creating a template directory, set both skeletondirectory and
-	 * templatedirectory to empty strings.
+	 * Like ``skeletondirectory``, this path may contain the optional ``{lang}``
+	 * placeholder. Nextcloud resolves it using the same language, base-language,
+	 * and ``default`` fallback order described for ``skeletondirectory``. The
+	 * placeholder is resolved independently for this setting.
+	 *
+	 * If the path does not include ``{lang}``, Nextcloud uses the configured
+	 * directory directly. Only one matching directory is used; content from
+	 * fallback directories is not merged. If no matching directory exists, no
+	 * template content is copied.
+	 *
+	 * This setting is independent of ``skeletondirectory``. Its default value is
+	 * ``core/skeleton/Templates`` relative to the Nextcloud installation root.
+	 * Changing ``skeletondirectory`` does not change that value. If a custom
+	 * skeleton directory contains a ``Templates`` subdirectory, Nextcloud copies
+	 * it as ordinary skeleton content; it does not automatically use it as the
+	 * user's template directory.
+	 *
+	 * Template content is copied only when the target template folder is empty.
+	 *
+	 * Set to an empty string (``''``) to disable copying template content from
+	 * this source. During automatic first-login initialization, Nextcloud may
+	 * still create or reuse the default template folder, but it will not copy
+	 * content from this source or configure that folder as the user's template
+	 * directory.
+	 *
+	 * Defaults to ``core/skeleton/Templates`` relative to the Nextcloud
+	 * installation root, regardless of the ``skeletondirectory`` value.
 	 */
 	'templatedirectory' => '/path/to/nextcloud/templates',
 
