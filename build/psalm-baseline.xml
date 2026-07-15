@@ -2692,14 +2692,6 @@
       <code><![CDATA[null]]></code>
     </NullArgument>
   </file>
-  <file src="apps/workflowengine/lib/Check/RequestRemoteAddress.php">
-    <InvalidArgument>
-      <code><![CDATA[$decodedValue[1]]]></code>
-      <code><![CDATA[$decodedValue[1]]]></code>
-      <code><![CDATA[$decodedValue[1]]]></code>
-      <code><![CDATA[$decodedValue[1]]]></code>
-    </InvalidArgument>
-  </file>
   <file src="apps/workflowengine/lib/Check/TFileCheck.php">
     <InvalidArgument>
       <code><![CDATA[['app' => Application::APP_ID, 'class' => get_class($subject)]]]></code>
@@ -3934,12 +3926,10 @@
   </file>
   <file src="lib/private/Group/Manager.php">
     <LessSpecificReturnStatement>
-      <code><![CDATA[$groups]]></code>
       <code><![CDATA[array_values($groups)]]></code>
       <code><![CDATA[array_values($groups)]]></code>
     </LessSpecificReturnStatement>
     <MoreSpecificReturnType>
-      <code><![CDATA[\OC\Group\Group[]]]></code>
       <code><![CDATA[\OC\Group\Group[]]]></code>
     </MoreSpecificReturnType>
     <UndefinedInterfaceMethod>

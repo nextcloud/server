@@ -287,7 +287,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 
 	/**
 	 * @param IUser|null $user
-	 * @return \OC\Group\Group[]
+	 * @return array<string, \OCP\IGroup>
 	 */
 	public function getUserGroups(?IUser $user = null) {
 		if (!$user instanceof IUser) {
@@ -298,7 +298,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 
 	/**
 	 * @param string $uid the user id
-	 * @return \OC\Group\Group[]
+	 * @return array<string, \OCP\IGroup>
 	 */
 	public function getUserIdGroups(string $uid): array {
 		$groupIds = $this->getUserIdGroupIds($uid);
