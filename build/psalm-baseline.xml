@@ -3931,7 +3931,6 @@
     </LessSpecificReturnStatement>
     <MoreSpecificReturnType>
       <code><![CDATA[\OC\Group\Group[]]]></code>
-      <code><![CDATA[\OC\Group\Group[]]]></code>
     </MoreSpecificReturnType>
     <UndefinedInterfaceMethod>
       <code><![CDATA[createGroup]]></code>
