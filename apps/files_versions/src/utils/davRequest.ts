@@ -15,6 +15,7 @@ export default `<?xml version="1.0"?>
 		<d:getetag />
 		<nc:version-label />
 		<nc:version-author />
+		<nc:version-is-current />
 		<nc:has-preview />
 	</d:prop>
 </d:propfind>`

@@ -33,6 +33,7 @@ class Plugin extends ServerPlugin {
 	public const AUTHOR = 'author';
 	public const VERSION_LABEL = '{http://nextcloud.org/ns}version-label';
 	public const VERSION_AUTHOR = '{http://nextcloud.org/ns}version-author';
+	public const VERSION_IS_CURRENT = '{http://nextcloud.org/ns}version-is-current';
 	private const LEGACY_FILENAME_HEADER_USER_AGENTS = [ // Quirky clients
 		Request::USER_AGENT_IE,
 		Request::USER_AGENT_ANDROID_MOBILE_CHROME,
@@ -100,6 +101,10 @@ class Plugin extends ServerPlugin {
 		$propFind->handle(
 			self::VERSION_AUTHOR,
 			fn () => $node->getMetadataValue(self::AUTHOR)
+		);
+		$propFind->handle(
+			self::VERSION_IS_CURRENT,
+			fn (): string => $node->getVersion()->getTimestamp() === $node->getVersion()->getSourceFile()->getMTime() ? 'true' : 'false'
 		);
 		$propFind->handle(
 			FilesPlugin::HAS_PREVIEW_PROPERTYNAME,

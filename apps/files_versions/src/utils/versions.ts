@@ -20,6 +20,7 @@ export interface Version {
 	label: string // 'Current version' or ''
 	author: string | null // UID for the author of the version
 	authorName: string | null // Display name of the author
+	isCurrent: boolean // True if this is the current version
 	filename: string // File name relative to the version DAV endpoint
 	basename: string // A base name generated from the mtime
 	mime: string // Empty for the current version, else the actual mime type of the version
@@ -98,9 +99,10 @@ export async function restoreVersion(version: Version) {
  */
 function formatVersion(version: Required<FileStat>, node: INode): Version {
 	const mtime = Date.parse(version.lastmod)
+	const isCurrentVersion = version.props['version-is-current'] === 'true' || mtime === node.mtime?.getTime()
 
 	let previewUrl: string
-	if (mtime === node.mtime?.getTime()) { // Version is the current one
+	if (isCurrentVersion) {
 		previewUrl = generateUrl('/core/preview?fileId={fileId}&c={fileEtag}&x=250&y=250&forceIcon=0&a=0&forceIcon=1&mimeFallback=1', {
 			fileId: node.id,
 			fileEtag: node.attributes.etag,
@@ -118,6 +120,7 @@ function formatVersion(version: Required<FileStat>, node: INode): Version {
 		label: version.props['version-label'] ? String(version.props['version-label']) : '',
 		author: version.props['version-author'] ? String(version.props['version-author']) : null,
 		authorName: null,
+		isCurrent: isCurrentVersion,
 		filename: version.filename,
 		basename: new Date(mtime).toLocaleString(
 			[getCanonicalLocale(), getCanonicalLocale().split('-')[0]!],

@@ -18,7 +18,7 @@
 							:loadPreview="active"
 							:version="row.items[0].version"
 							:node="node"
-							:isCurrent="row.items[0].version.mtime === currentVersionMtime"
+							:isCurrent="row.items[0].version.isCurrent"
 							:isFirstVersion="row.items[0].version.mtime === initialVersionMtime"
 							@click="openVersion"
 							@compare="compareVersion"
@@ -72,8 +72,6 @@ const versions = ref<Version[]>([])
 const loading = ref(false)
 const showVersionLabelForm = ref(false)
 const editedVersion = ref<Version | null>(null)
-
-const currentVersionMtime = computed(() => props.node?.mtime?.getTime() ?? 0)
 
 /**
  * Order versions by mtime.
@@ -131,7 +129,7 @@ const canCompare = computed(() => {
 // When the id changed we immediately show changes
 watch(() => props.node.id, loadVersions, { immediate: true })
 // On mtime changes we debounce to prevent too many requests.
-watchDebounced(currentVersionMtime, loadVersions, { debounce: 600 })
+watchDebounced(() => props.node.mtime?.getTime(), loadVersions, { debounce: 600 })
 
 /**
  * Load versions for the current node
