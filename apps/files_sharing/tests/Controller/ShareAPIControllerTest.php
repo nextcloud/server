@@ -12,6 +12,7 @@ use OC\Files\Storage\Wrapper\Wrapper;
 use OCA\Federation\TrustedServers;
 use OCA\Files_Sharing\Controller\ShareAPIController;
 use OCA\Files_Sharing\External\Storage;
+use OCA\Files_Sharing\PublicShareUrlGenerator;
 use OCA\Files_Sharing\SharedStorage;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\DataResponse;
@@ -103,6 +104,7 @@ class ShareAPIControllerTest extends TestCase {
 	private IMailer&MockObject $mailer;
 	private ITagManager&MockObject $tagManager;
 	private TrustedServers&MockObject $trustedServers;
+	private PublicShareUrlGenerator&MockObject $publicShareUrlGenerator;
 
 	protected function setUp(): void {
 		$this->shareManager = $this->createMock(IManager::class);
@@ -143,6 +145,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->mailer = $this->createMock(IMailer::class);
 		$this->tagManager = $this->createMock(ITagManager::class);
 		$this->trustedServers = $this->createMock(TrustedServers::class);
+		$this->publicShareUrlGenerator = $this->createMock(PublicShareUrlGenerator::class);
 
 		$this->ocs = new ShareAPIController(
 			$this->appName,
@@ -165,6 +168,7 @@ class ShareAPIControllerTest extends TestCase {
 			$this->mailer,
 			$this->tagManager,
 			$this->getEmailValidatorWithStrictEmailCheck(),
+			$this->publicShareUrlGenerator,
 			$this->trustedServers,
 			$this->currentUser,
 		);
@@ -194,6 +198,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->mailer,
 				$this->tagManager,
 				$this->getEmailValidatorWithStrictEmailCheck(),
+				$this->publicShareUrlGenerator,
 				$this->trustedServers,
 				$this->currentUser,
 			])->onlyMethods(['formatShare'])
@@ -906,6 +911,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->mailer,
 				$this->tagManager,
 				$this->getEmailValidatorWithStrictEmailCheck(),
+				$this->publicShareUrlGenerator,
 				$this->trustedServers,
 				$this->currentUser,
 			])
@@ -940,6 +946,9 @@ class ShareAPIControllerTest extends TestCase {
 
 		$this->urlGenerator
 			->method('linkToRouteAbsolute')
+			->willReturn('url');
+		$this->publicShareUrlGenerator
+			->method('getUrl')
 			->willReturn('url');
 
 		$initiator = $this->getMockBuilder(IUser::class)->getMock();
@@ -1620,6 +1629,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->mailer,
 				$this->tagManager,
 				$this->getEmailValidatorWithStrictEmailCheck(),
+				$this->publicShareUrlGenerator,
 				$this->trustedServers,
 				$this->currentUser,
 			])
@@ -1980,9 +1990,10 @@ class ShareAPIControllerTest extends TestCase {
 				$this->logger,
 				$this->factory,
 				$this->mailer,
-				$this->tagManager,
-				$this->getEmailValidatorWithStrictEmailCheck(),
-				$this->trustedServers,
+			$this->tagManager,
+			$this->getEmailValidatorWithStrictEmailCheck(),
+			$this->publicShareUrlGenerator,
+			$this->trustedServers,
 				$this->currentUser,
 			])->onlyMethods(['formatShare'])
 			->getMock();
@@ -2261,9 +2272,10 @@ class ShareAPIControllerTest extends TestCase {
 				$this->logger,
 				$this->factory,
 				$this->mailer,
-				$this->tagManager,
-				$this->getEmailValidatorWithStrictEmailCheck(),
-				$this->trustedServers,
+			$this->tagManager,
+			$this->getEmailValidatorWithStrictEmailCheck(),
+			$this->publicShareUrlGenerator,
+			$this->trustedServers,
 				$this->currentUser,
 			])->onlyMethods(['formatShare'])
 			->getMock();
@@ -2333,9 +2345,10 @@ class ShareAPIControllerTest extends TestCase {
 				$this->logger,
 				$this->factory,
 				$this->mailer,
-				$this->tagManager,
-				$this->getEmailValidatorWithStrictEmailCheck(),
-				$this->trustedServers,
+			$this->tagManager,
+			$this->getEmailValidatorWithStrictEmailCheck(),
+			$this->publicShareUrlGenerator,
+			$this->trustedServers,
 				$this->currentUser,
 			])->onlyMethods(['formatShare'])
 			->getMock();
@@ -2552,9 +2565,10 @@ class ShareAPIControllerTest extends TestCase {
 				$this->logger,
 				$this->factory,
 				$this->mailer,
-				$this->tagManager,
-				$this->getEmailValidatorWithStrictEmailCheck(),
-				$this->trustedServers,
+			$this->tagManager,
+			$this->getEmailValidatorWithStrictEmailCheck(),
+			$this->publicShareUrlGenerator,
+			$this->trustedServers,
 				$this->currentUser,
 			])->onlyMethods(['formatShare'])
 			->getMock();
@@ -4615,6 +4629,9 @@ class ShareAPIControllerTest extends TestCase {
 
 		$this->urlGenerator->method('linkToRouteAbsolute')
 			->with('files_sharing.sharecontroller.showShare', ['token' => 'myToken'])
+			->willReturn('nextcloudLink');
+		$this->publicShareUrlGenerator->method('getUrl')
+			->with('myToken')
 			->willReturn('myLink');
 
 		$this->rootFolder->method('getUserFolder')
