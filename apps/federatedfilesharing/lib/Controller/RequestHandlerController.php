@@ -7,6 +7,7 @@
  */
 namespace OCA\FederatedFileSharing\Controller;
 
+use OC\AppFramework\Http\Attributes\FederationRateLimit;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\FederatedFileSharing\Notifications;
@@ -76,6 +77,7 @@ class RequestHandlerController extends OCSController {
 	 */
 	#[NoCSRFRequired]
 	#[PublicPage]
+	#[FederationRateLimit(limit: 5, period: 1200)]
 	public function createShare(
 		?string $remote = null,
 		?string $token = null,
