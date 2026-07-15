@@ -270,7 +270,6 @@ class UsersControllerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->phoneNumberUtil,
 				$this->appManager,
-				$this->appConfig,
 				$this->groupDisplayNameCache,
 			])
 			->onlyMethods(['getUserData'])
