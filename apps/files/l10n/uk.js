@@ -207,7 +207,7 @@ OC.L10N.register(
     "Not sanitized filenames" : "Несанітарні імена файлів",
     "Windows filename support has been enabled." : "Увімкнено сумісність з найменуванням файлів у Windows.",
     "While this blocks users from creating new files with unsupported filenames, existing files are not yet renamed and thus still may break sync on Windows." : "Хоча це забороняє користувачам створювати нові файли з непідтримуваними іменами, наявні файли ще не перейменовано, а отже, вони все ще можуть порушувати синхронізацію у Windows.",
-    "You can trigger a rename of files with invalid filenames, this will be done in the background and may take some time." : "Ви можете ініціювати перейменування файлів з невірними іменами, це буде зроблено у фоновому режимі і може зайняти деякий час.",
+    "You can trigger a rename of files with invalid filenames, this will be done in the background and may take some time." : "Ви можете ініціювати перейменування файлів з неправильними іменами, це буде виконано у фоновому режимі і може зайняти деякий час.",
     "Please note that this may cause high workload on the sync clients." : "Зауважте, що це може спричинити високе навантаження на клієнти синхронізації.",
     "Limit" : "Ліміт",
     "This allows to configure how many users should be processed in one background job run." : "Це дозволяє налаштувати, скільки користувачів має бути оброблено за один запуск фонового завдання.",

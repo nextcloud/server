@@ -125,7 +125,7 @@
     "Allowed admin IP ranges" : "Дозволені діапазони адрес IP",
     "Admin IP filtering isn't applied." : "Фільтрування адміністраторів за адресою IP не застосовується.",
     "Configuration key \"%1$s\" expects an array (%2$s found). Admin IP range validation will not be applied." : "Ключ конфігурації \"%1$s\" очікує масив (%2$s знайдено). Перевірка діапазону IP-адрес адміністратора не застосовуватиметься.",
-    "Configuration key \"%1$s\" contains invalid IP range(s): \"%2$s\"" : "Ключ конфігурації \"%1$s\" містить невірний діапазон IP-адрес: \"%2$s\"",
+    "Configuration key \"%1$s\" contains invalid IP range(s): \"%2$s\"" : "Ключ конфігурації \"%1$s\" містить недійсний діапазон IP-адрес: \"%2$s\"",
     "Admin IP filtering is correctly configured." : "Фільтрування адміністраторів за адресою IP правильно налаштовано.",
     "App directories owner" : "Власник каталогів застосунків",
     "Some app directories are owned by a different user than the web server one. This may be the case if apps have been installed manually. Check the permissions of the following app directories:\n%s" : "Окремі каталоги застосунків мають інших користувачів на відміну від користувача вебсервера. Часто таке трапляється, якщо застосунки було встановлено вручну. Перевірте дозволи на такі каталоги застосунків:\n%s",

@@ -18,7 +18,7 @@ OC.L10N.register(
     "No image or file provided" : "Не надано зображення або файл",
     "Unknown filetype" : "Невідомий тип файлу",
     "An error occurred. Please contact your admin." : "Виникла помилка. Будь ласка, зв'яжіться з вашим адміністратором.",
-    "Invalid image" : "Невірне зображення",
+    "Invalid image" : "Недійсне зображення",
     "State token does not match" : "Токен стану не збігається",
     "Invalid app password" : "Неправильний пароль застосунку",
     "Could not complete login" : "Не вдалося увійти",
