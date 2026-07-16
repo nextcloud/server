@@ -41,6 +41,9 @@ use function OCP\Log\logger;
 
 require_once __DIR__ . '/public/Constants.php';
 
+// There is no autoloading for functions so we need to hardcode it
+require_once __DIR__ . '/public/Log/functions.php';
+
 /**
  * Class that is a namespace for all global OC variables
  * @internal
