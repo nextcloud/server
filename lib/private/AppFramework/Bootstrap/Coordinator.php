@@ -68,7 +68,6 @@ class Coordinator {
 		}
 		$apps = [];
 		foreach ($appIds as $appId) {
-			$this->eventLogger->start("bootstrap:register_app:$appId", "Register $appId");
 			$this->eventLogger->start("bootstrap:register_app:$appId:autoloader", "Setup autoloader for $appId");
 			/*
 			 * First, we have to enable the app's autoloader
@@ -81,6 +80,10 @@ class Coordinator {
 				continue;
 			}
 			$this->eventLogger->end("bootstrap:register_app:$appId:autoloader");
+		}
+		\OC::$autoloader->triggerReload();
+		foreach ($appIds as $appId) {
+			$this->eventLogger->start("bootstrap:register_app:$appId", "Register $appId");
 
 			/*
 			 * Next we check if there is an application class, and it implements
