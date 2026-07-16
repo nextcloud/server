@@ -7,7 +7,7 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace Tests\Contacts\ContactsMenu;
+namespace Test\Contacts\ContactsMenu;
 
 use OC\Contacts\ContactsMenu\ContactsStore;
 use OC\KnownUser\KnownUserService;
