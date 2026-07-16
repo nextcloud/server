@@ -581,11 +581,13 @@ class AppManager implements IAppManager {
 	 * @internal
 	 */
 	public function registerAppsAutoloading(array $apps): void {
+		$reload = false;
 		foreach ($apps as $app) {
 			if (!isset($this->registeredApps[$app])) {
 				try {
 					$path = $this->getAppPath($app);
 					$this->registerAutoloading($app, $path);
+					$reload = true;
 				} catch (AppPathNotFoundException $e) {
 					$this->logger->info('Error during app loading: ' . $e->getMessage(), [
 						'exception' => $e,
@@ -593,6 +595,9 @@ class AppManager implements IAppManager {
 					]);
 				}
 			}
+		}
+		if ($reload) {
+			\OC::$autoloader->triggerReload();
 		}
 	}
 
@@ -614,12 +619,15 @@ class AppManager implements IAppManager {
 			require_once $path . '/composer/autoload.php';
 		} elseif (is_dir($path . '/lib')) {
 			// autoloader crashes on non-existing dir
-			\OC::$composerAutoloader->addPsr4($appNamespace . '\\', $path . '/lib/', true);
+			\OC::$autoloader->addPsr4($appNamespace, $path . '/lib');
 		}
 
 		// Register Test namespace only when testing
-		if (defined('PHPUNIT_RUN') || defined('CLI_TEST_RUN')) {
-			\OC::$composerAutoloader->addPsr4($appNamespace . '\\Tests\\', $path . '/tests/', true);
+		if ((defined('PHPUNIT_RUN') || defined('CLI_TEST_RUN')) && is_dir($path . '/tests/')) {
+			\OC::$autoloader->addPsr4($appNamespace . '\\Tests\\', $path . '/tests/');
+		}
+		if ($force) {
+			\OC::$autoloader->triggerReload();
 		}
 	}
 
