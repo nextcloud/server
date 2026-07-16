@@ -12,25 +12,7 @@ namespace OC;
 
 /**
  * TODO
- * Rescan only ondemand?
- * Support PSR4 check (only allowed namespace in directory) (or even more performant scan based only on filename?)
- * Conditionnaly add apps folders without losing cache
- * Faire un scan que PSR4
- * Cacher par namespace ?
- * Pouvoir activer/désactiver un namespace ?
- * Comment gérer le missingClasses?
- * array [
- * 	classname => [
- * 		filepath,
- * 		rootnamespace (tel qu’ajouté, OCA\MonApp), (du coup ptet appid directement?)
- * ]] ?
- *
- * Actuellement les autoloaders sont enregistrés par le Coordinator pour faire le register
- * le loadApps du appManager a priori n’y retouche pas.
- * Ptet bouger registerAutoloading dans le app manager, y ajouter le support de plusieurs apps, optimiser et appeler ça partout. :bulb: TODO
- * Traquer les loads from cache et tenter d’en avoir un seul ou deux.
- * Remettre le support des autoloaders composer custom pour la BC, enlever ceux des applis de core.
- * Réparer les tests, nettoyer, pousser dans une PR
+ * Remove unused parts
  */
 
 class Autoloader {
