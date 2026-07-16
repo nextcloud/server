@@ -560,25 +560,19 @@ class TaskProcessingApiController extends OCSController {
 				throw new NotFoundException();
 			}
 
-			$taskIdsToIgnore = [];
-			while (true) {
-				// Until we find a task whose task type is set to be provided by the providers requested with this request
-				// Or no scheduled task is found anymore (given the taskIds to ignore)
-				$task = $this->taskProcessingManager->getNextScheduledTask($possibleTaskTypeIds, $taskIdsToIgnore);
-				try {
-					$provider = $this->taskProcessingManager->getPreferredProvider($task->getTaskTypeId());
-					if (in_array($provider->getId(), $possibleProviderIds, true)) {
-						if ($this->taskProcessingManager->lockTask($task)) {
-							break;
-						}
-					}
-				} catch (Exception) {
-					// There is no provider set for the task type of this task
-					// proceed to ignore this task
-				}
-
-				$taskIdsToIgnore[] = (int)$task->getId();
+			// Atomically claim the oldest scheduled task across the eligible task types in a
+			// single query (FOR UPDATE SKIP LOCKED, with a SQLite/Oracle fallback). This both
+			// selects the task and marks it RUNNING, so multiple ex-app instances (e.g. several
+			// replicas under Kubernetes) competing for the same queue never claim the same task
+			// and no per-request ignore-list / retry loop is needed. $possibleTaskTypeIds is
+			// already restricted to task types whose preferred provider is among the requested
+			// providers, so any claimed task can be served by one of them.
+			$task = $this->taskProcessingManager->claimNextScheduledTask($possibleTaskTypeIds);
+			if ($task === null) {
+				return new DataResponse(null, Http::STATUS_NO_CONTENT);
 			}
+
+			$provider = $this->taskProcessingManager->getPreferredProvider($task->getTaskTypeId());
 
 			/** @var CoreTaskProcessingTask $json */
 			$json = $task->jsonSerialize();
