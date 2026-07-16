@@ -83,6 +83,8 @@ class AppManager implements IAppManager {
 
 	/** @var array<string, true> */
 	private array $loadedApps = [];
+	/** @var array<string, true> */
+	private array $registeredApps = [];
 
 	/** @var string[] */
 	private $namespaceCache = [];
@@ -267,23 +269,12 @@ class AppManager implements IAppManager {
 
 		// Load the enabled apps here
 		$apps = $this->getEnabledApps();
-
-		// Add each apps' folder as allowed class path
-		foreach ($apps as $app) {
+		$appsToRegister = array_filter(
+			$apps,
 			// If the app is already loaded then autoloading it makes no sense
-			if (!$this->isAppLoaded($app) && ($types === [] || $this->isType($app, $types))) {
-				try {
-					$path = $this->getAppPath($app);
-					\OC_App::registerAutoloading($app, $path);
-				} catch (AppPathNotFoundException $e) {
-					$this->logger->info('Error during app loading: ' . $e->getMessage(), [
-						'exception' => $e,
-						'app' => $app,
-					]);
-				}
-			}
-		}
-		\OC::$autoloader->triggerReload();
+			fn (string $app) => (!$this->isAppLoaded($app) && ($types === [] || $this->isType($app, $types))),
+		);
+		$this->registerAppsAutoloading($appsToRegister);
 
 		// prevent app loading from printing output
 		ob_start();
@@ -488,7 +479,7 @@ class AppManager implements IAppManager {
 		$eventLogger->start("bootstrap:load_app:$app", "Load app: $app");
 
 		// in case someone calls loadApp() directly
-		\OC_App::registerAutoloading($app, $appPath);
+		$this->registerAppsAutoloading([$app]);
 
 		if (is_file($appPath . '/appinfo/app.php')) {
 			$this->logger->error('/appinfo/app.php is not supported anymore, use \OCP\AppFramework\Bootstrap\IBootstrap on the application class instead.', [
@@ -577,6 +568,66 @@ class AppManager implements IAppManager {
 		$eventLogger->end("bootstrap:load_app:$app:info");
 
 		$eventLogger->end("bootstrap:load_app:$app");
+	}
+
+	/**
+	 * @internal
+	 */
+	public function registerAppsAutoloading(array $apps): void {
+		$reload = false;
+		foreach ($apps as $app) {
+			if (!isset($this->registeredApps[$app])) {
+				try {
+					$path = $this->getAppPath($app);
+					$this->registerAutoloading($app, $path);
+					$reload = true;
+				} catch (AppPathNotFoundException $e) {
+					$this->logger->info('Error during app loading: ' . $e->getMessage(), [
+						'exception' => $e,
+						'app' => $app,
+					]);
+				}
+			}
+		}
+		if ($reload) {
+			\OC::$autoloader->triggerReload();
+		}
+	}
+
+	/**
+	 * @internal
+	 */
+	public function registerAutoloading(string $app, string $path, bool $force = false): void {
+		if (!$force && isset($this->registeredApps[$app])) {
+			return;
+		}
+
+		$this->registeredApps[$app] = true;
+
+		// Register on PSR-4 composer autoloader
+		$appNamespace = $this->getAppNamespace($app);
+		\OC::$server->registerNamespace($app, $appNamespace);
+
+		// if (file_exists($path . '/composer/autoload.php')) {
+		// echo "$app $path\n";
+		// require_once $path . '/composer/autoload.php';
+		// } else {
+		if (is_dir($path . '/lib')) {
+			// autoloader crashes on non-existing dir
+			// \OC::$autoloader->addDirectory($path . '/lib/');
+			\OC::$autoloader->addPsr4($appNamespace, $path . '/lib/');
+			// debug_print_backtrace();
+		}
+		// \OC::$composerAutoloader->addPsr4($appNamespace . '\\', $path . '/lib/', true);
+		// }
+
+		// Register Test namespace only when testing
+		if (defined('PHPUNIT_RUN') || defined('CLI_TEST_RUN')) {
+			\OC::$autoloader->addPsr4($appNamespace . '\\Tests\\', $path . '/tests/');
+		}
+		if ($force) {
+			\OC::$autoloader->triggerReload();
+		}
 	}
 
 	/**
@@ -1108,8 +1159,7 @@ class AppManager implements IAppManager {
 		$ignoreMax = in_array($appId, $ignoreMaxApps, true);
 		$this->checkAppDependencies($appId, $ignoreMax);
 
-		\OC_App::registerAutoloading($appId, $appPath, true);
-		\OC::$autoloader->triggerReload();
+		$this->registerAutoloading($appId, $appPath, true);
 		$this->executeRepairSteps($appId, $appInfo['repair-steps']['pre-migration']);
 
 		$ms = new MigrationService($appId, Server::get(\OC\DB\Connection::class));

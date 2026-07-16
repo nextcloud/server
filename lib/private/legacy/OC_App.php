@@ -110,34 +110,7 @@ class OC_App {
 	 * @internal
 	 */
 	public static function registerAutoloading(string $app, string $path, bool $force = false): void {
-		$key = $app . '-' . $path;
-		if (!$force && isset(self::$alreadyRegistered[$key])) {
-			return;
-		}
-
-		self::$alreadyRegistered[$key] = true;
-
-		// Register on PSR-4 composer autoloader
-		$appNamespace = Server::get(IAppManager::class)->getAppNamespace($app);
-		\OC::$server->registerNamespace($app, $appNamespace);
-
-		// if (file_exists($path . '/composer/autoload.php')) {
-		// echo "$app $path\n";
-		// require_once $path . '/composer/autoload.php';
-		// } else {
-		if (is_dir($path . '/lib')) {
-			// autoloader crashes on non-existing dir
-			// \OC::$autoloader->addDirectory($path . '/lib/');
-			\OC::$autoloader->addPsr4($appNamespace, $path . '/lib/');
-			// debug_print_backtrace();
-		}
-		// \OC::$composerAutoloader->addPsr4($appNamespace . '\\', $path . '/lib/', true);
-		// }
-
-		// Register Test namespace only when testing
-		if (defined('PHPUNIT_RUN') || defined('CLI_TEST_RUN')) {
-			\OC::$composerAutoloader->addPsr4($appNamespace . '\\Tests\\', $path . '/tests/', true);
-		}
+		Server::get(IAppManager::class)->registerAutoloading($app, $path, $force);
 	}
 
 	/**
