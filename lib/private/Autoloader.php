@@ -99,7 +99,6 @@ class Autoloader {
 
 			$missing = $this->missingClasses[$type] ?? 0;
 			if ($missing >= self::RetryLimit) {
-				// echo "missing from cache $type (skip search)\n";
 				return;
 			}
 
@@ -131,12 +130,8 @@ class Autoloader {
 				(static function ($file) {
 					require $file;
 				})($file);
-				// } else {
-				// echo "Did not find $type in ".print_r($this->scanPaths,true)."\n";
-				// print_r($this->classes);
 			}
 		} catch (\Throwable $t) {
-			echo "$t\n";
 			throw $t;
 		}
 	}
@@ -215,7 +210,6 @@ class Autoloader {
 	 * Refreshes $this->classes & $this->emptyFiles.
 	 */
 	private function refreshClasses(): void {
-		// echo "REFRESH ".print_r($this->scanPaths,true)."\n";
 		$this->refreshed = true; // prevents calling refreshClasses() or updateFile() in tryLoad()
 		$files = $this->emptyFiles;
 		$classes = [];
@@ -227,13 +221,11 @@ class Autoloader {
 		$this->classes = $this->emptyFiles = [];
 
 		foreach ($this->scanPaths as $path) {
-			// echo "path:$path\n";
 			$iterator = is_file($path)
 				? [$path]
 				: $this->createFileIterator($path);
 
 			foreach ($iterator as $file) {
-				// echo "file:$file\n";
 				$mtime = filemtime($file);
 				$foundClasses = isset($files[$file]) && $files[$file] === $mtime
 					? ($classes[$file] ?? [])
