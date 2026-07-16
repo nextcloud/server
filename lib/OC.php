@@ -90,6 +90,7 @@ class OC {
 	 * @psalm-suppress ImpureStaticProperty
 	 */
 	public static \Composer\Autoload\ClassLoader $composerAutoloader;
+	public static \OC\Autoloader $autoloader;
 
 	/**
 	 * @psalm-suppress ImpureStaticProperty
@@ -684,9 +685,16 @@ class OC {
 
 		self::$CLI = (php_sapi_name() == 'cli');
 
+		require_once __DIR__ . '/private/PhpDumpCache.php';
+		require_once __DIR__ . '/private/Autoloader.php';
+		$phpDumpCache = new \OC\PhpDumpCache(OC::$SERVERROOT . '/temp');
+		self::$autoloader = new \OC\Autoloader($phpDumpCache);
+		self::$autoloader->addDirectory(OC::$SERVERROOT . '/lib');
+		self::$autoloader->addDirectory(OC::$SERVERROOT . '/core');
+		self::$autoloader->register();
 		// Add default composer PSR-4 autoloader, ensure apcu to be disabled
-		self::$composerAutoloader = require_once OC::$SERVERROOT . '/lib/composer/autoload.php';
-		self::$composerAutoloader->setApcuPrefix(null);
+		// self::$composerAutoloader = require_once OC::$SERVERROOT . '/lib/composer/autoload.php';
+		// self::$composerAutoloader->setApcuPrefix(null);
 
 		// setup 3rdparty autoloader
 		$vendorAutoLoad = OC::$SERVERROOT . '/3rdparty/autoload.php';

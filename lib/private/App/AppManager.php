@@ -283,6 +283,7 @@ class AppManager implements IAppManager {
 				}
 			}
 		}
+		\OC::$autoloader->triggerReload();
 
 		// prevent app loading from printing output
 		ob_start();
@@ -1108,6 +1109,7 @@ class AppManager implements IAppManager {
 		$this->checkAppDependencies($appId, $ignoreMax);
 
 		\OC_App::registerAutoloading($appId, $appPath, true);
+		\OC::$autoloader->triggerReload();
 		$this->executeRepairSteps($appId, $appInfo['repair-steps']['pre-migration']);
 
 		$ms = new MigrationService($appId, Server::get(\OC\DB\Connection::class));
