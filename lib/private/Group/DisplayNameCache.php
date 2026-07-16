@@ -82,7 +82,7 @@ class DisplayNameCache implements IEventListener {
 		$groups = $groupManager->getGroupsObjects($missing);
 		$stillMissingGroups = array_diff($missing, array_keys($groups));
 		foreach ($groups as $groupId => $group) {
-			$displayName = $group->getDisplayName() ?? $group->getGID();
+			$displayName = $group->getDisplayName();
 			$this->cache[$groupId] = $displayName;
 			$this->memCache->set($groupId, $displayName, 60 * 10); // 10 minutes
 			$result[$groupId] = $displayName;
