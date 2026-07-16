@@ -616,7 +616,7 @@ class AppManager implements IAppManager {
 		}
 
 		// Register Test namespace only when testing
-		if (defined('PHPUNIT_RUN') || defined('CLI_TEST_RUN')) {
+		if ((defined('PHPUNIT_RUN') || defined('CLI_TEST_RUN')) && is_dir($path . '/tests/')) {
 			\OC::$autoloader->addPsr4($appNamespace . '\\Tests\\', $path . '/tests/');
 		}
 		if ($force) {
