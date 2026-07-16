@@ -91,7 +91,6 @@ OC.L10N.register(
     "Folder is loading" : "La carpeta se está cargando",
     "Filename" : "Nombre de archivo",
     "Folder name" : "Nombre de la carpeta",
-    "unavailable" : "no disponible",
     "Another entry with the same name already exists." : "Ya existe otra entrada con el mismo nombre.",
     "Invalid filename." : "Nombre de archivo inválido.",
     "Rename file" : "Renombrar archivo",

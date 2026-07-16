@@ -91,7 +91,6 @@ OC.L10N.register(
     "Folder is loading" : "پوشه در حال بارگذاری است",
     "Filename" : "نام فایل",
     "Folder name" : "نام پوشه",
-    "unavailable" : "در دسترس نیست",
     "Another entry with the same name already exists." : "ورودی دیگری با همین نام از قبل وجود دارد.",
     "Invalid filename." : "نام فایل نامعتبر است.",
     "Rename file" : "تغییر نام فایل",

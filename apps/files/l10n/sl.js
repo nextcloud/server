@@ -87,7 +87,6 @@ OC.L10N.register(
     "Folder is loading" : "mape",
     "Filename" : "Ime datoteke",
     "Folder name" : "Ime mape",
-    "unavailable" : "ni na voljo",
     "Another entry with the same name already exists." : "Vpis z istim imenom že obstaja.",
     "Invalid filename." : "Neveljavno ime datoteke",
     "Rename file" : "Preimenuj datoteke",

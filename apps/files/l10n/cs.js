@@ -91,7 +91,6 @@ OC.L10N.register(
     "Folder is loading" : "Složka se načítá",
     "Filename" : "Soubor",
     "Folder name" : "Název složky",
-    "unavailable" : "není dostupné",
     "Another entry with the same name already exists." : "Už existuje jiná položka se stejným názvem.",
     "Invalid filename." : "Neplatný název souboru.",
     "Rename file" : "Přejmenovat soubor",

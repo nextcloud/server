@@ -91,7 +91,6 @@ OC.L10N.register(
     "Folder is loading" : "Adresár sa nahráva",
     "Filename" : "Názov súboru",
     "Folder name" : "Názov priečinka",
-    "unavailable" : "nedostupné",
     "Another entry with the same name already exists." : "Iná položka s rovnakým menom už existuje.",
     "Invalid filename." : "Chybný názov súboru.",
     "Rename file" : "Premenovať súbor",

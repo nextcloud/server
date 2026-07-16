@@ -269,6 +269,7 @@
     "Configuration file access rights" : "Ligipääsuõigused seadistuste failile",
     "The read-only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "Kasutusel on ainult lugemisõigustes seadistus. See takistab mõnede seadistuste määramist veebiliidesest. Veel enam, igal uuendusel pead ta käsitsi märkima kirjutatavaks.",
     "Nextcloud configuration file is writable" : "Nextcloudi seadistusfail on on kirjutatav",
+    "Sanitize and merge duplicate system tags available" : "Normaliseeri ja mesti saadavalolevad topelt süsteemisildid",
     "Scheduling objects table size" : "Ajastatud tööde tabeli suurus",
     "You have more than %s rows in the scheduling objects table. Please run the expensive repair jobs via occ maintenance:repair --include-expensive." : "Sul on ajastatud taustööde tabelis enam, kui %s kirjet. Palun käivita ressursimahukat tegevused käsurealt: „occ maintenance:repair --include-expensive“.",
     "Scheduling objects table size is within acceptable range." : "Ajastatud tööde tabeli suurus on mõistlik",

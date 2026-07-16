@@ -90,7 +90,7 @@
     "Folder is loading" : "A pasta está carregando",
     "Filename" : "Nome do arquivo",
     "Folder name" : "Nome da pasta",
-    "unavailable" : "indisponível",
+    "{displayName} (unavailable)" : "{displayName} (indisponível)",
     "Another entry with the same name already exists." : "Outra entrada com o mesmo nome já existe.",
     "Invalid filename." : "Nome de arquivo inválido.",
     "Rename file" : "Renomear arquivo",

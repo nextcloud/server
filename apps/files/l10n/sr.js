@@ -90,7 +90,6 @@ OC.L10N.register(
     "Folder is loading" : "Фолдер се учитава",
     "Filename" : "Назив фајла",
     "Folder name" : "Назив фасцикле",
-    "unavailable" : "није доступно",
     "Another entry with the same name already exists." : "Већ постоји ставка са истим именом.",
     "Invalid filename." : "Неисправно име фајла.",
     "Rename file" : "Промени назив фајла",

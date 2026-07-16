@@ -91,7 +91,6 @@ OC.L10N.register(
     "Folder is loading" : "Karpeta kargatzen ari da",
     "Filename" : "Fitxategi-izena",
     "Folder name" : "Karpetaren izena",
-    "unavailable" : "ez erabilgarri",
     "Another entry with the same name already exists." : "Izen bereko beste sarrera bat badago jada.",
     "Invalid filename." : "Fitxategi-izen baliogabea.",
     "Rename file" : "Berrizendatu fitxategia",
