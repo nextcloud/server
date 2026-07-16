@@ -147,10 +147,12 @@ class Autoloader {
 	}
 
 	/**
-	 * Add path or paths to list.
+	 * Add path for given namespace
 	 */
 	public function addPsr4(string $namespace, string $path): static {
-		$this->psr4Paths[$namespace] = $path;
+		$path = trim($path, '/');
+		$namespace = trim($namespace, '\\');
+		$this->psr4Paths[$namespace] = '/' . $path;
 		return $this;
 	}
 
@@ -240,7 +242,6 @@ class Autoloader {
 
 				foreach ($foundClasses as $class) {
 					if (isset($this->classes[$class])) {
-						continue; //FIXME
 						throw new \RuntimeException(sprintf(
 							'Ambiguous class %s resolution; defined in %s and in %s.',
 							$class,
@@ -257,11 +258,16 @@ class Autoloader {
 
 		foreach ($this->psr4Paths as $namespace => $path) {
 			$iterator = $this->createFileIterator($path);
-			$pathLen = strlen($path);
+			// Length of path + separator
+			$pathLen = strlen($path) + 1;
+			if ($namespace === '') {
+				$prefix = '';
+			} else {
+				$prefix = $namespace . '\\';
+			}
 			foreach ($iterator as $file) {
-				$class = $namespace . '\\' . str_replace('/', '\\', substr($file, $pathLen, -4));
+				$class = $prefix . str_replace('/', '\\', substr($file, $pathLen, -4));
 				if (isset($this->classes[$class])) {
-					continue; //FIXME
 					throw new \RuntimeException(sprintf(
 						'Ambiguous class %s resolution; defined in %s and in %s.',
 						$class,
