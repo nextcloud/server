@@ -91,7 +91,6 @@ OC.L10N.register(
     "Folder is loading" : "A mappa épp betöltődik",
     "Filename" : "Fájlnév",
     "Folder name" : "Mappanév",
-    "unavailable" : "nem érhető el",
     "Another entry with the same name already exists." : "Már létezik ilyen nevű bejegyzés.",
     "Invalid filename." : "Érvénytelen fájlnév.",
     "Rename file" : "Fájl átnevezése",

@@ -91,7 +91,6 @@ OC.L10N.register(
     "Folder is loading" : "Ο φάκελος φορτώνεται",
     "Filename" : "Όνομα αρχείου",
     "Folder name" : "Όνομα φακέλου",
-    "unavailable" : "μη διαθέσιμο",
     "Another entry with the same name already exists." : "Μια άλλη καταχώρηση με το ίδιο όνομα υπάρχει ήδη.",
     "Invalid filename." : "Μη έγκυρο όνομα αρχείου",
     "Rename file" : "Μετονομασία αρχείου",

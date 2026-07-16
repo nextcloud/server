@@ -88,7 +88,6 @@ OC.L10N.register(
     "Folder is loading" : "S'està carregant la carpeta",
     "Filename" : "Nom del fitxer",
     "Folder name" : "Nom de la carpeta",
-    "unavailable" : "no disponible",
     "Another entry with the same name already exists." : "Ja existeix una altra entrada amb el mateix nom.",
     "Invalid filename." : "Nom de fitxer no vàlid.",
     "Rename file" : "Canvia el nom del fitxer",

@@ -92,7 +92,6 @@ OC.L10N.register(
     "Folder is loading" : "Katalog jest wczytywany",
     "Filename" : "Nazwa pliku",
     "Folder name" : "Nazwa katalogu",
-    "unavailable" : "niedostępny",
     "Another entry with the same name already exists." : "Inny wpis o tej samej nazwie już istnieje.",
     "Invalid filename." : "Nieprawidłowa nazwa pliku.",
     "Rename file" : "Zmień nazwę pliku",

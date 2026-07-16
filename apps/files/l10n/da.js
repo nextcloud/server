@@ -91,7 +91,6 @@ OC.L10N.register(
     "Folder is loading" : "Mappen indlæses",
     "Filename" : "Filnavn",
     "Folder name" : "Mappenavn",
-    "unavailable" : "ikke tilgængelig",
     "Another entry with the same name already exists." : "En anden indførsel med det samme navn eksisterer allerede.",
     "Invalid filename." : "Ugyldigt filnavn.",
     "Rename file" : "Omdøb fil",

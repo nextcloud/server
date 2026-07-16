@@ -92,7 +92,6 @@ OC.L10N.register(
     "Folder is loading" : "Папката се зарежда",
     "Filename" : "Име на файла",
     "Folder name" : "Име на папка",
-    "unavailable" : "не е наличен",
     "Another entry with the same name already exists." : "Вече съществува друг запис със същото име.",
     "Invalid filename." : "Невалидно име на файл.",
     "Rename file" : "Преименуване на файл",
