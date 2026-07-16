@@ -1080,8 +1080,7 @@ class UsersController extends AUserDataOCSController {
 		}
 
 		if ($groups !== null) {
-			$currentGroups = $this->groupManager->getUserGroups($targetUser);
-			$currentGroupIds = array_map(fn (IGroup $g) => $g->getGID(), $currentGroups);
+			$currentGroupIds = $this->groupManager->getUserGroupIds($targetUser);
 			foreach (array_diff($currentGroupIds, $groups) as $gid) {
 				$this->groupManager->get($gid)?->removeUser($targetUser);
 			}

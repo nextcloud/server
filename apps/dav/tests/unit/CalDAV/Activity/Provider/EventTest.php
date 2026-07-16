@@ -146,11 +146,29 @@ class EventTest extends TestCase {
 				],
 				base64_encode('/remote.php/dav/calendars/sharee/Umlaut_%c3%a4%c3%bc%c3%b6%c3%9f/someuuid.ics'),
 			],
+			[ // Owned calendar, uid contains a space
+				[
+					'object_uri' => 'someuuid.ics',
+					'calendar_uri' => 'personal',
+					'owner' => 'Elisa Ciria'
+				],
+				base64_encode('/remote.php/dav/calendars/Elisa%20Ciria/personal/someuuid.ics'),
+				'Elisa Ciria',
+			],
+			[ // Shared calendar, owner and affected user uids both contain a space
+				[
+					'object_uri' => 'someuuid.ics',
+					'calendar_uri' => 'personal',
+					'owner' => 'Elisa Ciria'
+				],
+				base64_encode('/remote.php/dav/calendars/John%20Doe/personal_shared_by_Elisa%20Ciria/someuuid.ics'),
+				'John Doe',
+			],
 		];
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'generateObjectParameterLinkEncodingDataProvider')]
-	public function testGenerateObjectParameterLinkEncoding(array $link, string $objectId): void {
+	public function testGenerateObjectParameterLinkEncoding(array $link, string $objectId, string $affectedUser = 'sharee'): void {
 		$generatedLink = [
 			'objectId' => $objectId,
 		];
@@ -171,7 +189,7 @@ class EventTest extends TestCase {
 			'name' => 'calendar',
 			'link' => 'fullLink',
 		];
-		$this->assertEquals($result, $this->invokePrivate($this->provider, 'generateObjectParameter', [$objectParameter, 'sharee']));
+		$this->assertEquals($result, $this->invokePrivate($this->provider, 'generateObjectParameter', [$objectParameter, $affectedUser]));
 	}
 
 	public static function dataGenerateObjectParameterThrows(): array {

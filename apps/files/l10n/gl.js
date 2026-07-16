@@ -91,7 +91,6 @@ OC.L10N.register(
     "Folder is loading" : "Estase a cargar o cartafol",
     "Filename" : "Nome de ficheiro",
     "Folder name" : "Nome do cartafol",
-    "unavailable" : "non dispoñíbel",
     "Another entry with the same name already exists." : "Xa existe outra entrada co mesmo nome.",
     "Invalid filename." : "Nome de ficheiro incorrecto.",
     "Rename file" : "Cambiar o nome do ficheiro",

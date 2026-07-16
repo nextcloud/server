@@ -1877,12 +1877,18 @@
   <file src="apps/files_trashbin/lib/Helper.php">
     <InternalClass>
       <code><![CDATA[new View('/' . $user . '/files_trashbin/files')]]></code>
+      <code><![CDATA[new View('/' . $user . '/files_trashbin/files')]]></code>
     </InternalClass>
     <InternalMethod>
       <code><![CDATA[getAbsolutePath]]></code>
       <code><![CDATA[getAbsolutePath]]></code>
+      <code><![CDATA[getAbsolutePath]]></code>
+      <code><![CDATA[getAbsolutePath]]></code>
+      <code><![CDATA[getMount]]></code>
       <code><![CDATA[getMount]]></code>
       <code><![CDATA[is_dir]]></code>
+      <code><![CDATA[is_dir]]></code>
+      <code><![CDATA[new View('/' . $user . '/files_trashbin/files')]]></code>
       <code><![CDATA[new View('/' . $user . '/files_trashbin/files')]]></code>
     </InternalMethod>
   </file>
@@ -1914,14 +1920,6 @@
     <MismatchingDocblockReturnType>
       <code><![CDATA[INode]]></code>
     </MismatchingDocblockReturnType>
-  </file>
-  <file src="apps/files_trashbin/lib/Sabre/TrashRoot.php">
-    <InvalidReturnStatement>
-      <code><![CDATA[$entry]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[ITrash]]></code>
-    </InvalidReturnType>
   </file>
   <file src="apps/files_trashbin/lib/Sabre/TrashbinPlugin.php">
     <InternalMethod>
@@ -3032,6 +3030,11 @@
     <InvalidScalarArgument>
       <code><![CDATA[$this->timeFactory->getTime()]]></code>
     </InvalidScalarArgument>
+  </file>
+  <file src="core/Command/Memcache/RedisCommand.php">
+    <DeprecatedClass>
+      <code><![CDATA[protected]]></code>
+    </DeprecatedClass>
   </file>
   <file src="core/Command/Security/BruteforceAttempts.php">
     <DeprecatedMethod>
@@ -4184,8 +4187,14 @@
     </MoreSpecificImplementedParamType>
   </file>
   <file src="lib/private/Teams/TeamManager.php">
+    <LessSpecificReturnStatement>
+      <code><![CDATA[array_map($this->circleToTeam(...), $this->circlesManager->probeCircles())]]></code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType>
+      <code><![CDATA[array]]></code>
+    </MoreSpecificReturnType>
     <UndefinedDocblockClass>
-      <code><![CDATA[Circle]]></code>
+      <code><![CDATA[Circle[]]]></code>
     </UndefinedDocblockClass>
   </file>
   <file src="lib/private/Template/Base.php">
@@ -4257,6 +4266,11 @@
     <MoreSpecificReturnType>
       <code><![CDATA[array{X-Request-Id: string, Cache-Control: string, Content-Security-Policy: string, Feature-Policy: string, X-Robots-Tag: string, Last-Modified?: string, ETag?: string, ...H}]]></code>
     </MoreSpecificReturnType>
+  </file>
+  <file src="lib/public/ICache.php">
+    <AmbiguousConstantInheritance>
+      <code><![CDATA[DEFAULT_TTL]]></code>
+    </AmbiguousConstantInheritance>
   </file>
   <file src="public.php">
     <DeprecatedMethod>

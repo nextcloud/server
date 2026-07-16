@@ -1607,7 +1607,7 @@ class Manager implements IManager {
 				$file = $folder->newFile(time() . '-' . rand(1, 100000), $output[$key]);
 				$newOutput[$key] = $file->getId(); // polymorphic call to SimpleFile
 			} else {
-				$newOutput = [];
+				$newOutput[$key] = [];
 				foreach ($output[$key] as $item) {
 					/** @var SimpleFile $file */
 					$file = $folder->newFile(time() . '-' . rand(1, 100000), $item);

@@ -8,6 +8,7 @@
 
 namespace OCA\FederatedFileSharing\Controller;
 
+use OC\AppFramework\Http\Attributes\FederationRateLimit;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
@@ -30,7 +31,6 @@ use OCP\IDBConnection;
 use OCP\IRequest;
 use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Server;
-use OCP\Share;
 use OCP\Share\Exceptions\ShareNotFound;
 use Psr\Log\LoggerInterface;
 
@@ -70,6 +70,7 @@ class RequestHandlerController extends OCSController {
 	 */
 	#[NoCSRFRequired]
 	#[PublicPage]
+	#[FederationRateLimit(limit: 5, period: 1200)]
 	public function createShare(
 		?string $remote = null,
 		?string $token = null,

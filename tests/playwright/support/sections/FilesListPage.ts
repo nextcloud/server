@@ -106,7 +106,11 @@ export class FilesListPage {
 
 	/** Click a column header's sort button to toggle sorting by that column. */
 	async sortByColumn(name: string): Promise<void> {
+		const saved = this.page.waitForResponse((r) => r.request().method() === 'PUT' && r.url().includes('/index.php/apps/files/api/v1/views'))
+
 		await this.getColumnHeader(name).getByRole('button', { name }).click()
+
+		await saved
 	}
 
 	/** The per-row selection checkboxes. */

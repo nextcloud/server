@@ -146,6 +146,9 @@ class Cache extends CacheJail {
 
 		try {
 			if (isset($entry['permissions'])) {
+				// keep the unmasked permissions so a future scan or cross-storage
+				// copy doesn't persist the share-masked permissions in the cache
+				$entry['scan_permissions'] ??= $entry['permissions'];
 				$entry['permissions'] &= $this->share->getPermissions();
 			} else {
 				$entry['permissions'] = $this->storage->getPermissions($entry['path']);

@@ -86,7 +86,6 @@ OC.L10N.register(
     "Folder is loading" : "يتم تحميل المجلد...",
     "Filename" : "اسم الملف",
     "Folder name" : "اسم المجلد",
-    "unavailable" : "غير متاح",
     "Another entry with the same name already exists." : "توجد سلفاً إدخالية أخرى بنفس هذا الاسم.",
     "Invalid filename." : "اسم ملف غير صحيح.",
     "Rename file" : "إعادة تسمية الملف",

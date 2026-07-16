@@ -90,7 +90,6 @@ OC.L10N.register(
     "Folder is loading" : "Folder sedang dimuat",
     "Filename" : "Nama berkas",
     "Folder name" : "Nama folder",
-    "unavailable" : "tidak tersedia",
     "Another entry with the same name already exists." : "Entri lain dengan nama yang sama sudah ada.",
     "Invalid filename." : "Nama file tidak valid.",
     "Rename file" : "Ganti nama file",

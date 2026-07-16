@@ -62,6 +62,11 @@ class Put extends Command {
 			}
 			stream_copy_to_stream($source, $target);
 		} else {
+			$parentPath = dirname($fileOutput);
+			if (!$this->rootFolder->nodeExists($parentPath)) {
+				$this->rootFolder->newFolder($parentPath);
+			}
+
 			$this->rootFolder->newFile($fileOutput, $source);
 		}
 		return self::SUCCESS;

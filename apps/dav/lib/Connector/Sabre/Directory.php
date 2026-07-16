@@ -125,11 +125,16 @@ class Directory extends Node implements
 			$node->acquireLock(ILockingProvider::LOCK_SHARED);
 			$this->fileView->lockFile($this->path . '/' . $name . '.upload.part', ILockingProvider::LOCK_EXCLUSIVE);
 
-			$result = $node->put($data);
-
-			$this->fileView->unlockFile($this->path . '/' . $name . '.upload.part', ILockingProvider::LOCK_EXCLUSIVE);
-			$node->releaseLock(ILockingProvider::LOCK_SHARED);
-			return $result;
+			try {
+				return $node->put($data);
+			} finally {
+				// Always release the locks, even when the upload failed or was
+				// interrupted. Otherwise a failed attempt leaves the exclusive
+				// part-file lock behind and every later upload to the same path
+				// keeps getting rejected with 423 until the lock TTL expires.
+				$this->fileView->unlockFile($this->path . '/' . $name . '.upload.part', ILockingProvider::LOCK_EXCLUSIVE);
+				$node->releaseLock(ILockingProvider::LOCK_SHARED);
+			}
 		} catch (StorageNotAvailableException $e) {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage(), $e->getCode(), $e);
 		} catch (InvalidPathException $ex) {

@@ -13,6 +13,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IServerInfo;
 use OCP\Snowflake\ISnowflakeGenerator;
 use Override;
+use RuntimeException;
 
 /**
  * Nextcloud Snowflake ID generator
@@ -59,10 +60,15 @@ final readonly class SnowflakeGenerator implements ISnowflakeGenerator {
 		return $this->packSnowflakeId($timestamp - self::TS_OFFSET, 0, 0, 0, 0);
 	}
 
+	/**
+	 * @psalm-suppress MoreSpecificReturnType
+	 * @return non-empty-string
+	 */
 	private function packSnowflakeId($seconds, $milliseconds, $serverId, $isCli, $sequenceId): string {
 		if (PHP_INT_SIZE === 8) {
 			$firstHalf = $seconds & 0x7FFFFFFF;
 			$secondHalf = (($milliseconds & 0x3FF) << 22) | ($serverId << 13) | ($isCli << 12) | $sequenceId;
+			/** @psalm-suppress LessSpecificReturnStatement */
 			return (string)($firstHalf << 32 | $secondHalf);
 		}
 
@@ -85,6 +91,9 @@ final readonly class SnowflakeGenerator implements ISnowflakeGenerator {
 	/**
 	 * Mostly copied from Symfony:
 	 * https://github.com/symfony/symfony/blob/v7.3.4/src/Symfony/Component/Uid/BinaryUtil.php#L49
+	 *
+	 * @param non-empty-list<non-negative-int> $bytes
+	 * @return non-empty-string
 	 */
 	private function convertToDecimal(array $bytes): string {
 		$base = 10;
@@ -106,6 +115,10 @@ final readonly class SnowflakeGenerator implements ISnowflakeGenerator {
 
 			$digits = $remainder . $digits;
 			$bytes = $quotient;
+		}
+
+		if ($digits === '') {
+			throw new RuntimeException('Empty digits: ' . var_export($bytes, true));
 		}
 
 		return $digits;

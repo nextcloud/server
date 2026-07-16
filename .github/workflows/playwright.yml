@@ -69,7 +69,7 @@ jobs:
         npm ci
         npm run build --if-present
     - name: Save context
-      uses: buildjet/cache/save@3e70d19e31d6a8030aeddf6ed8dbe601f94d09f4 # v4.0.2
+      uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
       with:
         key: playwright-context-${{ github.run_id }}
         path: ./
@@ -91,7 +91,7 @@ jobs:
     steps:
     - name: Restore context
       id: cache
-      uses: buildjet/cache/restore@3e70d19e31d6a8030aeddf6ed8dbe601f94d09f4 # v4.0.2
+      uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
       with:
         key: playwright-context-${{ github.run_id }}
         path: ./
@@ -156,7 +156,7 @@ jobs:
     steps:
     - name: Restore context
       id: cache
-      uses: buildjet/cache/restore@3e70d19e31d6a8030aeddf6ed8dbe601f94d09f4 # v4.0.2
+      uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
       with:
         key: playwright-context-${{ github.run_id }}
         path: ./

@@ -40,7 +40,6 @@ use OCP\User\Exceptions\UserNotFoundException;
 use OCP\UserInterface;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
-use RuntimeException;
 
 /**
  * Class Manager
@@ -871,21 +870,11 @@ class Manager extends PublicEmitter implements IUserManager {
 
 	#[\Override]
 	public function getAvatarUrlLight(string $userId, int $size): string {
-		$url = ($this->urlGenerator ??= Server::get(IURLGenerator::class))->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $userId, 'size' => $size]);
-		if ($url === '') {
-			throw new RuntimeException('The URL is empty.');
-		}
-
-		return $url;
+		return ($this->urlGenerator ??= Server::get(IURLGenerator::class))->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $userId, 'size' => $size]);
 	}
 
 	#[\Override]
 	public function getAvatarUrlDark(string $userId, int $size): string {
-		$url = ($this->urlGenerator ??= Server::get(IURLGenerator::class))->linkToRouteAbsolute('core.avatar.getAvatarDark', ['userId' => $userId, 'size' => $size]);
-		if ($url === '') {
-			throw new RuntimeException('The URL is empty.');
-		}
-
-		return $url;
+		return ($this->urlGenerator ??= Server::get(IURLGenerator::class))->linkToRouteAbsolute('core.avatar.getAvatarDark', ['userId' => $userId, 'size' => $size]);
 	}
 }

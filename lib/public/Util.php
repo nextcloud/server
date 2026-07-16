@@ -638,7 +638,7 @@ class Util {
 	 *
 	 * @param string $input The input string to sanitize
 	 * @return string The sanitized string
-	 * @since 35.0.0
+	 * @since 34.0.2
 	 */
 	public static function sanitizeWordsAndEmojis(string $input): string {
 		// Remove control characters and other invisible separators, but keep everything else.

@@ -73,7 +73,7 @@ class RequestURL extends AbstractStringCheck {
 		if ($this->url === RequestURL::CLI) {
 			return false;
 		}
-		return substr($this->request->getScriptName(), 0 - strlen('/remote.php')) === '/remote.php' && (
+		return str_ends_with($this->request->getScriptName(), '/remote.php') && (
 			$this->request->getPathInfo() === '/webdav'
 			|| str_starts_with($this->request->getPathInfo() ?? '', '/webdav/')
 			|| $this->request->getPathInfo() === '/dav/files'

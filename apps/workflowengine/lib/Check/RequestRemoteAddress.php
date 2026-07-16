@@ -7,11 +7,13 @@
 
 namespace OCA\WorkflowEngine\Check;
 
+use OCP\Cache\CappedMemoryCache;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\WorkflowEngine\ICheck;
 
 class RequestRemoteAddress implements ICheck {
+	protected CappedMemoryCache $checked;
 
 	/**
 	 * @param IL10N $l
@@ -21,6 +23,7 @@ class RequestRemoteAddress implements ICheck {
 		protected IL10N $l,
 		protected IRequest $request,
 	) {
+		$this->checked = new CappedMemoryCache();
 	}
 
 	/**
@@ -30,18 +33,24 @@ class RequestRemoteAddress implements ICheck {
 	 */
 	#[\Override]
 	public function executeCheck($operator, $value) {
+		$cacheKey = sha1($operator . $value);
+
+		if (isset($this->checked[$cacheKey])) {
+			return $this->checked[$cacheKey];
+		}
+
 		$actualValue = $this->request->getRemoteAddress();
 		$decodedValue = explode('/', $value);
 
-		if ($operator === 'matchesIPv4') {
-			return $this->matchIPv4($actualValue, $decodedValue[0], (int)$decodedValue[1]);
-		} elseif ($operator === '!matchesIPv4') {
-			return !$this->matchIPv4($actualValue, $decodedValue[0], (int)$decodedValue[1]);
-		} elseif ($operator === 'matchesIPv6') {
-			return $this->matchIPv6($actualValue, $decodedValue[0], (int)$decodedValue[1]);
-		} else {
-			return !$this->matchIPv6($actualValue, $decodedValue[0], (int)$decodedValue[1]);
-		}
+		$result = match ($operator) {
+			'matchesIPv4' => $this->matchIPv4($actualValue, $decodedValue[0], (int)$decodedValue[1]),
+			'!matchesIPv4' => !$this->matchIPv4($actualValue, $decodedValue[0], (int)$decodedValue[1]),
+			'matchesIPv6' => $this->matchIPv6($actualValue, $decodedValue[0], (int)$decodedValue[1]),
+			default => !$this->matchIPv6($actualValue, $decodedValue[0], (int)$decodedValue[1]),
+		};
+
+		$this->checked[$cacheKey] = $result;
+		return $result;
 	}
 
 	/**

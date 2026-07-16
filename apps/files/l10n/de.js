@@ -92,7 +92,7 @@ OC.L10N.register(
     "Folder is loading" : "Ordner wird geladen",
     "Filename" : "Dateiname",
     "Folder name" : "Ordnername",
-    "unavailable" : "Nicht verfügbar",
+    "{displayName} (unavailable)" : "{displayName} (nicht verfügbar)",
     "Another entry with the same name already exists." : "Ein anderer Eintrag mit diesem Namen existiert bereits.",
     "Invalid filename." : "Ungültiger Dateiname.",
     "Rename file" : "Datei umbenennen",

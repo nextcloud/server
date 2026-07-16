@@ -6,7 +6,6 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 use OC\Authentication\Token\IProvider;
-use OC\Security\CSRF\CsrfTokenManager;
 use OC\SystemConfig;
 use OC\User\Database;
 use OC\User\DisabledUserException;
@@ -22,12 +21,10 @@ use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
-use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Server;
 use OCP\Session\Exceptions\SessionNotAvailableException;
-use OCP\User\Backend\ICustomLogout;
 use OCP\User\Events\BeforeUserLoggedInEvent;
 use OCP\User\Events\UserLoggedInEvent;
 use OCP\UserInterface;
@@ -276,25 +273,10 @@ class OC_User {
 
 	/**
 	 * Returns the current logout URL valid for the currently logged-in user
+	 * @return non-empty-string
 	 */
 	public static function getLogoutUrl(IURLGenerator $urlGenerator): string {
-		$backend = self::findFirstActiveUsedBackend();
-		if ($backend) {
-			return $backend->getLogoutUrl();
-		}
-
-		$user = Server::get(IUserSession::class)->getUser();
-		if ($user instanceof IUser) {
-			$backend = $user->getBackend();
-			if ($backend instanceof ICustomLogout) {
-				return $backend->getLogoutUrl();
-			}
-		}
-
-		$logoutUrl = $urlGenerator->linkToRoute('core.login.logout');
-		$logoutUrl .= '?requesttoken=' . urlencode(Server::get(CsrfTokenManager::class)->getToken()->getEncryptedValue());
-
-		return $logoutUrl;
+		return $urlGenerator->getLogoutUrl();
 	}
 
 	/**

@@ -91,7 +91,6 @@ OC.L10N.register(
     "Folder is loading" : "Папка загружается",
     "Filename" : "Имя файла",
     "Folder name" : "Имя папки",
-    "unavailable" : "недоступен",
     "Another entry with the same name already exists." : "Другая запись с таким же именем уже существует.",
     "Invalid filename." : "Недопустимое имя файла.",
     "Rename file" : "Переименовать файл",

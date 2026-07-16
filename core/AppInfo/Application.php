@@ -40,7 +40,6 @@ use OCP\Interaction\RestrictInteractionEvent;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
-use OCP\Server;
 use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\User\Events\PasswordUpdatedEvent;
 use OCP\User\Events\UserDeletedEvent;
@@ -116,25 +115,23 @@ class Application extends App implements IBootstrap {
 		INavigationManager $navigationManager,
 		IUserSession $userSession,
 		IURLGenerator $urlGenerator,
+		IFactory $factory,
 	): void {
 		if (!$userSession->isLoggedIn()) {
 			return;
 		}
 
-		$l = Server::get(IFactory::class)->get('core');
+		$l = $factory->get('core');
 
 		// Register the logout button in the user settings
-		$logoutUrl = \OC_User::getLogoutUrl($urlGenerator);
-		if ($logoutUrl !== '') {
-			$navigationManager->add([
-				'type' => 'settings',
-				'id' => 'logout',
-				'order' => 99999,
-				'href' => $logoutUrl,
-				'name' => $l->t('Log out'),
-				'icon' => $urlGenerator->imagePath('core', 'actions/logout.svg'),
-			]);
-		}
+		$logoutUrl = $urlGenerator->getLogoutUrl();
+		$navigationManager->add([
+			'type' => 'settings',
+			'id' => 'logout',
+			'order' => 99999,
+			'href' => $logoutUrl,
+			'name' => $l->t('Log out'),
+			'icon' => $urlGenerator->imagePath('core', 'actions/logout.svg'),
+		]);
 	}
-
 }

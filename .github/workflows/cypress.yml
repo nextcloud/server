@@ -110,7 +110,7 @@ jobs:
         run: npm i -g 'npm@${{ steps.versions.outputs.npmVersion }}'
 
       - name: Restore npm cache
-        uses: buildjet/cache/restore@3e70d19e31d6a8030aeddf6ed8dbe601f94d09f4 # v4.0.2
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: ~/.npm
           key: node-${{ steps.versions.outputs.nodeVersion }}-npm-${{ steps.versions.outputs.npmVersion }}-${{ hashFiles('**/package-lock.json') }}
@@ -121,13 +121,13 @@ jobs:
           TESTING=true npm run build --if-present
 
       - name: Save npm cache
-        uses: buildjet/cache/save@3e70d19e31d6a8030aeddf6ed8dbe601f94d09f4 # v4.0.2
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: ~/.npm
           key: node-${{ steps.versions.outputs.nodeVersion }}-npm-${{ steps.versions.outputs.npmVersion }}-${{ hashFiles('**/package-lock.json') }}
 
       - name: Save context
-        uses: buildjet/cache/save@3e70d19e31d6a8030aeddf6ed8dbe601f94d09f4 # v4.0.2
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           key: cypress-context-${{ github.run_id }}
           path: ./
@@ -196,7 +196,7 @@ jobs:
     steps:
       - name: Restore context
         id: cache
-        uses: buildjet/cache/restore@3e70d19e31d6a8030aeddf6ed8dbe601f94d09f4 # v4.0.2
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           key: cypress-context-${{ github.run_id }}
           path: ./
@@ -294,12 +294,23 @@ jobs:
 
     name: cypress-summary
 
+    permissions:
+      # `actions:write` permission is required to delete caches
+      #   See also: https://docs.github.com/en/rest/actions/cache?apiVersion=2022-11-28#delete-a-github-actions-cache-for-a-repository-using-a-cache-id
+      actions: write
+      contents: read
+
     steps:
       - name: Summary status
         run: if ${{ needs.init.result != 'success' || ( needs.cypress.result != 'success' && needs.cypress.result != 'skipped' ) }}; then exit 1; fi
 
       - name: Delete cache on success
-        uses: buildjet/cache-delete@7184288b8396c4492a56728c47dd286fbd1e96ae # v1
-        if: needs.init.result == 'success' && needs.cypress.result == 'success'
-        with:
-          cache_key: cypress-context-${{ github.run_id }}
+        run: |
+          ## Setting this to not fail the workflow while deleting cache keys.
+          set +e
+          echo "Deleting cache..."
+          gh cache delete 'cypress-context-${{ github.run_id }}'
+          echo "Done"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}

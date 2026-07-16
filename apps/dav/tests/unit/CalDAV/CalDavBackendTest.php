@@ -264,7 +264,7 @@ EOD;
 	}
 
 	public function testMultipleCalendarObjectsWithSameUID(): void {
-		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
+		$this->expectException(\OCA\DAV\Exception\UidConflict::class);
 		$this->expectExceptionMessage('Calendar object with uid already exists in this calendar collection.');
 
 		$calendarId = $this->createTestCalendar();
@@ -330,6 +330,82 @@ EOD;
 		$newObject = $this->backend->getCalendarObject($calendarId, $newUri);
 		$this->assertNotNull($newObject);
 		$this->assertEquals($calData, $newObject['calendardata']);
+	}
+
+	public function testMoveCalendarObjectToCollectionWithSameUID(): void {
+		$this->dispatcher->expects(self::any())->method('dispatchTyped');
+
+		$this->backend->createCalendar(self::UNIT_TEST_USER, 'Source', []);
+		$this->backend->createCalendar(self::UNIT_TEST_USER, 'Target', []);
+		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
+		$sourceCalendarId = (int)$calendars[0]['id'];
+		$targetCalendarId = (int)$calendars[1]['id'];
+
+		$calData = <<<'EOD'
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:ownCloud Calendar
+BEGIN:VEVENT
+CREATED;VALUE=DATE-TIME:20130910T125139Z
+UID:move-conflict-1
+LAST-MODIFIED;VALUE=DATE-TIME:20130910T125139Z
+DTSTAMP;VALUE=DATE-TIME:20130910T125139Z
+SUMMARY:Test Event
+DTSTART;VALUE=DATE-TIME:20130912T130000Z
+DTEND;VALUE=DATE-TIME:20130912T140000Z
+CLASS:PUBLIC
+END:VEVENT
+END:VCALENDAR
+EOD;
+
+		// Same UID in two different collections is allowed; moving the source
+		// into the target must then be rejected with the no-uid-conflict error.
+		$this->backend->createCalendarObject($sourceCalendarId, 'source.ics', $calData);
+		$this->backend->createCalendarObject($targetCalendarId, 'target.ics', $calData);
+		$sourceObject = $this->backend->getCalendarObject($sourceCalendarId, 'source.ics');
+
+		$this->expectException(\OCA\DAV\Exception\UidConflict::class);
+		$this->backend->moveCalendarObject(
+			self::UNIT_TEST_USER,
+			(int)$sourceObject['id'],
+			self::UNIT_TEST_USER,
+			$targetCalendarId,
+			'moved.ics',
+		);
+	}
+
+	public function testRecreateCalendarObjectReclaimsTrashedUid(): void {
+		$this->dispatcher->expects(self::any())->method('dispatchTyped');
+		$calendarId = $this->createTestCalendar();
+
+		$calData = <<<'EOD'
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:ownCloud Calendar
+BEGIN:VEVENT
+CREATED;VALUE=DATE-TIME:20130910T125139Z
+UID:reclaim-1
+LAST-MODIFIED;VALUE=DATE-TIME:20130910T125139Z
+DTSTAMP;VALUE=DATE-TIME:20130910T125139Z
+SUMMARY:Test Event
+DTSTART;VALUE=DATE-TIME:20130912T130000Z
+DTEND;VALUE=DATE-TIME:20130912T140000Z
+CLASS:PUBLIC
+END:VEVENT
+END:VCALENDAR
+EOD;
+
+		$this->backend->createCalendarObject($calendarId, 'first.ics', $calData);
+		// Soft-delete moves the object to the trashbin (deleted_at is set).
+		$this->backend->deleteCalendarObject($calendarId, 'first.ics');
+		self::assertCount(0, $this->backend->getCalendarObjects($calendarId));
+
+		// Re-creating the same UID must reclaim the trashed entry instead of
+		// raising a no-uid-conflict.
+		$this->backend->createCalendarObject($calendarId, 'second.ics', $calData);
+		$objects = $this->backend->getCalendarObjects($calendarId);
+		self::assertCount(1, $objects);
+		self::assertSame('second.ics', $objects[0]['uri']);
 	}
 
 	public function testMultiCalendarObjects(): void {

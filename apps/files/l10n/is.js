@@ -91,7 +91,6 @@ OC.L10N.register(
     "Folder is loading" : "Mappan er að hlaðast inn",
     "Filename" : "Skráarheiti",
     "Folder name" : "Nafn möppu",
-    "unavailable" : "ekki tiltækt",
     "Another entry with the same name already exists." : "Önnur færsla með sama heiti er þegar til staðar.",
     "Invalid filename." : "Ógilt skráarheiti.",
     "Rename file" : "Endurnefna skrá",

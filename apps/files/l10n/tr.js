@@ -91,7 +91,6 @@ OC.L10N.register(
     "Folder is loading" : "Klasör yükleniyor",
     "Filename" : "Dosya adı",
     "Folder name" : "Klasör adı",
-    "unavailable" : "kullanılamaz",
     "Another entry with the same name already exists." : "Aynı adlı bir kayıt zaten var.",
     "Invalid filename." : "Dosya adı geçersiz.",
     "Rename file" : "Dosyayı yeniden adlandır",

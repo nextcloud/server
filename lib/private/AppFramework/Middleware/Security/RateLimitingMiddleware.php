@@ -89,6 +89,10 @@ class RateLimitingMiddleware extends Middleware {
 			);
 
 			if ($rateLimit !== null) {
+				if (!$rateLimit->shouldApply($this->request)) {
+					return;
+				}
+
 				if ($this->appConfig->getValueBool('bruteforcesettings', 'apply_allowlist_to_ratelimit')
 					&& $this->bruteForceAllowList->isBypassListed($this->request->getRemoteAddress())) {
 					return;
@@ -115,6 +119,10 @@ class RateLimitingMiddleware extends Middleware {
 		);
 
 		if ($rateLimit !== null) {
+			if (!$rateLimit->shouldApply($this->request)) {
+				return;
+			}
+
 			$this->limiter->registerAnonRequest(
 				$rateLimitIdentifier,
 				$rateLimit->getLimit(),
@@ -174,7 +182,7 @@ class RateLimitingMiddleware extends Middleware {
 		}
 
 		$reflectionMethod = new ReflectionMethod($controller, $methodName);
-		$attributes = $reflectionMethod->getAttributes($attributeClass);
+		$attributes = $reflectionMethod->getAttributes($attributeClass, \ReflectionAttribute::IS_INSTANCEOF);
 		$attribute = current($attributes);
 
 		if ($attribute !== false) {

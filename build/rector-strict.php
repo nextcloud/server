@@ -5,6 +5,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+use Rector\DeadCode\Rector\ClassMethod\RemoveDuplicatedReturnSelfDocblockRector;
 use Rector\Php81\Rector\Property\ReadOnlyPropertyRector;
 use Rector\Php82\Rector\Class_\ReadOnlyClassRector;
 use Rector\PHPUnit\CodeQuality\Rector\Class_\AddSeeTestAnnotationRector;
@@ -68,4 +69,8 @@ return (require __DIR__ . '/rector-shared.php')
 			$nextcloudDir . '/core/Listener/RestrictInteractionListener.php',
 			$nextcloudDir . '/apps/files_sharing/lib/Listener/RestrictInteractionListener.php',
 		],
+		// `@return $this` is more specific than the native `: self` on a
+		// non-final type; removing it breaks psalm's
+		// LessSpecificImplementedReturnType check (psalm-strict).
+		RemoveDuplicatedReturnSelfDocblockRector::class,
 	]);

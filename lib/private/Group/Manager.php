@@ -181,7 +181,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * @param array<string, string> $displayNames Array containing already know display name for a groupId
 	 * @return array<string, IGroup>
 	 */
-	protected function getGroupsObjects(array $gids, array $displayNames = []): array {
+	public function getGroupsObjects(array $gids, array $displayNames = []): array {
 		$backends = [];
 		$groups = [];
 		foreach ($gids as $gid) {

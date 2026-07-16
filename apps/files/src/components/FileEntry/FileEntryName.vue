@@ -136,7 +136,7 @@ export default defineComponent({
 				return {
 					is: 'span',
 					params: {
-						title: this.source.displayname + ` (${t('files', 'unavailable')})`,
+						title: t('files', '{displayName} (unavailable)', { displayName: this.source.displayname }),
 					},
 				}
 			}

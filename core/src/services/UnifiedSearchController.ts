@@ -7,12 +7,20 @@ import { search as unifiedSearch } from './UnifiedSearchService.js'
 
 type CategorySearchStatus = 'loading' | 'loaded' | 'failed' | 'blocked'
 
-interface CategorySearchState {
+export interface CategorySearchState {
 	status: CategorySearchStatus
 	entries: unknown[]
-	cursor: string | null
+	cursor: string | number | null
 	hasMore: boolean
 	loadMoreFailed: boolean
+}
+
+export interface CategorySearchParams {
+	type?: string
+	since?: string
+	until?: string
+	person?: string
+	extraQueries?: object
 }
 
 export const REVEAL_INTERVAL_MS = 1500
@@ -23,24 +31,29 @@ export const REVEAL_INTERVAL_MS = 1500
  */
 export class UnifiedSearchController {
 	private query: string = ''
+	private params: Record<string, CategorySearchParams> = {}
 	private searchStates: Record<string, CategorySearchState> = {}
 	private searchGeneration: number = 0
 	private revealTimer: ReturnType<typeof setTimeout> | null = null
 	private pendingCancels: (() => void)[] = []
+
+	constructor(private onChange?: (states: Record<string, CategorySearchState>) => void) {}
 
 	/**
 	 * Start a search. Cancels and replaces any search already in flight.
 	 *
 	 * @param query the search term
 	 * @param categories category ids in priority order
+	 * @param params optional per-category search parameters
 	 * @return resolves once every category has settled
 	 */
-	async search(query: string, categories: string[]): Promise<void> {
+	async search(query: string, categories: string[], params?: Record<string, CategorySearchParams>): Promise<void> {
 		this.cancelPendingRequests()
 		this.searchStates = {}
 		this.searchGeneration++
 		const generation = this.searchGeneration
 		this.query = query
+		this.params = params || {}
 
 		this.startRevealTimer()
 
@@ -56,17 +69,18 @@ export class UnifiedSearchController {
 	 */
 	async loadMore(category: string): Promise<void> {
 		const generation = this.searchGeneration
-		const categoryState = this.searchStates[category]
-		if (!categoryState || !categoryState.hasMore || categoryState.status !== 'loaded') {
+		const categoryState = { ...this.searchStates[category] }
+		if (!categoryState.hasMore || categoryState.status !== 'loaded') {
 			return
 		}
-		categoryState.status = 'loading'
-		categoryState.loadMoreFailed = false
+
+		this.patchStates({ [category]: { status: 'loading', loadMoreFailed: false } })
 
 		const { request, cancel } = unifiedSearch({
 			type: category,
 			query: this.query,
 			cursor: categoryState.cursor,
+			...this.params[category],
 		})
 
 		this.pendingCancels.push(cancel)
@@ -76,18 +90,20 @@ export class UnifiedSearchController {
 			if (this.searchGeneration !== generation) {
 				return
 			}
-			const { entries, cursor, hasMore } = response.data.ocs.data
-			categoryState.entries.push(...entries)
-			categoryState.cursor = cursor
-			categoryState.hasMore = hasMore
+			const { entries, cursor, isPaginated } = response.data.ocs.data
+
+			this.patchStates({[category]: {
+				entries: [...categoryState.entries, ...entries],
+				cursor,
+				hasMore: this.hasMorePages(isPaginated, cursor),
+				status: 'loaded',
+			}})
 		} catch {
 			if (this.searchGeneration !== generation) {
 				return
 			}
-			categoryState.loadMoreFailed = true
+			this.patchStates({ [category]: { status: 'loaded', loadMoreFailed: true } })
 		}
-
-		categoryState.status = 'loaded'
 	}
 
 	/**
@@ -107,18 +123,24 @@ export class UnifiedSearchController {
 		this.stopRevealTimer()
 	}
 
-	private async searchCategory(category: string, generation: number, categories: string[]): Promise<void> {
-		this.searchStates[category] = {
+	private async searchCategory(
+		category: string,
+		generation: number,
+		categories: string[],
+	): Promise<void> {
+		this.patchStates({ [category]: {
 			status: 'loading',
 			entries: [],
 			cursor: null,
 			hasMore: false,
 			loadMoreFailed: false,
-		}
+		} })
+
 		const { request, cancel } = unifiedSearch({
 			type: category,
 			query: this.query,
 			cursor: null,
+			...this.params[category],
 		})
 
 		this.pendingCancels.push(cancel)
@@ -130,25 +152,27 @@ export class UnifiedSearchController {
 				return
 			}
 
-			const { entries, cursor, hasMore } = response.data.ocs.data
-			this.searchStates[category] = {
-				status: 'loaded',
+			const { entries, cursor, isPaginated } = response.data.ocs.data
+			// Decide blocked vs loaded once, here at settle. Reconcile only promotes after this
+			// (never re-blocks), so this is the only place a category becomes blocked.
+			this.patchStates({ [category]: {
+				status: this.shouldBlockCategory(category, categories) ? 'blocked' : 'loaded',
 				entries,
 				cursor,
-				hasMore,
+				hasMore: this.hasMorePages(isPaginated, cursor),
 				loadMoreFailed: false,
-			}
+			} })
 		} catch {
 			if (this.searchGeneration !== generation) {
 				return
 			}
-			this.searchStates[category] = {
+			this.patchStates({ [category]: {
 				status: 'failed',
 				entries: [],
 				cursor: null,
 				hasMore: false,
 				loadMoreFailed: false,
-			}
+			}})
 		}
 
 		this.reconcileCategoryStatuses(categories)
@@ -156,10 +180,14 @@ export class UnifiedSearchController {
 
 	private reconcileCategoryStatuses(categories: string[]): void {
 		categories.forEach((category) => {
-			if (['loading', 'failed'].includes(this.searchStates[category].status)) {
+			// Promotion only: reveal a blocked category once its predecessors clear, never demote.
+			// A revealed category must stay revealed, else it flickers when a slower one settles.
+			if (this.searchStates[category].status !== 'blocked') {
 				return
 			}
-			this.searchStates[category].status = this.shouldBlockCategory(category, categories) ? 'blocked' : 'loaded'
+			if (!this.shouldBlockCategory(category, categories)) {
+				this.patchStates({ [category]: { status: 'loaded' } })
+			}
 		})
 	}
 
@@ -190,9 +218,21 @@ export class UnifiedSearchController {
 	private unblockAllCategories(categories: string[]): void {
 		categories.forEach((category) => {
 			if (this.searchStates[category].status === 'blocked') {
-				this.searchStates[category].status = 'loaded'
+				this.patchStates({ [category]: { status: 'loaded' } })
 			}
 		})
+	}
+
+	/**
+	 * Whether a category can page further. The backend never sends a "has more"
+	 * flag, only `isPaginated` and a `cursor`, so derive it: a category has more
+	 * pages when it paginates and handed back a cursor to continue from.
+	 *
+	 * @param isPaginated whether the provider returned a paginated result
+	 * @param cursor the cursor to continue from, or null when there is none
+	 */
+	private hasMorePages(isPaginated: boolean, cursor: string | number | null): boolean {
+		return isPaginated && cursor !== null
 	}
 
 	private shouldBlockCategory(category: string, categories: string[]): boolean {
@@ -204,5 +244,13 @@ export class UnifiedSearchController {
 			const categoryState = this.searchStates[c]
 			return categoryState && ['loading', 'blocked'].includes(categoryState.status)
 		})
+	}
+
+	private patchStates(next: Record<string, Partial<CategorySearchState>>): void {
+		Object.keys(next).forEach((category) => {
+			const categoryState = { ...this.searchStates[category], ...next[category] }
+			this.searchStates[category] = categoryState
+		})
+		this.onChange?.(this.getSnapshot())
 	}
 }
