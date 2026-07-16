@@ -5,10 +5,8 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-
 namespace OCA\Provisioning_API\Tests\Controller;
 
-use OC\Group\DisplayNameCache as GroupDisplayNameCache;
 use OC\Group\Manager;
 use OC\User\NoUserException;
 use OCA\Provisioning_API\Controller\GroupsController;
@@ -38,9 +36,9 @@ class GroupsControllerTest extends \Test\TestCase {
 	protected IFactory&MockObject $l10nFactory;
 	protected LoggerInterface&MockObject $logger;
 	protected GroupsController&MockObject $api;
-	private GroupDisplayNameCache&MockObject $groupDisplayNameCache;
 
 	private IRootFolder $rootFolder;
+
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -55,7 +53,6 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
-		$this->groupDisplayNameCache = $this->createMock(GroupDisplayNameCache::class);
 
 		$this->groupManager
 			->method('getSubAdmin')
@@ -73,8 +70,7 @@ class GroupsControllerTest extends \Test\TestCase {
 				$this->subAdminManager,
 				$this->l10nFactory,
 				$this->rootFolder,
-				$this->logger,
-				$this->groupDisplayNameCache,
+				$this->logger
 			])
 			->onlyMethods(['fillStorageInfo'])
 			->getMock();
@@ -244,6 +240,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->assertEquals(['users' => ['user1', 'user2']], $result->getData());
 	}
 
+
 	public function testGetGroupAsIrrelevantSubadmin(): void {
 		$this->expectException(OCSException::class);
 		$this->expectExceptionCode(403);
@@ -288,6 +285,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->assertEquals(['users' => ['user1', 'user2']], $result->getData());
 	}
 
+
 	public function testGetGroupNonExisting(): void {
 		$this->expectException(OCSException::class);
 		$this->expectExceptionMessage('The requested group could not be found');
@@ -297,6 +295,7 @@ class GroupsControllerTest extends \Test\TestCase {
 
 		$this->api->getGroup($this->getUniqueID());
 	}
+
 
 	public function testGetSubAdminsOfGroupsNotExists(): void {
 		$this->expectException(OCSException::class);
@@ -344,6 +343,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->assertEquals([], $result->getData());
 	}
 
+
 	public function testAddGroupEmptyGroup(): void {
 		$this->expectException(OCSException::class);
 		$this->expectExceptionMessage('Invalid group name');
@@ -351,6 +351,7 @@ class GroupsControllerTest extends \Test\TestCase {
 
 		$this->api->addGroup('');
 	}
+
 
 	public function testAddGroupExistingGroup(): void {
 		$this->expectException(OCSException::class);
@@ -396,12 +397,14 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->api->addGroup('Iñtërnâtiônàlizætiøn');
 	}
 
+
 	public function testDeleteGroupNonExisting(): void {
 		$this->expectException(OCSException::class);
 		$this->expectExceptionCode(101);
 
 		$this->api->deleteGroup('NonExistingGroup');
 	}
+
 
 	public function testDeleteAdminGroup(): void {
 		$this->expectException(OCSException::class);
@@ -494,18 +497,8 @@ class GroupsControllerTest extends \Test\TestCase {
 			->method('getSubAdminsGroups')
 			->willReturn([]);
 
-		$this->groupDisplayNameCache
-			->method('getDisplayName')
-			->with('ncg1')
-			->willReturn('Group One');
 
-		$result = $this->api->getGroupUsersDetails($gid);
-
-		$data = $result->getData();
-		$this->assertSame(['ncu1'], array_keys($data['users']));
-		$this->assertEquals([
-			['id' => 'ncg1', 'displayname' => 'Group One'],
-		], $data['groups']);
+		$this->api->getGroupUsersDetails($gid);
 	}
 
 	public function testGetGroupUsersDetailsEncoded(): void {
@@ -549,17 +542,7 @@ class GroupsControllerTest extends \Test\TestCase {
 			->method('getSubAdminsGroups')
 			->willReturn([]);
 
-		$this->groupDisplayNameCache
-			->method('getDisplayName')
-			->with('Department A/B C/D')
-			->willReturn('Department A/B C/D-name');
 
-		$result = $this->api->getGroupUsersDetails(urlencode($gid));
-
-		$data = $result->getData();
-		$this->assertSame(['ncu1'], array_keys($data['users']));
-		$this->assertEquals([
-			['id' => 'Department A/B C/D', 'displayname' => 'Department A/B C/D-name'],
-		], $data['groups']);
+		$this->api->getGroupUsersDetails(urlencode($gid));
 	}
 }

@@ -3853,21 +3853,6 @@
                     }
                 }
             },
-            "ProvisioningApiUserDetailsGroupDisplayname": {
-                "type": "object",
-                "required": [
-                    "id",
-                    "displayname"
-                ],
-                "properties": {
-                    "id": {
-                        "type": "string"
-                    },
-                    "displayname": {
-                        "type": "string"
-                    }
-                }
-            },
             "ProvisioningApiUserDetailsQuota": {
                 "type": "object",
                 "properties": {
@@ -30666,8 +30651,7 @@
                                                 "data": {
                                                     "type": "object",
                                                     "required": [
-                                                        "users",
-                                                        "groups"
+                                                        "users"
                                                     ],
                                                     "properties": {
                                                         "users": {
@@ -30689,12 +30673,6 @@
                                                                         }
                                                                     }
                                                                 ]
-                                                            }
-                                                        },
-                                                        "groups": {
-                                                            "type": "array",
-                                                            "items": {
-                                                                "$ref": "#/components/schemas/ProvisioningApiUserDetailsGroupDisplayname"
                                                             }
                                                         }
                                                     }
@@ -31138,8 +31116,7 @@
                                                 "data": {
                                                     "type": "object",
                                                     "required": [
-                                                        "users",
-                                                        "groups"
+                                                        "users"
                                                     ],
                                                     "properties": {
                                                         "users": {
@@ -31161,12 +31138,6 @@
                                                                         }
                                                                     }
                                                                 ]
-                                                            }
-                                                        },
-                                                        "groups": {
-                                                            "type": "array",
-                                                            "items": {
-                                                                "$ref": "#/components/schemas/ProvisioningApiUserDetailsGroupDisplayname"
                                                             }
                                                         }
                                                     }
