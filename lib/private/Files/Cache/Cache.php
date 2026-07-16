@@ -1166,6 +1166,9 @@ class Cache implements ICache {
 		// when moving from an encrypted storage to a non-encrypted storage remove the `encrypted` mark
 		if ($sourceCache instanceof Cache && $sourceCache->hasEncryptionWrapper() && !$this->hasEncryptionWrapper()) {
 			$data['encrypted'] = 0;
+			// normalizeData() prefers 'encryptedVersion' over 'encrypted' when both are
+			// set, so it has to be cleared too or the mark above gets ignored
+			unset($data['encryptedVersion']);
 		}
 
 		$fileId = $this->put($targetPath, $data);
@@ -1199,6 +1202,11 @@ class Cache implements ICache {
 		if ($entry instanceof CacheEntry && isset($entry['scan_permissions'])) {
 			$data['permissions'] = $entry['scan_permissions'];
 		}
+
+		if ($entry->isEncrypted() && isset($entry['encryptedVersion'])) {
+			$data['encryptedVersion'] = $entry['encryptedVersion'];
+		}
+
 		return $data;
 	}
 
