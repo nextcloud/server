@@ -7,7 +7,7 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace Core\Command\User;
+namespace Tests\Core\Command\User;
 
 use OC\Core\Command\User\Profile;
 use OCP\Accounts\IAccount;
