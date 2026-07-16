@@ -30,6 +30,7 @@ use OCA\CloudFederationAPI\Config;
 use OCA\CloudFederationAPI\ResponseDefinitions;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\AnonRateLimit;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Federation\Exceptions\ActionNotSupportedException;
@@ -79,6 +80,7 @@ class RequestHandlerController extends Controller {
 	 * @NoCSRFRequired
 	 * @PublicPage
 	 * @BruteForceProtection(action=receiveFederatedShare)
+	 * @AnonRateLimit(limit=5,period=1200)
 	 *
 	 * @param string $shareWith The user who the share will be shared with
 	 * @param string $name The resource name (e.g. document.odt)
