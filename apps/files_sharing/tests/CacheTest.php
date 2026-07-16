@@ -584,7 +584,7 @@ class CacheTest extends TestCase {
 		$share = $this->shareManager->createShare($share);
 		$share->setStatus(IShare::STATUS_ACCEPTED);
 		$this->shareManager->updateShare($share);
-		Server::get(ISetupManager::class)->tearDown();
+		Server::get(SetupManager::class)->tearDown();
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 
