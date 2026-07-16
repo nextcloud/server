@@ -21,6 +21,8 @@ if ($configDir) {
 require_once __DIR__ . '/../lib/base.php';
 require_once __DIR__ . '/autoload.php';
 
+\OC::$autoloader->addPsr4('Tests\\Core', OC::$SERVERROOT . '/tests/Core');
+
 $dontLoadApps = getenv('TEST_DONT_LOAD_APPS');
 if (!$dontLoadApps) {
 	// load all apps
