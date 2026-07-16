@@ -121,6 +121,7 @@ class RequestHandlerController extends OCSController {
 	/**
 	 * @NoCSRFRequired
 	 * @PublicPage
+	 * @AnonRateLimit(limit=5, period=1200)]
 	 *
 	 * create a new share
 	 *

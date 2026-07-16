@@ -73,6 +73,7 @@ class RequestHandlerController extends Controller {
 	 * @NoCSRFRequired
 	 * @PublicPage
 	 * @BruteForceProtection(action=receiveFederatedShare)
+	 * @AnonRateLimit(limit=5, period=1200)
 	 *
 	 * @param string $shareWith
 	 * @param string $name resource name (e.g. document.odt)
