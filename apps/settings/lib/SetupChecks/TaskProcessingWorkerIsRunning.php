@@ -63,12 +63,14 @@ class TaskProcessingWorkerIsRunning implements ISetupCheck {
 
 		if ($lastIteration > 0) {
 			return SetupResult::warning(
-				$this->l10n->t('The Task Processing worker does not seem to be running. The last run was at %s.', [date('Y-m-d H:i:s', $lastIteration)])
+				$this->l10n->t('The Task Processing worker does not seem to be running. The last run was at %s.', [date('Y-m-d H:i:s', $lastIteration)]),
+				linkToDoc: 'https://docs.nextcloud.com/server/latest/admin_manual/ai/overview.html#improve-ai-task-pickup-speed'
 			);
 		}
 
 		return SetupResult::warning(
-			$this->l10n->t('The Task Processing worker does not seem to be running. It seems it has never run so far.')
+			$this->l10n->t('The Task Processing worker does not seem to be running. It seems it has never run so far.'),
+			linkToDoc: 'https://docs.nextcloud.com/server/latest/admin_manual/ai/overview.html#improve-ai-task-pickup-speed'
 		);
 	}
 }
