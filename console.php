@@ -113,6 +113,7 @@ try {
 		$exitCode = 255;
 	}
 
+	var_dump(\OC::$autoloader->getStats());
 	exit($exitCode);
 } catch (Exception $ex) {
 	exceptionHandler($ex);

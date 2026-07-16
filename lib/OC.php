@@ -41,6 +41,9 @@ use function OCP\Log\logger;
 
 require_once __DIR__ . '/public/Constants.php';
 
+// There is no autoloading for functions so we need to hardcode it
+require_once __DIR__ . '/public/Log/functions.php';
+
 /**
  * Class that is a namespace for all global OC variables
  * @internal
@@ -90,6 +93,7 @@ class OC {
 	 * @psalm-suppress ImpureStaticProperty
 	 */
 	public static \Composer\Autoload\ClassLoader $composerAutoloader;
+	public static \OC\Autoloader $autoloader;
 
 	/**
 	 * @psalm-suppress ImpureStaticProperty
@@ -684,9 +688,16 @@ class OC {
 
 		self::$CLI = (php_sapi_name() == 'cli');
 
-		// Add default composer PSR-4 autoloader, ensure apcu to be disabled
-		self::$composerAutoloader = require_once OC::$SERVERROOT . '/lib/composer/autoload.php';
-		self::$composerAutoloader->setApcuPrefix(null);
+		require_once __DIR__ . '/private/PhpDumpCache.php';
+		require_once __DIR__ . '/private/Autoloader.php';
+		$phpDumpCache = new \OC\PhpDumpCache(OC::$SERVERROOT . '/temp');
+		self::$autoloader = new \OC\Autoloader($phpDumpCache);
+		self::$autoloader->addPsr4('OC', OC::$SERVERROOT . '/lib/private');
+		self::$autoloader->addPsr4('OCP', OC::$SERVERROOT . '/lib/public');
+		self::$autoloader->addPsr4('NCU', OC::$SERVERROOT . '/lib/unstable');
+		self::$autoloader->addPsr4('OC\\Core', OC::$SERVERROOT . '/core');
+		self::$autoloader->addPsr4('', OC::$SERVERROOT . '/lib/private/legacy');
+		self::$autoloader->register();
 
 		// setup 3rdparty autoloader
 		$vendorAutoLoad = OC::$SERVERROOT . '/3rdparty/autoload.php';
