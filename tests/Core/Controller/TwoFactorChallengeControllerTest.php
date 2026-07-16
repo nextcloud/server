@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-namespace Test\Core\Controller;
+namespace Tests\Core\Controller;
 
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Authentication\TwoFactorAuth\ProviderSet;
