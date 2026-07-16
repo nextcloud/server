@@ -91,7 +91,6 @@ OC.L10N.register(
     "Folder is loading" : "Хавтас ачааллаж байна",
     "Filename" : "Файлын нэр",
     "Folder name" : "Хавтасны нэр",
-    "unavailable" : "боломжгүй",
     "Another entry with the same name already exists." : "Ижил нэртэй өөр оруулга аль хэдийн байна.",
     "Invalid filename." : "Буруу файлын нэр.",
     "Rename file" : "Файлын нэр солих",

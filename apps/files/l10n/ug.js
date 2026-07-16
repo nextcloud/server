@@ -90,7 +90,6 @@ OC.L10N.register(
     "Folder is loading" : "ھۆججەت قىسقۇچ يۈكلىنىۋاتىدۇ",
     "Filename" : "ھۆججەت ئىسمى",
     "Folder name" : "قىسقۇچ ئاتى",
-    "unavailable" : "ئىشلەتكىلى بولمايدۇ",
     "Another entry with the same name already exists." : "ئوخشاش ئىسىمدىكى يەنە بىر تۈر بار.",
     "Invalid filename." : "ئىناۋەتسىز ھۆججەت ئىسمى.",
     "Rename file" : "ھۆججەتنىڭ نامىنى ئۆزگەرتىش",

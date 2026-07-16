@@ -92,7 +92,6 @@ OC.L10N.register(
     "Folder is loading" : "Map is aan het laden",
     "Filename" : "Bestandsnaam",
     "Folder name" : "Mapnaam",
-    "unavailable" : "niet beschikbaar",
     "Another entry with the same name already exists." : "Er bestaat al een ander item met dezelfde naam",
     "Invalid filename." : "Ongeldige bestandsnaam",
     "Rename file" : "Bestand hernoemen",

@@ -91,7 +91,6 @@ OC.L10N.register(
     "Folder is loading" : "Mappen laddas",
     "Filename" : "Filnamn",
     "Folder name" : "Mappnamn",
-    "unavailable" : "ej tillgänglig",
     "Another entry with the same name already exists." : "En annan post med samma namn finns redan.",
     "Invalid filename." : "Ogiltigt filnamn.",
     "Rename file" : "Byt namn på fil",

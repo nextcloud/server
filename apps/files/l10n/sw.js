@@ -90,7 +90,6 @@ OC.L10N.register(
     "Folder is loading" : "Kisanduku kinapakia",
     "Filename" : "Jina la faili",
     "Folder name" : "Jina la kisanduku",
-    "unavailable" : "Haipatikani",
     "Another entry with the same name already exists." : "Ingizo lingine lenye jina sawasawa lipo tayari",
     "Invalid filename." : "Majina ya faili si sahihi",
     "Rename file" : "Badili jina la faili",
