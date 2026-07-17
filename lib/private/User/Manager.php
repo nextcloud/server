@@ -235,7 +235,7 @@ class Manager extends PublicEmitter implements IUserManager {
 				try {
 					$uid = $backend->checkPassword($loginName, $password);
 				} catch (ServerNotAvailableException $e) {
-					$this->logger->warning('Unable to check password against user backend', ['exception' => $e]);
+					$this->logger->warning('Unable to check password against user backend: ' . ($backend instanceof IUserBackend ? $backend->getBackendName() : get_class($backend)), ['exception' => $e]);
 					continue;
 				}
 				if ($uid !== false) {
@@ -255,7 +255,7 @@ class Manager extends PublicEmitter implements IUserManager {
 				try {
 					$uid = $backend->checkPassword($loginName, $password);
 				} catch (ServerNotAvailableException $e) {
-					$this->logger->warning('Unable to check password against user backend', ['exception' => $e]);
+					$this->logger->warning('Unable to check password against user backend: ' . ($backend instanceof IUserBackend ? $backend->getBackendName() : get_class($backend)), ['exception' => $e]);
 					continue;
 				}
 				if ($uid !== false) {

@@ -176,6 +176,8 @@ class ManagerTest extends TestCase {
 		$unavailableBackend->method('implementsActions')
 			->with(BACKEND::CHECK_PASSWORD)
 			->willReturn(true);
+		$unavailableBackend->method('getBackendName')
+			->willReturn('Dummy');
 
 		$databaseBackend = $this->createMock(Database::class);
 		$databaseBackend->expects($this->once())
@@ -185,7 +187,7 @@ class ManagerTest extends TestCase {
 
 		$this->logger->expects($this->once())
 			->method('warning')
-			->with('Unable to check password against user backend', ['exception' => $exception]);
+			->with('Unable to check password against user backend: Dummy', ['exception' => $exception]);
 
 		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
 		$manager->registerBackend($unavailableBackend);
@@ -205,10 +207,12 @@ class ManagerTest extends TestCase {
 		$backend->method('implementsActions')
 			->with(BACKEND::CHECK_PASSWORD)
 			->willReturn(true);
+		$backend->method('getBackendName')
+			->willReturn('Dummy');
 
 		$this->logger->expects($this->atLeastOnce())
 			->method('warning')
-			->with('Unable to check password against user backend', ['exception' => $exception]);
+			->with('Unable to check password against user backend: Dummy', ['exception' => $exception]);
 
 		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
 		$manager->registerBackend($backend);
