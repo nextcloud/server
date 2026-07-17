@@ -2257,6 +2257,7 @@ return array(
     'OC\\User\\LazyUser' => $baseDir . '/lib/private/User/LazyUser.php',
     'OC\\User\\Listeners\\BeforeUserDeletedListener' => $baseDir . '/lib/private/User/Listeners/BeforeUserDeletedListener.php',
     'OC\\User\\Listeners\\UserChangedListener' => $baseDir . '/lib/private/User/Listeners/UserChangedListener.php',
+    'OC\\User\\Listeners\\UserQuotaChangedListener' => $baseDir . '/lib/private/User/Listeners/UserQuotaChangedListener.php',
     'OC\\User\\LoginException' => $baseDir . '/lib/private/User/LoginException.php',
     'OC\\User\\Manager' => $baseDir . '/lib/private/User/Manager.php',
     'OC\\User\\NoUserException' => $baseDir . '/lib/private/User/NoUserException.php',

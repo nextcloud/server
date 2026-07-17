@@ -2298,6 +2298,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\User\\LazyUser' => __DIR__ . '/../../..' . '/lib/private/User/LazyUser.php',
         'OC\\User\\Listeners\\BeforeUserDeletedListener' => __DIR__ . '/../../..' . '/lib/private/User/Listeners/BeforeUserDeletedListener.php',
         'OC\\User\\Listeners\\UserChangedListener' => __DIR__ . '/../../..' . '/lib/private/User/Listeners/UserChangedListener.php',
+        'OC\\User\\Listeners\\UserQuotaChangedListener' => __DIR__ . '/../../..' . '/lib/private/User/Listeners/UserQuotaChangedListener.php',
         'OC\\User\\LoginException' => __DIR__ . '/../../..' . '/lib/private/User/LoginException.php',
         'OC\\User\\Manager' => __DIR__ . '/../../..' . '/lib/private/User/Manager.php',
         'OC\\User\\NoUserException' => __DIR__ . '/../../..' . '/lib/private/User/NoUserException.php',
