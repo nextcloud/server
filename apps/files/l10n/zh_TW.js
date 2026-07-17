@@ -92,6 +92,7 @@ OC.L10N.register(
     "Folder is loading" : "正在載入資料夾",
     "Filename" : "檔案名稱",
     "Folder name" : "資料夾名稱",
+    "{displayName} (unavailable)" : "{displayName}（不可用）",
     "Another entry with the same name already exists." : "已存在另一個同名條目。",
     "Invalid filename." : "無效的檔案名稱。",
     "Rename file" : "重新命名檔案",
