@@ -34,8 +34,9 @@ class OcmTokenMapMapper extends QBMapper {
 	}
 
 	/**
-	 * All mappings for a refresh token. Unlike findByRefreshToken this
-	 * tolerates the duplicate rows a concurrent exchange can create.
+	 * All mappings for a refresh token. Returns every match, since a refresh
+	 * token can back several access tokens and concurrent exchanges may add
+	 * duplicate rows.
 	 *
 	 * @return OcmTokenMap[]
 	 */

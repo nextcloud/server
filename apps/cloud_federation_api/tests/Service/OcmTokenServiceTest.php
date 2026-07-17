@@ -24,6 +24,7 @@ class OcmTokenServiceTest extends TestCase {
 	private IProvider&MockObject $tokenProvider;
 	private OcmTokenService $service;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

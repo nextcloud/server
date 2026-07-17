@@ -22,6 +22,7 @@ class ShareDeletedListenerTest extends TestCase {
 	private IProvider&MockObject $tokenProvider;
 	private ShareDeletedListener $listener;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
