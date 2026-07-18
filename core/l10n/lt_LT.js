@@ -230,7 +230,7 @@ OC.L10N.register(
     "The remote URL must include the user." : "Nuotoliniame URL turi būti nurodytas vartotojas.",
     "Invalid remote URL." : "Neteisingas nuotolinis URL.",
     "Failed to add the public link to your Nextcloud" : "Nepavyko pridėti viešosios nuorodos į jūsų Nextcloud",
-    "Federated user" : "\"Federalizuotas\" vartotojas",
+    "Federated user" : "Federacinis vartotojas",
     "user@your-nextcloud.org" : "vartotojas@jūsų-nextcloud.org",
     "Create share" : "Sukurti bendrinimą",
     "Direct link copied" : "Tiesioginė nuoroda nukopijuota",
