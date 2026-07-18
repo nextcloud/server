@@ -57,7 +57,6 @@ use ReflectionMethod;
  *
  * Inspects controller-method annotations and attributes to apply authentication,
  * authorization, admin IP, strict-cookie, CSRF, and app-availability checks.
- * Handles security-check failures by returning an appropriate response.
  */
 class SecurityMiddleware extends Middleware {
 	private ?bool $isAdminUser = null;
@@ -100,10 +99,6 @@ class SecurityMiddleware extends Middleware {
 	/**
 	 * Applies access-control and request-security requirements before a controller method runs.
 	 *
-	 * Inspects controller-method annotations and attributes to enforce authentication,
-	 * authorization, admin IP restrictions, strict-cookie requirements, CSRF protection,
-	 * and app availability.
-	 *
 	 * @param Controller $controller The controller instance.
 	 * @param string $methodName The controller method name.
 	 * @throws SecurityException When a security requirement is not met.
@@ -145,9 +140,8 @@ class SecurityMiddleware extends Middleware {
 			}
 		} elseif (!$isPublicPage) {
 			$authorized = false;
-			// Allow an AppAPI request without an associated user to satisfy the route's
-			// authorization requirement when it explicitly opts in. Admin IP restrictions
-			// still apply to routes that require privileged access.
+			// Explicitly opted-in AppAPI requests without a user bypass normal user and role
+			// checks; privileged routes still enforce the admin IP restriction.
 			$isAppApiRequestWithoutUser = $this->userSession instanceof Session
 				&& $this->userSession->getSession()->get('app_api') === true
 				&& $this->userSession->getUser() === null;
@@ -218,11 +212,10 @@ class SecurityMiddleware extends Middleware {
 			throw new CrossSiteRequestForgeryException();
 		}
 
-		// Per-user app enablement does not apply to public routes.
 		if ($isPublicPage) {
 			return;
 		}
-		// Only enforce per-user enablement for real apps.
+
 		try {
 			$this->appManager->getAppPath($this->appName);
 
@@ -230,7 +223,7 @@ class SecurityMiddleware extends Middleware {
 				throw new AppNotEnabledException();
 			}
 		} catch (AppPathNotFoundException $e) {
-			// AppFramework consumers that aren't apps do not have an app path.
+			// Non-app components that use the App Framework lack an app path.
 		}
 	}
 
