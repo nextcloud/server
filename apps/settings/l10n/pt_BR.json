@@ -213,9 +213,6 @@
     "Failed to write and read a value from local cache." : "Falha ao gravar e ler um valor do cache local.",
     "Failed to write and read a value from distributed cache." : "Falha ao gravar e ler um valor do cache distribuído.",
     "Configured" : "Configurado",
-    "Redis cache" : "Cache Redis",
-    "You are still using the old Redis cache backend. For full support of latest Valkey and Redis features, like clustering and sentinel, please switch to the new KeyValueCache backend." : "Você ainda está usando o back-end de cache Redis antigo. Para ter suporte completo aos recursos mais recentes do Valkey e do Redis, como clustering e sentinel, mude para o novo back-end KeyValueCache.",
-    "No legacy Redis cache detected" : "Não foi detectado nenhum cache Redis legado",
     "Mimetype migrations available" : "Migrações de mimetype disponíveis",
     "One or more mimetype migrations are available. Occasionally new mimetypes are added to better handle certain file types. Migrating the mimetypes take a long time on larger instances so this is not done automatically during upgrades. Use the command `occ maintenance:repair --include-expensive` to perform the migrations." : "Uma ou mais migrações de mimetype estão disponíveis. Ocasionalmente, novos mimetypes são adicionados para lidar melhor com certos tipos de arquivo. A migração dos mimetypes leva muito tempo em instâncias maiores, portanto, isso não é feito automaticamente durante as atualizações. Use o comando 'occ maintenance:repair --include-expensive' para executar as migrações.",
     "MySQL row format" : "Formato de linhas do MySQL",
@@ -1046,6 +1043,9 @@
     "Limited ODF compatibility" : "Compatibilidade limitada com ODF",
     "Best Microsoft compatibility" : "Melhor compatibilidade com a Microsoft",
     "{progress}% Deploying …" : "{progress}% Implantando …",
-    "{progress}% Initializing …" : "{progress}% Inicializando …"
+    "{progress}% Initializing …" : "{progress}% Inicializando …",
+    "Redis cache" : "Cache Redis",
+    "You are still using the old Redis cache backend. For full support of latest Valkey and Redis features, like clustering and sentinel, please switch to the new KeyValueCache backend." : "Você ainda está usando o back-end de cache Redis antigo. Para ter suporte completo aos recursos mais recentes do Valkey e do Redis, como clustering e sentinel, mude para o novo back-end KeyValueCache.",
+    "No legacy Redis cache detected" : "Não foi detectado nenhum cache Redis legado"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

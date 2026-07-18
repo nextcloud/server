@@ -215,9 +215,6 @@ OC.L10N.register(
     "Failed to write and read a value from local cache." : "Nepavyko įrašyti ir išskaityti reikšmės iš vietinės talpyklos.",
     "Failed to write and read a value from distributed cache." : "Nepavyko įrašyti ir išskaityti reikšmės iš paskirstytojo talpyklos.",
     "Configured" : "Sukonfigūruota",
-    "Redis cache" : "„Redis“ podėlis",
-    "You are still using the old Redis cache backend. For full support of latest Valkey and Redis features, like clustering and sentinel, please switch to the new KeyValueCache backend." : "Vis dar naudojate senąją „Redis“ talpyklos sąsają. Norėdami visapusiškai palaikyti naujausias „Valkey“ ir „Redis“ funkcijas, pvz., klasterizavimą ir „Sentinel“, perjunkite į naująją „KeyValueCache“ sąsają.",
-    "No legacy Redis cache detected" : "Nerastas senasis „Redis“ podėlis",
     "Mimetype migrations available" : "„Mimetype“ migracijos galimos",
     "One or more mimetype migrations are available. Occasionally new mimetypes are added to better handle certain file types. Migrating the mimetypes take a long time on larger instances so this is not done automatically during upgrades. Use the command `occ maintenance:repair --include-expensive` to perform the migrations." : "Galima atlikti vieną ar kelis mimetype perkėlimus. Kartais pridedami nauji mimetype, kad būtų galima geriau tvarkyti tam tikrus failų tipus. Didesnėse instancijose mimetype perkėlimas trunka ilgai, todėl atnaujinimo metu tai nėra atliekama automatiškai. Norėdami atlikti perkėlimus, naudokite komandą `occ maintenance:repair --include-expensive`.",
     "MySQL row format" : "MySQL eilučių formatas",
@@ -1048,6 +1045,9 @@ OC.L10N.register(
     "Limited ODF compatibility" : "Ribotas suderinamumas su ODF",
     "Best Microsoft compatibility" : "Geriausias suderinamumas su „Microsoft“",
     "{progress}% Deploying …" : "{progress} % diegiama  …",
-    "{progress}% Initializing …" : "{progress}% inicijuojama  …"
+    "{progress}% Initializing …" : "{progress}% inicijuojama  …",
+    "Redis cache" : "„Redis“ podėlis",
+    "You are still using the old Redis cache backend. For full support of latest Valkey and Redis features, like clustering and sentinel, please switch to the new KeyValueCache backend." : "Vis dar naudojate senąją „Redis“ talpyklos sąsają. Norėdami visapusiškai palaikyti naujausias „Valkey“ ir „Redis“ funkcijas, pvz., klasterizavimą ir „Sentinel“, perjunkite į naująją „KeyValueCache“ sąsają.",
+    "No legacy Redis cache detected" : "Nerastas senasis „Redis“ podėlis"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");
