@@ -21,6 +21,8 @@
 
 namespace Test\Preview;
 
+use OCP\Files\File;
+
 /**
  * Class SVGTest
  *
@@ -66,15 +68,17 @@ class SVGTest extends Provider {
 </svg>');
 		rewind($handle);
 
-		$file = $this->createMock(\OCP\Files\File::class);
+		$file = $this->createMock(File::class);
 		$file->method('fopen')
 			->willReturn($handle);
 
 		self::assertNull($this->provider->getThumbnail($file, 512, 512));
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetThumbnailSVGHrefNamespace')]
-	#[\PHPUnit\Framework\Attributes\RequiresPhpExtension('imagick')]
+	/**
+	 * @dataProvider dataGetThumbnailSVGHrefNamespace
+	 * @requires extension imagick
+	 */
 	public function testGetThumbnailSvgHrefNamespace(string $namespace): void {
 		$handle = fopen('php://temp', 'w+');
 		fwrite($handle, '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" xmlns:' . $namespace . '="http://www.w3.org/1999/xlink">
@@ -100,8 +104,10 @@ class SVGTest extends Provider {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetThumbnailSvgEncoded')]
-	#[\PHPUnit\Framework\Attributes\RequiresPhpExtension('imagick')]
+	/**
+	 * @dataProvider dataGetThumbnailSvgEncoded
+	 * @requires extension imagick
+	 */
 	public function testGetThumbnailSvgEncoded(string $content): void {
 		$handle = fopen('php://temp', 'w+');
 		fwrite($handle, $content);
