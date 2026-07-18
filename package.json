@@ -91,7 +91,7 @@
     "cypress-split": "^1.25.0",
     "cypress-vite": "^1.10.2",
     "cypress-wait-until": "^3.0.2",
-    "eslint": "^10.6.0",
+    "eslint": "^10.7.0",
     "eslint-plugin-cypress": "^6.4.2",
     "eslint-plugin-no-only-tests": "^3.4.0",
     "is-svg": "^6.1.0",
