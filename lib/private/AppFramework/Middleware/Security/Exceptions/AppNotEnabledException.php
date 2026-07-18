@@ -20,6 +20,9 @@ use OCP\AppFramework\Http;
  */
 class AppNotEnabledException extends SecurityException {
 	public function __construct() {
-		parent::__construct('App is not enabled', Http::STATUS_PRECONDITION_FAILED);
+		parent::__construct(
+			'This app is not enabled.',
+			Http::STATUS_PRECONDITION_FAILED,
+		);
 	}
 }
