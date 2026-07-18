@@ -12,10 +12,14 @@ namespace OC\AppFramework\Middleware\Security\Exceptions;
 use OCP\AppFramework\Http;
 
 /**
- * Class ExAppRequiredException is thrown when an endpoint can only be called by an ExApp but the caller is not an ExApp.
+ * Class ExAppRequiredException is thrown when an endpoint can only be called
+ * by an ExApp but the caller is not an ExApp.
  */
 class ExAppRequiredException extends SecurityException {
 	public function __construct() {
-		parent::__construct('ExApp required', Http::STATUS_PRECONDITION_FAILED);
+		parent::__construct(
+			'This endpoint can only be accessed by an ExApp.',
+			Http::STATUS_PRECONDITION_FAILED,
+		);
 	}
 }
