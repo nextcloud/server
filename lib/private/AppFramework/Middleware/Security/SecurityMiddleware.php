@@ -171,24 +171,34 @@ class SecurityMiddleware extends Middleware {
 				}
 
 				if (!$authorized) {
-					throw new NotAdminException($this->l10n->t('Logged in account must be an admin, a sub admin or gotten special right to access this setting'));
+					throw new NotAdminException($this->l10n->t(
+						'You must be an administrator, sub-administrator, or have been granted access to this setting.'
+					));
 				}
 
 				if (!$this->remoteAddress->allowsAdminActions()) {
-					throw new AdminIpNotAllowedException($this->l10n->t('Your current IP address doesn\'t allow you to perform admin actions'));
+					throw new AdminIpNotAllowedException($this->l10n->t(
+						'Your IP address is not allowed to perform administrative actions.'
+					));
 				}
 			}
 
 			if ($requiresSubAdmin && !$this->isSubAdmin() && !$this->isAdminUser() && !$authorized) {
-				throw new NotAdminException($this->l10n->t('Logged in account must be an admin or sub admin'));
+				throw new NotAdminException($this->l10n->t(
+					'You must be an administrator or sub-administrator.'
+				));
 			}
 
 			if ($requiresAdmin && !$this->isAdminUser() && !$authorized) {
-				throw new NotAdminException($this->l10n->t('Logged in account must be an admin'));
+				throw new NotAdminException($this->l10n->t(
+					'You must be an administrator.'
+				));
 			}
 
 			if ($requiresPrivilegedAccess && !$this->remoteAddress->allowsAdminActions()) {
-				throw new AdminIpNotAllowedException($this->l10n->t('Your current IP address doesn\'t allow you to perform admin actions'));
+				throw new AdminIpNotAllowedException($this->l10n->t(
+					'Your IP address is not allowed to perform administrative actions.'
+				));
 			}
 		}
 
