@@ -21,6 +21,8 @@
 
 namespace Test\Preview;
 
+use OCP\Files\File;
+
 /**
  * Class SVGTest
  *
@@ -66,7 +68,7 @@ class SVGTest extends Provider {
 </svg>');
 		rewind($handle);
 
-		$file = $this->createMock(\OCP\Files\File::class);
+		$file = $this->createMock(File::class);
 		$file->method('fopen')
 			->willReturn($handle);
 
