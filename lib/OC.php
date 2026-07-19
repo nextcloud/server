@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
+use OC\Files\Filesystem;
 use OC\Profiler\BuiltInProfiler;
 use OC\Security\CSP\ContentSecurityPolicyNonceManager;
 use OC\Share20\GroupDeletedListener;
@@ -99,6 +100,11 @@ class OC {
 	private static \OC\Config $config;
 	private static float $loaderStart;
 	private static float $loaderEnd;
+
+	/**
+	 * @psalm-suppress ImpureStaticProperty
+	 */
+	private static bool $oneTimeChecksDone = false;
 
 	/**
 	 * @throws \RuntimeException when the 3rdparty directory is missing or
@@ -665,6 +671,9 @@ class OC {
 		}
 	}
 
+	/*
+	 * Called only once at the beginning to setup things
+	 */
 	public static function boot(): void {
 		// prevent any XML processing from loading external entities
 		libxml_set_external_entity_loader(static function () {
@@ -723,24 +732,67 @@ class OC {
 			print($e->getMessage());
 			exit();
 		}
+		self::setRequiredIniValues();
+
+		// initialize intl fallback if necessary
+		OC_Util::isSetLocaleWorking();
 	}
 
-	public static function init(): void {
+	/**
+	 * Run one time checks if not already run. This allows checking after server boot, to have access to translations and pretty error rendering while still checking only once in worker mode.
+	 */
+	private static function oneTimeChecks(): void {
+		if (self::$oneTimeChecksDone) {
+			return;
+		}
+
+		// Check for PHP SimpleXML extension earlier since we need it before our other checks and want to provide a useful hint for web users
+		// see https://github.com/nextcloud/server/pull/2619
+		if (!function_exists('simplexml_load_file')) {
+			throw new \OCP\HintException('The PHP SimpleXML/PHP-XML extension is not installed. Install the extension or make sure it is enabled.');
+		}
+
+		// Check whether the sample configuration has been copied
+		if (self::$config->getValue('copied_sample_config', false)) {
+			$l = Server::get(\OCP\L10N\IFactory::class)->get('lib');
+			Server::get(ITemplateManager::class)->printErrorPage(
+				$l->t('Sample configuration detected'),
+				$l->t('It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php'),
+				503
+			);
+			return;
+		}
+
+		self::checkConfig();
+
+		self::$oneTimeChecksDone = true;
+	}
+
+	/*
+	 * Called before each request served if the same worker serves several request
+	 */
+	public static function initForRequest(): void {
+		self::resetStaticProperties();
+
 		// First handle PHP configuration and copy auth headers to the expected
 		// $_SERVER variable before doing anything Server object related
-		self::setRequiredIniValues();
 		self::handleAuthHeaders();
 
 		// setup the basic server
 		self::$server = new \OC\Server(\OC::$WEBROOT, self::$config);
 		self::$server->boot();
 
+		self::oneTimeChecks();
+
 		$loaderStart = microtime(true);
+
+		$config = Server::get(IConfig::class);
+		$request = Server::get(IRequest::class);
 
 		try {
 			$profiler = new BuiltInProfiler(
-				Server::get(IConfig::class),
-				Server::get(IRequest::class),
+				$config,
+				$request,
 			);
 			$profiler->start();
 		} catch (\Throwable $e) {
@@ -760,10 +812,6 @@ class OC {
 			error_reporting(E_ALL);
 		}
 
-		// initialize intl fallback if necessary
-		OC_Util::isSetLocaleWorking();
-
-		$config = Server::get(IConfig::class);
 		if (!defined('PHPUNIT_RUN')) {
 			$errorHandler = new OC\Log\ErrorHandler(
 				Server::get(\Psr\Log\LoggerInterface::class),
@@ -787,12 +835,6 @@ class OC {
 
 		$eventLogger->start('init_session', 'Initialize session');
 
-		// Check for PHP SimpleXML extension earlier since we need it before our other checks and want to provide a useful hint for web users
-		// see https://github.com/nextcloud/server/pull/2619
-		if (!function_exists('simplexml_load_file')) {
-			throw new \OCP\HintException('The PHP SimpleXML/PHP-XML extension is not installed.', 'Install the extension or make sure it is enabled.');
-		}
-
 		$systemConfig = Server::get(\OC\SystemConfig::class);
 		$appManager = Server::get(\OCP\App\IAppManager::class);
 		if ($systemConfig->getValue('installed', false)) {
@@ -802,7 +844,6 @@ class OC {
 			self::initSession();
 		}
 		$eventLogger->end('init_session');
-		self::checkConfig();
 		self::checkInstalled($systemConfig);
 
 		if (!self::$CLI) {
@@ -896,18 +937,6 @@ class OC {
 		$lockProvider = Server::get(\OCP\Lock\ILockingProvider::class);
 		register_shutdown_function([$lockProvider, 'releaseAll']);
 
-		// Check whether the sample configuration has been copied
-		if ($systemConfig->getValue('copied_sample_config', false)) {
-			$l = Server::get(\OCP\L10N\IFactory::class)->get('lib');
-			Server::get(ITemplateManager::class)->printErrorPage(
-				$l->t('Sample configuration detected'),
-				$l->t('It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php'),
-				503
-			);
-			return;
-		}
-
-		$request = Server::get(IRequest::class);
 		$host = $request->getInsecureServerHost();
 		/**
 		 * if the host passed in headers isn't trusted
@@ -915,7 +944,7 @@ class OC {
 		 */
 		if (!OC::$CLI
 			&& !Server::get(\OC\Security\TrustedDomainHelper::class)->isTrustedDomain($host)
-			&& $config->getSystemValueBool('installed', false)
+			&& $config->getSystemValueBool('installed')
 		) {
 			// Allow access to CSS resources
 			$isScssRequest = false;
@@ -1336,6 +1365,42 @@ class OC {
 			return $appAPIService->validateExAppRequestToNC($request);
 		} catch (\Psr\Container\NotFoundExceptionInterface|\Psr\Container\ContainerExceptionInterface $e) {
 			return false;
+		}
+	}
+
+	/**
+	 * @internal
+	 */
+	private static function resetStaticProperties(): void {
+		// FIXME needed because these use a static var
+		\OC_Hook::clear();
+		\OC_Util::$styles = [];
+		\OC_Util::$headers = [];
+		\OC_User::setIncognitoMode(false);
+		\OC_User::$_setupedBackends = [];
+		\OC_App::reset();
+		\OC_Helper::reset();
+		Filesystem::reset();
+	}
+
+	/**
+	 * @internal
+	 */
+	public static function handleRequests(callable $handler): void {
+		if (function_exists('frankenphp_handle_request') && isset($_SERVER['FRANKENPHP_WORKER']) && $_SERVER['FRANKENPHP_WORKER'] === '1') {
+			$maxRequests = (int)($_SERVER['MAX_REQUESTS'] ?? 0);
+			for ($nbRequests = 0; !$maxRequests || $nbRequests < $maxRequests; ++$nbRequests) {
+				$keepRunning = \frankenphp_handle_request($handler);
+
+				// Call the garbage collector to reduce the chances of it being triggered in the middle of a page generation
+				gc_collect_cycles();
+
+				if (!$keepRunning) {
+					break;
+				}
+			}
+		} else {
+			$handler();
 		}
 	}
 }
