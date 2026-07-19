@@ -245,6 +245,7 @@
     "_Minimum search length is %n character_::_Minimum search length is %n characters_" : ["Die Mindestsuchlänge beträgt %n Zeichen","Die Mindestsuchlänge beträgt %n Zeichen"],
     "Searching …" : "Suche …",
     "No matching results" : "Keine passenden Suchergebnisse",
+    "_%n result_::_%n results_" : ["%n Ergebnis","%n Ergebnisse"],
     "Today" : "Heute",
     "Last 7 days" : "Die letzten 7 Tage",
     "Last 30 days" : "Die letzten 30 Tage",

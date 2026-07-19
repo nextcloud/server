@@ -247,6 +247,7 @@ OC.L10N.register(
     "_Minimum search length is %n character_::_Minimum search length is %n characters_" : ["Minimalus paieškos simbolių skaičius yra %n","Minimalus paieškos simbolių skaičius yra %n","Minimalus paieškos simbolių skaičius yra %n","Minimalus paieškos simbolių skaičius yra %n"],
     "Searching …" : "Ieškoma…",
     "No matching results" : "Nėra atitinkančių rezultatų",
+    "_%n result_::_%n results_" : ["%n rezultatas","%n rezultatai","%n rezultatų","%n rezultatų"],
     "Today" : "Šiandien",
     "Last 7 days" : "Paskutinės 7 dienos",
     "Last 30 days" : "Paskutinės 30 dienų",
