@@ -16,6 +16,7 @@
     "Edit Profile" : "Edit Profile",
     "The headline and about sections will show up here" : "The headline and about sections will show up here",
     "Profile not found" : "Profile not found",
+    "The profile does not exist or is unavailable." : "The profile does not exist or is unavailable.",
     "Back to %s" : "Back to %s",
     "The profile does not exist." : "The profile does not exist."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

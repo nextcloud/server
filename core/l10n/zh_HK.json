@@ -245,6 +245,7 @@
     "_Minimum search length is %n character_::_Minimum search length is %n characters_" : ["最小搜尋長度為 %n 個字元"],
     "Searching …" : "搜尋中 …",
     "No matching results" : "無相符結果",
+    "_%n result_::_%n results_" : ["%n 個結果"],
     "Today" : "今日",
     "Last 7 days" : "過去7日",
     "Last 30 days" : "過去30日",

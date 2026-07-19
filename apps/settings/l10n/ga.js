@@ -1045,6 +1045,9 @@ OC.L10N.register(
     "Limited ODF compatibility" : "Comhoiriúnacht ODF teoranta",
     "Best Microsoft compatibility" : "Comhoiriúnacht is fearr le Microsoft",
     "{progress}% Deploying …" : "{progress}% Ag imscaradh …",
-    "{progress}% Initializing …" : "{progress}% Ag tosú …"
+    "{progress}% Initializing …" : "{progress}% Ag tosú …",
+    "Redis cache" : "Taisce Redis",
+    "You are still using the old Redis cache backend. For full support of latest Valkey and Redis features, like clustering and sentinel, please switch to the new KeyValueCache backend." : "Tá tú fós ag baint úsáide as an sean-chúltaca taisce Redis. Chun tacaíocht iomlán a fháil do na gnéithe is déanaí de Valkey agus Redis, amhail braisliú agus faireachán, aistrigh go dtí an cúltaca nua de KeyValue Taisce.",
+    "No legacy Redis cache detected" : "Níor braitheadh ​​​​aon taisce oidhreacht Redis"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

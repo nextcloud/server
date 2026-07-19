@@ -245,6 +245,7 @@
     "_Minimum search length is %n character_::_Minimum search length is %n characters_" : ["Is é %n carachtar an fad cuardaigh íosta","Is é %n carachtar an fad cuardaigh íosta","Is é %n carachtar an fad cuardaigh íosta","Is é %n carachtar an fad cuardaigh íosta","Is é %n carachtar an fad cuardaigh íosta"],
     "Searching …" : "Ag cuardach …",
     "No matching results" : "Gan torthaí meaitseála",
+    "_%n result_::_%n results_" : ["%n toradh","%n toradh","%n toradh","%n toradh","%n toradh"],
     "Today" : "Inniu",
     "Last 7 days" : "7 lá seo caite",
     "Last 30 days" : "30 lá anuas",
