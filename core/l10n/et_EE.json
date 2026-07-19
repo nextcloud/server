@@ -245,6 +245,7 @@
     "_Minimum search length is %n character_::_Minimum search length is %n characters_" : ["Väikseim pikkus on %n tähemärk","Väikseim pikkus on %n tähemärki"],
     "Searching …" : "Otsin...",
     "No matching results" : "Otsinguvastuseid ei leidu",
+    "_%n result_::_%n results_" : ["%n tulemus","%n tulemust"],
     "Today" : "Täna",
     "Last 7 days" : "Viimase 7 päeva jooksul",
     "Last 30 days" : "Viimase 30 päeva jooksul",
