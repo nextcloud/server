@@ -91,7 +91,9 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 					return $oldService;
 				});
 			} else {
-				unset($container[$oldService]);
+				// The service was not registered before the test override.
+				// Remove the test registration so the container returns to its prior state.
+				unset($container[$name]);
 			}
 
 
