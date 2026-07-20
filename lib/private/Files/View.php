@@ -1392,10 +1392,13 @@ class View {
 	 * @param Storage $storage Storage containing the path
 	 * @param string $internalPath Path relative to the storage root
 	 * @param string $relativePath Path relative to this view
-	 * @return ICacheEntry|false Cached metadata, or false if the path does not
-	 *                            exist or cannot be scanned due to a lock
+	 * @return ICacheEntry|false Cached metadata, or false if the path does not exist or cannot be scanned due to a lock
 	 */
-	private function getCacheEntry($storage, $internalPath, $relativePath) {
+	private function getCacheEntry(
+		Storage $storage,
+		string $internalPath,
+		string $relativePath,
+	): ICacheEntry|false {
 		$cache = $storage->getCache($internalPath);
 		$data = $cache->get($internalPath);
 		$watcher = $storage->getWatcher($internalPath);
