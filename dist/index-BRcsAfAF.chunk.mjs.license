@@ -36,5 +36,5 @@ This file is generated from multiple sources. Included packages:
 	- version: 7.3.6
 	- license: MIT
 - vite-plugin-node-polyfills
-	- version: 0.24.0
+	- version: 0.28.0
 	- license: MIT

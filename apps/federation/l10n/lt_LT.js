@@ -24,9 +24,9 @@ OC.L10N.register(
     "Connection to the remote server failed or the remote server is misconfigured." : "Ryšys su nuotoliniu serveriu nepavyko arba nuotolinis serveris yra neteisingai sukonfigūruotas.",
     "Failed to delete trusted server. Please try again later." : "Nepavyko pašalinti patikimo serverio. Bandykite dar kartą vėliau.",
     "Delete" : "Ištrinti",
-    "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "Federacija leidžia prisijungti prie kitų patikimų serverių, kad būtų galima keistis paskyrų katalogu. Pavyzdžiui, tai bus naudojama automatiškai užpildyti išorines paskyras, skirtas federuotam bendrinimui. Norint sukurti federuotą bendrinimą, nebūtina pridėti serverio kaip patikimo serverio.",
+    "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "Federacija leidžia prisijungti prie kitų patikimų serverių, kad būtų galima keistis paskyrų katalogu. Pavyzdžiui, tai bus naudojama automatiškai užpildyti išorines paskyras, skirtas federaciniam bendrinimui. Norint sukurti federuotą bendrinimą, nebūtina pridėti serverio kaip patikimo serverio.",
     "Each server must validate the other. This process may require a few cron cycles." : "Kiekvienas serveris turi patvirtinti kitą. Šiam procesui gali prireikti kelių „cron“ ciklų.",
-    "External documentation for Federated Cloud Sharing" : "Išorinė dokumentacija apie Federacinį Debesies Bendrinimą",
+    "External documentation for Federated Cloud Sharing" : "Išorinė dokumentacija apie federacinį debesies bendrinimą",
     "+ Add trusted server" : "+ Pridėti patikimą serverį",
     "Trusted server" : "Patikimas serveris"
 },

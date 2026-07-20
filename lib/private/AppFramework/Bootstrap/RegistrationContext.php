@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OC\AppFramework\Bootstrap;
 
 use Closure;
+use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\Support\CrashReport\Registry;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
@@ -723,9 +724,10 @@ class RegistrationContext {
 			}
 
 			try {
-				$apps[$appId]
-					->getContainer()
-					->registerCapability($registration->getService());
+				/** @var DIContainer $appContainer */
+				$appContainer = $apps[$appId]
+					->getContainer();
+				$appContainer->registerCapability($registration->getService());
 			} catch (Throwable $e) {
 				$this->logger->error("Error during capability registration of $appId: " . $e->getMessage(), [
 					'exception' => $e,
@@ -798,13 +800,14 @@ class RegistrationContext {
 				/**
 				 * Register the service and convert the callable into a \Closure if necessary
 				 */
-				$apps[$appId]
-					->getContainer()
-					->registerService(
-						$registration->getName(),
-						Closure::fromCallable($registration->getFactory()),
-						$registration->isShared()
-					);
+				/** @var DIContainer $appContainer */
+				$appContainer = $apps[$appId]
+					->getContainer();
+				$appContainer->registerService(
+					$registration->getName(),
+					Closure::fromCallable($registration->getFactory()),
+					$registration->isShared()
+				);
 			} catch (Throwable $e) {
 				$this->logger->error("Error during service registration of $appId: " . $e->getMessage(), [
 					'exception' => $e,
@@ -823,12 +826,13 @@ class RegistrationContext {
 			}
 
 			try {
-				$apps[$appId]
-					->getContainer()
-					->registerAlias(
-						$registration->getAlias(),
-						$registration->getTarget()
-					);
+				/** @var DIContainer $appContainer */
+				$appContainer = $apps[$appId]
+					->getContainer();
+				$appContainer->registerAlias(
+					$registration->getAlias(),
+					$registration->getTarget()
+				);
 			} catch (Throwable $e) {
 				$this->logger->error("Error during service alias registration of $appId: " . $e->getMessage(), [
 					'exception' => $e,
@@ -847,12 +851,13 @@ class RegistrationContext {
 			}
 
 			try {
-				$apps[$appId]
-					->getContainer()
-					->registerParameter(
-						$registration->getName(),
-						$registration->getValue()
-					);
+				/** @var DIContainer $appContainer */
+				$appContainer = $apps[$appId]
+					->getContainer();
+				$appContainer->registerParameter(
+					$registration->getName(),
+					$registration->getValue()
+				);
 			} catch (Throwable $e) {
 				$this->logger->error("Error during service parameter registration of $appId: " . $e->getMessage(), [
 					'exception' => $e,

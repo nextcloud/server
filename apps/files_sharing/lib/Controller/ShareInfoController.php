@@ -1,7 +1,7 @@
 <?php
 
 /**
- * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016-2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
@@ -70,7 +70,7 @@ class ShareInfoController extends ApiController {
 			return $response;
 		}
 
-		if ($share->getPassword() && !$this->shareManager->checkPassword($share, $password)) {
+		if ($share->isPasswordProtected() && !$this->shareManager->checkPassword($share, $password)) {
 			$response = new JSONResponse([], Http::STATUS_FORBIDDEN);
 			$response->throttle(['token' => $t]);
 			return $response;

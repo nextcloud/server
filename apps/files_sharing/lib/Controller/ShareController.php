@@ -1,7 +1,7 @@
 <?php
 
 /**
- * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016-2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
@@ -176,7 +176,7 @@ class ShareController extends AuthPublicShareController {
 
 	#[\Override]
 	protected function isPasswordProtected(): bool {
-		return $this->share->getPassword() !== null;
+		return $this->share->isPasswordProtected();
 	}
 
 	#[\Override]

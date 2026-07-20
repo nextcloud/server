@@ -13,8 +13,8 @@ use OC\Log\LogFactory;
 use OC\Log\Syslog;
 use OC\Log\Systemdlog;
 use OC\SystemConfig;
-use OCP\AppFramework\QueryException;
-use OCP\IServerContainer;
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Container\ContainerInterface;
 use Test\TestCase;
 
 /**
@@ -23,23 +23,18 @@ use Test\TestCase;
  * @package Test\Log
  */
 class LogFactoryTest extends TestCase {
-	/** @var IServerContainer|\PHPUnit\Framework\MockObject\MockObject */
-	protected $c;
-
-	/** @var LogFactory */
-	protected $factory;
-
-	/** @var SystemConfig|\PHPUnit\Framework\MockObject\MockObject */
-	protected $systemConfig;
+	protected ContainerInterface&MockObject $c;
+	protected LogFactory $factory;
+	protected SystemConfig&MockObject $systemConfig;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->c = $this->createMock(IServerContainer::class);
+		$this->c = $this->createMock(ContainerInterface::class);
 		$this->systemConfig = $this->createMock(SystemConfig::class);
 
-		$this->factory = new LogFactory($this->c, $this->systemConfig);
+		$this->factory = new LogFactory($this->c, $this->systemConfig, \OC::$SERVERROOT);
 	}
 
 	public static function fileTypeProvider(): array {
@@ -61,7 +56,6 @@ class LogFactoryTest extends TestCase {
 
 	/**
 	 * @param string $type
-	 * @throws QueryException
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('fileTypeProvider')]
 	public function testFile(string $type): void {
@@ -93,9 +87,6 @@ class LogFactoryTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @throws QueryException
-	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('logFilePathProvider')]
 	public function testFileCustomPath($path, $expected): void {
 		$datadir = \OC::$SERVERROOT . '/data';
@@ -114,20 +105,14 @@ class LogFactoryTest extends TestCase {
 		$this->assertSame($expected, $log->getLogFilePath());
 	}
 
-	/**
-	 * @throws QueryException
-	 */
 	public function testErrorLog(): void {
 		$log = $this->factory->get('errorlog');
 		$this->assertInstanceOf(Errorlog::class, $log);
 	}
 
-	/**
-	 * @throws QueryException
-	 */
 	public function testSystemLog(): void {
 		$this->c->expects($this->once())
-			->method('resolve')
+			->method('get')
 			->with(Syslog::class)
 			->willReturn($this->createMock(Syslog::class));
 
@@ -135,12 +120,9 @@ class LogFactoryTest extends TestCase {
 		$this->assertInstanceOf(Syslog::class, $log);
 	}
 
-	/**
-	 * @throws QueryException
-	 */
 	public function testSystemdLog(): void {
 		$this->c->expects($this->once())
-			->method('resolve')
+			->method('get')
 			->with(Systemdlog::class)
 			->willReturn($this->createMock(Systemdlog::class));
 

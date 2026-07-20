@@ -81,7 +81,7 @@ class SystemTagManager implements ISystemTagManager {
 			->setParameter('tagids', $tagIds, IQueryBuilder::PARAM_INT_ARRAY);
 
 		$result = $query->executeQuery();
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$tag = $this->createSystemTagFromRow($row);
 			if ($user && !$this->canUserSeeTag($tag, $user)) {
 				// if a user is given, hide invisible tags
@@ -128,7 +128,7 @@ class SystemTagManager implements ISystemTagManager {
 			->addOrderBy('editable', 'ASC');
 
 		$result = $query->executeQuery();
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$tags[$row['id']] = $this->createSystemTagFromRow($row);
 		}
 
@@ -147,7 +147,7 @@ class SystemTagManager implements ISystemTagManager {
 			->setParameter('editable', $userAssignable ? 1 : 0)
 			->executeQuery();
 
-		$row = $result->fetch();
+		$row = $result->fetchAssociative();
 		$result->closeCursor();
 		if (!$row) {
 			throw new TagNotFoundException(
@@ -476,7 +476,7 @@ class SystemTagManager implements ISystemTagManager {
 			->orderBy('gid');
 
 		$result = $query->executeQuery();
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$groupIds[] = $row['gid'];
 		}
 

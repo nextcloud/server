@@ -38,6 +38,14 @@ return (require __DIR__ . '/rector-shared.php')
 		$nextcloudDir . '/apps/files_sharing/tests/Listener/RestrictInteractionListenerTest.php',
 		$nextcloudDir . '/core/Listener/RestrictInteractionListener.php',
 		$nextcloudDir . '/tests/Core/Listener/RestrictInteractionListenerTest.php',
+		$nextcloudDir . '/lib/public/Sharing',
+		$nextcloudDir . '/lib/private/Sharing',
+		$nextcloudDir . '/tests/lib/Sharing',
+		$nextcloudDir . '/apps/sharing',
+		$nextcloudDir . '/core/Sharing',
+		$nextcloudDir . '/tests/Core/Sharing',
+		$nextcloudDir . '/apps/files/lib/Sharing',
+		$nextcloudDir . '/apps/files/tests/Sharing',
 	])
 	->withAutoloadPaths([
 		// ensure rector properly autoload the public interfaces

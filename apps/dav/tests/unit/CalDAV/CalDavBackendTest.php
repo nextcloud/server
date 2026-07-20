@@ -17,6 +17,7 @@ use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\DAV\Sharing\Plugin as SharingPlugin;
 use OCA\DAV\Events\CalendarDeletedEvent;
+use OCA\DAV\Exception\UidConflict;
 use OCP\IConfig;
 use OCP\IL10N;
 use Psr\Log\NullLogger;
@@ -264,7 +265,7 @@ EOD;
 	}
 
 	public function testMultipleCalendarObjectsWithSameUID(): void {
-		$this->expectException(\OCA\DAV\Exception\UidConflict::class);
+		$this->expectException(UidConflict::class);
 		$this->expectExceptionMessage('Calendar object with uid already exists in this calendar collection.');
 
 		$calendarId = $this->createTestCalendar();
@@ -364,7 +365,7 @@ EOD;
 		$this->backend->createCalendarObject($targetCalendarId, 'target.ics', $calData);
 		$sourceObject = $this->backend->getCalendarObject($sourceCalendarId, 'source.ics');
 
-		$this->expectException(\OCA\DAV\Exception\UidConflict::class);
+		$this->expectException(UidConflict::class);
 		$this->backend->moveCalendarObject(
 			self::UNIT_TEST_USER,
 			(int)$sourceObject['id'],

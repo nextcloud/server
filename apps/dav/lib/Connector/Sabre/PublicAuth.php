@@ -63,7 +63,7 @@ class PublicAuth extends AbstractBasic {
 		try {
 			$this->throttler->sleepDelayOrThrowOnMax($this->request->getRemoteAddress(), self::BRUTEFORCE_ACTION);
 
-			if (count($_COOKIE) > 0 && !$this->request->passesStrictCookieCheck() && $this->getShare()->getPassword() !== null) {
+			if (count($_COOKIE) > 0 && !$this->request->passesStrictCookieCheck() && $this->getShare()->isPasswordProtected()) {
 				throw new PreconditionFailed('Strict cookie check failed');
 			}
 
@@ -142,7 +142,7 @@ class PublicAuth extends AbstractBasic {
 		}
 
 		// If the share is protected but user is not authenticated
-		if ($share->getPassword() !== null) {
+		if ($share->isPasswordProtected()) {
 			$this->throttler->registerAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress());
 			throw new NotAuthenticated();
 		}
@@ -176,7 +176,7 @@ class PublicAuth extends AbstractBasic {
 		\OC_User::setIncognitoMode(true);
 
 		// check if the share is password protected
-		if ($share->getPassword() !== null) {
+		if ($share->isPasswordProtected()) {
 			if ($share->getShareType() === IShare::TYPE_LINK
 				|| $share->getShareType() === IShare::TYPE_EMAIL
 				|| $share->getShareType() === IShare::TYPE_CIRCLE) {

@@ -12,12 +12,6 @@ use OC\RedisFactory;
 use OCP\IMemcacheTTL;
 use OCP\Server;
 
-/**
- * @deprecated 34.0.2 Legacy phpredis based backend. Kept so existing `redis`
- *             and `redis.cluster` configurations keep working. New setups should
- *             use {@see KeyValueCache} with the `memcache.kvstore` configuration,
- *             which also supports Valkey.
- */
 class Redis extends Cache implements IMemcacheTTL {
 	/** name => [script, sha1] */
 	public const LUA_SCRIPTS = [
@@ -59,7 +53,7 @@ class Redis extends Cache implements IMemcacheTTL {
 	 */
 	public function getCache(): \Redis|\RedisCluster {
 		if ($this->cache === null) {
-			$this->cache = \OCP\Server::get(RedisFactory::class)->getInstance();
+			$this->cache = Server::get(RedisFactory::class)->getInstance();
 		}
 		return $this->cache;
 	}

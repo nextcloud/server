@@ -247,6 +247,7 @@ OC.L10N.register(
     "_Minimum search length is %n character_::_Minimum search length is %n characters_" : ["O comprimento mínimo da pesquisa é de %n caractere","O comprimento mínimo da pesquisa é de %n de caracteres","O comprimento mínimo da pesquisa é de %n caracteres"],
     "Searching …" : "Pesquisando …",
     "No matching results" : "Nenhum resultado encontrado",
+    "_%n result_::_%n results_" : ["%n resultado","%n de resultados","%n resultados"],
     "Today" : "Hoje",
     "Last 7 days" : "Últimos 7 dias",
     "Last 30 days" : "Últimos 30 dias",

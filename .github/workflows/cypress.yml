@@ -141,55 +141,9 @@ jobs:
       matrix:
         # Run multiple copies of the current job in parallel
         # Please increase the number or runners as your tests suite grows (0 based index for e2e tests)
-        containers: ['setup', '0', '1', '2', '3']
-        # Hack as strategy.job-total includes the "setup" and GitHub does not allow math expressions
+        containers: ['0', '1', '2', '3']
         # Always align this number with the total of e2e runners (max. index + 1)
         total-containers: [4]
-
-    services:
-      mysql:
-        # Only start mysql if we are running the setup tests
-        image: ${{matrix.containers == 'setup' && 'ghcr.io/nextcloud/continuous-integration-mysql-8.4:latest' || ''}} # zizmor: ignore[unpinned-images]
-        ports:
-          - '3306/tcp'
-        env:
-          MYSQL_ROOT_PASSWORD: rootpassword
-          MYSQL_USER: oc_autotest
-          MYSQL_PASSWORD: nextcloud
-          MYSQL_DATABASE: oc_autotest
-        options: --health-cmd="mysqladmin ping" --health-interval 5s --health-timeout 2s --health-retries 10
-
-      mariadb:
-        # Only start mariadb if we are running the setup tests
-        image: ${{matrix.containers == 'setup' && 'mariadb:11.4' || ''}} # zizmor: ignore[unpinned-images]
-        ports:
-          - '3306/tcp'
-        env:
-          MYSQL_ROOT_PASSWORD: rootpassword
-          MYSQL_USER: oc_autotest
-          MYSQL_PASSWORD: nextcloud
-          MYSQL_DATABASE: oc_autotest
-        options: --health-cmd="mariadb-admin ping" --health-interval 5s --health-timeout 2s --health-retries 5
-
-      postgres:
-        # Only start postgres if we are running the setup tests
-        image: ${{matrix.containers == 'setup' && 'ghcr.io/nextcloud/continuous-integration-postgres-17:latest' || ''}} # zizmor: ignore[unpinned-images]
-        ports:
-          - '5432/tcp'
-        env:
-          POSTGRES_USER: root
-          POSTGRES_PASSWORD: rootpassword
-          POSTGRES_DB: nextcloud
-        options: --mount type=tmpfs,destination=/var/lib/postgresql/data --health-cmd pg_isready --health-interval 5s --health-timeout 2s --health-retries 5
-
-      oracle:
-        # Only start oracle if we are running the setup tests
-        image: ${{matrix.containers == 'setup' && 'ghcr.io/gvenzl/oracle-free:23' || ''}} # zizmor: ignore[unpinned-images]
-        ports:
-          - '1521'
-        env:
-          ORACLE_PASSWORD: oracle
-        options:  --health-cmd healthcheck.sh --health-interval 20s --health-timeout 10s --health-retries 10
 
     name: runner ${{ matrix.containers }}
 
@@ -254,7 +208,6 @@ jobs:
           SPLIT: ${{ matrix.total-containers }}
           SPLIT_INDEX: ${{ matrix.containers == 'component' && 0 || matrix.containers }}
           SPLIT_RANDOM_SEED: ${{ github.run_id }}
-          SETUP_TESTING: ${{ matrix.containers == 'setup' && 'true' || '' }}
 
       - name: Upload snapshots and videos
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1

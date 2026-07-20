@@ -24,6 +24,7 @@ use OCP\Federation\ICloudFederationShare;
 use OCP\Federation\ICloudIdManager;
 use OCP\Files\IFilenameValidator;
 use OCP\Files\ISetupManager;
+use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 use OCP\IAppConfig;
@@ -261,7 +262,7 @@ class CloudFederationProviderFilesTest extends TestCase {
 			'token_type' => 'Bearer',
 		]));
 
-		$httpClient = $this->createMock(\OCP\Http\Client\IClient::class);
+		$httpClient = $this->createMock(IClient::class);
 		$httpClient->method('post')->willReturn($response);
 		$this->clientService->method('newClient')->willReturn($httpClient);
 
@@ -343,7 +344,7 @@ class CloudFederationProviderFilesTest extends TestCase {
 			'token_type' => 'Bearer',
 		]));
 
-		$httpClient = $this->createMock(\OCP\Http\Client\IClient::class);
+		$httpClient = $this->createMock(IClient::class);
 		$httpClient->method('post')->willReturn($response);
 		$this->clientService->method('newClient')->willReturn($httpClient);
 

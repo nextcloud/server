@@ -4,9 +4,11 @@
 -->
 <template>
 	<NcListItem
+		:id="elementId"
 		class="result-item"
 		:name="title"
 		:bold="false"
+		:active="active"
 		:href="resourceUrl"
 		target="_self">
 		<template #icon>
@@ -80,11 +82,21 @@ export default {
 		},
 
 		/**
-		 * Only used for the first result as a visual feedback
-		 * so we can keep the search input focused but pressing
-		 * enter still opens the first result
+		 * DOM id set on the option element (the <li>). The combobox input points
+		 * aria-activedescendant at this id to name the active row while focus stays
+		 * in the input.
 		 */
-		focused: {
+		elementId: {
+			type: String,
+			default: undefined,
+		},
+
+		/**
+		 * Whether this row is the selected result. Highlights it (via NcListItem's
+		 * active state) so the auto-selected first result and arrow navigation are
+		 * visible while the search input keeps focus.
+		 */
+		active: {
 			type: Boolean,
 			default: false,
 		},

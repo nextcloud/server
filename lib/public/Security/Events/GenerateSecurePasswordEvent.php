@@ -11,6 +11,7 @@ namespace OCP\Security\Events;
 
 use OCP\EventDispatcher\Event;
 use OCP\Security\PasswordContext;
+use SensitiveParameter;
 
 /**
  * Event to request a secure password to be generated
@@ -50,7 +51,10 @@ class GenerateSecurePasswordEvent extends Event {
 	 * This is used by password generators to set the generated password.
 	 * @since 18.0.0
 	 */
-	public function setPassword(string $password): void {
+	public function setPassword(
+		#[SensitiveParameter]
+		string $password,
+	): void {
 		$this->password = $password;
 	}
 

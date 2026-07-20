@@ -9,7 +9,6 @@
 namespace OCA\Files_Sharing\Tests\Controller;
 
 use OC\Files\Storage\Wrapper\Wrapper;
-use OC\Session\Internal;
 use OCA\Federation\TrustedServers;
 use OCA\Files_Sharing\Controller\ShareAPIController;
 use OCA\Files_Sharing\External\Storage;
@@ -638,6 +637,7 @@ class ShareAPIControllerTest extends TestCase {
 		$share->method('getMailSend')->willReturn($mail_send);
 		$share->method('getToken')->willReturn($token);
 		$share->method('getPassword')->willReturn($password);
+		$share->method('isPasswordProtected')->willReturn(!empty($password));
 
 		if ($shareType === IShare::TYPE_USER
 			|| $shareType === IShare::TYPE_GROUP

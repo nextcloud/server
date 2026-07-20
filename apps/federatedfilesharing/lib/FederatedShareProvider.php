@@ -12,6 +12,7 @@ use OC\Authentication\Token\PublicKeyTokenProvider;
 use OC\Share20\Exception\InvalidShare;
 use OC\Share20\Share;
 use OCA\CloudFederationAPI\Db\OcmTokenMapMapper;
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\Token\IToken;
 use OCP\Constants;
@@ -749,7 +750,7 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 					->executeQuery();
 
 				$data = $cursor->fetch();
-			} catch (InvalidTokenException|\OCP\AppFramework\Db\DoesNotExistException) {
+			} catch (InvalidTokenException|DoesNotExistException) {
 				// Token is not a valid access token or has no mapping, share not found
 			}
 		}

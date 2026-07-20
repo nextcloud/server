@@ -16,7 +16,6 @@ use OC\FilesMetadata\Model\FilesMetadata;
 use OC\FilesMetadata\Service\IndexRequestService;
 use OC\FilesMetadata\Service\MetadataRequestService;
 use OCP\BackgroundJob\IJobList;
-use OCP\DB\Exception;
 use OCP\DB\Exception as DBException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -164,6 +163,10 @@ class FilesMetadataManager implements IFilesMetadataManager {
 		}
 
 		$json = json_encode($filesMetadata->jsonSerialize());
+		if (!$json) {
+			$this->logger->error('Failed to json encode file metadata for ' . $filesMetadata->getFileId(), ['metadata' => $filesMetadata->jsonSerialize()]);
+			return;
+		}
 		if (strlen($json) > self::JSON_MAXSIZE) {
 			$this->logger->debug('huge metadata content detected: ' . $json);
 			throw new FilesMetadataException('json cannot exceed ' . self::JSON_MAXSIZE . ' characters long; fileId: ' . $filesMetadata->getFileId() . '; size: ' . strlen($json));

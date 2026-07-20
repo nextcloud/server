@@ -133,7 +133,7 @@ class JobList implements IJobList {
 			->setMaxResults(1);
 
 		$result = $query->executeQuery();
-		$row = $result->fetch();
+		$row = $result->fetchAssociative();
 		$result->closeCursor();
 
 		return (bool)$row;
@@ -162,7 +162,7 @@ class JobList implements IJobList {
 
 		$result = $query->executeQuery();
 
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$job = $this->buildJob($row);
 			if ($job) {
 				yield $job;
@@ -194,7 +194,7 @@ class JobList implements IJobList {
 		}
 
 		$result = $query->executeQuery();
-		$row = $result->fetch();
+		$row = $result->fetchAssociative();
 		$result->closeCursor();
 
 		if ($row) {
@@ -297,7 +297,7 @@ class JobList implements IJobList {
 			->from('jobs')
 			->where($query->expr()->eq('id', $query->createNamedParameter($id)));
 		$result = $query->executeQuery();
-		$row = $result->fetch();
+		$row = $result->fetchAssociative();
 		$result->closeCursor();
 
 		if ($row) {
@@ -412,7 +412,7 @@ class JobList implements IJobList {
 
 		try {
 			$result = $query->executeQuery();
-			$hasReservedJobs = $result->fetch() !== false;
+			$hasReservedJobs = $result->fetchAssociative() !== false;
 			$result->closeCursor();
 			return $hasReservedJobs;
 		} catch (Exception $e) {
@@ -434,7 +434,7 @@ class JobList implements IJobList {
 
 		$jobs = [];
 
-		while (($row = $result->fetch()) !== false) {
+		while (($row = $result->fetchAssociative()) !== false) {
 			/**
 			 * @var array{count:int, class:class-string<IJob>} $row
 			 */

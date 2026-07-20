@@ -10,8 +10,6 @@ declare(strict_types=1);
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OCA\DAV\CalDAV\DefaultCalendarValidator;
-use OCA\DAV\Connector\Sabre\Directory;
-use OCA\DAV\Connector\Sabre\File;
 use OCA\DAV\DAV\CustomPropertiesBackend;
 use OCA\DAV\Db\PropertyMapper;
 use OCP\IDBConnection;

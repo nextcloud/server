@@ -14,7 +14,12 @@
 				@set:customDateRange="setCustomDateRange"
 				@update:isOpen="showDateRangeModal = $event" />
 
-			<div ref="panel" class="unified-search-modal__container">
+			<div id="unified-search-results" ref="panel" class="unified-search-modal__container">
+				<!-- Polite status region: announces searching / done / result count to
+					screen readers (WCAG 4.1.3). Visually hidden, always present while open. -->
+				<div class="hidden-visually" role="status" aria-live="polite">
+					{{ liveMessage }}
+				</div>
 				<!-- Unified search form -->
 				<div class="unified-search-modal__header">
 					<div v-if="isSmallMobile" class="unified-search-modal__mobile-input">
@@ -81,8 +86,8 @@
 							:searchList="userContacts"
 							:emptyContentText="t('core', 'Not found')"
 							data-cy-unified-search-filter="people"
-							@searchTermChange="debouncedFilterContacts"
-							@itemSelected="applyPersonFilter">
+							@search-term-change="debouncedFilterContacts"
+							@item-selected="applyPersonFilter">
 							<template #trigger>
 								<NcButton>
 									<template #icon>
@@ -146,11 +151,14 @@
 						<h4 :id="`unified-search-result-${providerResult.id}`" class="result-title">
 							{{ providerResult.name }}
 						</h4>
-						<ul class="result-items" :aria-labelledby="`unified-search-result-${providerResult.id}`">
+						<ul class="result-items" :role="isSmallMobile ? undefined : 'listbox'" :aria-labelledby="`unified-search-result-${providerResult.id}`">
 							<SearchResult
 								v-for="(result, index) in providerResult.results"
 								:key="index"
-								v-bind="result" />
+								v-bind="result"
+								:role="isSmallMobile ? undefined : 'option'"
+								:elementId="rowElementId(providerResult.id, index)"
+								:active="activeDescendantId === rowElementId(providerResult.id, index)" />
 						</ul>
 						<div class="result-footer">
 							<NcButton v-if="providerResult.hasMore" variant="tertiary-no-background" @click="loadMoreResultsForProvider(providerResult)">
@@ -176,11 +184,14 @@
 							<h4 :id="`unified-search-result-unfiltered-${providerResult.id}`" class="result-title">
 								{{ providerResult.name }}
 							</h4>
-							<ul class="result-items" :aria-labelledby="`unified-search-result-unfiltered-${providerResult.id}`">
+							<ul class="result-items" :role="isSmallMobile ? undefined : 'listbox'" :aria-labelledby="`unified-search-result-unfiltered-${providerResult.id}`">
 								<SearchResult
 									v-for="(result, index) in providerResult.results"
 									:key="index"
-									v-bind="result" />
+									v-bind="result"
+									:role="isSmallMobile ? undefined : 'option'"
+									:elementId="rowElementId(providerResult.id, index, true)"
+									:active="activeDescendantId === rowElementId(providerResult.id, index, true)" />
 							</ul>
 							<div class="result-footer">
 								<NcButton v-if="providerResult.hasMore" variant="tertiary-no-background" @click="loadMoreResultsForProvider(providerResult)">
@@ -241,6 +252,12 @@ import { unifiedSearchLogger } from '../../logger.js'
 import { getContacts, getProviders } from '../../services/UnifiedSearchService.js'
 import { useSearchStore } from '../../store/unified-search-external-filters.js'
 
+/** One selectable result row in the flat keyboard-navigation list. */
+interface NavigableRow {
+	id: string
+	resourceUrl: string | null
+}
+
 export default defineComponent({
 	name: 'UnifiedSearchModal',
 	components: {
@@ -292,7 +309,7 @@ export default defineComponent({
 		},
 	},
 
-	emits: ['update:open', 'update:query'],
+	emits: ['update:open', 'update:query', 'update:activeDescendant'],
 
 	setup() {
 		/**
@@ -338,6 +355,10 @@ export default defineComponent({
 			showDateRangeModal: false,
 			initialized: false,
 			searchExternalResources: false,
+			// Index of the selected row in the flat navigableRows list. -1 = nothing
+			// selected (no results yet). Focus stays in the input; this drives the
+			// aria-activedescendant highlight (combobox pattern).
+			activeIndex: -1,
 			minSearchLength: loadState('unified-search', 'min-search-length', 1),
 			// Focus trap spanning [header input, popover panel]; markRaw'd so Vue
 			// doesn't make the trap instance reactive.
@@ -407,12 +428,6 @@ export default defineComponent({
 			return this.filters.some((filter) => filter.type === 'date' || filter.type === 'person')
 		},
 
-		// Any teleported overlay (a filter menu or the date-range dialog) that renders
-		// outside the focus trap and needs it paused while open.
-		isOverlayOpen() {
-			return this.providerActionMenuIsOpen || this.dateActionMenuIsOpen || this.showDateRangeModal
-		},
-
 		results() {
 			const contentFilterTypes = this.filters
 				.filter((filter) => filter.type !== 'provider')
@@ -471,6 +486,58 @@ export default defineComponent({
 				}))
 				.filter((provider) => provider.results.length > 0)
 		},
+
+		// The rendered rows flattened into a single list in visual order (filtered
+		// groups first, then the partial-matches groups), each with the DOM id of its
+		// option element. This is the index space the arrow keys walk; it must stay in
+		// lockstep with the template's v-for order so activeDescendantId names the row
+		// the highlight is on.
+		navigableRows(): NavigableRow[] {
+			// No rows are rendered while the empty/searching state shows, and none on
+			// mobile (no combobox there). Keep the index space in lockstep with the DOM
+			// so aria-activedescendant never names a row that isn't on screen.
+			if (this.showEmptyContentInfo || this.isSmallMobile) {
+				return []
+			}
+			const rows: NavigableRow[] = []
+			this.filteredResults.forEach((provider) => {
+				provider.results.forEach((entry, index) => {
+					rows.push({ id: this.rowElementId(provider.id, index), resourceUrl: entry.resourceUrl })
+				})
+			})
+			this.unfilteredResults.forEach((provider) => {
+				provider.results.forEach((entry, index) => {
+					rows.push({ id: this.rowElementId(provider.id, index, true), resourceUrl: entry.resourceUrl })
+				})
+			})
+			return rows
+		},
+
+		activeRow() {
+			return this.navigableRows[this.activeIndex] ?? null
+		},
+
+		// The option id the combobox input points aria-activedescendant at, or null
+		// when nothing is selected.
+		activeDescendantId() {
+			return this.activeRow?.id ?? null
+		},
+
+		// Status-message text for the polite live region (WCAG 4.1.3). Announces the
+		// search progress and the settled result count; empty (silent) when closed or
+		// before a searchable query exists.
+		liveMessage() {
+			if (!this.open || this.isEmptySearch || this.isSearchQueryTooShort) {
+				return ''
+			}
+			if (this.searching || !this.initialized) {
+				return t('core', 'Searching …')
+			}
+			if (this.navigableRows.length === 0) {
+				return t('core', 'No matching results')
+			}
+			return n('core', '%n result', '%n results', this.navigableRows.length)
+		},
 	},
 
 	watch: {
@@ -507,8 +574,6 @@ export default defineComponent({
 			}
 		},
 
-		isOverlayOpen: 'syncFocusTrapToOverlays',
-
 		query: {
 			immediate: true,
 			handler() {
@@ -532,6 +597,25 @@ export default defineComponent({
 			if (this.searchQuery) {
 				this.find(this.searchQuery)
 			}
+		},
+
+		// Auto-select the first result on each new result set, keep the selection on
+		// its row as slower categories settle, and clamp when results shrink.
+		navigableRows(next, previous) {
+			this.reconcileActiveIndex(next, previous)
+		},
+
+		// Surface the active option id so the header input (a sibling) can point its
+		// aria-activedescendant at it while keeping focus.
+		activeDescendantId: {
+			immediate: true,
+			handler(id) {
+				this.$emit('update:activeDescendant', id)
+				// Focus never moves to the row, so the browser won't auto-scroll it into
+				// view (as roving focus did in legacy). Do it ourselves once the highlight
+				// has rendered.
+				this.$nextTick(() => this.scrollActiveIntoView())
+			},
 		},
 	},
 
@@ -563,9 +647,11 @@ export default defineComponent({
 		},
 
 		/**
-		 * Close the search on Escape. Sub-menus / sub-dialogs (filter actions, the
-		 * date-range dialog) handle Escape themselves, so only close the popover
-		 * when none of them are open.
+		 * Close the search on Escape, unless a sub-overlay is open (it handles its own
+		 * Escape). The Type/Date action menus pause the trap stack without joining it,
+		 * so check their open state directly. Everything else that opens over the modal
+		 * (People popover, date-range dialog, file picker) pushes a trap onto the shared
+		 * stack, so if our trap is not the top one an overlay is up.
 		 *
 		 * @param event The keyboard event
 		 */
@@ -573,7 +659,11 @@ export default defineComponent({
 			if (event.key !== 'Escape') {
 				return
 			}
-			if (this.isOverlayOpen) {
+			if (this.providerActionMenuIsOpen || this.dateActionMenuIsOpen || this.showDateRangeModal) {
+				return
+			}
+			const stack = window._nc_focus_trap ?? []
+			if (this.focusTrap && stack.at(-1) !== this.focusTrap) {
 				return
 			}
 			event.preventDefault()
@@ -607,6 +697,12 @@ export default defineComponent({
 				escapeDeactivates: false,
 				// Let scrim clicks reach their handler instead of being swallowed
 				allowOutsideClick: true,
+				// Join the @nextcloud/vue shared trap stack. Every Nc overlay (the Type/Date
+				// action menus, the People popover, the date-range dialog, the file picker)
+				// registers here too, so focus-trap pauses/resumes this trap for each of them
+				// automatically (LIFO). This replaces the old manual pause, which could not
+				// track the externally-opened file picker and fought it for focus.
+				trapStack: (window._nc_focus_trap ??= []),
 			}))
 			this.focusTrap.activate()
 		},
@@ -617,19 +713,6 @@ export default defineComponent({
 		deactivateFocusTrap() {
 			this.focusTrap?.deactivate()
 			this.focusTrap = null
-		},
-
-		// Filter menus and the date-range dialog teleport outside the trap; pause it
-		// while any is open so focus can move into them, then resume once all close.
-		syncFocusTrapToOverlays(overlayOpen: boolean) {
-			if (!this.focusTrap) {
-				return
-			}
-			if (overlayOpen) {
-				this.focusTrap.pause()
-			} else {
-				this.focusTrap.unpause()
-			}
 		},
 
 		/**
@@ -955,6 +1038,109 @@ export default defineComponent({
 			this.providers.forEach(async (_, index) => {
 				this.providers[index].disabled = false
 			})
+		},
+
+		/**
+		 * DOM id for a result row's option element, stable across renders for the same
+		 * provider + position so aria-activedescendant and the highlight agree.
+		 *
+		 * @param providerId the provider (category) id
+		 * @param index the row index within that provider's results
+		 * @param unfiltered whether the row is in the partial-matches section
+		 */
+		rowElementId(providerId: string, index: number | string, unfiltered = false): string {
+			return unfiltered
+				? `unified-search-result-unfiltered-${providerId}-${index}`
+				: `unified-search-result-${providerId}-${index}`
+		},
+
+		/**
+		 * Move the selection through the flat result list. Focus stays in the input;
+		 * only the active index (and thus aria-activedescendant + the highlight) moves.
+		 * Ported from LegacyUnifiedSearch's focusNext/focusPrev arithmetic, minus the
+		 * roving DOM .focus().
+		 *
+		 * @param direction next | prev | first | last
+		 */
+		moveActive(direction: 'next' | 'prev' | 'first' | 'last') {
+			const count = this.navigableRows.length
+			if (count === 0) {
+				return
+			}
+			const current = this.activeIndex
+			switch (direction) {
+				// From no selection, the first move lands on the first row (legacy behaviour).
+				case 'next':
+					this.activeIndex = current < 0 ? 0 : Math.min(current + 1, count - 1)
+					break
+				case 'prev':
+					this.activeIndex = current < 0 ? 0 : Math.max(current - 1, 0)
+					break
+				case 'first':
+					this.activeIndex = 0
+					break
+				case 'last':
+					this.activeIndex = count - 1
+					break
+			}
+		},
+
+		/**
+		 * Open the selected result. Enter reaches here from the input (focus never
+		 * leaves it), so navigate to the row's url programmatically. A no-op when
+		 * nothing is selected (empty / still-searching).
+		 */
+		activateActive() {
+			if (!this.activeRow?.resourceUrl) {
+				return
+			}
+			this.openResourceUrl(this.activeRow.resourceUrl)
+		},
+
+		/**
+		 * Follow a result's url. Rows are plain <a href target="_self"> links, so a
+		 * same-tab location change is equivalent to the user clicking the anchor.
+		 *
+		 * @param url the resource url to open
+		 */
+		openResourceUrl(url: string) {
+			window.location.assign(url)
+		},
+
+		/**
+		 * Scroll the active option into the results viewport if it is off-screen.
+		 * `block: 'nearest'` scrolls the popover's own scroll container by the minimum
+		 * needed, so already-visible rows never jump.
+		 */
+		scrollActiveIntoView() {
+			if (!this.activeDescendantId) {
+				return
+			}
+			const activeRow = document.getElementById(this.activeDescendantId)
+			activeRow?.scrollIntoView?.({ block: 'nearest' })
+		},
+
+		/**
+		 * Keep the selection sensible as results change: preserve the selected row by
+		 * id where it still exists (a slower category settling below must not move it),
+		 * otherwise fall back to the first row; clear it when there is nothing to select.
+		 *
+		 * @param next the new navigable rows
+		 * @param previous the navigable rows before the change
+		 */
+		reconcileActiveIndex(next: NavigableRow[], previous: NavigableRow[] | undefined) {
+			if (next.length === 0) {
+				this.activeIndex = -1
+				return
+			}
+			const selectedId = previous?.[this.activeIndex]?.id
+			if (selectedId !== undefined) {
+				const at = next.findIndex((row) => row.id === selectedId)
+				this.activeIndex = at >= 0 ? at : 0
+			} else if (this.activeIndex < 0 || this.activeIndex >= next.length) {
+				// No prior selection (or it fell out of range): auto-select the first row.
+				this.activeIndex = 0
+			}
 		},
 	},
 })

@@ -106,6 +106,7 @@ class AppTest extends \Test\TestCase {
 					'profile',
 					'provisioning_api',
 					'settings',
+					'sharing',
 					'theming',
 					'twofactor_backupcodes',
 					'viewer',
@@ -131,6 +132,7 @@ class AppTest extends \Test\TestCase {
 					'profile',
 					'provisioning_api',
 					'settings',
+					'sharing',
 					'theming',
 					'twofactor_backupcodes',
 					'viewer',
@@ -157,6 +159,7 @@ class AppTest extends \Test\TestCase {
 					'profile',
 					'provisioning_api',
 					'settings',
+					'sharing',
 					'theming',
 					'twofactor_backupcodes',
 					'viewer',
@@ -183,6 +186,7 @@ class AppTest extends \Test\TestCase {
 					'profile',
 					'provisioning_api',
 					'settings',
+					'sharing',
 					'theming',
 					'twofactor_backupcodes',
 					'viewer',
@@ -209,6 +213,7 @@ class AppTest extends \Test\TestCase {
 					'profile',
 					'provisioning_api',
 					'settings',
+					'sharing',
 					'theming',
 					'twofactor_backupcodes',
 					'viewer',
@@ -274,11 +279,11 @@ class AppTest extends \Test\TestCase {
 			);
 
 		$apps = \OC_App::getEnabledApps();
-		$this->assertEquals(['files', 'app3', 'appstore', 'cloud_federation_api', 'dav', 'federatedfilesharing', 'lookup_server_connector', 'oauth2', 'profile', 'provisioning_api', 'settings', 'theming', 'twofactor_backupcodes', 'viewer', 'workflowengine'], $apps);
+		$this->assertEquals(['files', 'app3', 'appstore', 'cloud_federation_api', 'dav', 'federatedfilesharing', 'lookup_server_connector', 'oauth2', 'profile', 'provisioning_api', 'settings', 'sharing', 'theming', 'twofactor_backupcodes', 'viewer', 'workflowengine'], $apps);
 
 		// mock should not be called again here
 		$apps = \OC_App::getEnabledApps();
-		$this->assertEquals(['files', 'app3', 'appstore', 'cloud_federation_api', 'dav', 'federatedfilesharing', 'lookup_server_connector', 'oauth2', 'profile', 'provisioning_api', 'settings', 'theming', 'twofactor_backupcodes', 'viewer', 'workflowengine'], $apps);
+		$this->assertEquals(['files', 'app3', 'appstore', 'cloud_federation_api', 'dav', 'federatedfilesharing', 'lookup_server_connector', 'oauth2', 'profile', 'provisioning_api', 'settings', 'sharing', 'theming', 'twofactor_backupcodes', 'viewer', 'workflowengine'], $apps);
 
 		$this->restoreAppConfig();
 		$userSession->setUser(null);

@@ -9,6 +9,13 @@ declare(strict_types=1);
 
 namespace OCA\Files\AppInfo;
 
+use OC\Core\Sharing\Permission\EditSharePermissionPreset;
+use OC\Core\Sharing\Permission\ViewSharePermissionPreset;
+use OC\Core\Sharing\Property\ExpirationDateSharePropertyType;
+use OC\Core\Sharing\Property\LabelSharePropertyType;
+use OC\Core\Sharing\Property\NoteSharePropertyType;
+use OC\Core\Sharing\Property\PasswordSharePropertyType;
+use OC\Core\Sharing\Recipient\TokenShareRecipientType;
 use OCA\Files\AdvancedCapabilities;
 use OCA\Files\Capabilities;
 use OCA\Files\Collaboration\Resources\Listener;
@@ -28,6 +35,13 @@ use OCA\Files\Listener\SyncLivePhotosListener;
 use OCA\Files\Listener\UserFirstTimeLoggedInListener;
 use OCA\Files\Notification\Notifier;
 use OCA\Files\Search\FilesSearchProvider;
+use OCA\Files\Sharing\Permission\NodeCreateSharePermissionType;
+use OCA\Files\Sharing\Permission\NodeDeleteSharePermissionType;
+use OCA\Files\Sharing\Permission\NodeDownloadSharePermissionType;
+use OCA\Files\Sharing\Permission\NodeReadSharePermissionType;
+use OCA\Files\Sharing\Permission\NodeUpdateSharePermissionType;
+use OCA\Files\Sharing\Property\NodeGridViewSharePropertyType;
+use OCA\Files\Sharing\Source\NodeShareSourceType;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -42,9 +56,11 @@ use OCP\Files\Events\Node\NodeCopiedEvent;
 use OCP\Files\Events\NodeAddedToFavorite;
 use OCP\Files\Events\NodeRemovedFromFavorite;
 use OCP\Interaction\RestrictInteractionEvent;
+use OCP\Server;
 use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\Events\ShareDeletedEvent;
 use OCP\Share\Events\ShareDeletedFromSelfEvent;
+use OCP\Sharing\ISharingRegistry;
 use OCP\User\Events\UserFirstTimeLoggedInEvent;
 
 class Application extends App implements IBootstrap {
@@ -87,6 +103,35 @@ class Application extends App implements IBootstrap {
 		$context->registerConfigLexicon(ConfigLexicon::class);
 
 		$context->registerEventListener(RestrictInteractionEvent::class, RestrictInteractionListener::class);
+
+		$registry = Server::get(ISharingRegistry::class);
+
+		$registry->registerSourceType(Server::get(NodeShareSourceType::class));
+		$registry->markPropertyTypeCompatibleWithSourceType(ExpirationDateSharePropertyType::class, NodeShareSourceType::class);
+		$registry->markPropertyTypeCompatibleWithSourceType(LabelSharePropertyType::class, NodeShareSourceType::class);
+		$registry->markPropertyTypeCompatibleWithSourceType(NoteSharePropertyType::class, NodeShareSourceType::class);
+		$registry->markPropertyTypeCompatibleWithSourceType(PasswordSharePropertyType::class, NodeShareSourceType::class);
+
+		$registry->registerPropertyType(new NodeGridViewSharePropertyType());
+		$registry->markPropertyTypeCompatibleWithSourceType(NodeGridViewSharePropertyType::class, NodeShareSourceType::class);
+		$registry->markPropertyTypeCompatibleWithRecipientType(NodeGridViewSharePropertyType::class, TokenShareRecipientType::class);
+
+		$registry->registerPermissionType(NodeShareSourceType::class, new NodeCreateSharePermissionType());
+		$registry->markPermissionTypeCompatibleWithPermissionPreset(NodeCreateSharePermissionType::class, EditSharePermissionPreset::class);
+
+		$registry->registerPermissionType(NodeShareSourceType::class, new NodeReadSharePermissionType());
+		$registry->markPermissionTypeCompatibleWithPermissionPreset(NodeReadSharePermissionType::class, ViewSharePermissionPreset::class);
+		$registry->markPermissionTypeCompatibleWithPermissionPreset(NodeReadSharePermissionType::class, EditSharePermissionPreset::class);
+
+		$registry->registerPermissionType(NodeShareSourceType::class, new NodeUpdateSharePermissionType());
+		$registry->markPermissionTypeCompatibleWithPermissionPreset(NodeUpdateSharePermissionType::class, EditSharePermissionPreset::class);
+
+		$registry->registerPermissionType(NodeShareSourceType::class, new NodeDeleteSharePermissionType());
+		$registry->markPermissionTypeCompatibleWithPermissionPreset(NodeDeleteSharePermissionType::class, EditSharePermissionPreset::class);
+
+		$registry->registerPermissionType(NodeShareSourceType::class, new NodeDownloadSharePermissionType());
+		$registry->markPermissionTypeCompatibleWithPermissionPreset(NodeDownloadSharePermissionType::class, ViewSharePermissionPreset::class);
+		$registry->markPermissionTypeCompatibleWithPermissionPreset(NodeDownloadSharePermissionType::class, EditSharePermissionPreset::class);
 	}
 
 	#[\Override]

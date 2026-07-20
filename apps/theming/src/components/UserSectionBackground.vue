@@ -229,7 +229,6 @@ async function pickFile() {
 					v-for="shippedBackground in shippedBackgrounds"
 					:key="shippedBackground.name"
 					:title="shippedBackground.details.attribution"
-					:aria-label="shippedBackground.details.description"
 					:aria-pressed="currentBackgroundImage === shippedBackground.name"
 					class="button-vue"
 					:class="$style.backgroundSelect__entry"
@@ -242,6 +241,9 @@ async function pickFile() {
 						v-if="currentBackgroundImage === shippedBackground.name"
 						:class="$style.backgroundSelect__entryIcon"
 						:path="mdiCheck" />
+					<span class="hidden-visually" lang="en">
+						{{ shippedBackground.details.description }}
+					</span>
 				</button>
 			</fieldset>
 		</fieldset>

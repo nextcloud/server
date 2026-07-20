@@ -8,7 +8,6 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 use OC\App\AppManager;
-use OC\AppFramework\App;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Installer;
 use OC\NeedsUpdateException;
@@ -26,6 +25,7 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Server;
 use OCP\Support\Subscription\IRegistry;
 use Psr\Container\ContainerExceptionInterface;
@@ -402,7 +402,7 @@ class OC_App {
 		//we don't want to show configuration for these
 		$blacklist = $appManager->getAlwaysEnabledApps();
 		$appList = [];
-		$langCode = \OC::$server->getL10N('core')->getLanguageCode();
+		$langCode = Server::get(IFactory::class)->get('core')->getLanguageCode();
 		$urlGenerator = Server::get(IURLGenerator::class);
 		$supportedApps = $this->getSupportedApps();
 

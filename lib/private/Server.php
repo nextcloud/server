@@ -616,7 +616,7 @@ class Server extends ServerContainer implements IServerContainer {
 		/** Only used by the PsrLoggerAdapter should not be used by apps */
 		$this->registerService(Log::class, function (Server $c) {
 			$logType = $c->get(AllConfig::class)->getSystemValue('log_type', 'file');
-			$factory = new LogFactory($c, $this->get(SystemConfig::class));
+			$factory = new LogFactory($c, $this->get(SystemConfig::class), $c->get('serverRoot'));
 			$logger = $factory->get($logType);
 			$registry = $c->get(\OCP\Support\CrashReport\IRegistry::class);
 
@@ -696,7 +696,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 			return new DateTimeFormatter(
 				$c->get(IDateTimeZone::class)->getTimeZone(),
-				$c->getL10N('lib', $language)
+				$c->get(IFactory::class)->get('lib', $language)
 			);
 		});
 
@@ -831,7 +831,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(LoggerInterface::class),
 				$c->get(Defaults::class),
 				$c->get(IURLGenerator::class),
-				$c->getL10N('lib'),
+				$c->get(IFactory::class)->get('lib'),
 				$c->get(IEventDispatcher::class),
 				$c->get(IFactory::class),
 				$c->get(IEmailValidator::class),
@@ -1150,6 +1150,9 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(ISnowflakeDecoder::class, SnowflakeDecoder::class);
 		$this->registerAlias(IJobRuns::class, JobRuns::class);
 		$this->registerAlias(IServerInfo::class, ServerInfo::class);
+
+		$this->registerAlias(\OCP\Sharing\ISharingRegistry::class, \OC\Sharing\SharingRegistry::class);
+		$this->registerAlias(\OCP\Sharing\ISharingManager::class, \OC\Sharing\SharingManager::class);
 
 		$this->connectDispatcher();
 	}

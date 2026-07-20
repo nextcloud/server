@@ -38,11 +38,14 @@
 				class="unified-search-input__input"
 				aria-autocomplete="list"
 				:aria-expanded="expanded ? 'true' : 'false'"
+				:aria-controls="expanded ? resultsContainerId : undefined"
+				:aria-activedescendant="expanded ? (activeDescendantId || undefined) : undefined"
 				:aria-label="placeholderText"
 				:value="query"
 				@focus="isFocused = true"
 				@blur="isFocused = false"
-				@input="onInput">
+				@input="onInput"
+				@keydown="onKeyDown">
 			<NcButton
 				v-if="query.length > 0"
 				variant="tertiary-no-background"
@@ -53,6 +56,15 @@
 					<IconClose :size="20" />
 				</template>
 			</NcButton>
+			<!-- Decorative focus-shortcut hint, shown only while resting (unfocused +
+				empty) so it never collides with the clear button. -->
+			<span
+				v-if="!isActive"
+				class="unified-search-input__shortcut"
+				aria-hidden="true">
+				<NcKbd symbol="Control" />
+				<NcKbd symbol="K" />
+			</span>
 		</div>
 	</search>
 </template>
@@ -63,6 +75,7 @@ import { useIsSmallMobile } from '@nextcloud/vue/composables/useIsMobile'
 import { computed, ref } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcHeaderButton from '@nextcloud/vue/components/NcHeaderButton'
+import NcKbd from '@nextcloud/vue/components/NcKbd'
 import IconClose from 'vue-material-design-icons/Close.vue'
 import IconMagnify from 'vue-material-design-icons/Magnify.vue'
 
@@ -80,16 +93,34 @@ import IconMagnify from 'vue-material-design-icons/Magnify.vue'
 const props = defineProps<{
 	/** Whether the popover the input controls is open. Bound to aria-expanded. */
 	expanded?: boolean
+	/** Id of the active result row, for aria-activedescendant. Empty when none. */
+	activeDescendantId?: string
 	query: string
 }>()
 
 const emit = defineEmits<{
 	click: [mouseEvent: MouseEvent]
 	'update:query': [query: string]
+	/** Move the result selection while focus stays in the input. */
+	navigate: [direction: 'next' | 'prev' | 'first' | 'last']
+	/** Open the currently selected result (Enter). */
+	activate: []
 }>()
 
 const isSmallMobile = useIsSmallMobile()
 const placeholderText = t('core', 'Apps, files, messages, and more')
+
+// Id of the results popover the input controls (aria-controls). Kept in sync with
+// the id on UnifiedSearchModal's panel.
+const resultsContainerId = 'unified-search-results'
+
+// Maps the navigation keys to a selection direction. Keys not listed are left
+// alone. Home/End are deliberately absent: in the combobox pattern they move the
+// textbox caret, not the result selection.
+const directionByKey: Record<string, 'next' | 'prev'> = {
+	ArrowDown: 'next',
+	ArrowUp: 'prev',
+}
 
 const inputRef = ref<HTMLInputElement>()
 const isFocused = ref(false)
@@ -111,6 +142,46 @@ function clearQuery() {
 	emit('update:query', '')
 	inputRef.value?.focus()
 }
+
+/**
+ * Combobox key handling. While the popover is open arrows move the selection via
+ * aria-activedescendant and Enter opens the active row, with focus staying in the
+ * input; otherwise the input keeps normal typing and caret movement (Home/End),
+ * except Escape, which drops focus like a native find bar.
+ *
+ * @param event the keydown event
+ */
+function onKeyDown(event: KeyboardEvent) {
+	// Never intercept keys mid-IME-composition (CJK etc.): the popover is already
+	// open, so Enter/Arrows must reach the input to commit or edit the composition.
+	if (event.isComposing) {
+		return
+	}
+	// Escape with the popover closed drops focus, like a native find bar. While
+	// open, the modal owns Escape, so only the closed case is handled here.
+	if (event.key === 'Escape' && !props.expanded) {
+		inputRef.value?.blur()
+		return
+	}
+	if (!props.expanded) {
+		return
+	}
+	const direction = directionByKey[event.key]
+	if (direction) {
+		event.preventDefault()
+		emit('navigate', direction)
+	} else if (event.key === 'Enter') {
+		event.preventDefault()
+		emit('activate')
+	}
+}
+
+/** Focus the text field. Used by the global shortcut; a no-op on the mobile button. */
+function focus() {
+	inputRef.value?.focus()
+}
+
+defineExpose({ focus })
 </script>
 
 <style lang="scss" scoped>
@@ -256,6 +327,35 @@ function clearQuery() {
 	&__clear {
 		flex-shrink: 0;
 		margin-inline-end: 2px;
+	}
+
+	// Pinned to the trailing edge, overlaid on the input (pointer-events: none so a
+	// click there still focuses the field).
+	&__shortcut {
+		position: absolute;
+		inset-inline-end: var(--default-grid-baseline);
+		top: 50%;
+		transform: translateY(-50%);
+		display: flex;
+		pointer-events: none;
+
+		// On a narrow field the centred placeholder runs under the hint, so drop it
+		// below a usable width. Keyed to the field's own inline-size (its container),
+		// not the viewport, so it holds however crowded the header gets.
+		@container (max-width: 400px) {
+			display: none;
+		}
+
+		:deep(kbd) {
+			min-width: 12px;
+			height: 12px;
+			padding-inline: 5px;
+			border: 1px solid color-mix(in srgb, var(--color-background-plain-text) 20%, transparent);
+			border-block-end-width: 2px;
+			border-radius: var(--border-radius-small, 4px);
+			color: color-mix(in srgb, var(--color-background-plain-text) 70%, var(--color-background-plain));
+			font-size: 13px;
+		}
 	}
 }
 

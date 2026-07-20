@@ -17,7 +17,6 @@ use Doctrine\DBAL\Types\Type;
 use OC\App\InfoParser;
 use OC\Migration\SimpleOutput;
 use OCP\App\IAppManager;
-use OCP\AppFramework\App;
 use OCP\DB\ISchemaWrapper;
 use OCP\DB\Types;
 use OCP\IConfig;
@@ -179,7 +178,7 @@ class MigrationService {
 			->where($qb->expr()->eq('app', $qb->createNamedParameter($this->getApp())));
 
 		$result = $qb->executeQuery();
-		$rows = $result->fetchAll(\PDO::FETCH_COLUMN);
+		$rows = $result->fetchFirstColumn();
 		$result->closeCursor();
 
 		usort($rows, $this->sortMigrations(...));

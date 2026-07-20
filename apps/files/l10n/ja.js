@@ -92,6 +92,7 @@ OC.L10N.register(
     "Folder is loading" : "フォルダーを読み込み中",
     "Filename" : "ファイル名",
     "Folder name" : "フォルダー名",
+    "{displayName} (unavailable)" : "{displayName}（利用不可）",
     "Another entry with the same name already exists." : "同じ名前の別のエントリがすでに存在しています。",
     "Invalid filename." : "無効なファイル名。",
     "Rename file" : "ファイル名の変更",

@@ -6,8 +6,8 @@
 <template>
 	<NcPopover
 		:shown="opened"
-		@show="opened = true"
-		@hide="opened = false">
+		@show="setOpened(true)"
+		@hide="setOpened(false)">
 		<template #trigger>
 			<slot ref="popoverTrigger" name="trigger" />
 		</template>
@@ -118,10 +118,16 @@ export default {
 			this.searchTerm = ''
 		},
 
+		setOpened(value) {
+			this.opened = value
+		},
+
 		itemSelected(element) {
+			// Kebab-case event name matched by the modal's @item-selected listener.
+			// Vue 2.7 does not normalize v-on names, so both sides must use the same casing.
 			this.$emit('item-selected', element)
 			this.clearSearch()
-			this.opened = false
+			this.setOpened(false)
 		},
 
 		searchTermChanged(term) {

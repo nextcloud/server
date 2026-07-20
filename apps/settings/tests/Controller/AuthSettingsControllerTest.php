@@ -21,6 +21,7 @@ use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Services\IAppConfig;
+use OCP\Authentication\Exceptions\WipeTokenException;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -243,7 +244,7 @@ class AuthSettingsControllerTest extends TestCase {
 		$this->tokenProvider->expects($this->once())
 			->method('getTokenById')
 			->with($tokenId)
-			->willThrowException(new \OCP\Authentication\Exceptions\WipeTokenException($token));
+			->willThrowException(new WipeTokenException($token));
 
 		// The token is still invalidated (the user opted into cancelling the wipe).
 		$this->tokenProvider->expects($this->once())

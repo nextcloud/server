@@ -16,6 +16,7 @@ use OC\Files\SimpleFS\SimpleFile;
 use OC\TaskProcessing\Db\TaskMapper;
 use OCA\AppAPI\PublicFunctions;
 use OCA\Guests\UserBackend;
+use OCA\NotifyPush\Queue\IQueue;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
@@ -1199,7 +1200,7 @@ class Manager implements IManager {
 		) {
 			try {
 				/** @psalm-suppress UndefinedClass */
-				$queue = Server::get(\OCA\NotifyPush\Queue\IQueue::class);
+				$queue = Server::get(IQueue::class);
 				/** @psalm-suppress UndefinedClass */
 				$queue->push('notify_custom', [
 					'user' => $userId,
@@ -1306,7 +1307,7 @@ class Manager implements IManager {
 		) {
 			try {
 				/** @psalm-suppress UndefinedClass */
-				$queue = Server::get(\OCA\NotifyPush\Queue\IQueue::class);
+				$queue = Server::get(IQueue::class);
 				/** @psalm-suppress UndefinedClass */
 				$queue->push('notify_custom', [
 					'user' => $userId,

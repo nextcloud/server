@@ -48,7 +48,7 @@ class Adapter {
 	 */
 	public function lockTable(string $tableName) {
 		$this->conn->beginTransaction();
-		$this->conn->executeUpdate('LOCK TABLE `' . $tableName . '` IN EXCLUSIVE MODE');
+		$this->conn->executeStatement('LOCK TABLE `' . $tableName . '` IN EXCLUSIVE MODE');
 	}
 
 	/**
@@ -100,7 +100,7 @@ class Adapter {
 		$query .= ' HAVING COUNT(*) = 0';
 
 		try {
-			return $this->conn->executeUpdate($query, $inserts);
+			return $this->conn->executeStatement($query, $inserts);
 		} catch (UniqueConstraintViolationException $e) {
 			// This exception indicates a concurrent insert happened between
 			// the insert and the sub-select in the insert, which is safe to ignore.

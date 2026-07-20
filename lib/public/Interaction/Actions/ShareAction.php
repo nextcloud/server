@@ -12,6 +12,7 @@ namespace OCP\Interaction\Actions;
 use OCP\AppFramework\Attribute\Consumable;
 use OCP\Constants;
 use OCP\Interaction\InteractionAction;
+use OCP\Sharing\Permission\ISharePermissionType;
 
 /**
  * Used when a user wants to share a resource to a receiver.
@@ -26,6 +27,8 @@ final readonly class ShareAction implements InteractionAction {
 	public function __construct(
 		/** @var ?int-mask-of<Constants::PERMISSION_*> */
 		public ?int $filesSharingPermissions = null,
+		/** @var ?list<class-string<ISharePermissionType>> */
+		public ?array $unifiedSharingPermissions = null,
 	) {
 	}
 }

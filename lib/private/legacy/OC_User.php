@@ -23,6 +23,7 @@ use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Server;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use OCP\User\Events\BeforeUserLoggedInEvent;
@@ -158,7 +159,7 @@ class OC_User {
 				$dispatcher = Server::get(IEventDispatcher::class);
 
 				if ($userSession->getUser() && !$userSession->getUser()->isEnabled()) {
-					$message = \OC::$server->getL10N('lib')->t('Account disabled');
+					$message = Server::get(IFactory::class)->get('lib')->t('Account disabled');
 					throw new DisabledUserException($message);
 				}
 				$userSession->setLoginName($uid);

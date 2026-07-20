@@ -1795,9 +1795,16 @@ $CONFIG = [
 	 * Connection details for the Key-Value store used for in-memory caching,
 	 * for example when using Valkey or Redis.
 	 *
-	 * This is the brand-independent successor of the ``redis`` and
-	 * ``redis.cluster`` options below and supports the latest Valkey and Redis
-	 * releases. Three topologies are supported:
+	 * This is the brand-independent version of the ``redis`` and
+	 * ``redis.cluster`` options below without depending on ``php-redis``
+	 * meaning no additional PHP extension needs to be installed.
+	 * Redis and Valkey 4.0 up to 8.0 are supported, for SSL support Redis v6 or higher is required,
+	 * Valkey 9 is supported but without support for numbered databased when using cluster mode.
+	 *
+	 * Warning: If the cache server is not hosted on the same machine as Nextcloud,
+	 * this can have a network overhead compared to the ``php-redis`` based backend below.
+	 *
+	 * Three topologies are supported:
 	 * a single server, a Sentinel managed replication set, and a
 	 * server cluster. Configure exactly one of ``server``, ``sentinel`` or
 	 * ``seeds``.
@@ -1881,8 +1888,6 @@ $CONFIG = [
 	 *
 	 * We also support Redis SSL/TLS encryption as of version 6.
 	 * See https://redis.io/topics/encryption for more information.
-	 *
-	 * @deprecated 34.0.0 use `memcache.kvstore` instead which supports also Valkey.
 	 */
 	'redis' => [
 		'host' => 'localhost', // can also be a Unix domain socket: '/tmp/redis.sock'
@@ -1922,8 +1927,6 @@ $CONFIG = [
 	 *
 	 * Authentication works with phpredis version 4.2.1+. See
 	 * https://github.com/phpredis/phpredis/commit/c5994f2a42b8a348af92d3acb4edff1328ad8ce1
-	 *
-	 * @deprecated 34.0.0 use `memcache.kvstore` instead which supports also Valkey.
 	 */
 	'redis.cluster' => [
 		'seeds' => [ // provide some or all of the cluster servers to bootstrap discovery, port required

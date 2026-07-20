@@ -8,7 +8,6 @@
 
 namespace OCA\Encryption;
 
-use OC\Files\Storage\Storage;
 use OC\Files\View;
 use OCA\Encryption\Crypto\Crypt;
 use OCP\Config\IUserConfig;

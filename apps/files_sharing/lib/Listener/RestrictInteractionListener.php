@@ -9,6 +9,10 @@ declare(strict_types=1);
 
 namespace OCA\Files_Sharing\Listener;
 
+use OCA\Files\Sharing\Permission\NodeCreateSharePermissionType;
+use OCA\Files\Sharing\Permission\NodeDeleteSharePermissionType;
+use OCA\Files\Sharing\Permission\NodeReadSharePermissionType;
+use OCA\Files\Sharing\Permission\NodeUpdateSharePermissionType;
 use OCA\Files_Sharing\AppInfo\Application;
 use OCP\Constants;
 use OCP\EventDispatcher\Event;
@@ -56,36 +60,40 @@ final class RestrictInteractionListener implements IEventListener {
 					throw new InteractionRestrictedException('Cannot share home folder node.', $this->l10n->t('You cannot share your home folder.'));
 				}
 
-				if ($event->action->filesSharingPermissions !== null) {
-					if ($resource->getNode() instanceof File) {
-						if (($event->action->filesSharingPermissions & Constants::PERMISSION_DELETE) === Constants::PERMISSION_DELETE) {
-							throw new InteractionRestrictedException('Cannot share file node with delete permission.', $this->l10n->t('File cannot be shared with delete permission.'));
-						}
-
-						if (($event->action->filesSharingPermissions & Constants::PERMISSION_CREATE) === Constants::PERMISSION_CREATE) {
-							throw new InteractionRestrictedException('Cannot share file node with create permission.', $this->l10n->t('File cannot be shared with create permission.'));
-						}
+				// These checks are only for files_sharing, because they operate on shares that can only contain a single source.
+				// With Unified Sharing, there could be multiple sources like a file and a folder in the same share. Because it grants permission on a share and not a single node, this check doesn't work.
+				if ($event->action->filesSharingPermissions !== null && $resource->getNode() instanceof File) {
+					if (($event->action->filesSharingPermissions & Constants::PERMISSION_DELETE) === Constants::PERMISSION_DELETE) {
+						throw new InteractionRestrictedException('Cannot share file node with delete permission.', $this->l10n->t('File cannot be shared with delete permission.'));
 					}
 
-					foreach ($event->receivers as $receiver) {
-						if (!$receiver instanceof LinkReceiver
-							&& !$receiver instanceof EmailReceiver
-							&& ($event->action->filesSharingPermissions & Constants::PERMISSION_READ) !== Constants::PERMISSION_READ) {
-							throw new InteractionRestrictedException('No read permission on the share.', $this->l10n->t('File share needs at least read permission.'));
-						}
+					if (($event->action->filesSharingPermissions & Constants::PERMISSION_CREATE) === Constants::PERMISSION_CREATE) {
+						throw new InteractionRestrictedException('Cannot share file node with create permission.', $this->l10n->t('File cannot be shared with create permission.'));
+					}
+				}
 
-						if (($receiver instanceof LinkReceiver || $receiver instanceof EmailReceiver)
-							&& $resource->getNode() instanceof Folder
-							&& ($event->action->filesSharingPermissions & (Constants::PERMISSION_CREATE | Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE)) !== 0
-							&& !$this->manager->shareApiLinkAllowPublicUpload()) {
-							throw new InteractionRestrictedException('Public upload is not allowed.', $this->l10n->t('Public upload is not allowed.'));
-						}
+				foreach ($event->receivers as $receiver) {
+					if (!$receiver instanceof LinkReceiver
+						&& !$receiver instanceof EmailReceiver
+						&& (($event->action->filesSharingPermissions !== null && ($event->action->filesSharingPermissions & Constants::PERMISSION_READ) !== Constants::PERMISSION_READ)
+							|| ($event->action->unifiedSharingPermissions !== null && !in_array(NodeReadSharePermissionType::class, $event->action->unifiedSharingPermissions)))) {
+						throw new InteractionRestrictedException('No read permission on the share.', $this->l10n->t('File share needs at least read permission.'));
 					}
 
-					if (($event->action->filesSharingPermissions & ~$resource->getNodePermissions()) !== 0) {
-						$path = $userFolder->getRelativePath($resource->getNode()->getPath());
-						throw new InteractionRestrictedException('Cannot share node with more permissions than the node already has.', $this->l10n->t('You cannot share "%s" with more permission than you have yourself.', [$path]));
+					if (($receiver instanceof LinkReceiver || $receiver instanceof EmailReceiver)
+						&& $resource->getNode() instanceof Folder
+						&& ((($event->action->filesSharingPermissions !== null && ($event->action->filesSharingPermissions & (Constants::PERMISSION_CREATE | Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE)) !== 0))
+							|| ($event->action->unifiedSharingPermissions !== null && array_intersect($event->action->unifiedSharingPermissions, [NodeCreateSharePermissionType::class, NodeUpdateSharePermissionType::class, NodeDeleteSharePermissionType::class]) !== []))
+						&& !$this->manager->shareApiLinkAllowPublicUpload()) {
+						throw new InteractionRestrictedException('Public upload is not allowed.', $this->l10n->t('Public upload is not allowed.'));
 					}
+				}
+
+				// Unified Sharing may grant more permissions on the share, than a specific resources allows.
+				// Therefore we don't check this here, as the permission must be correctly applied later anyway.
+				if (($event->action->filesSharingPermissions !== null && ($event->action->filesSharingPermissions & ~$resource->getNodePermissions()) !== 0)) {
+					$path = $userFolder->getRelativePath($resource->getNode()->getPath());
+					throw new InteractionRestrictedException('Cannot share node with more permissions than the node already has.', $this->l10n->t('You cannot share "%s" with more permission than you have yourself.', [$path]));
 				}
 			}
 		}

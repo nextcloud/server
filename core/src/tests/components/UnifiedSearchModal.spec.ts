@@ -6,6 +6,13 @@ import { shallowMount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { ref } from 'vue'
 
+// @nextcloud/vue's Window._nc_focus_trap augmentation is not in this test's program,
+// so reach the shared trap stack through a cast. onEscapeKey only compares identity,
+// so the seeded traps need no real focus-trap type.
+function setTrapStack(traps: unknown[]) {
+	(window as unknown as { _nc_focus_trap: unknown[] })._nc_focus_trap = traps
+}
+
 const mobile = ref(false)
 vi.mock('@nextcloud/vue/composables/useIsMobile', () => ({
 	useIsSmallMobile: () => mobile,
@@ -285,5 +292,330 @@ describe('UnifiedSearchModal controller wiring', () => {
 		expect(searchSpy).toHaveBeenCalledOnce()
 		expect(searchSpy.mock.calls[0][0]).toBe('hello')
 		expect(searchSpy.mock.calls[0][1]).toEqual(['files'])
+	})
+})
+
+describe('UnifiedSearchModal keyboard selection', () => {
+	/**
+	 * Seed the modal with one provider and the given rows, then let it settle.
+	 */
+	async function withRows(wrapper: ReturnType<typeof factory>, rows: unknown[]) {
+		wrapper.vm.providers = [{ id: 'files', name: 'Files', order: 0 }]
+		searchStates.value = { files: loaded(rows) }
+		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
+	}
+
+	it('has no active row before any results', () => {
+		const wrapper = factory()
+
+		expect(wrapper.vm.activeIndex).toBe(-1)
+		expect(wrapper.vm.activeDescendantId).toBeNull()
+	})
+
+	it('auto-selects the first result once results arrive', async () => {
+		const wrapper = factory()
+		await withRows(wrapper, [{ resourceUrl: '/a' }, { resourceUrl: '/b' }])
+
+		expect(wrapper.vm.activeIndex).toBe(0)
+		expect(wrapper.vm.activeDescendantId).toBe('unified-search-result-files-0')
+	})
+
+	it('moves the selection down and up through the flat result list, clamping at the ends', async () => {
+		const wrapper = factory()
+		await withRows(wrapper, [{ resourceUrl: '/a' }, { resourceUrl: '/b' }])
+
+		wrapper.vm.moveActive('next')
+		expect(wrapper.vm.activeIndex).toBe(1)
+		wrapper.vm.moveActive('next')
+		expect(wrapper.vm.activeIndex).toBe(1)
+		wrapper.vm.moveActive('prev')
+		expect(wrapper.vm.activeIndex).toBe(0)
+		wrapper.vm.moveActive('prev')
+		expect(wrapper.vm.activeIndex).toBe(0)
+	})
+
+	it('jumps to the first and last rows', async () => {
+		const wrapper = factory()
+		await withRows(wrapper, [{ resourceUrl: '/a' }, { resourceUrl: '/b' }, { resourceUrl: '/c' }])
+
+		wrapper.vm.moveActive('last')
+		expect(wrapper.vm.activeIndex).toBe(2)
+		wrapper.vm.moveActive('first')
+		expect(wrapper.vm.activeIndex).toBe(0)
+	})
+
+	it('flattens the selection index across provider groups in render order', async () => {
+		const wrapper = factory()
+		wrapper.vm.providers = [
+			{ id: 'files', name: 'Files', order: 0 },
+			{ id: 'talk', name: 'Talk', order: 1 },
+		]
+		searchStates.value = {
+			files: loaded([{ resourceUrl: '/a' }]),
+			talk: loaded([{ resourceUrl: '/b' }]),
+		}
+		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
+
+		wrapper.vm.moveActive('next')
+		// Second row lives in the next provider group.
+		expect(wrapper.vm.activeDescendantId).toBe('unified-search-result-talk-0')
+	})
+
+	it('opens the active result by its resourceUrl on activate', async () => {
+		const wrapper = factory()
+		await withRows(wrapper, [{ resourceUrl: '/a' }, { resourceUrl: '/b' }])
+		const open = vi.spyOn(wrapper.vm, 'openResourceUrl').mockImplementation(() => {})
+
+		wrapper.vm.moveActive('next')
+		wrapper.vm.activateActive()
+
+		expect(open).toHaveBeenCalledWith('/b')
+	})
+
+	it('does nothing on activate when there is no active row', () => {
+		const wrapper = factory()
+		const open = vi.spyOn(wrapper.vm, 'openResourceUrl').mockImplementation(() => {})
+
+		wrapper.vm.activateActive()
+
+		expect(open).not.toHaveBeenCalled()
+	})
+
+	it('emits the active descendant id upward for the input to reference', async () => {
+		const wrapper = factory()
+		await withRows(wrapper, [{ resourceUrl: '/a' }])
+
+		expect(wrapper.emitted('update:activeDescendant')?.at(-1)).toEqual(['unified-search-result-files-0'])
+	})
+
+	it('keeps the selection on the same row when a later group settles below it', async () => {
+		const wrapper = factory()
+		wrapper.vm.providers = [
+			{ id: 'files', name: 'Files', order: 0 },
+			{ id: 'talk', name: 'Talk', order: 1 },
+		]
+		searchStates.value = { files: loaded([{ resourceUrl: '/a' }, { resourceUrl: '/b' }]) }
+		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
+		wrapper.vm.moveActive('next')
+		expect(wrapper.vm.activeDescendantId).toBe('unified-search-result-files-1')
+
+		// A lower-priority group arrives below; the selected row keeps its identity.
+		searchStates.value = {
+			files: loaded([{ resourceUrl: '/a' }, { resourceUrl: '/b' }]),
+			talk: loaded([{ resourceUrl: '/c' }]),
+		}
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.vm.activeDescendantId).toBe('unified-search-result-files-1')
+	})
+
+	it('falls back to the first row when the selected row disappears', async () => {
+		const wrapper = factory()
+		await withRows(wrapper, [{ resourceUrl: '/a' }, { resourceUrl: '/b' }, { resourceUrl: '/c' }])
+		wrapper.vm.moveActive('last')
+		expect(wrapper.vm.activeIndex).toBe(2)
+
+		searchStates.value = { files: loaded([{ resourceUrl: '/a' }]) }
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.vm.activeIndex).toBe(0)
+	})
+
+	it('scrolls the active row into view as the selection moves past the fold', async () => {
+		const wrapper = factory()
+		await withRows(wrapper, [{ resourceUrl: '/a' }, { resourceUrl: '/b' }])
+		// The row lives outside the stubbed SearchResult, so stand in a real element
+		// with the option id the modal will look up.
+		const secondRow = document.createElement('li')
+		secondRow.id = 'unified-search-result-files-1'
+		secondRow.scrollIntoView = vi.fn()
+		document.body.appendChild(secondRow)
+
+		wrapper.vm.moveActive('next')
+		await wrapper.vm.$nextTick()
+
+		expect(secondRow.scrollIntoView).toHaveBeenCalled()
+		secondRow.remove()
+	})
+
+	it('exposes each result group as a listbox and marks the selected row as active', async () => {
+		const wrapper = factory()
+		await withRows(wrapper, [{ resourceUrl: '/a' }, { resourceUrl: '/b' }])
+
+		expect(wrapper.findAll('[role=listbox]')).toHaveLength(1)
+		const rows = wrapper.findAllComponents({ name: 'SearchResult' })
+		expect(rows.at(0).props('elementId')).toBe('unified-search-result-files-0')
+		expect(rows.at(0).props('active')).toBe(true)
+		expect(rows.at(1).props('active')).toBe(false)
+	})
+
+	it('flattens filtered rows then partial-match rows with section-scoped ids', async () => {
+		const wrapper = factory()
+		wrapper.vm.providers = [
+			{ id: 'files', name: 'Files', order: 0, filters: { since: true, until: true } },
+			{ id: 'talk', name: 'Talk', order: 1 },
+		]
+		searchStates.value = {
+			files: loaded([{ resourceUrl: '/f1' }]),
+			talk: loaded([{ resourceUrl: '/t1' }]),
+		}
+		// An active date filter splits the incompatible provider (talk) into the
+		// partial-matches section, exercising the filtered-then-unfiltered concat.
+		wrapper.vm.dateFilter = { id: 'date', type: 'date', text: '', startFrom: new Date('2026-01-01'), endAt: new Date('2026-02-01') }
+		wrapper.vm.filters = [wrapper.vm.dateFilter]
+		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.vm.navigableRows.map((row: { id: string }) => row.id)).toEqual([
+			'unified-search-result-files-0',
+			'unified-search-result-unfiltered-talk-0',
+		])
+	})
+
+	it('does nothing on activate when the active row has no url', async () => {
+		const wrapper = factory()
+		await withRows(wrapper, [{ resourceUrl: null }])
+		const open = vi.spyOn(wrapper.vm, 'openResourceUrl').mockImplementation(() => {})
+
+		wrapper.vm.activateActive()
+
+		expect(open).not.toHaveBeenCalled()
+	})
+
+	it('exposes no navigable rows while the empty state is shown, even with stale results', async () => {
+		const wrapper = factory()
+		wrapper.vm.providers = [{ id: 'files', name: 'Files', order: 0 }]
+		// Results linger in the controller from a previous query...
+		searchStates.value = { files: loaded([{ resourceUrl: '/a' }]) }
+		// ...but the query is empty, so the empty state renders and no rows exist.
+		wrapper.vm.searchQuery = ''
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.vm.showEmptyContentInfo).toBe(true)
+		expect(wrapper.vm.navigableRows).toEqual([])
+		expect(wrapper.vm.activeDescendantId).toBeNull()
+	})
+
+	it('does not select a row or expose a listbox on mobile', async () => {
+		mobile.value = true
+		const wrapper = factory()
+		wrapper.vm.providers = [{ id: 'files', name: 'Files', order: 0 }]
+		searchStates.value = { files: loaded([{ resourceUrl: '/a' }, { resourceUrl: '/b' }]) }
+		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
+
+		// No combobox on mobile, so nothing should be auto-highlighted...
+		expect(wrapper.vm.activeIndex).toBe(-1)
+		// ...and the group must not advertise a listbox no combobox owns.
+		expect(wrapper.findAll('[role=listbox]')).toHaveLength(0)
+	})
+})
+
+describe('UnifiedSearchModal live region', () => {
+	it('announces progress while a category is still loading', async () => {
+		const wrapper = factory()
+		wrapper.vm.providers = [{ id: 'files', name: 'Files', order: 0 }]
+		wrapper.vm.initialized = true
+		searchStates.value = { files: { status: 'loading', entries: [], cursor: null, hasMore: false, loadMoreFailed: false } }
+		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.vm.liveMessage).toContain('Searching')
+	})
+
+	it('announces the count once the search settles with results', async () => {
+		const wrapper = factory()
+		wrapper.vm.providers = [{ id: 'files', name: 'Files', order: 0 }]
+		wrapper.vm.initialized = true
+		searchStates.value = { files: loaded([{ resourceUrl: '/a' }, { resourceUrl: '/b' }]) }
+		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.vm.liveMessage).toContain('result')
+		expect(wrapper.vm.liveMessage).not.toContain('Searching')
+	})
+
+	it('announces no results when a settled search is empty', async () => {
+		const wrapper = factory()
+		wrapper.vm.providers = [{ id: 'files', name: 'Files', order: 0 }]
+		wrapper.vm.initialized = true
+		searchStates.value = { files: loaded([]) }
+		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.vm.liveMessage).toBe('No matching results')
+	})
+
+	it('stays silent when the modal is closed', () => {
+		const wrapper = factory(false)
+
+		expect(wrapper.vm.liveMessage).toBe('')
+	})
+})
+
+describe('UnifiedSearchModal escape to close', () => {
+	it('closes the search on Escape when no sub-overlay is open', () => {
+		const wrapper = factory()
+
+		wrapper.vm.onEscapeKey(new KeyboardEvent('keydown', { key: 'Escape', cancelable: true }))
+
+		expect(wrapper.emitted('update:open')?.at(-1)).toEqual([false])
+	})
+
+	it('leaves Escape to an open action menu (Type / Date)', () => {
+		// The Type/Date NcActions menus pause the trap stack without joining it, so the
+		// stack-top check can't see them; onEscapeKey reads their open state directly.
+		const wrapper = factory()
+		wrapper.vm.dateActionMenuIsOpen = true
+
+		wrapper.vm.onEscapeKey(new KeyboardEvent('keydown', { key: 'Escape', cancelable: true }))
+
+		expect(wrapper.emitted('update:open')).toBeUndefined()
+	})
+
+	it('leaves Escape to an overlay sitting on top of the shared focus-trap stack', () => {
+		// The People popover, date-range dialog and file picker push their own trap onto
+		// window._nc_focus_trap. While one is on top of ours, Escape belongs to it.
+		const wrapper = factory()
+		const ourTrap = {} as unknown as NonNullable<typeof wrapper.vm.focusTrap>
+		const overlayTrap = {} as typeof ourTrap
+		wrapper.vm.focusTrap = ourTrap
+		setTrapStack([ourTrap, overlayTrap])
+
+		wrapper.vm.onEscapeKey(new KeyboardEvent('keydown', { key: 'Escape', cancelable: true }))
+
+		expect(wrapper.emitted('update:open')).toBeUndefined()
+		setTrapStack([])
+	})
+
+	it('closes on Escape when our trap is the top of the stack (no overlay open)', () => {
+		const wrapper = factory()
+		const ourTrap = {} as unknown as NonNullable<typeof wrapper.vm.focusTrap>
+		wrapper.vm.focusTrap = ourTrap
+		setTrapStack([ourTrap])
+
+		wrapper.vm.onEscapeKey(new KeyboardEvent('keydown', { key: 'Escape', cancelable: true }))
+
+		expect(wrapper.emitted('update:open')?.at(-1)).toEqual([false])
+		setTrapStack([])
+	})
+})
+
+describe('UnifiedSearchModal People filter', () => {
+	// The @item-selected listener must catch SearchableList's emit (both kebab-case in
+	// Vue 2.7); a casing mismatch would silently never apply the picked person.
+	it('applies a person filter when the People popover reports a selection', async () => {
+		const wrapper = factory()
+		wrapper.vm.providers = [{ id: 'files', name: 'Files', order: 0 }]
+		wrapper.vm.initialized = true
+		await wrapper.vm.$nextTick()
+
+		wrapper.findComponent({ name: 'SearchableList' }).vm.$emit('item-selected', { id: 'u1', user: 'alice', displayName: 'Alice' })
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.vm.filters.some((f: { type: string }) => f.type === 'person')).toBe(true)
 	})
 })

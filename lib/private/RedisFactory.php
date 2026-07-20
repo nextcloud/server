@@ -10,9 +10,6 @@ namespace OC;
 
 use OCP\Diagnostics\IEventLogger;
 
-/**
- * @deprecated 34.0.2 - use {@see \OC\Memcache\KeyValueCacheFactory} instead
- */
 class RedisFactory {
 	public const REDIS_MINIMAL_VERSION = '4.0.0';
 	public const REDIS_EXTRA_PARAMETERS_MINIMAL_VERSION = '5.3.0';

@@ -12,22 +12,25 @@ import { handlePasswordConfirmation } from '../../support/utils/password-confirm
 
 test.describe('Settings: Create and delete accounts', () => {
 	test('can create a user with username and password', async ({ page }) => {
-		const settingsPage = new SettingsUsersPage(page)
-		await settingsPage.open()
+		const newUserId = crypto.randomUUID()
+		try {
+			const settingsPage = new SettingsUsersPage(page)
+			await settingsPage.open()
 
-		await settingsPage.openNewUserDialog()
+			await settingsPage.openNewUserDialog()
 
-		const dialog = settingsPage.newUserDialog()
-		await dialog.getByLabel(/Account name/).fill('newuser-basic')
-		await dialog.getByLabel(/Password/).and(page.locator('input')).fill('password123')
+			const dialog = settingsPage.newUserDialog()
+			await dialog.getByLabel(/Account name/).fill(newUserId)
+			await dialog.getByLabel(/Password/).and(page.locator('input')).fill('password123')
 
-		await dialog.getByRole('button', { name: 'Add new account' }).click()
-		await handlePasswordConfirmation(page)
-		await dialog.waitFor({ state: 'hidden' })
+			await dialog.getByRole('button', { name: 'Add new account' }).click()
+			await handlePasswordConfirmation(page)
+			await dialog.waitFor({ state: 'hidden' })
 
-		await expect(settingsPage.userRow('newuser-basic')).toContainText('newuser-basic')
-
-		await runOcc(['user:delete', 'newuser-basic'])
+			await expect(settingsPage.userRow(newUserId)).toContainText(newUserId)
+		} finally {
+			await runOcc(['user:delete', newUserId], { failOnError: false })
+		}
 	})
 
 	test('can create a user with display name and email', async ({ page }) => {

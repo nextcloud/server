@@ -18,6 +18,18 @@ export default defineConfig({
 	},
 	projects: [
 		{
+			// Installation-wizard tests. They un-install and re-install the shared
+			// server, so they must never run alongside other tests
+			name: 'setup',
+			fullyParallel: false,
+			workers: 1,
+			grep: /@setup/,
+			use: {
+				...devices['Desktop Chrome'],
+			},
+		},
+
+		{
 			name: 'admin-settings',
 			fullyParallel: false,
 			workers: 1, // only one admin setting test can run at a time due to shared state
@@ -28,8 +40,9 @@ export default defineConfig({
 		},
 
 		{
-			name: 'chrome',
+			name: 'default',
 			testMatch: /\/(?!admin-settings)[^/]*\.spec\.ts$/,
+			grepInvert: /@setup/,
 			use: {
 				...devices['Desktop Chrome'],
 			},

@@ -5,10 +5,14 @@
 <template>
 	<div class="unified-search-menu">
 		<UnifiedSearchInput
+			ref="searchInput"
 			:query="queryText"
-			:expanded="showUnifiedSearch || showLocalSearch"
+			:expanded="showUnifiedSearch"
+			:activeDescendantId="activeDescendantId"
 			@click="openModal"
-			@update:query="queryText = $event" />
+			@update:query="queryText = $event"
+			@navigate="onNavigate"
+			@activate="onActivate" />
 		<UnifiedSearchLocalSearchBar
 			v-if="supportsLocalSearch"
 			:open="showLocalSearch"
@@ -17,11 +21,13 @@
 			@update:open="showLocalSearch = $event"
 			@update:query="queryText = $event" />
 		<UnifiedSearchModal
+			ref="searchModal"
 			:localSearch="supportsLocalSearch"
 			:query="queryText"
 			:open="showUnifiedSearch"
 			@update:query="queryText = $event"
-			@update:open="showUnifiedSearch = $event" />
+			@update:open="showUnifiedSearch = $event"
+			@update:activeDescendant="activeDescendantId = $event || ''" />
 	</div>
 </template>
 
@@ -66,6 +72,11 @@ export default defineComponent({
 			showUnifiedSearch: false,
 			/** Open state of the local search bar */
 			showLocalSearch: false,
+			/**
+			 * Id of the selected result row, lifted here from the results modal so the
+			 * sibling input can point aria-activedescendant at it. '' = nothing selected.
+			 */
+			activeDescendantId: '',
 		}
 	},
 
@@ -136,7 +147,9 @@ export default defineComponent({
 		logger.debug('Unified search initialized!')
 	},
 
-	beforeUnmount() {
+	// Vue 2.7 only recognises beforeDestroy/destroyed as Options lifecycle hooks;
+	// a beforeUnmount() option is silently ignored, so the listener must be removed here.
+	beforeDestroy() {
 		// keep in mind to remove the event listener
 		window.removeEventListener('keydown', this.onKeyDown)
 	},
@@ -148,17 +161,79 @@ export default defineComponent({
 		 * @param event The keyboard event
 		 */
 		onKeyDown(event: KeyboardEvent) {
-			if (event.ctrlKey && event.key === 'f') {
+			// Match on the lowercased key so Caps Lock / Shift (event.key === 'F'/'K')
+			// still triggers the shortcut instead of silently falling through.
+			const key = event.key.toLowerCase()
+			if (event.ctrlKey && key === 'f') {
 				// Skip on pages that handle Ctrl+F themselves (e.g. a dedicated search input).
 				if (this.appHandlesSearchShortcut) {
 					return
 				}
-				// only handle search if not already open - in this case the browser native search should be used
-				if (!this.showLocalSearch && !this.showUnifiedSearch) {
-					event.preventDefault()
+				// Pages with an in-app search bar (e.g. Deck) keep Ctrl+F for that: toggle
+				// the local bar, and only claim the key while nothing is open so a second
+				// press falls through to the browser native search.
+				if (this.supportsLocalSearch) {
+					if (!this.showLocalSearch && !this.showUnifiedSearch) {
+						event.preventDefault()
+					}
+					this.toggleUnifiedSearch()
+					return
 				}
-				this.toggleUnifiedSearch()
+				// Everywhere else, behave like Ctrl+K: focus the input (desktop) / open the
+				// modal (mobile), rather than opening it on an empty query.
+				event.preventDefault()
+				this.focusSearch()
+			} else if ((event.metaKey || event.ctrlKey) && key === 'k') {
+				// Global focus shortcut. Same opt-out as Ctrl+F: leave pages that own the
+				// shortcut alone. preventDefault only when we act (Ctrl+K also focuses the
+				// browser address bar in Firefox, so we must claim it here).
+				if (this.appHandlesSearchShortcut) {
+					return
+				}
+				event.preventDefault()
+				this.focusSearch()
 			}
+		},
+
+		/**
+		 * Bring the user into search: focus the header input on desktop, or open the
+		 * results modal on mobile. Shared by the Ctrl+F and Ctrl+K shortcuts.
+		 */
+		focusSearch() {
+			if (this.isSmallMobile) {
+				// No header input to focus on mobile; open the results modal instead.
+				this.openModal()
+			} else {
+				this.focusInput()
+			}
+		},
+
+		/**
+		 * Focus the header search input. UnifiedSearchInput exposes focus(); it is a
+		 * no-op on the mobile header button, which has no text field.
+		 */
+		focusInput() {
+			const input = this.$refs.searchInput as { focus?: () => void } | undefined
+			input?.focus?.()
+		},
+
+		/**
+		 * Relay an arrow-navigation intent from the input to the results modal, which
+		 * owns the selection state.
+		 *
+		 * @param direction next | prev | first | last
+		 */
+		onNavigate(direction: 'next' | 'prev' | 'first' | 'last') {
+			const modal = this.$refs.searchModal as { moveActive?: (direction: string) => void } | undefined
+			modal?.moveActive?.(direction)
+		},
+
+		/**
+		 * Relay an activation (Enter) from the input to open the selected result.
+		 */
+		onActivate() {
+			const modal = this.$refs.searchModal as { activateActive?: () => void } | undefined
+			modal?.activateActive?.()
 		},
 
 		/**
