@@ -7,8 +7,8 @@ declare(strict_types=1);
 
 namespace OC\AppFramework\ORM;
 
-use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Table;
+use OC\DB\SchemaWrapper;
 use OCP\AppFramework\ORM\Attribute\Column;
 use OCP\AppFramework\ORM\Attribute\JoinColumn;
 use OCP\AppFramework\ORM\Attribute\OneToOne;
@@ -47,9 +47,7 @@ class EntityManager {
 	 * @return T
 	 */
 	public function insert(object $entity): object {
-		$entityClass = get_class($entity);
-
-		$entityInfo = $this->getEntityInfo($entityClass);
+		$entityInfo = $this->getEntityInfo($entity::class);
 		$insert = $this->connection->getQueryBuilder();
 
 		$isSnowflake = false;
@@ -230,16 +228,23 @@ class EntityManager {
 	 *
 	 * @param class-string<object> $entityClass
 	 */
-	public function createTable(string $entityClass, Schema $schema, string $prefix): void {
+	public function createTable(string $entityClass, SchemaWrapper $schema): void {
 		$entityInfo = $this->getEntityInfo($entityClass);
 
-		$table = $schema->createTable($prefix . $entityInfo->tableName);
+		$table = $schema->createTable($entityInfo->tableName);
 
 		foreach ($entityInfo->propertiesAttributes as $propertyAttributes) {
 			$this->createProperty($propertyAttributes, $table);
 
-			$this->createOneToOne($propertyAttributes, $table);
+			$this->createOneToOne($propertyAttributes, $table, $schema);
 		}
+
+		$schema->getWrappedSchema()->toSql($this->connection->getDatabasePlatform());
+	}
+
+	public function dropTable(string $entityClass, string $prefix): void {
+		$entityInfo = $this->getEntityInfo($entityClass);
+		$this->connection->dropTable($prefix . $entityInfo->tableName);
 	}
 
 	private function createProperty(PropertyAttributes $attributes, Table $table): void {
@@ -269,7 +274,7 @@ class EntityManager {
 		}
 	}
 
-	private function createOneToOne(PropertyAttributes $attributes, Table $table): void {
+	private function createOneToOne(PropertyAttributes $attributes, Table $table, SchemaWrapper $schema): void {
 		if ($attributes->joinColumn === null || $attributes->oneToOne === null) {
 			return;
 		}
@@ -286,7 +291,8 @@ class EntityManager {
 				$options['onDelete'] = 'CASCADE';
 			}
 
-			$table->addForeignKeyConstraint($foreignEntityInfo->tableName, [$attributes->joinColumn->name], [$attributes->joinColumn->referencedColumnName], $options);
+			$foreignTableName = $schema->getTable($foreignEntityInfo->tableName)->getName();
+			$table->addForeignKeyConstraint($foreignTableName, [$attributes->joinColumn->name], [$attributes->joinColumn->referencedColumnName], $options);
 		}
 	}
 }
