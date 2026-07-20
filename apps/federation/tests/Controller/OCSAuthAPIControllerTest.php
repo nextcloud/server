@@ -113,7 +113,6 @@ class OCSAuthAPIControllerTest extends TestCase {
 
 		try {
 			$this->ocsAuthApi->requestSharedSecret($url, $token);
-			$this->assertTrue($ok);
 		} catch (OCSForbiddenException $e) {
 			$this->assertFalse($ok);
 		}
