@@ -605,7 +605,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(LoggerInterface::class),
 				$c->get(IConfig::class),
 				$c->get(IAccountManager::class),
-				$c->get(KnownUserService::class)
+				$c->get(KnownUserService::class),
+				$c->get(ICloudIdManager::class)
 			);
 		});
 
