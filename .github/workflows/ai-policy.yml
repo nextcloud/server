@@ -147,7 +147,8 @@ jobs:
         run: |
           gh api "repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/labels" \
             --method POST \
-            -f "labels[]=AI assisted"
+            -f "labels[]=AI assisted" \
+            2>/dev/null || true
           echo "Added 'AI assisted' label to PR #${{ github.event.pull_request.number }}"
 
       - name: Fail on coding-agent Signed-off-by
