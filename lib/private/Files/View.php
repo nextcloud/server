@@ -1383,48 +1383,76 @@ class View {
 	}
 
 	/**
-	 * Get file info from cache
+	 * Get cached metadata for a storage path.
 	 *
-	 * If the file is not in cached it will be scanned
-	 * If the file has changed on storage the cache will be updated
+	 * Scans the path if it is not cached, or refreshes cached metadata when it has
+	 * changed on storage. If refreshing cached metadata requires a lock that cannot
+	 * be acquired, the existing cached metadata is returned instead.
 	 *
-	 * @param Storage $storage
-	 * @param string $internalPath
-	 * @param string $relativePath
-	 * @return ICacheEntry|bool
+	 * @param Storage $storage Storage containing the path
+	 * @param string $internalPath Path relative to the storage root
+	 * @param string $relativePath Path relative to this view
+	 * @return ICacheEntry|false Cached metadata, or false if the path does not
+	 *                            exist or cannot be scanned due to a lock
 	 */
 	private function getCacheEntry($storage, $internalPath, $relativePath) {
 		$cache = $storage->getCache($internalPath);
 		$data = $cache->get($internalPath);
 		$watcher = $storage->getWatcher($internalPath);
 
-		try {
-			// if the file is not in the cache or needs to be updated, trigger the scanner and reload the data
-			if (!$data || (isset($data['size']) && $data['size'] === -1)) {
-				if (!$storage->file_exists($internalPath)) {
-					return false;
-				}
-				// don't need to get a lock here since the scanner does it's own locking
+		if (!$data || (isset($data['size']) && $data['size'] === -1)) {
+			// Populate missing or incomplete cache entries. The scanner handles locking.
+			if (!$storage->file_exists($internalPath)) {
+				return false;
+			}
+
+			try {
 				$scanner = $storage->getScanner($internalPath);
 				$scanner->scan($internalPath, Scanner::SCAN_SHALLOW);
 				$data = $cache->get($internalPath);
-			} elseif (!Scanner::isPartialFile($internalPath) && $watcher->needsUpdate($internalPath, $data)) {
+			} catch (LockedException $e) {
+				// If the path cannot be scanned because it is locked, return the existing cache result.
+			}
+		} elseif (!Scanner::isPartialFile($internalPath) && $watcher->needsUpdate($internalPath, $data)) {
+			// Refresh metadata when storage has changed and propagate changes. Handle locking.
+			try {
 				$this->lockFile($relativePath, ILockingProvider::LOCK_SHARED);
-				$cacheDataBefore = $data instanceof CacheEntry ? $data->getData() : false;
+			} catch (LockedException $e) {
+				// Refreshing cache metadata is best-effort; use the existing cache entry.
+				return $data;
+			}
+
+			$refreshException = null;
+			try {
+				$cachedDataBeforeUpdate = $data instanceof CacheEntry ? $data->getData() : false;
 				$watcher->update($internalPath, $data);
 				$data = $cache->get($internalPath);
-				$cacheDataAfter = $data instanceof CacheEntry ? $data->getData() : false;
+				$cachedDataAfterUpdate = $data instanceof CacheEntry ? $data->getData() : false;
 
-				// Only propagate mtime change to parent folders if the scanner actually changed the cached metadata,
-				// to avoid updating folder mtimes on every read for backends that conservatively report directories as updated (e.g. S3)
-				if ($cacheDataAfter !== $cacheDataBefore) {
+				// Propagate only actual metadata changes, avoiding mtime updates on every
+				// read for backends that conservatively report directories as updated (e.g. S3).
+				if ($cachedDataAfterUpdate !== $cachedDataBeforeUpdate) {
 					$storage->getPropagator()->propagateChange($internalPath, time());
 					$data = $cache->get($internalPath);
 				}
-				$this->unlockFile($relativePath, ILockingProvider::LOCK_SHARED);
+			} catch (\Throwable $e) {
+				$refreshException = $e;
+				throw $e;
+			} finally {
+				try {
+					$this->unlockFile($relativePath, ILockingProvider::LOCK_SHARED);
+				} catch (\Throwable $unlockException) {
+					if ($refreshException !== null) {
+						$this->logger->error('Failed to release cache refresh lock', [
+							'app' => 'core',
+							'path' => $relativePath,
+							'exception' => $unlockException,
+						]);
+					} else {
+						throw $unlockException;
+					}
+				}
 			}
-		} catch (LockedException $e) {
-			// if the file is locked we just use the old cache info
 		}
 
 		return $data;
