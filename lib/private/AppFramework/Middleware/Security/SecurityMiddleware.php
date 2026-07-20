@@ -53,10 +53,10 @@ use Psr\Log\LoggerInterface;
 use ReflectionMethod;
 
 /**
- * Used to do all the authentication and checking stuff for a controller method
- * It reads out the annotations of a controller method and checks which if
- * security things should be checked and also handles errors in case a security
- * check fails
+ * Enforces baseline access-control and request-security requirements for controller methods.
+ *
+ * Inspects controller-method annotations and attributes to apply authentication,
+ * authorization, admin IP, strict-cookie, CSRF, and app-availability checks.
  */
 class SecurityMiddleware extends Middleware {
 	private ?bool $isAdminUser = null;
@@ -97,56 +97,67 @@ class SecurityMiddleware extends Middleware {
 	}
 
 	/**
-	 * This runs all the security checks before a method call. The
-	 * security checks are determined by inspecting the controller method
-	 * annotations
+	 * Applies access-control and request-security requirements before a controller method runs.
 	 *
-	 * @param Controller $controller the controller
-	 * @param string $methodName the name of the method
-	 * @throws SecurityException when a security check fails
+	 * @param Controller $controller The controller instance.
+	 * @param string $methodName The controller method name.
+	 * @throws SecurityException When a security requirement is not met.
 	 *
 	 * @suppress PhanUndeclaredClassConstant
 	 */
 	#[\Override]
 	public function beforeController($controller, $methodName) {
-		// this will set the current navigation entry of the app, use this only
-		// for normal HTML requests and not for AJAX requests
-		$this->navigationManager->setActiveEntry($this->appName);
-
+		// Mark the appropriate navigation entry as active for responses that render navigation.
+		$navEntry = $this->appName;
 		/** @psalm-suppress UndefinedClass */
+		// Talk call pages belong to Talk's navigation entry rather than the current app.
 		if (get_class($controller) === TalkPageController::class && $methodName === 'showCall') {
-			$this->navigationManager->setActiveEntry('spreed');
+			$navEntry = 'spreed';
 		}
+		$this->navigationManager->setActiveEntry($navEntry);
 
 		$reflectionMethod = new ReflectionMethod($controller, $methodName);
 
-		// security checks
 		$isPublicPage = $this->middlewareUtils->hasAnnotationOrAttribute($reflectionMethod, 'PublicPage', PublicPage::class);
+		$isExAppRequired = $this->middlewareUtils->hasAnnotationOrAttribute($reflectionMethod, 'ExAppRequired', ExAppRequired::class);
+		$requiresSubAdmin = $this->middlewareUtils->hasAnnotationOrAttribute($reflectionMethod, 'SubAdminRequired', SubAdminRequired::class);
+		$requiresAuthorizedAdminSetting = $this->middlewareUtils->hasAnnotationOrAttribute($reflectionMethod, 'AuthorizedAdminSetting', AuthorizedAdminSetting::class);
+		$doesNotRequireAdmin = $this->middlewareUtils->hasAnnotationOrAttribute($reflectionMethod, 'NoAdminRequired', NoAdminRequired::class);
+		$allowsAppApiAdminAccessWithoutUser = $this->middlewareUtils->hasAnnotationOrAttribute($reflectionMethod, null, AppApiAdminAccessWithoutUser::class);
+		// Keep support for the legacy @StrictCookieRequired annotation while accepting the StrictCookiesRequired attribute.
+		$requiresStrictCookies = $this->middlewareUtils->hasAnnotationOrAttribute($reflectionMethod, 'StrictCookieRequired', StrictCookiesRequired::class);
+		$csrfProtectionDisabled = $this->middlewareUtils->hasAnnotationOrAttribute($reflectionMethod, 'NoCSRFRequired', NoCSRFRequired::class);
 
-		if ($this->middlewareUtils->hasAnnotationOrAttribute($reflectionMethod, 'ExAppRequired', ExAppRequired::class)) {
-			if (!$this->userSession instanceof Session || $this->userSession->getSession()->get('app_api') !== true) {
+		$requiresAdmin = !$requiresSubAdmin && !$doesNotRequireAdmin;
+		$requiresPrivilegedAccess = $requiresSubAdmin || $requiresAdmin;
+
+		if ($isExAppRequired) {
+			if (
+				!$this->userSession instanceof Session
+				|| $this->userSession->getSession()->get('app_api') !== true
+			) {
 				throw new ExAppRequiredException();
 			}
 		} elseif (!$isPublicPage) {
 			$authorized = false;
-			if ($this->middlewareUtils->hasAnnotationOrAttribute($reflectionMethod, null, AppApiAdminAccessWithoutUser::class)) {
-				// this attribute allows ExApp to access admin endpoints only if "userId" is "null"
-				if ($this->userSession instanceof Session && $this->userSession->getSession()->get('app_api') === true && $this->userSession->getUser() === null) {
-					$authorized = true;
-				}
+			// Explicitly opted-in AppAPI requests without a user bypass normal user and role
+			// checks; privileged routes still enforce the admin IP restriction.
+			$isAppApiRequestWithoutUser = $this->userSession instanceof Session
+				&& $this->userSession->getSession()->get('app_api') === true
+				&& $this->userSession->getUser() === null;
+
+			if ($allowsAppApiAdminAccessWithoutUser && $isAppApiRequestWithoutUser) {
+				$authorized = true;
 			}
 
 			if (!$authorized && !$this->isLoggedIn) {
 				throw new NotLoggedInException();
 			}
 
-			if (!$authorized && $this->middlewareUtils->hasAnnotationOrAttribute($reflectionMethod, 'AuthorizedAdminSetting', AuthorizedAdminSetting::class)) {
-				$authorized = $this->isAdminUser();
+			if (!$authorized && $requiresAuthorizedAdminSetting) {
+				$authorized = $this->isAdminUser() || ($requiresSubAdmin && $this->isSubAdmin());
 
-				if (!$authorized && $this->middlewareUtils->hasAnnotationOrAttribute($reflectionMethod, 'SubAdminRequired', SubAdminRequired::class)) {
-					$authorized = $this->isSubAdmin();
-				}
-
+				// Allow delegated administrators access to settings authorized for their groups.
 				if (!$authorized) {
 					$settingClasses = $this->middlewareUtils->getAuthorizedAdminSettingClasses($reflectionMethod);
 					$authorizedClasses = $this->groupAuthorizationMapper->findAllClassesForUser($this->userSession->getUser());
@@ -158,100 +169,100 @@ class SecurityMiddleware extends Middleware {
 						}
 					}
 				}
+
 				if (!$authorized) {
-					throw new NotAdminException($this->l10n->t('Logged in account must be an admin, a sub admin or gotten special right to access this setting'));
+					throw new NotAdminException($this->l10n->t(
+						'You must be an administrator, sub-administrator, or have been granted access to this setting.'
+					));
 				}
+
 				if (!$this->remoteAddress->allowsAdminActions()) {
-					throw new AdminIpNotAllowedException($this->l10n->t('Your current IP address doesn\'t allow you to perform admin actions'));
+					throw new AdminIpNotAllowedException($this->l10n->t(
+						'Your IP address is not allowed to perform administrative actions.'
+					));
 				}
-			}
-			if ($this->middlewareUtils->hasAnnotationOrAttribute($reflectionMethod, 'SubAdminRequired', SubAdminRequired::class)
-				&& !$this->isSubAdmin()
-				&& !$this->isAdminUser()
-				&& !$authorized) {
-				throw new NotAdminException($this->l10n->t('Logged in account must be an admin or sub admin'));
-			}
-			if (!$this->middlewareUtils->hasAnnotationOrAttribute($reflectionMethod, 'SubAdminRequired', SubAdminRequired::class)
-				&& !$this->middlewareUtils->hasAnnotationOrAttribute($reflectionMethod, 'NoAdminRequired', NoAdminRequired::class)
-				&& !$this->isAdminUser()
-				&& !$authorized) {
-				throw new NotAdminException($this->l10n->t('Logged in account must be an admin'));
-			}
-			if ($this->middlewareUtils->hasAnnotationOrAttribute($reflectionMethod, 'SubAdminRequired', SubAdminRequired::class)
-				&& !$this->remoteAddress->allowsAdminActions()) {
-				throw new AdminIpNotAllowedException($this->l10n->t('Your current IP address doesn\'t allow you to perform admin actions'));
-			}
-			if (!$this->middlewareUtils->hasAnnotationOrAttribute($reflectionMethod, 'SubAdminRequired', SubAdminRequired::class)
-				&& !$this->middlewareUtils->hasAnnotationOrAttribute($reflectionMethod, 'NoAdminRequired', NoAdminRequired::class)
-				&& !$this->remoteAddress->allowsAdminActions()) {
-				throw new AdminIpNotAllowedException($this->l10n->t('Your current IP address doesn\'t allow you to perform admin actions'));
 			}
 
+			if ($requiresSubAdmin && !$this->isSubAdmin() && !$this->isAdminUser() && !$authorized) {
+				throw new NotAdminException($this->l10n->t(
+					'You must be an administrator or sub-administrator.'
+				));
+			}
+
+			if ($requiresAdmin && !$this->isAdminUser() && !$authorized) {
+				throw new NotAdminException($this->l10n->t(
+					'You must be an administrator.'
+				));
+			}
+
+			if ($requiresPrivilegedAccess && !$this->remoteAddress->allowsAdminActions()) {
+				throw new AdminIpNotAllowedException($this->l10n->t(
+					'Your IP address is not allowed to perform administrative actions.'
+				));
+			}
 		}
 
-		// Check for strict cookie requirement
-		if ($this->middlewareUtils->hasAnnotationOrAttribute($reflectionMethod, 'StrictCookieRequired', StrictCookiesRequired::class)
-			|| !$this->middlewareUtils->hasAnnotationOrAttribute($reflectionMethod, 'NoCSRFRequired', NoCSRFRequired::class)) {
+		if ($requiresStrictCookies || !$csrfProtectionDisabled) {
 			if (!$this->request->passesStrictCookieCheck()) {
 				throw new StrictCookieMissingException();
 			}
 		}
-		// CSRF check - also registers the CSRF token since the session may be closed later
+
+		// Generate the session token before controller execution because the session may
+		// be closed before the response is rendered.
 		Server::get(CsrfTokenManager::class)->generateSessionToken();
-		if ($this->isInvalidCSRFRequired($reflectionMethod)) {
-			/*
-			 * Only allow the CSRF check to fail on OCS Requests. This kind of
-			 * hacks around that we have no full token auth in place yet and we
-			 * do want to offer CSRF checks for web requests.
-			 *
-			 * Additionally we allow Bearer authenticated requests to pass on OCS routes.
-			 * This allows oauth apps (e.g. moodle) to use the OCS endpoints
-			 */
-			if (!$controller instanceof OCSController || !$this->isValidOCSRequest()) {
-				throw new CrossSiteRequestForgeryException();
-			}
+
+		// Restrict the OCS compatibility bypass to OCS controllers so regular web
+		// routes cannot bypass CSRF validation.
+		if (
+			!$csrfProtectionDisabled
+			&& !$this->request->passesCSRFCheck()
+			&& !$this->canBypassCsrfForOcsRequest($controller)
+		) {
+			throw new CrossSiteRequestForgeryException();
 		}
 
-		/**
-		 * Checks if app is enabled (also includes a check whether user is allowed to access the resource)
-		 * The getAppPath() check is here since components such as settings also use the AppFramework and
-		 * therefore won't pass this check.
-		 * If page is public, app does not need to be enabled for current user/visitor
-		 */
+		if ($isPublicPage) {
+			return;
+		}
+
 		try {
-			$appPath = $this->appManager->getAppPath($this->appName);
+			$this->appManager->getAppPath($this->appName);
+
+			if (!$this->appManager->isEnabledForUser($this->appName)) {
+				throw new AppNotEnabledException();
+			}
 		} catch (AppPathNotFoundException $e) {
-			$appPath = false;
+			// Non-app components that use the App Framework lack an app path.
 		}
-
-		if ($appPath !== false && !$isPublicPage && !$this->appManager->isEnabledForUser($this->appName)) {
-			throw new AppNotEnabledException();
-		}
-	}
-
-	private function isInvalidCSRFRequired(ReflectionMethod $reflectionMethod): bool {
-		if ($this->middlewareUtils->hasAnnotationOrAttribute($reflectionMethod, 'NoCSRFRequired', NoCSRFRequired::class)) {
-			return false;
-		}
-
-		return !$this->request->passesCSRFCheck();
-	}
-
-	private function isValidOCSRequest(): bool {
-		return $this->request->getHeader('OCS-APIREQUEST') === 'true'
-			|| str_starts_with($this->request->getHeader('Authorization'), 'Bearer ');
 	}
 
 	/**
-	 * If an SecurityException is being caught, ajax requests return a JSON error
-	 * response and non ajax requests redirect to the index
+	 * Determines whether a failed CSRF check may be bypassed for an OCS request.
 	 *
-	 * @param Controller $controller the controller that is being called
-	 * @param string $methodName the name of the method that will be called on
-	 *                           the controller
-	 * @param \Exception $exception the thrown exception
-	 * @return Response a Response object or null in case that the exception could not be handled
-	 * @throws \Exception the passed in exception if it can't handle it
+	 * The bypass is restricted to OCS controllers and requests that either identify
+	 * themselves as OCS requests or contain a Bearer authorization header.
+	 */
+	private function canBypassCsrfForOcsRequest(Controller $controller): bool {
+		return $controller instanceof OCSController
+			&& (
+				$this->request->getHeader('OCS-APIREQUEST') === 'true'
+				|| stripos($this->request->getHeader('Authorization'), 'Bearer ') === 0
+			);
+	}
+
+	/**
+	 * Converts security exceptions into responses appropriate for the requested format.
+	 *
+	 * Returns a JSON error response for requests that do not accept HTML. For HTML
+	 * requests, redirects unauthenticated users to the login form and renders a
+	 * forbidden response for other security failures.
+	 *
+	 * @param Controller $controller The controller being called.
+	 * @param string $methodName The controller method being called.
+	 * @param \Exception $exception The exception thrown during request handling.
+	 * @return Response The response for a handled security exception.
+	 * @throws \Exception When the exception is not a SecurityException.
 	 */
 	#[\Override]
 	public function afterException($controller, $methodName, \Exception $exception): Response {
