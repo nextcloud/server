@@ -7,6 +7,7 @@
 
 namespace OCA\Files_Sharing\Tests;
 
+use OC\User\NoUserException;
 use OCA\Files_Sharing\Config\ConfigLexicon;
 use OCA\Files_Sharing\Event\UserShareAccessUpdatedEvent;
 use OCA\Files_Sharing\Listener\SharesUpdatedListener;
@@ -112,6 +113,33 @@ class SharesUpdatedListenerTest extends \Test\TestCase {
 				$this->assertEquals($share, $eventShare);
 			});
 
+		$this->sharesUpdatedListener->handle($event);
+	}
+
+	public function testShareAddedSkipsUnresolvableUser(): void {
+		$share = $this->createMock(IShare::class);
+		$user1 = $this->createUser('user1', '');
+		$user2 = $this->createUser('user2', '');
+
+		$this->manager->method('getUsersForShare')
+			->willReturn([$user1, $user2]);
+
+		$event = new ShareCreatedEvent($share);
+
+		// user1 is an orphaned recipient that no backend can resolve
+		$this->shareRecipientUpdater
+			->expects($this->exactly(2))
+			->method('updateForAddedShare')
+			->willReturnCallback(function (IUser $user) use ($user1): void {
+				if ($user === $user1) {
+					throw new NoUserException('Backends provided no user object');
+				}
+			});
+
+		// the failure is logged, not thrown
+		$this->logger->expects($this->once())->method('debug');
+
+		// must not throw: user2 is still processed
 		$this->sharesUpdatedListener->handle($event);
 	}
 
