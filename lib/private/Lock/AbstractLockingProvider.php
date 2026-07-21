@@ -35,6 +35,12 @@ abstract class AbstractLockingProvider implements ILockingProvider {
 	) {
 	}
 
+	protected function assertValidLockType(int $type): void {
+		if ($type !== self::LOCK_SHARED && $type !== self::LOCK_EXCLUSIVE) {
+			throw new \InvalidArgumentException('Invalid lock type: ' . $type);
+		}
+	}
+
 	protected function hasAcquiredLock(string $path, int $type): bool {
 		if ($type === self::LOCK_SHARED) {
 			return isset($this->acquiredLocks['shared'][$path])
