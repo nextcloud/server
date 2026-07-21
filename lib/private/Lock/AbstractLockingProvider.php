@@ -16,70 +16,79 @@ use OCP\Lock\ILockingProvider;
  * to release any leftover locks at the end of the request
  */
 abstract class AbstractLockingProvider implements ILockingProvider {
+	/**
+	 * @var array{
+	 *     shared: array<string, int>,
+	 *     exclusive: array<string, true>,
+	 * }
+	 */
 	protected array $acquiredLocks = [
 		'shared' => [],
-		'exclusive' => []
+		'exclusive' => [],
 	];
 
 	/**
-	 *
-	 * @param int $ttl how long until we clear stray locks in seconds
+	 * @param int $ttl How long until stray locks are cleared, in seconds.
 	 */
 	public function __construct(
 		protected int $ttl,
 	) {
 	}
 
-	/** @inheritDoc */
 	protected function hasAcquiredLock(string $path, int $type): bool {
 		if ($type === self::LOCK_SHARED) {
-			return isset($this->acquiredLocks['shared'][$path]) && $this->acquiredLocks['shared'][$path] > 0;
-		} else {
-			return isset($this->acquiredLocks['exclusive'][$path]) && $this->acquiredLocks['exclusive'][$path] === true;
+			return isset($this->acquiredLocks['shared'][$path])
+				&& $this->acquiredLocks['shared'][$path] > 0;
 		}
+
+		return $type === self::LOCK_EXCLUSIVE
+			&& isset($this->acquiredLocks['exclusive'][$path]);
 	}
 
-	/** @inheritDoc */
 	protected function markAcquire(string $path, int $targetType): void {
-		if ($targetType === self::LOCK_SHARED) {
-			if (!isset($this->acquiredLocks['shared'][$path])) {
-				$this->acquiredLocks['shared'][$path] = 0;
-			}
-			$this->acquiredLocks['shared'][$path]++;
-		} else {
+		if ($targetType === self::LOCK_EXCLUSIVE) {
 			$this->acquiredLocks['exclusive'][$path] = true;
+			return;
+		}
+
+		if ($targetType === self::LOCK_SHARED) {
+			$this->acquiredLocks['shared'][$path] ??= 0;
+			$this->acquiredLocks['shared'][$path]++;
 		}
 	}
 
-	/** @inheritDoc */
 	protected function markRelease(string $path, int $type): void {
-		if ($type === self::LOCK_SHARED) {
-			if (isset($this->acquiredLocks['shared'][$path]) && $this->acquiredLocks['shared'][$path] > 0) {
-				$this->acquiredLocks['shared'][$path]--;
-				if ($this->acquiredLocks['shared'][$path] === 0) {
-					unset($this->acquiredLocks['shared'][$path]);
-				}
-			}
-		} elseif ($type === self::LOCK_EXCLUSIVE) {
+		if ($type === self::LOCK_EXCLUSIVE) {
 			unset($this->acquiredLocks['exclusive'][$path]);
+			return;
+		}
+
+		if ($type === self::LOCK_SHARED) {
+			if (!isset($this->acquiredLocks['shared'][$path])) {
+				return;
+			}
+
+			$this->acquiredLocks['shared'][$path]--;
+			if ($this->acquiredLocks['shared'][$path] === 0) {
+				unset($this->acquiredLocks['shared'][$path]);
+			}
 		}
 	}
 
-	/** @inheritDoc */
 	protected function markChange(string $path, int $targetType): void {
+		if ($targetType === self::LOCK_EXCLUSIVE) {
+			$this->acquiredLocks['exclusive'][$path] = true;
+			unset($this->acquiredLocks['shared'][$path]);
+			return;
+		}
+
 		if ($targetType === self::LOCK_SHARED) {
 			unset($this->acquiredLocks['exclusive'][$path]);
-			if (!isset($this->acquiredLocks['shared'][$path])) {
-				$this->acquiredLocks['shared'][$path] = 0;
-			}
+			$this->acquiredLocks['shared'][$path] ??= 0;
 			$this->acquiredLocks['shared'][$path]++;
-		} elseif ($targetType === self::LOCK_EXCLUSIVE) {
-			$this->acquiredLocks['exclusive'][$path] = true;
-			$this->acquiredLocks['shared'][$path]--;
 		}
 	}
 
-	/** @inheritDoc */
 	#[\Override]
 	public function releaseAll(): void {
 		foreach ($this->acquiredLocks['shared'] as $path => $count) {
@@ -88,7 +97,7 @@ abstract class AbstractLockingProvider implements ILockingProvider {
 			}
 		}
 
-		foreach ($this->acquiredLocks['exclusive'] as $path => $hasLock) {
+		foreach ($this->acquiredLocks['exclusive'] as $path => $_) {
 			$this->releaseLock($path, self::LOCK_EXCLUSIVE);
 		}
 	}
