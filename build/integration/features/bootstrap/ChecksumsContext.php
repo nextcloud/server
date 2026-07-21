@@ -79,7 +79,7 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 	 * @param string $checksum
 	 */
 	public function userUploadsFileToWithChecksum($user, $source, $destination, $checksum) {
-		$file = \GuzzleHttp\Psr7\stream_for(fopen($source, 'r'));
+		$file = \GuzzleHttp\Psr7\Utils::streamFor(fopen($source, 'r'));
 		try {
 			$this->response = $this->client->put(
 				$this->baseUrl . '/remote.php/webdav' . $destination,
