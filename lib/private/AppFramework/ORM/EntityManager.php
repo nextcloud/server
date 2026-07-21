@@ -12,6 +12,7 @@ use OC\DB\SchemaWrapper;
 use OCP\AppFramework\ORM\Attribute\Column;
 use OCP\AppFramework\ORM\Attribute\JoinColumn;
 use OCP\AppFramework\ORM\Attribute\OneToOne;
+use OCP\AppFramework\ORM\Repository;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\Types;
@@ -40,6 +41,15 @@ class EntityManager {
 		/** @var EntityInfo<T> $entityInfo */
 		$entityInfo = $this->entitiesInfo[$entityClass];
 		return $entityInfo;
+	}
+
+	/**
+	 * @template T of object
+	 * @param class-string<T> $entityClass
+	 * @return Repository<T>
+	 */
+	public function getRepository(string $entityClass): Repository {
+		return new Repository($this->connection, $entityClass);
 	}
 
 	/**
