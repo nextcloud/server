@@ -115,4 +115,33 @@ export class UnifiedSearchPage {
 	option(id: string): Locator {
 		return this.page.locator(`[id="${id}"]`)
 	}
+
+	/**
+	 * The "More from {name}" overflow control: a category heading rendered as a button
+	 * when the category has more than the aggregate cap of rows. Opens the detail view.
+	 *
+	 * @param name the category name, e.g. "Files"
+	 */
+	moreFrom(name: string): Locator {
+		return this.panel().getByRole('button', { name: `More from ${name}` })
+	}
+
+	/** The detail view's back control, which returns to the aggregate list. */
+	detailBack(): Locator {
+		return this.panel().getByRole('button', { name: 'Back to all results' })
+	}
+
+	/**
+	 * The heading titling the detail view (shown once a category is expanded).
+	 *
+	 * @param name the category name
+	 */
+	detailHeading(name: string): Locator {
+		return this.panel().getByRole('heading', { name })
+	}
+
+	/** The detail view's pagination control, present while the category has more pages. */
+	loadMore(): Locator {
+		return this.panel().getByRole('button', { name: 'Load more results' })
+	}
 }

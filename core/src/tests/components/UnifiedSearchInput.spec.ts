@@ -305,3 +305,15 @@ describe('UnifiedSearchInput trailing controls', () => {
 		expect(wrapper.emitted('open-filters')).toBeTruthy()
 	})
 })
+
+describe('UnifiedSearchInput loading spinner', () => {
+	const hasSpinner = (wrapper: ReturnType<typeof factory>) => wrapper.findComponent({ name: 'NcLoadingIcon' }).exists()
+
+	it('shows a spinner while a search is loading', () => {
+		expect(hasSpinner(factory({ query: 'abc', loading: true }))).toBe(true)
+	})
+
+	it('shows no spinner when not loading', () => {
+		expect(hasSpinner(factory({ query: 'abc', loading: false }))).toBe(false)
+	})
+})

@@ -121,9 +121,7 @@ class SectionSearch implements IProvider {
 					continue;
 				}
 
-				// The section's own icon, falling back to a generic cog when it has none.
-				// These are dark monochrome glyphs; the client inverts them for dark
-				// themes via --background-invert-if-dark.
+				// The section's own icon, or a generic cog fallback.
 				$icon = $section->getIcon();
 				if ($icon === '') {
 					$icon = $this->urlGenerator->imagePath('settings', 'settings.svg');
