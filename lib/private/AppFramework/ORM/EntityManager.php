@@ -11,7 +11,6 @@ use Doctrine\DBAL\Schema\Table;
 use OC\DB\SchemaWrapper;
 use OCP\AppFramework\ORM\Attribute\Column;
 use OCP\AppFramework\ORM\Attribute\JoinColumn;
-use OCP\AppFramework\ORM\Attribute\OneToOne;
 use OCP\AppFramework\ORM\Repository;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -26,7 +25,7 @@ class EntityManager {
 	) {
 	}
 
-	/** @var array<class-string<object>, EntityInfo<object>> $entitiesInfo */
+	/** @var array<class-string, EntityInfo<object>> $entitiesInfo */
 	private array $entitiesInfo = [];
 
 	/**
@@ -77,15 +76,15 @@ class EntityManager {
 						$isSnowflake = true;
 						/** @psalm-suppress UndefinedClass */
 						$values[$propertyAttributes->column->name] = $generator->nextId();
-						$property->setValue($entity, $insert->createNamedParameter($values[$propertyAttributes['column']->name->name]));
+						$property->setValue($entity, $insert->createNamedParameter($values[$propertyAttributes->column->name]));
 					}
 				}
 				continue;
 			}
 
-			if ($propertyAttributes->oneToOne !== null && $propertyAttributes->joinColumn !== null) {
-				$oneToOne = $propertyAttributes->oneToOne;
-				if ($oneToOne->invertedBy === null) {
+			if ($propertyAttributes->isRelation() && $propertyAttributes->joinColumn !== null) {
+				$targetEntityClass = $propertyAttributes->getOwningRelationTarget();
+				if ($targetEntityClass === null) {
 					if ($property->getValue($entity) !== null) {
 						throw new \LogicException($entity::class . '::' . $property->getName() . ' is the mappedBy (inverse) side of a OneToOne relation and cannot be persisted directly; set it from the owning (invertedBy) side instead.');
 					}
@@ -95,7 +94,7 @@ class EntityManager {
 				$joinColumn = $propertyAttributes->joinColumn;
 				/** @var object $object */
 				$targetEntity = $property->getValue($entity);
-				$targetEntityInfo = $this->getEntityInfo($oneToOne->targetEntity);
+				$targetEntityInfo = $this->getEntityInfo($targetEntityClass);
 				if ($targetEntity === null) {
 					$values[$joinColumn->name] = $insert->createNamedParameter(null);
 				} else {
@@ -147,9 +146,9 @@ class EntityManager {
 				continue;
 			}
 
-			if ($propertyAttributes->oneToOne !== null && $propertyAttributes->joinColumn !== null) {
-				$oneToOne = $propertyAttributes->oneToOne;
-				if ($oneToOne->invertedBy === null) {
+			if ($propertyAttributes->isRelation() && $propertyAttributes->joinColumn !== null) {
+				$targetEntityClass = $propertyAttributes->getOwningRelationTarget();
+				if ($targetEntityClass === null) {
 					continue;
 				}
 
@@ -157,7 +156,7 @@ class EntityManager {
 				$joinColumn = $propertyAttributes->joinColumn;
 				/** @var object $object */
 				$targetEntity = $value;
-				$targetEntityInfo = $this->getEntityInfo($oneToOne->targetEntity);
+				$targetEntityInfo = $this->getEntityInfo($targetEntityClass);
 				if ($targetEntity === null) {
 					$update->set($joinColumn->name, $update->createNamedParameter(null));
 				} else {
@@ -207,7 +206,7 @@ class EntityManager {
 			$delete->executeStatement();
 		} catch (Exception $e) {
 			if ($e->getReason() === Exception::REASON_FOREIGN_KEY_VIOLATION) {
-				throw new \LogicException($entityClass . ' cannot be deleted: another entity still references it via a OneToOne relation. Delete the related entity first, or set onDelete: \'CASCADE\' on the owning JoinColumn.', 0, $e);
+				throw new \LogicException($entityClass . ' cannot be deleted: another entity still references it. Delete the related entity first, or set onDelete: \'CASCADE\' on the owning JoinColumn.', 0, $e);
 			}
 			throw $e;
 		}
@@ -247,7 +246,7 @@ class EntityManager {
 	/**
 	 * @internal Only for unit tests.
 	 *
-	 * @param class-string<object> $entityClass
+	 * @param class-string $entityClass
 	 */
 	public function createTable(string $entityClass, SchemaWrapper $schema): void {
 		$entityInfo = $this->getEntityInfo($entityClass);
@@ -257,7 +256,7 @@ class EntityManager {
 		foreach ($entityInfo->propertiesAttributes as $propertyAttributes) {
 			$this->createProperty($propertyAttributes, $table);
 
-			$this->createOneToOne($propertyAttributes, $table, $schema);
+			$this->createRelationColumn($propertyAttributes, $table, $schema);
 		}
 
 		$schema->getWrappedSchema()->toSql($this->connection->getDatabasePlatform());
@@ -295,27 +294,29 @@ class EntityManager {
 		}
 	}
 
-	private function createOneToOne(PropertyAttributes $attributes, Table $table, SchemaWrapper $schema): void {
-		if ($attributes->joinColumn === null || $attributes->oneToOne === null) {
+	private function createRelationColumn(PropertyAttributes $attributes, Table $table, SchemaWrapper $schema): void {
+		$targetEntityClass = $attributes->getOwningRelationTarget();
+		if ($attributes->joinColumn === null || $targetEntityClass === null) {
 			return;
 		}
 
-		if ($attributes->oneToOne->invertedBy !== null) {
-			$table->addColumn($attributes->joinColumn->name, Types::BIGINT, [
-				'notnull' => !$attributes->joinColumn->nullable,
-			]);
+		$table->addColumn($attributes->joinColumn->name, Types::BIGINT, [
+			'notnull' => !$attributes->joinColumn->nullable,
+		]);
 
+		if ($attributes->oneToOne !== null) {
+			// Enforces the "one" in OneToOne; ManyToOne intentionally allows duplicates.
 			$table->addUniqueIndex([$attributes->joinColumn->name]);
-
-			$foreignEntityInfo = $this->getEntityInfo($attributes->oneToOne->targetEntity);
-
-			$options = [];
-			if ($attributes->joinColumn->onDelete === 'CASCADE') {
-				$options['onDelete'] = 'CASCADE';
-			}
-
-			$foreignTableName = $schema->getTable($foreignEntityInfo->tableName)->getName();
-			$table->addForeignKeyConstraint($foreignTableName, [$attributes->joinColumn->name], [$attributes->joinColumn->referencedColumnName], $options);
 		}
+
+		$foreignEntityInfo = $this->getEntityInfo($targetEntityClass);
+
+		$options = [];
+		if ($attributes->joinColumn->onDelete === 'CASCADE') {
+			$options['onDelete'] = 'CASCADE';
+		}
+
+		$foreignTableName = $schema->getTable($foreignEntityInfo->tableName)->getName();
+		$table->addForeignKeyConstraint($foreignTableName, [$attributes->joinColumn->name], [$attributes->joinColumn->referencedColumnName], $options);
 	}
 }

@@ -14,6 +14,7 @@ use OCP\AppFramework\ORM\Attribute\Column;
 use OCP\AppFramework\ORM\Attribute\Entity;
 use OCP\AppFramework\ORM\Attribute\Id;
 use OCP\AppFramework\ORM\Attribute\JoinColumn;
+use OCP\AppFramework\ORM\Attribute\ManyToOne;
 use OCP\AppFramework\ORM\Attribute\OneToOne;
 use OCP\AppFramework\ORM\Repository;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -147,6 +148,27 @@ final class CascadeChild {
 	public CascadeParent|null $parent = null;
 }
 
+#[Entity(name: 'repository_merchant')]
+final class Merchant {
+	#[Id]
+	#[Column(name: 'id', type: Types::BIGINT)]
+	public ?int $id = null;
+
+	#[Column(name: 'name', type: Types::STRING, nullable: true)]
+	public ?string $name = null;
+}
+
+#[Entity(name: 'repository_order')]
+final class Order {
+	#[Id]
+	#[Column(name: 'id', type: Types::BIGINT)]
+	public ?int $id = null;
+
+	#[ManyToOne(targetEntity: Merchant::class)]
+	#[JoinColumn(name: 'merchant_id', referencedColumnName: 'id', nullable: true)]
+	public Merchant|null $merchant = null;
+}
+
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class RepositoryTest extends TestCase {
 	/** @var list<class-string> */
@@ -157,6 +179,8 @@ class RepositoryTest extends TestCase {
 		Cart::class,
 		CascadeParent::class,
 		CascadeChild::class,
+		Merchant::class,
+		Order::class,
 	];
 
 	public static function setUpBeforeClass(): void {
@@ -420,6 +444,42 @@ class RepositoryTest extends TestCase {
 		$this->assertCount(0, $entities);
 	}
 
+	public function testManyToOne(): void {
+		$merchantRepo = $this->getRepository(Merchant::class);
+		$orderRepo = $this->getRepository(Order::class);
+
+		$merchant = new Merchant();
+		$merchant->name = 'Acme';
+		$merchantRepo->insert($merchant);
+
+		$order1 = new Order();
+		$order1->merchant = $merchant;
+		$orderRepo->insert($order1);
+
+		// Unlike OneToOne, a second Order for the same Merchant must be allowed.
+		$order2 = new Order();
+		$order2->merchant = $merchant;
+		$orderRepo->insert($order2);
+
+		$savedOrder1 = $orderRepo->findOneBy(['id' => $order1->id]);
+		$this->assertNotNull($savedOrder1->merchant);
+		$this->assertEquals($merchant->id, $savedOrder1->merchant->id);
+		$this->assertEquals($merchant->name, $savedOrder1->merchant->name);
+
+		$savedOrder2 = $orderRepo->findOneBy(['id' => $order2->id]);
+		$this->assertEquals($merchant->id, $savedOrder2->merchant->id);
+	}
+
+	public function testManyToOneNullRelation(): void {
+		$orderRepo = $this->getRepository(Order::class);
+
+		$order = new Order();
+		$orderRepo->insert($order);
+
+		$savedOrder = $orderRepo->findOneBy(['id' => $order->id]);
+		$this->assertNull($savedOrder->merchant);
+	}
+
 	private function normalizeSql(string $sql): string {
 		return str_replace(['`', '"'], '', $sql);
 	}
@@ -436,6 +496,23 @@ class RepositoryTest extends TestCase {
 			'SELECT e.id AS e_id, r0.id AS r0_id, r0.name AS r0_name '
 				. 'FROM *PREFIX*repository_cart e '
 				. 'LEFT JOIN *PREFIX*repository_customer r0 ON e.customer_id = r0.id '
+				. 'WHERE e.id = :dcValue1',
+			$this->normalizeSql($qb->getSQL()),
+		);
+	}
+
+	public function testManyToOneGeneratesLeftJoin(): void {
+		$orderRepo = $this->getRepository(Order::class);
+
+		/** @var array{0: IQueryBuilder, 1: array} $result */
+		$result = self::invokePrivate($orderRepo, 'getJoinedSelectQueryBuilder', [['id' => 1], []]);
+		[$qb, $relations] = $result;
+
+		$this->assertCount(1, $relations);
+		$this->assertEquals(
+			'SELECT e.id AS e_id, r0.id AS r0_id, r0.name AS r0_name '
+				. 'FROM *PREFIX*repository_order e '
+				. 'LEFT JOIN *PREFIX*repository_merchant r0 ON e.merchant_id = r0.id '
 				. 'WHERE e.id = :dcValue1',
 			$this->normalizeSql($qb->getSQL()),
 		);

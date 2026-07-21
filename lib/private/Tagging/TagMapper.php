@@ -26,7 +26,7 @@ class TagMapper extends Repository {
 	 *
 	 * @param array $owners The user(s) whose tags we are going to load.
 	 * @param string $type The type of item for which we are loading tags.
-	 * @return list<Tag> An array of Tag objects.
+	 * @return array<array-key, Tag> An array of Tag objects.
 	 */
 	public function loadTags(array $owners, string $type): array {
 		return iterator_to_array($this->findBy([

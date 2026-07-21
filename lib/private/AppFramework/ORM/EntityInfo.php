@@ -11,10 +11,11 @@ use OCP\AppFramework\ORM\Attribute\Column;
 use OCP\AppFramework\ORM\Attribute\Entity;
 use OCP\AppFramework\ORM\Attribute\Id;
 use OCP\AppFramework\ORM\Attribute\JoinColumn;
+use OCP\AppFramework\ORM\Attribute\ManyToOne;
 use OCP\AppFramework\ORM\Attribute\OneToOne;
 
 /**
- * @template T
+ * @template T as object
  */
 class EntityInfo {
 	public readonly string $tableName;
@@ -38,6 +39,9 @@ class EntityInfo {
 	 */
 	public array $propertiesAttributes = [];
 
+	/**
+	 * @param class-string<T> $entityClass
+	 */
 	public function __construct(
 		public readonly string $entityClass,
 	) {
@@ -66,6 +70,8 @@ class EntityInfo {
 					$this->idProperty = $property;
 				} elseif ($instance instanceof OneToOne) {
 					$propertyAttributes->oneToOne = $instance;
+				} elseif ($instance instanceof ManyToOne) {
+					$propertyAttributes->manyToOne = $instance;
 				} elseif ($instance instanceof JoinColumn) {
 					$propertyAttributes->joinColumn = $instance;
 				}

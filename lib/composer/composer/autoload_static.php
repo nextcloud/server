@@ -224,6 +224,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\AppFramework\\ORM\\Attribute\\Entity' => __DIR__ . '/../../..' . '/lib/public/AppFramework/ORM/Attribute/Entity.php',
         'OCP\\AppFramework\\ORM\\Attribute\\Id' => __DIR__ . '/../../..' . '/lib/public/AppFramework/ORM/Attribute/Id.php',
         'OCP\\AppFramework\\ORM\\Attribute\\JoinColumn' => __DIR__ . '/../../..' . '/lib/public/AppFramework/ORM/Attribute/JoinColumn.php',
+        'OCP\\AppFramework\\ORM\\Attribute\\ManyToOne' => __DIR__ . '/../../..' . '/lib/public/AppFramework/ORM/Attribute/ManyToOne.php',
         'OCP\\AppFramework\\ORM\\Attribute\\OneToOne' => __DIR__ . '/../../..' . '/lib/public/AppFramework/ORM/Attribute/OneToOne.php',
         'OCP\\AppFramework\\ORM\\Repository' => __DIR__ . '/../../..' . '/lib/public/AppFramework/ORM/Repository.php',
         'OCP\\AppFramework\\PublicShareController' => __DIR__ . '/../../..' . '/lib/public/AppFramework/PublicShareController.php',
