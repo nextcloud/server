@@ -70,9 +70,8 @@ class EntityManager {
 				$primaryProperty = $property;
 				$generatorClass = $propertyAttributes->id->generatorClass;
 				if ($generatorClass) {
-					$generator = Server::get($generatorClass);
-					/** @psalm-suppress UndefinedClass NC 33 and above */
-					if (class_exists(ISnowflakeGenerator::class) && $generator instanceof ISnowflakeGenerator) {
+					if ($generatorClass === ISnowflakeGenerator::class) {
+						$generator = Server::get($generatorClass);
 						$isSnowflake = true;
 						/** @psalm-suppress UndefinedClass */
 						$values[$propertyAttributes->column->name] = $generator->nextId();

@@ -165,7 +165,6 @@ class Tags implements ITags {
 
 	#[\Override]
 	public function getIdsForTag(int|string $tag): array|false {
-		$tagId = false;
 		if (is_numeric($tag)) {
 			$tagId = $tag;
 		} else {
