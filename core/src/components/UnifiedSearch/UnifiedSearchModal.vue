@@ -751,11 +751,13 @@ export default defineComponent({
 			case '7days':
 				// For 'Last 7 days', start date is 7 days ago, end is today
 				startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 6, 0, 0, 0, 0)
+				endDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59, 999)
 				this.dateFilter.text = t('core', 'Last 7 days')
 				break
 			case '30days':
 				// For 'Last 30 days', start date is 30 days ago, end is today
 				startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 29, 0, 0, 0, 0)
+				endDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59, 999)
 				this.dateFilter.text = t('core', 'Last 30 days')
 				break
 			case 'thisyear':
