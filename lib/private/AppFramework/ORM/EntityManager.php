@@ -12,6 +12,7 @@ use OC\DB\SchemaWrapper;
 use OCP\AppFramework\ORM\Attribute\Column;
 use OCP\AppFramework\ORM\Attribute\JoinColumn;
 use OCP\AppFramework\ORM\Attribute\OneToOne;
+use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\Types;
 use OCP\IDBConnection;
@@ -75,6 +76,9 @@ class EntityManager {
 			if ($propertyAttributes->oneToOne !== null && $propertyAttributes->joinColumn !== null) {
 				$oneToOne = $propertyAttributes->oneToOne;
 				if ($oneToOne->invertedBy === null) {
+					if ($property->getValue($entity) !== null) {
+						throw new \LogicException($entity::class . '::' . $property->getName() . ' is the mappedBy (inverse) side of a OneToOne relation and cannot be persisted directly; set it from the owning (invertedBy) side instead.');
+					}
 					continue;
 				}
 
@@ -189,7 +193,14 @@ class EntityManager {
 			throw new \LogicException('The given entity is missing a required #[Id] attribute on one of its properties.');
 		}
 
-		$delete->executeStatement();
+		try {
+			$delete->executeStatement();
+		} catch (Exception $e) {
+			if ($e->getReason() === Exception::REASON_FOREIGN_KEY_VIOLATION) {
+				throw new \LogicException($entityClass . ' cannot be deleted: another entity still references it via a OneToOne relation. Delete the related entity first, or set onDelete: \'CASCADE\' on the owning JoinColumn.', 0, $e);
+			}
+			throw $e;
+		}
 	}
 
 	/**
@@ -283,6 +294,8 @@ class EntityManager {
 			$table->addColumn($attributes->joinColumn->name, Types::BIGINT, [
 				'notnull' => !$attributes->joinColumn->nullable,
 			]);
+
+			$table->addUniqueIndex([$attributes->joinColumn->name]);
 
 			$foreignEntityInfo = $this->getEntityInfo($attributes->oneToOne->targetEntity);
 

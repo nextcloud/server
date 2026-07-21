@@ -2,17 +2,16 @@
 
 declare(strict_types=1);
 
-/**
- * SPDX-FileCopyrightText: 2025 Nextcloud GmbH
- * SPDX-FileContributor: Carl Schwan
- * SPDX-License-Identifier: AGPL-3.0-or-later
- */
+// SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+// SPDX-License-Identifier: AGPL-3.0-or-later
 
 namespace OCP\AppFramework\ORM;
 
-use Generator;
+use OC\AppFramework\ORM\EntityInfo;
 use OC\AppFramework\ORM\EntityManager;
+use OC\AppFramework\ORM\PropertyAttributes;
 use OCP\AppFramework\ORM\Attribute\Id;
+use OCP\AppFramework\ORM\Attribute\OneToOne;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\DB\Exception;
@@ -39,46 +38,21 @@ class Repository {
 		$this->entityManager = Server::get(EntityManager::class);
 	}
 
-	/**
-	 * Runs a sql query and yields each resulting entity to obtain database entries in a memory-efficient way
-	 *
-	 * @return Generator Generator of fetched entities
-	 * @psalm-return Generator<T> Generator of fetched entities
-	 * @throws Exception
-	 */
-	public function yieldEntities(IQueryBuilder $query): Generator {
-		$result = $query->executeQuery();
-		try {
-			while ($row = $result->fetch()) {
-				yield $this->mapRowToEntity($row);
-			}
-		} finally {
-			$result->closeCursor();
-		}
-	}
-
-	/**
-	 * Runs a sql query and returns an array of entities
-	 *
-	 * @psalm-return list<T> all fetched entities
-	 * @throws Exception
-	 */
-	public function findEntities(IQueryBuilder $query): array {
-		return iterator_to_array($this->yieldEntities($query));
-	}
-
 	private function buildDebugMessage(string $msg, IQueryBuilder $sql): string {
 		return $msg . ': query "' . $sql->getSQL() . '"; ';
 	}
 
 	/**
+	 * Builds an entity from a flat row of its own scalar columns. OneToOne relations are
+	 * always left null here; resolving them is mapJoinedRowToEntity()'s job.
+	 *
+	 * @param class-string $entityClass
 	 * @param array<string, mixed> $row
-	 * @return T
 	 */
-	private function mapRowToEntity(mixed $row): object {
-		$entityInfo = $this->entityManager->getEntityInfo($this->entityClass);
+	private function hydrateRow(string $entityClass, mixed $row): object {
+		$entityInfo = $this->entityManager->getEntityInfo($entityClass);
 
-		$entity = new $this->entityClass();
+		$entity = new $entityClass();
 		foreach ($row as $column => $value) {
 			$property = $entityInfo->mappingColumnToProperty[$column];
 			$type = $entityInfo->mappingColumnToTypes[$column];
@@ -134,13 +108,207 @@ class Repository {
 			}
 			$entity->$property = $value;
 		}
+
+		foreach ($entityInfo->propertiesAttributes as $propertyAttributes) {
+			if ($propertyAttributes->oneToOne !== null) {
+				$entity->{$propertyAttributes->property->getName()} = null;
+			}
+		}
+
 		return $entity;
 	}
 
 	/**
-	 * Insert the entity in the database.
+	 * Builds a select query resolving both sides of any OneToOne relation via a LEFT JOIN.
+	 * Columns are aliased `e_<column>` (main entity) and `r<index>_<column>` (each relation)
+	 * to stay unique even when tables share column names.
 	 *
-	 * This will additionally generate a value for the primary key.
+	 * @return array{0: IQueryBuilder, 1: array<string, array{attributes: PropertyAttributes, entityInfo: EntityInfo}>}
+	 */
+	private function buildJoinedSelectQuery(EntityInfo $entityInfo): array {
+		$qb = $this->connection->getQueryBuilder();
+		$qb->from($entityInfo->tableName, 'e');
+
+		foreach (array_keys($entityInfo->mappingColumnToProperty) as $column) {
+			$qb->selectAlias('e.' . $column, 'e_' . $column);
+		}
+
+		/** @var array<string, array{attributes: PropertyAttributes, entityInfo: EntityInfo}> $relations */
+		$relations = [];
+		$index = 0;
+		foreach ($entityInfo->propertiesAttributes as $propertyAttributes) {
+			if ($propertyAttributes->oneToOne === null) {
+				continue;
+			}
+
+			if ($propertyAttributes->joinColumn !== null && $propertyAttributes->oneToOne->invertedBy !== null) {
+				// Owning side: the join column lives on our own table.
+				$targetEntityInfo = $this->entityManager->getEntityInfo($propertyAttributes->oneToOne->targetEntity);
+				$alias = 'r' . $index++;
+
+				$this->joinRelation(
+					$qb,
+					$alias,
+					$targetEntityInfo,
+					'e.' . $propertyAttributes->joinColumn->name,
+					$alias . '.' . $propertyAttributes->joinColumn->referencedColumnName,
+				);
+
+				$relations[$alias] = ['attributes' => $propertyAttributes, 'entityInfo' => $targetEntityInfo];
+				continue;
+			}
+
+			if ($propertyAttributes->oneToOne->mappedBy !== null) {
+				// Inverse side: the join column lives on the target's table, pointing back at us.
+				$targetEntityInfo = $this->entityManager->getEntityInfo($propertyAttributes->oneToOne->targetEntity);
+
+				$owningPropertyAttributes = null;
+				foreach ($targetEntityInfo->propertiesAttributes as $candidate) {
+					if ($candidate->property->getName() === $propertyAttributes->oneToOne->mappedBy) {
+						$owningPropertyAttributes = $candidate;
+						break;
+					}
+				}
+
+				if ($owningPropertyAttributes === null || $owningPropertyAttributes->joinColumn === null) {
+					continue;
+				}
+
+				$alias = 'r' . $index++;
+				$this->joinRelation(
+					$qb,
+					$alias,
+					$targetEntityInfo,
+					$alias . '.' . $owningPropertyAttributes->joinColumn->name,
+					'e.' . $owningPropertyAttributes->joinColumn->referencedColumnName,
+				);
+
+				$relations[$alias] = ['attributes' => $propertyAttributes, 'entityInfo' => $targetEntityInfo];
+			}
+		}
+
+		return [$qb, $relations];
+	}
+
+	private function joinRelation(IQueryBuilder $qb, string $alias, EntityInfo $targetEntityInfo, string $leftExpr, string $rightExpr): void {
+		$qb->leftJoin('e', $targetEntityInfo->tableName, $alias, $qb->expr()->eq($leftExpr, $rightExpr));
+
+		foreach (array_keys($targetEntityInfo->mappingColumnToProperty) as $column) {
+			$qb->selectAlias($alias . '.' . $column, $alias . '_' . $column);
+		}
+	}
+
+	/**
+	 * @param array<string, array{attributes: PropertyAttributes, entityInfo: EntityInfo}> $relations
+	 * @param array<string, mixed> $row
+	 * @return T
+	 */
+	private function mapJoinedRowToEntity(array $relations, mixed $row): object {
+		$mainRow = [];
+		/** @var array<string, array<string, mixed>> $relationRows */
+		$relationRows = [];
+		foreach ($row as $key => $value) {
+			if (str_starts_with($key, 'e_')) {
+				$mainRow[substr($key, 2)] = $value;
+				continue;
+			}
+
+			foreach ($relations as $alias => $relation) {
+				$prefix = $alias . '_';
+				if (str_starts_with($key, $prefix)) {
+					$relationRows[$alias][substr($key, strlen($prefix))] = $value;
+					continue 2;
+				}
+			}
+		}
+
+		$entity = $this->hydrateRow($this->entityClass, $mainRow);
+
+		foreach ($relations as $alias => $relation) {
+			$propertyName = $relation['attributes']->property->getName();
+			$targetEntityInfo = $relation['entityInfo'];
+			$idColumn = $targetEntityInfo->mappingPropertyToColumn[$targetEntityInfo->idProperty->getName()];
+			$relationRow = $relationRows[$alias] ?? [];
+
+			if (($relationRow[$idColumn] ?? null) === null) {
+				$entity->$propertyName = null;
+				continue;
+			}
+
+			/** @var OneToOne $oneToOne */
+			$oneToOne = $relation['attributes']->oneToOne;
+			$entity->$propertyName = $this->hydrateRow($oneToOne->targetEntity, $relationRow);
+		}
+
+		// Safety net for a malformed mapping that never made it into $relations.
+		$entityInfo = $this->entityManager->getEntityInfo($this->entityClass);
+		foreach ($entityInfo->propertiesAttributes as $propertyAttributes) {
+			if ($propertyAttributes->oneToOne === null) {
+				continue;
+			}
+
+			$alreadyResolved = false;
+			foreach ($relations as $relation) {
+				if ($relation['attributes'] === $propertyAttributes) {
+					$alreadyResolved = true;
+					break;
+				}
+			}
+
+			if (!$alreadyResolved) {
+				$entity->{$propertyAttributes->property->getName()} = null;
+			}
+		}
+
+		/** @var T */
+		return $entity;
+	}
+
+	/**
+	 * @param array<string, array{attributes: PropertyAttributes, entityInfo: EntityInfo}> $relations
+	 * @return \Generator<T>
+	 */
+	private function yieldJoinedEntities(IQueryBuilder $query, array $relations): \Generator {
+		$result = $query->executeQuery();
+		try {
+			while ($row = $result->fetch()) {
+				yield $this->mapJoinedRowToEntity($relations, $row);
+			}
+		} finally {
+			$result->closeCursor();
+		}
+	}
+
+	/**
+	 * @param array<string, array{attributes: PropertyAttributes, entityInfo: EntityInfo}> $relations
+	 * @return T
+	 * @throws DoesNotExistException
+	 * @throws MultipleObjectsReturnedException
+	 */
+	private function findJoinedEntity(IQueryBuilder $query, array $relations): object {
+		$result = $query->executeQuery();
+
+		$row = $result->fetch();
+		if ($row === false) {
+			$result->closeCursor();
+			throw new DoesNotExistException($this->buildDebugMessage(
+				'Did expect one result but found none when executing', $query
+			));
+		}
+
+		$row2 = $result->fetch();
+		$result->closeCursor();
+		if ($row2 !== false) {
+			throw new MultipleObjectsReturnedException($this->buildDebugMessage(
+				'Did not expect more than one result when executing', $query
+			));
+		}
+
+		return $this->mapJoinedRowToEntity($relations, $row);
+	}
+
+	/**
+	 * Inserts the entity and populates its generated primary key.
 	 *
 	 * @psalm-param T $entity
 	 * @return T
@@ -165,16 +333,14 @@ class Repository {
 	}
 
 	/**
-	 * Finds entities by a set of criteria.
-	 *
-	 * Use the property names for the criteria and orderBy key.
+	 * Finds entities by a set of criteria, keyed by property name.
 	 *
 	 * @param array<string, int|float|string|null|\DateTime|list<int|float|string>> $criteria
 	 * @param array<string, 'asc'|'desc'>|null $orderBy
 	 * @return \Generator<T>
 	 */
 	public function findBy(array $criteria, array $orderBy = [], ?int $limit = null, ?int $offset = null): \Generator {
-		$qb = $this->getSelectQueryBuilder($criteria, $orderBy);
+		[$qb, $relations] = $this->getJoinedSelectQueryBuilder($criteria, $orderBy);
 
 		if ($limit !== null) {
 			$qb->setMaxResults($limit);
@@ -184,7 +350,7 @@ class Repository {
 			$qb->setFirstResult($offset);
 		}
 
-		return $this->yieldEntities($qb);
+		return $this->yieldJoinedEntities($qb, $relations);
 	}
 
 	/**
@@ -200,7 +366,6 @@ class Repository {
 
 		foreach ($criteria as $property => $value) {
 			$column = $entityInfo->mappingPropertyToColumn[$property];
-			$type = $this->entityManager->getParameterType($entityInfo->mappingColumnToTypes[$column], is_array($value));
 			$type = $this->entityManager->getParameterType($entityInfo->mappingColumnToTypes[$column], is_array($value));
 			if ($value === null) {
 				$qb->andWhere($qb->expr()->isNull($column));
@@ -221,7 +386,7 @@ class Repository {
 	}
 
 	/**
-	 * Finds a single entity by a set of criteria.
+	 * Finds a single entity by a set of criteria, keyed by property name.
 	 *
 	 * @param array<string, int|float|string|null|\DateTime|list<int|float|string>> $criteria
 	 * @param array<string, 'asc'|'desc'>|null $orderBy
@@ -229,87 +394,51 @@ class Repository {
 	 * @throws DoesNotExistException
 	 */
 	public function findOneBy(array $criteria, array $orderBy = []): object {
-		$qb = $this->getSelectQueryBuilder($criteria, $orderBy);
+		[$qb, $relations] = $this->getJoinedSelectQueryBuilder($criteria, $orderBy);
 
 		$qb->setMaxResults(1);
 
-		return $this->findEntity($qb);
+		return $this->findJoinedEntity($qb, $relations);
 	}
 
 	/**
 	 * @param array<string, int|float|string|null|\DateTime|list<int|float|string>> $criteria
 	 * @param array<string, 'asc'|'desc'>|null $orderBy
+	 * @return array{0: IQueryBuilder, 1: array<string, array{attributes: PropertyAttributes, entityInfo: EntityInfo}>}
 	 */
-	private function getSelectQueryBuilder(array $criteria, array $orderBy = []): IQueryBuilder {
+	private function getJoinedSelectQueryBuilder(array $criteria, array $orderBy = []): array {
 		$entityInfo = $this->entityManager->getEntityInfo($this->entityClass);
-
-		$qb = $this->connection->getQueryBuilder();
-		$qb->select('*')
-			->from($entityInfo->tableName);
+		[$qb, $relations] = $this->buildJoinedSelectQuery($entityInfo);
 
 		foreach ($criteria as $property => $value) {
 			$column = $entityInfo->mappingPropertyToColumn[$property];
 			$type = $this->entityManager->getParameterType($entityInfo->mappingColumnToTypes[$column], is_array($value));
 			if ($value === null) {
-				$qb->andWhere($qb->expr()->isNull($column));
+				$qb->andWhere($qb->expr()->isNull('e.' . $column));
 			} elseif (is_array($value)) {
 				// IN expression
-				$qb->andWhere($qb->expr()->in($column, $qb->createNamedParameter($value, $type)));
+				$qb->andWhere($qb->expr()->in('e.' . $column, $qb->createNamedParameter($value, $type)));
 			} else {
 				// = expression
-				$qb->andWhere($qb->expr()->eq($column, $qb->createNamedParameter($value, $type)));
+				$qb->andWhere($qb->expr()->eq('e.' . $column, $qb->createNamedParameter($value, $type)));
 			}
 		}
 		foreach ($orderBy as $field => $direction) {
 			$qb->addOrderBy($qb->createNamedParameter($field), $direction);
 		}
 
-		return $qb;
+		return [$qb, $relations];
 	}
 
 	/**
-	 * Returns a db result and throws exceptions when there are more or less
-	 * results
-	 *
-	 * @psalm-return T the entity
-	 * @throws Exception
-	 * @throws MultipleObjectsReturnedException if more than one item exist
-	 * @throws DoesNotExistException if the item does not exist
-	 */
-	protected function findEntity(IQueryBuilder $query): object {
-		$result = $query->executeQuery();
-
-		$row = $result->fetch();
-		if ($row === false) {
-			$result->closeCursor();
-			$msg = $this->buildDebugMessage(
-				'Did expect one result but found none when executing', $query
-			);
-			throw new DoesNotExistException($msg);
-		}
-
-		$row2 = $result->fetch();
-		$result->closeCursor();
-		if ($row2 !== false) {
-			$msg = $this->buildDebugMessage(
-				'Did not expect more than one result when executing', $query
-			);
-			throw new MultipleObjectsReturnedException($msg);
-		}
-
-		return $this->mapRowToEntity($row);
-	}
-
-	/**
-	 * @return Generator<T>
+	 * @return \Generator<T>
 	 * @throws Exception
 	 */
 	public function yieldAll(): \Generator {
-		$qb = $this->connection->getQueryBuilder();
-		$qb->select('*')
-			->from($this->getTableName());
+		$entityInfo = $this->entityManager->getEntityInfo($this->entityClass);
+		[$qb, $relations] = $this->buildJoinedSelectQuery($entityInfo);
 
-		return $this->yieldEntities($qb);
+		return $this->yieldJoinedEntities($qb, $relations);
 	}
 
 	public function getTableName(): string {

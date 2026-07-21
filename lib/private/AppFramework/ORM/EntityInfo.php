@@ -15,7 +15,6 @@ use OCP\AppFramework\ORM\Attribute\OneToOne;
 
 /**
  * @template T
- * @internal
  */
 class EntityInfo {
 	public readonly string $tableName;
@@ -76,11 +75,51 @@ class EntityInfo {
 				throw new \RuntimeException($this->entityClass . ' has a Id attribute on ' . $property->getName() . ' but not the corresponding required Column attribute.');
 			}
 
+			if ($propertyAttributes->oneToOne !== null
+				&& $propertyAttributes->oneToOne->mappedBy !== null
+				&& $propertyAttributes->joinColumn !== null
+				&& $propertyAttributes->joinColumn->onDelete !== null) {
+				throw new \RuntimeException($this->entityClass . '::' . $property->getName() . ' sets JoinColumn::$onDelete on the mappedBy (inverse) side of a OneToOne relation, where it has no effect. Set it on the owning (invertedBy) side instead.');
+			}
+
+			if ($propertyAttributes->oneToOne !== null && $propertyAttributes->oneToOne->mappedBy !== null) {
+				$this->validateMappedBy($property, $propertyAttributes->oneToOne);
+			}
+
 			$this->propertiesAttributes[] = $propertyAttributes;
 		}
 
 		if ($this->idProperty === null) {
 			throw new \RuntimeException($this->entityClass . ' does not have a primary key. This is not supported for repositories backed tables.');
+		}
+	}
+
+	/**
+	 * Checks that mappedBy actually points at the owning side of the relation, so a typo
+	 * fails loudly at construction time instead of silently resolving to null forever.
+	 */
+	private function validateMappedBy(\ReflectionProperty $property, OneToOne $oneToOne): void {
+		$prefix = $this->entityClass . '::' . $property->getName() . ' has mappedBy: \'' . $oneToOne->mappedBy . '\', but ';
+		$targetReflection = new \ReflectionClass($oneToOne->targetEntity);
+
+		if (!$targetReflection->hasProperty($oneToOne->mappedBy)) {
+			throw new \RuntimeException($prefix . $oneToOne->targetEntity . ' has no property named \'' . $oneToOne->mappedBy . '\'.');
+		}
+
+		$targetProperty = $targetReflection->getProperty($oneToOne->mappedBy);
+		$targetOneToOneAttributes = $targetProperty->getAttributes(OneToOne::class, \ReflectionAttribute::IS_INSTANCEOF);
+		$targetOneToOne = $targetOneToOneAttributes === [] ? null : $targetOneToOneAttributes[0]->newInstance();
+
+		if ($targetOneToOne === null || $targetOneToOne->invertedBy === null) {
+			throw new \RuntimeException($prefix . $oneToOne->targetEntity . '::' . $oneToOne->mappedBy . ' is not the owning (invertedBy) side of a OneToOne relation.');
+		}
+
+		if ($targetOneToOne->invertedBy !== $property->getName()) {
+			throw new \RuntimeException($prefix . $oneToOne->targetEntity . '::' . $oneToOne->mappedBy . '\'s invertedBy points at \'' . $targetOneToOne->invertedBy . '\' instead.');
+		}
+
+		if ($targetProperty->getAttributes(JoinColumn::class, \ReflectionAttribute::IS_INSTANCEOF) === []) {
+			throw new \RuntimeException($prefix . $oneToOne->targetEntity . '::' . $oneToOne->mappedBy . ' has no JoinColumn attribute.');
 		}
 	}
 }
