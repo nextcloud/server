@@ -98,7 +98,7 @@ class SVG extends ProviderV2 {
 	 */
 	protected function canBeProcessed(string $content): bool {
 		// check for allowed encodings and convert if necessary
-		$encoding = mb_detect_encoding($content, ['UTF-8', 'ISO-2022-JP', 'ISO-8859-1'], true);
+		$encoding = mb_detect_encoding($content, ['ISO-2022-JP', 'UTF-8', 'ISO-8859-1'], true);
 		if ($encoding === false) {
 			return false;
 		} elseif ($encoding !== 'UTF-8') {
