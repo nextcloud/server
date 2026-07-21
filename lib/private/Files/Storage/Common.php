@@ -624,7 +624,11 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 
 		$result = $this->copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath, true);
 		if ($result) {
-			if ($sourceStorage->instanceOfStorage(ObjectStoreStorage::class)) {
+			// keeping the source cache entry preserves the file id when leaving an object
+			// store, but between two object stores it would leave a dangling entry behind
+			$preserveCacheOnDelete = $sourceStorage->instanceOfStorage(ObjectStoreStorage::class)
+				&& !$this->instanceOfStorage(ObjectStoreStorage::class);
+			if ($preserveCacheOnDelete) {
 				/** @var ObjectStoreStorage $sourceStorage */
 				$sourceStorage->setPreserveCacheOnDelete(true);
 			}
@@ -635,7 +639,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 					$result = $sourceStorage->unlink($sourceInternalPath);
 				}
 			} finally {
-				if ($sourceStorage->instanceOfStorage(ObjectStoreStorage::class)) {
+				if ($preserveCacheOnDelete) {
 					/** @var ObjectStoreStorage $sourceStorage */
 					$sourceStorage->setPreserveCacheOnDelete(false);
 				}
