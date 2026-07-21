@@ -115,12 +115,17 @@ export class UnifiedSearchController {
 		return { ...this.searchStates }
 	}
 
-	/**
-	 * Tear down on unmount: cancels in-flight requests and stops the reveal timer.
-	 */
 	dispose(): void {
-		this.cancelPendingRequests()
-		this.stopRevealTimer()
+		this.stopBackgroundWork()
+	}
+
+	reset(): void {
+		this.stopBackgroundWork()
+		this.searchStates = {}
+		this.query = ''
+		this.params = {}
+		this.searchGeneration++
+		this.onChange?.(this.getSnapshot())
 	}
 
 	private async searchCategory(
@@ -213,6 +218,11 @@ export class UnifiedSearchController {
 	private cancelPendingRequests(): void {
 		this.pendingCancels.forEach((cancel) => cancel())
 		this.pendingCancels = []
+	}
+
+	private stopBackgroundWork(): void {
+		this.cancelPendingRequests()
+		this.stopRevealTimer()
 	}
 
 	private unblockAllCategories(categories: string[]): void {

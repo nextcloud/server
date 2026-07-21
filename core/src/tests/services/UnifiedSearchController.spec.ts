@@ -331,6 +331,83 @@ describe('UnifiedSearchController', () => {
 		})
 	})
 
+	describe('reset', () => {
+		it('clears the current search state', async () => {
+			const providers = mockProviders(['files', 'talk'])
+
+			const searchController = new UnifiedSearchController()
+			searchController.search('query', ['files', 'talk'])
+			providers.files.resolve(['Files result'])
+			await vi.advanceTimersByTimeAsync(0)
+
+			searchController.reset()
+
+			expect(searchController.getSnapshot()).toEqual({})
+		})
+
+		it('notifies with the empty snapshot when reset', async () => {
+			const providers = mockProviders(['files'])
+			const onChange = vi.fn()
+
+			const searchController = new UnifiedSearchController(onChange)
+			searchController.search('query', ['files'])
+			providers.files.resolve(['Files result'])
+			await vi.advanceTimersByTimeAsync(0)
+			onChange.mockClear()
+
+			searchController.reset()
+
+			// The adapter must be told the results are gone, otherwise the reactive
+			// mirror keeps the previous session's entries and they flash on reopen.
+			expect(onChange).toHaveBeenCalledWith({})
+		})
+
+		it('cancels in-flight requests when reset', () => {
+			const providers = mockProviders(['files', 'talk'])
+
+			const searchController = new UnifiedSearchController()
+			searchController.search('query', ['files', 'talk'])
+
+			searchController.reset()
+
+			expect(providers.files.cancel).toHaveBeenCalledOnce()
+			expect(providers.talk.cancel).toHaveBeenCalledOnce()
+		})
+
+		it('stops the reveal timer when reset', () => {
+			mockProviders(['files', 'talk'])
+
+			const searchController = new UnifiedSearchController()
+			searchController.search('query', ['files', 'talk'])
+
+			// A search arms the reveal timer.
+			expect(vi.getTimerCount()).toBe(1)
+
+			searchController.reset()
+
+			expect(vi.getTimerCount()).toBe(0)
+		})
+
+		it('drops a late response from a search that was reset', async () => {
+			const providers = mockProviders(['files'])
+			const onChange = vi.fn()
+
+			const searchController = new UnifiedSearchController(onChange)
+			searchController.search('query', ['files'])
+
+			searchController.reset()
+			onChange.mockClear()
+
+			// A request from the pre-reset search resolves late. The generation bump
+			// must drop it so it cannot repopulate the cleared state.
+			providers.files.resolve(['Stale files'])
+			await vi.advanceTimersByTimeAsync(0)
+
+			expect(searchController.getSnapshot()).toEqual({})
+			expect(onChange).not.toHaveBeenCalled()
+		})
+	})
+
 	describe('change notification', () => {
 		it('notifies once the initial loading states are set, before any provider resolves', () => {
 			service.search.mockImplementation(() => deferredProvider())

@@ -25,7 +25,7 @@ import UnifiedSearchInput from '../../components/UnifiedSearch/UnifiedSearchInpu
 
 function factory(propsData = {}) {
 	return shallowMount(UnifiedSearchInput, {
-		propsData: { query: '', ...propsData },
+		propsData: { query: '', expanded: false, filtersRevealed: false, ...propsData },
 	})
 }
 
@@ -38,6 +38,11 @@ function dispatchKey(wrapper: ReturnType<typeof factory>, key: string, init: Key
 	const prevented = vi.spyOn(event, 'preventDefault')
 	wrapper.find('input').element.dispatchEvent(event)
 	return prevented
+}
+
+// The field wraps the input and its trailing controls; focus is tracked here.
+async function focusField(wrapper) {
+	await wrapper.find('.unified-search-input__field').trigger('focusin')
 }
 
 beforeEach(() => {
@@ -170,8 +175,7 @@ describe('UnifiedSearchInput shortcut hint', () => {
 		const wrapper = factory({ query: '' })
 		expect(wrapper.findAllComponents(NcKbd)).toHaveLength(2)
 
-		wrapper.find('input').element.dispatchEvent(new FocusEvent('focus'))
-		await wrapper.vm.$nextTick()
+		await focusField(wrapper)
 
 		expect(wrapper.findAllComponents(NcKbd)).toHaveLength(0)
 	})
@@ -192,5 +196,112 @@ describe('UnifiedSearchInput shortcut hint', () => {
 	it('hides the decorative hint from assistive tech', () => {
 		const firstKey = factory({ query: '' }).findAllComponents(NcKbd).at(0)!
 		expect(firstKey.element.closest('[aria-hidden="true"]')).not.toBeNull()
+	})
+})
+
+describe('UnifiedSearchInput trailing controls', () => {
+	// Locate the funnel / clear / close buttons by their accessible name so we
+	// assert what the user sees rather than internal classes. The l10n mock returns
+	// the source string, and the label lands in either props or attrs depending on
+	// how NcButton declares it, so read both.
+	const labelOf = (button) => button.attributes('aria-label') ?? button.props('ariaLabel')
+	const byLabel = (wrapper, label) => wrapper.findAllComponents({ name: 'NcButton' }).wrappers.find((button) => labelOf(button) === label)
+
+	it('shows no trailing control while resting (blurred + empty)', () => {
+		const wrapper = factory()
+		expect(byLabel(wrapper, 'Filters')).toBeUndefined()
+		expect(byLabel(wrapper, 'Clear search')).toBeUndefined()
+		expect(byLabel(wrapper, 'Close search')).toBeUndefined()
+	})
+
+	it('shows the funnel and the close-X together when the empty field gains focus', async () => {
+		const wrapper = factory()
+		await focusField(wrapper)
+		expect(byLabel(wrapper, 'Filters')).toBeTruthy()
+		expect(byLabel(wrapper, 'Close search')).toBeTruthy()
+	})
+
+	it('emits open-filters when the funnel is clicked', async () => {
+		const wrapper = factory()
+		await focusField(wrapper)
+		byLabel(wrapper, 'Filters').vm.$emit('click')
+		expect(wrapper.emitted('open-filters')).toBeTruthy()
+	})
+
+	it('dismisses the search when the empty-field close-X is clicked', async () => {
+		const wrapper = factory()
+		await focusField(wrapper)
+		byLabel(wrapper, 'Close search').vm.$emit('click')
+		expect(wrapper.emitted('close')).toBeTruthy()
+		// Nothing to clear on an empty field, so no query update is emitted.
+		expect(wrapper.emitted('update:query')).toBeUndefined()
+	})
+
+	it('swaps the funnel for a clear-X once a query is present', async () => {
+		const wrapper = factory({ query: 'abc' })
+		await focusField(wrapper)
+		expect(byLabel(wrapper, 'Filters')).toBeUndefined()
+		expect(byLabel(wrapper, 'Clear search')).toBeTruthy()
+	})
+
+	it('clears the query without closing when the clear-X is clicked', async () => {
+		const wrapper = factory({ query: 'abc' })
+		await focusField(wrapper)
+		byLabel(wrapper, 'Clear search').vm.$emit('click')
+		expect(wrapper.emitted('update:query')?.at(-1)).toEqual([''])
+		expect(wrapper.emitted('close')).toBeUndefined()
+		expect(wrapper.emitted('open-filters')).toBeUndefined()
+	})
+
+	it('keeps the close-X but drops the funnel once filters are revealed', async () => {
+		const wrapper = factory({ filtersRevealed: true })
+		await focusField(wrapper)
+		expect(byLabel(wrapper, 'Filters')).toBeUndefined()
+		expect(byLabel(wrapper, 'Close search')).toBeTruthy()
+	})
+
+	// expanded keeps the field active even when focus has moved into a teleported
+	// filter menu (which blurs the input), so the close affordance must stay put.
+	it('keeps the close-X while the popover is expanded, even without focus', () => {
+		const wrapper = factory({ expanded: true })
+		expect(byLabel(wrapper, 'Close search')).toBeTruthy()
+	})
+
+	it('hides all trailing controls when focus leaves the empty field', async () => {
+		const wrapper = factory()
+		await focusField(wrapper)
+		expect(byLabel(wrapper, 'Filters')).toBeTruthy()
+		expect(byLabel(wrapper, 'Close search')).toBeTruthy()
+		// relatedTarget outside the field -> no longer focused.
+		await wrapper.find('.unified-search-input__field').trigger('focusout', { relatedTarget: document.body })
+		expect(byLabel(wrapper, 'Filters')).toBeUndefined()
+		expect(byLabel(wrapper, 'Close search')).toBeUndefined()
+	})
+
+	// Focus moving from the input onto a trailing control (funnel / close-X) stays
+	// inside the field, so the controls must remain; this is why focus is tracked at
+	// field level rather than on the bare input.
+	it('keeps the trailing controls when focus moves within the field', async () => {
+		const wrapper = factory()
+		await focusField(wrapper)
+		const funnelEl = byLabel(wrapper, 'Filters')!.element
+		// relatedTarget inside the field (the funnel button) -> still focused.
+		await wrapper.find('.unified-search-input__field').trigger('focusout', { relatedTarget: funnelEl })
+		expect(byLabel(wrapper, 'Filters')).toBeTruthy()
+		expect(byLabel(wrapper, 'Close search')).toBeTruthy()
+	})
+
+	// The funnel must refocus the input before opening filters: revealing them unmounts
+	// the funnel, and if focus were left on it the modal's focus trap would return focus
+	// to <body> on close instead of the input.
+	it('focuses the input when the funnel opens the filters', async () => {
+		const wrapper = factory()
+		await focusField(wrapper)
+		const focusSpy = vi.spyOn(wrapper.find('input').element, 'focus')
+
+		byLabel(wrapper, 'Filters')!.vm.$emit('click')
+
+		expect(focusSpy).toHaveBeenCalled()
+		expect(wrapper.emitted('open-filters')).toBeTruthy()
 	})
 })

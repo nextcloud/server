@@ -9,7 +9,10 @@
 			:query="queryText"
 			:expanded="showUnifiedSearch"
 			:activeDescendantId="activeDescendantId"
+			:filtersRevealed="filtersRevealed"
 			@click="openModal"
+			@open-filters="onOpenFilters"
+			@close="onClose"
 			@update:query="queryText = $event"
 			@navigate="onNavigate"
 			@activate="onActivate" />
@@ -25,6 +28,7 @@
 			:localSearch="supportsLocalSearch"
 			:query="queryText"
 			:open="showUnifiedSearch"
+			:filtersRevealed="filtersRevealed"
 			@update:query="queryText = $event"
 			@update:open="showUnifiedSearch = $event"
 			@update:activeDescendant="activeDescendantId = $event || ''" />
@@ -77,6 +81,8 @@ export default defineComponent({
 			 * sibling input can point aria-activedescendant at it. '' = nothing selected.
 			 */
 			activeDescendantId: '',
+			/** Whether the funnel has revealed the filter row before typing */
+			filtersRevealed: false,
 		}
 	},
 
@@ -119,6 +125,17 @@ export default defineComponent({
 			// header button + the modal close paths, so clearing must not collapse it.
 			if (!this.supportsLocalSearch && !this.isSmallMobile) {
 				this.showUnifiedSearch = this.queryText.length > 0
+			}
+		},
+
+		/**
+		 * The funnel reveal is per-opening: reset it once the popover closes.
+		 *
+		 * @param open The new open state of the modal
+		 */
+		showUnifiedSearch(open: boolean) {
+			if (!open) {
+				this.filtersRevealed = false
 			}
 		},
 	},
@@ -253,6 +270,23 @@ export default defineComponent({
 		 */
 		openModal() {
 			this.showUnifiedSearch = true
+			this.showLocalSearch = false
+		},
+
+		/**
+		 * Funnel clicked on an empty query: open the popover and reveal the filter row.
+		 */
+		onOpenFilters() {
+			this.showUnifiedSearch = true
+			this.showLocalSearch = false
+			this.filtersRevealed = true
+		},
+
+		/**
+		 * Trailing X clicked on an empty field: close the popover and any local bar.
+		 */
+		onClose() {
+			this.showUnifiedSearch = false
 			this.showLocalSearch = false
 		},
 

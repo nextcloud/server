@@ -26,5 +26,6 @@ export function useUnifiedSearch() {
 		searchStates,
 		search: controller.search.bind(controller),
 		loadMore: controller.loadMore.bind(controller),
+		reset: controller.reset.bind(controller),
 	}
 }
