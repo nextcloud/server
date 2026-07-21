@@ -296,6 +296,16 @@ class ThemingDefaults extends \OC_Defaults {
 		return $this->urlGenerator->linkToRoute('theming.Theming.getImage', [ 'key' => 'logo', 'useSvg' => $useSvg, 'v' => $cacheBusterCounter ]);
 	}
 
+	#[\Override]
+	public function getLogoImage(): ?array {
+		try {
+			$file = $this->imageManager->getImage('logo', false);
+			return ['content' => $file->getContent(), 'mimeType' => $file->getMimeType()];
+		} catch (\Exception $e) {
+			return parent::getLogoImage();
+		}
+	}
+
 	/**
 	 * Themed background image url
 	 *
