@@ -124,6 +124,22 @@ describe('useUnifiedSearch', () => {
 		})
 	})
 
+	it('clears the reactive snapshot when reset is called', async () => {
+		const providers = mockProviders(['files'])
+		const { api } = mountComposable()
+
+		api.search('query', ['files'])
+		providers.files.resolve(['a result'])
+		await vi.advanceTimersByTimeAsync(0)
+		expect(api.searchStates.value.files).toMatchObject({ status: 'loaded' })
+
+		api.reset()
+
+		// Reset drops the previous session's results from the reactive mirror, so
+		// the modal renders nothing stale on its next open.
+		expect(api.searchStates.value).toEqual({})
+	})
+
 	it('cancels in-flight requests when the component unmounts', () => {
 		const providers = mockProviders(['files'])
 		const { wrapper, api } = mountComposable()

@@ -262,3 +262,37 @@ describe('UnifiedSearch selection relay', () => {
 		expect(modal.activateActive).toHaveBeenCalled()
 	})
 })
+
+describe('UnifiedSearch funnel reveal', () => {
+	it('opens the modal and reveals filters when the input emits open-filters', async () => {
+		const wrapper = factory()
+		expect(wrapper.vm.showUnifiedSearch).toBe(false)
+		wrapper.findComponent({ name: 'UnifiedSearchInput' }).vm.$emit('open-filters')
+		await wrapper.vm.$nextTick()
+		expect(wrapper.vm.showUnifiedSearch).toBe(true)
+		expect(wrapper.vm.filtersRevealed).toBe(true)
+	})
+
+	it('resets the reveal state once the modal closes', async () => {
+		const wrapper = factory()
+		wrapper.vm.showUnifiedSearch = true
+		wrapper.vm.filtersRevealed = true
+		await wrapper.vm.$nextTick()
+		wrapper.vm.showUnifiedSearch = false
+		await wrapper.vm.$nextTick()
+		expect(wrapper.vm.filtersRevealed).toBe(false)
+	})
+})
+
+describe('UnifiedSearch input dismiss', () => {
+	it('closes the modal when the input emits close', async () => {
+		const wrapper = factory()
+		wrapper.vm.showUnifiedSearch = true
+		await wrapper.vm.$nextTick()
+
+		wrapper.findComponent({ name: 'UnifiedSearchInput' }).vm.$emit('close')
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.vm.showUnifiedSearch).toBe(false)
+	})
+})

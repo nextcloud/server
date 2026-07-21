@@ -26,6 +26,31 @@ export class UnifiedSearchPage {
 	}
 
 	/**
+	 * The pre-typing funnel, revealed on a focused empty input. Header-scoped so the
+	 * Files app's own filter controls don't match.
+	 */
+	filterToggle(): Locator {
+		return this.header.getByRole('button', { name: 'Filters' })
+	}
+
+	/**
+	 * The trailing X. Accessible name flips with state: "Clear search" with a query,
+	 * "Close search" when empty. Header-scoped to skip the mobile modal's close button.
+	 */
+	clearButton(): Locator {
+		return this.header.getByRole('button', { name: 'Clear search' })
+	}
+
+	closeButton(): Locator {
+		return this.header.getByRole('button', { name: 'Close search' })
+	}
+
+	/** The filter row inside the popover (Type / Date / People). */
+	filters(): Locator {
+		return this.page.locator('[data-cy-unified-search-filters]')
+	}
+
+	/**
 	 * The results popover. Also the aria-controls target and the host of the rows
 	 * aria-activedescendant points at. Absent from the DOM while the search is closed.
 	 */

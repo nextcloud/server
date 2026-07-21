@@ -19,11 +19,13 @@
 		</NcHeaderButton>
 		<div
 			v-else
+			ref="fieldRef"
 			class="unified-search-input__field"
-			:class="{ 'unified-search-input__field--active': isActive }">
-			<!-- Decorative overlay: an input can't group an icon with its own placeholder,
-				so we paint the magnifier + placeholder on top and let clicks fall through.
-				It slides to the leading edge on focus (see styles). -->
+			:class="{ 'unified-search-input__field--active': isActive }"
+			@focusin="isFocused = true"
+			@focusout="onFocusOut">
+			<!-- Decorative overlay: magnifier + placeholder painted over the input
+				(clicks fall through), sliding to the leading edge on focus. -->
 			<div
 				class="unified-search-input__resting"
 				:class="{ 'unified-search-input__resting--filled': query.length > 0 }"
@@ -42,22 +44,31 @@
 				:aria-activedescendant="expanded ? (activeDescendantId || undefined) : undefined"
 				:aria-label="placeholderText"
 				:value="query"
-				@focus="isFocused = true"
-				@blur="isFocused = false"
 				@input="onInput"
 				@keydown="onKeyDown">
+			<!-- Pre-typing funnel: reveals the filters on a focused, empty input. -->
 			<NcButton
-				v-if="query.length > 0"
+				v-if="showFunnel"
+				variant="tertiary-no-background"
+				class="unified-search-input__filter"
+				:aria-label="t('core', 'Filters')"
+				@click="openFilters">
+				<template #icon>
+					<IconFilterVariant :size="20" />
+				</template>
+			</NcButton>
+			<!-- Trailing X: clears the query, or closes the search when the field is empty. -->
+			<NcButton
+				v-if="isActive"
 				variant="tertiary-no-background"
 				class="unified-search-input__clear"
-				:aria-label="t('core', 'Clear search')"
-				@click="clearQuery">
+				:aria-label="query.length > 0 ? t('core', 'Clear search') : t('core', 'Close search')"
+				@click="clearOrClose">
 				<template #icon>
 					<IconClose :size="20" />
 				</template>
 			</NcButton>
-			<!-- Decorative focus-shortcut hint, shown only while resting (unfocused +
-				empty) so it never collides with the clear button. -->
+			<!-- Focus-shortcut hint, shown only at rest so it never collides with the controls. -->
 			<span
 				v-if="!isActive"
 				class="unified-search-input__shortcut"
@@ -77,17 +88,16 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import NcHeaderButton from '@nextcloud/vue/components/NcHeaderButton'
 import NcKbd from '@nextcloud/vue/components/NcKbd'
 import IconClose from 'vue-material-design-icons/Close.vue'
+import IconFilterVariant from 'vue-material-design-icons/FilterVariant.vue'
 import IconMagnify from 'vue-material-design-icons/Magnify.vue'
 
 /**
- * The unified-search input that lives in the header.
+ * The unified-search input in the header.
  *
- * Implemented as a plain <input> rather than NcTextField/NcInputField: those
- * assume a light form background and a floating label, which clashes with the
- * themed header and the resting "button" look and would need heavy overrides of
- * their internals. A custom input also lets us own the combobox semantics the
- * results popover needs. On narrow viewports it collapses to an NcHeaderButton
- * to match the other header items.
+ * A plain <input> rather than NcTextField/NcInputField: those assume a light form
+ * surface and floating label that clash with the themed header and the resting
+ * "button" look. A custom input also lets us own the combobox semantics the results
+ * popover needs. Collapses to an NcHeaderButton on narrow viewports.
  */
 
 const props = defineProps<{
@@ -96,6 +106,8 @@ const props = defineProps<{
 	/** Id of the active result row, for aria-activedescendant. Empty when none. */
 	activeDescendantId?: string
 	query: string
+	/** Filters are already revealed, so hide the pre-typing funnel. */
+	filtersRevealed?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -105,6 +117,10 @@ const emit = defineEmits<{
 	navigate: [direction: 'next' | 'prev' | 'first' | 'last']
 	/** Open the currently selected result (Enter). */
 	activate: []
+	/** Reveal the popover filters from the pre-typing funnel. */
+	'open-filters': []
+	/** Dismiss the search from the trailing X on an already-empty field. */
+	close: []
 }>()
 
 const isSmallMobile = useIsSmallMobile()
@@ -114,19 +130,42 @@ const placeholderText = t('core', 'Apps, files, messages, and more')
 // the id on UnifiedSearchModal's panel.
 const resultsContainerId = 'unified-search-results'
 
-// Maps the navigation keys to a selection direction. Keys not listed are left
-// alone. Home/End are deliberately absent: in the combobox pattern they move the
-// textbox caret, not the result selection.
+// Navigation keys mapped to a selection direction. Home/End are deliberately absent:
+// in the combobox pattern they move the caret, not the selection.
 const directionByKey: Record<string, 'next' | 'prev'> = {
 	ArrowDown: 'next',
 	ArrowUp: 'prev',
 }
 
+const fieldRef = ref<HTMLElement>()
 const inputRef = ref<HTMLInputElement>()
 const isFocused = ref(false)
 
-/** Active = focused or holding a query; drives the resting-vs-active styling. */
-const isActive = computed(() => isFocused.value || props.query.length > 0)
+/**
+ * Active = focused, has a query, or popover open. `expanded` is included so the
+ * field keeps its white surface when focus moves into a teleported filter menu
+ * (which blurs the input) instead of flashing back to resting.
+ */
+const isActive = computed(() => isFocused.value || props.query.length > 0 || Boolean(props.expanded))
+
+/**
+ * The pre-typing funnel shows on a focused, empty input, until the filters are revealed.
+ */
+const showFunnel = computed(() => isFocused.value && props.query.length === 0 && !props.filtersRevealed)
+
+/**
+ * Track focus at the field level, not the input, so the field stays active while
+ * focus moves onto its trailing controls (funnel / clear-X) instead of blurring the
+ * moment it leaves the input.
+ *
+ * @param event The focusout event; relatedTarget is the element gaining focus
+ */
+function onFocusOut(event: FocusEvent) {
+	if (fieldRef.value?.contains(event.relatedTarget as Node | null)) {
+		return
+	}
+	isFocused.value = false
+}
 
 /**
  * Relay the typed value upward.
@@ -137,10 +176,32 @@ function onInput(event: Event) {
 	emit('update:query', (event.target as HTMLInputElement).value)
 }
 
-/** Clear the query and keep focus in the input. */
-function clearQuery() {
-	emit('update:query', '')
+/**
+ * Funnel click: focus the input before emitting. Revealing the filters unmounts the
+ * funnel, so without this focus would fall to <body> and the modal's focus trap would
+ * capture that as its return target (returning focus to <body> on close). Keeping focus
+ * on the always-mounted input makes it the return target instead.
+ */
+function openFilters() {
 	inputRef.value?.focus()
+	emit('open-filters')
+}
+
+/**
+ * Trailing X: with a query, clear the text and keep focus; on an empty field,
+ * dismiss (blur, and let the parent close the popover).
+ */
+function clearOrClose() {
+	if (props.query.length > 0) {
+		emit('update:query', '')
+		inputRef.value?.focus()
+		return
+	}
+	// Empty field: dismiss. Focus is on the X (inside the field), so blur it; the
+	// field's focusout then clears isFocused. Let the parent close the popover.
+	const focused = document.activeElement as HTMLElement | null
+	focused?.blur()
+	emit('close')
 }
 
 /**
@@ -324,7 +385,8 @@ defineExpose({ focus })
 		}
 	}
 
-	&__clear {
+	&__clear,
+	&__filter {
 		flex-shrink: 0;
 		margin-inline-end: 2px;
 	}
