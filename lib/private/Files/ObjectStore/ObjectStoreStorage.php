@@ -15,6 +15,7 @@ use Icewind\Streams\IteratorDirectory;
 use OC\Files\Cache\Cache;
 use OC\Files\Cache\CacheEntry;
 use OC\Files\Storage\PolyFill\CopyDirectory;
+use OC\Files\Storage\Wrapper\Encryption;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
@@ -577,6 +578,14 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		string $targetInternalPath,
 		bool $preserveMtime = false,
 	): bool {
+		// the shortcuts below copy the object verbatim, an encrypted source has to be
+		// read through its encryption wrapper instead
+		if ($sourceStorage->instanceOfStorage(Encryption::class)
+			&& $this->sourceMayContainEncryptedContent($sourceStorage->getCache()->get($sourceInternalPath))
+		) {
+			return parent::copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
+		}
+
 		if ($sourceStorage->instanceOfStorage(ObjectStoreStorage::class)) {
 			/** @var ObjectStoreStorage $sourceStorage */
 			if ($sourceStorage->getObjectStore()->getStorageId() === $this->getObjectStore()->getStorageId()) {
@@ -599,6 +608,19 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 
 	public function moveFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath, ?ICacheEntry $sourceCacheEntry = null): bool {
 		$sourceCache = $sourceStorage->getCache();
+
+		// An encrypted source has to be read through its encryption wrapper: the metadata
+		// only move below would leave the ciphertext untouched, and copyObjects() reuses
+		// the source file id, which resolves to the same object on a shared object store.
+		if ($sourceStorage->instanceOfStorage(Encryption::class)) {
+			if (!$sourceCacheEntry) {
+				$sourceCacheEntry = $sourceCache->get($sourceInternalPath);
+			}
+			if ($this->sourceMayContainEncryptedContent($sourceCacheEntry)) {
+				return parent::moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
+			}
+		}
+
 		if (
 			$sourceStorage->instanceOfStorage(ObjectStoreStorage::class)
 			&& $sourceStorage->getObjectStore()->getStorageId() === $this->getObjectStore()->getStorageId()
@@ -636,6 +658,22 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		$this->getCache()->moveFromCache($sourceCache, $sourceInternalPath, $targetInternalPath);
 
 		return true;
+	}
+
+	/**
+	 * The encryption wrapper covers a whole storage while only some of its paths are
+	 * encrypted (files/ but not e.g. uploads/), so the wrapper alone is too coarse a
+	 * signal for skipping the raw object shortcuts. Folders and unreadable cache
+	 * entries count as encrypted, a folder's own flag says nothing about its children.
+	 */
+	private function sourceMayContainEncryptedContent(ICacheEntry|false|null $sourceCacheEntry): bool {
+		if (!$sourceCacheEntry instanceof ICacheEntry) {
+			return true;
+		}
+		if ($sourceCacheEntry->getMimeType() === ICacheEntry::DIRECTORY_MIMETYPE) {
+			return true;
+		}
+		return $sourceCacheEntry->isEncrypted();
 	}
 
 	/**
