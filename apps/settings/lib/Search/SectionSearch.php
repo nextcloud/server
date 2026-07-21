@@ -121,17 +121,20 @@ class SectionSearch implements IProvider {
 					continue;
 				}
 
-				/**
-				 * We can't use the icon URL at the moment as they don't invert correctly for dark theme
-				 * $iconUrl = $section->getIcon();
-				 */
+				// The section's own icon, falling back to a generic cog when it has none.
+				// These are dark monochrome glyphs; the client inverts them for dark
+				// themes via --background-invert-if-dark.
+				$icon = $section->getIcon();
+				if ($icon === '') {
+					$icon = $this->urlGenerator->imagePath('settings', 'settings.svg');
+				}
 
 				$result[] = new SearchResultEntry(
 					'',
 					$section->getName(),
 					$subline,
 					$this->urlGenerator->linkToRouteAbsolute($routeName, ['section' => $section->getID()]),
-					'icon-settings-dark'
+					$icon,
 				);
 			}
 		}

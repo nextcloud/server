@@ -8,7 +8,6 @@
 		class="app-item"
 		:class="{
 			'app-item--active': app.active,
-			'app-item--outlined': outlined,
 		}"
 		:href="app.href"
 		:target="newTab ? '_blank' : undefined"
@@ -17,17 +16,12 @@
 		:tabindex="tabindex"
 		:title="app.name"
 		role="menuitem">
-		<span class="app-item__circle">
-			<img
-				class="app-item__icon"
-				:src="app.icon"
-				alt=""
-				aria-hidden="true">
+		<AppIcon :icon="app.icon" :outlined="outlined">
 			<span
 				v-if="app.unread"
 				class="app-item__unread"
 				aria-hidden="true" />
-		</span>
+		</AppIcon>
 		<span class="app-item__label">
 			{{ app.name }}
 			<span v-if="app.unread" class="hidden-visually">, {{ unreadLabel }}</span>
@@ -40,6 +34,7 @@ import type { INavigationEntry } from '../types/navigation.d.ts'
 
 import { n } from '@nextcloud/l10n'
 import { computed } from 'vue'
+import AppIcon from './AppIcon.vue'
 
 const props = withDefaults(defineProps<{
 	app: INavigationEntry
@@ -73,8 +68,6 @@ const unreadLabel = computed(() => {
 
 <style scoped lang="scss">
 .app-item {
-	--app-item-circle-size: calc(var(--default-grid-baseline) * 10);
-	--app-item-icon-size: 22px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -98,37 +91,6 @@ const unreadLabel = computed(() => {
 	&:focus-visible {
 		outline: none;
 		box-shadow: inset 0 0 0 2px var(--color-primary-element);
-	}
-
-	&__circle {
-		box-sizing: border-box;
-		position: relative;
-		width: var(--app-item-circle-size);
-		height: var(--app-item-circle-size);
-		border-radius: 50%;
-		background-color: var(--color-primary-element);
-		background-image: linear-gradient(
-			to bottom,
-			rgba(255, 255, 255, 0.18) 0%,
-			rgba(255, 255, 255, 0) 45%,
-			rgba(0, 0, 0, 0.15) 100%
-		);
-		box-shadow:
-			inset 0 1px 0 0 rgba(255, 255, 255, 0.25),
-			inset 0 -1px 0 0 rgba(0, 0, 0, 0.2),
-			0 2px 4px rgba(0, 0, 0, 0.15);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
-
-	&__icon {
-		width: var(--app-item-icon-size);
-		height: var(--app-item-icon-size);
-		// App icons are bright by default; flip them to dark when the
-		// primary color (circle background) is bright (e.g. white in dark mode).
-		filter: var(--primary-invert-if-bright);
-		mask: var(--header-menu-icon-mask);
 	}
 
 	&__unread {
@@ -159,18 +121,6 @@ const unreadLabel = computed(() => {
 
 	&--active &__label {
 		font-weight: bold;
-	}
-
-	// Outlined variant: no fill or gradient.
-	&--outlined &__circle {
-		background: transparent;
-		background-image: none;
-		box-shadow: inset 0 0 0 2px var(--color-border-maxcontrast);
-	}
-
-	&--outlined &__icon {
-		filter: var(--background-invert-if-dark);
-		mask: none;
 	}
 }
 </style>
