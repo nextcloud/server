@@ -22,7 +22,6 @@ use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCP\Cache\CappedMemoryCache;
 use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
-use OCP\Files\Cache\IPropagator;
 use OCP\Files\Cache\IWatcher;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Config\IMountProviderCollection;
