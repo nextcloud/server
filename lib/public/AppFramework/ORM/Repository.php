@@ -11,7 +11,6 @@ use OC\AppFramework\ORM\EntityInfo;
 use OC\AppFramework\ORM\EntityManager;
 use OC\AppFramework\ORM\PropertyAttributes;
 use OCP\AppFramework\ORM\Attribute\Id;
-use OCP\AppFramework\ORM\Attribute\OneToOne;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\DB\Exception;
@@ -110,7 +109,7 @@ class Repository {
 		}
 
 		foreach ($entityInfo->propertiesAttributes as $propertyAttributes) {
-			if ($propertyAttributes->oneToOne !== null) {
+			if ($propertyAttributes->isRelation()) {
 				$entity->{$propertyAttributes->property->getName()} = null;
 			}
 		}
@@ -119,7 +118,7 @@ class Repository {
 	}
 
 	/**
-	 * Builds a select query resolving both sides of any OneToOne relation via a LEFT JOIN.
+	 * Builds a select query resolving OneToOne and ManyToOne relations via a LEFT JOIN.
 	 * Columns are aliased `e_<column>` (main entity) and `r<index>_<column>` (each relation)
 	 * to stay unique even when tables share column names.
 	 *
@@ -137,13 +136,14 @@ class Repository {
 		$relations = [];
 		$index = 0;
 		foreach ($entityInfo->propertiesAttributes as $propertyAttributes) {
-			if ($propertyAttributes->oneToOne === null) {
+			if (!$propertyAttributes->isRelation()) {
 				continue;
 			}
 
-			if ($propertyAttributes->joinColumn !== null && $propertyAttributes->oneToOne->invertedBy !== null) {
-				// Owning side: the join column lives on our own table.
-				$targetEntityInfo = $this->entityManager->getEntityInfo($propertyAttributes->oneToOne->targetEntity);
+			$owningTargetClass = $propertyAttributes->getOwningRelationTarget();
+			if ($owningTargetClass !== null) {
+				// Owning side (OneToOne's invertedBy, or ManyToOne): the join column lives on our own table.
+				$targetEntityInfo = $this->entityManager->getEntityInfo($owningTargetClass);
 				$alias = 'r' . $index++;
 
 				$this->joinRelation(
@@ -158,7 +158,7 @@ class Repository {
 				continue;
 			}
 
-			if ($propertyAttributes->oneToOne->mappedBy !== null) {
+			if ($propertyAttributes->oneToOne !== null && $propertyAttributes->oneToOne->mappedBy !== null) {
 				// Inverse side: the join column lives on the target's table, pointing back at us.
 				$targetEntityInfo = $this->entityManager->getEntityInfo($propertyAttributes->oneToOne->targetEntity);
 
@@ -235,15 +235,13 @@ class Repository {
 				continue;
 			}
 
-			/** @var OneToOne $oneToOne */
-			$oneToOne = $relation['attributes']->oneToOne;
-			$entity->$propertyName = $this->hydrateRow($oneToOne->targetEntity, $relationRow);
+			$entity->$propertyName = $this->hydrateRow($targetEntityInfo->entityClass, $relationRow);
 		}
 
 		// Safety net for a malformed mapping that never made it into $relations.
 		$entityInfo = $this->entityManager->getEntityInfo($this->entityClass);
 		foreach ($entityInfo->propertiesAttributes as $propertyAttributes) {
-			if ($propertyAttributes->oneToOne === null) {
+			if (!$propertyAttributes->isRelation()) {
 				continue;
 			}
 
@@ -336,7 +334,7 @@ class Repository {
 	 * Finds entities by a set of criteria, keyed by property name.
 	 *
 	 * @param array<string, int|float|string|null|\DateTime|list<int|float|string>> $criteria
-	 * @param array<string, 'asc'|'desc'>|null $orderBy
+	 * @param array<string, 'ASC'|'DESC'> $orderBy
 	 * @return \Generator<T>
 	 */
 	public function findBy(array $criteria, array $orderBy = [], ?int $limit = null, ?int $offset = null): \Generator {
@@ -389,7 +387,7 @@ class Repository {
 	 * Finds a single entity by a set of criteria, keyed by property name.
 	 *
 	 * @param array<string, int|float|string|null|\DateTime|list<int|float|string>> $criteria
-	 * @param array<string, 'asc'|'desc'>|null $orderBy
+	 * @param array<string, 'ASC'|'DESC'> $orderBy
 	 * @return T
 	 * @throws DoesNotExistException
 	 */
@@ -403,10 +401,10 @@ class Repository {
 
 	/**
 	 * @param array<string, int|float|string|null|\DateTime|list<int|float|string>> $criteria
-	 * @param array<string, 'asc'|'desc'>|null $orderBy
+	 * @param array<string, 'ASC'|'DESC'> $orderBy
 	 * @return array{0: IQueryBuilder, 1: array<string, array{attributes: PropertyAttributes, entityInfo: EntityInfo}>}
 	 */
-	private function getJoinedSelectQueryBuilder(array $criteria, array $orderBy = []): array {
+	private function getJoinedSelectQueryBuilder(array $criteria, ?array $orderBy = []): array {
 		$entityInfo = $this->entityManager->getEntityInfo($this->entityClass);
 		[$qb, $relations] = $this->buildJoinedSelectQuery($entityInfo);
 

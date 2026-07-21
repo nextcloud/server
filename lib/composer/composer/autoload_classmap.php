@@ -186,6 +186,7 @@ return array(
     'OCP\\AppFramework\\ORM\\Attribute\\Entity' => $baseDir . '/lib/public/AppFramework/ORM/Attribute/Entity.php',
     'OCP\\AppFramework\\ORM\\Attribute\\Id' => $baseDir . '/lib/public/AppFramework/ORM/Attribute/Id.php',
     'OCP\\AppFramework\\ORM\\Attribute\\JoinColumn' => $baseDir . '/lib/public/AppFramework/ORM/Attribute/JoinColumn.php',
+    'OCP\\AppFramework\\ORM\\Attribute\\ManyToOne' => $baseDir . '/lib/public/AppFramework/ORM/Attribute/ManyToOne.php',
     'OCP\\AppFramework\\ORM\\Attribute\\OneToOne' => $baseDir . '/lib/public/AppFramework/ORM/Attribute/OneToOne.php',
     'OCP\\AppFramework\\ORM\\Repository' => $baseDir . '/lib/public/AppFramework/ORM/Repository.php',
     'OCP\\AppFramework\\PublicShareController' => $baseDir . '/lib/public/AppFramework/PublicShareController.php',

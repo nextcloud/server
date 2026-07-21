@@ -12,16 +12,16 @@ use OCP\AppFramework\ORM\Attribute\Column;
 use OCP\AppFramework\ORM\Attribute\Entity;
 use OCP\AppFramework\ORM\Attribute\Id;
 use OCP\DB\Types;
-use OCP\Snowflake\IGenerator;
+use OCP\Snowflake\ISnowflakeGenerator;
 
 /**
  * Class to represent a tag.
  */
 #[Entity(name: 'vcategory')]
 final class Tag {
-	#[Id(generatorClass: IGenerator::class)]
+	#[Id]
 	#[Column(name: 'id', type: Types::BIGINT, nullable: false)]
-	public ?string $id = null;
+	public ?int $id = null;
 
 	#[Column(name: 'uid', type: Types::STRING, length: 64, nullable: false)]
 	public string $owner;
