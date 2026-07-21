@@ -149,6 +149,16 @@ jobs:
                   'Prerequisites: Docker installed and running, PHP `memcached` extension loaded (`php -m | grep memcached`; install with `sudo apt install php-memcached`), PHP in your PATH, and `composer install` run from the server repository root at least once.',
                 ],
               },
+              'PHPUnit key-value store': {
+                purpose: 'Runs PHPUnit tests against Valkey in three topologies (single server, cluster, sentinel) to validate the key-value store cache backend.',
+                fix: [
+                  'Check the CI log to see which topology (single/cluster/sentinel) and PHP version failed.',
+                  'Reproducing the cluster/sentinel topologies locally requires manually starting several Valkey containers — see the `Start Valkey (...)` steps in `.github/workflows/phpunit-kvstore.yml` for the exact commands.',
+                  'For the single-server topology: `docker run -d --name kv-single -p 6379:6379 valkey/valkey:8`, then `cp tests/kvstore-single.config.php config/` before installing Nextcloud.',
+                  'Run the suite with: `composer run test -- --group KeyValueCache --log-junit junit.xml`',
+                  'If only one topology fails, look for topology-specific assumptions (e.g. single-node vs multi-node key routing) in the changed code.',
+                ],
+              },
               'PHPUnit sharding': {
                 purpose: 'Runs PHPUnit tests with database sharding enabled, where data is distributed across multiple MySQL instances.',
                 fix: [
@@ -345,6 +355,17 @@ jobs:
                   'Ensure your local Nextcloud instance is running before executing Cypress.',
                 ],
               },
+              'Playwright Tests': {
+                purpose: 'Runs end-to-end browser tests (Playwright) against a live Nextcloud instance, sharded across 6 jobs, plus a separate installer-test job covering every supported database backend.',
+                flaky: true,
+                flakiness_note: 'Only runs when Playwright test files changed, the PR carries `force-e2e-tests`/`3. to review`/`4. to release`, or is marked ready for review — a skipped "gate" is expected and not a real failure.',
+                fix: [
+                  'Check the job name to see which shard (1-6) or which installer DB backend (mysql/mariadb/postgres/oracle) failed, and download the HTML report artifact (`html-report--attempt-*`) for traces/screenshots.',
+                  'Run locally: `npx playwright install --with-deps && npm run playwright`',
+                  'To run just the installer/setup tests: `npm run playwright:setup`',
+                  'To target a single shard: `npm run playwright -- --shard=\'2/6\'`',
+                ],
+              },
               'Node': {
                 purpose: 'Builds JavaScript/TypeScript/Vue assets and verifies no uncommitted compiled files remain.',
                 fix: [
@@ -404,6 +425,17 @@ jobs:
                   'Allowed types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`',
                   'Examples of good messages: `fix(sharing): resolve permission check for public links` · `feat(files): add bulk move operation` · `chore: update dependencies`',
                   'To fix bad messages: `git rebase -i HEAD~N`, change `pick` to `reword` for each commit to rename, save, then update the messages when prompted. Force-push when done.',
+                ],
+              },
+              'AI Policy': {
+                purpose: 'Scans PR commit messages for coding-agent trailers. Labels the PR "AI assisted" if it finds an `Assisted-by`/`AI-Assisted-By` trailer, or an agent-associated `Signed-off-by`/`Co-Authored-By`. Fails only if a coding agent itself appears in `Signed-off-by`, since the DCO sign-off can only be attested by a human.',
+                flaky: true,
+                flakiness_note: 'Known bug on fork PRs (nextcloud/.github#767): the label-write step 403s because GitHub forces a read-only token on pull_request runs from forks, and that failure isn\'t guarded with `|| true` — so it can fail the whole job even when there\'s no real trailer violation. If the log only shows a 403 on label creation/assignment and no "Offending trailer(s)" section, this is that known issue, not a real problem with your commits.',
+                fix: [
+                  'First check the job log for an actual "Offending trailer(s)" section — if it\'s just a label-write 403 with no trailers listed, this is the known fork-PR bug (nextcloud/.github#767); a maintainer re-run from the base repo, or the upstream fix, resolves it — no action needed on your commits.',
+                  'If there IS a genuine offending trailer: amend the commit(s) to remove the agent `Signed-off-by` line, and add your own human sign-off plus an `Assisted-by` trailer instead, e.g.: `Assisted-by: Claude Code:claude-sonnet-4-6`',
+                  'Use `git commit --amend -s` (or an interactive rebase for older commits), then `git push --force-with-lease`.',
+                  'See `AGENTS.md` in this repo and https://github.com/nextcloud/.github/blob/master/AI_POLICY.md for the full policy.',
                 ],
               },
               'Block merging with outdated 3rdparty/': {

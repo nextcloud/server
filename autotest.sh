@@ -449,10 +449,10 @@ function execute_tests {
 		if [ ! -z "$USEDOCKER" ] ; then
 			echo "Fire up the Memcached docker"
 			DOCKER_SERVICE_CONTAINER_ID=$(docker run -d \
-				-p 11212:11212 \
-				memcached memcached -p 11212)
+				-p 11211:11211 \
+				ghcr.io/nextcloud/continuous-integration-memcached:latest)
 			echo "Waiting for Memcached initialisation ..."
-			if ! apps/files_external/tests/env/wait-for-connection localhost 11212 30; then
+			if ! apps/files_external/tests/env/wait-for-connection localhost 11211 30; then
 				echo "[ERROR] Waited 30 seconds, no Memcached response" >&2
 				exit 1
 			fi
