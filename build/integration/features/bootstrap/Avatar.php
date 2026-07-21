@@ -109,7 +109,7 @@ trait Avatar {
 	 * @param string $source
 	 */
 	public function loggedInUserPostsTemporaryAvatarFromFile(string $source) {
-		$file = \GuzzleHttp\Psr7\stream_for(fopen($source, 'r'));
+		$file = \GuzzleHttp\Psr7\Utils::streamFor(fopen($source, 'r'));
 
 		$this->sendingAToWithRequesttoken('POST', '/index.php/avatar',
 			[
