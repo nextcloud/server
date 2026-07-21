@@ -17,13 +17,12 @@ use NCU\Sharing\Property\ShareProperty;
 use NCU\Sharing\Recipient\ShareRecipient;
 use NCU\Sharing\Source\IShareSourceType;
 use NCU\Sharing\Source\ShareSource;
-use OCP\AppFramework\Attribute\Implementable;
+use OCP\AppFramework\Attribute\Consumable;
 
-// TODO: Add ability to start and commit a transaction
 /**
  * @experimental 35.0.0
  */
-#[Implementable(since: '35.0.0')]
+#[Consumable(since: '35.0.0')]
 interface ISharingBackend {
 	/**
 	 * Create a new share.
@@ -35,9 +34,10 @@ interface ISharingBackend {
 	/**
 	 * Perform all updates when the owner was deleted.
 	 *
+	 * @return list<string>
 	 * @experimental 35.0.0
 	 */
-	public function onOwnerDeleted(ShareUser $owner): void;
+	public function onOwnerDeleted(ShareUser $owner): array;
 
 	/**
 	 * Update the state of a share.

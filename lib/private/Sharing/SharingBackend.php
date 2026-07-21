@@ -80,10 +80,11 @@ final readonly class SharingBackend implements ISharingBackend {
 	}
 
 	#[\Override]
-	public function onOwnerDeleted(ShareUser $owner): void {
+	public function onOwnerDeleted(ShareUser $owner): array {
 		$qb = $this->connection->getQueryBuilder();
 		$qb
-			->delete('sharing_share')
+			->selectDistinct('id')
+			->from('sharing_share')
 			->where($qb->expr()->eq('owner_user_id', $qb->createNamedParameter($owner->userId)));
 		if ($owner->instance === null) {
 			$qb->andWhere($qb->expr()->isNull('owner_instance'));
@@ -91,7 +92,25 @@ final readonly class SharingBackend implements ISharingBackend {
 			$qb->andWhere($qb->expr()->eq('owner_instance', $qb->createNamedParameter($owner->instance)));
 		}
 
-		$qb->executeStatement();
+		$result = $qb->executeQuery();
+
+		/** @var list<string|int> $ids */
+		$ids = $result->fetchFirstColumn();
+		if ($ids === []) {
+			return [];
+		}
+
+		$ids = array_map(static fn (string|int $id): string => (string)$id, $ids);
+
+		foreach (array_chunk($ids, 1000) as $chunk) {
+			$qb = $this->connection->getQueryBuilder();
+			$qb
+				->delete('sharing_share')
+				->where($qb->expr()->in('id', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_STR_ARRAY)))
+				->executeStatement();
+		}
+
+		return $ids;
 	}
 
 	#[\Override]
@@ -589,8 +608,6 @@ final readonly class SharingBackend implements ISharingBackend {
 			$result = $qb->executeQuery();
 			$rows = $result->fetchAll();
 			foreach ($rows as $row) {
-				/** @var non-empty-string $id */
-				$id = (string)$row['id'];
 				/** @var non-empty-string $ownerUserId */
 				$ownerUserId = $row['owner_user_id'];
 				/** @var ?non-empty-string $ownerInstance */
@@ -601,6 +618,8 @@ final readonly class SharingBackend implements ISharingBackend {
 					continue;
 				}
 
+				/** @var non-empty-string $id */
+				$id = (string)$row['id'];
 				/** @var non-negative-int $lastUpdated */
 				$lastUpdated = (int)$row['last_updated'];
 				/** @var string $state */

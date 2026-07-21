@@ -17,7 +17,6 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
-use OCP\Server;
 
 final class Application extends App implements IBootstrap {
 	public const string APP_ID = 'sharing';
@@ -30,9 +29,6 @@ final class Application extends App implements IBootstrap {
 	public function register(IRegistrationContext $context): void {
 		$context->registerCapability(Capabilities::class);
 		$context->registerMiddleware(ShareApiEnabledMiddleware::class);
-
-		$registry = Server::get(ISharingRegistry::class);
-		$registry->registerSharingBackend(Server::get(SharingBackend::class));
 	}
 
 	#[\Override]

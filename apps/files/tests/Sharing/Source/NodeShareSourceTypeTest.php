@@ -12,7 +12,6 @@ use NCU\Sharing\ISharingRegistry;
 use NCU\Sharing\ShareAccessContext;
 use NCU\Sharing\Source\ShareSource;
 use OC\Files\Filesystem;
-use OC\Sharing\SharingBackend;
 use OC\User\Database;
 use OCA\Files\Sharing\Source\NodeShareSourceType;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -95,7 +94,6 @@ final class NodeShareSourceTypeTest extends TestCase {
 	public function testDelete(): void {
 		$registry = Server::get(ISharingRegistry::class);
 		$registry->clear();
-		$registry->registerSharingBackend(Server::get(SharingBackend::class));
 		$registry->registerSourceType($this->sourceType);
 
 		$accessContext = new ShareAccessContext(currentUser: $this->user1);

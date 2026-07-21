@@ -19,7 +19,6 @@ use NCU\Sharing\ShareAccessContext;
 use NCU\Sharing\ShareState;
 use NCU\Sharing\Source\ShareSource;
 use OC\Core\Sharing\Permission\ReshareSharePermissionType;
-use OC\Sharing\SharingBackend;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\HintException;
 use OCP\IDBConnection;
@@ -113,7 +112,6 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 		$this->registry = Server::get(ISharingRegistry::class);
 		$this->registry->clear();
-		$this->registry->registerSharingBackend(Server::get(SharingBackend::class));
 		$this->registry->registerSourceType(new TestShareSourceType1(['source1' => 'Source 1']));
 		$this->registry->registerSourceType(new TestShareSourceType2(['source2' => 'Source 2']));
 		$this->registry->registerRecipientType(new TestShareRecipientType1(
@@ -1718,7 +1716,6 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 	public function testSelectSharePermissionPreset(): void {
 		$this->registry->clear();
-		$this->registry->registerSharingBackend(Server::get(SharingBackend::class));
 		$this->registry->registerPermissionPreset(new TestSharePermissionPreset1());
 		$this->registry->registerPermissionPreset(new TestSharePermissionPreset2());
 		$this->registry->registerPermissionType(null, new TestSharePermissionType1());
@@ -1918,7 +1915,6 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 	public function testSelectSharePermissionPresetCompatible(): void {
 		$this->registry->clear();
-		$this->registry->registerSharingBackend(Server::get(SharingBackend::class));
 		$this->registry->registerSourceType(new TestShareSourceType1(['source1' => 'Source 1']));
 		$this->registry->registerPermissionPreset(new TestSharePermissionPreset1());
 		$this->registry->registerPermissionPreset(new TestSharePermissionPreset2());
@@ -2990,7 +2986,6 @@ abstract class AbstractSharingManagerTests extends TestCase {
 	#[DataProvider('dataGetShareWithPublicSecret')]
 	public function testGetShareWithPublicSecret(bool $isSecretPublic): void {
 		$this->registry->clear();
-		$this->registry->registerSharingBackend(Server::get(SharingBackend::class));
 		$this->registry->registerRecipientType(new TestShareRecipientType1(
 			[
 				'recipient1' => 'Recipient 1',
@@ -3067,7 +3062,6 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 	public function testGetShareWithSecret(): void {
 		$this->registry->clear();
-		$this->registry->registerSharingBackend(Server::get(SharingBackend::class));
 		$this->registry->registerSourceType(new TestShareSourceType1(['source1' => 'Source']));
 		$this->registry->registerRecipientType(new TestShareRecipientTypePublicSecret(
 			[
@@ -3146,7 +3140,6 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 	public function testGetShareUniqueDisplayNames(): void {
 		$this->registry->clear();
-		$this->registry->registerSharingBackend(Server::get(SharingBackend::class));
 		$this->registry->registerSourceType(new TestShareSourceType1(['source1' => 'Source']));
 		$this->registry->registerSourceType(new TestShareSourceType2(['source2' => 'Source', 'source3' => 'Other']));
 		$this->registry->registerRecipientType(new TestShareRecipientType1(['recipient1' => 'Recipient'], [], []));
