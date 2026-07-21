@@ -57,6 +57,11 @@
 					<IconFilterVariant :size="20" />
 				</template>
 			</NcButton>
+			<!-- Loading spinner while a search is in flight. -->
+			<NcLoadingIcon
+				v-if="loading"
+				class="unified-search-input__loading"
+				:size="20" />
 			<!-- Trailing X: clears the query, or closes the search when the field is empty. -->
 			<NcButton
 				v-if="isActive"
@@ -87,6 +92,7 @@ import { computed, ref } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcHeaderButton from '@nextcloud/vue/components/NcHeaderButton'
 import NcKbd from '@nextcloud/vue/components/NcKbd'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import IconClose from 'vue-material-design-icons/Close.vue'
 import IconFilterVariant from 'vue-material-design-icons/FilterVariant.vue'
 import IconMagnify from 'vue-material-design-icons/Magnify.vue'
@@ -106,6 +112,8 @@ const props = defineProps<{
 	/** Id of the active result row, for aria-activedescendant. Empty when none. */
 	activeDescendantId?: string
 	query: string
+	/** A search is in flight: show the loading spinner. */
+	loading?: boolean
 	/** Filters are already revealed, so hide the pre-typing funnel. */
 	filtersRevealed?: boolean
 }>()
@@ -391,6 +399,13 @@ defineExpose({ focus })
 		margin-inline-end: 2px;
 	}
 
+	&__loading {
+		flex-shrink: 0;
+		display: flex;
+		align-items: center;
+		margin-inline: 4px;
+	}
+
 	// Pinned to the trailing edge, overlaid on the input (pointer-events: none so a
 	// click there still focuses the field).
 	&__shortcut {
@@ -429,9 +444,11 @@ defineExpose({ focus })
 	--resting-background-hover: color-mix(in srgb, var(--color-primary-element) 22%, transparent);
 }
 
-// translateX is physical, so flip the resting slide under RTL to keep it moving
-// toward the leading (right) edge.
-[dir=rtl] .unified-search-input__resting {
+// translateX is physical, so flip the resting slide under RTL to keep it moving toward
+// the leading (right) edge. :dir(rtl) tracks the computed direction, so it applies whether
+// RTL comes from the body dir attribute or a direction style (an [dir=rtl] attribute
+// selector would miss the latter).
+.unified-search-input__resting:dir(rtl) {
 	--slide-sign: -1;
 }
 

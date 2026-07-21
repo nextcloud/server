@@ -135,4 +135,63 @@ test.describe('Header: unified search keyboard navigation', () => {
 		await expect(search.input()).not.toBeFocused()
 		await expect(search.panel()).toHaveCount(0)
 	})
+
+	test('"More from" opens the uncapped detail view, pages it, and Back returns to the aggregate list', async ({ page, user }) => {
+		// The three files from beforeEach plus nine more give twelve matches: past the
+		// aggregate cap of three (so "More from" shows) and past the ten-row first page
+		// (so the detail view offers "Load more results").
+		for (let i = 0; i < 9; i++) {
+			await uploadContent(page.request, user, 'content', 'text/plain', `/${TOKEN}-more-${i}.txt`)
+		}
+		const search = new UnifiedSearchPage(page)
+		await search.input().fill(TOKEN)
+
+		// Aggregate view: capped at three rows, with the overflow control.
+		await expect(search.options()).toHaveCount(3)
+		await expect(search.moreFrom('Files')).toBeVisible()
+
+		// The detail view shows the full first page (PAGE_SIZE) for that one category.
+		await search.moreFrom('Files').click()
+		await expect(search.detailBack()).toBeVisible()
+		await expect(search.detailHeading('Files')).toBeVisible()
+		await expect(search.options()).toHaveCount(10)
+		await expect(search.loadMore()).toBeVisible()
+
+		// Paging appends the next page.
+		await search.loadMore().click()
+		await expect(search.options()).toHaveCount(12)
+
+		// Back returns to the capped aggregate list.
+		await search.detailBack().click()
+		await expect(search.moreFrom('Files')).toBeVisible()
+		await expect(search.options()).toHaveCount(3)
+	})
+
+	test('the open search overlay suppresses the app keyboard shortcuts behind it', async ({ page }) => {
+		const search = new UnifiedSearchPage(page)
+		// `v` toggles the Files grid/list view (a useHotKey). The toggle button's name
+		// flips with the mode, so use it to observe whether the shortcut fired.
+		const toGrid = page.getByRole('button', { name: 'Switch to grid view' })
+		const toList = page.getByRole('button', { name: 'Switch to list view' })
+
+		// It fires on the bare page: list -> grid -> list.
+		await expect(toGrid).toBeVisible()
+		await page.keyboard.press('v')
+		await expect(toList).toBeVisible()
+		await page.keyboard.press('v')
+		await expect(toGrid).toBeVisible()
+
+		// Open the search and move focus onto a result, off the input (where the app's
+		// `v` would otherwise fire). The scrim's `modal-mask` makes useHotKey suppress
+		// background shortcuts, the same guard that stops arrow keys driving the file
+		// list behind the overlay.
+		await search.input().fill(TOKEN)
+		await expect(search.options().first()).toBeVisible()
+		await page.keyboard.press('Tab')
+		await expect(search.input()).not.toBeFocused()
+
+		await page.keyboard.press('v')
+		// The view did not toggle: the shortcut was suppressed while the overlay was open.
+		await expect(toGrid).toBeVisible()
+	})
 })

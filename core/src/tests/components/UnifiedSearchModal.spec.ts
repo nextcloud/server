@@ -146,7 +146,8 @@ describe('UnifiedSearchModal controller wiring', () => {
 		wrapper.vm.searchQuery = 'query'
 		await wrapper.vm.$nextTick()
 
-		expect(wrapper.findAll('.result-title').wrappers.map((w) => w.text())).toEqual(['Files'])
+		// The already-loaded row stays on screen while the next page loads.
+		expect(wrapper.findAllComponents({ name: 'SearchResult' })).toHaveLength(1)
 		expect(wrapper.vm.showEmptyContentInfo).toBe(false)
 	})
 
@@ -268,8 +269,9 @@ describe('UnifiedSearchModal controller wiring', () => {
 		// list and settle instantly into "no results". It must be withheld instead...
 		wrapper.vm.find('hello')
 		expect(searchSpy).not.toHaveBeenCalled()
-		// ...and the empty state reads as searching, not "no results".
-		expect(wrapper.vm.emptyContentMessage).toContain('Searching')
+		// ...and it reads as busy (input spinner), with no in-modal loading text.
+		expect(wrapper.vm.isBusy).toBe(true)
+		expect(wrapper.vm.showEmptyContentInfo).toBe(false)
 
 		// Once initialized, the same query dispatches normally.
 		wrapper.vm.initialized = true
@@ -295,6 +297,26 @@ describe('UnifiedSearchModal reset on close', () => {
 
 		expect(resetSpy).toHaveBeenCalledOnce()
 		expect(wrapper.vm.results).toEqual([])
+	})
+
+	it('stops reporting busy and cancels the pending search when it closes with the query kept', async () => {
+		const wrapper = factory() // starts open
+		wrapper.vm.providers = [{ id: 'files', name: 'Files', order: 0 }]
+		wrapper.vm.initialized = true
+		// Typing schedules the debounced search; pendingSearch reports busy across the gap.
+		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
+		expect(wrapper.vm.isBusy).toBe(true)
+
+		// The pending debounce must be cancelled on close so it can't dispatch for a shut modal.
+		const cancelPending = vi.spyOn(wrapper.vm.debouncedFind, 'clear')
+
+		// searchLocally-style close: keep the query, just shut the popover.
+		await wrapper.setProps({ open: false })
+
+		expect(cancelPending).toHaveBeenCalled()
+		// A closed modal must not report busy, or the always-mounted header input keeps spinning.
+		expect(wrapper.vm.isBusy).toBe(false)
 	})
 })
 
@@ -427,10 +449,11 @@ describe('UnifiedSearchModal keyboard selection', () => {
 		expect(wrapper.vm.activeDescendantId).toBeNull()
 	})
 
-	it('auto-selects the first result once results arrive', async () => {
+	it('auto-selects the first result', async () => {
 		const wrapper = factory()
 		await withRows(wrapper, [{ resourceUrl: '/a' }, { resourceUrl: '/b' }])
 
+		// The first row is selected as soon as results arrive (keyboard users act immediately).
 		expect(wrapper.vm.activeIndex).toBe(0)
 		expect(wrapper.vm.activeDescendantId).toBe('unified-search-result-files-0')
 	})
@@ -439,13 +462,14 @@ describe('UnifiedSearchModal keyboard selection', () => {
 		const wrapper = factory()
 		await withRows(wrapper, [{ resourceUrl: '/a' }, { resourceUrl: '/b' }])
 
-		wrapper.vm.moveActive('next')
+		expect(wrapper.vm.activeIndex).toBe(0) // first row auto-selected
+		wrapper.vm.moveActive('next') // 0 → 1
 		expect(wrapper.vm.activeIndex).toBe(1)
-		wrapper.vm.moveActive('next')
+		wrapper.vm.moveActive('next') // clamp at the last row
 		expect(wrapper.vm.activeIndex).toBe(1)
-		wrapper.vm.moveActive('prev')
+		wrapper.vm.moveActive('prev') // 1 → 0
 		expect(wrapper.vm.activeIndex).toBe(0)
-		wrapper.vm.moveActive('prev')
+		wrapper.vm.moveActive('prev') // clamp at the first row
 		expect(wrapper.vm.activeIndex).toBe(0)
 	})
 
@@ -472,8 +496,8 @@ describe('UnifiedSearchModal keyboard selection', () => {
 		wrapper.vm.searchQuery = 'query'
 		await wrapper.vm.$nextTick()
 
-		wrapper.vm.moveActive('next')
-		// Second row lives in the next provider group.
+		// From the auto-selected first row (files-0), the next move crosses into the next group.
+		wrapper.vm.moveActive('next') // 0 (files-0) → 1 (talk-0)
 		expect(wrapper.vm.activeDescendantId).toBe('unified-search-result-talk-0')
 	})
 
@@ -482,13 +506,24 @@ describe('UnifiedSearchModal keyboard selection', () => {
 		await withRows(wrapper, [{ resourceUrl: '/a' }, { resourceUrl: '/b' }])
 		const open = vi.spyOn(wrapper.vm, 'openResourceUrl').mockImplementation(() => {})
 
-		wrapper.vm.moveActive('next')
+		wrapper.vm.moveActive('next') // 0 (/a) → 1 (/b)
 		wrapper.vm.activateActive()
 
 		expect(open).toHaveBeenCalledWith('/b')
 	})
 
-	it('does nothing on activate when there is no active row', () => {
+	it('opens the first result on activate when nothing has been navigated to', async () => {
+		const wrapper = factory()
+		await withRows(wrapper, [{ resourceUrl: '/a' }, { resourceUrl: '/b' }])
+		const open = vi.spyOn(wrapper.vm, 'openResourceUrl').mockImplementation(() => {})
+
+		// The first row is auto-selected, so Enter opens the top hit without any navigation.
+		wrapper.vm.activateActive()
+
+		expect(open).toHaveBeenCalledWith('/a')
+	})
+
+	it('does nothing on activate when there are no results', () => {
 		const wrapper = factory()
 		const open = vi.spyOn(wrapper.vm, 'openResourceUrl').mockImplementation(() => {})
 
@@ -500,6 +535,8 @@ describe('UnifiedSearchModal keyboard selection', () => {
 	it('emits the active descendant id upward for the input to reference', async () => {
 		const wrapper = factory()
 		await withRows(wrapper, [{ resourceUrl: '/a' }])
+		wrapper.vm.moveActive('next')
+		await wrapper.vm.$nextTick()
 
 		expect(wrapper.emitted('update:activeDescendant')?.at(-1)).toEqual(['unified-search-result-files-0'])
 	})
@@ -513,7 +550,7 @@ describe('UnifiedSearchModal keyboard selection', () => {
 		searchStates.value = { files: loaded([{ resourceUrl: '/a' }, { resourceUrl: '/b' }]) }
 		wrapper.vm.searchQuery = 'query'
 		await wrapper.vm.$nextTick()
-		wrapper.vm.moveActive('next')
+		wrapper.vm.moveActive('next') // 0 → 1
 		expect(wrapper.vm.activeDescendantId).toBe('unified-search-result-files-1')
 
 		// A lower-priority group arrives below; the selected row keeps its identity.
@@ -548,7 +585,8 @@ describe('UnifiedSearchModal keyboard selection', () => {
 		secondRow.scrollIntoView = vi.fn()
 		document.body.appendChild(secondRow)
 
-		wrapper.vm.moveActive('next')
+		wrapper.vm.moveActive('next') // -1 → 0
+		wrapper.vm.moveActive('next') // 0 → 1 (below the fold)
 		await wrapper.vm.$nextTick()
 
 		expect(secondRow.scrollIntoView).toHaveBeenCalled()
@@ -559,6 +597,7 @@ describe('UnifiedSearchModal keyboard selection', () => {
 		const wrapper = factory()
 		await withRows(wrapper, [{ resourceUrl: '/a' }, { resourceUrl: '/b' }])
 
+		// The first row is highlighted on its own (auto-selected).
 		expect(wrapper.findAll('[role=listbox]')).toHaveLength(1)
 		const rows = wrapper.findAllComponents({ name: 'SearchResult' })
 		expect(rows.at(0).props('elementId')).toBe('unified-search-result-files-0')
@@ -747,5 +786,336 @@ describe('UnifiedSearchModal People filter', () => {
 		await wrapper.vm.$nextTick()
 
 		expect(wrapper.vm.filters.some((f: { type: string }) => f.type === 'person')).toBe(true)
+	})
+})
+
+describe('UnifiedSearchModal result presentation', () => {
+	/**
+	 * Seed one category with the given rows and settle.
+	 */
+	async function withGroup(wrapper: ReturnType<typeof factory>, id: string, entries: unknown[], hasMore = false) {
+		wrapper.vm.providers = [{ id, name: 'Files', order: 0 }]
+		wrapper.vm.initialized = true
+		searchStates.value = { [id]: loaded(entries, hasMore) }
+		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
+	}
+
+	const rows = (n: number) => Array.from({ length: n }, (_, i) => ({ resourceUrl: `/r${i}` }))
+
+	// The overflow heading is the only NcButton carrying the group's heading id, so we
+	// find the "More from" control by that rather than a style class.
+	const moreFromButton = (wrapper: ReturnType<typeof factory>) => wrapper.findAllComponents({ name: 'NcButton' }).wrappers
+		.find((w) => w.attributes('id') === 'unified-search-result-files')
+
+	const buttonWithText = (wrapper: ReturnType<typeof factory>, text: string) => wrapper.findAllComponents({ name: 'NcButton' }).wrappers
+		.find((w) => w.text().includes(text))
+
+	// Find the back control by its ariaLabel ("Back to all results").
+	const backButton = (wrapper: ReturnType<typeof factory>) => wrapper.findAllComponents({ name: 'NcButton' }).wrappers
+		.find((w) => w.props('ariaLabel') === 'Back to all results')
+
+	it('caps a category at three rows in the aggregate view, and navigableRows follows', async () => {
+		const wrapper = factory()
+		await withGroup(wrapper, 'files', rows(5))
+
+		expect(wrapper.findAllComponents({ name: 'SearchResult' })).toHaveLength(3)
+		expect(wrapper.vm.navigableRows).toHaveLength(3)
+	})
+
+	it('flags overflow purely on the fetched count, not on the pagination cursor', async () => {
+		const wrapper = factory()
+
+		// More than the cap fetched: "More from" button.
+		await withGroup(wrapper, 'files', rows(4))
+		expect(wrapper.vm.renderedGroups[0].overflow).toBe(true)
+		expect(moreFromButton(wrapper)).toBeTruthy()
+
+		// At the cap but the provider still advertises a cursor (some do past their last page).
+		// The button must NOT show: opening the detail view would be a dead end.
+		await withGroup(wrapper, 'files', rows(2), true)
+		expect(wrapper.vm.renderedGroups[0].overflow).toBe(false)
+		expect(moreFromButton(wrapper)).toBeUndefined()
+
+		// Exactly the cap and nothing more: plain title, no "More from".
+		await withGroup(wrapper, 'files', rows(3), false)
+		expect(wrapper.vm.renderedGroups[0].overflow).toBe(false)
+		expect(moreFromButton(wrapper)).toBeUndefined()
+	})
+
+	it('opens the uncapped detail view from "More from" and back returns to the capped list', async () => {
+		const wrapper = factory()
+		await withGroup(wrapper, 'files', rows(5))
+
+		moreFromButton(wrapper)!.vm.$emit('click')
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.vm.detailCategory).toBe('files')
+		// Uncapped in detail, and navigableRows matches the rendered rows (lockstep).
+		expect(wrapper.findAllComponents({ name: 'SearchResult' })).toHaveLength(5)
+		expect(wrapper.vm.navigableRows).toHaveLength(5)
+		expect(wrapper.vm.liveMessage).toContain('Showing')
+
+		backButton(wrapper)!.vm.$emit('click')
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.vm.detailCategory).toBeNull()
+		expect(wrapper.findAllComponents({ name: 'SearchResult' })).toHaveLength(3)
+		expect(wrapper.vm.navigableRows).toHaveLength(3)
+	})
+
+	it('scrolls the results back to the top when returning from the detail view', async () => {
+		const wrapper = factory()
+		await withGroup(wrapper, 'files', rows(5))
+		wrapper.vm.openDetailView({ id: 'files' })
+		await wrapper.vm.$nextTick()
+
+		// jsdom has no layout, so stand in for the scroll container and capture writes.
+		const scrollWrites: number[] = []
+		Object.defineProperty(wrapper.vm.$refs.resultsContainer, 'scrollTop', {
+			configurable: true,
+			get: () => 400,
+			set: (value) => scrollWrites.push(value),
+		})
+
+		wrapper.vm.closeDetailView()
+		await wrapper.vm.$nextTick()
+		await wrapper.vm.$nextTick()
+
+		expect(scrollWrites).toContain(0)
+	})
+
+	it('drops the filter row and titles the detail view with the category name', async () => {
+		const wrapper = factory()
+		await withGroup(wrapper, 'files', rows(5))
+
+		moreFromButton(wrapper)!.vm.$emit('click')
+		await wrapper.vm.$nextTick()
+
+		// Filters are hidden while viewing one category's full results.
+		expect(wrapper.vm.showFilterRow).toBe(false)
+		// The category name titles the detail view (shown once, in the header).
+		const title = wrapper.find('.unified-search-modal__detail-title')
+		expect(title.exists()).toBe(true)
+		expect(title.text()).toBe('Files')
+	})
+
+	it('pages the detail view through the controller loadMore', async () => {
+		const wrapper = factory()
+		// Over the cap so the aggregate shows "More from", and still paginating so the
+		// detail view offers "Load more results".
+		await withGroup(wrapper, 'files', rows(5), true)
+
+		moreFromButton(wrapper)!.vm.$emit('click')
+		await wrapper.vm.$nextTick()
+
+		buttonWithText(wrapper, 'Load more results')!.vm.$emit('click')
+		expect(loadMoreSpy).toHaveBeenCalledWith('files')
+	})
+
+	it('keeps the selected-row highlight working in the detail view', async () => {
+		const wrapper = factory()
+		await withGroup(wrapper, 'files', rows(5))
+		moreFromButton(wrapper)!.vm.$emit('click')
+		await wrapper.vm.$nextTick()
+
+		// The first row is auto-selected; arrow keys drive the highlight in the detail view too.
+		wrapper.vm.moveActive('next') // 0 → 1
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.vm.activeDescendantId).toBe('unified-search-result-files-1')
+		const second = wrapper.findAllComponents({ name: 'SearchResult' }).at(1)
+		expect(second.props('active')).toBe(true)
+	})
+
+	it('leaves the detail view on a query change, a filter change, or a services toggle', async () => {
+		const wrapper = factory()
+
+		await withGroup(wrapper, 'files', rows(4))
+		wrapper.vm.openDetailView({ id: 'files' })
+		await wrapper.vm.$nextTick()
+		wrapper.vm.searchQuery = 'other'
+		await wrapper.vm.$nextTick()
+		expect(wrapper.vm.detailCategory).toBeNull()
+
+		await withGroup(wrapper, 'files', rows(4))
+		wrapper.vm.openDetailView({ id: 'files' })
+		await wrapper.vm.$nextTick()
+		wrapper.vm.filters = [{ id: 'date', type: 'date', text: 'Today' }]
+		await wrapper.vm.$nextTick()
+		expect(wrapper.vm.detailCategory).toBeNull()
+
+		await withGroup(wrapper, 'files', rows(4))
+		wrapper.vm.openDetailView({ id: 'files' })
+		await wrapper.vm.$nextTick()
+		wrapper.vm.toggleExternalResources()
+		await wrapper.vm.$nextTick()
+		expect(wrapper.vm.detailCategory).toBeNull()
+	})
+
+	it('leaves the detail view if the open category drops out of the results', async () => {
+		const wrapper = factory()
+		await withGroup(wrapper, 'files', rows(4))
+		wrapper.vm.openDetailView({ id: 'files' })
+		await wrapper.vm.$nextTick()
+		expect(wrapper.vm.detailCategory).toBe('files')
+
+		searchStates.value = {}
+		await wrapper.vm.$nextTick()
+		expect(wrapper.vm.detailCategory).toBeNull()
+	})
+
+	it('labels the connected-services button by the toggle state and re-runs find on toggle', async () => {
+		const wrapper = factory()
+		wrapper.vm.providers = [
+			{ id: 'files', name: 'Files', order: 0 },
+			{ id: 'ext', name: 'External', order: 1, isExternalProvider: true },
+		]
+		wrapper.vm.initialized = true
+		searchStates.value = { files: loaded([{ resourceUrl: '/a' }]) }
+		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
+		// Settle the debounced search so the button's !isBusy gate opens (pendingSearch clears).
+		wrapper.vm.find('query')
+		await wrapper.vm.$nextTick()
+
+		expect(buttonWithText(wrapper, 'More from connected services')).toBeTruthy()
+
+		wrapper.vm.toggleExternalResources()
+		await wrapper.vm.$nextTick()
+
+		expect(searchSpy).toHaveBeenCalled()
+		expect(buttonWithText(wrapper, 'Less from connected services')).toBeTruthy()
+	})
+
+	it('returns focus to the search input after toggling connected services', async () => {
+		const wrapper = factory()
+		wrapper.vm.providers = [
+			{ id: 'files', name: 'Files', order: 0 },
+			{ id: 'ext', name: 'External', order: 1, isExternalProvider: true },
+		]
+		wrapper.vm.initialized = true
+		searchStates.value = { files: loaded([{ resourceUrl: '/a' }]) }
+		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
+		wrapper.vm.find('query')
+		await wrapper.vm.$nextTick()
+
+		// The toggle re-runs the search, which unmounts the button that held focus. In
+		// shallowMount focusSearchInput can't move real DOM focus, so assert the modal
+		// re-homes focus onto the input (the same recovery the detail-view controls use).
+		const focusSpy = vi.spyOn(wrapper.vm, 'focusSearchInput')
+		wrapper.vm.toggleExternalResources()
+		await wrapper.vm.$nextTick()
+
+		expect(focusSpy).toHaveBeenCalled()
+	})
+
+	it('offers the connected-services opt-in even when a query returns no results', async () => {
+		const wrapper = factory()
+		wrapper.vm.providers = [{ id: 'ext', name: 'External', order: 0, isExternalProvider: true }]
+		wrapper.vm.initialized = true
+		searchStates.value = {}
+		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
+		// Dispatch the debounced search; it settles with no results, when the empty state should show.
+		wrapper.vm.find('query')
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.vm.showEmptyContentInfo).toBe(true)
+		expect(buttonWithText(wrapper, 'connected services')).toBeTruthy()
+	})
+
+	it('no longer renders the connected-services switch in the filter row', async () => {
+		const wrapper = factory()
+		wrapper.vm.providers = [{ id: 'ext', name: 'External', order: 0, isExternalProvider: true }]
+		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.findComponent({ name: 'NcCheckboxRadioSwitch' }).exists()).toBe(false)
+	})
+})
+
+describe('UnifiedSearchModal loading state', () => {
+	const loadingState = { status: 'loading', entries: [], cursor: null, hasMore: false, loadMoreFailed: false }
+
+	it('is busy while a category loads, with no in-modal loading text, and settles when done', async () => {
+		const wrapper = factory()
+		wrapper.vm.providers = [{ id: 'files', name: 'Files', order: 0 }]
+		wrapper.vm.initialized = true
+		searchStates.value = { files: loadingState }
+		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
+		// The debounce fires and dispatches the real search, clearing the pending flag; from
+		// here the controller's loading state alone drives busy.
+		wrapper.vm.find('query')
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.vm.isBusy).toBe(true)
+		// The empty-content block stays hidden while busy.
+		expect(wrapper.vm.showEmptyContentInfo).toBe(false)
+
+		searchStates.value = { files: loaded([{ resourceUrl: '/a' }]) }
+		await wrapper.vm.$nextTick()
+		expect(wrapper.vm.isBusy).toBe(false)
+	})
+
+	it('stays busy through the debounce window so it does not flash the empty state', async () => {
+		const wrapper = factory()
+		wrapper.vm.providers = [{ id: 'files', name: 'Files', order: 0 }]
+		wrapper.vm.initialized = true
+		// A fresh query, but the debounced find() (and thus the loading state) has not run yet.
+		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.vm.pendingSearch).toBe(true)
+		expect(wrapper.vm.isBusy).toBe(true)
+		expect(wrapper.vm.showEmptyContentInfo).toBe(false)
+
+		// When the search actually dispatches, the pending window ends and searching takes over.
+		wrapper.vm.find('query')
+		expect(wrapper.vm.pendingSearch).toBe(false)
+	})
+
+	it('is not busy for an empty or too-short query even if a stale request is loading', async () => {
+		const wrapper = factory()
+		wrapper.vm.providers = [{ id: 'files', name: 'Files', order: 0 }]
+		wrapper.vm.initialized = true
+		wrapper.vm.minSearchLength = 3
+		searchStates.value = { files: loadingState }
+		wrapper.vm.searchQuery = 'ab'
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.vm.isBusy).toBe(false)
+	})
+
+	it('emits update:loading as the busy state changes', async () => {
+		const wrapper = factory()
+		wrapper.vm.providers = [{ id: 'files', name: 'Files', order: 0 }]
+		wrapper.vm.initialized = true
+		searchStates.value = { files: loadingState }
+		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
+		// The debounce fires and dispatches; the pending flag clears and the loading category
+		// alone keeps it busy.
+		wrapper.vm.find('query')
+		await wrapper.vm.$nextTick()
+		expect(wrapper.emitted('update:loading')?.at(-1)).toEqual([true])
+
+		searchStates.value = { files: loaded([{ resourceUrl: '/a' }]) }
+		await wrapper.vm.$nextTick()
+		expect(wrapper.emitted('update:loading')?.at(-1)).toEqual([false])
+	})
+
+	it('shows a spinner in the mobile input while busy', async () => {
+		mobile.value = true
+		const wrapper = factory()
+		wrapper.vm.providers = [{ id: 'files', name: 'Files', order: 0 }]
+		wrapper.vm.initialized = true
+		searchStates.value = { files: loadingState }
+		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.findComponent({ name: 'NcLoadingIcon' }).exists()).toBe(true)
 	})
 })

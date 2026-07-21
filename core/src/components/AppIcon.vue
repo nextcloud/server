@@ -19,7 +19,7 @@
 
 <script setup lang="ts">
 withDefaults(defineProps<{
-	/** URL of the app icon. Painted bright on the coloured circle, like the app menu. */
+	/** URL of the app icon (painted bright on the coloured circle). */
 	icon: string
 	/** Render the circle as an outline only (no fill or gradient). */
 	outlined?: boolean
@@ -55,13 +55,11 @@ withDefaults(defineProps<{
 	&__img {
 		width: var(--app-icon-icon-size);
 		height: var(--app-icon-icon-size);
-		// App icons are bright by default; flip them to dark when the
-		// primary color (circle background) is bright (e.g. white in dark mode).
+		// App icons are bright; flip to dark when the circle background is bright (e.g. white in dark mode).
 		filter: var(--primary-invert-if-bright);
 		mask: var(--header-menu-icon-mask);
 	}
 
-	// Outlined variant: no fill or gradient.
 	&--outlined {
 		background: transparent;
 		background-image: none;
