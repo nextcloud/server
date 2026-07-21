@@ -70,7 +70,7 @@ class SMB extends Backend {
 
 			$smbAuth = new BasicAuth(
 				$storage->getBackendOption('user'),
-				$storage->getBackendOption('domain'),
+				$storage->getBackendOption('domain') ?: null,
 				$storage->getBackendOption('password')
 			);
 		} else {

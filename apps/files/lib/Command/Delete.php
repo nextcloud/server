@@ -10,6 +10,7 @@ namespace OCA\Files\Command;
 
 use OC\Core\Command\Info\FileUtils;
 use OCA\Files_Sharing\SharedStorage;
+use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCP\Files\Folder;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
@@ -21,7 +22,8 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class Delete extends Command {
 	public function __construct(
-		private FileUtils $fileUtils,
+		private readonly FileUtils $fileUtils,
+		private readonly ?ITrashManager $trashManager = null,
 	) {
 		parent::__construct();
 	}
@@ -32,7 +34,8 @@ class Delete extends Command {
 			->setName('files:delete')
 			->setDescription('Delete a file or folder')
 			->addArgument('file', InputArgument::REQUIRED, 'File id or path')
-			->addOption('force', 'f', InputOption::VALUE_NONE, "Don't ask for configuration and don't output any warnings");
+			->addOption('force', 'f', InputOption::VALUE_NONE, "Don't ask for configuration and don't output any warnings")
+			->addOption('skip-trash', null, InputOption::VALUE_NONE, 'Bypass the trashbin when deleting the file or folder');
 	}
 
 	#[\Override]
@@ -40,6 +43,7 @@ class Delete extends Command {
 		$fileInput = $input->getArgument('file');
 		$inputIsId = is_numeric($fileInput);
 		$force = $input->getOption('force');
+		$skipTrash = $input->getOption('skip-trash');
 		$node = $this->fileUtils->getNode($fileInput);
 
 		if (!$node) {
@@ -90,6 +94,10 @@ class Delete extends Command {
 
 		if ($deleteConfirmed) {
 			if ($node->isDeletable()) {
+				if ($skipTrash && $this->trashManager) {
+					$this->trashManager->pauseTrash();
+				}
+
 				$node->delete();
 			} else {
 				$output->writeln('<error>File cannot be deleted, insufficient permissions.</error>');

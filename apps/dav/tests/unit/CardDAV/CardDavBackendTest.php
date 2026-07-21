@@ -18,6 +18,7 @@ use OCA\DAV\CardDAV\Sharing\Service;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCA\DAV\DAV\RemoteUserPrincipalBackend;
 use OCA\DAV\DAV\Sharing\SharingMapper;
+use OCA\DAV\Exception\UidConflict;
 use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -378,6 +379,28 @@ class CardDavBackendTest extends TestCase {
 		$this->backend->createCard($bookId1, $uri1, $this->vcardTest0);
 	}
 
+	public function testMoveCardToCollectionWithSameUID(): void {
+		$this->backend = $this->getMockBuilder(CardDavBackend::class)
+			->setConstructorArgs([$this->db, $this->principal, $this->userManager, $this->dispatcher, $this->sharingBackend, $this->config])
+			->onlyMethods(['updateProperties'])
+			->getMock();
+
+		$this->backend->createAddressBook(self::UNIT_TEST_USER, 'Source', []);
+		$this->backend->createAddressBook(self::UNIT_TEST_USER, 'Target', []);
+		$books = $this->backend->getAddressBooksForUser(self::UNIT_TEST_USER);
+		$sourceBookId = (int)$books[0]['id'];
+		$targetBookId = (int)$books[1]['id'];
+
+		// Same UID in two different collections is allowed; moving the source
+		// into the target must then be rejected with the no-uid-conflict error.
+		$this->backend->createCard($sourceBookId, 'source.vcf', $this->vcardTest0);
+		$this->backend->createCard($targetBookId, 'target.vcf', $this->vcardTest0);
+
+		$this->expectException(UidConflict::class);
+		$this->expectExceptionMessage('VCard object with uid already exists in this addressbook collection.');
+		$this->backend->moveCard($sourceBookId, 'source.vcf', $targetBookId, 'moved.vcf');
+	}
+
 	public function testMultipleUIDDenied(): void {
 		$this->backend = $this->getMockBuilder(CardDavBackend::class)
 			->setConstructorArgs([$this->db, $this->principal, $this->userManager, $this->dispatcher, $this->sharingBackend, $this->config])
@@ -396,7 +419,8 @@ class CardDavBackendTest extends TestCase {
 
 		// create another card with same uid
 		$uri1 = $this->getUniqueID('card');
-		$this->expectException(BadRequest::class);
+		$this->expectException(UidConflict::class);
+		$this->expectExceptionMessage('VCard object with uid already exists in this addressbook collection.');
 		$test = $this->backend->createCard($bookId, $uri1, $this->vcardTest0);
 	}
 

@@ -1,7 +1,7 @@
 { "translations": {
-    "Webhooks" : "Webhooks",
-    "Nextcloud Webhook Support" : "Nextcloud Webhooks-stöd",
+    "Webhooks" : "Webhookar",
+    "Nextcloud Webhook Support" : "Stöd för webhookar i Nextcloud",
     "Send notifications to external services whenever something important happens, like when files are changed or updated." : "Skicka aviseringar till externa tjänster när något viktigt händer, till exempel när filer ändras eller uppdateras.",
-    "Nextcloud webhook support" : "Nextcloud webhook-stöd"
+    "Nextcloud webhook support" : "Stöd för webhookar i Nextcloud"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

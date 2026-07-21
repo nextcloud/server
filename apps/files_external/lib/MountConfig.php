@@ -8,7 +8,6 @@
 
 namespace OCA\Files_External;
 
-use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\EncryptionService;
 use OCP\Server;

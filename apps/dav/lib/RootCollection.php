@@ -53,7 +53,7 @@ use Sabre\DAV\SimpleCollection;
 
 class RootCollection extends SimpleCollection {
 	public function __construct() {
-		$l10n = \OC::$server->getL10N('dav');
+		$l10n = Server::get(IFactory::class)->get('dav');
 		$random = Server::get(ISecureRandom::class);
 		$logger = Server::get(LoggerInterface::class);
 		$userManager = Server::get(IUserManager::class);

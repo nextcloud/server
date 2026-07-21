@@ -65,9 +65,7 @@ OC.L10N.register(
     "Delete" : "Ezabatu",
     "Reset" : "Berrezarri",
     "Loading …" : "Kargatzen …",
-    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} ezarriko zaio eta {tag2} kenduko zaio fitxategi bati.","{tag1} ezarriko zaie eta {tag2} kenduko zaie {count} fitxategitik."],
     "_{tag} will be set to 1 file._::_{tag} will be set to {count} files._" : ["{tag} ezarriko zaio fitxategi bati.","{tag} ezarriko zaie {count} fitxategiri."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} kenduko zaio fitxategi bati.","{tag} kenduko zaie {count} fitxategiri."],
     "_{tags} and {lastTag} will be set to 1 file._::_{tags} and {lastTag} will be set to {count} files._" : ["{tags} eta {lastTag} ezarriko zaizkio fitxategi bati.","{tags} eta {lastTag} ezarriko zaizkie {count} fitxategiri."],
     "_{tags} and {lastTag} will be removed from 1 file._::_{tags} and {lastTag} will be removed from {count} files._" : ["{tags} eta {lastTag} kenduko zaizkio fitxategi bati..","{tags} eta {lastTag} zenduko zaizkie {count} fitxategiri."],
     "{displayName} (hidden)" : "{displayName} (ezkutua)",
@@ -112,6 +110,8 @@ OC.L10N.register(
     "Failed to delete tag for file" : "Fitxategiaren etiketa ezabatzeak huts egin du",
     "Collaborative tags …" : "Elkarlaneko etiketak ...",
     "Loading …" : "Kargatzen ...",
+    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} ezarriko zaio eta {tag2} kenduko zaio fitxategi bati.","{tag1} ezarriko zaie eta {tag2} kenduko zaie {count} fitxategitik."],
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} kenduko zaio fitxategi bati.","{tag} kenduko zaie {count} fitxategiri."],
     "Loading collaborative tags …" : "Elkarlaneko etiketak kargatzen ..."
 },
 "nplurals=2; plural=(n != 1);");

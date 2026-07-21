@@ -11,6 +11,7 @@ namespace OC;
 use OC\Repair\AddBruteForceCleanupJob;
 use OC\Repair\AddCleanupBackgroundJobsJob;
 use OC\Repair\AddCleanupDeletedUsersBackgroundJob;
+use OC\Repair\AddCleanupLoginTokens;
 use OC\Repair\AddCleanupUpdaterBackupsJob;
 use OC\Repair\AddMetadataGenerationJob;
 use OC\Repair\AddMovePreviewJob;
@@ -58,6 +59,7 @@ use OC\Repair\RepairDavShares;
 use OC\Repair\RepairInvalidShares;
 use OC\Repair\RepairLogoDimension;
 use OC\Repair\RepairMimeTypes;
+use OC\Repair\RepairSanitizeSystemTags;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -193,6 +195,7 @@ class Repair implements IOutput {
 			Server::get(RepairLogoDimension::class),
 			Server::get(RemoveLegacyDatadirFile::class),
 			Server::get(AddCleanupDeletedUsersBackgroundJob::class),
+			Server::get(AddCleanupLoginTokens::class),
 			Server::get(SanitizeAccountProperties::class),
 			Server::get(AddMovePreviewJob::class),
 			Server::get(ConfigKeyMigration::class),
@@ -204,6 +207,7 @@ class Repair implements IOutput {
 				Server::get(OldGroupMembershipShares::class),
 				Server::get(RemoveBrokenProperties::class),
 				Server::get(RepairMimeTypes::class),
+				Server::get(RepairSanitizeSystemTags::class),
 			];
 			$repairSteps = array_merge($repairSteps, $expensiveSteps);
 		}

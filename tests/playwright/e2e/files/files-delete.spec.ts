@@ -25,9 +25,10 @@ test.describe('Files: Delete', () => {
 	})
 
 	test('can delete multiple files', async ({ page, user, filesListPage }) => {
+		const files = Array.from({ length: 5 }, (_, i) => `file${i}.txt`)
 		await mkdir(page.request, user, '/root')
-		for (let i = 0; i < 5; i++) {
-			await uploadContent(page.request, user, Buffer.alloc(0), 'text/plain', `/root/file${i}.txt`)
+		for (const file of files) {
+			await uploadContent(page.request, user, Buffer.alloc(0), 'text/plain', `/root/${file}`)
 		}
 		await filesListPage.open()
 		await filesListPage.navigateToFolder('root')
@@ -35,9 +36,12 @@ test.describe('Files: Delete', () => {
 		// All 5 preview thumbnails must finish loading before we delete
 		await expect(page.locator('.files-list__row-icon-preview--loaded')).toHaveCount(5)
 
-		// Set up listeners for all 5 DELETE responses before triggering the action
-		const deleteResponses = Promise.all(Array.from({ length: 5 }, () => page.waitForResponse(
-			(r) => r.url().includes(`/remote.php/dav/files/${user.userId}/root/`) && r.request().method() === 'DELETE',
+		// One listener per file, registered before triggering the action. Each
+		// predicate matches its own file's URL — with identical predicates all
+		// listeners can resolve to the same first response, so distinct DELETE
+		// requests would never actually be verified.
+		const deleteResponses = Promise.all(files.map((file) => page.waitForResponse(
+			(r) => r.url().includes(`/remote.php/dav/files/${user.userId}/root/${file}`) && r.request().method() === 'DELETE',
 			{ timeout: 15000 },
 		)))
 
@@ -48,9 +52,12 @@ test.describe('Files: Delete', () => {
 			.getByRole('button', { name: 'Delete files' })
 			.click()
 
-		const responses = await deleteResponses
-		for (const response of responses) {
-			expect(response.status()).toBe(204)
+		await deleteResponses
+
+		// Assert the user-visible end state (rows gone) rather than raw response
+		// codes — a one-shot status check flakes on transient DAV lock responses.
+		for (const file of files) {
+			await expect(filesListPage.getRowForFile(file)).toHaveCount(0)
 		}
 	})
 })

@@ -64,7 +64,6 @@ final readonly class JobRuns implements IJobRuns {
 
 	public function deleteBefore(int $timestamp): int {
 		$beforeSnowflake = $this->snowflakeGenerator->minForTimeId($timestamp);
-		$beforeSnowflake = '91480652934574081';
 		$qb = $this->connection->getQueryBuilder();
 		$result = $qb
 			->delete(self::TABLE)

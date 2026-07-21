@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace OCA\Theming\Service;
 
 use InvalidArgumentException;
-use OC\User\NoUserException;
 use OCA\Theming\AppInfo\Application;
 use OCP\Files\File;
 use OCP\Files\IAppData;
@@ -24,6 +23,7 @@ use OCP\IConfig;
 use OCP\Image;
 use OCP\Lock\LockedException;
 use OCP\PreConditionNotMetException;
+use OCP\User\Exceptions\UserNotFoundException;
 use RuntimeException;
 
 class BackgroundService {
@@ -226,12 +226,11 @@ class BackgroundService {
 	}
 
 	/**
-	 * @param $path
 	 * @throws NotFoundException
 	 * @throws NotPermittedException
 	 * @throws LockedException
 	 * @throws PreConditionNotMetException
-	 * @throws NoUserException
+	 * @throws UserNotFoundException
 	 */
 	public function setFileBackground(string $path, ?string $userId = null): void {
 		$userId = $userId ?? $this->getUserId();

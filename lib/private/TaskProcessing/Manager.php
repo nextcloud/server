@@ -16,6 +16,7 @@ use OC\Files\SimpleFS\SimpleFile;
 use OC\TaskProcessing\Db\TaskMapper;
 use OCA\AppAPI\PublicFunctions;
 use OCA\Guests\UserBackend;
+use OCA\NotifyPush\Queue\IQueue;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
@@ -87,6 +88,7 @@ use OCP\TaskProcessing\TaskTypes\TextToTextChat;
 use OCP\TaskProcessing\TaskTypes\TextToTextChatWithTools;
 use OCP\TaskProcessing\TaskTypes\TextToTextFormalization;
 use OCP\TaskProcessing\TaskTypes\TextToTextHeadline;
+use OCP\TaskProcessing\TaskTypes\TextToTextImprove;
 use OCP\TaskProcessing\TaskTypes\TextToTextProofread;
 use OCP\TaskProcessing\TaskTypes\TextToTextReformatParagraphs;
 use OCP\TaskProcessing\TaskTypes\TextToTextReformulation;
@@ -687,6 +689,7 @@ class Manager implements IManager {
 			TextToTextChat::ID => Server::get(TextToTextChat::class),
 			TextToTextTranslate::ID => Server::get(TextToTextTranslate::class),
 			TextToTextReformulation::ID => Server::get(TextToTextReformulation::class),
+			TextToTextImprove::ID => Server::get(TextToTextImprove::class),
 			TextToImage::ID => Server::get(TextToImage::class),
 			AudioToText::ID => Server::get(AudioToText::class),
 			AudioToTextSubtitles::ID => Server::get(AudioToTextSubtitles::class),
@@ -1197,7 +1200,7 @@ class Manager implements IManager {
 		) {
 			try {
 				/** @psalm-suppress UndefinedClass */
-				$queue = Server::get(\OCA\NotifyPush\Queue\IQueue::class);
+				$queue = Server::get(IQueue::class);
 				/** @psalm-suppress UndefinedClass */
 				$queue->push('notify_custom', [
 					'user' => $userId,
@@ -1304,7 +1307,7 @@ class Manager implements IManager {
 		) {
 			try {
 				/** @psalm-suppress UndefinedClass */
-				$queue = Server::get(\OCA\NotifyPush\Queue\IQueue::class);
+				$queue = Server::get(IQueue::class);
 				/** @psalm-suppress UndefinedClass */
 				$queue->push('notify_custom', [
 					'user' => $userId,
@@ -1605,7 +1608,7 @@ class Manager implements IManager {
 				$file = $folder->newFile(time() . '-' . rand(1, 100000), $output[$key]);
 				$newOutput[$key] = $file->getId(); // polymorphic call to SimpleFile
 			} else {
-				$newOutput = [];
+				$newOutput[$key] = [];
 				foreach ($output[$key] as $item) {
 					/** @var SimpleFile $file */
 					$file = $folder->newFile(time() . '-' . rand(1, 100000), $item);

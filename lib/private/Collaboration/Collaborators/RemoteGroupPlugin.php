@@ -12,7 +12,6 @@ use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudIdManager;
-use OCP\Share;
 use OCP\Share\IShare;
 
 class RemoteGroupPlugin implements ISearchPlugin {

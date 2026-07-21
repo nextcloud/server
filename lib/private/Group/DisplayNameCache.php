@@ -57,6 +57,45 @@ class DisplayNameCache implements IEventListener {
 		return $displayName;
 	}
 
+	/**
+	 * @param list<string> $groupIds
+	 * @return array<string, ?string>
+	 */
+	public function getDisplayNames(array $groupIds): array {
+		$result = [];
+		$missing = [];
+		foreach ($groupIds as $groupId) {
+			if (isset($this->cache[$groupId])) {
+				$result[$groupId] = $this->cache[$groupId];
+			} else {
+				$displayName = $this->memCache->get($groupId);
+				if ($displayName) {
+					$this->cache[$groupId] = $displayName;
+					$result[$groupId] = $displayName;
+				} else {
+					$missing[] = $groupId;
+				}
+			}
+		}
+
+		/** @var Manager $groupManager */
+		$groupManager = $this->groupManager;
+		$groups = $groupManager->getGroupsObjects($missing);
+		$stillMissingGroups = array_diff($missing, array_keys($groups));
+		foreach ($groups as $groupId => $group) {
+			$displayName = $group->getDisplayName();
+			$this->cache[$groupId] = $displayName;
+			$this->memCache->set($groupId, $displayName, 60 * 10); // 10 minutes
+			$result[$groupId] = $displayName;
+		}
+
+		foreach ($stillMissingGroups as $groupId) {
+			$result[$groupId] = null;
+		}
+
+		return $result;
+	}
+
 	public function clear(): void {
 		$this->cache = new CappedMemoryCache();
 		$this->memCache->clear();

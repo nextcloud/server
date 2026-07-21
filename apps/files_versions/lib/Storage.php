@@ -25,7 +25,6 @@ use OCA\Files_Versions\Versions\IVersionManager;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\Command\IBus;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\IMimeTypeDetector;
@@ -43,6 +42,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Lock\ILockingProvider;
 use OCP\Server;
+use OCP\User\Exceptions\UserNotFoundException;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
@@ -90,7 +90,7 @@ class Storage {
 	 *
 	 * @param string $filename
 	 * @return array
-	 * @throws NoUserException
+	 * @throws UserNotFoundException
 	 */
 	public static function getUidAndFilename($filename) {
 		$uid = Filesystem::getOwner($filename);
@@ -844,6 +844,7 @@ class Storage {
 	 * @param string $filename path to file to expire
 	 * @param string $uid user for which to expire the version
 	 * @return bool|int|null
+	 * @throws UserNotFoundException
 	 */
 	public static function expire($filename, $uid) {
 		$expiration = self::getExpiration();

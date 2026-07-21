@@ -28,6 +28,7 @@ class BearerAuth extends AbstractBearer {
 		private IConfig $config,
 		private string $principalPrefix = 'principals/users/',
 		private string $token = '',
+		private bool $allowOcmAccessToken = false,
 	) {
 		// setup realm
 		$defaults = new Defaults();
@@ -57,7 +58,7 @@ class BearerAuth extends AbstractBearer {
 		\OC_User::setIncognitoMode(false);
 
 		if (!$this->userSession->isLoggedIn()) {
-			$this->userSession->tryTokenLogin($this->request);
+			$this->userSession->tryTokenLogin($this->request, $this->allowOcmAccessToken);
 		}
 		if ($this->userSession->isLoggedIn()) {
 			return $this->setupUserFs($this->userSession->getUser()->getUID());

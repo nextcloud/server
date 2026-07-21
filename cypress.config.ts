@@ -4,12 +4,12 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { configureNextcloud, docker, getContainer, getContainerName, runExec, runOcc, startNextcloud, stopNextcloud, waitOnNextcloud } from '@nextcloud/e2e-test-server'
+import { configureNextcloud, getContainerName, runExec, runOcc, startNextcloud, stopNextcloud, waitOnNextcloud } from '@nextcloud/e2e-test-server'
 import { defineConfig } from 'cypress'
 import cypressSplit from 'cypress-split'
 import vitePreprocessor from 'cypress-vite'
 import { existsSync, rmSync } from 'node:fs'
-import { dirname, join, resolve } from 'node:path'
+import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { nodePolyfills } from 'vite-plugin-node-polyfills'
 
@@ -116,15 +116,7 @@ export default defineConfig({
 				}
 			})
 
-			// Check if we are running the setup checks
-			if (process.env.SETUP_TESTING === 'true') {
-				console.log('Adding setup tests to specPattern 🧮')
-				config.specPattern = [join(__dirname, 'cypress/e2e/core/setup.ts')]
-				console.log('└─ Done')
-			} else {
-				// If we are not running the setup tests, we need to remove the setup tests from the specPattern
-				cypressSplit(on, config)
-			}
+			cypressSplit(on, config)
 
 			const mounts = {
 				'3rdparty': resolve(__dirname, './3rdparty'),
@@ -163,8 +155,6 @@ export default defineConfig({
 			})
 			// Setting container's IP as base Url
 			config.baseUrl = `http://localhost:${port}/index.php`
-			// if needed for the setup tests, connect to the actions network
-			await connectToActionsNetwork()
 			// make sure not to write into apps but use a local apps folder
 			runExec(['mkdir', 'apps-cypress'])
 			runExec(['cp', 'cypress/fixtures/app.config.php', 'config'])
@@ -185,26 +175,3 @@ export default defineConfig({
 		},
 	},
 })
-
-/**
- * Connect the running test container to the GitHub Actions network
- */
-async function connectToActionsNetwork() {
-	if (process.env.SETUP_TESTING !== 'true') {
-		console.log('├─ Not running setup tests, skipping actions network connection 🌐')
-		return
-	}
-
-	console.log('├─ Looking for github actions network... 🔍')
-	const networks = await docker.listNetworks()
-	const network = networks.find((network) => network.Name.startsWith('github_network'))
-	if (!network) {
-		console.log('│  └─ No actions network found ⚠️')
-		return
-	}
-
-	console.log('│  |─ Found actions network: ' + network.Name)
-	await docker.getNetwork(network.Id)
-		.connect({ Container: getContainer().id })
-	console.log('│  └─ Connected to actions network 🌐')
-}

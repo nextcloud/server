@@ -79,7 +79,7 @@ class TeamManager implements ITeamManager {
 		$probe = new CircleProbe();
 		$probe->mustBeMember();
 
-		if ($this->getTeam($teamId, $userId, $probe) === null) {
+		if ($this->getTeamInternal($teamId, $userId, $probe) === null) {
 			return [];
 		}
 
@@ -119,16 +119,10 @@ class TeamManager implements ITeamManager {
 		}
 
 		$provider = $this->getProvider($providerId);
-		return array_map(function (Circle $team) {
-			return new Team(
-				$team->getSingleId(),
-				$team->getDisplayName(),
-				$this->urlGenerator->linkToRouteAbsolute('contacts.contacts.directcircle', ['singleId' => $team->getSingleId()]),
-			);
-		}, $this->getTeams($provider->getTeamsForResource($resourceId), $userId));
+		return array_map($this->circleToTeam(...), $this->getTeams($provider->getTeamsForResource($resourceId), $userId));
 	}
 
-	private function getTeam(string $teamId, string $userId, ?CircleProbe $probe = null): ?Circle {
+	private function getTeamInternal(string $teamId, string $userId, ?CircleProbe $probe = null): ?Circle {
 		if (!$this->hasTeamSupport()) {
 			return null;
 		}
@@ -149,7 +143,7 @@ class TeamManager implements ITeamManager {
 	 */
 	#[\Override]
 	public function getMembersOfTeam(string $teamId, string $userId): array {
-		$team = $this->getTeam($teamId, $userId);
+		$team = $this->getTeamInternal($teamId, $userId);
 		if ($team === null) {
 			return [];
 		}
@@ -182,15 +176,34 @@ class TeamManager implements ITeamManager {
 
 		$federatedUser = $this->circlesManager->getFederatedUser($userId, Member::TYPE_USER);
 		$this->circlesManager->startSession($federatedUser);
-		$teams = [];
-		foreach ($this->circlesManager->probeCircles() as $team) {
-			$teams[] = new Team(
-				$team->getSingleId(),
-				$team->getDisplayName(),
-				$this->urlGenerator->linkToRouteAbsolute('contacts.contacts.directcircle', ['singleId' => $team->getSingleId()]),
-			);
+
+		return array_map($this->circleToTeam(...), $this->circlesManager->probeCircles());
+	}
+
+	#[\Override]
+	public function getTeam(string $teamId, ?string $userId = null): ?Team {
+		if (!$this->hasTeamSupport()) {
+			return null;
 		}
 
-		return $teams;
+		if ($userId !== null) {
+			$this->circlesManager->startSession($this->circlesManager->getLocalFederatedUser($userId));
+		} else {
+			$this->circlesManager->startSuperSession();
+		}
+
+		try {
+			return $this->circleToTeam($this->circlesManager->getCircle($teamId));
+		} catch (CircleNotFoundException) {
+			return null;
+		}
+	}
+
+	private function circleToTeam(Circle $circle): Team {
+		return new Team(
+			$circle->getSingleId(),
+			$circle->getDisplayName(),
+			$this->urlGenerator->linkToRouteAbsolute('contacts.contacts.directcircle', ['singleId' => $circle->getSingleId()]),
+		);
 	}
 }

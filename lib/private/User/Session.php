@@ -816,10 +816,13 @@ class Session implements IUserSession, Emitter {
 	 * Tries to login the user with auth token header
 	 *
 	 * @param IRequest $request
+	 * @param bool $allowOcmAccessToken Whether an OCM access token may log in
+	 *                                  from a Bearer header. Only the masked
+	 *                                  public share endpoints may set this.
 	 * @todo check remember me cookie
 	 * @return boolean
 	 */
-	public function tryTokenLogin(IRequest $request) {
+	public function tryTokenLogin(IRequest $request, bool $allowOcmAccessToken = false) {
 		$authHeader = $request->getHeader('Authorization');
 		$tokenFromCookie = false;
 		if (str_starts_with($authHeader, 'Bearer ')) {
@@ -847,7 +850,7 @@ class Session implements IUserSession, Emitter {
 		if ($dbToken instanceof PublicKeyToken
 			&& $dbToken->getType() === IToken::TEMPORARY_TOKEN
 			&& !$tokenFromCookie
-			&& $dbToken->getName() !== IToken::OCM_ACCESS_TOKEN_NAME) {
+			&& !($allowOcmAccessToken && $dbToken->getName() === IToken::OCM_ACCESS_TOKEN_NAME)) {
 			// Session token but from Bearer header, not allowed
 			return false;
 		}

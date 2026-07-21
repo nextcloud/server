@@ -10,30 +10,36 @@ declare(strict_types=1);
 namespace OC;
 
 use OC\Route\Router;
+use OC\Security\CSRF\CsrfTokenManager;
 use OCA\Theming\ThemingDefaults;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
+use OCP\Authentication\IApacheBackend;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\IUser;
+use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Server;
+use OCP\User\Backend\ICustomLogout;
 use Override;
 use RuntimeException;
 
 class URLGenerator implements IURLGenerator {
+	/** @var non-empty-string|null $baseUrl */
 	private ?string $baseUrl = null;
 	private ?IAppManager $appManager = null;
 	private ?INavigationManager $navigationManager = null;
 
 	public function __construct(
-		private IConfig $config,
+		private readonly IConfig $config,
 		public IUserSession $userSession,
-		private ICacheFactory $cacheFactory,
-		private IRequest $request,
-		private Router $router,
+		private readonly ICacheFactory $cacheFactory,
+		private readonly IRequest $request,
+		private readonly Router $router,
 	) {
 	}
 
@@ -53,28 +59,11 @@ class URLGenerator implements IURLGenerator {
 		return $this->navigationManager;
 	}
 
-	/**
-	 * Creates an url using a defined route
-	 *
-	 * @param string $routeName
-	 * @param array $arguments args with param=>value, will be appended to the returned url
-	 * @return string the url
-	 *
-	 * Returns a url to the given route.
-	 */
 	#[\Override]
 	public function linkToRoute(string $routeName, array $arguments = []): string {
 		return $this->router->generate($routeName, $arguments);
 	}
 
-	/**
-	 * Creates an absolute url using a defined route
-	 * @param string $routeName
-	 * @param array $arguments args with param=>value, will be appended to the returned url
-	 * @return string the url
-	 *
-	 * Returns an absolute url to the given route.
-	 */
 	#[\Override]
 	public function linkToRouteAbsolute(string $routeName, array $arguments = []): string {
 		return $this->getAbsoluteURL($this->linkToRoute($routeName, $arguments));
@@ -104,17 +93,6 @@ class URLGenerator implements IURLGenerator {
 		return $this->getAbsoluteURL($route);
 	}
 
-	/**
-	 * Creates an url
-	 *
-	 * @param string $appName app
-	 * @param string $file file
-	 * @param array $args array with param=>value, will be appended to the returned url
-	 *                    The value of $args will be urlencoded
-	 * @return string the url
-	 *
-	 * Returns a url to the given app and file.
-	 */
 	#[\Override]
 	public function linkTo(string $appName, string $file, array $args = []): string {
 		$frontControllerActive = ($this->config->getSystemValueBool('htaccess.IgnoreFrontController', false) || getenv('front_controller_active') === 'true');
@@ -154,16 +132,6 @@ class URLGenerator implements IURLGenerator {
 		return $urlLinkTo;
 	}
 
-	/**
-	 * Creates path to an image
-	 *
-	 * @param string $appName app
-	 * @param string $file image name
-	 * @throws \RuntimeException If the image does not exist
-	 * @return string the url
-	 *
-	 * Returns the path to the image.
-	 */
 	#[\Override]
 	public function imagePath(string $appName, string $file): string {
 		$cache = $this->cacheFactory->createDistributed('imagePath-' . md5($this->getBaseUrl()) . '-');
@@ -242,11 +210,6 @@ class URLGenerator implements IURLGenerator {
 		throw new RuntimeException('image not found: image:' . $file . ' webroot:' . \OC::$WEBROOT . ' serverroot:' . \OC::$SERVERROOT);
 	}
 
-	/**
-	 * Makes an URL absolute
-	 * @param string $url the url in the Nextcloud host
-	 * @return string the absolute version of the url
-	 */
 	#[\Override]
 	public function getAbsoluteURL(string $url): string {
 		$separator = str_starts_with($url, '/') ? '' : '/';
@@ -262,21 +225,12 @@ class URLGenerator implements IURLGenerator {
 		return $this->getBaseUrl() . $separator . $url;
 	}
 
-	/**
-	 * @param string $key
-	 * @return string url to the online documentation
-	 */
 	#[\Override]
 	public function linkToDocs(string $key): string {
 		$theme = Server::get('ThemingDefaults');
 		return $theme->buildDocLinkToKey($key);
 	}
 
-	/**
-	 * Returns the URL of the default page based on the system configuration
-	 * and the apps visible for the current user
-	 * @return string
-	 */
 	#[\Override]
 	public function linkToDefaultPageUrl(): string {
 		// Deny the redirect if the URL contains a @
@@ -308,9 +262,6 @@ class URLGenerator implements IURLGenerator {
 		return $this->getAbsoluteURL($href);
 	}
 
-	/**
-	 * @return string base url of the current request
-	 */
 	#[\Override]
 	public function getBaseUrl(): string {
 		// BaseUrl can be equal to 'http(s)://' during the first steps of the initial setup.
@@ -320,9 +271,6 @@ class URLGenerator implements IURLGenerator {
 		return $this->baseUrl;
 	}
 
-	/**
-	 * @return string webroot part of the base url
-	 */
 	#[\Override]
 	public function getWebroot(): string {
 		return \OC::$WEBROOT;
@@ -334,5 +282,38 @@ class URLGenerator implements IURLGenerator {
 		return $this->getAbsoluteURL(
 			$remoteBase . (($service[strlen($service) - 1] !== '/') ? '/' : '')
 		);
+	}
+
+	#[Override]
+	public function getLogoutUrl(): string {
+		$apacheBackend = null;
+		foreach (Server::get(IUserManager::class)->getBackends() as $backend) {
+			if ($backend instanceof IApacheBackend) {
+				if ($backend->isSessionActive()) {
+					$apacheBackend = $backend;
+					break;
+				}
+			}
+		}
+
+		if ($apacheBackend) {
+			return $apacheBackend->getLogoutUrl();
+		}
+
+		$user = $this->userSession->getUser();
+		if ($user instanceof IUser) {
+			$backend = $user->getBackend();
+			if ($backend instanceof ICustomLogout) {
+				$logoutUrl = $backend->getLogoutUrl();
+				if ($logoutUrl !== '') {
+					return $logoutUrl;
+				}
+			}
+		}
+
+		$logoutUrl = $this->linkToRoute('core.login.logout');
+		$logoutUrl .= '?requesttoken=' . urlencode(Server::get(CsrfTokenManager::class)->getToken()->getEncryptedValue());
+
+		return $logoutUrl;
 	}
 }

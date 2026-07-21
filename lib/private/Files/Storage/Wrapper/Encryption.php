@@ -23,7 +23,6 @@ use OCP\Encryption\IEncryptionModule;
 use OCP\Encryption\IFile;
 use OCP\Encryption\IManager;
 use OCP\Encryption\Keys\IStorage;
-use OCP\Files;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\GenericFileException;
 use OCP\Files\Mount\IMountPoint;

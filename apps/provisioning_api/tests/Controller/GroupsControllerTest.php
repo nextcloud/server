@@ -8,8 +8,8 @@
 
 namespace OCA\Provisioning_API\Tests\Controller;
 
+use OC\Group\DisplayNameCache as GroupDisplayNameCache;
 use OC\Group\Manager;
-use OC\User\NoUserException;
 use OCA\Provisioning_API\Controller\GroupsController;
 use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\OCS\OCSException;
@@ -22,6 +22,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\User\Exceptions\UserNotFoundException;
 use OCP\UserInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -37,6 +38,7 @@ class GroupsControllerTest extends \Test\TestCase {
 	protected IFactory&MockObject $l10nFactory;
 	protected LoggerInterface&MockObject $logger;
 	protected GroupsController&MockObject $api;
+	private GroupDisplayNameCache&MockObject $groupDisplayNameCache;
 
 	private IRootFolder $rootFolder;
 
@@ -53,6 +55,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
+		$this->groupDisplayNameCache = $this->createMock(GroupDisplayNameCache::class);
 
 		$this->groupManager
 			->method('getSubAdmin')
@@ -70,7 +73,8 @@ class GroupsControllerTest extends \Test\TestCase {
 				$this->subAdminManager,
 				$this->l10nFactory,
 				$this->rootFolder,
-				$this->logger
+				$this->logger,
+				$this->groupDisplayNameCache,
 			])
 			->onlyMethods(['fillStorageInfo'])
 			->getMock();
@@ -460,7 +464,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		];
 		$users['ncu2']->expects($this->atLeastOnce())
 			->method('getHome')
-			->willThrowException(new NoUserException());
+			->willThrowException(new UserNotFoundException());
 
 		$this->userManager->expects($this->any())
 			->method('get')
@@ -479,8 +483,8 @@ class GroupsControllerTest extends \Test\TestCase {
 			->with($gid)
 			->willReturn($group);
 		$this->groupManager->expects($this->any())
-			->method('getUserGroups')
-			->willReturn([$group]);
+			->method('getUserGroupIds')
+			->willReturn(['ncg1']);
 
 		/** @var MockObject */
 		$this->subAdminManager->expects($this->any())
@@ -490,7 +494,18 @@ class GroupsControllerTest extends \Test\TestCase {
 			->method('getSubAdminsGroups')
 			->willReturn([]);
 
-		$this->api->getGroupUsersDetails($gid);
+		$this->groupDisplayNameCache
+			->method('getDisplayNames')
+			->with(['ncg1'])
+			->willReturn(['ncg1' => 'Group One']);
+
+		$result = $this->api->getGroupUsersDetails($gid);
+
+		$data = $result->getData();
+		$this->assertSame(['ncu1'], array_keys($data['users']));
+		$this->assertEquals([
+			['id' => 'ncg1', 'displayname' => 'Group One'],
+		], $data['groups']);
 	}
 
 	public function testGetGroupUsersDetailsEncoded(): void {
@@ -504,7 +519,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		];
 		$users['ncu2']->expects($this->atLeastOnce())
 			->method('getHome')
-			->willThrowException(new NoUserException());
+			->willThrowException(new UserNotFoundException());
 
 		$this->userManager->expects($this->any())
 			->method('get')
@@ -523,8 +538,8 @@ class GroupsControllerTest extends \Test\TestCase {
 			->with($gid)
 			->willReturn($group);
 		$this->groupManager->expects($this->any())
-			->method('getUserGroups')
-			->willReturn([$group]);
+			->method('getUserGroupIds')
+			->willReturn(['Department A/B C/D']);
 
 		/** @var MockObject */
 		$this->subAdminManager->expects($this->any())
@@ -534,6 +549,17 @@ class GroupsControllerTest extends \Test\TestCase {
 			->method('getSubAdminsGroups')
 			->willReturn([]);
 
-		$this->api->getGroupUsersDetails(urlencode($gid));
+		$this->groupDisplayNameCache
+			->method('getDisplayNames')
+			->with(['Department A/B C/D'])
+			->willReturn(['Department A/B C/D' => 'Department A/B C/D-name']);
+
+		$result = $this->api->getGroupUsersDetails(urlencode($gid));
+
+		$data = $result->getData();
+		$this->assertSame(['ncu1'], array_keys($data['users']));
+		$this->assertEquals([
+			['id' => 'Department A/B C/D', 'displayname' => 'Department A/B C/D-name'],
+		], $data['groups']);
 	}
 }

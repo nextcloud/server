@@ -164,7 +164,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 			throw new BadRequest('Missing "name" attribute');
 		}
 
-		$tagName = $data['name'];
+		$tagName = Util::sanitizeWordsAndEmojis($data['name']);
 		$userVisible = true;
 		$userAssignable = true;
 

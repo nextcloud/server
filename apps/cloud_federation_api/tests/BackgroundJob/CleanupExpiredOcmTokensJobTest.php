@@ -20,6 +20,7 @@ class CleanupExpiredOcmTokensJobTest extends TestCase {
 	private OcmTokenMapMapper&MockObject $mapper;
 	private CleanupExpiredOcmTokensJob $job;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

@@ -15,11 +15,11 @@ use OCA\Theming\Settings\PersonalSection;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 use OCP\AppFramework\App;
-use OCP\AppFramework\IAppContainer;
 use OCP\Capabilities\ICapability;
 use OCP\IL10N;
 use OCP\Settings\IIconSection;
 use OCP\Settings\ISettings;
+use Psr\Container\ContainerInterface;
 use Test\TestCase;
 
 /**
@@ -31,7 +31,7 @@ use Test\TestCase;
 class ServicesTest extends TestCase {
 	protected App $app;
 
-	protected IAppContainer $container;
+	protected ContainerInterface $container;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -66,6 +66,6 @@ class ServicesTest extends TestCase {
 		if ($expected === null) {
 			$expected = $service;
 		}
-		$this->assertInstanceOf($expected, $this->container->query($service));
+		$this->assertInstanceOf($expected, $this->container->get($service));
 	}
 }

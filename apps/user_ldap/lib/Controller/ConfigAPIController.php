@@ -12,7 +12,6 @@ use OCA\User_LDAP\ConnectionFactory;
 use OCA\User_LDAP\Exceptions\ConfigurationIssueException;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\ILDAPWrapper;
-use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\Settings\Admin;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;

@@ -29,7 +29,6 @@ use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VTimeZone;
 use Sabre\VObject\ITip\Message;
 use Sabre\VObject\ParseException;
-use Sabre\VObject\Property;
 use Sabre\VObject\Reader;
 use function Sabre\Uri\split as uriSplit;
 

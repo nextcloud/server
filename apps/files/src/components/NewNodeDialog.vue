@@ -89,6 +89,14 @@ const props = defineProps({
 		type: String,
 		default: t('files', 'Folder name'),
 	},
+
+	/**
+	 * Whether the name is for a folder, which affects the validation of the name. Defaults to false.
+	 */
+	isFolder: {
+		type: Boolean,
+		default: false,
+	},
 })
 
 const emit = defineEmits<{
@@ -142,7 +150,7 @@ watchEffect(() => {
 	if (props.otherNames.includes(localDefaultName.value.trim())) {
 		validity.value = t('files', 'This name is already in use.')
 	} else {
-		validity.value = getFilenameValidity(localDefaultName.value.trim())
+		validity.value = getFilenameValidity(localDefaultName.value.trim(), false, props.isFolder)
 	}
 	const input = nameInput.value?.$el.querySelector('input')
 	if (input) {

@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace OCA\User_LDAP\Controller;
 
-use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\ConnectionFactory;
 use OCA\User_LDAP\Mapping\GroupMapping;
 use OCA\User_LDAP\Mapping\UserMapping;

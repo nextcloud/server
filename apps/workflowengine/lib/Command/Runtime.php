@@ -10,11 +10,11 @@ declare(strict_types=1);
 namespace OCA\WorkflowEngine\Command;
 
 use OC\Core\Command\Base;
-use OC\User\NoUserException;
 use OCA\WorkflowEngine\Helper\ScopeContext;
 use OCA\WorkflowEngine\Manager;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\User\Exceptions\UserNotFoundException;
 use OCP\WorkflowEngine\IManager;
 use Override;
 use Symfony\Component\Console\Input\InputArgument;
@@ -74,7 +74,7 @@ class Runtime extends Base {
 		if ($userId !== null) {
 			$user = $this->userManager->get($userId);
 			if ($user === null) {
-				throw new NoUserException("user $userId not found");
+				throw UserNotFoundException::createForUser($userId);
 			}
 			$this->userSession->setUser($user);
 			$this->manager->reloadRuntimeOperations();

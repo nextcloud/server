@@ -41,7 +41,7 @@ class MetadataRequestService {
 		$query->select('storage')
 			->from('filecache')
 			->where($query->expr()->eq('fileid', $query->createNamedParameter($filesMetadata->getFileId(), IQueryBuilder::PARAM_INT)));
-		$storageId = $query->executeQuery()->fetchColumn();
+		$storageId = (int)$query->executeQuery()->fetchOne();
 
 		if ($filesMetadata instanceof FilesMetadata) {
 			$filesMetadata->setStorageId($storageId);
@@ -81,7 +81,7 @@ class MetadataRequestService {
 			$qb->select('json', 'sync_token')->from(self::TABLE_METADATA);
 			$qb->where($qb->expr()->eq('file_id', $qb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
 			$result = $qb->executeQuery();
-			$data = $result->fetch();
+			$data = $result->fetchAssociative();
 			$result->closeCursor();
 		} catch (Exception $e) {
 			$this->logger->warning('exception while getMetadataFromDatabase()', ['exception' => $e, 'fileId' => $fileId]);
@@ -115,7 +115,7 @@ class MetadataRequestService {
 
 		$list = [];
 		$result = $qb->executeQuery();
-		while ($data = $result->fetch()) {
+		while ($data = $result->fetchAssociative()) {
 			$fileId = (int)$data['file_id'];
 			$metadata = new FilesMetadata($fileId);
 			try {

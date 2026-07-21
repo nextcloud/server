@@ -20,6 +20,11 @@ namespace OCA\Provisioning_API;
  *
  * @psalm-type Provisioning_APIUserDetailsScope = 'v2-private'|'v2-local'|'v2-federated'|'v2-published'
  *
+ * @psalm-type Provisioning_APIUserDetailsGroupDisplayname = array{
+ *     id: string,
+ *     displayname: string,
+ *  }
+ *
  * @psalm-type Provisioning_APIUserDetails = array{
  *     additional_mail: list<string>,
  *     additional_mailScope?: list<Provisioning_APIUserDetailsScope>,

@@ -14,6 +14,7 @@ use OCP\IConfig;
 use OCP\Security\ICrypto;
 use phpseclib\Crypt\AES;
 use phpseclib\Crypt\Hash;
+use SensitiveParameter;
 
 /**
  * Class Crypto provides a high-level encryption layer using AES-CBC. If no key has been provided
@@ -41,7 +42,11 @@ class Crypto implements ICrypto {
 	 * @return string Calculated HMAC
 	 */
 	#[\Override]
-	public function calculateHMAC(string $message, string $password = ''): string {
+	public function calculateHMAC(
+		string $message,
+		#[SensitiveParameter]
+		string $password = '',
+	): string {
 		if ($password === '') {
 			$password = $this->config->getSystemValueString('secret');
 		}
@@ -63,7 +68,11 @@ class Crypto implements ICrypto {
 	 * @throws Exception if encrypting the data failed
 	 */
 	#[\Override]
-	public function encrypt(string $plaintext, string $password = ''): string {
+	public function encrypt(
+		string $plaintext,
+		#[SensitiveParameter]
+		string $password = '',
+	): string {
 		if ($password === '') {
 			$password = $this->config->getSystemValueString('secret');
 		}
@@ -93,7 +102,11 @@ class Crypto implements ICrypto {
 	 * @throws Exception If the decryption failed
 	 */
 	#[\Override]
-	public function decrypt(string $authenticatedCiphertext, string $password = ''): string {
+	public function decrypt(
+		string $authenticatedCiphertext,
+		#[SensitiveParameter]
+		string $password = '',
+	): string {
 		$secret = $this->config->getSystemValue('secret');
 		try {
 			if ($password === '') {

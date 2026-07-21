@@ -79,7 +79,12 @@ class ServerFactory {
 		$useCollection = $isPublicShare && !$needsSharesInRoot;
 		$debugEnabled = $this->config->getSystemValue('debug', false);
 		[$tree, $rootCollection] = $this->getTree($useCollection);
+
+		// Set streaming of PROPFIND responses
+		Server::$streamMultiStatus = true;
+
 		$server = new Server($tree);
+
 		// Set URL explicitly due to reverse-proxy situations
 		$server->httpRequest->setUrl($requestUri);
 		$server->setBaseUri($baseUri);

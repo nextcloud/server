@@ -76,4 +76,9 @@ interface ITeamManager {
 	 * @since 34.0.0
 	 */
 	public function hasTeamSupport(): bool;
+
+	/**
+	 * @since 35.0.0
+	 */
+	public function getTeam(string $teamId, ?string $userId = null): ?Team;
 }

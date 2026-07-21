@@ -541,6 +541,49 @@ class CacheTest extends \Test\TestCase {
 		$this->assertEquals($this->cache->getId(''), $this->cache->get('targetsub')->getParentId());
 	}
 
+	public function testCopyFromCachePreservesEncryptedVersion(): void {
+		$data = [
+			'size' => 100, 'mtime' => 50, 'mimetype' => 'foo/bar',
+			'encrypted' => true, 'encryptedVersion' => 3,
+		];
+		$this->cache->put('source', $data);
+		$sourceEntry = $this->cache->get('source');
+		$this->assertSame(3, $sourceEntry['encryptedVersion']);
+
+		$this->cache->copyFromCache($this->cache, $sourceEntry, 'target');
+
+		$targetEntry = $this->cache->get('target');
+		$this->assertTrue($targetEntry->isEncrypted());
+		$this->assertSame(3, $targetEntry['encryptedVersion']);
+	}
+
+	public function testCopyFromCacheClearsEncryptedVersionWhenCopyingToNonEncryptedStorage(): void {
+		$data = [
+			'size' => 100, 'mtime' => 50, 'mimetype' => 'foo/bar',
+			'encrypted' => true, 'encryptedVersion' => 3,
+		];
+		$this->cache2->put('source', $data);
+		$sourceEntry = $this->cache2->get('source');
+
+		$sourceCache = $this->getMockBuilder(Cache::class)
+			->setConstructorArgs([$this->storage2])
+			->onlyMethods(['hasEncryptionWrapper'])
+			->getMock();
+		$sourceCache->method('hasEncryptionWrapper')->willReturn(true);
+
+		$targetCache = $this->getMockBuilder(Cache::class)
+			->setConstructorArgs([$this->storage])
+			->onlyMethods(['shouldEncrypt'])
+			->getMock();
+		$targetCache->method('shouldEncrypt')->willReturn(false);
+
+		$targetCache->copyFromCache($sourceCache, $sourceEntry, 'target');
+
+		$targetEntry = $targetCache->get('target');
+		$this->assertFalse($targetEntry->isEncrypted());
+		$this->assertSame(0, $targetEntry['encryptedVersion']);
+	}
+
 	public function testGetIncomplete(): void {
 		$file1 = 'folder1';
 		$file2 = 'folder2';

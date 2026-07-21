@@ -15,7 +15,7 @@ use OCP\IUser;
  */
 interface IVerificationToken {
 	/**
-	 * Checks whether the a provided tokent matches a stored token and its
+	 * Checks whether a provided token matches a stored token and its
 	 * constraints. An InvalidTokenException is thrown on issues, otherwise
 	 * the check is successful.
 	 *

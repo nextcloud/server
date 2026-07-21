@@ -662,6 +662,59 @@ class SessionTest extends \Test\TestCase {
 		self::assertTrue($loginResult);
 	}
 
+	public function testTryTokenLoginOcmAccessTokenRejectedFromBearerByDefault(): void {
+		$request = $this->createMock(IRequest::class);
+		$request->method('getHeader')->with('Authorization')->willReturn('Bearer ocm-access-token');
+		$dbToken = new PublicKeyToken();
+		$dbToken->setId(42);
+		$dbToken->setUid('alice');
+		$dbToken->setLoginName('alice');
+		$dbToken->setLastCheck(0);
+		$dbToken->setType(IToken::TEMPORARY_TOKEN);
+		$dbToken->setName(IToken::OCM_ACCESS_TOKEN_NAME);
+		$this->tokenProvider->expects(self::once())
+			->method('getToken')
+			->with('ocm-access-token')
+			->willReturn($dbToken);
+		// The guard must reject before any login is attempted.
+		$this->manager->expects(self::never())
+			->method('get');
+
+		$loginResult = $this->userSession->tryTokenLogin($request);
+
+		self::assertFalse($loginResult);
+	}
+
+	public function testTryTokenLoginOcmAccessTokenAllowedFromBearerWhenPermitted(): void {
+		$request = $this->createMock(IRequest::class);
+		$request->method('getHeader')->with('Authorization')->willReturn('Bearer ocm-access-token');
+		$dbToken = new PublicKeyToken();
+		$dbToken->setId(42);
+		$dbToken->setUid('alice');
+		$dbToken->setLoginName('alice');
+		$dbToken->setLastCheck(0);
+		$dbToken->setType(IToken::TEMPORARY_TOKEN);
+		$dbToken->setName(IToken::OCM_ACCESS_TOKEN_NAME);
+		$this->tokenProvider->method('getToken')
+			->with('ocm-access-token')
+			->willReturn($dbToken);
+		$this->session->method('set')
+			->willReturnCallback(function ($key, $value): void {
+				if ($key === 'app_password') {
+					throw new ExpectationFailedException('app_password should not be set in session');
+				}
+			});
+		$user = $this->createMock(IUser::class);
+		$user->method('isEnabled')->willReturn(true);
+		$this->manager->method('get')
+			->with('alice')
+			->willReturn($user);
+
+		$loginResult = $this->userSession->tryTokenLogin($request, true);
+
+		self::assertTrue($loginResult);
+	}
+
 	public function testRememberLoginValidToken(): void {
 		$session = $this->createMock(Memory::class);
 		$managerMethods = get_class_methods(Manager::class);

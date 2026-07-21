@@ -16,7 +16,6 @@ use OCA\FilesReminders\Db\Reminder;
 use OCA\FilesReminders\Db\ReminderMapper;
 use OCA\FilesReminders\Exception\NodeNotFoundException;
 use OCA\FilesReminders\Exception\ReminderNotFoundException;
-use OCA\FilesReminders\Exception\UserNotFoundException;
 use OCA\FilesReminders\Model\RichReminder;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\Files\Folder;
@@ -28,6 +27,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
+use OCP\User\Exceptions\UserNotFoundException;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
@@ -165,7 +165,7 @@ class ReminderService {
 
 		$user = $this->userManager->get($reminder->getUserId());
 		if ($user === null) {
-			throw new UserNotFoundException();
+			throw UserNotFoundException::createForUser($reminder->getUserId());
 		}
 
 		$notification = $this->notificationManager->createNotification();

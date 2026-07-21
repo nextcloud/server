@@ -13,6 +13,7 @@ use OC\Files\View;
 use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\IMimeTypeDetector;
+use OCP\Files\Mount\IMountPoint;
 use OCP\Server;
 
 class Helper {
@@ -27,7 +28,32 @@ class Helper {
 	 * @return \OCP\Files\FileInfo[]
 	 */
 	public static function getTrashFiles($dir, $user, $sortAttribute = '', $sortDescending = false) {
+		$view = new View('/' . $user . '/files_trashbin/files');
+
+		if (ltrim($dir, '/') !== '' && !$view->is_dir($dir)) {
+			throw new \Exception('Directory does not exists');
+		}
+
+		$mount = $view->getMount($dir);
+		$storage = $mount->getStorage();
+		$absoluteDir = $view->getAbsolutePath($dir);
+		$internalPath = $mount->getInternalPath($absoluteDir);
+		$extraData = Trashbin::getExtraData($user);
+
 		$result = [];
+		$timestamp = null;
+		$dirContent = $storage->getCache()->getFolderContents($mount->getInternalPath($view->getAbsolutePath($dir)));
+		foreach ($dirContent as $entry) {
+			$result[] = self::buildFileInfo($entry, $dir, $timestamp, $extraData, $storage, $absoluteDir, $internalPath, $mount);
+		}
+
+		if ($sortAttribute !== '') {
+			return \OCA\Files\Helper::sortFiles($result, $sortAttribute, $sortDescending);
+		}
+		return $result;
+	}
+
+	public static function getTrashFile(string $dir, string $user, string $name): ?FileInfo {
 		$timestamp = null;
 
 		$view = new View('/' . $user . '/files_trashbin/files');
@@ -42,70 +68,55 @@ class Helper {
 		$internalPath = $mount->getInternalPath($absoluteDir);
 
 		$extraData = Trashbin::getExtraData($user);
-		$dirContent = $storage->getCache()->getFolderContents($mount->getInternalPath($view->getAbsolutePath($dir)));
-		foreach ($dirContent as $entry) {
-			$entryName = $entry->getName();
-			$name = $entryName;
-			if ($dir === '' || $dir === '/') {
-				$pathparts = pathinfo($entryName);
-				$timestamp = substr($pathparts['extension'], 1);
-				$name = $pathparts['filename'];
-			} elseif ($timestamp === null) {
-				// for subfolders we need to calculate the timestamp only once
-				$parts = explode('/', ltrim($dir, '/'));
-				$timestamp = substr(pathinfo($parts[0], PATHINFO_EXTENSION), 1);
-			}
-			$originalPath = '';
-			$originalName = substr($entryName, 0, -strlen($timestamp) - 2);
-			if (isset($extraData[$originalName][$timestamp]['location'])) {
-				$originalPath = $extraData[$originalName][$timestamp]['location'];
-				if (substr($originalPath, -1) === '/') {
-					$originalPath = substr($originalPath, 0, -1);
-				}
-			}
-			$type = $entry->getMimeType() === ICacheEntry::DIRECTORY_MIMETYPE ? 'dir' : 'file';
-			$i = [
-				'name' => $name,
-				'mtime' => $timestamp,
-				'mimetype' => $type === 'dir' ? 'httpd/unix-directory' : Server::get(IMimeTypeDetector::class)->detectPath($name),
-				'type' => $type,
-				'directory' => ($dir === '/') ? '' : $dir,
-				'size' => $entry->getSize(),
-				'etag' => '',
-				'permissions' => Constants::PERMISSION_ALL - Constants::PERMISSION_SHARE,
-				'fileid' => $entry->getId(),
-			];
-			if ($originalPath) {
-				if ($originalPath !== '.') {
-					$i['extraData'] = $originalPath . '/' . $originalName;
-				} else {
-					$i['extraData'] = $originalName;
-				}
-			}
-			$i['deletedBy'] = $extraData[$originalName][$timestamp]['deletedBy'] ?? null;
-			$result[] = new FileInfo($absoluteDir . '/' . $i['name'], $storage, $internalPath . '/' . $i['name'], $i, $mount);
+		$entry = $storage->getCache()->get($mount->getInternalPath($view->getAbsolutePath($dir . '/' . $name)));
+		if ($entry === false) {
+			return null;
 		}
 
-		if ($sortAttribute !== '') {
-			return \OCA\Files\Helper::sortFiles($result, $sortAttribute, $sortDescending);
-		}
-		return $result;
+		$timestamp = null;
+		return self::buildFileInfo($entry, $dir, $timestamp, $extraData, $storage, $absoluteDir, $internalPath, $mount);
 	}
 
-	/**
-	 * Format file infos for JSON
-	 *
-	 * @param \OCP\Files\FileInfo[] $fileInfos file infos
-	 */
-	public static function formatFileInfos($fileInfos) {
-		$files = [];
-		foreach ($fileInfos as $i) {
-			$entry = \OCA\Files\Helper::formatFileInfo($i);
-			$entry['id'] = $i->getId();
-			$entry['etag'] = $entry['mtime']; // add fake etag, it is only needed to identify the preview image
-			$entry['permissions'] = Constants::PERMISSION_READ;
-			$files[] = $entry;
+	private static function buildFileInfo(ICacheEntry $entry, string $dir, ?string &$timestamp, array $extraData, $storage, string $absoluteDir, string $internalPath, IMountPoint $mount): FileInfo {
+		$entryName = $entry->getName();
+		$name = $entryName;
+		if ($dir === '' || $dir === '/') {
+			$pathparts = pathinfo($entryName);
+			$timestamp = substr($pathparts['extension'], 1);
+			$name = $pathparts['filename'];
+		} elseif ($timestamp === null) {
+			// for subfolders we need to calculate the timestamp only once
+			$parts = explode('/', ltrim($dir, '/'));
+			$timestamp = substr(pathinfo($parts[0], PATHINFO_EXTENSION), 1);
 		}
-		return $files;
+		$originalPath = '';
+		$originalName = substr($entryName, 0, -strlen($timestamp) - 2);
+		if (isset($extraData[$originalName][$timestamp]['location'])) {
+			$originalPath = $extraData[$originalName][$timestamp]['location'];
+			if (substr($originalPath, -1) === '/') {
+				$originalPath = substr($originalPath, 0, -1);
+			}
+		}
+		$type = $entry->getMimeType() === ICacheEntry::DIRECTORY_MIMETYPE ? 'dir' : 'file';
+		$i = [
+			'name' => $name,
+			'mtime' => $timestamp,
+			'mimetype' => $type === 'dir' ? 'httpd/unix-directory' : Server::get(IMimeTypeDetector::class)->detectPath($name),
+			'type' => $type,
+			'directory' => ($dir === '/') ? '' : $dir,
+			'size' => $entry->getSize(),
+			'etag' => '',
+			'permissions' => Constants::PERMISSION_ALL - Constants::PERMISSION_SHARE,
+			'fileid' => $entry->getId(),
+		];
+		if ($originalPath) {
+			if ($originalPath !== '.') {
+				$i['extraData'] = $originalPath . '/' . $originalName;
+			} else {
+				$i['extraData'] = $originalName;
+			}
+		}
+		$i['deletedBy'] = $extraData[$originalName][$timestamp]['deletedBy'] ?? null;
+		return new FileInfo($absoluteDir . '/' . $i['name'], $storage, $internalPath . '/' . $i['name'], $i, $mount);
 	}
 }

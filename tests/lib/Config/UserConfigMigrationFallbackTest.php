@@ -95,7 +95,7 @@ class UserConfigMigrationFallbackTest extends TestCase {
 		$exception = $this->createInvalidFieldNameException();
 
 		$successResult = $this->createMock(IResult::class);
-		$successResult->method('fetchAll')->willReturn([
+		$successResult->method('fetchAllAssociative')->willReturn([
 			['appid' => 'settings', 'configkey' => 'email', 'configvalue' => 'user@example.com'],
 		]);
 
@@ -140,7 +140,7 @@ class UserConfigMigrationFallbackTest extends TestCase {
 		$exception = $this->createInvalidFieldNameException();
 
 		$loadResult = $this->createMock(IResult::class);
-		$loadResult->method('fetchAll')->willReturn([]);
+		$loadResult->method('fetchAllAssociative')->willReturn([]);
 
 		$qb = $this->createMockQueryBuilder();
 

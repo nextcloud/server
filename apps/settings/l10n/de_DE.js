@@ -286,6 +286,8 @@ OC.L10N.register(
     "Configuration file access rights" : "Zugriffsrechte für die Konfigurationsdatei",
     "The read-only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "Die schreibgeschützte Konfiguration wurde aktiviert. Dies verhindert das Setzen einiger Einstellungen über die Web-Schnittstelle. Weiterhin muss bei jedem Update der Schreibzugriff auf die Datei händisch aktiviert werden.",
     "Nextcloud configuration file is writable" : "Die Nextcloud-Konfigurationsdatei ist beschreibbar",
+    "Sanitize and merge duplicate system tags available" : "Duplikate von System-Schlagworten zusammenführen und bereinigen",
+    "One or more system tags need to be sanitized or merged. This can take a long time on larger instances so this is not done automatically during upgrades. Use the command `occ maintenance:repair --include-expensive` to perform the migrations." : "Ein oder mehrere System-Schlagworte müssen bereinigt oder zusammengeführt werden. Da dies bei größeren Instanzen sehr lange dauern kann, erfolgt dies bei Upgrades nicht automatisch. Für die Migration gibt es den Befehl `occ maintenance:repair --include-expensive`.",
     "Scheduling objects table size" : "Größe der Planungsobjekttabelle",
     "You have more than %s rows in the scheduling objects table. Please run the expensive repair jobs via occ maintenance:repair --include-expensive." : "Sie haben mehr als %s Zeilen in der Tabelle der geplanten Objekte. Bitte führen Sie umfangreiche Reparaturaufträge mittels occ maintenance:repair --include-expensive aus.",
     "Scheduling objects table size is within acceptable range." : "Die Größe der Planungsobjekttabelle liegt im akzeptablen Bereich.",
@@ -321,7 +323,8 @@ OC.L10N.register(
     "_The task pickup speed has been ok in the last day._::_The task pickup speed has been ok in the last %n days._" : ["Die Geschwindigkeit der Aufgabenübernahme war am vergangenen Tag in Ordnung.","Die Geschwindigkeit der Aufgabenübernahme war in den letzten %n Tagen in Ordnung."],
     "_The task pickup speed has been slow in the last day. Many tasks took longer than 4 minutes to be picked up. Consider setting up a worker to process tasks in the background._::_The task pickup speed has been slow in the last %n days. Many tasks took longer than 4 minutes to be picked up. Consider setting up a worker to process tasks in the background._" : ["Die Geschwindigkeit der Aufgabenübernahme war am vergangenen Tag langsam. Viele Aufgaben benötigten länger als 4 Minuten, um aufgenommen zu werden. Es sollte die Einrichtung eines Workers, der Aufgaben im Hintergrund verarbeitet, in Erwägung gezogen werden.","Die Geschwindigkeit der Aufgabenübernahme war in den letzten %n Tagen langsam. Viele Aufgaben benötigten länger als 4 Minuten, um aufgenommen zu werden. Es sollte die Einrichtung eines Workers, der Aufgaben im Hintergrund verarbeitet, in Erwägung gezogen werden."],
     "Task Processing success rate" : "Erfolgsquote bei der Aufgabenverarbeitung",
-    "_Most tasks were successful in the last day._::_Most tasks were successful in the last %n days._" : ["Am vergangenen Tag waren die meisten Aufgaben erfolgreich.","In den letzten %n Tagen waren die meisten Aufgaben erfolgreich."],
+    "_No scheduled tasks in the last %n day._::_No scheduled tasks in the last %n days._" : ["Keine geplanten Aufgaben im letzten %n Tag.","Keine geplanten Aufgaben in den letzten %n Tagen."],
+    "_Most tasks were successful in the last %n day._::_Most tasks were successful in the last %n days._" : ["Am vergangenen Tag waren die meisten Aufgaben erfolgreich.","In den letzten %n Tagen waren die meisten Aufgaben erfolgreich."],
     "_A lot of tasks failed in the last day. Consider checking the nextcloud log for errors and investigating whether the AI provider apps have been set up correctly._::_A lot of tasks failed in the last %n days. Consider checking the nextcloud log for errors and investigating whether the AI provider apps have been set up correctly._" : ["Viele Aufgaben sind am vergangenen Tag fehlgeschlagen. Bitte in Erwägung ziehen, das Nextcloud-Protokoll auf Fehler zu überprüfen und zu untersuchen, ob die KI-Anbieter-Apps korrekt eingerichtet sind.","Viele Aufgaben sind in den letzten %n Tagen fehlgeschlagen. Bitte in Erwägung ziehen, das Nextcloud-Protokoll auf Fehler zu überprüfen und zu untersuchen, ob die KI-Anbieter-Apps korrekt eingerichtet sind."],
     "Task Processing worker status" : "Status des Aufgabenverarbeitungsprozesses",
     "_The Task Processing worker has run in the last %n minute._::_The Task Processing worker has run in the last %n minutes._" : ["Der Aufgabenverarbeitungsprozess wurde in der letzten %n Minute ausgeführt.","Der Aufgabenverarbeitungsprozess wurde in den letzten %n Minuten ausgeführt."],
@@ -874,6 +877,7 @@ OC.L10N.register(
     "Apps" : "Apps",
     "for Argon2 for password hashing" : "für Argon2 zum Passwort-Hashing",
     "MariaDB version 10.3 detected, this version is end-of-life and only supported as part of Ubuntu 20.04. MariaDB >=%1$s and <=%2$s is suggested for best performance, stability and functionality with this version of Nextcloud." : "MariaDB Version 10.3 erkannt, diese Version hat das Ende ihres Lebenszyklus erreicht und wird nur noch als Teil von Ubuntu 20.04 unterstützt. Für optimale Leistung, Stabilität und Funktionalität mit dieser Version von Nextcloud wird MariaDB >= %1$s und %2$s <= empfohlen.",
+    "_Most tasks were successful in the last day._::_Most tasks were successful in the last %n days._" : ["Am vergangenen Tag waren die meisten Aufgaben erfolgreich.","In den letzten %n Tagen waren die meisten Aufgaben erfolgreich."],
     "_The Task Processing worker has run in the last minute._::_The Task Processing worker has run in the last %n minutes._" : ["Der Aufgabenverarbeitungsprozess wurde in der letzten Minute ausgeführt.","Der Aufgabenverarbeitungsprozess wurde in den letzten %n Minuten ausgeführt."],
     "Machine translation" : "Maschinelle Übersetzung",
     "Image generation" : "Bilderstellung",
@@ -1041,6 +1045,9 @@ OC.L10N.register(
     "Limited ODF compatibility" : "Eingeschränkte ODF-Kompatibilität",
     "Best Microsoft compatibility" : "Beste Microsoft-Kompatibilität",
     "{progress}% Deploying …" : "{progress}% bereitstellen …",
-    "{progress}% Initializing …" : "{progress}% initialisiere …"
+    "{progress}% Initializing …" : "{progress}% initialisiere …",
+    "Redis cache" : "Redis-Cache",
+    "You are still using the old Redis cache backend. For full support of latest Valkey and Redis features, like clustering and sentinel, please switch to the new KeyValueCache backend." : "Sie verwenden noch das alte Redis-Cache-Backend. Um die neuesten Funktionen von Valkey und Redis, wie Clustering und Sentinel, vollständig nutzen zu können, bitte zum neuen KeyValueCache-Backend wechseln.",
+    "No legacy Redis cache detected" : "Es wurde kein älterer Redis-Cache erkannt"
 },
 "nplurals=2; plural=(n != 1);");

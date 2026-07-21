@@ -15,7 +15,6 @@ use OC\Files\Filesystem;
 use OC\Files\Node\NonExistingFile;
 use OC\Files\Node\NonExistingFolder;
 use OC\Files\View;
-use OC\User\NoUserException;
 use OC_User;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Trashbin\Command\Expire;
@@ -53,6 +52,7 @@ use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
+use OCP\User\Exceptions\UserNotFoundException;
 use OCP\Util;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -81,7 +81,7 @@ class Trashbin implements IEventListener {
 	 *
 	 * @param string $filename
 	 * @return array
-	 * @throws NoUserException
+	 * @throws UserNotFoundException
 	 */
 	public static function getUidAndFilename($filename) {
 		$uid = Filesystem::getOwner($filename);

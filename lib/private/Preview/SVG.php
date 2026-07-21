@@ -30,13 +30,17 @@ class SVG extends ProviderV2 {
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
 		try {
 			$content = stream_get_contents($file->fopen('r'));
-			if (substr($content, 0, 5) !== '<?xml') {
-				$content = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' . $content;
+			if ($content === false) {
+				return null;
+			}
+			// check if the file can be processed by this provider
+			if (!$this->canBeProcessed($content)) {
+				return null;
 			}
 
-			// Do not parse SVG files with references
-			if (preg_match('/["\s](xlink:)?href\s*=/i', $content)) {
-				return null;
+			$content = ltrim($content);
+			if (substr($content, 0, 5) !== '<?xml') {
+				$content = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' . $content;
 			}
 
 			$svg = new \Imagick();
@@ -71,5 +75,31 @@ class SVG extends ProviderV2 {
 			return $image;
 		}
 		return null;
+	}
+
+	/**
+	 * Check if the file can be processed by this provider,
+	 * meaning the SVG is safe to be processed and does not contain any external references.
+	 */
+	protected function canBeProcessed(string $content): bool {
+		// check for allowed encodings and convert if necessary
+		$encoding = mb_detect_encoding($content, ['UTF-8', 'ISO-2022-JP', 'ISO-8859-1'], true);
+		if ($encoding === false) {
+			return false;
+		} elseif ($encoding !== 'UTF-8') {
+			$content = mb_convert_encoding($content, 'UTF-8', $encoding);
+		}
+
+		// Strip all non-printable/control characters except newlines/tabs
+		$content = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/', '', $content);
+		if ($content === null) {
+			return false;
+		}
+
+		// check for any potential external reference (include custom namespace prefix)
+		if (preg_match('/["\s\']([a-z_][a-z0-9_.-]*:)?href\s*=/i', $content)) {
+			return false;
+		}
+		return true;
 	}
 }

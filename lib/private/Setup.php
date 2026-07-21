@@ -29,6 +29,7 @@ use OC\Setup\PostgreSQL;
 use OC\Setup\Sqlite;
 use OC\TextProcessing\RemoveOldTasksBackgroundJob;
 use OC\User\BackgroundJobs\CleanupDeletedUsers;
+use OC\User\BackgroundJobs\CleanupLoginTokens;
 use OC\User\Session;
 use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -530,6 +531,7 @@ class Setup {
 		$jobList->add(BackgroundCleanupJob::class);
 		$jobList->add(RemoveOldTasksBackgroundJob::class);
 		$jobList->add(CleanupDeletedUsers::class);
+		$jobList->add(CleanupLoginTokens::class);
 		$jobList->add(GenerateMetadataJob::class);
 		$jobList->add(PreviewMigrationJob::class);
 		$jobList->add(ExpirePreviewsJob::class);

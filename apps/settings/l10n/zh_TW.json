@@ -284,6 +284,8 @@
     "Configuration file access rights" : "組態設定檔存取權",
     "The read-only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "「唯讀組態設定檔」已啟用，這樣可以防止來自網頁端的設定操作，每次需要更改設定時，都需要手動將組態設定檔暫時改為可讀寫。",
     "Nextcloud configuration file is writable" : "Nextcloud 組態設定檔為可寫",
+    "Sanitize and merge duplicate system tags available" : "可對系統標籤進行清理並合併重複項目",
+    "One or more system tags need to be sanitized or merged. This can take a long time on larger instances so this is not done automatically during upgrades. Use the command `occ maintenance:repair --include-expensive` to perform the migrations." : "需要對一個或多個系統標籤進行清理或合併。在較大的站台上，此流程可能耗時甚久，因此升級過程中不會自動執行此操作。請使用指令 `occ maintenance:repair --include-expensive` 來執行遷移作業。",
     "Scheduling objects table size" : "調度物件資料表大小",
     "You have more than %s rows in the scheduling objects table. Please run the expensive repair jobs via occ maintenance:repair --include-expensive." : "調度物件資料表中超過 %s 列。請透過 occ maintenance:repair --include-expensive 執行昂貴的修復作業。",
     "Scheduling objects table size is within acceptable range." : "調度物件資料表大小在可接受的範圍內。",
@@ -319,7 +321,8 @@
     "_The task pickup speed has been ok in the last day._::_The task pickup speed has been ok in the last %n days._" : ["最近%n天內的任務擷取速度正常。"],
     "_The task pickup speed has been slow in the last day. Many tasks took longer than 4 minutes to be picked up. Consider setting up a worker to process tasks in the background._::_The task pickup speed has been slow in the last %n days. Many tasks took longer than 4 minutes to be picked up. Consider setting up a worker to process tasks in the background._" : ["最近%n天內，任務擷取速度緩慢。許多任務的擷取時間超過4分鐘。請考慮設定 worker 在背景處理任務。"],
     "Task Processing success rate" : "任務處理成功率",
-    "_Most tasks were successful in the last day._::_Most tasks were successful in the last %n days._" : ["最近%n天內的大多數任務都成功完成。"],
+    "_No scheduled tasks in the last %n day._::_No scheduled tasks in the last %n days._" : ["最近%n天內沒有排定的任務。"],
+    "_Most tasks were successful in the last %n day._::_Most tasks were successful in the last %n days._" : ["最近%n天內的大多數任務都成功完成。"],
     "_A lot of tasks failed in the last day. Consider checking the nextcloud log for errors and investigating whether the AI provider apps have been set up correctly._::_A lot of tasks failed in the last %n days. Consider checking the nextcloud log for errors and investigating whether the AI provider apps have been set up correctly._" : ["最近%n天內，有許多任務執行失敗。建議檢查 Nextcloud 紀錄檔中的錯誤訊息，並確認 AI 服務提供者應用程式是否已正確設定。"],
     "Task Processing worker status" : "任務處理 worker 的狀態",
     "_The Task Processing worker has run in the last %n minute._::_The Task Processing worker has run in the last %n minutes._" : ["任務處理 worker 已在過去 %n 分鐘內執行過。"],
@@ -872,6 +875,7 @@
     "Apps" : "應用程式",
     "for Argon2 for password hashing" : "用於 Argon2 進行密碼雜湊處理",
     "MariaDB version 10.3 detected, this version is end-of-life and only supported as part of Ubuntu 20.04. MariaDB >=%1$s and <=%2$s is suggested for best performance, stability and functionality with this version of Nextcloud." : "偵測到 MariaDB 版本 10.3，此版本已終止支援，僅作為 Ubuntu 20.04 的一部份提供支援。建議使用 MariaDB >=%1$s 且 <=%2$s 以取得此版本 Nextcloud 的最佳效能、穩定性與功能。",
+    "_Most tasks were successful in the last day._::_Most tasks were successful in the last %n days._" : ["最近%n天內的大多數任務都成功完成。"],
     "_The Task Processing worker has run in the last minute._::_The Task Processing worker has run in the last %n minutes._" : ["任務處理 worker 已在過去 %n 分鐘內執行過。"],
     "Machine translation" : "機器翻譯",
     "Image generation" : "影像產生",
@@ -1039,6 +1043,9 @@
     "Limited ODF compatibility" : "有限的 ODF 相容性",
     "Best Microsoft compatibility" : "最佳微軟相容性",
     "{progress}% Deploying …" : "{progress}% 正在部署 ……",
-    "{progress}% Initializing …" : "{progress}% 正在初始化 ……"
+    "{progress}% Initializing …" : "{progress}% 正在初始化 ……",
+    "Redis cache" : "Redis 快取",
+    "You are still using the old Redis cache backend. For full support of latest Valkey and Redis features, like clustering and sentinel, please switch to the new KeyValueCache backend." : "您仍在使用舊的 Redis 快取後端。為完整支援最新的 Valkey 與 Redis 功能，例如叢集與 sentinel，請切換至新的 KeyValueCache 後端。",
+    "No legacy Redis cache detected" : "未偵測到舊的 Redis 快取"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

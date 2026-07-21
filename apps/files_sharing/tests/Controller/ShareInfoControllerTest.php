@@ -51,6 +51,7 @@ class ShareInfoControllerTest extends TestCase {
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')
 			->willReturn('sharePass');
+		$share->method('isPasswordProtected')->willReturn(true);
 
 		$this->shareManager->method('getShareByToken')
 			->with('token')
@@ -68,6 +69,7 @@ class ShareInfoControllerTest extends TestCase {
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')
 			->willReturn('sharePass');
+		$share->method('isPasswordProtected')->willReturn(true);
 		$share->method('getPermissions')
 			->willReturn(Constants::PERMISSION_CREATE);
 
@@ -109,6 +111,7 @@ class ShareInfoControllerTest extends TestCase {
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')
 			->willReturn('sharePass');
+		$share->method('isPasswordProtected')->willReturn(true);
 		$share->method('getPermissions')
 			->willReturn(Constants::PERMISSION_READ | Constants::PERMISSION_UPDATE);
 		$share->method('getNode')
@@ -141,6 +144,7 @@ class ShareInfoControllerTest extends TestCase {
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')
 			->willReturn('sharePass');
+		$share->method('isPasswordProtected')->willReturn(true);
 		$share->method('getPermissions')
 			->willReturn(Constants::PERMISSION_READ);
 		$share->method('getNode')
@@ -222,6 +226,7 @@ class ShareInfoControllerTest extends TestCase {
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')
 			->willReturn('sharePass');
+		$share->method('isPasswordProtected')->willReturn(true);
 		$share->method('getPermissions')
 			->willReturn(Constants::PERMISSION_READ | Constants::PERMISSION_UPDATE);
 		$share->method('getNode')

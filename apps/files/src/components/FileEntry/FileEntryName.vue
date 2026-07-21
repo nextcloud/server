@@ -136,7 +136,7 @@ export default defineComponent({
 				return {
 					is: 'span',
 					params: {
-						title: t('files', 'This node is unavailable'),
+						title: t('files', '{displayName} (unavailable)', { displayName: this.source.displayname }),
 					},
 				}
 			}
@@ -148,11 +148,12 @@ export default defineComponent({
 					folder: this.activeFolder!,
 					contents: [],
 				})
+				const accessibleName = `${displayName}: ${this.source.displayname}`
 				return {
 					is: 'button',
 					params: {
-						'aria-label': displayName,
-						title: displayName,
+						'aria-label': accessibleName,
+						title: accessibleName,
 						tabindex: '0',
 					},
 				}
@@ -190,7 +191,7 @@ export default defineComponent({
 				return
 			}
 
-			let validity = getFilenameValidity(newName)
+			let validity = getFilenameValidity(newName, false, this.source.type === FileType.Folder)
 			// Checking if already exists
 			if (validity === '' && this.checkIfNodeExists(newName)) {
 				validity = t('files', 'Another entry with the same name already exists.')

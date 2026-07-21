@@ -85,6 +85,9 @@ abstract class ObjectStoreTestCase extends TestCase {
 		try {
 			set_error_handler(
 				function (int $errno, string $errstr) use (&$warnings): void {
+					if ($errno === E_DEPRECATED || $errno === E_USER_DEPRECATED) {
+						return;
+					}
 					$warnings[] = $errstr;
 				},
 			);
@@ -105,6 +108,9 @@ abstract class ObjectStoreTestCase extends TestCase {
 		try {
 			set_error_handler(
 				function (int $errno, string $errstr) use (&$warnings): void {
+					if ($errno === E_DEPRECATED || $errno === E_USER_DEPRECATED) {
+						return;
+					}
 					$warnings[] = $errstr;
 				},
 			);

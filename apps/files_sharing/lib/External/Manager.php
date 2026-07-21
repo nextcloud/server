@@ -9,7 +9,6 @@
 namespace OCA\Files_Sharing\External;
 
 use OC\Files\Filesystem;
-use OC\User\NoUserException;
 use OCA\FederatedFileSharing\Events\FederatedShareAddedEvent;
 use OCA\Files_Sharing\Helper;
 use OCP\AppFramework\Db\DoesNotExistException;
@@ -35,6 +34,7 @@ use OCP\IUserSession;
 use OCP\Notification\IManager;
 use OCP\OCS\IDiscoveryService;
 use OCP\Share\IShare;
+use OCP\User\Exceptions\UserNotFoundException;
 use Psr\Log\LoggerInterface;
 
 class Manager {
@@ -67,7 +67,7 @@ class Manager {
 	 *
 	 * @throws Exception
 	 * @throws NotPermittedException
-	 * @throws NoUserException
+	 * @throws UserNotFoundException
 	 */
 	public function addShare(ExternalShare $externalShare, IUser|IGroup|null $shareWith = null): ?Mount {
 		$shareWith = $shareWith ?? $this->user;
