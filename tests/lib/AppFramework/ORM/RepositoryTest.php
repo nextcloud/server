@@ -19,7 +19,6 @@ use OCP\AppFramework\ORM\Repository;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\Types;
 use OCP\IConfig;
-use OCP\IDBConnection;
 use OCP\Server;
 use Test\TestCase;
 
@@ -27,15 +26,6 @@ use Test\TestCase;
 class NoPrimaryKey {
 	#[Column(name: 'id', type: Types::INTEGER, nullable: true)]
 	public ?int $id = null;
-}
-
-/** @template-extends Repository<NoPrimaryKey> */
-class NoPrimaryKeyRepository extends Repository {
-	public function __construct(
-		IDBConnection $connection,
-	) {
-		parent::__construct($connection, NoPrimaryKey::class);
-	}
 }
 
 #[Entity(name: 'repository_test_test2')]
@@ -63,15 +53,6 @@ class PrimaryKey {
 	public \DateTime $date;
 }
 
-/** @template-extends Repository<PrimaryKey> */
-class PrimaryKeyRepository extends Repository {
-	public function __construct(
-		IDBConnection $connection,
-	) {
-		parent::__construct($connection, PrimaryKey::class);
-	}
-}
-
 #[Entity(name: 'repository_customer')]
  final class Customer {
     #[Id]
@@ -86,15 +67,6 @@ class PrimaryKeyRepository extends Repository {
 	public string $name;
 }
 
-/** @template-extends Repository<Customer> */
-class CustomerRepository extends Repository {
-	public function __construct(
-		IDBConnection $connection,
-	) {
-		parent::__construct($connection, Customer::class);
-	}
-}
-
  #[Entity(name: 'repository_cart')]
  final class Cart {
     #[Id]
@@ -104,15 +76,6 @@ class CustomerRepository extends Repository {
     #[OneToOne(targetEntity: Customer::class, invertedBy: 'cart')]
     #[JoinColumn(name: 'customer_id', referencedColumnName: 'id')]
     public Customer|null $customer;
-}
-
-/** @template-extends Repository<Cart> */
-class CartRepository extends Repository {
-	public function __construct(
-		IDBConnection $connection,
-	) {
-		parent::__construct($connection, Cart::class);
-	}
 }
 
 #[Entity(name: 'repository_invalid_owner')]
@@ -173,15 +136,6 @@ final class CascadeParent {
 	public CascadeChild|null $child = null;
 }
 
-/** @template-extends Repository<CascadeParent> */
-class CascadeParentRepository extends Repository {
-	public function __construct(
-		IDBConnection $connection,
-	) {
-		parent::__construct($connection, CascadeParent::class);
-	}
-}
-
 #[Entity(name: 'repository_cascade_child')]
 final class CascadeChild {
 	#[Id]
@@ -193,31 +147,22 @@ final class CascadeChild {
 	public CascadeParent|null $parent = null;
 }
 
-/** @template-extends Repository<CascadeChild> */
-class CascadeChildRepository extends Repository {
-	public function __construct(
-		IDBConnection $connection,
-	) {
-		parent::__construct($connection, CascadeChild::class);
-	}
-}
-
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class RepositoryTest extends TestCase {
-	/** @var array<class-string, class-string<Repository>> */
+	/** @var list<class-string> */
 	public static array $entitiesClasses = [
-		NoPrimaryKey::class => NoPrimaryKeyRepository::class,
-		PrimaryKey::class => PrimaryKeyRepository::class,
-		Customer::class => CustomerRepository::class,
-		Cart::class => CartRepository::class,
-		CascadeParent::class => CascadeParentRepository::class,
-		CascadeChild::class => CascadeChildRepository::class,
+		NoPrimaryKey::class,
+		PrimaryKey::class,
+		Customer::class,
+		Cart::class,
+		CascadeParent::class,
+		CascadeChild::class,
 	];
 
 	public static function setUpBeforeClass(): void {
 		$schema = new SchemaWrapper(Server::get(Connection::class));
 		$entityManager = Server::get(EntityManager::class);
-		foreach (static::$entitiesClasses as $entityClass => $repositoryClass) {
+		foreach (static::$entitiesClasses as $entityClass) {
 			try {
 				$entityManager->createTable($entityClass, $schema);
 			} catch (\RuntimeException) {
@@ -230,7 +175,7 @@ class RepositoryTest extends TestCase {
 	public static function tearDownAfterClass(): void {
 		$entityManager = Server::get(EntityManager::class);
 		$prefix = Server::get(IConfig::class)->getSystemValueString('dbtableprefix', 'oc_');
-		foreach (static::$entitiesClasses as $entityClass => $repositoryClass) {
+		foreach (static::$entitiesClasses as $entityClass) {
 			try {
 				$entityManager->dropTable($entityClass, $prefix);
 			} catch (\RuntimeException) {
@@ -239,15 +184,24 @@ class RepositoryTest extends TestCase {
 		}
 	}
 
+	/**
+	 * @template T of object
+	 * @param class-string<T> $entityClass
+	 * @return Repository<T>
+	 */
+	private function getRepository(string $entityClass): Repository {
+		return Server::get(EntityManager::class)->getRepository($entityClass);
+	}
+
 	public function testMissingPrimaryKey(): void {
 		$this->expectException(\RuntimeException::class);
 
-		$repo = Server::get(NoPrimaryKeyRepository::class);
+		$repo = $this->getRepository(NoPrimaryKey::class);
 		$_ = $repo->getTableName();
 	}
 
 	public function testPrimaryKey(): void {
-		$repo = Server::get(PrimaryKeyRepository::class);
+		$repo = $this->getRepository(PrimaryKey::class);
 		$this->assertEquals('repository_test_test2', $repo->getTableName());
 		$entity = new PrimaryKey();
 		$entity->name = null;
@@ -315,7 +269,7 @@ class RepositoryTest extends TestCase {
 	}
 
 	public function testDeleteBy(): void {
-		$repo = Server::get(PrimaryKeyRepository::class);
+		$repo = $this->getRepository(PrimaryKey::class);
 
 		$entity = new PrimaryKey();
 		$entity->name = null;
@@ -339,8 +293,8 @@ class RepositoryTest extends TestCase {
 	}
 
 	public function testOneToOne(): void {
-		$cartRepo = Server::get(CartRepository::class);
-		$customerRepo = Server::get(CustomerRepository::class);
+		$cartRepo = $this->getRepository(Cart::class);
+		$customerRepo = $this->getRepository(Customer::class);
 
 		$customer = new Customer();
 		$customer->name = 'foo';
@@ -368,7 +322,7 @@ class RepositoryTest extends TestCase {
 	}
 
 	public function testInsertOnMappedBySideThrows(): void {
-		$customerRepo = Server::get(CustomerRepository::class);
+		$customerRepo = $this->getRepository(Customer::class);
 
 		$cart = new Cart();
 		$cart->customer = null;
@@ -384,8 +338,8 @@ class RepositoryTest extends TestCase {
 	}
 
 	public function testOneToOneUniqueConstraint(): void {
-		$cartRepo = Server::get(CartRepository::class);
-		$customerRepo = Server::get(CustomerRepository::class);
+		$cartRepo = $this->getRepository(Cart::class);
+		$customerRepo = $this->getRepository(Customer::class);
 
 		$customer = new Customer();
 		$customer->name = 'shared';
@@ -407,7 +361,7 @@ class RepositoryTest extends TestCase {
 	}
 
 	public function testOneToOneNullRelation(): void {
-		$customerRepo = Server::get(CustomerRepository::class);
+		$customerRepo = $this->getRepository(Customer::class);
 
 		$customer = new Customer();
 		$customer->name = 'no cart yet';
@@ -432,8 +386,8 @@ class RepositoryTest extends TestCase {
 	}
 
 	public function testDeleteWithDanglingMappedByThrows(): void {
-		$cartRepo = Server::get(CartRepository::class);
-		$customerRepo = Server::get(CustomerRepository::class);
+		$cartRepo = $this->getRepository(Cart::class);
+		$customerRepo = $this->getRepository(Customer::class);
 
 		$customer = new Customer();
 		$customer->name = 'has a cart';
@@ -450,8 +404,8 @@ class RepositoryTest extends TestCase {
 	}
 
 	public function testDeleteCascadesWhenConfigured(): void {
-		$parentRepo = Server::get(CascadeParentRepository::class);
-		$childRepo = Server::get(CascadeChildRepository::class);
+		$parentRepo = $this->getRepository(CascadeParent::class);
+		$childRepo = $this->getRepository(CascadeChild::class);
 
 		$parent = new CascadeParent();
 		$parentRepo->insert($parent);
@@ -471,7 +425,7 @@ class RepositoryTest extends TestCase {
 	}
 
 	public function testOwningSideGeneratesLeftJoin(): void {
-		$cartRepo = Server::get(CartRepository::class);
+		$cartRepo = $this->getRepository(Cart::class);
 
 		/** @var array{0: IQueryBuilder, 1: array} $result */
 		$result = self::invokePrivate($cartRepo, 'getJoinedSelectQueryBuilder', [['id' => 1], []]);
@@ -488,7 +442,7 @@ class RepositoryTest extends TestCase {
 	}
 
 	public function testInverseSideGeneratesLeftJoin(): void {
-		$customerRepo = Server::get(CustomerRepository::class);
+		$customerRepo = $this->getRepository(Customer::class);
 
 		/** @var array{0: IQueryBuilder, 1: array} $result */
 		$result = self::invokePrivate($customerRepo, 'getJoinedSelectQueryBuilder', [['id' => 1], []]);
@@ -505,7 +459,7 @@ class RepositoryTest extends TestCase {
 	}
 
 	public function testEntityWithoutRelationsGeneratesNoJoin(): void {
-		$repo = Server::get(PrimaryKeyRepository::class);
+		$repo = $this->getRepository(PrimaryKey::class);
 
 		/** @var array{0: IQueryBuilder, 1: array} $result */
 		$result = self::invokePrivate($repo, 'getJoinedSelectQueryBuilder', [['id' => 1], []]);
