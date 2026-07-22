@@ -592,7 +592,7 @@ class Local extends Common {
 			$rootStorage = new Local(['datadir' => '/']);
 			return $rootStorage->copy($sourceStorage->getSourcePath($sourceInternalPath), $this->getSourcePath($targetInternalPath));
 		} else {
-			return parent::copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
+			return parent::copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime);
 		}
 	}
 

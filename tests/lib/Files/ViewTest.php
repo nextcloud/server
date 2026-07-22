@@ -510,6 +510,48 @@ class ViewTest extends \Test\TestCase {
 		$this->copyBetweenStorages($storage1, $storage2);
 	}
 
+	public static function copyPreservesMtimeProvider(): array {
+		return [
+			'same storage' => [false],
+			'cross storage' => [true],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('copyPreservesMtimeProvider')]
+	public function testCopyPreservesMtimeRecursivelyByDefault(bool $crossStorage): void {
+		$sourceStorage = $this->getTestStorage(true, TemporaryNoCross::class);
+		Filesystem::mount($sourceStorage, [], '/test/');
+
+		$targetPath = 'copied';
+		if ($crossStorage) {
+			$targetStorage = $this->getTestStorage(true, TemporaryNoCross::class);
+			Filesystem::mount($targetStorage, [], '/test/target');
+			$targetPath = 'target/copied';
+		}
+
+		$view = new View('/test');
+		$fileMtime = time() - 3600;
+		$folderMtime = $fileMtime - 3600;
+		$view->touch('folder/bar.txt', $fileMtime);
+		$view->touch('folder', $folderMtime);
+
+		$this->assertTrue($view->copy('folder', $targetPath));
+		$this->assertSame($fileMtime, $view->filemtime($targetPath . '/bar.txt'));
+		$this->assertSame($folderMtime, $view->filemtime($targetPath));
+	}
+
+	public function testCopyDoesNotPreserveMtimeWhenDisabled(): void {
+		$storage = $this->getTestStorage();
+		Filesystem::mount($storage, [], '/test/');
+
+		$view = new View('/test');
+		$sourceMtime = time() - 3600;
+		$view->touch('foo.txt', $sourceMtime);
+
+		$this->assertTrue($view->copy('foo.txt', 'copied.txt', false));
+		$this->assertNotSame($sourceMtime, $view->filemtime('copied.txt'));
+	}
+
 	public function copyBetweenStorages($storage1, $storage2) {
 		Filesystem::mount($storage1, [], '/');
 		Filesystem::mount($storage2, [], '/substorage');
