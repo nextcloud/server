@@ -26,6 +26,7 @@ class ConfigLexicon implements ILexicon {
 	public const SHARE_LINK_PASSWORD_ENFORCED = 'shareapi_enforce_links_password';
 	public const SHARE_LINK_EXPIRE_DATE_DEFAULT = 'shareapi_default_expire_date';
 	public const SHARE_LINK_EXPIRE_DATE_ENFORCED = 'shareapi_enforce_expire_date';
+	public const SHARE_LINK_BASE_URL = 'shareapi_public_link_base_url';
 	public const USER_LANGUAGE = 'lang';
 	public const OCM_DISCOVERY_ENABLED = 'ocm_discovery_enabled';
 
@@ -91,6 +92,7 @@ class ConfigLexicon implements ILexicon {
 				},
 				definition: 'Enforce expiration date for shares via link or mail'
 			),
+			new Entry(self::SHARE_LINK_BASE_URL, ValueType::STRING, '', 'Optional base URL for generated public share links'),
 			new Entry(self::LASTCRON_TIMESTAMP, ValueType::INT, 0, 'timestamp of last cron execution'),
 			new Entry(self::OCM_DISCOVERY_ENABLED, ValueType::BOOL, true, 'enable/disable OCM'),
 			new Entry(self::UNIFIED_SEARCH_MIN_SEARCH_LENGTH, ValueType::INT, 1, 'Minimum search length to trigger the request', rename: 'unified-search.min-search-length'),

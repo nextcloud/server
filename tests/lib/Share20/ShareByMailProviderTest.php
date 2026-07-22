@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Test\Share20;
 
 use OC\Files\Node\Node;
+use OCA\Files_Sharing\PublicShareUrlGenerator;
 use OCA\ShareByMail\Settings\SettingsManager;
 use OCA\ShareByMail\ShareByMailProvider;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -64,6 +65,9 @@ class ShareByMailProviderTest extends TestCase {
 	/** @var \PHPUnit\Framework\MockObject\MockObject|IURLGenerator */
 	protected $urlGenerator;
 
+	/** @var PublicShareUrlGenerator|MockObject */
+	protected $publicShareUrlGenerator;
+
 	/** @var IConfig|MockObject */
 	protected $config;
 
@@ -99,6 +103,7 @@ class ShareByMailProviderTest extends TestCase {
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->defaults = $this->getMockBuilder(Defaults::class)->disableOriginalConstructor()->getMock();
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->publicShareUrlGenerator = $this->createMock(PublicShareUrlGenerator::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->activityManager = $this->createMock(\OCP\Activity\IManager::class);
 		$this->settingsManager = $this->createMock(SettingsManager::class);
@@ -121,6 +126,7 @@ class ShareByMailProviderTest extends TestCase {
 			$this->logger,
 			$this->mailer,
 			$this->urlGenerator,
+			$this->publicShareUrlGenerator,
 			$this->activityManager,
 			$this->settingsManager,
 			$this->defaults,

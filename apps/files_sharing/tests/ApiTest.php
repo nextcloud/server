@@ -16,6 +16,7 @@ use OC\Files\Storage\Temporary;
 use OC\Files\View;
 use OCA\Federation\TrustedServers;
 use OCA\Files_Sharing\Controller\ShareAPIController;
+use OCA\Files_Sharing\PublicShareUrlGenerator;
 use OCP\App\IAppManager;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSException;
@@ -146,6 +147,7 @@ class ApiTest extends TestCase {
 			$mailer,
 			$tagManager,
 			$this->getEmailValidatorWithStrictEmailCheck(),
+			Server::get(PublicShareUrlGenerator::class),
 			$trustedServers,
 			$userId,
 		);
@@ -238,6 +240,30 @@ class ApiTest extends TestCase {
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 		$ocs->deleteShare($data['id']);
 		$ocs->cleanup();
+	}
+
+	#[\PHPUnit\Framework\Attributes\Group(name: 'RoutingWeirdness')]
+	public function testCreateShareLinkWithConfiguredPublicLinkBaseUrl(): void {
+		$appConfig = Server::get(IAppConfig::class);
+		$appConfig->setValueString('core', ConfigLexicon::SHARE_LINK_BASE_URL, 'https://public-gateway.example/prefix/');
+
+		try {
+			$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
+			$result = $ocs->createShare($this->folder, Constants::PERMISSION_ALL, IShare::TYPE_LINK);
+			$ocs->cleanup();
+
+			$data = $result->getData();
+			$this->assertSame(
+				'https://public-gateway.example/prefix/s/' . $data['token'],
+				$data['url'],
+			);
+
+			$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
+			$ocs->deleteShare($data['id']);
+			$ocs->cleanup();
+		} finally {
+			$appConfig->deleteKey('core', ConfigLexicon::SHARE_LINK_BASE_URL);
+		}
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataAllowFederationOnPublicShares')]

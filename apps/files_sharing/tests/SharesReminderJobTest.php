@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OCA\Files_Sharing\Tests;
 
 use OC\SystemConfig;
+use OCA\Files_Sharing\PublicShareUrlGenerator;
 use OCA\Files_Sharing\SharesReminderJob;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Constants;
@@ -74,6 +75,7 @@ class SharesReminderJobTest extends \Test\TestCase {
 			$this->userManager,
 			Server::get(LoggerInterface::class),
 			Server::get(IURLGenerator::class),
+			Server::get(PublicShareUrlGenerator::class),
 			Server::get(IFactory::class),
 			$this->mailer,
 			Server::get(Defaults::class),

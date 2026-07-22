@@ -18,6 +18,7 @@ use OCA\Deck\Sharing\ShareAPIHelper;
 use OCA\Federation\TrustedServers;
 use OCA\Files_Sharing\Exceptions\SharingRightsException;
 use OCA\Files_Sharing\External\Storage;
+use OCA\Files_Sharing\PublicShareUrlGenerator;
 use OCA\Files_Sharing\ResponseDefinitions;
 use OCA\Files_Sharing\SharedStorage;
 use OCA\GlobalSiteSelector\Service\SlaveService;
@@ -107,6 +108,7 @@ class ShareAPIController extends OCSController {
 		private IMailer $mailer,
 		private ITagManager $tagManager,
 		private IEmailValidator $emailValidator,
+		private PublicShareUrlGenerator $publicShareUrlGenerator,
 		private ?TrustedServers $trustedServers,
 		private ?string $userId = null,
 	) {
@@ -271,7 +273,7 @@ class ShareAPIController extends OCSController {
 			$result['share_with'] = $share->getSharedWith();
 			$result['share_with_displayname'] = $group !== null ? $group->getDisplayName() : $share->getSharedWith();
 		} elseif ($share->getShareType() === IShare::TYPE_LINK) {
-			$url = $token ? $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.showShare', ['token' => $token]) : null;
+			$url = $token ? $this->publicShareUrlGenerator->getUrl($token) : null;
 
 			// "share_with" and "share_with_displayname" for passwords of link
 			// shares was deprecated in Nextcloud 15, use "password" instead.
@@ -293,6 +295,7 @@ class ShareAPIController extends OCSController {
 			$result['share_with_displayname'] = $this->getDisplayNameFromAddressBook($share->getSharedWith(), 'CLOUD');
 			$result['token'] = $token;
 		} elseif ($share->getShareType() === IShare::TYPE_EMAIL) {
+			$result['url'] = $token ? $this->publicShareUrlGenerator->getUrl($token) : null;
 			$result['share_with'] = $share->getSharedWith();
 			$result['password'] = $this->formatPasswordField($share->getPassword());
 			$result['password_expiration_time'] = $share->getPasswordExpirationTime() !== null ? $share->getPasswordExpirationTime()->format(\DateTime::ATOM) : null;

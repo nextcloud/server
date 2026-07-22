@@ -45,6 +45,7 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 		private IPreview $previewManager,
 		protected FederatedShareProvider $federatedShareProvider,
 		private IUrlGenerator $urlGenerator,
+		private PublicShareUrlGenerator $publicShareUrlGenerator,
 		private IEventDispatcher $eventDispatcher,
 		private IL10N $l10n,
 		private Defaults $defaults,
@@ -175,7 +176,7 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 			}
 		}
 
-		$shareUrl = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.showShare', ['token' => $token]);
+		$shareUrl = $this->publicShareUrlGenerator->getUrl($token);
 		// By default use the share link as the direct link
 		$directLink = $shareUrl;
 		// Add the direct link header actions
@@ -199,7 +200,7 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 	protected function addMetaHeaders(IShare $share): void {
 		$shareNode = $share->getNode();
 		$token = $share->getToken();
-		$shareUrl = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.showShare', ['token' => $token]);
+		$shareUrl = $this->publicShareUrlGenerator->getUrl($token);
 
 		// Handle preview generation for OpenGraph
 		$hasImagePreview = false;

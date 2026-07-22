@@ -15,6 +15,7 @@ use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\Controller\ShareController;
 use OCA\Files_Sharing\DefaultPublicShareTemplateProvider;
 use OCA\Files_Sharing\Event\BeforeTemplateRenderedEvent;
+use OCA\Files_Sharing\PublicShareUrlGenerator;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
@@ -80,6 +81,7 @@ class ShareControllerTest extends \Test\TestCase {
 	private IEventDispatcher&MockObject $eventDispatcher;
 	private FederatedShareProvider&MockObject $federatedShareProvider;
 	private IPublicShareTemplateFactory&MockObject $publicShareTemplateFactory;
+	private PublicShareUrlGenerator&MockObject $publicShareUrlGenerator;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -105,6 +107,8 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
 		$this->defaults = $this->createMock(Defaults::class);
 		$this->publicShareTemplateFactory = $this->createMock(IPublicShareTemplateFactory::class);
+		$this->publicShareUrlGenerator = $this->createMock(PublicShareUrlGenerator::class);
+		$this->publicShareUrlGenerator->method('getUrl')->willReturn('shareUrl');
 		$this->publicShareTemplateFactory
 			->expects($this->any())
 			->method('getProvider')
@@ -115,6 +119,7 @@ class ShareControllerTest extends \Test\TestCase {
 					$this->previewManager,
 					$this->federatedShareProvider,
 					$this->urlGenerator,
+					$this->publicShareUrlGenerator,
 					$this->eventDispatcher,
 					$this->l10n,
 					$this->defaults,
@@ -260,11 +265,14 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->session->method('exists')->with('public_link_authenticated')->willReturn(true);
 		$this->session->method('get')->with('public_link_authenticated')->willReturn('42');
 
-		$this->urlGenerator->expects(self::atLeast(2))
+		$this->publicShareUrlGenerator->expects(self::atLeastOnce())
+			->method('getUrl')
+			->with('token')
+			->willReturn('shareUrl');
+
+		$this->urlGenerator->expects(self::once())
 			->method('linkToRouteAbsolute')
 			->willReturnMap([
-				// every file has the show show share url in the opengraph url prop
-				['files_sharing.sharecontroller.showShare', ['token' => 'token'], 'shareUrl'],
 				// this share is not an image to the default preview is used
 				['files_sharing.PublicPreview.getPreview', ['x' => 256, 'y' => 256, 'file' => $share->getTarget(), 'token' => 'token'], 'previewUrl'],
 			]);
@@ -423,13 +431,10 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->session->method('exists')->with('public_link_authenticated')->willReturn(true);
 		$this->session->method('get')->with('public_link_authenticated')->willReturn('42');
 
-		$this->urlGenerator->expects(self::atLeastOnce())
-			->method('linkToRouteAbsolute')
-			->willReturnMap([
-				// every file has the show show share url in the opengraph url prop
-				['files_sharing.sharecontroller.showShare', ['token' => 'token'], 'shareUrl'],
-				// there is no preview or folders so no other link for opengraph
-			]);
+		$this->publicShareUrlGenerator->expects(self::atLeastOnce())
+			->method('getUrl')
+			->with('token')
+			->willReturn('shareUrl');
 
 		$this->config->method('getSystemValue')
 			->willReturnMap(
@@ -564,11 +569,14 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->session->method('exists')->with('public_link_authenticated')->willReturn(true);
 		$this->session->method('get')->with('public_link_authenticated')->willReturn('42');
 
-		$this->urlGenerator->expects(self::atLeast(2))
+		$this->publicShareUrlGenerator->expects(self::atLeastOnce())
+			->method('getUrl')
+			->with('token')
+			->willReturn('shareUrl');
+
+		$this->urlGenerator->expects(self::once())
 			->method('linkToRouteAbsolute')
 			->willReturnMap([
-				// every file has the show show share url in the opengraph url prop
-				['files_sharing.sharecontroller.showShare', ['token' => 'token'], 'shareUrl'],
 				// this share is not an image to the default preview is used
 				['files_sharing.PublicPreview.getPreview', ['x' => 256, 'y' => 256, 'file' => $share->getTarget(), 'token' => 'token'], 'previewUrl'],
 			]);

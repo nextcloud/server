@@ -204,6 +204,13 @@ export default class Share {
 	}
 
 	/**
+	 * Get the complete public share URL returned by the server
+	 */
+	get url(): string | undefined {
+		return this._share.url
+	}
+
+	/**
 	 * Set the public share token
 	 */
 	set token(token: string) {

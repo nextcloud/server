@@ -44,6 +44,7 @@ class SharesReminderJob extends TimedJob {
 		private readonly IUserManager $userManager,
 		private readonly LoggerInterface $logger,
 		private readonly IURLGenerator $urlGenerator,
+		private readonly PublicShareUrlGenerator $publicShareUrlGenerator,
 		private readonly IFactory $l10nFactory,
 		private readonly IMailer $mailer,
 		private readonly Defaults $defaults,
@@ -231,9 +232,7 @@ class SharesReminderJob extends TimedJob {
 			]);
 		} else {
 			$reminderInfo['email'] = $sharedWith;
-			$reminderInfo['folderLink'] = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.showShare', [
-				'token' => $share->getToken()
-			]);
+			$reminderInfo['folderLink'] = $this->publicShareUrlGenerator->getUrl($share->getToken());
 		}
 		if (empty($reminderInfo['email'])) {
 			return null;
