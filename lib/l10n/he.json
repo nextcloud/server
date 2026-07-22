@@ -142,6 +142,7 @@
     "Storage connection timeout. %s" : "פסק זמן חיבור אחסון. %s",
     "Images" : "תמונות",
     "Optical character recognition" : "זיהוי תווים אופטי",
+    "Sources" : "מקורות",
     "Instructions" : "הוראות",
     "Text" : "טקסט",
     "Summary" : "תקציר",

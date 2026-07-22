@@ -1,7 +1,7 @@
 OC.L10N.register(
     "profile",
     {
-    "View profile" : "Rodyti profilį",
+    "View profile" : "Peržiūrėti profilį",
     "Profile picker" : "Profilio rinkiklis",
     "Profile" : "Profilis",
     "Searching …" : "Ieškoma",
