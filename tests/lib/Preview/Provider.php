@@ -9,7 +9,9 @@
 namespace Test\Preview;
 
 use OC\Files\Node\File;
+use OC\Preview\Provider as PreviewProvider;
 use OCP\Files\IRootFolder;
+use OCP\Preview\IProviderV2;
 
 abstract class Provider extends \Test\TestCase {
 	/** @var string */
@@ -18,7 +20,7 @@ abstract class Provider extends \Test\TestCase {
 	protected $width;
 	/** @var int */
 	protected $height;
-	/** @var \OC\Preview\Provider */
+	/** @var IProviderV2|PreviewProvider */
 	protected $provider;
 	/** @var int */
 	protected $maxWidth = 1024;
@@ -126,7 +128,9 @@ abstract class Provider extends \Test\TestCase {
 	 */
 	private function getPreview($provider) {
 		$file = new File(\OC::$server->get(IRootFolder::class), $this->rootView, $this->imgPath);
-		$preview = $provider->getThumbnail($file, $this->maxWidth, $this->maxHeight, $this->scalingUp);
+		$preview = ($provider instanceof PreviewProvider)
+			? $provider->getThumbnail($file, $this->maxWidth, $this->maxHeight, $this->scalingUp, $this->rootView)
+			: $provider->getThumbnail($file, $this->maxWidth, $this->maxHeight, $this->scalingUp);
 
 		if (get_class($this) === BitmapTest::class && $preview === null) {
 			$this->markTestSkipped('An error occured while operating with Imagick.');
