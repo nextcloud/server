@@ -111,6 +111,7 @@ class ComposerStaticInitFiles_External
         'OCA\\Files_External\\Lib\\Storage\\OwnCloud' => __DIR__ . '/..' . '/../lib/Lib/Storage/OwnCloud.php',
         'OCA\\Files_External\\Lib\\Storage\\SFTP' => __DIR__ . '/..' . '/../lib/Lib/Storage/SFTP.php',
         'OCA\\Files_External\\Lib\\Storage\\SFTPReadStream' => __DIR__ . '/..' . '/../lib/Lib/Storage/SFTPReadStream.php',
+        'OCA\\Files_External\\Lib\\Storage\\SFTPReflection' => __DIR__ . '/..' . '/../lib/Lib/Storage/SFTPReflection.php',
         'OCA\\Files_External\\Lib\\Storage\\SFTPWriteStream' => __DIR__ . '/..' . '/../lib/Lib/Storage/SFTPWriteStream.php',
         'OCA\\Files_External\\Lib\\Storage\\SMB' => __DIR__ . '/..' . '/../lib/Lib/Storage/SMB.php',
         'OCA\\Files_External\\Lib\\Storage\\StreamWrapper' => __DIR__ . '/..' . '/../lib/Lib/Storage/StreamWrapper.php',

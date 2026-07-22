@@ -13,6 +13,7 @@ use OCP\AppFramework\Attribute\Consumable;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
+use OCP\Sharing\Icon\ShareIconURL;
 use OCP\Sharing\ISharingRegistry;
 use OCP\Sharing\Share;
 use OCP\Sharing\ShareUser;
@@ -77,12 +78,20 @@ final readonly class ShareRecipient {
 			);
 		}
 
+		$icon = $recipientType->getRecipientIcon($this->value);
+		if ($icon === null) {
+			$icon = new ShareIconURL(
+				$urlGenerator->linkToRouteAbsolute('core.GuestAvatar.getAvatar', ['guestName' => $displayName, 'size' => 64]),
+				$urlGenerator->linkToRouteAbsolute('core.GuestAvatar.getAvatar', ['guestName' => $displayName, 'size' => 64, 'darkTheme' => true]),
+			);
+		}
+
 		return [
 			'class' => $this->class,
 			'value' => $this->value,
 			'instance' => $this->instance,
 			'display_name' => $displayName,
-			'icon' => $recipientType->getRecipientIcon($this->value)?->format(),
+			'icon' => $icon->format(),
 			'secret' => $secret,
 			'initiator' => $this->initiator?->format($userManager),
 		];

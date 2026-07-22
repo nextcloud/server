@@ -57,7 +57,7 @@ use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 class Setup {
-	public const MIN_PASSWORD_SALT_LENGTH = 30;
+	public const MIN_PASSWORD_SALT_LENGTH = 32;
 	public const MIN_SECRET_LENGTH = 48;
 
 	protected IL10N $l10n;

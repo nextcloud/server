@@ -2263,7 +2263,10 @@ abstract class AbstractSharingManagerTests extends TestCase {
 					'value' => 'secret',
 					'instance' => null,
 					'display_name' => 'secret',
-					'icon' => null,
+					'icon' => [
+						'light' => 'http://localhost/index.php/avatar/guest/secret/64',
+						'dark' => 'http://localhost/index.php/avatar/guest/secret/64?darkTheme=1',
+					],
 					'secret' => [
 						'updatable' => false,
 					],
@@ -2388,7 +2391,10 @@ abstract class AbstractSharingManagerTests extends TestCase {
 					'value' => 'secret',
 					'instance' => null,
 					'display_name' => 'secret',
-					'icon' => null,
+					'icon' => [
+						'light' => 'http://localhost/index.php/avatar/guest/secret/64',
+						'dark' => 'http://localhost/index.php/avatar/guest/secret/64?darkTheme=1',
+					],
 					'secret' => [
 						'updatable' => false,
 					],

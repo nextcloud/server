@@ -1603,12 +1603,6 @@
     <DeprecatedMethod>
       <code><![CDATA[generate]]></code>
     </DeprecatedMethod>
-    <InternalMethod>
-      <code><![CDATA[decrypt]]></code>
-      <code><![CDATA[encrypt]]></code>
-      <code><![CDATA[setIV]]></code>
-      <code><![CDATA[setIV]]></code>
-    </InternalMethod>
   </file>
   <file src="apps/files_external/lib/Service/StoragesService.php">
     <DeprecatedMethod>
@@ -3939,11 +3933,6 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/IntegrityCheck/Checker.php">
-    <InvalidArrayAccess>
-      <code><![CDATA[$x509->getDN(X509::DN_OPENSSL)['CN']]]></code>
-      <code><![CDATA[$x509->getDN(X509::DN_OPENSSL)['CN']]]></code>
-      <code><![CDATA[$x509->getDN(true)['CN']]]></code>
-    </InvalidArrayAccess>
     <UndefinedInterfaceMethod>
       <code><![CDATA[getOnlyDefaultAliases]]></code>
     </UndefinedInterfaceMethod>
@@ -4086,16 +4075,6 @@
     <FalsableReturnStatement>
       <code><![CDATA[filemtime($this->getDefaultCertificatesBundlePath())]]></code>
     </FalsableReturnStatement>
-  </file>
-  <file src="lib/private/Security/Crypto.php">
-    <InternalMethod>
-      <code><![CDATA[decrypt]]></code>
-      <code><![CDATA[encrypt]]></code>
-      <code><![CDATA[setIV]]></code>
-      <code><![CDATA[setIV]]></code>
-      <code><![CDATA[setPassword]]></code>
-      <code><![CDATA[setPassword]]></code>
-    </InternalMethod>
   </file>
   <file src="lib/private/Security/Normalizer/IpAddress.php">
     <FalsableReturnStatement>

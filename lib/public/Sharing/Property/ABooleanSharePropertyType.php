@@ -30,7 +30,7 @@ abstract class ABooleanSharePropertyType implements ISharePropertyType {
 			return true;
 		}
 
-		return $l10nFactory->get(Application::APP_ID)->t('Only true and false are valid values: ' . $value);
+		return $l10nFactory->get(Application::APP_ID)->t('Only true and false are valid values: %s', [$value]);
 	}
 
 	/**

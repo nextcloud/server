@@ -21,6 +21,7 @@ use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use phpseclib3\Crypt\RSA as CryptRSA;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -37,8 +38,12 @@ class AjaxControllerTest extends TestCase {
 
 	protected function setUp(): void {
 		$this->request = $this->createMock(IRequest::class);
-		$this->rsa = $this->createMock(RSA::class);
-		$this->globalAuth = $this->createMock(GlobalAuth::class);
+		$this->rsa = $this->getMockBuilder(RSA::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$this->globalAuth = $this->getMockBuilder(GlobalAuth::class)
+			->disableOriginalConstructor()
+			->getMock();
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->userManager = $this->createMock(IUserManager::class);
@@ -114,24 +119,32 @@ class AjaxControllerTest extends TestCase {
 	}
 
 	public function testGetSshKeys(): void {
+		// phpseclib3's PrivateKey/PublicKey are final and cannot be mocked, so
+		// generate a real key pair and assert the controller serialises it.
+		$privateKey = CryptRSA::createKey(1024);
+
 		$this->rsa
 			->expects($this->once())
 			->method('createKey')
-			->willReturn([
-				'privatekey' => 'MyPrivateKey',
-				'publickey' => 'MyPublicKey',
-			]);
+			->willReturn($privateKey);
 
-		$expected = new JSONResponse(
-			[
-				'data' => [
-					'private_key' => 'MyPrivateKey',
-					'public_key' => 'MyPublicKey',
-				],
-				'status' => 'success',
-			]
+		$response = $this->ajaxController->getSshKeys();
+
+		$this->assertInstanceOf(JSONResponse::class, $response);
+		$data = $response->getData();
+		$this->assertSame('success', $data['status']);
+		$this->assertSame(
+			$privateKey->toString('PKCS1'),
+			$data['data']['private_key'],
 		);
-		$this->assertEquals($expected, $this->ajaxController->getSshKeys());
+		$this->assertSame(
+			str_replace(
+				'phpseclib-generated-key',
+				gethostname(),
+				$privateKey->getPublicKey()->toString('OpenSSH'),
+			),
+			$data['data']['public_key'],
+		);
 	}
 
 	public function testSaveGlobalCredentialsAsAdminForAnotherUser(): void {

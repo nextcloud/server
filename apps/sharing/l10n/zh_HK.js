@@ -1,6 +1,10 @@
 OC.L10N.register(
     "sharing",
     {
-    "Sharing" : "分享"
+    "The owner does not exist: %s" : "擁有者不存在：%s",
+    "The share already contains the source." : "分享已包含來源。",
+    "The share already contains the recipient." : "分享已包含收件者。",
+    "Sharing" : "分享",
+    "TODO" : "待辦事項"
 },
 "nplurals=1; plural=0;");

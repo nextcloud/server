@@ -1,0 +1,9 @@
+OC.L10N.register(
+    "sharing",
+    {
+    "The owner does not exist: %s" : "De eigenaar bestaat niet: %s",
+    "The share already contains the source." : "De share bevat de bron al.",
+    "The share already contains the recipient." : "De share bevat de ontvanger al.",
+    "Sharing" : "Delen"
+},
+"nplurals=2; plural=(n != 1);");

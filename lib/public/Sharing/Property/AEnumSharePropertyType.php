@@ -37,7 +37,7 @@ abstract class AEnumSharePropertyType implements ISharePropertyType {
 			return true;
 		}
 
-		return $l10nFactory->get(Application::APP_ID)->t('Only ' . implode(', ', $validValues) . ' are valid values: ' . $value);
+		return $l10nFactory->get(Application::APP_ID)->t('Only %s are valid values: %s', [implode(', ', $validValues), $value]);
 	}
 
 	/**
