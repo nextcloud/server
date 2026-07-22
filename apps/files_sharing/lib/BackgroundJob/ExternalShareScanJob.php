@@ -35,6 +35,10 @@ class ExternalShareScanJob extends QueuedJob {
 		}
 
 		[$userId, $path] = $argument;
+		if ($userId === null || $userId === '') {
+			return;
+		}
+
 		try {
 			$this->rootFolder
 				->getUserFolder($userId)
