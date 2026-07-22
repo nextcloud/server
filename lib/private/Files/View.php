@@ -2171,7 +2171,7 @@ class View {
 	}
 
 	/**
-	 * Lock a path and its parent directories up to the view root.	
+	 * Lock a path and its parent directories up to the view root.
 	 *
 	 * The target path is locked using `$lockMountPoint`; parent directories are
 	 * always locked on their attached storage. If acquiring a parent lock fails,
@@ -2190,7 +2190,7 @@ class View {
 	public function lockFile(
 		string $path,
 		int $type,
-		bool $lockMountPoint = false
+		bool $lockMountPoint = false,
 	): bool {
 		$absolutePath = $this->getAbsolutePath($path);
 		$absolutePath = Filesystem::normalizePath($absolutePath);
