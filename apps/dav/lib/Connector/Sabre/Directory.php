@@ -463,8 +463,7 @@ class Directory extends Node implements
 		return true;
 	}
 
-
-	public function copyInto($targetName, $sourcePath, INode $sourceNode) {
+	public function copyInto($targetName, $sourcePath, INode $sourceNode, int $depth): bool {
 		if ($sourceNode instanceof File || $sourceNode instanceof Directory) {
 			try {
 				$destinationPath = $this->getPath() . '/' . $targetName;
