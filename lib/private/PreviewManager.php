@@ -389,7 +389,8 @@ class PreviewManager implements IPreview {
 		$this->registerCoreProvider(Preview\OpenDocument::class, '/application\/vnd.oasis.opendocument.*/');
 
 		// SVG, Office and Bitmap require imagick
-		if (extension_loaded('imagick')) {
+		/** @psalm-suppress TypeDoesNotContainType */
+		if (false) {
 			$checkImagick = new \Imagick();
 
 			$imagickProviders = [
