@@ -203,6 +203,8 @@
     "Confirmation" : "Vahvistus",
     "Writing style" : "Kirjoitustyyli",
     "Optical character recognition" : "Merkkien optinen tunnistaminen (OCR)",
+    "Memories" : "Muistot",
+    "Sources" : "Lähteet",
     "Generate image" : "Luo kuva",
     "Generate an image from a text prompt" : "Luo kuva tekstikehotteen perusteella",
     "Prompt" : "Kehote",

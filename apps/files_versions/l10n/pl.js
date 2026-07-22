@@ -1,6 +1,7 @@
 OC.L10N.register(
     "files_versions",
     {
+    "Block file versioning" : "Wyłącz wersjonowanie plików",
     "No rule given" : "Nie podano żadnej reguły",
     "Versions" : "Wersje",
     "This application automatically maintains older versions of files that are changed." : "Aplikacja przechowuje starsze wersje plików poddanych modyfikacji.",
