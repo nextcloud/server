@@ -43,12 +43,15 @@ class AmazonS3 extends Common {
 	private IMimeTypeDetector $mimeDetector;
 	private ICache $memCache;
 	private ?bool $versioningEnabled = null;
+	private string $prefix = '';
 
 	public function __construct(array $parameters) {
 		parent::__construct($parameters);
 		$this->parseParams($parameters);
+		$rawPrefix = ltrim(trim($parameters['prefix'] ?? ''), '/');
+		$this->prefix = $rawPrefix !== '' ? rtrim($rawPrefix, '/') . '/' : '';
 		// @todo: using `key` here may be problematic with different authentication methods and/or key rotation...
-		$this->id = 'amazon::external::' . md5($this->params['hostname'] . ':' . $this->params['bucket'] . ':' . $this->params['key']);
+		$this->id = 'amazon::external::' . md5($this->params['hostname'] . ':' . $this->params['bucket'] . ':' . $this->params['key'] . ':' . $this->prefix);
 		$this->initCaches();
 		$this->mimeDetector = Server::get(IMimeTypeDetector::class);
 		/** @var ICacheFactory $cacheFactory */
@@ -81,6 +84,17 @@ class AmazonS3 extends Common {
 			return '/';
 		}
 		return $path;
+	}
+
+	private function addPrefix(string $path): string {
+		return $this->prefix . $path;
+	}
+
+	private function stripPrefix(string $key): string {
+		if ($this->prefix === '' || !str_starts_with($key, $this->prefix)) {
+			return $key;
+		}
+		return substr($key, strlen($this->prefix));
 	}
 
 	private function initCaches(): void {
@@ -120,7 +134,7 @@ class AmazonS3 extends Common {
 			try {
 				$this->objectCache[$key] = $this->getConnection()->headObject([
 					'Bucket' => $this->bucket,
-					'Key' => $key
+					'Key' => $this->addPrefix($key)
 				] + $this->getServerSideEncryptionParameters())->toArray();
 			} catch (S3Exception $e) {
 				if ($e->getStatusCode() >= 500) {
@@ -162,7 +176,7 @@ class AmazonS3 extends Common {
 			// Do a prefix listing of objects to determine.
 			$result = $this->getConnection()->listObjectsV2([
 				'Bucket' => $this->bucket,
-				'Prefix' => $path,
+				'Prefix' => $this->addPrefix($path),
 				'MaxKeys' => 1,
 			]);
 
@@ -213,7 +227,7 @@ class AmazonS3 extends Common {
 		try {
 			$this->getConnection()->putObject([
 				'Bucket' => $this->bucket,
-				'Key' => $path . '/',
+				'Key' => $this->addPrefix($path . '/'),
 				'Body' => '',
 				'ContentType' => FileInfo::MIMETYPE_FOLDER
 			] + $this->getServerSideEncryptionParameters());
@@ -263,7 +277,9 @@ class AmazonS3 extends Common {
 			'Bucket' => $this->bucket
 		];
 		if ($path !== null) {
-			$params['Prefix'] = $path . '/';
+			$params['Prefix'] = $this->addPrefix($path . '/');
+		} elseif ($this->prefix !== '') {
+			$params['Prefix'] = $this->prefix;
 		}
 		try {
 			$connection = $this->getConnection();
@@ -288,7 +304,7 @@ class AmazonS3 extends Common {
 				// we reached the end when the list is no longer truncated
 			} while ($objects['IsTruncated']);
 			if ($path !== '' && $path !== null) {
-				$this->deleteObject($path);
+				$this->deleteObject($this->addPrefix($path));
 			}
 		} catch (S3Exception $e) {
 			$this->logger->error($e->getMessage(), [
@@ -414,7 +430,7 @@ class AmazonS3 extends Common {
 		}
 
 		try {
-			$this->deleteObject($path);
+			$this->deleteObject($this->addPrefix($path));
 			$this->invalidateCache($path);
 		} catch (S3Exception $e) {
 			$this->logger->error($e->getMessage(), [
@@ -441,7 +457,7 @@ class AmazonS3 extends Common {
 				}
 
 				try {
-					return $this->readObject($path);
+					return $this->readObject($this->addPrefix($path));
 				} catch (\Exception $e) {
 					$this->logger->error($e->getMessage(), [
 						'app' => 'files_external',
@@ -474,7 +490,7 @@ class AmazonS3 extends Common {
 				}
 				$tmpFile = Server::get(ITempManager::class)->getTemporaryFile($ext);
 				if ($this->file_exists($path)) {
-					$source = $this->readObject($path);
+					$source = $this->readObject($this->addPrefix($path));
 					file_put_contents($tmpFile, $source);
 				}
 
@@ -503,7 +519,7 @@ class AmazonS3 extends Common {
 			$mimeType = $this->mimeDetector->detectPath($path);
 			$this->getConnection()->putObject([
 				'Bucket' => $this->bucket,
-				'Key' => $this->cleanKey($path),
+				'Key' => $this->addPrefix($this->cleanKey($path)),
 				'Metadata' => $metadata,
 				'Body' => '',
 				'ContentType' => $mimeType,
@@ -529,7 +545,7 @@ class AmazonS3 extends Common {
 
 		if ($isFile === true || $this->is_file($source)) {
 			try {
-				$this->copyObject($source, $target, [
+				$this->copyObject($this->addPrefix($source), $this->addPrefix($target), [
 					'StorageClass' => $this->storageClass,
 				]);
 				$this->testTimeout();
@@ -610,7 +626,7 @@ class AmazonS3 extends Common {
 	public function writeBack(string $tmpFile, string $path): bool {
 		try {
 			$source = fopen($tmpFile, 'r');
-			$this->writeObject($path, $source, $this->mimeDetector->detectPath($path));
+			$this->writeObject($this->addPrefix($path), $source, $this->mimeDetector->detectPath($path));
 			$this->invalidateCache($path);
 
 			unlink($tmpFile);
@@ -644,20 +660,21 @@ class AmazonS3 extends Common {
 		$results = $this->getConnection()->getPaginator('ListObjectsV2', [
 			'Bucket' => $this->bucket,
 			'Delimiter' => '/',
-			'Prefix' => $path,
+			'Prefix' => $this->addPrefix($path),
 		]);
 
 		foreach ($results as $result) {
 			// sub folders
 			if (is_array($result['CommonPrefixes'])) {
 				foreach ($result['CommonPrefixes'] as $prefix) {
-					if (preg_match('/\/{2,}$/', $prefix['Prefix'])) {
-						$this->logger->warning('Detected a repeating delimiter in prefix \'' . $prefix['Prefix']
+					$strippedPrefix = $this->stripPrefix($prefix['Prefix']);
+					if (preg_match('/\/{2,}$/', $strippedPrefix)) {
+						$this->logger->warning('Detected a repeating delimiter in prefix \'' . $strippedPrefix
 											   . '\'. This is unsupported and its contents have been ignored.');
 						continue;
 					}
 
-					$dir = $this->getDirectoryMetaData($prefix['Prefix']);
+					$dir = $this->getDirectoryMetaData($strippedPrefix);
 					if ($dir) {
 						yield $dir;
 					}
@@ -665,8 +682,10 @@ class AmazonS3 extends Common {
 			}
 			if (is_array($result['Contents'])) {
 				foreach ($result['Contents'] as $object) {
-					$this->objectCache[$object['Key']] = $object;
-					if ($object['Key'] !== $path) {
+					$unprefixedKey = $this->stripPrefix($object['Key']);
+					$object['Key'] = $unprefixedKey;
+					$this->objectCache[$unprefixedKey] = $object;
+					if ($unprefixedKey !== $path) {
 						yield $this->objectToMetaData($object);
 					}
 				}
@@ -772,7 +791,7 @@ class AmazonS3 extends Common {
 		}
 
 		$path = $this->normalizePath($path);
-		$this->writeObject($path, $stream, $this->mimeDetector->detectPath($path));
+		$this->writeObject($this->addPrefix($path), $stream, $this->mimeDetector->detectPath($path));
 		$this->invalidateCache($path);
 
 		return $size;
@@ -786,7 +805,7 @@ class AmazonS3 extends Common {
 
 		$command = $this->getConnection()->getCommand('GetObject', [
 			'Bucket' => $this->bucket,
-			'Key' => $path,
+			'Key' => $this->addPrefix($path),
 		]);
 		$expiration = new \DateTimeImmutable('+60 minutes');
 
