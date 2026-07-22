@@ -109,6 +109,11 @@ class AddTest extends TestCase {
 		$this->mailHelper->expects($isEmailValid && $shouldSendEmail ? static::once() : static::never())
 			->method('sendMail');
 
+		$this->consoleInput->method('getArgument')
+			->willReturnMap([
+				['uid', 'JohnDoe'],
+			]);
+
 		$this->consoleInput->method('getOption')
 			->willReturnMap([
 				['generate-password', 'true'],

@@ -161,14 +161,15 @@ class Manager implements IManager {
 	 * @suppress PhanUndeclaredClassMethod
 	 */
 	protected function generalChecks(IShare $share): void {
+		$shareWith = $share->getSharedWith();
 		if ($share->getShareType() === IShare::TYPE_USER) {
 			// We expect a valid user as sharedWith for user shares
-			if (!$this->userManager->userExists($share->getSharedWith())) {
+			if ($shareWith === null || !$this->userManager->userExists($shareWith)) {
 				throw new \InvalidArgumentException($this->l->t('Share recipient is not a valid user'));
 			}
 		} elseif ($share->getShareType() === IShare::TYPE_GROUP) {
 			// We expect a valid group as sharedWith for group shares
-			if (!$this->groupManager->groupExists($share->getSharedWith())) {
+			if ($shareWith === null || !$this->groupManager->groupExists($shareWith)) {
 				throw new \InvalidArgumentException($this->l->t('Share recipient is not a valid group'));
 			}
 		} elseif ($share->getShareType() === IShare::TYPE_LINK) {
