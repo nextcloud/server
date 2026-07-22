@@ -10,6 +10,7 @@ namespace OCA\ShareByMail;
 use OC\Share20\DefaultShareProvider;
 use OC\Share20\Exception\InvalidShare;
 use OC\Share20\Share;
+use OCA\Files_Sharing\PublicShareUrlGenerator;
 use OCA\ShareByMail\Settings\SettingsManager;
 use OCP\Activity\IManager;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -67,6 +68,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		private LoggerInterface $logger,
 		private IMailer $mailer,
 		private IURLGenerator $urlGenerator,
+		private PublicShareUrlGenerator $publicShareUrlGenerator,
 		private IManager $activityManager,
 		private SettingsManager $settingsManager,
 		private Defaults $defaults,
@@ -316,9 +318,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	 * @param array $emails The email addresses to send the email to
 	 */
 	protected function sendEmail(IShare $share, array $emails): void {
-		$link = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.showShare', [
-			'token' => $share->getToken()
-		]);
+		$link = $this->publicShareUrlGenerator->getUrl($share->getToken());
 
 		$expiration = $share->getExpirationDate();
 		$filename = $share->getNode()->getName();
@@ -532,8 +532,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		$emailTemplate->addHeading(htmlspecialchars($htmlHeading), $plainHeading);
 		$emailTemplate->addBodyText(htmlspecialchars($note), $note);
 
-		$link = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.showShare',
-			['token' => $share->getToken()]);
+		$link = $this->publicShareUrlGenerator->getUrl($share->getToken());
 		$emailTemplate->addBodyButton(
 			$this->l->t('Open shared item'),
 			$link

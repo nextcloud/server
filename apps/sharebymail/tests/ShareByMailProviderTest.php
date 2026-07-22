@@ -11,6 +11,7 @@ namespace OCA\ShareByMail\Tests;
 use DateTime;
 use OC\Mail\Message;
 use OC\Share20\Share;
+use OCA\Files_Sharing\PublicShareUrlGenerator;
 use OCA\ShareByMail\Settings\SettingsManager;
 use OCA\ShareByMail\ShareByMailProvider;
 use OCP\Activity\IManager as IActivityManager;
@@ -67,6 +68,7 @@ class ShareByMailProviderTest extends TestCase {
 	private IUserManager&MockObject $userManager;
 	private ISecureRandom&MockObject $secureRandom;
 	private IURLGenerator&MockObject $urlGenerator;
+	private PublicShareUrlGenerator&MockObject $publicShareUrlGenerator;
 	private SettingsManager&MockObject $settingsManager;
 	private IActivityManager&MockObject $activityManager;
 	private IEventDispatcher&MockObject $eventDispatcher;
@@ -88,6 +90,7 @@ class ShareByMailProviderTest extends TestCase {
 		$this->secureRandom = $this->createMock('\OCP\Security\ISecureRandom');
 		$this->mailer = $this->createMock('\OCP\Mail\IMailer');
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->publicShareUrlGenerator = $this->createMock(PublicShareUrlGenerator::class);
 		$this->share = $this->createMock(IShare::class);
 		$this->activityManager = $this->createMock('OCP\Activity\IManager');
 		$this->settingsManager = $this->createMock(SettingsManager::class);
@@ -119,6 +122,7 @@ class ShareByMailProviderTest extends TestCase {
 					$this->logger,
 					$this->mailer,
 					$this->urlGenerator,
+					$this->publicShareUrlGenerator,
 					$this->activityManager,
 					$this->settingsManager,
 					$this->defaults,
@@ -141,6 +145,7 @@ class ShareByMailProviderTest extends TestCase {
 			$this->logger,
 			$this->mailer,
 			$this->urlGenerator,
+			$this->publicShareUrlGenerator,
 			$this->activityManager,
 			$this->settingsManager,
 			$this->defaults,
@@ -336,8 +341,8 @@ class ShareByMailProviderTest extends TestCase {
 		$share->expects($this->any())->method('getNote')->willReturn('');
 		$share->expects($this->any())->method('getToken')->willReturn('token');
 
-		$this->urlGenerator->expects($this->once())->method('linkToRouteAbsolute')
-			->with('files_sharing.sharecontroller.showShare', ['token' => 'token'])
+		$this->publicShareUrlGenerator->expects($this->once())->method('getUrl')
+			->with('token')
 			->willReturn('https://example.com/file.txt');
 
 		$this->secureRandom->expects($this->once())
@@ -424,8 +429,8 @@ class ShareByMailProviderTest extends TestCase {
 		$share->expects($this->any())->method('getNote')->willReturn('');
 		$share->expects($this->any())->method('getToken')->willReturn('token');
 
-		$this->urlGenerator->expects($this->once())->method('linkToRouteAbsolute')
-			->with('files_sharing.sharecontroller.showShare', ['token' => 'token'])
+		$this->publicShareUrlGenerator->expects($this->once())->method('getUrl')
+			->with('token')
 			->willReturn('https://example.com/file.txt');
 
 		$instance = $this->getInstance(['getSharedWith', 'createMailShare', 'getRawShare', 'createShareObject', 'createShareActivity', 'autoGeneratePassword', 'createPasswordSendActivity', 'sendPasswordToOwner']);
@@ -512,8 +517,8 @@ class ShareByMailProviderTest extends TestCase {
 		$share->expects($this->any())->method('getNote')->willReturn('');
 		$share->expects($this->any())->method('getToken')->willReturn('token');
 
-		$this->urlGenerator->expects($this->once())->method('linkToRouteAbsolute')
-			->with('files_sharing.sharecontroller.showShare', ['token' => 'token'])
+		$this->publicShareUrlGenerator->expects($this->once())->method('getUrl')
+			->with('token')
 			->willReturn('https://example.com/file.txt');
 
 		$instance = $this->getInstance(['getSharedWith', 'createMailShare', 'getRawShare', 'createShareObject', 'createShareActivity', 'autoGeneratePassword', 'createPasswordSendActivity']);
@@ -1346,8 +1351,8 @@ class ShareByMailProviderTest extends TestCase {
 			->method('send')
 			->with($message);
 
-		$this->urlGenerator->expects($this->once())->method('linkToRouteAbsolute')
-			->with('files_sharing.sharecontroller.showShare', ['token' => 'token'])
+		$this->publicShareUrlGenerator->expects($this->once())->method('getUrl')
+			->with('token')
 			->willReturn('https://example.com/file.txt');
 
 		$node = $this->createMock(File::class);
@@ -1465,8 +1470,8 @@ class ShareByMailProviderTest extends TestCase {
 			->method('send')
 			->with($message);
 
-		$this->urlGenerator->expects($this->once())->method('linkToRouteAbsolute')
-			->with('files_sharing.sharecontroller.showShare', ['token' => 'token'])
+		$this->publicShareUrlGenerator->expects($this->once())->method('getUrl')
+			->with('token')
 			->willReturn('https://example.com/file.txt');
 
 		$node = $this->createMock(File::class);
@@ -1589,8 +1594,8 @@ class ShareByMailProviderTest extends TestCase {
 			->method('send')
 			->with($message);
 
-		$this->urlGenerator->expects($this->once())->method('linkToRouteAbsolute')
-			->with('files_sharing.sharecontroller.showShare', ['token' => 'token'])
+		$this->publicShareUrlGenerator->expects($this->once())->method('getUrl')
+			->with('token')
 			->willReturn('https://example.com/file.txt');
 
 		$node = $this->createMock(File::class);
@@ -1684,8 +1689,8 @@ class ShareByMailProviderTest extends TestCase {
 			->method('send')
 			->with($message);
 
-		$this->urlGenerator->expects($this->once())->method('linkToRouteAbsolute')
-			->with('files_sharing.sharecontroller.showShare', ['token' => 'token'])
+		$this->publicShareUrlGenerator->expects($this->once())->method('getUrl')
+			->with('token')
 			->willReturn('https://example.com/file.txt');
 
 		$node = $this->createMock(File::class);
@@ -1782,8 +1787,8 @@ class ShareByMailProviderTest extends TestCase {
 			->method('send')
 			->with($message);
 
-		$this->urlGenerator->expects($this->once())->method('linkToRouteAbsolute')
-			->with('files_sharing.sharecontroller.showShare', ['token' => 'token'])
+		$this->publicShareUrlGenerator->expects($this->once())->method('getUrl')
+			->with('token')
 			->willReturn('https://example.com/file.txt');
 
 		$node = $this->createMock(File::class);
@@ -1876,8 +1881,8 @@ class ShareByMailProviderTest extends TestCase {
 			->method('send')
 			->with($message);
 
-		$this->urlGenerator->expects($this->once())->method('linkToRouteAbsolute')
-			->with('files_sharing.sharecontroller.showShare', ['token' => 'token'])
+		$this->publicShareUrlGenerator->expects($this->once())->method('getUrl')
+			->with('token')
 			->willReturn('https://example.com/file.txt');
 
 		$node = $this->createMock(File::class);
