@@ -240,6 +240,8 @@ class LinkReferenceProvider implements IReferenceProvider {
 	 *
 	 * XSLT transformations in SVG files can cause memory exhaustion
 	 * in Chromium based browsers when rendered.
+	 *
+	 * @since 29.0.16.16
 	 */
 	private function containsXslt(string $xmlContent): bool {
 		set_error_handler(function (int $code, string $message): bool {
