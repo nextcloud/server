@@ -21,6 +21,7 @@ use OCP\Files\Mount\IMountManager;
 use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\Lock\LockedException;
+use Sabre\DAV\Server;
 
 class ObjectTree extends CachingTree {
 
@@ -154,7 +155,7 @@ class ObjectTree extends CachingTree {
 	 * @return void
 	 */
 	#[\Override]
-	public function copy($sourcePath, $destinationPath) {
+	public function copy($sourcePath, $destinationPath, int $depth = Server::DEPTH_INFINITY): void {
 		if (!$this->fileView) {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable('filesystem not setup');
 		}
