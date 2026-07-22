@@ -303,9 +303,9 @@ class CacheTest extends \Test\TestCase {
 		$folder = 'enc_folder';
 		$this->cache->put($folder, ['size' => -1, 'mtime' => 20, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE]);
 
-		// Child: a zero-byte encrypted file — on-disk size is 8192 (header), but plaintext is 0
-		$child = $folder . '/empty.enc';
-		$this->cache->put($child, [
+		// Child 1: zero-byte encrypted file — on-disk 8192 (header only), plaintext 0
+		$child1 = $folder . '/empty.enc';
+		$this->cache->put($child1, [
 			'size' => 8192,
 			'mtime' => 20,
 			'mimetype' => 'application/octet-stream',
@@ -313,12 +313,23 @@ class CacheTest extends \Test\TestCase {
 			'unencrypted_size' => 0,
 		]);
 
-		$folderSize = $this->cache->calculateFolderSize($folder);
+		// Child 2: non-zero encrypted file — opens the write-back gate ($unencryptedMax > 0)
+		$child2 = $folder . '/small.enc';
+		$this->cache->put($child2, [
+			'size' => 8292,
+			'mtime' => 20,
+			'mimetype' => 'application/octet-stream',
+			'encrypted' => 1,
+			'unencrypted_size' => 100,
+		]);
 
-		// The folder's unencrypted_size must reflect the true plaintext total (0), not the encrypted on-disk size (8192)
+		$this->cache->calculateFolderSize($folder);
+
 		$entry = $this->cache->get($folder);
-		$this->assertEquals(0, $entry['unencrypted_size'], 'Folder unencrypted_size should be 0 for zero-byte encrypted children');
-		$this->assertEquals(8192, $entry['size'], 'Folder size should equal encrypted on-disk size');
+		// Must sum plaintext sizes (0 + 100 = 100), not fall back to on-disk size for
+		// the zero-byte child (8192 + 100 = 8292 with the old buggy code)
+		$this->assertEquals(100, $entry['unencrypted_size'], 'Folder unencrypted_size should sum plaintext sizes');
+		$this->assertEquals(16484, $entry['size'], 'Folder size should sum on-disk sizes (8192 + 8292)');
 	}
 
 	public function testRootFolderSizeForNonHomeStorage(): void {
