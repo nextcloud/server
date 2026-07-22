@@ -88,7 +88,15 @@ class ProviderFactory implements IProviderFactory {
 				return null;
 			}
 
-			$this->shareByMailProvider = Server::get(ShareByMailProvider::class);
+			try {
+				$this->shareByMailProvider = Server::get(ShareByMailProvider::class);
+			} catch (\Throwable $e) {
+				$this->logger->warning(
+					'Could not load sharebymail share provider: {message}',
+					['message' => $e->getMessage(), 'exception' => $e],
+				);
+				return null;
+			}
 		}
 
 		return $this->shareByMailProvider;
