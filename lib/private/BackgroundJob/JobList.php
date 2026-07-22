@@ -115,7 +115,7 @@ class JobList implements IJobList {
 	public function removeById(string $id): void {
 		$query = $this->connection->getQueryBuilder();
 		$query->delete('jobs')
-			->where($query->expr()->eq('id', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
+			->where($query->expr()->eq('id', $query->createNamedParameter($id)));
 		$query->executeStatement();
 	}
 
@@ -265,7 +265,7 @@ class JobList implements IJobList {
 				$reset->update('jobs')
 					->set('reserved_at', $reset->expr()->literal(0, IQueryBuilder::PARAM_INT))
 					->set('last_checked', $reset->createNamedParameter($this->timeFactory->getTime() + 12 * 3600, IQueryBuilder::PARAM_INT))
-					->where($reset->expr()->eq('id', $reset->createNamedParameter($row['id'], IQueryBuilder::PARAM_INT)));
+					->where($reset->expr()->eq('id', $reset->createNamedParameter($row['id'])));
 				$reset->executeStatement();
 
 				// Background job from disabled app, try again.
@@ -358,7 +358,7 @@ class JobList implements IJobList {
 		$query = $this->connection->getQueryBuilder();
 		$query->update('jobs')
 			->set('reserved_at', $query->expr()->literal(0, IQueryBuilder::PARAM_INT))
-			->where($query->expr()->eq('id', $query->createNamedParameter($job->getId(), IQueryBuilder::PARAM_INT)));
+			->where($query->expr()->eq('id', $query->createNamedParameter($job->getId())));
 		$query->executeStatement();
 	}
 
@@ -383,7 +383,7 @@ class JobList implements IJobList {
 		$query->update('jobs')
 			->set('execution_duration', $query->createNamedParameter($timeTaken, IQueryBuilder::PARAM_INT))
 			->set('reserved_at', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT))
-			->where($query->expr()->eq('id', $query->createNamedParameter($job->getId(), IQueryBuilder::PARAM_INT)));
+			->where($query->expr()->eq('id', $query->createNamedParameter($job->getId())));
 		$query->executeStatement();
 	}
 
@@ -393,7 +393,7 @@ class JobList implements IJobList {
 		$query->update('jobs')
 			->set('last_run', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT))
 			->set('reserved_at', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT))
-			->where($query->expr()->eq('id', $query->createNamedParameter($job->getId()), IQueryBuilder::PARAM_INT));
+			->where($query->expr()->eq('id', $query->createNamedParameter($job->getId())));
 		$query->executeStatement();
 	}
 
