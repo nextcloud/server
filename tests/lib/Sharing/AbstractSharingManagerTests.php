@@ -19,7 +19,7 @@ use NCU\Sharing\ShareAccessContext;
 use NCU\Sharing\ShareState;
 use NCU\Sharing\Source\ShareSource;
 use OC\Core\Sharing\Permission\ReshareSharePermissionType;
-use OCA\Sharing\SharingBackend;
+use OC\Sharing\SharingBackend;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\HintException;
 use OCP\IDBConnection;

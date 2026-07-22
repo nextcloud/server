@@ -15,7 +15,7 @@ use NCU\Sharing\Recipient\ShareRecipient;
 use NCU\Sharing\ShareAccessContext;
 use OC\Core\Sharing\Recipient\GroupShareRecipientType;
 use OC\Group\Database;
-use OCA\Sharing\SharingBackend;
+use OC\Sharing\SharingBackend;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IDBConnection;
 use OCP\IGroup;

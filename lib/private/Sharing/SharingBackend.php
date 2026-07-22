@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-namespace OCA\Sharing;
+namespace OC\Sharing;
 
 use Exception;
 use NCU\Sharing\Exception\ShareInvalidException;

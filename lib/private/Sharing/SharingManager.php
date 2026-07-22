@@ -28,7 +28,6 @@ use NCU\Sharing\ShareState;
 use NCU\Sharing\ShareUser;
 use NCU\Sharing\Source\ShareSource;
 use OC\Core\Sharing\Permission\ReshareSharePermissionType;
-use OCA\Sharing\SharingBackend;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\EventDispatcher\IEventListener;
