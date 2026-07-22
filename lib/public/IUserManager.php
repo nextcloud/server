@@ -77,13 +77,14 @@ interface IUserManager {
 	public function getDisplayName(string $uid): ?string;
 
 	/**
-	 * check if a user exists
+	 * Check if a user exists.
 	 *
 	 * @param string $uid
+	 * @param list<string> $excludeBackends A list of IUserBackend::getBackendName() that need to be excluded from the search.
 	 * @return bool
 	 * @since 8.0.0
 	 */
-	public function userExists($uid);
+	public function userExists($uid, array $excludeBackends = []);
 
 	/**
 	 * Check if the password is valid for the user
