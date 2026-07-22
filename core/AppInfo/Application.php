@@ -170,21 +170,23 @@ class Application extends App implements IBootstrap {
 		IURLGenerator $urlGenerator,
 		IFactory $factory,
 	): void {
-		if (!$userSession->isLoggedIn()) {
-			return;
-		}
+		$navigationManager->add(function () use ($userSession, $factory, $urlGenerator): ?array {
+			if (!$userSession->isLoggedIn()) {
+				return null;
+			}
 
-		$l = $factory->get('core');
+			$l = $factory->get('core');
 
-		// Register the logout button in the user settings
-		$logoutUrl = $urlGenerator->getLogoutUrl();
-		$navigationManager->add([
-			'type' => 'settings',
-			'id' => 'logout',
-			'order' => 99999,
-			'href' => $logoutUrl,
-			'name' => $l->t('Log out'),
-			'icon' => $urlGenerator->imagePath('core', 'actions/logout.svg'),
-		]);
+			// Register the logout button in the user settings
+			$logoutUrl = $urlGenerator->getLogoutUrl();
+			return [
+				'type' => 'settings',
+				'id' => 'logout',
+				'order' => 99999,
+				'href' => $logoutUrl,
+				'name' => $l->t('Log out'),
+				'icon' => $urlGenerator->imagePath('core', 'actions/logout.svg'),
+			];
+		});
 	}
 }

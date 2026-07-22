@@ -30,7 +30,7 @@ use Psr\Log\LoggerInterface;
 class NavigationManager implements INavigationManager {
 	/** @var array<string, NavigationEntryOutput> */
 	protected array $entries = [];
-	/** @var list<callable(): NavigationEntry> */
+	/** @var list<callable(): ?NavigationEntry> */
 	protected array $closureEntries = [];
 	protected ?string $activeEntry = null;
 	protected array $unreadCounters = [];
@@ -208,7 +208,10 @@ class NavigationManager implements INavigationManager {
 	private function resolveAppNavigationEntries(): void {
 		// Resolve app navigation closures
 		while ($c = array_pop($this->closureEntries)) {
-			$this->add($c());
+			$entry = $c();
+			if ($entry !== null) {
+				$this->add($entry);
+			}
 		}
 
 		// Resolve dynamically added navigation entries via event listeners
