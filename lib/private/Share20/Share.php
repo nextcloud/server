@@ -60,7 +60,7 @@ class Share implements IShare {
 	/** @var bool */
 	private $sendPasswordByTalk = false;
 	/** @var string */
-	private $token;
+	private $token = '';
 	private ?int $parent = null;
 	/** @var string */
 	private $target;

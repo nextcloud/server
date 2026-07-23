@@ -224,7 +224,9 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	 * @throws \Exception
 	 */
 	protected function createMailShare(IShare $share): string {
-		$share->setToken($this->generateToken());
+		if ($share->getToken() === '') {
+			$share->setToken($this->generateToken());
+		}
 		return $this->addShareToDB(
 			$share->getNodeId(),
 			$share->getNodeType(),

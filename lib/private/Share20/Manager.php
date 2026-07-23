@@ -567,9 +567,11 @@ class Manager implements IManager {
 				|| $share->getShareType() === IShare::TYPE_EMAIL) {
 				$this->setLinkParent($share);
 
-				$token = $this->generateToken();
-				// Set the unique token
-				$share->setToken($token);
+				if ($share->getToken() === '') {
+					$token = $this->generateToken();
+					// Set the unique token
+					$share->setToken($token);
+				}
 
 				// Verify the expiration date
 				$share = $this->validateExpirationDateLink($share);
