@@ -36,6 +36,7 @@ use OCA\Files_Sharing\Middleware\SharingCheckMiddleware;
 use OCA\Files_Sharing\MountProvider;
 use OCA\Files_Sharing\Notification\Listener;
 use OCA\Files_Sharing\Notification\Notifier;
+use OCA\Files_Sharing\Sharing\LegacyBackend;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -49,6 +50,7 @@ use OCP\Files\Events\BeforeDirectFileDownloadEvent;
 use OCP\Files\Events\BeforeZipCreatedEvent;
 use OCP\Files\Events\Node\BeforeNodeReadEvent;
 use OCP\Files\Events\UserHomeSetupEvent;
+use OCP\Files\IRootFolder;
 use OCP\Group\Events\BeforeGroupDeletedEvent;
 use OCP\Group\Events\GroupChangedEvent;
 use OCP\Group\Events\GroupDeletedEvent;
@@ -58,10 +60,16 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\Interaction\RestrictInteractionEvent;
+use OCP\L10N\IFactory;
+use OCP\Server;
 use OCP\Share\Events\BeforeShareDeletedEvent;
 use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\Events\ShareMovedEvent;
 use OCP\Share\Events\ShareTransferredEvent;
+use OCP\Share\IManager;
+use OCP\Sharing\ISharingManager;
+use OCP\Sharing\ISharingRegistry;
+use OCP\Snowflake\ISnowflakeGenerator;
 use OCP\User\Events\UserChangedEvent;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\Util;
@@ -136,6 +144,16 @@ class Application extends App implements IBootstrap {
 		$context->registerConfigLexicon(ConfigLexicon::class);
 
 		$context->registerEventListener(RestrictInteractionEvent::class, RestrictInteractionListener::class);
+
+		$registry = Server::get(ISharingRegistry::class);
+		$registry->registerLegacyBackend(new LegacyBackend(
+			Server::get(IFactory::class),
+			Server::get(IDBConnection::class),
+			Server::get(IRootFolder::class),
+			Server::get(IManager::class),
+			Server::get(ISnowflakeGenerator::class),
+			Server::get(ISharingManager::class),
+		));
 	}
 
 	#[\Override]
