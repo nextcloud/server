@@ -2644,6 +2644,43 @@ class ViewTest extends \Test\TestCase {
 		$this->assertEquals('foo', $view->rmdir('mount'));
 	}
 
+	public function testRemoveMovableMountPointUnlocksAfterException(): void {
+		$mountPoint = '/' . self::$user . '/files/mount/';
+		$view = new View('/' . self::$user . '/files');
+
+		/** @var TestMoveableMountPoint&MockObject $mount */
+		$mount = $this->createMock(TestMoveableMountPoint::class);
+		$mount->method('getMountPoint')
+			->willReturn($mountPoint);
+		$mount->method('getInternalPath')
+			->willReturn('');
+		$mount->expects($this->once())
+			->method('removeMount')
+			->willReturnCallback(function () use ($view): never {
+				$this->assertSame(
+					ILockingProvider::LOCK_EXCLUSIVE,
+					$this->getFileLockType($view, 'mount', true),
+					'The mount point must be exclusively locked during removal'
+				);
+
+				throw new \RuntimeException('Simulated mount removal failure');
+			});
+
+		Filesystem::getMountManager()->addMount($mount);
+
+		try {
+			$view->rmdir('mount');
+			$this->fail('Expected the mount removal exception to be rethrown');
+		} catch (\RuntimeException $e) {
+			$this->assertSame('Simulated mount removal failure', $e->getMessage());
+		}
+
+		$this->assertNull(
+			$this->getFileLockType($view, 'mount', true),
+			'The mount-point lock must be released after a failed mount removal'
+		);
+	}
+
 	public static function mimeFilterProvider(): array {
 		return [
 			[null, ['test1.txt', 'test2.txt', 'test3.md', 'test4.png']],
