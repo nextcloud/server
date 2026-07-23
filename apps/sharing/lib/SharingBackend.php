@@ -901,7 +901,7 @@ final readonly class SharingBackend implements ISharingBackend {
 					&& isset($shareSourceTypeClasses[$id], $shareRecipientTypeClasses[$id])
 					&& array_intersect($registryPropertyTypeCompatibleSourceTypeClasses[$propertyTypeClass], array_keys($shareSourceTypeClasses[$id])) !== []
 					&& array_intersect($registryPropertyTypeCompatibleRecipientTypeClasses[$propertyTypeClass], array_keys($shareRecipientTypeClasses[$id])) !== []) {
-					$value = $propertyType->getDefaultValue();
+					$value = $propertyType->getDefaultValue($share);
 
 					$timestamp = $this->manager->generateTimestamp();
 					$this->setLastUpdated([(string)$id], $timestamp);

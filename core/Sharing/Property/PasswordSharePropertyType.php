@@ -56,14 +56,14 @@ final class PasswordSharePropertyType extends APasswordSharePropertyType impleme
 	}
 
 	#[\Override]
-	public function isRequired(): bool {
+	public function isRequired(Share $share): bool {
 		// TODO: Enable group memberships check based on the owner.
 		return $this->legacyManager->shareApiLinkEnforcePassword(false);
 	}
 
 	#[\Override]
-	public function getDefaultValue(): ?string {
-		if (!$this->isRequired()) {
+	public function getDefaultValue(Share $share): ?string {
+		if (!$this->isRequired($share)) {
 			return null;
 		}
 

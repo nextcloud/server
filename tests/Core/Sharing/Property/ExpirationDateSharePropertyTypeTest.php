@@ -14,11 +14,15 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use OC\Core\AppInfo\Application;
 use OC\Core\Sharing\Property\ExpirationDateSharePropertyType;
+use OC\Core\Sharing\Recipient\EmailShareRecipientType;
+use OC\Core\Sharing\Recipient\TokenShareRecipientType;
+use OC\Core\Sharing\Recipient\UserShareRecipientType;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
 use OCP\Sharing\Property\ShareProperty;
+use OCP\Sharing\Recipient\ShareRecipient;
 use OCP\Sharing\Share;
 use OCP\Sharing\ShareAccessContext;
 use OCP\Sharing\ShareState;
@@ -33,6 +37,14 @@ final class ExpirationDateSharePropertyTypeTest extends TestCase {
 
 	private ExpirationDateSharePropertyType $propertyType;
 
+	private ShareRecipient $tokenRecipient;
+
+	private ShareRecipient $emailRecipient;
+
+	private ShareRecipient $remoteRecipient;
+
+	private ShareRecipient $localNonTokenAndEmailRecipient;
+
 	#[\Override]
 	public function setUp(): void {
 		parent::setUp();
@@ -42,6 +54,11 @@ final class ExpirationDateSharePropertyTypeTest extends TestCase {
 		$this->user = $user;
 
 		$this->propertyType = Server::get(ExpirationDateSharePropertyType::class);
+
+		$this->tokenRecipient = new ShareRecipient(TokenShareRecipientType::class, 'token', null);
+		$this->emailRecipient = new ShareRecipient(EmailShareRecipientType::class, 'example@example.com', null);
+		$this->remoteRecipient = new ShareRecipient(UserShareRecipientType::class, 'user', 'https://example.com');
+		$this->localNonTokenAndEmailRecipient = new ShareRecipient(UserShareRecipientType::class, 'user', null);
 	}
 
 	#[\Override]
@@ -64,58 +81,10 @@ final class ExpirationDateSharePropertyTypeTest extends TestCase {
 		);
 	}
 
-	/** @psalm-suppress DeprecatedMethod The configs are only partly migrated to IAppConfig, so using deprecated IConfig is easier for now. */
-	public function testGetRequired(): void {
-		$config = Server::get(IConfig::class);
-		$config->setAppValue(Application::APP_ID, 'shareapi_default_expire_date', 'yes');
-		$config->setAppValue(Application::APP_ID, 'shareapi_default_remote_expire_date', 'yes');
-		$config->setAppValue(Application::APP_ID, 'shareapi_default_internal_expire_date', 'yes');
-
-		$keys = ['shareapi_enforce_expire_date', 'shareapi_enforce_remote_expire_date', 'shareapi_enforce_internal_expire_date'];
-		foreach ($keys as $key) {
-			$config->deleteAppValue(Application::APP_ID, $key);
-		}
-
-		$this->assertFalse($this->propertyType->isRequired());
-
-		foreach ($keys as $key) {
-			$config->setAppValue(Application::APP_ID, $key, 'yes');
-			$this->assertTrue($this->propertyType->isRequired(), $key);
-			$config->deleteAppValue(Application::APP_ID, $key);
-		}
-
-		$this->assertFalse($this->propertyType->isRequired());
-
-		$config->deleteAppValue(Application::APP_ID, 'shareapi_default_expire_date');
-		$config->deleteAppValue(Application::APP_ID, 'shareapi_default_remote_expire_date');
-		$config->deleteAppValue(Application::APP_ID, 'shareapi_default_internal_expire_date');
-	}
-
-	/** @psalm-suppress DeprecatedMethod The configs are only partly migrated to IAppConfig, so using deprecated IConfig is easier for now. */
-	public function testGetDefaultValue(): void {
-		/** @var DateTimeImmutable $now */
-		$now = self::invokePrivate($this->propertyType, 'now');
-
-		$config = Server::get(IConfig::class);
-
-		$keys = ['shareapi_default_expire_date', 'shareapi_default_remote_expire_date', 'shareapi_default_internal_expire_date'];
-		foreach ($keys as $key) {
-			$config->deleteAppValue(Application::APP_ID, $key);
-		}
-
-		$this->assertNull($this->propertyType->getDefaultValue());
-
-		foreach ($keys as $key) {
-			$config->setAppValue(Application::APP_ID, $key, 'yes');
-			$this->assertEquals($now->add(new DateInterval('P7D'))->format(DateTimeInterface::ATOM), $this->propertyType->getDefaultValue());
-			$config->deleteAppValue(Application::APP_ID, $key);
-		}
-	}
-
 	/**
 	 * @return list<array{string, string, string}>
 	 */
-	public static function dataGetMinMaxDate(): array {
+	public static function dataConfigKeys(): array {
 		return [
 			['shareapi_default_expire_date', 'shareapi_enforce_expire_date', 'shareapi_expire_after_n_days'],
 			['shareapi_default_remote_expire_date', 'shareapi_enforce_remote_expire_date', 'shareapi_remote_expire_after_n_days'],
@@ -124,30 +93,114 @@ final class ExpirationDateSharePropertyTypeTest extends TestCase {
 	}
 
 	/** @psalm-suppress DeprecatedMethod The configs are only partly migrated to IAppConfig, so using deprecated IConfig is easier for now. */
-	#[DataProvider('dataGetMinMaxDate')]
-	public function testGetMinMaxDate(string $defaultEnabledKey, string $defaultEnforcedKey, string $defaultValueKey): void {
+	#[DataProvider('dataConfigKeys')]
+	public function testGetRequired(string $defaultEnabledKey, string $defaultEnforcedKey, string $defaultValueKey): void {
+		$share = new Share(
+			'123',
+			new ShareUser('user', null),
+			0,
+			ShareState::Active,
+			[],
+			[
+				$this->tokenRecipient,
+				$this->emailRecipient,
+				$this->remoteRecipient,
+				$this->localNonTokenAndEmailRecipient,
+			],
+			[],
+			[],
+		);
+
+		$config = Server::get(IConfig::class);
+		foreach (array_merge(...self::dataConfigKeys()) as $key) {
+			$config->deleteAppValue(Application::APP_ID, $key);
+		}
+
+		$config->setAppValue(Application::APP_ID, $defaultEnabledKey, 'yes');
+
+		$this->assertFalse($this->propertyType->isRequired($share));
+
+		$config->setAppValue(Application::APP_ID, $defaultEnforcedKey, 'yes');
+		$this->assertTrue($this->propertyType->isRequired($share));
+
+		$config->deleteAppValue(Application::APP_ID, $defaultEnabledKey);
+		$config->deleteAppValue(Application::APP_ID, $defaultEnforcedKey);
+	}
+
+	/** @psalm-suppress DeprecatedMethod The configs are only partly migrated to IAppConfig, so using deprecated IConfig is easier for now. */
+	#[DataProvider('dataConfigKeys')]
+	public function testGetDefaultValue(string $defaultEnabledKey, string $defaultEnforcedKey, string $defaultValueKey): void {
+		$share = new Share(
+			'123',
+			new ShareUser('user', null),
+			0,
+			ShareState::Active,
+			[],
+			[
+				$this->tokenRecipient,
+				$this->emailRecipient,
+				$this->remoteRecipient,
+				$this->localNonTokenAndEmailRecipient,
+			],
+			[],
+			[],
+		);
+
 		/** @var DateTimeImmutable $now */
 		$now = self::invokePrivate($this->propertyType, 'now');
 
 		$config = Server::get(IConfig::class);
-
-		foreach (array_merge(...self::dataGetMinMaxDate()) as $key) {
+		foreach (array_merge(...self::dataConfigKeys()) as $key) {
 			$config->deleteAppValue(Application::APP_ID, $key);
 		}
 
-		$this->assertEquals($now->add(new DateInterval('PT5M')), $this->propertyType->getMinDate());
-		$this->assertNull($this->propertyType->getMaxDate());
+		$this->assertNull($this->propertyType->getDefaultValue($share));
+
+		$config->setAppValue(Application::APP_ID, $defaultEnabledKey, 'yes');
+		$this->assertEquals($now->add(new DateInterval('P7D'))->format(DateTimeInterface::ATOM), $this->propertyType->getDefaultValue($share));
+		$config->deleteAppValue(Application::APP_ID, $defaultEnabledKey);
+	}
+
+	/** @psalm-suppress DeprecatedMethod The configs are only partly migrated to IAppConfig, so using deprecated IConfig is easier for now. */
+	#[DataProvider('dataConfigKeys')]
+	public function testGetMinMaxDate(string $defaultEnabledKey, string $defaultEnforcedKey, string $defaultValueKey): void {
+		$share = new Share(
+			'123',
+			new ShareUser('user', null),
+			0,
+			ShareState::Active,
+			[],
+			[
+				$this->tokenRecipient,
+				$this->emailRecipient,
+				$this->remoteRecipient,
+				$this->localNonTokenAndEmailRecipient,
+			],
+			[],
+			[],
+		);
+
+		/** @var DateTimeImmutable $now */
+		$now = self::invokePrivate($this->propertyType, 'now');
+
+		$config = Server::get(IConfig::class);
+		foreach (array_merge(...self::dataConfigKeys()) as $key) {
+			$config->deleteAppValue(Application::APP_ID, $key);
+		}
+
+		$this->assertEquals($now->add(new DateInterval('PT5M')), $this->propertyType->getMinDate($share));
+		$this->assertNull($this->propertyType->getMaxDate($share));
 
 		$config->setAppValue(Application::APP_ID, $defaultEnabledKey, 'yes');
 
-		$this->assertEquals($now->add(new DateInterval('PT5M')), $this->propertyType->getMinDate());
-		$this->assertNull($this->propertyType->getMaxDate());
+		$this->assertEquals($now->add(new DateInterval('PT5M')), $this->propertyType->getMinDate($share));
+		$this->assertNull($this->propertyType->getMaxDate($share));
 
 		$config->setAppValue(Application::APP_ID, $defaultEnforcedKey, 'yes');
 		$config->setAppValue(Application::APP_ID, $defaultValueKey, '123');
 
-		$this->assertEquals($now->add(new DateInterval('PT5M')), $this->propertyType->getMinDate());
-		$this->assertEquals($now->add(new DateInterval('P123DT5M')), $this->propertyType->getMaxDate());
+		$this->assertEquals($now->add(new DateInterval('PT5M')), $this->propertyType->getMinDate($share));
+		$this->assertEquals($now->add(new DateInterval('P123DT5M')), $this->propertyType->getMaxDate($share));
 
 		$config->deleteAppValue(Application::APP_ID, $defaultEnabledKey);
 		$config->deleteAppValue(Application::APP_ID, $defaultEnforcedKey);

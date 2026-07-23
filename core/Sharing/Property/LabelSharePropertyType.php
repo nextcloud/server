@@ -12,6 +12,7 @@ namespace OC\Core\Sharing\Property;
 use OC\Core\AppInfo\Application;
 use OCP\L10N\IFactory;
 use OCP\Sharing\Property\AStringSharePropertyType;
+use OCP\Sharing\Share;
 
 final class LabelSharePropertyType extends AStringSharePropertyType {
 	#[\Override]
@@ -35,12 +36,12 @@ final class LabelSharePropertyType extends AStringSharePropertyType {
 	}
 
 	#[\Override]
-	public function isRequired(): bool {
+	public function isRequired(Share $share): bool {
 		return false;
 	}
 
 	#[\Override]
-	public function getDefaultValue(): ?string {
+	public function getDefaultValue(Share $share): ?string {
 		return null;
 	}
 

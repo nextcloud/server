@@ -39,18 +39,18 @@ final readonly class ShareProperty {
 	 * @return SharingPropertyBoolean|SharingPropertyDate|SharingPropertyEnum|SharingPropertyPassword|SharingPropertyString
 	 * @since 35.0.0
 	 */
-	public function format(ISharingRegistry $registry, IFactory $l10nFactory): array {
+	public function format(ISharingRegistry $registry, IFactory $l10nFactory, Share $share): array {
 		if (($propertyType = ($registry->getPropertyTypes()[$this->class] ?? null)) === null) {
 			throw new RuntimeException('The property type is not registered: ' . $this->class);
 		}
 
-		return $propertyType->format([
+		return $propertyType->format($share, [
 			'class' => $this->class,
 			'display_name' => $propertyType->getDisplayName($l10nFactory),
 			'hint' => $propertyType->getHint($l10nFactory),
 			'priority' => $propertyType->getPriority(),
 			'advanced' => $propertyType->isAdvanced(),
-			'required' => $propertyType->isRequired(),
+			'required' => $propertyType->isRequired($share),
 			'value' => $this->value,
 		]);
 	}

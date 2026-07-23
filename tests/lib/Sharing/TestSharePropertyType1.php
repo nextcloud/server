@@ -11,6 +11,7 @@ namespace Test\Sharing;
 
 use OCP\L10N\IFactory;
 use OCP\Sharing\Property\AEnumSharePropertyType;
+use OCP\Sharing\Share;
 
 class TestSharePropertyType1 extends AEnumSharePropertyType {
 	public function __construct(
@@ -42,12 +43,12 @@ class TestSharePropertyType1 extends AEnumSharePropertyType {
 	}
 
 	#[\Override]
-	public function isRequired(): bool {
+	public function isRequired(Share $share): bool {
 		return false;
 	}
 
 	#[\Override]
-	public function getDefaultValue(): ?string {
+	public function getDefaultValue(Share $share): ?string {
 		return null;
 	}
 

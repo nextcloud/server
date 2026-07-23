@@ -66,7 +66,7 @@ interface ISharePropertyType {
 	 *
 	 * @since 35.0.0
 	 */
-	public function isRequired(): bool;
+	public function isRequired(Share $share): bool;
 
 	/**
 	 * The default value if the user hasn't provided one.
@@ -77,7 +77,7 @@ interface ISharePropertyType {
 	 *
 	 * @since 35.0.0
 	 */
-	public function getDefaultValue(): ?string;
+	public function getDefaultValue(Share $share): ?string;
 
 	/**
 	 * Validates the value when the share is created or updated in the database.
@@ -86,12 +86,12 @@ interface ISharePropertyType {
 	 *
 	 * @since 35.0.0
 	 */
-	public function validateValue(IFactory $l10nFactory, string $value): true|string;
+	public function validateValue(IFactory $l10nFactory, Share $share, string $value): true|string;
 
 	/**
 	 * @param SharingProperty $property
 	 * @return SharingPropertyBoolean|SharingPropertyDate|SharingPropertyEnum|SharingPropertyPassword|SharingPropertyString
 	 * @since 35.0.0
 	 */
-	public function format(array $property): array;
+	public function format(Share $share, array $property): array;
 }

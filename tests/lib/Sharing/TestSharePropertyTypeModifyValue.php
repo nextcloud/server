@@ -10,11 +10,12 @@ declare(strict_types=1);
 namespace Test\Sharing;
 
 use OCP\Sharing\Property\ISharePropertyTypeModifyValue;
+use OCP\Sharing\Share;
 
 final class TestSharePropertyTypeModifyValue extends TestSharePropertyType1 implements ISharePropertyTypeModifyValue {
 
 	#[\Override]
-	public function getDefaultValue(): string {
+	public function getDefaultValue(Share $share): string {
 		return 'modify-on-save';
 	}
 

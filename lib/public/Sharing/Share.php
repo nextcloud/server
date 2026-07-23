@@ -181,7 +181,7 @@ final class Share {
 	 * @since 35.0.0
 	 */
 	public function format(ISharingRegistry $registry, IFactory $l10nFactory, IURLGenerator $urlGenerator, IUserManager $userManager): array {
-		$properties = array_map(static fn (ShareProperty $property): array => $property->format($registry, $l10nFactory), array_values($this->properties));
+		$properties = array_map(fn (ShareProperty $property): array => $property->format($registry, $l10nFactory, $this), array_values($this->properties));
 		// First sort by priority and then sort by class name to get a stable order regardless of the DB order
 		usort($properties, static fn (array $a, array $b): int => 2 * ($b['priority'] <=> $a['priority']) + ($a['class'] <=> $b['class']));
 

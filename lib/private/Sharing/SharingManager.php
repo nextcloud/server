@@ -400,8 +400,11 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 			throw new RuntimeException('The property is not registered: ' . $property->class);
 		}
 
-		if ($property->value !== null && ($message = $propertyType->validateValue($this->l10nFactory, $property->value)) !== true) {
-			throw new ShareInvalidException('Invalid property value: ' . $property->value . ' ' . $property->class, $message);
+		if ($property->value !== null) {
+			$share = $this->getShare($accessContext, $id);
+			if (($message = $propertyType->validateValue($this->l10nFactory, $share, $property->value)) !== true) {
+				throw new ShareInvalidException('Invalid property value: ' . $property->value . ' ' . $property->class, $message);
+			}
 		}
 
 		$backend->updateShareProperty($id, $property);
@@ -547,6 +550,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 	}
 
 	// TODO: Support IShareOwnerlessMount
+
 	/**
 	 * @throws ShareOperationForbiddenException
 	 */
@@ -668,7 +672,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		$propertyTypes = $this->registry->getPropertyTypes();
 		foreach ($share->properties as $propertyTypeClass => $property) {
 			$propertyType = $propertyTypes[$propertyTypeClass];
-			if ($property->value === null && $propertyType->isRequired()) {
+			if ($property->value === null && $propertyType->isRequired($share)) {
 				throw new ShareInvalidException('Missing value for required property: ' . $propertyTypeClass, $this->l10n->t('You need to set a value for the %s', [$propertyType->getDisplayName($this->l10nFactory)]));
 			}
 		}
