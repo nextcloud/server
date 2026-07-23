@@ -12,15 +12,21 @@ namespace OCA\DAV\Tests\unit\CalDAV\Schedule;
 use OCA\DAV\CalDAV\EventComparisonService;
 use OCA\DAV\CalDAV\Schedule\IMipPlugin;
 use OCA\DAV\CalDAV\Schedule\IMipService;
+use OCP\Accounts\IAccount;
+use OCP\Accounts\IAccountManager;
+use OCP\Accounts\IAccountProperty;
+use OCP\Accounts\IAccountPropertyCollection;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\IAppConfig;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Mail\IAttachment;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Mail\IMessage;
+use OCP\Mail\Provider\Address;
 use OCP\Mail\Provider\IManager as IMailManager;
 use OCP\Mail\Provider\IMessage as IMailMessageNew;
 use OCP\Mail\Provider\IMessageSend as IMailMessageSend;
@@ -58,6 +64,8 @@ class IMipPluginTest extends TestCase {
 	private IMailManager&MockObject $mailManager;
 	private IMailServiceMock&MockObject $mailService;
 	private IMailMessageNew&MockObject $mailMessageNew;
+	private IUserManager&MockObject $userManager;
+	private IAccountManager&MockObject $accountManager;
 
 	protected function setUp(): void {
 		$this->mailMessage = $this->createMock(IMessage::class);
@@ -101,6 +109,9 @@ class IMipPluginTest extends TestCase {
 
 		$this->mailMessageNew = $this->createMock(IMailMessageNew::class);
 
+		$this->userManager = $this->createMock(IUserManager::class);
+		$this->accountManager = $this->createMock(IAccountManager::class);
+
 		$this->plugin = new IMipPlugin(
 			$this->config,
 			$this->mailer,
@@ -112,6 +123,8 @@ class IMipPluginTest extends TestCase {
 			$this->eventComparisonService,
 			$this->mailManager,
 			$this->getEmailValidatorWithStrictEmailCheck(),
+			$this->userManager,
+			$this->accountManager,
 		);
 	}
 
@@ -213,6 +226,9 @@ class IMipPluginTest extends TestCase {
 		$this->user->expects(self::any())
 			->method('getDisplayName')
 			->willReturn('Mr. Wizard');
+		$this->user->expects(self::any())
+			->method('getEMailAddress')
+			->willReturn('gandalf@wiz.ard');
 		$this->userSession->expects(self::any())
 			->method('getUser')
 			->willReturn($this->user);
@@ -505,6 +521,9 @@ class IMipPluginTest extends TestCase {
 		$this->user->expects(self::any())
 			->method('getDisplayName')
 			->willReturn('Mr. Wizard');
+		$this->user->expects(self::any())
+			->method('getEMailAddress')
+			->willReturn('gandalf@wiz.ard');
 		$this->userSession->expects(self::any())
 			->method('getUser')
 			->willReturn($this->user);
@@ -632,6 +651,9 @@ class IMipPluginTest extends TestCase {
 		$this->user->expects(self::any())
 			->method('getDisplayName')
 			->willReturn('Mr. Wizard');
+		$this->user->expects(self::any())
+			->method('getEMailAddress')
+			->willReturn('gandalf@wiz.ard');
 		$this->userSession->expects(self::any())
 			->method('getUser')
 			->willReturn($this->user);
@@ -850,6 +872,9 @@ class IMipPluginTest extends TestCase {
 		$this->user->expects(self::any())
 			->method('getDisplayName')
 			->willReturn('Mr. Wizard');
+		$this->user->expects(self::any())
+			->method('getEMailAddress')
+			->willReturn('gandalf@wiz.ard');
 		$this->userSession->expects(self::any())
 			->method('getUser')
 			->willReturn($this->user);
@@ -953,6 +978,9 @@ class IMipPluginTest extends TestCase {
 		$this->user->expects(self::any())
 			->method('getDisplayName')
 			->willReturn('Mr. Wizard');
+		$this->user->expects(self::any())
+			->method('getEMailAddress')
+			->willReturn('gandalf@wiz.ard');
 		$this->userSession->expects(self::any())
 			->method('getUser')
 			->willReturn($this->user);
@@ -1052,6 +1080,9 @@ class IMipPluginTest extends TestCase {
 		$this->user->expects(self::any())
 			->method('getDisplayName')
 			->willReturn('Mr. Wizard');
+		$this->user->expects(self::any())
+			->method('getEMailAddress')
+			->willReturn('gandalf@wiz.ard');
 		$this->userSession->expects(self::any())
 			->method('getUser')
 			->willReturn($this->user);
@@ -1203,6 +1234,9 @@ class IMipPluginTest extends TestCase {
 		$this->user->expects(self::any())
 			->method('getDisplayName')
 			->willReturn('Mr. Wizard');
+		$this->user->expects(self::any())
+			->method('getEMailAddress')
+			->willReturn('gandalf@wiz.ard');
 		$this->userSession->expects(self::any())
 			->method('getUser')
 			->willReturn($this->user);
@@ -1236,5 +1270,214 @@ class IMipPluginTest extends TestCase {
 			->willReturn([]);
 		$this->plugin->schedule($message);
 		$this->assertEquals('1.1', $message->getScheduleStatus());
+	}
+
+	/**
+	 * Runs schedule() for an organizer sourced REQUEST whose iTip message
+	 * carries no sender name and captures the resulting From and Reply-To
+	 * headers, sent either via the system or the user's mail account.
+	 *
+	 * @return array{from: ?array, replyTo: ?array}
+	 */
+	private function scheduleWithoutSenderName(string $organizer, string $recipient, bool $viaMailProvider = false): array {
+		$vCalendar = new VCalendar();
+		$vEvent = new VEvent($vCalendar, 'VEVENT', [
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 1,
+			'SUMMARY' => 'Meeting',
+			'DTSTART' => new \DateTime('2017-01-01 00:00:00'),
+		]);
+		$vEvent->add('ORGANIZER', 'mailto:' . $organizer);
+		$vEvent->add('ATTENDEE', 'mailto:' . $recipient, ['RSVP' => 'TRUE', 'CN' => 'Frodo']);
+
+		$message = new Message();
+		$message->method = 'REQUEST';
+		$message->message = $vCalendar;
+		$message->sender = 'mailto:' . $organizer;
+		$message->senderName = null;
+		$message->recipient = 'mailto:' . $recipient;
+
+		$capturedFrom = null;
+		$capturedReplyTo = null;
+		$mailMessage = $this->createMock(IMessage::class);
+		$mailMessage->method('setTo')->willReturn($mailMessage);
+		$mailMessage->method('setFrom')
+			->willReturnCallback(function (array $from) use (&$capturedFrom, $mailMessage) {
+				$capturedFrom = $from;
+				return $mailMessage;
+			});
+		$mailMessage->method('setReplyTo')
+			->willReturnCallback(function (array $replyTo) use (&$capturedReplyTo, $mailMessage) {
+				$capturedReplyTo = $replyTo;
+				return $mailMessage;
+			});
+
+		$mailer = $this->createMock(IMailer::class);
+		$mailer->method('createMessage')->willReturn($mailMessage);
+		$mailer->method('createEMailTemplate')->willReturn($this->emailTemplate);
+		$mailer->method('send')->willReturn([]);
+
+		if ($viaMailProvider) {
+			$this->mailMessageNew->method('setFrom')
+				->willReturnCallback(function (Address $from) use (&$capturedFrom) {
+					$capturedFrom = [$from->getAddress() => (string)$from->getLabel()];
+					return $this->mailMessageNew;
+				});
+			$this->mailService->method('initiateMessage')->willReturn($this->mailMessageNew);
+			$this->mailService->expects(self::once())
+				->method('sendMessage')
+				->with($this->mailMessageNew);
+			$this->mailManager->method('findServiceByAddress')->willReturn($this->mailService);
+		}
+
+		$this->service->method('getLastOccurrence')->willReturn(1496912700);
+		$this->service->method('getCurrentAttendee')->willReturn($vEvent->select('ATTENDEE')[0]);
+		$this->service->method('isRoomOrResource')->willReturn(false);
+		$this->service->method('isCircle')->willReturn(false);
+		$this->service->method('getAttendeeRsvpOrReqForParticipant')->willReturn(false);
+		$this->service->method('buildBodyData')->willReturn([
+			'meeting_title' => 'Meeting',
+			'invitee_name' => '',
+			'attendee_name' => $recipient,
+		]);
+		// Mirrors the real IMipService::getFrom() so assertions read like the
+		// actual mail header.
+		$this->service->method('getFrom')
+			->willReturnCallback(static fn (?string $senderName, string $default): string
+				=> ($senderName === null || $senderName === '') ? $default : $senderName . ' via ' . $default);
+
+		$this->config->method('getValueBool')->willReturnMap([
+			['dav', 'caldav_external_attendees_disabled', false, false],
+			['core', 'mail_providers_enabled', true, $viaMailProvider],
+		]);
+		$this->eventComparisonService->method('findModified')
+			->willReturn(['old' => [], 'new' => [$vEvent]]);
+
+		$plugin = new IMipPlugin(
+			$this->config,
+			$mailer,
+			$this->logger,
+			$this->timeFactory,
+			$this->defaults,
+			$this->userSession,
+			$this->service,
+			$this->eventComparisonService,
+			$this->mailManager,
+			$this->getEmailValidatorWithStrictEmailCheck(),
+			$this->userManager,
+			$this->accountManager,
+		);
+		$plugin->schedule($message);
+		self::assertSame('1.1', $message->getScheduleStatus());
+
+		return ['from' => $capturedFrom, 'replyTo' => $capturedReplyTo];
+	}
+
+	/**
+	 * Messages are regularly brokered on behalf of somebody else, so headers
+	 * must not fall back to the session user's name when the sender address
+	 * is not theirs.
+	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'transportProvider')]
+	public function testSenderNameIsNotTakenFromAnUnrelatedSessionUser(bool $viaMailProvider): void {
+		$this->user->method('getUID')->willReturn('bilbo');
+		$this->user->method('getDisplayName')->willReturn('Bilbo Baggins');
+		$this->user->method('getEMailAddress')->willReturn('bilbo@hobb.it');
+		$this->userManager->method('getByEmail')->with('a@example.com')->willReturn([]);
+
+		$result = $this->scheduleWithoutSenderName('a@example.com', 'frodo@hobb.it', $viaMailProvider);
+
+		self::assertSame(['Instance Name 123'], array_values($result['from']));
+		if (!$viaMailProvider) {
+			self::assertSame(['a@example.com'], $result['replyTo']);
+		}
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'transportProvider')]
+	public function testSenderNameFallsBackToSessionUserWhenTheyAreTheSender(bool $viaMailProvider): void {
+		$this->user->method('getUID')->willReturn('gandalf');
+		$this->user->method('getDisplayName')->willReturn('Mr. Wizard');
+		$this->user->method('getEMailAddress')->willReturn('gandalf@wiz.ard');
+
+		$result = $this->scheduleWithoutSenderName('gandalf@wiz.ard', 'frodo@hobb.it', $viaMailProvider);
+
+		self::assertSame(['Mr. Wizard via Instance Name 123'], array_values($result['from']));
+		if (!$viaMailProvider) {
+			self::assertSame(['gandalf@wiz.ard' => 'Mr. Wizard'], $result['replyTo']);
+		}
+	}
+
+	/**
+	 * The session user must also be recognized as the sender when sending
+	 * under one of their profile email aliases.
+	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'transportProvider')]
+	public function testSenderNameUsesSessionUserForTheirAliasAddress(bool $viaMailProvider): void {
+		$this->user->method('getUID')->willReturn('carl');
+		$this->user->method('getDisplayName')->willReturn('Carl Session');
+		$this->user->method('getEMailAddress')->willReturn('carl@example.com');
+
+		$aliasProperty = $this->createMock(IAccountProperty::class);
+		$aliasProperty->method('getValue')->willReturn('Shared@Corp.example');
+		$emailCollection = $this->createMock(IAccountPropertyCollection::class);
+		$emailCollection->method('getProperties')->willReturn([$aliasProperty]);
+		$account = $this->createMock(IAccount::class);
+		$account->method('getPropertyCollection')
+			->with(IAccountManager::COLLECTION_EMAIL)
+			->willReturn($emailCollection);
+		$this->accountManager->method('getAccount')->with($this->user)->willReturn($account);
+		$this->userManager->expects(self::never())->method('getByEmail');
+
+		$result = $this->scheduleWithoutSenderName('shared@corp.example', 'frodo@hobb.it', $viaMailProvider);
+
+		self::assertSame(['Carl Session via Instance Name 123'], array_values($result['from']));
+		if (!$viaMailProvider) {
+			self::assertSame(['shared@corp.example' => 'Carl Session'], $result['replyTo']);
+		}
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'transportProvider')]
+	public function testSenderNameIsResolvedFromTheAddressOwner(bool $viaMailProvider): void {
+		$this->user->method('getUID')->willReturn('bilbo');
+		$this->user->method('getDisplayName')->willReturn('Bilbo Baggins');
+		$this->user->method('getEMailAddress')->willReturn('bilbo@hobb.it');
+
+		$organizerUser = $this->createMock(IUser::class);
+		$organizerUser->method('getDisplayName')->willReturn('Anna Organizer');
+		$this->userManager->method('getByEmail')->with('a@example.com')->willReturn([$organizerUser]);
+
+		$result = $this->scheduleWithoutSenderName('a@example.com', 'frodo@hobb.it', $viaMailProvider);
+
+		self::assertSame(['Anna Organizer via Instance Name 123'], array_values($result['from']));
+		if (!$viaMailProvider) {
+			self::assertSame(['a@example.com' => 'Anna Organizer'], $result['replyTo']);
+		}
+	}
+
+	/**
+	 * Emails are not unique across users - login by email declines ambiguous
+	 * addresses the same way (\OC\User\Session::logClientIn()).
+	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'transportProvider')]
+	public function testSenderNameStaysNeutralForAmbiguousAddresses(bool $viaMailProvider): void {
+		$this->user->method('getEMailAddress')->willReturn('bilbo@hobb.it');
+
+		$owner1 = $this->createMock(IUser::class);
+		$owner2 = $this->createMock(IUser::class);
+		$this->userManager->method('getByEmail')->with('office@corp.example')->willReturn([$owner1, $owner2]);
+
+		$result = $this->scheduleWithoutSenderName('office@corp.example', 'frodo@hobb.it', $viaMailProvider);
+
+		self::assertSame(['Instance Name 123'], array_values($result['from']));
+		if (!$viaMailProvider) {
+			self::assertSame(['office@corp.example'], $result['replyTo']);
+		}
+	}
+
+	public static function transportProvider(): array {
+		return [
+			'system email account' => [false],
+			'user email account' => [true],
+		];
 	}
 }

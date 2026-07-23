@@ -13,6 +13,7 @@ use OC\URLGenerator;
 use OCA\DAV\CalDAV\EventComparisonService;
 use OCA\DAV\CalDAV\Schedule\IMipPlugin;
 use OCA\DAV\CalDAV\Schedule\IMipService;
+use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Config\IUserConfig;
 use OCP\Defaults;
@@ -132,6 +133,8 @@ class IMipPluginCharsetTest extends TestCase {
 			$this->eventComparisonService,
 			$this->mailManager,
 			$this->getEmailValidatorWithStrictEmailCheck(),
+			$this->userManager,
+			$this->createMock(IAccountManager::class),
 		);
 
 		// ITipMessage
