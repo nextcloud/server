@@ -82,7 +82,7 @@ OC.L10N.register(
     "Share must have READ permission if UPDATE or DELETE permission is set" : "Jei nustatytas leidimas „UPDATE“/\"ATNAUJINTI\" arba „DELETE“/\"IŠTRINTI\", leidimui „Share“/\"Bendrinti\" turi būti suteiktas leidimas „READ“/\"SKAITYTI\"",
     "Could not lock path" : "Nepavyko užrakinti kelio",
     "no sharing rights on this item" : "šiam elementui nesuteikta dalijimosi teisių",
-    "You are not allowed to edit incoming shares" : "Jums neleidžiama redaguoti gaunamų dalinimosi nuorodų",
+    "You are not allowed to edit incoming shares" : "Jums neleidžiama redaguoti gaunamų bendrinimų",
     "Wrong or no update parameter given" : "Neperduoti atnaujinimo parametrai",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "„Siųsti slaptažodį per „Nextcloud Talk““, norint pasidalinti failu ar aplanku, nepavyko, nes „Nextcloud Talk“ nėra įjungta.",
     "Custom share link tokens have been disabled by the administrator" : "Administratorius išjungė pasirinktinius nuorodų dalijimosi žymenis",
