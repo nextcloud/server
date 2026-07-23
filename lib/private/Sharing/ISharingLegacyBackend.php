@@ -12,8 +12,8 @@ namespace OC\Sharing;
 use NCU\Sharing\Exception\ShareNotFoundException;
 use NCU\Sharing\Recipient\IShareRecipientType;
 use NCU\Sharing\Share;
-use NCU\Sharing\ShareAccessContext;
 use NCU\Sharing\Source\IShareSourceType;
+use OCP\IUser;
 
 /**
  * This interface is only temporary and implemented in the files_sharing app.
@@ -46,14 +46,24 @@ interface ISharingLegacyBackend {
 	 *
 	 * @throws ShareNotFoundException
 	 */
-	public function getShare(ShareAccessContext $accessContext, string $id): Share;
+	public function getShare(string $id): Share;
 
 	/**
-	 * Get multiple shares.
+	 * Get a share by it's legacy provider and id.
 	 *
-	 * @param ?class-string<IShareSourceType> $filterSourceTypeClass
-	 * @param ?positive-int $limit
+	 * @throws ShareNotFoundException
+	 */
+	public function getShareByLegacyProviderAndId(string $legacyProvider, string $legacyId): Share;
+
+	/**
+	 * Get unmapped shares.
+	 *
 	 * @return list<Share>
 	 */
-	public function getShares(ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?string $lastShareID, ?int $limit): array;
+	public function getUnmappedShares(IUser $user): array;
+
+	/**
+	 * @return list<string>
+	 */
+	public function getLegacyFullIds(string $id): array;
 }
