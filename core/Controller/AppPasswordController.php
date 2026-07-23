@@ -201,11 +201,11 @@ class AppPasswordController extends OCSController {
 	 *
 	 * @return DataResponse<Http::STATUS_OK, array{apppassword: string}, array{}>
 	 * @throws OCSForbiddenException Creating app password is not allowed
+	 * @NoTwoFactorRequired
 	 *
 	 * 200: App password returned
 	 */
 	#[NoAdminRequired]
-	#[NoTwoFactorRequired]
 	#[ApiRoute(verb: 'GET', url: '/getapppassword-onetime', root: '/core')]
 	public function getAppPasswordWithOneTimePassword(): DataResponse {
 		// Only allow with one-time app passwords
