@@ -333,7 +333,8 @@ class Server {
 						$userSession,
 						\OC::$server->get(IMipService::class),
 						\OC::$server->get(EventComparisonService::class),
-						\OC::$server->get(\OCP\Mail\Provider\IManager::class)
+						\OC::$server->get(\OCP\Mail\Provider\IManager::class),
+						\OC::$server->get(IAccountManager::class),
 					));
 				}
 				$this->server->addPlugin(new \OCA\DAV\CalDAV\Search\SearchPlugin());
