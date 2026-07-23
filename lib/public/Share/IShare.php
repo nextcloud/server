@@ -320,9 +320,8 @@ interface IShare {
 
 	/**
 	 * Set the accepted status
-	 * See self::STATUS_*
 	 *
-	 * @param int $status
+	 * @param self::STATUS_* $status
 	 * @return IShare The modified object
 	 * @since 18.0.0
 	 */
@@ -330,12 +329,11 @@ interface IShare {
 
 	/**
 	 * Get the accepted status
-	 * See self::STATUS_*
 	 *
-	 * @return int
+	 * @return ?self::STATUS_*
 	 * @since 18.0.0
 	 */
-	public function getStatus(): int;
+	public function getStatus(): ?int;
 
 	/**
 	 * Attach a note to a share

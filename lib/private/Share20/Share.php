@@ -48,7 +48,7 @@ class Share implements IShare {
 	private $permissions;
 	/** @var IAttributes */
 	private $attributes;
-	/** @var int */
+	/** @var self::STATUS_* */
 	private $status;
 	/** @var string */
 	private $note = '';
@@ -358,7 +358,7 @@ class Share implements IShare {
 	 * @inheritdoc
 	 */
 	#[\Override]
-	public function getStatus(): int {
+	public function getStatus(): ?int {
 		return $this->status;
 	}
 
