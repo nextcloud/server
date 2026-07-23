@@ -209,7 +209,7 @@ interface IShare {
 	/**
 	 * Set the shareType
 	 *
-	 * @param int $shareType
+	 * @param self::TYPE_* $shareType
 	 * @return \OCP\Share\IShare The modified object
 	 * @since 9.0.0
 	 */
@@ -218,7 +218,7 @@ interface IShare {
 	/**
 	 * Get the shareType
 	 *
-	 * @return int
+	 * @return self::TYPE_*
 	 * @since 9.0.0
 	 */
 	public function getShareType();

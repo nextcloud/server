@@ -31,7 +31,7 @@ class Share implements IShare {
 	private $fileId;
 	/** @var string */
 	private $nodeType;
-	/** @var int */
+	/** @var IShare::TYPE_* */
 	private $shareType;
 	/** @var string */
 	private $sharedWith;
