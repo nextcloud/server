@@ -1564,8 +1564,29 @@ class ShareAPIController extends OCSController {
 		}
 
 		if ($share->getShareType() === IShare::TYPE_CIRCLE) {
-			// TODO: have a sanity check like above?
-			return true;
+			if (
+				Server::get(IAppManager::class)->isEnabledForUser('circles')
+				&& class_exists('\OCA\Circles\Api\v1\Circles')
+			) {
+				$hasCircleId = (str_ends_with($share->getSharedWith(), ']'));
+				$shareWithStart = ($hasCircleId ? strrpos($share->getSharedWith(), '[') + 1 : 0);
+				$shareWithLength = ($hasCircleId ? -1 : strpos($share->getSharedWith(), ' '));
+				if ($shareWithLength === false) {
+					$sharedWith = substr($share->getSharedWith(), $shareWithStart);
+				} else {
+					$sharedWith = substr($share->getSharedWith(), $shareWithStart, $shareWithLength);
+				}
+				try {
+					$member = Circles::getMember($sharedWith, $this->userId, 1);
+					if ($member->getLevel() >= 1) {
+						return true;
+					}
+					return false;
+				} catch (\Exception $e) {
+					return false;
+				}
+			}
+			return false;
 		}
 
 		if ($share->getShareType() === IShare::TYPE_ROOM) {
