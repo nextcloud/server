@@ -201,10 +201,12 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 			throw new ShareInvalidException('Invalid source: ' . $source->value . ' ' . $source->class, $this->l10n->t('The source does not exist.'));
 		}
 
-		$share = $this->getShare($accessContext, $id, $backend);
-		$sources = $share->sources;
-		$sources[] = $source;
-		$this->validateInteraction($accessContext, $owner, $sources, $share->getEnabledPermissions(), $share->recipients);
+		if (!$accessContext->overrideChecks) {
+			$share = $this->getShare($accessContext, $id, $backend);
+			$sources = $share->sources;
+			$sources[] = $source;
+			$this->validateInteraction($accessContext, $owner, $sources, $share->getEnabledPermissions(), $share->recipients);
+		}
 
 		$backend->addShareSource($id, $source);
 	}
@@ -277,10 +279,12 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 			throw new ShareInvalidException('Invalid recipient: ' . $recipient->value . ' ' . $recipient->class . ' ' . ($recipient->instance ?? 'local'), $this->l10n->t('The recipient does not exist.'));
 		}
 
-		$share ??= $this->getShare($accessContext, $id, $backend);
-		$recipients = $share->recipients;
-		$recipients[] = $recipient;
-		$this->validateInteraction($accessContext, $owner, $share->sources, $share->getEnabledPermissions(), $recipients);
+		if (!$accessContext->overrideChecks) {
+			$share ??= $this->getShare($accessContext, $id, $backend);
+			$recipients = $share->recipients;
+			$recipients[] = $recipient;
+			$this->validateInteraction($accessContext, $owner, $share->sources, $share->getEnabledPermissions(), $recipients);
+		}
 
 		$backend->addShareRecipient($id, $currentUser, $recipient);
 	}
@@ -423,12 +427,12 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 			throw new RuntimeException('The permission type is not registered: ' . $permission->class);
 		}
 
-		$share = $this->getShare($accessContext, $id, $backend);
-
-		$permissions = $share->permissions;
-		$permissions[$permission->class] = $permission;
-
-		$this->validateInteraction($accessContext, $owner, $share->sources, array_filter($permissions, static fn (SharePermission $permission): bool => $permission->enabled), $share->recipients);
+		if (!$accessContext->overrideChecks) {
+			$share = $this->getShare($accessContext, $id, $backend);
+			$permissions = $share->permissions;
+			$permissions[$permission->class] = $permission;
+			$this->validateInteraction($accessContext, $owner, $share->sources, array_filter($permissions, static fn (SharePermission $permission): bool => $permission->enabled), $share->recipients);
+		}
 
 		$backend->updateSharePermission($id, $permission);
 
