@@ -150,6 +150,18 @@
 					</div>
 				</div>
 
+				<!-- DEBUG (throwaway, ?searchDebug preview only): floating reveal/latency tuner.
+				     position: fixed so it doesn't consume dropdown space; kept inside the
+				     container so it sits within the focus trap (else sliders won't drag). -->
+				<SearchDebugPanel
+					v-if="showSearchDebug"
+					:providers="providers"
+					:revealInterval="debugRevealInterval"
+					:states="searchStates"
+					@update:revealInterval="onDebugRevealInterval"
+					@setDelay="onDebugDelay"
+					@setFail="onDebugFail" />
+
 				<div v-if="showEmptyContentInfo" class="unified-search-modal__no-content">
 					<NcEmptyContent :name="emptyContentMessage">
 						<template #icon>
@@ -285,6 +297,7 @@ import IconMagnify from 'vue-material-design-icons/Magnify.vue'
 import IconShapeOutline from 'vue-material-design-icons/ShapeOutline.vue'
 import CustomDateRangeModal from './CustomDateRangeModal.vue'
 import SearchableList from './SearchableList.vue'
+import SearchDebugPanel from './SearchDebugPanel.vue'
 import FilterChip from './SearchFilterChip.vue'
 import SearchResult from './SearchResult.vue'
 import { useUnifiedSearch } from '../../composables/useUnifiedSearch.ts'
@@ -327,6 +340,7 @@ export default defineComponent({
 		NcLoadingIcon,
 		NcTextField,
 		SearchableList,
+		SearchDebugPanel,
 		SearchResult,
 	},
 
@@ -376,7 +390,7 @@ export default defineComponent({
 		const searchStore = useSearchStore()
 		const isSmallMobile = useIsSmallMobile()
 
-		const { searchStates, search, loadMore, reset } = useUnifiedSearch()
+		const { searchStates, search, loadMore, reset, setRevealInterval, setRequestDelay, setFailCategory } = useUnifiedSearch()
 
 		return {
 			t,
@@ -384,6 +398,10 @@ export default defineComponent({
 			search,
 			loadMore,
 			reset,
+			// DEBUG (throwaway, ?searchDebug preview only)
+			setRevealInterval,
+			setRequestDelay,
+			setFailCategory,
 			currentLocation,
 			externalFilters: searchStore.externalFilters,
 			isSmallMobile,
@@ -423,6 +441,9 @@ export default defineComponent({
 			// aria-activedescendant highlight (combobox pattern).
 			activeIndex: -1,
 			minSearchLength: loadState('unified-search', 'min-search-length', 1),
+			// DEBUG (throwaway, ?searchDebug preview only): mirrors the reveal interval
+			// shown in the debug panel; the controller default is REVEAL_INTERVAL_MS (1500).
+			debugRevealInterval: 1500,
 			// Focus trap spanning [header input, popover panel]; markRaw'd so Vue
 			// doesn't make the trap instance reactive.
 			focusTrap: null as FocusTrap | null,
@@ -490,6 +511,11 @@ export default defineComponent({
 
 		hasNoResults() {
 			return !this.isEmptySearch && this.results.length === 0
+		},
+
+		// DEBUG (throwaway, preview only): show the timing panel when ?searchDebug is set.
+		showSearchDebug() {
+			return (this.currentLocation.search ?? '').includes('searchDebug')
 		},
 
 		isSearchQueryTooShort() {
@@ -1440,6 +1466,28 @@ export default defineComponent({
 				// Nothing to preserve (fresh set, or selection out of range): auto-select the first row.
 				this.activeIndex = 0
 			}
+		},
+
+		// DEBUG (throwaway, ?searchDebug preview only): apply a new reveal interval and
+		// re-run so it takes effect immediately.
+		onDebugRevealInterval(ms: number) {
+			this.debugRevealInterval = ms
+			this.setRevealInterval(ms)
+			this.find(this.searchQuery)
+		},
+
+		// DEBUG (throwaway, ?searchDebug preview only): set a provider's artificial
+		// latency and re-run so the staggered reveal is visible.
+		onDebugDelay(id: string, ms: number) {
+			this.setRequestDelay(id, ms)
+			this.find(this.searchQuery)
+		},
+
+		// DEBUG (throwaway, ?searchDebug preview only): toggle a simulated failure
+		// for a provider and re-run.
+		onDebugFail(id: string, fail: boolean) {
+			this.setFailCategory(id, fail)
+			this.find(this.searchQuery)
 		},
 	},
 })

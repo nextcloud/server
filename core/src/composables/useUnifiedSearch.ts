@@ -27,5 +27,9 @@ export function useUnifiedSearch() {
 		search: controller.search.bind(controller),
 		loadMore: controller.loadMore.bind(controller),
 		reset: controller.reset.bind(controller),
+		// DEBUG (throwaway, ?searchDebug preview only): tune reveal timing / latency / failures.
+		setRevealInterval: controller.setRevealInterval.bind(controller),
+		setRequestDelay: controller.setRequestDelay.bind(controller),
+		setFailCategory: controller.setFailCategory.bind(controller),
 	}
 }
