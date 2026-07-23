@@ -268,7 +268,7 @@ class Manager implements IManager {
 					throw new GenericShareException($isRestricted, code: 403);
 				}
 			} catch (\Exception $exception) {
-				throw new GenericShareException($exception->getMessage(), $exception instanceof HintException ? $exception->getHint() : '', code: 403);
+				throw new GenericShareException($exception->getMessage(), $exception instanceof HintException ? $exception->getHint() : '', code: 403, previous: $exception);
 			}
 		}
 	}
