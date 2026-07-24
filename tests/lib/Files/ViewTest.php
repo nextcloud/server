@@ -2315,6 +2315,37 @@ class ViewTest extends \Test\TestCase {
 		}
 	}
 
+	public function testCopyUnlocksTargetWhenSourceLockCannotBeAcquired(): void {
+		$view = new View('/' . self::$user . '/files/');
+		$storage = new Temporary([]);
+
+		Filesystem::mount($storage, [], self::$user . '/');
+		$storage->mkdir('files');
+
+		$sourcePath = 'source.txt';
+		$targetPath = 'target.txt';
+		$view->file_put_contents($sourcePath, 'content');
+
+		$view->lockFile($sourcePath, ILockingProvider::LOCK_EXCLUSIVE);
+
+		try {
+			$view->copy($sourcePath, $targetPath);
+			$this->fail('Expected source-lock acquisition to fail');
+		} catch (LockedException) {
+			$this->assertNull(
+				$this->getFileLockType($view, $targetPath),
+				'The target lock acquired before the source lock must be released'
+			);
+			$this->assertSame(
+				ILockingProvider::LOCK_EXCLUSIVE,
+				$this->getFileLockType($view, $sourcePath),
+				'The pre-existing source lock must not be released by copy()'
+			);
+		} finally {
+			$view->unlockFile($sourcePath, ILockingProvider::LOCK_EXCLUSIVE);
+		}
+	}
+
 	/**
 	 * Test rename operation: unlock first path when second path was locked
 	 */
