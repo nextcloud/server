@@ -272,6 +272,8 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			case 'CONTENT_TYPE':
 			case 'CONTENT_LENGTH':
 			case 'REMOTE_ADDR':
+			case 'PHP_AUTH_USER':
+			case 'PHP_AUTH_PW':
 				if (isset($this->server[$name])) {
 					return $this->server[$name];
 				}
