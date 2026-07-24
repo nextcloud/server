@@ -376,13 +376,14 @@ class ThemingController extends Controller {
 		$csp->allowInlineStyle();
 		$response->setContentSecurityPolicy($csp);
 		$response->cacheFor(3600);
-		$response->addHeader('Content-Type', $this->config->getAppValue($this->appName, $key . 'Mime', ''));
+		// The original stored file has no extension (e.g. "logo"), so getMimeType() returns
+		// application/octet-stream for it. Use the config-stored MIME type for the original
+		// file, and getMimeType() only for converted files which have a proper extension.
+		$mimeType = $file->getName() === $key
+			? $this->appConfig->getAppValueString($key . 'Mime', '')
+			: $file->getMimeType();
+		$response->addHeader('Content-Type', $mimeType);
 		$response->addHeader('Content-Disposition', 'attachment; filename="' . $key . '"');
-		if (!$useSvg) {
-			$response->addHeader('Content-Type', 'image/png');
-		} else {
-			$response->addHeader('Content-Type', $this->config->getAppValue($this->appName, $key . 'Mime', ''));
-		}
 		return $response;
 	}
 
@@ -460,7 +461,7 @@ class ThemingController extends Controller {
 	#[BruteForceProtection(action: 'manifest')]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	public function getManifest(string $app): JSONResponse {
-		$cacheBusterValue = $this->config->getAppValue('theming', 'cachebuster', '0');
+		$cacheBusterValue = $this->appConfig->getAppValueString('cachebuster', '0');
 		if ($app === 'core' || $app === 'settings') {
 			$name = $this->themingDefaults->getName();
 			$shortName = $this->themingDefaults->getName();
