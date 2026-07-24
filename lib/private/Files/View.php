@@ -719,13 +719,15 @@ class View {
 	}
 
 	/**
-	 * Rename/move a file or folder from the source path to target path.
+	 * Rename or move a file or folder.
 	 *
-	 * @param string $source source path
-	 * @param string $target target path
-	 * @param array $options
+	 * @param string $source Source path
+	 * @param string $target Target path
+	 * @param array{checkSubMounts?: bool} $options Options controlling mount validation
+	 * @return mixed Result from the underlying storage operation, or false on failure
 	 *
-	 * @return bool|mixed
+	 * @throws ForbiddenException When moving a folder into one of its descendants
+	 * @throws InvalidPathException
 	 * @throws LockedException
 	 */
 	public function rename($source, $target, array $options = []) {
@@ -738,240 +740,247 @@ class View {
 			throw new ForbiddenException('Moving a folder into a child folder is forbidden', false);
 		}
 
+		if (
+			!Filesystem::isValidPath($target)
+			|| !Filesystem::isValidPath($source)
+			|| Filesystem::isFileBlacklisted($target)
+		) {
+			return false;
+		}
+
 		/** @var IMountManager $mountManager */
 		$mountManager = Server::get(IMountManager::class);
 
 		$targetParts = explode('/', $absolutePath2);
 		$targetUser = $targetParts[1] ?? null;
 		$result = false;
-		if (
-			Filesystem::isValidPath($target)
-			&& Filesystem::isValidPath($source)
-			&& !Filesystem::isFileBlacklisted($target)
-		) {
-			$source = $this->getRelativePath($absolutePath1);
-			$target = $this->getRelativePath($absolutePath2);
-			$exists = $this->file_exists($target);
 
-			if ($source === null || $target === null) {
-				return false;
+		$source = $this->getRelativePath($absolutePath1);
+		$target = $this->getRelativePath($absolutePath2);
+		if ($source === null || $target === null) {
+			return false;
+		}
+
+		$exists = $this->file_exists($target);
+
+		try {
+			$this->verifyPath(dirname($target), basename($target));
+		} catch (InvalidPathException) {
+			return false;
+		}
+
+		$sourceLocked = false;
+		$targetLocked = false;
+		$sourceLockType = ILockingProvider::LOCK_SHARED;
+		$targetLockType = ILockingProvider::LOCK_SHARED;
+		$operationException = null;
+
+		try {
+			$sourceLocked = $this->lockFile($source, ILockingProvider::LOCK_SHARED, true);
+			$targetLocked = $this->lockFile($target, ILockingProvider::LOCK_SHARED, true);
+
+			$run = true;
+			if ($this->shouldEmitHooks($source) && (Scanner::isPartialFile($source) && !Scanner::isPartialFile($target))) {
+				// If this is a rename from a part file to a regular file, it is a write rather than a rename.
+				$this->emit_file_hooks_pre($exists, $target, $run);
+			} elseif ($this->shouldEmitHooks($source)) {
+				$sourcePath = $this->getHookPath($source);
+				$targetPath = $this->getHookPath($target);
+				if ($sourcePath !== null && $targetPath !== null) {
+					\OC_Hook::emit(
+						Filesystem::CLASSNAME, Filesystem::signal_rename,
+						[
+							Filesystem::signal_param_oldpath => $sourcePath,
+							Filesystem::signal_param_newpath => $targetPath,
+							Filesystem::signal_param_run => &$run
+						]
+					);
+				}
 			}
 
-			try {
-				$this->verifyPath(dirname($target), basename($target));
-			} catch (InvalidPathException) {
-				return false;
-			}
+			if ($run) {
+				$manager = Filesystem::getMountManager();
+				$mount1 = $this->getMount($source);
+				$mount2 = $this->getMount($target);
+				$storage1 = $mount1->getStorage();
+				$storage2 = $mount2->getStorage();
+				$internalPath1 = $mount1->getInternalPath($absolutePath1);
+				$internalPath2 = $mount2->getInternalPath($absolutePath2);
 
-			$sourceLocked = false;
-			$targetLocked = false;
-			$sourceLockType = ILockingProvider::LOCK_SHARED;
-			$targetLockType = ILockingProvider::LOCK_SHARED;
-			$operationException = null;
+				$this->changeLock($source, ILockingProvider::LOCK_EXCLUSIVE, true);
+				$sourceLockType = ILockingProvider::LOCK_EXCLUSIVE;
 
-			try {
-				$sourceLocked = $this->lockFile($source, ILockingProvider::LOCK_SHARED, true);
-				$targetLocked = $this->lockFile($target, ILockingProvider::LOCK_SHARED, true);
+				$lockDowngradeException = null;
+				try {
+					$this->changeLock($target, ILockingProvider::LOCK_EXCLUSIVE, true);
+					$targetLockType = ILockingProvider::LOCK_EXCLUSIVE;
 
-				$run = true;
-				if ($this->shouldEmitHooks($source) && (Scanner::isPartialFile($source) && !Scanner::isPartialFile($target))) {
-					// If this is a rename from a part file to a regular file, it is a write rather than a rename.
-					$this->emit_file_hooks_pre($exists, $target, $run);
-				} elseif ($this->shouldEmitHooks($source)) {
+					if ($checkSubMounts) {
+						$movedMounts = $mountManager->findIn($this->getAbsolutePath($source));
+					} else {
+						$movedMounts = [];
+					}
+
+					if ($internalPath1 === '') {
+						$sourceParentMount = $this->getMount(dirname($source));
+						$movedMounts[] = $mount1;
+						$this->validateMountMove(
+							$movedMounts,
+							$sourceParentMount,
+							$mount2,
+							!$this->targetIsNotShared($targetUser, $absolutePath2),
+						);
+
+						/** @var MountPoint|IMovableMount $mount1 */
+						$sourceMountPoint = $mount1->getMountPoint();
+						$result = $mount1->moveMount($absolutePath2);
+						$manager->moveMount($sourceMountPoint, $mount1->getMountPoint());
+
+					// moving a file/folder within the same mount point
+					} elseif ($storage1 === $storage2) {
+						if (count($movedMounts) > 0) {
+							$this->validateMountMove(
+								$movedMounts,
+								$mount1,
+								$mount2,
+								!$this->targetIsNotShared($targetUser, $absolutePath2),
+							);
+						}
+
+						if ($storage1) {
+							$result = $storage1->rename($internalPath1, $internalPath2);
+						} else {
+							// Missing source storage is a failed rename
+							$result = false;
+						}
+
+					// moving a file/folder between storages (from $storage1 to $storage2)
+					} else {
+						if (count($movedMounts) > 0) {
+							$this->validateMountMove(
+								$movedMounts,
+								$mount1,
+								$mount2,
+								!$this->targetIsNotShared($targetUser, $absolutePath2),
+							);
+						}
+
+						$result = $storage2->moveFromStorage($storage1, $internalPath1, $internalPath2);
+					}
+
+					if ((Scanner::isPartialFile($source) && !Scanner::isPartialFile($target)) && $result !== false) {
+						// A part-file rename is a write rather than a rename.
+						$this->writeUpdate($storage2, $internalPath2);
+					} elseif ($result && $internalPath1 !== '') {
+						// Do not update cache entries for moved mounts.
+						$this->renameUpdate($storage1, $storage2, $internalPath1, $internalPath2);
+					}
+				} catch (\Throwable $e) {
+					$operationException = $e;
+					throw $e;
+				} finally {
+					try {
+						if ($sourceLockType === ILockingProvider::LOCK_EXCLUSIVE) {
+							$this->changeLock($source, ILockingProvider::LOCK_SHARED, true);
+							$sourceLockType = ILockingProvider::LOCK_SHARED;
+						}
+					} catch (\Throwable $sourceCleanupException) {
+						if ($operationException !== null) {
+							$this->logger->error('Failed to downgrade source lock after rename operation', [
+								'app' => 'core',
+								'source' => $source,
+								'target' => $target,
+								'exception' => $sourceCleanupException,
+							]);
+						} else {
+							$lockDowngradeException = $sourceCleanupException;
+						}
+					}
+
+					try {
+						if ($targetLockType === ILockingProvider::LOCK_EXCLUSIVE) {
+							$this->changeLock($target, ILockingProvider::LOCK_SHARED, true);
+							$targetLockType = ILockingProvider::LOCK_SHARED;
+						}
+					} catch (\Throwable $targetCleanupException) {
+						if ($operationException !== null || $lockDowngradeException !== null) {
+							$this->logger->error('Failed to downgrade target lock after rename operation', [
+								'app' => 'core',
+								'source' => $source,
+								'target' => $target,
+								'exception' => $targetCleanupException,
+							]);
+						} else {
+							$lockDowngradeException = $targetCleanupException;
+						}
+					}
+
+					if ($operationException === null && $lockDowngradeException !== null) {
+						throw $lockDowngradeException;
+					}
+				}
+
+				if ((Scanner::isPartialFile($source) && !Scanner::isPartialFile($target)) && $result !== false) {
+					if ($this->shouldEmitHooks()) {
+						$this->emit_file_hooks_post($exists, $target);
+					}
+				} elseif ($result && $this->shouldEmitHooks($source) && $this->shouldEmitHooks($target)) {
 					$sourcePath = $this->getHookPath($source);
 					$targetPath = $this->getHookPath($target);
 					if ($sourcePath !== null && $targetPath !== null) {
 						\OC_Hook::emit(
-							Filesystem::CLASSNAME, Filesystem::signal_rename,
+							Filesystem::CLASSNAME,
+							Filesystem::signal_post_rename,
 							[
 								Filesystem::signal_param_oldpath => $sourcePath,
 								Filesystem::signal_param_newpath => $targetPath,
-								Filesystem::signal_param_run => &$run
 							]
 						);
 					}
 				}
+			}
+		} catch (\Throwable $e) {
+			$operationException ??= $e;
+			throw $e;
+		} finally {
+			$unlockException = null;
 
-				if ($run) {
-					$manager = Filesystem::getMountManager();
-					$mount1 = $this->getMount($source);
-					$mount2 = $this->getMount($target);
-					$storage1 = $mount1->getStorage();
-					$storage2 = $mount2->getStorage();
-					$internalPath1 = $mount1->getInternalPath($absolutePath1);
-					$internalPath2 = $mount2->getInternalPath($absolutePath2);
-
-					$this->changeLock($source, ILockingProvider::LOCK_EXCLUSIVE, true);
-					$sourceLockType = ILockingProvider::LOCK_EXCLUSIVE;
-
-					$lockDowngradeException = null;
-					try {
-						$this->changeLock($target, ILockingProvider::LOCK_EXCLUSIVE, true);
-						$targetLockType = ILockingProvider::LOCK_EXCLUSIVE;
-
-						if ($checkSubMounts) {
-							$movedMounts = $mountManager->findIn($this->getAbsolutePath($source));
-						} else {
-							$movedMounts = [];
-						}
-
-						if ($internalPath1 === '') {
-							$sourceParentMount = $this->getMount(dirname($source));
-							$movedMounts[] = $mount1;
-							$this->validateMountMove(
-								$movedMounts,
-								$sourceParentMount,
-								$mount2,
-								!$this->targetIsNotShared($targetUser, $absolutePath2),
-							);
-
-							/** @var MountPoint|IMovableMount $mount1 */
-							$sourceMountPoint = $mount1->getMountPoint();
-							$result = $mount1->moveMount($absolutePath2);
-							$manager->moveMount($sourceMountPoint, $mount1->getMountPoint());
-
-						// moving a file/folder within the same mount point
-						} elseif ($storage1 === $storage2) {
-							if (count($movedMounts) > 0) {
-								$this->validateMountMove(
-									$movedMounts, $mount1,
-									$mount2,
-									!$this->targetIsNotShared($targetUser, $absolutePath2),
-								);
-							}
-
-							if ($storage1) {
-								$result = $storage1->rename($internalPath1, $internalPath2);
-							}
-
-						// moving a file/folder between storages (from $storage1 to $storage2)
-						} else {
-							if (count($movedMounts) > 0) {
-								$this->validateMountMove(
-									$movedMounts,
-									$mount1,
-									$mount2,
-									!$this->targetIsNotShared($targetUser, $absolutePath2),
-								);
-							}
-
-							$result = $storage2->moveFromStorage($storage1, $internalPath1, $internalPath2);
-						}
-
-						if ((Scanner::isPartialFile($source) && !Scanner::isPartialFile($target)) && $result !== false) {
-							// A part-file rename is a write rather than a rename.
-							$this->writeUpdate($storage2, $internalPath2);
-						} elseif ($result && $internalPath1 !== '') {
-							// Do not update cache entries for moved mounts.
-							$this->renameUpdate($storage1, $storage2, $internalPath1, $internalPath2);
-						}
-					} catch (\Throwable $e) {
-						$operationException = $e;
-						throw $e;
-					} finally {
-						try {
-							if ($sourceLockType === ILockingProvider::LOCK_EXCLUSIVE) {
-								$this->changeLock($source, ILockingProvider::LOCK_SHARED, true);
-								$sourceLockType = ILockingProvider::LOCK_SHARED;
-							}
-						} catch (\Throwable $sourceCleanupException) {
-							if ($operationException !== null) {
-								$this->logger->error('Failed to downgrade source lock after rename operation', [
-									'app' => 'core',
-									'source' => $source,
-									'target' => $target,
-									'exception' => $sourceCleanupException,
-								]);
-							} else {
-								$lockDowngradeException = $sourceCleanupException;
-							}
-						}
-
-						try {
-							if ($targetLockType === ILockingProvider::LOCK_EXCLUSIVE) {
-								$this->changeLock($target, ILockingProvider::LOCK_SHARED, true);
-								$targetLockType = ILockingProvider::LOCK_SHARED;
-							}
-						} catch (\Throwable $targetCleanupException) {
-							if ($operationException !== null || $lockDowngradeException !== null) {
-								$this->logger->error('Failed to downgrade target lock after rename operation', [
-									'app' => 'core',
-									'source' => $source,
-									'target' => $target,
-									'exception' => $targetCleanupException,
-								]);
-							} else {
-								$lockDowngradeException = $targetCleanupException;
-							}
-						}
-
-						if ($operationException === null && $lockDowngradeException !== null) {
-							throw $lockDowngradeException;
-						}
-					}
-
-					if ((Scanner::isPartialFile($source) && !Scanner::isPartialFile($target)) && $result !== false) {
-						if ($this->shouldEmitHooks()) {
-							$this->emit_file_hooks_post($exists, $target);
-						}
-					} elseif ($result && $this->shouldEmitHooks($source) && $this->shouldEmitHooks($target)) {
-						$sourcePath = $this->getHookPath($source);
-						$targetPath = $this->getHookPath($target);
-						if ($sourcePath !== null && $targetPath !== null) {
-							\OC_Hook::emit(
-								Filesystem::CLASSNAME,
-								Filesystem::signal_post_rename,
-								[
-									Filesystem::signal_param_oldpath => $sourcePath,
-									Filesystem::signal_param_newpath => $targetPath,
-								]
-							);
-						}
-					}
+			try {
+				if ($targetLocked) {
+					$this->unlockFile($target, $targetLockType, true);
 				}
-			} catch (\Throwable $e) {
-				$operationException ??= $e;
-				throw $e;
-			} finally {
-				$unlockException = null;
-
-				try {
-					if ($targetLocked) {
-						$this->unlockFile($target, $targetLockType, true);
-					}
-				} catch (\Throwable $targetCleanupException) {
-					if ($operationException !== null) {
-						$this->logger->error('Failed to release target lock after rename operation', [
-							'app' => 'core',
-							'source' => $source,
-							'target' => $target,
-							'exception' => $targetCleanupException,
-						]);
-					} else {
-						$unlockException = $targetCleanupException;
-					}
+			} catch (\Throwable $targetCleanupException) {
+				if ($operationException !== null) {
+					$this->logger->error('Failed to release target lock after rename operation', [
+						'app' => 'core',
+						'source' => $source,
+						'target' => $target,
+						'exception' => $targetCleanupException,
+					]);
+				} else {
+					$unlockException = $targetCleanupException;
 				}
+			}
 
-				try {
-					if ($sourceLocked) {
-						$this->unlockFile($source, $sourceLockType, true);
-					}
-				} catch (\Throwable $sourceCleanupException) {
-					if ($operationException !== null || $unlockException !== null) {
-						$this->logger->error('Failed to release source lock after rename operation', [
-							'app' => 'core',
-							'source' => $source,
-							'target' => $target,
-							'exception' => $sourceCleanupException,
-						]);
-					} else {
-						$unlockException = $sourceCleanupException;
-					}
+			try {
+				if ($sourceLocked) {
+					$this->unlockFile($source, $sourceLockType, true);
 				}
+			} catch (\Throwable $sourceCleanupException) {
+				if ($operationException !== null || $unlockException !== null) {
+					$this->logger->error('Failed to release source lock after rename operation', [
+						'app' => 'core',
+						'source' => $source,
+						'target' => $target,
+						'exception' => $sourceCleanupException,
+					]);
+				} else {
+					$unlockException = $sourceCleanupException;
+				}
+			}
 
-				if ($operationException === null && $unlockException !== null) {
-					throw $unlockException;
-				}
+			if ($operationException === null && $unlockException !== null) {
+				throw $unlockException;
 			}
 		}
 
