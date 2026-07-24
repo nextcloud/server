@@ -18,8 +18,13 @@ use OCA\Files_Trashbin\AppInfo\Application;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\Constants;
 use OCP\Files\Config\IMountProviderCollection;
+use OCP\Files\Folder;
+use OCP\Files\IRootFolder;
+use OCP\Files\Node;
 use OCP\Files\NotFoundException;
+use OCP\Files\Storage\IStorage;
 use OCP\IUserManager;
+use OCP\Lock\ILockingProvider;
 use OCP\Server;
 use OCP\Share\IShare;
 
@@ -501,5 +506,132 @@ class SharedStorageTest extends TestCase {
 
 		$this->view->unlink($this->filename);
 		$this->shareManager->deleteShare($share);
+	}
+
+	public function testAcquireRootLockRollsBackTargetLockWhenOwnerParentLockFails(): void {
+		$events = [];
+		$provider = $this->createMock(ILockingProvider::class);
+		$ownerView = $this->createMock(View::class);
+		$sourceStorage = $this->createMock(IStorage::class);
+
+		$sourceStorage->expects($this->once())
+			->method('acquireLock')
+			->with('foo/bar.txt', ILockingProvider::LOCK_SHARED, $provider)
+			->willReturnCallback(function () use (&$events): void {
+				$events[] = 'target-acquire';
+			});
+		$sourceStorage->expects($this->once())
+			->method('releaseLock')
+			->with('foo/bar.txt', ILockingProvider::LOCK_SHARED, $provider)
+			->willReturnCallback(function () use (&$events): void {
+				$events[] = 'target-release';
+			});
+
+		$ownerView->expects($this->once())
+			->method('lockFile')
+			->with('foo', ILockingProvider::LOCK_SHARED, true)
+			->willReturnCallback(function () use (&$events): void {
+				$events[] = 'owner-lock';
+				throw new \RuntimeException('Owner parent is locked');
+			});
+
+		$storage = $this->createSharedStorageForRootLocking($ownerView, $sourceStorage);
+
+		try {
+			$storage->acquireLock('', ILockingProvider::LOCK_SHARED, $provider);
+			$this->fail('Expected owner-parent locking to fail');
+		} catch (\RuntimeException $e) {
+			$this->assertSame('Owner parent is locked', $e->getMessage());
+		}
+
+		$this->assertSame([
+			'target-acquire',
+			'owner-lock',
+			'target-release',
+		], $events);
+	}
+
+	public function testReleaseRootLockUnlocksOwnerParentBeforeTarget(): void {
+		$events = [];
+		$provider = $this->createMock(ILockingProvider::class);
+		$ownerView = $this->createMock(View::class);
+		$sourceStorage = $this->createMock(IStorage::class);
+
+		$ownerView->expects($this->once())
+			->method('unlockFile')
+			->with('foo', ILockingProvider::LOCK_SHARED, true)
+			->willReturnCallback(function () use (&$events): void {
+				$events[] = 'owner-release';
+			});
+		$sourceStorage->expects($this->once())
+			->method('releaseLock')
+			->with('foo/bar.txt', ILockingProvider::LOCK_SHARED, $provider)
+			->willReturnCallback(function () use (&$events): void {
+				$events[] = 'target-release';
+			});
+
+		$storage = $this->createSharedStorageForRootLocking($ownerView, $sourceStorage);
+		$storage->releaseLock('', ILockingProvider::LOCK_SHARED, $provider);
+
+		$this->assertSame([
+			'owner-release',
+			'target-release',
+		], $events);
+	}
+
+	public function testReleaseRootLockStillReleasesTargetWhenOwnerParentUnlockFails(): void {
+		$provider = $this->createMock(ILockingProvider::class);
+		$ownerView = $this->createMock(View::class);
+		$sourceStorage = $this->createMock(IStorage::class);
+
+		$ownerView->expects($this->once())
+			->method('unlockFile')
+			->with('foo', ILockingProvider::LOCK_SHARED, true)
+			->willThrowException(new \RuntimeException('Owner parent unlock failed'));
+		$sourceStorage->expects($this->once())
+			->method('releaseLock')
+			->with('foo/bar.txt', ILockingProvider::LOCK_SHARED, $provider);
+
+		$storage = $this->createSharedStorageForRootLocking($ownerView, $sourceStorage);
+
+		$this->expectException(\RuntimeException::class);
+		$this->expectExceptionMessage('Owner parent unlock failed');
+
+		$storage->releaseLock('', ILockingProvider::LOCK_SHARED, $provider);
+	}
+
+	private function createSharedStorageForRootLocking(
+		View $ownerView,
+		IStorage $sourceStorage,
+	): SharedStorage {
+		$share = $this->createMock(IShare::class);
+		$share->method('getShareOwner')->willReturn(self::TEST_FILES_SHARING_API_USER1);
+		$share->method('getNodeId')->willReturn(42);
+		$share->method('getPermissions')->willReturn(Constants::PERMISSION_ALL);
+
+		$sourceNode = $this->createMock(Node::class);
+		$sourceNode->method('getStorage')->willReturn($sourceStorage);
+		$sourceNode->method('getPath')
+		->willReturn('/' . self::TEST_FILES_SHARING_API_USER1 . '/files/foo/bar.txt');
+		$sourceNode->method('getInternalPath')->willReturn('foo/bar.txt');
+
+		$ownerUserFolder = $this->createMock(Folder::class);
+		$ownerUserFolder->method('getById')->with(42)->willReturn([$sourceNode]);
+		$ownerUserFolder->method('getRelativePath')->with(
+			'/' . self::TEST_FILES_SHARING_API_USER1 . '/files/foo/bar.txt'
+		)->willReturn('foo/bar.txt');
+
+		$rootFolder = $this->createMock(IRootFolder::class);
+		$rootFolder->method('getUserFolder')
+			->with(self::TEST_FILES_SHARING_API_USER1)
+			->willReturn($ownerUserFolder);
+
+		return new SharedStorage([
+			'ownerView' => $ownerView,
+			'rootFolder' => $rootFolder,
+			'superShare' => $share,
+			'groupedShares' => [$share],
+			'user' => self::TEST_FILES_SHARING_API_USER2,
+		]);
 	}
 }
