@@ -216,13 +216,13 @@ test.describe('Files: Download files using selection', () => {
 	 * uid, which `createRandomUser()` cannot produce, so it provisions its own
 	 * user via the docker helper and logs in at the API level.
 	 */
-	test('can download selected files with email uid', async ({ page, context, filesListPage }) => {
+	test('can download selected files with email uid', async ({ page, filesListPage }) => {
 		const randomString = (length: number) => Math.random().toString(36).slice(2, 2 + length)
 		const uid = `${randomString(5)}@${randomString(3)}`
 		const emailUser = new User(uid, uid, 'en')
 
 		await addUser(emailUser)
-		await login(context.request, emailUser)
+		await login(page.request, emailUser)
 
 		try {
 			await uploadContent(page.request, emailUser, '<content>', 'text/plain', '/file.txt')

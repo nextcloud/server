@@ -166,10 +166,14 @@ class NavigationManager implements INavigationManager {
 	/**
 	 * removes all the entries
 	 */
-	public function clear(bool $loadDefaultLinks = true): void {
+	public function clear(bool $resetInit = true): void {
 		$this->entries = [];
 		$this->closureEntries = [];
-		$this->init = !$loadDefaultLinks;
+
+		if ($resetInit) {
+			$this->loadedAppInfo = [];
+			$this->init = false;
+		}
 	}
 
 	#[Override]
@@ -203,20 +207,25 @@ class NavigationManager implements INavigationManager {
 	}
 
 	/**
-	 * Resolve the app navigation entries from closures and info.xml files.
+	 * Setup the navigation manager.
+	 * @internal - This is only used by Nextcloud core to setup the navigation manager. It is not intended for use by apps.
 	 */
-	private function resolveAppNavigationEntries(): void {
+	public function setup(): void {
 		// Resolve app navigation closures
 		while ($c = array_pop($this->closureEntries)) {
 			$this->add($c());
 		}
 
 		// Resolve dynamically added navigation entries via event listeners
-		if ($this->loadedAppInfo === []) {
-			$this->eventDispatcher->dispatchTyped(new LoadAdditionalEntriesEvent());
-		}
+		$this->eventDispatcher->dispatchTyped(new LoadAdditionalEntriesEvent());
+	}
 
-		// Resolve classic info.xml based navigation entries
+	/**
+	 * Resolve classic info.xml based navigation entires.
+	 * Some code relies on this to be available earlier then the app loading finished.
+	 * So we need to resolve the navigation entries here, even if not all apps are loaded yet.
+	 */
+	private function resolveAppNavigationEntries(): void {
 		if ($this->userSession->isLoggedIn()) {
 			$user = $this->userSession->getUser();
 			$apps = $this->appManager->getEnabledAppsForUser($user);
@@ -225,16 +234,23 @@ class NavigationManager implements INavigationManager {
 		}
 
 		foreach ($apps as $app) {
-			// skip already loaded apps
-			if (in_array($app, $this->loadedAppInfo)) {
+			if (in_array($app, $this->loadedAppInfo, true)) {
+				// already loaded
+				continue;
+			}
+			if (!$this->appManager->isAppLoaded($app)) {
+				// app is not loaded yet, skip it
 				continue;
 			}
 
 			// load plugins and collections from info.xml
 			$info = $this->appManager->getAppInfo($app);
 			if (!isset($info['navigations']['navigation'])) {
+				// this app does not have any navigation entries, skip it
+				$this->loadedAppInfo[] = $app;
 				continue;
 			}
+
 			foreach ($info['navigations']['navigation'] as $key => $nav) {
 				$nav['type'] = $nav['type'] ?? 'link';
 				if (!isset($nav['name'])) {
@@ -250,8 +266,11 @@ class NavigationManager implements INavigationManager {
 				}
 				$id = $nav['id'] ?? $app . ($key === 0 ? '' : $key);
 				$order = $nav['order'] ?? 100;
-				$type = $nav['type'];
-				$route = !empty($nav['route']) ? $this->urlGenerator->linkToRoute($nav['route']) : '';
+				$type = $nav['type'] ?? 'link';
+				$route = $nav['route'] ?? '';
+				if ($route !== '') {
+					$route = $this->urlGenerator->linkToRoute($route);
+				}
 				$icon = $nav['icon'] ?? null;
 				if ($icon !== null) {
 					try {

@@ -63,9 +63,7 @@
     "Delete" : "حذف",
     "Reset" : "بازنشانی",
     "Loading …" : "در حال بارگذاری …",
-    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} تنظیم می‌شود و {tag2} از ۱ فایل حذف می‌شود.","{tag1} تنظیم می‌شود و {tag2} از {count} فایل حذف می‌شود."],
     "_{tag} will be set to 1 file._::_{tag} will be set to {count} files._" : ["{tag} روی ۱ فایل تنظیم می‌شود.","{tag} روی {count} فایل تنظیم می‌شود."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} از ۱ فایل حذف می‌شود.","{tag} از {count} فایل حذف می‌شود."],
     "_{tags} and {lastTag} will be set to 1 file._::_{tags} and {lastTag} will be set to {count} files._" : ["{tags} و {lastTag} روی ۱ فایل تنظیم می‌شوند.","{tags} و {lastTag} روی {count} فایل تنظیم می‌شوند."],
     "_{tags} and {lastTag} will be removed from 1 file._::_{tags} and {lastTag} will be removed from {count} files._" : ["برچسب‌های {tags} و {lastTag} از ۱ فایل حذف می‌شوند.","برچسب‌های {tags} و {lastTag} از {count} فایل حذف می‌شوند."],
     "{displayName} (hidden)" : "{displayName} (مخفی)",
@@ -110,6 +108,8 @@
     "Failed to delete tag for file" : "حذف برچسب برای فایل انجام نشد",
     "Collaborative tags …" : "برچسب‌های مشارکتی …",
     "Loading …" : "در حال بارگذاری …",
+    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} تنظیم می‌شود و {tag2} از ۱ فایل حذف می‌شود.","{tag1} تنظیم می‌شود و {tag2} از {count} فایل حذف می‌شود."],
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} از ۱ فایل حذف می‌شود.","{tag} از {count} فایل حذف می‌شود."],
     "Loading collaborative tags …" : "در حال بارگذاری برچسب‌های مشارکتی …"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

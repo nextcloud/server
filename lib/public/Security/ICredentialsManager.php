@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace OCP\Security;
 
+use SensitiveParameter;
+
 /**
  * Store and retrieve credentials for external services
  *
@@ -23,7 +25,12 @@ interface ICredentialsManager {
 	 * @param mixed $credentials
 	 * @since 8.2.0
 	 */
-	public function store(string $userId, string $identifier, $credentials): void;
+	public function store(
+		string $userId,
+		string $identifier,
+		#[SensitiveParameter]
+		$credentials,
+	): void;
 
 	/**
 	 * Retrieve a set of credentials

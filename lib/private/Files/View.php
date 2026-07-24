@@ -16,10 +16,8 @@ use OC\Files\Storage\Storage;
 use OC\Files\Storage\Wrapper\Quota;
 use OC\Files\Utils\PathHelper;
 use OC\Lock\NoopLockingProvider;
-use OC\Share\Share;
 use OC\User\LazyUser;
 use OC\User\Manager as UserManager;
-use OC\User\User;
 use OCA\Files_Sharing\SharedMount;
 use OCP\Constants;
 use OCP\Files;
@@ -1410,9 +1408,17 @@ class View {
 				$data = $cache->get($internalPath);
 			} elseif (!Scanner::isPartialFile($internalPath) && $watcher->needsUpdate($internalPath, $data)) {
 				$this->lockFile($relativePath, ILockingProvider::LOCK_SHARED);
+				$cacheDataBefore = $data instanceof CacheEntry ? $data->getData() : false;
 				$watcher->update($internalPath, $data);
-				$storage->getPropagator()->propagateChange($internalPath, time());
 				$data = $cache->get($internalPath);
+				$cacheDataAfter = $data instanceof CacheEntry ? $data->getData() : false;
+
+				// Only propagate mtime change to parent folders if the scanner actually changed the cached metadata,
+				// to avoid updating folder mtimes on every read for backends that conservatively report directories as updated (e.g. S3)
+				if ($cacheDataAfter !== $cacheDataBefore) {
+					$storage->getPropagator()->propagateChange($internalPath, time());
+					$data = $cache->get($internalPath);
+				}
 				$this->unlockFile($relativePath, ILockingProvider::LOCK_SHARED);
 			}
 		} catch (LockedException $e) {

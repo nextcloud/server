@@ -55,6 +55,7 @@ OC.L10N.register(
     "a safe home for all your data" : "een veilige plek voor al je gegevens",
     "Legal notice link" : "Link naar juridische bepalingen",
     "Privacy policy link" : "Privacybeleid link",
+    "Background color" : "Achtergrondkleur",
     "Remove background image" : "Achtergrond beeld verwijderen",
     "Favicon" : "Favicon",
     "Logo" : "Logo",

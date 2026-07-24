@@ -1,7 +1,7 @@
 <?php
 
 /**
- * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016-2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
@@ -467,6 +467,13 @@ interface IShare {
 	 * @since 9.0.0
 	 */
 	public function getPassword();
+
+	/**
+	 * Returns whether the share is password protected by any means (e.g. password or OTP)
+	 * @return bool
+	 * @since 35.0.0
+	 */
+	public function isPasswordProtected(): bool;
 
 	/**
 	 * Set the password's expiration time of this share.

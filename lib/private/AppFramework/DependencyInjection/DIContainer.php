@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace OC\AppFramework\DependencyInjection;
 
-use OC\AppFramework\App;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\AppFramework\Http;
 use OC\AppFramework\Http\Dispatcher;

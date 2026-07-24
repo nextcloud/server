@@ -206,16 +206,10 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 		$provider->setEnabled(true);
 		$provider->setApiVersion(self::API_VERSION);
 		$provider->setEndPoint(substr($url, 0, $pos));
-		$provider->setCapabilities(['invite-accepted', 'notifications', 'shares', 'exchange-token']);
+		$provider->setCapabilities(['notifications', 'shares', 'exchange-token']);
 		$provider->setTokenEndPoint($tokenUrl);
 		if ($signingEnabled) {
 			$provider->setCapabilities(['http-sig']);
-		}
-
-		// The inviteAcceptDialog is available from the contacts app, if this config value is set
-		$inviteAcceptDialog = $this->appConfig->getValueString('core', ConfigLexicon::OCM_INVITE_ACCEPT_DIALOG);
-		if ($inviteAcceptDialog !== '') {
-			$provider->setInviteAcceptDialog($this->urlGenerator->linkToRouteAbsolute($inviteAcceptDialog));
 		}
 
 		$resource = $provider->createNewResourceType();

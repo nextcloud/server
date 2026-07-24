@@ -13,6 +13,7 @@ use OC\AppFramework\Http;
 use OC\AppFramework\Middleware\MiddlewareDispatcher;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\DB\ConnectionAdapter;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\ParameterOutOfRangeException;
@@ -20,6 +21,7 @@ use OCP\AppFramework\Http\Response;
 use OCP\Diagnostics\IEventLogger;
 use OCP\IConfig;
 use OCP\IRequest;
+use OCP\Server;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -76,6 +78,12 @@ class Dispatcher {
 			}
 
 			$response = $this->executeController($controller, $methodName);
+
+			if ($this->connection->inTransaction()) {
+				$this->connection->rollBack();
+				$message = 'Controller method left a transaction open after executing controller method ' . $controller::class . '::' . $methodName . '. The transaction was rolled back.';
+				$this->logger->warning($message, ['app' => Server::get(IAppManager::class)->getAppFromNamespace($controller::class)]);
+			}
 
 			if (!empty($databaseStatsBefore)) {
 				$databaseStatsAfter = $this->connection->getInner()->getStats();

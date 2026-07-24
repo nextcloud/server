@@ -135,13 +135,20 @@ class Cache extends CacheJail {
 	protected function formatCacheEntry($entry, $path = null) {
 		if (is_null($path)) {
 			$path = $entry['path'] ?? '';
-			$entry['path'] = $this->getJailedPath($path);
+			$jailedPath = $this->getJailedPath($path);
+			if ($jailedPath === null) {
+				return false;
+			}
+			$entry['path'] = $jailedPath;
 		} else {
 			$entry['path'] = $path;
 		}
 
 		try {
 			if (isset($entry['permissions'])) {
+				// keep the unmasked permissions so a future scan or cross-storage
+				// copy doesn't persist the share-masked permissions in the cache
+				$entry['scan_permissions'] ??= $entry['permissions'];
 				$entry['permissions'] &= $this->share->getPermissions();
 			} else {
 				$entry['permissions'] = $this->storage->getPermissions($entry['path']);

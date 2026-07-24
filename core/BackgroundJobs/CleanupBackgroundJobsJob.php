@@ -47,11 +47,9 @@ class CleanupBackgroundJobsJob extends TimedJob {
 			if ($job->serverId !== $currentServerId) {
 				continue;
 			}
-			$output = [];
-			$result = 0;
-			exec('ps -p ' . escapeshellarg((string)$job->pid) . ' -o cmd', $output, $result);
-			if (count($output) === 1 && current($output) === 'CMD' && $result === 1) {
-				// Process doesn't exists anymore
+			$processExists = posix_kill($job->pid, 0) || posix_get_last_error() === 1 /* EPERM */;
+			if (!$processExists) {
+				// Process doesn't exist anymore
 				$maxDuration = (new DateTimeImmutable())->diff($job->startedAt);
 				$maxDuration
 					= ($maxDuration->days * 24 * 60 * 60 * 1000)

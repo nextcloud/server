@@ -1,0 +1,8 @@
+{ "translations": {
+    "The owner does not exist: %s" : "Savininkas neegzistuoja: %s",
+    "The share already contains the source." : "Bendrinamajame ištekliuje jau yra šaltinis.",
+    "The share already contains the recipient." : "Gavėjas jau įtrauktas į bendrinimą",
+    "Sharing" : "Bendrinama",
+    "TODO" : "Užduotis"
+},"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
+}

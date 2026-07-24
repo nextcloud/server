@@ -5,6 +5,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+use Rector\DeadCode\Rector\ClassMethod\RemoveDuplicatedReturnSelfDocblockRector;
+use Rector\Php81\Rector\Property\ReadOnlyPropertyRector;
+use Rector\Php82\Rector\Class_\ReadOnlyClassRector;
 use Rector\PHPUnit\CodeQuality\Rector\Class_\AddSeeTestAnnotationRector;
 
 $nextcloudDir = dirname(__DIR__);
@@ -27,6 +30,22 @@ return (require __DIR__ . '/rector-shared.php')
 		$nextcloudDir . '/build/psalm/ITypedQueryBuilderTest.php',
 		$nextcloudDir . '/lib/private/DB/QueryBuilder/TypedQueryBuilder.php',
 		$nextcloudDir . '/lib/public/DB/QueryBuilder/ITypedQueryBuilder.php',
+		$nextcloudDir . '/lib/public/Interaction',
+		$nextcloudDir . '/tests/lib/Interaction',
+		$nextcloudDir . '/apps/files/lib/Listener/RestrictInteractionListener.php',
+		$nextcloudDir . '/apps/files/tests/Listener/RestrictInteractionListenerTest.php',
+		$nextcloudDir . '/apps/files_sharing/lib/Listener/RestrictInteractionListener.php',
+		$nextcloudDir . '/apps/files_sharing/tests/Listener/RestrictInteractionListenerTest.php',
+		$nextcloudDir . '/core/Listener/RestrictInteractionListener.php',
+		$nextcloudDir . '/tests/Core/Listener/RestrictInteractionListenerTest.php',
+		$nextcloudDir . '/lib/public/Sharing',
+		$nextcloudDir . '/lib/private/Sharing',
+		$nextcloudDir . '/tests/lib/Sharing',
+		$nextcloudDir . '/apps/sharing',
+		$nextcloudDir . '/core/Sharing',
+		$nextcloudDir . '/tests/Core/Sharing',
+		$nextcloudDir . '/apps/files/lib/Sharing',
+		$nextcloudDir . '/apps/files/tests/Sharing',
 	])
 	->withAutoloadPaths([
 		// ensure rector properly autoload the public interfaces
@@ -47,7 +66,19 @@ return (require __DIR__ . '/rector-shared.php')
 		symfonyCodeQuality: true,
 		symfonyConfigs: true,
 	)->withPhpSets(
-		php82: true,
+		php83: true,
 	)->withSkip([
 		AddSeeTestAnnotationRector::class,
+		ReadOnlyPropertyRector::class => [
+			$nextcloudDir . '/core/Listener/RestrictInteractionListener.php',
+			$nextcloudDir . '/apps/files_sharing/lib/Listener/RestrictInteractionListener.php',
+		],
+		ReadOnlyClassRector::class => [
+			$nextcloudDir . '/core/Listener/RestrictInteractionListener.php',
+			$nextcloudDir . '/apps/files_sharing/lib/Listener/RestrictInteractionListener.php',
+		],
+		// `@return $this` is more specific than the native `: self` on a
+		// non-final type; removing it breaks psalm's
+		// LessSpecificImplementedReturnType check (psalm-strict).
+		RemoveDuplicatedReturnSelfDocblockRector::class,
 	]);

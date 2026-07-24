@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace OCP\AppFramework\Http\Attribute;
 
+use OCP\IRequest;
+
 /**
  * Attribute for controller methods that want to limit the times a logged-in
  * user can call the endpoint in a given time period.
@@ -39,5 +41,12 @@ abstract class ARateLimit {
 	 */
 	public function getPeriod(): int {
 		return $this->period;
+	}
+
+	/**
+	 * @since 35.0.0
+	 */
+	public function shouldApply(IRequest $request): bool {
+		return true;
 	}
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016-2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
@@ -28,7 +28,6 @@ use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
-use OCP\Files\Mount\IMovableMount;
 use OCP\Files\Mount\IShareOwnerlessMount;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
@@ -39,6 +38,18 @@ use OCP\IDateTimeZone;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IL10N;
+use OCP\Interaction\Actions\ShareAction;
+use OCP\Interaction\Receivers\CircleReceiver;
+use OCP\Interaction\Receivers\DeckReceiver;
+use OCP\Interaction\Receivers\EmailReceiver;
+use OCP\Interaction\Receivers\GroupReceiver;
+use OCP\Interaction\Receivers\LinkReceiver;
+use OCP\Interaction\Receivers\RemoteGroupReceiver;
+use OCP\Interaction\Receivers\RemoteUserReceiver;
+use OCP\Interaction\Receivers\RoomReceiver;
+use OCP\Interaction\Receivers\UserReceiver;
+use OCP\Interaction\Resources\NodeResource;
+use OCP\Interaction\RestrictInteractionEvent;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -149,7 +160,7 @@ class Manager implements IManager {
 	 *
 	 * @suppress PhanUndeclaredClassMethod
 	 */
-	protected function generalCreateChecks(IShare $share, bool $isUpdate = false): void {
+	protected function generalChecks(IShare $share): void {
 		if ($share->getShareType() === IShare::TYPE_USER) {
 			// We expect a valid user as sharedWith for user shares
 			if (!$this->userManager->userExists($share->getSharedWith())) {
@@ -212,21 +223,6 @@ class Manager implements IManager {
 			throw new \InvalidArgumentException($this->l->t('Shared path must be either a file or a folder'));
 		}
 
-		// And you cannot share your rootfolder
-		if ($this->userManager->userExists($share->getSharedBy())) {
-			$userFolder = $this->rootFolder->getUserFolder($share->getSharedBy());
-		} else {
-			$userFolder = $this->rootFolder->getUserFolder($share->getShareOwner());
-		}
-		if ($userFolder->getId() === $share->getNode()->getId()) {
-			throw new \InvalidArgumentException($this->l->t('You cannot share your root folder'));
-		}
-
-		// Check if we actually have share permissions
-		if (!$share->getNode()->isShareable()) {
-			throw new GenericShareException($this->l->t('You are not allowed to share %s', [$share->getNode()->getName()]), code: 404);
-		}
-
 		// Permissions should be set
 		if ($share->getPermissions() === null) {
 			throw new \InvalidArgumentException($this->l->t('Valid permissions are required for sharing'));
@@ -237,45 +233,42 @@ class Manager implements IManager {
 			throw new \InvalidArgumentException($this->l->t('Valid permissions are required for sharing'));
 		}
 
-		// Single file shares should never have delete or create permissions
-		if (($share->getNode() instanceof File)
-			&& (($share->getPermissions() & (Constants::PERMISSION_CREATE | Constants::PERMISSION_DELETE)) !== 0)) {
-			throw new \InvalidArgumentException($this->l->t('File shares cannot have create or delete permissions'));
+		$action = new ShareAction($share->getPermissions());
+		$receiver = match ($share->getShareType()) {
+			IShare::TYPE_USER => new UserReceiver($share->getSharedWith()),
+			IShare::TYPE_GROUP => new GroupReceiver($share->getSharedWith()),
+			IShare::TYPE_LINK => new LinkReceiver(),
+			IShare::TYPE_EMAIL => new EmailReceiver($share->getSharedWith()),
+			IShare::TYPE_REMOTE => new RemoteUserReceiver($share->getSharedWith()),
+			IShare::TYPE_CIRCLE => new CircleReceiver($share->getSharedWith()),
+			IShare::TYPE_REMOTE_GROUP => new RemoteGroupReceiver($share->getSharedWith()),
+			IShare::TYPE_ROOM => new RoomReceiver($share->getSharedWith()),
+			IShare::TYPE_DECK => new DeckReceiver((int)$share->getSharedWith()),
+			default => throw new \InvalidArgumentException('Unknown share type.'),
+		};
+
+		$users = [];
+		if ($share->getShareOwner() !== null && ($user = $this->userManager->get($share->getShareOwner())) !== null) {
+			$users[] = $user;
+		}
+		if ($share->getSharedBy() !== $share->getShareOwner() && ($user = $this->userManager->get($share->getSharedBy())) !== null) {
+			$users[] = $user;
 		}
 
-		$permissions = 0;
-		$nodesForUser = $userFolder->getById($share->getNodeId());
-		foreach ($nodesForUser as $node) {
-			if ($node->getInternalPath() === '' && !$node->getMountPoint() instanceof IMovableMount) {
-				// for the root of non-movable mount, the permissions we see if limited by the mount itself,
-				// so we instead use the "raw" permissions from the storage
-				$permissions |= $node->getStorage()->getPermissions('');
-			} else {
-				$permissions |= $node->getPermissions();
-			}
+		if ($users === []) {
+			throw new \RuntimeException('Cannot check sharing restrictions.');
 		}
 
-		// Check that we do not share with more permissions than we have
-		if ($share->getPermissions() & ~$permissions) {
-			$path = $userFolder->getRelativePath($share->getNode()->getPath());
-			throw new GenericShareException($this->l->t('Cannot increase permissions of %s', [$path]), code: 404);
-		}
-
-		// Check that read permissions are always set
-		// Link shares are allowed to have no read permissions to allow upload to hidden folders
-		$noReadPermissionRequired = $share->getShareType() === IShare::TYPE_LINK
-			|| $share->getShareType() === IShare::TYPE_EMAIL;
-		if (!$noReadPermissionRequired
-			&& ($share->getPermissions() & Constants::PERMISSION_READ) === 0) {
-			throw new \InvalidArgumentException($this->l->t('Shares need at least read permissions'));
-		}
-
-		if ($share->getNode() instanceof File) {
-			if ($share->getPermissions() & Constants::PERMISSION_DELETE) {
-				throw new GenericShareException($this->l->t('Files cannot be shared with delete permissions'));
-			}
-			if ($share->getPermissions() & Constants::PERMISSION_CREATE) {
-				throw new GenericShareException($this->l->t('Files cannot be shared with create permissions'));
+		foreach ($users as $user) {
+			$resource = new NodeResource($share->getNodeId(), $user->getUID());
+			$event = new RestrictInteractionEvent($user->getUID(), $user, [$resource], $action, [$receiver]);
+			try {
+				$isRestricted = $event->isInteractionRestricted();
+				if ($isRestricted !== false) {
+					throw new GenericShareException($isRestricted, code: 403);
+				}
+			} catch (\Exception $exception) {
+				throw new GenericShareException($exception->getMessage(), $exception instanceof HintException ? $exception->getHint() : '', code: 403);
 			}
 		}
 	}
@@ -432,25 +425,6 @@ class Manager implements IManager {
 	 * @throws \Exception
 	 */
 	protected function userCreateChecks(IShare $share): void {
-		// Check if we can share with group members only
-		if ($this->shareWithGroupMembersOnly()) {
-			$sharedBy = $this->userManager->get($share->getSharedBy());
-			$sharedWith = $this->userManager->get($share->getSharedWith());
-			// Verify we can share with this user
-			$groups = array_intersect(
-				$this->groupManager->getUserGroupIds($sharedBy),
-				$this->groupManager->getUserGroupIds($sharedWith)
-			);
-
-			// optional excluded groups
-			$excludedGroups = $this->shareWithGroupMembersOnlyExcludeGroupsList();
-			$groups = array_diff($groups, $excludedGroups);
-
-			if (empty($groups)) {
-				throw new \Exception($this->l->t('Sharing is only allowed with group members'));
-			}
-		}
-
 		/*
 		 * TODO: Could be costly, fix
 		 *
@@ -493,23 +467,6 @@ class Manager implements IManager {
 	 * @throws \Exception
 	 */
 	protected function groupCreateChecks(IShare $share): void {
-		// Verify group shares are allowed
-		if (!$this->allowGroupSharing()) {
-			throw new \Exception($this->l->t('Group sharing is now allowed'));
-		}
-
-		// Verify if the user can share with this group
-		if ($this->shareWithGroupMembersOnly()) {
-			$sharedBy = $this->userManager->get($share->getSharedBy());
-			$sharedWith = $this->groupManager->get($share->getSharedWith());
-
-			// optional excluded groups
-			$excludedGroups = $this->shareWithGroupMembersOnlyExcludeGroupsList();
-			if (is_null($sharedWith) || in_array($share->getSharedWith(), $excludedGroups) || !$sharedWith->inGroup($sharedBy)) {
-				throw new \Exception($this->l->t('Sharing is only allowed within your own groups'));
-			}
-		}
-
 		/*
 		 * TODO: Could be costly, fix
 		 *
@@ -529,24 +486,6 @@ class Manager implements IManager {
 			if ($existingShare->getSharedWith() === $share->getSharedWith() && $existingShare->getShareType() === $share->getShareType()) {
 				throw new AlreadySharedException($this->l->t('Path is already shared with this group'), $existingShare);
 			}
-		}
-	}
-
-	/**
-	 * Check for pre share requirements for link shares
-	 *
-	 * @throws \Exception
-	 */
-	protected function linkCreateChecks(IShare $share): void {
-		// Are link shares allowed?
-		if (!$this->shareApiAllowLinks()) {
-			throw new \Exception($this->l->t('Link sharing is not allowed'));
-		}
-
-		// Check if public upload is allowed
-		if ($share->getNodeType() === 'folder' && !$this->shareApiLinkAllowPublicUpload()
-			&& ($share->getPermissions() & (Constants::PERMISSION_CREATE | Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE))) {
-			throw new \InvalidArgumentException($this->l->t('Public upload is not allowed'));
 		}
 	}
 
@@ -583,27 +522,9 @@ class Manager implements IManager {
 		}
 	}
 
-	/**
-	 * Check if the user that is sharing can actually share
-	 *
-	 * @throws \Exception
-	 */
-	protected function canShare(IShare $share): void {
-		if (!$this->shareApiEnabled()) {
-			throw new \Exception($this->l->t('Sharing is disabled'));
-		}
-
-		if ($this->sharingDisabledForUser($share->getSharedBy())) {
-			throw new \Exception($this->l->t('Sharing is disabled for you'));
-		}
-	}
-
 	#[Override]
 	public function createShare(IShare $share): IShare {
-		// TODO: handle link share permissions or check them
-		$this->canShare($share);
-
-		$this->generalCreateChecks($share);
+		$this->generalChecks($share);
 
 		// Verify if there are any issues with the path
 		$this->pathCreateChecks($share->getNode());
@@ -644,7 +565,6 @@ class Manager implements IManager {
 				$share = $this->validateExpirationDateInternal($share);
 			} elseif ($share->getShareType() === IShare::TYPE_LINK
 				|| $share->getShareType() === IShare::TYPE_EMAIL) {
-				$this->linkCreateChecks($share);
 				$this->setLinkParent($share);
 
 				$token = $this->generateToken();
@@ -737,8 +657,6 @@ class Manager implements IManager {
 	public function updateShare(IShare $share, bool $onlyValid = true): IShare {
 		$expirationDateUpdated = false;
 
-		$this->canShare($share);
-
 		try {
 			$originalShare = $this->getShareById($share->getFullId(), onlyValid: $onlyValid);
 		} catch (\UnexpectedValueException $e) {
@@ -762,7 +680,7 @@ class Manager implements IManager {
 			throw new \InvalidArgumentException($this->l->t('Cannot share with the share owner'));
 		}
 
-		$this->generalCreateChecks($share, true);
+		$this->generalChecks($share);
 
 		if ($share->getShareType() === IShare::TYPE_USER) {
 			$this->userCreateChecks($share);
@@ -782,7 +700,6 @@ class Manager implements IManager {
 			}
 		} elseif ($share->getShareType() === IShare::TYPE_LINK
 			|| $share->getShareType() === IShare::TYPE_EMAIL) {
-			$this->linkCreateChecks($share);
 
 			// The new password is not set again if it is the same as the old
 			// one, unless when switching from sending by Talk to sending by
@@ -1045,7 +962,7 @@ class Manager implements IManager {
 		$cursor = $qb->executeQuery();
 		/** @var array<string, list<array{IShare::TYPE_*, Node}>> $rawShare */
 		$rawShares = [];
-		while ($data = $cursor->fetch()) {
+		while ($data = $cursor->fetchAssociative()) {
 			if (!isset($rawShares[$data['uid_initiator']])) {
 				$rawShares[$data['uid_initiator']] = [];
 			}
@@ -1096,7 +1013,7 @@ class Manager implements IManager {
 		foreach ($reshareRecords as $child) {
 			try {
 				/* Check if the share is still valid (means the resharer still has access to the file through another mean) */
-				$this->generalCreateChecks($child);
+				$this->generalChecks($child);
 			} catch (GenericShareException $e) {
 				/* The check is invalid, promote it to a direct share from the sharer of parent share */
 				$this->logger->debug('Promote reshare because of exception ' . $e->getMessage(), ['exception' => $e, 'fullId' => $child->getFullId()]);
@@ -1485,8 +1402,8 @@ class Manager implements IManager {
 			$added--;
 			throw new ShareNotFound($this->l->t('The requested share does not exist anymore'));
 		}
-		if ($this->config->getAppValue('files_sharing', 'hide_disabled_user_shares', 'no') === 'yes') {
-			$uids = array_unique([$share->getShareOwner(),$share->getSharedBy()]);
+		if ($this->config->getAppValue('files_sharing', 'hide_disabled_user_shares', 'yes') === 'yes') {
+			$uids = array_unique([$share->getShareOwner(), $share->getSharedBy()]);
 			foreach ($uids as $uid) {
 				$user = $this->userManager->get($uid);
 				if ($user?->isEnabled() === false) {
@@ -1510,8 +1427,8 @@ class Manager implements IManager {
 	#[Override]
 	public function checkPassword(IShare $share, ?string $password): bool {
 
-		// if there is no password on the share object / passsword is null, there is nothing to check
-		if ($password === null || $share->getPassword() === null) {
+		// if the share is not password protected or the password to check is empty, there is nothing to check
+		if ($password === null || !$share->isPasswordProtected()) {
 			return false;
 		}
 

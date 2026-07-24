@@ -17,7 +17,6 @@ use OCA\DAV\CardDAV\Security\CardDavRateLimitingPlugin;
 use OCA\DAV\CardDAV\Validation\CardDavValidatePlugin;
 use OCA\DAV\Connector\LegacyDAVACL;
 use OCA\DAV\Connector\Sabre\Auth;
-use OCA\DAV\Connector\Sabre\BearerAuth;
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
 use OCA\DAV\Connector\Sabre\MaintenancePlugin;
 use OCA\DAV\Connector\Sabre\Principal;
@@ -44,12 +43,6 @@ $authBackend = new Auth(
 	Server::get(\OC\Authentication\TwoFactorAuth\Manager::class),
 	Server::get(IThrottler::class),
 	'principals/'
-);
-$bearerAuthBackend = new BearerAuth(
-	Server::get(IUserSession::class),
-	Server::get(ISession::class),
-	Server::get(IRequest::class),
-	Server::get(IConfig::class),
 );
 $principalBackend = new Principal(
 	Server::get(IUserManager::class),
@@ -97,9 +90,7 @@ $server->httpRequest->setUrl(Server::get(IRequest::class)->getRequestUri());
 $server->setBaseUri($baseuri);
 // Add plugins
 $server->addPlugin(new MaintenancePlugin(Server::get(IConfig::class), Server::get(IL10nFactory::class)->get('dav')));
-$authPlugin = new \Sabre\DAV\Auth\Plugin($authBackend);
-$authPlugin->addBackend($bearerAuthBackend);
-$server->addPlugin($authPlugin);
+$server->addPlugin(new \Sabre\DAV\Auth\Plugin($authBackend));
 $server->addPlugin(new Plugin());
 
 $server->addPlugin(new LegacyDAVACL());

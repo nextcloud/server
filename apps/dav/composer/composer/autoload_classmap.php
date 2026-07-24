@@ -317,6 +317,7 @@ return array(
     'OCA\\DAV\\Events\\SubscriptionUpdatedEvent' => $baseDir . '/../lib/Events/SubscriptionUpdatedEvent.php',
     'OCA\\DAV\\Exception\\ExampleEventException' => $baseDir . '/../lib/Exception/ExampleEventException.php',
     'OCA\\DAV\\Exception\\ServerMaintenanceMode' => $baseDir . '/../lib/Exception/ServerMaintenanceMode.php',
+    'OCA\\DAV\\Exception\\UidConflict' => $baseDir . '/../lib/Exception/UidConflict.php',
     'OCA\\DAV\\Exception\\UnsupportedLimitOnInitialSyncException' => $baseDir . '/../lib/Exception/UnsupportedLimitOnInitialSyncException.php',
     'OCA\\DAV\\Files\\BrowserErrorPagePlugin' => $baseDir . '/../lib/Files/BrowserErrorPagePlugin.php',
     'OCA\\DAV\\Files\\FileSearchBackend' => $baseDir . '/../lib/Files/FileSearchBackend.php',

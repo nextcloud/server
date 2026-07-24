@@ -24,13 +24,8 @@ class ShareInfoMiddleware extends Middleware {
 	) {
 	}
 
-	/**
-	 * @param Controller $controller
-	 * @param string $methodName
-	 * @throws S2SException
-	 */
 	#[\Override]
-	public function beforeController($controller, $methodName) {
+	public function beforeController(Controller $controller, string $methodName): void {
 		if (!($controller instanceof ShareInfoController)) {
 			return;
 		}
@@ -40,15 +35,8 @@ class ShareInfoMiddleware extends Middleware {
 		}
 	}
 
-	/**
-	 * @param Controller $controller
-	 * @param string $methodName
-	 * @param \Exception $exception
-	 * @throws \Exception
-	 * @return Response
-	 */
 	#[\Override]
-	public function afterException($controller, $methodName, \Exception $exception) {
+	public function afterException(Controller $controller, string $methodName, \Exception $exception): JSONResponse {
 		if (!($controller instanceof ShareInfoController)) {
 			throw $exception;
 		}
@@ -60,14 +48,8 @@ class ShareInfoMiddleware extends Middleware {
 		throw $exception;
 	}
 
-	/**
-	 * @param Controller $controller
-	 * @param string $methodName
-	 * @param Response $response
-	 * @return Response
-	 */
 	#[\Override]
-	public function afterController($controller, $methodName, Response $response) {
+	public function afterController(Controller $controller, string $methodName, Response $response) {
 		if (!($controller instanceof ShareInfoController)) {
 			return $response;
 		}

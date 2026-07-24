@@ -9,6 +9,7 @@
 namespace OCP\AppFramework;
 
 use Exception;
+use OCP\AppFramework\Attribute\Implementable;
 use OCP\AppFramework\Http\Response;
 
 /**
@@ -18,6 +19,7 @@ use OCP\AppFramework\Http\Response;
  * https://docs.djangoproject.com/en/dev/topics/http/middleware/
  * @since 6.0.0
  */
+#[Implementable(since: '6.0.0')]
 abstract class Middleware {
 	/**
 	 * This is being run in normal order before the controller is being

@@ -57,8 +57,6 @@
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Ju lutemi, hiqeni rregullimin open_basedir nga php.ini juaj ose hidhuni te PHP për 64-bit.",
     "Set an admin password." : "Caktoni një fjalëkalim për përgjegjësin.",
     "Unknown share type" : "Lloj i panjohur ndarjesh",
-    "You are not allowed to share %s" : "Nuk ju lejohet ta ndani %s me të tjerët",
-    "Cannot increase permissions of %s" : "S’mund të shtohen lejet për %s",
     "Expiration date is in the past" : "Data e skadimit bie në të kaluarën",
     "The requested share does not exist anymore" : "Ndarja e kërkuar nuk ekziston më",
     "Could not find category \"%s\"" : "S’u gjet kategori \"%s\"",
@@ -137,6 +135,8 @@
     "Sharing backend %s must implement the interface OCP\\Share_Backend" : "Mekanizmi i shërbimit për ndarje %s duhet të sendërtojë ndërfaqen OCP\\Share_Backend",
     "Sharing backend %s not found" : "S’u gjet mekanizmi i shërbimit për ndarje %s",
     "Sharing backend for %s not found" : "S’u gjet mekanizmi i shërbimit për ndarje për %s",
+    "You are not allowed to share %s" : "Nuk ju lejohet ta ndani %s me të tjerët",
+    "Cannot increase permissions of %s" : "S’mund të shtohen lejet për %s",
     "Application is not enabled" : "Aplikacioni s’është aktivizuar",
     "Authentication error" : "Gabim mirëfilltësimi",
     "Token expired. Please reload page." : "Token-i ka skaduar. Ju lutem ringarkoni faqen."

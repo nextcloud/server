@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace OCP\SystemTag;
 
-use OCP\IServerContainer;
+use Psr\Container\ContainerInterface;
 
 /**
  * Interface ISystemTagManagerFactory
@@ -23,11 +23,11 @@ interface ISystemTagManagerFactory {
 	/**
 	 * Constructor for the system tag manager factory
 	 *
-	 * @param IServerContainer $serverContainer server container
+	 * @param ContainerInterface $serverContainer server container
 	 * @since 9.0.0
 	 * @deprecated 33.0.0
 	 */
-	public function __construct(IServerContainer $serverContainer);
+	public function __construct(ContainerInterface $serverContainer);
 
 	/**
 	 * creates and returns an instance of the system tag manager

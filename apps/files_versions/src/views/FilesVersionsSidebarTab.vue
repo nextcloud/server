@@ -73,7 +73,7 @@ const loading = ref(false)
 const showVersionLabelForm = ref(false)
 const editedVersion = ref<Version | null>(null)
 
-const currentVersionMtime = computed(() => props.node?.mtime?.getTime() ?? 0)
+const currentVersionMtime = computed(() => Math.floor(new Date(props.node?.mtime?.getTime() ?? 0).getTime() / 1000) * 1000)
 
 /**
  * Order versions by mtime.

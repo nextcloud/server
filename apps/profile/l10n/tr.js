@@ -5,7 +5,6 @@ OC.L10N.register(
     "Profile picker" : "Profil seçici",
     "Profile" : "Profil",
     "This application provides the profile" : "Bu uygulama profili sağlar",
-    "Provides a customisable user profile interface." : "Özelleştirilebilir bir kullanıcı profili arayüzü sağlar.",
     "Searching …" : "Aranıyor…",
     "Not found" : "Bulunamadı",
     "Search for a user profile" : "Kullanıcı profili ara",
@@ -20,6 +19,7 @@ OC.L10N.register(
     "Profile not found" : "Profil bulunamadı",
     "The profile does not exist or is unavailable." : "Profil bulunamadı ya da kullanılamıyor.",
     "Back to %s" : "%s sayfasına dön",
+    "Provides a customisable user profile interface." : "Özelleştirilebilir bir kullanıcı profili arayüzü sağlar.",
     "The profile does not exist." : "Profil bulunamadı."
 },
 "nplurals=2; plural=(n > 1);");

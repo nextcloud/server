@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace OC\Core\Command\Encryption;
 
-use OC\Encryption\Keys\Storage;
 use OC\Encryption\Util;
 use OC\Files\View;
 use OCP\IConfig;

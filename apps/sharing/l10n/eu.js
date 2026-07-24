@@ -1,0 +1,10 @@
+OC.L10N.register(
+    "sharing",
+    {
+    "The owner does not exist: %s" : "Jabea ez da existitzen: %s",
+    "The share already contains the source." : "Partekatzeak iturria dauka dagoeneko.",
+    "The share already contains the recipient." : "Partekatzeak hartzailea dauka dagoeneko.",
+    "Sharing" : "Partekatzea",
+    "TODO" : "EGITEKOAK"
+},
+"nplurals=2; plural=(n != 1);");

@@ -25,4 +25,9 @@
 	<background-jobs>
 		<job>OCA\CloudFederationAPI\BackgroundJob\CleanupExpiredOcmTokensJob</job>
 	</background-jobs>
+	<repair-steps>
+		<post-migration>
+			<step>OCA\CloudFederationAPI\Migration\DropFederatedInvitesTable</step>
+		</post-migration>
+	</repair-steps>
 </info>

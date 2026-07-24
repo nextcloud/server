@@ -1,0 +1,9 @@
+OC.L10N.register(
+    "sharing",
+    {
+    "The owner does not exist: %s" : "Le propriétaire n'existe pas : %s",
+    "The share already contains the source." : "Le partage contient déjà la source.",
+    "The share already contains the recipient." : "Le partage contient déjà le destinataire.",
+    "Sharing" : "Partage"
+},
+"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

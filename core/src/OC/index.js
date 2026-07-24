@@ -177,7 +177,7 @@ export default {
 	 */
 	filePath: generateFilePath,
 	/**
-	 * @deprecated 19.0.0 use `WgenerateUrl` from https://www.npmjs.com/package/@nextcloud/router
+	 * @deprecated 19.0.0 use `generateUrl` from https://www.npmjs.com/package/@nextcloud/router
 	 */
 	generateUrl,
 	/**

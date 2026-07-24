@@ -182,15 +182,30 @@ class AlgorithmTest extends TestCase {
 		$priv = '';
 		openssl_pkey_export($pkey, $priv);
 		$details = openssl_pkey_get_details($pkey);
+		$coordinateSize = $opensslCurve === 'prime256v1' ? 32 : 48;
+		[$x, $y] = self::zeroPadCoordinates($details['ec']['x'], $details['ec']['y'], $coordinateSize);
 		$key = JWK::parseKey([
 			'kty' => 'EC',
 			'crv' => $jwkCurve,
 			'kid' => 'k',
 			'alg' => $joseAlg,
-			'x' => self::b64url($details['ec']['x']),
-			'y' => self::b64url($details['ec']['y']),
+			'x' => self::b64url($x),
+			'y' => self::b64url($y),
 		], $joseAlg);
 		return [$priv, $key];
+	}
+
+	/**
+	 * openssl strips leading zero bytes from EC coordinates; JWK requires them
+	 * zero-padded to the full field size (RFC 7518 §6.2.1.2).
+	 *
+	 * @return array{0: string, 1: string}
+	 */
+	private static function zeroPadCoordinates(string $x, string $y, int $coordinateSize): array {
+		return [
+			str_pad($x, $coordinateSize, "\x00", STR_PAD_LEFT),
+			str_pad($y, $coordinateSize, "\x00", STR_PAD_LEFT),
+		];
 	}
 
 	private static function b64url(string $bin): string {

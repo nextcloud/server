@@ -86,6 +86,24 @@ export class SystemTagsFilesListPage extends FilesListPage {
 	}
 
 	/**
+	 * Unassign a tag in the already-open picker. Filters the list to the single
+	 * matching tag first: force-clicking a NcCheckboxRadioSwitch's visually-hidden
+	 * input is only reliable when the row is isolated and unobstructed — toggling
+	 * within the full, scrollable list can leave the state unchanged. Asserts the
+	 * checkbox actually cleared so a missed toggle fails loudly.
+	 */
+	async unselectTagInPicker(tagName: string): Promise<void> {
+		const picker = this.getTagPicker()
+		await picker.waitFor({ state: 'visible' })
+
+		await picker.getByLabel(/Search.*tag/i).fill(tagName)
+		const checkbox = picker.getByRole('checkbox', { name: new RegExp(tagName, 'i') })
+		await expect(checkbox).toHaveCount(1)
+		await checkbox.uncheck({ force: true })
+		await expect(checkbox).not.toBeChecked()
+	}
+
+	/**
 	 * Clicks Apply on the already-open picker and waits for the dialog to close.
 	 */
 	async applyTagPicker(): Promise<void> {

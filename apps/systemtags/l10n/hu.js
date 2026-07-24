@@ -65,9 +65,7 @@ OC.L10N.register(
     "Delete" : "Törlés",
     "Reset" : "Visszaállítás",
     "Loading …" : "Betöltés…",
-    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["A(z) {tag1} be lesz állítva, a(z) {tag2} pedig el lesz távolítva 1 fájlról.","A(z) {tag1} be lesz állítva, a(z) {tag2} pedig el lesz távolítva {count} fájlról."],
     "_{tag} will be set to 1 file._::_{tag} will be set to {count} files._" : ["A(z) {tag} be lesz állítva 1 fájlon.","A(z) {tag} be lesz állítva {count} fájlon."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["A(z) {tag} el lesz távolítva 1 fájlról.","A(z) {tag} el lesz távolítva {count} fájlról."],
     "_{tags} and {lastTag} will be set to 1 file._::_{tags} and {lastTag} will be set to {count} files._" : ["A(z) {tags} és a(z) {lastTag} be lesz állítva 1 fájlon.","A(z) {tags} és a(z) {lastTag} be lesz állítva {count} fájlon."],
     "_{tags} and {lastTag} will be removed from 1 file._::_{tags} and {lastTag} will be removed from {count} files._" : ["A(z) {tags} és a(z) {lastTag} el lesz távolítva 1 fájlról.","A(z) {tags} és a(z) {lastTag} el lesz távolítva {count} fájlról."],
     "{displayName} (hidden)" : "{displayName} (rejtett)",
@@ -112,6 +110,8 @@ OC.L10N.register(
     "Failed to delete tag for file" : "Nem sikerült a fájl címkéjének törlése",
     "Collaborative tags …" : "Együttműködési címkék…",
     "Loading …" : "Betöltés…",
+    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["A(z) {tag1} be lesz állítva, a(z) {tag2} pedig el lesz távolítva 1 fájlról.","A(z) {tag1} be lesz állítva, a(z) {tag2} pedig el lesz távolítva {count} fájlról."],
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["A(z) {tag} el lesz távolítva 1 fájlról.","A(z) {tag} el lesz távolítva {count} fájlról."],
     "Loading collaborative tags …" : "Együttműködési címkék betöltése…"
 },
 "nplurals=2; plural=(n != 1);");

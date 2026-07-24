@@ -134,14 +134,16 @@
 		// Add some spacing so the last entry looks ok
 		margin-inline-end: calc(3 * var(--default-grid-baseline));
 
-		// Only grow to match header-start on desktop, and only
-		// in the user layout where header-center exists.
-		// Below the mobile breakpoint the search collapses to an icon,
-		// and header-end must stay content-sized so header-start pushes
-		// that icon flush to the right edge. The public layout has
-		// no centered search, so it keeps the content-sized header-end.
+		// Grow to match header-start (which always grows) so the centered search
+		// stays centered. Only on desktop and only in the layouts that render
+		// header-center: the user layout and the settings layout (#body-settings).
+		// Below the mobile breakpoint the search collapses to an icon, and
+		// header-end must stay content-sized so header-start pushes that icon flush
+		// to the right edge. The public layout has no centered search, so it keeps
+		// the content-sized header-end.
 		@media (min-width: 512px) {
-			#body-user & {
+			#body-user &,
+			#body-settings & {
 				flex: 1 0;
 			}
 		}

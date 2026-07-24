@@ -27,6 +27,7 @@ use OCP\SystemTag\TagAlreadyExistsException;
 use OCP\SystemTag\TagCreationForbiddenException;
 use OCP\SystemTag\TagNotFoundException;
 use OCP\SystemTag\TagUpdateForbiddenException;
+use OCP\Util;
 
 /**
  * Manager class for system tags
@@ -80,7 +81,7 @@ class SystemTagManager implements ISystemTagManager {
 			->setParameter('tagids', $tagIds, IQueryBuilder::PARAM_INT_ARRAY);
 
 		$result = $query->executeQuery();
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$tag = $this->createSystemTagFromRow($row);
 			if ($user && !$this->canUserSeeTag($tag, $user)) {
 				// if a user is given, hide invisible tags
@@ -127,7 +128,7 @@ class SystemTagManager implements ISystemTagManager {
 			->addOrderBy('editable', 'ASC');
 
 		$result = $query->executeQuery();
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$tags[$row['id']] = $this->createSystemTagFromRow($row);
 		}
 
@@ -146,7 +147,7 @@ class SystemTagManager implements ISystemTagManager {
 			->setParameter('editable', $userAssignable ? 1 : 0)
 			->executeQuery();
 
-		$row = $result->fetch();
+		$row = $result->fetchAssociative();
 		$result->closeCursor();
 		if (!$row) {
 			throw new TagNotFoundException(
@@ -172,6 +173,8 @@ class SystemTagManager implements ISystemTagManager {
 		if (!$this->canUserCreateTag($user)) {
 			throw new TagCreationForbiddenException();
 		}
+
+		$tagName = Util::sanitizeWordsAndEmojis($tagName);
 
 		// Check if tag already exists (case-insensitive)
 		$existingTags = $this->getAllTags(null, $tagName);
@@ -245,8 +248,9 @@ class SystemTagManager implements ISystemTagManager {
 		}
 
 		$beforeUpdate = array_shift($tags);
+		$newName = Util::sanitizeWordsAndEmojis($newName);
+
 		// Length of name column is 64
-		$newName = trim($newName);
 		$truncatedNewName = substr($newName, 0, 64);
 		$afterUpdate = new SystemTag(
 			$tagId,
@@ -472,7 +476,7 @@ class SystemTagManager implements ISystemTagManager {
 			->orderBy('gid');
 
 		$result = $query->executeQuery();
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$groupIds[] = $row['gid'];
 		}
 
@@ -480,5 +484,4 @@ class SystemTagManager implements ISystemTagManager {
 
 		return $groupIds;
 	}
-
 }

@@ -25,6 +25,7 @@ use OCP\Files\InvalidPathException;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\StorageNotAvailableException;
+use OCP\Lock\ILockingProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\Exception\NotFound;
 use Test\Traits\UserTrait;
@@ -171,6 +172,47 @@ class DirectoryTest extends \Test\TestCase {
 
 		$dir = $this->getDir('sub');
 		$dir->delete();
+	}
+
+	/**
+	 * A failed or interrupted upload must not leave the exclusive part-file
+	 * lock behind. Otherwise every later upload to the same path keeps getting
+	 * rejected with "423 Locked" until the lock TTL expires (up to an hour),
+	 * createFile() therefore releases the locks in a finally block.
+	 */
+	public function testCreateFileReleasesPartFileLockOnFailure(): void {
+		$name = 'foo.txt';
+
+		$this->view->method('getRelativePath')->willReturnArgument(0);
+		$this->view->method('getAbsolutePath')->willReturnArgument(0);
+		$this->view->method('isCreatable')->willReturn(true);
+		// the target does not exist yet
+		$this->view->method('getFileInfo')->willReturn(false);
+		// make File::put() fail right after the locks have been acquired
+		$this->view->method('resolvePath')->willReturn([null, null]);
+
+		$released = [];
+		$this->view->method('unlockFile')
+			->willReturnCallback(function (string $path, int $type) use (&$released): bool {
+				$released[] = [$path, $type];
+				return true;
+			});
+
+		$dir = new Directory($this->view, $this->info);
+		$partLockPath = $dir->getPath() . '/' . $name . '.upload.part';
+
+		try {
+			$dir->createFile($name, 'test data');
+			$this->fail('Expected the failing upload to throw');
+		} catch (\Sabre\DAV\Exception\ServiceUnavailable) {
+			// expected: File::put() cannot resolve the storage
+		}
+
+		$this->assertContains(
+			[$partLockPath, ILockingProvider::LOCK_EXCLUSIVE],
+			$released,
+			'The exclusive .upload.part lock must be released after a failed upload',
+		);
 	}
 
 	public function testGetChildren(): void {

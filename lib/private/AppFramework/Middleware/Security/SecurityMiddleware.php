@@ -108,7 +108,7 @@ class SecurityMiddleware extends Middleware {
 	 * @suppress PhanUndeclaredClassConstant
 	 */
 	#[\Override]
-	public function beforeController($controller, $methodName) {
+	public function beforeController(Controller $controller, string $methodName): void {
 		// this will set the current navigation entry of the app, use this only
 		// for normal HTML requests and not for AJAX requests
 		$this->navigationManager->setActiveEntry($this->appName);
@@ -254,7 +254,7 @@ class SecurityMiddleware extends Middleware {
 	 * @throws \Exception the passed in exception if it can't handle it
 	 */
 	#[\Override]
-	public function afterException($controller, $methodName, \Exception $exception): Response {
+	public function afterException(Controller $controller, string $methodName, \Exception $exception): Response {
 		if ($exception instanceof SecurityException) {
 			if ($exception instanceof StrictCookieMissingException) {
 				return new RedirectResponse(\OC::$WEBROOT . '/');

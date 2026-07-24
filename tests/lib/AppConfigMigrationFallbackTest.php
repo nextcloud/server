@@ -98,7 +98,7 @@ class AppConfigMigrationFallbackTest extends TestCase {
 		$exception = $this->createInvalidFieldNameException();
 
 		$successResult = $this->createMock(IResult::class);
-		$successResult->method('fetchAll')->willReturn([
+		$successResult->method('fetchAllAssociative')->willReturn([
 			['appid' => 'core', 'configkey' => 'vendor', 'configvalue' => 'owncloud'],
 			['appid' => 'core', 'configkey' => 'installedat', 'configvalue' => '1234567890'],
 		]);
@@ -146,7 +146,7 @@ class AppConfigMigrationFallbackTest extends TestCase {
 		$exception = $this->createInvalidFieldNameException();
 
 		$loadResult = $this->createMock(IResult::class);
-		$loadResult->method('fetchAll')->willReturn([]);
+		$loadResult->method('fetchAllAssociative')->willReturn([]);
 
 		$qb = $this->createMockQueryBuilder();
 

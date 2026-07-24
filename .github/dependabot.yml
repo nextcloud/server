@@ -163,7 +163,10 @@ updates:
 # frontend dependencies
 - package-ecosystem: npm
   target-branch: stable33
-  directory: "/"
+  directories:
+    - "/"
+    - "/build/frontend"
+    - "/build/frontend-legacy"
   schedule:
     interval: weekly
     day: saturday

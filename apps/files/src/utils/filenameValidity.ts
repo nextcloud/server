@@ -11,9 +11,13 @@ import { t } from '@nextcloud/l10n'
  *
  * @param name The filename
  * @param escape Escape the matched string in the error (only set when used in HTML)
+ * @param isFolder Whether the filename is for a folder
  */
-export function getFilenameValidity(name: string, escape = false): string {
+export function getFilenameValidity(name: string, escape = false, isFolder = false): string {
 	if (name.trim() === '') {
+		if (isFolder) {
+			return t('files', 'Folder name must not be empty.')
+		}
 		return t('files', 'Filename must not be empty.')
 	}
 
@@ -27,15 +31,27 @@ export function getFilenameValidity(name: string, escape = false): string {
 
 		switch (error.reason) {
 			case InvalidFilenameErrorReason.Character:
-				return t('files', '"{char}" is not allowed inside a filename.', { char: error.segment }, undefined, { escape })
-			case InvalidFilenameErrorReason.ReservedName:
-				return t('files', '"{segment}" is a reserved name and not allowed for filenames.', { segment: error.segment }, undefined, { escape: false })
-			case InvalidFilenameErrorReason.Extension:
-				if (error.segment.match(/\.[a-z]/i)) {
-					return t('files', '"{extension}" is not an allowed filetype.', { extension: error.segment }, undefined, { escape: false })
+				if (isFolder) {
+					return t('files', '"{char}" is not allowed inside a folder name.', { char: error.segment }, { escape })
 				}
-				return t('files', 'Filenames must not end with "{extension}".', { extension: error.segment }, undefined, { escape: false })
+				return t('files', '"{char}" is not allowed inside a filename.', { char: error.segment }, { escape })
+			case InvalidFilenameErrorReason.ReservedName:
+				if (isFolder) {
+					return t('files', '"{segment}" is a reserved name and not allowed for folder names.', { segment: error.segment }, { escape: false })
+				}
+				return t('files', '"{segment}" is a reserved name and not allowed for filenames.', { segment: error.segment }, { escape: false })
+			case InvalidFilenameErrorReason.Extension:
+				if (!isFolder && error.segment.match(/\.[a-z]/i)) {
+					return t('files', '"{extension}" is not an allowed filetype.', { extension: error.segment }, { escape: false })
+				}
+				if (isFolder) {
+					return t('files', 'Folder names must not end with "{extension}".', { extension: error.segment }, { escape: false })
+				}
+				return t('files', 'Filenames must not end with "{extension}".', { extension: error.segment }, { escape: false })
 			default:
+				if (isFolder) {
+					return t('files', 'Invalid folder name.')
+				}
 				return t('files', 'Invalid filename.')
 		}
 	}

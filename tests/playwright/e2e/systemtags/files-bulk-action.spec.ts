@@ -72,8 +72,7 @@ test.describe('Systemtags: Files bulk action', () => {
 		await filesListPage.selectRowForFile('file2.txt')
 
 		await filesListPage.openTagPickerForSelection()
-		await filesListPage.getTagPicker().getByRole('checkbox', { name: tag2 })
-			.uncheck({ force: true })
+		await filesListPage.unselectTagInPicker(tag2)
 		await filesListPage.applyTagPicker()
 
 		await filesListPage.expectInlineTagsForFile('file1.txt', [tag1])
@@ -95,10 +94,8 @@ test.describe('Systemtags: Files bulk action', () => {
 		await filesListPage.selectRowForFile('file2.txt')
 
 		await filesListPage.openTagPickerForSelection()
-		await filesListPage.getTagPicker().getByRole('checkbox', { name: tag2 })
-			.uncheck({ force: true })
-		await filesListPage.getTagPicker().getByRole('checkbox', { name: tag3 })
-			.uncheck({ force: true })
+		await filesListPage.unselectTagInPicker(tag2)
+		await filesListPage.unselectTagInPicker(tag3)
 		await filesListPage.applyTagPicker()
 
 		await filesListPage.expectInlineTagsForFile('file1.txt', [tag1])
@@ -120,10 +117,7 @@ test.describe('Systemtags: Files bulk action', () => {
 		await filesListPage.selectRowForFile('file2.txt')
 
 		await filesListPage.openTagPickerForSelection()
-		await filesListPage.getTagPicker().getByRole('checkbox', { name: tag2 })
-			.scrollIntoViewIfNeeded()
-		await filesListPage.getTagPicker().getByRole('checkbox', { name: tag2 })
-			.uncheck({ force: true })
+		await filesListPage.unselectTagInPicker(tag2)
 		await filesListPage.createNewTagInPicker(tag3)
 		await filesListPage.applyTagPicker()
 

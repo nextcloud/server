@@ -46,7 +46,7 @@ class BruteForceMiddleware extends Middleware {
 	 * {@inheritDoc}
 	 */
 	#[\Override]
-	public function beforeController($controller, $methodName) {
+	public function beforeController(Controller $controller, string $methodName): void {
 		parent::beforeController($controller, $methodName);
 
 		if ($this->reflector->hasAnnotation('BruteForceProtection')) {
@@ -73,7 +73,7 @@ class BruteForceMiddleware extends Middleware {
 	 * {@inheritDoc}
 	 */
 	#[\Override]
-	public function afterController($controller, $methodName, Response $response) {
+	public function afterController(Controller $controller, string $methodName, Response $response) {
 		if ($response->isThrottled()) {
 			try {
 				if ($this->reflector->hasAnnotation('BruteForceProtection')) {
@@ -127,7 +127,7 @@ class BruteForceMiddleware extends Middleware {
 	 * @return Response
 	 */
 	#[\Override]
-	public function afterException($controller, $methodName, \Exception $exception): Response {
+	public function afterException(Controller $controller, string $methodName, \Exception $exception): Response {
 		if ($exception instanceof MaxDelayReached) {
 			if ($controller instanceof OCSController) {
 				throw new OCSException($exception->getMessage(), Http::STATUS_TOO_MANY_REQUESTS);

@@ -702,6 +702,7 @@ class ShareControllerTest extends \Test\TestCase {
 	public function testDownloadShareWithCreateOnlyShare(): void {
 		$share = $this->getMockBuilder(IShare::class)->getMock();
 		$share->method('getPassword')->willReturn('password');
+		$share->method('isPasswordProtected')->willReturn(true);
 		$share
 			->expects($this->once())
 			->method('getPermissions')
@@ -728,6 +729,7 @@ class ShareControllerTest extends \Test\TestCase {
 
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
+		$share->method('isPasswordProtected')->willReturn(true);
 		$share->expects(self::once())
 			->method('getPermissions')
 			->willReturn(Constants::PERMISSION_READ);

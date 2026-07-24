@@ -11,7 +11,6 @@ namespace OCA\Files_Sharing\Controller;
 
 use Generator;
 use OC\Collaboration\Collaborators\SearchResult;
-use OC\Share\Share;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\ResponseDefinitions;
 use OCP\App\IAppManager;

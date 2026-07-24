@@ -4,7 +4,6 @@ OC.L10N.register(
     "View profile" : "View profile",
     "Profile" : "Profil",
     "This application provides the profile" : "Ushbu ilova profilni taqdim etadi",
-    "Provides a customisable user profile interface." : "Moslashtirilgan foydalanuvchi Profil interfeysini taqdim etadi.",
     "Not found" : "Topilmadi",
     "You have not added any info yet" : "Siz hali hech qanday ma'lumot qo'shmadingiz",
     "{user} has not added any info yet" : "{user} hali hech qanday ma'lumot qo'shmagan",
@@ -13,6 +12,7 @@ OC.L10N.register(
     "The headline and about sections will show up here" : "The headline and about sections will show up here",
     "Profile not found" : "Profil topilmadi",
     "Back to %s" : "%sga qaytish",
+    "Provides a customisable user profile interface." : "Moslashtirilgan foydalanuvchi Profil interfeysini taqdim etadi.",
     "The profile does not exist." : "Profil mavjud emas."
 },
 "nplurals=1; plural=0;");

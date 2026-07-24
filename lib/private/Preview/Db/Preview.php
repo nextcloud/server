@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace OC\Preview\Db;
 
-use OCP\AppFramework\Db\Entity;
 use OCP\AppFramework\Db\SnowflakeAwareEntity;
 use OCP\DB\Types;
 use OCP\Files\IMimeTypeDetector;

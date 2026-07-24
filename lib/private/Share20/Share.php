@@ -1,7 +1,7 @@
 <?php
 
 /**
- * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016-2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
@@ -505,6 +505,14 @@ class Share implements IShare {
 	#[\Override]
 	public function getPassword() {
 		return $this->password;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	#[\Override]
+	public function isPasswordProtected(): bool {
+		return $this->password !== '' && $this->password !== null;
 	}
 
 	/**

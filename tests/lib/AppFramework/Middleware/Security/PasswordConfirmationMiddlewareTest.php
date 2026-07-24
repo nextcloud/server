@@ -39,7 +39,6 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 	/** @var ITimeFactory&\PHPUnit\Framework\MockObject\MockObject */
 	private $timeFactory;
 	private IProvider&\PHPUnit\Framework\MockObject\MockObject $tokenProvider;
-	private LoggerInterface $logger;
 	/** @var IRequest&\PHPUnit\Framework\MockObject\MockObject */
 	private IRequest $request;
 	/** @var Manager&\PHPUnit\Framework\MockObject\MockObject */
@@ -55,7 +54,6 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 		$this->user = $this->createMock(IUser::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->tokenProvider = $this->createMock(IProvider::class);
-		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->request = $this->createMock(IRequest::class);
 		$this->userManager = $this->createMock(Manager::class);
 		$this->controller = new PasswordConfirmationMiddlewareController(
@@ -69,7 +67,6 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 			$this->userSession,
 			$this->timeFactory,
 			$this->tokenProvider,
-			$this->logger,
 			$this->request,
 			$this->userManager,
 		);

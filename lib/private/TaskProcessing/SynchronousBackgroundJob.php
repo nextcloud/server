@@ -14,7 +14,6 @@ use OCP\TaskProcessing\Exception\Exception;
 use OCP\TaskProcessing\Exception\NotFoundException;
 use OCP\TaskProcessing\IManager;
 use OCP\TaskProcessing\ISynchronousProvider;
-use OCP\TaskProcessing\Task;
 use Psr\Log\LoggerInterface;
 
 class SynchronousBackgroundJob extends QueuedJob {

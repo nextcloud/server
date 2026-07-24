@@ -34,11 +34,8 @@ class TestMiddleware extends Middleware {
 	public $response;
 	public $output;
 
-	/**
-	 * @param boolean $beforeControllerThrowsEx
-	 */
 	public function __construct(
-		private $beforeControllerThrowsEx,
+		private bool $beforeControllerThrowsEx,
 	) {
 		self::$beforeControllerCalled = 0;
 		self::$afterControllerCalled = 0;
@@ -47,7 +44,7 @@ class TestMiddleware extends Middleware {
 	}
 
 	#[\Override]
-	public function beforeController($controller, $methodName) {
+	public function beforeController(Controller $controller, string $methodName): void {
 		self::$beforeControllerCalled++;
 		$this->beforeControllerOrder = self::$beforeControllerCalled;
 		$this->controller = $controller;
@@ -58,7 +55,7 @@ class TestMiddleware extends Middleware {
 	}
 
 	#[\Override]
-	public function afterException($controller, $methodName, \Exception $exception) {
+	public function afterException(Controller $controller, string $methodName, \Exception $exception): void {
 		self::$afterExceptionCalled++;
 		$this->afterExceptionOrder = self::$afterExceptionCalled;
 		$this->controller = $controller;
@@ -68,7 +65,7 @@ class TestMiddleware extends Middleware {
 	}
 
 	#[\Override]
-	public function afterController($controller, $methodName, Response $response) {
+	public function afterController(Controller $controller, string $methodName, Response $response): Response {
 		self::$afterControllerCalled++;
 		$this->afterControllerOrder = self::$afterControllerCalled;
 		$this->controller = $controller;
@@ -78,7 +75,7 @@ class TestMiddleware extends Middleware {
 	}
 
 	#[\Override]
-	public function beforeOutput($controller, $methodName, $output) {
+	public function beforeOutput(Controller $controller, string $methodName, string $output): string {
 		self::$beforeOutputCalled++;
 		$this->beforeOutputOrder = self::$beforeOutputCalled;
 		$this->controller = $controller;

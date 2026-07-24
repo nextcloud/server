@@ -47,6 +47,7 @@ class ComposerStaticInitFiles
         'OCA\\Files\\Command\\Delete' => __DIR__ . '/..' . '/../lib/Command/Delete.php',
         'OCA\\Files\\Command\\DeleteOrphanedFiles' => __DIR__ . '/..' . '/../lib/Command/DeleteOrphanedFiles.php',
         'OCA\\Files\\Command\\Get' => __DIR__ . '/..' . '/../lib/Command/Get.php',
+        'OCA\\Files\\Command\\Mkdir' => __DIR__ . '/..' . '/../lib/Command/Mkdir.php',
         'OCA\\Files\\Command\\Mount\\ListMounts' => __DIR__ . '/..' . '/../lib/Command/Mount/ListMounts.php',
         'OCA\\Files\\Command\\Mount\\Refresh' => __DIR__ . '/..' . '/../lib/Command/Mount/Refresh.php',
         'OCA\\Files\\Command\\Move' => __DIR__ . '/..' . '/../lib/Command/Move.php',
@@ -64,6 +65,7 @@ class ComposerStaticInitFiles
         'OCA\\Files\\Command\\SanitizeFilenames' => __DIR__ . '/..' . '/../lib/Command/SanitizeFilenames.php',
         'OCA\\Files\\Command\\Scan' => __DIR__ . '/..' . '/../lib/Command/Scan.php',
         'OCA\\Files\\Command\\ScanAppData' => __DIR__ . '/..' . '/../lib/Command/ScanAppData.php',
+        'OCA\\Files\\Command\\Touch' => __DIR__ . '/..' . '/../lib/Command/Touch.php',
         'OCA\\Files\\Command\\TransferOwnership' => __DIR__ . '/..' . '/../lib/Command/TransferOwnership.php',
         'OCA\\Files\\Command\\WindowsCompatibleFilenames' => __DIR__ . '/..' . '/../lib/Command/WindowsCompatibleFilenames.php',
         'OCA\\Files\\ConfigLexicon' => __DIR__ . '/..' . '/../lib/ConfigLexicon.php',
@@ -92,6 +94,7 @@ class ComposerStaticInitFiles
         'OCA\\Files\\Listener\\NodeAddedToFavoriteListener' => __DIR__ . '/..' . '/../lib/Listener/NodeAddedToFavoriteListener.php',
         'OCA\\Files\\Listener\\NodeRemovedFromFavoriteListener' => __DIR__ . '/..' . '/../lib/Listener/NodeRemovedFromFavoriteListener.php',
         'OCA\\Files\\Listener\\RenderReferenceEventListener' => __DIR__ . '/..' . '/../lib/Listener/RenderReferenceEventListener.php',
+        'OCA\\Files\\Listener\\RestrictInteractionListener' => __DIR__ . '/..' . '/../lib/Listener/RestrictInteractionListener.php',
         'OCA\\Files\\Listener\\SyncLivePhotosListener' => __DIR__ . '/..' . '/../lib/Listener/SyncLivePhotosListener.php',
         'OCA\\Files\\Listener\\UserFirstTimeLoggedInListener' => __DIR__ . '/..' . '/../lib/Listener/UserFirstTimeLoggedInListener.php',
         'OCA\\Files\\Migration\\Version11301Date20191205150729' => __DIR__ . '/..' . '/../lib/Migration/Version11301Date20191205150729.php',
@@ -110,6 +113,13 @@ class ComposerStaticInitFiles
         'OCA\\Files\\Service\\ViewConfig' => __DIR__ . '/..' . '/../lib/Service/ViewConfig.php',
         'OCA\\Files\\Settings\\AdminSettings' => __DIR__ . '/..' . '/../lib/Settings/AdminSettings.php',
         'OCA\\Files\\Settings\\PersonalSettings' => __DIR__ . '/..' . '/../lib/Settings/PersonalSettings.php',
+        'OCA\\Files\\Sharing\\Permission\\NodeCreateSharePermissionType' => __DIR__ . '/..' . '/../lib/Sharing/Permission/NodeCreateSharePermissionType.php',
+        'OCA\\Files\\Sharing\\Permission\\NodeDeleteSharePermissionType' => __DIR__ . '/..' . '/../lib/Sharing/Permission/NodeDeleteSharePermissionType.php',
+        'OCA\\Files\\Sharing\\Permission\\NodeDownloadSharePermissionType' => __DIR__ . '/..' . '/../lib/Sharing/Permission/NodeDownloadSharePermissionType.php',
+        'OCA\\Files\\Sharing\\Permission\\NodeReadSharePermissionType' => __DIR__ . '/..' . '/../lib/Sharing/Permission/NodeReadSharePermissionType.php',
+        'OCA\\Files\\Sharing\\Permission\\NodeUpdateSharePermissionType' => __DIR__ . '/..' . '/../lib/Sharing/Permission/NodeUpdateSharePermissionType.php',
+        'OCA\\Files\\Sharing\\Property\\NodeGridViewSharePropertyType' => __DIR__ . '/..' . '/../lib/Sharing/Property/NodeGridViewSharePropertyType.php',
+        'OCA\\Files\\Sharing\\Source\\NodeShareSourceType' => __DIR__ . '/..' . '/../lib/Sharing/Source/NodeShareSourceType.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

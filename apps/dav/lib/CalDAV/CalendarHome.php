@@ -16,6 +16,7 @@ use OCA\DAV\CalDAV\Trashbin\TrashbinHome;
 use OCP\App\IAppManager;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\L10N\IFactory;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Sabre\CalDAV\Backend\BackendInterface;
@@ -50,7 +51,7 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 		private bool $returnCachedSubscriptions,
 	) {
 		parent::__construct($caldavBackend, $principalInfo);
-		$this->l10n = \OC::$server->getL10N('dav');
+		$this->l10n = Server::get(IFactory::class)->get('dav');
 		$this->config = Server::get(IConfig::class);
 		$this->pluginManager = new PluginManager(
 			\OC::$server,

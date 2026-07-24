@@ -56,6 +56,7 @@ $bearerAuthBackend = new BearerAuth(
 	Server::get(ISession::class),
 	Server::get(IRequest::class),
 	Server::get(IConfig::class),
+	allowOcmAccessToken: true,
 );
 $authPlugin = new \Sabre\DAV\Auth\Plugin($authBackend);
 $authPlugin->addBackend($bearerAuthBackend);

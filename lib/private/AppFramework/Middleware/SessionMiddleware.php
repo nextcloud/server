@@ -23,25 +23,15 @@ class SessionMiddleware extends Middleware {
 	) {
 	}
 
-	/**
-	 * @param Controller $controller
-	 * @param string $methodName
-	 */
 	#[\Override]
-	public function beforeController($controller, $methodName) {
+	public function beforeController(Controller $controller, string $methodName): void {
 		if ($this->reflector->hasAnnotationOrAttribute('UseSession', UseSession::class)) {
 			$this->session->reopen();
 		}
 	}
 
-	/**
-	 * @param Controller $controller
-	 * @param string $methodName
-	 * @param Response $response
-	 * @return Response
-	 */
 	#[\Override]
-	public function afterController($controller, $methodName, Response $response) {
+	public function afterController(Controller $controller, string $methodName, Response $response): Response {
 		if ($this->reflector->hasAnnotationOrAttribute('UseSession', UseSession::class)) {
 			$this->session->close();
 		}

@@ -332,7 +332,7 @@ $CONFIG = [
 	/**
 	 * Lifetime of logins where the user selected "Remember me", in seconds.
 	 *
-	 * A value >``0`` means "Remember me" is available.
+	 * A value > ``0`` means "Remember me" is available.
 	 * To make "Remember me" unavailable to users, set to ``0``.
 	 *
 	 * To avoid unexpected expiry, set this higher than ``session_lifetime``.
@@ -1792,6 +1792,94 @@ $CONFIG = [
 	'memcache_customprefix' => 'mycustomprefix',
 
 	/**
+	 * Connection details for the Key-Value store used for in-memory caching,
+	 * for example when using Valkey or Redis.
+	 *
+	 * This is the brand-independent version of the ``redis`` and
+	 * ``redis.cluster`` options below without depending on ``php-redis``
+	 * meaning no additional PHP extension needs to be installed.
+	 * Redis and Valkey 4.0 up to 8.0 are supported, for SSL support Redis v6 or higher is required,
+	 * Valkey 9 is supported but without support for numbered databased when using cluster mode.
+	 *
+	 * Warning: If the cache server is not hosted on the same machine as Nextcloud,
+	 * this can have a network overhead compared to the ``php-redis`` based backend below.
+	 *
+	 * Three topologies are supported:
+	 * a single server, a Sentinel managed replication set, and a
+	 * server cluster. Configure exactly one of ``server``, ``sentinel`` or
+	 * ``seeds``.
+	 *
+	 * For enhanced security, it is recommended to configure ACLs in
+	 * the cache server and configure the ``user`` and ``password`` (or a TLS
+	 * client certificate). Alternatively, you can also configure the cache
+	 * server to just use a ``password``.
+	 * See https://valkey.io/topics/security/ for more information when using Valkey.
+	 */
+	'memcache.kvstore' => [
+		/**
+		 * Single server setup.
+		 *
+		 * Also used as the connection template for the ``sentinel`` managed
+		 * primary / replica connections.
+		 */
+		'server' => [
+			'host' => 'localhost', // can also be a Unix domain socket: '/tmp/cache.sock'
+			'port' => 6379, // ignored for Unix domain sockets
+			// Protocol used to connect. One of 'tcp', 'tls' or 'unix'.
+			// When omitted it is derived from the host (a leading '/' means 'unix').
+			'protocol' => 'tcp',
+		],
+
+		/**
+		 * Sentinel managed replication setup.
+		 *
+		 * Provide the name of the monitored service and one entry per Sentinel
+		 * node. Each seed uses the same format as the ``server`` entry above.
+		 * Uncomment to enable and remove the ``server`` / ``seeds`` entries.
+		 */
+		//'sentinel' => [
+		//	'service' => 'mymaster',
+		//	'seeds' => [
+		//		['host' => 'localhost', 'port' => 26379],
+		//		['host' => 'localhost', 'port' => 26380],
+		//	],
+		//],
+
+		/**
+		 * Cluster setup.
+		 *
+		 * Provide some or all of the cluster nodes to bootstrap discovery.
+		 * Each seed uses the same format as the ``server`` entry above.
+		 * Uncomment to enable and remove the ``server`` / ``sentinel`` entries.
+		 */
+		//'seeds' => [
+		//	['host' => 'localhost', 'port' => 7000],
+		//	['host' => 'localhost', 'port' => 7001],
+		//],
+
+		// Optional: username, only sent when the cache server uses ACLs.
+		'user' => '',
+		// Optional: if not defined, no password will be used.
+		'password' => '',
+		// Optional: select a numbered database. Only supported for single
+		// servers and Sentinel setups, clusters always use database 0.
+		'dbindex' => 0,
+		// Optional: connection timeout in seconds (float). 0 means no timeout.
+		'timeout' => 0.0,
+		// Optional: read/write timeout in seconds (float). 0 means no timeout.
+		'read_timeout' => 0.0,
+		// Optional: keep the connection open across requests. Defaults to false.
+		'persistent' => false,
+		// Optional: when the 'tls' protocol is used, provide the SSL context.
+		// SSL context options, see https://www.php.net/manual/en/context.ssl.php
+		//'ssl_context' => [
+		//	'local_cert' => '/certs/cache.crt',
+		//	'local_pk' => '/certs/cache.key',
+		//	'cafile' => '/certs/ca.crt',
+		//],
+	],
+
+	/**
 	 * Connection details for Redis to use for memory caching in a single server configuration.
 	 *
 	 * For enhanced security, it is recommended to configure Redis
@@ -2423,9 +2511,9 @@ $CONFIG = [
 	 * Changing this may cause older, unsupported clients to malfunction, potentially
 	 * leading to data loss or unexpected behavior.
 	 *
-	 * Defaults to ``3.2.50``
+	 * Defaults to ``3.2.81``
 	 */
-	'minimum.supported.desktop.version' => '3.2.50',
+	'minimum.supported.desktop.version' => '3.2.81',
 
 	/**
 	 * Specify the maximum Nextcloud desktop client version allowed to sync with this

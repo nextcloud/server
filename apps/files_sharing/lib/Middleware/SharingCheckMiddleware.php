@@ -49,7 +49,7 @@ class SharingCheckMiddleware extends Middleware {
 	 * @throws S2SException
 	 */
 	#[\Override]
-	public function beforeController($controller, $methodName): void {
+	public function beforeController(Controller $controller, string $methodName): void {
 		if (!$this->isSharingEnabled()) {
 			throw new NotFoundException('Sharing is disabled.');
 		}
@@ -70,7 +70,7 @@ class SharingCheckMiddleware extends Middleware {
 	 * @throws \Exception
 	 */
 	#[\Override]
-	public function afterException($controller, $methodName, \Exception $exception): Response {
+	public function afterException(Controller $controller, string $methodName, \Exception $exception): Response {
 		if (is_a($exception, NotFoundException::class)) {
 			return new NotFoundResponse();
 		}

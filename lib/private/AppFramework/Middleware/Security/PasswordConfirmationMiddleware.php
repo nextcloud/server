@@ -24,7 +24,6 @@ use OCP\ISession;
 use OCP\IUserSession;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use OCP\User\Backend\IPasswordConfirmationBackend;
-use Psr\Log\LoggerInterface;
 use ReflectionAttribute;
 use ReflectionMethod;
 
@@ -37,7 +36,6 @@ class PasswordConfirmationMiddleware extends Middleware {
 		private IUserSession $userSession,
 		private ITimeFactory $timeFactory,
 		private IProvider $tokenProvider,
-		private readonly LoggerInterface $logger,
 		private readonly IRequest $request,
 		private readonly Manager $userManager,
 	) {
@@ -47,7 +45,7 @@ class PasswordConfirmationMiddleware extends Middleware {
 	 * @throws NotConfirmedException
 	 */
 	#[\Override]
-	public function beforeController(Controller $controller, string $methodName) {
+	public function beforeController(Controller $controller, string $methodName): void {
 		if (!$this->needsPasswordConfirmation()) {
 			return;
 		}

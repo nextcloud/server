@@ -8,10 +8,12 @@
 
 namespace OCA\Files_Sharing\Controller;
 
+use OCA\Files_Sharing\BackgroundJob\ExternalShareScanJob;
 use OCA\Files_Sharing\External\Manager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\BackgroundJob\IJobList;
 use OCP\IRequest;
 
 /**
@@ -24,6 +26,7 @@ class ExternalSharesController extends Controller {
 		string $appName,
 		IRequest $request,
 		private readonly Manager $externalManager,
+		private IJobList $jobList,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -44,6 +47,7 @@ class ExternalSharesController extends Controller {
 		$externalShare = $this->externalManager->getShare($id);
 		if ($externalShare !== false) {
 			$this->externalManager->acceptShare($externalShare);
+			$this->jobList->add(ExternalShareScanJob::class, [$externalShare->getUser(), $externalShare->getMountpoint()]);
 		}
 		return new JSONResponse();
 	}
