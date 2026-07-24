@@ -23,4 +23,5 @@ return array(
     'OCA\\Federation\\SyncFederationAddressBooks' => $baseDir . '/../lib/SyncFederationAddressBooks.php',
     'OCA\\Federation\\SyncJob' => $baseDir . '/../lib/SyncJob.php',
     'OCA\\Federation\\TrustedServers' => $baseDir . '/../lib/TrustedServers.php',
+    'OCA\\Federation\\User\\Backend' => $baseDir . '/../lib/User/Backend.php',
 );

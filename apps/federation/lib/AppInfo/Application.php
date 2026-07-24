@@ -11,11 +11,13 @@ namespace OCA\Federation\AppInfo;
 use OCA\DAV\Events\SabrePluginAuthInitEvent;
 use OCA\Federation\Listener\SabrePluginAuthInitListener;
 use OCA\Federation\Listener\TrustedServerRemovedListener;
+use OCA\Federation\User\Backend;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Federation\Events\TrustedServerRemovedEvent;
+use OCP\IUserManager;
 
 class Application extends App implements IBootstrap {
 
@@ -36,5 +38,6 @@ class Application extends App implements IBootstrap {
 
 	#[\Override]
 	public function boot(IBootContext $context): void {
+		$context->injectFn(fn (IUserManager $userManager, Backend $backend) => $userManager->registerBackend($backend));
 	}
 }

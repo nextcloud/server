@@ -38,6 +38,7 @@ class ComposerStaticInitFederation
         'OCA\\Federation\\SyncFederationAddressBooks' => __DIR__ . '/..' . '/../lib/SyncFederationAddressBooks.php',
         'OCA\\Federation\\SyncJob' => __DIR__ . '/..' . '/../lib/SyncJob.php',
         'OCA\\Federation\\TrustedServers' => __DIR__ . '/..' . '/../lib/TrustedServers.php',
+        'OCA\\Federation\\User\\Backend' => __DIR__ . '/..' . '/../lib/User/Backend.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
