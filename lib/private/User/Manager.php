@@ -241,12 +241,18 @@ class Manager extends PublicEmitter implements IUserManager {
 		// since http basic auth doesn't provide a standard way of handling non ascii password we allow password to be urlencoded
 		// we only do this decoding after using the plain password fails to maintain compatibility with any password that happens
 		// to contain urlencoded patterns by "accident".
-		$password = urldecode($password);
+		$decodedPassword = urldecode($password);
+		if ($decodedPassword === $password) {
+			// decoding the password did not change it, so retrying with the
+			// decoded value would just be a redundant duplicate authentication
+			// attempt (e.g. a second LDAP bind that double-increments badPwdCount).
+			return false;
+		}
 
 		foreach ($backends as $backend) {
 			if ($backend instanceof ICheckPasswordBackend || $backend->implementsActions(Backend::CHECK_PASSWORD)) {
 				/** @var ICheckPasswordBackend|UserInterface $backend */
-				$uid = $backend->checkPassword($loginName, $password);
+				$uid = $backend->checkPassword($loginName, $decodedPassword);
 				if ($uid !== false) {
 					return $this->getUserObject($uid, $backend);
 				}
