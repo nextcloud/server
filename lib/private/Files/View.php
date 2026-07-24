@@ -963,8 +963,8 @@ class View {
 			$operationException = null;
 			try {
 				$sourceLocked = $this->lockFile($source, ILockingProvider::LOCK_SHARED);
-
 				$exists = $this->file_exists($target);
+
 				if ($this->shouldEmitHooks($source) && $this->shouldEmitHooks($target)) {
 					\OC_Hook::emit(
 						Filesystem::CLASSNAME,
@@ -977,6 +977,7 @@ class View {
 					);
 					$this->emit_file_hooks_pre($exists, $target, $run);
 				}
+
 				if ($run) {
 					$mount1 = $this->getMount($source);
 					$mount2 = $this->getMount($target);
@@ -1061,6 +1062,7 @@ class View {
 
 				if ($operationException === null && $cleanupException !== null) {
 					throw $cleanupException;
+				}
 			}
 		}
 
