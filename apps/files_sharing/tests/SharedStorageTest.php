@@ -467,11 +467,17 @@ class SharedStorageTest extends TestCase {
 	public function testInitWithNotFoundSource(): void {
 		$share = $this->createMock(IShare::class);
 		$share->method('getShareOwner')->willReturn(self::TEST_FILES_SHARING_API_USER1);
-		$share->method('getNodeId')->willReturn(1);
-		$ownerView = $this->createMock(View::class);
-		$ownerView->method('getPath')->willThrowException(new NotFoundException());
+		$share->method('getNodeId')->willReturn(42);
+
+		$rootFolder = $this->createMock(IRootFolder::class);
+		$rootFolder->expects($this->once())
+			->method('getUserFolder')
+			->with(self::TEST_FILES_SHARING_API_USER1)
+			->willReturn($ownerUserFolder);
+
 		$storage = new SharedStorage([
-			'ownerView' => $ownerView,
+			'ownerView' => $this->createMock(View::class),
+			'rootFolder' => $rootFolder,
 			'superShare' => $share,
 			'groupedShares' => [$share],
 			'user' => 'user1',
@@ -480,6 +486,9 @@ class SharedStorageTest extends TestCase {
 		// trigger init
 		$this->assertInstanceOf(FailedStorage::class, $storage->getSourceStorage());
 		$this->assertInstanceOf(FailedCache::class, $storage->getCache());
+
+		$this->assertSame(0, $storage->getPermissions());
+		$this->assertFalse($storage->isReadable('missing.txt'));
 	}
 
 	public function testCopyPermissions(): void {
