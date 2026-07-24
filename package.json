@@ -84,7 +84,7 @@
     "@vue/test-utils": "^2.4.10",
     "@vue/tsconfig": "^0.9.1",
     "@zip.js/zip.js": "^2.8.26",
-    "concurrently": "^9.2.3",
+    "concurrently": "^9.2.4",
     "cypress": "^15.18.0",
     "cypress-axe": "^1.7.0",
     "cypress-if": "^1.16.1",
