@@ -56,7 +56,7 @@ class LoadAdditionalListenerTest extends TestCase {
 	}
 
 	public function testHandleIgnoresNonMatchingEvent(): void {
-		$listener = new LoadAdditionalListener();
+		$listener = new LoadAdditionalListener($this->shareManager);
 		$event = $this->createMock(Event::class);
 
 		// Should not throw or call anything
@@ -66,13 +66,12 @@ class LoadAdditionalListenerTest extends TestCase {
 	}
 
 	public function testHandleWithLoadAdditionalScriptsEvent(): void {
-		$listener = new LoadAdditionalListener();
+		$listener = new LoadAdditionalListener($this->shareManager);
 
 		$this->shareManager->method('shareApiEnabled')->willReturn(false);
 		$this->factory->method('findLanguage')->willReturn('language_mock');
 		$this->config->method('getSystemValueBool')->willReturn(true);
 
-		$this->overwriteService(IManager::class, $this->shareManager);
 		$this->overwriteService(IFactory::class, $this->factory);
 		$this->overwriteService(InitialStateService::class, $this->initialStateService);
 		$this->overwriteService(IConfig::class, $this->config);
@@ -96,12 +95,11 @@ class LoadAdditionalListenerTest extends TestCase {
 	}
 
 	public function testHandleWithLoadAdditionalScriptsEventWithShareApiEnabled(): void {
-		$listener = new LoadAdditionalListener();
+		$listener = new LoadAdditionalListener($this->shareManager);
 
 		$this->shareManager->method('shareApiEnabled')->willReturn(true);
 		$this->config->method('getSystemValueBool')->willReturn(true);
 
-		$this->overwriteService(IManager::class, $this->shareManager);
 		$this->overwriteService(InitialStateService::class, $this->initialStateService);
 		$this->overwriteService(IConfig::class, $this->config);
 		$this->overwriteService(IFactory::class, $this->factory);
