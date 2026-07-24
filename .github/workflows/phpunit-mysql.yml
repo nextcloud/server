@@ -64,8 +64,9 @@ jobs:
         include:
           - mysql-versions: '8.4'
             php-versions: '8.5'
+            partitioning: true
 
-    name: MySQL ${{ matrix.mysql-versions }} (PHP ${{ matrix.php-versions }}) - database tests
+    name: MySQL ${{ matrix.mysql-versions }} (PHP ${{ matrix.php-versions }})${{ case(matrix.partitioning, ' Partitioning', '') }} - database tests
 
     services:
       cache:
@@ -122,6 +123,12 @@ jobs:
           ./occ maintenance:install --verbose --database=mysql --database-name=nextcloud --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass admin
           php -f tests/enable_all.php
 
+      - name: Enable partitioning for oc_filecache
+        if: ${{ matrix.partitioning }}
+        run: |
+          echo "alter table oc_filecache drop primary key, add primary key (fileid, storage);" | mysql -h 127.0.0.1 -P 4444 -u root -prootpassword nextcloud
+          echo "alter table oc_filecache partition by hash(storage) partitions 5;" | mysql -h 127.0.0.1 -P 4444 -u root -prootpassword nextcloud
+
       - name: PHPUnit
         run: composer run test:db -- --log-junit junit.xml
 
@@ -130,6 +137,12 @@ jobs:
         uses: codecov/test-results-action@0fa95f0e1eeaafde2c782583b36b28ad0d8c77d3 # v1.2.1
         with:
           flags: phpunit-mysql
+
+      - name: Show partition info
+        if: ${{ matrix.partitioning }}
+        run: |
+          echo "SELECT table_name, partition_name, table_rows FROM information_schema.partitions WHERE partition_name is not null;" | mysql -h 127.0.0.1 -P 4444 -u root -prootpassword nextcloud
+          echo "SELECT table_rows FROM information_schema.tables WHERE table_name = 'oc_filecache';" | mysql -h 127.0.0.1 -P 4444 -u root -prootpassword nextcloud
 
       - name: Print logs
         if: always()
