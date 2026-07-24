@@ -51,7 +51,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.39.0
+	- version: 8.40.0
 	- license: AGPL-3.0-or-later
 - @vueuse/core
 	- version: 11.3.0
@@ -99,7 +99,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 4.0.0
 	- license: MIT
 - tabbable
-	- version: 6.4.0
+	- version: 6.5.0
 	- license: MIT
 - vue-loader
 	- version: 15.11.1
