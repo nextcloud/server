@@ -1,7 +1,6 @@
 OC.L10N.register(
     "core",
     {
-    "Log out" : "خروج",
     "Please select a file." : "لطفاً یک فایل انتخاب کنید.",
     "File is too big" : "فایل بیش از حد بزرگ است",
     "The selected file is not an image." : "فایل انتخاب شده تصویر نیست.",
@@ -76,6 +75,7 @@ OC.L10N.register(
     "Repair info:" : "اطلاعات تعمیر:",
     "Repair warning:" : "هشدار تعمیر:",
     "Repair error:" : "خطای تعمیر:",
+    "Log out" : "خروج",
     "Nextcloud Server" : "نکست‌کلود سرور",
     "Some of your link shares have been removed" : "برخی از اشتراک‌گذاری‌های لینک شما حذف شده‌اند",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "به دلیل یک باگ امنیتی مجبور به حذف برخی از اشتراک‌گذاری‌های لینک شما شدیم. لطفاً برای اطلاعات بیشتر به لینک مراجعه کنید.",

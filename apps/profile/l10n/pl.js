@@ -4,7 +4,6 @@ OC.L10N.register(
     "View profile" : "Zobacz profil",
     "Profile" : "Profil",
     "This application provides the profile" : "Ta aplikacja dostarcza profil",
-    "Provides a customisable user profile interface." : "Dostarcza konfigurowalny interfejs profilu użytkownika.",
     "Searching …" : "Wyszukiwanie …",
     "Not found" : "Nie znaleziono",
     "Insert" : "wstaw",
@@ -15,6 +14,7 @@ OC.L10N.register(
     "The headline and about sections will show up here" : "Tutaj pojawi się nagłówek i informacje o sekcjach",
     "Profile not found" : "Nie znaleziono profilu",
     "Back to %s" : "Powrót do %s",
+    "Provides a customisable user profile interface." : "Dostarcza konfigurowalny interfejs profilu użytkownika.",
     "The profile does not exist." : "Profil nie istnieje."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

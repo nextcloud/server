@@ -1,7 +1,6 @@
 OC.L10N.register(
     "core",
     {
-    "Log out" : "Oturumu kapat",
     "Please select a file." : "Lütfen bir dosya seçin.",
     "File is too big" : "Dosya çok büyük",
     "The selected file is not an image." : "Seçilmiş dosya bir görsel dosyası değil.",
@@ -76,6 +75,7 @@ OC.L10N.register(
     "Repair info:" : "Onarım bilgileri:",
     "Repair warning:" : "Onarım uyarısı:",
     "Repair error:" : "Onarım sorunu:",
+    "Log out" : "Oturumu kapat",
     "Nextcloud Server" : "Nextcloud sunucusu",
     "Some of your link shares have been removed" : "Bazı paylaşım bağlantılarınız silindi",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Bir güvenlik açığı nedeniyle bazı paylaşım bağlantılarınızı silmek zorunda kaldık. ayrıntılı bilgi almak için bağlantıya bakabilirsiniz.",

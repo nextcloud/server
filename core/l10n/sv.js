@@ -1,7 +1,6 @@
 OC.L10N.register(
     "core",
     {
-    "Log out" : "Logga ut",
     "Please select a file." : "Välj en fil.",
     "File is too big" : "Filen är för stor",
     "The selected file is not an image." : "Den valda filen är ingen bild.",
@@ -76,6 +75,7 @@ OC.L10N.register(
     "Repair info:" : "Reparationsinformation:",
     "Repair warning:" : "Reparationsvarning:",
     "Repair error:" : "Reparationsfel:",
+    "Log out" : "Logga ut",
     "Sharing is not allowed." : "Delning är inte tillåten.",
     "Sharing is not allowed for you." : "Du har inte behörighet att dela.",
     "Sharing is only allowed with group members." : "Delning är endast tillåten med gruppmedlemmar.",

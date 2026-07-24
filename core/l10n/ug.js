@@ -1,7 +1,6 @@
 OC.L10N.register(
     "core",
     {
-    "Log out" : "چېكىنىش",
     "Please select a file." : "ھۆججەت تاللاڭ.",
     "File is too big" : "ھۆججەت بەك چوڭ",
     "The selected file is not an image." : "تاللانغان ھۆججەت رەسىم ئەمەس.",
@@ -74,6 +73,7 @@ OC.L10N.register(
     "Repair info:" : "رېمونت ئۇچۇرى:",
     "Repair warning:" : "رېمونت ئاگاھلاندۇرۇشى:",
     "Repair error:" : "رېمونت خاتالىقى:",
+    "Log out" : "چېكىنىش",
     "Nextcloud Server" : "Nextcloud مۇلازىمىتىرى",
     "Some of your link shares have been removed" : "بەزى ئۇلىنىشلىرىڭىز ئۆچۈرۈلدى",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "بىخەتەرلىك خاتالىقى سەۋەبىدىن بەزى ئۇلىنىشلىرىڭىزنى ئۆچۈرۈۋەتتۇق. تېخىمۇ كۆپ ئۇچۇرغا ئېرىشىش ئۈچۈن ئۇلىنىشنى كۆرۈڭ.",

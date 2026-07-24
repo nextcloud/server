@@ -1,7 +1,6 @@
 OC.L10N.register(
     "core",
     {
-    "Log out" : "Log out",
     "Please select a file." : "აირჩიეთ ფაილი.",
     "File is too big" : "ფაილი ძალიან დიდია",
     "The selected file is not an image." : "არჩეული ფაილი გამოსახულება არაა.",
@@ -76,6 +75,7 @@ OC.L10N.register(
     "Repair info:" : "შეკეთების ინფორმაცია:",
     "Repair warning:" : "შეკეთების გაფრთხილება:",
     "Repair error:" : "შეკეთების შეცდომა:",
+    "Log out" : "Log out",
     "Nextcloud Server" : "Nextcloud-ის სერვერი",
     "Some of your link shares have been removed" : "ზოგიერთი თქვენი ბმულის გაზიარება წაიშალა",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Due to a security bug we had to remove some of your link shares. Please see the link for more information.",

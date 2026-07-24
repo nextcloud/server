@@ -1,7 +1,6 @@
 OC.L10N.register(
     "core",
     {
-    "Log out" : "Kirjaudu ulos",
     "Please select a file." : "Valitse tiedosto.",
     "File is too big" : "Tiedosto on liian suuri",
     "The selected file is not an image." : "Valittu tiedosto ei ole kuva.",
@@ -68,6 +67,7 @@ OC.L10N.register(
     "Repair info:" : "Korjaustiedot:",
     "Repair warning:" : "Korjausvaroitus:",
     "Repair error:" : "Korjausvirhe:",
+    "Log out" : "Kirjaudu ulos",
     "Nextcloud Server" : "Nextcloud-palvelin",
     "Some of your link shares have been removed" : "Jotkin linkkijakosi on poistettu",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Tietoturvaongelman vuoksi jouduimme poistaa joitakin linkkijakojasi. Lue lisätietoja linkin kautta.",
