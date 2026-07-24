@@ -62,7 +62,7 @@
 				class="sharing-entry__action"
 				:aria-label="t('files_sharing', 'Delete share')"
 				variant="tertiary"
-				@click="onDelete">
+				@click="confirmDelete">
 				<template #icon>
 					<DeleteIcon :size="20" />
 				</template>
@@ -72,6 +72,7 @@
 </template>
 
 <script>
+import { DialogBuilder } from '@nextcloud/dialogs'
 import { ShareType } from '@nextcloud/sharing'
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcButton from '@nextcloud/vue/components/NcButton'
@@ -168,6 +169,41 @@ export default {
 				await openShareEditDialog(this.share.id, this.fileInfo.node)
 			} catch (error) {
 				logger.error('Failed to open the sharing dialog', { error })
+			}
+		},
+
+		/**
+		 * Ask for confirmation before deleting the share.
+		 */
+		async confirmDelete() {
+			let confirmed = false
+			const dialog = (new DialogBuilder())
+				.setName(t('files_sharing', 'Delete share'))
+				.setText(t('files_sharing', 'Are you sure you want to delete this share? This operation cannot be undone.'))
+				.setButtons([
+					{
+						label: t('files_sharing', 'Cancel'),
+						variant: 'secondary',
+						callback: () => {},
+					},
+					{
+						label: t('files_sharing', 'Delete'),
+						variant: 'error',
+						callback: () => {
+							confirmed = true
+						},
+					},
+				])
+				.build()
+
+			try {
+				await dialog.show()
+			} catch (error) {
+				logger.debug('Delete confirmation dialog closed', { error })
+			}
+
+			if (confirmed) {
+				this.onDelete()
 			}
 		},
 
