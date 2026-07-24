@@ -166,13 +166,11 @@ async function pickFile() {
 		class="background"
 		:name="t('theming', 'Background and color')"
 		:description="t('theming', 'The background can be set to an image from the default set, a custom uploaded image, or a plain color.')">
-		<fieldset>
-			<legend class="hidden-visually">
-				{{ t('theming', 'Background and color') }}
-			</legend>
-
-			<div :class="$style.backgroundSelect">
-				<!-- Custom background -->
+		<ul
+			:aria-label="t('theming', 'Background and color')"
+			:class="$style.backgroundSelect">
+			<!-- Custom background -->
+			<li :class="$style.backgroundSelect__item" role="listitem">
 				<button
 					:aria-disabled="loading === 'custom'"
 					:aria-pressed="currentBackgroundImage === 'custom'"
@@ -184,8 +182,10 @@ async function pickFile() {
 					<NcLoadingIcon v-if="loading === 'custom'" />
 					<NcIconSvgWrapper v-else :path="currentBackgroundImage === 'custom' ? mdiCheck : mdiImageEditOutline" />
 				</button>
+			</li>
 
-				<!-- Custom color picker -->
+			<!-- Custom color picker -->
+			<li :class="$style.backgroundSelect__item" role="listitem">
 				<NcColorPicker v-model="currentTheming.backgroundColor" @submit="pickColor">
 					<button
 						class="button-vue"
@@ -202,8 +202,10 @@ async function pickFile() {
 						<NcIconSvgWrapper v-else :path="currentBackgroundImage === 'color' ? mdiCheck : mdiPaletteOutline" />
 					</button>
 				</NcColorPicker>
+			</li>
 
-				<!-- Default background -->
+			<!-- Default background -->
+			<li :class="$style.backgroundSelect__item" role="listitem">
 				<button
 					class="button-vue"
 					:class="[$style.backgroundSelect__entry, $style.backgroundSelect__entryDefault]"
@@ -218,16 +220,21 @@ async function pickFile() {
 					<NcLoadingIcon v-if="loading === 'default'" />
 					<NcIconSvgWrapper v-else :path="currentBackgroundImage === 'default' ? mdiCheck : mdiUndo" />
 				</button>
-			</div>
+			</li>
 
-			<!-- Background set selection -->
-			<fieldset :class="$style.backgroundSelect">
-				<label class="hidden-visually">
-					{{ t('theming', 'Default shipped background images') }}
-				</label>
+			<!-- Force shipped backgrounds onto the next line while keeping flex wrap layout -->
+			<li
+				:class="$style.backgroundSelect__break"
+				aria-hidden="true"
+				role="presentation" />
+
+			<!-- Shipped background set -->
+			<li
+				v-for="shippedBackground in shippedBackgrounds"
+				:key="shippedBackground.name"
+				:class="$style.backgroundSelect__item"
+				role="listitem">
 				<button
-					v-for="shippedBackground in shippedBackgrounds"
-					:key="shippedBackground.name"
 					:title="shippedBackground.details.attribution"
 					:aria-pressed="currentBackgroundImage === shippedBackground.name"
 					class="button-vue"
@@ -235,7 +242,6 @@ async function pickFile() {
 					:style="{
 						backgroundImage: 'url(' + shippedBackground.preview + ')',
 					}"
-					tabindex="0"
 					@click="setShipped(shippedBackground.name)">
 					<NcIconSvgWrapper
 						v-if="currentBackgroundImage === shippedBackground.name"
@@ -245,8 +251,8 @@ async function pickFile() {
 						{{ shippedBackground.details.description }}
 					</span>
 				</button>
-			</fieldset>
-		</fieldset>
+			</li>
+		</ul>
 	</NcSettingsSection>
 </template>
 
@@ -255,6 +261,24 @@ async function pickFile() {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	.backgroundSelect__item {
+		display: flex;
+		list-style: none;
+	}
+
+	.backgroundSelect__break {
+		flex-basis: 100%;
+		width: 100%;
+		height: 0;
+		margin: 0;
+		padding: 0;
+		overflow: hidden;
+		list-style: none;
+	}
 
 	.backgroundSelect__entry {
 		display: flex;
