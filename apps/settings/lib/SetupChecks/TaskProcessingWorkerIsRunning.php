@@ -12,6 +12,7 @@ namespace OCA\Settings\SetupChecks;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IAppConfig;
 use OCP\IL10N;
+use OCP\IURLGenerator;
 use OCP\SetupCheck\ISetupCheck;
 use OCP\SetupCheck\SetupResult;
 use OCP\TaskProcessing\IManager;
@@ -26,6 +27,7 @@ class TaskProcessingWorkerIsRunning implements ISetupCheck {
 		private readonly IManager $taskProcessingManager,
 		private readonly ITimeFactory $timeFactory,
 		private readonly IAppConfig $appConfig,
+		private readonly IURLGenerator $url,
 	) {
 	}
 
@@ -63,12 +65,14 @@ class TaskProcessingWorkerIsRunning implements ISetupCheck {
 
 		if ($lastIteration > 0) {
 			return SetupResult::warning(
-				$this->l10n->t('The Task Processing worker does not seem to be running. The last run was at %s.', [date('Y-m-d H:i:s', $lastIteration)])
+				$this->l10n->t('The Task Processing worker does not seem to be running. The last run was at %s.', [date('Y-m-d H:i:s', $lastIteration)]),
+				linkToDoc: $this->url->linkToDocs('admin-ai-pickup-speed'),
 			);
 		}
 
 		return SetupResult::warning(
-			$this->l10n->t('The Task Processing worker does not seem to be running. It seems it has never run so far.')
+			$this->l10n->t('The Task Processing worker does not seem to be running. It seems it has never run so far.'),
+			linkToDoc: $this->url->linkToDocs('admin-ai-pickup-speed'),
 		);
 	}
 }

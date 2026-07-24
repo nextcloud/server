@@ -734,11 +734,11 @@ class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 				$this->copyInner($sourceCache, $child, $to . '/' . $child->getName());
 			}
 		} else {
-			$this->copyFile($sourceEntry, $to);
+			$this->copyFile($sourceCache, $sourceEntry, $to);
 		}
 	}
 
-	private function copyFile(ICacheEntry $sourceEntry, string $to) {
+	private function copyFile(ICache $sourceCache, ICacheEntry $sourceEntry, string $to) {
 		$cache = $this->getCache();
 
 		$sourceUrn = $this->getURN($sourceEntry->getId());
@@ -747,7 +747,19 @@ class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 			throw new \Exception('Invalid source cache for object store copy');
 		}
 
-		$targetId = $cache->copyFromCache($cache, $sourceEntry, $to);
+		$targetId = $cache->copyFromCache($sourceCache, $sourceEntry, $to);
+
+		if ($targetId === $sourceEntry->getId()) {
+			// copying a file to itself? No need to do anything
+			$e = new \Exception('Object ' . $sourceEntry->getPath() . ' (' . $sourceEntry->getId() . ') being copied to itself');
+			if ($sourceEntry instanceof CacheEntry) {
+				$sourceData = $sourceEntry->getData();
+			} else {
+				$sourceData = null;
+			}
+			$this->logger->warning($e->getMessage(), ['exception' => $e, 'source' => $sourceData]);
+			return;
+		}
 
 		$targetUrn = $this->getURN($targetId);
 

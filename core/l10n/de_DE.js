@@ -1,7 +1,6 @@
 OC.L10N.register(
     "core",
     {
-    "Log out" : "Abmelden",
     "Please select a file." : "Bitte eine Datei auswählen.",
     "File is too big" : "Datei ist zu groß",
     "The selected file is not an image." : "Die ausgewählte Datei ist kein Bild.",
@@ -76,6 +75,7 @@ OC.L10N.register(
     "Repair info:" : "Reparaturinformation:",
     "Repair warning:" : "Reparaturwarnung:",
     "Repair error:" : "Reparaturfehler:",
+    "Log out" : "Abmelden",
     "Sharing is not allowed." : "Teilen ist nicht erlaubt.",
     "Sharing is not allowed for you." : "Teilen ist für Sie nicht erlaubt.",
     "Sharing is only allowed with group members." : "Teilen ist nur mit Gruppenmitgliedern erlaubt.",

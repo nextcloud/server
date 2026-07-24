@@ -1,7 +1,6 @@
 OC.L10N.register(
     "core",
     {
-    "Log out" : "Keluar",
     "Please select a file." : "Mohon pilih berkas.",
     "File is too big" : "Berkas terlalu besar",
     "The selected file is not an image." : "Berkas terpilih bukan suatu gambar.",
@@ -74,6 +73,7 @@ OC.L10N.register(
     "Repair info:" : "Info perbaikan:",
     "Repair warning:" : "Peringatan perbaikan:",
     "Repair error:" : "Galat perbaikan:",
+    "Log out" : "Keluar",
     "Nextcloud Server" : "Server Nextcloud",
     "Some of your link shares have been removed" : "Beberapa tautan berbagi Anda telah dihapus",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Dikarenakan isu bug keamanan, kami perlu menghapus beberapa tautan berbagi Anda. Silakan lihat tautan berikut untuk informasi lebih lanjut.",

@@ -1,7 +1,6 @@
 OC.L10N.register(
     "core",
     {
-    "Log out" : "ອອກຈາກລະບົບ",
     "Please select a file." : "ກະລຸນາເລືອກຟາຍ",
     "File is too big" : "ຟາຍໃຫຍ່ໂພດ",
     "The selected file is not an image." : "ຟາຍທີ່ເລືອກບໍ່ແມ່ນຮູບ",
@@ -74,6 +73,7 @@ OC.L10N.register(
     "Repair info:" : "ຂໍ້ມູນໃນການປັບປຸງ",
     "Repair warning:" : "ຄໍາເຕືອນ ການປັບປຸງ",
     "Repair error:" : "ການປັບປຸງຄັດຂ້ອງ",
+    "Log out" : "ອອກຈາກລະບົບ",
     "Nextcloud Server" : "ເຊີບເວີ ເນັກຄຮາວ",
     "Some of your link shares have been removed" : "ບາງລີ້ງທີທ່ານໄດ້ແບ່ງປັນຖືກຍົກເລີກແລ້ວ",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "ເນື່ອງຈາກບັນຫາດ້ານຄວາມປອດໄພ, ພວກເຮົາໄດ້ຍົກເລິກການແບ່ງປັນລີ້ງ. ສໍາລັບຂໍ້ມູນເພີ່ມເຕີ່ມ ກະລຸນນາກົດເບີ່ງລີງ ",

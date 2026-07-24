@@ -5,7 +5,6 @@ OC.L10N.register(
     "Profile picker" : "Profielselector",
     "Profile" : "Profiel",
     "This application provides the profile" : "Deze applicatie biedt het profiel",
-    "Provides a customisable user profile interface." : "Biedt een aanpasbare gebruikersprofielinterface.",
     "Searching …" : "Zoeken ...",
     "Not found" : "Niet gevonden",
     "Search for a user profile" : "Gebruikersprofiel zoeken",
@@ -19,6 +18,7 @@ OC.L10N.register(
     "The headline and about sections will show up here" : "De koplijn- en oversectie zal hier verschijnen",
     "Profile not found" : "Profiel niet gevonden",
     "Back to %s" : "Terug naar %s",
+    "Provides a customisable user profile interface." : "Biedt een aanpasbare gebruikersprofielinterface.",
     "The profile does not exist." : "Het profiel bestaat niet."
 },
 "nplurals=2; plural=(n != 1);");

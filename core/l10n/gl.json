@@ -1,5 +1,4 @@
 { "translations": {
-    "Log out" : "Desconectar",
     "Please select a file." : "Seleccione un ficheiro.",
     "File is too big" : "O ficheiro é grande de máis",
     "The selected file is not an image." : "O ficheiro seleccionado non é unha imaxe.",
@@ -74,6 +73,7 @@
     "Repair info:" : "Información do arranxo:",
     "Repair warning:" : "Advertencia de arranxo:",
     "Repair error:" : "Erro do arranxo:",
+    "Log out" : "Desconectar",
     "Nextcloud Server" : "Servidor de Nextcloud",
     "Some of your link shares have been removed" : "Retiráronse algunhas das súas ligazóns para compartir",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Por mor dun fallo de seguranza tivemos que retirar algunhas das súas ligazóns para compartir. Vexa a ligazón para obter máis información.",

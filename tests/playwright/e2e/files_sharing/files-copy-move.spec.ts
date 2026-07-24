@@ -3,12 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { User } from '@nextcloud/e2e-test-server'
-import type { APIRequestContext } from '@playwright/test'
-
 import { expect, test } from '../../support/fixtures/files-sharing-page.ts'
-import { getChildPermissions, mkdir, uploadContent } from '../../support/utils/dav.ts'
-import { ALL_PERMISSIONS, createShare, SharePermission } from '../../support/utils/sharing.ts'
+import { mkdir, uploadContent } from '../../support/utils/dav.ts'
+import { ALL_PERMISSIONS, createShare, SharePermission, waitForShare } from '../../support/utils/sharing.ts'
 
 const EMPTY = Buffer.alloc(0)
 
@@ -46,7 +43,7 @@ test.describe('files_sharing: Move or copy files', () => {
 	test('cannot copy a file to a shared folder with no create permission', async ({ page, user, owner, ownerRequest, filesListPage, copyMoveDialog }) => {
 		await mkdir(ownerRequest, owner, '/folder')
 		await mkdir(ownerRequest, owner, '/folder/inner-folder')
-		await createShare(ownerRequest, '/folder', user.userId, ALL_PERMISSIONS & ~SharePermission.CREATE)
+		await createShare(ownerRequest, '/folder', user.userId, { permissions: ALL_PERMISSIONS & ~SharePermission.CREATE })
 		await uploadContent(page.request, user, EMPTY, 'text/plain', '/file.txt')
 
 		// Wait for the create restriction (no C) to reach the recipient's listing
@@ -69,7 +66,7 @@ test.describe('files_sharing: Move or copy files', () => {
 	test('cannot move a file from shared folder with no delete permission', async ({ page, user, owner, ownerRequest, filesListPage, copyMoveDialog }) => {
 		await mkdir(ownerRequest, owner, '/folder')
 		await uploadContent(ownerRequest, owner, EMPTY, 'text/plain', '/folder/file.txt')
-		await createShare(ownerRequest, '/folder', user.userId, ALL_PERMISSIONS & ~SharePermission.DELETE)
+		await createShare(ownerRequest, '/folder', user.userId, { permissions: ALL_PERMISSIONS & ~SharePermission.DELETE })
 
 		// create the target
 		await mkdir(page.request, user, '/owned-folder')
@@ -92,27 +89,3 @@ test.describe('files_sharing: Move or copy files', () => {
 		await expect(copyMoveDialog.confirmButton('Move to owned-folder')).toHaveCount(0)
 	})
 })
-
-/**
- * A share mounts into the recipient's tree asynchronously, and permission changes
- * propagate after that. Poll the recipient's directory listing for the entry's
- * `oc:permissions` (the same source the Files UI reads) until it exists and
- * satisfies `ready`, before driving the UI. Transient errors (mount not there
- * yet) are swallowed so the poll keeps waiting.
- */
-async function waitForShare(
-	request: APIRequestContext,
-	user: User,
-	parentPath: string,
-	childName: string,
-	ready: (permissions: string) => boolean = () => true,
-): Promise<void> {
-	await expect.poll(async () => {
-		try {
-			const permissions = await getChildPermissions(request, user, parentPath, childName)
-			return permissions !== '' && ready(permissions)
-		} catch {
-			return false
-		}
-	}, { message: `share ${parentPath}/${childName} did not propagate to ${user.userId}`, timeout: 20_000 }).toBe(true)
-}

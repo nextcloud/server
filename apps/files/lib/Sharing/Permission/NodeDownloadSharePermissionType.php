@@ -42,6 +42,6 @@ final readonly class NodeDownloadSharePermissionType implements ISharePermission
 
 	#[\Override]
 	public function isEnabledByDefault(): bool {
-		return false;
+		return true;
 	}
 }

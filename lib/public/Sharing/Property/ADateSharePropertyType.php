@@ -50,11 +50,11 @@ abstract class ADateSharePropertyType implements ISharePropertyType {
 		}
 
 		if (($minDate = $this->getMinDate()) instanceof DateTimeImmutable && $date->diff($minDate)->invert === 0) {
-			return $l10nFactory->get(Application::APP_ID)->t('Date needs to be after %s: %s', [$minDate->format(DateTimeInterface::ATOM), $value]);
+			return $l10nFactory->get(Application::APP_ID)->t('Date needs to be after %1$s: %2$s', [$minDate->format(DateTimeInterface::ATOM), $value]);
 		}
 
 		if (($maxDate = $this->getMaxDate()) instanceof DateTimeImmutable && $date->diff($maxDate)->invert === 1) {
-			return $l10nFactory->get(Application::APP_ID)->t('Date needs to be before %s: %s', [$maxDate->format(DateTimeInterface::ATOM), $value]);
+			return $l10nFactory->get(Application::APP_ID)->t('Date needs to be before %1$s: %2$s', [$maxDate->format(DateTimeInterface::ATOM), $value]);
 		}
 
 		return true;

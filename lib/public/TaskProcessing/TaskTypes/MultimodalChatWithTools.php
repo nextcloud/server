@@ -12,14 +12,14 @@ namespace OCP\TaskProcessing\TaskTypes;
 use OCP\IL10N;
 use OCP\L10N\IFactory;
 use OCP\TaskProcessing\EShapeType;
-use OCP\TaskProcessing\ITaskType;
+use OCP\TaskProcessing\IInternalTaskType;
 use OCP\TaskProcessing\ShapeDescriptor;
 
 /**
  * This is the task processing task type for invoking multimodal Chat-enabled LLMs with tool call support
  * @since 35.0.0
  */
-class MultimodalChatWithTools implements ITaskType {
+class MultimodalChatWithTools implements IInternalTaskType {
 	/**
 	 * @since 35.0.0
 	 */

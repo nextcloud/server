@@ -39,11 +39,11 @@ abstract class AStringSharePropertyType implements ISharePropertyType {
 	#[\Override]
 	public function validateValue(IFactory $l10nFactory, string $value): true|string {
 		if (($minLength = $this->getMinLength()) !== null && mb_strlen($value) < $minLength) {
-			return $l10nFactory->get(Application::APP_ID)->t('Need at least %s characters: %s', [$minLength, $value]);
+			return $l10nFactory->get(Application::APP_ID)->t('Need at least %1$s characters: %2$s', [$minLength, $value]);
 		}
 
 		if (($maxLength = $this->getMaxLength()) !== null && mb_strlen($value) > $maxLength) {
-			return $l10nFactory->get(Application::APP_ID)->t('Provide %s characters at most: %s', [$maxLength, $value]);
+			return $l10nFactory->get(Application::APP_ID)->t('Provide %1$s characters at most: %2$s', [$maxLength, $value]);
 		}
 
 		return true;

@@ -1,7 +1,6 @@
 OC.L10N.register(
     "core",
     {
-    "Log out" : "Tanca la sessió",
     "Please select a file." : "Seleccioneu un fitxer.",
     "File is too big" : "El fitxer és massa gran",
     "The selected file is not an image." : "El fitxer seleccionat no és una imatge.",
@@ -74,6 +73,7 @@ OC.L10N.register(
     "Repair info:" : "Informació de reparació:",
     "Repair warning:" : "Avís de reparació:",
     "Repair error:" : "Error de reparació:",
+    "Log out" : "Tanca la sessió",
     "Nextcloud Server" : "Servidor del Nextcloud",
     "Some of your link shares have been removed" : "S'han suprimit alguns dels vostres enllaços compartits",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "A causa d'un error de seguretat, hem suprimit alguns dels vostres enllaços compartits. Consulteu l'enllaç per a obtenir més informació.",

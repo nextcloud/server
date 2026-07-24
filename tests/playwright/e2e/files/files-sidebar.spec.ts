@@ -7,7 +7,7 @@ import { expect, test } from '../../support/fixtures/files-page.ts'
 import { mkdir, uploadContent } from '../../support/utils/dav.ts'
 
 test.describe('Files: Sidebar', () => {
-	let fileId: number
+	let fileId: string
 
 	test.beforeEach(async ({ user, page, filesListPage }) => {
 		await mkdir(page.request, user, '/folder')

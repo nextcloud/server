@@ -306,6 +306,8 @@
     "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "Damit diese Prüfung ausgeführt werden kann, muß sichergestellt sein, dass der Webserver eine Verbindung zu sich selbst herstellen kann. Daher muss er in der Lage sein, mindestens eine seiner `trusted_domains` oder `overwrite.cli.url` aufzulösen und eine Verbindung zu ihnen herzustellen. Dieser Fehler kann das Ergebnis einer serverseitigen DNS-Nichtübereinstimmung oder einer ausgehenden Firewall-Regel sein.",
     "Share not found." : "Freigabe nicht gefunden",
     "You are not allowed to edit this share." : "Du darfst diese Freigabe nicht bearbeiten.",
+    "Only true and false are valid values: %s" : "Nur wahr und falsch sind gültige Werte: %s",
+    "Invalid ISO date: %s" : "Ungültiges ISO-Datum: %s",
     "Analyze images" : "Bilder analysieren",
     "Ask a question about the given images." : "Eine Frage zu den gewählten Bildern stellen.",
     "Images" : "Bilder",

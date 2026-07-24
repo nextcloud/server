@@ -141,9 +141,9 @@ jobs:
       matrix:
         # Run multiple copies of the current job in parallel
         # Please increase the number or runners as your tests suite grows (0 based index for e2e tests)
-        containers: ['0', '1', '2', '3']
+        containers: ['0', '1']
         # Always align this number with the total of e2e runners (max. index + 1)
-        total-containers: [4]
+        total-containers: [2]
 
     name: runner ${{ matrix.containers }}
 

@@ -2,7 +2,6 @@
     "View profile" : "Lihat profil",
     "Profile" : "Profil",
     "This application provides the profile" : "Aplikasi ini menyediakan profil",
-    "Provides a customisable user profile interface." : "Menyediakan antarmuka profil pengguna yang dapat disesuaikan.",
     "Searching …" : "Mencari …",
     "Not found" : "Tidak ditemukan",
     "Insert" : "Sisipkan",
@@ -13,6 +12,7 @@
     "The headline and about sections will show up here" : "Bagian judul dan tentang akan muncul di sini",
     "Profile not found" : "Profil tidak ditemukan",
     "Back to %s" : "Kembali ke %s",
+    "Provides a customisable user profile interface." : "Menyediakan antarmuka profil pengguna yang dapat disesuaikan.",
     "The profile does not exist." : "Profil tidak ada."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

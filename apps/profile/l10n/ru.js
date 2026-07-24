@@ -5,7 +5,6 @@ OC.L10N.register(
     "Profile picker" : "Выбор профиля",
     "Profile" : "Профиль",
     "This application provides the profile" : "Это приложение предоставляет профиль",
-    "Provides a customisable user profile interface." : "Предоставляет настраиваемый интерфейс профиля пользователя.",
     "Searching …" : "Поиск…",
     "Not found" : "Не найдено",
     "Search for a user profile" : "Поиск профиля пользователя",
@@ -20,6 +19,7 @@ OC.L10N.register(
     "Profile not found" : "Профиль не найден",
     "The profile does not exist or is unavailable." : "Профиль не существует или недоступен.",
     "Back to %s" : "Вернуться к %s",
+    "Provides a customisable user profile interface." : "Предоставляет настраиваемый интерфейс профиля пользователя.",
     "The profile does not exist." : "Профиль не существует"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

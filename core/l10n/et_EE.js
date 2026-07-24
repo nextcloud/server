@@ -1,7 +1,6 @@
 OC.L10N.register(
     "core",
     {
-    "Log out" : "Logi välja",
     "Please select a file." : "Palun vali fail.",
     "File is too big" : "Fail on liiga suur",
     "The selected file is not an image." : "Valitud fail ei ole pilt.",
@@ -76,6 +75,7 @@ OC.L10N.register(
     "Repair info:" : "Paranduse teave:",
     "Repair warning:" : "Paranduse hoiatus:",
     "Repair error:" : "Paranduse viga:",
+    "Log out" : "Logi välja",
     "Sharing is not allowed." : "Jagamine pole lubatud.",
     "Sharing is not allowed for you." : "Jagamine pole sinu jaoks lubatud.",
     "Sharing is only allowed with group members." : "Jagamine on lubatud vaid grupi liikmetele.",

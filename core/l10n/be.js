@@ -1,7 +1,6 @@
 OC.L10N.register(
     "core",
     {
-    "Log out" : "Выйсці",
     "Please select a file." : "Выберыце файл.",
     "File is too big" : "Файл занадта вялікі",
     "The selected file is not an image." : "Выбраны файл не з'яўляецца відарысам.",
@@ -62,6 +61,7 @@ OC.L10N.register(
     "Finished code integrity check" : "Праверка цэласнасці кода завершана",
     "%s (incompatible)" : "%s (несумяшчальная)",
     "The following apps have been disabled: %s" : "Наступныя праграмы былі адключаны: %s",
+    "Log out" : "Выйсці",
     "Nextcloud Server" : "Сервер Nextcloud",
     "Some of your link shares have been removed" : "Некаторыя з вашых абагуленых спасылак былі выдалены",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "З-за памылкі бяспекі нам давялося выдаліць некаторыя з вашых абагуленых спасылак. Больш падрабязную інфармацыю глядзіце па спасылцы.",

@@ -373,10 +373,11 @@ export class FilesListPage {
 
 	async navigateToFolder(dirPath: string): Promise<void> {
 		for (const directory of dirPath.split('/').filter(Boolean)) {
-			await this.getRowForFile(directory)
-				.getByRole('button')
-				.filter({ hasText: directory })
-				.click()
+			// Click the row's name link (the folder-open action) directly. Filtering
+			// the row's buttons by the folder name is ambiguous for shared folders,
+			// whose row also carries a "Shared by …" action button that can contain
+			// the same text.
+			await this.getRowNameLinkForFile(directory).click()
 
 			// Assert the deepest segment of the `dir` query param matches the folder
 			// we just opened. Comparing the decoded value (URLSearchParams decodes

@@ -21,6 +21,7 @@ use OC\Authentication\Notifications\Notifier as AuthenticationNotifier;
 use OC\Core\Listener\AddMissingIndicesListener;
 use OC\Core\Listener\AddMissingPrimaryKeyListener;
 use OC\Core\Listener\BeforeTemplateRenderedListener;
+use OC\Core\Listener\LoadAdditionalEntriesListener;
 use OC\Core\Listener\PasswordUpdatedListener;
 use OC\Core\Listener\RestrictInteractionListener;
 use OC\Core\Notification\CoreNotifier;
@@ -48,11 +49,8 @@ use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\DB\Events\AddMissingIndicesEvent;
 use OCP\DB\Events\AddMissingPrimaryKeyEvent;
 use OCP\IAppConfig;
-use OCP\INavigationManager;
 use OCP\Interaction\RestrictInteractionEvent;
-use OCP\IURLGenerator;
-use OCP\IUserSession;
-use OCP\L10N\IFactory;
+use OCP\Navigation\Events\LoadAdditionalEntriesEvent;
 use OCP\Server;
 use OCP\Sharing\ISharingRegistry;
 use OCP\User\Events\BeforeUserDeletedEvent;
@@ -91,6 +89,7 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(AddMissingPrimaryKeyEvent::class, AddMissingPrimaryKeyListener::class);
 		$context->registerEventListener(BeforeTemplateRenderedEvent::class, BeforeTemplateRenderedListener::class);
 		$context->registerEventListener(BeforeLoginTemplateRenderedEvent::class, BeforeTemplateRenderedListener::class);
+		$context->registerEventListener(LoadAdditionalEntriesEvent::class, LoadAdditionalEntriesListener::class);
 		$context->registerEventListener(RemoteWipeStarted::class, RemoteWipeActivityListener::class);
 		$context->registerEventListener(RemoteWipeStarted::class, RemoteWipeNotificationsListener::class);
 		$context->registerEventListener(RemoteWipeStarted::class, RemoteWipeEmailListener::class);
@@ -157,34 +156,5 @@ class Application extends App implements IBootstrap {
 
 	#[\Override]
 	public function boot(IBootContext $context): void {
-		$context->injectFn($this->registerNavigationEntries(...));
-	}
-
-	/**
-	 * Registers the navigation entries for the core app:
-	 * - The logout button in the settings menu
-	 */
-	public function registerNavigationEntries(
-		INavigationManager $navigationManager,
-		IUserSession $userSession,
-		IURLGenerator $urlGenerator,
-		IFactory $factory,
-	): void {
-		if (!$userSession->isLoggedIn()) {
-			return;
-		}
-
-		$l = $factory->get('core');
-
-		// Register the logout button in the user settings
-		$logoutUrl = $urlGenerator->getLogoutUrl();
-		$navigationManager->add([
-			'type' => 'settings',
-			'id' => 'logout',
-			'order' => 99999,
-			'href' => $logoutUrl,
-			'name' => $l->t('Log out'),
-			'icon' => $urlGenerator->imagePath('core', 'actions/logout.svg'),
-		]);
 	}
 }

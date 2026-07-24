@@ -1,7 +1,6 @@
 OC.L10N.register(
     "core",
     {
-    "Log out" : "登出",
     "Please select a file." : "請選取一個檔案。",
     "File is too big" : "檔案太大",
     "The selected file is not an image." : "選取的檔案不是圖片檔。",
@@ -76,6 +75,7 @@ OC.L10N.register(
     "Repair info:" : "修復資訊：",
     "Repair warning:" : "修復警告：",
     "Repair error:" : "修復錯誤：",
+    "Log out" : "登出",
     "Sharing is not allowed." : "不允許分享。",
     "Sharing is not allowed for you." : "您無法分享此內容。",
     "Sharing is only allowed with group members." : "僅允許與群組成員分享。",

@@ -1,5 +1,4 @@
 { "translations": {
-    "Log out" : "Sair",
     "Please select a file." : "Por favor, selecione um arquivo.",
     "File is too big" : "O arquivo é muito grande",
     "The selected file is not an image." : "O arquivo selecionado não é uma imagem",
@@ -74,6 +73,7 @@
     "Repair info:" : "Informação do reparo:",
     "Repair warning:" : "Aviso do reparo:",
     "Repair error:" : "Erro do reparo:",
+    "Log out" : "Sair",
     "Sharing is not allowed." : "O compartilhamento não é permitido.",
     "Sharing is not allowed for you." : "O compartilhamento não é permitido para você.",
     "Sharing is only allowed with group members." : "É só permitido compartilhar com membros de grupo.",
