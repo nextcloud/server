@@ -981,7 +981,7 @@ class ManagerTest extends TestCase {
 	<cal:request-status>2.0;Success</cal:request-status>
 	<cal:calendar-data>BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//Sabre//Sabre VObject 4.5.6//EN
+PRODID:-//Sabre//Sabre VObject 4.6.1//EN
 CALSCALE:GREGORIAN
 METHOD:REPLY
 BEGIN:VFREEBUSY
@@ -1004,7 +1004,7 @@ END:VCALENDAR
 	<cal:request-status>2.0;Success</cal:request-status>
 	<cal:calendar-data>BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//Sabre//Sabre VObject 4.5.6//EN
+PRODID:-//Sabre//Sabre VObject 4.6.1//EN
 CALSCALE:GREGORIAN
 METHOD:REPLY
 BEGIN:VFREEBUSY
@@ -1025,7 +1025,7 @@ END:VCALENDAR
 	<cal:request-status>2.0;Success</cal:request-status>
 	<cal:calendar-data>BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//Sabre//Sabre VObject 4.5.6//EN
+PRODID:-//Sabre//Sabre VObject 4.6.1//EN
 CALSCALE:GREGORIAN
 METHOD:REPLY
 BEGIN:VFREEBUSY
