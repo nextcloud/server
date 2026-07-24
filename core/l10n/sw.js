@@ -1,7 +1,6 @@
 OC.L10N.register(
     "core",
     {
-    "Log out" : "Ondoka",
     "Please select a file." : "Tafadhali teua faili",
     "File is too big" : "Faili ni kubwa mno",
     "The selected file is not an image." : "Faili lililoteuliwa si taswira",
@@ -74,6 +73,7 @@ OC.L10N.register(
     "Repair info:" : "Rekebisha taarifa",
     "Repair warning:" : "Rekebisha onyo:",
     "Repair error:" : "Rekebisha hitilafu:",
+    "Log out" : "Ondoka",
     "Nextcloud Server" : "Seva ya Nextcloud",
     "Some of your link shares have been removed" : "Baadhi ya ushirikishaji wa kiungo chako umeondolewa",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Kwa sababu ya hitilafu ya usalama ilitubidi kuondoa baadhi ya viungio vyako vilivyoshirikishwa. Tafadhali tazama kiungo kwa habari zaidi.",

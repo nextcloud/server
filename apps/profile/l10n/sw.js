@@ -4,7 +4,6 @@ OC.L10N.register(
     "View profile" : "Angalia wasifu",
     "Profile" : "Wasifu",
     "This application provides the profile" : "Programu hii hutoa wasifu",
-    "Provides a customisable user profile interface." : "Hutoa kiolesura cha wasifu unaoweza kubinafsishwa.",
     "Searching …" : "Inatafuta …",
     "Not found" : "Haipatikani",
     "You have not added any info yet" : "Hujaongeza taarifa yoyote bado",
@@ -14,6 +13,7 @@ OC.L10N.register(
     "The headline and about sections will show up here" : "The headline and about sections will show up here",
     "Profile not found" : "Wasifu haupatikani",
     "Back to %s" : "Rudi kwenye %s",
+    "Provides a customisable user profile interface." : "Hutoa kiolesura cha wasifu unaoweza kubinafsishwa.",
     "The profile does not exist." : "Wasifu haupo"
 },
 "nplurals=2; plural=(n != 1);");

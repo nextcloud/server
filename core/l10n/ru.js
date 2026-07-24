@@ -1,7 +1,6 @@
 OC.L10N.register(
     "core",
     {
-    "Log out" : "Выйти из системы",
     "Please select a file." : "Выберите файл.",
     "File is too big" : "Файл слишком велик",
     "The selected file is not an image." : "Выбранный файл не является изображением.",
@@ -76,6 +75,7 @@ OC.L10N.register(
     "Repair info:" : "Информация восстановления:",
     "Repair warning:" : "Предупреждение восстановления:",
     "Repair error:" : "Ошибка восстановления:",
+    "Log out" : "Выйти из системы",
     "Nextcloud Server" : "Сервер Nextcloud",
     "Some of your link shares have been removed" : "Некоторые из ваших ссылок на общие ресурсы были удалены",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Из-за ошибки в безопасности нам пришлось удалить некоторые из ваших ссылок на опубликованные файлы или папки. Перейдите по ссылке для получения дополнительной информации.",

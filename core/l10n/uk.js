@@ -1,7 +1,6 @@
 OC.L10N.register(
     "core",
     {
-    "Log out" : "Вийти",
     "Please select a file." : "Будь ласка, виберіть файл.",
     "File is too big" : "Файл занадто великий",
     "The selected file is not an image." : "Вибраний файл не є зображенням.",
@@ -76,6 +75,7 @@ OC.L10N.register(
     "Repair info:" : "Інформація про відновлення:",
     "Repair warning:" : "Застереження щодо відновлення:",
     "Repair error:" : "Помилка під час відновлення:",
+    "Log out" : "Вийти",
     "Sharing is not allowed." : "Надання у спільний доступ не дозволено",
     "Sharing is not allowed for you." : "Надання у доступ спільний не дозволено для вас.",
     "Sharing is only allowed with group members." : "Надання у спільний доступ дозволено для учасників групи. ",

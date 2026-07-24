@@ -4,7 +4,6 @@ OC.L10N.register(
     "View profile" : "ئارخىپنى كۆرۈڭ",
     "Profile" : "ئارخىپ",
     "This application provides the profile" : "بۇ ئەپ تەرجىمال بىلەن تەمىنلەيدۇ",
-    "Provides a customisable user profile interface." : "خاسلاشتۇرغىلى بولىدىغان ئىشلەتكۈچى تەرجىمال كۆرۈنۈشى بىلەن تەمىنلەيدۇ.",
     "Searching …" : "ئىزدەۋاتىدۇ ...",
     "Not found" : "تېپىلمىدى",
     "Insert" : "قىستۇر",
@@ -15,6 +14,7 @@ OC.L10N.register(
     "The headline and about sections will show up here" : "ماۋزۇ ۋە بۆلەكلەر بۇ يەردە كۆرسىتىلىدۇ",
     "Profile not found" : "ئارخىپ تېپىلمىدى",
     "Back to %s" : "%s گە قايتىش",
+    "Provides a customisable user profile interface." : "خاسلاشتۇرغىلى بولىدىغان ئىشلەتكۈچى تەرجىمال كۆرۈنۈشى بىلەن تەمىنلەيدۇ.",
     "The profile does not exist." : "ئارخىپ مەۋجۇت ئەمەس."
 },
 "nplurals=2; plural=(n != 1);");

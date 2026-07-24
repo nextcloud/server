@@ -5,7 +5,6 @@ OC.L10N.register(
     "Profile picker" : "Επιλογέας προφίλ",
     "Profile" : "Προφίλ",
     "This application provides the profile" : "Αυτή η εφαρμογή παρέχει το προφίλ",
-    "Provides a customisable user profile interface." : "Παρέχει μια προσαρμόσιμη διεπαφή προφίλ χρήστη.",
     "Searching …" : "Γίνεται αναζήτηση ...",
     "Not found" : "Δεν βρέθηκε",
     "Search for a user profile" : "Αναζήτηση για προφίλ χρήστη",
@@ -19,6 +18,7 @@ OC.L10N.register(
     "The headline and about sections will show up here" : "Ο \"τίτλος\" και οι ενότητες \"σχετικά με\" θα εμφανιστούν εδώ",
     "Profile not found" : "Το προφίλ δε βρέθηκε",
     "Back to %s" : "Πίσω στο %s",
+    "Provides a customisable user profile interface." : "Παρέχει μια προσαρμόσιμη διεπαφή προφίλ χρήστη.",
     "The profile does not exist." : "Το προφίλ δεν υπάρχει."
 },
 "nplurals=2; plural=(n != 1);");

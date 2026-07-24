@@ -1,7 +1,6 @@
 OC.L10N.register(
     "core",
     {
-    "Log out" : "Logáil Amach",
     "Please select a file." : "A roghnaigh comhad le do thoil.",
     "File is too big" : "Tá an comhad ró-mhór",
     "The selected file is not an image." : "Ní íomhá é an comhad roghnaithe.",
@@ -76,6 +75,7 @@ OC.L10N.register(
     "Repair info:" : "Eolas deisiúcháin:",
     "Repair warning:" : "Rabhadh deisiúcháin:",
     "Repair error:" : "Earráid deisiúcháin:",
+    "Log out" : "Logáil Amach",
     "Sharing is not allowed." : "Ní cheadaítear comhroinnt.",
     "Sharing is not allowed for you." : "Ní cheadaítear duit rud a roinnt.",
     "Sharing is only allowed with group members." : "Ní cheadaítear comhroinnt ach le baill an ghrúpa.",

@@ -1,7 +1,6 @@
 OC.L10N.register(
     "core",
     {
-    "Log out" : "Гарах",
     "Please select a file." : "Файл сонгоно уу.",
     "File is too big" : "Файлын хэмжээ хэт их байна",
     "The selected file is not an image." : "Сонгосон файл зураг биш байна.",
@@ -76,6 +75,7 @@ OC.L10N.register(
     "Repair info:" : "Засварын мэдээлэл:",
     "Repair warning:" : "Засварын анхааруулга:",
     "Repair error:" : "Засварын алдаа:",
+    "Log out" : "Гарах",
     "Nextcloud Server" : "Nextcloud сервер",
     "Some of your link shares have been removed" : "Таны зарим холбоосын хуваалцалт устгагдсан",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Аюулгүй байдлын алдааны улмаас таны зарим холбоосоор хуваалцсан файлуудыг устгахад хүрсэн. Дэлгэрэнгүй мэдээллийг холбоосоос үзнэ үү.",

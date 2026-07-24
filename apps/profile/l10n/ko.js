@@ -4,7 +4,6 @@ OC.L10N.register(
     "View profile" : "프로필 보기",
     "Profile" : "프로필",
     "This application provides the profile" : "이 애플리케이션은 프로필을 제공합니다.",
-    "Provides a customisable user profile interface." : "사용자 정의 가능한 사용자 프로필 인터페이스 제공",
     "Searching …" : "검색중 …",
     "Not found" : "찾을 수 없음",
     "Insert" : "삽입",
@@ -15,6 +14,7 @@ OC.L10N.register(
     "The headline and about sections will show up here" : "표제와 기타 정보가 이곳에 나타납니다.",
     "Profile not found" : "프로필 찾을 수 없음",
     "Back to %s" : "%s(으)로 돌아가기",
+    "Provides a customisable user profile interface." : "사용자 정의 가능한 사용자 프로필 인터페이스 제공",
     "The profile does not exist." : "프로필이 존재하지 않습니다."
 },
 "nplurals=1; plural=0;");
