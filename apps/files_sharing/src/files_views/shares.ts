@@ -24,6 +24,24 @@ export const deletedSharesViewId = 'deletedshares'
 export const pendingSharesViewId = 'pendingshares'
 export const fileRequestViewId = 'filerequest'
 
+/**
+ * Checks if share accept approval is required by Nextcloud configuration.
+ *
+ * @return True if share accept approval is required, otherwise false.
+ */
+function isShareAcceptApprovalRequired(): boolean {
+	return loadState('files_sharing', 'sharing.enable_share_accept', false)
+}
+
+/**
+ * Checks if the current user has any pending shares.
+ *
+ * @return True if the user has pending shares, otherwise false.
+ */
+function hasPendingShares(): boolean {
+	return loadState('files_sharing', 'has_pending_shares', false)
+}
+
 export default () => {
 	const Navigation = getNavigation()
 	Navigation.register(new View({
@@ -136,6 +154,10 @@ export default () => {
 
 		getContents: () => getContents(false, false, false, true),
 	}))
+
+	if (!isShareAcceptApprovalRequired() || !hasPendingShares()) {
+		return
+	}
 
 	Navigation.register(new View({
 		id: pendingSharesViewId,

@@ -25,9 +25,26 @@ beforeEach(() => {
 	expect(navigation.views).toHaveLength(0)
 })
 
+/** Helper to mock loadState with sharing.enable_share_accept and has_pending_shares defaults */
+function mockLoadState({ acceptDefault = true, hasPendingShares = true, storageQuota = -1 } = {}) {
+	return vi.spyOn(ncInitialState, 'loadState').mockImplementation((app, key, defaultValue) => {
+		if (app === 'files_sharing' && key === 'sharing.enable_share_accept') {
+			return acceptDefault
+		}
+		if (app === 'files_sharing' && key === 'has_pending_shares') {
+			return hasPendingShares
+		}
+		if (app === 'files' && key === 'storageStats') {
+			return { quota: storageQuota }
+		}
+		return defaultValue
+	})
+}
+
 describe('Sharing views definition', () => {
-	test('Default values', () => {
+	test('Default values with pending shares and accept enabled', () => {
 		vi.spyOn(navigation, 'register')
+		mockLoadState({ acceptDefault: true, hasPendingShares: true })
 
 		registerSharingViews()
 		const shareOverviewView = navigation.views.find((view) => view.id === 'shareoverview') as View
@@ -71,9 +88,33 @@ describe('Sharing views definition', () => {
 		})
 	})
 
+	test('Pending shares view is not registered when accept is disabled', () => {
+		vi.spyOn(navigation, 'register')
+		mockLoadState({ acceptDefault: false, hasPendingShares: true })
+
+		registerSharingViews()
+		expect(navigation.register).toHaveBeenCalledTimes(6)
+		expect(navigation.views.length).toBe(6)
+
+		const pendingSharesView = navigation.views.find((view) => view.id === 'pendingshares')
+		expect(pendingSharesView).toBeUndefined()
+	})
+
+	test('Pending shares view is not registered when there are no pending shares', () => {
+		vi.spyOn(navigation, 'register')
+		mockLoadState({ acceptDefault: true, hasPendingShares: false })
+
+		registerSharingViews()
+		expect(navigation.register).toHaveBeenCalledTimes(6)
+		expect(navigation.views.length).toBe(6)
+
+		const pendingSharesView = navigation.views.find((view) => view.id === 'pendingshares')
+		expect(pendingSharesView).toBeUndefined()
+	})
+
 	test('Shared with others view is not registered if user has no storage quota', () => {
 		vi.spyOn(navigation, 'register')
-		const spy = vi.spyOn(ncInitialState, 'loadState').mockImplementationOnce(() => ({ quota: 0 }))
+		const spy = mockLoadState({ acceptDefault: true, hasPendingShares: true, storageQuota: 0 })
 
 		expect(navigation.views.length).toBe(0)
 		registerSharingViews()
@@ -95,6 +136,7 @@ describe('Sharing views definition', () => {
 
 describe('Sharing views contents', () => {
 	test('Sharing overview get contents', async () => {
+		mockLoadState({ acceptDefault: true, hasPendingShares: true })
 		vi.spyOn(axios, 'get').mockImplementation(async (): Promise<any> => {
 			return {
 				data: {
