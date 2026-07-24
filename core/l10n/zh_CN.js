@@ -1,7 +1,6 @@
 OC.L10N.register(
     "core",
     {
-    "Log out" : "注销",
     "Please select a file." : "请选择一个文件。",
     "File is too big" : "文件太大了",
     "The selected file is not an image." : "所选的文件不是图片格式。",
@@ -76,6 +75,7 @@ OC.L10N.register(
     "Repair info:" : "修复 信息：",
     "Repair warning:" : "修复 警告：",
     "Repair error:" : "修复 错误：",
+    "Log out" : "注销",
     "Nextcloud Server" : "Nextcloud 服务器",
     "Some of your link shares have been removed" : "您的一些链接共享已被移除",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "由于一个安全缺陷，我们必须移除您的部分链接共享。更多信息请查看此链接。",

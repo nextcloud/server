@@ -4,7 +4,6 @@ OC.L10N.register(
     "View profile" : "Vis profil",
     "Profile" : "Profil",
     "This application provides the profile" : "Denne applikation leverer profilen",
-    "Provides a customisable user profile interface." : "Leverer en brugerdefinerbar brugerprofil grænseflade.",
     "Searching …" : "Søger …",
     "Not found" : "Ikke fundet",
     "Insert" : "Indsæt",
@@ -15,6 +14,7 @@ OC.L10N.register(
     "The headline and about sections will show up here" : "Overskriften og om sektionerne vises her",
     "Profile not found" : "Profil ikke fundet",
     "Back to %s" : "Tilbage til %s",
+    "Provides a customisable user profile interface." : "Leverer en brugerdefinerbar brugerprofil grænseflade.",
     "The profile does not exist." : "Profilen eksisterer ikke."
 },
 "nplurals=2; plural=(n != 1);");

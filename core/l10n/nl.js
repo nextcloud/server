@@ -1,7 +1,6 @@
 OC.L10N.register(
     "core",
     {
-    "Log out" : "Afmelden",
     "Please select a file." : "Selecteer een bestand.",
     "File is too big" : "Bestand te groot",
     "The selected file is not an image." : "Het geselecteerde bestand is geen afbeelding.",
@@ -76,6 +75,7 @@ OC.L10N.register(
     "Repair info:" : "Herstel informatie:",
     "Repair warning:" : "Herstel waarschuwing:",
     "Repair error:" : "Herstel fout:",
+    "Log out" : "Afmelden",
     "Sharing is not allowed." : "Delen is niet toegestaan.",
     "Sharing is not allowed for you." : "Delen niet toegestaan voor u.",
     "Sharing is only allowed with group members." : "Delen alleen toegestaan met groepsleden.",

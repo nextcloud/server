@@ -5,7 +5,6 @@ OC.L10N.register(
     "Profile picker" : "Roghnóir próifíle",
     "Profile" : "Próifíl",
     "This application provides the profile" : "Soláthraíonn an feidhmchlár seo an phróifíl",
-    "Provides a customisable user profile interface." : "Soláthraíonn sé comhéadan próifíl úsáideora customizable.",
     "Searching …" : "Ag cuardach …",
     "Not found" : "Ní bhfuarthas",
     "Search for a user profile" : "Cuardaigh próifíl úsáideora",
@@ -20,6 +19,7 @@ OC.L10N.register(
     "Profile not found" : "Próifíl gan aimsiú",
     "The profile does not exist or is unavailable." : "Níl an phróifíl ann nó níl sí ar fáil.",
     "Back to %s" : "Ar ais go dtí %s",
+    "Provides a customisable user profile interface." : "Soláthraíonn sé comhéadan próifíl úsáideora customizable.",
     "The profile does not exist." : "Níl an phróifíl ann."
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

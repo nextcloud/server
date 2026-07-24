@@ -1,7 +1,6 @@
 OC.L10N.register(
     "core",
     {
-    "Log out" : "Saioa itxi",
     "Please select a file." : "Aukeratu fitxategi bat.",
     "File is too big" : "Fitxategia handiegia da",
     "The selected file is not an image." : "Aukeratutako fitxategia ez da irudi bat.",
@@ -76,6 +75,7 @@ OC.L10N.register(
     "Repair info:" : "Konponketa informazioa:",
     "Repair warning:" : "Konponketa abisua:",
     "Repair error:" : "Konponketa errorea:",
+    "Log out" : "Saioa itxi",
     "Nextcloud Server" : "Nextcloud zerbitzaria",
     "Some of your link shares have been removed" : "Zure esteka partekatzeetako batzuk kendu dira",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Segurtasun errore baten ondorioz zure esteka partekatze batzuk kendu ditugu. Ikusi esteka informazio gehiagorako.",

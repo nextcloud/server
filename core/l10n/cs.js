@@ -1,7 +1,6 @@
 OC.L10N.register(
     "core",
     {
-    "Log out" : "Odhlásit se",
     "Please select a file." : "Vyberte soubor.",
     "File is too big" : "Soubor je příliš velký",
     "The selected file is not an image." : "Vybraný soubor není obrázek.",
@@ -76,6 +75,7 @@ OC.L10N.register(
     "Repair info:" : "Informace o opravě:",
     "Repair warning:" : "Varování ohledně opravy:",
     "Repair error:" : "Chyba opravy:",
+    "Log out" : "Odhlásit se",
     "Nextcloud Server" : "Server Nextcloud",
     "Some of your link shares have been removed" : "Některá vaše sdílení odkazem byla odstraněna",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Kvůli chybě v zabezpečení bylo třeba odstranit některé z sdílení odkazem. Další informace viz odkaz.",

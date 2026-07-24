@@ -4,7 +4,6 @@ OC.L10N.register(
     "View profile" : "Lihat profil",
     "Profile" : "Profil",
     "This application provides the profile" : "Aplikasi ini menyediakan profil",
-    "Provides a customisable user profile interface." : "Menyediakan antarmuka profil pengguna yang dapat disesuaikan.",
     "Searching …" : "Mencari …",
     "Not found" : "Tidak ditemukan",
     "Insert" : "Sisipkan",
@@ -15,6 +14,7 @@ OC.L10N.register(
     "The headline and about sections will show up here" : "Bagian judul dan tentang akan muncul di sini",
     "Profile not found" : "Profil tidak ditemukan",
     "Back to %s" : "Kembali ke %s",
+    "Provides a customisable user profile interface." : "Menyediakan antarmuka profil pengguna yang dapat disesuaikan.",
     "The profile does not exist." : "Profil tidak ada."
 },
 "nplurals=1; plural=0;");

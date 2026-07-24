@@ -4,7 +4,6 @@ OC.L10N.register(
     "View profile" : "Погледај профил",
     "Profile" : "Профил",
     "This application provides the profile" : "Ова апликација обезбеђује профил",
-    "Provides a customisable user profile interface." : "Обезбеђује интерфејс корисничког профила који може да се прилагоди.",
     "Searching …" : "Тражи се …",
     "Not found" : "Није нађено",
     "Insert" : "Уметни",
@@ -15,6 +14,7 @@ OC.L10N.register(
     "The headline and about sections will show up here" : "Овде ће се појавити насловна линија и одељак „о”",
     "Profile not found" : "Није пронађен профил",
     "Back to %s" : "Назад на %s",
+    "Provides a customisable user profile interface." : "Обезбеђује интерфејс корисничког профила који може да се прилагоди.",
     "The profile does not exist." : "Профил не постоји."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

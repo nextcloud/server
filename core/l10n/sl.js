@@ -1,7 +1,6 @@
 OC.L10N.register(
     "core",
     {
-    "Log out" : "Odjava",
     "Please select a file." : "Izberite datoteko.",
     "File is too big" : "Datoteka je prevelika",
     "The selected file is not an image." : "Izbrana datoteka ni slika.",
@@ -76,6 +75,7 @@ OC.L10N.register(
     "Repair info:" : "Podrobnosti nadgradnje:",
     "Repair warning:" : "Opozorilo nadgradnje:",
     "Repair error:" : "Napaka nadgradnje:",
+    "Log out" : "Odjava",
     "Nextcloud Server" : "Strežnik Nextcloud",
     "Some of your link shares have been removed" : "Nekatere povezave za souporabo so bile odstranjene.",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Zaradi varnostnih razlogov so bile nekatere povezave odstranjene. Več podrobnosti je na voljo v uradno izdanem opozorilu.",

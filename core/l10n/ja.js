@@ -1,7 +1,6 @@
 OC.L10N.register(
     "core",
     {
-    "Log out" : "ログアウト",
     "Please select a file." : "ファイルを選択してください。",
     "File is too big" : "ファイルが大きすぎます",
     "The selected file is not an image." : "選択されたファイルは画像ではありません",
@@ -76,6 +75,7 @@ OC.L10N.register(
     "Repair info:" : "修復情報:",
     "Repair warning:" : "修復警告:",
     "Repair error:" : "修復エラー:",
+    "Log out" : "ログアウト",
     "Sharing is not allowed." : "共有は許可されていません。",
     "Sharing is not allowed for you." : "あなたには共有が許可されていません。",
     "Sharing is only allowed with group members." : "共有はグループメンバー間でのみ可能です。",

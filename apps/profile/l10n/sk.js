@@ -5,7 +5,6 @@ OC.L10N.register(
     "Profile picker" : "Výber profilu",
     "Profile" : "Profil",
     "This application provides the profile" : "Táto aplikácia poskytuje profil",
-    "Provides a customisable user profile interface." : "Poskytuje prispôsobiteľné rozhranie používateľského profilu.",
     "Searching …" : "Vyhľadáva sa …",
     "Not found" : "Nenájdené",
     "Search for a user profile" : "Hľadať profil používateľa",
@@ -19,6 +18,7 @@ OC.L10N.register(
     "The headline and about sections will show up here" : "Tu sa zobrazí titul a sekcia Informácie",
     "Profile not found" : "Profil nenájdený",
     "Back to %s" : "Späť na %s",
+    "Provides a customisable user profile interface." : "Poskytuje prispôsobiteľné rozhranie používateľského profilu.",
     "The profile does not exist." : "Profil neexistuje."
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

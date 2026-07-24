@@ -1,7 +1,6 @@
 OC.L10N.register(
     "core",
     {
-    "Log out" : "Kijelentkezés",
     "Please select a file." : "Válasszon egy fájlt.",
     "File is too big" : "A fájl túl nagy",
     "The selected file is not an image." : "A kiválasztott fájl nem kép.",
@@ -76,6 +75,7 @@ OC.L10N.register(
     "Repair info:" : "Javítási információ:",
     "Repair warning:" : "Javítási figyelmeztetés:",
     "Repair error:" : "Javítási hiba:",
+    "Log out" : "Kijelentkezés",
     "Nextcloud Server" : "Nextcloud kiszolgáló",
     "Some of your link shares have been removed" : "Néhány megosztási hivatkozása eltávolításra került",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Egy biztonsági hiba miatt el kellett távolítsunk néhány megosztási hivatkozását. További információkért lásd a lenti hivatkozást.",

@@ -1,7 +1,6 @@
 OC.L10N.register(
     "core",
     {
-    "Log out" : "Sair",
     "Please select a file." : "Por favor, selecione um ficheiro.",
     "File is too big" : "O ficheiro é demasiado grande",
     "The selected file is not an image." : "O ficheiro selecionado não é uma imagem.",
@@ -76,6 +75,7 @@ OC.L10N.register(
     "Repair info:" : "Informação da reparação:",
     "Repair warning:" : "Aviso de reparação:",
     "Repair error:" : "Erro de reparação:",
+    "Log out" : "Sair",
     "Nextcloud Server" : "Nextcloud Server",
     "Some of your link shares have been removed" : "Algumas das suas partilhas de hiperligação foram removidas",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Devido a bugs de segurança tivemos que remover algumas das suas ligações às partilhas.\nPor favor veja o link para mais informação.",

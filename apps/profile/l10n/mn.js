@@ -5,7 +5,6 @@ OC.L10N.register(
     "Profile picker" : "Профайл сонгогч",
     "Profile" : "Профайл",
     "This application provides the profile" : "Энэ програм нь профайлыг хангадаг",
-    "Provides a customisable user profile interface." : "Өөрчлөх боломжтой хэрэглэгчийн профайл интерфэйс хангадаг.",
     "Searching …" : "Хайж байна …",
     "Not found" : "Олдсонгүй",
     "Search for a user profile" : "Хэрэглэгчийн профайл хайх",
@@ -19,6 +18,7 @@ OC.L10N.register(
     "The headline and about sections will show up here" : "Гарчиг болон тухай хэсэг энд харагдана",
     "Profile not found" : "Профайл олдсонгүй",
     "Back to %s" : "%s руу буцах",
+    "Provides a customisable user profile interface." : "Өөрчлөх боломжтой хэрэглэгчийн профайл интерфэйс хангадаг.",
     "The profile does not exist." : "Профайл байхгүй."
 },
 "nplurals=2; plural=(n != 1);");

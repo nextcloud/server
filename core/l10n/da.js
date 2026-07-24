@@ -1,7 +1,6 @@
 OC.L10N.register(
     "core",
     {
-    "Log out" : "Log ud",
     "Please select a file." : "Vælg venligst en fil.",
     "File is too big" : "Filen er for stor",
     "The selected file is not an image." : "Den valgte fil er ikke et billede.",
@@ -76,6 +75,7 @@ OC.L10N.register(
     "Repair info:" : "Reparationsinfo:",
     "Repair warning:" : "Reparationsadvarsel:",
     "Repair error:" : "Reparationsfejl:",
+    "Log out" : "Log ud",
     "Nextcloud Server" : "Nextcloud server",
     "Some of your link shares have been removed" : "Nogle af dine delte links er blevet fjernet",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Pga et sikkerhedshul har vi været nødt til at fjerne nogle af dine delte links. Se linket for mere information.",

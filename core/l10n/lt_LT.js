@@ -1,7 +1,6 @@
 OC.L10N.register(
     "core",
     {
-    "Log out" : "Atsijungti",
     "Please select a file." : "Pasirinkite failą.",
     "File is too big" : "Failas yra per didelis",
     "The selected file is not an image." : "Pasirinktas failas nėra paveikslas.",
@@ -76,6 +75,7 @@ OC.L10N.register(
     "Repair info:" : "Pataisymo informacija:",
     "Repair warning:" : "Pataisymo įspėjimas:",
     "Repair error:" : "Pataisymo klaida:",
+    "Log out" : "Atsijungti",
     "Sharing is not allowed." : "Bendrinimas neleidžiamas.",
     "Sharing is not allowed for you." : "Bendrinimas jums neleidžiamas.",
     "Sharing is only allowed with group members." : "Bendrinti leidžiama tik su grupės nariais",

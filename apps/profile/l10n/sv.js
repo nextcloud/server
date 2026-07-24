@@ -5,7 +5,6 @@ OC.L10N.register(
     "Profile picker" : "Profilväljare",
     "Profile" : "Profil",
     "This application provides the profile" : "Den här appen tillhandahåller profilen",
-    "Provides a customisable user profile interface." : "Tillhandahåller ett anpassningsbart gränssnitt för användarprofiler.",
     "Searching …" : "Söker …",
     "Not found" : "Hittades inte",
     "Search for a user profile" : "Sök efter en användarprofil",
@@ -20,6 +19,7 @@ OC.L10N.register(
     "Profile not found" : "Profilen hittades inte",
     "The profile does not exist or is unavailable." : "Profilen finns inte eller är inte tillgänglig.",
     "Back to %s" : "Tillbaka till %s",
+    "Provides a customisable user profile interface." : "Tillhandahåller ett anpassningsbart gränssnitt för användarprofiler.",
     "The profile does not exist." : "Profilen finns inte."
 },
 "nplurals=2; plural=(n != 1);");

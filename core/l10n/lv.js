@@ -1,7 +1,6 @@
 OC.L10N.register(
     "core",
     {
-    "Log out" : "Izrakstīties",
     "Please select a file." : "Lūgums atlasīt datni.",
     "File is too big" : "Datne ir pārāk liela.",
     "The selected file is not an image." : "Atlasītā datne nav attēls.",
@@ -69,6 +68,7 @@ OC.L10N.register(
     "Repair info:" : "Labošanas informācija: ",
     "Repair warning:" : "Labošanas brīdinājums:",
     "Repair error:" : "Labošanas kļūda:",
+    "Log out" : "Izrakstīties",
     "Nextcloud Server" : "Nextcloud serveris",
     "Some of your link shares have been removed" : "Dažas no kopīgotajām saitēm tika noņemtas",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Drošības kļūdas dēļ mums nācās noņemt dažas no kopīgotajām saitēm. Lūgums apmeklēt saiti, lai iegūtu vairāk informācijas.",

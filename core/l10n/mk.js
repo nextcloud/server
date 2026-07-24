@@ -1,7 +1,6 @@
 OC.L10N.register(
     "core",
     {
-    "Log out" : "Одјава",
     "Please select a file." : "Изберете датотека.",
     "File is too big" : "Датотеката е пре голема",
     "The selected file is not an image." : "Избраната датотека не е слика.",
@@ -76,6 +75,7 @@ OC.L10N.register(
     "Repair info:" : "Инфо при поправка:",
     "Repair warning:" : "Предупредувања при поправка:",
     "Repair error:" : "Грешка при поправка:",
+    "Log out" : "Одјава",
     "Sharing is not allowed." : "Споделување не е дозволено.",
     "Nextcloud Server" : "Nextcloud Сервер",
     "Some of your link shares have been removed" : "Некој од вашите линкови што ги споделивте се избришани",

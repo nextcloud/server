@@ -5,7 +5,6 @@ OC.L10N.register(
     "Profile picker" : "Seleccionador de perfiles",
     "Profile" : "Perfil",
     "This application provides the profile" : "Esta aplicación proporciona el perfil",
-    "Provides a customisable user profile interface." : "Proporciona una interfaz de perfil de usuario personalizable.",
     "Searching …" : "Buscando …",
     "Not found" : "No encontrado",
     "Search for a user profile" : "Buscar un perfil de usuario",
@@ -19,6 +18,7 @@ OC.L10N.register(
     "The headline and about sections will show up here" : "El título y la sección acerca de aparecerán aquí",
     "Profile not found" : "Perfil no encontrado",
     "Back to %s" : "Volver a %s",
+    "Provides a customisable user profile interface." : "Proporciona una interfaz de perfil de usuario personalizable.",
     "The profile does not exist." : "El perfil no existe."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
