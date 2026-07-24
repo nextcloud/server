@@ -28,13 +28,14 @@
 				</span>
 			</component>
 			<SharingEntryQuickShareSelect
+				v-if="!config.sharingDialogEnabled"
 				:share="share"
 				:file-info="fileInfo"
 				@open-sharing-details="openShareDetailsForCustomSettings(share)" />
 		</div>
 		<ShareExpiryTime v-if="share && share.expireDate" :share="share" />
 		<NcButton
-			v-if="share.canEdit"
+			v-if="share.canEdit && !config.sharingDialogEnabled"
 			class="sharing-entry__action"
 			data-cy-files-sharing-share-actions
 			:aria-label="t('files_sharing', 'Open Sharing Details')"
@@ -44,6 +45,29 @@
 				<DotsHorizontalIcon :size="20" />
 			</template>
 		</NcButton>
+		<!-- Unified dialog: edit + delete as a simple dual button -->
+		<template v-else-if="config.sharingDialogEnabled">
+			<NcButton
+				v-if="share.canEdit"
+				class="sharing-entry__action"
+				:aria-label="t('files_sharing', 'Edit share')"
+				variant="tertiary"
+				@click="openEditDialog">
+				<template #icon>
+					<PencilIcon :size="20" />
+				</template>
+			</NcButton>
+			<NcButton
+				v-if="share.canDelete"
+				class="sharing-entry__action"
+				:aria-label="t('files_sharing', 'Delete share')"
+				variant="tertiary"
+				@click="onDelete">
+				<template #icon>
+					<DeleteIcon :size="20" />
+				</template>
+			</NcButton>
+		</template>
 	</li>
 </template>
 
@@ -52,11 +76,15 @@ import { ShareType } from '@nextcloud/sharing'
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
+import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 import DotsHorizontalIcon from 'vue-material-design-icons/DotsHorizontal.vue'
+import PencilIcon from 'vue-material-design-icons/Pencil.vue'
 import ShareExpiryTime from './ShareExpiryTime.vue'
 import SharingEntryQuickShareSelect from './SharingEntryQuickShareSelect.vue'
 import ShareDetails from '../mixins/ShareDetails.js'
 import SharesMixin from '../mixins/SharesMixin.js'
+import { openShareEditDialog } from '../services/SharingDialog.ts'
+import logger from '../services/logger.ts'
 
 export default {
 	name: 'SharingEntry',
@@ -64,7 +92,9 @@ export default {
 	components: {
 		NcButton,
 		NcAvatar,
+		DeleteIcon,
 		DotsHorizontalIcon,
+		PencilIcon,
 		NcSelect,
 		ShareExpiryTime,
 		SharingEntryQuickShareSelect,
@@ -130,6 +160,17 @@ export default {
 	},
 
 	methods: {
+		/**
+		 * Open the unified sharing dialog to edit this share.
+		 */
+		async openEditDialog() {
+			try {
+				await openShareEditDialog(this.share.id, this.fileInfo.node)
+			} catch (error) {
+				logger.error('Failed to open the sharing dialog', { error })
+			}
+		},
+
 		/**
 		 * Save potential changed data on menu close
 		 */
