@@ -26,6 +26,7 @@ class ConfigLexicon implements ILexicon {
 	public const EXCLUDE_RESHARE_FROM_EDIT = 'shareapi_exclude_reshare_from_edit';
 	public const UPDATE_CUTOFF_TIME = 'update_cutoff_time';
 	public const USER_NEEDS_SHARE_REFRESH = 'user_needs_share_refresh';
+	public const SHARING_DIALOG_ENABLED = 'sharing_dialog_enabled';
 
 	#[\Override]
 	public function getStrictness(): Strictness {
@@ -40,6 +41,10 @@ class ConfigLexicon implements ILexicon {
 			new Entry(self::EXCLUDE_RESHARE_FROM_EDIT, ValueType::BOOL, false, 'Exclude reshare permission from "Allow editing" bundled permissions'),
 
 			new Entry(self::UPDATE_CUTOFF_TIME, ValueType::FLOAT, 3.0, 'Maximum time in second during which we update the share data immediately before switching to only marking the user'),
+
+			// Hidden killswitch: enables the new unified sharing dialog UI in the sidebar.
+			// Set to false to temporarily restore the legacy sharing inputs and menus.
+			new Entry(self::SHARING_DIALOG_ENABLED, ValueType::BOOL, true, 'Use the new unified sharing dialog in the files sidebar instead of the legacy inline UI', true),
 		];
 	}
 
