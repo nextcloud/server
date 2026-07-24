@@ -327,9 +327,7 @@ interface IRegistrationContext {
 	/**
 	 * Register a resource backend for the DAV server
 	 *
-	 * @param string $actionClass
-	 * @psalm-param class-string<\OCP\Calendar\Resource\IBackend> $actionClass
-	 * @return void
+	 * @param class-string<\OCP\Calendar\Resource\IBackend> $class
 	 * @since 24.0.0
 	 */
 	public function registerCalendarResourceBackend(string $class): void;
@@ -337,17 +335,13 @@ interface IRegistrationContext {
 	/**
 	 * Register a room backend for the DAV server
 	 *
-	 * @param string $actionClass
-	 * @psalm-param class-string<\OCP\Calendar\Room\IBackend> $actionClass
-	 * @return void
+	 * @param class-string<\OCP\Calendar\Room\IBackend> $class
 	 * @since 24.0.0
 	 */
 	public function registerCalendarRoomBackend(string $class): void;
 
 	/**
-	 * @param string $class
-	 * @psalm-param class-string<\OCP\Calendar\Room\IBackend> $actionClass
-	 * @return void
+	 * @param class-string<\OCP\Teams\ITeamResourceProvider> $class
 	 * @since 29.0.0
 	 */
 	public function registerTeamResourceProvider(string $class): void;
