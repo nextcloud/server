@@ -26,10 +26,10 @@ SPDX-FileCopyrightText: Anthony Fu <anthonyfu117@hotmail.com>
 
 This file is generated from multiple sources. Included packages:
 - @floating-ui/core
-	- version: 1.7.5
+	- version: 1.8.0
 	- license: MIT
 - @floating-ui/utils
-	- version: 0.2.11
+	- version: 0.2.12
 	- license: MIT
 - @nextcloud/auth
 	- version: 2.6.0

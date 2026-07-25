@@ -33,13 +33,13 @@ SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
 
 This file is generated from multiple sources. Included packages:
 - @floating-ui/core
-	- version: 1.7.5
+	- version: 1.8.0
 	- license: MIT
 - @floating-ui/dom
-	- version: 1.7.6
+	- version: 1.8.0
 	- license: MIT
 - @floating-ui/utils
-	- version: 0.2.11
+	- version: 0.2.12
 	- license: MIT
 - @nextcloud/auth
 	- version: 2.6.0
