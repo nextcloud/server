@@ -3,5 +3,5 @@ SPDX-FileCopyrightText: David Myers <hello@davidmyers.dev>
 
 This file is generated from multiple sources. Included packages:
 - vite-plugin-node-polyfills
-	- version: 0.24.0
+	- version: 0.28.0
 	- license: MIT
