@@ -50,4 +50,7 @@ trait S3ConfigTrait {
 	protected ?string $sseKmsEncryptionContext = null;
 
 	protected bool $sseKmsBucketKey = false;
+
+	/** @var string[] Non-fatal `sse*` configuration issues found by parseEncryptionParams(), logged by logEncryptionWarnings() */
+	protected array $encryptionWarnings = [];
 }
