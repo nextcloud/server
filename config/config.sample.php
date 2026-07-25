@@ -2120,14 +2120,16 @@ $CONFIG = [
 			// Valid values are:
 			//  - '' (default): no server-side encryption requested by Nextcloud
 			//  - 'sse-s3': S3-managed AES256 key
-			//  - 'sse-c': customer-provided key, see 'sse_c_key' below
+			//  - 'sse-c': customer-provided key, see 'sse_c_key' below (deprecated, see below)
 			//  - 'sse-kms': single layer of AWS KMS-managed encryption
 			//  - 'sse-kms-dsse': dual layer of AWS KMS-managed encryption (DSSE-KMS), higher cost
 			//    and latency than 'sse-kms' but required by some compliance standards
 			// https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingKMSEncryption.html
 			// https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingDSSEncryption.html
 			'sse' => '',
-			// optional: customer-provided key for 'sse' => 'sse-c', base64 encoded
+			// optional: customer-provided key for 'sse' => 'sse-c', base64 encoded.
+			// Deprecated since Nextcloud 34: Amazon S3 disabled SSE-C by default for new
+			// buckets in April 2026. Use 'sse' => 'sse-kms' or 'sse-kms-dsse' instead.
 			'sse_c_key' => '',
 			// optional: ARN of the AWS KMS key to use for 'sse-kms' / 'sse-kms-dsse'.
 			// If omitted, the bucket's default KMS key (or the AWS-managed 'aws/s3' key) is used.
