@@ -5,6 +5,7 @@ OC.L10N.register(
     "Profile picker" : "Profilauswahl",
     "Profile" : "Profil",
     "This application provides the profile" : "Diese Anwendung liefert das Profil",
+    "Provides a customizable user profile interface." : "Bietet eine anpassbare Benutzerprofilschnittstelle.",
     "Searching …" : "Suche …",
     "Not found" : "Nicht gefunden",
     "Search for a user profile" : "Suche nach einem Benutzerprofil",
