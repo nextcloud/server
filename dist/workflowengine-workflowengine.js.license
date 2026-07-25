@@ -86,7 +86,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.5.39
 	- license: MIT
 - @nextcloud/dialogs
-	- version: 7.4.0
+	- version: 7.4.1
 	- license: AGPL-3.0-or-later
 - semver
 	- version: 7.8.5
