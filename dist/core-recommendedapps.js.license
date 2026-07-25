@@ -192,6 +192,9 @@ This file is generated from multiple sources. Included packages:
 - hookable
 	- version: 5.5.3
 	- license: MIT
+- nostics
+	- version: 1.2.0
+	- license: MIT
 - semver
 	- version: 7.8.5
 	- license: ISC
@@ -208,7 +211,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.1.0
 	- license: MIT
 - vue-router
-	- version: 5.1.0
+	- version: 5.2.0
 	- license: MIT
 - vue
 	- version: 3.5.40
