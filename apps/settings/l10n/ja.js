@@ -1045,6 +1045,8 @@ OC.L10N.register(
     "Limited ODF compatibility" : "限定的なODF互換性",
     "Best Microsoft compatibility" : "最高のMicrosoft互換性",
     "{progress}% Deploying …" : "{progress}% デプロイ中 …",
-    "{progress}% Initializing …" : "{progress}% 初期化中 …"
+    "{progress}% Initializing …" : "{progress}% 初期化中 …",
+    "Redis cache" : "Redisキャッシュ",
+    "No legacy Redis cache detected" : "古いRedisキャッシュは検出されませんでした"
 },
 "nplurals=1; plural=0;");
