@@ -2116,6 +2116,31 @@ $CONFIG = [
 			// using Amazon S3 (or any other implementation that supports it) we recommend enabling it by using "when_supported".
 			'request_checksum_calculation' => 'when_required',
 			'response_checksum_validation' => 'when_required',
+			// optional: Server-side encryption of objects at rest.
+			// Valid values are:
+			//  - '' (default): no server-side encryption requested by Nextcloud
+			//  - 'sse-s3': S3-managed AES256 key
+			//  - 'sse-c': customer-provided key, see 'sse_c_key' below
+			//  - 'sse-kms': single layer of AWS KMS-managed encryption
+			//  - 'sse-kms-dsse': dual layer of AWS KMS-managed encryption (DSSE-KMS), higher cost
+			//    and latency than 'sse-kms' but required by some compliance standards
+			// https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingKMSEncryption.html
+			// https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingDSSEncryption.html
+			'sse' => '',
+			// optional: customer-provided key for 'sse' => 'sse-c', base64 encoded
+			'sse_c_key' => '',
+			// optional: ARN of the AWS KMS key to use for 'sse-kms' / 'sse-kms-dsse'.
+			// If omitted, the bucket's default KMS key (or the AWS-managed 'aws/s3' key) is used.
+			// The key must be a symmetric key in the same AWS region as the bucket.
+			'sse_kms_key_id' => '',
+			// optional: 'sse-kms' / 'sse-kms-dsse' only. Additional AWS KMS encryption context,
+			// e.g. to scope key usage to a tenant via a matching kms:EncryptionContext condition
+			// on the key policy. This is stored alongside the object and visible in AWS CloudTrail,
+			// so it must not contain secrets.
+			'sse_kms_encryption_context' => [],
+			// optional: 'sse-kms' only, not supported for 'sse-kms-dsse'. Enables S3 Bucket Keys,
+			// which can reduce AWS KMS request costs by up to 99% for SSE-KMS.
+			'sse_kms_bucket_key' => false,
 		],
 	],
 
