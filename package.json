@@ -96,7 +96,7 @@
     "jsdom-testing-mocks": "^1.16.0",
     "msw": "^2.15.0",
     "sass": "^1.101.3",
-    "stylelint": "^17.14.0",
+    "stylelint": "^17.14.1",
     "vite": "^7.3.6",
     "vitest": "^4.1.10"
   },
