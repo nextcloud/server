@@ -397,9 +397,12 @@ trait S3ConnectionTrait {
 		}
 
 		if ($mode === S3EncryptionMode::SseC) {
-			// SSE-C is a supported mode, not merely a deprecated way to reach one, so this
-			// warning is intentionally emitted regardless of how 'sse-c' was selected.
-			$this->encryptionWarnings[] = "SSE-C ('sse' => 'sse-c') requires you to manage and distribute the encryption key yourself. Consider 'sse' => 'sse-kms' or 'sse-kms-dsse' instead, which let AWS KMS manage the key.";
+			// SSE-C itself is deprecated since Nextcloud 34, not just the legacy 'sse_c_key'
+			// argument shape, so this warning is emitted regardless of how 'sse-c' was
+			// selected. Amazon S3 disabled SSE-C by default for new buckets in April 2026
+			// (https://aws.amazon.com/blogs/storage/advanced-notice-amazon-s3-to-disable-the-use-of-sse-c-encryption-by-default-for-all-new-buckets-and-select-existing-buckets-in-april-2026/),
+			// which is why this also requires managing and distributing the key yourself.
+			$this->encryptionWarnings[] = "SSE-C ('sse' => 'sse-c') is deprecated since Nextcloud 34: Amazon S3 disabled SSE-C by default for new buckets in April 2026, and it requires you to manage the encryption key yourself. Use 'sse' => 'sse-kms' or 'sse-kms-dsse' instead, which let AWS KMS manage the key.";
 			if (empty($params['sse_c_key'])) {
 				// Unlike a merely redundant option, this cannot be resolved: silently falling
 				// back to no encryption would defeat an explicit request for SSE-C.
