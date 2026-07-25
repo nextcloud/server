@@ -38,6 +38,9 @@ trait S3ConnectionTrait {
 	private ?ICache $existingBucketsCache = null;
 	private bool $usePresignedUrl = false;
 
+	/** @var array<string, true> Deduplicates encryption warnings across instances/calls, keyed by message */
+	private static array $loggedEncryptionWarnings = [];
+
 	protected function parseParams($params) {
 		if (empty($params['bucket'])) {
 			throw new \Exception('Bucket has to be configured.');
@@ -96,6 +99,8 @@ trait S3ConnectionTrait {
 		if ($this->connection !== null) {
 			return $this->connection;
 		}
+
+		$this->logEncryptionWarnings();
 
 		if ($this->existingBucketsCache === null) {
 			$this->existingBucketsCache = Server::get(ICacheFactory::class)
@@ -341,14 +346,19 @@ trait S3ConnectionTrait {
 	 * Resolve and validate the `sse*` objectstore arguments into `$this->sseMode` and friends.
 	 *
 	 * `sse_c_key` and `sse_kms_enabled` are kept as deprecated aliases for `sse` set to
-	 * `sse-c` / `sse-kms` respectively, so existing configurations keep working unchanged.
-	 * Conflicting combinations are rejected rather than silently resolved, since a config
-	 * that requests one encryption mode but silently gets another (or none) is worse than
-	 * a startup error.
+	 * `sse-c` / `sse-kms` respectively, so existing configurations keep working unchanged. An
+	 * explicit `sse` always wins over both. If neither is set and both deprecated keys are,
+	 * `sse_c_key` (SSE-C) takes precedence, matching the behaviour Nextcloud 34 shipped with.
 	 *
-	 * @throws \Exception on invalid or conflicting `sse*` configuration
+	 * Configuration that can be deterministically resolved never blocks boot: it is instead
+	 * recorded in `$this->encryptionWarnings` for `logEncryptionWarnings()` to log once a
+	 * connection is actually made. Only configuration with no reasonable resolution throws.
+	 *
+	 * @throws \Exception on `sse*` configuration with no reasonable resolution
 	 */
 	private function parseEncryptionParams(array $params): void {
+		$this->encryptionWarnings = [];
+
 		$explicitMode = null;
 		if (isset($params['sse']) && $params['sse'] !== '') {
 			$explicitMode = S3EncryptionMode::tryFrom($params['sse']);
@@ -364,39 +374,51 @@ trait S3ConnectionTrait {
 		$hasLegacySseC = !empty($params['sse_c_key']);
 		$hasLegacySseKms = !empty($params['sse_kms_enabled']);
 
-		if ($hasLegacySseC && $hasLegacySseKms) {
-			throw new \Exception("The 'sse_c_key' and 'sse_kms_enabled' objectstore arguments are mutually exclusive, use the 'sse' argument to select a single encryption mode.");
-		}
-
 		if ($explicitMode !== null) {
-			if ($hasLegacySseC && $explicitMode !== S3EncryptionMode::SseC) {
-				throw new \Exception("The 'sse_c_key' objectstore argument requires 'sse' to be 'sse-c' (or unset).");
-			}
-			if ($hasLegacySseKms && !$explicitMode->isKms()) {
-				throw new \Exception("The 'sse_kms_enabled' objectstore argument requires 'sse' to be 'sse-kms' or 'sse-kms-dsse' (or unset).");
-			}
 			$mode = $explicitMode;
-		} elseif ($hasLegacySseC) {
-			$mode = S3EncryptionMode::SseC;
-		} elseif ($hasLegacySseKms) {
-			$mode = S3EncryptionMode::SseKms;
+			if ($hasLegacySseC && $mode !== S3EncryptionMode::SseC) {
+				$this->encryptionWarnings[] = "Ignoring the 'sse_c_key' objectstore argument: 'sse' is explicitly set to '{$mode->value}'.";
+			}
+			if ($hasLegacySseKms && !$mode->isKms()) {
+				$this->encryptionWarnings[] = "Ignoring the 'sse_kms_enabled' objectstore argument: 'sse' is explicitly set to '{$mode->value}'.";
+			}
+		} elseif ($hasLegacySseC || $hasLegacySseKms) {
+			if ($hasLegacySseC && $hasLegacySseKms) {
+				// This is the Nextcloud 34 behaviour: SSE-C silently took precedence over
+				// SSE-KMS whenever both were configured. Kept for backward compatibility,
+				// but no longer silent.
+				$this->encryptionWarnings[] = "Both 'sse_c_key' and 'sse_kms_enabled' are set; 'sse_c_key' (SSE-C) takes precedence, as it did in Nextcloud 34. Set the 'sse' objectstore argument to select a single encryption mode explicitly.";
+			}
+			$mode = $hasLegacySseC ? S3EncryptionMode::SseC : S3EncryptionMode::SseKms;
+			$deprecatedKey = $hasLegacySseC ? 'sse_c_key' : 'sse_kms_enabled';
+			$this->encryptionWarnings[] = "The '{$deprecatedKey}' objectstore argument is deprecated, use 'sse' => '{$mode->value}' instead.";
 		} else {
 			$mode = S3EncryptionMode::None;
+		}
+
+		if ($mode === S3EncryptionMode::SseC) {
+			// SSE-C is a supported mode, not merely a deprecated way to reach one, so this
+			// warning is intentionally emitted regardless of how 'sse-c' was selected.
+			$this->encryptionWarnings[] = "SSE-C ('sse' => 'sse-c') requires you to manage and distribute the encryption key yourself. Consider 'sse' => 'sse-kms' or 'sse-kms-dsse' instead, which let AWS KMS manage the key.";
+			if (empty($params['sse_c_key'])) {
+				// Unlike a merely redundant option, this cannot be resolved: silently falling
+				// back to no encryption would defeat an explicit request for SSE-C.
+				throw new \Exception("The 'sse' objectstore argument is set to 'sse-c' but no 'sse_c_key' is configured.");
+			}
 		}
 
 		$this->sseMode = $mode;
 
 		$keyId = (isset($params['sse_kms_key_id']) && $params['sse_kms_key_id'] !== '') ? (string)$params['sse_kms_key_id'] : null;
 		if ($keyId !== null && !$mode->isKms()) {
-			throw new \Exception("The 'sse_kms_key_id' objectstore argument requires 'sse' to be 'sse-kms' or 'sse-kms-dsse'.");
+			$this->encryptionWarnings[] = "Ignoring the 'sse_kms_key_id' objectstore argument: it only applies when 'sse' is 'sse-kms' or 'sse-kms-dsse'.";
+			$keyId = null;
 		}
 		$this->sseKmsKeyId = $keyId;
 
 		$context = $params['sse_kms_encryption_context'] ?? null;
 		if ($context !== null) {
-			if (!$mode->isKms()) {
-				throw new \Exception("The 'sse_kms_encryption_context' objectstore argument requires 'sse' to be 'sse-kms' or 'sse-kms-dsse'.");
-			}
+			// A structurally invalid context can never be resolved, regardless of mode.
 			if (!is_array($context)) {
 				throw new \Exception("The 'sse_kms_encryption_context' objectstore argument must be an array of string key-value pairs.");
 			}
@@ -405,19 +427,47 @@ trait S3ConnectionTrait {
 					throw new \Exception("The 'sse_kms_encryption_context' objectstore argument must be an array of string key-value pairs.");
 				}
 			}
-			$this->sseKmsEncryptionContext = base64_encode(json_encode($context, JSON_THROW_ON_ERROR));
-		} else {
-			$this->sseKmsEncryptionContext = null;
+			if (!$mode->isKms()) {
+				$this->encryptionWarnings[] = "Ignoring the 'sse_kms_encryption_context' objectstore argument: it only applies when 'sse' is 'sse-kms' or 'sse-kms-dsse'.";
+				$context = null;
+			}
 		}
+		$this->sseKmsEncryptionContext = $context !== null ? base64_encode(json_encode($context, JSON_THROW_ON_ERROR)) : null;
 
 		$bucketKey = (bool)($params['sse_kms_bucket_key'] ?? false);
 		if ($bucketKey && $mode !== S3EncryptionMode::SseKms) {
+			// Merely redundant, not impossible: verified against a real bucket that S3
+			// accepts BucketKeyEnabled alongside 'aws:kms:dsse' and simply does not apply
+			// it (HeadObject afterwards shows no BucketKeyEnabled), rather than rejecting
+			// the request outright, despite AWS's own documentation describing S3 Bucket
+			// Keys as unsupported for DSSE-KMS.
 			$reason = $mode === S3EncryptionMode::SseKmsDsse
-				? "S3 Bucket Keys are not supported for DSSE-KMS ('sse' => 'sse-kms-dsse')"
-				: "'sse_kms_bucket_key' requires 'sse' to be 'sse-kms'";
-			throw new \Exception("The 'sse_kms_bucket_key' objectstore argument cannot be enabled: {$reason}.");
+				? "S3 Bucket Keys are not applied for DSSE-KMS ('sse' => 'sse-kms-dsse')"
+				: "it only applies when 'sse' is 'sse-kms'";
+			$this->encryptionWarnings[] = "Ignoring the 'sse_kms_bucket_key' objectstore argument: {$reason}.";
+			$bucketKey = false;
 		}
 		$this->sseKmsBucketKey = $bucketKey;
+	}
+
+	/**
+	 * Log any warnings recorded by `parseEncryptionParams()`, once a connection is actually
+	 * made, deduplicated by message so a long-lived request/worker doesn't repeat the same
+	 * warning on every call.
+	 */
+	private function logEncryptionWarnings(): void {
+		if ($this->encryptionWarnings === []) {
+			return;
+		}
+
+		$logger = Server::get(LoggerInterface::class);
+		foreach ($this->encryptionWarnings as $warning) {
+			if (isset(self::$loggedEncryptionWarnings[$warning])) {
+				continue;
+			}
+			self::$loggedEncryptionWarnings[$warning] = true;
+			$logger->warning($warning, ['app' => 'objectstore']);
+		}
 	}
 
 	/**
