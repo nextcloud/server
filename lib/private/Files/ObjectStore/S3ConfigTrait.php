@@ -41,4 +41,13 @@ trait S3ConfigTrait {
 	private bool $useMultipartCopy = true;
 
 	protected int $retriesMaxAttempts;
+
+	protected S3EncryptionMode $sseMode = S3EncryptionMode::None;
+
+	protected ?string $sseKmsKeyId = null;
+
+	/** Already base64-encoded JSON, ready to hand to the AWS SDK */
+	protected ?string $sseKmsEncryptionContext = null;
+
+	protected bool $sseKmsBucketKey = false;
 }
