@@ -72,10 +72,10 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.1.0
 	- license: MIT
 - vue
-	- version: 3.5.35
+	- version: 3.5.40
 	- license: MIT
 - @nextcloud/dialogs
-	- version: 7.4.0
+	- version: 7.4.1
 	- license: AGPL-3.0-or-later
 - semver
 	- version: 7.7.2
@@ -105,16 +105,16 @@ This file is generated from multiple sources. Included packages:
 	- version: 8.40.0
 	- license: AGPL-3.0-or-later
 - @vue/reactivity
-	- version: 3.5.35
+	- version: 3.5.40
 	- license: MIT
 - @vue/runtime-core
-	- version: 3.5.35
+	- version: 3.5.40
 	- license: MIT
 - @vue/runtime-dom
-	- version: 3.5.35
+	- version: 3.5.40
 	- license: MIT
 - @vue/shared
-	- version: 3.5.35
+	- version: 3.5.40
 	- license: MIT
 - axios
 	- version: 1.17.0
