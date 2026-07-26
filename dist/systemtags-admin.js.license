@@ -220,7 +220,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.7
 	- license: MIT
 - axios
-	- version: 1.16.1
+	- version: 1.18.1
 	- license: MIT
 - balanced-match
 	- version: 1.0.2
@@ -235,7 +235,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.9.0
 	- license: MIT
 - brace-expansion
-	- version: 2.1.0
+	- version: 2.1.2
 	- license: MIT
 - buffer
 	- version: 5.7.1
@@ -334,7 +334,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.2
 	- license: MIT
 - hasown
-	- version: 2.0.2
+	- version: 2.0.4
 	- license: MIT
 - hookable
 	- version: 5.5.3
@@ -406,7 +406,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.4.1
 	- license: MIT
 - qs
-	- version: 6.14.1
+	- version: 6.14.2
 	- license: BSD-3-Clause
 - querystringify
 	- version: 2.2.0
@@ -424,7 +424,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.2
 	- license: MIT
 - side-channel-list
-	- version: 1.0.0
+	- version: 1.0.1
 	- license: MIT
 - side-channel-map
 	- version: 1.0.1
@@ -433,7 +433,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.2
 	- license: MIT
 - side-channel
-	- version: 1.1.0
+	- version: 1.1.1
 	- license: MIT
 - readable-stream
 	- version: 3.6.2
