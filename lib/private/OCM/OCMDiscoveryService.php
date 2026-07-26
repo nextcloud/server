@@ -284,7 +284,7 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 	/**
 	 * @inheritDoc
 	 *
-	 * @since 34.0.0
+	 * @since 35.0.0
 	 */
 	#[\Override]
 	public function confirmRequestOrigin(?string $signedOrigin, string $ocmAddress): void {
