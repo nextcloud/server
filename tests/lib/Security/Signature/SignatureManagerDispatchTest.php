@@ -123,6 +123,29 @@ class SignatureManagerDispatchTest extends TestCase {
 		$this->signatureManager->getIncomingSignedRequest($signatoryManager, $body);
 	}
 
+	public function testInboundRejectsRfc9421WhenNoKeyResolvedForKeyid(): void {
+		[$signatoryManager, $jwk] = $this->ecdsaP256SignatoryManager(rfc9421Format: true);
+
+		$body = '{"hello":"world"}';
+		$out = new Rfc9421OutgoingSignedRequest(
+			$body,
+			$signatoryManager,
+			'receiver.example.org',
+			'POST',
+			'https://receiver.example.org/ocm/shares',
+		);
+		$out->sign();
+		$this->primeRequest($out->getHeaders(), 'POST', '/ocm/shares', 'receiver.example.org');
+
+		// resolver knows a different kid only: a present signature whose key
+		// cannot be resolved is a verification failure, not an unsigned
+		// request
+		$resolver = $this->makeKeyResolver($signatoryManager, $jwk, 'https://other.example.org/ocm#nomatch');
+
+		$this->expectException(IncomingRequestException::class);
+		$this->signatureManager->getIncomingSignedRequest($resolver, $body);
+	}
+
 	private function rsaSignatoryManager(): ISignatoryManager {
 		$key = openssl_pkey_new(['private_key_type' => OPENSSL_KEYTYPE_RSA, 'private_key_bits' => 2048]);
 		$priv = '';
