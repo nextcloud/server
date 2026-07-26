@@ -76,7 +76,7 @@ interface IOCMDiscoveryService {
 	 * @param string $ocmAddress in `user@host` or `user@https://host` form
 	 *
 	 * @throws IncomingRequestException on mismatch or malformed address
-	 * @since 34.0.0
+	 * @since 35.0.0
 	 */
 	public function confirmRequestOrigin(?string $signedOrigin, string $ocmAddress): void;
 
