@@ -25,7 +25,8 @@ use OCP\Security\Signature\ISignatoryManager;
  * RFC 9421 implementation of {@see IOutgoingSignedRequest}, sibling to the
  * draft-cavage {@see OutgoingSignedRequest}. Default ECDSA P-256 (`ES256`)
  * with the `alg` parameter omitted (RFC 9421 §3.3.7); verifier resolves it
- * from the JWK.
+ * from the JWK. The signature carries the `tag="ocm"` parameter mandated by
+ * the OCM spec; the `ocm` dictionary label is cosmetic.
  *
  * Options from {@see ISignatoryManager::getOptions()}: `rfc9421.signingAlgorithm`,
  * `rfc9421.coveredComponents`, `rfc9421.contentDigestAlgorithm`,
@@ -34,7 +35,12 @@ use OCP\Security\Signature\ISignatoryManager;
 class Rfc9421OutgoingSignedRequest extends SignedRequest implements
 	IOutgoingSignedRequest,
 	JsonSerializable {
-	private const DEFAULT_COMPONENTS = ['@method', '@target-uri', 'content-digest', 'content-length', 'date'];
+	/**
+	 * Covered components mandated by the OCM spec. The `Date` header is
+	 * deliberately not covered: intermediaries may rewrite it, and freshness
+	 * is anchored on the `created` signature parameter.
+	 */
+	private const DEFAULT_COMPONENTS = ['@method', '@target-uri', 'content-digest', 'content-length'];
 
 	private string $host = '';
 	private array $headers = [];
@@ -84,6 +90,9 @@ class Rfc9421OutgoingSignedRequest extends SignedRequest implements
 			// Off by default per RFC 9421 §3.3.7 (verifier resolves alg from JWK).
 			$this->signatureParams['alg'] = $this->signingAlgorithm;
 		}
+		// integrity-protected marker (RFC 9421 §2.3) identifying this
+		// signature as the OCM one; the dictionary label is not significant
+		$this->signatureParams['tag'] = 'ocm';
 
 		$this->signatureBaseString = SignatureBase::build(
 			$this->method,

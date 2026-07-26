@@ -150,7 +150,9 @@ class SignatureManager implements ISignatureManager {
 		try {
 			$key = $signatoryManager->getRemoteKey($signedRequest->getOrigin(), $signedRequest->getKeyId());
 			if ($key === null) {
-				throw new SignatoryNotFoundException('no JWK resolved for keyid ' . $signedRequest->getKeyId());
+				// a present signature MUST be verified; an unresolvable key
+				// is a verification failure, not an unsigned request
+				throw new IncomingRequestException('no JWK resolved for keyid ' . $signedRequest->getKeyId());
 			}
 			$signedRequest->setKey($key);
 			$signedRequest->verify();

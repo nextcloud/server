@@ -209,7 +209,14 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 		$provider->setCapabilities(['notifications', 'shares', 'exchange-token']);
 		$provider->setTokenEndPoint($tokenUrl);
 		if ($signingEnabled) {
-			$provider->setCapabilities(['http-sig']);
+			try {
+				// advertising `http-sig` requires publishing the location of
+				// the local JWK Set in `jwksUri` (and it must be https)
+				$provider->setJwksUri($this->signatoryManager->getLocalJwksUri());
+				$provider->setCapabilities(['http-sig']);
+			} catch (IdentityNotFoundException $e) {
+				$this->logger->warning('cannot build local jwksUri, http-sig capability not advertised', ['exception' => $e]);
+			}
 		}
 
 		$resource = $provider->createNewResourceType();

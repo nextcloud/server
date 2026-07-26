@@ -23,10 +23,12 @@ use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IURLGenerator;
 use OCP\OCM\Exceptions\OCMProviderException;
+use OCP\OCM\IOCMDiscoveryService;
 use OCP\Security\Signature\Enum\DigestAlgorithm;
 use OCP\Security\Signature\Enum\SignatoryType;
 use OCP\Security\Signature\Enum\SignatureAlgorithm;
 use OCP\Security\Signature\Exceptions\IdentityNotFoundException;
+use OCP\Security\Signature\Exceptions\SignatureException;
 use OCP\Security\Signature\ISignatureManager;
 use OCP\Security\Signature\Model\Signatory;
 use OCP\Server;
@@ -374,30 +376,53 @@ class OCMSignatoryManager implements IJwkResolvingSignatoryManager {
 	}
 
 	/**
+	 * Absolute https URL of the local JWK Set document, advertised as
+	 * `jwksUri` in the OCM discovery response. The spec mandates https and
+	 * requires the field whenever the `http-sig` capability is exposed.
+	 *
+	 * @throws IdentityNotFoundException
+	 */
+	public function getLocalJwksUri(): string {
+		return $this->buildLocalUrl('/.well-known/jwks.json');
+	}
+
+	/**
 	 * @param string $fragment URL fragment (e.g. 'signature' for cavage, 'ecdsa-p256-sha256' for the JWKS-published key)
 	 * @return string
 	 * @throws IdentityNotFoundException
 	 */
 	private function buildLocalKeyId(string $fragment): string {
+		return $this->buildLocalUrl('/ocm#' . $fragment);
+	}
+
+	/**
+	 * Prefix $path with 'https://' and the signing identity of this instance,
+	 * including a possible subfolder.
+	 *
+	 * @param string $path absolute path, starting with a slash
+	 * @return string
+	 * @throws IdentityNotFoundException
+	 */
+	private function buildLocalUrl(string $path): string {
 		if ($this->appConfig->hasKey('core', self::APPCONFIG_SIGN_IDENTITY_EXTERNAL, true)) {
 			$identity = $this->appConfig->getValueString('core', self::APPCONFIG_SIGN_IDENTITY_EXTERNAL, lazy: true);
-			return 'https://' . $identity . '/ocm#' . $fragment;
+			return 'https://' . $identity . $path;
 		}
 
 		try {
-			return $this->signatureManager->generateKeyIdFromConfig('/ocm#' . $fragment);
+			return $this->signatureManager->generateKeyIdFromConfig($path);
 		} catch (IdentityNotFoundException) {
 		}
 
 		$url = $this->urlGenerator->linkToRouteAbsolute('cloud_federation_api.requesthandlercontroller.addShare');
 		$identity = $this->signatureManager->extractIdentityFromUri($url);
 
-		// catching possible subfolder to create a keyId like 'https://hostname/subfolder/ocm#<fragment>'
-		$path = parse_url($url, PHP_URL_PATH);
-		$pos = strpos($path, '/ocm/shares');
-		$sub = ($pos) ? substr($path, 0, $pos) : '';
+		// catching possible subfolder to create a URL like 'https://hostname/subfolder/ocm#<fragment>'
+		$routePath = parse_url($url, PHP_URL_PATH);
+		$pos = strpos($routePath, '/ocm/shares');
+		$sub = ($pos) ? substr($routePath, 0, $pos) : '';
 
-		return 'https://' . $identity . $sub . '/ocm#' . $fragment;
+		return 'https://' . $identity . $sub . $path;
 	}
 
 	/**
@@ -476,10 +501,16 @@ class OCMSignatoryManager implements IJwkResolvingSignatoryManager {
 	}
 
 	/**
+	 * Fetch the peer's JWK Set from the URL advertised in the `jwksUri`
+	 * field of its discovery response.
+	 *
 	 * @return list<array<string, mixed>>|null
 	 */
 	private function fetchJwks(string $origin): ?array {
-		$url = 'https://' . $origin . '/.well-known/jwks.json';
+		$url = $this->resolveJwksUri($origin);
+		if ($url === null) {
+			return null;
+		}
 		$options = [
 			'timeout' => 10,
 			'connect_timeout' => 10,
@@ -509,6 +540,34 @@ class OCMSignatoryManager implements IJwkResolvingSignatoryManager {
 	}
 
 	/**
+	 * Location of the peer's JWK Set, read from the `jwksUri` field of its
+	 * discovery response. A peer that advertises `http-sig` without a https
+	 * `jwksUri` is non-conformant: no keys can be obtained from it, so its
+	 * signed requests will fail verification.
+	 */
+	private function resolveJwksUri(string $origin): ?string {
+		try {
+			$provider = Server::get(IOCMDiscoveryService::class)->discover($origin);
+		} catch (NotFoundExceptionInterface|ContainerExceptionInterface|OCMProviderException $e) {
+			$this->logger->warning('cannot discover remote OCM provider for JWKS', ['exception' => $e, 'origin' => $origin]);
+			return null;
+		}
+
+		$jwksUri = $provider->getJwksUri();
+		if ($jwksUri === '') {
+			if ($provider->hasCapability('http-sig')) {
+				$this->logger->warning('remote advertises http-sig but no jwksUri; non-conformant peer', ['origin' => $origin]);
+			}
+			return null;
+		}
+		if (!str_starts_with($jwksUri, 'https://')) {
+			$this->logger->warning('remote jwksUri does not use https, ignoring', ['origin' => $origin, 'jwksUri' => $jwksUri]);
+			return null;
+		}
+		return $jwksUri;
+	}
+
+	/**
 	 * @param list<array<string, mixed>>|null $keys
 	 */
 	private function findKid(?array $keys, string $keyId): ?Key {
@@ -519,8 +578,25 @@ class OCMSignatoryManager implements IJwkResolvingSignatoryManager {
 			if (($entry['kid'] ?? null) !== $keyId) {
 				continue;
 			}
+			// every published JWK must carry an `alg` parameter naming an
+			// acceptable asymmetric signature algorithm; keys without one
+			// are rejected as non-conformant
+			$alg = $entry['alg'] ?? null;
+			if (!is_string($alg) || $alg === '') {
+				$this->logger->warning('remote JWK carries no alg parameter', ['kid' => $keyId]);
+				return null;
+			}
 			try {
-				return JWK::parseKey($entry, Algorithm::deriveJoseAlgFromJwk($entry));
+				$native = Algorithm::normalize($alg);
+				$derived = Algorithm::deriveJoseAlgFromJwk($entry);
+				if ($derived !== null && Algorithm::normalize($derived) !== $native) {
+					$this->logger->warning('remote JWK alg does not match its key type', ['kid' => $keyId, 'alg' => $alg]);
+					return null;
+				}
+				return JWK::parseKey($entry);
+			} catch (SignatureException $e) {
+				$this->logger->warning('remote JWK alg is not acceptable', ['exception' => $e, 'kid' => $keyId, 'alg' => $alg]);
+				return null;
 			} catch (Throwable $e) {
 				$this->logger->warning('failed to parse remote JWK', ['exception' => $e, 'kid' => $keyId]);
 				return null;

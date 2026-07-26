@@ -18,7 +18,11 @@ use OCP\IAppConfig;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
-/** Serves `/.well-known/jwks.json` (RFC 7517) with the OCM signing keys. */
+/**
+ * Serves the local JWK Set (RFC 7517) with the OCM signing keys at
+ * `/.well-known/jwks.json`, the URL advertised to peers through the
+ * `jwksUri` field of the OCM discovery response.
+ */
 class OCMJwksHandler implements IHandler {
 	public function __construct(
 		private readonly IAppConfig $appConfig,

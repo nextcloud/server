@@ -130,10 +130,19 @@ class DiscoveryServiceTest extends TestCase {
 
 	public function testLocalCapabilitiesAdvertiseHttpSigByDefault(): void {
 		// `http-sig` is the OCM-spec flag signalling RFC 9421 support backed
-		// by /.well-known/jwks.json. Advertised whenever signing is not
-		// disabled outright.
+		// by the JWK Set published at the URL in `jwksUri`. Advertised
+		// whenever signing is not disabled outright.
 		$local = $this->discoveryService->getLocalOCMProvider();
 		$this->assertTrue($local->hasCapability('http-sig'));
+	}
+
+	public function testLocalDiscoveryAdvertisesJwksUri(): void {
+		// implementations advertising `http-sig` MUST provide a https
+		// `jwksUri` as well
+		$local = $this->discoveryService->getLocalOCMProvider();
+		$jwksUri = $local->getJwksUri();
+		$this->assertStringStartsWith('https://', $jwksUri);
+		$this->assertStringEndsWith('/.well-known/jwks.json', $jwksUri);
 	}
 
 	public function testLocalAddedCapability(): void {
