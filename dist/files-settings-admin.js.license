@@ -113,7 +113,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.5.40
 	- license: MIT
 - axios
-	- version: 1.16.1
+	- version: 1.18.1
 	- license: MIT
 - base64-js
 	- version: 1.5.1

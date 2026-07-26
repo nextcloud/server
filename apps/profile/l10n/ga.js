@@ -5,6 +5,7 @@ OC.L10N.register(
     "Profile picker" : "Roghnóir próifíle",
     "Profile" : "Próifíl",
     "This application provides the profile" : "Soláthraíonn an feidhmchlár seo an phróifíl",
+    "Provides a customizable user profile interface." : "Soláthraíonn sé comhéadan próifíl úsáideora saincheaptha.",
     "Searching …" : "Ag cuardach …",
     "Not found" : "Ní bhfuarthas",
     "Search for a user profile" : "Cuardaigh próifíl úsáideora",

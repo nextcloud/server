@@ -109,7 +109,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 8.40.0
 	- license: AGPL-3.0-or-later
 - axios
-	- version: 1.16.1
+	- version: 1.18.1
 	- license: MIT
 - base64-js
 	- version: 1.5.1
@@ -163,16 +163,16 @@ This file is generated from multiple sources. Included packages:
 	- version: 9.9.0
 	- license: AGPL-3.0-or-later
 - @vue/reactivity
-	- version: 3.5.39
+	- version: 3.5.40
 	- license: MIT
 - @vue/runtime-core
-	- version: 3.5.39
+	- version: 3.5.40
 	- license: MIT
 - @vue/runtime-dom
-	- version: 3.5.39
+	- version: 3.5.40
 	- license: MIT
 - @vue/shared
-	- version: 3.5.39
+	- version: 3.5.40
 	- license: MIT
 - birpc
 	- version: 2.9.0
@@ -205,7 +205,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.1.0
 	- license: MIT
 - vue
-	- version: 3.5.39
+	- version: 3.5.40
 	- license: MIT
 - nextcloud
 	- version: 1.0.0

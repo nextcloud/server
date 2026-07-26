@@ -5,6 +5,7 @@ OC.L10N.register(
     "Profile picker" : "Profiilivalija",
     "Profile" : "Profiil",
     "This application provides the profile" : "See rakendus tagab profiili olemasolu",
+    "Provides a customizable user profile interface." : "Tagab kasutajaliidese kasutaja kohendatava profiili jaoks.",
     "Searching …" : "Otsin...",
     "Not found" : "Ei leidu",
     "Search for a user profile" : "Otsi kasutajaprofiili",
