@@ -502,8 +502,8 @@ class SystemTagManagerTest extends TestCase {
 
 	public static function allowedToCreateProvider(): array {
 		return [
-			[true, false, true],
-			[true, false, false],
+			[true, null, true],
+			[true, null, false],
 			[false, true, true],
 			[false, true, false],
 			[false, false, false],
@@ -511,7 +511,7 @@ class SystemTagManagerTest extends TestCase {
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('allowedToCreateProvider')]
-	public function testAllowedToCreateTag(bool $isCli, bool $isAdmin, bool $isRestricted): void {
+	public function testAllowedToCreateTag(bool $isCli, ?bool $isAdmin, bool $isRestricted): void {
 		$oldCli = \OC::$CLI;
 		\OC::$CLI = $isCli;
 
@@ -525,7 +525,7 @@ class SystemTagManagerTest extends TestCase {
 		$this->groupManager->expects($this->any())
 			->method('isAdmin')
 			->with('test')
-			->willReturn($isAdmin);
+			->willReturn($isAdmin ?? false);
 		$this->appConfig->expects($this->any())
 			->method('getValueBool')
 			->with('systemtags', 'restrict_creation_to_admin')

@@ -9,6 +9,7 @@
 namespace OC\Core\AppInfo;
 
 use NCU\Sharing\ISharingRegistry;
+use OC\App\AppManager;
 use OC\Authentication\Events\RemoteWipeFinished;
 use OC\Authentication\Events\RemoteWipeStarted;
 use OC\Authentication\Listeners\RemoteWipeActivityListener;
@@ -124,7 +125,7 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(BeforeGroupDeletedEvent::class, GroupManager::class);
 		$context->registerEventListener(BeforeUserAddedEvent::class, GroupManager::class);
 		$context->registerEventListener(BeforeUserRemovedEvent::class, GroupManager::class);
-		$context->registerEventListener(GroupDeletedEvent::class, GroupManager::class);
+		$context->registerEventListener(GroupDeletedEvent::class, AppManager::class);
 
 		// Tags
 		$context->registerEventListener(UserDeletedEvent::class, TagManager::class);
