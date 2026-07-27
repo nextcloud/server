@@ -4,6 +4,8 @@ OC.L10N.register(
     "View profile" : "Peržiūrėti profilį",
     "Profile picker" : "Profilio rinkiklis",
     "Profile" : "Profilis",
+    "This application provides the profile" : "Ši programėlė pateikia profilį",
+    "Provides a customizable user profile interface." : "Suteikia pritaikomą vartotojo profilio sąsają.",
     "Searching …" : "Ieškoma",
     "Not found" : "Nerasta",
     "Search for a user profile" : "Ieškoti vartotojo profilio",
@@ -12,10 +14,13 @@ OC.L10N.register(
     "Insert" : "Įterpti",
     "You have not added any info yet" : "Jūs kol kas nesate pridėję jokios informacijos",
     "{user} has not added any info yet" : "Naudotojas {user} kol kas nėra pridėjęs jokios informacijos",
+    "Error opening the user status modal, try hard refreshing the page" : "Klaida atidarant naudotojo būsenos modalinį langą, pabandykite atnaujinti puslapį",
     "Edit Profile" : "Taisyti profilį",
     "The headline and about sections will show up here" : "Čia bus rodoma santrauka apie jus bei kita su jumis susijusi informacija",
     "Profile not found" : "Profilis nerastas",
+    "The profile does not exist or is unavailable." : "Profilis neegzistuoja arba yra nepasiekiamas.",
     "Back to %s" : "Atgal į %s",
+    "Provides a customisable user profile interface." : "Pateikia pritaikomą vartotojo profilio sąsają.",
     "The profile does not exist." : "Profilio nėra."
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");
