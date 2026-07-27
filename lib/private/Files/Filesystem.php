@@ -12,6 +12,7 @@ use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\Storage;
 use OC\Files\Storage\StorageFactory;
 use OC\User\NoUserException;
+use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\Node\FilesystemTornDownEvent;
 use OCP\Files\InvalidPathException;
@@ -47,6 +48,14 @@ class Filesystem {
 	 * @psalm-suppress ImpureStaticProperty This class has a reset method
 	 */
 	private static ?FilenameValidator $validator = null;
+
+	/**
+	 * Memoized results of normalizePath(), keyed by input path + flags
+	 *
+	 * @psalm-suppress ImpureStaticProperty This class has a reset method
+	 * @var CappedMemoryCache<string>
+	 */
+	private static ?CappedMemoryCache $normalizedPathCache = null;
 
 	/**
 	 * @psalm-suppress ImpureStaticProperty This class has a reset method
@@ -616,7 +625,7 @@ class Filesystem {
 	 * @psalm-taint-escape file
 	 * @return string
 	 */
-	public static function normalizePath($path, $stripTrailingSlash = true, $isAbsolutePath = false, $keepUnicode = false) {
+	public static function normalizePath($path, $stripTrailingSlash = true, $isAbsolutePath = false, bool $keepUnicode = false) {
 		/**
 		 * FIXME: This is a workaround for existing classes and files which call
 		 *        this function with another type than a valid string. This
@@ -629,30 +638,59 @@ class Filesystem {
 			return '/';
 		}
 
-		//normalize unicode if possible
-		if (!$keepUnicode) {
+		// paths repeat heavily within a request (same file touched by permission
+		// checks, cache lookups, hooks, ...), so memoize the result
+		$cacheKey = $keepUnicode ? "1\0$path" : "0\0$path";
+		$cacheKey = ($stripTrailingSlash ? "1\0" : "0\0") . $cacheKey;
+		if (self::$normalizedPathCache === null) {
+			self::$normalizedPathCache = new CappedMemoryCache();
+		}
+		if (isset(self::$normalizedPathCache[$cacheKey])) {
+			return self::$normalizedPathCache[$cacheKey];
+		}
+
+		// normalize unicode if possible, skipping the ICU normalizer entirely for
+		// plain ASCII paths, which are already in normalization form C
+		if (!$keepUnicode && preg_match('/[\x80-\xff]/', $path)) {
 			$path = \OC_Util::normalizeUnicode($path);
 		}
 
-		//add leading slash, if it is already there we strip it anyway
-		$path = '/' . $path;
+		// Add leading slash if it's missing
+		if ($path[0] !== '/') {
+			$path = '/' . $path;
+		}
 
-		$patterns = [
-			'#\\\\#s',       // no windows style '\\' slashes
-			'#/\.(/\.)*/#s', // remove '/./'
-			'#\//+#s',       // remove sequence of slashes
-			'#/\.$#s',       // remove trailing '/.'
-		];
+		// No null bytes
+		if (str_contains($path, chr(0))) {
+			$path = str_replace(chr(0), '', $path);
+		}
 
-		do {
-			$count = 0;
-			$path = preg_replace($patterns, '/', $path, -1, $count);
-		} while ($count > 0);
+		// No windows style slashes
+		if (str_contains($path, '\\')) {
+			$path = str_replace('\\', '/', $path);
+		}
 
-		//remove trailing slash
+		// most paths reaching here are already clean, so skip the regex engine entirely
+		// when neither a duplicate slash nor a '.' segment is present
+		if (str_contains($path, '//') || str_contains($path, '/.')) {
+			$patterns = [
+				'#/\.(/\.)*/#s', // remove '/./'
+				'#\//+#s',       // remove sequence of slashes
+				'#/\.$#s',       // remove trailing '/.'
+			];
+
+			do {
+				$count = 0;
+				$path = preg_replace($patterns, '/', $path, -1, $count);
+			} while ($count > 0);
+		}
+
+		// remove trailing slash
 		if ($stripTrailingSlash && strlen($path) > 1) {
 			$path = rtrim($path, '/');
 		}
+
+		self::$normalizedPathCache[$cacheKey] = $path;
 
 		return $path;
 	}
@@ -729,5 +767,6 @@ class Filesystem {
 		self::$loaded = false;
 		self::$mounts = null;
 		self::$validator = null;
+		self::$normalizedPathCache = new CappedMemoryCache();
 	}
 }
