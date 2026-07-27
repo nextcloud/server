@@ -9,11 +9,14 @@ declare(strict_types=1);
 
 namespace OCP\Group\Backend;
 
+use OCP\AppFramework\Attribute\Implementable;
+
 /**
  * @since 16.0.0
  *
  * Allow the backend to mark groups to be excluded from being shown in search dialogs
  */
+#[Implementable(since: '16.0.0')]
 interface IHideFromCollaborationBackend {
 	/**
 	 * Check if a group should be hidden from search dialogs
