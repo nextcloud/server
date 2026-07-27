@@ -30,6 +30,35 @@ export class FilesListPage {
 	}
 
 	/**
+	 * The list's loading indicator.
+	 *
+	 * Every view renders the same spinner while it fetches updated conent.
+	 * In the list header ("File list is reloading") when the folder
+	 * already has contents to keep showing. In place of the list
+	 * ("Loading current folder") when it does not.
+	 * The two spinners are mutually exclusive.
+	 */
+	getLoadingIndicator(): Locator {
+		return this.page.getByRole('img', { name: /^(File list is reloading|Loading current folder)$/ })
+	}
+
+	/**
+	 * Wait for a pending list fetch to settle, i.e. for the loading indicator to
+	 * come and go.
+	 *
+	 * The indicator is only waited for briefly: a fetch that resolves before the
+	 * first poll is never observed as visible, and since the app raises the
+	 * loading state synchronously with the action that triggers the fetch, an
+	 * absent indicator means the fetch has already finished — so missing its
+	 * appearance is not an error. Waiting for it to be gone is what matters.
+	 */
+	async waitForListLoaded(): Promise<void> {
+		const indicator = this.getLoadingIndicator()
+		await indicator.waitFor({ state: 'visible', timeout: 2000 }).catch(() => {})
+		await indicator.waitFor({ state: 'hidden' })
+	}
+
+	/**
 	 * Switch the list to grid view and wait for the preference to persist. The
 	 * toggle button is labelled "Switch to grid view" (only present in list view).
 	 */
@@ -67,9 +96,11 @@ export class FilesListPage {
 	 * still (re-)mounting — notably in the search view on slower (CI) machines. Only
 	 * click while the item is hidden so an already-open menu is never toggled shut.
 	 *
-	 * This is fire-and-forget: the reload request differs by view (PROPFIND for a
-	 * folder, SEARCH for the search view, REPORT for favorites), so callers that
-	 * need to await the refetch should wait on the specific response themselves.
+	 * Returns once the refetch has settled. The request to await differs by view
+	 * (PROPFIND for a folder, SEARCH for the search view, REPORT for favorites),
+	 * so this waits on the view-independent loading indicator instead — see
+	 * {@link waitForListLoaded}. Callers therefore never act on a list that is
+	 * still being replaced.
 	 */
 	async reloadCurrentFolder(): Promise<void> {
 		const toggle = this.getBreadcrumbs().locator('button[aria-haspopup="menu"]').last()
@@ -83,6 +114,7 @@ export class FilesListPage {
 		}).toPass({ timeout: 15000 })
 
 		await reloadItem.click()
+		await this.waitForListLoaded()
 	}
 
 	getRowForFileId(fileid: number): Locator {

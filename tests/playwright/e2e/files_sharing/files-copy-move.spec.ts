@@ -52,14 +52,10 @@ test.describe('files_sharing: Move or copy files', () => {
 		await filesListPage.open()
 		await expect(filesListPage.getRowForFile('folder')).toBeVisible()
 		await filesListPage.triggerActionForFile('file.txt', 'move-copy')
-		const propfind = page.waitForResponse((r) => r.request().method() === 'PROPFIND'
-			&& r.url().includes('/remote.php/dav/files/')
-			&& !!r.url().match(/\/folder\/?$/))
+		// navigateTo waits for the folder's listing, so the button is past the
+		// picker's own loading state and only the missing permission can disable it
 		await copyMoveDialog.navigateTo('folder')
-		await propfind // wait for the PROPFIND to finish
-		// see the content of the folde = loading finished
 		await expect(copyMoveDialog.dialog().getByText(/inner-folder/)).toBeVisible()
-		// now the button should be disabled
 		await expect(copyMoveDialog.confirmButton('Copy to folder')).toBeDisabled()
 	})
 
@@ -77,12 +73,8 @@ test.describe('files_sharing: Move or copy files', () => {
 		await filesListPage.open()
 		await filesListPage.navigateToFolder('folder')
 		await filesListPage.triggerActionForFile('file.txt', 'move-copy')
-		const propfind = page.waitForResponse((r) => r.request().method() === 'PROPFIND'
-			&& r.url().includes('/remote.php/dav/files/')
-			&& !!r.url().match(/\/owned-folder\/?$/))
 		await copyMoveDialog.goToAllFiles()
 		await copyMoveDialog.navigateTo('owned-folder')
-		await propfind // wait for the PROPFIND to finish
 
 		// can copy but not move
 		await expect(copyMoveDialog.confirmButton('Copy to owned-folder')).toBeVisible()
