@@ -162,6 +162,15 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/vue
 	- version: 9.9.0
 	- license: AGPL-3.0-or-later
+- @vue/devtools-api
+	- version: 8.2.1
+	- license: MIT
+- @vue/devtools-kit
+	- version: 8.2.1
+	- license: MIT
+- @vue/devtools-shared
+	- version: 8.2.1
+	- license: MIT
 - @vue/reactivity
 	- version: 3.5.40
 	- license: MIT
@@ -186,23 +195,17 @@ This file is generated from multiple sources. Included packages:
 - hookable
 	- version: 5.5.3
 	- license: MIT
-- semver
-	- version: 7.8.5
-	- license: ISC
-- @vue/devtools-api
-	- version: 8.1.5
-	- license: MIT
-- @vue/devtools-kit
-	- version: 8.1.5
-	- license: MIT
-- @vue/devtools-shared
-	- version: 8.1.5
+- nostics
+	- version: 1.2.0
 	- license: MIT
 - perfect-debounce
 	- version: 2.1.0
 	- license: MIT
+- semver
+	- version: 7.8.5
+	- license: ISC
 - vue-router
-	- version: 5.1.0
+	- version: 5.2.0
 	- license: MIT
 - vue
 	- version: 3.5.40
