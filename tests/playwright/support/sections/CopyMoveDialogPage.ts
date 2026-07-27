@@ -7,9 +7,7 @@ import type { Locator, Page } from '@playwright/test'
 
 import { expect } from '@playwright/test'
 import { escapeAttributeValue } from '../utils/css.ts'
-
-/** The DAV endpoint all of the picker's and the action's requests go to. */
-const DAV_FILES_ENDPOINT = /\/(remote|public)\.php\/dav\/files\//
+import { DAV_FILES_ENDPOINT } from '../utils/dav.ts'
 
 /**
  * The file-picker dialog opened by the files "Move or copy" action
