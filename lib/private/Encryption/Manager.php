@@ -206,7 +206,7 @@ class Manager implements IManager {
 	 */
 	public function setupStorage(): void {
 		// If encryption is disabled and there are no loaded modules it makes no sense to load the wrapper
-		if (!empty($this->encryptionModules) || $this->isEnabled()) {
+		if ($this->encryptionModules !== [] && $this->isEnabled()) {
 			$encryptionWrapper = new EncryptionWrapper($this->arrayCache, $this, $this->logger);
 			Filesystem::addStorageWrapper('oc_encryption', $encryptionWrapper->wrapStorage(...), 2);
 		}
