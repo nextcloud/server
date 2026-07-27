@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace OCP\Group\Events;
 
+use OCP\AppFramework\Attribute\Dispatchable;
+use OCP\AppFramework\Attribute\Listenable;
 use OCP\EventDispatcher\Event;
 use OCP\IGroup;
 use OCP\IUser;
@@ -16,24 +18,20 @@ use OCP\IUser;
 /**
  * @since 18.0.0
  */
+#[Listenable(since: '18.0.0')]
+#[Dispatchable(since: '18.0.0')]
 class UserAddedEvent extends Event {
-	/** @var IGroup */
-	private $group;
-
-	/*** @var IUser */
-	private $user;
-
 	/**
 	 * @since 18.0.0
 	 */
-	public function __construct(IGroup $group, IUser $user) {
+	public function __construct(
+		private readonly IGroup $group,
+		private readonly IUser $user,
+	) {
 		parent::__construct();
-		$this->group = $group;
-		$this->user = $user;
 	}
 
 	/**
-	 * @return IGroup
 	 * @since 18.0.0
 	 */
 	public function getGroup(): IGroup {
@@ -41,7 +39,6 @@ class UserAddedEvent extends Event {
 	}
 
 	/**
-	 * @return IUser
 	 * @since 18.0.0
 	 */
 	public function getUser(): IUser {
