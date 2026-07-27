@@ -12,6 +12,7 @@ namespace OCA\Provisioning_API\Controller;
 
 use InvalidArgumentException;
 use OC\Authentication\Token\RemoteWipe;
+use OC\Group\DisplayNameCache as GroupDisplayNameCache;
 use OC\Group\Group;
 use OC\KnownUser\KnownUserService;
 use OC\User\Backend;
@@ -56,6 +57,7 @@ use Psr\Log\LoggerInterface;
 /**
  * @psalm-import-type Provisioning_APIGroupDetails from ResponseDefinitions
  * @psalm-import-type Provisioning_APIUserDetails from ResponseDefinitions
+ * @psalm-import-type Provisioning_APIUserDetailsGroupDisplayname from ResponseDefinitions
  */
 class UsersController extends AUserDataOCSController {
 
@@ -81,6 +83,7 @@ class UsersController extends AUserDataOCSController {
 		private IEventDispatcher $eventDispatcher,
 		private IPhoneNumberUtil $phoneNumberUtil,
 		private IAppManager $appManager,
+		GroupDisplayNameCache $groupDisplayNameCache,
 	) {
 		parent::__construct(
 			$appName,
@@ -93,6 +96,7 @@ class UsersController extends AUserDataOCSController {
 			$subAdminManager,
 			$l10nFactory,
 			$rootFolder,
+			$groupDisplayNameCache,
 		);
 
 		$this->l10n = $l10nFactory->get($appName);
@@ -146,7 +150,7 @@ class UsersController extends AUserDataOCSController {
 	 * @param string $search Text to search for
 	 * @param int|null $limit Limit the amount of groups returned
 	 * @param int $offset Offset for searching for groups
-	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, Provisioning_APIUserDetails|array{id: string}>}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, Provisioning_APIUserDetails|array{id: string}>, groups: list<Provisioning_APIUserDetailsGroupDisplayname>}, array{}>
 	 *
 	 * 200: Users details returned
 	 */
@@ -198,7 +202,8 @@ class UsersController extends AUserDataOCSController {
 		}
 
 		return new DataResponse([
-			'users' => $usersDetails
+			'users' => $usersDetails,
+			'groups' => $this->findGroupsWithDisplayname($usersDetails),
 		]);
 	}
 
