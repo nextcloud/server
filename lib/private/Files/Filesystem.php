@@ -50,14 +50,6 @@ class Filesystem {
 	private static ?FilenameValidator $validator = null;
 
 	/**
-	 * Memoized results of normalizePath(), keyed by input path + flags
-	 *
-	 * @psalm-suppress ImpureStaticProperty This class has a reset method
-	 * @var CappedMemoryCache<string>
-	 */
-	private static ?CappedMemoryCache $normalizedPathCache = null;
-
-	/**
 	 * @psalm-suppress ImpureStaticProperty This class has a reset method
 	 */
 	private static ?StorageFactory $loader = null;
@@ -638,17 +630,6 @@ class Filesystem {
 			return '/';
 		}
 
-		// paths repeat heavily within a request (same file touched by permission
-		// checks, cache lookups, hooks, ...), so memoize the result
-		$cacheKey = $keepUnicode ? "1\0$path" : "0\0$path";
-		$cacheKey = ($stripTrailingSlash ? "1\0" : "0\0") . $cacheKey;
-		if (self::$normalizedPathCache === null) {
-			self::$normalizedPathCache = new CappedMemoryCache();
-		}
-		if (isset(self::$normalizedPathCache[$cacheKey])) {
-			return self::$normalizedPathCache[$cacheKey];
-		}
-
 		// normalize unicode if possible, skipping the ICU normalizer entirely for
 		// plain ASCII paths, which are already in normalization form C
 		if (!$keepUnicode && preg_match('/[\x80-\xff]/', $path)) {
@@ -689,8 +670,6 @@ class Filesystem {
 		if ($stripTrailingSlash && strlen($path) > 1) {
 			$path = rtrim($path, '/');
 		}
-
-		self::$normalizedPathCache[$cacheKey] = $path;
 
 		return $path;
 	}
@@ -767,6 +746,5 @@ class Filesystem {
 		self::$loaded = false;
 		self::$mounts = null;
 		self::$validator = null;
-		self::$normalizedPathCache = new CappedMemoryCache();
 	}
 }
