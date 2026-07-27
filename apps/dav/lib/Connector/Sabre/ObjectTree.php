@@ -151,7 +151,7 @@ class ObjectTree extends CachingTree {
 	 * @throws \Sabre\DAV\Exception\ServiceUnavailable
 	 * @return void
 	 */
-	public function copy($sourcePath, $destinationPath) {
+	public function copy($sourcePath, $destinationPath, int $depth): void {
 		if (!$this->fileView) {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable('filesystem not setup');
 		}
