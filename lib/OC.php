@@ -107,17 +107,6 @@ class OC {
 	 *                           the app path list is empty or contains an invalid path
 	 */
 	public static function initPaths(): void {
-		if (defined('PHPUNIT_CONFIG_DIR')) {
-			self::$configDir = OC::$SERVERROOT . '/' . PHPUNIT_CONFIG_DIR . '/';
-		} elseif (defined('PHPUNIT_RUN') && PHPUNIT_RUN && is_dir(OC::$SERVERROOT . '/tests/config/')) {
-			self::$configDir = OC::$SERVERROOT . '/tests/config/';
-		} elseif ($dir = getenv('NEXTCLOUD_CONFIG_DIR')) {
-			self::$configDir = rtrim($dir, '/') . '/';
-		} else {
-			self::$configDir = OC::$SERVERROOT . '/config/';
-		}
-		self::$config = new \OC\Config(self::$configDir);
-
 		OC::$SUBURI = str_replace('\\', '/', substr(realpath($_SERVER['SCRIPT_FILENAME'] ?? ''), strlen(OC::$SERVERROOT)));
 		/**
 		 * FIXME: The following lines are required because we can't yet instantiate
