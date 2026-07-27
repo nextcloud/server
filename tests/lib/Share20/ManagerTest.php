@@ -1205,9 +1205,8 @@ class ManagerTest extends \Test\TestCase {
 			['user1', $this->createMock(IUser::class)],
 		]);
 
-		$this->groupManager->method('groupExists')->willReturnMap([
-			['group0', true],
-		]);
+		$this->groupManager->method('groupExists')
+			->willReturnCallback(fn (string $group): bool => $group === 'group0');
 
 		$userFolder = $this->createMock(Folder::class);
 

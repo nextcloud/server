@@ -119,6 +119,7 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(BeforeGroupDeletedEvent::class, GroupManager::class);
 		$context->registerEventListener(BeforeUserAddedEvent::class, GroupManager::class);
 		$context->registerEventListener(BeforeUserRemovedEvent::class, GroupManager::class);
+		$context->registerEventListener(GroupDeletedEvent::class, GroupManager::class);
 
 		// Tags
 		$context->registerEventListener(UserDeletedEvent::class, TagManager::class);

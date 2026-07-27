@@ -2874,6 +2874,11 @@
       <code><![CDATA[getSubject]]></code>
     </DeprecatedMethod>
   </file>
+  <file src="core/AppInfo/Application.php">
+    <DeprecatedClass>
+      <code><![CDATA[BeforeUserRemovedEvent::class]]></code>
+    </DeprecatedClass>
+  </file>
   <file src="core/BackgroundJobs/BackgroundCleanupUpdaterBackupsJob.php">
     <DeprecatedClass>
       <code><![CDATA[Files::rmdirr($dir)]]></code>
