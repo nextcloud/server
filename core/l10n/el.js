@@ -91,9 +91,11 @@ OC.L10N.register(
     "Enter your subscription key in the support app in order to increase the account limit. This does also grant you all additional benefits that Nextcloud Enterprise offers and is highly recommended for the operation in companies." : "Εισάγετε το κλειδί συνδρομής σας στην εφαρμογή υποστήριξης για να αυξήσετε το όριο λογαριασμών. Αυτό σας παρέχει επίσης όλα τα πρόσθετα πλεονεκτήματα που προσφέρει το Nextcloud Enterprise και συνιστάται ιδιαίτερα για λειτουργία σε εταιρείες.",
     "Learn more ↗" : "Μάθετε περισσότερα ↗",
     "Can edit" : "Μπορεί να επεξεργαστεί",
+    "Share with others" : "Διαμοιρασμός με άλλους",
     "Can view" : "Μπορεί να προβάλλει",
     "Expiration date" : "Ημερομηνία λήξης",
     "Label" : "Ετικέτα",
+    "Note to recipients" : "Σημείωμα προς τους παραλήπτες",
     "Password" : "Συνθηματικό",
     "Email" : "Email",
     "Group" : "Ομάδα χρηστών",
@@ -590,6 +592,7 @@ OC.L10N.register(
     "Too many incorrect login attempts. Please try again in 30 seconds." : "Πάρα πολλές εσφαλμένες προσπάθειες σύνδεσης. Παρακαλούμε δοκιμάστε ξανά σε 30 δευτερόλεπτα.",
     "Groups" : "Ομάδες",
     "Group list is empty" : "Η λίστα ομάδων είναι κενή",
-    "Unable to retrieve the group list" : "Αδυναμία ανάκτησης της λίστας ομάδων"
+    "Unable to retrieve the group list" : "Αδυναμία ανάκτησης της λίστας ομάδων",
+    "Search apps, files, tags, messages …" : "Αναζήτηση εφαρμογών, αρχείων, ετικετών, μηνυμάτων …"
 },
 "nplurals=2; plural=(n != 1);");
