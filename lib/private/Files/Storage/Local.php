@@ -332,18 +332,20 @@ class Local extends \OC\Files\Storage\Common {
 		$srcParent = dirname($source);
 		$dstParent = dirname($target);
 
+		$logger = Server::get(LoggerInterface::class);
+
 		if (!$this->isUpdatable($srcParent)) {
-			Server::get(LoggerInterface::class)->error('unable to rename, source directory is not writable : ' . $srcParent, ['app' => 'core']);
+			$logger->error('unable to rename, source directory is not writable : ' . $srcParent, ['app' => 'core']);
 			return false;
 		}
 
 		if (!$this->isUpdatable($dstParent)) {
-			Server::get(LoggerInterface::class)->error('unable to rename, destination directory is not writable : ' . $dstParent, ['app' => 'core']);
+			$logger->error('unable to rename, destination directory is not writable : ' . $dstParent, ['app' => 'core']);
 			return false;
 		}
 
 		if (!$this->file_exists($source)) {
-			Server::get(LoggerInterface::class)->error('unable to rename, file does not exists : ' . $source, ['app' => 'core']);
+			$logger->error('unable to rename, file does not exists : ' . $source, ['app' => 'core']);
 			return false;
 		}
 
@@ -355,20 +357,43 @@ class Local extends \OC\Files\Storage\Common {
 			}
 		}
 
+		$absoluteSource = $this->getSourcePath($source);
+		$absoluteTarget = $this->getSourcePath($target);
+
 		if ($this->is_dir($source)) {
-			$this->checkTreeForForbiddenItems($this->getSourcePath($source));
+			$this->checkTreeForForbiddenItems($absoluteSource);
 		}
 
-		if (@rename($this->getSourcePath($source), $this->getSourcePath($target))) {
+		if (@rename($absoluteSource, $absoluteTarget)) {
 			if ($this->caseInsensitive) {
 				if (mb_strtolower($target) === mb_strtolower($source) && !$this->file_exists($target)) {
 					return false;
 				}
 			}
 			return true;
+		} else {
+			$logger->error('failed to rename ' . $absoluteSource . ' to ' . $absoluteTarget . ', trying copy+delete fallback instead', [
+				'app' => 'core',
+				'last_error' => error_get_last(),
+			]);
 		}
 
-		return $this->copy($source, $target) && $this->unlink($source);
+		if (!$this->copy($source, $target)) {
+			$logger->error('failed to copy ' . $absoluteSource . ' to ' . $absoluteTarget . ' as part of rename fallback', [
+				'app' => 'core',
+				'last_error' => error_get_last(),
+			]);
+			return false;
+		}
+
+		if (!$this->unlink($source)) {
+			$logger->error('failed to delete ' . $absoluteSource . ' as part of rename fallback', [
+				'app' => 'core',
+				'last_error' => error_get_last(),
+			]);
+			return false;
+		}
+		return true;
 	}
 
 	public function copy(string $source, string $target): bool {
