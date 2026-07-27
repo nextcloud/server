@@ -8,6 +8,9 @@
 
 namespace OCP;
 
+use OC\User\LazyUser;
+use OCP\AppFramework\Attribute\Implementable;
+
 /**
  * Class Manager
  *
@@ -24,6 +27,7 @@ namespace OCP;
  *
  * @since 8.0.0
  */
+#[Implementable(since: '8.0.0')]
 interface IUserManager {
 	/**
 	 * @since 26.0.0
@@ -160,6 +164,15 @@ interface IUserManager {
 	 * @since 12.0.0
 	 */
 	public function createUserFromBackend($uid, $password, UserInterface $backend);
+
+	/**
+	 * Create a lazy user.
+	 *
+	 * This will create a lazy user object which will be then loaded when needed.
+	 *
+	 * @since 35.0.0
+	 */
+	public function getLazyUser(string $uid, string $displayName = null, ?IUserBackend $backend = null): IUser;
 
 	/**
 	 * Get how many users per backend exist (if supported by backend)

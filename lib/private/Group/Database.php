@@ -8,7 +8,6 @@
 
 namespace OC\Group;
 
-use OC\User\LazyUser;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Group\Backend\ABackend;
@@ -425,7 +424,7 @@ class Database extends ABackend implements
 		$users = [];
 		$userManager = Server::get(IUserManager::class);
 		while ($row = $result->fetchAssociative()) {
-			$users[$row['uid']] = new LazyUser($row['uid'], $userManager, $row['displayname'] ?? null);
+			$users[$row['uid']] = $userManager->getLazyUser($row['uid'], $row['displayname'] ?? null);
 		}
 		$result->closeCursor();
 

@@ -460,6 +460,10 @@ class Manager extends PublicEmitter implements IUserManager {
 		return false;
 	}
 
+	public function getLazyUser(string $uid, string $displayName = null, ?IUserBackend $backend = null): IUser {
+		return new LazyUser($uid, $this, $displayName, $backend);
+	}
+
 	/**
 	 * returns how many users per backend exist (if supported by backend)
 	 *
