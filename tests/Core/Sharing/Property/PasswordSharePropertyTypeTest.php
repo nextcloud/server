@@ -69,18 +69,29 @@ final class PasswordSharePropertyTypeTest extends TestCase {
 	}
 
 	public function testGetDefaultValue(): void {
+		$share = new Share(
+			'123',
+			new ShareUser('user', null),
+			0,
+			ShareState::Active,
+			[],
+			[],
+			[],
+			[],
+		);
+
 		$appConfig = Server::get(IAppConfig::class);
 		$appConfig->deleteKey(Application::APP_ID, ConfigLexicon::SHARE_LINK_PASSWORD_ENFORCED);
 
-		$this->assertNull($this->propertyType->getDefaultValue());
+		$this->assertNull($this->propertyType->getDefaultValue($share));
 
 		$appConfig->setValueBool(Application::APP_ID, ConfigLexicon::SHARE_LINK_PASSWORD_ENFORCED, true);
 
-		$value = $this->propertyType->getDefaultValue();
+		$value = $this->propertyType->getDefaultValue($share);
 		$this->assertNotNull($value);
 		/** @psalm-suppress RedundantCastGivenDocblockType psalm:strict and rector:strict fight over the cast -_- */
 		$this->assertGreaterThan(1, strlen((string)$value));
-		$this->assertTrue($this->propertyType->validateValue(Server::get(IFactory::class), $value));
+		$this->assertTrue($this->propertyType->validateValue(Server::get(IFactory::class), $share, $value));
 
 		$appConfig->deleteKey(Application::APP_ID, ConfigLexicon::SHARE_LINK_PASSWORD_ENFORCED);
 	}

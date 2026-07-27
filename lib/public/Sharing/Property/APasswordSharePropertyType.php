@@ -47,7 +47,7 @@ abstract class APasswordSharePropertyType implements ISharePropertyType, IShareP
 	 * @since 35.0.0
 	 */
 	#[\Override]
-	public function validateValue(IFactory $l10nFactory, string $value): true|string {
+	public function validateValue(IFactory $l10nFactory, Share $share, string $value): true|string {
 		if ($value === self::PLACEHOLDER) {
 			return true;
 		}
@@ -94,7 +94,7 @@ abstract class APasswordSharePropertyType implements ISharePropertyType, IShareP
 	 * @since 35.0.0
 	 */
 	#[\Override]
-	public function format(array $property): array {
+	public function format(Share $share, array $property): array {
 		$property['type'] = 'password';
 		return $property;
 	}

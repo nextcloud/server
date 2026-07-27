@@ -25,7 +25,7 @@ abstract class ABooleanSharePropertyType implements ISharePropertyType {
 	 * @since 35.0.0
 	 */
 	#[\Override]
-	public function validateValue(IFactory $l10nFactory, string $value): true|string {
+	public function validateValue(IFactory $l10nFactory, Share $share, string $value): true|string {
 		if ($value === 'true' || $value === 'false') {
 			return true;
 		}
@@ -39,7 +39,7 @@ abstract class ABooleanSharePropertyType implements ISharePropertyType {
 	 * @since 35.0.0
 	 */
 	#[\Override]
-	public function format(array $property): array {
+	public function format(Share $share, array $property): array {
 		$property['type'] = 'boolean';
 		return $property;
 	}

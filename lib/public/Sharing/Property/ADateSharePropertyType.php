@@ -27,18 +27,18 @@ abstract class ADateSharePropertyType implements ISharePropertyType {
 	/**
 	 * @since 35.0.0
 	 */
-	abstract public function getMinDate(): ?DateTimeImmutable;
+	abstract public function getMinDate(Share $share): ?DateTimeImmutable;
 
 	/**
 	 * @since 35.0.0
 	 */
-	abstract public function getMaxDate(): ?DateTimeImmutable;
+	abstract public function getMaxDate(Share $share): ?DateTimeImmutable;
 
 	/**
 	 * @since 35.0.0
 	 */
 	#[\Override]
-	public function validateValue(IFactory $l10nFactory, string $value): true|string {
+	public function validateValue(IFactory $l10nFactory, Share $share, string $value): true|string {
 		try {
 			$date = DateTimeImmutable::createFromFormat(DateTimeInterface::ATOM, $value);
 		} catch (Exception) {
@@ -49,11 +49,11 @@ abstract class ADateSharePropertyType implements ISharePropertyType {
 			return $l10nFactory->get(Application::APP_ID)->t('Invalid ISO date: %s', [$value]);
 		}
 
-		if (($minDate = $this->getMinDate()) instanceof DateTimeImmutable && $date->diff($minDate)->invert === 0) {
+		if (($minDate = $this->getMinDate($share)) instanceof DateTimeImmutable && $date->diff($minDate)->invert === 0) {
 			return $l10nFactory->get(Application::APP_ID)->t('Date needs to be after %1$s: %2$s', [$minDate->format(DateTimeInterface::ATOM), $value]);
 		}
 
-		if (($maxDate = $this->getMaxDate()) instanceof DateTimeImmutable && $date->diff($maxDate)->invert === 1) {
+		if (($maxDate = $this->getMaxDate($share)) instanceof DateTimeImmutable && $date->diff($maxDate)->invert === 1) {
 			return $l10nFactory->get(Application::APP_ID)->t('Date needs to be before %1$s: %2$s', [$maxDate->format(DateTimeInterface::ATOM), $value]);
 		}
 
@@ -66,10 +66,10 @@ abstract class ADateSharePropertyType implements ISharePropertyType {
 	 * @since 35.0.0
 	 */
 	#[\Override]
-	public function format(array $property): array {
+	public function format(Share $share, array $property): array {
 		$property['type'] = 'date';
-		$property['min_date'] = $this->getMinDate()?->format(DateTimeInterface::ATOM);
-		$property['max_date'] = $this->getMaxDate()?->format(DateTimeInterface::ATOM);
+		$property['min_date'] = $this->getMinDate($share)?->format(DateTimeInterface::ATOM);
+		$property['max_date'] = $this->getMaxDate($share)?->format(DateTimeInterface::ATOM);
 		return $property;
 	}
 }

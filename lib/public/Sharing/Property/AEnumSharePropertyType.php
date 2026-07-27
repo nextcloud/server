@@ -31,7 +31,7 @@ abstract class AEnumSharePropertyType implements ISharePropertyType {
 	 * @since 35.0.0
 	 */
 	#[\Override]
-	public function validateValue(IFactory $l10nFactory, string $value): true|string {
+	public function validateValue(IFactory $l10nFactory, Share $share, string $value): true|string {
 		$validValues = $this->getValidValues();
 		if (in_array($value, $validValues, true)) {
 			return true;
@@ -46,7 +46,7 @@ abstract class AEnumSharePropertyType implements ISharePropertyType {
 	 * @since 35.0.0
 	 */
 	#[\Override]
-	public function format(array $property): array {
+	public function format(Share $share, array $property): array {
 		$property['type'] = 'enum';
 		$property['valid_values'] = $this->getValidValues();
 		return $property;

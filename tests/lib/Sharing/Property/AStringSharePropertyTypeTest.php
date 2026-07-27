@@ -12,6 +12,9 @@ namespace Test\Sharing\Property;
 use OCP\L10N\IFactory;
 use OCP\Server;
 use OCP\Sharing\Property\AStringSharePropertyType;
+use OCP\Sharing\Share;
+use OCP\Sharing\ShareState;
+use OCP\Sharing\ShareUser;
 use Test\TestCase;
 
 final class TestStringSharePropertyType extends AStringSharePropertyType {
@@ -54,12 +57,12 @@ final class TestStringSharePropertyType extends AStringSharePropertyType {
 	}
 
 	#[\Override]
-	public function isRequired(): bool {
+	public function isRequired(Share $share): bool {
 		throw new \RuntimeException();
 	}
 
 	#[\Override]
-	public function getDefaultValue(): ?string {
+	public function getDefaultValue(Share $share): ?string {
 		throw new \RuntimeException();
 	}
 }
@@ -79,10 +82,20 @@ final class AStringSharePropertyTypeTest extends TestCase {
 
 	public function testValiStringValue(): void {
 		$l10nFactory = Server::get(IFactory::class);
-		$this->assertIsString($this->propertyType->validateValue($l10nFactory, 'ab'));
-		$this->assertTrue($this->propertyType->validateValue($l10nFactory, 'abc'));
-		$this->assertTrue($this->propertyType->validateValue($l10nFactory, 'abcd'));
-		$this->assertTrue($this->propertyType->validateValue($l10nFactory, 'abcde'));
-		$this->assertIsString($this->propertyType->validateValue($l10nFactory, 'abcdef'));
+		$share = new Share(
+			'123',
+			new ShareUser('user', null),
+			0,
+			ShareState::Active,
+			[],
+			[],
+			[],
+			[],
+		);
+		$this->assertIsString($this->propertyType->validateValue($l10nFactory, $share, 'ab'));
+		$this->assertTrue($this->propertyType->validateValue($l10nFactory, $share, 'abc'));
+		$this->assertTrue($this->propertyType->validateValue($l10nFactory, $share, 'abcd'));
+		$this->assertTrue($this->propertyType->validateValue($l10nFactory, $share, 'abcde'));
+		$this->assertIsString($this->propertyType->validateValue($l10nFactory, $share, 'abcdef'));
 	}
 }

@@ -13,6 +13,8 @@ use DateInterval;
 use DateTimeImmutable;
 use DateTimeInterface;
 use OC\Core\AppInfo\Application;
+use OC\Core\Sharing\Recipient\EmailShareRecipientType;
+use OC\Core\Sharing\Recipient\TokenShareRecipientType;
 use OCP\L10N\IFactory;
 use OCP\Share\IManager;
 use OCP\Sharing\Property\ADateSharePropertyType;
@@ -52,51 +54,50 @@ final class ExpirationDateSharePropertyType extends ADateSharePropertyType imple
 	}
 
 	#[\Override]
-	public function isRequired(): bool {
-		if ($this->legacyManager->shareApiLinkDefaultExpireDateEnforced()) {
+	public function isRequired(Share $share): bool {
+		if ($this->hasTokenOrEmailRecipient($share) && $this->legacyManager->shareApiLinkDefaultExpireDateEnforced()) {
 			return true;
 		}
 
-		if ($this->legacyManager->shareApiRemoteDefaultExpireDateEnforced()) {
+		if ($this->hasRemoteRecipient($share) && $this->legacyManager->shareApiRemoteDefaultExpireDateEnforced()) {
 			return true;
 		}
-
-		return $this->legacyManager->shareApiInternalDefaultExpireDateEnforced();
+		return $this->hasLocalNonTokenAndEmailRecipient($share) && $this->legacyManager->shareApiInternalDefaultExpireDateEnforced();
 	}
 
 	#[\Override]
-	public function getDefaultValue(): ?string {
-		return $this->getMaxExpirationDate()?->format(DateTimeInterface::ATOM);
+	public function getDefaultValue(Share $share): ?string {
+		return $this->getMaxExpirationDate($share)?->format(DateTimeInterface::ATOM);
 	}
 
 	#[\Override]
-	public function getMinDate(): \DateTimeImmutable {
+	public function getMinDate(Share $share): \DateTimeImmutable {
 		// Ensure the expiration date is in the future.
 		return $this->now->add(new DateInterval('PT5M'));
 	}
 
 	#[\Override]
-	public function getMaxDate(): ?DateTimeImmutable {
-		if ($this->isRequired()) {
+	public function getMaxDate(Share $share): ?DateTimeImmutable {
+		if ($this->isRequired($share)) {
 			// Allow some time to pass between the user getting the max date and saving the date, as the time will shift in between.
-			return $this->getMaxExpirationDate()?->add(new DateInterval('PT5M'));
+			return $this->getMaxExpirationDate($share)?->add(new DateInterval('PT5M'));
 		}
 
 		return null;
 	}
 
-	private function getMaxExpirationDate(): ?DateTimeImmutable {
-		// We do not have any distinction between link/remote/internal, so we just apply the lowest expiration days count to be safe.
+	private function getMaxExpirationDate(Share $share): ?DateTimeImmutable {
 		$days = INF;
-		if ($this->legacyManager->shareApiLinkDefaultExpireDate()) {
+
+		if ($this->hasTokenOrEmailRecipient($share) && $this->legacyManager->shareApiLinkDefaultExpireDate()) {
 			$days = min($days, $this->legacyManager->shareApiLinkDefaultExpireDays());
 		}
 
-		if ($this->legacyManager->shareApiRemoteDefaultExpireDate()) {
+		if ($this->hasRemoteRecipient($share) && $this->legacyManager->shareApiRemoteDefaultExpireDate()) {
 			$days = min($days, $this->legacyManager->shareApiRemoteDefaultExpireDays());
 		}
 
-		if ($this->legacyManager->shareApiInternalDefaultExpireDate()) {
+		if ($this->hasLocalNonTokenAndEmailRecipient($share) && $this->legacyManager->shareApiInternalDefaultExpireDate()) {
 			$days = min($days, $this->legacyManager->shareApiInternalDefaultExpireDays());
 		}
 
@@ -116,6 +117,36 @@ final class ExpirationDateSharePropertyType extends ADateSharePropertyType imple
 			}
 
 			return $this->now->diff($date)->invert === 1;
+		}
+
+		return false;
+	}
+
+	private function hasTokenOrEmailRecipient(Share $share): bool {
+		foreach ($share->recipients as $recipient) {
+			if ($recipient->class === TokenShareRecipientType::class || $recipient->class === EmailShareRecipientType::class) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private function hasRemoteRecipient(Share $share): bool {
+		foreach ($share->recipients as $recipient) {
+			if ($recipient->instance !== null) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private function hasLocalNonTokenAndEmailRecipient(Share $share): bool {
+		foreach ($share->recipients as $recipient) {
+			if ($recipient->instance === null && $recipient->class !== TokenShareRecipientType::class && $recipient->class !== EmailShareRecipientType::class) {
+				return true;
+			}
 		}
 
 		return false;
