@@ -247,7 +247,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.0.4
 	- license: MIT
 - p-queue
-	- version: 9.3.2
+	- version: 9.3.3
 	- license: MIT
 - perfect-debounce
 	- version: 2.1.0
