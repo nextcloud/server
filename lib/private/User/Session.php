@@ -351,7 +351,7 @@ class Session implements IUserSession, Emitter {
 		if ($isToken) {
 			$this->setToken($loginDetails['token']->getId());
 			$this->lockdownManager->setToken($loginDetails['token']);
-			$user->updateLastLoginTimestamp();
+			// don't updateLastLoginTimestamp here, since $firstTimeLogin would never ever be true in the future
 			$firstTimeLogin = false;
 		} else {
 			$this->setToken(null);
