@@ -1978,10 +1978,14 @@ class Manager implements IManager {
 			$requestOptions = [
 				'timeout' => 30,
 			];
-			$response = $appApiFunctions->exAppRequest($exAppId, $uri, $task->getUserId(), $httpMethod, $requestParams, $requestOptions);
-			if (is_array($response) && isset($response['error'])) {
-				$this->logger->warning('Task processing AppAPI webhook failed for task ' . $task->getId() . '. Error during request to ExApp(' . $exAppId . '): ', $response['error']);
-			}
+			try {
+				$response = $appApiFunctions->exAppRequest($exAppId, $uri, $task->getUserId(), $httpMethod, $requestParams, $requestOptions);
+				if (is_array($response) && isset($response['error'])) {
+					$this->logger->warning('Task processing AppAPI webhook failed for task ' . $task->getId() . '. Error during request to ExApp(' . $exAppId . ').', ['error' => $response['error']]);
+				}
+			} catch (\Throwable $e) {
+				$this->logger->warning('Task processing AppAPI webhook failed for task ' . $task->getId() . '. Request failed.', ['exception' => $e]);
+ 			}
 		}
 	}
 }
