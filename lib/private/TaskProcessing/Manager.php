@@ -1923,11 +1923,9 @@ class Manager implements IManager {
 	private function runWebhook(Task $task): void {
 		$uri = $task->getWebhookUri();
 		$method = $task->getWebhookMethod();
-
 		if (!$uri || !$method) {
 			return;
 		}
-
 		if (in_array($method, ['HTTP:GET', 'HTTP:POST', 'HTTP:PUT', 'HTTP:DELETE'], true)) {
 			$client = $this->clientService->newClient();
 			$httpMethod = preg_replace('/^HTTP:/', '', $method);
@@ -1947,8 +1945,13 @@ class Manager implements IManager {
 			}
 		} elseif (str_starts_with($method, 'AppAPI:') && str_starts_with($uri, '/')) {
 			$parsedMethod = explode(':', $method, 4);
-			if (count($parsedMethod) < 3) {
+			if (
+				count($parsedMethod) !== 3
+				|| $parsedMethod[1] === ''
+				|| !in_array($parsedMethod[2], ['GET', 'POST', 'PUT', 'DELETE'], true)
+			) {
 				$this->logger->warning('Task processing AppAPI webhook failed for task ' . $task->getId() . '. Invalid method: ' . $method);
+				return;
 			}
 			[, $exAppId, $httpMethod] = $parsedMethod;
 			if (!$this->appManager->isEnabledForAnyone('app_api')) {
