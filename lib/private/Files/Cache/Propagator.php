@@ -194,6 +194,10 @@ class Propagator implements IPropagator {
 		// Ensure rows are always locked in the same order
 		uasort($this->batch, static fn (array $a, array $b) => $a['hash'] <=> $b['hash']);
 
+		// storages with reliable etags maintain their own etag, so don't churn one
+		// here on every batched row (matches the check in propagateChange())
+		$reliableEtag = $this->storage->instanceOfStorage(IReliableEtagStorage::class);
+
 		try {
 			$this->connection->beginTransaction();
 
@@ -218,17 +222,21 @@ class Propagator implements IPropagator {
 					$query = $this->connection->getQueryBuilder();
 					$query->update('filecache')
 						->set('mtime', $query->func()->greatest('mtime', $query->createParameter('time')))
-						->set('etag', $query->expr()->literal(uniqid()))
 						->where($query->expr()->eq('storage', $query->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
 						->andWhere($query->expr()->eq('fileid', $query->createParameter('fileid')));
+					if (!$reliableEtag) {
+						$query->set('etag', $query->expr()->literal(uniqid()));
+					}
 
 					$queryWithSize = $this->connection->getQueryBuilder();
 					$queryWithSize->update('filecache')
 						->set('mtime', $queryWithSize->func()->greatest('mtime', $queryWithSize->createParameter('time')))
-						->set('etag', $queryWithSize->expr()->literal(uniqid()))
 						->set('size', $queryWithSize->func()->add('size', $queryWithSize->createParameter('size')))
 						->where($queryWithSize->expr()->eq('storage', $queryWithSize->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
 						->andWhere($queryWithSize->expr()->eq('fileid', $queryWithSize->createParameter('fileid')));
+					if (!$reliableEtag) {
+						$queryWithSize->set('etag', $queryWithSize->expr()->literal(uniqid()));
+					}
 
 					while ($row = $result->fetchAssociative()) {
 						$item = $this->batch[$row['path']];
@@ -249,17 +257,21 @@ class Propagator implements IPropagator {
 				$query = $this->connection->getQueryBuilder();
 				$query->update('filecache')
 					->set('mtime', $query->func()->greatest('mtime', $query->createParameter('time')))
-					->set('etag', $query->expr()->literal(uniqid()))
 					->where($query->expr()->eq('storage', $query->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
 					->andWhere($query->expr()->eq('path_hash', $query->createParameter('hash')));
+				if (!$reliableEtag) {
+					$query->set('etag', $query->expr()->literal(uniqid()));
+				}
 
 				$queryWithSize = $this->connection->getQueryBuilder();
 				$queryWithSize->update('filecache')
 					->set('mtime', $queryWithSize->func()->greatest('mtime', $queryWithSize->createParameter('time')))
-					->set('etag', $queryWithSize->expr()->literal(uniqid()))
 					->set('size', $queryWithSize->func()->add('size', $queryWithSize->createParameter('size')))
 					->where($queryWithSize->expr()->eq('storage', $queryWithSize->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
 					->andWhere($queryWithSize->expr()->eq('path_hash', $queryWithSize->createParameter('hash')));
+				if (!$reliableEtag) {
+					$queryWithSize->set('etag', $queryWithSize->expr()->literal(uniqid()));
+				}
 
 				foreach ($this->batch as $item) {
 					if ($item['size']) {
