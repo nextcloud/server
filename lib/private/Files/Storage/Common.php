@@ -29,6 +29,7 @@ use OCP\Files\ForbiddenException;
 use OCP\Files\GenericFileException;
 use OCP\Files\IFilenameValidator;
 use OCP\Files\InvalidPathException;
+use OCP\Files\NotPermittedException;
 use OCP\Files\Storage\IConstructableStorage;
 use OCP\Files\Storage\ILockingStorage;
 use OCP\Files\Storage\IStorage;
@@ -519,6 +520,9 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 				try {
 					$this->writeStream($targetInternalPath, $source);
 					$result = true;
+				} catch (NotPermittedException $e) {
+					Server::get(LoggerInterface::class)->warning('Failed to copy stream to storage', ['exception' => $e]);
+					throw new ForbiddenException($e->getMessage(), false, $e);
 				} catch (\Exception $e) {
 					Server::get(LoggerInterface::class)->warning('Failed to copy stream to storage', ['exception' => $e]);
 				}
