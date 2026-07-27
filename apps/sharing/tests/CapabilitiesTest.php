@@ -11,12 +11,14 @@ use OCA\Sharing\AppInfo\Application;
 use OCA\Sharing\Capabilities;
 use OCP\Server;
 use OCP\Sharing\ISharingRegistry;
+use PHPUnit\Framework\Attributes\Group;
 use Test\Sharing\TestSharePermissionPreset1;
 use Test\Sharing\TestSharePermissionPreset2;
 use Test\Sharing\TestShareSourceType1;
 use Test\Sharing\TestShareSourceType2;
 use Test\TestCase;
 
+#[Group(name: 'DB')]
 final class CapabilitiesTest extends TestCase {
 	private ISharingRegistry $registry;
 

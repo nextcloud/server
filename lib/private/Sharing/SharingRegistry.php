@@ -175,10 +175,6 @@ final class SharingRegistry implements ISharingRegistry {
 	public function registerPropertyType(ISharePropertyType $propertyType): void {
 		$class = $propertyType::class;
 
-		if ($propertyType->isRequired() && $propertyType->getDefaultValue() === null) {
-			throw new RuntimeException('Share property type ' . $class . ' is required, but has no default value.');
-		}
-
 		if (isset($this->propertyTypes[$class])) {
 			throw new RuntimeException('Share property type ' . $class . ' is already registered');
 		}
