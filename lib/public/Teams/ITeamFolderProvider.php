@@ -9,6 +9,9 @@ declare(strict_types=1);
 
 namespace OCP\Teams;
 
+use OCP\AppFramework\Attribute\Consumable;
+use OCP\AppFramework\Attribute\Implementable;
+
 /**
  * Provides the exclusive folder belonging to a team.
  *
@@ -17,6 +20,8 @@ namespace OCP\Teams;
  *
  * @since 35.0.0
  */
+#[Consumable(since: '35.0.0')]
+#[Implementable(since: '35.0.0')]
 interface ITeamFolderProvider extends ITeamResourceProvider {
 	/**
 	 * Return the folder exclusively linked to the team.

@@ -9,11 +9,14 @@ declare(strict_types=1);
 
 namespace OCP\Teams;
 
+use OCP\AppFramework\Attribute\Consumable;
+
 /**
  * A folder exclusively linked to a team.
  *
  * @since 35.0.0
  */
+#[Consumable(since: '35.0.0')]
 class TeamFolder implements \JsonSerializable {
 	/**
 	 * @since 35.0.0
