@@ -16,7 +16,7 @@ type SeededIds = { imageId: number, folderId: number, archiveId: number }
 // The `viewer` app is enabled by default in the test server.
 const test = baseTest.extend<{ ids: SeededIds }>({
 	ids: async ({ page, user }, use) => {
-		const image = readFileSync(resolve(process.cwd(), 'cypress/fixtures/image.jpg'))
+		const image = readFileSync(resolve(process.cwd(), 'tests/data/images/image.jpg'))
 		const imageId = Number(await uploadContent(page.request, user, image, 'image/jpeg', '/image.jpg'))
 		const folderId = Number(await mkdir(page.request, user, '/folder'))
 		const archiveId = Number(await uploadContent(page.request, user, Buffer.alloc(0), 'application/zstd', '/archive.zst'))

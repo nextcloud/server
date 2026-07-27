@@ -36,8 +36,6 @@ codecov.yml
 cs-fixer
 csfixer
 custom.d.ts
-cypress
-cypress.config.ts
 eslint.config.js
 flake.lock
 flake.nix

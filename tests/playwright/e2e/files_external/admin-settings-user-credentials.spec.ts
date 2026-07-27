@@ -39,7 +39,7 @@ test.describe('Files user credentials', () => {
 		storageUser = await createRandomUser()
 		const storageContext = await playwright.request.newContext({ baseURL })
 		await login(storageContext, storageUser)
-		const image = readFileSync(resolve(process.cwd(), 'cypress/fixtures/image.jpg'))
+		const image = readFileSync(resolve(process.cwd(), 'tests/data/images/image.jpg'))
 		await uploadContent(storageContext, storageUser, image, 'image/jpeg', '/image.jpg')
 		await storageContext.dispose()
 	})
