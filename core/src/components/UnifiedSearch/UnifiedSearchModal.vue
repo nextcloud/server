@@ -21,7 +21,9 @@
 					{{ liveMessage }}
 				</div>
 				<!-- Unified search form -->
-				<div class="unified-search-modal__header">
+				<div
+					class="unified-search-modal__header"
+					:class="{ 'unified-search-modal__header--has-results': hasVisibleResults }">
 					<div v-if="isSmallMobile" class="unified-search-modal__mobile-input">
 						<NcTextField
 							type="search"
@@ -40,10 +42,16 @@
 							</template>
 						</NcButton>
 					</div>
-					<div class="unified-search-modal__filters" data-cy-unified-search-filters>
-						<NcActions :open.sync="providerActionMenuIsOpen" :menu-name="t('core', 'Places')" data-cy-unified-search-filter="places">
+					<div v-show="showFilterRow" class="unified-search-modal__filters" data-cy-unified-search-filters>
+						<NcActions
+							wide
+							size="small"
+							:open.sync="providerActionMenuIsOpen"
+							:menu-name="t('core', 'Type')"
+							:variant="providerFilterActive ? 'primary' : 'secondary'"
+							data-cy-unified-search-filter="places">
 							<template #icon>
-								<IconListBox :size="20" />
+								<IconShapeOutline :size="20" />
 							</template>
 							<!-- Provider id's may be duplicated since, plugin filters could depend on a provider that is already in the defaults.
 					provider.id concatenated to provider.name is used to create the item id, if same then, there should be an issue. -->
@@ -58,9 +66,15 @@
 								{{ provider.name }}
 							</NcActionButton>
 						</NcActions>
-						<NcActions :open.sync="dateActionMenuIsOpen" :menu-name="t('core', 'Date')" data-cy-unified-search-filter="date">
+						<NcActions
+							size="small"
+							wide
+							:open.sync="dateActionMenuIsOpen"
+							:menu-name="t('core', 'Date')"
+							:variant="dateFilterActive ? 'primary' : 'secondary'"
+							data-cy-unified-search-filter="date">
 							<template #icon>
-								<IconCalendarRange :size="20" />
+								<IconCalendarBlankOutline :size="20" />
 							</template>
 							<NcActionButton :closeAfterClick="true" @click="applyQuickDateRange('today')">
 								{{ t('core', 'Today') }}
@@ -89,15 +103,23 @@
 							@search-term-change="debouncedFilterContacts"
 							@item-selected="applyPersonFilter">
 							<template #trigger>
-								<NcButton>
+								<NcButton
+									wide
+									size="small"
+									variant="secondary"
+									:pressed="personFilterActive">
 									<template #icon>
-										<IconAccountGroup :size="20" />
+										<IconAccountMultipleOutline :size="20" />
 									</template>
 									{{ t('core', 'People') }}
 								</NcButton>
 							</template>
 						</SearchableList>
-						<NcButton v-if="localSearch" data-cy-unified-search-filter="current-view" @click="searchLocally">
+						<NcButton
+							v-if="localSearch"
+							variant="tertiary"
+							data-cy-unified-search-filter="current-view"
+							@click="searchLocally">
 							{{ t('core', 'Filter in current view') }}
 							<template #icon>
 								<IconFilter :size="20" />
@@ -125,9 +147,9 @@
 									:user="filter.user"
 									:size="24"
 									disableMenu
-									hideUserStatus
+									hideStatus
 									:hideFavorite="false" />
-								<IconCalendarRange v-else-if="filter.type === 'date'" />
+								<IconCalendarBlankOutline v-else-if="filter.type === 'date'" />
 								<img v-else :src="filter.icon" alt="">
 							</template>
 						</FilterChip>
@@ -211,7 +233,7 @@
 					</template>
 				</div>
 			</div>
-			<div class="unified-search-modal__scrim" @click="onUpdateOpen(false)" />
+			<div class="unified-search-modal__scrim" @click="onScrimClick" />
 		</div>
 	</transition>
 </template>
@@ -235,14 +257,14 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
-import IconAccountGroup from 'vue-material-design-icons/AccountGroupOutline.vue'
+import IconAccountMultipleOutline from 'vue-material-design-icons/AccountMultipleOutline.vue'
 import IconArrowRight from 'vue-material-design-icons/ArrowRight.vue'
-import IconCalendarRange from 'vue-material-design-icons/CalendarRangeOutline.vue'
+import IconCalendarBlankOutline from 'vue-material-design-icons/CalendarBlankOutline.vue'
 import IconClose from 'vue-material-design-icons/Close.vue'
 import IconDotsHorizontal from 'vue-material-design-icons/DotsHorizontal.vue'
 import IconFilter from 'vue-material-design-icons/Filter.vue'
-import IconListBox from 'vue-material-design-icons/ListBox.vue'
 import IconMagnify from 'vue-material-design-icons/Magnify.vue'
+import IconShapeOutline from 'vue-material-design-icons/ShapeOutline.vue'
 import CustomDateRangeModal from './CustomDateRangeModal.vue'
 import SearchableList from './SearchableList.vue'
 import FilterChip from './SearchFilterChip.vue'
@@ -261,14 +283,14 @@ interface NavigableRow {
 export default defineComponent({
 	name: 'UnifiedSearchModal',
 	components: {
+		IconAccountMultipleOutline,
 		IconArrowRight,
-		IconAccountGroup,
-		IconCalendarRange,
+		IconCalendarBlankOutline,
 		IconClose,
 		IconDotsHorizontal,
 		IconFilter,
-		IconListBox,
 		IconMagnify,
+		IconShapeOutline,
 
 		CustomDateRangeModal,
 		FilterChip,
@@ -307,6 +329,16 @@ export default defineComponent({
 			type: Boolean,
 			default: false,
 		},
+
+		/**
+		 * Reveal the filter row before the user has typed. Set by the header input's
+		 * funnel button (relayed through the parent view) so filters can be opened on
+		 * a focused-but-empty query.
+		 */
+		filtersRevealed: {
+			type: Boolean,
+			default: false,
+		},
 	},
 
 	emits: ['update:open', 'update:query', 'update:activeDescendant'],
@@ -319,13 +351,14 @@ export default defineComponent({
 		const searchStore = useSearchStore()
 		const isSmallMobile = useIsSmallMobile()
 
-		const { searchStates, search, loadMore } = useUnifiedSearch()
+		const { searchStates, search, loadMore, reset } = useUnifiedSearch()
 
 		return {
 			t,
 			searchStates,
 			search,
 			loadMore,
+			reset,
 			currentLocation,
 			externalFilters: searchStore.externalFilters,
 			isSmallMobile,
@@ -371,6 +404,33 @@ export default defineComponent({
 			return this.searchQuery.length === 0
 		},
 
+		// Per-category "active" flags from the applied filters, driving each trigger's
+		// pressed/blue state. The provider bucket is everything that is not date or person.
+		providerFilterActive() {
+			return this.filters.some((filter) => filter.type !== 'date' && filter.type !== 'person')
+		},
+
+		dateFilterActive() {
+			return this.filters.some((filter) => filter.type === 'date')
+		},
+
+		personFilterActive() {
+			return this.filters.some((filter) => filter.type === 'person')
+		},
+
+		hasAnyActiveFilter() {
+			return this.filters.length > 0
+		},
+
+		// Desktop hides the filter row until the funnel reveals it, or a query/active
+		// filter exists. Always shown on mobile, where the modal is the whole search surface.
+		showFilterRow() {
+			return this.isSmallMobile
+				|| this.filtersRevealed
+				|| this.searchQuery.length > 0
+				|| this.hasAnyActiveFilter
+		},
+
 		// True while any category is still fetching.
 		searching() {
 			return Object.values(this.searchStates).some((state) => state.status === 'loading')
@@ -385,8 +445,7 @@ export default defineComponent({
 		},
 
 		showEmptyContentInfo() {
-			// A too-short query never searches, so any results still held are stale for it.
-			return this.isEmptySearch || this.isSearchQueryTooShort || this.hasNoResults
+			return this.hasNoResults
 		},
 
 		emptyContentMessage() {
@@ -429,6 +488,13 @@ export default defineComponent({
 		},
 
 		results() {
+			// An empty or too-short query has no results. The controller keeps its last
+			// result set (the modal never unmounts to dispose it), so this guard stops
+			// stale entries rendering under a freshly emptied search box. isEmptySearch is
+			// covered explicitly since min-search-length can be 0, when too-short is false.
+			if (this.isEmptySearch || this.isSearchQueryTooShort) {
+				return []
+			}
 			const contentFilterTypes = this.filters
 				.filter((filter) => filter.type !== 'provider')
 				.map((filter) => filter.type)
@@ -538,6 +604,12 @@ export default defineComponent({
 			}
 			return n('core', '%n result', '%n results', this.navigableRows.length)
 		},
+
+		// Whether the results region has anything to render. Drives the region's padding
+		// so an empty or too-short query leaves no gap under the filters.
+		hasVisibleResults() {
+			return this.filteredResults.length > 0 || this.unfilteredResults.length > 0
+		},
 	},
 
 	watch: {
@@ -569,6 +641,10 @@ export default defineComponent({
 					this.find(this.searchQuery)
 				}
 			} else {
+				// The modal never unmounts, so the controller keeps this session's results.
+				// Clear them on close so they can't flash on the next open. Close is the
+				// reliable hook: every close path flips this prop true -> false.
+				this.reset()
 				document.removeEventListener('keydown', this.onEscapeKey)
 				this.deactivateFocusTrap()
 			}
@@ -634,6 +710,17 @@ export default defineComponent({
 				this.$emit('update:open', false)
 				this.$emit('update:query', '')
 			}
+		},
+
+		/**
+		 * Backdrop click dismisses the search. Tear the trap down WITHOUT returning focus
+		 * so the input stays at rest where the user clicked away, rather than the trap
+		 * snapping focus back to it. The open watcher's own deactivate then no-ops (the
+		 * trap is already gone). Escape and the close button keep the default return-focus.
+		 */
+		onScrimClick() {
+			this.deactivateFocusTrap(false)
+			this.onUpdateOpen(false)
 		},
 
 		/**
@@ -708,10 +795,14 @@ export default defineComponent({
 		},
 
 		/**
-		 * Tear down the focus trap (returns focus to where it was before opening).
+		 * Tear down the focus trap. By default focus returns to where it was before
+		 * opening (the header input); pass false for backdrop dismissal, where focus
+		 * should stay put instead of snapping back to the input.
+		 *
+		 * @param returnFocus whether to restore focus to the pre-open element
 		 */
-		deactivateFocusTrap() {
-			this.focusTrap?.deactivate()
+		deactivateFocusTrap(returnFocus: boolean = true) {
+			this.focusTrap?.deactivate({ returnFocus })
 			this.focusTrap = null
 		},
 
@@ -1254,11 +1345,17 @@ export default defineComponent({
 		background-color: var(--color-main-background);
 		// Fix padding to have the input centered
 		padding-inline: 12px;
-		// Some padding to make elements scrolled under sticky position look nicer
-		padding-block: 12px;
 		// Make it sticky with the input margin for the label
 		position: sticky;
 		top: 6px;
+		z-index: 1;
+
+		// Some padding to make elements scrolled under sticky position look nicer.
+		// Only when there are results to scroll: otherwise it just adds a dead gap.
+		&--has-results {
+			padding-bottom: 12px;
+			border-bottom: 1px solid var(--color-border);
+		}
 	}
 
 	&__mobile-input {
@@ -1277,7 +1374,48 @@ export default defineComponent({
 		flex-wrap: wrap;
 		gap: 4px;
 		justify-content: start;
-		padding-top: 4px;
+		padding-top: 6px;
+
+		// The three category triggers split the row into thirds; any extra controls
+		// (local search, connected-services switch) keep their size and wrap below.
+		> [data-cy-unified-search-filter="places"],
+		> [data-cy-unified-search-filter="date"],
+		> [data-cy-unified-search-filter="people"] {
+			flex: 1 1 0;
+			min-width: 0;
+
+			:deep(.v-popper) {
+				display: block;
+				width: 100%;
+			}
+
+			// Centre [icon] label; the chevron is pinned to the trailing edge below.
+			:deep(.button-vue__wrapper) {
+				justify-content: center;
+			}
+
+			// NcActions exposes no dropdown chevron, so paint one at the trailing edge.
+			:deep(.button-vue) {
+				position: relative;
+				width: 100%;
+				padding-inline: calc(var(--default-grid-baseline) * 6);
+
+				&::after {
+					content: '';
+					position: absolute;
+					inset-inline-end: calc(var(--default-grid-baseline) * 2);
+					inset-block: 0;
+					margin-block: auto;
+					width: 16px;
+					height: 16px;
+					background-color: currentColor;
+					mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z'/%3E%3C/svg%3E");
+					mask-repeat: no-repeat;
+					mask-position: center;
+					mask-size: contain;
+				}
+			}
+		}
 	}
 
 	&__search-external-resources {

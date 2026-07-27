@@ -41,6 +41,7 @@ import UnifiedSearchModal from '../../components/UnifiedSearch/UnifiedSearchModa
 
 let searchSpy: ReturnType<typeof vi.fn>
 let loadMoreSpy: ReturnType<typeof vi.fn>
+let resetSpy: ReturnType<typeof vi.fn>
 let searchStates: ReturnType<typeof ref>
 
 // VTU v1 (the legacy Vue 2.7 project) has no flushPromises export; drain the
@@ -66,7 +67,12 @@ beforeEach(() => {
 	searchSpy = vi.fn()
 	loadMoreSpy = vi.fn()
 	searchStates = ref({})
-	composable.api = { searchStates, search: searchSpy, loadMore: loadMoreSpy }
+	// Faithful stand-in for the composable's reset: like the real one, it empties
+	// the reactive snapshot the modal renders from.
+	resetSpy = vi.fn(() => {
+		searchStates.value = {}
+	})
+	composable.api = { searchStates, search: searchSpy, loadMore: loadMoreSpy, reset: resetSpy }
 })
 afterEach(() => vi.clearAllMocks())
 
@@ -271,7 +277,115 @@ describe('UnifiedSearchModal controller wiring', () => {
 		expect(searchSpy).toHaveBeenCalledOnce()
 		expect(searchSpy.mock.calls[0][1]).toEqual(['files'])
 	})
+})
 
+describe('UnifiedSearchModal reset on close', () => {
+	it('clears the controller results when the modal closes, so nothing stale renders on the next open', async () => {
+		const wrapper = factory() // starts open
+		wrapper.vm.providers = [{ id: 'files', name: 'Files', order: 0 }]
+		// A previous search left results in the still-mounted controller.
+		searchStates.value = { files: loaded([{ resourceUrl: '/a' }]) }
+		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
+		expect(wrapper.vm.results).toHaveLength(1)
+
+		// Closing must reset the controller (the modal never unmounts, so dispose never
+		// runs). The next open then starts empty instead of flashing the old results.
+		await wrapper.setProps({ open: false })
+
+		expect(resetSpy).toHaveBeenCalledOnce()
+		expect(wrapper.vm.results).toEqual([])
+	})
+})
+
+describe('UnifiedSearchModal filter triggers', () => {
+	// A category trigger is "active" when a filter of its kind is applied. The
+	// provider/type bucket is anything that is not a date or person filter.
+	it('derives per-category active flags from the applied filters', async () => {
+		const wrapper = factory()
+		expect(wrapper.vm.providerFilterActive).toBe(false)
+		expect(wrapper.vm.dateFilterActive).toBe(false)
+		expect(wrapper.vm.personFilterActive).toBe(false)
+
+		wrapper.vm.filters = [
+			{ id: 'date', type: 'date', text: 'Today' },
+			{ id: 'alice', type: 'person', name: 'Alice' },
+			{ id: 'files', type: 'provider', name: 'Files' },
+		]
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.vm.dateFilterActive).toBe(true)
+		expect(wrapper.vm.personFilterActive).toBe(true)
+		expect(wrapper.vm.providerFilterActive).toBe(true)
+	})
+
+	it('turns the Date trigger primary when a date filter is applied', async () => {
+		const wrapper = factory()
+		const dateTrigger = () => wrapper.findAllComponents({ name: 'NcActions' }).wrappers
+			.find((w) => w.attributes('data-cy-unified-search-filter') === 'date')
+
+		// Gray (secondary) with no date filter...
+		expect(dateTrigger()!.props('variant')).toBe('secondary')
+
+		wrapper.vm.filters = [{ id: 'date', type: 'date', text: 'Today' }]
+		await wrapper.vm.$nextTick()
+
+		// ...blue (primary) once one is applied.
+		expect(dateTrigger()!.props('variant')).toBe('primary')
+	})
+
+	it('clicking a provider entry applies it via addProviderFilter', async () => {
+		const wrapper = factory()
+		wrapper.vm.providers = [{ id: 'files', name: 'Files', icon: '' }]
+		await wrapper.vm.$nextTick()
+
+		const spy = vi.spyOn(wrapper.vm, 'addProviderFilter')
+		const providerEntry = wrapper.findAllComponents({ name: 'NcActionButton' }).wrappers
+			.find((w) => w.text().includes('Files'))
+		providerEntry!.vm.$emit('click')
+
+		expect(spy).toHaveBeenCalledOnce()
+		expect(wrapper.vm.filteredProviders.map((p) => p.id)).toContain('files')
+	})
+})
+
+describe('UnifiedSearchModal filter row reveal', () => {
+	const filterRow = (wrapper) => wrapper.find('[data-cy-unified-search-filters]')
+
+	it('hides the filter row on a focused-but-empty query until the funnel reveals it', async () => {
+		const wrapper = factory() // open, empty query, filtersRevealed defaults to false
+		expect(wrapper.vm.showFilterRow).toBe(false)
+		expect(filterRow(wrapper).isVisible()).toBe(false)
+
+		// The header funnel relays through the parent as this prop.
+		await wrapper.setProps({ filtersRevealed: true })
+		expect(wrapper.vm.showFilterRow).toBe(true)
+		expect(filterRow(wrapper).isVisible()).toBe(true)
+	})
+
+	it('shows the filter row as soon as there is a query', async () => {
+		const wrapper = factory()
+		wrapper.vm.searchQuery = 'abc'
+		await wrapper.vm.$nextTick()
+		expect(wrapper.vm.showFilterRow).toBe(true)
+		expect(filterRow(wrapper).isVisible()).toBe(true)
+	})
+
+	it('keeps the filter row shown when a filter is active on an empty query', async () => {
+		const wrapper = factory()
+		wrapper.vm.filters = [{ id: 'date', type: 'date', text: 'Today' }]
+		await wrapper.vm.$nextTick()
+		expect(wrapper.vm.showFilterRow).toBe(true)
+	})
+
+	it('always shows the filter row on mobile', async () => {
+		mobile.value = true
+		const wrapper = factory()
+		expect(wrapper.vm.showFilterRow).toBe(true)
+	})
+})
+
+describe('UnifiedSearchModal controller wiring (init)', () => {
 	it('runs a query typed before providers finished loading, once initialized', async () => {
 		const { getProviders } = await import('../../services/UnifiedSearchService.js')
 		;(getProviders as unknown as ReturnType<typeof vi.fn>).mockResolvedValueOnce([{ id: 'files', name: 'Files', order: 0 }])
@@ -485,18 +599,34 @@ describe('UnifiedSearchModal keyboard selection', () => {
 		expect(open).not.toHaveBeenCalled()
 	})
 
-	it('exposes no navigable rows while the empty state is shown, even with stale results', async () => {
+	it('keeps stale results out of an empty query: no placeholder, no navigable rows', async () => {
 		const wrapper = factory()
 		wrapper.vm.providers = [{ id: 'files', name: 'Files', order: 0 }]
 		// Results linger in the controller from a previous query...
 		searchStates.value = { files: loaded([{ resourceUrl: '/a' }]) }
-		// ...but the query is empty, so the empty state renders and no rows exist.
+		// ...but nothing has been typed. The modal stays clean (no empty-state
+		// placeholder, so the filter row can show pre-typing) and the stale results
+		// never reach keyboard navigation.
 		wrapper.vm.searchQuery = ''
 		await wrapper.vm.$nextTick()
 
-		expect(wrapper.vm.showEmptyContentInfo).toBe(true)
+		expect(wrapper.vm.showEmptyContentInfo).toBe(false)
 		expect(wrapper.vm.navigableRows).toEqual([])
 		expect(wrapper.vm.activeDescendantId).toBeNull()
+	})
+
+	// min-search-length can be 0, so "too short" is false for an empty query; the empty
+	// case must still clear stale results (isSearchQueryTooShort alone would not).
+	it('keeps stale results out of an empty query even when min-search-length is 0', async () => {
+		const wrapper = factory()
+		wrapper.vm.providers = [{ id: 'files', name: 'Files', order: 0 }]
+		wrapper.vm.minSearchLength = 0
+		searchStates.value = { files: loaded([{ resourceUrl: '/a' }]) }
+		wrapper.vm.searchQuery = ''
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.findAll('.result-title')).toHaveLength(0)
+		expect(wrapper.vm.navigableRows).toEqual([])
 	})
 
 	it('does not select a row or expose a listbox on mobile', async () => {

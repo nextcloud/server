@@ -102,4 +102,37 @@ test.describe('Header: unified search keyboard navigation', () => {
 
 		await expect(search.panel()).toHaveCount(0)
 	})
+
+	test('closing a funnel-opened popover returns focus to the input', async ({ page }) => {
+		const search = new UnifiedSearchPage(page)
+		await page.keyboard.press('Control+k')
+		await expect(search.input()).toBeFocused()
+
+		// Reveal the filters from the pre-typing funnel, then close with Escape.
+		await search.filterToggle().click()
+		await expect(search.filters()).toBeVisible()
+
+		await page.keyboard.press('Escape')
+
+		// The trap must hand focus back to the header input, not <body>. Only a real
+		// browser can prove this (jsdom focus is unreliable), so it belongs here.
+		await expect(search.input()).toBeFocused()
+		await expect(search.panel()).toHaveCount(0)
+	})
+
+	test('the trailing X clears a query, then dismisses the empty field', async ({ page }) => {
+		const search = new UnifiedSearchPage(page)
+		await search.input().fill(TOKEN)
+		await expect(search.panel()).toBeVisible()
+
+		// With a query the X clears the text and keeps focus for continued typing.
+		await search.clearButton().click()
+		await expect(search.input()).toHaveValue('')
+		await expect(search.input()).toBeFocused()
+
+		// Empty but still focused, the same X now dismisses: focus leaves, popover closes.
+		await search.closeButton().click()
+		await expect(search.input()).not.toBeFocused()
+		await expect(search.panel()).toHaveCount(0)
+	})
 })
