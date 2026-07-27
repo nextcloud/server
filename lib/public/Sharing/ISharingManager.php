@@ -28,7 +28,7 @@ use OCP\Sharing\Source\ShareSource;
 #[Consumable(since: '35.0.0')]
 interface ISharingManager {
 	/**
-	 * Search for recpients that can be added to a share.
+	 * Search for recipients that can be added to a share.
 	 *
 	 * @param ?list<class-string<IShareRecipientType>> $recipientTypeClasses
 	 * @param positive-int $limit
@@ -138,7 +138,7 @@ interface ISharingManager {
 	public function onInitiatorDeleted(ShareAccessContext $accessContext, IUser $initiator): void;
 
 	/**
-	 * Update the scecret of a recipient.
+	 * Update the secret of a recipient.
 	 *
 	 * @throws ShareInvalidException
 	 * @throws ShareNotFoundException

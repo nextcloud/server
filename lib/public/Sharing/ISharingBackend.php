@@ -107,7 +107,7 @@ interface ISharingBackend {
 	public function onInitiatorDeleted(IUser $initiator): array;
 
 	/**
-	 * Update the scecret of a recipient.
+	 * Update the secret of a recipient.
 	 *
 	 * @throws ShareNotFoundException
 	 * @since 35.0.0

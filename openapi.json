@@ -36500,7 +36500,7 @@
         "/ocs/v2.php/apps/sharing/api/v1/recipients": {
             "get": {
                 "operationId": "sharing-api_v1-search-recipients",
-                "summary": "Search for recpients that can be added to a share.",
+                "summary": "Search for recipients that can be added to a share.",
                 "tags": [
                     "sharing/api_v1"
                 ],
@@ -37821,7 +37821,7 @@
         "/ocs/v2.php/apps/sharing/api/v1/share/{id}/recipient/secret": {
             "put": {
                 "operationId": "sharing-api_v1-update-share-recipient-secret",
-                "summary": "Update the scecret of a recipient.",
+                "summary": "Update the secret of a recipient.",
                 "tags": [
                     "sharing/api_v1"
                 ],
