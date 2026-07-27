@@ -306,7 +306,7 @@ OC.L10N.register(
     "Recommended apps" : "Doporučené aplikace",
     "Loading apps …" : "Načítání aplikací …",
     "Could not fetch list of apps from the App Store." : "Nedaří se získat seznam aplikací z katalogu.",
-    "App already installed" : "Aplikace je již nainstalována",
+    "App already installed" : "Aplikace je už nainstalovaná",
     "Cannot install this app because it is not compatible" : "Tuto aplikaci nelze nainstalovat, protože není kompatibilní",
     "Cannot install this app" : "Tuto aplikaci nelze nainstalovat",
     "Skip" : "Přeskočit",

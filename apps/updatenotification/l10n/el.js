@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Channel updated" : "Ενημερωμένο κανάλι",
     "Web updater is disabled" : "Η ενημερώσεις μέσω ιστού έχουν απενεργοποιηθεί",
+    "Configuration is read-only" : "Οι ρυθμίσεις είναι μόνο για ανάγνωση",
     "App updated" : "Η εφαρμογή ενημερώθηκε",
     "See what's new" : "Δείτε τι νέο υπάρχει",
     "{app} updated to version {version}" : "Η {app} ενημερώθηκε στην έκδοση {version}",
