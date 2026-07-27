@@ -49,8 +49,8 @@ $CONFIG = [
 	 *
 	 * Value must be an integer, comprised between 0 and 511.
 	 *
-	 * When config.php is shared between different servers, this value should be overriden with "NC_serverid=<int>" on each server.
-	 * Note that it must be overriden for CLI and for your webserver.
+	 * When config.php is shared between different servers, this value should be overridden with "NC_serverid=<int>" on each server.
+	 * Note that it must be overridden for CLI and for your webserver.
 	 *
 	 * Example for CLI: NC_serverid=42 occ config:list system
 	 */
