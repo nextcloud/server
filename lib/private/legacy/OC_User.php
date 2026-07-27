@@ -277,6 +277,7 @@ class OC_User {
 
 	/**
 	 * Returns the current logout URL valid for the currently logged-in user
+	 * @return non-empty-string
 	 */
 	public static function getLogoutUrl(IURLGenerator $urlGenerator): string {
 		$backend = self::findFirstActiveUsedBackend();
@@ -288,7 +289,10 @@ class OC_User {
 		if ($user instanceof IUser) {
 			$backend = $user->getBackend();
 			if ($backend instanceof ICustomLogout) {
-				return $backend->getLogoutUrl();
+				$logoutUrl = $backend->getLogoutUrl();
+				if ($logoutUrl !== '') {
+					return $logoutUrl;
+				}
 			}
 		}
 
