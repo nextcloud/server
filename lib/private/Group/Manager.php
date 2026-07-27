@@ -8,7 +8,6 @@
 
 namespace OC\Group;
 
-use OC\Hooks\PublicEmitter;
 use OC\Settings\AuthorizedGroupMapper;
 use OC\SubAdmin;
 use OCA\Settings\Settings\Admin\Users;
@@ -23,6 +22,7 @@ use OCP\Group\Events\BeforeGroupDeletedEvent;
 use OCP\Group\Events\BeforeUserAddedEvent;
 use OCP\Group\Events\BeforeUserRemovedEvent;
 use OCP\Group\Events\GroupCreatedEvent;
+use OCP\Group\Events\GroupDeletedEvent;
 use OCP\GroupInterface;
 use OCP\ICache;
 use OCP\ICacheFactory;
@@ -34,21 +34,9 @@ use OCP\Security\Ip\IRemoteAddress;
 use OCP\Server;
 
 /**
- * Class Manager
- *
- * Hooks available in scope \OC\Group:
- * - preAddUser(\OC\Group\Group $group, \OC\User\User $user)
- * - postAddUser(\OC\Group\Group $group, \OC\User\User $user)
- * - preRemoveUser(\OC\Group\Group $group, \OC\User\User $user)
- * - postRemoveUser(\OC\Group\Group $group, \OC\User\User $user)
- * - preDelete(\OC\Group\Group $group)
- * - postDelete(\OC\Group\Group $group)
- * - preCreate(string $groupId)
- * - postCreate(\OC\Group\Group $group)
- *
  * @template-implements IEventListener<BeforeGroupDeletedEvent|BeforeGroupCreatedEvent|BeforeUserAddedEvent|BeforeUserRemovedEvent>
  */
-class Manager extends PublicEmitter implements IGroupManager, IEventListener {
+class Manager implements IGroupManager, IEventListener {
 	/** @var list<GroupInterface> */
 	private array $backends = [];
 	/** @var array<string, IGroup> */
@@ -134,7 +122,7 @@ class Manager extends PublicEmitter implements IGroupManager, IEventListener {
 			return null;
 		}
 		/** @var GroupInterface[] $backends */
-		$this->cachedGroups[$gid] = new Group($gid, $backends, $this->dispatcher, $this->userManager, $this, $displayName);
+		$this->cachedGroups[$gid] = new Group($gid, $backends, $this->dispatcher, $this->userManager, $displayName);
 		return $this->cachedGroups[$gid];
 	}
 
@@ -189,7 +177,7 @@ class Manager extends PublicEmitter implements IGroupManager, IEventListener {
 			if (count($backends[$gid]) === 0) {
 				continue;
 			}
-			$this->cachedGroups[$gid] = new Group($gid, $backends[$gid], $this->dispatcher, $this->userManager, $this, $displayNames[$gid]);
+			$this->cachedGroups[$gid] = new Group($gid, $backends[$gid], $this->dispatcher, $this->userManager, $displayNames[$gid]);
 			$groups[$gid] = $this->cachedGroups[$gid];
 		}
 		return $groups;
@@ -210,7 +198,6 @@ class Manager extends PublicEmitter implements IGroupManager, IEventListener {
 			throw new \Exception('Group name is limited to ' . self::MAX_GROUP_LENGTH . ' characters');
 		} else {
 			$this->dispatcher->dispatchTyped(new BeforeGroupCreatedEvent($gid));
-			$this->emit('\OC\Group', 'preCreate', [$gid]);
 			foreach ($this->backends as $backend) {
 				if ($backend->implementsActions(Backend::CREATE_GROUP)) {
 					if ($backend instanceof ICreateNamedGroupBackend) {
@@ -218,13 +205,11 @@ class Manager extends PublicEmitter implements IGroupManager, IEventListener {
 						if (($gid = $backend->createGroup($groupName)) !== null) {
 							$group = $this->getGroupObject($gid);
 							$this->dispatcher->dispatchTyped(new GroupCreatedEvent($group));
-							$this->emit('\OC\Group', 'postCreate', [$group]);
 							return $group;
 						}
 					} elseif ($backend->createGroup($gid)) {
 						$group = $this->getGroupObject($gid);
 						$this->dispatcher->dispatchTyped(new GroupCreatedEvent($group));
-						$this->emit('\OC\Group', 'postCreate', [$group]);
 						return $group;
 					}
 				}
@@ -402,6 +387,26 @@ class Manager extends PublicEmitter implements IGroupManager, IEventListener {
 		if ($event instanceof BeforeUserAddedEvent || $event instanceof BeforeUserRemovedEvent) {
 			$this->cachedUserGroups->remove($event->getUser()->getUID());
 			unset($this->cachedUserGroupsLocal[$event->getUser()->getUID()]);
+		}
+
+		if ($event instanceof GroupDeletedEvent) {
+			$group = $event->getGroup();
+			$appManager = Server::get(\OCP\App\IAppManager::class);
+			$apps = $appManager->getEnabledAppsForGroup($group);
+			foreach ($apps as $appId) {
+				$restrictions = $appManager->getAppRestriction($appId);
+				if (empty($restrictions)) {
+					continue;
+				}
+				$key = array_search($group->getGID(), $restrictions, true);
+				unset($restrictions[$key]);
+				$restrictions = array_values($restrictions);
+				if (empty($restrictions)) {
+					$appManager->disableApp($appId);
+				} else {
+					$appManager->enableAppForGroups($appId, $restrictions);
+				}
+			}
 		}
 	}
 }

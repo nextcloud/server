@@ -491,7 +491,7 @@ class GroupTest extends \Test\TestCase {
 			->with('group1', 'New Name')
 			->willReturn(true);
 
-		$group = new Group('group1', [$backend], $dispatcher, $userManager, null, 'Old Name');
+		$group = new Group('group1', [$backend], $dispatcher, $userManager, 'Old Name');
 		$this->assertTrue($group->setDisplayName('New Name'));
 	}
 
