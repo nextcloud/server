@@ -145,10 +145,18 @@ final class CommandTest extends AbstractSharingManagerTests {
 	}
 
 	#[Override]
-	protected function searchRecipients(ShareAccessContext $accessContext, ?array $recipientTypeClasses, string $query, int $limit, int $offset): array {
+	protected function searchRecipients(ShareAccessContext $accessContext, ?array $filterRecipientTypeClasses, string $query, int $limit, int $offset, ?string $id = null): array {
 		// We don't have a command for this, so we just call the real manager to make the test pass.
-		/** @psalm-suppress ArgumentTypeCoercion */
-		return ShareRecipient::formatMultiple(Server::get(ISharingRegistry::class), Server::get(IFactory::class), Server::get(IURLGenerator::class), Server::get(IUserManager::class), $this->manager->searchRecipients($accessContext, $recipientTypeClasses, $query, $limit, $offset));
+		try {
+			$this->dbConnection->beginTransaction();
+			/** @psalm-suppress ArgumentTypeCoercion */
+			$shares = ShareRecipient::formatMultiple($this->registry, Server::get(IFactory::class), Server::get(IURLGenerator::class), Server::get(IUserManager::class), $this->manager->searchRecipients($accessContext, $filterRecipientTypeClasses, $query, $limit, $offset, $id));
+			$this->dbConnection->commit();
+			return $shares;
+		} catch (Exception $exception) {
+			$this->dbConnection->rollBack();
+			throw  $exception;
+		}
 	}
 
 	/**

@@ -36514,9 +36514,9 @@
                 ],
                 "parameters": [
                     {
-                        "name": "recipientTypeClasses[]",
+                        "name": "filterRecipientTypeClasses[]",
                         "in": "query",
-                        "description": "Type class of recipients to filter by",
+                        "description": "Type classes of recipients to filter by",
                         "schema": {
                             "type": "array",
                             "nullable": true,
@@ -36556,6 +36556,16 @@
                             "format": "int64",
                             "default": 0,
                             "minimum": 0
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "If provided, recipients that are already part of the share will not be returned.",
+                        "schema": {
+                            "type": "string",
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -36605,6 +36615,36 @@
                     },
                     "400": {
                         "description": "Invalid recipient search parameters",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Share used for filtering existing recipients does not exist",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -38893,36 +38933,6 @@
                                                 },
                                                 "data": {
                                                     "$ref": "#/components/schemas/SharingShare"
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid arguments",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "ocs"
-                                    ],
-                                    "properties": {
-                                        "ocs": {
-                                            "type": "object",
-                                            "required": [
-                                                "meta",
-                                                "data"
-                                            ],
-                                            "properties": {
-                                                "meta": {
-                                                    "$ref": "#/components/schemas/OCSMeta"
-                                                },
-                                                "data": {
-                                                    "type": "string"
                                                 }
                                             }
                                         }

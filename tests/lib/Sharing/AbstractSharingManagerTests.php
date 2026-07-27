@@ -37,7 +37,7 @@ use Test\TestCase;
  * @psalm-import-type SharingRecipient from Share
  */
 abstract class AbstractSharingManagerTests extends TestCase {
-	abstract protected function searchRecipients(ShareAccessContext $accessContext, ?array $recipientTypeClasses, string $query, int $limit, int $offset): array;
+	abstract protected function searchRecipients(ShareAccessContext $accessContext, ?array $filterRecipientTypeClasses, string $query, int $limit, int $offset, ?string $id = null): array;
 
 	abstract protected function createShare(ShareAccessContext $accessContext): array;
 
@@ -114,7 +114,9 @@ abstract class AbstractSharingManagerTests extends TestCase {
 			[
 				$this->user1->getUID() => ['recipient1'],
 			],
-			[],
+			[
+				new ShareRecipient(TestShareRecipientType1::class, 'recipient1', null),
+			],
 		));
 		$this->registry->registerRecipientType(new TestShareRecipientType2(
 			[
@@ -123,7 +125,9 @@ abstract class AbstractSharingManagerTests extends TestCase {
 			[
 				$this->user2->getUID() => ['recipient2'],
 			],
-			[],
+			[
+				new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null),
+			],
 		));
 		$this->registry->registerPropertyType(new TestSharePropertyType1(['valid1']));
 		$this->registry->markPropertyTypeCompatibleWithSourceType(TestSharePropertyType1::class, TestShareSourceType1::class);
@@ -494,6 +498,63 @@ abstract class AbstractSharingManagerTests extends TestCase {
 				'initiator' => null,
 			],
 		], $this->searchRecipients($accessContext, null, 'icon', 10, 0));
+	}
+
+	public function testSearchRecipientsOmitExisting(): void {
+		$accessContext = new ShareAccessContext($this->owner);
+
+		$this->dbConnection->beginTransaction();
+		$id = $this->manager->createShare($accessContext);
+		$this->dbConnection->commit();
+
+		$this->assertEquals([
+			[
+				'class' => TestShareRecipientType1::class,
+				'value' => 'recipient1',
+				'instance' => null,
+				'display_name' => 'Recipient 1',
+				'icon' => [
+					'svg' => '<svg/>',
+				],
+				'secret' => [
+					'updatable' => false,
+				],
+				'initiator' => null,
+			],
+			[
+				'class' => TestShareRecipientType2::class,
+				'value' => 'recipient2',
+				'instance' => null,
+				'display_name' => 'Recipient 2',
+				'icon' => [
+					'svg' => '<svg/>',
+				],
+				'secret' => [
+					'updatable' => false,
+				],
+				'initiator' => null,
+			],
+		], $this->searchRecipients($accessContext, null, 'recipient', 3, 0, $id));
+
+		$this->dbConnection->beginTransaction();
+		$this->manager->addShareRecipient($accessContext, $id, new ShareRecipient(TestShareRecipientType1::class, 'recipient1', null));
+		$this->dbConnection->commit();
+
+		$this->assertEquals([
+			[
+				'class' => TestShareRecipientType2::class,
+				'value' => 'recipient2',
+				'instance' => null,
+				'display_name' => 'Recipient 2',
+				'icon' => [
+					'svg' => '<svg/>',
+				],
+				'secret' => [
+					'updatable' => false,
+				],
+				'initiator' => null,
+			],
+		], $this->searchRecipients($accessContext, null, 'recipient', 3, 0, $id));
 	}
 
 	public function testCreateShare(): void {
