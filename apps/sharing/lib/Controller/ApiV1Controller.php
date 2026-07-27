@@ -73,7 +73,7 @@ final class ApiV1Controller extends OCSController {
 	}
 
 	/**
-	 * Search for recpients that can be added to a share.
+	 * Search for recipients that can be added to a share.
 	 *
 	 * @param ?list<class-string<IShareRecipientType>> $recipientTypeClasses Type class of recipients to filter by
 	 * @param string $query The query to search for
@@ -336,7 +336,7 @@ final class ApiV1Controller extends OCSController {
 	}
 
 	/**
-	 * Update the scecret of a recipient.
+	 * Update the secret of a recipient.
 	 *
 	 * @param string $id ID of the share
 	 * @param class-string<IShareRecipientType> $class Type class of the recipient

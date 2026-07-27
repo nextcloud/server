@@ -20,7 +20,7 @@ final class UpdateShareRecipientSecret extends SharingBase {
 	public function configure(): void {
 		$this
 			->setName('sharing:update-share-recipient-secret')
-			->setDescription('Update the scecret of a recipient.')
+			->setDescription('Update the secret of a recipient.')
 			->addArgument('secret', InputArgument::REQUIRED, 'Recipient secret')
 			->addArgument('id', InputArgument::REQUIRED, 'Share ID')
 			->addArgument('class', InputArgument::REQUIRED, 'Recipient class')
