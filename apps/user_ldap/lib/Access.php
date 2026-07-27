@@ -397,6 +397,9 @@ class Access extends LDAPUtility {
 		$domainParts = [];
 		$dcFound = false;
 		foreach ($allParts as $part) {
+			if (!is_string($part)) {
+				continue;
+			}
 			if (!$dcFound && str_starts_with($part, 'dc=')) {
 				$dcFound = true;
 			}

@@ -204,6 +204,25 @@ class AccessTest extends TestCase {
 		$this->assertSame($expected, $this->access->getDomainDNFromDN($inputDN));
 	}
 
+	public function testGetDomainDNFromDNSkipsCountElement(): void {
+		$inputDN = 'cn=John,dc=example,dc=com';
+		// ldap_explode_dn() returns array with a 'count' key
+		$allParts = [
+			0 => 'cn=John',
+			1 => 'dc=example',
+			2 => 'dc=com',
+			'count' => 3,
+		];
+		$expected = 'dc=example,dc=com';
+
+		$this->ldap->expects($this->once())
+			->method('explodeDN')
+			->with($inputDN, 0)
+			->willReturn($allParts);
+
+		$this->assertSame($expected, $this->access->getDomainDNFromDN($inputDN));
+	}
+
 	public static function dnInputDataProvider(): array {
 		return [
 			[
