@@ -84,9 +84,9 @@ final class ApiV1ControllerTest extends AbstractSharingManagerTests {
 	}
 
 	#[Override]
-	protected function searchRecipients(ShareAccessContext $accessContext, ?array $recipientTypeClasses, string $query, int $limit, int $offset): array {
+	protected function searchRecipients(ShareAccessContext $accessContext, ?array $filterRecipientTypeClasses, string $query, int $limit, int $offset, ?string $id = null): array {
 		/** @psalm-suppress ArgumentTypeCoercion */
-		return $this->executeRequest($accessContext, fn (ApiV1Controller $controller): DataResponse => $controller->searchRecipients($recipientTypeClasses, $query, $limit, $offset));
+		return $this->executeRequest($accessContext, fn (ApiV1Controller $controller): DataResponse => $controller->searchRecipients($filterRecipientTypeClasses, $query, $limit, $offset, $id));
 	}
 
 	#[Override]

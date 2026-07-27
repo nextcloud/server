@@ -87,12 +87,12 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 	}
 
 	#[\Override]
-	public function searchRecipients(ShareAccessContext $accessContext, ?array $recipientTypeClasses, string $query, int $limit, int $offset): array {
+	public function searchRecipients(ShareAccessContext $accessContext, ?array $filterRecipientTypeClasses, string $query, int $limit, int $offset, ?string $id = null): array {
 		$recipientTypes = $this->registry->getRecipientTypes();
 
-		if ($recipientTypeClasses !== null) {
+		if ($filterRecipientTypeClasses !== null) {
 			$filteredRecipientTypes = [];
-			foreach (array_unique($recipientTypeClasses) as $recipientTypeClass) {
+			foreach (array_unique($filterRecipientTypeClasses) as $recipientTypeClass) {
 				if (($recipientType = $recipientTypes[$recipientTypeClass] ?? null) === null) {
 					throw new RuntimeException('The recipient type is not registered: ' . $recipientTypeClass);
 				}
@@ -112,10 +112,25 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 			));
 		}
 
-		return array_merge(...array_map(
+		$results = array_merge(...array_map(
 			static fn (IShareRecipientTypeSearch $recipientType): array => $recipientType->searchRecipients($accessContext, $query, $limit, $offset),
 			$recipientTypes,
 		));
+
+		if ($id !== null) {
+			// Do not create a new access context with overridden checks, because it could leak the existence of shares and share recipients.
+			$share = $this->getShare($accessContext, $id);
+			$recipients = [];
+			foreach ($share->recipients as $recipient) {
+				$recipients[$recipient->class] ??= [];
+				$recipients[$recipient->class][$recipient->instance ?? ''] ??= [];
+				$recipients[$recipient->class][$recipient->instance ?? ''][$recipient->value] = true;
+			}
+
+			$results = array_values(array_filter($results, static fn (ShareRecipient $recipient): bool => !isset($recipients[$recipient->class][$recipient->instance ?? ''][$recipient->value])));
+		}
+
+		return $results;
 	}
 
 	#[\Override]

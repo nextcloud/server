@@ -75,18 +75,20 @@ final class ApiV1Controller extends OCSController {
 	/**
 	 * Search for recipients that can be added to a share.
 	 *
-	 * @param ?list<class-string<IShareRecipientType>> $recipientTypeClasses Type class of recipients to filter by
+	 * @param ?list<class-string<IShareRecipientType>> $filterRecipientTypeClasses Type classes of recipients to filter by
 	 * @param string $query The query to search for
 	 * @param int<1, 100> $limit The maximum number of participants
 	 * @param non-negative-int $offset The offset of the participants
-	 * @return DataResponse<Http::STATUS_OK, list<SharingRecipient>, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, string, array{}>
+	 * @param ?string $id If provided, recipients that are already part of the share will not be returned.
+	 * @return DataResponse<Http::STATUS_OK, list<SharingRecipient>, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_NOT_FOUND, string, array{}>
 	 *
 	 * 200: Recipients returned
 	 * 400: Invalid recipient search parameters
+	 * 404: Share used for filtering existing recipients does not exist
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/api/v1/recipients')]
-	public function searchRecipients(?array $recipientTypeClasses, string $query, int $limit = 10, int $offset = 0): DataResponse {
+	public function searchRecipients(?array $filterRecipientTypeClasses, string $query, int $limit = 10, int $offset = 0, ?string $id = null): DataResponse {
 		/** @psalm-suppress DocblockTypeContradiction */
 		if ($limit < 1) {
 			return new DataResponse('The limit is too low.', Http::STATUS_BAD_REQUEST);
@@ -103,10 +105,17 @@ final class ApiV1Controller extends OCSController {
 		}
 
 		try {
-			$recipients = $this->manager->searchRecipients($this->accessContext, $recipientTypeClasses, $query, $limit, $offset);
-			return new DataResponse(ShareRecipient::formatMultiple($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager, $recipients));
-		} catch (ShareInvalidException $shareInvalidException) {
-			return new DataResponse($shareInvalidException->getHint(), Http::STATUS_BAD_REQUEST);
+			try {
+				$this->dbConnection->beginTransaction();
+				$recipients = $this->manager->searchRecipients($this->accessContext, $filterRecipientTypeClasses, $query, $limit, $offset, $id);
+				$this->dbConnection->commit();
+				return new DataResponse(ShareRecipient::formatMultiple($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager, $recipients));
+			} catch (Exception $exception) {
+				$this->dbConnection->rollBack();
+				throw $exception;
+			}
+		} catch (ShareNotFoundException $shareNotFoundException) {
+			return new DataResponse($shareNotFoundException->getHint(), Http::STATUS_NOT_FOUND);
 		}
 	}
 
@@ -519,10 +528,9 @@ final class ApiV1Controller extends OCSController {
 	 * @param string $id ID of the share
 	 * @param ?string $secret Secret of the share
 	 * @param array<class-string<IShareRecipientType|ISharePropertyTypeFilter>, mixed> $arguments Arguments for accessing the share
-	 * @return DataResponse<Http::STATUS_OK, SharingShare, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_NOT_FOUND, string, array{}>
+	 * @return DataResponse<Http::STATUS_OK, SharingShare, array{}>|DataResponse<Http::STATUS_NOT_FOUND, string, array{}>
 	 *
 	 * 200: Share returned
-	 * 400: Invalid arguments
 	 * 404: Share not found
 	 */
 	#[PublicPage]
@@ -540,8 +548,6 @@ final class ApiV1Controller extends OCSController {
 				$this->dbConnection->rollBack();
 				throw $exception;
 			}
-		} catch (ShareInvalidException $shareInvalidException) {
-			return new DataResponse($shareInvalidException->getHint(), Http::STATUS_BAD_REQUEST);
 		} catch (ShareNotFoundException $shareNotFoundException) {
 			return new DataResponse($shareNotFoundException->getHint(), Http::STATUS_NOT_FOUND);
 		}
