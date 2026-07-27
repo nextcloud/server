@@ -4129,12 +4129,6 @@
       <code><![CDATA[get]]></code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="lib/private/SubAdmin.php">
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[listen]]></code>
-      <code><![CDATA[listen]]></code>
-    </UndefinedInterfaceMethod>
-  </file>
   <file src="lib/private/Support/Subscription/Registry.php">
     <UndefinedInterfaceMethod>
       <code><![CDATA[getSupportedApps]]></code>

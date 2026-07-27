@@ -22,7 +22,7 @@ use OCP\Group\Events\BeforeGroupDeletedEvent;
 use OCP\Group\Events\BeforeUserAddedEvent;
 use OCP\Group\Events\BeforeUserRemovedEvent;
 use OCP\Group\Events\GroupCreatedEvent;
-use OCP\Group\Events\GroupDeletedEvent;
+use OCP\Group\ISubAdmin;
 use OCP\GroupInterface;
 use OCP\ICache;
 use OCP\ICacheFactory;
@@ -32,9 +32,11 @@ use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\Security\Ip\IRemoteAddress;
 use OCP\Server;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
- * @template-implements IEventListener<BeforeGroupDeletedEvent|BeforeGroupCreatedEvent|BeforeUserAddedEvent|BeforeUserRemovedEvent>
+ * @template-implements IEventListener<BeforeGroupDeletedEvent|BeforeUserAddedEvent|BeforeUserRemovedEvent>
  */
 class Manager implements IGroupManager, IEventListener {
 	/** @var list<GroupInterface> */
@@ -363,7 +365,11 @@ class Manager implements IGroupManager, IEventListener {
 		return $matchingUsers;
 	}
 
-	public function getSubAdmin(): SubAdmin {
+	/**
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
+	 */
+	public function getSubAdmin(): ISubAdmin {
 		if (!$this->subAdmin) {
 			$this->subAdmin = new SubAdmin(
 				$this->userManager,
@@ -387,26 +393,6 @@ class Manager implements IGroupManager, IEventListener {
 		if ($event instanceof BeforeUserAddedEvent || $event instanceof BeforeUserRemovedEvent) {
 			$this->cachedUserGroups->remove($event->getUser()->getUID());
 			unset($this->cachedUserGroupsLocal[$event->getUser()->getUID()]);
-		}
-
-		if ($event instanceof GroupDeletedEvent) {
-			$group = $event->getGroup();
-			$appManager = Server::get(\OCP\App\IAppManager::class);
-			$apps = $appManager->getEnabledAppsForGroup($group);
-			foreach ($apps as $appId) {
-				$restrictions = $appManager->getAppRestriction($appId);
-				if (empty($restrictions)) {
-					continue;
-				}
-				$key = array_search($group->getGID(), $restrictions, true);
-				unset($restrictions[$key]);
-				$restrictions = array_values($restrictions);
-				if (empty($restrictions)) {
-					$appManager->disableApp($appId);
-				} else {
-					$appManager->enableAppForGroups($appId, $restrictions);
-				}
-			}
 		}
 	}
 }

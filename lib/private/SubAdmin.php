@@ -9,7 +9,10 @@
 namespace OC;
 
 use OC\Hooks\PublicEmitter;
+use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\EventDispatcher\IEventListener;
+use OCP\Group\Events\GroupDeletedEvent;
 use OCP\Group\Events\SubAdminAddedEvent;
 use OCP\Group\Events\SubAdminRemovedEvent;
 use OCP\Group\ISubAdmin;
@@ -18,27 +21,21 @@ use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\User\Events\UserDeletedEvent;
+use Override;
 
-class SubAdmin extends PublicEmitter implements ISubAdmin {
+/**
+ * @template-implements IEventListener<GroupDeletedEvent|UserDeletedEvent>
+ */
+class SubAdmin extends PublicEmitter implements ISubAdmin, IEventListener {
 	public function __construct(
-		private IUserManager $userManager,
-		private IGroupManager $groupManager,
-		private IDBConnection $dbConn,
-		private IEventDispatcher $eventDispatcher,
+		private readonly IUserManager $userManager,
+		private readonly IGroupManager $groupManager,
+		private readonly IDBConnection $dbConn,
+		private readonly IEventDispatcher $eventDispatcher,
 	) {
-		$this->userManager->listen('\OC\User', 'postDelete', function ($user): void {
-			$this->post_deleteUser($user);
-		});
-		$this->groupManager->listen('\OC\Group', 'postDelete', function ($group): void {
-			$this->post_deleteGroup($group);
-		});
 	}
 
-	/**
-	 * add a SubAdmin
-	 * @param IUser $user user to be SubAdmin
-	 * @param IGroup $group group $user becomes subadmin of
-	 */
 	#[\Override]
 	public function createSubAdmin(IUser $user, IGroup $group): void {
 		$qb = $this->dbConn->getQueryBuilder();
@@ -56,11 +53,6 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 		$this->eventDispatcher->dispatchTyped($event);
 	}
 
-	/**
-	 * delete a SubAdmin
-	 * @param IUser $user the user that is the SubAdmin
-	 * @param IGroup $group the group
-	 */
 	#[\Override]
 	public function deleteSubAdmin(IUser $user, IGroup $group): void {
 		$qb = $this->dbConn->getQueryBuilder();
@@ -76,11 +68,6 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 		$this->eventDispatcher->dispatchTyped($event);
 	}
 
-	/**
-	 * get groups of a SubAdmin
-	 * @param IUser $user the SubAdmin
-	 * @return IGroup[]
-	 */
 	#[\Override]
 	public function getSubAdminsGroups(IUser $user): array {
 		$groupIds = $this->getSubAdminsGroupIds($user);
@@ -129,11 +116,6 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 		}, $this->getSubAdminsGroups($user));
 	}
 
-	/**
-	 * get SubAdmins of a group
-	 * @param IGroup $group the group
-	 * @return IUser[]
-	 */
 	#[\Override]
 	public function getGroupsSubAdmins(IGroup $group): array {
 		$qb = $this->dbConn->getQueryBuilder();
@@ -182,12 +164,6 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 		return $subadmins;
 	}
 
-	/**
-	 * checks if a user is a SubAdmin of a group
-	 * @param IUser $user
-	 * @param IGroup $group
-	 * @return bool
-	 */
 	#[\Override]
 	public function isSubAdminOfGroup(IUser $user, IGroup $group): bool {
 		$qb = $this->dbConn->getQueryBuilder();
@@ -208,11 +184,6 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 		return $result;
 	}
 
-	/**
-	 * checks if a user is a SubAdmin
-	 * @param IUser $user
-	 * @return bool
-	 */
 	#[\Override]
 	public function isSubAdmin(IUser $user): bool {
 		// Check if the user is already an admin
@@ -239,12 +210,6 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 		return $isSubAdmin !== false;
 	}
 
-	/**
-	 * checks if a user is a accessible by a subadmin
-	 * @param IUser $subadmin
-	 * @param IUser $user
-	 * @return bool
-	 */
 	#[\Override]
 	public function isUserAccessible(IUser $subadmin, IUser $user): bool {
 		if ($subadmin->getUID() === $user->getUID()) {
@@ -267,10 +232,9 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 	}
 
 	/**
-	 * delete all SubAdmins by $user
-	 * @param IUser $user
+	 * Delete all SubAdmins by $user
 	 */
-	private function post_deleteUser(IUser $user) {
+	private function postDeleteUser(IUser $user): void {
 		$qb = $this->dbConn->getQueryBuilder();
 
 		$qb->delete('group_admin')
@@ -279,14 +243,24 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 	}
 
 	/**
-	 * delete all SubAdmins by $group
-	 * @param IGroup $group
+	 * Delete all SubAdmins by $group
 	 */
-	private function post_deleteGroup(IGroup $group) {
+	private function postDeleteGroup(IGroup $group): void {
 		$qb = $this->dbConn->getQueryBuilder();
 
 		$qb->delete('group_admin')
 			->where($qb->expr()->eq('gid', $qb->createNamedParameter($group->getGID())))
 			->executeStatement();
+	}
+
+	#[Override]
+	public function handle(Event $event): void {
+		if ($event instanceof GroupDeletedEvent) {
+			$this->postDeleteGroup($event->getGroup());
+		}
+
+		if ($event instanceof UserDeletedEvent) {
+			$this->postDeleteUser($event->getUser());
+		}
 	}
 }
