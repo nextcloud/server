@@ -38,9 +38,12 @@ use OC\Core\Sharing\Recipient\GroupShareRecipientType;
 use OC\Core\Sharing\Recipient\TeamShareRecipientType;
 use OC\Core\Sharing\Recipient\TokenShareRecipientType;
 use OC\Core\Sharing\Recipient\UserShareRecipientType;
+use OC\Group\DisplayNameCache as GroupDisplayNameCache;
+use OC\Group\Manager as GroupManager;
 use OC\OCM\OCMDiscoveryHandler;
 use OC\OCM\OCMJwksHandler;
 use OC\TagManager;
+use OC\User\DisplayNameCache;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -49,12 +52,18 @@ use OCP\AppFramework\Http\Events\BeforeLoginTemplateRenderedEvent;
 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\DB\Events\AddMissingIndicesEvent;
 use OCP\DB\Events\AddMissingPrimaryKeyEvent;
+use OCP\Group\Events\BeforeGroupDeletedEvent;
+use OCP\Group\Events\BeforeUserAddedEvent;
+use OCP\Group\Events\BeforeUserRemovedEvent;
+use OCP\Group\Events\GroupChangedEvent;
+use OCP\Group\Events\GroupDeletedEvent;
 use OCP\IAppConfig;
 use OCP\Interaction\RestrictInteractionEvent;
 use OCP\Navigation\Events\LoadAdditionalEntriesEvent;
 use OCP\Server;
 use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\User\Events\PasswordUpdatedEvent;
+use OCP\User\Events\UserChangedEvent;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\Util;
 
@@ -102,6 +111,14 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(UserDeletedEvent::class, UserDeletedFilesCleanupListener::class);
 		$context->registerEventListener(UserDeletedEvent::class, UserDeletedWebAuthnCleanupListener::class);
 		$context->registerEventListener(PasswordUpdatedEvent::class, PasswordUpdatedListener::class);
+
+		$context->registerEventListener(UserChangedEvent::class, DisplayNameCache::class);
+		$context->registerEventListener(UserDeletedEvent::class, DisplayNameCache::class);
+		$context->registerEventListener(GroupChangedEvent::class, GroupDisplayNameCache::class);
+		$context->registerEventListener(GroupDeletedEvent::class, GroupDisplayNameCache::class);
+		$context->registerEventListener(BeforeGroupDeletedEvent::class, GroupManager::class);
+		$context->registerEventListener(BeforeUserAddedEvent::class, GroupManager::class);
+		$context->registerEventListener(BeforeUserRemovedEvent::class, GroupManager::class);
 
 		// Tags
 		$context->registerEventListener(UserDeletedEvent::class, TagManager::class);
