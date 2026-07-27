@@ -128,8 +128,8 @@ class Watcher implements IWatcher {
 			}
 		}
 
-		if ($this->watchPolicy === self::CHECK_ALWAYS || ($this->watchPolicy === self::CHECK_ONCE && !in_array($path, $this->checkedPaths))) {
-			$this->checkedPaths[] = $path;
+		if ($this->watchPolicy === self::CHECK_ALWAYS || ($this->watchPolicy === self::CHECK_ONCE && !isset($this->checkedPaths[$path]))) {
+			$this->checkedPaths[$path] = true;
 			return $cachedData['storage_mtime'] === null || $this->storage->hasUpdated($path, $cachedData['storage_mtime']);
 		}
 		return false;
