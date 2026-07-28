@@ -132,6 +132,7 @@
 import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
 import { loadState } from '@nextcloud/initial-state'
+import { t } from '@nextcloud/l10n'
 import { generateOcsUrl, generateUrl } from '@nextcloud/router'
 // import this directly so Vite builds it and we don't end up using the UMD bundle which
 // tries to run "new Function(...)" (for no good reason) which is blocked by our CSP
@@ -175,6 +176,7 @@ export default {
 
 	setup() {
 		return {
+			t,
 			productName: window.OC.theme.productName,
 		}
 	},
@@ -559,6 +561,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+:global(#content.app-dashboard) {
+	margin-inline: 0;
+	width: 100%;
+}
+
 #app-dashboard {
 	width: 100%;
 	min-height: 100%;
