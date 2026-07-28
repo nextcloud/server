@@ -114,12 +114,28 @@ interface ISharingBackend {
 	public function updateShareRecipientSecret(string $id, ShareRecipient $recipient, string $secret): void;
 
 	/**
+	 * Insert a property for a share.
+	 *
+	 * @throws ShareNotFoundException
+	 * @since 35.0.0
+	 */
+	public function createShareProperty(string $id, ShareProperty $property): void;
+
+	/**
 	 * Update a property of a share.
 	 *
 	 * @throws ShareNotFoundException
 	 * @experimental 35.0.0
 	 */
 	public function updateShareProperty(string $id, ShareProperty $property): void;
+
+	/**
+	 * Insert a permission for a share.
+	 *
+	 * @throws ShareNotFoundException
+	 * @since 35.0.0
+	 */
+	public function createSharePermission(string $id, SharePermission $permission): void;
 
 	/**
 	 * Update a permission of a share.

@@ -344,6 +344,35 @@ final readonly class SharingBackend implements ISharingBackend {
 	}
 
 	#[\Override]
+	public function createShareProperty(string $id, ShareProperty $property): void {
+		$value = $property->value;
+
+		$propertyType = $this->registry->getPropertyTypes()[$property->class];
+
+		if ($propertyType instanceof ISharePropertyTypeModifyValue) {
+			$value = $propertyType->modifyValueOnSave(null, $property->value);
+		}
+
+		try {
+			$qb = $this->connection->getQueryBuilder();
+			$qb
+				->insert('sharing_share_properties')
+				->values([
+					'share_id' => $qb->createNamedParameter($id),
+					'property_class' => $qb->createNamedParameter($property->class),
+					'property_value' => $qb->createNamedParameter($value),
+				])
+				->executeStatement();
+		} catch (\OCP\DB\Exception $exception) {
+			if ($exception->getReason() === \OCP\DB\Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+				throw new RuntimeException('The property already exists: ' . $property->class, $exception->getCode(), $exception);
+			}
+
+			throw $exception;
+		}
+	}
+
+	#[\Override]
 	public function updateShareProperty(string $id, ShareProperty $property): void {
 		$value = $property->value;
 
@@ -375,6 +404,27 @@ final readonly class SharingBackend implements ISharingBackend {
 			->executeStatement();
 		if ($rowCount === 0) {
 			throw new ShareNotFoundException();
+		}
+	}
+
+	#[\Override]
+	public function createSharePermission(string $id, SharePermission $permission): void {
+		try {
+			$qb = $this->connection->getQueryBuilder();
+			$qb
+				->insert('sharing_share_permissions')
+				->values([
+					'share_id' => $qb->createNamedParameter($id),
+					'permission_class' => $qb->createNamedParameter($permission->class),
+					'permission_enabled' => $qb->createNamedParameter($permission->enabled, IQueryBuilder::PARAM_BOOL),
+				])
+				->executeStatement();
+		} catch (\OCP\DB\Exception $exception) {
+			if ($exception->getReason() === \OCP\DB\Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+				throw new RuntimeException('The permission already exists: ' . $permission->class, $exception->getCode(), $exception);
+			}
+
+			throw $exception;
 		}
 	}
 
@@ -935,79 +985,23 @@ final readonly class SharingBackend implements ISharingBackend {
 		}
 
 		foreach (array_keys($shares) as $id) {
-			foreach ($registryPropertyTypes as $propertyTypeClass => $propertyType) {
+			foreach (array_keys($registryPropertyTypes) as $propertyTypeClass) {
 				$share = $shares[$id];
 				if (
 					!isset($share->properties[$propertyTypeClass])
 					&& isset($shareSourceTypeClasses[$id], $shareRecipientTypeClasses[$id])
 					&& array_intersect($registryPropertyTypeCompatibleSourceTypeClasses[$propertyTypeClass], array_keys($shareSourceTypeClasses[$id])) !== []
 					&& array_intersect($registryPropertyTypeCompatibleRecipientTypeClasses[$propertyTypeClass], array_keys($shareRecipientTypeClasses[$id])) !== []) {
-					$value = $propertyType->getDefaultValue($share);
-
-					$timestamp = $this->manager->generateTimestamp();
-					$this->setLastUpdated([(string)$id], $timestamp);
-
-					$qb = $this->connection->getQueryBuilder();
-					$qb
-						->insert('sharing_share_properties')
-						->values([
-							'share_id' => $qb->createNamedParameter($id),
-							'property_class' => $qb->createNamedParameter($propertyTypeClass),
-							'property_value' => $qb->createNamedParameter($propertyType instanceof ISharePropertyTypeModifyValue ? $propertyType->modifyValueOnSave(null, $value) : $value),
-						])
-						->executeStatement();
-
-					$properties = $share->properties;
-					$properties[$propertyTypeClass] = new ShareProperty($propertyTypeClass, $value);
-
-					$shares[$id] = new Share(
-						$share->id,
-						$share->owner,
-						$timestamp,
-						$share->state,
-						$share->sources,
-						$share->recipients,
-						$properties,
-						$share->permissions,
-					);
+					$shares[$id] = $this->manager->createSharePropertyDefaultValue($shares[$id], $propertyTypeClass);
 				}
 			}
 		}
 
-		$permissionTypes = $this->registry->getPermissionTypes();
 		foreach (array_keys($shares) as $id) {
 			foreach (array_keys($shareCompatiblePermissionTypeClasses[$id]) as $permissionTypeClass) {
 				$share = $shares[$id];
 				if (!isset($share->permissions[$permissionTypeClass])) {
-					$permissionType = $permissionTypes[$permissionTypeClass];
-					$enabled = $permissionType->isEnabledByDefault();
-
-					$timestamp = $this->manager->generateTimestamp();
-					$this->setLastUpdated([(string)$id], $timestamp);
-
-					$qb = $this->connection->getQueryBuilder();
-					$qb
-						->insert('sharing_share_permissions')
-						->values([
-							'share_id' => $qb->createNamedParameter($id),
-							'permission_class' => $qb->createNamedParameter($permissionTypeClass),
-							'permission_enabled' => $qb->createNamedParameter($enabled, IQueryBuilder::PARAM_BOOL),
-						])
-						->executeStatement();
-
-					$permissions = $share->permissions;
-					$permissions[$permissionTypeClass] = new SharePermission($permissionTypeClass, $enabled);
-
-					$shares[$id] = new Share(
-						$share->id,
-						$share->owner,
-						$timestamp,
-						$share->state,
-						$share->sources,
-						$share->recipients,
-						$share->properties,
-						$permissions,
-					);
+					$shares[$id] = $this->manager->createSharePermissionDefaultValue($shares[$id], $permissionTypeClass);
 				}
 			}
 		}

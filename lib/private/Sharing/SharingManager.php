@@ -435,6 +435,40 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 	}
 
 	#[\Override]
+	public function createSharePropertyDefaultValue(Share $share, string $propertyTypeClass): Share {
+		$this->assertInTransaction();
+
+		$timestamp = $this->generateTimestamp();
+		$this->backend->setLastUpdated([$share->id], $timestamp);
+
+		if (($propertyType = $this->registry->getPropertyTypes()[$propertyTypeClass] ?? null) === null) {
+			throw new RuntimeException('The property is not registered: ' . $propertyTypeClass);
+		}
+
+		$property = new ShareProperty($propertyTypeClass, $propertyType->getDefaultValue($share));
+
+		$this->backend->createShareProperty($share->id, $property);
+
+		$properties = $share->properties;
+		$properties[$propertyTypeClass] = $property;
+
+		$share = new Share(
+			$share->id,
+			$share->owner,
+			$timestamp,
+			$share->state,
+			$share->sources,
+			$share->recipients,
+			$properties,
+			$share->permissions,
+		);
+
+		[$share] = $this->processShareUpdates([$share]);
+
+		return $share;
+	}
+
+	#[\Override]
 	public function updateShareProperty(ShareAccessContext $accessContext, string $id, ShareProperty $property): void {
 		$this->assertInTransaction();
 
@@ -457,6 +491,40 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		$this->backend->updateShareProperty($id, $property);
 
 		$this->processShareUpdates([$id]);
+	}
+
+	#[\Override]
+	public function createSharePermissionDefaultValue(Share $share, string $permissionTypeClass): Share {
+		$this->assertInTransaction();
+
+		$timestamp = $this->generateTimestamp();
+		$this->backend->setLastUpdated([$share->id], $timestamp);
+
+		if (($permissionType = $this->registry->getPermissionTypes()[$permissionTypeClass] ?? null) === null) {
+			throw new RuntimeException('The permission is not registered: ' . $permissionTypeClass);
+		}
+
+		$permission = new SharePermission($permissionTypeClass, $permissionType->isEnabledByDefault());
+
+		$this->backend->createSharePermission($share->id, $permission);
+
+		$permissions = $share->permissions;
+		$permissions[$permissionTypeClass] = $permission;
+
+		$share = new Share(
+			$share->id,
+			$share->owner,
+			$timestamp,
+			$share->state,
+			$share->sources,
+			$share->recipients,
+			$share->properties,
+			$permissions,
+		);
+
+		[$share] = $this->processShareUpdates([$share]);
+
+		return $share;
 	}
 
 	#[\Override]
@@ -536,28 +604,14 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 	public function getShare(ShareAccessContext $accessContext, string $id): Share {
 		$this->assertInTransaction();
 
-		$share = $this->backend->getShare($accessContext, $id);
-
-		// TODO: Get share from legacy backend and save all changes
-
-		// Default values for properties and permissions could have been inserted.
-		$this->processShareUpdates([$share]);
-
-		return $share;
+		return $this->backend->getShare($accessContext, $id);
 	}
 
 	#[\Override]
 	public function getShares(ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?string $lastShareID, ?int $limit): array {
 		$this->assertInTransaction();
 
-		$shares = $this->backend->getShares($accessContext, $filterSourceTypeClass, $filterSourceTypeValue, $lastShareID, $limit);
-
-		// TODO: Also get shares from legacy backends and add any new ones and save all changes from existing ones
-
-		// Default values for properties and permissions could have been inserted.
-		$this->processShareUpdates($shares);
-
-		return $shares;
+		return $this->backend->getShares($accessContext, $filterSourceTypeClass, $filterSourceTypeValue, $lastShareID, $limit);
 	}
 
 	#[\Override]
@@ -710,9 +764,12 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 	}
 
 	/**
-	 * @param list<Share|string> $sharesOrIds
+	 * @param non-empty-list<Share|string> $sharesOrIds
+	 * @return non-empty-list<Share>
 	 */
-	private function processShareUpdates(array $sharesOrIds): void {
+	private function processShareUpdates(array $sharesOrIds): array {
+		$shares = [];
+
 		foreach ($sharesOrIds as $shareOrId) {
 			if ($shareOrId instanceof Share) {
 				$share = $shareOrId;
@@ -757,6 +814,10 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 
 				$legacyBackend->updateShare($share);
 			}
+
+			$shares[] = $share;
 		}
+
+		return $shares;
 	}
 }
