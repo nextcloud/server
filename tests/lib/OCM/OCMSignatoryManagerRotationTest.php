@@ -19,7 +19,6 @@ use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IURLGenerator;
-use OCP\Security\Signature\Exceptions\IdentityNotFoundException;
 use OCP\Security\Signature\ISignatureManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -47,8 +46,9 @@ class OCMSignatoryManagerRotationTest extends TestCase {
 		$this->wireIdentityProofManager();
 
 		$signatureManager = $this->createMock(ISignatureManager::class);
-		$signatureManager->method('generateKeyIdFromConfig')
-			->willReturnCallback(static fn (string $suffix): string => 'https://alice.example/' . ltrim($suffix, '/'));
+		$urlGenerator = $this->createMock(IURLGenerator::class);
+		$urlGenerator->method('getAbsoluteURL')
+			->willReturnCallback(static fn (string $path): string => 'https://alice.example' . $path);
 
 		$cacheFactory = $this->createMock(ICacheFactory::class);
 		$cacheFactory->method('createDistributed')->willReturn(new ArrayCache(''));
@@ -56,7 +56,7 @@ class OCMSignatoryManagerRotationTest extends TestCase {
 		$this->signatoryManager = new OCMSignatoryManager(
 			$this->appConfig,
 			$signatureManager,
-			$this->createMock(IURLGenerator::class),
+			$urlGenerator,
 			$this->identityProofManager,
 			$this->stubClientService(),
 			$this->createMock(IConfig::class),
@@ -188,11 +188,10 @@ class OCMSignatoryManagerRotationTest extends TestCase {
 		// identity at all; provisioning the first key should fail loudly so
 		// the admin gets a clear message instead of a corrupt half-state.
 		$signatureManager = $this->createMock(ISignatureManager::class);
-		$signatureManager->method('generateKeyIdFromConfig')
-			->willThrowException(new IdentityNotFoundException('no identity'));
 		$urlGenerator = $this->createMock(IURLGenerator::class);
-		$urlGenerator->method('linkToRouteAbsolute')
-			->willThrowException(new IdentityNotFoundException('no url either'));
+		// getAbsoluteURL() yields no host, so the kid's identity cannot be
+		// resolved; provisioning must fail loudly rather than corrupt state.
+		$urlGenerator->method('getAbsoluteURL')->willReturn('');
 
 		$cacheFactory = $this->createMock(ICacheFactory::class);
 		$cacheFactory->method('createDistributed')->willReturn(new ArrayCache(''));

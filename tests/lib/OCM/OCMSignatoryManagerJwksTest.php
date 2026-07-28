@@ -86,10 +86,15 @@ class OCMSignatoryManagerJwksTest extends TestCase {
 	}
 
 	/** Remote discovery response advertising http-sig and $jwksUri. */
-	private function primeDiscovery(string $jwksUri = self::JWKS_URI, array $capabilities = ['http-sig']): void {
+	private function primeDiscovery(
+		string $jwksUri = self::JWKS_URI,
+		array $capabilities = ['http-sig'],
+		string $endPoint = 'https://sender.example.org/ocm',
+	): void {
 		$provider = new OCMProvider();
 		$provider->setCapabilities($capabilities);
 		$provider->setJwksUri($jwksUri);
+		$provider->setEndPoint($endPoint);
 		$this->discoveryService->method('discover')->willReturn($provider);
 	}
 
@@ -166,11 +171,30 @@ class OCMSignatoryManagerJwksTest extends TestCase {
 		$this->assertNull($this->signatoryManager->getRemoteKey('sender.example.org', 'kid'));
 	}
 
-	public function testGetRemoteKeyRejectsNonHttpsJwksUri(): void {
+	public function testGetRemoteKeyRejectsHttpJwksUriFromHttpsPeer(): void {
+		// downgrade guard: http jwksUri from an https peer
 		$this->primeDiscovery(jwksUri: 'http://sender.example.org/ocm/jwks');
 		$this->client->expects($this->never())->method('get');
 		$this->logger->expects($this->once())->method('warning');
 		$this->assertNull($this->signatoryManager->getRemoteKey('sender.example.org', 'kid'));
+	}
+
+	public function testGetRemoteKeyAcceptsHttpJwksUriFromHttpPeer(): void {
+		// the spec's http fallback for testing setups
+		$this->primeDiscovery(
+			jwksUri: 'http://sender.example.org/ocm/jwks',
+			endPoint: 'http://sender.example.org/ocm',
+		);
+		$kid = 'sender.example.org#key1';
+		$this->client->expects($this->once())
+			->method('get')
+			->with(
+				$this->equalTo('http://sender.example.org/ocm/jwks'),
+				$this->isType('array'),
+			)
+			->willReturn($this->jsonResponse(['keys' => [$this->ecJwk($kid)]]));
+
+		$this->assertNotNull($this->signatoryManager->getRemoteKey('sender.example.org', $kid));
 	}
 
 	public function testGetRemoteKeyReturnsNullWhenDiscoveryFails(): void {
@@ -267,6 +291,62 @@ class OCMSignatoryManagerJwksTest extends TestCase {
 
 		$this->assertNotNull($this->signatoryManager->getRemoteKey('sender.example.org', 'old'));
 		$this->assertNotNull($this->signatoryManager->getRemoteKey('sender.example.org', 'new'));
+	}
+
+	public function testGetRemoteKeyAcceptsHttpsJwksUriFromHttpPeer(): void {
+		// upgrade from an http-only peer is fine
+		$this->primeDiscovery(
+			endPoint: 'http://sender.example.org/ocm',
+		);
+		$kid = 'sender.example.org#key1';
+		$this->client->expects($this->once())
+			->method('get')
+			->with(
+				$this->equalTo(self::JWKS_URI),
+				$this->isType('array'),
+			)
+			->willReturn($this->jsonResponse(['keys' => [$this->ecJwk($kid)]]));
+
+		$this->assertNotNull($this->signatoryManager->getRemoteKey('sender.example.org', $kid));
+	}
+
+	public function testGetRemoteKeyAcceptsJwksUriOnDifferentHost(): void {
+		// the JWK Set may live on a different host than the peer
+		$this->primeDiscovery(
+			jwksUri: 'https://keys.example.net/ocm/jwks',
+			endPoint: 'http://sender.example.org/ocm',
+		);
+		$kid = 'sender.example.org#key1';
+		$this->client->expects($this->once())
+			->method('get')
+			->with(
+				$this->equalTo('https://keys.example.net/ocm/jwks'),
+				$this->isType('array'),
+			)
+			->willReturn($this->jsonResponse(['keys' => [$this->ecJwk($kid)]]));
+
+		$this->assertNotNull($this->signatoryManager->getRemoteKey('sender.example.org', $kid));
+	}
+
+	public function testGetLocalJwksUriUsesHttpsByDefault(): void {
+		$this->urlGenerator->method('getAbsoluteURL')
+			->willReturnCallback(fn (string $path) => 'https://sender.example.org' . $path);
+
+		$this->assertSame(
+			'https://sender.example.org/.well-known/jwks.json',
+			$this->signatoryManager->getLocalJwksUri(),
+		);
+	}
+
+	public function testGetLocalJwksUriFollowsHttpInstanceScheme(): void {
+		// http-only deployments must advertise a fetchable jwksUri
+		$this->urlGenerator->method('getAbsoluteURL')
+			->willReturnCallback(fn (string $path) => 'http://localhost:8180' . $path);
+
+		$this->assertSame(
+			'http://localhost:8180/.well-known/jwks.json',
+			$this->signatoryManager->getLocalJwksUri(),
+		);
 	}
 
 	private function respondWith(array $body): void {
