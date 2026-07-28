@@ -3024,11 +3024,6 @@
       <code><![CDATA[$this->timeFactory->getTime()]]></code>
     </InvalidScalarArgument>
   </file>
-  <file src="core/Command/Memcache/RedisCommand.php">
-    <DeprecatedClass>
-      <code><![CDATA[protected]]></code>
-    </DeprecatedClass>
-  </file>
   <file src="core/Command/Security/BruteforceAttempts.php">
     <DeprecatedMethod>
       <code><![CDATA[getAttempts]]></code>
