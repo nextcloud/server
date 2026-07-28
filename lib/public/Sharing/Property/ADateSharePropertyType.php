@@ -46,15 +46,17 @@ abstract class ADateSharePropertyType implements ISharePropertyType {
 		}
 
 		if ($date === false) {
-			return $l10nFactory->get(Application::APP_ID)->t('Invalid ISO date: %s', [$value]);
+			return $l10nFactory->get(Application::APP_ID)->t('Invalid ISO8601 date: %s', [$value]);
 		}
 
 		if (($minDate = $this->getMinDate($share)) instanceof DateTimeImmutable && $date->diff($minDate)->invert === 0) {
-			return $l10nFactory->get(Application::APP_ID)->t('Date needs to be after %1$s: %2$s', [$minDate->format(DateTimeInterface::ATOM), $value]);
+			$l10n = $l10nFactory->get(Application::APP_ID);
+			return $l10n->t('Date needs to be after %s', [$l10n->l('datetime', $minDate)]);
 		}
 
 		if (($maxDate = $this->getMaxDate($share)) instanceof DateTimeImmutable && $date->diff($maxDate)->invert === 1) {
-			return $l10nFactory->get(Application::APP_ID)->t('Date needs to be before %1$s: %2$s', [$maxDate->format(DateTimeInterface::ATOM), $value]);
+			$l10n = $l10nFactory->get(Application::APP_ID);
+			return $l10n->t('Date needs to be before %s', [$l10n->l('datetime', $maxDate)]);
 		}
 
 		return true;
