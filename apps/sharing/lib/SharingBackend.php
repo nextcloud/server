@@ -37,6 +37,7 @@ use OCP\Sharing\ShareUser;
 use OCP\Sharing\Source\IShareSourceType;
 use OCP\Sharing\Source\ShareSource;
 use OCP\Snowflake\ISnowflakeGenerator;
+use RuntimeException;
 
 // TODO: Add mapping table for class names in sources, recipients, permissions and properties
 
@@ -59,7 +60,7 @@ final readonly class SharingBackend implements ISharingBackend {
 	}
 
 	#[\Override]
-	public function createShare(IUser $owner): string {
+	public function createShare(ShareUser $owner): string {
 		$id = $this->snowflakeGenerator->nextId();
 		$lastUpdated = $this->manager->generateTimestamp();
 
@@ -68,7 +69,8 @@ final readonly class SharingBackend implements ISharingBackend {
 			->insert('sharing_share')
 			->values([
 				'id' => $qb->createNamedParameter($id),
-				'owner_user_id' => $qb->createNamedParameter($owner->getUID()),
+				'owner_user_id' => $qb->createNamedParameter($owner->userId),
+				'owner_instance' => $qb->createNamedParameter($owner->instance),
 				'last_updated' => $qb->createNamedParameter($lastUpdated),
 				'state' => $qb->createNamedParameter(ShareState::Draft->value),
 			])
@@ -78,13 +80,18 @@ final readonly class SharingBackend implements ISharingBackend {
 	}
 
 	#[\Override]
-	public function onOwnerDeleted(IUser $owner): void {
+	public function onOwnerDeleted(ShareUser $owner): void {
 		$qb = $this->connection->getQueryBuilder();
 		$qb
 			->delete('sharing_share')
-			->where($qb->expr()->eq('owner_user_id', $qb->createNamedParameter($owner->getUID())))
-			->andWhere($qb->expr()->isNull('owner_instance'))
-			->executeStatement();
+			->where($qb->expr()->eq('owner_user_id', $qb->createNamedParameter($owner->userId)));
+		if ($owner->instance === null) {
+			$qb->andWhere($qb->expr()->isNull('owner_instance'));
+		} else {
+			$qb->andWhere($qb->expr()->eq('owner_instance', $qb->createNamedParameter($owner->instance)));
+		}
+
+		$qb->executeStatement();
 	}
 
 	#[\Override]
@@ -164,7 +171,11 @@ final readonly class SharingBackend implements ISharingBackend {
 	}
 
 	#[\Override]
-	public function addShareRecipient(string $id, IUser $initiator, ShareRecipient $recipient): void {
+	public function addShareRecipient(string $id, ShareRecipient $recipient): void {
+		if (!$recipient->initiator instanceof ShareUser) {
+			throw new RuntimeException('The initiator must not be null.');
+		}
+
 		try {
 			$qb = $this->connection->getQueryBuilder();
 
@@ -174,7 +185,8 @@ final readonly class SharingBackend implements ISharingBackend {
 				'recipient_value' => $qb->createNamedParameter($recipient->value),
 				'recipient_instance' => $qb->createNamedParameter($recipient->instance),
 				'recipient_secret' => $qb->createNamedParameter($this->manager->generateSecret()),
-				'initiator_user_id' => $qb->createNamedParameter($initiator->getUID(), IQueryBuilder::PARAM_STR),
+				'initiator_user_id' => $qb->createNamedParameter($recipient->initiator->userId),
+				'initiator_instance' => $qb->createNamedParameter($recipient->initiator->instance),
 			];
 
 			$qb
@@ -248,14 +260,19 @@ final readonly class SharingBackend implements ISharingBackend {
 	}
 
 	#[\Override]
-	public function onInitiatorDeleted(IUser $initiator): array {
+	public function onInitiatorDeleted(ShareUser $initiator): array {
 		$qb = $this->connection->getQueryBuilder();
-		$result = $qb
+		$qb
 			->selectDistinct('share_id')
 			->from('sharing_share_recipients')
-			->andWhere($qb->expr()->isNull('initiator_instance'))
-			->andWhere($qb->expr()->eq('initiator_user_id', $qb->createNamedParameter($initiator->getUID())))
-			->executeQuery();
+			->where($qb->expr()->eq('initiator_user_id', $qb->createNamedParameter($initiator->userId)));
+		if ($initiator->instance === null) {
+			$qb->andWhere($qb->expr()->isNull('initiator_instance'));
+		} else {
+			$qb->andWhere($qb->expr()->eq('initiator_instance', $qb->createNamedParameter($initiator->instance)));
+		}
+
+		$result = $qb->executeQuery();
 
 		/** @var list<string|int> $ids */
 		$ids = $result->fetchFirstColumn();
@@ -274,9 +291,14 @@ final readonly class SharingBackend implements ISharingBackend {
 				->set('initiator_user_id', $qb->createNamedParameter($owner->userId))
 				->set('initiator_instance', $qb->createNamedParameter($owner->instance))
 				->where($qb->expr()->eq('share_id', $qb->createNamedParameter($id)))
-				->andWhere($qb->expr()->isNull('initiator_instance'))
-				->andWhere($qb->expr()->eq('initiator_user_id', $qb->createNamedParameter($initiator->getUID())))
-				->executeStatement();
+				->andWhere($qb->expr()->eq('initiator_user_id', $qb->createNamedParameter($initiator->userId)));
+			if ($initiator->instance === null) {
+				$qb->andWhere($qb->expr()->isNull('initiator_instance'));
+			} else {
+				$qb->andWhere($qb->expr()->eq('initiator_instance', $qb->createNamedParameter($initiator->instance)));
+			}
+
+			$qb->executeStatement();
 		}
 
 		return $ids;

@@ -159,14 +159,14 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		$this->assertInTransaction();
 
 		$backend = $this->getBackend(null);
-		$id = $backend->createShare($currentUser);
+		$id = $backend->createShare(new ShareUser($currentUser->getUID(), null));
 		$this->backendCache->set($id, $backend::class);
 
 		return $id;
 	}
 
 	#[\Override]
-	public function onOwnerDeleted(ShareAccessContext $accessContext, IUser $owner): void {
+	public function onOwnerDeleted(ShareAccessContext $accessContext, ShareUser $owner): void {
 		if (!$accessContext->overrideChecks) {
 			throw new RuntimeException('Only possible if checks are overridden.');
 		}
@@ -301,7 +301,15 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 			$this->validateInteraction($accessContext, $owner, $share->sources, $share->getEnabledPermissions(), $recipients);
 		}
 
-		$backend->addShareRecipient($id, $currentUser, $recipient);
+		$recipient = new ShareRecipient(
+			$recipient->class,
+			$recipient->value,
+			$recipient->instance,
+			$recipient->secret,
+			new ShareUser($currentUser->getUID(), null),
+		);
+
+		$backend->addShareRecipient($id, $recipient);
 	}
 
 	#[\Override]
@@ -353,7 +361,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 	}
 
 	#[\Override]
-	public function onInitiatorDeleted(ShareAccessContext $accessContext, IUser $initiator): void {
+	public function onInitiatorDeleted(ShareAccessContext $accessContext, ShareUser $initiator): void {
 		if (!$accessContext->overrideChecks) {
 			throw new RuntimeException('Only possible if checks are overridden.');
 		}
@@ -518,10 +526,12 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 
 	#[\Override]
 	public function handle(Event $event): void {
+		$shareUser = new ShareUser($event->getUser()->getUID(), null);
+
 		try {
 			$this->dbConnection->beginTransaction();
-			$this->onOwnerDeleted(new ShareAccessContext(overrideChecks: true), $event->getUser());
-			$this->onInitiatorDeleted(new ShareAccessContext(overrideChecks: true), $event->getUser());
+			$this->onOwnerDeleted(new ShareAccessContext(overrideChecks: true), $shareUser);
+			$this->onInitiatorDeleted(new ShareAccessContext(overrideChecks: true), $shareUser);
 			$this->dbConnection->commit();
 		} catch (Exception $exception) {
 			$this->dbConnection->rollBack();
