@@ -116,6 +116,7 @@ OC.L10N.register(
     "Last 30 days" : "30 ngày trước",
     "This year" : "Năm nay",
     "Last year" : "Năm ngoái",
+    "Type" : "Loại",
     "Date" : "Ngày",
     "Search people" : "Tìm kiếm người dùng",
     "People" : "Mọi người",
