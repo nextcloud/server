@@ -9,11 +9,10 @@ declare(strict_types=1);
 namespace OCP;
 
 /**
- * Manage trusted certificates and the effective CA bundle used by Nextcloud.
+ * Manage uploaded trusted certificates and the CA bundle used by Nextcloud.
  *
  * Implementations provide access to uploaded trusted certificates and the
- * generated bundle that is consumed by HTTP clients and external storage
- * integrations.
+ * certificate bundle consumed by HTTP clients and external storage integrations.
  *
  * @since 8.0.0
  */
@@ -21,8 +20,7 @@ interface ICertificateManager {
 	/**
 	 * Returns all uploaded trusted certificates.
 	 *
-	 * This does not include the shipped default CA bundle or any system CA bundle
-	 * appended when building the effective bundle.
+	 * This does not include certificates in the configured default CA bundle.
 	 *
 	 * @return \OCP\ICertificate[]
 	 * @since 8.0.0
@@ -32,7 +30,7 @@ interface ICertificateManager {
 	/**
 	 * Add a trusted certificate to the certificate store.
 	 *
-	 * @param string $certificate The certificate data in PEM format
+	 * @param string $certificate The certificate data
 	 * @param string $name The filename for the certificate
 	 * @return \OCP\ICertificate
 	 * @throws \Exception If the certificate could not be added
@@ -50,7 +48,7 @@ interface ICertificateManager {
 	public function removeCertificate(string $name): bool;
 
 	/**
-	 * Get the relative path to the generated certificate bundle.
+	 * Get the virtual filesystem path to the generated certificate bundle.
 	 *
 	 * @return string
 	 * @since 8.0.0
@@ -58,10 +56,10 @@ interface ICertificateManager {
 	public function getCertificateBundle(): string;
 
 	/**
-	 * Get the full local path to the effective certificate bundle.
+	 * Get the full local path to the certificate bundle used by Nextcloud.
 	 *
-	 * Implementations should return the generated bundle path, but may log and fall back
-	 * to the shipped default CA bundle if resolution fails.
+	 * If no uploaded certificates are configured, or if resolving the generated
+	 * bundle fails, this falls back to returning the configured default CA bundle path.
 	 *
 	 * @return string
 	 * @since 9.0.0
@@ -69,7 +67,9 @@ interface ICertificateManager {
 	public function getAbsoluteBundlePath(): string;
 
 	/**
-	 * Get the path of the shipped default certificates bundle.
+	 * Get the path to the configured default CA bundle.
+	 *
+	 * By default, this is Nextcloud's shipped CA bundle.
 	 *
 	 * @since 33.0.0
 	 */
