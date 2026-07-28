@@ -18,6 +18,7 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoSubAdminRequired;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\HintException;
@@ -41,9 +42,7 @@ class ChangePasswordController extends Controller {
 		parent::__construct($appName, $request);
 	}
 
-	/**
-	 * @NoSubAdminRequired
-	 */
+	#[NoSubAdminRequired]
 	#[NoAdminRequired]
 	#[BruteForceProtection(action: 'changePersonalPassword')]
 	public function changePersonalPassword(string $oldpassword = '', ?string $newpassword = null): JSONResponse {

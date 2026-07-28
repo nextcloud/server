@@ -20,6 +20,7 @@ use OCP\Activity\IManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoSubAdminRequired;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Services\IAppConfig;
@@ -56,10 +57,9 @@ class AuthSettingsController extends Controller {
 	}
 
 	/**
-	 * @NoSubAdminRequired
-	 *
 	 * @param bool $qrcodeLogin If set to true, the returned token could be (depending on server settings) a onetime password, that can only be used to get the actual app password a single time
 	 */
+	#[NoSubAdminRequired]
 	#[NoAdminRequired]
 	#[PasswordConfirmationRequired(strict: true)]
 	public function create(string $name = '', bool $qrcodeLogin = false): JSONResponse {
@@ -139,10 +139,7 @@ class AuthSettingsController extends Controller {
 		]);
 	}
 
-	/**
-	 * @return JSONResponse
-	 */
-	private function getServiceNotAvailableResponse() {
+	private function getServiceNotAvailableResponse(): JSONResponse {
 		$resp = new JSONResponse();
 		$resp->setStatus(Http::STATUS_SERVICE_UNAVAILABLE);
 		return $resp;
@@ -152,10 +149,8 @@ class AuthSettingsController extends Controller {
 	 * Return a 25 digit device password
 	 *
 	 * Example: AbCdE-fGhJk-MnPqR-sTwXy-23456
-	 *
-	 * @return string
 	 */
-	private function generateRandomDeviceToken() {
+	private function generateRandomDeviceToken(): string {
 		$groups = [];
 		for ($i = 0; $i < 5; $i++) {
 			$groups[] = $this->random->generate(5, ISecureRandom::CHAR_HUMAN_READABLE);
@@ -167,15 +162,10 @@ class AuthSettingsController extends Controller {
 		return $this->session->exists('app_password');
 	}
 
-	/**
-	 * @NoSubAdminRequired
-	 *
-	 * @param int $id
-	 * @return array|JSONResponse
-	 */
+	#[NoSubAdminRequired]
 	#[NoAdminRequired]
 	#[PasswordConfirmationRequired(strict: true)]
-	public function destroy($id) {
+	public function destroy(int $id): JSONResponse {
 		if ($this->checkAppToken()) {
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}
@@ -195,20 +185,13 @@ class AuthSettingsController extends Controller {
 
 		$this->tokenProvider->invalidateTokenById($this->userId, $token->getId());
 		$this->publishActivity($subject, $token->getId(), ['name' => $token->getName()]);
-		return [];
+		return new JSONResponse([]);
 	}
 
-	/**
-	 * @NoSubAdminRequired
-	 *
-	 * @param int $id
-	 * @param array $scope
-	 * @param string $name
-	 * @return array|JSONResponse
-	 */
+	#[NoSubAdminRequired]
 	#[NoAdminRequired]
 	#[PasswordConfirmationRequired(strict: true)]
-	public function update($id, array $scope, string $name) {
+	public function update(int $id, array $scope, string $name): JSONResponse {
 		if ($this->checkAppToken()) {
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}
@@ -236,14 +219,9 @@ class AuthSettingsController extends Controller {
 		}
 
 		$this->tokenProvider->updateToken($token);
-		return [];
+		return new JSONResponse([]);
 	}
 
-	/**
-	 * @param string $subject
-	 * @param int $id
-	 * @param array $parameters
-	 */
 	private function publishActivity(string $subject, int $id, array $parameters = []): void {
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('settings')
@@ -263,8 +241,6 @@ class AuthSettingsController extends Controller {
 	/**
 	 * Find a token by given id and check if uid for current session belongs to this token
 	 *
-	 * @param int $id
-	 * @return IToken
 	 * @throws InvalidTokenException
 	 */
 	private function findTokenByIdAndUser(int $id): IToken {
@@ -281,13 +257,10 @@ class AuthSettingsController extends Controller {
 	}
 
 	/**
-	 * @NoSubAdminRequired
-	 *
-	 * @param int $id
-	 * @return JSONResponse
 	 * @throws InvalidTokenException
 	 * @throws ExpiredTokenException
 	 */
+	#[NoSubAdminRequired]
 	#[NoAdminRequired]
 	#[PasswordConfirmationRequired]
 	public function wipe(int $id): JSONResponse {
