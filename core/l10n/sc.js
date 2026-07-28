@@ -94,6 +94,7 @@ OC.L10N.register(
     "Last 30 days" : "Ùrtimas 30 dies",
     "This year" : "Ocannu",
     "Last year" : "S'annu passadu",
+    "Type" : "Genia",
     "Date" : "Data",
     "Search people" : "Chirca persones",
     "People" : "Gente",

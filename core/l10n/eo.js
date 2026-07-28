@@ -99,6 +99,7 @@ OC.L10N.register(
     "Last 30 days" : "Lastaj 30 tagoj",
     "This year" : "Ĉi jaro",
     "Last year" : "Lasta jaro",
+    "Type" : "Tipo",
     "Date" : "Dato",
     "Search people" : "Serĉi homojn",
     "People" : "Homoj",
