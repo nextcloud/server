@@ -51,7 +51,6 @@ final readonly class SharingBackend implements ISharingBackend {
 		IFactory $factory,
 		private IDBConnection $connection,
 		private IUserManager $userManager,
-		private ISnowflakeGenerator $snowflakeGenerator,
 		private IAppConfig $appConfig,
 		private ISharingRegistry $registry,
 		private ISharingManager $manager,
@@ -60,10 +59,7 @@ final readonly class SharingBackend implements ISharingBackend {
 	}
 
 	#[\Override]
-	public function createShare(ShareUser $owner): string {
-		$id = $this->snowflakeGenerator->nextId();
-		$lastUpdated = $this->manager->generateTimestamp();
-
+	public function createShare(string $id, ShareUser $owner, int $lastUpdated): void {
 		$qb = $this->connection->getQueryBuilder();
 		$qb
 			->insert('sharing_share')
@@ -75,8 +71,6 @@ final readonly class SharingBackend implements ISharingBackend {
 				'state' => $qb->createNamedParameter(ShareState::Draft->value),
 			])
 			->executeStatement();
-
-		return $id;
 	}
 
 	#[\Override]
@@ -191,6 +185,10 @@ final readonly class SharingBackend implements ISharingBackend {
 
 	#[\Override]
 	public function addShareRecipient(string $id, ShareRecipient $recipient): void {
+		if ($recipient->secret === null) {
+			throw new RuntimeException('The secret must not be null.');
+		}
+
 		if (!$recipient->initiator instanceof ShareUser) {
 			throw new RuntimeException('The initiator must not be null.');
 		}
@@ -203,7 +201,7 @@ final readonly class SharingBackend implements ISharingBackend {
 				'recipient_class' => $qb->createNamedParameter($recipient->class),
 				'recipient_value' => $qb->createNamedParameter($recipient->value),
 				'recipient_instance' => $qb->createNamedParameter($recipient->instance),
-				'recipient_secret' => $qb->createNamedParameter($this->manager->generateSecret()),
+				'recipient_secret' => $qb->createNamedParameter($recipient->secret),
 				'initiator_user_id' => $qb->createNamedParameter($recipient->initiator->userId),
 				'initiator_instance' => $qb->createNamedParameter($recipient->initiator->instance),
 			];

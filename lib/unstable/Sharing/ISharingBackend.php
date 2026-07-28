@@ -29,7 +29,7 @@ interface ISharingBackend {
 	 *
 	 * @experimental 35.0.0
 	 */
-	public function createShare(ShareUser $owner): string;
+	public function createShare(string $id, ShareUser $owner, int $lastUpdated): void;
 
 	/**
 	 * Perform all updates when the owner was deleted.

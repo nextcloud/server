@@ -66,9 +66,9 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		IEventDispatcher $eventDispatcher,
 		private IUserManager $userManager,
 		private IFactory $l10nFactory,
+		private ISnowflakeGenerator $snowflakeGenerator,
 		private IDBConnection $dbConnection,
 		private ISharingRegistry $registry,
-		ISnowflakeGenerator $snowflakeGenerator,
 		IAppConfig $appConfig,
 	) {
 		$this->randomizer = new Randomizer();
@@ -77,7 +77,6 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 			$l10nFactory,
 			$dbConnection,
 			$userManager,
-			$snowflakeGenerator,
 			$appConfig,
 			$registry,
 			$this,
@@ -158,7 +157,9 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 
 		$this->assertInTransaction();
 
-		$id = $this->backend->createShare(new ShareUser($currentUser->getUID(), null));
+		$id = $this->snowflakeGenerator->nextId();
+		$lastUpdated = $this->generateTimestamp();
+		$this->backend->createShare($id, new ShareUser($currentUser->getUID(), null), $lastUpdated);
 
 		$this->processShareUpdates([$id]);
 
@@ -325,13 +326,18 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 			$this->validateInteraction($accessContext, $share);
 		}
 
-		$recipient = new ShareRecipient(
-			$recipient->class,
-			$recipient->value,
-			$recipient->instance,
-			$recipient->secret,
-			new ShareUser($currentUser->getUID(), null),
-		);
+		if ($recipient->secret === null || !$recipient->initiator instanceof ShareUser) {
+			$secret = $recipient->secret ?? $this->generateSecret();
+			$initiator = $recipient->initiator ?? new ShareUser($currentUser->getUID(), null);
+
+			$recipient = new ShareRecipient(
+				$recipient->class,
+				$recipient->value,
+				$recipient->instance,
+				$secret,
+				$initiator,
+			);
+		}
 
 		$this->backend->addShareRecipient($id, $recipient);
 
