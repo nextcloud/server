@@ -133,7 +133,9 @@ import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
 import { loadState } from '@nextcloud/initial-state'
 import { generateOcsUrl, generateUrl } from '@nextcloud/router'
-import Draggable from 'vuedraggable'
+// import this directly so Vite builds it and we don't end up using the UMD bundle which
+// tries to run "new Function(...)" (for no good reason) which is blocked by our CSP
+import Draggable from 'vuedraggable/src/vuedraggable.js'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcModal from '@nextcloud/vue/components/NcModal'
 import NcUserStatusIcon from '@nextcloud/vue/components/NcUserStatusIcon'

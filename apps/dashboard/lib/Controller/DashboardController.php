@@ -15,7 +15,6 @@ use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
-use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\FeaturePolicy;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
@@ -79,10 +78,6 @@ class DashboardController extends Controller {
 			'id-app-navigation' => null,
 			'pageTitle' => $this->l10n->t('Dashboard'),
 		]);
-
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedScriptDomain("'unsafe-eval'");
-		$response->setContentSecurityPolicy($csp);
 
 		// For the weather widget we should allow the geolocation
 		$featurePolicy = new FeaturePolicy();
