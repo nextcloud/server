@@ -2293,14 +2293,6 @@
       <code><![CDATA[$groupid === null]]></code>
     </TypeDoesNotContainNull>
   </file>
-  <file src="apps/provisioning_api/lib/Middleware/ProvisioningApiMiddleware.php">
-    <DeprecatedMethod>
-      <code><![CDATA[hasAnnotation]]></code>
-    </DeprecatedMethod>
-    <InvalidReturnType>
-      <code><![CDATA[Response]]></code>
-    </InvalidReturnType>
-  </file>
   <file src="apps/settings/lib/BackgroundJobs/VerifyUserData.php">
     <DeprecatedConstant>
       <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>

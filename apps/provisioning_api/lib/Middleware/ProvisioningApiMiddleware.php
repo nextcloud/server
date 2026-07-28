@@ -14,7 +14,6 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\Attribute\NoSubAdminRequired;
-use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\Utility\IControllerMethodReflector;
@@ -55,10 +54,9 @@ class ProvisioningApiMiddleware extends Middleware {
 	 * @param string $methodName
 	 * @param \Exception $exception
 	 * @throws \Exception
-	 * @return Response
 	 */
 	#[\Override]
-	public function afterException(Controller $controller, string $methodName, \Exception $exception) {
+	public function afterException(Controller $controller, string $methodName, \Exception $exception): never {
 		if ($exception instanceof NotSubAdminException) {
 			throw new OCSException($exception->getMessage(), Http::STATUS_FORBIDDEN);
 		}

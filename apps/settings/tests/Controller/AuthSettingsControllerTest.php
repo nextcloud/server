@@ -152,7 +152,7 @@ class AuthSettingsControllerTest extends TestCase {
 		$expected = new JSONResponse();
 		$expected->setStatus(Http::STATUS_SERVICE_UNAVAILABLE);
 
-		$this->assertEquals($expected, $this->controller->create($name)->getData());
+		$this->assertEquals($expected, $this->controller->create($name));
 	}
 
 	public function testCreateSessionNotAvailable(): void {
@@ -165,7 +165,7 @@ class AuthSettingsControllerTest extends TestCase {
 		$expected = new JSONResponse();
 		$expected->setStatus(Http::STATUS_SERVICE_UNAVAILABLE);
 
-		$this->assertEquals($expected, $this->controller->create($name)->getData());
+		$this->assertEquals($expected, $this->controller->create($name));
 	}
 
 	public function testCreateInvalidToken(): void {
@@ -185,7 +185,7 @@ class AuthSettingsControllerTest extends TestCase {
 		$expected = new JSONResponse();
 		$expected->setStatus(Http::STATUS_SERVICE_UNAVAILABLE);
 
-		$this->assertEquals($expected, $this->controller->create($name)->getData());
+		$this->assertEquals($expected, $this->controller->create($name));
 	}
 
 	public function testDestroy(): void {

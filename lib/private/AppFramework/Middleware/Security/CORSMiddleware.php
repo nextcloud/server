@@ -8,8 +8,8 @@
 
 namespace OC\AppFramework\Middleware\Security;
 
-use OC\AppFramework\Middleware\MiddlewareUtils;
 use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
+use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
 use OC\User\Session;
 use OCP\AppFramework\Controller;
@@ -35,7 +35,7 @@ class CORSMiddleware extends Middleware {
 
 	public function __construct(
 		private readonly IRequest $request,
-		private readonly MiddlewareUtils $middlewareUtils,
+		private readonly ControllerMethodReflector $reflector,
 		private readonly Session $session,
 		private readonly IThrottler $throttler,
 	) {
@@ -43,12 +43,10 @@ class CORSMiddleware extends Middleware {
 
 	#[Override]
 	public function beforeController(Controller $controller, string $methodName): void {
-		$reflectionMethod = new ReflectionMethod($controller, $methodName);
-
 		// ensure that @CORS annotated API routes are not used in conjunction
 		// with session authentication since this enables CSRF attack vectors
-		if ($this->middlewareUtils->hasAnnotationOrAttribute($reflectionMethod, 'CORS', CORS::class)
-			&& (!$this->middlewareUtils->hasAnnotationOrAttribute($reflectionMethod, 'PublicPage', PublicPage::class) || $this->session->isLoggedIn())) {
+		if ($this->reflector->hasAnnotationOrAttribute('CORS', CORS::class)
+			&& (!$this->reflector->hasAnnotationOrAttribute('PublicPage', PublicPage::class) || $this->session->isLoggedIn())) {
 			$user = array_key_exists('PHP_AUTH_USER', $this->request->server) ? $this->request->server['PHP_AUTH_USER'] : null;
 			$pass = array_key_exists('PHP_AUTH_PW', $this->request->server) ? $this->request->server['PHP_AUTH_PW'] : null;
 
@@ -77,7 +75,7 @@ class CORSMiddleware extends Middleware {
 
 		if (isset($this->request->server['HTTP_ORIGIN'])) {
 			$reflectionMethod = new ReflectionMethod($controller, $methodName);
-			if ($this->middlewareUtils->hasAnnotationOrAttribute($reflectionMethod, 'CORS', CORS::class)) {
+			if ($this->reflector->hasAnnotationOrAttribute('CORS', CORS::class)) {
 				// allow credentials headers must not be true or CSRF is possible
 				// otherwise
 				foreach ($response->getHeaders() as $header => $value) {

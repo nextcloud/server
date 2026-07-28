@@ -148,6 +148,19 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 	}
 
 	/**
+	 * @template T
+	 * @param class-string<T> $attributeClass
+	 * @return ?\ReflectionAttribute<T>
+	 */
+	public function getAttribute(string $attributeClass): ?\ReflectionAttribute {
+		$attributes = $this->reflectionMethod->getAttributes($attributeClass);
+		if (!empty($attributes)) {
+			return $attributes[0];
+		}
+		return null;
+	}
+
+	/**
 	 * Check if a method contains an annotation
 	 * @param string $name the name of the annotation
 	 * @return bool true if the annotation is found
