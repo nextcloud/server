@@ -376,9 +376,8 @@ class OCMSignatoryManager implements IJwkResolvingSignatoryManager {
 	}
 
 	/**
-	 * Absolute https URL of the local JWK Set document, advertised as
-	 * `jwksUri` in the OCM discovery response. The spec mandates https and
-	 * requires the field whenever the `http-sig` capability is exposed.
+	 * Absolute URL of the local JWK Set, advertised as `jwksUri` in the
+	 * discovery response.
 	 *
 	 * @throws IdentityNotFoundException
 	 */
@@ -396,12 +395,13 @@ class OCMSignatoryManager implements IJwkResolvingSignatoryManager {
 	}
 
 	/**
-	 * Prefix $path with 'https://' and the signing identity of this instance,
-	 * including a possible subfolder.
+	 * Absolute local URL for a signing path (keyId fragment or jwksUri),
+	 * built via {@see IURLGenerator::getAbsoluteURL()} so the advertised
+	 * signing origin matches the instance URL used for federated shares.
+	 * keyId callers re-canonicalize to https through {@see Signatory::setKeyId}.
 	 *
 	 * @param string $path absolute path, starting with a slash
 	 * @return string
-	 * @throws IdentityNotFoundException
 	 */
 	private function buildLocalUrl(string $path): string {
 		if ($this->appConfig->hasKey('core', self::APPCONFIG_SIGN_IDENTITY_EXTERNAL, true)) {
@@ -409,20 +409,7 @@ class OCMSignatoryManager implements IJwkResolvingSignatoryManager {
 			return 'https://' . $identity . $path;
 		}
 
-		try {
-			return $this->signatureManager->generateKeyIdFromConfig($path);
-		} catch (IdentityNotFoundException) {
-		}
-
-		$url = $this->urlGenerator->linkToRouteAbsolute('cloud_federation_api.requesthandlercontroller.addShare');
-		$identity = $this->signatureManager->extractIdentityFromUri($url);
-
-		// catching possible subfolder to create a URL like 'https://hostname/subfolder/ocm#<fragment>'
-		$routePath = parse_url($url, PHP_URL_PATH);
-		$pos = strpos($routePath, '/ocm/shares');
-		$sub = ($pos) ? substr($routePath, 0, $pos) : '';
-
-		return 'https://' . $identity . $sub . $path;
+		return $this->urlGenerator->getAbsoluteURL($path);
 	}
 
 	/**
@@ -540,10 +527,9 @@ class OCMSignatoryManager implements IJwkResolvingSignatoryManager {
 	}
 
 	/**
-	 * Location of the peer's JWK Set, read from the `jwksUri` field of its
-	 * discovery response. A peer that advertises `http-sig` without a https
-	 * `jwksUri` is non-conformant: no keys can be obtained from it, so its
-	 * signed requests will fail verification.
+	 * The peer's `jwksUri` from its discovery response. Must be https, or
+	 * http from an http-only peer (the spec's testing fallback): an https
+	 * peer pointing at an http jwksUri would downgrade the key fetch.
 	 */
 	private function resolveJwksUri(string $origin): ?string {
 		try {
@@ -560,8 +546,10 @@ class OCMSignatoryManager implements IJwkResolvingSignatoryManager {
 			}
 			return null;
 		}
-		if (!str_starts_with($jwksUri, 'https://')) {
-			$this->logger->warning('remote jwksUri does not use https, ignoring', ['origin' => $origin, 'jwksUri' => $jwksUri]);
+		$httpFromHttpPeer = str_starts_with($jwksUri, 'http://')
+			&& str_starts_with($provider->getEndPoint(), 'http://');
+		if (!str_starts_with($jwksUri, 'https://') && !$httpFromHttpPeer) {
+			$this->logger->warning('refusing jwksUri: https is required unless the peer itself is http-only', ['origin' => $origin, 'jwksUri' => $jwksUri]);
 			return null;
 		}
 		return $jwksUri;

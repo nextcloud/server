@@ -14,6 +14,7 @@ use OC\OCM\OCMDiscoveryService;
 use OCA\CloudFederationAPI\Controller\OCMRequestController;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
+use OCP\IURLGenerator;
 use OCP\OCM\Events\LocalOCMDiscoveryEvent;
 use OCP\OCM\Events\OCMEndpointRequestEvent;
 use OCP\Server;
@@ -137,11 +138,12 @@ class DiscoveryServiceTest extends TestCase {
 	}
 
 	public function testLocalDiscoveryAdvertisesJwksUri(): void {
-		// implementations advertising `http-sig` MUST provide a https
-		// `jwksUri` as well
+		// scheme follows the instance base URL
 		$local = $this->discoveryService->getLocalOCMProvider();
 		$jwksUri = $local->getJwksUri();
-		$this->assertStringStartsWith('https://', $jwksUri);
+		$baseUrl = Server::get(IURLGenerator::class)->getBaseUrl();
+		$expectedScheme = str_starts_with($baseUrl, 'http://') ? 'http://' : 'https://';
+		$this->assertStringStartsWith($expectedScheme, $jwksUri);
 		$this->assertStringEndsWith('/.well-known/jwks.json', $jwksUri);
 	}
 
