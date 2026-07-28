@@ -223,6 +223,7 @@ class PreviewMigrationService {
 		$qb->select('fileid')
 			->from('filecache')
 			->where($qb->expr()->eq('parent', $qb->createNamedParameter((int)$folderId)))
+			->andWhere($qb->expr()->eq('storage', $qb->createNamedParameter($storageId)))
 			->setMaxResults(1);
 		$cursor = $qb->executeQuery();
 		$hasChild = $cursor->fetchOne() !== false;
