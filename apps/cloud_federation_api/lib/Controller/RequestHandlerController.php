@@ -110,7 +110,8 @@ class RequestHandlerController extends Controller {
 			try {
 				// if request is signed and well signed, no exceptions are thrown
 				// if request is not signed and host is known for not supporting signed request, no exception are thrown
-				$signedRequest = $this->ocmDiscoveryService->getIncomingSignedRequest();
+				$origin = $this->ocmDiscoveryService->getHostFromOcmAddress($owner);
+				$signedRequest = $this->ocmDiscoveryService->getIncomingSignedRequest($origin);
 				$this->confirmSignedOrigin($signedRequest, 'owner', $owner);
 			} catch (IncomingRequestException $e) {
 				$this->logger->warning('incoming request exception', ['exception' => $e]);
@@ -307,10 +308,15 @@ class RequestHandlerController extends Controller {
 
 		if (!$this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_DISABLED, lazy: true)) {
 			try {
-				// if request is signed and well signed, no exception are thrown
-				// if request is not signed and host is known for not supporting signed request, no exception are thrown
-				$signedRequest = $this->ocmDiscoveryService->getIncomingSignedRequest();
-				$this->confirmNotificationIdentity($signedRequest, $resourceType, $notification);
+				$identity = $this->resolveNotificationIdentity($resourceType, $notification);
+				$origin = null;
+				if ($identity !== '') {
+					$origin = $this->ocmDiscoveryService->getHostFromOcmAddress($identity);
+				}
+				$signedRequest = $this->ocmDiscoveryService->getIncomingSignedRequest($origin);
+				if ($identity !== '') {
+					$this->ocmDiscoveryService->confirmRequestOrigin($signedRequest?->getOrigin(), $identity);
+				}
 			} catch (IncomingRequestException $e) {
 				$this->logger->warning('incoming request exception', ['exception' => $e]);
 				return new JSONResponse(['message' => $e->getMessage(), 'validationErrors' => []], Http::STATUS_BAD_REQUEST);
@@ -450,22 +456,16 @@ class RequestHandlerController extends Controller {
 	}
 
 	/**
-	 *  confirm identity of the remote instance on notification, based on the share token.
+	 * Resolve the sender identity from a notification's sharedSecret.
+	 * Returns '' when the provider does not implement signed federation.
 	 *
-	 *  If request is not signed, we still verify that the hostname from the extracted value does,
-	 *  actually, not support signed request
-	 *
-	 * @param IIncomingSignedRequest|null $signedRequest
 	 * @param string $resourceType
+	 * @param array<string, mixed> $notification
 	 *
 	 * @throws IncomingRequestException
 	 * @throws BadRequestException
 	 */
-	private function confirmNotificationIdentity(
-		?IIncomingSignedRequest $signedRequest,
-		string $resourceType,
-		array $notification,
-	): void {
+	private function resolveNotificationIdentity(string $resourceType, array $notification): string {
 		$sharedSecret = $notification['sharedSecret'] ?? '';
 		if ($sharedSecret === '') {
 			throw new BadRequestException(['sharedSecret']);
@@ -481,14 +481,12 @@ class RequestHandlerController extends Controller {
 					$mapping = Server::get(OcmTokenMapMapper::class)->getByAccessTokenId($accessTokenDb->getId());
 					$identity = $provider->getFederationIdFromSharedSecret($mapping->getRefreshToken(), $notification);
 				}
-			} else {
-				$this->logger->debug('cloud federation provider {provider} does not implements ISignedCloudFederationProvider', ['provider' => $provider::class]);
-				return;
+				return $identity;
 			}
+			$this->logger->debug('cloud federation provider {provider} does not implement ISignedCloudFederationProvider', ['provider' => $provider::class]);
 		} catch (\Exception $e) {
 			throw new IncomingRequestException($e->getMessage(), previous: $e);
 		}
-
-		$this->ocmDiscoveryService->confirmRequestOrigin($signedRequest?->getOrigin(), $identity);
+		return '';
 	}
 }

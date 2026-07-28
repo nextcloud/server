@@ -335,11 +335,8 @@ class Rfc9421RoundTripTest extends TestCase {
 		new Rfc9421IncomingSignedRequest($body, $req);
 	}
 
-	public function testHostFragmentKeyIdYieldsOrigin(): void {
-		// the spec's canonical keyid form is `<fqdn>#<id>`, not a URL; the
-		// origin used for JWKS resolution is the host before the '#'.
-		// Nextcloud's own Signatory model rejects such kids, so build the
-		// peer's request manually.
+	public function testKeyIdIsOpaqueAndOriginIsExternal(): void {
+		// keyid is opaque; the origin is supplied by the caller via setOrigin().
 		$kid = 'sender.example.org#key1';
 		[$privatePem, $jwk] = $this->ecdsaP256Jwk($kid);
 
@@ -363,6 +360,8 @@ class Rfc9421RoundTripTest extends TestCase {
 
 		$req = $this->mockRequest($headers, 'POST', '/ocm/shares', 'receiver.example.org');
 		$in = new Rfc9421IncomingSignedRequest($body, $req);
+		// The keyid is not parsed; the origin comes from the caller.
+		$in->setOrigin('sender.example.org');
 		$this->assertSame('sender.example.org', $in->getOrigin());
 		$in->setKey($jwk);
 		$in->verify();

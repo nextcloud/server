@@ -57,6 +57,8 @@ class OCMSignatoryManager implements IJwkResolvingSignatoryManager {
 	private const APPKEY_JWKS_POOL_PREFIX = 'ocm_jwks_pool_';
 	private const APPCONFIG_JWKS_POOL_COUNTER = 'ocm_jwks_pool_counter';
 	private const APPCONFIG_JWKS_POOL_KID_PREFIX = 'ocm_jwks_pool_kid_';
+	/** Stable kid identity portion, reused across rotations so kids stay on one hostname. */
+	private const APPCONFIG_JWKS_KID_BASE = 'ocm_jwks_kid_base';
 	public const SLOT_ACTIVE = 'active';
 	public const SLOT_PENDING = 'pending';
 	public const SLOT_RETIRING = 'retiring';
@@ -260,7 +262,9 @@ class OCMSignatoryManager implements IJwkResolvingSignatoryManager {
 			}
 			$entries[] = [
 				'poolId' => $id,
-				'kid' => $this->appConfig->getValueString('core', self::APPCONFIG_JWKS_POOL_KID_PREFIX . $id, ''),
+				'kid' => $this->canonicalKid(
+					$this->appConfig->getValueString('core', self::APPCONFIG_JWKS_POOL_KID_PREFIX . $id, ''),
+				),
 				'slot' => $bySlot[$id] ?? null,
 			];
 		}
@@ -268,24 +272,72 @@ class OCMSignatoryManager implements IJwkResolvingSignatoryManager {
 	}
 
 	/**
-	 * Generate keypair into a new pool. Only the opaque key id is persisted;
-	 * the host is derived fresh per request at use time, so a key provisioned
-	 * under one URL still verifies when the instance is addressed by another
-	 * (e.g. the two-port integration rig, or a port change behind a proxy).
+	 * Generate keypair into a new pool. Kid is canonicalised through
+	 * {@see Signatory::setKeyId} so admin output and wire form agree.
 	 */
-	private function generatePool(string $opaqueKeyId): int {
+	private function generatePool(string $kid): int {
 		$poolId = $this->appConfig->getValueInt('core', self::APPCONFIG_JWKS_POOL_COUNTER, 0) + 1;
 		$this->appConfig->setValueInt('core', self::APPCONFIG_JWKS_POOL_COUNTER, $poolId);
 
 		$this->identityProofManager->generateEcdsaP256AppKey('core', self::APPKEY_JWKS_POOL_PREFIX . $poolId);
-		$this->appConfig->setValueString('core', self::APPCONFIG_JWKS_POOL_KID_PREFIX . $poolId, $opaqueKeyId);
+		$this->appConfig->setValueString('core', self::APPCONFIG_JWKS_POOL_KID_PREFIX . $poolId, $this->canonicalKid($kid));
 		return $poolId;
 	}
 
-	/** Next opaque key id (`<fragment>-<n>`); the host is added per request. */
+	/** Canonical wire-form via a transient {@see Signatory::setKeyId} round-trip. */
+	private function canonicalKid(string $kid): string {
+		$probe = new Signatory(true);
+		$probe->setKeyId($kid);
+		return $probe->getKeyId();
+	}
+
+	/**
+	 * Build the next kid. Identity portion is derived once and persisted so
+	 * CLI-triggered rotations stay on the same hostname.
+	 *
+	 * @throws \RuntimeException if no instance identity can be derived
+	 */
 	private function nextPoolKid(): string {
+		$base = $this->resolveKidBase();
 		$next = $this->appConfig->getValueInt('core', self::APPCONFIG_JWKS_POOL_COUNTER, 0) + 1;
-		return self::KEYID_FRAGMENT_JWKS . '-' . $next;
+		return $base . '-' . $next;
+	}
+
+	/**
+	 * Stable identity portion (before the `-N` suffix). Resolution order:
+	 * stored APPCONFIG_JWKS_KID_BASE > active pool's kid sans suffix >
+	 * fresh from {@see buildLocalKeyId}. Persisted so CLI rotations stay
+	 * on one hostname.
+	 *
+	 * @throws \RuntimeException if no instance identity can be derived
+	 */
+	private function resolveKidBase(): string {
+		$base = $this->appConfig->getValueString('core', self::APPCONFIG_JWKS_KID_BASE, '');
+		if ($base !== '') {
+			return $base;
+		}
+
+		$activePool = $this->getSlotPool(self::SLOT_ACTIVE);
+		if ($activePool !== null) {
+			$kid = $this->canonicalKid(
+				$this->appConfig->getValueString('core', self::APPCONFIG_JWKS_POOL_KID_PREFIX . $activePool, ''),
+			);
+			$pos = strrpos($kid, '-');
+			if ($pos !== false) {
+				$base = substr($kid, 0, $pos);
+			}
+		}
+
+		if ($base === '') {
+			try {
+				$base = $this->canonicalKid($this->buildLocalKeyId(self::KEYID_FRAGMENT_JWKS));
+			} catch (IdentityNotFoundException $e) {
+				throw new \RuntimeException('cannot derive instance identity for JWKS kid', 0, $e);
+			}
+		}
+
+		$this->appConfig->setValueString('core', self::APPCONFIG_JWKS_KID_BASE, $base);
+		return $base;
 	}
 
 	private function getSlotPool(string $slot): ?int {
@@ -305,29 +357,19 @@ class OCMSignatoryManager implements IJwkResolvingSignatoryManager {
 		$this->appConfig->deleteKey('core', 'ocm_jwks_slot_' . $slot);
 	}
 
-	/**
-	 * Returns null if the underlying appkey was manually deleted. The keyId
-	 * is rebuilt per call from the opaque id and the current request URL, so
-	 * it tracks the host the instance is actually addressed as.
-	 *
-	 * @throws \RuntimeException if no instance identity can be derived
-	 */
+	/** Returns null if the underlying appkey was manually deleted. */
 	private function signatoryFromPool(int $poolId): ?Signatory {
 		$appKey = self::APPKEY_JWKS_POOL_PREFIX . $poolId;
 		if (!$this->identityProofManager->hasAppKey('core', $appKey)) {
 			return null;
 		}
-		$opaqueKeyId = $this->appConfig->getValueString('core', self::APPCONFIG_JWKS_POOL_KID_PREFIX . $poolId, '');
-		if ($opaqueKeyId === '') {
+		$kid = $this->appConfig->getValueString('core', self::APPCONFIG_JWKS_POOL_KID_PREFIX . $poolId, '');
+		if ($kid === '') {
 			return null;
 		}
 		$keyPair = $this->identityProofManager->getAppKey('core', $appKey);
 		$signatory = new Signatory(true);
-		try {
-			$signatory->setKeyId($this->buildLocalKeyId($opaqueKeyId));
-		} catch (IdentityNotFoundException $e) {
-			throw new \RuntimeException('cannot derive instance identity for JWKS kid', 0, $e);
-		}
+		$signatory->setKeyId($kid);
 		$signatory->setPublicKey($keyPair->getPublic());
 		$signatory->setPrivateKey($keyPair->getPrivate());
 		return $signatory;

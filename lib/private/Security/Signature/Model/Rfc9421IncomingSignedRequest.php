@@ -23,14 +23,12 @@ use OC\Security\Signature\Rfc9421\ContentDigest;
 use OC\Security\Signature\Rfc9421\SignatureBase;
 use OC\Security\Signature\SignatureManager;
 use OCP\IRequest;
-use OCP\Security\Signature\Exceptions\IdentityNotFoundException;
 use OCP\Security\Signature\Exceptions\IncomingRequestException;
 use OCP\Security\Signature\Exceptions\InvalidSignatureException;
 use OCP\Security\Signature\Exceptions\SignatoryNotFoundException;
 use OCP\Security\Signature\Exceptions\SignatureException;
 use OCP\Security\Signature\Exceptions\SignatureNotFoundException;
 use OCP\Security\Signature\IIncomingSignedRequest;
-use OCP\Security\Signature\Model\Signatory;
 
 /**
  * RFC 9421 implementation of {@see IIncomingSignedRequest}. Parses the
@@ -139,15 +137,7 @@ class Rfc9421IncomingSignedRequest extends SignedRequest implements
 		if (!is_string($keyId) || $keyId === '') {
 			throw new IncomingRequestException('missing keyid in Signature-Input');
 		}
-		try {
-			$this->origin = Signatory::extractIdentityFromUri($keyId);
-		} catch (IdentityNotFoundException) {
-			// keyid is not a URL; the OCM convention (and the examples in
-			// the spec) use `<fqdn>[:port]#<id>`, in which case the origin
-			// is the host part before the '#'. If neither form applies the
-			// origin stays empty and getOrigin() rejects the request.
-			$this->origin = self::extractHostFromKeyId($keyId);
-		}
+		// keyid is opaque; the signer origin is set by the caller via setOrigin().
 
 		$paramsLine = SignatureBase::serializeSignatureParams($this->components, $this->signatureParams);
 		$this->signatureBaseString = SignatureBase::build(
@@ -182,6 +172,15 @@ class Rfc9421IncomingSignedRequest extends SignedRequest implements
 			throw new IncomingRequestException('empty origin');
 		}
 		return $this->origin;
+	}
+
+	/**
+	 * Signer origin, established by the caller from the share/sender identity.
+	 *
+	 * @param string $origin
+	 */
+	public function setOrigin(string $origin): void {
+		$this->origin = $origin;
 	}
 
 	#[\Override]
@@ -310,22 +309,6 @@ class Rfc9421IncomingSignedRequest extends SignedRequest implements
 		$host = $this->request->getServerHost();
 		$path = $this->request->getRequestUri();
 		return $scheme . '://' . $host . $path;
-	}
-
-	/**
-	 * Derive the signer's origin from the OCM `<fqdn>[:port]#<id>` keyid
-	 * convention, e.g. `sender.example.org#key1`, by parsing the keyid as a
-	 * scheme-less authority. Returns '' when no host can be extracted.
-	 */
-	private static function extractHostFromKeyId(string $keyId): string {
-		if (!str_contains($keyId, '#')) {
-			return '';
-		}
-		try {
-			return Signatory::extractIdentityFromUri('https://' . $keyId);
-		} catch (IdentityNotFoundException) {
-			return '';
-		}
 	}
 
 	/**

@@ -24,6 +24,7 @@ use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\Token\IToken;
 use OCP\IAppConfig;
 use OCP\IRequest;
+use OCP\OCM\IOCMDiscoveryService;
 use OCP\Security\ISecureRandom;
 use OCP\Security\Signature\Exceptions\IncomingRequestException;
 use OCP\Security\Signature\Exceptions\SignatoryNotFoundException;
@@ -51,19 +52,44 @@ class TokenController extends ApiController {
 		private readonly IAppConfig $appConfig,
 		private readonly OcmTokenMapMapper $ocmTokenMapMapper,
 		private readonly IShareManager $shareManager,
+		private readonly IOCMDiscoveryService $ocmDiscoveryService,
 	) {
 		parent::__construct('cloud_federation_api', $request);
 	}
 
 	/**
+	 * Resolve the signer origin from the refresh token's share, or null.
+	 *
+	 * @param string $code refresh token
+	 * @return string|null signer origin, or null if it cannot be determined
+	 */
+	private function resolveOriginFromRefreshToken(string $code): ?string {
+		if ($code === '') {
+			return null;
+		}
+		try {
+			$share = $this->shareManager->getShareByToken($code);
+			$sharedWith = $share->getSharedWith();
+			if ($sharedWith === null || $sharedWith === '') {
+				return null;
+			}
+			return $this->ocmDiscoveryService->getHostFromOcmAddress($sharedWith);
+		} catch (\Throwable) {
+			return null;
+		}
+	}
+
+	/**
 	 * Verify the signature of incoming request if available
+	 *
+	 * @param string|null $origin the origin of the request, or null if unknown
 	 *
 	 * @return IIncomingSignedRequest|null null if remote does not support signed requests
 	 * @throws IncomingRequestException if signature is required but invalid
 	 */
-	private function verifySignedRequest(): ?IIncomingSignedRequest {
+	private function verifySignedRequest(?string $origin): ?IIncomingSignedRequest {
 		try {
-			$signedRequest = $this->signatureManager->getIncomingSignedRequest($this->signatoryManager);
+			$signedRequest = $this->signatureManager->getIncomingSignedRequest($this->signatoryManager, null, $origin);
 			$this->logger->debug('Token request signature verified', [
 				'origin' => $signedRequest->getOrigin()
 			]);
@@ -126,7 +152,7 @@ class TokenController extends ApiController {
 	#[FrontpageRoute(verb: 'POST', url: '/api/v1/access-token')]
 	public function accessToken(string $grant_type = '', string $code = ''): DataResponse {
 		try {
-			$signedRequest = $this->verifySignedRequest();
+			$signedRequest = $this->verifySignedRequest($this->resolveOriginFromRefreshToken($code));
 		} catch (IncomingRequestException $e) {
 			$this->logger->warning('Token request signature verification failed', [
 				'exception' => $e
