@@ -23,6 +23,7 @@ use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\Token\IToken;
 use OCP\IAppConfig;
 use OCP\IRequest;
+use OCP\OCM\IOCMDiscoveryService;
 use OCP\Security\ISecureRandom;
 use OCP\Security\Signature\Exceptions\SignatoryNotFoundException;
 use OCP\Security\Signature\Exceptions\SignatureException;
@@ -47,6 +48,7 @@ class TokenControllerTest extends TestCase {
 	private IAppConfig&MockObject $appConfig;
 	private OcmTokenMapMapper&MockObject $ocmTokenMapMapper;
 	private IShareManager&MockObject $shareManager;
+	private IOCMDiscoveryService&MockObject $ocmDiscoveryService;
 
 	private TokenController $controller;
 
@@ -67,6 +69,7 @@ class TokenControllerTest extends TestCase {
 		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->ocmTokenMapMapper = $this->createMock(OcmTokenMapMapper::class);
 		$this->shareManager = $this->createMock(IShareManager::class);
+		$this->ocmDiscoveryService = $this->createMock(IOCMDiscoveryService::class);
 
 		$this->controller = new TokenController(
 			$this->request,
@@ -79,6 +82,7 @@ class TokenControllerTest extends TestCase {
 			$this->appConfig,
 			$this->ocmTokenMapMapper,
 			$this->shareManager,
+			$this->ocmDiscoveryService,
 		);
 	}
 

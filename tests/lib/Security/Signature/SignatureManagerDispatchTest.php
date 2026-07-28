@@ -100,7 +100,8 @@ class SignatureManagerDispatchTest extends TestCase {
 
 		$resolver = $this->makeKeyResolver($signatoryManager, $jwk, 'https://sender.example.org/ocm#ecdsa-p256-sha256');
 
-		$signed = $this->signatureManager->getIncomingSignedRequest($resolver, $body);
+		// RFC 9421 verification needs the sender origin from the caller.
+		$signed = $this->signatureManager->getIncomingSignedRequest($resolver, $body, 'sender.example.org');
 		$this->assertInstanceOf(Rfc9421IncomingSignedRequest::class, $signed);
 	}
 
@@ -143,7 +144,7 @@ class SignatureManagerDispatchTest extends TestCase {
 		$resolver = $this->makeKeyResolver($signatoryManager, $jwk, 'https://other.example.org/ocm#nomatch');
 
 		$this->expectException(IncomingRequestException::class);
-		$this->signatureManager->getIncomingSignedRequest($resolver, $body);
+		$this->signatureManager->getIncomingSignedRequest($resolver, $body, 'sender.example.org');
 	}
 
 	private function rsaSignatoryManager(): ISignatoryManager {

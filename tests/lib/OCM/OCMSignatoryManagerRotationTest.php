@@ -86,7 +86,7 @@ class OCMSignatoryManagerRotationTest extends TestCase {
 		$this->assertSame($signatory->getKeyId(), $jwks[0]['kid']);
 
 		$listed = $this->signatoryManager->listJwksKeys();
-		$this->assertSame([['poolId' => 1, 'kid' => 'ecdsa-p256-sha256-1', 'slot' => 'active']], $listed);
+		$this->assertSame([['poolId' => 1, 'kid' => $signatory->getKeyId(), 'slot' => 'active']], $listed);
 	}
 
 	public function testStageDoesNotChangeActiveSignerButPublishesNewJwk(): void {
@@ -155,7 +155,7 @@ class OCMSignatoryManagerRotationTest extends TestCase {
 		// listJwksKeys also drops the retired pool.
 		$listed = $this->signatoryManager->listJwksKeys();
 		$this->assertCount(1, $listed);
-		$this->assertSame('ecdsa-p256-sha256-2', $listed[0]['kid']);
+		$this->assertSame($staged->getKeyId(), $listed[0]['kid']);
 		$this->assertNotContains($first->getKeyId(), array_column($listed, 'kid'));
 	}
 
