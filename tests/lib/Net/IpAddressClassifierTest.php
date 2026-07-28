@@ -81,7 +81,9 @@ class IpAddressClassifierTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('mappedAddresses')]
+	/**
+	 * @dataProvider mappedAddresses
+	 */
 	public function testMappedAddresses(string $ipv6, ?string $ipv4): void {
 		$mapped = $this->classifier->getMappedIpv4(IPv6::parseString($ipv6));
 

@@ -36,13 +36,13 @@ Feature: tags
     Then The response should have a status code "400"
     And "0" tags should exist for "user0"
 
-  Scenario: Renaming a normal tag as regular user should work
+  Scenario: Renaming a normal tag as regular user should fail
     Given user "user0" exists
     Given "admin" creates a "normal" tag with name "MySuperAwesomeTagName"
     When "user0" edits the tag with name "MySuperAwesomeTagName" and sets its name to "AnotherTagName"
-    Then The response should have a status code "207"
+    Then The response should have a status code "403"
     And The following tags should exist for "admin"
-      |AnotherTagName|true|true|
+      |MySuperAwesomeTagName|true|true|
 
   Scenario: Renaming a not user-assignable tag as regular user should fail
     Given user "user0" exists
