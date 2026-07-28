@@ -22,6 +22,7 @@ use OCP\Sharing\ISharingRegistry;
 use OCP\Sharing\Permission\SharePermission;
 use OCP\Sharing\Property\ShareProperty;
 use OCP\Sharing\Recipient\ShareRecipient;
+use OCP\Sharing\Share;
 use OCP\Sharing\ShareAccessContext;
 use OCP\Sharing\ShareState;
 use OCP\Sharing\Source\ShareSource;
@@ -29,6 +30,10 @@ use PHPUnit\Framework\Attributes\Group;
 use Test\Sharing\AbstractSharingManagerTests;
 
 // TODO: Use Dispatcher
+
+/**
+ * @psalm-import-type SharingShare from Share
+ */
 #[Group(name: 'DB')]
 final class ApiV1ControllerTest extends AbstractSharingManagerTests {
 	public function testDefaultShareAccessContext(): void {
@@ -146,11 +151,17 @@ final class ApiV1ControllerTest extends AbstractSharingManagerTests {
 		$this->executeRequest($accessContext, fn (ApiV1Controller $controller): DataResponse => $controller->deleteShare($id));
 	}
 
+	/**
+	 * @psalm-suppress MixedReturnTypeCoercion
+	 */
 	#[Override]
 	protected function getShare(ShareAccessContext $accessContext, string $id): array {
 		return $this->executeRequest(new ShareAccessContext($accessContext->currentUser, null, [], $accessContext->overrideChecks), fn (ApiV1Controller $controller): DataResponse => $controller->getShare($id, $accessContext->secret, $accessContext->arguments));
 	}
 
+	/**
+	 * @psalm-suppress MixedReturnTypeCoercion
+	 */
 	#[Override]
 	protected function getShares(ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?string $lastShareID, ?int $limit): array {
 		return $this->executeRequest($accessContext, function (ApiV1Controller $controller) use ($filterSourceTypeClass, $filterSourceTypeValue, $lastShareID, $limit): DataResponse {

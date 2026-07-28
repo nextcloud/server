@@ -207,9 +207,6 @@ final class SharingManagerTest extends AbstractSharingManagerTests {
 		}
 	}
 
-	/**
-	 * @return mixed[][]
-	 */
 	#[\Override]
 	protected function getShares(ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?string $lastShareID, ?int $limit): array {
 		try {

@@ -35,6 +35,9 @@ use Test\TestCase;
 /**
  * @psalm-import-type SharingShare from Share
  * @psalm-import-type SharingRecipient from Share
+ *
+ * @psalm-suppress RedundantConditionGivenDocblockType
+ * @psalm-suppress PossiblyUndefinedArrayOffset
  */
 abstract class AbstractSharingManagerTests extends TestCase {
 	abstract protected function searchRecipients(ShareAccessContext $accessContext, ?array $filterRecipientTypeClasses, string $query, int $limit, int $offset, ?string $id = null): array;
@@ -61,8 +64,14 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 	abstract protected function deleteShare(ShareAccessContext $accessContext, string $id): void;
 
+	/**
+	 * @return SharingShare
+	 */
 	abstract protected function getShare(ShareAccessContext $accessContext, string $id): array;
 
+	/**
+	 * @return SharingShare[]
+	 */
 	abstract protected function getShares(ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?string $lastShareID, ?int $limit): array;
 
 	protected IDBConnection $dbConnection;
@@ -3097,6 +3106,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$this->assertGreaterThanOrEqual($before, $share['last_updated']);
 		$this->assertLessThanOrEqual($after, $share['last_updated']);
 
+		usort($share['recipients'], fn (array $a, array $b): int => $a['value'] <=> $b['value']);
 		$this->assertArrayHasKey('recipients', $share);
 		$this->assertIsArray($share['recipients']);
 		$this->assertCount(4, $share['recipients']);
