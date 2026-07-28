@@ -119,7 +119,6 @@ class PreviewMigrationJobTest extends TestCase {
 			Server::get(ITimeFactory::class),
 			$this->appConfig,
 			$this->config,
-			Server::get(IDBConnection::class),
 			Server::get(IRootFolder::class),
 			new PreviewMigrationService(
 				$this->config,
@@ -157,7 +156,6 @@ class PreviewMigrationJobTest extends TestCase {
 			Server::get(ITimeFactory::class),
 			$this->appConfig,
 			$this->config,
-			Server::get(IDBConnection::class),
 			Server::get(IRootFolder::class),
 			new PreviewMigrationService(
 				$this->config,
@@ -203,7 +201,6 @@ class PreviewMigrationJobTest extends TestCase {
 			Server::get(ITimeFactory::class),
 			$this->appConfig,
 			$this->config,
-			Server::get(IDBConnection::class),
 			Server::get(IRootFolder::class),
 			new PreviewMigrationService(
 				$this->config,
