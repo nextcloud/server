@@ -14,6 +14,7 @@ use OC\Preview\Db\Preview;
 use OC\Preview\Db\PreviewMapper;
 use OC\Preview\Storage\StorageFactory;
 use OCP\DB\Exception;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\IAppData;
 use OCP\Files\IMimeTypeDetector;
@@ -98,45 +99,42 @@ class PreviewMigrationService {
 		$cursor->closeCursor();
 
 		if ($result !== false) {
-			foreach ($previewFiles as $previewFile) {
-				/** @var Preview $preview */
-				$preview = $previewFile['preview'];
-				/** @var SimpleFile $file */
-				$file = $previewFile['file'];
-				$preview->setStorageId($result['storage']);
-				$preview->setEtag($result['etag']);
-				$preview->setSourceMimeType($this->mimeTypeLoader->getMimetypeById((int)$result['mimetype']));
-				$preview->generateId();
-				try {
-					$preview = $this->previewMapper->insert($preview);
-				} catch (Exception $e) {
-					if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+			$oldFileIdsToDelete = [];
+			try {
+				foreach ($previewFiles as $previewFile) {
+					/** @var Preview $preview */
+					$preview = $previewFile['preview'];
+					/** @var SimpleFile $file */
+					$file = $previewFile['file'];
+					$preview->setStorageId($result['storage']);
+					$preview->setEtag($result['etag']);
+					$preview->setSourceMimeType($this->mimeTypeLoader->getMimetypeById((int)$result['mimetype']));
+					$preview->generateId();
+					try {
+						$preview = $this->previewMapper->insert($preview);
+					} catch (Exception $e) {
+						if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+							throw $e;
+						}
+
+						// We already have this preview in the preview table, skip
+						$oldFileIdsToDelete[] = $file->getId();
+						continue;
+					}
+
+					try {
+						$this->storageFactory->migratePreview($preview, $file);
+						// Do not call $file->delete() as this will also delete the file from the file system
+					} catch (\Exception $e) {
+						$this->previewMapper->delete($preview);
 						throw $e;
 					}
 
-					$delete = $this->connection->getQueryBuilder();
-					// We already have this preview in the preview table, skip
-					$delete->delete('filecache')
-						->where($delete->expr()->eq('fileid', $delete->createNamedParameter($file->getId())))
-						->hintShardKey('storage', $this->rootFolder->getMountPoint()->getNumericStorageId())
-						->executeStatement();
-					continue;
+					$oldFileIdsToDelete[] = $file->getId();
+					$previews[] = $preview;
 				}
-
-				try {
-					$this->storageFactory->migratePreview($preview, $file);
-					$qb = $this->connection->getQueryBuilder();
-					$qb->delete('filecache')
-						->where($qb->expr()->eq('fileid', $qb->createNamedParameter($file->getId())))
-						->hintShardKey('storage', $this->rootFolder->getMountPoint()->getNumericStorageId())
-						->executeStatement();
-					// Do not call $file->delete() as this will also delete the file from the file system
-				} catch (\Exception $e) {
-					$this->previewMapper->delete($preview);
-					throw $e;
-				}
-
-				$previews[] = $preview;
+			} finally {
+				$this->deleteOldFileCacheEntries($oldFileIdsToDelete);
 			}
 		} else {
 			// No matching fileId, delete preview
@@ -165,6 +163,23 @@ class PreviewMigrationService {
 		return implode('/', str_split(substr(md5($name), 0, 7))) . '/' . $name;
 	}
 
+	/**
+	 * @param list<int> $fileIds
+	 */
+	private function deleteOldFileCacheEntries(array $fileIds): void {
+		if ($fileIds === []) {
+			return;
+		}
+
+		foreach (array_chunk($fileIds, 1000) as $chunk) {
+			$qb = $this->connection->getQueryBuilder();
+			$qb->delete('filecache')
+				->where($qb->expr()->in('fileid', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY)))
+				->hintShardKey('storage', $this->rootFolder->getMountPoint()->getNumericStorageId())
+				->executeStatement();
+		}
+	}
+
 	private function deleteFolder(string $path): void {
 		$current = $path;
 
@@ -185,14 +200,37 @@ class PreviewMigrationService {
 				break;
 			}
 
-			try {
-				$folder = $this->appData->getFolder($current);
-			} catch (NotFoundException) {
-				break;
-			}
-			if (count($folder->getDirectoryListing()) !== 0) {
+			if ($this->folderHasChildren($rootFolderId, $this->previewRootPath . $current)) {
 				break;
 			}
 		}
+	}
+
+	private function folderHasChildren(int $storageId, string $path): bool {
+		$qb = $this->connection->getQueryBuilder();
+		$qb->select('fileid')
+			->from('filecache')
+			->where($qb->expr()->eq('path_hash', $qb->createNamedParameter(md5($path))))
+			->andWhere($qb->expr()->eq('storage', $qb->createNamedParameter($storageId)))
+			->setMaxResults(1);
+		$cursor = $qb->executeQuery();
+		$folderId = $cursor->fetchOne();
+		$cursor->closeCursor();
+
+		if ($folderId === false) {
+			// The folder itself is already gone, nothing to check.
+			return false;
+		}
+
+		$qb = $this->connection->getQueryBuilder();
+		$qb->select('fileid')
+			->from('filecache')
+			->where($qb->expr()->eq('parent', $qb->createNamedParameter((int)$folderId)))
+			->setMaxResults(1);
+		$cursor = $qb->executeQuery();
+		$hasChild = $cursor->fetchOne() !== false;
+		$cursor->closeCursor();
+
+		return $hasChild;
 	}
 }
