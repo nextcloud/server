@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace OCP\Sharing;
 
 use OCP\AppFramework\Attribute\Implementable;
-use OCP\IUser;
 use OCP\Sharing\Exception\ShareInvalidException;
 use OCP\Sharing\Exception\ShareNotFoundException;
 use OCP\Sharing\Permission\ISharePermissionPreset;
@@ -31,14 +30,14 @@ interface ISharingBackend {
 	 *
 	 * @since 35.0.0
 	 */
-	public function createShare(IUser $owner): string;
+	public function createShare(ShareUser $owner): string;
 
 	/**
 	 * Perform all updates when the owner was deleted.
 	 *
 	 * @since 35.0.0
 	 */
-	public function onOwnerDeleted(IUser $owner): void;
+	public function onOwnerDeleted(ShareUser $owner): void;
 
 	/**
 	 * Update the state of a share.
@@ -80,7 +79,7 @@ interface ISharingBackend {
 	 * @throws ShareNotFoundException
 	 * @since 35.0.0
 	 */
-	public function addShareRecipient(string $id, IUser $initiator, ShareRecipient $recipient): void;
+	public function addShareRecipient(string $id, ShareRecipient $recipient): void;
 
 	/**
 	 * Remove an existing recipient from a share.
@@ -104,7 +103,7 @@ interface ISharingBackend {
 	 * @return list<string>
 	 * @since 35.0.0
 	 */
-	public function onInitiatorDeleted(IUser $initiator): array;
+	public function onInitiatorDeleted(ShareUser $initiator): array;
 
 	/**
 	 * Update the secret of a recipient.

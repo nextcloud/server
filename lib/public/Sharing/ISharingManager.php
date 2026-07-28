@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace OCP\Sharing;
 
 use OCP\AppFramework\Attribute\Consumable;
-use OCP\IUser;
 use OCP\Sharing\Exception\ShareInvalidException;
 use OCP\Sharing\Exception\ShareNotFoundException;
 use OCP\Sharing\Exception\ShareOperationForbiddenException;
@@ -68,7 +67,7 @@ interface ISharingManager {
 	 *
 	 * @since 35.0.0
 	 */
-	public function onOwnerDeleted(ShareAccessContext $accessContext, IUser $owner): void;
+	public function onOwnerDeleted(ShareAccessContext $accessContext, ShareUser $owner): void;
 
 	/**
 	 * Update the state of a share.
@@ -137,7 +136,7 @@ interface ISharingManager {
 	 *
 	 * @since 35.0.0
 	 */
-	public function onInitiatorDeleted(ShareAccessContext $accessContext, IUser $initiator): void;
+	public function onInitiatorDeleted(ShareAccessContext $accessContext, ShareUser $initiator): void;
 
 	/**
 	 * Update the secret of a recipient.

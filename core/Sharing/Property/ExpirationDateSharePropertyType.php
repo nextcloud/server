@@ -62,6 +62,7 @@ final class ExpirationDateSharePropertyType extends ADateSharePropertyType imple
 		if ($this->hasRemoteRecipient($share) && $this->legacyManager->shareApiRemoteDefaultExpireDateEnforced()) {
 			return true;
 		}
+
 		return $this->hasLocalNonTokenAndEmailRecipient($share) && $this->legacyManager->shareApiInternalDefaultExpireDateEnforced();
 	}
 
