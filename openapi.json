@@ -38,12 +38,12 @@
             "description": "OpenMetrics controller Gather and display metrics"
         },
         {
-            "name": "cloud_federation_api/request_handler",
-            "description": "Open-Cloud-Mesh-API"
-        },
-        {
             "name": "cloud_federation_api/token",
             "description": "Controller for the /token endpoint Exchanges long-lived refresh tokens for short-lived access tokens"
+        },
+        {
+            "name": "cloud_federation_api/request_handler",
+            "description": "Open-Cloud-Mesh-API"
         },
         {
             "name": "federatedfilesharing/mount_public_link",

@@ -328,23 +328,12 @@ class OCMSignatoryManagerJwksTest extends TestCase {
 		$this->assertNotNull($this->signatoryManager->getRemoteKey('sender.example.org', $kid));
 	}
 
-	public function testGetLocalJwksUriUsesHttpsByDefault(): void {
-		$this->urlGenerator->method('getAbsoluteURL')
-			->willReturnCallback(fn (string $path) => 'https://sender.example.org' . $path);
+	public function testGetLocalJwksUriPointsAtAppRoute(): void {
+		$this->urlGenerator->method('linkToRouteAbsolute')
+			->willReturn('https://sender.example.org/index.php/apps/cloud_federation_api/api/v1/jwks');
 
 		$this->assertSame(
-			'https://sender.example.org/.well-known/jwks.json',
-			$this->signatoryManager->getLocalJwksUri(),
-		);
-	}
-
-	public function testGetLocalJwksUriFollowsHttpInstanceScheme(): void {
-		// http-only deployments must advertise a fetchable jwksUri
-		$this->urlGenerator->method('getAbsoluteURL')
-			->willReturnCallback(fn (string $path) => 'http://localhost:8180' . $path);
-
-		$this->assertSame(
-			'http://localhost:8180/.well-known/jwks.json',
+			'https://sender.example.org/index.php/apps/cloud_federation_api/api/v1/jwks',
 			$this->signatoryManager->getLocalJwksUri(),
 		);
 	}

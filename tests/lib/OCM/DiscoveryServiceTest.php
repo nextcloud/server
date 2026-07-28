@@ -144,7 +144,7 @@ class DiscoveryServiceTest extends TestCase {
 		$baseUrl = Server::get(IURLGenerator::class)->getBaseUrl();
 		$expectedScheme = str_starts_with($baseUrl, 'http://') ? 'http://' : 'https://';
 		$this->assertStringStartsWith($expectedScheme, $jwksUri);
-		$this->assertStringEndsWith('/.well-known/jwks.json', $jwksUri);
+		$this->assertStringContainsString('cloud_federation_api/api/v1/jwks', $jwksUri);
 	}
 
 	public function testLocalAddedCapability(): void {

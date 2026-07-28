@@ -375,14 +375,9 @@ class OCMSignatoryManager implements IJwkResolvingSignatoryManager {
 		return $signatory;
 	}
 
-	/**
-	 * Absolute URL of the local JWK Set, advertised as `jwksUri` in the
-	 * discovery response.
-	 *
-	 * @throws IdentityNotFoundException
-	 */
+	/** Absolute URL of the local JWK Set, advertised as `jwksUri`. */
 	public function getLocalJwksUri(): string {
-		return $this->buildLocalUrl('/.well-known/jwks.json');
+		return $this->urlGenerator->linkToRouteAbsolute('cloud_federation_api.Token.jwks');
 	}
 
 	/**

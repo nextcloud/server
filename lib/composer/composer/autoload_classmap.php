@@ -2057,7 +2057,6 @@ return array(
     'OC\\OCM\\Model\\OCMResource' => $baseDir . '/lib/private/OCM/Model/OCMResource.php',
     'OC\\OCM\\OCMDiscoveryHandler' => $baseDir . '/lib/private/OCM/OCMDiscoveryHandler.php',
     'OC\\OCM\\OCMDiscoveryService' => $baseDir . '/lib/private/OCM/OCMDiscoveryService.php',
-    'OC\\OCM\\OCMJwksHandler' => $baseDir . '/lib/private/OCM/OCMJwksHandler.php',
     'OC\\OCM\\OCMSignatoryManager' => $baseDir . '/lib/private/OCM/OCMSignatoryManager.php',
     'OC\\OCM\\Rfc9421SignatoryManager' => $baseDir . '/lib/private/OCM/Rfc9421SignatoryManager.php',
     'OC\\OCS\\ApiHelper' => $baseDir . '/lib/private/OCS/ApiHelper.php',
