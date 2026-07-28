@@ -47,7 +47,7 @@ class Rfc9421IncomingSignedRequest extends SignedRequest implements
 	 * The `Date` header is deliberately not part of the required set:
 	 * freshness is anchored on the `created` signature parameter.
 	 */
-	private const DEFAULT_REQUIRED_COMPONENTS = [
+	public const REQUIRED_COMPONENTS = [
 		'@method',
 		'@target-uri',
 		'content-digest',
@@ -244,7 +244,7 @@ class Rfc9421IncomingSignedRequest extends SignedRequest implements
 	/** @throws IncomingRequestException if the signature doesn't cover the OCM-required components */
 	private function verifyRequiredComponents(): void {
 		/** @var list<string> $required */
-		$required = $this->options['rfc9421.requiredComponents'] ?? self::DEFAULT_REQUIRED_COMPONENTS;
+		$required = $this->options['rfc9421.requiredComponents'] ?? self::REQUIRED_COMPONENTS;
 		$missing = array_values(array_diff($required, $this->components));
 		if ($missing !== []) {
 			throw new IncomingRequestException(

@@ -9,6 +9,11 @@ declare(strict_types=1);
 return [
 	'routes' => [
 		[
+			'name' => 'Token#jwks',
+			'url' => '/api/v1/jwks',
+			'verb' => 'GET',
+		],
+		[
 			'name' => 'RequestHandler#addShare',
 			'url' => '/shares',
 			'verb' => 'POST',

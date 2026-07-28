@@ -41,7 +41,6 @@ use OC\Core\Sharing\Recipient\UserShareRecipientType;
 use OC\DirectEditing\Listeners\UserDeletedTokenCleanupListener as UserDeletedDirectEditingTokenCleanupListener;
 use OC\DirectEditing\Listeners\UserDisabledTokenCleanupListener as UserDisabledDirectEditingTokenCleanupListener;
 use OC\OCM\OCMDiscoveryHandler;
-use OC\OCM\OCMJwksHandler;
 use OC\TagManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
@@ -113,7 +112,6 @@ class Application extends App implements IBootstrap {
 		$context->registerConfigLexicon(ConfigLexicon::class);
 
 		$context->registerWellKnownHandler(OCMDiscoveryHandler::class);
-		$context->registerWellKnownHandler(OCMJwksHandler::class);
 		$context->registerCapability(Capabilities::class);
 
 		$context->registerEventListener(RestrictInteractionEvent::class, RestrictInteractionListener::class);

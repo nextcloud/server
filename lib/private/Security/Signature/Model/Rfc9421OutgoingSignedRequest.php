@@ -35,12 +35,6 @@ use OCP\Security\Signature\ISignatoryManager;
 class Rfc9421OutgoingSignedRequest extends SignedRequest implements
 	IOutgoingSignedRequest,
 	JsonSerializable {
-	/**
-	 * Covered components mandated by the OCM spec. The `Date` header is
-	 * deliberately not covered: intermediaries may rewrite it, and freshness
-	 * is anchored on the `created` signature parameter.
-	 */
-	private const DEFAULT_COMPONENTS = ['@method', '@target-uri', 'content-digest', 'content-length'];
 
 	private string $host = '';
 	private array $headers = [];
@@ -70,7 +64,7 @@ class Rfc9421OutgoingSignedRequest extends SignedRequest implements
 		$this->signingAlgorithm = (string)($options['rfc9421.signingAlgorithm'] ?? 'ecdsa-p256-sha256');
 		$contentDigestAlgorithm = (string)($options['rfc9421.contentDigestAlgorithm'] ?? ContentDigest::ALGO_SHA256);
 		/** @var list<string> $components */
-		$components = $options['rfc9421.coveredComponents'] ?? self::DEFAULT_COMPONENTS;
+		$components = $options['rfc9421.coveredComponents'] ?? Rfc9421IncomingSignedRequest::REQUIRED_COMPONENTS;
 		$includeAlg = (bool)($options['rfc9421.includeAlgParameter'] ?? false);
 		$dateHeaderFormat = (string)($options['dateHeader'] ?? SignatureManager::DATE_HEADER);
 

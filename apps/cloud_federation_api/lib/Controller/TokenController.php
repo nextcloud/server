@@ -18,6 +18,7 @@ use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\Exceptions\ExpiredTokenException;
 use OCP\Authentication\Exceptions\InvalidTokenException;
@@ -133,6 +134,27 @@ class TokenController extends ApiController {
 		}
 
 		throw new \RuntimeException('Unsupported signatory key type for JWT access token');
+	}
+
+	/**
+	 * Serve the local JWK Set
+	 *
+	 * @return JSONResponse<Http::STATUS_OK, array{keys: list<array<string, string>>}, array{}>
+	 *
+	 * 200: JWK Set returned
+	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
+	public function jwks(): JSONResponse {
+		$keys = [];
+		try {
+			foreach ($this->signatoryManager->getLocalJwks() as $jwk) {
+				$keys[] = $jwk;
+			}
+		} catch (\Throwable $e) {
+			$this->logger->warning('failed to build local JWKs', ['exception' => $e]);
+		}
+		return new JSONResponse(['keys' => $keys]);
 	}
 
 	/**
