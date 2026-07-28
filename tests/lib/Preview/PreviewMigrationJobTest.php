@@ -116,24 +116,7 @@ class PreviewMigrationJobTest extends TestCase {
 		$this->assertEquals(2, count($folder->getDirectoryListing()));
 		$this->assertEquals(0, count(iterator_to_array($this->previewMapper->getAvailablePreviewsForFile(5))));
 
-		$job = new PreviewMigrationJob(
-			Server::get(ITimeFactory::class),
-			$this->appConfig,
-			$this->config,
-			Server::get(IRootFolder::class),
-			new PreviewMigrationService(
-				$this->config,
-				Server::get(IRootFolder::class),
-				$this->logger,
-				$this->mimeTypeDetector,
-				$this->mimeTypeLoader,
-				Server::get(IDBConnection::class),
-				$this->previewMapper,
-				$this->storageFactory,
-				Server::get(IAppDataFactory::class),
-			),
-			$this->logger,
-		);
+		$job = $this->createJob();
 		$this->invokePrivate($job, 'run', [[]]);
 		$this->assertEquals(0, count($this->previewAppData->getDirectoryListing()));
 		$this->assertEquals(2, count(iterator_to_array($this->previewMapper->getAvailablePreviewsForFile(5))));
