@@ -19,6 +19,20 @@ vi.mock('@nextcloud/auth', () => ({
 
 afterEach(cleanup)
 
+function mockDefaultGets(previewUsers: Array<{ uid: string, fullName: string, isUser?: boolean }> = []) {
+	axios.get.mockImplementation(async (url: string) => {
+		if (String(url).includes('/contactsmenu/preview-avatars')) {
+			return {
+				data: previewUsers.map((user) => ({
+					isUser: true,
+					...user,
+				})),
+			}
+		}
+		return { data: [] }
+	})
+}
+
 describe('ContactsMenu', function() {
 	it('shows a loading text', async () => {
 		const { promise, resolve } = Promise.withResolvers<void>()
@@ -123,5 +137,43 @@ describe('ContactsMenu', function() {
 		const items = await findAllByRole(list, 'listitem')
 		expect(items[0]!.textContent).toContain('Acosta Lancaster')
 		expect(items[1]!.textContent).toContain('Adeline Snider')
+	})
+
+	it('shows the contacts icon when fewer than two preview users are available', async () => {
+		mockDefaultGets([{ uid: 'alice', fullName: 'Alice', isUser: true }])
+		axios.post.mockResolvedValue({
+			data: { contacts: [], contactsAppEnabled: false },
+		})
+
+		const view = render(ContactsMenu)
+		await view.findByRole('button')
+
+		await vi.waitFor(() => {
+			expect(axios.get.mock.calls.some(([url]) => String(url).includes('/contactsmenu/preview-avatars'))).toBe(true)
+		})
+		await new Promise((resolve) => setTimeout(resolve, 0))
+		expect(view.container.querySelector('.contactsmenu__trigger-avatars')).toBeNull()
+		expect(view.container.querySelector('.contactsmenu__trigger-icon')).toBeTruthy()
+	})
+
+	it('shows an avatar stack when at least two preview users are available', async () => {
+		mockDefaultGets([
+			{ uid: 'alice', fullName: 'Alice', isUser: true },
+			{ uid: 'contact-1', fullName: 'External Contact', isUser: false },
+			{ uid: 'bob', fullName: 'Bob', isUser: true },
+		])
+		axios.post.mockResolvedValue({
+			data: { contacts: [], contactsAppEnabled: false },
+		})
+
+		const view = render(ContactsMenu)
+		await view.findByRole('button')
+
+		// wait for onMounted preview load
+		await vi.waitFor(() => {
+			expect(view.container.querySelector('.contactsmenu__trigger-avatars')).toBeTruthy()
+		})
+		expect(view.container.querySelectorAll('.contactsmenu__trigger-avatars__avatar')).toHaveLength(3)
+		expect(view.container.querySelector('.contactsmenu__trigger-icon')).toBeNull()
 	})
 })

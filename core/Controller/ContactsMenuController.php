@@ -70,4 +70,31 @@ class ContactsMenuController extends Controller {
 	public function getTeams(): array {
 		return $this->teamManager->getTeamsForUser($this->userSession->getUser()->getUID());
 	}
+
+	/**
+	 * Top contacts for the People menu header avatar stack (max 3).
+	 * Same source/order as the contacts menu with an empty filter.
+	 *
+	 * @return list<IEntry>
+	 * @throws Exception
+	 */
+	#[NoAdminRequired]
+	#[FrontpageRoute(verb: 'GET', url: '/contactsmenu/preview-avatars')]
+	public function previewAvatars(?string $teamId = null): array {
+		$user = $this->userSession->getUser();
+		if ($user === null) {
+			return [];
+		}
+
+		$entries = $this->manager->getEntries($user, '');
+		if ($teamId !== null && $teamId !== '') {
+			$memberIds = $this->teamManager->getMembersOfTeam($teamId, $user->getUID());
+			$entries['contacts'] = array_filter(
+				$entries['contacts'],
+				fn (IEntry $entry) => array_key_exists($entry->getProperty('UID'), $memberIds)
+			);
+		}
+
+		return array_values(array_slice($entries['contacts'], 0, 3));
+	}
 }

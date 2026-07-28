@@ -125,4 +125,78 @@ class ContactsMenuControllerTest extends TestCase {
 		$this->assertEquals([], $response->getData());
 		$this->assertEquals(404, $response->getStatus());
 	}
+
+	public function testPreviewAvatarsWithoutTeam(): void {
+		$user = $this->createMock(IUser::class);
+		$contacts = [
+			$this->createMock(IEntry::class),
+			$this->createMock(IEntry::class),
+			$this->createMock(IEntry::class),
+			$this->createMock(IEntry::class),
+		];
+
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->willReturn($user);
+		$this->contactsManager->expects($this->once())
+			->method('getEntries')
+			->with($user, '')
+			->willReturn([
+				'contacts' => $contacts,
+				'contactsAppEnabled' => true,
+			]);
+		$this->teamManager->expects($this->never())
+			->method('getMembersOfTeam');
+
+		$this->assertEquals([
+			$contacts[0],
+			$contacts[1],
+			$contacts[2],
+		], $this->controller->previewAvatars());
+	}
+
+	public function testPreviewAvatarsWithTeam(): void {
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('current-user');
+
+		$alice = $this->createMock(IEntry::class);
+		$alice->method('getProperty')->with('UID')->willReturn('alice');
+		$external = $this->createMock(IEntry::class);
+		$external->method('getProperty')->with('UID')->willReturn('contact-1');
+		$bob = $this->createMock(IEntry::class);
+		$bob->method('getProperty')->with('UID')->willReturn('bob');
+		$carol = $this->createMock(IEntry::class);
+		$carol->method('getProperty')->with('UID')->willReturn('carol');
+
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->willReturn($user);
+		$this->contactsManager->expects($this->once())
+			->method('getEntries')
+			->with($user, '')
+			->willReturn([
+				'contacts' => [$alice, $external, $bob, $carol],
+				'contactsAppEnabled' => true,
+			]);
+		$this->teamManager->expects($this->once())
+			->method('getMembersOfTeam')
+			->with('team-id', 'current-user')
+			->willReturn([
+				'alice' => 'Alice',
+				'bob' => 'Bob',
+				'carol' => 'Carol',
+			]);
+
+		$this->assertEquals([$alice, $bob, $carol], $this->controller->previewAvatars('team-id'));
+	}
+
+	public function testPreviewAvatarsWithoutUser(): void {
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->willReturn(null);
+		$this->contactsManager->expects($this->never())
+			->method('getEntries');
+
+		$this->assertEquals([], $this->controller->previewAvatars());
+	}
 }
