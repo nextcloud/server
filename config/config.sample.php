@@ -2980,13 +2980,19 @@ $CONFIG = [
 	'enable_lazy_objects' => true,
 
 	/**
-	 * Change the default certificates bundle used for trusting certificates.
+	 * Override the default CA bundle used by Nextcloud to verify TLS certificates.
 	 *
-	 * Nextcloud ships its own up-to-date certificates bundle, but in certain cases admins may wish to specify a different bundle, for example the one shipped by their distro.
+	 * By default, Nextcloud uses its shipped CA bundle. You may instead configure a
+	 * bundle provided by your operating-system distribution or organization, such as
+	 * ``/etc/ssl/certs/ca-certificates.crt`` on Debian-derived systems.
 	 *
-	 * Defaults to `\OC::$SERVERROOT . '/resources/config/ca-bundle.crt'`.
+	 * The value must be the path to a readable local CA-bundle file. Nextcloud uses
+	 * this bundle directly when no certificates have been uploaded, and includes it
+	 * when generating a bundle containing uploaded certificates.
+	 *
+	 * Defaults to ``resources/config/ca-bundle.crt`` inside the Nextcloud installation directory.
 	 */
-	'default_certificates_bundle_path' => \OC::$SERVERROOT . '/resources/config/ca-bundle.crt',
+	'default_certificates_bundle_path' => '/etc/ssl/certs/ca-certificates.crt',
 
 	/**
 	 * OpenMetrics skipped exporters
