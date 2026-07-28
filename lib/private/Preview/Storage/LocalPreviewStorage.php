@@ -12,7 +12,6 @@ namespace OC\Preview\Storage;
 
 use LogicException;
 use OC;
-use OC\Files\SimpleFS\SimpleFile;
 use OC\Preview\Db\Preview;
 use OC\Preview\Db\PreviewMapper;
 use OCP\DB\Exception;
@@ -93,7 +92,7 @@ class LocalPreviewStorage implements IPreviewStorage {
 	}
 
 	#[Override]
-	public function migratePreview(Preview $preview, SimpleFile $file): void {
+	public function migratePreview(Preview $preview): void {
 		// legacy flat directory
 		$sourcePath = $this->getPreviewRootFolder() . $preview->getFileId() . '/' . $preview->getName();
 		if (!file_exists($sourcePath)) {

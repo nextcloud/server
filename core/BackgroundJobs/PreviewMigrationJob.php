@@ -70,21 +70,23 @@ class PreviewMigrationJob extends TimedJob {
 		while ($foldersToVisit !== []) {
 			[$folderId, $folderName, $depth] = array_pop($foldersToVisit);
 
-			$hasPreviewFiles = false;
+			// Collect the actual preview files here so migrateFileId() doesn't need to
+			// list this folder's contents a second time.
+			$previewEntries = [];
 			foreach ($cache->getFolderContentsById($folderId) as $entry) {
 				if ($entry->getMimeType() === FileInfo::MIMETYPE_FOLDER) {
 					$foldersToVisit[] = [$entry->getId(), $entry->getName(), $depth + 1];
 				} else {
-					$hasPreviewFiles = true;
+					$previewEntries[] = $entry;
 				}
 			}
 
-			if (!$hasPreviewFiles || !ctype_digit($folderName)) {
+			if ($previewEntries === [] || !ctype_digit($folderName)) {
 				continue;
 			}
 
 			try {
-				$this->migrationService->migrateFileId((int)$folderName, flatPath: $depth === 1);
+				$this->migrationService->migrateFileId((int)$folderName, flatPath: $depth === 1, entries: $previewEntries);
 			} catch (\Exception $e) {
 				$this->logger->error('Failed to migrate preview with fileId: ' . $folderName, [
 					'exception' => $e,
