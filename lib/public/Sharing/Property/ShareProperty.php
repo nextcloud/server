@@ -47,7 +47,7 @@ final readonly class ShareProperty {
 		return $propertyType->format($share, [
 			'class' => $this->class,
 			'display_name' => $propertyType->getDisplayName($l10nFactory),
-			'hint' => $propertyType->getHint($l10nFactory),
+			'hint' => $propertyType->getHint($l10nFactory, $share),
 			'priority' => $propertyType->getPriority(),
 			'advanced' => $propertyType->isAdvanced(),
 			'required' => $propertyType->isRequired($share),

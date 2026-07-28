@@ -43,7 +43,7 @@ final class TestDateSharePropertyType extends ADateSharePropertyType {
 	}
 
 	#[\Override]
-	public function getHint(IFactory $l10nFactory): ?string {
+	public function getHint(IFactory $l10nFactory, Share $share): ?string {
 		throw new \RuntimeException();
 	}
 

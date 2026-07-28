@@ -39,7 +39,11 @@ final class ExpirationDateSharePropertyType extends ADateSharePropertyType imple
 	}
 
 	#[\Override]
-	public function getHint(IFactory $l10nFactory): ?string {
+	public function getHint(IFactory $l10nFactory, Share $share): ?string {
+		if ($this->isRequired($share)) {
+			return $l10nFactory->get(Application::APP_ID)->t('Your administrator has enforced a %d days expiration policy.', [$this->getMaxExpirationDays($share)]);
+		}
+
 		return null;
 	}
 
@@ -87,7 +91,7 @@ final class ExpirationDateSharePropertyType extends ADateSharePropertyType imple
 		return null;
 	}
 
-	private function getMaxExpirationDate(Share $share): ?DateTimeImmutable {
+	private function getMaxExpirationDays(Share $share): ?int {
 		$days = INF;
 
 		if ($this->hasTokenOrEmailRecipient($share) && $this->legacyManager->shareApiLinkDefaultExpireDate()) {
@@ -103,6 +107,15 @@ final class ExpirationDateSharePropertyType extends ADateSharePropertyType imple
 		}
 
 		if ($days !== INF) {
+			return $days;
+		}
+
+		return null;
+	}
+
+	private function getMaxExpirationDate(Share $share): ?DateTimeImmutable {
+		$days = $this->getMaxExpirationDays($share);
+		if ($days !== null) {
 			return $this->now->add(new DateInterval('P' . $days . 'D'));
 		}
 
