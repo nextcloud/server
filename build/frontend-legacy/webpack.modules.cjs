@@ -67,9 +67,6 @@ module.exports = {
 		updatenotification: path.join(__dirname, 'apps/updatenotification/src', 'updatenotification.js'),
 		'update-notification-legacy': path.join(__dirname, 'apps/updatenotification/src', 'update-notification-legacy.ts'),
 	},
-	weather_status: {
-		'weather-status': path.join(__dirname, 'apps/weather_status/src', 'weather-status.js'),
-	},
 	workflowengine: {
 		workflowengine: path.join(__dirname, 'apps/workflowengine/src', 'workflowengine.js'),
 	},
