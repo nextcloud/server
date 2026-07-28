@@ -16,6 +16,7 @@ use OC\Preview\Storage\StorageFactory;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\AppData\IAppDataFactory;
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\IAppData;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IMimeTypeLoader;
@@ -45,44 +46,43 @@ class PreviewMigrationService {
 	}
 
 	/**
-	 * @param array<string|int, string[]> $previewFolders
+	 * @param list<ICacheEntry|SimpleFile>|null $entries Preview file entries already fetched by the caller.
 	 * @return Preview[]
 	 */
-	public function migrateFileId(int $fileId, bool $flatPath): array {
+	public function migrateFileId(int $fileId, bool $flatPath, ?array $entries = null): array {
 		$previews = [];
 		$internalPath = $this->getInternalFolder((string)$fileId, $flatPath);
-		try {
-			$folder = $this->appData->getFolder($internalPath);
-		} catch (NotFoundException) {
-			return [];
+
+		if ($entries === null) {
+			try {
+				$entries = $this->appData->getFolder($internalPath)->getDirectoryListing();
+			} catch (NotFoundException) {
+				return [];
+			}
 		}
 
 		/**
-		 * @var list<array{file: SimpleFile, preview: Preview}> $previewFiles
+		 * @var list<Preview> $previewsToInsert
 		 */
-		$previewFiles = [];
+		$previewsToInsert = [];
 
-		foreach ($folder->getDirectoryListing() as $previewFile) {
-			$path = $fileId . '/' . $previewFile->getName();
-			/** @var SimpleFile $previewFile */
+		foreach ($entries as $entry) {
+			$path = $fileId . '/' . $entry->getName();
 			$preview = Preview::fromPath($path, $this->mimeTypeDetector);
 			if ($preview === false) {
 				$this->logger->error('Unable to import old preview at path.');
 				continue;
 			}
 			$preview->generateId();
-			$preview->setSize($previewFile->getSize());
-			$preview->setMtime($previewFile->getMtime());
-			$preview->setOldFileId($previewFile->getId());
+			$preview->setSize($entry->getSize());
+			$preview->setMtime($entry->getMTime());
+			$preview->setOldFileId($entry->getId());
 			$preview->setEncrypted(false);
 
-			$previewFiles[] = [
-				'file' => $previewFile,
-				'preview' => $preview,
-			];
+			$previewsToInsert[] = $preview;
 		}
 
-		if (empty($previewFiles)) {
+		if (empty($previewsToInsert)) {
 			$this->deleteFolder($internalPath);
 
 			return $previews;
@@ -101,11 +101,7 @@ class PreviewMigrationService {
 		if ($result !== false) {
 			$oldFileIdsToDelete = [];
 			try {
-				foreach ($previewFiles as $previewFile) {
-					/** @var Preview $preview */
-					$preview = $previewFile['preview'];
-					/** @var SimpleFile $file */
-					$file = $previewFile['file'];
+				foreach ($previewsToInsert as $preview) {
 					$preview->setStorageId($result['storage']);
 					$preview->setEtag($result['etag']);
 					$preview->setSourceMimeType($this->mimeTypeLoader->getMimetypeById((int)$result['mimetype']));
@@ -118,34 +114,36 @@ class PreviewMigrationService {
 						}
 
 						// We already have this preview in the preview table, skip
-						$oldFileIdsToDelete[] = $file->getId();
+						$oldFileIdsToDelete[] = $preview->getOldFileId();
 						continue;
 					}
 
 					try {
-						$this->storageFactory->migratePreview($preview, $file);
-						// Do not call $file->delete() as this will also delete the file from the file system
+						$this->storageFactory->migratePreview($preview);
+						// Do not delete the old file via a Node here, as that would also
+						// delete it from the file system; only its filecache row is stale.
 					} catch (\Exception $e) {
 						$this->previewMapper->delete($preview);
 						throw $e;
 					}
 
-					$oldFileIdsToDelete[] = $file->getId();
+					$oldFileIdsToDelete[] = $preview->getOldFileId();
 					$previews[] = $preview;
 				}
 			} finally {
 				$this->deleteOldFileCacheEntries($oldFileIdsToDelete);
 			}
 		} else {
-			// No matching fileId, delete preview
+			// No matching fileId, delete the orphaned preview files themselves.
 			try {
+				$folder = $this->appData->getFolder($internalPath);
 				$this->connection->beginTransaction();
-				foreach ($previewFiles as $previewFile) {
-					/** @var SimpleFile $file */
-					$file = $previewFile['file'];
+				foreach ($folder->getDirectoryListing() as $file) {
 					$file->delete();
 				}
 				$this->connection->commit();
+			} catch (NotFoundException) {
+				// Folder already gone, nothing to clean up.
 			} catch (Exception) {
 				$this->connection->rollback();
 			}
