@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016-2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
@@ -52,6 +52,17 @@ return [
 			'name' => 'ShareInfo#info',
 			'url' => '/shareinfo',
 			'verb' => 'POST',
+		],
+		[
+			'name' => 'ShareOTP#request',
+			'url' => '/s/{token}/requestotp',
+			'verb' => 'POST',
+			'root' => '',
+		],
+		[
+			'name' => 'ShareOTP#listProviders',
+			'url' => '/otp-providers',
+			'verb' => 'GET',
 		],
 		[
 			'name' => 'Settings#setDefaultAccept',

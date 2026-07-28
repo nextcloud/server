@@ -1,7 +1,7 @@
 <?php
 
 /**
- * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016-2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
@@ -9,6 +9,7 @@
 namespace Test\Share20;
 
 use OC\Files\Node\Node;
+use OC\OneTimePassword\OneTimePassword;
 use OC\Share20\DefaultShareProvider;
 use OC\Share20\Exception\ProviderException;
 use OC\Share20\Share;
@@ -30,10 +31,12 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
+use OCP\OneTimePassword\IManager as IOTPManager;
 use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
@@ -42,7 +45,8 @@ use Psr\Log\LoggerInterface;
  *
  * @package Test\Share20
  */
-#[\PHPUnit\Framework\Attributes\Group('DB')]
+#[Group('DB')]
+#[Group('OTP')]
 class DefaultShareProviderTest extends \Test\TestCase {
 	/** @var IDBConnection */
 	protected $dbConn;
@@ -84,6 +88,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 	protected IShareManager&MockObject $shareManager;
 
+	protected IOTPManager&MockObject $otpManager;
+
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
@@ -100,6 +106,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->shareManager = $this->createMock(IShareManager::class);
+		$this->otpManager = $this->createMock(IOTPManager::class);
 		$this->config = $this->createMock(IConfig::class);
 
 		$this->userManager->expects($this->any())->method('userExists')->willReturn(true);
@@ -120,6 +127,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			$this->timeFactory,
 			$this->logger,
 			$this->shareManager,
+			$this->otpManager,
 			$this->config,
 		);
 	}
@@ -147,7 +155,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	 */
 	private function addShareToDB($shareType, $sharedWith, $sharedBy, $shareOwner,
 		$itemType, $fileSource, $fileTarget, $permissions, $token, $expiration,
-		$parent = null) {
+		$parent = null, $otpId = null) {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('share');
 
@@ -183,6 +191,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		}
 		if ($parent) {
 			$qb->setValue('parent', $qb->expr()->literal($parent));
+		}
+		if ($otpId) {
+			$qb->setValue('one_time_password', $qb->createNamedParameter($otpId));
 		}
 
 		$this->assertEquals(1, $qb->executeStatement());
@@ -484,6 +495,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				$this->timeFactory,
 				$this->logger,
 				$this->shareManager,
+				$this->otpManager,
 				$this->config,
 			])
 			->onlyMethods(['getShareById'])
@@ -582,6 +594,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				$this->timeFactory,
 				$this->logger,
 				$this->shareManager,
+				$this->otpManager,
 				$this->config,
 			])
 			->onlyMethods(['getShareById'])
@@ -869,6 +882,15 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share->setExpirationDate($expireDate);
 		$share->setTarget('/target');
 
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->insert('one_time_password')
+			->setValue('provider', $qb->createNamedParameter('mock'))
+			->setValue('recipient', $qb->createNamedParameter('recipient'));
+		$qb->executeStatement();
+		$otpId = $qb->getLastInsertId();
+
+		$share->setOneTimePassword((new OneTimePassword('mock', 'recipient'))->setId($otpId));
+
 		$share2 = $this->provider->create($share);
 
 		$this->assertNotNull($share2->getId());
@@ -884,16 +906,28 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertSame(true, $share2->getSendPasswordByTalk());
 		$this->assertSame('token', $share2->getToken());
 		$this->assertEquals($expireDate->getTimestamp(), $share2->getExpirationDate()->getTimestamp());
+		$this->assertEquals('mock', $share2->getOneTimePassword()->getProviderId());
+		$this->assertEquals('recipient', $share2->getOneTimePassword()->getRecipient());
 	}
 
 	public function testGetShareByToken(): void {
 		$qb = $this->dbConn->getQueryBuilder();
 
+		$qb->insert('one_time_password')
+			->values([
+				'provider' => $qb->expr()->literal('mock'),
+				'recipient' => $qb->expr()->literal('recipient')
+			]);
+		$qb->executeStatement();
+		$otpId = $qb->getLastInsertId();
+
+		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('share')
 			->values([
 				'share_type' => $qb->expr()->literal(IShare::TYPE_LINK),
 				'password' => $qb->expr()->literal('password'),
 				'password_by_talk' => $qb->expr()->literal(true),
+				'one_time_password' => $qb->expr()->literal($otpId),
 				'uid_owner' => $qb->expr()->literal('shareOwner'),
 				'uid_initiator' => $qb->expr()->literal('sharedBy'),
 				'item_type' => $qb->expr()->literal('file'),
@@ -910,6 +944,12 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$this->rootFolder->method('getUserFolder')->with('shareOwner')->willReturnSelf();
 		$this->rootFolder->method('getFirstNodeById')->with(42)->willReturn($file);
+		$this->otpManager->method('getOTP')->willReturnCallback(function (int $id) use ($otpId) {
+			if ($id === $otpId) {
+				return (new OneTimePassword('mock', 'recipient'))->setId($id);
+			}
+			throw new \Exception('Unexpected otp id: ' . $id);
+		});
 
 		$share = $this->provider->getShareByToken('secrettoken');
 		$this->assertEquals($id, $share->getId());
@@ -920,6 +960,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertSame('the label', $share->getLabel());
 		$this->assertSame(true, $share->getSendPasswordByTalk());
 		$this->assertSame(null, $share->getSharedWith());
+		$this->assertSame('mock', $share->getOneTimePassword()->getProviderId());
+		$this->assertSame('recipient', $share->getOneTimePassword()->getRecipient());
 	}
 
 	/**
@@ -2577,6 +2619,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			$this->timeFactory,
 			$this->logger,
 			$this->shareManager,
+			$this->otpManager,
 			$this->config,
 		);
 
@@ -2679,6 +2722,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			$this->timeFactory,
 			$this->logger,
 			$this->shareManager,
+			$this->otpManager,
 			$this->config,
 		);
 
@@ -2783,6 +2827,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			$this->timeFactory,
 			$this->logger,
 			$this->shareManager,
+			$this->otpManager,
 			$this->config,
 		);
 

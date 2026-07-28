@@ -1,5 +1,5 @@
 <!--
-  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-FileCopyrightText: 2019-2026 Nextcloud GmbH and Nextcloud contributors
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
@@ -74,15 +74,16 @@
 			<!-- password -->
 			<NcActionCheckbox
 				v-if="pendingPassword"
-				v-model="isPasswordProtected"
+				:model-value="authMethod === 'password'"
 				:disabled="config.enforcePasswordForPublicLink || saving"
 				class="share-link-password-checkbox"
+				@update:modelValue="(val) => { authMethod = val ? 'password' : 'none' }"
 				@uncheck="onPasswordDisable">
 				{{ config.enforcePasswordForPublicLink ? t('files_sharing', 'Password protection (enforced)') : t('files_sharing', 'Password protection') }}
 			</NcActionCheckbox>
 
 			<NcActionInput
-				v-if="pendingEnforcedPassword || isPasswordProtected"
+				v-if="pendingEnforcedPassword || authMethod === 'password'"
 				v-model="share.newPassword"
 				class="share-link-password"
 				:label="t('files_sharing', 'Enter a password')"
@@ -448,7 +449,7 @@ export default {
 		 * @return {boolean}
 		 */
 		isPasswordProtectedByTalkAvailable() {
-			return this.isPasswordProtected && this.isTalkEnabled
+			return this.authMethod === 'password' && this.isTalkEnabled
 		},
 
 		/**
@@ -478,7 +479,7 @@ export default {
 		},
 
 		canTogglePasswordProtectedByTalkAvailable() {
-			if (!this.isPasswordProtected) {
+			if (this.authMethod !== 'password') {
 				// Makes no sense
 				return false
 			} else if (this.isEmailShareType && !this.hasUnsavedPassword) {

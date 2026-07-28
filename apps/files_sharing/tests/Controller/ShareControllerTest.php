@@ -1,15 +1,17 @@
 <?php
 
 /**
- * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2017-2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace OCA\Files_Sharing\Tests\Controllers;
 
+use DateInterval;
 use OC\Files\Filesystem;
 use OC\Files\Node\Folder;
+use OC\OneTimePassword\OneTimePassword;
 use OC\Share20\Manager;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\Controller\ShareController;
@@ -43,6 +45,7 @@ use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\OneTimePassword\IManager as IOTPManager;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
@@ -56,6 +59,7 @@ use Test\Traits\UserTrait;
  * @package OCA\Files_Sharing\Controllers
  */
 #[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
+#[\PHPUnit\Framework\Attributes\Group(name: 'OTP')]
 class ShareControllerTest extends \Test\TestCase {
 	use UserTrait;
 
@@ -80,12 +84,14 @@ class ShareControllerTest extends \Test\TestCase {
 	private IEventDispatcher&MockObject $eventDispatcher;
 	private FederatedShareProvider&MockObject $federatedShareProvider;
 	private IPublicShareTemplateFactory&MockObject $publicShareTemplateFactory;
+	private IOTPManager $otpManager;
 
 	protected function setUp(): void {
 		parent::setUp();
 		$this->appName = 'files_sharing';
 
 		$this->shareManager = $this->createMock(Manager::class);
+		$this->otpManager = $this->createMock(IOTPManager::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->session = $this->createMock(ISession::class);
 		$this->previewManager = $this->createMock(IPreview::class);
@@ -144,6 +150,7 @@ class ShareControllerTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->defaults,
 			$this->publicShareTemplateFactory,
+			$this->otpManager,
 		);
 
 		// Store current user
@@ -829,5 +836,37 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->expectException(NotFoundException::class);
 
 		$this->shareController->showShare();
+	}
+
+	public function testAuthSucceededInvalidatesOtp() {
+		$otpWithPw = (new OneTimePassword('mock', 'recipient'))
+			->setId(1)
+			->setPassword('secret')
+			->setExpirationTime((new \DateTime())->add(DateInterval::createFromDateString('1 day')));
+
+		/* @var MockObject|Folder $folder */
+		$folder = $this->createMock(Folder::class);
+
+		$share = Server::get(\OCP\Share\IManager::class)->newShare();
+		$share->setId('42');
+		$share->setPermissions(Constants::PERMISSION_ALL)
+			->setShareOwner('ownerUID')
+			->setSharedBy('initiatorUID')
+			->setNode($folder)
+			->setOneTimePassword($otpWithPw)
+			->setTarget('/share');
+
+		$this->otpManager->expects($this->once())->method('updateOTP')->with($this->callback(function (OneTimePassword $otp) {
+			return $otp->getPassword() === null;
+		}));
+
+		$this->shareManager->method('getShareByToken')->willReturn($share);
+
+		$this->shareController->setToken('sometoken');
+		$this->assertTrue($this->shareController->isValidToken());
+
+		$ref = new \ReflectionClass(ShareController::class);
+		$authSucceeded = $ref->getMethod('authSucceeded');
+		$authSucceeded->invoke($this->shareController, []);
 	}
 }

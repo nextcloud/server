@@ -32,6 +32,9 @@ export const ALL_PERMISSIONS = SharePermission.READ
 export const ShareType = {
 	USER: 0,
 	GROUP: 1,
+	USERGROUP: 2,
+	LINK: 3,
+	EMAIL: 4,
 } as const
 
 /**
@@ -50,6 +53,12 @@ export interface CreateShareOptions {
 	permissions?: number
 	/** The OCS share type (defaults to a user share). */
 	shareType?: number
+	/** An optional password for the share */
+	password?: string
+	/** Optionally, protect the share with an OTP with the given provider */
+	otpProvider?: string
+	/** The OTP recipient to use for OTP protection */
+	otpRecipient?: string
 	/**
 	 * Share attributes (e.g. {@link DOWNLOAD_DISABLED_ATTRIBUTE}). Serialized to
 	 * the OCS `attributes` field.
@@ -76,6 +85,9 @@ export async function createShare(
 	const {
 		permissions = ALL_PERMISSIONS,
 		shareType = ShareType.USER,
+		password,
+		otpProvider,
+		otpRecipient,
 		attributes,
 	} = options
 
@@ -86,6 +98,9 @@ export async function createShare(
 			shareType,
 			shareWith,
 			permissions,
+			...(password ? { password } : {}),
+			...(otpProvider ? { otpProvider } : {}),
+			...(otpRecipient ? { otpRecipient } : {}),
 		},
 	})
 	// OCS returns HTTP 200 even on failure; the real status lives in ocs.meta
