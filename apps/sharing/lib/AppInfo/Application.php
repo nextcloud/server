@@ -9,8 +9,6 @@ declare(strict_types=1);
 
 namespace OCA\Sharing\AppInfo;
 
-use NCU\Sharing\ISharingRegistry;
-use OC\Sharing\SharingBackend;
 use OCA\Sharing\Capabilities;
 use OCA\Sharing\Middleware\ShareApiEnabledMiddleware;
 use OCP\AppFramework\App;

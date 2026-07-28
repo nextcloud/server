@@ -36,7 +36,6 @@ use OCP\IL10N;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
-use OCP\Snowflake\ISnowflakeGenerator;
 use RuntimeException;
 
 // TODO: Add mapping table for class names in sources, recipients, permissions and properties

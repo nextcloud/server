@@ -9,9 +9,8 @@
 namespace OCP\Share;
 
 use OCP\AppFramework\Attribute\Consumable;
+use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
-use OCP\Files\File;
-use OCP\Files\Folder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Share\Exceptions\IllegalIDChangeException;
@@ -276,9 +275,8 @@ interface IShare {
 
 	/**
 	 * Set the permissions.
-	 * See \OCP\Constants::PERMISSION_*
 	 *
-	 * @param int $permissions
+	 * @param int-mask-of<Constants::PERMISSION_*> $permissions
 	 * @return IShare The modified object
 	 * @since 9.0.0
 	 */
@@ -286,9 +284,8 @@ interface IShare {
 
 	/**
 	 * Get the share permissions
-	 * See \OCP\Constants::PERMISSION_*
 	 *
-	 * @return int
+	 * @return int-mask-of<Constants::PERMISSION_*>
 	 * @since 9.0.0
 	 */
 	public function getPermissions();

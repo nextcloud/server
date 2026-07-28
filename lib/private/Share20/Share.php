@@ -44,7 +44,7 @@ class Share implements IShare {
 	private $sharedBy;
 	/** @var string */
 	private $shareOwner;
-	/** @var int */
+	/** @var int-mask-of<Constants::PERMISSION_*> */
 	private $permissions;
 	/** @var IAttributes */
 	private $attributes;
