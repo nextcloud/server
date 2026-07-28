@@ -800,5 +800,7 @@ html, body {
 
 #content {
 	overflow: auto;
+	/* Scrollbar sits on the background image — use plain-text color for contrast */
+	scrollbar-color: var(--color-background-plain-text) transparent;
 }
 </style>
