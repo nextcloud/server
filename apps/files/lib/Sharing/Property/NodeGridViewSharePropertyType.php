@@ -21,7 +21,7 @@ final class NodeGridViewSharePropertyType extends ABooleanSharePropertyType {
 	}
 
 	#[\Override]
-	public function getHint(IFactory $l10nFactory): ?string {
+	public function getHint(IFactory $l10nFactory, Share $share): ?string {
 		return null;
 	}
 

@@ -43,7 +43,7 @@ interface ISharePropertyType {
 	 * @return ?non-empty-string
 	 * @since 35.0.0
 	 */
-	public function getHint(IFactory $l10nFactory): ?string;
+	public function getHint(IFactory $l10nFactory, Share $share): ?string;
 
 	/**
 	 * Returns a priority used for sorting the properties for the user interface.
