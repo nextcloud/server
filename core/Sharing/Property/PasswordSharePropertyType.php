@@ -42,6 +42,10 @@ final class PasswordSharePropertyType extends APasswordSharePropertyType impleme
 
 	#[\Override]
 	public function getHint(IFactory $l10nFactory, Share $share): ?string {
+		if ($this->isRequired($share)) {
+			return $l10nFactory->get(Application::APP_ID)->t('Your administrator has enforced a password protection.');
+		}
+
 		return null;
 	}
 
