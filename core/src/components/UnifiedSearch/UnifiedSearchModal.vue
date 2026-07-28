@@ -565,6 +565,9 @@ export default defineComponent({
 
 					this.updateResults(newResults)
 					this.searching = false
+				}).catch((error) => {
+					unifiedSearchLogger.error(error)
+					this.searching = false
 				})
 			}
 
