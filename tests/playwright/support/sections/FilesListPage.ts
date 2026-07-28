@@ -74,6 +74,16 @@ export class FilesListPage {
 		return this.page.getByRole('navigation', { name: 'Current directory path' })
 	}
 
+	/**
+	 * Navigate to an ancestor of the current folder through the breadcrumb
+	 *
+	 * @param name - The label of the crumb to navigate to
+	 */
+	async navigateToBreadcrumb(name: string): Promise<void> {
+		await this.getBreadcrumbs().getByRole('button', { name, exact: true }).click()
+		await this.waitForListLoaded()
+	}
+
 	getRowForFile(filename: string): Locator {
 		return this.page.locator(`[data-cy-files-list-row-name="${escapeAttributeValue(filename)}"]`)
 	}
