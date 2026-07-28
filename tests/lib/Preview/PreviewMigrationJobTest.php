@@ -42,6 +42,7 @@ class PreviewMigrationJobTest extends TestCase {
 	private IMimeTypeDetector&MockObject $mimeTypeDetector;
 	private LoggerInterface&MockObject $logger;
 
+	#[\Override]
 	public function setUp(): void {
 		parent::setUp();
 		$this->previewAppData = Server::get(IAppDataFactory::class)->get('preview');
@@ -91,6 +92,7 @@ class PreviewMigrationJobTest extends TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 	}
 
+	#[\Override]
 	public function tearDown(): void {
 		foreach ($this->previewAppData->getDirectoryListing() as $folder) {
 			$folder->delete();
@@ -101,6 +103,7 @@ class PreviewMigrationJobTest extends TestCase {
 		$qb->delete('filecache')
 			->where($qb->expr()->eq('fileid', $qb->createNamedParameter(5)))
 			->executeStatement();
+		parent::tearDown();
 	}
 
 	#[TestDox('Test the migration from the legacy flat hierarchy to the new database format')]
@@ -116,7 +119,6 @@ class PreviewMigrationJobTest extends TestCase {
 			Server::get(ITimeFactory::class),
 			$this->appConfig,
 			$this->config,
-			Server::get(IDBConnection::class),
 			Server::get(IRootFolder::class),
 			new PreviewMigrationService(
 				$this->config,
@@ -128,7 +130,8 @@ class PreviewMigrationJobTest extends TestCase {
 				$this->previewMapper,
 				$this->storageFactory,
 				Server::get(IAppDataFactory::class),
-			)
+			),
+			$this->logger,
 		);
 		$this->invokePrivate($job, 'run', [[]]);
 		$this->assertEquals(0, count($this->previewAppData->getDirectoryListing()));
@@ -153,7 +156,6 @@ class PreviewMigrationJobTest extends TestCase {
 			Server::get(ITimeFactory::class),
 			$this->appConfig,
 			$this->config,
-			Server::get(IDBConnection::class),
 			Server::get(IRootFolder::class),
 			new PreviewMigrationService(
 				$this->config,
@@ -165,7 +167,8 @@ class PreviewMigrationJobTest extends TestCase {
 				$this->previewMapper,
 				$this->storageFactory,
 				Server::get(IAppDataFactory::class),
-			)
+			),
+			$this->logger,
 		);
 		$this->invokePrivate($job, 'run', [[]]);
 		$this->assertEquals(0, count($this->previewAppData->getDirectoryListing()));
@@ -198,7 +201,6 @@ class PreviewMigrationJobTest extends TestCase {
 			Server::get(ITimeFactory::class),
 			$this->appConfig,
 			$this->config,
-			Server::get(IDBConnection::class),
 			Server::get(IRootFolder::class),
 			new PreviewMigrationService(
 				$this->config,
@@ -210,7 +212,8 @@ class PreviewMigrationJobTest extends TestCase {
 				$this->previewMapper,
 				$this->storageFactory,
 				Server::get(IAppDataFactory::class),
-			)
+			),
+			$this->logger,
 		);
 		$this->invokePrivate($job, 'run', [[]]);
 		$previews = iterator_to_array($this->previewMapper->getAvailablePreviewsForFile(5));
