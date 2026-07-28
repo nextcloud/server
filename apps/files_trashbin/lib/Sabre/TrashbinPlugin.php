@@ -9,9 +9,10 @@ declare(strict_types=1);
 namespace OCA\Files_Trashbin\Sabre;
 
 use OC\Files\FileInfo;
-use OC\Files\View;
 use OCA\DAV\Connector\Sabre\FilesPlugin;
 use OCA\Files_Trashbin\Trash\ITrashItem;
+use OCP\Files\IRootFolder;
+use OCP\Files\Mount\IMountManager;
 use OCP\IPreview;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\INode;
@@ -36,7 +37,8 @@ class TrashbinPlugin extends ServerPlugin {
 
 	public function __construct(
 		private IPreview $previewManager,
-		private View $view,
+		private IRootFolder $rootFolder,
+		private IMountManager $mountManager,
 	) {
 	}
 
@@ -164,9 +166,20 @@ class TrashbinPlugin extends ServerPlugin {
 		if (!$fileInfo instanceof ITrashItem) {
 			return true;
 		}
-		$restoreFolder = dirname($fileInfo->getOriginalLocation());
-		$freeSpace = $this->view->free_space($restoreFolder);
-		if ($freeSpace === FileInfo::SPACE_NOT_COMPUTED
+
+		$userFolder = $this->rootFolder->getUserFolder($fileInfo->getUser()->getUID());
+		$originalPath = $userFolder->getFullPath(dirname($fileInfo->getOriginalLocation()));
+
+		// Since the parent folder might no longer exist, we don't try to get the parent node to check the free space
+		// instead we resolve the mount where the restore would go to, and check that for the free space
+		$originalMount = $this->mountManager->find($originalPath);
+		if (!$originalMount) {
+			throw new \Exception('no mount found when looking for restore path');
+		}
+		$freeSpace = $originalMount->getStorage()->free_space($originalMount->getInternalPath($originalPath));
+
+		if (
+			$freeSpace === FileInfo::SPACE_NOT_COMPUTED
 			|| $freeSpace === FileInfo::SPACE_UNKNOWN
 			|| $freeSpace === FileInfo::SPACE_UNLIMITED) {
 			return true;
