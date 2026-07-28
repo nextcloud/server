@@ -66,6 +66,7 @@
     "sortablejs": "^1.15.7",
     "vue": "^3.5.40",
     "vue-router": "^5.0.6",
+    "vuedraggable": "4.1.0",
     "vuex": "^4.1.0",
     "webdav": "^5.10.0"
   },
