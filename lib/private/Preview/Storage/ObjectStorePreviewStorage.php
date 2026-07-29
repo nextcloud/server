@@ -12,7 +12,6 @@ namespace OC\Preview\Storage;
 
 use Icewind\Streams\CountWrapper;
 use OC\Files\ObjectStore\PrimaryObjectStoreConfig;
-use OC\Files\SimpleFS\SimpleFile;
 use OC\Preview\Db\Preview;
 use OC\Preview\Db\PreviewMapper;
 use OCP\Files\NotPermittedException;
@@ -95,7 +94,7 @@ class ObjectStorePreviewStorage implements IPreviewStorage {
 	}
 
 	#[Override]
-	public function migratePreview(Preview $preview, SimpleFile $file): void {
+	public function migratePreview(Preview $preview): void {
 		// Just set the Preview::bucket and Preview::objectStore
 		$this->getObjectStoreInfoForNewPreview($preview, migration: true);
 		$this->previewMapper->update($preview);
