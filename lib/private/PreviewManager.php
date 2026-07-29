@@ -401,8 +401,7 @@ class PreviewManager implements IPreview {
 		$this->registerCoreProvider(Preview\Imaginary::class, Preview\Imaginary::supportedMimeTypes());
 
 		// SVG, Office and Bitmap require imagick
-		/** @psalm-suppress TypeDoesNotContainType */
-		if (false) {
+		if (extension_loaded('imagick')) {
 			$checkImagick = new \Imagick();
 
 			$imagickProviders = [
