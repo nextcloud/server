@@ -38,6 +38,8 @@ user=test
 accesskey=aaabbbccc
 secretkey=cccbbbaaa
 bucket=testbucket
+# bucket2 is created lazily on first S3 call by S3ConnectionTrait::getConnection().
+bucket2=testbucket2
 port=80
 
 container=`docker run -d \
@@ -72,7 +74,9 @@ cat > $thisFolder/config.amazons3.php <<DELIM
 
 return array(
     'run'=>true,
+    'run_cross_mount'=>true,
     'bucket'=>'$bucket',
+    'bucket2'=>'$bucket2',
     'hostname'=>'$host',
     'port'=>'$port',
     'key'=>'$accesskey',
