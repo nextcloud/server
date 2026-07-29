@@ -388,6 +388,16 @@ $CONFIG = [
 	'carddav_sync_request_truncation' => 2500,
 
 	/**
+	 * Enable ``Sabre\VObject\Reader::OPTION_FORGIVING`` for CalDAV parsing.
+	 * When set to ``true``, the iCalendar parser accepts property names that do
+	 * not conform to RFC 5545 §3.2, such as ``X-ENTOURAGE_UUID`` produced by
+	 * Outlook for Mac (underscores are invalid in property names).
+	 *
+	 * Defaults to ``false``.
+	 */
+	'dav.forgiving_ical_parser' => false,
+
+	/**
 	 * ``true`` enables a relaxed session timeout, where the session timeout would no longer be
 	 * handled by Nextcloud but by either the PHP garbage collection or the expiration of
 	 * potential other session backends like Redis.

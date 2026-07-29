@@ -2329,7 +2329,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		}
 
 		$calendarObjects = array_map(function ($o) use ($options) {
-			$calendarData = Reader::read($o['calendardata']);
+			$calendarData = Reader::read($o['calendardata'], $this->getReaderOptions());
 
 			// Expand recurrences if an explicit time range is requested
 			if ($calendarData instanceof VCalendar
@@ -3396,7 +3396,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return array
 	 */
 	public function getDenormalizedData(string $calendarData): array {
-		$vObject = Reader::read($calendarData);
+		$vObject = Reader::read($calendarData, $this->getReaderOptions());
 		$vEvents = [];
 		$componentType = null;
 		$component = null;
@@ -3847,7 +3847,13 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return VCalendar
 	 */
 	protected function readCalendarData($objectData) {
-		return Reader::read($objectData);
+		return Reader::read($objectData, $this->getReaderOptions());
+	}
+
+	private function getReaderOptions(): int {
+		return $this->config->getSystemValueBool('dav.forgiving_ical_parser', false)
+			? Reader::OPTION_FORGIVING
+			: 0;
 	}
 
 	/**

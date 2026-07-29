@@ -2105,4 +2105,24 @@ EOD;
 		// Clean up
 		$this->backend->deleteCalendar($calendars[0]['id'], true);
 	}
+
+	private const ICS_ENTOURAGE = "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Test//Test//EN\r\nBEGIN:VEVENT\r\nDTSTART:20260715T100000Z\r\nDTEND:20260715T110000Z\r\nSUMMARY:Test\r\nUID:test-uid-123\r\nX-ENTOURAGE_UUID:test-uid-123\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n";
+
+	public function testGetDenormalizedDataRejectsNonStandardPropertyWhenFlagDisabled(): void {
+		$this->config->method('getSystemValueBool')
+			->with('dav.forgiving_ical_parser', false)
+			->willReturn(false);
+
+		$this->expectException(\Sabre\VObject\ParseException::class);
+		$this->backend->getDenormalizedData(self::ICS_ENTOURAGE);
+	}
+
+	public function testGetDenormalizedDataAcceptsNonStandardPropertyWhenFlagEnabled(): void {
+		$this->config->method('getSystemValueBool')
+			->with('dav.forgiving_ical_parser', false)
+			->willReturn(true);
+
+		$result = $this->backend->getDenormalizedData(self::ICS_ENTOURAGE);
+		$this->assertSame('test-uid-123', $result['uid']);
+	}
 }

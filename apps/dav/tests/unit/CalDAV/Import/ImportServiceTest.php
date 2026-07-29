@@ -11,22 +11,29 @@ use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarImpl;
 use OCA\DAV\CalDAV\Import\ImportService;
 use OCP\Calendar\CalendarImportOptions;
+use OCP\IConfig;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
+use Sabre\VObject\ParseException;
 
 class ImportServiceTest extends \Test\TestCase {
 
 	private ImportService $service;
 	private CalendarImpl|MockObject $calendar;
 	private CalDavBackend|MockObject $backend;
+	private IConfig|MockObject $config;
 	private array $importResults = [];
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->backend = $this->createMock(CalDavBackend::class);
-		$this->service = new ImportService($this->backend);
+		$this->config = $this->createMock(IConfig::class);
+		$this->config->method('getSystemValueBool')
+			->with('dav.forgiving_ical_parser', false)
+			->willReturn(false);
+		$this->service = new ImportService($this->backend, $this->config);
 		$this->calendar = $this->createMock(CalendarImpl::class);
 
 	}
@@ -147,5 +154,31 @@ class ImportServiceTest extends \Test\TestCase {
 		$this->assertCount(1, $result, 'Import result should contain one item');
 		$this->assertArrayHasKey($longUID, $result);
 		$this->assertEquals('created', $result[$longUID]['outcome']);
+	}
+
+	private const ICS_ENTOURAGE = "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Test//Test//EN\r\nBEGIN:VEVENT\r\nDTSTART:20260715T100000Z\r\nDTEND:20260715T110000Z\r\nSUMMARY:Test\r\nUID:test-uid-123\r\nX-ENTOURAGE_UUID:test-uid-123\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n";
+
+	public function testImportTextRejectsNonStandardPropertyWhenFlagDisabled(): void {
+		$stream = fopen('php://memory', 'r+');
+		fwrite($stream, self::ICS_ENTOURAGE);
+		rewind($stream);
+
+		$this->expectException(ParseException::class);
+		iterator_to_array($this->service->importText($stream));
+	}
+
+	public function testImportTextAcceptsNonStandardPropertyWhenFlagEnabled(): void {
+		$this->config = $this->createMock(IConfig::class);
+		$this->config->method('getSystemValueBool')
+			->with('dav.forgiving_ical_parser', false)
+			->willReturn(true);
+		$this->service = new ImportService($this->backend, $this->config);
+
+		$stream = fopen('php://memory', 'r+');
+		fwrite($stream, self::ICS_ENTOURAGE);
+		rewind($stream);
+
+		$objects = iterator_to_array($this->service->importText($stream));
+		$this->assertCount(1, $objects);
 	}
 }

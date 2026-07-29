@@ -52,7 +52,7 @@ abstract class AbstractCalDavBackend extends TestCase {
 	protected IGroupManager&MockObject $groupManager;
 	protected IEventDispatcher&MockObject $dispatcher;
 	private LoggerInterface&MockObject $logger;
-	private IConfig&MockObject $config;
+	protected IConfig&MockObject $config;
 	private ISecureRandom $random;
 	protected SharingBackend $sharingBackend;
 	protected IDBConnection $db;
