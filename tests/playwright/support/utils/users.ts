@@ -3,7 +3,30 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { APIRequestContext } from '@playwright/test'
+import type { User } from '@nextcloud/e2e-test-server'
+import type { APIRequestContext, Page } from '@playwright/test'
+
+import { login } from '@nextcloud/e2e-test-server/playwright'
+
+/**
+ * Log the browser context of `page` in as `user`.
+ *
+ * Unlike the `random-user-session` fixture this is called from the test itself,
+ * for cases where instance state has to be prepared *before* the session is
+ * created — the encryption app for example unlocks the account keys during log-in.
+ *
+ * @param page - Page whose browser context should hold the session
+ * @param user - The account to log in as
+ */
+export async function loginAs(page: Page, user: User): Promise<void> {
+	try {
+		await login(page.request, user)
+	} catch (error) {
+		console.info('Failed to authenticate, retrying', error)
+		await new Promise((resolve) => setTimeout(resolve, 800))
+		await login(page.request, user)
+	}
+}
 
 /**
  * Grant subadmin rights to `subadminId` over `groupId` via the OCS Provisioning API.
