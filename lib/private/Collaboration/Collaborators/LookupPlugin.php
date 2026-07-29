@@ -12,6 +12,7 @@ use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\Federation\ICloudIdManager;
+use OCP\GlobalScale\IConfig as GlobalScaleConfig;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IUserSession;
@@ -23,12 +24,13 @@ class LookupPlugin implements ISearchPlugin {
 	private string $currentUserRemote;
 
 	public function __construct(
-		private IConfig $config,
-		private IClientService $clientService,
+		private readonly IConfig $config,
+		private readonly IClientService $clientService,
 		IUserSession $userSession,
-		private ICloudIdManager $cloudIdManager,
-		private LoggerInterface $logger,
-		private ?TrustedServers $trustedServers,
+		private readonly ICloudIdManager $cloudIdManager,
+		private readonly LoggerInterface $logger,
+		private readonly ?TrustedServers $trustedServers,
+		private readonly GlobalScaleConfig $globalScaleConfig,
 	) {
 		$currentUserCloudId = $userSession->getUser()->getCloudId();
 		$this->currentUserRemote = $cloudIdManager->resolveCloudId($currentUserCloudId)->getRemote();
@@ -36,7 +38,7 @@ class LookupPlugin implements ISearchPlugin {
 
 	#[\Override]
 	public function search($search, $limit, $offset, ISearchResult $searchResult): bool {
-		$isGlobalScaleEnabled = $this->config->getSystemValueBool('gs.enabled', false);
+		$isGlobalScaleEnabled = $this->globalScaleConfig->isGlobalScaleEnabled();
 		$isLookupServerEnabled = $this->config->getAppValue('files_sharing', 'lookupServerEnabled', 'no') === 'yes';
 		$hasInternetConnection = $this->config->getSystemValueBool('has_internet_connection', true);
 

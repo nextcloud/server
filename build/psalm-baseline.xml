@@ -2209,11 +2209,6 @@
       <code><![CDATA[setUserValue]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="apps/lookup_server_connector/lib/UpdateLookupServer.php">
-    <DeprecatedMethod>
-      <code><![CDATA[deleteUserValue]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/oauth2/lib/Controller/LoginRedirectorController.php">
     <DeprecatedMethod>
       <code><![CDATA[generate]]></code>
