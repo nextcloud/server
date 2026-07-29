@@ -29,11 +29,13 @@ class Memcached extends Cache implements IMemcache {
 			self::$cache = new \Memcached();
 
 			$defaultOptions = [
-				\Memcached::OPT_CONNECT_TIMEOUT => 50,
-				\Memcached::OPT_RETRY_TIMEOUT => 50,
-				\Memcached::OPT_SEND_TIMEOUT => 50,
-				\Memcached::OPT_RECV_TIMEOUT => 50,
-				\Memcached::OPT_POLL_TIMEOUT => 50,
+				// Set connect and polling timeouts to 500 milliseconds
+				\Memcached::OPT_CONNECT_TIMEOUT => 500,
+				\Memcached::OPT_POLL_TIMEOUT => 500,
+
+				// Set send and receive timeouts to 500000 microseconds
+				\Memcached::OPT_SEND_TIMEOUT => 500000,
+				\Memcached::OPT_RECV_TIMEOUT => 500000,
 
 				// Enable compression
 				\Memcached::OPT_COMPRESSION => true,
@@ -43,6 +45,9 @@ class Memcached extends Cache implements IMemcache {
 
 				// Enable Binary Protocol
 				\Memcached::OPT_BINARY_PROTOCOL => true,
+
+				// Disable Nagle algorithm to speed up connection
+				\Memcached::OPT_TCP_NODELAY => true,
 			];
 			/**
 			 * By default enable igbinary serializer if available
