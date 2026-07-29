@@ -78,7 +78,9 @@ jobs:
     needs: [gate, playwright-setup]
     timeout-minutes: 60
     name: Playwright tests ${{ matrix.shardIndex }} / ${{ matrix.shardTotal }}
-    runs-on: mcr.microsoft.com/playwright:v1.61.1-noble
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.61.1-noble
     strategy:
       fail-fast: false
       matrix:
