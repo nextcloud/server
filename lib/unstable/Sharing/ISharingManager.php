@@ -153,7 +153,7 @@ interface ISharingManager {
 	/**
 	 * @param class-string<ISharePropertyType> $propertyTypeClass
 	 * @throws ShareNotFoundException
-	 * @since 35.0.0
+	 * @experimental 35.0.0
 	 */
 	public function createSharePropertyDefaultValue(Share $share, string $propertyTypeClass): Share;
 
@@ -170,7 +170,7 @@ interface ISharingManager {
 	/**
 	 * @param class-string<ISharePermissionType> $permissionTypeClass
 	 * @throws ShareNotFoundException
-	 * @since 35.0.0
+	 * @experimental 35.0.0
 	 */
 	public function createSharePermissionDefaultValue(Share $share, string $permissionTypeClass): Share;
 

@@ -117,7 +117,7 @@ interface ISharingBackend {
 	 * Insert a property for a share.
 	 *
 	 * @throws ShareNotFoundException
-	 * @since 35.0.0
+	 * @experimental 35.0.0
 	 */
 	public function createShareProperty(string $id, ShareProperty $property): void;
 
@@ -133,7 +133,7 @@ interface ISharingBackend {
 	 * Insert a permission for a share.
 	 *
 	 * @throws ShareNotFoundException
-	 * @since 35.0.0
+	 * @experimental 35.0.0
 	 */
 	public function createSharePermission(string $id, SharePermission $permission): void;
 
