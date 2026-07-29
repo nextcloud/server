@@ -121,6 +121,10 @@ async function copyToRoot(filesListPage: FilesListPage, copyMoveDialog: CopyMove
 }
 
 test.describe('files_versions: versions across a share move/copy', () => {
+	// Every test here seeds a share, boots the files app twice,
+	// and walks the sidebar, the versions list and the move/copy picker.
+	test.slow()
+
 	test('moves the versions when the file is moved out of a received share', async ({ page, user, owner, ownerRequest, filesListPage, versionsTab, filesSidebar, copyMoveDialog }) => {
 		await seedSharedVersionedFile(owner, ownerRequest, user, page.request, FILE_NAME)
 		await nameInitialVersion(filesListPage, versionsTab, SHARED_FOLDER, FILE_NAME)
@@ -150,8 +154,7 @@ test.describe('files_versions: versions across a share move/copy', () => {
 		await nameInitialVersion(filesListPage, versionsTab, `${SHARED_FOLDER}/${subFolder}/${subSubFolder}`, FILE_NAME)
 		await filesSidebar.close()
 
-		await filesListPage.open()
-		await filesListPage.navigateToFolder(SHARED_FOLDER)
+		await filesListPage.navigateToBreadcrumb(SHARED_FOLDER)
 		await moveToRoot(filesListPage, copyMoveDialog, subFolder)
 
 		await assertVersionsContent(filesListPage, versionsTab, relPath, { expectLabel: true })
@@ -165,8 +168,7 @@ test.describe('files_versions: versions across a share move/copy', () => {
 		await nameInitialVersion(filesListPage, versionsTab, `${SHARED_FOLDER}/${subFolder}/${subSubFolder}`, FILE_NAME)
 		await filesSidebar.close()
 
-		await filesListPage.open()
-		await filesListPage.navigateToFolder(SHARED_FOLDER)
+		await filesListPage.navigateToBreadcrumb(SHARED_FOLDER)
 		await copyToRoot(filesListPage, copyMoveDialog, subFolder)
 
 		await assertVersionsContent(filesListPage, versionsTab, relPath, { expectLabel: false })
