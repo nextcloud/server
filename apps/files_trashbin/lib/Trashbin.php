@@ -941,7 +941,7 @@ class Trashbin implements IEventListener {
 				if ($availableSpace <= 0 && $expiration->isExpired($file['mtime'], true)) {
 					$tmp = self::delete($file['name'], $user, $file['mtime']);
 					Server::get(LoggerInterface::class)->info(
-						'remove "' . $file['name'] . '" (' . $tmp . 'B) to meet the limit of trash bin size (50% of available quota) for user "{user}"',
+						'remove "' . $file['name'] . '" (' . $tmp . 'B) to meet the limit of trash bin size (' . self::DEFAULTMAXSIZE . '% of available quota) for user "{user}"',
 						[
 							'app' => 'files_trashbin',
 							'user' => $user,
