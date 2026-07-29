@@ -11,19 +11,23 @@ namespace OC\Preview;
 
 //.eps
 class Postscript extends Bitmap {
-	/**
-	 * {@inheritDoc}
-	 */
 	#[\Override]
 	public function getMimeType(): string {
 		return '/application\/postscript/';
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	#[\Override]
 	protected function getAllowedMimeTypes(): string {
 		return '/(application\/postscript|image\/x-eps)/';
+	}
+
+	#[\Override]
+	protected function getMagicStrings(): array {
+		return ['%!PS'];
+	}
+
+	#[\Override]
+	protected function getImagickFormatHint(): string {
+		return 'ps';
 	}
 }
