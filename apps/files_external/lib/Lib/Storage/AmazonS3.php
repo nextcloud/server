@@ -9,6 +9,7 @@
 namespace OCA\Files_External\Lib\Storage;
 
 use Aws\S3\Exception\S3Exception;
+use Aws\S3\MultipartCopy;
 use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\CountWrapper;
 use Icewind\Streams\IteratorDirectory;
@@ -16,11 +17,17 @@ use OC\Files\Cache\CacheEntry;
 use OC\Files\ObjectStore\S3ConnectionTrait;
 use OC\Files\ObjectStore\S3ObjectTrait;
 use OC\Files\Storage\Common;
+use OC\Files\Storage\Wrapper\Encryption;
+use OC\Files\Storage\Wrapper\Jail;
+use OC\Files\Storage\Wrapper\Wrapper;
+use OCA\Files_External\ConfigLexicon;
 use OCP\Cache\CappedMemoryCache;
 use OCP\Constants;
 use OCP\Files\FileInfo;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\NotPermittedException;
+use OCP\Files\Storage\IStorage;
+use OCP\IAppConfig;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\ITempManager;
@@ -45,6 +52,21 @@ class AmazonS3 extends Common {
 	private ICache $memCache;
 	private ?bool $versioningEnabled = null;
 
+	private bool $serverSideCopyEnabled;
+
+	/** Failure counter keyed by endpoint fingerprint. Static so sibling mounts share state within a request. */
+	private static array $serverSideCopyFailureCounter = [];
+
+	/** Per-endpoint cap. Fast path stays disabled for the rest of the request after this many consecutive S3Exceptions. */
+	private const SERVER_SIDE_COPY_FAILURE_LIMIT = 4;
+
+	/**
+	 * @internal Reset the per-endpoint failure counter. Test-only.
+	 */
+	public static function resetServerSideCopyFailureCounter(): void {
+		self::$serverSideCopyFailureCounter = [];
+	}
+
 	public function __construct(array $parameters) {
 		parent::__construct($parameters);
 		$this->parseParams($parameters);
@@ -56,6 +78,12 @@ class AmazonS3 extends Common {
 		$cacheFactory = Server::get(ICacheFactory::class);
 		$this->memCache = $cacheFactory->createLocal('s3-external');
 		$this->logger = Server::get(LoggerInterface::class);
+		// Fallback covers installs that predate the lexicon entry registration.
+		$this->serverSideCopyEnabled = Server::get(IAppConfig::class)->getValueBool(
+			'files_external',
+			ConfigLexicon::AMAZONS3_SERVER_SIDE_COPY,
+			false,
+		);
 	}
 
 	private function normalizePath(string $path): string {
@@ -825,5 +853,301 @@ class AmazonS3 extends Common {
 
 		$entry = $this->getCache()->get((int)$fileId);
 		return $this->getDirectDownload($entry->getPath());
+	}
+
+	#[Override]
+	public function copyFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath, bool $preserveMtime = false): bool {
+		if ($preserveMtime === true) {
+			return parent::copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime);
+		}
+		$eligibility = $this->evaluateFastPathEligibility($sourceStorage, $sourceInternalPath);
+		if ($eligibility === null) {
+			return parent::copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime);
+		}
+		$unwrappedSource = $eligibility['source'];
+		$unjailedSourcePath = $eligibility['path'];
+		$identityKey = $eligibility['identityKey'];
+		$sourceKey = $unwrappedSource->normalizePath($unjailedSourcePath);
+		$targetKey = $this->normalizePath($targetInternalPath);
+
+		if ($this->isSameObjectAsPeer($unwrappedSource, $sourceKey, $targetKey)) {
+			return true;
+		}
+
+		try {
+			$this->performServerSideCopy($unwrappedSource, $unjailedSourcePath, $targetInternalPath);
+			self::$serverSideCopyFailureCounter[$identityKey] = 0;
+			return true;
+		} catch (S3Exception $e) {
+			$this->handleFastPathFailure($e, $targetKey, $identityKey, 'copy');
+			return parent::copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime);
+		}
+	}
+
+	#[Override]
+	public function moveFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): bool {
+		$eligibility = $this->evaluateFastPathEligibility($sourceStorage, $sourceInternalPath);
+		if ($eligibility === null) {
+			return parent::moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
+		}
+		$unwrappedSource = $eligibility['source'];
+		$unjailedSourcePath = $eligibility['path'];
+		$identityKey = $eligibility['identityKey'];
+		$sourceKey = $unwrappedSource->normalizePath($unjailedSourcePath);
+		$targetKey = $this->normalizePath($targetInternalPath);
+
+		if ($this->isSameObjectAsPeer($unwrappedSource, $sourceKey, $targetKey)) {
+			// Move where source and target resolve to the same S3 object is malformed.
+			// Delegating to the parent path would copy-to-self then unlink the source, destroying the object.
+			$this->logger->warning('S3 cross-mount move: source and target resolve to the same object. Rejected as malformed.', [
+				'app' => 'files_external',
+				'bucket' => $this->getBucket(),
+				'key' => $sourceKey,
+			]);
+			return false;
+		}
+
+		try {
+			$this->performServerSideCopy($unwrappedSource, $unjailedSourcePath, $targetInternalPath);
+		} catch (S3Exception $e) {
+			$this->handleFastPathFailure($e, $targetKey, $identityKey, 'move');
+			return parent::moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
+		}
+
+		if (!$this->deleteSourceAfterMove($unwrappedSource, $unjailedSourcePath, $targetInternalPath)) {
+			return false;
+		}
+		self::$serverSideCopyFailureCounter[$identityKey] = 0;
+		return true;
+	}
+
+	/**
+	 * Evaluate fast-path guards. Feature flag, encryption wrapper, wrapper unwrap, endpoint
+	 * identity, failure limit.
+	 *
+	 * @return array{source: self, path: string, identityKey: string}|null Payload for the
+	 *                                                                     fast-path caller when eligible. null when the streamed parent path MUST be taken.
+	 */
+	private function evaluateFastPathEligibility(IStorage $sourceStorage, string $sourceInternalPath): ?array {
+		if (!$this->serverSideCopyEnabled) {
+			return null;
+		}
+		if ($sourceStorage->instanceOfStorage(Encryption::class)) {
+			return null;
+		}
+
+		$unwrapped = $this->unwrapSource($sourceStorage, $sourceInternalPath);
+		if ($unwrapped === null) {
+			return null;
+		}
+		[$unwrappedSource, $unjailedSourcePath] = $unwrapped;
+
+		if (!$this->isSameS3Endpoint($unwrappedSource)) {
+			return null;
+		}
+
+		$identityKey = $this->endpointIdentityKey();
+		if ((self::$serverSideCopyFailureCounter[$identityKey] ?? 0) >= self::SERVER_SIDE_COPY_FAILURE_LIMIT) {
+			return null;
+		}
+
+		return [
+			'source' => $unwrappedSource,
+			'path' => $unjailedSourcePath,
+			'identityKey' => $identityKey,
+		];
+	}
+
+	private function handleFastPathFailure(S3Exception $exception, string $targetKey, string $identityKey, string $operation): void {
+		$this->abortMultipartUploadForKey($targetKey);
+		$this->logger->warning('S3 server-side ' . $operation . ' failed, falling back to stream copy', [
+			'app' => 'files_external',
+			'exception' => $exception,
+		]);
+		self::$serverSideCopyFailureCounter[$identityKey] = (self::$serverSideCopyFailureCounter[$identityKey] ?? 0) + 1;
+	}
+
+	/**
+	 * @return array{0: self, 1: string}|null [unwrapped storage, unjailed path] when the terminal
+	 *                                        storage is an AmazonS3, else null.
+	 */
+	private function unwrapSource(IStorage $sourceStorage, string $sourceInternalPath): ?array {
+		$current = $sourceStorage;
+		$path = $sourceInternalPath;
+		while ($current instanceof Wrapper) {
+			if ($current instanceof Jail) {
+				$path = $current->getUnjailedPath($path);
+				$current = $current->getUnjailedStorage();
+				continue;
+			}
+			$current = $current->getWrapperStorage();
+		}
+		if (!$current instanceof self) {
+			return null;
+		}
+		return [$current, $path];
+	}
+
+	private function isSameS3Endpoint(self $other): bool {
+		return $this->endpointFingerprint() === $other->endpointFingerprint();
+	}
+
+	/**
+	 * @return list<string> Normalised endpoint identity tuple. Two AmazonS3 instances with
+	 *                      identical fingerprints target the same S3 endpoint under the same access-key ID.
+	 */
+	private function endpointFingerprint(): array {
+		return [
+			$this->params['hostname'],
+			(string)(int)$this->params['port'],
+			($this->params['use_ssl'] ?? true) ? '1' : '0',
+			$this->params['region'],
+			$this->params['key'],
+		];
+	}
+
+	/**
+	 * Opaque map key derived from `endpointFingerprint`. Hashed so the raw access key does
+	 * not linger in a request-scoped static array.
+	 */
+	private function endpointIdentityKey(): string {
+		return hash('xxh128', implode("\0", $this->endpointFingerprint()));
+	}
+
+	private function isSameObjectAsPeer(self $peer, string $sourceKey, string $targetKey): bool {
+		return $peer->getBucket() === $this->getBucket() && $sourceKey === $targetKey;
+	}
+
+	/**
+	 * Copy $sourceInternalPath from a peer AmazonS3 into $this at $targetInternalPath via S3
+	 * server-side operations. Recurse into directories. Forward SSE-C source parameters so
+	 * HEAD against an encrypted source succeeds.
+	 */
+	private function performServerSideCopy(self $source, string $sourceInternalPath, string $targetInternalPath): void {
+		if (!$source->is_dir($sourceInternalPath)) {
+			$this->copySingleObjectFromPeer($source, $sourceInternalPath, $targetInternalPath);
+			return;
+		}
+
+		// Pre-existing target directory MUST be tolerated. Per-file failures propagate.
+		$this->mkdir($targetInternalPath);
+		foreach ($source->getDirectoryContent($sourceInternalPath) as $item) {
+			$childSource = $sourceInternalPath . '/' . $item['name'];
+			$childTarget = $targetInternalPath . '/' . $item['name'];
+			if ($item['mimetype'] === FileInfo::MIMETYPE_FOLDER) {
+				$this->performServerSideCopy($source, $childSource, $childTarget);
+			} else {
+				$this->copySingleObjectFromPeer($source, $childSource, $childTarget);
+			}
+		}
+	}
+
+	private function copySingleObjectFromPeer(self $source, string $sourceInternalPath, string $targetInternalPath): void {
+		$this->copyObjectFromForeignBucket(
+			$source->getBucket(),
+			$source->normalizePath($sourceInternalPath),
+			$this->normalizePath($targetInternalPath),
+			$source->getServerSideEncryptionParameters(),
+			$source->getSSECParameters(true),
+		);
+	}
+
+	/**
+	 * Copy one object from a foreign bucket on the same endpoint into $this bucket. Uses the
+	 * trait's MultipartCopy dispatch for large payloads and single-op copy for small ones.
+	 *
+	 * @param array $sourceHeadParams SSE parameters used against the source HEAD. SSE-C sources MUST include SSECustomerKey.
+	 * @param array $sourceCopyParams CopySource* SSE-C parameters. KMS re-encryption uses destination-side params only.
+	 * @throws S3Exception on transport, permission, or provider-compat failure.
+	 */
+	private function copyObjectFromForeignBucket(
+		string $sourceBucket,
+		string $from,
+		string $to,
+		array $sourceHeadParams,
+		array $sourceCopyParams,
+	): void {
+		$sourceMetadata = $this->getConnection()->headObject([
+			'Bucket' => $sourceBucket,
+			'Key' => $from,
+		] + $sourceHeadParams);
+
+		$size = (int)$sourceMetadata->get('ContentLength');
+		$sseParams = $this->getServerSideEncryptionParameters() + $sourceCopyParams;
+
+		if ($this->useMultipartCopy && $size > $this->copySizeLimit) {
+			$copy = new MultipartCopy($this->getConnection(), [
+				'source_bucket' => $sourceBucket,
+				'source_key' => $from,
+			], [
+				'bucket' => $this->getBucket(),
+				'key' => $to,
+				'acl' => 'private',
+				'params' => $sseParams,
+				'source_metadata' => $sourceMetadata,
+			]);
+			$copy->copy();
+			return;
+		}
+
+		// Threshold decided above. Disable the SDK-internal MPU switch.
+		$this->getConnection()->copy($sourceBucket, $from, $this->getBucket(), $to, 'private', [
+			'params' => $sseParams,
+			'mup_threshold' => PHP_INT_MAX,
+		]);
+	}
+
+	/**
+	 * Delete the source after a successful server-side copy. Roll back the destination on
+	 * cleanup failure to mirror AmazonS3::rename() semantics and to let the caller retry.
+	 */
+	private function deleteSourceAfterMove(self $source, string $sourcePath, string $targetPath): bool {
+		$deleted = $source->is_dir($sourcePath) ? $source->rmdir($sourcePath) : $source->unlink($sourcePath);
+		if ($deleted) {
+			return true;
+		}
+		if ($this->is_dir($targetPath)) {
+			$this->rmdir($targetPath);
+		} else {
+			$this->unlink($targetPath);
+		}
+		return false;
+	}
+
+	/**
+	 * Abort any in-flight MultipartUpload for $targetKey in this bucket. Errors are logged, not
+	 * thrown. Match on exact key: prefix match would cancel unrelated concurrent uploads.
+	 * Paginate to cover buckets with more than 1000 in-flight uploads.
+	 */
+	private function abortMultipartUploadForKey(string $targetKey): void {
+		try {
+			$keyMarker = '';
+			$uploadIdMarker = '';
+			do {
+				$response = $this->getConnection()->listMultipartUploads([
+					'Bucket' => $this->getBucket(),
+					'Prefix' => $targetKey,
+					'KeyMarker' => $keyMarker,
+					'UploadIdMarker' => $uploadIdMarker,
+				]);
+				foreach ($response['Uploads'] ?? [] as $upload) {
+					if (($upload['Key'] ?? null) !== $targetKey) {
+						continue;
+					}
+					$this->getConnection()->abortMultipartUpload([
+						'Bucket' => $this->getBucket(),
+						'Key' => $targetKey,
+						'UploadId' => $upload['UploadId'],
+					]);
+				}
+				$keyMarker = $response['NextKeyMarker'] ?? '';
+				$uploadIdMarker = $response['NextUploadIdMarker'] ?? '';
+			} while (($response['IsTruncated'] ?? false) === true);
+		} catch (S3Exception $e) {
+			$this->logger->warning('Failed to clean up multipart upload after server-side copy error', [
+				'app' => 'files_external',
+				'exception' => $e,
+			]);
+		}
 	}
 }
