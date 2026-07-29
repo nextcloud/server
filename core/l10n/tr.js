@@ -87,6 +87,7 @@ OC.L10N.register(
     "Expiration date" : "Geçerlilik sonu tarihi",
     "Label" : "Etiket",
     "Password" : "Parola",
+    "Your administrator has enforced a password protection." : "Yöneticiniz parola korumasını zorunlu kılmış.",
     "Email" : "E-posta",
     "Group" : "Grup",
     "Team" : "Takım",

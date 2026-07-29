@@ -1045,9 +1045,6 @@ OC.L10N.register(
     "Limited ODF compatibility" : "Περιορισμένη συμβατότητα ODF",
     "Best Microsoft compatibility" : "Καλύτερη συμβατότητα με Microsoft",
     "{progress}% Deploying …" : "{progress}% Ανάπτυξη …",
-    "{progress}% Initializing …" : "{progress} %  Αρχικοποίηση …",
-    "Redis cache" : "Κρυφή μνήμη Redis",
-    "You are still using the old Redis cache backend. For full support of latest Valkey and Redis features, like clustering and sentinel, please switch to the new KeyValueCache backend." : "Χρησιμοποιείτε ακόμη το παλαιό σύστημα κρυφής μνήμης Redis. Για πλήρη υποστήριξη των νεότερων λειτουργιών των Valkey και Redis, όπως συστοιχίες (clustering) και sentinel, παρακαλούμε μεταβείτε στο νέο σύστημα KeyValueCache.",
-    "No legacy Redis cache detected" : "Δεν εντοπίστηκε παλαιού τύπου κρυφή μνήμη Redis"
+    "{progress}% Initializing …" : "{progress} %  Αρχικοποίηση …"
 },
 "nplurals=2; plural=(n != 1);");

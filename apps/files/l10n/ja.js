@@ -256,7 +256,7 @@ OC.L10N.register(
     "Rename" : "名前の変更",
     "Select file or folder to link to" : "リンク先のファイルまたはフォルダを選択",
     "Choose {file}" : "{file}を選択",
-    "Files settings" : "ファイルの設定",
+    "Files settings" : "ファイルアプリの設定",
     "Switch to list view" : "リスト表示へ切り替え",
     "Switch to grid view" : "グリッド表示へ切り替え",
     "The file could not be found" : "ファイルが見つかりませんでした",

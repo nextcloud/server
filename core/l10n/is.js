@@ -85,6 +85,7 @@ OC.L10N.register(
     "Expiration date" : "Gildir til",
     "Label" : "Skýring",
     "Password" : "Lykilorð",
+    "Your administrator has enforced a password protection." : "Kerfisstjórinn þinn hefur krafist verndunar með lykilorði.",
     "Email" : "Tölvupóstur",
     "Group" : "Hópur",
     "Team" : "Teymi",

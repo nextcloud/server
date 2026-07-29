@@ -87,6 +87,7 @@ OC.L10N.register(
     "Expiration date" : "Рок на траење",
     "Label" : "Ознака",
     "Password" : "Лозинка",
+    "Your administrator has enforced a password protection." : "Вашиот администратор спроведе политика за заштита со лозинка на споделувањата.",
     "Email" : "Е-пошта",
     "Group" : "Група",
     "Team" : "Тим",

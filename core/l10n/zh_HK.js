@@ -97,6 +97,7 @@ OC.L10N.register(
     "Label" : "標籤",
     "Note to recipients" : "給收件人的備註",
     "Password" : "密碼",
+    "Your administrator has enforced a password protection." : "您的管理員已強制設置密碼保護。",
     "Email" : "電郵地址",
     "Group" : "群組",
     "Team" : "團隊",
