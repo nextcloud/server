@@ -87,6 +87,7 @@ OC.L10N.register(
     "Expiration date" : "تاریخ انقضا",
     "Label" : "برچسب",
     "Password" : "رمز عبور",
+    "Your administrator has enforced a password protection." : "مدیر شما محافظت با رمز عبور را اعمال کرده است",
     "Email" : "ایمیل",
     "Group" : "گروه",
     "Team" : "تیم",

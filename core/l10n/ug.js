@@ -85,6 +85,7 @@ OC.L10N.register(
     "Expiration date" : "مۇددىتى توشقان ۋاقىت",
     "Label" : "بەلگە",
     "Password" : "ئىم",
+    "Your administrator has enforced a password protection." : "باشقۇرغۇچىڭىز مەخپىي نومۇر قوغداشنى يولغا قويدى.",
     "Email" : "تورخەت",
     "Group" : "گۇرۇپپا",
     "Team" : "ئەتىرەت",

@@ -307,7 +307,6 @@
     "Share not found." : "找不到分享。",
     "You are not allowed to edit this share." : "你沒有權限編輯此分享。",
     "Only true and false are valid values: %s" : "只有 true 與 false 為有效值：%s",
-    "Invalid ISO date: %s" : "無效的 ISO 日期：%s",
     "Analyze images" : "分析圖像",
     "Ask a question about the given images." : "請問您能對所提供的圖片提出一個問題嗎？",
     "Images" : "圖像",

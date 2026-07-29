@@ -80,6 +80,7 @@ OC.L10N.register(
     "Expiration date" : "Fecha de expiración",
     "Label" : "Etiqueta",
     "Password" : "Contraseña",
+    "Your administrator has enforced a password protection." : "Su administrador ha impuesto la protección por contraseña.",
     "Email" : "Correo electrónico",
     "Group" : "Grupo",
     "Team" : "Equipo",

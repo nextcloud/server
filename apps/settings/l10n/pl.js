@@ -1045,9 +1045,6 @@ OC.L10N.register(
     "Limited ODF compatibility" : "Ograniczona zgodność z ODF",
     "Best Microsoft compatibility" : "Najlepsza zgodność z Microsoft",
     "{progress}% Deploying …" : "{progress} % trwa wdrażanie …",
-    "{progress}% Initializing …" : "{progress} % trwa inicjalizacja ...",
-    "Redis cache" : "Pamięć podręczna Redis",
-    "You are still using the old Redis cache backend. For full support of latest Valkey and Redis features, like clustering and sentinel, please switch to the new KeyValueCache backend." : "Nadal używasz starego backend'u pamięci podręcznej Redis. Dla pełnego wsparcia najnowszych funkcji Valkey i Redis takich jak clustering i sentinel, proszę o zmianę na nowy backend KeyValueCache",
-    "No legacy Redis cache detected" : "Nie wykryto starszej pamięci podręcznej Redis"
+    "{progress}% Initializing …" : "{progress} % trwa inicjalizacja ..."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

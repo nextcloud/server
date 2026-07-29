@@ -1043,9 +1043,6 @@
     "Limited ODF compatibility" : "Ribotas suderinamumas su ODF",
     "Best Microsoft compatibility" : "Geriausias suderinamumas su „Microsoft“",
     "{progress}% Deploying …" : "{progress} % diegiama  …",
-    "{progress}% Initializing …" : "{progress}% inicijuojama  …",
-    "Redis cache" : "„Redis“ tarpinė atmintis",
-    "You are still using the old Redis cache backend. For full support of latest Valkey and Redis features, like clustering and sentinel, please switch to the new KeyValueCache backend." : "Vis dar naudojate senąją „Redis“ tarpinės atminties posistemę. Norėdami visapusiškai palaikyti naujausias „Valkey“ ir „Redis“ funkcijas, pvz., klasterizavimą ir „Sentinel“, perjunkite į naująją „KeyValueCache“ posistemę.",
-    "No legacy Redis cache detected" : "Nerasta senoji „Redis“ terpinė atmintis"
+    "{progress}% Initializing …" : "{progress}% inicijuojama  …"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }
