@@ -3,28 +3,37 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import ClipboardJS from 'clipboard'
-import { dav } from 'davclient.js'
-import moment from 'moment'
-import _ from 'underscore'
+import { n, t } from '@nextcloud/l10n'
 import { initCore } from './init.js'
 import OC from './OC/index.js'
 import OCA from './OCA/index.js'
 import OCP from './OCP/index.js'
 
+window.OC = OC
+setDeprecatedProp('initCore', () => initCore, 'this is an internal function')
+window.OCP = OCP
+window.OCA = OCA
+
+// Expose translation functions to the global scope for legacy code
+window.t = t
+window.n = n
+
 /**
+ * If not in a testing environment, log a warning to the console if debugging is enabled.
  *
+ * @param {...unknown} args - the arguments to log to the console
+ * @private
  */
-function warnIfNotTesting() {
+function warnIfNotTesting(...args) {
 	if (window.TESTING === undefined) {
 		// eslint-disable-next-line no-console
-		OC.debug && console.warn.apply(console, arguments)
+		OC.debug && console.warn.apply(console, args)
 	}
 }
 
 /**
  * @param {string|string[]} global - a string or array of strings with the name of the global variable(s) to deprecate
- * @param {function} cb - a callback that returns the value of the global variable when accessed
+ * @param {() => unknown} cb - a callback that returns the value of the global variable when accessed
  * @param {string} msg - an optional message to show in the warning
  */
 function setDeprecatedProp(global, cb, msg) {
@@ -45,36 +54,3 @@ function setDeprecatedProp(global, cb, msg) {
 		})
 	})
 }
-
-setDeprecatedProp(['_'], () => _, 'The global underscore is deprecated. It will be removed in a later versions without another warning. Please ship your own.')
-setDeprecatedProp(['Clipboard', 'ClipboardJS'], () => ClipboardJS, 'please ship your own, this will be removed in Nextcloud 20')
-setDeprecatedProp(['dav'], () => dav, 'please ship your own. It will be removed in a later versions without another warning. Please ship your own.')
-setDeprecatedProp('moment', () => moment, 'please ship your own, this will be removed in Nextcloud 20')
-
-window.OC = OC
-setDeprecatedProp('initCore', () => initCore, 'this is an internal function')
-window.OCP = OCP
-window.OCA = OCA
-
-/**
- * translate a string
- *
- * @param {string} app the id of the app for which to translate the string
- * @param {string} text the string to translate
- * @param [vars] map of placeholder key to value
- * @param {number} [count] number to replace %n with
- * @return {string}
- */
-window.t = _.bind(OC.L10N.translate, OC.L10N)
-
-/**
- * translate a string
- *
- * @param {string} app the id of the app for which to translate the string
- * @param {string} text_singular the string to translate for exactly one object
- * @param {string} text_plural the string to translate for n objects
- * @param {number} count number to determine whether to use singular or plural
- * @param [vars] map of placeholder key to value
- * @return {string} Translated string
- */
-window.n = _.bind(OC.L10N.translatePlural, OC.L10N)
