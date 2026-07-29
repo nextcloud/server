@@ -94,6 +94,7 @@ OC.L10N.register(
     "Expiration date" : "Термін дії",
     "Label" : "Мітка",
     "Password" : "Пароль",
+    "Your administrator has enforced a password protection." : "Адміністратор встановив політику захисту паролем ",
     "Email" : "Ел.пошта",
     "Group" : "Група",
     "Team" : "Команда",

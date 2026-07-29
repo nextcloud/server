@@ -97,6 +97,7 @@ OC.L10N.register(
     "Label" : "Etikett",
     "Note to recipients" : "Meddelande till mottagarna",
     "Password" : "Lösenord",
+    "Your administrator has enforced a password protection." : "Din administratör har krävt lösenordsskydd.",
     "Email" : "E-post",
     "Group" : "Grupp",
     "Team" : "Team",

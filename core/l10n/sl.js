@@ -85,6 +85,7 @@ OC.L10N.register(
     "Can edit" : "Lahko ureja",
     "Expiration date" : "Datum preteka",
     "Password" : "Geslo",
+    "Your administrator has enforced a password protection." : "Skrbnik zahteva uporabo zaščite z geslom.",
     "Email" : "Elektronski naslov",
     "Group" : "Skupina",
     "Team" : "Skupina",

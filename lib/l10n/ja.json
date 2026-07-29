@@ -303,7 +303,6 @@
     "Storage connection timeout. %s" : "ストレージへの接続がタイムアウト。 %s",
     "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "このチェックを実行させるには、Webサーバーが自分自身に接続できることを確認しなければならない。そのため、少なくとも一つの `trusted_domains` または `overwrite.cli.url` を解決して接続できなければなりません。この失敗は、サーバ側のDNSの不一致やアウトバウンドファイアウォールルールの結果かもしれません。",
     "Share not found." : "共有が見つかりません。",
-    "Invalid ISO date: %s" : "無効なISO日付: %s",
     "Analyze images" : "画像を分析する",
     "Ask a question about the given images." : "与えられた画像について質問してください。",
     "Images" : "画像",

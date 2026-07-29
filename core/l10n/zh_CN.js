@@ -86,6 +86,7 @@ OC.L10N.register(
     "Expiration date" : "过期日期",
     "Label" : "标签",
     "Password" : "密码",
+    "Your administrator has enforced a password protection." : "您的管理员已强制实施密码保护。",
     "Email" : "电子邮件",
     "Group" : "群组",
     "Team" : "团队",

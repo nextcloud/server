@@ -85,6 +85,7 @@ OC.L10N.register(
     "Expiration date" : "Tanggal kedaluwarsa",
     "Label" : "Label",
     "Password" : "Kata Sandi",
+    "Your administrator has enforced a password protection." : "Administrator Anda telah menerapkan perlindungan kata sandi.",
     "Email" : "Email",
     "Group" : "Grup",
     "Team" : "Tim",

@@ -251,6 +251,7 @@ OC.L10N.register(
     "Pick start date" : "Startdatum wählen",
     "Pick end date" : "Enddatum wählen",
     "Search in date range" : "Im Datumsbereich suchen",
+    "Remove filter: {name}" : "Filter entfernen: {name}",
     "Apps, files, messages, and more" : "Apps, Dateien, Nachrichten und mehr",
     "Filters" : "Filter",
     "Clear search" : "Suche löschen",

@@ -97,6 +97,7 @@ OC.L10N.register(
     "Label" : "Etykieta",
     "Note to recipients" : "Notatka dla odbiorców",
     "Password" : "Hasło",
+    "Your administrator has enforced a password protection." : "Administrator wymusił ochronę hasłem.",
     "Email" : "E-mail",
     "Group" : "Grupa",
     "Team" : "Zespół",

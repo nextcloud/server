@@ -87,6 +87,7 @@ OC.L10N.register(
     "Expiration date" : "Udløbsdato",
     "Label" : "Mærkat",
     "Password" : "Adgangskode",
+    "Your administrator has enforced a password protection." : "Din administrator har gennemtvunget en adgangskodebeskyttelse",
     "Email" : "E-mail",
     "Group" : "Gruppe",
     "Team" : "Team",

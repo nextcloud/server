@@ -86,6 +86,7 @@ OC.L10N.register(
     "Expiration date" : "Dátum expirácie",
     "Label" : "Názov",
     "Password" : "Heslo",
+    "Your administrator has enforced a password protection." : "Váš administrátor vynútil ochranu heslom.",
     "Email" : "E-mail",
     "Group" : "Skupina",
     "Team" : "Tím",

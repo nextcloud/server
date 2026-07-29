@@ -97,6 +97,7 @@ OC.L10N.register(
     "Label" : "Label",
     "Note to recipients" : "Opmerking voor ontvanger(s)",
     "Password" : "Wachtwoord",
+    "Your administrator has enforced a password protection." : "Je beheerder heeft wachtwoordbeveiliging verplicht gesteld.",
     "Email" : "E-mail",
     "Group" : "Groep",
     "Team" : "Team",
