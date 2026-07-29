@@ -2676,7 +2676,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$query->andWhere($query->expr()->eq('c.uri', $query->createNamedParameter($calendarUri)));
 		}
 
-		$query->->setMaxResults(1);
+		$query->setMaxResults(1);
 
 		$stmt = $query->executeQuery();
 		$row = $stmt->fetchAssociative();
