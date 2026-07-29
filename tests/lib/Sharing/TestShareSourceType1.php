@@ -9,11 +9,11 @@ declare(strict_types=1);
 
 namespace Test\Sharing;
 
+use NCU\Sharing\Icon\ShareIconSVG;
+use NCU\Sharing\Icon\ShareIconURL;
+use NCU\Sharing\Source\IShareSourceType;
 use OCP\Interaction\InteractionResource;
 use OCP\L10N\IFactory;
-use OCP\Sharing\Icon\ShareIconSVG;
-use OCP\Sharing\Icon\ShareIconURL;
-use OCP\Sharing\Source\IShareSourceType;
 
 class TestShareSourceType1 implements IShareSourceType {
 	public function __construct(

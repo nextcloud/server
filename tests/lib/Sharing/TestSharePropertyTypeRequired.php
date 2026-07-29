@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Test\Sharing;
 
-use OCP\Sharing\Share;
+use NCU\Sharing\Share;
 
 final class TestSharePropertyTypeRequired extends TestSharePropertyType1 {
 	#[\Override]

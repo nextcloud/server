@@ -9,6 +9,9 @@ declare(strict_types=1);
 
 namespace OC\Core\Sharing\Recipient;
 
+use NCU\Sharing\Icon\ShareIconSVG;
+use NCU\Sharing\Icon\ShareIconURL;
+use NCU\Sharing\Recipient\AShareRecipientTypeSearchCollaborator;
 use OC\Core\AppInfo\Application;
 use OCP\Interaction\InteractionReceiver;
 use OCP\Interaction\Receivers\EmailReceiver;
@@ -16,9 +19,6 @@ use OCP\IUser;
 use OCP\L10N\IFactory;
 use OCP\Mail\IEmailValidator;
 use OCP\Share\IShare;
-use OCP\Sharing\Icon\ShareIconSVG;
-use OCP\Sharing\Icon\ShareIconURL;
-use OCP\Sharing\Recipient\AShareRecipientTypeSearchCollaborator;
 
 // TODO: Add logic to send emails when share state is updated to active
 

@@ -9,6 +9,10 @@ declare(strict_types=1);
 
 namespace Tests\Core\Sharing\Recipient;
 
+use NCU\Sharing\ISharingManager;
+use NCU\Sharing\ISharingRegistry;
+use NCU\Sharing\Recipient\ShareRecipient;
+use NCU\Sharing\ShareAccessContext;
 use OC\Core\Sharing\Recipient\TeamShareRecipientType;
 use OCA\Circles\CirclesManager;
 use OCA\Circles\Exceptions\CircleNotFoundException;
@@ -18,10 +22,6 @@ use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
-use OCP\Sharing\ISharingManager;
-use OCP\Sharing\ISharingRegistry;
-use OCP\Sharing\Recipient\ShareRecipient;
-use OCP\Sharing\ShareAccessContext;
 use OCP\Teams\ITeamManager;
 use OCP\Teams\Team;
 use PHPUnit\Framework\Attributes\Group;

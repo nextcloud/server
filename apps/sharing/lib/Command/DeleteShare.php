@@ -10,8 +10,8 @@ declare(strict_types=1);
 namespace OCA\Sharing\Command;
 
 use Exception;
+use NCU\Sharing\Exception\AShareException;
 use OC\Core\Command\Base;
-use OCP\Sharing\Exception\AShareException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;

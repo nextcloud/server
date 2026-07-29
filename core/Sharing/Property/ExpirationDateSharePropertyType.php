@@ -12,15 +12,15 @@ namespace OC\Core\Sharing\Property;
 use DateInterval;
 use DateTimeImmutable;
 use DateTimeInterface;
+use NCU\Sharing\Property\ADateSharePropertyType;
+use NCU\Sharing\Property\ISharePropertyTypeFilter;
+use NCU\Sharing\Share;
+use NCU\Sharing\ShareAccessContext;
 use OC\Core\AppInfo\Application;
 use OC\Core\Sharing\Recipient\EmailShareRecipientType;
 use OC\Core\Sharing\Recipient\TokenShareRecipientType;
 use OCP\L10N\IFactory;
 use OCP\Share\IManager;
-use OCP\Sharing\Property\ADateSharePropertyType;
-use OCP\Sharing\Property\ISharePropertyTypeFilter;
-use OCP\Sharing\Share;
-use OCP\Sharing\ShareAccessContext;
 use RuntimeException;
 
 // TODO: Handle per recipient required and default flags.

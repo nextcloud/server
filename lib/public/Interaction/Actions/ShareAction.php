@@ -9,10 +9,10 @@ declare(strict_types=1);
 
 namespace OCP\Interaction\Actions;
 
+use NCU\Sharing\Permission\ISharePermissionType;
 use OCP\AppFramework\Attribute\Consumable;
 use OCP\Constants;
 use OCP\Interaction\InteractionAction;
-use OCP\Sharing\Permission\ISharePermissionType;
 
 /**
  * Used when a user wants to share a resource to a receiver.

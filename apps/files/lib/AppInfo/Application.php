@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\Files\AppInfo;
 
+use NCU\Sharing\ISharingRegistry;
 use OC\Core\Sharing\Permission\EditSharePermissionPreset;
 use OC\Core\Sharing\Permission\ViewSharePermissionPreset;
 use OC\Core\Sharing\Property\ExpirationDateSharePropertyType;
@@ -60,7 +61,6 @@ use OCP\Server;
 use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\Events\ShareDeletedEvent;
 use OCP\Share\Events\ShareDeletedFromSelfEvent;
-use OCP\Sharing\ISharingRegistry;
 use OCP\User\Events\UserFirstTimeLoggedInEvent;
 
 class Application extends App implements IBootstrap {

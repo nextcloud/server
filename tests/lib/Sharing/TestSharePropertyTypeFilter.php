@@ -9,9 +9,9 @@ declare(strict_types=1);
 
 namespace Test\Sharing;
 
-use OCP\Sharing\Property\ISharePropertyTypeFilter;
-use OCP\Sharing\Share;
-use OCP\Sharing\ShareAccessContext;
+use NCU\Sharing\Property\ISharePropertyTypeFilter;
+use NCU\Sharing\Share;
+use NCU\Sharing\ShareAccessContext;
 
 final class TestSharePropertyTypeFilter extends TestSharePropertyType1 implements ISharePropertyTypeFilter {
 	#[\Override]

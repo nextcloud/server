@@ -9,9 +9,9 @@ declare(strict_types=1);
 
 namespace OC\Core\Sharing\Permission;
 
+use NCU\Sharing\Permission\ISharePermissionPreset;
 use OC\Core\AppInfo\Application;
 use OCP\L10N\IFactory;
-use OCP\Sharing\Permission\ISharePermissionPreset;
 
 final class EditSharePermissionPreset implements ISharePermissionPreset {
 	#[\Override]

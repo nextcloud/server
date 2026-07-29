@@ -9,11 +9,11 @@ declare(strict_types=1);
 
 namespace OCA\Files\Sharing\Permission;
 
+use NCU\Sharing\Permission\ISharePermissionType;
 use OCA\Files\AppInfo\Application;
 use OCP\Constants;
 use OCP\IAppConfig;
 use OCP\L10N\IFactory;
-use OCP\Sharing\Permission\ISharePermissionType;
 
 final readonly class NodeCreateSharePermissionType implements ISharePermissionType {
 	public function __construct(
