@@ -2636,14 +2636,17 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	}
 
 	/**
-	 * Find the path of the calendar object with a given UID in calendars owned by
-	 * a particular principal (user).
+	 * Finds the path to the calendar object matching a given UID, restricted to
+	 * calendars owned by the specified principal. Calendars owned by other
+	 * principals, even if visible in the principal's calendar home (e.g. via
+	 * sharing), are ignored.
 	 *
-	 * When $calendarUri is provided, the lookup is restricted to that calendar.
-	 * When it is null, all of the principal's calendars are searched. In that
-	 * case, callers must use both path components returned by this method: the
-	 * matching object may belong to a different calendar than one the caller
-	 * currently has selected.
+	 * When $calendarUri is provided, the lookup is further restricted to that
+	 * calendar. It must be owned by $principalUri, otherwise no match is returned.
+	 * When $calendarUri is null, all calendars owned by the principal are searched.
+	 * In that case, callers must use both path components returned by this method:
+	 * the matching object may belong to a different calendar than the one the
+	 * caller currently has selected.
 	 *
 	 * Subscription and federated cached objects, deleted objects, and objects in
 	 * deleted calendars are not considered.
@@ -2652,11 +2655,12 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * "<calendar-uri>/<object-uri>". It is null when no matching object exists.
 	 * UID uniqueness is guaranteed only within a calendar collection. Therefore,
 	 * an unrestricted lookup can be ambiguous if multiple owned calendars contain
-	 * the same UID.
+	 * the same UID; in that case, one database-dependent matching result is
+	 * returned and no calendar is preferred.
 	 *
 	 * @param string $principalUri
 	 * @param string $uid
-	 * @param string|null $calendarUri Calendar URI to restrict the lookup to.
+	 * @param string|null $calendarUri Calendar URI to restrict the lookup to; must be owned by $principalUri.
 	 * @return string|null
 	 */
 	#[\Override]
