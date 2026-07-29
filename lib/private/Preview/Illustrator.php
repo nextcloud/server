@@ -38,4 +38,12 @@ class Illustrator extends Bitmap {
 	protected function getAllowedMimeTypes(): string {
 		return '/application\/(illustrator|pdf)/';
 	}
+
+	protected function getMagicStrings(): array {
+		return ["\x25\x50\x44\x46"];
+	}
+
+	protected function getImagickFormatHint(): string {
+		return 'ai';
+	}
 }

@@ -38,4 +38,12 @@ class Postscript extends Bitmap {
 	protected function getAllowedMimeTypes(): string {
 		return '/application\/postscript/';
 	}
+
+	protected function getMagicStrings(): array {
+		return ['%!PS'];
+	}
+
+	protected function getImagickFormatHint(): string {
+		return 'ps';
+	}
 }
