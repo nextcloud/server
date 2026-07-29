@@ -86,6 +86,7 @@ OC.L10N.register(
     "Expiration date" : "Datum isteka",
     "Label" : "Oznaka",
     "Password" : "Zaporka",
+    "Your administrator has enforced a password protection." : "Vaš je administrator nametnuo zaštitu lozinkom.",
     "Email" : "E-pošta",
     "Group" : "Grupa",
     "Team" : "Tim",

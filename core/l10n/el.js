@@ -97,6 +97,7 @@ OC.L10N.register(
     "Label" : "Ετικέτα",
     "Note to recipients" : "Σημείωμα προς τους παραλήπτες",
     "Password" : "Συνθηματικό",
+    "Your administrator has enforced a password protection." : "Ο διαχειριστής σας έχει επιβάλει προστασία με κωδικό πρόσβασης.",
     "Email" : "Email",
     "Group" : "Ομάδα χρηστών",
     "Team" : "Ομάδα εργασίας",

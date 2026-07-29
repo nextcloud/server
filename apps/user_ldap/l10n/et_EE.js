@@ -91,6 +91,7 @@ OC.L10N.register(
     "An unspecified error occurred. Please check log and settings." : "Tekkis ootamatu viga. Palun vaata, mis on logides kirjas ja kontrolli seadistusi.",
     "The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise." : "Otsingufilter on vigane. Näiteks võib olla tegemist süntaksiveaga, näiteks algussulgude ja lõpusulgude kombinatsioon ei klapi. Palun vaata süntaks üle.",
     "A connection error to LDAP/AD occurred. Please check host, port and credentials." : "LDAP/AD ühenduse puhul tekkis viga. Palun kontrolli, kas serveri aadress, kasutatav port ja autentimiseks vajalikud andmed on õiged.",
+    "LDAP/AD Username:" : "LDAP/AD kasutajanimi:",
     "Other Attributes:" : "Muud atribuudid:",
     "Test Login name" : "Katseta kasutajanime",
     "Verify settings" : "Kontrolli seadistusi",

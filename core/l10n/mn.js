@@ -86,6 +86,7 @@ OC.L10N.register(
     "Expiration date" : "Дуусах огноо",
     "Label" : "–•–∞—è–≥",
     "Password" : "Нууц үг",
+    "Your administrator has enforced a password protection." : "Таны админ нууц үгийн хамгаалалт тогтоосон.",
     "Email" : "–¶–∞—Ö–∏–º —à—É—É–¥–∞–Ω",
     "Group" : "–ë“Ø–ª—ç–≥",
     "Team" : "Баг",

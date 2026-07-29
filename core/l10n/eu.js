@@ -86,6 +86,7 @@ OC.L10N.register(
     "Expiration date" : "Iraungitze-data",
     "Label" : "Etiketa",
     "Password" : "Pasahitza",
+    "Your administrator has enforced a password protection." : "Zure administratzaileak pasahitzez babestu behar dela ezarri du.",
     "Email" : "Posta elektronikoa",
     "Group" : "Taldea",
     "Team" : "Lantaldea",

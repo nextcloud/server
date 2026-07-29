@@ -85,6 +85,7 @@ OC.L10N.register(
     "Expiration date" : "Tarehe ya kumalizika muda wake",
     "Label" : "Lebo",
     "Password" : "Nenosiri",
+    "Your administrator has enforced a password protection." : "Msimamizi wako ameweka ulinzi wa nenosiri.",
     "Email" : "Barua pepe",
     "Group" : "Kundi",
     "Team" : "Timu",

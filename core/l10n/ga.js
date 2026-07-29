@@ -97,6 +97,7 @@ OC.L10N.register(
     "Label" : "Lipéad",
     "Note to recipients" : "Nóta do fhaighteoirí",
     "Password" : "Pasfhocal",
+    "Your administrator has enforced a password protection." : "Chuir do riarthóir cosaint pasfhocail i bhfeidhm.",
     "Email" : "Ríomhphost",
     "Group" : "Grúpa",
     "Team" : "Foireann",

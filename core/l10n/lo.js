@@ -84,6 +84,7 @@ OC.L10N.register(
     "Expiration date" : "ວັນໝົດອາຍຸ",
     "Label" : "ປ້າຍກຳກັບ",
     "Password" : "ລະຫັດຜ່ານ",
+    "Your administrator has enforced a password protection." : "ຜູ້ເບິ່ງແຍງລະບົບຂອງທ່ານໄດ້ບັງຄັບໃຊ້ການປ້ອງກັນດ້ວຍລະຫັດຜ່ານ.",
     "Email" : "ອີເມວ",
     "Group" : "ກຸ່ມ",
     "Team" : "ທີມ",

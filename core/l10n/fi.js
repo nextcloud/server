@@ -77,6 +77,7 @@ OC.L10N.register(
     "Expiration date" : "Vanhenemispäivä",
     "Label" : "Nimike",
     "Password" : "Salasana",
+    "Your administrator has enforced a password protection." : "Ylläpitäjä on pakottanut salasanasuojauksen.",
     "Email" : "Sähköposti",
     "Group" : "Ryhmä",
     "Team" : "Tiimi",
