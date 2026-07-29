@@ -78,7 +78,7 @@ jobs:
     needs: [gate, playwright-setup]
     timeout-minutes: 60
     name: Playwright tests ${{ matrix.shardIndex }} / ${{ matrix.shardTotal }}
-    runs-on: ubuntu-latest
+    runs-on: mcr.microsoft.com/playwright:v1.61.1-noble
     strategy:
       fail-fast: false
       matrix:
@@ -120,8 +120,8 @@ jobs:
         npm ci
         npm run build --if-present
 
-    - name: Install Playwright browsers
-      run: npx playwright install --with-deps
+    #- name: Install Playwright browsers
+    #  run: npx playwright install --with-deps
 
     - name: Run Playwright tests
       run: npm run playwright -- --shard='${{ matrix.shardIndex }}/${{ matrix.shardTotal }}'
