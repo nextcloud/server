@@ -24,9 +24,6 @@ module.exports = {
 		'twofactor-request-token': path.join(__dirname, 'core/src', 'twofactor-request-token.ts'),
 		update: path.join(__dirname, 'core/src', 'update.ts'),
 	},
-	dashboard: {
-		main: path.join(__dirname, 'apps/dashboard/src', 'main.js'),
-	},
 	files: {
 		sidebar: path.join(__dirname, 'apps/files/src', 'sidebar.ts'),
 		main: path.join(__dirname, 'apps/files/src', 'main.ts'),
