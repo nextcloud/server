@@ -13,6 +13,7 @@ use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\Job;
+use OCP\GlobalScale\IConfig as GlobalScaleConfig;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IUser;
@@ -86,7 +87,7 @@ class RetryJob extends Job {
 	protected function shouldRemoveBackgroundJob(): bool {
 		// TODO: Remove global scale condition once lookup server is used for non-global scale federation
 		// return $this->config->getAppValue('files_sharing', 'lookupServerUploadEnabled', 'no') !== 'yes'
-		return !$this->config->getSystemValueBool('gs.enabled', false)
+		return !$this->globalScaleConfig->isGlobalScaleEnabled()
 			|| $this->config->getSystemValueBool('has_internet_connection', true) === false
 			|| $this->config->getSystemValueString('lookup_server', 'https://lookup.nextcloud.com') === ''
 			|| $this->retries >= 5;
