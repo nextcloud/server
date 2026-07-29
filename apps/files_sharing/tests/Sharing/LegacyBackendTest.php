@@ -158,7 +158,7 @@ final class LegacyBackendTest extends TestCase {
 						UserShareRecipientType::class,
 						$user->getUID(),
 						null,
-						'secret',
+						'user secret',
 						new ShareUser(
 							$owner->getUID(),
 							null,
@@ -169,7 +169,7 @@ final class LegacyBackendTest extends TestCase {
 						GroupShareRecipientType::class,
 						$group->getGID(),
 						null,
-						'secret',
+						'group secret',
 						new ShareUser(
 							$owner->getUID(),
 							null,
@@ -179,7 +179,7 @@ final class LegacyBackendTest extends TestCase {
 						TokenShareRecipientType::class,
 						'token',
 						null,
-						'secret',
+						'token secret',
 						new ShareUser(
 							$owner->getUID(),
 							null,
@@ -189,7 +189,7 @@ final class LegacyBackendTest extends TestCase {
 						EmailShareRecipientType::class,
 						'example@example.com',
 						null,
-						'secret',
+						'email secret',
 						new ShareUser(
 							$owner->getUID(),
 							null,
@@ -201,7 +201,7 @@ final class LegacyBackendTest extends TestCase {
 						TeamShareRecipientType::class,
 						$circle->getSingleId(),
 						null,
-						'secret',
+						'team secret',
 						new ShareUser(
 							$owner->getUID(),
 							null,

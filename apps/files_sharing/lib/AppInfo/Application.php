@@ -8,6 +8,8 @@
 
 namespace OCA\Files_Sharing\AppInfo;
 
+use NCU\Sharing\ISharingManager;
+use NCU\Sharing\ISharingRegistry;
 use OC\Group\DisplayNameCache as GroupDisplayNameCache;
 use OC\User\DisplayNameCache;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
@@ -67,8 +69,6 @@ use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\Events\ShareMovedEvent;
 use OCP\Share\Events\ShareTransferredEvent;
 use OCP\Share\IManager;
-use OCP\Sharing\ISharingManager;
-use OCP\Sharing\ISharingRegistry;
 use OCP\Snowflake\ISnowflakeGenerator;
 use OCP\User\Events\UserChangedEvent;
 use OCP\User\Events\UserDeletedEvent;

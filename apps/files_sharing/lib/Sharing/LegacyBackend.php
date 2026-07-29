@@ -11,6 +11,16 @@ namespace OCA\Files_Sharing\Sharing;
 
 use DateTime;
 use DateTimeInterface;
+use NCU\Sharing\Exception\ShareNotFoundException;
+use NCU\Sharing\ISharingManager;
+use NCU\Sharing\Permission\ISharePermissionType;
+use NCU\Sharing\Permission\SharePermission;
+use NCU\Sharing\Recipient\IShareRecipientType;
+use NCU\Sharing\Recipient\ShareRecipient;
+use NCU\Sharing\Share;
+use NCU\Sharing\ShareState;
+use NCU\Sharing\ShareUser;
+use NCU\Sharing\Source\ShareSource;
 use OC\Core\Sharing\Permission\ReshareSharePermissionType;
 use OC\Core\Sharing\Property\ExpirationDateSharePropertyType;
 use OC\Core\Sharing\Property\LabelSharePropertyType;
@@ -20,6 +30,7 @@ use OC\Core\Sharing\Recipient\GroupShareRecipientType;
 use OC\Core\Sharing\Recipient\TeamShareRecipientType;
 use OC\Core\Sharing\Recipient\TokenShareRecipientType;
 use OC\Core\Sharing\Recipient\UserShareRecipientType;
+use OC\Sharing\ISharingLegacyBackend;
 use OCA\Files\Sharing\Permission\NodeCreateSharePermissionType;
 use OCA\Files\Sharing\Permission\NodeDeleteSharePermissionType;
 use OCA\Files\Sharing\Permission\NodeDownloadSharePermissionType;
@@ -37,17 +48,6 @@ use OCP\L10N\IFactory;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
-use OCP\Sharing\Exception\ShareNotFoundException;
-use OC\Sharing\ISharingLegacyBackend;
-use OCP\Sharing\ISharingManager;
-use OCP\Sharing\Permission\ISharePermissionType;
-use OCP\Sharing\Permission\SharePermission;
-use OCP\Sharing\Recipient\IShareRecipientType;
-use OCP\Sharing\Recipient\ShareRecipient;
-use OCP\Sharing\Share;
-use OCP\Sharing\ShareState;
-use OCP\Sharing\ShareUser;
-use OCP\Sharing\Source\ShareSource;
 use OCP\Snowflake\ISnowflakeGenerator;
 use RuntimeException;
 
@@ -152,7 +152,7 @@ final readonly class LegacyBackend implements ISharingLegacyBackend {
 
 				if ($create) {
 					$legacyShare = $this->legacyManager->createShare($legacyShare);
-					$this->addLegacyFullId($share->id, explode(':', $legacyShare->getFullId())[0], $legacyShare->getId());
+					// No need to insert the legacy full id, because the listener in the SharingManager will already trigger this process.
 					$legacyShares[$legacyShare->getFullId()] = $legacyShare;
 				} elseif ($update) {
 					$updatedLegacyShares[$legacyShare->getFullId()] = true;
@@ -327,8 +327,10 @@ final readonly class LegacyBackend implements ISharingLegacyBackend {
 
 			$recipientTypeClass = $this->legacyShareTypeToRecipientTypeClass($legacyShare->getShareType());
 			$isTokenRecipient = $recipientTypeClass === TokenShareRecipientType::class;
+			$recipients[$recipientTypeClass] ??= [];
+			$uniqueId = $isTokenRecipient ? $legacyShare->getToken() : $legacyShare->getSharedWith();
 			/** @psalm-suppress ArgumentTypeCoercion */
-			$recipients[] = new ShareRecipient(
+			$recipients[$recipientTypeClass][$uniqueId] ??= new ShareRecipient(
 				$recipientTypeClass,
 				$isTokenRecipient ? '' : $legacyShare->getSharedWith(),
 				// TODO: Support federation
@@ -380,14 +382,24 @@ final readonly class LegacyBackend implements ISharingLegacyBackend {
 			// TODO
 			ShareState::Active,
 			array_values($sources),
-			$recipients,
+			array_merge(...array_values($recipients)),
 			$properties,
 			$permissions,
 		);
 	}
 
 	#[\Override]
-	public function getUnmappedShares(?IUser $user): array {
+	public function getShareByLegacyProviderAndId(string $legacyProvider, string $legacyId): Share {
+		$id = $this->getId($legacyProvider, $legacyId);
+		if ($id === null) {
+			throw new ShareNotFoundException();
+		}
+
+		return $this->getShare($id);
+	}
+
+	#[\Override]
+	public function getUnmappedShares(IUser $user): array {
 		// TODO: Make it work with all providers
 		// TODO: Filter by user
 		$qb = $this->connection->getQueryBuilder();
@@ -426,7 +438,8 @@ final readonly class LegacyBackend implements ISharingLegacyBackend {
 	/**
 	 * @return list<string>
 	 */
-	private function getLegacyFullIds(string $id): array {
+	#[\Override]
+	public function getLegacyFullIds(string $id): array {
 		$qb = $this->connection->getQueryBuilder();
 		$result = $qb
 			->select('legacy_provider', 'legacy_id')
@@ -438,6 +451,24 @@ final readonly class LegacyBackend implements ISharingLegacyBackend {
 		$rows = $result->fetchAllAssociative();
 
 		return array_map(static fn (array $row): string => $row['legacy_provider'] . ':' . $row['legacy_id'], $rows);
+	}
+
+	private function getId(string $legacyProvider, string $legacyId): ?string {
+		$qb = $this->connection->getQueryBuilder();
+		$result = $qb
+			->select('id')
+			->from('share_legacy_mapping')
+			->where($qb->expr()->eq('legacy_provider', $qb->createNamedParameter($legacyProvider)))
+			->andWhere($qb->expr()->eq('legacy_id', $qb->createNamedParameter($legacyId)))
+			->executeQuery();
+
+		/** @var int|false $id */
+		$id = $result->fetchOne();
+		if ($id === false) {
+			return null;
+		}
+
+		return (string)$id;
 	}
 
 	/**
