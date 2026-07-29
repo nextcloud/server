@@ -37,4 +37,17 @@ class Font extends Bitmap {
 	protected function getAllowedMimeTypes(): string {
 		return '/(application|image)\/(?:font-sfnt|x-font|x-otf|x-ttf|x-pfb$)/';
 	}
+
+	#[\Override]
+	protected function getMagicStrings(): array {
+		return [
+			"\x00\x01\x00\x00\x00", // TTF
+			'OTTO', // OTF
+		];
+	}
+
+	#[\Override]
+	protected function getImagickFormatHint(): string {
+		return 'ttf';
+	}
 }
