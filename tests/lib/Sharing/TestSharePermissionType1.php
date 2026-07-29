@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace Test\Sharing;
 
+use NCU\Sharing\Permission\ISharePermissionType;
 use OCP\L10N\IFactory;
-use OCP\Sharing\Permission\ISharePermissionType;
 
 class TestSharePermissionType1 implements ISharePermissionType {
 	#[\Override]

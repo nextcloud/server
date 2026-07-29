@@ -10,6 +10,11 @@ declare(strict_types=1);
 namespace OC\Core\Sharing\Recipient;
 
 use Exception;
+use NCU\Sharing\Icon\ShareIconURL;
+use NCU\Sharing\ISharingManager;
+use NCU\Sharing\Recipient\AShareRecipientTypeSearchCollaborator;
+use NCU\Sharing\Recipient\ShareRecipient;
+use NCU\Sharing\ShareAccessContext;
 use OC\Core\AppInfo\Application;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -21,11 +26,6 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Share\IShare;
-use OCP\Sharing\Icon\ShareIconURL;
-use OCP\Sharing\ISharingManager;
-use OCP\Sharing\Recipient\AShareRecipientTypeSearchCollaborator;
-use OCP\Sharing\Recipient\ShareRecipient;
-use OCP\Sharing\ShareAccessContext;
 use OCP\User\Events\UserDeletedEvent;
 
 /**

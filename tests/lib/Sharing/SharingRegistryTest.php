@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace Test\Sharing;
 
+use NCU\Sharing\ISharingRegistry;
 use OCP\Server;
-use OCP\Sharing\ISharingRegistry;
 use RuntimeException;
 use Test\TestCase;
 

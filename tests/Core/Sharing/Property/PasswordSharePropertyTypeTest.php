@@ -9,6 +9,11 @@ declare(strict_types=1);
 
 namespace Tests\Core\Sharing\Property;
 
+use NCU\Sharing\Property\ShareProperty;
+use NCU\Sharing\Share;
+use NCU\Sharing\ShareAccessContext;
+use NCU\Sharing\ShareState;
+use NCU\Sharing\ShareUser;
 use OC\Core\AppInfo\Application;
 use OC\Core\AppInfo\ConfigLexicon;
 use OC\Core\Sharing\Property\PasswordSharePropertyType;
@@ -18,11 +23,6 @@ use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Security\IHasher;
 use OCP\Server;
-use OCP\Sharing\Property\ShareProperty;
-use OCP\Sharing\Share;
-use OCP\Sharing\ShareAccessContext;
-use OCP\Sharing\ShareState;
-use OCP\Sharing\ShareUser;
 use PHPUnit\Framework\Attributes\Group;
 use Test\TestCase;
 

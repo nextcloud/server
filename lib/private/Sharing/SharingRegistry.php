@@ -9,13 +9,13 @@ declare(strict_types=1);
 
 namespace OC\Sharing;
 
-use OCP\Sharing\ISharingBackend;
-use OCP\Sharing\ISharingRegistry;
-use OCP\Sharing\Permission\ISharePermissionPreset;
-use OCP\Sharing\Permission\ISharePermissionType;
-use OCP\Sharing\Property\ISharePropertyType;
-use OCP\Sharing\Recipient\IShareRecipientType;
-use OCP\Sharing\Source\IShareSourceType;
+use NCU\Sharing\ISharingBackend;
+use NCU\Sharing\ISharingRegistry;
+use NCU\Sharing\Permission\ISharePermissionPreset;
+use NCU\Sharing\Permission\ISharePermissionType;
+use NCU\Sharing\Property\ISharePropertyType;
+use NCU\Sharing\Recipient\IShareRecipientType;
+use NCU\Sharing\Source\IShareSourceType;
 use RuntimeException;
 
 // TODO: Maybe add validate method to run all checks before using the manager

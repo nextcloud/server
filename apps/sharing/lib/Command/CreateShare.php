@@ -9,11 +9,11 @@ declare(strict_types=1);
 
 namespace OCA\Sharing\Command;
 
+use NCU\Sharing\Exception\ShareInvalidException;
+use NCU\Sharing\ShareAccessContext;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Server;
-use OCP\Sharing\Exception\ShareInvalidException;
-use OCP\Sharing\ShareAccessContext;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

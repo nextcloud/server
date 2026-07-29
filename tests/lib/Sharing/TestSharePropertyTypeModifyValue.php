@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace Test\Sharing;
 
-use OCP\Sharing\Property\ISharePropertyTypeModifyValue;
-use OCP\Sharing\Share;
+use NCU\Sharing\Property\ISharePropertyTypeModifyValue;
+use NCU\Sharing\Share;
 
 final class TestSharePropertyTypeModifyValue extends TestSharePropertyType1 implements ISharePropertyTypeModifyValue {
 

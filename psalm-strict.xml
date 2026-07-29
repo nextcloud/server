@@ -45,7 +45,7 @@
 		<file name="apps/files_sharing/tests/Listener/RestrictInteractionListenerTest.php"/>
 		<file name="core/Listener/RestrictInteractionListener.php"/>
 		<file name="tests/Core/Listener/RestrictInteractionListenerTest.php"/>
-		<directory name="lib/public/Sharing"/>
+		<directory name="lib/unstable/Sharing"/>
 		<directory name="lib/private/Sharing"/>
 		<directory name="tests/lib/Sharing"/>
 		<directory name="apps/sharing"/>

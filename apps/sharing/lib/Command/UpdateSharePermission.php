@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace OCA\Sharing\Command;
 
-use OCP\Sharing\Permission\ISharePermissionType;
-use OCP\Sharing\Permission\SharePermission;
+use NCU\Sharing\Permission\ISharePermissionType;
+use NCU\Sharing\Permission\SharePermission;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

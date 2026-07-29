@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\Sharing\AppInfo;
 
+use NCU\Sharing\ISharingRegistry;
 use OCA\Sharing\Capabilities;
 use OCA\Sharing\Middleware\ShareApiEnabledMiddleware;
 use OCA\Sharing\SharingBackend;
@@ -17,7 +18,6 @@ use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Server;
-use OCP\Sharing\ISharingRegistry;
 
 final class Application extends App implements IBootstrap {
 	public const string APP_ID = 'sharing';

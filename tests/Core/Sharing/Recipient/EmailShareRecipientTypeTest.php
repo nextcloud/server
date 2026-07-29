@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace Core\Sharing\Recipient;
 
+use NCU\Sharing\Recipient\ShareRecipient;
+use NCU\Sharing\ShareAccessContext;
 use OC\Core\Sharing\Recipient\EmailShareRecipientType;
 use OC\User\Database;
 use OCA\DAV\CardDAV\CardDavBackend;
@@ -17,8 +19,6 @@ use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
-use OCP\Sharing\Recipient\ShareRecipient;
-use OCP\Sharing\ShareAccessContext;
 use PHPUnit\Framework\Attributes\Group;
 use Test\TestCase;
 

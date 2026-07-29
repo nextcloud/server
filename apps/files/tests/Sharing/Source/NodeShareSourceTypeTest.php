@@ -7,6 +7,10 @@
 
 declare(strict_types=1);
 
+use NCU\Sharing\ISharingManager;
+use NCU\Sharing\ISharingRegistry;
+use NCU\Sharing\ShareAccessContext;
+use NCU\Sharing\Source\ShareSource;
 use OC\Files\Filesystem;
 use OC\User\Database;
 use OCA\Files\Sharing\Source\NodeShareSourceType;
@@ -19,10 +23,6 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
-use OCP\Sharing\ISharingManager;
-use OCP\Sharing\ISharingRegistry;
-use OCP\Sharing\ShareAccessContext;
-use OCP\Sharing\Source\ShareSource;
 use PHPUnit\Framework\Attributes\Group;
 use Test\TestCase;
 

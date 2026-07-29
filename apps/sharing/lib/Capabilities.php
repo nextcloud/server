@@ -9,14 +9,14 @@ declare(strict_types=1);
 
 namespace OCA\Sharing;
 
+use NCU\Sharing\ISharingRegistry;
+use NCU\Sharing\Permission\ISharePermissionPreset;
+use NCU\Sharing\Source\IShareSourceType;
 use OCA\Sharing\AppInfo\Application;
 use OCP\Capabilities\ICapability;
 use OCP\L10N\IFactory;
 use OCP\Server;
 use OCP\Share\IManager;
-use OCP\Sharing\ISharingRegistry;
-use OCP\Sharing\Permission\ISharePermissionPreset;
-use OCP\Sharing\Source\IShareSourceType;
 
 /**
  * @psalm-import-type SharingSourceType from ResponseDefinitions

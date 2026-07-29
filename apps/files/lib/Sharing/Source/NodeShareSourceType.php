@@ -10,6 +10,11 @@ declare(strict_types=1);
 namespace OCA\Files\Sharing\Source;
 
 use Exception;
+use NCU\Sharing\Icon\ShareIconURL;
+use NCU\Sharing\ISharingManager;
+use NCU\Sharing\ShareAccessContext;
+use NCU\Sharing\Source\IShareSourceType;
+use NCU\Sharing\Source\ShareSource;
 use OCA\Files\AppInfo\Application;
 use OCA\Files_Trashbin\Events\MoveToTrashEvent;
 use OCP\EventDispatcher\Event;
@@ -23,11 +28,6 @@ use OCP\Interaction\InteractionResource;
 use OCP\Interaction\Resources\NodeResource;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
-use OCP\Sharing\Icon\ShareIconURL;
-use OCP\Sharing\ISharingManager;
-use OCP\Sharing\ShareAccessContext;
-use OCP\Sharing\Source\IShareSourceType;
-use OCP\Sharing\Source\ShareSource;
 
 /**
  * @template-implements IEventListener<NodeDeletedEvent|MoveToTrashEvent>

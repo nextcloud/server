@@ -9,14 +9,14 @@ declare(strict_types=1);
 
 namespace OCA\Sharing;
 
-use OCP\Sharing\Permission\ISharePermissionPreset;
-use OCP\Sharing\Permission\ISharePermissionType;
-use OCP\Sharing\Property\ISharePropertyType;
-use OCP\Sharing\Recipient\IShareRecipientType;
-use OCP\Sharing\Source\IShareSourceType;
+use NCU\Sharing\Permission\ISharePermissionPreset;
+use NCU\Sharing\Permission\ISharePermissionType;
+use NCU\Sharing\Property\ISharePropertyType;
+use NCU\Sharing\Recipient\IShareRecipientType;
+use NCU\Sharing\Source\IShareSourceType;
 
 /**
- * Keep the following types in sync with lib/public/Sharing/Share.php:
+ * Keep the following types in sync with lib/unstable/Sharing/Share.php:
  *
  * @psalm-type SharingIconSVG = array{
  *     // An SVG using the currentColor value for dynamic theming.

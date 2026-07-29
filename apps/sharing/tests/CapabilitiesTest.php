@@ -7,10 +7,10 @@
 
 declare(strict_types=1);
 
+use NCU\Sharing\ISharingRegistry;
 use OCA\Sharing\AppInfo\Application;
 use OCA\Sharing\Capabilities;
 use OCP\Server;
-use OCP\Sharing\ISharingRegistry;
 use PHPUnit\Framework\Attributes\Group;
 use Test\Sharing\TestSharePermissionPreset1;
 use Test\Sharing\TestSharePermissionPreset2;

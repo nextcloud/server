@@ -9,6 +9,15 @@ declare(strict_types=1);
 
 namespace Test\Sharing;
 
+use NCU\Sharing\ISharingManager;
+use NCU\Sharing\ISharingRegistry;
+use NCU\Sharing\Permission\SharePermission;
+use NCU\Sharing\Property\ShareProperty;
+use NCU\Sharing\Recipient\ShareRecipient;
+use NCU\Sharing\Share;
+use NCU\Sharing\ShareAccessContext;
+use NCU\Sharing\ShareState;
+use NCU\Sharing\Source\ShareSource;
 use OC\Core\Sharing\Permission\ReshareSharePermissionType;
 use OCA\Sharing\SharingBackend;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -20,15 +29,6 @@ use OCP\Interaction\RestrictInteractionEvent;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
-use OCP\Sharing\ISharingManager;
-use OCP\Sharing\ISharingRegistry;
-use OCP\Sharing\Permission\SharePermission;
-use OCP\Sharing\Property\ShareProperty;
-use OCP\Sharing\Recipient\ShareRecipient;
-use OCP\Sharing\Share;
-use OCP\Sharing\ShareAccessContext;
-use OCP\Sharing\ShareState;
-use OCP\Sharing\Source\ShareSource;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Test\TestCase;
 
