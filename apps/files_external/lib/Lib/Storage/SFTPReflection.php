@@ -32,7 +32,7 @@ trait SFTPReflection {
 	/**
 	 * Invoke a method that is private in phpseclib v3.
 	 */
-	private function invokeSftp(SFTP $sftp, string $method, array $arguments = []): mixed {
+	protected function invokeSftp(SFTP $sftp, string $method, array $arguments = []): mixed {
 		self::$sftpReflectionMethods[$method] ??= new \ReflectionMethod(SFTP::class, $method);
 		return self::$sftpReflectionMethods[$method]->invokeArgs($sftp, $arguments);
 	}
@@ -40,7 +40,7 @@ trait SFTPReflection {
 	/**
 	 * Read a property that is private/protected in phpseclib v3.
 	 */
-	private function getSftpProperty(SFTP $sftp, string $property): mixed {
+	protected function getSftpProperty(SFTP $sftp, string $property): mixed {
 		self::$sftpReflectionProperties[$property] ??= new \ReflectionProperty(SFTP::class, $property);
 		return self::$sftpReflectionProperties[$property]->getValue($sftp);
 	}
