@@ -2670,12 +2670,13 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->andWhere($query->expr()->eq('co.uid', $query->createNamedParameter($uid)))
 			->andWhere($query->expr()->eq('co.calendartype', $query->createNamedParameter(self::CALENDAR_TYPE_CALENDAR)))
 			->andWhere($query->expr()->isNull('co.deleted_at'))
-			->andWhere($query->expr()->isNull('c.deleted_at'))
-			->setMaxResults(1);
+			->andWhere($query->expr()->isNull('c.deleted_at'));
 
 		if ($calendarUri !== null) {
 			$query->andWhere($query->expr()->eq('c.uri', $query->createNamedParameter($calendarUri)));
 		}
+
+		$query->->setMaxResults(1);
 
 		$stmt = $query->executeQuery();
 		$row = $stmt->fetchAssociative();
