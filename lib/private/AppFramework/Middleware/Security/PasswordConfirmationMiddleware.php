@@ -77,11 +77,12 @@ class PasswordConfirmationMiddleware extends Middleware {
 
 		$reflectionMethod = new ReflectionMethod($controller, $methodName);
 		if ($this->isPasswordConfirmationStrict($reflectionMethod)) {
-			$authHeader = $this->request->getHeader('Authorization');
-			if (!str_starts_with(strtolower($authHeader), 'basic ')) {
+			$password = $this->request->getHeader('PHP_AUTH_PW');
+
+			if ($password === '') {
 				throw new NotConfirmedException('Required authorization header missing');
 			}
-			[, $password] = explode(':', base64_decode(substr($authHeader, 6)), 2);
+
 			$loginName = $this->session->get('loginname');
 			$loginResult = $this->userManager->checkPassword($loginName, $password);
 			if ($loginResult === false) {

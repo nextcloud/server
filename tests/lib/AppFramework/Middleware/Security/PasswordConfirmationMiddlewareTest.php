@@ -205,4 +205,34 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 
 		$this->assertSame(false, $thrown);
 	}
+
+	public function testAuthHeader(): void {
+		$this->reflector->reflect($this->controller, __FUNCTION__);
+
+		$this->user->method('getBackendClassName')
+			->willReturn('fictional_backend');
+		$this->userSession->method('getUser')
+			->willReturn($this->user);
+
+		$this->session->method('get')
+			->with('loginname')
+			->willReturn('user');
+
+		$this->request->method('getHeader')
+			->with('PHP_AUTH_PW')
+			->willReturn('password');
+
+		$this->userManager->expects($this->once())
+			->method('checkPassword')
+			->with('user', 'password');
+
+		$thrown = false;
+		try {
+			$this->middleware->beforeController($this->controller, __FUNCTION__);
+		} catch (NotConfirmedException) {
+			$thrown = true;
+		}
+
+		$this->assertSame(false, $thrown);
+	}
 }
