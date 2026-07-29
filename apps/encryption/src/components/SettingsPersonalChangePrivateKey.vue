@@ -48,8 +48,8 @@ async function onSubmit() {
 		formElement.value?.reset()
 		emit('updated')
 	} catch (error) {
-		if (isAxiosError(error) && error.response && error.response.data?.data?.message) {
-			showError(error.response.data.data.message)
+		if (isAxiosError(error) && error.response?.data?.message) {
+			showError(error.response.data.message)
 		}
 		hasError.value = true
 	} finally {
@@ -67,13 +67,17 @@ async function onSubmit() {
 				{{ t('encryption', 'If you do not remember your old password you can ask your administrator to recover your files.') }}
 			</NcNoteCard>
 
-			<NcPasswordField :label="t('encryption', 'Old log-in password')" />
-			<NcPasswordField :label="t('encryption', 'Current log-in password')" />
+			<NcPasswordField
+				v-model="oldPrivateKeyPassword"
+				:label="t('encryption', 'Old log-in password')" />
+			<NcPasswordField
+				v-model="newPrivateKeyPassword"
+				:label="t('encryption', 'Current log-in password')" />
 
 			<NcButton
 				type="submit"
 				variant="primary">
-				{{ t('encryption', 'Update') }}
+				{{ t('encryption', 'Update') /* TRANSLATORS: Button label, when clicked the password will be updated */ }}
 			</NcButton>
 		</NcFormGroup>
 	</form>
