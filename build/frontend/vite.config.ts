@@ -82,6 +82,9 @@ const modules = {
 	user_status: {
 		menu: resolve(import.meta.dirname, 'apps/user_status/src', 'menu.js'),
 	},
+	weather_status: {
+		'weather-status': resolve(import.meta.dirname, 'apps/weather_status/src', 'weather-status.js'),
+	},
 }
 
 // convert modules to modules entries prefied with the app id
