@@ -54,7 +54,11 @@ class AmazonS3 extends Common {
 
 	private bool $serverSideCopyEnabled;
 
-	/** Failure counter keyed by endpoint fingerprint. Static so sibling mounts share state within a request. */
+	/**
+	 * Keyed by endpoint fingerprint. Static because sibling mounts share state within a request.
+	 *
+	 * @psalm-suppress ImpureStaticProperty MUST persist across per-mount instances within a request.
+	 */
 	private static array $serverSideCopyFailureCounter = [];
 
 	/** Fast path MUST stay disabled for the remainder of the request after this many consecutive S3Exceptions per endpoint. */
@@ -818,7 +822,7 @@ class AmazonS3 extends Common {
 		return $size;
 	}
 
-	#[Override]
+	#[\Override]
 	public function getDirectDownload(string $path): array|false {
 		if (!$this->isUsePresignedUrl()) {
 			return false;
@@ -848,7 +852,7 @@ class AmazonS3 extends Common {
 		];
 	}
 
-	#[Override]
+	#[\Override]
 	public function getDirectDownloadById(string $fileId): array|false {
 		if (!$this->isUsePresignedUrl()) {
 			return false;
@@ -858,7 +862,7 @@ class AmazonS3 extends Common {
 		return $this->getDirectDownload($entry->getPath());
 	}
 
-	#[Override]
+	#[\Override]
 	public function copyFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath, bool $preserveMtime = false): bool {
 		if ($preserveMtime === true) {
 			return parent::copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime);
@@ -887,7 +891,7 @@ class AmazonS3 extends Common {
 		}
 	}
 
-	#[Override]
+	#[\Override]
 	public function moveFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): bool {
 		$eligibility = $this->evaluateFastPathEligibility($sourceStorage, $sourceInternalPath);
 		if ($eligibility === null) {
@@ -964,10 +968,7 @@ class AmazonS3 extends Common {
 	}
 
 	/**
-	 * Returns null when the terminal storage is not an AmazonS3. Otherwise returns the
-	 * unwrapped storage plus the Jail-translated path.
-	 *
-	 * @return array{0: self, 1: string}|null
+	 * @return array{0: self, 1: string}|null Unwrapped storage and Jail-translated path, or null when the terminal storage is not AmazonS3.
 	 */
 	private function unwrapSource(IStorage $sourceStorage, string $sourceInternalPath): ?array {
 		$current = $sourceStorage;
@@ -991,10 +992,7 @@ class AmazonS3 extends Common {
 	}
 
 	/**
-	 * Normalised endpoint identity tuple. Two AmazonS3 instances with identical fingerprints
-	 * target the same S3 endpoint under the same access-key ID.
-	 *
-	 * @return list<string>
+	 * @return list<string> Endpoint identity tuple including access-key ID so distinct credentials against the same host do not collide.
 	 */
 	private function endpointFingerprint(): array {
 		return [
@@ -1091,8 +1089,7 @@ class AmazonS3 extends Common {
 	}
 
 	/**
-	 * Delete the source after a successful server-side copy. Roll back the destination on
-	 * cleanup failure to mirror AmazonS3::rename() semantics and to let the caller retry.
+	 * Roll back the destination on cleanup failure to mirror AmazonS3::rename() semantics and let the caller retry.
 	 */
 	private function deleteSourceAfterMove(self $source, string $sourcePath, string $targetPath): bool {
 		$deleted = $source->is_dir($sourcePath) ? $source->rmdir($sourcePath) : $source->unlink($sourcePath);
