@@ -32,6 +32,7 @@ use OCA\Files\Sharing\Permission\NodeUpdateSharePermissionType;
 use OCA\Files\Sharing\Source\NodeShareSourceType;
 use OCA\Files_Sharing\Sharing\LegacyBackend;
 use OCP\Constants;
+use OCP\Federation\ICloudIdManager;
 use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
@@ -74,6 +75,7 @@ final class LegacyBackendTest extends TestCase {
 			$this->legacyManager,
 			Server::get(ISnowflakeGenerator::class),
 			Server::get(ISharingManager::class),
+			Server::get(ICloudIdManager::class),
 		);
 	}
 

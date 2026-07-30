@@ -146,14 +146,7 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(RestrictInteractionEvent::class, RestrictInteractionListener::class);
 
 		$registry = Server::get(ISharingRegistry::class);
-		$registry->registerLegacyBackend(new LegacyBackend(
-			Server::get(IFactory::class),
-			Server::get(IDBConnection::class),
-			Server::get(IRootFolder::class),
-			Server::get(IManager::class),
-			Server::get(ISnowflakeGenerator::class),
-			Server::get(ISharingManager::class),
-		));
+		$registry->registerLegacyBackend(Server::get(LegacyBackend::class));
 	}
 
 	#[\Override]
