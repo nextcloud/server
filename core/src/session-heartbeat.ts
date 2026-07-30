@@ -149,7 +149,7 @@ function registerAutoLogout() {
 		const timeout = Date.now() - (sessionLifetime ?? 86400) * 1000
 		if (lastActive < timeout) {
 			clearTimeout(intervalId)
-			logger.info('Inactivity timout reached, logging out')
+			logger.info('Inactivity timeout reached, logging out')
 			const logoutUrl = generateUrl('/logout') + '?requesttoken=' + encodeURIComponent(getRequestToken())
 			window.location.href = logoutUrl
 		}

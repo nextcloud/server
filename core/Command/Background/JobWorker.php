@@ -143,7 +143,7 @@ class JobWorker extends JobBase {
 			$job->start($this->jobList);
 			$timeSpent = microtime(true) - $startTime;
 			$jobMemoryPeak = memory_get_peak_usage();
-			// TODO Job failure will never be catched here because exceptions are catched within $job->start method
+			// TODO Job failure will never be caught here because exceptions are caught within $job->start method
 			// The error will only be visible in server logs.
 			// It should be a temporary state until a proper job runner is implemented.
 			$this->jobRuns->finished($jobRunId, (int)($timeSpent * 1000), (int)($jobMemoryPeak / 1024));

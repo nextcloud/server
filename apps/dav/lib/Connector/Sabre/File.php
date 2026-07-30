@@ -412,7 +412,7 @@ class File extends Node implements IFile {
 			return substr($path, 0, strlen($path) - strlen($filename)) . $hashedFilename;
 		} else {
 			// will place the .part file in the users root directory
-			// therefor we need to make the name (semi) unique - hash does not need to be secure but fast.
+			// therefore we need to make the name (semi) unique - hash does not need to be secure but fast.
 			return hash('xxh128', $path);
 		}
 	}

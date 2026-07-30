@@ -55,7 +55,7 @@ class CleanupOrphanedChildrenJob extends QueuedJob {
 		string $parentTable,
 		string $parentId,
 	): int {
-		// We can't merge both queries into a single one here as DELETEing from a table while
+		// We can't merge both queries into a single one here as deleting from a table while
 		// SELECTing it in a sub query is not supported by Oracle DB.
 		// Ref https://docs.oracle.com/cd/E17952_01/mysql-8.0-en/delete.html#idm46006185488144
 

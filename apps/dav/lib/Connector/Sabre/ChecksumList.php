@@ -39,7 +39,7 @@ class ChecksumList implements XmlSerializable {
 	 * The parent of the current element is responsible for writing a
 	 * containing element.
 	 *
-	 * This allows serializers to be re-used for different element names.
+	 * This allows serializers to be reused for different element names.
 	 *
 	 * If you are opening new elements, you must also close them again.
 	 *

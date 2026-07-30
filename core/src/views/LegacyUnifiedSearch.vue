@@ -332,7 +332,7 @@ export default {
 	},
 
 	mounted() {
-		// subscribe in mounted, as onNavigationChange relys on $el
+		// subscribe in mounted, as onNavigationChange relies on $el
 		subscribe('files:navigation:changed', this.onNavigationChange)
 
 		if (OCP.Accessibility.disableKeyboardShortcuts()) {
