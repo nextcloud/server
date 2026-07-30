@@ -342,8 +342,6 @@ final readonly class LegacyBackend implements ISharingLegacyBackend {
 					null,
 				),
 			);
-
-			// TODO: Support per-recipient permissions
 		}
 
 		/** @psalm-suppress ArgumentTypeCoercion */
@@ -356,7 +354,13 @@ final readonly class LegacyBackend implements ISharingLegacyBackend {
 		// TODO
 		$properties = [];
 
-		// TODO: Support per-recipient permissions
+		if (!$this->checkAllSame($legacyShares, fn (IShare $share) => $share->getAttributes())) {
+			throw new \Exception('All legacy shares sharing a share id don\'t have the same attributes');
+		}
+		if (!$this->checkAllSame($legacyShares, fn (IShare $share) => $share->getPermissions())) {
+			throw new \Exception('All legacy shares sharing a share id don\'t have the same permissions');
+		}
+
 		$allowDownload = $legacyShares[0]->getShareType() === IShare::TYPE_LINK || $legacyShares[0]->getShareType() === IShare::TYPE_EMAIL
 			? !$legacyShares[0]->getHideDownload()
 			: $legacyShares[0]->getAttributes()?->getAttribute('permissions', 'download') === true;
@@ -386,6 +390,29 @@ final readonly class LegacyBackend implements ISharingLegacyBackend {
 			$properties,
 			$permissions,
 		);
+	}
+
+	/**
+	 * Check that all items return the same result when used as argument to a function
+	 *
+	 * @template T
+	 * @param iterable<T> $items
+	 * @param callable(T):mixed $fn
+	 * @return bool
+	 */
+	private function checkAllSame(iterable $items, callable $fn): bool {
+		$first = true;
+		$commonValue = null;
+		foreach ($items as $item) {
+			$value = $fn($item);
+			if ($first) {
+				$commonValue = $value;
+				$first = false;
+			} elseif ($value !== $commonValue) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	#[\Override]
@@ -438,7 +465,6 @@ final readonly class LegacyBackend implements ISharingLegacyBackend {
 	/**
 	 * @return list<string>
 	 */
-	#[\Override]
 	public function getLegacyFullIds(string $id): array {
 		$qb = $this->connection->getQueryBuilder();
 		$result = $qb

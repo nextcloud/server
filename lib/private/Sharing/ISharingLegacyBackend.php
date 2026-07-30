@@ -61,9 +61,4 @@ interface ISharingLegacyBackend {
 	 * @return list<Share>
 	 */
 	public function getUnmappedShares(IUser $user): array;
-
-	/**
-	 * @return list<string>
-	 */
-	public function getLegacyFullIds(string $id): array;
 }
