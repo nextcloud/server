@@ -38,6 +38,25 @@ use Psr\Log\LoggerInterface;
  */
 abstract class Bitmap extends ProviderV2 {
 	/**
+	 * List of MIME types that this preview provider is allowed to process.
+	 *
+	 * These should correspond to the MIME types *identified* by Imagemagick
+	 * for files to be processed by this provider. These do / will not
+	 * necessarily need to match the MIME types stored in the database
+	 * (which are identified by IMimeTypeDetector).
+	 *
+	 * @return string Regular expression
+	 */
+	abstract protected function getAllowedMimeTypes(): string;
+
+	/**
+	 * @return list<string>
+	 */
+	abstract protected function getMagicStrings(): array;
+
+	abstract protected function getImagickFormatHint(): string;
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
@@ -86,18 +105,47 @@ abstract class Bitmap extends ProviderV2 {
 	 * @param int $maxY
 	 *
 	 * @return \Imagick
+	 *
+	 * @throws \Exception
 	 */
 	private function getResizedPreview($tmpPath, $maxX, $maxY) {
 		$bp = new Imagick();
 
+		if (!$this->isMagicStringSupported($tmpPath)) {
+			throw new \Exception('Invalid image type: magic string not recognized');
+		}
+
+		// Validate mime type
+		$bp->pingImage($this->getImagickFormatHint() . ':' . $tmpPath . '[0]');
+		$mimeType = $bp->getImageMimeType();
+		if (!preg_match($this->getAllowedMimeTypes(), $mimeType)) {
+			throw new \Exception('File mime type does not match the preview provider: ' . $mimeType);
+		}
+
 		// Layer 0 contains either the bitmap or a flat representation of all vector layers
-		$bp->readImage($tmpPath . '[0]');
+		$bp->readImage($this->getImagickFormatHint() . ':' . $tmpPath . '[0]');
 
 		$bp = $this->resize($bp, $maxX, $maxY);
 
 		$bp->setImageFormat('png');
 
 		return $bp;
+	}
+
+	private function isMagicStringSupported(string $filepath): bool {
+		$signatures = $this->getMagicStrings();
+		if (empty($signatures)) {
+			return true;
+		}
+		$length = array_reduce($signatures, static fn (int $carry, string $signature) => max($carry, strlen($signature)), 0);
+		$firstBytes = file_get_contents($filepath, false, null, 0, $length);
+		foreach ($signatures as $signature) {
+			if (str_starts_with($firstBytes, $signature)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
