@@ -27,7 +27,7 @@ test('dashboard: only loads the data of enabled widgets', async ({ page, user })
 
 	const loaded = page.waitForResponse((r) => WIDGET_ITEMS_API.test(r.url()))
 	await page.goto('apps/dashboard')
-	await expect(page.getByRole('heading', { name: /Good (morning|afternoon|evening|night)/ })).toBeVisible()
+	await expect(page.getByRole('heading', { name: /(Good (morning|afternoon|evening)|Hello)/ })).toBeVisible()
 	await loaded
 
 	// Give any further (unwanted) widget request time to be fired …
