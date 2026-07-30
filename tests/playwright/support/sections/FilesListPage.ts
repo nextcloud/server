@@ -25,9 +25,11 @@ export class FilesListPage {
 		return this.page.locator('[data-cy-files-list]')
 	}
 
-	/** Wait for the file list container to be rendered (e.g. after a direct goto). */
+	/**
+	 * Wait for the file list container to be rendered (e.g. after a direct goto).
+	 */
 	async waitForList(): Promise<void> {
-		await this.getFilesList().waitFor({ state: 'visible' })
+		await this.getFilesList().waitFor({ state: 'visible', timeout: 20_000 })
 	}
 
 	/**
@@ -176,6 +178,8 @@ export class FilesListPage {
 	 * row Locator so it serves both name- and fileid-addressed rows.
 	 */
 	private async openActionsMenuForRow(row: Locator): Promise<Locator> {
+		await expect(row).toBeVisible({ timeout: 15_000 })
+
 		await row.hover()
 
 		const actionsButton = row.getByRole('button', { name: 'Actions' })
@@ -431,7 +435,9 @@ export class FilesListPage {
 			// the row's buttons by the folder name is ambiguous for shared folders,
 			// whose row also carries a "Shared by …" action button that can contain
 			// the same text.
-			await this.getRowNameLinkForFile(directory).click()
+			const link = this.getRowNameLinkForFile(directory)
+			await expect(link).toBeVisible()
+			await link.click()
 
 			// Assert the deepest segment of the `dir` query param matches the folder
 			// we just opened. Comparing the decoded value (URLSearchParams decodes

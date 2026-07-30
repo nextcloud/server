@@ -25,6 +25,11 @@ test.describe('files_sharing: Sharing limited to members of the same group', () 
 
 	test.beforeAll(async () => {
 		await runOcc(['config:app:set', '--value', 'yes', 'core', 'shareapi_only_share_with_group_members'])
+		// The groups are shared by both tests, so create them once here rather than
+		// spending two container round-trips inside every test's own timeout.
+		for (const group of groups) {
+			await runOcc(['group:add', group], { failOnError: false })
+		}
 	})
 
 	test.afterAll(async () => {
@@ -33,36 +38,6 @@ test.describe('files_sharing: Sharing limited to members of the same group', () 
 			await runOcc(['group:delete', group], { failOnError: false })
 		}
 	})
-
-	/**
-	 * Put both accounts in two shared groups, then share a file each way.
-	 *
-	 * @returns the file names, `fromUser` shared by `user`, `fromRecipient` by `recipient`
-	 */
-	async function seedMutualShares(
-		user: User,
-		recipient: User,
-		userRequest: Parameters<typeof createShare>[0],
-		recipientRequest: Parameters<typeof createShare>[0],
-	): Promise<{ fromUser: string, fromRecipient: string }> {
-		for (const group of groups) {
-			await runOcc(['group:add', group], { failOnError: false })
-			await runOcc(['group:adduser', group, user.userId])
-			await runOcc(['group:adduser', group, recipient.userId])
-		}
-
-		const fromUser = 'shared-by-user.txt'
-		const fromRecipient = 'shared-by-recipient.txt'
-		await uploadContent(userRequest, user, 'share to recipient', 'text/plain', `/${fromUser}`)
-		await uploadContent(recipientRequest, recipient, 'share to user', 'text/plain', `/${fromRecipient}`)
-		await createShare(userRequest, `/${fromUser}`, recipient.userId)
-		await createShare(recipientRequest, `/${fromRecipient}`, user.userId)
-
-		await waitForShare(recipientRequest, recipient, '', fromUser)
-		await waitForShare(userRequest, user, '', fromRecipient)
-
-		return { fromUser, fromRecipient }
-	}
 
 	test('keeps the shares while one common group is left', async ({ page, user, recipient, recipientRequest, filesListPage }) => {
 		const { fromUser, fromRecipient } = await seedMutualShares(user, recipient, page.request, recipientRequest)
@@ -92,4 +67,33 @@ test.describe('files_sharing: Sharing limited to members of the same group', () 
 		await filesListPage.open()
 		await expect(filesListPage.getRowForFile(fromUser)).toHaveCount(0)
 	})
+
+	/**
+	 * Put both accounts in two shared groups, then share a file each way.
+	 *
+	 * @returns the file names, `fromUser` shared by `user`, `fromRecipient` by `recipient`
+	 */
+	async function seedMutualShares(
+		user: User,
+		recipient: User,
+		userRequest: Parameters<typeof createShare>[0],
+		recipientRequest: Parameters<typeof createShare>[0],
+	): Promise<{ fromUser: string, fromRecipient: string }> {
+		for (const group of groups) {
+			await runOcc(['group:adduser', group, user.userId])
+			await runOcc(['group:adduser', group, recipient.userId])
+		}
+
+		const fromUser = 'shared-by-user.txt'
+		const fromRecipient = 'shared-by-recipient.txt'
+		await uploadContent(userRequest, user, 'share to recipient', 'text/plain', `/${fromUser}`)
+		await uploadContent(recipientRequest, recipient, 'share to user', 'text/plain', `/${fromRecipient}`)
+		await createShare(userRequest, `/${fromUser}`, recipient.userId)
+		await createShare(recipientRequest, `/${fromRecipient}`, user.userId)
+
+		await waitForShare(recipientRequest, recipient, '', fromUser)
+		await waitForShare(userRequest, user, '', fromRecipient)
+
+		return { fromUser, fromRecipient }
+	}
 })
