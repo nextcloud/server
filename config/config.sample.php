@@ -2815,6 +2815,16 @@ $CONFIG = [
 	'filelocking.debug' => false,
 
 	/**
+	 * Serialize concurrent WebDAV MOVE and COPY on the same source or destination
+	 * path. When ``true``, the server MUST reject a conflicting concurrent
+	 * operation with HTTP 423 Locked. Concurrent COPY from one source to
+	 * different destinations remains allowed.
+	 *
+	 * Defaults to ``false``
+	 */
+	'dav.serialize_move_copy' => false,
+
+	/**
 	 * Disable the web-based updater.
 	 *
 	 * Defaults to ``false``
