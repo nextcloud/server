@@ -48,6 +48,9 @@ test.describe('Header: unified search keyboard navigation', () => {
 	test('typing auto-selects the first result', async ({ page }) => {
 		const search = new UnifiedSearchPage(page)
 		await search.input().fill(TOKEN)
+		// A row rendering is not enough: a provider settling later re-renders the
+		// list and re-establishes the selection, so read it only once it is final.
+		await search.waitForSettledResults()
 
 		const firstOption = search.options().first()
 		await expect(firstOption).toBeVisible()
@@ -60,37 +63,43 @@ test.describe('Header: unified search keyboard navigation', () => {
 	test('arrow keys move the selection while focus stays in the input', async ({ page }) => {
 		const search = new UnifiedSearchPage(page)
 		await search.input().fill(TOKEN)
+		await search.waitForSettledResults()
 		// Need at least two rows to have somewhere to move to.
 		await expect(search.options().nth(1)).toBeVisible()
-		await expect(search.input()).toHaveAttribute('aria-activedescendant', /\w/)
 
-		const firstId = await search.input().getAttribute('aria-activedescendant')
+		const firstId = await search.activeOptionId()
 
 		await page.keyboard.press('ArrowDown')
 		// Selection advanced to another row and the input never lost focus.
-		await expect(search.input()).not.toHaveAttribute('aria-activedescendant', firstId!)
+		await expect(search.input()).not.toHaveAttribute('aria-activedescendant', firstId)
 		await expect(search.input()).toBeFocused()
 
 		await page.keyboard.press('ArrowUp')
-		await expect(search.input()).toHaveAttribute('aria-activedescendant', firstId!)
+		await expect(search.input()).toHaveAttribute('aria-activedescendant', firstId)
 		await expect(search.input()).toBeFocused()
 	})
 
 	test('Enter opens the selected result', async ({ page }) => {
 		const search = new UnifiedSearchPage(page)
 		await search.input().fill(TOKEN)
-		await expect(search.options().first()).toBeVisible()
+		// Enter activates whatever is selected *at that moment* and does nothing at
+		// all when the list is mid-flight (no selection), so the search has to have
+		// settled before the key is pressed.
+		await search.waitForSettledResults()
 
-		const activeId = await search.input().getAttribute('aria-activedescendant')
+		const activeId = await search.activeOptionId()
 		// The row is an NcListItem link to the file's short URL (/f/<id>), which the
 		// server redirects into the Files viewer. Grab the id and assert we land on it.
-		const href = await search.option(activeId!).getByRole('link').getAttribute('href')
+		const href = await search.option(activeId).getByRole('link').getAttribute('href')
 		const fileId = href?.match(/\/f\/(\d+)/)?.[1]
 		expect(fileId).toBeTruthy()
 
+		// Arm the wait before the key press: the URL is only reached after a
+		// server-side redirect, which outlives the default assertion timeout on a
+		// loaded CI machine.
+		const opened = page.waitForURL(new RegExp(`/files/${fileId}(?:[/?]|$)`), { timeout: 15_000 })
 		await page.keyboard.press('Enter')
-
-		await expect(page).toHaveURL(new RegExp(`/files/${fileId}(?:[/?]|$)`))
+		await opened
 	})
 
 	test('Escape closes the open results popover', async ({ page }) => {
