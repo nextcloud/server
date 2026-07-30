@@ -1,4 +1,3 @@
-/* eslint-disable @nextcloud/no-deprecated-globals */
 /*!
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -10,7 +9,6 @@ import moment from 'moment'
 import _ from 'underscore'
 import { initCore } from './init.js'
 import OC from './OC/index.js'
-import { getRequestToken } from './OC/requesttoken.ts'
 import OCA from './OCA/index.js'
 import OCP from './OCP/index.js'
 
@@ -55,15 +53,6 @@ setDeprecatedProp('moment', () => moment, 'please ship your own, this will be re
 
 window.OC = OC
 setDeprecatedProp('initCore', () => initCore, 'this is an internal function')
-setDeprecatedProp('oc_appswebroots', () => OC.appswebroots, 'use OC.appswebroots instead, this will be removed in Nextcloud 20')
-setDeprecatedProp('oc_config', () => OC.config, 'use OC.config instead, this will be removed in Nextcloud 20')
-setDeprecatedProp('oc_current_user', () => OC.getCurrentUser().uid, 'use OC.getCurrentUser().uid instead, this will be removed in Nextcloud 20')
-setDeprecatedProp('oc_debug', () => OC.debug, 'use OC.debug instead, this will be removed in Nextcloud 20')
-setDeprecatedProp('oc_defaults', () => OC.theme, 'use OC.theme instead, this will be removed in Nextcloud 20')
-setDeprecatedProp('oc_isadmin', OC.isUserAdmin, 'use OC.isUserAdmin() instead, this will be removed in Nextcloud 20')
-setDeprecatedProp('oc_requesttoken', () => getRequestToken(), 'use OC.requestToken instead, this will be removed in Nextcloud 20')
-setDeprecatedProp('oc_webroot', () => OC.webroot, 'use OC.getRootPath() instead, this will be removed in Nextcloud 20')
-setDeprecatedProp('OCDialogs', () => OC.dialogs, 'use OC.dialogs instead, this will be removed in Nextcloud 20')
 window.OCP = OCP
 window.OCA = OCA
 
