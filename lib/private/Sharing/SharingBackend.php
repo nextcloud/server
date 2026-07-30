@@ -37,6 +37,7 @@ use OCP\IL10N;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
+use Psr\Clock\ClockInterface;
 use RuntimeException;
 
 /**
@@ -53,12 +54,13 @@ final readonly class SharingBackend implements ISharingBackend {
 		private ISharingRegistry $registry,
 		private IEventDispatcher $eventDispatcher,
 		private ClassMapper $classMapper,
+		private ClockInterface $clock,
 	) {
 		$this->l10n = $factory->get('sharing');
 	}
 
 	#[\Override]
-	public function createShare(string $id, ShareUser $owner, int $lastUpdated): void {
+	public function createShare(string $id, ShareUser $owner, \DateTimeImmutable $lastUpdated): void {
 		$qb = $this->connection->getQueryBuilder();
 		$qb
 			->insert('sharing_share')
@@ -66,7 +68,7 @@ final readonly class SharingBackend implements ISharingBackend {
 				'id' => $qb->createNamedParameter($id),
 				'owner_user_id' => $qb->createNamedParameter($owner->userId),
 				'owner_instance' => $qb->createNamedParameter($owner->instance),
-				'last_updated' => $qb->createNamedParameter($lastUpdated),
+				'last_updated' => $qb->createNamedParameter(SharingManager::timeToMs($lastUpdated)),
 				'state' => $qb->createNamedParameter(ShareState::Draft->value),
 			])
 			->executeStatement();
@@ -534,13 +536,13 @@ final readonly class SharingBackend implements ISharingBackend {
 	 * @param non-empty-list<string> $ids
 	 */
 	#[\Override]
-	public function setLastUpdated(array $ids, int $lastUpdated): void {
+	public function setLastUpdated(array $ids, \DateTimeImmutable $lastUpdated): void {
 		foreach (array_chunk($ids, 1000) as $chunk) {
 			$qb = $this->connection->getQueryBuilder();
 
 			$rowCount = $qb
 				->update('sharing_share')
-				->set('last_updated', $qb->createNamedParameter($lastUpdated, IQueryBuilder::PARAM_INT))
+				->set('last_updated', $qb->createNamedParameter(SharingManager::timeToMs($lastUpdated), IQueryBuilder::PARAM_INT))
 				->where($qb->expr()->in('id', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY)))
 				->executeStatement();
 			if ($rowCount !== count($chunk)) {
@@ -955,7 +957,7 @@ final readonly class SharingBackend implements ISharingBackend {
 		$shares = array_map(static fn (array $share): Share => new Share(
 			$share['id'],
 			$share['owner'],
-			$share['last_updated'],
+			new \DateTimeImmutable('@' . $share['last_updated'] / 1000), // timestamp is stored in milliseconds
 			$share['state'],
 			$share['sources'],
 			$share['recipients'],
@@ -1016,20 +1018,11 @@ final readonly class SharingBackend implements ISharingBackend {
 		return array_values($shares);
 	}
 
-	public function generateTimestamp(): int {
-		$time = (int)(microtime(true) * 1000.0);
-		if ($time < 0) {
-			throw new RuntimeException('Have you invented time travel?');
-		}
-
-		return $time;
-	}
-
 	/**
 	 * @param class-string<ISharePropertyType> $propertyTypeClass
 	 */
 	public function createSharePropertyDefaultValue(Share $share, string $propertyTypeClass): Share {
-		$timestamp = $this->generateTimestamp();
+		$timestamp = $this->clock->now();
 		$this->setLastUpdated([$share->id], $timestamp);
 
 		if (($propertyType = $this->registry->getPropertyTypes()[$propertyTypeClass] ?? null) === null) {
@@ -1061,7 +1054,7 @@ final readonly class SharingBackend implements ISharingBackend {
 	 * @param class-string<ISharePermissionType> $permissionTypeClass
 	 */
 	public function createSharePermissionDefaultValue(Share $share, string $permissionTypeClass): Share {
-		$timestamp = $this->generateTimestamp();
+		$timestamp = $this->clock->now();
 		$this->setLastUpdated([$share->id], $timestamp);
 
 		if (($permissionType = $this->registry->getPermissionTypes()[$permissionTypeClass] ?? null) === null) {

@@ -42,6 +42,7 @@ use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
 use OCP\Snowflake\ISnowflakeGenerator;
 use OCP\User\Events\BeforeUserDeletedEvent;
+use Psr\Clock\ClockInterface;
 use Random\Randomizer;
 use RuntimeException;
 
@@ -68,6 +69,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		private IDBConnection $dbConnection,
 		private ISharingRegistry $registry,
 		private ISharingBackend $backend,
+		private ClockInterface $clock,
 	) {
 		$this->randomizer = new Randomizer();
 		$this->l10n = $l10nFactory->get('sharing');
@@ -130,13 +132,8 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 	}
 
 	#[\Override]
-	public function generateTimestamp(): int {
-		$time = (int)(microtime(true) * 1000.0);
-		if ($time < 0) {
-			throw new RuntimeException('Have you invented time travel?');
-		}
-
-		return $time;
+	public function getTime(): \DateTimeImmutable {
+		return $this->clock->now();
 	}
 
 	#[\Override]
@@ -148,7 +145,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		$this->assertInTransaction();
 
 		$id = $this->snowflakeGenerator->nextId();
-		$lastUpdated = $this->generateTimestamp();
+		$lastUpdated = $this->getTime();
 		$this->backend->createShare($id, new ShareUser($currentUser->getUID(), null), $lastUpdated);
 
 		$this->processShareUpdates([$id]);
@@ -180,7 +177,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 	public function updateShareState(ShareAccessContext $accessContext, string $id, ShareState $state): void {
 		$this->assertInTransaction();
 
-		$this->backend->setLastUpdated([$id], $this->generateTimestamp());
+		$this->backend->setLastUpdated([$id], $this->getTime());
 
 		$owner = $this->backend->getShareOwner($id);
 		$this->validateShareOwnerOperation($accessContext, $owner);
@@ -199,7 +196,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 	public function addShareSource(ShareAccessContext $accessContext, string $id, ShareSource $source): void {
 		$this->assertInTransaction();
 
-		$this->backend->setLastUpdated([$id], $this->generateTimestamp());
+		$this->backend->setLastUpdated([$id], $this->getTime());
 
 		$owner = $this->backend->getShareOwner($id);
 		$this->validateShareOwnerOperation($accessContext, $owner);
@@ -240,7 +237,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 	public function removeShareSource(ShareAccessContext $accessContext, string $id, ShareSource $source): void {
 		$this->assertInTransaction();
 
-		$this->backend->setLastUpdated([$id], $this->generateTimestamp());
+		$this->backend->setLastUpdated([$id], $this->getTime());
 
 		$owner = $this->backend->getShareOwner($id);
 		$this->validateShareOwnerOperation($accessContext, $owner);
@@ -258,7 +255,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 
 		$this->assertInTransaction();
 
-		$timestamp = $this->generateTimestamp();
+		$timestamp = $this->getTime();
 
 		$updatedIds = $this->backend->onSourceDeleted($source);
 		if ($updatedIds === []) {
@@ -278,7 +275,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 
 		$this->assertInTransaction();
 
-		$this->backend->setLastUpdated([$id], $this->generateTimestamp());
+		$this->backend->setLastUpdated([$id], $this->getTime());
 
 		$owner = $this->backend->getShareOwner($id);
 
@@ -341,7 +338,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 
 		$this->assertInTransaction();
 
-		$this->backend->setLastUpdated([$id], $this->generateTimestamp());
+		$this->backend->setLastUpdated([$id], $this->getTime());
 
 		$owner = $this->backend->getShareOwner($id);
 
@@ -366,7 +363,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 
 		$this->assertInTransaction();
 
-		$timestamp = $this->generateTimestamp();
+		$timestamp = $this->getTime();
 
 		$updatedIds = $this->backend->onRecipientDeleted($recipient);
 		if ($updatedIds === []) {
@@ -386,7 +383,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 
 		$this->assertInTransaction();
 
-		$timestamp = $this->generateTimestamp();
+		$timestamp = $this->getTime();
 
 		$updatedIds = $this->backend->onInitiatorDeleted($initiator);
 		if ($updatedIds === []) {
@@ -402,7 +399,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 	public function updateShareRecipientSecret(ShareAccessContext $accessContext, string $id, ShareRecipient $recipient, string $secret): void {
 		$this->assertInTransaction();
 
-		$this->backend->setLastUpdated([$id], $this->generateTimestamp());
+		$this->backend->setLastUpdated([$id], $this->getTime());
 
 		$owner = $this->backend->getShareOwner($id);
 
@@ -434,7 +431,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 	public function updateShareProperty(ShareAccessContext $accessContext, string $id, ShareProperty $property): void {
 		$this->assertInTransaction();
 
-		$this->backend->setLastUpdated([$id], $this->generateTimestamp());
+		$this->backend->setLastUpdated([$id], $this->getTime());
 
 		$owner = $this->backend->getShareOwner($id);
 		$this->validateShareOwnerOperation($accessContext, $owner);
@@ -459,7 +456,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 	public function updateSharePermission(ShareAccessContext $accessContext, string $id, SharePermission $permission): void {
 		$this->assertInTransaction();
 
-		$this->backend->setLastUpdated([$id], $this->generateTimestamp());
+		$this->backend->setLastUpdated([$id], $this->getTime());
 
 		$owner = $this->backend->getShareOwner($id);
 		$this->validateShareOwnerOperation($accessContext, $owner);
@@ -496,7 +493,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 	public function selectSharePermissionPreset(ShareAccessContext $accessContext, string $id, string $permissionPresetClass): void {
 		$this->assertInTransaction();
 
-		$this->backend->setLastUpdated([$id], $this->generateTimestamp());
+		$this->backend->setLastUpdated([$id], $this->getTime());
 
 		$owner = $this->backend->getShareOwner($id);
 		$this->validateShareOwnerOperation($accessContext, $owner);
@@ -752,5 +749,18 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		}
 
 		return $shares;
+	}
+
+	/**
+	 * @return non-negative-int
+	 */
+	public static function timeToMs(\DateTimeImmutable $time): int {
+		$micros = method_exists($time, 'getMicrosecond') ? $time->getMicrosecond() : (int)$time->format('u');
+
+		$time = $time->getTimestamp() * 1000 + (int)floor($micros / 1000);
+		if ($time > 0) {
+			return $time;
+		}
+		throw new \RuntimeException('invalid date-time');
 	}
 }
