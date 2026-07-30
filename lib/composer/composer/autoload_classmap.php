@@ -1083,7 +1083,6 @@ return array(
     'OCP\\User\\Backend\\IGetDisplayNameBackend' => $baseDir . '/lib/public/User/Backend/IGetDisplayNameBackend.php',
     'OCP\\User\\Backend\\IGetHomeBackend' => $baseDir . '/lib/public/User/Backend/IGetHomeBackend.php',
     'OCP\\User\\Backend\\IGetRealUIDBackend' => $baseDir . '/lib/public/User/Backend/IGetRealUIDBackend.php',
-    'OCP\\User\\Backend\\IGlobalScaleExtraDataBackend' => $baseDir . '/lib/public/User/Backend/IGlobalScaleExtraDataBackend.php',
     'OCP\\User\\Backend\\ILimitAwareCountUsersBackend' => $baseDir . '/lib/public/User/Backend/ILimitAwareCountUsersBackend.php',
     'OCP\\User\\Backend\\IPasswordConfirmationBackend' => $baseDir . '/lib/public/User/Backend/IPasswordConfirmationBackend.php',
     'OCP\\User\\Backend\\IPasswordHashBackend' => $baseDir . '/lib/public/User/Backend/IPasswordHashBackend.php',
