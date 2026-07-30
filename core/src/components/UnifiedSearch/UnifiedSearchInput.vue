@@ -23,7 +23,8 @@
 			class="unified-search-input__field"
 			:class="{ 'unified-search-input__field--active': isActive }"
 			@focusin="isFocused = true"
-			@focusout="onFocusOut">
+			@focusout="onFocusOut"
+			@mousedown="onMouseDown">
 			<!-- Decorative overlay: magnifier + placeholder painted over the input
 				(clicks fall through), sliding to the leading edge on focus. -->
 			<div
@@ -176,6 +177,19 @@ function onFocusOut(event: FocusEvent) {
 }
 
 /**
+ * Keep focus put when a trailing control is pressed: Safari does not focus buttons on
+ * mousedown, so the field would read the null-relatedTarget focusout as a real blur and
+ * unmount the button before its click landed. Excludes the input so the caret still moves.
+ *
+ * @param event The mousedown event
+ */
+function onMouseDown(event: MouseEvent) {
+	if (event.target !== inputRef.value) {
+		event.preventDefault()
+	}
+}
+
+/**
  * Relay the typed value upward.
  *
  * @param event The input event
@@ -205,8 +219,8 @@ function clearOrClose() {
 		inputRef.value?.focus()
 		return
 	}
-	// Empty field: dismiss. Focus is on the X (inside the field), so blur it; the
-	// field's focusout then clears isFocused. Let the parent close the popover.
+	// Empty field: dismiss. Focus is inside the field (the input for a click, the X when
+	// tabbed to), so blur whatever holds it; the focusout then clears isFocused.
 	const focused = document.activeElement as HTMLElement | null
 	focused?.blur()
 	emit('close')

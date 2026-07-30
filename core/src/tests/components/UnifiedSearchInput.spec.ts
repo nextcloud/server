@@ -40,6 +40,16 @@ function dispatchKey(wrapper: ReturnType<typeof factory>, key: string, init: Key
 	return prevented
 }
 
+/**
+ * Dispatch a real mousedown and return the event, so the caller can check whether the
+ * default focus shift was prevented.
+ */
+function dispatchMouseDown(target: Element) {
+	const event = new MouseEvent('mousedown', { bubbles: true, cancelable: true })
+	target.dispatchEvent(event)
+	return event
+}
+
 // The field wraps the input and its trailing controls; focus is tracked here.
 async function focusField(wrapper) {
 	await wrapper.find('.unified-search-input__field').trigger('focusin')
@@ -289,6 +299,23 @@ describe('UnifiedSearchInput trailing controls', () => {
 		await wrapper.find('.unified-search-input__field').trigger('focusout', { relatedTarget: funnelEl })
 		expect(byLabel(wrapper, 'Filters')).toBeTruthy()
 		expect(byLabel(wrapper, 'Close search')).toBeTruthy()
+	})
+
+	// Safari does not focus buttons on mousedown, so the field would read the resulting
+	// null-relatedTarget focusout as a real blur and unmount the control before its click.
+	it('keeps focus put when a trailing control is pressed', async () => {
+		const wrapper = factory()
+		await focusField(wrapper)
+
+		expect(dispatchMouseDown(byLabel(wrapper, 'Filters')!.element).defaultPrevented).toBe(true)
+		expect(dispatchMouseDown(byLabel(wrapper, 'Close search')!.element).defaultPrevented).toBe(true)
+	})
+
+	it('lets a press on the text field through so the caret still moves', async () => {
+		const wrapper = factory()
+		await focusField(wrapper)
+
+		expect(dispatchMouseDown(wrapper.find('input').element).defaultPrevented).toBe(false)
 	})
 
 	// The funnel must refocus the input before opening filters: revealing them unmounts
