@@ -94,6 +94,7 @@ OC.L10N.register(
     "Share with others" : "Võib jagada teistega",
     "Can view" : "Võib vaadata",
     "Expiration date" : "Aegumise kuupäev",
+    "Your administrator has enforced a %d days expiration policy." : "Sinu serveri peakasutaja on kehtestanud salasõnade %d-päevase aegumise reegli.",
     "Label" : "Silt",
     "Note to recipients" : "Teade saajale",
     "Password" : "Salasõna",
