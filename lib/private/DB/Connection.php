@@ -160,7 +160,7 @@ class Connection extends PrimaryReadReplicaConnection {
 			$status = parent::connect();
 			$eventLogger->end('connect:db');
 
-			$this->lastConnectionCheck[$this->getConnectionName()] = time();
+			$this->refreshLastConnectionCheck();
 
 			return $status;
 		} catch (Exception $e) {
@@ -794,11 +794,22 @@ class Connection extends PrimaryReadReplicaConnection {
 
 		try {
 			$this->_conn->query($this->getDriver()->getDatabasePlatform()->getDummySelectSQL());
-			$this->lastConnectionCheck[$this->getConnectionName()] = time();
+			$this->refreshLastConnectionCheck();
 		} catch (ConnectionLost|\Exception $e) {
 			$this->logger->warning('Exception during connectivity check, closing and reconnecting', ['exception' => $e]);
 			$this->close();
 		}
+	}
+
+	/**
+	 * A successful round trip proves the connection is alive: pushing the idle
+	 * timer forward keeps the connectivity probe of reconnectIfNeeded() from
+	 * firing between adjacent operations, where its query would reset the
+	 * driver level last insert id on MySQL. Invoked for every driver level
+	 * execution via the ConnectionActivityMiddleware.
+	 */
+	private function refreshLastConnectionCheck(): void {
+		$this->lastConnectionCheck[$this->getConnectionName()] = time();
 	}
 
 	private function getConnectionName(): string {
