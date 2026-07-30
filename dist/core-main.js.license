@@ -13,7 +13,6 @@ SPDX-FileCopyrightText: inherits developers
 SPDX-FileCopyrightText: hookable developers
 SPDX-FileCopyrightText: escape-html developers
 SPDX-FileCopyrightText: debounce developers
-SPDX-FileCopyrightText: clipboard developers
 SPDX-FileCopyrightText: atomiks
 SPDX-FileCopyrightText: Varun A P
 SPDX-FileCopyrightText: Tobias Koppers @sokra
@@ -37,7 +36,6 @@ SPDX-FileCopyrightText: Irakli Gozalishvili <rfobic@gmail.com> (http://jeditoolk
 SPDX-FileCopyrightText: Guillaume Chau <guillaume.b.chau@gmail.com>
 SPDX-FileCopyrightText: GitHub Inc.
 SPDX-FileCopyrightText: Feross Aboukhadijeh
-SPDX-FileCopyrightText: Evert Pot
 SPDX-FileCopyrightText: Evan You
 SPDX-FileCopyrightText: Eugene Sharygin <eush77@gmail.com>
 SPDX-FileCopyrightText: Eric Norris (https://github.com/ericnorris)
@@ -220,9 +218,6 @@ This file is generated from multiple sources. Included packages:
 - charenc
 	- version: 0.0.2
 	- license: BSD-3-Clause
-- clipboard
-	- version: 2.0.11
-	- license: MIT
 - core-js
 	- version: 3.49.0
 	- license: MIT
@@ -232,9 +227,6 @@ This file is generated from multiple sources. Included packages:
 - css-loader
 	- version: 7.1.2
 	- license: MIT
-- davclient.js
-	- version: 0.2.1
-	- license: BSD-3-Clause
 - debounce
 	- version: 3.0.0
 	- license: MIT
