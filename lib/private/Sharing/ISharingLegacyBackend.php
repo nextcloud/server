@@ -63,6 +63,8 @@ interface ISharingLegacyBackend {
 	public function getUnmappedShares(IUser $user): array;
 
 	/**
+	 * Get the legacy share ids belonging to a unified share id
+	 *
 	 * @return list<string>
 	 */
 	public function getLegacyFullIds(string $id): array;

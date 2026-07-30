@@ -48,6 +48,7 @@ use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\L10N\IFactory;
 use OCP\Share\Exceptions\ShareNotFound;
+use OCP\Share\IAttributes;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 use OCP\Snowflake\ISnowflakeGenerator;
@@ -344,8 +345,6 @@ final readonly class LegacyBackend implements ISharingLegacyBackend {
 					null,
 				),
 			);
-
-			// TODO: Support per-recipient permissions
 		}
 
 		/** @psalm-suppress ArgumentTypeCoercion */
@@ -358,7 +357,14 @@ final readonly class LegacyBackend implements ISharingLegacyBackend {
 		// TODO
 		$properties = [];
 
-		// TODO: Support per-recipient permissions
+		if (!$this->checkAllSame($legacyShares, fn (IShare $share): ?IAttributes => $share->getAttributes())) {
+			throw new \Exception("All legacy shares sharing a share id don't have the same attributes");
+		}
+
+		if (!$this->checkAllSame($legacyShares, fn (IShare $share) => $share->getPermissions())) {
+			throw new \Exception("All legacy shares sharing a share id don't have the same permissions");
+		}
+
 		$allowDownload = $legacyShares[0]->getShareType() === IShare::TYPE_LINK || $legacyShares[0]->getShareType() === IShare::TYPE_EMAIL
 			? !$legacyShares[0]->getHideDownload()
 			: $legacyShares[0]->getAttributes()?->getAttribute('permissions', 'download') === true;
@@ -390,6 +396,31 @@ final readonly class LegacyBackend implements ISharingLegacyBackend {
 			$properties,
 			$permissions,
 		);
+	}
+
+	/**
+	 * Check that all items return the same result when used as argument to a function
+	 *
+	 * @template T
+	 * @param iterable<T> $items
+	 * @param callable(T):mixed $fn
+	 */
+	private function checkAllSame(iterable $items, callable $fn): bool {
+		$first = true;
+		$commonValue = null;
+		foreach ($items as $item) {
+			/** @psalm-suppress MixedAssignment */
+			$value = $fn($item);
+			if ($first) {
+				/** @psalm-suppress MixedAssignment */
+				$commonValue = $value;
+				$first = false;
+			} elseif ($value !== $commonValue) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	#[\Override]
