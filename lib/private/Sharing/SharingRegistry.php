@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace OC\Sharing;
 
-use NCU\Sharing\ISharingBackend;
 use NCU\Sharing\ISharingRegistry;
 use NCU\Sharing\Permission\ISharePermissionPreset;
 use NCU\Sharing\Permission\ISharePermissionType;
@@ -20,10 +19,7 @@ use RuntimeException;
 
 // TODO: Maybe add validate method to run all checks before using the manager
 final class SharingRegistry implements ISharingRegistry {
-	/**
-	 * @var array<class-string<ISharingBackend>, ISharingBackend>
-	 */
-	private array $backends = [];
+	private ?ISharingLegacyBackend $legacyBackend = null;
 
 	/** @var array<class-string<IShareSourceType>, IShareSourceType> */
 	private array $sourceTypes = [];
@@ -63,7 +59,7 @@ final class SharingRegistry implements ISharingRegistry {
 
 	#[\Override]
 	public function clear(): void {
-		$this->backends = [];
+		$this->legacyBackend = null;
 		$this->sourceTypes = [];
 		$this->recipientTypes = [];
 		$this->propertyTypes = [];
@@ -79,22 +75,17 @@ final class SharingRegistry implements ISharingRegistry {
 	}
 
 	#[\Override]
-	public function registerSharingBackend(ISharingBackend $backend): void {
-		$class = $backend::class;
-
-		if (isset($this->backends[$class])) {
-			throw new RuntimeException('Sharing backend ' . $class . ' is already registered');
+	public function registerLegacyBackend(ISharingLegacyBackend $legacyBackend): void {
+		if ($this->legacyBackend instanceof ISharingLegacyBackend) {
+			throw new RuntimeException('A sharing legacy backend is already registered');
 		}
 
-		$this->backends[$class] = $backend;
+		$this->legacyBackend = $legacyBackend;
 	}
 
-	/**
-	 * @return array<class-string<ISharingBackend>, ISharingBackend>
-	 */
 	#[\Override]
-	public function getSharingBackends(): array {
-		return $this->backends;
+	public function getLegacyBackend(): ?ISharingLegacyBackend {
+		return $this->legacyBackend;
 	}
 
 	#[\Override]

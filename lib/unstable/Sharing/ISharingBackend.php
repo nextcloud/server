@@ -17,27 +17,27 @@ use NCU\Sharing\Property\ShareProperty;
 use NCU\Sharing\Recipient\ShareRecipient;
 use NCU\Sharing\Source\IShareSourceType;
 use NCU\Sharing\Source\ShareSource;
-use OCP\AppFramework\Attribute\Implementable;
+use OCP\AppFramework\Attribute\Consumable;
 
-// TODO: Add ability to start and commit a transaction
 /**
  * @experimental 35.0.0
  */
-#[Implementable(since: '35.0.0')]
+#[Consumable(since: '35.0.0')]
 interface ISharingBackend {
 	/**
 	 * Create a new share.
 	 *
 	 * @experimental 35.0.0
 	 */
-	public function createShare(ShareUser $owner): string;
+	public function createShare(string $id, ShareUser $owner, int $lastUpdated): void;
 
 	/**
 	 * Perform all updates when the owner was deleted.
 	 *
+	 * @return list<string>
 	 * @experimental 35.0.0
 	 */
-	public function onOwnerDeleted(ShareUser $owner): void;
+	public function onOwnerDeleted(ShareUser $owner): array;
 
 	/**
 	 * Update the state of a share.
@@ -114,12 +114,28 @@ interface ISharingBackend {
 	public function updateShareRecipientSecret(string $id, ShareRecipient $recipient, string $secret): void;
 
 	/**
+	 * Insert a property for a share.
+	 *
+	 * @throws ShareNotFoundException
+	 * @experimental 35.0.0
+	 */
+	public function createShareProperty(string $id, ShareProperty $property): void;
+
+	/**
 	 * Update a property of a share.
 	 *
 	 * @throws ShareNotFoundException
 	 * @experimental 35.0.0
 	 */
 	public function updateShareProperty(string $id, ShareProperty $property): void;
+
+	/**
+	 * Insert a permission for a share.
+	 *
+	 * @throws ShareNotFoundException
+	 * @experimental 35.0.0
+	 */
+	public function createSharePermission(string $id, SharePermission $permission): void;
 
 	/**
 	 * Update a permission of a share.

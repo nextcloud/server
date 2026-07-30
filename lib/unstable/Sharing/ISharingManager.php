@@ -13,7 +13,9 @@ use NCU\Sharing\Exception\ShareInvalidException;
 use NCU\Sharing\Exception\ShareNotFoundException;
 use NCU\Sharing\Exception\ShareOperationForbiddenException;
 use NCU\Sharing\Permission\ISharePermissionPreset;
+use NCU\Sharing\Permission\ISharePermissionType;
 use NCU\Sharing\Permission\SharePermission;
+use NCU\Sharing\Property\ISharePropertyType;
 use NCU\Sharing\Property\ShareProperty;
 use NCU\Sharing\Recipient\IShareRecipientType;
 use NCU\Sharing\Recipient\ShareRecipient;
@@ -149,6 +151,13 @@ interface ISharingManager {
 	public function updateShareRecipientSecret(ShareAccessContext $accessContext, string $id, ShareRecipient $recipient, string $secret): void;
 
 	/**
+	 * @param class-string<ISharePropertyType> $propertyTypeClass
+	 * @throws ShareNotFoundException
+	 * @experimental 35.0.0
+	 */
+	public function createSharePropertyDefaultValue(Share $share, string $propertyTypeClass): Share;
+
+	/**
 	 * Update a property of a share.
 	 *
 	 * @throws ShareInvalidException
@@ -157,6 +166,13 @@ interface ISharingManager {
 	 * @experimental 35.0.0
 	 */
 	public function updateShareProperty(ShareAccessContext $accessContext, string $id, ShareProperty $property): void;
+
+	/**
+	 * @param class-string<ISharePermissionType> $permissionTypeClass
+	 * @throws ShareNotFoundException
+	 * @experimental 35.0.0
+	 */
+	public function createSharePermissionDefaultValue(Share $share, string $permissionTypeClass): Share;
 
 	/**
 	 * Update a permission of a share.

@@ -42,7 +42,6 @@ class ComposerStaticInitSharing
         'OCA\\Sharing\\Middleware\\ShareApiEnabledMiddleware' => __DIR__ . '/..' . '/../lib/Middleware/ShareApiEnabledMiddleware.php',
         'OCA\\Sharing\\Migration\\Version1000Date20250929161325' => __DIR__ . '/..' . '/../lib/Migration/Version1000Date20250929161325.php',
         'OCA\\Sharing\\ResponseDefinitions' => __DIR__ . '/..' . '/../lib/ResponseDefinitions.php',
-        'OCA\\Sharing\\SharingBackend' => __DIR__ . '/..' . '/../lib/SharingBackend.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

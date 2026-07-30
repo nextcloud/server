@@ -27,5 +27,4 @@ return array(
     'OCA\\Sharing\\Middleware\\ShareApiEnabledMiddleware' => $baseDir . '/../lib/Middleware/ShareApiEnabledMiddleware.php',
     'OCA\\Sharing\\Migration\\Version1000Date20250929161325' => $baseDir . '/../lib/Migration/Version1000Date20250929161325.php',
     'OCA\\Sharing\\ResponseDefinitions' => $baseDir . '/../lib/ResponseDefinitions.php',
-    'OCA\\Sharing\\SharingBackend' => $baseDir . '/../lib/SharingBackend.php',
 );

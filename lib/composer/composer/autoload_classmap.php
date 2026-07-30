@@ -2296,6 +2296,8 @@ return array(
     'OC\\Share20\\UserDeletedListener' => $baseDir . '/lib/private/Share20/UserDeletedListener.php',
     'OC\\Share20\\UserRemovedListener' => $baseDir . '/lib/private/Share20/UserRemovedListener.php',
     'OC\\Share\\Constants' => $baseDir . '/lib/private/Share/Constants.php',
+    'OC\\Sharing\\ISharingLegacyBackend' => $baseDir . '/lib/private/Sharing/ISharingLegacyBackend.php',
+    'OC\\Sharing\\SharingBackend' => $baseDir . '/lib/private/Sharing/SharingBackend.php',
     'OC\\Sharing\\SharingManager' => $baseDir . '/lib/private/Sharing/SharingManager.php',
     'OC\\Sharing\\SharingRegistry' => $baseDir . '/lib/private/Sharing/SharingRegistry.php',
     'OC\\Snowflake\\APCuSequence' => $baseDir . '/lib/private/Snowflake/APCuSequence.php',

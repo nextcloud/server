@@ -14,6 +14,7 @@ use NCU\Sharing\Permission\ISharePermissionType;
 use NCU\Sharing\Property\ISharePropertyType;
 use NCU\Sharing\Recipient\IShareRecipientType;
 use NCU\Sharing\Source\IShareSourceType;
+use OC\Sharing\ISharingLegacyBackend;
 use OCP\AppFramework\Attribute\Consumable;
 
 /**
@@ -29,13 +30,12 @@ interface ISharingRegistry {
 	/**
 	 * @experimental 35.0.0
 	 */
-	public function registerSharingBackend(ISharingBackend $backend): void;
+	public function registerLegacyBackend(ISharingLegacyBackend $legacyBackend): void;
 
 	/**
-	 * @return array<class-string<ISharingBackend>, ISharingBackend>
 	 * @experimental 35.0.0
 	 */
-	public function getSharingBackends(): array;
+	public function getLegacyBackend(): ?ISharingLegacyBackend;
 
 	/**
 	 * @experimental 35.0.0
