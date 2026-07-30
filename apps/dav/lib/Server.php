@@ -191,6 +191,10 @@ class Server {
 
 		$this->server->addPlugin(new ExceptionLoggerPlugin('webdav', $logger));
 		$this->server->addPlugin(new LockPlugin());
+		$this->server->addPlugin(new \OCA\DAV\Connector\Sabre\SerializeMoveCopyPlugin(
+			\OCP\Server::get(\OCP\Lock\ILockingProvider::class),
+			\OCP\Server::get(\OCP\IConfig::class),
+		));
 		$this->server->addPlugin(new \Sabre\DAV\Sync\Plugin());
 
 		// acl
