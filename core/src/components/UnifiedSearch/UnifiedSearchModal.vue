@@ -1561,7 +1561,7 @@ export default defineComponent({
 		gap: calc(var(--default-grid-baseline) * 2);
 		padding-inline: calc(var(--default-grid-baseline) * 4);
 		// Trim the bottom when the filter row is all there is; results add it back below.
-		padding-block: calc(var(--default-grid-baseline) * 4) var(--default-grid-baseline);
+		padding-block: calc(var(--default-grid-baseline) * 4) 0;
 
 		// With results below, restore the full bottom inset above the divider (which aligns
 		// to the content edge).
