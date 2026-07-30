@@ -12,6 +12,14 @@ namespace OCA\Files_Sharing\Tests\Sharing;
 use DateInterval;
 use DateTimeImmutable;
 use DateTimeInterface;
+use NCU\Sharing\ISharingManager;
+use NCU\Sharing\Permission\SharePermission;
+use NCU\Sharing\Property\ShareProperty;
+use NCU\Sharing\Recipient\ShareRecipient;
+use NCU\Sharing\Share;
+use NCU\Sharing\ShareState;
+use NCU\Sharing\ShareUser;
+use NCU\Sharing\Source\ShareSource;
 use OC\Core\Sharing\Permission\ReshareSharePermissionType;
 use OC\Core\Sharing\Property\ExpirationDateSharePropertyType;
 use OC\Core\Sharing\Property\LabelSharePropertyType;
@@ -32,6 +40,7 @@ use OCA\Files\Sharing\Permission\NodeUpdateSharePermissionType;
 use OCA\Files\Sharing\Source\NodeShareSourceType;
 use OCA\Files_Sharing\Sharing\LegacyBackend;
 use OCP\Constants;
+use OCP\Federation\ICloudIdManager;
 use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
@@ -40,14 +49,6 @@ use OCP\L10N\IFactory;
 use OCP\Server;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
-use OCP\Sharing\ISharingManager;
-use OCP\Sharing\Permission\SharePermission;
-use OCP\Sharing\Property\ShareProperty;
-use OCP\Sharing\Recipient\ShareRecipient;
-use OCP\Sharing\Share;
-use OCP\Sharing\ShareState;
-use OCP\Sharing\ShareUser;
-use OCP\Sharing\Source\ShareSource;
 use OCP\Snowflake\ISnowflakeGenerator;
 use PHPUnit\Framework\Attributes\Group;
 use Test\TestCase;
@@ -74,6 +75,7 @@ final class LegacyBackendTest extends TestCase {
 			$this->legacyManager,
 			Server::get(ISnowflakeGenerator::class),
 			Server::get(ISharingManager::class),
+			Server::get(ICloudIdManager::class),
 		);
 	}
 
@@ -112,7 +114,8 @@ final class LegacyBackendTest extends TestCase {
 		// Clear display name cache, because setting the display name on the group doesn't update it in the cache of the manager
 		self::invokePrivate(self::invokePrivate($groupManager, 'displayNameCache'), 'clear');
 
-		$circle = null;
+		$circleId = null;
+		$circleName = null;
 		if (class_exists(CirclesManager::class)) {
 			$circlesManager = Server::get(CirclesManager::class);
 			$circlesManager->startSession($circlesManager->getLocalFederatedUser($owner->getUID()));
@@ -122,6 +125,16 @@ final class LegacyBackendTest extends TestCase {
 			Server::get(CircleService::class)->updateName($circle->getSingleId(), 'Circle');
 			/** @psalm-suppress MixedMethodCall, MixedAssignment */
 			$circle = $circlesManager->getCircle($circle->getSingleId());
+			/**
+			 * @psalm-suppress MixedMethodCall
+			 * @var non-empty-string $circleId
+			 */
+			$circleId = $circle->getSingleId();
+			/**
+			 * @psalm-suppress MixedMethodCall
+			 * @var non-empty-string $circleName
+			 */
+			$circleName = $circle->getDisplayName();
 		}
 
 		$node1 = Server::get(IRootFolder::class)->getUserFolder($owner->getUID())->newFolder('foo');
@@ -132,14 +145,13 @@ final class LegacyBackendTest extends TestCase {
 		$expirationDate = (new DateTimeImmutable())->add(new DateInterval('P1D'))->setTime(23, 59, 59)->format(DateTimeInterface::ATOM);
 
 		// TODO: Test federated owner.
-		/** @psalm-suppress MixedMethodCall, MixedArgument */
 		$share = new Share(
 			'123',
 			new ShareUser(
 				$owner->getUID(),
 				null,
 			),
-			0,
+			new DateTimeImmutable(),
 			ShareState::Active,
 			[
 				new ShareSource(
@@ -196,10 +208,10 @@ final class LegacyBackendTest extends TestCase {
 						),
 					),
 				],
-				$circle !== null ? [
+				$circleId !== null ? [
 					new ShareRecipient(
 						TeamShareRecipientType::class,
-						$circle->getSingleId(),
+						$circleId,
 						null,
 						'team secret',
 						new ShareUser(
@@ -257,7 +269,6 @@ final class LegacyBackendTest extends TestCase {
 		$legacyIds = $this->getLegacyIds($share->id);
 		usort($legacyIds, static fn (string $a, string $b): int => explode(':', $a)[1] <=> explode(':', $b)[1]);
 		$legacyShares = array_map(fn (string $legacyId): array => $this->formatLegacyShare($this->legacyManager->getShareById($legacyId)), $legacyIds);
-		/** @psalm-suppress MixedMethodCall, MixedOperand */
 		$this->assertEquals(array_merge(
 			[
 				[
@@ -517,15 +528,15 @@ final class LegacyBackendTest extends TestCase {
 					'reminder_sent' => false,
 				],
 			],
-			$circle !== null ? [
+			($circleId !== null && $circleName !== null) ? [
 				[
 					'id' => explode(':', $legacyIds[8])[1],
 					'full_id' => $legacyIds[8],
 					'node_id' => $node1->getId(),
 					'node_type' => 'folder',
 					'share_type' => IShare::TYPE_CIRCLE,
-					'shared_with' => $circle->getSingleId(),
-					'shared_with_display_name' => $circle->getDisplayName() . ' (Team owned by ' . $owner->getDisplayName() . ')',
+					'shared_with' => $circleId,
+					'shared_with_display_name' => $circleName . ' (Team owned by ' . $owner->getDisplayName() . ')',
 					'shared_with_avatar' => 'http://localhost/apps/circles/img/circles.svg',
 					'permissions' => Constants::PERMISSION_ALL,
 					'attributes' => [
@@ -559,8 +570,8 @@ final class LegacyBackendTest extends TestCase {
 					'node_id' => $node2->getId(),
 					'node_type' => 'file',
 					'share_type' => IShare::TYPE_CIRCLE,
-					'shared_with' => $circle->getSingleId(),
-					'shared_with_display_name' => $circle->getDisplayName() . ' (Team owned by ' . $owner->getDisplayName() . ')',
+					'shared_with' => $circleId,
+					'shared_with_display_name' => $circleName . ' (Team owned by ' . $owner->getDisplayName() . ')',
 					'shared_with_avatar' => 'http://localhost/apps/circles/img/circles.svg',
 					'permissions' => Constants::PERMISSION_ALL & ~Constants::PERMISSION_CREATE & ~Constants::PERMISSION_DELETE,
 					'attributes' => [
@@ -592,11 +603,10 @@ final class LegacyBackendTest extends TestCase {
 		), $legacyShares);
 
 		$this->legacyBackend->deleteShare($share->id);
-		if (class_exists(CirclesManager::class) && $circle !== null) {
+		if (class_exists(CirclesManager::class) && $circleId !== null) {
 			$circlesManager = Server::get(CirclesManager::class);
 			$circlesManager->startSession($circlesManager->getLocalFederatedUser($owner->getUID()));
-			/** @psalm-suppress MixedMethodCall */
-			$circlesManager->destroyCircle($circle->getSingleId());
+			$circlesManager->destroyCircle($circleId);
 		}
 
 		$this->assertTrue($group->delete());

@@ -39,6 +39,7 @@ use OCA\Files\Sharing\Permission\NodeUpdateSharePermissionType;
 use OCA\Files\Sharing\Source\NodeShareSourceType;
 use OCP\Constants;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\Federation\ICloudIdManager;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
@@ -60,6 +61,7 @@ final readonly class LegacyBackend implements ISharingLegacyBackend {
 		private IManager $legacyManager,
 		private ISnowflakeGenerator $snowflakeGenerator,
 		private ISharingManager $sharingManager,
+		private ICloudIdManager $cloudIdManager,
 	) {
 	}
 
@@ -107,10 +109,7 @@ final readonly class LegacyBackend implements ISharingLegacyBackend {
 					$legacyShare = $this->legacyManager->newShare();
 					$legacyShare->setShareType($legacyShareType);
 					$legacyShare->setNodeId((int)$source->value);
-					// TODO: Support federation
-					if ($recipient->class !== TokenShareRecipientType::class) {
-						$legacyShare->setSharedWith($recipient->value);
-					}
+					$legacyShare->setSharedWith($this->recipientToLegacySharedWith($recipient));
 
 					$this->setCommonFields($share, $legacyShare);
 					$create = true;
@@ -118,7 +117,10 @@ final readonly class LegacyBackend implements ISharingLegacyBackend {
 
 				$update = false;
 
-				// TODO: Support federation
+				if ($recipient->instance !== null) {
+					throw new \Exception("Incoming remote shares aren't handled by " . self::class);
+				}
+
 				if ($recipient->initiator !== null && $legacyShare->getSharedBy() !== $recipient->initiator->userId) {
 					$legacyShare->setSharedBy($recipient->initiator->userId);
 					$update = true;
@@ -181,7 +183,10 @@ final readonly class LegacyBackend implements ISharingLegacyBackend {
 	private function setCommonFields(Share $share, IShare $legacyShare): bool {
 		$update = false;
 
-		// TODO: Support federation
+		if ($share->owner->instance !== null) {
+			throw new \Exception("Incoming remote shares aren't handled by " . self::class);
+		}
+
 		if ($legacyShare->getShareOwner() !== $share->owner->userId) {
 			$legacyShare->setShareOwner($share->owner->userId);
 			$update = true;
@@ -329,25 +334,29 @@ final readonly class LegacyBackend implements ISharingLegacyBackend {
 			$isTokenRecipient = $recipientTypeClass === TokenShareRecipientType::class;
 			$recipients[$recipientTypeClass] ??= [];
 			$uniqueId = $isTokenRecipient ? $legacyShare->getToken() : $legacyShare->getSharedWith();
+			$recipient = $this->splitLegacySharedWith($legacyShare->getShareType(), $legacyShare->getSharedWith());
 			/** @psalm-suppress ArgumentTypeCoercion */
 			$recipients[$recipientTypeClass][$uniqueId] ??= new ShareRecipient(
 				$recipientTypeClass,
-				$isTokenRecipient ? '' : $legacyShare->getSharedWith(),
-				// TODO: Support federation
-				null,
+				$recipient['value'],
+				$recipient['remote'],
 				$isTokenRecipient ? $legacyShare->getToken() : $this->sharingManager->generateSecret(),
 				new ShareUser(
 					$legacyShare->getSharedBy(),
-					// TODO: Support federation
+					// Incoming remote shares aren't handled by this
 					null,
 				),
 			);
 		}
 
+		if (!$this->checkAllSame($legacyShares, fn (IShare $share) => $share->getShareOwner())) {
+			throw new \Exception("All legacy shares sharing a share id don't have the same owner");
+		}
+
 		/** @psalm-suppress ArgumentTypeCoercion */
 		$owner = new ShareUser(
 			$legacyShares[0]->getShareOwner(),
-			// TODO: Support federation
+			// Incoming remote shares aren't handled by this
 			null,
 		);
 
@@ -573,5 +582,29 @@ final readonly class LegacyBackend implements ISharingLegacyBackend {
 			TeamShareRecipientType::class => IShare::TYPE_CIRCLE,
 			default => throw new RuntimeException('Unsupported recipient type: ' . $recipientTypeClass),
 		};
+	}
+
+	private function recipientToLegacySharedWith(ShareRecipient $recipient): string {
+		if ($recipient->class === TokenShareRecipientType::class) {
+			return $this->cloudIdManager->getCloudId($recipient->value, $recipient->instance)->getId();
+		}
+		return $recipient->value;
+	}
+
+	/**
+	 * @return array{value: string, remote: string|null}
+	 */
+	private function splitLegacySharedWith(int $shareType, string $sharedWith): array {
+		if ($shareType === IShare::TYPE_REMOTE || $shareType === IShare::TYPE_REMOTE_GROUP) {
+			$cloudId = $this->cloudIdManager->resolveCloudId($sharedWith);
+			return [
+				'value' => $cloudId->getUser(),
+				'remote' => $cloudId->getRemote(),
+			];
+		}
+		return [
+			'value' => $sharedWith,
+			'remote' => null,
+		];
 	}
 }
