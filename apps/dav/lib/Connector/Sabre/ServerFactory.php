@@ -107,6 +107,10 @@ class ServerFactory {
 		$server->addPlugin(new DummyGetResponsePlugin());
 		$server->addPlugin(new ExceptionLoggerPlugin('webdav', $this->logger));
 		$server->addPlugin(new LockPlugin());
+		$server->addPlugin(new SerializeMoveCopyPlugin(
+			\OCP\Server::get(\OCP\Lock\ILockingProvider::class),
+			$this->config,
+		));
 
 		$server->addPlugin(new RequestIdHeaderPlugin($this->request));
 		$server->addPlugin(new UserIdHeaderPlugin($this->userSession));
