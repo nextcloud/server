@@ -28,6 +28,21 @@ class TGA extends Bitmap {
 	 * {@inheritDoc}
 	 */
 	public function getMimeType(): string {
-		return '/image\/t(ar)?ga/';
+		return '/image\/(x-)?t(ar)?ga/';
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	protected function getAllowedMimeTypes(): string {
+		return '/image\/(x-)?t(ar)?ga/';
+	}
+
+	protected function getMagicStrings(): array {
+		return [];
+	}
+
+	protected function getImagickFormatHint(): string {
+		return 'tga';
 	}
 }
