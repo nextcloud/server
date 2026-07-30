@@ -26,10 +26,11 @@ interface IGlobalScaleService {
 	 * be decoded on the receiving end with {@see IGlobalScaleService::decodePayload()}.
 	 *
 	 * @param non-empty-string $path
+	 * @return string The url of the secondary
 	 * @throws \Exception When unable to send the payload.
 	 * @since 34.0.3
 	 */
-	public function sendToSecondary(IUser $user, string $path, array $payload): void;
+	public function sendToSecondary(IUser $user, string $path, array $payload): string;
 
 	/**
 	 * Decode a receiving payload.
