@@ -57,12 +57,10 @@ class AmazonS3 extends Common {
 	/** Failure counter keyed by endpoint fingerprint. Static so sibling mounts share state within a request. */
 	private static array $serverSideCopyFailureCounter = [];
 
-	/** Per-endpoint cap. Fast path stays disabled for the rest of the request after this many consecutive S3Exceptions. */
+	/** Fast path MUST stay disabled for the remainder of the request after this many consecutive S3Exceptions per endpoint. */
 	private const SERVER_SIDE_COPY_FAILURE_LIMIT = 4;
 
-	/**
-	 * @internal Reset the per-endpoint failure counter. Test-only.
-	 */
+	/** @internal Test-only. */
 	public static function resetServerSideCopyFailureCounter(): void {
 		self::$serverSideCopyFailureCounter = [];
 	}
@@ -897,7 +895,6 @@ class AmazonS3 extends Common {
 		$targetKey = $this->normalizePath($targetInternalPath);
 
 		if ($this->isSameObjectAsPeer($unwrappedSource, $sourceKey, $targetKey)) {
-			// Move where source and target resolve to the same S3 object is malformed.
 			// Delegating to the parent path would copy-to-self then unlink the source, destroying the object.
 			$this->logger->warning('S3 cross-mount move: source and target resolve to the same object. Rejected as malformed.', [
 				'app' => 'files_external',
@@ -921,13 +918,7 @@ class AmazonS3 extends Common {
 		return true;
 	}
 
-	/**
-	 * Evaluate fast-path guards. Feature flag, encryption wrapper, wrapper unwrap, endpoint
-	 * identity, failure limit.
-	 *
-	 * @return array{source: self, path: string, identityKey: string}|null Payload for the
-	 *                                                                     fast-path caller when eligible. null when the streamed parent path MUST be taken.
-	 */
+	/** @return array{source: self, path: string, identityKey: string}|null */
 	private function evaluateFastPathEligibility(IStorage $sourceStorage, string $sourceInternalPath): ?array {
 		if (!$this->serverSideCopyEnabled) {
 			return null;
@@ -968,8 +959,10 @@ class AmazonS3 extends Common {
 	}
 
 	/**
-	 * @return array{0: self, 1: string}|null [unwrapped storage, unjailed path] when the terminal
-	 *                                        storage is an AmazonS3, else null.
+	 * Returns null when the terminal storage is not an AmazonS3. Otherwise returns the
+	 * unwrapped storage plus the Jail-translated path.
+	 *
+	 * @return array{0: self, 1: string}|null
 	 */
 	private function unwrapSource(IStorage $sourceStorage, string $sourceInternalPath): ?array {
 		$current = $sourceStorage;
@@ -993,8 +986,10 @@ class AmazonS3 extends Common {
 	}
 
 	/**
-	 * @return list<string> Normalised endpoint identity tuple. Two AmazonS3 instances with
-	 *                      identical fingerprints target the same S3 endpoint under the same access-key ID.
+	 * Normalised endpoint identity tuple. Two AmazonS3 instances with identical fingerprints
+	 * target the same S3 endpoint under the same access-key ID.
+	 *
+	 * @return list<string>
 	 */
 	private function endpointFingerprint(): array {
 		return [
@@ -1018,11 +1013,7 @@ class AmazonS3 extends Common {
 		return $peer->getBucket() === $this->getBucket() && $sourceKey === $targetKey;
 	}
 
-	/**
-	 * Copy $sourceInternalPath from a peer AmazonS3 into $this at $targetInternalPath via S3
-	 * server-side operations. Recurse into directories. Forward SSE-C source parameters so
-	 * HEAD against an encrypted source succeeds.
-	 */
+	/** SSE-C source parameters MUST be forwarded so HEAD against an encrypted source succeeds. */
 	private function performServerSideCopy(self $source, string $sourceInternalPath, string $targetInternalPath): void {
 		if (!$source->is_dir($sourceInternalPath)) {
 			$this->copySingleObjectFromPeer($source, $sourceInternalPath, $targetInternalPath);
@@ -1053,9 +1044,6 @@ class AmazonS3 extends Common {
 	}
 
 	/**
-	 * Copy one object from a foreign bucket on the same endpoint into $this bucket. Uses the
-	 * trait's MultipartCopy dispatch for large payloads and single-op copy for small ones.
-	 *
 	 * @param array $sourceHeadParams SSE parameters used against the source HEAD. SSE-C sources MUST include SSECustomerKey.
 	 * @param array $sourceCopyParams CopySource* SSE-C parameters. KMS re-encryption uses destination-side params only.
 	 * @throws S3Exception on transport, permission, or provider-compat failure.
@@ -1115,9 +1103,9 @@ class AmazonS3 extends Common {
 	}
 
 	/**
-	 * Abort any in-flight MultipartUpload for $targetKey in this bucket. Errors are logged, not
-	 * thrown. Match on exact key: prefix match would cancel unrelated concurrent uploads.
-	 * Paginate to cover buckets with more than 1000 in-flight uploads.
+	 * Errors MUST be logged, not thrown. Match on exact key: a prefix match would cancel
+	 * unrelated concurrent uploads. Paginate to cover buckets with more than 1000 in-flight
+	 * uploads.
 	 */
 	private function abortMultipartUploadForKey(string $targetKey): void {
 		try {

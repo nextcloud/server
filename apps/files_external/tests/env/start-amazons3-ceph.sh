@@ -38,7 +38,7 @@ user=test
 accesskey=aaabbbccc
 secretkey=cccbbbaaa
 bucket=testbucket
-# bucket2 is created lazily on first S3 call by S3ConnectionTrait::getConnection().
+# bucket2 is created on first use by the peer storage. No docker provisioning step needed.
 bucket2=testbucket2
 port=80
 
