@@ -94,6 +94,7 @@ OC.L10N.register(
     "Share with others" : "Mit anderen teilen",
     "Can view" : "Kann ansehen",
     "Expiration date" : "Ablaufdatum",
+    "Your administrator has enforced a %d days expiration policy." : "Die Administration erzwingt über eine Richtlinie den Ablauf nach %d Tagen.",
     "Label" : "Beschriftung",
     "Note to recipients" : "Notiz an Empfänger",
     "Password" : "Passwort",
