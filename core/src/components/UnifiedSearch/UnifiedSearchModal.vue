@@ -1758,7 +1758,13 @@ export default defineComponent({
 		gap: 2px;
 		margin-block: 16px 8px;
 		padding-block: 12px 0;
-		border-top: 1px solid var(--color-border);
+
+		// Divide the partial matches from the results above, but only when some precede
+		// them: when they lead the list this rule lands just under the header's own
+		// divider, and the two read as one double line.
+		.result-group + .result-group > & {
+			border-block-start: 1px solid var(--color-border);
+		}
 	}
 
 	&__unfiltered-label {
