@@ -7,5 +7,7 @@
  */
 namespace OC;
 
-class ServiceUnavailableException extends \Exception {
+use Psr\Container\ContainerExceptionInterface;
+
+class ServiceUnavailableException extends \Exception implements ContainerExceptionInterface {
 }

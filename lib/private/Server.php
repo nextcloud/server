@@ -170,6 +170,7 @@ use OCP\Files\Storage\IStorageFactory;
 use OCP\Files\Template\ITemplateManager;
 use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\FullTextSearch\IFullTextSearchManager;
+use OCP\GlobalScale\IGlobalScaleService;
 use OCP\Group\ISubAdmin;
 use OCP\Http\Client\IClientService;
 use OCP\IAppConfig;
@@ -1277,6 +1278,17 @@ class Server extends ServerContainer implements IServerContainer {
 			return $c->get(FileSequence::class);
 		}, false);
 		$this->registerAlias(ISnowflakeDecoder::class, SnowflakeDecoder::class);
+
+		$this->registerService(IGlobalScaleService::class, function (ContainerInterface $c): IGlobalScaleService {
+			/** @var Coordinator $coordinator */
+			$coordinator = $c->get(Coordinator::class);
+			$registrationContext = $coordinator->getRegistrationContext();
+			$globalScaleServiceClass = $registrationContext->getGlobalScaleService();
+			if ($globalScaleServiceClass === null) {
+				throw new ServiceUnavailableException('The app providing the global scale service is not enabled');
+			}
+			return $c->get($globalScaleServiceClass);
+		});
 
 		$this->connectDispatcher();
 	}
