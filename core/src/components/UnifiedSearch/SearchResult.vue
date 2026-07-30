@@ -256,6 +256,15 @@ export default {
 			object-fit: contain;
 			// Dark monochrome icons invert to light in dark themes.
 			filter: var(--background-invert-if-dark);
+
+			// Mime icons carry their own colours (a red PDF, a green spreadsheet), so the
+			// dark-theme invert would recolour them: red comes out cyan. Sized to match the
+			// 32px these icons had while they were painted as a background-image.
+			&[src*='/filetypes/'] {
+				width: 32px;
+				height: 32px;
+				filter: none;
+			}
 		}
 	}
 
