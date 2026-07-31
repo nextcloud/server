@@ -2,8 +2,6 @@ OC.L10N.register(
     "sharing",
     {
     "The owner does not exist: %s" : "Níl an t-úinéir ann: %s",
-    "The share already contains the source." : "Tá an fhoinse sa chomhroinn cheana féin.",
-    "The share already contains the recipient." : "Tá an faighteoir sa chomhroinnt cheana féin.",
     "Sharing" : "Roinnt",
     "TODO" : "LE DÉANAMH"
 },

@@ -2,8 +2,6 @@ OC.L10N.register(
     "sharing",
     {
     "The owner does not exist: %s" : "Savininkas neegzistuoja: %s",
-    "The share already contains the source." : "Bendrinamajame ištekliuje jau yra šaltinis.",
-    "The share already contains the recipient." : "Gavėjas jau įtrauktas į bendrinimą",
     "Sharing" : "Bendrinama",
     "TODO" : "Užduotis"
 },

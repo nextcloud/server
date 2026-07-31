@@ -195,6 +195,8 @@
     "Unknown share recipient" : "Nežinomas bendrinimo gavėjas",
     "Group \"%s\" does not exist" : "Grupės „%s“ nėra",
     "The requested share does not exist anymore" : "Pageidaujamas bendrinimas daugiau neegzistuoja.",
+    "The share already contains the source." : "Bendrinamajame ištekliuje jau yra šaltinis.",
+    "The share already contains the recipient." : "Gavėjas jau įtrauktas į bendrinimą",
     "The source does not exist." : "Šaltinis neegzistuoja.",
     "The recipient does not exist." : "Gavėjas neegzistuoja.",
     "The value must be alphanumeric, 1 to 32 characters long and may contain dashes." : "Reikšmė turi būti sudaryta iš raidžių ir skaitmenų, būti nuo 1 iki 32 simbolių ilgio ir gali turėti brūkšnelių.",
