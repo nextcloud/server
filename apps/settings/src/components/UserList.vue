@@ -307,7 +307,7 @@ export default {
 				logger.debug(`${this.users.length} total user(s) loaded`)
 			} catch (error) {
 				logger.error('Failed to load accounts', { error })
-				showError('Failed to load accounts')
+				showError(t('settings', 'Failed to load accounts'))
 			}
 			this.loading.users = false
 		},
