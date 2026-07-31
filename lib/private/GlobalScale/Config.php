@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\GlobalScale;
 
 use OCP\IConfig;
@@ -33,5 +34,25 @@ class Config implements \OCP\GlobalScale\IConfig {
 		$enabled = $this->config->getSystemValueString('gs.federation', 'internal');
 
 		return $enabled === 'internal';
+	}
+
+	#[Override]
+	public function isPrimary(): bool {
+		return $this->isGlobalScaleEnabled()
+			&& ($this->config->getSystemValueString('gss.mode', 'slave') === 'master'
+				|| $this->config->getSystemValueString('gss.mode', 'slave') === 'primary');
+	}
+
+	#[Override]
+	public function isSecondary(): bool {
+		return $this->isGlobalScaleEnabled()
+			&& ($this->config->getSystemValueString('gss.mode', 'slave') === 'slave'
+				|| $this->config->getSystemValueString('gss.mode', 'slave') === 'secondary');
+	}
+
+	#[Override]
+	public function isPrimaryAdmin(string $userId): bool {
+		return in_array($userId, $this->config->getSystemValue('gss.master.admin', []))
+			|| in_array($userId, $this->config->getSystemValue('gss.primary.admin', []));
 	}
 }
