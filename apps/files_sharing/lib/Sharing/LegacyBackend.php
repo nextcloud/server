@@ -15,6 +15,8 @@ use NCU\Sharing\Exception\ShareNotFoundException;
 use NCU\Sharing\ISharingManager;
 use NCU\Sharing\Permission\ISharePermissionType;
 use NCU\Sharing\Permission\SharePermission;
+use NCU\Sharing\Property\ISharePropertyType;
+use NCU\Sharing\Property\ShareProperty;
 use NCU\Sharing\Recipient\IShareRecipientType;
 use NCU\Sharing\Recipient\ShareRecipient;
 use NCU\Sharing\Share;
@@ -25,6 +27,7 @@ use OC\Core\Sharing\Permission\ReshareSharePermissionType;
 use OC\Core\Sharing\Property\ExpirationDateSharePropertyType;
 use OC\Core\Sharing\Property\LabelSharePropertyType;
 use OC\Core\Sharing\Property\NoteSharePropertyType;
+use OC\Core\Sharing\Property\PasswordSharePropertyType;
 use OC\Core\Sharing\Recipient\EmailShareRecipientType;
 use OC\Core\Sharing\Recipient\GroupShareRecipientType;
 use OC\Core\Sharing\Recipient\TeamShareRecipientType;
@@ -361,8 +364,19 @@ final readonly class LegacyBackend implements ISharingLegacyBackend {
 			null,
 		);
 
-		// TODO
-		$properties = [];
+		if (!$this->checkAllSame($legacyShares, fn (IShare $share) => $share->getExpirationDate())) {
+			throw new \Exception('All legacy shares sharing a share id don\'t have the expiration date');
+		}
+		if (!$this->checkAllSame($legacyShares, fn (IShare $share) => $share->getPassword())) {
+			throw new \Exception('All legacy shares sharing a share id don\'t have the password');
+		}
+		if (!$this->checkAllSame($legacyShares, fn (IShare $share) => $share->getLabel())) {
+			throw new \Exception('All legacy shares sharing a share id don\'t have the label');
+		}
+		if (!$this->checkAllSame($legacyShares, fn (IShare $share) => $share->getNote())) {
+			throw new \Exception('All legacy shares sharing a share id don\'t have the note');
+		}
+		$properties = $this->extractProperties($legacyShares[0]);
 
 		if (!$this->checkAllSame($legacyShares, fn (IShare $share) => $share->getAttributes())) {
 			throw new \Exception('All legacy shares sharing a share id don\'t have the same attributes');
@@ -392,7 +406,7 @@ final readonly class LegacyBackend implements ISharingLegacyBackend {
 			$id,
 			$owner,
 			// TODO
-			0,
+			\DateTimeImmutable::createFromMutable($legacyShares[0]->getShareTime()),
 			// TODO
 			ShareState::Active,
 			array_values($sources),
@@ -602,5 +616,28 @@ final readonly class LegacyBackend implements ISharingLegacyBackend {
 				'remote' => null,
 			];
 		}
+	}
+
+	/**
+	 * @param IShare $share
+	 * @return ShareProperty[]
+	 */
+	private function extractProperties(IShare $share): array {
+		$properties = [];
+
+		if ($expire = $share->getExpirationDate()) {
+			$properties[] = new ShareProperty(ExpirationDateSharePropertyType::class, $expire->format(DateTimeInterface::ATOM));
+		}
+		if ($password = $share->getPassword()) {
+			$properties[] = new ShareProperty(PasswordSharePropertyType::class, $password);
+		}
+		if ($label = $share->getLabel()) {
+			$properties[] = new ShareProperty(LabelSharePropertyType::class, $label);
+		}
+		if ($note = $share->getNote()) {
+			$properties[] = new ShareProperty(NoteSharePropertyType::class, $note);
+		}
+
+		return $properties;
 	}
 }
