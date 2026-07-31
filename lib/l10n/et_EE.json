@@ -195,6 +195,8 @@
     "Unknown share recipient" : "Tundmatu jaosmeedia vastuvõtja",
     "Group \"%s\" does not exist" : "„%s“ gruppi pole olemas",
     "The requested share does not exist anymore" : "Soovitud jagamist pole enam olemas",
+    "The share already contains the source." : "Selles jagamises juba on lähtesisu olemas.",
+    "The share already contains the recipient." : "Selles jagamises juba on saaja olemas.",
     "The source does not exist." : "Andmeallikat pole olemas.",
     "The recipient does not exist." : "Adressaati pole olemas.",
     "The value must be alphanumeric, 1 to 32 characters long and may contain dashes." : "Väärtus peab koosnema numbritest ja tähtedest, olema 1 kuni 32 tähemärki pikk ja võib sisaldada sidekriipse.",

@@ -195,6 +195,8 @@
     "Unknown share recipient" : "Unknown share recipient",
     "Group \"%s\" does not exist" : "Group \"%s\" does not exist",
     "The requested share does not exist anymore" : "The requested share does not exist any more",
+    "The share already contains the source." : "The share already contains the source.",
+    "The share already contains the recipient." : "The share already contains the recipient.",
     "The source does not exist." : "The source does not exist.",
     "The recipient does not exist." : "The recipient does not exist.",
     "The value must be alphanumeric, 1 to 32 characters long and may contain dashes." : "The value must be alphanumeric, 1 to 32 characters long and may contain dashes.",
