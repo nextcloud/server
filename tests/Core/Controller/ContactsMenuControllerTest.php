@@ -10,6 +10,8 @@ namespace Tests\Controller;
 use OC\Contacts\ContactsMenu\Manager;
 use OC\Core\Controller\ContactsMenuController;
 use OCP\Contacts\ContactsMenu\IEntry;
+use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -21,6 +23,8 @@ class ContactsMenuControllerTest extends TestCase {
 	private IUserSession&MockObject $userSession;
 	private Manager&MockObject $contactsManager;
 	private ITeamManager&MockObject $teamManager;
+	private ICacheFactory&MockObject $cacheFactory;
+	private ICache&MockObject $cache;
 
 	private ContactsMenuController $controller;
 
@@ -32,12 +36,19 @@ class ContactsMenuControllerTest extends TestCase {
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->contactsManager = $this->createMock(Manager::class);
 		$this->teamManager = $this->createMock(ITeamManager::class);
+		$this->cacheFactory = $this->createMock(ICacheFactory::class);
+		$this->cache = $this->createMock(ICache::class);
+
+		$this->cacheFactory->method('createDistributed')
+			->with('contactsmenu-preview')
+			->willReturn($this->cache);
 
 		$this->controller = new ContactsMenuController(
 			$request,
 			$this->userSession,
 			$this->contactsManager,
 			$this->teamManager,
+			$this->cacheFactory,
 		);
 	}
 
@@ -128,56 +139,82 @@ class ContactsMenuControllerTest extends TestCase {
 
 	public function testPreviewAvatarsWithoutTeam(): void {
 		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('current-user');
+
 		$contacts = [
-			$this->createMock(IEntry::class),
-			$this->createMock(IEntry::class),
-			$this->createMock(IEntry::class),
-			$this->createMock(IEntry::class),
+			$this->createPreviewEntry('alice', 'Alice'),
+			$this->createPreviewEntry('bob', 'Bob'),
+			$this->createPreviewEntry('carol', 'Carol'),
+			$this->createPreviewEntry('dave', 'Dave'),
+		];
+		$expected = [
+			$contacts[0]->jsonSerialize(),
+			$contacts[1]->jsonSerialize(),
+			$contacts[2]->jsonSerialize(),
 		];
 
 		$this->userSession->expects($this->once())
 			->method('getUser')
 			->willReturn($user);
+		$this->cache->expects($this->once())
+			->method('get')
+			->with('current-user')
+			->willReturn(null);
 		$this->contactsManager->expects($this->once())
-			->method('getEntries')
-			->with($user, '')
-			->willReturn([
-				'contacts' => $contacts,
-				'contactsAppEnabled' => true,
-			]);
+			->method('getPreviewEntries')
+			->with($user, 3)
+			->willReturn([$contacts[0], $contacts[1], $contacts[2]]);
+		$this->cache->expects($this->once())
+			->method('set')
+			->with('current-user', $expected, 300);
 		$this->teamManager->expects($this->never())
 			->method('getMembersOfTeam');
 
-		$this->assertEquals([
-			$contacts[0],
-			$contacts[1],
-			$contacts[2],
-		], $this->controller->previewAvatars());
+		$this->assertEquals($expected, $this->controller->previewAvatars());
+	}
+
+	public function testPreviewAvatarsUsesCache(): void {
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('current-user');
+		$cached = [
+			['uid' => 'alice', 'fullName' => 'Alice', 'isUser' => true],
+			['uid' => 'bob', 'fullName' => 'Bob', 'isUser' => true],
+		];
+
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->willReturn($user);
+		$this->cache->expects($this->once())
+			->method('get')
+			->with('current-user')
+			->willReturn($cached);
+		$this->contactsManager->expects($this->never())
+			->method('getPreviewEntries');
+		$this->cache->expects($this->never())
+			->method('set');
+
+		$this->assertEquals($cached, $this->controller->previewAvatars());
 	}
 
 	public function testPreviewAvatarsWithTeam(): void {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('current-user');
 
-		$alice = $this->createMock(IEntry::class);
-		$alice->method('getProperty')->with('UID')->willReturn('alice');
-		$external = $this->createMock(IEntry::class);
-		$external->method('getProperty')->with('UID')->willReturn('contact-1');
-		$bob = $this->createMock(IEntry::class);
-		$bob->method('getProperty')->with('UID')->willReturn('bob');
-		$carol = $this->createMock(IEntry::class);
-		$carol->method('getProperty')->with('UID')->willReturn('carol');
+		$cached = [
+			['uid' => 'alice', 'fullName' => 'Alice', 'isUser' => true],
+			['uid' => 'contact-1', 'fullName' => 'External', 'isUser' => false],
+			['uid' => 'bob', 'fullName' => 'Bob', 'isUser' => true],
+		];
 
 		$this->userSession->expects($this->once())
 			->method('getUser')
 			->willReturn($user);
-		$this->contactsManager->expects($this->once())
-			->method('getEntries')
-			->with($user, '')
-			->willReturn([
-				'contacts' => [$alice, $external, $bob, $carol],
-				'contactsAppEnabled' => true,
-			]);
+		$this->cache->expects($this->once())
+			->method('get')
+			->with('current-user')
+			->willReturn($cached);
+		$this->contactsManager->expects($this->never())
+			->method('getPreviewEntries');
 		$this->teamManager->expects($this->once())
 			->method('getMembersOfTeam')
 			->with('team-id', 'current-user')
@@ -187,7 +224,10 @@ class ContactsMenuControllerTest extends TestCase {
 				'carol' => 'Carol',
 			]);
 
-		$this->assertEquals([$alice, $bob, $carol], $this->controller->previewAvatars('team-id'));
+		$this->assertEquals([
+			$cached[0],
+			$cached[2],
+		], $this->controller->previewAvatars('team-id'));
 	}
 
 	public function testPreviewAvatarsWithoutUser(): void {
@@ -195,8 +235,20 @@ class ContactsMenuControllerTest extends TestCase {
 			->method('getUser')
 			->willReturn(null);
 		$this->contactsManager->expects($this->never())
-			->method('getEntries');
+			->method('getPreviewEntries');
+		$this->cache->expects($this->never())
+			->method('get');
 
 		$this->assertEquals([], $this->controller->previewAvatars());
+	}
+
+	private function createPreviewEntry(string $uid, string $fullName): IEntry&MockObject {
+		$entry = $this->createMock(IEntry::class);
+		$entry->method('jsonSerialize')->willReturn([
+			'uid' => $uid,
+			'fullName' => $fullName,
+			'isUser' => true,
+		]);
+		return $entry;
 	}
 }

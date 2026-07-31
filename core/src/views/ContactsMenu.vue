@@ -49,17 +49,13 @@ const hasError = ref(false)
 const searchTerm = ref('')
 
 const teams = ref<ITeam[]>([])
-const selectedTeam = ref<string>('$_all_$')
+const storedTeam = storage.getItem('core:contacts:team')
+const selectedTeam = ref<string>(storedTeam ? JSON.parse(storedTeam) : '$_all_$')
 const selectedTeamName = computed(() => teams.value.find((t) => t.teamId === selectedTeam.value)?.displayName)
 const previewUsers = ref<IPreviewUser[]>([])
 const showAvatarStack = computed(() => previewUsers.value.length >= 2)
 
 onMounted(async () => {
-	const team = storage.getItem('core:contacts:team')
-	if (team) {
-		selectedTeam.value = JSON.parse(team)
-	}
-
 	if (userTeams.length === 0) {
 		try {
 			const { data } = await axios.get<ITeam[]>(generateUrl('/contactsmenu/teams'))
@@ -74,10 +70,8 @@ onMounted(async () => {
 watch(selectedTeam, () => {
 	storage.setItem('core:contacts:team', JSON.stringify(selectedTeam.value))
 	getContacts(searchTerm.value)
+	loadPreviewAvatars()
 })
-
-// immediate: load header avatars on mount and whenever the team filter changes
-watch(selectedTeam, loadPreviewAvatars, { immediate: true })
 
 /**
  * Load avatars for the People menu header trigger
@@ -95,6 +89,9 @@ async function loadPreviewAvatars() {
 		previewUsers.value = []
 	}
 }
+
+// Seeded selectedTeam above so this runs once on mount with the correct team
+loadPreviewAvatars()
 
 /**
  * Load contacts when opening the menu
