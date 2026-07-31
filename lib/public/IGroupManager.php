@@ -8,36 +8,27 @@
 
 namespace OCP;
 
+use OCP\AppFramework\Attribute\Consumable;
+
 /**
- * Class Manager
- *
- * Hooks available in scope \OC\Group:
- * - preAddUser(\OC\Group\Group $group, \OC\User\User $user)
- * - postAddUser(\OC\Group\Group $group, \OC\User\User $user)
- * - preRemoveUser(\OC\Group\Group $group, \OC\User\User $user)
- * - postRemoveUser(\OC\Group\Group $group, \OC\User\User $user)
- * - preDelete(\OC\Group\Group $group)
- * - postDelete(\OC\Group\Group $group)
- * - preCreate(string $groupId)
- * - postCreate(\OC\Group\Group $group)
+ * Group manager interface.
  *
  * @since 8.0.0
  */
+#[Consumable(since: '8.0.0')]
 interface IGroupManager {
 	/**
 	 * Checks whether a given backend is used
 	 *
-	 * @param string $backendClass Full classname including complete namespace
-	 * @return bool
+	 * @param class-string<GroupInterface> $backendClass Full classname including complete namespace
 	 * @since 8.1.0
 	 */
-	public function isBackendUsed($backendClass);
+	public function isBackendUsed(string $backendClass): bool;
 
 	/**
-	 * @param \OCP\GroupInterface $backend
 	 * @since 8.0.0
 	 */
-	public function addBackend($backend);
+	public function addBackend(GroupInterface $backend): void;
 
 	/**
 	 * @since 34.0.0
@@ -47,35 +38,35 @@ interface IGroupManager {
 	/**
 	 * @since 8.0.0
 	 */
-	public function clearBackends();
+	public function clearBackends(): void;
 
 	/**
 	 * Get the active backends
-	 * @return \OCP\GroupInterface[]
+	 * @return list<\OCP\GroupInterface>
 	 * @since 13.0.0
 	 */
-	public function getBackends();
+	public function getBackends(): array;
 
 	/**
 	 * @param string $gid
 	 * @return \OCP\IGroup|null
 	 * @since 8.0.0
 	 */
-	public function get($gid);
+	public function get(string $gid): ?IGroup;
 
 	/**
 	 * @param string $gid
 	 * @return bool
 	 * @since 8.0.0
 	 */
-	public function groupExists($gid);
+	public function groupExists(string $gid): bool;
 
 	/**
 	 * @param string $gid
 	 * @return \OCP\IGroup|null
 	 * @since 8.0.0
 	 */
-	public function createGroup($gid);
+	public function createGroup(string $gid): ?IGroup;
 
 	/**
 	 * @param string $search
@@ -84,14 +75,14 @@ interface IGroupManager {
 	 * @return list<IGroup>
 	 * @since 8.0.0
 	 */
-	public function search(string $search, ?int $limit = null, ?int $offset = 0);
+	public function search(string $search, ?int $limit = null, ?int $offset = 0): array;
 
 	/**
 	 * @param \OCP\IUser|null $user
 	 * @return \OCP\IGroup[]
 	 * @since 8.0.0
 	 */
-	public function getUserGroups(?IUser $user = null);
+	public function getUserGroups(?IUser $user = null): array;
 
 	/**
 	 * @param \OCP\IUser $user
@@ -110,7 +101,7 @@ interface IGroupManager {
 	 * @return array<string, string> ['user id' => 'display name']
 	 * @since 8.0.0
 	 */
-	public function displayNamesInGroup($gid, $search = '', $limit = -1, $offset = 0);
+	public function displayNamesInGroup(string $gid, string $search = '', int $limit = -1, int $offset = 0): array;
 
 	/**
 	 * Checks if a userId is in the admin group
@@ -118,7 +109,7 @@ interface IGroupManager {
 	 * @return bool if admin
 	 * @since 8.0.0
 	 */
-	public function isAdmin($userId);
+	public function isAdmin(string $userId): bool;
 
 	/**
 	 * Checks if a userId is eligible to users administration delegation
@@ -135,7 +126,7 @@ interface IGroupManager {
 	 * @return bool if in group
 	 * @since 8.0.0
 	 */
-	public function isInGroup($userId, $group);
+	public function isInGroup(string $userId, string $group): bool;
 
 	/**
 	 * Get the display name of a Nextcloud group

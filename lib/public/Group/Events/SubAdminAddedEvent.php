@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCP\Group\Events;
 
+use OCP\AppFramework\Attribute\Implementable;
 use OCP\EventDispatcher\Event;
 use OCP\IGroup;
 use OCP\IUser;
@@ -16,20 +17,16 @@ use OCP\IUser;
 /**
  * @since 21.0.0
  */
+#[Implementable(since: '21.0.0')]
 class SubAdminAddedEvent extends Event {
-	/** @var IGroup */
-	private $group;
-
-	/*** @var IUser */
-	private $user;
-
 	/**
 	 * @since 21.0.0
 	 */
-	public function __construct(IGroup $group, IUser $user) {
+	public function __construct(
+		private readonly IGroup $group,
+		private readonly IUser $user,
+	) {
 		parent::__construct();
-		$this->group = $group;
-		$this->user = $user;
 	}
 
 	/**

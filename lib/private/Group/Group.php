@@ -8,7 +8,6 @@
 
 namespace OC\Group;
 
-use OC\Hooks\PublicEmitter;
 use OC\User\LazyUser;
 use OC\User\User;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -48,7 +47,6 @@ class Group implements IGroup {
 		private array $backends,
 		private IEventDispatcher $dispatcher,
 		private IUserManager $userManager,
-		private ?PublicEmitter $emitter = null,
 		/** @var ?non-empty-string $displayName */
 		protected ?string $displayName = null,
 	) {
@@ -154,9 +152,6 @@ class Group implements IGroup {
 
 		$this->dispatcher->dispatchTyped(new BeforeUserAddedEvent($this, $user));
 
-		if ($this->emitter) {
-			$this->emitter->emit('\OC\Group', 'preAddUser', [$this, $user]);
-		}
 		foreach ($this->backends as $backend) {
 			if ($backend->implementsActions(\OC\Group\Backend::ADD_TO_GROUP)) {
 				/** @var IAddToGroupBackend $backend */
@@ -164,10 +159,6 @@ class Group implements IGroup {
 				$this->users[$user->getUID()] = $user;
 
 				$this->dispatcher->dispatchTyped(new UserAddedEvent($this, $user));
-
-				if ($this->emitter) {
-					$this->emitter->emit('\OC\Group', 'postAddUser', [$this, $user]);
-				}
 				return;
 			}
 		}
@@ -180,9 +171,6 @@ class Group implements IGroup {
 	public function removeUser(IUser $user): void {
 		$result = false;
 		$this->dispatcher->dispatchTyped(new BeforeUserRemovedEvent($this, $user));
-		if ($this->emitter) {
-			$this->emitter->emit('\OC\Group', 'preRemoveUser', [$this, $user]);
-		}
 		foreach ($this->backends as $backend) {
 			if ($backend->implementsActions(\OC\Group\Backend::REMOVE_FROM_GOUP) && $backend->inGroup($user->getUID(), $this->gid)) {
 				/** @var IRemoveFromGroupBackend $backend */
@@ -192,9 +180,6 @@ class Group implements IGroup {
 		}
 		if ($result) {
 			$this->dispatcher->dispatchTyped(new UserRemovedEvent($this, $user));
-			if ($this->emitter) {
-				$this->emitter->emit('\OC\Group', 'postRemoveUser', [$this, $user]);
-			}
 			if ($this->users) {
 				foreach ($this->users as $index => $groupUser) {
 					if ($groupUser->getUID() === $user->getUID()) {
@@ -323,9 +308,6 @@ class Group implements IGroup {
 
 		$result = false;
 		$this->dispatcher->dispatchTyped(new BeforeGroupDeletedEvent($this));
-		if ($this->emitter) {
-			$this->emitter->emit('\OC\Group', 'preDelete', [$this]);
-		}
 		foreach ($this->backends as $backend) {
 			if ($backend->implementsActions(\OC\Group\Backend::DELETE_GROUP)) {
 				/** @var IDeleteGroupBackend $backend */
@@ -334,9 +316,6 @@ class Group implements IGroup {
 		}
 		if ($result) {
 			$this->dispatcher->dispatchTyped(new GroupDeletedEvent($this));
-			if ($this->emitter) {
-				$this->emitter->emit('\OC\Group', 'postDelete', [$this]);
-			}
 		}
 		return $result;
 	}

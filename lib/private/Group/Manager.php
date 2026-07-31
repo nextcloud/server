@@ -8,17 +8,23 @@
 
 namespace OC\Group;
 
-use OC\Hooks\PublicEmitter;
 use OC\Settings\AuthorizedGroupMapper;
 use OC\SubAdmin;
 use OCA\Settings\Settings\Admin\Users;
+use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\EventDispatcher\IEventListener;
 use OCP\Group\Backend\IBatchMethodsBackend;
 use OCP\Group\Backend\ICreateNamedGroupBackend;
 use OCP\Group\Backend\IGroupDetailsBackend;
 use OCP\Group\Events\BeforeGroupCreatedEvent;
+use OCP\Group\Events\BeforeGroupDeletedEvent;
+use OCP\Group\Events\BeforeUserAddedEvent;
+use OCP\Group\Events\BeforeUserRemovedEvent;
 use OCP\Group\Events\GroupCreatedEvent;
+use OCP\Group\ISubAdmin;
 use OCP\GroupInterface;
+use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IDBConnection;
 use OCP\IGroup;
@@ -26,31 +32,20 @@ use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\Security\Ip\IRemoteAddress;
 use OCP\Server;
-use Psr\Log\LoggerInterface;
-use function is_string;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
- * Class Manager
- *
- * Hooks available in scope \OC\Group:
- * - preAddUser(\OC\Group\Group $group, \OC\User\User $user)
- * - postAddUser(\OC\Group\Group $group, \OC\User\User $user)
- * - preRemoveUser(\OC\Group\Group $group, \OC\User\User $user)
- * - postRemoveUser(\OC\Group\Group $group, \OC\User\User $user)
- * - preDelete(\OC\Group\Group $group)
- * - postDelete(\OC\Group\Group $group)
- * - preCreate(string $groupId)
- * - postCreate(\OC\Group\Group $group)
- *
- * @package OC\Group
+ * @template-implements IEventListener<BeforeGroupDeletedEvent|BeforeUserAddedEvent|BeforeUserRemovedEvent>
  */
-class Manager extends PublicEmitter implements IGroupManager {
-	/** @var GroupInterface[] */
+class Manager implements IGroupManager, IEventListener {
+	/** @var list<GroupInterface> */
 	private array $backends = [];
 	/** @var array<string, IGroup> */
 	private array $cachedGroups = [];
 	/** @var array<string, list<string>> */
-	private array $cachedUserGroups = [];
+	private array $cachedUserGroupsLocal = [];
+	private ICache $cachedUserGroups;
 	private ?SubAdmin $subAdmin = null;
 	private DisplayNameCache $displayNameCache;
 	private const MAX_GROUP_LENGTH = 255;
@@ -58,48 +53,20 @@ class Manager extends PublicEmitter implements IGroupManager {
 	public function __construct(
 		private \OC\User\Manager $userManager,
 		private IEventDispatcher $dispatcher,
-		private LoggerInterface $logger,
 		ICacheFactory $cacheFactory,
 		private IRemoteAddress $remoteAddress,
 	) {
 		$this->displayNameCache = new DisplayNameCache($cacheFactory, $this);
-
-		$this->listen('\OC\Group', 'preDelete', function (IGroup $group): void {
-			unset($this->cachedGroups[$group->getGID()]);
-			$this->cachedUserGroups = [];
-		});
-		$this->listen('\OC\Group', 'preAddUser', function (IGroup $group): void {
-			$this->cachedUserGroups = [];
-		});
-		$this->listen('\OC\Group', 'preRemoveUser', function (IGroup $group): void {
-			$this->cachedUserGroups = [];
-		});
+		$this->cachedUserGroups = $cacheFactory->createDistributed('user_groups_membership');
 	}
 
-	/**
-	 * Checks whether a given backend is used
-	 *
-	 * @param string $backendClass Full classname including complete namespace
-	 * @return bool
-	 */
 	#[\Override]
-	public function isBackendUsed($backendClass) {
-		$backendClass = strtolower(ltrim($backendClass, '\\'));
-
-		foreach ($this->backends as $backend) {
-			if (strtolower(get_class($backend)) === $backendClass) {
-				return true;
-			}
-		}
-
-		return false;
+	public function isBackendUsed(string $backendClass): bool {
+		return array_any($this->backends, fn (GroupInterface $backend): bool => $backend::class === $backendClass);
 	}
 
-	/**
-	 * @param GroupInterface $backend
-	 */
 	#[\Override]
-	public function addBackend($backend) {
+	public function addBackend(GroupInterface $backend): void {
 		$this->backends[] = $backend;
 		$this->clearCaches();
 	}
@@ -113,44 +80,31 @@ class Manager extends PublicEmitter implements IGroupManager {
 	}
 
 	#[\Override]
-	public function clearBackends() {
+	public function clearBackends(): void {
 		$this->backends = [];
 		$this->clearCaches();
 	}
 
-	/**
-	 * Get the active backends
-	 *
-	 * @return GroupInterface[]
-	 */
 	#[\Override]
-	public function getBackends() {
+	public function getBackends(): array {
 		return $this->backends;
 	}
 
-	protected function clearCaches() {
+	protected function clearCaches(): void {
 		$this->cachedGroups = [];
-		$this->cachedUserGroups = [];
+		$this->cachedUserGroups->clear();
+		$this->cachedUserGroupsLocal = [];
 	}
 
-	/**
-	 * @param string $gid
-	 * @return IGroup|null
-	 */
 	#[\Override]
-	public function get($gid) {
+	public function get(string $gid): ?IGroup {
 		if (isset($this->cachedGroups[$gid])) {
 			return $this->cachedGroups[$gid];
 		}
 		return $this->getGroupObject($gid);
 	}
 
-	/**
-	 * @param string $gid
-	 * @param string $displayName
-	 * @return IGroup|null
-	 */
-	protected function getGroupObject($gid, $displayName = null) {
+	protected function getGroupObject(string $gid, ?string $displayName = null): ?IGroup {
 		$backends = [];
 		foreach ($this->backends as $backend) {
 			if ($backend->implementsActions(Backend::GROUP_DETAILS)) {
@@ -170,7 +124,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 			return null;
 		}
 		/** @var GroupInterface[] $backends */
-		$this->cachedGroups[$gid] = new Group($gid, $backends, $this->dispatcher, $this->userManager, $this, $displayName);
+		$this->cachedGroups[$gid] = new Group($gid, $backends, $this->dispatcher, $this->userManager, $displayName);
 		return $this->cachedGroups[$gid];
 	}
 
@@ -225,28 +179,20 @@ class Manager extends PublicEmitter implements IGroupManager {
 			if (count($backends[$gid]) === 0) {
 				continue;
 			}
-			$this->cachedGroups[$gid] = new Group($gid, $backends[$gid], $this->dispatcher, $this->userManager, $this, $displayNames[$gid]);
+			$this->cachedGroups[$gid] = new Group($gid, $backends[$gid], $this->dispatcher, $this->userManager, $displayNames[$gid]);
 			$groups[$gid] = $this->cachedGroups[$gid];
 		}
 		return $groups;
 	}
 
-	/**
-	 * @param string $gid
-	 * @return bool
-	 */
 	#[\Override]
-	public function groupExists($gid) {
+	public function groupExists(string $gid): bool {
 		return $this->get($gid) instanceof IGroup;
 	}
 
-	/**
-	 * @param string $gid
-	 * @return IGroup|null
-	 */
 	#[\Override]
-	public function createGroup($gid) {
-		if ($gid === '' || $gid === null) {
+	public function createGroup(string $gid): ?IGroup {
+		if ($gid === '') {
 			return null;
 		} elseif ($group = $this->get($gid)) {
 			return $group;
@@ -254,7 +200,6 @@ class Manager extends PublicEmitter implements IGroupManager {
 			throw new \Exception('Group name is limited to ' . self::MAX_GROUP_LENGTH . ' characters');
 		} else {
 			$this->dispatcher->dispatchTyped(new BeforeGroupCreatedEvent($gid));
-			$this->emit('\OC\Group', 'preCreate', [$gid]);
 			foreach ($this->backends as $backend) {
 				if ($backend->implementsActions(Backend::CREATE_GROUP)) {
 					if ($backend instanceof ICreateNamedGroupBackend) {
@@ -262,13 +207,11 @@ class Manager extends PublicEmitter implements IGroupManager {
 						if (($gid = $backend->createGroup($groupName)) !== null) {
 							$group = $this->getGroupObject($gid);
 							$this->dispatcher->dispatchTyped(new GroupCreatedEvent($group));
-							$this->emit('\OC\Group', 'postCreate', [$group]);
 							return $group;
 						}
 					} elseif ($backend->createGroup($gid)) {
 						$group = $this->getGroupObject($gid);
 						$this->dispatcher->dispatchTyped(new GroupCreatedEvent($group));
-						$this->emit('\OC\Group', 'postCreate', [$group]);
 						return $group;
 					}
 				}
@@ -278,7 +221,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	}
 
 	#[\Override]
-	public function search(string $search, ?int $limit = null, ?int $offset = 0) {
+	public function search(string $search, ?int $limit = null, ?int $offset = 0): array {
 		$groups = [];
 		foreach ($this->backends as $backend) {
 			$groupIds = $backend->getGroups($search, $limit ?? -1, $offset ?? 0);
@@ -293,10 +236,6 @@ class Manager extends PublicEmitter implements IGroupManager {
 		return array_values($groups);
 	}
 
-	/**
-	 * @param IUser|null $user
-	 * @return array<string, IGroup>
-	 */
 	#[\Override]
 	public function getUserGroups(?IUser $user = null): array {
 		if (!$user instanceof IUser) {
@@ -316,18 +255,15 @@ class Manager extends PublicEmitter implements IGroupManager {
 
 	/**
 	 * Checks if a userId is in the admin group
-	 *
-	 * @param string $userId
-	 * @return bool if admin
 	 */
 	#[\Override]
-	public function isAdmin($userId) {
+	public function isAdmin(string $userId): bool {
 		if (!$this->remoteAddress->allowsAdminActions()) {
 			return false;
 		}
 
 		foreach ($this->backends as $backend) {
-			if (is_string($userId) && $backend->implementsActions(Backend::IS_ADMIN) && $backend->isAdmin($userId)) {
+			if ($backend->implementsActions(Backend::IS_ADMIN) && $backend->isAdmin($userId)) {
 				return true;
 			}
 		}
@@ -347,15 +283,8 @@ class Manager extends PublicEmitter implements IGroupManager {
 		return in_array(Users::class, $authorizedClasses, true);
 	}
 
-	/**
-	 * Checks if a userId is in a group
-	 *
-	 * @param string $userId
-	 * @param string $group
-	 * @return bool if in group
-	 */
 	#[\Override]
-	public function isInGroup($userId, $group) {
+	public function isInGroup(string $userId, string $group): bool {
 		return in_array($group, $this->getUserIdGroupIds($userId));
 	}
 
@@ -369,42 +298,31 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * @return list<string>
 	 */
 	private function getUserIdGroupIds(string $uid): array {
-		if (!isset($this->cachedUserGroups[$uid])) {
+		if (isset($this->cachedUserGroupsLocal[$uid])) {
+			return $this->cachedUserGroupsLocal[$uid];
+		}
+		$groups = $this->cachedUserGroups->get($uid);
+		if ($groups === null) {
 			$groups = [];
 			foreach ($this->backends as $backend) {
 				if ($groupIds = $backend->getUserGroups($uid)) {
 					$groups = array_merge($groups, $groupIds);
 				}
 			}
-			$this->cachedUserGroups[$uid] = $groups;
+			$this->cachedUserGroups->set($uid, $groups, 60 * 2); // 2min
+			$this->cachedUserGroupsLocal[$uid] = $groups;
 		}
 
-		return $this->cachedUserGroups[$uid];
+		return $groups;
 	}
 
-	/**
-	 * @param string $groupId
-	 * @return ?string
-	 */
 	#[\Override]
 	public function getDisplayName(string $groupId): ?string {
 		return $this->displayNameCache->getDisplayName($groupId);
 	}
 
-	/**
-	 * get an array of groupid and displayName for a user
-	 *
-	 * @param IUser $user
-	 * @return array ['displayName' => displayname]
-	 */
-	public function getUserGroupNames(IUser $user) {
-		return array_map(function ($group) {
-			return ['displayName' => $this->displayNameCache->getDisplayName($group->getGID())];
-		}, $this->getUserGroups($user));
-	}
-
 	#[\Override]
-	public function displayNamesInGroup($gid, $search = '', $limit = -1, $offset = 0) {
+	public function displayNamesInGroup(string $gid, string $search = '', int $limit = -1, int $offset = 0): array {
 		$group = $this->get($gid);
 		if (is_null($group)) {
 			return [];
@@ -448,9 +366,10 @@ class Manager extends PublicEmitter implements IGroupManager {
 	}
 
 	/**
-	 * @return SubAdmin
+	 * @throws ContainerExceptionInterface
+	 * @throws NotFoundExceptionInterface
 	 */
-	public function getSubAdmin() {
+	public function getSubAdmin(): ISubAdmin {
 		if (!$this->subAdmin) {
 			$this->subAdmin = new SubAdmin(
 				$this->userManager,
@@ -461,5 +380,19 @@ class Manager extends PublicEmitter implements IGroupManager {
 		}
 
 		return $this->subAdmin;
+	}
+
+	#[\Override]
+	public function handle(Event $event): void {
+		if ($event instanceof BeforeGroupDeletedEvent) {
+			unset($this->cachedGroups[$event->getGroup()->getGID()]);
+			$this->cachedUserGroups->clear();
+			$this->cachedUserGroupsLocal = [];
+		}
+
+		if ($event instanceof BeforeUserAddedEvent || $event instanceof BeforeUserRemovedEvent) {
+			$this->cachedUserGroups->remove($event->getUser()->getUID());
+			unset($this->cachedUserGroupsLocal[$event->getUser()->getUID()]);
+		}
 	}
 }

@@ -9,49 +9,36 @@ declare(strict_types=1);
 
 namespace OCP\Group\Events;
 
+use OCP\AppFramework\Attribute\Implementable;
 use OCP\EventDispatcher\Event;
 use OCP\IGroup;
 
 /**
  * @since 26.0.0
  */
+#[Implementable(since: '21.0.0')]
 class GroupChangedEvent extends Event {
-	private IGroup $group;
-	private string $feature;
-	/** @var mixed */
-	private $value;
-	/** @var mixed */
-	private $oldValue;
-
 	/**
 	 * @since 26.0.0
 	 */
-	public function __construct(IGroup $group,
-		string $feature,
-		$value,
-		$oldValue = null) {
+	public function __construct(
+		private readonly IGroup $group,
+		private readonly string $feature,
+		private readonly mixed $value,
+		private readonly mixed $oldValue = null,
+	) {
 		parent::__construct();
-		$this->group = $group;
-		$this->feature = $feature;
-		$this->value = $value;
-		$this->oldValue = $oldValue;
 	}
 
 	/**
-	 *
 	 * @since 26.0.0
-	 *
-	 * @return IGroup
 	 */
 	public function getGroup(): IGroup {
 		return $this->group;
 	}
 
 	/**
-	 *
 	 * @since 26.0.0
-	 *
-	 * @return string
 	 */
 	public function getFeature(): string {
 		return $this->feature;
@@ -59,20 +46,15 @@ class GroupChangedEvent extends Event {
 
 	/**
 	 * @since 26.0.0
-	 *
-	 * @return mixed
 	 */
-	public function getValue() {
+	public function getValue(): mixed {
 		return $this->value;
 	}
 
 	/**
-	 *
 	 * @since 26.0.0
-	 *
-	 * @return mixed
 	 */
-	public function getOldValue() {
+	public function getOldValue(): mixed {
 		return $this->oldValue;
 	}
 }

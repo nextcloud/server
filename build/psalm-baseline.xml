@@ -2874,6 +2874,11 @@
       <code><![CDATA[getSubject]]></code>
     </DeprecatedMethod>
   </file>
+  <file src="core/AppInfo/Application.php">
+    <DeprecatedClass>
+      <code><![CDATA[BeforeUserRemovedEvent::class]]></code>
+    </DeprecatedClass>
+  </file>
   <file src="core/BackgroundJobs/BackgroundCleanupUpdaterBackupsJob.php">
     <DeprecatedClass>
       <code><![CDATA[Files::rmdirr($dir)]]></code>
@@ -4122,12 +4127,6 @@
   <file src="lib/private/Streamer.php">
     <UndefinedInterfaceMethod>
       <code><![CDATA[get]]></code>
-    </UndefinedInterfaceMethod>
-  </file>
-  <file src="lib/private/SubAdmin.php">
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[listen]]></code>
-      <code><![CDATA[listen]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Support/Subscription/Registry.php">

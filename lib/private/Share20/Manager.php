@@ -168,7 +168,8 @@ class Manager implements IManager {
 			}
 		} elseif ($share->getShareType() === IShare::TYPE_GROUP) {
 			// We expect a valid group as sharedWith for group shares
-			if (!$this->groupManager->groupExists($share->getSharedWith())) {
+			$sharedWith = $share->getSharedWith();
+			if ($sharedWith === null || !$this->groupManager->groupExists($sharedWith)) {
 				throw new \InvalidArgumentException($this->l->t('Share recipient is not a valid group'));
 			}
 		} elseif ($share->getShareType() === IShare::TYPE_LINK) {

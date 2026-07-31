@@ -27,7 +27,10 @@ use OCP\BackgroundJob\IJobList;
 use OCP\Collaboration\AutoComplete\IManager as IAutoCompleteManager;
 use OCP\Collaboration\Collaborators\ISearch as ICollaboratorSearch;
 use OCP\Diagnostics\IEventLogger;
+use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\EventDispatcher\IEventListener;
+use OCP\Group\Events\GroupDeletedEvent;
 use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IConfig;
@@ -45,8 +48,9 @@ use Psr\Log\LoggerInterface;
 
 /**
  * @psalm-import-type AppInfoDefinition from \OCP\App\AppInfoDefinition
+ * @template-implements IEventListener<GroupDeletedEvent>
  */
-class AppManager implements IAppManager {
+class AppManager implements IAppManager, IEventListener {
 	/**
 	 * Apps with these types can not be enabled for certain groups only
 	 * @var string[]
@@ -1275,5 +1279,29 @@ class AppManager implements IAppManager {
 		}
 		// run the steps
 		$r->run();
+	}
+
+	#[\Override]
+	public function handle(Event $event): void {
+		if (!$event instanceof GroupDeletedEvent) {
+			return;
+		}
+
+		$group = $event->getGroup();
+		$apps = $this->getEnabledAppsForGroup($group);
+		foreach ($apps as $appId) {
+			$restrictions = $this->getAppRestriction($appId);
+			if (empty($restrictions)) {
+				continue;
+			}
+			$key = array_search($group->getGID(), $restrictions, true);
+			unset($restrictions[$key]);
+			$restrictions = array_values($restrictions);
+			if (empty($restrictions)) {
+				$this->disableApp($appId);
+			} else {
+				$this->enableAppForGroups($appId, $restrictions);
+			}
+		}
 	}
 }

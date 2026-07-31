@@ -8,8 +8,6 @@
 
 namespace OCA\Files_Sharing\AppInfo;
 
-use OC\Group\DisplayNameCache as GroupDisplayNameCache;
-use OC\User\DisplayNameCache;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Event\LoadSidebar;
 use OCA\Files_Sharing\Capabilities;
@@ -50,7 +48,6 @@ use OCP\Files\Events\BeforeZipCreatedEvent;
 use OCP\Files\Events\Node\BeforeNodeReadEvent;
 use OCP\Files\Events\UserHomeSetupEvent;
 use OCP\Group\Events\BeforeGroupDeletedEvent;
-use OCP\Group\Events\GroupChangedEvent;
 use OCP\Group\Events\GroupDeletedEvent;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
@@ -62,8 +59,6 @@ use OCP\Share\Events\BeforeShareDeletedEvent;
 use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\Events\ShareMovedEvent;
 use OCP\Share\Events\ShareTransferredEvent;
-use OCP\User\Events\UserChangedEvent;
-use OCP\User\Events\UserDeletedEvent;
 use OCP\Util;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\EventDispatcher\GenericEvent as OldGenericEvent;
@@ -98,10 +93,6 @@ class Application extends App implements IBootstrap {
 		$context->registerCapability(Capabilities::class);
 
 		$context->registerNotifierService(Notifier::class);
-		$context->registerEventListener(UserChangedEvent::class, DisplayNameCache::class);
-		$context->registerEventListener(UserDeletedEvent::class, DisplayNameCache::class);
-		$context->registerEventListener(GroupChangedEvent::class, GroupDisplayNameCache::class);
-		$context->registerEventListener(GroupDeletedEvent::class, GroupDisplayNameCache::class);
 
 		// Sidebar and files scripts
 		$context->registerEventListener(LoadAdditionalScriptsEvent::class, LoadAdditionalListener::class);

@@ -9,26 +9,25 @@ declare(strict_types=1);
 
 namespace OCP\Group\Events;
 
+use OCP\AppFramework\Attribute\Implementable;
 use OCP\EventDispatcher\Event;
 use OCP\IGroup;
 
 /**
  * @since 18.0.0
  */
+#[Implementable(since: '18.0.0')]
 class BeforeGroupDeletedEvent extends Event {
-	/** @var IGroup */
-	private $group;
-
 	/**
 	 * @since 18.0.0
 	 */
-	public function __construct(IGroup $group) {
+	public function __construct(
+		private readonly IGroup $group,
+	) {
 		parent::__construct();
-		$this->group = $group;
 	}
 
 	/**
-	 * @return IGroup
 	 * @since 18.0.0
 	 */
 	public function getGroup(): IGroup {
