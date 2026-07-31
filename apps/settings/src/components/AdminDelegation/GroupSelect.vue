@@ -7,6 +7,7 @@
 		v-model="selected"
 		:input-id="setting.id"
 		class="group-select"
+		<!-- TRANSLATORS Placeholder shown when no groups are selected. -->
 		:placeholder="t('settings', 'None')"
 		label="displayName"
 		:options="availableGroups"
