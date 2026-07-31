@@ -187,6 +187,8 @@
     "Invalid share recipient" : "Ongeldige ontvanger voor de share",
     "Group \"%s\" does not exist" : "Groep \"%s\" bestaat niet",
     "The requested share does not exist anymore" : "De toegang tot de gedeelde folder bestaat niet meer",
+    "The share already contains the source." : "De share bevat de bron al.",
+    "The share already contains the recipient." : "De share bevat de ontvanger al.",
     "The user was not created because the user limit has been reached. Check your notifications to learn more." : "De gebruiker is niet aangemaakt, omdat de gebruikerslimiet bereikt is. Bekijk je meldingen om meer uit te vinden.",
     "Could not find category \"%s\"" : "Kan categorie \"%s\" niet vinden",
     "Input text" : "Voer tekst in",
