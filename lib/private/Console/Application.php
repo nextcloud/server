@@ -100,7 +100,7 @@ class Application {
 							try {
 								$this->loadCommandsFromInfoXml($info['commands']);
 							} catch (\Throwable $e) {
-								$output->writeln('<error>' . $e->getMessage() . '</error>');
+								$output->getErrorOutput()->writeln('<error>' . $e->getMessage() . '</error>');
 								$this->logger->error($e->getMessage(), [
 									'exception' => $e,
 								]);
