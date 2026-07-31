@@ -81,8 +81,9 @@ class AppDirsWithDifferentOwner implements ISetupCheck {
 		$currentUserInfos = posix_getpwuid($currentUser) ?: [];
 		$appDirsWithDifferentOwner = $this->getAppDirsWithDifferentOwner($currentUser);
 		if (count($appDirsWithDifferentOwner) > 0) {
+			// TRANSLATORS %1$s is a newline-separated list of absolute app-directory paths.
 			return SetupResult::warning(
-				$this->l10n->t("Some app directories are owned by a different user than the web server one. This may be the case if apps have been installed manually. Check the permissions of the following app directories:\n%s", implode("\n", $appDirsWithDifferentOwner))
+				$this->l10n->t("Some app directories are owned by a different user than the web server one. This may be the case if apps have been installed manually. Check the permissions of the following app directories:\n%1$s", [implode("\n", $appDirsWithDifferentOwner)])
 			);
 		} else {
 			return SetupResult::success($this->l10n->t('App directories have the correct owner "%s"', [$currentUserInfos['name'] ?? '']));
