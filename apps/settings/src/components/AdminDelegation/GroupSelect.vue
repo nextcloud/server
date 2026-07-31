@@ -3,11 +3,11 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
+	<!-- TRANSLATORS Placeholder shown when no groups are selected. -->
 	<NcSelect
 		v-model="selected"
 		:input-id="setting.id"
 		class="group-select"
-		<!-- TRANSLATORS Placeholder shown when no groups are selected. -->
 		:placeholder="t('settings', 'None')"
 		label="displayName"
 		:options="availableGroups"
