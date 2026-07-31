@@ -10,12 +10,13 @@ declare(strict_types=1);
 namespace OCA\Files_Sharing\Sharing;
 
 use DateTime;
-use DateTimeImmutable;
 use DateTimeInterface;
 use NCU\Sharing\Exception\ShareNotFoundException;
 use NCU\Sharing\ISharingManager;
 use NCU\Sharing\Permission\ISharePermissionType;
 use NCU\Sharing\Permission\SharePermission;
+use NCU\Sharing\Property\ISharePropertyType;
+use NCU\Sharing\Property\ShareProperty;
 use NCU\Sharing\Recipient\IShareRecipientType;
 use NCU\Sharing\Recipient\ShareRecipient;
 use NCU\Sharing\Share;
@@ -27,6 +28,7 @@ use OC\Core\Sharing\Permission\ReshareSharePermissionType;
 use OC\Core\Sharing\Property\ExpirationDateSharePropertyType;
 use OC\Core\Sharing\Property\LabelSharePropertyType;
 use OC\Core\Sharing\Property\NoteSharePropertyType;
+use OC\Core\Sharing\Property\PasswordSharePropertyType;
 use OC\Core\Sharing\Recipient\EmailShareRecipientType;
 use OC\Core\Sharing\Recipient\GroupShareRecipientType;
 use OC\Core\Sharing\Recipient\TeamShareRecipientType;
@@ -363,8 +365,23 @@ final readonly class LegacyBackend implements ISharingLegacyBackend {
 			null,
 		);
 
-		// TODO
-		$properties = [];
+		if (!$this->checkAllSame($legacyShares, fn (IShare $share) => $share->getExpirationDate())) {
+			throw new \Exception("All legacy shares sharing a share id don't have the expiration date");
+		}
+
+		if (!$this->checkAllSame($legacyShares, fn (IShare $share) => $share->getPassword())) {
+			throw new \Exception("All legacy shares sharing a share id don't have the password");
+		}
+
+		if (!$this->checkAllSame($legacyShares, fn (IShare $share) => $share->getLabel())) {
+			throw new \Exception("All legacy shares sharing a share id don't have the label");
+		}
+
+		if (!$this->checkAllSame($legacyShares, fn (IShare $share) => $share->getNote())) {
+			throw new \Exception("All legacy shares sharing a share id don't have the note");
+		}
+
+		$properties = $this->extractProperties($legacyShares[0]);
 
 		if (!$this->checkAllSame($legacyShares, fn (IShare $share): ?IAttributes => $share->getAttributes())) {
 			throw new \Exception("All legacy shares sharing a share id don't have the same attributes");
@@ -395,7 +412,7 @@ final readonly class LegacyBackend implements ISharingLegacyBackend {
 			$id,
 			$owner,
 			// TODO
-			new DateTimeImmutable(),
+			\DateTimeImmutable::createFromMutable($legacyShares[0]->getShareTime()),
 			// TODO
 			ShareState::Active,
 			// TODO
@@ -411,17 +428,16 @@ final readonly class LegacyBackend implements ISharingLegacyBackend {
 	 * Check that all items return the same result when used as argument to a function
 	 *
 	 * @template T
+	 * @template U
 	 * @param iterable<T> $items
-	 * @param callable(T):mixed $fn
+	 * @param callable(T):U $fn
 	 */
 	private function checkAllSame(iterable $items, callable $fn): bool {
 		$first = true;
 		$commonValue = null;
 		foreach ($items as $item) {
-			/** @psalm-suppress MixedAssignment */
 			$value = $fn($item);
 			if ($first) {
-				/** @psalm-suppress MixedAssignment */
 				$commonValue = $value;
 				$first = false;
 			} elseif ($value !== $commonValue) {
@@ -616,5 +632,32 @@ final readonly class LegacyBackend implements ISharingLegacyBackend {
 			'value' => $sharedWith,
 			'remote' => null,
 		];
+	}
+
+	/**
+	 * @return array<class-string<ISharePropertyType>, ShareProperty>
+	 */
+	private function extractProperties(IShare $share): array {
+		/** @var array<class-string<ISharePropertyType>, ShareProperty> $properties */
+		$properties = [];
+
+		if ($expire = $share->getExpirationDate()) {
+			$properties[ExpirationDateSharePropertyType::class] = new ShareProperty(ExpirationDateSharePropertyType::class, $expire->format(DateTimeInterface::ATOM));
+		}
+
+		$password = $share->getPassword();
+		if ($password !== null) {
+			$properties[PasswordSharePropertyType::class] = new ShareProperty(PasswordSharePropertyType::class, $password);
+		}
+
+		if ($label = $share->getLabel()) {
+			$properties[LabelSharePropertyType::class] = new ShareProperty(LabelSharePropertyType::class, $label);
+		}
+
+		if ($note = $share->getNote()) {
+			$properties[NoteSharePropertyType::class] = new ShareProperty(NoteSharePropertyType::class, $note);
+		}
+
+		return $properties;
 	}
 }
