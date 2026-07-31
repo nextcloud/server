@@ -243,11 +243,16 @@ class Manager implements IManager {
 		array $options = [],
 	): bool {
 
+		$logContext = [
+			'userId' => $userId,
+			'options' => $options,
+		];
+
 		$userUri = 'principals/users/' . $userId;
 
 		$userCalendars = $this->getCalendarsForPrincipal($userUri);
 		if (empty($userCalendars)) {
-			$this->logger->warning('iMip message could not be processed because user has no calendars');
+			$this->logger->warning('iMip message could not be processed because user has no calendars', $logContext);
 			return false;
 		}
 
@@ -255,34 +260,37 @@ class Manager implements IManager {
 			/** @var VCalendar $vObject|null */
 			$vObject = Reader::read($message);
 		} catch (ParseException $e) {
-			$this->logger->error('iMip message could not be processed because an error occurred while parsing the iMip message', ['exception' => $e]);
+			$logContext['exception'] = $e;
+			$this->logger->error('iMip message could not be processed because an error occurred while parsing the iMip message', $logContext);
 			return false;
 		}
 
 		if (!isset($vObject->VEVENT)) {
-			$this->logger->warning('iMip message does not contain any event(s)');
+			$this->logger->warning('iMip message does not contain any event(s)', $logContext);
 			return false;
 		}
 		/** @var VEvent $vEvent */
 		$vEvent = $vObject->VEVENT;
 
 		if (!isset($vEvent->UID)) {
-			$this->logger->warning('iMip message event dose not contains a UID');
+			$this->logger->warning('iMip message event dose not contains a UID', $logContext);
 			return false;
 		}
+
+		$logContext['eventUid'] = $vEvent->UID->getValue();
 
 		if (!isset($vEvent->ORGANIZER)) {
 			// quirks mode: for Microsoft Exchange Servers use recipient as organizer if no organizer is set
 			if (isset($options['recipient']) && $options['recipient'] !== '') {
 				$vEvent->add('ORGANIZER', 'mailto:' . $options['recipient']);
 			} else {
-				$this->logger->warning('iMip message event does not contain an organizer and no recipient was provided');
+				$this->logger->warning('iMip message event does not contain an organizer and no recipient was provided', $logContext);
 				return false;
 			}
 		}
 
 		if (!isset($vEvent->ATTENDEE)) {
-			$this->logger->warning('iMip message event dose not contains any attendees');
+			$this->logger->warning('iMip message event dose not contains any attendees', $logContext);
 			return false;
 		}
 
@@ -300,7 +308,8 @@ class Manager implements IManager {
 					}
 					return true;
 				} catch (CalendarException $e) {
-					$this->logger->error('iMip message could not be processed because an error occurred', ['exception' => $e]);
+					$logContext['exception'] = $e;
+					$this->logger->error('iMip message could not be processed because an error occurred', $logContext);
 					return false;
 				}
 			}
@@ -324,14 +333,14 @@ class Manager implements IManager {
 				}
 			}
 			if ($calendar === null) {
-				$this->logger->warning('iMip message could not be processed because no writable calendar was found');
+				$this->logger->warning('iMip message could not be processed because no writable calendar was found', $logContext);
 				return false;
 			}
 			if (!empty($options['absentCreateStatus'])) {
 				$status = strtoupper($options['absentCreateStatus']);
 
 				if (in_array($status, ['TENTATIVE', 'CONFIRMED', 'CANCELLED'], true) === false) {
-					$this->logger->warning('iMip message could not be processed because an invalid status was provided for the event');
+					$this->logger->warning('iMip message could not be processed because an invalid status was provided for the event', $logContext);
 					return false;
 				}
 
@@ -345,14 +354,15 @@ class Manager implements IManager {
 			try {
 				$calendar->handleIMipMessage($userId, $vObject->serialize());
 			} catch (CalendarException $e) {
-				$this->logger->error('iMip message could not be processed because an error occurred', ['exception' => $e]);
+				$logContext['exception'] = $e;
+				$this->logger->error('iMip message could not be processed because an error occurred', $logContext);
 				return false;
 			}
 
 			return true;
 		}
 
-		$this->logger->warning('iMip message could not be processed because no corresponding event was found in any calendar');
+		$this->logger->warning('iMip message could not be processed because no corresponding event was found in any calendar', $logContext);
 
 		return false;
 	}
