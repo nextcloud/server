@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace OCA\Sharing\Command;
 
-use OCP\Sharing\Source\IShareSourceType;
-use OCP\Sharing\Source\ShareSource;
+use NCU\Sharing\Source\IShareSourceType;
+use NCU\Sharing\Source\ShareSource;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

@@ -9,10 +9,10 @@ declare(strict_types=1);
 
 namespace OCA\Files\Sharing\Property;
 
+use NCU\Sharing\Property\ABooleanSharePropertyType;
+use NCU\Sharing\Share;
 use OCA\Files\AppInfo\Application;
 use OCP\L10N\IFactory;
-use OCP\Sharing\Property\ABooleanSharePropertyType;
-use OCP\Sharing\Share;
 
 final class NodeGridViewSharePropertyType extends ABooleanSharePropertyType {
 	#[\Override]
@@ -21,7 +21,7 @@ final class NodeGridViewSharePropertyType extends ABooleanSharePropertyType {
 	}
 
 	#[\Override]
-	public function getHint(IFactory $l10nFactory): ?string {
+	public function getHint(IFactory $l10nFactory, Share $share): ?string {
 		return null;
 	}
 

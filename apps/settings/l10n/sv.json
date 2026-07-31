@@ -1043,9 +1043,6 @@
     "Limited ODF compatibility" : "Begränsad ODF-kompatibilitet",
     "Best Microsoft compatibility" : "Bäst kompatibilitet med Microsoft",
     "{progress}% Deploying …" : "{progress}% Driftsätter …",
-    "{progress}% Initializing …" : "{progress}% Initierar …",
-    "Redis cache" : "Redis-cache",
-    "You are still using the old Redis cache backend. For full support of latest Valkey and Redis features, like clustering and sentinel, please switch to the new KeyValueCache backend." : "Du använder fortfarande den äldre Redis-cachebakänden. Byt till den nya KeyValueCache-bakänden för fullständigt stöd för de senaste funktionerna i Valkey och Redis, såsom klustring och Sentinel.",
-    "No legacy Redis cache detected" : "Ingen äldre Redis-cache identifierades"
+    "{progress}% Initializing …" : "{progress}% Initierar …"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

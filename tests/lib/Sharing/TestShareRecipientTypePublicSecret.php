@@ -9,13 +9,13 @@ declare(strict_types=1);
 
 namespace Test\Sharing;
 
+use NCU\Sharing\Icon\ShareIconSVG;
+use NCU\Sharing\Icon\ShareIconURL;
+use NCU\Sharing\Recipient\IShareRecipientType;
+use NCU\Sharing\Recipient\IShareRecipientTypePublicSecret;
 use OCP\Interaction\InteractionReceiver;
 use OCP\IUser;
 use OCP\L10N\IFactory;
-use OCP\Sharing\Icon\ShareIconSVG;
-use OCP\Sharing\Icon\ShareIconURL;
-use OCP\Sharing\Recipient\IShareRecipientType;
-use OCP\Sharing\Recipient\IShareRecipientTypePublicSecret;
 
 final readonly class TestShareRecipientTypePublicSecret implements IShareRecipientType, IShareRecipientTypePublicSecret {
 	public function __construct(

@@ -1,0 +1,12 @@
+SPDX-License-Identifier: Apache-2.0
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: Austin Andrews
+SPDX-FileCopyrightText: David Myers <hello@davidmyers.dev>
+
+This file is generated from multiple sources. Included packages:
+- @mdi/js
+	- version: 7.4.47
+	- license: Apache-2.0
+- vite-plugin-node-polyfills
+	- version: 0.28.0
+	- license: MIT

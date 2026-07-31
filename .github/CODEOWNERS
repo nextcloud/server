@@ -10,7 +10,7 @@
 /__mocks__                                    @nextcloud/server-frontend
 /__tests__                                    @nextcloud/server-frontend
 /dist                                         @nextcloud/server-frontend
-/cypress                                      @nextcloud/server-frontend
+/tests/playwright                             @nextcloud/server-frontend
 **/css                                        @nextcloud/server-frontend
 **/js                                         @nextcloud/server-frontend
 **/src                                        @nextcloud/server-frontend

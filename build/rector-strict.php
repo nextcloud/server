@@ -39,7 +39,7 @@ return (require __DIR__ . '/rector-shared.php')
 		$nextcloudDir . '/apps/files_sharing/tests/Listener/RestrictInteractionListenerTest.php',
 		$nextcloudDir . '/core/Listener/RestrictInteractionListener.php',
 		$nextcloudDir . '/tests/Core/Listener/RestrictInteractionListenerTest.php',
-		$nextcloudDir . '/lib/public/Sharing',
+		$nextcloudDir . '/lib/unstable/Sharing',
 		$nextcloudDir . '/lib/private/Sharing',
 		$nextcloudDir . '/tests/lib/Sharing',
 		$nextcloudDir . '/apps/sharing',
@@ -79,8 +79,8 @@ return (require __DIR__ . '/rector-shared.php')
 			$nextcloudDir . '/apps/files_sharing/lib/Listener/RestrictInteractionListener.php',
 		],
 		RemoveReturnTagIncompatibleWithNativeTypeRector::class => [
-			$nextcloudDir . '/lib/public/Sharing/Property/ISharePropertyType.php',
-			$nextcloudDir . '/lib/public/Sharing/Property/ShareProperty.php',
+			$nextcloudDir . '/lib/unstable/Sharing/Property/ISharePropertyType.php',
+			$nextcloudDir . '/lib/unstable/Sharing/Property/ShareProperty.php',
 		],
 		// `@return $this` is more specific than the native `: self` on a
 		// non-final type; removing it breaks psalm's

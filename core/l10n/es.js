@@ -86,6 +86,7 @@ OC.L10N.register(
     "Expiration date" : "Fecha de caducidad",
     "Label" : "Etiqueta",
     "Password" : "Contraseña",
+    "Your administrator has enforced a password protection." : "Su administrador ha hecho obligatoria una protección con contraseñas.",
     "Email" : "Correo electrónico",
     "Group" : "Grupo",
     "Team" : "Equipo",

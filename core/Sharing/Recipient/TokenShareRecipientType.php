@@ -9,16 +9,16 @@ declare(strict_types=1);
 
 namespace OC\Core\Sharing\Recipient;
 
+use NCU\Sharing\Icon\ShareIconSVG;
+use NCU\Sharing\Icon\ShareIconURL;
+use NCU\Sharing\Recipient\IShareRecipientType;
+use NCU\Sharing\Recipient\IShareRecipientTypePublicSecret;
 use OC\Core\AppInfo\Application;
 use OCP\Interaction\InteractionReceiver;
 use OCP\Interaction\Receivers\LinkReceiver;
 use OCP\IUser;
 use OCP\L10N\IFactory;
 use OCP\Share\IManager;
-use OCP\Sharing\Icon\ShareIconSVG;
-use OCP\Sharing\Icon\ShareIconURL;
-use OCP\Sharing\Recipient\IShareRecipientType;
-use OCP\Sharing\Recipient\IShareRecipientTypePublicSecret;
 
 // TODO: Rename to Link?
 final readonly class TokenShareRecipientType implements IShareRecipientType, IShareRecipientTypePublicSecret {

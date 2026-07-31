@@ -37,6 +37,27 @@ class SFTPWriteStream implements File {
 
 	private string $path;
 
+	/** Payload budget for a single SSH_FXP_WRITE packet */
+	private int $packetSize = 0;
+
+	/** Number of SSH_FXP_WRITE packets sent but not yet acknowledged */
+	private int $outstanding = 0;
+
+	/** Mirrors phpseclib's NET_SFTP_UPLOAD_QUEUE_SIZE */
+	private const int QUEUE_SIZE = 1024;
+
+	/** 2^32, used to split a 64-bit file offset into its high and low 32-bit words */
+	private const int UINT32_MODULUS = 2 ** 32;
+
+	/** Default SFTP payload size (32 KiB) used when the negotiated maximum is unavailable */
+	private const int DEFAULT_MAX_PACKET_SIZE = 1 << 15;
+
+	/** Bytes reserved in an SSH_FXP_WRITE packet for the handle-length, offset and data-length fields */
+	private const int WRITE_PACKET_OVERHEAD = 25;
+
+	/** Length of the 32-bit "string" length prefix preceding the handle in an SSH_FXP_HANDLE response */
+	private const int STRING_LENGTH_PREFIX = 4;
+
 	public static function register($protocol = 'sftpwrite') {
 		if (in_array($protocol, stream_get_wrappers(), true)) {
 			return false;
@@ -77,11 +98,10 @@ class SFTPWriteStream implements File {
 		}
 
 		$remote_file = $this->sftp->realpath($path);
-
-		$this->path = $remote_file;
 		if ($remote_file === false) {
 			return false;
 		}
+		$this->path = $remote_file;
 
 		$packet = pack('Na*N2', strlen($remote_file), $remote_file, NET_SFTP_OPEN_WRITE | NET_SFTP_OPEN_CREATE | NET_SFTP_OPEN_TRUNCATE, 0);
 		try {
@@ -93,7 +113,7 @@ class SFTPWriteStream implements File {
 		$response = $this->invokeSftp($this->sftp, 'get_sftp_packet');
 		switch ($this->getSftpProperty($this->sftp, 'packet_type')) {
 			case NET_SFTP_HANDLE:
-				$this->handle = substr($response, 4);
+				$this->handle = substr($response, self::STRING_LENGTH_PREFIX);
 				break;
 			case NET_SFTP_STATUS: // presumably SSH_FX_NO_SUCH_FILE or SSH_FX_PERMISSION_DENIED
 				$this->invokeSftp($this->sftp, 'logError', [$response]);
@@ -102,6 +122,11 @@ class SFTPWriteStream implements File {
 				user_error('Expected SSH_FXP_HANDLE or SSH_FXP_STATUS');
 				return false;
 		}
+
+		// Size each SSH_FXP_WRITE to the negotiated maximum packet, leaving room
+		// for the handle and the packet header (mirrors phpseclib's SFTP::put()).
+		$maxPacket = $this->getSftpProperty($this->sftp, 'max_sftp_packet') ?: self::DEFAULT_MAX_PACKET_SIZE;
+		$this->packetSize = max(1, $maxPacket - strlen($this->handle) - self::WRITE_PACKET_OVERHEAD);
 
 		return true;
 	}
@@ -128,13 +153,53 @@ class SFTPWriteStream implements File {
 
 		$this->buffer .= $data;
 
-		if (strlen($this->buffer) > 64 * 1024) {
-			if (!$this->stream_flush()) {
+		// Send full packets as soon as enough data is buffered, without waiting
+		// for each acknowledgement, so the upload stays pipelined.
+		while (strlen($this->buffer) >= $this->packetSize) {
+			if (!$this->sendChunk(substr($this->buffer, 0, $this->packetSize))) {
 				return false;
 			}
+			$this->buffer = substr($this->buffer, $this->packetSize);
 		}
 
 		return $written;
+	}
+
+	/**
+	 * Send a single SSH_FXP_WRITE packet without waiting for its response.
+	 *
+	 * Acknowledgements are only drained once the queue is full or the stream is
+	 * flushed/closed. Blocking on every packet would turn each write into a full
+	 * round trip, which is what made the previous implementation slow.
+	 */
+	private function sendChunk(string $chunk): bool {
+		$size = strlen($chunk);
+		$packet = pack('Na*N3a*', strlen($this->handle), $this->handle, $this->internalPosition / self::UINT32_MODULUS, $this->internalPosition, $size, $chunk);
+		try {
+			$this->invokeSftp($this->sftp, 'send_sftp_packet', [NET_SFTP_WRITE, $packet]);
+		} catch (\Throwable) {
+			return false;
+		}
+		$this->internalPosition += $size;
+		$this->outstanding++;
+
+		if ($this->outstanding >= self::QUEUE_SIZE) {
+			return $this->drainResponses();
+		}
+
+		return true;
+	}
+
+	/**
+	 * Read the acknowledgements for all packets sent since the last drain.
+	 */
+	private function drainResponses(): bool {
+		if ($this->outstanding === 0) {
+			return true;
+		}
+		$result = $this->invokeSftp($this->sftp, 'read_put_responses', [$this->outstanding]);
+		$this->outstanding = 0;
+		return $result;
 	}
 
 	#[\Override]
@@ -159,17 +224,15 @@ class SFTPWriteStream implements File {
 
 	#[\Override]
 	public function stream_flush() {
-		$size = strlen($this->buffer);
-		$packet = pack('Na*N3a*', strlen($this->handle), $this->handle, $this->internalPosition / 4294967296, $this->internalPosition, $size, $this->buffer);
-		try {
-			$this->invokeSftp($this->sftp, 'send_sftp_packet', [NET_SFTP_WRITE, $packet]);
-		} catch (\Throwable) {
-			return false;
+		// Flush the trailing partial packet, then wait for all outstanding writes.
+		if ($this->buffer !== '') {
+			if (!$this->sendChunk($this->buffer)) {
+				return false;
+			}
+			$this->buffer = '';
 		}
-		$this->internalPosition += $size;
-		$this->buffer = '';
 
-		return $this->invokeSftp($this->sftp, 'read_put_responses', [1]);
+		return $this->drainResponses();
 	}
 
 	#[\Override]

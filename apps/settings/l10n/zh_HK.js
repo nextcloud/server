@@ -1045,9 +1045,6 @@ OC.L10N.register(
     "Limited ODF compatibility" : "ODF 兼容性有限",
     "Best Microsoft compatibility" : "最佳 Microsoft 兼容性",
     "{progress}% Deploying …" : "{progress}% 部署中 ……",
-    "{progress}% Initializing …" : "{progress}% 初始化中  ...",
-    "Redis cache" : "Redis 快取",
-    "You are still using the old Redis cache backend. For full support of latest Valkey and Redis features, like clustering and sentinel, please switch to the new KeyValueCache backend." : "您仍在使用舊的 Redis 快取後端。為完整支援最新的 Valkey 與 Redis 功能，例如叢集與 sentinel，請切換至新的 KeyValueCache 後端。",
-    "No legacy Redis cache detected" : "未偵測到舊的 Redis 快取"
+    "{progress}% Initializing …" : "{progress}% 初始化中  ..."
 },
 "nplurals=1; plural=0;");

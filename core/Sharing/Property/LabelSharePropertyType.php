@@ -9,10 +9,10 @@ declare(strict_types=1);
 
 namespace OC\Core\Sharing\Property;
 
+use NCU\Sharing\Property\AStringSharePropertyType;
+use NCU\Sharing\Share;
 use OC\Core\AppInfo\Application;
 use OCP\L10N\IFactory;
-use OCP\Sharing\Property\AStringSharePropertyType;
-use OCP\Sharing\Share;
 
 final class LabelSharePropertyType extends AStringSharePropertyType {
 	#[\Override]
@@ -21,7 +21,7 @@ final class LabelSharePropertyType extends AStringSharePropertyType {
 	}
 
 	#[\Override]
-	public function getHint(IFactory $l10nFactory): ?string {
+	public function getHint(IFactory $l10nFactory, Share $share): ?string {
 		return null;
 	}
 

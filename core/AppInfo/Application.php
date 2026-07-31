@@ -8,6 +8,7 @@
 
 namespace OC\Core\AppInfo;
 
+use NCU\Sharing\ISharingRegistry;
 use OC\Authentication\Events\RemoteWipeFinished;
 use OC\Authentication\Events\RemoteWipeStarted;
 use OC\Authentication\Listeners\RemoteWipeActivityListener;
@@ -52,7 +53,6 @@ use OCP\IAppConfig;
 use OCP\Interaction\RestrictInteractionEvent;
 use OCP\Navigation\Events\LoadAdditionalEntriesEvent;
 use OCP\Server;
-use OCP\Sharing\ISharingRegistry;
 use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\User\Events\PasswordUpdatedEvent;
 use OCP\User\Events\UserDeletedEvent;

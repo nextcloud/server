@@ -9,15 +9,15 @@ declare(strict_types=1);
 
 namespace Test\Sharing;
 
+use NCU\Sharing\Icon\ShareIconSVG;
+use NCU\Sharing\Icon\ShareIconURL;
+use NCU\Sharing\Recipient\IShareRecipientType;
+use NCU\Sharing\Recipient\IShareRecipientTypeSearch;
+use NCU\Sharing\Recipient\ShareRecipient;
+use NCU\Sharing\ShareAccessContext;
 use OCP\Interaction\InteractionReceiver;
 use OCP\IUser;
 use OCP\L10N\IFactory;
-use OCP\Sharing\Icon\ShareIconSVG;
-use OCP\Sharing\Icon\ShareIconURL;
-use OCP\Sharing\Recipient\IShareRecipientType;
-use OCP\Sharing\Recipient\IShareRecipientTypeSearch;
-use OCP\Sharing\Recipient\ShareRecipient;
-use OCP\Sharing\ShareAccessContext;
 
 class TestShareRecipientType1 implements IShareRecipientType, IShareRecipientTypeSearch {
 	public function __construct(

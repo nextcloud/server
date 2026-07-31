@@ -36,9 +36,6 @@ This file is generated from multiple sources. Included packages:
 - @floating-ui/core
 	- version: 1.8.0
 	- license: MIT
-- @floating-ui/dom
-	- version: 1.8.0
-	- license: MIT
 - @floating-ui/utils
 	- version: 0.2.12
 	- license: MIT

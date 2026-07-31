@@ -9,18 +9,17 @@ declare(strict_types=1);
 
 namespace Tests\Core\Sharing\Recipient;
 
+use NCU\Sharing\ISharingManager;
+use NCU\Sharing\ISharingRegistry;
+use NCU\Sharing\Recipient\ShareRecipient;
+use NCU\Sharing\ShareAccessContext;
 use OC\Core\Sharing\Recipient\UserShareRecipientType;
 use OC\User\Database;
-use OCA\Sharing\SharingBackend;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
-use OCP\Sharing\ISharingManager;
-use OCP\Sharing\ISharingRegistry;
-use OCP\Sharing\Recipient\ShareRecipient;
-use OCP\Sharing\ShareAccessContext;
 use PHPUnit\Framework\Attributes\Group;
 use Test\TestCase;
 
@@ -136,7 +135,6 @@ final class UserShareRecipientTypeTest extends TestCase {
 	public function testDelete(): void {
 		$registry = Server::get(ISharingRegistry::class);
 		$registry->clear();
-		$registry->registerSharingBackend(Server::get(SharingBackend::class));
 		$registry->registerRecipientType($this->recipientType);
 
 		$accessContext = new ShareAccessContext(currentUser: $this->user1);

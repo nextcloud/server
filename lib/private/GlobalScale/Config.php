@@ -35,4 +35,24 @@ class Config implements \OCP\GlobalScale\IConfig {
 
 		return $enabled === 'internal';
 	}
+
+	#[Override]
+	public function isPrimary(): bool {
+		return $this->isGlobalScaleEnabled()
+			&& ($this->config->getSystemValueString('gss.mode', 'slave') === 'master'
+				|| $this->config->getSystemValueString('gss.mode', 'slave') === 'primary');
+	}
+
+	#[Override]
+	public function isSecondary(): bool {
+		return $this->isGlobalScaleEnabled()
+			&& ($this->config->getSystemValueString('gss.mode', 'slave') === 'slave'
+				|| $this->config->getSystemValueString('gss.mode', 'slave') === 'secondary');
+	}
+
+	#[Override]
+	public function isPrimaryAdmin(string $userId): bool {
+		return in_array($userId, $this->config->getSystemValue('gss.master.admin', []))
+			|| in_array($userId, $this->config->getSystemValue('gss.primary.admin', []));
+	}
 }

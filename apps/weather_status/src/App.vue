@@ -8,7 +8,7 @@
 		<NcActions
 			class="weather-status-menu-item__subheader"
 			:aria-label="currentWeatherMessage"
-			:menu-name="currentWeatherMessage">
+			:menuName="currentWeatherMessage">
 			<template #icon>
 				<NcLoadingIcon v-if="loading" />
 				<img
@@ -34,7 +34,7 @@
 				v-if="gotWeather"
 				target="_blank"
 				:href="weatherLinkTarget"
-				:close-after-click="true">
+				:closeAfterClick="true">
 				<template #icon>
 					<NcIconSvgWrapper
 						name="MapMarker"
@@ -57,7 +57,7 @@
 			</NcActionButton>
 			<NcActionSeparator v-if="address && !errorMessage" />
 			<NcActionButton
-				:close-after-click="true"
+				:closeAfterClick="true"
 				@click="onBrowserLocationClick">
 				<template #icon>
 					<NcIconSvgWrapper
@@ -73,7 +73,7 @@
 				:disabled="false"
 				icon="icon-rename"
 				type="text"
-				model-value=""
+				modelValue=""
 				@submit="onAddressSubmit" />
 			<template v-if="favorites.length > 0">
 				<NcActionCaption :name="t('weather_status', 'Favorites')" />
@@ -102,7 +102,6 @@ import starOutlineSvg from '@mdi/svg/svg/star-outline.svg?raw'
 import starSvg from '@mdi/svg/svg/star.svg?raw'
 import { showError } from '@nextcloud/dialogs'
 import { getLocale } from '@nextcloud/l10n'
-import moment from '@nextcloud/moment'
 import { imagePath } from '@nextcloud/router'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActionCaption from '@nextcloud/vue/components/NcActionCaption'
@@ -863,10 +862,6 @@ export default {
 				// clicked on the text
 				this.setAddress(favAddress)
 			}
-		},
-
-		formatTime(time) {
-			return moment(time).format('LT')
 		},
 
 		getTemperature(forecasts, offset = 0) {

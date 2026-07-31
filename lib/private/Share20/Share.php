@@ -31,7 +31,7 @@ class Share implements IShare {
 	private $fileId;
 	/** @var string */
 	private $nodeType;
-	/** @var int */
+	/** @var IShare::TYPE_* */
 	private $shareType;
 	/** @var string */
 	private $sharedWith;
@@ -44,11 +44,11 @@ class Share implements IShare {
 	private $sharedBy;
 	/** @var string */
 	private $shareOwner;
-	/** @var int */
+	/** @var int-mask-of<Constants::PERMISSION_*> */
 	private $permissions;
 	/** @var IAttributes */
 	private $attributes;
-	/** @var int */
+	/** @var self::STATUS_* */
 	private $status;
 	/** @var string */
 	private $note = '';
@@ -60,7 +60,7 @@ class Share implements IShare {
 	/** @var bool */
 	private $sendPasswordByTalk = false;
 	/** @var string */
-	private $token;
+	private $token = '';
 	private ?int $parent = null;
 	/** @var string */
 	private $target;
@@ -358,7 +358,7 @@ class Share implements IShare {
 	 * @inheritdoc
 	 */
 	#[\Override]
-	public function getStatus(): int {
+	public function getStatus(): ?int {
 		return $this->status;
 	}
 

@@ -150,9 +150,9 @@ describe('ContactsMenu', function() {
 
 		await vi.waitFor(() => {
 			expect(axios.get.mock.calls.some(([url]) => String(url).includes('/contactsmenu/preview-avatars'))).toBe(true)
+			expect(view.container.querySelector('.contactsmenu__trigger-avatars')).toBeNull()
 			expect(view.container.querySelector('.contactsmenu__trigger-icon')).toBeTruthy()
 		})
-		expect(view.container.querySelector('.contactsmenu__trigger-avatars')).toBeNull()
 	})
 
 	it('shows an avatar stack when at least two preview users are available', async () => {

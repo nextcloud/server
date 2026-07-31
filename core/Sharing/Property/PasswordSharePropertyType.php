@@ -9,6 +9,10 @@ declare(strict_types=1);
 
 namespace OC\Core\Sharing\Property;
 
+use NCU\Sharing\Property\APasswordSharePropertyType;
+use NCU\Sharing\Property\ISharePropertyTypeFilter;
+use NCU\Sharing\Share;
+use NCU\Sharing\ShareAccessContext;
 use OC\Core\AppInfo\Application;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\L10N\IFactory;
@@ -17,10 +21,6 @@ use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 use OCP\Security\PasswordContext;
 use OCP\Share\IManager;
-use OCP\Sharing\Property\APasswordSharePropertyType;
-use OCP\Sharing\Property\ISharePropertyTypeFilter;
-use OCP\Sharing\Share;
-use OCP\Sharing\ShareAccessContext;
 use Random\Randomizer;
 
 final class PasswordSharePropertyType extends APasswordSharePropertyType implements ISharePropertyTypeFilter {
@@ -41,7 +41,11 @@ final class PasswordSharePropertyType extends APasswordSharePropertyType impleme
 	}
 
 	#[\Override]
-	public function getHint(IFactory $l10nFactory): ?string {
+	public function getHint(IFactory $l10nFactory, Share $share): ?string {
+		if ($this->isRequired($share)) {
+			return $l10nFactory->get(Application::APP_ID)->t('Your administrator has enforced a password protection.');
+		}
+
 		return null;
 	}
 

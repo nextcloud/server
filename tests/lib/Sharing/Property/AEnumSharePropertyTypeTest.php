@@ -9,12 +9,12 @@ declare(strict_types=1);
 
 namespace Test\Sharing\Property;
 
+use NCU\Sharing\Property\AEnumSharePropertyType;
+use NCU\Sharing\Share;
+use NCU\Sharing\ShareState;
+use NCU\Sharing\ShareUser;
 use OCP\L10N\IFactory;
 use OCP\Server;
-use OCP\Sharing\Property\AEnumSharePropertyType;
-use OCP\Sharing\Share;
-use OCP\Sharing\ShareState;
-use OCP\Sharing\ShareUser;
 use Test\TestCase;
 
 final class TestEnumSharePropertyType extends AEnumSharePropertyType {
@@ -38,7 +38,7 @@ final class TestEnumSharePropertyType extends AEnumSharePropertyType {
 	}
 
 	#[\Override]
-	public function getHint(IFactory $l10nFactory): ?string {
+	public function getHint(IFactory $l10nFactory, Share $share): ?string {
 		throw new \RuntimeException();
 	}
 

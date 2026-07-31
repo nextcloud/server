@@ -9,16 +9,16 @@ declare(strict_types=1);
 
 namespace Test\Sharing\Property;
 
+use NCU\Sharing\Property\APasswordSharePropertyType;
+use NCU\Sharing\Share;
+use NCU\Sharing\ShareState;
+use NCU\Sharing\ShareUser;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\HintException;
 use OCP\L10N\IFactory;
 use OCP\Security\Events\ValidatePasswordPolicyEvent;
 use OCP\Security\IHasher;
 use OCP\Server;
-use OCP\Sharing\Property\APasswordSharePropertyType;
-use OCP\Sharing\Share;
-use OCP\Sharing\ShareState;
-use OCP\Sharing\ShareUser;
 use RuntimeException;
 use Test\TestCase;
 
@@ -29,7 +29,7 @@ final class TestPasswordSharePropertyType extends APasswordSharePropertyType {
 	}
 
 	#[\Override]
-	public function getHint(IFactory $l10nFactory): ?string {
+	public function getHint(IFactory $l10nFactory, Share $share): ?string {
 		throw new RuntimeException();
 	}
 

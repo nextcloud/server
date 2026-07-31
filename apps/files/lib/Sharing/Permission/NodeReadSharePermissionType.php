@@ -9,9 +9,9 @@ declare(strict_types=1);
 
 namespace OCA\Files\Sharing\Permission;
 
+use NCU\Sharing\Permission\ISharePermissionType;
 use OCA\Files\AppInfo\Application;
 use OCP\L10N\IFactory;
-use OCP\Sharing\Permission\ISharePermissionType;
 
 final class NodeReadSharePermissionType implements ISharePermissionType {
 	#[\Override]

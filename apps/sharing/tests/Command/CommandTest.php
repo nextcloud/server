@@ -7,6 +7,15 @@
 
 declare(strict_types=1);
 
+use NCU\Sharing\ISharingManager;
+use NCU\Sharing\ISharingRegistry;
+use NCU\Sharing\Permission\SharePermission;
+use NCU\Sharing\Property\ShareProperty;
+use NCU\Sharing\Recipient\ShareRecipient;
+use NCU\Sharing\Share;
+use NCU\Sharing\ShareAccessContext;
+use NCU\Sharing\ShareState;
+use NCU\Sharing\Source\ShareSource;
 use OC\Core\Command\Base;
 use OCA\Sharing\Command\AddShareRecipient;
 use OCA\Sharing\Command\AddShareSource;
@@ -28,20 +37,15 @@ use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Server;
-use OCP\Sharing\ISharingManager;
-use OCP\Sharing\ISharingRegistry;
-use OCP\Sharing\Permission\SharePermission;
-use OCP\Sharing\Property\ShareProperty;
-use OCP\Sharing\Recipient\ShareRecipient;
-use OCP\Sharing\ShareAccessContext;
-use OCP\Sharing\ShareState;
-use OCP\Sharing\Source\ShareSource;
 use PHPUnit\Framework\Attributes\Group;
 use Symfony\Component\Console\Input\Input;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\Output;
 use Test\Sharing\AbstractSharingManagerTests;
 
+/**
+ * @psalm-import-type SharingShare from Share
+ */
 #[Group(name: 'DB')]
 final class CommandTest extends AbstractSharingManagerTests {
 	/** @var list<class-string<SharingBase>> */
@@ -363,7 +367,7 @@ final class CommandTest extends AbstractSharingManagerTests {
 	}
 
 	/**
-	 * @return array<string, mixed>
+	 * @return SharingShare
 	 */
 	#[Override]
 	protected function getShare(ShareAccessContext $accessContext, string $id): array {
@@ -380,7 +384,7 @@ final class CommandTest extends AbstractSharingManagerTests {
 	}
 
 	/**
-	 * @return array<string, mixed>
+	 * @return SharingShare[]
 	 */
 	#[Override]
 	protected function getShares(ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?string $lastShareID, ?int $limit): array {

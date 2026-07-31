@@ -12,15 +12,15 @@ namespace OC\Core\Sharing\Property;
 use DateInterval;
 use DateTimeImmutable;
 use DateTimeInterface;
+use NCU\Sharing\Property\ADateSharePropertyType;
+use NCU\Sharing\Property\ISharePropertyTypeFilter;
+use NCU\Sharing\Share;
+use NCU\Sharing\ShareAccessContext;
 use OC\Core\AppInfo\Application;
 use OC\Core\Sharing\Recipient\EmailShareRecipientType;
 use OC\Core\Sharing\Recipient\TokenShareRecipientType;
 use OCP\L10N\IFactory;
 use OCP\Share\IManager;
-use OCP\Sharing\Property\ADateSharePropertyType;
-use OCP\Sharing\Property\ISharePropertyTypeFilter;
-use OCP\Sharing\Share;
-use OCP\Sharing\ShareAccessContext;
 use RuntimeException;
 
 // TODO: Handle per recipient required and default flags.
@@ -39,7 +39,11 @@ final class ExpirationDateSharePropertyType extends ADateSharePropertyType imple
 	}
 
 	#[\Override]
-	public function getHint(IFactory $l10nFactory): ?string {
+	public function getHint(IFactory $l10nFactory, Share $share): ?string {
+		if ($this->isRequired($share)) {
+			return $l10nFactory->get(Application::APP_ID)->t('Your administrator has enforced a %d days expiration policy.', [$this->getMaxExpirationDays($share)]);
+		}
+
 		return null;
 	}
 
@@ -62,6 +66,7 @@ final class ExpirationDateSharePropertyType extends ADateSharePropertyType imple
 		if ($this->hasRemoteRecipient($share) && $this->legacyManager->shareApiRemoteDefaultExpireDateEnforced()) {
 			return true;
 		}
+
 		return $this->hasLocalNonTokenAndEmailRecipient($share) && $this->legacyManager->shareApiInternalDefaultExpireDateEnforced();
 	}
 
@@ -86,7 +91,7 @@ final class ExpirationDateSharePropertyType extends ADateSharePropertyType imple
 		return null;
 	}
 
-	private function getMaxExpirationDate(Share $share): ?DateTimeImmutable {
+	private function getMaxExpirationDays(Share $share): ?int {
 		$days = INF;
 
 		if ($this->hasTokenOrEmailRecipient($share) && $this->legacyManager->shareApiLinkDefaultExpireDate()) {
@@ -102,6 +107,15 @@ final class ExpirationDateSharePropertyType extends ADateSharePropertyType imple
 		}
 
 		if ($days !== INF) {
+			return $days;
+		}
+
+		return null;
+	}
+
+	private function getMaxExpirationDate(Share $share): ?DateTimeImmutable {
+		$days = $this->getMaxExpirationDays($share);
+		if ($days !== null) {
 			return $this->now->add(new DateInterval('P' . $days . 'D'));
 		}
 

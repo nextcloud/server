@@ -291,6 +291,8 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			'CONTENT_TYPE' => true,
 			'CONTENT_LENGTH' => true,
 			'REMOTE_ADDR' => true,
+			'PHP_AUTH_USER' => true,
+			'PHP_AUTH_PW' => true,
 		];
 
 		if (isset($specialKeys[$elementName]) && isset($this->server[$elementName])) {

@@ -292,6 +292,8 @@ const userTeams: ITeam[] = []
 	margin-inline-end: calc(2 * var(--default-grid-baseline));
 
 	:deep(.header-menu__trigger) {
+		// NcHeaderMenu applies --header-menu-icon-mask (vertical alpha fade) to
+		// .button-vue__icon:not(:has(svg)). Avatars need the full face visible.
 		.button-vue__icon:has(.contactsmenu__trigger-avatars) {
 			mask: none !important;
 		}

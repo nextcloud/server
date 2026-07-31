@@ -1,0 +1,75 @@
+SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-License-Identifier: Apache-2.0
+SPDX-License-Identifier: GPL-3.0-or-later
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: @nextcloud/dialogs developers
+SPDX-FileCopyrightText: Arnout Kazemier
+SPDX-FileCopyrightText: Austin Andrews
+SPDX-FileCopyrightText: David Myers <hello@davidmyers.dev>
+SPDX-FileCopyrightText: Jeff Sagal <sagalbot@gmail.com>
+SPDX-FileCopyrightText: Matt Zabriskie
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: Perry Mitchell <perry@perrymitchell.net>
+SPDX-FileCopyrightText: Sindre Sorhus
+SPDX-FileCopyrightText: atomiks
+SPDX-FileCopyrightText: debounce developers
+SPDX-FileCopyrightText: p-queue developers
+
+This file is generated from multiple sources. Included packages:
+- @floating-ui/dom
+	- version: 1.8.0
+	- license: MIT
+- @floating-ui/utils
+	- version: 0.2.12
+	- license: MIT
+- @mdi/js
+	- version: 7.4.47
+	- license: Apache-2.0
+- @nextcloud/axios
+	- version: 2.6.0
+	- license: GPL-3.0-or-later
+- @nextcloud/capabilities
+	- version: 1.2.1
+	- license: GPL-3.0-or-later
+- @nextcloud/dialogs
+	- version: 7.5.0
+	- license: AGPL-3.0-or-later
+- @nextcloud/files
+	- version: 4.0.0
+	- license: AGPL-3.0-or-later
+- @nextcloud/initial-state
+	- version: 3.0.0
+	- license: GPL-3.0-or-later
+- @nextcloud/sharing
+	- version: 0.3.0
+	- license: GPL-3.0-or-later
+- @nextcloud/sharing
+	- version: 0.4.0
+	- license: GPL-3.0-or-later
+- @nextcloud/vue
+	- version: 9.9.0
+	- license: AGPL-3.0-or-later
+- @nextcloud/vue-select
+	- version: 4.1.0
+	- license: MIT
+- axios
+	- version: 1.18.1
+	- license: MIT
+- debounce
+	- version: 3.0.0
+	- license: MIT
+- eventemitter3
+	- version: 5.0.4
+	- license: MIT
+- p-queue
+	- version: 9.3.3
+	- license: MIT
+- p-timeout
+	- version: 7.0.0
+	- license: MIT
+- vite-plugin-node-polyfills
+	- version: 0.28.0
+	- license: MIT
+- webdav
+	- version: 5.10.0
+	- license: MIT

@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace Test\Sharing;
 
+use NCU\Sharing\Permission\ISharePermissionPreset;
 use OCP\L10N\IFactory;
-use OCP\Sharing\Permission\ISharePermissionPreset;
 
 class TestSharePermissionPreset1 implements ISharePermissionPreset {
 	#[\Override]

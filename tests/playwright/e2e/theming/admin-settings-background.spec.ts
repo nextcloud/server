@@ -81,7 +81,7 @@ test.describe('Admin theming background settings', () => {
 	})
 
 	test('User default background reflects admin custom background and color', async ({ page, context }) => {
-		const imagePath = resolve(process.cwd(), 'cypress/fixtures/image.jpg')
+		const imagePath = resolve(process.cwd(), 'tests/data/images/image.jpg')
 
 		await page.locator('input[type="file"][name="background"]').setInputFiles(imagePath)
 		await page.waitForResponse((response) => response.url().includes('/apps/theming/ajax/uploadImage') && response.request().method() === 'POST')

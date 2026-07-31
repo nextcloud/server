@@ -97,6 +97,7 @@ OC.L10N.register(
     "Label" : "ラベル",
     "Note to recipients" : "受取人へのメモ",
     "Password" : "パスワード",
+    "Your administrator has enforced a password protection." : "管理者はパスワードによる保護を行っています。",
     "Email" : "メール",
     "Group" : "グループ",
     "Team" : "チーム",

@@ -80,6 +80,7 @@ OC.L10N.register(
     "Expiration date" : "تاريخ إنتهاء صلاحية المشاركة",
     "Label" : "تسمية",
     "Password" : "كلمة المرور",
+    "Your administrator has enforced a password protection." : "مسؤول النظام قام بفرض الحماية عن طريق كلمة المرور.",
     "Email" : "البريد الإلكتروني",
     "Group" : "مجموعة",
     "Team" : "فريق",

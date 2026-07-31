@@ -9,9 +9,9 @@ declare(strict_types=1);
 
 namespace Test\Sharing;
 
+use NCU\Sharing\Property\AEnumSharePropertyType;
+use NCU\Sharing\Share;
 use OCP\L10N\IFactory;
-use OCP\Sharing\Property\AEnumSharePropertyType;
-use OCP\Sharing\Share;
 
 class TestSharePropertyType1 extends AEnumSharePropertyType {
 	public function __construct(
@@ -28,7 +28,7 @@ class TestSharePropertyType1 extends AEnumSharePropertyType {
 	}
 
 	#[\Override]
-	public function getHint(IFactory $l10nFactory): string {
+	public function getHint(IFactory $l10nFactory, Share $share): string {
 		return 'hint ' . $this->getDisplayName($l10nFactory);
 	}
 

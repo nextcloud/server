@@ -152,7 +152,7 @@ OC.L10N.register(
     "%1$s has declined your invitation" : "%1$s odmítla(a) vaši pozvánku",
     "%1$s has responded to your invitation" : "%1$s odpověděl(a) na vaši pozvánku",
     "Invitation updated: %1$s" : "Pozvánka aktualizována: %1$s",
-    "%1$s updated the event \"%2$s\"" : "%1$s zaktualizoval(a) událost „%2$s",
+    "%1$s updated the event \"%2$s\"" : "%1$s aktualizoval(a) událost „%2$s",
     "Invitation: %1$s" : "Pozvánka: %1$s",
     "%1$s would like to invite you to \"%2$s\"" : "%1$s by vás ráda pozval(a) na „%2$s“",
     "Organizer:" : "Organizátor:",

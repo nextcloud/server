@@ -95,28 +95,6 @@ class L10N implements IL10N {
 		return (string)new L10NString($this, $text_plural, $parameters, $count);
 	}
 
-	/**
-	 * Localization
-	 * @param string $type Type of localization
-	 * @param \DateTime|int|string|null $data parameters for this localization
-	 * @param array $options
-	 * @return string|int|false
-	 *
-	 * Returns the localized data.
-	 *
-	 * Implemented types:
-	 *  - date
-	 *    - Creates a date
-	 *    - params: timestamp (int/string)
-	 *  - datetime
-	 *    - Creates date and time
-	 *    - params: timestamp (int/string)
-	 *  - time
-	 *    - Creates a time
-	 *    - params: timestamp (int/string)
-	 *  - firstday: Returns the first day of the week (0 sunday - 6 saturday)
-	 *  - jsdate: Returns the short JS date format
-	 */
 	#[\Override]
 	public function l(string $type, $data = null, array $options = []) {
 		if ($this->locale === null) {
@@ -135,7 +113,7 @@ class L10N implements IL10N {
 		}
 
 		$value = new \DateTime();
-		if ($data instanceof \DateTime) {
+		if ($data instanceof \DateTime || $data instanceof \DateTimeImmutable) {
 			$value = $data;
 		} elseif (\is_string($data) && !is_numeric($data)) {
 			$data = strtotime($data);

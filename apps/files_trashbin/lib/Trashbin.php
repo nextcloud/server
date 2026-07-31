@@ -30,6 +30,7 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Exceptions\AbortedEventException;
+use OCP\Files\Cache\IPropagator;
 use OCP\Files\Events\Node\BeforeNodeDeletedEvent;
 use OCP\Files\File;
 use OCP\Files\Folder;
@@ -937,21 +938,27 @@ class Trashbin implements IEventListener {
 		$size = 0;
 
 		if ($availableSpace <= 0) {
-			foreach ($files as $file) {
-				if ($availableSpace <= 0 && $expiration->isExpired($file['mtime'], true)) {
-					$tmp = self::delete($file['name'], $user, $file['mtime']);
-					Server::get(LoggerInterface::class)->info(
-						'remove "' . $file['name'] . '" (' . $tmp . 'B) to meet the limit of trash bin size (50% of available quota) for user "{user}"',
-						[
-							'app' => 'files_trashbin',
-							'user' => $user,
-						]
-					);
-					$availableSpace += $tmp;
-					$size += $tmp;
-				} else {
-					break;
+			$propagator = self::getUserStoragePropagator($user);
+			$propagator?->beginBatch();
+			try {
+				foreach ($files as $file) {
+					if ($availableSpace <= 0 && $expiration->isExpired($file['mtime'], true)) {
+						$tmp = self::delete($file['name'], $user, $file['mtime']);
+						Server::get(LoggerInterface::class)->info(
+							'remove "' . $file['name'] . '" (' . $tmp . 'B) to meet the limit of trash bin size (50% of available quota) for user "{user}"',
+							[
+								'app' => 'files_trashbin',
+								'user' => $user,
+							]
+						);
+						$availableSpace += $tmp;
+						$size += $tmp;
+					} else {
+						break;
+					}
 				}
+			} finally {
+				$propagator?->commitBatch();
 			}
 		}
 		return $size;
@@ -968,10 +975,17 @@ class Trashbin implements IEventListener {
 		$expiration = Server::get(Expiration::class);
 		$size = 0;
 		$count = 0;
-		foreach ($files as $file) {
-			$timestamp = $file['mtime'];
-			$filename = $file['name'];
-			if ($expiration->isExpired($timestamp)) {
+
+		$propagator = self::getUserStoragePropagator($user);
+		$propagator?->beginBatch();
+		try {
+			foreach ($files as $file) {
+				$timestamp = $file['mtime'];
+				$filename = $file['name'];
+				if (!$expiration->isExpired($timestamp)) {
+					break;
+				}
+
 				try {
 					$size += self::delete($filename, $user, $timestamp);
 					$count++;
@@ -991,12 +1005,20 @@ class Trashbin implements IEventListener {
 						'user' => $user,
 					],
 				);
-			} else {
-				break;
 			}
+		} finally {
+			$propagator?->commitBatch();
 		}
 
 		return [$size, $count];
+	}
+
+	private static function getUserStoragePropagator(string $user): ?IPropagator {
+		try {
+			return Server::get(IRootFolder::class)->getUserFolder($user)->getStorage()->getPropagator();
+		} catch (\Exception) {
+			return null;
+		}
 	}
 
 	/**

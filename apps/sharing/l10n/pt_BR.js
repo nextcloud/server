@@ -2,8 +2,6 @@ OC.L10N.register(
     "sharing",
     {
     "The owner does not exist: %s" : "O proprietário não existe: %s",
-    "The share already contains the source." : "O compartilhamento já contém a fonte.",
-    "The share already contains the recipient." : "O compartilhamento já contém o destinatário.",
     "Sharing" : "Compartilhar",
     "TODO" : "A fazer"
 },

@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\Sharing\Command;
 
-use OCP\Sharing\Permission\ISharePermissionPreset;
+use NCU\Sharing\Permission\ISharePermissionPreset;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

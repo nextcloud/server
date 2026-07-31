@@ -91,6 +91,7 @@ OC.L10N.register(
     "If enabled, only administrators can create and edit tags. Accounts can still assign and remove them from files." : "Si està habilitat, només els administradors poden crear i editar etiquetes. Els comptes encara poden assignar-los i eliminar-los dels fitxers.",
     "Restrict tag creation and editing to administrators" : "Restringeix la creació i edició d'etiquetes als administradors",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Les etiquetes col·laboratives estan disponibles per a tots els usuaris. Els usuaris poden veure les etiquetes restringides, però no les poden assignar. Les etiquetes invisibles són per a ús intern, perquè els usuaris no poden ni veure-les ni assignar-les.",
+    "Add tags" : "Afegeix etiquetes",
     "Assigned collaborative tags" : "Etiquetes col·laboratives assignades",
     "Open in Files" : "Obre a Fitxers",
     "List of tags and their associated files and folders." : "Llista d'etiquetes i els fitxers i carpetes associats.",
