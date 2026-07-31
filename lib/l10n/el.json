@@ -195,6 +195,8 @@
     "Unknown share recipient" : "Άγνωστος παραλήπτης διαμοιρασμού",
     "Group \"%s\" does not exist" : "Η ομάδα \"%s\" δεν υπάρχει",
     "The requested share does not exist anymore" : "Το διαμοιρασμένο που ζητήθηκε δεν υπάρχει πλέον",
+    "The share already contains the source." : "Η κοινή χρήση περιέχει ήδη την πηγή.",
+    "The share already contains the recipient." : "Η κοινή χρήση περιέχει ήδη τον παραλήπτη.",
     "The source does not exist." : "Η πηγή δεν υπάρχει.",
     "The recipient does not exist." : "Ο παραλήπτης δεν υπάρχει.",
     "The value must be alphanumeric, 1 to 32 characters long and may contain dashes." : "Η τιμή πρέπει να είναι αλφαριθμητική, μήκους 1 έως 32 χαρακτήρων και μπορεί να περιέχει παύλες.",

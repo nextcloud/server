@@ -118,6 +118,7 @@
     "_Cannot set expiration date more than %n day in the future_::_Cannot set expiration date more than %n days in the future_" : ["Vanhenemispäivän voi asettaa korkeintaan %n päivään tulevaisuuteen","Vanhenemispäivän voi asettaa korkeintaan %n päivään tulevaisuuteen"],
     "Group \"%s\" does not exist" : "Ryhmää \"%s\" ei ole olemassa",
     "The requested share does not exist anymore" : "Pyydettyä jakoa ei ole enää olemassa",
+    "The share already contains the source." : "Jako sisältää jo lähteen.",
     "The user was not created because the user limit has been reached. Check your notifications to learn more." : "Käyttäjää ei luotu, koska käyttäjäraja on tullut täyteen. Tarkista ilmoitukset saadaksesi lisätietoja.",
     "Could not find category \"%s\"" : "Luokkaa \"%s\" ei löytynyt",
     "Sunday" : "sunnuntai",
