@@ -18,6 +18,7 @@ use OCP\Accounts\IAccountManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Folder;
 use OCP\Files\IFilenameValidator;
+use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
 use OCP\IConfig;
 use OCP\IDateTimeZone;
@@ -146,7 +147,8 @@ class ServerFactory {
 					$objectTree,
 					$this->userSession,
 					$userFolder,
-					\OC::$server->getShareManager()
+					\OCP\Server::get(\OCP\Share\IManager::class),
+					\OCP\Server::get(IRootFolder::class),
 				));
 				$server->addPlugin(new CommentPropertiesPlugin(\OC::$server->getCommentsManager(), $this->userSession));
 				$server->addPlugin(new FilesReportPlugin(

@@ -13,10 +13,12 @@ use OCA\DAV\Connector\Sabre\Node;
 use OCA\DAV\Connector\Sabre\SharesPlugin;
 use OCA\DAV\Upload\UploadFile;
 use OCP\Files\Folder;
+use OCP\Files\IRootFolder;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\Tree;
 
 class SharesPluginTest extends \Test\TestCase {
@@ -47,11 +49,17 @@ class SharesPluginTest extends \Test\TestCase {
 	 */
 	private $plugin;
 
+	/**
+	 * @var IRootFolder&MockObject
+	 */
+	private $rootFolder;
+
 	protected function setUp(): void {
 		parent::setUp();
 		$this->server = new \Sabre\DAV\Server();
 		$this->tree = $this->createMock(Tree::class);
 		$this->shareManager = $this->createMock(IManager::class);
+		$this->rootFolder = $this->createMock(IRootFolder::class);
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->once())
 			->method('getUID')
@@ -66,7 +74,8 @@ class SharesPluginTest extends \Test\TestCase {
 			$this->tree,
 			$userSession,
 			$this->userFolder,
-			$this->shareManager
+			$this->shareManager,
+			$this->rootFolder,
 		);
 		$this->plugin->initialize($this->server);
 	}
