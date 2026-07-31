@@ -340,6 +340,7 @@ class Server {
 					$userSession,
 					$userFolder,
 					$shareManager,
+					\OCP\Server::get(IRootFolder::class),
 				));
 				$this->server->addPlugin(new CommentPropertiesPlugin(
 					\OCP\Server::get(ICommentsManager::class),
