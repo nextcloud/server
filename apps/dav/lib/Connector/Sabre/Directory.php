@@ -473,6 +473,11 @@ class Directory extends Node implements
 
 	#[\Override]
 	public function copyInto($targetName, $sourcePath, INode $sourceNode, int $depth): bool {
+		if ($sourceNode instanceof Directory && $depth !== \Sabre\DAV\Server::DEPTH_INFINITY) {
+			// Fall back to sabre default copyNode() implementation
+			return false;
+		}
+
 		if ($sourceNode instanceof File || $sourceNode instanceof Directory) {
 			try {
 				$destinationPath = $this->getPath() . '/' . $targetName;
