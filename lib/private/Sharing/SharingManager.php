@@ -31,7 +31,6 @@ use OC\Core\Sharing\Permission\ReshareSharePermissionType;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\EventDispatcher\IEventListener;
-use OCP\IAppConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\Interaction\Actions\ShareAction;
@@ -61,8 +60,6 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 
 	private IL10N $l10n;
 
-	private ISharingBackend $backend;
-
 	public function __construct(
 		IEventDispatcher $eventDispatcher,
 		private IUserManager $userManager,
@@ -70,19 +67,11 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		private ISnowflakeGenerator $snowflakeGenerator,
 		private IDBConnection $dbConnection,
 		private ISharingRegistry $registry,
-		IAppConfig $appConfig,
+		private ISharingBackend $backend,
 		private ClockInterface $clock,
 	) {
 		$this->randomizer = new Randomizer();
 		$this->l10n = $l10nFactory->get('sharing');
-		$this->backend = new SharingBackend(
-			$l10nFactory,
-			$dbConnection,
-			$userManager,
-			$appConfig,
-			$registry,
-			$this,
-		);
 
 		$eventDispatcher->addServiceListener(BeforeUserDeletedEvent::class, self::class);
 	}
