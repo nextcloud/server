@@ -19,10 +19,14 @@ use OCP\AppFramework\Http\ICallbackResponse;
 use OCP\AppFramework\Http\IOutput;
 use OCP\Diagnostics\IEventLogger;
 use OCP\HintException;
+use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\IRequest;
+use OCP\ISession;
 use OCP\Profiler\IProfiler;
 use OCP\Server;
 use Psr\Container\ContainerExceptionInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Entry point for every request in your app. You can consider this as your
@@ -199,12 +203,38 @@ class App {
 			}
 		}
 
-		if ($response->getFlushEarly()) {
-			fastcgi_finish_request();
-			while (ob_get_level() > 0) {
-				ob_end_flush();
-			}
-			flush();
+		if ($response->getFlushEarly() && $container->get(IConfig::class)->getSystemValueBool('flush_response_early', true)) {
+			self::finishRequest($container, $io);
 		}
+	}
+
+	/**
+	 * Hand the finished response to the client, so that the remaining work of
+	 * this process does not keep it waiting.
+	 */
+	private static function finishRequest(DIContainer $container, IOutput $io): void {
+		// The remaining work must not be cut off when the client goes away
+		ignore_user_abort(true);
+
+		// Otherwise the next request of the same client blocks on the session
+		// lock for as long as this process keeps working
+		try {
+			$container->get(ISession::class)->close();
+		} catch (ContainerExceptionInterface) {
+		}
+
+		// The client may send a follow-up request that then reads data from
+		// before the transaction
+		try {
+			if ($container->get(IDBConnection::class)->inTransaction()) {
+				$container->get(LoggerInterface::class)->warning(
+					'A response was flushed to the client while a database transaction was still open. The client may not be able to observe the pending writes yet.',
+					['app' => 'core'],
+				);
+			}
+		} catch (ContainerExceptionInterface) {
+		}
+
+		$io->finishRequest();
 	}
 }
