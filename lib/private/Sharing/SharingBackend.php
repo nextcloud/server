@@ -38,8 +38,6 @@ use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use RuntimeException;
 
-// TODO: Add mapping table for class names in sources, recipients, permissions and properties
-
 /**
  * @psalm-import-type SharingShare from Share
  */
@@ -53,6 +51,7 @@ final readonly class SharingBackend implements ISharingBackend {
 		private IAppConfig $appConfig,
 		private ISharingRegistry $registry,
 		private ISharingManager $manager,
+		private ClassMapper $classMapper,
 	) {
 		$this->l10n = $factory->get('sharing');
 	}
@@ -127,7 +126,7 @@ final readonly class SharingBackend implements ISharingBackend {
 				->insert('sharing_share_sources')
 				->values([
 					'share_id' => $qb->createNamedParameter($id),
-					'source_class' => $qb->createNamedParameter($source->class),
+					'source_class_id' => $qb->createNamedParameter($this->classMapper->getClassId($source->class), IQueryBuilder::PARAM_INT),
 					'source_value' => $qb->createNamedParameter($source->value),
 				])
 				->executeStatement();
@@ -146,7 +145,7 @@ final readonly class SharingBackend implements ISharingBackend {
 		$rowCount = $qb
 			->delete('sharing_share_sources')
 			->where($qb->expr()->eq('share_id', $qb->createNamedParameter($id)))
-			->andWhere($qb->expr()->eq('source_class', $qb->createNamedParameter($source->class)))
+			->andWhere($qb->expr()->eq('source_class_id', $qb->createNamedParameter($this->classMapper->getClassId($source->class), IQueryBuilder::PARAM_INT)))
 			->andWhere($qb->expr()->eq('source_value', $qb->createNamedParameter($source->value)))
 			->executeStatement();
 		if ($rowCount === 0) {
@@ -160,7 +159,7 @@ final readonly class SharingBackend implements ISharingBackend {
 		$result = $qb
 			->selectDistinct('share_id')
 			->from('sharing_share_sources')
-			->where($qb->expr()->eq('source_class', $qb->createNamedParameter($source->class)))
+			->where($qb->expr()->eq('source_class_id', $qb->createNamedParameter($this->classMapper->getClassId($source->class), IQueryBuilder::PARAM_INT)))
 			->andWhere($qb->expr()->eq('source_value', $qb->createNamedParameter($source->value)))
 			->executeQuery();
 
@@ -175,7 +174,7 @@ final readonly class SharingBackend implements ISharingBackend {
 		$qb = $this->connection->getQueryBuilder();
 		$qb
 			->delete('sharing_share_sources')
-			->where($qb->expr()->eq('source_class', $qb->createNamedParameter($source->class)))
+			->where($qb->expr()->eq('source_class_id', $qb->createNamedParameter($this->classMapper->getClassId($source->class), IQueryBuilder::PARAM_INT)))
 			->andWhere($qb->expr()->eq('source_value', $qb->createNamedParameter($source->value)))
 			->executeStatement();
 
@@ -197,7 +196,7 @@ final readonly class SharingBackend implements ISharingBackend {
 
 			$values = [
 				'share_id' => $qb->createNamedParameter($id),
-				'recipient_class' => $qb->createNamedParameter($recipient->class),
+				'recipient_class_id' => $qb->createNamedParameter($this->classMapper->getClassId($recipient->class), IQueryBuilder::PARAM_INT),
 				'recipient_value' => $qb->createNamedParameter($recipient->value),
 				'recipient_instance' => $qb->createNamedParameter($recipient->instance),
 				'recipient_secret' => $qb->createNamedParameter($recipient->secret),
@@ -224,7 +223,7 @@ final readonly class SharingBackend implements ISharingBackend {
 		$rowCount = $qb
 			->delete('sharing_share_recipients')
 			->where($qb->expr()->eq('share_id', $qb->createNamedParameter($id)))
-			->andWhere($qb->expr()->eq('recipient_class', $qb->createNamedParameter($recipient->class)))
+			->andWhere($qb->expr()->eq('recipient_class_id', $qb->createNamedParameter($this->classMapper->getClassId($recipient->class), IQueryBuilder::PARAM_INT)))
 			->andWhere($qb->expr()->eq('recipient_value', $qb->createNamedParameter($recipient->value)))
 			->andWhere(
 				$recipient->instance === null
@@ -243,7 +242,7 @@ final readonly class SharingBackend implements ISharingBackend {
 		$result = $qb
 			->selectDistinct('share_id')
 			->from('sharing_share_recipients')
-			->where($qb->expr()->eq('recipient_class', $qb->createNamedParameter($recipient->class)))
+			->where($qb->expr()->eq('recipient_class_id', $qb->createNamedParameter($this->classMapper->getClassId($recipient->class), IQueryBuilder::PARAM_INT)))
 			->andWhere($qb->expr()->eq('recipient_value', $qb->createNamedParameter($recipient->value)))
 			->andWhere(
 				$recipient->instance === null
@@ -263,7 +262,7 @@ final readonly class SharingBackend implements ISharingBackend {
 		$qb = $this->connection->getQueryBuilder();
 		$qb
 			->delete('sharing_share_recipients')
-			->where($qb->expr()->eq('recipient_class', $qb->createNamedParameter($recipient->class)))
+			->where($qb->expr()->eq('recipient_class_id', $qb->createNamedParameter($this->classMapper->getClassId($recipient->class), IQueryBuilder::PARAM_INT)))
 			->andWhere($qb->expr()->eq('recipient_value', $qb->createNamedParameter($recipient->value)))
 			->andWhere(
 				$recipient->instance === null
@@ -327,7 +326,7 @@ final readonly class SharingBackend implements ISharingBackend {
 			->update('sharing_share_recipients')
 			->set('recipient_secret', $qb->createNamedParameter($secret))
 			->where($qb->expr()->eq('share_id', $qb->createNamedParameter($id)))
-			->andWhere($qb->expr()->eq('recipient_class', $qb->createNamedParameter($recipient->class)))
+			->andWhere($qb->expr()->eq('recipient_class_id', $qb->createNamedParameter($this->classMapper->getClassId($recipient->class), IQueryBuilder::PARAM_INT)))
 			->andWhere($qb->expr()->eq('recipient_value', $qb->createNamedParameter($recipient->value)))
 			->andWhere(
 				$recipient->instance === null
@@ -356,7 +355,7 @@ final readonly class SharingBackend implements ISharingBackend {
 				->insert('sharing_share_properties')
 				->values([
 					'share_id' => $qb->createNamedParameter($id),
-					'property_class' => $qb->createNamedParameter($property->class),
+					'property_class_id' => $qb->createNamedParameter($this->classMapper->getClassId($property->class), IQueryBuilder::PARAM_INT),
 					'property_value' => $qb->createNamedParameter($value),
 				])
 				->executeStatement();
@@ -381,7 +380,7 @@ final readonly class SharingBackend implements ISharingBackend {
 				->select('sp.property_value')
 				->from('sharing_share_properties', 'sp')
 				->where($qb->expr()->eq('sp.share_id', $qb->createNamedParameter($id)))
-				->andWhere($qb->expr()->eq('sp.property_class', $qb->createNamedParameter($property->class)));
+				->andWhere($qb->expr()->eq('sp.property_class_id', $qb->createNamedParameter($this->classMapper->getClassId($property->class), IQueryBuilder::PARAM_INT)));
 
 			/** @var string|false $oldValue */
 			$oldValue = $qb->executeQuery()->fetchOne();
@@ -397,7 +396,7 @@ final readonly class SharingBackend implements ISharingBackend {
 			->update('sharing_share_properties')
 			->set('property_value', $qb->createNamedParameter($value))
 			->where($qb->expr()->eq('share_id', $qb->createNamedParameter($id)))
-			->andWhere($qb->expr()->eq('property_class', $qb->createNamedParameter($property->class)))
+			->andWhere($qb->expr()->eq('property_class_id', $qb->createNamedParameter($this->classMapper->getClassId($property->class), IQueryBuilder::PARAM_INT)))
 			->executeStatement();
 		if ($rowCount === 0) {
 			throw new ShareNotFoundException();
@@ -412,7 +411,7 @@ final readonly class SharingBackend implements ISharingBackend {
 				->insert('sharing_share_permissions')
 				->values([
 					'share_id' => $qb->createNamedParameter($id),
-					'permission_class' => $qb->createNamedParameter($permission->class),
+					'permission_class_id' => $qb->createNamedParameter($this->classMapper->getClassId($permission->class), IQueryBuilder::PARAM_INT),
 					'permission_enabled' => $qb->createNamedParameter($permission->enabled, IQueryBuilder::PARAM_BOOL),
 				])
 				->executeStatement();
@@ -432,7 +431,7 @@ final readonly class SharingBackend implements ISharingBackend {
 			->update('sharing_share_permissions')
 			->set('permission_enabled', $qb->createNamedParameter($permission->enabled, IQueryBuilder::PARAM_BOOL))
 			->where($qb->expr()->eq('share_id', $qb->createNamedParameter($id)))
-			->andWhere($qb->expr()->eq('permission_class', $qb->createNamedParameter($permission->class)))
+			->andWhere($qb->expr()->eq('permission_class_id', $qb->createNamedParameter($this->classMapper->getClassId($permission->class), IQueryBuilder::PARAM_INT)))
 			->executeStatement();
 		if ($rowCount === 0) {
 			throw new ShareNotFoundException();
@@ -450,13 +449,14 @@ final readonly class SharingBackend implements ISharingBackend {
 
 		$permissionPresetCompatiblePermissionTypeClasses = $this->registry->getPermissionPresetCompatiblePermissionTypeClasses()[$permissionPresetClass];
 		foreach (array_chunk($permissionPresetCompatiblePermissionTypeClasses, 1000) as $chunk) {
+			$chunkIds = array_map($this->classMapper->getClassId(...), $chunk);
 			// Some permissions might not be compatible with the share, just ignore it and update the ones that are present.
 			$qb = $this->connection->getQueryBuilder();
 			$qb
 				->update('sharing_share_permissions')
 				->set('permission_enabled', $qb->createNamedParameter(true, IQueryBuilder::PARAM_BOOL))
 				->where($qb->expr()->eq('share_id', $qb->createNamedParameter($id)))
-				->andWhere($qb->expr()->in('permission_class', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_STR_ARRAY)))
+				->andWhere($qb->expr()->in('permission_class_id', $qb->createNamedParameter($chunkIds, IQueryBuilder::PARAM_INT_ARRAY)))
 				->executeStatement();
 		}
 
@@ -590,7 +590,7 @@ final readonly class SharingBackend implements ISharingBackend {
 
 				foreach ($recipientTypeValues as $recipientTypeClass => $recipientValues) {
 					$qb->orWhere($qb->expr()->andX(
-						$qb->expr()->eq('sr.recipient_class', $qb->createNamedParameter($recipientTypeClass)),
+						$qb->expr()->eq('sr.recipient_class_id', $qb->createNamedParameter($this->classMapper->getClassId($recipientTypeClass), IQueryBuilder::PARAM_INT)),
 						// TODO: Add chunking
 						$qb->expr()->in('sr.recipient_value', $qb->createNamedParameter($recipientValues, IQueryBuilder::PARAM_STR_ARRAY)),
 						$qb->expr()->isNull('sr.recipient_instance'),
@@ -634,7 +634,7 @@ final readonly class SharingBackend implements ISharingBackend {
 			if ($filterSourceTypeClass !== null) {
 				$sourceTypeFilters = [
 					$qb->expr()->eq('s.id', 'ss.share_id'),
-					$qb->expr()->eq('ss.source_class', $qb->createNamedParameter($filterSourceTypeClass)),
+					$qb->expr()->eq('ss.source_class_id', $qb->createNamedParameter($this->classMapper->getClassId($filterSourceTypeClass), IQueryBuilder::PARAM_INT)),
 				];
 
 				if ($filterSourceTypeValue !== null) {
@@ -704,7 +704,7 @@ final readonly class SharingBackend implements ISharingBackend {
 			$qb
 				->select(
 					'ss.share_id',
-					'ss.source_class',
+					'ss.source_class_id',
 					'ss.source_value',
 				)
 				->from('sharing_share_sources', 'ss')
@@ -713,7 +713,7 @@ final readonly class SharingBackend implements ISharingBackend {
 			$result = $qb->executeQuery();
 			foreach ($result->fetchAll() as $row) {
 				/** @var class-string<IShareSourceType> $typeClass */
-				$typeClass = $row['source_class'];
+				$typeClass = $this->classMapper->getClassName((int)$row['source_class_id']);
 				if (!isset($registrySourceTypes[$typeClass])) {
 					// Skip sources that are currently not compatible, but don't remove them.
 					continue;
@@ -741,7 +741,7 @@ final readonly class SharingBackend implements ISharingBackend {
 			$qb
 				->select(
 					'sr.share_id',
-					'sr.recipient_class',
+					'sr.recipient_class_id',
 					'sr.recipient_value',
 					'sr.recipient_instance',
 					'sr.recipient_secret',
@@ -753,7 +753,7 @@ final readonly class SharingBackend implements ISharingBackend {
 
 			foreach ($qb->executeQuery()->fetchAll() as $row) {
 				/** @var class-string<IShareRecipientType> $typeClass */
-				$typeClass = $row['recipient_class'];
+				$typeClass = $this->classMapper->getClassName((int)$row['recipient_class_id']);
 				if (!isset($registryRecipientTypes[$typeClass])) {
 					// Skip recipients that are currently not compatible, but don't remove them.
 					continue;
@@ -858,7 +858,7 @@ final readonly class SharingBackend implements ISharingBackend {
 			$qb
 				->select(
 					'sp.share_id',
-					'sp.property_class',
+					'sp.property_class_id',
 					'sp.property_value',
 				)
 				->from('sharing_share_properties', 'sp')
@@ -873,7 +873,7 @@ final readonly class SharingBackend implements ISharingBackend {
 				}
 
 				/** @var class-string<ISharePropertyType> $propertyTypeClass */
-				$propertyTypeClass = $row['property_class'];
+				$propertyTypeClass = $this->classMapper->getClassName((int)$row['property_class_id']);
 				if (!isset($registryPropertyTypeCompatibleSourceTypeClasses[$propertyTypeClass], $registryPropertyTypeCompatibleRecipientTypeClasses[$propertyTypeClass])) {
 					// Skip properties that are currently not compatible, but don't remove them.
 					continue;
@@ -928,7 +928,7 @@ final readonly class SharingBackend implements ISharingBackend {
 			$qb
 				->select(
 					'sp.share_id',
-					'sp.permission_class',
+					'sp.permission_class_id',
 					'sp.permission_enabled',
 				)
 				->from('sharing_share_permissions', 'sp')
@@ -940,7 +940,7 @@ final readonly class SharingBackend implements ISharingBackend {
 				$id = (string)$row['share_id'];
 
 				/** @var class-string<ISharePermissionType> $permissionTypeClass */
-				$permissionTypeClass = $row['permission_class'];
+				$permissionTypeClass = $this->classMapper->getClassName((int)$row['permission_class_id']);
 				if (!isset($shareCompatiblePermissionTypeClasses[$id][$permissionTypeClass])) {
 					// Skip permissions that are currently not compatible, but don't remove them.
 					continue;

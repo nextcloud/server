@@ -2344,6 +2344,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Share20\\UserDeletedListener' => __DIR__ . '/../../..' . '/lib/private/Share20/UserDeletedListener.php',
         'OC\\Share20\\UserRemovedListener' => __DIR__ . '/../../..' . '/lib/private/Share20/UserRemovedListener.php',
         'OC\\Share\\Constants' => __DIR__ . '/../../..' . '/lib/private/Share/Constants.php',
+        'OC\\Sharing\\ClassMapper' => __DIR__ . '/../../..' . '/lib/private/Sharing/ClassMapper.php',
         'OC\\Sharing\\ISharingLegacyBackend' => __DIR__ . '/../../..' . '/lib/private/Sharing/ISharingLegacyBackend.php',
         'OC\\Sharing\\SharingBackend' => __DIR__ . '/../../..' . '/lib/private/Sharing/SharingBackend.php',
         'OC\\Sharing\\SharingManager' => __DIR__ . '/../../..' . '/lib/private/Sharing/SharingManager.php',

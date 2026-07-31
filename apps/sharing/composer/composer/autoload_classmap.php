@@ -26,5 +26,6 @@ return array(
     'OCA\\Sharing\\Controller\\ApiV1Controller' => $baseDir . '/../lib/Controller/ApiV1Controller.php',
     'OCA\\Sharing\\Middleware\\ShareApiEnabledMiddleware' => $baseDir . '/../lib/Middleware/ShareApiEnabledMiddleware.php',
     'OCA\\Sharing\\Migration\\Version1000Date20250929161325' => $baseDir . '/../lib/Migration/Version1000Date20250929161325.php',
+    'OCA\\Sharing\\Migration\\Version1000Date20260731171922' => $baseDir . '/../lib/Migration/Version1000Date20260731171922.php',
     'OCA\\Sharing\\ResponseDefinitions' => $baseDir . '/../lib/ResponseDefinitions.php',
 );
