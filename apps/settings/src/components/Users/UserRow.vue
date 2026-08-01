@@ -31,7 +31,7 @@
 			<span class="row__subtitle">{{ user.id }}</span>
 		</td>
 
-		<td class="row__cell" data-cy-user-list-cell-email>
+		<td class="row__cell row__cell--email" data-cy-user-list-cell-email>
 			<span
 				v-if="!isObfuscated"
 				:title="user.email?.length > 20 ? user.email : null">
@@ -50,7 +50,7 @@
 		<td
 			v-if="settings.isAdmin || settings.isDelegatedAdmin"
 			data-cy-user-list-cell-subadmins
-			class="row__cell row__cell--large row__cell--multiline">
+			class="row__cell row__cell--large row__cell--multiline row__cell--subadmins">
 			<span
 				v-if="!isObfuscated"
 				:title="userSubAdminGroupsLabels?.length > 40 ? userSubAdminGroupsLabels : null">
@@ -58,7 +58,7 @@
 			</span>
 		</td>
 
-		<td class="row__cell" data-cy-user-list-cell-quota>
+		<td class="row__cell row__cell--quota" data-cy-user-list-cell-quota>
 			<template v-if="!isObfuscated">
 				<span :id="'quota-progress' + uniqueId">{{ userQuota }} ({{ usedSpace }})</span>
 				<NcProgressBar
@@ -73,7 +73,7 @@
 
 		<td
 			v-if="showConfig.showLanguages"
-			class="row__cell row__cell--large"
+			class="row__cell row__cell--large row__cell--languages"
 			data-cy-user-list-cell-language>
 			<span v-if="!isObfuscated">
 				{{ userLanguage.name }}
@@ -83,7 +83,7 @@
 		<td
 			v-if="showConfig.showUserBackend || showConfig.showStoragePath"
 			data-cy-user-list-cell-storage-location
-			class="row__cell row__cell--large">
+			class="row__cell row__cell--large row__cell--storage">
 			<template v-if="!isObfuscated">
 				<span v-if="showConfig.showUserBackend">{{ user.backend }}</span>
 				<span
@@ -97,7 +97,7 @@
 
 		<td
 			v-if="showConfig.showFirstLogin"
-			class="row__cell"
+			class="row__cell row__cell--first-login"
 			data-cy-user-list-cell-first-login>
 			<span v-if="!isObfuscated">{{ userFirstLogin }}</span>
 		</td>
@@ -105,7 +105,7 @@
 		<td
 			v-if="showConfig.showLastLogin"
 			:title="userLastLoginTooltip"
-			class="row__cell"
+			class="row__cell row__cell--last-login"
 			data-cy-user-list-cell-last-login>
 			<span v-if="!isObfuscated">{{ userLastLogin }}</span>
 		</td>
