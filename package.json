@@ -78,7 +78,7 @@
     "@nextcloud/typings": "^1.10.0",
     "@nextcloud/vite-config": "^2.5.2",
     "@playwright/test": "^1.62.0",
-    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/jest-dom": "^7.0.0",
     "@testing-library/vue": "^8.1.0",
     "@types/dockerode": "^4.0.1",
     "@vitest/coverage-v8": "^4.1.10",
