@@ -11,32 +11,20 @@ namespace Test\Hooks;
 use OC\Hooks\BasicEmitter;
 use OC\Hooks\Emitter;
 
-/**
- * Class DummyEmitter
- *
- * class to make BasicEmitter::emit publicly available
- *
- * @package Test\Hooks
- */
+// class to make BasicEmitter::emit publicly available
 class DummyEmitter extends BasicEmitter {
-	public function emitEvent($scope, $method, $arguments = []) {
+	public function emitEvent($scope, $method, $arguments = []): void {
 		$this->emit($scope, $method, $arguments);
 	}
 }
 
-/**
- * Class EmittedException
- *
- * a dummy exception so we can check if an event is emitted
- *
- * @package Test\Hooks
- */
+// a dummy exception so we can check if an event is emitted
 class EmittedException extends \Exception {
 }
 
 class BasicEmitterTest extends \Test\TestCase {
 	/**
-	 * @var Emitter $emitter
+	 * @var Emitter
 	 */
 	protected $emitter;
 
@@ -46,34 +34,37 @@ class BasicEmitterTest extends \Test\TestCase {
 		$this->emitter = new DummyEmitter();
 	}
 
-	public function nonStaticCallBack() {
+	public function nonStaticCallBack(): void {
 		throw new EmittedException;
 	}
 
-	public static function staticCallBack() {
+	public static function staticCallBack(): void {
 		throw new EmittedException;
 	}
 
 	public function testAnonymousFunction(): void {
-		$this->expectException(\Test\Hooks\EmittedException::class);
+		$this->expectException(EmittedException::class);
 
 		$this->emitter->listen('Test', 'test', function (): void {
 			throw new EmittedException;
 		});
+
 		$this->emitter->emitEvent('Test', 'test');
 	}
 
 	public function testStaticCallback(): void {
-		$this->expectException(\Test\Hooks\EmittedException::class);
+		$this->expectException(EmittedException::class);
 
-		$this->emitter->listen('Test', 'test', ['\Test\Hooks\BasicEmitterTest', 'staticCallBack']);
+		$this->emitter->listen('Test', 'test', [self::class, 'staticCallBack']);
+
 		$this->emitter->emitEvent('Test', 'test');
 	}
 
 	public function testNonStaticCallback(): void {
-		$this->expectException(\Test\Hooks\EmittedException::class);
+		$this->expectException(EmittedException::class);
 
 		$this->emitter->listen('Test', 'test', [$this, 'nonStaticCallBack']);
+
 		$this->emitter->emitEvent('Test', 'test');
 	}
 
@@ -82,194 +73,294 @@ class BasicEmitterTest extends \Test\TestCase {
 		$listener = function () use (&$count): void {
 			$count++;
 		};
+
 		$this->emitter->listen('Test', 'test', $listener);
 		$this->emitter->listen('Test', 'test', $listener);
 		$this->emitter->emitEvent('Test', 'test');
-		$this->assertEquals(1, $count, 'Listener called an invalid number of times (' . $count . ') expected 1');
+
+		$this->assertSame(1, $count);
 	}
 
 	public function testDifferentMethods(): void {
-		$count = 0;
-		$listener = function () use (&$count): void {
-			$count++;
-		};
-		$this->emitter->listen('Test', 'test', $listener);
-		$this->emitter->listen('Test', 'foo', $listener);
+		$testCount = 0;
+		$fooCount = 0;
+
+		$this->emitter->listen('Test', 'test', function () use (&$testCount): void {
+			$testCount++;
+		});
+		$this->emitter->listen('Test', 'foo', function () use (&$fooCount): void {
+			$fooCount++;
+		});
+
 		$this->emitter->emitEvent('Test', 'test');
+
+		$this->assertSame(1, $testCount);
+		$this->assertSame(0, $fooCount);
+
 		$this->emitter->emitEvent('Test', 'foo');
-		$this->assertEquals(2, $count, 'Listener called an invalid number of times (' . $count . ') expected 2');
+
+		$this->assertSame(1, $testCount);
+		$this->assertSame(1, $fooCount);
 	}
 
 	public function testDifferentScopes(): void {
+		$testScopeCount = 0;
+		$barScopeCount = 0;
+
+		$this->emitter->listen('Test', 'test', function () use (&$testScopeCount): void {
+			$testScopeCount++;
+		});
+		$this->emitter->listen('Bar', 'test', function () use (&$barScopeCount): void {
+			$barScopeCount++;
+		});
+
+		$this->emitter->emitEvent('Test', 'test');
+
+		$this->assertSame(1, $testScopeCount);
+		$this->assertSame(0, $barScopeCount);
+
+		$this->emitter->emitEvent('Bar', 'test');
+
+		$this->assertSame(1, $testScopeCount);
+		$this->assertSame(1, $barScopeCount);
+	}
+
+	public function testDifferentCallbacks(): void {
+		$listener1Count = 0;
+		$listener2Count = 0;
+
+		$listener1 = function () use (&$listener1Count): void {
+			$listener1Count++;
+		};
+		$listener2 = function () use (&$listener2Count): void {
+			$listener2Count++;
+		};
+
+		$this->emitter->listen('Test', 'test', $listener1);
+		$this->emitter->listen('Test', 'test', $listener2);
+		$this->emitter->emitEvent('Test', 'test');
+
+		$this->assertSame(1, $listener1Count);
+		$this->assertSame(1, $listener2Count);
+	}
+
+	public function testArguments(): void {
+		$receivedArguments = null;
+
+		$this->emitter->listen('Test', 'test', function ($foo, $bar) use (&$receivedArguments): void {
+			$receivedArguments = [$foo, $bar];
+		});
+
+		$this->emitter->emitEvent('Test', 'test', ['foo', 'bar']);
+
+		$this->assertSame(['foo', 'bar'], $receivedArguments);
+	}
+
+	public function testNamedArguments(): void {
+		$receivedArguments = null;
+
+		$this->emitter->listen('Test', 'test', function ($bar, $foo) use (&$receivedArguments): void {
+			$receivedArguments = [$foo, $bar];
+		});
+
+		$this->emitter->emitEvent('Test', 'test', [
+			'foo' => 'foo',
+			'bar' => 'bar',
+		]);
+
+		$this->assertSame(['foo', 'bar'], $receivedArguments);
+	}
+
+	public function testRemoveSpecifiedCallback(): void {
 		$count = 0;
 		$listener = function () use (&$count): void {
 			$count++;
 		};
-		$this->emitter->listen('Test', 'test', $listener);
-		$this->emitter->listen('Bar', 'test', $listener);
-		$this->emitter->emitEvent('Test', 'test');
-		$this->emitter->emitEvent('Bar', 'test');
-		$this->assertEquals(2, $count, 'Listener called an invalid number of times (' . $count . ') expected 2');
-	}
 
-	public function testDifferentCallbacks(): void {
-		$count = 0;
-		$listener1 = function () use (&$count): void {
-			$count++;
-		};
-		$listener2 = function () use (&$count): void {
-			$count++;
-		};
-		$this->emitter->listen('Test', 'test', $listener1);
-		$this->emitter->listen('Test', 'test', $listener2);
-		$this->emitter->emitEvent('Test', 'test');
-		$this->assertEquals(2, $count, 'Listener called an invalid number of times (' . $count . ') expected 2');
-	}
-
-	public function testArguments(): void {
-		$this->expectException(\Test\Hooks\EmittedException::class);
-
-		$this->emitter->listen('Test', 'test', function ($foo, $bar): void {
-			if ($foo === 'foo' && $bar === 'bar') {
-				throw new EmittedException;
-			}
-		});
-		$this->emitter->emitEvent('Test', 'test', ['foo', 'bar']);
-	}
-
-	public function testNamedArguments(): void {
-		$this->expectException(\Test\Hooks\EmittedException::class);
-
-		$this->emitter->listen('Test', 'test', function ($foo, $bar): void {
-			if ($foo === 'foo' && $bar === 'bar') {
-				throw new EmittedException;
-			}
-		});
-		$this->emitter->emitEvent('Test', 'test', ['foo' => 'foo', 'bar' => 'bar']);
-	}
-
-	public function testRemoveAllSpecified(): void {
-		$listener = function (): void {
-			throw new EmittedException;
-		};
 		$this->emitter->listen('Test', 'test', $listener);
 		$this->emitter->removeListener('Test', 'test', $listener);
 		$this->emitter->emitEvent('Test', 'test');
 
-		$this->addToAssertionCount(1);
+		$this->assertSame(0, $count);
 	}
 
-	public function testRemoveWildcardListener(): void {
-		$listener1 = function (): void {
-			throw new EmittedException;
+	public function testRemoveAllListenersForEvent(): void {
+		$listener1Count = 0;
+		$listener2Count = 0;
+
+		$listener1 = function () use (&$listener1Count): void {
+			$listener1Count++;
 		};
-		$listener2 = function (): void {
-			throw new EmittedException;
+		$listener2 = function () use (&$listener2Count): void {
+			$listener2Count++;
 		};
+
 		$this->emitter->listen('Test', 'test', $listener1);
 		$this->emitter->listen('Test', 'test', $listener2);
 		$this->emitter->removeListener('Test', 'test');
 		$this->emitter->emitEvent('Test', 'test');
 
-		$this->addToAssertionCount(1);
+		$this->assertSame(0, $listener1Count);
+		$this->assertSame(0, $listener2Count);
 	}
 
-	public function testRemoveWildcardMethod(): void {
-		$listener = function (): void {
-			throw new EmittedException;
-		};
-		$this->emitter->listen('Test', 'test', $listener);
-		$this->emitter->listen('Test', 'foo', $listener);
-		$this->emitter->removeListener('Test', null, $listener);
-		$this->emitter->emitEvent('Test', 'test');
-		$this->emitter->emitEvent('Test', 'foo');
+	public function testRemoveAllMethodsForScope(): void {
+		$testCount = 0;
+		$fooCount = 0;
+		$otherScopeCount = 0;
 
-		$this->addToAssertionCount(1);
-	}
+		$this->emitter->listen('Test', 'test', function () use (&$testCount): void {
+			$testCount++;
+		});
+		$this->emitter->listen('Test', 'foo', function () use (&$fooCount): void {
+			$fooCount++;
+		});
+		$this->emitter->listen('Bar', 'foo', function () use (&$otherScopeCount): void {
+			$otherScopeCount++;
+		});
 
-	public function testRemoveWildcardScope(): void {
-		$listener = function (): void {
-			throw new EmittedException;
-		};
-		$this->emitter->listen('Test', 'test', $listener);
-		$this->emitter->listen('Bar', 'test', $listener);
-		$this->emitter->removeListener(null, 'test', $listener);
-		$this->emitter->emitEvent('Test', 'test');
-		$this->emitter->emitEvent('Bar', 'test');
+		// Remove all methods under the Test scope.
+		$this->emitter->removeListener('Test', null);
 
-		$this->addToAssertionCount(1);
-	}
-
-	public function testRemoveWildcardScopeAndMethod(): void {
-		$listener = function (): void {
-			throw new EmittedException;
-		};
-		$this->emitter->listen('Test', 'test', $listener);
-		$this->emitter->listen('Test', 'foo', $listener);
-		$this->emitter->listen('Bar', 'foo', $listener);
-		$this->emitter->removeListener(null, null, $listener);
 		$this->emitter->emitEvent('Test', 'test');
 		$this->emitter->emitEvent('Test', 'foo');
 		$this->emitter->emitEvent('Bar', 'foo');
 
-		$this->addToAssertionCount(1);
+		$this->assertSame(0, $testCount);
+		$this->assertSame(0, $fooCount);
+		$this->assertSame(1, $otherScopeCount);
+	}
+
+	public function testRemoveMethodAcrossAllScopes(): void {
+		$testScopeCount = 0;
+		$barScopeCount = 0;
+		$otherMethodCount = 0;
+
+		$this->emitter->listen('Test', 'test', function () use (&$testScopeCount): void {
+			$testScopeCount++;
+		});
+		$this->emitter->listen('Bar', 'test', function () use (&$barScopeCount): void {
+			$barScopeCount++;
+		});
+		$this->emitter->listen('Test', 'foo', function () use (&$otherMethodCount): void {
+			$otherMethodCount++;
+		});
+
+		// Remove this method across all scopes.
+		$this->emitter->removeListener(null, 'test');
+
+		$this->emitter->emitEvent('Test', 'test');
+		$this->emitter->emitEvent('Bar', 'test');
+		$this->emitter->emitEvent('Test', 'foo');
+
+		$this->assertSame(0, $testScopeCount);
+		$this->assertSame(0, $barScopeCount);
+		$this->assertSame(1, $otherMethodCount);
+	}
+
+	public function testRemoveCallbackEverywhere(): void {
+		$removedCount = 0;
+		$keptCount = 0;
+
+		$listener = function () use (&$removedCount): void {
+			$removedCount++;
+		};
+		$remainingListener = function () use (&$keptCount): void {
+			$keptCount++;
+		};
+
+		// Register the same target callback in multiple combinations.
+		$this->emitter->listen('Test', 'test', $listener);
+		$this->emitter->listen('Test', 'foo', $listener);
+		$this->emitter->listen('Bar', 'foo', $listener);
+
+		// Register an unrelated callback alongside each target registration.
+		$this->emitter->listen('Test', 'test', $remainingListener);
+		$this->emitter->listen('Test', 'foo', $remainingListener);
+		$this->emitter->listen('Bar', 'foo', $remainingListener);
+
+		// Remove the target callback from every scope and method.
+		$this->emitter->removeListener(null, null, $listener);
+
+		$this->emitter->emitEvent('Test', 'test');
+		$this->emitter->emitEvent('Test', 'foo');
+		$this->emitter->emitEvent('Bar', 'foo');
+
+		$this->assertSame(0, $removedCount);
+		$this->assertSame(3, $keptCount);
 	}
 
 	public function testRemoveKeepOtherCallback(): void {
-		$this->expectException(\Test\Hooks\EmittedException::class);
+		$remainingListenerCount = 0;
 
-		$listener1 = function (): void {
-			throw new EmittedException;
+		$listenerToRemove = function (): void {
+			throw new \LogicException('Removed listener was called');
 		};
-		$listener2 = function (): void {
-			throw new EmittedException;
+		$remainingListener = function () use (&$remainingListenerCount): void {
+			$remainingListenerCount++;
 		};
-		$this->emitter->listen('Test', 'test', $listener1);
-		$this->emitter->listen('Test', 'test', $listener2);
-		$this->emitter->removeListener('Test', 'test', $listener1);
+
+		$this->emitter->listen('Test', 'test', $listenerToRemove);
+		$this->emitter->listen('Test', 'test', $remainingListener);
+		$this->emitter->removeListener('Test', 'test', $listenerToRemove);
 		$this->emitter->emitEvent('Test', 'test');
 
-		$this->addToAssertionCount(1);
+		$this->assertSame(1, $remainingListenerCount);
 	}
 
 	public function testRemoveKeepOtherMethod(): void {
-		$this->expectException(\Test\Hooks\EmittedException::class);
+		$testCount = 0;
+		$fooCount = 0;
 
-		$listener = function (): void {
-			throw new EmittedException;
+		$testListener = function () use (&$testCount): void {
+			$testCount++;
 		};
-		$this->emitter->listen('Test', 'test', $listener);
-		$this->emitter->listen('Test', 'foo', $listener);
-		$this->emitter->removeListener('Test', 'foo', $listener);
-		$this->emitter->emitEvent('Test', 'test');
+		$fooListener = function () use (&$fooCount): void {
+			$fooCount++;
+		};
 
-		$this->addToAssertionCount(1);
+		$this->emitter->listen('Test', 'test', $testListener);
+		$this->emitter->listen('Test', 'foo', $fooListener);
+		$this->emitter->removeListener('Test', 'foo', $fooListener);
+		$this->emitter->emitEvent('Test', 'test');
+		$this->emitter->emitEvent('Test', 'foo');
+
+		$this->assertSame(1, $testCount);
+		$this->assertSame(0, $fooCount);
 	}
 
 	public function testRemoveKeepOtherScope(): void {
-		$this->expectException(\Test\Hooks\EmittedException::class);
+		$testScopeCount = 0;
+		$barScopeCount = 0;
 
-		$listener = function (): void {
-			throw new EmittedException;
+		$testListener = function () use (&$testScopeCount): void {
+			$testScopeCount++;
 		};
-		$this->emitter->listen('Test', 'test', $listener);
-		$this->emitter->listen('Bar', 'test', $listener);
-		$this->emitter->removeListener('Bar', 'test', $listener);
-		$this->emitter->emitEvent('Test', 'test');
+		$barListener = function () use (&$barScopeCount): void {
+			$barScopeCount++;
+		};
 
-		$this->addToAssertionCount(1);
+		$this->emitter->listen('Test', 'test', $testListener);
+		$this->emitter->listen('Bar', 'test', $barListener);
+		$this->emitter->removeListener('Bar', 'test', $barListener);
+
+		$this->emitter->emitEvent('Test', 'test');
+		$this->emitter->emitEvent('Bar', 'test');
+
+		$this->assertSame(1, $testScopeCount);
+		$this->assertSame(0, $barScopeCount);
 	}
 
 	public function testRemoveNonExistingName(): void {
-		$this->expectException(\Test\Hooks\EmittedException::class);
-
-		$listener = function (): void {
-			throw new EmittedException;
+		$count = 0;
+		$listener = function () use (&$count): void {
+			$count++;
 		};
+
 		$this->emitter->listen('Test', 'test', $listener);
 		$this->emitter->removeListener('Bar', 'test', $listener);
 		$this->emitter->emitEvent('Test', 'test');
 
-		$this->addToAssertionCount(1);
+		$this->assertSame(1, $count);
 	}
 }
