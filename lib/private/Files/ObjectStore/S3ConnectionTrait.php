@@ -62,6 +62,7 @@ trait S3ConnectionTrait {
 		$this->copySizeLimit = $params['copySizeLimit'] ?? 5242880000;
 		$this->useMultipartCopy = (bool)($params['useMultipartCopy'] ?? true);
 		$this->retriesMaxAttempts = $params['retriesMaxAttempts'] ?? 5;
+		$this->conditionalWrites = $this->parseConditionalWritesMode($params['conditional_writes'] ?? false);
 		$params['region'] = empty($params['region']) ? 'eu-west-1' : $params['region'];
 		$params['hostname'] = empty($params['hostname']) ? 's3.' . $params['region'] . '.amazonaws.com' : $params['hostname'];
 		$params['s3-accelerate'] = $params['hostname'] === 's3-accelerate.amazonaws.com' || $params['hostname'] === 's3-accelerate.dualstack.amazonaws.com';
@@ -75,6 +76,36 @@ trait S3ConnectionTrait {
 		}
 
 		$this->params = $params;
+	}
+
+	/**
+	 * Normalize the configured conditional-write mode to true, false or 'auto'.
+	 *
+	 * Accepts booleans as well as the string forms that env-templated configs tend
+	 * to produce; anything unrecognized falls back to the disabled default with a
+	 * warning, so a typo can never silently turn the feature on.
+	 */
+	private function parseConditionalWritesMode(mixed $value): bool|string {
+		if (is_bool($value)) {
+			return $value;
+		}
+		switch (strtolower((string)$value)) {
+			case 'auto':
+				return 'auto';
+			case 'true':
+			case '1':
+				return true;
+			case '':
+			case 'false':
+			case '0':
+				return false;
+			default:
+				Server::get(LoggerInterface::class)->warning(
+					'Invalid "conditional_writes" value "' . (string)$value . '" for S3 object store; falling back to disabled.',
+					['app' => 'objectstore'],
+				);
+				return false;
+		}
 	}
 
 	public function getBucket() {
