@@ -195,6 +195,8 @@
     "Could not find category \"%s\"" : "تعذر العثور على المجلد \"%s\"",
     "Input text" : "إدخال نص",
     "The input text" : "النص المدخل",
+    "Cannot generate more than 12 images" : "لايمكن توليد أكثر من 12 صورة",
+    "Cannot generate less than 1 image" : "لايمكن توليد اقل من صورة واحدة",
     "Sunday" : "الأحد",
     "Monday" : "الإثنين",
     "Tuesday" : "الثلاثاء",
