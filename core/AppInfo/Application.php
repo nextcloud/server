@@ -23,6 +23,8 @@ use OC\Core\Listener\BeforeTemplateRenderedListener;
 use OC\Core\Listener\PasswordUpdatedListener;
 use OC\Core\Listener\RestrictInteractionListener;
 use OC\Core\Notification\CoreNotifier;
+use OC\DirectEditing\Listeners\UserDeletedTokenCleanupListener as UserDeletedDirectEditingTokenCleanupListener;
+use OC\DirectEditing\Listeners\UserDisabledTokenCleanupListener as UserDisabledDirectEditingTokenCleanupListener;
 use OC\OCM\OCMDiscoveryHandler;
 use OC\TagManager;
 use OCP\AppFramework\App;
@@ -36,6 +38,7 @@ use OCP\DB\Events\AddMissingPrimaryKeyEvent;
 use OCP\Interaction\RestrictInteractionEvent;
 use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\User\Events\PasswordUpdatedEvent;
+use OCP\User\Events\UserChangedEvent;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\Util;
 
@@ -93,6 +96,10 @@ class Application extends App implements IBootstrap {
 		$context->registerCapability(Capabilities::class);
 
 		$context->registerEventListener(RestrictInteractionEvent::class, RestrictInteractionListener::class);
+
+		// Direct Editing
+		$context->registerEventListener(UserDeletedEvent::class, UserDeletedDirectEditingTokenCleanupListener::class);
+		$context->registerEventListener(UserChangedEvent::class, UserDisabledDirectEditingTokenCleanupListener::class);
 	}
 
 	#[\Override]
