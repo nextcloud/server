@@ -115,6 +115,7 @@ class SetupController {
 
 		if ($this->setupHelper->shouldRemoveCanInstallFile()) {
 			$this->templateManager->printGuestPage('', 'installation_incomplete');
+			return;
 		}
 
 		header('Location: ' . Server::get(IURLGenerator::class)->getAbsoluteURL('index.php/core/apps/recommended'));
