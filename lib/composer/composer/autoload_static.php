@@ -1595,6 +1595,8 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Diagnostics\\EventLogger' => __DIR__ . '/../../..' . '/lib/private/Diagnostics/EventLogger.php',
         'OC\\Diagnostics\\Query' => __DIR__ . '/../../..' . '/lib/private/Diagnostics/Query.php',
         'OC\\Diagnostics\\QueryLogger' => __DIR__ . '/../../..' . '/lib/private/Diagnostics/QueryLogger.php',
+        'OC\\DirectEditing\\Listeners\\UserDeletedTokenCleanupListener' => __DIR__ . '/../../..' . '/lib/private/DirectEditing/Listeners/UserDeletedTokenCleanupListener.php',
+        'OC\\DirectEditing\\Listeners\\UserDisabledTokenCleanupListener' => __DIR__ . '/../../..' . '/lib/private/DirectEditing/Listeners/UserDisabledTokenCleanupListener.php',
         'OC\\DirectEditing\\Manager' => __DIR__ . '/../../..' . '/lib/private/DirectEditing/Manager.php',
         'OC\\DirectEditing\\Token' => __DIR__ . '/../../..' . '/lib/private/DirectEditing/Token.php',
         'OC\\EmojiHelper' => __DIR__ . '/../../..' . '/lib/private/EmojiHelper.php',
