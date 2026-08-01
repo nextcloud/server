@@ -1464,6 +1464,8 @@ return array(
     'OC\\Diagnostics\\EventLogger' => $baseDir . '/lib/private/Diagnostics/EventLogger.php',
     'OC\\Diagnostics\\Query' => $baseDir . '/lib/private/Diagnostics/Query.php',
     'OC\\Diagnostics\\QueryLogger' => $baseDir . '/lib/private/Diagnostics/QueryLogger.php',
+    'OC\\DirectEditing\\Listeners\\UserDeletedTokenCleanupListener' => $baseDir . '/lib/private/DirectEditing/Listeners/UserDeletedTokenCleanupListener.php',
+    'OC\\DirectEditing\\Listeners\\UserDisabledTokenCleanupListener' => $baseDir . '/lib/private/DirectEditing/Listeners/UserDisabledTokenCleanupListener.php',
     'OC\\DirectEditing\\Manager' => $baseDir . '/lib/private/DirectEditing/Manager.php',
     'OC\\DirectEditing\\Token' => $baseDir . '/lib/private/DirectEditing/Token.php',
     'OC\\EmojiHelper' => $baseDir . '/lib/private/EmojiHelper.php',
