@@ -231,6 +231,86 @@ class BasicEmitterTest extends \Test\TestCase {
 		$this->assertSame(1, $otherScopeCount);
 	}
 
+	public function testRemoveListenerWithEmptyScope(): void {
+		$emptyScopeCount = 0;
+		$otherScopeCount = 0;
+
+		$this->emitter->listen('', 'test', function () use (&$emptyScopeCount): void {
+			$emptyScopeCount++;
+		});
+		$this->emitter->listen('Test', 'test', function () use (&$otherScopeCount): void {
+			$otherScopeCount++;
+		});
+
+		$this->emitter->removeListener('', 'test');
+
+		$this->emitter->emitEvent('', 'test');
+		$this->emitter->emitEvent('Test', 'test');
+
+		$this->assertSame(0, $emptyScopeCount);
+		$this->assertSame(1, $otherScopeCount);
+	}
+
+	public function testRemoveListenerWithEmptyMethod(): void {
+		$emptyMethodCount = 0;
+		$otherMethodCount = 0;
+
+		$this->emitter->listen('Test', '', function () use (&$emptyMethodCount): void {
+			$emptyMethodCount++;
+		});
+		$this->emitter->listen('Test', 'test', function () use (&$otherMethodCount): void {
+			$otherMethodCount++;
+		});
+
+		$this->emitter->removeListener('Test', '');
+
+		$this->emitter->emitEvent('Test', '');
+		$this->emitter->emitEvent('Test', 'test');
+
+		$this->assertSame(0, $emptyMethodCount);
+		$this->assertSame(1, $otherMethodCount);
+	}
+
+	public function testRemoveAllMethodsForEmptyScope(): void {
+		$emptyScopeTestCount = 0;
+		$emptyScopeFooCount = 0;
+		$otherScopeCount = 0;
+
+		$this->emitter->listen('', 'test', function () use (&$emptyScopeTestCount): void {
+			$emptyScopeTestCount++;
+		});
+		$this->emitter->listen('', 'foo', function () use (&$emptyScopeFooCount): void {
+			$emptyScopeFooCount++;
+		});
+		$this->emitter->listen('Test', 'foo', function () use (&$otherScopeCount): void {
+			$otherScopeCount++;
+		});
+
+		$this->emitter->removeListener('', null);
+
+		$this->emitter->emitEvent('', 'test');
+		$this->emitter->emitEvent('', 'foo');
+		$this->emitter->emitEvent('Test', 'foo');
+
+		$this->assertSame(0, $emptyScopeTestCount);
+		$this->assertSame(0, $emptyScopeFooCount);
+		$this->assertSame(1, $otherScopeCount);
+	}
+
+	public function testRemoveListenerDoesNotLooselyMatchScope(): void {
+		$count = 0;
+		$listener = function () use (&$count): void {
+			$count++;
+		};
+
+		$this->emitter->listen('0', 'test', $listener);
+
+		$this->emitter->removeListener(0, null, $listener);
+		$this->emitter->emitEvent('0', 'test');
+
+		$this->assertSame(1, $count);
+	}
+
 	public function testRemoveMethodAcrossAllScopes(): void {
 		$testScopeCount = 0;
 		$barScopeCount = 0;
@@ -252,6 +332,32 @@ class BasicEmitterTest extends \Test\TestCase {
 		$this->emitter->emitEvent('Test', 'test');
 		$this->emitter->emitEvent('Bar', 'test');
 		$this->emitter->emitEvent('Test', 'foo');
+
+		$this->assertSame(0, $testScopeCount);
+		$this->assertSame(0, $barScopeCount);
+		$this->assertSame(1, $otherMethodCount);
+	}
+
+	public function testRemoveEmptyMethodAcrossAllScopes(): void {
+		$testScopeCount = 0;
+		$barScopeCount = 0;
+		$otherMethodCount = 0;
+
+		$this->emitter->listen('Test', '', function () use (&$testScopeCount): void {
+			$testScopeCount++;
+		});
+		$this->emitter->listen('Bar', '', function () use (&$barScopeCount): void {
+			$barScopeCount++;
+		});
+		$this->emitter->listen('Test', 'test', function () use (&$otherMethodCount): void {
+			$otherMethodCount++;
+		});
+
+		$this->emitter->removeListener(null, '');
+
+		$this->emitter->emitEvent('Test', '');
+		$this->emitter->emitEvent('Bar', '');
+		$this->emitter->emitEvent('Test', 'test');
 
 		$this->assertSame(0, $testScopeCount);
 		$this->assertSame(0, $barScopeCount);
