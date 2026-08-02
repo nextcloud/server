@@ -147,7 +147,6 @@ watchEffect(() => {
 	const input = nameInput.value?.$el.querySelector('input')
 	if (input) {
 		input.setCustomValidity(validity.value)
-		input.reportValidity()
 	}
 })
 
