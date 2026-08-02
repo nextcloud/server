@@ -37,18 +37,30 @@ class SetupTest extends \Test\TestCase {
 
 		$this->config = $this->createMock(SystemConfig::class);
 		$this->iniWrapper = $this->createMock(IniGetWrapper::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->random = $this->createMock(ISecureRandom::class);
+
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->l10nFactory = $this->createMock(IL10NFactory::class);
 		$this->l10nFactory->method('get')
 			->willReturn($this->l10n);
+
 		$this->defaults = $this->createMock(Defaults::class);
-		$this->logger = $this->createMock(LoggerInterface::class);
-		$this->random = $this->createMock(ISecureRandom::class);
 		$this->installer = $this->createMock(Installer::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
+
 		$this->setupClass = $this->getMockBuilder(Setup::class)
 			->onlyMethods(['class_exists', 'is_callable', 'getAvailableDbDriversForPdo'])
-			->setConstructorArgs([$this->config, $this->iniWrapper, $this->l10nFactory, $this->defaults, $this->logger, $this->random, $this->installer, $this->eventDispatcher])
+			->setConstructorArgs([
+				$this->config,
+				$this->iniWrapper,
+				$this->l10nFactory,
+				$this->defaults,
+				$this->logger,
+				$this->random,
+				$this->installer,
+				$this->eventDispatcher,
+			])
 			->getMock();
 	}
 
