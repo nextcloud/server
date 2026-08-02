@@ -186,6 +186,33 @@ class SetupTest extends \Test\TestCase {
 		$this->setupClass->getSupportedDatabases();
 	}
 
+	public function testGetAvailableDbDriversForPdoWhenPdoIsUnavailable(): void {
+		$setup = $this->getMockBuilder(Setup::class)
+			->onlyMethods(['class_exists'])
+			->setConstructorArgs([
+				$this->config,
+				$this->iniWrapper,
+				$this->l10nFactory,
+				$this->defaults,
+				$this->logger,
+				$this->random,
+				$this->installer,
+				$this->eventDispatcher,
+			])
+			->getMock();
+
+		$setup
+			->expects($this->once())
+			->method('class_exists')
+			->with(\PDO::class)
+			->willReturn(false);
+
+		$this->assertSame(
+			[],
+			self::invokePrivate($setup, 'getAvailableDbDriversForPdo'),
+		);
+	}
+
 	/**
 	 * @param $url
 	 * @param $expected
