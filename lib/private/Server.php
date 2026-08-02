@@ -134,6 +134,8 @@ use OC\SetupCheck\SetupCheckManager;
 use OC\Share20\ProviderFactory;
 use OC\Share20\PublicShareTemplateFactory;
 use OC\Share20\ShareHelper;
+use OC\Sharing\SharingManager;
+use OC\Sharing\SharingRegistry;
 use OC\Snowflake\APCuSequence;
 use OC\Snowflake\FileSequence;
 use OC\Snowflake\ISequence;
@@ -1151,8 +1153,8 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(IJobRuns::class, JobRuns::class);
 		$this->registerAlias(IServerInfo::class, ServerInfo::class);
 
-		$this->registerAlias(\NCU\Sharing\ISharingRegistry::class, \OC\Sharing\SharingRegistry::class);
-		$this->registerAlias(\NCU\Sharing\ISharingManager::class, \OC\Sharing\SharingManager::class);
+		$this->registerAlias(\NCU\Sharing\ISharingRegistry::class, SharingRegistry::class);
+		$this->registerAlias(\NCU\Sharing\ISharingManager::class, SharingManager::class);
 
 		$this->connectDispatcher();
 	}
