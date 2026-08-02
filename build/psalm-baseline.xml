@@ -886,6 +886,7 @@
     <UndefinedClass>
       <code><![CDATA[\OCA\Circles\Api\v1\Circles]]></code>
       <code><![CDATA[\OCA\Circles\Api\v1\Circles]]></code>
+      <code><![CDATA[\OCA\Circles\Api\v1\Circles]]></code>
     </UndefinedClass>
     <UndefinedDocblockClass>
       <code><![CDATA[$this->getRoomShareHelper()]]></code>
