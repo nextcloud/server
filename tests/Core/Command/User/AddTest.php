@@ -99,8 +99,8 @@ class AddTest extends TestCase {
 		$this->userManager->method('createUser')
 			->willReturn($this->user);
 
-		$this->appConfig->method('getValueString')
-			->willReturn($shouldSendEmail ? 'yes' : 'no');
+		$this->appConfig->method('getValueBool')
+			->willReturn($shouldSendEmail);
 
 		$this->mailHelper->method('generateTemplate')
 			->willReturn(static::createMock(IEMailTemplate::class));
