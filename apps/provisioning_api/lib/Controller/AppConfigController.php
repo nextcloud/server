@@ -15,6 +15,7 @@ use OC\Config\ConfigManager;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoSubAdminRequired;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
@@ -102,8 +103,6 @@ class AppConfigController extends OCSController {
 	}
 
 	/**
-	 * @NoSubAdminRequired
-	 *
 	 * Update the config value of an app
 	 *
 	 * @param string $app ID of the app
@@ -116,6 +115,7 @@ class AppConfigController extends OCSController {
 	 */
 	#[PasswordConfirmationRequired]
 	#[NoAdminRequired]
+	#[NoSubAdminRequired]
 	public function setValue(string $app, string $key, string $value): DataResponse {
 		$user = $this->userSession->getUser();
 		if ($user === null) {

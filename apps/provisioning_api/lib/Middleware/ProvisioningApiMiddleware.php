@@ -13,7 +13,7 @@ use OCA\Provisioning_API\Middleware\Exceptions\NotSubAdminException;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
-use OCP\AppFramework\Http\Response;
+use OCP\AppFramework\Http\Attribute\NoSubAdminRequired;
 use OCP\AppFramework\Middleware;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\Utility\IControllerMethodReflector;
@@ -43,7 +43,8 @@ class ProvisioningApiMiddleware extends Middleware {
 	#[\Override]
 	public function beforeController(Controller $controller, string $methodName): void {
 		// If AuthorizedAdminSetting, the check will be done in the SecurityMiddleware
-		if (!$this->isAdmin && !$this->reflector->hasAnnotation('NoSubAdminRequired') && !$this->isSubAdmin && !$this->reflector->hasAnnotationOrAttribute('AuthorizedAdminSetting', AuthorizedAdminSetting::class)) {
+		if (!$this->isAdmin && !$this->reflector->hasAnnotationOrAttribute('NoSubAdminRequired', NoSubAdminRequired::class)
+			&& !$this->isSubAdmin && !$this->reflector->hasAnnotationOrAttribute('AuthorizedAdminSetting', AuthorizedAdminSetting::class)) {
 			throw new NotSubAdminException();
 		}
 	}
@@ -53,10 +54,9 @@ class ProvisioningApiMiddleware extends Middleware {
 	 * @param string $methodName
 	 * @param \Exception $exception
 	 * @throws \Exception
-	 * @return Response
 	 */
 	#[\Override]
-	public function afterException(Controller $controller, string $methodName, \Exception $exception) {
+	public function afterException(Controller $controller, string $methodName, \Exception $exception): never {
 		if ($exception instanceof NotSubAdminException) {
 			throw new OCSException($exception->getMessage(), Http::STATUS_FORBIDDEN);
 		}

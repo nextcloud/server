@@ -15,6 +15,7 @@ use OC\AppFramework\Middleware\Security\Exceptions\NotLoggedInException;
 use OCA\Settings\ResponseDefinitions;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoSubAdminRequired;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
@@ -115,10 +116,10 @@ class DeclarativeSettingsController extends OCSController {
 	 *
 	 * @return DataResponse<Http::STATUS_OK, list<SettingsDeclarativeForm>, array{}>
 	 * @throws NotLoggedInException
-	 * @NoSubAdminRequired
 	 *
 	 * 200: Forms returned
 	 */
+	#[NoSubAdminRequired]
 	#[NoAdminRequired]
 	public function getForms(): DataResponse {
 		$user = $this->userSession->getUser();
