@@ -29,6 +29,7 @@ Do you want to learn more about how you can use Nextcloud to access, share, and 
 - 🖥 [**Install** a server by yourself](https://nextcloud.com/install/#instructions-server) on your hardware or by using one of our ready-to-use **appliances**
 - 📦 Buy one of the [awesome **devices** coming with a preinstalled Nextcloud](https://nextcloud.com/devices/)
 - 🏢 Find a [service **provider**](https://nextcloud.com/providers/) who hosts Nextcloud for you or your company
+- [![Deploy with Zenith](https://cdn.zenith.hosting/buttons/deploy-with-zenith.svg)](https://zenith.hosting/host/nextcloud) one-click managed hosting, no server required
 
 Enterprise? Public Sector or Education user? You may want to have a look into [**Nextcloud Enterprise**](https://nextcloud.com/enterprise/) provided by Nextcloud GmbH.
 
