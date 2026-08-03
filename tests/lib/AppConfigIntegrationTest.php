@@ -493,6 +493,34 @@ class AppConfigIntegrationTest extends TestCase {
 		$this->assertSame(true, $config->getValueBool('typed', 'bool'));
 	}
 
+	/**
+	 * Untyped values predate the typed config API and are still in the database of
+	 * every upgraded instance, so they have to keep resolving to a boolean. The
+	 * deprecated setter is used on purpose, as it is the only way to write a value
+	 * without a type.
+	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataUntypedBool')]
+	public function testGetValueBoolOnUntypedValue(string $stored, bool $expected): void {
+		/** @var AppConfig $config */
+		$config = $this->generateAppConfig();
+		$config->setValue('feed', 'untyped-bool', $stored);
+
+		$this->assertSame($expected, $config->getValueBool('feed', 'untyped-bool'));
+	}
+
+	public static function dataUntypedBool(): array {
+		return [
+			'yes' => ['yes', true],
+			'no' => ['no', false],
+			'true' => ['true', true],
+			'false' => ['false', false],
+			'on' => ['on', true],
+			'1' => ['1', true],
+			'0' => ['0', false],
+			'empty' => ['', false],
+		];
+	}
+
 	public function testGetValueBoolOnUnknownAppReturnsDefault(): void {
 		$config = $this->generateAppConfig();
 		$this->assertSame(false, $config->getValueBool('typed-1', 'bool', false));
