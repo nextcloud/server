@@ -597,7 +597,7 @@ class UsersController extends AUserDataOCSController {
 			// Send new user mail only if a mail is set
 			if ($email !== '') {
 				$newUser->setSystemEMailAddress($email);
-				if ($this->config->getAppValue('core', 'newUser.sendEmail', 'yes') === 'yes') {
+				if ($this->appConfig->getValueBool('core', 'newUser.sendEmail', true)) {
 					try {
 						$emailTemplate = $this->newUserMailHelper->generateTemplate($newUser, $generatePasswordResetToken);
 						$this->newUserMailHelper->sendMail($newUser, $emailTemplate);
