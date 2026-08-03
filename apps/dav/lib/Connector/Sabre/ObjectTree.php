@@ -21,18 +21,12 @@ use OCP\Files\Mount\IMountManager;
 use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\Lock\LockedException;
+use Sabre\DAV\INode;
+use Sabre\DAV\Server;
 
 class ObjectTree extends CachingTree {
-
-	/**
-	 * @var View
-	 */
-	protected $fileView;
-
-	/**
-	 * @var IMountManager
-	 */
-	protected $mountManager;
+	protected View $fileView;
+	protected IMountManager $mountManager;
 
 	/**
 	 * Creates the object
@@ -55,14 +49,13 @@ class ObjectTree extends CachingTree {
 	 * Returns the INode object for the requested path
 	 *
 	 * @param string $path
-	 * @return \Sabre\DAV\INode
 	 * @throws InvalidPath
 	 * @throws \Sabre\DAV\Exception\Locked
 	 * @throws \Sabre\DAV\Exception\NotFound
 	 * @throws \Sabre\DAV\Exception\ServiceUnavailable
 	 */
 	#[\Override]
-	public function getNodeForPath($path) {
+	public function getNodeForPath($path): INode {
 		if (!$this->fileView) {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable('filesystem not setup');
 		}
@@ -154,7 +147,7 @@ class ObjectTree extends CachingTree {
 	 * @return void
 	 */
 	#[\Override]
-	public function copy($sourcePath, $destinationPath) {
+	public function copy($sourcePath, $destinationPath, int $depth = Server::DEPTH_INFINITY): void {
 		if (!$this->fileView) {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable('filesystem not setup');
 		}
@@ -170,7 +163,13 @@ class ObjectTree extends CachingTree {
 		}
 
 		// this will trigger existence check
-		$this->getNodeForPath($sourcePath);
+		$sourceNode = $this->getNodeForPath($sourcePath);
+
+		if ($sourceNode instanceof Directory && $depth !== Server::DEPTH_INFINITY) {
+			// Fallback to sabre slow default implementation with $depth support.
+			parent::copy($sourcePath, $destinationPath, $depth);
+			return;
+		}
 
 		[$destinationDir, $destinationName] = \Sabre\Uri\split($destinationPath);
 		try {
