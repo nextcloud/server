@@ -26,6 +26,7 @@ use OCP\Files\IRootFolder;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\Security\ISecureRandom;
+use OCP\Share\IManager;
 
 class DirectController extends OCSController {
 
@@ -39,6 +40,7 @@ class DirectController extends OCSController {
 		private ITimeFactory $timeFactory,
 		private IURLGenerator $urlGenerator,
 		private IEventDispatcher $eventDispatcher,
+		private IManager $shareManager,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -57,6 +59,10 @@ class DirectController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	public function getUrl(int $fileId, int $expirationTime = 60 * 60 * 8): DataResponse {
+		if (!$this->shareManager->shareApiAllowLinks()) {
+			throw new OCSForbiddenException('Creating direct links is disabled');
+		}
+
 		$userFolder = $this->rootFolder->getUserFolder($this->userId);
 
 		$file = $userFolder->getFirstNodeById($fileId);
