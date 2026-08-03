@@ -34,7 +34,7 @@ class AlternativeLoginService {
 		$result = [];
 
 		foreach ($this->coordinator->getRegistrationContext()->getAlternativeLoginProviders() as $registration) {
-			if (!in_array(IAlternativeLoginProvider::class, class_implements($registration->getService()), true)) {
+			if (!is_a($registration->getService(), IAlternativeLoginProvider::class, true)) {
 				$this->logger->error('Alternative login option {option} does not implement {interface} and is therefore ignored.', [
 					'option' => $registration->getService(),
 					'interface' => IAlternativeLoginProvider::class,
@@ -73,7 +73,7 @@ class AlternativeLoginService {
 		}
 
 		foreach ($this->coordinator->getRegistrationContext()->getAlternativeLogins() as $registration) {
-			if (!in_array(IAlternativeLogin::class, class_implements($registration->getService()), true)) {
+			if (!is_a($registration->getService(), IAlternativeLoginProvider::class, true)) {
 				$this->logger->error('Alternative login option {option} does not implement {interface} and is therefore ignored.', [
 					'option' => $registration->getService(),
 					'interface' => IAlternativeLogin::class,
