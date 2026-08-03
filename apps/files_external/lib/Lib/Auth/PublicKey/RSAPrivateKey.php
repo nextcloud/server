@@ -34,7 +34,8 @@ class RSAPrivateKey extends AuthMechanism {
 				(new DefinitionParameter('password', $l->t('Password')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL)
 					->setType(DefinitionParameter::VALUE_PASSWORD),
-				new DefinitionParameter('private_key', $l->t('Private key')),
+				(new DefinitionParameter('private_key', $l->t('Private key')))
+					->setType(DefinitionParameter::VALUE_PASSWORD),
 			]);
 	}
 
