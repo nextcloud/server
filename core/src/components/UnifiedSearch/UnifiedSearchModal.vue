@@ -1678,7 +1678,7 @@ export default defineComponent({
 
 	&__detail-title {
 		font-size: var(--default-font-size);
-		font-weight: bold;
+		font-weight: var(--font-weight-heading);
 		grid-column: 2;
 		margin: 0;
 		margin-block-start: -3px;
@@ -1768,7 +1768,7 @@ export default defineComponent({
 	}
 
 	&__unfiltered-label {
-		font-weight: bold;
+		font-weight: var(--font-weight-heading);
 		color: var(--color-text-maxcontrast);
 	}
 }

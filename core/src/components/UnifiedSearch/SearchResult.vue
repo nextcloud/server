@@ -157,9 +157,6 @@ export default {
 
 <style lang="scss" scoped>
 .result-item {
-	// Positioning context for the selection pill. NcListItem's wrapper already sets this;
-	// repeated so the pseudo-element below does not depend on that.
-	position: relative;
 	padding-inline: 0;
 
 	:deep(a) {
@@ -187,21 +184,24 @@ export default {
 	// NcListItem's `active` state paints a primary fill, white text and a blue stripe.
 	// We want a neutral look: the gray hover fill plus a maxcontrast border, readable text.
 	&.list-item__wrapper--active {
-		// Keyboard selection marker: the pill the left navigation paints on its active entry.
-		&::before {
-			content: '';
-			position: absolute;
-			inset-block: calc(var(--default-grid-baseline) * 2);
-			inset-inline-start: 0;
-			width: 3px;
-			border-radius: var(--border-radius-rounded);
-			background-color: var(--color-primary-element);
-			// Zeroed by the reduced-motion theme, so no separate media query is needed.
-			animation: result-pill-in var(--animation-quick) ease-out;
-		}
-
 		:deep(.list-item) {
 			background-color: var(--color-background-hover);
+
+			// Keyboard selection marker: the pill the left navigation paints on its active
+			// entry. It has to hang off .list-item rather than the wrapper, because
+			// .list-item is itself positioned and paints the opaque row background, so it
+			// would cover a pseudo-element belonging to its parent.
+			&::before {
+				content: '';
+				position: absolute;
+				inset-block: calc(var(--default-grid-baseline) * 2);
+				inset-inline-start: 0;
+				width: 3px;
+				border-radius: var(--border-radius-rounded);
+				background-color: var(--color-primary-element);
+				// Zeroed by the reduced-motion theme, so no separate media query is needed.
+				animation: result-pill-in var(--animation-quick) ease-out;
+			}
 
 			&:hover {
 				background-color: var(--color-background-hover);
