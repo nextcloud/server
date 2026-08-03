@@ -42,11 +42,18 @@
 
 		<div class="dialog-row">
 			<NcButton
-				v-if="showInstallButton && !installingApps"
+				v-if="!loadingApps && !installingApps && (showInstallButton || loadingAppsError)"
 				data-cy-setup-recommended-apps-skip
 				:href="defaultPageUrl"
 				variant="tertiary">
 				{{ t('core', 'Skip') }}
+			</NcButton>
+
+			<NcButton
+				v-if="loadingAppsError"
+				variant="primary"
+				@click="loadApps">
+				{{ t('core', 'Retry') }}
 			</NcButton>
 
 			<NcButton
@@ -140,28 +147,35 @@ export default {
 	},
 
 	async mounted() {
-		try {
-			const apps = await appstoreApi.getApps()
-			logger.info(`${apps.length} apps fetched`)
-
-			this.apps = apps.map((app) => Object.assign(app, {
-				loading: false,
-				installationError: false,
-				isSelected: app.isCompatible && !this.isHidden(app.id),
-			}))
-			this.$nextTick(() => logger.debug(`${this.recommendedApps.length} recommended apps found`, { apps: this.recommendedApps }))
-
-			this.showInstallButton = true
-		} catch (error) {
-			logger.error('could not fetch app list', { error })
-
-			this.loadingAppsError = true
-		} finally {
-			this.loadingApps = false
-		}
+		await this.loadApps()
 	},
 
 	methods: {
+		async loadApps() {
+			this.loadingApps = true
+			this.loadingAppsError = false
+
+			try {
+				const apps = await appstoreApi.getApps()
+				logger.info(`${apps.length} apps fetched`)
+
+				this.apps = apps.map((app) => Object.assign(app, {
+					loading: false,
+					installationError: false,
+					isSelected: app.isCompatible && !this.isHidden(app.id),
+				}))
+				this.$nextTick(() => logger.debug(`${this.recommendedApps.length} recommended apps found`, { apps: this.recommendedApps }))
+
+				this.showInstallButton = true
+			} catch (error) {
+				logger.error('could not fetch app list', { error })
+
+				this.loadingAppsError = true
+			} finally {
+				this.loadingApps = false
+			}
+		},
+
 		async installApps() {
 			const availableApps = this.recommendedApps.filter((app) => app.active || (app.isSelected && canInstall(app)))
 			const appsToInstall = [
