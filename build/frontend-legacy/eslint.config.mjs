@@ -4,7 +4,6 @@
  */
 
 import { recommendedVue2 } from '@nextcloud/eslint-config'
-import CypressEslint from 'eslint-plugin-cypress'
 import { defineConfig } from 'eslint/config'
 import * as globals from 'globals'
 
@@ -48,18 +47,7 @@ export default defineConfig([
 			'jsdoc/require-jsdoc': 'off',
 		},
 	},
-	// Cypress setup
-	CypressEslint.configs.recommended,
-	{
-		name: 'server/cypress',
-		files: ['cypress/**', '**/*.cy.*'],
-		rules: {
-			'no-console': 'off',
-			'jsdoc/require-jsdoc': 'off',
-			'@typescript-eslint/no-explicit-any': 'off',
-			'@typescript-eslint/no-unused-expressions': 'off',
-		},
-	},
+
 	// customer server ignore files
 	{
 		name: 'server/ignored-files',
