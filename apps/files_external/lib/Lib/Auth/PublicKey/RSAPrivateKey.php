@@ -13,6 +13,7 @@ use OCA\Files_External\Lib\StorageConfig;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IUser;
+use phpseclib3\Crypt\PublicKeyLoader;
 use phpseclib3\Crypt\RSA;
 use phpseclib3\Exception\NoKeyLoadedException;
 
@@ -45,16 +46,20 @@ class RSAPrivateKey extends AuthMechanism {
 	public function manipulateStorageConfig(StorageConfig &$storage, ?IUser $user = null) {
 
 		try {
-			$auth = RSA\PrivateKey::loadPrivateKey(
+			$auth = PublicKeyLoader::load(
 				$storage->getBackendOption('private_key'),
 				$this->config->getSystemValue('secret', ''),
 			);
 		} catch (NoKeyLoadedException) {
 			// Add fallback routine for a time where secret was not enforced to be exists
-			$auth = RSA\PrivateKey::loadPrivateKey(
+			$auth = PublicKeyLoader::load(
 				$storage->getBackendOption('private_key'),
 				'',
 			);
+		}
+
+		if (!$auth instanceof RSA\PrivateKey) {
+			throw new \RuntimeException('Loaded key is not a private key');
 		}
 		$storage->setBackendOption('public_key_auth', $auth);
 	}
