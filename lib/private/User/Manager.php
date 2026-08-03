@@ -163,6 +163,10 @@ class Manager extends PublicEmitter implements IUserManager {
 
 	#[\Override]
 	public function getDisplayName(string $uid): ?string {
+		if (isset($this->cachedUsers[$uid])) {
+			return $this->cachedUsers[$uid]->getDisplayName();
+		}
+
 		return $this->displayNameCache->getDisplayName($uid);
 	}
 
