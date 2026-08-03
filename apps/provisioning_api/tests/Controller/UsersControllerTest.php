@@ -27,6 +27,7 @@ use OCP\AppFramework\OCS\OCSException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
 use OCP\Group\ISubAdmin;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IL10N;
@@ -67,6 +68,7 @@ class UsersControllerTest extends TestCase {
 	private IRootFolder $rootFolder;
 	private IPhoneNumberUtil $phoneNumberUtil;
 	private IAppManager $appManager;
+	private IAppConfig&MockObject $appConfig;
 	private GroupDisplayNameCache&MockObject $groupDisplayNameCache;
 
 	protected function setUp(): void {
@@ -89,6 +91,7 @@ class UsersControllerTest extends TestCase {
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->phoneNumberUtil = new PhoneNumberUtil();
 		$this->appManager = $this->createMock(IAppManager::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 		$this->groupDisplayNameCache = $this->createMock(GroupDisplayNameCache::class);
 
@@ -117,6 +120,7 @@ class UsersControllerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->phoneNumberUtil,
 				$this->appManager,
+				$this->appConfig,
 				$this->groupDisplayNameCache,
 			])
 			->onlyMethods(['fillStorageInfo'])
@@ -270,6 +274,7 @@ class UsersControllerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->phoneNumberUtil,
 				$this->appManager,
+				$this->appConfig,
 				$this->groupDisplayNameCache,
 			])
 			->onlyMethods(['getUserData'])
@@ -587,6 +592,7 @@ class UsersControllerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->phoneNumberUtil,
 				$this->appManager,
+				$this->appConfig,
 				$this->groupDisplayNameCache,
 			])
 			->onlyMethods(['editUser'])
@@ -728,6 +734,67 @@ class UsersControllerTest extends TestCase {
 			'id',
 			$this->api->addUser('NewUser', '', '', 'foo@bar')->getData()
 		));
+	}
+
+	/**
+	 * `newUser.sendEmail` has to be read as a boolean. It is stored as an untyped
+	 * 'yes'/'no' string on instances created before Nextcloud 33 and as a typed
+	 * boolean once the account settings toggle has been used, so comparing it to
+	 * the string 'yes' silently skipped the mail on upgraded instances.
+	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataAddUserWelcomeMail')]
+	public function testAddUserSendsWelcomeMailWhenEnabled(bool $enabled): void {
+		$this->appConfig
+			->expects($this->atLeastOnce())
+			->method('getValueBool')
+			->with('core', 'newUser.sendEmail', true)
+			->willReturn($enabled);
+
+		$newUser = $this->createMock(IUser::class);
+		$newUser->expects($this->once())
+			->method('setSystemEMailAddress')
+			->with('foo@bar.com');
+		$this->userManager
+			->expects($this->once())
+			->method('userExists')
+			->with('NewUser')
+			->willReturn(false);
+		$this->userManager
+			->expects($this->once())
+			->method('createUser')
+			->willReturn($newUser);
+		$loggedInUser = $this->createMock(IUser::class);
+		$loggedInUser
+			->method('getUID')
+			->willReturn('adminUser');
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->willReturn($loggedInUser);
+		$this->groupManager
+			->expects($this->once())
+			->method('isAdmin')
+			->with('adminUser')
+			->willReturn(true);
+
+		$emailTemplate = $this->createMock(IEMailTemplate::class);
+		$this->newUserMailHelper
+			->expects($enabled ? $this->once() : $this->never())
+			->method('generateTemplate')
+			->willReturn($emailTemplate);
+		$this->newUserMailHelper
+			->expects($enabled ? $this->once() : $this->never())
+			->method('sendMail')
+			->with($newUser, $emailTemplate);
+
+		$this->api->addUser('NewUser', 'PasswordOfTheNewUser', '', 'foo@bar.com');
+	}
+
+	public static function dataAddUserWelcomeMail(): array {
+		return [
+			'enabled' => [true],
+			'disabled' => [false],
+		];
 	}
 
 	public function testAddUserSuccessfulLowercaseEmail(): void {
@@ -3928,6 +3995,7 @@ class UsersControllerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->phoneNumberUtil,
 				$this->appManager,
+				$this->appConfig,
 				$this->groupDisplayNameCache,
 			])
 			->onlyMethods(['getUserData'])
@@ -4023,6 +4091,7 @@ class UsersControllerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->phoneNumberUtil,
 				$this->appManager,
+				$this->appConfig,
 				$this->groupDisplayNameCache,
 			])
 			->onlyMethods(['getUserData'])

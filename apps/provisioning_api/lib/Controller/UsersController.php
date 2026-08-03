@@ -37,6 +37,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
 use OCP\Group\ISubAdmin;
 use OCP\HintException;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -83,6 +84,7 @@ class UsersController extends AUserDataOCSController {
 		private IEventDispatcher $eventDispatcher,
 		private IPhoneNumberUtil $phoneNumberUtil,
 		private IAppManager $appManager,
+		private IAppConfig $appConfig,
 		GroupDisplayNameCache $groupDisplayNameCache,
 	) {
 		parent::__construct(
@@ -596,7 +598,7 @@ class UsersController extends AUserDataOCSController {
 			// Send new user mail only if a mail is set
 			if ($email !== '') {
 				$newUser->setSystemEMailAddress($email);
-				if ($this->config->getAppValue('core', 'newUser.sendEmail', 'yes') === 'yes') {
+				if ($this->appConfig->getValueBool('core', 'newUser.sendEmail', true)) {
 					try {
 						$emailTemplate = $this->newUserMailHelper->generateTemplate($newUser, $generatePasswordResetToken);
 						$this->newUserMailHelper->sendMail($newUser, $emailTemplate);
