@@ -1892,11 +1892,6 @@
       <code><![CDATA[INode]]></code>
     </MismatchingDocblockReturnType>
   </file>
-  <file src="apps/files_trashbin/lib/Sabre/TrashbinPlugin.php">
-    <InternalMethod>
-      <code><![CDATA[free_space]]></code>
-    </InternalMethod>
-  </file>
   <file src="apps/files_trashbin/lib/Storage.php">
     <DeprecatedMethod>
       <code><![CDATA[dispatch]]></code>
