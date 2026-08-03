@@ -63,14 +63,8 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 	) {
 	}
 
-	/**
-	 * Initializes the plugin
-	 *
-	 * @param Server $server
-	 * @return void
-	 */
 	#[\Override]
-	public function initialize(Server $server) {
+	public function initialize(Server $server): void {
 		parent::initialize($server);
 		$server->on('propFind', [$this, 'propFindDefaultCalendarUrl'], 90);
 		$server->on('afterWriteContent', [$this, 'dispatchSchedulingResponses']);
@@ -112,7 +106,7 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 	 * @return void
 	 */
 	#[\Override]
-	public function propFind(PropFind $propFind, INode $node) {
+	public function propFind(PropFind $propFind, INode $node): void {
 		if ($node instanceof IPrincipal) {
 			// overwrite Sabre/Dav's implementation
 			$propFind->handle(self::CALENDAR_USER_TYPE, function () use ($node) {
@@ -138,7 +132,7 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 	 * @return array
 	 */
 	#[\Override]
-	public function getAddressesForPrincipal($principal) {
+	public function getAddressesForPrincipal($principal): array {
 		$result = parent::getAddressesForPrincipal($principal);
 
 		if ($result === null) {

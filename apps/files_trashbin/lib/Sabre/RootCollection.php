@@ -19,7 +19,7 @@ use Sabre\DAVACL\PrincipalBackend;
 
 class RootCollection extends AbstractPrincipalCollection {
 	public function __construct(
-		private ITrashManager $trashManager,
+		private readonly ITrashManager $trashManager,
 		PrincipalBackend\BackendInterface $principalBackend,
 		IConfig $config,
 	) {
@@ -27,16 +27,6 @@ class RootCollection extends AbstractPrincipalCollection {
 		$this->disableListing = !$config->getSystemValue('debug', false);
 	}
 
-	/**
-	 * This method returns a node for a principal.
-	 *
-	 * The passed array contains principal information, and is guaranteed to
-	 * at least contain a uri item. Other properties may or may not be
-	 * supplied by the authentication backend.
-	 *
-	 * @param array $principalInfo
-	 * @return INode
-	 */
 	#[\Override]
 	public function getChildForPrincipal(array $principalInfo): TrashHome {
 		[, $name] = \Sabre\Uri\split($principalInfo['uri']);

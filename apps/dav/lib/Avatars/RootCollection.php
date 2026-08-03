@@ -13,19 +13,8 @@ use OCP\Server;
 use Sabre\DAVACL\AbstractPrincipalCollection;
 
 class RootCollection extends AbstractPrincipalCollection {
-
-	/**
-	 * This method returns a node for a principal.
-	 *
-	 * The passed array contains principal information, and is guaranteed to
-	 * at least contain a uri item. Other properties may or may not be
-	 * supplied by the authentication backend.
-	 *
-	 * @param array $principalInfo
-	 * @return AvatarHome
-	 */
 	#[\Override]
-	public function getChildForPrincipal(array $principalInfo) {
+	public function getChildForPrincipal(array $principalInfo): AvatarHome {
 		$avatarManager = Server::get(IAvatarManager::class);
 		return new AvatarHome($principalInfo, $avatarManager);
 	}

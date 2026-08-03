@@ -30,7 +30,7 @@ class DeletedCalendarObject implements IACL, ICalendarObject, IRestorable {
 	}
 
 	#[\Override]
-	public function delete() {
+	public function delete(): void {
 		if (!$this->canModify()) {
 			throw new Forbidden('Read-only sharees cannot permanently delete trashbin entries');
 		}
@@ -56,22 +56,22 @@ class DeletedCalendarObject implements IACL, ICalendarObject, IRestorable {
 	}
 
 	#[\Override]
-	public function getName() {
+	public function getName(): string {
 		return $this->name;
 	}
 
 	#[\Override]
-	public function setName($name) {
+	public function setName($name): void {
 		throw new Forbidden();
 	}
 
 	#[\Override]
-	public function getLastModified() {
+	public function getLastModified(): int {
 		return 0;
 	}
 
 	#[\Override]
-	public function put($data) {
+	public function put($data): never {
 		throw new Forbidden();
 	}
 
@@ -81,7 +81,7 @@ class DeletedCalendarObject implements IACL, ICalendarObject, IRestorable {
 	}
 
 	#[\Override]
-	public function getContentType() {
+	public function getContentType(): string {
 		$mime = 'text/calendar; charset=utf-8';
 		if (isset($this->objectData['component']) && $this->objectData['component']) {
 			$mime .= '; component=' . $this->objectData['component'];
@@ -91,12 +91,12 @@ class DeletedCalendarObject implements IACL, ICalendarObject, IRestorable {
 	}
 
 	#[\Override]
-	public function getETag() {
+	public function getETag(): string {
 		return $this->objectData['etag'];
 	}
 
 	#[\Override]
-	public function getSize() {
+	public function getSize(): int {
 		return (int)$this->objectData['size'];
 	}
 
@@ -167,7 +167,7 @@ class DeletedCalendarObject implements IACL, ICalendarObject, IRestorable {
 	}
 
 	#[\Override]
-	public function getOwner() {
+	public function getOwner(): string {
 		return $this->principalUri;
 	}
 }

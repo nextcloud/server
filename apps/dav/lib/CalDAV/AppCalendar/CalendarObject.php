@@ -28,12 +28,12 @@ class CalendarObject implements ICalendarObject, IACL {
 	}
 
 	#[\Override]
-	public function getOwner() {
+	public function getOwner(): ?string {
 		return $this->calendar->getOwner();
 	}
 
 	#[\Override]
-	public function getGroup() {
+	public function getGroup(): ?string {
 		return $this->calendar->getGroup();
 	}
 

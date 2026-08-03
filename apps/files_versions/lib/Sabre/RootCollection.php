@@ -20,29 +20,19 @@ class RootCollection extends AbstractPrincipalCollection {
 
 	public function __construct(
 		PrincipalBackend\BackendInterface $principalBackend,
-		private IRootFolder $rootFolder,
+		private readonly IRootFolder $rootFolder,
 		IConfig $config,
-		private IUserManager $userManager,
-		private IVersionManager $versionManager,
-		private IUserSession $userSession,
+		private readonly IUserManager $userManager,
+		private readonly IVersionManager $versionManager,
+		private readonly IUserSession $userSession,
 	) {
 		parent::__construct($principalBackend, 'principals/users');
 
 		$this->disableListing = !$config->getSystemValue('debug', false);
 	}
 
-	/**
-	 * This method returns a node for a principal.
-	 *
-	 * The passed array contains principal information, and is guaranteed to
-	 * at least contain a uri item. Other properties may or may not be
-	 * supplied by the authentication backend.
-	 *
-	 * @param array $principalInfo
-	 * @return INode
-	 */
 	#[\Override]
-	public function getChildForPrincipal(array $principalInfo) {
+	public function getChildForPrincipal(array $principalInfo): VersionHome {
 		[, $name] = \Sabre\Uri\split($principalInfo['uri']);
 		$user = $this->userSession->getUser();
 		if (is_null($user) || $name !== $user->getUID()) {
@@ -52,7 +42,7 @@ class RootCollection extends AbstractPrincipalCollection {
 	}
 
 	#[\Override]
-	public function getName() {
+	public function getName(): string {
 		return 'versions';
 	}
 }
