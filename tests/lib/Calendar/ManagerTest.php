@@ -41,6 +41,13 @@ interface ITestCalendar extends ICreateFromString, IHandleImipMessage, ICalendar
 
 }
 
+/*
+ * A writable calendar that is unable to process iMip messages
+ */
+interface ITestCalendarWithoutImip extends ICreateFromString, ICalendarIsWritable {
+
+}
+
 class ManagerTest extends TestCase {
 	/** @var Coordinator&MockObject */
 	private $coordinator;
@@ -342,7 +349,7 @@ class ManagerTest extends TestCase {
 			->willReturn([]);
 		// construct logger returns
 		$this->logger->expects(self::once())->method('warning')
-			->with('iMip message could not be processed because user has no calendars');
+			->with('iMip message could not be processed because user has no calendar that can process iMip messages');
 		// construct parameters
 		$userId = 'attendee1';
 		$calendar = $this->vCalendar1a;
@@ -356,6 +363,12 @@ class ManagerTest extends TestCase {
 	public function testHandleImipWithNoEvent(): void {
 		// construct mock user calendar
 		$userCalendar = $this->createMock(ITestCalendar::class);
+		$userCalendar->expects(self::once())
+			->method('isDeleted')
+			->willReturn(false);
+		$userCalendar->expects(self::once())
+			->method('isWritable')
+			->willReturn(true);
 		// construct mock calendar manager and returns
 		/** @var Manager&MockObject $manager */
 		$manager = $this->getMockBuilder(Manager::class)
@@ -433,6 +446,12 @@ class ManagerTest extends TestCase {
 	public function testHandleImipMissingOrganizerNoRecipient(): void {
 		// construct mock user calendar
 		$userCalendar = $this->createMock(ITestCalendar::class);
+		$userCalendar->expects(self::once())
+			->method('isDeleted')
+			->willReturn(false);
+		$userCalendar->expects(self::once())
+			->method('isWritable')
+			->willReturn(true);
 		// construct mock calendar manager and returns
 		/** @var Manager&MockObject $manager */
 		$manager = $this->getMockBuilder(Manager::class)
@@ -467,6 +486,12 @@ class ManagerTest extends TestCase {
 	public function testHandleImipWithNoUid(): void {
 		// construct mock user calendar
 		$userCalendar = $this->createMock(ITestCalendar::class);
+		$userCalendar->expects(self::once())
+			->method('isDeleted')
+			->willReturn(false);
+		$userCalendar->expects(self::once())
+			->method('isWritable')
+			->willReturn(true);
 		// construct mock calendar manager and returns
 		/** @var Manager&MockObject $manager */
 		$manager = $this->getMockBuilder(Manager::class)
@@ -487,7 +512,7 @@ class ManagerTest extends TestCase {
 			->willReturn([$userCalendar]);
 		// construct logger returns
 		$this->logger->expects(self::once())->method('warning')
-			->with('iMip message event dose not contains a UID');
+			->with('iMip message event does not contains a UID');
 		// construct parameters
 		$userId = 'attendee1';
 		$calendar = $this->vCalendar1a;
@@ -542,6 +567,42 @@ class ManagerTest extends TestCase {
 		$this->assertFalse($result);
 	}
 
+	public function testHandleImipWithCalendarUnableToHandleImip(): void {
+		// construct mock user calendar which is writable but can not process iMip messages
+		$userCalendar = $this->createMock(ITestCalendarWithoutImip::class);
+		$userCalendar->expects(self::never())
+			->method('search');
+		// construct mock calendar manager and returns
+		/** @var Manager&MockObject $manager */
+		$manager = $this->getMockBuilder(Manager::class)
+			->setConstructorArgs([
+				$this->coordinator,
+				$this->container,
+				$this->logger,
+				$this->time,
+				$this->secureRandom,
+				$this->userManager,
+				$this->serverFactory,
+				$this->propertyMapper,
+			])
+			->onlyMethods(['getCalendarsForPrincipal'])
+			->getMock();
+		$manager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->willReturn([$userCalendar]);
+		// construct logger returns
+		$this->logger->expects(self::once())->method('warning')
+			->with('iMip message could not be processed because user has no calendar that can process iMip messages');
+		// construct parameters
+		$userId = 'attendee1';
+		$calendar = $this->vCalendar1a;
+		$calendar->add('METHOD', 'REQUEST');
+		// test method
+		$result = $manager->handleIMip($userId, $calendar->serialize());
+		// Assert
+		$this->assertFalse($result);
+	}
+
 	public function testHandleImip(): void {
 		// construct mock user calendar
 		$userCalendar = $this->createMock(ITestCalendar::class);
@@ -586,10 +647,10 @@ class ManagerTest extends TestCase {
 	public function testHandleImipWithAbsentCreateOption(): void {
 		// construct mock user calendar (no matching event found)
 		$userCalendar = $this->createMock(ITestCalendar::class);
-		$userCalendar->expects(self::exactly(2))
+		$userCalendar->expects(self::once())
 			->method('isDeleted')
 			->willReturn(false);
-		$userCalendar->expects(self::exactly(2))
+		$userCalendar->expects(self::once())
 			->method('isWritable')
 			->willReturn(true);
 		$userCalendar->expects(self::once())
@@ -683,12 +744,11 @@ class ManagerTest extends TestCase {
 	public function testHandleImipWithAbsentCreateNoWritableCalendar(): void {
 		// construct mock user calendar (not writable)
 		$userCalendar = $this->createMock(ITestCalendar::class);
-		$userCalendar->expects(self::exactly(2))
-			->method('isDeleted')
-			->willReturn(false);
-		$userCalendar->expects(self::exactly(2))
+		$userCalendar->expects(self::once())
 			->method('isWritable')
 			->willReturn(false);
+		$userCalendar->expects(self::never())
+			->method('search');
 		// construct mock calendar manager and returns
 		/** @var Manager&MockObject $manager */
 		$manager = $this->getMockBuilder(Manager::class)
@@ -707,12 +767,11 @@ class ManagerTest extends TestCase {
 		$manager->expects(self::once())
 			->method('getCalendarsForPrincipal')
 			->willReturn([$userCalendar]);
-		$manager->expects(self::once())
-			->method('getPrimaryCalendar')
-			->willReturn(null);
+		$manager->expects(self::never())
+			->method('getPrimaryCalendar');
 		// construct logger returns
 		$this->logger->expects(self::once())->method('warning')
-			->with('iMip message could not be processed because no writable calendar was found');
+			->with('iMip message could not be processed because user has no calendar that can process iMip messages');
 		// construct parameters
 		$userId = 'attendee1';
 		$calendar = $this->vCalendar1a;
@@ -789,10 +848,10 @@ class ManagerTest extends TestCase {
 	public function testHandleImipWithAbsentCreateOverwritesExistingStatus(): void {
 		// construct mock user calendar (no matching event found)
 		$userCalendar = $this->createMock(ITestCalendar::class);
-		$userCalendar->expects(self::exactly(2))
+		$userCalendar->expects(self::once())
 			->method('isDeleted')
 			->willReturn(false);
-		$userCalendar->expects(self::exactly(2))
+		$userCalendar->expects(self::once())
 			->method('isWritable')
 			->willReturn(true);
 		$userCalendar->expects(self::once())
