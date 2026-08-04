@@ -18,6 +18,8 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\Security\Ip\IRemoteAddress;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\AppFramework\Middleware\Security\Mock\PasswordConfirmationMiddlewareController;
 use Test\TestCase;
@@ -43,6 +45,7 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 	private IRequest $request;
 	/** @var Manager&\PHPUnit\Framework\MockObject\MockObject */
 	private Manager $userManager;
+	private IRemoteAddress&MockObject $remoteAddress;
 
 	protected function setUp(): void {
 		$this->reflector = new ControllerMethodReflector(\OCP\Server::get(LoggerInterface::class));
@@ -58,6 +61,7 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 			'test',
 			$this->createMock(IRequest::class)
 		);
+		$this->remoteAddress = $this->createMock(IRemoteAddress::class);
 
 		$this->middleware = new PasswordConfirmationMiddleware(
 			$this->reflector,
@@ -68,6 +72,7 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 			$this->logger,
 			$this->request,
 			$this->userManager,
+			$this->remoteAddress,
 		);
 	}
 
