@@ -217,6 +217,13 @@ class Manager implements IManager {
 		return $query->executeStatement();
 	}
 
+	public function invalidateTokensForUser(string $uid): int {
+		$query = $this->connection->getQueryBuilder();
+		$query->delete(self::TABLE_TOKENS)
+			->where($query->expr()->eq('user_id', $query->createNamedParameter($uid)));
+		return $query->executeStatement();
+	}
+
 	public function refreshToken(string $token): bool {
 		$query = $this->connection->getQueryBuilder();
 		$query->update(self::TABLE_TOKENS)
