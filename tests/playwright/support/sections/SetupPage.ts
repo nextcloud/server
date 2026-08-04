@@ -103,6 +103,10 @@ export class SetupPage {
 		return this.page.getByRole('heading', { name: 'Recommended apps' })
 	}
 
+	recommendedApp(name: string): Locator {
+		return this.recommendedApps().getByRole('heading', { name })
+	}
+
 	skipButton(): Locator {
 		return this.page.getByRole('button', { name: 'Skip' })
 	}
