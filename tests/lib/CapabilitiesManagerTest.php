@@ -9,9 +9,9 @@
 namespace Test;
 
 use OC\CapabilitiesManager;
-use OCP\AppFramework\QueryException;
 use OCP\Capabilities\ICapability;
 use OCP\Capabilities\IPublicCapability;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
 
 class CapabilitiesManagerTest extends TestCase {
@@ -132,7 +132,7 @@ class CapabilitiesManagerTest extends TestCase {
 
 	public function testInvalidCapability(): void {
 		$this->manager->registerCapability(function (): void {
-			throw new QueryException();
+			throw $this->createMock(ContainerExceptionInterface::class);
 		});
 
 		$this->logger->expects($this->once())

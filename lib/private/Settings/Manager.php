@@ -8,7 +8,6 @@
 namespace OC\Settings;
 
 use Closure;
-use OCP\AppFramework\QueryException;
 use OCP\Group\ISubAdmin;
 use OCP\IGroupManager;
 use OCP\IL10N;
@@ -20,6 +19,7 @@ use OCP\Settings\IIconSection;
 use OCP\Settings\IManager;
 use OCP\Settings\ISettings;
 use OCP\Settings\ISubAdminSettings;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -79,7 +79,7 @@ class Manager implements IManager {
 			try {
 				/** @var IIconSection $section */
 				$section = $this->container->get($class);
-			} catch (QueryException $e) {
+			} catch (ContainerExceptionInterface $e) {
 				$this->log->info($e->getMessage(), ['exception' => $e]);
 				continue;
 			}
@@ -148,7 +148,7 @@ class Manager implements IManager {
 				try {
 					/** @var ISettings $setting */
 					$setting = $this->container->get($class);
-				} catch (QueryException $e) {
+				} catch (ContainerExceptionInterface $e) {
 					$this->log->info($e->getMessage(), ['exception' => $e]);
 					continue;
 				}

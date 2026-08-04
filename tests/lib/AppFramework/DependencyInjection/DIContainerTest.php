@@ -17,10 +17,10 @@ use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Middleware\Security\SecurityMiddleware;
 use OCP\AppFramework\Middleware;
-use OCP\AppFramework\QueryException;
 use OCP\IConfig;
 use OCP\IRequestId;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Container\ContainerExceptionInterface;
 
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class DIContainerTest extends \Test\TestCase {
@@ -137,7 +137,7 @@ class DIContainerTest extends \Test\TestCase {
 	}
 
 	public function testInvalidAppClass(): void {
-		$this->expectException(QueryException::class);
-		$this->container->query('\OCA\Name\Foo');
+		$this->expectException(ContainerExceptionInterface::class);
+		$this->container->get('\OCA\Name\Foo');
 	}
 }
