@@ -576,7 +576,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 		return $row;
 	}
-
+	
 	/**
 	 * Returns a list of cards.
 	 *
