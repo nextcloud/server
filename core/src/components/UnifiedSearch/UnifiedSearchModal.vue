@@ -1724,13 +1724,13 @@ export default defineComponent({
 				margin-inline-start: calc(var(--default-grid-baseline) * 2);
 			}
 
-			// The overflow heading is a real button; make it read like the plain title.
+			// The overflow heading is a real button; match the plain title's size and colour,
+			// but leave it NcButton's own --font-weight-element weight.
 			&-title--more {
 				margin-block: calc(var(--default-grid-baseline) * 2) var(--default-grid-baseline);
 
 				:deep(.button-vue__text) {
 					font-size: var(--default-font-size);
-					font-weight: normal;
 					color: var(--color-main-text);
 				}
 
