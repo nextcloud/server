@@ -721,25 +721,19 @@ class TaskProcessingApiController extends OCSController {
 				throw new NotFoundException();
 			}
 
-			$taskIdsToIgnore = [];
-			while (true) {
-				// Until we find a task whose task type is set to be provided by the providers requested with this request
-				// Or no scheduled task is found anymore (given the taskIds to ignore)
-				$task = $this->taskProcessingManager->getNextScheduledTask($possibleTaskTypeIds, $taskIdsToIgnore);
-				try {
-					$provider = $this->taskProcessingManager->getPreferredProvider($task->getTaskTypeId());
-					if (in_array($provider->getId(), $possibleProviderIds, true)) {
-						if ($this->taskProcessingManager->lockTask($task)) {
-							break;
-						}
-					}
-				} catch (Exception) {
-					// There is no provider set for the task type of this task
-					// proceed to ignore this task
-				}
-
-				$taskIdsToIgnore[] = (int)$task->getId();
+			// Atomically claim the oldest scheduled task across the eligible task types in a
+			// single query (FOR UPDATE SKIP LOCKED, with a SQLite/Oracle fallback). This both
+			// selects the task and marks it RUNNING, so multiple ex-app instances (e.g. several
+			// replicas under Kubernetes) competing for the same queue never claim the same task
+			// and no per-request ignore-list / retry loop is needed. $possibleTaskTypeIds is
+			// already restricted to task types whose preferred provider is among the requested
+			// providers, so any claimed task can be served by one of them.
+			$task = $this->taskProcessingManager->claimNextScheduledTask($possibleTaskTypeIds);
+			if ($task === null) {
+				return new DataResponse(null, Http::STATUS_NO_CONTENT);
 			}
+
+			$provider = $this->taskProcessingManager->getPreferredProvider($task->getTaskTypeId());
 
 			/** @var CoreTaskProcessingTask $json */
 			$json = $task->jsonSerialize();
@@ -781,27 +775,36 @@ class TaskProcessingApiController extends OCSController {
 				]);
 			}
 
-			$tasks = $this->taskProcessingManager->getNextScheduledTasks($possibleTaskTypeIds, numberOfTasks: $numberOfTasks + 1);
 			$tasksJson = [];
-			// Stop when $numberOfTasks is reached or the json payload is larger than 50MiB
-			while (count($tasks) > 0 && count($tasksJson) < $numberOfTasks && strlen(json_encode($tasks)) < 50 * 1024 * 1024) {
-				// Until we find a task whose task type is set to be provided by the providers requested with this request
-				// Or no scheduled task is found anymore (given the taskIds to ignore)
-				$task = array_shift($tasks);
-				try {
-					$provider = $this->taskProcessingManager->getPreferredProvider($task->getTaskTypeId());
-					if (in_array($provider->getId(), $possibleProviderIds, true)) {
-						if ($this->taskProcessingManager->lockTask($task)) {
-							$tasksJson[] = ['task' => $task->jsonSerialize(), 'provider' => $provider->getId()];
-							continue;
-						}
-					}
-				} catch (Exception) {
-					// There is no provider set for the task type of this task
-					// proceed to ignore this task
+			// Atomically claim up to $numberOfTasks scheduled tasks, one by one. Each claim uses
+			// FOR UPDATE SKIP LOCKED (with a SQLite/Oracle fallback) to mark the task RUNNING in
+			// the same step, so concurrent ex-app instances (e.g. several replicas under
+			// Kubernetes) never hand out the same task twice and no per-request ignore-list is
+			// needed. $possibleTaskTypeIds is already restricted to task types whose preferred
+			// provider is among the requested providers, so any claimed task can be served.
+			while (count($tasksJson) < $numberOfTasks) {
+				$task = $this->taskProcessingManager->claimNextScheduledTask($possibleTaskTypeIds);
+				if ($task === null) {
+					// No more schedulable tasks.
+					break;
+				}
+				$provider = $this->taskProcessingManager->getPreferredProvider($task->getTaskTypeId());
+				$tasksJson[] = ['task' => $task->jsonSerialize(), 'provider' => $provider->getId()];
+				// Cap the response payload at ~50MiB. The task is already claimed, so it is always
+				// included; we simply stop claiming further tasks once the limit is reached.
+				if (strlen(json_encode($tasksJson)) >= 50 * 1024 * 1024) {
+					break;
 				}
 			}
-			$hasMore = count($tasks) > 0;
+
+			// Report whether at least one more schedulable task remains, without claiming it.
+			$hasMore = false;
+			try {
+				$this->taskProcessingManager->getNextScheduledTask($possibleTaskTypeIds);
+				$hasMore = true;
+			} catch (NotFoundException) {
+				// No further scheduled task remains.
+			}
 
 			return new DataResponse([
 				'tasks' => $tasksJson,
