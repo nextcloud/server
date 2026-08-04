@@ -169,6 +169,62 @@ test.describe('Nextcloud installation wizard', { tag: '@setup' }, () => {
 			await setupPage.skipRecommendedApps()
 			await expect(page.locator('[data-cy-files-content]')).toBeVisible()
 		})
+
+		test('clears loaded apps and Install when retrying the app list fails', async ({ page, setupPage }) => {
+			let appListRequests = 0
+			let retryStarted!: () => void
+			let releaseRetry!: () => void
+			const retryRequestStarted = new Promise<void>((resolve) => {
+				retryStarted = resolve
+			})
+			const continueRetryRequest = new Promise<void>((resolve) => {
+				releaseRetry = resolve
+			})
+
+			await page.route(/\/apps\/appstore\/api\/v1\/apps(\?.*)?$/, async (route) => {
+				appListRequests++
+
+				if (appListRequests === 1) {
+					await route.fulfill({ json: APPSTORE_APPS })
+					return
+				}
+
+				retryStarted()
+				await continueRetryRequest
+				await route.fulfill({ status: 503 })
+			})
+			await setupPage.open()
+
+			await setupPage.selectDatabase('SQLite')
+			const admin = randomAdmin()
+			await setupPage.install(admin, admin)
+
+			// Confirm that the initial request loaded the app list normally.
+			await expect(setupPage.recommendedApp('Calendar')).toBeVisible()
+			await expect(setupPage.installRecommendedButton()).toBeVisible()
+			await expect.poll(() => appListRequests).toBe(1)
+
+			// The retry must clear stale state immediately, before the request
+			// completes.
+			await setupPage.retryRecommendedAppsButton().click()
+			await retryRequestStarted
+
+			await expect(page.getByText('Loading apps …')).toBeVisible()
+			await expect(setupPage.recommendedAppsLoadError()).toBeHidden()
+			await expect(setupPage.recommendedApp('Calendar')).toBeHidden()
+			await expect(setupPage.recommendedApp('Contacts')).toBeHidden()
+			await expect(setupPage.installRecommendedButton()).toBeHidden()
+			await expect(setupPage.retryRecommendedAppsButton()).toBeHidden()
+
+			// Complete the pending request with an error and verify the final
+			// recovery state.
+			releaseRetry()
+
+			await expect(setupPage.recommendedAppsLoadError()).toBeVisible()
+			await expect(setupPage.installRecommendedButton()).toBeHidden()
+			await expect(setupPage.retryRecommendedAppsButton()).toBeVisible()
+			await expect.poll(() => appListRequests).toBe(2)
+		})	
 	})
 
 	test('installs with MySQL', { tag: '@db_mysql' }, async ({ page, setupPage }) => {
