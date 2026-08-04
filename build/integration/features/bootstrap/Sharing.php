@@ -7,6 +7,8 @@
  */
 use Behat\Gherkin\Node\TableNode;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ServerException;
 use OCA\Files_Sharing\MountProvider;
 use PHPUnit\Framework\Assert;
 use Psr\Http\Message\ResponseInterface;
@@ -175,6 +177,89 @@ trait Sharing {
 
 		$fullUrl = substr($this->baseUrl, 0, -4) . "public.php/dav/files/$token/";
 		$this->checkDownload($fullUrl, ['', $password], 'text/plain');
+	}
+
+	/**
+	 * Get the token of the last created share
+	 */
+	private function getLastShareToken(): string {
+		if (count($this->lastShareData->data->element) > 0) {
+			return (string)$this->lastShareData->data[0]->token;
+		}
+
+		return (string)$this->lastShareData->data->token;
+	}
+
+	/**
+	 * Authenticate the current session against a password protected link share,
+	 * the same way a browser does it using the public share authentication page.
+	 *
+	 * @Given /^authenticating to the last public share with password "([^"]*)"$/
+	 */
+	public function authenticatingToTheLastPublicShareWithPassword(string $password): void {
+		$token = $this->getLastShareToken();
+		$authUrl = substr($this->baseUrl, 0, -4) . "index.php/s/$token/authenticate/showShare";
+
+		$client = new Client();
+
+		// Load the authentication page to get a session and the CSRF token
+		$response = $client->get($authUrl, ['cookies' => $this->cookieJar]);
+		$this->extracRequestTokenFromResponse($response);
+
+		$this->response = $client->post(
+			$authUrl,
+			[
+				'cookies' => $this->cookieJar,
+				'allow_redirects' => ['track_redirects' => true],
+				'form_params' => [
+					'password' => $password,
+					'requesttoken' => $this->requestToken,
+				],
+			]
+		);
+
+		// On success the authentication redirects to the share itself,
+		// on failure the authentication page is rendered again without any redirect.
+		Assert::assertEquals(200, $this->response->getStatusCode());
+		Assert::assertStringContainsString(
+			"index.php/s/$token",
+			$this->response->getHeaderLine('X-Guzzle-Redirect-History'),
+			'Authenticating to the share did not redirect to the share'
+		);
+	}
+
+	/**
+	 * @When /^getting the public preview of the last share for file "([^"]*)"$/
+	 */
+	public function gettingThePublicPreviewOfTheLastShare(string $file): void {
+		$token = $this->getLastShareToken();
+		$fullUrl = substr($this->baseUrl, 0, -4) . "index.php/apps/files_sharing/publicpreview/$token";
+
+		$client = new Client();
+		try {
+			$this->response = $client->get(
+				$fullUrl,
+				[
+					'cookies' => $this->cookieJar,
+					'query' => [
+						'file' => $file,
+						'x' => 64,
+						'y' => 64,
+					],
+				]
+			);
+		} catch (ClientException|ServerException $e) {
+			$this->response = $e->getResponse();
+		}
+	}
+
+	/**
+	 * @Then /^the response should be an image$/
+	 */
+	public function theResponseShouldBeAnImage(): void {
+		$finfo = new finfo;
+		$mimeType = $finfo->buffer((string)$this->response->getBody(), FILEINFO_MIME_TYPE);
+		Assert::assertStringStartsWith('image/', $mimeType, "Expected an image but got '$mimeType'");
 	}
 
 	private function checkDownload($url, $auth = null, $mimeType = null) {
