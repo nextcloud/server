@@ -195,6 +195,8 @@
     "Unknown share recipient" : "Неизвестный получатель доли",
     "Group \"%s\" does not exist" : "Группа \"%s\" не существует",
     "The requested share does not exist anymore" : "Запрошенный общий ресурс более не существует.",
+    "The share already contains the source." : "В ресурсе общего доступа уже указан источник.",
+    "The share already contains the recipient." : "В ресурсе общего доступа уже указан получатель.",
     "The source does not exist." : "Источник не существует.",
     "The recipient does not exist." : "Получатель не существует.",
     "The value must be alphanumeric, 1 to 32 characters long and may contain dashes." : "Значение должно быть буквенно-цифровым, длиной от 1 до 32 символов и может содержать тире.",
