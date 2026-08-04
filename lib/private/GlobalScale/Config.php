@@ -1,43 +1,30 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\GlobalScale;
 
 use OCP\IConfig;
+use Override;
 
 class Config implements \OCP\GlobalScale\IConfig {
-	/** @var IConfig */
-	private $config;
-
-	/**
-	 * Config constructor.
-	 *
-	 * @param IConfig $config
-	 */
-	public function __construct(IConfig $config) {
-		$this->config = $config;
+	public function __construct(
+		private readonly IConfig $config,
+	) {
 	}
 
-	/**
-	 * check if global scale is enabled
-	 *
-	 * @since 12.0.1
-	 * @return bool
-	 */
-	public function isGlobalScaleEnabled() {
+	#[Override]
+	public function isGlobalScaleEnabled(): bool {
 		return $this->config->getSystemValueBool('gs.enabled', false);
 	}
 
-	/**
-	 * check if federation should only be used internally in a global scale setup
-	 *
-	 * @since 12.0.1
-	 * @return bool
-	 */
-	public function onlyInternalFederation() {
+	#[Override]
+	public function onlyInternalFederation(): bool {
 		// if global scale is disabled federation works always globally
 		$gsEnabled = $this->isGlobalScaleEnabled();
 		if ($gsEnabled === false) {
@@ -47,5 +34,25 @@ class Config implements \OCP\GlobalScale\IConfig {
 		$enabled = $this->config->getSystemValueString('gs.federation', 'internal');
 
 		return $enabled === 'internal';
+	}
+
+	#[Override]
+	public function isPrimary(): bool {
+		return $this->isGlobalScaleEnabled()
+			&& ($this->config->getSystemValueString('gss.mode', 'slave') === 'master'
+				|| $this->config->getSystemValueString('gss.mode', 'slave') === 'primary');
+	}
+
+	#[Override]
+	public function isSecondary(): bool {
+		return $this->isGlobalScaleEnabled()
+			&& ($this->config->getSystemValueString('gss.mode', 'slave') === 'slave'
+				|| $this->config->getSystemValueString('gss.mode', 'slave') === 'secondary');
+	}
+
+	#[Override]
+	public function isPrimaryAdmin(string $userId): bool {
+		return in_array($userId, $this->config->getSystemValue('gss.master.admin', []))
+			|| in_array($userId, $this->config->getSystemValue('gss.primary.admin', []));
 	}
 }
