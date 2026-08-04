@@ -42,7 +42,7 @@
 
 		<div class="dialog-row">
 			<NcButton
-				v-if="!loadingApps && !installingApps && (showInstallButton || loadingAppsError)"
+				v-if="showSkipButton"
 				data-cy-setup-recommended-apps-skip
 				:href="defaultPageUrl"
 				variant="tertiary">
@@ -50,14 +50,14 @@
 			</NcButton>
 
 			<NcButton
-				v-if="loadingAppsError"
+				v-if="loadingAppsError && !loadingApps"
 				variant="primary"
 				@click="loadApps">
 				{{ t('core', 'Retry') }}
 			</NcButton>
 
 			<NcButton
-				v-if="showInstallButton"
+				v-if="appsLoaded"
 				data-cy-setup-recommended-apps-install
 				:disabled="installingApps || !isAnyAppSelected"
 				variant="primary"
@@ -127,7 +127,7 @@ export default {
 
 	data() {
 		return {
-			showInstallButton: false,
+			appsLoaded: false,
 			installingApps: false,
 			loadingApps: true,
 			loadingAppsError: false,
@@ -144,6 +144,10 @@ export default {
 		isAnyAppSelected() {
 			return this.recommendedApps.some((app) => app.isSelected && !app.active)
 		},
+
+		showSkipButton() {
+			return !this.loadingApps && !this.installingApps && (this.appsLoaded || this.loadingAppsError)
+		},
 	},
 
 	async mounted() {
@@ -154,19 +158,21 @@ export default {
 		async loadApps() {
 			this.loadingApps = true
 			this.loadingAppsError = false
+			this.appsLoaded = false
+			this.apps = []
 
 			try {
 				const apps = await appstoreApi.getApps()
 				logger.info(`${apps.length} apps fetched`)
 
-				this.apps = apps.map((app) => Object.assign(app, {
+				this.apps = apps.map((app) => ({
+					...app,
 					loading: false,
-					installationError: false,
 					isSelected: app.isCompatible && !this.isHidden(app.id),
 				}))
 				this.$nextTick(() => logger.debug(`${this.recommendedApps.length} recommended apps found`, { apps: this.recommendedApps }))
 
-				this.showInstallButton = true
+				this.appsLoaded = true
 			} catch (error) {
 				logger.error('could not fetch app list', { error })
 
@@ -247,8 +253,8 @@ export default {
 		},
 
 		toggleSelect(appId) {
-			// disable toggle when installButton is disabled
-			if (!(appId in recommended) || !this.showInstallButton) {
+			// Disable toggles until the app list has loaded successfully.
+			if (!(appId in recommended) || !this.appsLoaded) {
 				return
 			}
 			const index = this.apps.findIndex((app) => app.id === appId)
