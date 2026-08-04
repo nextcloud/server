@@ -107,8 +107,31 @@ export class SetupPage {
 		return this.page.getByRole('button', { name: 'Skip' })
 	}
 
+	recommendedAppsLoadError(): Locator {
+		return this.page.getByText('Could not fetch list of apps from the App Store.')
+	}
+
+	retryRecommendedAppsButton(): Locator {
+		return this.page.getByRole('button', { name: 'Retry' })
+	}
+
 	installRecommendedButton(): Locator {
 		return this.page.getByRole('button', { name: 'Install recommended apps' })
+	}
+
+	/**
+	 * Follow the server-provided default-page URL exposed by the Skip button.
+	 */
+	async skipRecommendedApps(): Promise<void> {
+		const href = await this.skipButton().getAttribute('href')
+		if (!href) {
+			throw new Error('Recommended-apps Skip button has no href')
+		}
+
+		await Promise.all([
+			this.page.waitForURL(new URL(href, this.page.url()).toString()),
+			this.skipButton().click(),
+		])
 	}
 
 	/**
