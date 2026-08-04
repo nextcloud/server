@@ -253,6 +253,7 @@ OC.L10N.register(
     "Pick start date" : "Выберите дату начала",
     "Pick end date" : "Выберите дату окончания",
     "Search in date range" : "Поиск по диапазону дат",
+    "Remove filter: {name}" : "Убрать фильтр: {name}",
     "Apps, files, messages, and more" : "Приложения, файлы, сообщения и другое",
     "Filters" : "Фильтры",
     "Clear search" : "Очистить поиск",
