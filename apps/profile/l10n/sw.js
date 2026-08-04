@@ -9,11 +9,11 @@ OC.L10N.register(
     "You have not added any info yet" : "Hujaongeza taarifa yoyote bado",
     "{user} has not added any info yet" : "{user} hajaongeza taarifa yoyote bado",
     "Error opening the user status modal, try hard refreshing the page" : "Hitilafu imetokea wakati wa kufungua modi ya hali ya mtumiaji, jaribu kuonyesha upya ukurasa kwa bidii",
-    "Edit Profile" : "Hariri wasifu",
     "The headline and about sections will show up here" : "The headline and about sections will show up here",
     "Profile not found" : "Wasifu haupatikani",
     "Back to %s" : "Rudi kwenye %s",
     "Provides a customisable user profile interface." : "Hutoa kiolesura cha wasifu unaoweza kubinafsishwa.",
+    "Edit Profile" : "Hariri wasifu",
     "The profile does not exist." : "Wasifu haupo"
 },
 "nplurals=2; plural=(n != 1);");
