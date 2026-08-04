@@ -8,6 +8,7 @@
 namespace OCA\Theming;
 
 use OCA\Theming\AppInfo\Application;
+use OCA\Theming\Listener\BeforePreferenceListener;
 use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\Service\ThemesService;
 use OCP\Capabilities\IPublicCapability;
@@ -65,6 +66,7 @@ class Capabilities implements IPublicCapability {
 	 *         inverted: bool,
 	 *         cacheBuster: string,
 	 *         enabledThemes: list<string>,
+	 *         toastTimeout: int,
 	 *     },
 	 * }
 	 */
@@ -129,7 +131,26 @@ class Capabilities implements IPublicCapability {
 				'inverted' => $this->util->invertTextColor($color),
 				'cacheBuster' => $this->util->getCacheBuster(),
 				'enabledThemes' => $this->themesService->getEnabledThemes(),
+				'toastTimeout' => $this->getToastTimeout($user),
 			],
 		];
+	}
+
+	/**
+	 * Resolve the effective toast timeout for the given user.
+	 *
+	 * Uses the config lexicon default and falls back when an invalid value is stored.
+	 */
+	private function getToastTimeout(?IUser $user): int {
+		if ($user instanceof IUser) {
+			// Config lexicon provides the default when the preference is unset.
+			$value = $this->userConfig->getValueInt($user->getUID(), Application::APP_ID, ConfigLexicon::TOAST_TIMEOUT);
+			if ($value === ConfigLexicon::TOAST_TIMEOUT_DEFAULT
+				|| in_array($value, BeforePreferenceListener::TOAST_TIMEOUT_VALUES, true)) {
+				return $value;
+			}
+		}
+
+		return ConfigLexicon::TOAST_TIMEOUT_DEFAULT;
 	}
 }

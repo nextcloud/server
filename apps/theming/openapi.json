@@ -102,7 +102,8 @@
                             "defaultBackgroundColor",
                             "inverted",
                             "cacheBuster",
-                            "enabledThemes"
+                            "enabledThemes",
+                            "toastTimeout"
                         ],
                         "properties": {
                             "name": {
@@ -182,6 +183,10 @@
                                 "items": {
                                     "type": "string"
                                 }
+                            },
+                            "toastTimeout": {
+                                "type": "integer",
+                                "description": "How long toast notifications remain visible in milliseconds. Use -1 to keep them until dismissed."
                             }
                         }
                     }
