@@ -5,15 +5,17 @@
 
 <template>
 	<nav class="app-menu" :aria-label="t('core', 'Applications')">
-		<!-- One wrapper so both triggers act as a single control, sharing one
-			highlight. On narrow screens only the waffle shows. -->
+		<!-- One wrapper: both triggers act as a single control with one highlight. -->
 		<div
 			class="app-menu__trigger"
-			:class="{ 'app-menu__trigger--open': opened }">
+			:class="{ 'app-menu__trigger--open': opened }"
+			@mouseenter="onTriggerPointerEnter"
+			@mouseleave="onPointerLeave">
 			<NcPopover
 				ref="popover"
 				:shown="opened"
 				:triggers="[]"
+				v-bind="popoverAttrs"
 				placement="bottom-start"
 				:skidding="popoverSkidding"
 				:set-return-focus="returnFocusTarget"
@@ -37,7 +39,9 @@
 				<div
 					class="app-menu__popover"
 					role="menu"
-					:aria-label="t('core', 'Apps')">
+					:aria-label="t('core', 'Apps')"
+					@mouseenter="onPopoverPointerEnter"
+					@mouseleave="onPointerLeave">
 					<div ref="grid" class="app-menu__grid" @keydown="onGridKeydown">
 						<AppItem
 							v-for="(item, i) in gridItems"
@@ -107,6 +111,12 @@ const PROFILE_ID = 'profile'
 // Entry of the app management page, the target of the "More apps" tile.
 const APP_MANAGEMENT_ID = 'appstore'
 
+// Hover delays, same values as github.com's header navigation.
+const HOVER_OPEN_DELAY = 90
+const HOVER_CLOSE_DELAY = 180
+// Ignore a trigger click this long after a hover-open, so it does not close again.
+const HOVER_CLICK_GRACE = 500
+
 export default defineComponent({
 	name: 'AppMenu',
 
@@ -138,10 +148,16 @@ export default defineComponent({
 			isAdmin: getCurrentUser()?.isAdmin ?? false,
 			// Roving tabindex: only this tile has tabindex=0; arrow keys move it.
 			focusedIndex: 0,
-			// NcPopover's focus-trap only knows the slot trigger (waffle).
-			// The current-app button lives outside the slot, so we track the
-			// source and restore focus manually via setReturnFocus.
+			// Which button opened the menu, so focus returns to it.
 			openedFrom: null as 'waffle' | 'currentApp' | null,
+			// Hover intent timers (see HOVER_OPEN_DELAY / HOVER_CLOSE_DELAY).
+			openTimer: null as ReturnType<typeof setTimeout> | null,
+			closeTimer: null as ReturnType<typeof setTimeout> | null,
+			// Opened by hover: run without the focus trap, so focus is not stolen.
+			hoverOpen: false,
+			// Grace window where a trigger click does not close the menu.
+			suppressCloseClick: false,
+			suppressClickTimer: null as ReturnType<typeof setTimeout> | null,
 			// Synthetic tile appended to the grid: admins jump to the local
 			// app management page; everyone else lands on apps.nextcloud.com
 			// (external, opens in a new tab via the per-tile newTab flag).
@@ -175,6 +191,13 @@ export default defineComponent({
 	},
 
 	computed: {
+		// Only pass noFocusTrap for hover opens; clicks and keyboard keep the trap.
+		popoverAttrs(): Record<string, unknown> {
+			return this.hoverOpen
+				? { autoHide: this.autoHideCheck, noFocusTrap: true }
+				: { autoHide: this.autoHideCheck }
+		},
+
 		currentApp(): INavigationEntry | undefined {
 			// Fall back to the active settings entry on admin pages where no
 			// app is active.
@@ -239,6 +262,10 @@ export default defineComponent({
 			if (isOpen) {
 				this.focusedIndex = this.activeGridIndex()
 				this.tryRecomputeGridMaxHeight(5)
+			} else {
+				// Closed again: end any pending click-grace window.
+				this.clearSuppressClickTimer()
+				this.suppressCloseClick = false
 			}
 		},
 	},
@@ -254,6 +281,9 @@ export default defineComponent({
 	},
 
 	beforeUnmount() {
+		this.clearOpenTimer()
+		this.clearCloseTimer()
+		this.clearSuppressClickTimer()
 		unsubscribe('nextcloud:app-menu.refresh', this.setApps)
 		;(this.$refs.popover as { $off: (e: string, fn: () => void) => void } | undefined)?.$off('after-hide', this.onPopoverAfterHide)
 	},
@@ -269,13 +299,100 @@ export default defineComponent({
 				: this.$el.querySelector('.app-menu__waffle')
 		},
 
+		// Blocks the popover's outside-click close during the grace window.
+		autoHideCheck(): boolean {
+			return !this.suppressCloseClick
+		},
+
 		onPopoverAfterHide() {
 			this.openedFrom = null
+			this.hoverOpen = false
 		},
 
 		onTriggerClick(source: 'waffle' | 'currentApp') {
+			// Drop pending hover timers so they don't undo this toggle.
+			this.clearOpenTimer()
+			this.clearCloseTimer()
+			// Ignore the click that would close what hover just opened.
+			if (this.opened && this.suppressCloseClick) {
+				return
+			}
+			// Explicit click: keep the focus trap.
+			this.hoverOpen = false
 			this.openedFrom = source
 			this.opened = !this.opened
+		},
+
+		// Hover-to-open, mouse only so keyboard focus never triggers it.
+		onTriggerPointerEnter(source: 'waffle' | 'currentApp' = 'waffle') {
+			if (!this.canHoverOpen()) {
+				return
+			}
+			this.clearCloseTimer()
+			if (this.opened) {
+				return
+			}
+			this.clearOpenTimer()
+			this.openTimer = setTimeout(() => {
+				this.openTimer = null
+				this.openedFrom = source
+				this.hoverOpen = true
+				this.opened = true
+				// Start the grace window in which a habitual click won't close it.
+				this.suppressCloseClick = true
+				this.clearSuppressClickTimer()
+				this.suppressClickTimer = setTimeout(() => {
+					this.suppressClickTimer = null
+					this.suppressCloseClick = false
+				}, HOVER_CLICK_GRACE)
+			}, HOVER_OPEN_DELAY)
+		},
+
+		// Only real pointers open on hover: on touch a tap fires mouseenter too, and
+		// an unfocused window should not pop the menu when the cursor rests there.
+		canHoverOpen(): boolean {
+			const pointer = window.matchMedia?.('(hover: hover) and (pointer: fine)')
+			return (pointer?.matches ?? true) && document.hasFocus()
+		},
+
+		// Cursor left: cancel a pending open, schedule the close.
+		onPointerLeave() {
+			this.clearOpenTimer()
+			this.scheduleClose()
+		},
+
+		// Cursor moved into the open popover: keep it open.
+		onPopoverPointerEnter() {
+			this.clearCloseTimer()
+		},
+
+		scheduleClose() {
+			this.clearCloseTimer()
+			this.closeTimer = setTimeout(() => {
+				this.closeTimer = null
+				this.opened = false
+			}, HOVER_CLOSE_DELAY)
+		},
+
+		clearOpenTimer() {
+			if (this.openTimer !== null) {
+				clearTimeout(this.openTimer)
+				this.openTimer = null
+			}
+		},
+
+		clearCloseTimer() {
+			if (this.closeTimer !== null) {
+				clearTimeout(this.closeTimer)
+				this.closeTimer = null
+			}
+		},
+
+		clearSuppressClickTimer() {
+			if (this.suppressClickTimer !== null) {
+				clearTimeout(this.suppressClickTimer)
+				this.suppressClickTimer = null
+			}
 		},
 
 		setNavigationCounter(id: string, counter: number) {
