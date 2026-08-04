@@ -2539,6 +2539,19 @@ $CONFIG = [
 	'allowed_admin_ranges' => ['192.0.2.42/32', '233.252.0.0/24', '2001:db8::13:37/64'],
 
 	/**
+	 * List of trusted IP ranges that can bypass password confirmation.
+	 * If non-empty, all endpoints marked with the PasswordConfirmationRequired attribute
+	 * won't need a password confirmation when originating from IPs within these ranges.
+	 *
+	 * Supported formats:
+	 * - IPv4 addresses or ranges, e.g., ``192.0.2.42/32``, ``233.252.0.0/24``
+	 * - IPv6 addresses or ranges, e.g., ``2001:db8::13:37/64``
+	 *
+	 * Defaults to ``[]`` (empty array)
+	 */
+	'allowed_no_password_confirmation_ranges' => ['192.0.2.42/32', '233.252.0.0/24', '2001:db8::13:37/64'],
+
+	/**
 	 * Maximum file size (in megabytes) for animating GIFs on public sharing pages.
 	 * If a GIF exceeds this size, a static preview is shown.
 	 *
