@@ -523,32 +523,32 @@ class AppManager implements IAppManager {
 			$settingsManager = Server::get(ISettingsManager::class);
 			if (!empty($info['settings']['admin'])) {
 				foreach ($info['settings']['admin'] as $setting) {
-					$settingsManager->registerSetting('admin', $setting);
+					$settingsManager->registerSetting('admin', $setting, $app);
 				}
 			}
 			if (!empty($info['settings']['admin-section'])) {
 				foreach ($info['settings']['admin-section'] as $section) {
-					$settingsManager->registerSection('admin', $section);
+					$settingsManager->registerSection('admin', $section, $app);
 				}
 			}
 			if (!empty($info['settings']['personal'])) {
 				foreach ($info['settings']['personal'] as $setting) {
-					$settingsManager->registerSetting('personal', $setting);
+					$settingsManager->registerSetting('personal', $setting, $app);
 				}
 			}
 			if (!empty($info['settings']['personal-section'])) {
 				foreach ($info['settings']['personal-section'] as $section) {
-					$settingsManager->registerSection('personal', $section);
+					$settingsManager->registerSection('personal', $section, $app);
 				}
 			}
 			if (!empty($info['settings']['admin-delegation'])) {
 				foreach ($info['settings']['admin-delegation'] as $setting) {
-					$settingsManager->registerSetting(ISettingsManager::SETTINGS_DELEGATION, $setting);
+					$settingsManager->registerSetting(ISettingsManager::SETTINGS_DELEGATION, $setting, $app);
 				}
 			}
 			if (!empty($info['settings']['admin-delegation-section'])) {
 				foreach ($info['settings']['admin-delegation-section'] as $section) {
-					$settingsManager->registerSection(ISettingsManager::SETTINGS_DELEGATION, $section);
+					$settingsManager->registerSection(ISettingsManager::SETTINGS_DELEGATION, $section, $app);
 				}
 			}
 		}
