@@ -22,6 +22,7 @@ use OCP\Authentication\Token\IToken;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
+use OCP\Security\Ip\IRemoteAddress;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use OCP\User\Backend\IPasswordConfirmationBackend;
 use ReflectionAttribute;
@@ -38,6 +39,7 @@ class PasswordConfirmationMiddleware extends Middleware {
 		private IProvider $tokenProvider,
 		private readonly IRequest $request,
 		private readonly Manager $userManager,
+		private readonly IRemoteAddress $remoteAddress,
 	) {
 	}
 
@@ -72,6 +74,10 @@ class PasswordConfirmationMiddleware extends Middleware {
 				return;
 			}
 		} catch (SessionNotAvailableException|InvalidTokenException|WipeTokenException|ExpiredTokenException) {
+			if ($this->remoteAddress->allowsBypassPasswordConfirmation()) {
+				return;
+			}
+
 			// No scope to test
 		}
 
