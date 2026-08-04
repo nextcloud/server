@@ -115,4 +115,48 @@ export class UnifiedSearchPage {
 	option(id: string): Locator {
 		return this.page.locator(`[id="${id}"]`)
 	}
+
+	/** Filter controls (Places, Date, People, …) in the open search panel. */
+	filtersBar(): Locator {
+		return this.panel().locator('[data-cy-unified-search-filters]')
+	}
+
+	/** Applied filter chips rendered below the filter controls. */
+	appliedFilters(): Locator {
+		return this.panel().locator('.unified-search-modal__filters-applied')
+	}
+
+	/** A single applied filter chip matching the given label text. */
+	filterChip(text: string | RegExp): Locator {
+		return this.appliedFilters().filter({ hasText: text })
+	}
+
+	/**
+	 * Focus the header search and open the results panel.
+	 * A non-empty query is required on desktop for the panel (and its filters) to render.
+	 */
+	async openWithQuery(query = 'test'): Promise<void> {
+		await this.input().click()
+		await this.input().fill(query)
+		await this.panel().waitFor({ state: 'visible' })
+	}
+
+	/** Apply a quick date filter from the Date menu. */
+	async applyDateFilter(label: 'Today' | 'Last 7 days' | 'Last 30 days' | 'This year' | 'Last year'): Promise<void> {
+		await this.filtersBar()
+			.locator('[data-cy-unified-search-filter="date"]')
+			.getByRole('button', { name: 'Date' })
+			.click()
+		await this.page.getByRole('menuitem', { name: label }).click()
+	}
+
+	/**
+	 * Remove an applied filter via its chip close control.
+	 * NcChip exposes the close action as a button named "Remove filter: {text}".
+	 */
+	async removeFilterChip(filterText: string): Promise<void> {
+		await this.filterChip(filterText)
+			.getByRole('button', { name: `Remove filter: ${filterText}` })
+			.click({ force: true })
+	}
 }

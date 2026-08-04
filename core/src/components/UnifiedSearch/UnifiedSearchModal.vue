@@ -135,12 +135,12 @@
 						</NcCheckboxRadioSwitch>
 					</div>
 					<div class="unified-search-modal__filters-applied">
-						<FilterChip
+						<NcChip
 							v-for="filter in filters"
 							:key="filter.id"
 							:text="filter.name ?? filter.text"
-							pretext=""
-							@delete="removeFilter(filter)">
+							:aria-label-close="t('core', 'Remove filter: {text}', { text: filter.name ?? filter.text })"
+							@close="removeFilter(filter)">
 							<template #icon>
 								<NcAvatar
 									v-if="filter.type === 'person'"
@@ -150,9 +150,13 @@
 									hideStatus
 									:hideFavorite="false" />
 								<IconCalendarBlankOutline v-else-if="filter.type === 'date'" />
-								<img v-else :src="filter.icon" alt="">
+								<img
+									v-else
+									:src="filter.icon"
+									class="unified-search-modal__filter-icon"
+									alt="">
 							</template>
-						</FilterChip>
+						</NcChip>
 					</div>
 				</div>
 
@@ -255,6 +259,7 @@ import NcActions from '@nextcloud/vue/components/NcActions'
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcChip from '@nextcloud/vue/components/NcChip'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 import IconAccountMultipleOutline from 'vue-material-design-icons/AccountMultipleOutline.vue'
@@ -267,7 +272,6 @@ import IconMagnify from 'vue-material-design-icons/Magnify.vue'
 import IconShapeOutline from 'vue-material-design-icons/ShapeOutline.vue'
 import CustomDateRangeModal from './CustomDateRangeModal.vue'
 import SearchableList from './SearchableList.vue'
-import FilterChip from './SearchFilterChip.vue'
 import SearchResult from './SearchResult.vue'
 import { useUnifiedSearch } from '../../composables/useUnifiedSearch.ts'
 import { unifiedSearchLogger } from '../../logger.js'
@@ -293,11 +297,11 @@ export default defineComponent({
 		IconShapeOutline,
 
 		CustomDateRangeModal,
-		FilterChip,
 		NcActions,
 		NcActionButton,
 		NcAvatar,
 		NcButton,
+		NcChip,
 		NcEmptyContent,
 		NcCheckboxRadioSwitch,
 		NcTextField,
@@ -1439,6 +1443,14 @@ export default defineComponent({
 		padding-top: 4px;
 		display: flex;
 		flex-wrap: wrap;
+		gap: var(--default-grid-baseline);
+	}
+
+	&__filter-icon {
+		width: 20px;
+		height: 20px;
+		object-fit: contain;
+		filter: var(--background-invert-if-bright);
 	}
 
 	&__no-content {
