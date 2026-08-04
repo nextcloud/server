@@ -1,0 +1,124 @@
+version = 1
+SPDX-PackageName = "nextcloud"
+SPDX-PackageSupplier = "Nextcloud <info@nextcloud.com>"
+SPDX-PackageDownloadLocation = "https://github.com/nextcloud/server"
+
+[[annotations]]
+path = ["integritycheck/htaccessWithValidModifiedContent/.htaccess"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2016 ownCloud, Inc., 2019 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-only"
+
+[[annotations]]
+path = ["block-aligned-plus-one.txt", "block-aligned.txt", "data.tar.gz", "data.zip", "desktopapp.png", "desktopapp.svg", "certificates/badCertificate.crt", "certificates/expiredCertificate.crt", "certificates/goodCertificate.crt", "certificates/openSslTrustedCertificate.crt", "integritycheck/app/AnotherFile.txt", "integritycheck/app/subfolder/file.txt", "integritycheck/appWithInvalidData/AnotherFile.txt", "integritycheck/appWithInvalidData/UnecessaryFile"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2015 ownCloud, Inc."
+SPDX-License-Identifier = "AGPL-3.0-only"
+
+[[annotations]]
+path = ["integritycheck/htaccessUnmodified/.htaccess", "integritycheck/htaccessUnmodified/subfolder/.htaccess", "integritycheck/htaccessWithInvalidModifiedContent/.htaccess", "integritycheck/htaccessWithValidModifiedContent/subfolder/.htaccess"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2016 ownCloud, Inc."
+SPDX-License-Identifier = "AGPL-3.0-only"
+
+[[annotations]]
+path = ["l10n/cs.json", "l10n/de.json", "l10n/ru.json"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2015 ownCloud, Inc., 2021 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-only"
+
+[[annotations]]
+path = ["lorem.txt"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2012 ownCloud, Inc."
+SPDX-License-Identifier = "AGPL-3.0-only"
+
+[[annotations]]
+path = ["testavatar.png", "testimage.gif", "testimage.jpg", "testimage.png"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2013 ownCloud, Inc."
+SPDX-License-Identifier = "AGPL-3.0-only"
+
+[[annotations]]
+path = ["lorem-big.txt", "strängé**filename**(duplicate**#2).txt"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2014 ownCloud, Inc."
+SPDX-License-Identifier = "AGPL-3.0-only"
+
+[[annotations]]
+path = "testimagelarge.svg"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2015 ownCloud, Inc., 2016 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-only"
+
+[[annotations]]
+path = ["setUploadLimit/htaccess", "setUploadLimit/user.ini"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2015 ownCloud, Inc., 2018 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-only"
+
+[[annotations]]
+path = ["testimage-wide.png", "testimage.eps", "testimage.mp3", "testimage.mp4", "testimage.odt"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2015 ownCloud, Inc."
+SPDX-License-Identifier = "AGPL-3.0-only"
+
+[[annotations]]
+path = ["testapp.zip", "testapp2.zip"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2016 ownCloud, Inc."
+SPDX-License-Identifier = "AGPL-3.0-only"
+
+[[annotations]]
+path = ["testimage.webp", "broken-video.webm"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2016-2024 Nextcloud GmbH"
+SPDX-License-Identifier = "LicenseRef-NextcloudTrademarks"
+
+[[annotations]]
+path = ["testapp.0.8.tar.gz", "testapp.tar.gz", "testapp1.tar.gz"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2016 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["certificates/goodCertificate.crt", "emails/new-account-email-custom-text-alternative.txt", "emails/new-account-email-custom.html", "emails/new-account-email-custom.txt", "emails/new-account-email-single-button.html", "emails/new-account-email-single-button.txt", "emails/new-account-email.html", "emails/new-account-email.txt"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2017 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["testimage.heic"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2018 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["integritycheck/mimetypeListModified/core/js/mimetypelist.js", "integritycheck/mimetypeListModified/core/signature.json", "guest_avatar_einstein_32.png", "guest_avatar_einstein_32.svg", "test.pdf"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2019 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["testimage-badheader.jpg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2021 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["testimage-large.jpg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2023 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["testvideo-remote-file.mp4"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2025 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = "images/image.jpg"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2019 Tom Gainor <https://unsplash.com/@its_tgain> <https://unsplash.com/photos/mountain-cliff-under-starry-night-KidY3t8O4PE>"
+SPDX-License-Identifier = "LicenseRef-Unsplash"
