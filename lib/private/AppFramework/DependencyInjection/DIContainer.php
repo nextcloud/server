@@ -45,6 +45,7 @@ use OCA\WorkflowEngine\Manager;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\IOutput;
 use OCP\AppFramework\IAppContainer;
+use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Files\AppData\IAppDataFactory;
