@@ -7,13 +7,13 @@
 
 namespace OC\Collaboration\Collaborators;
 
-use OCP\AppFramework\QueryException;
 use OCP\Collaboration\Collaborators\ISearch;
 use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\IContainer;
 use OCP\Share\IShare;
+use Psr\Container\ContainerExceptionInterface;
 
 class Search implements ISearch {
 	protected array $pluginList = [];
@@ -28,7 +28,7 @@ class Search implements ISearch {
 	 * @param bool $lookup
 	 * @param int|null $limit
 	 * @param int|null $offset
-	 * @throws QueryException
+	 * @throws ContainerExceptionInterface
 	 */
 	#[\Override]
 	public function search($search, array $shareTypes, $lookup, $limit, $offset): array {

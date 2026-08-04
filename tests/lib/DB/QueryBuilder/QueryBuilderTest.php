@@ -11,7 +11,6 @@ declare(strict_types=1);
 namespace Test\DB\QueryBuilder;
 
 use Doctrine\DBAL\Query\Expression\CompositeExpression;
-use Doctrine\DBAL\Query\QueryException;
 use OC\DB\ConnectionAdapter;
 use OC\DB\QueryBuilder\Literal;
 use OC\DB\QueryBuilder\Parameter;
@@ -23,6 +22,7 @@ use OCP\IDBConnection;
 use OCP\Server;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -1394,7 +1394,7 @@ class QueryBuilderTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('error')
 			->willReturnCallback(function ($message, $parameters): void {
-				$this->assertInstanceOf(QueryException::class, $parameters['exception']);
+				$this->assertInstanceOf(ContainerExceptionInterface::class, $parameters['exception']);
 				$this->assertSame(
 					'More than 1000 expressions in a list are not allowed on Oracle.',
 					$message
@@ -1433,7 +1433,7 @@ class QueryBuilderTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('error')
 			->willReturnCallback(function ($message, $parameters): void {
-				$this->assertInstanceOf(QueryException::class, $parameters['exception']);
+				$this->assertInstanceOf(ContainerExceptionInterface::class, $parameters['exception']);
 				$this->assertSame(
 					'The number of parameters must not exceed 65535. Restriction by PostgreSQL.',
 					$message

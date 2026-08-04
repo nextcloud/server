@@ -45,7 +45,6 @@ use OCA\WorkflowEngine\Manager;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\IOutput;
 use OCP\AppFramework\IAppContainer;
-use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Files\AppData\IAppDataFactory;
@@ -66,6 +65,7 @@ use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Security\Ip\IRemoteAddress;
 use OCP\Server;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -342,12 +342,12 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 		try {
 			return $this->queryNoFallback($name, $chain);
-		} catch (QueryException $firstException) {
+		} catch (ContainerExceptionInterface $firstException) {
 			try {
 				/** @var ServerContainer $server */
 				$server = $this->getServer();
 				return $server->query($name, $autoload, $chain);
-			} catch (QueryException $secondException) {
+			} catch (ContainerExceptionInterface $secondException) {
 				if ($firstException->getCode() === 1) {
 					throw $secondException;
 				}
@@ -360,7 +360,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @param string $name
 	 * @param list<class-string> $chain
 	 * @return mixed
-	 * @throws QueryException if the query could not be resolved
+	 * @throws ContainerExceptionInterface if the query could not be resolved
 	 */
 	public function queryNoFallback($name, array $chain) {
 		$name = $this->sanitizeName($name);
