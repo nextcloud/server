@@ -10,11 +10,11 @@ OC.L10N.register(
     "You have not added any info yet" : "Du har ikke tilføjet nogen information endnu",
     "{user} has not added any info yet" : "{user} har ikke tilføjet nogen oplysninger endnu",
     "Error opening the user status modal, try hard refreshing the page" : "Fejl ved åbning af brugerstatusmodal. Prøv at opdatere siden",
-    "Edit Profile" : "Redigér profil",
     "The headline and about sections will show up here" : "Overskriften og om sektionerne vises her",
     "Profile not found" : "Profil ikke fundet",
     "Back to %s" : "Tilbage til %s",
     "Provides a customisable user profile interface." : "Leverer en brugerdefinerbar brugerprofil grænseflade.",
+    "Edit Profile" : "Redigér profil",
     "The profile does not exist." : "Profilen eksisterer ikke."
 },
 "nplurals=2; plural=(n != 1);");
