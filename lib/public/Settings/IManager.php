@@ -56,16 +56,20 @@ interface IManager {
 	/**
 	 * @psalm-param self::SETTINGS_* $type
 	 * @param class-string<IIconSection> $section
+	 * @param ?string $appId app the section belongs to, so personal sections of
+	 *                       apps not enabled for the user can be hidden (since 35.0.0)
 	 * @since 14.0.0
 	 */
-	public function registerSection(string $type, string $section);
+	public function registerSection(string $type, string $section, ?string $appId = null);
 
 	/**
 	 * @psalm-param self::SETTINGS_* $type
 	 * @param class-string<ISettings> $setting
+	 * @param ?string $appId app the setting belongs to, so personal settings of
+	 *                       apps not enabled for the user can be hidden (since 35.0.0)
 	 * @since 14.0.0
 	 */
-	public function registerSetting(string $type, string $setting);
+	public function registerSetting(string $type, string $setting, ?string $appId = null);
 
 	/**
 	 * returns a list of the admin sections

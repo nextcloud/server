@@ -10,6 +10,7 @@ namespace OC\Settings\Tests\AppInfo;
 use OC\Settings\AuthorizedGroupMapper;
 use OC\Settings\Manager;
 use OCA\WorkflowEngine\Settings\Section;
+use OCP\App\IAppManager;
 use OCP\Group\ISubAdmin;
 use OCP\IGroupManager;
 use OCP\IL10N;
@@ -32,6 +33,7 @@ class ManagerTest extends TestCase {
 	private AuthorizedGroupMapper&MockObject $mapper;
 	private IGroupManager&MockObject $groupManager;
 	private ISubAdmin&MockObject $subAdmin;
+	private IAppManager&MockObject $appManager;
 
 	private Manager $manager;
 
@@ -47,6 +49,7 @@ class ManagerTest extends TestCase {
 		$this->mapper = $this->createMock(AuthorizedGroupMapper::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->subAdmin = $this->createMock(ISubAdmin::class);
+		$this->appManager = $this->createMock(IAppManager::class);
 
 		$this->manager = new Manager(
 			$this->logger,
@@ -56,6 +59,7 @@ class ManagerTest extends TestCase {
 			$this->mapper,
 			$this->groupManager,
 			$this->subAdmin,
+			$this->appManager,
 		);
 	}
 
@@ -184,6 +188,70 @@ class ManagerTest extends TestCase {
 			16 => [$section],
 			100 => [$section2],
 		], $settings);
+	}
+
+	public function testGetPersonalSettingsHidesSettingsOfAppsNotEnabledForUser(): void {
+		$visible = $this->createMock(ISettings::class);
+		$visible->method('getPriority')
+			->willReturn(16);
+		$visible->method('getSection')
+			->willReturn('security');
+
+		$this->manager->registerSetting('personal', 'visibleClass', 'enabled_app');
+		$this->manager->registerSetting('personal', 'hiddenClass', 'restricted_app');
+
+		$this->appManager->method('isEnabledForUser')
+			->willReturnCallback(static fn (string $appId): bool => $appId === 'enabled_app');
+
+		// The settings of the app the user has no access to are never instantiated.
+		$this->container->expects($this->once())
+			->method('get')
+			->with('visibleClass')
+			->willReturn($visible);
+
+		$this->assertEquals([
+			16 => [$visible],
+		], $this->manager->getPersonalSettings('security'));
+	}
+
+	public function testGetPersonalSectionsHidesSectionsOfAppsNotEnabledForUser(): void {
+		$this->l10nFactory->method('get')
+			->with('lib')
+			->willReturn($this->l10n);
+		$this->l10n->method('t')
+			->willReturnArgument(0);
+
+		$this->manager->registerSection('personal', Section::class, 'restricted_app');
+
+		$this->appManager->method('isEnabledForUser')
+			->with('restricted_app')
+			->willReturn(false);
+
+		$this->container->expects($this->never())
+			->method('get');
+
+		$this->assertEquals([], $this->manager->getPersonalSections());
+	}
+
+	public function testGetAdminSettingsAreNotHiddenForAppsNotEnabledForUser(): void {
+		// Admins configure apps they are not a member of themselves.
+		$setting = $this->createMock(ISettings::class);
+		$setting->method('getPriority')
+			->willReturn(13);
+		$setting->method('getSection')
+			->willReturn('sharing');
+
+		$this->manager->registerSetting('admin', 'myAdminClass', 'restricted_app');
+
+		$this->appManager->expects($this->never())
+			->method('isEnabledForUser');
+		$this->container->method('get')
+			->with('myAdminClass')
+			->willReturn($setting);
+
+		$this->assertEquals([
+			13 => [$setting],
+		], $this->manager->getAdminSettings('sharing'));
 	}
 
 	public function testSameSectionAsPersonalAndAdmin(): void {
