@@ -75,7 +75,7 @@ class ChunkingV2PluginTest extends TestCase {
 			->with('versions/admin/versions/74/1782831952')
 			->willThrowException(new NotFound("File not found: versions in 'root'"));
 
-		$this->assertTrue($this->plugin->beforeGet($this->request));
+		$this->assertTrue($this->plugin->forbiddenMethod($this->request));
 	}
 
 	public function testBeforeGetBlocksFutureFile(): void {
@@ -84,7 +84,7 @@ class ChunkingV2PluginTest extends TestCase {
 		$this->request->method('getPath')->willReturn('uploads/admin/web-file-upload-id/1');
 		$this->tree->method('getNodeForPath')->willReturn($this->createMock(FutureFile::class));
 
-		$this->plugin->beforeGet($this->request);
+		$this->plugin->forbiddenMethod($this->request);
 	}
 
 	public function testBeforeGetBlocksUploadFile(): void {
@@ -93,13 +93,13 @@ class ChunkingV2PluginTest extends TestCase {
 		$this->request->method('getPath')->willReturn('uploads/admin/web-file-upload-id/.target');
 		$this->tree->method('getNodeForPath')->willReturn($this->createMock(UploadFile::class));
 
-		$this->plugin->beforeGet($this->request);
+		$this->plugin->forbiddenMethod($this->request);
 	}
 
 	public function testBeforeGetAllowsRegularNode(): void {
 		$this->request->method('getPath')->willReturn('files/admin/foo.txt');
 		$this->tree->method('getNodeForPath')->willReturn($this->createMock(Directory::class));
 
-		$this->assertTrue($this->plugin->beforeGet($this->request));
+		$this->assertTrue($this->plugin->forbiddenMethod($this->request));
 	}
 }

@@ -37,8 +37,10 @@ use Sabre\VObject\Component\VFreeBusy;
 use Sabre\VObject\ParseException;
 use Sabre\VObject\Reader;
 use Throwable;
+use function array_filter;
 use function array_map;
 use function array_merge;
+use function array_values;
 
 class Manager implements IManager {
 	/**
@@ -250,9 +252,14 @@ class Manager implements IManager {
 
 		$userUri = 'principals/users/' . $userId;
 
-		$userCalendars = $this->getCalendarsForPrincipal($userUri);
-		if (empty($userCalendars)) {
-			$this->logger->warning('iMip message could not be processed because user has no calendars', $logContext);
+		/** @var list<ICalendarIsWritable&IHandleImipMessage> $userCalendars */
+		$userCalendars = array_values(array_filter(
+			$this->getCalendarsForPrincipal($userUri),
+			fn (ICalendar $calendar): bool => $this->canHandleImip($calendar),
+		));
+
+		if ($userCalendars === []) {
+			$this->logger->warning('iMip message could not be processed because user has no calendar that can process iMip messages', $logContext);
 			return false;
 		}
 
@@ -273,7 +280,7 @@ class Manager implements IManager {
 		$vEvent = $vObject->VEVENT;
 
 		if (!isset($vEvent->UID)) {
-			$this->logger->warning('iMip message event dose not contains a UID', $logContext);
+			$this->logger->warning('iMip message event does not contains a UID', $logContext);
 			return false;
 		}
 
@@ -290,22 +297,14 @@ class Manager implements IManager {
 		}
 
 		if (!isset($vEvent->ATTENDEE)) {
-			$this->logger->warning('iMip message event dose not contains any attendees', $logContext);
+			$this->logger->warning('iMip message event does not contains any attendees', $logContext);
 			return false;
 		}
 
 		foreach ($userCalendars as $calendar) {
-			if (!$calendar instanceof ICalendarIsWritable) {
-				continue;
-			}
-			if ($calendar->isDeleted() || !$calendar->isWritable()) {
-				continue;
-			}
 			if (!empty($calendar->search('', [], ['uid' => $vEvent->UID->getValue()]))) {
 				try {
-					if ($calendar instanceof IHandleImipMessage) {
-						$calendar->handleIMipMessage($userId, $vObject->serialize());
-					}
+					$calendar->handleIMipMessage($userId, $vObject->serialize());
 					return true;
 				} catch (CalendarException $e) {
 					$logContext['exception'] = $e;
@@ -316,26 +315,12 @@ class Manager implements IManager {
 		}
 
 		if (isset($options['absent']) && $options['absent'] === 'create') {
-			// retrieve the primary calendar for the user
-			$calendar = $this->getPrimaryCalendar($userId);
-			if ($calendar !== null && (
-				!$calendar instanceof IHandleImipMessage || !$calendar instanceof ICalendarIsWritable || $calendar->isDeleted() || !$calendar->isWritable()
-			)) {
-				$calendar = null;
-			}
-			// if no primary calendar is set, use the first writable calendar
-			if ($calendar === null) {
-				foreach ($userCalendars as $userCalendar) {
-					if ($userCalendar instanceof IHandleImipMessage && $userCalendar instanceof ICalendarIsWritable && !$userCalendar->isDeleted() && $userCalendar->isWritable()) {
-						$calendar = $userCalendar;
-						break;
-					}
-				}
-			}
-			if ($calendar === null) {
-				$this->logger->warning('iMip message could not be processed because no writable calendar was found', $logContext);
-				return false;
-			}
+			// use the primary calendar of the user, otherwise the first one that can process iMip messages
+			$primaryCalendar = $this->getPrimaryCalendar($userId);
+			$calendar = $primaryCalendar !== null && $this->canHandleImip($primaryCalendar)
+				? $primaryCalendar
+				: $userCalendars[0];
+
 			if (!empty($options['absentCreateStatus'])) {
 				$status = strtoupper($options['absentCreateStatus']);
 
@@ -365,6 +350,18 @@ class Manager implements IManager {
 		$this->logger->warning('iMip message could not be processed because no corresponding event was found in any calendar', $logContext);
 
 		return false;
+	}
+
+	/**
+	 * Determines if a calendar can be used to process an iMip message
+	 *
+	 * @psalm-assert-if-true ICalendarIsWritable&IHandleImipMessage $calendar
+	 */
+	private function canHandleImip(ICalendar $calendar): bool {
+		return $calendar instanceof ICalendarIsWritable
+			&& $calendar instanceof IHandleImipMessage
+			&& $calendar->isWritable()
+			&& !$calendar->isDeleted();
 	}
 
 	/**
