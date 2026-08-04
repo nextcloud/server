@@ -11,9 +11,9 @@ namespace OC;
 
 use Closure;
 use OC\AppFramework\Bootstrap\Coordinator;
-use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Services\InitialStateProvider;
 use OCP\IInitialStateService;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -95,7 +95,7 @@ class InitialStateService implements IInitialStateService {
 		foreach ($initialStates as $initialState) {
 			try {
 				$provider = $this->container->get($initialState->getService());
-			} catch (QueryException $e) {
+			} catch (ContainerExceptionInterface $e) {
 				// Log an continue. We can be fault tolerant here.
 				$this->logger->error('Could not load initial state provider dynamically: ' . $e->getMessage(), [
 					'exception' => $e,

@@ -13,12 +13,12 @@ use OC\AppFramework\Bootstrap\Coordinator;
 use OC\AppFramework\Bootstrap\RegistrationContext;
 use OC\AppFramework\Bootstrap\ServiceRegistration;
 use OC\Http\WellKnown\RequestManager;
-use OCP\AppFramework\QueryException;
 use OCP\Http\WellKnown\IHandler;
 use OCP\Http\WellKnown\IRequestContext;
 use OCP\Http\WellKnown\IResponse;
 use OCP\Http\WellKnown\JrdResponse;
 use OCP\IRequest;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
@@ -73,7 +73,7 @@ class RequestManagerTest extends TestCase {
 		$this->getAutoMock(ContainerInterface::class)->expects(self::once())
 			->method('get')
 			->with(get_class($handler))
-			->willThrowException(new QueryException(''));
+			->willThrowException($this->createMock(ContainerExceptionInterface::class));
 		$this->getAutoMock(LoggerInterface::class)->expects(self::once())
 			->method('error');
 

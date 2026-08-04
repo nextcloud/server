@@ -10,8 +10,8 @@ namespace Test\Collaboration\Resources;
 
 use OC\Collaboration\Resources\ProviderManager;
 use OCA\Files\Collaboration\Resources\ResourceProvider;
-use OCP\AppFramework\QueryException;
 use OCP\Collaboration\Resources\IProviderManager;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -64,7 +64,7 @@ class ProviderManagerTest extends TestCase {
 		$this->serverContainer->expects($this->once())
 			->method('get')
 			->with($this->equalTo('InvalidResourceProvider'))
-			->willThrowException(new QueryException('A meaningful error message'));
+			->willThrowException($this->createMock(ContainerExceptionInterface::class));
 
 		$this->logger->expects($this->once())
 			->method('error');
@@ -80,7 +80,7 @@ class ProviderManagerTest extends TestCase {
 			->method('get')
 			->willReturnCallback(function (string $service) {
 				if ($service === 'InvalidResourceProvider') {
-					throw new QueryException('A meaningful error message');
+					throw $this->createMock(ContainerExceptionInterface::class);
 				}
 				if ($service === ResourceProvider::class) {
 					return $this->createMock(ResourceProvider::class);

@@ -10,12 +10,12 @@ declare(strict_types=1);
 namespace OC\Support\CrashReport;
 
 use Exception;
-use OCP\AppFramework\QueryException;
 use OCP\Server;
 use OCP\Support\CrashReport\ICollectBreadcrumbs;
 use OCP\Support\CrashReport\IMessageReporter;
 use OCP\Support\CrashReport\IRegistry;
 use OCP\Support\CrashReport\IReporter;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
 use Throwable;
 use function array_shift;
@@ -90,7 +90,7 @@ class Registry implements IRegistry {
 			try {
 				/** @var IReporter $reporter */
 				$reporter = Server::get($class);
-			} catch (QueryException $e) {
+			} catch (ContainerExceptionInterface $e) {
 				/*
 				 * There is a circular dependency between the logger and the registry, so
 				 * we can not inject it. Thus the static call.

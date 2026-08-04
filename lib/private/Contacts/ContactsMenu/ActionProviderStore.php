@@ -14,10 +14,10 @@ use OC\App\AppManager;
 use OC\Contacts\ContactsMenu\Providers\EMailProvider;
 use OC\Contacts\ContactsMenu\Providers\LocalTimeProvider;
 use OC\Contacts\ContactsMenu\Providers\ProfileProvider;
-use OCP\AppFramework\QueryException;
 use OCP\Contacts\ContactsMenu\IBulkProvider;
 use OCP\Contacts\ContactsMenu\IProvider;
 use OCP\IUser;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -50,7 +50,7 @@ class ActionProviderStore {
 						'class' => $class,
 					]);
 				}
-			} catch (QueryException $ex) {
+			} catch (ContainerExceptionInterface $ex) {
 				$this->logger->error(
 					'Could not load contacts menu action provider ' . $class,
 					[

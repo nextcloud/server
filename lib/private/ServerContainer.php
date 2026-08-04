@@ -13,6 +13,7 @@ use OC\AppFramework\App;
 use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\Utility\SimpleContainer;
 use OCP\AppFramework\QueryException;
+use Psr\Container\ContainerExceptionInterface;
 use function explode;
 use function strtolower;
 
@@ -60,7 +61,7 @@ class ServerContainer extends SimpleContainer {
 	/**
 	 * @param string $appName
 	 * @return DIContainer
-	 * @throws QueryException
+	 * @throws ContainerExceptionInterface
 	 */
 	public function getRegisteredAppContainer(string $appName): DIContainer {
 		if (isset($this->appContainers[strtolower(App::buildAppNamespace($appName))])) {
@@ -74,7 +75,7 @@ class ServerContainer extends SimpleContainer {
 	 * @param string $namespace
 	 * @param string $sensitiveNamespace
 	 * @return DIContainer
-	 * @throws QueryException
+	 * @throws ContainerExceptionInterface
 	 */
 	protected function getAppContainer(string $sensitiveNamespace): DIContainer {
 		$namespace = strtolower($sensitiveNamespace);
@@ -119,7 +120,7 @@ class ServerContainer extends SimpleContainer {
 	 * @psalm-template S as class-string<T>|string
 	 * @psalm-param S $name
 	 * @psalm-return (S is class-string<T> ? T : mixed)
-	 * @throws QueryException
+	 * @throws ContainerExceptionInterface
 	 */
 	#[\Override]
 	protected function query(string $name, bool $autoload = true, array $chain = []): mixed {
@@ -145,7 +146,7 @@ class ServerContainer extends SimpleContainer {
 		try {
 			[,$namespace,] = explode('\\', $id, 3);
 			return $this->getAppContainer('OCA\\' . $namespace);
-		} catch (QueryException $e) {
+		} catch (ContainerExceptionInterface $e) {
 			return null;
 		}
 	}

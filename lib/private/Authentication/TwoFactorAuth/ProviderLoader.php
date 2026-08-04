@@ -12,10 +12,10 @@ namespace OC\Authentication\TwoFactorAuth;
 use Exception;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OCP\App\IAppManager;
-use OCP\AppFramework\QueryException;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\IUser;
 use OCP\Server;
+use Psr\Container\ContainerExceptionInterface;
 
 class ProviderLoader {
 	public const BACKUP_CODES_APP_ID = 'twofactor_backupcodes';
@@ -50,7 +50,7 @@ class ProviderLoader {
 						$this->loadTwoFactorApp($appId);
 						$provider = Server::get($class);
 						$providers[$provider->getId()] = $provider;
-					} catch (QueryException $exc) {
+					} catch (ContainerExceptionInterface $exc) {
 						// Provider class can not be resolved
 						throw new Exception("Could not load two-factor auth provider $class");
 					}
@@ -64,7 +64,7 @@ class ProviderLoader {
 				$this->loadTwoFactorApp($provider->getAppId());
 				$providerInstance = Server::get($provider->getService());
 				$providers[$providerInstance->getId()] = $providerInstance;
-			} catch (QueryException $exc) {
+			} catch (ContainerExceptionInterface $exc) {
 				// Provider class can not be resolved
 				throw new Exception('Could not load two-factor auth provider ' . $provider->getService());
 			}
