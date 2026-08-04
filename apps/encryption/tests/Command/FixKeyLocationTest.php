@@ -87,9 +87,31 @@ class FixKeyLocationTest extends TestCase {
 		);
 	}
 
-	private function markAsEncrypted(TemporaryUnwrapped $storage, string $path): void {
+	private function markAsEncrypted(TemporaryUnwrapped $storage, string $path, int $unencryptedSize): void {
 		$cache = $storage->getCache();
-		$cache->update($cache->get($path)->getId(), ['encrypted' => 1]);
+		$cache->update($cache->get($path)->getId(), [
+			'encrypted' => 1,
+			'unencrypted_size' => $unencryptedSize,
+		]);
+	}
+
+	/**
+	 * A second user whose key tree can hold misplaced keys. The key tree is created
+	 * directly, no login needed, the encryption session of the first user stays
+	 * untouched.
+	 */
+	private function setUpSecondUser(): void {
+		$this->createUser('test2', 'test2');
+	}
+
+	private function moveKeyToSecondUserTree(string $keyPath, string $name): void {
+		$rootView = new View();
+		foreach (['/test2', '/test2/files_encryption', '/test2/files_encryption/keys'] as $dir) {
+			if (!$rootView->file_exists($dir)) {
+				$rootView->mkdir($dir);
+			}
+		}
+		$rootView->rename(rtrim($keyPath, '/'), '/test2/files_encryption/keys/' . $name);
 	}
 
 	/**
@@ -107,7 +129,7 @@ class FixKeyLocationTest extends TestCase {
 		// ciphertext under a path that has no key
 		$view->file_put_contents('stray/stray.txt', $encryptedBackingStorage->file_get_contents('original.txt'));
 		$strayStorage = $view->getFileInfo('stray/stray.txt')->getStorage();
-		$this->markAsEncrypted($strayStorage, 'stray.txt');
+		$this->markAsEncrypted($strayStorage, 'stray.txt', strlen('secret content'));
 
 		$userFolder = Server::get(IRootFolder::class)->getUserFolder('test1');
 		$command = $this->getCommand();
@@ -137,7 +159,7 @@ class FixKeyLocationTest extends TestCase {
 		$cipher = $encryptedBackingStorage->file_get_contents('original.txt');
 		$view->file_put_contents('stray/broken.txt', $cipher);
 		$strayStorage = $view->getFileInfo('stray/broken.txt')->getStorage();
-		$this->markAsEncrypted($strayStorage, 'broken.txt');
+		$this->markAsEncrypted($strayStorage, 'broken.txt', strlen('secret content'));
 
 		$userFolder = Server::get(IRootFolder::class)->getUserFolder('test1');
 		$strayNode = $userFolder->get('stray/broken.txt');
@@ -153,11 +175,13 @@ class FixKeyLocationTest extends TestCase {
 		$brokenKeyPath = self::invokePrivate($command, 'getUserKeyPath', [$user, $strayNode]);
 		$rootView->copy($wrongKey, str_replace('broken.txt', 'broken.txt.bak', $brokenKeyPath));
 
+		$threw = false;
 		try {
 			self::invokePrivate($command, 'decryptWithSystemKey', [$strayNode, $wrongKey]);
-			$this->fail('decrypting with the wrong key must fail');
-		} catch (\Exception $e) {
+		} catch (\Exception) {
+			$threw = true;
 		}
+		$this->assertTrue($threw, 'decrypting with the wrong key must fail');
 
 		$this->assertTrue($view->file_exists('stray/broken.txt'), 'the original file has to be restored');
 		$this->assertSame($cipher, $view->file_get_contents('stray/broken.txt'), 'the original content has to be intact');
@@ -167,6 +191,70 @@ class FixKeyLocationTest extends TestCase {
 		$systemKeyPathBak = str_replace('broken.txt', 'broken.txt.bak', $systemKeyPath);
 		$this->assertFalse($rootView->file_exists($systemKeyPath), 'no temporary system key must be left behind');
 		$this->assertFalse($rootView->file_exists($systemKeyPathBak), 'no temporary system key must be left behind');
+	}
+
+	/**
+	 * A key that only exists in the tree of another user must be found and validated.
+	 * The harness mounts are not system wide, the encryption wrapper resolves the keys
+	 * of the stray file through the user tree, so the search is exercised with that
+	 * staging path, the system wide flow only stages at a different location.
+	 */
+	public function testKeyFoundInAnotherUsersTree(): void {
+		[
+			'view' => $view,
+			'encryptedBackingStorage' => $encryptedBackingStorage,
+		] = $this->setUpMounts();
+		$this->setUpSecondUser();
+
+		$view->file_put_contents('enc/original.txt', 'secret content');
+		$view->file_put_contents('stray/orphan.txt', $encryptedBackingStorage->file_get_contents('original.txt'));
+		$strayStorage = $view->getFileInfo('stray/orphan.txt')->getStorage();
+		$this->markAsEncrypted($strayStorage, 'orphan.txt', strlen('secret content'));
+
+		$command = $this->getCommand();
+		$user = Server::get(IUserManager::class)->get('test1');
+		$userFolder = Server::get(IRootFolder::class)->getUserFolder('test1');
+		$originalKey = self::invokePrivate($command, 'getUserKeyPath', [$user, $userFolder->get('enc/original.txt')]);
+		// the key sits in ANOTHER user's tree, under the name of the stray file
+		$this->moveKeyToSecondUserTree($originalKey, 'orphan.txt');
+
+		$strayNode = $userFolder->get('stray/orphan.txt');
+		$stagePath = self::invokePrivate($command, 'getUserKeyPath', [$user, $strayNode]);
+		$foundKey = self::invokePrivate($command, 'findKeyInUserTrees', [$user, $strayNode, $stagePath]);
+
+		$this->assertNotNull($foundKey, 'the key in the other tree has to be found');
+		$this->assertStringContainsString('/test2/', $foundKey);
+	}
+
+	/**
+	 * With --personal an encrypted file in the personal space whose key was lost is
+	 * restored from another user's tree, healthy files stay untouched.
+	 */
+	public function testPersonalFileKeyFoundInAnotherUsersTree(): void {
+		$this->setUpMounts();
+		$this->setUpSecondUser();
+
+		$view = new View('/test1/files');
+		$view->file_put_contents('personal.txt', 'personal content');
+		$view->file_put_contents('healthy.txt', 'healthy content');
+
+		$command = $this->getCommand();
+		$user = Server::get(IUserManager::class)->get('test1');
+		$userFolder = Server::get(IRootFolder::class)->getUserFolder('test1');
+		$personalKey = self::invokePrivate($command, 'getUserKeyPath', [$user, $userFolder->get('personal.txt')]);
+		$this->moveKeyToSecondUserTree($personalKey, 'personal.txt');
+
+		$command->systemMounts = [];
+		$tester = new CommandTester($command);
+		$exitCode = $tester->execute(['user' => 'test1', '--personal' => true]);
+		$display = $tester->getDisplay();
+
+		$this->assertSame(Command::SUCCESS, $exitCode, $display);
+		$this->assertStringContainsString('Migrated key from', $display);
+		$this->assertEquals('personal content', $view->file_get_contents('personal.txt'));
+		$rootView = new View();
+		$this->assertTrue($rootView->file_exists($personalKey), 'the key has to be back at the path of the file');
+		$this->assertStringNotContainsString('healthy.txt', $display, 'healthy files must not be touched');
 	}
 
 	/**
@@ -180,17 +268,17 @@ class FixKeyLocationTest extends TestCase {
 
 		$view->file_put_contents('stray/a-ghost.txt', 'gone');
 		$strayStorage = $view->getFileInfo('stray/a-ghost.txt')->getStorage();
-		$this->markAsEncrypted($strayStorage, 'a-ghost.txt');
+		$this->markAsEncrypted($strayStorage, 'a-ghost.txt', strlen('gone'));
 		// cache row without a backing file, reading it fails like an object store 404
 		$strayStorage->unlink('a-ghost.txt');
 
 		$view->file_put_contents('stray/b-plain.txt', 'plain data');
-		$this->markAsEncrypted($strayStorage, 'b-plain.txt');
+		$this->markAsEncrypted($strayStorage, 'b-plain.txt', strlen('plain data'));
 
 		// ciphertext without any key while the user has no key directory at all,
 		// the key search has to come up empty instead of erroring out
 		$view->file_put_contents('stray/c-cipher.txt', 'HBEGIN:oc_encryption_module:OC_DEFAULT_MODULE:HEND');
-		$this->markAsEncrypted($strayStorage, 'c-cipher.txt');
+		$this->markAsEncrypted($strayStorage, 'c-cipher.txt', 8);
 
 		$command = $this->getCommand();
 		$mount = $this->createMock(ICachedMountInfo::class);
@@ -208,6 +296,11 @@ class FixKeyLocationTest extends TestCase {
 		$this->assertFalse(
 			$strayStorage->getCache()->get('b-plain.txt')->isEncrypted(),
 			'the remaining file was not processed, the run stopped at the broken one'
+		);
+		$this->assertSame(
+			0,
+			(int)$strayStorage->getCache()->get('b-plain.txt')->getData()['unencrypted_size'],
+			'clearing the mark has to reset the leftover unencrypted size as well'
 		);
 		$this->assertStringContainsString('No key found', $display, 'a missing key directory has to read as "no candidates"');
 		$this->assertStringNotContainsString('c-cipher.txt: ', $display, 'the missing key directory failed the file');
