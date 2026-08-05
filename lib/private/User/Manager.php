@@ -12,6 +12,7 @@ use OC\Memcache\WithLocalCache;
 use OCP\Config\IUserConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Federation\ICloudId;
 use OCP\HintException;
 use OCP\ICache;
 use OCP\ICacheFactory;
@@ -850,5 +851,9 @@ class Manager extends PublicEmitter implements IUserManager {
 
 	public function getExistingUser(string $userId, ?string $displayName = null): IUser {
 		return new LazyUser($userId, $this, $displayName);
+	}
+
+	public function getFederatedUser(ICloudId $cloudId): IUser {
+		return new LazyUser($cloudId->getDisplayId(), $this, $cloudId->getDisplayId());
 	}
 }

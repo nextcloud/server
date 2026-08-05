@@ -11,6 +11,7 @@ use OC\Files\View;
 use OCA\Files_Trashbin\Helper;
 use OCA\Files_Trashbin\Storage;
 use OCA\Files_Trashbin\Trashbin;
+use OCP\Federation\ICloudIdManager;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
@@ -26,6 +27,7 @@ class LegacyTrashBackend implements ITrashBackend {
 	public function __construct(
 		private IRootFolder $rootFolder,
 		private IUserManager $userManager,
+		private ICloudIdManager $cloudIdManager,
 	) {
 	}
 
@@ -38,7 +40,7 @@ class LegacyTrashBackend implements ITrashBackend {
 			$originalLocation = $file->getName();
 		}
 		/** @psalm-suppress UndefinedInterfaceMethod */
-		$deletedBy = $this->userManager->get($file['deletedBy']) ?? $parent?->getDeletedBy();
+		$deletedBy = $this->resolveDeletedBy($file['deletedBy']) ?? $parent?->getDeletedBy();
 		$trashFilename = Trashbin::getTrashFilename($file->getName(), $file->getMtime());
 		return new TrashItem(
 			$this,
@@ -118,5 +120,30 @@ class LegacyTrashBackend implements ITrashBackend {
 		} catch (NotFoundException $e) {
 			return null;
 		}
+	}
+
+	/**
+	 * Resolve the user that deleted a trash item. Files deleted by a federated share
+	 * recipient only carry the recipient's remote cloud ID, which no local IUserManager
+	 * backend can resolve, so fall back to a display-only user for the cloud ID in that
+	 * case instead of leaving the item without an "Unknown" deleted by user.
+	 */
+	private function resolveDeletedBy(?string $uid): ?IUser {
+		if (!$uid) {
+			return null;
+		}
+
+		$user = $this->userManager->get($uid);
+		if ($user !== null) {
+			return $user;
+		}
+
+		try {
+			$cloudId = $this->cloudIdManager->resolveCloudId($uid);
+		} catch (\InvalidArgumentException $e) {
+			return null;
+		}
+
+		return $this->userManager->getFederatedUser($cloudId);
 	}
 }
