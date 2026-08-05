@@ -1145,7 +1145,10 @@ class UserConfig implements IUserConfig {
 		}
 
 		$oldValue = null;
+		$updateReason = '';
 		if ($this->hasKey($userId, $app, $key, $lazy)) {
+			$updateReason = 'key exists';
+
 			/**
 			 * no update if key is already known with set lazy status and value is
 			 * not different, unless sensitivity is switched from false to true.
@@ -1180,6 +1183,7 @@ class UserConfig implements IUserConfig {
 					// TODO: throw exception or just log and returns false !?
 					throw $e;
 				}
+				$updateReason = 'insert raised a duplicate contraint';
 			}
 		}
 
@@ -1190,7 +1194,11 @@ class UserConfig implements IUserConfig {
 			$currType = $this->valueDetails[$userId][$app][$key]['type'] ?? null;
 			if ($currType === null) { // this might happen when switching lazy loading status
 				$this->loadConfigAll($userId);
-				$currType = $this->valueDetails[$userId][$app][$key]['type'];
+
+				if (!isset($this->valueDetails[$userId][$app][$key])) {
+					throw new UnknownKeyException("unknown key $app $key for $userId even though $updateReason");
+				}
+				$currType = $this->valueDetails[$userId][$app][$key]['type'] ?? null;
 			}
 
 			/**
