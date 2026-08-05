@@ -20,6 +20,12 @@ const defaultConfig = Object.freeze({
 	dbtablespace: '',
 	dbhost: '',
 	dbtype: '',
+	dbsslmode: '',
+	dbsslca: '',
+	dbsslcert: '',
+	dbsslkey: '',
+	dbsslcrl: '',
+	dbsslnoverify: false,
 	databases: {
 		sqlite: 'SQLite',
 		mysql: 'MySQL/MariaDB',
@@ -152,6 +158,93 @@ describe('Default setup page', () => {
 		// see database config fields are visible and tablespace
 		await expect(component.findByRole('textbox', { name: /Database tablespace/ })).resolves.not.toThrow()
 		await expect(component.findByRole('group', { name: /Database connection/ })).resolves.not.toThrow()
+	})
+})
+
+describe('Encrypted database connection', () => {
+	beforeEach(cleanup)
+	beforeEach(() => {
+		removeInitialState()
+		mockInitialState('core', 'links', links)
+	})
+
+	it.each(['sqlite', 'oci'])('Is not offered for %s', async (dbtype) => {
+		mockInitialState('core', 'config', {
+			...defaultConfig,
+			dbtype,
+			databases: { sqlite: 'SQLite', mysql: 'MySQL/MariaDB', pgsql: 'PostgreSQL', oci: 'Oracle' },
+		} as SetupConfig)
+		const component = render(SetupView)
+
+		await expect(component.findByText('Encrypted database connection', { selector: 'summary' })).rejects.toThrow()
+	})
+
+	it('Offers the PDO options for mysql', async () => {
+		mockInitialState('core', 'config', { ...defaultConfig, dbtype: 'mysql' } as SetupConfig)
+		const component = render(SetupView)
+
+		await expect(component.findByText('Encrypted database connection', { selector: 'summary' })).resolves.not.toThrow()
+		await expect(component.findByRole('textbox', { name: /CA certificate path/ })).resolves.not.toThrow()
+		await expect(component.findByRole('textbox', { name: /Client certificate path/ })).resolves.not.toThrow()
+		await expect(component.findByRole('textbox', { name: /Client certificate key path/ })).resolves.not.toThrow()
+		await expect(component.findByRole('checkbox', { name: /Do not verify that the server certificate/ })).resolves.not.toThrow()
+
+		// Both are PostgreSQL specific
+		await expect(component.findByRole('textbox', { name: /Encryption mode/ })).rejects.toThrow()
+		await expect(component.findByRole('textbox', { name: /Certificate revocation list path/ })).rejects.toThrow()
+	})
+
+	it('Submits the no-verify checkbox by value', async () => {
+		mockInitialState('core', 'config', { ...defaultConfig, dbtype: 'mysql' } as SetupConfig)
+		const component = render(SetupView)
+
+		// The form is submitted natively, so the checkbox needs a name and a value
+		const checkbox = await component.findByRole('checkbox', { name: /Do not verify that the server certificate/ }) as HTMLInputElement
+		expect(checkbox.name).toBe('dbsslnoverify')
+		expect(checkbox.value).toBe('1')
+		expect(checkbox.checked).toBe(false)
+
+		await fireEvent.click(checkbox)
+		expect((component.getByRole('checkbox', { name: /Do not verify that the server certificate/ }) as HTMLInputElement).checked).toBe(true)
+	})
+
+	it('Offers the libpq parameters for pgsql', async () => {
+		mockInitialState('core', 'config', { ...defaultConfig, dbtype: 'pgsql' } as SetupConfig)
+		const component = render(SetupView)
+
+		await expect(component.findByRole('textbox', { name: /Encryption mode/ })).resolves.not.toThrow()
+		await expect(component.findByRole('textbox', { name: /CA certificate path/ })).resolves.not.toThrow()
+		await expect(component.findByRole('textbox', { name: /Client certificate path/ })).resolves.not.toThrow()
+		await expect(component.findByRole('textbox', { name: /Client certificate key path/ })).resolves.not.toThrow()
+		await expect(component.findByRole('textbox', { name: /Certificate revocation list path/ })).resolves.not.toThrow()
+
+		// MySQL specific
+		await expect(component.findByRole('checkbox', { name: /Do not verify that the server certificate/ })).rejects.toThrow()
+	})
+
+	it('Renders the submitted values on error', async () => {
+		mockInitialState('core', 'config', {
+			...defaultConfig,
+			dbtype: 'pgsql',
+			dbsslmode: 'verify-full',
+			dbsslca: '/ca.pem',
+		} as SetupConfig)
+		const component = render(SetupView)
+
+		expect((await component.findByRole('textbox', { name: /Encryption mode/ }) as HTMLInputElement).value).toBe('verify-full')
+		expect((await component.findByRole('textbox', { name: /CA certificate path/ }) as HTMLInputElement).value).toBe('/ca.pem')
+	})
+
+	it('Renders the submitted checkbox value on error', async () => {
+		mockInitialState('core', 'config', {
+			...defaultConfig,
+			dbtype: 'mysql',
+			// Checkboxes are submitted by value, so the reflected value is a string
+			dbsslnoverify: '1',
+		} as SetupConfig)
+		const component = render(SetupView)
+
+		expect((await component.findByRole('checkbox', { name: /Do not verify that the server certificate/ }) as HTMLInputElement).checked).toBe(true)
 	})
 })
 
