@@ -32,6 +32,7 @@ use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\Files\NotEnoughSpaceException;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\Storage\ILockingStorage;
@@ -554,6 +555,13 @@ class Trashbin implements IEventListener {
 
 		$sourceNode = self::getNodeForPath($sourcePath);
 		$targetNode = self::getNodeForPath($targetPath);
+
+		$targetParent = $targetNode->getParent();
+
+		$free = $targetParent->getFreeSpace();
+		if ($free >= 0 && $free < $sourceNode->getSize(false)) {
+			throw new NotEnoughSpaceException('Not enough free space in ' . $targetParent->getPath() . ' to restore ' . $sourceNode->getPath());
+		}
 		$run = true;
 		$event = new BeforeNodeRestoredEvent($sourceNode, $targetNode, $run);
 		$dispatcher = \OC::$server->get(IEventDispatcher::class);
