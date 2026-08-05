@@ -9,6 +9,7 @@
 			:query="queryText"
 			:expanded="showUnifiedSearch"
 			:activeDescendantId="activeDescendantId"
+			:loading="searching"
 			:filtersRevealed="filtersRevealed"
 			@click="openModal"
 			@open-filters="onOpenFilters"
@@ -31,7 +32,8 @@
 			:filtersRevealed="filtersRevealed"
 			@update:query="queryText = $event"
 			@update:open="showUnifiedSearch = $event"
-			@update:activeDescendant="activeDescendantId = $event || ''" />
+			@update:activeDescendant="activeDescendantId = $event || ''"
+			@update:loading="searching = $event" />
 	</div>
 </template>
 
@@ -81,6 +83,8 @@ export default defineComponent({
 			 * sibling input can point aria-activedescendant at it. '' = nothing selected.
 			 */
 			activeDescendantId: '',
+			/** Whether a search is in flight, driving the input spinner */
+			searching: false,
 			/** Whether the funnel has revealed the filter row before typing */
 			filtersRevealed: false,
 		}
@@ -197,7 +201,11 @@ export default defineComponent({
 					return
 				}
 				// Everywhere else, behave like Ctrl+K: focus the input (desktop) / open the
-				// modal (mobile), rather than opening it on an empty query.
+				// modal (mobile). Once search is already engaged, let a second press fall
+				// through to the browser's native find instead of claiming Ctrl+F again.
+				if (this.isSearchEngaged()) {
+					return
+				}
 				event.preventDefault()
 				this.focusSearch()
 			} else if ((event.metaKey || event.ctrlKey) && key === 'k') {
@@ -232,6 +240,18 @@ export default defineComponent({
 		focusInput() {
 			const input = this.$refs.searchInput as { focus?: () => void } | undefined
 			input?.focus?.()
+		},
+
+		/**
+		 * Whether search is already engaged: the modal is open, or the header input holds
+		 * focus. Lets a second Ctrl+F fall through to the browser's native find.
+		 */
+		isSearchEngaged(): boolean {
+			if (this.showUnifiedSearch) {
+				return true
+			}
+			const el = (this.$refs.searchInput as { $el?: HTMLElement } | undefined)?.$el
+			return Boolean(el && el.contains(document.activeElement))
 		},
 
 		/**

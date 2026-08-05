@@ -208,6 +208,53 @@ describe('UnifiedSearch find shortcut (Ctrl+F) aligns with Ctrl+K', () => {
 		expect(prevented).not.toHaveBeenCalled()
 		wrapper.destroy()
 	})
+
+	// Once search is engaged, Ctrl+F belongs to the browser again: a second press must
+	// reach the native find bar instead of being swallowed to re-focus what is already focused.
+	it('falls through to the browser once the results are open', () => {
+		const wrapper = mountWithShortcuts()
+		const focusInput = vi.spyOn(wrapper.vm, 'focusInput').mockImplementation(() => {})
+		wrapper.vm.showUnifiedSearch = true
+
+		const prevented = pressCtrl('f')
+
+		expect(prevented).not.toHaveBeenCalled()
+		expect(focusInput).not.toHaveBeenCalled()
+		wrapper.destroy()
+	})
+
+	it('falls through to the browser while the header input already holds focus', () => {
+		const wrapper = mountWithShortcuts()
+		const focusInput = vi.spyOn(wrapper.vm, 'focusInput').mockImplementation(() => {})
+		// The engaged check tests the real focused element against the input's DOM subtree,
+		// so it needs a focusable node that is actually in the document.
+		const host = document.createElement('div')
+		const field = document.createElement('input')
+		host.appendChild(field)
+		document.body.appendChild(host)
+		wrapper.vm.$refs.searchInput = { $el: host }
+		field.focus()
+
+		const prevented = pressCtrl('f')
+
+		expect(prevented).not.toHaveBeenCalled()
+		expect(focusInput).not.toHaveBeenCalled()
+		host.remove()
+		wrapper.destroy()
+	})
+
+	// Only Ctrl+F defers to the browser. Ctrl+K has no native meaning worth preserving
+	// (in Firefox it focuses the address bar), so it stays claimed even when engaged.
+	it('does not make Ctrl+K fall through as well', () => {
+		const wrapper = mountWithShortcuts()
+		vi.spyOn(wrapper.vm, 'focusInput').mockImplementation(() => {})
+		wrapper.vm.showUnifiedSearch = true
+
+		const prevented = pressCtrl('k')
+
+		expect(prevented).toHaveBeenCalled()
+		wrapper.destroy()
+	})
 })
 
 describe('UnifiedSearch combobox expanded state', () => {

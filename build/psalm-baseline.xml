@@ -211,6 +211,35 @@
     <NullableReturnStatement>
       <code><![CDATA[null]]></code>
     </NullableReturnStatement>
+    <UndefinedMagicPropertyFetch>
+      <code><![CDATA[$component->CLASS]]></code>
+      <code><![CDATA[$component->CLASS]]></code>
+      <code><![CDATA[$component->CLASS]]></code>
+      <code><![CDATA[$component->DTEND]]></code>
+      <code><![CDATA[$component->DTEND]]></code>
+      <code><![CDATA[$component->DTEND]]></code>
+      <code><![CDATA[$component->DTSTART]]></code>
+      <code><![CDATA[$component->DTSTART]]></code>
+      <code><![CDATA[$component->DTSTART]]></code>
+      <code><![CDATA[$component->DUE]]></code>
+      <code><![CDATA[$component->DUE]]></code>
+      <code><![CDATA[$component->DUE]]></code>
+      <code><![CDATA[$component->DURATION]]></code>
+      <code><![CDATA[$component->DURATION]]></code>
+      <code><![CDATA[$component->DURATION]]></code>
+      <code><![CDATA[$component->RDATE]]></code>
+      <code><![CDATA[$component->RDATE]]></code>
+      <code><![CDATA[$component->RDATE]]></code>
+      <code><![CDATA[$component->RDATE]]></code>
+      <code><![CDATA[$component->RDATE]]></code>
+      <code><![CDATA[$component->RDATE]]></code>
+      <code><![CDATA[$component->RRULE]]></code>
+      <code><![CDATA[$component->RRULE]]></code>
+      <code><![CDATA[$component->RRULE]]></code>
+      <code><![CDATA[$component->UID]]></code>
+      <code><![CDATA[$component->UID]]></code>
+      <code><![CDATA[$component->UID]]></code>
+    </UndefinedMagicPropertyFetch>
   </file>
   <file src="apps/dav/lib/CalDAV/Calendar.php">
     <DeprecatedMethod>
