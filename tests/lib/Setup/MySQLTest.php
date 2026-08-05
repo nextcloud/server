@@ -17,16 +17,6 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class MySQLTest extends TestCase {
-	/**
-	 * Numeric literals instead of the PDO::MYSQL_ATTR_* constants: those are deprecated
-	 * since PHP 8.5 and only defined when the MySQL driver is available.
-	 */
-	private const ATTR_SSL_KEY = 1006;
-	private const ATTR_SSL_CERT = 1007;
-	private const ATTR_SSL_CA = 1008;
-	private const ATTR_SSL_VERIFY_SERVER_CERT = 1013;
-	private const ATTR_INIT_COMMAND = 1002;
-
 	private SystemConfig&MockObject $config;
 	private MySQL $database;
 
@@ -49,6 +39,23 @@ class MySQLTest extends TestCase {
 	}
 
 	/**
+	 * The numeric value of a PDO MySQL attribute, e.g. `SSL_CA`.
+	 *
+	 * The values are not stable across PHP versions, so they must never be hardcoded.
+	 * Since PHP 8.5 the `PDO::MYSQL_ATTR_*` constants are deprecated in favor of
+	 * `Pdo\Mysql::ATTR_*`, and either only exists with the MySQL driver installed.
+	 */
+	private function attribute(string $name): int {
+		if (!extension_loaded('pdo_mysql')) {
+			$this->markTestSkipped('The pdo_mysql extension is required to resolve the PDO attribute values');
+		}
+		if (PHP_VERSION_ID >= 80500 && class_exists(\Pdo\Mysql::class)) {
+			return (int)constant('Pdo\Mysql::ATTR_' . $name);
+		}
+		return (int)constant('PDO::MYSQL_ATTR_' . $name);
+	}
+
+	/**
 	 * MySQL/MariaDB is configured through PDO driver options, keyed by the numeric PDO
 	 * attributes - which is why the web installer and CLI cannot pass them directly.
 	 */
@@ -60,10 +67,10 @@ class MySQLTest extends TestCase {
 				'dbhost' => 'db.example.org',
 				'dbtableprefix' => 'oc_',
 				'dbdriveroptions' => [
-					self::ATTR_SSL_CA => '/ca.pem',
-					self::ATTR_SSL_CERT => '/client.crt',
-					self::ATTR_SSL_KEY => '/client.key',
-					self::ATTR_SSL_VERIFY_SERVER_CERT => false,
+					$this->attribute('SSL_CA') => '/ca.pem',
+					$this->attribute('SSL_CERT') => '/client.crt',
+					$this->attribute('SSL_KEY') => '/client.key',
+					$this->attribute('SSL_VERIFY_SERVER_CERT') => false,
 				],
 			]);
 
@@ -87,13 +94,13 @@ class MySQLTest extends TestCase {
 				'dbhost' => 'db.example.org',
 				'dbtableprefix' => 'oc_',
 				'dbdriveroptions' => [
-					self::ATTR_INIT_COMMAND => 'SET wait_timeout = 28800',
-					self::ATTR_SSL_CA => '/ca.pem',
+					$this->attribute('INIT_COMMAND') => 'SET wait_timeout = 28800',
+					$this->attribute('SSL_CA') => '/ca.pem',
 				],
 			]);
 
 		$this->database->initialize($this->options([
-			'dbdriveroptions' => [self::ATTR_INIT_COMMAND => 'SET wait_timeout = 28800'],
+			'dbdriveroptions' => [$this->attribute('INIT_COMMAND') => 'SET wait_timeout = 28800'],
 			'dbsslca' => '/ca.pem',
 		]));
 	}

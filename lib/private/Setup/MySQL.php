@@ -111,7 +111,7 @@ class MySQL extends AbstractDatabase {
 	private function getSslAttributes(): array {
 		// TODO: simplify once we only support PHP 8.5+.
 		if (PHP_VERSION_ID >= 80500 && class_exists(\Pdo\Mysql::class)) {
-			/** @psalm-suppress UndefinedClass */
+			/** @psalm-suppress UndefinedConstant Psalm resolves the non-mysqlnd variant of the symfony polyfill class, which lacks this constant */
 			return [
 				'ca' => \Pdo\Mysql::ATTR_SSL_CA,
 				'cert' => \Pdo\Mysql::ATTR_SSL_CERT,
