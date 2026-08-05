@@ -282,4 +282,15 @@ interface IUserManager {
 	 * @since 34.0.0
 	 */
 	public function getAvatarUrlDark(string $userId, int $size): string;
+
+	/**
+	 * Get a read-only user from a cloud ID for showing the display name of a remote
+	 * federation user (e.g. the "deleted by" user of a federated share) that has no
+	 * local account.
+	 *
+	 * @param \OCP\Federation\ICloudId $federatedUserId A cloud ID of the federated user
+	 * @return IUser
+	 * @since 35.0.0
+	 */
+	public function getFederatedUser(\OCP\Federation\ICloudId $cloudId): IUser;
 }
