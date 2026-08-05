@@ -47,7 +47,8 @@ class SetAcceptedStatus implements IRepairStep {
 		$query
 			->update('share')
 			->set('accepted', $query->createNamedParameter(IShare::STATUS_ACCEPTED))
-			->where($query->expr()->in('share_type', $query->createNamedParameter([IShare::TYPE_USER, IShare::TYPE_GROUP, IShare::TYPE_USERGROUP], IQueryBuilder::PARAM_INT_ARRAY)));
+			->where($query->expr()->in('share_type', $query->createNamedParameter([IShare::TYPE_USER, IShare::TYPE_GROUP, IShare::TYPE_USERGROUP], IQueryBuilder::PARAM_INT_ARRAY)))
+			->andWhere($query->expr()->neq('accepted', $query->createNamedParameter(IShare::STATUS_REJECTED, IQueryBuilder::PARAM_INT)));
 		$query->executeStatement();
 	}
 
