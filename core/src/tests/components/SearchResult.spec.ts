@@ -5,6 +5,7 @@
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 import NcListItem from '@nextcloud/vue/components/NcListItem'
+import AppIcon from '../../components/AppIcon.vue'
 import SearchResult from '../../components/UnifiedSearch/SearchResult.vue'
 
 function factory(propsData = {}, attrs = {}) {
@@ -47,12 +48,10 @@ describe('SearchResult icon', () => {
 		expect(img.attributes('src')).toBe('/apps/settings/img/password.svg')
 	})
 
-	it('renders an app icon (rounded, no thumbnail) as an image', () => {
+	it('hands an app icon (rounded, no thumbnail) to AppIcon', () => {
 		const wrapper = factory({ icon: '/apps/files/img/app.svg', rounded: true })
 
-		const img = wrapper.find('img')
-		expect(img.exists()).toBe(true)
-		expect(img.attributes('src')).toBe('/apps/files/img/app.svg')
+		expect(wrapper.findComponent(AppIcon).props('icon')).toBe('/apps/files/img/app.svg')
 	})
 
 	it('does not render a broken image for a legacy CSS-class icon', () => {

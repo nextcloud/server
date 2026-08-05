@@ -84,6 +84,16 @@ class AccessibleThemeTestCase extends TestCase {
 				],
 				$textContrast,
 			],
+			'primary-element on primary-element-light' => [
+				[
+					'--color-primary-element',
+				],
+				[
+					'--color-primary-element-light',
+					'--color-primary-element-light-hover',
+				],
+				$elementContrast,
+			],
 			'main-text' => [
 				['--color-main-text'],
 				[
@@ -229,6 +239,45 @@ class AccessibleThemeTestCase extends TestCase {
 				$realContrast = $this->util->colorContrast($variables[$main], $variables[$background]);
 				$this->assertGreaterThanOrEqual($minContrast, $realContrast, "Contrast is not high enough for $main (" . $variables[$main] . ") on $background (" . $variables[$background] . ')');
 			}
+		}
+	}
+
+	/**
+	 * AppIcon.vue gradients are not plain variables the pairs above can see, so
+	 * rebuild the lightest stop of each. Util::mix() weights its first colour at
+	 * ($factor + 100) / 200, which is how the CSS percentages map onto $factor.
+	 */
+	public function testAppMenuIconGradientContrast(): void {
+		if (!isset($this->theme) || !isset($this->util)) {
+			$this->markTestSkipped('You need to setup $this->theme and $this->util in your setUp function');
+		}
+
+		$variables = $this->theme->getCSSVariables();
+		$resolve = function (string $name) use ($variables): string {
+			$matches = [];
+			if (preg_match('/^var\\(([^)]+)\\)$/', $variables[$name], $matches) === 1) {
+				return $variables[$matches[1]];
+			}
+			return $variables[$name];
+		};
+
+		$primaryElement = $resolve('--color-primary-element');
+		$circle = $resolve('--color-primary-element-light');
+		$mainBackground = $resolve('--color-main-background');
+
+		// color-mix(in srgb, var(--color-primary-element), 28% var(--color-primary-element-light))
+		$glyphTop = $this->util->mix($primaryElement, $circle, 44);
+		// color-mix(in srgb, var(--color-primary-element-light), 15% var(--color-main-background))
+		$circleTop = $this->util->mix($circle, $mainBackground, 70);
+
+		// The glyph is centred, so check it against both ends of the circle.
+		foreach (['circle top' => $circleTop, 'circle bottom' => $circle] as $label => $background) {
+			$contrast = $this->util->colorContrast($glyphTop, $background);
+			$this->assertGreaterThanOrEqual(
+				3.0,
+				$contrast,
+				"App menu glyph gradient top ($glyphTop) does not reach 3:1 on the $label ($background), got $contrast",
+			);
 		}
 	}
 }
