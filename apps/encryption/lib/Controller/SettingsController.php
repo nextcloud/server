@@ -16,6 +16,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\Encryption\Exceptions\GenericEncryptionException;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
@@ -76,7 +77,13 @@ class SettingsController extends Controller {
 
 		if ($passwordCorrect !== false) {
 			$encryptedKey = $this->keyManager->getPrivateKey($uid);
-			$decryptedKey = $this->crypt->decryptPrivateKey($encryptedKey, $oldPassword, $uid);
+			try {
+				$decryptedKey = $this->crypt->decryptPrivateKey($encryptedKey, $oldPassword, $uid);
+			} catch (GenericEncryptionException) {
+				// A wrong passphrase does not only make decrypting return false, it can
+				// also fail the signature check or the decryption itself
+				$decryptedKey = false;
+			}
 
 			if ($decryptedKey) {
 				$encryptedKey = $this->crypt->encryptPrivateKey($decryptedKey, $newPassword, $uid);
