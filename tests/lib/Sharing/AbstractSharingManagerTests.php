@@ -3159,6 +3159,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$this->dbConnection->commit();
 
 		$share = $this->getShare($accessContext, $id);
+		usort($share['recipients'], fn (array $a, array $b): int => $a['value'] <=> $b['value']);
 		$this->assertEquals([
 			[
 				'class' => TestShareSourceType1::class,

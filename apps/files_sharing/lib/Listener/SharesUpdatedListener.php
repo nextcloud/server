@@ -26,6 +26,7 @@ use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\Events\ShareMovedEvent;
 use OCP\Share\Events\ShareTransferredEvent;
 use OCP\Share\IManager;
+use OCP\User\Exceptions\UserNotFoundException;
 use Psr\Clock\ClockInterface;
 use Psr\Log\LoggerInterface;
 
@@ -135,7 +136,14 @@ class SharesUpdatedListener implements IEventListener {
 		$elapsed = $now - $this->firstRun;
 
 		if ($this->cutOffMarkTime === -1.0 || $elapsed < $this->cutOffMarkTime) {
-			$callback();
+			try {
+				$callback();
+			} catch (UserNotFoundException $e) {
+				// A share recipient may reference a user id that no backend can resolve anymore
+				// (e.g. with LazyUser::getUID()) - like remnant / incorrectly removed user.
+				// Skip this recipient instead of aborting the share operation.
+				$this->logger->debug('Skipping share mount update for unresolvable user ' . $user->getUID(), ['exception' => $e]);
+			}
 		} else {
 			$this->markUserForRefresh($user);
 		}
