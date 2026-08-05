@@ -15,6 +15,7 @@ OC.L10N.register(
     "You have not added any info yet" : "Você ainda não adicionou nenhuma informação",
     "{user} has not added any info yet" : "{user} ainda não adicionou nenhuma informação",
     "Error opening the user status modal, try hard refreshing the page" : "Erro ao abrir o modal de status do usuário, tente atualizar a página",
+    "Edit profile" : "Editar perfil",
     "The headline and about sections will show up here" : "O título e as seções sobre serão exibidos aqui",
     "Profile not found" : "Perfil não encontrado",
     "The profile does not exist or is unavailable." : "O perfil não existe ou não está disponível.",
