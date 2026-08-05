@@ -109,6 +109,8 @@ import AuthTokenDeleteDialog from './AuthTokenDeleteDialog.vue'
 import { TokenType, useAuthTokenStore } from '../store/authtoken.ts'
 import { detect } from '../utils/userAgentDetect.ts'
 
+const productName = window.OC.theme.productName as string
+
 const nameMap = {
 	edge: 'Microsoft Edge',
 	firefox: 'Firefox',
@@ -117,10 +119,10 @@ const nameMap = {
 	androidChrome: t('settings', 'Google Chrome for Android'),
 	iphone: 'iPhone',
 	ipad: 'iPad',
-	iosClient: t('settings', '{productName} iOS app', { productName: window.oc_defaults.productName }),
-	androidClient: t('settings', '{productName} Android app', { productName: window.oc_defaults.productName }),
-	iosTalkClient: t('settings', '{productName} Talk for iOS', { productName: window.oc_defaults.productName }),
-	androidTalkClient: t('settings', '{productName} Talk for Android', { productName: window.oc_defaults.productName }),
+	iosClient: t('settings', '{productName} iOS app', { productName }),
+	androidClient: t('settings', '{productName} Android app', { productName }),
+	iosTalkClient: t('settings', '{productName} Talk for iOS', { productName }),
+	androidTalkClient: t('settings', '{productName} Talk for Android', { productName }),
 	syncClient: t('settings', 'Sync client'),
 	davx5: 'DAVx5',
 	webPirate: 'WebPirate',
