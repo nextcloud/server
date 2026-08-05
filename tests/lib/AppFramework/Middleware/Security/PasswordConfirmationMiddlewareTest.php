@@ -18,31 +18,25 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\Security\Ip\IRemoteAddress;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\AppFramework\Middleware\Security\Mock\PasswordConfirmationMiddlewareController;
 use Test\TestCase;
 
 class PasswordConfirmationMiddlewareTest extends TestCase {
-	/** @var ControllerMethodReflector */
-	private $reflector;
-	/** @var ISession&\PHPUnit\Framework\MockObject\MockObject */
-	private $session;
-	/** @var IUserSession&\PHPUnit\Framework\MockObject\MockObject */
-	private $userSession;
-	/** @var IUser&\PHPUnit\Framework\MockObject\MockObject */
-	private $user;
-	/** @var PasswordConfirmationMiddleware */
-	private $middleware;
-	/** @var PasswordConfirmationMiddlewareController */
-	private $controller;
-	/** @var ITimeFactory&\PHPUnit\Framework\MockObject\MockObject */
-	private $timeFactory;
-	private IProvider&\PHPUnit\Framework\MockObject\MockObject $tokenProvider;
-	private LoggerInterface $logger;
-	/** @var IRequest&\PHPUnit\Framework\MockObject\MockObject */
-	private IRequest $request;
-	/** @var Manager&\PHPUnit\Framework\MockObject\MockObject */
-	private Manager $userManager;
+	private ControllerMethodReflector $reflector;
+	private ISession&MockObject $session;
+	private IUserSession&MockObject $userSession;
+	private IUser&MockObject $user;
+	private PasswordConfirmationMiddleware $middleware;
+	private PasswordConfirmationMiddlewareController $controller;
+	private ITimeFactory&MockObject $timeFactory;
+	private IProvider&MockObject $tokenProvider;
+	private LoggerInterface&MockObject $logger;
+	private IRequest&MockObject $request;
+	private Manager&MockObject $userManager;
+	private IRemoteAddress&MockObject $remoteAddress;
 
 	protected function setUp(): void {
 		$this->reflector = new ControllerMethodReflector(\OCP\Server::get(LoggerInterface::class));
@@ -58,6 +52,7 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 			'test',
 			$this->createMock(IRequest::class)
 		);
+		$this->remoteAddress = $this->createMock(IRemoteAddress::class);
 
 		$this->middleware = new PasswordConfirmationMiddleware(
 			$this->reflector,
@@ -68,6 +63,7 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 			$this->logger,
 			$this->request,
 			$this->userManager,
+			$this->remoteAddress,
 		);
 	}
 
