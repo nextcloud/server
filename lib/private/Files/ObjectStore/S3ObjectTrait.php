@@ -142,10 +142,10 @@ trait S3ObjectTrait {
 		$exception = null;
 		$state = null;
 		$size = $stream->getSize();
-		$totalWritten = 0;
 
 		// retry multipart upload once with concurrency at half on failure
 		while (!$uploaded && $attempts <= 1) {
+			$totalWritten = 0;
 			$uploader = new MultipartUploader($this->getConnection(), $stream, [
 				'bucket' => $this->bucket,
 				'concurrency' => $concurrency,
