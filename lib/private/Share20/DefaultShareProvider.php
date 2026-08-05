@@ -319,6 +319,10 @@ class DefaultShareProvider implements
 				throw new ProviderException('Group "' . $share->getSharedWith() . '" does not exist');
 			}
 
+			if (is_null($user)) {
+				throw new ProviderException('User "' . $recipient . '" does not exist');
+			}
+
 			if (!$group->inGroup($user)) {
 				throw new ProviderException('Recipient not in receiving group');
 			}
