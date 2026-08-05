@@ -75,19 +75,22 @@ class SystemTagNodeTest extends \Test\TestCase {
 			[
 				true,
 				new SystemTag(1, 'Original', true, true),
-				['Renamed', true, true]
+				['Renamed', true, true],
+				true,
 			],
 			[
 				true,
 				new SystemTag(1, 'Original', true, true),
-				['Original', false, false]
+				['Original', false, false],
+				true,
 			],
 			// non-admin
 			[
-				// renaming allowed
+				// renaming not allowed
 				false,
 				new SystemTag(1, 'Original', true, true),
-				['Rename', true, true]
+				['Renamed', true, true],
+				false,
 			],
 		];
 	}
@@ -95,18 +98,22 @@ class SystemTagNodeTest extends \Test\TestCase {
 	/**
 	 * @dataProvider tagNodeProvider
 	 */
-	public function testUpdateTag($isAdmin, ISystemTag $originalTag, $changedArgs): void {
-		$this->tagManager->expects($this->once())
-			->method('canUserSeeTag')
+	public function testUpdateTag($isAdmin, ISystemTag $originalTag, $changedArgs, $allowed): void {
+		$this->tagManager->method('canUserSeeTag')
 			->with($originalTag)
 			->willReturn($originalTag->isUserVisible() || $isAdmin);
-		$this->tagManager->expects($this->once())
-			->method('canUserAssignTag')
+		$this->tagManager->method('canUserAssignTag')
 			->with($originalTag)
 			->willReturn($originalTag->isUserAssignable() || $isAdmin);
-		$this->tagManager->expects($this->once())
-			->method('updateTag')
-			->with(1, $changedArgs[0], $changedArgs[1], $changedArgs[2]);
+		if ($allowed) {
+			$this->tagManager->expects($this->once())
+				->method('updateTag')
+				->with(1, $changedArgs[0], $changedArgs[1], $changedArgs[2]);
+		} else {
+			$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+			$this->tagManager->expects($this->never())
+				->method('updateTag');
+		}
 		$this->getTagNode($isAdmin, $originalTag)
 			->update($changedArgs[0], $changedArgs[1], $changedArgs[2]);
 	}
@@ -196,7 +203,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 			->method('updateTag')
 			->with(1, 'Renamed', true, true)
 			->will($this->throwException(new TagAlreadyExistsException()));
-		$this->getTagNode(false, $tag)->update('Renamed', true, true);
+		$this->getTagNode(true, $tag)->update('Renamed', true, true);
 	}
 
 
@@ -216,7 +223,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 			->method('updateTag')
 			->with(1, 'Renamed', true, true)
 			->will($this->throwException(new TagNotFoundException()));
-		$this->getTagNode(false, $tag)->update('Renamed', true, true);
+		$this->getTagNode(true, $tag)->update('Renamed', true, true);
 	}
 
 	/**
