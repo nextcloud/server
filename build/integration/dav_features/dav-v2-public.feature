@@ -57,6 +57,40 @@ Feature: dav-v2-public
 		When Downloading public file "/image.png" without ajax header
 		Then the downloaded file has the content of "/testshare/image.png" from "user1" data
 
+	Scenario: Finalizing a public chunked upload with COPY is not allowed
+		Given using new dav path
+		And user "user0" exists
+		And As an "user0"
+		And user "user0" created a folder "/public-upload"
+		And User "user0" uploads file with content "original content" to "/public-upload/target.txt"
+		And as "user0" creating a share with
+			| path         | public-upload |
+			| shareType    | 3             |
+			| publicUpload | true          |
+		And creating a new public chunking upload with id "chunking-public-copy"
+		And uploading new public chunk file "1" with "AAAAA" to id "chunking-public-copy"
+		When copying new public chunk file with id "chunking-public-copy" to "/target.txt"
+		Then the HTTP status code should be "405"
+		And Downloading file "/public-upload/target.txt" as "user0"
+		Then Downloaded content should be "original content"
+
+	Scenario: Finalizing a public chunked upload with MOVE overwrites the target
+		Given using new dav path
+		And user "user0" exists
+		And As an "user0"
+		And user "user0" created a folder "/public-upload"
+		And User "user0" uploads file with content "original content" to "/public-upload/target.txt"
+		And as "user0" creating a share with
+			| path         | public-upload |
+			| shareType    | 3             |
+			| publicUpload | true          |
+		And creating a new public chunking upload with id "chunking-public-move"
+		And uploading new public chunk file "1" with "AAAAA" to id "chunking-public-move"
+		When moving new public chunk file with id "chunking-public-move" to "/target.txt"
+		Then the HTTP status code should be "204"
+		And Downloading file "/public-upload/target.txt" as "user0"
+		Then Downloaded content should be "AAAAA"
+
 	Scenario: Download a folder
 		Given using new dav path
 		And As an "admin"
