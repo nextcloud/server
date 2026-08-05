@@ -18,11 +18,11 @@
 		:title="app.name"
 		role="menuitem">
 		<span class="app-item__circle">
-			<img
+			<span
+				v-if="app.icon"
 				class="app-item__icon"
-				:src="app.icon"
-				alt=""
-				aria-hidden="true">
+				:style="iconStyle"
+				aria-hidden="true" />
 			<span
 				v-if="app.unread"
 				class="app-item__unread"
@@ -57,6 +57,11 @@ const props = withDefaults(defineProps<{
 	tabindex: -1,
 })
 
+// Escaped so a crafted path cannot break out of the url() token.
+const iconStyle = computed(() => ({
+	'--app-item-icon-url': `url("${props.app.icon.replace(/["\\]/g, '\\$&')}")`,
+}))
+
 const unreadLabel = computed(() => {
 	if (!props.app.unread) {
 		return undefined
@@ -72,63 +77,91 @@ const unreadLabel = computed(() => {
 </script>
 
 <style scoped lang="scss">
+$bevel:
+	inset 0 -1px 0 0 color-mix(in srgb, var(--color-primary-element-light), 10% var(--color-primary-element)),
+	inset 0 -4px 6px -4px color-mix(in srgb, var(--color-primary-element-light), 16% var(--color-primary-element));
+
 .app-item {
-	--app-item-circle-size: calc(var(--default-grid-baseline) * 10);
-	--app-item-icon-size: 22px;
+	--app-item-circle-size: calc(var(--default-grid-baseline) * 12);
+	// 28px on a 48px circle, so it follows when the circle is resized.
+	--app-item-icon-size: calc(var(--app-item-circle-size) * 7 / 12);
+	--app-item-bevel: #{$bevel};
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	gap: var(--default-grid-baseline);
-	// Inset so the hover/focus highlight floats around the circle and label
-	// rather than sitting flush against the icon at the top edge.
+	// Keeps the grown circle and the focus ring off the tile's edge.
 	padding-block: var(--default-grid-baseline);
 	border-radius: var(--border-radius-element);
 	text-decoration: none;
 	color: var(--color-main-text);
 	min-width: 0;
 
-	&:hover,
-	&:focus-visible {
-		background-color: var(--color-background-hover);
-	}
-
 	// Inset ring instead of outline + offset: the offset version visibly
 	// clips at the popover's rounded edge for items in the first/last row
-	// or column. The inset shadow stays inside the highlight rectangle.
+	// or column. The inset shadow stays inside the tile's own bounds.
 	&:focus-visible {
 		outline: none;
 		box-shadow: inset 0 0 0 2px var(--color-primary-element);
 	}
 
+	&:hover,
+	&:focus-visible {
+		--app-item-circle-scale: 1.08;
+	}
+
+	&:active {
+		--app-item-circle-scale: 0.96;
+	}
+
+	@media (prefers-color-scheme: dark) {
+		--app-item-bevel: none;
+	}
+
 	&__circle {
 		box-sizing: border-box;
 		position: relative;
-		width: var(--app-item-circle-size);
-		height: var(--app-item-circle-size);
-		border-radius: 50%;
-		background-color: var(--color-primary-element);
-		background-image: linear-gradient(
-			to bottom,
-			rgba(255, 255, 255, 0.18) 0%,
-			rgba(255, 255, 255, 0) 45%,
-			rgba(0, 0, 0, 0.15) 100%
-		);
-		box-shadow:
-			inset 0 1px 0 0 rgba(255, 255, 255, 0.25),
-			inset 0 -1px 0 0 rgba(0, 0, 0, 0.2),
-			0 2px 4px rgba(0, 0, 0, 0.15);
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		width: var(--app-item-circle-size);
+		height: var(--app-item-circle-size);
+		border-radius: 50%;
+		transform: scale(var(--app-item-circle-scale, 1));
+		transition: transform var(--animation-quick) ease-out;
+		background-color: var(--color-primary-element-light);
+		background-image: linear-gradient(
+			to bottom,
+			color-mix(in srgb, var(--color-primary-element-light), 15% var(--color-main-background)) 0%,
+			var(--color-primary-element-light) 100%
+		);
+		box-shadow: var(--app-item-bevel);
+
+		@media (prefers-reduced-motion: reduce) {
+			transition: none;
+		}
 	}
 
 	&__icon {
 		width: var(--app-item-icon-size);
 		height: var(--app-item-icon-size);
-		// App icons are bright by default; flip them to dark when the
-		// primary color (circle background) is bright (e.g. white in dark mode).
-		filter: var(--primary-invert-if-bright);
-		mask: var(--header-menu-icon-mask);
+		// Masked rather than shown: app icons ship a hardcoded fill, so
+		// currentColor never applies and a filter could only flip black and white.
+		background-color: var(--color-primary-element);
+		background-image: linear-gradient(
+			to bottom,
+			color-mix(in srgb, var(--color-primary-element), 28% var(--color-primary-element-light)) 0%,
+			var(--color-primary-element) 100%
+		);
+		mask: var(--app-item-icon-url) center / contain no-repeat;
+	}
+
+	// Masked backgrounds are not force-adjusted the way <img> is.
+	@media (forced-colors: active) {
+		&__icon {
+			background-color: CanvasText;
+			background-image: none;
+		}
 	}
 
 	&__unread {
@@ -169,8 +202,17 @@ const unreadLabel = computed(() => {
 	}
 
 	&--outlined &__icon {
-		filter: var(--background-invert-if-dark);
-		mask: none;
+		background-color: var(--color-main-text);
+		background-image: none;
 	}
+}
+
+// An explicit theme choice must beat the media query above, which only sees the OS.
+:global([data-themes*=dark] .app-item) {
+	--app-item-bevel: none;
+}
+
+:global([data-themes*=light] .app-item) {
+	--app-item-bevel: #{$bevel};
 }
 </style>
