@@ -20,6 +20,8 @@ use OC\Authentication\Notifications\Notifier as AuthenticationNotifier;
 use OC\Core\Listener\BeforeTemplateRenderedListener;
 use OC\Core\Listener\PasswordUpdatedListener;
 use OC\Core\Notification\CoreNotifier;
+use OC\DirectEditing\Listeners\UserDeletedTokenCleanupListener as UserDeletedDirectEditingTokenCleanupListener;
+use OC\DirectEditing\Listeners\UserDisabledTokenCleanupListener as UserDisabledDirectEditingTokenCleanupListener;
 use OC\TagManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Http\Events\BeforeLoginTemplateRenderedEvent;
@@ -30,6 +32,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\User\Events\PasswordUpdatedEvent;
+use OCP\User\Events\UserChangedEvent;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\Util;
 
@@ -305,5 +308,9 @@ class Application extends App {
 
 		// Tags
 		$eventDispatcher->addServiceListener(UserDeletedEvent::class, TagManager::class);
+
+		// Direct Editing
+		$eventDispatcher->addServiceListener(UserDeletedEvent::class, UserDeletedDirectEditingTokenCleanupListener::class);
+		$eventDispatcher->addServiceListener(UserChangedEvent::class, UserDisabledDirectEditingTokenCleanupListener::class);
 	}
 }
