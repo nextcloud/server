@@ -186,7 +186,7 @@ class CommandAdapter extends Base {
 
 			$type = $parameter->getType();
 			if ($type instanceof \ReflectionNamedType && $type->getName() === IOutput::class) {
-				$parameters[] = new OutputAdapter($output);
+				$parameters[] = new OutputAdapter($output, $input, $this);
 				continue;
 			}
 
@@ -212,5 +212,23 @@ class CommandAdapter extends Base {
 		}
 
 		return $result instanceof ExitCode ? $result->value : $result;
+	}
+
+	#[Override]
+	public function writeArrayInOutputFormat(InputInterface $input, OutputInterface $output, iterable $items, string $prefix = '  - '): void {
+		// To make it public
+		parent::writeArrayInOutputFormat($input, $output, $items, $prefix);
+	}
+
+	#[Override]
+	public function writeTableInOutputFormat(InputInterface $input, OutputInterface $output, array $items): void {
+		// To make it public
+		parent::writeTableInOutputFormat($input, $output, $items);
+	}
+
+	#[Override]
+	public function writeStreamingTableInOutputFormat(InputInterface $input, OutputInterface $output, \Iterator $items, int $tableGroupSize): void {
+		// To make it public
+		parent::writeStreamingTableInOutputFormat($input, $output, $items, $tableGroupSize);
 	}
 }

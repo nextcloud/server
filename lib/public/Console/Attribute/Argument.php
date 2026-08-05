@@ -63,6 +63,7 @@ final class Argument {
 	 *
 	 * @param string $description The description of the argument, displayed with the help page
 	 * @param string $name The name of the argument
+	 * @since 35.0.0
 	 */
 	public function __construct(
 		public string $description = '',
