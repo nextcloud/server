@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OC\Sharing;
 
 use Exception;
+use NCU\Sharing\Event\SharesDefaultSetEvent;
 use NCU\Sharing\Exception\ShareInvalidException;
 use NCU\Sharing\Exception\ShareOperationForbiddenException;
 use NCU\Sharing\ISharingBackend;
@@ -52,7 +53,7 @@ use RuntimeException;
 
 /**
  * @psalm-import-type SharingShare from Share
- * @template-implements IEventListener<BeforeUserDeletedEvent>
+ * @template-implements IEventListener<BeforeUserDeletedEvent|SharesDefaultSetEvent>
  */
 final readonly class SharingManager implements ISharingManager, IEventListener {
 	private Randomizer $randomizer;
@@ -430,40 +431,6 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 	}
 
 	#[\Override]
-	public function createSharePropertyDefaultValue(Share $share, string $propertyTypeClass): Share {
-		$this->assertInTransaction();
-
-		$timestamp = $this->generateTimestamp();
-		$this->backend->setLastUpdated([$share->id], $timestamp);
-
-		if (($propertyType = $this->registry->getPropertyTypes()[$propertyTypeClass] ?? null) === null) {
-			throw new RuntimeException('The property is not registered: ' . $propertyTypeClass);
-		}
-
-		$property = new ShareProperty($propertyTypeClass, $propertyType->getDefaultValue($share));
-
-		$this->backend->createShareProperty($share->id, $property);
-
-		$properties = $share->properties;
-		$properties[$propertyTypeClass] = $property;
-
-		$share = new Share(
-			$share->id,
-			$share->owner,
-			$timestamp,
-			$share->state,
-			$share->sources,
-			$share->recipients,
-			$properties,
-			$share->permissions,
-		);
-
-		[$share] = $this->processShareUpdates([$share]);
-
-		return $share;
-	}
-
-	#[\Override]
 	public function updateShareProperty(ShareAccessContext $accessContext, string $id, ShareProperty $property): void {
 		$this->assertInTransaction();
 
@@ -486,40 +453,6 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		$this->backend->updateShareProperty($id, $property);
 
 		$this->processShareUpdates([$id]);
-	}
-
-	#[\Override]
-	public function createSharePermissionDefaultValue(Share $share, string $permissionTypeClass): Share {
-		$this->assertInTransaction();
-
-		$timestamp = $this->generateTimestamp();
-		$this->backend->setLastUpdated([$share->id], $timestamp);
-
-		if (($permissionType = $this->registry->getPermissionTypes()[$permissionTypeClass] ?? null) === null) {
-			throw new RuntimeException('The permission is not registered: ' . $permissionTypeClass);
-		}
-
-		$permission = new SharePermission($permissionTypeClass, $permissionType->isEnabledByDefault());
-
-		$this->backend->createSharePermission($share->id, $permission);
-
-		$permissions = $share->permissions;
-		$permissions[$permissionTypeClass] = $permission;
-
-		$share = new Share(
-			$share->id,
-			$share->owner,
-			$timestamp,
-			$share->state,
-			$share->sources,
-			$share->recipients,
-			$share->properties,
-			$permissions,
-		);
-
-		[$share] = $this->processShareUpdates([$share]);
-
-		return $share;
 	}
 
 	#[\Override]
@@ -611,16 +544,21 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 
 	#[\Override]
 	public function handle(Event $event): void {
-		$shareUser = new ShareUser($event->getUser()->getUID(), null);
+		if ($event instanceof SharesDefaultSetEvent) {
+			$this->processShareUpdates($event->getShares());
+		}
+		if ($event instanceof  BeforeUserDeletedEvent) {
+			$shareUser = new ShareUser($event->getUser()->getUID(), null);
 
-		try {
-			$this->dbConnection->beginTransaction();
-			$this->onOwnerDeleted(new ShareAccessContext(overrideChecks: true), $shareUser);
-			$this->onInitiatorDeleted(new ShareAccessContext(overrideChecks: true), $shareUser);
-			$this->dbConnection->commit();
-		} catch (Exception $exception) {
-			$this->dbConnection->rollBack();
-			throw $exception;
+			try {
+				$this->dbConnection->beginTransaction();
+				$this->onOwnerDeleted(new ShareAccessContext(overrideChecks: true), $shareUser);
+				$this->onInitiatorDeleted(new ShareAccessContext(overrideChecks: true), $shareUser);
+				$this->dbConnection->commit();
+			} catch (Exception $exception) {
+				$this->dbConnection->rollBack();
+				throw $exception;
+			}
 		}
 	}
 

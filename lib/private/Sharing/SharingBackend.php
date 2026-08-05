@@ -10,10 +10,10 @@ declare(strict_types=1);
 namespace OC\Sharing;
 
 use Exception;
+use NCU\Sharing\Event\SharesDefaultSetEvent;
 use NCU\Sharing\Exception\ShareInvalidException;
 use NCU\Sharing\Exception\ShareNotFoundException;
 use NCU\Sharing\ISharingBackend;
-use NCU\Sharing\ISharingManager;
 use NCU\Sharing\ISharingRegistry;
 use NCU\Sharing\Permission\ISharePermissionType;
 use NCU\Sharing\Permission\SharePermission;
@@ -30,6 +30,7 @@ use NCU\Sharing\ShareUser;
 use NCU\Sharing\Source\IShareSourceType;
 use NCU\Sharing\Source\ShareSource;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
@@ -50,7 +51,7 @@ final readonly class SharingBackend implements ISharingBackend {
 		private IUserManager $userManager,
 		private IAppConfig $appConfig,
 		private ISharingRegistry $registry,
-		private ISharingManager $manager,
+		private IEventDispatcher $eventDispatcher,
 		private ClassMapper $classMapper,
 	) {
 		$this->l10n = $factory->get('sharing');
@@ -981,6 +982,7 @@ final readonly class SharingBackend implements ISharingBackend {
 			}
 		}
 
+		$defaultSet = false;
 		foreach (array_keys($shares) as $id) {
 			foreach (array_keys($registryPropertyTypes) as $propertyTypeClass) {
 				$share = $shares[$id];
@@ -989,7 +991,8 @@ final readonly class SharingBackend implements ISharingBackend {
 					&& isset($shareSourceTypeClasses[$id], $shareRecipientTypeClasses[$id])
 					&& array_intersect($registryPropertyTypeCompatibleSourceTypeClasses[$propertyTypeClass], array_keys($shareSourceTypeClasses[$id])) !== []
 					&& array_intersect($registryPropertyTypeCompatibleRecipientTypeClasses[$propertyTypeClass], array_keys($shareRecipientTypeClasses[$id])) !== []) {
-					$shares[$id] = $this->manager->createSharePropertyDefaultValue($shares[$id], $propertyTypeClass);
+					$shares[$id] = $this->createSharePropertyDefaultValue($shares[$id], $propertyTypeClass);
+					$defaultSet = true;
 				}
 			}
 		}
@@ -998,11 +1001,91 @@ final readonly class SharingBackend implements ISharingBackend {
 			foreach (array_keys($shareCompatiblePermissionTypeClasses[$id]) as $permissionTypeClass) {
 				$share = $shares[$id];
 				if (!isset($share->permissions[$permissionTypeClass])) {
-					$shares[$id] = $this->manager->createSharePermissionDefaultValue($shares[$id], $permissionTypeClass);
+					$shares[$id] = $this->createSharePermissionDefaultValue($shares[$id], $permissionTypeClass);
+					$defaultSet = true;
 				}
 			}
 		}
 
+		if ($defaultSet) {
+			$event = new SharesDefaultSetEvent($shares);
+			$this->eventDispatcher->dispatchTyped($event);
+			$shares = $event->getShares();
+		}
+
 		return array_values($shares);
+	}
+
+	public function generateTimestamp(): int {
+		$time = (int)(microtime(true) * 1000.0);
+		if ($time < 0) {
+			throw new RuntimeException('Have you invented time travel?');
+		}
+
+		return $time;
+	}
+
+	/**
+	 * @param class-string<ISharePropertyType> $propertyTypeClass
+	 */
+	public function createSharePropertyDefaultValue(Share $share, string $propertyTypeClass): Share {
+		$timestamp = $this->generateTimestamp();
+		$this->setLastUpdated([$share->id], $timestamp);
+
+		if (($propertyType = $this->registry->getPropertyTypes()[$propertyTypeClass] ?? null) === null) {
+			throw new RuntimeException('The property is not registered: ' . $propertyTypeClass);
+		}
+
+		$property = new ShareProperty($propertyTypeClass, $propertyType->getDefaultValue($share));
+
+		$this->createShareProperty($share->id, $property);
+
+		$properties = $share->properties;
+		$properties[$propertyTypeClass] = $property;
+
+		$share = new Share(
+			$share->id,
+			$share->owner,
+			$timestamp,
+			$share->state,
+			$share->sources,
+			$share->recipients,
+			$properties,
+			$share->permissions,
+		);
+
+		return $share;
+	}
+
+	/**
+	 * @param class-string<ISharePermissionType> $permissionTypeClass
+	 */
+	public function createSharePermissionDefaultValue(Share $share, string $permissionTypeClass): Share {
+		$timestamp = $this->generateTimestamp();
+		$this->setLastUpdated([$share->id], $timestamp);
+
+		if (($permissionType = $this->registry->getPermissionTypes()[$permissionTypeClass] ?? null) === null) {
+			throw new RuntimeException('The permission is not registered: ' . $permissionTypeClass);
+		}
+
+		$permission = new SharePermission($permissionTypeClass, $permissionType->isEnabledByDefault());
+
+		$this->createSharePermission($share->id, $permission);
+
+		$permissions = $share->permissions;
+		$permissions[$permissionTypeClass] = $permission;
+
+		$share = new Share(
+			$share->id,
+			$share->owner,
+			$timestamp,
+			$share->state,
+			$share->sources,
+			$share->recipients,
+			$share->properties,
+			$permissions,
+		);
+
+		return $share;
 	}
 }
