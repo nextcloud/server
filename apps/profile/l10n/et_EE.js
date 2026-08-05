@@ -15,6 +15,7 @@ OC.L10N.register(
     "You have not added any info yet" : "Sa pole veel mingit infot lisanud",
     "{user} has not added any info yet" : "{user} pole veel mingit infot lisanud",
     "Error opening the user status modal, try hard refreshing the page" : "Kasutaja oleku modaalse vaate avamine ei õnnestunud, proovi lehte värskendada",
+    "Edit profile" : "Muuda profiili",
     "The headline and about sections will show up here" : "Alapealkirja ja teabe lõigud saavad olema nähtavad siin",
     "Profile not found" : "Profiili ei leidu",
     "The profile does not exist or is unavailable." : "Seda profiili kas pole olemas või teda pole saadaval.",
