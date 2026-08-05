@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace OCA\Files_Sharing\Listener;
 
+use OC\User\NoUserException;
 use OCA\Files_Sharing\AppInfo\Application;
 use OCA\Files_Sharing\Config\ConfigLexicon;
 use OCA\Files_Sharing\Event\UserShareAccessUpdatedEvent;
@@ -136,7 +137,14 @@ class SharesUpdatedListener implements IEventListener {
 	private function markOrRun(IUser $user, callable $callback): void {
 		$start = floatval($this->clock->now()->format('U.u'));
 		if ($this->cutOffMarkTime === -1.0 || $this->updatedTime < $this->cutOffMarkTime) {
-			$callback();
+			try {
+				$callback();
+			} catch (NoUserException $e) {
+				// A share recipient may reference a user id that no backend can resolve anymore
+				// (e.g. with LazyUser::getUID()) - like remnant / incorrectly removed user.
+				// Skip this recipient instead of aborting the share operation.
+				$this->logger->debug('Skipping share mount update for unresolvable user ' . $user->getUID(), ['exception' => $e]);
+			}
 		} else {
 			$this->markUserForRefresh($user);
 		}
