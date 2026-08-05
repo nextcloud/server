@@ -15,16 +15,19 @@ use OCA\DAV\CalDAV\PublicCalendar;
 use OCA\DAV\CalDAV\PublicCalendarRoot;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IL10N;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
+use Sabre\DAV\Exception\NotFound;
 use Test\TestCase;
 
 /**
@@ -36,6 +39,7 @@ use Test\TestCase;
 #[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class PublicCalendarRootTest extends TestCase {
 	public const UNIT_TEST_USER = '';
+	private const DISABLED_USER_PRINCIPAL = 'principals/users/disabled-caldav-unit-test';
 	private CalDavBackend $backend;
 	private PublicCalendarRoot $publicCalendarRoot;
 	private IL10N&MockObject $l10n;
@@ -43,6 +47,7 @@ class PublicCalendarRootTest extends TestCase {
 	protected IUserManager&MockObject $userManager;
 	protected IGroupManager&MockObject $groupManager;
 	protected IConfig&MockObject $config;
+	protected IAppConfig&MockObject $appConfig;
 	private ISecureRandom $random;
 	private LoggerInterface&MockObject $logger;
 	protected ICacheFactory&MockObject $cacheFactory;
@@ -87,9 +92,10 @@ class PublicCalendarRootTest extends TestCase {
 		);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 
 		$this->publicCalendarRoot = new PublicCalendarRoot($this->backend,
-			$this->l10n, $this->config, $this->logger);
+			$this->l10n, $this->config, $this->appConfig, $this->logger, $this->userManager);
 	}
 
 	protected function tearDown(): void {
@@ -106,7 +112,10 @@ class PublicCalendarRootTest extends TestCase {
 			->withAnyParameters()
 			->willReturn([]);
 
-		$books = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
+		$books = array_merge(
+			$this->backend->getCalendarsForUser(self::UNIT_TEST_USER),
+			$this->backend->getCalendarsForUser(self::DISABLED_USER_PRINCIPAL),
+		);
 		foreach ($books as $book) {
 			$this->backend->deleteCalendar($book['id'], true);
 		}
@@ -136,10 +145,32 @@ class PublicCalendarRootTest extends TestCase {
 		$this->assertSame([], $calendarResults);
 	}
 
-	protected function createPublicCalendar(): Calendar {
-		$this->backend->createCalendar(self::UNIT_TEST_USER, 'Example', []);
+	public function testGetChildHidesCalendarOfDisabledUser(): void {
+		$calendar = $this->createPublicCalendar(self::DISABLED_USER_PRINCIPAL);
+		$publicUri = $calendar->getPublishStatus();
 
-		$calendarInfo = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER)[0];
+		$this->mockDisabledOwner();
+		$this->setHideDisabledUserShares(true);
+
+		$this->expectException(NotFound::class);
+		$this->publicCalendarRoot->getChild($publicUri);
+	}
+
+	public function testGetChildServesCalendarOfDisabledUserWhenHidingIsDisabled(): void {
+		$calendar = $this->createPublicCalendar(self::DISABLED_USER_PRINCIPAL);
+		$publicUri = $calendar->getPublishStatus();
+
+		$this->mockDisabledOwner();
+		$this->setHideDisabledUserShares(false);
+
+		$calendarResult = $this->publicCalendarRoot->getChild($publicUri);
+		$this->assertEquals($calendar, $calendarResult);
+	}
+
+	protected function createPublicCalendar(string $principal = self::UNIT_TEST_USER): Calendar {
+		$this->backend->createCalendar($principal, 'Example', []);
+
+		$calendarInfo = $this->backend->getCalendarsForUser($principal)[0];
 		$calendar = new PublicCalendar($this->backend, $calendarInfo, $this->l10n, $this->config, $this->logger);
 		$publicUri = $calendar->setPublishStatus(true);
 
@@ -147,5 +178,19 @@ class PublicCalendarRootTest extends TestCase {
 		$calendar = new PublicCalendar($this->backend, $calendarInfo, $this->l10n, $this->config, $this->logger);
 
 		return $calendar;
+	}
+
+	private function mockDisabledOwner(): void {
+		$disabledUser = $this->createMock(IUser::class);
+		$disabledUser->method('isEnabled')
+			->willReturn(false);
+		$this->userManager->method('get')
+			->willReturn($disabledUser);
+	}
+
+	private function setHideDisabledUserShares(bool $hide): void {
+		$this->appConfig->method('getValueBool')
+			->with('files_sharing', 'hide_disabled_user_shares', 'yes')
+			->willReturn($hide);
 	}
 }
