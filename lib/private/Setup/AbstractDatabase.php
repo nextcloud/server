@@ -19,6 +19,12 @@ use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 abstract class AbstractDatabase {
+	/**
+	 * Installer options configuring an encrypted database connection.
+	 * @var string[]
+	 */
+	protected const array CONNECTION_ENCRYPTION_OPTIONS = ['dbdriveroptions'];
+
 	protected string $dbUser;
 	protected string $dbPassword;
 	protected string $dbName;
@@ -47,6 +53,13 @@ abstract class AbstractDatabase {
 		if (substr_count($config['dbname'], '.') >= 1) {
 			$errors[] = $this->trans->t('You cannot use dots in the database name %s', [$this->dbprettyname]);
 		}
+		foreach (static::CONNECTION_ENCRYPTION_OPTIONS as $option) {
+			if (isset($config[$option]) && !is_array($config[$option])) {
+				// Fail instead of ignoring the option, otherwise the instance would be
+				// installed with an unencrypted connection without the admin noticing.
+				$errors[] = $this->trans->t('The database option "%1$s" for %2$s has to be a list of values', [$option, $this->dbprettyname]);
+			}
+		}
 		return $errors;
 	}
 
@@ -62,11 +75,27 @@ abstract class AbstractDatabase {
 		// accept `false` both as bool and string, since setting config values from env will result in a string
 		$this->tryCreateDbUser = $createUserConfig !== false && $createUserConfig !== 'false';
 
-		$this->config->setValues([
+		$configValues = [
 			'dbname' => $dbName,
 			'dbhost' => $dbHost,
 			'dbtableprefix' => $dbTablePrefix,
-		]);
+		];
+
+		// An encrypted connection can only be configured through the system config, so the
+		// options have to be persisted before the first connection is opened.
+		foreach (static::CONNECTION_ENCRYPTION_OPTIONS as $option) {
+			if (empty($config[$option])) {
+				continue;
+			}
+			if (!is_array($config[$option])) {
+				// Rejected by validate() already, but subclasses may not use that check
+				$this->logger->error('Ignoring database option "{option}" passed to the installer because it is not a list of values', ['option' => $option]);
+				continue;
+			}
+			$configValues[$option] = $config[$option];
+		}
+
+		$this->config->setValues($configValues);
 
 		$this->dbUser = $dbUser;
 		$this->dbPassword = $dbPass;
