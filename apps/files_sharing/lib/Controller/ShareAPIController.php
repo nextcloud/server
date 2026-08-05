@@ -1523,7 +1523,8 @@ class ShareAPIController extends OCSController {
 					$sharedWith = substr($share->getSharedWith(), $shareWithStart, $shareWithLength);
 				}
 				try {
-					$member = Circles::getMember($sharedWith, $this->userId, 1);
+
+					$member = \OCA\Circles\Api\v1\Circles::getMember($sharedWith, $this->userId, 1);
 					if ($member->getLevel() >= 1) {
 						return true;
 					}
