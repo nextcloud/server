@@ -33,6 +33,8 @@ class FixKeyLocation extends Command {
 	private string $keyRootDirectory;
 	private View $rootView;
 	private Manager $encryptionManager;
+	/** @var list<string>|null */
+	private ?array $userKeyBasePaths = null;
 
 	public function __construct(
 		private IUserManager $userManager,
@@ -419,17 +421,35 @@ class FixKeyLocation extends Command {
 	}
 
 	/**
-	 * Base key paths of all users, the given user first. Users without a key tree are
-	 * skipped cheaply by the key search.
+	 * Base key paths of all existing user key trees, the given user first. Enumerated
+	 * from the key storage directory instead of the user backends: the search runs for
+	 * every file, and querying the backends pulls every user object into memory.
 	 *
 	 * @return \Generator<string>
 	 */
 	private function getUserBaseKeyPaths(IUser $firstUser): \Generator {
-		yield $this->getUserBaseKeyPath($firstUser);
+		$firstUserBasePath = $this->getUserBaseKeyPath($firstUser);
+		yield $firstUserBasePath;
 
-		foreach ($this->userManager->search('') as $user) {
-			if ($user->getUID() !== $firstUser->getUID()) {
-				yield $this->keyRootDirectory . '/' . $user->getUID() . '/files_encryption/keys';
+		if ($this->userKeyBasePaths === null) {
+			$this->userKeyBasePaths = [];
+			$dh = $this->rootView->opendir($this->keyRootDirectory === '' ? '/' : $this->keyRootDirectory);
+			if ($dh !== false) {
+				while (($entry = readdir($dh)) !== false) {
+					if ($entry === '.' || $entry === '..') {
+						continue;
+					}
+					$basePath = $this->keyRootDirectory . '/' . $entry . '/files_encryption/keys';
+					if ($this->rootView->is_dir($basePath)) {
+						$this->userKeyBasePaths[] = $basePath;
+					}
+				}
+				closedir($dh);
+			}
+		}
+		foreach ($this->userKeyBasePaths as $basePath) {
+			if ($basePath !== $firstUserBasePath) {
+				yield $basePath;
 			}
 		}
 	}
@@ -547,7 +567,7 @@ class FixKeyLocation extends Command {
 	private function markAsUnEncrypted(Node $node): void {
 		$node->getStorage()->getCache()->update($node->getId(), [
 			'encrypted' => 0,
-			'unencrypted_size' => 0
+			'unencrypted_size' => 0,
 		]);
 	}
 }
