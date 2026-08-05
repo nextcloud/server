@@ -14,6 +14,7 @@ use NCU\Sharing\ISharingRegistry;
 use NCU\Sharing\Recipient\ShareRecipient;
 use NCU\Sharing\ShareAccessContext;
 use OC\Core\Sharing\Recipient\UserShareRecipientType;
+use OC\Sharing\SharingManager;
 use OC\User\Database;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IDBConnection;
@@ -144,14 +145,14 @@ final class UserShareRecipientTypeTest extends TestCase {
 		$this->manager->addShareRecipient($accessContext, $id, new ShareRecipient($this->recipientType::class, $this->user2->getUID(), null));
 		$this->dbConnection->commit();
 
-		$before = $this->manager->generateTimestamp();
+		$before = $this->manager->getTime();
 		$this->user2->delete();
-		$after = $this->manager->generateTimestamp();
+		$after = $this->manager->getTime();
 
 		$this->dbConnection->beginTransaction();
 		$share = $this->manager->getShare($accessContext, $id);
-		$this->assertGreaterThanOrEqual($before, $share->lastUpdated);
-		$this->assertLessThanOrEqual($after, $share->lastUpdated);
+		$this->assertGreaterThanOrEqual(SharingManager::timeToMs($before), SharingManager::timeToMs($share->lastUpdated));
+		$this->assertLessThanOrEqual(SharingManager::timeToMs($after), SharingManager::timeToMs($share->lastUpdated));
 		$this->assertEquals([], $share->recipients);
 
 		$this->manager->deleteShare($accessContext, $id);

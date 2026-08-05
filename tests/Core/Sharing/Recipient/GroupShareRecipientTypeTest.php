@@ -15,6 +15,7 @@ use NCU\Sharing\Recipient\ShareRecipient;
 use NCU\Sharing\ShareAccessContext;
 use OC\Core\Sharing\Recipient\GroupShareRecipientType;
 use OC\Group\Database;
+use OC\Sharing\SharingManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IDBConnection;
 use OCP\IGroup;
@@ -140,14 +141,14 @@ final class GroupShareRecipientTypeTest extends TestCase {
 		$this->manager->addShareRecipient($accessContext, $id, new ShareRecipient($this->recipientType::class, $this->group1->getGID(), null));
 		$this->dbConnection->commit();
 
-		$before = $this->manager->generateTimestamp();
+		$before = $this->manager->getTime();
 		$this->group1->delete();
-		$after = $this->manager->generateTimestamp();
+		$after = $this->manager->getTime();
 
 		$this->dbConnection->beginTransaction();
 		$share = $this->manager->getShare($accessContext, $id);
-		$this->assertGreaterThanOrEqual($before, $share->lastUpdated);
-		$this->assertLessThanOrEqual($after, $share->lastUpdated);
+		$this->assertGreaterThanOrEqual(SharingManager::timeToMs($before), SharingManager::timeToMs($share->lastUpdated));
+		$this->assertLessThanOrEqual(SharingManager::timeToMs($after), SharingManager::timeToMs($share->lastUpdated));
 		$this->assertEquals([], $share->recipients);
 
 		$this->manager->deleteShare($accessContext, $id);

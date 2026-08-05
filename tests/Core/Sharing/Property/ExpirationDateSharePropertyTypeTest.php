@@ -72,7 +72,7 @@ final class ExpirationDateSharePropertyTypeTest extends TestCase {
 		return new Share(
 			'123',
 			new ShareUser($this->user->getUID(), null),
-			0,
+			new DateTimeImmutable(),
 			ShareState::Active,
 			[],
 			[],
@@ -98,7 +98,7 @@ final class ExpirationDateSharePropertyTypeTest extends TestCase {
 		$share = new Share(
 			'123',
 			new ShareUser('user', null),
-			0,
+			new DateTimeImmutable(),
 			ShareState::Active,
 			[],
 			[
@@ -133,7 +133,7 @@ final class ExpirationDateSharePropertyTypeTest extends TestCase {
 		$share = new Share(
 			'123',
 			new ShareUser('user', null),
-			0,
+			new DateTimeImmutable(),
 			ShareState::Active,
 			[],
 			[
@@ -167,7 +167,7 @@ final class ExpirationDateSharePropertyTypeTest extends TestCase {
 		$share = new Share(
 			'123',
 			new ShareUser('user', null),
-			0,
+			new DateTimeImmutable(),
 			ShareState::Active,
 			[],
 			[

@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Test\Sharing\Property;
 
+use DateTimeImmutable;
 use NCU\Sharing\Property\ABooleanSharePropertyType;
 use NCU\Sharing\Share;
 use NCU\Sharing\ShareState;
@@ -64,7 +65,7 @@ final class ABooleanSharePropertyTypeTest extends TestCase {
 		$share = new Share(
 			'123',
 			new ShareUser('user', null),
-			0,
+			new DateTimeImmutable(),
 			ShareState::Active,
 			[],
 			[],

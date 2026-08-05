@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Test\Sharing\Property;
 
+use DateTimeImmutable;
 use NCU\Sharing\Property\AEnumSharePropertyType;
 use NCU\Sharing\Share;
 use NCU\Sharing\ShareState;
@@ -78,7 +79,7 @@ final class AEnumSharePropertyTypeTest extends TestCase {
 		$share = new Share(
 			'123',
 			new ShareUser('user', null),
-			0,
+			new DateTimeImmutable(),
 			ShareState::Active,
 			[],
 			[],
