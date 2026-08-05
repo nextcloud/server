@@ -35,6 +35,8 @@ final class RemoteHostValidator implements IRemoteHostValidator {
 			return true;
 		}
 
+		$host = rtrim($host, '.');
+
 		$host = idn_to_utf8(strtolower(urldecode($host)));
 		if ($host === false) {
 			return false;

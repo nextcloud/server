@@ -29,6 +29,7 @@ class HostnameClassifierTest extends TestCase {
 			['another-host.local'],
 			['service.localhost'],
 			['randomdomain.internal'],
+			['another-host.local.'],
 		];
 	}
 
@@ -46,6 +47,7 @@ class HostnameClassifierTest extends TestCase {
 			['example.org'],
 			['host.domain'],
 			['cloud.domain.tld'],
+			['cloud.domain.tld.'],
 		];
 	}
 
