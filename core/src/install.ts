@@ -24,6 +24,19 @@ export type SetupConfig = {
 	dbhost: string
 	dbtype: DbType | ''
 
+	/** Encryption mode of the connection, pgsql only */
+	dbsslmode: string
+	/** Path to the CA certificate the database server is verified against */
+	dbsslca: string
+	/** Path to the client certificate used to authenticate against the database */
+	dbsslcert: string
+	/** Path to the private key of the client certificate */
+	dbsslkey: string
+	/** Path to the certificate revocation list, pgsql only */
+	dbsslcrl: string
+	/** Skip verifying that the server certificate matches the host, mysql only */
+	dbsslnoverify: boolean
+
 	databases: Partial<Record<DbType, string>>
 
 	hasAutoconfig: boolean

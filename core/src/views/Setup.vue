@@ -186,6 +186,69 @@
 						name="dbhost"
 						spellcheck="false" />
 				</fieldset>
+
+				<!-- Encrypted database connection -->
+				<details v-if="supportsEncryptedConnection" data-cy-setup-form-database-encryption>
+					<summary>{{ t('core', 'Encrypted database connection') }}</summary>
+
+					<fieldset>
+						<legend class="hidden-visually">
+							{{ t('core', 'Encrypted database connection') }}
+						</legend>
+
+						<NcTextField
+							v-if="config.dbtype === 'pgsql'"
+							v-model="config.dbsslmode"
+							:helper-text="t('core', 'Supported modes: disable, allow, prefer, require, verify-ca, verify-full.')"
+							:label="t('core', 'Encryption mode')"
+							autocapitalize="none"
+							autocomplete="off"
+							name="dbsslmode"
+							spellcheck="false" />
+
+						<NcTextField
+							v-model="config.dbsslca"
+							:helper-text="t('core', 'Has to be readable by the web server.')"
+							:label="t('core', 'CA certificate path')"
+							autocapitalize="none"
+							autocomplete="off"
+							name="dbsslca"
+							spellcheck="false" />
+
+						<NcTextField
+							v-model="config.dbsslcert"
+							:label="t('core', 'Client certificate path')"
+							autocapitalize="none"
+							autocomplete="off"
+							name="dbsslcert"
+							spellcheck="false" />
+
+						<NcTextField
+							v-model="config.dbsslkey"
+							:label="t('core', 'Client certificate key path')"
+							autocapitalize="none"
+							autocomplete="off"
+							name="dbsslkey"
+							spellcheck="false" />
+
+						<NcTextField
+							v-if="config.dbtype === 'pgsql'"
+							v-model="config.dbsslcrl"
+							:label="t('core', 'Certificate revocation list path')"
+							autocapitalize="none"
+							autocomplete="off"
+							name="dbsslcrl"
+							spellcheck="false" />
+
+						<NcCheckboxRadioSwitch
+							v-if="config.dbtype === 'mysql'"
+							v-model="config.dbsslnoverify"
+							name="dbsslnoverify"
+							type="checkbox">
+							{{ t('core', 'Do not verify that the server certificate matches the database host') }}
+						</NcCheckboxRadioSwitch>
+					</fieldset>
+				</details>
 			</fieldset>
 		</details>
 
@@ -322,6 +385,14 @@ export default defineComponent({
 				return 'warning'
 			}
 			return 'success'
+		},
+
+		/**
+		 * Only MySQL/MariaDB and PostgreSQL can be configured to use an encrypted
+		 * connection through the installer, see OC\Setup\AbstractDatabase.
+		 */
+		supportsEncryptedConnection(): boolean {
+			return this.config?.dbtype === 'mysql' || this.config?.dbtype === 'pgsql'
 		},
 
 		firstAndOnlyDatabase(): string | null {
