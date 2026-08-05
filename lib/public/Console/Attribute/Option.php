@@ -64,6 +64,7 @@ final class Option {
 	 * @param string $description The description of the option, displayed with the help page
 	 * @param string $name The name of the option
 	 * @param array|string|null $shortcut The shortcuts, can be null, a string of shortcuts delimited by | or an array of shortcuts
+	 * @since 35.0.0
 	 */
 	public function __construct(
 		public string $description = '',
