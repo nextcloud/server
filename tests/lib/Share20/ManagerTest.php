@@ -1195,10 +1195,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$thrown = null;
 
-		$this->userManager->method('userExists')->willReturnMap([
-			['user0', true],
-			['user1', true],
-		]);
+		$this->userManager->method('userExists')->willReturnCallBack(fn (string $userId) => $userId === 'user0' || $userId === 'user1');
 
 		$user0 = $this->createMock(IUser::class);
 		$user0
