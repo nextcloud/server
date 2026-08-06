@@ -99,6 +99,9 @@ const SETTINGS_ACTION_IDS = new Set(['logout'])
 // so they all show as "Settings". Other settings entries keep their own name.
 const SETTINGS_SECTION_IDS = new Set(['settings_personal', 'settings_administration', 'accessibility_settings'])
 
+// Entry of the app management page, the target of the "More apps" tile.
+const APP_MANAGEMENT_ID = 'appstore'
+
 export default defineComponent({
 	name: 'AppMenu',
 
@@ -211,7 +214,11 @@ export default defineComponent({
 		// utility tile is "More apps" (local app management) for admins and
 		// "App store" (apps.nextcloud.com) for everyone else.
 		gridItems(): INavigationEntry[] {
-			const tail = this.isAdmin ? this.moreAppsEntry : this.appStoreEntry
+			// On the app management page the "More apps" tile is the current
+			// entry, so it is marked active like any other app tile.
+			const tail = this.isAdmin
+				? { ...this.moreAppsEntry, active: this.currentApp?.id === APP_MANAGEMENT_ID }
+				: this.appStoreEntry
 			return [...this.appList, tail]
 		},
 	},
