@@ -28,11 +28,21 @@ final readonly class ShareSourceMetadata implements IShareSourceMetadata {
 	) {
 	}
 
+	/**
+	 * Get the human-readable name for the source
+	 *
+	 * @experimental 35.0.0
+	 */
 	#[\Override]
 	public function getDisplayName(): string {
 		return $this->displayName;
 	}
 
+	/**
+	 * Get the icon for the share source
+	 *
+	 * @experimental 35.0.0
+	 */
 	#[\Override]
 	public function getIcon(): null|ShareIconSVG|ShareIconURL {
 		return $this->icon;

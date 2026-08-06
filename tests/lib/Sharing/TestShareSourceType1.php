@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace Test\Sharing;
 
 use NCU\Sharing\Icon\ShareIconSVG;
-use NCU\Sharing\Icon\ShareIconURL;
 use NCU\Sharing\Source\IShareSourceMetadata;
 use NCU\Sharing\Source\IShareSourceType;
 use NCU\Sharing\Source\ShareSourceMetadata;
@@ -43,9 +42,16 @@ class TestShareSourceType1 implements IShareSourceType {
 				$this->validSources[$source],
 				new ShareIconSVG('<svg/>'),
 			);
-		} else {
-			return null;
 		}
+
+		return null;
+	}
+
+	#[\Override]
+	public function getSourcesMetadata(array $sources): array {
+		$metas = array_map($this->getSourceMetadata(...), $sources);
+		$metas = array_combine($sources, $metas);
+		return array_filter($metas);
 	}
 
 	#[\Override]

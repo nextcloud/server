@@ -13,21 +13,23 @@ use NCU\Sharing\ISharingRegistry;
 use NCU\Sharing\ShareAccessContext;
 use NCU\Sharing\Source\ShareSource;
 use OC\Files\Filesystem;
-use OC\User\Database;
 use OCA\Files\Sharing\Source\NodeShareSourceType;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Cache\IFileAccess;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\IDBConnection;
 use OCP\IURLGenerator;
 use OCP\IUser;
-use OCP\IUserManager;
 use OCP\Server;
 use PHPUnit\Framework\Attributes\Group;
 use Test\TestCase;
+use Test\Traits\UserTrait;
 
 #[Group(name: 'DB')]
 final class NodeShareSourceTypeTest extends TestCase {
+	use UserTrait;
+
 	private IDBConnection $dbConnection;
 
 	private ISharingManager $manager;
@@ -46,18 +48,20 @@ final class NodeShareSourceTypeTest extends TestCase {
 
 		$this->manager = Server::get(ISharingManager::class);
 
-		$userManager = Server::get(IUserManager::class);
-		$userManager->clearBackends();
-		$userManager->registerBackend(new Database());
-
-		$user1 = $userManager->createUser('user1', 'password');
-		$this->assertNotFalse($user1);
+		$user1 = $this->createUser('user1', 'password');
 		$this->user1 = $user1;
 
 		$userFolder = Server::get(IRootFolder::class)->getUserFolder($this->user1->getUID());
 		$this->node = $userFolder->newFile('foo.txt', 'bar');
 
-		$this->sourceType = new NodeShareSourceType(Server::get(IEventDispatcher::class), $this->dbConnection, Server::get(IRootFolder::class), Server::get(IURLGenerator::class), $this->manager);
+		$this->sourceType = new NodeShareSourceType(
+			Server::get(IEventDispatcher::class),
+			$this->dbConnection,
+			Server::get(IRootFolder::class),
+			Server::get(IURLGenerator::class),
+			$this->manager,
+			Server::get(IFileAccess::class),
+		);
 	}
 
 	#[\Override]
@@ -75,7 +79,7 @@ final class NodeShareSourceTypeTest extends TestCase {
 	}
 
 	public function testGetSourceDisplayName(): void {
-		$this->assertEquals('foo.txt', $this->sourceType->getSourceMetadata((string)$this->node->getId()));
+		$this->assertEquals('foo.txt', $this->sourceType->getSourceMetadata((string)$this->node->getId())?->getDisplayName());
 	}
 
 	public function testGetSourceIcon(): void {
@@ -83,7 +87,7 @@ final class NodeShareSourceTypeTest extends TestCase {
 
 		$icon = $this->sourceType->getSourceMetadata($source)?->getIcon();
 		if (!$icon instanceof ShareIconURL) {
-			$this->fail("Unexpected share icon for $source");
+			$this->fail('Unexpected share icon for ' . $source);
 		}
 
 		foreach ([$icon->light, $icon->dark] as $url) {

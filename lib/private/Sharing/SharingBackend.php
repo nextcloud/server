@@ -27,6 +27,7 @@ use NCU\Sharing\Share;
 use NCU\Sharing\ShareAccessContext;
 use NCU\Sharing\ShareState;
 use NCU\Sharing\ShareUser;
+use NCU\Sharing\Source\IShareSourceMetadata;
 use NCU\Sharing\Source\IShareSourceType;
 use NCU\Sharing\Source\ShareSource;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -697,9 +698,14 @@ final readonly class SharingBackend implements ISharingBackend {
 		$chunks = array_chunk(array_keys($shares), 1000);
 
 		$registrySourceTypes = $this->registry->getSourceTypes();
-		/** @var array<int, array<class-string<IShareSourceType>, bool>> $shareSourceTypeClasses */
+		/** @var array<non-empty-string, array<class-string<IShareSourceType>, bool>> $shareSourceTypeClasses */
 		$shareSourceTypeClasses = [];
 		foreach ($chunks as $chunk) {
+			/** @var array<class-string<IShareSourceType>, non-empty-string[]> $shareSourceValues */
+			$shareSourceValues = [];
+			/** @var array<class-string<IShareSourceType>, array<non-empty-string, IShareSourceMetadata>> $shareSourceMetas */
+			$shareSourceMetas = [];
+
 			$qb = $this->connection->getQueryBuilder();
 			$qb
 				->select(
@@ -711,21 +717,38 @@ final readonly class SharingBackend implements ISharingBackend {
 				->where($qb->expr()->in('ss.share_id', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY)));
 
 			$result = $qb->executeQuery();
-			foreach ($result->fetchAll() as $row) {
-				/** @var class-string<IShareSourceType> $typeClass */
+			/** @var array{source_class: class-string<IShareSourceType>, source_value: non-empty-string, share_id: int}[] $rows */
+			$rows = $result->fetchAll();
+
+			foreach ($rows as $row) {
+				$typeClass = $row['source_class'];
+				$value = $row['source_value'];
+
+				$shareSourceValues[$typeClass] ??= [];
+				$shareSourceValues[$typeClass][] = $value;
+			}
+
+			foreach ($shareSourceValues as $typeClass => $values) {
+				if (($sourceType = ($this->registry->getSourceTypes()[$typeClass] ?? null)) === null) {
+					throw new RuntimeException('The source type is not registered: ' . $typeClass);
+				}
+
+				$shareSourceMetas[$typeClass] = $sourceType->getSourcesMetadata($values);
+			}
+
+			foreach ($rows as $row) {
 				$typeClass = $row['source_class'];
 				if (!isset($registrySourceTypes[$typeClass])) {
 					// Skip sources that are currently not compatible, but don't remove them.
 					continue;
 				}
 
-				/** @var non-empty-string $value */
 				$value = $row['source_value'];
-				/** @var non-empty-string $id */
 				$id = (string)$row['share_id'];
 				$shares[$id]['sources'][] = new ShareSource(
 					$typeClass,
 					$value,
+					$shareSourceMetas[$typeClass][$value] ?? null,
 				);
 
 				$shareSourceTypeClasses[$id] ??= [];
@@ -907,6 +930,7 @@ final readonly class SharingBackend implements ISharingBackend {
 		/** @var array<int, array<class-string<ISharePermissionType>, bool>> $shareCompatiblePermissionTypeClasses */
 		$shareCompatiblePermissionTypeClasses = [];
 		foreach (array_keys($shares) as $id) {
+			$id = (string)$id;
 			$shareCompatiblePermissionTypeClasses[$id] = [];
 			foreach ($registryGenericPermissionTypeClasses as $permissionTypeClass) {
 				$shareCompatiblePermissionTypeClasses[$id][$permissionTypeClass] = true;
@@ -982,6 +1006,7 @@ final readonly class SharingBackend implements ISharingBackend {
 		}
 
 		foreach (array_keys($shares) as $id) {
+			$id = (string)$id;
 			foreach (array_keys($registryPropertyTypes) as $propertyTypeClass) {
 				$share = $shares[$id];
 				if (

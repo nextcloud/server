@@ -38,10 +38,16 @@ interface IShareSourceType {
 
 	/**
 	 * @param non-empty-string $source
-	 * @return ?IShareSourceMetadata
 	 * @experimental 35.0.0
 	 */
 	public function getSourceMetadata(string $source): ?IShareSourceMetadata;
+
+	/**
+	 * @param non-empty-string[] $sources
+	 * @return array<non-empty-string, IShareSourceMetadata>
+	 * @experimental 35.0.0
+	 */
+	public function getSourcesMetadata(array $sources): array;
 
 	/**
 	 * @param non-empty-string $userId

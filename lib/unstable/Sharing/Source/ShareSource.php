@@ -38,9 +38,10 @@ final class ShareSource {
 			throw new RuntimeException('The source type is not registered: ' . $this->class);
 		}
 
-		if (!$this->metadata) {
+		if (!$this->metadata instanceof \NCU\Sharing\Source\IShareSourceMetadata) {
 			$this->metadata = $sourceType->getSourceMetadata($this->value) ?? new ShareSourceMetadata($this->value, null);
 		}
+
 		return $this->metadata;
 	}
 
