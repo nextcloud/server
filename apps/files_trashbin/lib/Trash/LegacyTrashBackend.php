@@ -22,6 +22,17 @@ use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 use OCP\IUserManager;
 
+/**
+ * Default backend provided by files_trashbin.
+ *
+ * This backend is registered for the generic IStorage interface. Specialized
+ * backends can be registered for specific storage types and take precedence
+ * when handling those storages.
+ *
+ * The "legacy" designation refers to the files_trashbin storage layout and
+ * static Trashbin API that this class wraps and exposes through the
+ * ITrashBackend interface, not to this backend being unused or deprecated.
+ */
 class LegacyTrashBackend implements ITrashBackend {
 	/** @var array<string, string> */
 	private array $deletedFiles = [];
