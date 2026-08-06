@@ -20,6 +20,7 @@ use OCA\Files_Trashbin\Events\MoveToTrashEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\EventDispatcher\IEventListener;
+use OCP\Files\Cache\IFileAccess;
 use OCP\Files\Events\Node\NodeDeletedEvent;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
@@ -39,6 +40,7 @@ final readonly class NodeShareSourceType implements IShareSourceType, IEventList
 		private IRootFolder $rootFolder,
 		private IURLGenerator $urlGenerator,
 		private ISharingManager $manager,
+		private IFileAccess $fileAccess,
 	) {
 		$eventDispatcher->addServiceListener(NodeDeletedEvent::class, self::class);
 		$eventDispatcher->addServiceListener(MoveToTrashEvent::class, self::class);
@@ -56,9 +58,9 @@ final readonly class NodeShareSourceType implements IShareSourceType, IEventList
 
 	#[\Override]
 	public function getSourceMetadata(string $source): ?IShareSourceMetadata {
-		$node = $this->rootFolder->getFirstNodeById((int)$source);
-		if ($node) {
-			return new NodeShareSourceMetadata($this->urlGenerator, $node);
+		$cacheEntry = $this->fileAccess->getByFileId((int)$source);
+		if ($cacheEntry) {
+			return new NodeShareSourceMetadata($this->urlGenerator, $cacheEntry);
 		} else {
 			return null;
 		}
