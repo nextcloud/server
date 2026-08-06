@@ -42,6 +42,7 @@ use OCP\AppFramework\Attribute\Consumable;
 #[Attribute(Attribute::TARGET_PROPERTY)]
 #[Consumable(since: '35.0.0')]
 final readonly class ManyToOne {
+	/** @since 35.0.0 */
 	public function __construct(
 		/** @param class-string<object> $targetEntity */
 		public string $targetEntity,

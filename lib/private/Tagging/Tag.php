@@ -12,7 +12,6 @@ use OCP\AppFramework\ORM\Attribute\Column;
 use OCP\AppFramework\ORM\Attribute\Entity;
 use OCP\AppFramework\ORM\Attribute\Id;
 use OCP\DB\Types;
-use OCP\Snowflake\ISnowflakeGenerator;
 
 /**
  * Class to represent a tag.

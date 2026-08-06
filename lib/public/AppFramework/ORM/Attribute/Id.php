@@ -28,6 +28,7 @@ use OCP\Snowflake\ISnowflakeGenerator;
 #[Attribute(Attribute::TARGET_PROPERTY)]
 #[Consumable(since: '35.0.0')]
 final readonly class Id {
+	/** @since 35.0.0 */
 	public function __construct(
 		/** @param class-string<ISnowflakeGenerator> $generatorClass */
 		public ?string $generatorClass = null,

@@ -9,7 +9,6 @@
 namespace OC\Tagging;
 
 use OCP\AppFramework\ORM\Repository;
-use OCP\IDBConnection;
 
 /**
  * Mapper for Tag entity
@@ -17,9 +16,7 @@ use OCP\IDBConnection;
  * @template-extends Repository<Tag>
  */
 class TagMapper extends Repository {
-	public function __construct(IDBConnection $db) {
-		parent::__construct($db, Tag::class);
-	}
+	public const string entityClass = Tag::class;
 
 	/**
 	 * Load tags from the database.

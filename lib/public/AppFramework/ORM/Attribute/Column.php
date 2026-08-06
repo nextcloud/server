@@ -27,6 +27,7 @@ use OCP\DB\Types;
 #[Attribute(Attribute::TARGET_PROPERTY)]
 #[Consumable(since: '35.0.0')]
 final readonly class Column {
+	/** @since 35.0.0 */
 	public function __construct(
 		/** @param non-empty-string $name The name of the column in the database. */
 		public string $name,

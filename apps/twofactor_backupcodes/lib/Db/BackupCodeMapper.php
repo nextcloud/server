@@ -12,16 +12,13 @@ namespace OCA\TwoFactorBackupCodes\Db;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\ORM\Repository;
 use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\IDBConnection;
 use OCP\IUser;
 
 /**
  * @template-extends Repository<BackupCode>
  */
 class BackupCodeMapper extends Repository {
-	public function __construct(IDBConnection $db) {
-		parent::__construct($db, BackupCode::class);
-	}
+	public const string entityClass = BackupCode::class;
 
 	/**
 	 * @return \Generator<BackupCode>

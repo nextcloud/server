@@ -21,7 +21,7 @@ use OCP\Snowflake\ISnowflakeGenerator;
 
 class EntityManager {
 	public function __construct(
-		readonly private IDBConnection $connection,
+		private readonly IDBConnection $connection,
 	) {
 	}
 
@@ -43,12 +43,17 @@ class EntityManager {
 	}
 
 	/**
+	 * Generic, runtime-typed repository factory for callers that only have the entity class as
+	 * a value (e.g. tests). Hand-written repositories (e.g. BackupCodeMapper) should instead
+	 * extend Repository and override its `entityClass` constant, which also gets them proper
+	 * static analysis of their entity type.
+	 *
 	 * @template T of object
 	 * @param class-string<T> $entityClass
 	 * @return Repository<T>
 	 */
 	public function getRepository(string $entityClass): Repository {
-		return new Repository($this->connection, $entityClass);
+		return new Repository($this->connection, $this, $entityClass);
 	}
 
 	/**
