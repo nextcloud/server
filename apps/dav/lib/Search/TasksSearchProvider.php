@@ -14,6 +14,10 @@ use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;
 use OCP\Search\SearchResultEntry;
 use Sabre\VObject\Component;
+use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\InvalidDataException;
+use Sabre\VObject\ParseException;
+use Sabre\VObject\Reader;
 
 /**
  * Class TasksSearchProvider
@@ -93,8 +97,20 @@ class TasksSearchProvider extends ACalendarSearchProvider {
 				'until' => $query->getFilter('until'),
 			]
 		);
-		$formattedResults = \array_map(function (array $taskRow) use ($calendarsById, $subscriptionsById):SearchResultEntry {
-			$component = $this->getPrimaryComponent($taskRow['calendardata'], self::$componentType);
+		$formattedResults = [];
+		foreach ($searchResults as $taskRow) {
+			try {
+				$vCalendar = Reader::read($taskRow['calendardata'], Reader::OPTION_FORGIVING);
+			} catch (ParseException|InvalidDataException) {
+				continue;
+			}
+			if (!$vCalendar instanceof VCalendar) {
+				continue;
+			}
+			$component = $this->getPrimaryComponent($vCalendar, self::$componentType);
+			if ($component === null) {
+				continue;
+			}
 			$title = (string)($component->SUMMARY ?? $this->l10n->t('Untitled task'));
 			$subline = $this->generateSubline($component);
 
@@ -105,13 +121,17 @@ class TasksSearchProvider extends ACalendarSearchProvider {
 			}
 			$resourceUrl = $this->getDeepLinkToTasksApp($calendar['uri'], $taskRow['uri']);
 
-			return new SearchResultEntry('', $title, $subline, $resourceUrl, 'icon-checkmark', false);
-		}, $searchResults);
+			$formattedResults[] = new SearchResultEntry('', $title, $subline, $resourceUrl, 'icon-checkmark', false);
+		}
 
+		// Advance the cursor by the number of backend rows consumed, not by
+		// the number of formatted results, so a page where every row gets
+		// dropped (invalid data) still moves the cursor forward instead of
+		// stalling pagination.
 		return SearchResult::paginated(
 			$this->getName(),
 			$formattedResults,
-			$query->getCursor() + count($formattedResults)
+			$query->getCursor() + count($searchResults)
 		);
 	}
 
