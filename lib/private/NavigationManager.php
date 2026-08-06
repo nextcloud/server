@@ -34,7 +34,7 @@ class NavigationManager implements INavigationManager {
 	 * negative to keep this group in front of everything else.
 	 * Apps that are not listed keep their own order.
 	 */
-	private const DEFAULT_APP_ORDER = [
+	private const array DEFAULT_APP_ORDER = [
 		// Basics
 		'dashboard' => -100,
 		'files' => -99,
@@ -54,15 +54,20 @@ class NavigationManager implements INavigationManager {
 		'activity' => -88,
 	];
 
+	protected ?string $activeEntry = null;
 	/** @var array<string, NavigationEntryOutput> */
 	protected array $entries = [];
 	/** @var list<callable(): NavigationEntry> */
 	protected array $closureEntries = [];
-	protected ?string $activeEntry = null;
-	protected array $unreadCounters = [];
-	protected bool $init = false;
 	/** User defined app order (cached for the `add` function) */
-	private ?array $customAppOrder = null;
+	protected ?array $customAppOrder = null;
+	/** @var array<string, int> */
+	protected array $unreadCounters = [];
+
+	/** true if the internal state has been initialized */
+	protected bool $initAppOrderDone = false;
+	/** true if all apps have been loaded by the App Manager */
+	protected bool $initSetupDone = false;
 	/** List of loaded app info */
 	private array $loadedAppInfo = [];
 
@@ -80,11 +85,12 @@ class NavigationManager implements INavigationManager {
 
 	#[Override]
 	public function add(array|callable $entry): void {
-		if ($entry instanceof \Closure) {
+		if (is_callable($entry)) {
 			$this->closureEntries[] = $entry;
 			return;
 		}
-		$this->init();
+		// if needed initialize the internal state to allow setting app order and default app
+		$this->initCustomAppOrder();
 
 		$id = $entry['id'];
 
@@ -201,7 +207,7 @@ class NavigationManager implements INavigationManager {
 
 		if ($resetInit) {
 			$this->loadedAppInfo = [];
-			$this->init = false;
+			$this->initAppOrderDone = false;
 		}
 	}
 
@@ -219,11 +225,11 @@ class NavigationManager implements INavigationManager {
 	 * Initialize the internal state.
 	 * This loads the default app mapping and user mapping for app ordering.
 	 */
-	private function init(): void {
-		if ($this->init) {
+	private function initCustomAppOrder(): void {
+		if ($this->initAppOrderDone) {
 			return;
 		}
-		$this->init = true;
+		$this->initAppOrderDone = true;
 
 		if ($this->customAppOrder === null) {
 			if ($this->userSession->isLoggedIn()) {
@@ -237,20 +243,22 @@ class NavigationManager implements INavigationManager {
 
 	/**
 	 * Setup the navigation manager.
+	 *
 	 * @internal - This is only used by Nextcloud core to setup the navigation manager. It is not intended for use by apps.
 	 */
 	public function setup(): void {
-		// Resolve app navigation closures
-		while ($c = array_pop($this->closureEntries)) {
-			$this->add($c());
-		}
-
 		// Resolve dynamically added navigation entries via event listeners
 		$this->eventDispatcher->dispatchTyped(new LoadAdditionalEntriesEvent());
+
+		// mark setup as done to allow performance optimizations
+		$this->initSetupDone = true;
 	}
 
 	/**
-	 * Resolve classic info.xml based navigation entires.
+	 * Resolve app navigation entries.
+	 *
+	 * This is called every time by any getter as some code for legacy reasons relies
+	 * on the navigation entries being available before the app loading is finished.
 	 * Some code relies on this to be available earlier then the app loading finished.
 	 * So we need to resolve the navigation entries here, even if not all apps are loaded yet.
 	 */
@@ -340,6 +348,19 @@ class NavigationManager implements INavigationManager {
 					'app' => $app,
 				] : []
 				));
+			}
+		}
+
+		// once all apps are loaded we can resolve the app navigation closures
+		if ($this->initSetupDone) {
+			// This has to be done on every call,
+			// as apps might add new navigation entries via closures at any time
+			while ($c = array_pop($this->closureEntries)) {
+				try {
+					$this->add($c());
+				} catch (\Throwable $e) {
+					$this->logger->error('Failed to add navigation entry from closure', ['exception' => $e]);
+				}
 			}
 		}
 	}

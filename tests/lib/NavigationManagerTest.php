@@ -172,6 +172,35 @@ class NavigationManagerTest extends TestCase {
 		$this->assertEmpty($this->navigationManager->getAll('all'), 'Expected no navigation entry exists after clear()');
 	}
 
+	public function testAddClosureAfterSetup(): void {
+		$this->navigationManager->setup();
+		$this->assertEmpty($this->navigationManager->getAll('all'), 'Expected no navigation entry exists');
+
+		$numberOfCalls = 0;
+		$this->navigationManager->add(function () use (&$numberOfCalls) {
+			$numberOfCalls++;
+
+			return [
+				'id' => 'late entry',
+				'name' => 'link text',
+				'order' => 1,
+				'href' => 'url',
+			];
+		});
+
+		$this->assertEquals(0, $numberOfCalls, 'Expected that the closure is not called by add()');
+
+		$navigationEntries = $this->navigationManager->getAll('all');
+		$this->assertEquals(1, $numberOfCalls, 'Expected that the closure added after setup() is called by getAll()');
+		$this->assertCount(1, $navigationEntries, 'Expected that 1 navigation entry exists');
+		$this->assertArrayHasKey('late entry', $navigationEntries);
+
+		$navigationEntries = $this->navigationManager->getAll('all');
+		$this->assertEquals(1, $numberOfCalls, 'Expected that the closure is only called once');
+		$this->assertCount(1, $navigationEntries, 'Expected that 1 navigation entry exists');
+		$this->assertArrayHasKey('late entry', $navigationEntries);
+	}
+
 	public function testAddArrayClearGetAll(): void {
 		$entry = [
 			'id' => 'entry id',
