@@ -28,6 +28,32 @@ use Psr\Log\LoggerInterface;
  * @psalm-import-type NavigationEntryOutput from INavigationManager
  */
 class NavigationManager implements INavigationManager {
+	/**
+	 * Default app menu order, grouped by topic with four apps per row.
+	 * Apps ship very different orders in their info.xml, so the values are
+	 * negative to keep this group in front of everything else.
+	 * Apps that are not listed keep their own order.
+	 */
+	private const DEFAULT_APP_ORDER = [
+		// Basics
+		'dashboard' => -100,
+		'files' => -99,
+		'office' => -98,
+		'photos' => -97,
+		// Collaboration
+		'spreed' => -96,
+		'mail' => -95,
+		'calendar' => -94,
+		'contacts' => -93,
+		// Productivity
+		'deck' => -92,
+		'collectives' => -91,
+		'tables' => -90,
+		'circles' => -89,
+		// All other apps follow, starting with Activity
+		'activity' => -88,
+	];
+
 	/** @var array<string, NavigationEntryOutput> */
 	protected array $entries = [];
 	/** @var list<callable(): NavigationEntry> */
@@ -80,8 +106,11 @@ class NavigationManager implements INavigationManager {
 				$entry['app'] = $id;
 			}
 
-			// Set order from user defined app order
-			$entry['order'] = (int)($this->customAppOrder[$id]['order'] ?? $entry['order'] ?? 100);
+			// Set order from user defined app order, then the default app order.
+			// The default order is skipped for users that sorted the apps themselves,
+			// so a newly installed app does not jump to the front of their order.
+			$defaultOrder = $this->customAppOrder === [] ? (self::DEFAULT_APP_ORDER[$id] ?? null) : null;
+			$entry['order'] = (int)($this->customAppOrder[$id]['order'] ?? $defaultOrder ?? $entry['order'] ?? 100);
 		}
 
 		$this->entries[$id] = $entry;
