@@ -259,7 +259,8 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 	 * @since 33.0.0
 	 */
 	#[\Override]
-	public function getIncomingSignedRequest(?string $origin = null): ?IIncomingSignedRequest {
+	public function getIncomingSignedRequest(?string $ocmAddress = null): ?IIncomingSignedRequest {
+		$origin = $ocmAddress !== null ? $this->getHostFromOcmAddress($ocmAddress) : null;
 		try {
 			$signedRequest = $this->signatureManager->getIncomingSignedRequest($this->signatoryManager, null, $origin);
 			$this->logger->debug('signed request available', ['signedRequest' => $signedRequest]);
@@ -316,8 +317,7 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 	 * @return string the host (with port) of the OCM address
 	 * @throws IncomingRequestException on malformed address or unresolvable host
 	 */
-	#[\Override]
-	public function getHostFromOcmAddress(string $entry): string {
+	private function getHostFromOcmAddress(string $entry): string {
 		try {
 			$cloudId = $this->cloudIdManager->resolveCloudId(trim($entry, '@'));
 			return $this->signatureManager->extractIdentityFromUri($cloudId->getRemote());

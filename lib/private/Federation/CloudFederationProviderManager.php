@@ -18,7 +18,6 @@ use OCP\Federation\ICloudFederationProvider;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudFederationShare;
 use OCP\Federation\ICloudIdManager;
-use OCP\Federation\ISignedCloudFederationProvider;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
@@ -104,39 +103,6 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 		} else {
 			throw new ProviderDoesNotExistsException($resourceType);
 		}
-	}
-
-	/**
-	 * @inheritDoc
-	 *
-	 * Notifications resolve via sharedSecret; shares via owner/sender.
-	 */
-	#[\Override]
-	public function resolveSenderIdentity(array $body): ?string {
-		$resourceType = $body['resourceType'] ?? '';
-		if ($resourceType !== '') {
-			$notification = $body['notification'] ?? null;
-			$sharedSecret = is_array($notification) ? ($notification['sharedSecret'] ?? '') : '';
-			if ($sharedSecret !== '') {
-				try {
-					$provider = $this->getCloudFederationProvider($resourceType);
-					if ($provider instanceof ISignedCloudFederationProvider || $provider instanceof \NCU\Federation\ISignedCloudFederationProvider) {
-						$identity = $provider->getFederationIdFromSharedSecret($sharedSecret, is_array($notification) ? $notification : []);
-						if ($identity !== '') {
-							return $identity;
-						}
-					}
-				} catch (\Exception) {
-					// unresolved; fall through to share-style fields
-				}
-			}
-		}
-		foreach (['owner', 'sender', 'sharedBy'] as $field) {
-			if (isset($body[$field]) && is_string($body[$field]) && $body[$field] !== '') {
-				return $body[$field];
-			}
-		}
-		return null;
 	}
 
 	/**
