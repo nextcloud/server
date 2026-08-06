@@ -72,25 +72,28 @@ const unreadLabel = computed(() => {
 	flex-direction: column;
 	align-items: center;
 	gap: var(--default-grid-baseline);
-	// Inset so the hover/focus highlight floats around the circle and label
-	// rather than sitting flush against the icon at the top edge.
+	// Keeps the grown circle and the focus ring off the tile's edge.
 	padding-block: var(--default-grid-baseline);
 	border-radius: var(--border-radius-element);
 	text-decoration: none;
 	color: var(--color-main-text);
 	min-width: 0;
 
-	&:hover,
-	&:focus-visible {
-		background-color: var(--color-background-hover);
-	}
-
 	// Inset ring instead of outline + offset: the offset version visibly
 	// clips at the popover's rounded edge for items in the first/last row
-	// or column. The inset shadow stays inside the highlight rectangle.
+	// or column. The inset shadow stays inside the tile's own bounds.
 	&:focus-visible {
 		outline: none;
 		box-shadow: inset 0 0 0 2px var(--color-primary-element);
+	}
+
+	&:hover,
+	&:focus-visible {
+		--app-icon-scale: 1.08;
+	}
+
+	&:active {
+		--app-icon-scale: 0.96;
 	}
 
 	&__unread {
