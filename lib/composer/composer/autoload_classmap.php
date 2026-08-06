@@ -1312,6 +1312,7 @@ return array(
     'OC\\Avatar\\AvatarManager' => $baseDir . '/lib/private/Avatar/AvatarManager.php',
     'OC\\Avatar\\GuestAvatar' => $baseDir . '/lib/private/Avatar/GuestAvatar.php',
     'OC\\Avatar\\PlaceholderAvatar' => $baseDir . '/lib/private/Avatar/PlaceholderAvatar.php',
+    'OC\\Avatar\\RemoteAvatar' => $baseDir . '/lib/private/Avatar/RemoteAvatar.php',
     'OC\\Avatar\\UserAvatar' => $baseDir . '/lib/private/Avatar/UserAvatar.php',
     'OC\\BackgroundJob\\JobClassesRegistry' => $baseDir . '/lib/private/BackgroundJob/JobClassesRegistry.php',
     'OC\\BackgroundJob\\JobList' => $baseDir . '/lib/private/BackgroundJob/JobList.php',

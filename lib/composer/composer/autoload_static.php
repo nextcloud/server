@@ -1353,6 +1353,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Avatar\\AvatarManager' => __DIR__ . '/../../..' . '/lib/private/Avatar/AvatarManager.php',
         'OC\\Avatar\\GuestAvatar' => __DIR__ . '/../../..' . '/lib/private/Avatar/GuestAvatar.php',
         'OC\\Avatar\\PlaceholderAvatar' => __DIR__ . '/../../..' . '/lib/private/Avatar/PlaceholderAvatar.php',
+        'OC\\Avatar\\RemoteAvatar' => __DIR__ . '/../../..' . '/lib/private/Avatar/RemoteAvatar.php',
         'OC\\Avatar\\UserAvatar' => __DIR__ . '/../../..' . '/lib/private/Avatar/UserAvatar.php',
         'OC\\BackgroundJob\\JobClassesRegistry' => __DIR__ . '/../../..' . '/lib/private/BackgroundJob/JobClassesRegistry.php',
         'OC\\BackgroundJob\\JobList' => __DIR__ . '/../../..' . '/lib/private/BackgroundJob/JobList.php',
