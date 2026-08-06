@@ -481,6 +481,53 @@ class NavigationManagerTest extends TestCase {
 	}
 
 	/**
+	 * Known apps get a default order, all other apps keep the order from their info.xml.
+	 */
+	public function testDefaultAppOrder(): void {
+		$this->userSession->method('isLoggedIn')->willReturn(false);
+		$this->appManager->method('getEnabledApps')->willReturn([]);
+		$this->appManager->method('isEnabledForUser')->willReturn(true);
+
+		// order as shipped by the apps themselves
+		$apps = ['circles' => 80, 'activity' => 1, 'other' => 2, 'spreed' => -5, 'files' => 0, 'dashboard' => -10];
+		foreach ($apps as $id => $order) {
+			$this->navigationManager->add(['id' => $id, 'name' => $id, 'href' => '/', 'order' => $order]);
+		}
+
+		$this->assertSame(
+			['dashboard', 'files', 'spreed', 'circles', 'activity', 'other'],
+			array_keys($this->navigationManager->getAll()),
+		);
+	}
+
+	/**
+	 * Users that sorted the apps themselves keep their order, also for apps they never sorted.
+	 */
+	public function testDefaultAppOrderIsSkippedForCustomOrder(): void {
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('user001');
+		$this->userSession->method('getUser')->willReturn($user);
+		$this->userSession->method('isLoggedIn')->willReturn(true);
+		$this->appManager->method('getEnabledAppsForUser')->willReturn([]);
+		$this->appManager->method('isEnabledForUser')->willReturn(true);
+		$this->config->method('getUserValue')
+			->willReturnCallback(static function (string $userId, string $appName, string $key, mixed $default = '') {
+				return $key === 'apporder' ? json_encode(['other' => ['app' => 'other', 'order' => 0]]) : $default;
+			});
+
+		// `circles` is not part of the user order, so it keeps the order from its info.xml
+		// instead of moving to the front of the user order
+		foreach (['other' => 2, 'circles' => 80] as $id => $order) {
+			$this->navigationManager->add(['id' => $id, 'name' => $id, 'href' => '/', 'order' => $order]);
+		}
+
+		$this->assertSame(
+			['other', 'circles'],
+			array_keys($this->navigationManager->getAll()),
+		);
+	}
+
+	/**
 	 * Navigation entries of enabled apps that are not booted yet must not be resolved.
 	 */
 	public function testResolveOnlyLoadedApps(): void {
