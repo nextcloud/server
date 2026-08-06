@@ -356,6 +356,7 @@ class Repository {
 	 *
 	 * @psalm-param T $entity
 	 * @return T
+	 * @throws Exception
 	 * @since 35.0.0
 	 */
 	public function insert(object $entity): object {
@@ -377,6 +378,28 @@ class Repository {
 	 */
 	public function delete(object $entity): void {
 		$this->entityManager->delete($entity);
+	}
+
+	/**
+	 * Tries to create a new entry in the db from an entity and
+	 * updates an existing entry if duplicate keys are detected
+	 * by the database
+	 *
+	 * @param T $entity the entity that should be created/updated
+	 * @return T the saved entity with the (new) id
+	 * @throws Exception
+	 * @throws \InvalidArgumentException if entity has no id
+	 * @since 15.0.0
+	 */
+	public function insertOrUpdate(object $entity): object {
+		try {
+			return $this->insert($entity);
+		} catch (Exception $ex) {
+			if ($ex->getReason() === Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+				return $this->update($entity);
+			}
+			throw $ex;
+		}
 	}
 
 	/**

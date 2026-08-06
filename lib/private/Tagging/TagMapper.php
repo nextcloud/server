@@ -8,6 +8,7 @@
 
 namespace OC\Tagging;
 
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\ORM\Repository;
 
 /**
@@ -32,5 +33,18 @@ class TagMapper extends Repository {
 		], [
 			'name' => 'ASC',
 		]));
+	}
+
+	public function tagExists(Tag $tag): bool {
+		try {
+			$this->findOneBy([
+				'owner' => $tag->owner,
+				'type' => $tag->type,
+				'name' => $tag->name,
+			]);
+			return true;
+		} catch (DoesNotExistException) {
+			return false;
+		}
 	}
 }
