@@ -23,6 +23,8 @@ use Sabre\VObject\Recur\EventIterator;
 
 class TipBroker extends Broker {
 	public const INVITATION_FORWARDING_PROPERTY = 'X-NC-INVITATION-FORWARDING';
+	public const ALLOW_ATTENDEE_GUESTS_PROPERTY = 'X-NC-ALLOW-ATTENDEE-GUESTS';
+	public const ADD_GUEST_PROPERTY = 'X-NC-ADD-GUEST';
 
 	public $significantChangeProperties = [
 		'DTSTART',
@@ -95,6 +97,7 @@ class TipBroker extends Broker {
 			return null;
 		}
 		$instances = [];
+		$guests = [];
 		$requestStatus = '2.0';
 
 		/** @var list<VEvent> $vevents */
@@ -115,6 +118,7 @@ class TipBroker extends Broker {
 				continue;
 			}
 			$instances[$recurId] = $partstat->getValue();
+			$guests[$recurId] = $this->getGuestsFromReply($vevent);
 			if (isset($vevent->{'REQUEST-STATUS'})) {
 				$requestStatus = $vevent->{'REQUEST-STATUS'}->getValue();
 				[$requestStatus] = explode(';', $requestStatus);
@@ -142,9 +146,12 @@ class TipBroker extends Broker {
 							$attendeeFound = true;
 							$attendee['PARTSTAT'] = $instances[$recurId];
 							$attendee['SCHEDULE-STATUS'] = $requestStatus;
-							// Un-setting the RSVP status, because we now know
-							// that the attendee already replied.
-							unset($attendee['RSVP']);
+							if ($instances[$recurId] !== 'NEEDS-ACTION') {
+								// A reply leaving the attendee at NEEDS-ACTION, for
+								// example one only forwarding the invitation, is not
+								// an answer, so keep asking for one.
+								unset($attendee['RSVP']);
+							}
 							break;
 						}
 					}
@@ -159,6 +166,10 @@ class TipBroker extends Broker {
 						$parameters['CN'] = $itipMessage->senderName;
 					}
 					$vevent->add('ATTENDEE', $itipMessage->sender, $parameters);
+				} elseif ($attendeeFound && $this->allowAttendeeGuests($vevent)) {
+					// Only guests of a known attendee are invited, otherwise a
+					// party crasher could bring others along.
+					$this->addGuests($vevent, $guests[$recurId] ?? []);
 				}
 				unset($instances[$recurId]);
 			}
@@ -203,7 +214,10 @@ class TipBroker extends Broker {
 						$attendeeFound = true;
 						$attendee['PARTSTAT'] = $partstat;
 						$attendee['SCHEDULE-STATUS'] = $requestStatus;
-						unset($attendee['RSVP']);
+						if ($partstat !== 'NEEDS-ACTION') {
+							// Not an answer yet, so keep asking for one.
+							unset($attendee['RSVP']);
+						}
 						break;
 					}
 				}
@@ -252,6 +266,86 @@ class TipBroker extends Broker {
 		return null;
 	}
 
+	/**
+	 * Collects the guests a replying attendee added to the event.
+	 *
+	 * @return array<string, string|null> Calendar user address => common name
+	 */
+	protected function getGuestsFromReply(VEvent $vevent): array {
+		$guests = [];
+		/** @var list<Property> $properties */
+		$properties = $vevent->select(self::ADD_GUEST_PROPERTY);
+		foreach ($properties as $property) {
+			$href = $property->getValue();
+			if ($href === null || $href === '') {
+				continue;
+			}
+			$commonName = $property->offsetGet('CN');
+			$guests[$href] = $commonName instanceof Parameter ? $commonName->getValue() : null;
+		}
+
+		return $guests;
+	}
+
+	/**
+	 * Adds guests that are not part of the event yet as attendees.
+	 *
+	 * @param array<string, string|null> $guests Calendar user address => common name
+	 */
+	protected function addGuests(VEvent $vevent, array $guests): void {
+		$known = [];
+		/** @var list<Property> $properties */
+		$properties = $vevent->select('ATTENDEE');
+		foreach ($properties as $property) {
+			if ($property instanceof CalAddress) {
+				$known[strtolower($property->getNormalizedValue())] = true;
+			}
+		}
+		$organizer = $this->getOrganizerHref($vevent);
+		if ($organizer !== null) {
+			$known[strtolower($organizer)] = true;
+		}
+
+		foreach ($guests as $href => $commonName) {
+			if (isset($known[strtolower($href)])) {
+				continue;
+			}
+			$parameters = [
+				'PARTSTAT' => 'NEEDS-ACTION',
+				'RSVP' => 'TRUE',
+			];
+			if ($commonName !== null) {
+				$parameters['CN'] = $commonName;
+			}
+			$vevent->add('ATTENDEE', $href, $parameters);
+		}
+	}
+
+	protected function getOrganizerHref(VEvent $vevent): ?string {
+		/** @var list<Property> $properties */
+		$properties = $vevent->select('ORGANIZER');
+		foreach ($properties as $property) {
+			if ($property instanceof CalAddress) {
+				return $property->getNormalizedValue();
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Unlike forwarding, this has to be turned on by the organizer, so it is
+	 * also absent on invitations we could not report guests back to.
+	 */
+	protected function allowAttendeeGuests(VEvent $vevent): bool {
+		$properties = $vevent->select(self::ALLOW_ATTENDEE_GUESTS_PROPERTY);
+		foreach ($properties as $property) {
+			if ($property instanceof Boolean) {
+				return $property->getValue() === true;
+			}
+		}
+		return false;
+	}
+
 	protected function allowInvitationForwarding(VEvent $vevent): bool {
 		$properties = $vevent->select(self::INVITATION_FORWARDING_PROPERTY);
 		foreach ($properties as $property) {
@@ -260,6 +354,117 @@ class TipBroker extends Broker {
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * On top of the participation status handled by the parent, an attendee may
+	 * add guests to an event they were invited to. Those go out as a separate
+	 * reply, from which the organizer invites them.
+	 *
+	 * @param string $attendee
+	 *
+	 * @return array<int,Message>
+	 */
+	#[\Override]
+	protected function parseEventForAttendee(VCalendar $calendar, array $eventInfo, array $oldEventInfo, $attendee) {
+		$messages = parent::parseEventForAttendee($calendar, $eventInfo, $oldEventInfo, $attendee);
+
+		$guests = $this->extractAddedGuests($eventInfo, $oldEventInfo, $attendee);
+		if ($guests !== []) {
+			$messages[] = $this->generateGuestReply($eventInfo, $attendee, $guests);
+		}
+
+		return $messages;
+	}
+
+	/**
+	 * Collects the guests an attendee added to their own copy of an event.
+	 *
+	 * Only guests of the base instance are picked up, guests on a recurrence
+	 * exception are ignored. The calendar app therefore does not offer this
+	 * for recurring events.
+	 *
+	 * @return array<string, string|null> Calendar user address => common name
+	 */
+	protected function extractAddedGuests(array $eventInfo, array $oldEventInfo, string $attendee): array {
+		$master = $eventInfo['instances']['master'] ?? null;
+		if (!$master instanceof VEvent || !$this->allowAttendeeGuests($master)) {
+			return [];
+		}
+
+		$guests = [];
+		foreach ($eventInfo['attendees'] as $href => $info) {
+			if ($href === $attendee || $href === $eventInfo['organizer']) {
+				continue;
+			}
+			// Already invited, so not a guest of this attendee
+			if (isset($oldEventInfo['attendees'][$href])) {
+				continue;
+			}
+			// Added to a recurrence exception instead of the whole event
+			if (!isset($info['instances']['master'])) {
+				continue;
+			}
+			$guests[$href] = $info['name'];
+		}
+
+		return $guests;
+	}
+
+	/**
+	 * Generates a reply carrying the guests an attendee added to the event.
+	 *
+	 * The organizer invites them from there.
+	 *
+	 * @param array<string, string|null> $guests Calendar user address => common name
+	 */
+	protected function generateGuestReply(array $eventInfo, string $attendee, array $guests): Message {
+		// A reply only carries scheduling information, the organizer already
+		// knows the event itself.
+		$calendar = new VCalendar();
+		$calendar->add('METHOD', 'REPLY');
+		/** @var VEvent $vevent */
+		$vevent = $calendar->add('VEVENT', [
+			'UID' => $eventInfo['uid'],
+			'SEQUENCE' => $eventInfo['sequence'],
+		]);
+		$organizerParameters = [];
+		if ($eventInfo['organizerName']) {
+			$organizerParameters['CN'] = $eventInfo['organizerName'];
+		}
+		$vevent->add('ORGANIZER', $eventInfo['organizer'], $organizerParameters);
+
+		$attendeeParameters = [
+			'PARTSTAT' => $eventInfo['attendees'][$attendee]['instances']['master']['partstat'] ?? 'NEEDS-ACTION',
+		];
+		if ($eventInfo['attendees'][$attendee]['name']) {
+			$attendeeParameters['CN'] = $eventInfo['attendees'][$attendee]['name'];
+		}
+		$vevent->add('ATTENDEE', $attendee, $attendeeParameters);
+
+		foreach ($guests as $href => $commonName) {
+			$guestParameters = [];
+			if ($commonName) {
+				$guestParameters['CN'] = $commonName;
+			}
+			$vevent->add(self::ADD_GUEST_PROPERTY, $href, $guestParameters);
+		}
+
+		$message = new Message();
+		$message->uid = $eventInfo['uid'];
+		$message->method = 'REPLY';
+		$message->component = 'VEVENT';
+		$message->sequence = $eventInfo['sequence'];
+		$message->sender = $attendee;
+		$message->senderName = $eventInfo['attendees'][$attendee]['name'];
+		$message->recipient = $eventInfo['organizer'];
+		$message->recipientName = $eventInfo['organizerName'];
+		// The participation status did not necessarily change, so an email about
+		// this reply would be misleading.
+		$message->significantChange = false;
+		$message->message = $calendar;
+
+		return $message;
 	}
 
 	/**
