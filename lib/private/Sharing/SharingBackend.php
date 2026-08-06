@@ -588,9 +588,21 @@ final readonly class SharingBackend implements ISharingBackend {
 	 * @return list<Share>
 	 */
 	private function list(
-		ShareAccessContext $accessContext, ?string $filterShareID, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?string $lastShareID,
+		ShareAccessContext $accessContext,
+		?string $filterShareID,
+		?string $filterSourceTypeClass,
+		?string $filterSourceTypeValue,
+		?string $lastShareID,
 		?int $limit,
 	): array {
+		if ($filterSourceTypeClass) {
+			$filterSourceType = $this->registry->getSourceTypes()[$filterSourceTypeClass] ?? null;
+			if ($filterSourceType === null) {
+				throw new RuntimeException('The source type is not registered: ' . $filterSourceTypeClass);
+			}
+		} else {
+			$filterSourceType = null;
+		}
 		/** @var array<class-string<IShareRecipientType>, list<string>> $recipientTypeValues */
 		$recipientTypeValues = [];
 
@@ -598,10 +610,21 @@ final readonly class SharingBackend implements ISharingBackend {
 		$queries = [];
 		if ($accessContext->overrideChecks) {
 			$queries[] = $this->connection->getQueryBuilder();
+			$userHasDirectAccess = false;
 		} else {
+			if ($filterSourceType && $filterSourceTypeValue !== null && $accessContext->currentUser instanceof IUser) {
+				$userHasDirectAccess = $filterSourceType->userHasDirectSharingAccessToSource($accessContext->currentUser, $filterSourceTypeValue);
+			} else {
+				$userHasDirectAccess = false;
+			}
+
 			if ($accessContext->currentUser instanceof IUser) {
 				$qb = $this->connection->getQueryBuilder();
-				$qb->where($qb->expr()->eq('s.owner_user_id', $qb->createNamedParameter($accessContext->currentUser->getUID())));
+				// if the access user has "direct share access" we don't filter by owner, but instead validate that all share sources are accessible
+				if (!$userHasDirectAccess) {
+					$qb->where($qb->expr()->eq('s.owner_user_id', $qb->createNamedParameter($accessContext->currentUser->getUID())));
+				}
+
 				$queries[] = $qb;
 			}
 
@@ -613,7 +636,8 @@ final readonly class SharingBackend implements ISharingBackend {
 			}
 
 			// Do not add a query if no recipients matched, otherwise all shares will be returned.
-			if ($recipientTypeValues !== []) {
+			// If the user has "direct" access, we already get all the shares, so no need to run an extra query for recipients
+			if ($recipientTypeValues !== [] && !$userHasDirectAccess) {
 				$qb = $this->connection->getQueryBuilder();
 				$qb->innerJoin(
 					's', 'sharing_share_recipients', 'sr', $qb->expr()->andX(
@@ -672,7 +696,7 @@ final readonly class SharingBackend implements ISharingBackend {
 				$qb->andWhere($qb->expr()->eq('s.id', $qb->createNamedParameter($filterShareID)));
 			}
 
-			if ($filterSourceTypeClass !== null) {
+			if ($filterSourceType !== null && $filterSourceTypeClass !== null) {
 				$sourceTypeFilters = [
 					$qb->expr()->eq('s.id', 'ss.share_id'),
 					$qb->expr()->eq(
@@ -1015,6 +1039,23 @@ final readonly class SharingBackend implements ISharingBackend {
 			$share['properties'],
 			$share['permissions'],
 		), $shares);
+
+		// when listing shares for a source, we also return any non-owned share if the user has "direct" access to the source
+		// but we do need to validate that the user has "direct" access to *all* of the sources in the share, not just one
+		if (!$accessContext->overrideChecks && $filterSourceType && $filterSourceTypeValue !== null && $accessContext->currentUser instanceof IUser) {
+			$shares = array_filter($shares, function (Share $share) use ($accessContext): bool {
+				if (!$share->owner->isCurrentUser($accessContext) && count($share->sources) > 1) {
+					foreach ($share->sources as $source) {
+						$sourceType = $this->registry->getSourceTypes()[$source->class];
+						if (!$sourceType->userHasDirectSharingAccessToSource($accessContext->currentUser, $source->value)) {
+							return false;
+						}
+					}
+				}
+
+				return true;
+			});
+		}
 
 		if (!$accessContext->overrideChecks) {
 			$filterPropertyTypes = array_filter(
