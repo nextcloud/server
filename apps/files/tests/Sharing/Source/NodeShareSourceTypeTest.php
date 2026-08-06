@@ -7,6 +7,7 @@
 
 declare(strict_types=1);
 
+use NCU\Sharing\Icon\ShareIconURL;
 use NCU\Sharing\ISharingManager;
 use NCU\Sharing\ISharingRegistry;
 use NCU\Sharing\ShareAccessContext;
@@ -74,13 +75,16 @@ final class NodeShareSourceTypeTest extends TestCase {
 	}
 
 	public function testGetSourceDisplayName(): void {
-		$this->assertEquals('foo.txt', $this->sourceType->getSourceDisplayName((string)$this->node->getId()));
+		$this->assertEquals('foo.txt', $this->sourceType->getSourceMetadata((string)$this->node->getId()));
 	}
 
 	public function testGetSourceIcon(): void {
 		$source = (string)$this->node->getId();
 
-		$icon = $this->sourceType->getSourceIcon($source);
+		$icon = $this->sourceType->getSourceMetadata($source)?->getIcon();
+		if (!$icon instanceof ShareIconURL) {
+			$this->fail("Unexpected share icon for $source");
+		}
 
 		foreach ([$icon->light, $icon->dark] as $url) {
 			$this->assertStringStartsWith('http://localhost/index.php/core/preview?', $url);

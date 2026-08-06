@@ -10,9 +10,9 @@ declare(strict_types=1);
 namespace OCA\Files\Sharing\Source;
 
 use Exception;
-use NCU\Sharing\Icon\ShareIconURL;
 use NCU\Sharing\ISharingManager;
 use NCU\Sharing\ShareAccessContext;
+use NCU\Sharing\Source\IShareSourceMetadata;
 use NCU\Sharing\Source\IShareSourceType;
 use NCU\Sharing\Source\ShareSource;
 use OCA\Files\AppInfo\Application;
@@ -55,20 +55,13 @@ final readonly class NodeShareSourceType implements IShareSourceType, IEventList
 	}
 
 	#[\Override]
-	public function getSourceDisplayName(string $source): ?string {
-		$displayName = $this->rootFolder->getFirstNodeById((int)$source)?->getName();
-		if ($displayName === '') {
+	public function getSourceMetadata(string $source): ?IShareSourceMetadata {
+		$node = $this->rootFolder->getFirstNodeById((int)$source);
+		if ($node) {
+			return new NodeShareSourceMetadata($this->urlGenerator, $node);
+		} else {
 			return null;
 		}
-
-		return $displayName;
-	}
-
-	#[\Override]
-	public function getSourceIcon(string $source): ShareIconURL {
-		$url = $this->urlGenerator->linkToRouteAbsolute('core.Preview.getPreviewByFileId', ['fileId' => $source, 'x' => 64, 'y' => 64]);
-
-		return new ShareIconURL($url, $url);
 	}
 
 	#[\Override]
