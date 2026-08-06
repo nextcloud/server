@@ -20,15 +20,30 @@ interface IOutput {
 	 * Writes a message to the output.
 	 *
 	 * @param bool $newline Whether to add a newline
+	 * @param Verbosity $verbosity Only write messages if verbosity is set to at least that level.
 	 * @since 35.0.0
 	 */
-	public function write(string|iterable $messages, bool $newline = false): void;
+	public function write(string|iterable $messages, bool $newline = false, Verbosity $verbosity = Verbosity::Normal): void;
 
 	/**
 	 * Writes a message to the output and adds a newline at the end.
+	 *
+	 * @param Verbosity $verbosity Only write messages if verbosity is set to at least that level.
 	 * @since 35.0.0
 	 */
-	public function writeln(string|iterable $messages): void;
+	public function writeln(string|iterable $messages, Verbosity $verbosity = Verbosity::Normal): void;
+
+	/**
+	 * Sets the verbosity of the output.
+	 * @since 35.0.0
+	 */
+	public function setVerbosity(Verbosity $level): void;
+
+	/**
+	 * Gets the current verbosity of the output.
+	 * @since 35.0.0
+	 */
+	public function getVerbosity(): Verbosity;
 
 	/**
 	 * Returns whether verbosity is quiet (-q).

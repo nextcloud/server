@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace OC\Console;
 
 use OCP\Console\IOutput;
+use OCP\Console\Verbosity;
 use Override;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -21,13 +22,13 @@ class OutputAdapter implements IOutput {
 	}
 
 	#[Override]
-	public function write(iterable|string $messages, bool $newline = false): void {
-		$this->output->write($messages, $newline);
+	public function write(iterable|string $messages, bool $newline = false, Verbosity $verbosity = Verbosity::Normal): void {
+		$this->output->write($messages, $newline, $verbosity->value);
 	}
 
 	#[Override]
-	public function writeln(iterable|string $messages): void {
-		$this->output->writeln($messages);
+	public function writeln(iterable|string $messages, Verbosity $verbosity = Verbosity::Normal): void {
+		$this->output->writeln($messages, $verbosity->value);
 	}
 
 	#[Override]
@@ -63,5 +64,15 @@ class OutputAdapter implements IOutput {
 	#[Override]
 	public function writeStreamingTableInOutputFormat(\Iterator $items, int $tableGroupSize): void {
 		$this->commandAdapter->writeStreamingTableInOutputFormat($this->input, $this->output, $items, $tableGroupSize);
+	}
+
+	#[Override]
+	public function setVerbosity(Verbosity $level): void {
+		$this->output->setVerbosity($level->value);
+	}
+
+	#[Override]
+	public function getVerbosity(): Verbosity {
+		return Verbosity::from($this->output->getVerbosity());
 	}
 }
