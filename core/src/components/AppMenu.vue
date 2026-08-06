@@ -667,12 +667,14 @@ export default defineComponent({
 	--border-radius-element: var(--border-radius-container-large);
 }
 
-// Gap between the trigger and the popover. Floating-ui positions
-// .v-popper__popper, so margin on its inner .v-popper__wrapper isn't
-// recomputed. Used instead of NcPopover's :distance prop, which isn't
-// exposed in the released @nextcloud/vue yet.
+// No arrow: the menu reads as a panel below the header, not a tooltip.
+.app-menu__popover-base .v-popper__arrow-container {
+	display: none;
+}
+
+// Cancel NcPopover's 10px distance so the menu starts right below the header.
 .app-menu__popover-base .v-popper__wrapper {
-	margin-block-start: -5px;
+	margin-block-start: -10px;
 }
 
 // Without this reset the override above cascades into AppItem and inflates
