@@ -89,13 +89,18 @@ class OCMSignatoryManagerJwksTest extends TestCase {
 	private function primeDiscovery(
 		string $jwksUri = self::JWKS_URI,
 		array $capabilities = ['http-sig'],
-		string $endPoint = 'https://sender.example.org/ocm',
+		bool $httpOnly = false,
 	): void {
 		$provider = new OCMProvider();
 		$provider->setCapabilities($capabilities);
 		$provider->setJwksUri($jwksUri);
-		$provider->setEndPoint($endPoint);
-		$this->discoveryService->method('discover')->willReturn($provider);
+		$this->discoveryService->method('discover')
+			->willReturnCallback(static function (string $remote) use ($httpOnly, $provider): OCMProvider {
+				if ($httpOnly && str_starts_with($remote, 'https://')) {
+					throw new OCMProviderException('HTTPS unavailable');
+				}
+				return $provider;
+			});
 	}
 
 	public function testGetRemoteKeyFetchesAndMatchesByKid(): void {
@@ -183,7 +188,7 @@ class OCMSignatoryManagerJwksTest extends TestCase {
 		// the spec's http fallback for testing setups
 		$this->primeDiscovery(
 			jwksUri: 'http://sender.example.org/ocm/jwks',
-			endPoint: 'http://sender.example.org/ocm',
+			httpOnly: true,
 		);
 		$kid = 'sender.example.org#key1';
 		$this->client->expects($this->once())
@@ -296,7 +301,7 @@ class OCMSignatoryManagerJwksTest extends TestCase {
 	public function testGetRemoteKeyAcceptsHttpsJwksUriFromHttpPeer(): void {
 		// upgrade from an http-only peer is fine
 		$this->primeDiscovery(
-			endPoint: 'http://sender.example.org/ocm',
+			httpOnly: true,
 		);
 		$kid = 'sender.example.org#key1';
 		$this->client->expects($this->once())
@@ -314,7 +319,7 @@ class OCMSignatoryManagerJwksTest extends TestCase {
 		// the JWK Set may live on a different host than the peer
 		$this->primeDiscovery(
 			jwksUri: 'https://keys.example.net/ocm/jwks',
-			endPoint: 'http://sender.example.org/ocm',
+			httpOnly: true,
 		);
 		$kid = 'sender.example.org#key1';
 		$this->client->expects($this->once())

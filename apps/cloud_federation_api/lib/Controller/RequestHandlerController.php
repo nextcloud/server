@@ -110,8 +110,7 @@ class RequestHandlerController extends Controller {
 			try {
 				// if request is signed and well signed, no exceptions are thrown
 				// if request is not signed and host is known for not supporting signed request, no exception are thrown
-				$origin = $this->ocmDiscoveryService->getHostFromOcmAddress($owner);
-				$signedRequest = $this->ocmDiscoveryService->getIncomingSignedRequest($origin);
+				$signedRequest = $this->ocmDiscoveryService->getIncomingSignedRequest($owner);
 				$this->confirmSignedOrigin($signedRequest, 'owner', $owner);
 			} catch (IncomingRequestException $e) {
 				$this->logger->warning('incoming request exception', ['exception' => $e]);
@@ -309,11 +308,7 @@ class RequestHandlerController extends Controller {
 		if (!$this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_DISABLED, lazy: true)) {
 			try {
 				$identity = $this->resolveNotificationIdentity($resourceType, $notification);
-				$origin = null;
-				if ($identity !== '') {
-					$origin = $this->ocmDiscoveryService->getHostFromOcmAddress($identity);
-				}
-				$signedRequest = $this->ocmDiscoveryService->getIncomingSignedRequest($origin);
+				$signedRequest = $this->ocmDiscoveryService->getIncomingSignedRequest($identity !== '' ? $identity : null);
 				if ($identity !== '') {
 					$this->ocmDiscoveryService->confirmRequestOrigin($signedRequest?->getOrigin(), $identity);
 				}

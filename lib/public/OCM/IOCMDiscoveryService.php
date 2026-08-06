@@ -59,14 +59,14 @@ interface IOCMDiscoveryService {
 	 * - if request is signed, but wrongly signed
 	 * - if request is not signed but instance is configured to only accept signed ocm request
 	 *
-	 * @param string|null $origin for RFC 9421, the signer origin from the caller
-	 *                            (the keyid is opaque)
+	 * @param string|null $ocmAddress for RFC 9421, the sender's OCM address
+	 *                                (the keyid is opaque)
 	 *
 	 * @return IIncomingSignedRequest|null null if remote does not (and never did) support signed request
 	 * @throws IncomingRequestException
 	 * @since 33.0.0
 	 */
-	public function getIncomingSignedRequest(?string $origin = null): ?IIncomingSignedRequest;
+	public function getIncomingSignedRequest(?string $ocmAddress = null): ?IIncomingSignedRequest;
 
 	/**
 	 * Confirm that the host portion of $ocmAddress matches $signedOrigin
@@ -82,16 +82,6 @@ interface IOCMDiscoveryService {
 	 * @since 35.0.0
 	 */
 	public function confirmRequestOrigin(?string $signedOrigin, string $ocmAddress): void;
-
-	/**
-	 * Extract the signer origin (host) from an OCM address (`user@host`).
-	 *
-	 * @param string $entry OCM address in `user@host` or `user@https://host` form
-	 * @return string the host (with port) of the OCM address
-	 * @throws IncomingRequestException on malformed address or unresolvable host
-	 * @since 35.0.0
-	 */
-	public function getHostFromOcmAddress(string $entry): string;
 
 	/**
 	 * Request a remote OCM endpoint.

@@ -13,7 +13,6 @@ use Attribute;
 use OC\OCM\OCMDiscoveryService;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Http\Attribute\AnonRateLimit;
-use OCP\Federation\ICloudFederationProviderManager;
 use OCP\IRequest;
 use OCP\Server;
 
@@ -25,14 +24,12 @@ use OCP\Server;
  */
 #[Attribute(Attribute::TARGET_METHOD)]
 class FederationRateLimit extends AnonRateLimit {
-	private readonly ICloudFederationProviderManager $federationProviderManager;
 	private readonly OCMDiscoveryService $discoveryService;
 	private readonly ?TrustedServers $trustedServers;
 
 	public function __construct(int $limit, int $period) {
 		parent::__construct($limit, $period);
 
-		$this->federationProviderManager = Server::get(ICloudFederationProviderManager::class);
 		$this->discoveryService = Server::get(OCMDiscoveryService::class);
 		$this->trustedServers = Server::get(TrustedServers::class);
 	}
@@ -44,16 +41,8 @@ class FederationRateLimit extends AnonRateLimit {
 		}
 
 		try {
-			// Resolve the signer origin from the payload so trusted servers
-			// can be exempted.
-			$parsed = $request->getParams();
-			$identity = $this->federationProviderManager->resolveSenderIdentity($parsed);
-			$origin = null;
-			if ($identity !== null) {
-				$origin = $this->discoveryService->getHostFromOcmAddress($identity);
-			}
-
-			$signedRequest = $this->discoveryService->getIncomingSignedRequest($origin);
+			$owner = $request->getParam('owner');
+			$signedRequest = $this->discoveryService->getIncomingSignedRequest(is_string($owner) ? $owner : null);
 			if (!$signedRequest) {
 				return true;
 			}

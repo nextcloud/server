@@ -404,6 +404,11 @@ class OCMSignatoryManager implements IJwkResolvingSignatoryManager {
 			return 'https://' . $identity . $path;
 		}
 
+		try {
+			return $this->signatureManager->generateKeyIdFromConfig($path);
+		} catch (IdentityNotFoundException) {
+		}
+
 		return $this->urlGenerator->getAbsoluteURL($path);
 	}
 
@@ -522,13 +527,20 @@ class OCMSignatoryManager implements IJwkResolvingSignatoryManager {
 	}
 
 	/**
-	 * The peer's `jwksUri` from its discovery response. Must be https, or
-	 * http from an http-only peer (the spec's testing fallback): an https
-	 * peer pointing at an http jwksUri would downgrade the key fetch.
+	 * Resolve the peer's `jwksUri`, preferring HTTPS discovery. HTTP is accepted
+	 * only when HTTPS discovery fails and the discovery document is fetched over
+	 * HTTP as well.
 	 */
 	private function resolveJwksUri(string $origin): ?string {
 		try {
-			$provider = Server::get(IOCMDiscoveryService::class)->discover($origin);
+			$discoveryService = Server::get(IOCMDiscoveryService::class);
+			try {
+				$provider = $discoveryService->discover('https://' . $origin);
+				$discoveryScheme = 'https';
+			} catch (OCMProviderException) {
+				$provider = $discoveryService->discover('http://' . $origin);
+				$discoveryScheme = 'http';
+			}
 		} catch (NotFoundExceptionInterface|ContainerExceptionInterface|OCMProviderException $e) {
 			$this->logger->warning('cannot discover remote OCM provider for JWKS', ['exception' => $e, 'origin' => $origin]);
 			return null;
@@ -541,10 +553,14 @@ class OCMSignatoryManager implements IJwkResolvingSignatoryManager {
 			}
 			return null;
 		}
-		$httpFromHttpPeer = str_starts_with($jwksUri, 'http://')
-			&& str_starts_with($provider->getEndPoint(), 'http://');
-		if (!str_starts_with($jwksUri, 'https://') && !$httpFromHttpPeer) {
-			$this->logger->warning('refusing jwksUri: https is required unless the peer itself is http-only', ['origin' => $origin, 'jwksUri' => $jwksUri]);
+		$secureJwks = str_starts_with($jwksUri, 'https://');
+		$httpJwksFromHttpDiscovery = $discoveryScheme === 'http' && str_starts_with($jwksUri, 'http://');
+		if (!$secureJwks && !$httpJwksFromHttpDiscovery) {
+			$this->logger->warning('refusing jwksUri for the OCM discovery transport', [
+				'origin' => $origin,
+				'jwksUri' => $jwksUri,
+				'discoveryScheme' => $discoveryScheme,
+			]);
 			return null;
 		}
 		return $jwksUri;

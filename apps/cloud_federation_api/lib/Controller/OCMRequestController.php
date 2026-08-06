@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\CloudFederationAPI\Controller;
 
+use JsonException;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
@@ -17,7 +18,6 @@ use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Federation\ICloudFederationProviderManager;
 use OCP\IRequest;
 use OCP\OCM\Events\OCMEndpointRequestEvent;
 use OCP\OCM\Exceptions\OCMArgumentException;
@@ -31,7 +31,6 @@ class OCMRequestController extends Controller {
 		IRequest $request,
 		private readonly IEventDispatcher $eventDispatcher,
 		private readonly IOCMDiscoveryService $ocmDiscoveryService,
-		private readonly ICloudFederationProviderManager $cloudFederationProviderManager,
 		private readonly LoggerInterface $logger,
 	) {
 		parent::__construct($appName, $request);
@@ -57,27 +56,31 @@ class OCMRequestController extends Controller {
 			throw new OCMArgumentException('path is not UTF-8');
 		}
 
-		// Resolve the signer origin from the payload before verification.
-		$payload = $this->request->getParams();
-		$origin = null;
-		if ($payload !== []) {
-			$identity = $this->cloudFederationProviderManager->resolveSenderIdentity($payload);
-			if ($identity !== null) {
-				try {
-					$origin = $this->ocmDiscoveryService->getHostFromOcmAddress($identity);
-				} catch (IncomingRequestException) {
-					// unresolvable origin; verification will fail without one
-				}
+		$ocmAddress = null;
+		$params = $this->request->getParams();
+		foreach (['owner', 'sender', 'sharedBy'] as $field) {
+			if (is_string($params[$field] ?? null) && $params[$field] !== '') {
+				$ocmAddress = $params[$field];
+				break;
 			}
 		}
 
 		try {
-			$signedRequest = $this->ocmDiscoveryService->getIncomingSignedRequest($origin);
+			$signedRequest = $this->ocmDiscoveryService->getIncomingSignedRequest($ocmAddress);
 		} catch (IncomingRequestException $e) {
 			$this->logger->warning('incoming ocm request exception', ['exception' => $e]);
 			$response = new JSONResponse(['message' => $e->getMessage(), 'validationErrors' => []], Http::STATUS_BAD_REQUEST);
 			$response->throttle();
 			return $response;
+		}
+
+		// assuming that ocm request contains a json array
+		$payload = $signedRequest?->getBody() ?? file_get_contents('php://input');
+		try {
+			$payload = ($payload) ? json_decode($payload, true, 512, JSON_THROW_ON_ERROR) : null;
+		} catch (JsonException $e) {
+			$this->logger->debug('json decode error', ['exception' => $e]);
+			$payload = null;
 		}
 
 		$event = new OCMEndpointRequestEvent(

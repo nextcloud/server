@@ -61,15 +61,6 @@ interface ICloudFederationProviderManager {
 	public function getCloudFederationProvider($resourceType);
 
 	/**
-	 * Resolve the sender's federated identity from an OCM request body.
-	 *
-	 * @param array $body decoded OCM request body
-	 * @return string|null federated cloud id (`user@host`), or null
-	 * @since 35.0.0
-	 */
-	public function resolveSenderIdentity(array $body): ?string;
-
-	/**
 	 * send federated share
 	 *
 	 * @param ICloudFederationShare $share

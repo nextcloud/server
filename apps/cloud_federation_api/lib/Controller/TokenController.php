@@ -23,10 +23,11 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\Exceptions\ExpiredTokenException;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\Token\IToken;
+use OCP\Federation\ICloudIdManager;
 use OCP\IAppConfig;
 use OCP\IRequest;
-use OCP\OCM\IOCMDiscoveryService;
 use OCP\Security\ISecureRandom;
+use OCP\Security\Signature\Exceptions\IdentityNotFoundException;
 use OCP\Security\Signature\Exceptions\IncomingRequestException;
 use OCP\Security\Signature\Exceptions\SignatoryNotFoundException;
 use OCP\Security\Signature\Exceptions\SignatureException;
@@ -34,6 +35,7 @@ use OCP\Security\Signature\Exceptions\SignatureNotFoundException;
 use OCP\Security\Signature\IIncomingSignedRequest;
 use OCP\Security\Signature\ISignatureManager;
 use OCP\Security\Signature\Model\Signatory;
+use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager as IShareManager;
 use Psr\Log\LoggerInterface;
 
@@ -53,7 +55,7 @@ class TokenController extends ApiController {
 		private readonly IAppConfig $appConfig,
 		private readonly OcmTokenMapMapper $ocmTokenMapMapper,
 		private readonly IShareManager $shareManager,
-		private readonly IOCMDiscoveryService $ocmDiscoveryService,
+		private readonly ICloudIdManager $cloudIdManager,
 	) {
 		parent::__construct('cloud_federation_api', $request);
 	}
@@ -74,8 +76,9 @@ class TokenController extends ApiController {
 			if ($sharedWith === null || $sharedWith === '') {
 				return null;
 			}
-			return $this->ocmDiscoveryService->getHostFromOcmAddress($sharedWith);
-		} catch (\Throwable) {
+			$remote = $this->cloudIdManager->resolveCloudId($sharedWith)->getRemote();
+			return $this->signatureManager->extractIdentityFromUri($remote);
+		} catch (ShareNotFound|IdentityNotFoundException|\InvalidArgumentException) {
 			return null;
 		}
 	}
@@ -83,7 +86,7 @@ class TokenController extends ApiController {
 	/**
 	 * Verify the signature of incoming request if available
 	 *
-	 * @param string|null $origin the origin of the request, or null if unknown
+	 * @param string|null $origin sender origin, or null if unknown
 	 *
 	 * @return IIncomingSignedRequest|null null if remote does not support signed requests
 	 * @throws IncomingRequestException if signature is required but invalid
@@ -148,9 +151,7 @@ class TokenController extends ApiController {
 	public function jwks(): JSONResponse {
 		$keys = [];
 		try {
-			foreach ($this->signatoryManager->getLocalJwks() as $jwk) {
-				$keys[] = $jwk;
-			}
+			$keys = $this->signatoryManager->getLocalJwks();
 		} catch (\Throwable $e) {
 			$this->logger->warning('failed to build local JWKs', ['exception' => $e]);
 		}
