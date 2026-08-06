@@ -15,6 +15,7 @@ use OC\User\Manager;
 use OC\User\User;
 use OCP\Config\IUserConfig;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Federation\ICloudId;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
@@ -740,5 +741,19 @@ class ManagerTest extends TestCase {
 
 	public function testGetAvatarUrlDark(): void {
 		$this->assertEquals('http://localhost/index.php/avatar/userid/64/dark', $this->manager->getAvatarUrlDark('userid', 64));
+	}
+
+	public function testGetFederatedUser(): void {
+		$userId = 'test@example.com';
+
+		$cloudId = $this->createMock(ICloudId::class);
+		$cloudId->expects($this->exactly(2))
+			->method('getDisplayId')
+			->willReturn($userId);
+
+		$user = $this->manager->getFederatedUser($cloudId);
+
+		$this->assertEquals($userId, $user->getUID());
+		$this->assertEquals($userId, $user->getDisplayName());
 	}
 }
