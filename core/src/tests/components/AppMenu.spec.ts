@@ -65,6 +65,22 @@ function fakeApps(): INavigationEntry[] {
 	]
 }
 
+// Mimics a page where the active entry is a settings one, so it is excluded
+// from the `apps` list. The object shape matches PHP's serialization, which
+// ships getAll('settings') keyed by entry id.
+function mockActiveSettingsEntry(overrides: Partial<INavigationEntry>): void {
+	const entry = makeApp({ type: 'settings', active: true, ...overrides })
+	initialState.loadState.mockImplementation((_a: string, key: string, fallback: unknown) => {
+		if (key === 'apps') {
+			return [makeApp({ id: 'files', name: 'Files', active: false })]
+		}
+		if (key === 'settingsNavEntries') {
+			return { [entry.id]: entry }
+		}
+		return fallback
+	})
+}
+
 function eightApps(activeIndex: number = -1): INavigationEntry[] {
 	const ids = ['files', 'mail', 'calendar', 'contacts', 'notes', 'photos', 'talk', 'deck']
 	return ids.map((id, i) => makeApp({
@@ -174,32 +190,45 @@ describe('core: AppMenu', () => {
 	})
 
 	it('falls back to the active settings entry when no app is active', () => {
-		// Mimics being on /settings/admin/* where the active entry is registered
-		// as type=settings (NavigationManager) and excluded from the `apps` list.
-		initialState.loadState.mockImplementation((_a: string, key: string, fallback: unknown) => {
-			if (key === 'apps') {
-				return [makeApp({ id: 'files', name: 'Files', active: false })]
-			}
-			if (key === 'settingsNavEntries') {
-				// Object keyed by entry id — matches PHP's serialization shape
-				// (TemplateLayout ships the filtered associative array as-is).
-				return {
-					admin_settings: makeApp({
-						id: 'admin_settings',
-						name: 'Administration settings',
-						type: 'settings',
-						href: '/settings/admin/overview',
-						icon: '/settings/img/admin.svg',
-						active: true,
-					}),
-				}
-			}
-			return fallback
+		// Mimics being on /settings/admin/*
+		mockActiveSettingsEntry({
+			id: 'settings_administration',
+			name: 'Administration settings',
+			href: '/settings/admin/overview',
+			icon: '/settings/img/admin.svg',
 		})
 		const wrapper = mount(AppMenu, { attachTo: document.body })
 		expect(wrapper.find('.app-menu__current-app').exists()).toBe(true)
 		// Settings sub-section names are collapsed to a single "Settings" label.
 		expect(wrapper.find('.app-menu__current-app-name').text()).toBe('Settings')
+	})
+
+	it('keeps the own name of settings entries outside the settings app', () => {
+		// On /settings/apps the active entry is the app management one, which
+		// shows "Apps" here and in the account menu, not "Settings".
+		mockActiveSettingsEntry({ id: 'appstore', name: 'Apps', href: '/settings/apps', icon: '/apps/appstore/img/app-dark.svg' })
+		const wrapper = mount(AppMenu, { attachTo: document.body })
+		expect(wrapper.find('.app-menu__current-app-name').text()).toBe('Apps')
+		// Its own icon, not the generic cog of the settings sections
+		expect(wrapper.find('.app-menu__current-app-glyph').attributes('style'))
+			.toContain('/apps/appstore/img/app-dark.svg')
+	})
+
+	it('shows the profile page as "Profile" with the generic user icon', () => {
+		// The profile app names its entry "View profile" for the account menu
+		// and ships no icon, so both are replaced here.
+		mockActiveSettingsEntry({ id: 'profile', name: 'View profile', href: '/u/admin', icon: '' })
+		const wrapper = mount(AppMenu, { attachTo: document.body })
+		expect(wrapper.find('.app-menu__current-app-name').text()).toBe('Profile')
+		expect(wrapper.find('.app-menu__current-app-glyph').attributes('style'))
+			.toContain('/core/img/actions/user.svg')
+	})
+
+	it('falls back to the cog for entries without an icon', () => {
+		mockActiveSettingsEntry({ id: 'help', name: 'Help & privacy', href: '/settings/help', icon: '' })
+		const wrapper = mount(AppMenu, { attachTo: document.body })
+		expect(wrapper.find('.app-menu__current-app-cog').exists()).toBe(true)
+		expect(wrapper.find('.app-menu__current-app-glyph').exists()).toBe(false)
 	})
 
 	it('prefers the active app over a settings entry when both are marked active', () => {
@@ -208,7 +237,7 @@ describe('core: AppMenu', () => {
 				return [makeApp({ id: 'files', name: 'Files', active: true })]
 			}
 			if (key === 'settingsNavEntries') {
-				return { admin_settings: makeApp({ id: 'admin_settings', name: 'Administration settings', type: 'settings', active: true }) }
+				return { settings_administration: makeApp({ id: 'settings_administration', name: 'Administration settings', type: 'settings', active: true }) }
 			}
 			return fallback
 		})
