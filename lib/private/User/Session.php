@@ -459,10 +459,8 @@ class Session implements IUserSession, Emitter {
 			return false;
 		}
 
-		if (!$isTokenPassword && $this->isTokenAuthEnforced()) {
-			throw new PasswordLoginForbiddenException();
-		}
-		if (!$isTokenPassword && $this->isTwoFactorEnforced($user)) {
+		if (!$isTokenPassword && ($this->isTokenAuthEnforced() || $this->isTwoFactorEnforced($user))) {
+			$this->handleLoginFailed($throttler, $currentDelay, $remoteAddress, $user, $password);
 			throw new PasswordLoginForbiddenException();
 		}
 
@@ -634,7 +632,8 @@ class Session implements IUserSession, Emitter {
 				// If credentials were provided, they need to be valid, otherwise we do boom
 				throw new LoginException();
 			} catch (PasswordLoginForbiddenException $ex) {
-				// Nothing to do
+				// If credentials were provided, they need to be valid, otherwise we do boom
+				throw new LoginException(previous: $ex);
 			}
 		}
 		return false;
