@@ -19,6 +19,7 @@ class InstanceInfoTest extends ExporterTestCase {
 	private SystemConfig&MockObject $systemConfig;
 	private ServerVersion&MockObject $serverVersion;
 
+	#[\Override]
 	protected function getExporter():IMetricFamily {
 		$this->systemConfig = $this->createMock(SystemConfig::class);
 		$this->serverVersion = $this->createMock(ServerVersion::class);

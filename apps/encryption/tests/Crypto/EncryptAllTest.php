@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Encryption\Tests\Crypto;
 
 use OC\Files\View;
@@ -109,7 +110,6 @@ class EncryptAllTest extends TestCase {
 		});
 		$this->secureRandom = $this->getMockBuilder(ISecureRandom::class)->disableOriginalConstructor()->getMock();
 		$this->secureRandom->expects($this->any())->method('generate')->willReturn('12345678');
-
 
 		$this->encryptAll = new EncryptAll(
 			$this->setupUser,
@@ -220,7 +220,6 @@ class EncryptAllTest extends TestCase {
 			)
 			->onlyMethods(['generateOneTimePassword', 'setupUserFileSystem'])
 			->getMock();
-
 
 		// set protected property $output
 		$this->invokePrivate($encryptAll, 'output', [$this->outputInterface]);
@@ -389,7 +388,6 @@ class EncryptAllTest extends TestCase {
 		$fileInfo->expects($this->any())->method('isEncrypted')
 			->willReturn($isEncrypted);
 		$this->view->expects($this->never())->method('getFileInfo');
-
 
 		if ($isEncrypted) {
 			$this->view->expects($this->never())->method('copy');

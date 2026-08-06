@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\Files\FileInfo;
@@ -60,6 +61,7 @@ class ObjectTree extends CachingTree {
 	 * @throws \Sabre\DAV\Exception\NotFound
 	 * @throws \Sabre\DAV\Exception\ServiceUnavailable
 	 */
+	#[\Override]
 	public function getNodeForPath($path) {
 		if (!$this->fileView) {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable('filesystem not setup');
@@ -151,11 +153,11 @@ class ObjectTree extends CachingTree {
 	 * @throws \Sabre\DAV\Exception\ServiceUnavailable
 	 * @return void
 	 */
+	#[\Override]
 	public function copy($sourcePath, $destinationPath) {
 		if (!$this->fileView) {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable('filesystem not setup');
 		}
-
 
 		$info = $this->fileView->getFileInfo(dirname($destinationPath));
 		if ($this->fileView->file_exists($destinationPath)) {

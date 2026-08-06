@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2017 ownCloud GmbH
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\DB;
 
 use Doctrine\DBAL\Schema\Index;
@@ -16,7 +17,6 @@ use Doctrine\DBAL\Types\Type;
 use OC\App\InfoParser;
 use OC\Migration\SimpleOutput;
 use OCP\App\IAppManager;
-use OCP\AppFramework\App;
 use OCP\DB\ISchemaWrapper;
 use OCP\DB\Types;
 use OCP\IConfig;
@@ -63,7 +63,7 @@ class MigrationService {
 		} else {
 			$appManager = Server::get(IAppManager::class);
 			$appPath = $appManager->getAppPath($this->appName);
-			$namespace = App::buildAppNamespace($this->appName);
+			$namespace = $appManager->getAppNamespace($this->appName);
 			$this->migrationsPath = "$appPath/lib/Migration";
 			$this->migrationsNamespace = $namespace . '\\Migration';
 
@@ -93,7 +93,12 @@ class MigrationService {
 	}
 
 	/**
-	 * @codeCoverageIgnore - this will implicitly tested on installation
+	 * Ensures the `migrations` table exists with the expected schema.
+	 *
+	 * Creates the table if missing, or recreates it if the existing one is incompatible.
+	 *
+	 * @return bool True if the table was created or recreated; false otherwise.
+	 * @codeCoverageIgnore This is exercised implicitly during installation.
 	 */
 	private function createMigrationTable(): bool {
 		if ($this->migrationTableCreated) {
@@ -108,8 +113,9 @@ class MigrationService {
 		$schema = new SchemaWrapper($this->connection);
 
 		/**
-		 * We drop the table when it has different columns or the definition does not
-		 * match. E.g. ownCloud uses a length of 177 for app and 14 for version.
+		 * Recreate the `migrations` table when the existing schema is incompatible.
+		 * For example, older ownCloud installations used shorter column lengths
+		 * for `app` (177) and `version` (14).
 		 */
 		try {
 			$table = $schema->getTable('migrations');
@@ -130,19 +136,19 @@ class MigrationService {
 				}
 
 				if (!$schemaMismatch) {
-					// Table exists and schema matches: return back!
+					// The existing table matches the expected schema; nothing to do.
 					$this->migrationTableCreated = true;
 					return false;
 				}
 			}
 
-			// Drop the table, when it didn't match our expectations.
+			// Drop the table because it does not match the expected schema.
 			$this->connection->dropTable('migrations');
 
-			// Recreate the schema after the table was dropped.
+			// Recreate the schema wrapper after dropping the table.
 			$schema = new SchemaWrapper($this->connection);
 		} catch (SchemaException $e) {
-			// Table not found, no need to panic, we will create it.
+			// The table does not exist; it will be created below.
 		}
 
 		$table = $schema->createTable('migrations');
@@ -163,17 +169,16 @@ class MigrationService {
 	 * @return list<string>
 	 * @codeCoverageIgnore - no need to test this
 	 */
-	public function getMigratedVersions() {
+	public function getMigratedVersions(): array {
 		$this->createMigrationTable();
 		$qb = $this->connection->getQueryBuilder();
 
 		$qb->select('version')
 			->from('migrations')
-			->where($qb->expr()->eq('app', $qb->createNamedParameter($this->getApp())))
-			->orderBy('version');
+			->where($qb->expr()->eq('app', $qb->createNamedParameter($this->getApp())));
 
 		$result = $qb->executeQuery();
-		$rows = $result->fetchAll(\PDO::FETCH_COLUMN);
+		$rows = $result->fetchFirstColumn();
 		$result->closeCursor();
 
 		usort($rows, $this->sortMigrations(...));
@@ -246,7 +251,7 @@ class MigrationService {
 	 * @param string $to
 	 * @return string[]
 	 */
-	private function getMigrationsToExecute($to) {
+	private function getMigrationsToExecute($to): array {
 		$knownMigrations = $this->getMigratedVersions();
 		$availableMigrations = $this->getAvailableVersions();
 
@@ -268,7 +273,7 @@ class MigrationService {
 	 * @param string[] $knownMigrations
 	 * @return bool
 	 */
-	private function shallBeExecuted($m, $knownMigrations) {
+	private function shallBeExecuted($m, $knownMigrations): bool {
 		if (in_array($m, $knownMigrations)) {
 			return false;
 		}
@@ -288,28 +293,22 @@ class MigrationService {
 
 	/**
 	 * Returns the name of the table which holds the already applied versions
-	 *
-	 * @return string
 	 */
-	public function getMigrationsTableName() {
+	public function getMigrationsTableName(): string {
 		return $this->connection->getPrefix() . 'migrations';
 	}
 
 	/**
 	 * Returns the namespace of the version classes
-	 *
-	 * @return string
 	 */
-	public function getMigrationsNamespace() {
+	public function getMigrationsNamespace(): string {
 		return $this->migrationsNamespace;
 	}
 
 	/**
 	 * Returns the directory which holds the versions
-	 *
-	 * @return string
 	 */
-	public function getMigrationsDirectory() {
+	public function getMigrationsDirectory(): string {
 		return $this->migrationsPath;
 	}
 
@@ -451,7 +450,7 @@ class MigrationService {
 	 * @param string $to
 	 * @return string[] [$name => $description]
 	 */
-	public function describeMigrationStep($to = 'latest') {
+	public function describeMigrationStep(string $to = 'latest'): array {
 		$toBeExecuted = $this->getMigrationsToExecute($to);
 		$description = [];
 		foreach ($toBeExecuted as $version) {
@@ -464,11 +463,9 @@ class MigrationService {
 	}
 
 	/**
-	 * @param string $version
-	 * @return IMigrationStep
 	 * @throws \InvalidArgumentException
 	 */
-	public function createInstance($version) {
+	public function createInstance(string $version): IMigrationStep {
 		/** @psalm-var class-string<IMigrationStep> $class */
 		$class = $this->getClass($version);
 		try {
@@ -490,11 +487,9 @@ class MigrationService {
 	/**
 	 * Executes one explicit version
 	 *
-	 * @param string $version
-	 * @param bool $schemaOnly
 	 * @throws \InvalidArgumentException
 	 */
-	public function executeStep($version, $schemaOnly = false): void {
+	public function executeStep(string $version, bool $schemaOnly = false): void {
 		$instance = $this->createInstance($version);
 
 		if (!$schemaOnly) {

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV;
 
 use OCA\DAV\CalDAV\BirthdayService;
@@ -54,7 +55,6 @@ class CalendarTest extends TestCase {
 		$c = new Calendar($backend, $calendarInfo, $this->l10n, $this->config, $this->logger);
 		$c->delete();
 	}
-
 
 	public function testDeleteFromGroup(): void {
 		/** @var CalDavBackend&MockObject $backend */
@@ -236,16 +236,36 @@ class CalendarTest extends TestCase {
 				'principal' => 'user2',
 				'protected' => true
 			];
+			$expectedAcl[] = [
+				'privilege' => '{DAV:}read',
+				'principal' => 'user2/calendar-proxy-read',
+				'protected' => true
+			];
+			$expectedAcl[] = [
+				'privilege' => '{DAV:}read',
+				'principal' => 'user2/calendar-proxy-write',
+				'protected' => true
+			];
 			if ($expectsWrite) {
 				$expectedAcl[] = [
 					'privilege' => '{DAV:}write',
 					'principal' => 'user2',
 					'protected' => true
 				];
+				$expectedAcl[] = [
+					'privilege' => '{DAV:}write',
+					'principal' => 'user2/calendar-proxy-write',
+					'protected' => true
+				];
 			} else {
 				$expectedAcl[] = [
 					'privilege' => '{DAV:}write-properties',
 					'principal' => 'user2',
+					'protected' => true
+				];
+				$expectedAcl[] = [
+					'privilege' => '{DAV:}write-properties',
+					'principal' => 'user2/calendar-proxy-write',
 					'protected' => true
 				];
 			}
@@ -517,8 +537,6 @@ END:VCALENDAR
 
 EOD;
 
-
-
 		$publicObject = ['uri' => 'event-0',
 			'classification' => CalDavBackend::CLASSIFICATION_PUBLIC,
 			'calendardata' => $publicObjectData];
@@ -544,10 +562,8 @@ EOD;
 				switch ($uri) {
 					case 'event-0':
 						return $publicObject;
-
 					case 'event-1':
 						return $confidentialObject;
-
 					default:
 						throw new \Exception('unexpected uri');
 				}

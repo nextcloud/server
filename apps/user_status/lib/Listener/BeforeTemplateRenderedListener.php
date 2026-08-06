@@ -42,6 +42,7 @@ class BeforeTemplateRenderedListener implements IEventListener {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function handle(Event $event): void {
 		$user = $this->userSession->getUser();
 		if ($user === null) {

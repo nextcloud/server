@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Versions\Listener;
 
 use OC\Files\Node\Folder;
@@ -30,6 +31,7 @@ class VersionAuthorListener implements IEventListener {
 	 * @abstract handles events from a nodes version being changed
 	 * @param Event $event the event that triggered this listener to activate
 	 */
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof NodeWrittenEvent) {
 			$this->post_write_hook($event->getNode());

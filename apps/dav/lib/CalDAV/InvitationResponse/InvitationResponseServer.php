@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CalDAV\InvitationResponse;
 
 use OCA\DAV\AppInfo\PluginManager;
@@ -25,6 +26,7 @@ use OCP\App\IAppManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IURLGenerator;
+use OCP\L10N\IFactory;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Sabre\VObject\ITip\Message;
@@ -45,7 +47,7 @@ class InvitationResponseServer {
 		$this->server = new \OCA\DAV\Connector\Sabre\Server(new CachingTree($root));
 
 		// Add maintenance plugin
-		$this->server->addPlugin(new MaintenancePlugin(Server::get(IConfig::class), \OC::$server->getL10N('dav')));
+		$this->server->addPlugin(new MaintenancePlugin(Server::get(IConfig::class), Server::get(IFactory::class)->get('dav')));
 
 		// Set URL explicitly due to reverse-proxy situations
 		$this->server->httpRequest->setUrl($baseUri);

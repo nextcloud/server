@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\TwoFactorBackupCodes\Tests\Unit\Service;
 
 use OCA\TwoFactorBackupCodes\Db\BackupCode;
@@ -157,12 +158,11 @@ class BackupCodeStorageTest extends TestCase {
 			->with('CHALLENGE', 'HASHEDVALUE', $this->anything())
 			->willReturn(true);
 		$this->mapper->expects($this->once())
-			->method('update')
-			->with($code);
+			->method('markUsedIfUnused')
+			->with($code)
+			->willReturn(1);
 
 		$this->assertTrue($this->storage->validateCode($user, 'CHALLENGE'));
-
-		$this->assertEquals(1, $code->getUsed());
 	}
 
 	public function testValidateUsedCode(): void {

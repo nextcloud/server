@@ -15,5 +15,5 @@ use Exception;
  * @deprecated 32.0.0  use \OCP\Config\Exceptions\UnknownKeyException
  * @see \OCP\Config\Exceptions\UnknownKeyException
  */
-class UnknownKeyException extends Exception {
+final class UnknownKeyException extends Exception {
 }

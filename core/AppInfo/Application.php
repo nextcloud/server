@@ -5,8 +5,10 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\AppInfo;
 
+use NCU\Sharing\ISharingRegistry;
 use OC\Authentication\Events\RemoteWipeFinished;
 use OC\Authentication\Events\RemoteWipeStarted;
 use OC\Authentication\Listeners\RemoteWipeActivityListener;
@@ -20,9 +22,26 @@ use OC\Authentication\Notifications\Notifier as AuthenticationNotifier;
 use OC\Core\Listener\AddMissingIndicesListener;
 use OC\Core\Listener\AddMissingPrimaryKeyListener;
 use OC\Core\Listener\BeforeTemplateRenderedListener;
+use OC\Core\Listener\LoadAdditionalEntriesListener;
 use OC\Core\Listener\PasswordUpdatedListener;
+use OC\Core\Listener\RestrictInteractionListener;
 use OC\Core\Notification\CoreNotifier;
+use OC\Core\Sharing\Permission\EditSharePermissionPreset;
+use OC\Core\Sharing\Permission\ReshareSharePermissionType;
+use OC\Core\Sharing\Permission\ViewSharePermissionPreset;
+use OC\Core\Sharing\Property\ExpirationDateSharePropertyType;
+use OC\Core\Sharing\Property\LabelSharePropertyType;
+use OC\Core\Sharing\Property\NoteSharePropertyType;
+use OC\Core\Sharing\Property\PasswordSharePropertyType;
+use OC\Core\Sharing\Recipient\EmailShareRecipientType;
+use OC\Core\Sharing\Recipient\GroupShareRecipientType;
+use OC\Core\Sharing\Recipient\TeamShareRecipientType;
+use OC\Core\Sharing\Recipient\TokenShareRecipientType;
+use OC\Core\Sharing\Recipient\UserShareRecipientType;
+use OC\DirectEditing\Listeners\UserDeletedTokenCleanupListener as UserDeletedDirectEditingTokenCleanupListener;
+use OC\DirectEditing\Listeners\UserDisabledTokenCleanupListener as UserDisabledDirectEditingTokenCleanupListener;
 use OC\OCM\OCMDiscoveryHandler;
+use OC\OCM\OCMJwksHandler;
 use OC\TagManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
@@ -32,8 +51,13 @@ use OCP\AppFramework\Http\Events\BeforeLoginTemplateRenderedEvent;
 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\DB\Events\AddMissingIndicesEvent;
 use OCP\DB\Events\AddMissingPrimaryKeyEvent;
+use OCP\IAppConfig;
+use OCP\Interaction\RestrictInteractionEvent;
+use OCP\Navigation\Events\LoadAdditionalEntriesEvent;
+use OCP\Server;
 use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\User\Events\PasswordUpdatedEvent;
+use OCP\User\Events\UserChangedEvent;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\Util;
 
@@ -53,6 +77,7 @@ class Application extends App implements IBootstrap {
 		parent::__construct(self::APP_ID, $urlParams);
 	}
 
+	#[\Override]
 	public function register(IRegistrationContext $context): void {
 		$context->registerService('defaultMailAddress', function () {
 			return Util::getDefaultEmailAddress('lostpassword-noreply');
@@ -67,6 +92,7 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(AddMissingPrimaryKeyEvent::class, AddMissingPrimaryKeyListener::class);
 		$context->registerEventListener(BeforeTemplateRenderedEvent::class, BeforeTemplateRenderedListener::class);
 		$context->registerEventListener(BeforeLoginTemplateRenderedEvent::class, BeforeTemplateRenderedListener::class);
+		$context->registerEventListener(LoadAdditionalEntriesEvent::class, LoadAdditionalEntriesListener::class);
 		$context->registerEventListener(RemoteWipeStarted::class, RemoteWipeActivityListener::class);
 		$context->registerEventListener(RemoteWipeStarted::class, RemoteWipeNotificationsListener::class);
 		$context->registerEventListener(RemoteWipeStarted::class, RemoteWipeEmailListener::class);
@@ -87,11 +113,55 @@ class Application extends App implements IBootstrap {
 		$context->registerConfigLexicon(ConfigLexicon::class);
 
 		$context->registerWellKnownHandler(OCMDiscoveryHandler::class);
+		$context->registerWellKnownHandler(OCMJwksHandler::class);
 		$context->registerCapability(Capabilities::class);
+
+		$context->registerEventListener(RestrictInteractionEvent::class, RestrictInteractionListener::class);
+
+		// Direct Editing
+		$context->registerEventListener(UserDeletedEvent::class, UserDeletedDirectEditingTokenCleanupListener::class);
+		$context->registerEventListener(UserChangedEvent::class, UserDisabledDirectEditingTokenCleanupListener::class);
+
+		$registry = Server::get(ISharingRegistry::class);
+
+		$registry->registerRecipientType(Server::get(EmailShareRecipientType::class));
+		$registry->registerRecipientType(Server::get(GroupShareRecipientType::class));
+		$registry->registerRecipientType(Server::get(TeamShareRecipientType::class));
+		$registry->registerRecipientType(Server::get(TokenShareRecipientType::class));
+		$registry->registerRecipientType(Server::get(UserShareRecipientType::class));
+
+		$registry->registerPropertyType(Server::get(ExpirationDateSharePropertyType::class));
+		$registry->markPropertyTypeCompatibleWithRecipientType(ExpirationDateSharePropertyType::class, EmailShareRecipientType::class);
+		$registry->markPropertyTypeCompatibleWithRecipientType(ExpirationDateSharePropertyType::class, GroupShareRecipientType::class);
+		$registry->markPropertyTypeCompatibleWithRecipientType(ExpirationDateSharePropertyType::class, TeamShareRecipientType::class);
+		$registry->markPropertyTypeCompatibleWithRecipientType(ExpirationDateSharePropertyType::class, TokenShareRecipientType::class);
+		$registry->markPropertyTypeCompatibleWithRecipientType(ExpirationDateSharePropertyType::class, UserShareRecipientType::class);
+
+		$registry->registerPropertyType(new LabelSharePropertyType());
+		$registry->markPropertyTypeCompatibleWithRecipientType(LabelSharePropertyType::class, TokenShareRecipientType::class);
+
+		$registry->registerPropertyType(new NoteSharePropertyType());
+		$registry->markPropertyTypeCompatibleWithRecipientType(NoteSharePropertyType::class, EmailShareRecipientType::class);
+		$registry->markPropertyTypeCompatibleWithRecipientType(NoteSharePropertyType::class, GroupShareRecipientType::class);
+		$registry->markPropertyTypeCompatibleWithRecipientType(NoteSharePropertyType::class, TeamShareRecipientType::class);
+		$registry->markPropertyTypeCompatibleWithRecipientType(NoteSharePropertyType::class, TokenShareRecipientType::class);
+		$registry->markPropertyTypeCompatibleWithRecipientType(NoteSharePropertyType::class, UserShareRecipientType::class);
+
+		$registry->registerPropertyType(Server::get(PasswordSharePropertyType::class));
+		$registry->markPropertyTypeCompatibleWithRecipientType(PasswordSharePropertyType::class, EmailShareRecipientType::class);
+		$registry->markPropertyTypeCompatibleWithRecipientType(PasswordSharePropertyType::class, TokenShareRecipientType::class);
+
+		$registry->registerPermissionPreset(new ViewSharePermissionPreset());
+		$registry->registerPermissionPreset(new EditSharePermissionPreset());
+
+		$registry->registerPermissionType(null, Server::get(ReshareSharePermissionType::class));
+		// Cannot use the APP_ID from files_sharing Application and EXCLUDE_RESHARE_FROM_EDIT from files_sharing ConfigLexicon, because the classes are not registered yet.
+		if (!Server::get(IAppConfig::class)->getValueBool('files_sharing', 'shareapi_exclude_reshare_from_edit')) {
+			$registry->markPermissionTypeCompatibleWithPermissionPreset(ReshareSharePermissionType::class, EditSharePermissionPreset::class);
+		}
 	}
 
+	#[\Override]
 	public function boot(IBootContext $context): void {
-		// ...
 	}
-
 }

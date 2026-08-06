@@ -26,36 +26,44 @@ class TwitterAction implements ILinkAction {
 	) {
 	}
 
+	#[\Override]
 	public function preload(IUser $targetUser): void {
 		$account = $this->accountManager->getAccount($targetUser);
 		$this->value = $account->getProperty(IAccountManager::PROPERTY_TWITTER)->getValue();
 	}
 
+	#[\Override]
 	public function getAppId(): string {
 		return 'core';
 	}
 
+	#[\Override]
 	public function getId(): string {
 		return IAccountManager::PROPERTY_TWITTER;
 	}
 
+	#[\Override]
 	public function getDisplayId(): string {
 		return $this->l10nFactory->get('lib')->t('Twitter');
 	}
 
+	#[\Override]
 	public function getTitle(): string {
 		$displayUsername = $this->value[0] === '@' ? $this->value : '@' . $this->value;
 		return $this->l10nFactory->get('lib')->t('View %s on Twitter', [$displayUsername]);
 	}
 
+	#[\Override]
 	public function getPriority(): int {
 		return 50;
 	}
 
+	#[\Override]
 	public function getIcon(): string {
 		return $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'actions/twitter.svg'));
 	}
 
+	#[\Override]
 	public function getTarget(): ?string {
 		if (empty($this->value)) {
 			return null;

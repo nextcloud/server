@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Trashbin\Sabre;
 
 use OCA\Files_Trashbin\Trash\ITrashManager;
@@ -36,6 +37,7 @@ class RootCollection extends AbstractPrincipalCollection {
 	 * @param array $principalInfo
 	 * @return INode
 	 */
+	#[\Override]
 	public function getChildForPrincipal(array $principalInfo): TrashHome {
 		[, $name] = \Sabre\Uri\split($principalInfo['uri']);
 		$user = Server::get(IUserSession::class)->getUser();
@@ -45,6 +47,7 @@ class RootCollection extends AbstractPrincipalCollection {
 		return new TrashHome($principalInfo, $this->trashManager, $user);
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'trashbin';
 	}

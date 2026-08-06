@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\AppFramework\OCS;
 
 use OCP\AppFramework\Http;
@@ -23,6 +24,7 @@ class V2Response extends BaseResponse {
 	 *
 	 * @return Http::STATUS_*
 	 */
+	#[\Override]
 	public function getStatus() {
 		$status = parent::getStatus();
 		if ($status === OCSController::RESPOND_UNAUTHORISED) {
@@ -44,6 +46,7 @@ class V2Response extends BaseResponse {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function render() {
 		$status = parent::getStatus();
 

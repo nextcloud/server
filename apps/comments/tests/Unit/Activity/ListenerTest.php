@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Comments\Tests\Unit\Activity;
 
 use OCA\Comments\Activity\Listener;
@@ -35,6 +36,7 @@ class ListenerTest extends TestCase {
 	protected IShareHelper&MockObject $shareHelper;
 	protected Listener $listener;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

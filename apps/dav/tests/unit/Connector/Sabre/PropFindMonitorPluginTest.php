@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\PropFindMonitorPlugin;

@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Trashbin\Trash;
 
 use OCP\Files\Storage\IStorage;
@@ -15,6 +16,7 @@ class TrashManager implements ITrashManager {
 
 	private $trashPaused = false;
 
+	#[\Override]
 	public function registerBackend(string $storageType, ITrashBackend $backend) {
 		$this->backends[$storageType] = $backend;
 	}
@@ -26,6 +28,7 @@ class TrashManager implements ITrashManager {
 		return $this->backends;
 	}
 
+	#[\Override]
 	public function listTrashRoot(IUser $user): array {
 		$items = array_reduce($this->getBackends(), function (array $items, ITrashBackend $backend) use ($user) {
 			return array_merge($items, $backend->listTrashRoot($user));
@@ -36,18 +39,41 @@ class TrashManager implements ITrashManager {
 		return $items;
 	}
 
+	#[\Override]
+	public function getTrashRootItem(IUser $user, string $name): ?ITrashItem {
+		foreach ($this->getBackends() as $backend) {
+			if (method_exists($backend, 'getTrashRootItem')) {
+				$item = $backend->getTrashRootItem($user, $name);
+				if ($item !== null) {
+					return $item;
+				}
+			} else {
+				$items = $backend->listTrashRoot($user);
+				foreach ($items as $item) {
+					if ($item->getName() === $name) {
+						return $item;
+					}
+				}
+			}
+		}
+		return null;
+	}
+
 	private function getBackendForItem(ITrashItem $item) {
 		return $item->getTrashBackend();
 	}
 
+	#[\Override]
 	public function listTrashFolder(ITrashItem $folder): array {
 		return $this->getBackendForItem($folder)->listTrashFolder($folder);
 	}
 
+	#[\Override]
 	public function restoreItem(ITrashItem $item) {
 		return $this->getBackendForItem($item)->restoreItem($item);
 	}
 
+	#[\Override]
 	public function removeItem(ITrashItem $item) {
 		$this->getBackendForItem($item)->removeItem($item);
 	}
@@ -76,6 +102,7 @@ class TrashManager implements ITrashManager {
 		}
 	}
 
+	#[\Override]
 	public function moveToTrash(IStorage $storage, string $internalPath): bool {
 		if ($this->trashPaused) {
 			return false;
@@ -91,6 +118,7 @@ class TrashManager implements ITrashManager {
 		}
 	}
 
+	#[\Override]
 	public function getTrashNodeById(IUser $user, int $fileId) {
 		foreach ($this->backends as $backend) {
 			$item = $backend->getTrashNodeById($user, $fileId);
@@ -101,10 +129,12 @@ class TrashManager implements ITrashManager {
 		return null;
 	}
 
+	#[\Override]
 	public function pauseTrash() {
 		$this->trashPaused = true;
 	}
 
+	#[\Override]
 	public function resumeTrash() {
 		$this->trashPaused = false;
 	}

@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Command;
 
 use OCA\DAV\CalDAV\CalDavBackend;
@@ -38,6 +39,7 @@ class MoveCalendar extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('dav:move-calendar')
@@ -54,6 +56,7 @@ class MoveCalendar extends Command {
 			->addOption('force', 'f', InputOption::VALUE_NONE, 'Force the migration by removing existing shares and renaming calendars in case of conflicts');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$userOrigin = $input->getArgument('sourceuid');
 		$userDestination = $input->getArgument('destinationuid');

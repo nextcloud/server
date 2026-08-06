@@ -26,13 +26,13 @@ class HideFromCollaborationTest extends TestCase {
 	private IUserManager&MockObject $userManager;
 	private IEventDispatcher&MockObject $dispatcher;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 	}
-
 
 	public function testHideFromCollaboration(): void {
 		// Arrange

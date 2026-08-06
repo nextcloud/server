@@ -20,12 +20,14 @@ class ExportCertificates extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('security:certificates:export')
 			->setDescription('export the certificate bundle');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$bundlePath = $this->certificateManager->getAbsoluteBundlePath();
 		$bundle = file_get_contents($bundlePath);

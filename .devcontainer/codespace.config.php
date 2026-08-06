@@ -7,6 +7,19 @@
 $codespaceName = getenv('CODESPACE_NAME');
 $codespaceDomain = getenv('GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN');
 
+// When running under Apache, env vars from the shell profile are not inherited.
+// Fall back to the Codespaces shared environment file and the well-known domain.
+if (empty($codespaceName)) {
+    $sharedEnvFile = '/workspaces/.codespaces/shared/environment-variables.json';
+    if (is_readable($sharedEnvFile)) {
+        $sharedEnv = json_decode(file_get_contents($sharedEnvFile), true) ?? [];
+        $codespaceName = $sharedEnv['CODESPACE_NAME'] ?? '';
+    }
+}
+if (!empty($codespaceName) && empty($codespaceDomain)) {
+    $codespaceDomain = 'app.github.dev';
+}
+
 $CONFIG = [
     'mail_from_address' => 'no-reply',
     'mail_smtpmode' => 'smtp',

@@ -17,6 +17,7 @@ use Test\TestCase;
 class PropagatorTest extends TestCase {
 	private IStorage $storage;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->storage = new Temporary();

@@ -19,6 +19,7 @@ class PhoneNumberUtil implements IPhoneNumberUtil {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getCountryCodeForRegion(string $regionCode): ?int {
 		$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
 		$countryCode = $phoneUtil->getCountryCodeForRegion($regionCode);
@@ -28,6 +29,7 @@ class PhoneNumberUtil implements IPhoneNumberUtil {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function convertToStandardFormat(string $input, ?string $defaultRegion = null): ?string {
 		$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
 		try {

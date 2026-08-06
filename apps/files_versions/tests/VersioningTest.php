@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Versions\Tests;
 
 use OC\AllConfig;
@@ -14,7 +15,6 @@ use OC\Files\Filesystem;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
 use OC\SystemConfig;
-use OC\User\NoUserException;
 use OCA\Files_Sharing\AppInfo\Application;
 use OCA\Files_Versions\Db\VersionEntity;
 use OCA\Files_Versions\Db\VersionsMapper;
@@ -29,6 +29,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
 use OCP\Share\IShare;
+use OCP\User\Exceptions\UserNotFoundException;
 use OCP\Util;
 
 /**
@@ -284,7 +285,6 @@ class VersioningTest extends \Test\TestCase {
 				[],
 				0
 			]
-
 		];
 	}
 
@@ -398,7 +398,6 @@ class VersioningTest extends \Test\TestCase {
 		$this->assertTrue($this->rootView->file_exists($v1Renamed));
 		$this->assertTrue($this->rootView->file_exists($v2Renamed));
 	}
-
 
 	public function testMoveFileIntoSharedFolderAsRecipient(): void {
 		Filesystem::mkdir('folder1');
@@ -634,9 +633,8 @@ class VersioningTest extends \Test\TestCase {
 		$this->assertFalse(Storage::expire('/void/unexist.txt', self::TEST_VERSIONS_USER));
 	}
 
-
 	public function testExpireNonexistingUser(): void {
-		$this->expectException(NoUserException::class);
+		$this->expectException(UserNotFoundException::class);
 
 		$this->logout();
 		// needed to have a FS setup (the background job does this)

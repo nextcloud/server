@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\SetupChecks;
 
 use OCP\IL10N;
@@ -19,14 +20,17 @@ class PhpDisabledFunctions implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('PHP set_time_limit');
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'php';
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		if (function_exists('set_time_limit') && !str_contains(ini_get('disable_functions'), 'set_time_limit')) {
 			return SetupResult::success($this->l10n->t('The function is available.'));

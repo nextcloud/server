@@ -11,7 +11,7 @@ import logger from '../services/logger.ts'
 export default {
 	methods: {
 		async openSharingDetails(shareRequestObject) {
-			let share = {}
+			let share
 			// handle externalResults from OCA.Sharing.ShareSearch
 			// TODO : Better name/interface for handler required
 			// For example `externalAppCreateShareHook` with proper documentation

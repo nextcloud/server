@@ -5,12 +5,14 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files\Command;
 
 use OC\Core\Command\Base;
 use OC\Core\Command\InterruptedException;
 use OC\DB\Connection;
 use OC\DB\ConnectionAdapter;
+use OC\Files\SetupManager;
 use OC\Files\Storage\Wrapper\Jail;
 use OC\Files\Utils\Scanner;
 use OC\FilesMetadata\FilesMetadataManager;
@@ -49,10 +51,12 @@ class Scan extends Base {
 		private FilesMetadataManager $filesMetadataManager,
 		private IEventDispatcher $eventDispatcher,
 		private LoggerInterface $logger,
+		private SetupManager $setupManager,
 	) {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		parent::configure();
 
@@ -111,10 +115,11 @@ class Scan extends Base {
 	): void {
 		$connection = $this->reconnectToDatabase($output);
 		$scanner = new Scanner(
-			$user,
+			$this->userManager->get($user),
 			new ConnectionAdapter($connection),
-			Server::get(IEventDispatcher::class),
-			Server::get(LoggerInterface::class)
+			$this->eventDispatcher,
+			$this->logger,
+			$this->setupManager,
 		);
 
 		# check on each file/folder if there was a user interrupt (ctrl-c) and throw an exception
@@ -193,6 +198,7 @@ class Scan extends Base {
 		return substr_count($mountPoint->getMountPoint(), '/') <= 3;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$inputPath = $input->getOption('path');
 		if ($inputPath) {
@@ -345,7 +351,6 @@ class Scan extends Base {
 			->setRows([$rows]);
 		$table->render();
 	}
-
 
 	/**
 	 * Formats microtime into a human-readable format

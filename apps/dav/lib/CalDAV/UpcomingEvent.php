@@ -55,6 +55,7 @@ class UpcomingEvent implements JsonSerializable {
 	/**
 	 * @see ResponseDefinitions
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'uri' => $this->uri,

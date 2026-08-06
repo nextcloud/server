@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\DAV\Sharing\Xml;
 
 use OCA\DAV\DAV\Sharing\Plugin;
@@ -12,6 +13,8 @@ use Sabre\Xml\Reader;
 use Sabre\Xml\XmlDeserializable;
 
 class ShareRequest implements XmlDeserializable {
+	public const ELEMENT_SHARE = '{' . Plugin::NS_OWNCLOUD . '}share';
+
 	/**
 	 * Constructor
 	 *
@@ -24,6 +27,7 @@ class ShareRequest implements XmlDeserializable {
 	) {
 	}
 
+	#[\Override]
 	public static function xmlDeserialize(Reader $reader) {
 		$elements = $reader->parseInnerTree([
 			'{' . Plugin::NS_OWNCLOUD . '}set' => 'Sabre\\Xml\\Element\\KeyValue',
@@ -33,9 +37,12 @@ class ShareRequest implements XmlDeserializable {
 		$set = [];
 		$remove = [];
 
+		if ($elements === null) {
+			return new self($set, $remove);
+		}
+
 		foreach ($elements as $elem) {
 			switch ($elem['name']) {
-
 				case '{' . Plugin::NS_OWNCLOUD . '}set':
 					$sharee = $elem['value'];
 

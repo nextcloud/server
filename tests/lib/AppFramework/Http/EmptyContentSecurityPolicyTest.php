@@ -19,6 +19,7 @@ class EmptyContentSecurityPolicyTest extends \Test\TestCase {
 	/** @var EmptyContentSecurityPolicy */
 	private $contentSecurityPolicy;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->contentSecurityPolicy = new EmptyContentSecurityPolicy();
@@ -65,13 +66,6 @@ class EmptyContentSecurityPolicyTest extends \Test\TestCase {
 
 		$this->contentSecurityPolicy->addAllowedScriptDomain('www.nextcloud.com');
 		$this->contentSecurityPolicy->disallowScriptDomain('www.nextcloud.org')->disallowScriptDomain('www.nextcloud.com');
-		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
-	}
-
-	public function testGetPolicyScriptAllowEval(): void {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src  'unsafe-eval';frame-ancestors 'none'";
-
-		$this->contentSecurityPolicy->allowEvalScript(true);
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
@@ -374,45 +368,6 @@ class EmptyContentSecurityPolicyTest extends \Test\TestCase {
 
 		$this->contentSecurityPolicy->addAllowedFrameDomain('www.nextcloud.com');
 		$this->contentSecurityPolicy->disallowFrameDomain('www.nextcloud.org')->disallowFrameDomain('www.nextcloud.com');
-		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
-	}
-
-	public function testGetAllowedChildSrcDomain(): void {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';child-src child.nextcloud.com;frame-ancestors 'none'";
-
-		$this->contentSecurityPolicy->addAllowedChildSrcDomain('child.nextcloud.com');
-		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
-	}
-
-	public function testGetPolicyChildSrcValidMultiple(): void {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';child-src child.nextcloud.com child.nextcloud.org;frame-ancestors 'none'";
-
-		$this->contentSecurityPolicy->addAllowedChildSrcDomain('child.nextcloud.com');
-		$this->contentSecurityPolicy->addAllowedChildSrcDomain('child.nextcloud.org');
-		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
-	}
-
-	public function testGetPolicyDisallowChildSrcDomain(): void {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'";
-
-		$this->contentSecurityPolicy->addAllowedChildSrcDomain('www.nextcloud.com');
-		$this->contentSecurityPolicy->disallowChildSrcDomain('www.nextcloud.com');
-		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
-	}
-
-	public function testGetPolicyDisallowChildSrcDomainMultiple(): void {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';child-src www.nextcloud.com;frame-ancestors 'none'";
-
-		$this->contentSecurityPolicy->addAllowedChildSrcDomain('www.nextcloud.com');
-		$this->contentSecurityPolicy->disallowChildSrcDomain('www.nextcloud.org');
-		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
-	}
-
-	public function testGetPolicyDisallowChildSrcDomainMultipleStakes(): void {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'";
-
-		$this->contentSecurityPolicy->addAllowedChildSrcDomain('www.nextcloud.com');
-		$this->contentSecurityPolicy->disallowChildSrcDomain('www.nextcloud.org')->disallowChildSrcDomain('www.nextcloud.com');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 

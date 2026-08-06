@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\AppFramework\Middleware;
 
 use OCP\AppFramework\Controller;
@@ -27,7 +28,6 @@ class MiddlewareDispatcher {
 	 */
 	private int $middlewareCounter;
 
-
 	/**
 	 * Constructor
 	 */
@@ -35,7 +35,6 @@ class MiddlewareDispatcher {
 		$this->middlewares = [];
 		$this->middlewareCounter = 0;
 	}
-
 
 	/**
 	 * Adds a new middleware
@@ -45,7 +44,6 @@ class MiddlewareDispatcher {
 		$this->middlewares[] = $middleWare;
 	}
 
-
 	/**
 	 * returns an array with all middleware elements
 	 * @return Middleware[] the middlewares
@@ -53,7 +51,6 @@ class MiddlewareDispatcher {
 	public function getMiddlewares(): array {
 		return $this->middlewares;
 	}
-
 
 	/**
 	 * This is being run in normal order before the controller is being
@@ -73,7 +70,6 @@ class MiddlewareDispatcher {
 			$middleware->beforeController($controller, $methodName);
 		}
 	}
-
 
 	/**
 	 * This is being run when either the beforeController method or the
@@ -102,7 +98,6 @@ class MiddlewareDispatcher {
 		throw $exception;
 	}
 
-
 	/**
 	 * This is being run after a successful controllermethod call and allows
 	 * the manipulation of a Response object. The middleware is run in reverse order
@@ -120,7 +115,6 @@ class MiddlewareDispatcher {
 		}
 		return $response;
 	}
-
 
 	/**
 	 * This is being run after the response object has been rendered and

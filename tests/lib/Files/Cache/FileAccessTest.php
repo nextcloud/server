@@ -24,6 +24,7 @@ class FileAccessTest extends TestCase {
 	private IDBConnection $dbConnection;
 	private FileAccess $fileAccess;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -46,7 +47,6 @@ class FileAccessTest extends TestCase {
 		// Clean up potential leftovers from other tests
 		$queryBuilder = $this->dbConnection->getQueryBuilder();
 		$queryBuilder->delete('mounts')->executeStatement();
-
 
 		$this->setUpTestDatabaseForGetDistinctMounts();
 		$this->setUpTestDatabaseForGetByAncestorInStorage();

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\Cache\Cache;
@@ -33,14 +34,11 @@ class CacheTest extends TestCase {
 	protected Cache $sharedCache;
 	protected Storage $ownerStorage;
 	protected Storage $sharedStorage;
-	/** @var \OCP\Share\IManager $shareManager */
-	protected $shareManager;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->shareManager = Server::get(\OCP\Share\IManager::class);
-
 
 		$userManager = Server::get(IUserManager::class);
 		$userManager->get(self::TEST_FILES_SHARING_API_USER1)->setDisplayName('User One');
@@ -230,14 +228,14 @@ class CacheTest extends TestCase {
 			[
 				[
 					'name' => 'shareddir',
-					'path' => 'files/shareddir',
+					'path' => '/' . self::TEST_FILES_SHARING_API_USER2 . '/files/shareddir',
 					'mimetype' => 'httpd/unix-directory',
 					'uid_owner' => self::TEST_FILES_SHARING_API_USER1,
 					'displayname_owner' => 'User One',
 				],
 				[
 					'name' => 'shared single file.txt',
-					'path' => 'files/shared single file.txt',
+					'path' => '/' . self::TEST_FILES_SHARING_API_USER2 . '/files/shared single file.txt',
 					'mimetype' => 'text/plain',
 					'uid_owner' => self::TEST_FILES_SHARING_API_USER1,
 					'displayname_owner' => 'User One',
@@ -254,21 +252,21 @@ class CacheTest extends TestCase {
 			[
 				[
 					'name' => 'bar.txt',
-					'path' => 'bar.txt',
+					'path' => '/' . self::TEST_FILES_SHARING_API_USER2 . '/files/shareddir/bar.txt',
 					'mimetype' => 'text/plain',
 					'uid_owner' => self::TEST_FILES_SHARING_API_USER1,
 					'displayname_owner' => 'User One',
 				],
 				[
 					'name' => 'emptydir',
-					'path' => 'emptydir',
+					'path' => '/' . self::TEST_FILES_SHARING_API_USER2 . '/files/shareddir/emptydir',
 					'mimetype' => 'httpd/unix-directory',
 					'uid_owner' => self::TEST_FILES_SHARING_API_USER1,
 					'displayname_owner' => 'User One',
 				],
 				[
 					'name' => 'subdir',
-					'path' => 'subdir',
+					'path' => '/' . self::TEST_FILES_SHARING_API_USER2 . '/files/shareddir/subdir',
 					'mimetype' => 'httpd/unix-directory',
 					'uid_owner' => self::TEST_FILES_SHARING_API_USER1,
 					'displayname_owner' => 'User One',
@@ -336,21 +334,21 @@ class CacheTest extends TestCase {
 			[
 				[
 					'name' => 'another too.txt',
-					'path' => 'another too.txt',
+					'path' => '/' . self::TEST_FILES_SHARING_API_USER3 . '/files/subdir/another too.txt',
 					'mimetype' => 'text/plain',
 					'uid_owner' => self::TEST_FILES_SHARING_API_USER1,
 					'displayname_owner' => 'User One',
 				],
 				[
 					'name' => 'another.txt',
-					'path' => 'another.txt',
+					'path' => '/' . self::TEST_FILES_SHARING_API_USER3 . '/files/subdir/another.txt',
 					'mimetype' => 'text/plain',
 					'uid_owner' => self::TEST_FILES_SHARING_API_USER1,
 					'displayname_owner' => 'User One',
 				],
 				[
 					'name' => 'not a text file.xml',
-					'path' => 'not a text file.xml',
+					'path' => '/' . self::TEST_FILES_SHARING_API_USER3 . '/files/subdir/not a text file.xml',
 					'mimetype' => 'application/xml',
 					'uid_owner' => self::TEST_FILES_SHARING_API_USER1,
 					'displayname_owner' => 'User One',
@@ -556,6 +554,55 @@ class CacheTest extends TestCase {
 
 		$results = $sharedStorage->getCache()->search('foo.txt');
 		$this->assertCount(1, $results);
+	}
+
+	public function testSingleFileShareKeepsUnmaskedPermissionsAsScanPermissions(): void {
+		$sourceEntry = $this->ownerCache->get('files/container/shared single file.txt');
+
+		/** @var SharedStorage $sharedStorage */
+		[$sharedStorage] = $this->user2View->resolvePath('shared single file.txt');
+		$entry = $sharedStorage->getCache()->get('');
+
+		$mask = Constants::PERMISSION_ALL & ~(Constants::PERMISSION_CREATE | Constants::PERMISSION_DELETE);
+		$this->assertEquals($sourceEntry->getPermissions() & $mask, $entry->getPermissions());
+		$this->assertEquals($sourceEntry->getPermissions(), $entry['scan_permissions']);
+	}
+
+	public function testFolderShareKeepsUnmaskedPermissionsAsScanPermissions(): void {
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+
+		$rootFolder = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER1);
+		$node = $rootFolder->get('container');
+		$share = $this->shareManager->newShare();
+		$share->setNode($node)
+			->setShareType(IShare::TYPE_USER)
+			->setSharedWith(self::TEST_FILES_SHARING_API_USER2)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
+			->setPermissions(Constants::PERMISSION_READ | Constants::PERMISSION_SHARE);
+		$share = $this->shareManager->createShare($share);
+		$share->setStatus(IShare::STATUS_ACCEPTED);
+		$this->shareManager->updateShare($share);
+		Server::get(ISetupManager::class)->tearDown();
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+
+		/** @var SharedStorage $sharedStorage */
+		[$sharedStorage] = $this->user2View->resolvePath('container');
+		$sharedCache = $sharedStorage->getCache();
+		$mask = Constants::PERMISSION_READ | Constants::PERMISSION_SHARE;
+
+		$entry = $sharedCache->get('shareddir/bar.txt');
+		$sourceEntry = $this->ownerCache->get('files/container/shareddir/bar.txt');
+		$this->assertEquals($sourceEntry->getPermissions() & $mask, $entry->getPermissions());
+		$this->assertEquals($sourceEntry->getPermissions(), $entry['scan_permissions']);
+
+		$children = $sharedCache->getFolderContents('shareddir');
+		$this->assertNotEmpty($children);
+		foreach ($children as $child) {
+			$sourceChild = $this->ownerCache->get('files/container/shareddir/' . $child->getName());
+			$this->assertEquals($sourceChild->getPermissions() & $mask, $child->getPermissions());
+			$this->assertEquals($sourceChild->getPermissions(), $child['scan_permissions']);
+		}
 	}
 
 	public function testWatcherRootChange(): void {

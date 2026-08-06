@@ -27,6 +27,14 @@ interface ITeamManager {
 	public function getProvider(string $providerId): ITeamResourceProvider;
 
 	/**
+	 * Get the registered provider of exclusive team folders.
+	 *
+	 * @return ITeamFolderProvider|null Null when no folder provider is enabled.
+	 * @since 35.0.0
+	 */
+	public function getTeamFolderProvider(): ?ITeamFolderProvider;
+
+	/**
 	 * Returns all team resources for a given team and user
 	 *
 	 * @return list<TeamResource>
@@ -42,12 +50,13 @@ interface ITeamManager {
 	public function getTeamsForResource(string $providerId, string $resourceId, string $userId): array;
 
 	/**
-	 * @param string[] $teams
-	 * @return array<string, list<TeamResource>>
+	 * Returns all team resources for the given teams, user and resource
 	 *
+	 * @return array<string, list<TeamResource>>
 	 * @since 33.0.0
+	 * @since 34.0.0 Added $resourceId param
 	 */
-	public function getSharedWithList(array $teams, string $userId): array;
+	public function getSharedWithList(array $teams, string $userId, string $resourceId): array;
 
 	/**
 	 * Returns all teams that a given user is a member of
@@ -56,4 +65,28 @@ interface ITeamManager {
 	 * @since 33.0.0
 	 */
 	public function getTeamsForUser(string $userId): array;
+
+	/**
+	 * Returns a mapping of user ID to display name for all members of a given team.
+	 *
+	 * @param string $teamId ID of the team whose members are being queried
+	 * @param string $userId ID of the user from whose point of view the members are being queried
+	 *
+	 * @return array<string, string> userId => displayName
+	 * @since 34.0.0
+	 */
+	public function getMembersOfTeam(string $teamId, string $userId): array;
+
+	/**
+	 * Returns whether the Teams backend is available
+	 *
+	 * @return bool
+	 * @since 34.0.0
+	 */
+	public function hasTeamSupport(): bool;
+
+	/**
+	 * @since 35.0.0
+	 */
+	public function getTeam(string $teamId, ?string $userId = null): ?Team;
 }

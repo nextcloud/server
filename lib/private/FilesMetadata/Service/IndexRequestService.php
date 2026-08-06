@@ -186,13 +186,13 @@ class IndexRequestService {
 	 * @throws DbException
 	 */
 	public function dropIndexForFiles(array $fileIds, string $key = ''): void {
-		$chunks = array_chunk($fileIds, 1000);
+		$chunks = array_chunk($fileIds, IQueryBuilder::MAX_IN_PARAMETERS);
 
 		foreach ($chunks as $chunk) {
 			$qb = $this->dbConnection->getQueryBuilder();
 			$expr = $qb->expr();
 			$qb->delete(self::TABLE_METADATA_INDEX)
-				->where($expr->in('file_id', $qb->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)));
+				->where($expr->in('file_id', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY)));
 
 			if ($key !== '') {
 				$qb->andWhere($expr->eq('meta_key', $qb->createNamedParameter($key)));

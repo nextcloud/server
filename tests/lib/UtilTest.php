@@ -36,17 +36,11 @@ class UtilTest extends \Test\TestCase {
 			'While it is unusual to pass an array',
 			'this function actually <blink>supports</blink> it.',
 			'And therefore there needs to be a <script>alert("Unit"+\'test\')</script> for it!',
-			[
-				'And It Even May <strong>Nest</strong>',
-			],
 		];
 		$goodArray = [
 			'While it is unusual to pass an array',
 			'this function actually &lt;blink&gt;supports&lt;/blink&gt; it.',
 			'And therefore there needs to be a &lt;script&gt;alert(&quot;Unit&quot;+&#039;test&#039;)&lt;/script&gt; for it!',
-			[
-				'And It Even May &lt;strong&gt;Nest&lt;/strong&gt;'
-			],
 		];
 		$result = Util::sanitizeHTML($badArray);
 		$this->assertEquals($goodArray, $result);
@@ -174,6 +168,7 @@ class UtilTest extends \Test\TestCase {
 		$this->assertNotEmpty($errors);
 	}
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -181,6 +176,7 @@ class UtilTest extends \Test\TestCase {
 		self::invokePrivate(Util::class, 'scripts', [[]]);
 		self::invokePrivate(Util::class, 'scriptDeps', [[]]);
 	}
+	#[\Override]
 	protected function tearDown(): void {
 		parent::tearDown();
 
@@ -402,18 +398,53 @@ class UtilTest extends \Test\TestCase {
 		$this->assertEquals($result, $expected);
 	}
 
-	public function testRecursiveArraySearch(): void {
-		$haystack = [
-			'Foo' => 'own',
-			'Bar' => 'Cloud',
+	public static function sanitizeProvider(): array {
+		return [
+			// Basic spaces and line controls
+			['Hello World', 'Hello World'],
+			['  Hello   World  ', 'Hello World'],
+			["Hello\t World \nAgain", 'Hello World Again'],
+			["Hello\rWorld", 'HelloWorld'],
+			["Hello\r\nWorld", 'HelloWorld'],
+			["Hello\u{200B}World", 'HelloWorld'], // zero-width space removed
+			["Hello\t\n\r  World", 'Hello World'],
+
+			// Unicode, emoji, and CJK
+			['テスト 😃 💬', 'テスト 😃 💬'],
+			['中文測試 ✅', '中文測試 ✅'],
+			['Русский текст 😁', 'Русский текст 😁'],
+			['Café crème ☕', 'Café crème ☕'],
+
+			// Punctuation and filename-like
+			['Hello-World_123.', 'Hello-World_123.'],
+			['File.name, with commas', 'File.name, with commas'],
+			['Smile — dash', 'Smile — dash'],
+			['Invalid:/\\?%*|<>name', 'Invalid:/\\?%*|<>name'], // kept as is
+			['test@example.com', 'test@example.com'],
+
+			// Control and invisible chars
+			["Bad\0Name", 'BadName'],
+			["Hello\u{0007}World", 'HelloWorld'],
+			["Line\r\nbreaks", 'Linebreaks'],
+			["\x1F Hidden control", 'Hidden control'],
+
+			// Whitespace and normalization
+			[" Multiple   spaces\t and \nnewlines ", 'Multiple spaces and newlines'],
+			["No-break\u{00A0}space", 'No-break space'], // NBSP normalized
+			["Zero\u{2003}width\u{2009}spaces", 'Zero width spaces'], // various spaces
+
+			// Complex mixes
+			['テスト 💬.png', 'テスト 💬.png'],
+			['  Mix 😎 emojis 🎉 and 123 numbers  ', 'Mix 😎 emojis 🎉 and 123 numbers'],
+			["Hello   \u{200B}\n   World", 'Hello World'],
+			['Path ../etc/passwd', 'Path ../etc/passwd'],
+			['Symbols! @ # % ^ & * ( )', 'Symbols! @ # % ^ & * ( )'],
+			['Special chars <script>', 'Special chars <script>'],
 		];
-
-		$result = Util::recursiveArraySearch($haystack, 'own');
-		$expected = 'Foo';
-		$this->assertEquals($result, $expected);
-
-		$result = Util::recursiveArraySearch($haystack, 'NotFound');
-		$this->assertFalse($result);
 	}
 
+	#[\PHPUnit\Framework\Attributes\DataProvider('sanitizeProvider')]
+	public function testSanitizeWordsAndEmojis(string $input, string $expected): void {
+		$this->assertSame($expected, Util::sanitizeWordsAndEmojis($input));
+	}
 }

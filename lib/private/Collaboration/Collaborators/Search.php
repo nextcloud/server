@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Collaboration\Collaborators;
 
 use OCP\AppFramework\QueryException;
@@ -29,6 +30,7 @@ class Search implements ISearch {
 	 * @param int|null $offset
 	 * @throws QueryException
 	 */
+	#[\Override]
 	public function search($search, array $shareTypes, $lookup, $limit, $offset): array {
 		$hasMoreResults = false;
 
@@ -45,6 +47,10 @@ class Search implements ISearch {
 			foreach ($this->pluginList[$type] as $plugin) {
 				/** @var ISearchPlugin $searchPlugin */
 				$searchPlugin = $this->container->resolve($plugin);
+				if ($searchPlugin instanceof UserPlugin && $lookup) {
+					// we are in GlobalScale, we ignore local accounts and prefer the result from lookup
+					continue;
+				}
 				$hasMoreResults = $searchPlugin->search($search, $limit, $offset, $searchResult) || $hasMoreResults;
 			}
 		}
@@ -81,6 +87,7 @@ class Search implements ISearch {
 		return [$searchResult->asArray(), $hasMoreResults];
 	}
 
+	#[\Override]
 	public function registerPlugin(array $pluginInfo): void {
 		$shareType = constant(IShare::class . '::' . substr($pluginInfo['shareType'], strlen('SHARE_')));
 		if ($shareType === null) {
@@ -93,15 +100,17 @@ class Search implements ISearch {
 		$allResults = $searchResult->asArray();
 
 		$emailType = new SearchResultType('emails');
-		$remoteType = new SearchResultType('remotes');
-
-		if (!isset($allResults[$remoteType->getLabel()])
-			|| !isset($allResults[$emailType->getLabel()])) {
+		$emailLabel = $emailType->getLabel();
+		$emailEntries = array_merge(
+			$allResults['exact'][$emailLabel] ?? [],
+			$allResults[$emailLabel] ?? []
+		);
+		if ($emailEntries === []) {
 			return;
 		}
 
 		$mailIdMap = [];
-		foreach ($allResults[$emailType->getLabel()] as $mailRow) {
+		foreach ($emailEntries as $mailRow) {
 			// sure, array_reduce looks nicer, but foreach needs less resources and is faster
 			if (!isset($mailRow['uuid'])) {
 				continue;
@@ -109,12 +118,28 @@ class Search implements ISearch {
 			$mailIdMap[$mailRow['uuid']] = $mailRow['value']['shareWith'];
 		}
 
-		foreach ($allResults[$remoteType->getLabel()] as $resultRow) {
-			if (!isset($resultRow['uuid'])) {
-				continue;
+		$remoteType = new SearchResultType('remotes');
+		if (isset($allResults[$remoteType->getLabel()])) {
+			foreach ($allResults[$remoteType->getLabel()] as $resultRow) {
+				if (!isset($resultRow['uuid'])) {
+					continue;
+				}
+				if (isset($mailIdMap[$resultRow['uuid']])) {
+					$searchResult->removeCollaboratorResult($emailType, $mailIdMap[$resultRow['uuid']]);
+				}
 			}
-			if (isset($mailIdMap[$resultRow['uuid']])) {
-				$searchResult->removeCollaboratorResult($emailType, $mailIdMap[$resultRow['uuid']]);
+		}
+
+		$lookupType = new SearchResultType('lookup');
+		if (isset($allResults[$lookupType->getLabel()])) {
+			foreach ($allResults[$lookupType->getLabel()] as $resultRow) {
+				$userid = $resultRow['extra']['userid']['value'] ?? null;
+				if ($userid === null) {
+					continue;
+				}
+				if (isset($mailIdMap[$userid])) {
+					$searchResult->removeCollaboratorResult($emailType, $mailIdMap[$userid]);
+				}
 			}
 		}
 	}

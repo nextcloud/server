@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\BackgroundJob;
 
 use OCA\DAV\Db\DirectMapper;
@@ -24,6 +25,7 @@ class CleanupDirectLinksJob extends TimedJob {
 		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
+	#[\Override]
 	protected function run($argument) {
 		// Delete all shares expired 24 hours ago
 		$this->mapper->deleteExpired($this->time->getTime() - 60 * 60 * 24);

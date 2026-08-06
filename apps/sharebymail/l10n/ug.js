@@ -22,7 +22,6 @@ OC.L10N.register(
     "Note:" : "ئەسكەرتىش:",
     "This share is valid until %s at midnight" : "بۇ ئۈلۈش يېرىم كېچىدە %s گىچە كۈچكە ئىگە",
     "Expiration:" : "ۋاقتى:",
-    "Open %s" : "%s نى ئېچىڭ",
     "%1$s via %2$s" : "%2$s ئارقىلىق %1$s",
     "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "%1$s سىز بىلەن %2$s نى ئورتاقلاشتى. ئۇنى زىيارەت قىلىش ئۈچۈن ئۇلانمىسى بار ئايرىم خەتنى تاپشۇرۇۋالغان بولۇشىڭىز كېرەك.",
     "Password to access %1$s shared to you by %2$s" : "%1$s نى زىيارەت قىلىدىغان پارول %2$s",

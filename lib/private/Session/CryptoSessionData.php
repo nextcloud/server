@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Session;
 
 use OCP\ISession;
@@ -58,6 +59,15 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 					512,
 					JSON_THROW_ON_ERROR,
 				);
+			} catch (\RuntimeException $e) {
+				// Even though this might be critical in general, we are automatically trying again and will likely succeed.
+				// We only log to info to not spam the logs with a well-known problem the admin cannot do anything about.
+				// See https://github.com/nextcloud/server/issues/42157
+				logger('core')->info('Could not decrypt or decode encrypted session data', [
+					'exception' => $e,
+				]);
+				$this->sessionValues = [];
+				$this->regenerateId(true, false);
 			} catch (\Exception $e) {
 				logger('core')->critical('Could not decrypt or decode encrypted session data', [
 					'exception' => $e,
@@ -74,6 +84,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 * @param string $key
 	 * @param mixed $value
 	 */
+	#[\Override]
 	public function set(string $key, $value) {
 		if ($this->get($key) === $value) {
 			// Do not write the session if the value hasn't changed to avoid reopening
@@ -94,6 +105,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 * @param string $key
 	 * @return string|null Either the value or null
 	 */
+	#[\Override]
 	public function get(string $key) {
 		if (isset($this->sessionValues[$key])) {
 			return $this->sessionValues[$key];
@@ -108,6 +120,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 * @param string $key
 	 * @return bool
 	 */
+	#[\Override]
 	public function exists(string $key): bool {
 		return isset($this->sessionValues[$key]);
 	}
@@ -117,6 +130,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 *
 	 * @param string $key
 	 */
+	#[\Override]
 	public function remove(string $key) {
 		$reopened = $this->reopen();
 		$this->isModified = true;
@@ -129,6 +143,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	/**
 	 * Reset and recreate the session
 	 */
+	#[\Override]
 	public function clear() {
 		$reopened = $this->reopen();
 		$requesttoken = $this->get('requesttoken');
@@ -143,6 +158,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 		}
 	}
 
+	#[\Override]
 	public function reopen(): bool {
 		$reopened = $this->session->reopen();
 		if ($reopened) {
@@ -158,6 +174,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 * @param bool $updateToken Wheater to update the associated auth token
 	 * @return void
 	 */
+	#[\Override]
 	public function regenerateId(bool $deleteOldSession = true, bool $updateToken = false) {
 		$this->session->regenerateId($deleteOldSession, $updateToken);
 	}
@@ -169,6 +186,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 * @throws SessionNotAvailableException
 	 * @since 9.1.0
 	 */
+	#[\Override]
 	public function getId(): string {
 		return $this->session->getId();
 	}
@@ -176,6 +194,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	/**
 	 * Close the session and release the lock, also writes all changed data in batch
 	 */
+	#[\Override]
 	public function close() {
 		if ($this->isModified) {
 			$encryptedValue = $this->crypto->encrypt(json_encode($this->sessionValues), $this->passphrase);
@@ -189,6 +208,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 * @param mixed $offset
 	 * @return bool
 	 */
+	#[\Override]
 	public function offsetExists($offset): bool {
 		return $this->exists($offset);
 	}
@@ -197,6 +217,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 * @param mixed $offset
 	 * @return mixed
 	 */
+	#[\Override]
 	#[\ReturnTypeWillChange]
 	public function offsetGet($offset) {
 		return $this->get($offset);
@@ -206,6 +227,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 * @param mixed $offset
 	 * @param mixed $value
 	 */
+	#[\Override]
 	public function offsetSet($offset, $value): void {
 		$this->set($offset, $value);
 	}
@@ -213,6 +235,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	/**
 	 * @param mixed $offset
 	 */
+	#[\Override]
 	public function offsetUnset($offset): void {
 		$this->remove($offset);
 	}

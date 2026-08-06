@@ -31,6 +31,7 @@ class MovieTestRemoteFile extends Provider {
 	protected int $width = 1920;
 	protected int $height = 1080;
 
+	#[\Override]
 	protected function setUp(): void {
 		$binaryFinder = Server::get(IBinaryFinder::class);
 		$movieBinary = $binaryFinder->findBinaryPath('ffmpeg');
@@ -43,6 +44,7 @@ class MovieTestRemoteFile extends Provider {
 		}
 	}
 
+	#[\Override]
 	#[\PHPUnit\Framework\Attributes\DataProvider('dimensionsDataProvider')]
 	public function testGetThumbnail($widthAdjustment, $heightAdjustment): void {
 		$ratio = round($this->width / $this->height, 2);

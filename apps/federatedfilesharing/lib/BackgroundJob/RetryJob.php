@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\FederatedFileSharing\BackgroundJob;
 
 use OCA\FederatedFileSharing\Notifications;
@@ -39,6 +40,7 @@ class RetryJob extends Job {
 	/**
 	 * Run the job, then remove it from the jobList
 	 */
+	#[\Override]
 	public function start(IJobList $jobList): void {
 		if ($this->shouldRun($this->argument)) {
 			parent::start($jobList);
@@ -49,6 +51,7 @@ class RetryJob extends Job {
 		}
 	}
 
+	#[\Override]
 	protected function run($argument) {
 		$remote = $argument['remote'];
 		$remoteId = $argument['remoteId'];

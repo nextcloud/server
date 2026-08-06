@@ -19,18 +19,22 @@ class AdminSection implements IIconSection {
 	) {
 	}
 
+	#[\Override]
 	public function getID(): string {
 		return Application::APP_ID . '-admin';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l->t('Webhooks');
 	}
 
+	#[\Override]
 	public function getPriority(): int {
 		return 56;
 	}
 
+	#[\Override]
 	public function getIcon(): string {
 		return '';
 	}

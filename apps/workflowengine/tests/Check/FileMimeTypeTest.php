@@ -75,7 +75,6 @@ class FileMimeTypeTest extends TestCase {
 		$storage->file_put_contents('foo/bar.txt', 'asd');
 		$storage->getScanner()->scan('');
 
-
 		$check = new FileMimeType($this->l10n, $this->request, $this->mimeDetector);
 		$check->setFileInfo($storage, 'foo/bar.txt');
 

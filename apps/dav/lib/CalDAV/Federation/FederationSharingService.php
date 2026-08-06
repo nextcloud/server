@@ -34,6 +34,7 @@ class FederationSharingService {
 		private readonly LoggerInterface $logger,
 		private readonly ISecureRandom $random,
 		private readonly SharingMapper $sharingMapper,
+		private readonly CalendarFederationConfig $config,
 	) {
 	}
 
@@ -69,6 +70,14 @@ class FederationSharingService {
 	 */
 	public function shareWith(IShareable $shareable, string $principal, int $access): void {
 		$baseError = 'Failed to create federated calendar share: ';
+
+		if (!$this->config->isOutgoingServer2serverShareEnabled()) {
+			$this->logger->error('cannot share with remote user because federated sharing is disabled on this instance', [
+				'shareable' => $shareable->getName(),
+				'encodedShareWith' => $principal,
+			]);
+			return;
+		}
 
 		// 1. Validate share data
 		$shareWith = $this->decodeRemoteUserPrincipal($principal);

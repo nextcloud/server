@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Tests\Controller;
 
 use OC\User\User;
@@ -49,7 +50,8 @@ class GlobalStoragesControllerTest extends StoragesControllerTestCase {
 			$this->createMock(LoggerInterface::class),
 			$session,
 			$this->createMock(IGroupManager::class),
-			$config
+			$config,
+			$this->backendService,
 		);
 	}
 

@@ -17,9 +17,9 @@ use OCP\Migration\SimpleMigrationStep;
  * Create new fields for type and lazy loading in appconfig for the new IAppConfig API.
  */
 class Version28000Date20231126110901 extends SimpleMigrationStep {
+	#[\Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		return null;
-
 		/**
 		 * this migration was needed during Nextcloud 28 to prep the migration to 29 and a
 		 * new IAppConfig as its API require 'lazy' and 'type' database field.

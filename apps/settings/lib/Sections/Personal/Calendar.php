@@ -21,18 +21,22 @@ class Calendar implements IIconSection {
 	) {
 	}
 
+	#[\Override]
 	public function getIcon(): string {
 		return $this->urlGenerator->imagePath('dav', 'calendar.svg');
 	}
 
+	#[\Override]
 	public function getID(): string {
 		return 'calendar';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l->t('Calendar');
 	}
 
+	#[\Override]
 	public function getPriority(): int {
 		return 50;
 	}

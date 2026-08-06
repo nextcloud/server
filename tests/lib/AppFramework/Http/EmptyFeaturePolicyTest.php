@@ -14,6 +14,7 @@ class EmptyFeaturePolicyTest extends \Test\TestCase {
 	/** @var EmptyFeaturePolicy */
 	private $policy;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->policy = new EmptyFeaturePolicy();

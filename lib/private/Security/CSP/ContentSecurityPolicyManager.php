@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Security\CSP;
 
 use OCP\AppFramework\Http\ContentSecurityPolicy;
@@ -25,6 +26,7 @@ class ContentSecurityPolicyManager implements IContentSecurityPolicyManager {
 	}
 
 	/** {@inheritdoc} */
+	#[\Override]
 	public function addDefaultPolicy(EmptyContentSecurityPolicy $policy): void {
 		$this->policies[] = $policy;
 	}

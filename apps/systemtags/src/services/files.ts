@@ -28,7 +28,7 @@ export async function fetchTagsForFile(fileId: number): Promise<TagWithId[]> {
 		return parseTags(tags)
 	} catch (error) {
 		logger.error(t('systemtags', 'Failed to load tags for file'), { error })
-		throw new Error(t('systemtags', 'Failed to load tags for file'))
+		throw new Error(t('systemtags', 'Failed to load tags for file'), { cause: error })
 	}
 }
 
@@ -66,7 +66,7 @@ export async function setTagForFile(tag: TagWithId | ServerTagWithId, fileId: nu
 		})
 	} catch (error) {
 		logger.error(t('systemtags', 'Failed to set tag for file'), { error })
-		throw new Error(t('systemtags', 'Failed to set tag for file'))
+		throw new Error(t('systemtags', 'Failed to set tag for file'), { cause: error })
 	}
 }
 
@@ -82,6 +82,6 @@ export async function deleteTagForFile(tag: TagWithId, fileId: number): Promise<
 		await davClient.deleteFile(path)
 	} catch (error) {
 		logger.error(t('systemtags', 'Failed to delete tag for file'), { error })
-		throw new Error(t('systemtags', 'Failed to delete tag for file'))
+		throw new Error(t('systemtags', 'Failed to delete tag for file'), { cause: error })
 	}
 }

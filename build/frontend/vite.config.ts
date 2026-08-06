@@ -7,6 +7,17 @@ import { createAppConfig } from '@nextcloud/vite-config'
 import { resolve } from 'node:path'
 
 const modules = {
+	appstore: {
+		main: resolve(import.meta.dirname, 'apps/appstore/src', 'main.ts'),
+	},
+	comments: {
+		'comments-app': resolve(import.meta.dirname, 'apps/comments/src', 'comments-app.ts'),
+		'comments-tab': resolve(import.meta.dirname, 'apps/comments/src', 'files-sidebar.ts'),
+		init: resolve(import.meta.dirname, 'apps/comments/src', 'init.ts'),
+	},
+	dashboard: {
+		main: resolve(import.meta.dirname, 'apps/dashboard/src', 'main.js'),
+	},
 	dav: {
 		'settings-admin-caldav': resolve(import.meta.dirname, 'apps/dav/src', 'settings-admin.ts'),
 		'settings-admin-example-content': resolve(import.meta.dirname, 'apps/dav/src', 'settings-admin-example-content.ts'),
@@ -40,6 +51,7 @@ const modules = {
 	},
 	files_versions: {
 		'sidebar-tab': resolve(import.meta.dirname, 'apps/files_versions/src', 'sidebar_tab.ts'),
+		workflow: resolve(import.meta.dirname, 'apps/files_versions/src', 'workflow.ts'),
 	},
 	oauth2: {
 		'settings-admin': resolve(import.meta.dirname, 'apps/oauth2/src', 'settings-admin.ts'),
@@ -70,6 +82,9 @@ const modules = {
 	user_status: {
 		menu: resolve(import.meta.dirname, 'apps/user_status/src', 'menu.js'),
 	},
+	weather_status: {
+		'weather-status': resolve(import.meta.dirname, 'apps/weather_status/src', 'weather-status.js'),
+	},
 }
 
 // convert modules to modules entries prefied with the app id
@@ -81,6 +96,7 @@ const viteModuleEntries = Object.entries(modules)
 	.flat(1)
 
 export default createAppConfig(Object.fromEntries(viteModuleEntries), {
+	createEmptyCSSEntryPoints: true,
 	emptyOutputDirectory: {
 		additionalDirectories: [resolve(import.meta.dirname, '../..', 'dist')],
 	},
@@ -98,16 +114,11 @@ export default createAppConfig(Object.fromEntries(viteModuleEntries), {
 				output: {
 					entryFileNames: '[name].mjs',
 					chunkFileNames: '[name]-[hash].chunk.mjs',
-					assetFileNames(ctx) {
-						const { originalFileNames } = ctx
-						const [name] = originalFileNames
-						if (name) {
-							const [, appId] = name.match(/apps\/([^/]+)\//) ?? []
-							if (appId) {
-								return `${appId}-[name]-[hash][extname]`
-							}
-						}
-						return '[name]-[hash][extname]'
+					assetFileNames({ originalFileNames }) {
+						const apps = originalFileNames.map((name) => name.match(/apps\/([^/]+)\//)?.[1])
+							.filter(Boolean)
+						const appId = apps.length === 1 ? apps[0] : 'common'
+						return `${appId}-[name]-[hash][extname]`
 					},
 					experimentalMinChunkSize: 100 * 1024,
 					/* // with rolldown-vite:

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Files\ObjectStore;
 
 use GuzzleHttp\Client;
@@ -19,7 +20,6 @@ use OCP\ICache;
 use OpenStack\Common\Auth\Token;
 use OpenStack\Common\Error\BadResponseError;
 use OpenStack\Common\Transport\Utils as TransportUtils;
-use OpenStack\Identity\v2\Models\Catalog;
 use OpenStack\Identity\v2\Service as IdentityV2Service;
 use OpenStack\Identity\v3\Service as IdentityV3Service;
 use OpenStack\ObjectStore\v1\Models\Container;
@@ -198,7 +198,6 @@ class SwiftFactory {
 				throw new StorageAuthException('Connection reset while connecting to keystone, verify the keystone url', $e);
 			}
 		}
-
 
 		$client = new OpenStack($this->params);
 

@@ -39,6 +39,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	private QueryBuilder $queryBuilder;
 	private IDBConnection $connection;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -530,8 +531,8 @@ class QueryBuilderTest extends \Test\TestCase {
 	public static function dataJoin(): array {
 		return [
 			[
-				'd1', 'data2', null, null,
-				['`d1`' => [['joinType' => 'inner', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => null, 'joinCondition' => null]]],
+				'd1', 'data2', '', null,
+				['`d1`' => [['joinType' => 'inner', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => '', 'joinCondition' => null]]],
 				'`*PREFIX*data1` `d1` INNER JOIN `*PREFIX*data2` '
 			],
 			[
@@ -544,7 +545,6 @@ class QueryBuilderTest extends \Test\TestCase {
 				['`d1`' => [['joinType' => 'inner', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => '`d2`', 'joinCondition' => '`d1`.`field1` = `d2`.`field2`']]],
 				'`*PREFIX*data1` `d1` INNER JOIN `*PREFIX*data2` `d2` ON `d1`.`field1` = `d2`.`field2`'
 			],
-
 		];
 	}
 
@@ -611,8 +611,8 @@ class QueryBuilderTest extends \Test\TestCase {
 	public static function dataLeftJoin(): array {
 		return [
 			[
-				'd1', 'data2', null, null,
-				['`d1`' => [['joinType' => 'left', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => null, 'joinCondition' => null]]],
+				'd1', 'data2', '', null,
+				['`d1`' => [['joinType' => 'left', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => '', 'joinCondition' => null]]],
 				'`*PREFIX*data1` `d1` LEFT JOIN `*PREFIX*data2` '
 			],
 			[
@@ -661,8 +661,8 @@ class QueryBuilderTest extends \Test\TestCase {
 	public static function dataRightJoin(): array {
 		return [
 			[
-				'd1', 'data2', null, null,
-				['`d1`' => [['joinType' => 'right', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => null, 'joinCondition' => null]]],
+				'd1', 'data2', '', null,
+				['`d1`' => [['joinType' => 'right', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => '', 'joinCondition' => null]]],
 				'`*PREFIX*data1` `d1` RIGHT JOIN `*PREFIX*data2` '
 			],
 			[
@@ -678,17 +678,15 @@ class QueryBuilderTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 *
-	 * @param string $fromAlias
-	 * @param string $tableName
-	 * @param string $tableAlias
-	 * @param string $condition
-	 * @param array $expectedQueryPart
-	 * @param string $expectedQuery
-	 */
 	#[DataProvider('dataRightJoin')]
-	public function testRightJoin($fromAlias, $tableName, $tableAlias, $condition, $expectedQueryPart, $expectedQuery): void {
+	public function testRightJoin(
+		string $fromAlias,
+		string $tableName,
+		string $tableAlias,
+		?string $condition,
+		array $expectedQueryPart,
+		string $expectedQuery,
+	): void {
 		$this->queryBuilder->from('data1', 'd1');
 		$this->queryBuilder->rightJoin(
 			$fromAlias,

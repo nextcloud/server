@@ -104,6 +104,7 @@ class AppManagerTest extends TestCase {
 
 	protected AppManager $manager;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -548,6 +549,7 @@ class AppManagerTest extends TestCase {
 		$this->appConfig->setValue('test2', 'enabled', 'no');
 		$this->appConfig->setValue('test3', 'enabled', '["foo"]');
 		$apps = [
+			'appstore',
 			'cloud_federation_api',
 			'dav',
 			'federatedfilesharing',
@@ -557,6 +559,7 @@ class AppManagerTest extends TestCase {
 			'profile',
 			'provisioning_api',
 			'settings',
+			'sharing',
 			'test1',
 			'test3',
 			'theming',
@@ -579,6 +582,7 @@ class AppManagerTest extends TestCase {
 		$this->appConfig->setValue('test3', 'enabled', '["foo"]');
 		$this->appConfig->setValue('test4', 'enabled', '["asd"]');
 		$enabled = [
+			'appstore',
 			'cloud_federation_api',
 			'dav',
 			'federatedfilesharing',
@@ -588,6 +592,7 @@ class AppManagerTest extends TestCase {
 			'profile',
 			'provisioning_api',
 			'settings',
+			'sharing',
 			'test1',
 			'test3',
 			'theming',
@@ -616,6 +621,7 @@ class AppManagerTest extends TestCase {
 			->getMock();
 
 		$appInfos = [
+			'appstore' => ['id' => 'appstore'],
 			'cloud_federation_api' => ['id' => 'cloud_federation_api'],
 			'dav' => ['id' => 'dav'],
 			'files' => ['id' => 'files'],
@@ -629,6 +635,7 @@ class AppManagerTest extends TestCase {
 			'test4' => ['id' => 'test4', 'version' => '3.0.0', 'requiremin' => '8.1.0'],
 			'testnoversion' => ['id' => 'testnoversion', 'requiremin' => '8.2.0'],
 			'settings' => ['id' => 'settings'],
+			'sharing' => ['id' => 'sharing'],
 			'theming' => ['id' => 'theming'],
 			'twofactor_backupcodes' => ['id' => 'twofactor_backupcodes'],
 			'viewer' => ['id' => 'viewer'],
@@ -678,6 +685,7 @@ class AppManagerTest extends TestCase {
 			->getMock();
 
 		$appInfos = [
+			'appstore' => ['id' => 'appstore'],
 			'cloud_federation_api' => ['id' => 'cloud_federation_api'],
 			'dav' => ['id' => 'dav'],
 			'files' => ['id' => 'files'],
@@ -689,6 +697,7 @@ class AppManagerTest extends TestCase {
 			'test2' => ['id' => 'test2', 'version' => '1.0.0', 'requiremin' => '8.2.0'],
 			'test3' => ['id' => 'test3', 'version' => '1.2.4', 'requiremin' => '9.0.0'],
 			'settings' => ['id' => 'settings'],
+			'sharing' => ['id' => 'sharing'],
 			'testnoversion' => ['id' => 'testnoversion', 'requiremin' => '8.2.0'],
 			'theming' => ['id' => 'theming'],
 			'twofactor_backupcodes' => ['id' => 'twofactor_backupcodes'],
@@ -727,6 +736,7 @@ class AppManagerTest extends TestCase {
 		$this->appConfig->setValue('test3', 'enabled', '["foo"]');
 		$this->appConfig->setValue('test4', 'enabled', '["asd"]');
 		$enabled = [
+			'appstore',
 			'cloud_federation_api',
 			'dav',
 			'federatedfilesharing',
@@ -736,6 +746,7 @@ class AppManagerTest extends TestCase {
 			'profile',
 			'provisioning_api',
 			'settings',
+			'sharing',
 			'test1',
 			'test3',
 			'theming',

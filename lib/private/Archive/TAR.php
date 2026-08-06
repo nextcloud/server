@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Archive;
 
 use Icewind\Streams\CallbackWrapper;
@@ -61,6 +62,7 @@ class TAR extends Archive {
 	/**
 	 * add an empty folder to the archive
 	 */
+	#[\Override]
 	public function addFolder(string $path): bool {
 		$tmpBase = Server::get(ITempManager::class)->getTemporaryFolder();
 		$path = rtrim($path, '/') . '/';
@@ -87,6 +89,7 @@ class TAR extends Archive {
 	 *
 	 * @param string $source either a local file or string data
 	 */
+	#[\Override]
 	public function addFile(string $path, string $source = ''): bool {
 		if ($this->fileExists($path)) {
 			$this->remove($path);
@@ -103,6 +106,7 @@ class TAR extends Archive {
 	/**
 	 * rename a file or folder in the archive
 	 */
+	#[\Override]
 	public function rename(string $source, string $dest): bool {
 		//no proper way to delete, rename entire archive, rename file and remake archive
 		$tmp = Server::get(ITempManager::class)->getTemporaryFolder();
@@ -137,6 +141,7 @@ class TAR extends Archive {
 	/**
 	 * get the uncompressed size of a file in the archive
 	 */
+	#[\Override]
 	public function filesize(string $path): false|int|float {
 		$stat = $this->getHeader($path);
 		return $stat['size'] ?? false;
@@ -147,6 +152,7 @@ class TAR extends Archive {
 	 *
 	 * @return int|false
 	 */
+	#[\Override]
 	public function mtime(string $path) {
 		$stat = $this->getHeader($path);
 		return $stat['mtime'] ?? false;
@@ -155,6 +161,7 @@ class TAR extends Archive {
 	/**
 	 * get the files in a folder
 	 */
+	#[\Override]
 	public function getFolder(string $path): array {
 		$files = $this->getFiles();
 		$folderContent = [];
@@ -179,6 +186,7 @@ class TAR extends Archive {
 	/**
 	 * get all files in the archive
 	 */
+	#[\Override]
 	public function getFiles(): array {
 		if ($this->fileList !== false) {
 			return $this->fileList;
@@ -204,6 +212,7 @@ class TAR extends Archive {
 	 *
 	 * @return string|false
 	 */
+	#[\Override]
 	public function getFile(string $path) {
 		$string = $this->tar->extractInString($path);
 		/** @var ?string $string */
@@ -217,6 +226,7 @@ class TAR extends Archive {
 	/**
 	 * extract a single file from the archive
 	 */
+	#[\Override]
 	public function extractFile(string $path, string $dest): bool {
 		$tmp = Server::get(ITempManager::class)->getTemporaryFolder();
 		if (!$this->fileExists($path)) {
@@ -237,6 +247,7 @@ class TAR extends Archive {
 	/**
 	 * extract the archive
 	 */
+	#[\Override]
 	public function extract(string $dest): bool {
 		return $this->tar->extract($dest);
 	}
@@ -244,6 +255,7 @@ class TAR extends Archive {
 	/**
 	 * check if a file or folder exists in the archive
 	 */
+	#[\Override]
 	public function fileExists(string $path): bool {
 		$files = $this->getFiles();
 		if ((in_array($path, $files)) || (in_array($path . '/', $files))) {
@@ -267,6 +279,7 @@ class TAR extends Archive {
 	/**
 	 * remove a file or folder from the archive
 	 */
+	#[\Override]
 	public function remove(string $path): bool {
 		if (!$this->fileExists($path)) {
 			return false;
@@ -288,6 +301,7 @@ class TAR extends Archive {
 	 *
 	 * @return bool|resource
 	 */
+	#[\Override]
 	public function getStream(string $path, string $mode) {
 		$lastPoint = strrpos($path, '.');
 		if ($lastPoint !== false) {

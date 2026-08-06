@@ -11,48 +11,49 @@ namespace Tests\Core\Command\Config;
 use OC\Config\ConfigManager;
 use OC\Core\Command\Config\ListConfigs;
 use OC\SystemConfig;
+use OCP\App\IAppManager;
 use OCP\IAppConfig;
 use OCP\IConfig;
+use PHPUnit\Framework\MockObject\MockObject;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class ListConfigsTest extends TestCase {
-	/** @var \PHPUnit\Framework\MockObject\MockObject */
-	protected $appConfig;
-	/** @var \PHPUnit\Framework\MockObject\MockObject */
-	protected $systemConfig;
-	/** @var \PHPUnit\Framework\MockObject\MockObject */
-	protected $configManager;
+	protected IAppConfig&MockObject $appConfig;
+	protected SystemConfig&MockObject $systemConfig;
+	protected ConfigManager&MockObject $configManager;
+	protected InputInterface&MockObject $consoleInput;
+	protected OutputInterface&MockObject $consoleOutput;
+	protected IAppManager&MockObject $appManager;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject */
-	protected $consoleInput;
-	/** @var \PHPUnit\Framework\MockObject\MockObject */
-	protected $consoleOutput;
+	protected Command $command;
 
-	/** @var \Symfony\Component\Console\Command\Command */
-	protected $command;
-
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$systemConfig = $this->systemConfig = $this->getMockBuilder(SystemConfig::class)
+		$this->systemConfig = $this->getMockBuilder(SystemConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$appConfig = $this->appConfig = $this->getMockBuilder(IAppConfig::class)
+		$this->appConfig = $this->getMockBuilder(IAppConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$configManager = $this->configManager = $this->getMockBuilder(ConfigManager::class)
+		$this->configManager = $this->getMockBuilder(ConfigManager::class)
 			->disableOriginalConstructor()
 			->getMock();
+		$this->appManager = $this->createMock(IAppManager::class);
 
-		$this->consoleInput = $this->getMockBuilder(InputInterface::class)->getMock();
-		$this->consoleOutput = $this->getMockBuilder(OutputInterface::class)->getMock();
+		$this->consoleInput = $this->createMock(InputInterface::class);
+		$this->consoleOutput = $this->createMock(OutputInterface::class);
 
-		/** @var \OC\SystemConfig $systemConfig */
-		/** @var \OCP\IAppConfig $appConfig */
-		/** @var ConfigManager $configManager */
-		$this->command = new ListConfigs($systemConfig, $appConfig, $configManager);
+		$this->command = new ListConfigs(
+			$this->systemConfig,
+			$this->appConfig,
+			$this->configManager,
+			$this->appManager,
+		);
 	}
 
 	public static function listData(): array {
@@ -106,10 +107,10 @@ class ListConfigsTest extends TestCase {
 				],
 				// app config
 				[
-					['files', false, [
+					['files', [
 						'enabled' => 'yes',
 					]],
-					['core', false, [
+					['core', [
 						'global_cache_gc_lastrun' => '1430388388',
 					]],
 				],
@@ -242,10 +243,10 @@ class ListConfigsTest extends TestCase {
 				],
 				// app config
 				[
-					['files', false, [
+					['files', [
 						'enabled' => 'yes',
 					]],
-					['core', false, [
+					['core', [
 						'global_cache_gc_lastrun' => '1430388388',
 					]],
 				],
@@ -280,7 +281,7 @@ class ListConfigsTest extends TestCase {
 				->method('getValue')
 				->willReturnMap($systemConfigMap);
 			$this->appConfig->expects($this->any())
-				->method('getValues')
+				->method('getAllValues')
 				->willReturnMap($appConfig);
 		} else {
 			$this->systemConfig->expects($this->any())
@@ -295,7 +296,7 @@ class ListConfigsTest extends TestCase {
 			->method('getApps')
 			->willReturn(['core', 'files']);
 		$this->appConfig->expects($this->any())
-			->method('getValues')
+			->method('getAllValues')
 			->willReturnMap($appConfig);
 
 		$this->consoleInput->expects($this->once())
@@ -315,8 +316,7 @@ class ListConfigsTest extends TestCase {
 		$output = '';
 		$this->consoleOutput->expects($this->any())
 			->method('writeln')
-			->willReturnCallback(function ($value) {
-				global $output;
+			->willReturnCallback(function ($value) use (&$output) {
 				$output .= $value . "\n";
 				return $output;
 			});

@@ -34,6 +34,7 @@ class AvailabilityCoordinator implements IAvailabilityCoordinator {
 		$this->cache = $cacheFactory->createLocal('OutOfOfficeData');
 	}
 
+	#[\Override]
 	public function isEnabled(): bool {
 		return $this->config->getAppValue(Application::APP_ID, 'hide_absence_settings', 'no') === 'no';
 	}
@@ -87,6 +88,7 @@ class AvailabilityCoordinator implements IAvailabilityCoordinator {
 		$this->cache->set($data->getUser()->getUID(), $cachedString, 300);
 	}
 
+	#[\Override]
 	public function getCurrentOutOfOfficeData(IUser $user): ?IOutOfOfficeData {
 		$timezone = $this->getCachedTimezone($user->getUID());
 		if ($timezone === null) {
@@ -115,11 +117,13 @@ class AvailabilityCoordinator implements IAvailabilityCoordinator {
 		$this->cache->set($userId . '_timezone', $timezone, 3600);
 	}
 
+	#[\Override]
 	public function clearCache(string $userId): void {
 		$this->cache->set($userId, null, 300);
 		$this->cache->set($userId . '_timezone', null, 3600);
 	}
 
+	#[\Override]
 	public function isInEffect(IOutOfOfficeData $data): bool {
 		return $this->absenceService->isInEffect($data);
 	}

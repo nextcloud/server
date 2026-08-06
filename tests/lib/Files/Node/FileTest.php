@@ -26,6 +26,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class FileTest extends NodeTestCase {
+	#[\Override]
 	protected function createTestNode(IRootFolder $root, View&MockObject $view, string $path, array $data = [], string $internalPath = '', ?IStorage $storage = null): File {
 		if ($data || $internalPath || $storage) {
 			return new File($root, $view, $path, $this->getFileInfo($data, $internalPath, $storage));
@@ -34,14 +35,17 @@ class FileTest extends NodeTestCase {
 		}
 	}
 
+	#[\Override]
 	protected function getNodeClass(): string {
 		return File::class;
 	}
 
+	#[\Override]
 	protected function getNonExistingNodeClass(): string {
 		return NonExistingFile::class;
 	}
 
+	#[\Override]
 	protected function getViewDeleteMethod(): string {
 		return 'unlink';
 	}
@@ -72,7 +76,6 @@ class FileTest extends NodeTestCase {
 		$node = new File($root, $this->view, '/bar/foo');
 		$this->assertEquals('bar', $node->getContent());
 	}
-
 
 	public function testGetContentNotPermitted(): void {
 		$this->expectException(NotPermittedException::class);
@@ -118,7 +121,6 @@ class FileTest extends NodeTestCase {
 		$node = new File($root, $this->view, '/bar/foo');
 		$node->putContent('bar');
 	}
-
 
 	public function testPutContentNotPermitted(): void {
 		$this->expectException(NotPermittedException::class);
@@ -233,7 +235,6 @@ class FileTest extends NodeTestCase {
 		$this->assertEquals(2, $hooksCalled);
 	}
 
-
 	public function testFOpenReadNotPermitted(): void {
 		$this->expectException(NotPermittedException::class);
 
@@ -261,7 +262,6 @@ class FileTest extends NodeTestCase {
 		$node->fopen('r');
 	}
 
-
 	public function testFOpenReadWriteNoReadPermissions(): void {
 		$this->expectException(NotPermittedException::class);
 
@@ -288,7 +288,6 @@ class FileTest extends NodeTestCase {
 		$node = new File($root, $this->view, '/bar/foo');
 		$node->fopen('w');
 	}
-
 
 	public function testFOpenReadWriteNoWritePermissions(): void {
 		$this->expectException(NotPermittedException::class);

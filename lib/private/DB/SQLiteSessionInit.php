@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\DB;
 
 use Doctrine\Common\EventSubscriber;
@@ -23,8 +24,9 @@ class SQLiteSessionInit implements EventSubscriber {
 
 	public function postConnect(ConnectionEventArgs $args): void {
 		$sensitive = $this->caseSensitiveLike ? 'true' : 'false';
-		$args->getConnection()->executeUpdate('PRAGMA case_sensitive_like = ' . $sensitive);
-		$args->getConnection()->executeUpdate('PRAGMA journal_mode = ' . $this->journalMode);
+		$args->getConnection()->executeStatement('PRAGMA case_sensitive_like = ' . $sensitive);
+		$args->getConnection()->executeStatement('PRAGMA journal_mode = ' . $this->journalMode);
+		$args->getConnection()->executeStatement('PRAGMA foreign_keys = true');
 		/** @var \Doctrine\DBAL\Driver\PDO\Connection $connection */
 		$connection = $args->getConnection()->getWrappedConnection();
 		$pdo = $connection->getWrappedConnection();
@@ -35,6 +37,7 @@ class SQLiteSessionInit implements EventSubscriber {
 		}
 	}
 
+	#[\Override]
 	public function getSubscribedEvents(): array {
 		return [Events::postConnect];
 	}

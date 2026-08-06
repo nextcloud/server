@@ -79,7 +79,10 @@ class QBMapperTest extends \Test\TestCase {
 	/**
 	 * @throws \ReflectionException
 	 */
+	#[\Override]
 	protected function setUp(): void {
+		parent::setUp();
+
 		$this->db = $this->getMockBuilder(IDBConnection::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -92,14 +95,11 @@ class QBMapperTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-
 		$this->qb->method('expr')->willReturn($this->expr);
 		$this->db->method('getQueryBuilder')->willReturn($this->qb);
 
-
 		$this->mapper = new QBTestMapper($this->db);
 	}
-
 
 	public function testInsertEntityParameterTypeMapping(): void {
 		$datetime = new \DateTimeImmutable();
@@ -150,7 +150,6 @@ class QBMapperTest extends \Test\TestCase {
 
 		$this->mapper->insert($entity);
 	}
-
 
 	public function testUpdateEntityParameterTypeMapping(): void {
 		$datetime = new \DateTimeImmutable();
@@ -210,10 +209,8 @@ class QBMapperTest extends \Test\TestCase {
 			->method('eq')
 			->with($this->equalTo('id'), $this->equalTo($idParam));
 
-
 		$this->mapper->update($entity);
 	}
-
 
 	public function testGetParameterTypeForProperty(): void {
 		$entity = new QBTestEntity();

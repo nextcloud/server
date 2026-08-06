@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\SystemTag;
 
 use OCP\EventDispatcher\Event;
@@ -90,6 +91,7 @@ class MapperEvent extends Event implements IWebhookCompatibleEvent {
 	 * @return array
 	 * @since 32.0.0
 	 */
+	#[\Override]
 	public function getWebhookSerializable(): array {
 		return [
 			'eventType' => $this->getEvent(),

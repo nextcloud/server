@@ -25,6 +25,7 @@ use OCP\IUserManager;
 use OCP\Server;
 
 class LongId extends Temporary {
+	#[\Override]
 	public function getId(): string {
 		return 'long:' . str_repeat('foo', 50) . parent::getId();
 	}
@@ -56,6 +57,7 @@ class CacheTest extends \Test\TestCase {
 	 */
 	protected $cache2;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -67,6 +69,7 @@ class CacheTest extends \Test\TestCase {
 		$this->cache2->insert('', ['size' => 0, 'mtime' => 0, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE]);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		if ($this->cache) {
 			$this->cache->clear();
@@ -148,6 +151,16 @@ class CacheTest extends \Test\TestCase {
 		$this->assertEquals($entry->getCreationTime(), null);
 		$this->assertEquals($entry->getUploadTime(), null);
 		$this->assertEquals($entry->getUnencryptedSize(), 100);
+	}
+
+	public function testGetUnencryptedSizeEncryptedZeroByte(): void {
+		$file1 = 'encrypted_zero';
+		$this->cache->put($file1, ['size' => 8192, 'mtime' => 50, 'mimetype' => 'application/octet-stream', 'encrypted' => 1, 'unencrypted_size' => 0]);
+		$entry = $this->cache->get($file1);
+
+		// getUnencryptedSize() must return 0 (the true plaintext size), not 8192 (the encrypted on-disk size)
+		$this->assertEquals(0, $entry->getUnencryptedSize());
+		$this->assertTrue($entry->isEncrypted());
 	}
 
 	public function testPartial(): void {
@@ -287,6 +300,39 @@ class CacheTest extends \Test\TestCase {
 		$this->cache->remove('folder');
 		$this->assertFalse($this->cache->inCache('folder/foo'));
 		$this->assertFalse($this->cache->inCache('folder/bar'));
+	}
+
+	public function testCalculateFolderSizeWithEncryptedZeroByte(): void {
+		$folder = 'enc_folder';
+		$this->cache->put($folder, ['size' => -1, 'mtime' => 20, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE]);
+
+		// Child 1: zero-byte encrypted file — on-disk 8192 (header only), plaintext 0
+		$child1 = $folder . '/empty.enc';
+		$this->cache->put($child1, [
+			'size' => 8192,
+			'mtime' => 20,
+			'mimetype' => 'application/octet-stream',
+			'encrypted' => 1,
+			'unencrypted_size' => 0,
+		]);
+
+		// Child 2: non-zero encrypted file — opens the write-back gate ($unencryptedMax > 0)
+		$child2 = $folder . '/small.enc';
+		$this->cache->put($child2, [
+			'size' => 8292,
+			'mtime' => 20,
+			'mimetype' => 'application/octet-stream',
+			'encrypted' => 1,
+			'unencrypted_size' => 100,
+		]);
+
+		$this->cache->calculateFolderSize($folder);
+
+		$entry = $this->cache->get($folder);
+		// Must sum plaintext sizes (0 + 100 = 100), not fall back to on-disk size for
+		// the zero-byte child (8192 + 100 = 8292 with the old buggy code)
+		$this->assertEquals(100, $entry['unencrypted_size'], 'Folder unencrypted_size should sum plaintext sizes');
+		$this->assertEquals(16484, $entry['size'], 'Folder size should sum on-disk sizes (8192 + 8292)');
 	}
 
 	public function testRootFolderSizeForNonHomeStorage(): void {
@@ -492,7 +538,6 @@ class CacheTest extends \Test\TestCase {
 
 		$this->cache->move($sourceFolder, $targetFolder);
 
-
 		$this->assertFalse($this->cache->inCache($sourceFolder));
 		$this->assertTrue($this->cache2->inCache($sourceFolder));
 		$this->assertTrue($this->cache->inCache($targetFolder));
@@ -511,7 +556,6 @@ class CacheTest extends \Test\TestCase {
 
 		$this->cache2->put('folder', $folderData);
 		$this->cache2->put('folder/sub', $data);
-
 
 		$this->cache->moveFromCache($this->cache2, 'folder', 'targetfolder');
 
@@ -538,6 +582,49 @@ class CacheTest extends \Test\TestCase {
 
 		$this->assertTrue($this->cache->inCache('targetsub'));
 		$this->assertEquals($this->cache->getId(''), $this->cache->get('targetsub')->getParentId());
+	}
+
+	public function testCopyFromCachePreservesEncryptedVersion(): void {
+		$data = [
+			'size' => 100, 'mtime' => 50, 'mimetype' => 'foo/bar',
+			'encrypted' => true, 'encryptedVersion' => 3,
+		];
+		$this->cache->put('source', $data);
+		$sourceEntry = $this->cache->get('source');
+		$this->assertSame(3, $sourceEntry['encryptedVersion']);
+
+		$this->cache->copyFromCache($this->cache, $sourceEntry, 'target');
+
+		$targetEntry = $this->cache->get('target');
+		$this->assertTrue($targetEntry->isEncrypted());
+		$this->assertSame(3, $targetEntry['encryptedVersion']);
+	}
+
+	public function testCopyFromCacheClearsEncryptedVersionWhenCopyingToNonEncryptedStorage(): void {
+		$data = [
+			'size' => 100, 'mtime' => 50, 'mimetype' => 'foo/bar',
+			'encrypted' => true, 'encryptedVersion' => 3,
+		];
+		$this->cache2->put('source', $data);
+		$sourceEntry = $this->cache2->get('source');
+
+		$sourceCache = $this->getMockBuilder(Cache::class)
+			->setConstructorArgs([$this->storage2])
+			->onlyMethods(['hasEncryptionWrapper'])
+			->getMock();
+		$sourceCache->method('hasEncryptionWrapper')->willReturn(true);
+
+		$targetCache = $this->getMockBuilder(Cache::class)
+			->setConstructorArgs([$this->storage])
+			->onlyMethods(['shouldEncrypt'])
+			->getMock();
+		$targetCache->method('shouldEncrypt')->willReturn(false);
+
+		$targetCache->copyFromCache($sourceCache, $sourceEntry, 'target');
+
+		$targetEntry = $targetCache->get('target');
+		$this->assertFalse($targetEntry->isEncrypted());
+		$this->assertSame(0, $targetEntry['encryptedVersion']);
 	}
 
 	public function testGetIncomplete(): void {
@@ -798,26 +885,31 @@ class CacheTest extends \Test\TestCase {
 		$entries = $this->cache->getFolderContents('');
 		$this->assertCount(4, $entries);
 
-		$this->assertEquals('foo1', $entries[0]->getName());
-		$this->assertEquals('foo2', $entries[1]->getName());
-		$this->assertEquals('foo3', $entries[2]->getName());
-		$this->assertEquals('foo4', $entries[3]->getName());
+		$entriesByName = [];
+		foreach ($entries as $entry) {
+			$entriesByName[$entry->getName()] = $entry;
+		}
 
-		$this->assertEquals(20, $entries[0]->getCreationTime());
-		$this->assertEquals(0, $entries[0]->getUploadTime());
-		$this->assertEquals(null, $entries[0]->getMetadataEtag());
+		$this->assertArrayHasKey('foo1', $entriesByName);
+		$this->assertArrayHasKey('foo2', $entriesByName);
+		$this->assertArrayHasKey('foo3', $entriesByName);
+		$this->assertArrayHasKey('foo4', $entriesByName);
 
-		$this->assertEquals(0, $entries[1]->getCreationTime());
-		$this->assertEquals(30, $entries[1]->getUploadTime());
-		$this->assertEquals(null, $entries[1]->getMetadataEtag());
+		$this->assertEquals(20, $entriesByName['foo1']->getCreationTime());
+		$this->assertEquals(0, $entriesByName['foo1']->getUploadTime());
+		$this->assertEquals(null, $entriesByName['foo1']->getMetadataEtag());
 
-		$this->assertEquals(0, $entries[2]->getCreationTime());
-		$this->assertEquals(0, $entries[2]->getUploadTime());
-		$this->assertEquals('foo', $entries[2]->getMetadataEtag());
+		$this->assertEquals(0, $entriesByName['foo2']->getCreationTime());
+		$this->assertEquals(30, $entriesByName['foo2']->getUploadTime());
+		$this->assertEquals(null, $entriesByName['foo2']->getMetadataEtag());
 
-		$this->assertEquals(0, $entries[3]->getCreationTime());
-		$this->assertEquals(0, $entries[3]->getUploadTime());
-		$this->assertEquals(null, $entries[3]->getMetadataEtag());
+		$this->assertEquals(0, $entriesByName['foo3']->getCreationTime());
+		$this->assertEquals(0, $entriesByName['foo3']->getUploadTime());
+		$this->assertEquals('foo', $entriesByName['foo3']->getMetadataEtag());
+
+		$this->assertEquals(0, $entriesByName['foo4']->getCreationTime());
+		$this->assertEquals(0, $entriesByName['foo4']->getUploadTime());
+		$this->assertEquals(null, $entriesByName['foo4']->getMetadataEtag());
 
 		$this->cache->update($id1, ['upload_time' => 25]);
 
@@ -833,6 +925,7 @@ class CacheTest extends \Test\TestCase {
 		$entries = $this->cache->getFolderContents('sub');
 		$this->assertCount(1, $entries);
 
+		$this->assertEquals('foo1', $entries[0]->getName());
 		$this->assertEquals(20, $entries[0]->getCreationTime());
 		$this->assertEquals(25, $entries[0]->getUploadTime());
 		$this->assertEquals(null, $entries[0]->getMetadataEtag());

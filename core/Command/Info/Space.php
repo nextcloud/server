@@ -23,6 +23,7 @@ class Space extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('info:file:space')
@@ -32,6 +33,7 @@ class Space extends Command {
 			->addOption('all', 'a', InputOption::VALUE_NONE, 'Display all items');
 	}
 
+	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$fileInput = $input->getArgument('file');
 		$count = (int)$input->getOption('count');

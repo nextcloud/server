@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\TaskProcessing;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -13,7 +14,6 @@ use OCP\TaskProcessing\Exception\Exception;
 use OCP\TaskProcessing\Exception\NotFoundException;
 use OCP\TaskProcessing\IManager;
 use OCP\TaskProcessing\ISynchronousProvider;
-use OCP\TaskProcessing\Task;
 use Psr\Log\LoggerInterface;
 
 class SynchronousBackgroundJob extends QueuedJob {
@@ -26,10 +26,10 @@ class SynchronousBackgroundJob extends QueuedJob {
 		parent::__construct($timeFactory);
 	}
 
-
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	protected function run($argument) {
 		$providers = $this->taskProcessingManager->getProviders();
 
@@ -44,11 +44,19 @@ class SynchronousBackgroundJob extends QueuedJob {
 				continue;
 			}
 			try {
-				$task = $this->taskProcessingManager->getNextScheduledTask([$taskTypeId]);
-			} catch (NotFoundException $e) {
-				continue;
+				// Atomically claim the oldest scheduled task and mark it RUNNING in one step.
+				// Without this, a concurrently running taskprocessing:worker could pick up the
+				// same row: this background job used to fetch-then-process, and processTask's
+				// setTaskStatus(RUNNING) would blindly overwrite, so both executors ran the same
+				// task. The atomic claim (FOR UPDATE SKIP LOCKED, with a SQLite/Oracle fallback)
+				// guarantees at most one executor ever transitions a task SCHEDULED -> RUNNING.
+				$task = $this->taskProcessingManager->claimNextScheduledTask([$taskTypeId]);
 			} catch (Exception $e) {
-				$this->logger->error('Unknown error while retrieving scheduled TaskProcessing tasks', ['exception' => $e]);
+				$this->logger->error('Unknown error while claiming scheduled TaskProcessing tasks', ['exception' => $e]);
+				continue;
+			}
+			if ($task === null) {
+				// No schedulable task for this task type right now.
 				continue;
 			}
 			if (!$this->taskProcessingManager->processTask($task, $provider)) {

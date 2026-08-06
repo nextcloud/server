@@ -1,10 +1,12 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Controller;
 
 use OC\OpenMetrics\ExporterManager;
@@ -15,6 +17,8 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\PublicPage;
+use OCP\AppFramework\Http\Response;
+use OCP\AppFramework\Http\StreamTraversableResponse;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\OpenMetrics\IMetricFamily;
@@ -44,18 +48,14 @@ class OpenMetricsController extends Controller {
 	#[NoCSRFRequired]
 	#[PublicPage]
 	#[FrontpageRoute(verb: 'GET', url: '/metrics')]
-	public function export(): Http\Response {
+	public function export(): Response {
 		if (!$this->isRemoteAddressAllowed()) {
-			return new Http\Response(Http::STATUS_FORBIDDEN);
+			return new Response(Http::STATUS_FORBIDDEN);
 		}
 
-		return new Http\StreamTraversableResponse(
-			$this->generate(),
-			Http::STATUS_OK,
-			[
-				'Content-Type' => 'application/openmetrics-text; version=1.0.0; charset=utf-8',
-			]
-		);
+		return new StreamTraversableResponse($this->generate(), Http::STATUS_OK, [
+			'Content-Type' => 'application/openmetrics-text; version=1.0.0; charset=utf-8',
+		]);
 	}
 
 	private function isRemoteAddressAllowed(): bool {
@@ -78,7 +78,16 @@ class OpenMetricsController extends Controller {
 
 	private function generate(): \Generator {
 		foreach ($this->exporterManager->export() as $family) {
-			yield $this->formatFamily($family);
+			try {
+				yield $this->formatFamily($family);
+			} catch (\Exception $e) {
+				// Skip family and return a valid result
+				$this->logger->error('Exception caught when exporting family {family}', [
+					'app' => 'metrics',
+					'family' => $family->name(),
+					'exception' => $e,
+				]);
+			}
 		}
 
 		$elapsed = (string)(microtime(true) - $_SERVER['REQUEST_TIME_FLOAT']);
@@ -129,11 +138,7 @@ class OpenMetricsController extends Controller {
 	}
 
 	private function escapeString(string $string): string {
-		return json_encode(
-			$string,
-			JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR,
-			1
-		);
+		return json_encode($string, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR, 1);
 	}
 
 	private function formatValue(Metric $metric): string {

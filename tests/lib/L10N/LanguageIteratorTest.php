@@ -20,6 +20,7 @@ class LanguageIteratorTest extends TestCase {
 	/** @var LanguageIterator */
 	protected $iterator;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -54,7 +55,6 @@ class LanguageIteratorTest extends TestCase {
 			[ 'de', null, 'en', ['de', 'en', 'en']],
 			// nothing is set
 			[ false, null, 'en', ['en', 'en']],
-
 		];
 	}
 

@@ -63,9 +63,7 @@ OC.L10N.register(
     "Update" : "Actualitza",
     "Delete" : "Suprimeix",
     "Reset" : "Reinicialitza",
-    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["S'establirà {tag1} i s'eliminarà {tag2} d'1 fitxer.","S'establirà {tag1} i s'eliminaran {tag2} de {count} fitxers."],
     "_{tag} will be set to 1 file._::_{tag} will be set to {count} files._" : ["{tag} s'establirà en 1 fitxer.","{tag} s'establirà en {count} fitxers."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} s'eliminarà d'1 fitxer.","{tag} s'eliminarà de {count} fitxers."],
     "_{tags} and {lastTag} will be set to 1 file._::_{tags} and {lastTag} will be set to {count} files._" : ["{tags} i {lastTag} s'establiran en 1 fitxer.","{tags} i {lastTag} s'establiran en {count} fitxers."],
     "_{tags} and {lastTag} will be removed from 1 file._::_{tags} and {lastTag} will be removed from {count} files._" : ["{tags} i {lastTag} s'eliminaran d'1 fitxer.","{tags} i {lastTag} s'eliminaran de {count} fitxers."],
     "{displayName} (hidden)" : "{displayName} (amagat)",
@@ -93,6 +91,7 @@ OC.L10N.register(
     "If enabled, only administrators can create and edit tags. Accounts can still assign and remove them from files." : "Si està habilitat, només els administradors poden crear i editar etiquetes. Els comptes encara poden assignar-los i eliminar-los dels fitxers.",
     "Restrict tag creation and editing to administrators" : "Restringeix la creació i edició d'etiquetes als administradors",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Les etiquetes col·laboratives estan disponibles per a tots els usuaris. Els usuaris poden veure les etiquetes restringides, però no les poden assignar. Les etiquetes invisibles són per a ús intern, perquè els usuaris no poden ni veure-les ni assignar-les.",
+    "Add tags" : "Afegeix etiquetes",
     "Assigned collaborative tags" : "Etiquetes col·laboratives assignades",
     "Open in Files" : "Obre a Fitxers",
     "List of tags and their associated files and folders." : "Llista d'etiquetes i els fitxers i carpetes associats.",
@@ -107,6 +106,8 @@ OC.L10N.register(
     "Failed to delete tag for file" : "No s'ha pogut suprimir l'etiqueta del fitxer",
     "Collaborative tags …" : "Etiquetes col·laboratives…",
     "Loading …" : "S'està carregant…",
+    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["S'establirà {tag1} i s'eliminarà {tag2} d'1 fitxer.","S'establirà {tag1} i s'eliminaran {tag2} de {count} fitxers."],
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} s'eliminarà d'1 fitxer.","{tag} s'eliminarà de {count} fitxers."],
     "Loading collaborative tags …" : "S'estan carregant les etiquetes col·laboratives…"
 },
 "nplurals=2; plural=(n != 1);");

@@ -7,7 +7,6 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-
 namespace OC\Core\Controller;
 
 use OC\Core\ResponseDefinitions;
@@ -34,6 +33,7 @@ use OCP\TaskProcessing\Exception\NotFoundException;
 use OCP\TaskProcessing\Exception\PreConditionNotMetException;
 use OCP\TaskProcessing\Exception\UnauthorizedException;
 use OCP\TaskProcessing\Exception\ValidationException;
+use OCP\TaskProcessing\FileShaped;
 use OCP\TaskProcessing\IManager;
 use OCP\TaskProcessing\ShapeEnumValue;
 use OCP\TaskProcessing\Task;
@@ -165,11 +165,13 @@ class TaskProcessingApiController extends OCSController {
 	private function handleScheduleTaskInternal(
 		array $input, string $type, string $appId, string $customId = '',
 		?string $webhookUri = null, ?string $webhookMethod = null, bool $includeWatermark = true,
+		bool $preferStreaming = false,
 	): DataResponse {
 		$task = new Task($type, $input, $appId, $this->userId, $customId);
 		$task->setWebhookUri($webhookUri);
 		$task->setWebhookMethod($webhookMethod);
 		$task->setIncludeWatermark($includeWatermark);
+		$task->setPreferStreaming($preferStreaming);
 		try {
 			$this->taskProcessingManager->scheduleTask($task);
 
@@ -203,6 +205,7 @@ class TaskProcessingApiController extends OCSController {
 	 * @param string|null $webhookUri URI to be requested when the task finishes
 	 * @param string|null $webhookMethod Method used for the webhook request (HTTP:GET, HTTP:POST, HTTP:PUT, HTTP:DELETE or AppAPI:APP_ID:GET, AppAPI:APP_ID:POST...)
 	 * @param bool $includeWatermark Whether to include a watermark in the output file or not
+	 * @param bool $preferStreaming Whether to prefer getting a progressive output from the provider or not
 	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTaskProcessingTask}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_BAD_REQUEST|Http::STATUS_PRECONDITION_FAILED|Http::STATUS_UNAUTHORIZED, array{message: string}, array{}>
 	 *
 	 * 200: Task scheduled successfully
@@ -216,6 +219,7 @@ class TaskProcessingApiController extends OCSController {
 	public function schedule(
 		array $input, string $type, string $appId, string $customId = '',
 		?string $webhookUri = null, ?string $webhookMethod = null, bool $includeWatermark = true,
+		bool $preferStreaming = false,
 	): DataResponse {
 		return $this->handleScheduleTaskInternal(
 			$input,
@@ -225,6 +229,7 @@ class TaskProcessingApiController extends OCSController {
 			$webhookUri,
 			$webhookMethod,
 			$includeWatermark,
+			$preferStreaming,
 		);
 	}
 
@@ -240,6 +245,7 @@ class TaskProcessingApiController extends OCSController {
 	 * @param string|null $webhookUri URI to be requested when the task finishes
 	 * @param string|null $webhookMethod Method used for the webhook request (HTTP:GET, HTTP:POST, HTTP:PUT, HTTP:DELETE or AppAPI:APP_ID:GET, AppAPI:APP_ID:POST...)
 	 * @param bool $includeWatermark Whether to include a watermark in the output file or not
+	 * @param bool $preferStreaming Whether to prefer getting a progressive output from the provider or not
 	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTaskProcessingTask}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_BAD_REQUEST|Http::STATUS_PRECONDITION_FAILED|Http::STATUS_UNAUTHORIZED, array{message: string}, array{}>
 	 *
 	 * 200: Task scheduled successfully
@@ -252,6 +258,7 @@ class TaskProcessingApiController extends OCSController {
 	public function scheduleExAppEndpoint(
 		array $input, string $type, string $appId, string $customId = '',
 		?string $webhookUri = null, ?string $webhookMethod = null, bool $includeWatermark = true,
+		bool $preferStreaming = false,
 	): DataResponse {
 		return $this->handleScheduleTaskInternal(
 			$input,
@@ -261,6 +268,7 @@ class TaskProcessingApiController extends OCSController {
 			$webhookUri,
 			$webhookMethod,
 			$includeWatermark,
+			$preferStreaming,
 		);
 	}
 
@@ -371,7 +379,6 @@ class TaskProcessingApiController extends OCSController {
 		return $this->handleDeleteTaskInternal($id);
 	}
 
-
 	/**
 	 * Returns tasks for the current user filtered by the appId and optional customId
 	 *
@@ -418,6 +425,34 @@ class TaskProcessingApiController extends OCSController {
 
 			return new DataResponse([
 				'tasks' => $json,
+			]);
+		} catch (Exception) {
+			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	/**
+	 * Returns queue statistics for task processing
+	 *
+	 * Returns the count of scheduled and running tasks, optionally filtered
+	 * by task type(s). Designed for external scalers (e.g. KEDA) to poll
+	 * for task queue depth. Admin-only endpoint authenticated via app_password.
+	 *
+	 * @param list<string> $taskTypeIds List of task type IDs to filter by
+	 * @return DataResponse<Http::STATUS_OK, array{scheduled_count: int, running_count: int}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
+	 *
+	 * 200: Queue stats returned
+	 */
+	#[NoCSRFRequired]
+	#[ApiRoute(verb: 'GET', url: '/queue_stats', root: '/taskprocessing')]
+	public function queueStats(array $taskTypeIds = []): DataResponse {
+		try {
+			$scheduled = $this->taskProcessingManager->countTasks(Task::STATUS_SCHEDULED, $taskTypeIds);
+			$running = $this->taskProcessingManager->countTasks(Task::STATUS_RUNNING, $taskTypeIds);
+
+			return new DataResponse([
+				'scheduled_count' => $scheduled,
+				'running_count' => $running,
 			]);
 		} catch (Exception) {
 			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
@@ -500,7 +535,8 @@ class TaskProcessingApiController extends OCSController {
 			if (!$handle) {
 				return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
 			}
-			$fileId = $this->setFileContentsInternal($handle);
+			$ext = pathinfo(($file['name'] ?? ''), PATHINFO_EXTENSION);
+			$fileId = $this->setFileContentsInternal($handle, $ext);
 			return new DataResponse(['fileId' => $fileId], Http::STATUS_CREATED);
 		} catch (NotFoundException) {
 			return new DataResponse(['message' => $this->l->t('Not found')], Http::STATUS_NOT_FOUND);
@@ -618,6 +654,37 @@ class TaskProcessingApiController extends OCSController {
 	}
 
 	/**
+	 * Sets the task intermediate result while it is running
+	 *
+	 * @param int $taskId The id of the task
+	 * @param array<string,mixed> $output The intermediate task output, files are represented by their IDs
+	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTaskProcessingTask}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
+	 *
+	 * 200: Result updated successfully
+	 * 404: Task not found
+	 */
+	#[ExAppRequired]
+	#[ApiRoute(verb: 'POST', url: '/tasks_provider/{taskId}/stream-result', root: '/taskprocessing')]
+	public function setIntermediateResult(int $taskId, array $output): DataResponse {
+		try {
+			// set result
+			$this->taskProcessingManager->setTaskIntermediateOutput($taskId, $output);
+			$task = $this->taskProcessingManager->getTask($taskId);
+
+			/** @var CoreTaskProcessingTask $json */
+			$json = $task->jsonSerialize();
+
+			return new DataResponse([
+				'task' => $json,
+			]);
+		} catch (NotFoundException) {
+			return new DataResponse(['message' => $this->l->t('Not found')], Http::STATUS_NOT_FOUND);
+		} catch (Exception) {
+			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	/**
 	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTaskProcessingTask}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
 	 */
 	private function handleCancelTaskInternal(int $taskId): DataResponse {
@@ -693,25 +760,19 @@ class TaskProcessingApiController extends OCSController {
 				throw new NotFoundException();
 			}
 
-			$taskIdsToIgnore = [];
-			while (true) {
-				// Until we find a task whose task type is set to be provided by the providers requested with this request
-				// Or no scheduled task is found anymore (given the taskIds to ignore)
-				$task = $this->taskProcessingManager->getNextScheduledTask($possibleTaskTypeIds, $taskIdsToIgnore);
-				try {
-					$provider = $this->taskProcessingManager->getPreferredProvider($task->getTaskTypeId());
-					if (in_array($provider->getId(), $possibleProviderIds, true)) {
-						if ($this->taskProcessingManager->lockTask($task)) {
-							break;
-						}
-					}
-				} catch (Exception) {
-					// There is no provider set for the task type of this task
-					// proceed to ignore this task
-				}
-
-				$taskIdsToIgnore[] = (int)$task->getId();
+			// Atomically claim the oldest scheduled task across the eligible task types in a
+			// single query (FOR UPDATE SKIP LOCKED, with a SQLite/Oracle fallback). This both
+			// selects the task and marks it RUNNING, so multiple ex-app instances (e.g. several
+			// replicas under Kubernetes) competing for the same queue never claim the same task
+			// and no per-request ignore-list / retry loop is needed. $possibleTaskTypeIds is
+			// already restricted to task types whose preferred provider is among the requested
+			// providers, so any claimed task can be served by one of them.
+			$task = $this->taskProcessingManager->claimNextScheduledTask($possibleTaskTypeIds);
+			if ($task === null) {
+				return new DataResponse(null, Http::STATUS_NO_CONTENT);
 			}
+
+			$provider = $this->taskProcessingManager->getPreferredProvider($task->getTaskTypeId());
 
 			/** @var CoreTaskProcessingTask $json */
 			$json = $task->jsonSerialize();
@@ -753,27 +814,36 @@ class TaskProcessingApiController extends OCSController {
 				]);
 			}
 
-			$tasks = $this->taskProcessingManager->getNextScheduledTasks($possibleTaskTypeIds, numberOfTasks: $numberOfTasks + 1);
 			$tasksJson = [];
-			// Stop when $numberOfTasks is reached or the json payload is larger than 50MiB
-			while (count($tasks) > 0 && count($tasksJson) < $numberOfTasks && strlen(json_encode($tasks)) < 50 * 1024 * 1024) {
-				// Until we find a task whose task type is set to be provided by the providers requested with this request
-				// Or no scheduled task is found anymore (given the taskIds to ignore)
-				$task = array_shift($tasks);
-				try {
-					$provider = $this->taskProcessingManager->getPreferredProvider($task->getTaskTypeId());
-					if (in_array($provider->getId(), $possibleProviderIds, true)) {
-						if ($this->taskProcessingManager->lockTask($task)) {
-							$tasksJson[] = ['task' => $task->jsonSerialize(), 'provider' => $provider->getId()];
-							continue;
-						}
-					}
-				} catch (Exception) {
-					// There is no provider set for the task type of this task
-					// proceed to ignore this task
+			// Atomically claim up to $numberOfTasks scheduled tasks, one by one. Each claim uses
+			// FOR UPDATE SKIP LOCKED (with a SQLite/Oracle fallback) to mark the task RUNNING in
+			// the same step, so concurrent ex-app instances (e.g. several replicas under
+			// Kubernetes) never hand out the same task twice and no per-request ignore-list is
+			// needed. $possibleTaskTypeIds is already restricted to task types whose preferred
+			// provider is among the requested providers, so any claimed task can be served.
+			while (count($tasksJson) < $numberOfTasks) {
+				$task = $this->taskProcessingManager->claimNextScheduledTask($possibleTaskTypeIds);
+				if ($task === null) {
+					// No more schedulable tasks.
+					break;
+				}
+				$provider = $this->taskProcessingManager->getPreferredProvider($task->getTaskTypeId());
+				$tasksJson[] = ['task' => $task->jsonSerialize(), 'provider' => $provider->getId()];
+				// Cap the response payload at ~50MiB. The task is already claimed, so it is always
+				// included; we simply stop claiming further tasks once the limit is reached.
+				if (strlen(json_encode($tasksJson)) >= 50 * 1024 * 1024) {
+					break;
 				}
 			}
-			$hasMore = count($tasks) > 0;
+
+			// Report whether at least one more schedulable task remains, without claiming it.
+			$hasMore = false;
+			try {
+				$this->taskProcessingManager->getNextScheduledTask($possibleTaskTypeIds);
+				$hasMore = true;
+			} catch (NotFoundException) {
+				// No further scheduled task remains.
+			}
 
 			return new DataResponse([
 				'tasks' => $tasksJson,
@@ -789,14 +859,15 @@ class TaskProcessingApiController extends OCSController {
 	 * @return int
 	 * @throws NotPermittedException
 	 */
-	private function setFileContentsInternal($data): int {
+	private function setFileContentsInternal($data, string $ext = ''): int {
 		try {
 			$folder = $this->appData->getFolder('TaskProcessing');
 		} catch (\OCP\Files\NotFoundException) {
 			$folder = $this->appData->newFolder('TaskProcessing');
 		}
+		$ext = FileShaped::sanitizeExtension($ext);
 		/** @var SimpleFile $file */
-		$file = $folder->newFile(time() . '-' . rand(1, 100000), $data);
+		$file = $folder->newFile(time() . '-' . rand(1, 100000) . ($ext ? '.' . $ext : ''), $data);
 		return $file->getId();
 	}
 

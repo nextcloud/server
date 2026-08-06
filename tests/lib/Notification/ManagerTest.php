@@ -46,6 +46,7 @@ class ManagerTest extends TestCase {
 	/** @var RegistrationContext|MockObject */
 	protected $registrationContext;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -162,7 +163,6 @@ class ManagerTest extends TestCase {
 
 		$manager->notify($notification);
 	}
-
 
 	public function testNotifyInvalid(): void {
 		$this->expectException(\InvalidArgumentException::class);

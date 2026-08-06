@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\AppFramework;
 
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
@@ -180,7 +181,6 @@ abstract class AuthPublicShareController extends PublicShareController {
 			$this->urlGenerator->linkToRoute($this->getRoute('showAuthenticate'), ['token' => $this->getToken(), 'redirect' => $redirect])
 		);
 	}
-
 
 	/**
 	 * @since 14.0.0

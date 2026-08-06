@@ -41,6 +41,7 @@ class BeforeNodeReadListener implements IEventListener {
 		$this->cache = $cacheFactory->createDistributed('files_sharing_activity_events');
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof BeforeZipCreatedEvent) {
 			$this->handleBeforeZipCreatedEvent($event);

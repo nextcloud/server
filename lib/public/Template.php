@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP;
 
 use OCP\Template\ITemplate;
@@ -36,7 +37,6 @@ class Template extends \OC_Template implements ITemplate {
 	public static function image_path($app, $image) {
 		return \image_path($app, $image);
 	}
-
 
 	/**
 	 * Make IMimeTypeDetector->mimeTypeIcon available as a simple function

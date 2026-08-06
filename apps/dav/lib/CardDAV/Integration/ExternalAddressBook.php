@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CardDAV\Integration;
 
 use Sabre\CardDAV\IAddressBook;
@@ -41,6 +42,7 @@ abstract class ExternalAddressBook implements IAddressBook, DAV\IProperties {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	final public function getName() {
 		return implode(self::DELIMITER, [
 			self::PREFIX,
@@ -52,6 +54,7 @@ abstract class ExternalAddressBook implements IAddressBook, DAV\IProperties {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	final public function setName($name) {
 		throw new DAV\Exception\MethodNotAllowed('Renaming address books is not yet supported');
 	}
@@ -59,6 +62,7 @@ abstract class ExternalAddressBook implements IAddressBook, DAV\IProperties {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	final public function createDirectory($name) {
 		throw new DAV\Exception\MethodNotAllowed('Creating collections in address book objects is not allowed');
 	}

@@ -18,6 +18,7 @@ use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\FilesMetadata\IMetadataQuery;
 use OCP\FilesMetadata\Model\IFilesMetadata;
 use OCP\FilesMetadata\Model\IMetadataValueWrapper;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -42,7 +43,7 @@ class MetadataQuery implements IMetadataQuery {
 			 *
 			 * FIXME: remove support for IFilesMetadata
 			 */
-			$logger = \OCP\Server::get(LoggerInterface::class);
+			$logger = Server::get(LoggerInterface::class);
 			$logger->debug('It is deprecated to use IFilesMetadata as second parameter when calling MetadataQuery::__construct()');
 		}
 	}
@@ -52,6 +53,7 @@ class MetadataQuery implements IMetadataQuery {
 	 * @see self::extractMetadata()
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function retrieveMetadata(): void {
 		$this->queryBuilder->selectAlias($this->alias . '.json', 'meta_json');
 		$this->queryBuilder->selectAlias($this->alias . '.sync_token', 'meta_sync_token');
@@ -69,6 +71,7 @@ class MetadataQuery implements IMetadataQuery {
 	 * @see self::retrieveMetadata()
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function extractMetadata(array $row): IFilesMetadata {
 		$fileId = (array_key_exists($this->fileIdField, $row)) ? $row[$this->fileIdField] : 0;
 		$metadata = new FilesMetadata((int)$fileId);
@@ -88,6 +91,7 @@ class MetadataQuery implements IMetadataQuery {
 	 * @inheritDoc
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function joinIndex(string $metadataKey, bool $enforce = false): string {
 		if (array_key_exists($metadataKey, $this->knownJoinedIndex)) {
 			return $this->knownJoinedIndex[$metadataKey];
@@ -139,6 +143,7 @@ class MetadataQuery implements IMetadataQuery {
 	 * @throws FilesMetadataNotFoundException
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function getMetadataKeyField(string $metadataKey): string {
 		return $this->joinedTableAlias($metadataKey) . '.meta_key';
 	}
@@ -153,6 +158,7 @@ class MetadataQuery implements IMetadataQuery {
 	 * @throws FilesMetadataTypeException is metadataKey is not set as indexed
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function getMetadataValueField(string $metadataKey): string {
 		if ($this->manager instanceof IFilesMetadataManager) {
 			/**

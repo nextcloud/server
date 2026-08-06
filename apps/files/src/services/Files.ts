@@ -7,10 +7,10 @@ import type { FileStat, ResponseDataDetailed } from 'webdav'
 
 import { getDefaultPropfind, getRootPath, resultToNode } from '@nextcloud/files/dav'
 import { join } from 'path'
-import logger from '../logger.ts'
 import { useFilesStore } from '../store/files.ts'
 import { getPinia } from '../store/index.ts'
 import { useSearchStore } from '../store/search.ts'
+import { logger } from '../utils/logger.ts'
 import { client } from './WebdavClient.ts'
 import { searchNodes } from './WebDavSearch.ts'
 

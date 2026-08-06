@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\Command;
 
 use InvalidArgumentException;
@@ -83,7 +84,6 @@ class MoveCalendarTest extends TestCase {
 		]);
 	}
 
-
 	public function testMoveWithInexistantCalendar(): void {
 		$this->expectException(\InvalidArgumentException::class);
 		$this->expectExceptionMessage('User <user> has no calendar named <personal>. You can run occ dav:list-calendars to list calendars URIs for this user.');
@@ -106,7 +106,6 @@ class MoveCalendarTest extends TestCase {
 			'destinationuid' => 'user2',
 		]);
 	}
-
 
 	public function testMoveWithExistingDestinationCalendar(): void {
 		$this->expectException(\InvalidArgumentException::class);

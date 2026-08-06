@@ -17,13 +17,12 @@ class CommandLineContext implements \Behat\Behat\Context\Context {
 	private $lastTransferPath;
 
 	private $featureContext;
-	private $localBaseUrl;
-	private $remoteBaseUrl;
 
-	public function __construct($ocPath, $baseUrl) {
+	public function __construct(
+		$ocPath,
+		private $baseUrl,
+	) {
 		$this->ocPath = rtrim($ocPath, '/') . '/';
-		$this->localBaseUrl = $baseUrl;
-		$this->remoteBaseUrl = $baseUrl;
 	}
 
 	/**

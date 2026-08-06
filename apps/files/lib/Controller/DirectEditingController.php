@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files\Controller;
 
 use Exception;
@@ -118,8 +119,6 @@ class DirectEditingController extends OCSController {
 			return new DataResponse(['message' => 'Failed to open file: ' . $e->getMessage()], Http::STATUS_FORBIDDEN);
 		}
 	}
-
-
 
 	/**
 	 * Get the templates for direct editing

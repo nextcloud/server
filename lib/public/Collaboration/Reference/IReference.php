@@ -116,5 +116,6 @@ interface IReference extends JsonSerializable {
 	 *
 	 * @since 25.0.0
 	 */
+	#[\Override]
 	public function jsonSerialize(): array;
 }

@@ -18,6 +18,7 @@ use OC\Preview\TXT;
  */
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class TXTTest extends Provider {
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

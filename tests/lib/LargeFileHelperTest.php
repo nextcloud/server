@@ -13,6 +13,7 @@ use OC\LargeFileHelper;
 class LargeFileHelperTest extends TestCase {
 	protected $helper;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->helper = new LargeFileHelper;
@@ -38,7 +39,6 @@ class LargeFileHelperTest extends TestCase {
 			$this->helper->formatUnsignedInteger('9007199254740993')
 		);
 	}
-
 
 	public function testFormatUnsignedIntegerStringException(): void {
 		$this->expectException(\UnexpectedValueException::class);

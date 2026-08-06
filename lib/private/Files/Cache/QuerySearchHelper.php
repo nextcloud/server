@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Files\Cache;
 
 use OC\Files\Cache\Wrapper\CacheJail;
@@ -79,7 +80,6 @@ class QuerySearchHelper {
 		}
 	}
 
-
 	/**
 	 * @return list<array{id: int, name: string, visibility: int, editable: int, ref_file_id: int, number_files: int}>
 	 */
@@ -91,7 +91,7 @@ class QuerySearchHelper {
 
 		$result = $query->executeQuery();
 		/** @var list<array{id: int, name: string, visibility: int, editable: int, ref_file_id: int, number_files: int}> $tags */
-		$tags = $result->fetchAll();
+		$tags = $result->fetchAllAssociative();
 		$result->closeCursor();
 		return $tags;
 	}
@@ -117,7 +117,6 @@ class QuerySearchHelper {
 				$query->expr()->eq('tag.uid', $query->createNamedParameter($user->getUID()))
 			));
 	}
-
 
 	protected function equipQueryForShares(CacheQueryBuilder $query): void {
 		$query->join('file', 'share', 's', $query->expr()->eq('file.fileid', 's.file_source'));
@@ -151,9 +150,16 @@ class QuerySearchHelper {
 
 		$builder = $this->getQueryBuilder();
 
-		$requestedFields = $this->searchBuilder->extractRequestedFields($searchQuery->getSearchOperation());
+		$requestedFields = array_merge(
+			$this->searchBuilder->extractRequestedFields($searchQuery->getSearchOperation()),
+			array_map(fn ($order) => $order->getField(), $searchQuery->getOrder()),
+			$searchQuery->getSelectFields(),
+		);
 
-		$joinExtendedCache = in_array('creation_time', $requestedFields) || in_array('upload_time', $requestedFields);
+		$joinExtendedCache = in_array('metadata_etag', $requestedFields)
+			|| in_array('creation_time', $requestedFields)
+			|| in_array('upload_time', $requestedFields)
+			|| in_array('last_activity', $requestedFields);
 
 		$query = $builder->selectFileCache('file', $joinExtendedCache);
 
@@ -172,7 +178,7 @@ class QuerySearchHelper {
 		$this->applySearchConstraints($query, $searchQuery, $caches, $metadataQuery);
 
 		$result = $query->executeQuery();
-		$files = $result->fetchAll();
+		$files = $result->fetchAllAssociative();
 
 		$rawEntries = array_map(function (array $data) use ($metadataQuery) {
 			$data['metadata'] = $metadataQuery->extractMetadata($data)->asArray();

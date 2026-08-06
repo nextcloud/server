@@ -69,6 +69,7 @@ class SessionTest extends \Test\TestCase {
 	/** @var IEventDispatcher|MockObject */
 	private $dispatcher;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -225,7 +226,6 @@ class SessionTest extends \Test\TestCase {
 		$this->assertEquals($user, $userSession->getUser());
 	}
 
-
 	public function testLoginValidPasswordDisabled(): void {
 		$this->expectException(LoginException::class);
 
@@ -331,11 +331,17 @@ class SessionTest extends \Test\TestCase {
 			->getMock();
 		$userSession = new Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher);
 
-		$session->expects($this->never())
-			->method('set');
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('foo');
+		$user->method('isEnabled')->willReturn(true);
+		$manager->method('get')
+			->with('foo')
+			->willReturn($user);
+
 		$session->expects($this->once())
 			->method('regenerateId');
 		$token = new PublicKeyToken();
+		$token->setId(1);
 		$token->setLoginName('foo');
 		$token->setLastCheck(0); // Never
 		$token->setUid('foo');
@@ -369,11 +375,17 @@ class SessionTest extends \Test\TestCase {
 			->getMock();
 		$userSession = new Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher);
 
-		$session->expects($this->never())
-			->method('set');
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('foo');
+		$user->method('isEnabled')->willReturn(true);
+		$manager->method('get')
+			->with('foo')
+			->willReturn($user);
+
 		$session->expects($this->once())
 			->method('regenerateId');
 		$token = new PublicKeyToken();
+		$token->setId(1);
 		$token->setLoginName('foo');
 		$token->setLastCheck(0); // Never
 		$token->setUid('foo');
@@ -517,7 +529,6 @@ class SessionTest extends \Test\TestCase {
 		$this->assertTrue($userSession->logClientIn('john', 'I-AM-AN-APP-PASSWORD', $request, $this->throttler));
 	}
 
-
 	public function testLogClientInNoTokenPasswordNo2fa(): void {
 		$this->expectException(PasswordLoginForbiddenException::class);
 
@@ -647,6 +658,59 @@ class SessionTest extends \Test\TestCase {
 			->willReturn($user);
 
 		$loginResult = $this->userSession->tryTokenLogin($request);
+
+		self::assertTrue($loginResult);
+	}
+
+	public function testTryTokenLoginOcmAccessTokenRejectedFromBearerByDefault(): void {
+		$request = $this->createMock(IRequest::class);
+		$request->method('getHeader')->with('Authorization')->willReturn('Bearer ocm-access-token');
+		$dbToken = new PublicKeyToken();
+		$dbToken->setId(42);
+		$dbToken->setUid('alice');
+		$dbToken->setLoginName('alice');
+		$dbToken->setLastCheck(0);
+		$dbToken->setType(IToken::TEMPORARY_TOKEN);
+		$dbToken->setName(IToken::OCM_ACCESS_TOKEN_NAME);
+		$this->tokenProvider->expects(self::once())
+			->method('getToken')
+			->with('ocm-access-token')
+			->willReturn($dbToken);
+		// The guard must reject before any login is attempted.
+		$this->manager->expects(self::never())
+			->method('get');
+
+		$loginResult = $this->userSession->tryTokenLogin($request);
+
+		self::assertFalse($loginResult);
+	}
+
+	public function testTryTokenLoginOcmAccessTokenAllowedFromBearerWhenPermitted(): void {
+		$request = $this->createMock(IRequest::class);
+		$request->method('getHeader')->with('Authorization')->willReturn('Bearer ocm-access-token');
+		$dbToken = new PublicKeyToken();
+		$dbToken->setId(42);
+		$dbToken->setUid('alice');
+		$dbToken->setLoginName('alice');
+		$dbToken->setLastCheck(0);
+		$dbToken->setType(IToken::TEMPORARY_TOKEN);
+		$dbToken->setName(IToken::OCM_ACCESS_TOKEN_NAME);
+		$this->tokenProvider->method('getToken')
+			->with('ocm-access-token')
+			->willReturn($dbToken);
+		$this->session->method('set')
+			->willReturnCallback(function ($key, $value): void {
+				if ($key === 'app_password') {
+					throw new ExpectationFailedException('app_password should not be set in session');
+				}
+			});
+		$user = $this->createMock(IUser::class);
+		$user->method('isEnabled')->willReturn(true);
+		$this->manager->method('get')
+			->with('alice')
+			->willReturn($user);
+
+		$loginResult = $this->userSession->tryTokenLogin($request, true);
 
 		self::assertTrue($loginResult);
 	}
@@ -1126,7 +1190,6 @@ class SessionTest extends \Test\TestCase {
 			->willReturn(true);
 
 		$davAuthenticatedSet = false;
-		$lastPasswordConfirmSet = false;
 
 		$this->session
 			->method('set')
@@ -1134,9 +1197,6 @@ class SessionTest extends \Test\TestCase {
 				switch ($k) {
 					case Auth::DAV_AUTHENTICATED:
 						$davAuthenticatedSet = $v;
-						return;
-					case 'last-password-confirm':
-						$lastPasswordConfirmSet = 1000;
 						return;
 					default:
 						throw new \Exception();
@@ -1181,7 +1241,6 @@ class SessionTest extends \Test\TestCase {
 		$this->assertTrue($userSession->tryBasicAuthLogin($request, $this->throttler));
 
 		$this->assertSame('username', $davAuthenticatedSet);
-		$this->assertSame(1000, $lastPasswordConfirmSet);
 	}
 
 	public function testTryBasicAuthLoginNoLogin(): void {
@@ -1324,4 +1383,5 @@ class SessionTest extends \Test\TestCase {
 
 		$this->assertFalse($userSession->logClientIn('john@foo.bar', 'I-AM-A-PASSWORD', $request, $this->throttler));
 	}
+
 }

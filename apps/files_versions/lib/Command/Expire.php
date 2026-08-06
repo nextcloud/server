@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Versions\Command;
 
 use OC\Command\FileAccess;
@@ -24,6 +25,7 @@ class Expire implements ICommand {
 	) {
 	}
 
+	#[\Override]
 	public function handle(): void {
 		/** @var IUserManager $userManager */
 		$userManager = Server::get(IUserManager::class);

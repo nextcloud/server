@@ -11,6 +11,7 @@ namespace OCA\DAV\CalDAV\Federation;
 
 use OCA\DAV\DAV\RemoteUserPrincipalBackend;
 use OCP\AppFramework\Db\Entity;
+use OCP\Constants;
 use OCP\DB\Types;
 use Sabre\CalDAV\Xml\Property\SupportedCalendarComponentSet;
 
@@ -94,7 +95,7 @@ class FederatedCalendarEntity extends Entity {
 			'{' . \Sabre\CalDAV\Plugin::NS_CALENDARSERVER . '}getctag' => $this->getSyncTokenForSabre(),
 			'{' . \Sabre\CalDAV\Plugin::NS_CALDAV . '}supported-calendar-component-set' => $this->getSupportedCalendarComponentSet(),
 			'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}owner-principal' => $this->getSharedByPrincipal(),
-			'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}read-only' => ($this->getPermissions() & \OCP\Constants::PERMISSION_UPDATE) === 0 ? 1 : 0,
+			'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}read-only' => ($this->getPermissions() & Constants::PERMISSION_UPDATE) === 0 ? 1 : 0,
 			'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}permissions' => $this->getPermissions(),
 		];
 	}

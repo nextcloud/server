@@ -39,6 +39,7 @@ class LocalTimeProviderTest extends TestCase {
 
 	private LocalTimeProvider $provider;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -184,10 +185,6 @@ class LocalTimeProviderTest extends TestCase {
 			->method('getProperty')
 			->with('UID')
 			->willReturn('user1');
-
-		$user = $this->createMock(IUser::class);
-		$user->method('getUID')
-			->willReturn(null);
 
 		$entry->expects($this->never())
 			->method('addAction');

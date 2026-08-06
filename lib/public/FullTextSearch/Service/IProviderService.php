@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\FullTextSearch\Service;
 
 /**
@@ -25,7 +26,6 @@ interface IProviderService {
 	 * @return bool
 	 */
 	public function isProviderIndexed(string $providerId);
-
 
 	/**
 	 * Add the Javascript API in the navigation page of an app.

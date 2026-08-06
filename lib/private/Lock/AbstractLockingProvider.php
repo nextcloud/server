@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Lock;
 
 use OCP\Lock\ILockingProvider;
@@ -79,6 +80,7 @@ abstract class AbstractLockingProvider implements ILockingProvider {
 	}
 
 	/** @inheritDoc */
+	#[\Override]
 	public function releaseAll(): void {
 		foreach ($this->acquiredLocks['shared'] as $path => $count) {
 			for ($i = 0; $i < $count; $i++) {

@@ -6,6 +6,7 @@ declare(strict_types = 1);
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Connector\Sabre;
 
 use Sabre\DAV\ICollection;
@@ -23,6 +24,7 @@ class PropFindPreloadNotifyPlugin extends ServerPlugin {
 
 	private Server $server;
 
+	#[\Override]
 	public function initialize(Server $server): void {
 		$this->server = $server;
 		$this->server->on('propFind', [$this, 'collectionPreloadNotifier' ], 1);

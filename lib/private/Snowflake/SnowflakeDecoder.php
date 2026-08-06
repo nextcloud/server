@@ -28,7 +28,7 @@ final class SnowflakeDecoder implements ISnowflakeDecoder {
 			throw new \Exception('Invalid Snowflake ID: ' . $snowflakeId);
 		}
 
-		/** @var array{seconds: positive-int, milliseconds: int<0,999>, serverId: int<0, 1023>, sequenceId: int<0,4095>, isCli: bool} $data */
+		/** @var array{seconds: positive-int, milliseconds: int<0,999>, serverId: int<0, 511>, sequenceId: int<0,4095>, isCli: bool} $data */
 		$data = PHP_INT_SIZE === 8
 			? $this->decode64bits((int)$snowflakeId)
 			: $this->decode32bits($snowflakeId);

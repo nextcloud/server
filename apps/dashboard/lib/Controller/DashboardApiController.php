@@ -29,7 +29,6 @@ use OCP\Dashboard\IReloadableWidget;
 use OCP\Dashboard\IWidget;
 use OCP\Dashboard\Model\WidgetButton;
 use OCP\Dashboard\Model\WidgetItem;
-
 use OCP\Dashboard\Model\WidgetOptions;
 use OCP\IRequest;
 
@@ -202,6 +201,7 @@ class DashboardApiController extends OCSController {
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'POST', url: '/api/v3/layout')]
 	public function updateLayout(array $layout): DataResponse {
+		$layout = $this->service->sanitizeLayout($layout);
 		$this->userConfig->setValueString($this->userId, 'dashboard', 'layout', implode(',', $layout));
 		return new DataResponse(['layout' => $layout]);
 	}

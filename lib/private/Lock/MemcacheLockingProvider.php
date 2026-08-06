@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Lock;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -47,6 +48,7 @@ class MemcacheLockingProvider extends AbstractLockingProvider {
 		}
 	}
 
+	#[\Override]
 	public function isLocked(string $path, int $type): bool {
 		$lockValue = $this->memcache->get($path);
 		if ($type === self::LOCK_SHARED) {
@@ -58,6 +60,7 @@ class MemcacheLockingProvider extends AbstractLockingProvider {
 		}
 	}
 
+	#[\Override]
 	public function acquireLock(string $path, int $type, ?string $readablePath = null): void {
 		if ($type === self::LOCK_SHARED) {
 			// save the old TTL to for `restoreTTL`
@@ -81,6 +84,7 @@ class MemcacheLockingProvider extends AbstractLockingProvider {
 		$this->markAcquire($path, $type);
 	}
 
+	#[\Override]
 	public function releaseLock(string $path, int $type): void {
 		if ($type === self::LOCK_SHARED) {
 			$ownSharedLockCount = $this->getOwnSharedLockCount($path);
@@ -114,6 +118,7 @@ class MemcacheLockingProvider extends AbstractLockingProvider {
 		$this->markRelease($path, $type);
 	}
 
+	#[\Override]
 	public function changeLock(string $path, int $targetType): void {
 		if ($targetType === self::LOCK_SHARED) {
 			if (!$this->memcache->cas($path, 'exclusive', 1)) {

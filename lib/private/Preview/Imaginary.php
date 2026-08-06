@@ -13,7 +13,6 @@ use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IImage;
 use OCP\Image;
-
 use OCP\Server;
 use Psr\Log\LoggerInterface;
 
@@ -37,6 +36,7 @@ class Imaginary extends ProviderV2 {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getMimeType(): string {
 		return self::supportedMimeTypes();
 	}
@@ -186,6 +186,7 @@ class Imaginary extends ProviderV2 {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
 		return $this->getCroppedThumbnail($file, $maxX, $maxY, false);
 	}

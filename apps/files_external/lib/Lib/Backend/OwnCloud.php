@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Lib\Backend;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
@@ -20,7 +21,7 @@ class OwnCloud extends Backend {
 			->setIdentifier('owncloud')
 			->addIdentifierAlias('\OC\Files\Storage\OwnCloud') // legacy compat
 			->setStorageClass('\OCA\Files_External\Lib\Storage\OwnCloud')
-			->setText($l->t('Nextcloud'))
+			->setText($l->t('Nextcloud (WebDAV)'))
 			->addParameters([
 				new DefinitionParameter('host', $l->t('URL')),
 				(new DefinitionParameter('root', $l->t('Remote subfolder')))

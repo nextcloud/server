@@ -3,15 +3,13 @@
 declare(strict_types=1);
 
 /*
- * SPDX-FileCopyrightText: 2025 Nextcloud GmbH
- * SPDX-FileContributor: Carl Schwan
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OC\Preview\Storage;
 
 use OC\Files\ObjectStore\PrimaryObjectStoreConfig;
-use OC\Files\SimpleFS\SimpleFile;
 use OC\Preview\Db\Preview;
 use OCP\Server;
 use Override;
@@ -54,8 +52,8 @@ class StorageFactory implements IPreviewStorage {
 	}
 
 	#[Override]
-	public function migratePreview(Preview $preview, SimpleFile $file): void {
-		$this->getBackend()->migratePreview($preview, $file);
+	public function migratePreview(Preview $preview): void {
+		$this->getBackend()->migratePreview($preview);
 	}
 
 	#[Override]

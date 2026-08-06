@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 ownCloud GmbH
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\DB;
 
 use OCP\IDBConnection;
@@ -25,7 +26,7 @@ class MySqlTools {
 
 		foreach ($variables as $var => $val) {
 			$result = $connection->executeQuery("SHOW VARIABLES LIKE '$var'");
-			$row = $result->fetch();
+			$row = $result->fetchAssociative();
 			$result->closeCursor();
 			if ($row === false) {
 				return false;
@@ -39,7 +40,7 @@ class MySqlTools {
 
 	protected function isMariaDBWithLargePrefix(IDBConnection $connection) {
 		$result = $connection->executeQuery('SELECT VERSION()');
-		$row = strtolower($result->fetchColumn());
+		$row = strtolower($result->fetchOne());
 		$result->closeCursor();
 
 		if ($row === false) {

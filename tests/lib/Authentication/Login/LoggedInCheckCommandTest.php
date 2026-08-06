@@ -22,6 +22,7 @@ class LoggedInCheckCommandTest extends ALoginTestCommand {
 	/** @var IEventDispatcher|MockObject */
 	private $dispatcher;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

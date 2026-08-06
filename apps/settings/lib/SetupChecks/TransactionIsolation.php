@@ -27,14 +27,17 @@ class TransactionIsolation implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Database transaction isolation level');
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'database';
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		try {
 			if ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_SQLITE) {

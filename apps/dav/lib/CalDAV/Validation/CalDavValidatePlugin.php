@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CalDAV\Validation;
 
 use OCA\DAV\AppInfo\Application;
@@ -23,6 +24,7 @@ class CalDavValidatePlugin extends ServerPlugin {
 	) {
 	}
 
+	#[\Override]
 	public function initialize(Server $server): void {
 		$server->on('beforeMethod:PUT', [$this, 'beforePut']);
 	}

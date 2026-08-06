@@ -5,10 +5,10 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\AppFramework\Db;
 
 use OCP\DB\Types;
-
 use function lcfirst;
 use function substr;
 
@@ -61,7 +61,6 @@ abstract class Entity {
 		return $instance;
 	}
 
-
 	/**
 	 * @return array<string, Types::*> with attribute and type
 	 * @since 7.0.0
@@ -69,7 +68,6 @@ abstract class Entity {
 	public function getFieldTypes(): array {
 		return $this->_fieldTypes;
 	}
-
 
 	/**
 	 * Marks the entity as clean needed for setting the id after the insertion
@@ -161,7 +159,6 @@ abstract class Entity {
 		}
 	}
 
-
 	/**
 	 * Each time a setter is called, push the part after set
 	 * into an array: for instance setId will save Id in the
@@ -204,7 +201,6 @@ abstract class Entity {
 		$this->_updatedFields[$attribute] = true;
 	}
 
-
 	/**
 	 * Transform a database columnname to a property
 	 *
@@ -226,7 +222,6 @@ abstract class Entity {
 
 		return $property;
 	}
-
 
 	/**
 	 * Transform a property to a database column name
@@ -250,7 +245,6 @@ abstract class Entity {
 		return $column;
 	}
 
-
 	/**
 	 * @return array<string, true> array of updated fields for update query
 	 * @since 7.0.0
@@ -258,7 +252,6 @@ abstract class Entity {
 	public function getUpdatedFields(): array {
 		return $this->_updatedFields;
 	}
-
 
 	/**
 	 * Adds type information for a field so that it's automatically cast to
@@ -284,7 +277,6 @@ abstract class Entity {
 
 		$this->_fieldTypes[$fieldName] = $type;
 	}
-
 
 	/**
 	 * Slugify the value of a given attribute

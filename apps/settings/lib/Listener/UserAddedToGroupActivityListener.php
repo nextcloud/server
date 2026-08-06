@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Listener;
 
 use OC\Group\Manager;
@@ -27,6 +28,7 @@ class UserAddedToGroupActivityListener implements IEventListener {
 	) {
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!($event instanceof UserAddedEvent)) {
 			return;
@@ -38,7 +40,6 @@ class UserAddedToGroupActivityListener implements IEventListener {
 		$subAdminManager = $this->groupManager->getSubAdmin();
 		$usersToNotify = $subAdminManager->getGroupsSubAdmins($group);
 		$usersToNotify[] = $user;
-
 
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('settings')

@@ -33,6 +33,7 @@ class ListSubscriptions extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this->addArgument(
 			'uid',
@@ -41,6 +42,7 @@ class ListSubscriptions extends Command {
 		);
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$user = (string)$input->getArgument('uid');
 		if (!$this->userManager->userExists($user)) {

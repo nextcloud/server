@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2017 ownCloud GmbH
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Command\Db\Migrations;
 
 use OC\DB\Connection;
@@ -23,7 +24,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class GenerateCommand extends Command implements CompletionAwareInterface {
-	protected static $_templateSimple
+	private const TEMPLATE
 		= '<?php
 
 declare(strict_types=1);
@@ -84,6 +85,7 @@ class {{classname}} extends SimpleMigrationStep {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('migrations:generate')
@@ -94,6 +96,7 @@ class {{classname}} extends SimpleMigrationStep {
 		parent::configure();
 	}
 
+	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$appName = $input->getArgument('app');
 		$version = $input->getArgument('version');
@@ -148,6 +151,7 @@ class {{classname}} extends SimpleMigrationStep {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
+	#[\Override]
 	public function completeOptionValues($optionName, CompletionContext $context) {
 		return [];
 	}
@@ -157,10 +161,12 @@ class {{classname}} extends SimpleMigrationStep {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
+	#[\Override]
 	public function completeArgumentValues($argumentName, CompletionContext $context) {
 		if ($argumentName === 'app') {
 			$allApps = $this->appManager->getAllAppsInAppsFolders();
-			return array_diff($allApps, \OC_App::getEnabledApps(true, true));
+			$enabledApps = $this->appManager->getEnabledApps();
+			return array_diff($allApps, $enabledApps);
 		}
 
 		if ($argumentName === 'version') {
@@ -184,7 +190,6 @@ class {{classname}} extends SimpleMigrationStep {
 			$schemaBody = "\t\t" . 'return null;';
 		}
 
-
 		$placeHolders = [
 			'{{namespace}}',
 			'{{classname}}',
@@ -197,7 +202,7 @@ class {{classname}} extends SimpleMigrationStep {
 			$schemaBody,
 			date('Y')
 		];
-		$code = str_replace($placeHolders, $replacements, self::$_templateSimple);
+		$code = str_replace($placeHolders, $replacements, self::TEMPLATE);
 		$dir = $ms->getMigrationsDirectory();
 
 		$this->ensureMigrationDirExists($dir);

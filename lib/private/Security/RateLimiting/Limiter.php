@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Security\RateLimiting;
 
 use OC\Security\Normalizer\IpAddress;
@@ -51,6 +52,7 @@ class Limiter implements ILimiter {
 	 * @param int $anonPeriod in seconds
 	 * @throws RateLimitExceededException
 	 */
+	#[\Override]
 	public function registerAnonRequest(
 		string $identifier,
 		int $anonLimit,
@@ -69,6 +71,7 @@ class Limiter implements ILimiter {
 	 * @param int $userPeriod in seconds
 	 * @throws RateLimitExceededException
 	 */
+	#[\Override]
 	public function registerUserRequest(
 		string $identifier,
 		int $userLimit,

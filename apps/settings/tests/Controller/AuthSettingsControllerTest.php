@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace Test\Settings\Controller;
 
 use OC\AppFramework\Http;
@@ -20,6 +21,7 @@ use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Services\IAppConfig;
+use OCP\Authentication\Exceptions\WipeTokenException;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -144,7 +146,6 @@ class AuthSettingsControllerTest extends TestCase {
 		$this->tokenProvider->expects($this->never())
 			->method('getPassword');
 
-
 		$this->tokenProvider->expects($this->never())
 			->method('generateToken');
 
@@ -206,7 +207,7 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('invalidateTokenById')
 			->with($this->uid, $tokenId);
 
-		$this->assertEquals([], $this->controller->destroy($tokenId));
+		$this->assertEquals([], $this->controller->destroy($tokenId)->getData());
 	}
 
 	public function testDestroyExpired(): void {
@@ -230,7 +231,44 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('invalidateTokenById')
 			->with($this->uid, $tokenId);
 
-		$this->assertSame([], $this->controller->destroy($tokenId));
+		$this->assertSame([], $this->controller->destroy($tokenId)->getData());
+	}
+
+	public function testDestroyWipePendingEmitsCancelledSubject(): void {
+		$tokenId = 125;
+		$token = $this->createMock(PublicKeyToken::class);
+
+		$token->method('getId')->willReturn($tokenId);
+		$token->method('getName')->willReturn('My phone');
+
+		$this->tokenProvider->expects($this->once())
+			->method('getTokenById')
+			->with($tokenId)
+			->willThrowException(new WipeTokenException($token));
+
+		// The token is still invalidated (the user opted into cancelling the wipe).
+		$this->tokenProvider->expects($this->once())
+			->method('invalidateTokenById')
+			->with($this->uid, $tokenId);
+
+		// Activity event must use the distinguishing subject.
+		$event = $this->createMock(IEvent::class);
+		$event->method('setApp')->willReturnSelf();
+		$event->method('setType')->willReturnSelf();
+		$event->method('setAffectedUser')->willReturnSelf();
+		$event->method('setAuthor')->willReturnSelf();
+		$event->method('setObject')->willReturnSelf();
+		$event->expects($this->once())
+			->method('setSubject')
+			->with(\OCA\Settings\Activity\Provider::APP_TOKEN_DELETED_WIPE_CANCELLED, ['name' => 'My phone'])
+			->willReturnSelf();
+		$this->activityManager->expects($this->once())
+			->method('generateEvent')
+			->willReturn($event);
+		$this->activityManager->expects($this->once())
+			->method('publish');
+
+		$this->assertEquals([], $this->controller->destroy($tokenId)->getData());
 	}
 
 	public function testDestroyWrongUser(): void {
@@ -283,7 +321,7 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('updateToken')
 			->with($this->equalTo($token));
 
-		$this->assertSame([], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => true], $newName));
+		$this->assertSame([], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => true], $newName)->getData());
 	}
 
 	public static function dataUpdateFilesystemScope(): array {
@@ -321,7 +359,7 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('updateToken')
 			->with($this->equalTo($token));
 
-		$this->assertSame([], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => $newFilesystem], 'App password'));
+		$this->assertSame([], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => $newFilesystem], 'App password')->getData());
 	}
 
 	public function testUpdateNoChange(): void {
@@ -352,7 +390,7 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('updateToken')
 			->with($this->equalTo($token));
 
-		$this->assertSame([], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => true], 'App password'));
+		$this->assertSame([], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => true], 'App password')->getData());
 	}
 
 	public function testUpdateExpired(): void {
@@ -372,7 +410,7 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('updateToken')
 			->with($this->equalTo($token));
 
-		$this->assertSame([], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => true], 'App password'));
+		$this->assertSame([], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => true], 'App password')->getData());
 	}
 
 	public function testUpdateTokenWrongUser(): void {

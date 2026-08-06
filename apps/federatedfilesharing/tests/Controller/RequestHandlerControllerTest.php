@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\FederatedFileSharing\Tests;
 
 use OCA\FederatedFileSharing\Controller\RequestHandlerController;
@@ -135,7 +136,6 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 
 		$this->assertInstanceOf(DataResponse::class, $result);
 	}
-
 
 	public function testAcceptShare(): void {
 		$id = '42';

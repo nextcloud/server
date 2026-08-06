@@ -19,7 +19,7 @@ class EmailValidatorTest extends TestCase {
 	private IAppConfig&MockObject $appConfig;
 	private EmailValidator $emailValidator;
 
-
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

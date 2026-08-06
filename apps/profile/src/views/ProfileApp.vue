@@ -12,6 +12,7 @@ import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
+import { useIsMobile } from '@nextcloud/vue/composables/useIsMobile'
 import { computed, onBeforeMount, onBeforeUnmount, onMounted, ref } from 'vue'
 import NcActionLink from '@nextcloud/vue/components/NcActionLink'
 import NcActions from '@nextcloud/vue/components/NcActions'
@@ -22,7 +23,8 @@ import NcContent from '@nextcloud/vue/components/NcContent'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcRichText from '@nextcloud/vue/components/NcRichText'
 import AccountIcon from 'vue-material-design-icons/AccountOutline.vue'
-import MapMarkerIcon from 'vue-material-design-icons/MapMarker.vue'
+import BriefcaseIcon from 'vue-material-design-icons/BriefcaseOutline.vue'
+import MapMarkerIcon from 'vue-material-design-icons/MapMarkerOutline.vue'
 import PencilIcon from 'vue-material-design-icons/PencilOutline.vue'
 import ProfileSection from '../components/ProfileSection.vue'
 
@@ -60,9 +62,13 @@ onBeforeMount(() => {
 })
 
 const isCurrentUser = getCurrentUser()?.uid === profileParameters.userId
+const isMobile = useIsMobile()
 
 const primaryAction = profileParameters.actions[0]
-const otherActions = profileParameters.actions.slice(1)
+const showEditAsPrimaryAction = computed(() => isMobile.value && isCurrentUser)
+const otherActions = computed(() => showEditAsPrimaryAction.value
+	? profileParameters.actions
+	: profileParameters.actions.slice(1))
 
 const settingsUrl = generateUrl('/settings/user')
 const emptyProfileMessage = isCurrentUser
@@ -113,28 +119,41 @@ function openStatusModal() {
 		<NcAppContent>
 			<div class="profile__header">
 				<div class="profile__header__container">
+					<NcAvatar
+						v-if="isMobile"
+						class="avatar profile__header__container__avatar"
+						:class="{ interactive: isCurrentUser }"
+						:user="profileParameters.userId"
+						:size="120"
+						disableMenu
+						disableTooltip
+						:isNoUser="!profileParameters.isUserAvatarVisible"
+						@click.prevent.stop="openStatusModal" />
 					<div class="profile__header__container__placeholder" />
 					<div class="profile__header__container__displayname">
 						<h2>{{ profileParameters.displayname || profileParameters.userId }}</h2>
-						<span v-if="profileParameters.pronouns">·</span>
+						<span v-if="profileParameters.pronouns" class="profile__header__container__pronoun-separator">·</span>
 						<span v-if="profileParameters.pronouns" class="profile__header__container__pronouns">{{ profileParameters.pronouns }}</span>
+					</div>
+					<div class="profile__header__container__controls">
 						<NcButton
-							v-if="isCurrentUser"
+							v-if="userStatus.icon || userStatus.message"
+							class="profile__header__container__status"
+							:disabled="!isCurrentUser"
+							:variant="isCurrentUser ? 'tertiary' : 'tertiary-no-background'"
+							@click="openStatusModal">
+							<span class="profile__header__container__status-content">
+								<span>{{ userStatus.icon }} {{ userStatus.message }}</span>
+								<PencilIcon v-if="isCurrentUser" :size="20" />
+							</span>
+						</NcButton>
+						<NcButton
+							v-if="isCurrentUser && !isMobile"
 							variant="primary"
 							:href="settingsUrl">
-							<template #icon>
-								<PencilIcon :size="20" />
-							</template>
-							{{ t('profile', 'Edit Profile') }}
+							{{ t('profile', 'Edit profile') }}
 						</NcButton>
 					</div>
-					<NcButton
-						v-if="userStatus.icon || userStatus.message"
-						:disabled="!isCurrentUser"
-						:variant="isCurrentUser ? 'tertiary' : 'tertiary-no-background'"
-						@click="openStatusModal">
-						{{ userStatus.icon }} {{ userStatus.message }}
-					</NcButton>
 				</div>
 			</div>
 
@@ -142,37 +161,50 @@ function openStatusModal() {
 				<div class="profile__content">
 					<div class="profile__sidebar">
 						<NcAvatar
+							v-if="!isMobile"
 							class="avatar"
 							:class="{ interactive: isCurrentUser }"
 							:user="profileParameters.userId"
 							:size="180"
-							:disableMenu="true"
-							:disableTooltip="true"
+							disableMenu
+							disableTooltip
 							:isNoUser="!profileParameters.isUserAvatarVisible"
 							@click.prevent.stop="openStatusModal" />
 
 						<div class="user-actions">
+							<NcButton
+								v-if="showEditAsPrimaryAction"
+								variant="primary"
+								class="user-actions__primary"
+								:href="settingsUrl">
+								{{ t('profile', 'Edit profile') }}
+							</NcButton>
 							<!-- When a tel: URL is opened with target="_blank", a blank new tab is opened which is inconsistent with the handling of other URLs so we set target="_self" for the phone action -->
 							<NcButton
-								v-if="primaryAction"
+								v-if="primaryAction && !showEditAsPrimaryAction"
 								variant="primary"
 								class="user-actions__primary"
 								:href="primaryAction.target"
 								:icon="primaryAction.icon"
-								:target="primaryAction.id === 'phone' ? '_self' : '_blank'">
+								:target="primaryAction.id === 'phone' ? '_self' : '_blank'"
+								:rel="primaryAction.id === 'fediverse' ? 'me' : undefined">
 								<template #icon>
 									<!-- Fix for https://github.com/nextcloud-libraries/nextcloud-vue/issues/2315 -->
 									<img :src="primaryAction.icon" alt="" class="user-actions__primary__icon">
 								</template>
 								{{ primaryAction.title }}
 							</NcButton>
-							<NcActions class="user-actions__other" :inline="4">
+							<NcActions
+								v-if="otherActions.length > 0"
+								class="user-actions__other"
+								:inline="isMobile ? 5 : 4">
 								<NcActionLink
 									v-for="action in otherActions"
 									:key="action.id"
 									:closeAfterClick="true"
 									:href="action.target"
-									:target="action.id === 'phone' ? '_self' : '_blank'">
+									:target="action.id === 'phone' ? '_self' : '_blank'"
+									:rel="primaryAction.id === 'fediverse' ? 'me' : undefined">
 									<template #icon>
 										<!-- Fix for https://github.com/nextcloud-libraries/nextcloud-vue/issues/2315 -->
 										<img :src="action.icon" alt="" class="user-actions__other__icon">
@@ -186,12 +218,17 @@ function openStatusModal() {
 					<div class="profile__blocks">
 						<div v-if="profileParameters.organisation || profileParameters.role || profileParameters.address" class="profile__blocks-details">
 							<div v-if="profileParameters.organisation || profileParameters.role" class="detail">
-								<p>{{ profileParameters.organisation }} <span v-if="profileParameters.organisation && profileParameters.role">•</span> {{ profileParameters.role }}</p>
+								<p>
+									<BriefcaseIcon
+										class="detail-icon"
+										:size="16" />
+									{{ profileParameters.organisation }} <span v-if="profileParameters.organisation && profileParameters.role">•</span> {{ profileParameters.role }}
+								</p>
 							</div>
 							<div v-if="profileParameters.address" class="detail">
 								<p>
 									<MapMarkerIcon
-										class="map-icon"
+										class="detail-icon"
 										:size="16" />
 									{{ profileParameters.address }}
 								</p>
@@ -232,6 +269,7 @@ $content-max-width: 640px;
 
 :deep(#app-content-vue) {
 	background-color: unset;
+	min-width: 320px;
 }
 
 .profile {
@@ -280,6 +318,18 @@ $content-max-width: 640px;
 					font-size: 20px;
 				}
 			}
+
+			&__controls {
+				display: flex;
+				align-items: center;
+				gap: 8px;
+			}
+
+			&__status-content {
+				display: flex;
+				align-items: center;
+				gap: 8px;
+			}
 		}
 	}
 
@@ -291,7 +341,10 @@ $content-max-width: 640px;
 		min-width: 220px;
 		margin-block: -150px 0;
 		margin-inline: 0 20px;
+	}
 
+	&__header,
+	&__sidebar {
 		// Specificity hack is needed to override Avatar component styles
 		:deep(.avatar.avatardiv) {
 			text-align: center;
@@ -334,7 +387,7 @@ $content-max-width: 640px;
 	}
 
 	&__blocks {
-		margin: 18px 0 80px 0;
+		margin: 18px 0 80px 16px;
 		display: grid;
 		gap: 16px 0;
 		width: $content-max-width;
@@ -353,7 +406,7 @@ $content-max-width: 640px;
 				display: inline-block;
 				color: var(--color-text-maxcontrast);
 
-				p .map-icon {
+				p .detail-icon {
 					display: inline-block;
 					vertical-align: middle;
 				}
@@ -369,58 +422,6 @@ $content-max-width: 640px;
 	}
 }
 
-@media only screen and (max-width: 1024px) {
-	.profile {
-		&__header {
-			height: 250px;
-			position: unset;
-
-			&__container {
-				grid-template-columns: unset;
-				margin-bottom: 110px;
-
-				&__displayname {
-					margin: 80px 20px 0px 0px!important;
-					width: unset;
-					text-align: center;
-					padding-inline: 12px;
-				}
-
-				&__edit-button {
-					width: fit-content;
-					display: block;
-					margin: 60px auto;
-				}
-
-				&__status-text {
-					margin: 4px auto;
-				}
-			}
-		}
-
-		&__content {
-			display: block;
-
-			 .avatar {
-				// Overlap avatar to top header
-				margin-top: -110px !important;
-			 }
-		}
-
-		&__blocks {
-			width: unset;
-			max-width: 600px;
-			margin: 0 auto;
-			padding: 20px 50px 50px 50px;
-		}
-
-		&__sidebar {
-			margin: unset;
-			position: unset;
-		}
-	}
-}
-
 .user-actions {
 	display: flex;
 	flex-direction: column;
@@ -430,7 +431,7 @@ $content-max-width: 640px;
 
 	&__primary {
 		margin: 0 auto;
-		max-width: 100%;
+		width: 180px !important;
 
 		&__icon {
 			filter: var(--primary-invert-if-dark);
@@ -449,6 +450,98 @@ $content-max-width: 640px;
 			filter: var(--background-invert-if-dark);
 			align-self: center;
 			margin: 12px; // so we get 44px x 44px
+		}
+	}
+}
+
+@media only screen and (max-width: 1024px) {
+	.profile {
+		&__header {
+			height: 190px;
+			position: unset;
+
+			&__container {
+				align-self: center;
+				grid-template-columns: 136px minmax(0, 1fr);
+				grid-template-rows: max-content max-content;
+				max-width: 600px;
+				margin: 0 auto;
+				padding-inline: 16px;
+				row-gap: 0;
+
+				&__avatar {
+					grid-column: 1;
+					grid-row: 1 / 3;
+					justify-self: center;
+				}
+
+				&__placeholder {
+					display: none;
+				}
+
+				&__displayname {
+					grid-column: 2;
+					grid-row: 1;
+					margin: 0;
+					width: unset;
+					height: unset;
+					flex-direction: column;
+					align-items: flex-start;
+					gap: 2px;
+
+					h2 {
+						font-size: 24px;
+						overflow-wrap: anywhere;
+					}
+				}
+
+				&__pronoun-separator {
+					display: none;
+				}
+
+				&__status {
+					grid-column: 2;
+					grid-row: 2;
+					justify-self: start;
+				}
+			}
+		}
+
+		&__content {
+			display: block;
+		}
+
+		&__blocks {
+			width: unset;
+			max-width: 600px;
+			margin: 0 auto;
+			padding: 20px 50px 50px 50px;
+		}
+
+		&__sidebar {
+			margin: unset;
+			position: unset;
+		}
+
+		&__header,
+		&__sidebar {
+			:deep(.avatar.avatardiv) {
+				.avatardiv__user-status {
+					inset-inline-end: 0;
+					bottom: 0;
+				}
+			}
+		}
+	}
+
+	.user-actions {
+		width: unset;
+		max-width: 600px;
+		margin: 0 auto;
+		padding: 20px 50px 0px 50px;
+
+		&__primary {
+			width: 220px !important;
 		}
 	}
 }

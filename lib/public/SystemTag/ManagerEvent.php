@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\SystemTag;
 
 use OCP\EventDispatcher\Event;
@@ -14,6 +15,7 @@ use OCP\EventDispatcher\Event;
  * Class ManagerEvent
  *
  * @since 9.0.0
+ * @deprecated 34.0.0
  */
 class ManagerEvent extends Event {
 	/**

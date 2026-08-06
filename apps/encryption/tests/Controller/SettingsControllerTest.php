@@ -7,8 +7,10 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Encryption\Tests\Controller;
 
+use OC\Encryption\Exceptions\DecryptionFailedException;
 use OCA\Encryption\Controller\SettingsController;
 use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\KeyManager;
@@ -144,6 +146,28 @@ class SettingsControllerTest extends TestCase {
 		$this->assertSame(Http::STATUS_BAD_REQUEST, $result->getStatus());
 		$this->assertSame('The old password was not correct, please try again.',
 			$data['message']);
+	}
+
+	/**
+	 * test updatePrivateKeyPassword() if decrypting the private key with the given
+	 * old password fails with an exception instead of returning false
+	 */
+	public function testUpdatePrivateKeyPasswordUndecryptableKey(): void {
+		$this->userManagerMock
+			->expects($this->once())
+			->method('checkPassword')
+			->willReturn(true);
+
+		$this->cryptMock
+			->expects($this->once())
+			->method('decryptPrivateKey')
+			->willThrowException(new DecryptionFailedException('Decryption failed'));
+
+		$result = $this->controller->updatePrivateKeyPassword('old', 'new');
+
+		$this->assertSame(Http::STATUS_BAD_REQUEST, $result->getStatus());
+		$this->assertSame('The old password was not correct, please try again.',
+			$result->getData()['message']);
 	}
 
 	/**

@@ -79,7 +79,6 @@ class DecryptAll {
 			$output->writeln('Could not decrypt private key, maybe you entered the wrong password?');
 		}
 
-
 		return false;
 	}
 

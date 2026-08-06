@@ -37,6 +37,7 @@ class UrlGeneratorTest extends \Test\TestCase {
 	/** @var string */
 	private $originalWebRoot;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->config = $this->createMock(IConfig::class);
@@ -54,6 +55,7 @@ class UrlGeneratorTest extends \Test\TestCase {
 		$this->originalWebRoot = \OC::$WEBROOT;
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		// Reset webRoot
 		\OC::$WEBROOT = $this->originalWebRoot;

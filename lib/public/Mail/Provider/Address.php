@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\Mail\Provider;
 
 /**
@@ -41,6 +42,7 @@ class Address implements \OCP\Mail\Provider\IAddress {
 	 *
 	 * @return self return this object for command chaining
 	 */
+	#[\Override]
 	public function setAddress(string $value): self {
 		$this->address = $value;
 		return $this;
@@ -53,6 +55,7 @@ class Address implements \OCP\Mail\Provider\IAddress {
 	 *
 	 * @return string|null returns the mail address or null if one is not set
 	 */
+	#[\Override]
 	public function getAddress(): ?string {
 		return $this->address;
 	}
@@ -66,6 +69,7 @@ class Address implements \OCP\Mail\Provider\IAddress {
 	 *
 	 * @return self return this object for command chaining
 	 */
+	#[\Override]
 	public function setLabel(string $value): self {
 		$this->label = $value;
 		return $this;
@@ -78,6 +82,7 @@ class Address implements \OCP\Mail\Provider\IAddress {
 	 *
 	 * @return string|null returns the mail address label/name or null if one is not set
 	 */
+	#[\Override]
 	public function getLabel(): ?string {
 		return $this->label;
 	}

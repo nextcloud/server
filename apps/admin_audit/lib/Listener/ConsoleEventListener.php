@@ -18,6 +18,7 @@ use OCP\EventDispatcher\IEventListener;
  * @template-implements IEventListener<ConsoleEvent>
  */
 class ConsoleEventListener extends Action implements IEventListener {
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof ConsoleEvent) {
 			$this->runCommand($event);

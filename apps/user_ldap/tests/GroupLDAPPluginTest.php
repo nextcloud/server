@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\User_LDAP\Tests;
 
 use OCA\User_LDAP\GroupPluginManager;
@@ -63,7 +64,6 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 		$pluginManager->createGroup('group');
 	}
 
-
 	public function testCreateGroupNotRegistered(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('No plugin implements createGroup in this LDAP Backend.');
@@ -92,7 +92,6 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 		$pluginManager->register($plugin);
 		$this->assertTrue($pluginManager->deleteGroup('group'));
 	}
-
 
 	public function testDeleteGroupNotRegistered(): void {
 		$this->expectException(\Exception::class);
@@ -124,7 +123,6 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 		$pluginManager->addToGroup('uid', 'gid');
 	}
 
-
 	public function testAddToGroupNotRegistered(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('No plugin implements addToGroup in this LDAP Backend.');
@@ -154,7 +152,6 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 		$pluginManager->register($plugin);
 		$pluginManager->removeFromGroup('uid', 'gid');
 	}
-
 
 	public function testRemoveFromGroupNotRegistered(): void {
 		$this->expectException(\Exception::class);
@@ -186,7 +183,6 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 		$pluginManager->countUsersInGroup('gid', 'search');
 	}
 
-
 	public function testCountUsersInGroupNotRegistered(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('No plugin implements countUsersInGroup in this LDAP Backend.');
@@ -215,7 +211,6 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 		$pluginManager->register($plugin);
 		$pluginManager->getGroupDetails('gid');
 	}
-
 
 	public function testgetGroupDetailsNotRegistered(): void {
 		$this->expectException(\Exception::class);

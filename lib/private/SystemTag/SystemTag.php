@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\SystemTag;
 
 use OCP\SystemTag\ISystemTag;
@@ -21,22 +22,27 @@ class SystemTag implements ISystemTag {
 	) {
 	}
 
+	#[\Override]
 	public function getId(): string {
 		return $this->id;
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->name;
 	}
 
+	#[\Override]
 	public function isUserVisible(): bool {
 		return $this->userVisible;
 	}
 
+	#[\Override]
 	public function isUserAssignable(): bool {
 		return $this->userAssignable;
 	}
 
+	#[\Override]
 	public function getAccessLevel(): int {
 		if (!$this->userVisible) {
 			return self::ACCESS_LEVEL_INVISIBLE;
@@ -49,10 +55,12 @@ class SystemTag implements ISystemTag {
 		return self::ACCESS_LEVEL_PUBLIC;
 	}
 
+	#[\Override]
 	public function getETag(): ?string {
 		return $this->etag;
 	}
 
+	#[\Override]
 	public function getColor(): ?string {
 		return $this->color;
 	}

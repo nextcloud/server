@@ -22,7 +22,6 @@ use OC\AppFramework\Utility\TimeFactory;
 use OC\Core\Controller\AvatarController;
 use OC\Core\Controller\GuestAvatarController;
 use OCP\AppFramework\Http;
-use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
@@ -67,6 +66,7 @@ class AvatarControllerTest extends \Test\TestCase {
 	/** @var TimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $timeFactory;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -116,6 +116,7 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->avatarFile->method('getMTime')->willReturn(42);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		parent::tearDown();
 	}

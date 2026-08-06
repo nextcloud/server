@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Connector;
 
 use OCA\DAV\Connector\LegacyPublicAuth;
@@ -72,6 +73,7 @@ class LegacyPublicAuthTest extends TestCase {
 	public function testShareNoPassword(): void {
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn(null);
+		$share->method('isPasswordProtected')->willReturn(false);
 
 		$this->shareManager->expects($this->once())
 			->method('getShareByToken')
@@ -85,6 +87,7 @@ class LegacyPublicAuthTest extends TestCase {
 	public function testSharePasswordFancyShareType(): void {
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
+		$share->method('isPasswordProtected')->willReturn(true);
 		$share->method('getShareType')->willReturn(42);
 
 		$this->shareManager->expects($this->once())
@@ -96,10 +99,10 @@ class LegacyPublicAuthTest extends TestCase {
 		$this->assertFalse($result);
 	}
 
-
 	public function testSharePasswordRemote(): void {
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
+		$share->method('isPasswordProtected')->willReturn(true);
 		$share->method('getShareType')->willReturn(IShare::TYPE_REMOTE);
 
 		$this->shareManager->expects($this->once())
@@ -114,6 +117,7 @@ class LegacyPublicAuthTest extends TestCase {
 	public function testSharePasswordLinkValidPassword(): void {
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
+		$share->method('isPasswordProtected')->willReturn(true);
 		$share->method('getShareType')->willReturn(IShare::TYPE_LINK);
 
 		$this->shareManager->expects($this->once())
@@ -134,6 +138,7 @@ class LegacyPublicAuthTest extends TestCase {
 	public function testSharePasswordMailValidPassword(): void {
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
+		$share->method('isPasswordProtected')->willReturn(true);
 		$share->method('getShareType')->willReturn(IShare::TYPE_EMAIL);
 
 		$this->shareManager->expects($this->once())
@@ -154,6 +159,7 @@ class LegacyPublicAuthTest extends TestCase {
 	public function testInvalidSharePasswordLinkValidSession(): void {
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
+		$share->method('isPasswordProtected')->willReturn(true);
 		$share->method('getShareType')->willReturn(IShare::TYPE_LINK);
 		$share->method('getId')->willReturn('42');
 
@@ -178,6 +184,7 @@ class LegacyPublicAuthTest extends TestCase {
 	public function testSharePasswordLinkInvalidSession(): void {
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
+		$share->method('isPasswordProtected')->willReturn(true);
 		$share->method('getShareType')->willReturn(IShare::TYPE_LINK);
 		$share->method('getId')->willReturn('42');
 
@@ -199,10 +206,10 @@ class LegacyPublicAuthTest extends TestCase {
 		$this->assertFalse($result);
 	}
 
-
 	public function testSharePasswordMailInvalidSession(): void {
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
+		$share->method('isPasswordProtected')->willReturn(true);
 		$share->method('getShareType')->willReturn(IShare::TYPE_EMAIL);
 		$share->method('getId')->willReturn('42');
 

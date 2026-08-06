@@ -180,7 +180,6 @@ class JSCombiner {
 		return $result;
 	}
 
-
 	/**
 	 * Clear cache with combined javascript files
 	 *

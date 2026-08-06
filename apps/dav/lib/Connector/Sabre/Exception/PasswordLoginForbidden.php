@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Connector\Sabre\Exception;
 
 use DOMElement;
@@ -14,6 +15,7 @@ use Sabre\DAV\Server;
 class PasswordLoginForbidden extends NotAuthenticated {
 	public const NS_OWNCLOUD = 'http://owncloud.org/ns';
 
+	#[\Override]
 	public function getHTTPCode() {
 		return 401;
 	}
@@ -26,6 +28,7 @@ class PasswordLoginForbidden extends NotAuthenticated {
 	 * @param DOMElement $errorNode
 	 * @return void
 	 */
+	#[\Override]
 	public function serialize(Server $server, DOMElement $errorNode) {
 
 		// set ownCloud namespace

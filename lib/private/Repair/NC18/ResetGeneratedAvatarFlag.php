@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Repair\NC18;
 
 use OCP\IConfig;
@@ -20,6 +21,7 @@ class ResetGeneratedAvatarFlag implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Reset generated avatar flag';
 	}
@@ -29,6 +31,7 @@ class ResetGeneratedAvatarFlag implements IRepairStep {
 		return version_compare($versionFromBeforeUpdate, '18.0.0.5', '<=');
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		if ($this->shouldRun()) {
 			$query = $this->connection->getQueryBuilder();

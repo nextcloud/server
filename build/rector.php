@@ -27,6 +27,7 @@ return (require 'rector-shared.php')
 		$nextcloudDir . '/version.php',
 		$nextcloudDir . '/lib/private',
 		$nextcloudDir . '/tests',
+		$nextcloudDir . '/build/integration/features/bootstrap',
 		// $nextcloudDir . '/config',
 		// $nextcloudDir . '/themes',
 	])

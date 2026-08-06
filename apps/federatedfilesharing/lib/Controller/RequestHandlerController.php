@@ -5,8 +5,10 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\FederatedFileSharing\Controller;
 
+use OC\AppFramework\Http\Attributes\FederationRateLimit;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
@@ -29,7 +31,6 @@ use OCP\IDBConnection;
 use OCP\IRequest;
 use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Server;
-use OCP\Share;
 use OCP\Share\Exceptions\ShareNotFound;
 use Psr\Log\LoggerInterface;
 
@@ -69,6 +70,7 @@ class RequestHandlerController extends OCSController {
 	 */
 	#[NoCSRFRequired]
 	#[PublicPage]
+	#[FederationRateLimit(limit: 5, period: 1200)]
 	public function createShare(
 		?string $remote = null,
 		?string $token = null,
@@ -169,7 +171,6 @@ class RequestHandlerController extends OCSController {
 
 		throw new OCSBadRequestException();
 	}
-
 
 	/**
 	 * accept server-to-server share
@@ -273,7 +274,6 @@ class RequestHandlerController extends OCSController {
 
 		return rtrim($remote, '/');
 	}
-
 
 	/**
 	 * federated share was revoked, either by the owner or the re-sharer
@@ -399,7 +399,7 @@ class RequestHandlerController extends OCSController {
 			->set('owner', $qb->createNamedParameter($cloudId->getUser()))
 			->set('remote_id', $qb->createNamedParameter($newRemoteId))
 			->where($qb->expr()->eq('remote_id', $qb->createNamedParameter($id)))
-			->andWhere($qb->expr()->eq('share_token', $qb->createNamedParameter($token)));
+			->andWhere($qb->expr()->eq('refresh_token', $qb->createNamedParameter($token)));
 		$affected = $query->executeStatement();
 
 		if ($affected > 0) {

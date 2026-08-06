@@ -64,7 +64,7 @@ class GroupMembershipMapper extends QBMapper {
 		$query->delete($this->getTableName())
 			->where($query->expr()->in('groupid', $query->createParameter('groupids')));
 
-		foreach (array_chunk($removedGroups, 1000) as $removedGroupsChunk) {
+		foreach (array_chunk($removedGroups, IQueryBuilder::MAX_IN_PARAMETERS) as $removedGroupsChunk) {
 			$query->setParameter('groupids', $removedGroupsChunk, IQueryBuilder::PARAM_STR_ARRAY);
 			$query->executeStatement();
 		}

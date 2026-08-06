@@ -6,11 +6,11 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Controller;
 
 use Generator;
 use OC\Collaboration\Collaborators\SearchResult;
-use OC\Share\Share;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\ResponseDefinitions;
 use OCP\App\IAppManager;
@@ -128,11 +128,11 @@ class ShareesAPIController extends OCSController {
 				$shareTypes[] = IShare::TYPE_GROUP;
 			}
 
-			if ($this->isRemoteSharingAllowed($itemType)) {
+			if ($this->isRemoteSharingAllowed()) {
 				$shareTypes[] = IShare::TYPE_REMOTE;
 			}
 
-			if ($this->isRemoteGroupSharingAllowed($itemType)) {
+			if ($this->isRemoteGroupSharingAllowed()) {
 				$shareTypes[] = IShare::TYPE_REMOTE_GROUP;
 			}
 
@@ -309,11 +309,11 @@ class ShareesAPIController extends OCSController {
 				$shareTypes[] = IShare::TYPE_GROUP;
 			}
 
-			if ($this->isRemoteSharingAllowed($itemType)) {
+			if ($this->isRemoteSharingAllowed()) {
 				$shareTypes[] = IShare::TYPE_REMOTE;
 			}
 
-			if ($this->isRemoteGroupSharingAllowed($itemType)) {
+			if ($this->isRemoteGroupSharingAllowed()) {
 				$shareTypes[] = IShare::TYPE_REMOTE_GROUP;
 			}
 
@@ -353,26 +353,13 @@ class ShareesAPIController extends OCSController {
 	 * @param string $itemType
 	 * @return bool
 	 */
-	protected function isRemoteSharingAllowed(string $itemType): bool {
-		try {
-			// FIXME: static foo makes unit testing unnecessarily difficult
-			$backend = Share::getBackend($itemType);
-			return $backend->isShareTypeAllowed(IShare::TYPE_REMOTE);
-		} catch (\Exception $e) {
-			return false;
-		}
+	protected function isRemoteSharingAllowed(): bool {
+		return $this->federatedShareProvider->isOutgoingServer2serverShareEnabled();
 	}
 
-	protected function isRemoteGroupSharingAllowed(string $itemType): bool {
-		try {
-			// FIXME: static foo makes unit testing unnecessarily difficult
-			$backend = Share::getBackend($itemType);
-			return $backend->isShareTypeAllowed(IShare::TYPE_REMOTE_GROUP);
-		} catch (\Exception $e) {
-			return false;
-		}
+	protected function isRemoteGroupSharingAllowed(): bool {
+		return $this->federatedShareProvider->isOutgoingServer2serverGroupShareEnabled();
 	}
-
 
 	/**
 	 * Generates a bunch of pagination links for the current page

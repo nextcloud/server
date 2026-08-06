@@ -11,7 +11,7 @@ import { emit, subscribe } from '@nextcloud/event-bus'
 import debounce from 'debounce'
 import { defineStore } from 'pinia'
 import { ref, watch } from 'vue'
-import logger from '../logger.ts'
+import { logger } from '../utils/logger.ts'
 import { VIEW_ID } from '../views/search.ts'
 
 export const useSearchStore = defineStore('search', () => {

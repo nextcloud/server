@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Tests\Auth\Password;
 
 use OCA\Files_External\Lib\Auth\Password\GlobalAuth;
@@ -80,7 +81,6 @@ class GlobalAuthTest extends TestCase {
 			'password' => 'b'
 		], $storage->getBackendOptions());
 	}
-
 
 	public function testNoCredentialsPersonal(): void {
 		$this->expectException(InsufficientDataForMeaningfulAnswerException::class);

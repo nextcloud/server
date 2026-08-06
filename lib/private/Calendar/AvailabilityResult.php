@@ -18,10 +18,12 @@ class AvailabilityResult implements IAvailabilityResult {
 	) {
 	}
 
+	#[\Override]
 	public function getAttendeeEmail(): string {
 		return $this->attendee;
 	}
 
+	#[\Override]
 	public function isAvailable(): bool {
 		return $this->available;
 	}

@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CalDAV\Search\Xml\Request;
 
 use OCA\DAV\CalDAV\Search\SearchPlugin;
@@ -66,6 +67,7 @@ class CalendarSearchReport implements XmlDeserializable {
 	 * @param Reader $reader
 	 * @return mixed
 	 */
+	#[\Override]
 	public static function xmlDeserialize(Reader $reader) {
 		$elems = $reader->parseInnerTree([
 			'{http://nextcloud.com/ns}comp-filter' => 'OCA\\DAV\\CalDAV\\Search\\Xml\\Filter\\CompFilter',
@@ -142,7 +144,6 @@ class CalendarSearchReport implements XmlDeserializable {
 		if (empty($newProps['filters']['props']) && empty($newProps['filters']['params'])) {
 			throw new BadRequest('At least one{' . SearchPlugin::NS_Nextcloud . '}prop-filter or {' . SearchPlugin::NS_Nextcloud . '}param-filter is required for this request');
 		}
-
 
 		$obj = new self();
 		foreach ($newProps as $key => $value) {

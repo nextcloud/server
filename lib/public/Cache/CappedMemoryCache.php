@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2022-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\Cache;
 
 use OCP\ICache;
@@ -16,7 +19,7 @@ use OCP\ICache;
  *
  * @since 25.0.0
  * @template T
- * @template-implements \ArrayAccess<string,T>
+ * @template-implements \ArrayAccess<array-key,T>
  */
 class CappedMemoryCache implements ICache, \ArrayAccess {
 	private int $capacity;
@@ -35,7 +38,8 @@ class CappedMemoryCache implements ICache, \ArrayAccess {
 	 * @inheritdoc
 	 * @since 25.0.0
 	 */
-	public function hasKey($key): bool {
+	#[\Override]
+	public function hasKey(string|int $key): bool {
 		return isset($this->cache[$key]);
 	}
 
@@ -43,24 +47,19 @@ class CappedMemoryCache implements ICache, \ArrayAccess {
 	 * @return ?T
 	 * @since 25.0.0
 	 */
-	public function get($key) {
+	#[\Override]
+	public function get(string|int $key) {
 		return $this->cache[$key] ?? null;
 	}
 
 	/**
 	 * @inheritdoc
-	 * @param string $key
 	 * @param T $value
-	 * @param int $ttl
 	 * @since 25.0.0
-	 * @return bool
 	 */
-	public function set($key, $value, $ttl = 0): bool {
-		if (is_null($key)) {
-			$this->cache[] = $value;
-		} else {
-			$this->cache[$key] = $value;
-		}
+	#[\Override]
+	public function set(string|int $key, $value, int $ttl = 0): bool {
+		$this->cache[$key] = $value;
 		$this->garbageCollect();
 		return true;
 	}
@@ -68,7 +67,8 @@ class CappedMemoryCache implements ICache, \ArrayAccess {
 	/**
 	 * @since 25.0.0
 	 */
-	public function remove($key): bool {
+	#[\Override]
+	public function remove(string|int $key): bool {
 		unset($this->cache[$key]);
 		return true;
 	}
@@ -77,7 +77,8 @@ class CappedMemoryCache implements ICache, \ArrayAccess {
 	 * @inheritdoc
 	 * @since 25.0.0
 	 */
-	public function clear($prefix = ''): bool {
+	#[\Override]
+	public function clear(string $prefix = ''): bool {
 		$this->cache = [];
 		return true;
 	}
@@ -85,6 +86,7 @@ class CappedMemoryCache implements ICache, \ArrayAccess {
 	/**
 	 * @since 25.0.0
 	 */
+	#[\Override]
 	public function offsetExists($offset): bool {
 		return $this->hasKey($offset);
 	}
@@ -94,6 +96,7 @@ class CappedMemoryCache implements ICache, \ArrayAccess {
 	 * @return T
 	 * @since 25.0.0
 	 */
+	#[\Override]
 	#[\ReturnTypeWillChange]
 	public function &offsetGet($offset) {
 		return $this->cache[$offset];
@@ -105,6 +108,7 @@ class CappedMemoryCache implements ICache, \ArrayAccess {
 	 * @param T $value
 	 * @since 25.0.0
 	 */
+	#[\Override]
 	public function offsetSet($offset, $value): void {
 		$this->set($offset, $value);
 	}
@@ -113,6 +117,7 @@ class CappedMemoryCache implements ICache, \ArrayAccess {
 	 * @inheritdoc
 	 * @since 25.0.0
 	 */
+	#[\Override]
 	public function offsetUnset($offset): void {
 		$this->remove($offset);
 	}
@@ -124,7 +129,6 @@ class CappedMemoryCache implements ICache, \ArrayAccess {
 	public function getData(): array {
 		return $this->cache;
 	}
-
 
 	/**
 	 * @since 25.0.0
@@ -141,6 +145,7 @@ class CappedMemoryCache implements ICache, \ArrayAccess {
 	 * @inheritdoc
 	 * @since 25.0.0
 	 */
+	#[\Override]
 	public static function isAvailable(): bool {
 		return true;
 	}

@@ -48,6 +48,7 @@ class Entry implements IEntry {
 		$this->fullName = $displayName;
 	}
 
+	#[\Override]
 	public function getFullName(): string {
 		return $this->fullName;
 	}
@@ -59,6 +60,7 @@ class Entry implements IEntry {
 	/**
 	 * @return string[]
 	 */
+	#[\Override]
 	public function getEMailAddresses(): array {
 		return $this->emailAddresses;
 	}
@@ -67,6 +69,7 @@ class Entry implements IEntry {
 		$this->avatar = $avatar;
 	}
 
+	#[\Override]
 	public function getAvatar(): ?string {
 		return $this->avatar;
 	}
@@ -87,11 +90,13 @@ class Entry implements IEntry {
 		return $this->profileUrl;
 	}
 
+	#[\Override]
 	public function addAction(IAction $action): void {
 		$this->actions[] = $action;
 		$this->sortActions();
 	}
 
+	#[\Override]
 	public function setStatus(string $status,
 		?string $statusMessage = null,
 		?int $statusMessageTimestamp = null,
@@ -138,6 +143,7 @@ class Entry implements IEntry {
 		$this->properties = array_merge($this->properties, $properties);
 	}
 
+	#[\Override]
 	public function getProperty(string $key): mixed {
 		if (!isset($this->properties[$key])) {
 			return null;
@@ -148,6 +154,7 @@ class Entry implements IEntry {
 	/**
 	 * @return array{id: int|string|null, fullName: string, avatar: string|null, topAction: mixed, actions: array, lastMessage: '', emailAddresses: string[], profileTitle: string|null, profileUrl: string|null, status: string|null, statusMessage: null|string, statusMessageTimestamp: null|int, statusIcon: null|string, isUser: bool, uid: mixed}
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		$topAction = !empty($this->actions) ? $this->actions[0]->jsonSerialize() : null;
 		$otherActions = array_map(function (IAction $action) {

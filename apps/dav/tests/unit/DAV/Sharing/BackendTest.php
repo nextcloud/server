@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\DAV\Sharing;
 
 use OCA\DAV\CalDAV\Federation\FederationSharingService;
@@ -259,7 +260,6 @@ class BackendTest extends TestCase {
 			]
 		];
 
-
 		$this->shareCache->expects(self::once())
 			->method('clear');
 		$this->principalBackend->expects(self::once())
@@ -293,7 +293,6 @@ class BackendTest extends TestCase {
 				'{http://owncloud.org/ns}group-share' => true,
 			]
 		];
-
 
 		$this->shareCache->expects(self::once())
 			->method('get')

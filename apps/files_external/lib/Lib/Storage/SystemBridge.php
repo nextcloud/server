@@ -20,6 +20,7 @@ class SystemBridge extends System {
 	) {
 	}
 
+	#[\Override]
 	protected function getBinaryPath(string $binary): ?string {
 		$path = $this->binaryFinder->findBinaryPath($binary);
 		return $path !== false ? $path : null;

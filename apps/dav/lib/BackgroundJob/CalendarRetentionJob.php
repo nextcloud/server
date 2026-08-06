@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\BackgroundJob;
 
 use OCA\DAV\CalDAV\RetentionService;
@@ -24,6 +25,7 @@ class CalendarRetentionJob extends TimedJob {
 		$this->setTimeSensitivity(self::TIME_SENSITIVE);
 	}
 
+	#[\Override]
 	protected function run($argument): void {
 		$this->service->cleanUp();
 	}

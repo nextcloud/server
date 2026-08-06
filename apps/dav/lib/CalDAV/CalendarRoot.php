@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\CalDAV;
 
 use OCA\DAV\CalDAV\Federation\FederatedCalendarFactory;
@@ -33,6 +34,7 @@ class CalendarRoot extends \Sabre\CalDAV\CalendarRoot {
 		parent::__construct($principalBackend, $caldavBackend, $principalPrefix);
 	}
 
+	#[\Override]
 	public function getChildForPrincipal(array $principal) {
 		[$prefix] = \Sabre\Uri\split($principal['uri']);
 		if ($prefix === RemoteUserPrincipalBackend::PRINCIPAL_PREFIX) {
@@ -54,6 +56,7 @@ class CalendarRoot extends \Sabre\CalDAV\CalendarRoot {
 		);
 	}
 
+	#[\Override]
 	public function getName() {
 		if ($this->principalPrefix === 'principals/calendar-resources'
 			|| $this->principalPrefix === 'principals/calendar-rooms') {
@@ -73,6 +76,7 @@ class CalendarRoot extends \Sabre\CalDAV\CalendarRoot {
 		$this->returnCachedSubscriptions['principals/users/' . $principalUri] = true;
 	}
 
+	#[\Override]
 	public function childExists($name) {
 		if (!($this->principalBackend instanceof Principal)) {
 			return parent::childExists($name);

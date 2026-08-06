@@ -27,6 +27,7 @@ class CSPMiddlewareTest extends \Test\TestCase {
 	/** @var ContentSecurityPolicyNonceManager&MockObject */
 	private $cspNonceManager;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

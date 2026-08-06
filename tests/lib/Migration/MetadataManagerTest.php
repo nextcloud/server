@@ -28,6 +28,7 @@ use OCP\Server;
 class MetadataManagerTest extends \Test\TestCase {
 	private IAppManager $appManager;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->appManager = Server::get(IAppManager::class);

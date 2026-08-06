@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Updater;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -29,7 +30,6 @@ class VersionCheck {
 		private ITimeFactory $timeFactory,
 	) {
 	}
-
 
 	/**
 	 * Check if a new version is available

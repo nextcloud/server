@@ -1,20 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\AppFramework\Middleware\PublicShare;
 
 use OC\AppFramework\Middleware\PublicShare\Exceptions\NeedAuthenticationException;
 use OCA\Files_Sharing\AppInfo\Application;
 use OCP\AppFramework\AuthPublicShareController;
+use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Middleware;
 use OCP\AppFramework\PublicShareController;
 use OCP\Files\NotFoundException;
-use OCP\IConfig;
+use OCP\IAppConfig;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\Security\Bruteforce\IThrottler;
@@ -22,14 +26,15 @@ use OCP\Security\Bruteforce\IThrottler;
 class PublicShareMiddleware extends Middleware {
 
 	public function __construct(
-		private IRequest $request,
-		private ISession $session,
-		private IConfig $config,
-		private IThrottler $throttler,
+		private readonly IRequest $request,
+		private readonly ISession $session,
+		private readonly IAppConfig $appConfig,
+		private readonly IThrottler $throttler,
 	) {
 	}
 
-	public function beforeController($controller, $methodName) {
+	#[\Override]
+	public function beforeController(Controller $controller, string $methodName): void {
 		if (!($controller instanceof PublicShareController)) {
 			return;
 		}
@@ -79,7 +84,8 @@ class PublicShareMiddleware extends Middleware {
 		throw new NotFoundException();
 	}
 
-	public function afterException($controller, $methodName, \Exception $exception) {
+	#[\Override]
+	public function afterException(Controller $controller, string $methodName, \Exception $exception) {
 		if (!($controller instanceof PublicShareController)) {
 			throw $exception;
 		}
@@ -106,20 +112,12 @@ class PublicShareMiddleware extends Middleware {
 	 * Check if link sharing is allowed
 	 */
 	private function isLinkSharingEnabled(): bool {
-		// Check if the shareAPI is enabled
-		if ($this->config->getAppValue('core', 'shareapi_enabled', 'yes') !== 'yes') {
-			return false;
-		}
-
-		// Check whether public sharing is enabled
-		if ($this->config->getAppValue('core', 'shareapi_allow_links', 'yes') !== 'yes') {
-			return false;
-		}
-
-		return true;
+		// Check if the shareAPI and public sharing is enabled
+		return $this->appConfig->getValueBool('core', 'shareapi_enabled', true)
+			&& $this->appConfig->getValueBool('core', 'shareapi_allow_links', true);
 	}
 
-	private function throttle($bruteforceProtectionAction, $token): void {
+	private function throttle(string $bruteforceProtectionAction, string $token): void {
 		$ip = $this->request->getRemoteAddress();
 		$this->throttler->sleepDelayOrThrowOnMax($ip, $bruteforceProtectionAction);
 		$this->throttler->registerAttempt($bruteforceProtectionAction, $ip, ['token' => $token]);

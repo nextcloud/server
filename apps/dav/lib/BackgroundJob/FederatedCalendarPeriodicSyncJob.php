@@ -34,6 +34,7 @@ class FederatedCalendarPeriodicSyncJob extends TimedJob {
 		$this->setInterval(3600);
 	}
 
+	#[\Override]
 	protected function run($argument): void {
 		if (!$this->calendarFederationConfig->isFederationEnabled()) {
 			return;

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Controller;
 
 use OC\Core\Db\LoginFlowV2;
@@ -46,8 +47,6 @@ use OCP\Util;
 class ClientFlowLoginV2Controller extends Controller {
 	public const TOKEN_NAME = 'client.flow.v2.login.token';
 	public const STATE_NAME = 'client.flow.v2.state.token';
-	// Denotes that the session was created for the login flow and should therefore be ephemeral.
-	public const EPHEMERAL_NAME = 'client.flow.v2.state.ephemeral';
 
 	public function __construct(
 		string $appName,
@@ -134,7 +133,6 @@ class ClientFlowLoginV2Controller extends Controller {
 			'appTokenUrl' => $this->urlGenerator->linkToRouteAbsolute('core.ClientFlowLoginV2.apptokenRedirect'),
 		]);
 
-
 		Util::addScript('core', 'login_flow');
 		return new StandaloneTemplateResponse(
 			$this->appName,
@@ -178,7 +176,6 @@ class ClientFlowLoginV2Controller extends Controller {
 			'stateToken' => $stateToken,
 			'direct' => $direct === 1,
 		]);
-
 
 		Util::addScript('core', 'login_flow');
 		return new StandaloneTemplateResponse(

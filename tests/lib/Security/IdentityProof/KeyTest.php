@@ -16,6 +16,7 @@ class KeyTest extends TestCase {
 	/** @var Key */
 	private $key;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

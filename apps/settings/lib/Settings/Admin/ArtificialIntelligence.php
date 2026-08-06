@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Settings\Admin;
 
 use OCP\AppFramework\Http\TemplateResponse;
@@ -44,6 +45,7 @@ class ArtificialIntelligence implements IDelegatedSettings {
 	/**
 	 * @return TemplateResponse
 	 */
+	#[\Override]
 	public function getForm() {
 		$translationProviders = [];
 		$translationPreferences = [];
@@ -125,7 +127,6 @@ class ArtificialIntelligence implements IDelegatedSettings {
 			$taskProcessingTypeSettings[$taskTypeId] = true;
 		}
 
-
 		$this->initialState->provideInitialState('ai-stt-providers', $sttProviders);
 		$this->initialState->provideInitialState('ai-translation-providers', $translationProviders);
 		$this->initialState->provideInitialState('ai-text-processing-providers', $textProcessingProviders);
@@ -191,6 +192,7 @@ class ArtificialIntelligence implements IDelegatedSettings {
 	/**
 	 * @return string the section ID, e.g. 'sharing'
 	 */
+	#[\Override]
 	public function getSection() {
 		return 'ai';
 	}
@@ -202,14 +204,17 @@ class ArtificialIntelligence implements IDelegatedSettings {
 	 *
 	 * E.g.: 70
 	 */
+	#[\Override]
 	public function getPriority() {
 		return 10;
 	}
 
+	#[\Override]
 	public function getName(): ?string {
 		return $this->l->t('Artificial Intelligence');
 	}
 
+	#[\Override]
 	public function getAuthorizedAppConfig(): array {
 		return [
 			'core' => ['/ai..*/'],

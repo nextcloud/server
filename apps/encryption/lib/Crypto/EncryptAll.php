@@ -84,7 +84,6 @@ class EncryptAll {
 			$this->createKeyPairs();
 		}
 
-
 		// output generated encryption key passwords
 		if ($this->util->isMasterKeyEnabled() === false) {
 			//send-out or display password list and write it to a file

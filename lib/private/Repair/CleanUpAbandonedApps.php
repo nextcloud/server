@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Repair;
 
 use OCP\IConfig;
@@ -19,10 +20,12 @@ class CleanUpAbandonedApps implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Clean up abandoned apps';
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		foreach (self::ABANDONED_APPS as $app) {
 			// only remove global app values

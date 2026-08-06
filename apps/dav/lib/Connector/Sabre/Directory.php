@@ -5,9 +5,9 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Connector\Sabre;
 
-use OC\Files\Mount\MoveableMount;
 use OC\Files\Utils\PathHelper;
 use OC\Files\View;
 use OCA\DAV\AppInfo\Application;
@@ -22,6 +22,7 @@ use OCP\Files\Folder;
 use OCP\Files\ForbiddenException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\Mount\IMountManager;
+use OCP\Files\Mount\IMovableMount;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\StorageNotAvailableException;
@@ -100,6 +101,7 @@ class Directory extends Node implements
 	 * @throws \Sabre\DAV\Exception\Forbidden
 	 * @throws \Sabre\DAV\Exception\ServiceUnavailable
 	 */
+	#[\Override]
 	public function createFile($name, $data = null) {
 		try {
 			if (!$this->fileView->isCreatable($this->path)) {
@@ -123,11 +125,16 @@ class Directory extends Node implements
 			$node->acquireLock(ILockingProvider::LOCK_SHARED);
 			$this->fileView->lockFile($this->path . '/' . $name . '.upload.part', ILockingProvider::LOCK_EXCLUSIVE);
 
-			$result = $node->put($data);
-
-			$this->fileView->unlockFile($this->path . '/' . $name . '.upload.part', ILockingProvider::LOCK_EXCLUSIVE);
-			$node->releaseLock(ILockingProvider::LOCK_SHARED);
-			return $result;
+			try {
+				return $node->put($data);
+			} finally {
+				// Always release the locks, even when the upload failed or was
+				// interrupted. Otherwise a failed attempt leaves the exclusive
+				// part-file lock behind and every later upload to the same path
+				// keeps getting rejected with 423 until the lock TTL expires.
+				$this->fileView->unlockFile($this->path . '/' . $name . '.upload.part', ILockingProvider::LOCK_EXCLUSIVE);
+				$node->releaseLock(ILockingProvider::LOCK_SHARED);
+			}
 		} catch (StorageNotAvailableException $e) {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage(), $e->getCode(), $e);
 		} catch (InvalidPathException $ex) {
@@ -148,6 +155,7 @@ class Directory extends Node implements
 	 * @throws \Sabre\DAV\Exception\Forbidden
 	 * @throws \Sabre\DAV\Exception\ServiceUnavailable
 	 */
+	#[\Override]
 	public function createDirectory($name) {
 		try {
 			if (!$this->info->isCreatable()) {
@@ -180,6 +188,7 @@ class Directory extends Node implements
 	 * @throws \Sabre\DAV\Exception\NotFound
 	 * @throws \Sabre\DAV\Exception\ServiceUnavailable
 	 */
+	#[\Override]
 	public function getChild($name, $info = null, ?IRequest $request = null, ?IL10N $l10n = null) {
 		$storage = $this->info->getStorage();
 		$allowDirectory = false;
@@ -240,6 +249,7 @@ class Directory extends Node implements
 	 * @throws \Sabre\DAV\Exception\Locked
 	 * @throws Forbidden
 	 */
+	#[\Override]
 	public function getChildren() {
 		if (!is_null($this->dirContent)) {
 			return $this->dirContent;
@@ -277,6 +287,7 @@ class Directory extends Node implements
 	 * @param string $name
 	 * @return bool
 	 */
+	#[\Override]
 	public function childExists($name) {
 		// note: here we do NOT resolve the chunk file name to the real file name
 		// to make sure we return false when checking for file existence with a chunk
@@ -296,6 +307,7 @@ class Directory extends Node implements
 	 * @throws FileLocked
 	 * @throws \Sabre\DAV\Exception\Forbidden
 	 */
+	#[\Override]
 	public function delete() {
 		if ($this->path === '' || $this->path === '/' || !$this->info->isDeletable()) {
 			throw new \Sabre\DAV\Exception\Forbidden();
@@ -322,6 +334,7 @@ class Directory extends Node implements
 	 *
 	 * @return array
 	 */
+	#[\Override]
 	public function getQuotaInfo() {
 		if ($this->quotaInfo) {
 			return $this->quotaInfo;
@@ -381,6 +394,7 @@ class Directory extends Node implements
 	 * @throws FileLocked
 	 * @throws \Sabre\DAV\Exception\Forbidden
 	 */
+	#[\Override]
 	public function moveInto($targetName, $fullSourcePath, INode $sourceNode) {
 		if (!$sourceNode instanceof Node) {
 			// it's a file of another kind, like FutureFile
@@ -392,7 +406,6 @@ class Directory extends Node implements
 		}
 
 		$destinationPath = $this->getPath() . '/' . $targetName;
-
 
 		$targetNodeExists = $this->childExists($targetName);
 
@@ -410,7 +423,7 @@ class Directory extends Node implements
 		$isMovableMount = false;
 		$sourceMount = Server::get(IMountManager::class)->find($this->fileView->getAbsolutePath($sourcePath));
 		$internalPath = $sourceMount->getInternalPath($this->fileView->getAbsolutePath($sourcePath));
-		if ($sourceMount instanceof MoveableMount && $internalPath === '') {
+		if ($sourceMount instanceof IMovableMount && $internalPath === '') {
 			$isMovableMount = true;
 		}
 
@@ -458,7 +471,7 @@ class Directory extends Node implements
 		return true;
 	}
 
-
+	#[\Override]
 	public function copyInto($targetName, $sourcePath, INode $sourceNode) {
 		if ($sourceNode instanceof File || $sourceNode instanceof Directory) {
 			try {
@@ -494,10 +507,12 @@ class Directory extends Node implements
 		return false;
 	}
 
+	#[\Override]
 	public function getNode(): Folder {
 		return $this->node;
 	}
 
+	#[\Override]
 	public function getNodeForPath($path): INode {
 		$storage = $this->info->getStorage();
 		$allowDirectory = false;
@@ -532,7 +547,7 @@ class Directory extends Node implements
 		}
 
 		if ($info->getMimeType() === FileInfo::MIMETYPE_FOLDER) {
-			$node = new \OCA\DAV\Connector\Sabre\Directory($this->fileView, $info, $this->tree, $this->shareManager);
+			$node = new Directory($this->fileView, $info, $this->tree, $this->shareManager);
 		} else {
 			// In case reading a directory was allowed but it turns out the node was a not a directory, reject it now.
 			if (!$this->info->isReadable()) {

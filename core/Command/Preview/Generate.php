@@ -29,6 +29,7 @@ class Generate extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('preview:generate')
@@ -39,6 +40,7 @@ class Generate extends Command {
 			->addOption('mode', 'm', InputOption::VALUE_REQUIRED, "mode for generating uncropped previews, 'cover' or 'fill'", IPreview::MODE_FILL);
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$fileInput = $input->getArgument('file');
 		$sizes = $input->getOption('size');

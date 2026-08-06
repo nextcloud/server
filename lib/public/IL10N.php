@@ -19,9 +19,9 @@ namespace OCP;
 interface IL10N {
 	/**
 	 * Translating
-	 * @param string $text The text we need a translation for
-	 * @param array|string $parameters default:array() Parameters for sprintf
-	 * @return string Translation or the same text
+	 * @param non-empty-string $text The text we need a translation for
+	 * @param array|non-empty-string $parameters default:array() Parameters for sprintf
+	 * @return non-empty-string Translation or the same text
 	 *
 	 * Returns the translation. If no translation is found, $text will be
 	 * returned.
@@ -50,7 +50,7 @@ interface IL10N {
 	/**
 	 * Localization
 	 * @param string $type Type of localization
-	 * @param \DateTime|int|string|null $data parameters for this localization
+	 * @param \DateTime|\DateTimeImmutable|int|string|null $data parameters for this localization
 	 * @param array $options currently supports following options:
 	 *                       - 'width': handed into \Punic\Calendar::formatDate as second parameter
 	 * @return string|int|false
@@ -73,7 +73,6 @@ interface IL10N {
 	 * @since 6.0.0 - parameter $options was added in 8.0.0
 	 */
 	public function l(string $type, $data, array $options = []);
-
 
 	/**
 	 * The code (en, de, ...) of the language that is used for this IL10N object

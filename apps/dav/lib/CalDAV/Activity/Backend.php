@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CalDAV\Activity;
 
 use OCA\DAV\CalDAV\Activity\Provider\Calendar;
@@ -463,7 +464,6 @@ class Backend {
 				$params['object']['link']['calendar_uri'] = $calendarData['uri'];
 				$params['object']['link']['owner'] = $owner;
 			}
-
 
 			$event->setAffectedUser($user)
 				->setSubject(

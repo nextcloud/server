@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Encryption\Tests\Crypto;
 
 use OCA\Encryption\Crypto\Crypt;
@@ -76,7 +77,6 @@ class CryptTest extends TestCase {
 		$this->assertSame(1028, $result['private_key_bits']);
 		$this->assertSame('bar', $result['foo']);
 	}
-
 
 	/**
 	 * test generateHeader with valid key formats

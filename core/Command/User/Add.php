@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Command\User;
 
 use OC\Files\Filesystem;
@@ -39,6 +40,7 @@ class Add extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('user:add')
@@ -80,6 +82,7 @@ class Add extends Command {
 			);
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$uid = $input->getArgument('uid');
 		if ($this->userManager->userExists($uid)) {
@@ -180,7 +183,7 @@ class Add extends Command {
 
 			$user->setSystemEMailAddress($email);
 
-			if ($this->appConfig->getValueString('core', 'newUser.sendEmail', 'yes') === 'yes') {
+			if ($this->appConfig->getValueBool('core', 'newUser.sendEmail', true)) {
 				try {
 					$this->mailHelper->sendMail($user, $this->mailHelper->generateTemplate($user, true));
 					$output->writeln('Welcome email sent to ' . $email);

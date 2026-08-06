@@ -26,6 +26,7 @@ class GetConfigTest extends TestCase {
 	protected OutputInterface&MockObject $consoleOutput;
 	protected Command $command;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -36,7 +37,6 @@ class GetConfigTest extends TestCase {
 
 		$this->command = new GetConfig($this->appConfig, $this->configManager);
 	}
-
 
 	public static function dataGet(): array {
 		return [
@@ -76,7 +76,6 @@ class GetConfigTest extends TestCase {
 			// Associative array output as json/plain
 			['name', ['a' => 1, 'b' => 2], true, null, false, 'json', 0, json_encode(['a' => 1, 'b' => 2])],
 			['name', ['a' => 1, 'b' => 2], true, null, false, 'plain', 0, "a: 1\nb: 2"],
-
 		];
 	}
 

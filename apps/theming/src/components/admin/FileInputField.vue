@@ -29,12 +29,13 @@ const emit = defineEmits<{
 
 const isSaving = ref(false)
 const mime = ref(loadState<AdminThemingParameters>('theming', 'adminThemingParameters')[props.name + 'Mime'] as string)
+const cacheKey = ref(Date.now())
 
 const inputElement = useTemplateRef('input')
 
 const background = computed(() => {
 	const baseUrl = generateUrl('/apps/theming/image/{key}', { key: props.name })
-	return `url(${baseUrl}?v=${Date.now()}&m=${encodeURIComponent(mime.value)})`
+	return `url(${baseUrl}?v=${cacheKey.value}&m=${encodeURIComponent(mime.value)})`
 })
 
 /**
@@ -75,6 +76,7 @@ async function onChange() {
 			},
 		})
 		mime.value = file.type
+		cacheKey.value = Date.now()
 		emit('updated')
 	} catch (error) {
 		if (isAxiosError(error) && error.response?.status === 422) {

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\Comments;
 
 use OCP\AppFramework\Attribute\Consumable;
@@ -57,7 +58,7 @@ class CommentsEvent extends Event {
 
 	/**
 	 * @since 9.0.0
-	 * @depreacted Since 33.0.0 use instanceof CommentAddedEvent, CommentRemovedEvent, CommentUpdatedEvent or BeforeCommentUpdatedEvent instead.
+	 * @deprecated 33.0.0 Use instanceof CommentAddedEvent, CommentRemovedEvent, CommentUpdatedEvent or BeforeCommentUpdatedEvent instead.
 	 */
 	public function getEvent(): string {
 		return $this->event;

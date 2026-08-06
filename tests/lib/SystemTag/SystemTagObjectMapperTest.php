@@ -18,6 +18,7 @@ use OCP\Server;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
+use OCP\SystemTag\MapperEvent;
 use OCP\SystemTag\TagAssignedEvent;
 use OCP\SystemTag\TagNotFoundException;
 use OCP\SystemTag\TagUnassignedEvent;
@@ -65,6 +66,7 @@ class SystemTagObjectMapperTest extends TestCase {
 	 */
 	private $tag3;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -106,6 +108,7 @@ class SystemTagObjectMapperTest extends TestCase {
 		$this->tagMapper->assignTags('3', 'anothertype', $this->tag1->getId());
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$this->pruneTagsTables();
 		parent::tearDown();
@@ -176,7 +179,6 @@ class SystemTagObjectMapperTest extends TestCase {
 		], $objectIds);
 	}
 
-
 	public function testGetObjectsForTagsLimitWithMultipleTags(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -199,7 +201,6 @@ class SystemTagObjectMapperTest extends TestCase {
 			2,
 		], $objectIds);
 	}
-
 
 	public function testGetObjectsForNonExistingTag(): void {
 		$this->expectException(TagNotFoundException::class);
@@ -258,6 +259,28 @@ class SystemTagObjectMapperTest extends TestCase {
 		], $tagIdMapping);
 	}
 
+	public function testSetObjectIdsForTagDispatchesUnassignEventOncePerObject(): void {
+		$unassignedObjectIds = [];
+		$this->dispatcher->expects($this->any())->method('dispatch')->willReturnCallback(
+			function (string $eventName, Event $event) use (&$unassignedObjectIds): void {
+				if ($eventName === MapperEvent::EVENT_UNASSIGN) {
+					$unassignedObjectIds[] = $event->getObjectId();
+				}
+			}
+		);
+
+		// tag1 is assigned to objects '1' and '2', keep only '2'
+		$this->tagMapper->setObjectIdsForTag((string)$this->tag1->getId(), 'testtype', ['2']);
+
+		$this->assertEquals(['1'], $unassignedObjectIds);
+
+		// same expectation when the new object list is empty
+		$unassignedObjectIds = [];
+		$this->tagMapper->setObjectIdsForTag((string)$this->tag1->getId(), 'testtype', []);
+
+		$this->assertEquals(['2'], $unassignedObjectIds);
+	}
+
 	public function testReAssignUnassignTags(): void {
 		// reassign tag1
 		$this->tagMapper->assignTags('1', 'testtype', [$this->tag1->getId()]);
@@ -267,7 +290,6 @@ class SystemTagObjectMapperTest extends TestCase {
 
 		$this->assertTrue(true, 'No error when reassigning/unassigning');
 	}
-
 
 	public function testAssignNonExistingTags(): void {
 		$this->expectException(TagNotFoundException::class);
@@ -294,7 +316,6 @@ class SystemTagObjectMapperTest extends TestCase {
 			'1' => [$this->tag1->getId(), $this->tag2->getId()],
 		], $tagIdMapping, 'None of the tags got assigned');
 	}
-
 
 	public function testUnassignNonExistingTags(): void {
 		$this->expectException(TagNotFoundException::class);
@@ -425,7 +446,6 @@ class SystemTagObjectMapperTest extends TestCase {
 			'object 3 does not have tag1 due to different type'
 		);
 	}
-
 
 	public function testHaveTagNonExisting(): void {
 		$this->expectException(TagNotFoundException::class);

@@ -1,10 +1,11 @@
 OC.L10N.register(
     "profile",
     {
+    "View profile" : "Vaata profiili",
     "Profile picker" : "Profiilivalija",
     "Profile" : "Profiil",
     "This application provides the profile" : "See rakendus tagab profiili olemasolu",
-    "Provides a customisable user profile interface." : "Tagab kasutajaliidese kasutaja kohendatava profiili jaoks.",
+    "Provides a customizable user profile interface." : "Tagab kasutajaliidese kasutaja kohendatava profiili jaoks.",
     "Searching …" : "Otsin...",
     "Not found" : "Ei leidu",
     "Search for a user profile" : "Otsi kasutajaprofiili",
@@ -14,10 +15,13 @@ OC.L10N.register(
     "You have not added any info yet" : "Sa pole veel mingit infot lisanud",
     "{user} has not added any info yet" : "{user} pole veel mingit infot lisanud",
     "Error opening the user status modal, try hard refreshing the page" : "Kasutaja oleku modaalse vaate avamine ei õnnestunud, proovi lehte värskendada",
-    "Edit Profile" : "Muuda profiili",
+    "Edit profile" : "Muuda profiili",
     "The headline and about sections will show up here" : "Alapealkirja ja teabe lõigud saavad olema nähtavad siin",
-    "Profile not found" : "Profiili ei leitud",
-    "The profile does not exist." : "Profiili ei eksisteeri",
-    "Back to %s" : "Tagasi siia: %s"
+    "Profile not found" : "Profiili ei leidu",
+    "The profile does not exist or is unavailable." : "Seda profiili kas pole olemas või teda pole saadaval.",
+    "Back to %s" : "Tagasi siia: %s",
+    "Provides a customisable user profile interface." : "Tagab kasutajaliidese kasutaja kohendatava profiili jaoks.",
+    "Edit Profile" : "Muuda profiili",
+    "The profile does not exist." : "Profiili pole olemas"
 },
 "nplurals=2; plural=(n != 1);");

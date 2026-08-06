@@ -32,6 +32,7 @@ class DeleteCalendar extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('dav:delete-calendar')
@@ -52,6 +53,7 @@ class DeleteCalendar extends Command {
 				'Force delete skipping trashbin');
 	}
 
+	#[\Override]
 	protected function execute(
 		InputInterface $input,
 		OutputInterface $output,

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\SetupChecks;
 
 use OC\Memcache\Memcached;
@@ -25,14 +26,17 @@ class MemcacheConfigured implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Memcache');
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'system';
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		$memcacheDistributedClass = $this->config->getSystemValue('memcache.distributed', null);
 		$memcacheLockingClass = $this->config->getSystemValue('memcache.locking', null);

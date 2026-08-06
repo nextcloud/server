@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use Exception;
@@ -142,7 +143,6 @@ class Log implements ILogger, IDataLogger {
 	public function debug(string $message, array $context = []): void {
 		$this->log(ILogger::DEBUG, $message, $context);
 	}
-
 
 	/**
 	 * Logs with an arbitrary level.
@@ -367,15 +367,16 @@ class Log implements ILogger, IDataLogger {
 		}
 	}
 
+	#[\Override]
 	public function logData(string $message, array $data, array $context = []): void {
 		$app = $context['app'] ?? 'no app in context';
 		$level = $context['level'] ?? ILogger::ERROR;
 
 		$minLevel = $this->getLogLevel($context, $message);
-		$data = array_map($this->normalizer->format(...), $data);
 
 		try {
 			if ($level >= $minLevel) {
+				$data = array_map($this->normalizer->format(...), $data);
 				$data['message'] = $message;
 				if (!$this->logger instanceof IFileBased) {
 					$data = json_encode($data, JSON_PARTIAL_OUTPUT_ON_ERROR | JSON_UNESCAPED_SLASHES);

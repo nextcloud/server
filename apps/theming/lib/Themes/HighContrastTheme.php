@@ -5,28 +5,34 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Theming\Themes;
 
 use OCA\Theming\ITheme;
 
 class HighContrastTheme extends DefaultTheme implements ITheme {
 
+	#[\Override]
 	public function getId(): string {
 		return 'light-highcontrast';
 	}
 
+	#[\Override]
 	public function getTitle(): string {
 		return $this->l->t('High contrast mode');
 	}
 
+	#[\Override]
 	public function getEnableLabel(): string {
 		return $this->l->t('Enable high contrast mode');
 	}
 
+	#[\Override]
 	public function getDescription(): string {
 		return $this->l->t('A high contrast mode to ease your navigation. Visual quality will be reduced but clarity will be increased.');
 	}
 
+	#[\Override]
 	public function getMediaQuery(): string {
 		return '(prefers-contrast: more)';
 	}
@@ -34,6 +40,7 @@ class HighContrastTheme extends DefaultTheme implements ITheme {
 	/**
 	 * Keep this consistent with other HighContrast Themes
 	 */
+	#[\Override]
 	public function getCSSVariables(): array {
 		$defaultVariables = parent::getCSSVariables();
 
@@ -98,6 +105,8 @@ class HighContrastTheme extends DefaultTheme implements ITheme {
 				'--color-success-text' => $this->util->darken($colorSuccess, 70),
 
 				'--color-favorite' => '#936B06',
+				'--color-background-selection' => 'var(--color-primary-element)',
+				'--color-text-selection' => 'var(--color-primary-element-text)',
 
 				'--color-scrollbar' => 'auto transparent',
 
@@ -120,6 +129,7 @@ class HighContrastTheme extends DefaultTheme implements ITheme {
 		);
 	}
 
+	#[\Override]
 	public function getCustomCss(): string {
 		return "
 			[class^='icon-'], [class*=' icon-'],

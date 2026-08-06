@@ -31,6 +31,7 @@ class AvailabilitySettings implements ISettings {
 	) {
 	}
 
+	#[\Override]
 	public function getForm(): TemplateResponse {
 		$this->initialState->provideInitialState(
 			'user_status_automation',
@@ -62,10 +63,12 @@ class AvailabilitySettings implements ISettings {
 		return new TemplateResponse(Application::APP_ID, 'settings-personal-availability');
 	}
 
+	#[\Override]
 	public function getSection(): string {
 		return 'availability';
 	}
 
+	#[\Override]
 	public function getPriority(): int {
 		return 10;
 	}

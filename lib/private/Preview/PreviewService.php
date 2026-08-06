@@ -3,8 +3,7 @@
 declare(strict_types=1);
 
 /*
- * SPDX-FileCopyrightText: 2025 Nextcloud GmbH
- * SPDX-FileContributor: Carl Schwan
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
@@ -67,7 +66,7 @@ class PreviewService {
 
 			$found = false;
 			// Previews next to each others in the database are likely in the same storage, so group them
-			while ($row = $result->fetch()) {
+			while ($row = $result->fetchAssociative()) {
 				$found = true;
 				if ($lastStorageId !== (int)$row['storage_id']) {
 					if ($lastStorageId !== -1) {

@@ -3,15 +3,13 @@
 declare(strict_types=1);
 
 /*
- * SPDX-FileCopyrightText: 2025 Nextcloud GmbH
- * SPDX-FileContributor: Carl Schwan
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OC\Preview\Storage;
 
 use Exception;
-use OC\Files\SimpleFS\SimpleFile;
 use OC\Preview\Db\Preview;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
@@ -43,7 +41,7 @@ interface IPreviewStorage {
 	 * To remove at some point
 	 * @throws Exception
 	 */
-	public function migratePreview(Preview $preview, SimpleFile $file): void;
+	public function migratePreview(Preview $preview): void;
 
 	/**
 	 * @throws NotPermittedException

@@ -24,6 +24,7 @@ class PasswordUpdatedListener implements IEventListener {
 
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof PasswordUpdatedEvent) {
 			$this->verificationToken->delete('', $event->getUser(), 'lostpassword');

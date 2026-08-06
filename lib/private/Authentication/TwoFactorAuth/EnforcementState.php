@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Authentication\TwoFactorAuth;
 
 use JsonSerializable;
@@ -46,6 +47,7 @@ class EnforcementState implements JsonSerializable {
 		return $this->excludedGroups;
 	}
 
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'enforced' => $this->enforced,

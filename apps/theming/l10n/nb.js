@@ -99,6 +99,8 @@ OC.L10N.register(
     "Reset to default" : "Tilbakestill til standard",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Ikke nøl med å rapportere problemer på {issuetracker}vår problemdatabase{linkend}. Og bli gjerne med i {designteam}vårt designteam{linkend} hvis du vil bidra.",
     "Appearance and accessibility settings" : "Innstilinger for utseende og tilgjengelighet",
+    "Themes" : "Temaer",
+    "Fonts" : "Skrifttyper",
     "Misc accessibility options" : "Diverse tilgjengelighetsalternativer",
     "Enable blur background filter (may increase GPU load)" : "Aktiver bakgrunnsfilter for uskarphet (kan øke GPU-belastningen)",
     "Customization has been disabled by your administrator" : "Tilpassing er deaktivert av systemansvarlig",

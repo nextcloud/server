@@ -5,9 +5,11 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Comments;
 
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Cache\CappedMemoryCache;
 use OCP\Comments\CommentsEvent;
 use OCP\Comments\Events\BeforeCommentUpdatedEvent;
 use OCP\Comments\Events\CommentAddedEvent;
@@ -33,8 +35,7 @@ use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 class Manager implements ICommentsManager {
-	/** @var IComment[] */
-	protected array $commentsCache = [];
+	protected CappedMemoryCache $commentsCache;
 
 	/** @var \Closure[] */
 	protected array $eventHandlerClosures = [];
@@ -44,6 +45,9 @@ class Manager implements ICommentsManager {
 
 	/** @var \Closure[] */
 	protected array $displayNameResolvers = [];
+
+	// Modified by tests
+	protected int $chunkSize = 500;
 
 	public function __construct(
 		protected IDBConnection $dbConn,
@@ -55,6 +59,7 @@ class Manager implements ICommentsManager {
 		protected IRootFolder $rootFolder,
 		protected IEventDispatcher $eventDispatcher,
 	) {
+		$this->commentsCache = new CappedMemoryCache(256);
 	}
 
 	/**
@@ -75,7 +80,6 @@ class Manager implements ICommentsManager {
 			$data['expire_date'] = new \DateTime($data['expire_date']);
 		}
 		$data['children_count'] = (int)$data['children_count'];
-		$data['reference_id'] = $data['reference_id'];
 		$data['meta_data'] = json_decode($data['meta_data'], true);
 		if ($this->supportReactions()) {
 			if ($data['reactions'] !== null) {
@@ -180,7 +184,7 @@ class Manager implements ICommentsManager {
 			->setParameter('id', $id);
 
 		$resultStatement = $query->executeQuery();
-		$data = $resultStatement->fetch(\PDO::FETCH_NUM);
+		$data = $resultStatement->fetchNumeric();
 		$resultStatement->closeCursor();
 		$children = (int)$data[0];
 
@@ -239,6 +243,7 @@ class Manager implements ICommentsManager {
 	 * @throws \InvalidArgumentException
 	 * @since 9.0.0
 	 */
+	#[\Override]
 	public function get($id): IComment {
 		if ((int)$id === 0) {
 			throw new \InvalidArgumentException('IDs must be translatable to a number in this implementation.');
@@ -255,12 +260,11 @@ class Manager implements ICommentsManager {
 			->setParameter('id', $id, IQueryBuilder::PARAM_INT)
 			->executeQuery();
 
-		$data = $resultStatement->fetch();
+		$data = $resultStatement->fetchAssociative();
 		$resultStatement->closeCursor();
 		if (!$data) {
 			throw new NotFoundException();
 		}
-
 
 		$comment = $this->getCommentFromData($data);
 		$this->cache($comment);
@@ -270,6 +274,7 @@ class Manager implements ICommentsManager {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getTree($id, $limit = 0, $offset = 0): array {
 		$tree = [];
 		$tree['comment'] = $this->get($id);
@@ -290,7 +295,7 @@ class Manager implements ICommentsManager {
 		}
 
 		$resultStatement = $query->executeQuery();
-		while ($data = $resultStatement->fetch()) {
+		while ($data = $resultStatement->fetchAssociative()) {
 			$comment = $this->getCommentFromData($data);
 			$this->cache($comment);
 			$tree['replies'][] = [
@@ -318,6 +323,7 @@ class Manager implements ICommentsManager {
 	 * @return list<IComment>
 	 * @since 9.0.0
 	 */
+	#[\Override]
 	public function getForObject(
 		$objectType,
 		$objectId,
@@ -349,7 +355,7 @@ class Manager implements ICommentsManager {
 		}
 
 		$resultStatement = $query->executeQuery();
-		while ($data = $resultStatement->fetch()) {
+		while ($data = $resultStatement->fetchAssociative()) {
 			$comment = $this->getCommentFromData($data);
 			$this->cache($comment);
 			$comments[] = $comment;
@@ -370,6 +376,7 @@ class Manager implements ICommentsManager {
 	 * @param string $topmostParentId Limit the comments to a list of replies and its original root comment
 	 * @return list<IComment>
 	 */
+	#[\Override]
 	public function getForObjectSince(
 		string $objectType,
 		string $objectId,
@@ -403,6 +410,7 @@ class Manager implements ICommentsManager {
 	 * @param string $topmostParentId Limit the comments to a list of replies and its original root comment
 	 * @return list<IComment>
 	 */
+	#[\Override]
 	public function getCommentsWithVerbForObjectSinceComment(
 		string $objectType,
 		string $objectId,
@@ -511,7 +519,7 @@ class Manager implements ICommentsManager {
 		}
 
 		$resultStatement = $query->executeQuery();
-		while ($data = $resultStatement->fetch()) {
+		while ($data = $resultStatement->fetchAssociative()) {
 			$comment = $this->getCommentFromData($data);
 			$this->cache($comment);
 			$comments[] = $comment;
@@ -537,7 +545,7 @@ class Manager implements ICommentsManager {
 			->andWhere($query->expr()->eq('id', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
 
 		$result = $query->executeQuery();
-		$row = $result->fetch();
+		$row = $result->fetchAssociative();
 		$result->closeCursor();
 
 		if ($row) {
@@ -560,6 +568,7 @@ class Manager implements ICommentsManager {
 	 * @param int $limit
 	 * @return list<IComment>
 	 */
+	#[\Override]
 	public function search(string $search, string $objectType, string $objectId, string $verb, int $offset, int $limit = 50): array {
 		$objectIds = [];
 		if ($objectId) {
@@ -579,6 +588,7 @@ class Manager implements ICommentsManager {
 	 * @param int $limit
 	 * @return list<IComment>
 	 */
+	#[\Override]
 	public function searchForObjects(string $search, string $objectType, array $objectIds, string $verb, int $offset, int $limit = 50): array {
 		$query = $this->dbConn->getQueryBuilder();
 
@@ -609,7 +619,7 @@ class Manager implements ICommentsManager {
 
 		$comments = [];
 		$result = $query->executeQuery();
-		while ($data = $result->fetch()) {
+		while ($data = $result->fetchAssociative()) {
 			$comment = $this->getCommentFromData($data);
 			$this->cache($comment);
 			$comments[] = $comment;
@@ -628,11 +638,13 @@ class Manager implements ICommentsManager {
 	 * @return Int
 	 * @since 9.0.0
 	 */
+	#[\Override]
 	public function getNumberOfCommentsForObject($objectType, $objectId, ?\DateTime $notOlderThan = null, $verb = ''): int {
 		return $this->getNumberOfCommentsForObjects($objectType, [$objectId], $notOlderThan, $verb)[$objectId];
 	}
 
 	/** @inheritDoc */
+	#[\Override]
 	public function getNumberOfCommentsForObjects(string $objectType, array $objectIds, ?\DateTime $notOlderThan = null, string $verb = ''): array {
 		$qb = $this->dbConn->getQueryBuilder();
 		$query = $qb->select($qb->func()->count('id', 'num_comments'), 'object_id')
@@ -653,7 +665,7 @@ class Manager implements ICommentsManager {
 		$query->groupBy('object_id');
 		$comments = array_fill_keys($objectIds, 0);
 		$resultStatement = $query->executeQuery();
-		while ($data = $resultStatement->fetch()) {
+		while ($data = $resultStatement->fetchAssociative()) {
 			$comments[$data['object_id']] = (int)$data['num_comments'];
 		}
 		$resultStatement->closeCursor();
@@ -670,6 +682,7 @@ class Manager implements ICommentsManager {
 	 * @psalm-return array<string, int>
 	 * @since 21.0.0
 	 */
+	#[\Override]
 	public function getNumberOfUnreadCommentsForObjects(string $objectType, array $objectIds, IUser $user, $verb = ''): array {
 		$unreadComments = [];
 		$query = $this->dbConn->getQueryBuilder();
@@ -693,11 +706,11 @@ class Manager implements ICommentsManager {
 		}
 
 		$unreadComments = array_fill_keys($objectIds, 0);
-		foreach (array_chunk($objectIds, 1000) as $chunk) {
+		foreach (array_chunk($objectIds, IQueryBuilder::MAX_IN_PARAMETERS) as $chunk) {
 			$query->setParameter('ids', $chunk, IQueryBuilder::PARAM_STR_ARRAY);
 
 			$result = $query->executeQuery();
-			while ($row = $result->fetch()) {
+			while ($row = $result->fetchAssociative()) {
 				$unreadComments[$row['object_id']] = (int)$row['num_comments'];
 			}
 			$result->closeCursor();
@@ -714,6 +727,7 @@ class Manager implements ICommentsManager {
 	 * @return int
 	 * @since 21.0.0
 	 */
+	#[\Override]
 	public function getNumberOfCommentsForObjectSinceComment(string $objectType, string $objectId, int $lastRead, string $verb = ''): int {
 		if ($verb !== '') {
 			return $this->getNumberOfCommentsWithVerbsForObjectSinceComment($objectType, $objectId, $lastRead, [$verb]);
@@ -730,6 +744,7 @@ class Manager implements ICommentsManager {
 	 * @return int
 	 * @since 24.0.0
 	 */
+	#[\Override]
 	public function getNumberOfCommentsWithVerbsForObjectSinceComment(string $objectType, string $objectId, int $lastRead, array $verbs): int {
 		$query = $this->dbConn->getQueryBuilder();
 		$query->select($query->func()->count('id', 'num_messages'))
@@ -743,7 +758,7 @@ class Manager implements ICommentsManager {
 		}
 
 		$result = $query->executeQuery();
-		$data = $result->fetch();
+		$data = $result->fetchAssociative();
 		$result->closeCursor();
 
 		return (int)($data['num_messages'] ?? 0);
@@ -757,6 +772,7 @@ class Manager implements ICommentsManager {
 	 * @return int
 	 * @since 21.0.0
 	 */
+	#[\Override]
 	public function getLastCommentBeforeDate(string $objectType, string $objectId, \DateTime $beforeDate, string $verb = ''): int {
 		$query = $this->dbConn->getQueryBuilder();
 		$query->select('id')
@@ -771,7 +787,7 @@ class Manager implements ICommentsManager {
 		}
 
 		$result = $query->executeQuery();
-		$data = $result->fetch();
+		$data = $result->fetchAssociative();
 		$result->closeCursor();
 
 		return (int)($data['id'] ?? 0);
@@ -787,6 +803,7 @@ class Manager implements ICommentsManager {
 	 * @psalm-return array<string, \DateTime>
 	 * @since 21.0.0
 	 */
+	#[\Override]
 	public function getLastCommentDateByActor(
 		string $objectType,
 		string $objectId,
@@ -808,7 +825,7 @@ class Manager implements ICommentsManager {
 			->groupBy('actor_id');
 
 		$result = $query->executeQuery();
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$lastComments[$row['actor_id']] = $this->timeFactory->getDateTime($row['last_comment']);
 		}
 		$result->closeCursor();
@@ -825,6 +842,7 @@ class Manager implements ICommentsManager {
 	 * @param IUser $user
 	 * @return array [$fileId => $unreadCount]
 	 */
+	#[\Override]
 	public function getNumberOfUnreadCommentsForFolder($folderId, IUser $user) {
 		$directory = $this->rootFolder->getFirstNodeById($folderId);
 		if (!$directory instanceof Folder) {
@@ -852,6 +870,7 @@ class Manager implements ICommentsManager {
 	 * @return IComment
 	 * @since 9.0.0
 	 */
+	#[\Override]
 	public function create($actorType, $actorId, $objectType, $objectId) {
 		$comment = new Comment();
 		$comment
@@ -871,6 +890,7 @@ class Manager implements ICommentsManager {
 	 * @throws \InvalidArgumentException
 	 * @since 9.0.0
 	 */
+	#[\Override]
 	public function delete($id) {
 		if (!is_string($id)) {
 			throw new \InvalidArgumentException('Parameter must be string');
@@ -936,6 +956,7 @@ class Manager implements ICommentsManager {
 	 * @throws PreConditionNotMetException
 	 * @since 24.0.0
 	 */
+	#[\Override]
 	public function getReactionComment(int $parentId, string $actorType, string $actorId, string $reaction): IComment {
 		$this->throwIfNotSupportReactions();
 		$qb = $this->dbConn->getQueryBuilder();
@@ -965,6 +986,7 @@ class Manager implements ICommentsManager {
 	 * @throws PreConditionNotMetException
 	 * @since 24.0.0
 	 */
+	#[\Override]
 	public function retrieveAllReactions(int $parentId): array {
 		$this->throwIfNotSupportReactions();
 		$qb = $this->dbConn->getQueryBuilder();
@@ -976,7 +998,7 @@ class Manager implements ICommentsManager {
 			->executeQuery();
 
 		$commentIds = [];
-		while ($data = $result->fetch()) {
+		while ($data = $result->fetchAssociative()) {
 			$commentIds[] = $data['message_id'];
 		}
 
@@ -995,6 +1017,7 @@ class Manager implements ICommentsManager {
 	 * @throws PreConditionNotMetException
 	 * @since 24.0.0
 	 */
+	#[\Override]
 	public function retrieveAllReactionsWithSpecificReaction(int $parentId, string $reaction): array {
 		$this->throwIfNotSupportReactions();
 		$qb = $this->dbConn->getQueryBuilder();
@@ -1006,7 +1029,7 @@ class Manager implements ICommentsManager {
 			->executeQuery();
 
 		$commentIds = [];
-		while ($data = $result->fetch()) {
+		while ($data = $result->fetchAssociative()) {
 			$commentIds[] = $data['message_id'];
 		}
 		$comments = [];
@@ -1023,6 +1046,7 @@ class Manager implements ICommentsManager {
 	 * @return bool
 	 * @since 24.0.0
 	 */
+	#[\Override]
 	public function supportReactions(): bool {
 		return $this->emojiHelper->doesPlatformSupportEmoji();
 	}
@@ -1049,7 +1073,7 @@ class Manager implements ICommentsManager {
 			return [];
 		}
 
-		$chunks = array_chunk($commentIds, 500);
+		$chunks = array_chunk($commentIds, $this->chunkSize);
 
 		$query = $this->dbConn->getQueryBuilder();
 		$query->select('*')
@@ -1063,7 +1087,7 @@ class Manager implements ICommentsManager {
 			$query->setParameter('ids', $ids, IQueryBuilder::PARAM_STR_ARRAY);
 
 			$result = $query->executeQuery();
-			while ($data = $result->fetch()) {
+			while ($data = $result->fetchAssociative()) {
 				$comment = $this->getCommentFromData($data);
 				$this->cache($comment);
 				$comments[] = $comment;
@@ -1094,6 +1118,7 @@ class Manager implements ICommentsManager {
 	 * @throws PreConditionNotMetException
 	 * @since 9.0.0
 	 */
+	#[\Override]
 	public function save(IComment $comment) {
 		if ($comment->getVerb() === 'reaction') {
 			$this->throwIfNotSupportReactions();
@@ -1286,6 +1311,7 @@ class Manager implements ICommentsManager {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function deleteReferencesOfActor($actorType, $actorId): bool {
 		$this->checkRoleParameters('Actor', $actorType, $actorId);
 
@@ -1299,13 +1325,14 @@ class Manager implements ICommentsManager {
 			->setParameter('id', $actorId);
 
 		$affectedRows = $qb->executeStatement();
-		$this->commentsCache = [];
+		$this->commentsCache->clear();
 		return true;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function deleteCommentsAtObject($objectType, $objectId): bool {
 		$this->checkRoleParameters('Object', $objectType, $objectId);
 
@@ -1318,7 +1345,7 @@ class Manager implements ICommentsManager {
 			->setParameter('id', $objectId);
 
 		$affectedRows = $qb->executeStatement();
-		$this->commentsCache = [];
+		$this->commentsCache->clear();
 		return true;
 	}
 
@@ -1329,6 +1356,7 @@ class Manager implements ICommentsManager {
 	 * @return bool
 	 * @since 9.0.0
 	 */
+	#[\Override]
 	public function deleteReadMarksFromUser(IUser $user) {
 		$qb = $this->dbConn->getQueryBuilder();
 		$query = $qb->delete('comments_read_markers')
@@ -1357,6 +1385,7 @@ class Manager implements ICommentsManager {
 	 * @param IUser $user
 	 * @since 9.0.0
 	 */
+	#[\Override]
 	public function setReadMark($objectType, $objectId, \DateTime $dateTime, IUser $user) {
 		$this->checkRoleParameters('Object', $objectType, $objectId);
 
@@ -1403,6 +1432,7 @@ class Manager implements ICommentsManager {
 	 * @return \DateTime|null
 	 * @since 9.0.0
 	 */
+	#[\Override]
 	public function getReadMark($objectType, $objectId, IUser $user) {
 		$qb = $this->dbConn->getQueryBuilder();
 		$resultStatement = $qb->select('marker_datetime')
@@ -1415,7 +1445,7 @@ class Manager implements ICommentsManager {
 			->setParameter('object_id', $objectId, IQueryBuilder::PARAM_STR)
 			->executeQuery();
 
-		$data = $resultStatement->fetch();
+		$data = $resultStatement->fetchAssociative();
 		$resultStatement->closeCursor();
 		if (!$data || is_null($data['marker_datetime'])) {
 			return null;
@@ -1432,6 +1462,7 @@ class Manager implements ICommentsManager {
 	 * @return bool
 	 * @since 9.0.0
 	 */
+	#[\Override]
 	public function deleteReadMarksOnObject($objectType, $objectId) {
 		$this->checkRoleParameters('Object', $objectType, $objectId);
 
@@ -1460,6 +1491,7 @@ class Manager implements ICommentsManager {
 	 *
 	 * @param \Closure $closure
 	 */
+	#[\Override]
 	public function registerEventHandler(\Closure $closure) {
 		$this->eventHandlerClosures[] = $closure;
 		$this->eventHandlers = [];
@@ -1476,6 +1508,7 @@ class Manager implements ICommentsManager {
 	 * Only one resolver shall be registered per type. Otherwise a
 	 * \OutOfBoundsException has to thrown.
 	 */
+	#[\Override]
 	public function registerDisplayNameResolver($type, \Closure $closure) {
 		if (!is_string($type)) {
 			throw new \InvalidArgumentException('String expected.');
@@ -1499,6 +1532,7 @@ class Manager implements ICommentsManager {
 	 * be thrown. It is upon the resolver discretion what to return of the
 	 * provided ID is unknown. It must be ensured that a string is returned.
 	 */
+	#[\Override]
 	public function resolveDisplayName($type, $id) {
 		if (!is_string($type)) {
 			throw new \InvalidArgumentException('String expected.');
@@ -1547,14 +1581,17 @@ class Manager implements ICommentsManager {
 	 *
 	 * @since 21.0.0
 	 */
+	#[\Override]
 	public function load(): void {
 		$this->initialStateService->provideInitialState('comments', 'max-message-length', IComment::MAX_MESSAGE_LENGTH);
+		Util::addStyle('comments', 'comments-app');
 		Util::addScript('comments', 'comments-app');
 	}
 
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function deleteCommentsExpiredAtObject(string $objectType, string $objectId = ''): bool {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->delete('comments')
@@ -1568,7 +1605,7 @@ class Manager implements ICommentsManager {
 
 		$affectedRows = $qb->executeStatement();
 
-		$this->commentsCache = [];
+		$this->commentsCache->clear();
 
 		return $affectedRows > 0;
 	}

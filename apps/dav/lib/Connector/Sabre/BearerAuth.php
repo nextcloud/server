@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Connector\Sabre;
 
 use OCP\AppFramework\Http;
@@ -12,6 +13,9 @@ use OCP\IConfig;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
+use OCP\Server;
+use OCP\Share\IManager;
+use OCP\Share\IShare;
 use Sabre\DAV\Auth\Backend\AbstractBearer;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
@@ -23,6 +27,8 @@ class BearerAuth extends AbstractBearer {
 		private IRequest $request,
 		private IConfig $config,
 		private string $principalPrefix = 'principals/users/',
+		private string $token = '',
+		private bool $allowOcmAccessToken = false,
 	) {
 		// setup realm
 		$defaults = new Defaults();
@@ -38,17 +44,33 @@ class BearerAuth extends AbstractBearer {
 	/**
 	 * {@inheritdoc}
 	 */
+	#[\Override]
 	public function validateBearerToken($bearerToken) {
 		\OC_Util::setupFS();
+		$this->token = $bearerToken;
+
+		// public.php sets incognito mode for anonymous share access, which makes
+		// Session::getUser() return null and consequently Session::isLoggedIn()
+		// return false even after a successful token login. Disable it here so
+		// the logged-in user is visible for the rest of the request. If the
+		// bearer token is invalid and Sabre falls back to one of the public
+		// auth backends, that backend will re-enable incognito mode itself.
+		\OC_User::setIncognitoMode(false);
 
 		if (!$this->userSession->isLoggedIn()) {
-			$this->userSession->tryTokenLogin($this->request);
+			$this->userSession->tryTokenLogin($this->request, $this->allowOcmAccessToken);
 		}
 		if ($this->userSession->isLoggedIn()) {
 			return $this->setupUserFs($this->userSession->getUser()->getUID());
 		}
 
 		return false;
+	}
+
+	public function getShare(): IShare {
+		$shareManager = Server::get(IManager::class);
+		$share = $shareManager->getShareByToken($this->token);
+		return $share;
 	}
 
 	/**
@@ -59,6 +81,7 @@ class BearerAuth extends AbstractBearer {
 	 * @param RequestInterface $request
 	 * @param ResponseInterface $response
 	 */
+	#[\Override]
 	public function challenge(RequestInterface $request, ResponseInterface $response): void {
 		// Legacy ownCloud clients still authenticate via OAuth2
 		$enableOcClients = $this->config->getSystemValueBool('oauth2.enable_oc_clients', false);

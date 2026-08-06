@@ -73,6 +73,18 @@ trait BasicStructure {
 	}
 
 	/**
+	 * @BeforeScenario
+	 */
+	public function resetAuthState(): void {
+		$this->currentUser = '';
+		$this->currentServer = 'LOCAL';
+		$this->baseUrl = $this->localBaseUrl;
+		$this->apiVersion = 1;
+		$this->requestToken = null;
+		$this->cookieJar = new CookieJar();
+	}
+
+	/**
 	 * @Given /^using api version "(\d+)"$/
 	 */
 	public function usingApiVersion(int $version): void {

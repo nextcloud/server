@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\FullTextSearch\Model;
 
 use JsonSerializable;
@@ -20,7 +21,6 @@ use OCP\FullTextSearch\Model\ISearchRequestSimpleQuery;
 final class SearchRequestSimpleQuery implements ISearchRequestSimpleQuery, JsonSerializable {
 	private array $values = [];
 
-
 	/**
 	 * SearchRequestQuery constructor.
 	 *
@@ -32,22 +32,22 @@ final class SearchRequestSimpleQuery implements ISearchRequestSimpleQuery, JsonS
 	) {
 	}
 
-
 	/**
 	 * Get the compare type of the query
 	 *
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function getType(): int {
 		return $this->type;
 	}
-
 
 	/**
 	 * Get the field to apply query
 	 *
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function getField(): string {
 		return $this->field;
 	}
@@ -57,28 +57,29 @@ final class SearchRequestSimpleQuery implements ISearchRequestSimpleQuery, JsonS
 	 *
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function setField(string $field): ISearchRequestSimpleQuery {
 		$this->field = $field;
 
 		return $this;
 	}
 
-
 	/**
 	 * Get the value to compare (string)
 	 *
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function getValues(): array {
 		return $this->values;
 	}
-
 
 	/**
 	 * Add value to compare (string)
 	 *
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function addValue(string $value): ISearchRequestSimpleQuery {
 		$this->values[] = $value;
 
@@ -90,6 +91,7 @@ final class SearchRequestSimpleQuery implements ISearchRequestSimpleQuery, JsonS
 	 *
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function addValueInt(int $value): ISearchRequestSimpleQuery {
 		$this->values[] = $value;
 
@@ -101,6 +103,7 @@ final class SearchRequestSimpleQuery implements ISearchRequestSimpleQuery, JsonS
 	 *
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function addValueArray(array $value): ISearchRequestSimpleQuery {
 		$this->values[] = $value;
 
@@ -112,16 +115,17 @@ final class SearchRequestSimpleQuery implements ISearchRequestSimpleQuery, JsonS
 	 *
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function addValueBool(bool $value): ISearchRequestSimpleQuery {
 		$this->values[] = $value;
 
 		return $this;
 	}
 
-
 	/**
 	 * @since 17.0.0
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'type' => $this->getType(),

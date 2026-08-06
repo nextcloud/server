@@ -6,7 +6,7 @@
 import { join } from 'node:path'
 import { beforeAll, describe, expect, it, vi } from 'vitest'
 import { DataTransferItem as DataTransferItemMock, FileSystemDirectoryEntry, fileSystemEntryToDataTransferItem, FileSystemFileEntry } from '../../../../__tests__/FileSystemAPIUtils.ts'
-import logger from '../logger.ts'
+import { logger } from '../utils/logger.ts'
 import { dataTransferToFileTree } from './DropService.ts'
 import { Directory, traverseTree } from './DropServiceUtils.ts'
 

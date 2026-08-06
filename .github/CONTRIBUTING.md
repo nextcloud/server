@@ -31,7 +31,25 @@ Help us to maximize the effort we can spend fixing issues and adding new feature
 
 Thanks for wanting to contribute source code to Nextcloud. That's great!
 
+Please read the [general contribution guidelines][contributing] that apply to all Nextcloud repositories, and the [AI Contribution Policy][aipolicy] if you are using AI tools.
+
 Please read the [Developer Manuals][devmanual] to learn how to create your first application or how to test the Nextcloud code with PHPUnit.
+
+### AI-assisted contributions
+
+Nextcloud allows contributions made with the help of AI tools. You are the author of everything you submit - AI assistance does not change that responsibility.
+
+* **Disclosure:** Declare AI tool use in the PR description and add an `Assisted-by: AGENT_NAME:MODEL_VERSION` git trailer to each affected commit.
+
+* **Accountability:** You must be able to explain, defend, and modify every line you submit. If a reviewer asks why something works a certain way, "the AI wrote it" is not an answer.
+
+* **Communication:** PR descriptions, review comments, and issue reports must be written in your own words. This applies throughout the review process - passing reviewer feedback to an AI and posting whatever comes out is not acceptable.
+
+* **Quality:** AI output must be quality assured by the human, i.e. reviewed, cleaned up, and tested before submission. New features must be tested on a live instance by you, not by an agent. Code that has never been executed, or that shifts debugging work onto maintainers, will not be accepted.
+
+* **Licensing:** Ensure AI-generated code contains no material incompatible with the license of the repository you are contributing to.
+
+For the full policy including autonomous agent rules, security reports, and beginner issues, read the [AI Contribution Policy][aipolicy].
 
 ### Conventional Commits
 
@@ -72,6 +90,8 @@ In case you are not sure how to add or update the license header correctly pleas
 [devmanual]: https://docs.nextcloud.com/server/latest/developer_manual/
 [dcofile]: https://github.com/nextcloud/server/blob/master/contribute/developer-certificate-of-origin
 [applyalicense]: https://github.com/nextcloud/server/blob/master/contribute/HowToApplyALicense.md
+[contributing]: https://github.com/nextcloud/.github/blob/master/CONTRIBUTING.md
+[aipolicy]: https://github.com/nextcloud/.github/blob/master/AI_POLICY.md
 
 ## Translations
 Please submit translations via [Transifex][transifex].

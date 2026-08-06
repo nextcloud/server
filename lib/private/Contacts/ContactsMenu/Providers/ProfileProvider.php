@@ -25,6 +25,7 @@ class ProfileProvider implements IProvider {
 	) {
 	}
 
+	#[\Override]
 	public function process(IEntry $entry): void {
 		$targetUserId = $entry->getProperty('UID');
 		$targetUser = $this->userManager->get($targetUserId);

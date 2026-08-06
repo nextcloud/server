@@ -34,10 +34,12 @@ class MigrateOauthTables implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Migrate oauth2_clients table to nextcloud schema';
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		$schema = new SchemaWrapper($this->db);
 		if (!$schema->hasTable('oauth2_clients')) {
@@ -109,7 +111,7 @@ class MigrateOauthTables implements IRepairStep {
 				->from('oauth2_clients');
 
 			$result = $qbSelect->executeQuery();
-			while ($row = $result->fetch()) {
+			while ($row = $result->fetchAssociative()) {
 				$id = $row['id'];
 				$shortenedName = mb_substr($row['name'], 0, 64);
 				$qb->setParameter('theId', $id, IQueryBuilder::PARAM_INT);
@@ -147,7 +149,7 @@ class MigrateOauthTables implements IRepairStep {
 			$selectQuery = $this->db->getQueryBuilder();
 			$selectQuery->select('id', 'identifier')->from('oauth2_clients');
 			$result = $selectQuery->executeQuery();
-			$identifiers = $result->fetchAll();
+			$identifiers = $result->fetchAllAssociative();
 			$result->closeCursor();
 
 			// 2. Insert them into the client_identifier column.
@@ -218,7 +220,7 @@ class MigrateOauthTables implements IRepairStep {
 			$result = $qbSelect->executeQuery();
 			$now = $this->timeFactory->now()->getTimestamp();
 			$index = 0;
-			while ($row = $result->fetch()) {
+			while ($row = $result->fetchAssociative()) {
 				$clientId = $row['client_id'];
 				$refreshToken = $row['token'];
 

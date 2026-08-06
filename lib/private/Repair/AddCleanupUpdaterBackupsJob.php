@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Repair;
 
 use OC\Core\BackgroundJobs\BackgroundCleanupUpdaterBackupsJob;
@@ -19,10 +20,12 @@ class AddCleanupUpdaterBackupsJob implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Queue a one-time job to cleanup old backups of the updater';
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		$this->jobList->add(BackgroundCleanupUpdaterBackupsJob::class);
 	}

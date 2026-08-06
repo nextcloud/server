@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Settings\Admin;
 
 use OC\Profile\ProfileManager;
@@ -36,6 +37,7 @@ class Server implements IDelegatedSettings {
 	/**
 	 * @return TemplateResponse
 	 */
+	#[\Override]
 	public function getForm() {
 		$ownerConfigFile = fileowner(\OC::$configDir . 'config.php');
 		$cliBasedCronPossible = function_exists('posix_getpwuid') && $ownerConfigFile !== false;
@@ -84,6 +86,7 @@ class Server implements IDelegatedSettings {
 	/**
 	 * @return string the section ID, e.g. 'sharing'
 	 */
+	#[\Override]
 	public function getSection(): string {
 		return 'server';
 	}
@@ -95,14 +98,17 @@ class Server implements IDelegatedSettings {
 	 *
 	 * E.g.: 70
 	 */
+	#[\Override]
 	public function getPriority(): int {
 		return 0;
 	}
 
+	#[\Override]
 	public function getName(): ?string {
 		return $this->l->t('Background jobs');
 	}
 
+	#[\Override]
 	public function getAuthorizedAppConfig(): array {
 		return [
 			'core' => [

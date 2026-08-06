@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Migration;
 
 use OCA\DAV\AppInfo\Application;
@@ -32,6 +33,7 @@ class DisableSystemAddressBook implements IRepairStep {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getName() {
 		return 'Disable system address book';
 	}
@@ -39,6 +41,7 @@ class DisableSystemAddressBook implements IRepairStep {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function run(IOutput $output) {
 		// If the system address book exposure was previously set skip the repair step
 		if ($this->appConfig->hasAppKey(ConfigLexicon::SYSTEM_ADDRESSBOOK_EXPOSED) === true) {
@@ -48,11 +51,11 @@ class DisableSystemAddressBook implements IRepairStep {
 		// We use count seen because getting a user count from the backend can be very slow
 		$limit = $this->appConfig->getAppValueInt('system_addressbook_limit', 5000);
 		if ($this->userManager->countSeenUsers() <= $limit) {
-			$output->info("Skipping repair step system address book has less then the threshold $limit of contacts no need to disable");
+			$output->info("Skipping repair step system address book has less than the threshold $limit of contacts no need to disable");
 			return;
 		}
 		$this->appConfig->setAppValueBool(ConfigLexicon::SYSTEM_ADDRESSBOOK_EXPOSED, false);
-		$output->warning("System address book disabled because it has more then the threshold of $limit contacts this can be re-enabled later");
+		$output->warning("System address book disabled because it has more than the threshold of $limit contacts this can be re-enabled later");
 		// Notify all admin users about the system address book being disabled
 		foreach ($this->groupManager->get('admin')->getUsers() as $user) {
 			$notification = $this->notificationManager->createNotification();

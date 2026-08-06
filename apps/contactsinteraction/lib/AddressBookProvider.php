@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\ContactsInteraction;
 
 use OCA\ContactsInteraction\AppInfo\Application;
@@ -25,6 +26,7 @@ class AddressBookProvider implements IAddressBookProvider {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getAppId(): string {
 		return Application::APP_ID;
 	}
@@ -32,6 +34,7 @@ class AddressBookProvider implements IAddressBookProvider {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function fetchAllForAddressBookHome(string $principalUri): array {
 		return [
 			new AddressBook($this->mapper, $this->l10n, $principalUri)
@@ -41,6 +44,7 @@ class AddressBookProvider implements IAddressBookProvider {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function hasAddressBookInAddressBookHome(string $principalUri, string $uri): bool {
 		return $uri === AddressBook::URI;
 	}
@@ -48,6 +52,7 @@ class AddressBookProvider implements IAddressBookProvider {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getAddressBookInAddressBookHome(string $principalUri, string $uri): ?ExternalAddressBook {
 		if ($uri === AddressBook::URI) {
 			return new AddressBook($this->mapper, $this->l10n, $principalUri);

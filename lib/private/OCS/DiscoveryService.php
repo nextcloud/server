@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\OCS;
 
 use OCP\AppFramework\Http;
@@ -33,7 +34,6 @@ class DiscoveryService implements IDiscoveryService {
 		$this->client = $clientService->newClient();
 	}
 
-
 	/**
 	 * Discover OCS end-points
 	 *
@@ -44,6 +44,7 @@ class DiscoveryService implements IDiscoveryService {
 	 * @param bool $skipCache We won't check if the data is in the cache. This is useful if a background job is updating the status
 	 * @return array
 	 */
+	#[\Override]
 	public function discover(string $remote, string $service, bool $skipCache = false): array {
 		// Check the cache first
 		if ($skipCache === false) {

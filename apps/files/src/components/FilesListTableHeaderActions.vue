@@ -88,12 +88,12 @@ import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue'
 import { FILES_LIST_HEADER_SELECT_ALL_CHECKBOX_ID } from './FilesListTableHeader.vue'
 import { useFileActions } from '../composables/useFileActions.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
-import logger from '../logger.ts'
 import actionsMixins from '../mixins/actionsMixin.ts'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
 import { useActiveStore } from '../store/active.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useSelectionStore } from '../store/selection.ts'
+import { logger } from '../utils/logger.ts'
 
 export const FILE_LIST_HEAD_FIRST_BATCH_ACTION_ID = 'files-list-head-first-batch-action'
 

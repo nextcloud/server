@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\WorkflowEngine\Controller;
 
 use OCA\WorkflowEngine\Helper\ScopeContext;
@@ -35,6 +36,7 @@ class GlobalWorkflowsController extends AWorkflowOCSController {
 	 *
 	 * 200: List of workflows returned
 	 */
+	#[\Override]
 	#[ApiRoute(verb: 'GET', url: '/api/v1/workflows/global')]
 	public function index(): DataResponse {
 		return parent::index();
@@ -48,6 +50,7 @@ class GlobalWorkflowsController extends AWorkflowOCSController {
 	 *
 	 * 200: Workflow returned or empty array if the ID is unknown in the scope
 	 */
+	#[\Override]
 	#[ApiRoute(verb: 'GET', url: '/api/v1/workflows/global/{id}')]
 	public function show(string $id): DataResponse {
 		return parent::show($id);
@@ -68,6 +71,7 @@ class GlobalWorkflowsController extends AWorkflowOCSController {
 	 *
 	 * @throws OCSBadRequestException Thrown when a check or check value is invalid
 	 */
+	#[\Override]
 	#[PasswordConfirmationRequired]
 	#[ApiRoute(verb: 'POST', url: '/api/v1/workflows/global')]
 	public function create(string $class, string $name, array $checks, string $operation, string $entity, array $events): DataResponse {
@@ -90,6 +94,7 @@ class GlobalWorkflowsController extends AWorkflowOCSController {
 	 * @throws OCSBadRequestException Thrown when a check or check value is invalid
 	 * @throws OCSForbiddenException Thrown when workflow is from a different scope
 	 */
+	#[\Override]
 	#[PasswordConfirmationRequired]
 	#[ApiRoute(verb: 'PUT', url: '/api/v1/workflows/global/{id}')]
 	public function update(int $id, string $name, array $checks, string $operation, string $entity, array $events): DataResponse {
@@ -106,12 +111,14 @@ class GlobalWorkflowsController extends AWorkflowOCSController {
 	 *
 	 * @throws OCSForbiddenException Thrown when workflow is from a different scope
 	 */
+	#[\Override]
 	#[PasswordConfirmationRequired]
 	#[ApiRoute(verb: 'DELETE', url: '/api/v1/workflows/global/{id}')]
 	public function destroy(int $id): DataResponse {
 		return parent::destroy($id);
 	}
 
+	#[\Override]
 	protected function getScopeContext(): ScopeContext {
 		if ($this->scopeContext === null) {
 			$this->scopeContext = new ScopeContext(IManager::SCOPE_ADMIN);

@@ -12,6 +12,7 @@ OC.L10N.register(
     "Files" : "Mafaili",
     "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "Ulitajwa kwenye \"{file}\", kwenye maoni ya akaunti ambayo imefutwa",
     "{user} mentioned you in a comment on \"{file}\"" : "{user}amekutaja katika maoni kwenye\"{file}\"",
+    "Go to file" : "Nenda kwenye faili",
     "Files app plugin to add comments to files" : "Programu-jalizi ya Faili ili kuongeza maoni kwenye faili ",
     "Edit comment" : "Hariri maoni",
     "Delete comment" : "Futa maoni",

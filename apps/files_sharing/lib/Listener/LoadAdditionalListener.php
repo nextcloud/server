@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Sharing\Listener;
 
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
@@ -18,6 +19,7 @@ use OCP\Util;
 
 /** @template-implements IEventListener<LoadAdditionalScriptsEvent> */
 class LoadAdditionalListener implements IEventListener {
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!($event instanceof LoadAdditionalScriptsEvent)) {
 			return;
@@ -28,7 +30,7 @@ class LoadAdditionalListener implements IEventListener {
 		Util::addStyle(Application::APP_ID, 'icons');
 
 		$shareManager = Server::get(IManager::class);
-		if ($shareManager->shareApiEnabled() && class_exists('\OCA\Files\App')) {
+		if ($shareManager->shareApiEnabled()) {
 			Util::addInitScript(Application::APP_ID, 'init');
 		}
 	}

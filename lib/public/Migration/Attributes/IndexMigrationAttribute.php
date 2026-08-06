@@ -6,12 +6,13 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\Migration\Attributes;
 
 use OCP\AppFramework\Attribute\Consumable;
 
 /**
- * generic class related to migration attribute about index changes
+ * Generic class related to migration attribute about index changes
  */
 #[Consumable(since: '30.0.0')]
 class IndexMigrationAttribute extends MigrationAttribute {
@@ -19,7 +20,7 @@ class IndexMigrationAttribute extends MigrationAttribute {
 	 * @param string $table name of the database table
 	 * @param IndexType|null $type type of the index
 	 * @param string $description description of the migration
-	 * @param array $notes notes abour the migration/index
+	 * @param array $notes notes about the migration/index
 	 * @since 30.0.0
 	 */
 	public function __construct(
@@ -56,6 +57,7 @@ class IndexMigrationAttribute extends MigrationAttribute {
 	 * @return $this
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function import(array $data): self {
 		parent::import($data);
 		$this->setType(IndexType::tryFrom($data['type'] ?? ''));
@@ -66,6 +68,7 @@ class IndexMigrationAttribute extends MigrationAttribute {
 	 * @return array
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		return array_merge(
 			parent::jsonSerialize(),

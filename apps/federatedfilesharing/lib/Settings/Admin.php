@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\FederatedFileSharing\Settings;
 
 use OCA\FederatedFileSharing\AppInfo\Application;
@@ -14,6 +15,7 @@ use OCP\GlobalScale\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\Settings\IDelegatedSettings;
+use OCP\Util;
 
 class Admin implements IDelegatedSettings {
 	/**
@@ -31,6 +33,7 @@ class Admin implements IDelegatedSettings {
 	/**
 	 * @return TemplateResponse
 	 */
+	#[\Override]
 	public function getForm() {
 
 		$this->initialState->provideInitialState('internalOnly', $this->gsConfig->onlyInternalFederation());
@@ -44,14 +47,15 @@ class Admin implements IDelegatedSettings {
 		$this->initialState->provideInitialState('lookupServerUploadEnabled', $this->fedShareProvider->isLookupServerUploadEnabled());
 		$this->initialState->provideInitialState('federatedTrustedShareAutoAccept', $this->fedShareProvider->isFederatedTrustedShareAutoAccept());
 
-		\OCP\Util::addStyle(Application::APP_ID, 'settings-admin');
-		\OCP\Util::addScript(Application::APP_ID, 'settings-admin');
+		Util::addStyle(Application::APP_ID, 'settings-admin');
+		Util::addScript(Application::APP_ID, 'settings-admin');
 		return new TemplateResponse(Application::APP_ID, 'settings-admin', renderAs: '');
 	}
 
 	/**
 	 * @return string the section ID, e.g. 'sharing'
 	 */
+	#[\Override]
 	public function getSection() {
 		return 'sharing';
 	}
@@ -63,14 +67,17 @@ class Admin implements IDelegatedSettings {
 	 *
 	 * E.g.: 70
 	 */
+	#[\Override]
 	public function getPriority() {
 		return 20;
 	}
 
+	#[\Override]
 	public function getName(): ?string {
 		return $this->l->t('Federated Cloud Sharing');
 	}
 
+	#[\Override]
 	public function getAuthorizedAppConfig(): array {
 		return [
 			'files_sharing' => [

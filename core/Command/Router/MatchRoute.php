@@ -29,6 +29,7 @@ class MatchRoute extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		parent::configure();
 		$this
@@ -49,6 +50,7 @@ class MatchRoute extends Base {
 		;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$context = new RequestContext(method: strtoupper($input->getOption('method')));
 		$this->router->setContext($context);

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace Test\Encryption;
 
 use OC\Encryption\Exceptions\ModuleAlreadyExistsException;
@@ -14,8 +15,10 @@ use OC\Encryption\Util;
 use OC\Files\View;
 use OC\Memcache\ArrayCache;
 use OCP\Encryption\IEncryptionModule;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -41,6 +44,7 @@ class ManagerTest extends TestCase {
 	/** @var ArrayCache|\PHPUnit\Framework\MockObject\MockObject */
 	private $arrayCache;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->config = $this->createMock(IConfig::class);
@@ -72,10 +76,16 @@ class ManagerTest extends TestCase {
 		$this->assertFalse($this->manager->isEnabled());
 	}
 
+	#[Group(name: 'DB')]
 	public function testManagerIsEnabled(): void {
+		$appConfig = Server::get(IAppConfig::class);
+		$appConfig->setValueBool('core', 'encryption_enabled', true);
+
 		$this->config->expects($this->any())->method('getSystemValueBool')->willReturn(true);
-		$this->config->expects($this->any())->method('getAppValue')->willReturn('yes');
-		$this->assertTrue($this->manager->isEnabled());
+		$result = $this->manager->isEnabled();
+
+		$appConfig->deleteKey('core', 'encryption_enabled');
+		$this->assertTrue($result);
 	}
 
 	public function testModuleRegistration() {
@@ -103,7 +113,6 @@ class ManagerTest extends TestCase {
 		$this->manager->unregisterEncryptionModule('ID0');
 		$this->assertEmpty($this->manager->getEncryptionModules());
 	}
-
 
 	public function testGetEncryptionModuleUnknown(): void {
 		$this->expectException(ModuleDoesNotExistsException::class);

@@ -16,6 +16,7 @@ use Test\TestCase;
 class VersionParserTest extends TestCase {
 	private VersionParser $versionParser;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->versionParser = new VersionParser();
@@ -68,14 +69,12 @@ class VersionParserTest extends TestCase {
 		$this->assertEquals($expected, $this->versionParser->getVersion($input));
 	}
 
-
 	public function testGetVersionException(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Version cannot be parsed: BogusVersion');
 
 		$this->versionParser->getVersion('BogusVersion');
 	}
-
 
 	public function testGetVersionExceptionWithMultiple(): void {
 		$this->expectException(\Exception::class);

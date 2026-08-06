@@ -10,6 +10,7 @@ OC.L10N.register(
     "Out of office" : "Ekki á staðnum",
     "Working remotely" : "Fjarvinna",
     "In a call" : "Er í símtali",
+    "Be right back" : "Kem innan skamms",
     "User status" : "Staða notanda",
     "Clear status after" : "Hreinsa stöðu eftir",
     "Emoji for your status message" : "Tákn fyrir stöðufærsluna þína",

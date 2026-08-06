@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CalDAV\WebcalCaching;
 
 use OCA\DAV\CalDAV\CalendarRoot;
@@ -74,6 +75,7 @@ class Plugin extends ServerPlugin {
 	 *
 	 * @param Server $server
 	 */
+	#[\Override]
 	public function initialize(Server $server) {
 		$this->server = $server;
 		$server->on('beforeMethod:*', [$this, 'beforeMethod'], 15);
@@ -123,6 +125,7 @@ class Plugin extends ServerPlugin {
 	 *
 	 * @return string[]
 	 */
+	#[\Override]
 	public function getFeatures():array {
 		return ['nc-calendar-webcal-cache'];
 	}
@@ -135,6 +138,7 @@ class Plugin extends ServerPlugin {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function getPluginName():string {
 		return 'nc-calendar-webcal-cache';
 	}

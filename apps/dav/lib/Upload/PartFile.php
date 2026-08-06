@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Upload;
 
 use OCA\DAV\Connector\Sabre\Directory;
@@ -25,6 +26,7 @@ class PartFile implements IFile {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function put($data) {
 		throw new Forbidden('Permission denied to put into this file');
 	}
@@ -32,6 +34,7 @@ class PartFile implements IFile {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function get() {
 		throw new Forbidden('Permission denied to get this file');
 	}
@@ -43,6 +46,7 @@ class PartFile implements IFile {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getContentType() {
 		return 'application/octet-stream';
 	}
@@ -50,6 +54,7 @@ class PartFile implements IFile {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getETag() {
 		return $this->partInfo['ETag'];
 	}
@@ -57,6 +62,7 @@ class PartFile implements IFile {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getSize() {
 		return $this->partInfo['Size'];
 	}
@@ -64,6 +70,7 @@ class PartFile implements IFile {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function delete() {
 		$this->root->delete();
 	}
@@ -71,6 +78,7 @@ class PartFile implements IFile {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getName() {
 		return $this->partInfo['PartNumber'];
 	}
@@ -78,6 +86,7 @@ class PartFile implements IFile {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function setName($name) {
 		throw new Forbidden('Permission denied to rename this file');
 	}
@@ -85,6 +94,7 @@ class PartFile implements IFile {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getLastModified() {
 		return $this->partInfo['LastModified'];
 	}

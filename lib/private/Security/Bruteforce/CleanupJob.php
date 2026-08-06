@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Security\Bruteforce;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -25,6 +26,7 @@ class CleanupJob extends TimedJob {
 		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
+	#[\Override]
 	protected function run($argument): void {
 		// Delete all entries more than 48 hours old
 		$time = $this->time->getTime() - (48 * 3600);

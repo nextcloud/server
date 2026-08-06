@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\Directory;
@@ -14,6 +15,7 @@ use OCA\DAV\Connector\Sabre\Node;
 use OCA\DAV\Connector\Sabre\SharesPlugin;
 use OCA\DAV\Upload\UploadFile;
 use OCP\Files\Folder;
+use OCP\Files\IRootFolder;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Share\IManager;
@@ -27,6 +29,7 @@ class SharesPluginTest extends \Test\TestCase {
 	private \Sabre\DAV\Server $server;
 	private \Sabre\DAV\Tree&MockObject $tree;
 	private \OCP\Share\IManager&MockObject $shareManager;
+	private IRootFolder&MockObject $rootFolder;
 	private SharesPlugin $plugin;
 
 	protected function setUp(): void {
@@ -34,6 +37,7 @@ class SharesPluginTest extends \Test\TestCase {
 		$this->server = new \Sabre\DAV\Server();
 		$this->tree = $this->createMock(Tree::class);
 		$this->shareManager = $this->createMock(IManager::class);
+		$this->rootFolder = $this->createMock(IRootFolder::class);
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->once())
 			->method('getUID')
@@ -46,7 +50,8 @@ class SharesPluginTest extends \Test\TestCase {
 		$this->plugin = new SharesPlugin(
 			$this->tree,
 			$userSession,
-			$this->shareManager
+			$this->shareManager,
+			$this->rootFolder,
 		);
 		$this->plugin->initialize($this->server);
 	}

@@ -18,6 +18,7 @@ class SwiftTest extends ObjectStoreTestCase {
 	/**
 	 * @return IObjectStore
 	 */
+	#[\Override]
 	protected function getInstance() {
 		$config = Server::get(IConfig::class)->getSystemValue('objectstore');
 		if (!is_array($config) || $config['class'] !== 'OC\\Files\\ObjectStore\\Swift') {
@@ -27,6 +28,7 @@ class SwiftTest extends ObjectStoreTestCase {
 		return new Swift($config['arguments']);
 	}
 
+	#[\Override]
 	public function testFseekSize(): void {
 		$this->markTestSkipped('Swift does not support seeking at the moment');
 	}

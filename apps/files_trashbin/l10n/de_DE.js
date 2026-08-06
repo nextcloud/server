@@ -10,7 +10,7 @@ OC.L10N.register(
     "Not enough free space to restore the file/folder" : "Nicht genügend freier Speicherplatz zum Wiederherstellen der Datei/des Ordners",
     "Empty deleted files" : "Gelöschte Dateien leeren",
     "Confirm permanent deletion" : "Endgültiges Löschen bestätigen",
-    "Are you sure you want to permanently delete all files and folders in the trash? This cannot be undone." : "Möchten Sie wirklich alle Dateien und Ordner im Papierkorb endgültig löschen? Dies kann nicht rückgängig gemacht werden.",
+    "Are you sure you want to permanently delete all files and folders in the trash? This cannot be undone." : "Sollen alle Dateien und Ordner im Papierkorb endgültig gelöscht werden? Dies kann nicht rückgängig gemacht werden.",
     "Cancel" : "Abbrechen",
     "Original location" : "Ursprünglicher Ort",
     "Deleted by" : "Gelöscht von",

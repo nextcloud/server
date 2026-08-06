@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files\Notification;
 
 use OCA\Files\BackgroundJob\TransferOwnership;
@@ -36,10 +37,12 @@ class Notifier implements INotifier, IDismissableNotifier {
 	) {
 	}
 
+	#[\Override]
 	public function getID(): string {
 		return 'files';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10nFactory->get('files')->t('Files');
 	}
@@ -50,6 +53,7 @@ class Notifier implements INotifier, IDismissableNotifier {
 	 * @return INotification
 	 * @throws UnknownNotificationException When the notification was not prepared by a notifier
 	 */
+	#[\Override]
 	public function prepare(INotification $notification, string $languageCode): INotification {
 		if ($notification->getApp() !== 'files') {
 			throw new UnknownNotificationException('Unhandled app');
@@ -244,6 +248,7 @@ class Notifier implements INotifier, IDismissableNotifier {
 		return $notification;
 	}
 
+	#[\Override]
 	public function dismissNotification(INotification $notification): void {
 		if ($notification->getApp() !== 'files') {
 			throw new UnknownNotificationException('Unhandled app');

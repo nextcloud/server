@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Template;
 
 use bantu\IniGetWrapper\IniGetWrapper;
@@ -12,7 +13,7 @@ use OC\Authentication\Token\IProvider;
 use OC\CapabilitiesManager;
 use OC\Core\AppInfo\ConfigLexicon;
 use OC\Files\FilenameValidator;
-use OC\Share\Share;
+use OCA\Files\Service\ChunkedUploadConfig;
 use OCA\Provisioning_API\Controller\AUserDataOCSController;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
@@ -247,7 +248,7 @@ class JSConfigHelper {
 					'enforcePasswordForPublicLink' => Util::isPublicLinkPasswordRequired(),
 					'enableLinkPasswordByDefault' => $enableLinkPasswordByDefault,
 					'sharingDisabledForUser' => $shareManager->sharingDisabledForUser($uid),
-					'resharingAllowed' => Share::isResharingAllowed(),
+					'resharingAllowed' => $this->appConfig->getValueBool('core', 'shareapi_allow_resharing', true),
 					'remoteShareAllowed' => $outgoingServer2serverShareEnabled,
 					'federatedCloudShareDoc' => $this->urlGenerator->linkToDocs('user-sharing-federated'),
 					'allowGroupSharing' => $shareManager->allowGroupSharing(),
@@ -257,7 +258,10 @@ class JSConfigHelper {
 					'defaultRemoteExpireDateEnabled' => $defaultRemoteExpireDateEnabled,
 					'defaultRemoteExpireDate' => $defaultRemoteExpireDate,
 					'defaultRemoteExpireDateEnforced' => $defaultRemoteExpireDateEnforced,
-				]
+				],
+				'files' => [
+					'max_chunk_size' => ChunkedUploadConfig::getMaxChunkSize(),
+				],
 			]),
 			'_theme' => json_encode([
 				'entity' => $this->defaults->getEntity(),
@@ -287,9 +291,6 @@ class JSConfigHelper {
 
 		$this->initialStateService->provideInitialState('core', 'config', $config);
 		$this->initialStateService->provideInitialState('core', 'capabilities', $capabilities);
-
-		// Allow hooks to modify the output values
-		\OC_Hook::emit('\OCP\Config', 'js', ['array' => &$array]);
 
 		$result = '';
 

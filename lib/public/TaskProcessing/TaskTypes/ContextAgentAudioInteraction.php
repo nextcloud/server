@@ -20,6 +20,9 @@ use OCP\TaskProcessing\ShapeDescriptor;
  * @since 32.0.0
  */
 class ContextAgentAudioInteraction implements IInternalTaskType {
+	/**
+	 * @since 31.0.0
+	 */
 	public const ID = 'core:contextagent:audio-interaction';
 
 	private IL10N $l;
@@ -38,6 +41,7 @@ class ContextAgentAudioInteraction implements IInternalTaskType {
 	 * @inheritDoc
 	 * @since 32.0.0
 	 */
+	#[\Override]
 	public function getName(): string {
 		return 'ContextAgent audio'; // We do not translate this
 	}
@@ -46,6 +50,7 @@ class ContextAgentAudioInteraction implements IInternalTaskType {
 	 * @inheritDoc
 	 * @since 32.0.0
 	 */
+	#[\Override]
 	public function getDescription(): string {
 		return $this->l->t('Chat by voice with an agent');
 	}
@@ -54,6 +59,7 @@ class ContextAgentAudioInteraction implements IInternalTaskType {
 	 * @return string
 	 * @since 32.0.0
 	 */
+	#[\Override]
 	public function getId(): string {
 		return self::ID;
 	}
@@ -62,6 +68,7 @@ class ContextAgentAudioInteraction implements IInternalTaskType {
 	 * @return ShapeDescriptor[]
 	 * @since 32.0.0
 	 */
+	#[\Override]
 	public function getInputShape(): array {
 		return [
 			'input' => new ShapeDescriptor(
@@ -86,6 +93,7 @@ class ContextAgentAudioInteraction implements IInternalTaskType {
 	 * @return ShapeDescriptor[]
 	 * @since 32.0.0
 	 */
+	#[\Override]
 	public function getOutputShape(): array {
 		return [
 			'input_transcript' => new ShapeDescriptor(

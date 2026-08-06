@@ -157,6 +157,7 @@ export default Vue.extend({
 	--cell-padding: 7px;
 	--cell-width: 200px;
 	--cell-width-large: 300px;
+	--cell-width-groups: 380px;
 	--cell-min-width: calc(var(--cell-width) - (2 * var(--cell-padding)));
 	--sticky-column-z-index: calc(var(--vs-dropdown-z-index) + 1); // Keep the sticky column on top of the select dropdown
 

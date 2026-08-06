@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\UserStatus\Service;
 
 use OCP\AppFramework\Db\DoesNotExistException;
@@ -26,6 +27,7 @@ class JSDataService implements \JsonSerializable {
 	) {
 	}
 
+	#[\Override]
 	public function jsonSerialize(): array {
 		$user = $this->userSession->getUser();
 

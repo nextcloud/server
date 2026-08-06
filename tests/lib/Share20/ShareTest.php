@@ -25,7 +25,10 @@ class ShareTest extends \Test\TestCase {
 	protected IUserManager&MockObject $userManager;
 	protected IShare $share;
 
+	#[\Override]
 	protected function setUp(): void {
+		parent::setUp();
+
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->share = new Share($this->rootFolder, $this->userManager);

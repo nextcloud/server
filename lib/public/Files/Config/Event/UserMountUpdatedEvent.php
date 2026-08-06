@@ -18,6 +18,9 @@ use OCP\Files\Config\ICachedMountInfo;
  * @since 32.0.0
  */
 class UserMountUpdatedEvent extends Event {
+	/**
+	 * @since 32.0.0
+	 */
 	public function __construct(
 		public readonly ICachedMountInfo $oldMountPoint,
 		public readonly ICachedMountInfo $newMountPoint,

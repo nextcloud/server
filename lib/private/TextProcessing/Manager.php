@@ -18,7 +18,6 @@ use OCP\BackgroundJob\IJobList;
 use OCP\Common\Exception\NotFoundException;
 use OCP\DB\Exception;
 use OCP\IConfig;
-use OCP\IServerContainer;
 use OCP\PreConditionNotMetException;
 use OCP\TaskProcessing\IManager as TaskProcessingIManager;
 use OCP\TaskProcessing\TaskTypes\TextToText;
@@ -36,6 +35,7 @@ use OCP\TextProcessing\SummaryTaskType;
 use OCP\TextProcessing\Task;
 use OCP\TextProcessing\Task as OCPTask;
 use OCP\TextProcessing\TopicsTaskType;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Throwable;
@@ -44,7 +44,10 @@ class Manager implements IManager {
 	/** @var ?IProvider[] */
 	private ?array $providers = null;
 
-	private static array $taskProcessingCompatibleTaskTypes = [
+	/**
+	 * @var array<class-string, string>
+	 */
+	private const COMPATIBLE_TASK_TYPES = [
 		FreePromptTaskType::class => TextToText::ID,
 		HeadlineTaskType::class => TextToTextHeadline::ID,
 		SummaryTaskType::class => TextToTextSummary::ID,
@@ -52,7 +55,7 @@ class Manager implements IManager {
 	];
 
 	public function __construct(
-		private IServerContainer $serverContainer,
+		private ContainerInterface $serverContainer,
 		private Coordinator $coordinator,
 		private LoggerInterface $logger,
 		private IJobList $jobList,
@@ -62,6 +65,7 @@ class Manager implements IManager {
 	) {
 	}
 
+	#[\Override]
 	public function getProviders(): array {
 		$context = $this->coordinator->getRegistrationContext();
 		if ($context === null) {
@@ -88,10 +92,11 @@ class Manager implements IManager {
 		return $this->providers;
 	}
 
+	#[\Override]
 	public function hasProviders(): bool {
 		// check if task processing equivalent types are available
 		$taskTaskTypes = $this->taskProcessingManager->getAvailableTaskTypes();
-		foreach (self::$taskProcessingCompatibleTaskTypes as $textTaskTypeClass => $taskTaskTypeId) {
+		foreach (self::COMPATIBLE_TASK_TYPES as $textTaskTypeClass => $taskTaskTypeId) {
 			if (isset($taskTaskTypes[$taskTaskTypeId])) {
 				return true;
 			}
@@ -107,6 +112,7 @@ class Manager implements IManager {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getAvailableTaskTypes(): array {
 		$tasks = [];
 		foreach ($this->getProviders() as $provider) {
@@ -115,7 +121,7 @@ class Manager implements IManager {
 
 		// check if task processing equivalent types are available
 		$taskTaskTypes = $this->taskProcessingManager->getAvailableTaskTypes();
-		foreach (self::$taskProcessingCompatibleTaskTypes as $textTaskTypeClass => $taskTaskTypeId) {
+		foreach (self::COMPATIBLE_TASK_TYPES as $textTaskTypeClass => $taskTaskTypeId) {
 			if (isset($taskTaskTypes[$taskTaskTypeId])) {
 				$tasks[$textTaskTypeClass] = true;
 			}
@@ -131,12 +137,14 @@ class Manager implements IManager {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function runTask(OCPTask $task): string {
 		// try to run a task processing task if possible
 		$taskTypeClass = $task->getType();
-		if (isset(self::$taskProcessingCompatibleTaskTypes[$taskTypeClass]) && isset($this->taskProcessingManager->getAvailableTaskTypes()[self::$taskProcessingCompatibleTaskTypes[$taskTypeClass]])) {
+		/** @psalm-suppress InvalidArrayOffset false-positive */
+		if (isset(self::COMPATIBLE_TASK_TYPES[$taskTypeClass]) && isset($this->taskProcessingManager->getAvailableTaskTypes()[self::COMPATIBLE_TASK_TYPES[$taskTypeClass]])) {
 			try {
-				$taskProcessingTaskTypeId = self::$taskProcessingCompatibleTaskTypes[$taskTypeClass];
+				$taskProcessingTaskTypeId = self::COMPATIBLE_TASK_TYPES[$taskTypeClass];
 				$taskProcessingTask = new \OCP\TaskProcessing\Task(
 					$taskProcessingTaskTypeId,
 					['input' => $task->getInput()],
@@ -215,15 +223,17 @@ class Manager implements IManager {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function scheduleTask(OCPTask $task): void {
 		if (!$this->canHandleTask($task)) {
 			throw new PreConditionNotMetException('No LanguageModel provider is installed that can handle this task');
 		}
 		$task->setStatus(OCPTask::STATUS_SCHEDULED);
 		$providers = $this->getPreferredProviders($task);
+		/** @psalm-suppress InvalidArrayOffset false-positive */
 		$equivalentTaskProcessingTypeAvailable = (
-			isset(self::$taskProcessingCompatibleTaskTypes[$task->getType()])
-			&& isset($this->taskProcessingManager->getAvailableTaskTypes()[self::$taskProcessingCompatibleTaskTypes[$task->getType()]])
+			isset(self::COMPATIBLE_TASK_TYPES[$task->getType()])
+			&& isset($this->taskProcessingManager->getAvailableTaskTypes()[self::COMPATIBLE_TASK_TYPES[$task->getType()]])
 		);
 		if (count($providers) === 0 && !$equivalentTaskProcessingTypeAvailable) {
 			throw new PreConditionNotMetException('No LanguageModel provider is installed that can handle this task');
@@ -245,6 +255,7 @@ class Manager implements IManager {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function runOrScheduleTask(OCPTask $task): bool {
 		if (!$this->canHandleTask($task)) {
 			throw new PreConditionNotMetException('No LanguageModel provider is installed that can handle this task');
@@ -264,6 +275,7 @@ class Manager implements IManager {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function deleteTask(Task $task): void {
 		$taskEntity = DbTask::fromPublicTask($task);
 		$this->taskMapper->delete($taskEntity);
@@ -280,6 +292,7 @@ class Manager implements IManager {
 	 * @throws RuntimeException If the query failed
 	 * @throws NotFoundException If the task could not be found
 	 */
+	#[\Override]
 	public function getTask(int $id): OCPTask {
 		try {
 			$taskEntity = $this->taskMapper->find($id);
@@ -303,6 +316,7 @@ class Manager implements IManager {
 	 * @throws RuntimeException If the query failed
 	 * @throws NotFoundException If the task could not be found
 	 */
+	#[\Override]
 	public function getUserTask(int $id, ?string $userId): OCPTask {
 		try {
 			$taskEntity = $this->taskMapper->findByIdAndUser($id, $userId);
@@ -326,6 +340,7 @@ class Manager implements IManager {
 	 * @param string|null $identifier
 	 * @return array
 	 */
+	#[\Override]
 	public function getUserTasksByApp(string $userId, string $appId, ?string $identifier = null): array {
 		try {
 			$taskEntities = $this->taskMapper->findUserTasksByApp($userId, $appId, $identifier);

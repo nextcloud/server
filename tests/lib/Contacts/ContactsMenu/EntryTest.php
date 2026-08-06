@@ -14,6 +14,7 @@ use Test\TestCase;
 class EntryTest extends TestCase {
 	private Entry $entry;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

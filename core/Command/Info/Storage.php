@@ -22,6 +22,7 @@ class Storage extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		parent::configure();
 		$this
@@ -30,6 +31,7 @@ class Storage extends Base {
 			->addArgument('storage', InputArgument::REQUIRED, 'Storage to get information for');
 	}
 
+	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$storage = $input->getArgument('storage');
 		$storageId = $this->fileUtils->getNumericStorageId($storage);

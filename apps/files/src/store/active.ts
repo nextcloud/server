@@ -11,7 +11,7 @@ import { Folder, getNavigation, Permission } from '@nextcloud/files'
 import { getRemoteURL, getRootPath } from '@nextcloud/files/dav'
 import { defineStore } from 'pinia'
 import { ref, shallowRef, watch } from 'vue'
-import logger from '../logger.ts'
+import { logger } from '../utils/logger.ts'
 
 // Temporary fake folder to use until we have the first valid folder
 // fetched and cached. This allow us to mount the FilesListVirtual
@@ -47,14 +47,21 @@ export const useActiveStore = defineStore('active', () => {
 
 	// Set the active node on the router params
 	watch(activeNode, () => {
-		if (typeof activeNode.value?.fileid !== 'number' || activeNode.value.fileid === activeFolder.value?.fileid) {
+		if (!activeNode.value?.id) {
 			return
 		}
 
-		logger.debug('Updating active fileid in URL query', { fileid: activeNode.value.fileid })
+		// Sync even when the active node is the current folder: skipping that case
+		// leaves a stale child fileid in the route, which then gets restored into
+		// the sidebar when it reopens.
+		if (activeNode.value.id === String(window.OCP.Files.Router.params?.fileid ?? '')) {
+			return
+		}
+
+		logger.debug('Updating active fileid in URL query', { fileid: activeNode.value.id })
 		window.OCP.Files.Router.goToRoute(
 			null,
-			{ ...window.OCP.Files.Router.params, fileid: String(activeNode.value.fileid) },
+			{ ...window.OCP.Files.Router.params, fileid: activeNode.value.id },
 			{ ...window.OCP.Files.Router.query },
 			true,
 		)

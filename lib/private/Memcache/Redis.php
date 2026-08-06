@@ -5,8 +5,10 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Memcache;
 
+use OC\RedisFactory;
 use OCP\IMemcacheTTL;
 use OCP\Server;
 
@@ -37,26 +39,26 @@ class Redis extends Cache implements IMemcacheTTL {
 
 	private const MAX_TTL = 30 * 24 * 60 * 60; // 1 month
 
-	/**
-	 * @var \Redis|\RedisCluster $cache
-	 */
-	private static $cache = null;
+	/** Number of keys to request per SCAN iteration in {@see self::clear()} (only a hint to Redis) */
+	private const SCAN_COUNT = 1000;
+
+	private \Redis|\RedisCluster|null $cache = null;
 
 	public function __construct($prefix = '', string $logFile = '') {
 		parent::__construct($prefix);
 	}
 
 	/**
-	 * @return \Redis|\RedisCluster|null
 	 * @throws \Exception
 	 */
-	public function getCache() {
-		if (is_null(self::$cache)) {
-			self::$cache = Server::get('RedisFactory')->getInstance();
+	public function getCache(): \Redis|\RedisCluster {
+		if ($this->cache === null) {
+			$this->cache = Server::get(RedisFactory::class)->getInstance();
 		}
-		return self::$cache;
+		return $this->cache;
 	}
 
+	#[\Override]
 	public function get($key) {
 		$result = $this->getCache()->get($this->getPrefix() . $key);
 		if ($result === false) {
@@ -66,6 +68,7 @@ class Redis extends Cache implements IMemcacheTTL {
 		return self::decodeValue($result);
 	}
 
+	#[\Override]
 	public function set($key, $value, $ttl = 0) {
 		$value = self::encodeValue($value);
 		if ($ttl === 0) {
@@ -76,10 +79,12 @@ class Redis extends Cache implements IMemcacheTTL {
 		return $this->getCache()->setex($this->getPrefix() . $key, $ttl, $value);
 	}
 
+	#[\Override]
 	public function hasKey($key) {
 		return (bool)$this->getCache()->exists($this->getPrefix() . $key);
 	}
 
+	#[\Override]
 	public function remove($key) {
 		if ($this->getCache()->unlink($this->getPrefix() . $key)) {
 			return true;
@@ -88,13 +93,47 @@ class Redis extends Cache implements IMemcacheTTL {
 		}
 	}
 
+	#[\Override]
 	public function clear($prefix = '') {
-		// TODO: this is slow and would fail with Redis cluster
-		$prefix = $this->getPrefix() . $prefix . '*';
-		$keys = $this->getCache()->keys($prefix);
-		$deleted = $this->getCache()->del($keys);
+		$pattern = $this->getPrefix() . $prefix . '*';
+		$cache = $this->getCache();
 
-		return (is_array($keys) && (count($keys) === $deleted));
+		// Iterate with SCAN and remove with UNLINK rather than KEYS + DEL:
+		// KEYS walks the whole keyspace and blocks the server, while a
+		// multi-key DEL/UNLINK is not cluster-safe (keys spanning hash slots
+		// raise a CROSSSLOT error). SCAN is non-blocking and UNLINK reclaims
+		// memory in the background.
+		if ($cache instanceof \RedisCluster) {
+			// On a cluster SCAN must be run against each master node, and keys
+			// are unlinked one at a time so each command stays within a slot.
+			foreach ($cache->_masters() as $master) {
+				$iterator = null;
+				do {
+					/** @psalm-suppress NullArgument, PossiblyNullArgument the SCAN cursor must start as null (the phpredis stub types it as int) */
+					$keys = $cache->scan($iterator, $master, $pattern, self::SCAN_COUNT);
+					if ($keys === false) {
+						break;
+					}
+					foreach ($keys as $key) {
+						$cache->unlink($key);
+					}
+				} while ($iterator > 0);
+			}
+		} else {
+			$iterator = null;
+			do {
+				/** @psalm-suppress NullArgument, PossiblyNullArgument the SCAN cursor must start as null (the phpredis stub types it as int) */
+				$keys = $cache->scan($iterator, $pattern, self::SCAN_COUNT);
+				if ($keys === false) {
+					break;
+				}
+				if ($keys !== []) {
+					$cache->unlink($keys);
+				}
+			} while ($iterator > 0);
+		}
+
+		return true;
 	}
 
 	/**
@@ -105,6 +144,7 @@ class Redis extends Cache implements IMemcacheTTL {
 	 * @param int $ttl Time To Live in seconds. Defaults to 60*60*24
 	 * @return bool
 	 */
+	#[\Override]
 	public function add($key, $value, $ttl = 0) {
 		$value = self::encodeValue($value);
 		if ($ttl === 0) {
@@ -126,6 +166,7 @@ class Redis extends Cache implements IMemcacheTTL {
 	 * @param int $step
 	 * @return int | bool
 	 */
+	#[\Override]
 	public function inc($key, $step = 1) {
 		return $this->getCache()->incrBy($this->getPrefix() . $key, $step);
 	}
@@ -137,6 +178,7 @@ class Redis extends Cache implements IMemcacheTTL {
 	 * @param int $step
 	 * @return int | bool
 	 */
+	#[\Override]
 	public function dec($key, $step = 1) {
 		$res = $this->evalLua('dec', [$key], [$step]);
 		return ($res === 'NEX') ? false : $res;
@@ -150,6 +192,7 @@ class Redis extends Cache implements IMemcacheTTL {
 	 * @param mixed $new
 	 * @return bool
 	 */
+	#[\Override]
 	public function cas($key, $old, $new) {
 		$old = self::encodeValue($old);
 		$new = self::encodeValue($new);
@@ -164,18 +207,21 @@ class Redis extends Cache implements IMemcacheTTL {
 	 * @param mixed $old
 	 * @return bool
 	 */
+	#[\Override]
 	public function cad($key, $old) {
 		$old = self::encodeValue($old);
 
 		return $this->evalLua('cad', [$key], [$old]) > 0;
 	}
 
+	#[\Override]
 	public function ncad(string $key, mixed $old): bool {
 		$old = self::encodeValue($old);
 
 		return $this->evalLua('ncad', [$key], [$old]) > 0;
 	}
 
+	#[\Override]
 	public function setTTL($key, $ttl) {
 		if ($ttl === 0) {
 			// having infinite TTL can lead to leaked keys as the prefix changes with version upgrades
@@ -185,19 +231,22 @@ class Redis extends Cache implements IMemcacheTTL {
 		$this->getCache()->expire($this->getPrefix() . $key, $ttl);
 	}
 
+	#[\Override]
 	public function getTTL(string $key): int|false {
 		$ttl = $this->getCache()->ttl($this->getPrefix() . $key);
 		return $ttl > 0 ? (int)$ttl : false;
 	}
 
+	#[\Override]
 	public function compareSetTTL(string $key, mixed $value, int $ttl): bool {
 		$value = self::encodeValue($value);
 
 		return $this->evalLua('caSetTtl', [$key], [$value, $ttl]) > 0;
 	}
 
+	#[\Override]
 	public static function isAvailable(): bool {
-		return Server::get('RedisFactory')->isAvailable();
+		return Server::get(RedisFactory::class)->isAvailable();
 	}
 
 	protected function evalLua(string $scriptName, array $keys, array $args) {

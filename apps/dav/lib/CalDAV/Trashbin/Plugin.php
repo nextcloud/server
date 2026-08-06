@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CalDAV\Trashbin;
 
 use Closure;
@@ -27,7 +28,10 @@ use function implode;
 class Plugin extends ServerPlugin {
 	public const PROPERTY_DELETED_AT = '{http://nextcloud.com/ns}deleted-at';
 	public const PROPERTY_CALENDAR_URI = '{http://nextcloud.com/ns}calendar-uri';
+	public const PROPERTY_SOURCE_CALENDAR_URI = '{http://nextcloud.com/ns}source-calendar-uri';
+	public const PROPERTY_CALENDAR_OWNER_PRINCIPAL_URI = '{http://nextcloud.com/ns}calendar-owner-principal-uri';
 	public const PROPERTY_RETENTION_DURATION = '{http://nextcloud.com/ns}trash-bin-retention-duration';
+	public const PROPERTY_DELEGATOR = '{http://nextcloud.com/ns}delegator';
 
 	/** @var bool */
 	private $disableTrashbin;
@@ -42,6 +46,7 @@ class Plugin extends ServerPlugin {
 		$this->disableTrashbin = $request->getHeader('X-NC-CalDAV-No-Trashbin') === '1';
 	}
 
+	#[\Override]
 	public function initialize(Server $server): void {
 		$this->server = $server;
 		$server->on('beforeMethod:*', [$this, 'beforeMethod']);
@@ -96,6 +101,16 @@ class Plugin extends ServerPlugin {
 			$propFind->handle(self::PROPERTY_CALENDAR_URI, function () use ($node) {
 				return $node->getCalendarUri();
 			});
+			// needed in case of delegated or shared calendars
+			$propFind->handle(self::PROPERTY_SOURCE_CALENDAR_URI, function () use ($node) {
+				return $node->getSourceCalendarUri();
+			});
+			$propFind->handle(self::PROPERTY_CALENDAR_OWNER_PRINCIPAL_URI, function () use ($node) {
+				return $node->getCalendarPrincipalUri();
+			});
+			$propFind->handle(self::PROPERTY_DELEGATOR, function () use ($node) {
+				return $node->getDelegator();
+			});
 		}
 		if ($node instanceof TrashbinHome) {
 			$propFind->handle(self::PROPERTY_RETENTION_DURATION, function () use ($node) {
@@ -104,10 +119,12 @@ class Plugin extends ServerPlugin {
 		}
 	}
 
+	#[\Override]
 	public function getFeatures(): array {
 		return ['nc-calendar-trashbin'];
 	}
 
+	#[\Override]
 	public function getPluginName(): string {
 		return 'nc-calendar-trashbin';
 	}

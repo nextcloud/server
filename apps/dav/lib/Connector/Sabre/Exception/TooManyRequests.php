@@ -15,6 +15,7 @@ use Sabre\DAV\Server;
 class TooManyRequests extends NotAuthenticated {
 	public const NS_OWNCLOUD = 'http://owncloud.org/ns';
 
+	#[\Override]
 	public function getHTTPCode() {
 		return 429;
 	}
@@ -27,6 +28,7 @@ class TooManyRequests extends NotAuthenticated {
 	 * @param DOMElement $errorNode
 	 * @return void
 	 */
+	#[\Override]
 	public function serialize(Server $server, DOMElement $errorNode) {
 
 		// set ownCloud namespace

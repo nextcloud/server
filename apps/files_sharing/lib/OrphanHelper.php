@@ -8,11 +8,11 @@ declare(strict_types=1);
 
 namespace OCA\Files_Sharing;
 
-use OC\User\NoUserException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
+use OCP\User\Exceptions\UserNotFoundException;
 
 class OrphanHelper {
 	public function __construct(
@@ -25,7 +25,7 @@ class OrphanHelper {
 	public function isShareValid(string $owner, int $fileId): bool {
 		try {
 			$userFolder = $this->rootFolder->getUserFolder($owner);
-		} catch (NoUserException $e) {
+		} catch (UserNotFoundException $e) {
 			return false;
 		}
 		$node = $userFolder->getFirstNodeById($fileId);

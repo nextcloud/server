@@ -59,7 +59,8 @@ async function addStorage(storage?: Partial<IStorage>) {
 		}
 		newStorage.value = undefined
 	} catch (error) {
-		logger.error('Failed to add external storage', { error })
+		logger.error('Failed to add external storage', { error, storage })
+		newStorage.value = { ...storage }
 		showDialog.value = true
 	}
 }
@@ -134,8 +135,8 @@ async function addStorage(storage?: Partial<IStorage>) {
 		</NcButton>
 
 		<AddExternalStorageDialog
-			v-model="newStorage"
 			v-model:open="showDialog"
+			:storage="newStorage"
 			@close="addStorage" />
 
 		<UserMountSettings v-if="settings.isAdmin" />

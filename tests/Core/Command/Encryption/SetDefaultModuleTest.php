@@ -28,6 +28,7 @@ class SetDefaultModuleTest extends TestCase {
 	/** @var \Symfony\Component\Console\Command\Command */
 	protected $command;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -42,7 +43,6 @@ class SetDefaultModuleTest extends TestCase {
 
 		$this->command = new SetDefaultModule($this->manager, $this->config);
 	}
-
 
 	public static function dataSetDefaultModule(): array {
 		return [

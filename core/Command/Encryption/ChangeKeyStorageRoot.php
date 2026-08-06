@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Command\Encryption;
 
 use OC\Encryption\Keys\Storage;
@@ -32,6 +33,7 @@ class ChangeKeyStorageRoot extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		parent::configure();
 		$this
@@ -44,6 +46,7 @@ class ChangeKeyStorageRoot extends Command {
 			);
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$oldRoot = $this->util->getKeyStorageRoot();
 		$newRoot = $input->getArgument('newRoot');
@@ -114,7 +117,6 @@ class ChangeKeyStorageRoot extends Command {
 		}
 	}
 
-
 	/**
 	 * move system key folder
 	 *
@@ -130,7 +132,6 @@ class ChangeKeyStorageRoot extends Command {
 		}
 	}
 
-
 	/**
 	 * setup file system for the given user
 	 *
@@ -140,7 +141,6 @@ class ChangeKeyStorageRoot extends Command {
 		\OC_Util::tearDownFS();
 		\OC_Util::setupFS($uid);
 	}
-
 
 	/**
 	 * iterate over each user and move the keys to the new storage
@@ -152,7 +152,6 @@ class ChangeKeyStorageRoot extends Command {
 	protected function moveUserKeys($oldRoot, $newRoot, OutputInterface $output) {
 		$progress = new ProgressBar($output);
 		$progress->start();
-
 
 		foreach ($this->userManager->getBackends() as $backend) {
 			$limit = 500;

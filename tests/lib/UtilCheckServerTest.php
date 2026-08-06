@@ -40,6 +40,7 @@ class UtilCheckServerTest extends \Test\TestCase {
 		return $config;
 	}
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -49,6 +50,7 @@ class UtilCheckServerTest extends \Test\TestCase {
 		Server::get(ISession::class)->set('checkServer_succeeded', false);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		// clean up
 		@unlink($this->datadir . '/.ncdata');
@@ -146,11 +148,9 @@ class UtilCheckServerTest extends \Test\TestCase {
 	}
 
 	/**
-	 * Tests an error is given when the datadir is not writable
+	 * Tests an error is given when the datadir is not readable
 	 */
-	public function testDataDirNotWritable(): void {
-		$this->markTestSkipped('TODO: Disable because fails on drone');
-
+	public function testDataDirNotReadable(): void {
 		chmod($this->datadir, 0300);
 		$result = \OC_Util::checkServer($this->getConfig([
 			'installed' => true,
@@ -163,7 +163,7 @@ class UtilCheckServerTest extends \Test\TestCase {
 	 * Tests no error is given when the datadir is not writable during setup
 	 */
 	public function testDataDirNotWritableSetup(): void {
-		chmod($this->datadir, 0300);
+		chmod($this->datadir, 0500);
 		$result = \OC_Util::checkServer($this->getConfig([
 			'installed' => false,
 			'version' => implode('.', Util::getVersion())

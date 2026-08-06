@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Settings\Admin;
 
 use OC\Config\PresetManager;
@@ -24,6 +25,7 @@ class Presets implements ISettings {
 	) {
 	}
 
+	#[\Override]
 	public function getForm() {
 		$presets = $this->presetManager->retrieveLexiconPreset();
 		$selectedPreset = $this->presetManager->getLexiconPreset();
@@ -36,10 +38,12 @@ class Presets implements ISettings {
 		return new TemplateResponse('settings', 'settings/admin/presets', [], '');
 	}
 
+	#[\Override]
 	public function getSection() {
 		return 'presets';
 	}
 
+	#[\Override]
 	public function getPriority() {
 		return 0;
 	}

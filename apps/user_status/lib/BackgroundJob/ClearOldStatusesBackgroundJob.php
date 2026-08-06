@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\UserStatus\BackgroundJob;
 
 use OCA\UserStatus\Db\UserStatusMapper;
@@ -38,6 +39,7 @@ class ClearOldStatusesBackgroundJob extends TimedJob {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	protected function run($argument) {
 		$now = $this->time->getTime();
 

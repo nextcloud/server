@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace Test\TaskProcessing;
 
 use OC\AppFramework\Bootstrap\Coordinator;
@@ -27,7 +28,6 @@ use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
-use OCP\IServerContainer;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -43,6 +43,7 @@ use OCP\TaskProcessing\Exception\ProcessingException;
 use OCP\TaskProcessing\Exception\UnauthorizedException;
 use OCP\TaskProcessing\Exception\UserFacingProcessingException;
 use OCP\TaskProcessing\Exception\ValidationException;
+use OCP\TaskProcessing\FileShaped;
 use OCP\TaskProcessing\IManager;
 use OCP\TaskProcessing\IProvider;
 use OCP\TaskProcessing\ISynchronousProvider;
@@ -56,30 +57,36 @@ use OCP\TaskProcessing\TaskTypes\TextToTextSummary;
 use OCP\TextProcessing\SummaryTaskType;
 use PHPUnit\Framework\Constraint\IsInstanceOf;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Test\BackgroundJob\DummyJobList;
 
 class AudioToImage implements ITaskType {
 	public const ID = 'test:audiotoimage';
 
+	#[\Override]
 	public function getId(): string {
 		return self::ID;
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return self::class;
 	}
 
+	#[\Override]
 	public function getDescription(): string {
 		return self::class;
 	}
 
+	#[\Override]
 	public function getInputShape(): array {
 		return [
 			'audio' => new ShapeDescriptor('Audio', 'The audio', EShapeType::Audio),
 		];
 	}
 
+	#[\Override]
 	public function getOutputShape(): array {
 		return [
 			'spectrogram' => new ShapeDescriptor('Spectrogram', 'The audio spectrogram', EShapeType::Image),
@@ -88,54 +95,66 @@ class AudioToImage implements ITaskType {
 }
 
 class AsyncProvider implements IProvider {
+	#[\Override]
 	public function getId(): string {
 		return 'test:sync:success';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return self::class;
 	}
 
+	#[\Override]
 	public function getTaskTypeId(): string {
 		return AudioToImage::ID;
 	}
 
+	#[\Override]
 	public function getExpectedRuntime(): int {
 		return 10;
 	}
 
+	#[\Override]
 	public function getOptionalInputShape(): array {
 		return [
 			'optionalKey' => new ShapeDescriptor('optional Key', 'AN optional key', EShapeType::Text),
 		];
 	}
 
+	#[\Override]
 	public function getOptionalOutputShape(): array {
 		return [
 			'optionalKey' => new ShapeDescriptor('optional Key', 'AN optional key', EShapeType::Text),
 		];
 	}
 
+	#[\Override]
 	public function getInputShapeEnumValues(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getInputShapeDefaults(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalInputShapeEnumValues(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalInputShapeDefaults(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOutputShapeEnumValues(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalOutputShapeEnumValues(): array {
 		return [];
 	}
@@ -144,238 +163,287 @@ class AsyncProvider implements IProvider {
 class SuccessfulSyncProvider implements IProvider, ISynchronousProvider {
 	public const ID = 'test:sync:success';
 
+	#[\Override]
 	public function getId(): string {
 		return self::ID;
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return self::class;
 	}
 
+	#[\Override]
 	public function getTaskTypeId(): string {
 		return TextToText::ID;
 	}
 
+	#[\Override]
 	public function getExpectedRuntime(): int {
 		return 10;
 	}
 
+	#[\Override]
 	public function getOptionalInputShape(): array {
 		return [
 			'optionalKey' => new ShapeDescriptor('optional Key', 'AN optional key', EShapeType::Text),
 		];
 	}
 
+	#[\Override]
 	public function getOptionalOutputShape(): array {
 		return [
 			'optionalKey' => new ShapeDescriptor('optional Key', 'AN optional key', EShapeType::Text),
 		];
 	}
 
+	#[\Override]
 	public function process(?string $userId, array $input, callable $reportProgress): array {
 		return ['output' => $input['input']];
 	}
 
+	#[\Override]
 	public function getInputShapeEnumValues(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getInputShapeDefaults(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalInputShapeEnumValues(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalInputShapeDefaults(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOutputShapeEnumValues(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalOutputShapeEnumValues(): array {
 		return [];
 	}
 }
 
-
-
 class FailingSyncProvider implements IProvider, ISynchronousProvider {
 	public const ERROR_MESSAGE = 'Failure';
+	#[\Override]
 	public function getId(): string {
 		return 'test:sync:fail';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return self::class;
 	}
 
+	#[\Override]
 	public function getTaskTypeId(): string {
 		return TextToText::ID;
 	}
 
+	#[\Override]
 	public function getExpectedRuntime(): int {
 		return 10;
 	}
 
+	#[\Override]
 	public function getOptionalInputShape(): array {
 		return [
 			'optionalKey' => new ShapeDescriptor('optional Key', 'AN optional key', EShapeType::Text),
 		];
 	}
 
+	#[\Override]
 	public function getOptionalOutputShape(): array {
 		return [
 			'optionalKey' => new ShapeDescriptor('optional Key', 'AN optional key', EShapeType::Text),
 		];
 	}
 
+	#[\Override]
 	public function process(?string $userId, array $input, callable $reportProgress): array {
 		throw new ProcessingException(self::ERROR_MESSAGE);
 	}
 
+	#[\Override]
 	public function getInputShapeEnumValues(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getInputShapeDefaults(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalInputShapeEnumValues(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalInputShapeDefaults(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOutputShapeEnumValues(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalOutputShapeEnumValues(): array {
 		return [];
 	}
 }
 
-
 class FailingSyncProviderWithUserFacingError implements IProvider, ISynchronousProvider {
 	public const ERROR_MESSAGE = 'Failure';
 	public const USER_FACING_ERROR_MESSAGE = 'User-facing Failure';
+	#[\Override]
 	public function getId(): string {
 		return 'test:sync:fail:user-facing';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return self::class;
 	}
 
+	#[\Override]
 	public function getTaskTypeId(): string {
 		return TextToText::ID;
 	}
 
+	#[\Override]
 	public function getExpectedRuntime(): int {
 		return 10;
 	}
 
+	#[\Override]
 	public function getOptionalInputShape(): array {
 		return [
 			'optionalKey' => new ShapeDescriptor('optional Key', 'AN optional key', EShapeType::Text),
 		];
 	}
 
+	#[\Override]
 	public function getOptionalOutputShape(): array {
 		return [
 			'optionalKey' => new ShapeDescriptor('optional Key', 'AN optional key', EShapeType::Text),
 		];
 	}
 
+	#[\Override]
 	public function process(?string $userId, array $input, callable $reportProgress): array {
 		throw new UserFacingProcessingException(self::ERROR_MESSAGE, userFacingMessage: self::USER_FACING_ERROR_MESSAGE);
 	}
 
+	#[\Override]
 	public function getInputShapeEnumValues(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getInputShapeDefaults(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalInputShapeEnumValues(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalInputShapeDefaults(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOutputShapeEnumValues(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalOutputShapeEnumValues(): array {
 		return [];
 	}
 }
 
 class BrokenSyncProvider implements IProvider, ISynchronousProvider {
+	#[\Override]
 	public function getId(): string {
 		return 'test:sync:broken-output';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return self::class;
 	}
 
+	#[\Override]
 	public function getTaskTypeId(): string {
 		return TextToText::ID;
 	}
 
+	#[\Override]
 	public function getExpectedRuntime(): int {
 		return 10;
 	}
 
+	#[\Override]
 	public function getOptionalInputShape(): array {
 		return [
 			'optionalKey' => new ShapeDescriptor('optional Key', 'AN optional key', EShapeType::Text),
 		];
 	}
 
+	#[\Override]
 	public function getOptionalOutputShape(): array {
 		return [
 			'optionalKey' => new ShapeDescriptor('optional Key', 'AN optional key', EShapeType::Text),
 		];
 	}
 
+	#[\Override]
 	public function process(?string $userId, array $input, callable $reportProgress): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getInputShapeEnumValues(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getInputShapeDefaults(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalInputShapeEnumValues(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalInputShapeDefaults(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOutputShapeEnumValues(): array {
 		return [];
 	}
 
+	#[\Override]
 	public function getOptionalOutputShapeEnumValues(): array {
 		return [];
 	}
@@ -384,15 +452,18 @@ class BrokenSyncProvider implements IProvider, ISynchronousProvider {
 class SuccessfulTextProcessingSummaryProvider implements \OCP\TextProcessing\IProvider {
 	public bool $ran = false;
 
+	#[\Override]
 	public function getName(): string {
 		return 'TEST Vanilla LLM Provider';
 	}
 
+	#[\Override]
 	public function process(string $prompt): string {
 		$this->ran = true;
 		return $prompt . ' Summarize';
 	}
 
+	#[\Override]
 	public function getTaskType(): string {
 		return SummaryTaskType::class;
 	}
@@ -401,15 +472,18 @@ class SuccessfulTextProcessingSummaryProvider implements \OCP\TextProcessing\IPr
 class FailingTextProcessingSummaryProvider implements \OCP\TextProcessing\IProvider {
 	public bool $ran = false;
 
+	#[\Override]
 	public function getName(): string {
 		return 'TEST Vanilla LLM Provider';
 	}
 
+	#[\Override]
 	public function process(string $prompt): string {
 		$this->ran = true;
 		throw new \Exception('ERROR');
 	}
 
+	#[\Override]
 	public function getTaskType(): string {
 		return SummaryTaskType::class;
 	}
@@ -418,14 +492,17 @@ class FailingTextProcessingSummaryProvider implements \OCP\TextProcessing\IProvi
 class SuccessfulTextToImageProvider implements \OCP\TextToImage\IProvider {
 	public bool $ran = false;
 
+	#[\Override]
 	public function getId(): string {
 		return 'test:successful';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'TEST Provider';
 	}
 
+	#[\Override]
 	public function generate(string $prompt, array $resources): void {
 		$this->ran = true;
 		foreach ($resources as $resource) {
@@ -433,6 +510,7 @@ class SuccessfulTextToImageProvider implements \OCP\TextToImage\IProvider {
 		}
 	}
 
+	#[\Override]
 	public function getExpectedRuntime(): int {
 		return 1;
 	}
@@ -441,19 +519,23 @@ class SuccessfulTextToImageProvider implements \OCP\TextToImage\IProvider {
 class FailingTextToImageProvider implements \OCP\TextToImage\IProvider {
 	public bool $ran = false;
 
+	#[\Override]
 	public function getId(): string {
 		return 'test:failing';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'TEST Provider';
 	}
 
+	#[\Override]
 	public function generate(string $prompt, array $resources): void {
 		$this->ran = true;
 		throw new \RuntimeException('ERROR');
 	}
 
+	#[\Override]
 	public function getExpectedRuntime(): int {
 		return 1;
 	}
@@ -463,86 +545,110 @@ class ExternalProvider implements IProvider {
 	public const ID = 'event:external:provider';
 	public const TASK_TYPE_ID = 'event:external:tasktype';
 
+	#[\Override]
 	public function getId(): string {
 		return self::ID;
 	}
+	#[\Override]
 	public function getName(): string {
 		return 'External Provider via Event';
 	}
+	#[\Override]
 	public function getTaskTypeId(): string {
 		return self::TASK_TYPE_ID;
 	}
+	#[\Override]
 	public function getExpectedRuntime(): int {
 		return 5;
 	}
+	#[\Override]
 	public function getOptionalInputShape(): array {
 		return [];
 	}
+	#[\Override]
 	public function getOptionalOutputShape(): array {
 		return [];
 	}
+	#[\Override]
 	public function getInputShapeEnumValues(): array {
 		return [];
 	}
+	#[\Override]
 	public function getInputShapeDefaults(): array {
 		return [];
 	}
+	#[\Override]
 	public function getOptionalInputShapeEnumValues(): array {
 		return [];
 	}
+	#[\Override]
 	public function getOptionalInputShapeDefaults(): array {
 		return [];
 	}
+	#[\Override]
 	public function getOutputShapeEnumValues(): array {
 		return [];
 	}
+	#[\Override]
 	public function getOptionalOutputShapeEnumValues(): array {
 		return [];
 	}
 }
 
-
 class ExternalTriggerableProvider implements ITriggerableProvider {
 	public const ID = 'event:external:provider:triggerable';
 	public const TASK_TYPE_ID = TextToText::ID;
 
+	#[\Override]
 	public function getId(): string {
 		return self::ID;
 	}
+	#[\Override]
 	public function getName(): string {
 		return 'External Triggerable Provider via Event';
 	}
 
+	#[\Override]
 	public function getTaskTypeId(): string {
 		return self::TASK_TYPE_ID;
 	}
 
+	#[\Override]
 	public function trigger(): void {
 	}
+	#[\Override]
 	public function getExpectedRuntime(): int {
 		return 5;
 	}
+	#[\Override]
 	public function getOptionalInputShape(): array {
 		return [];
 	}
+	#[\Override]
 	public function getOptionalOutputShape(): array {
 		return [];
 	}
+	#[\Override]
 	public function getInputShapeEnumValues(): array {
 		return [];
 	}
+	#[\Override]
 	public function getInputShapeDefaults(): array {
 		return [];
 	}
+	#[\Override]
 	public function getOptionalInputShapeEnumValues(): array {
 		return [];
 	}
+	#[\Override]
 	public function getOptionalInputShapeDefaults(): array {
 		return [];
 	}
+	#[\Override]
 	public function getOutputShapeEnumValues(): array {
 		return [];
 	}
+	#[\Override]
 	public function getOptionalOutputShapeEnumValues(): array {
 		return [];
 	}
@@ -553,39 +659,51 @@ class ConflictingExternalProvider implements IProvider {
 	public const ID = 'test:sync:success';
 	public const TASK_TYPE_ID = 'event:external:tasktype'; // Can be different task type
 
+	#[\Override]
 	public function getId(): string {
 		return self::ID;
 	}
+	#[\Override]
 	public function getName(): string {
 		return 'Conflicting External Provider';
 	}
+	#[\Override]
 	public function getTaskTypeId(): string {
 		return self::TASK_TYPE_ID;
 	}
+	#[\Override]
 	public function getExpectedRuntime(): int {
 		return 50;
 	}
+	#[\Override]
 	public function getOptionalInputShape(): array {
 		return [];
 	}
+	#[\Override]
 	public function getOptionalOutputShape(): array {
 		return [];
 	}
+	#[\Override]
 	public function getInputShapeEnumValues(): array {
 		return [];
 	}
+	#[\Override]
 	public function getInputShapeDefaults(): array {
 		return [];
 	}
+	#[\Override]
 	public function getOptionalInputShapeEnumValues(): array {
 		return [];
 	}
+	#[\Override]
 	public function getOptionalInputShapeDefaults(): array {
 		return [];
 	}
+	#[\Override]
 	public function getOutputShapeEnumValues(): array {
 		return [];
 	}
+	#[\Override]
 	public function getOptionalOutputShapeEnumValues(): array {
 		return [];
 	}
@@ -594,18 +712,23 @@ class ConflictingExternalProvider implements IProvider {
 class ExternalTaskType implements ITaskType {
 	public const ID = 'event:external:tasktype';
 
+	#[\Override]
 	public function getId(): string {
 		return self::ID;
 	}
+	#[\Override]
 	public function getName(): string {
 		return 'External Task Type via Event';
 	}
+	#[\Override]
 	public function getDescription(): string {
 		return 'A task type added via event';
 	}
+	#[\Override]
 	public function getInputShape(): array {
 		return ['external_input' => new ShapeDescriptor('Ext In', '', EShapeType::Text)];
 	}
+	#[\Override]
 	public function getOutputShape(): array {
 		return ['external_output' => new ShapeDescriptor('Ext Out', '', EShapeType::Text)];
 	}
@@ -615,18 +738,23 @@ class ConflictingExternalTaskType implements ITaskType {
 	// Same ID as built-in TextToText
 	public const ID = TextToText::ID;
 
+	#[\Override]
 	public function getId(): string {
 		return self::ID;
 	}
+	#[\Override]
 	public function getName(): string {
 		return 'Conflicting External Task Type';
 	}
+	#[\Override]
 	public function getDescription(): string {
 		return 'Overrides built-in TextToText';
 	}
+	#[\Override]
 	public function getInputShape(): array {
 		return ['override_input' => new ShapeDescriptor('Override In', '', EShapeType::Number)];
 	}
+	#[\Override]
 	public function getOutputShape(): array {
 		return ['override_output' => new ShapeDescriptor('Override Out', '', EShapeType::Number)];
 	}
@@ -635,7 +763,7 @@ class ConflictingExternalTaskType implements ITaskType {
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class TaskProcessingTest extends \Test\TestCase {
 	private Coordinator&MockObject $coordinator;
-	private IServerContainer&MockObject $serverContainer;
+	private ContainerInterface&MockObject $serverContainer;
 	private IEventDispatcher&MockObject $eventDispatcher;
 	private IJobList&MockObject $jobList;
 	private IUserMountCache&MockObject $userMountCache;
@@ -651,6 +779,7 @@ class TaskProcessingTest extends \Test\TestCase {
 
 	public const TEST_USER = 'testuser';
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -677,7 +806,7 @@ class TaskProcessingTest extends \Test\TestCase {
 			$userManager->createUser(self::TEST_USER, 'test');
 		}
 
-		$this->serverContainer = $this->createMock(IServerContainer::class);
+		$this->serverContainer = $this->createMock(ContainerInterface::class);
 		$this->serverContainer->expects($this->any())->method('get')->willReturnCallback(function ($class) {
 			return $this->providers[$class];
 		});
@@ -727,6 +856,7 @@ class TaskProcessingTest extends \Test\TestCase {
 			Server::get(IUserSession::class),
 			Server::get(ICacheFactory::class),
 			Server::get(IFactory::class),
+			Server::get(ITimeFactory::class),
 		);
 	}
 
@@ -762,7 +892,6 @@ class TaskProcessingTest extends \Test\TestCase {
 		$this->manager->scheduleTask(new Task(TextToText::ID, ['input' => 'Hello'], 'test', null));
 	}
 
-
 	public function testProviderShouldBeRegisteredAndTaskFailValidation(): void {
 		$this->appConfig->setValueString('core', 'ai.taskprocessing_type_preferences', '', lazy: true);
 		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([
@@ -785,7 +914,7 @@ class TaskProcessingTest extends \Test\TestCase {
 			new ServiceRegistration('test', AsyncProvider::class)
 		]);
 		$user = $this->createMock(IUser::class);
-		$user->expects($this->any())->method('getUID')->willReturn(null);
+		$user->expects($this->any())->method('getUID')->willReturn('uid');
 		$mount = $this->createMock(ICachedMountInfo::class);
 		$mount->expects($this->any())->method('getUser')->willReturn($user);
 		$this->userMountCache->expects($this->any())->method('getMountsForFileId')->willReturn([$mount]);
@@ -1025,6 +1154,62 @@ class TaskProcessingTest extends \Test\TestCase {
 		self::assertNotNull($node);
 		self::assertInstanceOf(File::class, $node);
 		self::assertEquals('World', $node->getContent());
+	}
+
+	public function testAsyncProviderWithFilesShouldBeRegisteredAndRunReturningFileShapedData(): void {
+		$this->registrationContext->expects($this->any())->method('getTaskProcessingTaskTypes')->willReturn([
+			new ServiceRegistration('test', AudioToImage::class)
+		]);
+		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([
+			new ServiceRegistration('test', AsyncProvider::class)
+		]);
+
+		$user = $this->createMock(IUser::class);
+		$user->expects($this->any())->method('getUID')->willReturn('testuser');
+		$mount = $this->createMock(ICachedMountInfo::class);
+		$mount->expects($this->any())->method('getUser')->willReturn($user);
+		$this->userMountCache->expects($this->any())->method('getMountsForFileId')->willReturn([$mount]);
+
+		self::assertCount(1, $this->manager->getAvailableTaskTypes());
+		self::assertCount(1, $this->manager->getAvailableTaskTypeIds());
+
+		self::assertTrue($this->manager->hasProviders());
+		$audioId = $this->getFile('audioInput', 'Hello')->getId();
+		$task = new Task(AudioToImage::ID, ['audio' => $audioId], 'test', 'testuser');
+		self::assertNull($task->getId());
+		self::assertEquals(Task::STATUS_UNKNOWN, $task->getStatus());
+		$this->manager->scheduleTask($task);
+		self::assertNotNull($task->getId());
+		self::assertEquals(Task::STATUS_SCHEDULED, $task->getStatus());
+
+		// Task object retrieved from db is up-to-date
+		$task2 = $this->manager->getTask($task->getId());
+		self::assertEquals($task->getId(), $task2->getId());
+		self::assertEquals(['audio' => $audioId], $task2->getInput());
+		self::assertNull($task2->getOutput());
+		self::assertEquals(Task::STATUS_SCHEDULED, $task2->getStatus());
+
+		$this->eventDispatcher->expects($this->once())->method('dispatchTyped')->with(new IsInstanceOf(TaskSuccessfulEvent::class));
+
+		$this->manager->setTaskProgress($task2->getId(), 0.1);
+		$input = $this->manager->prepareInputData($task2);
+		self::assertTrue(isset($input['audio']));
+		self::assertInstanceOf(File::class, $input['audio']);
+		self::assertEquals($audioId, $input['audio']->getId());
+
+		// Provider returns the raw file contents wrapped in a FileShaped object, including a file extension
+		$this->manager->setTaskResult($task2->getId(), null, ['spectrogram' => new FileShaped(EShapeType::Image, 'World', 'png')]);
+
+		$task = $this->manager->getTask($task->getId());
+		self::assertEquals(Task::STATUS_SUCCESSFUL, $task->getStatus());
+		self::assertEquals(1, $task->getProgress());
+		self::assertTrue(isset($task->getOutput()['spectrogram']));
+		$node = $this->rootFolder->getFirstNodeByIdInPath($task->getOutput()['spectrogram'], '/' . $this->rootFolder->getAppDataDirectoryName() . '/');
+		self::assertNotNull($node);
+		self::assertInstanceOf(File::class, $node);
+		self::assertEquals('World', $node->getContent());
+		// The extension carried by the FileShaped object is applied to the stored file name
+		self::assertStringEndsWith('.png', $node->getName());
 	}
 
 	public function testAsyncProviderWithFilesShouldBeRegisteredAndRunReturningFileIds(): void {
@@ -1295,7 +1480,6 @@ class TaskProcessingTest extends \Test\TestCase {
 		$this->registrationContext->expects($this->any())->method('getTextToImageProviders')->willReturn([]);
 		$this->registrationContext->expects($this->any())->method('getSpeechToTextProviders')->willReturn([]);
 
-
 		$externalProvider = new ExternalProvider();
 		$this->configureEventDispatcherMock(providersToAdd: [$externalProvider]);
 		$this->manager = $this->createManagerInstance(); // Create manager with configured mocks
@@ -1469,6 +1653,7 @@ class TaskProcessingTest extends \Test\TestCase {
 			Server::get(IUserSession::class),
 			Server::get(ICacheFactory::class),
 			Server::get(IFactory::class),
+			Server::get(ITimeFactory::class),
 		);
 	}
 
@@ -1491,5 +1676,167 @@ class TaskProcessingTest extends \Test\TestCase {
 					}
 				}
 			});
+	}
+
+	/**
+	 * Register a single synchronous provider for TextToText so tasks can be scheduled.
+	 *
+	 * The integration suite shares one database across tests and does not truncate
+	 * between them, so we clear the tasks table first to make the oldest-scheduled
+	 * ordering of the claim deterministic for these focused tests.
+	 */
+	private function registerTextToTextProvider(): void {
+		$db = Server::get(IDBConnection::class);
+		$db->getQueryBuilder()->delete('taskprocessing_tasks')->executeStatement();
+
+		$this->appConfig->setValueString('core', 'ai.taskprocessing_type_preferences', '', lazy: true);
+		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([
+			new ServiceRegistration('test', SuccessfulSyncProvider::class)
+		]);
+		self::assertTrue($this->manager->hasProviders());
+	}
+
+	public function testClaimReturnsNullWhenNoScheduledTask(): void {
+		$this->registerTextToTextProvider();
+
+		// No task scheduled => nothing to claim.
+		self::assertNull($this->manager->claimNextScheduledTask([TextToText::ID]));
+		self::assertNull($this->manager->claimNextScheduledTask());
+	}
+
+	public function testClaimReturnsTaskAndSetsItRunning(): void {
+		$this->registerTextToTextProvider();
+
+		$task = new Task(TextToText::ID, ['input' => 'Hello'], 'test', null);
+		$this->manager->scheduleTask($task);
+		self::assertEquals(Task::STATUS_SCHEDULED, $task->getStatus());
+		$scheduledId = $task->getId();
+
+		$claimed = $this->manager->claimNextScheduledTask([TextToText::ID]);
+		self::assertNotNull($claimed);
+		self::assertEquals($scheduledId, $claimed->getId());
+		// The returned task object reports RUNNING ...
+		self::assertEquals(Task::STATUS_RUNNING, $claimed->getStatus());
+		// ... and the change is persisted in the database.
+		$persisted = $this->manager->getTask($scheduledId);
+		self::assertEquals(Task::STATUS_RUNNING, $persisted->getStatus());
+	}
+
+	public function testClaimNeverReturnsTheSameTaskTwice(): void {
+		// No-duplicate invariant. We cannot run two truly concurrent DB transactions
+		// inside one PHPUnit process, but the structural guarantee is the same: once a
+		// task is claimed it is RUNNING (no longer SCHEDULED), so a second claim can
+		// never return it again. Under real concurrency, FOR UPDATE SKIP LOCKED enforces
+		// the same property by skipping rows another transaction has locked; that path
+		// is additionally validated live on nc-ai.
+		$this->registerTextToTextProvider();
+
+		$taskA = new Task(TextToText::ID, ['input' => 'A'], 'test', null);
+		$this->manager->scheduleTask($taskA);
+		$taskB = new Task(TextToText::ID, ['input' => 'B'], 'test', null);
+		$this->manager->scheduleTask($taskB);
+
+		$firstClaim = $this->manager->claimNextScheduledTask([TextToText::ID]);
+		$secondClaim = $this->manager->claimNextScheduledTask([TextToText::ID]);
+
+		self::assertNotNull($firstClaim);
+		self::assertNotNull($secondClaim);
+		// Two distinct tasks were handed out, never the same one twice.
+		self::assertNotEquals($firstClaim->getId(), $secondClaim->getId());
+		self::assertEqualsCanonicalizing(
+			[$taskA->getId(), $taskB->getId()],
+			[$firstClaim->getId(), $secondClaim->getId()],
+		);
+
+		// Both are now RUNNING and the queue is drained.
+		self::assertEquals(Task::STATUS_RUNNING, $this->manager->getTask($taskA->getId())->getStatus());
+		self::assertEquals(Task::STATUS_RUNNING, $this->manager->getTask($taskB->getId())->getStatus());
+		self::assertNull($this->manager->claimNextScheduledTask([TextToText::ID]));
+	}
+
+	public function testClaimNeverMarksTaskFailed(): void {
+		$this->registerTextToTextProvider();
+
+		$task = new Task(TextToText::ID, ['input' => 'Hello'], 'test', null);
+		$this->manager->scheduleTask($task);
+		$id = $task->getId();
+
+		$claimed = $this->manager->claimNextScheduledTask([TextToText::ID]);
+		self::assertNotNull($claimed);
+
+		// Claiming only ever transitions SCHEDULED -> RUNNING, never to FAILED/CANCELLED.
+		self::assertNotEquals(Task::STATUS_FAILED, $claimed->getStatus());
+		self::assertNotEquals(Task::STATUS_CANCELLED, $claimed->getStatus());
+		$persisted = $this->manager->getTask($id);
+		self::assertNotEquals(Task::STATUS_FAILED, $persisted->getStatus());
+		self::assertNotEquals(Task::STATUS_CANCELLED, $persisted->getStatus());
+		self::assertEquals(Task::STATUS_RUNNING, $persisted->getStatus());
+		self::assertNull($persisted->getErrorMessage());
+	}
+
+	public function testClaimRespectsTaskTypeFilter(): void {
+		$this->registerTextToTextProvider();
+
+		$task = new Task(TextToText::ID, ['input' => 'Hello'], 'test', null);
+		$this->manager->scheduleTask($task);
+
+		// A type that does not match the only scheduled task must not be claimed.
+		self::assertNull($this->manager->claimNextScheduledTask(['some:other:tasktype']));
+		// The task is still SCHEDULED and claimable without a filter.
+		self::assertEquals(Task::STATUS_SCHEDULED, $this->manager->getTask($task->getId())->getStatus());
+		$claimed = $this->manager->claimNextScheduledTask();
+		self::assertNotNull($claimed);
+		self::assertEquals($task->getId(), $claimed->getId());
+	}
+
+	public function testClaimRecordsStartedAt(): void {
+		$this->registerTextToTextProvider();
+
+		$task = new Task(TextToText::ID, ['input' => 'Hello'], 'test', null);
+		$this->manager->scheduleTask($task);
+		// A scheduled task has not started yet.
+		self::assertNull($this->manager->getTask($task->getId())->getStartedAt());
+
+		$before = time();
+		$claimed = $this->manager->claimNextScheduledTask([TextToText::ID]);
+		$after = time();
+
+		self::assertNotNull($claimed);
+		// started_at is recorded at claim time on the returned task ...
+		self::assertNotNull($claimed->getStartedAt());
+		self::assertGreaterThanOrEqual($before, $claimed->getStartedAt());
+		self::assertLessThanOrEqual($after, $claimed->getStartedAt());
+		// ... and persisted in the database (since the worker receives the task already
+		// RUNNING, the later setTaskStatus SCHEDULED -> RUNNING edge is skipped and would
+		// otherwise never write started_at).
+		$persisted = $this->manager->getTask($task->getId());
+		self::assertNotNull($persisted->getStartedAt());
+		self::assertGreaterThanOrEqual($before, $persisted->getStartedAt());
+		self::assertLessThanOrEqual($after, $persisted->getStartedAt());
+	}
+
+	public function testLockTaskDoesNotResurrectFinishedTask(): void {
+		// Regression guard for the lockTask claim path (used by the SQLite fallback and the
+		// external-provider API claim). lockTask must only ever transition SCHEDULED -> RUNNING.
+		// If another worker finished a task (SUCCESSFUL/FAILED) between the SELECT and this
+		// UPDATE, lockTask must NOT flip it back to RUNNING -- otherwise a completed task is
+		// resurrected and processed twice. (The previous `status != RUNNING` guard let a
+		// SUCCESSFUL/FAILED row be re-locked.)
+		$this->registerTextToTextProvider();
+
+		$task = new Task(TextToText::ID, ['input' => 'Hello'], 'test', null);
+		$this->manager->scheduleTask($task);
+		$id = $task->getId();
+
+		// Simulate another worker having already finished the task.
+		$entity = $this->taskMapper->find($id);
+		$entity->setStatus(Task::STATUS_SUCCESSFUL);
+		$this->taskMapper->update($entity);
+
+		// Attempting to claim the (now SUCCESSFUL) task must be a no-op.
+		$affected = $this->taskMapper->lockTask($this->taskMapper->find($id));
+
+		self::assertSame(0, $affected, 'lockTask must not claim a task that is no longer SCHEDULED');
+		self::assertEquals(Task::STATUS_SUCCESSFUL, $this->manager->getTask($id)->getStatus());
 	}
 }

@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Comments\Tests\Unit\Controller;
 
 use OCA\Comments\Controller\NotificationsController;
@@ -35,6 +36,7 @@ class NotificationsTest extends TestCase {
 	protected IURLGenerator&MockObject $urlGenerator;
 	protected NotificationsController $notificationsController;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

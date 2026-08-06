@@ -38,6 +38,7 @@ class Reference implements IReference {
 	 * @inheritdoc
 	 * @since 25.0.0
 	 */
+	#[\Override]
 	public function getId(): string {
 		return $this->reference;
 	}
@@ -46,6 +47,7 @@ class Reference implements IReference {
 	 * @inheritdoc
 	 * @since 25.0.0
 	 */
+	#[\Override]
 	public function setAccessible(bool $accessible): void {
 		$this->accessible = $accessible;
 	}
@@ -54,6 +56,7 @@ class Reference implements IReference {
 	 * @inheritdoc
 	 * @since 25.0.0
 	 */
+	#[\Override]
 	public function getAccessible(): bool {
 		return $this->accessible;
 	}
@@ -62,6 +65,7 @@ class Reference implements IReference {
 	 * @inheritdoc
 	 * @since 25.0.0
 	 */
+	#[\Override]
 	public function setTitle(string $title): void {
 		$this->title = $title;
 	}
@@ -70,6 +74,7 @@ class Reference implements IReference {
 	 * @inheritdoc
 	 * @since 25.0.0
 	 */
+	#[\Override]
 	public function getTitle(): string {
 		return $this->title ?? $this->reference;
 	}
@@ -78,6 +83,7 @@ class Reference implements IReference {
 	 * @inheritdoc
 	 * @since 25.0.0
 	 */
+	#[\Override]
 	public function setDescription(?string $description): void {
 		$this->description = $description;
 	}
@@ -86,6 +92,7 @@ class Reference implements IReference {
 	 * @inheritdoc
 	 * @since 25.0.0
 	 */
+	#[\Override]
 	public function getDescription(): ?string {
 		return $this->description;
 	}
@@ -94,6 +101,7 @@ class Reference implements IReference {
 	 * @inheritdoc
 	 * @since 25.0.0
 	 */
+	#[\Override]
 	public function setImageUrl(?string $imageUrl): void {
 		$this->imageUrl = $imageUrl;
 	}
@@ -102,6 +110,7 @@ class Reference implements IReference {
 	 * @inheritdoc
 	 * @since 25.0.0
 	 */
+	#[\Override]
 	public function getImageUrl(): ?string {
 		return $this->imageUrl;
 	}
@@ -110,6 +119,7 @@ class Reference implements IReference {
 	 * @inheritdoc
 	 * @since 25.0.0
 	 */
+	#[\Override]
 	public function setImageContentType(?string $contentType): void {
 		$this->contentType = $contentType;
 	}
@@ -118,6 +128,7 @@ class Reference implements IReference {
 	 * @inheritdoc
 	 * @since 25.0.0
 	 */
+	#[\Override]
 	public function getImageContentType(): ?string {
 		return $this->contentType;
 	}
@@ -126,6 +137,7 @@ class Reference implements IReference {
 	 * @inheritdoc
 	 * @since 25.0.0
 	 */
+	#[\Override]
 	public function setUrl(?string $url): void {
 		$this->url = $url;
 	}
@@ -134,6 +146,7 @@ class Reference implements IReference {
 	 * @inheritdoc
 	 * @since 25.0.0
 	 */
+	#[\Override]
 	public function getUrl(): string {
 		return $this->url ?? $this->reference;
 	}
@@ -142,6 +155,7 @@ class Reference implements IReference {
 	 * @inheritdoc
 	 * @since 25.0.0
 	 */
+	#[\Override]
 	public function setRichObject(string $type, ?array $richObject): void {
 		$this->richObjectType = $type;
 		$this->richObject = $richObject;
@@ -151,6 +165,7 @@ class Reference implements IReference {
 	 * @inheritdoc
 	 * @since 25.0.0
 	 */
+	#[\Override]
 	public function getRichObjectType(): string {
 		if ($this->richObjectType === null) {
 			return 'open-graph';
@@ -163,6 +178,7 @@ class Reference implements IReference {
 	 * @since 25.0.0
 	 * @return array<string, mixed>
 	 */
+	#[\Override]
 	public function getRichObject(): array {
 		if ($this->richObject === null) {
 			return $this->getOpenGraphObject();
@@ -175,6 +191,7 @@ class Reference implements IReference {
 	 * @since 25.0.0
 	 * @return OpenGraphObject
 	 */
+	#[\Override]
 	public function getOpenGraphObject(): array {
 		return [
 			'id' => $this->getId(),
@@ -226,6 +243,7 @@ class Reference implements IReference {
 	 * @since 25.0.0
 	 * @return array{richObjectType: string, richObject: array<string, mixed>, openGraphObject: OpenGraphObject, accessible: bool}
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'richObjectType' => $this->getRichObjectType(),

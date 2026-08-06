@@ -21,6 +21,7 @@ return array(
     'OCA\\WorkflowEngine\\Check\\TFileCheck' => $baseDir . '/../lib/Check/TFileCheck.php',
     'OCA\\WorkflowEngine\\Check\\UserGroupMembership' => $baseDir . '/../lib/Check/UserGroupMembership.php',
     'OCA\\WorkflowEngine\\Command\\Index' => $baseDir . '/../lib/Command/Index.php',
+    'OCA\\WorkflowEngine\\Command\\Runtime' => $baseDir . '/../lib/Command/Runtime.php',
     'OCA\\WorkflowEngine\\Controller\\AWorkflowOCSController' => $baseDir . '/../lib/Controller/AWorkflowOCSController.php',
     'OCA\\WorkflowEngine\\Controller\\GlobalWorkflowsController' => $baseDir . '/../lib/Controller/GlobalWorkflowsController.php',
     'OCA\\WorkflowEngine\\Controller\\RequestTimeController' => $baseDir . '/../lib/Controller/RequestTimeController.php',

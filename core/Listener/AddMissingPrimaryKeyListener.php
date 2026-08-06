@@ -18,6 +18,7 @@ use OCP\EventDispatcher\IEventListener;
  */
 class AddMissingPrimaryKeyListener implements IEventListener {
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!($event instanceof AddMissingPrimaryKeyEvent)) {
 			return;

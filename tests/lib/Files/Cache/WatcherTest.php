@@ -29,12 +29,14 @@ class WatcherTest extends TestCase {
 	 */
 	private array $storages = [];
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->loginAsUser();
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		foreach ($this->storages as $storage) {
 			$cache = $storage->getCache();
@@ -83,7 +85,6 @@ class WatcherTest extends TestCase {
 		$this->assertTrue($cache->inCache('folder/bar.txt'));
 		$this->assertFalse($cache->inCache('folder/bar2.txt'));
 	}
-
 
 	public function testFileToFolder(): void {
 		$storage = $this->getTestStorage();

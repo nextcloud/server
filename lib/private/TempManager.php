@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use bantu\IniGetWrapper\IniGetWrapper;
@@ -44,17 +45,19 @@ class TempManager implements ITempManager {
 		return $absolutePath . $postFix;
 	}
 
+	#[\Override]
 	public function getTemporaryFile($postFix = ''): string|false {
 		$path = $this->generateTemporaryPath($postFix);
 
 		$old_umask = umask(0077);
-		$fp = fopen($path, 'x');
+		$fp = @fopen($path, 'x');
 		umask($old_umask);
 		if ($fp === false) {
 			$this->log->warning(
 				'Can not create a temporary file in directory {dir}. Check it exists and has correct permissions',
 				[
 					'dir' => $this->tmpBaseDir,
+					'error' => error_get_last(),
 				]
 			);
 			return false;
@@ -65,14 +68,16 @@ class TempManager implements ITempManager {
 		return $path;
 	}
 
+	#[\Override]
 	public function getTemporaryFolder($postFix = ''): string|false {
 		$path = $this->generateTemporaryPath($postFix) . '/';
 
-		if (mkdir($path, 0700) === false) {
+		if (@mkdir($path, 0700) === false) {
 			$this->log->warning(
 				'Can not create a temporary folder in directory {dir}. Check it exists and has correct permissions',
 				[
 					'dir' => $this->tmpBaseDir,
+					'error' => error_get_last(),
 				]
 			);
 			return false;
@@ -85,6 +90,7 @@ class TempManager implements ITempManager {
 	/**
 	 * Remove the temporary files and folders generated during this request
 	 */
+	#[\Override]
 	public function clean() {
 		$this->cleanFiles($this->current);
 	}
@@ -113,6 +119,7 @@ class TempManager implements ITempManager {
 	/**
 	 * Remove old temporary files and folders that were failed to be cleaned
 	 */
+	#[\Override]
 	public function cleanOld() {
 		$this->cleanFiles($this->getOldFiles());
 	}
@@ -146,6 +153,7 @@ class TempManager implements ITempManager {
 	 * @return string Path to the temporary directory or null
 	 * @throws \UnexpectedValueException
 	 */
+	#[\Override]
 	public function getTempBaseDir(): string {
 		if ($this->tmpBaseDir) {
 			return $this->tmpBaseDir;

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Encryption\Crypto;
 
 use OC\Encryption\Exceptions\DecryptionFailedException;
@@ -16,7 +17,7 @@ use OCP\Encryption\Exceptions\GenericEncryptionException;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IUserSession;
-use phpseclib\Crypt\RC4;
+use phpseclib3\Crypt\RC4;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -469,7 +470,6 @@ class Crypt {
 		return hash_hmac('sha256', $data, $passPhrase);
 	}
 
-
 	/**
 	 * @param bool $hasSignature did the block contain a signature, in this case we use a different padding
 	 */
@@ -532,7 +532,6 @@ class Crypt {
 
 		return ($signaturePosition !== false);
 	}
-
 
 	/**
 	 * @throws DecryptionFailedException
@@ -723,7 +722,6 @@ class Crypt {
 	 */
 	private function rc4Decrypt(string $data, string $secret): string {
 		$rc4 = new RC4();
-		/** @psalm-suppress InternalMethod */
 		$rc4->setKey($secret);
 
 		return $rc4->decrypt($data);
@@ -734,7 +732,6 @@ class Crypt {
 	 */
 	private function rc4Encrypt(string $data, string $secret): string {
 		$rc4 = new RC4();
-		/** @psalm-suppress InternalMethod */
 		$rc4->setKey($secret);
 
 		return $rc4->encrypt($data);

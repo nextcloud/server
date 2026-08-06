@@ -6,7 +6,10 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\Security;
+
+use Random\Randomizer;
 
 /**
  * Class SecureRandom provides a wrapper around the random_int function to generate
@@ -61,6 +64,7 @@ interface ISecureRandom {
 	 *                           specified all valid base64 characters are used.
 	 * @return string
 	 * @since 8.0.0
+	 * @deprecated 35.0.0 Use {@see Randomizer::getBytesFromString()} available in PHP 8.3+ instead.
 	 */
 	public function generate(int $length,
 		string $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'): string;

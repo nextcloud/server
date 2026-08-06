@@ -14,6 +14,7 @@ use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\Exception\ExampleEventException;
 use OCA\DAV\Model\ExampleEvent;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Files\GenericFileException;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
@@ -105,7 +106,7 @@ EOF);
 
 		try {
 			return $icsFile->getContent();
-		} catch (NotFoundException|NotPermittedException $e) {
+		} catch (NotFoundException|NotPermittedException|GenericFileException $e) {
 			throw new ExampleEventException(
 				'Failed to read custom example event',
 				0,

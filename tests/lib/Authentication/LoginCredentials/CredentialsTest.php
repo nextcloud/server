@@ -23,6 +23,7 @@ class CredentialsTest extends TestCase {
 	/** @var Credentials */
 	private $credentials;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

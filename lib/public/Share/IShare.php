@@ -1,16 +1,16 @@
 <?php
 
 /**
- * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016-2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\Share;
 
 use OCP\AppFramework\Attribute\Consumable;
+use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
-use OCP\Files\File;
-use OCP\Files\Folder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Share\Exceptions\IllegalIDChangeException;
@@ -208,7 +208,7 @@ interface IShare {
 	/**
 	 * Set the shareType
 	 *
-	 * @param int $shareType
+	 * @param self::TYPE_* $shareType
 	 * @return \OCP\Share\IShare The modified object
 	 * @since 9.0.0
 	 */
@@ -217,7 +217,7 @@ interface IShare {
 	/**
 	 * Get the shareType
 	 *
-	 * @return int
+	 * @return self::TYPE_*
 	 * @since 9.0.0
 	 */
 	public function getShareType();
@@ -275,9 +275,8 @@ interface IShare {
 
 	/**
 	 * Set the permissions.
-	 * See \OCP\Constants::PERMISSION_*
 	 *
-	 * @param int $permissions
+	 * @param int-mask-of<Constants::PERMISSION_*> $permissions
 	 * @return IShare The modified object
 	 * @since 9.0.0
 	 */
@@ -285,9 +284,8 @@ interface IShare {
 
 	/**
 	 * Get the share permissions
-	 * See \OCP\Constants::PERMISSION_*
 	 *
-	 * @return int
+	 * @return int-mask-of<Constants::PERMISSION_*>
 	 * @since 9.0.0
 	 */
 	public function getPermissions();
@@ -319,9 +317,8 @@ interface IShare {
 
 	/**
 	 * Set the accepted status
-	 * See self::STATUS_*
 	 *
-	 * @param int $status
+	 * @param self::STATUS_* $status
 	 * @return IShare The modified object
 	 * @since 18.0.0
 	 */
@@ -329,12 +326,11 @@ interface IShare {
 
 	/**
 	 * Get the accepted status
-	 * See self::STATUS_*
 	 *
-	 * @return int
+	 * @return ?self::STATUS_*
 	 * @since 18.0.0
 	 */
-	public function getStatus(): int;
+	public function getStatus(): ?int;
 
 	/**
 	 * Attach a note to a share
@@ -352,7 +348,6 @@ interface IShare {
 	 * @since 14.0.0
 	 */
 	public function getNote();
-
 
 	/**
 	 * Set the expiration date
@@ -379,7 +374,6 @@ interface IShare {
 	 * @since 30.0.0
 	 */
 	public function setNoExpirationDate(bool $noExpirationDate);
-
 
 	/**
 	 * Get value of overwrite falsy expiry date flag
@@ -470,6 +464,13 @@ interface IShare {
 	public function getPassword();
 
 	/**
+	 * Returns whether the share is password protected by any means (e.g. password or OTP)
+	 * @return bool
+	 * @since 35.0.0
+	 */
+	public function isPasswordProtected(): bool;
+
+	/**
 	 * Set the password's expiration time of this share.
 	 *
 	 * @return self The modified object
@@ -544,6 +545,13 @@ interface IShare {
 	 * @since 9.0.0
 	 */
 	public function setTarget($target);
+
+	/**
+	 * Return the original target, if this share was moved
+	 *
+	 * @since 33.0.0
+	 */
+	public function getOriginalTarget(): ?string;
 
 	/**
 	 * Get the target path of this share relative to the recipients user folder.
@@ -645,6 +653,15 @@ interface IShare {
 	 * Check if the current user can see this share files contents.
 	 * This will check the download permissions as well as the global
 	 * admin setting to allow viewing files without downloading.
+	 *
+	 * @since 32.0.0
 	 */
 	public function canSeeContent(): bool;
+
+	/**
+	 * Check if it is allowed to download this share.
+	 *
+	 * @since 34.0.0
+	 */
+	public function canDownload(): bool;
 }

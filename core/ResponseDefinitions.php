@@ -213,6 +213,7 @@ namespace OC\Core;
  *     allowCleanup: bool,
  *     includeWatermark: bool,
  *     userFacingErrorMessage: ?string,
+ *     preferStreaming: bool,
  * }
  *
  * @psalm-type CoreProfileAction = array{

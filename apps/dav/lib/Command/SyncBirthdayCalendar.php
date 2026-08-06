@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Command;
 
 use OCA\DAV\CalDAV\BirthdayService;
@@ -26,6 +27,7 @@ class SyncBirthdayCalendar extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('dav:sync-birthday-calendar')
@@ -35,6 +37,7 @@ class SyncBirthdayCalendar extends Command {
 				'User for whom the birthday calendar will be synchronized');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$this->verifyEnabled();
 

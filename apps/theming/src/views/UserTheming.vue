@@ -12,28 +12,22 @@
 		<!-- eslint-disable-next-line vue/no-v-html -->
 		<p v-html="descriptionDetail" />
 
-		<div class="theming__preview-list">
-			<ThemePreviewItem
-				v-for="theme in themes"
-				:key="theme.id"
-				:enforced="theme.id === enforceTheme"
-				:selected="selectedTheme.id === theme.id"
-				:theme="theme"
-				:unique="themes.length === 1"
-				type="theme"
-				@update:selected="changeTheme(theme.id, $event)" />
-		</div>
+		<ThemeList
+			:label="t('theming', 'Themes')"
+			:themes="mainThemes"
+			:default="defaultTheme"
+			@updated="updateBodyAttributes" />
 
-		<div class="theming__preview-list">
-			<ThemePreviewItem
-				v-for="theme in fonts"
-				:key="theme.id"
-				:selected="theme.enabled"
-				:theme="theme"
-				:unique="fonts.length === 1"
-				type="font"
-				@update:selected="changeFont(theme.id, $event)" />
-		</div>
+		<ThemeList
+			:label="t('theming', 'Supplementary themes')"
+			:themes="supplementaryThemes"
+			multiple
+			@updated="updateBodyAttributes" />
+
+		<ThemeList
+			:label="t('theming', 'Fonts')"
+			:themes="fontThemes"
+			@updated="updateBodyAttributes" />
 
 		<h3>{{ t('theming', 'Misc accessibility options') }}</h3>
 		<NcCheckboxRadioSwitch
@@ -59,35 +53,43 @@
 </template>
 
 <script setup lang="ts">
-import type { ITheme } from '../components/ThemePreviewItem.vue'
+import type { ITheme } from '../components/ThemeListItem.vue'
 
-import axios, { isAxiosError } from '@nextcloud/axios'
-import { showError } from '@nextcloud/dialogs'
+import axios from '@nextcloud/axios'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import { generateOcsUrl } from '@nextcloud/router'
-import { computed, nextTick, ref, useTemplateRef } from 'vue'
+import { computed, nextTick, onBeforeMount, ref, useTemplateRef } from 'vue'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
-import ThemePreviewItem from '../components/ThemePreviewItem.vue'
+import ThemeList from '../components/ThemeList.vue'
 import UserSectionAppMenu from '../components/UserSectionAppMenu.vue'
 import UserSectionBackground from '../components/UserSectionBackground.vue'
 import UserSectionHotkeys from '../components/UserSectionHotkeys.vue'
 import UserSectionPrimaryColor from '../components/UserSectionPrimaryColor.vue'
-import { logger } from '../utils/logger.ts'
 import { refreshStyles } from '../utils/refreshStyles.js'
 
-const enforceTheme = loadState('theming', 'enforceTheme', '')
 const isUserThemingDisabled = loadState('theming', 'isUserThemingDisabled')
 
 const enableBlurFilter = ref(loadState('theming', 'enableBlurFilter', ''))
 
-const availableThemes = loadState<ITheme[]>('theming', 'themes', [])
-const themes = ref(availableThemes.filter((theme) => theme.type === 1))
-const fonts = ref(availableThemes.filter((theme) => theme.type === 2))
-const selectedTheme = computed(() => themes.value.find((theme) => theme.enabled)
-	|| themes.value[0]!)
+const availableThemes = ref(loadState<ITheme[]>('theming', 'themes', []))
+for (const theme of availableThemes.value) {
+	theme.enabled = theme.enabled || false
+}
+
+const mainThemes = computed(() => availableThemes.value.filter((theme) => theme.type === 1))
+const fontThemes = computed(() => availableThemes.value.filter((theme) => theme.type === 2))
+const supplementaryThemes = computed(() => availableThemes.value.filter((theme) => theme.type === 3))
+const defaultTheme = computed(() => mainThemes.value.find((theme) => theme.id === 'default'))
+onBeforeMount(() => {
+	if (availableThemes.value.every(({ type, enabled }) => type !== 1 || !enabled)) {
+		if (defaultTheme.value) {
+			defaultTheme.value.enabled = true
+		}
+	}
+})
 
 const primaryColorSection = useTemplateRef('primaryColor')
 
@@ -121,46 +123,6 @@ async function refreshGlobalStyles() {
 }
 
 /**
- * Handle theme change
- *
- * @param id - The theme ID to change
- * @param enabled - The theme state
- */
-function changeTheme(id: string, enabled: boolean) {
-	// Reset selected and select new one
-	themes.value.forEach((theme) => {
-		if (theme.id === id && enabled) {
-			theme.enabled = true
-			return
-		}
-		theme.enabled = false
-	})
-
-	updateBodyAttributes()
-	selectItem(enabled, id)
-}
-
-/**
- * Handle font change
- *
- * @param id - The font ID to change
- * @param enabled - The font state
- */
-function changeFont(id: string, enabled: boolean) {
-	// Reset selected and select new one
-	fonts.value.forEach((font) => {
-		if (font.id === id && enabled) {
-			font.enabled = true
-			return
-		}
-		font.enabled = false
-	})
-
-	updateBodyAttributes()
-	selectItem(enabled, id)
-}
-
-/**
  * Handle blur filter change
  */
 async function changeEnableBlurFilter() {
@@ -180,50 +142,32 @@ async function changeEnableBlurFilter() {
 }
 
 /**
- *
+ * Update the body attributes to reflect the selected themes
  */
 function updateBodyAttributes() {
-	const enabledThemesIDs = themes.value.filter((theme) => theme.enabled === true).map((theme) => theme.id)
-	const enabledFontsIDs = fonts.value.filter((font) => font.enabled === true).map((font) => font.id)
+	const enabledThemesIDs = [
+		...mainThemes.value
+			.filter((theme) => theme.enabled)
+			.map((theme) => theme.id),
+		...supplementaryThemes.value
+			.filter((theme) => theme.enabled)
+			.map((theme) => theme.id),
+		...fontThemes.value
+			.filter((font) => font.enabled)
+			.map((font) => font.id),
+	]
 
-	themes.value.forEach((theme) => {
+	mainThemes.value.forEach((theme) => {
 		document.body.toggleAttribute(`data-theme-${theme.id}`, theme.enabled)
 	})
-	fonts.value.forEach((font) => {
+	supplementaryThemes.value.forEach((theme) => {
+		document.body.toggleAttribute(`data-theme-${theme.id}`, theme.enabled)
+	})
+	fontThemes.value.forEach((font) => {
 		document.body.toggleAttribute(`data-theme-${font.id}`, font.enabled)
 	})
 
-	document.body.setAttribute('data-themes', [...enabledThemesIDs, ...enabledFontsIDs].join(','))
-}
-
-/**
- * Commit a change and force reload css
- * Fetching the file again will trigger the server update
- *
- * @param enabled - The theme state
- * @param themeId - The theme ID to change
- */
-async function selectItem(enabled: boolean, themeId: string) {
-	try {
-		if (enabled) {
-			await axios({
-				url: generateOcsUrl('apps/theming/api/v1/theme/{themeId}/enable', { themeId }),
-				method: 'PUT',
-			})
-		} else {
-			await axios({
-				url: generateOcsUrl('apps/theming/api/v1/theme/{themeId}', { themeId }),
-				method: 'DELETE',
-			})
-		}
-	} catch (error) {
-		logger.error('theming: Unable to apply setting.', { error })
-		let message = t('theming', 'Unable to apply the setting.')
-		if (isAxiosError(error) && error.response?.data.ocs?.meta?.message) {
-			message = `${error.response.data.ocs.meta.message}. ${message}`
-		}
-		showError(message)
-	}
+	document.body.setAttribute('data-themes', enabledThemesIDs.join(','))
 }
 </script>
 
@@ -243,26 +187,11 @@ async function selectItem(enabled: boolean, themeId: string) {
 			text-decoration: underline;
 		}
 	}
-
-	&__preview-list {
-		--gap: 30px;
-		display: grid;
-		margin-top: var(--gap);
-		column-gap: var(--gap);
-		row-gap: var(--gap);
-	}
 }
 
 .background {
 	&__grid {
 		margin-top: 30px;
-	}
-}
-
-@media (max-width: 1440px) {
-	.theming__preview-list {
-		display: flex;
-		flex-direction: column;
 	}
 }
 </style>

@@ -93,7 +93,9 @@ trait Auth {
 
 		try {
 			$this->response = $client->request('POST', $fullUrl, $options);
-		} catch (\GuzzleHttp\Exception\ServerException $e) {
+		} catch (ClientException $ex) {
+			$this->response = $ex->getResponse();
+		} catch (ServerException $e) {
 			$this->response = $e->getResponse();
 		}
 		return json_decode($this->response->getBody()->getContents());
@@ -238,7 +240,6 @@ trait Auth {
 	public function aNewRememberedBrowserSessionIsStarted() {
 		$this->aNewBrowserSessionIsStarted(true);
 	}
-
 
 	/**
 	 * @Given the cookie jar is reset

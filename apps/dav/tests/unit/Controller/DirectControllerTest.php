@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\DAV\Controller;
 
 use OCA\DAV\Controller\DirectController;
@@ -13,6 +14,7 @@ use OCA\DAV\Db\Direct;
 use OCA\DAV\Db\DirectMapper;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
+use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -22,6 +24,7 @@ use OCP\Files\IRootFolder;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\Security\ISecureRandom;
+use OCP\Share\IManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -32,6 +35,7 @@ class DirectControllerTest extends TestCase {
 	private ITimeFactory&MockObject $timeFactory;
 	private IURLGenerator&MockObject $urlGenerator;
 	private IEventDispatcher&MockObject $eventDispatcher;
+	private IManager&MockObject $shareManager;
 
 	private DirectController $controller;
 
@@ -44,6 +48,7 @@ class DirectControllerTest extends TestCase {
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
+		$this->shareManager = $this->createMock(IManager::class);
 
 		$this->controller = new DirectController(
 			'dav',
@@ -54,11 +59,15 @@ class DirectControllerTest extends TestCase {
 			$this->random,
 			$this->timeFactory,
 			$this->urlGenerator,
-			$this->eventDispatcher
+			$this->eventDispatcher,
+			$this->shareManager,
 		);
 	}
 
 	public function testGetUrlNonExistingFileId(): void {
+		$this->shareManager->method('shareApiAllowLinks')
+			->willReturn(true);
+
 		$userFolder = $this->createMock(Folder::class);
 		$this->rootFolder->method('getUserFolder')
 			->with('awesomeUser')
@@ -73,6 +82,9 @@ class DirectControllerTest extends TestCase {
 	}
 
 	public function testGetUrlForFolder(): void {
+		$this->shareManager->method('shareApiAllowLinks')
+			->willReturn(true);
+
 		$userFolder = $this->createMock(Folder::class);
 		$this->rootFolder->method('getUserFolder')
 			->with('awesomeUser')
@@ -89,6 +101,9 @@ class DirectControllerTest extends TestCase {
 	}
 
 	public function testGetUrlValid(): void {
+		$this->shareManager->method('shareApiAllowLinks')
+			->willReturn(true);
+
 		$userFolder = $this->createMock(Folder::class);
 		$this->rootFolder->method('getUserFolder')
 			->with('awesomeUser')
@@ -134,5 +149,24 @@ class DirectControllerTest extends TestCase {
 		$this->assertSame([
 			'url' => 'https://my.nextcloud/remote.php/direct/superduperlongtoken',
 		], $result->getData());
+	}
+
+	public function testGetUrlNoLinkShares(): void {
+		$this->shareManager->method('shareApiAllowLinks')
+			->willReturn(false);
+
+		$userFolder = $this->createMock(Folder::class);
+		$this->rootFolder->method('getUserFolder')
+			->with('awesomeUser')
+			->willReturn($userFolder);
+
+		$file = $this->createMock(File::class);
+
+		$userFolder->method('getFirstNodeById')
+			->with(101)
+			->willReturn($file);
+
+		$this->expectException(OCSForbiddenException::class);
+		$this->controller->getUrl(101);
 	}
 }

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\Group\Backend;
 
 use OCP\GroupInterface;
@@ -21,6 +22,7 @@ abstract class ABackend implements GroupInterface, IBatchMethodsBackend {
 	 * @param int $actions The action to check for
 	 * @return bool
 	 */
+	#[\Override]
 	public function implementsActions($actions): bool {
 		$implements = 0;
 
@@ -52,6 +54,7 @@ abstract class ABackend implements GroupInterface, IBatchMethodsBackend {
 	/**
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function groupsExists(array $gids): array {
 		return array_values(array_filter(
 			$gids,
@@ -62,6 +65,7 @@ abstract class ABackend implements GroupInterface, IBatchMethodsBackend {
 	/**
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function getGroupsDetails(array $gids): array {
 		if (!($this instanceof IGroupDetailsBackend || $this->implementsActions(GroupInterface::GROUP_DETAILS))) {
 			throw new \Exception('Should not have been called');

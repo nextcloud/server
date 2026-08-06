@@ -4,13 +4,16 @@
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Tests\Integration;
 
 use OC\Settings\AuthorizedGroup;
 use OC\Settings\AuthorizedGroupMapper;
 use OCA\Settings\Service\AuthorizedGroupService;
 use OCA\Settings\Service\ConflictException;
+use OCA\Settings\Service\NotFoundException;
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\Server;
 use Test\TestCase;
 
 /**
@@ -27,7 +30,7 @@ class DuplicateAssignmentIntegrationTest extends TestCase {
 		parent::setUp();
 
 		// Use real mapper for integration testing
-		$this->mapper = \OCP\Server::get(AuthorizedGroupMapper::class);
+		$this->mapper = Server::get(AuthorizedGroupMapper::class);
 		$this->service = new AuthorizedGroupService($this->mapper);
 	}
 
@@ -109,10 +112,10 @@ class DuplicateAssignmentIntegrationTest extends TestCase {
 		$this->service->delete($initialId);
 
 		// Verify it's deleted by trying to find it
-		$this->expectException(\OCP\AppFramework\Db\DoesNotExistException::class);
+		$this->expectException(DoesNotExistException::class);
 		try {
 			$this->service->find($initialId);
-		} catch (\OCA\Settings\Service\NotFoundException $e) {
+		} catch (NotFoundException $e) {
 			// Expected - now create the same assignment again, which should succeed
 			$result2 = $this->service->create($groupId, $class);
 
@@ -148,10 +151,10 @@ class DuplicateAssignmentIntegrationTest extends TestCase {
 		$created = $this->service->create($groupId, $class);
 
 		// Now mapper should find it
-		$found = $this->mapper->findByGroupIdAndClass($groupId, $class);
+		$matches = $this->mapper->findExistingGroupsForClass($class);
 
-		$this->assertEquals($created->getId(), $found->getId());
-		$this->assertEquals($groupId, $found->getGroupId());
-		$this->assertEquals($class, $found->getClass());
+		$this->assertCount(1, $matches);
+		$this->assertEquals($groupId, $matches[0]->getGroupId());
+		$this->assertEquals($class, $matches[0]->getClass());
 	}
 }

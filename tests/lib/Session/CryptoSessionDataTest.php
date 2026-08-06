@@ -20,6 +20,7 @@ class CryptoSessionDataTest extends Session {
 	/** @var ISession */
 	protected $wrappedSession;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

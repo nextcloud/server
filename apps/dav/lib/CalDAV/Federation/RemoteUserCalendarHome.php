@@ -28,6 +28,7 @@ class RemoteUserCalendarHome extends CalendarHome {
 		parent::__construct($caldavBackend, $principalInfo);
 	}
 
+	#[\Override]
 	public function getChild($name) {
 		// Remote users can only have incoming shared calendars so we can skip the rest of a regular
 		// calendar home
@@ -46,6 +47,7 @@ class RemoteUserCalendarHome extends CalendarHome {
 		throw new NotFound("Node with name $name could not be found");
 	}
 
+	#[\Override]
 	public function getChildren(): array {
 		$objects = [];
 

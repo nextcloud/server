@@ -27,6 +27,7 @@ class FixCalendarSyncCommand extends Command {
 		parent::__construct('dav:fix-missing-caldav-changes');
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this->setDescription('Insert missing calendarchanges rows for existing events');
 		$this->addArgument(
@@ -37,6 +38,7 @@ class FixCalendarSyncCommand extends Command {
 		);
 	}
 
+	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$userArg = $input->getArgument('user');
 		if ($userArg !== null) {

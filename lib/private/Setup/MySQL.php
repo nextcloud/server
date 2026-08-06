@@ -5,19 +5,19 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Setup;
 
-use Doctrine\DBAL\Platforms\MySQL80Platform;
 use Doctrine\DBAL\Platforms\MySQL84Platform;
 use OC\DatabaseSetupException;
 use OC\DB\ConnectionAdapter;
 use OC\DB\MySqlTools;
 use OCP\IDBConnection;
-use OCP\Security\ISecureRandom;
 
 class MySQL extends AbstractDatabase {
 	public string $dbprettyname = 'MySQL/MariaDB';
 
+	#[\Override]
 	public function setupDatabase(): void {
 		//check if the database user has admin right
 		$connection = $this->connect(['dbname' => null]);
@@ -37,6 +37,28 @@ class MySQL extends AbstractDatabase {
 			'dbuser' => $this->dbUser,
 			'dbpassword' => $this->dbPassword,
 		]);
+
+		// for MD5 support
+		// In MySQL 9+ MD5 has been deprecated and is only available as a component.
+		// Until we dropped the support for it on the function builder, we need to load the component.
+		if ($connection->getDatabasePlatform() instanceof MySQL84Platform) {
+			$statement = $connection->prepare("SHOW VARIABLES LIKE 'version';");
+			$result = $statement->executeQuery();
+			$row = $result->fetchAssociative();
+			$version = $row['Value'];
+			[$major, ] = explode('.', strtolower($version));
+			if ((int)$major >= 9) {
+				// check if the component is already loaded, if not load it
+				$statement = $connection->prepare("SELECT COUNT(*) FROM mysql.component WHERE component_urn = 'file://component_classic_hashing';");
+				$result = $statement->executeQuery();
+				$count = $result->fetchOne();
+				if ($count !== false && (int)$count === 0) {
+					// not yet loaded
+					$statement = $connection->prepare("INSTALL COMPONENT 'file://component_classic_hashing';");
+					$statement->executeStatement();
+				}
+			}
+		}
 
 		//create the database
 		$this->createDatabase($connection);
@@ -65,7 +87,7 @@ class MySQL extends AbstractDatabase {
 			//we can't use OC_DB functions here because we need to connect as the administrative user.
 			$characterSet = $this->config->getValue('mysql.utf8mb4', false) ? 'utf8mb4' : 'utf8';
 			$query = "CREATE DATABASE IF NOT EXISTS `$name` CHARACTER SET $characterSet COLLATE {$characterSet}_bin;";
-			$connection->executeUpdate($query);
+			$connection->executeStatement($query);
 		} catch (\Exception $ex) {
 			$this->logger->error('Database creation failed.', [
 				'exception' => $ex,
@@ -77,7 +99,7 @@ class MySQL extends AbstractDatabase {
 		try {
 			//this query will fail if there aren't the right permissions, ignore the error
 			$query = "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER ON `$name` . * TO '$user'";
-			$connection->executeUpdate($query);
+			$connection->executeStatement($query);
 		} catch (\Exception $ex) {
 			$this->logger->debug('Could not automatically grant privileges, this can be ignored if database user already had privileges.', [
 				'exception' => $ex,
@@ -102,12 +124,6 @@ class MySQL extends AbstractDatabase {
 				$connection->executeStatement($query, [$name,$password]);
 				$query = "CREATE USER ?@'%' IDENTIFIED WITH caching_sha2_password BY ?";
 				$connection->executeStatement($query, [$name,$password]);
-			} elseif ($connection->getDatabasePlatform() instanceof Mysql80Platform) {
-				// TODO: Remove this elseif section as soon as MySQL 8.0 is out-of-support (after April 2026)
-				$query = "CREATE USER ?@'localhost' IDENTIFIED WITH mysql_native_password BY ?";
-				$connection->executeStatement($query, [$name,$password]);
-				$query = "CREATE USER ?@'%' IDENTIFIED WITH mysql_native_password BY ?";
-				$connection->executeStatement($query, [$name,$password]);
 			} else {
 				$query = "CREATE USER ?@'localhost' IDENTIFIED BY ?";
 				$connection->executeStatement($query, [$name,$password]);
@@ -127,14 +143,8 @@ class MySQL extends AbstractDatabase {
 		$rootUser = $this->dbUser;
 		$rootPassword = $this->dbPassword;
 
-		//create a random password so we don't need to store the admin password in the config file
-		$saveSymbols = str_replace(['\"', '\\', '\'', '`'], '', ISecureRandom::CHAR_SYMBOLS);
-		$password = $this->random->generate(22, ISecureRandom::CHAR_ALPHANUMERIC . $saveSymbols)
-			. $this->random->generate(2, ISecureRandom::CHAR_UPPER)
-			. $this->random->generate(2, ISecureRandom::CHAR_LOWER)
-			. $this->random->generate(2, ISecureRandom::CHAR_DIGITS)
-			. $this->random->generate(2, $saveSymbols);
-		$this->dbPassword = str_shuffle($password);
+		// Create a random password so we don't need to store the admin password in the config file
+		$this->dbPassword = $this->generateDbPassword();
 
 		try {
 			//user already specified in config
@@ -152,7 +162,7 @@ class MySQL extends AbstractDatabase {
 					$result = $connection->executeQuery($query, [$adminUser]);
 
 					//current dbuser has admin rights
-					$data = $result->fetchAll();
+					$data = $result->fetchAllAssociative();
 					$result->closeCursor();
 					//new dbuser does not exist
 					if (count($data) === 0) {

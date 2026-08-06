@@ -5,10 +5,12 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\View;
 use OCA\Files_Sharing\Helper;
+use OCP\Files\FileInfo;
 use OCP\IUserSession;
 use OCP\Server;
 
@@ -17,7 +19,8 @@ abstract class PropagationTestCase extends TestCase {
 	 * @var View
 	 */
 	protected $rootView;
-	protected $fileIds = []; // [$user=>[$path=>$id]]
+	/** @var array<string, array<string, FileInfo> */
+	protected array $fileInfos = []; // [$user=>[$path=>$info]]
 	protected $fileEtags = []; // [$id=>$etag]
 
 	public static function setUpBeforeClass(): void {
@@ -28,6 +31,13 @@ abstract class PropagationTestCase extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 		$this->setUpShares();
+
+		foreach ($this->fileInfos as $infos) {
+			/** @var FileInfo $info */
+			foreach ($infos as $info) {
+				$this->fileEtags[$info->getId()] = $info->getEtag();
+			}
+		}
 	}
 
 	protected function tearDown(): void {
@@ -48,7 +58,7 @@ abstract class PropagationTestCase extends TestCase {
 		$oldUser = Server::get(IUserSession::class)->getUser();
 		foreach ($users as $user) {
 			$this->loginAsUser($user);
-			$id = $this->fileIds[$user][$subPath];
+			$id = $this->fileInfos[$user][$subPath]->getId();
 			$path = $this->rootView->getPath($id);
 			$etag = $this->rootView->getFileInfo($path)->getEtag();
 			$this->assertNotEquals($this->fileEtags[$id], $etag, 'Failed asserting that the etag for "' . $subPath . '" of user ' . $user . ' has changed');
@@ -65,7 +75,7 @@ abstract class PropagationTestCase extends TestCase {
 		$oldUser = Server::get(IUserSession::class)->getUser();
 		foreach ($users as $user) {
 			$this->loginAsUser($user);
-			$id = $this->fileIds[$user][$subPath];
+			$id = $this->fileInfos[$user][$subPath]->getId();
 			$path = $this->rootView->getPath($id);
 			$etag = $this->rootView->getFileInfo($path)->getEtag();
 			$this->assertEquals($this->fileEtags[$id], $etag, 'Failed asserting that the etag for "' . $subPath . '" of user ' . $user . ' has not changed');

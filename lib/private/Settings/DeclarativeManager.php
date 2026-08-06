@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Settings;
 
 use Exception;
@@ -57,6 +58,7 @@ class DeclarativeManager implements IDeclarativeManager {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function registerSchema(string $app, array $schema): void {
 		$this->appSchemas[$app] ??= [];
 
@@ -83,6 +85,7 @@ class DeclarativeManager implements IDeclarativeManager {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function loadSchemas(): void {
 		if (empty($this->declarativeForms)) {
 			$declarativeSettings = $this->coordinator->getRegistrationContext()->getDeclarativeSettings();
@@ -101,6 +104,7 @@ class DeclarativeManager implements IDeclarativeManager {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getFormIDs(IUser $user, string $type, string $section): array {
 		$isAdmin = $this->groupManager->isAdmin($user->getUID());
 		/** @var array<string, list<string>> $formIds */
@@ -130,6 +134,7 @@ class DeclarativeManager implements IDeclarativeManager {
 	 * @inheritdoc
 	 * @throws Exception
 	 */
+	#[\Override]
 	public function getFormsWithValues(IUser $user, ?string $type, ?string $section): array {
 		$isAdmin = $this->groupManager->isAdmin($user->getUID());
 		$forms = [];
@@ -142,8 +147,10 @@ class DeclarativeManager implements IDeclarativeManager {
 				if ($section !== null && $schema['section_id'] !== $section) {
 					continue;
 				}
-				// If listing all fields skip the admin fields which a non-admin user has no access to
-				if ($type === null && $schema['section_type'] === 'admin' && !$isAdmin) {
+				// Skip admin declarative forms for non-admin users. They have no access to
+				// these fields even when they are allowed to view the section through admin
+				// delegation, which only covers non-declarative settings.
+				if ($schema['section_type'] === DeclarativeSettingsTypes::SECTION_TYPE_ADMIN && !$isAdmin) {
 					continue;
 				}
 
@@ -252,6 +259,7 @@ class DeclarativeManager implements IDeclarativeManager {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function setValue(IUser $user, string $app, string $formId, string $fieldId, mixed $value): void {
 		$sectionType = $this->getSectionType($app, $fieldId);
 		$this->assertAuthorized($user, $sectionType);

@@ -31,6 +31,7 @@ class EncryptionWrapperTest extends TestCase {
 	/** @var \PHPUnit\Framework\MockObject\MockObject|ArrayCache */
 	private $arrayCache;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -40,7 +41,6 @@ class EncryptionWrapperTest extends TestCase {
 
 		$this->instance = new EncryptionWrapper($this->arrayCache, $this->manager, $this->logger);
 	}
-
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('provideWrapStorage')]
 	public function testWrapStorage($expectedWrapped, $wrappedStorages): void {

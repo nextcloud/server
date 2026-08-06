@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV\Status;
 
 use OC\Calendar\CalendarQuery;
@@ -254,7 +255,6 @@ class StatusServiceTest extends TestCase {
 		$this->userStatusService->expects(self::never())
 			->method('setUserStatus');
 
-
 		$this->service->processCalendarStatus('admin');
 	}
 
@@ -297,7 +297,6 @@ class StatusServiceTest extends TestCase {
 			->method('debug');
 		$this->userStatusService->expects(self::once())
 			->method('setUserStatus');
-
 
 		$this->service->processCalendarStatus('admin');
 	}
@@ -345,7 +344,6 @@ class StatusServiceTest extends TestCase {
 		$this->userStatusService->expects(self::never())
 			->method('setUserStatus');
 
-
 		$this->service->processCalendarStatus('admin');
 	}
 
@@ -392,7 +390,6 @@ class StatusServiceTest extends TestCase {
 		$this->userStatusService->expects(self::never())
 			->method('setUserStatus');
 
-
 		$this->service->processCalendarStatus('admin');
 	}
 
@@ -438,7 +435,6 @@ class StatusServiceTest extends TestCase {
 			->method('revertUserStatus');
 		$this->userStatusService->expects(self::never())
 			->method('setUserStatus');
-
 
 		$this->service->processCalendarStatus('admin');
 	}

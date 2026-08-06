@@ -29,20 +29,24 @@ class PartitionedResult extends ArrayResult {
 		parent::__construct([]);
 	}
 
+	#[\Override]
 	public function closeCursor(): bool {
 		return $this->result->closeCursor();
 	}
 
+	#[\Override]
 	public function fetch(int $fetchMode = PDO::FETCH_ASSOC) {
 		$this->fetchRows();
 		return parent::fetch($fetchMode);
 	}
 
+	#[\Override]
 	public function fetchAll(int $fetchMode = PDO::FETCH_ASSOC): array {
 		$this->fetchRows();
 		return parent::fetchAll($fetchMode);
 	}
 
+	#[\Override]
 	public function rowCount(): int {
 		$this->fetchRows();
 		return parent::rowCount();

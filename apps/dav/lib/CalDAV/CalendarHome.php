@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\CalDAV;
 
 use OCA\DAV\AppInfo\PluginManager;
@@ -15,6 +16,7 @@ use OCA\DAV\CalDAV\Trashbin\TrashbinHome;
 use OCP\App\IAppManager;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\L10N\IFactory;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Sabre\CalDAV\Backend\BackendInterface;
@@ -49,7 +51,7 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 		private bool $returnCachedSubscriptions,
 	) {
 		parent::__construct($caldavBackend, $principalInfo);
-		$this->l10n = \OC::$server->getL10N('dav');
+		$this->l10n = Server::get(IFactory::class)->get('dav');
 		$this->config = Server::get(IConfig::class);
 		$this->pluginManager = new PluginManager(
 			\OC::$server,
@@ -67,6 +69,7 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function createExtendedCollection($name, MkCol $mkCol): void {
 		$reservedNames = [
 			BirthdayService::BIRTHDAY_CALENDAR_URI,
@@ -83,6 +86,7 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getChildren() {
 		if ($this->cachedChildren) {
 			return $this->cachedChildren;
@@ -144,6 +148,7 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 	 *
 	 * @return INode
 	 */
+	#[\Override]
 	public function getChild($name) {
 		// Special nodes
 		if ($name === 'inbox' && $this->caldavBackend instanceof SchedulingSupport) {

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\CardDAV;
 
 class Card extends \Sabre\CardDAV\Card {
@@ -33,6 +34,7 @@ class Card extends \Sabre\CardDAV\Card {
 		return $this->addressBookInfo['principaluri'];
 	}
 
+	#[\Override]
 	public function getOwner(): ?string {
 		if (isset($this->addressBookInfo['{http://owncloud.org/ns}owner-principal'])) {
 			return $this->addressBookInfo['{http://owncloud.org/ns}owner-principal'];

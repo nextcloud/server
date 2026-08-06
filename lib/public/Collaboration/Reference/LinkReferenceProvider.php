@@ -64,6 +64,7 @@ class LinkReferenceProvider implements IReferenceProvider, IPublicReferenceProvi
 	 * @inheritDoc
 	 * @since 29.0.0
 	 */
+	#[\Override]
 	public function matchReference(string $referenceText): bool {
 		if ($this->systemConfig->getValue('reference_opengraph', true) !== true) {
 			return false;
@@ -76,6 +77,7 @@ class LinkReferenceProvider implements IReferenceProvider, IPublicReferenceProvi
 	 * @inheritDoc
 	 * @since 29.0.0
 	 */
+	#[\Override]
 	public function resolveReference(string $referenceText): ?IReference {
 		if ($this->matchReference($referenceText)) {
 			$reference = new Reference($referenceText);
@@ -90,6 +92,7 @@ class LinkReferenceProvider implements IReferenceProvider, IPublicReferenceProvi
 	 * @inheritDoc
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function resolveReferencePublic(string $referenceText, string $sharingToken): ?IReference {
 		return $this->resolveReference($referenceText);
 	}
@@ -193,7 +196,7 @@ class LinkReferenceProvider implements IReferenceProvider, IPublicReferenceProvi
 					$bodyStream = new LimitStream($stream, self::MAX_CONTENT_LENGTH, 0);
 					$content = $bodyStream->getContents();
 
-					if ($contentType === 'image/svg+xml' && stripos(html_entity_decode($content, ENT_XML1), 'XSL/Transform') !== false) {
+					if ($contentType === 'image/svg+xml' && $this->containsXslt($content)) {
 						return;
 					}
 
@@ -211,6 +214,7 @@ class LinkReferenceProvider implements IReferenceProvider, IPublicReferenceProvi
 	 * @inheritDoc
 	 * @since 29.0.0
 	 */
+	#[\Override]
 	public function getCachePrefix(string $referenceId): string {
 		return $referenceId;
 	}
@@ -219,6 +223,7 @@ class LinkReferenceProvider implements IReferenceProvider, IPublicReferenceProvi
 	 * @inheritDoc
 	 * @since 29.0.0
 	 */
+	#[\Override]
 	public function getCacheKey(string $referenceId): ?string {
 		return null;
 	}
@@ -227,7 +232,34 @@ class LinkReferenceProvider implements IReferenceProvider, IPublicReferenceProvi
 	 * @inheritDoc
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function getCacheKeyPublic(string $referenceId, string $sharingToken): ?string {
 		return null;
+	}
+
+	/**
+	 * Check if XML content contains XSLT transformations
+	 *
+	 * XSLT transformations in SVG files can cause memory exhaustion
+	 * in Chromium based browsers when rendered.
+	 */
+	private function containsXslt(string $xmlContent): bool {
+		set_error_handler(function (int $code, string $message): bool {
+			$this->logger->debug('Failed to parse XML content for XSLT check', ['error' => $message]);
+			return true;
+		});
+
+		$xml = simplexml_load_string($xmlContent);
+
+		restore_error_handler();
+
+		$namespaces = $xml ? $xml->getNamespaces(true) : [];
+		foreach ($namespaces as $namespace) {
+			if (stripos($namespace, 'XSL/Transform') !== false) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }

@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Encryption\AppInfo;
 
 use OC\Core\Events\BeforePasswordResetEvent;
@@ -45,9 +46,11 @@ class Application extends App implements IBootstrap {
 		parent::__construct(self::APP_ID, $urlParams);
 	}
 
+	#[\Override]
 	public function register(IRegistrationContext $context): void {
 	}
 
+	#[\Override]
 	public function boot(IBootContext $context): void {
 		$context->injectFn(function (IManager $encryptionManager) use ($context): void {
 			if (!($encryptionManager instanceof \OC\Encryption\Manager)) {

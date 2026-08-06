@@ -25,38 +25,47 @@ class OutOfOfficeData implements IOutOfOfficeData {
 	) {
 	}
 
+	#[\Override]
 	public function getId(): string {
 		return $this->id;
 	}
 
+	#[\Override]
 	public function getUser(): IUser {
 		return $this->user;
 	}
 
+	#[\Override]
 	public function getStartDate(): int {
 		return $this->startDate;
 	}
 
+	#[\Override]
 	public function getEndDate(): int {
 		return $this->endDate;
 	}
 
+	#[\Override]
 	public function getShortMessage(): string {
 		return $this->shortMessage;
 	}
 
+	#[\Override]
 	public function getMessage(): string {
 		return $this->message;
 	}
 
+	#[\Override]
 	public function getReplacementUserId(): ?string {
 		return $this->replacementUserId;
 	}
 
+	#[\Override]
 	public function getReplacementUserDisplayName(): ?string {
 		return $this->replacementUserDisplayName;
 	}
 
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'id' => $this->getId(),

@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\Lock;
 
 /**
@@ -28,7 +29,6 @@ class ManuallyLockedException extends LockedException {
 	 */
 	private $timeout = -1;
 
-
 	/**
 	 * ManuallyLockedException constructor.
 	 *
@@ -45,7 +45,6 @@ class ManuallyLockedException extends LockedException {
 		$this->owner = $owner;
 		$this->timeout = $timeout;
 	}
-
 
 	/**
 	 * @return int

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Sharing\Settings;
 
 use OCA\Files_Sharing\AppInfo\Application;
@@ -24,6 +25,7 @@ class Personal implements ISettings {
 	) {
 	}
 
+	#[\Override]
 	public function getForm(): TemplateResponse {
 		$defaultAcceptSystemConfig = $this->config->getSystemValueBool('sharing.enable_share_accept', false) ? 'no' : 'yes';
 		$defaultShareFolder = $this->config->getSystemValue('share_folder', '/');
@@ -41,10 +43,12 @@ class Personal implements ISettings {
 		return new TemplateResponse('files_sharing', 'Settings/personal');
 	}
 
+	#[\Override]
 	public function getSection(): string {
 		return 'sharing';
 	}
 
+	#[\Override]
 	public function getPriority(): int {
 		return 90;
 	}

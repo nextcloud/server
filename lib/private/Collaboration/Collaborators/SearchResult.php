@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Collaboration\Collaborators;
 
 use OCP\Collaboration\Collaborators\ISearchResult;
@@ -16,6 +17,7 @@ class SearchResult implements ISearchResult {
 
 	protected array $exactIdMatches = [];
 
+	#[\Override]
 	public function addResultSet(SearchResultType $type, array $matches, ?array $exactMatches = null): void {
 		$type = $type->getLabel();
 		if (!isset($this->result[$type])) {
@@ -29,14 +31,17 @@ class SearchResult implements ISearchResult {
 		}
 	}
 
+	#[\Override]
 	public function markExactIdMatch(SearchResultType $type): void {
 		$this->exactIdMatches[$type->getLabel()] = 1;
 	}
 
+	#[\Override]
 	public function hasExactIdMatch(SearchResultType $type): bool {
 		return isset($this->exactIdMatches[$type->getLabel()]);
 	}
 
+	#[\Override]
 	public function hasResult(SearchResultType $type, $collaboratorId): bool {
 		$type = $type->getLabel();
 		if (!isset($this->result[$type])) {
@@ -55,10 +60,12 @@ class SearchResult implements ISearchResult {
 		return false;
 	}
 
+	#[\Override]
 	public function asArray(): array {
 		return $this->result;
 	}
 
+	#[\Override]
 	public function unsetResult(SearchResultType $type): void {
 		$type = $type->getLabel();
 		$this->result[$type] = [];
@@ -67,6 +74,7 @@ class SearchResult implements ISearchResult {
 		}
 	}
 
+	#[\Override]
 	public function removeCollaboratorResult(SearchResultType $type, string $collaboratorId): bool {
 		$type = $type->getLabel();
 		if (!isset($this->result[$type])) {

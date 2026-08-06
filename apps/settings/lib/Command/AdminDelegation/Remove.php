@@ -5,6 +5,7 @@ declare(strict_types = 1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Command\AdminDelegation;
 
 use OC\Core\Command\Base;
@@ -25,6 +26,7 @@ class Remove extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('admin-delegation:remove')
@@ -35,6 +37,7 @@ class Remove extends Base {
 		;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$io = new SymfonyStyle($input, $output);
 		$settingClass = $input->getArgument('settingClass');

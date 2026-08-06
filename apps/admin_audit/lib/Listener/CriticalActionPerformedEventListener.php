@@ -16,6 +16,7 @@ use OCP\Log\Audit\CriticalActionPerformedEvent;
 
 /** @template-implements IEventListener<CriticalActionPerformedEvent> */
 class CriticalActionPerformedEventListener extends Action implements IEventListener {
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!($event instanceof CriticalActionPerformedEvent)) {
 			return;

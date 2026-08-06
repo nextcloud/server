@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud GmbH.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\AppInfo;
 
 use OC\ServerContainer;
@@ -237,7 +238,6 @@ class PluginManager {
 
 		throw new \Exception('Could not load ' . $className, 0, $e);
 	}
-
 
 	/**
 	 * @param string[] $classes

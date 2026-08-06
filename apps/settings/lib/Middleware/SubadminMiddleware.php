@@ -14,6 +14,8 @@ use OC\AppFramework\Http;
 use OC\AppFramework\Middleware\Security\Exceptions\NotAdminException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
+use OCP\AppFramework\Http\Attribute\NoSubAdminRequired;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Middleware;
 use OCP\Group\ISubAdmin;
@@ -23,7 +25,7 @@ use Override;
 
 /**
  * Verifies whether a user has at least sub-admin rights.
- * To bypass use the `@NoSubAdminRequired` annotation
+ * To bypass use the `#[NoSubAdminRequired]` annotation
  */
 class SubadminMiddleware extends Middleware {
 	public function __construct(
@@ -44,7 +46,7 @@ class SubadminMiddleware extends Middleware {
 
 	#[Override]
 	public function beforeController(Controller $controller, string $methodName): void {
-		if (!$this->reflector->hasAnnotation('NoSubAdminRequired') && !$this->reflector->hasAnnotation('AuthorizedAdminSetting')) {
+		if (!$this->reflector->hasAnnotationOrAttribute('NoSubAdminRequired', NoSubAdminRequired::class) && !$this->reflector->hasAnnotationOrAttribute('AuthorizedAdminSetting', AuthorizedAdminSetting::class)) {
 			if (!$this->isSubAdmin()) {
 				throw new NotAdminException($this->l10n->t('Logged in account must be a sub admin'));
 			}

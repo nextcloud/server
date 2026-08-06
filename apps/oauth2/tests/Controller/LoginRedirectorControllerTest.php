@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\OAuth2\Tests\Controller;
 
 use OC\Core\Controller\ClientFlowLoginController;
@@ -160,7 +161,6 @@ class LoginRedirectorControllerTest extends TestCase {
 			->expects($this->never())
 			->method('set');
 
-
 		$expected = new RedirectResponse('http://foo.bar?error=unsupported_response_type&state=MyState');
 		$this->assertEquals($expected, $this->loginRedirectorController->authorize('MyClientId', 'MyState', 'wrongcode'));
 	}
@@ -231,7 +231,6 @@ class LoginRedirectorControllerTest extends TestCase {
 		$expected = new RedirectResponse('https://example.com/?clientIdentifier=foo');
 		$this->assertEquals($expected, $this->loginRedirectorController->authorize('MyClientId', 'MyState', 'code', 'http://untrusted-uri.com'));
 	}
-
 
 	public function testClientNotFound(): void {
 		$clientNotFound = new ClientNotFoundException('could not find client test123', 0);

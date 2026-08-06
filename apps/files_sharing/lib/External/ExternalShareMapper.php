@@ -3,8 +3,7 @@
 declare(strict_types=1);
 
 /**
- * SPDX-FileCopyrightText: 2025 Nextcloud GmbH
- * SPDX-FileContributor: Carl Schwan
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
@@ -56,7 +55,7 @@ class ExternalShareMapper extends QBMapper {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')
 			->from(self::TABLE_NAME)
-			->where($qb->expr()->eq('share_token', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR)))
+			->where($qb->expr()->eq('refresh_token', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR)))
 			->setMaxResults(1);
 		return $this->findEntity($qb);
 	}
@@ -239,7 +238,7 @@ class ExternalShareMapper extends QBMapper {
 			->where(
 				$qb->expr()->andX(
 					$qb->expr()->eq('remote_id', $qb->createNamedParameter($id)),
-					$qb->expr()->eq('share_token', $qb->createNamedParameter($token))
+					$qb->expr()->eq('refresh_token', $qb->createNamedParameter($token))
 				)
 			);
 

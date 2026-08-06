@@ -6,11 +6,12 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Provisioning_API\Controller;
 
+use OC\Group\DisplayNameCache as GroupDisplayNameCache;
 use OC\Group\Manager as GroupManager;
 use OC\User\Backend;
-use OC\User\NoUserException;
 use OCA\Provisioning_API\ResponseDefinitions;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\PropertyDoesNotExistException;
@@ -31,10 +32,12 @@ use OCP\L10N\IFactory;
 use OCP\Server;
 use OCP\User\Backend\ISetDisplayNameBackend;
 use OCP\User\Backend\ISetPasswordBackend;
+use OCP\User\Exceptions\UserNotFoundException;
 use OCP\Util;
 
 /**
  * @psalm-import-type Provisioning_APIUserDetails from ResponseDefinitions
+ * @psalm-import-type Provisioning_APIUserDetailsGroupDisplayname from ResponseDefinitions
  * @psalm-import-type Provisioning_APIUserDetailsQuota from ResponseDefinitions
  */
 abstract class AUserDataOCSController extends OCSController {
@@ -61,6 +64,7 @@ abstract class AUserDataOCSController extends OCSController {
 		protected ISubAdmin $subAdminManager,
 		protected IFactory $l10nFactory,
 		protected IRootFolder $rootFolder,
+		private GroupDisplayNameCache $groupDisplayNameCache,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -102,11 +106,7 @@ abstract class AUserDataOCSController extends OCSController {
 
 		// Get groups data
 		$userAccount = $this->accountManager->getAccount($targetUserObject);
-		$groups = $this->groupManager->getUserGroups($targetUserObject);
-		$gids = [];
-		foreach ($groups as $group) {
-			$gids[] = $group->getGID();
-		}
+		$gids = $this->groupManager->getUserGroupIds($targetUserObject);
 
 		if ($isAdmin || $isDelegatedAdmin) {
 			try {
@@ -114,7 +114,7 @@ abstract class AUserDataOCSController extends OCSController {
 				# from the external source (reasons unknown to us)
 				# cf. https://github.com/nextcloud/server/issues/12991
 				$data['storageLocation'] = $targetUserObject->getHome();
-			} catch (NoUserException $e) {
+			} catch (UserNotFoundException $e) {
 				throw new OCSNotFoundException($e->getMessage(), $e);
 			}
 		}
@@ -250,6 +250,36 @@ abstract class AUserDataOCSController extends OCSController {
 		}
 
 		return $groups;
+	}
+
+	/**
+	 * A full group has id, name, usercount, disabled, canAdd and canRemove. Only
+	 * the displayname is cached; usercount/disabled are not cached. So this only
+	 * returns an {id, displayname} skeleton instead of the full group.
+	 *
+	 * @param array<string, Provisioning_APIUserDetails|array{id: string}> $userDetails
+	 * @return list<Provisioning_APIUserDetailsGroupDisplayname>
+	 */
+	protected function findGroupsWithDisplayname(array $userDetails): array {
+		$groupIds = [];
+
+		foreach ($userDetails as $userDetail) {
+			if (isset($userDetail['groups'])) {
+				array_push($groupIds, ...array_values($userDetail['groups']));
+			}
+			if (isset($userDetail['subadmin'])) {
+				array_push($groupIds, ...array_values($userDetail['subadmin']));
+			}
+		}
+
+		$groupIds = array_unique($groupIds);
+		sort($groupIds);
+
+		$info = [];
+		foreach ($this->groupDisplayNameCache->getDisplayNames($groupIds) as $groupId => $displayName) {
+			$info[] = ['id' => $groupId, 'displayname' => $displayName ?? $groupId];
+		}
+		return $info;
 	}
 
 	/**

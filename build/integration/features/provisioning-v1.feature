@@ -487,9 +487,24 @@ Feature: provisioning
     Given As an "admin"
     And user "brand-new-user" exists
     And group "new-group" exists
+    And group "other-group" exists
     When sending "POST" to "/cloud/users/brand-new-user/subadmins" with
       | groupid | new-group |
     Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+
+    # Ensure self promotion is not possible
+    Given As an "brand-new-user"
+    When sending "POST" to "/cloud/users/brand-new-user/groups" with
+      | groupid | admin |
+    Then the OCS status code should be "104"
+    And the HTTP status code should be "200"
+
+    # Ensure self adding to other groups is not possible
+    Given As an "brand-new-user"
+    When sending "POST" to "/cloud/users/brand-new-user/groups" with
+      | groupid | other-group |
+    Then the OCS status code should be "104"
     And the HTTP status code should be "200"
 
   Scenario: get users using a subadmin
@@ -617,6 +632,7 @@ Feature: provisioning
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
     And apps returned are
+      | appstore |
       | cloud_federation_api |
       | comments |
       | contactsinteraction |
@@ -634,6 +650,7 @@ Feature: provisioning
       | provisioning_api |
       | settings |
       | sharebymail |
+      | sharing |
       | systemtags |
       | testing |
       | theming |
@@ -793,7 +810,7 @@ Feature: provisioning
     Then the HTTP status code should be "200"
     And user "subadmin" is disabled
 
-  Scenario: Admin user cannot disable himself
+  Scenario: Admin user cannot disable themself
     Given As an "admin"
     And user "another-admin" exists
     And user "another-admin" belongs to group "admin"
@@ -804,7 +821,7 @@ Feature: provisioning
     And As an "admin"
     And user "another-admin" is enabled
 
-  Scenario:Admin user cannot enable himself
+  Scenario: Admin user cannot enable themself
     Given As an "admin"
     And user "another-admin" exists
     And user "another-admin" belongs to group "admin"
@@ -837,7 +854,7 @@ Feature: provisioning
     And As an "admin"
     And user "user2" is disabled
 
-  Scenario: Subadmin should not be able to disable himself
+  Scenario: Subadmin should not be able to disable themself
     Given As an "admin"
     And user "subadmin" exists
     And group "new-group" exists
@@ -850,7 +867,7 @@ Feature: provisioning
     And As an "admin"
     And user "subadmin" is enabled
 
-  Scenario: Subadmin should not be able to enable himself
+  Scenario: Subadmin should not be able to enable themself
     Given As an "admin"
     And user "subadmin" exists
     And group "new-group" exists

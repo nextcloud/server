@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP\Tests\User;
 
 use OCA\User_LDAP\Access;
@@ -983,7 +984,6 @@ class UserTest extends \Test\TestCase {
 		/** @noinspection PhpUnhandledExceptionInspection */
 		$this->assertFalse($this->user->getHomePath());
 	}
-
 
 	public function testGetHomePathConfiguredNotAvailableNotAllowed(): void {
 		$this->expectException(\Exception::class);

@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -59,11 +58,12 @@ class PublicAuth extends AbstractBasic {
 	 * @throws MaxDelayReached
 	 * @throws ServiceUnavailable
 	 */
+	#[\Override]
 	public function check(RequestInterface $request, ResponseInterface $response): array {
 		try {
 			$this->throttler->sleepDelayOrThrowOnMax($this->request->getRemoteAddress(), self::BRUTEFORCE_ACTION);
 
-			if (count($_COOKIE) > 0 && !$this->request->passesStrictCookieCheck() && $this->getShare()->getPassword() !== null) {
+			if (count($_COOKIE) > 0 && !$this->request->passesStrictCookieCheck() && $this->getShare()->isPasswordProtected()) {
 				throw new PreconditionFailed('Strict cookie check failed');
 			}
 
@@ -142,7 +142,7 @@ class PublicAuth extends AbstractBasic {
 		}
 
 		// If the share is protected but user is not authenticated
-		if ($share->getPassword() !== null) {
+		if ($share->isPasswordProtected()) {
 			$this->throttler->registerAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress());
 			throw new NotAuthenticated();
 		}
@@ -162,6 +162,7 @@ class PublicAuth extends AbstractBasic {
 	 * @return bool
 	 * @throws NotAuthenticated
 	 */
+	#[\Override]
 	protected function validateUserPass($username, $password) {
 		$this->throttler->sleepDelayOrThrowOnMax($this->request->getRemoteAddress(), self::BRUTEFORCE_ACTION);
 
@@ -175,7 +176,7 @@ class PublicAuth extends AbstractBasic {
 		\OC_User::setIncognitoMode(true);
 
 		// check if the share is password protected
-		if ($share->getPassword() !== null) {
+		if ($share->isPasswordProtected()) {
 			if ($share->getShareType() === IShare::TYPE_LINK
 				|| $share->getShareType() === IShare::TYPE_EMAIL
 				|| $share->getShareType() === IShare::TYPE_CIRCLE) {

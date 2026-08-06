@@ -5,17 +5,20 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\Filesystem;
 use OC\SystemConfig;
 use OCA\Files_Sharing\DeleteOrphanedSharesJob;
+use OCA\Files_Trashbin\Storage;
 use OCP\App\IAppManager;
 use OCP\Constants;
 use OCP\IDBConnection;
 use OCP\IUserManager;
 use OCP\Server;
 use OCP\Share\IShare;
+use Test\Traits\UserTrait;
 
 /**
  * Class DeleteOrphanedSharesJobTest
@@ -25,6 +28,8 @@ use OCP\Share\IShare;
  */
 #[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class DeleteOrphanedSharesJobTest extends \Test\TestCase {
+	use UserTrait;
+
 	/**
 	 * @var bool
 	 */
@@ -56,7 +61,7 @@ class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 		$appManager->disableApp('files_trashbin');
 
 		// just in case...
-		Filesystem::getLoader()->removeStorageWrapper('oc_trashbin');
+		Filesystem::getLoader()->removeStorageWrapper(Storage::class);
 	}
 
 	public static function tearDownAfterClass(): void {
@@ -70,14 +75,13 @@ class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 
 		$this->connection = Server::get(IDBConnection::class);
 		// clear occasional leftover shares from other tests
-		$this->connection->executeUpdate('DELETE FROM `*PREFIX*share`');
+		$this->connection->getQueryBuilder()->delete('share')->executeStatement();
 
 		$this->user1 = $this->getUniqueID('user1_');
 		$this->user2 = $this->getUniqueID('user2_');
 
-		$userManager = Server::get(IUserManager::class);
-		$userManager->createUser($this->user1, 'pass');
-		$userManager->createUser($this->user2, 'pass');
+		$this->createUser($this->user1, 'pass');
+		$this->createUser($this->user2, 'pass');
 
 		\OC::registerShareHooks(Server::get(SystemConfig::class));
 
@@ -85,7 +89,7 @@ class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 	}
 
 	protected function tearDown(): void {
-		$this->connection->executeUpdate('DELETE FROM `*PREFIX*share`');
+		$this->connection->getQueryBuilder()->delete('share')->executeStatement();
 
 		$userManager = Server::get(IUserManager::class);
 		$user1 = $userManager->get($this->user1);
@@ -104,7 +108,10 @@ class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 
 	private function getShares() {
 		$shares = [];
-		$result = $this->connection->executeQuery('SELECT * FROM `*PREFIX*share`');
+		$result = $this->connection->getQueryBuilder()
+			->select('*')
+			->from('share')
+			->executeQuery();
 		while ($row = $result->fetchAssociative()) {
 			$shares[] = $row;
 		}

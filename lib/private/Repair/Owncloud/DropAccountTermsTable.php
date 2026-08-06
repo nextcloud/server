@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Repair\Owncloud;
 
 use OCP\IDBConnection;
@@ -18,10 +19,12 @@ class DropAccountTermsTable implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Drop account terms table when migrating from ownCloud';
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		if (!$this->db->tableExists('account_terms')) {
 			return;

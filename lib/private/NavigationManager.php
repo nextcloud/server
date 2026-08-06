@@ -5,10 +5,10 @@
  * SPDX-FileCopyrightText: 2016 ownCloud GmbH
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use InvalidArgumentException;
-use OC\Group\Manager;
 use OCP\App\IAppManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
@@ -36,7 +36,9 @@ class NavigationManager implements INavigationManager {
 	protected array $unreadCounters = [];
 	protected bool $init = false;
 	/** User defined app order (cached for the `add` function) */
-	private array $customAppOrder;
+	private ?array $customAppOrder = null;
+	/** List of loaded app info */
+	private array $loadedAppInfo = [];
 
 	public function __construct(
 		protected IAppManager $appManager,
@@ -56,7 +58,7 @@ class NavigationManager implements INavigationManager {
 			$this->closureEntries[] = $entry;
 			return;
 		}
-		$this->init(false);
+		$this->init();
 
 		$id = $entry['id'];
 
@@ -99,7 +101,7 @@ class NavigationManager implements INavigationManager {
 
 	#[Override]
 	public function getAll(string $type = 'link'): array {
-		$this->init();
+		$this->resolveAppNavigationEntries();
 
 		$result = $this->entries;
 		if ($type !== 'all') {
@@ -161,14 +163,17 @@ class NavigationManager implements INavigationManager {
 		return $list;
 	}
 
-
 	/**
 	 * removes all the entries
 	 */
-	public function clear(bool $loadDefaultLinks = true): void {
+	public function clear(bool $resetInit = true): void {
 		$this->entries = [];
 		$this->closureEntries = [];
-		$this->init = !$loadDefaultLinks;
+
+		if ($resetInit) {
+			$this->loadedAppInfo = [];
+			$this->init = false;
+		}
 	}
 
 	#[Override]
@@ -181,143 +186,71 @@ class NavigationManager implements INavigationManager {
 		return $this->activeEntry;
 	}
 
-	private function init(bool $resolveClosures = true): void {
-		if ($resolveClosures) {
-			while ($c = array_pop($this->closureEntries)) {
-				$this->add($c());
-			}
-		}
-
+	/**
+	 * Initialize the internal state.
+	 * This loads the default app mapping and user mapping for app ordering.
+	 */
+	private function init(): void {
 		if ($this->init) {
 			return;
 		}
 		$this->init = true;
 
-		$l = $this->l10nFac->get('lib');
-		if ($this->config->getSystemValueBool('knowledgebaseenabled', true)) {
-			$this->add([
-				'type' => 'settings',
-				'id' => 'help',
-				'order' => 99998,
-				'href' => $this->urlGenerator->linkToRoute('settings.Help.help'),
-				'name' => $l->t('Help & privacy'),
-				'icon' => $this->urlGenerator->imagePath('settings', 'help.svg'),
-			]);
-		}
-
-		if ($this->userSession->isLoggedIn()) {
-			// Profile
-			$this->add([
-				'type' => 'settings',
-				'id' => 'profile',
-				'order' => 1,
-				'href' => $this->urlGenerator->linkToRoute(
-					'profile.ProfilePage.index',
-					['targetUserId' => $this->userSession->getUser()->getUID()],
-				),
-				'name' => $l->t('View profile'),
-			]);
-
-			// Accessibility settings
-			if ($this->appManager->isEnabledForUser('theming', $this->userSession->getUser())) {
-				$this->add([
-					'type' => 'settings',
-					'id' => 'accessibility_settings',
-					'order' => 2,
-					'href' => $this->urlGenerator->linkToRoute('settings.PersonalSettings.index', ['section' => 'theming']),
-					'name' => $l->t('Appearance and accessibility'),
-					'icon' => $this->urlGenerator->imagePath('theming', 'accessibility-dark.svg'),
-				]);
-			}
-
-			if ($this->isAdmin()) {
-				// App management
-				$this->add([
-					'type' => 'settings',
-					'id' => 'core_apps',
-					'order' => 5,
-					'href' => $this->urlGenerator->linkToRoute('settings.AppSettings.viewApps'),
-					'icon' => $this->urlGenerator->imagePath('settings', 'apps.svg'),
-					'name' => $l->t('Apps'),
-				]);
-
-				// Personal settings
-				$this->add([
-					'type' => 'settings',
-					'id' => 'settings',
-					'order' => 3,
-					'href' => $this->urlGenerator->linkToRoute('settings.PersonalSettings.index'),
-					'name' => $l->t('Personal settings'),
-					'icon' => $this->urlGenerator->imagePath('settings', 'personal.svg'),
-				]);
-
-				// Admin settings
-				$this->add([
-					'type' => 'settings',
-					'id' => 'admin_settings',
-					'order' => 4,
-					'href' => $this->urlGenerator->linkToRoute('settings.AdminSettings.index', ['section' => 'overview']),
-					'name' => $l->t('Administration settings'),
-					'icon' => $this->urlGenerator->imagePath('settings', 'admin.svg'),
-				]);
+		if ($this->customAppOrder === null) {
+			if ($this->userSession->isLoggedIn()) {
+				$user = $this->userSession->getUser();
+				$this->customAppOrder = json_decode($this->config->getUserValue($user->getUID(), 'core', 'apporder', '[]'), true, flags:JSON_THROW_ON_ERROR);
 			} else {
-				// Personal settings
-				$this->add([
-					'type' => 'settings',
-					'id' => 'settings',
-					'order' => 3,
-					'href' => $this->urlGenerator->linkToRoute('settings.PersonalSettings.index'),
-					'name' => $l->t('Settings'),
-					'icon' => $this->urlGenerator->imagePath('settings', 'admin.svg'),
-				]);
-			}
-
-			$logoutUrl = \OC_User::getLogoutUrl($this->urlGenerator);
-			if ($logoutUrl !== '') {
-				// Logout
-				$this->add([
-					'type' => 'settings',
-					'id' => 'logout',
-					'order' => 99999,
-					'href' => $logoutUrl,
-					'name' => $l->t('Log out'),
-					'icon' => $this->urlGenerator->imagePath('core', 'actions/logout.svg'),
-				]);
-			}
-
-			if ($this->isSubadmin()) {
-				// User management
-				$this->add([
-					'type' => 'settings',
-					'id' => 'core_users',
-					'order' => 6,
-					'href' => $this->urlGenerator->linkToRoute('settings.Users.usersList'),
-					'name' => $l->t('Accounts'),
-					'icon' => $this->urlGenerator->imagePath('settings', 'users.svg'),
-				]);
+				$this->customAppOrder = [];
 			}
 		}
-		$this->eventDispatcher->dispatchTyped(new LoadAdditionalEntriesEvent());
+	}
 
+	/**
+	 * Setup the navigation manager.
+	 * @internal - This is only used by Nextcloud core to setup the navigation manager. It is not intended for use by apps.
+	 */
+	public function setup(): void {
+		// Resolve app navigation closures
+		while ($c = array_pop($this->closureEntries)) {
+			$this->add($c());
+		}
+
+		// Resolve dynamically added navigation entries via event listeners
+		$this->eventDispatcher->dispatchTyped(new LoadAdditionalEntriesEvent());
+	}
+
+	/**
+	 * Resolve classic info.xml based navigation entires.
+	 * Some code relies on this to be available earlier then the app loading finished.
+	 * So we need to resolve the navigation entries here, even if not all apps are loaded yet.
+	 */
+	private function resolveAppNavigationEntries(): void {
 		if ($this->userSession->isLoggedIn()) {
 			$user = $this->userSession->getUser();
 			$apps = $this->appManager->getEnabledAppsForUser($user);
-			$this->customAppOrder = json_decode($this->config->getUserValue($user->getUID(), 'core', 'apporder', '[]'), true, flags:JSON_THROW_ON_ERROR);
 		} else {
 			$apps = $this->appManager->getEnabledApps();
-			$this->customAppOrder = [];
 		}
 
 		foreach ($apps as $app) {
-			if (!$this->userSession->isLoggedIn() && !$this->appManager->isEnabledForUser($app, $this->userSession->getUser())) {
+			if (in_array($app, $this->loadedAppInfo, true)) {
+				// already loaded
+				continue;
+			}
+			if (!$this->appManager->isAppLoaded($app)) {
+				// app is not loaded yet, skip it
 				continue;
 			}
 
 			// load plugins and collections from info.xml
 			$info = $this->appManager->getAppInfo($app);
 			if (!isset($info['navigations']['navigation'])) {
+				// this app does not have any navigation entries, skip it
+				$this->loadedAppInfo[] = $app;
 				continue;
 			}
+
 			foreach ($info['navigations']['navigation'] as $key => $nav) {
 				$nav['type'] = $nav['type'] ?? 'link';
 				if (!isset($nav['name'])) {
@@ -331,11 +264,13 @@ class NavigationManager implements INavigationManager {
 				if ($role === 'admin' && !$this->isAdmin()) {
 					continue;
 				}
-				$l = $this->l10nFac->get($app);
 				$id = $nav['id'] ?? $app . ($key === 0 ? '' : $key);
 				$order = $nav['order'] ?? 100;
-				$type = $nav['type'];
-				$route = !empty($nav['route']) ? $this->urlGenerator->linkToRoute($nav['route']) : '';
+				$type = $nav['type'] ?? 'link';
+				$route = $nav['route'] ?? '';
+				if ($route !== '') {
+					$route = $this->urlGenerator->linkToRoute($route);
+				}
 				$icon = $nav['icon'] ?? null;
 				if ($icon !== null) {
 					try {
@@ -348,9 +283,16 @@ class NavigationManager implements INavigationManager {
 					$icon = $this->appManager->getAppIcon($app);
 				}
 				if ($icon === null) {
-					$icon = $this->urlGenerator->imagePath('core', 'default-app-icon');
+					$icon = $this->urlGenerator->imagePath('core', 'places/default-app-icon.svg');
+				}
+				if ($type === 'link' && $route === '') {
+					// This means either the route is invalid in the info.xml or the app was not year loaded by the router
+					$this->logger->debug('Missing or invalid navigation route for app ' . $app, ['entry' => $nav]);
+					continue;
 				}
 
+				$l = $this->l10nFac->get($app);
+				$this->loadedAppInfo[] = $app;
 				$this->add(array_merge([
 					// Navigation id
 					'id' => $id,
@@ -358,14 +300,14 @@ class NavigationManager implements INavigationManager {
 					'order' => $order,
 					// Target of the navigation entry
 					'href' => $route,
-					// The icon used for the naviation entry
+					// The icon used for the navigation entry
 					'icon' => $icon,
 					// Type of the navigation entry ('link' vs 'settings')
 					'type' => $type,
 					// Localized name of the navigation entry
 					'name' => $l->t($nav['name']),
 				], $type === 'link' ? [
-					// App that registered this navigation entry (not necessarly the same as the id)
+					// App that registered this navigation entry (not necessarily the same as the id)
 					'app' => $app,
 				] : []
 				));
@@ -381,14 +323,6 @@ class NavigationManager implements INavigationManager {
 		return false;
 	}
 
-	private function isSubadmin(): bool {
-		$user = $this->userSession->getUser();
-		if ($user !== null && $this->groupManager instanceof Manager) {
-			return $this->groupManager->getSubAdmin()->isSubAdmin($user);
-		}
-		return false;
-	}
-
 	#[Override]
 	public function setUnreadCounter(string $id, int $unreadCounter): void {
 		$this->unreadCounters[$id] = $unreadCounter;
@@ -396,13 +330,13 @@ class NavigationManager implements INavigationManager {
 
 	#[Override]
 	public function get(string $id): ?array {
-		$this->init();
+		$this->resolveAppNavigationEntries();
 		return $this->entries[$id];
 	}
 
 	#[Override]
 	public function getDefaultEntryIdForUser(?IUser $user = null, bool $withFallbacks = true): string {
-		$this->init();
+		$this->resolveAppNavigationEntries();
 		// Disable fallbacks here, as we need to override them with the user defaults if none are configured.
 		$defaultEntryIds = $this->getDefaultEntryIds(false);
 
@@ -444,7 +378,7 @@ class NavigationManager implements INavigationManager {
 
 	#[Override]
 	public function getDefaultEntryIds(bool $withFallbacks = true): array {
-		$this->init();
+		$this->resolveAppNavigationEntries();
 		$storedIds = explode(',', $this->config->getSystemValueString('defaultapp', $withFallbacks ? 'dashboard,files' : ''));
 		$ids = [];
 		$entryIds = array_keys($this->entries);
@@ -458,7 +392,7 @@ class NavigationManager implements INavigationManager {
 
 	#[Override]
 	public function setDefaultEntryIds(array $ids): void {
-		$this->init();
+		$this->resolveAppNavigationEntries();
 		$entryIds = array_keys($this->entries);
 
 		foreach ($ids as $id) {

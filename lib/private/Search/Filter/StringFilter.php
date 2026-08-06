@@ -21,6 +21,7 @@ class StringFilter implements IFilter {
 		}
 	}
 
+	#[\Override]
 	public function get(): string {
 		return $this->value;
 	}

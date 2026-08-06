@@ -51,6 +51,8 @@ use OCP\TaskProcessing\Task as OCPTask;
  * @method null|string getUserFacingErrorMessage()
  * @method setIncludeWatermark(int $includeWatermark)
  * @method int getIncludeWatermark()
+ * @method setPreferStreaming(int $preferStreaming)
+ * @method int getPreferStreaming()
  */
 class Task extends Entity {
 	protected $lastUpdated;
@@ -72,17 +74,17 @@ class Task extends Entity {
 	protected $allowCleanup;
 	protected $userFacingErrorMessage;
 	protected $includeWatermark;
+	protected $preferStreaming;
 
 	/**
 	 * @var string[]
 	 */
-	public static array $columns = ['id', 'last_updated', 'type', 'input', 'output', 'status', 'user_id', 'app_id', 'custom_id', 'completion_expected_at', 'error_message', 'progress', 'webhook_uri', 'webhook_method', 'scheduled_at', 'started_at', 'ended_at', 'allow_cleanup', 'user_facing_error_message', 'include_watermark'];
+	public const COLUMNS = ['id', 'last_updated', 'type', 'input', 'output', 'status', 'user_id', 'app_id', 'custom_id', 'completion_expected_at', 'error_message', 'progress', 'webhook_uri', 'webhook_method', 'scheduled_at', 'started_at', 'ended_at', 'allow_cleanup', 'user_facing_error_message', 'include_watermark', 'prefer_streaming'];
 
 	/**
 	 * @var string[]
 	 */
-	public static array $fields = ['id', 'lastUpdated', 'type', 'input', 'output', 'status', 'userId', 'appId', 'customId', 'completionExpectedAt', 'errorMessage', 'progress', 'webhookUri', 'webhookMethod', 'scheduledAt', 'startedAt', 'endedAt', 'allowCleanup', 'userFacingErrorMessage', 'includeWatermark'];
-
+	public const FIELDS = ['id', 'lastUpdated', 'type', 'input', 'output', 'status', 'userId', 'appId', 'customId', 'completionExpectedAt', 'errorMessage', 'progress', 'webhookUri', 'webhookMethod', 'scheduledAt', 'startedAt', 'endedAt', 'allowCleanup', 'userFacingErrorMessage', 'includeWatermark', 'preferStreaming'];
 
 	public function __construct() {
 		// add types in constructor
@@ -106,12 +108,13 @@ class Task extends Entity {
 		$this->addType('allowCleanup', 'integer');
 		$this->addType('userFacingErrorMessage', 'string');
 		$this->addType('includeWatermark', 'integer');
+		$this->addType('preferStreaming', 'integer');
 	}
 
 	public function toRow(): array {
-		return array_combine(self::$columns, array_map(function ($field) {
+		return array_combine(self::COLUMNS, array_map(function ($field) {
 			return $this->{'get' . ucfirst($field)}();
-		}, self::$fields));
+		}, self::FIELDS));
 	}
 
 	public static function fromPublicTask(OCPTask $task): self {
@@ -137,6 +140,7 @@ class Task extends Entity {
 			'allowCleanup' => $task->getAllowCleanup() ? 1 : 0,
 			'userFacingErrorMessage' => $task->getUserFacingErrorMessage(),
 			'includeWatermark' => $task->getIncludeWatermark() ? 1 : 0,
+			'preferStreaming' => $task->getPreferStreaming() ? 1 : 0,
 		]);
 		return $taskEntity;
 	}
@@ -162,6 +166,7 @@ class Task extends Entity {
 		$task->setAllowCleanup($this->getAllowCleanup() !== 0);
 		$task->setUserFacingErrorMessage($this->getUserFacingErrorMessage());
 		$task->setIncludeWatermark($this->getIncludeWatermark() !== 0);
+		$task->setPreferStreaming($this->getPreferStreaming() !== 0);
 		return $task;
 	}
 }

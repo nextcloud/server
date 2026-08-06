@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Theming\Tests\Service;
 
 use OC\Route\Router;
@@ -106,7 +107,6 @@ class DyslexiaFontTest extends TestCase {
 
 		parent::setUp();
 	}
-
 
 	public function testGetId(): void {
 		$this->assertEquals('opendyslexic', $this->dyslexiaFont->getId());

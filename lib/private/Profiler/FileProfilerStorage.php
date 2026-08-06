@@ -8,6 +8,12 @@ declare(strict_types = 1);
 
 namespace OC\Profiler;
 
+use OC\DB\DbDataCollector;
+use OC\Memcache\ProfilerWrapperCache;
+use OCA\Profiler\DataCollector\EventLoggerDataProvider;
+use OCA\Profiler\DataCollector\HttpDataCollector;
+use OCA\Profiler\DataCollector\MemoryDataCollector;
+use OCA\User_LDAP\DataCollector\LdapDataCollector;
 use OCP\Profiler\IProfile;
 
 /**
@@ -16,13 +22,13 @@ use OCP\Profiler\IProfile;
 class FileProfilerStorage {
 	/** @psalm-suppress UndefinedClass */
 	public const allowedClasses = [
-		\OCA\Profiler\DataCollector\EventLoggerDataProvider::class,
-		\OCA\Profiler\DataCollector\HttpDataCollector::class,
-		\OCA\Profiler\DataCollector\MemoryDataCollector::class,
-		\OCA\User_LDAP\DataCollector\LdapDataCollector::class,
-		\OC\Memcache\ProfilerWrapperCache::class,
-		\OC\Profiler\RoutingDataCollector::class,
-		\OC\DB\DbDataCollector::class,
+		EventLoggerDataProvider::class,
+		HttpDataCollector::class,
+		MemoryDataCollector::class,
+		LdapDataCollector::class,
+		ProfilerWrapperCache::class,
+		RoutingDataCollector::class,
+		DbDataCollector::class,
 	];
 
 	/**

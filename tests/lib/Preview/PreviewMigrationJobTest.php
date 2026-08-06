@@ -3,14 +3,14 @@
 declare(strict_types=1);
 
 /*
- * SPDX-FileCopyrightText: 2025 Nextcloud GmbH
- * SPDX-FileContributor: Carl Schwan
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace lib\Preview;
 
 use OC\Core\BackgroundJobs\PreviewMigrationJob;
+use OC\Preview\Db\Preview;
 use OC\Preview\Db\PreviewMapper;
 use OC\Preview\PreviewMigrationService;
 use OC\Preview\PreviewService;
@@ -43,6 +43,7 @@ class PreviewMigrationJobTest extends TestCase {
 	private IMimeTypeDetector&MockObject $mimeTypeDetector;
 	private LoggerInterface&MockObject $logger;
 
+	#[\Override]
 	public function setUp(): void {
 		parent::setUp();
 		$this->previewAppData = Server::get(IAppDataFactory::class)->get('preview');
@@ -92,6 +93,7 @@ class PreviewMigrationJobTest extends TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 	}
 
+	#[\Override]
 	public function tearDown(): void {
 		foreach ($this->previewAppData->getDirectoryListing() as $folder) {
 			$folder->delete();
@@ -102,6 +104,7 @@ class PreviewMigrationJobTest extends TestCase {
 		$qb->delete('filecache')
 			->where($qb->expr()->eq('fileid', $qb->createNamedParameter(5)))
 			->executeStatement();
+		parent::tearDown();
 	}
 
 	#[TestDox('Test the migration from the legacy flat hierarchy to the new database format')]
@@ -113,11 +116,21 @@ class PreviewMigrationJobTest extends TestCase {
 		$this->assertEquals(2, count($folder->getDirectoryListing()));
 		$this->assertEquals(0, count(iterator_to_array($this->previewMapper->getAvailablePreviewsForFile(5))));
 
-		$job = new PreviewMigrationJob(
+		$job = $this->createJob();
+		$this->invokePrivate($job, 'run', [[]]);
+		$this->assertEquals(0, count($this->previewAppData->getDirectoryListing()));
+		$this->assertEquals(2, count(iterator_to_array($this->previewMapper->getAvailablePreviewsForFile(5))));
+	}
+
+	private static function getInternalFolder(string $name): string {
+		return implode('/', str_split(substr(md5($name), 0, 7))) . '/' . $name;
+	}
+
+	private function createJob(): PreviewMigrationJob {
+		return new PreviewMigrationJob(
 			Server::get(ITimeFactory::class),
 			$this->appConfig,
 			$this->config,
-			Server::get(IDBConnection::class),
 			Server::get(IRootFolder::class),
 			new PreviewMigrationService(
 				$this->config,
@@ -129,15 +142,110 @@ class PreviewMigrationJobTest extends TestCase {
 				$this->previewMapper,
 				$this->storageFactory,
 				Server::get(IAppDataFactory::class),
-			)
+			),
+			$this->logger,
 		);
-		$this->invokePrivate($job, 'run', [[]]);
-		$this->assertEquals(0, count($this->previewAppData->getDirectoryListing()));
-		$this->assertEquals(2, count(iterator_to_array($this->previewMapper->getAvailablePreviewsForFile(5))));
 	}
 
-	private static function getInternalFolder(string $name): string {
-		return implode('/', str_split(substr(md5($name), 0, 7))) . '/' . $name;
+	private function insertFilecacheRow(string $path, string $etag): int {
+		$qb = $this->db->getQueryBuilder();
+		$qb->insert('filecache')
+			->values([
+				'storage' => $qb->createNamedParameter(1),
+				'path' => $qb->createNamedParameter($path),
+				'path_hash' => $qb->createNamedParameter(md5($path)),
+				'parent' => $qb->createNamedParameter(0),
+				'name' => $qb->createNamedParameter(basename($path)),
+				'mimetype' => $qb->createNamedParameter(42),
+				'size' => $qb->createNamedParameter(1000),
+				'mtime' => $qb->createNamedParameter(1000),
+				'storage_mtime' => $qb->createNamedParameter(1000),
+				'encrypted' => $qb->createNamedParameter(0),
+				'unencrypted_size' => $qb->createNamedParameter(0),
+				'etag' => $qb->createNamedParameter($etag),
+				'permissions' => $qb->createNamedParameter(0),
+				'checksum' => $qb->createNamedParameter($etag),
+			])->executeStatement();
+		return $qb->getLastInsertId();
+	}
+
+	private function deleteFilecacheRow(int $fileId): void {
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete('filecache')
+			->where($qb->expr()->eq('fileid', $qb->createNamedParameter($fileId)))
+			->executeStatement();
+	}
+
+	#[TestDox('A single run must migrate multiple different fileids in one pass, mixing both folder structures')]
+	public function testMigrationMultipleFileIds(): void {
+		$otherFileId = $this->insertFilecacheRow('test/def', 'xyz123');
+
+		try {
+			$flatFolder = $this->previewAppData->newFolder('5');
+			$flatFolder->newFile('64-64-crop.jpg', 'abcdefg');
+
+			$hierFolder = $this->previewAppData->newFolder(self::getInternalFolder((string)$otherFileId));
+			$hierFolder->newFile('128-128.png', 'abcdefg');
+
+			$this->invokePrivate($this->createJob(), 'run', [[]]);
+
+			$this->assertEquals(0, count($this->previewAppData->getDirectoryListing()));
+			$this->assertEquals(1, count(iterator_to_array($this->previewMapper->getAvailablePreviewsForFile(5))));
+			$this->assertEquals(1, count(iterator_to_array($this->previewMapper->getAvailablePreviewsForFile($otherFileId))));
+		} finally {
+			$this->deleteFilecacheRow($otherFileId);
+		}
+	}
+
+	#[TestDox('Re-migrating a preview that already exists must skip the insert and still clean up the stale filecache row')]
+	public function testMigrationSkipsDuplicatePreview(): void {
+		$folder = $this->previewAppData->newFolder('5');
+		$folder->newFile('64-64-crop.jpg', 'abcdefg');
+
+		// Simulate a preview that was already migrated by an earlier, interrupted run:
+		// same fileid/width/height/mimetype/cropped/version as what this migration
+		// would produce for the file created above, so the insert below hits the
+		// `previews_file_uniq_idx` unique constraint.
+		$existing = Preview::fromPath('5/64-64-crop.jpg', $this->mimeTypeDetector);
+		$this->assertNotFalse($existing);
+		$existing->setFileId(5);
+		$existing->setStorageId(1);
+		$existing->setSourceMimeType('image/png');
+		$existing->setEtag('abcdefg');
+		$existing->setSize(7);
+		$existing->setMtime(1000);
+		$existing->setEncrypted(false);
+		$existing->generateId();
+		$this->previewMapper->insert($existing);
+
+		$this->invokePrivate($this->createJob(), 'run', [[]]);
+
+		// No duplicate preview row was inserted, but the legacy folder and its stale
+		// filecache row were still cleaned up.
+		$this->assertEquals(0, count($this->previewAppData->getDirectoryListing()));
+		$this->assertEquals(1, count(iterator_to_array($this->previewMapper->getAvailablePreviewsForFile(5))));
+	}
+
+	#[TestDox('An orphaned preview folder whose source file no longer exists must be deleted, not migrated')]
+	public function testMigrationDeletesOrphanedPreview(): void {
+		$orphanFileId = 9999998;
+		$folder = $this->previewAppData->newFolder((string)$orphanFileId);
+		$folder->newFile('64-64-crop.jpg', 'abcdefg');
+
+		$this->invokePrivate($this->createJob(), 'run', [[]]);
+
+		$this->assertEquals(0, count($this->previewAppData->getDirectoryListing()));
+		$this->assertEquals(0, count(iterator_to_array($this->previewMapper->getAvailablePreviewsForFile($orphanFileId))));
+	}
+
+	#[TestDox('run() must complete without error when there is nothing to migrate')]
+	public function testMigrationWithoutAnyPreviews(): void {
+		$this->assertEquals(0, count($this->previewAppData->getDirectoryListing()));
+
+		$this->invokePrivate($this->createJob(), 'run', [[]]);
+
+		$this->assertEquals(0, count($this->previewAppData->getDirectoryListing()));
+		$this->assertEquals(0, count(iterator_to_array($this->previewMapper->getAvailablePreviewsForFile(5))));
 	}
 
 	#[TestDox("Test the migration from the 'new' nested hierarchy to the database format")]
@@ -154,7 +262,6 @@ class PreviewMigrationJobTest extends TestCase {
 			Server::get(ITimeFactory::class),
 			$this->appConfig,
 			$this->config,
-			Server::get(IDBConnection::class),
 			Server::get(IRootFolder::class),
 			new PreviewMigrationService(
 				$this->config,
@@ -166,7 +273,8 @@ class PreviewMigrationJobTest extends TestCase {
 				$this->previewMapper,
 				$this->storageFactory,
 				Server::get(IAppDataFactory::class),
-			)
+			),
+			$this->logger,
 		);
 		$this->invokePrivate($job, 'run', [[]]);
 		$this->assertEquals(0, count($this->previewAppData->getDirectoryListing()));
@@ -199,7 +307,6 @@ class PreviewMigrationJobTest extends TestCase {
 			Server::get(ITimeFactory::class),
 			$this->appConfig,
 			$this->config,
-			Server::get(IDBConnection::class),
 			Server::get(IRootFolder::class),
 			new PreviewMigrationService(
 				$this->config,
@@ -211,7 +318,8 @@ class PreviewMigrationJobTest extends TestCase {
 				$this->previewMapper,
 				$this->storageFactory,
 				Server::get(IAppDataFactory::class),
-			)
+			),
+			$this->logger,
 		);
 		$this->invokePrivate($job, 'run', [[]]);
 		$previews = iterator_to_array($this->previewMapper->getAvailablePreviewsForFile(5));

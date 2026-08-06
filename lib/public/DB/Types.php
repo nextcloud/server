@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\DB;
 
 /**
@@ -87,7 +88,6 @@ final class Types {
 	 * @since 31.0.0
 	 */
 	public const DATETIME_IMMUTABLE = 'datetime_immutable';
-
 
 	/**
 	 * A datetime instance with timezone support

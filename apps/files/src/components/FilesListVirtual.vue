@@ -91,10 +91,10 @@ import { useEnabledFileActions } from '../composables/useFileActions.ts'
 import { useFileListHeaders } from '../composables/useFileListHeaders.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
-import logger from '../logger.ts'
 import { useActiveStore } from '../store/active.ts'
 import { useSelectionStore } from '../store/selection.ts'
 import { useUserConfigStore } from '../store/userconfig.ts'
+import { logger } from '../utils/logger.ts'
 
 export default defineComponent({
 	name: 'FilesListVirtual',
@@ -428,8 +428,7 @@ export default defineComponent({
 			}
 
 			if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown'
-				&& (!this.userConfig.grid_view || (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight'))
-			) {
+				&& (!this.userConfig.grid_view || (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight'))) {
 				// not an arrow key we handle
 				return
 			}

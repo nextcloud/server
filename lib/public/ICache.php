@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -22,46 +24,41 @@ interface ICache {
 
 	/**
 	 * Get a value from the user cache
-	 * @param string $key
 	 * @return mixed
 	 * @since 6.0.0
 	 */
-	public function get($key);
+	public function get(string $key);
 
 	/**
 	 * Set a value in the user cache
-	 * @param string $key
 	 * @param mixed $value
 	 * @param int $ttl Time To Live in seconds. Defaults to 60*60*24
 	 * @return bool
 	 * @since 6.0.0
 	 */
-	public function set($key, $value, $ttl = 0);
+	public function set(string $key, $value, int $ttl = 0);
 
 	/**
 	 * Check if a value is set in the user cache
-	 * @param string $key
 	 * @return bool
 	 * @since 6.0.0
 	 * @deprecated 9.1.0 Directly read from GET to prevent race conditions
 	 */
-	public function hasKey($key);
+	public function hasKey(string $key);
 
 	/**
 	 * Remove an item from the user cache
-	 * @param string $key
 	 * @return bool
 	 * @since 6.0.0
 	 */
-	public function remove($key);
+	public function remove(string $key);
 
 	/**
 	 * Clear the user cache of all entries starting with a prefix
-	 * @param string $prefix (optional)
 	 * @return bool
 	 * @since 6.0.0
 	 */
-	public function clear($prefix = '');
+	public function clear(string $prefix = '');
 
 	/**
 	 * Check if the cache implementation is available

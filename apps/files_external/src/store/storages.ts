@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { IStorage } from '../types.d.ts'
+import type { IMountOptions, IStorage } from '../types.ts'
 
 import axios from '@nextcloud/axios'
 import { loadState } from '@nextcloud/initial-state'
@@ -11,8 +11,19 @@ import { addPasswordConfirmationInterceptors, PwdConfirmationMode } from '@nextc
 import { generateUrl } from '@nextcloud/router'
 import { defineStore } from 'pinia'
 import { ref, toRaw } from 'vue'
+import { MountOptionsCheckFilesystem } from '../types.ts'
 
 const { isAdmin } = loadState<{ isAdmin: boolean }>('files_external', 'settings')
+
+/** The default mount options for NEW storages (not the defaults applied if a config is missing!) */
+export const DEFAULT_MOUNT_OPTIONS: IMountOptions = Object.freeze({
+	encrypt: true,
+	previews: true,
+	filesystem_check_changes: MountOptionsCheckFilesystem.OncePerRequest,
+	enable_sharing: false,
+	encoding_compatibility: false,
+	readonly: false,
+})
 
 export const useStorages = defineStore('files_external--storages', () => {
 	const globalStorages = ref<IStorage[]>([])
@@ -30,7 +41,7 @@ export const useStorages = defineStore('files_external--storages', () => {
 			toRaw(storage),
 			{ confirmPassword: PwdConfirmationMode.Strict },
 		)
-		globalStorages.value.push(data)
+		globalStorages.value.push(parseStorage(data))
 	}
 
 	/**
@@ -45,7 +56,7 @@ export const useStorages = defineStore('files_external--storages', () => {
 			toRaw(storage),
 			{ confirmPassword: PwdConfirmationMode.Strict },
 		)
-		userStorages.value.push(data)
+		userStorages.value.push(parseStorage(data))
 	}
 
 	/**
@@ -77,7 +88,7 @@ export const useStorages = defineStore('files_external--storages', () => {
 			{ confirmPassword: PwdConfirmationMode.Strict },
 		)
 
-		overrideStorage(data)
+		overrideStorage(parseStorage(data))
 	}
 
 	/**
@@ -87,7 +98,7 @@ export const useStorages = defineStore('files_external--storages', () => {
 	 */
 	async function reloadStorage(storage: IStorage) {
 		const { data } = await axios.get(getUrl(storage))
-		overrideStorage(data)
+		overrideStorage(parseStorage(data))
 	}
 
 	// initialize the store
@@ -111,6 +122,7 @@ export const useStorages = defineStore('files_external--storages', () => {
 		const url = `apps/files_external/${type}`
 		const { data } = await axios.get<Record<number, IStorage>>(generateUrl(url))
 		return Object.values(data)
+			.map(parseStorage)
 	}
 
 	/**
@@ -150,3 +162,45 @@ export const useStorages = defineStore('files_external--storages', () => {
 		}
 	}
 })
+
+/**
+ * @param storage - The storage from API
+ */
+function parseStorage(storage: IStorage) {
+	return {
+		...storage,
+		mountOptions: parseMountOptions(storage.mountOptions),
+	}
+}
+
+/**
+ * Parse the mount options and convert string boolean values to
+ * actual booleans and numeric strings to numbers
+ *
+ * @param options - The mount options to parse
+ */
+export function parseMountOptions(options: IStorage['mountOptions']) {
+	const mountOptions = { ...options }
+	mountOptions.encrypt = convertBooleanOptions(mountOptions.encrypt, true)
+	mountOptions.previews = convertBooleanOptions(mountOptions.previews, true)
+	mountOptions.enable_sharing = convertBooleanOptions(mountOptions.enable_sharing, false)
+	mountOptions.filesystem_check_changes = typeof mountOptions.filesystem_check_changes === 'string'
+		? Number.parseInt(mountOptions.filesystem_check_changes)
+		: (mountOptions.filesystem_check_changes ?? MountOptionsCheckFilesystem.Never) // see default: https://github.com/nextcloud/server/blob/573104451bca64b4f1676933ac029583b4b69992/lib/private/Files/Storage/Common.php#L367
+	mountOptions.encoding_compatibility = convertBooleanOptions(mountOptions.encoding_compatibility, false)
+	mountOptions.readonly = convertBooleanOptions(mountOptions.readonly, false)
+	return mountOptions
+}
+
+/**
+ * Convert backend encoding of boolean options
+ *
+ * @param option - The option value from API
+ * @param fallback - The fallback (default) value
+ */
+function convertBooleanOptions(option: unknown, fallback = false) {
+	if (option === undefined) {
+		return fallback
+	}
+	return option === true || option === 'true' || option === '1'
+}

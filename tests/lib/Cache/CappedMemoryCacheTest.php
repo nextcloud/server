@@ -16,6 +16,7 @@ use OCP\Cache\CappedMemoryCache;
  * @package Test\Cache
  */
 class CappedMemoryCacheTest extends TestCache {
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->instance = new CappedMemoryCache();
@@ -37,6 +38,7 @@ class CappedMemoryCacheTest extends TestCache {
 		$this->assertTrue($instance->hasKey('5'));
 	}
 
+	#[\Override]
 	public function testClear(): void {
 		$value = 'ipsum lorum';
 		$this->instance->set('1_value1', $value);

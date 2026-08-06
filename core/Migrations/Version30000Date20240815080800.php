@@ -19,6 +19,7 @@ use OCP\Migration\SimpleMigrationStep;
 
 #[AddColumn(table: 'webauthn', name: 'user_verification', type: ColumnType::BOOLEAN)]
 class Version30000Date20240815080800 extends SimpleMigrationStep {
+	#[\Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();

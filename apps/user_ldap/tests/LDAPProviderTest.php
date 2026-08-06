@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\User_LDAP\Tests;
 
 use OC\User\Manager;
@@ -77,7 +78,6 @@ class LDAPProviderTest extends \Test\TestCase {
 		);
 	}
 
-
 	public function testGetUserDNUserIDNotFound(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('User id not found in LDAP');
@@ -91,7 +91,6 @@ class LDAPProviderTest extends \Test\TestCase {
 		$ldapProvider = $this->getLDAPProvider($userBackend, $this->getDefaultGroupBackendMock());
 		$ldapProvider->getUserDN('nonexisting_user');
 	}
-
 
 	public function testGetUserDN(): void {
 		$userAccess = $this->getMockBuilder(Access::class)
@@ -116,7 +115,6 @@ class LDAPProviderTest extends \Test\TestCase {
 		$this->assertEquals('cn=existing_user,ou=Are Sufficient To,ou=Test,dc=example,dc=org',
 			$ldapProvider->getUserDN('existing_user'));
 	}
-
 
 	public function testGetGroupDNGroupIDNotFound(): void {
 		$this->expectException(\Exception::class);
@@ -194,7 +192,6 @@ class LDAPProviderTest extends \Test\TestCase {
 			$ldapProvider->sanitizeDN('cn=existing_user,ou=Are Sufficient To,ou=Test,dc=example,dc=org'));
 	}
 
-
 	public function testGetLDAPConnectionUserIDNotFound(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('User id not found in LDAP');
@@ -222,7 +219,6 @@ class LDAPProviderTest extends \Test\TestCase {
 		$ldapProvider = $this->getLDAPProvider($userBackend, $this->getDefaultGroupBackendMock());
 		$this->assertEquals($ldapConnection, $ldapProvider->getLDAPConnection('existing_user'));
 	}
-
 
 	public function testGetGroupLDAPConnectionGroupIDNotFound(): void {
 		$this->expectException(\Exception::class);
@@ -259,7 +255,6 @@ class LDAPProviderTest extends \Test\TestCase {
 		$ldapProvider = $this->getLDAPProvider($userBackend, $groupBackend);
 		$this->assertEquals($ldapConnection, $ldapProvider->getGroupLDAPConnection('existing_group'));
 	}
-
 
 	public function testGetLDAPBaseUsersUserIDNotFound(): void {
 		$this->expectException(\Exception::class);
@@ -321,7 +316,6 @@ class LDAPProviderTest extends \Test\TestCase {
 		$this->assertEquals($bases[1], $ldapProvider->getLDAPBaseUsers('existing_user'));
 	}
 
-
 	public function testGetLDAPBaseGroupsUserIDNotFound(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('User id not found in LDAP');
@@ -375,7 +369,6 @@ class LDAPProviderTest extends \Test\TestCase {
 		$this->assertEquals($bases[0], $ldapProvider->getLDAPBaseGroups('existing_user'));
 	}
 
-
 	public function testClearCacheUserIDNotFound(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('User id not found in LDAP');
@@ -415,7 +408,6 @@ class LDAPProviderTest extends \Test\TestCase {
 		$ldapProvider->clearCache('existing_user');
 		$this->addToAssertionCount(1);
 	}
-
 
 	public function testClearGroupCacheGroupIDNotFound(): void {
 		$this->expectException(\Exception::class);
@@ -490,7 +482,6 @@ class LDAPProviderTest extends \Test\TestCase {
 		$this->addToAssertionCount(1);
 	}
 
-
 	public function testGetLDAPDisplayNameFieldUserIDNotFound(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('User id not found in LDAP');
@@ -530,7 +521,6 @@ class LDAPProviderTest extends \Test\TestCase {
 		$this->assertEquals('displayName', $ldapProvider->getLDAPDisplayNameField('existing_user'));
 	}
 
-
 	public function testGetLDAPEmailFieldUserIDNotFound(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('User id not found in LDAP');
@@ -569,7 +559,6 @@ class LDAPProviderTest extends \Test\TestCase {
 		$ldapProvider = $this->getLDAPProvider($userBackend, $this->getDefaultGroupBackendMock());
 		$this->assertEquals('mail', $ldapProvider->getLDAPEmailField('existing_user'));
 	}
-
 
 	public function testGetLDAPGroupMemberAssocUserIDNotFound(): void {
 		$this->expectException(\Exception::class);

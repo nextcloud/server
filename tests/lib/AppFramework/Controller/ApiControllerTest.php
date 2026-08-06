@@ -18,7 +18,6 @@ use OCP\IRequestId;
 class ChildApiController extends ApiController {
 };
 
-
 class ApiControllerTest extends \Test\TestCase {
 	protected ChildApiController $controller;
 

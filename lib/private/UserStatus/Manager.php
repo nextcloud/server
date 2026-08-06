@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\UserStatus;
 
 use OCP\UserStatus\IManager;
@@ -28,6 +29,7 @@ class Manager implements IManager {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getUserStatuses(array $userIds): array {
 		$this->setupProvider();
 		if (!$this->provider) {
@@ -73,6 +75,7 @@ class Manager implements IManager {
 		$this->provider = $provider;
 	}
 
+	#[\Override]
 	public function setUserStatus(string $userId, string $messageId, string $status, bool $createBackup = false, ?string $customMessage = null): void {
 		$this->setupProvider();
 		if (!$this->provider instanceof ISettableProvider) {
@@ -82,6 +85,7 @@ class Manager implements IManager {
 		$this->provider->setUserStatus($userId, $messageId, $status, $createBackup, $customMessage);
 	}
 
+	#[\Override]
 	public function revertUserStatus(string $userId, string $messageId, string $status): void {
 		$this->setupProvider();
 		if (!$this->provider instanceof ISettableProvider) {
@@ -90,6 +94,7 @@ class Manager implements IManager {
 		$this->provider->revertUserStatus($userId, $messageId, $status);
 	}
 
+	#[\Override]
 	public function revertMultipleUserStatus(array $userIds, string $messageId, string $status): void {
 		$this->setupProvider();
 		if (!$this->provider instanceof ISettableProvider) {

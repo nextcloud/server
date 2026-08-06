@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CalDAV;
 
 use OCA\DAV\CalDAV\Federation\FederatedCalendarImpl;
@@ -27,6 +28,7 @@ class CalendarProvider implements ICalendarProvider {
 	) {
 	}
 
+	#[\Override]
 	public function getCalendars(string $principalUri, array $calendarUris = []): array {
 		/** @var array{uri: string, principaluri: string}[] $calendarInfos */
 		$calendarInfos = $this->calDavBackend->getCalendarsForUser($principalUri) ?? [];

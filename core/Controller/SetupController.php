@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Controller;
 
 use OC\IntegrityCheck\Checker;
@@ -114,6 +115,7 @@ class SetupController {
 
 		if ($this->setupHelper->shouldRemoveCanInstallFile()) {
 			$this->templateManager->printGuestPage('', 'installation_incomplete');
+			return;
 		}
 
 		header('Location: ' . Server::get(IURLGenerator::class)->getAbsoluteURL('index.php/core/apps/recommended'));

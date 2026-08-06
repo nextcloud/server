@@ -14,7 +14,6 @@ use OC\Net\IpAddressClassifier;
 use OC\Security\RemoteHostValidator;
 use OCP\IConfig;
 use OCP\Server;
-use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\NullLogger;
 use Test\TestCase;
 
@@ -23,6 +22,7 @@ class RemoteHostValidatorIntegrationTest extends TestCase {
 	private IConfig $config;
 	private RemoteHostValidator $validator;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

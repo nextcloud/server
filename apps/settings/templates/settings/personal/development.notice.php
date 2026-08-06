@@ -66,7 +66,6 @@
 				$l->t('Follow us on Mastodon'),
 				$l->t('Check out our blog'),
 				$l->t('Subscribe to our newsletter'),
-
 			],
 			'{facebookopen}<img width="50" height="50" src="{facebookimage}" title="{facebooktext}" alt="{facebooktext}">{linkclose}
 			{blueskyopen}<img width="50" height="50" src="{blueskyimage}" title="{blueskytext}" alt="{blueskytext}">{linkclose}

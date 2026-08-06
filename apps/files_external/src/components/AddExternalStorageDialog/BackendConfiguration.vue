@@ -20,9 +20,10 @@ const props = defineProps<{
 watch(() => props.configuration, () => {
 	for (const key in props.configuration) {
 		if (!(key in modelValue.value)) {
-			modelValue.value[key] = props.configuration[key]?.type === ConfigurationType.Boolean
+			modelValue.value[key] = props.configuration[key]?.defaultValue ?? (props.configuration[key]?.type === ConfigurationType.Boolean
 				? false
 				: ''
+			)
 		}
 	}
 }, { immediate: true })

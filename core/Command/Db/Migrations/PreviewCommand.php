@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Command\Db\Migrations;
 
 use OC\Migration\MetadataManager;
@@ -32,6 +33,7 @@ class PreviewCommand extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('migrations:preview')
@@ -41,6 +43,7 @@ class PreviewCommand extends Command {
 		parent::configure();
 	}
 
+	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$version = $input->getArgument('version');
 		if (filter_var($version, FILTER_VALIDATE_URL)) {

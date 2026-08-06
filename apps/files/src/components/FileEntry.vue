@@ -98,7 +98,7 @@
 			<CustomElementRender
 				:active-folder="activeFolder"
 				:active-view="activeView"
-				:render="column.render"
+				:render="adaptColumnRenderToCustomElementRender(column)"
 				:source="source" />
 		</td>
 	</tr>
@@ -108,6 +108,7 @@
 import { FileType, formatFileSize } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
+import { storeToRefs } from 'pinia'
 import { defineComponent } from 'vue'
 import NcDateTime from '@nextcloud/vue/components/NcDateTime'
 import CustomElementRender from './CustomElementRender.vue'
@@ -165,23 +166,26 @@ export default defineComponent({
 			fileId: currentRouteFileId,
 		} = useRouteParameters()
 
+		const activeStore = useActiveStore()
 		const {
 			activeFolder,
 			activeNode,
 			activeView,
-		} = useActiveStore()
+		} = storeToRefs(activeStore)
 
 		const actions = useFileActions()
 
 		return {
 			actions,
-			actionsMenuStore,
 			activeFolder,
 			activeNode,
 			activeView,
 			currentRouteFileId,
-			draggingStore,
 			isNarrow,
+
+			activeStore,
+			actionsMenuStore,
+			draggingStore,
 			filesStore,
 			renamingStore,
 			selectionStore,
@@ -273,20 +277,20 @@ export default defineComponent({
 	},
 
 	created() {
-		useHotKey('Enter', this.triggerDefaultAction, {
-			stop: true,
-			prevent: true,
-		})
+		useHotKey('Enter', this.triggerDefaultAction)
 	},
 
 	methods: {
 		formatFileSize,
 
-		triggerDefaultAction() {
+		triggerDefaultAction(event?: KeyboardEvent) {
 			// Don't react to the event if the file row is not active
 			if (!this.isActive) {
 				return
 			}
+
+			event?.preventDefault()
+			event?.stopPropagation()
 
 			this.defaultFileAction?.exec({
 				nodes: [this.source],
@@ -294,6 +298,12 @@ export default defineComponent({
 				contents: this.nodes,
 				view: this.activeView!,
 			})
+		},
+
+		adaptColumnRenderToCustomElementRender(column) {
+			return ({ nodes, view }) => {
+				return column.render(nodes[0], view)
+			}
 		},
 	},
 })

@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Contacts\ContactsMenu\Providers;
 
 use OCP\Contacts\ContactsMenu\IActionFactory;
@@ -18,6 +19,7 @@ class EMailProvider implements IProvider {
 	) {
 	}
 
+	#[\Override]
 	public function process(IEntry $entry): void {
 		$iconUrl = $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'actions/mail.svg'));
 		foreach ($entry->getEMailAddresses() as $address) {

@@ -21,22 +21,27 @@ class ActiveSessions implements IMetricFamily {
 	) {
 	}
 
+	#[\Override]
 	public function name(): string {
 		return 'active_sessions';
 	}
 
+	#[\Override]
 	public function type(): MetricType {
 		return MetricType::gauge;
 	}
 
+	#[\Override]
 	public function unit(): string {
 		return 'sessions';
 	}
 
+	#[\Override]
 	public function help(): string {
 		return 'Number of active sessions';
 	}
 
+	#[\Override]
 	public function metrics(): Generator {
 		$now = time();
 		$timeFrames = [

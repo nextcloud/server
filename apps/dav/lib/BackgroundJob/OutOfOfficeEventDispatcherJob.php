@@ -35,6 +35,7 @@ class OutOfOfficeEventDispatcherJob extends QueuedJob {
 		parent::__construct($time);
 	}
 
+	#[\Override]
 	public function run($argument): void {
 		$id = $argument['id'];
 		$event = $argument['event'];

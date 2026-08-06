@@ -72,6 +72,7 @@ interface Node extends FileInfo {
 	 * @throws NotFoundException
 	 * @since 6.0.0
 	 */
+	#[\Override]
 	public function getStorage();
 
 	/**
@@ -80,6 +81,7 @@ interface Node extends FileInfo {
 	 * @return string
 	 * @since 6.0.0
 	 */
+	#[\Override]
 	public function getPath();
 
 	/**
@@ -88,6 +90,7 @@ interface Node extends FileInfo {
 	 * @return string
 	 * @since 6.0.0
 	 */
+	#[\Override]
 	public function getInternalPath();
 
 	/**
@@ -98,6 +101,7 @@ interface Node extends FileInfo {
 	 * @throws NotFoundException
 	 * @since 6.0.0
 	 */
+	#[\Override]
 	public function getId();
 
 	/**
@@ -119,6 +123,7 @@ interface Node extends FileInfo {
 	 * @throws NotFoundException
 	 * @since 6.0.0
 	 */
+	#[\Override]
 	public function getMTime();
 
 	/**
@@ -130,6 +135,7 @@ interface Node extends FileInfo {
 	 * @throws NotFoundException
 	 * @since 6.0.0
 	 */
+	#[\Override]
 	public function getSize($includeMounts = true);
 
 	/**
@@ -142,8 +148,8 @@ interface Node extends FileInfo {
 	 * @throws NotFoundException
 	 * @since 6.0.0
 	 */
+	#[\Override]
 	public function getEtag();
-
 
 	/**
 	 * Get the permissions of the file or folder as a combination of one or more of the following constants:
@@ -158,6 +164,7 @@ interface Node extends FileInfo {
 	 * @throws NotFoundException
 	 * @since 6.0.0 - namespace of constants has changed in 8.0.0
 	 */
+	#[\Override]
 	public function getPermissions();
 
 	/**
@@ -168,6 +175,7 @@ interface Node extends FileInfo {
 	 * @throws NotFoundException
 	 * @since 6.0.0
 	 */
+	#[\Override]
 	public function isReadable();
 
 	/**
@@ -178,6 +186,7 @@ interface Node extends FileInfo {
 	 * @throws NotFoundException
 	 * @since 6.0.0
 	 */
+	#[\Override]
 	public function isUpdateable();
 
 	/**
@@ -188,6 +197,7 @@ interface Node extends FileInfo {
 	 * @throws NotFoundException
 	 * @since 6.0.0
 	 */
+	#[\Override]
 	public function isDeletable();
 
 	/**
@@ -198,6 +208,7 @@ interface Node extends FileInfo {
 	 * @throws NotFoundException
 	 * @since 6.0.0
 	 */
+	#[\Override]
 	public function isShareable();
 
 	/**
@@ -214,6 +225,7 @@ interface Node extends FileInfo {
 	 * @return string
 	 * @since 6.0.0
 	 */
+	#[\Override]
 	public function getName();
 
 	/**

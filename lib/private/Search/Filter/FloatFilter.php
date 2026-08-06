@@ -22,6 +22,7 @@ class FloatFilter implements IFilter {
 		}
 	}
 
+	#[\Override]
 	public function get(): float {
 		return $this->value;
 	}

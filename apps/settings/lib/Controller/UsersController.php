@@ -31,6 +31,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\NoSubAdminRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
@@ -94,7 +95,6 @@ class UsersController extends Controller {
 	) {
 		parent::__construct($appName, $request);
 	}
-
 
 	/**
 	 * Display users list template
@@ -255,7 +255,7 @@ class UsersController extends Controller {
 		$this->initialState->provideInitialState('usersSettings', $serverData);
 
 		Util::addStyle('settings', 'settings');
-		Util::addScript('settings', 'vue-settings-apps-users-management');
+		Util::addScript('settings', 'vue-settings-users-management');
 
 		return new TemplateResponse('settings', 'settings/empty', ['pageTitle' => $this->l10n->t('Settings')]);
 	}
@@ -330,32 +330,8 @@ class UsersController extends Controller {
 		return $canChangePassword;
 	}
 
-	/**
-	 * @NoSubAdminRequired
-	 *
-	 * @param string|null $avatarScope
-	 * @param string|null $displayname
-	 * @param string|null $displaynameScope
-	 * @param string|null $phone
-	 * @param string|null $phoneScope
-	 * @param string|null $email
-	 * @param string|null $emailScope
-	 * @param string|null $website
-	 * @param string|null $websiteScope
-	 * @param string|null $address
-	 * @param string|null $addressScope
-	 * @param string|null $twitter
-	 * @param string|null $twitterScope
-	 * @param string|null $bluesky
-	 * @param string|null $blueskyScope
-	 * @param string|null $fediverse
-	 * @param string|null $fediverseScope
-	 * @param string|null $birthdate
-	 * @param string|null $birthdateScope
-	 *
-	 * @return DataResponse
-	 */
 	#[NoAdminRequired]
+	#[NoSubAdminRequired]
 	#[PasswordConfirmationRequired]
 	#[UserRateLimit(limit: 5, period: 60)]
 	public function setUserSettings(?string $avatarScope = null,
@@ -379,7 +355,7 @@ class UsersController extends Controller {
 		?string $birthdateScope = null,
 		?string $pronouns = null,
 		?string $pronounsScope = null,
-	) {
+	): DataResponse {
 		$user = $this->userSession->getUser();
 		if (!$user instanceof IUser) {
 			return new DataResponse(
@@ -524,12 +500,9 @@ class UsersController extends Controller {
 	/**
 	 * Set the mail address of a user
 	 *
-	 * @NoSubAdminRequired
-	 *
-	 * @param string $account
 	 * @param bool $onlyVerificationCode only return verification code without updating the data
-	 * @return DataResponse
 	 */
+	#[NoSubAdminRequired]
 	#[NoAdminRequired]
 	#[PasswordConfirmationRequired]
 	public function getVerificationCode(string $account, bool $onlyVerificationCode): DataResponse {

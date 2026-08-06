@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Settings\Personal;
 
 use OCA\Viewer\Event\LoadViewer;
@@ -32,6 +33,7 @@ class ServerDevNotice implements ISettings {
 	/**
 	 * @return TemplateResponse
 	 */
+	#[\Override]
 	public function getForm(): TemplateResponse {
 		$userFolder = $this->rootFolder->getUserFolder($this->userSession->getUser()->getUID());
 
@@ -58,6 +60,7 @@ class ServerDevNotice implements ISettings {
 	/**
 	 * @return string|null the section ID, e.g. 'sharing'
 	 */
+	#[\Override]
 	public function getSection(): ?string {
 		if ($this->registry->delegateHasValidSubscription()) {
 			return null;
@@ -73,6 +76,7 @@ class ServerDevNotice implements ISettings {
 	 *
 	 * E.g.: 70
 	 */
+	#[\Override]
 	public function getPriority(): int {
 		return 1000;
 	}

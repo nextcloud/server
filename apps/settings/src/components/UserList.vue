@@ -8,18 +8,23 @@
 		<NewUserDialog
 			v-if="showConfig.showNewUserForm"
 			:loading="loading"
-			:new-user="newUser"
-			:quota-options="quotaOptions"
-			@reset="resetForm"
+			:newUser="newUser"
+			:quotaOptions="quotaOptions"
 			@closing="closeDialog" />
+
+		<EditUserDialog
+			v-if="editingUser"
+			:user="editingUser"
+			:quotaOptions="quotaOptions"
+			@closing="editingUser = null" />
 
 		<NcEmptyContent
 			v-if="filteredUsers.length === 0"
 			class="empty"
-			:name="isInitialLoad && loading.users ? null : t('settings', 'No accounts')">
+			:name="loading.users ? undefined : t('settings', 'No accounts')">
 			<template #icon>
 				<NcLoadingIcon
-					v-if="isInitialLoad && loading.users"
+					v-if="loading.users"
 					:name="t('settings', 'Loading accounts …')"
 					:size="64" />
 				<NcIconSvgWrapper v-else :path="mdiAccountGroupOutline" :size="64" />
@@ -32,15 +37,15 @@
 			:data-sources="filteredUsers"
 			data-key="id"
 			data-cy-user-list
-			:item-height="rowHeight"
+			:itemHeight="rowHeight"
 			:style="style"
-			:extra-props="{
+			:extraProps="{
 				users,
 				settings,
-				hasObfuscated,
 				quotaOptions,
 				languages,
 				externalActions,
+				onEditUser: openEditDialog,
 			}"
 			@scroll-end="handleScrollEnd">
 			<template #before>
@@ -50,43 +55,58 @@
 			</template>
 
 			<template #header>
-				<UserListHeader :has-obfuscated="hasObfuscated" />
+				<UserListHeader />
 			</template>
 
 			<template #footer>
 				<UserListFooter
 					:loading="loading.users"
-					:filtered-users="filteredUsers" />
+					:filteredUsers="filteredUsers" />
 			</template>
 		</VirtualList>
 	</Fragment>
 </template>
 
-<script>
+<script setup lang="ts">
+import type { IUser } from '../views/user-types.d.ts'
+import type { FormData } from './Users/userFormUtils.ts'
+
 import { mdiAccountGroupOutline } from '@mdi/js'
 import { showError } from '@nextcloud/dialogs'
-import { subscribe, unsubscribe } from '@nextcloud/event-bus'
-import Vue from 'vue'
+import { translate as t } from '@nextcloud/l10n'
+import { computed, reactive, ref, watch } from 'vue'
 import { Fragment } from 'vue-frag'
+import { useRouter } from 'vue-router/composables'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import EditUserDialog from './Users/EditUserDialog.vue'
 import NewUserDialog from './Users/NewUserDialog.vue'
 import UserListFooter from './Users/UserListFooter.vue'
 import UserListHeader from './Users/UserListHeader.vue'
 import UserRow from './Users/UserRow.vue'
 import VirtualList from './Users/VirtualList.vue'
 import logger from '../logger.ts'
-import { defaultQuota, isObfuscated, unlimitedQuota } from '../utils/userUtils.ts'
+import { useStore } from '../store/index.js'
+import { defaultQuota, unlimitedQuota } from '../utils/userUtils.ts'
 
-const newUser = Object.freeze({
-	id: '',
+const props = withDefaults(defineProps<{
+	selectedGroup?: string | null
+	externalActions?: { icon: string, text: string, action: (...args: unknown[]) => void }[]
+}>(), {
+	selectedGroup: null,
+	externalActions: () => [],
+})
+const rowHeight = 55
+
+const defaultNewUser = Object.freeze({
+	username: '',
 	displayName: '',
 	password: '',
-	mailAddress: '',
+	email: '',
 	groups: [],
 	manager: '',
-	subAdminsGroups: [],
+	subadminGroups: [],
 	quota: defaultQuota,
 	language: {
 		code: 'en',
@@ -94,304 +114,224 @@ const newUser = Object.freeze({
 	},
 })
 
-export default {
-	name: 'UserList',
+const store = useStore()
+const router = useRouter()
 
-	components: {
-		Fragment,
-		NcEmptyContent,
-		NcIconSvgWrapper,
-		NcLoadingIcon,
-		NewUserDialog,
-		UserListFooter,
-		UserListHeader,
-		VirtualList,
+const loading = reactive({
+	all: false,
+	groups: false,
+	users: false,
+})
+const newUser = reactive<FormData>({ ...defaultNewUser })
+const editingUser = ref<IUser | null>(null)
+
+const searchQuery = computed(() => store.getters.getSearchQuery)
+const showConfig = computed(() => store.getters.getShowConfig)
+const settings = computed(() => store.getters.getServerData)
+const style = computed(() => ({ '--row-height': `${rowHeight}px` }))
+const users = computed(() => store.getters.getUsers)
+
+const filteredUsers = computed(() => {
+	if (props.selectedGroup === 'disabled') {
+		return users.value.filter((user) => user.enabled === false)
+	}
+	return users.value.filter((user) => user.enabled !== false)
+})
+
+const groups = computed(() => store.getters.getSortedGroups
+	.filter((group) => group.id !== '__nc_internal_recent' && group.id !== 'disabled'))
+
+const quotaOptions = computed(() => {
+	// convert the preset array into objects
+	const quotaPreset = settings.value.quotaPreset.reduce((acc, cur) => acc.concat({
+		id: cur,
+		label: cur,
+	}), [])
+	// add default presets
+	if (settings.value.allowUnlimitedQuota) {
+		quotaPreset.unshift(unlimitedQuota)
+	}
+	quotaPreset.unshift(defaultQuota)
+	return quotaPreset
+})
+
+const usersOffset = computed(() => store.getters.getUsersOffset)
+const usersLimit = computed(() => store.getters.getUsersLimit)
+const disabledUsersOffset = computed(() => store.getters.getDisabledUsersOffset)
+const disabledUsersLimit = computed(() => store.getters.getDisabledUsersLimit)
+
+/* LANGUAGES */
+const languages = computed(() => [
+	{
+		label: t('settings', 'Common languages'),
+		languages: settings.value.languages.commonLanguages,
 	},
-
-	props: {
-		selectedGroup: {
-			type: String,
-			default: null,
-		},
-
-		externalActions: {
-			type: Array,
-			default: () => [],
-		},
+	{
+		label: t('settings', 'Other languages'),
+		languages: settings.value.languages.otherLanguages,
 	},
+])
 
-	setup() {
-		// non reactive properties
-		return {
-			mdiAccountGroupOutline,
-			rowHeight: 55,
+watch(searchQuery, async () => {
+	store.commit('resetUsers')
+	await loadUsers()
+})
 
-			UserRow,
-		}
-	},
+// watch url change and group select
+watch(() => props.selectedGroup, async (val) => {
+	// if selected is the disabled group but it's empty
+	await redirectIfDisabled()
+	store.commit('resetUsers')
+	await loadUsers()
+	setNewUserDefaultGroup(val)
+})
 
-	data() {
-		return {
-			loading: {
-				all: false,
-				groups: false,
-				users: false,
-			},
+watch(filteredUsers, (value) => {
+	logger.debug(`${value.length} filtered user(s)`)
+})
 
-			newUser: { ...newUser },
-			isInitialLoad: true,
-			searchQuery: '',
-		}
-	},
-
-	computed: {
-		showConfig() {
-			return this.$store.getters.getShowConfig
-		},
-
-		settings() {
-			return this.$store.getters.getServerData
-		},
-
-		style() {
-			return {
-				'--row-height': `${this.rowHeight}px`,
-			}
-		},
-
-		hasObfuscated() {
-			return this.filteredUsers.some((user) => isObfuscated(user))
-		},
-
-		users() {
-			return this.$store.getters.getUsers
-		},
-
-		filteredUsers() {
-			if (this.selectedGroup === 'disabled') {
-				return this.users.filter((user) => user.enabled === false)
-			}
-			return this.users.filter((user) => user.enabled !== false)
-		},
-
-		groups() {
-			return this.$store.getters.getSortedGroups
-				.filter((group) => group.id !== '__nc_internal_recent' && group.id !== 'disabled')
-		},
-
-		quotaOptions() {
-			// convert the preset array into objects
-			const quotaPreset = this.settings.quotaPreset.reduce((acc, cur) => acc.concat({
-				id: cur,
-				label: cur,
-			}), [])
-			// add default presets
-			if (this.settings.allowUnlimitedQuota) {
-				quotaPreset.unshift(unlimitedQuota)
-			}
-			quotaPreset.unshift(defaultQuota)
-			return quotaPreset
-		},
-
-		usersOffset() {
-			return this.$store.getters.getUsersOffset
-		},
-
-		usersLimit() {
-			return this.$store.getters.getUsersLimit
-		},
-
-		disabledUsersOffset() {
-			return this.$store.getters.getDisabledUsersOffset
-		},
-
-		disabledUsersLimit() {
-			return this.$store.getters.getDisabledUsersLimit
-		},
-
-		usersCount() {
-			return this.users.length
-		},
-
-		/* LANGUAGES */
-		languages() {
-			return [
-				{
-					label: t('settings', 'Common languages'),
-					languages: this.settings.languages.commonLanguages,
-				},
-				{
-					label: t('settings', 'Other languages'),
-					languages: this.settings.languages.otherLanguages,
-				},
-			]
-		},
-	},
-
-	watch: {
-		// watch url change and group select
-		async selectedGroup(val) {
-			this.isInitialLoad = true
-			// if selected is the disabled group but it's empty
-			await this.redirectIfDisabled()
-			this.$store.commit('resetUsers')
-			await this.loadUsers()
-			this.setNewUserDefaultGroup(val)
-		},
-
-		filteredUsers(filteredUsers) {
-			logger.debug(`${filteredUsers.length} filtered user(s)`)
-		},
-	},
-
-	async created() {
-		await this.loadUsers()
-	},
-
-	async mounted() {
-		if (!this.settings.canChangePassword) {
-			OC.Notification.showTemporary(t('settings', 'Password change is disabled because the master key is disabled'))
-		}
-
-		/**
-		 * Reset and init new user form
-		 */
-		this.resetForm()
-
-		/**
-		 * Register search
-		 */
-		subscribe('nextcloud:unified-search.search', this.search)
-		subscribe('nextcloud:unified-search.reset', this.resetSearch)
-
-		/**
-		 * If disabled group but empty, redirect
-		 */
-		await this.redirectIfDisabled()
-	},
-
-	beforeDestroy() {
-		unsubscribe('nextcloud:unified-search.search', this.search)
-		unsubscribe('nextcloud:unified-search.reset', this.resetSearch)
-	},
-
-	methods: {
-		async handleScrollEnd() {
-			await this.loadUsers()
-		},
-
-		async loadUsers() {
-			this.loading.users = true
-			try {
-				if (this.selectedGroup === 'disabled') {
-					await this.$store.dispatch('getDisabledUsers', {
-						offset: this.disabledUsersOffset,
-						limit: this.disabledUsersLimit,
-						search: this.searchQuery,
-					})
-				} else if (this.selectedGroup === '__nc_internal_recent') {
-					await this.$store.dispatch('getRecentUsers', {
-						offset: this.usersOffset,
-						limit: this.usersLimit,
-						search: this.searchQuery,
-					})
-				} else {
-					await this.$store.dispatch('getUsers', {
-						offset: this.usersOffset,
-						limit: this.usersLimit,
-						group: this.selectedGroup,
-						search: this.searchQuery,
-					})
-				}
-				logger.debug(`${this.users.length} total user(s) loaded`)
-			} catch (error) {
-				logger.error('Failed to load accounts', { error })
-				showError('Failed to load accounts')
-			}
-			this.loading.users = false
-			this.isInitialLoad = false
-		},
-
-		closeDialog() {
-			this.$store.dispatch('setShowConfig', {
-				key: 'showNewUserForm',
-				value: false,
-			})
-		},
-
-		async search({ query }) {
-			this.searchQuery = query
-			this.$store.commit('resetUsers')
-			await this.loadUsers()
-		},
-
-		resetSearch() {
-			this.search({ query: '' })
-		},
-
-		resetForm() {
-			// revert form to original state
-			this.newUser = { ...newUser }
-
-			/**
-			 * Init default language from server data. The use of this.settings
-			 * requires a computed variable, which break the v-model binding of the form,
-			 * this is a much easier solution than getter and setter on a computed var
-			 */
-			if (this.settings.defaultLanguage) {
-				Vue.set(this.newUser.language, 'code', this.settings.defaultLanguage)
-			}
-
-			/**
-			 * In case the user directly loaded the user list within a group
-			 * the watch won't be triggered. We need to initialize it.
-			 */
-			this.setNewUserDefaultGroup(this.selectedGroup)
-
-			this.loading.all = false
-		},
-
-		setNewUserDefaultGroup(value) {
-			// Is no value set, but user is a line manager we set their group as this is a requirement for line manager
-			if (!value && !this.settings.isAdmin && !this.settings.isDelegatedAdmin) {
-				const groups = this.$store.getters.getSubAdminGroups
-				// if there are multiple groups we do not know which to add,
-				// so we cannot make the managers life easier by preselecting it.
-				if (groups.length === 1) {
-					this.newUser.groups = [...groups]
-				}
-				return
-			}
-
-			if (value) {
-				// setting new account default group to the current selected one
-				const currentGroup = this.groups.find((group) => group.id === value)
-				if (currentGroup) {
-					this.newUser.groups = [currentGroup]
-					return
-				}
-			}
-			// fallback, empty selected group
-			this.newUser.groups = []
-		},
-
-		/**
-		 * If the selected group is the disabled group but the count is 0
-		 * redirect to the all users page.
-		 * we only check for 0 because we don't have the count on ldap
-		 * and we therefore set the usercount to -1 in this specific case
-		 */
-		async redirectIfDisabled() {
-			const allGroups = this.$store.getters.getGroups
-			if (this.selectedGroup === 'disabled'
-				&& allGroups.findIndex((group) => group.id === 'disabled' && group.usercount === 0) > -1) {
-				// disabled group is empty, redirection to all users
-				this.$router.push({ name: 'users' })
-				await this.loadUsers()
-			}
-		},
-	},
+/**
+ * Open the edit dialog for a user.
+ *
+ * @param user The user to edit
+ */
+function openEditDialog(user: IUser) {
+	editingUser.value = user
 }
+
+/**
+ * Load the next page when the list scrolls to the end.
+ */
+async function handleScrollEnd() {
+	await loadUsers()
+}
+
+/**
+ * Load accounts for the current selection (disabled, recent, or a group).
+ */
+async function loadUsers() {
+	loading.users = true
+	try {
+		if (props.selectedGroup === 'disabled') {
+			await store.dispatch('getDisabledUsers', {
+				offset: disabledUsersOffset.value,
+				limit: disabledUsersLimit.value,
+				search: searchQuery.value,
+			})
+		} else if (props.selectedGroup === '__nc_internal_recent') {
+			await store.dispatch('getRecentUsers', {
+				offset: usersOffset.value,
+				limit: usersLimit.value,
+				search: searchQuery.value,
+			})
+		} else {
+			await store.dispatch('getUsers', {
+				offset: usersOffset.value,
+				limit: usersLimit.value,
+				group: props.selectedGroup,
+				search: searchQuery.value,
+			})
+		}
+		logger.debug(`${users.value.length} total user(s) loaded`)
+	} catch (error) {
+		logger.error('Failed to load accounts', { error })
+		showError('Failed to load accounts')
+	}
+	loading.users = false
+}
+
+/**
+ * Close the new-account dialog and reset the form.
+ */
+function closeDialog() {
+	store.dispatch('setShowConfig', {
+		key: 'showNewUserForm',
+		value: false,
+	})
+	resetForm()
+}
+
+/**
+ * Reset the new user form to its initial state.
+ * Uses in-place mutation (Object.assign + splice) so the
+ * provide/inject reference stays intact.
+ */
+function resetForm() {
+	Object.assign(newUser, {
+		...defaultNewUser,
+		groups: [],
+		subadminGroups: [],
+	})
+	newUser.groups.splice(0)
+	newUser.subadminGroups.splice(0)
+	initForm()
+}
+
+/**
+ * Initialise the new-account form defaults (language and group).
+ */
+function initForm() {
+	// Set the default language directly (not via a computed) to keep the form's v-model binding intact.
+	if (settings.value.defaultLanguage) {
+		newUser.language.code = settings.value.defaultLanguage
+	}
+	setNewUserDefaultGroup(props.selectedGroup)
+	loading.all = false
+}
+
+/**
+ * Preselect the new account's group from the current selection or role.
+ *
+ * @param value The currently selected group id, or null
+ */
+function setNewUserDefaultGroup(value: string | null) {
+	// Is no value set, but user is a line manager we set their group as this is a requirement for line manager
+	if (!value && !settings.value.isAdmin && !settings.value.isDelegatedAdmin) {
+		const subAdminGroups = store.getters.getSubAdminGroups
+		// if there are multiple groups we do not know which to add,
+		// so we cannot make the managers life easier by preselecting it.
+		if (subAdminGroups.length === 1) {
+			newUser.groups = [...subAdminGroups]
+		}
+		return
+	}
+
+	if (value) {
+		// setting new account default group to the current selected one
+		const currentGroup = groups.value.find((group) => group.id === value)
+		if (currentGroup) {
+			newUser.groups = [currentGroup]
+			return
+		}
+	}
+	// fallback, empty selected group
+	newUser.groups = []
+}
+
+/**
+ * If the selected group is the disabled group but the count is 0
+ * redirect to the all users page.
+ * we only check for 0 because we don't have the count on ldap
+ * and we therefore set the usercount to -1 in this specific case
+ */
+async function redirectIfDisabled() {
+	const allGroups = store.getters.getGroups
+	if (props.selectedGroup === 'disabled'
+		&& allGroups.findIndex((group) => group.id === 'disabled' && group.usercount === 0) > -1) {
+		// disabled group is empty, redirection to all users
+		router.push({ name: 'users' })
+		await loadUsers()
+	}
+}
+
+// Setup-body work runs once, unawaited, matching the original created/mounted lifecycle.
+loadUsers()
+
+if (!settings.value.canChangePassword) {
+	window.OC.Notification.showTemporary(t('settings', 'Password change is disabled because the master key is disabled'))
+}
+initForm()
+redirectIfDisabled()
 </script>
 
 <style lang="scss" scoped>

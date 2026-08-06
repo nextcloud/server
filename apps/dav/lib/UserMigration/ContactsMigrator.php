@@ -179,6 +179,7 @@ class ContactsMigrator implements IMigrator, ISizeEstimationMigrator {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getEstimatedExportSize(IUser $user): int|float {
 		$addressBookExports = $this->getAddressBookExports($user, new NullOutput());
 		$addressBookCount = count($addressBookExports);
@@ -200,6 +201,7 @@ class ContactsMigrator implements IMigrator, ISizeEstimationMigrator {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function export(IUser $user, IExportDestination $exportDestination, OutputInterface $output): void {
 		$output->writeln('Exporting contacts into ' . ContactsMigrator::PATH_ROOT . '…');
 
@@ -310,6 +312,7 @@ class ContactsMigrator implements IMigrator, ISizeEstimationMigrator {
 	 *
 	 * @throws ContactsMigratorException
 	 */
+	#[\Override]
 	public function import(IUser $user, IImportSource $importSource, OutputInterface $output): void {
 		if ($importSource->getMigratorVersion($this->getId()) === null) {
 			$output->writeln('No version for ' . static::class . ', skipping import…');
@@ -377,6 +380,7 @@ class ContactsMigrator implements IMigrator, ISizeEstimationMigrator {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getId(): string {
 		return 'contacts';
 	}
@@ -384,6 +388,7 @@ class ContactsMigrator implements IMigrator, ISizeEstimationMigrator {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getDisplayName(): string {
 		return $this->l10n->t('Contacts');
 	}
@@ -391,6 +396,7 @@ class ContactsMigrator implements IMigrator, ISizeEstimationMigrator {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getDescription(): string {
 		return $this->l10n->t('Contacts and groups');
 	}

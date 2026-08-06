@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Controller;
 
 use OC\AppFramework\Utility\TimeFactory;
@@ -99,7 +100,6 @@ class AvatarController extends Controller {
 		$response->cacheFor(60 * 60 * 24, false, true);
 		return $response;
 	}
-
 
 	/**
 	 * Get the avatar

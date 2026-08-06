@@ -14,6 +14,8 @@ use OC\AppFramework\Middleware\Security\Exceptions\NotAdminException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OCA\Settings\Middleware\SubadminMiddleware;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
+use OCP\AppFramework\Http\Attribute\NoSubAdminRequired;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Group\ISubAdmin;
 use OCP\IL10N;
@@ -23,7 +25,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Verifies whether an user has at least subadmin rights.
- * To bypass use the `@NoSubAdminRequired` annotation
+ * To bypass use the `#[NoSubAdminRequired]` attribute
  *
  * @package Tests\Settings\Middleware
  */
@@ -57,16 +59,15 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 			->willReturn($this->createMock(IUser::class));
 	}
 
-
 	public function testBeforeControllerAsUserWithoutAnnotation(): void {
 		$this->expectException(NotAdminException::class);
 
 		$this->reflector
 			->expects($this->exactly(2))
-			->method('hasAnnotation')
+			->method('hasAnnotationOrAttribute')
 			->willReturnMap([
-				['NoSubAdminRequired', false],
-				['AuthorizedAdminSetting', false],
+				['NoSubAdminRequired', NoSubAdminRequired::class, false],
+				['AuthorizedAdminSetting', AuthorizedAdminSetting::class, false],
 			]);
 
 		$this->subAdminManager
@@ -77,12 +78,11 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 		$this->subadminMiddleware->beforeController($this->controller, 'foo');
 	}
 
-
 	public function testBeforeControllerWithAnnotation(): void {
 		$this->reflector
 			->expects($this->once())
-			->method('hasAnnotation')
-			->with('NoSubAdminRequired')
+			->method('hasAnnotationOrAttribute')
+			->with('NoSubAdminRequired', NoSubAdminRequired::class)
 			->willReturn(true);
 
 		$this->subAdminManager
@@ -95,10 +95,10 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 	public function testBeforeControllerAsSubAdminWithoutAnnotation(): void {
 		$this->reflector
 			->expects($this->exactly(2))
-			->method('hasAnnotation')
+			->method('hasAnnotationOrAttribute')
 			->willReturnMap([
-				['NoSubAdminRequired', false],
-				['AuthorizedAdminSetting', false],
+				['NoSubAdminRequired', NoSubAdminRequired::class, false],
+				['AuthorizedAdminSetting', AuthorizedAdminSetting::class, false],
 			]);
 
 		$this->subAdminManager
@@ -114,7 +114,6 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 		$expectedResponse->setStatus(403);
 		$this->assertEquals($expectedResponse, $this->subadminMiddleware->afterException($this->controller, 'foo', new NotAdminException('')));
 	}
-
 
 	public function testAfterRegularException(): void {
 		$this->expectException(\Exception::class);

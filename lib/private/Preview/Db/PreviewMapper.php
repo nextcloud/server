@@ -11,6 +11,7 @@ namespace OC\Preview\Db;
 
 use DateInterval;
 use DateTimeImmutable;
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\Entity;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\Exception;
@@ -38,6 +39,7 @@ class PreviewMapper extends QBMapper {
 		parent::__construct($db, self::TABLE_NAME, Preview::class);
 	}
 
+	#[\Override]
 	protected function mapRowToEntity(array $row): Entity {
 		$row['mimetype'] = $this->mimeTypeLoader->getMimetypeById((int)$row['mimetype_id']);
 		$row['source_mimetype'] = $this->mimeTypeLoader->getMimetypeById((int)$row['source_mimetype_id']);
@@ -218,7 +220,6 @@ class PreviewMapper extends QBMapper {
 		}
 
 		return $this->yieldEntities($qb);
-
 	}
 
 	/**
@@ -234,5 +235,20 @@ class PreviewMapper extends QBMapper {
 				}, $mimeTypes)
 			));
 		return $this->yieldEntities($qb);
+	}
+
+	public function getPreviewForSpecification(array $parameters): ?Preview {
+		$qb = $this->db->getQueryBuilder();
+		$this->joinLocation($qb);
+
+		foreach ($parameters as $key => $value) {
+			$qb->andWhere($qb->expr()->eq($key, $qb->createNamedParameter($value)));
+		}
+
+		try {
+			return $this->findEntity($qb);
+		} catch (DoesNotExistException) {
+			return null;
+		}
 	}
 }

@@ -18,17 +18,23 @@ use OCP\ITempManager;
 class FileSequenceTest extends ISequenceBase {
 	private string $path;
 
+	#[\Override]
 	public function setUp():void {
+		parent::setUp();
+
 		$tempManager = $this->createMock(ITempManager::class);
 		$this->path = sys_get_temp_dir();
 		$tempManager->method('getTempBaseDir')->willReturn($this->path);
 		$this->sequence = new FileSequence($tempManager);
 	}
 
+	#[\Override]
 	public function tearDown():void {
 		$lockDirectory = $this->path . '/' . FileSequence::LOCK_FILE_DIRECTORY;
 		foreach (glob($lockDirectory . '/*') as $file) {
 			unlink($file);
 		}
+
+		parent::tearDown();
 	}
 }

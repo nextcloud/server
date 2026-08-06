@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2017 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Tests\Migration;
 
 use OCA\Files_Sharing\Migration\SetPasswordColumn;

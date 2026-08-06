@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Repair\NC20;
 
 use OCP\Encryption\IManager;
@@ -20,6 +21,7 @@ class EncryptionLegacyCipher implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Keep legacy encryption enabled';
 	}
@@ -29,6 +31,7 @@ class EncryptionLegacyCipher implements IRepairStep {
 		return version_compare($versionFromBeforeUpdate, '20.0.0.0', '<=');
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		if (!$this->shouldRun()) {
 			return;

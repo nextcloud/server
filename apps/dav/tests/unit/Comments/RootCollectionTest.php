@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Comments;
 
 use OC\EventDispatcher\EventDispatcher;
@@ -69,13 +70,11 @@ class RootCollectionTest extends \Test\TestCase {
 		});
 	}
 
-
 	public function testCreateFile(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		$this->collection->createFile('foo');
 	}
-
 
 	public function testCreateDirectory(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
@@ -89,14 +88,12 @@ class RootCollectionTest extends \Test\TestCase {
 		$this->assertInstanceOf(EntityTypeCollectionImplementation::class, $etc);
 	}
 
-
 	public function testGetChildInvalid(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
 		$this->prepareForInitCollections();
 		$this->collection->getChild('robots');
 	}
-
 
 	public function testGetChildNoAuth(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotAuthenticated::class);
@@ -112,7 +109,6 @@ class RootCollectionTest extends \Test\TestCase {
 			$this->assertInstanceOf(EntityTypeCollectionImplementation::class, $child);
 		}
 	}
-
 
 	public function testGetChildrenNoAuth(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotAuthenticated::class);
@@ -130,13 +126,11 @@ class RootCollectionTest extends \Test\TestCase {
 		$this->assertFalse($this->collection->childExists('robots'));
 	}
 
-
 	public function testChildExistsNoAuth(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotAuthenticated::class);
 
 		$this->collection->childExists('files');
 	}
-
 
 	public function testDelete(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
@@ -147,7 +141,6 @@ class RootCollectionTest extends \Test\TestCase {
 	public function testGetName(): void {
 		$this->assertSame('comments', $this->collection->getName());
 	}
-
 
 	public function testSetName(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);

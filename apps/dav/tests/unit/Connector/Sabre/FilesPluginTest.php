@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\Accounts\Account;
@@ -332,9 +333,12 @@ class FilesPluginTest extends TestCase {
 
 		/** @var File&MockObject $node */
 		$node = $this->createTestNode(File::class);
-		$node->expects($this->any())
-			->method('getDavPermissions')
-			->willReturn('DWCKMSR');
+		$node->expects($this->once())
+			->method('getPublicDavPermissions')
+			->willReturn('DWCKR');
+
+		$node->expects($this->never())
+			->method('getDavPermissions');
 
 		$this->plugin->handleGetProperties(
 			$propFind,
@@ -467,7 +471,6 @@ class FilesPluginTest extends TestCase {
 			FilesPlugin::LASTMODIFIED_PROPERTYNAME => $testDate,
 			FilesPlugin::CREATIONDATE_PROPERTYNAME => $testCreationDate,
 		]);
-
 
 		$this->plugin->handleUpdateProperties(
 			'/dummypath',

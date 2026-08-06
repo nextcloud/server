@@ -13,8 +13,8 @@ import { basename, dirname, extname } from '@nextcloud/paths'
 import { spawnDialog } from '@nextcloud/vue/functions/dialog'
 import { defineStore } from 'pinia'
 import Vue, { defineAsyncComponent, ref } from 'vue'
-import logger from '../logger.ts'
 import { fetchNode } from '../services/WebdavClient.ts'
+import { logger } from '../utils/logger.ts'
 import { useUserConfigStore } from './userconfig.ts'
 
 export const useRenamingStore = defineStore('renaming', () => {
@@ -66,8 +66,7 @@ export const useRenamingStore = defineStore('renaming', () => {
 				// Check for extension change for files
 				if (node.type === FileType.File
 					&& oldExtension !== newExtension
-					&& !(await showFileExtensionDialog(oldExtension, newExtension))
-				) {
+					&& !(await showFileExtensionDialog(oldExtension, newExtension))) {
 					// user selected to use the old extension
 					newName = basename(newName, newExtension) + oldExtension
 					if (oldName === newName) {
@@ -78,8 +77,7 @@ export const useRenamingStore = defineStore('renaming', () => {
 				if (!userConfig.userConfig.show_hidden
 					&& newName.startsWith('.')
 					&& !oldName.startsWith('.')
-					&& !(await showHiddenFileDialog(newName))
-				) {
+					&& !(await showHiddenFileDialog(newName))) {
 					return false
 				}
 			}
@@ -126,7 +124,7 @@ export const useRenamingStore = defineStore('renaming', () => {
 			if (isAxiosError(error)) {
 				// TODO: 409 means current folder does not exist, redirect ?
 				if (error?.response?.status === 404) {
-					throw new Error(t('files', 'Could not rename "{oldName}", it does not exist any more', { oldName }))
+					throw new Error(t('files', 'Could not rename "{oldName}", it does not exist any more', { oldName }), { cause: error })
 				} else if (error?.response?.status === 412) {
 					throw new Error(t(
 						'files',
@@ -135,11 +133,11 @@ export const useRenamingStore = defineStore('renaming', () => {
 							newName,
 							dir: basename(renamingNode.value!.dirname),
 						},
-					))
+					), { cause: error })
 				}
 			}
 			// Unknown error
-			throw new Error(t('files', 'Could not rename "{oldName}"', { oldName }))
+			throw new Error(t('files', 'Could not rename "{oldName}"', { oldName }), { cause: error })
 		} finally {
 			Vue.set(node, 'status', undefined)
 			isRenaming.value = false

@@ -44,6 +44,7 @@ class ContactsStore implements IContactsStore {
 	/**
 	 * @return IEntry[]
 	 */
+	#[\Override]
 	public function getContacts(IUser $user, ?string $filter, ?int $limit = null, ?int $offset = null): array {
 		$options = [
 			'enumeration' => $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes',
@@ -183,7 +184,7 @@ class ContactsStore implements IContactsStore {
 			$decodedExcludeGroups = json_decode($excludedGroups, true);
 			$excludeGroupsList = $decodedExcludeGroups ?? [];
 
-			if ($excludeGroups != 'allow') {
+			if ($excludeGroups !== 'allow') {
 				if (count($selfGroups) > 0 && count(array_diff($selfGroups, $excludeGroupsList)) === 0) {
 					// all the groups of the current user are excluded -> filter all local users
 					$skipLocal = true;
@@ -279,6 +280,7 @@ class ContactsStore implements IContactsStore {
 		}));
 	}
 
+	#[\Override]
 	public function findOne(IUser $user, int $shareType, string $shareWith): ?IEntry {
 		switch ($shareType) {
 			case 0:

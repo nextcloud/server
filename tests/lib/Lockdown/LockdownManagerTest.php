@@ -16,6 +16,7 @@ use Test\TestCase;
 class LockdownManagerTest extends TestCase {
 	private $sessionCallback;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

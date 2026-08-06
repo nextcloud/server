@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\Files\Config;
 
 use OCP\Files\Mount\IMountPoint;
@@ -50,6 +51,7 @@ interface IPartialMountProvider extends IMountProvider {
 	 *                                                             in the scope of the setup request.
 	 * @param IStorageFactory $loader
 	 * @return array<string, IMountPoint> IMountPoint instances, indexed by mount-point
+	 * @since 33.0.0
 	 */
 	public function getMountsForPath(
 		string $setupPathHint,

@@ -25,6 +25,7 @@ class Job extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('background-job:execute')
@@ -43,6 +44,7 @@ class Job extends Command {
 		;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$jobId = (string)$input->getArgument('job-id');
 
@@ -122,7 +124,6 @@ class Job extends Command {
 		if ($isTimedJob) {
 			$reflection = new \ReflectionClass($job);
 			$intervalProperty = $reflection->getProperty('interval');
-			$intervalProperty->setAccessible(true);
 			$interval = $intervalProperty->getValue($job);
 
 			$nextRun = new \DateTime();

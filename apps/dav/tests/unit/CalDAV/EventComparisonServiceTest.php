@@ -184,5 +184,4 @@ class EventComparisonServiceTest extends TestCase {
 		$this->assertEquals([$vEventNew], $result['new']);
 	}
 
-
 }

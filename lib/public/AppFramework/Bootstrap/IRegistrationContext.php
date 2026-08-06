@@ -161,8 +161,20 @@ interface IRegistrationContext {
 	 * @return void
 	 *
 	 * @since 20.0.0
+	 * @deprecated 34.0.0 Use registerAlternativeLoginProvider instead.
 	 */
 	public function registerAlternativeLogin(string $class): void;
+
+	/**
+	 * Register an alternative login options provider
+	 *
+	 * It is allowed to register more than one option per app.
+	 *
+	 * @param class-string<\OCP\Authentication\IAlternativeLoginProvider> $class
+	 *
+	 * @since 34.0.0
+	 */
+	public function registerAlternativeLoginProvider(string $class): void;
 
 	/**
 	 * Register an initialstate provider
@@ -315,9 +327,7 @@ interface IRegistrationContext {
 	/**
 	 * Register a resource backend for the DAV server
 	 *
-	 * @param string $actionClass
-	 * @psalm-param class-string<\OCP\Calendar\Resource\IBackend> $actionClass
-	 * @return void
+	 * @param class-string<\OCP\Calendar\Resource\IBackend> $class
 	 * @since 24.0.0
 	 */
 	public function registerCalendarResourceBackend(string $class): void;
@@ -325,17 +335,13 @@ interface IRegistrationContext {
 	/**
 	 * Register a room backend for the DAV server
 	 *
-	 * @param string $actionClass
-	 * @psalm-param class-string<\OCP\Calendar\Room\IBackend> $actionClass
-	 * @return void
+	 * @param class-string<\OCP\Calendar\Room\IBackend> $class
 	 * @since 24.0.0
 	 */
 	public function registerCalendarRoomBackend(string $class): void;
 
 	/**
-	 * @param string $class
-	 * @psalm-param class-string<\OCP\Calendar\Room\IBackend> $actionClass
-	 * @return void
+	 * @param class-string<\OCP\Teams\ITeamResourceProvider> $class
 	 * @since 29.0.0
 	 */
 	public function registerTeamResourceProvider(string $class): void;
@@ -435,7 +441,6 @@ interface IRegistrationContext {
 	 * @since 30.0.0
 	 */
 	public function registerMailProvider(string $class): void;
-
 
 	/**
 	 * Register an implementation of \OCP\Config\Lexicon\IConfigLexicon that

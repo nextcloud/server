@@ -51,7 +51,6 @@ interface IThrottler {
 	 */
 	public function registerAttempt(string $action, string $ip, array $metadata = []): void;
 
-
 	/**
 	 * Check if the IP is allowed to bypass the brute force protection
 	 *

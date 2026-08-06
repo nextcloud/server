@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Comments\Controller;
 
 use OCP\AppFramework\Controller;
@@ -80,7 +81,10 @@ class NotificationsController extends Controller {
 
 			$url = $this->urlGenerator->linkToRouteAbsolute(
 				'files.viewcontroller.showFile',
-				[ 'fileid' => $comment->getObjectId() ]
+				[
+					'fileid' => $comment->getObjectId(),
+					'opendetails' => 'true',
+				]
 			);
 
 			return new RedirectResponse($url);

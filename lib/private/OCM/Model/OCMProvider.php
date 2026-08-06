@@ -13,6 +13,7 @@ use OCP\OCM\Exceptions\OCMArgumentException;
 use OCP\OCM\Exceptions\OCMProviderException;
 use OCP\OCM\IOCMProvider;
 use OCP\OCM\IOCMResource;
+use OCP\OCM\OCMCapabilities;
 use OCP\Security\Signature\Model\Signatory;
 
 /**
@@ -24,6 +25,7 @@ class OCMProvider implements IOCMProvider {
 	private string $inviteAcceptDialog = '';
 	private array $capabilities = [];
 	private string $endPoint = '';
+	private string $tokenEndPoint = '';
 	/** @var IOCMResource[] */
 	private array $resourceTypes = [];
 	private ?Signatory $signatory = null;
@@ -38,6 +40,7 @@ class OCMProvider implements IOCMProvider {
 	 *
 	 * @return $this
 	 */
+	#[\Override]
 	public function setEnabled(bool $enabled): static {
 		$this->enabled = $enabled;
 
@@ -47,6 +50,7 @@ class OCMProvider implements IOCMProvider {
 	/**
 	 * @return bool
 	 */
+	#[\Override]
 	public function isEnabled(): bool {
 		return $this->enabled;
 	}
@@ -56,6 +60,7 @@ class OCMProvider implements IOCMProvider {
 	 *
 	 * @return $this
 	 */
+	#[\Override]
 	public function setApiVersion(string $apiVersion): static {
 		$this->apiVersion = $apiVersion;
 
@@ -65,6 +70,7 @@ class OCMProvider implements IOCMProvider {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getApiVersion(): string {
 		return $this->apiVersion;
 	}
@@ -75,6 +81,7 @@ class OCMProvider implements IOCMProvider {
 	 * @return string
 	 * @since 32.0.0
 	 */
+	#[\Override]
 	public function getInviteAcceptDialog(): string {
 		return $this->inviteAcceptDialog;
 	}
@@ -87,6 +94,7 @@ class OCMProvider implements IOCMProvider {
 	 * @return $this
 	 * @since 32.0.0
 	 */
+	#[\Override]
 	public function setInviteAcceptDialog(string $inviteAcceptDialog): static {
 		$this->inviteAcceptDialog = $inviteAcceptDialog;
 
@@ -98,6 +106,7 @@ class OCMProvider implements IOCMProvider {
 	 *
 	 * @return $this
 	 */
+	#[\Override]
 	public function setEndPoint(string $endPoint): static {
 		$this->endPoint = $endPoint;
 
@@ -107,13 +116,38 @@ class OCMProvider implements IOCMProvider {
 	/**
 	 * @return string
 	 */
+	#[\Override]
 	public function getEndPoint(): string {
 		return $this->endPoint;
 	}
 
 	/**
+	 * @param string $tokenEndPoint
+	 *
+	 * @return $this
+	 */
+	#[\Override]
+	public function setTokenEndPoint(string $endPoint): static {
+		$this->tokenEndPoint = $endPoint;
+
+		return $this;
+	}
+
+	/**
 	 * @return string
 	 */
+	#[\Override]
+	public function getTokenEndPoint(): string {
+		if (in_array('exchange-token', $this->capabilities)) {
+			return $this->tokenEndPoint;
+		}
+		return '';
+	}
+
+	/**
+	 * @return string
+	 */
+	#[\Override]
 	public function getProvider(): string {
 		return $this->provider;
 	}
@@ -123,6 +157,7 @@ class OCMProvider implements IOCMProvider {
 	 *
 	 * @return $this
 	 */
+	#[\Override]
 	public function setCapabilities(array $capabilities): static {
 		$this->capabilities = array_unique(array_merge(
 			$this->capabilities,
@@ -131,17 +166,16 @@ class OCMProvider implements IOCMProvider {
 		return $this;
 	}
 
-	/**
-	 * @return array
-	 */
-	public function getCapabilities(): array {
-		return $this->capabilities;
+	#[\Override]
+	public function getCapabilities(): OCMCapabilities {
+		return new OCMCapabilities($this->capabilities);
 	}
 
 	/**
 	 * @param string $capability
 	 * @return bool
 	 */
+	#[\Override]
 	public function hasCapability(string $capability): bool {
 		return (in_array($this->normalizeCapability($capability), $this->capabilities, true));
 	}
@@ -155,6 +189,7 @@ class OCMProvider implements IOCMProvider {
 	 * create a new resource to later add it with {@see IOCMProvider::addResourceType()}
 	 * @return IOCMResource
 	 */
+	#[\Override]
 	public function createNewResourceType(): IOCMResource {
 		return new OCMResource();
 	}
@@ -164,7 +199,23 @@ class OCMProvider implements IOCMProvider {
 	 *
 	 * @return $this
 	 */
+	#[\Override]
 	public function addResourceType(IOCMResource $resource): static {
+		foreach ($this->resourceTypes as $existing) {
+			if ($existing->getName() === $resource->getName()) {
+				$existing->setShareTypes(array_values(array_unique(
+					array_merge(
+						$existing->getShareTypes(),
+						$resource->getShareTypes()
+					)
+				)));
+				$existing->setProtocols(array_merge(
+					$existing->getProtocols(),
+					$resource->getProtocols()
+				));
+				return $this;
+			}
+		}
 		$this->resourceTypes[] = $resource;
 
 		return $this;
@@ -175,6 +226,7 @@ class OCMProvider implements IOCMProvider {
 	 *
 	 * @return $this
 	 */
+	#[\Override]
 	public function setResourceTypes(array $resourceTypes): static {
 		$this->resourceTypes = $resourceTypes;
 
@@ -184,6 +236,7 @@ class OCMProvider implements IOCMProvider {
 	/**
 	 * @return IOCMResource[]
 	 */
+	#[\Override]
 	public function getResourceTypes(): array {
 		return $this->resourceTypes;
 	}
@@ -195,6 +248,7 @@ class OCMProvider implements IOCMProvider {
 	 * @return string
 	 * @throws OCMArgumentException
 	 */
+	#[\Override]
 	public function extractProtocolEntry(string $resourceName, string $protocol): string {
 		foreach ($this->getResourceTypes() as $resource) {
 			if ($resource->getName() === $resourceName) {
@@ -226,6 +280,7 @@ class OCMProvider implements IOCMProvider {
 	 * @return OCMProvider&static
 	 * @throws OCMProviderException in case a descent provider cannot be generated from data
 	 */
+	#[\Override]
 	public function import(array $data): static {
 		$this->setEnabled(is_bool($data['enabled'] ?? '') ? $data['enabled'] : false)
 			// Fall back to old apiVersion for Nextcloud 30 compatibility
@@ -250,6 +305,12 @@ class OCMProvider implements IOCMProvider {
 				$this->setSignatory($signatory);
 			}
 		}
+		if (isset($data['capabilities'])) {
+			$this->setCapabilities($data['capabilities']);
+		}
+		if (isset($data['tokenEndPoint'])) {
+			$this->setTokenEndPoint($data['tokenEndPoint']);
+		}
 
 		if (!$this->looksValid()) {
 			throw new OCMProviderException('remote provider does not look valid');
@@ -257,7 +318,6 @@ class OCMProvider implements IOCMProvider {
 
 		return $this;
 	}
-
 
 	/**
 	 * @return bool
@@ -269,6 +329,7 @@ class OCMProvider implements IOCMProvider {
 	/**
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		$resourceTypes = [];
 		foreach ($this->getResourceTypes() as $res) {
@@ -285,15 +346,17 @@ class OCMProvider implements IOCMProvider {
 			'resourceTypes' => $resourceTypes
 		];
 
-		$capabilities = $this->getCapabilities();
-		if ($capabilities) {
-			$response['capabilities'] = $capabilities;
+		if ($this->capabilities !== []) {
+			$response['capabilities'] = $this->capabilities;
+		}
+		$tokenEndpoint = $this->getTokenEndPoint();
+		if ($tokenEndpoint) {
+			$response['tokenEndPoint'] = $tokenEndpoint;
 		}
 		$inviteAcceptDialog = $this->getInviteAcceptDialog();
 		if ($inviteAcceptDialog !== '') {
 			$response['inviteAcceptDialog'] = $inviteAcceptDialog;
 		}
 		return $response;
-
 	}
 }

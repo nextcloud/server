@@ -27,6 +27,7 @@ class Dummy extends Backend implements IUserBackend {
 		}
 	}
 
+	#[\Override]
 	public function deleteUser($uid): bool {
 		if (isset($this->users[$uid])) {
 			unset($this->users[$uid]);
@@ -60,6 +61,7 @@ class Dummy extends Backend implements IUserBackend {
 		return false;
 	}
 
+	#[\Override]
 	public function getUsers($search = '', $limit = null, $offset = null): array {
 		if (empty($search)) {
 			return array_keys($this->users);
@@ -73,10 +75,12 @@ class Dummy extends Backend implements IUserBackend {
 		return $result;
 	}
 
+	#[\Override]
 	public function userExists($uid): bool {
 		return isset($this->users[$uid]);
 	}
 
+	#[\Override]
 	public function hasUserListings(): bool {
 		return true;
 	}
@@ -90,10 +94,12 @@ class Dummy extends Backend implements IUserBackend {
 		return true;
 	}
 
+	#[\Override]
 	public function getDisplayName($uid): string {
 		return $this->displayNames[$uid] ?? $uid;
 	}
 
+	#[\Override]
 	public function getBackendName(): string {
 		return 'Dummy';
 	}

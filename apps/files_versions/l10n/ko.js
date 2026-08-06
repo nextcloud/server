@@ -1,6 +1,7 @@
 OC.L10N.register(
     "files_versions",
     {
+    "No rule given" : "지정된 규칙 없음",
     "Versions" : "버전",
     "This application automatically maintains older versions of files that are changed." : "이 앱은 변경된 파일의 이전 버전을 관리합니다.",
     "Current version" : "현재 버전",

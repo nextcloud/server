@@ -36,6 +36,7 @@ OC.L10N.register(
     "Add new flow" : "Bæta við nýju flæði",
     "Active" : "Virkt",
     "Save" : "Vista",
+    "and" : "og",
     "Cancel" : "Hætta við",
     "Delete" : "Eyða",
     "Available flows" : "Tiltæk flæði",

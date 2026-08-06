@@ -9,13 +9,18 @@
 			<span v-if="pretext.length"> {{ pretext }} : </span>
 		</span>
 		<span class="text">{{ text }}</span>
-		<span class="close-icon" @click="deleteChip">
+		<button
+			type="button"
+			class="close-button"
+			:aria-label="removeLabel"
+			@click="deleteChip">
 			<CloseIcon :size="18" />
-		</span>
+		</button>
 	</div>
 </template>
 
 <script>
+import { t } from '@nextcloud/l10n'
 import CloseIcon from 'vue-material-design-icons/Close.vue'
 
 export default {
@@ -36,9 +41,19 @@ export default {
 		},
 	},
 
+	emits: ['delete'],
+
+	computed: {
+		// Accessible name for the icon-only remove button (screen readers can't read a bare ×).
+		removeLabel() {
+			return t('core', 'Remove filter: {name}', { name: this.text })
+		},
+	},
+
 	methods: {
 		deleteChip() {
-			this.$emit('delete', this.filter)
+			// The parent reads the filter from its own v-for scope, so no payload is needed.
+			this.$emit('delete')
 		},
 	},
 }
@@ -71,11 +86,27 @@ export default {
         margin: 0 2px;
     }
 
-    .close-icon {
-        cursor: pointer ;
+    .close-button {
+        display: flex;
+        align-items: center;
+        width: auto;
+        min-width: 0;
+        min-height: 0;
+        margin: 0;
+        padding: 0;
+        border: none;
+        background: transparent;
+        color: inherit;
+        cursor: pointer;
+        border-radius: var(--border-radius-element, 8px);
 
-        :hover {
+        &:hover {
             filter: invert(20%);
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--color-main-text);
+            outline-offset: 1px;
         }
     }
 }

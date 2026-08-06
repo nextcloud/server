@@ -31,6 +31,7 @@ class RemoteUserPrincipalBackend implements BackendInterface {
 	) {
 	}
 
+	#[\Override]
 	public function getPrincipalsByPrefix($prefixPath) {
 		if ($prefixPath !== self::PRINCIPAL_PREFIX) {
 			return [];
@@ -44,6 +45,7 @@ class RemoteUserPrincipalBackend implements BackendInterface {
 		return $this->principals;
 	}
 
+	#[\Override]
 	public function getPrincipalByPath($path) {
 		[$prefix] = \Sabre\Uri\split($path);
 		if ($prefix !== self::PRINCIPAL_PREFIX) {
@@ -63,15 +65,18 @@ class RemoteUserPrincipalBackend implements BackendInterface {
 		return $principal;
 	}
 
+	#[\Override]
 	public function updatePrincipal($path, \Sabre\DAV\PropPatch $propPatch) {
 		throw new \Sabre\DAV\Exception('Updating remote user principal is not supported');
 	}
 
+	#[\Override]
 	public function searchPrincipals($prefixPath, array $searchProperties, $test = 'allof') {
 		// Searching is not supported
 		return [];
 	}
 
+	#[\Override]
 	public function findByUri($uri, $principalPrefix) {
 		if (str_starts_with($uri, 'principal:')) {
 			$principal = substr($uri, strlen('principal:'));
@@ -84,10 +89,12 @@ class RemoteUserPrincipalBackend implements BackendInterface {
 		return null;
 	}
 
+	#[\Override]
 	public function getGroupMemberSet($principal) {
 		return [];
 	}
 
+	#[\Override]
 	public function getGroupMembership($principal) {
 		// TODO: for now the group principal has only one member, the user itself
 		$principal = $this->getPrincipalByPath($principal);
@@ -98,6 +105,7 @@ class RemoteUserPrincipalBackend implements BackendInterface {
 		return [$principal['uri']];
 	}
 
+	#[\Override]
 	public function setGroupMemberSet($principal, array $members) {
 		throw new \Sabre\DAV\Exception('Adding members to remote user is not supported');
 	}

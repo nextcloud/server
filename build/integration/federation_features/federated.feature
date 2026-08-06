@@ -111,7 +111,7 @@ Feature: federated
 			| id | A_NUMBER |
 			| remote | LOCAL |
 			| remote_id | A_NUMBER |
-			| share_token | A_TOKEN |
+			| refresh_token | A_TOKEN |
 			| name | /textfile0.txt |
 			| owner | user0 |
 			| user | user1 |
@@ -140,7 +140,7 @@ Feature: federated
 			| id | A_NUMBER |
 			| remote | LOCAL |
 			| remote_id | A_NUMBER |
-			| share_token | A_TOKEN |
+			| refresh_token | A_TOKEN |
 			| name | /textfile0.txt |
 			| owner | gs-user0 |
 			| user | group1 |
@@ -154,7 +154,7 @@ Feature: federated
 			| id | A_NUMBER |
 			| remote | LOCAL |
 			| remote_id | A_NUMBER |
-			| share_token | A_TOKEN |
+			| refresh_token | A_TOKEN |
 			| name | /textfile0.txt |
 			| owner | gs-user0 |
 			| user | group1 |

@@ -239,7 +239,6 @@ trait Provisioning {
 		}
 	}
 
-
 	/**
 	 * @Then /^user "([^"]*)" has editable fields$/
 	 *
@@ -555,7 +554,6 @@ trait Provisioning {
 
 		$this->response = $client->post($fullUrl, $options);
 	}
-
 
 	public function groupExists($group) {
 		$fullUrl = $this->baseUrl . "v2.php/cloud/groups/$group";

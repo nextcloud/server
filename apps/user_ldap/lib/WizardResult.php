@@ -28,7 +28,6 @@ class WizardResult {
 		$this->changes[$key] = $value;
 	}
 
-
 	public function markChange(): void {
 		$this->markedChange = true;
 	}

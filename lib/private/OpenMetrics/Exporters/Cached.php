@@ -13,6 +13,8 @@ use Generator;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\OpenMetrics\IMetricFamily;
+use OCP\OpenMetrics\Metric;
+use OCP\OpenMetrics\MetricValue;
 use Override;
 
 /**
@@ -43,7 +45,12 @@ abstract class Cached implements IMetricFamily {
 	public function metrics(): Generator {
 		$cacheKey = static::class;
 		if ($data = $this->cache->get($cacheKey)) {
-			yield from unserialize($data);
+			yield from unserialize(
+				$data,
+				[
+					'allowed_classes' => [Metric::class, MetricValue::class],
+				],
+			);
 			return;
 		}
 

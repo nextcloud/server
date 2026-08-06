@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2015 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace Test\IntegrityCheck\Iterator;
 
 use OC\IntegrityCheck\Iterator\ExcludeFileByNameFilterIterator;
@@ -14,6 +15,7 @@ class ExcludeFileByNameFilterIteratorTest extends TestCase {
 	/** @var ExcludeFileByNameFilterIterator|\PHPUnit\Framework\MockObject\MockObject */
 	protected $filter;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->filter = $this->getMockBuilder(ExcludeFileByNameFilterIterator::class)

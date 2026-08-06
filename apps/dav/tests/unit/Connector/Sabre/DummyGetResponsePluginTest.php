@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\DummyGetResponsePlugin;
@@ -37,7 +38,6 @@ class DummyGetResponsePluginTest extends TestCase {
 
 		$this->dummyGetResponsePlugin->initialize($server);
 	}
-
 
 	public function testHttpGet(): void {
 		$request = $this->createMock(RequestInterface::class);

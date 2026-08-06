@@ -65,9 +65,7 @@ OC.L10N.register(
     "Delete" : "Törlés",
     "Reset" : "Visszaállítás",
     "Loading …" : "Betöltés…",
-    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["A(z) {tag1} be lesz állítva, a(z) {tag2} pedig el lesz távolítva 1 fájlról.","A(z) {tag1} be lesz állítva, a(z) {tag2} pedig el lesz távolítva {count} fájlról."],
     "_{tag} will be set to 1 file._::_{tag} will be set to {count} files._" : ["A(z) {tag} be lesz állítva 1 fájlon.","A(z) {tag} be lesz állítva {count} fájlon."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["A(z) {tag} el lesz távolítva 1 fájlról.","A(z) {tag} el lesz távolítva {count} fájlról."],
     "_{tags} and {lastTag} will be set to 1 file._::_{tags} and {lastTag} will be set to {count} files._" : ["A(z) {tags} és a(z) {lastTag} be lesz állítva 1 fájlon.","A(z) {tags} és a(z) {lastTag} be lesz állítva {count} fájlon."],
     "_{tags} and {lastTag} will be removed from 1 file._::_{tags} and {lastTag} will be removed from {count} files._" : ["A(z) {tags} és a(z) {lastTag} el lesz távolítva 1 fájlról.","A(z) {tags} és a(z) {lastTag} el lesz távolítva {count} fájlról."],
     "{displayName} (hidden)" : "{displayName} (rejtett)",
@@ -97,6 +95,7 @@ OC.L10N.register(
     "If enabled, only administrators can create and edit tags. Accounts can still assign and remove them from files." : "Ha engedélyezve van, akkor csak a rendszergazdák hozhatnak létre és szerkeszthetik a címkéket. A fiókok továbbra is hozzárendelhetik és eltávolíthatják őket a fájlokról.",
     "Restrict tag creation and editing to administrators" : "Címkelétrehozás és -szerkesztés rendszergazdákra korlátozása",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Az együttműködési címkék elérhetők az összes felhasználó számára. A korlátozott címkék láthatók a felhasználók által, de nem rendelhetik azt semmihez. A láthatatlan címkék belső használatra vannak fenntartva, mivel a felhasználók nem látják ezeket, és nem is tudják semmihez hozzárendelni őket.",
+    "Add tags" : "Címkék hozzáadása",
     "Assigned collaborative tags" : "Hozzárendelt együttműködési címkék",
     "Open in Files" : "Megnyitás a Fájlokban",
     "List of tags and their associated files and folders." : "A címkék és a hozzájuk tartozó fájlok és mappák felsorolása.",
@@ -111,6 +110,8 @@ OC.L10N.register(
     "Failed to delete tag for file" : "Nem sikerült a fájl címkéjének törlése",
     "Collaborative tags …" : "Együttműködési címkék…",
     "Loading …" : "Betöltés…",
+    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["A(z) {tag1} be lesz állítva, a(z) {tag2} pedig el lesz távolítva 1 fájlról.","A(z) {tag1} be lesz állítva, a(z) {tag2} pedig el lesz távolítva {count} fájlról."],
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["A(z) {tag} el lesz távolítva 1 fájlról.","A(z) {tag} el lesz távolítva {count} fájlról."],
     "Loading collaborative tags …" : "Együttműködési címkék betöltése…"
 },
 "nplurals=2; plural=(n != 1);");

@@ -1,9 +1,10 @@
 <?php
 
 /**
- * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016-2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Sharing\Controller;
 
 use OCP\AppFramework\Http;
@@ -42,10 +43,12 @@ class PublicPreviewController extends PublicShareController {
 		parent::__construct($appName, $request, $session);
 	}
 
+	#[\Override]
 	protected function getPasswordHash(): ?string {
 		return $this->share->getPassword();
 	}
 
+	#[\Override]
 	public function isValidToken(): bool {
 		try {
 			$this->share = $this->shareManager->getShareByToken($this->getToken());
@@ -55,10 +58,10 @@ class PublicPreviewController extends PublicShareController {
 		}
 	}
 
+	#[\Override]
 	protected function isPasswordProtected(): bool {
-		return $this->share->getPassword() !== null;
+		return $this->share->isPasswordProtected();
 	}
-
 
 	/**
 	 * Get a preview for a shared file
@@ -178,7 +181,7 @@ class PublicPreviewController extends PublicShareController {
 		}
 
 		// Password protected shares have no direct link!
-		if ($share->getPassword() !== null) {
+		if ($share->isPasswordProtected()) {
 			return new DataResponse([], Http::STATUS_FORBIDDEN);
 		}
 

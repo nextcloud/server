@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP;
 
 /**
@@ -15,7 +16,7 @@ namespace OCP;
  */
 interface IGroup {
 	/**
-	 * @return string
+	 * @return non-empty-string
 	 * @since 8.0.0
 	 */
 	public function getGID(): string;
@@ -23,7 +24,7 @@ interface IGroup {
 	/**
 	 * Returns the group display name
 	 *
-	 * @return string
+	 * @return non-empty-string
 	 * @since 12.0.0
 	 */
 	public function getDisplayName(): string;

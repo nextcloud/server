@@ -21,6 +21,7 @@ class NegativeDnsCacheTest extends \Test\TestCase {
 	/** @var NegativeDnsCache */
 	private $negativeDnsCache;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

@@ -31,6 +31,7 @@ class ScannerTest extends TestCase {
 	private Scanner $scanner;
 	private Cache $cache;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -39,6 +40,7 @@ class ScannerTest extends TestCase {
 		$this->cache = new Cache($this->storage);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$this->cache->clear();
 

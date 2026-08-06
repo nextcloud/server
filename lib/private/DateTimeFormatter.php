@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use OCP\IDateTimeFormatter;
@@ -86,6 +87,7 @@ class DateTimeFormatter implements IDateTimeFormatter {
 	 * @param IL10N $l The locale to use
 	 * @return string Formatted date string
 	 */
+	#[\Override]
 	public function formatDate($timestamp, $format = 'long', ?\DateTimeZone $timeZone = null, ?IL10N $l = null) {
 		return $this->format($timestamp, 'date', $format, $timeZone, $l);
 	}
@@ -105,6 +107,7 @@ class DateTimeFormatter implements IDateTimeFormatter {
 	 * @param IL10N $l The locale to use
 	 * @return string Formatted relative date string
 	 */
+	#[\Override]
 	public function formatDateRelativeDay($timestamp, $format = 'long', ?\DateTimeZone $timeZone = null, ?IL10N $l = null) {
 		if (!str_ends_with($format, '^') && !str_ends_with($format, '*')) {
 			$format .= '^';
@@ -125,6 +128,7 @@ class DateTimeFormatter implements IDateTimeFormatter {
 	 *                < 13 month	=> last month, n months ago
 	 *                >= 13 month	=> last year, n years ago
 	 */
+	#[\Override]
 	public function formatDateSpan($timestamp, $baseTimestamp = null, ?IL10N $l = null) {
 		$l = $this->getLocale($l);
 		$timestamp = $this->getDateTime($timestamp);
@@ -191,6 +195,7 @@ class DateTimeFormatter implements IDateTimeFormatter {
 	 * @param IL10N $l The locale to use
 	 * @return string Formatted time string
 	 */
+	#[\Override]
 	public function formatTime($timestamp, $format = 'medium', ?\DateTimeZone $timeZone = null, ?IL10N $l = null) {
 		return $this->format($timestamp, 'time', $format, $timeZone, $l);
 	}
@@ -209,6 +214,7 @@ class DateTimeFormatter implements IDateTimeFormatter {
 	 *                < 13 month	=> last month, n months ago
 	 *                >= 13 month	=> last year, n years ago
 	 */
+	#[\Override]
 	public function formatTimeSpan($timestamp, $baseTimestamp = null, ?IL10N $l = null) {
 		$l = $this->getLocale($l);
 		$timestamp = $this->getDateTime($timestamp);
@@ -252,6 +258,7 @@ class DateTimeFormatter implements IDateTimeFormatter {
 	 * @param IL10N $l The locale to use
 	 * @return string Formatted date and time string
 	 */
+	#[\Override]
 	public function formatDateTime($timestamp, $formatDate = 'long', $formatTime = 'medium', ?\DateTimeZone $timeZone = null, ?IL10N $l = null) {
 		return $this->format($timestamp, 'datetime', $formatDate . '|' . $formatTime, $timeZone, $l);
 	}
@@ -267,6 +274,7 @@ class DateTimeFormatter implements IDateTimeFormatter {
 	 * @param IL10N $l The locale to use
 	 * @return string Formatted relative date and time string
 	 */
+	#[\Override]
 	public function formatDateTimeRelativeDay($timestamp, $formatDate = 'long', $formatTime = 'medium', ?\DateTimeZone $timeZone = null, ?IL10N $l = null) {
 		if (!str_ends_with($formatDate, '^') && !str_ends_with($formatDate, '*')) {
 			$formatDate .= '^';

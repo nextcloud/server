@@ -69,6 +69,8 @@ OC.L10N.register(
     "Disable all keyboard shortcuts" : "Деактивиране на всички бързи клавишни комбинации",
     "Reset to default" : "Настройки по подразбиране",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Ако откриете някакви проблеми, не се колебайте да ги съобщите на {issuetracker}, нашият тракер на проблеми {linkend}. И ако искате да се включите, елате да се присъедините {designteam} към нашия дизайнерски екип {linkend}!",
+    "Themes" : "Теми",
+    "Fonts" : "Шрифт",
     "Customization has been disabled by your administrator" : "Възможността за персонализация е била деактивирана от вашия администратор",
     "Disable-user-theming should be true or false" : "Опцията Деактивиране - на - тематични - настройки, би трябвало да е вярна или невярна",
     "Header logo" : "Главно лого",

@@ -22,6 +22,7 @@ class ClearFrontendCachesTest extends \Test\TestCase {
 
 	protected ClearFrontendCaches $repair;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -32,7 +33,6 @@ class ClearFrontendCachesTest extends \Test\TestCase {
 
 		$this->repair = new ClearFrontendCaches($this->cacheFactory, $this->jsCombiner);
 	}
-
 
 	public function testRun(): void {
 		$imagePathCache = $this->createMock(ICache::class);
@@ -47,6 +47,5 @@ class ClearFrontendCachesTest extends \Test\TestCase {
 			->willReturn($imagePathCache);
 
 		$this->repair->run($this->outputMock);
-		$this->assertTrue(true);
 	}
 }

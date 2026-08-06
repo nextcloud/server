@@ -20,6 +20,7 @@ use OCP\Migration\SimpleMigrationStep;
 #[AddColumn(table: 'dav_absence', name: 'replacement_user_id', type: ColumnType::STRING)]
 #[AddColumn(table: 'dav_absence', name: 'replacement_user_display_name', type:  ColumnType::STRING)]
 class Version1031Date20240610134258 extends SimpleMigrationStep {
+	#[\Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();

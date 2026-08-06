@@ -21,6 +21,7 @@ class RequestIdTest extends \Test\TestCase {
 	/** @var ISecureRandom|MockObject */
 	protected $secureRandom;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

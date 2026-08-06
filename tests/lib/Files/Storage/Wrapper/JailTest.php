@@ -18,6 +18,7 @@ class JailTest extends \Test\Files\Storage\Storage {
 	 */
 	private $sourceStorage;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->sourceStorage = new Temporary([]);
@@ -28,6 +29,7 @@ class JailTest extends \Test\Files\Storage\Storage {
 		]);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		// test that nothing outside our jail is touched
 		$contents = [];

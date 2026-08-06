@@ -6,8 +6,10 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 use OC\Files\Filesystem;
+use OC\Files\Storage\Wrapper\DirPermissionsMask;
 use OC\Files\Storage\Wrapper\PermissionsMask;
 use OC\Files\View;
+use OCA\DAV\Connector\Sabre\BearerAuth;
 use OCA\DAV\Connector\Sabre\PublicAuth;
 use OCA\DAV\Connector\Sabre\ServerFactory;
 use OCA\DAV\Files\Sharing\FilesDropPlugin;
@@ -21,8 +23,10 @@ use OCP\App\IAppManager;
 use OCP\BeforeSabrePubliclyLoadedEvent;
 use OCP\Constants;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\IHomeStorage;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
+use OCP\Files\Storage\IStorage;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -65,7 +69,15 @@ $authBackend = new PublicAuth(
 	Server::get(LoggerInterface::class),
 	Server::get(IURLGenerator::class),
 );
+$bearerAuthBackend = new BearerAuth(
+	Server::get(IUserSession::class),
+	$session,
+	$request,
+	Server::get(IConfig::class),
+	allowOcmAccessToken: true,
+);
 $authPlugin = new \Sabre\DAV\Auth\Plugin($authBackend);
+$authPlugin->addBackend($bearerAuthBackend);
 
 $l10nFactory = Server::get(IFactory::class);
 $serverFactory = new ServerFactory(
@@ -81,12 +93,11 @@ $serverFactory = new ServerFactory(
 	$l10nFactory->get('dav'),
 );
 
-
 $linkCheckPlugin = new PublicLinkCheckPlugin();
 $filesDropPlugin = new FilesDropPlugin();
 
 /** @var string $baseuri defined in public.php */
-$server = $serverFactory->createServer(true, $baseuri, $requestUri, $authPlugin, function (\Sabre\DAV\Server $server) use ($baseuri, $requestUri, $authBackend, $linkCheckPlugin, $filesDropPlugin) {
+$server = $serverFactory->createServer(true, $baseuri, $requestUri, $authPlugin, function (\Sabre\DAV\Server $server) use ($baseuri, $requestUri, $authBackend, $bearerAuthBackend, $linkCheckPlugin, $filesDropPlugin) {
 	// GET must be allowed for e.g. showing images and allowing Zip downloads
 	if ($server->httpRequest->getMethod() !== 'GET') {
 		// If this is *not* a GET request we only allow access to public DAV from AJAX or when Server2Server is allowed
@@ -98,8 +109,11 @@ $server = $serverFactory->createServer(true, $baseuri, $requestUri, $authPlugin,
 		}
 	}
 
-	$share = $authBackend->getShare();
-	$owner = $share->getShareOwner();
+	try {
+		$share = $authBackend->getShare();
+	} catch (NotFound $e) {
+		$share = $bearerAuthBackend->getShare();
+	}
 	$isReadable = $share->getPermissions() & Constants::PERMISSION_READ;
 	$fileId = $share->getNodeId();
 
@@ -108,7 +122,7 @@ $server = $serverFactory->createServer(true, $baseuri, $requestUri, $authPlugin,
 	$previousLog = Filesystem::logWarningWhenAddingStorageWrapper(false);
 
 	/** @psalm-suppress MissingClosureParamType */
-	Filesystem::addStorageWrapper('sharePermissions', function ($mountPoint, $storage) use ($requestUri, $baseuri, $share) {
+	Filesystem::addStorageWrapper('sharePermissions', function (string $mountPoint, IStorage $storage) use ($requestUri, $baseuri, $share) {
 		$mask = $share->getPermissions() | Constants::PERMISSION_SHARE;
 
 		// For chunked uploads it is necessary to have read and delete permission,
@@ -117,17 +131,25 @@ $server = $serverFactory->createServer(true, $baseuri, $requestUri, $authPlugin,
 			$mask |= Constants::PERMISSION_READ | Constants::PERMISSION_DELETE;
 		}
 
-		return new PermissionsMask(['storage' => $storage, 'mask' => $mask]);
+		if ($storage instanceof IHomeStorage) {
+			return new DirPermissionsMask([
+				'storage' => $storage,
+				'mask' => $mask,
+				'path' => 'files',
+			]);
+		} else {
+			return new PermissionsMask(['storage' => $storage, 'mask' => $mask]);
+		}
 	});
 
 	/** @psalm-suppress MissingClosureParamType */
-	Filesystem::addStorageWrapper('shareOwner', function ($mountPoint, $storage) use ($share) {
+	Filesystem::addStorageWrapper('shareOwner', function (string $mountPoint, IStorage $storage) use ($share) {
 		return new PublicOwnerWrapper(['storage' => $storage, 'owner' => $share->getShareOwner()]);
 	});
 
 	// Ensure that also private shares have the `getShare` method
 	/** @psalm-suppress MissingClosureParamType */
-	Filesystem::addStorageWrapper('getShare', function ($mountPoint, $storage) use ($share) {
+	Filesystem::addStorageWrapper('getShare', function (string $mountPoint, IStorage $storage) use ($share) {
 		return new PublicShareWrapper(['storage' => $storage, 'share' => $share]);
 	}, 0);
 
@@ -135,7 +157,7 @@ $server = $serverFactory->createServer(true, $baseuri, $requestUri, $authPlugin,
 	Filesystem::logWarningWhenAddingStorageWrapper($previousLog);
 
 	$rootFolder = Server::get(IRootFolder::class);
-	$userFolder = $rootFolder->getUserFolder($owner);
+	$userFolder = $rootFolder->getUserFolder($share->getSharedBy());
 	$node = $userFolder->getFirstNodeById($fileId);
 	if (!$node) {
 		throw new NotFound();

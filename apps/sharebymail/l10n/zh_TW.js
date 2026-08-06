@@ -22,7 +22,7 @@ OC.L10N.register(
     "Note:" : "備註：",
     "This share is valid until %s at midnight" : "此分享有效期限至 %s 午夜",
     "Expiration:" : "過期於：",
-    "Open %s" : "開啟 %s",
+    "Open shared item" : "開啟分享項目",
     "%1$s via %2$s" : "%1$s 經由 %2$s",
     "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "%1$s 與您分享了 %2$s。您應該已經收到一封包含了可以存取它的連結的單獨郵件。",
     "Password to access %1$s shared to you by %2$s" : "存取 %1$s 的密碼已透過 %2$s 與您分享",

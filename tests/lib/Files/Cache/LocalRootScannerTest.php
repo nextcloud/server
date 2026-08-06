@@ -18,6 +18,7 @@ class LocalRootScannerTest extends TestCase {
 	/** @var LocalRootStorage */
 	private $storage;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

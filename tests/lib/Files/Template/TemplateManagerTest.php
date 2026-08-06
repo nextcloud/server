@@ -7,7 +7,7 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace lib\Files\Template;
+namespace Test\Files\Template;
 
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\AppFramework\Bootstrap\RegistrationContext;
@@ -22,19 +22,21 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IPreview;
-use OCP\IServerContainer;
 use OCP\IUser;
+use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Container\ContainerInterface;
 use Psr\Log\NullLogger;
 use Test\TestCase;
 
 class TemplateManagerTest extends TestCase {
-
-	private IRootFolder $rootFolder;
-	private Coordinator $bootstrapCoordinator;
-
+	private IRootFolder&MockObject $rootFolder;
+	private Coordinator&MockObject $bootstrapCoordinator;
 	private TemplateManager $templateManager;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -56,7 +58,7 @@ class TemplateManagerTest extends TestCase {
 			$logger,
 		);
 
-		$serverContainer = $this->createMock(IServerContainer::class);
+		$serverContainer = $this->createMock(ContainerInterface::class);
 		$eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->bootstrapCoordinator = $this->createMock(Coordinator::class);
 		$this->bootstrapCoordinator->method('getRegistrationContext')
@@ -64,10 +66,10 @@ class TemplateManagerTest extends TestCase {
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('user1');
-		$userSession = $this->createMock(\OCP\IUserSession::class);
+		$userSession = $this->createMock(IUserSession::class);
 		$userSession->method('getUser')
 			->willReturn($user);
-		$userManager = $this->createMock(\OCP\IUserManager::class);
+		$userManager = $this->createMock(IUserManager::class);
 		$previewManager = $this->createMock(IPreview::class);
 
 		$this->templateManager = new TemplateManager(
@@ -81,7 +83,8 @@ class TemplateManagerTest extends TestCase {
 			$config,
 			$l10nFactory,
 			$logger,
-			$filenameValidator
+			$filenameValidator,
+			\OC::$SERVERROOT,
 		);
 	}
 
@@ -100,7 +103,7 @@ class TemplateManagerTest extends TestCase {
 				return $this->createMock(Folder::class);
 			});
 		$userFolder->method('nodeExists')
-			->willReturnCallback(function ($path) use ($filePath, $fileDirectory) {
+			->willReturnCallback(function ($path) use ($filePath, $fileDirectory): bool {
 				return $path === $fileDirectory;
 			});
 		$this->rootFolder->method('getUserFolder')

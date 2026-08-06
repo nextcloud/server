@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Settings;
 
 use JsonSerializable;
@@ -16,6 +17,8 @@ use OCP\AppFramework\Db\Entity;
  * @method setClass(string $class)
  * @method string getGroupId()
  * @method string getClass()
+ *
+ * @psalm-api - we cannot use final as this will break unit tests
  */
 class AuthorizedGroup extends Entity implements JsonSerializable {
 	public $id;
@@ -27,6 +30,7 @@ class AuthorizedGroup extends Entity implements JsonSerializable {
 	/**
 	 * @return array<string, mixed>
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'id' => $this->getId(),

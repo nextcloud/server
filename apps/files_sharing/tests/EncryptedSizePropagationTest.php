@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\View;
@@ -18,7 +19,7 @@ class EncryptedSizePropagationTest extends SizePropagationTest {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->config->setAppValue('encryption', 'useMasterKey', '0');
+		$this->appConfig->setValueBool('encryption', 'useMasterKey', false);
 	}
 
 	protected function setupUser($name, $password = '') {

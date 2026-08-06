@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Command\Encryption;
 
 use OCP\App\IAppManager;
@@ -49,6 +50,7 @@ class EncryptAll extends Command {
 		}
 	}
 
+	#[\Override]
 	protected function configure() {
 		parent::configure();
 
@@ -63,6 +65,7 @@ class EncryptAll extends Command {
 	/**
 	 * @throws \Exception
 	 */
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		if (!$input->isInteractive() && !$input->getOption('no-interaction')) {
 			$output->writeln('Invalid TTY.');

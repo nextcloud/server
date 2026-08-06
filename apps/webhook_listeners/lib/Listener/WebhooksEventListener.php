@@ -33,6 +33,7 @@ class WebhooksEventListener implements IEventListener {
 	) {
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		$user = $this->userSession->getUser();
 		$webhookListeners = $this->mapper->getByEvent($event::class, $user?->getUID());

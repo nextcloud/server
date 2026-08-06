@@ -1,0 +1,10 @@
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
+
+This file is generated from multiple sources. Included packages:
+- @vueuse/core
+	- version: 14.1.0
+	- license: MIT
+- @vueuse/shared
+	- version: 14.1.0
+	- license: MIT

@@ -11,6 +11,8 @@ namespace Test\Group;
 use OC\Group\Group;
 use OC\User\User;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Group\Events\BeforeGroupChangedEvent;
+use OCP\Group\Events\GroupChangedEvent;
 use OCP\IUser;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -18,6 +20,7 @@ class GroupTest extends \Test\TestCase {
 	/** @var IEventDispatcher|MockObject */
 	protected $dispatcher;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->dispatcher = $this->createMock(IEventDispatcher::class);
@@ -455,6 +458,41 @@ class GroupTest extends \Test\TestCase {
 		$users = $group->count('2');
 
 		$this->assertSame(false, $users);
+	}
+
+	public function testSetDisplayNameDispatchesOldValue(): void {
+		$backend = $this->getMockBuilder('OC\Group\Database')
+			->disableOriginalConstructor()
+			->getMock();
+		$userManager = $this->getUserManager();
+
+		$dispatcher = $this->createMock(IEventDispatcher::class);
+		$invocation = 0;
+		$dispatcher->expects($this->exactly(2))
+			->method('dispatchTyped')
+			->willReturnCallback(function ($event) use (&$invocation): void {
+				$invocation++;
+				if ($invocation === 1) {
+					$this->assertInstanceOf(BeforeGroupChangedEvent::class, $event);
+					$this->assertSame('displayName', $event->getFeature());
+					$this->assertSame('New Name', $event->getValue());
+					$this->assertSame('Old Name', $event->getOldValue());
+					return;
+				}
+
+				$this->assertInstanceOf(GroupChangedEvent::class, $event);
+				$this->assertSame('displayName', $event->getFeature());
+				$this->assertSame('New Name', $event->getValue());
+				$this->assertSame('Old Name', $event->getOldValue());
+			});
+
+		$backend->expects($this->once())
+			->method('setDisplayName')
+			->with('group1', 'New Name')
+			->willReturn(true);
+
+		$group = new Group('group1', [$backend], $dispatcher, $userManager, null, 'Old Name');
+		$this->assertTrue($group->setDisplayName('New Name'));
 	}
 
 	public function testDelete(): void {

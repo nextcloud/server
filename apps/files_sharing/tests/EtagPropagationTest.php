@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\Filesystem;
@@ -31,16 +32,15 @@ class EtagPropagationTest extends PropagationTestCase {
 	 * "user4" puts the received "inside" folder into "sub1/sub2/inside" (this is to check if it propagates across multiple subfolders)
 	 */
 	protected function setUpShares() {
-		$this->fileIds[self::TEST_FILES_SHARING_API_USER1] = [];
-		$this->fileIds[self::TEST_FILES_SHARING_API_USER2] = [];
-		$this->fileIds[self::TEST_FILES_SHARING_API_USER3] = [];
-		$this->fileIds[self::TEST_FILES_SHARING_API_USER4] = [];
+		$this->fileInfos[self::TEST_FILES_SHARING_API_USER1] = [];
+		$this->fileInfos[self::TEST_FILES_SHARING_API_USER2] = [];
+		$this->fileInfos[self::TEST_FILES_SHARING_API_USER3] = [];
+		$this->fileInfos[self::TEST_FILES_SHARING_API_USER4] = [];
 
 		$rootFolder = Server::get(IRootFolder::class);
 		$shareManager = Server::get(\OCP\Share\IManager::class);
 
 		$this->rootView = new View('');
-		$this->loginAsUser(self::TEST_FILES_SHARING_API_USER1);
 		$view1 = new View('/' . self::TEST_FILES_SHARING_API_USER1 . '/files');
 		$view1->mkdir('/sub1/sub2/folder/inside');
 		$view1->mkdir('/directReshare');
@@ -98,9 +98,9 @@ class EtagPropagationTest extends PropagationTestCase {
 		$share = $shareManager->createShare($share);
 		$this->shareManager->acceptShare($share, self::TEST_FILES_SHARING_API_USER2);
 
-		$this->fileIds[self::TEST_FILES_SHARING_API_USER1][''] = $view1->getFileInfo('')->getId();
-		$this->fileIds[self::TEST_FILES_SHARING_API_USER1]['sub1'] = $view1->getFileInfo('sub1')->getId();
-		$this->fileIds[self::TEST_FILES_SHARING_API_USER1]['sub1/sub2'] = $view1->getFileInfo('sub1/sub2')->getId();
+		$this->fileInfos[self::TEST_FILES_SHARING_API_USER1][''] = $view1->getFileInfo('');
+		$this->fileInfos[self::TEST_FILES_SHARING_API_USER1]['sub1'] = $view1->getFileInfo('sub1');
+		$this->fileInfos[self::TEST_FILES_SHARING_API_USER1]['sub1/sub2'] = $view1->getFileInfo('sub1/sub2');
 
 		/*
 		 * User 2
@@ -109,7 +109,6 @@ class EtagPropagationTest extends PropagationTestCase {
 		$view2 = new View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
 		$view2->mkdir('/sub1/sub2');
 		$view2->rename('/folder', '/sub1/sub2/folder');
-		$this->loginAsUser(self::TEST_FILES_SHARING_API_USER2);
 
 		$insideInfo = $view2->getFileInfo('/sub1/sub2/folder/inside');
 		$this->assertInstanceOf('\OC\Files\FileInfo', $insideInfo);
@@ -139,9 +138,9 @@ class EtagPropagationTest extends PropagationTestCase {
 		$share = $shareManager->createShare($share);
 		$this->shareManager->acceptShare($share, self::TEST_FILES_SHARING_API_USER4);
 
-		$this->fileIds[self::TEST_FILES_SHARING_API_USER2][''] = $view2->getFileInfo('')->getId();
-		$this->fileIds[self::TEST_FILES_SHARING_API_USER2]['sub1'] = $view2->getFileInfo('sub1')->getId();
-		$this->fileIds[self::TEST_FILES_SHARING_API_USER2]['sub1/sub2'] = $view2->getFileInfo('sub1/sub2')->getId();
+		$this->fileInfos[self::TEST_FILES_SHARING_API_USER2][''] = $view2->getFileInfo('');
+		$this->fileInfos[self::TEST_FILES_SHARING_API_USER2]['sub1'] = $view2->getFileInfo('sub1');
+		$this->fileInfos[self::TEST_FILES_SHARING_API_USER2]['sub1/sub2'] = $view2->getFileInfo('sub1/sub2');
 
 		/*
 		 * User 3
@@ -150,9 +149,9 @@ class EtagPropagationTest extends PropagationTestCase {
 		$view3 = new View('/' . self::TEST_FILES_SHARING_API_USER3 . '/files');
 		$view3->mkdir('/sub1/sub2');
 		$view3->rename('/folder', '/sub1/sub2/folder');
-		$this->fileIds[self::TEST_FILES_SHARING_API_USER3][''] = $view3->getFileInfo('')->getId();
-		$this->fileIds[self::TEST_FILES_SHARING_API_USER3]['sub1'] = $view3->getFileInfo('sub1')->getId();
-		$this->fileIds[self::TEST_FILES_SHARING_API_USER3]['sub1/sub2'] = $view3->getFileInfo('sub1/sub2')->getId();
+		$this->fileInfos[self::TEST_FILES_SHARING_API_USER3][''] = $view3->getFileInfo('');
+		$this->fileInfos[self::TEST_FILES_SHARING_API_USER3]['sub1'] = $view3->getFileInfo('sub1');
+		$this->fileInfos[self::TEST_FILES_SHARING_API_USER3]['sub1/sub2'] = $view3->getFileInfo('sub1/sub2');
 
 		/*
 		 * User 4
@@ -161,18 +160,9 @@ class EtagPropagationTest extends PropagationTestCase {
 		$view4 = new View('/' . self::TEST_FILES_SHARING_API_USER4 . '/files');
 		$view4->mkdir('/sub1/sub2');
 		$view4->rename('/inside', '/sub1/sub2/inside');
-		$this->fileIds[self::TEST_FILES_SHARING_API_USER4][''] = $view4->getFileInfo('')->getId();
-		$this->fileIds[self::TEST_FILES_SHARING_API_USER4]['sub1'] = $view4->getFileInfo('sub1')->getId();
-		$this->fileIds[self::TEST_FILES_SHARING_API_USER4]['sub1/sub2'] = $view4->getFileInfo('sub1/sub2')->getId();
-
-		foreach ($this->fileIds as $user => $ids) {
-			$this->loginAsUser($user);
-			foreach ($ids as $id) {
-				$path = $this->rootView->getPath($id);
-				$ls = $this->rootView->getDirectoryContent($path);
-				$this->fileEtags[$id] = $this->rootView->getFileInfo($path)->getEtag();
-			}
-		}
+		$this->fileInfos[self::TEST_FILES_SHARING_API_USER4][''] = $view4->getFileInfo('');
+		$this->fileInfos[self::TEST_FILES_SHARING_API_USER4]['sub1'] = $view4->getFileInfo('sub1');
+		$this->fileInfos[self::TEST_FILES_SHARING_API_USER4]['sub1/sub2'] = $view4->getFileInfo('sub1/sub2');
 	}
 
 	public function testOwnerWritesToShare(): void {

@@ -14,6 +14,7 @@ use Test\TestCase;
 class ActionFactoryTest extends TestCase {
 	private ActionFactory $actionFactory;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

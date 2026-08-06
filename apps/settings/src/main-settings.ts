@@ -5,9 +5,9 @@
 
 import { getCSPNonce } from '@nextcloud/auth'
 import Vue from 'vue'
-import SettingsNavigation from './views/SettingsNavigation.vue'
+import SettingsApp from './views/SettingsApp.vue'
 
 __webpack_nonce__ = getCSPNonce()
 
-const app = new Vue(SettingsNavigation)
-app.$mount('#app-navigation')
+const app = new Vue(SettingsApp)
+app.$mount('#settings-app')

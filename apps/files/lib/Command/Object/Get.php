@@ -21,6 +21,7 @@ class Get extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('files:object:get')
@@ -30,6 +31,7 @@ class Get extends Command {
 			->addOption('bucket', 'b', InputOption::VALUE_REQUIRED, "Bucket to get the object from, only required in cases where it can't be determined from the config");
 	}
 
+	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$object = $input->getArgument('object');
 		$outputName = $input->getArgument('output');

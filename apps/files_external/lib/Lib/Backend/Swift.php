@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Lib\Backend;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
@@ -24,7 +25,7 @@ class Swift extends Backend {
 			->setIdentifier('swift')
 			->addIdentifierAlias('\OC\Files\Storage\Swift') // legacy compat
 			->setStorageClass('\OCA\Files_External\Lib\Storage\Swift')
-			->setText($l->t('OpenStack Object Storage'))
+			->setText($l->t('OpenStack Swift Object Storage'))
 			->addParameters([
 				(new DefinitionParameter('service_name', $l->t('Service name')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),

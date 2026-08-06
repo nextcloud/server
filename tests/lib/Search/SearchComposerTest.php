@@ -33,6 +33,7 @@ class SearchComposerTest extends TestCase {
 	private IAppConfig&MockObject $appConfig;
 	private SearchComposer $searchComposer;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

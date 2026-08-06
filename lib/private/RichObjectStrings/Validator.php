@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\RichObjectStrings;
 
 use OCP\RichObjectStrings\Definitions;
@@ -32,6 +33,7 @@ class Validator implements IValidator {
 	 * @throws InvalidObjectExeption
 	 * @since 11.0.0
 	 */
+	#[\Override]
 	public function validate(string $subject, array $parameters): void {
 		$matches = [];
 		$result = preg_match_all('/\{(' . self::PLACEHOLDER_REGEX . ')\}/', $subject, $matches);

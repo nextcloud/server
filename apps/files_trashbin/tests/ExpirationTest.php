@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Trashbin\Tests;
 
 use OCA\Files_Trashbin\Expiration;
@@ -93,7 +94,6 @@ class ExpirationTest extends \Test\TestCase {
 		$this->assertEquals($expectedResult, $actualResult);
 	}
 
-
 	public static function timestampTestData(): array {
 		return [
 			[ 'disabled', false],
@@ -106,7 +106,6 @@ class ExpirationTest extends \Test\TestCase {
 			[ '10, 3', self::FAKE_TIME_NOW - (10 * self::SECONDS_PER_DAY) ],
 		];
 	}
-
 
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'timestampTestData')]
 	public function testGetMaxAgeAsTimestamp(string $configValue, bool|int $expectedMaxAgeTimestamp): void {

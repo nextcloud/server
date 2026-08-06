@@ -48,7 +48,8 @@ import { showError, showSuccess } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { t } from '@nextcloud/l10n'
 import { useIsMobile } from '@nextcloud/vue/composables/useIsMobile'
-import { computed, ref, toRef, watch } from 'vue'
+import { watchDebounced } from '@vueuse/core'
+import { computed, ref, watch } from 'vue'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import VersionEntry from '../components/VersionEntry.vue'
 import VersionLabelDialog from '../components/VersionLabelDialog.vue'
@@ -72,20 +73,7 @@ const loading = ref(false)
 const showVersionLabelForm = ref(false)
 const editedVersion = ref<Version | null>(null)
 
-watch(toRef(() => props.node), async () => {
-	if (!props.node) {
-		return
-	}
-
-	try {
-		loading.value = true
-		versions.value = await fetchVersions(props.node)
-	} finally {
-		loading.value = false
-	}
-}, { immediate: true })
-
-const currentVersionMtime = computed(() => props.node?.mtime?.getTime() ?? 0)
+const currentVersionMtime = computed(() => Math.floor(new Date(props.node?.mtime?.getTime() ?? 0).getTime() / 1000) * 1000)
 
 /**
  * Order versions by mtime.
@@ -138,6 +126,24 @@ const canCompare = computed(() => {
 	return !isMobile.value
 		&& window.OCA.Viewer?.mimetypesCompare?.includes(props.node?.mime)
 })
+
+// When either the current node to show or its mtime changes we need to refetch the versions
+// When the id changed we immediately show changes
+watch(() => props.node.id, loadVersions, { immediate: true })
+// On mtime changes we debounce to prevent too many requests.
+watchDebounced(currentVersionMtime, loadVersions, { debounce: 600 })
+
+/**
+ * Load versions for the current node
+ */
+async function loadVersions() {
+	try {
+		loading.value = true
+		versions.value = await fetchVersions(props.node)
+	} finally {
+		loading.value = false
+	}
+}
 
 /**
  * Handle restored event from Version.vue

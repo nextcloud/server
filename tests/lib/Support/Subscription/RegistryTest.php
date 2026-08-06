@@ -30,6 +30,7 @@ class RegistryTest extends TestCase {
 	private MockObject&LoggerInterface $logger;
 	private MockObject&IManager $notificationManager;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -55,7 +56,6 @@ class RegistryTest extends TestCase {
 		$this->registry->delegateHasValidSubscription();
 		$this->addToAssertionCount(1);
 	}
-
 
 	public function testDoubleRegistration(): void {
 		$this->expectException(AlreadyRegisteredException::class);
@@ -104,7 +104,6 @@ class RegistryTest extends TestCase {
 
 		$this->assertSame(true, $this->registry->delegateHasExtendedSupport());
 	}
-
 
 	public function testDelegateGetSupportedApps(): void {
 		/* @var ISupportedApps|\PHPUnit\Framework\MockObject\MockObject $subscription */

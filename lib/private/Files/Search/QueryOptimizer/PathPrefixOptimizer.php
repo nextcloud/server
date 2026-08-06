@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Files\Search\QueryOptimizer;
 
 use OC\Files\Search\SearchComparison;
@@ -15,6 +16,7 @@ use OCP\Files\Search\ISearchOperator;
 class PathPrefixOptimizer extends QueryOptimizerStep {
 	private bool $useHashEq = true;
 
+	#[\Override]
 	public function inspectOperator(ISearchOperator $operator): void {
 		// normally any `path = "$path"` search filter would be generated as an `path_hash = md5($path)` sql query
 		// since the `path_hash` sql column usually provides much faster querying that selecting on the `path` sql column
@@ -31,6 +33,7 @@ class PathPrefixOptimizer extends QueryOptimizerStep {
 		parent::inspectOperator($operator);
 	}
 
+	#[\Override]
 	public function processOperator(ISearchOperator &$operator) {
 		if (!$this->useHashEq && $operator instanceof ISearchComparison && !$operator->getExtra() && $operator->getField() === 'path' && $operator->getType() === ISearchComparison::COMPARE_EQUAL) {
 			$operator->setQueryHint(ISearchComparison::HINT_PATH_EQ_HASH, false);

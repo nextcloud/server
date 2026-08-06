@@ -6,8 +6,10 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\Search;
 
+use OC\Search\Filter\StringFilter;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\Search\TasksSearchProvider;
 use OCP\App\IAppManager;
@@ -151,7 +153,12 @@ class TasksSearchProviderTest extends TestCase {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('john.doe');
 		$query = $this->createMock(ISearchQuery::class);
-		$query->method('getTerm')->willReturn('search term');
+		$query->method('getFilter')->willReturnCallback(static function (string $name) {
+			return match ($name) {
+				'term' => new StringFilter('search term'),
+				default => null,
+			};
+		});
 		$query->method('getLimit')->willReturn(5);
 		$query->method('getCursor')->willReturn(20);
 		$this->appManager->expects($this->once())
@@ -186,7 +193,7 @@ class TasksSearchProviderTest extends TestCase {
 			]);
 		$this->backend->expects($this->once())
 			->method('searchPrincipalUri')
-			->with('principals/users/john.doe', '', ['VTODO'],
+			->with('principals/users/john.doe', 'search term', ['VTODO'],
 				['SUMMARY', 'DESCRIPTION', 'CATEGORIES'],
 				[],
 				['limit' => 5, 'offset' => 20, 'since' => null, 'until' => null])
@@ -273,6 +280,89 @@ class TasksSearchProviderTest extends TestCase {
 		$this->assertEquals('deep-link-to-tasks', $result2Data['resourceUrl']);
 		$this->assertEquals('icon-checkmark', $result2Data['icon']);
 		$this->assertFalse($result2Data['rounded']);
+	}
+
+	public function testSearchDropsMalformedRowsWithoutStallingCursor(): void {
+		// A row whose calendardata can't even be parsed (Reader::read() throws)
+		// must be dropped instead of failing the whole request, and the cursor
+		// must still advance past it or pagination would repeat the same page
+		// whenever every result on it is malformed.
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('john.doe');
+		$query = $this->createMock(ISearchQuery::class);
+		$query->method('getFilter')->willReturnCallback(static function (string $name) {
+			return match ($name) {
+				'term' => new StringFilter('search term'),
+				default => null,
+			};
+		});
+		$query->method('getLimit')->willReturn(5);
+		$query->method('getCursor')->willReturn(20);
+		$this->appManager->expects($this->once())
+			->method('isEnabledForUser')
+			->with('tasks', $user)
+			->willReturn(true);
+		$this->l10n->method('t')->willReturnArgument(0);
+
+		$this->backend->expects($this->once())
+			->method('getCalendarsForUser')
+			->with('principals/users/john.doe')
+			->willReturn([
+				[
+					'id' => 99,
+					'principaluri' => 'principals/users/john.doe',
+					'uri' => 'calendar-uri-99',
+				]
+			]);
+		$this->backend->expects($this->once())
+			->method('getSubscriptionsForUser')
+			->with('principals/users/john.doe')
+			->willReturn([]);
+		$this->backend->expects($this->once())
+			->method('searchPrincipalUri')
+			->willReturn([
+				[
+					'calendarid' => 99,
+					'calendartype' => CalDavBackend::CALENDAR_TYPE_CALENDAR,
+					'uri' => 'malformed.ics',
+					'calendardata' => 'this is not calendar data',
+				],
+				[
+					'calendarid' => 99,
+					'calendartype' => CalDavBackend::CALENDAR_TYPE_CALENDAR,
+					'uri' => 'todo3.ics',
+					'calendardata' => self::$vTodo3,
+				],
+			]);
+
+		$provider = $this->getMockBuilder(TasksSearchProvider::class)
+			->setConstructorArgs([
+				$this->appManager,
+				$this->l10n,
+				$this->urlGenerator,
+				$this->backend,
+			])
+			->onlyMethods([
+				'getDeepLinkToTasksApp',
+				'generateSubline',
+			])
+			->getMock();
+
+		$provider->expects($this->once())
+			->method('generateSubline')
+			->willReturn('subline');
+		$provider->expects($this->once())
+			->method('getDeepLinkToTasksApp')
+			->willReturn('deep-link-to-tasks');
+
+		$actual = $provider->search($user, $query);
+		$data = $actual->jsonSerialize();
+
+		// Both backend rows are consumed even though one was dropped, so the
+		// cursor advances past both instead of stalling on the malformed row.
+		$this->assertCount(1, $data['entries']);
+		$this->assertEquals('Task title', $data['entries'][0]->jsonSerialize()['title']);
+		$this->assertEquals(22, $data['cursor']);
 	}
 
 	public function testGetDeepLinkToTasksApp(): void {

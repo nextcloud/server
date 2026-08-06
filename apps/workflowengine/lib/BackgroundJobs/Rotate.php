@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\WorkflowEngine\BackgroundJobs;
 
 use OCA\WorkflowEngine\AppInfo\Application;
@@ -22,6 +23,7 @@ class Rotate extends TimedJob {
 		$this->setInterval(60 * 60 * 3);
 	}
 
+	#[\Override]
 	protected function run($argument): void {
 		$config = Server::get(IConfig::class);
 		$appConfig = Server::get(IAppConfig::class);

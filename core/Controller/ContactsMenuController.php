@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Core\Controller;
 
 use Exception;
@@ -37,12 +38,10 @@ class ContactsMenuController extends Controller {
 	public function index(?string $filter = null, ?string $teamId = null): array {
 		$entries = $this->manager->getEntries($this->userSession->getUser(), $filter);
 		if ($teamId !== null) {
-			/** @var \OC\Teams\TeamManager */
-			$teamManager = $this->teamManager;
-			$memberIds = $teamManager->getMembersOfTeam($teamId, $this->userSession->getUser()->getUID());
+			$memberIds = $this->teamManager->getMembersOfTeam($teamId, $this->userSession->getUser()->getUID());
 			$entries['contacts'] = array_filter(
 				$entries['contacts'],
-				fn (IEntry $entry) => in_array($entry->getProperty('UID'), $memberIds, true)
+				fn (IEntry $entry) => array_key_exists($entry->getProperty('UID'), $memberIds)
 			);
 		}
 		return $entries;

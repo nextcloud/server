@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Collaboration\Resources;
 
 use OCP\Collaboration\Resources\CollectionException;
@@ -40,13 +41,14 @@ class Manager implements IManager {
 	 * @throws CollectionException when the collection could not be found
 	 * @since 16.0.0
 	 */
+	#[\Override]
 	public function getCollection(int $id): ICollection {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')
 			->from(self::TABLE_COLLECTIONS)
 			->where($query->expr()->eq('id', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
 		$result = $query->executeQuery();
-		$row = $result->fetch();
+		$row = $result->fetchAssociative();
 		$result->closeCursor();
 
 		if (!$row) {
@@ -60,6 +62,7 @@ class Manager implements IManager {
 	 * @throws CollectionException when the collection could not be found
 	 * @since 16.0.0
 	 */
+	#[\Override]
 	public function getCollectionForUser(int $id, ?IUser $user): ICollection {
 		$query = $this->connection->getQueryBuilder();
 		$userId = $user instanceof IUser ? $user->getUID() : '';
@@ -75,7 +78,7 @@ class Manager implements IManager {
 			)
 			->where($query->expr()->eq('c.id', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
 		$result = $query->executeQuery();
-		$row = $result->fetch();
+		$row = $result->fetchAssociative();
 		$result->closeCursor();
 
 		if (!$row) {
@@ -120,7 +123,7 @@ class Manager implements IManager {
 		$collections = [];
 
 		$foundResults = 0;
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$foundResults++;
 			$access = $row['access'] === null ? null : (bool)$row['access'];
 			$collection = new Collection($this, $this->connection, (int)$row['id'], (string)$row['name'], $user, $access);
@@ -140,6 +143,7 @@ class Manager implements IManager {
 	/**
 	 * @since 16.0.0
 	 */
+	#[\Override]
 	public function newCollection(string $name): ICollection {
 		$query = $this->connection->getQueryBuilder();
 		$query->insert(self::TABLE_COLLECTIONS)
@@ -154,6 +158,7 @@ class Manager implements IManager {
 	/**
 	 * @since 16.0.0
 	 */
+	#[\Override]
 	public function createResource(string $type, string $id): IResource {
 		return new Resource($this, $this->connection, $type, $id);
 	}
@@ -162,6 +167,7 @@ class Manager implements IManager {
 	 * @throws ResourceException
 	 * @since 16.0.0
 	 */
+	#[\Override]
 	public function getResourceForUser(string $type, string $id, ?IUser $user): IResource {
 		$query = $this->connection->getQueryBuilder();
 		$userId = $user instanceof IUser ? $user->getUID() : '';
@@ -179,7 +185,7 @@ class Manager implements IManager {
 			->where($query->expr()->eq('r.resource_type', $query->createNamedParameter($type, IQueryBuilder::PARAM_STR)))
 			->andWhere($query->expr()->eq('r.resource_id', $query->createNamedParameter($id, IQueryBuilder::PARAM_STR)));
 		$result = $query->executeQuery();
-		$row = $result->fetch();
+		$row = $result->fetchAssociative();
 		$result->closeCursor();
 
 		if (!$row) {
@@ -216,7 +222,7 @@ class Manager implements IManager {
 
 		$resources = [];
 		$result = $query->executeQuery();
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$access = $row['access'] === null ? null : (bool)$row['access'];
 			$resources[] = new Resource($this, $this->connection, $row['resource_type'], $row['resource_id'], $user, $access);
 		}
@@ -230,6 +236,7 @@ class Manager implements IManager {
 	 *
 	 * @since 16.0.0
 	 */
+	#[\Override]
 	public function getResourceRichObject(IResource $resource): array {
 		foreach ($this->providerManager->getResourceProviders() as $provider) {
 			if ($provider->getType() === $resource->getType()) {
@@ -248,6 +255,7 @@ class Manager implements IManager {
 	 *
 	 * @since 16.0.0
 	 */
+	#[\Override]
 	public function canAccessResource(IResource $resource, ?IUser $user): bool {
 		$access = $this->checkAccessCacheForUserByResource($resource, $user);
 		if (\is_bool($access)) {
@@ -276,6 +284,7 @@ class Manager implements IManager {
 	 *
 	 * @since 16.0.0
 	 */
+	#[\Override]
 	public function canAccessCollection(ICollection $collection, ?IUser $user): bool {
 		$access = $this->checkAccessCacheForUserByCollection($collection, $user);
 		if (\is_bool($access)) {
@@ -310,7 +319,7 @@ class Manager implements IManager {
 
 		$hasAccess = null;
 		$result = $query->executeQuery();
-		if ($row = $result->fetch()) {
+		if ($row = $result->fetchAssociative()) {
 			$hasAccess = (bool)$row['access'];
 		}
 		$result->closeCursor();
@@ -330,7 +339,7 @@ class Manager implements IManager {
 
 		$hasAccess = null;
 		$result = $query->executeQuery();
-		if ($row = $result->fetch()) {
+		if ($row = $result->fetchAssociative()) {
 			$hasAccess = (bool)$row['access'];
 		}
 		$result->closeCursor();
@@ -377,6 +386,7 @@ class Manager implements IManager {
 		}
 	}
 
+	#[\Override]
 	public function invalidateAccessCacheForUser(?IUser $user): void {
 		$query = $this->connection->getQueryBuilder();
 		$userId = $user instanceof IUser ? $user->getUID() : '';
@@ -386,6 +396,7 @@ class Manager implements IManager {
 		$query->executeStatement();
 	}
 
+	#[\Override]
 	public function invalidateAccessCacheForResource(IResource $resource): void {
 		$query = $this->connection->getQueryBuilder();
 
@@ -415,6 +426,7 @@ class Manager implements IManager {
 		$query->executeStatement();
 	}
 
+	#[\Override]
 	public function invalidateAccessCacheForProvider(IProvider $provider): void {
 		$query = $this->connection->getQueryBuilder();
 
@@ -423,6 +435,7 @@ class Manager implements IManager {
 		$query->executeStatement();
 	}
 
+	#[\Override]
 	public function invalidateAccessCacheForResourceByUser(IResource $resource, ?IUser $user): void {
 		$query = $this->connection->getQueryBuilder();
 		$userId = $user instanceof IUser ? $user->getUID() : '';
@@ -447,6 +460,7 @@ class Manager implements IManager {
 		$query->executeStatement();
 	}
 
+	#[\Override]
 	public function invalidateAccessCacheForProviderByUser(IProvider $provider, ?IUser $user): void {
 		$query = $this->connection->getQueryBuilder();
 		$userId = $user instanceof IUser ? $user->getUID() : '';
@@ -457,16 +471,12 @@ class Manager implements IManager {
 		$query->executeStatement();
 	}
 
-	public function registerResourceProvider(string $provider): void {
-		$this->logger->debug('\OC\Collaboration\Resources\Manager::registerResourceProvider is deprecated', ['provider' => $provider]);
-		$this->providerManager->registerResourceProvider($provider);
-	}
-
 	/**
 	 * Get the resource type of the provider
 	 *
 	 * @since 16.0.0
 	 */
+	#[\Override]
 	public function getType(): string {
 		return '';
 	}

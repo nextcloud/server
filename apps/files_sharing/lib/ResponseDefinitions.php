@@ -54,7 +54,7 @@ namespace OCA\Files_Sharing;
  *     token: ?string,
  *     uid_file_owner: string,
  *     uid_owner: string,
- *     url?: string,
+ *     url?: string|null,
  * }
  *
  * @psalm-type Files_SharingDeletedShare = array{
@@ -93,7 +93,7 @@ namespace OCA\Files_Sharing;
  *     permissions: int|null,
  *     remote: string,
  *     remote_id: string,
- *     share_token: string,
+ *     refresh_token: string,
  *     share_type: int,
  *     type: string|null,
  *     user: string,

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CardDAV\Activity\Provider;
 
 use OCP\Activity\Exceptions\UnknownActivityException;
@@ -43,6 +44,7 @@ class Card extends Base {
 	 * @return IEvent
 	 * @throws UnknownActivityException
 	 */
+	#[\Override]
 	public function parse($language, IEvent $event, ?IEvent $previousEvent = null): IEvent {
 		if ($event->getApp() !== 'dav' || $event->getType() !== 'contacts') {
 			throw new UnknownActivityException();

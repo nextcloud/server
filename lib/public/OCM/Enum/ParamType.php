@@ -17,8 +17,20 @@ use OCP\AppFramework\Attribute\Consumable;
  */
 #[Consumable(since: '33.0.0')]
 enum ParamType: string {
+	/**
+	 * @since 33.0.0
+	 */
 	case STRING = 'string';
+	/**
+	 * @since 33.0.0
+	 */
 	case INT = 'int';
+	/**
+	 * @since 33.0.0
+	 */
 	case FLOAT = 'float';
+	/**
+	 * @since 33.0.0
+	 */
 	case BOOL = 'bool';
 }

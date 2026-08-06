@@ -29,6 +29,7 @@ class VersionCheckTest extends \Test\TestCase {
 	private LoggerInterface&MockObject $logger;
 	private ITimeFactory&MockObject $timeFactory;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->serverVersion = $this->createMock(ServerVersion::class);
@@ -65,6 +66,7 @@ class VersionCheckTest extends \Test\TestCase {
 	}
 
 	public function testCheckInCache(): void {
+		$time = time();
 		$expectedResult = [
 			'version' => '8.0.4.2',
 			'versionstring' => 'ownCloud 8.0.4',
@@ -82,7 +84,7 @@ class VersionCheckTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getValueInt')
 			->with('core', 'lastupdatedat')
-			->willReturn(time());
+			->willReturn($time);
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
@@ -283,7 +285,7 @@ class VersionCheckTest extends \Test\TestCase {
 			->with('core', 'lastupdatedat')
 			->willReturnOnConsecutiveCalls(
 				0,
-				time(),
+				$lastUpdateDate,
 			);
 		$this->config
 			->expects($this->exactly(2))
@@ -298,7 +300,7 @@ class VersionCheckTest extends \Test\TestCase {
 		$this->appConfig
 			->expects($this->once())
 			->method('setValueInt')
-			->with('core', 'lastupdatedat', time());
+			->with('core', 'lastupdatedat', $lastUpdateDate);
 		$this->config
 			->expects($this->once())
 			->method('setAppValue')

@@ -64,6 +64,7 @@ class UpdateUUID extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('ldap:update-uuid')
@@ -101,6 +102,7 @@ class UpdateUUID extends Command {
 		;
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$this->dryRun = $input->getOption('dry-run');
 		$entriesToUpdate = $this->estimateNumberOfUpdates($input);

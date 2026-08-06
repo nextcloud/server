@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace Test\Files\Cache;
 
 use OC\Files\Cache\Cache;
@@ -23,6 +24,7 @@ class FallBackCrossCacheMoveCache extends Cache {
  */
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class MoveFromCacheTraitTest extends CacheTest {
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

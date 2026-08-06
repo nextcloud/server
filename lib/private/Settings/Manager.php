@@ -8,11 +8,11 @@
 namespace OC\Settings;
 
 use Closure;
+use OCP\App\IAppManager;
 use OCP\AppFramework\QueryException;
 use OCP\Group\ISubAdmin;
 use OCP\IGroupManager;
 use OCP\IL10N;
-use OCP\IServerContainer;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\L10N\IFactory;
@@ -21,6 +21,7 @@ use OCP\Settings\IIconSection;
 use OCP\Settings\IManager;
 use OCP\Settings\ISettings;
 use OCP\Settings\ISubAdminSettings;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 class Manager implements IManager {
@@ -38,26 +39,34 @@ class Manager implements IManager {
 	/** @var array<self::SETTINGS_*, array<string, list<ISettings>>> */
 	protected array $settings = [];
 
+	/** @var array<class-string<ISettings|IIconSection>, string> App each class was registered by */
+	protected array $appIds = [];
+
 	public function __construct(
 		private LoggerInterface $log,
 		private IFactory $l10nFactory,
 		private IURLGenerator $url,
-		private IServerContainer $container,
+		private ContainerInterface $container,
 		private AuthorizedGroupMapper $mapper,
 		private IGroupManager $groupManager,
 		private ISubAdmin $subAdmin,
+		private IAppManager $appManager,
 	) {
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function registerSection(string $type, string $section) {
+	#[\Override]
+	public function registerSection(string $type, string $section, ?string $appId = null) {
 		if (!isset($this->sectionClasses[$type])) {
 			$this->sectionClasses[$type] = [];
 		}
 
 		$this->sectionClasses[$type][] = $section;
+		if ($appId !== null) {
+			$this->appIds[$section] = $appId;
+		}
 	}
 
 	/**
@@ -75,6 +84,11 @@ class Manager implements IManager {
 		}
 
 		foreach (array_unique($this->sectionClasses[$type]) as $index => $class) {
+			if ($type === self::SETTINGS_PERSONAL && !$this->isAvailableToCurrentUser($class)) {
+				unset($this->sectionClasses[$type][$index]);
+				continue;
+			}
+
 			try {
 				/** @var IIconSection $section */
 				$section = $this->container->get($class);
@@ -102,6 +116,7 @@ class Manager implements IManager {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getSection(string $type, string $sectionId): ?IIconSection {
 		if (isset($this->sections[$type]) && isset($this->sections[$type][$sectionId])) {
 			return $this->sections[$type][$sectionId];
@@ -119,8 +134,29 @@ class Manager implements IManager {
 	/**
 	 * @inheritdoc
 	 */
-	public function registerSetting(string $type, string $setting) {
+	#[\Override]
+	public function registerSetting(string $type, string $setting, ?string $appId = null) {
 		$this->settingClasses[$setting] = $type;
+		if ($appId !== null) {
+			$this->appIds[$setting] = $appId;
+		}
+	}
+
+	/**
+	 * Apps can be limited to some groups, but their settings are registered for
+	 * every user. So check the app of a setting or section is available to the
+	 * current user before showing it.
+	 *
+	 * @param class-string<ISettings|IIconSection> $class
+	 */
+	protected function isAvailableToCurrentUser(string $class): bool {
+		$appId = $this->appIds[$class] ?? null;
+		if ($appId === null) {
+			// Not registered by an app, e.g. a built-in setting.
+			return true;
+		}
+
+		return $this->appManager->isEnabledForUser($appId);
 	}
 
 	/**
@@ -139,6 +175,11 @@ class Manager implements IManager {
 
 			foreach ($this->settingClasses as $class => $settingsType) {
 				if ($type !== $settingsType) {
+					continue;
+				}
+
+				if ($type === self::SETTINGS_PERSONAL && !$this->isAvailableToCurrentUser($class)) {
+					unset($this->settingClasses[$class]);
 					continue;
 				}
 
@@ -179,6 +220,7 @@ class Manager implements IManager {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getAdminSections(): array {
 		// built-in sections
 		$sections = [];
@@ -202,6 +244,7 @@ class Manager implements IManager {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getAdminSettings(string $section, bool $subAdminOnly = false): array {
 		if ($subAdminOnly) {
 			$subAdminSettingsFilter = function (ISettings $settings) {
@@ -227,6 +270,7 @@ class Manager implements IManager {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getPersonalSections(): array {
 		if ($this->l === null) {
 			$this->l = $this->l10nFactory->get('lib');
@@ -257,6 +301,7 @@ class Manager implements IManager {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getPersonalSettings(string $section): array {
 		$settings = [];
 		$appSettings = $this->getSettings('personal', $section);
@@ -275,6 +320,7 @@ class Manager implements IManager {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getAllowedAdminSettings(string $section, IUser $user): array {
 		$isAdmin = $this->groupManager->isAdmin($user->getUID());
 		if ($isAdmin) {
@@ -309,6 +355,7 @@ class Manager implements IManager {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getAllAllowedAdminSettings(IUser $user): array {
 		$this->getSettings('admin', ''); // Make sure all the settings are loaded
 		$settings = [];
@@ -326,8 +373,10 @@ class Manager implements IManager {
 	/**
 	 * @return array<string, array{section:IIconSection,settings:list<IDelegatedSettings>}>
 	 */
+	#[\Override]
 	public function getAdminDelegatedSettings(): array {
 		$sections = $this->getAdminSections();
+		$sections[self::SETTINGS_DELEGATION] = $this->getSections(self::SETTINGS_DELEGATION);
 		$settings = [];
 		foreach ($sections as $sectionPriority) {
 			foreach ($sectionPriority as $section) {

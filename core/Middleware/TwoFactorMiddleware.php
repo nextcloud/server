@@ -7,11 +7,11 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Middleware;
 
 use Exception;
 use OC\AppFramework\Http\Attributes\TwoFactorSetUpDoneRequired;
-use OC\AppFramework\Middleware\MiddlewareUtils;
 use OC\Authentication\Exceptions\TwoFactorAuthRequiredException;
 use OC\Authentication\Exceptions\UserAlreadyLoggedInException;
 use OC\Authentication\TwoFactorAuth\Manager;
@@ -23,6 +23,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\NoTwoFactorRequired;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Middleware;
+use OCP\AppFramework\Utility\IControllerMethodReflector;
 use OCP\Authentication\TwoFactorAuth\ALoginSetupController;
 use OCP\IRequest;
 use OCP\ISession;
@@ -36,7 +37,7 @@ class TwoFactorMiddleware extends Middleware {
 		private Session $userSession,
 		private ISession $session,
 		private IURLGenerator $urlGenerator,
-		private MiddlewareUtils $middlewareUtils,
+		private IControllerMethodReflector $reflector,
 		private IRequest $request,
 	) {
 	}
@@ -45,20 +46,21 @@ class TwoFactorMiddleware extends Middleware {
 	 * @param Controller $controller
 	 * @param string $methodName
 	 */
-	public function beforeController($controller, $methodName) {
-		$reflectionMethod = new ReflectionMethod($controller, $methodName);
-
-		if ($this->middlewareUtils->hasAnnotationOrAttribute($reflectionMethod, 'NoTwoFactorRequired', NoTwoFactorRequired::class)) {
+	#[\Override]
+	public function beforeController(Controller $controller, string $methodName): void {
+		if ($this->reflector->hasAnnotationOrAttribute('NoTwoFactorRequired', NoTwoFactorRequired::class)) {
 			// Route handler explicitly marked to work without finished 2FA are
 			// not blocked
 			return;
 		}
 
+		/** @psalm-suppress TypeDoesNotContainType The class is defined in a different app */
 		if ($controller instanceof APIController && $methodName === 'poll') {
 			// Allow polling the twofactor nextcloud notifications state
 			return;
 		}
 
+		$reflectionMethod = new ReflectionMethod($controller, $methodName);
 		if ($controller instanceof TwoFactorChallengeController
 			&& $this->userSession->getUser() !== null
 			&& !$reflectionMethod->getAttributes(TwoFactorSetUpDoneRequired::class)) {
@@ -119,7 +121,8 @@ class TwoFactorMiddleware extends Middleware {
 		}
 	}
 
-	public function afterException($controller, $methodName, Exception $exception) {
+	#[\Override]
+	public function afterException(Controller $controller, string $methodName, Exception $exception) {
 		if ($exception instanceof TwoFactorAuthRequiredException) {
 			$params = [
 				'redirect_url' => $this->request->getParam('redirect_url'),

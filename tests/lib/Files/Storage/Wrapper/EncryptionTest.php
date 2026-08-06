@@ -58,6 +58,7 @@ class EncryptionTest extends Storage {
 	/** dummy unencrypted size */
 	private int $dummySize = -1;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -321,7 +322,6 @@ class EncryptionTest extends Storage {
 		$this->instance->expects($this->any())->method('verifyUnencryptedSize')
 			->willReturn(42);
 
-
 		$this->assertSame(42,
 			$this->instance->filesize('/test.txt')
 		);
@@ -386,7 +386,11 @@ class EncryptionTest extends Storage {
 			[120, 80, false, 80],
 			[120, 120, false, 80],
 			[120, -1, false, 80],
-			[120, -1, true, -1]
+			[120, -1, true, -1],
+			// Zero-byte encrypted file: on-disk size equals header only (8192) — should NOT recalculate
+			[8192, 0, false, 0],
+			// Encrypted file with content beyond header but unencrypted_size=0 — SHOULD recalculate
+			[16384, 0, false, 80],
 		];
 	}
 
@@ -486,7 +490,6 @@ class EncryptionTest extends Storage {
 			$this->mountManager,
 			$this->arrayCache,
 		);
-
 
 		if ($rmdirResult === true && $isExcluded === false && $encryptionEnabled === true) {
 			$this->keyStore->expects($this->once())->method('deleteAllFileKeys')->with('/mountPoint' . $path);
@@ -910,7 +913,6 @@ class EncryptionTest extends Storage {
 			['/files_versions/foo.txt.6487634', '/files/foo.txt', true, false],
 			['/files_versions/foo.txt.6487634', '/files/foo.txt', false, true],
 			['/files_versions/foo.txt.6487634', '/files/foo.txt', false, false],
-
 		];
 	}
 

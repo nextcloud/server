@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\App\AppStore\Bundles;
 
 use OCP\IL10N;
@@ -36,7 +37,7 @@ abstract class Bundle {
 	/**
 	 * Get the list of app identifiers in the bundle
 	 *
-	 * @return array
+	 * @return list<string>
 	 */
 	abstract public function getAppIdentifiers();
 }

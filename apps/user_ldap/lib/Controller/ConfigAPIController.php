@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\User_LDAP\Controller;
 
 use OCA\User_LDAP\Configuration;
@@ -11,7 +12,6 @@ use OCA\User_LDAP\ConnectionFactory;
 use OCA\User_LDAP\Exceptions\ConfigurationIssueException;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\ILDAPWrapper;
-use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\Settings\Admin;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;

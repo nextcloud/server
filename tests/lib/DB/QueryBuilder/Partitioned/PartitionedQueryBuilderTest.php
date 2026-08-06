@@ -24,7 +24,10 @@ class PartitionedQueryBuilderTest extends TestCase {
 	private ShardConnectionManager $shardConnectionManager;
 	private AutoIncrementHandler $autoIncrementHandler;
 
+	#[\Override]
 	protected function setUp(): void {
+		parent::setUp();
+
 		if (PHP_INT_SIZE < 8) {
 			$this->markTestSkipped('Test requires 64bit');
 			return;
@@ -36,6 +39,7 @@ class PartitionedQueryBuilderTest extends TestCase {
 		$this->setupFileCache();
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		// PHP unit also runs tearDown when the test is skipped, but we only initialized when using 64bit
 		// see https://github.com/sebastianbergmann/phpunit/issues/6394
@@ -44,7 +48,6 @@ class PartitionedQueryBuilderTest extends TestCase {
 		}
 		parent::tearDown();
 	}
-
 
 	private function getQueryBuilder(): PartitionedQueryBuilder {
 		$builder = $this->connection->getQueryBuilder();

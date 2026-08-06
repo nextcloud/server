@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\UserStatus\Service;
 
 use OCP\IL10N;
@@ -137,28 +138,20 @@ class PredefinedStatusService {
 		switch ($id) {
 			case self::MEETING:
 				return '📅';
-
 			case self::COMMUTING:
 				return '🚌';
-
 			case self::SICK_LEAVE:
 				return '🤒';
-
 			case self::VACATIONING:
 				return '🌴';
-
 			case self::OUT_OF_OFFICE:
 				return '🛑';
-
 			case self::REMOTE_WORK:
 				return '🏡';
-
 			case self::BE_RIGHT_BACK:
 				return '⏳';
-
 			case self::CALL:
 				return '💬';
-
 			default:
 				return null;
 		}
@@ -173,28 +166,20 @@ class PredefinedStatusService {
 		switch ($id) {
 			case self::MEETING:
 				return $this->l10n->t('In a meeting');
-
 			case self::COMMUTING:
 				return $this->l10n->t('Commuting');
-
 			case self::SICK_LEAVE:
 				return $this->l10n->t('Out sick');
-
 			case self::VACATIONING:
 				return $this->l10n->t('Vacationing');
-
 			case self::OUT_OF_OFFICE:
 				return $this->l10n->t('Out of office');
-
 			case self::REMOTE_WORK:
 				return $this->l10n->t('Working remotely');
-
 			case self::CALL:
 				return $this->l10n->t('In a call');
-
 			case self::BE_RIGHT_BACK:
 				return $this->l10n->t('Be right back');
-
 			default:
 				return null;
 		}

@@ -1,12 +1,12 @@
 <?php
 
 /**
- * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016-2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Sharing\Controller;
 
-use OCA\Files_External\NotFoundException;
 use OCA\Files_Sharing\ResponseDefinitions;
 use OCP\AppFramework\ApiController;
 use OCP\AppFramework\Http;
@@ -19,6 +19,7 @@ use OCP\Constants;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\Node;
+use OCP\Files\NotFoundException;
 use OCP\IRequest;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
@@ -69,7 +70,7 @@ class ShareInfoController extends ApiController {
 			return $response;
 		}
 
-		if ($share->getPassword() && !$this->shareManager->checkPassword($share, $password)) {
+		if ($share->isPasswordProtected() && !$this->shareManager->checkPassword($share, $password)) {
 			$response = new JSONResponse([], Http::STATUS_FORBIDDEN);
 			$response->throttle(['token' => $t]);
 			return $response;

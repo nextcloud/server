@@ -53,11 +53,13 @@ class ConversionManager implements IConversionManager {
 		$this->l10n = $l10nFactory->get('files');
 	}
 
+	#[\Override]
 	public function hasProviders(): bool {
 		$context = $this->coordinator->getRegistrationContext();
 		return !empty($context->getFileConversionProviders());
 	}
 
+	#[\Override]
 	public function getProviders(): array {
 		$providers = [];
 		foreach ($this->getRegisteredProviders() as $provider) {
@@ -66,6 +68,7 @@ class ConversionManager implements IConversionManager {
 		return $providers;
 	}
 
+	#[\Override]
 	public function convert(File $file, string $targetMimeType, ?string $destination = null): string {
 		if (!$this->hasProviders()) {
 			throw new PreConditionNotMetException($this->l10n->t('No file conversion providers available'));

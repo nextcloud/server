@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Middleware\Security\Exceptions\NotConfirmedException;
@@ -21,9 +22,9 @@ use OCP\Authentication\Token\IToken;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
+use OCP\Security\Ip\IRemoteAddress;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use OCP\User\Backend\IPasswordConfirmationBackend;
-use Psr\Log\LoggerInterface;
 use ReflectionAttribute;
 use ReflectionMethod;
 
@@ -36,19 +37,18 @@ class PasswordConfirmationMiddleware extends Middleware {
 		private IUserSession $userSession,
 		private ITimeFactory $timeFactory,
 		private IProvider $tokenProvider,
-		private readonly LoggerInterface $logger,
 		private readonly IRequest $request,
 		private readonly Manager $userManager,
+		private readonly IRemoteAddress $remoteAddress,
 	) {
 	}
 
 	/**
 	 * @throws NotConfirmedException
 	 */
-	public function beforeController(Controller $controller, string $methodName) {
-		$reflectionMethod = new ReflectionMethod($controller, $methodName);
-
-		if (!$this->needsPasswordConfirmation($reflectionMethod)) {
+	#[\Override]
+	public function beforeController(Controller $controller, string $methodName): void {
+		if (!$this->needsPasswordConfirmation()) {
 			return;
 		}
 
@@ -68,23 +68,27 @@ class PasswordConfirmationMiddleware extends Middleware {
 		try {
 			$sessionId = $this->session->getId();
 			$token = $this->tokenProvider->getToken($sessionId);
+			$scope = $token->getScopeAsArray();
+			if (isset($scope[IToken::SCOPE_SKIP_PASSWORD_VALIDATION]) && $scope[IToken::SCOPE_SKIP_PASSWORD_VALIDATION] === true) {
+				// Users logging in from SSO backends cannot confirm their password by design
+				return;
+			}
 		} catch (SessionNotAvailableException|InvalidTokenException|WipeTokenException|ExpiredTokenException) {
-			// States we do not deal with here.
-			return;
+			if ($this->remoteAddress->allowsBypassPasswordConfirmation()) {
+				return;
+			}
+
+			// No scope to test
 		}
 
-		$scope = $token->getScopeAsArray();
-		if (isset($scope[IToken::SCOPE_SKIP_PASSWORD_VALIDATION]) && $scope[IToken::SCOPE_SKIP_PASSWORD_VALIDATION] === true) {
-			// Users logging in from SSO backends cannot confirm their password by design
-			return;
-		}
-
+		$reflectionMethod = new ReflectionMethod($controller, $methodName);
 		if ($this->isPasswordConfirmationStrict($reflectionMethod)) {
-			$authHeader = $this->request->getHeader('Authorization');
-			if (!str_starts_with(strtolower($authHeader), 'basic ')) {
+			$password = $this->request->getHeader('PHP_AUTH_PW');
+
+			if ($password === '') {
 				throw new NotConfirmedException('Required authorization header missing');
 			}
-			[, $password] = explode(':', base64_decode(substr($authHeader, 6)), 2);
+
 			$loginName = $this->session->get('loginname');
 			$loginResult = $this->userManager->checkPassword($loginName, $password);
 			if ($loginResult === false) {
@@ -101,18 +105,8 @@ class PasswordConfirmationMiddleware extends Middleware {
 		}
 	}
 
-	private function needsPasswordConfirmation(ReflectionMethod $reflectionMethod): bool {
-		$attributes = $reflectionMethod->getAttributes(PasswordConfirmationRequired::class);
-		if (!empty($attributes)) {
-			return true;
-		}
-
-		if ($this->reflector->hasAnnotation('PasswordConfirmationRequired')) {
-			$this->logger->debug($reflectionMethod->getDeclaringClass()->getName() . '::' . $reflectionMethod->getName() . ' uses the @' . 'PasswordConfirmationRequired' . ' annotation and should use the #[PasswordConfirmationRequired] attribute instead');
-			return true;
-		}
-
-		return false;
+	private function needsPasswordConfirmation(): bool {
+		return $this->reflector->hasAnnotationOrAttribute('PasswordConfirmationRequired', PasswordConfirmationRequired::class);
 	}
 
 	private function isPasswordConfirmationStrict(ReflectionMethod $reflectionMethod): bool {

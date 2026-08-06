@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 ownCloud GmbH
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\DAV;
 
 use OCA\DAV\Connector\Sabre\Exception\Forbidden;
@@ -19,7 +20,6 @@ use OCP\Files\Folder;
 use OCP\Files\Storage\ISharedStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\IUser;
-use OCP\Share\IAttributes;
 use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\Server;
@@ -135,6 +135,11 @@ class ViewOnlyPluginTest extends TestCase {
 			$davNode->method('getNode')->willReturn($nodeInfo);
 		}
 
+		$this->request
+			->expects($this->once())
+			->method('getMethod')
+			->willReturn('GET');
+
 		$this->request->expects($this->once())->method('getPath')->willReturn($davPath);
 
 		$this->tree->expects($this->once())
@@ -150,16 +155,11 @@ class ViewOnlyPluginTest extends TestCase {
 		$storage->method('instanceOfStorage')->with(ISharedStorage::class)->willReturn(true);
 		$storage->method('getShare')->willReturn($share);
 
-		$extAttr = $this->createMock(IAttributes::class);
-		$share->method('getAttributes')->willReturn($extAttr);
-		$extAttr->expects($this->once())
-			->method('getAttribute')
-			->with('permissions', 'download')
-			->willReturn($attrEnabled);
+		$share->method('canDownload')->willReturn($attrEnabled ?? true);
 
 		$share->expects($this->once())
 			->method('canSeeContent')
-			->willReturn($allowViewWithoutDownload);
+			->willReturn($allowViewWithoutDownload && ($attrEnabled ?? true));
 
 		if (!$expectCanDownloadFile) {
 			$this->expectException(Forbidden::class);

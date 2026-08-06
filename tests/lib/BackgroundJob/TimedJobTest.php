@@ -15,6 +15,7 @@ class TimedJobTest extends \Test\TestCase {
 	private DummyJobList $jobList;
 	private ITimeFactory $time;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

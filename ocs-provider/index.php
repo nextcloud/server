@@ -6,15 +6,17 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
+use OCP\App\IAppManager;
+use OCP\IRequest;
+use OCP\Server;
+
 require_once __DIR__ . '/../lib/base.php';
 
 header('Content-Type: application/json');
 
-$server = \OC::$server;
-
 $controller = new \OC\OCS\Provider(
 	'ocs_provider',
-	$server->getRequest(),
-	$server->getAppManager()
+	Server::get(IRequest::class),
+	Server::get(IAppManager::class),
 );
 echo $controller->buildProviderList()->render();

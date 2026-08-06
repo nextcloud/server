@@ -25,6 +25,7 @@ class DisableTest extends TestCase {
 	/** @var Disable */
 	protected $command;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

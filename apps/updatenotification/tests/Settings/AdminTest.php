@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\UpdateNotification\Tests\Settings;
 
 use OCA\UpdateNotification\AppInfo\Application;
@@ -367,7 +368,6 @@ class AdminTest extends TestCase {
 		$expected = new TemplateResponse(Application::APP_NAME, 'admin', [], '');
 		$this->assertEquals($expected, $this->admin->getForm());
 	}
-
 
 	public function testGetSection(): void {
 		$this->config

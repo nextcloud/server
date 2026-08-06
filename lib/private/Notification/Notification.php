@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Notification;
 
 use OCP\Notification\IAction;
@@ -58,6 +59,7 @@ class Notification implements INotification {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function setApp(string $app): INotification {
 		if ($app === '' || isset($app[32])) {
 			throw new InvalidValueException('app');
@@ -69,6 +71,7 @@ class Notification implements INotification {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getApp(): string {
 		return $this->app;
 	}
@@ -76,6 +79,7 @@ class Notification implements INotification {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function setUser(string $user): INotification {
 		if ($user === '' || isset($user[64])) {
 			throw new InvalidValueException('user');
@@ -87,6 +91,7 @@ class Notification implements INotification {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getUser(): string {
 		return $this->user;
 	}
@@ -94,6 +99,7 @@ class Notification implements INotification {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function setDateTime(\DateTime $dateTime): INotification {
 		if ($dateTime->getTimestamp() === 0) {
 			throw new InvalidValueException('dateTime');
@@ -105,6 +111,7 @@ class Notification implements INotification {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getDateTime(): \DateTime {
 		return $this->dateTime;
 	}
@@ -112,6 +119,7 @@ class Notification implements INotification {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function setObject(string $type, string $id): INotification {
 		if ($type === '' || isset($type[64])) {
 			throw new InvalidValueException('objectType');
@@ -128,6 +136,7 @@ class Notification implements INotification {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getObjectType(): string {
 		return $this->objectType;
 	}
@@ -135,6 +144,7 @@ class Notification implements INotification {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getObjectId(): string {
 		return $this->objectId;
 	}
@@ -142,6 +152,7 @@ class Notification implements INotification {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function setSubject(string $subject, array $parameters = []): INotification {
 		if ($subject === '' || isset($subject[64])) {
 			throw new InvalidValueException('subject');
@@ -156,6 +167,7 @@ class Notification implements INotification {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getSubject(): string {
 		return $this->subject;
 	}
@@ -163,6 +175,7 @@ class Notification implements INotification {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getSubjectParameters(): array {
 		return $this->subjectParameters;
 	}
@@ -170,6 +183,7 @@ class Notification implements INotification {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function setParsedSubject(string $subject): INotification {
 		if ($subject === '') {
 			throw new InvalidValueException('parsedSubject');
@@ -181,6 +195,7 @@ class Notification implements INotification {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getParsedSubject(): string {
 		return $this->subjectParsed;
 	}
@@ -188,6 +203,7 @@ class Notification implements INotification {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function setRichSubject(string $subject, array $parameters = []): INotification {
 		if ($subject === '') {
 			throw new InvalidValueException('richSubject');
@@ -210,6 +226,7 @@ class Notification implements INotification {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getRichSubject(): string {
 		return $this->subjectRich;
 	}
@@ -217,6 +234,7 @@ class Notification implements INotification {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getRichSubjectParameters(): array {
 		return $this->subjectRichParameters;
 	}
@@ -224,6 +242,7 @@ class Notification implements INotification {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function setMessage(string $message, array $parameters = []): INotification {
 		if ($message === '' || isset($message[64])) {
 			throw new InvalidValueException('message');
@@ -238,6 +257,7 @@ class Notification implements INotification {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getMessage(): string {
 		return $this->message;
 	}
@@ -245,6 +265,7 @@ class Notification implements INotification {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getMessageParameters(): array {
 		return $this->messageParameters;
 	}
@@ -252,6 +273,7 @@ class Notification implements INotification {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function setParsedMessage(string $message): INotification {
 		if ($message === '') {
 			throw new InvalidValueException('parsedMessage');
@@ -263,6 +285,7 @@ class Notification implements INotification {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getParsedMessage(): string {
 		return $this->messageParsed;
 	}
@@ -270,6 +293,7 @@ class Notification implements INotification {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function setRichMessage(string $message, array $parameters = []): INotification {
 		if ($message === '') {
 			throw new InvalidValueException('richMessage');
@@ -292,6 +316,7 @@ class Notification implements INotification {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getRichMessage(): string {
 		return $this->messageRich;
 	}
@@ -299,6 +324,7 @@ class Notification implements INotification {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getRichMessageParameters(): array {
 		return $this->messageRichParameters;
 	}
@@ -306,10 +332,17 @@ class Notification implements INotification {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function setLink(string $link): INotification {
 		if ($link === '' || isset($link[4000])) {
 			throw new InvalidValueException('link');
 		}
+
+		// Only allow absolute URLs for support of desktop and mobile clients
+		if (!str_starts_with($link, 'http://') && !str_starts_with($link, 'https://')) {
+			throw new InvalidValueException('link');
+		}
+
 		$this->link = $link;
 		return $this;
 	}
@@ -317,6 +350,7 @@ class Notification implements INotification {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getLink(): string {
 		return $this->link;
 	}
@@ -324,10 +358,17 @@ class Notification implements INotification {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function setIcon(string $icon): INotification {
 		if ($icon === '' || isset($icon[4000])) {
 			throw new InvalidValueException('icon');
 		}
+
+		// Only allow absolute URLs for support of desktop and mobile clients
+		if (!str_starts_with($icon, 'http://') && !str_starts_with($icon, 'https://')) {
+			throw new InvalidValueException('icon');
+		}
+
 		$this->icon = $icon;
 		return $this;
 	}
@@ -335,6 +376,7 @@ class Notification implements INotification {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getIcon(): string {
 		return $this->icon;
 	}
@@ -342,6 +384,7 @@ class Notification implements INotification {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function setPriorityNotification(bool $priorityNotification): INotification {
 		if ($priorityNotification && !in_array($this->getApp(), self::PRIORITY_NOTIFICATION_APPS, true)) {
 			throw new InvalidValueException('priorityNotification');
@@ -354,6 +397,7 @@ class Notification implements INotification {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function isPriorityNotification(): bool {
 		return $this->priorityNotification;
 	}
@@ -361,6 +405,7 @@ class Notification implements INotification {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function createAction(): IAction {
 		return new Action();
 	}
@@ -368,6 +413,7 @@ class Notification implements INotification {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function addAction(IAction $action): INotification {
 		if (!$action->isValid()) {
 			throw new InvalidValueException('action');
@@ -388,6 +434,7 @@ class Notification implements INotification {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getActions(): array {
 		return $this->actions;
 	}
@@ -395,6 +442,7 @@ class Notification implements INotification {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function addParsedAction(IAction $action): INotification {
 		if (!$action->isValidParsed()) {
 			throw new InvalidValueException('action');
@@ -419,6 +467,7 @@ class Notification implements INotification {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getParsedActions(): array {
 		return $this->actionsParsed;
 	}
@@ -426,6 +475,7 @@ class Notification implements INotification {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function isValid(): bool {
 		return
 			$this->isValidCommon()
@@ -436,6 +486,7 @@ class Notification implements INotification {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function isValidParsed(): bool {
 		if ($this->getRichSubject() !== '' || !empty($this->getRichSubjectParameters())) {
 			try {

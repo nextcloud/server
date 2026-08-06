@@ -43,7 +43,6 @@ class StorageTest extends TestCase {
 		$this->userFolder = $root->getUserFolder('version_test');
 	}
 
-
 	protected function createPastFile(string $path, int $mtime): void {
 		try {
 			$file = $this->userFolder->get($path);

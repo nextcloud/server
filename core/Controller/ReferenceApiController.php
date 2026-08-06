@@ -18,7 +18,6 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\Collaboration\Reference\IDiscoverableReferenceProvider;
 use OCP\Collaboration\Reference\IReferenceManager;
-use OCP\Collaboration\Reference\Reference;
 use OCP\IRequest;
 
 /**

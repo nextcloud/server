@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Lib;
 
 use OC\Files\Filesystem;
@@ -382,6 +383,7 @@ class StorageConfig implements \JsonSerializable {
 	 * Serialize config to JSON
 	 * @return Files_ExternalStorageConfig
 	 */
+	#[\Override]
 	public function jsonSerialize(bool $obfuscate = false): array {
 		$result = [];
 		if (!is_null($this->id)) {

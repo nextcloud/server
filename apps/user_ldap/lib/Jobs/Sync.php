@@ -12,7 +12,6 @@ use OCA\User_LDAP\AccessFactory;
 use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\ConnectionFactory;
 use OCA\User_LDAP\Helper;
-use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -80,6 +79,7 @@ class Sync extends TimedJob {
 	/**
 	 * @param array $argument
 	 */
+	#[\Override]
 	public function run($argument) {
 		$isBackgroundJobModeAjax = $this->globalAppConfig
 			->getValueString('core', 'backgroundjobs_mode', 'ajax') === 'ajax';

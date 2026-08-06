@@ -17,11 +17,11 @@ class RedirectResponseTest extends \Test\TestCase {
 	 */
 	protected $response;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->response = new RedirectResponse('/url');
 	}
-
 
 	public function testHeaders(): void {
 		$headers = $this->response->getHeaders();
@@ -29,7 +29,6 @@ class RedirectResponseTest extends \Test\TestCase {
 		$this->assertEquals(Http::STATUS_SEE_OTHER,
 			$this->response->getStatus());
 	}
-
 
 	public function testGetRedirectUrl(): void {
 		$this->assertEquals('/url', $this->response->getRedirectUrl());

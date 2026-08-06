@@ -12,12 +12,18 @@ namespace OC\Core\Listener;
 use OCP\DB\Events\AddMissingIndicesEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
+use OCP\IDBConnection;
 
 /**
  * @template-implements IEventListener<AddMissingIndicesEvent>
  */
 class AddMissingIndicesListener implements IEventListener {
+	public function __construct(
+		private readonly IDBConnection $connection,
+	) {
+	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!($event instanceof AddMissingIndicesEvent)) {
 			return;
@@ -54,12 +60,14 @@ class AddMissingIndicesListener implements IEventListener {
 			'fs_size',
 			['size']
 		);
-		$event->addMissingIndex(
-			'filecache',
-			'fs_storage_path_prefix',
-			['storage', 'path'],
-			['lengths' => [null, 64]]
-		);
+		if ($this->connection->getDatabaseProvider() !== IDBConnection::PLATFORM_POSTGRES) {
+			$event->addMissingIndex(
+				'filecache',
+				'fs_storage_path_prefix',
+				['storage', 'path'],
+				['lengths' => [null, 64]]
+			);
+		}
 		$event->addMissingIndex(
 			'filecache',
 			'fs_parent',
@@ -149,7 +157,6 @@ class AddMissingIndicesListener implements IEventListener {
 			['propertyname', 'propertypath', 'userid']
 		);
 
-
 		$event->addMissingIndex(
 			'jobs',
 			'job_lastcheck_reserved',
@@ -215,6 +222,12 @@ class AddMissingIndicesListener implements IEventListener {
 			'user_mountpoint_index',
 			['user', 'mountpoint'],
 			['lengths' => [null, 128]]
+		);
+
+		$event->addMissingIndex(
+			'taskprocessing_tasks',
+			'taskp_status_type_upd',
+			['status', 'type', 'last_updated']
 		);
 	}
 }

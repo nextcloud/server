@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\Migration\Attributes;
 
 use OCP\AppFramework\Attribute\Consumable;
@@ -34,14 +35,16 @@ class GenericMigrationAttribute extends MigrationAttribute {
 	 * @return string
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function definition(): string {
-		return json_encode($this->jsonSerialize(), JSON_UNESCAPED_SLASHES);
+		return json_encode($this->jsonSerialize(), JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR);
 	}
 
 	/**
 	 * @return array
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		return $this->details;
 	}

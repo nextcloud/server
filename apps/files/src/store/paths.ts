@@ -11,7 +11,7 @@ import { File, FileType, getNavigation } from '@nextcloud/files'
 import { dirname } from '@nextcloud/paths'
 import { defineStore } from 'pinia'
 import Vue from 'vue'
-import logger from '../logger.ts'
+import { logger } from '../utils/logger.ts'
 import { useFilesStore } from './files.ts'
 
 /**

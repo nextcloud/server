@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Command;
 
 use OCA\Files_Trashbin\Command\Expire;
@@ -25,6 +26,7 @@ class QueueBus implements IBus {
 	/**
 	 * Schedule a command to be fired
 	 */
+	#[\Override]
 	public function push(ICommand $command): void {
 		$this->queue[] = $command;
 	}
@@ -32,6 +34,7 @@ class QueueBus implements IBus {
 	/**
 	 * Require all commands using a trait to be run synchronous
 	 */
+	#[\Override]
 	public function requireSync(string $trait): void {
 	}
 

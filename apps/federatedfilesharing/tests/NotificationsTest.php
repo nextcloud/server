@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\FederatedFileSharing\Tests;
 
 use OCA\FederatedFileSharing\AddressHandler;
@@ -77,7 +78,6 @@ class NotificationsTest extends \Test\TestCase {
 			->getMock();
 	}
 
-
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestSendUpdateToRemote')]
 	public function testSendUpdateToRemote(int $try, array $httpRequestResult, bool $expected): void {
 		$remote = 'http://remote';
@@ -116,7 +116,6 @@ class NotificationsTest extends \Test\TestCase {
 			$instance->sendUpdateToRemote($remote, $id, $token, $action, ['data1Key' => 'data1Value'], $try)
 		);
 	}
-
 
 	public static function dataTestSendUpdateToRemote(): array {
 		return [

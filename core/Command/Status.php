@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Command;
 
 use OCP\Defaults;
@@ -26,6 +27,7 @@ class Status extends Base {
 		parent::__construct('status');
 	}
 
+	#[\Override]
 	protected function configure() {
 		parent::configure();
 
@@ -39,6 +41,7 @@ class Status extends Base {
 			);
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$maintenanceMode = $this->config->getSystemValueBool('maintenance', false);
 		$needUpgrade = Util::needUpgrade();

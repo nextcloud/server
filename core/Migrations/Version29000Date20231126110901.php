@@ -10,7 +10,6 @@ namespace OC\Core\Migrations;
 
 use Closure;
 use OCP\DB\ISchemaWrapper;
-use OCP\DB\Types;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
@@ -18,6 +17,7 @@ use OCP\Migration\SimpleMigrationStep;
  * Create new fields for type and lazy loading in appconfig for the new IAppConfig API.
  */
 class Version29000Date20231126110901 extends SimpleMigrationStep {
+	#[\Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
@@ -37,7 +37,6 @@ class Version29000Date20231126110901 extends SimpleMigrationStep {
 		 * @see Version29000Date20240124132202 for the new migration process
 		 */
 		return null;
-
 		//		// type=2 means value is typed as MIXED
 		//		$table->addColumn('type', Types::INTEGER, ['notnull' => true, 'default' => 2]);
 		//		$table->addColumn('lazy', Types::BOOLEAN, ['notnull' => false, 'default' => false]);

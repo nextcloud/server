@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Repair;
 
 use OC\Avatar\AvatarManager;
@@ -22,6 +23,7 @@ class ClearGeneratedAvatarCache implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Clear every generated avatar';
 	}
@@ -37,6 +39,7 @@ class ClearGeneratedAvatarCache implements IRepairStep {
 		return version_compare($versionFromBeforeUpdate, '27.0.0', '<');
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		if ($this->shouldRun()) {
 			try {

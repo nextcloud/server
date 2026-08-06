@@ -18,6 +18,9 @@ use OCP\EventDispatcher\Event;
  * @since 33.0.0
  */
 class BeforeRemotePropfindEvent extends Event {
+	/**
+	 * @since 33.0.0
+	 */
 	public function __construct(
 		private array $properties,
 	) {

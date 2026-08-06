@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Federation\Controller;
 
 use OCA\Federation\Settings\Admin;
@@ -30,7 +31,6 @@ class SettingsController extends OCSController {
 	) {
 		parent::__construct($appName, $request);
 	}
-
 
 	/**
 	 * Add server to the list of trusted Nextcloud servers
@@ -107,7 +107,6 @@ class SettingsController extends OCSController {
 		// return the list of trusted servers
 		return new DataResponse($servers);
 	}
-
 
 	/**
 	 * Check if the server should be added to the list of trusted servers or not.

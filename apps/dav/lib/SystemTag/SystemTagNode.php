@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\SystemTag;
 
 use OCP\IUser;
@@ -55,6 +56,7 @@ class SystemTagNode implements \Sabre\DAV\ICollection {
 	 *
 	 * @return string
 	 */
+	#[\Override]
 	public function getName() {
 		return $this->tag->getId();
 	}
@@ -77,6 +79,7 @@ class SystemTagNode implements \Sabre\DAV\ICollection {
 	 *
 	 * @return never
 	 */
+	#[\Override]
 	public function setName($name) {
 		throw new MethodNotAllowed();
 	}
@@ -98,18 +101,10 @@ class SystemTagNode implements \Sabre\DAV\ICollection {
 			if (!$this->tagManager->canUserSeeTag($this->tag, $this->user)) {
 				throw new NotFound('Tag with id ' . $this->tag->getId() . ' does not exist');
 			}
-			if (!$this->tagManager->canUserAssignTag($this->tag, $this->user)) {
-				throw new Forbidden('No permission to update tag ' . $this->tag->getId());
-			}
 
-			// only admin is able to change permissions, regular users can only rename
+			// only admin is able to update system tags
 			if (!$this->isAdmin) {
-				// only renaming is allowed for regular users
-				if ($userVisible !== $this->tag->isUserVisible()
-					|| $userAssignable !== $this->tag->isUserAssignable()
-				) {
-					throw new Forbidden('No permission to update permissions for tag ' . $this->tag->getId());
-				}
+				throw new Forbidden('No permission to update tag ' . $this->tag->getId());
 			}
 
 			// Make sure color is a proper hex
@@ -133,6 +128,7 @@ class SystemTagNode implements \Sabre\DAV\ICollection {
 	 *
 	 * @return null
 	 */
+	#[\Override]
 	public function getLastModified() {
 		return null;
 	}
@@ -140,6 +136,7 @@ class SystemTagNode implements \Sabre\DAV\ICollection {
 	/**
 	 * @return void
 	 */
+	#[\Override]
 	public function delete() {
 		try {
 			if (!$this->isAdmin) {
@@ -173,23 +170,28 @@ class SystemTagNode implements \Sabre\DAV\ICollection {
 		$this->referenceFileId = $referenceFileId;
 	}
 
+	#[\Override]
 	public function createFile($name, $data = null) {
 		throw new MethodNotAllowed();
 	}
 
+	#[\Override]
 	public function createDirectory($name) {
 		throw new MethodNotAllowed();
 	}
 
+	#[\Override]
 	public function getChild($name) {
 		return new SystemTagObjectType($this->tag, $name, $this->tagManager, $this->tagMapper);
 	}
 
+	#[\Override]
 	public function childExists($name) {
 		$objectTypes = $this->tagMapper->getAvailableObjectTypes();
 		return in_array($name, $objectTypes);
 	}
 
+	#[\Override]
 	public function getChildren() {
 		$objectTypes = $this->tagMapper->getAvailableObjectTypes();
 		return array_map(

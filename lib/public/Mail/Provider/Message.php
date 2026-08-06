@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\Mail\Provider;
 
 /**
@@ -37,6 +38,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @return string id of this message
 	 */
+	#[\Override]
 	public function id(): string {
 		// return id of message
 		return (isset($this->data['id'])) ? $this->data['id'] : '';
@@ -51,6 +53,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @return self return this object for command chaining
 	 */
+	#[\Override]
 	public function setFrom(IAddress $value): self {
 		// create or update field in data store with value
 		$this->data['from'] = $value;
@@ -65,6 +68,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @return IAddress|null sender's mail address object
 	 */
+	#[\Override]
 	public function getFrom(): ?IAddress {
 		// evaluate if data store field exists and return value(s) or null otherwise
 		return (isset($this->data['from'])) ? $this->data['from'] : null;
@@ -79,6 +83,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @return self return this object for command chaining
 	 */
+	#[\Override]
 	public function setReplyTo(IAddress $value): self {
 		// create or update field in data store with value
 		$this->data['replyTo'] = $value;
@@ -93,6 +98,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @return IAddress|null sender's reply to mail address object
 	 */
+	#[\Override]
 	public function getReplyTo(): ?IAddress {
 		// evaluate if data store field exists and return value(s) or null otherwise
 		return (isset($this->data['replyTo'])) ? $this->data['replyTo'] : null;
@@ -107,6 +113,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @return self return this object for command chaining
 	 */
+	#[\Override]
 	public function setTo(IAddress ...$value): self {
 		// create or update field in data store with value
 		$this->data['to'] = $value;
@@ -121,6 +128,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @return array<int,IAddress> collection of all recipient mail address objects
 	 */
+	#[\Override]
 	public function getTo(): array {
 		// evaluate if data store field exists and return value(s) or empty collection
 		return (isset($this->data['to'])) ? $this->data['to'] : [];
@@ -135,6 +143,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @return self return this object for command chaining
 	 */
+	#[\Override]
 	public function setCc(IAddress ...$value): self {
 		// create or update field in data store with value
 		$this->data['cc'] = $value;
@@ -149,6 +158,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @return array<int,IAddress> collection of all copied recipient mail address objects
 	 */
+	#[\Override]
 	public function getCc(): array {
 		// evaluate if data store field exists and return value(s) or empty collection
 		return (isset($this->data['cc'])) ? $this->data['cc'] : [];
@@ -163,6 +173,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @return self return this object for command chaining
 	 */
+	#[\Override]
 	public function setBcc(IAddress ...$value): self {
 		// create or update field in data store with value
 		$this->data['bcc'] = $value;
@@ -177,6 +188,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @return array<int,IAddress> collection of all blind copied recipient mail address objects
 	 */
+	#[\Override]
 	public function getBcc(): array {
 		// evaluate if data store field exists and return value(s) or empty collection
 		return (isset($this->data['bcc'])) ? $this->data['bcc'] : [];
@@ -191,6 +203,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @return self return this object for command chaining
 	 */
+	#[\Override]
 	public function setSubject(string $value): self {
 		// create or update field in data store with value
 		$this->data['subject'] = $value;
@@ -205,6 +218,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @return string|null subject of message or null if one is not set
 	 */
+	#[\Override]
 	public function getSubject(): ?string {
 		// evaluate if data store field exists and return value(s) or null otherwise
 		return (isset($this->data['subject'])) ? $this->data['subject'] : null;
@@ -220,6 +234,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @return self return this object for command chaining
 	 */
+	#[\Override]
 	public function setBody(string $value, bool $html = false): self {
 		// evaluate html flag and create or update appropriate field in data store with value
 		if ($html) {
@@ -240,6 +255,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @return string|null html/plain body of this message or null if one is not set
 	 */
+	#[\Override]
 	public function getBody(): ?string {
 		// evaluate if data store field(s) exists and return value
 		if (isset($this->data['bodyHtml'])) {
@@ -260,6 +276,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @return self return this object for command chaining
 	 */
+	#[\Override]
 	public function setBodyHtml(string $value): self {
 		// create or update field in data store with value
 		$this->data['bodyHtml'] = $value;
@@ -274,6 +291,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @return string|null html body of this message or null if one is not set
 	 */
+	#[\Override]
 	public function getBodyHtml(): ?string {
 		// evaluate if data store field exists and return value(s) or null otherwise
 		return (isset($this->data['bodyHtml'])) ? $this->data['bodyHtml'] : null;
@@ -288,6 +306,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @return self return this object for command chaining
 	 */
+	#[\Override]
 	public function setBodyPlain(string $value): self {
 		// create or update field in data store with value
 		$this->data['bodyPlain'] = $value;
@@ -302,6 +321,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @return string|null plain text body of this message or null if one is not set
 	 */
+	#[\Override]
 	public function getBodyPlain(): ?string {
 		// evaluate if data store field exists and return value(s) or null otherwise
 		return (isset($this->data['bodyPlain'])) ? $this->data['bodyPlain'] : null;
@@ -316,6 +336,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @return self return this object for command chaining
 	 */
+	#[\Override]
 	public function setAttachments(IAttachment ...$value): self {
 		// create or update field in data store with value
 		$this->data['attachments'] = $value;
@@ -330,6 +351,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @return array<int,IAttachment> collection of all mail attachment objects
 	 */
+	#[\Override]
 	public function getAttachments(): array {
 		// evaluate if data store field exists and return value(s) or null otherwise
 		return (isset($this->data['attachments'])) ? $this->data['attachments'] : [];

@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files\Settings;
 
 use OCA\Files\AppInfo\Application;
@@ -26,14 +27,17 @@ class AdminSettings implements ISettings {
 	) {
 	}
 
+	#[\Override]
 	public function getSection(): string {
 		return 'server';
 	}
 
+	#[\Override]
 	public function getPriority(): int {
 		return 10;
 	}
 
+	#[\Override]
 	public function getForm(): TemplateResponse {
 		$windowSupport = $this->service->hasFilesWindowsSupport();
 		$this->initialState->provideInitialState('filesCompatibilitySettings', [

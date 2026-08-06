@@ -16,6 +16,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\INavigationManager;
+use OCP\IRequest;
 use OCP\ServerVersion;
 use OCP\Template\ITemplateManager;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -28,9 +29,11 @@ class TemplateLayoutTest extends \Test\TestCase {
 	private INavigationManager&MockObject $navigationManager;
 	private ITemplateManager&MockObject $templateManager;
 	private ServerVersion&MockObject $serverVersion;
+	private IRequest&MockObject $request;
 
 	private TemplateLayout $templateLayout;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -41,12 +44,13 @@ class TemplateLayoutTest extends \Test\TestCase {
 		$this->navigationManager = $this->createMock(INavigationManager::class);
 		$this->templateManager = $this->createMock(ITemplateManager::class);
 		$this->serverVersion = $this->createMock(ServerVersion::class);
+		$this->request = $this->createMock(IRequest::class);
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataVersionHash')]
 	public function testVersionHash(
-		string|false $path,
-		string|false $file,
+		string $path,
+		string $file,
 		bool $installed,
 		bool $debug,
 		string $expected,
@@ -54,13 +58,13 @@ class TemplateLayoutTest extends \Test\TestCase {
 		$this->appManager->expects(self::any())
 			->method('getAppVersion')
 			->willReturnCallback(fn ($appId) => match ($appId) {
-				'shippedApp' => 'shipped_1',
-				'otherApp' => 'other_2',
+				'shipped' => 'shipped_1',
+				'other' => 'other_2',
 				default => "$appId",
 			});
 		$this->appManager->expects(self::any())
 			->method('isShipped')
-			->willReturnCallback(fn (string $app) => $app === 'shippedApp');
+			->willReturnCallback(fn (string $app) => $app === 'shipped');
 
 		$this->config->expects(self::atLeastOnce())
 			->method('getSystemValueBool')
@@ -73,30 +77,23 @@ class TemplateLayoutTest extends \Test\TestCase {
 			->with('theming', 'cachebuster', '0')
 			->willReturn('42');
 
-		$this->templateLayout = $this->getMockBuilder(TemplateLayout::class)
-			->onlyMethods(['getAppNamefromPath'])
-			->setConstructorArgs([
-				$this->config,
-				$this->appConfig,
-				$this->appManager,
-				$this->initialState,
-				$this->navigationManager,
-				$this->templateManager,
-				$this->serverVersion,
-			])
-			->getMock();
+		$this->request->method('getPathInfo')
+			->willReturn('/' . $path);
+
+		$this->templateLayout = new TemplateLayout(
+			$this->config,
+			$this->appConfig,
+			$this->appManager,
+			$this->initialState,
+			$this->navigationManager,
+			$this->templateManager,
+			$this->serverVersion,
+			$this->request,
+		);
 
 		$layout = $this->templateLayout->getPageTemplate(TemplateResponse::RENDER_AS_ERROR, '');
 
-		self::invokePrivate(TemplateLayout::class, 'versionHash', ['version_hash']);
-
-		$this->templateLayout->expects(self::any())
-			->method('getAppNamefromPath')
-			->willReturnCallback(fn ($appName) => match($appName) {
-				'apps/shipped' => 'shippedApp',
-				'other/app.css' => 'otherApp',
-				default => false,
-			});
+		self::invokePrivate($this->templateLayout, 'versionHash', ['version_hash']);
 
 		$hash = self::invokePrivate($this->templateLayout, 'getVersionHashSuffix', [$path, $file]);
 		self::assertEquals($expected, $hash);
@@ -106,9 +103,8 @@ class TemplateLayoutTest extends \Test\TestCase {
 		return [
 			'no hash if in debug mode' => ['apps/shipped', 'style.css', true, true, ''],
 			'only version hash if not installed' => ['apps/shipped', 'style.css', false, false, '?v=version_hash'],
-			'version hash with cache buster if app not found' => ['unknown/path', '', true, false, '?v=version_hash-42'],
-			'version hash with cache buster if neither path nor file provided' => [false, false, true, false, '?v=version_hash-42'],
-			'app version hash if external app' => ['', 'other/app.css', true, false, '?v=' . substr(md5('other_2'), 0, 8) . '-42'],
+			'version hash with cache buster if neither path nor file provided' => ['', '', true, false, '?v=version_hash-42'],
+			'app version hash if external app' => ['apps/other', 'app.css', true, false, '?v=' . substr(md5('other_2'), 0, 8) . '-42'],
 			'app version and version hash if shipped app' => ['apps/shipped', 'style.css', true, false, '?v=' . substr(md5('shipped_1-version_hash'), 0, 8) . '-42'],
 			'prefer path over file' => ['apps/shipped', 'other/app.css', true, false, '?v=' . substr(md5('shipped_1-version_hash'), 0, 8) . '-42'],
 		];

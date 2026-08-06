@@ -31,6 +31,7 @@ class SetupTest extends \Test\TestCase {
 	protected Installer $installer;
 	protected IEventDispatcher $eventDispatcher;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -118,7 +119,6 @@ class SetupTest extends \Test\TestCase {
 		];
 		$this->assertSame($expectedResult, $result);
 	}
-
 
 	public function testGetSupportedDatabaseException(): void {
 		$this->expectException(\Exception::class);

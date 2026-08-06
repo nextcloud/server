@@ -188,6 +188,7 @@ final class Task implements \JsonSerializable {
 	 * @psalm-return array{id: ?int, status: self::STATUS_*, userId: ?string, appId: string, input: string, identifier: ?string, numberOfImages: int, completionExpectedAt: ?int}
 	 * @since 28.0.0
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'id' => $this->getId(),

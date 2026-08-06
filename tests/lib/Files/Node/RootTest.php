@@ -15,7 +15,6 @@ use OC\Files\Node\Root;
 use OC\Files\Storage\Storage;
 use OC\Files\View;
 use OC\Memcache\ArrayCache;
-use OC\User\NoUserException;
 use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IUserMountCache;
@@ -25,6 +24,7 @@ use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\User\Exceptions\UserNotFoundException;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
@@ -43,6 +43,7 @@ class RootTest extends \Test\TestCase {
 	protected ICacheFactory&MockObject $cacheFactory;
 	protected IAppConfig&MockObject $appConfig;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -110,7 +111,6 @@ class RootTest extends \Test\TestCase {
 		$this->assertInstanceOf('\OC\Files\Node\File', $node);
 	}
 
-
 	public function testGetNotFound(): void {
 		$this->expectException(NotFoundException::class);
 
@@ -142,7 +142,6 @@ class RootTest extends \Test\TestCase {
 		$root->get('/bar/foo');
 	}
 
-
 	public function testGetInvalidPath(): void {
 		$this->expectException(NotPermittedException::class);
 
@@ -161,7 +160,6 @@ class RootTest extends \Test\TestCase {
 
 		$root->get('/../foo');
 	}
-
 
 	public function testGetNoStorages(): void {
 		$this->expectException(NotFoundException::class);
@@ -221,9 +219,8 @@ class RootTest extends \Test\TestCase {
 		$this->assertEquals($folder, $root->getUserFolder('MyUserId'));
 	}
 
-
 	public function testGetUserFolderWithNoUserObj(): void {
-		$this->expectException(NoUserException::class);
+		$this->expectException(UserNotFoundException::class);
 		$this->expectExceptionMessage('Backends provided no user object');
 
 		$root = new Root(

@@ -17,8 +17,8 @@ import NcInputField from '@nextcloud/vue/components/NcInputField'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcProgressBar from '@nextcloud/vue/components/NcProgressBar'
-import logger from '../../logger.ts'
 import { SanitizeFilenameStatus } from '../../models/SanitizeFilenameStatus.ts'
+import { logger } from '../../utils/logger.ts'
 
 type ApiStatus = { total: number, processed: number, errors?: Record<string, string[]>, status: SanitizeFilenameStatus }
 

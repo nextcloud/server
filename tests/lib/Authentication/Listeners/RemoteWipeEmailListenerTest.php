@@ -45,6 +45,7 @@ class RemoteWipeEmailListenerTest extends TestCase {
 	/** @var IEventListener */
 	private $listener;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -64,7 +65,6 @@ class RemoteWipeEmailListenerTest extends TestCase {
 			$this->logger
 		);
 	}
-
 
 	public function testHandleUnrelated(): void {
 		$event = new Event();

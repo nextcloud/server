@@ -1,0 +1,6 @@
+{ "translations": {
+    "The owner does not exist: %s" : "Jabea ez da existitzen: %s",
+    "Sharing" : "Partekatzea",
+    "TODO" : "EGITEKOAK"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

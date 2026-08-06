@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\FederatedFileSharing\AppInfo;
 
 use Closure;
@@ -17,6 +18,7 @@ use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Federation\ICloudFederationProviderManager;
+use OCP\Server;
 
 class Application extends App implements IBootstrap {
 
@@ -26,11 +28,13 @@ class Application extends App implements IBootstrap {
 		parent::__construct(self::APP_ID);
 	}
 
+	#[\Override]
 	public function register(IRegistrationContext $context): void {
 		$context->registerEventListener(LoadAdditionalScriptsEvent::class, LoadAdditionalScriptsListener::class);
 		$context->registerNotifierService(Notifier::class);
 	}
 
+	#[\Override]
 	public function boot(IBootContext $context): void {
 		$context->injectFn(Closure::fromCallable([$this, 'registerCloudFederationProvider']));
 	}
@@ -41,7 +45,7 @@ class Application extends App implements IBootstrap {
 			$manager->addCloudFederationProvider($type,
 				'Federated Files Sharing',
 				function (): CloudFederationProviderFiles {
-					return \OCP\Server::get(CloudFederationProviderFiles::class);
+					return Server::get(CloudFederationProviderFiles::class);
 				});
 		}
 	}

@@ -13,7 +13,6 @@ use OC\Net\HostnameClassifier;
 use OC\Net\IpAddressClassifier;
 use OC\Security\RemoteHostValidator;
 use OCP\IConfig;
-use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -28,6 +27,7 @@ class RemoteHostValidatorTest extends TestCase {
 	private LoggerInterface $logger;
 	private RemoteHostValidator $validator;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

@@ -32,7 +32,7 @@ class CloudIdManagerTest extends TestCase {
 	/** @var ICacheFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $cacheFactory;
 
-
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

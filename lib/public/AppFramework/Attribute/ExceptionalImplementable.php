@@ -22,16 +22,25 @@ use Attribute;
 #[Consumable(since: '32.0.0')]
 #[Implementable(since: '32.0.0')]
 class ExceptionalImplementable {
+	/**
+	 * @since 32.0.0
+	 */
 	public function __construct(
 		protected string $app,
 		protected ?string $class = null,
 	) {
 	}
 
+	/**
+	 * @since 32.0.0
+	 */
 	public function getApp(): string {
 		return $this->app;
 	}
 
+	/**
+	 * @since 32.0.0
+	 */
 	public function getClass(): ?string {
 		return $this->class;
 	}

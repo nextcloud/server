@@ -8,7 +8,6 @@
 namespace Test\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Http\Request;
-use OC\AppFramework\Middleware\MiddlewareUtils;
 use OC\AppFramework\Middleware\Security\Exceptions\LaxSameSiteCookieFailedException;
 use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 use OC\AppFramework\Middleware\Security\SameSiteCookieMiddleware;
@@ -40,48 +39,49 @@ class SameSiteCookieMiddlewareTest extends TestCase {
 	private ControllerMethodReflector&MockObject $reflector;
 	private LoggerInterface&MockObject $logger;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->createMock(Request::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->reflector = $this->createMock(ControllerMethodReflector::class);
-		$this->middleware = new SameSiteCookieMiddleware($this->request, new MiddlewareUtils($this->reflector, $this->logger));
+		$this->middleware = new SameSiteCookieMiddleware($this->request, $this->reflector);
 	}
 
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testBeforeControllerNoIndex(): void {
 		$this->request->method('getScriptName')
 			->willReturn('/ocs/v2.php');
 
 		$this->middleware->beforeController(new NoAnnotationController('foo', $this->request), 'foo');
-		$this->addToAssertionCount(1);
 	}
 
 	public function testBeforeControllerIndexHasAnnotation(): void {
 		$this->request->method('getScriptName')
 			->willReturn('/index.php');
 
-		$this->reflector->method('hasAnnotation')
-			->with('NoSameSiteCookieRequired')
+		$this->reflector->expects(self::once())
+			->method('hasAnnotationOrAttribute')
+			->with('NoSameSiteCookieRequired', NoSameSiteCookieRequired::class)
 			->willReturn(true);
 
 		$this->middleware->beforeController(new HasAnnotationController('foo', $this->request), 'foo');
-		$this->addToAssertionCount(1);
 	}
 
 	public function testBeforeControllerIndexNoAnnotationPassingCheck(): void {
 		$this->request->method('getScriptName')
 			->willReturn('/index.php');
 
-		$this->reflector->method('hasAnnotation')
-			->with('NoSameSiteCookieRequired')
+		$this->reflector->expects(self::once())
+			->method('hasAnnotationOrAttribute')
+			->with('NoSameSiteCookieRequired', NoSameSiteCookieRequired::class)
 			->willReturn(false);
 
 		$this->request->method('passesLaxCookieCheck')
 			->willReturn(true);
 
 		$this->middleware->beforeController(new NoAnnotationController('foo', $this->request), 'foo');
-		$this->addToAssertionCount(1);
 	}
 
 	public function testBeforeControllerIndexNoAnnotationFailingCheck(): void {
@@ -90,8 +90,9 @@ class SameSiteCookieMiddlewareTest extends TestCase {
 		$this->request->method('getScriptName')
 			->willReturn('/index.php');
 
-		$this->reflector->method('hasAnnotation')
-			->with('NoSameSiteCookieRequired')
+		$this->reflector->expects(self::once())
+			->method('hasAnnotationOrAttribute')
+			->with('NoSameSiteCookieRequired', NoSameSiteCookieRequired::class)
 			->willReturn(false);
 
 		$this->request->method('passesLaxCookieCheck')
@@ -118,7 +119,7 @@ class SameSiteCookieMiddlewareTest extends TestCase {
 			->willReturn('/myrequri');
 
 		$middleware = $this->getMockBuilder(SameSiteCookieMiddleware::class)
-			->setConstructorArgs([$this->request, new MiddlewareUtils($this->reflector, $this->logger)])
+			->setConstructorArgs([$this->request, $this->reflector])
 			->onlyMethods(['setSameSiteCookie'])
 			->getMock();
 

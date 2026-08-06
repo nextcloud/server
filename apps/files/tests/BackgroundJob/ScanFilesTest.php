@@ -6,9 +6,11 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files\Tests\BackgroundJob;
 
 use OC\Files\Mount\MountPoint;
+use OC\Files\SetupManager;
 use OC\Files\Storage\Temporary;
 use OCA\Files\BackgroundJob\ScanFiles;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -17,6 +19,7 @@ use OCP\Files\Config\IUserMountCache;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -51,7 +54,9 @@ class ScanFilesTest extends TestCase {
 				$dispatcher,
 				$logger,
 				$connection,
-				$this->createMock(ITimeFactory::class)
+				$this->createMock(ITimeFactory::class),
+				$this->createMock(SetupManager::class),
+				$this->createMock(IUserManager::class),
 			])
 			->onlyMethods(['runScanner'])
 			->getMock();

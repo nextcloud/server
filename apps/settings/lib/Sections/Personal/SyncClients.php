@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Sections\Personal;
 
 use OCP\IL10N;
@@ -20,18 +21,22 @@ class SyncClients implements IIconSection {
 	) {
 	}
 
+	#[\Override]
 	public function getIcon() {
 		return $this->urlGenerator->imagePath('core', 'clients/phone.svg');
 	}
 
+	#[\Override]
 	public function getID(): string {
 		return 'sync-clients';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l->t('Mobile & desktop');
 	}
 
+	#[\Override]
 	public function getPriority(): int {
 		return 15;
 	}

@@ -73,7 +73,6 @@ class FederationContext implements Context, SnippetAcceptingContext {
 		$this->usingServer($previous);
 	}
 
-
 	/**
 	 * @Given /^User "([^"]*)" from server "(LOCAL|REMOTE)" shares "([^"]*)" with group "([^"]*)" from server "(LOCAL|REMOTE)"$/
 	 *

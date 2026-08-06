@@ -54,6 +54,7 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 	 * @param \Sabre\DAV\Server $server The Sabre\DAV server instance.
 	 * @return void
 	 */
+	#[\Override]
 	public function initialize(\Sabre\DAV\Server $server): void {
 		$this->server = $server;
 
@@ -258,8 +259,8 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 
 		if ($length > $freeSpace) {
 			$msg = $isDir
-				? "Insufficient space in $normalizedPath. $freeSpace available. Cannot create directory"
-				: "Insufficient space in $normalizedPath, $length required, $freeSpace available";
+				? "Insufficient space in $normalizedPath. Cannot create directory"
+				: "Insufficient space in $normalizedPath";
 			throw new InsufficientStorage($msg);
 		}
 

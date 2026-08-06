@@ -39,6 +39,7 @@ class DBLockingProviderTest extends LockingProvider {
 
 	protected $currentTime;
 
+	#[\Override]
 	protected function setUp(): void {
 		$this->currentTime = time();
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
@@ -53,11 +54,13 @@ class DBLockingProviderTest extends LockingProvider {
 	/**
 	 * @return ILockingProvider
 	 */
+	#[\Override]
 	protected function getInstance() {
 		$this->connection = Server::get(IDBConnection::class);
 		return new DBLockingProvider($this->connection, $this->timeFactory, 3600);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->delete('file_locks')->executeStatement();

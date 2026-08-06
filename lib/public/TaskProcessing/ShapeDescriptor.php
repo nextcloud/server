@@ -4,12 +4,17 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\TaskProcessing;
+
+use OCP\AppFramework\Attribute\Consumable;
 
 /**
  * Data object for input output shape entries
+ *
  * @since 30.0.0
  */
+#[Consumable(since: '30.0.0')]
 class ShapeDescriptor implements \JsonSerializable {
 	/**
 	 * @param string $name
@@ -52,6 +57,7 @@ class ShapeDescriptor implements \JsonSerializable {
 	 * @return array{name: string, description: string, type: "Number"|"Text"|"Audio"|"Image"|"Video"|"File"|"Enum"|"ListOfNumbers"|"ListOfTexts"|"ListOfImages"|"ListOfAudios"|"ListOfVideos"|"ListOfFiles"}
 	 * @since 30.0.0
 	 */
+	#[\Override]
 	public function jsonSerialize(): array {
 		/** @var "Number"|"Text"|"Audio"|"Image"|"Video"|"File"|"Enum"|"ListOfNumbers"|"ListOfTexts"|"ListOfImages"|"ListOfAudios"|"ListOfVideos"|"ListOfFiles" $type */
 		$type = $this->getShapeType()->name;

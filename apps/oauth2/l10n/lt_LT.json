@@ -2,6 +2,8 @@
     "Your client is not authorized to connect. Please inform the administrator of your client." : "Jūsų kliento programa nėra įgaliota prisijungti. Informuokite administratorių apie savo kliento programą.",
     "Your redirect URL needs to be a full URL for example: https://yourdomain.com/path" : "Jūsų nukreipimo adresas (redirect URL) turi būti pilnas, pavyzdžiui: https://jusuadresas.com/path",
     "OAuth 2.0" : "OAuth 2.0",
+    "Allows OAuth2 compatible authentication from other web applications." : "Leidžia atlikti OAuth2 suderinamą autentifikavimą iš kitų žiniatinklio programėlių.",
+    "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications." : "OAuth2 programėlė leidžia administratoriams konfigūruoti integruotą autentifikavimo procesą taip, kad būtų galima naudoti ir su OAuth2 suderinamą autentifikavimą iš kitų žiniatinklio programėlių.",
     "Secret key" : "Slaptasis raktas",
     "Delete" : "Ištrinti",
     "An unknown error occurred." : "Įvyko nežinoma klaida.",
@@ -9,8 +11,13 @@
     "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth 2.0 leidžia išorinėms tarnyboms užklausti prieigą prie {instanceName}.",
     "Name" : "Pavadinimas",
     "Redirection URI" : "Peradresavimo URI",
+    "Client identifier" : "Kliento identifikatorius",
+    "Delete client" : "Ištrinti klientą",
+    "Make sure you store the secret key, it cannot be recovered." : "Būtinai išsaugokite slaptąjį raktą – jo atkurti nebus įmanoma.",
     "Add client" : "Pridėti klientą",
     "Add" : "Pridėti",
-    "Client Identifier" : "Kliento identifikatorius"
+    "Client Identifier" : "Kliento identifikatorius",
+    "Show client secret" : "Rodyti kliento slaptąjį raktą",
+    "Hide client secret" : "Slėpti kliento slaptąjį raktą"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

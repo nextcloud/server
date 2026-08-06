@@ -25,6 +25,7 @@ class Put extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('files:put')
@@ -33,6 +34,7 @@ class Put extends Command {
 			->addArgument('file', InputArgument::REQUIRED, 'Target Nextcloud file path to write to or fileid of existing file');
 	}
 
+	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$fileOutput = $input->getArgument('file');
 		$inputName = $input->getArgument('input');
@@ -60,6 +62,11 @@ class Put extends Command {
 			}
 			stream_copy_to_stream($source, $target);
 		} else {
+			$parentPath = dirname($fileOutput);
+			if (!$this->rootFolder->nodeExists($parentPath)) {
+				$this->rootFolder->newFolder($parentPath);
+			}
+
 			$this->rootFolder->newFile($fileOutput, $source);
 		}
 		return self::SUCCESS;

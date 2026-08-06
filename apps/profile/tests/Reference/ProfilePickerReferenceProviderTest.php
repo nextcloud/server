@@ -16,7 +16,6 @@ use OCP\Collaboration\Reference\IReference;
 use OCP\Collaboration\Reference\Reference;
 use OCP\IAppConfig;
 use OCP\IL10N;
-
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;

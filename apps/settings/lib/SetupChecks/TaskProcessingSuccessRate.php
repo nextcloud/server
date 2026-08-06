@@ -17,7 +17,7 @@ use OCP\TaskProcessing\IManager;
 use OCP\TaskProcessing\Task;
 
 class TaskProcessingSuccessRate implements ISetupCheck {
-	public const MAX_FAILURE_PERCENTAGE = 0.2;
+	public const MAX_FAILURE_PERCENTAGE = 0.1;
 
 	public const MAX_DAYS = 14;
 
@@ -28,14 +28,17 @@ class TaskProcessingSuccessRate implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'ai';
 	}
 
+	#[\Override]
 	public function getName(): string {
-		return $this->l10n->t('Task Processing pickup speed');
+		return $this->l10n->t('Task Processing success rate');
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		$taskCount = 0;
 		$lastNDays = 0;
@@ -48,7 +51,7 @@ class TaskProcessingSuccessRate implements ISetupCheck {
 		if ($taskCount === 0) {
 			return SetupResult::success(
 				$this->l10n->n(
-					'No scheduled tasks in the last day.',
+					'No scheduled tasks in the last %n day.',
 					'No scheduled tasks in the last %n days.',
 					$lastNDays
 				)
@@ -68,7 +71,7 @@ class TaskProcessingSuccessRate implements ISetupCheck {
 		if (($failedCount / $taskCount) < self::MAX_FAILURE_PERCENTAGE) {
 			return SetupResult::success(
 				$this->l10n->n(
-					'Most tasks were successful in the last day.',
+					'Most tasks were successful in the last %n day.',
 					'Most tasks were successful in the last %n days.',
 					$lastNDays
 				)

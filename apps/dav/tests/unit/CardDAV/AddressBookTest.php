@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\CardDAV;
 
 use OCA\DAV\CardDAV\AddressBook;
@@ -60,7 +61,6 @@ class AddressBookTest extends TestCase {
 		$addressBook->delete();
 	}
 
-
 	public function testDeleteFromGroup(): void {
 		$this->expectException(Forbidden::class);
 
@@ -82,7 +82,6 @@ class AddressBookTest extends TestCase {
 		$addressBook = new AddressBook($backend, $addressBookInfo, $l10n);
 		$addressBook->delete();
 	}
-
 
 	public function testPropPatchShared(): void {
 		/** @var MockObject | CardDavBackend $backend */

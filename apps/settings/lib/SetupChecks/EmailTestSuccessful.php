@@ -23,10 +23,12 @@ class EmailTestSuccessful implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Email test');
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'config';
 	}
@@ -45,6 +47,7 @@ class EmailTestSuccessful implements ISetupCheck {
 		return true;
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		if ($this->config->getSystemValueString('mail_smtpmode', 'smtp') === 'null') {
 			return SetupResult::success($this->l10n->t('Mail delivery is disabled by instance config "%s".', ['mail_smtpmode']));

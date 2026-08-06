@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\FullTextSearch\Model;
 
 /**
@@ -34,7 +35,6 @@ interface ISearchRequest {
 	 */
 	public function getSize(): int;
 
-
 	/**
 	 * Get the current page.
 	 * Used by pagination.
@@ -44,7 +44,6 @@ interface ISearchRequest {
 	 * @return int
 	 */
 	public function getPage(): int;
-
 
 	/**
 	 * Get the author of the request.
@@ -86,7 +85,6 @@ interface ISearchRequest {
 	 */
 	public function addSearch(string $search): ISearchRequest;
 
-
 	/**
 	 * Get the value of an option (as string).
 	 *
@@ -110,7 +108,6 @@ interface ISearchRequest {
 	 * @return array
 	 */
 	public function getOptionArray(string $option, array $default = []): array;
-
 
 	/**
 	 * Limit the search to a part of the document.
@@ -143,7 +140,6 @@ interface ISearchRequest {
 	 */
 	public function getParts(): array;
 
-
 	/**
 	 * Limit the search to a specific meta tag.
 	 *
@@ -174,7 +170,6 @@ interface ISearchRequest {
 	 * @return ISearchRequest
 	 */
 	public function setMetaTags(array $tags): ISearchRequest;
-
 
 	/**
 	 * Limit the search to a specific sub tag.
@@ -210,7 +205,6 @@ interface ISearchRequest {
 	 */
 	public function setSubTags(array $tags): ISearchRequest;
 
-
 	/**
 	 * Limit the search to a specific field of the mapping, using a full string.
 	 *
@@ -230,7 +224,6 @@ interface ISearchRequest {
 	 * @return array
 	 */
 	public function getLimitFields(): array;
-
 
 	/**
 	 * Limit the search to a specific field of the mapping, using a wildcard on
@@ -253,7 +246,6 @@ interface ISearchRequest {
 	 */
 	public function getWildcardFields(): array;
 
-
 	/**
 	 * Filter the results, based on a group of field, using regex
 	 *
@@ -273,7 +265,6 @@ interface ISearchRequest {
 	 * @return array
 	 */
 	public function getRegexFilters(): array;
-
 
 	/**
 	 * Filter the results, based on a group of field, using wildcard
@@ -295,7 +286,6 @@ interface ISearchRequest {
 	 */
 	public function getWildcardFilters(): array;
 
-
 	/**
 	 * Add an extra field to the search.
 	 *
@@ -316,8 +306,6 @@ interface ISearchRequest {
 	 */
 	public function getFields(): array;
 
-
-
 	/**
 	 * Add a MUST search on an extra field
 	 *
@@ -327,7 +315,6 @@ interface ISearchRequest {
 	 * @since 17.0.0
 	 */
 	public function addSimpleQuery(ISearchRequestSimpleQuery $query): ISearchRequest;
-
 
 	/**
 	 * Get the list of queries on extra field.

@@ -31,6 +31,7 @@ class TestJob extends Job {
 		$this->callback = $callback;
 	}
 
+	#[\Override]
 	public function run($argument) {
 		$this->testCase->markRun();
 		$callback = $this->callback;

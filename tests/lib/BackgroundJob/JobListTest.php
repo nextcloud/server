@@ -34,6 +34,7 @@ class JobListTest extends TestCase {
 	protected IConfig&MockObject $config;
 	protected ITimeFactory&MockObject $timeFactory;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -97,6 +98,24 @@ class JobListTest extends TestCase {
 
 		$jobs = $this->getAllSorted();
 		$this->assertEquals($existingJobs, $jobs);
+	}
+
+	public function testAddAcceptsArgumentUnderMaxLength(): void {
+		$argument = str_repeat('a', $this->instance::MAX_ARGUMENT_JSON_LENGTH - 100);
+		$job = new TestJob();
+		$this->assertFalse($this->instance->has($job, $argument));
+		$this->instance->add($job, $argument);
+
+		$this->assertTrue($this->instance->has($job, $argument));
+	}
+
+	public function testAddRejectsArgumentAboveMaxLength(): void {
+		$argument = str_repeat('a', $this->instance::MAX_ARGUMENT_JSON_LENGTH + 100);
+
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage('Background job arguments can\'t exceed ' . $this->instance::MAX_ARGUMENT_JSON_LENGTH . ' characters (json encoded)');
+
+		$this->instance->add(new TestJob(), $argument);
 	}
 
 	#[DataProvider('argumentProvider')]
@@ -252,6 +271,26 @@ class JobListTest extends TestCase {
 
 		$this->assertGreaterThanOrEqual($timeStart, $addedJob->getLastRun());
 		$this->assertLessThanOrEqual($timeEnd, $addedJob->getLastRun());
+	}
+
+	public function testRemoveByIdWithSnowflakeId(): void {
+		$this->instance->add(new TestJob(), 'remove-by-id');
+		$job = $this->instance->getJobs(null, 1, 0)[0];
+
+		$this->instance->removeById($job->getId());
+
+		$this->assertNull($this->instance->getById($job->getId()));
+	}
+
+	public function testResetBackgroundJobWithSnowflakeId(): void {
+		$this->instance->add(new TestJob(), 'reset');
+		$job = $this->instance->getJobs(null, 1, 0)[0];
+
+		$this->instance->resetBackgroundJob($job);
+
+		$row = $this->instance->getDetailsById($job->getId());
+		$this->assertSame('0', (string)$row['last_run']);
+		$this->assertSame('0', (string)$row['reserved_at']);
 	}
 
 	public function testHasReservedJobs(): void {

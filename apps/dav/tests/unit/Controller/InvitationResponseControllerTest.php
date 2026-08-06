@@ -396,7 +396,6 @@ EOF;
 			->method('isExternalAttendee')
 			->willReturn($isExternalAttendee);
 
-
 		$response = $this->controller->processMoreOptionsResult('TOKEN123');
 		$this->assertInstanceOf(TemplateResponse::class, $response);
 		$this->assertEquals('schedule-response-success', $response->getTemplateName());

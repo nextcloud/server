@@ -5,11 +5,6 @@
 const path = require('path')
 
 module.exports = {
-	comments: {
-		'comments-app': path.join(__dirname, 'apps/comments/src', 'comments-app.js'),
-		'comments-tab': path.join(__dirname, 'apps/comments/src', 'files-sidebar.ts'),
-		init: path.join(__dirname, 'apps/comments/src', 'init.ts'),
-	},
 	core: {
 		'ajax-cron': path.join(__dirname, 'core/src', 'ajax-cron.ts'),
 		install: path.join(__dirname, 'core/src', 'install.ts'),
@@ -28,9 +23,6 @@ module.exports = {
 		public_share_auth: path.join(__dirname, 'core/src', 'public-share-auth.ts'),
 		'twofactor-request-token': path.join(__dirname, 'core/src', 'twofactor-request-token.ts'),
 		update: path.join(__dirname, 'core/src', 'update.ts'),
-	},
-	dashboard: {
-		main: path.join(__dirname, 'apps/dashboard/src', 'main.js'),
 	},
 	files: {
 		sidebar: path.join(__dirname, 'apps/files/src', 'sidebar.ts'),
@@ -61,12 +53,12 @@ module.exports = {
 		'vue-settings-admin-security': path.join(__dirname, 'apps/settings/src', 'main-admin-security.js'),
 		'vue-settings-admin-settings-presets': path.join(__dirname, 'apps/settings/src', 'main-admin-settings-presets.js'),
 		'vue-settings-admin-sharing': path.join(__dirname, 'apps/settings/src', 'admin-settings-sharing.ts'),
-		'vue-settings-apps-users-management': path.join(__dirname, 'apps/settings/src', 'main-apps-users-management.ts'),
 		'vue-settings-nextcloud-pdf': path.join(__dirname, 'apps/settings/src', 'main-nextcloud-pdf.js'),
 		'vue-settings-personal-info': path.join(__dirname, 'apps/settings/src', 'main-personal-info.js'),
 		'vue-settings-personal-password': path.join(__dirname, 'apps/settings/src', 'main-personal-password.js'),
 		'vue-settings-personal-security': path.join(__dirname, 'apps/settings/src', 'main-personal-security.js'),
 		'vue-settings-personal-webauthn': path.join(__dirname, 'apps/settings/src', 'main-personal-webauth.js'),
+		'vue-settings-users-management': path.join(__dirname, 'apps/settings/src', 'main-users-management.ts'),
 		'declarative-settings-forms': path.join(__dirname, 'apps/settings/src', 'main-declarative-settings-forms.ts'),
 	},
 	updatenotification: {
@@ -74,9 +66,6 @@ module.exports = {
 		'view-changelog-page': path.join(__dirname, 'apps/updatenotification/src', 'view-changelog-page.ts'),
 		updatenotification: path.join(__dirname, 'apps/updatenotification/src', 'updatenotification.js'),
 		'update-notification-legacy': path.join(__dirname, 'apps/updatenotification/src', 'update-notification-legacy.ts'),
-	},
-	weather_status: {
-		'weather-status': path.join(__dirname, 'apps/weather_status/src', 'weather-status.js'),
 	},
 	workflowengine: {
 		workflowengine: path.join(__dirname, 'apps/workflowengine/src', 'workflowengine.js'),

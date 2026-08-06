@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\User_LDAP\Migration;
 
 use OCA\User_LDAP\Helper;
@@ -22,10 +23,12 @@ class SetDefaultProvider implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Set default LDAP provider';
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		$current = $this->config->getSystemValue('ldapProviderFactory', null);
 		if ($current === null) {

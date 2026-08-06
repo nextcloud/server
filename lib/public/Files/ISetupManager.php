@@ -30,11 +30,14 @@ interface ISetupManager {
 	 *
 	 * @throws \OCP\HintException
 	 * @throws \OC\ServerNotAvailableException
+	 * @since 34.0.0
 	 */
 	public function setupForUser(IUser $user): void;
 
 	/**
 	 * Tear down all file systems to free some memory.
+	 *
+	 * @since 34.0.0
 	 */
 	public function tearDown(): void;
 
@@ -44,11 +47,14 @@ interface ISetupManager {
 	 *
 	 * @throws \OCP\HintException
 	 * @throws \OC\ServerNotAvailableException
+	 * @since 34.0.0
 	 */
 	public function setupForPath(string $path, bool $includeChildren = false): void;
 
 	/**
 	 * Get whether the file system is already setup for a specific user.
+	 *
+	 * @since 34.0.0
 	 */
 	public function isSetupComplete(IUser $user): bool;
 }

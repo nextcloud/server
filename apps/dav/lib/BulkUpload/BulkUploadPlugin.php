@@ -27,6 +27,7 @@ class BulkUploadPlugin extends ServerPlugin {
 	/**
 	 * Register listener on POST requests with the httpPost method.
 	 */
+	#[\Override]
 	public function initialize(Server $server): void {
 		$server->on('method:POST', [$this, 'httpPost'], 10);
 	}
@@ -76,7 +77,7 @@ class BulkUploadPlugin extends ServerPlugin {
 					'error' => false,
 					'etag' => $node->getETag(),
 					'fileid' => DavUtil::getDavFileId($node->getId()),
-					'permissions' => DavUtil::getDavPermissions($node),
+					'permissions' => DavUtil::getDavPermissions($node, $node->getParent()),
 				];
 			} catch (\Exception $e) {
 				$this->logger->error($e->getMessage(), ['path' => $headers['x-file-path']]);

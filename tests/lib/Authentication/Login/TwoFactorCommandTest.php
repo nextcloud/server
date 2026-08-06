@@ -28,6 +28,7 @@ class TwoFactorCommandTest extends ALoginTestCommand {
 	/** @var IURLGenerator|MockObject */
 	private $urlGenerator;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

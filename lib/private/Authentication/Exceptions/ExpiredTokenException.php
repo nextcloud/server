@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Authentication\Exceptions;
 
 use OC\Authentication\Token\IToken;
@@ -20,6 +21,7 @@ class ExpiredTokenException extends \OCP\Authentication\Exceptions\ExpiredTokenE
 		parent::__construct($token);
 	}
 
+	#[\Override]
 	public function getToken(): IToken {
 		$token = parent::getToken();
 		/** @var IToken $token We know that we passed OC interface from constructor */

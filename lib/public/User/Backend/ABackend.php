@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\User\Backend;
 
 use OC\User\Backend;
@@ -23,6 +24,7 @@ abstract class ABackend implements IUserBackend, UserInterface {
 	 * @param int $actions The action to check for
 	 * @return bool
 	 */
+	#[\Override]
 	public function implementsActions($actions): bool {
 		$implements = 0;
 

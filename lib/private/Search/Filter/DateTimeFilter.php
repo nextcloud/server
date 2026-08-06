@@ -23,6 +23,7 @@ class DateTimeFilter implements IFilter {
 		$this->value = new DateTimeImmutable($value);
 	}
 
+	#[\Override]
 	public function get(): DateTimeImmutable {
 		return $this->value;
 	}

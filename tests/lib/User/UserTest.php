@@ -32,6 +32,7 @@ use Test\TestCase;
 class UserTest extends TestCase {
 	protected IEventDispatcher $dispatcher;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->dispatcher = Server::get(IEventDispatcher::class);

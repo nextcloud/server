@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use OC\Hooks\PublicEmitter;
@@ -38,6 +39,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 	 * @param IUser $user user to be SubAdmin
 	 * @param IGroup $group group $user becomes subadmin of
 	 */
+	#[\Override]
 	public function createSubAdmin(IUser $user, IGroup $group): void {
 		$qb = $this->dbConn->getQueryBuilder();
 
@@ -59,6 +61,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 	 * @param IUser $user the user that is the SubAdmin
 	 * @param IGroup $group the group
 	 */
+	#[\Override]
 	public function deleteSubAdmin(IUser $user, IGroup $group): void {
 		$qb = $this->dbConn->getQueryBuilder();
 
@@ -78,6 +81,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 	 * @param IUser $user the SubAdmin
 	 * @return IGroup[]
 	 */
+	#[\Override]
 	public function getSubAdminsGroups(IUser $user): array {
 		$groupIds = $this->getSubAdminsGroupIds($user);
 
@@ -106,7 +110,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 			->executeQuery();
 
 		$groups = [];
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$groups[] = $row['gid'];
 		}
 		$result->closeCursor();
@@ -130,6 +134,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 	 * @param IGroup $group the group
 	 * @return IUser[]
 	 */
+	#[\Override]
 	public function getGroupsSubAdmins(IGroup $group): array {
 		$qb = $this->dbConn->getQueryBuilder();
 
@@ -139,7 +144,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 			->executeQuery();
 
 		$users = [];
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$user = $this->userManager->get($row['uid']);
 			if (!is_null($user)) {
 				$users[] = $user;
@@ -162,7 +167,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 			->executeQuery();
 
 		$subadmins = [];
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$user = $this->userManager->get($row['uid']);
 			$group = $this->groupManager->get($row['gid']);
 			if (!is_null($user) && !is_null($group)) {
@@ -183,6 +188,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 	 * @param IGroup $group
 	 * @return bool
 	 */
+	#[\Override]
 	public function isSubAdminOfGroup(IUser $user, IGroup $group): bool {
 		$qb = $this->dbConn->getQueryBuilder();
 
@@ -195,7 +201,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($user->getUID())))
 			->executeQuery();
 
-		$fetch = $result->fetch();
+		$fetch = $result->fetchAssociative();
 		$result->closeCursor();
 		$result = !empty($fetch) ? true : false;
 
@@ -207,6 +213,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 	 * @param IUser $user
 	 * @return bool
 	 */
+	#[\Override]
 	public function isSubAdmin(IUser $user): bool {
 		// Check if the user is already an admin
 		if ($this->groupManager->isAdmin($user->getUID())) {
@@ -226,7 +233,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 			->setMaxResults(1)
 			->executeQuery();
 
-		$isSubAdmin = $result->fetch();
+		$isSubAdmin = $result->fetchAssociative();
 		$result->closeCursor();
 
 		return $isSubAdmin !== false;
@@ -238,6 +245,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 	 * @param IUser $user
 	 * @return bool
 	 */
+	#[\Override]
 	public function isUserAccessible(IUser $subadmin, IUser $user): bool {
 		if ($subadmin->getUID() === $user->getUID()) {
 			return true;
@@ -246,6 +254,9 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 			return false;
 		}
 		if ($this->groupManager->isAdmin($user->getUID())) {
+			return false;
+		}
+		if ($this->groupManager->isDelegatedAdmin($user->getUID())) {
 			return false;
 		}
 

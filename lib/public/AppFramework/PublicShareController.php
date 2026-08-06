@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\AppFramework;
 
 use OCP\IRequest;
@@ -26,6 +27,9 @@ use OCP\ISession;
  */
 abstract class PublicShareController extends Controller {
 
+	/**
+	 * @since 33.0.0
+	 */
 	public const DAV_AUTHENTICATED_FRONTEND = 'public_link_authenticated_frontend';
 
 	/** @var string */
@@ -118,6 +122,8 @@ abstract class PublicShareController extends Controller {
 
 	/**
 	 * Validate the token and password hash stored in session
+	 *
+	 * @since 33.0.0
 	 */
 	protected function validateTokenSession(string $token, string $passwordHash): bool {
 		$allowedTokensJSON = $this->session->get(self::DAV_AUTHENTICATED_FRONTEND) ?? '[]';
@@ -131,6 +137,8 @@ abstract class PublicShareController extends Controller {
 
 	/**
 	 * Store the token and password hash in session
+	 *
+	 * @since 33.0.0
 	 */
 	protected function storeTokenSession(string $token, string $passwordHash = ''): void {
 		$allowedTokensJSON = $this->session->get(self::DAV_AUTHENTICATED_FRONTEND) ?? '[]';

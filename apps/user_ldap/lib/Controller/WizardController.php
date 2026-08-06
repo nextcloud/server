@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace OCA\User_LDAP\Controller;
 
-use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\ConnectionFactory;
 use OCA\User_LDAP\Mapping\GroupMapping;
 use OCA\User_LDAP\Mapping\UserMapping;
@@ -88,7 +87,6 @@ class WizardController extends OCSController {
 						throw new OCSException($e->getMessage());
 					}
 					throw new OCSException();
-
 				case 'testLoginName':
 					try {
 						if ($loginName === null || $loginName === '') {
@@ -102,7 +100,6 @@ class WizardController extends OCSController {
 						throw new OCSException($e->getMessage());
 					}
 					throw new OCSException();
-
 				default:
 					throw new OCSException('Action ' . $wizardAction . 'does not exist');
 					break;

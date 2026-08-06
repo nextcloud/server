@@ -17,6 +17,7 @@ class DetectionTest extends \Test\TestCase {
 	/** @var Detection */
 	private $detection;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->detection = new Detection(
@@ -212,7 +213,6 @@ class DetectionTest extends \Test\TestCase {
 		//Empty alias file
 		$mimetypealiases_dist->setContent(json_encode([], JSON_FORCE_OBJECT));
 
-
 		/*
 		 * Test dir mimetype
 		 */
@@ -235,7 +235,6 @@ class DetectionTest extends \Test\TestCase {
 		$mimeType = $detection->mimeTypeIcon('dir');
 		$this->assertEquals('folder.svg', $mimeType);
 
-
 		/*
 		 * Test dir-shareed mimetype
 		 */
@@ -253,7 +252,6 @@ class DetectionTest extends \Test\TestCase {
 		$detection = new Detection($urlGenerator, $logger, $confDir->url(), $confDir->url());
 		$mimeType = $detection->mimeTypeIcon('dir-shared');
 		$this->assertEquals('folder-shared.svg', $mimeType);
-
 
 		/*
 		 * Test dir external
@@ -274,7 +272,6 @@ class DetectionTest extends \Test\TestCase {
 		$mimeType = $detection->mimeTypeIcon('dir-external');
 		$this->assertEquals('folder-external.svg', $mimeType);
 
-
 		/*
 		 * Test complete mimetype
 		 */
@@ -293,7 +290,6 @@ class DetectionTest extends \Test\TestCase {
 		$detection = new Detection($urlGenerator, $logger, $confDir->url(), $confDir->url());
 		$mimeType = $detection->mimeTypeIcon('my-type');
 		$this->assertEquals('my-type.svg', $mimeType);
-
 
 		/*
 		 * Test subtype
@@ -325,7 +321,6 @@ class DetectionTest extends \Test\TestCase {
 		$detection = new Detection($urlGenerator, $logger, $confDir->url(), $confDir->url());
 		$mimeType = $detection->mimeTypeIcon('my-type');
 		$this->assertEquals('my.svg', $mimeType);
-
 
 		/*
 		 * Test default mimetype
@@ -379,8 +374,6 @@ class DetectionTest extends \Test\TestCase {
 		$this->assertEquals('foo-bar.svg', $mimeType);
 		$mimeType = $detection->mimeTypeIcon('foo-bar');
 		$this->assertEquals('foo-bar.svg', $mimeType);
-
-
 
 		/*
 		 * Test aliases

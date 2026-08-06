@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Settings\Sections\Admin;
 
 use OCP\IL10N;
@@ -20,18 +21,22 @@ class ArtificialIntelligence implements IIconSection {
 	) {
 	}
 
+	#[\Override]
 	public function getIcon(): string {
 		return $this->urlGenerator->imagePath('settings', 'ai.svg');
 	}
 
+	#[\Override]
 	public function getID(): string {
 		return 'ai';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l->t('Assistant');
 	}
 
+	#[\Override]
 	public function getPriority(): int {
 		return 40;
 	}

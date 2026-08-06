@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Encryption\Tests\Crypto;
 
 use OC\Encryption\Exceptions\DecryptionFailedException;
@@ -137,7 +138,6 @@ class EncryptionTest extends TestCase {
 		$this->instance->end('/foo/bar');
 	}
 
-
 	public function getPublicKeyCallback($uid) {
 		if ($uid === 'user2') {
 			throw new PublicKeyMissingException($uid);
@@ -218,7 +218,6 @@ class EncryptionTest extends TestCase {
 			['r', [], 'legacyCipher', 'defaultCipher', 'file_key', 'legacyCipher'],
 		];
 	}
-
 
 	/**
 	 * test begin() if decryptAll mode was activated
@@ -383,7 +382,6 @@ class EncryptionTest extends TestCase {
 			['/user1/files_versions/foo.txt', false, false, true],
 		];
 	}
-
 
 	public function testDecrypt(): void {
 		$this->expectException(DecryptionFailedException::class);

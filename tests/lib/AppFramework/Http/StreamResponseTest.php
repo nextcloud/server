@@ -16,6 +16,7 @@ class StreamResponseTest extends \Test\TestCase {
 	/** @var IOutput */
 	private $output;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->output = $this->getMockBuilder('OCP\\AppFramework\\Http\\IOutput')

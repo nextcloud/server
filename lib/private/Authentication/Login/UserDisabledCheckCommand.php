@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Authentication\Login;
 
 use OC\Core\Controller\LoginController;
@@ -19,6 +20,7 @@ class UserDisabledCheckCommand extends ALoginCommand {
 	) {
 	}
 
+	#[\Override]
 	public function process(LoginData $loginData): LoginResult {
 		$user = $this->userManager->get($loginData->getUsername());
 		if ($user !== null && $user->isEnabled() === false) {

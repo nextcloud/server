@@ -32,6 +32,7 @@ class ClearContactsPhotoCache extends Command {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$photoCacheAppData = $this->appDataFactory->get('dav-photocache');
 

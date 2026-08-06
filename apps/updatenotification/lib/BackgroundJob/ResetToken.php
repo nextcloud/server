@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\UpdateNotification\BackgroundJob;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -37,6 +38,7 @@ class ResetToken extends TimedJob {
 	/**
 	 * @param $argument
 	 */
+	#[\Override]
 	protected function run($argument) {
 		if ($this->config->getSystemValueBool('config_is_read_only')) {
 			$this->logger->debug('Skipping `updater.secret` reset since config_is_read_only is set', ['app' => 'updatenotification']);

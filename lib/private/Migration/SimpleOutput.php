@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2015 ownCloud GmbH
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Migration;
 
 use OCP\Migration\IOutput;
@@ -25,6 +26,7 @@ class SimpleOutput implements IOutput {
 	) {
 	}
 
+	#[\Override]
 	public function debug(string $message): void {
 		$this->logger->debug($message, ['app' => $this->appName]);
 	}
@@ -33,6 +35,7 @@ class SimpleOutput implements IOutput {
 	 * @param string $message
 	 * @since 9.1.0
 	 */
+	#[\Override]
 	public function info($message): void {
 		$this->logger->info($message, ['app' => $this->appName]);
 	}
@@ -41,6 +44,7 @@ class SimpleOutput implements IOutput {
 	 * @param string $message
 	 * @since 9.1.0
 	 */
+	#[\Override]
 	public function warning($message): void {
 		$this->logger->warning($message, ['app' => $this->appName]);
 	}
@@ -49,6 +53,7 @@ class SimpleOutput implements IOutput {
 	 * @param int $max
 	 * @since 9.1.0
 	 */
+	#[\Override]
 	public function startProgress($max = 0): void {
 	}
 
@@ -57,12 +62,14 @@ class SimpleOutput implements IOutput {
 	 * @param string $description
 	 * @since 9.1.0
 	 */
+	#[\Override]
 	public function advance($step = 1, $description = ''): void {
 	}
 
 	/**
 	 * @since 9.1.0
 	 */
+	#[\Override]
 	public function finishProgress(): void {
 	}
 }

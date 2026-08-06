@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Testing\Provider;
 
 use OCP\Translation\ITranslationProvider;
@@ -13,10 +14,12 @@ use OCP\Translation\LanguageTuple;
 
 class FakeTranslationProvider implements ITranslationProvider {
 
+	#[\Override]
 	public function getName(): string {
 		return 'Fake translation';
 	}
 
+	#[\Override]
 	public function getAvailableLanguages(): array {
 		return [
 			new LanguageTuple('de', 'German', 'en', 'English'),
@@ -24,7 +27,16 @@ class FakeTranslationProvider implements ITranslationProvider {
 		];
 	}
 
+	#[\Override]
 	public function translate(?string $fromLanguage, string $toLanguage, string $text): string {
-		return strrev($text);
+		return $this->mb_strrev($text);
+	}
+
+	protected function mb_strrev(string $str): string {
+		$r = '';
+		for ($i = mb_strlen($str); $i >= 0; $i--) {
+			$r .= mb_substr($str, $i, 1);
+		}
+		return $r;
 	}
 }

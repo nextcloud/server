@@ -9,6 +9,8 @@ use OC\Authentication\Token\IProvider;
 use OC\SystemConfig;
 use OC\User\Database;
 use OC\User\DisabledUserException;
+use OC\User\Session;
+use OCP\App\IAppManager;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\Exceptions\WipeTokenException;
 use OCP\Authentication\IApacheBackend;
@@ -19,16 +21,14 @@ use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
-use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Server;
 use OCP\Session\Exceptions\SessionNotAvailableException;
-use OCP\User\Backend\ICustomLogout;
 use OCP\User\Events\BeforeUserLoggedInEvent;
 use OCP\User\Events\UserLoggedInEvent;
 use OCP\UserInterface;
-use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -50,7 +50,7 @@ use Psr\Log\LoggerInterface;
  *   logout()
  */
 class OC_User {
-	private static $_setupedBackends = [];
+	public static $_setupedBackends = [];
 
 	// bool, stores if a user want to access a resource anonymously, e.g if they open a public link
 	private static $incognitoMode = false;
@@ -107,7 +107,8 @@ class OC_User {
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function setupBackends() {
-		OC_App::loadApps(['prelogin']);
+		Server::get(IAppManager::class)->loadApps(['prelogin']);
+
 		$backends = Server::get(SystemConfig::class)->getValue('user_backends', []);
 		if (isset($backends['default']) && !$backends['default']) {
 			// clear default backends
@@ -151,14 +152,14 @@ class OC_User {
 		if ($uid) {
 			if (self::getUser() !== $uid) {
 				self::setUserId($uid);
-				/** @var \OC\User\Session $userSession */
+				/** @var Session $userSession */
 				$userSession = Server::get(IUserSession::class);
 
 				/** @var IEventDispatcher $dispatcher */
 				$dispatcher = Server::get(IEventDispatcher::class);
 
 				if ($userSession->getUser() && !$userSession->getUser()->isEnabled()) {
-					$message = \OC::$server->getL10N('lib')->t('Account disabled');
+					$message = Server::get(IFactory::class)->get('lib')->t('Account disabled');
 					throw new DisabledUserException($message);
 				}
 				$userSession->setLoginName($uid);
@@ -230,11 +231,11 @@ class OC_User {
 	public static function handleApacheAuth(): ?bool {
 		$backend = self::findFirstActiveUsedBackend();
 		if ($backend) {
-			OC_App::loadApps();
+			Server::get(IAppManager::class)->loadApps();
 
 			//setup extra user backends
 			self::setupBackends();
-			/** @var \OC\User\Session $session */
+			/** @var Session $session */
 			$session = Server::get(IUserSession::class);
 			$session->unsetMagicInCookie();
 
@@ -243,7 +244,6 @@ class OC_User {
 
 		return null;
 	}
-
 
 	/**
 	 * Sets user id for session and triggers emit
@@ -274,25 +274,10 @@ class OC_User {
 
 	/**
 	 * Returns the current logout URL valid for the currently logged-in user
+	 * @return non-empty-string
 	 */
 	public static function getLogoutUrl(IURLGenerator $urlGenerator): string {
-		$backend = self::findFirstActiveUsedBackend();
-		if ($backend) {
-			return $backend->getLogoutUrl();
-		}
-
-		$user = Server::get(IUserSession::class)->getUser();
-		if ($user instanceof IUser) {
-			$backend = $user->getBackend();
-			if ($backend instanceof ICustomLogout) {
-				return $backend->getLogoutUrl();
-			}
-		}
-
-		$logoutUrl = $urlGenerator->linkToRoute('core.login.logout');
-		$logoutUrl .= '?requesttoken=' . urlencode(Util::callRegister());
-
-		return $logoutUrl;
+		return $urlGenerator->getLogoutUrl();
 	}
 
 	/**
@@ -305,7 +290,6 @@ class OC_User {
 		$isAdmin = $user && Server::get(IGroupManager::class)->isAdmin($user->getUID());
 		return $isAdmin && self::$incognitoMode === false;
 	}
-
 
 	/**
 	 * get the user id of the user currently logged in.

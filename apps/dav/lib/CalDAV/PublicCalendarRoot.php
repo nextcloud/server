@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\CalDAV;
 
 use OCP\IConfig;
@@ -32,6 +33,7 @@ class PublicCalendarRoot extends Collection {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getName() {
 		return 'public-calendars';
 	}
@@ -39,6 +41,7 @@ class PublicCalendarRoot extends Collection {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getChild($name) {
 		$calendar = $this->caldavBackend->getPublicCalendar($name);
 		return new PublicCalendar($this->caldavBackend, $calendar, $this->l10n, $this->config, $this->logger);
@@ -47,6 +50,7 @@ class PublicCalendarRoot extends Collection {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function getChildren() {
 		return [];
 	}

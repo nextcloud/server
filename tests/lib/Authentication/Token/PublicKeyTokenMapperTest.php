@@ -29,6 +29,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 	/** @var int */
 	private $time;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -175,7 +176,6 @@ class PublicKeyTokenMapperTest extends TestCase {
 		$this->assertEquals($token, $dbToken);
 	}
 
-
 	public function testGetInvalidToken(): void {
 		$this->expectException(DoesNotExistException::class);
 
@@ -207,13 +207,11 @@ class PublicKeyTokenMapperTest extends TestCase {
 		$this->assertEquals($token, $dbToken);
 	}
 
-
 	public function testGetTokenByIdNotFound(): void {
 		$this->expectException(DoesNotExistException::class);
 
 		$this->mapper->getTokenById(-1);
 	}
-
 
 	public function testGetInvalidTokenById(): void {
 		$this->expectException(DoesNotExistException::class);

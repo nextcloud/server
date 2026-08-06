@@ -13,6 +13,7 @@ use OC\Authentication\TwoFactorAuth\Db\ProviderUserAssignmentDao;
 use OC\Authentication\TwoFactorAuth\Registry;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
+use OCP\Authentication\TwoFactorAuth\IStatelessProvider;
 use OCP\Authentication\TwoFactorAuth\RegistryEvent;
 use OCP\Authentication\TwoFactorAuth\TwoFactorProviderDisabled;
 use OCP\Authentication\TwoFactorAuth\TwoFactorProviderForUserRegistered;
@@ -28,6 +29,7 @@ class RegistryTest extends TestCase {
 	private IEventDispatcher&MockObject $dispatcher;
 	private Registry $registry;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -76,6 +78,18 @@ class RegistryTest extends TestCase {
 		$this->registry->enableProviderFor($provider, $user);
 	}
 
+	public function testEnableStatelessProvider(): void {
+		$user = $this->createMock(IUser::class);
+		$provider = $this->createMock(IStatelessProvider::class);
+
+		$this->dao->expects($this->never())->method('persist');
+
+		$this->dispatcher->expects($this->never())->method('dispatch');
+		$this->dispatcher->expects($this->never())->method('dispatchTyped');
+
+		$this->registry->enableProviderFor($provider, $user);
+	}
+
 	public function testDisableProvider(): void {
 		$user = $this->createMock(IUser::class);
 		$provider = $this->createMock(IProvider::class);
@@ -83,7 +97,6 @@ class RegistryTest extends TestCase {
 		$provider->expects($this->once())->method('getId')->willReturn('p1');
 		$this->dao->expects($this->once())->method('persist')->with('p1', 'user123',
 			false);
-
 
 		$this->dispatcher->expects($this->once())
 			->method('dispatch')
@@ -99,6 +112,18 @@ class RegistryTest extends TestCase {
 				$user,
 				$provider,
 			));
+
+		$this->registry->disableProviderFor($provider, $user);
+	}
+
+	public function testDisableStatelessProvider(): void {
+		$user = $this->createMock(IUser::class);
+		$provider = $this->createMock(IStatelessProvider::class);
+
+		$this->dao->expects($this->never())->method('persist');
+
+		$this->dispatcher->expects($this->never())->method('dispatch');
+		$this->dispatcher->expects($this->never())->method('dispatchTyped');
 
 		$this->registry->disableProviderFor($provider, $user);
 	}

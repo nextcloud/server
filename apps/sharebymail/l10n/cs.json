@@ -20,7 +20,7 @@
     "Note:" : "Poznámka:",
     "This share is valid until %s at midnight" : "Toto sdílení je platné do půlnoci %s",
     "Expiration:" : "Konec platnosti:",
-    "Open %s" : "Otevřít %s",
+    "Open shared item" : "Otevřít sdílenou položku",
     "%1$s via %2$s" : "%1$s prostřednictvím %2$s",
     "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "%1$s vám nasdílel(a) %2$s. Měl by vám už přijít e-mail s přístupovými údaji.",
     "Password to access %1$s shared to you by %2$s" : "Heslo pro přístup k %1$s které vám nasdílel(a) %2$s",

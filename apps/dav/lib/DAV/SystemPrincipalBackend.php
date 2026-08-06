@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\DAV;
 
 use Sabre\DAVACL\PrincipalBackend\AbstractBackend;
@@ -27,6 +28,7 @@ class SystemPrincipalBackend extends AbstractBackend {
 	 * @param string $prefixPath
 	 * @return array
 	 */
+	#[\Override]
 	public function getPrincipalsByPrefix($prefixPath) {
 		$principals = [];
 
@@ -52,6 +54,7 @@ class SystemPrincipalBackend extends AbstractBackend {
 	 * @param string $path
 	 * @return array
 	 */
+	#[\Override]
 	public function getPrincipalByPath($path) {
 		if ($path === 'principals/system/system') {
 			$principal = [
@@ -87,6 +90,7 @@ class SystemPrincipalBackend extends AbstractBackend {
 	 * @param \Sabre\DAV\PropPatch $propPatch
 	 * @return void
 	 */
+	#[\Override]
 	public function updatePrincipal($path, \Sabre\DAV\PropPatch $propPatch) {
 	}
 
@@ -119,6 +123,7 @@ class SystemPrincipalBackend extends AbstractBackend {
 	 * @param string $test
 	 * @return array
 	 */
+	#[\Override]
 	public function searchPrincipals($prefixPath, array $searchProperties, $test = 'allof') {
 		return [];
 	}
@@ -129,6 +134,7 @@ class SystemPrincipalBackend extends AbstractBackend {
 	 * @param string $principal
 	 * @return array
 	 */
+	#[\Override]
 	public function getGroupMemberSet($principal) {
 		// TODO: for now the group principal has only one member, the user itself
 		$principal = $this->getPrincipalByPath($principal);
@@ -145,6 +151,7 @@ class SystemPrincipalBackend extends AbstractBackend {
 	 * @param string $principal
 	 * @return array
 	 */
+	#[\Override]
 	public function getGroupMembership($principal) {
 		[$prefix, ] = \Sabre\Uri\split($principal);
 
@@ -168,6 +175,7 @@ class SystemPrincipalBackend extends AbstractBackend {
 	 * @param array $members
 	 * @return void
 	 */
+	#[\Override]
 	public function setGroupMemberSet($principal, array $members) {
 		throw new \Sabre\DAV\Exception('Setting members of the group is not supported yet');
 	}

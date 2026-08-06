@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Repair\NC30;
 
 use OCP\IConfig;
@@ -19,10 +20,12 @@ class RemoveLegacyDatadirFile implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Remove legacy ".ocdata" file';
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		$ocdata = $this->config->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/.ocdata';
 		if (file_exists($ocdata)) {

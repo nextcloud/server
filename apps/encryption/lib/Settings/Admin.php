@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Encryption\Settings;
 
 use OC\Files\View;
@@ -15,6 +16,7 @@ use OCA\Encryption\Session;
 use OCA\Encryption\Util;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\Config\IUserConfig;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -34,12 +36,14 @@ class Admin implements ISettings {
 		private ISession $session,
 		private IInitialState $initialState,
 		private IAppConfig $appConfig,
+		private IUserConfig $userConfig,
 	) {
 	}
 
 	/**
 	 * @return TemplateResponse
 	 */
+	#[\Override]
 	public function getForm() {
 		$crypt = new Crypt(
 			$this->logger,
@@ -51,7 +55,8 @@ class Admin implements ISettings {
 			new View(),
 			$crypt,
 			$this->userSession,
-			$this->config,
+			$this->appConfig,
+			$this->userConfig,
 			$this->userManager);
 
 		// Check if an adminRecovery account is enabled for recovering files after lost pwd
@@ -75,6 +80,7 @@ class Admin implements ISettings {
 	/**
 	 * @return string the section ID, e.g. 'sharing'
 	 */
+	#[\Override]
 	public function getSection() {
 		return 'security';
 	}
@@ -86,6 +92,7 @@ class Admin implements ISettings {
 	 *
 	 * E.g.: 70
 	 */
+	#[\Override]
 	public function getPriority() {
 		return 11;
 	}

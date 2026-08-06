@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Trashbin\BackgroundJob;
 
 use OCA\Files_Trashbin\AppInfo\Application;
@@ -89,7 +90,7 @@ class ExpireTrash extends TimedJob {
 		$this->setupManager->tearDown();
 		$this->setupManager->setupForUser($user);
 
-		$folder = $this->rootFolder->getUserFolder($user->getUID())->getParent()->get('files_trashbin');
+		$folder = $this->rootFolder->getUserFolder($user->getUID())->getParent()->getOrCreateFolder('files_trashbin');
 		if (!$folder instanceof Folder) {
 			throw new \LogicException("Didn't expect files_trashbin to be a file instead of a folder");
 		}

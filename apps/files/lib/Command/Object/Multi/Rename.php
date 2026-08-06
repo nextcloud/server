@@ -27,6 +27,7 @@ class Rename extends Base {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure(): void {
 		parent::configure();
 		$this
@@ -36,6 +37,7 @@ class Rename extends Base {
 			->addArgument('target', InputArgument::REQUIRED, 'New name for the object store configuration');
 	}
 
+	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$source = $input->getArgument('source');
 		$target = $input->getArgument('target');

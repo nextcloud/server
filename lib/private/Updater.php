@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use OC\App\AppManager;
@@ -23,6 +24,7 @@ use OC\Repair\Events\RepairInfoEvent;
 use OC\Repair\Events\RepairStartEvent;
 use OC\Repair\Events\RepairStepEvent;
 use OC\Repair\Events\RepairWarningEvent;
+use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -391,6 +393,8 @@ class Updater extends BasicEmitter {
 				$this->emit('\OC\Updater', 'checkAppStoreApp', [$app]);
 
 				if (isset($previousEnableStates[$app])) {
+					$this->restoreMissingAppStoreApp($app);
+
 					if (!empty($previousEnableStates[$app]) && is_array($previousEnableStates[$app])) {
 						$this->appManager->enableAppForGroups($app, $previousEnableStates[$app]);
 					} elseif ($previousEnableStates[$app] === 'yes') {
@@ -402,6 +406,17 @@ class Updater extends BasicEmitter {
 					'exception' => $ex,
 				]);
 			}
+		}
+	}
+
+	private function restoreMissingAppStoreApp(string $appId): void {
+		try {
+			$this->appManager->getAppPath($appId, true);
+		} catch (AppPathNotFoundException) {
+			// the app was not found locally but we know it was previously enabled
+			// so we automatically download it from the appstore and run its missing migrations
+			$this->installer->downloadApp($appId);
+			$this->installer->installApp($appId);
 		}
 	}
 
@@ -446,7 +461,6 @@ class Updater extends BasicEmitter {
 		$dispatcher->addListener(RepairInfoEvent::class, $repairListener);
 		$dispatcher->addListener(RepairWarningEvent::class, $repairListener);
 		$dispatcher->addListener(RepairErrorEvent::class, $repairListener);
-
 
 		$this->listen('\OC\Updater', 'maintenanceEnabled', function () use ($log): void {
 			$log->info('\OC\Updater::maintenanceEnabled: Turned on maintenance mode', ['app' => 'updater']);

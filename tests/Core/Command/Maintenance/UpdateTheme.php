@@ -22,7 +22,6 @@ class UpdateThemeTest extends TestCase {
 	/** @var ICacheFactory */
 	protected $cacheFactory;
 
-
 	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $consoleInput;
 	/** @var \PHPUnit\Framework\MockObject\MockObject */
@@ -31,6 +30,7 @@ class UpdateThemeTest extends TestCase {
 	/** @var \Symfony\Component\Console\Command\Command */
 	protected $command;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

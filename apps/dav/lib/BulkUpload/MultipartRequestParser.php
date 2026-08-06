@@ -109,7 +109,6 @@ class MultipartRequestParser {
 		return $expectedContent === $content;
 	}
 
-
 	/**
 	 * Check whether the stream's cursor is sitting right before the boundary.
 	 */

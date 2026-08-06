@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Security\Bruteforce\Backend;
 
 use OCP\IDBConnection;
@@ -21,6 +22,7 @@ class DatabaseBackend implements IBackend {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function getAttempts(
 		string $ipSubnet,
 		int $maxAgeTimestamp,
@@ -43,7 +45,7 @@ class DatabaseBackend implements IBackend {
 		}
 
 		$result = $query->executeQuery();
-		$row = $result->fetch();
+		$row = $result->fetchAssociative();
 		$result->closeCursor();
 
 		return (int)$row['attempts'];
@@ -52,6 +54,7 @@ class DatabaseBackend implements IBackend {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function resetAttempts(
 		string $ipSubnet,
 		?string $action = null,
@@ -76,6 +79,7 @@ class DatabaseBackend implements IBackend {
 	/**
 	 * {@inheritDoc}
 	 */
+	#[\Override]
 	public function registerAttempt(
 		string $ip,
 		string $ipSubnet,

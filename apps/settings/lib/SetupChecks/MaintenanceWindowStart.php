@@ -23,14 +23,17 @@ class MaintenanceWindowStart implements ISetupCheck {
 	) {
 	}
 
+	#[\Override]
 	public function getCategory(): string {
 		return 'system';
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return $this->l10n->t('Maintenance window start');
 	}
 
+	#[\Override]
 	public function run(): SetupResult {
 		$configValue = $this->config->getSystemValue('maintenance_window_start', null);
 		if ($configValue === null) {
@@ -41,7 +44,7 @@ class MaintenanceWindowStart implements ISetupCheck {
 		}
 
 		$startValue = (int)$configValue;
-		$endValue = ($startValue + 6) % 24;
+		$endValue = ($startValue + 4) % 24;
 		return SetupResult::success(
 			str_replace(
 				['{start}', '{end}'],

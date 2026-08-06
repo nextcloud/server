@@ -5,22 +5,19 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Files;
 
 use Icewind\Streams\CallbackWrapper;
 use OC\Files\Cache\CacheEntry;
 use OC\Files\Cache\Scanner;
 use OC\Files\Mount\MountPoint;
-use OC\Files\Mount\MoveableMount;
 use OC\Files\Storage\Storage;
 use OC\Files\Storage\Wrapper\Quota;
 use OC\Files\Utils\PathHelper;
 use OC\Lock\NoopLockingProvider;
-use OC\Share\Share;
 use OC\User\LazyUser;
 use OC\User\Manager as UserManager;
-use OC\User\NoUserException;
-use OC\User\User;
 use OCA\Files_Sharing\SharedMount;
 use OCP\Constants;
 use OCP\Files;
@@ -35,6 +32,7 @@ use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Mount\IMovableMount;
 use OCP\Files\NotFoundException;
 use OCP\Files\ReservedWordException;
 use OCP\Files\Storage\IStorage;
@@ -44,12 +42,14 @@ use OCP\Files\UnseekableException;
 use OCP\ITempManager;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use OCP\Server;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use OCP\User\Exceptions\UserNotFoundException;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
@@ -95,12 +95,15 @@ class View {
 	}
 
 	/**
-	 * @param ?string $path
+	 * Returns an absolute path in Nextcloud's virtual filesystem for this view.
+	 *
+	 * The returned path is scoped by this view's fake root.
+	 *
 	 * @psalm-template S as string|null
 	 * @psalm-param S $path
 	 * @psalm-return (S is string ? string : null)
 	 */
-	public function getAbsolutePath($path = '/'): ?string {
+	public function getAbsolutePath(?string $path = '/'): ?string {
 		if ($path === null) {
 			return null;
 		}
@@ -184,33 +187,42 @@ class View {
 	}
 
 	/**
-	 * Resolve a path to a storage and internal path
+	 * Resolve a path to a storage and internal path.
 	 *
-	 * @param string $path
-	 * @return array{?IStorage, string} an array consisting of the storage and the internal path
+	 * Accepts both:
+	 * - relative paths (interpreted relative to this view root), and
+	 * - absolute paths in Nextcloud's virtual filesystem (leading '/').
+	 *
+	 * @param string $path Relative path, or absolute virtual filesystem path
+	 * @return array{?IStorage, string} An array containing [storage, internalPath]
 	 */
-	public function resolvePath($path): array {
-		$a = $this->getAbsolutePath($path);
-		$p = Filesystem::normalizePath($a);
-		return Filesystem::resolvePath($p);
+	public function resolvePath(string $path): array {
+		$absolutePath = $this->getAbsolutePath($path);
+		$normalizedPath = Filesystem::normalizePath($absolutePath);
+		return Filesystem::resolvePath($normalizedPath);
 	}
 
 	/**
-	 * Return the path to a local version of the file
-	 * we need this because we can't know if a file is stored local or not from
-	 * outside the filestorage and for some purposes a local file is needed
+	 * Return the path to a local representation of a file.
 	 *
-	 * @param string $path
+	 * For local storages this is usually the real on-disk path.
+	 * For non-local storages this may be a temporary local file.
+	 *
+	 * @param string $path Path relative to this view, or absolute virtual filesystem path
+	 * @return string|false Local file path, or false if unavailable
 	 */
-	public function getLocalFile($path): string|false {
-		$parent = substr($path, 0, strrpos($path, '/') ?: 0);
-		$path = $this->getAbsolutePath($path);
-		[$storage, $internalPath] = Filesystem::resolvePath($path);
-		if (Filesystem::isValidPath($parent) && $storage) {
-			return $storage->getLocalFile($internalPath);
-		} else {
+	public function getLocalFile(string $path): string|false {
+		$parentPath = dirname($path);
+		if (!Filesystem::isValidPath($parentPath)) {
 			return false;
 		}
+
+		[$storage, $internalPath] = $this->resolvePath($path);
+		if (!$storage) {
+			return false;
+		}
+
+		return $storage->getLocalFile($internalPath);
 	}
 
 	/**
@@ -229,7 +241,7 @@ class View {
 	 * @param string $path relative to data/
 	 */
 	protected function removeMount($mount, $path): bool {
-		if ($mount instanceof MoveableMount) {
+		if ($mount instanceof IMovableMount) {
 			// cut of /user/files to get the relative path to data/user/files
 			$pathParts = explode('/', $path, 4);
 			$relPath = '/' . $pathParts[3];
@@ -488,7 +500,7 @@ class View {
 		$absolutePath = $this->getAbsolutePath($path);
 		$mount = Filesystem::getMountManager()->find($absolutePath);
 		if ($mount->getInternalPath($absolutePath) === '') {
-			return $mount instanceof MoveableMount;
+			return $mount instanceof IMovableMount;
 		}
 		return $this->basicOperation('isDeletable', $path);
 	}
@@ -797,7 +809,7 @@ class View {
 							$movedMounts[] = $mount1;
 							$this->validateMountMove($movedMounts, $sourceParentMount, $mount2, !$this->targetIsNotShared($targetUser, $absolutePath2));
 							/**
-							 * @var MountPoint|MoveableMount $mount1
+							 * @var MountPoint|IMovableMount $mount1
 							 */
 							$sourceMountPoint = $mount1->getMountPoint();
 							$result = $mount1->moveMount($absolutePath2);
@@ -887,7 +899,7 @@ class View {
 				$sourcePath = $mount->getMountPoint();
 			}
 
-			if (!$mount instanceof MoveableMount) {
+			if (!$mount instanceof IMovableMount) {
 				throw new ForbiddenException($l->t('Storage %s cannot be moved', [$sourcePath]), false);
 			}
 
@@ -1122,7 +1134,6 @@ class View {
 			return false;
 		}
 	}
-
 
 	/**
 	 * @param string $path
@@ -1397,9 +1408,17 @@ class View {
 				$data = $cache->get($internalPath);
 			} elseif (!Scanner::isPartialFile($internalPath) && $watcher->needsUpdate($internalPath, $data)) {
 				$this->lockFile($relativePath, ILockingProvider::LOCK_SHARED);
+				$cacheDataBefore = $data instanceof CacheEntry ? $data->getData() : false;
 				$watcher->update($internalPath, $data);
-				$storage->getPropagator()->propagateChange($internalPath, time());
 				$data = $cache->get($internalPath);
+				$cacheDataAfter = $data instanceof CacheEntry ? $data->getData() : false;
+
+				// Only propagate mtime change to parent folders if the scanner actually changed the cached metadata,
+				// to avoid updating folder mtimes on every read for backends that conservatively report directories as updated (e.g. S3)
+				if ($cacheDataAfter !== $cacheDataBefore) {
+					$storage->getPropagator()->propagateChange($internalPath, time());
+					$data = $cache->get($internalPath);
+				}
 				$this->unlockFile($relativePath, ILockingProvider::LOCK_SHARED);
 			}
 		} catch (LockedException $e) {
@@ -1439,7 +1458,7 @@ class View {
 				return false;
 			}
 
-			if ($mount instanceof MoveableMount && $internalPath === '') {
+			if ($mount instanceof IMovableMount && $internalPath === '') {
 				$data['permissions'] |= Constants::PERMISSION_DELETE;
 			}
 			if ($internalPath === '' && $data['name']) {
@@ -1508,7 +1527,7 @@ class View {
 		}
 
 		$cache = $storage->getCache($internalPath);
-		$user = \OC_User::getUser();
+		$user = Server::get(IUserSession::class)->getUser();
 
 		if (!$directoryInfo) {
 			$data = $this->getCacheEntry($storage, $internalPath, $directory);
@@ -1526,8 +1545,9 @@ class View {
 		$folderId = $data->getId();
 		$contents = $cache->getFolderContentsById($folderId, $mimeTypeFilter);
 
-		$sharingDisabled = \OCP\Util::isSharingDisabledForUser();
-		$permissionsMask = ~\OCP\Constants::PERMISSION_SHARE;
+		$shareManager = Server::get(IManager::class);
+		$sharingDisabled = $shareManager->sharingDisabledForUser($user?->getUID());
+		$permissionsMask = ~Constants::PERMISSION_SHARE;
 
 		$files = [];
 		foreach ($contents as $content) {
@@ -1555,10 +1575,6 @@ class View {
 
 		//add a folder for any mountpoint in this directory and add the sizes of other mountpoints to the folders
 		$mounts = Filesystem::getMountManager()->findIn($path);
-
-		// make sure nested mounts are sorted after their parent mounts
-		// otherwise doesn't propagate the etag across storage boundaries correctly
-		usort($mounts, static fn (IMountPoint $a, IMountPoint $b): int => $a->getMountPoint() <=> $b->getMountPoint());
 
 		$dirLength = strlen($path);
 		foreach ($mounts as $mount) {
@@ -1636,13 +1652,11 @@ class View {
 					$permissions = $rootEntry['permissions'];
 					// do not allow renaming/deleting the mount point if they are not shared files/folders
 					// for shared files/folders we use the permissions given by the owner
-					if ($mount instanceof MoveableMount) {
+					if ($mount instanceof IMovableMount) {
 						$rootEntry['permissions'] = $permissions | Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE;
 					} else {
 						$rootEntry['permissions'] = $permissions & (Constants::PERMISSION_ALL - (Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE));
 					}
-
-					$rootEntry['path'] = substr(Filesystem::normalizePath($path . '/' . $rootEntry['name']), strlen($user) + 2); // full path without /$user/
 
 					// if sharing was disabled for the user we remove the share permissions
 					if ($sharingDisabled) {
@@ -1762,7 +1776,6 @@ class View {
 				if (substr($mountPoint . $result['path'], 0, $rootLength + 1) === $this->fakeRoot . '/') {
 					$internalPath = $result['path'];
 					$path = $mountPoint . $result['path'];
-					$result['path'] = substr($mountPoint . $result['path'], $rootLength);
 					$ownerId = $storage->getOwner($internalPath);
 					if ($ownerId !== false) {
 						$owner = $userManager->get($ownerId);
@@ -1785,7 +1798,6 @@ class View {
 					if ($results) {
 						foreach ($results as $result) {
 							$internalPath = $result['path'];
-							$result['path'] = rtrim($relativeMountPoint . $result['path'], '/');
 							$path = rtrim($mountPoint . $internalPath, '/');
 							$ownerId = $storage->getOwner($internalPath);
 							if ($ownerId !== false) {
@@ -2264,7 +2276,7 @@ class View {
 	/**
 	 * @param string $filename
 	 * @return array
-	 * @throws NoUserException
+	 * @throws UserNotFoundException
 	 * @throws NotFoundException
 	 */
 	public function getUidAndFilename($filename) {

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\UserStatus;
 
 /**
@@ -26,7 +27,6 @@ interface IManager {
 	 * @since 20.0.0
 	 */
 	public function getUserStatuses(array $userIds): array;
-
 
 	/**
 	 * Set a new status for the selected user.

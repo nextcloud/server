@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Repair\NC16;
 
 use OC\Collaboration\Resources\Manager;
@@ -20,6 +21,7 @@ class ClearCollectionsAccessCache implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Clear access cache of projects';
 	}
@@ -29,6 +31,7 @@ class ClearCollectionsAccessCache implements IRepairStep {
 		return version_compare($versionFromBeforeUpdate, '17.0.0.3', '<=');
 	}
 
+	#[\Override]
 	public function run(IOutput $output): void {
 		if ($this->shouldRun()) {
 			$this->manager->invalidateAccessCacheForAllCollections();

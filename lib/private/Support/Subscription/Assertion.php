@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Support\Subscription;
 
 use OCP\HintException;
@@ -24,6 +25,7 @@ class Assertion implements IAssertion {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function createUserIsLegit(): void {
 		if ($this->registry->delegateIsHardUserLimitReached($this->notificationManager)) {
 			$l = $this->l10nFactory->get('lib');

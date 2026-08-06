@@ -16,6 +16,7 @@ use Test\TestCase;
 class ExceptionSerializerTest extends TestCase {
 	private ExceptionSerializer $serializer;
 
+	#[\Override]
 	public function setUp(): void {
 		parent::setUp();
 

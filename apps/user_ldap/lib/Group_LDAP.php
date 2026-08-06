@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP;
 
 use Exception;
@@ -64,6 +65,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	 * @throws Exception
 	 * @throws ServerNotAvailableException
 	 */
+	#[\Override]
 	public function inGroup($uid, $gid): bool {
 		if (!$this->enabled) {
 			return false;
@@ -118,7 +120,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 						$parts = explode('@', $mid); //making sure we get only the uid
 						$mid = $parts[0];
 					}
-					$filter = str_replace('%uid', $mid, $this->access->connection->ldapLoginFilter);
+					$filter = str_replace('%uid', $this->access->escapeFilterPart($mid), $this->access->connection->ldapLoginFilter);
 					$filterParts[] = $filter;
 					$bytes += strlen($filter);
 					if ($bytes >= 9000000) {
@@ -658,6 +660,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	 * @throws Exception
 	 * @throws ServerNotAvailableException
 	 */
+	#[\Override]
 	public function getUserGroups($uid): array {
 		if (!$this->enabled) {
 			return [];
@@ -862,6 +865,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	 * @throws Exception
 	 * @throws ServerNotAvailableException
 	 */
+	#[\Override]
 	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		if (!$this->enabled) {
 			return [];
@@ -917,7 +921,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 				case 'memberuid':
 					//we got uids, need to get their DNs to 'translate' them to user names
 					$filter = $this->access->combineFilterWithAnd([
-						str_replace('%uid', trim($member), $this->access->connection->ldapLoginFilter),
+						str_replace('%uid', $this->access->escapeFilterPart($member), $this->access->connection->ldapLoginFilter),
 						$this->access->combineFilterWithAnd([
 							$this->access->getFilterPartForUserSearch($search),
 							$this->access->connection->ldapUserFilter
@@ -1040,7 +1044,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 				}
 				//we got uids, need to get their DNs to 'translate' them to user names
 				$filter = $this->access->combineFilterWithAnd([
-					str_replace('%uid', $member, $this->access->connection->ldapLoginFilter),
+					str_replace('%uid', $this->access->escapeFilterPart($member), $this->access->connection->ldapLoginFilter),
 					$this->access->getFilterPartForUserSearch($search)
 				]);
 				$ldap_users = $this->access->fetchListOfUsers($filter, ['dn'], 1);
@@ -1082,6 +1086,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	 * (active directory has a limit of 1000 by default)
 	 * @throws Exception
 	 */
+	#[\Override]
 	public function getGroups($search = '', $limit = -1, $offset = 0) {
 		if (!$this->enabled) {
 			return [];
@@ -1121,6 +1126,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	 * @return bool
 	 * @throws ServerNotAvailableException
 	 */
+	#[\Override]
 	public function groupExists($gid) {
 		return $this->groupExistsOnLDAP($gid, false);
 	}
@@ -1197,6 +1203,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	 * Returns the supported actions as int to be
 	 * compared with GroupInterface::CREATE_GROUP etc.
 	 */
+	#[\Override]
 	public function implementsActions($actions): bool {
 		return (bool)((GroupInterface::COUNT_USERS
 				| GroupInterface::DELETE_GROUP
@@ -1209,6 +1216,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	 *
 	 * @return Access instance of Access for LDAP interaction
 	 */
+	#[\Override]
 	public function getLDAPAccess($gid) {
 		return $this->access;
 	}
@@ -1248,6 +1256,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	 * @param string $gid gid of the group to delete
 	 * @throws Exception
 	 */
+	#[\Override]
 	public function deleteGroup(string $gid): bool {
 		if ($this->groupPluginManager->canDeleteGroup()) {
 			if ($ret = $this->groupPluginManager->deleteGroup($gid)) {
@@ -1335,6 +1344,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	 * @return \LDAP\Connection The LDAP connection
 	 * @throws ServerNotAvailableException
 	 */
+	#[\Override]
 	public function getNewLDAPConnection($gid): \LDAP\Connection {
 		$connection = clone $this->access->getConnection();
 		return $connection->getConnectionResource();
@@ -1343,6 +1353,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	/**
 	 * @throws ServerNotAvailableException
 	 */
+	#[\Override]
 	public function getDisplayName(string $gid): string {
 		if ($this->groupPluginManager instanceof IGetDisplayNameBackend) {
 			return $this->groupPluginManager->getDisplayName($gid);
@@ -1408,6 +1419,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	/**
 	 * @throws ServerNotAvailableException
 	 */
+	#[\Override]
 	public function isAdmin(string $uid): bool {
 		if (!$this->enabled) {
 			return false;

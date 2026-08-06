@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace Tests\lib\Config;
 
 use OC\AppConfig;
@@ -34,6 +35,7 @@ class LexiconTest extends TestCase {
 	private ConfigManager $configManager;
 	private IAppManager $appManager;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -49,6 +51,7 @@ class LexiconTest extends TestCase {
 		$this->appManager = Server::get(IAppManager::class);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		parent::tearDown();
 

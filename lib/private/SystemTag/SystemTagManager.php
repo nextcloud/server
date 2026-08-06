@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\SystemTag;
 
 use OCP\DB\Exception;
@@ -16,6 +17,9 @@ use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\SystemTag\Events\TagCreatedEvent;
+use OCP\SystemTag\Events\TagDeletedEvent;
+use OCP\SystemTag\Events\TagUpdatedEvent;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ManagerEvent;
@@ -23,6 +27,7 @@ use OCP\SystemTag\TagAlreadyExistsException;
 use OCP\SystemTag\TagCreationForbiddenException;
 use OCP\SystemTag\TagNotFoundException;
 use OCP\SystemTag\TagUpdateForbiddenException;
+use OCP\Util;
 
 /**
  * Manager class for system tags
@@ -51,6 +56,7 @@ class SystemTagManager implements ISystemTagManager {
 			->andWhere($query->expr()->eq('editable', $query->createParameter('editable')));
 	}
 
+	#[\Override]
 	public function getTagsByIds($tagIds, ?IUser $user = null): array {
 		if (!\is_array($tagIds)) {
 			$tagIds = [$tagIds];
@@ -75,7 +81,7 @@ class SystemTagManager implements ISystemTagManager {
 			->setParameter('tagids', $tagIds, IQueryBuilder::PARAM_INT_ARRAY);
 
 		$result = $query->executeQuery();
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$tag = $this->createSystemTagFromRow($row);
 			if ($user && !$this->canUserSeeTag($tag, $user)) {
 				// if a user is given, hide invisible tags
@@ -95,6 +101,7 @@ class SystemTagManager implements ISystemTagManager {
 		return $tags;
 	}
 
+	#[\Override]
 	public function getAllTags($visibilityFilter = null, $nameSearchPattern = null): array {
 		$tags = [];
 
@@ -121,7 +128,7 @@ class SystemTagManager implements ISystemTagManager {
 			->addOrderBy('editable', 'ASC');
 
 		$result = $query->executeQuery();
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$tags[$row['id']] = $this->createSystemTagFromRow($row);
 		}
 
@@ -130,6 +137,7 @@ class SystemTagManager implements ISystemTagManager {
 		return $tags;
 	}
 
+	#[\Override]
 	public function getTag(string $tagName, bool $userVisible, bool $userAssignable): ISystemTag {
 		// Length of name column is 64
 		$truncatedTagName = substr($tagName, 0, 64);
@@ -139,7 +147,7 @@ class SystemTagManager implements ISystemTagManager {
 			->setParameter('editable', $userAssignable ? 1 : 0)
 			->executeQuery();
 
-		$row = $result->fetch();
+		$row = $result->fetchAssociative();
 		$result->closeCursor();
 		if (!$row) {
 			throw new TagNotFoundException(
@@ -150,11 +158,23 @@ class SystemTagManager implements ISystemTagManager {
 		return $this->createSystemTagFromRow($row);
 	}
 
-	public function createTag(string $tagName, bool $userVisible, bool $userAssignable): ISystemTag {
-		$user = $this->userSession->getUser();
+	#[\Override]
+	public function getGeneratedByAITag(): ISystemTag {
+		try {
+			return $this->getTag(ISystemTag::GENERATED_BY_AI, true, true);
+		} catch (TagNotFoundException) {
+			return $this->createTag(ISystemTag::GENERATED_BY_AI, true, true);
+		}
+	}
+
+	#[\Override]
+	public function createTag(string $tagName, bool $userVisible, bool $userAssignable, ?IUser $user = null): ISystemTag {
+		$user ??= $this->userSession->getUser();
 		if (!$this->canUserCreateTag($user)) {
 			throw new TagCreationForbiddenException();
 		}
+
+		$tagName = Util::sanitizeWordsAndEmojis($tagName);
 
 		// Check if tag already exists (case-insensitive)
 		$existingTags = $this->getAllTags(null, $tagName);
@@ -200,16 +220,19 @@ class SystemTagManager implements ISystemTagManager {
 		$this->dispatcher->dispatch(ManagerEvent::EVENT_CREATE, new ManagerEvent(
 			ManagerEvent::EVENT_CREATE, $tag
 		));
+		$this->dispatcher->dispatchTyped(new TagCreatedEvent($tag));
 
 		return $tag;
 	}
 
+	#[\Override]
 	public function updateTag(
 		string $tagId,
 		string $newName,
 		bool $userVisible,
 		bool $userAssignable,
 		?string $color,
+		?IUser $user = null,
 	): void {
 		try {
 			$tags = $this->getTagsByIds($tagId);
@@ -219,14 +242,15 @@ class SystemTagManager implements ISystemTagManager {
 			);
 		}
 
-		$user = $this->userSession->getUser();
+		$user ??= $this->userSession->getUser();
 		if (!$this->canUserUpdateTag($user)) {
 			throw new TagUpdateForbiddenException();
 		}
 
 		$beforeUpdate = array_shift($tags);
+		$newName = Util::sanitizeWordsAndEmojis($newName);
+
 		// Length of name column is 64
-		$newName = trim($newName);
 		$truncatedNewName = substr($newName, 0, 64);
 		$afterUpdate = new SystemTag(
 			$tagId,
@@ -279,8 +303,10 @@ class SystemTagManager implements ISystemTagManager {
 		$this->dispatcher->dispatch(ManagerEvent::EVENT_UPDATE, new ManagerEvent(
 			ManagerEvent::EVENT_UPDATE, $afterUpdate, $beforeUpdate
 		));
+		$this->dispatcher->dispatchTyped(new TagUpdatedEvent($afterUpdate, $beforeUpdate));
 	}
 
+	#[\Override]
 	public function deleteTags($tagIds): void {
 		if (!\is_array($tagIds)) {
 			$tagIds = [$tagIds];
@@ -321,6 +347,7 @@ class SystemTagManager implements ISystemTagManager {
 			$this->dispatcher->dispatch(ManagerEvent::EVENT_DELETE, new ManagerEvent(
 				ManagerEvent::EVENT_DELETE, $tag
 			));
+			$this->dispatcher->dispatchTyped(new TagDeletedEvent($tag));
 		}
 
 		if ($tagNotFoundException !== null) {
@@ -330,6 +357,7 @@ class SystemTagManager implements ISystemTagManager {
 		}
 	}
 
+	#[\Override]
 	public function canUserAssignTag(ISystemTag $tag, ?IUser $user): bool {
 		if ($user === null) {
 			return false;
@@ -359,6 +387,7 @@ class SystemTagManager implements ISystemTagManager {
 		return false;
 	}
 
+	#[\Override]
 	public function canUserCreateTag(?IUser $user): bool {
 		if ($user === null) {
 			// If no user given, allows only calls from CLI
@@ -372,11 +401,13 @@ class SystemTagManager implements ISystemTagManager {
 		return $this->groupManager->isAdmin($user->getUID());
 	}
 
+	#[\Override]
 	public function canUserUpdateTag(?IUser $user): bool {
 		// We currently have no different permissions for updating tags than for creating them
 		return $this->canUserCreateTag($user);
 	}
 
+	#[\Override]
 	public function canUserSeeTag(ISystemTag $tag, ?IUser $user): bool {
 		// If no user, then we only show public tags
 		if (!$user && $tag->getAccessLevel() === ISystemTag::ACCESS_LEVEL_PUBLIC) {
@@ -403,6 +434,7 @@ class SystemTagManager implements ISystemTagManager {
 		return new SystemTag((string)$row['id'], $row['name'], (bool)$row['visibility'], (bool)$row['editable'], $row['etag'], $row['color']);
 	}
 
+	#[\Override]
 	public function setTagGroups(ISystemTag $tag, array $groupIds): void {
 		// delete relationships first
 		$this->connection->beginTransaction();
@@ -434,6 +466,7 @@ class SystemTagManager implements ISystemTagManager {
 		}
 	}
 
+	#[\Override]
 	public function getTagGroups(ISystemTag $tag): array {
 		$groupIds = [];
 		$query = $this->connection->getQueryBuilder();
@@ -443,7 +476,7 @@ class SystemTagManager implements ISystemTagManager {
 			->orderBy('gid');
 
 		$result = $query->executeQuery();
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$groupIds[] = $row['gid'];
 		}
 
@@ -451,5 +484,4 @@ class SystemTagManager implements ISystemTagManager {
 
 		return $groupIds;
 	}
-
 }

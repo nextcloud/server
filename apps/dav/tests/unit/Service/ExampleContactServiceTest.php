@@ -11,13 +11,14 @@ namespace OCA\DAV\Tests\unit\Service;
 
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\Service\ExampleContactService;
-use OCP\App\IAppManager;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\Files\AppData\IAppDataFactory;
+use OCP\Files\GenericFileException;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
+use OCP\IL10N;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Uid\Uuid;
@@ -26,11 +27,11 @@ use Test\TestCase;
 class ExampleContactServiceTest extends TestCase {
 	protected ExampleContactService $service;
 	protected CardDavBackend&MockObject $cardDav;
-	protected IAppManager&MockObject $appManager;
 	protected IAppDataFactory&MockObject $appDataFactory;
 	protected LoggerInterface&MockObject $logger;
 	protected IAppConfig&MockObject $appConfig;
 	protected IAppData&MockObject $appData;
+	protected IL10N&MockObject $l;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -39,6 +40,7 @@ class ExampleContactServiceTest extends TestCase {
 		$this->appDataFactory = $this->createMock(IAppDataFactory::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
+		$this->l = $this->createMock((IL10N::class));
 
 		$this->appData = $this->createMock(IAppData::class);
 		$this->appDataFactory->method('get')
@@ -50,6 +52,7 @@ class ExampleContactServiceTest extends TestCase {
 			$this->appConfig,
 			$this->logger,
 			$this->cardDav,
+			$this->l,
 		);
 	}
 
@@ -155,6 +158,42 @@ class ExampleContactServiceTest extends TestCase {
 		$this->assertNotNull($vcard->REV);
 		$this->assertNotNull($vcard->UID);
 		$this->assertTrue(Uuid::isValid($vcard->UID->getValue()));
+	}
+
+	public function testGetCardReturnsNullWhenFolderNotFound(): void {
+		$this->appData->method('getFolder')->willThrowException(new NotFoundException());
+		$this->assertNull($this->service->getCard());
+	}
+
+	public function testGetCardReturnsNullWhenFileNotFound(): void {
+		$folder = $this->createMock(ISimpleFolder::class);
+		$this->appData->method('getFolder')->willReturn($folder);
+		$folder->method('getFile')->willThrowException(new NotFoundException());
+		$this->assertNull($this->service->getCard());
+	}
+
+	public function testGetCardReturnsNullOnReadError(): void {
+		$folder = $this->createMock(ISimpleFolder::class);
+		$file = $this->createMock(ISimpleFile::class);
+		$this->appData->method('getFolder')->willReturn($folder);
+		$folder->method('getFile')->willReturn($file);
+		$file->method('getContent')->willThrowException(new GenericFileException());
+
+		$this->logger->expects($this->once())
+			->method('error')
+			->with('Could not read default contact file', $this->anything());
+
+		$this->assertNull($this->service->getCard());
+	}
+
+	public function testGetCardReturnsContent(): void {
+		$folder = $this->createMock(ISimpleFolder::class);
+		$file = $this->createMock(ISimpleFile::class);
+		$this->appData->method('getFolder')->willReturn($folder);
+		$folder->method('getFile')->willReturn($file);
+		$file->method('getContent')->willReturn('vcarddata');
+
+		$this->assertEquals('vcarddata', $this->service->getCard());
 	}
 
 	public function testDefaultContactIsNotCreatedIfEnabled(): void {

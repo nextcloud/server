@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCP\Files\Cache;
 
 use OCP\AppFramework\Attribute\Listenable;
@@ -21,6 +22,7 @@ use OCP\EventDispatcher\Event;
 class CacheEntriesRemovedEvent extends Event {
 	/**
 	 * @param ICacheEvent[] $cacheEntryRemovedEvents
+	 * @since 34.0.0
 	 */
 	public function __construct(
 		private readonly array $cacheEntryRemovedEvents,
@@ -30,6 +32,7 @@ class CacheEntriesRemovedEvent extends Event {
 
 	/**
 	 * @return ICacheEvent[]
+	 * @since 34.0.0
 	 */
 	public function getCacheEntryRemovedEvents(): array {
 		return $this->cacheEntryRemovedEvents;

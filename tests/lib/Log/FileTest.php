@@ -25,6 +25,7 @@ class FileTest extends TestCase {
 	/** @var File */
 	protected $logFile;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$config = Server::get(SystemConfig::class);
@@ -34,6 +35,7 @@ class FileTest extends TestCase {
 		$config->setValue('logfile', $config->getValue('datadirectory') . '/logtest.log');
 		$this->logFile = new File($config->getValue('datadirectory') . '/logtest.log', '', $config);
 	}
+	#[\Override]
 	protected function tearDown(): void {
 		$config = Server::get(SystemConfig::class);
 		if (isset($this->restore_logfile)) {

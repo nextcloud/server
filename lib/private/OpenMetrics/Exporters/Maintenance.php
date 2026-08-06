@@ -21,6 +21,7 @@ use Override;
  * Export maintenance state
  */
 class Maintenance implements IMetricFamily {
+	#[\Override]
 	public function name(): string {
 		return 'maintenance';
 	}

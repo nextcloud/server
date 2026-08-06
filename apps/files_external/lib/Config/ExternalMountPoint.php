@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_External\Config;
 
 use OC\Files\Mount\MountPoint;
@@ -24,6 +25,7 @@ class ExternalMountPoint extends MountPoint {
 		parent::__construct($storage, $mountpoint, $arguments, $loader, $mountOptions, $mountId, ConfigAdapter::class);
 	}
 
+	#[\Override]
 	public function getMountType() {
 		return ($this->storageConfig->getAuthMechanism() instanceof SessionCredentials) ? 'external-session' : 'external';
 	}

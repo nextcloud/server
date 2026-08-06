@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Repair;
 
 use OCP\IDBConnection;
@@ -25,6 +26,7 @@ class OldGroupMembershipShares implements IRepairStep {
 	) {
 	}
 
+	#[\Override]
 	public function getName(): string {
 		return 'Remove shares of old group memberships';
 	}
@@ -35,6 +37,7 @@ class OldGroupMembershipShares implements IRepairStep {
 	 *
 	 * @throws \Exception in case of failure
 	 */
+	#[\Override]
 	public function run(IOutput $output): void {
 		$deletedEntries = 0;
 
@@ -53,7 +56,7 @@ class OldGroupMembershipShares implements IRepairStep {
 			->where($query->expr()->eq('id', $deleteQuery->createParameter('share')));
 
 		$result = $query->executeQuery();
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			if (!$this->isMember($row['group'], $row['user'])) {
 				$deletedEntries += $deleteQuery->setParameter('share', (int)$row['id'])
 					->executeStatement();

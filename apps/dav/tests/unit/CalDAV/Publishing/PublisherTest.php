@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV\Publishing;
 
 use OCA\DAV\CalDAV\Publishing\Xml\Publisher;
@@ -43,7 +44,6 @@ class PublisherTest extends TestCase {
 			'<?xml version="1.0"?>
 			<x1:pre-publish-url xmlns:d="DAV:" xmlns:x1="' . self::NS_CALENDARSERVER . '">urltopublish</x1:pre-publish-url>', $xml);
 	}
-
 
 	protected array $elementMap = [];
 	protected array $namespaceMap = ['DAV:' => 'd'];

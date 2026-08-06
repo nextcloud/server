@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV\Search\Xml\Request;
 
 use OCA\DAV\CalDAV\Search\Xml\Request\CalendarSearchReport;
@@ -114,7 +115,6 @@ XML;
 		);
 	}
 
-
 	public function testRequiresCompFilter(): void {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
 		$this->expectExceptionMessage('{http://nextcloud.com/ns}prop-filter or {http://nextcloud.com/ns}param-filter given without any {http://nextcloud.com/ns}comp-filter');
@@ -141,7 +141,6 @@ XML;
 		$this->parse($xml);
 	}
 
-
 	public function testRequiresFilter(): void {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
 		$this->expectExceptionMessage('The {http://nextcloud.com/ns}filter element is required for this request');
@@ -158,7 +157,6 @@ XML;
 
 		$this->parse($xml);
 	}
-
 
 	public function testNoSearchTerm(): void {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
@@ -186,7 +184,6 @@ XML;
 
 		$this->parse($xml);
 	}
-
 
 	public function testCompOnly(): void {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);

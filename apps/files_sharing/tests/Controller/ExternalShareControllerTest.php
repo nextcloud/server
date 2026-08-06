@@ -5,12 +5,14 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_Sharing\Tests\Controllers;
 
 use OCA\Files_Sharing\Controller\ExternalSharesController;
 use OCA\Files_Sharing\External\ExternalShare;
 use OCA\Files_Sharing\External\Manager;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\BackgroundJob\IJobList;
 use OCP\IRequest;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -22,11 +24,13 @@ use PHPUnit\Framework\MockObject\MockObject;
 class ExternalShareControllerTest extends \Test\TestCase {
 	private IRequest&MockObject $request;
 	private Manager&MockObject $externalManager;
+	private IJobList&MockObject $jobList;
 
 	protected function setUp(): void {
 		parent::setUp();
 		$this->request = $this->createMock(IRequest::class);
 		$this->externalManager = $this->createMock(Manager::class);
+		$this->jobList = $this->createMock(IJobList::class);
 	}
 
 	public function getExternalShareController(): ExternalSharesController {
@@ -34,6 +38,7 @@ class ExternalShareControllerTest extends \Test\TestCase {
 			'files_sharing',
 			$this->request,
 			$this->externalManager,
+			$this->jobList,
 		);
 	}
 
@@ -57,6 +62,9 @@ class ExternalShareControllerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('acceptShare')
 			->with($share);
+		$this->jobList
+			->expects($this->once())
+			->method('add');
 
 		$this->assertEquals(new JSONResponse(), $this->getExternalShareController()->create('4'));
 	}

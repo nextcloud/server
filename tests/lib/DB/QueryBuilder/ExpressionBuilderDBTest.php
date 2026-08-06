@@ -22,6 +22,7 @@ class ExpressionBuilderDBTest extends TestCase {
 	protected $connection;
 	protected $schemaSetup = false;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -95,6 +96,43 @@ class ExpressionBuilderDBTest extends TestCase {
 		$query->select(new Literal('1'))
 			->from('users')
 			->where($query->expr()->iLike($query->createNamedParameter($param1), $query->createNamedParameter($param2)));
+
+		$result = $query->executeQuery();
+		$column = $result->fetchOne();
+		$result->closeCursor();
+		$this->assertEquals($match, $column);
+	}
+
+	public static function notILikeProvider(): array {
+		$connection = Server::get(IDBConnection::class);
+
+		return [
+			['foo', 'bar', true],
+			['foo', 'foo', false],
+			['foo', 'Foo', false],
+			['foo', 'f%', false],
+			['foo', '%o', false],
+			['foo', '%', false],
+			['foo', 'fo_', false],
+			['foo', 'foo_', true],
+			['foo', $connection->escapeLikeParameter('fo_'), true],
+			['foo', $connection->escapeLikeParameter('f%'), true],
+		];
+	}
+
+	/**
+	 *
+	 * @param string $param1
+	 * @param string $param2
+	 * @param boolean $match
+	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('notILikeProvider')]
+	public function testNotILike($param1, $param2, $match): void {
+		$query = $this->connection->getQueryBuilder();
+
+		$query->select(new Literal('1'))
+			->from('users')
+			->where($query->expr()->notILike($query->createNamedParameter($param1), $query->createNamedParameter($param2)));
 
 		$result = $query->executeQuery();
 		$column = $result->fetchOne();

@@ -12,18 +12,17 @@ namespace Test;
 use JsonSerializable;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\InitialStateService;
-use OCP\IServerContainer;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use stdClass;
 use function json_encode;
 
 class InitialStateServiceTest extends TestCase {
-	/** @var InitialStateService */
-	private $service;
-	/** @var MockObject|LoggerInterface|(LoggerInterface&MockObject) */
-	protected $logger;
+	private InitialStateService $service;
+	protected LoggerInterface&MockObject $logger;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -32,7 +31,7 @@ class InitialStateServiceTest extends TestCase {
 		$this->service = new InitialStateService(
 			$this->logger,
 			$this->createMock(Coordinator::class),
-			$this->createMock(IServerContainer::class)
+			$this->createMock(ContainerInterface::class)
 		);
 	}
 
@@ -42,6 +41,7 @@ class InitialStateServiceTest extends TestCase {
 			[23],
 			[2.3],
 			[new class implements JsonSerializable {
+				#[\Override]
 				public function jsonSerialize(): int {
 					return 3;
 				}

@@ -43,6 +43,7 @@ class UpdaterLegacyTest extends \Test\TestCase {
 
 	private static $user;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -77,6 +78,7 @@ class UpdaterLegacyTest extends \Test\TestCase {
 		\OC_Hook::clear('OC_Filesystem');
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		if ($this->cache) {
 			$this->cache->clear();

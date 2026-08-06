@@ -45,6 +45,7 @@ class MigratorTest extends \Test\TestCase {
 	/** @var string */
 	private $tableNameTmp;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -69,6 +70,7 @@ class MigratorTest extends \Test\TestCase {
 		return strtolower($this->getUniqueID($this->config->getSystemValueString('dbtableprefix', 'oc_') . 'test_'));
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		// Try to delete if exists (IF EXISTS NOT SUPPORTED IN ORACLE)
 		try {
@@ -120,7 +122,6 @@ class MigratorTest extends \Test\TestCase {
 
 		return [$startSchema, $endSchema];
 	}
-
 
 	private function getSchemaConfig() {
 		$config = new SchemaConfig();
@@ -258,7 +259,6 @@ class MigratorTest extends \Test\TestCase {
 
 		$migrator = $this->getMigrator();
 		$migrator->migrate($startSchema);
-
 
 		$this->assertTrue($startSchema->getTable($this->tableNameTmp)->hasForeignKey($fkName));
 	}

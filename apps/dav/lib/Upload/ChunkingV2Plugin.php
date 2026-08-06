@@ -30,6 +30,7 @@ use OCP\IConfig;
 use OCP\Lock\ILockingProvider;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\InsufficientStorage;
+use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\PreconditionFailed;
 use Sabre\DAV\ICollection;
@@ -67,13 +68,40 @@ class ChunkingV2Plugin extends ServerPlugin {
 	/**
 	 * @inheritdoc
 	 */
+	#[\Override]
 	public function initialize(Server $server) {
-		$server->on('afterMethod:MKCOL', [$this, 'afterMkcol']);
+		$server->on('beforeMethod:GET', $this->forbiddenMethod(...));
+		$server->on('beforeMethod:COPY', $this->forbiddenMethod(...));
 		$server->on('beforeMethod:PUT', [$this, 'beforePut']);
 		$server->on('beforeMethod:DELETE', [$this, 'beforeDelete']);
 		$server->on('beforeMove', [$this, 'beforeMove'], 90);
+		$server->on('afterMethod:MKCOL', [$this, 'afterMkcol']);
 
 		$this->server = $server;
+	}
+
+	/**
+	 * @throws MethodNotAllowed
+	 */
+	public function forbiddenMethod(RequestInterface $request) {
+		try {
+			$sourceNode = $this->server->tree->getNodeForPath($request->getPath());
+
+			if ($sourceNode instanceof FutureFile || $sourceNode instanceof UploadFile) {
+				if ($request->getMethod() === 'GET') {
+					throw new MethodNotAllowed('Reading intermediate uploads is not allowed');
+				} else {
+					throw new MethodNotAllowed('Intermediate uploads must be finalized using MOVE');
+				}
+			}
+		} catch (NotFound) {
+			// The node could not be resolved (yet), e.g. because the targeted
+			// collection is provided by another app and not registered on the
+			// tree at this point. This is no intermediate upload, so let the
+			// regular request handling deal with it (and report any 404).
+		}
+
+		return true;
 	}
 
 	/**
@@ -189,7 +217,6 @@ class ChunkingV2Plugin extends ServerPlugin {
 		/** @var Directory $destinationParent */
 		$destinationParent = $this->server->tree->getNodeForPath($destinationDir);
 		$destinationExists = $destinationParent->childExists($destinationName);
-
 
 		// allow sync clients to send the modification and creation time along in a header
 		$updateFileInfo = [];

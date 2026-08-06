@@ -5,11 +5,13 @@
  * SPDX-FileCopyrightText: 2017 ownCloud GmbH
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Command\Db\Migrations;
 
 use OC\DB\Connection;
 use OC\DB\MigrationService;
 use OC\Migration\ConsoleOutput;
+use OCP\App\IAppManager;
 use OCP\IConfig;
 use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareInterface;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
@@ -22,10 +24,12 @@ class ExecuteCommand extends Command implements CompletionAwareInterface {
 	public function __construct(
 		private Connection $connection,
 		private IConfig $config,
+		private IAppManager $appManager,
 	) {
 		parent::__construct();
 	}
 
+	#[\Override]
 	protected function configure() {
 		$this
 			->setName('migrations:execute')
@@ -41,6 +45,7 @@ class ExecuteCommand extends Command implements CompletionAwareInterface {
 	 * @param OutputInterface $output
 	 * @return int
 	 */
+	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		$appName = $input->getArgument('app');
 		$ms = new MigrationService($appName, $this->connection, new ConsoleOutput($output));
@@ -56,7 +61,6 @@ class ExecuteCommand extends Command implements CompletionAwareInterface {
 			}
 		}
 
-
 		$ms->executeStep($version);
 		return 0;
 	}
@@ -66,6 +70,7 @@ class ExecuteCommand extends Command implements CompletionAwareInterface {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
+	#[\Override]
 	public function completeOptionValues($optionName, CompletionContext $context) {
 		return [];
 	}
@@ -75,10 +80,11 @@ class ExecuteCommand extends Command implements CompletionAwareInterface {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
+	#[\Override]
 	public function completeArgumentValues($argumentName, CompletionContext $context) {
 		if ($argumentName === 'app') {
-			$allApps = \OC_App::getAllApps();
-			return array_diff($allApps, \OC_App::getEnabledApps(true, true));
+			$allApps = $this->appManager->getAllAppsInAppsFolders();
+			return array_diff($allApps, $this->appManager->getEnabledApps());
 		}
 
 		if ($argumentName === 'version') {

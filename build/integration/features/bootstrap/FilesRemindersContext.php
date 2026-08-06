@@ -9,7 +9,6 @@ use PHPUnit\Framework\Assert;
 
 require __DIR__ . '/autoload.php';
 
-
 /**
  * Files reminders context.
  */

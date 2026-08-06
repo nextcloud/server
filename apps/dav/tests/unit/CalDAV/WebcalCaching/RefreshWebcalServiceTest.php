@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Tests\unit\CalDAV\WebcalCaching;
 
 use OCA\DAV\CalDAV\CalDavBackend;
@@ -17,7 +18,6 @@ use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\VObject;
 use Sabre\VObject\Recur\NoInstancesException;
-
 use Test\TestCase;
 
 class RefreshWebcalServiceTest extends TestCase {

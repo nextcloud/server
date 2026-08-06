@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\User_LDAP\Tests;
 
 use OC\User\Backend;
@@ -20,6 +21,7 @@ use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\User\User;
 use OCA\User_LDAP\User_LDAP;
 use OCA\User_LDAP\UserPluginManager;
+use OCP\Accounts\IAccountManager;
 use OCP\HintException;
 use OCP\IConfig;
 use OCP\IGroupManager;
@@ -698,7 +700,6 @@ class User_LDAPTest extends TestCase {
 		$this->assertEquals($dataDir . '/susannah/', $result);
 	}
 
-
 	public function testGetHomeNoPath(): void {
 		$this->expectException(\Exception::class);
 
@@ -1228,7 +1229,6 @@ class User_LDAPTest extends TestCase {
 			});
 	}
 
-
 	public function testSetPasswordInvalid(): void {
 		$this->expectException(HintException::class);
 		$this->expectExceptionMessage('Password fails quality checking policy');
@@ -1271,7 +1271,6 @@ class User_LDAPTest extends TestCase {
 
 		$this->assertFalse(\OC_User::setPassword('roland', 'dt12234$'));
 	}
-
 
 	public function testSetPasswordWithInvalidUser(): void {
 		$this->expectException(\Exception::class);
@@ -1373,7 +1372,6 @@ class User_LDAPTest extends TestCase {
 		$this->assertEquals($newDisplayName, $this->backend->setDisplayName('uid', $newDisplayName));
 	}
 
-
 	public function testSetDisplayNameErrorWithPlugin(): void {
 		$this->expectException(HintException::class);
 
@@ -1462,5 +1460,38 @@ class User_LDAPTest extends TestCase {
 			]);
 
 		$this->assertSame($expected, $this->backend->implementsActions($actionCode));
+	}
+
+	public static function canEditPropertyProvider(): array {
+		return [
+			// Display name is always managed by LDAP
+			[IAccountManager::PROPERTY_DISPLAYNAME, '', false],
+			[IAccountManager::PROPERTY_DISPLAYNAME, 'cn', false],
+			// Fields with no LDAP attribute configured are user-editable
+			[IAccountManager::PROPERTY_EMAIL, '', true],
+			[IAccountManager::PROPERTY_PHONE, '', true],
+			[IAccountManager::PROPERTY_WEBSITE, '', true],
+			[IAccountManager::PROPERTY_ADDRESS, '', true],
+			[IAccountManager::PROPERTY_FEDIVERSE, '', true],
+			[IAccountManager::PROPERTY_ORGANISATION, '', true],
+			[IAccountManager::PROPERTY_ROLE, '', true],
+			[IAccountManager::PROPERTY_HEADLINE, '', true],
+			[IAccountManager::PROPERTY_BIOGRAPHY, '', true],
+			[IAccountManager::PROPERTY_BIRTHDATE, '', true],
+			[IAccountManager::PROPERTY_PRONOUNS, '', true],
+			// Fields with an LDAP attribute configured are managed by LDAP, not user-editable
+			[IAccountManager::PROPERTY_EMAIL, 'mail', false],
+			[IAccountManager::PROPERTY_PHONE, 'telephoneNumber', false],
+			[IAccountManager::PROPERTY_WEBSITE, 'labeledURI', false],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'canEditPropertyProvider')]
+	public function testCanEditProperty(string $property, string $ldapAttributeValue, bool $expected): void {
+		$this->connection->expects($this->any())
+			->method('__get')
+			->willReturn($ldapAttributeValue);
+
+		$this->assertSame($expected, $this->backend->canEditProperty('uid', $property));
 	}
 }

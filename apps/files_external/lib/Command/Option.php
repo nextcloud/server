@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Files_External\Command;
 
 use OCA\Files_External\Lib\StorageConfig;
@@ -12,6 +13,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Option extends Config {
+	#[\Override]
 	protected function configure(): void {
 		$this
 			->setName('files_external:option')
@@ -34,6 +36,7 @@ class Option extends Config {
 	/**
 	 * @param string $key
 	 */
+	#[\Override]
 	protected function getOption(StorageConfig $mount, $key, OutputInterface $output): void {
 		$value = $mount->getMountOption($key);
 		if (!is_string($value)) { // show bools and objects correctly
@@ -46,6 +49,7 @@ class Option extends Config {
 	 * @param string $key
 	 * @param string $value
 	 */
+	#[\Override]
 	protected function setOption(StorageConfig $mount, $key, $value, OutputInterface $output): void {
 		$decoded = json_decode($value, true);
 		if (!is_null($decoded)) {

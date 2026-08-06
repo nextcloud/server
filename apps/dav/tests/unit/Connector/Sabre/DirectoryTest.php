@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\Files\FileInfo;
@@ -24,6 +25,7 @@ use OCP\Files\InvalidPathException;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\StorageNotAvailableException;
+use OCP\Lock\ILockingProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\Exception\NotFound;
 use Test\Traits\UserTrait;
@@ -56,7 +58,6 @@ class TestViewDirectory extends View {
 		return $path;
 	}
 }
-
 
 #[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class DirectoryTest extends \Test\TestCase {
@@ -98,7 +99,6 @@ class DirectoryTest extends \Test\TestCase {
 		return new Directory($this->view, $this->info);
 	}
 
-
 	public function testDeleteRootFolderFails(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -110,7 +110,6 @@ class DirectoryTest extends \Test\TestCase {
 		$dir = $this->getDir();
 		$dir->delete();
 	}
-
 
 	public function testDeleteForbidden(): void {
 		$this->expectException(Forbidden::class);
@@ -130,7 +129,6 @@ class DirectoryTest extends \Test\TestCase {
 		$dir->delete();
 	}
 
-
 	public function testDeleteFolderWhenAllowed(): void {
 		// deletion allowed
 		$this->info->expects($this->once())
@@ -147,7 +145,6 @@ class DirectoryTest extends \Test\TestCase {
 		$dir->delete();
 	}
 
-
 	public function testDeleteFolderFailsWhenNotAllowed(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -158,7 +155,6 @@ class DirectoryTest extends \Test\TestCase {
 		$dir = $this->getDir('sub');
 		$dir->delete();
 	}
-
 
 	public function testDeleteFolderThrowsWhenDeletionFailed(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
@@ -176,6 +172,47 @@ class DirectoryTest extends \Test\TestCase {
 
 		$dir = $this->getDir('sub');
 		$dir->delete();
+	}
+
+	/**
+	 * A failed or interrupted upload must not leave the exclusive part-file
+	 * lock behind. Otherwise every later upload to the same path keeps getting
+	 * rejected with "423 Locked" until the lock TTL expires (up to an hour),
+	 * createFile() therefore releases the locks in a finally block.
+	 */
+	public function testCreateFileReleasesPartFileLockOnFailure(): void {
+		$name = 'foo.txt';
+
+		$this->view->method('getRelativePath')->willReturnArgument(0);
+		$this->view->method('getAbsolutePath')->willReturnArgument(0);
+		$this->view->method('isCreatable')->willReturn(true);
+		// the target does not exist yet
+		$this->view->method('getFileInfo')->willReturn(false);
+		// make File::put() fail right after the locks have been acquired
+		$this->view->method('resolvePath')->willReturn([null, null]);
+
+		$released = [];
+		$this->view->method('unlockFile')
+			->willReturnCallback(function (string $path, int $type) use (&$released): bool {
+				$released[] = [$path, $type];
+				return true;
+			});
+
+		$dir = new Directory($this->view, $this->info);
+		$partLockPath = $dir->getPath() . '/' . $name . '.upload.part';
+
+		try {
+			$dir->createFile($name, 'test data');
+			$this->fail('Expected the failing upload to throw');
+		} catch (\Sabre\DAV\Exception\ServiceUnavailable) {
+			// expected: File::put() cannot resolve the storage
+		}
+
+		$this->assertContains(
+			[$partLockPath, ILockingProvider::LOCK_EXCLUSIVE],
+			$released,
+			'The exclusive .upload.part lock must be released after a failed upload',
+		);
 	}
 
 	public function testGetChildren(): void {
@@ -222,7 +259,6 @@ class DirectoryTest extends \Test\TestCase {
 		$dir->getChildren();
 	}
 
-
 	public function testGetChildrenNoPermission(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -239,7 +275,6 @@ class DirectoryTest extends \Test\TestCase {
 		$dir->getChildren();
 	}
 
-
 	public function testGetChildNoPermission(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
@@ -255,7 +290,6 @@ class DirectoryTest extends \Test\TestCase {
 		$dir->getChild('test');
 	}
 
-
 	public function testGetChildThrowStorageNotAvailableException(): void {
 		$this->expectException(\Sabre\DAV\Exception\ServiceUnavailable::class);
 
@@ -270,7 +304,6 @@ class DirectoryTest extends \Test\TestCase {
 		$dir = new Directory($this->view, $this->info);
 		$dir->getChild('.');
 	}
-
 
 	public function testGetChildThrowInvalidPath(): void {
 		$this->expectException(InvalidPath::class);
@@ -600,7 +633,6 @@ class DirectoryTest extends \Test\TestCase {
 			->willReturn(false);
 		$this->assertTrue($targetNode->moveInto(basename($destination), $source, $sourceNode));
 	}
-
 
 	public function testFailingMove(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);

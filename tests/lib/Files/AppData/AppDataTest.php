@@ -26,6 +26,7 @@ class AppDataTest extends \Test\TestCase {
 	/** @var IAppData */
 	private $appData;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
