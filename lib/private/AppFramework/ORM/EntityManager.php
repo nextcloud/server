@@ -64,6 +64,7 @@ final class EntityManager {
 	 * @template T of object
 	 * @psalm-param T $entity
 	 * @return T
+	 * @throws Exception
 	 */
 	public function insert(object $entity): object {
 		$entityInfo = $this->getEntityInfo($entity::class);
