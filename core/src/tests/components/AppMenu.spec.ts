@@ -184,8 +184,8 @@ describe('core: AppMenu', () => {
 				// Object keyed by entry id — matches PHP's serialization shape
 				// (TemplateLayout ships the filtered associative array as-is).
 				return {
-					admin_settings: makeApp({
-						id: 'admin_settings',
+					settings_administration: makeApp({
+						id: 'settings_administration',
 						name: 'Administration settings',
 						type: 'settings',
 						href: '/settings/admin/overview',
@@ -202,13 +202,32 @@ describe('core: AppMenu', () => {
 		expect(wrapper.find('.app-menu__current-app-name').text()).toBe('Settings')
 	})
 
+	it('keeps the own name of settings entries outside the settings app', () => {
+		// On /settings/apps the active entry is the app management one, which
+		// shows "Apps" here and in the account menu, not "Settings".
+		initialState.loadState.mockImplementation((_a: string, key: string, fallback: unknown) => {
+			if (key === 'apps') {
+				return [makeApp({ id: 'files', name: 'Files', active: false })]
+			}
+			if (key === 'settingsNavEntries') {
+				return { appstore: makeApp({ id: 'appstore', name: 'Apps', type: 'settings', href: '/settings/apps', icon: '/apps/appstore/img/app-dark.svg', active: true }) }
+			}
+			return fallback
+		})
+		const wrapper = mount(AppMenu, { attachTo: document.body })
+		expect(wrapper.find('.app-menu__current-app-name').text()).toBe('Apps')
+		// Its own icon, not the generic cog of the settings sections
+		expect(wrapper.find('.app-menu__current-app-glyph').attributes('style'))
+			.toContain('/apps/appstore/img/app-dark.svg')
+	})
+
 	it('prefers the active app over a settings entry when both are marked active', () => {
 		initialState.loadState.mockImplementation((_a: string, key: string, fallback: unknown) => {
 			if (key === 'apps') {
 				return [makeApp({ id: 'files', name: 'Files', active: true })]
 			}
 			if (key === 'settingsNavEntries') {
-				return { admin_settings: makeApp({ id: 'admin_settings', name: 'Administration settings', type: 'settings', active: true }) }
+				return { settings_administration: makeApp({ id: 'settings_administration', name: 'Administration settings', type: 'settings', active: true }) }
 			}
 			return fallback
 		})
