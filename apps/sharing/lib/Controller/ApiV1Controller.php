@@ -557,7 +557,7 @@ final class ApiV1Controller extends OCSController {
 	 * Get multiple shares.
 	 *
 	 * @param ?class-string<IShareSourceType> $filterSourceTypeClass Source type class to filter by.
-	 * @param ?string $filterSourceTypeValue Source type value to filter by.
+	 * @param ?non-empty-string $filterSourceTypeValue Source type value to filter by.
 	 * @param ?string $lastShareID The ID of the previous share. This is used as an offset and only shares with higher IDs are returned.
 	 * @param int<1, 100> $limit The number of shares to return.
 	 * @return DataResponse<Http::STATUS_OK, list<SharingShare>, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, string, array{}>
@@ -576,6 +576,15 @@ final class ApiV1Controller extends OCSController {
 		/** @psalm-suppress DocblockTypeContradiction */
 		if ($limit > 100) {
 			return new DataResponse('The limit is too high.', Http::STATUS_BAD_REQUEST);
+		}
+
+		/** @psalm-suppress TypeDoesNotContainType */
+		if ($filterSourceTypeValue === '') {
+			return new DataResponse('Filter source value is empty.', Http::STATUS_BAD_REQUEST);
+		}
+
+		if ($filterSourceTypeClass && !isset($this->registry->getSourceTypes()[$filterSourceTypeClass])) {
+			return new DataResponse('The filter source type is not registered: ' . $filterSourceTypeClass, Http::STATUS_BAD_REQUEST);
 		}
 
 		try {

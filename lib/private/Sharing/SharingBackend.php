@@ -556,6 +556,7 @@ final readonly class SharingBackend implements ISharingBackend {
 
 	/**
 	 * @param ?class-string<IShareSourceType> $filterSourceTypeClass
+	 * @param ?non-empty-string $filterSourceTypeValue
 	 * @return list<Share>
 	 */
 	private function list(ShareAccessContext $accessContext, ?string $filterShareID, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?string $lastShareID, ?int $limit): array {

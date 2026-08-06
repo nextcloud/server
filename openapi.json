@@ -39006,7 +39006,8 @@
                         "description": "Source type value to filter by.",
                         "schema": {
                             "type": "string",
-                            "nullable": true
+                            "nullable": true,
+                            "minLength": 1
                         }
                     },
                     {

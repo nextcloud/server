@@ -8,7 +8,6 @@
 declare(strict_types=1);
 
 use NCU\Sharing\ISharingManager;
-use NCU\Sharing\ISharingRegistry;
 use NCU\Sharing\Permission\SharePermission;
 use NCU\Sharing\Property\ShareProperty;
 use NCU\Sharing\Recipient\ShareRecipient;
@@ -47,7 +46,7 @@ final class ApiV1ControllerTest extends AbstractSharingManagerTests {
 			Server::get(IRequest::class),
 			Server::get(IUserSession::class),
 			Server::get(ISharingManager::class),
-			Server::get(ISharingRegistry::class),
+			$this->registry,
 			Server::get(IFactory::class),
 			Server::get(IURLGenerator::class),
 			Server::get(IUserManager::class),
@@ -68,7 +67,7 @@ final class ApiV1ControllerTest extends AbstractSharingManagerTests {
 			Server::get(IRequest::class),
 			Server::get(IUserSession::class),
 			Server::get(ISharingManager::class),
-			Server::get(ISharingRegistry::class),
+			$this->registry,
 			Server::get(IFactory::class),
 			Server::get(IURLGenerator::class),
 			Server::get(IUserManager::class),

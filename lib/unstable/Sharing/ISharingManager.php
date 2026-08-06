@@ -216,6 +216,7 @@ interface ISharingManager {
 	 * Get multiple shares.
 	 *
 	 * @param ?class-string<IShareSourceType> $filterSourceTypeClass
+	 * @param ?non-empty-string $filterSourceTypeValue
 	 * @param ?positive-int $limit
 	 * @return list<Share>
 	 * @experimental 35.0.0
