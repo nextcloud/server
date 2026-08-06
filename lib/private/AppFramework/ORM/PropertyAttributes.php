@@ -13,11 +13,15 @@ use OCP\AppFramework\ORM\Attribute\JoinColumn;
 use OCP\AppFramework\ORM\Attribute\ManyToOne;
 use OCP\AppFramework\ORM\Attribute\OneToOne;
 
-class PropertyAttributes {
+final class PropertyAttributes {
 	public ?Id $id = null;
+
 	public ?Column $column = null;
+
 	public ?OneToOne $oneToOne = null;
+
 	public ?ManyToOne $manyToOne = null;
+
 	public ?JoinColumn $joinColumn = null;
 
 	public function __construct(
@@ -25,20 +29,26 @@ class PropertyAttributes {
 	) {
 	}
 
+	/**
+	 * @return class-string|null
+	 */
 	public function getOwningRelationTarget(): ?string {
-		if ($this->joinColumn === null) {
+		if (!$this->joinColumn instanceof JoinColumn) {
 			return null;
 		}
-		if ($this->manyToOne !== null) {
+
+		if ($this->manyToOne instanceof ManyToOne) {
 			return $this->manyToOne->targetEntity;
 		}
-		if ($this->oneToOne !== null && $this->oneToOne->invertedBy !== null) {
+
+		if ($this->oneToOne instanceof OneToOne && $this->oneToOne->invertedBy !== null) {
 			return $this->oneToOne->targetEntity;
 		}
+
 		return null;
 	}
 
 	public function isRelation(): bool {
-		return $this->oneToOne !== null || $this->manyToOne !== null;
+		return $this->oneToOne instanceof OneToOne || $this->manyToOne instanceof ManyToOne;
 	}
 }

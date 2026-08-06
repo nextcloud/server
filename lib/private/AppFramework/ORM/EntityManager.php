@@ -10,7 +10,9 @@ namespace OC\AppFramework\ORM;
 use Doctrine\DBAL\Schema\Table;
 use OC\DB\SchemaWrapper;
 use OCP\AppFramework\ORM\Attribute\Column;
+use OCP\AppFramework\ORM\Attribute\Id;
 use OCP\AppFramework\ORM\Attribute\JoinColumn;
+use OCP\AppFramework\ORM\Attribute\OneToOne;
 use OCP\AppFramework\ORM\Repository;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -19,7 +21,7 @@ use OCP\IDBConnection;
 use OCP\Server;
 use OCP\Snowflake\ISnowflakeGenerator;
 
-class EntityManager {
+final class EntityManager {
 	public function __construct(
 		private readonly IDBConnection $connection,
 	) {
@@ -37,6 +39,7 @@ class EntityManager {
 		if (!isset($this->entitiesInfo[$entityClass])) {
 			$this->entitiesInfo[$entityClass] = new EntityInfo($entityClass);
 		}
+
 		/** @var EntityInfo<T> $entityInfo */
 		$entityInfo = $this->entitiesInfo[$entityClass];
 		return $entityInfo;
@@ -53,11 +56,12 @@ class EntityManager {
 	 * @return Repository<T>
 	 */
 	public function getRepository(string $entityClass): Repository {
+		/** @psalm-suppress InternalMethod both are private */
 		return new Repository($this->connection, $this, $entityClass);
 	}
 
 	/**
-	 * @template T
+	 * @template T of object
 	 * @psalm-param T $entity
 	 * @return T
 	 */
@@ -66,23 +70,21 @@ class EntityManager {
 		$insert = $this->connection->getQueryBuilder();
 
 		$isSnowflake = false;
-		$primaryProperty = null;
 		$values = [];
 
 		foreach ($entityInfo->propertiesAttributes as $propertyAttributes) {
 			$property = $propertyAttributes->property;
 			if ($propertyAttributes->id !== null && $propertyAttributes->column !== null) {
-				$primaryProperty = $property;
 				$generatorClass = $propertyAttributes->id->generatorClass;
 				if ($generatorClass) {
 					if ($generatorClass === ISnowflakeGenerator::class) {
 						$generator = Server::get($generatorClass);
 						$isSnowflake = true;
-						/** @psalm-suppress UndefinedClass */
 						$values[$propertyAttributes->column->name] = $generator->nextId();
 						$property->setValue($entity, $insert->createNamedParameter($values[$propertyAttributes->column->name]));
 					}
 				}
+
 				continue;
 			}
 
@@ -92,17 +94,18 @@ class EntityManager {
 					if ($property->getValue($entity) !== null) {
 						throw new \LogicException($entity::class . '::' . $property->getName() . ' is the mappedBy (inverse) side of a OneToOne relation and cannot be persisted directly; set it from the owning (invertedBy) side instead.');
 					}
+
 					continue;
 				}
 
 				$joinColumn = $propertyAttributes->joinColumn;
-				/** @var object $object */
+				/** @var object|null $targetEntity */
 				$targetEntity = $property->getValue($entity);
 				$targetEntityInfo = $this->getEntityInfo($targetEntityClass);
 				if ($targetEntity === null) {
 					$values[$joinColumn->name] = $insert->createNamedParameter(null);
 				} else {
-					$values[$joinColumn->name] = $insert->createNamedParameter($targetEntityInfo->idProperty->getValue($targetEntity));
+					$values[$joinColumn->name] = $insert->createNamedParameter($targetEntityInfo->getIdProperty()->getValue($targetEntity));
 				}
 
 				continue;
@@ -119,18 +122,19 @@ class EntityManager {
 			->executeStatement();
 
 		if (!$isSnowflake) {
-			$primaryProperty->setValue($entity, $insert->getLastInsertId());
+			$entityInfo->getIdProperty()->setValue($entity, $insert->getLastInsertId());
 		}
+
 		return $entity;
 	}
 
 	/**
-	 * @template T
+	 * @template T of object
 	 * @psalm-param T $entity
 	 * @return T
 	 */
 	public function update(object $entity): object {
-		$entityClass = get_class($entity);
+		$entityClass = $entity::class;
 		$entityInfo = $this->getEntityInfo($entityClass);
 
 		$update = $this->connection->getQueryBuilder();
@@ -138,6 +142,7 @@ class EntityManager {
 
 		foreach ($entityInfo->propertiesAttributes as $propertyAttributes) {
 			$property = $propertyAttributes->property;
+			/** @psalm-suppress MixedAssignment */
 			$value = $property->getValue($entity);
 
 			if ($propertyAttributes->id !== null && $propertyAttributes->column !== null) {
@@ -145,7 +150,7 @@ class EntityManager {
 					throw new \LogicException('Trying to update an entity with no primary key set.');
 				}
 
-				$update->andWhere($update->expr()->eq($entityInfo->mappingPropertyToColumn[$entityInfo->idProperty->getName()], $update->createNamedParameter($property->getValue($entity))));
+				$update->andWhere($update->expr()->eq($entityInfo->mappingPropertyToColumn[$entityInfo->getIdProperty()->getName()], $update->createNamedParameter($property->getValue($entity))));
 				// don't update the id
 				continue;
 			}
@@ -156,15 +161,14 @@ class EntityManager {
 					continue;
 				}
 
-				/** @var JoinColumn $joinColumn */
 				$joinColumn = $propertyAttributes->joinColumn;
-				/** @var object $object */
+				/** @var object|null $targetEntity */
 				$targetEntity = $value;
 				$targetEntityInfo = $this->getEntityInfo($targetEntityClass);
 				if ($targetEntity === null) {
 					$update->set($joinColumn->name, $update->createNamedParameter(null));
 				} else {
-					$update->set($joinColumn->name, $update->createNamedParameter($targetEntityInfo->idProperty->getValue($targetEntity)));
+					$update->set($joinColumn->name, $update->createNamedParameter($targetEntityInfo->getIdProperty()->getValue($targetEntity)));
 				}
 
 				continue;
@@ -181,11 +185,11 @@ class EntityManager {
 	}
 
 	/**
-	 * @template T
+	 * @template T of object
 	 * @psalm-param T $entity
 	 */
 	public function delete(object $entity): void {
-		$entityClass = get_class($entity);
+		$entityClass = $entity::class;
 		$entityInfo = $this->getEntityInfo($entityClass);
 
 		$delete = $this->connection->getQueryBuilder();
@@ -195,6 +199,7 @@ class EntityManager {
 		foreach ($entityInfo->propertiesAttributes as $propertyAttributes) {
 			if ($propertyAttributes->id !== null && $propertyAttributes->column !== null) {
 				$property = $propertyAttributes->property;
+				/** @var int|string $value */
 				$value = $property->getValue($entity);
 
 				$delete->andWhere($delete->expr()->eq($propertyAttributes->column->name, $delete->createNamedParameter($value)));
@@ -208,11 +213,12 @@ class EntityManager {
 
 		try {
 			$delete->executeStatement();
-		} catch (Exception $e) {
-			if ($e->getReason() === Exception::REASON_FOREIGN_KEY_VIOLATION) {
-				throw new \LogicException($entityClass . ' cannot be deleted: another entity still references it. Delete the related entity first, or set onDelete: \'CASCADE\' on the owning JoinColumn.', 0, $e);
+		} catch (Exception $exception) {
+			if ($exception->getReason() === Exception::REASON_FOREIGN_KEY_VIOLATION) {
+				throw new \LogicException($entityClass . " cannot be deleted: another entity still references it. Delete the related entity first, or set onDelete: 'CASCADE' on the owning JoinColumn.", 0, $exception);
 			}
-			throw $e;
+
+			throw $exception;
 		}
 	}
 
@@ -222,14 +228,16 @@ class EntityManager {
 	 */
 	public function getParameterType(string $type, bool $isArray): string|int {
 		if ($isArray) {
+			/** @psalm-suppress DeprecatedConstant Types::JSON is only discouraged in WHERE clauses; mapping it is still supported. */
 			return match ($type) {
 				Types::INTEGER, Types::SMALLINT => IQueryBuilder::PARAM_INT_ARRAY,
 				Types::STRING => IQueryBuilder::PARAM_STR_ARRAY,
 				Types::JSON => IQueryBuilder::PARAM_JSON,
-				default => throw new \LogicException("Parameter type '$type' is not supported as an array."),
+				default => throw new \LogicException(sprintf("Parameter type '%s' is not supported as an array.", $type)),
 			};
 		}
 
+		/** @psalm-suppress DeprecatedConstant Types::JSON is only discouraged in WHERE clauses; mapping it is still supported. */
 		return match ($type) {
 			Types::INTEGER, Types::SMALLINT => IQueryBuilder::PARAM_INT,
 			Types::STRING => IQueryBuilder::PARAM_STR,
@@ -262,20 +270,21 @@ class EntityManager {
 
 			$this->createRelationColumn($propertyAttributes, $table, $schema);
 		}
-
-		$schema->getWrappedSchema()->toSql($this->connection->getDatabasePlatform());
 	}
 
+	/**
+	 * @param class-string $entityClass
+	 */
 	public function dropTable(string $entityClass, string $prefix): void {
 		$entityInfo = $this->getEntityInfo($entityClass);
 		$this->connection->dropTable($prefix . $entityInfo->tableName);
 	}
 
 	private function createProperty(PropertyAttributes $attributes, Table $table): void {
-		if ($attributes->column === null) {
+		if (!$attributes->column instanceof Column) {
 			return;
 		}
-		/** @var Column $columnAttribute */
+
 		$columnAttribute = $attributes->column;
 		$options = [
 			'notnull' => !$columnAttribute->nullable,
@@ -283,24 +292,26 @@ class EntityManager {
 		if ($columnAttribute->length !== null) {
 			$options['length'] = $columnAttribute->length;
 		}
+
 		if ($columnAttribute->default !== null) {
+			/** @psalm-suppress MixedAssignment default can be anything */
 			$options['default'] = $columnAttribute->default;
 		}
 
-		if ($attributes->id !== null && $attributes->id->generatorClass === null) {
+		if ($attributes->id instanceof Id && $attributes->id->generatorClass === null) {
 			$options['autoincrement'] = true;
 		}
 
 		$table->addColumn($columnAttribute->name, $columnAttribute->type, $options);
 
-		if ($attributes->id !== null) {
+		if ($attributes->id instanceof Id) {
 			$table->setPrimaryKey([$columnAttribute->name]);
 		}
 	}
 
 	private function createRelationColumn(PropertyAttributes $attributes, Table $table, SchemaWrapper $schema): void {
 		$targetEntityClass = $attributes->getOwningRelationTarget();
-		if ($attributes->joinColumn === null || $targetEntityClass === null) {
+		if (!$attributes->joinColumn instanceof JoinColumn || $targetEntityClass === null) {
 			return;
 		}
 
@@ -308,7 +319,7 @@ class EntityManager {
 			'notnull' => !$attributes->joinColumn->nullable,
 		]);
 
-		if ($attributes->oneToOne !== null) {
+		if ($attributes->oneToOne instanceof OneToOne) {
 			// Enforces the "one" in OneToOne; ManyToOne intentionally allows duplicates.
 			$table->addUniqueIndex([$attributes->joinColumn->name]);
 		}

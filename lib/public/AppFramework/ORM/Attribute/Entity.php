@@ -28,7 +28,7 @@ use OCP\AppFramework\Attribute\Consumable;
 final readonly class Entity {
 	/** @since 35.0.0 */
 	public function __construct(
-		/** @param non-empty-string $name The name of the table in the database. */
+		/** @var non-empty-string The name of the table in the database. */
 		public string $name,
 	) {
 	}

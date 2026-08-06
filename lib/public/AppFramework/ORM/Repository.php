@@ -25,7 +25,8 @@ use OCP\IDBConnection;
 class Repository {
 	/**
 	 * The class this repository holds.
-	 * @var class-string<T> $entityClass
+	 *
+	 * @var class-string
 	 * @since 35.0.0
 	 * @psalm-suppress InvalidConstantAssignmentValue
 	 */
@@ -34,8 +35,6 @@ class Repository {
 	/**
 	 * @param class-string<T>|null $entityClassOverride Only meant for generic, runtime-typed
 	 *                                                  repositories (e.g. EntityManager::getRepository()).
-	 *                                                  Hand-written subclasses should override the
-	 *                                                  `entityClass` constant instead and leave this null.
 	 * @throws \ReflectionException
 	 * @internal
 	 * @since 35.0.0
@@ -48,11 +47,9 @@ class Repository {
 	}
 
 	/**
-	 * @return class-string<T>
+	 * @return class-string
 	 */
 	private function getEntityClass(): string {
-		// static:: so a subclass's overridden constant is picked up rather than this base
-		// class's empty default.
 		return $this->entityClassOverride ?? static::entityClass;
 	}
 
@@ -64,13 +61,17 @@ class Repository {
 	 * Builds an entity from a flat row of its own scalar columns. OneToOne relations are
 	 * always left null here; resolving them is mapJoinedRowToEntity()'s job.
 	 *
-	 * @param class-string $entityClass
+	 * @template S of object
+	 * @param class-string<S> $entityClass
 	 * @param array<string, mixed> $row
+	 * @return S
 	 */
 	private function hydrateRow(string $entityClass, mixed $row): object {
 		$entityInfo = $this->entityManager->getEntityInfo($entityClass);
 
+		/** @psalm-suppress MixedMethodCall Entities are a contract of this ORM: every mapped entity class has a public no-argument constructor. */
 		$entity = new $entityClass();
+		/** @psalm-suppress MixedAssignment $value is a raw, untyped DB driver value. */
 		foreach ($row as $column => $value) {
 			$property = $entityInfo->mappingColumnToProperty[$column];
 			$type = $entityInfo->mappingColumnToTypes[$column];
@@ -79,51 +80,67 @@ class Repository {
 				if (is_resource($value)) {
 					$value = stream_get_contents($value);
 				}
+
 				$type = Types::STRING;
 			}
 
-			if ($column === $entityInfo->idProperty->getName()) {
-				/** @var list<\ReflectionAttribute<Id>> $ids */
-				$ids = $entityInfo->idProperty->getAttributes(Id::class, \ReflectionAttribute::IS_INSTANCEOF);
+			if ($column === $entityInfo->getIdProperty()->getName()) {
+				$ids = $entityInfo->getIdProperty()->getAttributes(Id::class, \ReflectionAttribute::IS_INSTANCEOF);
 				$id = array_shift($ids);
+				if ($id === null) {
+					throw new \LogicException('Unreachable: the id property is missing its #[Id] attribute.');
+				}
+
 				if ($id->newInstance()->generatorClass !== null) {
 					$entity->$property = (string)$value;
 					continue;
 				}
 			}
 
+			/** @psalm-suppress DeprecatedConstant Types::JSON is only discouraged in WHERE clauses; mapping it is still supported. */
+			/** @psalm-suppress MixedAssignment $value is a raw DB driver value; each branch below settype()s or reconstructs it. */
 			switch ($type) {
 				case Types::BIGINT:
 				case Types::SMALLINT:
-					settype($value, Types::INTEGER);
+					$value = (int)$value;
+					break;
+				case Types::FLOAT:
+					$value = (float)$value;
+					break;
+				case Types::BOOLEAN:
+					$value = (bool)$value;
 					break;
 				case Types::BINARY:
 				case Types::DECIMAL:
 				case Types::TEXT:
-					settype($value, Types::STRING);
+					$value = (string)$value;
 					break;
 				case Types::TIME:
 				case Types::DATE:
 				case Types::DATETIME:
 				case Types::DATETIME_TZ:
 					if (!$value instanceof \DateTime) {
-						$value = new \DateTime($value);
+						$value = new \DateTime((string)$value);
 					}
+
 					break;
 				case Types::TIME_IMMUTABLE:
 				case Types::DATE_IMMUTABLE:
 				case Types::DATETIME_IMMUTABLE:
 				case Types::DATETIME_TZ_IMMUTABLE:
 					if (!$value instanceof \DateTimeImmutable) {
-						$value = new \DateTimeImmutable($value);
+						$value = new \DateTimeImmutable((string)$value);
 					}
+
 					break;
 				case Types::JSON:
 					if (!is_array($value)) {
 						$value = json_decode((string)$value, true);
 					}
+
 					break;
 			}
+
 			$entity->$property = $value;
 		}
 
@@ -161,6 +178,11 @@ class Repository {
 
 			$owningTargetClass = $propertyAttributes->getOwningRelationTarget();
 			if ($owningTargetClass !== null) {
+				$joinColumn = $propertyAttributes->joinColumn;
+				if ($joinColumn === null) {
+					throw new \LogicException('Unreachable: owning relation without a JoinColumn');
+				}
+
 				// Owning side (OneToOne's invertedBy, or ManyToOne): the join column lives on our own table.
 				$targetEntityInfo = $this->entityManager->getEntityInfo($owningTargetClass);
 				$alias = 'r' . $index++;
@@ -169,8 +191,8 @@ class Repository {
 					$qb,
 					$alias,
 					$targetEntityInfo,
-					'e.' . $propertyAttributes->joinColumn->name,
-					$alias . '.' . $propertyAttributes->joinColumn->referencedColumnName,
+					'e.' . $joinColumn->name,
+					$alias . '.' . $joinColumn->referencedColumnName,
 				);
 
 				$relations[$alias] = ['attributes' => $propertyAttributes, 'entityInfo' => $targetEntityInfo];
@@ -189,7 +211,11 @@ class Repository {
 					}
 				}
 
-				if ($owningPropertyAttributes === null || $owningPropertyAttributes->joinColumn === null) {
+				if ($owningPropertyAttributes === null) {
+					continue;
+				}
+
+				if ($owningPropertyAttributes->joinColumn === null) {
 					continue;
 				}
 
@@ -226,13 +252,14 @@ class Repository {
 		$mainRow = [];
 		/** @var array<string, array<string, mixed>> $relationRows */
 		$relationRows = [];
+		/** @psalm-suppress MixedAssignment $value is a raw, untyped DB driver value. */
 		foreach ($row as $key => $value) {
 			if (str_starts_with($key, 'e_')) {
 				$mainRow[substr($key, 2)] = $value;
 				continue;
 			}
 
-			foreach ($relations as $alias => $relation) {
+			foreach (array_keys($relations) as $alias) {
 				$prefix = $alias . '_';
 				if (str_starts_with($key, $prefix)) {
 					$relationRows[$alias][substr($key, strlen($prefix))] = $value;
@@ -241,12 +268,13 @@ class Repository {
 			}
 		}
 
+		/** @var T $entity */
 		$entity = $this->hydrateRow($this->getEntityClass(), $mainRow);
 
 		foreach ($relations as $alias => $relation) {
 			$propertyName = $relation['attributes']->property->getName();
 			$targetEntityInfo = $relation['entityInfo'];
-			$idColumn = $targetEntityInfo->mappingPropertyToColumn[$targetEntityInfo->idProperty->getName()];
+			$idColumn = $targetEntityInfo->mappingPropertyToColumn[$targetEntityInfo->getIdProperty()->getName()];
 			$relationRow = $relationRows[$alias] ?? [];
 
 			if (($relationRow[$idColumn] ?? null) === null) {
@@ -277,7 +305,6 @@ class Repository {
 			}
 		}
 
-		/** @var T */
 		return $entity;
 	}
 
@@ -429,7 +456,7 @@ class Repository {
 	 * @param array<string, 'ASC'|'DESC'> $orderBy
 	 * @return array{0: IQueryBuilder, 1: array<string, array{attributes: PropertyAttributes, entityInfo: EntityInfo}>}
 	 */
-	private function getJoinedSelectQueryBuilder(array $criteria, ?array $orderBy = []): array {
+	private function getJoinedSelectQueryBuilder(array $criteria, array $orderBy = []): array {
 		$entityInfo = $this->entityManager->getEntityInfo($this->getEntityClass());
 		[$qb, $relations] = $this->buildJoinedSelectQuery($entityInfo);
 
@@ -446,6 +473,7 @@ class Repository {
 				$qb->andWhere($qb->expr()->eq('e.' . $column, $qb->createNamedParameter($value, $type)));
 			}
 		}
+
 		foreach ($orderBy as $field => $direction) {
 			$qb->addOrderBy($qb->createNamedParameter($field), $direction);
 		}
@@ -466,7 +494,6 @@ class Repository {
 	}
 
 	/**
-	 * @internal
 	 * @since 35.0.0
 	 */
 	public function getTableName(): string {

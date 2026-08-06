@@ -30,7 +30,7 @@ use OCP\Snowflake\ISnowflakeGenerator;
 final readonly class Id {
 	/** @since 35.0.0 */
 	public function __construct(
-		/** @param class-string<ISnowflakeGenerator> $generatorClass */
+		/** @var class-string<ISnowflakeGenerator>|null */
 		public ?string $generatorClass = null,
 	) {
 	}

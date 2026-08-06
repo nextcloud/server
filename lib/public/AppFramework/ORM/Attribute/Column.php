@@ -29,15 +29,15 @@ use OCP\DB\Types;
 final readonly class Column {
 	/** @since 35.0.0 */
 	public function __construct(
-		/** @param non-empty-string $name The name of the column in the database. */
+		/** @var non-empty-string The name of the column in the database. */
 		public string $name,
-		/** @param Types::* $type The type of the column in the database. */
+		/** @var Types::* The type of the column in the database. */
 		public string $type,
-		/** @param ?int $length The length of the column (relevant for Types::STRING) */
+		/** @var ?int The length of the column (relevant for Types::STRING) */
 		public ?int $length = null,
-		/** @param bool $nullable Whether the column is nullable in the database */
+		/** @var bool Whether the column is nullable in the database */
 		public bool $nullable = false,
-		/** @param mixed $default The default value for the column in the database. */
+		/** @var mixed The default value for the column in the database. */
 		public mixed $default = null,
 	) {
 	}
