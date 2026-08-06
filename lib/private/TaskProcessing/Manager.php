@@ -81,6 +81,7 @@ use OCP\TaskProcessing\TaskTypes\ContextAgentAudioInteraction;
 use OCP\TaskProcessing\TaskTypes\ContextAgentInteraction;
 use OCP\TaskProcessing\TaskTypes\ContextWrite;
 use OCP\TaskProcessing\TaskTypes\GenerateEmoji;
+use OCP\TaskProcessing\TaskTypes\ImageToImage;
 use OCP\TaskProcessing\TaskTypes\ImageToTextOpticalCharacterRecognition;
 use OCP\TaskProcessing\TaskTypes\MultimodalChatWithTools;
 use OCP\TaskProcessing\TaskTypes\MultimodalContextAgentInteraction;
@@ -713,6 +714,7 @@ class Manager implements IManager {
 			MultimodalContextAgentInteraction::ID => Server::get(MultimodalContextAgentInteraction::class),
 			AnalyzeImages::ID => Server::get(AnalyzeImages::class),
 			ImageToTextOpticalCharacterRecognition::ID => Server::get(ImageToTextOpticalCharacterRecognition::class),
+			ImageToImage::ID => Server::get(ImageToImage::class),
 		];
 
 		foreach ($context->getTaskProcessingTaskTypes() as $providerServiceRegistration) {
