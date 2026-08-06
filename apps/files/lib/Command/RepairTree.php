@@ -9,39 +9,34 @@ declare(strict_types=1);
 
 namespace OCA\Files\Command;
 
+use OCP\Console\Attribute\AsCommand;
+use OCP\Console\Attribute\Option;
+use OCP\Console\ExitCode;
+use OCP\Console\IOutput;
+use OCP\Console\Verbosity;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
-class RepairTree extends Command {
+#[AsCommand(
+	name: 'files:repair-tree',
+	description: 'Try and repair malformed filesystem tree structures (may be necessary to run multiple times for nested malformations)',
+)]
+class RepairTree {
 	public const CHUNK_SIZE = 200;
 
 	public function __construct(
-		protected IDBConnection $connection,
+		private readonly IDBConnection $connection,
 	) {
-		parent::__construct();
 	}
 
-	#[\Override]
-	protected function configure(): void {
-		$this
-			->setName('files:repair-tree')
-			->setDescription('Try and repair malformed filesystem tree structures (may be necessary to run multiple times for nested malformations)')
-			->addOption('dry-run')
-			->addOption('storage-id', 's', InputOption::VALUE_OPTIONAL, 'If set, only repair files within the given storage numeric ID', null)
-			->addOption('path', 'p', InputOption::VALUE_OPTIONAL, 'If set, only repair files within the given path', null);
-	}
-
-	#[\Override]
-	public function execute(InputInterface $input, OutputInterface $output): int {
-		$rows = $this->findBrokenTreeBits(
-			$input->getOption('storage-id'),
-			$input->getOption('path'),
-		);
-		$fix = !$input->getOption('dry-run');
+	public function __invoke(
+		IOutput $output,
+		#[Option] bool $dryRun = false,
+		#[Option(name: 'storage-id', description: 'If set, only repair files within the given storage numeric ID', shortcut: 's')] ?string $storageId = null,
+		#[Option(description: 'If set, only repair files within the given path', shortcut: 'p')] ?string $path = null,
+	): ExitCode {
+		$rows = $this->findBrokenTreeBits($storageId, $path);
+		$fix = !$dryRun;
 
 		$output->writeln('Found ' . count($rows) . ' file entries with an invalid path');
 
@@ -57,7 +52,7 @@ class RepairTree extends Command {
 			->where($query->expr()->eq('fileid', $query->createParameter('fileid')));
 
 		foreach ($rows as $row) {
-			$output->writeln("Path of file {$row['fileid']} is {$row['path']} but should be {$row['parent_path']}/{$row['name']} based on its parent", OutputInterface::VERBOSITY_VERBOSE);
+			$output->writeln("Path of file {$row['fileid']} is {$row['path']} but should be {$row['parent_path']}/{$row['name']} based on its parent", Verbosity::Verbose);
 
 			if ($fix) {
 				$fileId = $this->getFileId((int)$row['parent_storage'], $row['parent_path'] . '/' . $row['name']);
@@ -79,7 +74,7 @@ class RepairTree extends Command {
 			$this->connection->commit();
 		}
 
-		return self::SUCCESS;
+		return ExitCode::Success;
 	}
 
 	private function getFileId(int $storage, string $path) {
