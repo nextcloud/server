@@ -584,7 +584,7 @@ class Tags implements ITags {
 	 *
 	 * @param string $name The tag name.
 	 * @return integer|false The tag object's offset within the $this->tags
-	 *                      array or false if it doesn't exist.
+	 *                       array or false if it doesn't exist.
 	 */
 	private function getTagByName(string $name): int|false {
 		return $this->array_searchi($name, $this->tags);

@@ -10,31 +10,50 @@ namespace OCP\AppFramework\ORM;
 use OC\AppFramework\ORM\EntityInfo;
 use OC\AppFramework\ORM\EntityManager;
 use OC\AppFramework\ORM\PropertyAttributes;
-use OCP\AppFramework\ORM\Attribute\Id;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
+use OCP\AppFramework\ORM\Attribute\Id;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\Types;
 use OCP\IDBConnection;
-use OCP\Server;
 
 /**
  * @template T as object
  * @since 35.0.0
  */
 class Repository {
-	private readonly EntityManager $entityManager;
+	/**
+	 * The class this repository holds.
+	 * @var class-string<T> $entityClass
+	 * @since 35.0.0
+	 * @psalm-suppress InvalidConstantAssignmentValue
+	 */
+	public const string entityClass = '';
 
 	/**
-	 * @param class-string<T> $entityClass
+	 * @param class-string<T>|null $entityClassOverride Only meant for generic, runtime-typed
+	 *                                                  repositories (e.g. EntityManager::getRepository()).
+	 *                                                  Hand-written subclasses should override the
+	 *                                                  `entityClass` constant instead and leave this null.
 	 * @throws \ReflectionException
+	 * @internal
+	 * @since 35.0.0
 	 */
 	public function __construct(
 		protected readonly IDBConnection $connection,
-		protected readonly string $entityClass,
+		protected readonly EntityManager $entityManager,
+		private readonly ?string $entityClassOverride = null,
 	) {
-		$this->entityManager = Server::get(EntityManager::class);
+	}
+
+	/**
+	 * @return class-string<T>
+	 */
+	private function getEntityClass(): string {
+		// static:: so a subclass's overridden constant is picked up rather than this base
+		// class's empty default.
+		return $this->entityClassOverride ?? static::entityClass;
 	}
 
 	private function buildDebugMessage(string $msg, IQueryBuilder $sql): string {
@@ -222,7 +241,7 @@ class Repository {
 			}
 		}
 
-		$entity = $this->hydrateRow($this->entityClass, $mainRow);
+		$entity = $this->hydrateRow($this->getEntityClass(), $mainRow);
 
 		foreach ($relations as $alias => $relation) {
 			$propertyName = $relation['attributes']->property->getName();
@@ -239,7 +258,7 @@ class Repository {
 		}
 
 		// Safety net for a malformed mapping that never made it into $relations.
-		$entityInfo = $this->entityManager->getEntityInfo($this->entityClass);
+		$entityInfo = $this->entityManager->getEntityInfo($this->getEntityClass());
 		foreach ($entityInfo->propertiesAttributes as $propertyAttributes) {
 			if (!$propertyAttributes->isRelation()) {
 				continue;
@@ -310,6 +329,7 @@ class Repository {
 	 *
 	 * @psalm-param T $entity
 	 * @return T
+	 * @since 35.0.0
 	 */
 	public function insert(object $entity): object {
 		return $this->entityManager->insert($entity);
@@ -318,6 +338,7 @@ class Repository {
 	/**
 	 * @psalm-param T $entity
 	 * @return T
+	 * @since 35.0.0
 	 */
 	public function update(object $entity): object {
 		return $this->entityManager->update($entity);
@@ -325,6 +346,7 @@ class Repository {
 
 	/**
 	 * @psalm-param T $entity
+	 * @since 35.0.0
 	 */
 	public function delete(object $entity): void {
 		$this->entityManager->delete($entity);
@@ -336,6 +358,7 @@ class Repository {
 	 * @param array<string, int|float|string|null|\DateTime|list<int|float|string>> $criteria
 	 * @param array<string, 'ASC'|'DESC'> $orderBy
 	 * @return \Generator<T>
+	 * @since 35.0.0
 	 */
 	public function findBy(array $criteria, array $orderBy = [], ?int $limit = null, ?int $offset = null): \Generator {
 		[$qb, $relations] = $this->getJoinedSelectQueryBuilder($criteria, $orderBy);
@@ -355,9 +378,10 @@ class Repository {
 	 * @param array<string, int|float|string|null|\DateTime|list<int|float|string>> $criteria
 	 * @return int The number of rows deleted
 	 * @throws Exception
+	 * @since 35.0.0
 	 */
 	public function deleteBy(array $criteria, ?int $limit = null): int {
-		$entityInfo = $this->entityManager->getEntityInfo($this->entityClass);
+		$entityInfo = $this->entityManager->getEntityInfo($this->getEntityClass());
 
 		$qb = $this->connection->getQueryBuilder();
 		$qb->delete($entityInfo->tableName);
@@ -390,6 +414,7 @@ class Repository {
 	 * @param array<string, 'ASC'|'DESC'> $orderBy
 	 * @return T
 	 * @throws DoesNotExistException
+	 * @since 35.0.0
 	 */
 	public function findOneBy(array $criteria, array $orderBy = []): object {
 		[$qb, $relations] = $this->getJoinedSelectQueryBuilder($criteria, $orderBy);
@@ -405,7 +430,7 @@ class Repository {
 	 * @return array{0: IQueryBuilder, 1: array<string, array{attributes: PropertyAttributes, entityInfo: EntityInfo}>}
 	 */
 	private function getJoinedSelectQueryBuilder(array $criteria, ?array $orderBy = []): array {
-		$entityInfo = $this->entityManager->getEntityInfo($this->entityClass);
+		$entityInfo = $this->entityManager->getEntityInfo($this->getEntityClass());
 		[$qb, $relations] = $this->buildJoinedSelectQuery($entityInfo);
 
 		foreach ($criteria as $property => $value) {
@@ -431,16 +456,21 @@ class Repository {
 	/**
 	 * @return \Generator<T>
 	 * @throws Exception
+	 * @since 35.0.0
 	 */
 	public function yieldAll(): \Generator {
-		$entityInfo = $this->entityManager->getEntityInfo($this->entityClass);
+		$entityInfo = $this->entityManager->getEntityInfo($this->getEntityClass());
 		[$qb, $relations] = $this->buildJoinedSelectQuery($entityInfo);
 
 		return $this->yieldJoinedEntities($qb, $relations);
 	}
 
+	/**
+	 * @internal
+	 * @since 35.0.0
+	 */
 	public function getTableName(): string {
-		$entityInfo = $this->entityManager->getEntityInfo($this->entityClass);
+		$entityInfo = $this->entityManager->getEntityInfo($this->getEntityClass());
 		return $entityInfo->tableName;
 	}
 }

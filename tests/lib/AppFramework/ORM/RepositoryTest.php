@@ -55,28 +55,28 @@ class PrimaryKey {
 }
 
 #[Entity(name: 'repository_customer')]
- final class Customer {
-    #[Id]
-    #[Column(name: 'id', type: Types::BIGINT)]
-    public ?int $id = null;
+final class Customer {
+	#[Id]
+	#[Column(name: 'id', type: Types::BIGINT)]
+	public ?int $id = null;
 
-    #[OneToOne(targetEntity: Cart::class, mappedBy: 'customer')]
-    #[JoinColumn(name: 'cart_id', referencedColumnName: 'id')]
-    public Cart|null $cart = null;
+	#[OneToOne(targetEntity: Cart::class, mappedBy: 'customer')]
+	#[JoinColumn(name: 'cart_id', referencedColumnName: 'id')]
+	public ?Cart $cart = null;
 
 	#[Column(name: 'name', type: Types::STRING, nullable: false)]
 	public string $name;
 }
 
- #[Entity(name: 'repository_cart')]
- final class Cart {
-    #[Id]
-    #[Column(name: 'id', type: Types::BIGINT)]
-    public ?int $id = null;
+#[Entity(name: 'repository_cart')]
+final class Cart {
+	#[Id]
+	#[Column(name: 'id', type: Types::BIGINT)]
+	public ?int $id = null;
 
-    #[OneToOne(targetEntity: Customer::class, invertedBy: 'cart')]
-    #[JoinColumn(name: 'customer_id', referencedColumnName: 'id')]
-    public Customer|null $customer;
+	#[OneToOne(targetEntity: Customer::class, invertedBy: 'cart')]
+	#[JoinColumn(name: 'customer_id', referencedColumnName: 'id')]
+	public ?Customer $customer;
 }
 
 #[Entity(name: 'repository_invalid_owner')]
@@ -87,7 +87,7 @@ final class InvalidOwningOnDelete {
 
 	#[OneToOne(targetEntity: InvalidMappedByOnDelete::class, invertedBy: 'owner')]
 	#[JoinColumn(name: 'invalid_id', referencedColumnName: 'id')]
-	public InvalidMappedByOnDelete|null $invalid = null;
+	public ?InvalidMappedByOnDelete $invalid = null;
 }
 
 #[Entity(name: 'repository_invalid_mapped')]
@@ -98,7 +98,7 @@ final class InvalidMappedByOnDelete {
 
 	#[OneToOne(targetEntity: InvalidOwningOnDelete::class, mappedBy: 'invalid')]
 	#[JoinColumn(name: 'owner_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
-	public InvalidOwningOnDelete|null $owner = null;
+	public ?InvalidOwningOnDelete $owner = null;
 }
 
 #[Entity(name: 'repository_typo_owner')]
@@ -109,7 +109,7 @@ final class TypoOwning {
 
 	#[OneToOne(targetEntity: TypoTarget::class, invertedBy: 'owner')]
 	#[JoinColumn(name: 'target_id', referencedColumnName: 'id')]
-	public TypoTarget|null $target = null;
+	public ?TypoTarget $target = null;
 }
 
 #[Entity(name: 'repository_typo_target')]
@@ -120,7 +120,7 @@ final class TypoTarget {
 
 	#[OneToOne(targetEntity: TypoOwning::class, mappedBy: 'ownerTypo')]
 	#[JoinColumn(name: 'owner_id', referencedColumnName: 'id')]
-	public TypoOwning|null $owner = null;
+	public ?TypoOwning $owner = null;
 }
 
 #[Entity(name: 'repository_cascade_parent')]
@@ -134,7 +134,7 @@ final class CascadeParent {
 
 	#[OneToOne(targetEntity: CascadeChild::class, mappedBy: 'parent')]
 	#[JoinColumn(name: 'child_id', referencedColumnName: 'id')]
-	public CascadeChild|null $child = null;
+	public ?CascadeChild $child = null;
 }
 
 #[Entity(name: 'repository_cascade_child')]
@@ -145,7 +145,7 @@ final class CascadeChild {
 
 	#[OneToOne(targetEntity: CascadeParent::class, invertedBy: 'child')]
 	#[JoinColumn(name: 'parent_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
-	public CascadeParent|null $parent = null;
+	public ?CascadeParent $parent = null;
 }
 
 #[Entity(name: 'repository_merchant')]
@@ -166,7 +166,7 @@ final class Order {
 
 	#[ManyToOne(targetEntity: Merchant::class)]
 	#[JoinColumn(name: 'merchant_id', referencedColumnName: 'id', nullable: true)]
-	public Merchant|null $merchant = null;
+	public ?Merchant $merchant = null;
 }
 
 #[\PHPUnit\Framework\Attributes\Group('DB')]

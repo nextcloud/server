@@ -26,8 +26,9 @@ use OCP\AppFramework\Attribute\Consumable;
 #[Attribute(Attribute::TARGET_CLASS)]
 #[Consumable(since: '35.0.0')]
 final readonly class Entity {
+	/** @since 35.0.0 */
 	public function __construct(
-		/** @param non-empty-string $name */
+		/** @param non-empty-string $name The name of the table in the database. */
 		public string $name,
 	) {
 	}

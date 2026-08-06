@@ -124,7 +124,11 @@ class BackupCodeStorageTest extends TestCase {
 		$this->mapper->expects($this->once())
 			->method('findByUser')
 			->with($user)
-			->willReturnCallback(function () { if (false) { yield true; }});
+			->willReturnCallback(function () {
+				if (false) {
+					yield true;
+				}
+			});
 
 		$expected = [
 			'enabled' => false,
