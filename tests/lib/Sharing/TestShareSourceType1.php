@@ -13,12 +13,15 @@ use NCU\Sharing\Icon\ShareIconSVG;
 use NCU\Sharing\Icon\ShareIconURL;
 use NCU\Sharing\Source\IShareSourceType;
 use OCP\Interaction\InteractionResource;
+use OCP\IUser;
 use OCP\L10N\IFactory;
 
 class TestShareSourceType1 implements IShareSourceType {
 	public function __construct(
 		/** @var array<string, non-empty-string> $validSources */
 		private readonly array $validSources,
+		/** @var array<non-empty-string, non-empty-string[]> $validSources */
+		public array $userAccess = [],
 	) {
 	}
 
@@ -47,5 +50,11 @@ class TestShareSourceType1 implements IShareSourceType {
 	#[\Override]
 	public function getSourceInteractionResource(string $userId, string $source): InteractionResource {
 		return new TestInteractionResource($source);
+	}
+
+	#[\Override]
+	public function userHasDirectSharingAccessToSource(IUser $user, string $source): bool {
+		$userSources = $this->userAccess[$user->getUID()] ?? [];
+		return in_array($source, $userSources);
 	}
 }

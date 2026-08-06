@@ -85,6 +85,10 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 	protected IUser $user2;
 
+	protected TestShareSourceType1 $shareSourceType1;
+
+	protected TestShareSourceType2 $shareSourceType2;
+
 	#[\Override]
 	public function setUp(): void {
 		parent::setUp();
@@ -112,8 +116,11 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 		$this->registry = Server::get(ISharingRegistry::class);
 		$this->registry->clear();
-		$this->registry->registerSourceType(new TestShareSourceType1(['source1' => 'Source 1']));
-		$this->registry->registerSourceType(new TestShareSourceType2(['source2' => 'Source 2']));
+
+		$this->shareSourceType1 = new TestShareSourceType1(['source1' => 'Source 1']);
+		$this->registry->registerSourceType($this->shareSourceType1);
+		$this->shareSourceType2 = new TestShareSourceType2(['source2' => 'Source 2']);
+		$this->registry->registerSourceType($this->shareSourceType2);
 		$this->registry->registerRecipientType(new TestShareRecipientType1(
 			[
 				'recipient1' => 'Recipient 1',
@@ -4031,5 +4038,54 @@ abstract class AbstractSharingManagerTests extends TestCase {
 				],
 			],
 		], $share['recipients']);
+	}
+
+	public function testGetWithDirectAccess(): void {
+		$accessContext = new ShareAccessContext($this->owner);
+
+		$before = $this->manager->generateTimestamp();
+		$this->dbConnection->beginTransaction();
+		$id = $this->manager->createShare($accessContext);
+		$this->manager->addShareSource($accessContext, $id, new ShareSource(TestShareSourceType1::class, 'source1'));
+		$this->manager->addShareRecipient($accessContext, $id, new ShareRecipient(TestShareRecipientType1::class, 'recipient1', null));
+		$this->manager->getShare($accessContext, $id);
+		$this->manager->updateSharePermission($accessContext, $id, new SharePermission(TestSharePermissionType1::class, true));
+		$this->manager->updateShareState($accessContext, $id, ShareState::Active);
+
+		$this->shareSourceType1->userAccess[$this->owner->getUID()] = ['source1'];
+
+		$this->dbConnection->commit();
+
+		$after = $this->manager->generateTimestamp();
+
+		// user2 has no direct access, no shares
+		$shares = $this->getShares(new ShareAccessContext(currentUser: $this->user2), TestShareSourceType1::class, 'source1', null, null);
+		$this->assertCount(0, $shares);
+
+		// give user2 direct access, can see shares
+		$this->shareSourceType1->userAccess[$this->user2->getUID()] = ['source1'];
+		$shares = $this->getShares(new ShareAccessContext(currentUser: $this->user2), TestShareSourceType1::class, 'source1', null, null);
+
+		$this->assertCount(1, $shares);
+		$share = $shares[0];
+
+		$this->assertGreaterThanOrEqual($before, $share['last_updated']);
+		$this->assertLessThanOrEqual($after, $share['last_updated']);
+		$this->assertEquals([
+			'user_id' => 'owner',
+			'instance' => null,
+			'display_name' => 'Owner',
+			'icon' => [
+				'light' => 'http://localhost/index.php/avatar/owner/64',
+				'dark' => 'http://localhost/index.php/avatar/owner/64/dark',
+			],
+		], $share['owner']);
+
+		// add a source that user2 doesn't have access to, can't see share anymore
+		$this->dbConnection->beginTransaction();
+		$this->manager->addShareSource($accessContext, $id, new ShareSource(TestShareSourceType2::class, 'source2'));
+		$this->dbConnection->commit();
+		$shares = $this->getShares(new ShareAccessContext(currentUser: $this->user2), TestShareSourceType1::class, 'source1', null, null);
+		$this->assertCount(0, $shares);
 	}
 }
