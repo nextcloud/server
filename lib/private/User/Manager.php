@@ -110,19 +110,25 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @param string $uid
 	 * @return \OC\User\User|null Either the user or null if the specified user does not exist
 	 */
-	public function get($uid) {
+	public function get($uid, array $excludeBackends = []) {
 		if (is_null($uid) || $uid === '' || $uid === false) {
 			return null;
-		}
-		if (isset($this->cachedUsers[$uid])) { //check the cache first to prevent having to loop over the backends
-			return $this->cachedUsers[$uid];
 		}
 
 		if (strlen($uid) > IUser::MAX_USERID_LENGTH) {
 			return null;
 		}
 
+		// check the cache first to prevent having to loop over the backends
+		if ($excludeBackends === [] && isset($this->cachedUsers[$uid])) {
+			return $this->cachedUsers[$uid];
+		}
+
 		$cachedBackend = $this->cache->get(sha1($uid));
+		if (in_array($cachedBackend, $excludeBackends)) {
+			$cachedBackend = null;
+		}
+
 		if ($cachedBackend !== null && isset($this->backends[$cachedBackend])) {
 			// Cache has the info of the user backend already, so ask that one directly
 			$backend = $this->backends[$cachedBackend];
@@ -134,6 +140,10 @@ class Manager extends PublicEmitter implements IUserManager {
 		foreach ($this->backends as $i => $backend) {
 			if ($i === $cachedBackend) {
 				// Tried that one already
+				continue;
+			}
+
+			if (in_array($i, $excludeBackends)) {
 				continue;
 			}
 
@@ -180,12 +190,12 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @param string $uid
 	 * @return bool
 	 */
-	public function userExists($uid) {
+	public function userExists($uid, array $excludeBackends = []) {
 		if (strlen($uid) > IUser::MAX_USERID_LENGTH) {
 			return false;
 		}
 
-		$user = $this->get($uid);
+		$user = $this->get($uid, $excludeBackends);
 		return ($user !== null);
 	}
 
