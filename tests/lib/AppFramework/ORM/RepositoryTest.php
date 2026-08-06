@@ -38,13 +38,13 @@ class PrimaryKey {
 	#[Column(name: 'name', type: Types::STRING, nullable: true)]
 	public ?string $name = null;
 
-	#[Column(name: 'notNullable', type: Types::STRING, nullable: false)]
+	#[Column(name: 'not_nullable', type: Types::STRING, nullable: false)]
 	public string $notNullable;
 
 	#[Column(name: 'integer_val', type: Types::INTEGER, nullable: false)]
 	public int $integer;
 
-	#[Column(name: 'bigInt_val', type: Types::BIGINT, nullable: false)]
+	#[Column(name: 'bigint_val', type: Types::BIGINT, nullable: false)]
 	public int $bigInt;
 
 	#[Column(name: 'float_val', type: Types::FLOAT, nullable: false)]
@@ -544,8 +544,8 @@ class RepositoryTest extends TestCase {
 
 		$this->assertCount(0, $relations);
 		$this->assertEquals(
-			'SELECT e.id AS e_id, e.name AS e_name, e.notNullable AS e_notNullable, '
-				. 'e.integer_val AS e_integer_val, e.bigInt_val AS e_bigInt_val, '
+			'SELECT e.id AS e_id, e.name AS e_name, e.not_nullable AS e_not_nullable, '
+				. 'e.integer_val AS e_integer_val, e.bigint_val AS e_bigint_val, '
 				. 'e.float_val AS e_float_val, e.date_val AS e_date_val '
 				. 'FROM *PREFIX*repository_test_test2 e '
 				. 'WHERE e.id = :dcValue1',

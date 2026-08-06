@@ -70,11 +70,11 @@ final readonly class OneToOne {
 	 * @since 35.0.0
 	 */
 	public function __construct(
-		/** @param class-string<object> $targetEntity */
+		/** @var class-string */
 		public string $targetEntity,
-		/** @param ?non-empty-string $mappedBy */
+		/** @var ?non-empty-string */
 		public ?string $mappedBy = null,
-		/** @param ?non-empty-string $invertedBy */
+		/** @var ?non-empty-string */
 		public ?string $invertedBy = null,
 	) {
 	}

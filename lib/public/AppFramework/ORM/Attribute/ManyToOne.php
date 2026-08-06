@@ -44,7 +44,7 @@ use OCP\AppFramework\Attribute\Consumable;
 final readonly class ManyToOne {
 	/** @since 35.0.0 */
 	public function __construct(
-		/** @param class-string<object> $targetEntity */
+		/** @var class-string */
 		public string $targetEntity,
 	) {
 	}
