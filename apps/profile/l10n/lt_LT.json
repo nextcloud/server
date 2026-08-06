@@ -13,6 +13,7 @@
     "You have not added any info yet" : "Jūs kol kas nesate pridėję jokios informacijos",
     "{user} has not added any info yet" : "Naudotojas {user} kol kas nėra pridėjęs jokios informacijos",
     "Error opening the user status modal, try hard refreshing the page" : "Klaida atidarant naudotojo būsenos modalinį langą, pabandykite atnaujinti puslapį",
+    "Edit profile" : "Redaguoti profilį",
     "The headline and about sections will show up here" : "Čia bus rodoma santrauka apie jus bei kita su jumis susijusi informacija",
     "Profile not found" : "Profilis nerastas",
     "The profile does not exist or is unavailable." : "Profilis neegzistuoja arba yra nepasiekiamas.",
