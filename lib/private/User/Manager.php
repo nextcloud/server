@@ -13,6 +13,7 @@ use OC\Memcache\WithLocalCache;
 use OCP\Config\IUserConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Federation\ICloudId;
 use OCP\HintException;
 use OCP\ICache;
 use OCP\ICacheFactory;
@@ -882,5 +883,10 @@ class Manager extends PublicEmitter implements IUserManager {
 	#[\Override]
 	public function getAvatarUrlDark(string $userId, int $size): string {
 		return ($this->urlGenerator ??= Server::get(IURLGenerator::class))->linkToRouteAbsolute('core.avatar.getAvatarDark', ['userId' => $userId, 'size' => $size]);
+	}
+
+	#[\Override]
+	public function getFederatedUser(ICloudId $cloudId): IUser {
+		return new LazyUser($cloudId->getDisplayId(), $this, $cloudId->getDisplayId());
 	}
 }
