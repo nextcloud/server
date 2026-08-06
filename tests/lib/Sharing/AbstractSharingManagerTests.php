@@ -117,9 +117,14 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 	protected IUser $user2;
 
+	protected TestShareSourceType1 $shareSourceType1;
+
+	protected TestShareSourceType2 $shareSourceType2;
+
 	protected IFactory $l10nFactory;
 
-	private function parseTime(string $timestampMs): \DateTimeImmutable {
+	private function parseTime(mixed $timestampMs): \DateTimeImmutable {
+		$timestampMs = (int)$timestampMs;
 		$time = \DateTimeImmutable::createFromFormat('U.u', number_format((float)$timestampMs / 1000.0, 3, '.', ''));
 		if ($time === false) {
 			throw new \RuntimeException('invalid timestamp: ' . $timestampMs);
@@ -162,8 +167,11 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 		$this->registry = Server::get(ISharingRegistry::class);
 		$this->registry->clear();
-		$this->registry->registerSourceType(new TestShareSourceType1(['source1' => 'Source 1']));
-		$this->registry->registerSourceType(new TestShareSourceType2(['source2' => 'Source 2']));
+
+		$this->shareSourceType1 = new TestShareSourceType1(['source1' => 'Source 1']);
+		$this->registry->registerSourceType($this->shareSourceType1);
+		$this->shareSourceType2 = new TestShareSourceType2(['source2' => 'Source 2']);
+		$this->registry->registerSourceType($this->shareSourceType2);
 		$this->registry->registerRecipientType(new TestShareRecipientType1(
 			[
 				'recipient1' => 'Recipient 1',
@@ -4063,5 +4071,51 @@ abstract class AbstractSharingManagerTests extends TestCase {
 				],
 			],
 		], $formatted['recipients']);
+	}
+
+	public function testGetWithDirectAccess(): void {
+		$accessContext = new ShareAccessContext($this->owner);
+
+		$before = $this->manager->getTime();
+		$this->dbConnection->beginTransaction();
+		$share = $this->manager->createShare($accessContext);
+		$share = $this->manager->addShareSource($accessContext, $share, new ShareSource(TestShareSourceType1::class, 'source1'));
+		$share = $this->manager->addShareRecipient($accessContext, $share, new ShareRecipient(TestShareRecipientType1::class, 'recipient1', null));
+
+		$share = $this->manager->updateSharePermission($accessContext, $share, new SharePermission(TestSharePermissionType1::class, true));
+		$share = $this->manager->updateShareState($accessContext, $share, ShareState::Active);
+
+		$this->dbConnection->commit();
+
+		$after = $this->manager->getTime();
+
+		// user2 has no direct access, no shares
+		$formattedShares = $this->getShares(new ShareAccessContext(currentUser: $this->user2), TestShareSourceType1::class, 'source1', null, null);
+		$this->assertCount(0, $formattedShares);
+
+		// give user2 direct access, can see shares
+		$this->shareSourceType1->userAccess[$this->user2->getUID()] = ['source1'];
+		$formattedShares = $this->getShares(new ShareAccessContext(currentUser: $this->user2), TestShareSourceType1::class, 'source1', null, null);
+
+		$this->assertCount(1, $formattedShares);
+		$formatted = $formattedShares[0];
+
+		$this->assertDateBetween($before, $after, $this->parseTime($formatted['last_updated']));
+		$this->assertEquals([
+			'user_id' => 'owner',
+			'instance' => null,
+			'display_name' => 'Owner',
+			'icon' => [
+				'light' => 'http://localhost/index.php/avatar/owner/64',
+				'dark' => 'http://localhost/index.php/avatar/owner/64/dark',
+			],
+		], $formatted['owner']);
+
+		// add a source that user2 doesn't have access to, can't see share anymore
+		$this->dbConnection->beginTransaction();
+		$this->manager->addShareSource($accessContext, $share, new ShareSource(TestShareSourceType2::class, 'source2'));
+		$this->dbConnection->commit();
+		$formattedShares = $this->getShares(new ShareAccessContext(currentUser: $this->user2), TestShareSourceType1::class, 'source1', null, null);
+		$this->assertCount(0, $formattedShares);
 	}
 }
