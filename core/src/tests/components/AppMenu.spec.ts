@@ -153,6 +153,18 @@ describe('core: AppMenu', () => {
 		expect(moreApps).toBeTruthy()
 	})
 
+	it('marks the "More apps" tile active on the app management page', async () => {
+		auth.getCurrentUser.mockReturnValue({ isAdmin: true })
+		mockActiveSettingsEntry({ id: 'appstore', name: 'Apps', href: '/settings/apps' })
+		const wrapper = mount(AppMenu, { attachTo: document.body })
+		await openPopover(wrapper)
+
+		const moreApps = Array.from(document.querySelectorAll('[role="menuitem"]'))
+			.find((el) => el.textContent?.includes('More apps'))
+		expect(moreApps?.classList.contains('app-item--active')).toBe(true)
+		expect(moreApps?.getAttribute('aria-current')).toBe('page')
+	})
+
 	it('ArrowRight moves the roving stop from index 0 to index 1 and focuses it', async () => {
 		initialState.loadState.mockImplementation((_a: string, key: string, fallback: unknown) => key === 'apps' ? eightApps() : fallback)
 		const wrapper = mount(AppMenu, { attachTo: document.body })

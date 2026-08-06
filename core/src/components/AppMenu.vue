@@ -98,6 +98,9 @@ const SETTINGS_SECTION_IDS = new Set(['settings_personal', 'settings_administrat
 // action rather than a page name. The header shows where you are instead.
 const PROFILE_ID = 'profile'
 
+// Entry of the app management page, the target of the "More apps" tile.
+const APP_MANAGEMENT_ID = 'appstore'
+
 export default defineComponent({
 	name: 'AppMenu',
 
@@ -215,7 +218,9 @@ export default defineComponent({
 		// utility tile is "More apps" (local app management) for admins and
 		// "App store" (apps.nextcloud.com) for everyone else.
 		gridItems(): INavigationEntry[] {
-			const tail = this.isAdmin ? this.moreAppsEntry : this.appStoreEntry
+			const tail = this.isAdmin
+				? { ...this.moreAppsEntry, active: this.currentApp?.id === APP_MANAGEMENT_ID }
+				: this.appStoreEntry
 			return [...this.appList, tail]
 		},
 	},
