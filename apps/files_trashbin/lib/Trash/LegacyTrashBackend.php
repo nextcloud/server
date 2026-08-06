@@ -78,12 +78,14 @@ class LegacyTrashBackend implements ITrashBackend {
 
 	#[\Override]
 	public function restoreItem(ITrashItem $item) {
-		Trashbin::restore($item->getTrashPath(), $item->getName(), $item->isRootItem() ? $item->getDeletedTime() : null);
+		Trashbin::restore(ltrim($item->getTrashPath(), '/'), $item->getName(), $item->isRootItem() ? $item->getDeletedTime() : null);
 	}
 
 	#[\Override]
 	public function removeItem(ITrashItem $item) {
 		$user = $item->getUser();
+		$trashPath = ltrim($item->getTrashPath(), '/');
+
 		if ($item->isRootItem()) {
 			$path = substr($item->getTrashPath(), 0, -strlen('.d' . $item->getDeletedTime()));
 			Trashbin::delete($path, $user->getUID(), $item->getDeletedTime());
