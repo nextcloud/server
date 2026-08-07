@@ -37,18 +37,30 @@ class SetupTest extends \Test\TestCase {
 
 		$this->config = $this->createMock(SystemConfig::class);
 		$this->iniWrapper = $this->createMock(IniGetWrapper::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->random = $this->createMock(ISecureRandom::class);
+
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->l10nFactory = $this->createMock(IL10NFactory::class);
 		$this->l10nFactory->method('get')
 			->willReturn($this->l10n);
+
 		$this->defaults = $this->createMock(Defaults::class);
-		$this->logger = $this->createMock(LoggerInterface::class);
-		$this->random = $this->createMock(ISecureRandom::class);
 		$this->installer = $this->createMock(Installer::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
+
 		$this->setupClass = $this->getMockBuilder(Setup::class)
 			->onlyMethods(['class_exists', 'is_callable', 'getAvailableDbDriversForPdo'])
-			->setConstructorArgs([$this->config, $this->iniWrapper, $this->l10nFactory, $this->defaults, $this->logger, $this->random, $this->installer, $this->eventDispatcher])
+			->setConstructorArgs([
+				$this->config,
+				$this->iniWrapper,
+				$this->l10nFactory,
+				$this->defaults,
+				$this->logger,
+				$this->random,
+				$this->installer,
+				$this->eventDispatcher,
+			])
 			->getMock();
 	}
 
@@ -56,21 +68,19 @@ class SetupTest extends \Test\TestCase {
 		$this->config
 			->expects($this->once())
 			->method('getValue')
-			->willReturn(
-				['sqlite', 'mysql', 'oci']
-			);
+			->willReturn(['sqlite', 'mysql', 'oci']);
 		$this->setupClass
 			->expects($this->once())
 			->method('is_callable')
+			->with('oci_connect')
 			->willReturn(false);
 		$this->setupClass
-			->expects($this->any())
+			->expects($this->exactly(2))
 			->method('getAvailableDbDriversForPdo')
 			->willReturn(['sqlite']);
+
 		$result = $this->setupClass->getSupportedDatabases();
-		$expectedResult = [
-			'sqlite' => 'SQLite'
-		];
+		$expectedResult = ['sqlite' => 'SQLite'];
 
 		$this->assertSame($expectedResult, $result);
 	}
@@ -79,17 +89,17 @@ class SetupTest extends \Test\TestCase {
 		$this->config
 			->expects($this->once())
 			->method('getValue')
-			->willReturn(
-				['sqlite', 'mysql', 'oci', 'pgsql']
-			);
+			->willReturn(['sqlite', 'mysql', 'oci', 'pgsql']);
 		$this->setupClass
-			->expects($this->any())
+			->expects($this->once())
 			->method('is_callable')
+			->with('oci_connect')
 			->willReturn(false);
 		$this->setupClass
-			->expects($this->any())
+			->expects($this->exactly(3))
 			->method('getAvailableDbDriversForPdo')
 			->willReturn([]);
+
 		$result = $this->setupClass->getSupportedDatabases();
 
 		$this->assertSame([], $result);
@@ -99,17 +109,17 @@ class SetupTest extends \Test\TestCase {
 		$this->config
 			->expects($this->once())
 			->method('getValue')
-			->willReturn(
-				['sqlite', 'mysql', 'pgsql', 'oci']
-			);
+			->willReturn(['sqlite', 'mysql', 'pgsql', 'oci']);
 		$this->setupClass
-			->expects($this->any())
+			->expects($this->once())
 			->method('is_callable')
+			->with('oci_connect')
 			->willReturn(true);
 		$this->setupClass
-			->expects($this->any())
+			->expects($this->exactly(3))
 			->method('getAvailableDbDriversForPdo')
 			->willReturn(['sqlite', 'mysql', 'pgsql']);
+
 		$result = $this->setupClass->getSupportedDatabases();
 		$expectedResult = [
 			'sqlite' => 'SQLite',
@@ -117,7 +127,51 @@ class SetupTest extends \Test\TestCase {
 			'pgsql' => 'PostgreSQL',
 			'oci' => 'Oracle'
 		];
+
 		$this->assertSame($expectedResult, $result);
+	}
+
+	public function testGetSupportedDatabasesAllowsAllKnownDatabasesWithoutConfiguration(): void {
+		$this->config
+			->expects($this->never())
+			->method('getValue');
+		$this->setupClass
+			->expects($this->once())
+			->method('is_callable')
+			->with('oci_connect')
+			->willReturn(true);
+		$this->setupClass
+			->expects($this->exactly(3))
+			->method('getAvailableDbDriversForPdo')
+			->willReturn(['sqlite', 'mysql', 'pgsql']);
+
+		$result = $this->setupClass->getSupportedDatabases(true);
+
+		$this->assertSame([
+			'sqlite' => 'SQLite',
+			'mysql' => 'MySQL/MariaDB',
+			'pgsql' => 'PostgreSQL',
+			'oci' => 'Oracle',
+		], $result);
+	}
+
+	public function testGetSupportedDatabasesIgnoresUnknownConfiguredDatabases(): void {
+		$this->config
+			->expects($this->once())
+			->method('getValue')
+			->with('supportedDatabases', ['sqlite', 'mysql', 'pgsql'])
+			->willReturn(['unknown', 'sqlite']);
+		$this->setupClass
+			->expects($this->never())
+			->method('is_callable');
+		$this->setupClass
+			->expects($this->once())
+			->method('getAvailableDbDriversForPdo')
+			->willReturn(['sqlite']);
+
+		$result = $this->setupClass->getSupportedDatabases();
+
+		$this->assertSame(['sqlite' => 'SQLite'], $result);
 	}
 
 	public function testGetSupportedDatabaseException(): void {
@@ -128,7 +182,35 @@ class SetupTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getValue')
 			->willReturn('NotAnArray');
+
 		$this->setupClass->getSupportedDatabases();
+	}
+
+	public function testGetAvailableDbDriversForPdoWhenPdoIsUnavailable(): void {
+		$setup = $this->getMockBuilder(Setup::class)
+			->onlyMethods(['class_exists'])
+			->setConstructorArgs([
+				$this->config,
+				$this->iniWrapper,
+				$this->l10nFactory,
+				$this->defaults,
+				$this->logger,
+				$this->random,
+				$this->installer,
+				$this->eventDispatcher,
+			])
+			->getMock();
+
+		$setup
+			->expects($this->once())
+			->method('class_exists')
+			->with(\PDO::class)
+			->willReturn(false);
+
+		$this->assertSame(
+			[],
+			self::invokePrivate($setup, 'getAvailableDbDriversForPdo'),
+		);
 	}
 
 	/**
@@ -171,6 +253,37 @@ class SetupTest extends \Test\TestCase {
 			'https://192.168.10.10' => ['https://192.168.10.10', ''],
 			'invalid' => ['invalid', false],
 			'empty' => ['', false],
+		];
+	}
+
+	/**
+	 * @param string $configuredWebRoot
+	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('findWebRootWebProvider')]
+	public function testFindWebRootWeb(string $configuredWebRoot, string $expected): void {
+		$cliState = \OC::$CLI;
+		$webRootState = \OC::$WEBROOT;
+		$this->config
+			->expects($this->never())
+			->method('getValue');
+
+		try {
+			\OC::$CLI = false;
+			\OC::$WEBROOT = $configuredWebRoot;
+
+			$webRoot = self::invokePrivate($this->setupClass, 'findWebRoot', [$this->config]);
+		} finally {
+			\OC::$CLI = $cliState;
+			\OC::$WEBROOT = $webRootState;
+		}
+
+		$this->assertSame($expected, $webRoot);
+	}
+
+	public static function findWebRootWebProvider(): array {
+		return [
+			'configured web root' => ['/nextcloud', '/nextcloud'],
+			'empty web root defaults to slash' => ['', '/'],
 		];
 	}
 }
