@@ -14,6 +14,7 @@ use OCA\DAV\CalDAV\CachedSubscriptionProvider;
 use OCA\DAV\CalDAV\CalendarManager;
 use OCA\DAV\CalDAV\CalendarProvider;
 use OCA\DAV\CalDAV\Federation\CalendarFederationProvider;
+use OCA\DAV\CalDAV\Federation\FederatedCalendarInviteNotifier;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\AudioProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\EmailProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\PushProvider;
@@ -216,6 +217,7 @@ class Application extends App implements IBootstrap {
 
 		$context->registerNotifierService(NotifierCalDAV::class);
 		$context->registerNotifierService(NotifierCardDAV::class);
+		$context->registerNotifierService(FederatedCalendarInviteNotifier::class);
 
 		$context->registerCalendarProvider(CalendarProvider::class);
 		$context->registerCalendarProvider(CachedSubscriptionProvider::class);

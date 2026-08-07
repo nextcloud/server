@@ -39,8 +39,13 @@ use Sabre\CalDAV\Xml\Property\SupportedCalendarComponentSet;
  * @method void setSharedByDisplayName(string $sharedByDisplayName)
  * @method string getComponents()
  * @method void setComponents(string $components)
+ * @method int getState()
+ * @method void setState(int $state)
  */
 class FederatedCalendarEntity extends Entity {
+	public const STATE_PENDING = 0;
+	public const STATE_ACCEPTED = 1;
+
 	protected string $principaluri = '';
 	protected string $uri = '';
 	protected string $displayName = '';
@@ -53,6 +58,7 @@ class FederatedCalendarEntity extends Entity {
 	protected string $sharedBy = '';
 	protected string $sharedByDisplayName = '';
 	protected string $components = '';
+	protected int $state = self::STATE_PENDING;
 
 	public function __construct() {
 		$this->addType('principaluri', Types::STRING);
@@ -67,6 +73,7 @@ class FederatedCalendarEntity extends Entity {
 		$this->addType('sharedBy', Types::STRING);
 		$this->addType('sharedByDisplayName', Types::STRING);
 		$this->addType('components', Types::STRING);
+		$this->addType('state', Types::INTEGER);
 	}
 
 	public function getSyncTokenForSabre(): string {

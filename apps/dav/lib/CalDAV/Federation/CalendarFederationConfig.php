@@ -41,4 +41,11 @@ class CalendarFederationConfig {
 		}
 		return $this->appConfig->getValueBool('files_sharing', 'incoming_server2server_share_enabled', true);
 	}
+
+	/**
+	 * Check if incoming shares from trusted servers are accepted automatically
+	 */
+	public function isTrustedShareAutoAcceptEnabled(): bool {
+		return $this->appConfig->getValueBool('files_sharing', 'federatedTrustedShareAutoAccept', true);
+	}
 }

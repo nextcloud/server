@@ -36,6 +36,7 @@ class CalendarFederationProvider implements ICloudFederationProvider {
 		private readonly CalendarFederationConfig $calendarFederationConfig,
 		private readonly IJobList $jobList,
 		private readonly ICloudIdManager $cloudIdManager,
+		private readonly FederatedCalendarInvitationService $invitationService,
 	) {
 	}
 
@@ -131,8 +132,8 @@ class CalendarFederationProvider implements ICloudFederationProvider {
 
 		$sharedWithPrincipal = 'principals/users/' . $share->getShareWith();
 
-		// Delete existing incoming federated share first
 		$calendar = $this->federatedCalendarMapper->findByUri($sharedWithPrincipal, $calendarUri);
+		$isNew = $calendar === null;
 
 		if ($calendar === null) {
 			$calendar = new FederatedCalendarEntity();
@@ -146,17 +147,34 @@ class CalendarFederationProvider implements ICloudFederationProvider {
 			$calendar->setSharedByDisplayName($share->getSharedByDisplayName());
 			$calendar->setPermissions($permissions);
 			$calendar->setComponents($components);
+			$calendar->setState(FederatedCalendarEntity::STATE_PENDING);
 			$calendar = $this->federatedCalendarMapper->insert($calendar);
 		} else {
 			$calendar->setToken($share->getShareSecret());
 			$calendar->setPermissions($permissions);
 			$calendar->setComponents($components);
+			if ($calendar->getState() === FederatedCalendarEntity::STATE_PENDING) {
+				// The open invitation shows the sharer's metadata, keep it
+				// fresh. Accepted calendars are not touched as the sharee owns
+				// the display name and color from that point on.
+				$calendar->setDisplayName($displayName);
+				$calendar->setColor($color);
+				$calendar->setSharedByDisplayName($share->getSharedByDisplayName());
+			}
 			$this->federatedCalendarMapper->update($calendar);
 		}
 
-		$this->jobList->add(FederatedCalendarSyncJob::class, [
-			FederatedCalendarSyncJob::ARGUMENT_ID => $calendar->getId(),
-		]);
+		if ($calendar->getState() === FederatedCalendarEntity::STATE_ACCEPTED) {
+			// Re-share of an already accepted calendar: just refresh the data
+			$this->jobList->add(FederatedCalendarSyncJob::class, [
+				FederatedCalendarSyncJob::ARGUMENT_ID => $calendar->getId(),
+			]);
+		} elseif ($this->invitationService->shouldAutoAccept($share->getOwner(), $calendar->getRemoteUrl())) {
+			$this->invitationService->accept($calendar);
+		} elseif ($isNew) {
+			// A re-shared pending calendar keeps its original invitation
+			$this->invitationService->notifyAboutNewShare($calendar);
+		}
 
 		return (string)$calendar->getId();
 	}
@@ -212,6 +230,7 @@ class CalendarFederationProvider implements ICloudFederationProvider {
 			$calendarUrl,
 			'principals/users/' . $shareWith->getUser(),
 			$sharedSecret,
+			FederatedCalendarEntity::STATE_ACCEPTED,
 		);
 		if (empty($calendars)) {
 			throw new ShareNotFound('Calendar is not shared with the sharee');
