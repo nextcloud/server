@@ -14,6 +14,7 @@ import debounce from 'debounce'
 import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActions from '@nextcloud/vue/components/NcActions'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcHeaderMenu from '@nextcloud/vue/components/NcHeaderMenu'
@@ -22,6 +23,12 @@ import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 import ContactMenuEntry from '../components/ContactsMenu/ContactMenuEntry.vue'
 import logger from '../logger.js'
+
+interface IPreviewUser {
+	uid: string
+	fullName: string
+	isUser: boolean
+}
 
 const storage = getBuilder('core:contacts')
 	.persist(true)
@@ -42,15 +49,13 @@ const hasError = ref(false)
 const searchTerm = ref('')
 
 const teams = ref<ITeam[]>([])
-const selectedTeam = ref<string>('$_all_$')
+const storedTeam = storage.getItem('core:contacts:team')
+const selectedTeam = ref<string>(storedTeam ? JSON.parse(storedTeam) : '$_all_$')
 const selectedTeamName = computed(() => teams.value.find((t) => t.teamId === selectedTeam.value)?.displayName)
+const previewUsers = ref<IPreviewUser[]>([])
+const showAvatarStack = computed(() => previewUsers.value.length >= 2)
 
 onMounted(async () => {
-	const team = storage.getItem('core:contacts:team')
-	if (team) {
-		selectedTeam.value = JSON.parse(team)
-	}
-
 	if (userTeams.length === 0) {
 		try {
 			const { data } = await axios.get<ITeam[]>(generateUrl('/contactsmenu/teams'))
@@ -65,7 +70,28 @@ onMounted(async () => {
 watch(selectedTeam, () => {
 	storage.setItem('core:contacts:team', JSON.stringify(selectedTeam.value))
 	getContacts(searchTerm.value)
+	loadPreviewAvatars()
 })
+
+/**
+ * Load avatars for the People menu header trigger
+ */
+async function loadPreviewAvatars() {
+	try {
+		const { data } = await axios.get<IPreviewUser[]>(generateUrl('/contactsmenu/preview-avatars'), {
+			params: {
+				teamId: selectedTeam.value !== '$_all_$' ? selectedTeam.value : undefined,
+			},
+		})
+		previewUsers.value = data
+	} catch (error) {
+		logger.error('could not load preview avatars', { error })
+		previewUsers.value = []
+	}
+}
+
+// Seeded selectedTeam above so this runs once on mount with the correct team
+loadPreviewAvatars()
 
 /**
  * Load contacts when opening the menu
@@ -145,11 +171,32 @@ const userTeams: ITeam[] = []
 	<NcHeaderMenu
 		id="contactsmenu"
 		class="contactsmenu"
+		:class="{ 'contactsmenu--avatar-stack': showAvatarStack }"
 		:aria-label="t('core', 'Search contacts')"
 		exclude-click-outside-selectors=".v-popper__popper"
 		@open="onOpened">
 		<template #trigger>
-			<NcIconSvgWrapper class="contactsmenu__trigger-icon" :path="mdiContacts" />
+			<span
+				v-if="showAvatarStack"
+				class="contactsmenu__trigger-avatars"
+				aria-hidden="true">
+				<NcAvatar
+					v-for="(previewUser, index) in previewUsers"
+					:key="previewUser.isUser ? previewUser.uid : `${previewUser.fullName}-${index}`"
+					class="contactsmenu__trigger-avatars__avatar"
+					:style="{ zIndex: previewUsers.length - index }"
+					:user="previewUser.isUser ? previewUser.uid : undefined"
+					:is-no-user="!previewUser.isUser"
+					:display-name="previewUser.fullName"
+					:size="32"
+					disable-menu
+					disable-tooltip
+					hide-status />
+			</span>
+			<NcIconSvgWrapper
+				v-else
+				class="contactsmenu__trigger-icon"
+				:path="mdiContacts" />
 		</template>
 		<div class="contactsmenu__menu">
 			<div class="contactsmenu__menu__search-container">
@@ -242,10 +289,64 @@ const userTeams: ITeam[] = []
 
 <style lang="scss" scoped>
 .contactsmenu {
-	overflow-y: hidden;
+	margin-inline-end: calc(2 * var(--default-grid-baseline));
+
+	:deep(.header-menu__trigger) {
+		// NcHeaderMenu applies --header-menu-icon-mask (vertical alpha fade) to
+		// .button-vue__icon:not(:has(svg)). Avatars need the full face visible.
+		.button-vue__icon:has(.contactsmenu__trigger-avatars) {
+			mask: none !important;
+		}
+	}
+
+	&--avatar-stack {
+		width: fit-content !important;
+		min-width: var(--header-height);
+		overflow: visible;
+		flex-shrink: 0;
+
+		:deep(.header-menu__trigger) {
+			width: fit-content !important;
+			min-width: var(--header-height);
+			max-width: none;
+			overflow: visible !important;
+			padding-inline: var(--default-grid-baseline);
+
+			.button-vue__wrapper {
+				width: auto;
+				justify-content: center;
+			}
+
+			.button-vue__icon {
+				width: auto !important;
+				min-width: 0;
+				max-width: none;
+				height: auto;
+				min-height: 0;
+				overflow: visible;
+			}
+		}
+	}
 
 	&__trigger-icon {
 		color: var(--color-background-plain-text) !important;
+	}
+
+	&__trigger-avatars {
+		display: flex;
+		align-items: center;
+		pointer-events: none;
+
+		&__avatar {
+			box-sizing: content-box;
+			flex-shrink: 0;
+			border: 2px solid var(--color-background-plain);
+			margin-inline-start: -12px;
+
+			&:first-child {
+				margin-inline-start: 0;
+			}
+		}
 	}
 
 	&__menu {
