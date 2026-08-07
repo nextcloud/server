@@ -4,7 +4,7 @@
  */
 import { shallowMount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 // @nextcloud/vue's Window._nc_focus_trap augmentation is not in this test's program,
 // so reach the shared trap stack through a cast. onEscapeKey only compares identity,
@@ -44,11 +44,13 @@ vi.mock('../../logger.js', () => ({
 }))
 
 import UnifiedSearchModal from '../../components/UnifiedSearch/UnifiedSearchModal.vue'
+import { isCategoryVisible } from '../../services/UnifiedSearchController.ts'
 
 let searchSpy: ReturnType<typeof vi.fn>
 let loadMoreSpy: ReturnType<typeof vi.fn>
 let resetSpy: ReturnType<typeof vi.fn>
 let searchStates: ReturnType<typeof ref>
+let revealOrderOverride: ReturnType<typeof ref>
 
 // VTU v1 (the legacy Vue 2.7 project) has no flushPromises export; drain the
 // microtask + timer queue so resolved provider fetches and their .then run.
@@ -73,12 +75,22 @@ beforeEach(() => {
 	searchSpy = vi.fn()
 	loadMoreSpy = vi.fn()
 	searchStates = ref({})
+	// The controller derives the reveal order from what is visible, and when every category
+	// arrives in priority order that is simply the snapshot's key order. Mirror that here,
+	// through the controller's own predicate so the double can't drift from it, and tests
+	// that do not care about order need no extra setup. The ones that do set
+	// revealOrderOverride to make display order diverge from priority order.
+	revealOrderOverride = ref(null)
+	const revealOrder = computed(() => revealOrderOverride.value ?? Object.entries(searchStates.value)
+		.filter(([, state]) => isCategoryVisible(state))
+		.map(([category]) => category))
 	// Faithful stand-in for the composable's reset: like the real one, it empties
 	// the reactive snapshot the modal renders from.
 	resetSpy = vi.fn(() => {
 		searchStates.value = {}
+		revealOrderOverride.value = null
 	})
-	composable.api = { searchStates, search: searchSpy, loadMore: loadMoreSpy, reset: resetSpy }
+	composable.api = { searchStates, revealOrder, search: searchSpy, loadMore: loadMoreSpy, reset: resetSpy }
 })
 afterEach(() => vi.clearAllMocks())
 
@@ -128,12 +140,13 @@ describe('UnifiedSearchModal controller wiring', () => {
 			{ id: 'talk', name: 'Talk', order: 1 },
 			{ id: 'deck', name: 'Deck', order: 2 },
 		]
+		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
 		searchStates.value = {
 			files: loaded([{ resourceUrl: '/a' }]),
 			talk: { status: 'blocked', entries: [{ resourceUrl: '/b' }], cursor: null, hasMore: false, loadMoreFailed: false },
 			deck: loaded([]),
 		}
-		wrapper.vm.searchQuery = 'query'
 		await wrapper.vm.$nextTick()
 
 		// files: loaded + non-empty -> shown. talk: blocked -> withheld. deck: empty -> dropped.
@@ -144,12 +157,13 @@ describe('UnifiedSearchModal controller wiring', () => {
 	it('keeps a paging category on screen while its next page loads', async () => {
 		const wrapper = factory()
 		wrapper.vm.providers = [{ id: 'files', name: 'Files', order: 0 }]
+		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
 		// loadMore keeps page 1 visible but flips the category to 'loading' for the
 		// paging spinner. The group (and its rows) must not disappear during the refetch.
 		searchStates.value = {
 			files: { status: 'loading', entries: [{ resourceUrl: '/a' }], cursor: 'cursor-1', hasMore: true, loadMoreFailed: false },
 		}
-		wrapper.vm.searchQuery = 'query'
 		await wrapper.vm.$nextTick()
 
 		// The already-loaded row stays on screen while the next page loads.
@@ -256,9 +270,10 @@ describe('UnifiedSearchModal controller wiring', () => {
 		const wrapper = factory()
 		wrapper.vm.providers = [{ id: 'files', name: 'Files', order: 0 }]
 		wrapper.vm.minSearchLength = 3
+		wrapper.vm.searchQuery = 'ab'
+		await wrapper.vm.$nextTick()
 		// A search started for a longer query is still loading when the query shrinks.
 		searchStates.value = { files: { status: 'loading', entries: [], cursor: null, hasMore: false, loadMoreFailed: false } }
-		wrapper.vm.searchQuery = 'ab'
 		await wrapper.vm.$nextTick()
 
 		expect(wrapper.vm.searching).toBe(true)
@@ -291,14 +306,17 @@ describe('UnifiedSearchModal reset on close', () => {
 	it('clears the controller results when the modal closes, so nothing stale renders on the next open', async () => {
 		const wrapper = factory() // starts open
 		wrapper.vm.providers = [{ id: 'files', name: 'Files', order: 0 }]
+		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
 		// A previous search left results in the still-mounted controller.
 		searchStates.value = { files: loaded([{ resourceUrl: '/a' }]) }
-		wrapper.vm.searchQuery = 'query'
 		await wrapper.vm.$nextTick()
 		expect(wrapper.vm.results).toHaveLength(1)
 
 		// Closing must reset the controller (the modal never unmounts, so dispose never
 		// runs). The next open then starts empty instead of flashing the old results.
+		// Cleared first: query changes reset too, so only the close counts here.
+		resetSpy.mockClear()
 		await wrapper.setProps({ open: false })
 
 		expect(resetSpy).toHaveBeenCalledOnce()
@@ -491,10 +509,13 @@ describe('UnifiedSearchModal keyboard selection', () => {
 	/**
 	 * Seed the modal with one provider and the given rows, then let it settle.
 	 */
+	// Query first, then results: a query change blanks the panel, so seeding before it would
+	// just be wiped. This is the real order of events too.
 	async function withRows(wrapper: ReturnType<typeof factory>, rows: unknown[]) {
 		wrapper.vm.providers = [{ id: 'files', name: 'Files', order: 0 }]
-		searchStates.value = { files: loaded(rows) }
 		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
+		searchStates.value = { files: loaded(rows) }
 		await wrapper.vm.$nextTick()
 	}
 
@@ -545,11 +566,12 @@ describe('UnifiedSearchModal keyboard selection', () => {
 			{ id: 'files', name: 'Files', order: 0 },
 			{ id: 'talk', name: 'Talk', order: 1 },
 		]
+		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
 		searchStates.value = {
 			files: loaded([{ resourceUrl: '/a' }]),
 			talk: loaded([{ resourceUrl: '/b' }]),
 		}
-		wrapper.vm.searchQuery = 'query'
 		await wrapper.vm.$nextTick()
 
 		// From the auto-selected first row (files-0), the next move crosses into the next group.
@@ -603,8 +625,9 @@ describe('UnifiedSearchModal keyboard selection', () => {
 			{ id: 'files', name: 'Files', order: 0 },
 			{ id: 'talk', name: 'Talk', order: 1 },
 		]
-		searchStates.value = { files: loaded([{ resourceUrl: '/a' }, { resourceUrl: '/b' }]) }
 		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
+		searchStates.value = { files: loaded([{ resourceUrl: '/a' }, { resourceUrl: '/b' }]) }
 		await wrapper.vm.$nextTick()
 		wrapper.vm.moveActive('next') // 0 → 1
 		expect(wrapper.vm.activeDescendantId).toBe('unified-search-result-files-1')
@@ -667,15 +690,16 @@ describe('UnifiedSearchModal keyboard selection', () => {
 			{ id: 'files', name: 'Files', order: 0, filters: { since: true, until: true } },
 			{ id: 'talk', name: 'Talk', order: 1 },
 		]
-		searchStates.value = {
-			files: loaded([{ resourceUrl: '/f1' }]),
-			talk: loaded([{ resourceUrl: '/t1' }]),
-		}
 		// An active date filter splits the incompatible provider (talk) into the
 		// partial-matches section, exercising the filtered-then-unfiltered concat.
 		wrapper.vm.dateFilter = { id: 'date', type: 'date', text: '', startFrom: new Date('2026-01-01'), endAt: new Date('2026-02-01') }
 		wrapper.vm.filters = [wrapper.vm.dateFilter]
 		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
+		searchStates.value = {
+			files: loaded([{ resourceUrl: '/f1' }]),
+			talk: loaded([{ resourceUrl: '/t1' }]),
+		}
 		await wrapper.vm.$nextTick()
 
 		expect(wrapper.vm.navigableRows.map((row: { id: string }) => row.id)).toEqual([
@@ -744,8 +768,9 @@ describe('UnifiedSearchModal live region', () => {
 		const wrapper = factory()
 		wrapper.vm.providers = [{ id: 'files', name: 'Files', order: 0 }]
 		wrapper.vm.initialized = true
-		searchStates.value = { files: { status: 'loading', entries: [], cursor: null, hasMore: false, loadMoreFailed: false } }
 		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
+		searchStates.value = { files: { status: 'loading', entries: [], cursor: null, hasMore: false, loadMoreFailed: false } }
 		await wrapper.vm.$nextTick()
 
 		expect(wrapper.vm.liveMessage).toContain('Searching')
@@ -852,8 +877,9 @@ describe('UnifiedSearchModal result presentation', () => {
 	async function withGroup(wrapper: ReturnType<typeof factory>, id: string, entries: unknown[], hasMore = false) {
 		wrapper.vm.providers = [{ id, name: 'Files', order: 0 }]
 		wrapper.vm.initialized = true
-		searchStates.value = { [id]: loaded(entries, hasMore) }
 		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
+		searchStates.value = { [id]: loaded(entries, hasMore) }
 		await wrapper.vm.$nextTick()
 	}
 
@@ -1099,8 +1125,9 @@ describe('UnifiedSearchModal loading state', () => {
 		const wrapper = factory()
 		wrapper.vm.providers = [{ id: 'files', name: 'Files', order: 0 }]
 		wrapper.vm.initialized = true
-		searchStates.value = { files: loadingState }
 		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
+		searchStates.value = { files: loadingState }
 		await wrapper.vm.$nextTick()
 		// The debounce fires and dispatches the real search, clearing the pending flag; from
 		// here the controller's loading state alone drives busy.
@@ -1149,8 +1176,9 @@ describe('UnifiedSearchModal loading state', () => {
 		const wrapper = factory()
 		wrapper.vm.providers = [{ id: 'files', name: 'Files', order: 0 }]
 		wrapper.vm.initialized = true
-		searchStates.value = { files: loadingState }
 		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
+		searchStates.value = { files: loadingState }
 		await wrapper.vm.$nextTick()
 		// The debounce fires and dispatches; the pending flag clears and the loading category
 		// alone keeps it busy.
@@ -1168,10 +1196,108 @@ describe('UnifiedSearchModal loading state', () => {
 		const wrapper = factory()
 		wrapper.vm.providers = [{ id: 'files', name: 'Files', order: 0 }]
 		wrapper.vm.initialized = true
-		searchStates.value = { files: loadingState }
 		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
+		searchStates.value = { files: loadingState }
 		await wrapper.vm.$nextTick()
 
 		expect(wrapper.findComponent({ name: 'NcLoadingIcon' }).exists()).toBe(true)
+	})
+})
+
+describe('UnifiedSearchModal reveal order', () => {
+	const providers = [
+		{ id: 'files', name: 'Files', order: 0 },
+		{ id: 'talk', name: 'Talk', order: 1 },
+		{ id: 'deck', name: 'Deck', order: 2 },
+	]
+
+	/**
+	 * Mount with three loaded categories and an explicit display order.
+	 */
+	async function withRevealOrder(order: string[]) {
+		const wrapper = factory()
+		wrapper.vm.providers = providers
+		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
+		searchStates.value = {
+			files: loaded([{ resourceUrl: '/files' }]),
+			talk: loaded([{ resourceUrl: '/talk' }]),
+			deck: loaded([{ resourceUrl: '/deck' }]),
+		}
+		revealOrderOverride.value = order
+		await wrapper.vm.$nextTick()
+		return wrapper
+	}
+
+	it('renders groups and navigable rows in reveal order rather than priority order', async () => {
+		// files has top priority but was slow, so it was revealed last.
+		const wrapper = await withRevealOrder(['talk', 'deck', 'files'])
+
+		const titles = wrapper.findAll('.result-title').wrappers.map((w) => w.text())
+		expect(titles).toEqual(['Talk', 'Deck', 'Files'])
+		// navigableRows must agree with the DOM, or aria-activedescendant names a row
+		// somewhere other than where the highlight is.
+		expect(wrapper.vm.navigableRows.map((row) => row.resourceUrl)).toEqual(['/talk', '/deck', '/files'])
+	})
+
+	it('withholds a category that has results but has not been revealed', async () => {
+		// deck is loaded and non-empty but still blocked behind a slower category, so the
+		// controller keeps it out of the order and the modal must not second-guess that.
+		const wrapper = await withRevealOrder(['files', 'talk'])
+
+		const titles = wrapper.findAll('.result-title').wrappers.map((w) => w.text())
+		expect(titles).toEqual(['Files', 'Talk'])
+	})
+})
+
+describe('UnifiedSearchModal clearing on change', () => {
+	/**
+	 * Mount with one settled result on screen, ready for a change to blank it.
+	 */
+	async function withResultsOnScreen() {
+		const wrapper = factory()
+		wrapper.vm.providers = [{ id: 'files', name: 'Files', order: 0 }]
+		wrapper.vm.initialized = true
+		wrapper.vm.searchQuery = 'query'
+		await flushPromises()
+		searchStates.value = { files: loaded([{ resourceUrl: '/a' }]) }
+		await flushPromises()
+		expect(wrapper.findAllComponents({ name: 'SearchResult' })).toHaveLength(1)
+		resetSpy.mockClear()
+		return wrapper
+	}
+
+	it('hides the previous results on the keystroke, not when the debounce fires', async () => {
+		const wrapper = await withResultsOnScreen()
+
+		// Waiting for the debounce would leave the old query's results up for another 300ms,
+		// and they would then shift as the new ones land.
+		wrapper.vm.searchQuery = 'querying'
+		await flushPromises()
+
+		expect(resetSpy).toHaveBeenCalled()
+		expect(wrapper.findAllComponents({ name: 'SearchResult' })).toHaveLength(0)
+	})
+
+	it('hides the previous results when a filter changes', async () => {
+		const wrapper = await withResultsOnScreen()
+
+		wrapper.vm.updateDateFilter()
+		await flushPromises()
+
+		expect(resetSpy).toHaveBeenCalled()
+		expect(wrapper.findAllComponents({ name: 'SearchResult' })).toHaveLength(0)
+	})
+
+	it('does not flash the empty state while the debounce is pending', async () => {
+		const wrapper = await withResultsOnScreen()
+
+		wrapper.vm.searchQuery = 'querying'
+		await flushPromises()
+
+		// Blank because a search is coming, not because the search found nothing.
+		expect(wrapper.vm.showEmptyContentInfo).toBe(false)
+		expect(wrapper.vm.isBusy).toBe(true)
 	})
 })

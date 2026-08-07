@@ -13,9 +13,12 @@ import { UnifiedSearchController } from '../services/UnifiedSearchController.ts'
  */
 export function useUnifiedSearch() {
 	const searchStates = shallowRef<Record<string, CategorySearchState>>({})
+	const revealOrder = shallowRef<string[]>([])
 
 	const controller = new UnifiedSearchController((states) => {
+		// Both assigned here, never separately: the view reads one against the other.
 		searchStates.value = states
+		revealOrder.value = controller.getRevealOrder()
 	})
 
 	onUnmounted(() => {
@@ -24,6 +27,7 @@ export function useUnifiedSearch() {
 
 	return {
 		searchStates,
+		revealOrder,
 		search: controller.search.bind(controller),
 		loadMore: controller.loadMore.bind(controller),
 		reset: controller.reset.bind(controller),
