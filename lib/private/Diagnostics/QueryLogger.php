@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -13,14 +14,18 @@ use OCP\Cache\CappedMemoryCache;
 use OCP\Diagnostics\IQueryLogger;
 
 class QueryLogger implements IQueryLogger {
+	/**
+	 * Module needs to be activated by some app, e.g. profiler
+	 */
+	private bool $activated = false;
+
 	protected int $index = 0;
+
 	protected ?Query $activeQuery = null;
+
 	/** @var CappedMemoryCache<Query> */
 	protected CappedMemoryCache $queries;
 
-	/**
-	 * QueryLogger constructor.
-	 */
 	public function __construct(SystemConfig $config) {
 		if ($config->getValue('debug', false)) {
 			// In debug mode, module is being activated by default
@@ -29,34 +34,19 @@ class QueryLogger implements IQueryLogger {
 		$this->queries = new CappedMemoryCache(1024);
 	}
 
-	/**
-	 * @var bool - Module needs to be activated by some app
-	 */
-	private $activated = false;
-
-	/**
-	 * @inheritdoc
-	 */
 	#[\Override]
-	public function startQuery($sql, ?array $params = null, ?array $types = null) {
+	public function startQuery(string $sql, ?array $params = null, ?array $types = null): void {
 		if ($this->activated) {
-			$this->activeQuery = new Query($sql, $params, microtime(true), $this->getStack());
+			$this->activeQuery = new Query($sql, $params, $types, microtime(true), $this->getStack());
 		}
 	}
 
-	private function getStack() {
-		$stack = debug_backtrace();
-		array_shift($stack);
-		array_shift($stack);
-		array_shift($stack);
-		return $stack;
+	private function getStack(): array {
+		return debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	#[\Override]
-	public function stopQuery() {
+	public function stopQuery(): void {
 		if ($this->activated && $this->activeQuery) {
 			$this->activeQuery->end(microtime(true));
 			$this->queries[(string)$this->index] = $this->activeQuery;
@@ -65,19 +55,13 @@ class QueryLogger implements IQueryLogger {
 		}
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	#[\Override]
-	public function getQueries() {
+	public function getQueries(): array {
 		return $this->queries->getData();
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	#[\Override]
-	public function activate() {
+	public function activate(): void {
 		$this->activated = true;
 	}
 }

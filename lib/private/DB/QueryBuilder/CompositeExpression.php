@@ -43,7 +43,6 @@ class CompositeExpression implements ICompositeExpression, \Countable {
 		}
 
 		$this->parts[] = $part;
-
 		return $this;
 	}
 

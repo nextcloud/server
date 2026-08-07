@@ -284,6 +284,7 @@ interface IDBConnection {
 	 * @param int $type Type of the parameter.
 	 * @return mixed The quoted parameter.
 	 * @since 8.0.0
+	 * @deprecated 30.0.0 Only strings are supported as database type in the end and the $type parameter is ignored going forward
 	 */
 	public function quote($input, $type = IQueryBuilder::PARAM_STR);
 
@@ -293,7 +294,7 @@ interface IDBConnection {
 	 *
 	 * @return \Doctrine\DBAL\Platforms\AbstractPlatform The database platform.
 	 * @since 8.0.0
-	 * @deprecated 30.0.0 Please use {@see self::getDatabaseProvider()} and compare to self::PLATFORM_* constants
+	 * @deprecated 35.0.0 Use {@see getDatabaseProvider()} instead
 	 */
 	public function getDatabasePlatform();
 

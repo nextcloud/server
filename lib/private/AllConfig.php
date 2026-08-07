@@ -9,10 +9,13 @@
 namespace OC;
 
 use OC\Config\UserConfig;
+use OCP\Cache\CappedMemoryCache;
 use OCP\Config\Exceptions\TypeConflictException;
 use OCP\Config\IUserConfig;
 use OCP\Config\ValueType;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\PreConditionNotMetException;
 use OCP\Server;
 
@@ -369,6 +372,46 @@ class AllConfig implements IConfig {
 		/** @var list<string> $result */
 		$result = iterator_to_array(Server::get(IUserConfig::class)->searchUsersByValueString($appName, $key, $value));
 		return $result;
+	}
+
+	/**
+	 * Determines the users that have the given value set for a specific app-key-pair
+	 *
+	 * @param string $appName the app to get the user for
+	 * @param string $key the key to get the user for
+	 * @param string $value the value to get the user for
+	 * @return array of user IDs
+	 */
+	public function getUsersForUserValueCaseInsensitive($appName, $key, $value) {
+		// TODO - FIXME
+		$this->fixDIInit();
+
+		if ($appName === 'settings' && $key === 'email') {
+			// Email address is always stored lowercase in the database
+			return $this->getUsersForUserValue($appName, $key, strtolower($value));
+		}
+
+		$qb = $this->connection->getQueryBuilder();
+		$configValueColumn = ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_ORACLE)
+			? $qb->expr()->castColumn('configvalue', IQueryBuilder::PARAM_STR)
+			: 'configvalue';
+
+		$result = $qb->select('userid')
+			->from('preferences')
+			->where($qb->expr()->eq('appid', $qb->createNamedParameter($appName, IQueryBuilder::PARAM_STR)))
+			->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter($key, IQueryBuilder::PARAM_STR)))
+			->andWhere($qb->expr()->eq(
+				$qb->func()->lower($configValueColumn),
+				$qb->createNamedParameter(strtolower($value), IQueryBuilder::PARAM_STR))
+			)->orderBy('userid')
+			->executeQuery();
+
+		$userIDs = [];
+		while ($row = $result->fetch()) {
+			$userIDs[] = $row['userid'];
+		}
+
+		return $userIDs;
 	}
 
 	public function getSystemConfig() {

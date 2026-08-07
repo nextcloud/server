@@ -9,19 +9,20 @@ declare(strict_types=1);
 
 namespace OC\DB;
 
-use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Cache\QueryCacheProfile;
 use Doctrine\DBAL\Configuration;
+use Doctrine\DBAL\ConnectionException;
 use Doctrine\DBAL\Connections\PrimaryReadReplicaConnection;
 use Doctrine\DBAL\Driver;
 use Doctrine\DBAL\Driver\ServerInfoAwareConnection;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Exception\ConnectionLost;
+use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Platforms\MariaDBPlatform;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
-use Doctrine\DBAL\Platforms\SqlitePlatform;
+use Doctrine\DBAL\Platforms\SQLitePlatform;
 use Doctrine\DBAL\Result;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Statement;
@@ -39,6 +40,7 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\ITypedQueryBuilder;
 use OCP\DB\QueryBuilder\Sharded\IShardMapper;
 use OCP\Diagnostics\IEventLogger;
+use OCP\Diagnostics\IQueryLogger;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ICacheFactory;
 use OCP\IConfig;
@@ -55,6 +57,8 @@ use function count;
 use function in_array;
 
 class Connection extends PrimaryReadReplicaConnection {
+	use TDoctrineParameterTypeMap;
+
 	protected string $tablePrefix;
 	protected Adapter $adapter;
 	private SystemConfig $systemConfig;
@@ -111,7 +115,6 @@ class Connection extends PrimaryReadReplicaConnection {
 		private array $params,
 		Driver $driver,
 		?Configuration $config = null,
-		?EventManager $eventManager = null,
 	) {
 		if (!isset($params['adapter'])) {
 			throw new \Exception('adapter not set');
@@ -122,7 +125,7 @@ class Connection extends PrimaryReadReplicaConnection {
 		/**
 		 * @psalm-suppress InternalMethod
 		 */
-		parent::__construct($params, $driver, $config, $eventManager);
+		parent::__construct($params, $driver, $config);
 		$this->adapter = new $params['adapter']($this);
 		$this->tablePrefix = $params['tablePrefix'];
 		$activityNotifier = $params['activity_notifier'] ?? null;
@@ -151,11 +154,8 @@ class Connection extends PrimaryReadReplicaConnection {
 		/** @var IProfiler */
 		$profiler = Server::get(IProfiler::class);
 		if ($profiler->isEnabled()) {
-			$this->dbDataCollector = new DbDataCollector($this);
+			$this->dbDataCollector = new DbDataCollector(Server::get(IQueryLogger::class));
 			$profiler->add($this->dbDataCollector);
-			$debugStack = new BacktraceDebugStack();
-			$this->dbDataCollector->setDebugStack($debugStack);
-			$this->_config->setSQLLogger($debugStack);
 		}
 
 		/** @var array<string, array{shards: array[], mapper: ?string, from_primary_key: ?int, from_shard_key: ?int}> $shardConfig */
@@ -213,7 +213,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	 * @throws Exception
 	 */
 	#[\Override]
-	public function connect($connectionName = null) {
+	public function connect(?string $connectionName = null): Driver\Connection {
 		try {
 			if ($this->_conn) {
 				$this->reconnectIfNeeded();
@@ -233,12 +233,12 @@ class Connection extends PrimaryReadReplicaConnection {
 			return $status;
 		} catch (Exception $e) {
 			// throw a new exception to prevent leaking info from the stacktrace
-			throw new Exception('Failed to connect to the database: ' . $e->getMessage(), $e->getCode());
+			throw new ConnectionException('Failed to connect to the database: ' . $e->getMessage(), $e->getCode());
 		}
 	}
 
 	#[\Override]
-	protected function performConnect(?string $connectionName = null): bool {
+	protected function performConnect(?string $connectionName = null): Driver\Connection {
 		if (($connectionName ?? 'replica') === 'replica'
 			&& count($this->params['replica']) === 1
 			&& $this->params['primary'] === $this->params['replica'][0]) {
@@ -297,25 +297,11 @@ class Connection extends PrimaryReadReplicaConnection {
 	 * @deprecated 8.0.0 please use $this->getQueryBuilder() instead
 	 */
 	#[\Override]
-	public function createQueryBuilder() {
+	public function createQueryBuilder(): \Doctrine\DBAL\Query\QueryBuilder {
 		$backtrace = $this->getCallerBacktrace();
 		$this->logger->debug('Doctrine QueryBuilder retrieved in {backtrace}', ['app' => 'core', 'backtrace' => $backtrace]);
 		$this->queriesBuilt++;
 		return parent::createQueryBuilder();
-	}
-
-	/**
-	 * Gets the ExpressionBuilder for the connection.
-	 *
-	 * @return \Doctrine\DBAL\Query\Expression\ExpressionBuilder
-	 * @deprecated 8.0.0 please use $this->getQueryBuilder()->expr() instead
-	 */
-	#[\Override]
-	public function getExpressionBuilder() {
-		$backtrace = $this->getCallerBacktrace();
-		$this->logger->debug('Doctrine ExpressionBuilder retrieved in {backtrace}', ['app' => 'core', 'backtrace' => $backtrace]);
-		$this->queriesBuilt++;
-		return parent::getExpressionBuilder();
 	}
 
 	/**
@@ -424,6 +410,7 @@ class Connection extends PrimaryReadReplicaConnection {
 		$sql = $this->finishQuery($sql);
 		$this->queriesExecuted++;
 		$this->logQueryToFile($sql, $params);
+		$types = array_map($this->convertParameterTypeToDoctrine(...), $types);
 		try {
 			return parent::executeQuery($sql, $params, $types, $qcp);
 		} catch (\Exception $e) {
@@ -460,7 +447,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	 * @param array $params The query parameters.
 	 * @param array $types The parameter types.
 	 *
-	 * @return int The number of affected rows.
+	 * @return int The number of affected rows, if the result is bigger than PHP_INT_MAX, PHP_INT_MAX is returned
 	 *
 	 * @throws \Doctrine\DBAL\Exception
 	 */
@@ -834,7 +821,7 @@ class Connection extends PrimaryReadReplicaConnection {
 		$platform = $this->getDatabasePlatform();
 		$config = Server::get(IConfig::class);
 		$dispatcher = Server::get(IEventDispatcher::class);
-		if ($platform instanceof SqlitePlatform) {
+		if ($platform instanceof SQLitePlatform) {
 			return new SQLiteMigrator($this, $config, $dispatcher);
 		} elseif ($platform instanceof OraclePlatform) {
 			return new OracleMigrator($this, $config, $dispatcher);
@@ -844,17 +831,17 @@ class Connection extends PrimaryReadReplicaConnection {
 	}
 
 	#[\Override]
-	public function beginTransaction() {
+	public function beginTransaction(): void {
 		if (!$this->inTransaction()) {
 			$this->transactionBacktrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 			$this->transactionActiveSince = microtime(true);
 		}
-		return parent::beginTransaction();
+		parent::beginTransaction();
 	}
 
 	#[\Override]
-	public function commit() {
-		$result = parent::commit();
+	public function commit(): void {
+		parent::commit();
 		if ($this->getTransactionNestingLevel() === 0) {
 			$timeTook = microtime(true) - $this->transactionActiveSince;
 			$this->transactionBacktrace = null;
@@ -876,12 +863,11 @@ class Connection extends PrimaryReadReplicaConnection {
 				);
 			}
 		}
-		return $result;
 	}
 
 	#[\Override]
-	public function rollBack() {
-		$result = parent::rollBack();
+	public function rollBack(): void {
+		parent::rollBack();
 		if ($this->getTransactionNestingLevel() === 0) {
 			$timeTook = microtime(true) - $this->transactionActiveSince;
 			$this->transactionBacktrace = null;
@@ -903,7 +889,6 @@ class Connection extends PrimaryReadReplicaConnection {
 				);
 			}
 		}
-		return $result;
 	}
 
 	private function reconnectIfNeeded(): void {
@@ -916,7 +901,7 @@ class Connection extends PrimaryReadReplicaConnection {
 		}
 
 		try {
-			$this->_conn->query($this->getDriver()->getDatabasePlatform()->getDummySelectSQL());
+			$this->_conn->query($this->getDatabasePlatform()->getDummySelectSQL());
 			$this->refreshLastConnectionCheck();
 		} catch (ConnectionLost|\Exception $e) {
 			$this->logger->warning('Exception during connectivity check, closing and reconnecting', ['exception' => $e]);

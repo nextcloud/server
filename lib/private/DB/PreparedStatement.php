@@ -9,12 +9,12 @@ declare(strict_types=1);
 
 namespace OC\DB;
 
-use Doctrine\DBAL\Exception;
-use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Statement;
 use OCP\DB\IPreparedStatement;
 use OCP\DB\IResult;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use PDO;
+use Psr\Log\LoggerInterface;
 
 /**
  * Adapts our public API to what doctrine/dbal exposed with 2.6
@@ -26,6 +26,8 @@ use PDO;
  * methods without much magic.
  */
 class PreparedStatement implements IPreparedStatement {
+	use TDoctrineParameterTypeMap;
+
 	/** @var Statement */
 	private $statement;
 
@@ -75,17 +77,32 @@ class PreparedStatement implements IPreparedStatement {
 
 	#[\Override]
 	public function bindValue($param, $value, $type = ParameterType::STRING): bool {
-		return $this->statement->bindValue($param, $value, $type);
+		$this->statement->bindValue($param, $value, $this->convertParameterTypeToDoctrine($type));
+		return true;
 	}
 
 	#[\Override]
-	public function bindParam($param, &$variable, $type = ParameterType::STRING, $length = null): bool {
-		return $this->statement->bindParam($param, $variable, $type, $length);
+	public function bindParam($param, &$variable, $type = IQueryBuilder::PARAM_STR, $length = null): bool {
+		if ($type !== IQueryBuilder::PARAM_STR) {
+			\OCP\Server::get(LoggerInterface::class)->warning('PreparedStatement::bindParam() is no longer supported. Use bindValue() instead.', ['exception' => new \BadMethodCallException('bindParam() is no longer supported')]);
+		}
+		$this->bindValue($param, $variable, $type);
+		return true;
 	}
 
 	#[\Override]
 	public function execute($params = null): IResult {
-		return ($this->result = new ResultAdapter($this->statement->execute($params ?? [])));
+		if ($params !== null) {
+			foreach ($params as $key => $param) {
+				if (is_int($key)) {
+					// Parameter count starts with 1
+					$this->bindValue($key + 1, $param);
+				} else {
+					$this->bindValue($key, $param);
+				}
+			}
+		}
+		return ($this->result = new ResultAdapter($this->statement->executeQuery()));
 	}
 
 	#[\Override]

@@ -26,24 +26,23 @@ interface IQueryBuilder {
 	/**
 	 * @since 9.0.0
 	 */
-	public const PARAM_NULL = ParameterType::NULL;
+	public const PARAM_NULL = 0; // Translates to ParameterType::NULL;
 	/**
 	 * @since 9.0.0
 	 */
-	public const PARAM_BOOL = Types::BOOLEAN;
+	public const PARAM_BOOL = 4; // Translates to ParameterType::BOOLEAN;
 	/**
 	 * @since 9.0.0
 	 */
-	public const PARAM_INT = ParameterType::INTEGER;
+	public const PARAM_INT = 1; // Translates to ParameterType::INTEGER;
 	/**
 	 * @since 9.0.0
 	 */
-	public const PARAM_STR = ParameterType::STRING;
+	public const PARAM_STR = 2; // Translates to ParameterType::STRING;
 	/**
 	 * @since 9.0.0
 	 */
-	public const PARAM_LOB = ParameterType::LARGE_OBJECT;
-
+	public const PARAM_LOB = 3; // Translates to ParameterType::LARGE_OBJECT;
 	/**
 	 * @since 9.0.0
 	 * @deprecated 31.0.0 - use PARAM_DATETIME_MUTABLE instead
@@ -108,11 +107,11 @@ interface IQueryBuilder {
 	/**
 	 * @since 9.0.0
 	 */
-	public const PARAM_INT_ARRAY = ArrayParameterType::INTEGER;
+	public const PARAM_INT_ARRAY = 100; // Translates to ArrayParameterType::INTEGER;
 	/**
 	 * @since 9.0.0
 	 */
-	public const PARAM_STR_ARRAY = ArrayParameterType::STRING;
+	public const PARAM_STR_ARRAY = 101; // Translates to ArrayParameterType::STRING;
 
 	/**
 	 * @since 24.0.0 Indicates how many rows can be deleted at once with MySQL
@@ -451,7 +450,7 @@ interface IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
-	 * @since 30.0.0 Alias is deprecated and will no longer be used with the next Doctrine/DBAL update
+	 * @since 35.0.0 Alias is no longer supported
 	 *
 	 * @psalm-taint-sink sql $delete
 	 */
@@ -474,7 +473,7 @@ interface IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
-	 * @since 30.0.0 Alias is deprecated and will no longer be used with the next Doctrine/DBAL update
+	 * @since 35.0.0 Alias is no longer supported
 	 *
 	 * @psalm-taint-sink sql $update
 	 */
@@ -888,8 +887,7 @@ interface IQueryBuilder {
 	 *
 	 * @return mixed
 	 * @since 8.2.0
-	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
-	 *  and we can not fix this in our wrapper. Please track the details you need, outside the object.
+	 * @deprecated 35.0.0 The function always throws an exception
 	 */
 	public function getQueryPart($queryPartName);
 
@@ -898,8 +896,7 @@ interface IQueryBuilder {
 	 *
 	 * @return array
 	 * @since 8.2.0
-	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
-	 *  and we can not fix this in our wrapper. Please track the details you need, outside the object.
+	 * @deprecated 35.0.0 The function always throws an exception
 	 */
 	public function getQueryParts();
 
@@ -910,8 +907,7 @@ interface IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
-	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
-	 * and we can not fix this in our wrapper. Please create a new IQueryBuilder instead.
+	 * @since 35.0.0 Only null and a list of 'where'|'having'|'groupBy'|'orderBy' is supported. Everything else will throw.
 	 */
 	public function resetQueryParts($queryPartNames = null);
 
@@ -922,8 +918,7 @@ interface IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
-	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
-	 *  and we can not fix this in our wrapper. Please create a new IQueryBuilder instead.
+	 * @since 35.0.0 Only 'where'|'having'|'groupBy'|'orderBy' are supported. Everything else will throw.
 	 */
 	public function resetQueryPart($queryPartName);
 

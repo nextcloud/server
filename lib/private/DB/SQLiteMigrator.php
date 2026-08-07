@@ -19,8 +19,8 @@ class SQLiteMigrator extends Migrator {
 		foreach ($targetSchema->getTables() as $table) {
 			foreach ($table->getColumns() as $column) {
 				// column comments are not supported on SQLite
-				if ($column->getComment() !== null) {
-					$column->setComment(null);
+				if ($column->getComment() !== '') {
+					$column->setComment('');
 				}
 			}
 		}

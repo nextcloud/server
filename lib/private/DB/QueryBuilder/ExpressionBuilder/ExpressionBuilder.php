@@ -55,9 +55,10 @@ class ExpressionBuilder implements IExpressionBuilder {
 	#[\Override]
 	public function andX(...$x): ICompositeExpression {
 		if (empty($x)) {
-			$this->logger->debug('Calling ' . IQueryBuilder::class . '::' . __FUNCTION__ . ' without parameters is deprecated and will throw soon.', ['exception' => new \Exception('No parameters in call to ' . __METHOD__)]);
+			throw new \Exception('No parameters in call to ' . __METHOD__);
 		}
-		return new CompositeExpression(CompositeExpression::TYPE_AND, $x);
+		$compositeExpression = call_user_func_array([$this->expressionBuilder, 'and'], $x);
+		return new CompositeExpression($compositeExpression->getType(), $x);
 	}
 
 	/**
@@ -77,9 +78,10 @@ class ExpressionBuilder implements IExpressionBuilder {
 	#[\Override]
 	public function orX(...$x): ICompositeExpression {
 		if (empty($x)) {
-			$this->logger->debug('Calling ' . IQueryBuilder::class . '::' . __FUNCTION__ . ' without parameters is deprecated and will throw soon.', ['exception' => new \Exception('No parameters in call to ' . __METHOD__)]);
+			throw new \Exception('No parameters in call to ' . __METHOD__);
 		}
-		return new CompositeExpression(CompositeExpression::TYPE_OR, $x);
+		$compositeExpression = call_user_func_array([$this->expressionBuilder, 'or'], $x);
+		return new CompositeExpression($compositeExpression->getType(), $x);
 	}
 
 	/**
@@ -295,7 +297,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 */
 	#[\Override]
 	public function iLike($x, $y, $type = null): string {
-		return $this->expressionBuilder->like($this->functionBuilder->lower($x), $this->functionBuilder->lower($y));
+		return $this->expressionBuilder->like((string) $this->functionBuilder->lower($x), (string) $this->functionBuilder->lower($y));
 	}
 
 	/**
@@ -405,7 +407,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	public function bitwiseAnd($x, int $y): IQueryFunction {
 		return new QueryFunction($this->connection->getDatabasePlatform()->getBitAndComparisonExpression(
 			$this->helper->quoteColumnName($x),
-			$y
+			(string) $y
 		));
 	}
 
@@ -421,7 +423,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	public function bitwiseOr($x, int $y): IQueryFunction {
 		return new QueryFunction($this->connection->getDatabasePlatform()->getBitOrComparisonExpression(
 			$this->helper->quoteColumnName($x),
-			$y
+			(string) $y
 		));
 	}
 
@@ -435,7 +437,10 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 */
 	#[\Override]
 	public function literal($input, $type = IQueryBuilder::PARAM_STR): ILiteral {
-		return new Literal($this->expressionBuilder->literal($input, $type));
+		if ($type !== IQueryBuilder::PARAM_STR) {
+			\OC::$server->getLogger()->debug('Parameter $type is no longer supported and the function only handles resulting database type string', ['exception' => new \InvalidArgumentException('$type parameter is no longer supported')]);
+		}
+		return new Literal($this->connection->getDatabasePlatform()->quoteStringLiteral((string) $input));
 	}
 
 	/**

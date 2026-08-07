@@ -120,9 +120,8 @@ interface IResult {
 	public function fetchColumn();
 
 	/**
-	 * @return int
-	 *
 	 * @since 21.0.0
+	 * @since 30.0.0 If the result is bigger than PHP_INT_MAX, PHP_INT_MAX is returned
 	 */
 	public function rowCount(): int;
 

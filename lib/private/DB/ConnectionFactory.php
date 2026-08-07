@@ -8,16 +8,20 @@
 
 namespace OC\DB;
 
-use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
-use Doctrine\DBAL\Event\Listeners\OracleSessionInit;
+use OC\DB\Logging\Middleware;
 use OC\DB\Middleware\ConnectionActivityMiddleware;
 use OC\DB\Middleware\UtcTimezoneMiddleware;
 use OC\DB\QueryBuilder\Sharded\AutoIncrementHandler;
 use OC\DB\QueryBuilder\Sharded\ShardConnectionManager;
+use OC\DB\Middlewares\SetTransactionIsolationLevel;
+use OC\DB\Middlewares\SQLiteCaseSensitiveLike;
+use OC\DB\Middlewares\SQLiteJournalMode;
 use OC\SystemConfig;
+use OCP\Diagnostics\IQueryLogger;
 use OCP\ICacheFactory;
+use OCP\Profiler\IProfiler;
 use OCP\Server;
 
 /**
@@ -120,45 +124,60 @@ class ConnectionFactory {
 	 */
 	public function getConnection(string $type, array $additionalConnectionParams): Connection {
 		$normalizedType = $this->normalizeType($type);
-		$eventManager = new EventManager();
-		$eventManager->addEventSubscriber(new SetTransactionIsolationLevel());
-		$connectionParams = $this->createConnectionParams('', $additionalConnectionParams, $type);
+		$additionalConnectionParams = array_merge($this->createConnectionParams(), $additionalConnectionParams);
+
+		$doctrineConfiguration = new Configuration();
+		$doctrineMiddlewares = $doctrineConfiguration->getMiddlewares();
+		/** @var IProfiler */
+		$profiler = Server::get(IProfiler::class);
+		if ($profiler->isEnabled()) {
+			$doctrineMiddlewares[] = new Middleware(Server::get(IQueryLogger::class));
+		}
+		$doctrineMiddlewares[] = new SetTransactionIsolationLevel();
+		$doctrineMiddlewares[] = new UtcTimezoneMiddleware();
+		$activityMiddleware = new ConnectionActivityMiddleware();
+		$doctrineMiddlewares[] = $activityMiddleware;
+
 		switch ($normalizedType) {
 			case 'pgsql':
 				// pg_connect used by Doctrine DBAL does not support URI notation (enclosed in brackets)
 				$matches = [];
-				if (preg_match('/^\[([^\]]+)\]$/', $connectionParams['host'], $matches)) {
+				if (preg_match('/^\[([^\]]+)\]$/', $additionalConnectionParams['host'], $matches)) {
 					// Host variable carries a port or socket.
-					$connectionParams['host'] = $matches[1];
+					$additionalConnectionParams['host'] = $matches[1];
 				}
 				break;
 
 			case 'oci':
-				$eventManager->addEventSubscriber(new OracleSessionInit);
-				$connectionParams = $this->forceConnectionStringOracle($connectionParams);
-				$connectionParams['primary'] = $this->forceConnectionStringOracle($connectionParams['primary']);
-				$connectionParams['replica'] = array_map([$this, 'forceConnectionStringOracle'], $connectionParams['replica']);
+				$additionalConnectionParams = $this->forceConnectionStringOracle($additionalConnectionParams);
+				$additionalConnectionParams['primary'] = $this->forceConnectionStringOracle($additionalConnectionParams['primary']);
+				$additionalConnectionParams['replica'] = array_map([$this, 'forceConnectionStringOracle'], $additionalConnectionParams['replica']);
 				break;
 
 			case 'sqlite3':
-				$journalMode = $connectionParams['sqlite.journal_mode'];
-				$connectionParams['platform'] = new OCSqlitePlatform();
-				$eventManager->addEventSubscriber(new SQLiteSessionInit(true, $journalMode));
+				$journalMode = $additionalConnectionParams['sqlite.journal_mode'];
+				$doctrineMiddlewares[] = new \Doctrine\DBAL\Driver\AbstractSQLiteDriver\Middleware\EnableForeignKeys();
+				$doctrineMiddlewares[] = new SQLiteCaseSensitiveLike();
+				SQLiteJournalMode::$journalMode = $additionalConnectionParams['sqlite.journal_mode'];
+				$doctrineMiddlewares[] = new SQLiteJournalMode();
 				break;
 		}
-		$configuration = new Configuration();
-		$activityMiddleware = new ConnectionActivityMiddleware();
-		$configuration->setMiddlewares([
-			new UtcTimezoneMiddleware(),
-			$activityMiddleware,
-		]);
-		$connectionParams['activity_notifier'] = $activityMiddleware->getNotifier();
+
+		$additionalConnectionParams['activity_notifier'] = $activityMiddleware->getNotifier();
+
+		$doctrineConfiguration->setMiddlewares($doctrineMiddlewares);
+
 		/** @var Connection $connection */
 		$connection = DriverManager::getConnection(
-			$connectionParams,
-			$configuration,
-			$eventManager
+			$additionalConnectionParams,
+			$doctrineConfiguration,
 		);
+
+		if ($normalizedType === 'sqlite3') {
+			$pdo = $connection->getNativeConnection();
+			$pdo->sqliteCreateFunction('md5', 'md5', 1);
+		}
+
 		return $connection;
 	}
 

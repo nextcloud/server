@@ -1,0 +1,189 @@
+diff --git a/lib/Trash/TrashBackend.php b/lib/Trash/TrashBackend.php
+index 5a959e5d0..04aa29602 100644
+--- a/lib/Trash/TrashBackend.php
++++ b/lib/Trash/TrashBackend.php
+@@ -67,6 +67,12 @@ public function listTrashRoot(IUser $user): array {
+ 		return $this->getTrashForFolders($user, $folders);
+ 	}
+
++	public function getTrashRootItem(IUser $user, string $name): ?ITrashItem {
++		$folders = $this->folderManager->getFoldersForUser($user);
++
++		return $this->getTrashItemForFolders($user, $folders, $name);
++	}
++
+ 	/**
+ 	 * @return list<ITrashItem>
+ 	 */
+@@ -476,8 +482,6 @@ private function getTrashForFolders(IUser $user, array $folders): array {
+ 			// we apply acl filtering later to get the correct permissions again
+ 			$trashFolder = $this->setupTrashFolder($folder);
+ 			$content = $trashFolder->getDirectoryListing();
+-			$userCanManageAcl = $this->folderManager->canManageACL($folder->id, $user, true);
+-			$this->aclManagerFactory->getACLManager($user)->preloadRulesForFolder($folder->storageId, $trashFolder->getId());
+
+ 			$itemsForFolder = array_map(function (Node $item) use ($user, $folder, $indexedRows) {
+ 				$pathParts = pathinfo($item->getName());
+@@ -504,32 +508,111 @@ private function getTrashForFolders(IUser $user, array $folders): array {
+ 			$itemsByOriginalLocation = array_combine($originalLocations, $itemsForFolder);
+
+ 			// perform per-item ACL checks if the user doesn't have manage permissions
+-			if ($folder->acl && !$userCanManageAcl) {
+-				$itemsForFolder = array_filter($itemsForFolder, function (GroupTrashItem $item) use ($itemsByOriginalLocation) {
++			if ($folder->acl) {
++				$userCanManageAcl = $this->folderManager->canManageACL($folder->id, $user, true);
++				if (!$userCanManageAcl) {
++					$this->aclManagerFactory->getACLManager($user)->preloadRulesForFolder($folder->storageId, $trashFolder->getId());
++
++					$itemsForFolder = array_filter($itemsForFolder, function (GroupTrashItem $item) use ($itemsByOriginalLocation): bool {
++						// if we for any reason lost track of the original location, hide the item for non-managers as a fail-safe
++						if ($item->getInternalOriginalLocation() === '') {
++							return false;
++						}
++
++						if (!$this->userHasAccessToItem($item)) {
++							return false;
++						}
++
++						// if a parent of the original location has also been deleted, we also need to check it based on the now-deleted parent path
++						foreach ($this->getDeletedParentOriginalPaths($item->getOriginalLocation(), $itemsByOriginalLocation) as $parentItem) {
++							$pathInsideParentItem = dirname(substr($item->getInternalOriginalLocation(), strlen($parentItem->getInternalOriginalLocation())));
++							if (!$this->userHasAccessToItem($parentItem, Constants::PERMISSION_READ, $pathInsideParentItem)) {
++								return false;
++							}
++						}
++
++						return true;
++					});
++				}
++			}
++			$items = array_merge($items, $itemsForFolder);
++		}
++
++		return $items;
++	}
++
++	/**
++	 * @param list<FolderDefinitionWithPermissions> $folders
++	 */
++	private function getTrashItemForFolders(IUser $user, array $folders, string $name): ?ITrashItem {
++		$folderIds = array_map(fn (FolderDefinitionWithPermissions $folder): int => $folder->id, $folders);
++		$strippedName = pathinfo($name, PATHINFO_FILENAME);
++		$rows = $this->trashManager->listTrashItemForFolders($folderIds, $strippedName);
++		$indexedRows = [];
++		foreach ($rows as $row) {
++			$key = $row['folder_id'] . '/' . $row['name'] . '/' . $row['deleted_time'];
++			$indexedRows[$key] = $row;
++		}
++
++		foreach ($folders as $folder) {
++			// note that we explicitly don't pass the user here, was we need to get all trash items,
++			// not only the trash items we have access to (so we can get their original paths)
++			// we apply acl filtering later to get the correct permissions again
++			$trashFolder = $this->setupTrashFolder($folder);
++			try {
++				$item = $trashFolder->get($name);
++			} catch (NotFoundException) {
++				continue;
++			}
++
++			$pathParts = pathinfo($item->getName());
++			$timestamp = (int)substr($pathParts['extension'] ?? '', 1);
++			$itemName = $pathParts['filename'];
++			$key = $folder->id . '/' . $itemName . '/' . $timestamp;
++
++			$originalLocation = $indexedRows[$key]['original_location'] ?? '';
++			$deletedBy = $indexedRows[$key]['deleted_by'] ?? '';
++
++			$trashItem = new GroupTrashItem(
++				$this,
++				$originalLocation,
++				$timestamp,
++				'/' . $folder->id . '/' . $item->getName(),
++				$item,
++				$user,
++				$folder->mountPoint,
++				$this->userManager->get($deletedBy),
++				$folder,
++			);
++			$originalLocation = $trashItem->getOriginalLocation();
++
++			// perform per-item ACL checks if the user doesn't have manage permissions
++			if ($folder->acl) {
++				$userCanManageAcl = $this->folderManager->canManageACL($folder->id, $user, true);
++				if (!$userCanManageAcl) {
++					$this->aclManagerFactory->getACLManager($user)->preloadRulesForFolder($folder->storageId, $trashFolder->getId());
+ 					// if we for any reason lost track of the original location, hide the item for non-managers as a fail-safe
+-					if ($item->getInternalOriginalLocation() === '') {
+-						return false;
++					if ($trashItem->getInternalOriginalLocation() === '') {
++						continue;
+ 					}
+
+-					if (!$this->userHasAccessToItem($item)) {
+-						return false;
++					if (!$this->userHasAccessToItem($trashItem)) {
++						continue;
+ 					}
+
+ 					// if a parent of the original location has also been deleted, we also need to check it based on the now-deleted parent path
+-					foreach ($this->getDeletedParentOriginalPaths($item->getOriginalLocation(), $itemsByOriginalLocation) as $parentItem) {
+-						$pathInsideParentItem = dirname(substr($item->getInternalOriginalLocation(), strlen($parentItem->getInternalOriginalLocation())));
++					foreach ($this->getDeletedParentOriginalPaths($trashItem->getOriginalLocation(), [$originalLocation => $trashItem]) as $parentItem) {
++						$pathInsideParentItem = dirname(substr($trashItem->getInternalOriginalLocation(), strlen($parentItem->getInternalOriginalLocation())));
+ 						if (!$this->userHasAccessToItem($parentItem, Constants::PERMISSION_READ, $pathInsideParentItem)) {
+-							return false;
++							continue 2;
+ 						}
+ 					}
+-
+-					return true;
+-				});
++				}
+ 			}
+-			$items = array_merge($items, $itemsForFolder);
++			return $trashItem;
+ 		}
+
+-		return $items;
++		return null;
+ 	}
+
+ 	/**
+diff --git a/lib/Trash/TrashManager.php b/lib/Trash/TrashManager.php
+index 71d511570..c3acacd5f 100644
+--- a/lib/Trash/TrashManager.php
++++ b/lib/Trash/TrashManager.php
+@@ -17,6 +17,32 @@ public function __construct(
+ 	) {
+ 	}
+
++	/**
++	 * @param int[] $folderIds
++	 * @return list<array{trash_id: int, name: string, deleted_time: int, original_location: string, folder_id: int, file_id: ?int, deleted_by: ?string}>
++	 */
++	public function listTrashItemForFolders(array $folderIds, string $name): array {
++		$query = $this->connection->getQueryBuilder();
++
++		$query->select(['trash_id', 'name', 'deleted_time', 'original_location', 'folder_id', 'file_id', 'deleted_by'])
++			->from('group_folders_trash')
++			->where($query->expr()->in('folder_id', $query->createNamedParameter($folderIds, IQueryBuilder::PARAM_INT_ARRAY)))
++			->andWhere($query->expr()->eq('name', $query->createNamedParameter($name)));
++
++		/** @var list<array{trash_id: int|string, name: string, deleted_time: int|string, original_location: string, folder_id: int|string, file_id: null|int|string, deleted_by: ?string}> $rows */
++		$rows = $query->executeQuery()->fetchAll();
++
++		return array_map(fn (array $row): array => [
++			'trash_id' => (int)$row['trash_id'],
++			'name' => $row['name'],
++			'deleted_time' => (int)$row['deleted_time'],
++			'original_location' => $row['original_location'],
++			'folder_id' => (int)$row['folder_id'],
++			'file_id' => $row['file_id'] !== null ? (int)$row['file_id'] : null,
++			'deleted_by' => $row['deleted_by'] ?? null,
++		], $rows);
++	}
++
+ 	/**
+ 	 * @param int[] $folderIds
+ 	 * @return list<array{trash_id: int, name: string, deleted_time: int, original_location: string, folder_id: int, file_id: ?int, deleted_by: ?string}>

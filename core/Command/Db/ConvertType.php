@@ -10,6 +10,7 @@ namespace OC\Core\Command\Db;
 
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Schema\AbstractAsset;
+use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
 use OC\DB\Connection;
@@ -323,7 +324,12 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			->setMaxResults($chunkSize);
 
 		try {
-			$orderColumns = $table->getPrimaryKeyColumns();
+			$key = $table->getPrimaryKey();
+			if ($key instanceof Index) {
+				$orderColumns = $key->getColumns();
+			} else {
+				$orderColumns = $table->getColumns();
+			}
 		} catch (Exception $e) {
 			$orderColumns = $table->getColumns();
 		}

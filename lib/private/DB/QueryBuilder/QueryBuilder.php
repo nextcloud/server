@@ -18,6 +18,8 @@ use OC\DB\QueryBuilder\FunctionBuilder\FunctionBuilder;
 use OC\DB\QueryBuilder\FunctionBuilder\OCIFunctionBuilder;
 use OC\DB\QueryBuilder\FunctionBuilder\PgSqlFunctionBuilder;
 use OC\DB\QueryBuilder\FunctionBuilder\SqliteFunctionBuilder;
+use OC\DB\ResultAdapter;
+use OC\DB\TDoctrineParameterTypeMap;
 use OC\SystemConfig;
 use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\ConflictResolutionMode;
@@ -31,15 +33,29 @@ use OCP\DB\QueryBuilder\IQueryFunction;
 use OCP\IDBConnection;
 use Override;
 use Psr\Log\LoggerInterface;
-use RuntimeException;
 
 class QueryBuilder extends TypedQueryBuilder {
+	use TDoctrineParameterTypeMap;
 	private \Doctrine\DBAL\Query\QueryBuilder $queryBuilder;
 	private QuoteHelper $helper;
 	private bool $automaticTablePrefix = true;
 	private bool $nonEmptyWhere = false;
 	protected ?string $lastInsertedTable = null;
 	private array $selectedColumns = [];
+
+	/** @internal */
+	protected const SELECT = 0;
+
+	/** @internal */
+	protected const DELETE = 1;
+
+	/** @internal */
+	protected const UPDATE = 2;
+
+	/** @internal */
+	protected const INSERT = 3;
+
+	private int $type = self::SELECT;
 
 	/**
 	 * Initializes a new QueryBuilder.
@@ -126,7 +142,7 @@ class QueryBuilder extends TypedQueryBuilder {
 	 */
 	#[\Override]
 	public function getType() {
-		return $this->queryBuilder->getType();
+		return $this->type;
 	}
 
 	/**
@@ -143,13 +159,12 @@ class QueryBuilder extends TypedQueryBuilder {
 	 * Gets the state of this query builder instance.
 	 *
 	 * @return int Always returns 0 which is former `QueryBuilder::STATE_DIRTY`
-	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
-	 *    and we can not fix this in our wrapper.
+	 * @deprecated 35.0.0 Function is no-op because it's removed upstream
 	 */
 	#[\Override]
 	public function getState() {
-		$this->logger->debug(IQueryBuilder::class . '::' . __FUNCTION__ . ' is deprecated and will be removed soon.', ['exception' => new \Exception('Deprecated call to ' . __METHOD__)]);
-		return $this->queryBuilder->getState();
+		$this->logger->debug('Relying on the query builder state is deprecated as it is an internal concern.', ['exception' => new \Exception('Table alias provided for UPDATE query')]);
+		return 0;
 	}
 
 	private function prepareForExecute() {
@@ -182,25 +197,6 @@ class QueryBuilder extends TypedQueryBuilder {
 				$this->logger->error('DB QueryBuilder: error trying to log SQL query', ['exception' => $e]);
 			}
 		}
-
-		// if (!empty($this->getQueryPart('select'))) {
-		// $select = $this->getQueryPart('select');
-		// $hasSelectAll = array_filter($select, static function ($s) {
-		// return $s === '*';
-		// });
-		// $hasSelectSpecific = array_filter($select, static function ($s) {
-		// return $s !== '*';
-		// });
-
-		// if (empty($hasSelectAll) === empty($hasSelectSpecific)) {
-		// $exception = new QueryException('Query is selecting * and specific values in the same query. This is not supported in Oracle.');
-		// $this->logger->error($exception->getMessage(), [
-		// 'query' => $this->getSQL(),
-		// 'app' => 'core',
-		// 'exception' => $exception,
-		// ]);
-		// }
-		// }
 
 		$tooLongOutputColumns = [];
 		foreach ($this->getOutputColumns() as $column) {
@@ -246,12 +242,20 @@ class QueryBuilder extends TypedQueryBuilder {
 				'exception' => $exception,
 			]);
 		}
+
+		if ($this->getType() !== self::SELECT) {
+			$result = $this->queryBuilder->executeStatement();
+			return (int) $result;
+		}
+
+		$result = $this->queryBuilder->executeQuery();
+		return new ResultAdapter($result);
 	}
 
 	#[\Override]
-	public function executeQuery(?IDBConnection $connection = null): IResult {
-		if ($this->getType() !== \Doctrine\DBAL\Query\QueryBuilder::SELECT) {
-			throw new RuntimeException('Invalid query type, expected SELECT query');
+	public function executeQuery(): IResult {
+		if ($this->getType() !== self::SELECT) {
+			throw new \RuntimeException('Invalid query type, expected SELECT query');
 		}
 
 		$this->prepareForExecute();
@@ -267,9 +271,9 @@ class QueryBuilder extends TypedQueryBuilder {
 	}
 
 	#[\Override]
-	public function executeStatement(?IDBConnection $connection = null): int {
-		if ($this->getType() === \Doctrine\DBAL\Query\QueryBuilder::SELECT) {
-			throw new RuntimeException('Invalid query type, expected INSERT, DELETE or UPDATE statement');
+	public function executeStatement(): int {
+		if ($this->getType() === self::SELECT) {
+			throw new \RuntimeException('Invalid query type, expected INSERT, DELETE or UPDATE statement');
 		}
 
 		$this->prepareForExecute();
@@ -320,7 +324,7 @@ class QueryBuilder extends TypedQueryBuilder {
 	 */
 	#[\Override]
 	public function setParameter($key, $value, $type = null) {
-		$this->queryBuilder->setParameter($key, $value, $type);
+		$this->queryBuilder->setParameter($key, $value, $this->convertParameterTypeToDoctrine($type));
 
 		return $this;
 	}
@@ -346,6 +350,7 @@ class QueryBuilder extends TypedQueryBuilder {
 	 */
 	#[\Override]
 	public function setParameters(array $params, array $types = []) {
+		$types = array_map($this->convertParameterTypeToDoctrine(...), $types);
 		$this->queryBuilder->setParameters($params, $types);
 
 		return $this;
@@ -470,13 +475,14 @@ class QueryBuilder extends TypedQueryBuilder {
 	 */
 	#[\Override]
 	public function select(...$selects) {
+		$this->type = self::SELECT;
 		if (count($selects) === 1 && is_array($selects[0])) {
 			$selects = $selects[0];
 		}
 		$this->addOutputColumns($selects);
 
 		$this->queryBuilder->select(
-			$this->helper->quoteColumnNames($selects)
+			...$this->helper->quoteColumnNames($selects)
 		);
 
 		return $this;
@@ -499,6 +505,7 @@ class QueryBuilder extends TypedQueryBuilder {
 	 */
 	#[\Override]
 	public function selectAlias($select, $alias): self {
+		$this->type = self::SELECT;
 		$this->queryBuilder->addSelect(
 			$this->helper->quoteColumnName($select) . ' AS ' . $this->helper->quoteColumnName($alias)
 		);
@@ -522,6 +529,7 @@ class QueryBuilder extends TypedQueryBuilder {
 	 */
 	#[\Override]
 	public function selectDistinct($select) {
+		$this->type = self::SELECT;
 		if (!is_array($select)) {
 			$select = [$select];
 		}
@@ -552,14 +560,15 @@ class QueryBuilder extends TypedQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 */
 	#[\Override]
-	public function addSelect(...$select) {
-		if (count($select) === 1 && is_array($select[0])) {
-			$select = $select[0];
+	public function addSelect(...$selects) {
+		$this->type = self::SELECT;
+		if (count($selects) === 1 && is_array($selects[0])) {
+			$selects = $selects[0];
 		}
 		$this->addOutputColumns($select);
 
 		$this->queryBuilder->addSelect(
-			$this->helper->quoteColumnNames($select)
+			...$this->helper->quoteColumnNames($selects)
 		);
 
 		return $this;
@@ -601,17 +610,17 @@ class QueryBuilder extends TypedQueryBuilder {
 	 * @param string $alias The table alias used in the constructed query.
 	 *
 	 * @return $this This QueryBuilder instance.
-	 * @since 30.0.0 Alias is deprecated and will no longer be used with the next Doctrine/DBAL update
+	 * @since 35.0.0 Alias is no longer supported
 	 */
 	#[\Override]
 	public function delete($delete = null, $alias = null) {
 		if ($alias !== null) {
-			$this->logger->debug('DELETE queries with alias are no longer supported and the provided alias is ignored', ['exception' => new \InvalidArgumentException('Table alias provided for DELETE query')]);
+			$this->logger->error('DELETE queries with alias are no longer supported and the provided alias is ignored', ['exception' => new \InvalidArgumentException('Table alias provided for DELETE query')]);
 		}
 
+		$this->type = self::DELETE;
 		$this->queryBuilder->delete(
 			$this->getTableName($delete),
-			$alias
 		);
 
 		return $this;
@@ -632,17 +641,17 @@ class QueryBuilder extends TypedQueryBuilder {
 	 * @param string $alias The table alias used in the constructed query.
 	 *
 	 * @return $this This QueryBuilder instance.
-	 * @since 30.0.0 Alias is deprecated and will no longer be used with the next Doctrine/DBAL update
+	 * @since 35.0.0 Alias is no longer supported
 	 */
 	#[\Override]
 	public function update($update = null, $alias = null) {
 		if ($alias !== null) {
-			$this->logger->debug('UPDATE queries with alias are no longer supported and the provided alias is ignored', ['exception' => new \InvalidArgumentException('Table alias provided for UPDATE query')]);
+			$this->logger->error('UPDATE queries with alias are no longer supported and the provided alias is ignored', ['exception' => new \InvalidArgumentException('Table alias provided for UPDATE query')]);
 		}
 
+		$this->type = self::UPDATE;
 		$this->queryBuilder->update(
 			$this->getTableName($update),
-			$alias
 		);
 
 		return $this;
@@ -669,6 +678,7 @@ class QueryBuilder extends TypedQueryBuilder {
 	 */
 	#[\Override]
 	public function insert($insert = null) {
+		$this->type = self::INSERT;
 		$this->queryBuilder->insert(
 			$this->getTableName($insert)
 		);
@@ -1132,7 +1142,7 @@ class QueryBuilder extends TypedQueryBuilder {
 
 		$this->queryBuilder->orderBy(
 			$this->helper->quoteColumnName($sort),
-			$order
+			$order ?? 'ASC'
 		);
 
 		return $this;
@@ -1154,7 +1164,7 @@ class QueryBuilder extends TypedQueryBuilder {
 
 		$this->queryBuilder->addOrderBy(
 			$this->helper->quoteColumnName($sort),
-			$order
+			$order ?? 'ASC'
 		);
 
 		return $this;
@@ -1166,26 +1176,22 @@ class QueryBuilder extends TypedQueryBuilder {
 	 * @param string $queryPartName
 	 *
 	 * @return mixed
-	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
-	 *   and we can not fix this in our wrapper. Please track the details you need, outside the object.
+	 * @deprecated 35.0.0 The function always throws an exception
 	 */
 	#[\Override]
 	public function getQueryPart($queryPartName) {
-		$this->logger->debug(IQueryBuilder::class . '::' . __FUNCTION__ . ' is deprecated and will be removed soon.', ['exception' => new \Exception('Deprecated call to ' . __METHOD__)]);
-		return $this->queryBuilder->getQueryPart($queryPartName);
+		throw new \Exception('Getting query parts is no longer supported as they are implementation details.');
 	}
 
 	/**
 	 * Gets all query parts.
 	 *
 	 * @return array
-	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
-	 *   and we can not fix this in our wrapper. Please track the details you need, outside the object.
+	 * @deprecated 35.0.0 The function always throws an exception
 	 */
 	#[\Override]
 	public function getQueryParts() {
-		$this->logger->debug(IQueryBuilder::class . '::' . __FUNCTION__ . ' is deprecated and will be removed soon.', ['exception' => new \Exception('Deprecated call to ' . __METHOD__)]);
-		return $this->queryBuilder->getQueryParts();
+		throw new \Exception('Getting query parts is no longer supported as they are implementation details.');
 	}
 
 	/**
@@ -1194,13 +1200,21 @@ class QueryBuilder extends TypedQueryBuilder {
 	 * @param array|null $queryPartNames
 	 *
 	 * @return $this This QueryBuilder instance.
-	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
-	 *  and we can not fix this in our wrapper. Please create a new IQueryBuilder instead.
+	 * @since 35.0.0 Only null and a list of 'where'|'having'|'groupBy'|'orderBy' is supported. Everything else will throw.
 	 */
 	#[\Override]
 	public function resetQueryParts($queryPartNames = null) {
-		$this->logger->debug(IQueryBuilder::class . '::' . __FUNCTION__ . ' is deprecated and will be removed soon.', ['exception' => new \Exception('Deprecated call to ' . __METHOD__)]);
-		$this->queryBuilder->resetQueryParts($queryPartNames);
+		if ($queryPartNames === null) {
+			$this->queryBuilder->resetWhere();
+			$this->queryBuilder->resetHaving();
+			$this->queryBuilder->resetGroupBy();
+			$this->queryBuilder->resetOrderBy();
+			return $this;
+		}
+
+		foreach ($queryPartNames as $queryPartName) {
+			$this->resetQueryPart($queryPartName);
+		}
 
 		return $this;
 	}
@@ -1211,13 +1225,17 @@ class QueryBuilder extends TypedQueryBuilder {
 	 * @param string $queryPartName
 	 *
 	 * @return $this This QueryBuilder instance.
-	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
-	 *  and we can not fix this in our wrapper. Please create a new IQueryBuilder instead.
+	 * @since 35.0.0 Only 'where'|'having'|'groupBy'|'orderBy' are supported. Everything else will throw.
 	 */
 	#[\Override]
 	public function resetQueryPart($queryPartName) {
-		$this->logger->debug(IQueryBuilder::class . '::' . __FUNCTION__ . ' is deprecated and will be removed soon.', ['exception' => new \Exception('Deprecated call to ' . __METHOD__)]);
-		$this->queryBuilder->resetQueryPart($queryPartName);
+		match ($queryPartName) {
+			'where' => $this->queryBuilder->resetWhere(),
+			'having' => $this->queryBuilder->resetHaving(),
+			'groupBy' => $this->queryBuilder->resetGroupBy(),
+			'orderBy' => $this->queryBuilder->resetOrderBy(),
+			default => throw new \Exception('Resetting query part "' . $queryPartName . '" is no longer supported. Please create a new QueryBuilder instead.'),
+		};
 
 		return $this;
 	}
@@ -1253,7 +1271,7 @@ class QueryBuilder extends TypedQueryBuilder {
 	 */
 	#[\Override]
 	public function createNamedParameter($value, $type = IQueryBuilder::PARAM_STR, $placeHolder = null) {
-		return new Parameter($this->queryBuilder->createNamedParameter($value, $type, $placeHolder));
+		return new Parameter($this->queryBuilder->createNamedParameter($value, $this->convertParameterTypeToDoctrine($type), $placeHolder));
 	}
 
 	/**
@@ -1280,7 +1298,7 @@ class QueryBuilder extends TypedQueryBuilder {
 	 */
 	#[\Override]
 	public function createPositionalParameter($value, $type = IQueryBuilder::PARAM_STR) {
-		return new Parameter($this->queryBuilder->createPositionalParameter($value, $type));
+		return new Parameter($this->queryBuilder->createPositionalParameter($value, $this->convertParameterTypeToDoctrine($type)));
 	}
 
 	/**
@@ -1339,7 +1357,7 @@ class QueryBuilder extends TypedQueryBuilder {
 	 */
 	#[\Override]
 	public function getLastInsertId(): int {
-		if ($this->getType() === \Doctrine\DBAL\Query\QueryBuilder::INSERT && $this->lastInsertedTable) {
+		if ($this->getType() === self::INSERT && $this->lastInsertedTable) {
 			// lastInsertId() needs the prefix but no quotes
 			$table = $this->prefixTableName($this->lastInsertedTable);
 			return $this->connection->lastInsertId($table);
