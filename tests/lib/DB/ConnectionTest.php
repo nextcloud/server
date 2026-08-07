@@ -15,6 +15,9 @@ use Doctrine\DBAL\Driver\Connection as DriverConnection;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use OC\DB\Adapter;
 use OC\DB\Connection;
+use OC\DB\ConnectionAdapter;
+use OCP\IDBConnection;
+use OCP\Server;
 use Test\TestCase;
 
 /**
@@ -96,6 +99,58 @@ class ConnectionTest extends TestCase {
 		$connection->ensureConnectedToReplica();
 		$connection->ensureConnectedToPrimary();
 		$connection->ensureConnectedToReplica();
+	}
+
+	public function testSuccessfulQueryResetsConnectivityCheckTimer(): void {
+		$inner = $this->getInnerConnection();
+
+		// Ensure the connection is established before touching the timer
+		$qb = $inner->getQueryBuilder();
+		$qb->select('configvalue')->from('appconfig')->setMaxResults(1);
+		$qb->executeQuery()->closeCursor();
+
+		$property = $this->backdateLastConnectionCheck($inner);
+		$before = time();
+
+		$qb->executeQuery()->closeCursor();
+
+		// A connectivity probe firing between adjacent operations would reset
+		// the driver level last insert id on MySQL
+		self::assertGreaterThanOrEqual($before, max($property->getValue($inner)));
+	}
+
+	public function testPreparedStatementExecutionResetsConnectivityCheckTimer(): void {
+		$inner = $this->getInnerConnection();
+
+		$statement = $inner->prepare('SELECT `configvalue` FROM `*PREFIX*appconfig`', 1);
+
+		$property = $this->backdateLastConnectionCheck($inner);
+		$before = time();
+
+		$statement->executeQuery()->free();
+
+		self::assertGreaterThanOrEqual($before, max($property->getValue($inner)));
+	}
+
+	private function getInnerConnection(): Connection {
+		$connection = Server::get(IDBConnection::class);
+		if (!$connection instanceof ConnectionAdapter) {
+			self::markTestSkipped('Test requires the real database connection');
+		}
+
+		return $connection->getInner();
+	}
+
+	/**
+	 * Make the connectivity check timer stale, but by less than the check
+	 * interval: the probe must not fire, so only actual query activity can
+	 * refresh the timer.
+	 */
+	private function backdateLastConnectionCheck(Connection $connection): \ReflectionProperty {
+		$property = new \ReflectionProperty(Connection::class, 'lastConnectionCheck');
+		$property->setValue($connection, ['primary' => time() - 20, 'replica' => time() - 20]);
+
+		return $property;
 	}
 
 }
