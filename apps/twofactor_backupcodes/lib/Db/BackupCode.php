@@ -9,24 +9,24 @@ declare(strict_types=1);
 
 namespace OCA\TwoFactorBackupCodes\Db;
 
-use OCP\AppFramework\Db\Entity;
+use OCP\AppFramework\ORM\Attribute\Column;
+use OCP\AppFramework\ORM\Attribute\Entity;
+use OCP\AppFramework\ORM\Attribute\Id;
+use OCP\DB\Types;
+use OCP\Snowflake\ISnowflakeGenerator;
 
-/**
- * @method string getUserId()
- * @method void setUserId(string $userId)
- * @method string getCode()
- * @method void setCode(string $code)
- * @method int getUsed()
- * @method void setUsed(int $code)
- */
-class BackupCode extends Entity {
+#[Entity(name: 'twofactor_backupcodes')]
+final class BackupCode {
+	#[Id(generatorClass: ISnowflakeGenerator::class)]
+	#[Column(name: 'id', type: Types::STRING, length: 64, nullable: false)]
+	public ?string $id = null;
 
-	/** @var string */
-	protected $userId;
+	#[Column(name: 'user_id', type: Types::STRING, length: 64, nullable: false)]
+	public string $userId;
 
-	/** @var string */
-	protected $code;
+	#[Column(name: 'code', type: Types::STRING, length: 128, nullable: false)]
+	public string $code;
 
-	/** @var int */
-	protected $used;
+	#[Column(name: 'used', type: Types::SMALLINT, nullable: false, default: 0)]
+	public int $used = 0;
 }

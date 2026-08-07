@@ -4151,15 +4151,6 @@
       <code><![CDATA[getSupportedApps]]></code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="lib/private/Tags.php">
-    <InvalidScalarArgument>
-      <code><![CDATA[$from]]></code>
-      <code><![CDATA[$names]]></code>
-    </InvalidScalarArgument>
-    <MoreSpecificImplementedParamType>
-      <code><![CDATA[$tag]]></code>
-    </MoreSpecificImplementedParamType>
-  </file>
   <file src="lib/private/Teams/TeamManager.php">
     <LessSpecificReturnStatement>
       <code><![CDATA[array_map($this->circleToTeam(...), $this->circlesManager->probeCircles())]]></code>
