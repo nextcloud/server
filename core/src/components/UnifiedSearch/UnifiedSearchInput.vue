@@ -274,11 +274,12 @@ defineExpose({ focus })
 	position: relative;
 	z-index: 51;
 
+	// No percentage max-width: the ancestors shrink-wrap to this element, so the
+	// cap would resolve against its own width.
 	&:not(.unified-search-input--mobile) {
 		display: flex;
 		align-items: center;
-		width: clamp(200px, 35vw, 600px);
-		max-width: calc(100% - 32px);
+		width: var(--unified-search-width);
 	}
 
 	&--mobile {
