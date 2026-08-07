@@ -43,6 +43,8 @@ export function getContents(path: string = '/', options: { signal: AbortSignal }
 	return getFiles(path, options)
 		.then((content) => {
 			content.contents = content.contents.filter(isPersonalFile)
+			content.folder.size = content.contents
+				.reduce((total, node) => total + (node.size ?? 0), 0)
 			return content
 		})
 }
