@@ -8,63 +8,55 @@ declare(strict_types=1);
 
 namespace OCA\Files\Command\Object;
 
+use OCP\Console\Attribute\Argument;
+use OCP\Console\Attribute\AsCommand;
+use OCP\Console\Attribute\Option;
+use OCP\Console\ExitCode;
+use OCP\Console\IOutput;
+use OCP\Console\IQuestionHelper;
 use OCP\Files\IMimeTypeDetector;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\QuestionHelper;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
-class Put extends Command {
+#[AsCommand(
+	name: 'files:object:put',
+	description: 'Write a file to the object store',
+)]
+class Put {
 	public function __construct(
-		private ObjectUtil $objectUtils,
-		private IMimeTypeDetector $mimeTypeDetector,
+		private readonly ObjectUtil $objectUtils,
+		private readonly IMimeTypeDetector $mimeTypeDetector,
 	) {
-		parent::__construct();
 	}
 
-	#[\Override]
-	protected function configure(): void {
-		$this
-			->setName('files:object:put')
-			->setDescription('Write a file to the object store')
-			->addArgument('input', InputArgument::REQUIRED, 'Source local path, use - to read from STDIN')
-			->addArgument('object', InputArgument::REQUIRED, 'Object to write')
-			->addOption('bucket', 'b', InputOption::VALUE_REQUIRED, "Bucket where to store the object, only required in cases where it can't be determined from the config");
-		;
-	}
-
-	#[\Override]
-	public function execute(InputInterface $input, OutputInterface $output): int {
-		$object = $input->getArgument('object');
-		$inputName = (string)$input->getArgument('input');
-		$objectStore = $this->objectUtils->getObjectStore($input->getOption('bucket'), $output);
+	public function __invoke(
+		IOutput $output,
+		IQuestionHelper $questionHelper,
+		#[Argument(description: 'Source local path, use - to read from STDIN')] string $input,
+		#[Argument(description: 'Object to write')] string $object,
+		#[Option(description: "Bucket where to store the object, only required in cases where it can't be determined from the config", shortcut: 'b')] ?string $bucket = null,
+	): ExitCode|int {
+		$objectStore = $this->objectUtils->getObjectStore($bucket, $output);
 		if (!$objectStore) {
 			return -1;
 		}
 
 		if ($fileId = $this->objectUtils->objectExistsInDb($object)) {
 			$output->writeln("<error>Warning, object $object belongs to an existing file, overwriting the object contents can lead to unexpected behavior.</error>");
-			$output->writeln("You can use <info>occ files:put $inputName $fileId</info> to write to the file safely.");
+			$output->writeln("You can use <info>occ files:put $input $fileId</info> to write to the file safely.");
 			$output->writeln('');
 
-			/** @var QuestionHelper $helper */
-			$helper = $this->getHelper('question');
 			$question = new ConfirmationQuestion('Write to the object anyway? [y/N] ', false);
-			if (!$helper->ask($input, $output, $question)) {
+			if (!$questionHelper->ask($question)) {
 				return -1;
 			}
 		}
 
-		$source = $inputName === '-' ? STDIN : fopen($inputName, 'r');
+		$source = $input === '-' ? STDIN : fopen($input, 'r');
 		if (!$source) {
-			$output->writeln("<error>Failed to open $inputName</error>");
-			return self::FAILURE;
+			$output->writeln("<error>Failed to open $input</error>");
+			return ExitCode::Failure;
 		}
-		$objectStore->writeObject($object, $source, $this->mimeTypeDetector->detectPath($inputName));
-		return self::SUCCESS;
+		$objectStore->writeObject($object, $source, $this->mimeTypeDetector->detectPath($input));
+		return ExitCode::Success;
 	}
-
 }

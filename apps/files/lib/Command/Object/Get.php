@@ -8,41 +8,36 @@ declare(strict_types=1);
 
 namespace OCA\Files\Command\Object;
 
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
+use OCP\Console\Attribute\Argument;
+use OCP\Console\Attribute\AsCommand;
+use OCP\Console\Attribute\Option;
+use OCP\Console\ExitCode;
+use OCP\Console\IOutput;
 
-class Get extends Command {
+#[AsCommand(
+	name: 'files:object:get',
+	description: 'Get the contents of an object',
+)]
+class Get {
 	public function __construct(
-		private ObjectUtil $objectUtils,
+		private readonly ObjectUtil $objectUtils,
 	) {
-		parent::__construct();
 	}
 
-	#[\Override]
-	protected function configure(): void {
-		$this
-			->setName('files:object:get')
-			->setDescription('Get the contents of an object')
-			->addArgument('object', InputArgument::REQUIRED, 'Object to get')
-			->addArgument('output', InputArgument::REQUIRED, 'Target local file to output to, use - for STDOUT')
-			->addOption('bucket', 'b', InputOption::VALUE_REQUIRED, "Bucket to get the object from, only required in cases where it can't be determined from the config");
-	}
-
-	#[\Override]
-	public function execute(InputInterface $input, OutputInterface $output): int {
-		$object = $input->getArgument('object');
-		$outputName = $input->getArgument('output');
-		$objectStore = $this->objectUtils->getObjectStore($input->getOption('bucket'), $output);
+	public function __invoke(
+		IOutput $output,
+		#[Argument(description: 'Object to get')] string $object,
+		#[Argument(name: 'output', description: 'Target local file to output to, use - for STDOUT')] string $outputFile,
+		#[Option(description: "Bucket to get the object from, only required in cases where it can't be determined from the config", shortcut: 'b')] ?string $bucket = null,
+	): ExitCode {
+		$objectStore = $this->objectUtils->getObjectStore($bucket, $output);
 		if (!$objectStore) {
-			return self::FAILURE;
+			return ExitCode::Failure;
 		}
 
 		if (!$objectStore->objectExists($object)) {
 			$output->writeln("<error>Object $object does not exist</error>");
-			return self::FAILURE;
+			return ExitCode::Failure;
 		}
 
 		try {
@@ -50,16 +45,15 @@ class Get extends Command {
 		} catch (\Exception $e) {
 			$msg = $e->getMessage();
 			$output->writeln("<error>Failed to read $object from object store: $msg</error>");
-			return self::FAILURE;
+			return ExitCode::Failure;
 		}
-		$target = $outputName === '-' ? STDOUT : fopen($outputName, 'w');
+		$target = $outputFile === '-' ? STDOUT : fopen($outputFile, 'w');
 		if (!$target) {
-			$output->writeln("<error>Failed to open $outputName for writing</error>");
-			return self::FAILURE;
+			$output->writeln("<error>Failed to open $outputFile for writing</error>");
+			return ExitCode::Failure;
 		}
 
 		stream_copy_to_stream($source, $target);
-		return self::SUCCESS;
+		return ExitCode::Success;
 	}
-
 }

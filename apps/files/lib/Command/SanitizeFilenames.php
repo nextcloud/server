@@ -10,10 +10,15 @@ declare(strict_types=1);
 namespace OCA\Files\Command;
 
 use Exception;
-use OC\Core\Command\Base;
 use OC\Files\FilenameValidator;
 use OCA\Files\Service\SettingsService;
 use OCP\AppFramework\Services\IAppConfig;
+use OCP\Console\Attribute\Argument;
+use OCP\Console\Attribute\AsCommand;
+use OCP\Console\Attribute\Option;
+use OCP\Console\ExitCode;
+use OCP\Console\IOutput;
+use OCP\Console\Verbosity;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotPermittedException;
@@ -22,59 +27,39 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Lock\LockedException;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
-class SanitizeFilenames extends Base {
+#[AsCommand(
+	name: 'files:sanitize-filenames',
+	description: 'Renames files to match naming constraints',
+)]
+class SanitizeFilenames {
 
-	private OutputInterface $output;
+	private IOutput $output;
 	private ?string $charReplacement;
 	private bool $dryRun;
 	private bool $errorsOrSkipped = false;
 
 	public function __construct(
-		private IUserManager $userManager,
-		private IRootFolder $rootFolder,
-		private IUserSession $session,
-		private IFactory $l10nFactory,
-		private FilenameValidator $filenameValidator,
-		private SettingsService $service,
-		private IAppConfig $appConfig,
+		private readonly IUserManager $userManager,
+		private readonly IRootFolder $rootFolder,
+		private readonly IUserSession $session,
+		private readonly IFactory $l10nFactory,
+		private readonly FilenameValidator $filenameValidator,
+		private readonly SettingsService $service,
+		private readonly IAppConfig $appConfig,
 	) {
-		parent::__construct();
 	}
 
-	#[\Override]
-	protected function configure(): void {
-		parent::configure();
-
-		$this
-			->setName('files:sanitize-filenames')
-			->setDescription('Renames files to match naming constraints')
-			->addArgument(
-				'user_id',
-				InputArgument::OPTIONAL | InputArgument::IS_ARRAY,
-				'will only rename files the given user(s) have access to'
-			)
-			->addOption(
-				'dry-run',
-				mode: InputOption::VALUE_NONE,
-				description: 'Do not actually rename any files but just check filenames.',
-			)
-			->addOption(
-				'char-replacement',
-				'c',
-				mode: InputOption::VALUE_REQUIRED,
-				description: 'Replacement for invalid character (by default space, underscore or dash is used)',
-			);
-
-	}
-
-	#[\Override]
-	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$this->charReplacement = $input->getOption('char-replacement');
+	public function __invoke(
+		IOutput $output,
+		#[Argument(name: 'user_id', description: 'will only rename files the given user(s) have access to')]
+		array $userIds = [],
+		#[Option(name: 'dry-run', description: 'Do not actually rename any files but just check filenames.')]
+		bool $dryRun = false,
+		#[Option(name: 'char-replacement', description: 'Replacement for invalid character (by default space, underscore or dash is used)', shortcut: 'c')]
+		?string $charReplacement = null,
+	): ExitCode {
+		$this->charReplacement = $charReplacement;
 		// check if replacement is needed
 		$c = $this->filenameValidator->getForbiddenCharacters();
 		if (count($c) > 0) {
@@ -86,19 +71,18 @@ class SanitizeFilenames extends Base {
 				} else {
 					$output->writeln('<error>Invalid character replacement given</error>');
 				}
-				return 1;
+				return ExitCode::Failure;
 			}
 		}
 
-		$this->dryRun = $input->getOption('dry-run');
+		$this->dryRun = $dryRun;
 		if ($this->dryRun) {
 			$output->writeln('<info>Dry run is enabled, no actual renaming will be applied.</>');
 		}
 
 		$this->output = $output;
-		$users = $input->getArgument('user_id');
-		if (!empty($users)) {
-			foreach ($users as $userId) {
+		if (!empty($userIds)) {
+			foreach ($userIds as $userId) {
 				$user = $this->userManager->get($userId);
 				if ($user === null) {
 					$output->writeln("<error>User '$userId' does not exist - skipping</>");
@@ -113,7 +97,7 @@ class SanitizeFilenames extends Base {
 				$this->appConfig->setAppValueInt('sanitize_filenames_status', SettingsService::STATUS_WCF_DONE);
 			}
 		}
-		return self::SUCCESS;
+		return ExitCode::Success;
 	}
 
 	private function sanitizeUserFiles(IUser $user): void {
@@ -128,7 +112,7 @@ class SanitizeFilenames extends Base {
 
 	private function sanitizeFiles(Folder $folder): void {
 		foreach ($folder->getDirectoryListing() as $node) {
-			$this->output->writeln('scanning: ' . $node->getPath(), OutputInterface::VERBOSITY_VERBOSE);
+			$this->output->writeln('scanning: ' . $node->getPath(), Verbosity::Verbose);
 
 			try {
 				$oldName = $node->getName();
@@ -151,7 +135,7 @@ class SanitizeFilenames extends Base {
 				$this->output->writeln('<comment>skipping: ' . $node->getPath() . ' (no permissions)</>');
 			} catch (Exception $error) {
 				$this->output->writeln('<error>failed: ' . $node->getPath() . '</>');
-				$this->output->writeln('<error>' . $error->getMessage() . '</>', OutputInterface::OUTPUT_NORMAL | OutputInterface::VERBOSITY_VERBOSE);
+				$this->output->writeln('<error>' . $error->getMessage() . '</>', Verbosity::Verbose);
 			}
 
 			if ($node instanceof Folder) {
@@ -159,5 +143,4 @@ class SanitizeFilenames extends Base {
 			}
 		}
 	}
-
 }

@@ -8,38 +8,35 @@ declare(strict_types=1);
 
 namespace OCA\Files\Command\Mount;
 
+use OCP\Console\Attribute\Argument;
+use OCP\Console\Attribute\AsCommand;
+use OCP\Console\ExitCode;
+use OCP\Console\IOutput;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\Config\IUserMountCache;
 use OCP\IUserManager;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 
-class Refresh extends Command {
+#[AsCommand(
+	name: 'files:mount:refresh',
+	description: 'Refresh the list of mounts for a user',
+)]
+class Refresh {
 	public function __construct(
 		private readonly IUserManager $userManager,
 		private readonly IUserMountCache $userMountCache,
 		private readonly IMountProviderCollection $mountProviderCollection,
 	) {
-		parent::__construct();
 	}
 
-	#[\Override]
-	protected function configure(): void {
-		$this
-			->setName('files:mount:refresh')
-			->setDescription('Refresh the list of mounts for a user')
-			->addArgument('user', InputArgument::REQUIRED, 'User to refresh mounts for');
-	}
-
-	#[\Override]
-	public function execute(InputInterface $input, OutputInterface $output): int {
-		$userId = $input->getArgument('user');
+	public function __invoke(
+		IOutput $output,
+		#[Argument(description: 'User to refresh mounts for')] string $user,
+	): ExitCode {
+		$userId = $user;
 		$user = $this->userManager->get($userId);
 		if (!$user) {
 			$output->writeln("<error>User $userId not found</error>");
-			return 1;
+			return ExitCode::Failure;
 		}
 
 		$mounts = $this->mountProviderCollection->getMountsForUser($user);
@@ -49,7 +46,6 @@ class Refresh extends Command {
 
 		$output->writeln('Registered <info>' . count($mounts) . '</info> mounts');
 
-		return 0;
+		return ExitCode::Success;
 	}
-
 }

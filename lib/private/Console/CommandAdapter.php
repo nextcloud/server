@@ -1,0 +1,234 @@
+<?php
+
+declare(strict_types=1);
+
+// SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+namespace OC\Console;
+
+use OC\Core\Command\Base;
+use OCP\Console\Attribute\Argument;
+use OCP\Console\Attribute\AsCommand;
+use OCP\Console\Attribute\Option;
+use OCP\Console\ExitCode;
+use OCP\Console\IInput;
+use OCP\Console\IOutput;
+use OCP\Console\IQuestionHelper;
+use Override;
+use Psr\Container\ContainerInterface;
+use Symfony\Component\Console\Helper\QuestionHelper;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+
+/**
+ * @template T
+ */
+class CommandAdapter extends Base {
+	private AsCommand $asCommand;
+
+	private \ReflectionMethod $reflectionMethod;
+
+	/** @var array<string, array{arg: Argument, parameter: \ReflectionParameter}> */
+	private array $arguments = [];
+
+	/** @var array<string, array{option: Option, parameter: \ReflectionParameter}> */
+	private array $options = [];
+
+	/**
+	 * @param class-string<T> $className
+	 */
+	public function __construct(
+		private readonly string $className,
+		private readonly ?string $method,
+		private readonly ContainerInterface $container,
+	) {
+
+		if ($method !== null) {
+			$reflectionMethod = new \ReflectionMethod($className, $method);
+			$asCommands = $reflectionMethod->getAttributes(AsCommand::class);
+			if ($asCommands === []) {
+				throw new \RuntimeException('Missing #[AsCommand] attribute on method: ' . $method . ' from class: ' . $className);
+			}
+
+			$this->asCommand = $asCommands[0]->newInstance();
+		} else {
+			$reflectionClass = new \ReflectionClass($className);
+			$asCommands = $reflectionClass->getAttributes(AsCommand::class);
+			if ($asCommands === []) {
+				throw new \RuntimeException('Missing #[AsCommand] attribute on class: ' . $className);
+			}
+
+			$this->asCommand = $asCommands[0]->newInstance();
+
+			$reflectionMethod = new \ReflectionMethod($className, '__invoke');
+		}
+
+		$this->reflectionMethod = $reflectionMethod;
+
+		foreach ($reflectionMethod->getParameters() as $parameter) {
+			$args = $parameter->getAttributes(Argument::class);
+			if ($args !== []) {
+				/** @var Argument $argument */
+				$argument = $args[0]->newInstance();
+				if ($argument->name === '') {
+					$argument->name = $parameter->getName();
+				}
+
+				$this->arguments[$parameter->getName()] = ['arg' => $argument, 'parameter' => $parameter];
+			}
+
+			$args = $parameter->getAttributes(Option::class);
+			if ($args !== []) {
+				/** @var Option $option */
+				$option = $args[0]->newInstance();
+				if ($option->name === '') {
+					$option->name = $parameter->getName();
+				}
+
+				$this->options[$parameter->getName()] = ['option' => $option, 'parameter' => $parameter];
+			}
+		}
+
+		parent::__construct();
+	}
+
+	#[Override]
+	public function configure(): void {
+		parent::configure();
+
+		$this->setName($this->asCommand->name);
+
+		if ($this->asCommand->description) {
+			$this->setDescription($this->asCommand->description);
+		}
+
+		foreach ($this->arguments as $argument) {
+			/** @var Argument $arg */
+			$arg = $argument['arg'];
+			$parameter = $argument['parameter'];
+			$reflection = new ReflectionMember($parameter);
+			$type = $reflection->getType();
+			$name = $reflection->getName();
+			if (!$type instanceof \ReflectionNamedType) {
+				throw new \LogicException(\sprintf('The %s "$%s" of "%s" must have a named type. Untyped, Union or Intersection types are not supported for command arguments.', $reflection->getMemberName(), $name, $reflection->getSourceName()));
+			}
+			$isOptional = $reflection->hasDefaultValue() || $reflection->isNullable() || $reflection->isVariadic();
+			$typeName = $type->getName();
+			$mode = $isOptional ? InputArgument::OPTIONAL : InputArgument::REQUIRED;
+			if ($typeName === 'array' || $reflection->isVariadic()) {
+				$mode |= InputArgument::IS_ARRAY;
+			}
+			$default = $reflection->hasDefaultValue() ? $reflection->getDefaultValue() : null;
+
+			$this->addArgument($arg->name, $mode, $arg->description, $default);
+		}
+
+		foreach ($this->options as $option) {
+			$parameter = $option['parameter'];
+			/** @var Option $option */
+			$option = $option['option'];
+			$reflection = new ReflectionMember($parameter);
+			$type = $reflection->getType();
+			$name = $reflection->getName();
+			if (!$type instanceof \ReflectionNamedType) {
+				throw new \LogicException(\sprintf('The %s "$%s" of "%s" must have a named type. Untyped, Union or Intersection types are not supported for command options.', $reflection->getMemberName(), $name, $reflection->getSourceName()));
+			}
+			$allowNull = $reflection->isNullable();
+			$default = $reflection->hasDefaultValue() ? $reflection->getDefaultValue() : null;
+			$typeName = $type->getName();
+
+			if ($typeName === 'bool' && $allowNull && \in_array($default, [true, false], true)) {
+				throw new \LogicException(\sprintf('The option %s "$%s" of "%s" must not be nullable when it has a default boolean value.', $reflection->getMemberName(), $name, $reflection->getSourceName()));
+			}
+
+			if ($allowNull && $default !== null) {
+				throw new \LogicException(\sprintf('The option %s "$%s" of "%s" must either be not-nullable or have a default of null.', $reflection->getMemberName(), $name, $reflection->getSourceName()));
+			}
+
+			if ($typeName === 'bool') {
+				$mode = InputOption::VALUE_NONE;
+				if ($default !== false) {
+					$mode |= InputOption::VALUE_NEGATABLE;
+				} else {
+					$default = null;
+				}
+			} elseif ($typeName === 'array' || $reflection->isVariadic()) {
+				$mode = InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY;
+			} else {
+				$mode = InputOption::VALUE_REQUIRED;
+			}
+
+			$this->addOption($option->name, $option->shortcut, $mode, $option->description, $default);
+		}
+	}
+
+	#[Override]
+	public function execute(InputInterface $input, OutputInterface $output): int {
+		/** @var T $instance */
+		$instance = $this->container->get($this->className);
+
+		$parameters = [];
+		foreach ($this->reflectionMethod->getParameters() as $parameter) {
+			$name = $parameter->getName();
+
+			if (isset($this->arguments[$name])) {
+				$parameters[] = $input->getArgument($this->arguments[$name]['arg']->name);
+				continue;
+			}
+
+			if (isset($this->options[$name])) {
+				$parameters[] = $input->getOption($this->options[$name]['option']->name);
+				continue;
+			}
+
+			$type = $parameter->getType();
+			if ($type instanceof \ReflectionNamedType && $type->getName() === IOutput::class) {
+				$parameters[] = new OutputAdapter($output, $input, $this);
+				continue;
+			}
+
+			if ($type instanceof \ReflectionNamedType && $type->getName() === IInput::class) {
+				$parameters[] = new InputAdapter($input);
+				continue;
+			}
+
+			if ($type instanceof \ReflectionNamedType && $type->getName() === IQuestionHelper::class) {
+				/** @var QuestionHelper $questionHelper */
+				$questionHelper = $this->getHelper('question');
+				$parameters[] = new QuestionHelperAdapter($input, $output, $questionHelper);
+				continue;
+			}
+
+			throw new \LogicException(\sprintf('Unable to resolve parameter "$%s" of "%s": it is neither an #[Argument], an #[Option], nor an %s, %s or %s.', $name, $this->reflectionMethod->getName(), IOutput::class, IInput::class, IQuestionHelper::class));
+		}
+
+		if ($this->method !== null) {
+			$result = $instance->{$this->method}(...$parameters);
+		} else {
+			$result = $instance(...$parameters);
+		}
+
+		return $result instanceof ExitCode ? $result->value : $result;
+	}
+
+	#[Override]
+	public function writeArrayInOutputFormat(InputInterface $input, OutputInterface $output, iterable $items, string $prefix = '  - '): void {
+		// To make it public
+		parent::writeArrayInOutputFormat($input, $output, $items, $prefix);
+	}
+
+	#[Override]
+	public function writeTableInOutputFormat(InputInterface $input, OutputInterface $output, array $items): void {
+		// To make it public
+		parent::writeTableInOutputFormat($input, $output, $items);
+	}
+
+	#[Override]
+	public function writeStreamingTableInOutputFormat(InputInterface $input, OutputInterface $output, \Iterator $items, int $tableGroupSize): void {
+		// To make it public
+		parent::writeStreamingTableInOutputFormat($input, $output, $items, $tableGroupSize);
+	}
+}
