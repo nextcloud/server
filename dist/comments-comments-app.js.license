@@ -183,7 +183,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.9.0
 	- license: MIT
 - brace-expansion
-	- version: 2.1.2
+	- version: 2.1.4
 	- license: MIT
 - buffer
 	- version: 5.7.1
