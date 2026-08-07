@@ -12,6 +12,7 @@ namespace OCP\Activity;
 use OCP\Activity\Exceptions\FilterNotFoundException;
 use OCP\Activity\Exceptions\IncompleteActivityException;
 use OCP\Activity\Exceptions\SettingNotFoundException;
+use OCP\AppFramework\QueryException;
 
 /**
  * Interface IManager
@@ -175,4 +176,13 @@ interface IManager {
 	 * @since 8.1.0
 	 */
 	public function getCurrentUserId(): string;
+
+	/**
+	 * Get "focused activity" selectors declared by booted applications
+	 *
+	 * @throws QueryException If an application registered a class that cannot be instanciated
+	 * @return list<IActivityFocusedSelector>
+	 * @since 35.0.0
+	 */
+	public function getActivityFocusedSelectors(): array;
 }

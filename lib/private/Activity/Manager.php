@@ -8,6 +8,7 @@
 
 namespace OC\Activity;
 
+use OC\AppFramework\Bootstrap\Coordinator;
 use OCP\Activity\ActivitySettings;
 use OCP\Activity\Exceptions\FilterNotFoundException;
 use OCP\Activity\Exceptions\IncompleteActivityException;
@@ -30,18 +31,10 @@ use OCP\RichObjectStrings\IValidator;
 use OCP\Server;
 
 class Manager implements IManager {
-
-	/** @var string */
-	protected $formattingObjectType;
-
-	/** @var int|string */
-	protected $formattingObjectId;
-
-	/** @var bool */
-	protected $requirePNG = false;
-
-	/** @var string */
-	protected $currentUserId;
+	protected ?string $formattingObjectType = null;
+	protected int|string|null $formattingObjectId = null;
+	protected bool $requirePNG = false;
+	protected ?string $currentUserId = null;
 
 	public function __construct(
 		protected IRequest $request,
@@ -51,6 +44,7 @@ class Manager implements IManager {
 		protected IRichTextFormatter $richTextFormatter,
 		protected IL10N $l10n,
 		protected ITimeFactory $timeFactory,
+		private Coordinator $coordinator,
 	) {
 	}
 
@@ -395,5 +389,15 @@ class Manager implements IManager {
 
 		// Token found login as that user
 		return array_shift($users);
+	}
+
+	#[\Override]
+	public function getActivityFocusedSelectors(): array {
+		$registeredSelectors = $this->coordinator->getRegistrationContext()?->getActivityFocusedSelectors() ?? [];
+		$selectors = [];
+		foreach ($registeredSelectors as $registration) {
+			$selectors[] = Server::get($registration->getService());
+		}
+		return $selectors;
 	}
 }
